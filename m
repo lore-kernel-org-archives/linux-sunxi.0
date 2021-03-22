@@ -1,51 +1,120 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D170B5F
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Mar 2021 18:31:13 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id d20so36298794qkc.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Mar 2021 11:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=date:from:to:subject:message-id:mime-version:content-disposition;
-        bh=SAH9zmKUk3csGOJcaxSXyP54gFvmy2kUmaab3Vw4S6E=;
-        b=RVR6r4rJ9iVO+QxQPrZ8LrU4qk09d24piqqv6Xz+GjgcixPbr9P9WhBz2x8GO03VOz
-         w6i6Wr9Mi4YdAhsW7xVL2IZsewcbzS+MoJXicIw58jMYDopycrP94C6RiarwjclnAKGq
-         gZPizg4z0aPHLMtDcCJTpS3ztrsthdwVCr/pY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition;
-        bh=SAH9zmKUk3csGOJcaxSXyP54gFvmy2kUmaab3Vw4S6E=;
-        b=BgcD2PTvEH52WQoa3DzP//xkZW9Lf8QG2M7nO5qiteqMgbgMollHqTsCly+vywrChD
-         RQYPxUOOQdCm9wn+QnNeduKHOvaX8CPPocCEF9HjhzhX3fhRrnQgy418IGICZbQuOfwz
-         heh72aD0pQ4fVHn9XYUojp6dZSyWrjIO6CuTB+XrKUDUgq6TnidmYMssAAmZBnMRQ29h
-         qaN5bYIWooYfxMwzohPVIBHaIPFMnCPaY+s+97XtHHutm975LxrSuMkLz/gFlYb480ph
-         2iN2MykJng7k83l7rQf7FpWjU9LItKE7K+9w0/UzXq/BKst7zEvg5365fzIlDytqjAV4
-         WYOg==
-X-Gm-Message-State: AOAM533r+Ml+L8Iy3lwkTJPFJkNjo3pI+oHQ8HOuc8iMWfU2CA8uuIkI
-	niv4ptH33e/FbbahLcET8moacBmlWNSaxLMd9Vc=
-X-Google-Smtp-Source: ABdhPJxt7em4uiM4lmbdzluV0zwI4UIYBK8kInS/Ygs9gCcOAgguGHpenyqwuUs+pP/S1HdNF50Wbg==
-X-Received: by 2002:a05:620a:144a:: with SMTP id i10mr362696qkl.431.1615919472524;
-        Tue, 16 Mar 2021 11:31:12 -0700 (PDT)
-Received: from chatter.i7.local ([89.36.78.230])
-        by smtp.gmail.com with ESMTPSA id y13sm13306354qto.39.2021.03.16.11.31.12
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 11:31:12 -0700 (PDT)
-Date: Tue, 16 Mar 2021 14:31:10 -0400
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-To: linux-sunxi@lists.linux.dev
-Subject: Initial message
-Message-ID: <20210316183110.kpeir5hs2fu5dhiv@chatter.i7.local>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9785F
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Mar 2021 04:47:11 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id C83FE581B0B;
+	Mon, 22 Mar 2021 00:47:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 22 Mar 2021 00:47:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=fm2; bh=A9KVfaUr0MHcB
+	yVr2yaTwPZZIEIb6Pv5klL7+uwCbgU=; b=TvkgLFJpo7iYX5YhshayJz8hjGKXX
+	Vxk26dd9Em18VjtPHEL5ALaJbERvSzbripVuLXQERiGZd01UZ63mZXtUdTACSvXI
+	Y4gnQfCN5/MBmoakApfBK2rxBo8Wu2f57yLUqQePrQZ/wKpW/Z6Q5M0qOWZXNgrz
+	tbDCSt9hfyPJey4JHQZi/0/5nc27qSyyIa4Q0Sj7S2/XP3/9vhWMYrFgD4oZm4QP
+	z1D9fJmi0dLjHPcqW9KP232aj/Twwo2cFX3mRU5BdB9+qIR6TfwL0vXw7HxuYCp4
+	vHV4p/vqMmg3k5LOLk/Sj5xbudQ2WugQCqePS7D4uB3t/HeOe5OwgNPjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; bh=A9KVfaUr0MHcByVr2yaTwPZZIEIb6Pv5klL7+uwCbgU=; b=AbsWDHhL
+	Op05AX4uiJ8PVJc1MVKxA9lwvJ6FzTNNaVijaQHiz3C0P793VKKPfdYjy83/ao5b
+	uikmsX64akshzWRHFAltqd+RpUay67IGxEVwTcuxELyjsfQ4XW1wRe0deFOZhVLu
+	7EELUQwrI0nZWXPE9zbW6AYLmejS7iglfTNr8zHMBUbgXaLlNEY1AYaZnXKKwnR2
+	sm4xi1UuMAKucUzGeBvfvELK3qM8zxqBx8CkOHf8QrlAt765cQqeqq7TIbjD9sgs
+	yIkL0zs+TgHx5ZWgQ2rRDy4sqX1L4p0wYPjYd3/9yFEYnAujvvYs3d0kX6LhudBC
+	7tpbdgg8Odphfg==
+X-ME-Sender: <xms:TiFYYCf5vUO5MAh_gygYe8xDl6yAn9VGAtDItcnqTLuz4zFO5LaQCQ>
+    <xme:TiFYYMM7pk9lzEY5BjgQWAChSozuxXKrOmJ7CIOb2ZGuWvYNcILldIFRtm9R_3A9T
+    9dBpydT3XNGUoOVYQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegfedgjeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
+    gfejheeuieenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+    ugdrohhrgh
+X-ME-Proxy: <xmx:TiFYYDj8nGxp053OdLmbk12l9u0H2H5zy0BWTOtktxZ3C5886EXYmA>
+    <xmx:TiFYYP8f9aH3FVsWyTn0cmqbk_6KW2iaH3aHUZUnyao0jHPwuG_35g>
+    <xmx:TiFYYOt9dQ1xuRa0qiRPxM6jJ7gUOtdingDuIImvbf5DgPJAPcz26w>
+    <xmx:TiFYYPlgsxTwy2SJzqB-_nZrxn75ZfCtUz9TvZ0i1PaQ3xsON0ko5w>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 1C30E1080067;
+	Mon, 22 Mar 2021 00:47:10 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 3/5] arm64: dts: allwinner: a64: Sort watchdog node
+Date: Sun, 21 Mar 2021 23:47:05 -0500
+Message-Id: <20210322044707.19479-4-samuel@sholland.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210322044707.19479-1-samuel@sholland.org>
+References: <20210322044707.19479-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Initial message to start the archive, ignore.
+Nodes should be sorted by unit address. Move the watchdog node to the
+correct place, so it will be next to the timer node when that is added.
 
--K
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 57786fc120c3..9cac88576975 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -798,6 +798,14 @@ uart4_rts_cts_pins: uart4-rts-cts-pins {
+ 			};
+ 		};
+ 
++		wdt0: watchdog@1c20ca0 {
++			compatible = "allwinner,sun50i-a64-wdt",
++				     "allwinner,sun6i-a31-wdt";
++			reg = <0x01c20ca0 0x20>;
++			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&osc24M>;
++		};
++
+ 		spdif: spdif@1c21000 {
+ 			#sound-dai-cells = <0>;
+ 			compatible = "allwinner,sun50i-a64-spdif",
+@@ -1321,13 +1329,5 @@ r_rsb: rsb@1f03400 {
+ 			#address-cells = <1>;
+ 			#size-cells = <0>;
+ 		};
+-
+-		wdt0: watchdog@1c20ca0 {
+-			compatible = "allwinner,sun50i-a64-wdt",
+-				     "allwinner,sun6i-a31-wdt";
+-			reg = <0x01c20ca0 0x20>;
+-			interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+-			clocks = <&osc24M>;
+-		};
+ 	};
+ };
+-- 
+2.26.2
+
