@@ -1,66 +1,65 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F055F
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Mar 2021 03:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81EB6F
+	for <linux-sunxi@lists.linux.dev>; Wed, 24 Mar 2021 04:44:54 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 82A50580547;
-	Tue, 23 Mar 2021 23:51:03 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 202935C00A4;
+	Wed, 24 Mar 2021 00:44:54 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 23 Mar 2021 23:51:03 -0400
+  by compute5.internal (MEProxy); Wed, 24 Mar 2021 00:44:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=A
-	E6NnJPKV2HGKkqUizuPKiLtp1l2SFt8bu1DsJsxHZY=; b=BiQGrTiSud40CZI10
-	JLpaiDMeXiRBJa3abdfi/OUM7Trc0KmGfd91j/JDjgG5SrU3IHjNnD7oLIurK93e
-	z6ajXxgcdETtxeNqYHSAOb/rxcRWxfO5LCrolOIcv3caU9UZ6ndKAB0mlbjdOHOC
-	fwIMXhdns8WXaMxH3Vek3hgHrE8/Wh+G4yY1bJkDltjEU8SmTBF//uVgZt7AaRFD
-	SUsQDgKZjAHjhgdFtsse1LOm5HF5NrpJaR6w5f6bt1mMMiRaI9VMYXP6HRARz1FA
-	NjmTL0x9rngh0jD2Gyjz9lUhsSu1bGgwKorKRI6X8Vkcl8Py63320TpioXxTN73g
-	u8W0g==
+	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=U
+	+jLtGZ3crKCzzHyYT7e7iwoSBlJkEHjIPEjgBND7zs=; b=aHC7zMhxosK5ztkEe
+	gGJMPa3bUrJNJ0ds7WjxP4jV5FPHH6Jqa/y8kf67D3KhXnSzQmKoYzy6ZofVLpUZ
+	ktp5kXTJr1X1snbbJoh/gtFJgMKZhW6v89fXKN2ZLMVSDLwnSdsJQ9HkWecMsFSi
+	c9fZ+APfiWPzTWs5b2eV+Bt878Ur3AIFd1iRmwBlG1A3yFGzVHi84O5LAheScg/f
+	jaOeCPRt7RDQGa6CvGSt5gjWryWuKO5xZ6rg2ew0LBx2Sxncbb7eOxCv4QFHqJ2Y
+	q6jNkmW4XpbecKt17yezvmvr25hX4e4EN2g8irrCAgCq5cLGYh3LPXwivJYE5K49
+	j5H0w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=AE6NnJPKV2HGKkqUizuPKiLtp1l2SFt8bu1DsJsxH
-	ZY=; b=OB+Izy6e3hZ2kQeK5HWwqXY9Q91NO3mxrHNcPaquRB+SxZHTYu4UJ1orx
-	YX1nvCon8Dq1Y8Cn8/lfGi4rtFbY008iCfuM3oZ5z+IGcTyVVJ1fbs53oi4u59E4
-	ZZCEiHLp2dMt931Tq+lfgrGteCh3B0BLAWnNS8F+HPCDlLZiVeB/iRJKqINF5J7e
-	t2nTQE1BE3MvFEMwuHlDZ+7CIeav1ciNe0qRr/6eiYh0zhcZ+AMCqAX1QFx4Cany
-	uhWyMR5A9IQf5u2AQFihcCbXyMMrhEtWOhGaaei4PYxfQOgQLnmCnHI/Gxi7YDvs
-	0XbQBOUTiQaSFA/NNuNBxzwg/YnmQ==
-X-ME-Sender: <xms:JbdaYJchcMRDY8wNeB4snLLh6PfOFUtpFfl3UwT4HCKBMpUtjM_jDA>
-    <xme:JbdaYHMTFpMENmnv14pHwTaRHJtHBQrS6B4njURLSgNOSRbTdJxU0pACDL_F1ZO4R
-    K9uxWuf8ODdWEq9wA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgieefucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm2; bh=U+jLtGZ3crKCzzHyYT7e7iwoSBlJkEHjIPEjgBND7
+	zs=; b=sI08tU7ZinIjomd1VIiHq8Dkzj6kDrcBlzEJmwXXz3FywmjsR2+d69YeY
+	lcZPcZdtKtHLOT6eUVtyEHIbYuWtdP7LFCbqKFJSZvkncj7wiZypWfSKDzetFZsR
+	WRehYECK/79qjqAqrmLw/NOf77voZDw/WnzWjWywJ35ylDIGrwrxHL1ptu8Obtqv
+	QgChvrHNtbnsem06gUWfpUnCyNv92zMIKJkGMCkfY+HbvjhwxtELnWtHCTbIdBel
+	Cau1Och/0oB1DlifdDJttcTF3dXLBBB6rNxUwYTU7qsH6AkzI1Lyhxxuzwc5mEZ4
+	tfyziyjbtk7FngDE3/Yj7Z2prhkew==
+X-ME-Sender: <xms:xMNaYEBpasAlFOdXd_hUwGMZHbpGW1G9GyaaiRIY67Sc04TM_kYo9g>
+    <xme:xMNaYGhs1Fad21BeneJzEY9eNk9Lt8SQNM1tt0sMliKBRnq-YVhoOLWE29uuDne4Q
+    cjgIZ5JyUgWZmXUJg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudegjedgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
-    hedtfeevuedvnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:JbdaYCjyQxWZNDKArMP1T3SdN1p6EqKmidS47viJoVNuouzJKUaAvA>
-    <xmx:JbdaYC93QUs9bA2u-Gj_kYDnm-CFbsbQdbeBdlS-IMIgH6bLhMDVCQ>
-    <xmx:JbdaYFu9i7nPfm_pjVaVCr8xwo9Rkl2IiGT_1zlKQzUxtelQpO5SDA>
-    <xmx:J7daYLLB7lyQbuPU-_WgJYmhq9ZjZJADFZtzmnoayX1TjwRf51_mmw>
+    ftrfgrthhtvghrnhepffdtgeeuueeuueekueeiveejtedvtdfhheduteduueeigffftdev
+    tdeffeevhfdunecuffhomhgrihhnpehtrhhushhtvggufhhirhhmfigrrhgvrdhorhhgpd
+    hgihhthhhusgdrtghomhenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhs
+    thgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshh
+    holhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:xMNaYHnwF-k4E9fQROPeOi6Zz8le7p8PXXaNDcoV-3wnrS3NGehdrg>
+    <xmx:xMNaYKyFraNeGDC6x4i2lSm7c7UcfGfdCSrhcZ3P2DzQT0xVa7ELEQ>
+    <xmx:xMNaYJQ2zjX9HtKAh-zZToUyfGB_exGUv7gs-iwxQZTMJahucCknEA>
+    <xmx:xsNaYIGeRAzxeOcqZCY5MJoH8vrgOcxU5vnQW2fvfNWdvq3sdHdg-A>
 Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 07D33240423;
-	Tue, 23 Mar 2021 23:51:00 -0400 (EDT)
-To: Daniel Lezcano <daniel.lezcano@linaro.org>,
- Thomas Gleixner <tglx@linutronix.de>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210322044707.19479-1-samuel@sholland.org>
- <7bb14a82-5dc9-cefe-4b58-1d2c83974965@linaro.org>
+	by mail.messagingengine.com (Postfix) with ESMTPA id A9263240356;
+	Wed, 24 Mar 2021 00:44:51 -0400 (EDT)
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
+References: <20210322062514.40747-1-samuel@sholland.org>
+ <20210323015627.08f9afd6@slackpad.fritz.box>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v2 0/5] arm64: sunxi: Enable the sun4i timer
-Message-ID: <64f6d712-11fe-4626-aa24-8e31c21a8ad4@sholland.org>
-Date: Tue, 23 Mar 2021 22:51:00 -0500
+Subject: Re: [RFC PATCH] arm64: dts: allwinner: a64/h5: Add CPU idle states
+Message-ID: <ca26bade-abab-8e01-8014-bc7c72ea13fc@sholland.org>
+Date: Tue, 23 Mar 2021 23:44:50 -0500
 User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
  Thunderbird/78.5.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -68,46 +67,271 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7bb14a82-5dc9-cefe-4b58-1d2c83974965@linaro.org>
+In-Reply-To: <20210323015627.08f9afd6@slackpad.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 3/22/21 9:18 AM, Daniel Lezcano wrote:
-> On 22/03/2021 05:47, Samuel Holland wrote:
->> In preparation for adding CPU idle states, hook up the sun4i timer.
->> Having a non-c3stop clockevent source available is necessary for all
->> CPUs to simultaneously enter a local-timer-stop idle state.
+On 3/22/21 8:56 PM, Andre Przywara wrote:
+>> I'm sending this patch as an RFC because it raises questions about how
+>> we handle firmware versioning. How far back does (or should) our support
+>> for old TF-A and Crust versions go?
+>>
+>> cpuidle has a problem that without working firmware support, CPUs will
+>> enter idle states and be unable to wake up. As a result, the system will
+>> hang at some point during boot, usually before getting to userspace.
+>>
+>> For over a year[0], TF-A has exposed the PSCI CPU_SUSPEND function when
+>> a SCPI implementation is present[1]. Implementing CPU_SUSPEND is
+>> required for implementing SYSTEM_SUSPEND[2], even if CPU_SUSPEND is not
+>> itself used for anything. 
+>>
+>> However, there was no code to actually wake up a CPU once it called the
+>> CPU_SUSPEND function, because I could not find the register providing
+>> the necessary information. The fact that CPU_SUSPEND was broken affected
+>> nobody, because nothing ever called it -- there were no idle states in
+>> the DTS. In hindsight, what I should have done was always return failure
+>> from sunxi_validate_power_state(), but that ship has long sailed.
+>>
+>> I finally found the elusive register and implemented the wakeup code
+>> earlier this month[3]. So now, CPU_SUSPEND actually works, if all of
+>> your firmware is up to date, and cpuidle works if you add the states in
+>> your device tree.
+>>
+>> Unfortunately, there is currently nothing verifying that compatibility.
+>> So you can get into four possible scenarios:
+>>   1) No idle states in DTS, any firmware => Linux works, with baseline
+>>      power consumption.
+>>   2) Idle states added to DTS, no Crust/SCPI => Linux works, but every
+>>      attempt to enter an idle state is rejected because CPU_SUSPEND is
+>>      not hooked up. So power consumption increases by a sizable amount.
+>>   3) Idle states added to DTS, "old" Crust/SCPI (before [3]) => Linux
+>>      fails to boot, because CPUs never return from idle states.
+>>   4) Idle states added to DTS, "new" Crust/SCPI (after [3]) => Linux
+>>      works, with improved power consumption compared to the baseline.
+>>
+>> Obviously, we want to prevent scenario 3 if possible.
 > 
-> Why simultaneously ?
-Because the CPU providing (the hrtimer providing) the broadcast timer
-cannot enter an idle state which would stop that timer. So in my case,
-with 4 CPUs, I was seeing at most 3 CPUs enter idle at any given time.
-This prevented any cluster-level idle states from doing anything. After
-applying this series, I was able to observe the whole cluster powering
-down when appropriate.
+> So I think the core of the problem is that the DT describes some
+> firmware feature, but we have the DT bundled with the kernel, not the
+> firmware.
+
+I would say the core problem is that the firmware lies about supporting
+PSCI CPU_SUSPEND. Linux shouldn't be calling CPU_SUSPEND if the firmware
+declares it as unavailable, regardless of what is in the DTS.
+(Technically, per the PSCI standard, CPU_SUSPEND is a mandatory
+function, but a quick survey of the TF-A platforms shows it is far from
+universally implemented.)
+
+> So is there any way we can detect an older crust version in U-Boot,
+> then remove any potential idle states from the DT?
+
+Let's assume that we are using a functioning SoC (H3) or the secure fuse
+is blown (A64) and therefore U-Boot cannot access SRAM A2. I can think
+of three ways it can learn about crust:
+
+a) PSCI_FEATURES (e.g. is CPU_SUSPEND supported)
+b) Metadata in the FIT image
+c) Custom SMCs
+
+TF-A has some additional methods available:
+
+d) The SCPI-reported firmware version
+e) The magic number at the beginning of the firmware binary
+
+> Granted, this requires recent U-Boot as well, but at least we could try
+> to mitigate the worst case a bit?
+
+If we're okay with modifying firmware to solve this problem, then I
+propose the following solution:
+
+1) Version bump crust or change its magic number.
+2) Modify TF-A to only report CPU_SUSPEND as available if it detects the
+   new crust version. This would involve conditionally setting
+   sunxi_scpi_psci_ops.validate_power_state, and updating psci_setup.c
+   to also check for .validate_power_state when setting psci_caps.
+3) Modify the Linux PSCI client to respect PSCI_FEATURES when setting
+   psci_ops.cpu_suspend. cpuidle-psci checks for this function before
+   setting up idle states.
+4) Finally, after some time, add the idle states to the DTS.
+
+In fact, this solution solves both scenarios 2 and 3, because it also
+takes care of the native PM implementation, which doesn't implement
+CPU_SUSPEND at all.
+
+Does that sound workable?
 
 Regards,
 Samuel
 
->> Changes from v1:
->>   - Removed H616 changes (depends on an unmerged patch set)
->>   - Reworded the patch 4-5 commit messages for clarity
->>   - Added Acked-by tags
->>
->> Samuel Holland (5):
->>   dt-bindings: timer: Simplify conditional expressions
->>   dt-bindings: timer: Add compatibles for sun50i timers
->>   arm64: dts: allwinner: a64: Sort watchdog node
->>   arm64: dts: allwinner: Add sun4i MMIO timer nodes
->>   arm64: sunxi: Build the sun4i timer driver
->>
->>  .../timer/allwinner,sun4i-a10-timer.yaml      | 42 +++++++++----------
->>  arch/arm64/Kconfig.platforms                  |  1 +
->>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 25 +++++++----
->>  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  |  9 ++++
->>  4 files changed, 46 insertions(+), 31 deletions(-)
->>
+> A better solution could be to only *add* the idle states if the rest of
+> the firmware is deemed worthy. So the mainline DTs would not carry the
+> properties in the first place, and only U-Boot adds them, on detecting
+> a capable firmware?
+> Admittedly this changes the "flow" of the DT, where the kernel is the
+> authority, but it might help to solve this problem?
 > 
+> Or any other way, which involves U-Boot patching the DTB? (This would
+> apply to the DTB passed to the kernel, regardless of where and when
+> it's loaded from)
+> 
+> Any opinions?
+> 
+> Cheers,
+> Andre
+> 
+>> Enter the current patch: I chose the arm,psci-suspend-param values
+>> specifically so they would be _rejected_ by the current TF-A code. This
+>> makes scenario 3 behave like scenario 2. I then have some follow-up TF-A
+>> patches (not yet submitted) to switch to the new parameter encoding[4].
+>>
+>> This brings me back to my original question. Once the TF-A patches in
+>> [4] are merged, scenario 3 (with an updated TF-A but an old Crust) would
+>> fail to boot again. Do we care?
+>>
+>> Should I implement some kind of runtime version checking, so TF-A can
+>> disable CPU_SUSPEND if it would be broken? Or instead, should we wait
+>> some amount of time to merge this patch (or the patches at [4]) and
+>> assume people have upgraded?
+>>
+>> Where would people expect this sort of possibly-breaking change to be
+>> documented?
+>>
+>> Separately, since I assume most A64/H5 users (outside of LibreELEC and
+>> the PinePhone) are not using Crust, scenario 2 would be very common. If
+>> merging this patch increases their idle power draw by 500 mW, is that an
+>> acceptable cost for decreasing other users' idle power draw by 50 mW?
+>>
+>> Sorry for the wall of text,
+>> Samuel
+>>
+>> [0]: https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/commit/plat/allwinner/common/sunxi_pm.c?id=e382c88e2a26995099bb931d49e754dcaebc5593
+>> [1]: https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/tree/plat/allwinner/common/sunxi_scpi_pm.c?id=2e0e51f42586826a1f6f6c1e532f90e6df642cf5#n190
+>> [2]: https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git/tree/lib/psci/psci_setup.c?id=2e0e51f42586826a1f6f6c1e532f90e6df642cf5#n251
+>> [3]: https://github.com/crust-firmware/crust/commits/85944467c804
+>> [4]: https://github.com/crust-firmware/arm-trusted-firmware/commits/d6ebf5dab2da
+>>
+>> ---
+>>
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 26 +++++++++++++++++++
+>>  arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi  | 26 +++++++++++++++++++
+>>  2 files changed, 52 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> index 57786fc120c3..2b1b5b36098c 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+>> @@ -54,6 +54,7 @@ cpu0: cpu@0 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu1: cpu@1 {
+>> @@ -65,6 +66,7 @@ cpu1: cpu@1 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu2: cpu@2 {
+>> @@ -76,6 +78,7 @@ cpu2: cpu@2 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu3: cpu@3 {
+>> @@ -87,6 +90,29 @@ cpu3: cpu@3 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-names = "cpu";
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>> +		};
+>> +
+>> +		idle-states {
+>> +			entry-method = "psci";
+>> +
+>> +			cpu_sleep: cpu-sleep {
+>> +				compatible = "arm,idle-state";
+>> +				local-timer-stop;
+>> +				entry-latency-us = <800>;
+>> +				exit-latency-us = <1500>;
+>> +				min-residency-us = <25000>;
+>> +				arm,psci-suspend-param = <0x00010003>;
+>> +			};
+>> +
+>> +			cluster_sleep: cluster-sleep {
+>> +				compatible = "arm,idle-state";
+>> +				local-timer-stop;
+>> +				entry-latency-us = <850>;
+>> +				exit-latency-us = <1500>;
+>> +				min-residency-us = <50000>;
+>> +				arm,psci-suspend-param = <0x01010013>;
+>> +			};
+>>  		};
+>>  
+>>  		L2: l2-cache {
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+>> index 578a63dedf46..1c416f648c58 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+>> @@ -18,6 +18,7 @@ cpu0: cpu@0 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-latency-ns = <244144>; /* 8 32k periods */
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu1: cpu@1 {
+>> @@ -28,6 +29,7 @@ cpu1: cpu@1 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-latency-ns = <244144>; /* 8 32k periods */
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu2: cpu@2 {
+>> @@ -38,6 +40,7 @@ cpu2: cpu@2 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-latency-ns = <244144>; /* 8 32k periods */
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>>  		};
+>>  
+>>  		cpu3: cpu@3 {
+>> @@ -48,6 +51,29 @@ cpu3: cpu@3 {
+>>  			clocks = <&ccu CLK_CPUX>;
+>>  			clock-latency-ns = <244144>; /* 8 32k periods */
+>>  			#cooling-cells = <2>;
+>> +			cpu-idle-states = <&cpu_sleep>, <&cluster_sleep>;
+>> +		};
+>> +
+>> +		idle-states {
+>> +			entry-method = "psci";
+>> +
+>> +			cpu_sleep: cpu-sleep {
+>> +				compatible = "arm,idle-state";
+>> +				local-timer-stop;
+>> +				entry-latency-us = <800>;
+>> +				exit-latency-us = <1500>;
+>> +				min-residency-us = <25000>;
+>> +				arm,psci-suspend-param = <0x00010003>;
+>> +			};
+>> +
+>> +			cluster_sleep: cluster-sleep {
+>> +				compatible = "arm,idle-state";
+>> +				local-timer-stop;
+>> +				entry-latency-us = <850>;
+>> +				exit-latency-us = <1500>;
+>> +				min-residency-us = <50000>;
+>> +				arm,psci-suspend-param = <0x01010013>;
+>> +			};
+>>  		};
+>>  	};
+>>  
 > 
 
