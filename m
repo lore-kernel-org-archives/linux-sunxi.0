@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DF0C70
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Mar 2021 13:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D372C71
+	for <linux-sunxi@lists.linux.dev>; Tue, 30 Mar 2021 13:01:41 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9F4CCD6E;
-	Tue, 30 Mar 2021 06:01:39 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4DF61101E;
+	Tue, 30 Mar 2021 06:01:41 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 458FC3F694;
-	Tue, 30 Mar 2021 06:01:38 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D69573F694;
+	Tue, 30 Mar 2021 06:01:39 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@siol.net>,
 	Samuel Holland <samuel@sholland.org>,
@@ -16,9 +16,9 @@ Cc: Simon Glass <sjg@chromium.org>,
 	u-boot@lists.denx.de,
 	linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/2] sunxi: H616: Change TF-A load address to beginning of DRAM
-Date: Tue, 30 Mar 2021 14:01:21 +0100
-Message-Id: <20210330130122.3915-2-andre.przywara@arm.com>
+Subject: [PATCH 2/2] sunxi: dts: H616: Drop reserved-memory node
+Date: Tue, 30 Mar 2021 14:01:22 +0100
+Message-Id: <20210330130122.3915-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210330130122.3915-1-andre.przywara@arm.com>
 References: <20210330130122.3915-1-andre.przywara@arm.com>
@@ -27,36 +27,42 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Loading Trusted-Firmware's BL31 at 16KB into DRAM was originally a hack
-to allow sharing more code with the other SoCs (which use this offset
-in SRAM). However there is no longer a reason for that, as the
-problematic macros have been properly separated there.
+Trusted Firmware now adds the /reserved-memory subnode to the DT at
+runtime[1], putting in the right values.
 
-The latest (and hopefully final) TF-A code drop now changes the load
-address to the beginning of DRAM, which is also more easily protected
-by the Trustzone memory controller (code to be done).
+Drop our hard-coded version, as this might clash with the actual values
+(which have also changed), and rely on TF-A to add the node.
 
-Adjust the load address of BL31 now, to avoid any issues with
-incompatible versions later on (the TF-A patches are about to be merged).
+[1] https://review.trustedfirmware.org/c/TF-A/trusted-firmware-a/+/7770
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/dts/sunxi-u-boot.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm/dts/sun50i-h616.dtsi | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/arch/arm/dts/sunxi-u-boot.dtsi b/arch/arm/dts/sunxi-u-boot.dtsi
-index abe629c55e5..cd096bf2a06 100644
---- a/arch/arm/dts/sunxi-u-boot.dtsi
-+++ b/arch/arm/dts/sunxi-u-boot.dtsi
-@@ -4,7 +4,7 @@
- #define BL31_ADDR 0x104000
- #define  SCP_ADDR 0x114000
- #elif defined(CONFIG_MACH_SUN50I_H616)
--#define BL31_ADDR 0x40004000
-+#define BL31_ADDR 0x40000000
- #else
- #define BL31_ADDR  0x44000
- #define  SCP_ADDR  0x50000
+diff --git a/arch/arm/dts/sun50i-h616.dtsi b/arch/arm/dts/sun50i-h616.dtsi
+index 953e8fac20f..dd4d2f31111 100644
+--- a/arch/arm/dts/sun50i-h616.dtsi
++++ b/arch/arm/dts/sun50i-h616.dtsi
+@@ -51,18 +51,6 @@
+ 		};
+ 	};
+ 
+-	reserved-memory {
+-		#address-cells = <2>;
+-		#size-cells = <2>;
+-		ranges;
+-
+-		/* 512KiB reserved for ARM Trusted Firmware (BL31) */
+-		secmon_reserved: secmon@40000000 {
+-			reg = <0x0 0x40000000 0x0 0x80000>;
+-			no-map;
+-		};
+-	};
+-
+ 	osc24M: osc24M_clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
 -- 
 2.17.5
 
