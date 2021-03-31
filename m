@@ -1,90 +1,60 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF86770
-	for <linux-sunxi@lists.linux.dev>; Wed, 31 Mar 2021 13:08:38 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2DCDE5C00C3;
-	Wed, 31 Mar 2021 09:08:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Wed, 31 Mar 2021 09:08:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm2; bh=3S01/Yd8yzJh1
-	1P0hZKIaXqlFvpcXy/bttRMQLyONjI=; b=ncW++uhhQp7Sxe+SR8hQVwIX7xlvy
-	gQGV2KMVHKyuGuEBEd4W+fg4jrs/V7wyUIKR2SKNEkEJ5tuXurIyhBa6XuGfhD9s
-	z+7mrgzqgnErSh3mNfLq9E3NUaElGINCDjmSdV2lvZiANf4ywZ1iTujurwSQp6R/
-	IIMnkAbDSMAd5jxWPGGfZU41Rpbfz9CTGcCnNESFBquM0+QaAmJH1O5uGsMhmQQ8
-	wvMzcYwd/yomD16IuVJXbyf/9SBO62I3haXOFprw2V9d8bieA9KHA9Mhmi7fYc3U
-	K7yfhg/fjomooO1RrK99RIY7/DWucoZX4+5bHQD3yRewI04lRHY33pcbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=3S01/Yd8yzJh11P0hZKIaXqlFvpcXy/bttRMQLyONjI=; b=oqsRpQGp
-	nOemH3tvj0YF8KPSKopusFzgh0s/Y3/KErwlk2letIA6+b/vme4kjg84ovmV9ju+
-	mC7kU/nSzjSCZGQc6dYVd85Ge80X5lrO8uVsPPGgCocf3LTqqieZSZF25X+NAcUq
-	V7ndI7B5Xa55uRPmwnrCb1j+33cAVDRS9/0HhEmzq/feXTANwHsafNYDK3fyMsY/
-	eWl3OWTWp+gVqiAdasOh7bO8eUr5w9KYB8lltT9dw/58JO9zXL796qjyZa01UY3Q
-	OM//ZZVd3EpmTp0fyT0jCSS1QvoSplsne1M9sOqesVTPqRsFdpDmw2RJoQU1Rz+Z
-	7XQ4d8V6pht24Q==
-X-ME-Sender: <xms:VXRkYMohsk1DnCKU5DWFJCZAk-jsFrTDPbyNZ_-9xlOaLT5rEjXJpg>
-    <xme:VXRkYCr7YbmVZKFp9fBEl0KtEgceruZyp7cUTj29KE-CBoMH1OZ_hL2v5egtYeF1Q
-    6OLP2AFXRxpY_pkcD0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeivddgieefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
-    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VXRkYBMFeOQWkui-Mg1rCT19gvXXaM2CNHFf83_2uZ_ULYuMFYQBpw>
-    <xmx:VXRkYD6nEIiAB6by9cfapE7YVkUeQnlWv9vGc0kObsHVOR0sJrQrIg>
-    <xmx:VXRkYL6txBK_cBLHlrLaWxk2YybIhT4z79dP-vIhIQW8jEyq8MoJCQ>
-    <xmx:VnRkYLF0hG6NrN6jIXhq1HN1gN3BtQuZ39gmFpaP8SadRQwEwGAl7g>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA id B036D1080054;
-	Wed, 31 Mar 2021 09:08:37 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 2/2] MAINTAINERS: Match on allwinner keyword
-Date: Wed, 31 Mar 2021 15:08:30 +0200
-Message-Id: <20210331130830.64182-2-maxime@cerno.tech>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210331130830.64182-1-maxime@cerno.tech>
-References: <20210331130830.64182-1-maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872136F
+	for <linux-sunxi@lists.linux.dev>; Wed, 31 Mar 2021 13:11:33 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id d13so8076730lfg.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 31 Mar 2021 06:11:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=JP8FY7YIwKkpvsR6KDR8iYzr4x7tBNFx7Dd5AIVujS8=;
+        b=JuDlBNaUMLPjsfWj/iM0A2pjWLouLV+bEL8RztKBLT9q69X6NY6eaPH8qFY+Bqux1p
+         h06zUzXx6q6nyWFMBgBfWC43g2eQs9IG13+xPqkb/32Jl8bbwBtkig7GR9Qtnw6MUAKg
+         W5jPAn3PFmie/znRTvT6ZOLYrFeDCKcxABPn8nFXkjk7t5r7fBZ7bjOUQe4ZU1CBizOl
+         5KxARCLa2Xbk69j6tDBiUAdQtPl5TRxL+JQDq+ta8gtGsiDV3/otUXRLnZX8S32+KbKJ
+         HofUfOY2U+AZak5wNo/06gZjM/zXlUb8EYxuDMDsjIqfzUL30QyK1gt5AXraNUPo5mt8
+         FtUA==
+X-Gm-Message-State: AOAM530M3ORLItuPBqp0I9fPBv2fMC1/o+6hryxNqsWVkhQ71DF0tvFu
+	7avMqZ2RXxCbUc5welFzUSgzWq/dUZs=
+X-Google-Smtp-Source: ABdhPJzU1obU16Pr8vZW2wvhfVlAKwunJiAjv/67Bcv8ggv37ISGfQIQO30mfOCZSVYhExQ7AZKqpg==
+X-Received: by 2002:a05:6512:1192:: with SMTP id g18mr2091215lfr.408.1617196290210;
+        Wed, 31 Mar 2021 06:11:30 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id k11sm230614ljg.119.2021.03.31.06.11.29
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Mar 2021 06:11:30 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id v15so29075757lfq.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 31 Mar 2021 06:11:29 -0700 (PDT)
+X-Received: by 2002:ac2:5312:: with SMTP id c18mr2254236lfh.618.1617196289610;
+ Wed, 31 Mar 2021 06:11:29 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210331130830.64182-1-maxime@cerno.tech>
+In-Reply-To: <20210331130830.64182-1-maxime@cerno.tech>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 31 Mar 2021 21:11:18 +0800
+X-Gmail-Original-Message-ID: <CAGb2v660MdRWXHxvqrean59z06mZgRooLcUYURCekmdMWwQkOw@mail.gmail.com>
+Message-ID: <CAGb2v660MdRWXHxvqrean59z06mZgRooLcUYURCekmdMWwQkOw@mail.gmail.com>
+Subject: Re: [PATCH 1/2] MAINTAINERS: Add our new mailing-list
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Some drivers (phy, crypto, net) folders don't have sunxi in it but
-allwinner. Add that keyword to match on it too.
+On Wed, Mar 31, 2021 at 9:08 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> We've been struggling to get an LF-hosted mailing list for a while, but
+> now that lists.linux.dev is there we opted in.
+>
+> Let's add it to MAINTAINERS.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d8c00df4045c..5e808daae799 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1582,6 +1582,7 @@ F:	arch/arm64/boot/dts/allwinner/
- F:	drivers/clk/sunxi-ng/
- F:	drivers/pinctrl/sunxi/
- F:	drivers/soc/sunxi/
-+N:	allwinner
- N:	sun[x456789]i
- N:	sun50i
- 
--- 
-2.30.2
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
