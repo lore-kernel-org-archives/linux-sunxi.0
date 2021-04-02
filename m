@@ -1,100 +1,100 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9FFC70
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Apr 2021 08:20:11 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 26F3D2E21;
-	Thu,  1 Apr 2021 04:20:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 01 Apr 2021 04:20:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=WSvdubl47C4t/rrjzZdaUHwHV7f
-	YwQI096IWtbkEenk=; b=ZLH7twjjYE9O+XAzM6FEj+nHQKhdNwL8M3+gp+47jPh
-	QFbmXjui9aoLcfWSTCoHfA+hZQTo/KyRHqAIv2sYW+zJicErJykV1i4w0HUf8ttx
-	Z2QCXmldxzIJr9lbLT3UG0IBYm9k4feEtpZWb1VOPjP0QNN6g+cE2wzjQK70eKZi
-	qXkMQv+lgJDIlnWxyymVeiVzb/WqiWLiA2sXssdov5pwTUzjk4R7RKtrBex5OQZl
-	UGwrBizULSM8IicBXuNtPv9rjGj1Gn+BvYyZpYvdW4nmgb7ZyzaZBBphcF1/M6TY
-	va4Gf79zXU9KS6r4ckAC5jzQIRnfooG21TKP/ZQ814w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WSvdub
-	l47C4t/rrjzZdaUHwHV7fYwQI096IWtbkEenk=; b=FVbQ0wHs0e3bKhAZYH15Lg
-	nDsklR+5o7ayZHZ8mAEidhC1tBg7VRd/l3XI2hzIYLhsBh0VXRyOVqtCiEIsmmC3
-	Sv6uR/NjfhZwN6dH2LOn17AHjXy1pgdzDJ30KU410Zn7FhZ71nQ17OM2ZdWqCKG9
-	w6ML6oB5e7/v7l43T6fgm3i2MD8GMx9vo8Ubhpzxip+Z4y+5HrNB/NMFPULNy2KJ
-	+kaFWz4SNlGKU3Ts+eKi5aanyuBPF4lmrsXRiXhwAnpAf49FzIdXgevecRhRnS5R
-	e/B2D9OjBX332T0Oy9f3vBRpPU5KwuJMWrh6fVNQQH87G04NpjkNrHbc+aJTEYfg
-	==
-X-ME-Sender: <xms:OYJlYC_WE79YDaZcZnE2_6xP8k1pR_03o-zI4qL8oInPfn8Sw-Q9kA>
-    <xme:OYJlYCuIKqsd2YAj_PzonmkIQh8oSUvTbMbjVCmo0Qncj_bQu_CaqoCp_yWyL-UMD
-    SQ1TW0e1elWD0Mp9EQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeifedgudeftdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeeutdfgjeeuudehvefgvedvtedtudelfffgffekledtffekgedukeejueev
-    ieegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:OYJlYID0duCMTLEWbaqlV6dWadVYyYRxtiOMvwoqo20E5ddhlqQ4WQ>
-    <xmx:OYJlYKeGNB1_7u_FaUDAlVup6s8VQQN89bljV2tv8YQERCPqlukDvQ>
-    <xmx:OYJlYHMjj9CIV9wzg0JPuQqGHhp9Bogn98xjUO_nKKE7oK9sfIKu-A>
-    <xmx:OoJlYN0f4a06RvlL3lMXrKs3DDrIRcifsmb7y4FKf4XayOXX2c0sCA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 5094C24005A;
-	Thu,  1 Apr 2021 04:20:09 -0400 (EDT)
-Date: Thu, 1 Apr 2021 10:20:06 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2935D70
+	for <linux-sunxi@lists.linux.dev>; Fri,  2 Apr 2021 13:36:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 56799610C7;
+	Fri,  2 Apr 2021 13:36:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1617370595;
+	bh=z1mZZbiYPkrM5r/aJtAh5y5kh0CVn1HL7j6A7kJl6jk=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=SoHfM20ukked8FQCAMZm3yT3vwA9DLDEOH0yl7UPHILC99x/+6JXNZfevm0WDJdA3
+	 YXn50cHwSGoE0yp/p2k+v3E02CRB8Hs4K4bw1KlhkLUEImN6jIP1wvoUNQQCId+Zio
+	 D15aQbOqmaowWH/LwXJHHsa/hGznk6tCF3GROty4JlEjpeftfgvJJ7Ek/mx7WbxsqE
+	 kPqIlU3QwG/ZZwQDlffqcBARNtwt8Q+vVN62xRCnVKl2xIfDh5Ll254cF7TdrjQfzb
+	 JN8DvzoZMiIVCoOby25+JHdwl2VAgwQXwdlo762h9c2rXOva7eBY/OCSEnzlpJfSWx
+	 zOmOpmqnlUu2A==
+Date: Fri, 2 Apr 2021 15:36:33 +0200
+From: Maxime Ripard <mripard@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] MAINTAINERS: Match on allwinner keyword
-Message-ID: <20210401082006.32fbl3syqo7ufjbq@gilmour>
-References: <20210331130830.64182-1-maxime@cerno.tech>
- <20210331130830.64182-2-maxime@cerno.tech>
- <9627361.1JYF2Y7Mv4@kista>
+Subject: [GIT PULL] Allwinner Fixes for 5.12
+Message-ID: <9df637a0-945e-4469-8e6d-0903cc9d3196.lettre@localhost>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4lzzvysuzqbx2adu"
+	protocol="application/pgp-signature"; boundary="MX/URsAQkQzfTyEc"
 Content-Disposition: inline
-In-Reply-To: <9627361.1JYF2Y7Mv4@kista>
 
 
---4lzzvysuzqbx2adu
-Content-Type: text/plain; charset=utf-8
+--MX/URsAQkQzfTyEc
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Mar 31, 2021 at 09:18:36PM +0200, Jernej =C5=A0krabec wrote:
-> Hi!
->=20
-> Dne sreda, 31. marec 2021 ob 15:08:30 CEST je Maxime Ripard napisal(a):
-> > Some drivers (phy, crypto, net) folders don't have sunxi in it but
-> > allwinner. Add that keyword to match on it too.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Hi Arnd, Olof,
 
-Applied both, thanks!
+Please pull the following changes for the current release.
+
+Thanks!
 Maxime
 
---4lzzvysuzqbx2adu
+The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+
+  Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git refs/tags/sunxi-fixes-for-5.12
+
+for you to fetch changes up to a3797571964d80ff3abebb1cd5047d4ae6d8db4e:
+
+  arm64: dts: allwinner: h6: beelink-gs1: Remove ext. 32 kHz osc reference (2021-04-01 10:22:33 +0200)
+
+----------------------------------------------------------------
+One 32kHz clock fix for the beelink gs1, a CD polarity fix for the SoPine, some
+MAINTAINERS maintainance, and a clk / reset switch to our headers.
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      arm64: dts: allwinner: Fix SD card CD GPIO for SOPine systems
+
+Chen-Yu Tsai (1):
+      arm64: dts: allwinner: h6: Switch to macros for RSB clock/reset indices
+
+Jernej Skrabec (1):
+      arm64: dts: allwinner: h6: beelink-gs1: Remove ext. 32 kHz osc reference
+
+Maxime Ripard (2):
+      MAINTAINERS: Add our new mailing-list
+      MAINTAINERS: Match on allwinner keyword
+
+
+ MAINTAINERS                                             | 2 ++
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dts | 4 ++++
+ arch/arm64/boot/dts/allwinner/sun50i-a64-sopine.dtsi    | 2 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts | 4 ----
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi            | 4 ++--
+ 5 files changed, 9 insertions(+), 7 deletions(-)
+
+
+
+--MX/URsAQkQzfTyEc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGWCNgAKCRDj7w1vZxhR
-xbsIAQDqeYXbLHnYbcPx08A3zG44XQEqqDh7+Raqgs5tTu63xwEAnJxhKxJsNwqb
-siwVJUsOahBCZ7ivZ3cHsf8KkmkhVgM=
-=2TqD
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYGcd4QAKCRDj7w1vZxhR
+xcriAP4vE+LS7aFvNyrmIr0eQFC7wlNEj18vGm1Sc4KKj/FBXQD/XCZS2SUfQqNa
+pfCXC+Lm5eKdjyHewU4l/PaaF7FQ6Qs=
+=kmjh
 -----END PGP SIGNATURE-----
 
---4lzzvysuzqbx2adu--
+--MX/URsAQkQzfTyEc--
