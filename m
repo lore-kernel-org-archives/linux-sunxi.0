@@ -1,36 +1,36 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9855670
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 15:24:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3C106112F;
-	Thu,  8 Apr 2021 15:24:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5BD70
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 15:50:35 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8136E61107;
+	Thu,  8 Apr 2021 15:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617895495;
-	bh=TLpwdhb+A3hEkJ3+J4LoBWIjpmirFUNIFnFTPkHmz80=;
+	s=k20201202; t=1617897034;
+	bh=KoY+5HON/Q46tIuLclEUxpT3sK+VtgaqdmsDZ1iaPms=;
 	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZXbaCPzw9oAOwPa31WJTNbiFqc9g2OHccX5WdEuT808HrTpkph3Ttwqq+pjG+zNcO
-	 NQYtpZpB4TiXPftGRspN8fLWD3EGU1BOsFX9oEttsxb/xKUqVWYzwdAfrEbJWX38ZX
-	 6LW6g9UhaE05qHYdTfDduBMvQngyq+CNocyl3St1BdrfeSHnVBj/rQrbNj5hZcx99Z
-	 vI9BCCYbcM8v8wLaGMBltoGIjMzBzf5vO9bnsoGXGd1xrlsY4JvXTVUQ6UAr6IrPIg
-	 1F14LpqV7toh8TgDCq7g+jJiwuRwIuEJi/t5i1TjvHyKBJG02j1IvjZi+OrgbnJmIv
-	 TZOSPcBqMqIWQ==
+	b=pik3KF3UH/KdV2vel/b+WGtTmcZMjlVFeB12oU+1dZ49kZSDCK7Suza5xJ8u4ROlj
+	 S9thmD4Kpnr2pk2WKPh9irl8IXAXepzS8E3v6bEc+zUVRubUSpX/UuNUNpPh37S5jj
+	 Q8ZR6w2sd0/xbDj6rsqqTldSnX/i13jkgBBFocd/fBA0eMNBdfb9R0dgM4XN2YC2Lg
+	 n8xo7cLcmEpM2wYSWe8Wenf42q9aJOu1/ovBw6BNalsFFaSUWuu/4EKsD+zsbYWeDo
+	 gOruvxp2s3MJcOCbYC5D0rYeC7GvMSDOz6i4hiqK5tmtvbAPUGC08NYXsDNz+tKN00
+	 KNeiPcCfWUtgg==
 From: Arnd Bergmann <arnd@kernel.org>
 List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org,
-	soc@kernel.org,
+To: soc@kernel.org,
+	arm@kernel.org,
 	Maxime Ripard <mripard@kernel.org>
 Cc: Arnd Bergmann <arnd@arndb.de>,
-	linux-arm-kernel@lists.infradead.org,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
 	Chen-Yu Tsai <wens@csie.org>,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [GIT PULL] Allwinner Device Tree Changes for 5.13
-Date: Thu,  8 Apr 2021 17:24:24 +0200
-Message-Id: <161789462018.1629934.16112481410782715304.b4-ty@arndb.de>
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: Re: [GIT PULL] Allwinner Fixes for 5.12
+Date: Thu,  8 Apr 2021 17:50:24 +0200
+Message-Id: <161789701009.1636297.18213875716036354287.b4-ty@arndb.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <8a3e3271-bebe-4d27-a9e7-7b7a6311a38d.lettre@localhost>
-References: <8a3e3271-bebe-4d27-a9e7-7b7a6311a38d.lettre@localhost>
+In-Reply-To: <9972a85e-60b7-49f4-a246-db3396dd4764.lettre@localhost>
+References: <9972a85e-60b7-49f4-a246-db3396dd4764.lettre@localhost>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -41,20 +41,20 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-On Fri, 2 Apr 2021 15:52:36 +0200, Maxime Ripard wrote:
-> Please pull the following changes for the next release.
+On Wed, 7 Apr 2021 13:45:29 +0200, Maxime Ripard wrote:
+> Here's the fixes PR rebase with my SoB added
+> 
+> Please pull the following changes for the current release.
 > 
 > Thanks!
 > Maxime
 > 
 > The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
 > 
->   Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
-> 
 > [...]
 
-Merged into arm/dt, thanks!
+Merged into arm/fixes, thanks!
 
-merge commit: 0d310a3791f6823cf5dcfec5666c1b8cfe6b149b
+merge commit: 974be36e1ca987a1940eb6894a2b5bb631049791
 
        Arnd
