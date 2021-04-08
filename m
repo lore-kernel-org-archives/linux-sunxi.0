@@ -1,36 +1,48 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5BD70
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 15:50:35 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8136E61107;
-	Thu,  8 Apr 2021 15:50:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7091F6D0D
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 16:55:45 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5AAD36115B;
+	Thu,  8 Apr 2021 16:55:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1617897034;
-	bh=KoY+5HON/Q46tIuLclEUxpT3sK+VtgaqdmsDZ1iaPms=;
-	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=pik3KF3UH/KdV2vel/b+WGtTmcZMjlVFeB12oU+1dZ49kZSDCK7Suza5xJ8u4ROlj
-	 S9thmD4Kpnr2pk2WKPh9irl8IXAXepzS8E3v6bEc+zUVRubUSpX/UuNUNpPh37S5jj
-	 Q8ZR6w2sd0/xbDj6rsqqTldSnX/i13jkgBBFocd/fBA0eMNBdfb9R0dgM4XN2YC2Lg
-	 n8xo7cLcmEpM2wYSWe8Wenf42q9aJOu1/ovBw6BNalsFFaSUWuu/4EKsD+zsbYWeDo
-	 gOruvxp2s3MJcOCbYC5D0rYeC7GvMSDOz6i4hiqK5tmtvbAPUGC08NYXsDNz+tKN00
-	 KNeiPcCfWUtgg==
-From: Arnd Bergmann <arnd@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: soc@kernel.org,
-	arm@kernel.org,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	s=k20201202; t=1617900944;
+	bh=GWpb/4CWrW5dOgeUJNjVwnPmhCH3Tqxz6l+xlJjGsZs=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=o6+NQEY10TfULYi/XtxUE45DQd7LGoHX/+xCtDoIam/6qWkrXbsxqumFwCoNt8bwe
+	 tQyL3mq7+Mp+0i4gjH9ZuoZz9fIhZUs7K0GflIVOmKjTS68Lh6QUNXgQ92QrnZ3NUz
+	 swg92H8hYpLl7hzxgqYyFHHauARAcljBzSeLgj+Wrlgyr58Qn1RKsTS5hrtALWIqB6
+	 LBls/auxgyXtr+I9gcmByIyYdOOOi71eok8Mk/fD4YBheay1Yvl/quoiZRAwXSUSVG
+	 p7AR3On/otsnP4YNOFIZaA3pxGoTGP1nzc0xroUh/byr9K97xvCXjXBowWYx9dpME3
+	 sAG9D5C+Mrxcw==
+From: Mark Brown <broonie@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	Fabio Estevam <festevam@gmail.com>,
 	Chen-Yu Tsai <wens@csie.org>,
+	Muhammad Usama Anjum <musamaanjum@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	alsa-devel@alsa-project.org,
 	linux-sunxi@lists.linux.dev,
+	Takashi Iwai <tiwai@suse.com>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	linuxppc-dev@lists.ozlabs.org,
+	Xiubo Li <Xiubo.Lee@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [GIT PULL] Allwinner Fixes for 5.12
-Date: Thu,  8 Apr 2021 17:50:24 +0200
-Message-Id: <161789701009.1636297.18213875716036354287.b4-ty@arndb.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <9972a85e-60b7-49f4-a246-db3396dd4764.lettre@localhost>
-References: <9972a85e-60b7-49f4-a246-db3396dd4764.lettre@localhost>
+	Timur Tabi <timur@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	dan.carpenter@oracle.com,
+	linqiheng@huawei.com,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] ASoC: fsl: sunxi: remove redundant dev_err call
+Date: Thu,  8 Apr 2021 17:54:43 +0100
+Message-Id: <161790012549.16915.4440454202344762892.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210407095634.GA1379642@LEGION>
+References: <20210407095634.GA1379642@LEGION>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -39,22 +51,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 7 Apr 2021 14:56:34 +0500, Muhammad Usama Anjum wrote:
+> devm_ioremap_resource() prints error message in itself. Remove the
+> dev_err call to avoid redundant error message.
 
-On Wed, 7 Apr 2021 13:45:29 +0200, Maxime Ripard wrote:
-> Here's the fixes PR rebase with my SoB added
-> 
-> Please pull the following changes for the current release.
-> 
-> Thanks!
-> Maxime
-> 
-> The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
-> 
-> [...]
+Applied to
 
-Merged into arm/fixes, thanks!
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-merge commit: 974be36e1ca987a1940eb6894a2b5bb631049791
+Thanks!
 
-       Arnd
+[1/1] ASoC: fsl: sunxi: remove redundant dev_err call
+      commit: a93799d55fd479f540ed97066e69114aa7709787
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
