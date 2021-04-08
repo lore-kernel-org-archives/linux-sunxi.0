@@ -1,58 +1,60 @@
-Received: from szxga07-in.huawei.com (szxga07-in.huawei.com [45.249.212.35])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEB96D0E
-	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 13:36:45 +0000 (UTC)
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
-	by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4FGMgL5xYXz9wbq;
-	Thu,  8 Apr 2021 21:34:22 +0800 (CST)
-Received: from ubuntu1804.huawei.com (10.67.174.175) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 8 Apr 2021 21:36:26 +0800
-From: Lu Jialin <lujialin4@huawei.com>
-To: <lujialin4@huawei.com>, Jernej Skrabec <jernej.skrabec@siol.net>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <kernel-janitors@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH -next] media: sun8i: Fix PM reference leak in deinterlace_start_streaming()
-Date: Thu, 8 Apr 2021 21:36:30 +0800
-Message-ID: <20210408133630.56299-1-lujialin4@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9855670
+	for <linux-sunxi@lists.linux.dev>; Thu,  8 Apr 2021 15:24:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D3C106112F;
+	Thu,  8 Apr 2021 15:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1617895495;
+	bh=TLpwdhb+A3hEkJ3+J4LoBWIjpmirFUNIFnFTPkHmz80=;
+	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ZXbaCPzw9oAOwPa31WJTNbiFqc9g2OHccX5WdEuT808HrTpkph3Ttwqq+pjG+zNcO
+	 NQYtpZpB4TiXPftGRspN8fLWD3EGU1BOsFX9oEttsxb/xKUqVWYzwdAfrEbJWX38ZX
+	 6LW6g9UhaE05qHYdTfDduBMvQngyq+CNocyl3St1BdrfeSHnVBj/rQrbNj5hZcx99Z
+	 vI9BCCYbcM8v8wLaGMBltoGIjMzBzf5vO9bnsoGXGd1xrlsY4JvXTVUQ6UAr6IrPIg
+	 1F14LpqV7toh8TgDCq7g+jJiwuRwIuEJi/t5i1TjvHyKBJG02j1IvjZi+OrgbnJmIv
+	 TZOSPcBqMqIWQ==
+From: Arnd Bergmann <arnd@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org,
+	soc@kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [GIT PULL] Allwinner Device Tree Changes for 5.13
+Date: Thu,  8 Apr 2021 17:24:24 +0200
+Message-Id: <161789462018.1629934.16112481410782715304.b4-ty@arndb.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <8a3e3271-bebe-4d27-a9e7-7b7a6311a38d.lettre@localhost>
+References: <8a3e3271-bebe-4d27-a9e7-7b7a6311a38d.lettre@localhost>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.174.175]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
-pm_runtime_get_sync will increment pm usage counter even it failed.
-Forgetting to putting operation will result in reference leak here.
-Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-counter balanced.
+On Fri, 2 Apr 2021 15:52:36 +0200, Maxime Ripard wrote:
+> Please pull the following changes for the next release.
+> 
+> Thanks!
+> Maxime
+> 
+> The following changes since commit a38fd8748464831584a19438cbb3082b5a2dab15:
+> 
+>   Linux 5.12-rc2 (2021-03-05 17:33:41 -0800)
+> 
+> [...]
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Lu Jialin <lujialin4@huawei.com>
----
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Merged into arm/dt, thanks!
 
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index ed863bf5ea80..671e4a928993 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -589,7 +589,7 @@ static int deinterlace_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	int ret;
- 
- 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
--		ret = pm_runtime_get_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to enable module\n");
- 
+merge commit: 0d310a3791f6823cf5dcfec5666c1b8cfe6b149b
 
+       Arnd
