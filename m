@@ -1,50 +1,101 @@
-Received: from mail.siol.net (mailoutvs12.siol.net [185.57.226.203])
+Received: from mail.siol.net (mailoutvs25.siol.net [185.57.226.216])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7A471
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Apr 2021 21:54:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBAD71;
+	Mon, 12 Apr 2021 21:39:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.siol.net (Zimbra) with ESMTP id 362CC524A80;
-	Sun, 11 Apr 2021 20:16:26 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
+	by mail.siol.net (Postfix) with ESMTP id AAD38523A64;
+	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
 Received: from mail.siol.net ([127.0.0.1])
-	by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id Yh0Hz7uPS1UE; Sun, 11 Apr 2021 20:16:26 +0200 (CEST)
+	by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id IdI5XYwZbO6v; Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
 Received: from mail.siol.net (localhost [127.0.0.1])
-	by mail.siol.net (Zimbra) with ESMTPS id ED9E0524AA4;
-	Sun, 11 Apr 2021 20:16:25 +0200 (CEST)
-Received: from kista.localnet (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
-	(Authenticated sender: jernej.skrabec@siol.net)
-	by mail.siol.net (Zimbra) with ESMTPA id E1BAE524A80;
-	Sun, 11 Apr 2021 20:16:24 +0200 (CEST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To: xiangyang3@huawei.com, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>, Xiang Yang <xiangyang3@huawei.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org, Hulk Robot <hulkci@huawei.com>
-Subject: Re: [PATCH -next] media: sunxi: sun8i-rotate: fix PM reference leak in rotate_start_streaming()
-Date: Sun, 11 Apr 2021 20:16:24 +0200
-Message-ID: <2001311.PWddzm8SjH@kista>
-In-Reply-To: <20210409064658.90493-1-xiangyang3@huawei.com>
-References: <20210409064658.90493-1-xiangyang3@huawei.com>
+	by mail.siol.net (Postfix) with ESMTPS id 3B96E5257CF;
+	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
+Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
+	(Authenticated sender: 031275009)
+	by mail.siol.net (Postfix) with ESMTPSA id A1664523A64;
+	Mon, 12 Apr 2021 17:44:00 +0200 (CEST)
+From: Jernej Skrabec <jernej.skrabec@siol.net>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	jernej.skrabec@siol.net,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: cedrus: Fix H265 status definitions
+Date: Mon, 12 Apr 2021 17:43:49 +0200
+Message-Id: <20210412154349.1989045-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Dne petek, 09. april 2021 ob 08:46:58 CEST je Xiang Yang napisal(a):
-> pm_runtime_get_sync will increment pm usage counter even it failed.
-> Forgetting to putting operation will result in reference leak here.
-> Fix it by replacing it with pm_runtime_resume_and_get to keep usage
-> counter balanced.
-> 
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Xiang Yang <xiangyang3@huawei.com>
+Some of the H265 status flags are wrong. Redefine them to corespond to
+Allwinner CedarC open source userspace library. Only one of these flags
+is actually used and new value also matches value used in libvdpau-sunxi
+library, which is proven to be working.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Note that wrong (old) value in right circumstances (in combination with
+another H265 decoding bug) causes driver lock up. With this fix decoding
+is still broken (green output) but at least driver doesn't lock up.
 
-Best regards,
-Jernej
+Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+---
+This is the sample which locks up driver:
+http://jernej.libreelec.tv/videos/h265/hevc-breakage.mkv
 
+Second bug is actually in HEVC API - dependent slice flag for slice is
+missing. Similar flag in PPS exists, but that only tells if this
+feature is enabled and should not be used for slice.
+
+This will be fixed later.
+
+ .../staging/media/sunxi/cedrus/cedrus_regs.h    | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_regs.h
+index 6cb1c279790f..7ab3a2b0aa10 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+@@ -443,16 +443,17 @@
+ #define VE_DEC_H265_STATUS_STCD_BUSY		BIT(21)
+ #define VE_DEC_H265_STATUS_WB_BUSY		BIT(20)
+ #define VE_DEC_H265_STATUS_BS_DMA_BUSY		BIT(19)
+-#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(18)
++#define VE_DEC_H265_STATUS_IT_BUSY		BIT(18)
+ #define VE_DEC_H265_STATUS_INTER_BUSY		BIT(17)
+ #define VE_DEC_H265_STATUS_MORE_DATA		BIT(16)
+-#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(14)
+-#define VE_DEC_H265_STATUS_DEBLOCKING_BUSY	BIT(13)
+-#define VE_DEC_H265_STATUS_DEBLOCKING_DRAM_BUSY	BIT(12)
+-#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(11)
+-#define VE_DEC_H265_STATUS_SAO_BUSY		BIT(10)
+-#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(9)
+-#define VE_DEC_H265_STATUS_SWDEC_BUSY		BIT(8)
++#define VE_DEC_H265_STATUS_DBLK_BUSY		BIT(15)
++#define VE_DEC_H265_STATUS_IREC_BUSY		BIT(14)
++#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(13)
++#define VE_DEC_H265_STATUS_MCRI_BUSY		BIT(12)
++#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(11)
++#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(10)
++#define VE_DEC_H265_STATUS_IS_BUSY		BIT(9)
++#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(8)
+ #define VE_DEC_H265_STATUS_OVER_TIME		BIT(3)
+ #define VE_DEC_H265_STATUS_VLD_DATA_REQ		BIT(2)
+ #define VE_DEC_H265_STATUS_ERROR		BIT(1)
+--=20
+2.31.1
 
