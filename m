@@ -1,101 +1,93 @@
-Received: from mail.siol.net (mailoutvs25.siol.net [185.57.226.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBAD71;
-	Mon, 12 Apr 2021 21:39:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTP id AAD38523A64;
-	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-	by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id IdI5XYwZbO6v; Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTPS id 3B96E5257CF;
-	Mon, 12 Apr 2021 17:44:01 +0200 (CEST)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
-	(Authenticated sender: 031275009)
-	by mail.siol.net (Postfix) with ESMTPSA id A1664523A64;
-	Mon, 12 Apr 2021 17:44:00 +0200 (CEST)
-From: Jernej Skrabec <jernej.skrabec@siol.net>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	jernej.skrabec@siol.net,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cedrus: Fix H265 status definitions
-Date: Mon, 12 Apr 2021 17:43:49 +0200
-Message-Id: <20210412154349.1989045-1-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.31.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EB086D3D
+	for <linux-sunxi@lists.linux.dev>; Fri, 16 Apr 2021 09:31:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C7BF0106F;
+	Fri, 16 Apr 2021 02:22:24 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0F5513FA35;
+	Fri, 16 Apr 2021 02:22:22 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Arnaud Ferraris <arnaud.ferraris@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] sunxi: First changes for v2021.07 merge window
+Date: Fri, 16 Apr 2021 10:22:00 +0100
+Message-Id: <20210416092200.7752-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 
-Some of the H265 status flags are wrong. Redefine them to corespond to
-Allwinner CedarC open source userspace library. Only one of these flags
-is actually used and new value also matches value used in libvdpau-sunxi
-library, which is proven to be working.
 
-Note that wrong (old) value in right circumstances (in combination with
-another H265 decoding bug) causes driver lock up. With this fix decoding
-is still broken (green output) but at least driver doesn't lock up.
+Hi Tom,
 
-Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
-This is the sample which locks up driver:
-http://jernej.libreelec.tv/videos/h265/hevc-breakage.mkv
+please pull this branch, containing the first part of the 2021.07 changes.
 
-Second bug is actually in HEVC API - dependent slice flag for slice is
-missing. Similar flag in PPS exists, but that only tells if this
-feature is enabled and should not be used for slice.
+This adds support for devices with R40 dual rank DRAM, and asymmetric
+A64 DRAM devices like the Pinephone/3GB.
+Also we enable automatic gzipped kernel support, and allow scripted
+DT overlay support. The rest of the patches are cleanups, but also
+some sunxi-specific preparatory patches for USB3.0 and improved HDMI
+support. The bulk of those changes will go through other trees, though.
 
-This will be fixed later.
+Build-tested for all 156 sunxi boards, and boot tested on a A64, A20, R40,
+H5, H6 and H616 board. USB, SD card, eMMC, HDMI and Ethernet all work
+there (where applicable), with the exception of Ethernet on the H5. Since
+this is already broken in v2021.04, I will send a separate fix.
 
- .../staging/media/sunxi/cedrus/cedrus_regs.h    | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Thanks,
+Andre
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_regs.h
-index 6cb1c279790f..7ab3a2b0aa10 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
-@@ -443,16 +443,17 @@
- #define VE_DEC_H265_STATUS_STCD_BUSY		BIT(21)
- #define VE_DEC_H265_STATUS_WB_BUSY		BIT(20)
- #define VE_DEC_H265_STATUS_BS_DMA_BUSY		BIT(19)
--#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(18)
-+#define VE_DEC_H265_STATUS_IT_BUSY		BIT(18)
- #define VE_DEC_H265_STATUS_INTER_BUSY		BIT(17)
- #define VE_DEC_H265_STATUS_MORE_DATA		BIT(16)
--#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(14)
--#define VE_DEC_H265_STATUS_DEBLOCKING_BUSY	BIT(13)
--#define VE_DEC_H265_STATUS_DEBLOCKING_DRAM_BUSY	BIT(12)
--#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(11)
--#define VE_DEC_H265_STATUS_SAO_BUSY		BIT(10)
--#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(9)
--#define VE_DEC_H265_STATUS_SWDEC_BUSY		BIT(8)
-+#define VE_DEC_H265_STATUS_DBLK_BUSY		BIT(15)
-+#define VE_DEC_H265_STATUS_IREC_BUSY		BIT(14)
-+#define VE_DEC_H265_STATUS_INTRA_BUSY		BIT(13)
-+#define VE_DEC_H265_STATUS_MCRI_BUSY		BIT(12)
-+#define VE_DEC_H265_STATUS_IQIT_BUSY		BIT(11)
-+#define VE_DEC_H265_STATUS_MVP_BUSY		BIT(10)
-+#define VE_DEC_H265_STATUS_IS_BUSY		BIT(9)
-+#define VE_DEC_H265_STATUS_VLD_BUSY		BIT(8)
- #define VE_DEC_H265_STATUS_OVER_TIME		BIT(3)
- #define VE_DEC_H265_STATUS_VLD_DATA_REQ		BIT(2)
- #define VE_DEC_H265_STATUS_ERROR		BIT(1)
---=20
-2.31.1
+==============
 
+The following changes since commit 45b3cf88da24206a6cb847efe837fddc120af3e8:
+
+  Merge https://gitlab.denx.de/u-boot/custodians/u-boot-fsl-qoriq (2021-04-15 13:11:19 -0400)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 599177ed5139dbab112d0c9603e18382d0c642ba:
+
+  sunxi: video: select dw-hdmi in Kconfig, not Makefile (2021-04-16 01:12:59 +0100)
+
+----------------------------------------------------------------
+Arnaud Ferraris (1):
+      sunxi: arm64: Add addresses for compressed kernel load
+
+Icenowy Zheng (2):
+      sunxi: support asymmetric dual rank DRAM on A64/R40
+      sunxi: enable dual rank memory on R40
+
+Jernej Skrabec (2):
+      sunxi: add fdtoverlay_addr_r environment variable
+      sunxi: video: select dw-hdmi in Kconfig, not Makefile
+
+Samuel Holland (4):
+      clk: sunxi: Add a dummy clock driver for the RTC
+      clk: sunxi: h6: Add XHCI clocks
+      sunxi: binman: Respect the default FIT configuration
+      sunxi: binman: Do not hardcode U-Boot load address
+
+ arch/arm/dts/sunxi-u-boot.dtsi                  |   4 +-
+ arch/arm/include/asm/arch-sunxi/dram_sunxi_dw.h |  11 +-
+ arch/arm/mach-sunxi/Kconfig                     |   1 +
+ arch/arm/mach-sunxi/dram_sunxi_dw.c             | 149 +++++++++++++++++++-----
+ drivers/clk/sunxi/Makefile                      |   2 +
+ drivers/clk/sunxi/clk_h6.c                      |   2 +
+ drivers/clk/sunxi/clk_sun6i_rtc.c               |  35 ++++++
+ drivers/video/sunxi/Makefile                    |   2 +-
+ include/configs/sunxi-common.h                  |  64 ++++++----
+ 9 files changed, 215 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/clk/sunxi/clk_sun6i_rtc.c
