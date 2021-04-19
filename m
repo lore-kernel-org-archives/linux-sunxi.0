@@ -1,60 +1,93 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE0271
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 02:16:38 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id r128so26514687lff.4
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 Apr 2021 19:16:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=n61yGtJZyCGljbJcAu8LO/oqfzd6a+DBZ7YJWNVUUPM=;
-        b=gxGmyS/6mUxKL8boe3AW0P8lwp8HwxuiCp9SasMHbvdmD/twmwMvl+R1IUIxYwsMPG
-         fHjkRyeJ1tN0VncjR3HgCDHwwreU/mbqubOGy28A/5X0RMgkBK3VRfsIOw5Uh38J4/FH
-         Z/Eg19J/ZrxQIcCiBeHHPfFhuy9a26B5oR0eeVzTEk4JPPZSci9GjjSPOtKlgZvy6wig
-         NLIPWgMx3T19WbEctQIZ5MtZjwcn9DgeBVCM0Ool5iDSSpRBsKUluAgB+nFQ5j0/L8pL
-         MkSZmsQ9K3tWEPJY0ELrZRXF1yrn9DCRna0nLbCQMM56Bd4eS6enkUgjAlL9KHhtsHCZ
-         xmeA==
-X-Gm-Message-State: AOAM531dD+Sp63eQ/L/QF4B/6gdF1oZuqkQEaUeZqE40OSwDtJwGNsrR
-	lnMx9HFL+y4s/vdUQxuZHOLYfFKIoekXZw==
-X-Google-Smtp-Source: ABdhPJy2L6wYyO78Gq/pYJi5/Qz5oEC3tPFKBjW2XAAp+ciO+LErwLLJLS0cBIh6fDMUXEtyU8ovKg==
-X-Received: by 2002:a05:6512:b0f:: with SMTP id w15mr10786016lfu.333.1618798596326;
-        Sun, 18 Apr 2021 19:16:36 -0700 (PDT)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
-        by smtp.gmail.com with ESMTPSA id w25sm1656660ljo.61.2021.04.18.19.16.35
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
-Received: by mail-lf1-f45.google.com with SMTP id g8so53546258lfv.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
-X-Received: by 2002:a05:6512:487:: with SMTP id v7mr4379009lfq.57.1618798595558;
- Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61462F84
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 02:52:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id DAD8122DC;
+	Sun, 18 Apr 2021 22:52:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sun, 18 Apr 2021 22:52:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=ZSwc/xCZvaeAVu3WuRRMOZasHK
+	iHtAPWRkPgguSoPCk=; b=HgeitUikCRe/M+RZedAxU5CwFWoNBH5yty/6dAVhhg
+	7WdZp/VBgtfMH455GCN8oNget7zvyXD5DYNYs2q1YmroOK1C02QaKXKziKaKgwkk
+	y/o2pVNuK0aUAvWqHFOxkycQDVaWc98VrhdjtCycHke2Y2Qmjh6V/fjZLug40aSF
+	gZcOCHiy4tzBdRhodb8p8fLSRUkG5nFIchslI9xVFr8+W/t6XFr++7QH8q1fdNDJ
+	GKvBgE6WVVaneylx0K/OQLXYEgk2p9djFNFTe58CPLTDtrHbYED5yc4FHdoeGaQx
+	R9aNfrGhFPrDMgHNaAPhRuHy78GnhAwlhD9V+cJT4fTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZSwc/xCZvaeAVu3Wu
+	RRMOZasHKiHtAPWRkPgguSoPCk=; b=iJvpTIkXH7xtoHZpjac3yTq1SMoYVQFKy
+	IUtxwGcWiBf21JqLWgQ7UKvoLlTodLFd6umAazZGAlFlSIISLv54sUpdl0ag+fr5
+	6Di+aXxoXNjNW2W6qI5C1wtvPNBr3BTJOvYj6G9dDVFd4uRfUQguvMMLvJ8R9Ph1
+	SXM6kVqkls0sEVFW0AXHud6FGwOdguDa9b5mQUBuBbVnfNPPDR5FqWwiekUgxZcN
+	094FJFjLe0pODu7MexiRs2vAKNUTFuRVnL30F5cOfuURVgClaiTEqJfM3vebGJ8r
+	kEfuWYZfICz1JfoTRrYNIVhiI/1YedvbeQBay2Z88V+jmHtnkZ1kA==
+X-ME-Sender: <xms:f_B8YP5PlJ02rqXuAA-miTncXWFwbebngWs0yolY6evpzxinyizQ8A>
+    <xme:f_B8YE5fIqJjGIjNl-rCe-COpJtEiKtS_XfIuX7yBGhZsfrjFhEGrMZuPpXhgGgtS
+    u2eCCk5HuLOTKI-Ew>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtvddgleekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:f_B8YGcAi2GQqv2Z4foI4TbxHw-DLFNzJVTaq24jNnPfsCXz5qnQlA>
+    <xmx:f_B8YAIiY2DefeXJBbYoNo_94HIs1VSblYyKz6xo7zg4oRX96CV3rw>
+    <xmx:f_B8YDIL32yBoaNRxnflAgV6F7fYINV9i4XkqnUf8Dutqzi0QJ3vAA>
+    <xmx:gfB8YJiTotjJH5zNmJ91y5nV8S0JAggMzjildfJXyGh8JxM82X1Dyw>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 52770240054;
+	Sun, 18 Apr 2021 22:52:47 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
+Date: Sun, 18 Apr 2021 21:52:44 -0500
+Message-Id: <20210419025246.21722-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.26.3
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210419015815.38910-1-samuel@sholland.org>
-In-Reply-To: <20210419015815.38910-1-samuel@sholland.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 19 Apr 2021 10:16:25 +0800
-X-Gmail-Original-Message-ID: <CAGb2v67cs5nVJihF7+zfPv7f2y+xxDG5ihAJ4pciZ9zm0b5nOw@mail.gmail.com>
-Message-ID: <CAGb2v67cs5nVJihF7+zfPv7f2y+xxDG5ihAJ4pciZ9zm0b5nOw@mail.gmail.com>
-Subject: Re: [PATCH] nvmem: sunxi_sid: Set type to OTP
-To: Samuel Holland <samuel@sholland.org>
-Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Maxime Ripard <mripard@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@siol.net>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 19, 2021 at 9:58 AM Samuel Holland <samuel@sholland.org> wrote:
->
-> This device currently reports an "Unknown" type in sysfs.
-> Since it is an eFuse hardware device, set its type to OTP.
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Dealing with the inconsistent numbering has been a major pain, and
+there is a solution with (as far as I can tell) no tangible downsides.
+So let's use it.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Yes, I know the kernel supports UUIDs for root=. But UUIDs do not help
+when referencing the whole, unpartitioned device, like is needed for
+updating the bootloader and firmware. So for the use case of "write a
+bootloader to the SD card, regardless of where the board is currently
+booted from", I know of two options:
+  - Dig around in sysfs to find the mmc number from the MMIO address,
+    which means I have to know the MMIO addresses for every SoC, or
+  - Apply patches like these.
+
+Samuel Holland (2):
+  ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
+  arm64: dts: allwinner: Enforce consistent MMC numbering
+
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++
+ 3 files changed, 18 insertions(+)
+
+-- 
+2.26.3
+
