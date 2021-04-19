@@ -1,51 +1,52 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61462F84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A795F2F85
 	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 02:52:50 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id DAD8122DC;
+	by mailout.west.internal (Postfix) with ESMTP id A28CF22D9;
 	Sun, 18 Apr 2021 22:52:49 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
   by compute5.internal (MEProxy); Sun, 18 Apr 2021 22:52:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=ZSwc/xCZvaeAVu3WuRRMOZasHK
-	iHtAPWRkPgguSoPCk=; b=HgeitUikCRe/M+RZedAxU5CwFWoNBH5yty/6dAVhhg
-	7WdZp/VBgtfMH455GCN8oNget7zvyXD5DYNYs2q1YmroOK1C02QaKXKziKaKgwkk
-	y/o2pVNuK0aUAvWqHFOxkycQDVaWc98VrhdjtCycHke2Y2Qmjh6V/fjZLug40aSF
-	gZcOCHiy4tzBdRhodb8p8fLSRUkG5nFIchslI9xVFr8+W/t6XFr++7QH8q1fdNDJ
-	GKvBgE6WVVaneylx0K/OQLXYEgk2p9djFNFTe58CPLTDtrHbYED5yc4FHdoeGaQx
-	R9aNfrGhFPrDMgHNaAPhRuHy78GnhAwlhD9V+cJT4fTw==
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=fm2; bh=fknWd3je8bKB9
+	0K09u49b0QN8C2hWKG3Vt+kDBR0zXE=; b=aDdWixQ7+0dBsYBrY1EbUBs1EeDKj
+	kzXKTpy1ES8KlSB5eZWrf2uKe5oPEDDoAM86fTuz7xy+EhqMf4keKNjpsvQyFCFs
+	OGt8Op0ZbDUCJBW7FM/95hPA44g4R22hpTcKi5/+QbltOo+AxvBjS8fLDEY8oJ2/
+	/ie1bbCPz+N6eHpcb0AAlXAHuhhkOHHV6//wxYo2hQxFkYcXgf5tzYerJIGaUxlR
+	29HH9CWLzeHSwwE3kJlEyYINzoizYFOPFU88MSXEgYqnuCZ9TgJZqGY96mArnzW7
+	+HGasOaOS7jqma/lFDelY2F6hfCwPLuwKJMgUGOlcRu1ptO4/ro1B3inA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZSwc/xCZvaeAVu3Wu
-	RRMOZasHKiHtAPWRkPgguSoPCk=; b=iJvpTIkXH7xtoHZpjac3yTq1SMoYVQFKy
-	IUtxwGcWiBf21JqLWgQ7UKvoLlTodLFd6umAazZGAlFlSIISLv54sUpdl0ag+fr5
-	6Di+aXxoXNjNW2W6qI5C1wtvPNBr3BTJOvYj6G9dDVFd4uRfUQguvMMLvJ8R9Ph1
-	SXM6kVqkls0sEVFW0AXHud6FGwOdguDa9b5mQUBuBbVnfNPPDR5FqWwiekUgxZcN
-	094FJFjLe0pODu7MexiRs2vAKNUTFuRVnL30F5cOfuURVgClaiTEqJfM3vebGJ8r
-	kEfuWYZfICz1JfoTRrYNIVhiI/1YedvbeQBay2Z88V+jmHtnkZ1kA==
-X-ME-Sender: <xms:f_B8YP5PlJ02rqXuAA-miTncXWFwbebngWs0yolY6evpzxinyizQ8A>
-    <xme:f_B8YE5fIqJjGIjNl-rCe-COpJtEiKtS_XfIuX7yBGhZsfrjFhEGrMZuPpXhgGgtS
-    u2eCCk5HuLOTKI-Ew>
+	:in-reply-to:message-id:mime-version:references:subject:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; bh=fknWd3je8bKB90K09u49b0QN8C2hWKG3Vt+kDBR0zXE=; b=Uzkm73pX
+	iCSwF8gZJDLUVkZFIbLS7QiSvKF493qM1NBpRIoftIEEGBykeuyuP1oggU05tq2c
+	F2WWXj+GBL3WyG1WdX6imnIYu66vnBXdDfZ9ZqsLmpuKgIjFj/CJtXiJ1YUi2eC9
+	t0b51LHZ0wrrw15Gv3QUvpSFoMtxDIUr6LFB4c37O/tP5RkMt5B98mGdlCEkei0d
+	gOnfS1zOgiAzqFGX4v27S2/sNTqQVVFSStGYlVAQWBPKWvB3k/vnV4PmmpVjn9Vv
+	LxbtDAkHrxj/gyYGlDxHHB/f3envEZM5BpCzPOhlCYMCCELXUt+8Peu3Zr9vU/qv
+	8eCNOk4h/1I8eA==
+X-ME-Sender: <xms:gPB8YAZaGb0xFc_KlLxBs6bbZBvztjAqQy-_FE44uABQplCJvHKPQw>
+    <xme:gPB8YLbUKsQycVJ-Cs9f0VHt6hjw4TluJi-2wF-uibiDSv3QR8IJ8ugMO2jqfJjzU
+    2HLmPYWaajXG2J1vQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtvddgleekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
-    ohhrgh
-X-ME-Proxy: <xmx:f_B8YGcAi2GQqv2Z4foI4TbxHw-DLFNzJVTaq24jNnPfsCXz5qnQlA>
-    <xmx:f_B8YAIiY2DefeXJBbYoNo_94HIs1VSblYyKz6xo7zg4oRX96CV3rw>
-    <xmx:f_B8YDIL32yBoaNRxnflAgV6F7fYINV9i4XkqnUf8Dutqzi0QJ3vAA>
-    <xmx:gfB8YJiTotjJH5zNmJ91y5nV8S0JAggMzjildfJXyGh8JxM82X1Dyw>
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
+    gfejheeuieenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+    ugdrohhrgh
+X-ME-Proxy: <xmx:gPB8YK9tgOScctT5rIFKU8eUdT5IpyU2EDR7tmMzxobP00jCCh_cPQ>
+    <xmx:gPB8YKpZcdHWjv9Qmpw2_XoITJNVvzTyg_GrN_VDMN1MFEhRC3NInQ>
+    <xmx:gPB8YLqtzVTM1b3MVZQsDbvo14c__gZdqWqoGuJ3mxMMS3JWLJ92eQ>
+    <xmx:gfB8YMC6U_baTtVdleFAskL8Ercsi5ULcDzxqjY02EICeHC3M1Szdw>
 Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 52770240054;
-	Sun, 18 Apr 2021 22:52:47 -0400 (EDT)
+	by mail.messagingengine.com (Postfix) with ESMTPA id 17A8824005B;
+	Sun, 18 Apr 2021 22:52:48 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -55,10 +56,12 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
-Date: Sun, 18 Apr 2021 21:52:44 -0500
-Message-Id: <20210419025246.21722-1-samuel@sholland.org>
+Subject: [PATCH 2/2] arm64: dts: allwinner: Enforce consistent MMC numbering
+Date: Sun, 18 Apr 2021 21:52:46 -0500
+Message-Id: <20210419025246.21722-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210419025246.21722-1-samuel@sholland.org>
+References: <20210419025246.21722-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -66,28 +69,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Dealing with the inconsistent numbering has been a major pain, and
-there is a solution with (as far as I can tell) no tangible downsides.
-So let's use it.
+Traditionally, the sunxi-mmc device numbers matched the register address
+order. However, that was broken by asynchronous probe, and now the MMC
+device numbers are not deterministic. Add aliases to keep the device
+numbers consistent between boots. Use the traditional order, since there
+is no need to change it.
 
-Yes, I know the kernel supports UUIDs for root=. But UUIDs do not help
-when referencing the whole, unpartitioned device, like is needed for
-updating the bootloader and firmware. So for the use case of "write a
-bootloader to the SD card, regardless of where the board is currently
-booted from", I know of two options:
-  - Dig around in sysfs to find the mmc number from the MMIO address,
-    which means I have to know the MMIO addresses for every SoC, or
-  - Apply patches like these.
-
-Samuel Holland (2):
-  ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
-  arm64: dts: allwinner: Enforce consistent MMC numbering
-
- arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++
- 3 files changed, 18 insertions(+)
+ 2 files changed, 12 insertions(+)
 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 9b58cfbefa6d..3df70a41b3b9 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -17,6 +17,12 @@ / {
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+ 
++	aliases {
++		mmc0 = &mmc0;
++		mmc1 = &mmc1;
++		mmc2 = &mmc2;
++	};
++
+ 	chosen {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+index d8ebc1a84af9..4bdc48caf68a 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+@@ -16,6 +16,12 @@ / {
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+ 
++	aliases {
++		mmc0 = &mmc0;
++		mmc1 = &mmc1;
++		mmc2 = &mmc2;
++	};
++
+ 	cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
 -- 
 2.26.3
 
