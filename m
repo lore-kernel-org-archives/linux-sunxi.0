@@ -1,91 +1,60 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 893BD71
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 01:58:18 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 842062071;
-	Sun, 18 Apr 2021 21:58:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sun, 18 Apr 2021 21:58:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=phlNdH6L/nbEsbR+68MJn/qwBE
-	EXdmTeMPuDyjBiqu8=; b=n/MLmgQanqv1QIChbd7SxXqvyaHToTdItZv6KzTiWZ
-	tfpwWHeRiA00EJgdr+wlEKLwBDPbBEtlj3Akw/8/SGb6tELr63g5UUVYxv22pMEP
-	9+9dcjNWUoldBauZNzKD78kLvxSlY4VEn5/DugArn4iW4H2qojyKttISZDlRDZLW
-	cRA2YRXqZbstKgc5awM/OpSMRC6Eo2kT+YzvHvTfcaHKSH+vRkIjFBibYggU/5Gu
-	SlaXZi+7gBGZnIHSfrDMIxrxYwuSFL9MLUN8/rk81AfthUxGHz8oeaCxJWqr+aY2
-	fwxTbJhlpuZYxpQbAOfEV2QSEf3jiNtT5nOgM39CF/Lg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=phlNdH6L/nbEsbR+6
-	8MJn/qwBEEXdmTeMPuDyjBiqu8=; b=KH1US8wxMBCILLZ6ty3BaJ2tV/2O9oRsi
-	08QD/dfXXfm3fC/uJd17Pv1GGfVKOXEnhp4AFjgx5Xov2ABnk9jbAXC6kCJh9jwj
-	hrvo5DDyN3LvA7HZnBNu7fSxbiYQ+K08fSzoC6G0uSqctI2aGfeA50taMA8DYoAI
-	6BF8d3W9ZMNsfCaf6WmMzJlFzrLMhckRU93HefIhFcKcayCnDIMJtBoHrATybMNN
-	4I7XvoLe3w+xWnNe/Sug5kajNiQgxQgHFTSTYVjsJDxBPWKUXO9f48Ygk81B33hz
-	8zdISoje0lFK2tgUhXhHxXTOdhmu3e0O2TJWfE6b2PJgBmwETkyGg==
-X-ME-Sender: <xms:uON8YAWgK5i7rQlNEtmio4Lelx8D9w9Wv5yrzX-6YCvppeqGrZSzmA>
-    <xme:uON8YEm86R4wsse4rcVNqiR03KYzWjuJQPQ6PVdxS5_JZ1PrfD2WDzKq8G1GKAkGb
-    yRjACLsgEtrXqY9eg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtvddgkeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
-    ohhrgh
-X-ME-Proxy: <xmx:uON8YEYZWwHiQXYs3D6rKM1eDnh69UhvlozdI_SybkpYss8Nz-wwtQ>
-    <xmx:uON8YPUS6rEaKayToLsV2xKtdUWsj5UmxXVGHaLddBblMbaQSg5wNg>
-    <xmx:uON8YKn00Tnwc7E6OvHALdBPReQe3sChut364cafuQrdL7dstwYG2Q>
-    <xmx:ueN8YBsiZPR6Eqp40vTpp0EidfGjP64XoPkggXEydqy2-_FyyQ5N9g>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C806624005B;
-	Sun, 18 Apr 2021 21:58:15 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH] nvmem: sunxi_sid: Set type to OTP
-Date: Sun, 18 Apr 2021 20:58:15 -0500
-Message-Id: <20210419015815.38910-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.26.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE0271
+	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 02:16:38 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id r128so26514687lff.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 Apr 2021 19:16:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=n61yGtJZyCGljbJcAu8LO/oqfzd6a+DBZ7YJWNVUUPM=;
+        b=gxGmyS/6mUxKL8boe3AW0P8lwp8HwxuiCp9SasMHbvdmD/twmwMvl+R1IUIxYwsMPG
+         fHjkRyeJ1tN0VncjR3HgCDHwwreU/mbqubOGy28A/5X0RMgkBK3VRfsIOw5Uh38J4/FH
+         Z/Eg19J/ZrxQIcCiBeHHPfFhuy9a26B5oR0eeVzTEk4JPPZSci9GjjSPOtKlgZvy6wig
+         NLIPWgMx3T19WbEctQIZ5MtZjwcn9DgeBVCM0Ool5iDSSpRBsKUluAgB+nFQ5j0/L8pL
+         MkSZmsQ9K3tWEPJY0ELrZRXF1yrn9DCRna0nLbCQMM56Bd4eS6enkUgjAlL9KHhtsHCZ
+         xmeA==
+X-Gm-Message-State: AOAM531dD+Sp63eQ/L/QF4B/6gdF1oZuqkQEaUeZqE40OSwDtJwGNsrR
+	lnMx9HFL+y4s/vdUQxuZHOLYfFKIoekXZw==
+X-Google-Smtp-Source: ABdhPJy2L6wYyO78Gq/pYJi5/Qz5oEC3tPFKBjW2XAAp+ciO+LErwLLJLS0cBIh6fDMUXEtyU8ovKg==
+X-Received: by 2002:a05:6512:b0f:: with SMTP id w15mr10786016lfu.333.1618798596326;
+        Sun, 18 Apr 2021 19:16:36 -0700 (PDT)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com. [209.85.167.45])
+        by smtp.gmail.com with ESMTPSA id w25sm1656660ljo.61.2021.04.18.19.16.35
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id g8so53546258lfv.12
+        for <linux-sunxi@lists.linux.dev>; Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
+X-Received: by 2002:a05:6512:487:: with SMTP id v7mr4379009lfq.57.1618798595558;
+ Sun, 18 Apr 2021 19:16:35 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210419015815.38910-1-samuel@sholland.org>
+In-Reply-To: <20210419015815.38910-1-samuel@sholland.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Mon, 19 Apr 2021 10:16:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v67cs5nVJihF7+zfPv7f2y+xxDG5ihAJ4pciZ9zm0b5nOw@mail.gmail.com>
+Message-ID: <CAGb2v67cs5nVJihF7+zfPv7f2y+xxDG5ihAJ4pciZ9zm0b5nOw@mail.gmail.com>
+Subject: Re: [PATCH] nvmem: sunxi_sid: Set type to OTP
+To: Samuel Holland <samuel@sholland.org>
+Cc: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Maxime Ripard <mripard@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@siol.net>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This device currently reports an "Unknown" type in sysfs.
-Since it is an eFuse hardware device, set its type to OTP.
+On Mon, Apr 19, 2021 at 9:58 AM Samuel Holland <samuel@sholland.org> wrote:
+>
+> This device currently reports an "Unknown" type in sysfs.
+> Since it is an eFuse hardware device, set its type to OTP.
+>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- drivers/nvmem/sunxi_sid.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvmem/sunxi_sid.c b/drivers/nvmem/sunxi_sid.c
-index e26ef1bbf198..275b9155e473 100644
---- a/drivers/nvmem/sunxi_sid.c
-+++ b/drivers/nvmem/sunxi_sid.c
-@@ -142,6 +142,7 @@ static int sunxi_sid_probe(struct platform_device *pdev)
- 
- 	nvmem_cfg->dev = dev;
- 	nvmem_cfg->name = "sunxi-sid";
-+	nvmem_cfg->type = NVMEM_TYPE_OTP;
- 	nvmem_cfg->read_only = true;
- 	nvmem_cfg->size = cfg->size;
- 	nvmem_cfg->word_size = 1;
--- 
-2.26.3
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
