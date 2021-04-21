@@ -1,105 +1,83 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AE171
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 09:27:30 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id BFC615C0114;
-	Wed, 21 Apr 2021 05:27:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 21 Apr 2021 05:27:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=9dH6I2lCf6KaG/adJovZAIRRmL2
-	xnY0W1xR7ps1E0Jg=; b=Z9yTpzRefPDTbMCbpvemRI6X9mADIGXhjCEXJNL5PX2
-	KfhNOMe9z+svdtgvKSRv/bOiSh12b1Qi42l4w9feuNoHMAOCS7qAa9BuabhP9MMX
-	V3+4x+ge4M0xzXypNvCB7VIvby3tCZJjgeaHDoLOjkWGR0Ces+Sbi2W+TOfCvI0M
-	Tog505mPq1HN7rYDWhc+RKsrt5PU9cpcw1ooGno8bQsQ5eU3/xI0R1wwXsBSFGG5
-	yPpMqSzGEppNA3m5KE2aUzsq+5Z1LiF6jmfOuIYjEIU8koCfAvnXb2ObsEGWM+eL
-	PQGhEJPCkwGqjQCyjgkN1e0bYUa6lONlRnnyzoVKYjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=9dH6I2
-	lCf6KaG/adJovZAIRRmL2xnY0W1xR7ps1E0Jg=; b=c1tCO1B5qpa+mxSE3EeT5L
-	OjrnDfv6OhArJpEGLe0juS+SCBDM7bo5tIuYy3me1fD+vo1x9SFcoYahCfH58oQJ
-	gDjLwBmwQ80k+d9MQsk2NHa0Rb4U/ZV0O3AtzMwGok1PlNWam275ldO59UmUcR2J
-	/5Bi7qXhzkUC4QDF4KA4Gep89dmbUxidqnoMz8DH8PFM3cJEgpldKeUNktlvxytS
-	zkM62QD6Mscf0Wv1W++SBjQVzCb45W+a+cfCMGHIJl6aM9lMxkS9IXwBZFQY5hrq
-	ShrP2IiSmY/U37pYBBfEoLjQ1hzQzC8SIzEQ5w5ikCOE+VJ20GpQbaSS0lXPHWZw
-	==
-X-ME-Sender: <xms:APB_YLmVQub7r2Ise749WjUjfm0ahIuMRoWRwXSV-CQqBDH-1MhuMA>
-    <xme:APB_YO0RYJmtauWGYInNMyByIbCsy63OmJcS_BNivgKE8y4mlON6VjPClX709SI-j
-    4cS-50iUh436NyqwLg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtkedgudeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:APB_YBro3qGu7WtCcUWnDa-eSOBXPCMRjv-YCP9y-9TWEOaO3R_-oQ>
-    <xmx:APB_YDmbS_l_OUjd7EfWcJNWVAXX0gSh0N3t4ycuwxBxJ609mQ8FKw>
-    <xmx:APB_YJ0RdtXWc5IfzT3kyQH3B5kY6pa7KfA7nEWweNVv9WBKW41Vag>
-    <xmx:AfB_YGnxVaOse70VGiKkULfZf0E_F7Z5MiONHWQv4p89GrzNyaxN6Q>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C855C24005B;
-	Wed, 21 Apr 2021 05:27:27 -0400 (EDT)
-Date: Wed, 21 Apr 2021 11:27:25 +0200
-From: Maxime Ripard <maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7753B2F81
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 12:51:54 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id r186so14495161oif.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 05:51:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=VQLhFO5JI2Nq15ywY7H92sO8oP4b0Dz1pppaueHAcNU=;
+        b=kVKDZtPhD1F57LeatDRvnZVH1KMZhvdFSgxAfQHRJxIccCqQY6ttrEEi83M4erjqfa
+         TKbnFtyJb0sbTXsp27m1wcmFjsY5nLYGNR2G0F3h6fJ/DSXIEvmFdmDyybpiw6VtzxWn
+         8i06tsjtXw4qmmpz3OixPkPFqgM1H+6XFtEccU2Mu46cH1NFhbzb7EHdqct8KUjlMPkT
+         6ZytczCsAVdbH8F8cLRafqQZGJzSYzjdPZUI0/UUIaQyxcbeLO7HEcJLw4e2MPUc3QLr
+         LU/9wvTn6j2yO02hGaZf0HUd6vb6n2wW6mBpmxpDylhcrJJdYciIK0/w/kYcqLwbZ/Na
+         +9QA==
+X-Gm-Message-State: AOAM530v7bO0WRxLoevKcqK5JBrhUrs/a9HTJtT+Ynl+SdTF/hmdvpDo
+	mMpLGY9GYeFKAOPZRjzLEw==
+X-Google-Smtp-Source: ABdhPJxG41MeL3PxhD71HzvRtfENDs4R5CQOxLlgb/LRxz2WM4nMPgFKXQYTsviQQ3g8PDxRCJXIvw==
+X-Received: by 2002:aca:cf8a:: with SMTP id f132mr350321oig.178.1619009513762;
+        Wed, 21 Apr 2021 05:51:53 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l1sm436992oot.40.2021.04.21.05.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Apr 2021 05:51:51 -0700 (PDT)
+Received: (nullmailer pid 967210 invoked by uid 1000);
+	Wed, 21 Apr 2021 12:51:48 -0000
+From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/2] Allwinner H6 USB3 device tree updates
-Message-ID: <20210421092725.qacp3446hiyf73ov@gilmour>
-References: <20210421042834.27309-1-samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@siol.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <20210421042834.27309-2-samuel@sholland.org>
+References: <20210421042834.27309-1-samuel@sholland.org> <20210421042834.27309-2-samuel@sholland.org>
+Subject: Re: [PATCH 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3 glue
+Date: Wed, 21 Apr 2021 07:51:48 -0500
+Message-Id: <1619009508.513542.967209.nullmailer@robh.at.kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jf4xm3l2oukir3xt"
-Content-Disposition: inline
-In-Reply-To: <20210421042834.27309-1-samuel@sholland.org>
 
+On Tue, 20 Apr 2021 23:28:33 -0500, Samuel Holland wrote:
+> The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
+> USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
+> Represent this by attaching the reset line to a glue layer device.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+> 
 
---jf4xm3l2oukir3xt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Hi,
+yamllint warnings/errors:
 
-On Tue, Apr 20, 2021 at 11:28:32PM -0500, Samuel Holland wrote:
-> While implementing support for this USB controller in U-Boot, I noticed
-> that the reset line alsp affects they PHY. It looks like most platforms
-> use a separate glue node to represent this, and in fact there is already
-> a compatible for the H6 listed in drivers/usb/dwc3/dwc3-of-simple.c.
->=20
-> Since this layout matches the usual way of modeling this hardware, it
-> allows using the existing drivers without adding platform-specific code.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml: $id: 'http://devicetree.org/schemas/usb/allwinner,sun50i-h6-dwc3#' does not match 'http://devicetree.org/schemas/.*\\.yaml#'
+Unknown file referenced: [Errno 2] No such file or directory: '/usr/local/lib/python3.8/dist-packages/dtschema/schemas/usb/allwinner,sun50i-h6-usb3-phy.yaml'
+xargs: dt-doc-validate: exited with status 255; aborting
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml: ignoring, error in schema: $id
+warning: no schema found in file: ./Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dts:23.27-50.11: Warning (unit_address_vs_reg): /example-0/usb@5200000: node has a unit name, but no reg or ranges property
+Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml:0:0: /example-0/usb@5200000: failed to match any schema with compatible: ['allwinner,sun50i-h6-dwc3']
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml: usb@5200000: phy-names:0: 'usb2-phy' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
 
-I'm not sure which branch you based this on, but the Pine H64 seems to
-be missing the USB3 support in the first place. I've applied the rest of
-the changes though, thanks!
+See https://patchwork.ozlabs.org/patch/1468558
 
-Maxime
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
---jf4xm3l2oukir3xt
-Content-Type: application/pgp-signature; name="signature.asc"
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
------BEGIN PGP SIGNATURE-----
+pip3 install dtschema --upgrade
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYH/v/QAKCRDj7w1vZxhR
-xTUmAP4qrMOtgHXTjgmjwRw2xJfTRkCrMp+xzzfSSSrM/DANwAEA6RyQ7yp3cV66
-SblHZBPC6Yj8DUMVRy+KT0nJelfcvQ8=
-=Gcf+
------END PGP SIGNATURE-----
+Please check and re-submit.
 
---jf4xm3l2oukir3xt--
