@@ -1,94 +1,168 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC88671
-	for <linux-sunxi@lists.linux.dev>; Mon, 19 Apr 2021 08:55:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2BDA51FB;
-	Mon, 19 Apr 2021 01:55:07 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0C81B3F85F;
-	Mon, 19 Apr 2021 01:55:05 -0700 (PDT)
-Date: Mon, 19 Apr 2021 09:54:43 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Samuel Holland <samuel@sholland.org>, Maxime Ripard
- <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>, devicetree
- <devicetree@vger.kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
-Message-ID: <20210419095443.1548432e@slackpad.fritz.box>
-In-Reply-To: <CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
-References: <20210419025246.21722-1-samuel@sholland.org>
-	<CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1832F9B
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 04:28:38 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 18C0B580E2F;
+	Wed, 21 Apr 2021 00:28:38 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 21 Apr 2021 00:28:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=fm2; bh=7ftHhxVB5eXEL
+	G1y8+aU0dRkGQEOD2zNCoIhNhEyKAw=; b=QWwdL+2L5oBlgMrit6PZ9xAdPLH+K
+	jMt/UcIRg77wRDPDvyiB5MkV4B9o4CV/Wux4jks2GUbrQKx4HxcDFgK4kDw/pZTf
+	XP9lxzECFOve6GRnMDNEuOFSJwRp4INtexB6j72B/c2bVLp7sh/35/wRzTSwJiuV
+	ivh2DV9npRPD/H1azYj/cDSsNRkchPQwuMTNLF3fl6NaBk6Q8DJPHDvVSeWQWn4i
+	rA4NHuWQ8ln0nK7VNGD/ZzfZ1zn46AeumnuqKAKmV+HgXRAx+1EAJZc0RRvetlgZ
+	nR/9qtZhWwu+E5iwhKVk+f2AQ5P+8YVgMKxlyitYAl0EzMmdnm6RWfwjw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; bh=7ftHhxVB5eXELG1y8+aU0dRkGQEOD2zNCoIhNhEyKAw=; b=W6J1FID5
+	d9IiiDxATMQY1qGxuDlSmfTtPe6r7g2KZukdJZ0A/KWWE9sajIfC6vgiA8o2soRN
+	QYWAy7O9y/8K8t4QDEro7VESCDWI3eMxDc9rTTHRlqh8owScdrfeXDEAle67tO8e
+	8fnxML2qQV1Clu3qS7t1p128TUTdZL1UmT3u7lsTrkkqdz7cJGK+gfmhjlKSN6ry
+	psDPqJFesUyHD5XWmQ2Ata83+W0ZMA+0IhyS38ITrI57YHlwY9L5pcz8y4yFLeJV
+	sU+1E5C+fRJoalE8SRUPuQPItcF0xmd7tYDMZ1hdlDmAmOmcLhIyJ1tPR3Qfagj+
+	05HTQTt7T7HnpQ==
+X-ME-Sender: <xms:9Kl_YJdC8lu6HqLVVSVbu69KT78FcVwVechSxmHfFxpGZJ2uK8f4Gw>
+    <xme:9Kl_YHMgJGuFs4NQ7zvaGuOkMsAoW6l_zHo-ZmCz38aRZ-kIPNglrmf4IEKeDbUf6
+    5rt9y_6hetUGtfATw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtjedgkedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeelueelgeettdfggfeuffevkefhuddtteeigfevhfdtffdtjefgteeg
+    leeggedvudenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecukfhppeejtd
+    drudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhep
+    mhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:9Kl_YCh77a4gz06h_-tBhYXJJC0y1XsFSnRLjtnNsObsoZbLcSIwvA>
+    <xmx:9Kl_YC_MhlUQ2l9a5K8bHxsfYUySRuTvx560uvge-uDNHDEkkNvSIw>
+    <xmx:9Kl_YFvubr_gwIbWLRBgW0dAdE-lojGFLasxMnQsKOwtVypQl-R9jQ>
+    <xmx:9ql_YLB9EUu-3PnLdvzc0z95FlKuOOcU7KHf1eDlgfQHc2g1d9j_Mg>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 1A6AD240066;
+	Wed, 21 Apr 2021 00:28:36 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3 glue
+Date: Tue, 20 Apr 2021 23:28:33 -0500
+Message-Id: <20210421042834.27309-2-samuel@sholland.org>
+X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210421042834.27309-1-samuel@sholland.org>
+References: <20210421042834.27309-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 19 Apr 2021 11:17:19 +0800
-Chen-Yu Tsai <wens@csie.org> wrote:
+The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
+USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
+Represent this by attaching the reset line to a glue layer device.
 
-Hi,
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+ 1 file changed, 75 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
 
-> On Mon, Apr 19, 2021 at 10:52 AM Samuel Holland <samuel@sholland.org> wrote:
-> >
-> > Dealing with the inconsistent numbering has been a major pain, and
-> > there is a solution with (as far as I can tell) no tangible downsides.
-> > So let's use it.
+diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+new file mode 100644
+index 000000000000..86efd6d21ab4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+@@ -0,0 +1,75 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/allwinner,sun50i-h6-dwc3#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner H6 DWC3 USB controller
++
++maintainers:
++  - Chen-Yu Tsai <wens@csie.org>
++  - Maxime Ripard <mripard@kernel.org>
++
++properties:
++  compatible:
++    const: allwinner,sun50i-h6-dwc3
++
++  "#address-cells": true
++
++  "#size-cells": true
++
++  ranges: true
++
++  resets:
++    maxItems: 1
++
++# Required child node:
++
++patternProperties:
++  "^phy@[0-9a-f]+$":
++    $ref: allwinner,sun50i-h6-usb3-phy.yaml#
++
++  "^usb@[0-9a-f]+$":
++    $ref: snps,dwc3.yaml#
++
++required:
++  - compatible
++  - ranges
++  - resets
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun50i-h6-ccu.h>
++    #include <dt-bindings/reset/sun50i-h6-ccu.h>
++
++    usb3: usb@5200000 {
++        compatible = "allwinner,sun50i-h6-dwc3";
++        #address-cells = <1>;
++        #size-cells = <1>;
++        ranges;
++        resets = <&ccu RST_BUS_XHCI>;
++
++        dwc3: usb@5200000 {
++            compatible = "snps,dwc3";
++            reg = <0x05200000 0x10000>;
++            interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
++            clocks = <&ccu CLK_BUS_XHCI>,
++                     <&ccu CLK_BUS_XHCI>,
++                     <&rtc 0>;
++            clock-names = "ref", "bus_early", "suspend";
++            dr_mode = "host";
++            phys = <&usb3phy>;
++            phy-names = "usb3-phy";
++        };
++
++        usb3phy: phy@5210000 {
++            compatible = "allwinner,sun50i-h6-usb3-phy";
++            reg = <0x5210000 0x10000>;
++            clocks = <&ccu CLK_USB_PHY1>;
++            resets = <&ccu RST_USB_PHY1>;
++            #phy-cells = <0>;
++        };
++    };
+-- 
+2.26.3
 
-Thanks Samuel for sending this!
-
-> > Yes, I know the kernel supports UUIDs for root=. But UUIDs do not help
-> > when referencing the whole, unpartitioned device, like is needed for
-> > updating the bootloader and firmware. So for the use case of "write a
-> > bootloader to the SD card, regardless of where the board is currently
-> > booted from", I know of two options:
-> >   - Dig around in sysfs to find the mmc number from the MMIO address,
-> >     which means I have to know the MMIO addresses for every SoC, or
-> >   - Apply patches like these.
-> >
-> > Samuel Holland (2):
-> >   ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
-> >   arm64: dts: allwinner: Enforce consistent MMC numbering
-> >
-> >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
-> >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++  
-> 
-> At least with Rockchip this is now done at the board level. IIRC it was
-> a request from other people to not do it at the SoC level. I don't recall
-> exactly who though.
-
-FWIW, I am very much in favour of these patches, at a SoC level:
-The *SoC* BootROM imposes an order, by probing the first (by MMIO
-address order) MMC controller first for boot devices. IIRC that's a
-different story for Rockchip?
-And if people really don't care about the order, then having a certain
-order doesn't hurt, so we could as well use the "natural" order, as it
-was before.
-
-Also UUIDs only help if you boot with an initramfs to resolve them,
-which proves to be extra pain if you don't compile kernels on the
-device, or not inside a distribution environment.
-
-
-One thing I was wondering about though is that U-Boot currently defines
-"mmc1 = &mmc2;", so that the eMMC is always MMC device 1. This is also
-the BootROM probe order (MMC1 is never touched). I wonder if we should
-mimic this here, since MMC2 is clearly the device for eMMC (due to
-8-bit bus width support)? So from a block device perspective we would
-have always have mmcblk0 and mmcblk1.
-Otherwise it would conflict with U-Boot's current fixup[1], so
-U-Boot's DT would either need to deviate or create boot script breakages
-there.
-
-Cheers,
-Andre
-
-[1]
-https://source.denx.de/u-boot/u-boot/-/blob/master/arch/arm/dts/sunxi-u-boot.dtsi#L14-16
