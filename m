@@ -1,95 +1,105 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DE22F9C
-	for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 04:28:38 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 208A9580E36;
-	Wed, 21 Apr 2021 00:28:38 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01AE171
+	for <linux-sunxi@lists.linux.dev>; Wed, 21 Apr 2021 09:27:30 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id BFC615C0114;
+	Wed, 21 Apr 2021 05:27:29 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 21 Apr 2021 00:28:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=YXnwjaQf4TTDuRmPezz8p5W4Jg
-	qo7LkSPHQCWgY88+M=; b=YLEYDOnSCY6uJsLXSQ1JmuVG3Rzr6SOCgxRZkoWcjZ
-	eKEbd0oUunvLRN3plY3ecTweyhZIjOVKXDoXvasqSMM+mKMZcxf78gcXBIRFUWbH
-	aj1Rv/nWsFhF/Pqu0ViG8Yg9L3VikT9o5pJ7b7qIxxSojIx4gOQmffuqYn1I31mS
-	jpC7946qWIdiwcSgSB8XSBEdxLVBG+6MmVNbXgrn+0VI9c6efMg7XQHUfp/DU3J3
-	0d+7GrQnt+lZptomaQ32Dcg4e1JUutxUpNjcKCB6bAXE1rQ6g2tSYik0DJiDak5k
-	n90tdtf5Tg5BRGQp7Y4cHGwkfGsb6egSx39bV3epCu7w==
+  by compute6.internal (MEProxy); Wed, 21 Apr 2021 05:27:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=9dH6I2lCf6KaG/adJovZAIRRmL2
+	xnY0W1xR7ps1E0Jg=; b=Z9yTpzRefPDTbMCbpvemRI6X9mADIGXhjCEXJNL5PX2
+	KfhNOMe9z+svdtgvKSRv/bOiSh12b1Qi42l4w9feuNoHMAOCS7qAa9BuabhP9MMX
+	V3+4x+ge4M0xzXypNvCB7VIvby3tCZJjgeaHDoLOjkWGR0Ces+Sbi2W+TOfCvI0M
+	Tog505mPq1HN7rYDWhc+RKsrt5PU9cpcw1ooGno8bQsQ5eU3/xI0R1wwXsBSFGG5
+	yPpMqSzGEppNA3m5KE2aUzsq+5Z1LiF6jmfOuIYjEIU8koCfAvnXb2ObsEGWM+eL
+	PQGhEJPCkwGqjQCyjgkN1e0bYUa6lONlRnnyzoVKYjA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=YXnwjaQf4TTDuRmPe
-	zz8p5W4Jgqo7LkSPHQCWgY88+M=; b=IQQMKATz/C5peZqJUjIwgisq89Je0gnVq
-	MB8u3OKT0EePtYp+RDv6vpHXwSU5O+KoKolpLs9OhSizsUEOdx2YVklXSQpTgeQ5
-	tm6Ewq0K+QJn3SxJKzryMZ4qjWq6KROi/pDOO1sYgNeng/xs8IYlBnjFNQrkBiEX
-	YPxPMuJF7xzOYN4pTIIdemFviBKYrAzh6o9uzQzVzRMEEfdFovp5EKQ9rySys+ZH
-	5mLbDu5hk7pZyTupbQTv2nvzu8DLhcqRbAAIY36lpg7gfRJ2G/sdSvXYl8lfSzOq
-	ZpAUmfz5HLVIBHVOwr1cuBICOnK0s3ezy1L017gLRrS+Z4nu43TpQ==
-X-ME-Sender: <xms:9Kl_YFzUQHsh5scW-mQlJawaUUTbLMlZMus9uUPm0odRRAl1mk1cKg>
-    <xme:9Kl_YFQvK46b8vZNqkZwBx0WoESPk0cgc4Xy384q6ALzscks2PblDKBcNxO7q36hU
-    CEbaW3zBPHoEa4RNg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtjedgkedvucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=9dH6I2
+	lCf6KaG/adJovZAIRRmL2xnY0W1xR7ps1E0Jg=; b=c1tCO1B5qpa+mxSE3EeT5L
+	OjrnDfv6OhArJpEGLe0juS+SCBDM7bo5tIuYy3me1fD+vo1x9SFcoYahCfH58oQJ
+	gDjLwBmwQ80k+d9MQsk2NHa0Rb4U/ZV0O3AtzMwGok1PlNWam275ldO59UmUcR2J
+	/5Bi7qXhzkUC4QDF4KA4Gep89dmbUxidqnoMz8DH8PFM3cJEgpldKeUNktlvxytS
+	zkM62QD6Mscf0Wv1W++SBjQVzCb45W+a+cfCMGHIJl6aM9lMxkS9IXwBZFQY5hrq
+	ShrP2IiSmY/U37pYBBfEoLjQ1hzQzC8SIzEQ5w5ikCOE+VJ20GpQbaSS0lXPHWZw
+	==
+X-ME-Sender: <xms:APB_YLmVQub7r2Ise749WjUjfm0ahIuMRoWRwXSV-CQqBDH-1MhuMA>
+    <xme:APB_YO0RYJmtauWGYInNMyByIbCsy63OmJcS_BNivgKE8y4mlON6VjPClX709SI-j
+    4cS-50iUh436NyqwLg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddtkedgudeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
-    ohhrgh
-X-ME-Proxy: <xmx:9Kl_YPX2uMXYxfVK98bPgeI4FXSptLgYEyAcjTlJbjChFLV6Lj4BIA>
-    <xmx:9Kl_YHiwYMLnzNxBBceFQLHD7LSa7yQdo50DspMsNlga4NJokfL05A>
-    <xmx:9Kl_YHC3mpw6mhXHOfBKMCPvKeD0EHMowrlWNJzRoxnueAc5X7hqQQ>
-    <xmx:9ql_YL2Gl6Q91ZHp5rMkpvJSkTMQOMIBz5yYvJJAm3ptI1___MA_TQ>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 9AB9D24005A;
-	Wed, 21 Apr 2021 00:28:35 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:APB_YBro3qGu7WtCcUWnDa-eSOBXPCMRjv-YCP9y-9TWEOaO3R_-oQ>
+    <xmx:APB_YDmbS_l_OUjd7EfWcJNWVAXX0gSh0N3t4ycuwxBxJ609mQ8FKw>
+    <xmx:APB_YJ0RdtXWc5IfzT3kyQH3B5kY6pa7KfA7nEWweNVv9WBKW41Vag>
+    <xmx:AfB_YGnxVaOse70VGiKkULfZf0E_F7Z5MiONHWQv4p89GrzNyaxN6Q>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+	by mail.messagingengine.com (Postfix) with ESMTPA id C855C24005B;
+	Wed, 21 Apr 2021 05:27:27 -0400 (EDT)
+Date: Wed, 21 Apr 2021 11:27:25 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
 	Andre Przywara <andre.przywara@arm.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 0/2] Allwinner H6 USB3 device tree updates
-Date: Tue, 20 Apr 2021 23:28:32 -0500
-Message-Id: <20210421042834.27309-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.26.3
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/2] Allwinner H6 USB3 device tree updates
+Message-ID: <20210421092725.qacp3446hiyf73ov@gilmour>
+References: <20210421042834.27309-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jf4xm3l2oukir3xt"
+Content-Disposition: inline
+In-Reply-To: <20210421042834.27309-1-samuel@sholland.org>
 
-While implementing support for this USB controller in U-Boot, I noticed
-that the reset line alsp affects they PHY. It looks like most platforms
-use a separate glue node to represent this, and in fact there is already
-a compatible for the H6 listed in drivers/usb/dwc3/dwc3-of-simple.c.
 
-Since this layout matches the usual way of modeling this hardware, it
-allows using the existing drivers without adding platform-specific code.
+--jf4xm3l2oukir3xt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Samuel Holland (2):
-  dt-bindings: usb: Document the Allwinner H6 DWC3 glue
-  arm64: dts: allwinner: h6: Wrap DWC3 and PHY in glue layer
+Hi,
 
- .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
- .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  6 +-
- .../dts/allwinner/sun50i-h6-orangepi-3.dts    |  6 +-
- .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  9 +--
- .../dts/allwinner/sun50i-h6-tanix-tx6.dts     |  6 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 60 ++++++++-------
- 6 files changed, 115 insertions(+), 47 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+On Tue, Apr 20, 2021 at 11:28:32PM -0500, Samuel Holland wrote:
+> While implementing support for this USB controller in U-Boot, I noticed
+> that the reset line alsp affects they PHY. It looks like most platforms
+> use a separate glue node to represent this, and in fact there is already
+> a compatible for the H6 listed in drivers/usb/dwc3/dwc3-of-simple.c.
+>=20
+> Since this layout matches the usual way of modeling this hardware, it
+> allows using the existing drivers without adding platform-specific code.
 
--- 
-2.26.3
+I'm not sure which branch you based this on, but the Pine H64 seems to
+be missing the USB3 support in the first place. I've applied the rest of
+the changes though, thanks!
 
+Maxime
+
+--jf4xm3l2oukir3xt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYH/v/QAKCRDj7w1vZxhR
+xTUmAP4qrMOtgHXTjgmjwRw2xJfTRkCrMp+xzzfSSSrM/DANwAEA6RyQ7yp3cV66
+SblHZBPC6Yj8DUMVRy+KT0nJelfcvQ8=
+=Gcf+
+-----END PGP SIGNATURE-----
+
+--jf4xm3l2oukir3xt--
