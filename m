@@ -1,126 +1,78 @@
-Received: from mail.siol.net (mailoutvs33.siol.net [185.57.226.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEC02F80;
-	Tue, 27 Apr 2021 07:16:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTP id C89C9522CEF;
-	Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-	by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id CxEoLfVWkIxP; Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-	by mail.siol.net (Postfix) with ESMTPS id 43406524694;
-	Tue, 27 Apr 2021 09:16:01 +0200 (CEST)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net [86.58.17.133])
-	(Authenticated sender: 031275009)
-	by mail.siol.net (Postfix) with ESMTPSA id 45BCD522CEF;
-	Tue, 27 Apr 2021 09:16:00 +0200 (CEST)
-From: Jernej Skrabec <jernej.skrabec@siol.net>
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl
-Cc: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	ezequiel@collabora.com,
-	benjamin.gaignard@collabora.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] media: hevc: Fix dependent slice segment flags
-Date: Tue, 27 Apr 2021 09:15:54 +0200
-Message-Id: <20210427071554.2222625-1-jernej.skrabec@siol.net>
-X-Mailer: git-send-email 2.31.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ECAC2F80
+	for <linux-sunxi@lists.linux.dev>; Tue, 27 Apr 2021 08:11:08 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3209531B;
+	Tue, 27 Apr 2021 01:11:08 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B44493F694;
+	Tue, 27 Apr 2021 01:11:06 -0700 (PDT)
+Date: Tue, 27 Apr 2021 09:10:32 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Marek Vasut <marex@denx.de>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Samuel Holland
+ <samuel@sholland.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ u-boot@lists.denx.de, linux-sunxi@googlegroups.com,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] usb: musb-new: Extend Allwinner quirk to newer SoCs
+Message-ID: <20210427091032.045d079d@slackpad.fritz.box>
+In-Reply-To: <fece3df8-b2d5-ab42-13b6-94d4f04bfc4a@denx.de>
+References: <20210427000323.18285-1-andre.przywara@arm.com>
+	<fece3df8-b2d5-ab42-13b6-94d4f04bfc4a@denx.de>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dependent slice segment flag for PPS control is misnamed. It should have
-"enabled" at the end. It only tells if this flag is present in slice
-header or not and not the actual value.
+On Tue, 27 Apr 2021 02:37:20 +0200
+Marek Vasut <marex@denx.de> wrote:
 
-Fix this by renaming the PPS flag and introduce another flag for slice
-control which tells actual value.
+Hi,
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
----
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
- drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
- include/media/hevc-ctrls.h                                | 3 ++-
- 3 files changed, 8 insertions(+), 4 deletions(-)
+> On 4/27/21 2:03 AM, Andre Przywara wrote:
+> > As the comment in musb_regs.h describes, Allwinner saves the
+> > MUSB_CONFIGDATA register, which always return 0 on those SoCs.
+> > 
+> > This is also true for the H6 and H616, so extend the quirk to those
+> > controllers as well.
+> > 
+> > This fixes USB peripheral mode on H6 and H616 boards.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >   drivers/usb/musb-new/musb_regs.h | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/usb/musb-new/musb_regs.h b/drivers/usb/musb-new/musb_regs.h
+> > index c4d7203b851..bee1b715a95 100644
+> > --- a/drivers/usb/musb-new/musb_regs.h
+> > +++ b/drivers/usb/musb-new/musb_regs.h
+> > @@ -432,7 +432,8 @@ static inline u8 musb_read_ulpi_buscontrol(void __iomem *mbase)
+> >   static inline u8 musb_read_configdata(void __iomem *mbase)
+> >   {
+> >   #if defined CONFIG_MACH_SUN8I_A33 || defined CONFIG_MACH_SUN8I_A83T || \
+> > -		defined CONFIG_MACH_SUNXI_H3_H5 || defined CONFIG_MACH_SUN50I
+> > +	defined CONFIG_MACH_SUNXI_H3_H5 || defined CONFIG_MACH_SUN50I || \
+> > +	defined CONFIG_SUN50I_GEN_H6  
+> 
+> Isn't there some better solution then ever-growing list of macros to 
+> check, like e.g. a single CONFIG_MACH_SUNXI ?
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 7b90cb939e9d..5ed343ddd1ea 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -3059,7 +3059,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     :stub-columns: 0
-     :widths:       1 1 2
-=20
--    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
-+    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
-       - 0x00000001
-       -
-     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
-@@ -3274,6 +3274,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-     * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_EN=
-ABLED``
-       - 0x00000100
-       -
-+    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
-+      - 0x00000200
-+      -
-=20
- .. raw:: latex
-=20
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-index 397a4ba5df4c..6821e3d05d34 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -479,8 +479,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				slice_params->flags);
-=20
- 	reg |=3D VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDEN=
-T_SLICE_SEGMENT,
--				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
--				pps->flags);
-+				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
-+				slice_params->flags);
-=20
- 	/* FIXME: For multi-slice support. */
- 	reg |=3D VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PI=
-C;
-diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-index b713eeed1915..dc964ff7cd29 100644
---- a/include/media/hevc-ctrls.h
-+++ b/include/media/hevc-ctrls.h
-@@ -83,7 +83,7 @@ struct v4l2_ctrl_hevc_sps {
- 	__u64	flags;
- };
-=20
--#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
-+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
- #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
- #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
- #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
-@@ -166,6 +166,7 @@ struct v4l2_hevc_pred_weight_table {
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1U=
-LL << 7)
- #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENAB=
-LED (1ULL << 8)
-+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
-=20
- struct v4l2_ctrl_hevc_slice_params {
- 	__u32	bit_size;
---=20
-2.31.1
+I was wondering the same, but I think this does not apply to the older
+SoCs (we use ARCH_SUNXI in the two functions above and below, so I
+guess the differentiation here is deliberate). I will test this later.
 
+So we could probably use the quirk also for the older, working(?) SoCs,
+but I am not sure we should do that. CONFIG_SUN50I_GEN_H6 is already a
+symbol covering multiple SoCs, so ideally we won't need to add many
+more.
+I can have a look if we have other checks like that in the code, then
+maybe define a collective symbol for newer SoCs?
+
+Cheers,
+Andre
