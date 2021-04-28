@@ -1,78 +1,84 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091082F82
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 05:59:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E6EB5613FB;
-	Wed, 28 Apr 2021 05:59:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1619589573;
-	bh=PzXRzqyaN0AHEgEDWQ7ORDtLyuOZqfpRHAtszxM+aMo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=15ttKwTuuNivW2WUxOzPsphx0FRf9V1T8rt8jHcNnVVId6Lvj5uNEq3xV/c5gCrt8
-	 kUKvwWswbZa1rZYStYXr3DoADlotDZXvS1mi3zdsqzkseIBK48Yce+nLvCDqZtFmnq
-	 u1wakr7dYWCrxLNgwu1w0kUdlF1b42NPjmrWwnYo=
-Date: Wed, 28 Apr 2021 07:59:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Timo Sigurdsson <public_timo.s@silentcreek.de>
-Cc: axboe@kernel.dk, mripard@kernel.org, wens@csie.org,
-	jernej.skrabec@siol.net, linux-ide@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2588E2F80
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 06:31:43 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lbdSR-0002qp-S0; Wed, 28 Apr 2021 08:13:59 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lbdSP-0003Xz-78; Wed, 28 Apr 2021 08:13:57 +0200
+Date: Wed, 28 Apr 2021 08:13:57 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Roman Beranek <roman.beranek@prusa3d.cz>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, oliver@schinagl.nl,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] ata: ahci_sunxi: Disable DIPM
-Message-ID: <YIj5wKTdOVWLdD2d@kroah.com>
-References: <20210427230537.21423-1-public_timo.s@silentcreek.de>
+	linux-sunxi@googlegroups.com,
+	Roman Beranek <roman.beranek@prusa3d.com>
+Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
+Message-ID: <20210428061357.725m72aikc52n4gg@pengutronix.de>
+References: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jcd6h5dtj45zoqrf"
 Content-Disposition: inline
-In-Reply-To: <20210427230537.21423-1-public_timo.s@silentcreek.de>
+In-Reply-To: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Wed, Apr 28, 2021 at 01:05:37AM +0200, Timo Sigurdsson wrote:
-> DIPM is unsupported or broken on sunxi. Trying to enable the power
-> management policy med_power_with_dipm on an Allwinner A20 SoC based board
-> leads to immediate I/O errors and the attached SATA disk disappears from
-> the /dev filesystem. A reset (power cycle) is required to make the SATA
-> controller or disk work again. The A10 and A20 SoC data sheets and manuals
-> don't mention DIPM at all [1], so it's fair to assume that it's simply not
-> supported. But even if it were, it should be considered broken and best be
-> disabled in the ahci_sunxi driver.
-> 
-> Fixes: c5754b5220f0 ("ARM: sunxi: Add support for Allwinner SUNXi SoCs sata to ahci_platform")
-> 
-> [1] https://github.com/allwinner-zh/documents/tree/master/
-> 
-> Signed-off-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
-> Tested-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
-> ---
->  drivers/ata/ahci_sunxi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/ata/ahci_sunxi.c b/drivers/ata/ahci_sunxi.c
-> index cb69b737cb49..56b695136977 100644
-> --- a/drivers/ata/ahci_sunxi.c
-> +++ b/drivers/ata/ahci_sunxi.c
-> @@ -200,7 +200,7 @@ static void ahci_sunxi_start_engine(struct ata_port *ap)
->  }
->  
->  static const struct ata_port_info ahci_sunxi_port_info = {
-> -	.flags		= AHCI_FLAG_COMMON | ATA_FLAG_NCQ,
-> +	.flags		= AHCI_FLAG_COMMON | ATA_FLAG_NCQ | ATA_FLAG_NO_DIPM,
->  	.pio_mask	= ATA_PIO4,
->  	.udma_mask	= ATA_UDMA6,
->  	.port_ops	= &ahci_platform_ops,
-> -- 
-> 2.26.2
-> 
-<formletter>
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+--jcd6h5dtj45zoqrf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-</formletter>
+Hello Roman,
+
+On Wed, Apr 28, 2021 at 02:19:46AM +0200, Roman Beranek wrote:
+> More often than not, a PWM period may span nowhere near as far
+> as 1 jiffy, yet it still must be waited upon before the channel
+> is disabled.
+
+I wonder what happens if you don't wait long enough. Is this a
+theoretical issue, or do you see an (occasional?) breakage that is fixed
+by this patch?
+
+I guess the problem is that if you disable too early the output freezes
+and that might be in a state where the output is still active? Would
+polling the PWMx_RDY bit in the control register help here?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--jcd6h5dtj45zoqrf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCI/SIACgkQwfwUeK3K
+7AkXLAf/bUbMStbK4wgMlibFbdHTkhIKSDtArwAbiulVWM1p/j7hivJ/JASFPjaI
+ZoY077XgIBojXcgJ4eqsnHJGmEevyvcxiBJCF/TDNUNgr4Azk9zO6dh3zCIDtQT9
+gKimlPCsrPOOt53Ai0N1LOKgghYa7g6tS1Bdf7dEtQuryX52NUmBgHnbvz2AoiAo
+mb6e7bIEyEUSpjIfIjVGg06WmfP0Zo6CyQRQqsBsgJ2I3X/lHkT2H3eV8yHWRbwK
+fTO17Bk1uVXgPYPAcIm74bBcUjFpApkbJA4671mohspC23SYsPhN+6k68uUeIoWh
+M56TvuCDCsEF0iiF0SCSHP39EW1W8Q==
+=sMKq
+-----END PGP SIGNATURE-----
+
+--jcd6h5dtj45zoqrf--
