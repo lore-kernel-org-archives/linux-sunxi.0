@@ -1,87 +1,78 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD16C2F80
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 00:20:05 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id z5so35577508edr.11
-        for <linux-sunxi@lists.linux.dev>; Tue, 27 Apr 2021 17:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=prusa3d-cz.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=coh3uK8A3rVZT8BT4tCqVuJ+myblPEITgGPRbovsrpo=;
-        b=S4YKT1KkCm3jQg2KVZ/ehWg+UKPP8SljKPVr7IvlzAl4i7ZJH8UEBMkm1M866bGHNN
-         Mt2MwDJbZTwVBZiBwbmV9mgVAP0X4thqHOhxU7wzgVphQI2kxHQyQpXw7gPdR1nQi4lc
-         e+cNPJUarku2gyp1VxSJKo3aLkHpoIPW2v8dkc4c1dF/fk8zoYPpcM4oT/gtJ+CPP8qe
-         BNJE16xNguIPSSs6Wtn9JLtn1QCAsoTi0/pa2FsYNA96WVqEa51nZjW+Ywn+X49ldQ9D
-         +N7bjoMKGwl4rASICkYWpSj7dgm/lsVEgO7HcXJelazmFu+x2PGV2cn+9JW9IEXoXYQx
-         MMAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=coh3uK8A3rVZT8BT4tCqVuJ+myblPEITgGPRbovsrpo=;
-        b=XtRxQAWJIdyJi9VqiLxfluMtQ+e6eO3SbNdKIldGsgp0oFrMGEkfYuY8T7eZzumXul
-         diyZHmWDB0EgEsy51YzDU4edtvuMZw/IwpKSlv3/irJcqxwbZzhbeDq05FcP7tZjYwen
-         aBV+QQTHBLewDXq/tBRfGv4SDF6f1u67oEeBH/1jjzc+q9cJteMKPDRS2XqlZV1vm+M3
-         SQk/Fd4T6SQ/RMYiIrPtinz+Rqz0ijC1RoVcH/HXUv49/mQGcpPNtnfYAbzgZRrlPxrI
-         l7ltjoW+b0x8Md/Iwt4OLEY/C1C1uS6KARN5smdDUXwzsNslePnbt+F52LxnLs4DINzI
-         esXQ==
-X-Gm-Message-State: AOAM531Oikaf3HPxdSrRTnWNnLxcMpDC/i5taPK6xIqMYKtrzapb2x2H
-	LnsTHV1Ex9p01RHN8z6WsftfdA==
-X-Google-Smtp-Source: ABdhPJz0ekb3OQBIyH6iYc/iKBgeHfQ6WBKq95E5jHRFfKk4F1digJy8gYassw6JCOF9vpb6PuKIag==
-X-Received: by 2002:a05:6402:280c:: with SMTP id h12mr7359213ede.332.1619569204001;
-        Tue, 27 Apr 2021 17:20:04 -0700 (PDT)
-Received: from zen.local (ip-213-220-236-33.net.upcbroadband.cz. [213.220.236.33])
-        by smtp.gmail.com with ESMTPSA id rs8sm802460ejb.17.2021.04.27.17.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Apr 2021 17:20:03 -0700 (PDT)
-From: Roman Beranek <roman.beranek@prusa3d.cz>
-X-Google-Original-From: Roman Beranek <roman.beranek@prusa3d.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Cc: linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Roman Beranek <roman.beranek@prusa3d.com>
-Subject: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
-Date: Wed, 28 Apr 2021 02:19:46 +0200
-Message-Id: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091082F82
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 05:59:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6EB5613FB;
+	Wed, 28 Apr 2021 05:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1619589573;
+	bh=PzXRzqyaN0AHEgEDWQ7ORDtLyuOZqfpRHAtszxM+aMo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=15ttKwTuuNivW2WUxOzPsphx0FRf9V1T8rt8jHcNnVVId6Lvj5uNEq3xV/c5gCrt8
+	 kUKvwWswbZa1rZYStYXr3DoADlotDZXvS1mi3zdsqzkseIBK48Yce+nLvCDqZtFmnq
+	 u1wakr7dYWCrxLNgwu1w0kUdlF1b42NPjmrWwnYo=
+Date: Wed, 28 Apr 2021 07:59:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Timo Sigurdsson <public_timo.s@silentcreek.de>
+Cc: axboe@kernel.dk, mripard@kernel.org, wens@csie.org,
+	jernej.skrabec@siol.net, linux-ide@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, oliver@schinagl.nl,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] ata: ahci_sunxi: Disable DIPM
+Message-ID: <YIj5wKTdOVWLdD2d@kroah.com>
+References: <20210427230537.21423-1-public_timo.s@silentcreek.de>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210427230537.21423-1-public_timo.s@silentcreek.de>
 
-More often than not, a PWM period may span nowhere near as far
-as 1 jiffy, yet it still must be waited upon before the channel
-is disabled.
+On Wed, Apr 28, 2021 at 01:05:37AM +0200, Timo Sigurdsson wrote:
+> DIPM is unsupported or broken on sunxi. Trying to enable the power
+> management policy med_power_with_dipm on an Allwinner A20 SoC based board
+> leads to immediate I/O errors and the attached SATA disk disappears from
+> the /dev filesystem. A reset (power cycle) is required to make the SATA
+> controller or disk work again. The A10 and A20 SoC data sheets and manuals
+> don't mention DIPM at all [1], so it's fair to assume that it's simply not
+> supported. But even if it were, it should be considered broken and best be
+> disabled in the ahci_sunxi driver.
+> 
+> Fixes: c5754b5220f0 ("ARM: sunxi: Add support for Allwinner SUNXi SoCs sata to ahci_platform")
+> 
+> [1] https://github.com/allwinner-zh/documents/tree/master/
+> 
+> Signed-off-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
+> Tested-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
+> ---
+>  drivers/ata/ahci_sunxi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/ata/ahci_sunxi.c b/drivers/ata/ahci_sunxi.c
+> index cb69b737cb49..56b695136977 100644
+> --- a/drivers/ata/ahci_sunxi.c
+> +++ b/drivers/ata/ahci_sunxi.c
+> @@ -200,7 +200,7 @@ static void ahci_sunxi_start_engine(struct ata_port *ap)
+>  }
+>  
+>  static const struct ata_port_info ahci_sunxi_port_info = {
+> -	.flags		= AHCI_FLAG_COMMON | ATA_FLAG_NCQ,
+> +	.flags		= AHCI_FLAG_COMMON | ATA_FLAG_NCQ | ATA_FLAG_NO_DIPM,
+>  	.pio_mask	= ATA_PIO4,
+>  	.udma_mask	= ATA_UDMA6,
+>  	.port_ops	= &ahci_platform_ops,
+> -- 
+> 2.26.2
+> 
+<formletter>
 
-Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
----
- drivers/pwm/pwm-sun4i.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read:
+    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
+for how to do this properly.
 
-diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-index ce5c4fc8d..f4b991048 100644
---- a/drivers/pwm/pwm-sun4i.c
-+++ b/drivers/pwm/pwm-sun4i.c
-@@ -285,7 +285,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
- 	val = (duty & PWM_DTY_MASK) | PWM_PRD(period);
- 	sun4i_pwm_writel(sun4i_pwm, val, PWM_CH_PRD(pwm->hwpwm));
- 	sun4i_pwm->next_period[pwm->hwpwm] = jiffies +
--		nsecs_to_jiffies(cstate.period + 1000);
-+		nsecs_to_jiffies(cstate.period) + 1;
- 
- 	if (state->polarity != PWM_POLARITY_NORMAL)
- 		ctrl &= ~BIT_CH(PWM_ACT_STATE, pwm->hwpwm);
--- 
-2.31.1
-
+</formletter>
