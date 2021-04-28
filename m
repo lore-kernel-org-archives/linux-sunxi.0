@@ -1,84 +1,91 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2588E2F80
-	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 06:31:43 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lbdSR-0002qp-S0; Wed, 28 Apr 2021 08:13:59 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lbdSP-0003Xz-78; Wed, 28 Apr 2021 08:13:57 +0200
-Date: Wed, 28 Apr 2021 08:13:57 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Roman Beranek <roman.beranek@prusa3d.cz>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Roman Beranek <roman.beranek@prusa3d.com>
-Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
-Message-ID: <20210428061357.725m72aikc52n4gg@pengutronix.de>
-References: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5FB71
+	for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 08:40:56 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id j10so4745719lfb.12
+        for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 01:40:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oVYoHb0j5VFpSmctH5aR8XGJ4ktZiFaaq0zVF+LId6M=;
+        b=VmsGeVNhBij6WOHJ1eY4hSlEkPPsps8a7tFi36TLwEKoHl8nZdwE1/LgTd1Zscl3lS
+         l5JyzVZKh4Uoiawv1bs2Qwho0siLbLViBIhfa147ATHN8KIECJHBlDS5zM5F2efuzjg+
+         4yXj3IYXKVfY4P61gl5P7cdnbFfqGpd7nYy9bLtBPi8VPYqRLmP+xRT6TaynchVkqVHc
+         +zFjKDvG4BFm+y0hOAmutAKije5e8uslKiP64BJvnaYvHFe+iI9rMxVNzIUvWiY0JpWx
+         EvUJ+7BYCtxK9Aw/+xyZOgqc/u98NqF3QnVE37EQPbWtUY+2ilLhnpQHnDN4zHfAvA4K
+         ke0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=oVYoHb0j5VFpSmctH5aR8XGJ4ktZiFaaq0zVF+LId6M=;
+        b=FrfMwNx0kBpHOkfRI2UFmf0gA3ElrOwwk745a+3l0DbYNVU78gR4t4/7QAJx6jVOmV
+         AOWNQpibMgsw3gxhSMSztOCsBQrr/8mAY3wbLLFbRet00gZclkCA7D9qqK/tXZN5dtrf
+         E1HO/lCS94Ze7Hu7lO6Z3wjDbnUPrAJpW8idT5BiS5/lsm6qaUqreqYggRFjAVu5TaeF
+         rjSLm20/TNvS/bbg+hbII2CvGzM3yoVn2rYhb/HM6OE2UN10BQim7ar3G0bN5dD6aspu
+         VPR7w3pUnCPSBcZuKj+CqWAc4G4ncaxCUIyTwql2jzdFcelJjr1jDx1nNOXRQ7avdoeb
+         8QuA==
+X-Gm-Message-State: AOAM531LGYZ+XJYJNRCfDKcdyuoCtYP50zrwmyypCH11kirt8LeQRy14
+	6vwy4EIA9iK5QWRDQJuYirA=
+X-Google-Smtp-Source: ABdhPJyoXlMRwGItruwsciGuyz3DA7HhF4EfUhAvxkd5DHvXOkbFQAE5LlaG+9S92qRtX/BA+PDpFQ==
+X-Received: by 2002:a05:6512:3c8c:: with SMTP id h12mr19976447lfv.388.1619599254899;
+        Wed, 28 Apr 2021 01:40:54 -0700 (PDT)
+Received: from [192.168.1.100] ([31.173.87.27])
+        by smtp.gmail.com with ESMTPSA id a20sm1005787ljd.105.2021.04.28.01.40.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Apr 2021 01:40:54 -0700 (PDT)
+Subject: Re: [PATCH] ata: ahci_sunxi: Disable DIPM
+To: Timo Sigurdsson <public_timo.s@silentcreek.de>, axboe@kernel.dk,
+ mripard@kernel.org, wens@csie.org, jernej.skrabec@siol.net,
+ linux-ide@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oliver@schinagl.nl, stable@vger.kernel.org
+References: <20210427230537.21423-1-public_timo.s@silentcreek.de>
+From: Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <24eb672c-9772-4e3f-e3de-0fe3390c659f@gmail.com>
+Date: Wed, 28 Apr 2021 11:40:44 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jcd6h5dtj45zoqrf"
-Content-Disposition: inline
-In-Reply-To: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <20210427230537.21423-1-public_timo.s@silentcreek.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
+Hello!
 
---jcd6h5dtj45zoqrf
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 28.04.2021 2:05, Timo Sigurdsson wrote:
 
-Hello Roman,
+> DIPM is unsupported or broken on sunxi. Trying to enable the power
+> management policy med_power_with_dipm on an Allwinner A20 SoC based board
+> leads to immediate I/O errors and the attached SATA disk disappears from
+> the /dev filesystem. A reset (power cycle) is required to make the SATA
+> controller or disk work again. The A10 and A20 SoC data sheets and manuals
+> don't mention DIPM at all [1], so it's fair to assume that it's simply not
+> supported. But even if it were, it should be considered broken and best be
+                             ^ was
 
-On Wed, Apr 28, 2021 at 02:19:46AM +0200, Roman Beranek wrote:
-> More often than not, a PWM period may span nowhere near as far
-> as 1 jiffy, yet it still must be waited upon before the channel
-> is disabled.
+> disabled in the ahci_sunxi driver.
+> 
+> Fixes: c5754b5220f0 ("ARM: sunxi: Add support for Allwinner SUNXi SoCs sata to ahci_platform")
 
-I wonder what happens if you don't wait long enough. Is this a
-theoretical issue, or do you see an (occasional?) breakage that is fixed
-by this patch?
+    The "Fixes:" tag should immediately precede the signoff tag...
 
-I guess the problem is that if you disable too early the output freezes
-and that might be in a state where the output is still active? Would
-polling the PWMx_RDY bit in the control register help here?
+> [1] https://github.com/allwinner-zh/documents/tree/master/
 
-Best regards
-Uwe
+    And this line should be immediately after the patch description.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> Signed-off-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
+> Tested-by: Timo Sigurdsson <public_timo.s@silentcreek.de>
+[...]
 
---jcd6h5dtj45zoqrf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCI/SIACgkQwfwUeK3K
-7AkXLAf/bUbMStbK4wgMlibFbdHTkhIKSDtArwAbiulVWM1p/j7hivJ/JASFPjaI
-ZoY077XgIBojXcgJ4eqsnHJGmEevyvcxiBJCF/TDNUNgr4Azk9zO6dh3zCIDtQT9
-gKimlPCsrPOOt53Ai0N1LOKgghYa7g6tS1Bdf7dEtQuryX52NUmBgHnbvz2AoiAo
-mb6e7bIEyEUSpjIfIjVGg06WmfP0Zo6CyQRQqsBsgJ2I3X/lHkT2H3eV8yHWRbwK
-fTO17Bk1uVXgPYPAcIm74bBcUjFpApkbJA4671mohspC23SYsPhN+6k68uUeIoWh
-M56TvuCDCsEF0iiF0SCSHP39EW1W8Q==
-=sMKq
------END PGP SIGNATURE-----
-
---jcd6h5dtj45zoqrf--
+MBR, Sergei
