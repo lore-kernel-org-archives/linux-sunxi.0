@@ -1,99 +1,144 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BA72
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 12:04:35 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lc5P3-00041E-RU; Thu, 29 Apr 2021 14:04:21 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lc5Oy-0007Gb-EW; Thu, 29 Apr 2021 14:04:16 +0200
-Date: Thu, 29 Apr 2021 14:04:16 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Roman =?utf-8?Q?Ber=C3=A1nek?= <roman.beranek@prusa3d.cz>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Roman Beranek <roman.beranek@prusa3d.com>
-Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
-Message-ID: <20210429120416.5ba7rq5fvhcfebzz@pengutronix.de>
-References: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
- <20210428061357.725m72aikc52n4gg@pengutronix.de>
- <CAL8eAtpuAQUiesC-gxSQENDXrw44qQQvp5UqEjdfz1hX5CLHnQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C870A2F80
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 14:51:02 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id x7so67191185wrw.10
+        for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 07:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
+        b=zZuvgHd91qgQwjw10MKn4hrMbBJwZ/VIUK2nLx6HRcitCkkzaZtGkyAJUgUI4Aet1g
+         wyTdxhA2NL7uTPT2v3OoLOQTp+Uw+KBC13mIBQb07A7NfrpOiECd/kO4dDlwwr3jpNwv
+         5Y44aLLZ0lheYTLUioJBmD5//UBatavi2PwfoPIk/0LkFx25xI3gGo+EqwTFElyrot6S
+         Pe4kotbwcdBCM4az9Ak0Lvcc4un9xQOc7na5Z2Vq5cK4YhWgcv2Y8Zt92uI+l7rEVkES
+         uWFEby+By7MjeuLaNm7ruUSy7Kx3V3ilZYyVuUKVLZO075FXuHGOXQQvTx8riRiZR03Z
+         /sjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=0snjfriunXokbhjSMJ9Eyiap4guJwiDtJ6KT7smyyik=;
+        b=NC45ez2WIWXcNJgJ4OKAWI6R0W70cviHI4fC3mkTQcRZ5kGW50m4vBm4GJofEhhRpK
+         jAor7fMmigvolihLne+YcSfq/9HNbzBdpdKyrO5aQEUUN1BXzQEvY6vy8VZS6OvWhMj+
+         HO2/6+iNMTAB2/Vv2sPnshznZhOatoHhw1BtKp+L+pzBZDtFj+YMHoG6ijNB/3+KbTUo
+         pdm8IoMDA2SXCqSGvroTmNwz/Z0GEdbHjH9UJ5WVXd1s98WTheUpAcbaxFSKBj+p6Q5/
+         W0Lm+sCXCV9Mo0FgpPp4/8DMxcRI0dW9ETX69PuiQOomcGiitMpxAVo/lQJGPds6zQdx
+         s2BA==
+X-Gm-Message-State: AOAM532OIvDp5+opD1KpER6arnr9eN+DX0s3YhsWTqCn3WBkjjVLS00x
+	fkiEsLL6H6fP0YBUDGDCvaG1XA==
+X-Google-Smtp-Source: ABdhPJzj4vvtS0ITy4N2nOoIEmto/xNvRB0C1X+g/W+l+SSz8bMWSXmMg681Oss3TiWJNDLomY4WSA==
+X-Received: by 2002:a5d:6d48:: with SMTP id k8mr155304wri.93.1619707861191;
+        Thu, 29 Apr 2021 07:51:01 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id n7sm3245336wri.14.2021.04.29.07.51.00
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Thu, 29 Apr 2021 07:51:00 -0700 (PDT)
+From: John Cox <jc@kynesim.co.uk>
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, ezequiel@collabora.com, benjamin.gaignard@collabora.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] media: hevc: Fix dependent slice segment flags
+Date: Thu, 29 Apr 2021 15:51:00 +0100
+Message-ID: <lrhl8gl392tcpss5rcpkqr1cahujnlqq9k@4ax.com>
+References: <20210427071554.2222625-1-jernej.skrabec@siol.net>
+In-Reply-To: <20210427071554.2222625-1-jernej.skrabec@siol.net>
+User-Agent: ForteAgent/8.00.32.1272
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lnlp25nt3uc2ep5f"
-Content-Disposition: inline
-In-Reply-To: <CAL8eAtpuAQUiesC-gxSQENDXrw44qQQvp5UqEjdfz1hX5CLHnQ@mail.gmail.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
-
-
---lnlp25nt3uc2ep5f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hello Roman,
+>Dependent slice segment flag for PPS control is misnamed. It should have
+>"enabled" at the end. It only tells if this flag is present in slice
+>header or not and not the actual value.
+>
+>Fix this by renaming the PPS flag and introduce another flag for slice
+>control which tells actual value.
+>
+>Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+>---
+> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
+> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
+> include/media/hevc-ctrls.h                                | 3 ++-
+> 3 files changed, 8 insertions(+), 4 deletions(-)
+>
+>diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>index 7b90cb939e9d..5ed343ddd1ea 100644
+>--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>@@ -3059,7 +3059,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     :stub-columns: 0
+>     :widths:       1 1 2
+>=20
+>-    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
+>+    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
+>       - 0x00000001
+>       -
+>     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
+>@@ -3274,6 +3274,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>     * - =
+``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED``
+>       - 0x00000100
+>       -
+>+    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
+>+      - 0x00000200
+>+      -
+>=20
+> .. raw:: latex
+>=20
+>diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
+b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>index 397a4ba5df4c..6821e3d05d34 100644
+>--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>@@ -479,8 +479,8 @@ static void cedrus_h265_setup(struct cedrus_ctx =
+*ctx,
+> 				slice_params->flags);
+>=20
+> 	reg |=3D =
+VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDENT_SLICE_SEG=
+MENT,
+>-				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
+>-				pps->flags);
+>+				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
+>+				slice_params->flags);
+>=20
+> 	/* FIXME: For multi-slice support. */
+> 	reg |=3D =
+VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
+>diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>index b713eeed1915..dc964ff7cd29 100644
+>--- a/include/media/hevc-ctrls.h
+>+++ b/include/media/hevc-ctrls.h
+>@@ -83,7 +83,7 @@ struct v4l2_ctrl_hevc_sps {
+> 	__u64	flags;
+> };
+>=20
+>-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
+>+#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
+> #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
+> #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
+> #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
+>@@ -166,6 +166,7 @@ struct v4l2_hevc_pred_weight_table {
+> #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
+> #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED =
+(1ULL << 7)
+> #define =
+V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL=
+ << 8)
+>+#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+>=20
+> struct v4l2_ctrl_hevc_slice_params {
+> 	__u32	bit_size;
 
-On Wed, Apr 28, 2021 at 02:14:31PM +0200, Roman Ber=E1nek wrote:
-> Correct, the output may stay in an active state. I only discovered this
-> bug as I investigated a report of unreliable screen timeout. The period
-> we use the PWM with is 50 us.
+Happy to see this flag finally making it
 
-What I don't like here is that the delay is quite coarse and might still
-be too short. (Maybe I miss something, but consider the current period
-is quite long, then you configure a short one and then disable. In this
-case the inital long setting might still be active.)
+Many thanks
 
-> The PWMx_RDY bit stays 0 well after the last period ends, so if the bit
-> has any function at all, this one is certainly not it.
-
-OK.
-
-A way out could be to not disable the clock on .enable =3D 0. This might
-(or might not) have an impact on power consumption, but it improves
-correctness and simplifies the driver as the delay just goes away. So
-you might consider it a good trade-off, too. Maybe there is also a nice
-solution with runtime-PM?!
-
-> Note: my apologies for the previous HTML message
-
-I didn't notice (because the message also contained a txt part). Another
-thing to improve is to reply inline instead of top posting :-)
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---lnlp25nt3uc2ep5f
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCKoL0ACgkQwfwUeK3K
-7AlB+wf/XxvVAdfUNVgszWiH5GTPUdXgB/0ijkwoFig7vQfZ0/rHQaXnyLSAu3t/
-FKj8TV8xEhRWksrUTUpHyywsyt3seS5YJiqSTe8myzKiqcodHkV7AqLrHOx+xACP
-WbtMKD0djHpS5ARAkv0IfyqCeAZeEMhDN8dOKVZ+//xYVZEpB3AaYV/IzwnR/VdK
-QsJyQ4TDKMJIT+iJbGFP9I1Dgh9jpPpZGS8Pd00//nke0RrRwqLvBE8Q82hyaJc+
-RUviVqPUDjHG5JnTaLTY81z+oLWpE94dvrCn3EYq7UPQE8vFvACIjfcn2cRWLyE4
-aKmcYMY+huBUfi45fR95ex46yurjkw==
-=yBRL
------END PGP SIGNATURE-----
-
---lnlp25nt3uc2ep5f--
+John Cox
