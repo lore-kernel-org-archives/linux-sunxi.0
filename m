@@ -1,56 +1,99 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CC272
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 02:40:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D6856145A
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 02:40:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1619664001;
-	bh=bxaOdh1GJadqZrk1QP2neiie7OjfP6XuNprfVsLRP9E=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=Xxpba4jbzuymHKKEs5/lvpaZipk/0OQC4K2l38fWQuUaTbI1BmJ3YMME5IfN/4t45
-	 5wzW3/pnjqt6PhelwAIE2FuFceQ9X8Ui6znzhnWJHdAqmrU9YVmjPhiaqItoaalROK
-	 I8dUUzSHdiAri0PUVw9q/wkJZAUjX9KDXNaLOcr/0ZPYgjcZkZr8A2RjcudGtYMEZ2
-	 KwgXH/PZivXBjd0RqGSvNG2P7gg/7QeMD1dUrht1kPO95ikFRWVv435PgnpGnnGZ4s
-	 bAEGZAOKFDQ42VgSz28ZZWNwMSW0gTmWqviD9AvtCoZZFiad1n6s8vR4iV+IOiY+yp
-	 jZN7Fl/zCna/Q==
-Received: by mail-lf1-f44.google.com with SMTP id j10so9335458lfb.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 28 Apr 2021 19:40:01 -0700 (PDT)
-X-Gm-Message-State: AOAM5327m9efSTDPrTtf7cDY9Gxely1ruSZhPIHAQ8ZFdWiHhicLIZn5
-	/Lh4suWvqpZGLq8SzMc9kE2iRdJBN3YOfC9slh8=
-X-Google-Smtp-Source: ABdhPJw2WnBZFfX45JL45AehyiHx0sTFP0QHhTkpoLUgkbkZ3xRVn64Q/V6w6mV3Wkzks84qPeQi0/Whz+0KldyjRr4=
-X-Received: by 2002:a05:6512:3910:: with SMTP id a16mr23292893lfu.303.1619663999672;
- Wed, 28 Apr 2021 19:39:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5BA72
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 12:04:35 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lc5P3-00041E-RU; Thu, 29 Apr 2021 14:04:21 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lc5Oy-0007Gb-EW; Thu, 29 Apr 2021 14:04:16 +0200
+Date: Thu, 29 Apr 2021 14:04:16 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Roman =?utf-8?Q?Ber=C3=A1nek?= <roman.beranek@prusa3d.cz>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com,
+	Roman Beranek <roman.beranek@prusa3d.com>
+Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
+Message-ID: <20210429120416.5ba7rq5fvhcfebzz@pengutronix.de>
+References: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
+ <20210428061357.725m72aikc52n4gg@pengutronix.de>
+ <CAL8eAtpuAQUiesC-gxSQENDXrw44qQQvp5UqEjdfz1hX5CLHnQ@mail.gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210428225304.23788-1-andre.przywara@arm.com>
-In-Reply-To: <20210428225304.23788-1-andre.przywara@arm.com>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Thu, 29 Apr 2021 10:39:48 +0800
-X-Gmail-Original-Message-ID: <CAGb2v6555jgiG20FHRas7qdAbXOmezOdzxdVorKO-hwSC=g7nA@mail.gmail.com>
-Message-ID: <CAGb2v6555jgiG20FHRas7qdAbXOmezOdzxdVorKO-hwSC=g7nA@mail.gmail.com>
-Subject: Re: [linux-sunxi] [PATCH] sunxi: H616: Enable full 4GB of DRAM
-To: =?UTF-8?Q?Andr=C3=A9_Przywara?= <andre.przywara@arm.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@siol.net>, 
-	Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, Simon Glass <sjg@chromium.org>, 
-	Tom Rini <trini@konsulko.com>, U-Boot Mailing List <u-boot@lists.denx.de>, 
-	linux-sunxi <linux-sunxi@googlegroups.com>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-
-Hi,
-
-On Thu, Apr 29, 2021 at 6:53 AM Andre Przywara <andre.przywara@arm.com> wrote:
->
-> The H616 is our first supported Allwinner SoC which goes beyond the 4GB
-> address space "barrier", by having more than 32 address bits.
-
-Nit: I wouldn't say it's the first. The A80 supports up to 8GB address
-space with LPAE. It just never shipped with more than 2GB DRAM.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lnlp25nt3uc2ep5f"
+Content-Disposition: inline
+In-Reply-To: <CAL8eAtpuAQUiesC-gxSQENDXrw44qQQvp5UqEjdfz1hX5CLHnQ@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
-ChenYu
+--lnlp25nt3uc2ep5f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hello Roman,
+
+On Wed, Apr 28, 2021 at 02:14:31PM +0200, Roman Ber=E1nek wrote:
+> Correct, the output may stay in an active state. I only discovered this
+> bug as I investigated a report of unreliable screen timeout. The period
+> we use the PWM with is 50 us.
+
+What I don't like here is that the delay is quite coarse and might still
+be too short. (Maybe I miss something, but consider the current period
+is quite long, then you configure a short one and then disable. In this
+case the inital long setting might still be active.)
+
+> The PWMx_RDY bit stays 0 well after the last period ends, so if the bit
+> has any function at all, this one is certainly not it.
+
+OK.
+
+A way out could be to not disable the clock on .enable =3D 0. This might
+(or might not) have an impact on power consumption, but it improves
+correctness and simplifies the driver as the delay just goes away. So
+you might consider it a good trade-off, too. Maybe there is also a nice
+solution with runtime-PM?!
+
+> Note: my apologies for the previous HTML message
+
+I didn't notice (because the message also contained a txt part). Another
+thing to improve is to reply inline instead of top posting :-)
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--lnlp25nt3uc2ep5f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCKoL0ACgkQwfwUeK3K
+7AlB+wf/XxvVAdfUNVgszWiH5GTPUdXgB/0ijkwoFig7vQfZ0/rHQaXnyLSAu3t/
+FKj8TV8xEhRWksrUTUpHyywsyt3seS5YJiqSTe8myzKiqcodHkV7AqLrHOx+xACP
+WbtMKD0djHpS5ARAkv0IfyqCeAZeEMhDN8dOKVZ+//xYVZEpB3AaYV/IzwnR/VdK
+QsJyQ4TDKMJIT+iJbGFP9I1Dgh9jpPpZGS8Pd00//nke0RrRwqLvBE8Q82hyaJc+
+RUviVqPUDjHG5JnTaLTY81z+oLWpE94dvrCn3EYq7UPQE8vFvACIjfcn2cRWLyE4
+aKmcYMY+huBUfi45fR95ex46yurjkw==
+=yBRL
+-----END PGP SIGNATURE-----
+
+--lnlp25nt3uc2ep5f--
