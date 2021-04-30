@@ -1,82 +1,146 @@
-Received: from pmg02-out2.zxcs.nl (pmg02-out2.zxcs.nl [185.104.28.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2241D71
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 16:38:05 +0000 (UTC)
-Received: from pmg02.zxcs.nl (localhost.localdomain [127.0.0.1])
-	by pmg02.zxcs.nl (ZXCS) with ESMTP id E9C3E82A62;
-	Fri, 30 Apr 2021 18:18:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=pascalroeleven.nl; s=x; h=Content-Transfer-Encoding:Content-Type:Message-ID
-	:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=KsXSqY78n88IV4UYE9qwjmB2sIl6oGICtk7uw8Iuo3Y=; b=R5EM6Jh6MInWVEwqtXEJERb7FR
-	w6LYU3LIPuPyjSSVq3OxumZcia/Q4lsN21ADe7/asfuyKLRXY8hmwoRW5zdCOtCn+6py5XFKjuafU
-	fH6pGOLnwc68GlWZ49fRHTO5qBigWwnuZOASL+oaomB3PaDT0QZ5oCEM/oTl7fokESEZ4xgw9VC89
-	vfyNpi2JRtRHTuEvu80Wh4JhCXsaEOqWQpikWFum/lrnquv68y0iKKuq81Mlowp9po6ipdgHFWo1j
-	wG4++6HjKIpsHr4elXra3DQeETW/xU/lW53rcZqm5UY9t9IcqWBBUAJuyCXCCOzqKp6C0je0OuSsd
-	/7udXDSA==;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2503E72
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 19:44:40 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id l17so39769427oil.11
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 12:44:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cbQQRQSYYNb4Hamcnl+TDiVyJMNuMwmcGfDu3YBv0tk=;
+        b=GPUgh4iQHmylBARP3JqmzNIMAt0pF2fZ8i215g5Pqel7WdRKpJvKL6TgZRVoHnnp9A
+         0OppJ8QTIwVKaUT4cJF+9Pbquu1/Z70LK4FOz6WKWG8S6rXzOPiAyIDbSKr0OGyd1qGf
+         thJ4hYdkWKWnt3cHsED7CPzu8zvGjgnjL8UgNHhq8WXu7ybPKyhaDkf19d0kGOgVlsVr
+         ZEAWJThgzpgdpvk4qpaFSeeeDRB4fuvvLL7klyjeUqP5yittFvilhbR72DBA7Vv7mChf
+         DiH1qEXsT4guv7wbjF2Frn58hGO720JTGm1zJZXwo8lUduOrWO6ZMhL+j1Kq4D21s4JZ
+         oAlA==
+X-Gm-Message-State: AOAM532fYlVqFZfPHcPCmF0aWOvuK5ao8qQJaZvgbXVfLrirwRMNwmpt
+	8n6fbGdbZT0+jwCf6CeQMw==
+X-Google-Smtp-Source: ABdhPJztGli5TC5CkRdcCKaCbKgQsTL2TMovEyN2HfCyxTWUrWMsfyYqhHiiL7Jcxz9/GHnxaHjYLA==
+X-Received: by 2002:aca:c68a:: with SMTP id w132mr12284029oif.130.1619811879354;
+        Fri, 30 Apr 2021 12:44:39 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id e22sm904031oii.58.2021.04.30.12.44.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Apr 2021 12:44:38 -0700 (PDT)
+Received: (nullmailer pid 3759998 invoked by uid 1000);
+	Fri, 30 Apr 2021 19:44:37 -0000
+Date: Fri, 30 Apr 2021 14:44:37 -0500
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3
+ glue
+Message-ID: <20210430194437.GA3755541@robh.at.kernel.org>
+References: <20210430031912.42252-1-samuel@sholland.org>
+ <20210430031912.42252-2-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Fri, 30 Apr 2021 18:18:27 +0200
-From: dev@pascalroeleven.nl
-To: roman.beranek@prusa3d.cz
-Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-sunxi@googlegroups.com, Roman Beranek <roman.beranek@prusa3d.com>
-Subject: Re: [linux-sunxi] Re: [PATCH] pwm: sun4i: Round delay time up to a
- nearest jiffy
-In-Reply-To: <CB15JRQIWROB.2MRNYCPGI20C6@zen.local>
-References: <CB15JRQIWROB.2MRNYCPGI20C6@zen.local>
-User-Agent: Roundcube Webmail/1.4.11
-Message-ID: <6f65c35761a96443532347586494471c@pascalroeleven.nl>
-X-Sender: dev@pascalroeleven.nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-AuthUser: dev@pascalroeleven.nl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210430031912.42252-2-samuel@sholland.org>
 
-On 2021-04-30 17:10, Roman Beranek wrote:
-> Hello Uwe,
+On Thu, Apr 29, 2021 at 10:19:11PM -0500, Samuel Holland wrote:
+> The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
+> USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
+> Represent this by attaching the reset line to a glue layer device.
+
+Does that really mean anything more than a shared reset? Doesn't the 
+reset code support shared resets?
+
 > 
-> On Fri Apr 30, 2021 at 11:51 AM CEST, Uwe Kleine-König wrote:
->> If you agree that dropping both delay and clk_disable completely is the
->> right thing, you address both problems and going forward with your patch
->> isn't sensible.
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
 > 
-> I had my doubts whether simply clearing the PWMx_EN bit would be enough
-> to turn the PWM off but I stand corrected. It does work.
+> diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+> new file mode 100644
+> index 000000000000..936b5c74043f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+> @@ -0,0 +1,75 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/usb/allwinner,sun50i-h6-dwc3.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner H6 DWC3 USB controller
+> +
+> +maintainers:
+> +  - Chen-Yu Tsai <wens@csie.org>
+> +  - Maxime Ripard <mripard@kernel.org>
+> +
+> +properties:
+> +  compatible:
+> +    const: allwinner,sun50i-h6-dwc3
+> +
+> +  "#address-cells": true
+> +
+> +  "#size-cells": true
+> +
+> +  ranges: true
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +# Required child node:
+> +
+> +patternProperties:
+> +  "^phy@[0-9a-f]+$":
+> +    $ref: ../phy/allwinner,sun50i-h6-usb3-phy.yaml#
+> +
+> +  "^usb@[0-9a-f]+$":
+> +    $ref: snps,dwc3.yaml#
+> +
+> +required:
+> +  - compatible
+> +  - ranges
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun50i-h6-ccu.h>
+> +    #include <dt-bindings/reset/sun50i-h6-ccu.h>
+> +
+> +    usb3: usb@5200000 {
+> +        compatible = "allwinner,sun50i-h6-dwc3";
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +        ranges;
+> +        resets = <&ccu RST_BUS_XHCI>;
+> +
+> +        dwc3: usb@5200000 {
+> +            compatible = "snps,dwc3";
+> +            reg = <0x05200000 0x10000>;
+> +            interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&ccu CLK_BUS_XHCI>,
+> +                     <&ccu CLK_BUS_XHCI>,
+> +                     <&rtc 0>;
+> +            clock-names = "ref", "bus_early", "suspend";
+> +            dr_mode = "host";
+> +            phys = <&usb3phy>;
+> +            phy-names = "usb3-phy";
+> +        };
+> +
+> +        usb3phy: phy@5210000 {
+> +            compatible = "allwinner,sun50i-h6-usb3-phy";
+> +            reg = <0x5210000 0x10000>;
+> +            clocks = <&ccu CLK_USB_PHY1>;
+> +            resets = <&ccu RST_USB_PHY1>;
+> +            #phy-cells = <0>;
+> +        };
+> +    };
+> -- 
+> 2.26.3
 > 
-> The added bonusu is that once without the invocations of {u,m}sleep and
-> clk_{enable_,disable_un}prepare, the sun4i_pwm_apply function finally
-> becomes safe for running in an atomic context.
-> 
-> I will therefore prepare a new patch and come back some time next week.
-> 
-> Have a great weekend,
-> Roman
-
-Hi Roman,
-
-A while ago others and I have made an attempt at fixing this as well.
-Before you continue, I'd like to draw your attention to these previous
-attempts. Maybe in the mean time things have changed, maybe they
-haven't, but I can definitely tell you that just clearing the enable bit
-isn't enough. There is some precise timing involved, hence the delays
-are there. Unfortunately to my knowledge, this hasn't been documented
-anywhere so it's just trial and error.
-
-Please take a look at this post: https://lkml.org/lkml/2020/3/17/1158
-
-Good luck!
-
-Regards,
-Pascal
-
