@@ -1,41 +1,41 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2503E72
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 19:44:40 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id l17so39769427oil.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 12:44:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A382F80
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 21:46:12 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id h9-20020a4a94090000b02901f9d4f64172so1568403ooi.5
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 14:46:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=cbQQRQSYYNb4Hamcnl+TDiVyJMNuMwmcGfDu3YBv0tk=;
-        b=GPUgh4iQHmylBARP3JqmzNIMAt0pF2fZ8i215g5Pqel7WdRKpJvKL6TgZRVoHnnp9A
-         0OppJ8QTIwVKaUT4cJF+9Pbquu1/Z70LK4FOz6WKWG8S6rXzOPiAyIDbSKr0OGyd1qGf
-         thJ4hYdkWKWnt3cHsED7CPzu8zvGjgnjL8UgNHhq8WXu7ybPKyhaDkf19d0kGOgVlsVr
-         ZEAWJThgzpgdpvk4qpaFSeeeDRB4fuvvLL7klyjeUqP5yittFvilhbR72DBA7Vv7mChf
-         DiH1qEXsT4guv7wbjF2Frn58hGO720JTGm1zJZXwo8lUduOrWO6ZMhL+j1Kq4D21s4JZ
-         oAlA==
-X-Gm-Message-State: AOAM532fYlVqFZfPHcPCmF0aWOvuK5ao8qQJaZvgbXVfLrirwRMNwmpt
-	8n6fbGdbZT0+jwCf6CeQMw==
-X-Google-Smtp-Source: ABdhPJztGli5TC5CkRdcCKaCbKgQsTL2TMovEyN2HfCyxTWUrWMsfyYqhHiiL7Jcxz9/GHnxaHjYLA==
-X-Received: by 2002:aca:c68a:: with SMTP id w132mr12284029oif.130.1619811879354;
-        Fri, 30 Apr 2021 12:44:39 -0700 (PDT)
+        bh=lQ8vdEh4rJx00Ki7Tq3K8HSCeSzDZ++EPb2cKQeU+yo=;
+        b=ZzXWAPXcn2qzBZ3MIQ/JgcbP6NDyQB3M1oA6XddfoqDWLRiw26Zp5vrFeioG5FkuFd
+         u42LS2dUv1AqTClawL1ThrKsSW9l8KRv5Jx8IDQyn/5qZym4EoMBjtmp8WiOYKsJ/jfH
+         ttp4gX8JIZqSCgIExgE5CXI2NBrKDqPDrvW3hp2i35l8oxFXBbqCQ4GfmN5ptyrD5TPl
+         t6s5CpayYuuAT5Ak50iWP5+OhhWdqSYTVyd+swoSCqkqUSCFMhGRmXM/DDS5sZcn+See
+         +39cI6oJSeOni9kJmBjTUem+V5Vx3aPHeLuSZ5+FpHsLtBJ8B35jiJPO3AVDtXy5TIea
+         kujQ==
+X-Gm-Message-State: AOAM531TmYZuNiR1I4xCt6vPLc/Raob1o5UYzNnPAY71Y/vXRQNf29zJ
+	Yg6FHhQjLr/bCBKWelFfyQ==
+X-Google-Smtp-Source: ABdhPJz6PdKIigOtZcVYOpEsFx+nvBVRc8Vx+MdzxKvkVayWWFkpXLA1s7S9yhZm38LZWhL24gYbaQ==
+X-Received: by 2002:a4a:1104:: with SMTP id 4mr6265762ooc.57.1619819171630;
+        Fri, 30 Apr 2021 14:46:11 -0700 (PDT)
 Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id e22sm904031oii.58.2021.04.30.12.44.38
+        by smtp.gmail.com with ESMTPSA id u1sm1055005otj.43.2021.04.30.14.46.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 12:44:38 -0700 (PDT)
-Received: (nullmailer pid 3759998 invoked by uid 1000);
-	Fri, 30 Apr 2021 19:44:37 -0000
-Date: Fri, 30 Apr 2021 14:44:37 -0500
+        Fri, 30 Apr 2021 14:46:10 -0700 (PDT)
+Received: (nullmailer pid 3956163 invoked by uid 1000);
+	Fri, 30 Apr 2021 21:46:09 -0000
+Date: Fri, 30 Apr 2021 16:46:09 -0500
 From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>, Felipe Balbi <balbi@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3
- glue
-Message-ID: <20210430194437.GA3755541@robh.at.kernel.org>
-References: <20210430031912.42252-1-samuel@sholland.org>
- <20210430031912.42252-2-samuel@sholland.org>
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>
+Subject: Re: [PATCH v3 1/7] ASoC: dt-bindings: sun8i-codec: Increase
+ #sound-dai-cells
+Message-ID: <20210430214609.GA3955996@robh.at.kernel.org>
+References: <20210430035859.3487-1-samuel@sholland.org>
+ <20210430035859.3487-2-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -43,104 +43,19 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210430031912.42252-2-samuel@sholland.org>
+In-Reply-To: <20210430035859.3487-2-samuel@sholland.org>
 
-On Thu, Apr 29, 2021 at 10:19:11PM -0500, Samuel Holland wrote:
-> The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
-> USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
-> Represent this by attaching the reset line to a glue layer device.
-
-Does that really mean anything more than a shared reset? Doesn't the 
-reset code support shared resets?
-
+On Thu, 29 Apr 2021 22:58:53 -0500, Samuel Holland wrote:
+> Increase sound-dai-cells to 1 to allow using the DAIs in the codec
+> corresponding to AIF2 and AIF3.
+> 
+> The generic ASoC OF code supports a #sound-dai-cells value of 0 or 1
+> with no impact to the driver, so this is a backward-compatible change.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
->  1 file changed, 75 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+>  .../bindings/sound/allwinner,sun8i-a33-codec.yaml         | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
-> new file mode 100644
-> index 000000000000..936b5c74043f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
-> @@ -0,0 +1,75 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/allwinner,sun50i-h6-dwc3.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner H6 DWC3 USB controller
-> +
-> +maintainers:
-> +  - Chen-Yu Tsai <wens@csie.org>
-> +  - Maxime Ripard <mripard@kernel.org>
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun50i-h6-dwc3
-> +
-> +  "#address-cells": true
-> +
-> +  "#size-cells": true
-> +
-> +  ranges: true
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +# Required child node:
-> +
-> +patternProperties:
-> +  "^phy@[0-9a-f]+$":
-> +    $ref: ../phy/allwinner,sun50i-h6-usb3-phy.yaml#
-> +
-> +  "^usb@[0-9a-f]+$":
-> +    $ref: snps,dwc3.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - ranges
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun50i-h6-ccu.h>
-> +    #include <dt-bindings/reset/sun50i-h6-ccu.h>
-> +
-> +    usb3: usb@5200000 {
-> +        compatible = "allwinner,sun50i-h6-dwc3";
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +        ranges;
-> +        resets = <&ccu RST_BUS_XHCI>;
-> +
-> +        dwc3: usb@5200000 {
-> +            compatible = "snps,dwc3";
-> +            reg = <0x05200000 0x10000>;
-> +            interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&ccu CLK_BUS_XHCI>,
-> +                     <&ccu CLK_BUS_XHCI>,
-> +                     <&rtc 0>;
-> +            clock-names = "ref", "bus_early", "suspend";
-> +            dr_mode = "host";
-> +            phys = <&usb3phy>;
-> +            phy-names = "usb3-phy";
-> +        };
-> +
-> +        usb3phy: phy@5210000 {
-> +            compatible = "allwinner,sun50i-h6-usb3-phy";
-> +            reg = <0x5210000 0x10000>;
-> +            clocks = <&ccu CLK_USB_PHY1>;
-> +            resets = <&ccu RST_USB_PHY1>;
-> +            #phy-cells = <0>;
-> +        };
-> +    };
-> -- 
-> 2.26.3
-> 
+
+Acked-by: Rob Herring <robh@kernel.org>
