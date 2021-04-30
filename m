@@ -1,85 +1,115 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F11F71
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 02:19:44 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id m13so68544774oiw.13
-        for <linux-sunxi@lists.linux.dev>; Thu, 29 Apr 2021 19:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=prusa3d-cz.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=4Gd0MgVT7NAzqGz0SDOQvL7OUfBTs+7oH+VCnAx8ZJM=;
-        b=eujPtfaw2j4KXyTeMdxTfp6MhS/Pl/g3nL1hdwYUpHTqTI9nIuM6+IRroqYCIZ6s6x
-         q5KIBw/Eby424UCTE9tG0cy1negKGKVEMrUYVxZHCMa7y14qrjsxQoK6WVoNtWYEmyop
-         B7+6TWD0Zlir7O6UfKoyj8/Np+kYJfpdH4THi8zF5BZ5CUIX20HwFVhNzTg/M6CZfsjC
-         Mns8KmQCk4NrnLLxYSkwaTVRsIcVzQlc8MgckD8jUaAdWWM13+z5lxjDU6XZZtT+sy05
-         Ft1/iQf45YKwqP0tt0185F/l8mbPOFg2lTLq/eRbhfMXQecIPrjGYDVh0hpOv+gXjTwb
-         Xkdg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=4Gd0MgVT7NAzqGz0SDOQvL7OUfBTs+7oH+VCnAx8ZJM=;
-        b=ap+5v9NKfvQ0OD1dfLm2+kNLgBSGFr94dBqvKiMuQ8XUnnNJJdE80EoEo8sQ8AlxQd
-         X3SgJzfjHZzk3JYNQmC/qVL7c/iAQnHJCpKilbWij2lIb5pnsvVYKgy9soR/W6p5jWbH
-         rYP6WjI02osOetkMNC13DQTFvkmtKu+nSUdw6GKTQjbldu1MZQ2Ky9bjvzIEKXLdfdcC
-         pdHzBfw9TZN4S0PESFtsq9HWATuWGpSb4ugS2nO87Y4QLxlXrWPsbAryI3wDqutnELQI
-         GedSfudyDwYC7L25NLtBsVsn+3DXARIE2B8rMeBIr2dB5/2wiUnzkovERkomnAC0K0H3
-         YmLg==
-X-Gm-Message-State: AOAM532y2Jwnfx4INoEAvhxyB3WnQ6p4sORo2VR3tB4jtSGuBYnqT+gJ
-	SZg0EyX6QtJQ3+X/x8lbh4Z28JLOctwDADDWrEYWvQ==
-X-Google-Smtp-Source: ABdhPJyLapc7Q/siTJmrN9S201JP7kswLoySQiqh0gf/H2JFPFIIQYMDXvGJSIaSjO2m/5tsaHv8f6R2K8KS3gD5se0=
-X-Received: by 2002:aca:dd86:: with SMTP id u128mr2226013oig.155.1619749184117;
- Thu, 29 Apr 2021 19:19:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCECD72
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 03:19:15 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id DD4CA5809A7;
+	Thu, 29 Apr 2021 23:19:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 29 Apr 2021 23:19:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=7a3B4rcYlKzes6Q1o/O33ZK9lp
+	KHHVnQxsvgMFUEdxc=; b=B5qp+eO0DskdaIxSYZIKB/GwTM8+gaEYMI2eWpmXFQ
+	XKh623relchjKSnt/H/q5WHOk4YdrumJ/YK4/nwdhFZuh9yCb04gxZynuA95wntG
+	B/kjQwfvIZ1EOmKzSyL7wDaEioelOj5BrX05LQp1t5Pm0phEkvx+TCG2kf0hORcI
+	UmtRxIYgn8MDCFVb+PT9nDVzxGJhrKQZ1q72QsQX63V9eG5Bj/iZ5vwNurRUoiY7
+	YYhM04mVRSA2CNbp59eudQk0rWZeTCBz6xpQQFmKThbHVatvephk+jc5Os091vwg
+	1n74ISYJAU8ylSoZiFaoHEQRJwsV3YjBfFI5tkrLkXsA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=7a3B4rcYlKzes6Q1o
+	/O33ZK9lpKHHVnQxsvgMFUEdxc=; b=imaUocYJKYptSmtmViFFsmMU1+4FKRnjB
+	YD0Y1wlVeW77YNI5RKLpJFVVN9DmDzS8rWs7bLzseLqhwgrYVDDTyDR1ypvt5lui
+	n+aNrrhzLkaYastnN2lqFpeH8+mn8HBgPvwJpXAtAECF+UB0CRWBi39qjWuVR8Jh
+	cnTCEiyTVjeSROtFuN6DAhH80u/d0GXD0yZn7R8zR7HH6cINi5sLgrWrbjbshRY7
+	s+1pVvcCxR5nSlurxtSt11Z0YAXrpRmEvt3bIO8shWA3ZTaDXRWlA5DEdC5CXTI9
+	lL25HSxN3bFULeFZjGfKC+D1wEA8+KxghfWDefX7kLmdmdNkDDAAg==
+X-ME-Sender: <xms:MneLYB6hHTawAtddmHnvxlCxcYUpQmVPfXkrfIz9vDlEx1NXueNKNQ>
+    <xme:MneLYO6p_HwnnZGopI4Y9N32wYXAQ4e3otZ8M9vgYtdcowBuaURpiF897x6qXhoC1
+    Rl4Dy0lVTRAk4_lMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgieelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:MneLYIeGCDtqjOJfRqJKFq0mpnHvcjJVE8nFcZ5OL3wTnJ_xjJmYLw>
+    <xmx:MneLYKL91SYbwWwMEcXDdguCEk0_fqyrz955zQzVIIU2w9qJ0jHG5g>
+    <xmx:MneLYFJOmFTYxRP7cKcQrNoC_Cyzf-K2Pswc6vxiwIzBtUjbv2_eGA>
+    <xmx:MneLYOXKzVJekHmPMeU0ThoQFXVwdhtjRWu_C0SsVJ8RtX4jxujggA>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Thu, 29 Apr 2021 23:19:13 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Felipe Balbi <balbi@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 0/2] Allwinner H6 USB3 device tree updates
+Date: Thu, 29 Apr 2021 22:19:10 -0500
+Message-Id: <20210430031912.42252-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.26.3
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210428001946.1059426-1-roman.beranek@prusa3d.com>
- <20210428061357.725m72aikc52n4gg@pengutronix.de> <CAL8eAtpuAQUiesC-gxSQENDXrw44qQQvp5UqEjdfz1hX5CLHnQ@mail.gmail.com>
- <20210429120416.5ba7rq5fvhcfebzz@pengutronix.de>
-In-Reply-To: <20210429120416.5ba7rq5fvhcfebzz@pengutronix.de>
-From: =?UTF-8?Q?Roman_Ber=C3=A1nek?= <roman.beranek@prusa3d.cz>
-Date: Fri, 30 Apr 2021 04:19:32 +0200
-Message-ID: <CAL8eAtqBzUt6fP2nr-Ppg+qwhvKWk13A0P3+hoe07F+9VXCvmA@mail.gmail.com>
-Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Lee Jones <lee.jones@linaro.org>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-sunxi@googlegroups.com, Roman Beranek <roman.beranek@prusa3d.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Uwe,
+While implementing support for this USB controller in U-Boot, I noticed
+that the reset line alsp affects they PHY. It looks like most platforms
+use a separate glue node to represent this, and in fact there is already
+a compatible for the H6 listed in drivers/usb/dwc3/dwc3-of-simple.c.
 
-On Thu, Apr 29, 2021 at 2:04 PM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> Hello Roman,
->
-> On Wed, Apr 28, 2021 at 02:14:31PM +0200, Roman Ber=C3=A1nek wrote:
-> > Correct, the output may stay in an active state. I only discovered this
-> > bug as I investigated a report of unreliable screen timeout. The period
-> > we use the PWM with is 50 us.
->
-> What I don't like here is that the delay is quite coarse and might still
-> be too short. (Maybe I miss something, but consider the current period
-> is quite long, then you configure a short one and then disable. In this
-> case the inital long setting might still be active.)
+Since this layout matches the usual way of modeling this hardware, it
+allows using the existing drivers without adding platform-specific code.
 
-The delay is calculated from the original period (cstate.period),
-not the one that was just written into PWM_CHx_PRD 2 lines above.
 
-> > Note: my apologies for the previous HTML message
->
-> I didn't notice (because the message also contained a txt part). Another
-> thing to improve is to reply inline instead of top posting :-)
+I tried to follow the existing DWC3 glue bindings (most of which are
+still .txt). With this version, `make dt_binding_check` still raises a
+couple of issues, which I do not know how best to fix:
 
-Yeah, learning the conventions one reply at a time :-)
+  - Warning (unit_address_vs_reg): /example-0/usb@5200000: node has a
+    unit name, but no reg or ranges property
+    => Since there is no MMIO translation, an empty `ranges;` seemed
+       appropriate, but it causes this warning.
 
-Cheers,
-Roman
+  - usb@5200000: usb@5200000:phy-names:0: 'usb2-phy' was expected
+    => This may be an issue with the snps,dwc3 binding, where the
+       `items` list overrides `minItems`. I believe the intention is
+       that both PHY references are optional. This implementation has
+       only one PHY.
+
+Changes from v1 to v2:
+  - Updated the binding to reference the PHY binding by path correctly
+  - Dropped DT updates for Pine H64
+
+Samuel Holland (2):
+  dt-bindings: usb: Document the Allwinner H6 DWC3 glue
+  arm64: dts: allwinner: h6: Wrap DWC3 and PHY in glue layer
+
+ .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+ .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  6 +-
+ .../dts/allwinner/sun50i-h6-orangepi-3.dts    |  6 +-
+ .../dts/allwinner/sun50i-h6-tanix-tx6.dts     |  6 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 60 ++++++++-------
+ 5 files changed, 111 insertions(+), 42 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+
+-- 
+2.26.3
+
