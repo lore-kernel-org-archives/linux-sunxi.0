@@ -1,105 +1,148 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FCE71
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 09:51:12 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lcPnd-0000lu-3v; Fri, 30 Apr 2021 11:51:05 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lcPnZ-0002Mm-5c; Fri, 30 Apr 2021 11:51:01 +0200
-Date: Fri, 30 Apr 2021 11:51:01 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Roman Beranek <roman.beranek@prusa3d.cz>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Roman Beranek <roman.beranek@prusa3d.com>
-Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
-Message-ID: <20210430095101.rjkdukf67h2k4iea@pengutronix.de>
-References: <20210430064145.nzlcw3lpayzapnbx@pengutronix.de>
- <CB0VI785HYEE.3PXPB7BDOUPFC@zen.local>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD2672
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 10:56:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32134113E;
+	Fri, 30 Apr 2021 03:56:32 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE4243F70D;
+	Fri, 30 Apr 2021 03:56:30 -0700 (PDT)
+Date: Fri, 30 Apr 2021 11:55:45 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@siol.net>, devicetree
+ <devicetree@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
+Message-ID: <20210430115545.6a45d1dc@slackpad.fritz.box>
+In-Reply-To: <20210430091035.i4zoyzb4c2l22msb@gilmour>
+References: <20210419025246.21722-1-samuel@sholland.org>
+	<CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
+	<20210419095443.1548432e@slackpad.fritz.box>
+	<20210430091035.i4zoyzb4c2l22msb@gilmour>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="o5bio467nkbbcvez"
-Content-Disposition: inline
-In-Reply-To: <CB0VI785HYEE.3PXPB7BDOUPFC@zen.local>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 30 Apr 2021 11:10:35 +0200
+Maxime Ripard <maxime@cerno.tech> wrote:
 
---o5bio467nkbbcvez
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Maxime,
 
-Hello Roman,
+> On Mon, Apr 19, 2021 at 09:54:43AM +0100, Andre Przywara wrote:
+> > On Mon, 19 Apr 2021 11:17:19 +0800
+> > Chen-Yu Tsai <wens@csie.org> wrote:
+> > 
+> > Hi,
+> >   
+> > > On Mon, Apr 19, 2021 at 10:52 AM Samuel Holland <samuel@sholland.org> wrote:  
+> > > >
+> > > > Dealing with the inconsistent numbering has been a major pain, and
+> > > > there is a solution with (as far as I can tell) no tangible downsides.
+> > > > So let's use it.  
+> > 
+> > Thanks Samuel for sending this!
+> >   
+> > > > Yes, I know the kernel supports UUIDs for root=. But UUIDs do not help
+> > > > when referencing the whole, unpartitioned device, like is needed for
+> > > > updating the bootloader and firmware. So for the use case of "write a
+> > > > bootloader to the SD card, regardless of where the board is currently
+> > > > booted from", I know of two options:
+> > > >   - Dig around in sysfs to find the mmc number from the MMIO address,
+> > > >     which means I have to know the MMIO addresses for every SoC, or
+> > > >   - Apply patches like these.
+> > > >
+> > > > Samuel Holland (2):
+> > > >   ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
+> > > >   arm64: dts: allwinner: Enforce consistent MMC numbering
+> > > >
+> > > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
+> > > >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
+> > > >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++    
+> > > 
+> > > At least with Rockchip this is now done at the board level. IIRC it was
+> > > a request from other people to not do it at the SoC level. I don't recall
+> > > exactly who though.  
+> > 
+> > FWIW, I am very much in favour of these patches, at a SoC level:
+> > The *SoC* BootROM imposes an order, by probing the first (by MMIO
+> > address order) MMC controller first for boot devices. IIRC that's a
+> > different story for Rockchip?
+> > And if people really don't care about the order, then having a certain
+> > order doesn't hurt, so we could as well use the "natural" order, as it
+> > was before.  
+> 
+> This doesn't have anything to do with the BootRom though but what we
+> provide to the userspace?
 
-On Fri, Apr 30, 2021 at 09:17:49AM +0200, Roman Beranek wrote:
-> On Fri Apr 30, 2021 at 8:41 AM CEST, Uwe Kleine-K=F6nig wrote:
-> > Consider the PWM is running with a period of 4s and the period just
-> > started. Then you call
-> >
-> > pwm_apply_state(mypwm, &(struct pwm_state){
-> > .period =3D 20,
-> > .enabled =3D 1,
-> > ...
-> > })
-> >
-> > This doesn't result into the waiting code being run, because
-> > .enabled =3D 1. Then immidiately after that call:
-> >
-> > pwm_apply_state(mypwm, &(struct pwm_state){
-> > .period =3D 20,
-> > .enabled =3D 0,
-> > ...
-> > })
-> >
-> > which triggers the waiting but only based on a period of 20 ns while the
-> > 4s period is still active.
->=20
-> OK, now I see what you mean. To remedy this, the delay shall occur
-> regardless of state->enabled.
->=20
-> In my view, this lies beneath the scope of the patch though and would be
-> better served as a follow-up.
+My argument was that there is a "natural" order, not only by the
+location in the MMIO space, but on a more logical level: the "first" SD
+controller is first checked by the BootROM, so the SoC puts a "number
+0" tag on this particular one. This is just because I heard the
+(reasonable) argument that location in MMIO space should not be
+significant, and deriving an order from that is arbitrary.
 
-If you agree that dropping both delay and clk_disable completely is the
-right thing, you address both problems and going forward with your patch
-isn't sensible.
+> The userspace has no guarantee about the
+> kernel enumeration order for any bus (but UART for some reason), I'm not
+> really sure why MMC would be an exception.
 
-Best regards
-Uwe
+Userspace is one thing, but arguably there are ways to find the
+partition you are looking for, because you have all the kernel *and*
+userlevel tools at hand. The question is whether this needs to be overly
+complicated and harder for the user.
+But the other, more pressing problem is the kernel-only code in
+init/do_mounts.c, which has very limited means to find a
+certain partition (see below).
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> Especially since the kernel will not try to catch up, this will be
+> bound to be broken on a regular basis.
 
---o5bio467nkbbcvez
-Content-Type: application/pgp-signature; name="signature.asc"
+What do you mean with "will not try to catch up"? Do you mean there
+might be other kernel changes that spoil the numbering again, in the
+future?
 
------BEGIN PGP SIGNATURE-----
+> And that aside, assuming that a device only has an eMMC this would
+> create the mmc2 device, which is completely weird and inconsistent
+> with how any other bus behaves.
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCL0wIACgkQwfwUeK3K
-7AkCSgf/dhj6g6iooQ9qQCmUfg5E4mF7y4wSO4mZuc3zXa/n3Gpi1Mmj3x5NRjc0
-D0QuOD9IspwZgvwWsoqqN7Qaslu7v3icteVHzwVqTDUQbDlZwREWeybb3ASsf8fd
-azN44fzWh9pdph2kCeE/nrYJ/DkFR55ihbSZZSU1ZCvqoYeB6ThJUsOo6YngwWuR
-JTVuhxGVcMR6rvyvT5pjXK2FGphXrVJDtq3ypCHK9tx61IMFPfzJV0Q9id4CM6w3
-QyTWu++3gClLgiGFqlJtE9bN/0agdtpQeA5fCfcU/jbddJuQwBNW20KO6Jm0E7qP
-yBk73WOiyt0caHe/L/tac3q3khGeqA==
-=T+lR
------END PGP SIGNATURE-----
+You have a point there, but I don't see how this would be a problem. I
+think one advantage is *consistent* numbering across reboots, so it
+will always be mmc2, even if you add a WiFi chip later (some boards
+have that as an option). Also those SD-card less system could surely
+override the labels in their board .dts files?
 
---o5bio467nkbbcvez--
+> > Also UUIDs only help if you boot with an initramfs to resolve them,
+> > which proves to be extra pain if you don't compile kernels on the
+> > device, or not inside a distribution environment.  
+> 
+> I'm not sure what you mean? The kernel is perfectly able to resolve
+> them. You can also use PARTLABEL if you want something more user
+> friendly.
+
+init/do_mounts.c supports PARTUUID only, but most people/distributions
+use UUID, which is filesystem metadata, so not easily accessible for
+the kernel early and on a partition level only. And IIRC PARTLABEL is
+only available on GPT partitioned disks.
+Also PARTUUID is set at partition time, so a user formatting her own SD
+card (or just changing the partition table) will have a unique PARTUUID,
+and it cannot be used from within a filesystem image or
+prefabricated boot script to reference its own partition
+(in /etc/fstab).
+And in general UUIDs are not very human friendly, so their main domain
+is to be handled by code. I definitely don't memorise a single one of
+them, but I do remember root=/dev/mmcblk0p2.
+
+I find it *very* annoying to load my development kernel over TFTP, then
+booting them with the rootfs from SD card or eMMC, and seeing it fail
+about 50% of the time, because the numbering is off.
+ 
+Cheers,
+Andre
