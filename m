@@ -1,71 +1,68 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E811272
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 03:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B5E72
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 03:59:03 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 4CCBF5809AD;
-	Thu, 29 Apr 2021 23:19:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Thu, 29 Apr 2021 23:19:16 -0400
+	by mailnew.nyi.internal (Postfix) with ESMTP id D0A3B58098B;
+	Thu, 29 Apr 2021 23:59:02 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Thu, 29 Apr 2021 23:59:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm2; bh=VXIbR1ry8WLfh
-	y43tYYX2p8Llxlb9hpdzyvr64/aVUo=; b=dx48OMNRWwFhVjWYR8UcbB5sys6h7
-	LyfZXFTtdB7byglQ3AYZiRz6NxeEdo0/bBKGsDGnBjVy3HzE0cV7lopExcfRuAzq
-	OjAD1V6lxpuDuQ9srwdiku7NJMdmxRStk+ZIpbnliRPxPlVLh1kFSZOz5bK53qqC
-	EaDSRRQEKQfHuKqqVCG6L2dJeeheLV3WcfobagOC7TFgG/vIdzWIiZNZXaOSf9yX
-	dcS/zL4w88JUGUrnBytCUIh1S+r6U3IkczjxwqsLlot85AsQagCYUypQmy3eS7gb
-	8/Dxqdrhbi1ntejJv7YnuHmpczIeDDb/s+L6N9tS531XwlRXpRO9GFuHA==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=xVY04ejPlSyjMR303yZ9gk9uyq
+	UXH76hunsc1D+ucg8=; b=gjHSHAxptF0w8Pf5Dvk0ucNQQoYJLA9+1Cs195XphT
+	9JFLUT7m5J/ObR7I50nVgb1Ti2qgNpRp6uj1v8ksv/SgOeM5CsCpcNYsOMIUlF7b
+	Ozos/PTPsINxVl8Ede/+wpkOESOCNCktKsi/HON9STzTccJMR5/E4/0DTY3M9ZEF
+	maFQCEjj4mXRQo7r8fQsIseD319V+sdYLgTlkUQMouFIACgrp7mql1pVCBGyJMXU
+	cd1/ZoS5eOu4nv9xjdXmMh9fJuK04hz3cXwMAqvaW+DB7X5+gY2my9K3BNPQiOx2
+	4vBLVzzuL7K3GVdzm48ebNyOmyygt5nuFRZRiIM3hFiw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; bh=VXIbR1ry8WLfhy43tYYX2p8Llxlb9hpdzyvr64/aVUo=; b=Qc09DASQ
-	rSOoMf0Jws+cXzKITuyx36U6s/wSdBLg9LkYdcyUJ6ql1EgHgV02hMQEhkhBKQDH
-	7Swa9DJCOHQuqgHTwAjtk0obt7NsCU4ZVJ9bS/LeE3PHSX2o4qRrAODvIFmIKtPK
-	OmnB72ZH3EIUd5uEJSPKa1LP0gxedHb7HZkL6tL+HJ2gTAH4rqjgMUUYQ0mEfz1w
-	8+0jSXwVwyJy2NT0mpY+L66ZoBWgn1PmINH8c6a+UxajD0hwqKmXAwSNbGFxhg2e
-	eTTgrm9rqmVmGrxefZvUuUtmOwrvjbZbZJrkGKZyKsvY6suWjbFoCqplCLautdaW
-	NnbezGxUr44HEw==
-X-ME-Sender: <xms:NHeLYH0QvJPT7wU1pa2CTpnSKu1NC9R9rJXe8-JNd4moXzloLIj9BA>
-    <xme:NHeLYGFvFb9QM-_CbXcjW0WCUobPta_VpoD_H-tShBv9cr5KzKNITapynUqkE6Fza
-    AGySSwV-Ym09T7DUw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgieelucetufdoteggodetrfdotf
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=xVY04ejPlSyjMR303
+	yZ9gk9uyqUXH76hunsc1D+ucg8=; b=T/9KMg4EQsjz6xUkFYRE8DjBFTvtFZa0+
+	lupIfLi/iNKx+ncf2uY53M7Uw6e+JE7yVTM9omCbxNkGmrhgcCtEbo6b7oyrT+qu
+	wDSW8lLWnwX4EJRDo89JLG0t8y+3YD7HxDn9D6F/ye9etEc98f3BxVbfALWJ5H3w
+	HhdoeXhBw0OW5GOlyWhwM3VyUUdm0ItbN8FkbFNCwZqwzYjcCoqJ9MO6gUaXf/OH
+	YsnvMrW27Htle0mFF36/MS/2KFOzsUSrBWL8SgQ1SpX1M4EsEpmkTZ5MAVgeu3Y1
+	YBuK4lphXr9QNMJrYPySIAFmkIWJS25Iz8beVdUs066EEUtHm9f4g==
+X-ME-Sender: <xms:hYCLYJZ1vT_eSbn-8aPJhM29rn8XBZRwL2W8OrztpvfBtLJNp_iCPw>
+    <xme:hYCLYAbxjR1cFAhxT36RxaXSj3ugDjygKPIPa3j9bkZNLJeIX7XEYxdbzsxo4VVUU
+    iDkxEXmyexOYIHW8A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvhedgjeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
-    gfejheeuieenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
-    ugdrohhrgh
-X-ME-Proxy: <xmx:NHeLYH7q_WB2X8dikdzPk9NACwwKFPqBGVsGY_1x_AdCuUSZMjue7g>
-    <xmx:NHeLYM131SGyE0R7KR91qeL-EleHo62QioMeVTmEBCOpHP0QNvdFZA>
-    <xmx:NHeLYKH0xaSjhyGBa2cTnfmkpX-y6KyxQmQEJd8iUrVl9Lsntr3NOw>
-    <xmx:NHeLYNAlHIgjIXqp4izlQSmuIU_0JcPTR4PibPuKkh7udUhOi17F4g>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:hYCLYL9b43hiWASNECLJhkYoQsLlxgL4n777uv08FJtEcW6dtHpE0g>
+    <xmx:hYCLYHoWMzjc1tJssE0HadIvsWUSBa3lDacaKBOl3quyi5wGENodTA>
+    <xmx:hYCLYEryrZQYGn9epi-6jDXxGyLtTNnfqUEwMzVvDxanXTflbey95Q>
+    <xmx:hoCLYL3JgresNieHYASlfJWUgwAwop1uFmUfMGZ7OrPUjmWhJHgPaQ>
 Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Thu, 29 Apr 2021 23:19:15 -0400 (EDT)
+	Thu, 29 Apr 2021 23:59:00 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
+To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@siol.net>,
-	Felipe Balbi <balbi@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: devicetree@vger.kernel.org,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 2/2] arm64: dts: allwinner: h6: Wrap DWC3 and PHY in glue layer
-Date: Thu, 29 Apr 2021 22:19:12 -0500
-Message-Id: <20210430031912.42252-3-samuel@sholland.org>
+Subject: [PATCH v3 0/7] PinePhone BT audio bringup
+Date: Thu, 29 Apr 2021 22:58:52 -0500
+Message-Id: <20210430035859.3487-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20210430031912.42252-1-samuel@sholland.org>
-References: <20210430031912.42252-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -73,164 +70,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The USB3 IP in the H6 is organized such that the reset line affects both
-the DWC3 core and the PHY. To model that, following the example of
-several other platforms, wrap those nodes in a glue layer node.
+This series uses the additional DAIs added to the sun8i-codec driver to
+add hardware routing for BT SCO (headset) audio on the PinePhone.
 
-The inner nodes no longer need to be disabled, since the glue layer is
-disabled by default to keep it in reset.
+The BT audio connection is represented by the "dummy" bt-sco codec. The
+connection to the Quectel EG-25G modem via AIF2 works as well, but I do
+not include it here because there is no appropriate codec driver in
+tree. We have been using an out-of-tree "dummy" codec driver for the
+modem similar to bt-sco, and I'm not sure if such a driver would be
+desired upstream.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  6 +-
- .../dts/allwinner/sun50i-h6-orangepi-3.dts    |  6 +-
- .../dts/allwinner/sun50i-h6-tanix-tx6.dts     |  6 +-
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 60 ++++++++++---------
- 4 files changed, 36 insertions(+), 42 deletions(-)
+Changes from v2:
+  - Also accept #sound-dai-cells in the binding. Since dt-core.yaml
+    already sets the type of this property, it is not possible to use
+    oneOf, nor make a specific value deprecated.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-index b5808047d6e4..5f6292db808c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-beelink-gs1.dts
-@@ -86,10 +86,6 @@ &de {
- 	status = "okay";
- };
- 
--&dwc3 {
--	status = "okay";
--};
--
- &ehci0 {
- 	status = "okay";
- };
-@@ -309,6 +305,6 @@ &usb2phy {
- 	status = "okay";
- };
- 
--&usb3phy {
-+&usb3 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-index 7e83f6146f8a..ae3c24584f65 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-@@ -101,10 +101,6 @@ &de {
- 	status = "okay";
- };
- 
--&dwc3 {
--	status = "okay";
--};
--
- &ehci0 {
- 	status = "okay";
- };
-@@ -340,6 +336,6 @@ &usb2phy {
- 	status = "okay";
- };
- 
--&usb3phy {
-+&usb3 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-index be81330db14f..8cb06df231ab 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-@@ -55,10 +55,6 @@ &de {
- 	status = "okay";
- };
- 
--&dwc3 {
--	status = "okay";
--};
--
- &ehci0 {
- 	status = "okay";
- };
-@@ -119,6 +115,6 @@ &usb2phy {
- 	status = "okay";
- };
- 
--&usb3phy {
-+&usb3 {
- 	status = "okay";
- };
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-index af8b7d0ef750..b4ce5eff2822 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-@@ -700,36 +700,42 @@ ohci0: usb@5101400 {
- 			status = "disabled";
- 		};
- 
--		dwc3: usb@5200000 {
--			compatible = "snps,dwc3";
--			reg = <0x05200000 0x10000>;
--			interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
--			clocks = <&ccu CLK_BUS_XHCI>,
--				 <&ccu CLK_BUS_XHCI>,
--				 <&rtc 0>;
--			clock-names = "ref", "bus_early", "suspend";
-+		usb3: usb@5200000 {
-+			compatible = "allwinner,sun50i-h6-dwc3";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			ranges;
- 			resets = <&ccu RST_BUS_XHCI>;
--			/*
--			 * The datasheet of the chip doesn't declare the
--			 * peripheral function, and there's no boards known
--			 * to have a USB Type-B port routed to the port.
--			 * In addition, no one has tested the peripheral
--			 * function yet.
--			 * So set the dr_mode to "host" in the DTSI file.
--			 */
--			dr_mode = "host";
--			phys = <&usb3phy>;
--			phy-names = "usb3-phy";
- 			status = "disabled";
--		};
- 
--		usb3phy: phy@5210000 {
--			compatible = "allwinner,sun50i-h6-usb3-phy";
--			reg = <0x5210000 0x10000>;
--			clocks = <&ccu CLK_USB_PHY1>;
--			resets = <&ccu RST_USB_PHY1>;
--			#phy-cells = <0>;
--			status = "disabled";
-+			dwc3: usb@5200000 {
-+				compatible = "snps,dwc3";
-+				reg = <0x05200000 0x10000>;
-+				interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&ccu CLK_BUS_XHCI>,
-+					 <&ccu CLK_BUS_XHCI>,
-+					 <&rtc 0>;
-+				clock-names = "ref", "bus_early", "suspend";
-+				/*
-+				 * The datasheet of the chip doesn't declare the
-+				 * peripheral function, and there's no boards known
-+				 * to have a USB Type-B port routed to the port.
-+				 * In addition, no one has tested the peripheral
-+				 * function yet.
-+				 * So set the dr_mode to "host" in the DTSI file.
-+				 */
-+				dr_mode = "host";
-+				phys = <&usb3phy>;
-+				phy-names = "usb3-phy";
-+			};
-+
-+			usb3phy: phy@5210000 {
-+				compatible = "allwinner,sun50i-h6-usb3-phy";
-+				reg = <0x5210000 0x10000>;
-+				clocks = <&ccu CLK_USB_PHY1>;
-+				resets = <&ccu RST_USB_PHY1>;
-+				#phy-cells = <0>;
-+			};
- 		};
- 
- 		ehci3: usb@5311000 {
+Changes from v1:
+  - Fixed DT binding example to follow new binding
+
+Arnaud Ferraris (1):
+  arm64: dts: allwinner: pinephone: Set audio card name
+
+Samuel Holland (6):
+  ASoC: dt-bindings: sun8i-codec: Increase #sound-dai-cells
+  ARM: dts: sun8i-a33: Allow using multiple codec DAIs
+  arm64: dts: allwinner: a64: Allow using multiple codec DAIs
+  arm64: dts: allwinner: a64: Add pinmux nodes for AIF2/AIF3
+  arm64: dts: allwinner: a64: Allow multiple DAI links
+  arm64: dts: allwinner: pinephone: Add support for Bluetooth audio
+
+ .../sound/allwinner,sun8i-a33-codec.yaml      |  8 +++-
+ arch/arm/boot/dts/sun8i-a33.dtsi              |  4 +-
+ .../dts/allwinner/sun50i-a64-pinephone.dtsi   | 25 +++++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 37 ++++++++++++++-----
+ 4 files changed, 60 insertions(+), 14 deletions(-)
+
 -- 
 2.26.3
 
