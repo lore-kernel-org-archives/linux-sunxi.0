@@ -1,157 +1,105 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A38971
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 09:10:39 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 875515C0032;
-	Fri, 30 Apr 2021 05:10:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Fri, 30 Apr 2021 05:10:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=DgPXkCNwhuM1PvuNpQB5vO85GXk
-	9IVTLv4pIOEkACM8=; b=v3lFalLS2TrtaF/aAKRNtCRKo3X9KKsTJPpbZDbALtO
-	TBZfUyMeRdDSnVkzhYJ0hTaRqiK1la++4dg3x/o/lFAZJjWKEjouSxHiXjpp/7V3
-	GcZtuH7Jz0vb+aK9kQO1NpHjdSqA5NXZLm98uz0dE+LLfiWsso+BoBulMdGJ/BCg
-	NLCkTemN9sdyyOjFIoYRBoi6CmjhlsZtIEreEnIiXVY1XbP512vkemu76JtmQG+T
-	soYufUFwf6paOCwAS1zu4aYfjUlf9YzruiIRIHy/If8w/vi2uH6E7PsDslYx2T5v
-	3dtGpNGWPDK9N/b2IdfhOtXKPuoPtRKbRukx/PplrCA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=DgPXkC
-	NwhuM1PvuNpQB5vO85GXk9IVTLv4pIOEkACM8=; b=sFY/ECTsNNXUjSfwBt6lFu
-	BJfDhttISlFO4bU/nzfmphsiTRMvkRfPRdPP3Sdy7C557AhTifO5usvA7iVzrPLM
-	PPbR9noGUEONxwEuDcYz4ok5Nv30zc5qOZ1xsdmqn5H5dzBHHZSSMupZrqZ/EI+h
-	WOwfJ/agiVqE4OYuviOXyC5Sc9/x8NvvZvG4uPV2ompJWuIW8s767yW0+NRj+lrD
-	wm2W/SQ9YVQAoF7jfGN9bf+ORVQ+hE3IZRw79eCSw9Jebt31hDV5XQ2bTYaEiB8b
-	GMyxricEnXr5+kmywZ7x/VpkKnJLij8chr3yWx10Ol+dvSTGsHCpUO1Ai8AvC74Q
-	==
-X-ME-Sender: <xms:jcmLYIv46PFH2I-yNC0GBVVTHo1wtbmhmYsub_r28nDlmmxaw0tsAw>
-    <xme:jcmLYFfRmEELpEAy70HCBIzKVxE80lyJz2ULLpqLaoXCz8BOPoxox3Ox7ouChhBym
-    R-ddg5bofsDlBhBMog>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddviedguddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jcmLYDykuZ_CP5JV8lF6npKjNeBo-VDdNnCaVq7GS4m2DlyhlQkQbQ>
-    <xmx:jcmLYLNBzH8upGuc3c63EbYnRSgWC2Mo3kPlHuKBOb_f6LF8dW91Ew>
-    <xmx:jcmLYI-PRvTdFHdebQ7onUcahcQaSSxSIq1af5ejZkNGAoWQECaG0A>
-    <xmx:jsmLYHl0OezGXOTggnNmAyoPAE5wTh9EwOZg8wVI6WS3gXwxvSkBsg>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Fri, 30 Apr 2021 05:10:37 -0400 (EDT)
-Date: Fri, 30 Apr 2021 11:10:35 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	devicetree <devicetree@vger.kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
-Message-ID: <20210430091035.i4zoyzb4c2l22msb@gilmour>
-References: <20210419025246.21722-1-samuel@sholland.org>
- <CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
- <20210419095443.1548432e@slackpad.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FCE71
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 09:51:12 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lcPnd-0000lu-3v; Fri, 30 Apr 2021 11:51:05 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lcPnZ-0002Mm-5c; Fri, 30 Apr 2021 11:51:01 +0200
+Date: Fri, 30 Apr 2021 11:51:01 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Roman Beranek <roman.beranek@prusa3d.cz>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com,
+	Roman Beranek <roman.beranek@prusa3d.com>
+Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
+Message-ID: <20210430095101.rjkdukf67h2k4iea@pengutronix.de>
+References: <20210430064145.nzlcw3lpayzapnbx@pengutronix.de>
+ <CB0VI785HYEE.3PXPB7BDOUPFC@zen.local>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5enpgdo5lledv3vf"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="o5bio467nkbbcvez"
 Content-Disposition: inline
-In-Reply-To: <20210419095443.1548432e@slackpad.fritz.box>
+In-Reply-To: <CB0VI785HYEE.3PXPB7BDOUPFC@zen.local>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---5enpgdo5lledv3vf
-Content-Type: text/plain; charset=us-ascii
+--o5bio467nkbbcvez
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 19, 2021 at 09:54:43AM +0100, Andre Przywara wrote:
-> On Mon, 19 Apr 2021 11:17:19 +0800
-> Chen-Yu Tsai <wens@csie.org> wrote:
+Hello Roman,
+
+On Fri, Apr 30, 2021 at 09:17:49AM +0200, Roman Beranek wrote:
+> On Fri Apr 30, 2021 at 8:41 AM CEST, Uwe Kleine-K=F6nig wrote:
+> > Consider the PWM is running with a period of 4s and the period just
+> > started. Then you call
+> >
+> > pwm_apply_state(mypwm, &(struct pwm_state){
+> > .period =3D 20,
+> > .enabled =3D 1,
+> > ...
+> > })
+> >
+> > This doesn't result into the waiting code being run, because
+> > .enabled =3D 1. Then immidiately after that call:
+> >
+> > pwm_apply_state(mypwm, &(struct pwm_state){
+> > .period =3D 20,
+> > .enabled =3D 0,
+> > ...
+> > })
+> >
+> > which triggers the waiting but only based on a period of 20 ns while the
+> > 4s period is still active.
 >=20
-> Hi,
+> OK, now I see what you mean. To remedy this, the delay shall occur
+> regardless of state->enabled.
 >=20
-> > On Mon, Apr 19, 2021 at 10:52 AM Samuel Holland <samuel@sholland.org> w=
-rote:
-> > >
-> > > Dealing with the inconsistent numbering has been a major pain, and
-> > > there is a solution with (as far as I can tell) no tangible downsides.
-> > > So let's use it.
->=20
-> Thanks Samuel for sending this!
->=20
-> > > Yes, I know the kernel supports UUIDs for root=3D. But UUIDs do not h=
-elp
-> > > when referencing the whole, unpartitioned device, like is needed for
-> > > updating the bootloader and firmware. So for the use case of "write a
-> > > bootloader to the SD card, regardless of where the board is currently
-> > > booted from", I know of two options:
-> > >   - Dig around in sysfs to find the mmc number from the MMIO address,
-> > >     which means I have to know the MMIO addresses for every SoC, or
-> > >   - Apply patches like these.
-> > >
-> > > Samuel Holland (2):
-> > >   ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
-> > >   arm64: dts: allwinner: Enforce consistent MMC numbering
-> > >
-> > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
-> > >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
-> > >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++ =20
-> >=20
-> > At least with Rockchip this is now done at the board level. IIRC it was
-> > a request from other people to not do it at the SoC level. I don't reca=
-ll
-> > exactly who though.
->=20
-> FWIW, I am very much in favour of these patches, at a SoC level:
-> The *SoC* BootROM imposes an order, by probing the first (by MMIO
-> address order) MMC controller first for boot devices. IIRC that's a
-> different story for Rockchip?
-> And if people really don't care about the order, then having a certain
-> order doesn't hurt, so we could as well use the "natural" order, as it
-> was before.
+> In my view, this lies beneath the scope of the patch though and would be
+> better served as a follow-up.
 
-This doesn't have anything to do with the BootRom though but what we
-provide to the userspace? The userspace has no guarantee about the
-kernel enumeration order for any bus (but UART for some reason), I'm not
-really sure why MMC would be an exception. Especially since the kernel
-will not try to catch up, this will be bound to be broken on a regular
-basis.
+If you agree that dropping both delay and clk_disable completely is the
+right thing, you address both problems and going forward with your patch
+isn't sensible.
 
-And that aside, assuming that a device only has an eMMC this would
-create the mmc2 device, which is completely weird and inconsistent with
-how any other bus behaves.
+Best regards
+Uwe
 
-> Also UUIDs only help if you boot with an initramfs to resolve them,
-> which proves to be extra pain if you don't compile kernels on the
-> device, or not inside a distribution environment.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-I'm not sure what you mean? The kernel is perfectly able to resolve
-them. You can also use PARTLABEL if you want something more user
-friendly.
-
-Maxime
-
---5enpgdo5lledv3vf
+--o5bio467nkbbcvez
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYIvJiwAKCRDj7w1vZxhR
-xezdAQDIY6qe0cw/YeAwFhjlA5dAKEDjlxwmNTpj6ztkqfs/4wD/ckzHAVsRq/tR
-KkQbbJcdqKeAzIEY1dSy+rvOusXqqAA=
-=DXm6
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmCL0wIACgkQwfwUeK3K
+7AkCSgf/dhj6g6iooQ9qQCmUfg5E4mF7y4wSO4mZuc3zXa/n3Gpi1Mmj3x5NRjc0
+D0QuOD9IspwZgvwWsoqqN7Qaslu7v3icteVHzwVqTDUQbDlZwREWeybb3ASsf8fd
+azN44fzWh9pdph2kCeE/nrYJ/DkFR55ihbSZZSU1ZCvqoYeB6ThJUsOo6YngwWuR
+JTVuhxGVcMR6rvyvT5pjXK2FGphXrVJDtq3ypCHK9tx61IMFPfzJV0Q9id4CM6w3
+QyTWu++3gClLgiGFqlJtE9bN/0agdtpQeA5fCfcU/jbddJuQwBNW20KO6Jm0E7qP
+yBk73WOiyt0caHe/L/tac3q3khGeqA==
+=T+lR
 -----END PGP SIGNATURE-----
 
---5enpgdo5lledv3vf--
+--o5bio467nkbbcvez--
