@@ -1,79 +1,76 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B7B2F9A
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 15:25:00 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so59606504otf.12
-        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 08:25:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5BE2F9A
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 15:27:57 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id m9so58282621wrx.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 08:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=prusa3d-cz.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:content-transfer-encoding:cc:subject:from:to:date
+         :message-id:in-reply-to;
+        bh=pMApo/Ws+UN1eYyEWGiCVA7HjUi3e6iQkzDy0eFDh34=;
+        b=YBR4rv+8dFP75XyIMQ/wxcwAQwQq6QNeZNTA7qbHp5HXiG1hjqAVxEnwf2jvxmjPhj
+         rmpwhMJ6DzaHJV5pPqjiiQ86GlJc+blMN9RxGf4mZYj9h/CSJHE8mVa6RVgErB5TLTjm
+         4DNiuuf6t0PFqdNuam8dVLJiB/aDBxA4EnxpFhiijaiK3XgR1EPAbn43hZ2eFoOUvrv/
+         j9hm5PUU+PsYTv7JvyvKLu9Kw2w3dpjLHvmijPS7BdVpRVOjoYUikRoAJcZk9gT+962F
+         Vt9MgqJD0K5HsTUQJcDccnBlPsEi9x4dUTScMtYxSTHwJhgwgLLrXmxO/oOoGw6x2qFz
+         DpEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=/7eEsvMEZJ47hg8IvqdZUreNggO3ds++/YXgQWY8CIw=;
-        b=q9toej8iB3x2SMEctBaWw2mj6iiIz/VBBEoTSmEObyMRsFTMnrLPFGNxvyxm5JbQxL
-         /atnVsDJkgHGREMEgOSX6ArWUKo0o/YBCXdHY/N5dA+46JkFprk/OdkwtKCNkuzeXvF5
-         BVxuqhOayzd9R2pid1/17ZmPGfCKiLYXBeEcqzX5Nl1JHXvKbXInJmA0852MI/D7qV+H
-         TmVJpJ7HOBuflxIKAMyARGbEvmqDG9fUaSesJqrpxRwJqkazYmLkGAlk86Hfggemofb/
-         p3QtxMzxARg6FRPY47oihXt9ScL/3L5sW36yG8pYMil6Qu65E4knPNytJtZ0Wt4b89xG
-         OdeA==
-X-Gm-Message-State: AOAM533JGLFyH8BaI6TCmjvb3E1dtf62dgpSEx9JhxZYZrsYJGMNkeqT
-	vWBFxPNZpoqs36vYq0L3XQ==
-X-Google-Smtp-Source: ABdhPJzgxL4fyp7PZwgduyI/n2iPxYyF0MKR4LhThPwz/lhf1+JZjnF5p7RzxxJWkyZbMwnq+hbgMg==
-X-Received: by 2002:a9d:615a:: with SMTP id c26mr4037878otk.54.1619796299799;
-        Fri, 30 Apr 2021 08:24:59 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id u185sm837557oie.12.2021.04.30.08.24.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Apr 2021 08:24:59 -0700 (PDT)
-Received: (nullmailer pid 3353975 invoked by uid 1000);
-	Fri, 30 Apr 2021 15:24:53 -0000
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>, linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, Felipe Balbi <balbi@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>
-In-Reply-To: <20210430031912.42252-2-samuel@sholland.org>
-References: <20210430031912.42252-1-samuel@sholland.org> <20210430031912.42252-2-samuel@sholland.org>
-Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3 glue
-Date: Fri, 30 Apr 2021 10:24:53 -0500
-Message-Id: <1619796293.743748.3353974.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:content-transfer-encoding:cc
+         :subject:from:to:date:message-id:in-reply-to;
+        bh=pMApo/Ws+UN1eYyEWGiCVA7HjUi3e6iQkzDy0eFDh34=;
+        b=jpJcVZXv3dZYKzK2i03vkpIZYoTFsIF/g4TOES46IlEb1KvmuOKPRFQLlGwy5EKp/F
+         lgkE+POalpvvKHFpeyq27SHAddhpdkAi9UUj7XcqPquIAiTE4oECBrwYvYNoimLigQJZ
+         /psIpCQQNhi4bo/efjZ2J97Ibh3S+g/kkhI9UFVgLTRbcTlirpTnPut8KEwNiWTnEaC7
+         gEO9lNDH1QzkFFaDaOi5Z+DXyV0yvd+u2CDpwTcRVfk0yMLR6mWSAp2r8cowzOSUmL6V
+         RJhFiCXPjpKbX0Kusnqd843OBJmECY4qv/Xe4teR1FU4VQ8Np3OivTV3eU1ethBLopGr
+         AaOQ==
+X-Gm-Message-State: AOAM532/8XGXhHYpHwVg9AOeYAiSRRVrf99bQV++cLzJ7fEnjbef7pab
+	h3Bx0FrsvC4ObFOXeU0r1ZYYTQ==
+X-Google-Smtp-Source: ABdhPJzxNJzJDEYUA6buYFcK0rLmg2zLAajIydPXtQj8HZE5OYh1uZ/kqvsPLjBuNZN4rI/i15UA6Q==
+X-Received: by 2002:a5d:4308:: with SMTP id h8mr7439039wrq.371.1619796476474;
+        Fri, 30 Apr 2021 08:27:56 -0700 (PDT)
+Received: from localhost (ip-89-102-194-33.net.upcbroadband.cz. [89.102.194.33])
+        by smtp.gmail.com with ESMTPSA id m14sm3379827wmi.39.2021.04.30.08.27.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 30 Apr 2021 08:27:55 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Cc: "Thierry Reding" <thierry.reding@gmail.com>, "Lee Jones"
+ <lee.jones@linaro.org>, "Maxime Ripard" <mripard@kernel.org>, "Chen-Yu
+ Tsai" <wens@csie.org>, "Jernej Skrabec" <jernej.skrabec@siol.net>,
+ <linux-pwm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-sunxi@googlegroups.com>, "Roman
+ Beranek" <roman.beranek@prusa3d.com>
+Subject: Re: [PATCH] pwm: sun4i: Round delay time up to a nearest jiffy
+From: "Roman Beranek" <roman.beranek@prusa3d.cz>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Date: Fri, 30 Apr 2021 17:10:03 +0200
+Message-Id: <CB15JRQIWROB.2MRNYCPGI20C6@zen.local>
+In-Reply-To: <20210430095101.rjkdukf67h2k4iea@pengutronix.de>
 
-On Thu, 29 Apr 2021 22:19:11 -0500, Samuel Holland wrote:
-> The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
-> USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
-> Represent this by attaching the reset line to a glue layer device.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->  .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
->  1 file changed, 75 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
-> 
+Hello Uwe,
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+On Fri Apr 30, 2021 at 11:51 AM CEST, Uwe Kleine-K=C3=B6nig wrote:
+> If you agree that dropping both delay and clk_disable completely is the
+> right thing, you address both problems and going forward with your patch
+> isn't sensible.
 
-yamllint warnings/errors:
+I had my doubts whether simply clearing the PWMx_EN bit would be enough
+to turn the PWM off but I stand corrected. It does work.
 
-dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dts:23.27-50.11: Warning (unit_address_vs_reg): /example-0/usb@5200000: node has a unit name, but no reg or ranges property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml: usb@5200000: usb@5200000:phy-names:0: 'usb2-phy' was expected
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml: usb@5200000: phy-names:0: 'usb2-phy' was expected
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+The added bonusu is that once without the invocations of {u,m}sleep and
+clk_{enable_,disable_un}prepare, the sun4i_pwm_apply function finally
+becomes safe for running in an atomic context.
 
-See https://patchwork.ozlabs.org/patch/1471948
+I will therefore prepare a new patch and come back some time next week.
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Have a great weekend,
+Roman
