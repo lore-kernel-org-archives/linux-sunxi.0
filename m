@@ -1,148 +1,79 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD2672
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 10:56:38 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 32134113E;
-	Fri, 30 Apr 2021 03:56:32 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE4243F70D;
-	Fri, 30 Apr 2021 03:56:30 -0700 (PDT)
-Date: Fri, 30 Apr 2021 11:55:45 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@siol.net>, devicetree
- <devicetree@vger.kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
-Message-ID: <20210430115545.6a45d1dc@slackpad.fritz.box>
-In-Reply-To: <20210430091035.i4zoyzb4c2l22msb@gilmour>
-References: <20210419025246.21722-1-samuel@sholland.org>
-	<CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
-	<20210419095443.1548432e@slackpad.fritz.box>
-	<20210430091035.i4zoyzb4c2l22msb@gilmour>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B7B2F9A
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 15:25:00 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id f75-20020a9d03d10000b0290280def9ab76so59606504otf.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 30 Apr 2021 08:25:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=/7eEsvMEZJ47hg8IvqdZUreNggO3ds++/YXgQWY8CIw=;
+        b=q9toej8iB3x2SMEctBaWw2mj6iiIz/VBBEoTSmEObyMRsFTMnrLPFGNxvyxm5JbQxL
+         /atnVsDJkgHGREMEgOSX6ArWUKo0o/YBCXdHY/N5dA+46JkFprk/OdkwtKCNkuzeXvF5
+         BVxuqhOayzd9R2pid1/17ZmPGfCKiLYXBeEcqzX5Nl1JHXvKbXInJmA0852MI/D7qV+H
+         TmVJpJ7HOBuflxIKAMyARGbEvmqDG9fUaSesJqrpxRwJqkazYmLkGAlk86Hfggemofb/
+         p3QtxMzxARg6FRPY47oihXt9ScL/3L5sW36yG8pYMil6Qu65E4knPNytJtZ0Wt4b89xG
+         OdeA==
+X-Gm-Message-State: AOAM533JGLFyH8BaI6TCmjvb3E1dtf62dgpSEx9JhxZYZrsYJGMNkeqT
+	vWBFxPNZpoqs36vYq0L3XQ==
+X-Google-Smtp-Source: ABdhPJzgxL4fyp7PZwgduyI/n2iPxYyF0MKR4LhThPwz/lhf1+JZjnF5p7RzxxJWkyZbMwnq+hbgMg==
+X-Received: by 2002:a9d:615a:: with SMTP id c26mr4037878otk.54.1619796299799;
+        Fri, 30 Apr 2021 08:24:59 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id u185sm837557oie.12.2021.04.30.08.24.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Apr 2021 08:24:59 -0700 (PDT)
+Received: (nullmailer pid 3353975 invoked by uid 1000);
+	Fri, 30 Apr 2021 15:24:53 -0000
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Maxime Ripard <mripard@kernel.org>, linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, Felipe Balbi <balbi@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@siol.net>
+In-Reply-To: <20210430031912.42252-2-samuel@sholland.org>
+References: <20210430031912.42252-1-samuel@sholland.org> <20210430031912.42252-2-samuel@sholland.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: Document the Allwinner H6 DWC3 glue
+Date: Fri, 30 Apr 2021 10:24:53 -0500
+Message-Id: <1619796293.743748.3353974.nullmailer@robh.at.kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 30 Apr 2021 11:10:35 +0200
-Maxime Ripard <maxime@cerno.tech> wrote:
-
-Hi Maxime,
-
-> On Mon, Apr 19, 2021 at 09:54:43AM +0100, Andre Przywara wrote:
-> > On Mon, 19 Apr 2021 11:17:19 +0800
-> > Chen-Yu Tsai <wens@csie.org> wrote:
-> > 
-> > Hi,
-> >   
-> > > On Mon, Apr 19, 2021 at 10:52 AM Samuel Holland <samuel@sholland.org> wrote:  
-> > > >
-> > > > Dealing with the inconsistent numbering has been a major pain, and
-> > > > there is a solution with (as far as I can tell) no tangible downsides.
-> > > > So let's use it.  
-> > 
-> > Thanks Samuel for sending this!
-> >   
-> > > > Yes, I know the kernel supports UUIDs for root=. But UUIDs do not help
-> > > > when referencing the whole, unpartitioned device, like is needed for
-> > > > updating the bootloader and firmware. So for the use case of "write a
-> > > > bootloader to the SD card, regardless of where the board is currently
-> > > > booted from", I know of two options:
-> > > >   - Dig around in sysfs to find the mmc number from the MMIO address,
-> > > >     which means I have to know the MMIO addresses for every SoC, or
-> > > >   - Apply patches like these.
-> > > >
-> > > > Samuel Holland (2):
-> > > >   ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
-> > > >   arm64: dts: allwinner: Enforce consistent MMC numbering
-> > > >
-> > > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
-> > > >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
-> > > >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++    
-> > > 
-> > > At least with Rockchip this is now done at the board level. IIRC it was
-> > > a request from other people to not do it at the SoC level. I don't recall
-> > > exactly who though.  
-> > 
-> > FWIW, I am very much in favour of these patches, at a SoC level:
-> > The *SoC* BootROM imposes an order, by probing the first (by MMIO
-> > address order) MMC controller first for boot devices. IIRC that's a
-> > different story for Rockchip?
-> > And if people really don't care about the order, then having a certain
-> > order doesn't hurt, so we could as well use the "natural" order, as it
-> > was before.  
+On Thu, 29 Apr 2021 22:19:11 -0500, Samuel Holland wrote:
+> The RST_BUS_XHCI reset line in the H6 affects both the DWC3 core and the
+> USB3 PHY. This suggests the reset line controls the USB3 IP as a whole.
+> Represent this by attaching the reset line to a glue layer device.
 > 
-> This doesn't have anything to do with the BootRom though but what we
-> provide to the userspace?
-
-My argument was that there is a "natural" order, not only by the
-location in the MMIO space, but on a more logical level: the "first" SD
-controller is first checked by the BootROM, so the SoC puts a "number
-0" tag on this particular one. This is just because I heard the
-(reasonable) argument that location in MMIO space should not be
-significant, and deriving an order from that is arbitrary.
-
-> The userspace has no guarantee about the
-> kernel enumeration order for any bus (but UART for some reason), I'm not
-> really sure why MMC would be an exception.
-
-Userspace is one thing, but arguably there are ways to find the
-partition you are looking for, because you have all the kernel *and*
-userlevel tools at hand. The question is whether this needs to be overly
-complicated and harder for the user.
-But the other, more pressing problem is the kernel-only code in
-init/do_mounts.c, which has very limited means to find a
-certain partition (see below).
-
-> Especially since the kernel will not try to catch up, this will be
-> bound to be broken on a regular basis.
-
-What do you mean with "will not try to catch up"? Do you mean there
-might be other kernel changes that spoil the numbering again, in the
-future?
-
-> And that aside, assuming that a device only has an eMMC this would
-> create the mmc2 device, which is completely weird and inconsistent
-> with how any other bus behaves.
-
-You have a point there, but I don't see how this would be a problem. I
-think one advantage is *consistent* numbering across reboots, so it
-will always be mmc2, even if you add a WiFi chip later (some boards
-have that as an option). Also those SD-card less system could surely
-override the labels in their board .dts files?
-
-> > Also UUIDs only help if you boot with an initramfs to resolve them,
-> > which proves to be extra pain if you don't compile kernels on the
-> > device, or not inside a distribution environment.  
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  .../usb/allwinner,sun50i-h6-dwc3.yaml         | 75 +++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
 > 
-> I'm not sure what you mean? The kernel is perfectly able to resolve
-> them. You can also use PARTLABEL if you want something more user
-> friendly.
 
-init/do_mounts.c supports PARTUUID only, but most people/distributions
-use UUID, which is filesystem metadata, so not easily accessible for
-the kernel early and on a partition level only. And IIRC PARTLABEL is
-only available on GPT partitioned disks.
-Also PARTUUID is set at partition time, so a user formatting her own SD
-card (or just changing the partition table) will have a unique PARTUUID,
-and it cannot be used from within a filesystem image or
-prefabricated boot script to reference its own partition
-(in /etc/fstab).
-And in general UUIDs are not very human friendly, so their main domain
-is to be handled by code. I definitely don't memorise a single one of
-them, but I do remember root=/dev/mmcblk0p2.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-I find it *very* annoying to load my development kernel over TFTP, then
-booting them with the rootfs from SD card or eMMC, and seeing it fail
-about 50% of the time, because the numbering is off.
- 
-Cheers,
-Andre
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dts:23.27-50.11: Warning (unit_address_vs_reg): /example-0/usb@5200000: node has a unit name, but no reg or ranges property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml: usb@5200000: usb@5200000:phy-names:0: 'usb2-phy' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/allwinner,sun50i-h6-dwc3.example.dt.yaml: usb@5200000: phy-names:0: 'usb2-phy' was expected
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/usb/snps,dwc3.yaml
+
+See https://patchwork.ozlabs.org/patch/1471948
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
