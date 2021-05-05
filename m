@@ -1,62 +1,162 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8505372
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 May 2021 15:59:26 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9734ED41DA
-	for <linux-sunxi@lists.linux.dev>; Tue,  4 May 2021 15:34:08 +0000 (UTC)
-X-Originating-IP: 90.65.108.55
-Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
-	(Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 2AB0A1C0007;
-	Tue,  4 May 2021 15:33:59 +0000 (UTC)
-Date: Tue, 4 May 2021 17:33:59 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Alessandro Zummo <a.zummo@towertech.it>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7172F80;
+	Wed,  5 May 2021 09:42:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0602D61401;
+	Wed,  5 May 2021 09:42:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620207739;
+	bh=yt06NNHz8DnYKToINWX+kvUyHzX2tR5CxsEbiivgk9Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aqDRmaF3drwaIh64M6SmLAXcURg7md3/lxLq6hY7zb9NqADehFDhLwTfZdBs7O+Ua
+	 PrWk1xzp0TuIUKCqW49WlvukyoTfR5zgDGz7Uu2PZqSgv1pEGUUxNbyoLUBf8HZnu5
+	 qRdm6t31xE9TWLgGFmfaTYQA8hMkY0ziRes30XuBsRHwKIVlQv7wfSkyxIpDYtEO+h
+	 OCd1Y0Rg6YCyxJf0fUjbsEoL8cTStyP6CBORWLMbL183NygQ2Jt0qsW8FwH+QN9AJO
+	 UNaAIvqUS7AS4O6rIj0PTrvaAvgGwleAAphalHt9KMZmiBAzijNKMWxdBLmzF/O1Jj
+	 VRSlJc4wK+6AA==
+Received: by mail.kernel.org with local (Exim 4.94)
+	(envelope-from <mchehab@kernel.org>)
+	id 1leE2q-00AHvp-Hf; Wed, 05 May 2021 11:42:16 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: 
+Cc: linuxarm@huawei.com,
+	mauro.chehab@huawei.com,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	"Paul J. Murphy" <paul.j.murphy@intel.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
-Message-ID: <YJFpZzm07ZX3aYsK@piout.net>
-References: <20210419014549.26900-1-samuel@sholland.org>
- <20210430090206.lybmygrt636nysoc@gilmour>
+	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+	Ezequiel Garcia <ezequiel@collabora.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 00/25] Fix some PM runtime issues at the media subsystem
+Date: Wed,  5 May 2021 11:41:50 +0200
+Message-Id: <cover.1620207353.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210430090206.lybmygrt636nysoc@gilmour>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On 30/04/2021 11:02:06+0200, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
-> > The sun6i RTC provides 32 bytes of general-purpose data registers.
-> > They can be used to save data in the always-on RTC power domain.
-> > The registers are writable via 32-bit MMIO accesses only.
-> > 
-> > Expose the region as a NVMEM provider so it can be used by userspace and
-> > other drivers.
-> > 
-> > Signed-off-by: Samuel Holland <samuel@sholland.org>
-> 
-> As far as I understood, you want to use those registers to implement
-> super-standby? If so, while it makes sense for the kernel to be able to
-> be able to write to those registers, I guess it would be a bit unwise to
-> allow the userspace to access it?
+As part of an effort to cleanup pm_runtime*get* calls, I detected a number
+of issues at the media subsystem.
 
-I would think nvmem is still the proper subsystem. I guess maybe we
-should have a version of __nvmem_device_get that would ensure exclusive
-access to a cell, thus preventing userspace accessing it as long a the
-kernel is using it.
+Most of the patches here were submitted previously at:
+
+	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
+
+This series contain just the bug fixes and other related issues that are
+present with the current code on media.
+
+It address the points from the existing reviews. I also did my own
+set of reviews, in order to avoid regressions.
+
+Changes from v4 of the previous changeset:
+
+- reworked i2c/css RPM get logic;
+- dropped two patches that could cause regressions;
+- am437x: keep using pm_runtime_get_sync on suspend/resume;
+- atmel: fix the returned code and add a print on failures at start streaming;
+- simplify some checks for return code > 0;
+- mdk-vcodec: properly handle RPM errors at device on logic;
+- venus: rework venus_sys_error_handler() logic;
+- sti/delta: fix an issue at the error checking logic.
+
+Mauro Carvalho Chehab (25):
+  staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+  staging: media: imx7-mipi-csis: fix pm_runtime_get_sync() usage count
+  media: venus: Rework error fail recover logic
+  media: s5p_cec: decrement usage count if disabled
+  media: i2c: ccs-core: return the right error code at suspend
+  media: i2c: imx334: fix the pm runtime get logic
+  media: exynos-gsc: don't resume at remove time
+  media: atmel: properly get pm_runtime
+  media: hantro: do a PM resume earlier
+  media: marvel-ccic: fix some issues when getting pm_runtime
+  media: mdk-mdp: fix pm_runtime_get_sync() usage count
+  media: rcar_fdp1: simplify error check logic at fdp_open()
+  media: rcar_fdp1: fix pm_runtime_get_sync() usage count
+  media: renesas-ceu: Properly check for PM errors
+  media: s5p: fix pm_runtime_get_sync() usage count
+  media: am437x: fix pm_runtime_get_sync() usage count
+  media: sh_vou: fix pm_runtime_get_sync() usage count
+  media: mtk-vcodec: fix PM runtime get logic
+  media: s5p-jpeg: fix pm_runtime_get_sync() usage count
+  media: sti/delta: use pm_runtime_resume_and_get()
+  media: sunxi: fix pm_runtime_get_sync() usage count
+  media: sti/bdisp: fix pm_runtime_get_sync() usage count
+  media: exynos4-is: fix pm_runtime_get_sync() usage count
+  media: exynos-gsc: fix pm_runtime_get_sync() usage count
+  media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
+
+ drivers/media/cec/platform/s5p/s5p_cec.c      |  7 ++-
+ drivers/media/i2c/ccs/ccs-core.c              | 41 ++++++++-----
+ drivers/media/i2c/imx334.c                    |  7 ++-
+ drivers/media/platform/am437x/am437x-vpfe.c   | 15 ++++-
+ drivers/media/platform/atmel/atmel-isc-base.c | 30 +++++++---
+ drivers/media/platform/atmel/atmel-isi.c      | 19 ++++--
+ drivers/media/platform/exynos-gsc/gsc-core.c  | 11 ++--
+ drivers/media/platform/exynos-gsc/gsc-m2m.c   |  4 +-
+ .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
+ drivers/media/platform/exynos4-is/fimc-is.c   |  4 +-
+ .../platform/exynos4-is/fimc-isp-video.c      |  3 +-
+ drivers/media/platform/exynos4-is/fimc-isp.c  |  7 +--
+ drivers/media/platform/exynos4-is/fimc-lite.c |  5 +-
+ drivers/media/platform/exynos4-is/fimc-m2m.c  |  5 +-
+ drivers/media/platform/exynos4-is/media-dev.c |  9 +--
+ drivers/media/platform/exynos4-is/mipi-csis.c | 10 ++--
+ .../media/platform/marvell-ccic/mcam-core.c   |  9 ++-
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  6 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  8 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  2 +-
+ drivers/media/platform/qcom/venus/core.c      | 59 +++++++++++++++----
+ drivers/media/platform/rcar_fdp1.c            | 28 ++++++---
+ drivers/media/platform/renesas-ceu.c          |  4 +-
+ drivers/media/platform/s5p-jpeg/jpeg-core.c   |  5 +-
+ drivers/media/platform/sh_vou.c               |  6 +-
+ drivers/media/platform/sti/bdisp/bdisp-v4l2.c |  7 ++-
+ drivers/media/platform/sti/delta/delta-v4l2.c |  8 +--
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  2 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  7 ++-
+ drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +--
+ drivers/staging/media/rkvdec/rkvdec.c         |  2 +-
+ 32 files changed, 220 insertions(+), 127 deletions(-)
 
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.30.2
+
+
