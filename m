@@ -1,98 +1,127 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E177772
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 May 2021 13:04:52 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6ADD0ED1;
-	Wed,  5 May 2021 06:04:52 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C1213F718;
-	Wed,  5 May 2021 06:04:50 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	Simon Glass <sjg@chromium.org>,
-	Bin Meng <bmeng.cn@gmail.com>,
-	Mark Kettenis <mark.kettenis@xs4all.nl>,
-	Tom Rini <trini@konsulko.com>,
-	u-boot@lists.denx.de,
-	linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2] sunxi: H616: Enable full 4GB of DRAM
-Date: Wed,  5 May 2021 14:04:06 +0100
-Message-Id: <20210505130406.21094-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2C171
+	for <linux-sunxi@lists.linux.dev>; Wed,  5 May 2021 17:34:18 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id n25so2997797edr.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 05 May 2021 10:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eJ1W6dTWWHtI+YV1jN0NDAOjA6XeSudj0gtCQFJVcpY=;
+        b=Mo+OwjaECSYnxRrJeKTWwwKisdJ/VScet+wVhwt/N4GHAXcVn5qlbjODOyDyRLKi+m
+         ah0pVYtZSJWIygXTl+XitKM5re9ioxTK2bPW3bzuIMKDLspwfUIXhjemFmke/rZjZnIv
+         okpwZUSXphkSlSZb+Fdu9h7A9+YhP89OfYfqwqqMTS3nVUTmdzpkCK/ozRzgKmBLmdxz
+         tNCvpLNEhscB6RRxyBOlgC1eABW9Qj2WPm+5xt6JrrfbBztslT/jinPDNF6xPI/erxn8
+         y6fBDin9Vrv20E/0gOu+K6BhWPHD9tWVrsiB4FvQUBoA5S0I9cqKrhJ4MV2jk/EhFkDA
+         lQfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eJ1W6dTWWHtI+YV1jN0NDAOjA6XeSudj0gtCQFJVcpY=;
+        b=ZkwIYPpGgIrH6MIWMoUZo0aTr4xemI09YN9TbXZV6znQG89+Ohr2tkwDt7KbvgiufF
+         3Zhau4Qyr8MaRm09K+kRiZk8xgCH+zOkpVOpNl8BSX+E8sw93vU0SuxLz2P8PFhJiTec
+         iUTg77luWPumni8PQrjZpF292nwsxuASCWZirudZgg2T1LdykVBQ8OAAFJjnMu2ox0n+
+         utXWy/iUEiKpZz1bUef92u9nX48PirZhqWbvhs64hH0S/of9JqIe6j1Bd7M8NTpF0f13
+         R7ZN/kwFM/WbCaZUc2x52bbeX/31AX66T/LAxyBH8DLUayEzHfPdLKqgu4H6QHu457gO
+         gsFQ==
+X-Gm-Message-State: AOAM532rlL8+dzHo0nqsKu8UmbybEAdpYemQnxkyNfeolQDwjwgc3gCx
+	M+lL3Gsw2qNMmgTjBpTcA28lF6hwI8Y=
+X-Google-Smtp-Source: ABdhPJwKeTtUO3jshq7tIjvyWeBmkyFAT54clpQqAh37mhPIzZYeomirMN/Zd/TXExTZCBwuo4FkNw==
+X-Received: by 2002:a50:f0d6:: with SMTP id a22mr168468edm.354.1620236057609;
+        Wed, 05 May 2021 10:34:17 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
+        by smtp.gmail.com with ESMTPSA id e11sm16334522edq.76.2021.05.05.10.34.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 May 2021 10:34:16 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jernej.skrabec@gmail.com
+Subject: [PATCH] MAINTAINERS: Update my e-mail
+Date: Wed,  5 May 2021 19:33:35 +0200
+Message-Id: <20210505173335.1483575-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The H616 is our first supported Allwinner SoC which goes beyond the 4GB
-address space "barrier", by having more than 32 address bits.
+Old e-mail address doesn't work anymore, update it to new one.
 
-Lift the preliminary 3GB DRAM limit for the H616, and update the page
-table setup on the way, to actually map that last GB as well.
-
-As not all devices are actually capable of dealing with more than 32
-bits (the DMA in the EMAC for instance), we also limit U-Boot's own
-DRAM usage to 4GB on the way.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
-Changelog v1 .. v2:
-- limit ram_top to 4GB to fix Ethernet DMA
+ .mailmap    |  1 +
+ MAINTAINERS | 10 +++++-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
- arch/arm/mach-sunxi/Kconfig |  4 ++--
- arch/arm/mach-sunxi/board.c | 11 ++++++++++-
- 2 files changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index 8e9012dbbfe..f052557da4c 100644
---- a/arch/arm/mach-sunxi/Kconfig
-+++ b/arch/arm/mach-sunxi/Kconfig
-@@ -190,10 +190,10 @@ config MACH_SUNXI_H3_H5
- 	select SUPPORT_SPL
+diff --git a/.mailmap b/.mailmap
+index 3e2bff9137e9..ce6c497767e2 100644
+--- a/.mailmap
++++ b/.mailmap
+@@ -160,6 +160,7 @@ Jeff Layton <jlayton@kernel.org> <jlayton@primarydata.com>
+ Jeff Layton <jlayton@kernel.org> <jlayton@redhat.com>
+ Jens Axboe <axboe@suse.de>
+ Jens Osterkamp <Jens.Osterkamp@de.ibm.com>
++Jernej Skrabec <jernej.skrabec@gmail.com> <jernej.skrabec@siol.net>
+ Jiri Slaby <jirislaby@kernel.org> <jirislaby@gmail.com>
+ Jiri Slaby <jirislaby@kernel.org> <jslaby@novell.com>
+ Jiri Slaby <jirislaby@kernel.org> <jslaby@suse.com>
+diff --git a/MAINTAINERS b/MAINTAINERS
+index efeaebe1bcae..a10ff471ef53 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1578,7 +1578,7 @@ F:	drivers/clk/sunxi/
+ ARM/Allwinner sunXi SoC support
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+-R:	Jernej Skrabec <jernej.skrabec@siol.net>
++R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
+ S:	Maintained
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+@@ -5099,7 +5099,7 @@ S:	Maintained
+ F:	drivers/net/fddi/defza.*
  
- # TODO: try out A80's 8GiB DRAM space
--# TODO: H616 supports 4 GiB DRAM space
- config SUNXI_DRAM_MAX_SIZE
- 	hex
--	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6 || MACH_SUN50I_H616
-+	default 0x100000000 if MACH_SUN50I_H616
-+	default 0xC0000000 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN50I_H6
- 	default 0x80000000
+ DEINTERLACE DRIVERS FOR ALLWINNER H3
+-M:	Jernej Skrabec <jernej.skrabec@siol.net>
++M:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
+@@ -5642,7 +5642,7 @@ F:	include/linux/power/smartreflex.h
+ DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE
+ M:	Maxime Ripard <mripard@kernel.org>
+ M:	Chen-Yu Tsai <wens@csie.org>
+-R:	Jernej Skrabec <jernej.skrabec@siol.net>
++R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ L:	dri-devel@lists.freedesktop.org
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+@@ -6033,7 +6033,7 @@ M:	Neil Armstrong <narmstrong@baylibre.com>
+ M:	Robert Foss <robert.foss@linaro.org>
+ R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+ R:	Jonas Karlman <jonas@kwiboo.se>
+-R:	Jernej Skrabec <jernej.skrabec@siol.net>
++R:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ S:	Maintained
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+ F:	drivers/gpu/drm/bridge/
+@@ -15812,7 +15812,7 @@ F:	include/uapi/linux/rose.h
+ F:	net/rose/
  
- choice
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 503538e26d3..2de3ab2b4ef 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -56,7 +56,7 @@ static struct mm_region sunxi_mem_map[] = {
- 		/* RAM */
- 		.virt = 0x40000000UL,
- 		.phys = 0x40000000UL,
--		.size = 0xC0000000UL,
-+		.size = CONFIG_SUNXI_DRAM_MAX_SIZE,
- 		.attrs = PTE_BLOCK_MEMTYPE(MT_NORMAL) |
- 			 PTE_BLOCK_INNER_SHARE
- 	}, {
-@@ -65,6 +65,15 @@ static struct mm_region sunxi_mem_map[] = {
- 	}
- };
- struct mm_region *mem_map = sunxi_mem_map;
-+
-+ulong board_get_usable_ram_top(ulong total_size)
-+{
-+	/* Some devices (like the EMAC) have a 32-bit DMA limit. */
-+	if (gd->ram_top > (1ULL << 32))
-+		return 1ULL << 32;
-+
-+	return gd->ram_top;
-+}
- #endif
- 
- static int gpio_init(void)
+ ROTATION DRIVER FOR ALLWINNER A83T
+-M:	Jernej Skrabec <jernej.skrabec@siol.net>
++M:	Jernej Skrabec <jernej.skrabec@gmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media_tree.git
 -- 
-2.17.5
+2.31.1
 
