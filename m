@@ -1,84 +1,55 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6322F83;
-	Thu,  6 May 2021 15:26:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E82DD613F9;
-	Thu,  6 May 2021 15:26:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620314800;
-	bh=xz8CqpZ4+x3T0PuHBH80JgKsOsDXkGM9E9TZgFaHE80=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WVkPCXeD/lC2yqMDp38ScqUMAWU2/1tLoLJHjvaCXAv5jVf6FqVdqIlH/vUsJLOdf
-	 HPng1B2hSGwakbAMEiMzLFQU8RnQVP0SlAiNKfgv8RgqF00Daeg8zUY2R4JM4MPJtv
-	 6YXBNmenQpA9aXDdCKQcaGj9y5aankpgBvLNT/1Ws7ZcWgmjyoCrN5venUu29Iq7mw
-	 XCXF82uZr4o7gHAl8wfelwaFKYyKLYDhBYnbJW8phEYWNuyWBP1dOdegxCOKE4l998
-	 Ud6xdnulaQJbSA3vcY/oketjMySqcLTCSeEVTP5y4t2ePpcs/QdGFlvzdoe6vjw6VS
-	 xR54OYXPCZupg==
-Received: by mail.kernel.org with local (Exim 4.94.2)
-	(envelope-from <mchehab@kernel.org>)
-	id 1left7-000SBH-PC; Thu, 06 May 2021 17:26:05 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: linuxarm@huawei.com,
-	mauro.chehab@huawei.com,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: [PATCH v5 04/25] staging: media: cedrus_video: use pm_runtime_resume_and_get()
-Date: Thu,  6 May 2021 17:25:42 +0200
-Message-Id: <be4047dc72232adcedfa319aa4dfcee7bcde8d80.1620314616.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1620314616.git.mchehab+huawei@kernel.org>
-References: <cover.1620314616.git.mchehab+huawei@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0333B70
+	for <linux-sunxi@lists.linux.dev>; Thu,  6 May 2021 15:27:58 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id v24so5825999oiv.9
+        for <linux-sunxi@lists.linux.dev>; Thu, 06 May 2021 08:27:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UdT6oYAl8C18McgDZRJwiqBr5EXOadWWjWo9IIpUpiI=;
+        b=hyQA74RtFck5qLGMgcfE+PxAbdBbcRnLQ8K0QbxjjU8xIQOxh17gP1x0l4zkfZoU+G
+         55vfhC8xEWiIy0mEdGqpjTv6YXGW7aMZ+FbAsx4/m1qGS7KS9kkH965TfbQF7B1FfjQj
+         mmemNMs/UcgWK/kgIyPhhJyPIibV3MY/N2q+pq/EwWk/h8/jQOZZzxEgvDzZirXlNll2
+         JATOdi8s2VzSnVV8IHKPkRXHoYvtA/UQ0q8kbs7JrIA3c6AfEkXjoSvBGjo9JX0pJeAn
+         PwKsEwT2G6sziVoztpDKPS0Jwfrxl5QHSM7CUgctlWTsvLHfKi0Fav/wLinQdYCyE7oF
+         Xe+A==
+X-Gm-Message-State: AOAM530DIrTWn8T+KoLEtm3g5f9dvq9vpQlLKbuVisp+lKleaBi/Ir1i
+	rDW+fI9DGY/Xp9DrnUed+g==
+X-Google-Smtp-Source: ABdhPJyfSKCPn1AAWQTLL7rj2o6oQ4zHblgRyRmujHrElL8FaLsjOtDR8HoNVOvV0IzUVddMwqThRg==
+X-Received: by 2002:aca:f5c7:: with SMTP id t190mr10889877oih.67.1620314878299;
+        Thu, 06 May 2021 08:27:58 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id r2sm631451otq.28.2021.05.06.08.27.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 May 2021 08:27:57 -0700 (PDT)
+Received: (nullmailer pid 357985 invoked by uid 1000);
+	Thu, 06 May 2021 15:27:56 -0000
+Date: Thu, 6 May 2021 10:27:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@siol.net>, Chen-Yu Tsai <wens@csie.org>, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/2] dt-bindings: arm: Add NanoPi R1S H5
+Message-ID: <20210506152756.GA357941@robh.at.kernel.org>
+References: <20210503143202.21795-1-amadeus@jmu.edu.cn>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210503143202.21795-1-amadeus@jmu.edu.cn>
 
-Commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-added pm_runtime_resume_and_get() in order to automatically handle
-dev->power.usage_count decrement on errors.
+On Mon, 03 May 2021 22:32:02 +0800, Chukun Pan wrote:
+> Add the bindings for NanoPi R1S H5 board.
+> 
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
+> ---
+>  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
 
-Use the new API, in order to cleanup the error check logic.
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index b62eb8e84057..9ddd789d0b1f 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -490,11 +490,9 @@ static int cedrus_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	}
- 
- 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
--		ret = pm_runtime_get_sync(dev->dev);
--		if (ret < 0) {
--			pm_runtime_put_noidle(dev->dev);
-+		ret = pm_runtime_resume_and_get(dev->dev);
-+		if (ret < 0)
- 			goto err_cleanup;
--		}
- 
- 		if (dev->dec_ops[ctx->current_codec]->start) {
- 			ret = dev->dec_ops[ctx->current_codec]->start(ctx);
--- 
-2.30.2
-
+Acked-by: Rob Herring <robh@kernel.org>
