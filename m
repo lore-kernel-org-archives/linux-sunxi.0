@@ -1,127 +1,163 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D2C171
-	for <linux-sunxi@lists.linux.dev>; Wed,  5 May 2021 17:34:18 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id n25so2997797edr.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 05 May 2021 10:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eJ1W6dTWWHtI+YV1jN0NDAOjA6XeSudj0gtCQFJVcpY=;
-        b=Mo+OwjaECSYnxRrJeKTWwwKisdJ/VScet+wVhwt/N4GHAXcVn5qlbjODOyDyRLKi+m
-         ah0pVYtZSJWIygXTl+XitKM5re9ioxTK2bPW3bzuIMKDLspwfUIXhjemFmke/rZjZnIv
-         okpwZUSXphkSlSZb+Fdu9h7A9+YhP89OfYfqwqqMTS3nVUTmdzpkCK/ozRzgKmBLmdxz
-         tNCvpLNEhscB6RRxyBOlgC1eABW9Qj2WPm+5xt6JrrfbBztslT/jinPDNF6xPI/erxn8
-         y6fBDin9Vrv20E/0gOu+K6BhWPHD9tWVrsiB4FvQUBoA5S0I9cqKrhJ4MV2jk/EhFkDA
-         lQfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=eJ1W6dTWWHtI+YV1jN0NDAOjA6XeSudj0gtCQFJVcpY=;
-        b=ZkwIYPpGgIrH6MIWMoUZo0aTr4xemI09YN9TbXZV6znQG89+Ohr2tkwDt7KbvgiufF
-         3Zhau4Qyr8MaRm09K+kRiZk8xgCH+zOkpVOpNl8BSX+E8sw93vU0SuxLz2P8PFhJiTec
-         iUTg77luWPumni8PQrjZpF292nwsxuASCWZirudZgg2T1LdykVBQ8OAAFJjnMu2ox0n+
-         utXWy/iUEiKpZz1bUef92u9nX48PirZhqWbvhs64hH0S/of9JqIe6j1Bd7M8NTpF0f13
-         R7ZN/kwFM/WbCaZUc2x52bbeX/31AX66T/LAxyBH8DLUayEzHfPdLKqgu4H6QHu457gO
-         gsFQ==
-X-Gm-Message-State: AOAM532rlL8+dzHo0nqsKu8UmbybEAdpYemQnxkyNfeolQDwjwgc3gCx
-	M+lL3Gsw2qNMmgTjBpTcA28lF6hwI8Y=
-X-Google-Smtp-Source: ABdhPJwKeTtUO3jshq7tIjvyWeBmkyFAT54clpQqAh37mhPIzZYeomirMN/Zd/TXExTZCBwuo4FkNw==
-X-Received: by 2002:a50:f0d6:: with SMTP id a22mr168468edm.354.1620236057609;
-        Wed, 05 May 2021 10:34:17 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id e11sm16334522edq.76.2021.05.05.10.34.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 May 2021 10:34:16 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jernej.skrabec@gmail.com
-Subject: [PATCH] MAINTAINERS: Update my e-mail
-Date: Wed,  5 May 2021 19:33:35 +0200
-Message-Id: <20210505173335.1483575-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3D670;
+	Thu,  6 May 2021 15:12:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7452D61041;
+	Thu,  6 May 2021 15:12:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620313928;
+	bh=5pyBiTEHvMxAj8e/yO3yGgrWonLAEYO6vTvkoiWBA6I=;
+	h=Date:From:Cc:Subject:In-Reply-To:References:From;
+	b=gCHwiMQxRg/34kpnWeUtVHGRkYuqPEOIQkZjVTbPZZPFy2jqZ6oslJA4TOQa+gcHd
+	 Z0NptbjOm1CDOQB3ZQKMyntN6xQ5y7grAgI5pG3HJhrWpTilFGoxYfvmb6EoYj445K
+	 CQ0uc3Z4NuK9pz7n4SC/EZcPlSxDibZYfzeHq83K3HcpNS0SlwJvX6wThXiW6AEk2u
+	 hMwzEy9DylBCX+jg+CvlvqsbQ2ABQrFVf8X1Vi88Uh4ZWYq9UGScRPv8ih+Dd5UE7z
+	 mmJ11YeiM3YEzKEgUBlxxi6W4vsOo94Lj61ii0dn8Sbwu0SCHHobKO2iHWqCOgTTiV
+	 lZpsKjD8tnxqw==
+Date: Thu, 6 May 2021 17:11:57 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linuxarm@huawei.com, mauro.chehab@huawei.com, "Lad, Prabhakar"
+ <prabhakar.csengg@gmail.com>, "Paul J. Murphy" <paul.j.murphy@intel.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>, Andy Gross
+ <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Chen-Yu
+ Tsai <wens@csie.org>, Daniele Alessandrelli
+ <daniele.alessandrelli@intel.com>, Ezequiel Garcia
+ <ezequiel@collabora.com>, Fabio Estevam <festevam@gmail.com>, Jacek
+ Anaszewski <jacek.anaszewski@gmail.com>, Jernej Skrabec
+ <jernej.skrabec@siol.net>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, NXP Linux Team <linux-imx@nxp.com>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+ Shawn Guo <shawnguo@kernel.org>, Stanimir Varbanov
+ <stanimir.varbanov@linaro.org>, Steve Longerbeam <slongerbeam@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 00/25] Fix some PM runtime issues at the media subsystem
+Message-ID: <20210506171157.678f5c15@coco.lan>
+In-Reply-To: <cover.1620207353.git.mchehab+huawei@kernel.org>
+References: <cover.1620207353.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Old e-mail address doesn't work anymore, update it to new one.
+Em Wed,  5 May 2021 11:41:50 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .mailmap    |  1 +
- MAINTAINERS | 10 +++++-----
- 2 files changed, 6 insertions(+), 5 deletions(-)
+> As part of an effort to cleanup pm_runtime*get* calls, I detected a number
+> of issues at the media subsystem.
+> 
+> Most of the patches here were submitted previously at:
+> 
+> 	https://lore.kernel.org/linux-media/cover.1619621413.git.mchehab+huawei@kernel.org/
+> 
+> This series contain just the bug fixes and other related issues that are
+> present with the current code on media.
 
-diff --git a/.mailmap b/.mailmap
-index 3e2bff9137e9..ce6c497767e2 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -160,6 +160,7 @@ Jeff Layton <jlayton@kernel.org> <jlayton@primarydata.com>
- Jeff Layton <jlayton@kernel.org> <jlayton@redhat.com>
- Jens Axboe <axboe@suse.de>
- Jens Osterkamp <Jens.Osterkamp@de.ibm.com>
-+Jernej Skrabec <jernej.skrabec@gmail.com> <jernej.skrabec@siol.net>
- Jiri Slaby <jirislaby@kernel.org> <jirislaby@gmail.com>
- Jiri Slaby <jirislaby@kernel.org> <jslaby@novell.com>
- Jiri Slaby <jirislaby@kernel.org> <jslaby@suse.com>
-diff --git a/MAINTAINERS b/MAINTAINERS
-index efeaebe1bcae..a10ff471ef53 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1578,7 +1578,7 @@ F:	drivers/clk/sunxi/
- ARM/Allwinner sunXi SoC support
- M:	Maxime Ripard <mripard@kernel.org>
- M:	Chen-Yu Tsai <wens@csie.org>
--R:	Jernej Skrabec <jernej.skrabec@siol.net>
-+R:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
-@@ -5099,7 +5099,7 @@ S:	Maintained
- F:	drivers/net/fddi/defza.*
- 
- DEINTERLACE DRIVERS FOR ALLWINNER H3
--M:	Jernej Skrabec <jernej.skrabec@siol.net>
-+M:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
-@@ -5642,7 +5642,7 @@ F:	include/linux/power/smartreflex.h
- DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE
- M:	Maxime Ripard <mripard@kernel.org>
- M:	Chen-Yu Tsai <wens@csie.org>
--R:	Jernej Skrabec <jernej.skrabec@siol.net>
-+R:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	dri-devel@lists.freedesktop.org
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
-@@ -6033,7 +6033,7 @@ M:	Neil Armstrong <narmstrong@baylibre.com>
- M:	Robert Foss <robert.foss@linaro.org>
- R:	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
- R:	Jonas Karlman <jonas@kwiboo.se>
--R:	Jernej Skrabec <jernej.skrabec@siol.net>
-+R:	Jernej Skrabec <jernej.skrabec@gmail.com>
- S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
- F:	drivers/gpu/drm/bridge/
-@@ -15812,7 +15812,7 @@ F:	include/uapi/linux/rose.h
- F:	net/rose/
- 
- ROTATION DRIVER FOR ALLWINNER A83T
--M:	Jernej Skrabec <jernej.skrabec@siol.net>
-+M:	Jernej Skrabec <jernej.skrabec@gmail.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
--- 
-2.31.1
+Series merged on my stage tree, at:
+	https://git.linuxtv.org/media_stage.git/log/
 
+I'll be merging it at media_tree (either for 5.13 or 5.14) after the
+end of the merge window (likely next week).
+
+Please let me know if you find any problems on it.
+
+PS.: please notice that my stage tree can be rebased.
+
+Regards,
+Mauro
+
+> 
+> It address the points from the existing reviews. I also did my own
+> set of reviews, in order to avoid regressions.
+> 
+> Changes from v4 of the previous changeset:
+> 
+> - reworked i2c/css RPM get logic;
+> - dropped two patches that could cause regressions;
+> - am437x: keep using pm_runtime_get_sync on suspend/resume;
+> - atmel: fix the returned code and add a print on failures at start streaming;
+> - simplify some checks for return code > 0;
+> - mdk-vcodec: properly handle RPM errors at device on logic;
+> - venus: rework venus_sys_error_handler() logic;
+> - sti/delta: fix an issue at the error checking logic.
+> 
+> Mauro Carvalho Chehab (25):
+>   staging: media: rkvdec: fix pm_runtime_get_sync() usage count
+>   staging: media: imx7-mipi-csis: fix pm_runtime_get_sync() usage count
+>   media: venus: Rework error fail recover logic
+>   media: s5p_cec: decrement usage count if disabled
+>   media: i2c: ccs-core: return the right error code at suspend
+>   media: i2c: imx334: fix the pm runtime get logic
+>   media: exynos-gsc: don't resume at remove time
+>   media: atmel: properly get pm_runtime
+>   media: hantro: do a PM resume earlier
+>   media: marvel-ccic: fix some issues when getting pm_runtime
+>   media: mdk-mdp: fix pm_runtime_get_sync() usage count
+>   media: rcar_fdp1: simplify error check logic at fdp_open()
+>   media: rcar_fdp1: fix pm_runtime_get_sync() usage count
+>   media: renesas-ceu: Properly check for PM errors
+>   media: s5p: fix pm_runtime_get_sync() usage count
+>   media: am437x: fix pm_runtime_get_sync() usage count
+>   media: sh_vou: fix pm_runtime_get_sync() usage count
+>   media: mtk-vcodec: fix PM runtime get logic
+>   media: s5p-jpeg: fix pm_runtime_get_sync() usage count
+>   media: sti/delta: use pm_runtime_resume_and_get()
+>   media: sunxi: fix pm_runtime_get_sync() usage count
+>   media: sti/bdisp: fix pm_runtime_get_sync() usage count
+>   media: exynos4-is: fix pm_runtime_get_sync() usage count
+>   media: exynos-gsc: fix pm_runtime_get_sync() usage count
+>   media: i2c: ccs-core: fix pm_runtime_get_sync() usage count
+> 
+>  drivers/media/cec/platform/s5p/s5p_cec.c      |  7 ++-
+>  drivers/media/i2c/ccs/ccs-core.c              | 41 ++++++++-----
+>  drivers/media/i2c/imx334.c                    |  7 ++-
+>  drivers/media/platform/am437x/am437x-vpfe.c   | 15 ++++-
+>  drivers/media/platform/atmel/atmel-isc-base.c | 30 +++++++---
+>  drivers/media/platform/atmel/atmel-isi.c      | 19 ++++--
+>  drivers/media/platform/exynos-gsc/gsc-core.c  | 11 ++--
+>  drivers/media/platform/exynos-gsc/gsc-m2m.c   |  4 +-
+>  .../media/platform/exynos4-is/fimc-capture.c  |  6 +-
+>  drivers/media/platform/exynos4-is/fimc-is.c   |  4 +-
+>  .../platform/exynos4-is/fimc-isp-video.c      |  3 +-
+>  drivers/media/platform/exynos4-is/fimc-isp.c  |  7 +--
+>  drivers/media/platform/exynos4-is/fimc-lite.c |  5 +-
+>  drivers/media/platform/exynos4-is/fimc-m2m.c  |  5 +-
+>  drivers/media/platform/exynos4-is/media-dev.c |  9 +--
+>  drivers/media/platform/exynos4-is/mipi-csis.c | 10 ++--
+>  .../media/platform/marvell-ccic/mcam-core.c   |  9 ++-
+>  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  |  6 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  4 +-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  8 ++-
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  2 +-
+>  drivers/media/platform/qcom/venus/core.c      | 59 +++++++++++++++----
+>  drivers/media/platform/rcar_fdp1.c            | 28 ++++++---
+>  drivers/media/platform/renesas-ceu.c          |  4 +-
+>  drivers/media/platform/s5p-jpeg/jpeg-core.c   |  5 +-
+>  drivers/media/platform/sh_vou.c               |  6 +-
+>  drivers/media/platform/sti/bdisp/bdisp-v4l2.c |  7 ++-
+>  drivers/media/platform/sti/delta/delta-v4l2.c |  8 +--
+>  .../sunxi/sun8i-rotate/sun8i_rotate.c         |  2 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  7 ++-
+>  drivers/staging/media/imx/imx7-mipi-csis.c    |  7 +--
+>  drivers/staging/media/rkvdec/rkvdec.c         |  2 +-
+>  32 files changed, 220 insertions(+), 127 deletions(-)
+> 
+
+
+
+Thanks,
+Mauro
