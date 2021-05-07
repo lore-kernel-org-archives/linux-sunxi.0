@@ -1,37 +1,37 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861C872
-	for <linux-sunxi@lists.linux.dev>; Fri,  7 May 2021 07:40:11 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 6E6275C0152;
-	Fri,  7 May 2021 03:40:10 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C2372
+	for <linux-sunxi@lists.linux.dev>; Fri,  7 May 2021 08:09:47 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 41F6058123D;
+	Fri,  7 May 2021 04:09:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Fri, 07 May 2021 03:40:10 -0400
+  by compute3.internal (MEProxy); Fri, 07 May 2021 04:09:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=vxtgl2McAVV4Jw7lpe9Bngye+Ah
-	xY0xlZbs/obgITSg=; b=El0NYRpJvovz0M9RiRT0k1edhyFQYetbKH3ck9vKvp5
-	PXhJT1RRFJ7VrtteF8FmUAMeog07mmet+i1Kovv2qZ2ONgjdFC2LiI2wBlqAIKKX
-	yrjTEhj8sDeh39arEcZlObzed2RpOclikFBSSl3N68HnfIVMABiVECXWpFdE0ved
-	VJzRg7+nPjjbi1S5PPMwTZckUXv8k4o6J6EmAKgnC8BJKlZJ0AJ+ZDHBIY4K0pPS
-	LOTKu/4DHWBHYVfmiLyaZctqDZOV0JFj3Yg2SExEoUF65tCEnD+OqgbBuK9KPUeC
-	xhdcl6/P99iSH/a9e4w5VafYQXTNdSlFS1d9JVjpEAQ==
+	:content-type:in-reply-to; s=fm2; bh=W1CZtGGfJPRYLuVe9lYsOpidBYI
+	J9lZUWGVXHC3ow7U=; b=AC2k3XX//H84MBeRQqNs8q5xtCxn3+uPKx4tY6/wn3t
+	YOjdYSH+avurYGjZJ+R5YL1KkyzlmHDXrFYU7G80gCcC6g8nUEbFazUuhZpw+Hnj
+	HNTiYmUZbgzAwYIfLkq2z1B8zfZh1vVfPZBR6Os/C5O+N3u/A29QwlWlAo4XVS7W
+	HLM5CS1adsytTjV277ttb2JZQcqNuxwwu89IVVDWqROl6LsyqisUuo+PodZe7NI6
+	MX3guHyMP2w35SSVykytK6H44wTpQuPiOCfChdaECthy0XbvwIbLw1XIOU14GP7B
+	v/57ldjmIFjDYvfqFm4A7rWMnO5zA8ccuGo/edO0qyw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=vxtgl2
-	McAVV4Jw7lpe9Bngye+AhxY0xlZbs/obgITSg=; b=CQYVX4z7e+Tf3JnrdZCu6A
-	hx/xik+iWENDo3LdsIBs9GnxavQmqnaO2B04suaoHYo4Vt5+qeGnq7citw0TZ1eS
-	i5bwUr5Fd5HDSlMR13/34NYY9BJcFfThHkDd0U30l7fKfHEOE/lQ3ay/NJZguPp2
-	/djQCTUQOxFrH5kgff1XRiLEbefyn97Cjq9XLUVluc3NePoI42kzJwkzLRNVJUS6
-	eh5JjAwBEA2xzwdz9zHJ2EJngbf3gdQa8b6uFEppa/jSZMluoIrwImapF0KlxNUE
-	HwRxc8S7cLGCkmAkoB50VgU44RKFEt46qgglTLBtjkIw+/aUAbm398IuJUvV4L9w
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=W1CZtG
+	GfJPRYLuVe9lYsOpidBYIJ9lZUWGVXHC3ow7U=; b=Jm75Z1jomnWRHmfILmh/8A
+	J/QW11u3AjUI2HWfRknakvz5iKeZ9qqSVftiefND8301nDCQqLnBxp7rtDovQE2p
+	XHwfqPF9xYas2JqgU0sR7FuWkU+t1PS0i6qJ1gdkGw026T0bUo1o/FcPreAgpaZ2
+	sFYIx3tbbkVlzmvy05pIiZ4ZUA+XivkLBdTTIYUXPLRXF4PIOO7APyWaFv6z7Q+z
+	SrkEsxW9smnYUeXHPcWZxvVaAVS7JUYC2stEgg1/FHxg8KiBwq96OW+wMXSR05pU
+	uCC8D0uHBzkm4rMkWrqrApTJVxQ9ZcSTRUEtQ2v78Qus++2nIKwLpbDMWn4TCwBQ
 	==
-X-ME-Sender: <xms:2O6UYJj7DBFgHbr9q1awWOedcks6me9PoxAIVnDunIAU2PxFdzqXGg>
-    <xme:2O6UYODLp_QipCJwUWPDKcbBJYvEyogYBeq545SbZs1GpJ_nNIjKgkfD1RhGwflwo
-    OJGhCxSQX9xuY-HlSs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeguddgudduiecutefuodetggdotefrod
+X-ME-Sender: <xms:yPWUYDNI4MxBq0XGSqkSHtzmAoujiluf5SopazEDTZLnUWpwp_zG4w>
+    <xme:yPWUYN-rVs0jgH_E43pMgET88_AYW5CWMG79xDFOnmg6r9eiYdGJ0x8T206GmnxXH
+    Wy6FF02WmEZ-vn053c>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeguddguddvudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
@@ -39,56 +39,89 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeguddgudduiecutefuodetgg
     htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
     heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
     curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:2O6UYJFmfRYze-CWtiH5YWLv4nIsr7-hLU35R8NApW23N5zGRAh5aw>
-    <xmx:2O6UYORdGs5zYHEHgeZExHf_rZ7UEEydju48akN6f8nZJrif4k8Tjw>
-    <xmx:2O6UYGyWCPQ2pHCPbuEqk5InyOP204SXKKYUlmeQkz5kVdqDCTHNjQ>
-    <xmx:2u6UYNqpzEL057eT3nnNty6CWv-Sxi8mtMTuWOAq56i4fibxsGgsDw>
+X-ME-Proxy: <xmx:yPWUYCTgRRc8_7QL6LopK3Q1hA3rbO81OMd5tXGHzQIRwiKTEyC4jQ>
+    <xmx:yPWUYHszNM4ftu2Yy-9Xp9_P0X_xZhnA-1mGlTq-IBBIF0jitXbgaA>
+    <xmx:yPWUYLcxIg5binSnUuaWgIg-0Zf6oNWsvj2tpY1mtcyUtV6w_gyeww>
+    <xmx:yvWUYP4oeVQW_PYHXszOJ_cJFfazAiSgWkbhvZkCpXjkDX0c5Zt-Og>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Fri,  7 May 2021 03:40:08 -0400 (EDT)
-Date: Fri, 7 May 2021 09:40:05 +0200
+	Fri,  7 May 2021 04:09:44 -0400 (EDT)
+Date: Fri, 7 May 2021 10:09:42 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Chukun Pan <amadeus@jmu.edu.cn>
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: arm: Add NanoPi R1S H5
-Message-ID: <20210507074005.5ketudguwwotb565@gilmour>
-References: <20210503143202.21795-1-amadeus@jmu.edu.cn>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Subject: Re: [PATCH v3 7/7] arm64: dts: allwinner: pinephone: Set audio card
+ name
+Message-ID: <20210507080942.lxysxdbrviv3ys7m@gilmour>
+References: <20210430035859.3487-1-samuel@sholland.org>
+ <20210430035859.3487-8-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bqg4xlznz6dubgdk"
+	protocol="application/pgp-signature"; boundary="ihzax2lsrfyfzrwp"
 Content-Disposition: inline
-In-Reply-To: <20210503143202.21795-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20210430035859.3487-8-samuel@sholland.org>
 
 
---bqg4xlznz6dubgdk
+--ihzax2lsrfyfzrwp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 03, 2021 at 10:32:02PM +0800, Chukun Pan wrote:
-> Add the bindings for NanoPi R1S H5 board.
->=20
-> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
+Hi,
 
-Queued both for 5.14, thanks!
+On Thu, Apr 29, 2021 at 10:58:59PM -0500, Samuel Holland wrote:
+> From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+>=20
+> Add the "PinePhone" name to the sound card: this will make
+> upstreaming an ALSA UCM config easier as we can use a unique name.
+>=20
+> It also avoids an issue where the default card name is truncated.
+>=20
+> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+> [Samuel: Split out change, updated commit message]
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/ar=
+ch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> index 51cbfdc12936..02712f85f6bd 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
+> @@ -433,6 +433,7 @@ &reg_rtc_ldo {
+> =20
+>  &sound {
+>  	status =3D "okay";
+> +	simple-audio-card,name =3D "PinePhone";
+>  	simple-audio-card,aux-devs =3D <&codec_analog>, <&speaker_amp>;
+>  	simple-audio-card,widgets =3D "Microphone", "Headset Microphone",
+>  				    "Microphone", "Internal Microphone",
+
+Isn't that reported to the userspace? I'm not sure we can just change it
+without breaking it.
+
 Maxime
 
---bqg4xlznz6dubgdk
+--ihzax2lsrfyfzrwp
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJTu1QAKCRDj7w1vZxhR
-xQU8AQC5vNRplJCV9ITr25E1YS+GAOC9mHQlf3Qym2xPcDm5VwD/bGE8CxUnXyUJ
-xC7PCminS+6oMkRvtqVKP+YTz7TTgAY=
-=95jW
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJT1xgAKCRDj7w1vZxhR
+xSN6AQD3KXo1qhUktSUrwtB6Jar0ZYG1x/hRV26hfMJERuIbsAD9Fu05Zz34S5pC
+FTlOdQdVY1o8ms2ebETiDcmOOEJolww=
+=Eg+P
 -----END PGP SIGNATURE-----
 
---bqg4xlznz6dubgdk--
+--ihzax2lsrfyfzrwp--
