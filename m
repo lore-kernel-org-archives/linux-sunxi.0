@@ -1,38 +1,38 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8913671
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 01:54:41 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id E874C148D;
-	Sun,  9 May 2021 21:54:39 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9A70
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 03:39:34 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 50D4917C4;
+	Sun,  9 May 2021 23:39:33 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sun, 09 May 2021 21:54:40 -0400
+  by compute1.internal (MEProxy); Sun, 09 May 2021 23:39:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=V
-	Y3By0hTVrgL1Wi0xkBOrRleVr54f/DNNwnd5BZJjaA=; b=pGpd2a3hEYPtw8aqQ
-	+i2ffsCP9ymghOwUlqzfuRZInSsCJm9tu5CYVaWjUlrxVe9ZQnUxvxqtqgcMlFQN
-	oJdfIFm6CmQboalb/TqRz3SL1fBYVTkPN9QvSmjybknry88Uc+J/UPMIb5UP8PzG
-	BAC7wcM4bS25TFfWQtyeVJVYUKAbiIilVvmYBb0M/xY079eVjHR6zh78n875PcMc
-	CNYPRex/cGNRYN5NPDj1ZIQfaznZPJumM/8wa8VQw9b4d6l+p+rF95hC8FyQfAIB
-	e+7e3YLOPdRILQsv2qJmBV4zaK99z/Z+tOvAfqB9jbmLW8ZMORhvQB+LrGpsGGi0
-	4mvmg==
+	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=I
+	ZUFszC6jE/mtDj0KCiCRll83jCHjDqxXjCZzLBuhwU=; b=lapYcN9ptLh86Cscs
+	MMQRNm8UYK3+e08/ShU/GX1v1v9lBEMi3Cew5KOAhtIfOQHzebOdqVUJugyIayKt
+	1tV2H1om0IFFvBuH5WKWgZedJw//3R/PqD3g6fJJcgHjoYc3IxdbT22in1BM7/6u
+	Q8+plX63zDvHKOr1ycqVQy+xB1cTyvt2jun1klGiP1y55PqsjannHnvb/dM6oKX+
+	G1j2OhwN65Z5xeeKRorHRGRdfQ0a6KZUaZsOYpeS3jimJ6x92FQyI3sLQDH1H1YN
+	eoSacoJuDzJBmd8yYpvhq8E2pdT10ounLChSE7tbyfZ+rtDwIF+d+STSjWgd1JRv
+	UaVkg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=VY3By0hTVrgL1Wi0xkBOrRleVr54f/DNNwnd5BZJj
-	aA=; b=sarEq2CBOzSjNs8a2vzbddBSpeaQolx6LtSuQQE7kjn5LiDCI4WE4o76M
-	RS0CiTXyj91I5RNM+EGkQ7/1xTLeNNVBuXim3/zMPPKoD7ojStn09AxNq2keQPwn
-	zRtPUgC4PEYG6pyO8oEPHn8O9NSDK2gCrOQuozBAHJTQfoLzOmRYoO3XuTNQNu73
-	HHGfexPIC+9KSizd/IrmrOh5Wsz32ellipZNUAeXHIwbLZcpBRv10a4yqEtKJdOs
-	uEOHmJgNifJED9Sm5BtkFaUx5OdfEpOjBGgJhQkY1Sat6WHHeWy/Kfbvheo1ZdBd
-	rNCM1VhDUlsrrMiLtZxo4VyvRkX5Q==
-X-ME-Sender: <xms:XZKYYEdaVOUCJU4GXbyFsQFumYUYY7q-oou88Bm3h-H1XAWLe4aL_A>
-    <xme:XZKYYGNWcIFNLj11fMoO61TkGtbG3s10ZbvDQhApNKVy0r_5cRZ0FKER3cQhl6cee
-    tI18Fme0iiVpusQLw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegjedggeelucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm2; bh=IZUFszC6jE/mtDj0KCiCRll83jCHjDqxXjCZzLBuh
+	wU=; b=msGzqQU1RGw9+1Txytj0DVNTIs4+ucYxyiQh0ajyDCR1VVX2NNvk8AEsf
+	SsoRqMAq79NEvpah5BMJz3COnMo0JtsUe8G7KWofRBP4OcLfG+asv0LFFLFb8NAB
+	aT9VThGcrs777j2N5acJp9T1YH7jC78rKplrVcE+/4QfxL1I7ry+JyAbf6rqgYF9
+	tdAlHZ+Qa6IAh+bjilqKsw61jkuZB52g2cGuk3yjPdPZk8JmbcXAthkYzJg+MyAf
+	wNsjhkvqQaf6Q7D4DUJlZ5wVkBmkKGO7Zv63kcf7YfCjFlu834Q2dvkMVyYVxfXH
+	4hIhHNZkzDvtSbcuPjxGTDyN2D8XQ==
+X-ME-Sender: <xms:86qYYJ5Xes7seoVw1nxW2DU48Ej89h7LL31TzvkW9X0RUlPHIVSeGQ>
+    <xme:86qYYG5ebeZswX0DILnkVoq7doASQ2q62j2CAsorm7wMHk-Xb-PzYeEZcarndEP1r
+    GreL_1hFtDr8BrPaw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegjedgjeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefheenucfhrhhomhepufgrmhhu
@@ -41,28 +41,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegjedggeelucetufdoteggod
     veffveetudefnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
     hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
     nhgurdhorhhg
-X-ME-Proxy: <xmx:XZKYYFgSFn9K13zLdm6J3GQYlJ9fVxpbakg1XNsMEvsKsutTGhbmjg>
-    <xmx:XZKYYJ9L5G49w7oLZFozOL6Tv6nB1IRnpqGOmShXG4VLZOFxMJ3v6w>
-    <xmx:XZKYYAvR_Cd9Pbm2-VPqL-72WxqFRjFmQv_fyQfUwZBbGMqOaccrTQ>
-    <xmx:X5KYYCKSr_Hw5rYS9vmO3YbrfgafmOyGuwm5fqPp3JLhyqvBM6YvIN6JpFc>
+X-ME-Proxy: <xmx:86qYYAdhMMhwf1C5vZjxv4FkWkSQtZyRToqFlvvu0QQRrYsHBag95A>
+    <xmx:86qYYCIGHX1PQiaIXxmL_vJrF_tjcEo-OWSoR5rOXdsYu58zCteW9Q>
+    <xmx:86qYYNLsebh9pykxyCKk6it0BVX-Tx_ndwhjXYFC14Z7SaJXsBd7dg>
+    <xmx:9KqYYF_gxAChs0oEw9tN5THuX4-IR-hv4WeCx8U843GeKU0YBDUfcA>
 Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Sun,  9 May 2021 21:54:37 -0400 (EDT)
+	Sun,  9 May 2021 23:39:31 -0400 (EDT)
 To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, alsa-devel@alsa-project.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Arnaud Ferraris <arnaud.ferraris@collabora.com>
-References: <20210430035859.3487-1-samuel@sholland.org>
- <20210430035859.3487-8-samuel@sholland.org>
- <20210507080942.lxysxdbrviv3ys7m@gilmour>
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210419014549.26900-1-samuel@sholland.org>
+ <20210430090206.lybmygrt636nysoc@gilmour>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v3 7/7] arm64: dts: allwinner: pinephone: Set audio card
- name
-Message-ID: <2c8e512c-59f4-8869-be2e-0bf4c3cc2415@sholland.org>
-Date: Sun, 9 May 2021 20:54:36 -0500
+Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
+Message-ID: <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
+Date: Sun, 9 May 2021 22:39:30 -0500
 User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,55 +67,39 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210507080942.lxysxdbrviv3ys7m@gilmour>
+In-Reply-To: <20210430090206.lybmygrt636nysoc@gilmour>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 5/7/21 3:09 AM, Maxime Ripard wrote:
+On 4/30/21 4:02 AM, Maxime Ripard wrote:
 > Hi,
 > 
-> On Thu, Apr 29, 2021 at 10:58:59PM -0500, Samuel Holland wrote:
->> From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+> On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
+>> The sun6i RTC provides 32 bytes of general-purpose data registers.
+>> They can be used to save data in the always-on RTC power domain.
+>> The registers are writable via 32-bit MMIO accesses only.
 >>
->> Add the "PinePhone" name to the sound card: this will make
->> upstreaming an ALSA UCM config easier as we can use a unique name.
+>> Expose the region as a NVMEM provider so it can be used by userspace and
+>> other drivers.
 >>
->> It also avoids an issue where the default card name is truncated.
->>
->> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
->> [Samuel: Split out change, updated commit message]
 >> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> index 51cbfdc12936..02712f85f6bd 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
->> @@ -433,6 +433,7 @@ &reg_rtc_ldo {
->>  
->>  &sound {
->>  	status = "okay";
->> +	simple-audio-card,name = "PinePhone";
->>  	simple-audio-card,aux-devs = <&codec_analog>, <&speaker_amp>;
->>  	simple-audio-card,widgets = "Microphone", "Headset Microphone",
->>  				    "Microphone", "Internal Microphone",
 > 
-> Isn't that reported to the userspace? I'm not sure we can just change it
-> without breaking it.
+> As far as I understood, you want to use those registers to implement
+> super-standby? If so, while it makes sense for the kernel to be able to
+> be able to write to those registers, I guess it would be a bit unwise to
+> allow the userspace to access it?
 
-Yes, this is seen by userspace.
+I want the user to be able to pass information to the bootloader (to
+select a boot device, e.g. reboot to FEL). I also want the user to be
+able to read data stored to these registers by system firmware (e.g.
+crust writes exception information there). It's not really related to
+standby.
 
-Ideally, we would add this property with a unique value when enabling
-audio for any board, but as you mention, it would be a breaking change
-to add those properties now.
-
-In practice, all distributions supporting the PinePhone are already
-carrying this patch, because the ALSA setup needed for the PinePhone is
-very different from most other boards. So it would be similarly breaking
-for them (and their users) to drop this patch.
+I would want to stack a nvmem-reboot-mode on top to give friendlier
+names to some of the numbers, but I don't see a problem with root having
+direct access to the registers. It's no different from /dev/nvram
+providing access to the PC CMOS RAM.
 
 Regards,
 Samuel
