@@ -1,74 +1,68 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D830D71
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 08:09:56 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 98DD0D75D7
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 08:00:57 +0000 (UTC)
-X-Originating-IP: 90.65.108.55
-Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
-	(Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 3890C240006;
-	Mon, 10 May 2021 08:00:46 +0000 (UTC)
-Date: Mon, 10 May 2021 10:00:46 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-rtc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
-Message-ID: <YJjoLuwTSbZlNCPa@piout.net>
-References: <20210419014549.26900-1-samuel@sholland.org>
- <20210430090206.lybmygrt636nysoc@gilmour>
- <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F97B71
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 13:02:12 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2C20F1688;
+	Mon, 10 May 2021 06:02:06 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 461B53F73B;
+	Mon, 10 May 2021 06:02:04 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] arm64: dts: allwinner: Pine H64: Enable USB 3.0 port
+Date: Mon, 10 May 2021 14:01:19 +0100
+Message-Id: <20210510130119.6534-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
 
-On 09/05/2021 22:39:30-0500, Samuel Holland wrote:
-> On 4/30/21 4:02 AM, Maxime Ripard wrote:
-> > Hi,
-> > 
-> > On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
-> >> The sun6i RTC provides 32 bytes of general-purpose data registers.
-> >> They can be used to save data in the always-on RTC power domain.
-> >> The registers are writable via 32-bit MMIO accesses only.
-> >>
-> >> Expose the region as a NVMEM provider so it can be used by userspace and
-> >> other drivers.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > 
-> > As far as I understood, you want to use those registers to implement
-> > super-standby? If so, while it makes sense for the kernel to be able to
-> > be able to write to those registers, I guess it would be a bit unwise to
-> > allow the userspace to access it?
-> 
-> I want the user to be able to pass information to the bootloader (to
-> select a boot device, e.g. reboot to FEL). I also want the user to be
-> able to read data stored to these registers by system firmware (e.g.
-> crust writes exception information there). It's not really related to
-> standby.
-> 
-> I would want to stack a nvmem-reboot-mode on top to give friendlier
-> names to some of the numbers, but I don't see a problem with root having
-> direct access to the registers. It's no different from /dev/nvram
-> providing access to the PC CMOS RAM.
-> 
+The Pine H64 board features an USB 3.0 type A port, which works just
+fine.
 
-(which is deprecated in favor of nvmem)
+Enable the controller and USB PHY in the .dts to make it usable.
 
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+index 1ffd68f43f87..9061c9913f4c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
+@@ -89,6 +89,10 @@
+ 	status = "okay";
+ };
+ 
++&dwc3 {
++	status = "okay";
++};
++
+ &ehci0 {
+ 	status = "okay";
+ };
+@@ -332,3 +336,8 @@
+ 	usb3_vbus-supply = <&reg_usb_vbus>;
+ 	status = "okay";
+ };
++
++&usb3phy {
++	phy-supply = <&reg_usb_vbus>;
++	status = "okay";
++};
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.17.5
+
