@@ -1,105 +1,62 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9A70
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 03:39:34 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 50D4917C4;
-	Sun,  9 May 2021 23:39:33 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sun, 09 May 2021 23:39:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=I
-	ZUFszC6jE/mtDj0KCiCRll83jCHjDqxXjCZzLBuhwU=; b=lapYcN9ptLh86Cscs
-	MMQRNm8UYK3+e08/ShU/GX1v1v9lBEMi3Cew5KOAhtIfOQHzebOdqVUJugyIayKt
-	1tV2H1om0IFFvBuH5WKWgZedJw//3R/PqD3g6fJJcgHjoYc3IxdbT22in1BM7/6u
-	Q8+plX63zDvHKOr1ycqVQy+xB1cTyvt2jun1klGiP1y55PqsjannHnvb/dM6oKX+
-	G1j2OhwN65Z5xeeKRorHRGRdfQ0a6KZUaZsOYpeS3jimJ6x92FQyI3sLQDH1H1YN
-	eoSacoJuDzJBmd8yYpvhq8E2pdT10ounLChSE7tbyfZ+rtDwIF+d+STSjWgd1JRv
-	UaVkg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=IZUFszC6jE/mtDj0KCiCRll83jCHjDqxXjCZzLBuh
-	wU=; b=msGzqQU1RGw9+1Txytj0DVNTIs4+ucYxyiQh0ajyDCR1VVX2NNvk8AEsf
-	SsoRqMAq79NEvpah5BMJz3COnMo0JtsUe8G7KWofRBP4OcLfG+asv0LFFLFb8NAB
-	aT9VThGcrs777j2N5acJp9T1YH7jC78rKplrVcE+/4QfxL1I7ry+JyAbf6rqgYF9
-	tdAlHZ+Qa6IAh+bjilqKsw61jkuZB52g2cGuk3yjPdPZk8JmbcXAthkYzJg+MyAf
-	wNsjhkvqQaf6Q7D4DUJlZ5wVkBmkKGO7Zv63kcf7YfCjFlu834Q2dvkMVyYVxfXH
-	4hIhHNZkzDvtSbcuPjxGTDyN2D8XQ==
-X-ME-Sender: <xms:86qYYJ5Xes7seoVw1nxW2DU48Ej89h7LL31TzvkW9X0RUlPHIVSeGQ>
-    <xme:86qYYG5ebeZswX0DILnkVoq7doASQ2q62j2CAsorm7wMHk-Xb-PzYeEZcarndEP1r
-    GreL_1hFtDr8BrPaw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdegjedgjeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefheenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepheejgefhudeffeetleeigefgheetveeiteeuffehhfffkeeuvdff
-    veffveetudefnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:86qYYAdhMMhwf1C5vZjxv4FkWkSQtZyRToqFlvvu0QQRrYsHBag95A>
-    <xmx:86qYYCIGHX1PQiaIXxmL_vJrF_tjcEo-OWSoR5rOXdsYu58zCteW9Q>
-    <xmx:86qYYNLsebh9pykxyCKk6it0BVX-Tx_ndwhjXYFC14Z7SaJXsBd7dg>
-    <xmx:9KqYYF_gxAChs0oEw9tN5THuX4-IR-hv4WeCx8U843GeKU0YBDUfcA>
-Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Sun,  9 May 2021 23:39:31 -0400 (EDT)
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210419014549.26900-1-samuel@sholland.org>
- <20210430090206.lybmygrt636nysoc@gilmour>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
-Message-ID: <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
-Date: Sun, 9 May 2021 22:39:30 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CEB2FAD
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 04:14:02 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4FdnCz3bNXzQlQn;
+	Mon, 10 May 2021 11:51:27 +0800 (CST)
+Received: from thunder-town.china.huawei.com (10.174.177.72) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 10 May 2021 11:54:41 +0800
+From: Zhen Lei <thunder.leizhen@huawei.com>
+To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>, "Lu
+ Baolu" <baolu.lu@linux.intel.com>, Yong Wu <yong.wu@mediatek.com>, "Matthias
+ Brugger" <matthias.bgg@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+	"Chen-Yu Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+	iommu <iommu@lists.linux-foundation.org>, linux-arm-kernel
+	<linux-arm-kernel@lists.infradead.org>, linux-mediatek
+	<linux-mediatek@lists.infradead.org>, linux-sunxi
+	<linux-sunxi@lists.linux.dev>
+CC: Zhen Lei <thunder.leizhen@huawei.com>
+Subject: [PATCH v2 0/1] iommu: Clear a lot of spelling mistakes
+Date: Mon, 10 May 2021 11:54:24 +0800
+Message-ID: <20210510035425.3212-1-thunder.leizhen@huawei.com>
+X-Mailer: git-send-email 2.26.0.windows.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210430090206.lybmygrt636nysoc@gilmour>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.177.72]
+X-CFilter-Loop: Reflected
 
-On 4/30/21 4:02 AM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
->> The sun6i RTC provides 32 bytes of general-purpose data registers.
->> They can be used to save data in the always-on RTC power domain.
->> The registers are writable via 32-bit MMIO accesses only.
->>
->> Expose the region as a NVMEM provider so it can be used by userspace and
->> other drivers.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> 
-> As far as I understood, you want to use those registers to implement
-> super-standby? If so, while it makes sense for the kernel to be able to
-> be able to write to those registers, I guess it would be a bit unwise to
-> allow the userspace to access it?
+v1 --> v2:
+1. Merge into one patch
+2. Add a new fix "appropriatley --> appropriately" in iommu.c, discovered by John Garry
 
-I want the user to be able to pass information to the bootloader (to
-select a boot device, e.g. reboot to FEL). I also want the user to be
-able to read data stored to these registers by system firmware (e.g.
-crust writes exception information there). It's not really related to
-standby.
+Zhen Lei (1):
+  iommu: Clear a lot of spelling mistakes
 
-I would want to stack a nvmem-reboot-mode on top to give friendlier
-names to some of the numbers, but I don't see a problem with root having
-direct access to the registers. It's no different from /dev/nvram
-providing access to the PC CMOS RAM.
+ drivers/iommu/amd/amd_iommu_types.h   | 2 +-
+ drivers/iommu/amd/init.c              | 2 +-
+ drivers/iommu/amd/iommu.c             | 2 +-
+ drivers/iommu/arm/arm-smmu/arm-smmu.c | 2 +-
+ drivers/iommu/fsl_pamu.c              | 2 +-
+ drivers/iommu/intel/dmar.c            | 6 +++---
+ drivers/iommu/intel/iommu.c           | 2 +-
+ drivers/iommu/intel/irq_remapping.c   | 2 +-
+ drivers/iommu/iommu.c                 | 6 +++---
+ drivers/iommu/iova.c                  | 2 +-
+ drivers/iommu/mtk_iommu.c             | 2 +-
+ drivers/iommu/omap-iommu.c            | 2 +-
+ drivers/iommu/sun50i-iommu.c          | 2 +-
+ 13 files changed, 17 insertions(+), 17 deletions(-)
 
-Regards,
-Samuel
+-- 
+2.26.0.106.g9fadedd
+
+
