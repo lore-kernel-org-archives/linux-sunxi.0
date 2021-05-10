@@ -1,116 +1,93 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E597170
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 15:36:08 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id l24-20020a7bc4580000b029014ac3b80020so11425711wmi.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 08:36:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B9372
+	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 16:37:25 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id j3-20020a05600c4843b02901484662c4ebso11539883wmo.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 09:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DCpPKQQtVHN6Q0vpt3tKbixt7PhCNgy2etbsKBukc1I=;
-        b=ZMkLyMX3rDPOkgqMB9fjeXWZoXQZTa0ifibSohT7pRqUnr5gM6xNdYct19XVX6U5Zh
-         0Hmbck/4PR97bWYuag4XHtYdg7G/oYgATi+JiOkZdyzmIj8/B9G1ukqIedDhuf87BPEj
-         8r4zm8zSEhVEt/C1xFYk3dR2sIrWsOq6FS7osS37N9f6P6iH2vPyFG3Z/FjlX2a0BYZI
-         Kq6lysbfD1zDrc2eO2uBn0zES02brjhsN0J1ebtCz+JHYNu+iBJbXDXZm+FmN/bllgvs
-         4XZQIP6bmxf82M7D0In8Os9+fVHQ14xvUGSFqKEJxqr49EmnetuJq43ozlWJHYyKVzc4
-         oMFA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azFO5ST2Nn2MQauTLMiqCfhjldm/wHJbC2Icruyek7s=;
+        b=qUbwdwHV8iU3Hs2PvJt0bUxjTD+9Pp6RQaIz8ON4YBbuEaaQQi4Ea21kIlbRV2HFJ1
+         GX0zf57HtFNYCGCY/hiYDhf81TgdJLATSOUSO2gG65d1gais6S3ScJU2VAaRZs5zp1GJ
+         dYO2DWD/8xbH9MT2GPOYd1FK5C2hACQDFwYwTU3LfesuL93O05g5y9rLV3HSC4kej3Z5
+         DtAAwreS5RIzSRSQ4foePi+u8i1DFzRRiT8yPX96WjVR5COv0DnCYQIfNSWJoqj4GI7h
+         BCSpR7covmbavfN1nCeDc0vpWJezob0AxIKFmH7ymwBCOjwsAJyOQM3TREGXGi+ri8BV
+         JKyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DCpPKQQtVHN6Q0vpt3tKbixt7PhCNgy2etbsKBukc1I=;
-        b=q3WgOByudsRfa16QgXSTk9GL/nz0pG8PWluK2dE1wxjY0IQKgsXvM+QFNL9t/uR6jb
-         GRcLromoU9vUMa4W6kOfuThyGuw9fl+imNtuNbzol3/vHVj211qhoDBvoN2eu9RUo+xd
-         ZqB8o7neG2an3YUkJIB2U4OL4hKq4N5PWA/Yergx9Y581yHM/CVvXc094+Hvk/7eOlwB
-         0jXh6TXIFJlbZiKg+76EbmTsTXvv28FC4WDtXhtZbTnSdH19CWBLa70F1v0be/rV7fgQ
-         58PQexKtKRLArl71KrpP2kmY/jRZ7uf9U20qHoQQ/xXrb2pFf0GQUyPGs6oJ1H4AEzU/
-         7xHQ==
-X-Gm-Message-State: AOAM533LRL0WM0iWptfkLDP5pNn+fYkGYqy1/StwiZq5IrrxI3O9yST1
-	5J+CBN20oBa1Svj1ResKkY5Jess8yPJdUw==
-X-Google-Smtp-Source: ABdhPJzSMGmiZQyruI0eV3oQIEAih/1uVxrR2C0KRp8YEToZyRG5D/Phewxe6KUT38eW7WN+QRa11w==
-X-Received: by 2002:a7b:c34a:: with SMTP id l10mr27225340wmj.46.1620660967515;
-        Mon, 10 May 2021 08:36:07 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id l14sm24202080wrv.94.2021.05.10.08.36.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=azFO5ST2Nn2MQauTLMiqCfhjldm/wHJbC2Icruyek7s=;
+        b=ZOLux/YAhQZKl4zhkrC/lkPntqENEfMJt0YPCjuothGXy8KQGgchs16euHd3JNi7qs
+         hxwmXsLmGR0VNH33qnyLR8qt4QLm9dBRvcsohgM4gh4X4A21M5Mw3BGcm931/94Kdic3
+         vpakV1Eqwj5gD7m1ytqt6D5e9wf2pHu2DurJt0nrzEu6Fdv+XkHmYlVopohSWT27R6OZ
+         4Ifn7laDuMdYvpXyoJ6RW03naedClXZjzowTd+xiWhfsuC6/PviClxVjJ4JuR2pa3bqf
+         7X4IpKgVa8ayGAqsLp9emrNdpdV43uNHeTWFJ41tGM1UcbNhGO9dtTu3LqfnsuSHwGCl
+         6m3g==
+X-Gm-Message-State: AOAM5332eFoDCKrt+m3eP1NSx1+xDV2+kVQgp52l+XuXI2aXbvivG3P3
+	MIzWTMKQjalari2GP9VodMs=
+X-Google-Smtp-Source: ABdhPJwMv8QoW5gXAbJ+zle4pP74S96CpwWQk5lyg9rQS1WkUZe5HzIxh1SY2zcBknhRWJo0kgtfcg==
+X-Received: by 2002:a1c:e345:: with SMTP id a66mr37904184wmh.109.1620664643727;
+        Mon, 10 May 2021 09:37:23 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
+        by smtp.gmail.com with ESMTPSA id s10sm22775253wru.55.2021.05.10.09.37.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 08:36:07 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, Corentin Labbe <clabbe@baylibre.com>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH] arm64: dts: allwinner: Pine H64: Enable USB 3.0 port
-Date: Mon, 10 May 2021 17:36:05 +0200
-Message-ID: <5404798.YEtBip1y79@kista>
-In-Reply-To: <2288435.7XXmsQVVxE@kista>
-References: <20210510130119.6534-1-andre.przywara@arm.com> <2288435.7XXmsQVVxE@kista>
+        Mon, 10 May 2021 09:37:23 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: robh+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jernej.skrabec@gmail.com
+Subject: [PATCH] ARM: dts: sun8i: r40: Add timer node
+Date: Mon, 10 May 2021 18:36:47 +0200
+Message-Id: <20210510163647.2731675-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.31.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 10. maj 2021 ob 17:30:44 CEST je Jernej =C5=A0krabec napisa=
-l(a):
-> Hi Andre!
->=20
-> Dne ponedeljek, 10. maj 2021 ob 15:01:19 CEST je Andre Przywara napisal(a=
-):
-> > The Pine H64 board features an USB 3.0 type A port, which works just
-> > fine.
-> >=20
-> > Enable the controller and USB PHY in the .dts to make it usable.
-> >=20
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts b/arc=
-h/
-> arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-> > index 1ffd68f43f87..9061c9913f4c 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-pine-h64.dts
-> > @@ -89,6 +89,10 @@
-> >  	status =3D "okay";
-> >  };
-> > =20
-> > +&dwc3 {
-> > +	status =3D "okay";
-> > +};
-> > +
-> >  &ehci0 {
-> >  	status =3D "okay";
-> >  };
-> > @@ -332,3 +336,8 @@
-> >  	usb3_vbus-supply =3D <&reg_usb_vbus>;
-> >  	status =3D "okay";
-> >  };
-> > +
-> > +&usb3phy {
-> > +	phy-supply =3D <&reg_usb_vbus>;
-> > +	status =3D "okay";
-> > +};
-> > --=20
-> > 2.17.5
-> >=20
->=20
-> Exactly the same patch was already proposed by Icenowy. In short, PHY is=
-=20
-> powered by internal power and doesn't need phy-supply property. It's=20
-connector=20
-> that needs power supply. One of her latest attempts can be found here:=20
-> https://lore.kernel.org/patchwork/cover/1058917/
+Allwinner R40 has a timer.
 
-P.S: Maybe wait on outcome of https://lore.kernel.org/linux-sunxi/
-20210430031912.42252-1-samuel@sholland.org/T/#t which may change USB3 node=
-=20
-form.
-=20
- Best regards,
- Jernej
+Add a node for it.
 
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ arch/arm/boot/dts/sun8i-r40.dtsi | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 03e054c0bac4..291f4784e86c 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -691,6 +691,18 @@ uart7_pi_pins: uart7-pi-pins {
+ 			};
+ 		};
+ 
++		timer@1c20c00 {
++			compatible = "allwinner,sun4i-a10-timer";
++			reg = <0x01c20c00 0x90>;
++			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
++				     <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&osc24M>;
++		};
++
+ 		wdt: watchdog@1c20c90 {
+ 			compatible = "allwinner,sun4i-a10-wdt";
+ 			reg = <0x01c20c90 0x10>;
+-- 
+2.31.1
 
