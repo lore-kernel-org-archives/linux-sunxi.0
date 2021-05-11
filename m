@@ -1,130 +1,84 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F1170;
-	Tue, 11 May 2021 08:18:29 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 40025580E43;
-	Tue, 11 May 2021 04:18:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 11 May 2021 04:18:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=W3psH/2qgATwtINm37wUxNWcRwQ
-	rHkL1ZPkquwyesfk=; b=n7N2rQXFXg1fjlMT0vhGhUG/nS1KRz1suiGnqUh7UBB
-	jrN8jx39VE3aoo9xssTLcayDcvTxja1ZrIWKjUWci8gaZp489iYLbVQ3qKH7WDNt
-	hR/WB1KETo2D4SxbkhSZ9IQ9Vw5SLiUWqyjBRVvye4m9owZ+wG1ZH0aqep492quq
-	jTm5WMsYMvdlhI2XUlDgUsxqAS60y7q6LL18Gh9G3bonVV3JUMAyRmdvKdxeOxKf
-	GrNiOqc7ELFd6staIPI8rdmLDATLxo4K33DfzZHt70WYAIlafKvW5oKZibY/3YiU
-	5WP2SrZeCj7u/SllC+MOnvfNd8RsitRtMmLYvs7sR1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=W3psH/
-	2qgATwtINm37wUxNWcRwQrHkL1ZPkquwyesfk=; b=Gw24brRJ/8OYpN+talOvn2
-	GYkZJjFL+Zdhe1/+Xej9W5BFVFVsPRQNpGtcuB1kKr1XPvrc8TruuFKnDxTBsqwx
-	RFvOTHKMKsZBCDQcT89cD+AzEz8GZwo0aDlERcDOUiHDf3Y9PHc1mSTqpIyo01Hi
-	x872EUdNXkyEGojaXh0kSPbso9RiyKIwAfTcJDhw1dLns17W1XukzoaOqCImWKuV
-	iMwm4aK93WgTus9UaIAYMLZ4uzfbGpa5vI6RzePDck4VKuNVIuqBCxJU3LZnbjUu
-	+5jQGilyxfxDjab5GPMFfN1rcz76yvj31sBZe8yO4z15GP/4dd8QtI7lnwT+90vQ
-	==
-X-ME-Sender: <xms:0j2aYJG0Qb30edIe3sYX8-AN26rA-rn_Fj_4OUWh56l9n57dVYCVnQ>
-    <xme:0j2aYOVD1hiqp1hygbJGI6zyJzppIE6U2xOoh7c6g-U1HeqOVVtmzefUH4iciiu6w
-    jpdFDOtrFzdbpSrgLY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehtddgtddvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:0j2aYLL-tjgckFbHWAybgrug0nA1oVwWXEJdSeci_-RJxCvEFRE6Uw>
-    <xmx:0j2aYPHJufuaH8Ck-i6-nMQ94iQypBu8UeMkAP2iq9cVysz8luPAPQ>
-    <xmx:0j2aYPVF-X3cOl2Y9Jrb4yMLb-m9QQXbZwGRoxmEDskoY0fZmalhHg>
-    <xmx:1D2aYLr3yjQRA0Ff7s2_Q4n2QuxCkbHAGvk4q5goZ7KrXjPpgBtF7A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Tue, 11 May 2021 04:18:26 -0400 (EDT)
-Date: Tue, 11 May 2021 10:18:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Naresh Kamboju <naresh.kamboju@linaro.org>
-Cc: Chukun Pan <amadeus@jmu.edu.cn>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7765D70
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 May 2021 08:28:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D68361943;
+	Tue, 11 May 2021 08:28:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1620721700;
+	bh=4cFqGgBdAbBe0GybCv/aBA0bJnpRTZe4yHbphP7wiXE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jynQ+wBdyHTV4wColpT3K+33k7SQI3CioTON0DCXJwQJEViOyc3uRkuJJJDqAWREz
+	 fg4ZP7cLfys3Ae0ECK6wNl1odn36jCmHpiMw6HXFfreWLli2uzQgJgR7y1KIjgzAD6
+	 +BEIFhfv3rSAAV2d3vW05YqHK406NVllKk1lY7qh+il6+07D+dcnRdsjLno5mmMQ0x
+	 O58cDdY303fXyULGaX+b3IZn5GMYtmJ+2vkkbSQPbu0QvkFY8J3P+m4gIgnpDEA+Io
+	 Ys76PY5EDXTJ2nwRImeke+iug2nQcDtJeYhRchHqOTuv+qPmlTw0XRxeELQFkGhYw2
+	 ceWbH3NKRodZg==
+From: Mark Brown <broonie@kernel.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@siol.net>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	open list <linux-kernel@vger.kernel.org>,
-	lkft-triage@lists.linaro.org, regressions@lists.linux.dev
-Subject: Re: [PATCH 1/2] arm64: dts: allwinner: h5: Add NanoPi R1S H5 support
-Message-ID: <20210511081823.mmcrliomwtetcirx@gilmour>
-References: <20210503142905.21468-1-amadeus@jmu.edu.cn>
- <CA+G9fYsRZswjeDZj1hiGDu5HZ+jYCVsOOL6MAzEb=LVfQ1_NpA@mail.gmail.com>
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Mark Brown <broonie@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: (subset) [PATCH v3 0/7] PinePhone BT audio bringup
+Date: Tue, 11 May 2021 09:26:02 +0100
+Message-Id: <162072058168.33157.16217732000222184745.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210430035859.3487-1-samuel@sholland.org>
+References: <20210430035859.3487-1-samuel@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6z5yg7iwrnly6v2y"
-Content-Disposition: inline
-In-Reply-To: <CA+G9fYsRZswjeDZj1hiGDu5HZ+jYCVsOOL6MAzEb=LVfQ1_NpA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Thu, 29 Apr 2021 22:58:52 -0500, Samuel Holland wrote:
+> This series uses the additional DAIs added to the sun8i-codec driver to
+> add hardware routing for BT SCO (headset) audio on the PinePhone.
+> 
+> The BT audio connection is represented by the "dummy" bt-sco codec. The
+> connection to the Quectel EG-25G modem via AIF2 works as well, but I do
+> not include it here because there is no appropriate codec driver in
+> tree. We have been using an out-of-tree "dummy" codec driver for the
+> modem similar to bt-sco, and I'm not sure if such a driver would be
+> desired upstream.
+> 
+> [...]
 
---6z5yg7iwrnly6v2y
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to
 
-Hi,
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
-On Tue, May 11, 2021 at 10:51:28AM +0530, Naresh Kamboju wrote:
-> On Mon, 3 May 2021 at 20:09, Chukun Pan <amadeus@jmu.edu.cn> wrote:
-> >
-> > The NanoPi R1S H5 is a open source board made by FriendlyElec.
-> > It has the following features:
-> >
-> > - Allwinner H5, Quad-core Cortex-A53
-> > - 512MB DDR3 RAM
-> > - 10/100/1000M Ethernet x 2
-> > - RTL8189ETV WiFi 802.11b/g/n
-> > - USB 2.0 host port (A)
-> > - MicroSD Slot
-> > - Serial Debug Port
-> > - 5V 2A DC power-supply
-> >
-> > Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
->=20
-> Linux next tag next-20210511 arm64 build failed due to this error.
->=20
-> Error: /builds/linux/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h=
-5.dts:35.15-16
-> syntax error
-> FATAL ERROR: Unable to parse input tree
-> make[3]: *** [/builds/linux/scripts/Makefile.lib:365:
-> arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dtb] Error 1
-> make[3]: Target '__build' not remade because of errors.
->=20
-> Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
->=20
-> #regzb introduced: 7c9dbeda744f ("arm64: dts: allwinner: h5: Add
-> NanoPi R1S H5 support")
+Thanks!
 
-Thanks, I dropped the patch.
-Chukun, please resend it once it's fixed
+[1/7] ASoC: dt-bindings: sun8i-codec: Increase #sound-dai-cells
+      commit: 880e007f15a31f446b9e1713720c6ae5a539f3f4
 
-Maxime
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
---6z5yg7iwrnly6v2y
-Content-Type: application/pgp-signature; name="signature.asc"
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
------BEGIN PGP SIGNATURE-----
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJo9zwAKCRDj7w1vZxhR
-xe67AQCUYlXoGcwJHLhh68hRF0ylL5Pt4GTchOLKtWcp6i7AkQEA7TgGLlf2l4S6
-htRJVKBQZSxCAzqukoXw9M0lRZRnzAA=
-=ToBG
------END PGP SIGNATURE-----
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
---6z5yg7iwrnly6v2y--
+Thanks,
+Mark
