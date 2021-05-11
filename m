@@ -1,93 +1,122 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B9372
-	for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 16:37:25 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id j3-20020a05600c4843b02901484662c4ebso11539883wmo.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 09:37:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D04829CA
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 May 2021 05:21:41 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id n2so27859794ejy.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 10 May 2021 22:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=azFO5ST2Nn2MQauTLMiqCfhjldm/wHJbC2Icruyek7s=;
-        b=qUbwdwHV8iU3Hs2PvJt0bUxjTD+9Pp6RQaIz8ON4YBbuEaaQQi4Ea21kIlbRV2HFJ1
-         GX0zf57HtFNYCGCY/hiYDhf81TgdJLATSOUSO2gG65d1gais6S3ScJU2VAaRZs5zp1GJ
-         dYO2DWD/8xbH9MT2GPOYd1FK5C2hACQDFwYwTU3LfesuL93O05g5y9rLV3HSC4kej3Z5
-         DtAAwreS5RIzSRSQ4foePi+u8i1DFzRRiT8yPX96WjVR5COv0DnCYQIfNSWJoqj4GI7h
-         BCSpR7covmbavfN1nCeDc0vpWJezob0AxIKFmH7ymwBCOjwsAJyOQM3TREGXGi+ri8BV
-         JKyQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o7qvVYTxIMvAfWp7wQVxyaZrRU/DExjEtTnActjnLoY=;
+        b=CUvd21dZicHSdFcB2WKTwesV82JRksY6kwmw63mPPVEIqln3djKwKo0ohzdHfRpoC0
+         ciPwj/lBWy8yZpu/Q8/rtDpybfjlNpChL1jFK+8GTyg1ixnYGQLU060m14an8Y/IfY5+
+         7TZN9rEX38BiBVOXNXwO5Wocx9dVszZG5bAoRuXTO5eCUmMgS9m01Awxk420gZ/pV381
+         MQ8cwvNDdTQL7Ogmvj+9QcnHqyBHIRd+4YPecYMlAI/LePaAjh7oyR7HVni0VVkEbWlm
+         lKDKUgntZnzejJ5MpdpHFhr471/bDu22Qpo6thTOh+VRl9DZVz/8jJPCrEfbRMh/OI8O
+         qTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=azFO5ST2Nn2MQauTLMiqCfhjldm/wHJbC2Icruyek7s=;
-        b=ZOLux/YAhQZKl4zhkrC/lkPntqENEfMJt0YPCjuothGXy8KQGgchs16euHd3JNi7qs
-         hxwmXsLmGR0VNH33qnyLR8qt4QLm9dBRvcsohgM4gh4X4A21M5Mw3BGcm931/94Kdic3
-         vpakV1Eqwj5gD7m1ytqt6D5e9wf2pHu2DurJt0nrzEu6Fdv+XkHmYlVopohSWT27R6OZ
-         4Ifn7laDuMdYvpXyoJ6RW03naedClXZjzowTd+xiWhfsuC6/PviClxVjJ4JuR2pa3bqf
-         7X4IpKgVa8ayGAqsLp9emrNdpdV43uNHeTWFJ41tGM1UcbNhGO9dtTu3LqfnsuSHwGCl
-         6m3g==
-X-Gm-Message-State: AOAM5332eFoDCKrt+m3eP1NSx1+xDV2+kVQgp52l+XuXI2aXbvivG3P3
-	MIzWTMKQjalari2GP9VodMs=
-X-Google-Smtp-Source: ABdhPJwMv8QoW5gXAbJ+zle4pP74S96CpwWQk5lyg9rQS1WkUZe5HzIxh1SY2zcBknhRWJo0kgtfcg==
-X-Received: by 2002:a1c:e345:: with SMTP id a66mr37904184wmh.109.1620664643727;
-        Mon, 10 May 2021 09:37:23 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id s10sm22775253wru.55.2021.05.10.09.37.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 May 2021 09:37:23 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	jernej.skrabec@gmail.com
-Subject: [PATCH] ARM: dts: sun8i: r40: Add timer node
-Date: Mon, 10 May 2021 18:36:47 +0200
-Message-Id: <20210510163647.2731675-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o7qvVYTxIMvAfWp7wQVxyaZrRU/DExjEtTnActjnLoY=;
+        b=BPz36Kvqb0Fgr/G397Glg4wcBUm6Oj7sC/VaFajV7JgfYNbMSvnnGkMfEmEctFK8NM
+         u0rVekvYYNuXgOfNI77z0FlVNcI1JO2/bV5iKGpyiunoLDJ8NLLAGOzMZThY1z3qR0dt
+         o1dwCzZwhHgpX4hTlDLyXU1sxI0M6BH7gBT3Sww0fhDAzRaExH2it9GkgHJLsBzco66h
+         J/CyxSCxpneFEbl961sEeodgQpCiZ/R/mz1FCElZidj9Y+Kx8wi3lZe7Q/r7pvs+gfmp
+         NRYD+WNeIDlnrrUTcKHKnGujvRpAptPe0VE5qHTMjYDs2r3ucPahiXQKPJ6mtJQSyfAp
+         ceRw==
+X-Gm-Message-State: AOAM533aOjeJ2UW8d0NSqNSKtJTDUz+as10eF/fHS9BbhYWAvnRi6hzD
+	67hJnOOtuytyjwuaggJubNnYpKm2ae0Be9TuODR0Bw==
+X-Google-Smtp-Source: ABdhPJxXDOxOInJbvAi7HHYEeYbA2V9jdKzkjQD1c3CtgM+zhQj43lQN1OUFreObmxolmlLp1EYRdC3tFAoh8sBWeMU=
+X-Received: by 2002:a17:906:85da:: with SMTP id i26mr29846987ejy.287.1620710499783;
+ Mon, 10 May 2021 22:21:39 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210503142905.21468-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20210503142905.21468-1-amadeus@jmu.edu.cn>
+From: Naresh Kamboju <naresh.kamboju@linaro.org>
+Date: Tue, 11 May 2021 10:51:28 +0530
+Message-ID: <CA+G9fYsRZswjeDZj1hiGDu5HZ+jYCVsOOL6MAzEb=LVfQ1_NpA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] arm64: dts: allwinner: h5: Add NanoPi R1S H5 support
+To: Chukun Pan <amadeus@jmu.edu.cn>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@siol.net>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-sunxi@lists.linux.dev, open list <linux-kernel@vger.kernel.org>, 
+	lkft-triage@lists.linaro.org, regressions@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Allwinner R40 has a timer.
+On Mon, 3 May 2021 at 20:09, Chukun Pan <amadeus@jmu.edu.cn> wrote:
+>
+> The NanoPi R1S H5 is a open source board made by FriendlyElec.
+> It has the following features:
+>
+> - Allwinner H5, Quad-core Cortex-A53
+> - 512MB DDR3 RAM
+> - 10/100/1000M Ethernet x 2
+> - RTL8189ETV WiFi 802.11b/g/n
+> - USB 2.0 host port (A)
+> - MicroSD Slot
+> - Serial Debug Port
+> - 5V 2A DC power-supply
+>
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
 
-Add a node for it.
+Linux next tag next-20210511 arm64 build failed due to this error.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Error: /builds/linux/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts:35.15-16
+syntax error
+FATAL ERROR: Unable to parse input tree
+make[3]: *** [/builds/linux/scripts/Makefile.lib:365:
+arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dtb] Error 1
+make[3]: Target '__build' not remade because of errors.
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 03e054c0bac4..291f4784e86c 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -691,6 +691,18 @@ uart7_pi_pins: uart7-pi-pins {
- 			};
- 		};
- 
-+		timer@1c20c00 {
-+			compatible = "allwinner,sun4i-a10-timer";
-+			reg = <0x01c20c00 0x90>;
-+			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 23 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 67 IRQ_TYPE_LEVEL_HIGH>,
-+				     <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&osc24M>;
-+		};
-+
- 		wdt: watchdog@1c20c90 {
- 			compatible = "allwinner,sun4i-a10-wdt";
- 			reg = <0x01c20c90 0x10>;
--- 
-2.31.1
+Reported-by: Naresh Kamboju <naresh.kamboju@linaro.org>
 
+#regzb introduced: 7c9dbeda744f ("arm64: dts: allwinner: h5: Add
+NanoPi R1S H5 support")
+
+
+> ---
+>  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+>  .../dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 194 ++++++++++++++++++
+>  2 files changed, 195 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+
+
+steps to reproduce:
+--------------------------
+# TuxMake is a command line tool and Python library that provides
+# portable and repeatable Linux kernel builds across a variety of
+# architectures, toolchains, kernel configurations, and make targets.
+#
+# TuxMake supports the concept of runtimes.
+# See https://docs.tuxmake.org/runtimes/, for that to work it requires
+# that you install podman or docker on your system.
+#
+# To install tuxmake on your system globally:
+# sudo pip3 install -U tuxmake
+#
+# See https://docs.tuxmake.org/ for complete documentation.
+
+
+tuxmake --runtime podman --target-arch arm64 --toolchain gcc-9
+--kconfig defconfig --kconfig-add
+https://builds.tuxbuild.com/1sNFFZazb6TLzCYLxNoyIcWs0eU/config
+
+
+metadata:
+  git branch: master
+  git repo: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+  git commit: 4bf27b1f73303c33c5570b63f8ed734abcd1991f
+  git describe: next-20210511
+
+
+--
+Linaro LKFT
+https://lkft.linaro.org
