@@ -1,84 +1,95 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7765D70
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 May 2021 08:28:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5D68361943;
-	Tue, 11 May 2021 08:28:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1620721700;
-	bh=4cFqGgBdAbBe0GybCv/aBA0bJnpRTZe4yHbphP7wiXE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jynQ+wBdyHTV4wColpT3K+33k7SQI3CioTON0DCXJwQJEViOyc3uRkuJJJDqAWREz
-	 fg4ZP7cLfys3Ae0ECK6wNl1odn36jCmHpiMw6HXFfreWLli2uzQgJgR7y1KIjgzAD6
-	 +BEIFhfv3rSAAV2d3vW05YqHK406NVllKk1lY7qh+il6+07D+dcnRdsjLno5mmMQ0x
-	 O58cDdY303fXyULGaX+b3IZn5GMYtmJ+2vkkbSQPbu0QvkFY8J3P+m4gIgnpDEA+Io
-	 Ys76PY5EDXTJ2nwRImeke+iug2nQcDtJeYhRchHqOTuv+qPmlTw0XRxeELQFkGhYw2
-	 ceWbH3NKRodZg==
-From: Mark Brown <broonie@kernel.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Mark Brown <broonie@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: (subset) [PATCH v3 0/7] PinePhone BT audio bringup
-Date: Tue, 11 May 2021 09:26:02 +0100
-Message-Id: <162072058168.33157.16217732000222184745.b4-ty@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210430035859.3487-1-samuel@sholland.org>
-References: <20210430035859.3487-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662CC72
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 May 2021 11:59:00 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 3BB615C0121;
+	Tue, 11 May 2021 07:59:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 11 May 2021 07:59:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=dJn1C+naCnCJOpwVV8GK+Sd40jw
+	0sKcNTiMpmiqDSvs=; b=geGrHHDZB8RiMMYalIgYdHTCVgpZG5I+Lxq9mVA5c2f
+	phxY5FMMhZuWE66kNFv3FKQWdQqGiWhmx2c6jj/y6/rDOUlijcYsLdLpkv2tysA8
+	NFboeya42h4DE+pCp61t32c4GzESQ2FYpJ4lz4ZtMoSR0IXDWz/J8P54URoFqd3e
+	+XGp3SB1FGx/jUbjAGQMOydTA1JsjsmhWX60Y2aefvTVo/DALqrDSKunG74Kfx+e
+	hmrYrUVC+aRZfFvn1F7fQV2vGhD23rfnzLQgEHKBXDnMHP9P2lbkTj3lLdiviTaH
+	54DTi1n4jrHwCNSmaiK7vNzi6oT4EPi+4DGVpL3+ZGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=dJn1C+
+	naCnCJOpwVV8GK+Sd40jw0sKcNTiMpmiqDSvs=; b=sERhTGj445O6XTC5lRKT1R
+	yT349vK8NISJnD3xDxZ9U16AMywZGpNp4z8OBBlBmeJ3jr0H3+MX9qlOqmIrV3J3
+	jHd2Y8vDcVOVP5sBPpG64jx1+BpWjz4su0mW/+ov0o1LyQ/8RwVA1SUch/y4NNJa
+	Y/y/aBTPXzrvMleIYu8qDb5ihO0hIAtXCRll1YMRFA+fw7B9tTRhEFU6vHC61Mig
+	1sHQZzyEwlsrWUy4BUjG56rxc3WgGp84ZUwxOpn7Wl7l5aQF5ofkaxbCYLzJE1ae
+	dIhN2KxAKpHX5rs5x8+Y8fo8LhpKBadlAlCNK+qijqXxiqiZK2dqt4FT74rfGm7A
+	==
+X-ME-Sender: <xms:g3GaYMI3D_JCp2j--3_2hJAN8DNwgaIyYy4RBHzj5CBdyzslzY7zIA>
+    <xme:g3GaYMIlYadTS3AeWSn6-Wq6B6Wutw-auCdTPcjsVc9PlMLWtPJGeQZAbftD15JQg
+    I9xJJ-BuABwFJP0MQ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehtddggeekucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:g3GaYMu3gY53XofWpMsHFqFM4EWBc7Pf4_Ou_zreyKFUZoG9zBMwkQ>
+    <xmx:g3GaYJYPY_b8S8bTVwVSvm1nhwr4c0qGhNNfjkLXUfx2mqotWGOr5g>
+    <xmx:g3GaYDYrupYLPEe9DDkxBNJHReN2yTI2hvD1JF_8lBfa7HEFErsXiw>
+    <xmx:hHGaYKw3eM9_ssGasm33OSLRec0Z62qqcGFv7pslL1THnbCLYxxnnQ>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Tue, 11 May 2021 07:58:59 -0400 (EDT)
+Date: Tue, 11 May 2021 13:58:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Update my e-mail
+Message-ID: <20210511115856.muaj2qnv3dpfiyp3@gilmour>
+References: <20210505173335.1483575-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="pxe2xiyh5bq4m3l7"
+Content-Disposition: inline
+In-Reply-To: <20210505173335.1483575-1-jernej.skrabec@gmail.com>
 
-On Thu, 29 Apr 2021 22:58:52 -0500, Samuel Holland wrote:
-> This series uses the additional DAIs added to the sun8i-codec driver to
-> add hardware routing for BT SCO (headset) audio on the PinePhone.
-> 
-> The BT audio connection is represented by the "dummy" bt-sco codec. The
-> connection to the Quectel EG-25G modem via AIF2 works as well, but I do
-> not include it here because there is no appropriate codec driver in
-> tree. We have been using an out-of-tree "dummy" codec driver for the
-> modem similar to bt-sco, and I'm not sure if such a driver would be
-> desired upstream.
-> 
-> [...]
 
-Applied to
+--pxe2xiyh5bq4m3l7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+hi,
 
-Thanks!
+On Wed, May 05, 2021 at 07:33:35PM +0200, Jernej Skrabec wrote:
+> Old e-mail address doesn't work anymore, update it to new one.
+>=20
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[1/7] ASoC: dt-bindings: sun8i-codec: Increase #sound-dai-cells
-      commit: 880e007f15a31f446b9e1713720c6ae5a539f3f4
+Merged into drm-misc-fixes, since it's the fastest way to Linus
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Maxime
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+--pxe2xiyh5bq4m3l7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+-----BEGIN PGP SIGNATURE-----
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYJpxgAAKCRDj7w1vZxhR
+xYlNAQCAZxVcV7whXEQtZ0N9FfucijyeXC66mlU9WxsiuTPWkwEAi+GuUiHTdEFL
+RqzN4RbnbUEuUzRlQK1PguzJMaXdtAE=
+=2qgq
+-----END PGP SIGNATURE-----
 
-Thanks,
-Mark
+--pxe2xiyh5bq4m3l7--
