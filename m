@@ -1,15 +1,15 @@
 Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA0F70
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 23:28:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F8F2FB8
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 23:29:00 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.manjaro.org (Postfix) with ESMTP id 1E0D422254B;
-	Fri, 14 May 2021 01:28:58 +0200 (CEST)
+	by mail.manjaro.org (Postfix) with ESMTP id 0AB2A220A64;
+	Fri, 14 May 2021 01:28:59 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at manjaro.org
 Received: from mail.manjaro.org ([127.0.0.1])
 	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id d6QmvWDYMFGN; Fri, 14 May 2021 01:28:54 +0200 (CEST)
+	with ESMTP id a8lTksXsC7z5; Fri, 14 May 2021 01:28:56 +0200 (CEST)
 From: Tobias Schramm <t.schramm@manjaro.org>
 To: =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org
@@ -20,9 +20,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH v2 4/7] ASoC: dt-bindings: sun8i-a23-codec-analog: add compatible for Allwinner V3
-Date: Fri, 14 May 2021 01:30:21 +0200
-Message-Id: <20210513233024.2076725-5-t.schramm@manjaro.org>
+Subject: [PATCH v2 6/7] dt-bindings: sound: sun4i-i2s: add Allwinner V3 I2S compatible
+Date: Fri, 14 May 2021 01:30:23 +0200
+Message-Id: <20210513233024.2076725-7-t.schramm@manjaro.org>
 In-Reply-To: <20210513233024.2076725-1-t.schramm@manjaro.org>
 References: <20210513233024.2076725-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -32,39 +32,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The analog codec frontend of the Allwinner V3 is compatible with the
-analog codec frontend used on the Allwinner H3.
-This patch adds a compatible string for the analog codec frontend on the
-Allwinner V3 SoC.
+The I2S peripheral of the Allwinner V3 SoC is compatible with the one
+found in the Allwinner H3 SoC.
+This patch adds a compatible string for it.
 
 Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 ---
- .../bindings/sound/allwinner,sun8i-a23-codec-analog.yaml | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml     | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
-index 9718358826ab..69a21e3220fe 100644
---- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
-+++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
-@@ -12,12 +12,15 @@ maintainers:
- 
- properties:
-   compatible:
--    enum:
-+    oneOf:
-       # FIXME: This is documented in the PRCM binding, but needs to be
-       # migrated here at some point
-       # - allwinner,sun8i-a23-codec-analog
--      - allwinner,sun8i-h3-codec-analog
--      - allwinner,sun8i-v3s-codec-analog
-+      - const: allwinner,sun8i-h3-codec-analog
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+index a16e37b01e1d..39b66e9ce3e3 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
+@@ -20,6 +20,9 @@ properties:
+       - const: allwinner,sun6i-a31-i2s
+       - const: allwinner,sun8i-a83t-i2s
+       - const: allwinner,sun8i-h3-i2s
 +      - items:
-+        - const: allwinner,sun8i-v3-codec-analog
-+        - const: allwinner,sun8i-h3-codec-analog
-+      - const: allwinner,sun8i-v3s-codec-analog
- 
-   reg:
-     maxItems: 1
++          - const: allwinner,sun8i-v3-i2s
++          - const: allwinner,sun8i-h3-i2s
+       - const: allwinner,sun50i-a64-codec-i2s
+       - items:
+           - const: allwinner,sun50i-a64-i2s
 -- 
 2.31.1
 
