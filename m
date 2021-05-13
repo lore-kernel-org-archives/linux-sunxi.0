@@ -1,15 +1,15 @@
 Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E54872
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 18:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458832FAF
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 19:09:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.manjaro.org (Postfix) with ESMTP id DA66922111A;
-	Thu, 13 May 2021 20:18:44 +0200 (CEST)
+	by mail.manjaro.org (Postfix) with ESMTP id C4FD622241E;
+	Thu, 13 May 2021 21:09:08 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at manjaro.org
 Received: from mail.manjaro.org ([127.0.0.1])
 	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Z8FFyIV5ygwk; Thu, 13 May 2021 20:18:42 +0200 (CEST)
+	with ESMTP id g8t4LcfrkdlZ; Thu, 13 May 2021 21:09:06 +0200 (CEST)
 From: Tobias Schramm <t.schramm@manjaro.org>
 To: Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -19,9 +19,11 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH] ARM: dts: sun8i: v3s: add pwm controller to v3s dts
-Date: Thu, 13 May 2021 20:20:00 +0200
-Message-Id: <20210513182000.2068223-1-t.schramm@manjaro.org>
+Subject: [PATCH 1/4] ARM: dts: sun8i: v3s: add DMA controller to v3s dts
+Date: Thu, 13 May 2021 21:09:46 +0200
+Message-Id: <20210513190949.2069235-2-t.schramm@manjaro.org>
+In-Reply-To: <20210513190949.2069235-1-t.schramm@manjaro.org>
+References: <20210513190949.2069235-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -29,34 +31,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner V3s and V3 SoCs feature a pwm controller identical to the
-one used in the Allwinner A20.
+The Allwinner V3s and V3 feature a DMA controller.
 This commit adds it to the V3s dtsi.
 
 Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index 770f5a25ab4c..22bc5ab4c3ca 100644
+index eb4cb63fef13..f0296ab46137 100644
 --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
 +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -433,6 +433,14 @@ wdt0: watchdog@1c20ca0 {
- 			clocks = <&osc24M>;
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 2016 Icenowy Zheng <icenowy@aosc.xyz>
++ * Copyright (C) 2021 Tobias Schramm <t.schramm@manjaro.org>
+  *
+  * This file is dual-licensed: you can use it either under the terms
+  * of the GPL or the X11 license, at your option. Note that this dual
+@@ -172,6 +173,15 @@ nmi_intc: interrupt-controller@1c000d0 {
+ 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
  		};
  
-+		pwm: pwm@1c21400 {
-+			compatible = "allwinner,sun7i-a20-pwm";
-+			reg = <0x01c21400 0xc>;
-+			clocks = <&osc24M>;
-+			#pwm-cells = <3>;
-+			status = "disabled";
++		dma: dma-controller@1c02000 {
++			compatible = "allwinner,sun8i-v3s-dma";
++			reg = <0x01c02000 0x1000>;
++			interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_DMA>;
++			resets = <&ccu RST_BUS_DMA>;
++			#dma-cells = <1>;
 +		};
 +
- 		lradc: lradc@1c22800 {
- 			compatible = "allwinner,sun4i-a10-lradc-keys";
- 			reg = <0x01c22800 0x400>;
+ 		tcon0: lcd-controller@1c0c000 {
+ 			compatible = "allwinner,sun8i-v3s-tcon";
+ 			reg = <0x01c0c000 0x1000>;
 -- 
 2.30.1
 
