@@ -1,15 +1,15 @@
 Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DE22FB8
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 23:28:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA0F70
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 23:28:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.manjaro.org (Postfix) with ESMTP id CA8F02210AD;
-	Fri, 14 May 2021 01:28:56 +0200 (CEST)
+	by mail.manjaro.org (Postfix) with ESMTP id 1E0D422254B;
+	Fri, 14 May 2021 01:28:58 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at manjaro.org
 Received: from mail.manjaro.org ([127.0.0.1])
 	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id CT3VL_bqK02D; Fri, 14 May 2021 01:28:54 +0200 (CEST)
+	with ESMTP id d6QmvWDYMFGN; Fri, 14 May 2021 01:28:54 +0200 (CEST)
 From: Tobias Schramm <t.schramm@manjaro.org>
 To: =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org
@@ -20,9 +20,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH v2 3/7] ARM: dts: sun8i: v3s: add analog codec and frontend to v3s dts
-Date: Fri, 14 May 2021 01:30:20 +0200
-Message-Id: <20210513233024.2076725-4-t.schramm@manjaro.org>
+Subject: [PATCH v2 4/7] ASoC: dt-bindings: sun8i-a23-codec-analog: add compatible for Allwinner V3
+Date: Fri, 14 May 2021 01:30:21 +0200
+Message-Id: <20210513233024.2076725-5-t.schramm@manjaro.org>
 In-Reply-To: <20210513233024.2076725-1-t.schramm@manjaro.org>
 References: <20210513233024.2076725-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -32,46 +32,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner V3s and V3 SoCs feature an integrated analog audio codec.
-Additionally both have an analog frontend with mixers and amplifiers for
-the codec.
-This commit adds both, the analog codec and its frontend to the V3s dtsi.
+The analog codec frontend of the Allwinner V3 is compatible with the
+analog codec frontend used on the Allwinner H3.
+This patch adds a compatible string for the analog codec frontend on the
+Allwinner V3 SoC.
 
 Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ .../bindings/sound/allwinner,sun8i-a23-codec-analog.yaml | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index 3eaa8703e2ac..236cf45bba91 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -441,6 +441,25 @@ lradc: lradc@1c22800 {
- 			status = "disabled";
- 		};
+diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
+index 9718358826ab..69a21e3220fe 100644
+--- a/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
++++ b/Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml
+@@ -12,12 +12,15 @@ maintainers:
  
-+		codec: codec@1c22c00 {
-+			#sound-dai-cells = <0>;
-+			compatible = "allwinner,sun8i-v3s-codec";
-+			reg = <0x01c22c00 0x400>;
-+			interrupts = <GIC_SPI 29 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CODEC>, <&ccu CLK_AC_DIG>;
-+			clock-names = "apb", "codec";
-+			resets = <&ccu RST_BUS_CODEC>;
-+			dmas = <&dma 15>, <&dma 15>;
-+			dma-names = "rx", "tx";
-+			allwinner,codec-analog-controls = <&codec_analog>;
-+			status = "disabled";
-+		};
-+
-+		codec_analog: codec-analog@1c23000 {
-+			compatible = "allwinner,sun8i-v3s-codec-analog";
-+			reg = <0x01c23000 0x4>;
-+		};
-+
- 		uart0: serial@1c28000 {
- 			compatible = "snps,dw-apb-uart";
- 			reg = <0x01c28000 0x400>;
+ properties:
+   compatible:
+-    enum:
++    oneOf:
+       # FIXME: This is documented in the PRCM binding, but needs to be
+       # migrated here at some point
+       # - allwinner,sun8i-a23-codec-analog
+-      - allwinner,sun8i-h3-codec-analog
+-      - allwinner,sun8i-v3s-codec-analog
++      - const: allwinner,sun8i-h3-codec-analog
++      - items:
++        - const: allwinner,sun8i-v3-codec-analog
++        - const: allwinner,sun8i-h3-codec-analog
++      - const: allwinner,sun8i-v3s-codec-analog
+ 
+   reg:
+     maxItems: 1
 -- 
 2.31.1
 
