@@ -1,102 +1,75 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2169F72
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 07:08:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B5910175D;
-	Fri, 14 May 2021 00:08:02 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 76FB63F718;
-	Fri, 14 May 2021 00:08:01 -0700 (PDT)
-Date: Fri, 14 May 2021 08:07:56 +0100
-From: Andre Przywara <andre.przywara@arm.com>
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C1572
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 13:07:07 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so26403041oth.5
+        for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 06:07:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=l2eXy9z3afSwFgDJvgpFD/dJeeyQ7yGcCchF95C+EYo=;
+        b=lXWWSsZNR/OW/A0/7PMUnjtBz0FBYL0eY9SaYoQ3+V2iz6uV205XobZN/2PJrVmjiw
+         ssrhM7WPuM0ctl5aaTb+ISrqVigYnwAynUWpJb4D5fww45ryAivs7HjlZNOBxpEFXtgI
+         AODCQYpbu1W6x2SnHt0cjFCKtDQWnp/CMtRXsXGkwFj+CJb1h4MnDNuRAV4mdPrazcm3
+         U2uOMh0Z5LYpg+omsmEQVEeQDq5jX3ErC5rfrtxgRTEQs6MlvvMItkDw8mh//1RXKZ1d
+         z8t7mECSUIUmUyXRCiyVBvZeGM0KVIIXO/yvah2hP+jKe3ZHy0KU7utCZwDH3tL6uCXS
+         M+ww==
+X-Gm-Message-State: AOAM5319FOJilcOvR6/+6Gy1iTxI5f/VZIAreCvHV5ZmQ9nmXzWs3/Qx
+	LddbXpls70zNhug7DAf7GQ==
+X-Google-Smtp-Source: ABdhPJwxT9wq5KV3S8bxY0nu4XKjmrJVihBR6WLFWVuWar1OZi3pT3atscgWLMtmxfBX5YT16XPM8w==
+X-Received: by 2002:a9d:6c86:: with SMTP id c6mr21822666otr.9.1620997626366;
+        Fri, 14 May 2021 06:07:06 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id i130sm1195577oif.49.2021.05.14.06.07.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 May 2021 06:07:05 -0700 (PDT)
+Received: (nullmailer pid 3936692 invoked by uid 1000);
+	Fri, 14 May 2021 13:06:56 -0000
+From: Rob Herring <robh@kernel.org>
 To: Tobias Schramm <t.schramm@manjaro.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Maxime Ripard
- <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/7] ARM: dts: sun8i: v3s: add DMA properties to
- peripherals supporting DMA
-Message-ID: <20210514080756.3a6c0f53@slackpad.fritz.box>
-In-Reply-To: <20210513233024.2076725-3-t.schramm@manjaro.org>
-References: <20210513233024.2076725-1-t.schramm@manjaro.org>
-	<20210513233024.2076725-3-t.schramm@manjaro.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Cc: =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
+In-Reply-To: <20210513233024.2076725-5-t.schramm@manjaro.org>
+References: <20210513233024.2076725-1-t.schramm@manjaro.org> <20210513233024.2076725-5-t.schramm@manjaro.org>
+Subject: Re: [PATCH v2 4/7] ASoC: dt-bindings: sun8i-a23-codec-analog: add compatible for Allwinner V3
+Date: Fri, 14 May 2021 08:06:56 -0500
+Message-Id: <1620997616.593902.3936691.nullmailer@robh.at.kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Fri, 14 May 2021 01:30:19 +0200
-Tobias Schramm <t.schramm@manjaro.org> wrote:
-
-> This commit adds DMA properties to all peripherals supporting DMA on the
-> Allwinner V3s, enabling accelerated data transfer to them.
+On Fri, 14 May 2021 01:30:21 +0200, Tobias Schramm wrote:
+> The analog codec frontend of the Allwinner V3 is compatible with the
+> analog codec frontend used on the Allwinner H3.
+> This patch adds a compatible string for the analog codec frontend on the
+> Allwinner V3 SoC.
 > 
 > Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
-
-DMA channels match the manual.
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
 > ---
->  arch/arm/boot/dts/sun8i-v3s.dtsi | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  .../bindings/sound/allwinner,sun8i-a23-codec-analog.yaml | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-> index f0296ab46137..3eaa8703e2ac 100644
-> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-> @@ -285,6 +285,8 @@ crypto@1c15000 {
->  			interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_CE>, <&ccu CLK_CE>;
->  			clock-names = "ahb", "mod";
-> +			dmas = <&dma 16>, <&dma 16>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_CE>;
->  			reset-names = "ahb";
->  		};
-> @@ -446,6 +448,8 @@ uart0: serial@1c28000 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART0>;
-> +			dmas = <&dma 6>, <&dma 6>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_UART0>;
->  			status = "disabled";
->  		};
-> @@ -457,6 +461,8 @@ uart1: serial@1c28400 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART1>;
-> +			dmas = <&dma 7>, <&dma 7>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_UART1>;
->  			status = "disabled";
->  		};
-> @@ -468,6 +474,8 @@ uart2: serial@1c28800 {
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
->  			clocks = <&ccu CLK_BUS_UART2>;
-> +			dmas = <&dma 8>, <&dma 8>;
-> +			dma-names = "rx", "tx";
->  			resets = <&ccu RST_BUS_UART2>;
->  			pinctrl-0 = <&uart2_pins>;
->  			pinctrl-names = "default";
-> @@ -547,6 +555,8 @@ spi0: spi@1c68000 {
->  			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
->  			clock-names = "ahb", "mod";
-> +			dmas = <&dma 23>, <&dma 23>;
-> +			dma-names = "rx", "tx";
->  			pinctrl-names = "default";
->  			pinctrl-0 = <&spi0_pins>;
->  			resets = <&ccu RST_BUS_SPI0>;
+
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+
+dtschema/dtc warnings/errors:
+
+See https://patchwork.ozlabs.org/patch/1478254
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
