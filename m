@@ -1,94 +1,69 @@
-Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C922FB8
-	for <linux-sunxi@lists.linux.dev>; Thu, 13 May 2021 23:29:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.manjaro.org (Postfix) with ESMTP id B82DC2210AD;
-	Fri, 14 May 2021 01:29:00 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at manjaro.org
-Received: from mail.manjaro.org ([127.0.0.1])
-	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ywCVWN8o1e2m; Fri, 14 May 2021 01:28:58 +0200 (CEST)
-From: Tobias Schramm <t.schramm@manjaro.org>
-To: =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH v2 7/7] ARM: dts: sun8i: V3: add I2S interface to V3 dts
-Date: Fri, 14 May 2021 01:30:24 +0200
-Message-Id: <20210513233024.2076725-8-t.schramm@manjaro.org>
-In-Reply-To: <20210513233024.2076725-1-t.schramm@manjaro.org>
-References: <20210513233024.2076725-1-t.schramm@manjaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5ED672
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 07:02:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8203A1476;
+	Fri, 14 May 2021 00:02:28 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 259A13F718;
+	Fri, 14 May 2021 00:02:27 -0700 (PDT)
+Date: Fri, 14 May 2021 08:02:20 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tobias Schramm <t.schramm@manjaro.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: pwm: allwinner: add v3s pwm
+ compatible
+Message-ID: <20210514080220.44e0f74c@slackpad.fritz.box>
+In-Reply-To: <20210513203527.2072090-2-t.schramm@manjaro.org>
+References: <20210513203527.2072090-1-t.schramm@manjaro.org>
+	<20210513203527.2072090-2-t.schramm@manjaro.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The Allwinner V3 SoC features an I2S interface. The I2S peripheral is
-identical to that in the Allwinner H3 SoC.
-This commit adds it to the Allwinner V3 dts.
+On Thu, 13 May 2021 22:35:26 +0200
+Tobias Schramm <t.schramm@manjaro.org> wrote:
 
-Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
----
- arch/arm/boot/dts/sun8i-v3.dtsi | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+> The Allwinner V3s pwm peripheral is compatible with the pwm peripheral
+> inside the Allwinner A20.
+> This patch adds a compatible string for it.
+> 
+> Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 
-diff --git a/arch/arm/boot/dts/sun8i-v3.dtsi b/arch/arm/boot/dts/sun8i-v3.dtsi
-index 8af790d286b9..3698e024d604 100644
---- a/arch/arm/boot/dts/sun8i-v3.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3.dtsi
-@@ -1,10 +1,31 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-  * Copyright (C) 2019 Icenowy Zheng <icenowy@aosc.io>
-+ * Copyright (C) 2021 Tobias Schramm <t.schramm@manjaro.org>
-  */
- 
- #include "sun8i-v3s.dtsi"
- 
-+/ {
-+	soc {
-+			i2s0: i2s@1c22000 {
-+				#sound-dai-cells = <0>;
-+				compatible = "allwinner,sun8i-v3-i2s",
-+					     "allwinner,sun8i-h3-i2s";
-+				reg = <0x01c22000 0x400>;
-+				interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
-+				clocks = <&ccu CLK_BUS_I2S0>, <&ccu CLK_I2S0>;
-+				clock-names = "apb", "mod";
-+				dmas = <&dma 3>, <&dma 3>;
-+				dma-names = "rx", "tx";
-+				pinctrl-names = "default";
-+				pinctrl-0 = <&i2s0_pins>;
-+				resets = <&ccu RST_BUS_I2S0>;
-+				status = "disabled";
-+			};
-+	};
-+};
-+
- &ccu {
- 	compatible = "allwinner,sun8i-v3-ccu";
- };
-@@ -30,6 +51,11 @@ external_mdio: mdio@2 {
- &pio {
- 	compatible = "allwinner,sun8i-v3-pinctrl";
- 
-+	i2s0_pins: i2s0-pins {
-+		pins = "PG10", "PG11", "PG12", "PG13";
-+		function = "i2s";
-+	};
-+
- 	uart1_pg_pins: uart1-pg-pins {
- 		pins = "PG6", "PG7";
- 		function = "uart1";
--- 
-2.31.1
+Compared the A20 and V3s manuals, the register description on the
+PWM peripherals look indeed identical.
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+> ---
+>  .../devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml       | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
+> index 7dcab2bf8128..04ff708fdc86 100644
+> --- a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
+> @@ -24,6 +24,9 @@ properties:
+>        - items:
+>            - const: allwinner,sun8i-a83t-pwm
+>            - const: allwinner,sun8i-h3-pwm
+> +      - items:
+> +          - const: allwinner,sun8i-v3s-pwm
+> +          - const: allwinner,sun7i-a20-pwm
+>        - items:
+>            - const: allwinner,sun50i-a64-pwm
+>            - const: allwinner,sun5i-a13-pwm
 
