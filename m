@@ -1,75 +1,72 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C1572
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 13:07:07 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id q7-20020a9d57870000b02902a5c2bd8c17so26403041oth.5
-        for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 06:07:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=l2eXy9z3afSwFgDJvgpFD/dJeeyQ7yGcCchF95C+EYo=;
-        b=lXWWSsZNR/OW/A0/7PMUnjtBz0FBYL0eY9SaYoQ3+V2iz6uV205XobZN/2PJrVmjiw
-         ssrhM7WPuM0ctl5aaTb+ISrqVigYnwAynUWpJb4D5fww45ryAivs7HjlZNOBxpEFXtgI
-         AODCQYpbu1W6x2SnHt0cjFCKtDQWnp/CMtRXsXGkwFj+CJb1h4MnDNuRAV4mdPrazcm3
-         U2uOMh0Z5LYpg+omsmEQVEeQDq5jX3ErC5rfrtxgRTEQs6MlvvMItkDw8mh//1RXKZ1d
-         z8t7mECSUIUmUyXRCiyVBvZeGM0KVIIXO/yvah2hP+jKe3ZHy0KU7utCZwDH3tL6uCXS
-         M+ww==
-X-Gm-Message-State: AOAM5319FOJilcOvR6/+6Gy1iTxI5f/VZIAreCvHV5ZmQ9nmXzWs3/Qx
-	LddbXpls70zNhug7DAf7GQ==
-X-Google-Smtp-Source: ABdhPJwxT9wq5KV3S8bxY0nu4XKjmrJVihBR6WLFWVuWar1OZi3pT3atscgWLMtmxfBX5YT16XPM8w==
-X-Received: by 2002:a9d:6c86:: with SMTP id c6mr21822666otr.9.1620997626366;
-        Fri, 14 May 2021 06:07:06 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i130sm1195577oif.49.2021.05.14.06.07.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 May 2021 06:07:05 -0700 (PDT)
-Received: (nullmailer pid 3936692 invoked by uid 1000);
-	Fri, 14 May 2021 13:06:56 -0000
-From: Rob Herring <robh@kernel.org>
-To: Tobias Schramm <t.schramm@manjaro.org>
-Cc: =?utf-8?q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20210513233024.2076725-5-t.schramm@manjaro.org>
-References: <20210513233024.2076725-1-t.schramm@manjaro.org> <20210513233024.2076725-5-t.schramm@manjaro.org>
-Subject: Re: [PATCH v2 4/7] ASoC: dt-bindings: sun8i-a23-codec-analog: add compatible for Allwinner V3
-Date: Fri, 14 May 2021 08:06:56 -0500
-Message-Id: <1620997616.593902.3936691.nullmailer@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE4D2FAE
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 13:42:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.manjaro.org (Postfix) with ESMTP id C4B47220A62;
+	Fri, 14 May 2021 15:42:36 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at manjaro.org
+Received: from mail.manjaro.org ([127.0.0.1])
+	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id YXMWuC8QmCu1; Fri, 14 May 2021 15:42:34 +0200 (CEST)
+From: Tobias Schramm <t.schramm@manjaro.org>
+To: =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Tobias Schramm <t.schramm@manjaro.org>
+Subject: [PATCH v3 1/7] ARM: dts: sun8i: v3s: add DMA controller to v3s dts
+Date: Fri, 14 May 2021 15:43:59 +0200
+Message-Id: <20210514134405.2097464-2-t.schramm@manjaro.org>
+In-Reply-To: <20210514134405.2097464-1-t.schramm@manjaro.org>
+References: <20210514134405.2097464-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 14 May 2021 01:30:21 +0200, Tobias Schramm wrote:
-> The analog codec frontend of the Allwinner V3 is compatible with the
-> analog codec frontend used on the Allwinner H3.
-> This patch adds a compatible string for the analog codec frontend on the
-> Allwinner V3 SoC.
-> 
-> Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
-> ---
->  .../bindings/sound/allwinner,sun8i-a23-codec-analog.yaml | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
+The Allwinner V3s and V3 feature a DMA controller.
+This commit adds it to the V3s dtsi.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
+---
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/sound/allwinner,sun8i-a23-codec-analog.yaml:21:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-
-dtschema/dtc warnings/errors:
-
-See https://patchwork.ozlabs.org/patch/1478254
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index eb4cb63fef13..f0296ab46137 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -1,5 +1,6 @@
+ /*
+  * Copyright (C) 2016 Icenowy Zheng <icenowy@aosc.xyz>
++ * Copyright (C) 2021 Tobias Schramm <t.schramm@manjaro.org>
+  *
+  * This file is dual-licensed: you can use it either under the terms
+  * of the GPL or the X11 license, at your option. Note that this dual
+@@ -172,6 +173,15 @@ nmi_intc: interrupt-controller@1c000d0 {
+ 			interrupts = <GIC_SPI 32 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		dma: dma-controller@1c02000 {
++			compatible = "allwinner,sun8i-v3s-dma";
++			reg = <0x01c02000 0x1000>;
++			interrupts = <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_DMA>;
++			resets = <&ccu RST_BUS_DMA>;
++			#dma-cells = <1>;
++		};
++
+ 		tcon0: lcd-controller@1c0c000 {
+ 			compatible = "allwinner,sun8i-v3s-tcon";
+ 			reg = <0x01c0c000 0x1000>;
+-- 
+2.31.1
 
