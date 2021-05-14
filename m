@@ -1,15 +1,15 @@
 Received: from mail.manjaro.org (mail.manjaro.org [176.9.38.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE2272
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FF929CA
 	for <linux-sunxi@lists.linux.dev>; Fri, 14 May 2021 13:42:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.manjaro.org (Postfix) with ESMTP id 968C6222590;
-	Fri, 14 May 2021 15:42:36 +0200 (CEST)
+	by mail.manjaro.org (Postfix) with ESMTP id 8A96C221198;
+	Fri, 14 May 2021 15:42:37 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at manjaro.org
 Received: from mail.manjaro.org ([127.0.0.1])
 	by localhost (manjaro.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id qwnMcMQxrZeM; Fri, 14 May 2021 15:42:34 +0200 (CEST)
+	with ESMTP id gTEIUq_ewz4f; Fri, 14 May 2021 15:42:35 +0200 (CEST)
 From: Tobias Schramm <t.schramm@manjaro.org>
 To: =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -20,9 +20,11 @@ Cc: Maxime Ripard <mripard@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Tobias Schramm <t.schramm@manjaro.org>
-Subject: [PATCH v3 0/7] Add missing peripherals to Allwinner V3s/V3 device trees
-Date: Fri, 14 May 2021 15:43:58 +0200
-Message-Id: <20210514134405.2097464-1-t.schramm@manjaro.org>
+Subject: [PATCH v3 2/7] ARM: dts: sun8i: v3s: add DMA properties to peripherals supporting DMA
+Date: Fri, 14 May 2021 15:44:00 +0200
+Message-Id: <20210514134405.2097464-3-t.schramm@manjaro.org>
+In-Reply-To: <20210514134405.2097464-1-t.schramm@manjaro.org>
+References: <20210514134405.2097464-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -30,46 +32,63 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner V3s/V3 SoCs feature quite a few peripherals that have good
-driver support but yet are nowhere to be found in the SoCs dts.
-This patchset adds the DMA controller, the relevant DMA properties for all
-peripherals supporting DMA, the integrated analog codec and - for the
-Allwinner V3 SoC - also the I2S interface.
-I've included all of those changes in one patchset since they do all
-depend on addition of the DMA controller.
-All changes have been tested in a recent project of mine using a Sochip S3
-(a rebranded Allwinner V3) and are confirmed working.
+This commit adds DMA properties to all peripherals supporting DMA on the
+Allwinner V3s, enabling accelerated data transfer to them.
 
-This is v3 of this patchset.
+Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
+---
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-Cheers,
-Tobias
-
-Changelog:
-  v2:
-    - add v3/v3s specific compatible strings
-    - fix v3s audio codec analog frontend compatible
-    - fix an I2S -> I2C typo
-
-  v3:
-    - fix yaml list indentation in allwinner,sun8i-a23-codec-analog.yaml
-
-Tobias Schramm (7):
-  ARM: dts: sun8i: v3s: add DMA controller to v3s dts
-  ARM: dts: sun8i: v3s: add DMA properties to peripherals supporting DMA
-  ARM: dts: sun8i: v3s: add analog codec and frontend to v3s dts
-  ASoC: dt-bindings: sun8i-a23-codec-analog: add compatible for
-    Allwinner V3
-  ARM: dts: sun8i: V3: add codec analog frontend to V3 dts
-  dt-bindings: sound: sun4i-i2s: add Allwinner V3 I2S compatible
-  ARM: dts: sun8i: V3: add I2S interface to V3 dts
-
- .../sound/allwinner,sun4i-a10-i2s.yaml        |  3 ++
- .../allwinner,sun8i-a23-codec-analog.yaml     |  9 +++--
- arch/arm/boot/dts/sun8i-v3.dtsi               | 31 +++++++++++++++
- arch/arm/boot/dts/sun8i-v3s.dtsi              | 39 +++++++++++++++++++
- 4 files changed, 79 insertions(+), 3 deletions(-)
-
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index f0296ab46137..3eaa8703e2ac 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -285,6 +285,8 @@ crypto@1c15000 {
+ 			interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_CE>, <&ccu CLK_CE>;
+ 			clock-names = "ahb", "mod";
++			dmas = <&dma 16>, <&dma 16>;
++			dma-names = "rx", "tx";
+ 			resets = <&ccu RST_BUS_CE>;
+ 			reset-names = "ahb";
+ 		};
+@@ -446,6 +448,8 @@ uart0: serial@1c28000 {
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+ 			clocks = <&ccu CLK_BUS_UART0>;
++			dmas = <&dma 6>, <&dma 6>;
++			dma-names = "rx", "tx";
+ 			resets = <&ccu RST_BUS_UART0>;
+ 			status = "disabled";
+ 		};
+@@ -457,6 +461,8 @@ uart1: serial@1c28400 {
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+ 			clocks = <&ccu CLK_BUS_UART1>;
++			dmas = <&dma 7>, <&dma 7>;
++			dma-names = "rx", "tx";
+ 			resets = <&ccu RST_BUS_UART1>;
+ 			status = "disabled";
+ 		};
+@@ -468,6 +474,8 @@ uart2: serial@1c28800 {
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+ 			clocks = <&ccu CLK_BUS_UART2>;
++			dmas = <&dma 8>, <&dma 8>;
++			dma-names = "rx", "tx";
+ 			resets = <&ccu RST_BUS_UART2>;
+ 			pinctrl-0 = <&uart2_pins>;
+ 			pinctrl-names = "default";
+@@ -547,6 +555,8 @@ spi0: spi@1c68000 {
+ 			interrupts = <GIC_SPI 65 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_SPI0>;
+ 			clock-names = "ahb", "mod";
++			dmas = <&dma 23>, <&dma 23>;
++			dma-names = "rx", "tx";
+ 			pinctrl-names = "default";
+ 			pinctrl-0 = <&spi0_pins>;
+ 			resets = <&ccu RST_BUS_SPI0>;
 -- 
 2.31.1
 
