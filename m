@@ -1,122 +1,59 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+Received: from mail-m17638.qiye.163.com (mail-m17638.qiye.163.com [59.111.176.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D1D72
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 May 2021 02:14:42 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id D2ED9580A31;
-	Fri, 14 May 2021 22:14:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 14 May 2021 22:14:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm2; bh=jGoXzPaLrTSMzrEWtvvGyydli2
-	uRBq2EBIG4vZ4n6Zg=; b=KErnfvg+jCMxthXD2KiR7t2nvj0CgfNLo2U+9Td3QC
-	CXeLFGDKffF9iOKwbJ7blXYJUUPLqmDDBg1vxTXzHC8WVM80iAQZ/uEEwTVNF9PS
-	dW+X/UyNJUUJDa2SeZ7tR7X4LTD3qWC+m99xuHOndDWqHxtEM5fAOgzUUjFX0OjB
-	TW2qdRrmVMEQq4Gk+xHq58xpPFlmswHGEDd5Bc4/8QCE4JLxrnsHVhN8IzqmFET6
-	HYvE7khtaLKuVXedTeeFuZm+4Modtv6AUjtKv4yUoiCLeIDkEYTxiMaHlj5nbVja
-	3boDLntBJGgwNibk5/acK27FVdjoa7rAbm080+MDHJzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jGoXzPaLrTSMzrEWt
-	vvGyydli2uRBq2EBIG4vZ4n6Zg=; b=ArAENFk73SO14+CczIfwVKHG4tH1MgnWI
-	6z0VGUX6GQjaUImiEx2zqg2qAqOWdueL+chYrrNEWULGHJUWubQkvSNLx6YAESPL
-	hyMiFAec8FK8uvt3xOqYfEH1xSdAmNwNd7rGVdlzQyWLRWBYYDn1VElyDE8+uiPw
-	FrCpVcjDp3N6rxbMJ4O2LSFSvCGw2OFdLPLtdffju/tKxIlLasUyTtBcQQjlZ2uZ
-	p4N/4l2skAdm/qAwKre+7HWAwHtDiLKT3Jg64mJidm7hwp564C387kJ8YrJjd9hs
-	smHf2eseDE/uRNZHDx/xW6uMcslsaesquc+j2LdGFxgaSGfmruEoQ==
-X-ME-Sender: <xms:kC6fYGBIXvzwJQgEajPsxINAUYuXeT5NkvJNACQl-FUa1YnuvFdxPg>
-    <xme:kC6fYAgtoWlSBDr3C19Pyc8EERQq692SRH_Zxx5PKcKkc1XwYVL3fNgeE-M7Ow33z
-    GAdAVRiB_2wLwFcgw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehkedguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepieffueefheeggffhveevgfdugeeujefgudekteegueelvefgfedujeek
-    tdeiheelnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgne
-    cukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghrufhiiigvpedtnecu
-    rfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:kC6fYJm01TL3T-ovZJPGX0HR1eB8McVZDGjA1lQ-ynP621ztcQus-A>
-    <xmx:kC6fYEzHLhUYHBavgc2gCT1DzPEdCIGyclTBkalwWI3Jgi9x4Aznug>
-    <xmx:kC6fYLTnTOpOg-XmSe2PjG79KlfIOYOrxD9eUaiYoALItt4nR0uIbw>
-    <xmx:kS6fYGH1rgCeXbwZSEz-ti4cwT6GRbu36nwo50sR17mi1ZDci8hQVA>
-Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Fri, 14 May 2021 22:14:40 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Mark Rutland <mark.rutland@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: Ondrej Jirman <megous@megous.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A73F2FB5;
+	Sun, 16 May 2021 16:42:41 +0000 (UTC)
+Received: from localhost.localdomain (unknown [58.199.17.113])
+	by mail-m17638.qiye.163.com (Hmail) with ESMTPA id F33BF1C0456;
+	Mon, 17 May 2021 00:35:34 +0800 (CST)
+From: Chukun Pan <amadeus@jmu.edu.cn>
+To: maxime@cerno.tech
+Cc: amadeus@jmu.edu.cn,
+	devicetree@vger.kernel.org,
+	jernej.skrabec@siol.net,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>,
-	stable@vger.kernel.org,
-	Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [PATCH] clocksource/arm_arch_timer: Improve Allwinner A64 timer workaround
-Date: Fri, 14 May 2021 21:14:39 -0500
-Message-Id: <20210515021439.55316-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.26.3
+	lkft-triage@lists.linaro.org,
+	naresh.kamboju@linaro.org,
+	regressions@lists.linux.dev,
+	robh+dt@kernel.org,
+	wens@csie.org
+Subject: [PATCH v2 0/2] Add support for NanoPi R1S H5
+Date: Mon, 17 May 2021 00:35:21 +0800
+Message-Id: <20210516163523.9484-1-amadeus@jmu.edu.cn>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210511081823.mmcrliomwtetcirx@gilmour>
+References: <20210511081823.mmcrliomwtetcirx@gilmour>
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+	oVCBIfWUFZQx8ZGFZDSkxDSxhISUpOHhlVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+	hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OjI6AQw5Cj8KMzYLCAlCAwwY
+	EggwCglVSlVKTUlKSkNJQkhOTUtOVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWU5D
+	VUpCQlVKTFVKSkhZV1kIAVlBSkNPSTcG
+X-HM-Tid: 0a79760870eed993kuwsf33bf1c0456
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Bad counter reads are experienced sometimes when bit 10 or greater rolls
-over. Originally, testing showed that at least 10 lower bits would be
-set to the same value during these bad reads. However, some users still
-reported time skips.
+I'm very sorry for the compilation error caused by the patches I sent
+before, now fixed it.
 
-Wider testing revealed that on some chips, occasionally only the lowest
-9 bits would read as the anomalous value. During these reads (which
-still happen only when bit 10), bit 9 would read as the correct value.
+Changes from v2:
+* Added missing header file in the dts.
+* Collected acked-by.
 
-Reduce the mask by one bit to cover these cases as well.
+Chukun Pan (2):
+  arm64: dts: allwinner: h5: Add NanoPi R1S H5 support
+  dt-bindings: arm: Add NanoPi R1S H5
 
-Cc: stable@vger.kernel.org
-Fixes: c950ca8c35ee ("clocksource/drivers/arch_timer: Workaround for Allwinner A64 timer instability")
-Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 195 ++++++++++++++++++
+ 3 files changed, 201 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
 
-The tool used for testing is here:
- https://github.com/smaeul/timer-tools
-
-For examples of the 9-bit pattern, see the data here:
- https://github.com/8bitgc/timer-tools/tree/master/output
-
-I was able to reproduce the same pattern (although _extremely_ rarely)
-on 1 of the 8 A64 boards I currently have access to.
-
-This explanation is consistent with the earlier report here:
- https://lore.kernel.org/lkml/20200929111347.1967438-1-r.stratiienko@gmail.com/
-
-In that report, the time went backward 20542 ns == 493 cycles @ 24 MHz,
-which matches the expected 2^9 == 512 cycles minus system call overhead.
-
- drivers/clocksource/arm_arch_timer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/clocksource/arm_arch_timer.c b/drivers/clocksource/arm_arch_timer.c
-index d0177824c518..f4881764bf8f 100644
---- a/drivers/clocksource/arm_arch_timer.c
-+++ b/drivers/clocksource/arm_arch_timer.c
-@@ -352,7 +352,7 @@ static u64 notrace arm64_858921_read_cntvct_el0(void)
- 	do {								\
- 		_val = read_sysreg(reg);				\
- 		_retries--;						\
--	} while (((_val + 1) & GENMASK(9, 0)) <= 1 && _retries);	\
-+	} while (((_val + 1) & GENMASK(8, 0)) <= 1 && _retries);	\
- 									\
- 	WARN_ON_ONCE(!_retries);					\
- 	_val;								\
 -- 
-2.26.3
+2.17.1
 
