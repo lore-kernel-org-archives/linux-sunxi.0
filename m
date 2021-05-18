@@ -1,158 +1,96 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC0529CA
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 May 2021 14:04:45 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id D9C2A5C01F0;
-	Tue, 18 May 2021 10:04:44 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA2F2FB6
+	for <linux-sunxi@lists.linux.dev>; Tue, 18 May 2021 14:42:01 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailout.nyi.internal (Postfix) with ESMTP id 94D685C0078;
+	Tue, 18 May 2021 10:42:00 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Tue, 18 May 2021 10:04:44 -0400
+  by compute7.internal (MEProxy); Tue, 18 May 2021 10:42:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=Rvos89H/LpzyMgRIfAPzAZw+JU0
-	ysxeDmbT0To2qb2g=; b=CpxYW2jBkjGYK72+79O+NMJn28k9nvkOyuPxt4ABXHM
-	2gPx/waZjCJj+xA+P0AUWDNOYQmzqMktLPjIKPDdUfx2Z+hmeQl1udfcr4HTZhSB
-	l2wuH+oWpCWJUwS+4TB2brQwUavsNfLOX1eQCMKzcBuHYun+5+M8G2PCcg+3UgEm
-	kaxKg1yT3JRoeryLU4RdDJCGjKxvU4cZm+8CSHPjB/OOfYtSNUshGSZDwa/EzyFm
-	Dp+3kXdCoHVtyyI1wNw4cTxSXxCXQ+MjKuAKzKL+/4C5sUtyUK6Oy+cFeiCb0t6p
-	8JVENJyqVH1FuX4LnfjgKR9WjnzyF6huh7stT4DrnOg==
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=YgUnKWPLXtTSoYCrHJ7uD62GR8D
+	CqNUmpuXjd/mwDI4=; b=D9+cnkyj+vegtUQEWXpO6E4Wgy9XmPwpTIS9PElobBn
+	VF/ABDg2vXEsbWhvaHAmvI/g74e8XEPJQGmzOf0Zm0Am2/ckKB+Jd5/vSJlGK3c4
+	yiY2lY9Q0SgrfcRxGT8dQQW2XTWLT6VxhHflH0llane6qNvaPARGdelQBn+3ciab
+	pNs/quVwRci4lWOJHOZSGBfrBUX0ChIAE6PliREE+jhaN47gVgKeqjzZpRDAWOrd
+	v6dXjArwc6Ih2Efyl9q1yGim0cyVMnR4sv2bZmE+iHfPxTKeVnzLz14dq8SCpK3+
+	C3fbgBA37Z2U1mr3CWgrKQ0Z0e2mS5ecJTYsLVHJnIQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=Rvos89
-	H/LpzyMgRIfAPzAZw+JU0ysxeDmbT0To2qb2g=; b=Ex0vCopC0/+Jsu0TC9bAeJ
-	bLTJ15FOYr055yEyQqK7GhsSI10kNVhZRemI5AgkGYypVtDKHvTPmBDkkmIg+UUU
-	vqeHzbL+hOT58UtpJMawk5f12pTZjleZFkYUkI3AWL0I8LimaSkmQoIExxyKaN6g
-	W59j8I2NF3Y11/DF94wsyH2yN++1h1kPF/KH0QYFSFiL1KvMtLi+KAQ/jZ320rDj
-	gg6mvGCPD5oaYOTZGhJfrbc7KyNiZvN+TBOlP5qWZaFIMvGT0vZJrdSN9EwUoKrv
-	tuFXkGRS32VY/2tfDGhUJ1vVFSulujAaU7PbaKJuUj4feMtGgspVLBOgefdKugGg
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=YgUnKW
+	PLXtTSoYCrHJ7uD62GR8DCqNUmpuXjd/mwDI4=; b=wAOQQdv+tVRVQwuFkv7WXK
+	DfxtfjYLLLrSOaUdEO1kT7orRY/oC/LHg+dfIbzzVFFm2L8pd0VpXspZGnDrtizg
+	av/j1YYqM0KX/+Oc1h0S6fLPrxWL4ywZ0UaIiew2Wdc4UeLHeXdL7S6/Gh2QIx4k
+	qvdwt27iKtrRrJSeWD/XqzUKsbW/MoJtBmKeKvAj3VCUPPa1IObchuCGvvL78UGO
+	T3W8sVrKP8mQ5tReFj8FxupTB2VXVa4utseeVKBF2m6Ulx9rcy9Duim6l9QhQbUp
+	DZW/MLfSX96OTtqSTf9rx2yC3TSQavPBYW2wJZYsLz8oWKRo+z/jslY4QZbPj9nw
 	==
-X-ME-Sender: <xms:e8mjYBmEQXWty36TGBqO1NthOKEKID1K7Xt5OOl4GN9SbiQ0qJk9ZQ>
-    <xme:e8mjYM3QlYZS1Bcj6x7udcr4xficC5T3zbB-cMhEJvYOF0SYtxZtmQJHqlDyqng-u
-    uCFMfjCJLvP9ZmQixY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjedvucetufdoteggodetrfdotf
+X-ME-Sender: <xms:N9KjYJlJfsB2T-H10x1AwG1wV2OK4PLtoDCMxez740WmUF5-ctFvPQ>
+    <xme:N9KjYE3o5jrX7NG1RX3iJOjdxDbKv-77gCKwbfbWFBVBsbga42_VDqTqI8joE03ds
+    2yQBqZ3QjVuX23_Zx8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjedtudekleffteevffduvdekfffffedvtdeuveffgfeffedtleetueelgeef
-    leetnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdeike
-    drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    mhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:e8mjYHptviGKctpG-Md3GuzlwsJQOsgBXtn5JnYSn9gP9ScOYGZaAw>
-    <xmx:e8mjYBmly3FiBKs9gqJxc8fL2Hb0FxIpBYYviDiQ8L7qkVUvqc0kSQ>
-    <xmx:e8mjYP2FWYeEH9yj3ugpO1dOjXTWLNhFwZMV1-UITIJgFr2BvguxfQ>
-    <xmx:fMmjYEko-cYThYEoynls3VueD6EuEiYnZIOZPFskrFQ_3TU1nMRX7w>
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:N9KjYPpuYm1iOnYGcTTl9mhDv9q6ebMPFa9iaaYQAjk99pfVTXlk5g>
+    <xmx:N9KjYJlI-WFQGat_P8Fvz8APiCrBJCpZhNLwCPx4LsxvK02ndm-5jw>
+    <xmx:N9KjYH0jrYUcToU6QLNpP8fAxgrCEnxc-daF7haTD6M0uOEKoR0oAQ>
+    <xmx:ONKjYH-mwp75cclVayJIuh1FcHhsFFto6uNIrdij2s_k8pbVvUhIUw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Tue, 18 May 2021 10:04:43 -0400 (EDT)
-Date: Tue, 18 May 2021 16:04:42 +0200
+	Tue, 18 May 2021 10:41:59 -0400 (EDT)
+Date: Tue, 18 May 2021 16:41:57 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-	Saravana Kannan <saravanak@google.com>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev, wens@csie.org,
-	jernej.skrabec@gmail.com,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	LKML <linux-kernel@vger.kernel.org>, andre.przywara@arm.com
-Subject: Re: fw_devlink=on and sunxi HDMI
-Message-ID: <20210518140442.4hb6og6qh5htublo@gilmour>
-References: <20210516170539.2yxe43qwezonuo3r@core>
- <CAGETcx93RxfsXG51zeaUK+UyKdEDgivqkmS85mcMPp0H42X5ZQ@mail.gmail.com>
- <20210517082957.sddwy2dv5esbzmo4@core>
+To: Tobias Schramm <t.schramm@manjaro.org>
+Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] ARM: dts: sun8i: v3s: add pwm controller to v3s
+ dts
+Message-ID: <20210518144157.27ahl5d6oo6ij2br@gilmour>
+References: <20210513203527.2072090-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="fdh4hwf2hzbvoi6g"
+	protocol="application/pgp-signature"; boundary="ohu52cazgyohwcuf"
 Content-Disposition: inline
-In-Reply-To: <20210517082957.sddwy2dv5esbzmo4@core>
+In-Reply-To: <20210513203527.2072090-1-t.schramm@manjaro.org>
 
 
---fdh4hwf2hzbvoi6g
-Content-Type: text/plain; charset=utf-8
+--ohu52cazgyohwcuf
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 17, 2021 at 10:29:57AM +0200, Ond=C5=99ej Jirman wrote:
-> On Sun, May 16, 2021 at 11:32:47PM -0700, Saravana Kannan wrote:
-> > On Sun, May 16, 2021 at 10:05 AM Ond=C5=99ej Jirman <megi@xff.cz> wrote:
-> > >
-> > > Hello,
-> > >
-> > > Linux 5.13-rc1 again has fw_devlink=3Don enabled by default. I've fou=
-nd that this
-> > > breaks probing display pipeline and HDMI output on sunxi boards, beca=
-use of
-> > > fwnode_link between hdmi and hdmi-phy nodes.
-> > >
-> > > HDMI device probe keeps being avoided with these repeated messages in=
- dmesg:
-> > >
-> > >   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy n=
-ot ready
-> > >
-> > > Both nodes have their own compatible, but are implemented by a single
-> > > struct device.
-> > >
-> > > This looks like a kind of situation that's expected to break fw_devli=
-nk
-> > > expectations by my reading of the the e-mails about trying the fw_dev=
-link=3Don
-> > > during 5.12 cycle.
-> > >
-> > > Is this supposed to be solved by implementing the PHY node as it's own
-> > > device or by breaking the fwnode_link between the hdmi phy and hdmi n=
-odes?
-> > > Seems like second solution would be quicker now that rc1 is out.
-> >=20
-> > Seems like sun8i_hdmi_phy_probe() already does 95% of the work to make
-> > the PHY a separate driver. Why not just finish it up by really making
-> > it a separate driver? I'd really prefer doing that because this seems
-> > unnecessarily messed up. The phy will have a struct device created for
-> > it already. You are just not probing it.
+On Thu, May 13, 2021 at 10:35:25PM +0200, Tobias Schramm wrote:
+> This patchset adds the pwm controller to the Allwinner V3s dts. The PWM
+> controller is compatible with the one found in the Allwinner A20.
 >=20
-> Currently it's all just a glue code for dw-hdmi, which is not using a phy
-> framework and handles both the controller and phy parts. dw-hdmi needs pa=
-ssing
-> platform data around
-> (https://elixir.bootlin.com/linux/latest/source/include/drm/bridge/dw_hdm=
-i.h#L115)
-> to get a specific set of phy glue callbacks hooked into platform data of =
-dw-hdmi
-> prior to calling dw_hdmi_probe.
->=20
-> Looking at other users of dw_hdmi_probe this is the only one that has this
-> unfortunate issue due to using phys binding internally as a part of one d=
-evice.
->=20
-> Just making it a platform driver will also change the probe order of phy =
-and the
-> controller, which I've heard from Jernej needs to have the current order =
-of
-> (controller and then phy) perserved, for some reason, and will make things
-> still a bit more convoluted.
->=20
-> So this looks like needs quite a bit of thought.
+> This is v2 of this patchset.
 
-Yep, and even if it was simple (which it really isn't), it wouldn't be
--rc* material.
-
+Applied both, thanks
 Maxime
 
---fdh4hwf2hzbvoi6g
+--ohu52cazgyohwcuf
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPJegAKCRDj7w1vZxhR
-xY/sAQCoFYzBDvdB1iFrTeEgkP1/bJEtjBgkBnXBYqumOyP2ugD/TL6HP6UhWXEA
-1BAzfJ+mg2XNxf66mlBJSN2Pz/8nBQo=
-=64N2
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPSNQAKCRDj7w1vZxhR
+xbY2AQDxrdAuccSfqaGj2NNOhoDEnXZ5EszygOkWwGpLuPi7dgD/ZhbZ8PR6DHgp
+w/aINtgVz4zBL6EcN3eH7lrytRWGTA0=
+=dHGb
 -----END PGP SIGNATURE-----
 
---fdh4hwf2hzbvoi6g--
+--ohu52cazgyohwcuf--
