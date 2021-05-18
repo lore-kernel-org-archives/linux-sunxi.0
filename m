@@ -1,80 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B5332FBF
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 May 2021 10:17:44 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 00E3D106F;
-	Tue, 18 May 2021 03:11:34 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EFEE43F719;
-	Tue, 18 May 2021 03:11:32 -0700 (PDT)
-Date: Tue, 18 May 2021 11:11:18 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>,
- Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: linux-sunxi <linux-sunxi@googlegroups.com>, linux-sunxi@lists.linux.dev
-Subject: Allwinner H616 USB support woes
-Message-ID: <20210518111008.20f0ea1c@slackpad.fritz.box>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A24F629CA;
+	Tue, 18 May 2021 14:01:54 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 86CF2580878;
+	Tue, 18 May 2021 10:01:53 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 18 May 2021 10:01:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=tumDBNM0tP3GJxTwoYkjqGN4sQX
+	Y/e1OyHHo1mpv+50=; b=crUA9va//nADA9a/kKFlyx3pIILpAZsM6hi2VbMQmPp
+	F4ZcV4nDi/3KHbm57RIS3qlUbOdevIOWzClUaMp4bgBAoZJH2cSp7bvu6C6XbNzI
+	OJtqUr/Z8uOqmuBcNoPm3S0bJdilgjwXxnm4Rm/IVZzAOXJ/lceZs6vcYZ4VyW1K
+	9icDU33aOet4Y3ATdk7xtOMomKAKytsSiO2VfwXqGud5BOuNrjZMJV4u2ZCxPiWl
+	axelen0hiPtDUtPxIT4UVgotASi+4EEkPqBrpEwCY1/tc2CLTfpb7sPMoU7ZsHBJ
+	FQ1gNvBYtrnoTzT9xKbBtxW5QY324vesQ5VkUBV6elQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=tumDBN
+	M0tP3GJxTwoYkjqGN4sQXY/e1OyHHo1mpv+50=; b=SqRPrDx8sWUxvxvTv4v1aw
+	qd+OJBjyZRMLgaLrMpxWm5CV38E1BryXbdx7ci3z3tfAyc4AfVYFLObE0zXyqniw
+	s/nqh2WjGexUmug9PqGCXgCm1++0R5WfILM2b7zTWgKIFFy3kjWJft1o+ttuuz+a
+	q3u+ZWJ/48eXo+xhiVaHliyt/d8kZc8rw8vLWayUzBkqSCwnoaLyRTLKWL9gTPdb
+	GcRU+AB4E4SYCyWOZ/SXLc4InrgBtvCHs4V/pErprdE7/rOUmg3Zm6bSzqk5oc0s
+	Ngv+WY+6iXa4B0nfv1JH7r75Y7tXO86f9kSk8n6lqU0wS68iLa4fWJ9Bjugl7a9g
+	==
+X-ME-Sender: <xms:z8ijYLux5nESSG4Xenzh773L8unz2ZArZ1SKnUStpFVDMmZrxFL6VQ>
+    <xme:z8ijYMfKQQ3_RXyzZ4fqdw9K59eSeNCaK53M2-TQMag2kgQsKSiyuwxQE4izJ8xZL
+    gr9mocTgsdSnUePavs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeijedgjeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
+    ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
+    rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeelkeeghefhuddtleejgfeljeffhe
+    ffgfeijefhgfeufefhtdevteegheeiheegudenucfkphepledtrdekledrieekrdejieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+    hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:z8ijYOx4BjoVWQ1stc1KEWTVLPkH6vFUOhEpD7VDEZK9pEwXA4bKxA>
+    <xmx:z8ijYKPw2OsJJ0cgHh8O7_JhiDSCvAqX7RuHkRkLseMsSnoAK_Y_QQ>
+    <xmx:z8ijYL-rGMDqIDAZoH3CvrflrQPKB_ybKOCoWmCrHRUSrnzOoIGRYQ>
+    <xmx:0cijYHR0NUvNk0yLiI_gPh_efkpIpPpUQt48Kj4jVYdearqeQvnoDg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Tue, 18 May 2021 10:01:51 -0400 (EDT)
+Date: Tue, 18 May 2021 16:01:49 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: devicetree@vger.kernel.org, jernej.skrabec@siol.net,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, lkft-triage@lists.linaro.org,
+	naresh.kamboju@linaro.org, regressions@lists.linux.dev,
+	robh+dt@kernel.org, wens@csie.org
+Subject: Re: [PATCH v2 0/2] Add support for NanoPi R1S H5
+Message-ID: <20210518140149.4lpvvmfvufebchac@gilmour>
+References: <20210511081823.mmcrliomwtetcirx@gilmour>
+ <20210516163523.9484-1-amadeus@jmu.edu.cn>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gtpoixaleejdo5hb"
+Content-Disposition: inline
+In-Reply-To: <20210516163523.9484-1-amadeus@jmu.edu.cn>
 
-Hi,
 
-I wanted to ask for some advice on the proper upstream H616 USB
-support. This is the only problem left before I can post v6 of the
-H616 support series.
-The main problem is that only controller 2 (EHCI2+PHY2) works on its
-own, all other ports need some help from controller 2.
-Just enabling the EHCI2 DT node does the trick, but with some help from
-Samuel and Jernej (who were looking into the BROM) I wiggled it down to
-the following things actually needed:
-- CLK_BUS_PHY2 and RST_BUS_PHY2 need to be enabled.
-- PMU2.SIDDQ (0x05310810[3]) needs to be clear.
-We can add the clock and reset to the list of clocks and resets in the
-other OHCI/EHCI DT nodes, so that's not a real problem.
+--gtpoixaleejdo5hb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But this SIDDQ bit is a bit nasty in the details:
-It would only need to be flipped once, and wouldn't be changed
-back by any reset bits. So what would work is to do this
-once in U-Boot. However to actually be able to access this register, we
-need CLK_BUS_EHCI2 to be ungated. What works in U-Boot is:
-=> mw.l 0x3001a8c 0x40	/* pass USBEHCI2_GATING */
-=> mw.l 0x5310810 0	/* clear SIDDQ in PMU2 */
-=> mw.l 0x3001a8c 0	/* mask USBEHCI2_GATING again */
+On Mon, May 17, 2021 at 12:35:21AM +0800, Chukun Pan wrote:
+> I'm very sorry for the compilation error caused by the patches I sent
+> before, now fixed it.
+>=20
+> Changes from v2:
+> * Added missing header file in the dts.
+> * Collected acked-by.
 
-Now I would rather see this done in Linux, in the kernel's
-phy-sun4i-usb.c, to be self contained and independent.
-The easiest way looks like to call sun4i_usb_phy_init() again for PHY2,
-after this function is called for another PHY. So at the end of
-sun4i_usb_phy_init() (simplified code just for demonstration):
+Applied both, thanks
 
-	if (need_phy2 && phy->index != 2)
-		sun4i_usb_phy_init(data->phys[2].phy);
-(that does a bit more than is really needed, but OK)
+--gtpoixaleejdo5hb
+Content-Type: application/pgp-signature; name="signature.asc"
 
-However this doesn't work, because CLK_BUS_EHCI2 is still gated, it is
-only unmasked in ehci-platform.c, when EHCI2 in initialised.
-And annoyingly ehci-platform.c only parses 4 clocks, so adding
-CLK_BUS_EHCI2 to the DT would be the fifth in the ehci<x> nodes (three
-at the moment plus the still needed CLK_BUS_PHY2 plus CLK_BUS_EHCI2).
+-----BEGIN PGP SIGNATURE-----
 
-Extending this limit is trivial, but sounds a bit like a stretch, since
-it's outside of sunxi code and technically the clock is just needed for
-initialisation, not during runtime.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKPIzAAKCRDj7w1vZxhR
+xV+3AP9VuZsCtFhqKzMzQGVpSmuZ2Zv/k2K98GmhWljqdsig7QEA9txlhHi18QuC
+462F4G4kKbTw0ht3kaAP/fYHNiCKHww=
+=/9M9
+-----END PGP SIGNATURE-----
 
-Do you guys have any idea how to best solve this?
-I would prefer some change confined to phy-sun4i-usb.c, without
-bending the DT parts too much. The other alternatives are a U-Boot
-solution or extending the limit in ehci-platform.c.
-
-Would be grateful for any input!
-
-Cheers,
-Andre
+--gtpoixaleejdo5hb--
