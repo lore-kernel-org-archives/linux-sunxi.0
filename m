@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CAC12FBA
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 10:42:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2395E2FBB
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 10:42:16 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E8BCE143B;
-	Wed, 19 May 2021 03:42:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6657511B3;
+	Wed, 19 May 2021 03:42:10 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B289E3F719;
-	Wed, 19 May 2021 03:42:12 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BC223F719;
+	Wed, 19 May 2021 03:42:08 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -20,12 +20,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH v6 03/17] dt-bindings: rtc: sun6i: Add H616 compatible string
-Date: Wed, 19 May 2021 11:41:38 +0100
-Message-Id: <20210519104152.21119-4-andre.przywara@arm.com>
+	Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH v6 01/17] dt-bindings: mfd: axp20x: Add AXP305 compatible (plus optional IRQ)
+Date: Wed, 19 May 2021 11:41:36 +0100
+Message-Id: <20210519104152.21119-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210519104152.21119-1-andre.przywara@arm.com>
 References: <20210519104152.21119-1-andre.przywara@arm.com>
@@ -34,38 +32,41 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Add the obvious compatible name to the existing RTC binding.
-The actual RTC part of the device uses a different day/month/year
-storage scheme, so it's not compatible with the previous devices.
+The AXP305 PMIC used in AXP805 seems to be fully compatible to the
+AXP805 PMIC, so add the proper chain of compatible strings.
+
+Also at least on one board (Orangepi Zero2) there is no interrupt line
+connected to the CPU, so make the "interrupts" property optional.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-index b1b0ee769b71..178c955f88bf 100644
---- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-@@ -26,6 +26,7 @@ properties:
-           - const: allwinner,sun50i-a64-rtc
-           - const: allwinner,sun8i-h3-rtc
-       - const: allwinner,sun50i-h6-rtc
-+      - const: allwinner,sun50i-h616-rtc
+diff --git a/Documentation/devicetree/bindings/mfd/axp20x.txt b/Documentation/devicetree/bindings/mfd/axp20x.txt
+index 4991a6415796..4fd748101e3c 100644
+--- a/Documentation/devicetree/bindings/mfd/axp20x.txt
++++ b/Documentation/devicetree/bindings/mfd/axp20x.txt
+@@ -26,10 +26,10 @@ Required properties:
+     * "x-powers,axp803"
+     * "x-powers,axp806"
+     * "x-powers,axp805", "x-powers,axp806"
++    * "x-powers,axp803", "x-powers,axp805", "x-powers,axp806"
+     * "x-powers,axp809"
+     * "x-powers,axp813"
+ - reg: The I2C slave address or RSB hardware address for the AXP chip
+-- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
+ - interrupt-controller: The PMIC has its own internal IRQs
+ - #interrupt-cells: Should be set to 1
  
-   reg:
-     maxItems: 1
-@@ -97,7 +98,9 @@ allOf:
-       properties:
-         compatible:
-           contains:
--            const: allwinner,sun50i-h6-rtc
-+            enum:
-+              - allwinner,sun50i-h6-rtc
-+              - allwinner,sun50i-h616-rtc
+@@ -43,6 +43,7 @@ more information:
+ 			AXP20x/LDO3: software-based implementation
  
-     then:
-       properties:
+ Optional properties:
++- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
+ - x-powers,dcdc-freq: defines the work frequency of DC-DC in KHz
+ 		      AXP152/20X: range:  750-1875, Default: 1.5 MHz
+ 		      AXP22X/8XX: range: 1800-4050, Default: 3   MHz
 -- 
 2.17.5
 
