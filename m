@@ -1,222 +1,154 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FB372
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 21:30:25 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id r8so19977050ybb.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 14:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=Nx56oQYnaL9/LHbnJm1WdoO+udDpPCRmc528GLgDYWM=;
-        b=IGeea9k0wdt0RbRRcg0Z5+TmKtvwXSP8Yn9M5AbYqGfSrV9lPqaD1QYQJ1eSRHgUwC
-         pXm4IWpnnSBPTkW0RP0YvDEsT6vFPoMmKPjJhTOQohEihhs0fsbT09mgSoQEatxspbVG
-         Gl6AYmVXk3yI5iqukiXqWIvDDMwRF40D/Iee+1pHmAsPVj6dnUWMF0YRKuhyC/3W/PHP
-         o/1ib8gp5eGmlwru4T9d3IriW0odr8TiEnFnZ2J90jnjsfTsO8Q+RiwVyGv6azJgp2Qs
-         kI+0J6jlts+GQV7Ox1qps4fkf7cPczda+cU3JWU3Kk1BS/JwFa4VG5krNzN+i4HekrMR
-         CEgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=Nx56oQYnaL9/LHbnJm1WdoO+udDpPCRmc528GLgDYWM=;
-        b=bNXHR8SoE14zhDZXaeTSrWsmxULljjEzCnZ6lhUauO57qUB5cMYGNrrU+B69RhvTff
-         wk0zctj2pjwKKZV71JmJCJ9rj3uNutlJd03ZtYjEEcHSeHRScDNKpHZcvQdDpj4gVh9Q
-         NHMAm5rypXISYTo0WGd4yuDR3SueL13RCmtxaBUj8ALTt8acp71fxbMC14OTwRL72+xP
-         /sfGagSWZTboqt/64kvG92PCahKMBNxJ/eGB8smWPZi19W38W1jD6zSh8BF7Gr/sjRzk
-         pCbVjJMNvPMyn5ohekeX3Tz/N86fLNw1lLtQqyjdy45J31hJqkDqeDX94sSgQepePxKa
-         IWBw==
-X-Gm-Message-State: AOAM533s/n89iB30wkas9JdXBPxLI7G0yoDwX1na0x1Jzqbj8NrGZAUL
-	lMz12WPrI6eMCoTNHuhWigugNpPUNJPXmJlPnY/7yg==
-X-Google-Smtp-Source: ABdhPJwBhGiymGeMFDqFT4AOasZhYB7btPQwTGglNQkdBEaLHoCSZoOkGxExJeoqdBK+hIHNt9WB/YyDKycCzc3Mca8=
-X-Received: by 2002:a25:3f47:: with SMTP id m68mr2273157yba.228.1621459824463;
- Wed, 19 May 2021 14:30:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 321DD72
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 22:00:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+	t=1621461602; bh=KLTp9TvJTISdCvfu+UFZy1P5nOgOwGxFLgijoG6hkSc=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=jPs0Hd3lGedJKjDAKYMmQFFKddPNo6gGdrZyUubenneiaCktWI5JbdreHplPL//Md
+	 ptO28xKZqbzHYut3uiMcB2/b8Q0TeVzcRJZOJvH3V3kwj08iy9sCnt+67dKjhzcQ36
+	 LG4hDU34wowd7M6vgbaEifkSCGDVxiO0ar8fE/o0=
+Date: Thu, 20 May 2021 00:00:02 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: Saravana Kannan <saravanak@google.com>
+Cc: linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	linux-sunxi@lists.linux.dev, mripard@kernel.org, wens@csie.org,
+	jernej.skrabec@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, andre.przywara@arm.com
+Subject: Re: fw_devlink=on and sunxi HDMI
+Message-ID: <20210519220002.w6e3jf6m5t45vbob@core>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+	Saravana Kannan <saravanak@google.com>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	linux-sunxi@lists.linux.dev, mripard@kernel.org, wens@csie.org,
+	jernej.skrabec@gmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>, andre.przywara@arm.com
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20210516170539.2yxe43qwezonuo3r@core>
+ <CAGETcx93RxfsXG51zeaUK+UyKdEDgivqkmS85mcMPp0H42X5ZQ@mail.gmail.com>
+ <20210517082957.sddwy2dv5esbzmo4@core>
+ <CAGETcx-UgSCn9V5W0EgOBbdNGxsXR+ZGPNLL1MMJfHN35WCLRw@mail.gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210516170539.2yxe43qwezonuo3r@core> <CAGETcx93RxfsXG51zeaUK+UyKdEDgivqkmS85mcMPp0H42X5ZQ@mail.gmail.com>
- <20210517082957.sddwy2dv5esbzmo4@core>
-In-Reply-To: <20210517082957.sddwy2dv5esbzmo4@core>
-From: Saravana Kannan <saravanak@google.com>
-Date: Wed, 19 May 2021 14:29:48 -0700
-Message-ID: <CAGETcx-UgSCn9V5W0EgOBbdNGxsXR+ZGPNLL1MMJfHN35WCLRw@mail.gmail.com>
-Subject: Re: fw_devlink=on and sunxi HDMI
-To: =?UTF-8?Q?Ond=C5=99ej_Jirman?= <megous@megous.com>, 
-	Saravana Kannan <saravanak@google.com>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, andre.przywara@arm.com
-Content-Type: multipart/mixed; boundary="000000000000db718905c2b5887f"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAGETcx-UgSCn9V5W0EgOBbdNGxsXR+ZGPNLL1MMJfHN35WCLRw@mail.gmail.com>
 
---000000000000db718905c2b5887f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hello Saravana,
 
-On Mon, May 17, 2021 at 1:29 AM Ond=C5=99ej Jirman <megous@megous.com> wrot=
-e:
->
-> On Sun, May 16, 2021 at 11:32:47PM -0700, Saravana Kannan wrote:
-> > On Sun, May 16, 2021 at 10:05 AM Ond=C5=99ej Jirman <megi@xff.cz> wrote=
-:
-> > >
-> > > Hello,
-> > >
-> > > Linux 5.13-rc1 again has fw_devlink=3Don enabled by default. I've fou=
-nd that this
-> > > breaks probing display pipeline and HDMI output on sunxi boards, beca=
-use of
-> > > fwnode_link between hdmi and hdmi-phy nodes.
-> > >
-> > > HDMI device probe keeps being avoided with these repeated messages in=
- dmesg:
-> > >
-> > >   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy n=
-ot ready
-> > >
-> > > Both nodes have their own compatible, but are implemented by a single
-> > > struct device.
-> > >
-> > > This looks like a kind of situation that's expected to break fw_devli=
-nk
-> > > expectations by my reading of the the e-mails about trying the fw_dev=
-link=3Don
-> > > during 5.12 cycle.
-> > >
-> > > Is this supposed to be solved by implementing the PHY node as it's ow=
-n
-> > > device or by breaking the fwnode_link between the hdmi phy and hdmi n=
-odes?
-> > > Seems like second solution would be quicker now that rc1 is out.
-> >
-> > Seems like sun8i_hdmi_phy_probe() already does 95% of the work to make
-> > the PHY a separate driver. Why not just finish it up by really making
-> > it a separate driver? I'd really prefer doing that because this seems
-> > unnecessarily messed up. The phy will have a struct device created for
-> > it already. You are just not probing it.
->
-> Currently it's all just a glue code for dw-hdmi, which is not using a phy
-> framework and handles both the controller and phy parts. dw-hdmi needs pa=
-ssing
-> platform data around
-> (https://elixir.bootlin.com/linux/latest/source/include/drm/bridge/dw_hdm=
-i.h#L115)
-> to get a specific set of phy glue callbacks hooked into platform data of =
-dw-hdmi
-> prior to calling dw_hdmi_probe.
->
-> Looking at other users of dw_hdmi_probe this is the only one that has thi=
-s
-> unfortunate issue due to using phys binding internally as a part of one d=
-evice.
->
-> Just making it a platform driver will also change the probe order of phy =
-and the
-> controller, which I've heard from Jernej needs to have the current order =
-of
-> (controller and then phy) perserved, for some reason, and will make thing=
-s
-> still a bit more convoluted.
->
-> So this looks like needs quite a bit of thought.
+On Wed, May 19, 2021 at 02:29:48PM -0700, Saravana Kannan wrote:
+> 
+> Nothing in sun8i_hdmi_phy_probe() depends on anything from
+> sun8i_dw_hdmi.c other than getting a struct device pointer to use with
+> dev_err and some devm_* APIs. So it seems pretty straightforward to
+> fix this so that you don't have one struct device trying to represent
+> two distinct hardware blocks. What am I missing?
+> 
+> Anyway, I took a swing at fixing this while preserving the ordering of
+> the important bits. The changes are fairly trivial/straightforward and
+> not meant to be final code, but can you test this out please?
 
-Nothing in sun8i_hdmi_phy_probe() depends on anything from
-sun8i_dw_hdmi.c other than getting a struct device pointer to use with
-dev_err and some devm_* APIs. So it seems pretty straightforward to
-fix this so that you don't have one struct device trying to represent
-two distinct hardware blocks. What am I missing?
+the patch seems to work, after fixing a few compilation issues. See
+bellow. Thanks!
 
-Anyway, I took a swing at fixing this while preserving the ordering of
-the important bits. The changes are fairly trivial/straightforward and
-not meant to be final code, but can you test this out please?
+I think the probe order is reversed, but HDMI works in my case, so
+I guess that doesn't matter in the end. Or at least it didn't in the
+short test I made.
 
--Saravana
+kind regards,
+	o.
 
---000000000000db718905c2b5887f
-Content-Type: application/x-patch; name="0001-Try-fixing-HDMI-probe.patch"
-Content-Disposition: attachment; filename="0001-Try-fixing-HDMI-probe.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kovytt0n0>
-X-Attachment-Id: f_kovytt0n0
 
-RnJvbSBmNzgzOTQxY2RmNGJkOTJjM2RhN2EwYzg0NDFlNmJkMzc5MDg3Y2M0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTYXJhdmFuYSBLYW5uYW4gPHNhcmF2YW5ha0Bnb29nbGUuY29t
-PgpEYXRlOiBXZWQsIDE5IE1heSAyMDIxIDE0OjAzOjI5IC0wNzAwClN1YmplY3Q6IFtQQVRDSF0g
-VHJ5IGZpeGluZyBIRE1JIHByb2JlLgoKU2lnbmVkLW9mZi1ieTogU2FyYXZhbmEgS2FubmFuIDxz
-YXJhdmFuYWtAZ29vZ2xlLmNvbT4KLS0tCiBkcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfZHdf
-aGRtaS5jICB8ICA0ICstLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaCAg
-fCAgMyArLQogZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2hkbWlfcGh5LmMgfCA0MSArKysr
-KysrKysrKysrKysrKysrKysrLS0tLQogMyBmaWxlcyBjaGFuZ2VkLCAzOCBpbnNlcnRpb25zKCsp
-LCAxMCBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3Vu
-OGlfZHdfaGRtaS5jIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuYwppbmRl
-eCBiYmRmZDVlMjZlYzguLmU4OTJhMDVlNjllOSAxMDA2NDQKLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L3N1bjRpL3N1bjhpX2R3X2hkbWkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlf
-ZHdfaGRtaS5jCkBAIC0yMDksNyArMjA5LDcgQEAgc3RhdGljIGludCBzdW44aV9kd19oZG1pX2Jp
-bmQoc3RydWN0IGRldmljZSAqZGV2LCBzdHJ1Y3QgZGV2aWNlICptYXN0ZXIsCiAJCWdvdG8gZXJy
-X2Rpc2FibGVfY2xrX3RtZHM7CiAJfQogCi0JcmV0ID0gc3VuOGlfaGRtaV9waHlfcHJvYmUoaGRt
-aSwgcGh5X25vZGUpOworCXJldCA9IHN1bjhpX2hkbWlfcGh5X2dldChoZG1pLCBwaHlfbm9kZSk7
-CiAJb2Zfbm9kZV9wdXQocGh5X25vZGUpOwogCWlmIChyZXQpIHsKIAkJZGV2X2VycihkZXYsICJD
-b3VsZG4ndCBnZXQgdGhlIEhETUkgUEhZXG4iKTsKQEAgLTI0Miw3ICsyNDIsNiBAQCBzdGF0aWMg
-aW50IHN1bjhpX2R3X2hkbWlfYmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2Ug
-Km1hc3RlciwKIAogY2xlYW51cF9lbmNvZGVyOgogCWRybV9lbmNvZGVyX2NsZWFudXAoZW5jb2Rl
-cik7Ci0Jc3VuOGlfaGRtaV9waHlfcmVtb3ZlKGhkbWkpOwogZXJyX2Rpc2FibGVfY2xrX3RtZHM6
-CiAJY2xrX2Rpc2FibGVfdW5wcmVwYXJlKGhkbWktPmNsa190bWRzKTsKIGVycl9hc3NlcnRfY3Ry
-bF9yZXNldDoKQEAgLTI2Myw3ICsyNjIsNiBAQCBzdGF0aWMgdm9pZCBzdW44aV9kd19oZG1pX3Vu
-YmluZChzdHJ1Y3QgZGV2aWNlICpkZXYsIHN0cnVjdCBkZXZpY2UgKm1hc3RlciwKIAlzdHJ1Y3Qg
-c3VuOGlfZHdfaGRtaSAqaGRtaSA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOwogCiAJZHdfaGRtaV91
-bmJpbmQoaGRtaS0+aGRtaSk7Ci0Jc3VuOGlfaGRtaV9waHlfcmVtb3ZlKGhkbWkpOwogCWNsa19k
-aXNhYmxlX3VucHJlcGFyZShoZG1pLT5jbGtfdG1kcyk7CiAJcmVzZXRfY29udHJvbF9hc3NlcnQo
-aGRtaS0+cnN0X2N0cmwpOwogCWdwaW9kX3NldF92YWx1ZShoZG1pLT5kZGNfZW4sIDApOwpkaWZm
-IC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaCBiL2RyaXZlcnMv
-Z3B1L2RybS9zdW40aS9zdW44aV9kd19oZG1pLmgKaW5kZXggZDRiNTVhZjA1OTJmLi44YThhZGVm
-NDhiZTAgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9kd19oZG1pLmgK
-KysrIGIvZHJpdmVycy9ncHUvZHJtL3N1bjRpL3N1bjhpX2R3X2hkbWkuaApAQCAtMjAxLDggKzIw
-MSw3IEBAIGVuY29kZXJfdG9fc3VuOGlfZHdfaGRtaShzdHJ1Y3QgZHJtX2VuY29kZXIgKmVuY29k
-ZXIpCiAJcmV0dXJuIGNvbnRhaW5lcl9vZihlbmNvZGVyLCBzdHJ1Y3Qgc3VuOGlfZHdfaGRtaSwg
-ZW5jb2Rlcik7CiB9CiAKLWludCBzdW44aV9oZG1pX3BoeV9wcm9iZShzdHJ1Y3Qgc3VuOGlfZHdf
-aGRtaSAqaGRtaSwgc3RydWN0IGRldmljZV9ub2RlICpub2RlKTsKLXZvaWQgc3VuOGlfaGRtaV9w
-aHlfcmVtb3ZlKHN0cnVjdCBzdW44aV9kd19oZG1pICpoZG1pKTsKK2ludCBzdW44aV9oZG1pX3Bo
-eV9nZXQoc3RydWN0IHN1bjhpX2R3X2hkbWkgKmhkbWksIHN0cnVjdCBkZXZpY2Vfbm9kZSAqbm9k
-ZSk7CiAKIHZvaWQgc3VuOGlfaGRtaV9waHlfaW5pdChzdHJ1Y3Qgc3VuOGlfaGRtaV9waHkgKnBo
-eSk7CiB2b2lkIHN1bjhpX2hkbWlfcGh5X3NldF9vcHMoc3RydWN0IHN1bjhpX2hkbWlfcGh5ICpw
-aHksCmRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfaGRtaV9waHkuYyBi
-L2RyaXZlcnMvZ3B1L2RybS9zdW40aS9zdW44aV9oZG1pX3BoeS5jCmluZGV4IDk5OTRlZGY2NzUw
-OS4uYzQ0ZWQyMmQ4YWVmIDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlf
-aGRtaV9waHkuYworKysgYi9kcml2ZXJzL2dwdS9kcm0vc3VuNGkvc3VuOGlfaGRtaV9waHkuYwpA
-QCAtNTk3LDEwICs1OTcsMzAgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgc3Vu
-OGlfaGRtaV9waHlfb2ZfdGFibGVbXSA9IHsKIAl7IC8qIHNlbnRpbmVsICovIH0KIH07CiAKLWlu
-dCBzdW44aV9oZG1pX3BoeV9wcm9iZShzdHJ1Y3Qgc3VuOGlfZHdfaGRtaSAqaGRtaSwgc3RydWN0
-IGRldmljZV9ub2RlICpub2RlKQoraW50IHN1bjhpX2hkbWlfcGh5X2dldChzdHJ1Y3Qgc3VuOGlf
-ZHdfaGRtaSAqaGRtaSwgc3RydWN0IGRldmljZV9ub2RlICpub2RlKQoreworCXN0cnVjdCBwbGF0
-Zm9ybV9kZXZpY2UgKnBkZXYgPSBvZl9maW5kX2RldmljZV9ieV9ub2RlKG5vZGUpOworCXN0cnVj
-dCBzdW44aV9oZG1pX3BoeSAqcGh5OworCisJaWYgKCFwZGV2KQorCQlyZXR1cm4gLUVQUk9CRV9E
-RUZFUjsKKworCXBoeSA9IHBsYXRmb3JtX2dldF9kcnZkYXRhKHBkZXYpOworCWlmICghcGh5KQor
-CQlyZXR1cm4gLUVQUk9CRV9ERUZFUjsKKworCWhkbWktPnBoeSA9IHBoeTsKKworCXB1dF9kZXZp
-Y2UoJnBkZXYtPmRldik7CisKKwlyZXR1cm4gMDsKK30KKworaW50IHN1bjhpX2hkbWlfcGh5X3By
-b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpCiB7CiAJY29uc3Qgc3RydWN0IG9mX2Rl
-dmljZV9pZCAqbWF0Y2g7Ci0Jc3RydWN0IGRldmljZSAqZGV2ID0gaGRtaS0+ZGV2OworCXN0cnVj
-dCBkZXZpY2UgKmRldiA9ICZwZGV2LT5kZXY7CisJc3RydWN0IGRldmljZV9ub2RlICpub2RlID0g
-ZGV2LT5vZl9ub2RlOwogCXN0cnVjdCBzdW44aV9oZG1pX3BoeSAqcGh5OwogCXN0cnVjdCByZXNv
-dXJjZSByZXM7CiAJdm9pZCBfX2lvbWVtICpyZWdzOwpAQCAtNzA0LDcgKzcyNCw3IEBAIGludCBz
-dW44aV9oZG1pX3BoeV9wcm9iZShzdHJ1Y3Qgc3VuOGlfZHdfaGRtaSAqaGRtaSwgc3RydWN0IGRl
-dmljZV9ub2RlICpub2RlKQogCQljbGtfcHJlcGFyZV9lbmFibGUocGh5LT5jbGtfcGh5KTsKIAl9
-CiAKLQloZG1pLT5waHkgPSBwaHk7CisJcGxhdGZvcm1fc2V0X2RydmRhdGEocGRldiwgcGh5KTsK
-IAogCXJldHVybiAwOwogCkBAIC03MjgsOSArNzQ4LDkgQEAgaW50IHN1bjhpX2hkbWlfcGh5X3By
-b2JlKHN0cnVjdCBzdW44aV9kd19oZG1pICpoZG1pLCBzdHJ1Y3QgZGV2aWNlX25vZGUgKm5vZGUp
-CiAJcmV0dXJuIHJldDsKIH0KIAotdm9pZCBzdW44aV9oZG1pX3BoeV9yZW1vdmUoc3RydWN0IHN1
-bjhpX2R3X2hkbWkgKmhkbWkpCit2b2lkIHN1bjhpX2hkbWlfcGh5X3JlbW92ZShzdHJ1Y3QgcGxh
-dGZvcm1fZGV2aWNlICpwZGV2KQogewotCXN0cnVjdCBzdW44aV9oZG1pX3BoeSAqcGh5ID0gaGRt
-aS0+cGh5OworCXN0cnVjdCBzdW44aV9oZG1pX3BoeSAqcGh5ID0gcGxhdGZvcm1fZ2V0X2RydmRh
-dGEocGRldik7CiAKIAljbGtfZGlzYWJsZV91bnByZXBhcmUocGh5LT5jbGtfbW9kKTsKIAljbGtf
-ZGlzYWJsZV91bnByZXBhcmUocGh5LT5jbGtfYnVzKTsKQEAgLTc0NCw0ICs3NjQsMTUgQEAgdm9p
-ZCBzdW44aV9oZG1pX3BoeV9yZW1vdmUoc3RydWN0IHN1bjhpX2R3X2hkbWkgKmhkbWkpCiAJY2xr
-X3B1dChwaHktPmNsa19wbGwxKTsKIAljbGtfcHV0KHBoeS0+Y2xrX21vZCk7CiAJY2xrX3B1dChw
-aHktPmNsa19idXMpOworCXJldHVybiAwOwogfQorCitzdGF0aWMgc3RydWN0IHBsYXRmb3JtX2Ry
-aXZlciBzdW44aV9oZG1pX3BoeV9kcml2ZXIgPSB7CisJLnByb2JlICA9IHN1bjhpX2hkbWlfcGh5
-X3Byb2JlLAorCS5yZW1vdmUgPSBzdW44aV9oZG1pX3BoeV9yZW1vdmUsCisJLmRyaXZlciA9IHsK
-KwkJLm5hbWUgPSAic3VuOGktaGRtaS1waHkiLAorCQkub2ZfbWF0Y2hfdGFibGUgPSBzdW44aV9o
-ZG1pX3BoeV9vZl90YWJsZSwKKwl9LAorfTsKK21vZHVsZV9wbGF0Zm9ybV9kcml2ZXIoc3VuOGlf
-aGRtaV9waHlfZHJpdmVyKTsKLS0gCjIuMzEuMS44MTguZzQ2YWFkNmNiOWUtZ29vZwoK
---000000000000db718905c2b5887f--
+From 0eac644368711f52fffa4246aefc546591cef090 Mon Sep 17 00:00:00 2001
+From: Ondrej Jirman <megous@megous.com>
+Date: Wed, 19 May 2021 23:44:45 +0200
+Subject: [PATCH] fix compilation issues
+
+---
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+index c44ed22d8aef0..947b4231f6449 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
++++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/of_address.h>
++#include <linux/of_platform.h>
+ 
+ #include "sun8i_dw_hdmi.h"
+ 
+@@ -748,7 +749,7 @@ int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-void sun8i_hdmi_phy_remove(struct platform_device *pdev)
++int sun8i_hdmi_phy_remove(struct platform_device *pdev)
+ {
+ 	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
+ 
+-- 
+2.31.1
+
+
+[    0.307254] platform 1c28000.serial: probe deferral - supplier 1c20800.pinctrl not ready
+[    0.307340] platform 1c28400.serial: probe deferral - supplier 1c20800.pinctrl not ready
+[    0.307379] platform 1c28c00.serial: probe deferral - supplier 1c20800.pinctrl not ready
+[    0.309235] fwnode_links_purge_suppliers: display-engine
+[    0.310176] platform 1c0c000.lcd-controller: probe deferral - wait for supplier mixer@200000
+[    0.310228] platform 1c0d000.lcd-controller: probe deferral - wait for supplier mixer@200000
+[    0.311902] platform 1ca0000.dsi: probe deferral - wait for supplier pmic@3a3
+[    0.312287] platform 1ee0000.hdmi: probe deferral - wait for supplier pmic@3a3
+[    0.313076] fwnode_links_purge_suppliers: hdmi-phy@1ef0000    <------ phy probed
+[    0.316766] platform 1c21800.lradc: probe deferral - wait for supplier pmic@3a3
+[    0.317258] platform vibrator: probe deferral - wait for supplier pmic@3a3
+[    0.318703] sun6i-rtc 1f00000.rtc: registered as rtc0
+[    0.318748] sun6i-rtc 1f00000.rtc: setting system clock to 2021-05-19T21:40:59 UTC (1621460459)
+[    0.318917] sun6i-rtc 1f00000.rtc: RTC enabled
+[    0.318938] fwnode_links_purge_suppliers: rtc@1f00000
+[    0.318960] fwnode_links_purge_consumers: reboot-mode@4
+[    0.319185] i2c /dev entries driver
+
+....
+
+[    0.453301] fwnode_links_purge_consumers: port
+[    0.453323] fwnode_links_purge_consumers: endpoint
+[    0.453346] fwnode_links_purge_consumers: panel@0
+[    0.491868] sun4i-drm display-engine: bound 1100000.mixer (ops 0xffffffc010a44230)
+[    0.501830] sun4i-drm display-engine: bound 1200000.mixer (ops 0xffffffc010a44230)
+[    0.502915] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
+[    0.502956] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops 0xffffffc010a415a0)
+[    0.503466] sun4i-drm display-engine: bound 1c0d000.lcd-controller (ops 0xffffffc010a415a0)
+[    0.503545] sun4i-drm display-engine: bound 1ca0000.dsi (ops 0xffffffc010a431c8)
+[    0.505330] sun8i-dw-hdmi 1ee0000.hdmi: Detected HDMI TX controller v1.32a with HDCP (sun8i_dw_hdmi_phy)
+[    0.507566] sun8i-dw-hdmi 1ee0000.hdmi: registered DesignWare HDMI I2C bus driver
+[    0.510717] sun4i-drm display-engine: bound 1ee0000.hdmi (ops 0xffffffc010a43568)
+[    0.514674] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
+[    0.514932] sun4i-drm display-engine: [drm] Cannot find any crtc or sizes
+[    0.515160] fwnode_links_purge_suppliers: hdmi@1ee0000           <------ hdmi probed
+[    0.515195] fwnode_links_purge_consumers: ports
+[    0.515217] fwnode_links_purge_consumers: port@0
+[    0.515240] fwnode_links_purge_consumers: endpoint
+[    0.515264] fwnode_links_purge_consumers: port@1
+[    0.515343] fwnode_links_purge_consumers: endpoint
+[    0.517089] input: 1c21800.lradc as /devices/platform/soc/1c21800.lradc/input/input1
+[    0.517358] fwnode_links_purge_suppliers: lradc@1c21800
+[    0.517384] fwnode_links_purge_consumers: button-200
+[    0.517407] fwnode_links_purge_consumers: button-400
+[    0.518414] input: gpio-vibrator as /devices/platform/vibrator/input/input2
+[    0.518582] fwnode_links_purge_suppliers: vibrator
+
+
+
+> -Saravana
