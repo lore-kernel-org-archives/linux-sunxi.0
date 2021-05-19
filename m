@@ -1,177 +1,244 @@
-Received: from esa4.hgst.iphmx.com (esa4.hgst.iphmx.com [216.71.154.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D1A2FB6
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 08:25:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1621412756; x=1652948756;
-  h=from:to:cc:subject:date:message-id:references:
-   content-transfer-encoding:mime-version;
-  bh=DWwjHv+Pdt4L2I9dELupjyUvu9oSf+6RXBYBvHJL/gU=;
-  b=RJQenZRDq0lROsH5ocp+MaTNDqIKLU/FD9Tqx3nJE1eO100SAF9h+ZSr
-   hEB0Jx3kPcZE3HmGCt0atmKC/NMlIqFLjX8Jl8aBYZT7uUq5XHcbu3cS5
-   PWfzs0DKpF5De3UnFQ87IR4R+hA4u2g2mdZH4j2MgY3bm/qLYMePOO6kD
-   YARyyGqHCL87L+I+iEILAIaWomk76k2RtlTVNOQWF4XcGSmghY5RFxc6g
-   X8bue4slmJ0Q3GvK/VJ8I1qPJiwGyEqkK9+PqeetomHJJz8ON/UttRLA2
-   CyGZWZbHNZIBQAqwLkgYTVYgfD8WmCWhhKOeHHUIc75QjszE/tmuarZe7
-   g==;
-IronPort-SDR: ihHjQ2EUxCHnDIFBi3sL66xCVK6q5gsNT61RfcmREB+ujLvwkxLbJfaoaxn30ynrj/056YhjZ1
- aQI3VgxgwkgxqDKY08m+8jTM5WbmuYln0yoqt9Cd/pvzAwworoDSJqhHsZequw4K+qNnrCCobD
- Ne0tg+V2e0487D7wEYKD71x7Osmrd+5k9u4o31HIBSHMnmUSNbbh2yW02RDUmLP8kQdzm/OiD4
- 0qLgiVhTKhg077JTp6XBzssuuIouiU7/I7XVJM7/7gSKlD52bAkqsk5iy0nTX7DkqbapXbxS0P
- d5c=
-X-IronPort-AV: E=Sophos;i="5.82,312,1613404800"; 
-   d="scan'208";a="167984170"
-Received: from mail-bn7nam10lp2103.outbound.protection.outlook.com (HELO NAM10-BN7-obe.outbound.protection.outlook.com) ([104.47.70.103])
-  by ob1.hgst.iphmx.com with ESMTP; 19 May 2021 16:25:53 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OLpCkqpg1joVz3V3fg1Wxb4+VKB2kM0QzWZpNFgM6f0w3cLoZ9oTx7oerPOy85g0zLYQBOkSKpWscqmu4SVZ/6aMz/H2M7cj4mQLIv//Op3d1ssePlpcqFKySqqYaJvEnmAdnnWyXd+4kR/CiHWAfl1aqc7v5MYdZ4chBs0xtSq+GZmBax0+zWJPNL0BsSMiDjrOGjpS1GYrVPE8j6QPIH5vvjegzHYWOYeX6IuL4VuTH6Y3PuvBaHHONXwvN22zCwiTwrURZZj+VQvVkFYw8gml+j9M2EJase02a11DYIpX7e7PoK/mmKA8PkStCJy1cQFY8pxft1hX+EVW6Vam/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWwjHv+Pdt4L2I9dELupjyUvu9oSf+6RXBYBvHJL/gU=;
- b=M8uWOEx3txWxAF9JtEOgiXSGHAjUDfvGDShL03jffqYT/HIkkQMjnVINOWHevvG0PngLct/iwp1uE1QwXFYskWk3eQ2+8ZeiSkmHkojf8IXziNlTSHPHkPWGDDBD7r4iyLXXo+ikwCFGc4QyEU3m0jRcvvkk+Dlz1fJPObwtiY8woWftjOYCvB5EwydTmb6JhYlrq2gZoY4JdNYCE51iibYmpNgDadPQ0ap88UbZB4WxQJjigO0yra8fuB4TQkfyYOlV4ndZk3O89rD9DNBDsRc1CwDWQsVKcU9J+08+SZYBLfIt4qG5BgsT8OT/2HBVuHHT9yKXUQ/jk8QSH4n1HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DWwjHv+Pdt4L2I9dELupjyUvu9oSf+6RXBYBvHJL/gU=;
- b=qttKxFBQ97CnmL6H52Lhn3ap3xEtXgSpuhhE90jQAo0R6kOtPkoUwEWGKX8B+1ti+HMIv8axFAkTwe30T1JCU4Gv9D6JB5IVMPx7+EctRMt3/RP76DyY+I6awQqe8TX46PPu9Ae34ahY5CpxrbNtaYWw6ehq3HbUyEAYsHuIbkY=
-Received: from DM6PR04MB7081.namprd04.prod.outlook.com (2603:10b6:5:244::21)
- by DM6PR04MB7082.namprd04.prod.outlook.com (2603:10b6:5:24d::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4129.25; Wed, 19 May
- 2021 08:25:51 +0000
-Received: from DM6PR04MB7081.namprd04.prod.outlook.com
- ([fe80::64f9:51d2:1e04:f806]) by DM6PR04MB7081.namprd04.prod.outlook.com
- ([fe80::64f9:51d2:1e04:f806%9]) with mapi id 15.20.4129.032; Wed, 19 May 2021
- 08:25:51 +0000
-From: Damien Le Moal <Damien.LeMoal@wdc.com>
-To: Anup Patel <anup@brainfault.org>, Drew Fustini <drew@beagleboard.org>
-CC: Christoph Hellwig <hch@lst.de>, Guo Ren <guoren@kernel.org>, Anup Patel
-	<Anup.Patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>,
-	"wefu@redhat.com" <wefu@redhat.com>, =?gb2312?B?V2VpIFd1ICjO4s6wKQ==?=
-	<lazyparser@gmail.com>, linux-riscv <linux-riscv@lists.infradead.org>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch
-	<linux-arch@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, Guo Ren <guoren@linux.alibaba.com>, Paul
- Walmsley <paul.walmsley@sifive.com>
-Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-Thread-Topic: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-Thread-Index: AQHXTGy92nyuT2I8ek2YUKBTb2A+Jw==
-Date: Wed, 19 May 2021 08:25:51 +0000
-Message-ID:
- <DM6PR04MB7081B71BCC6DE768525113EAE72B9@DM6PR04MB7081.namprd04.prod.outlook.com>
-References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
- <20210519052048.GA24853@lst.de>
- <CAJF2gTR5838=Uwc5P6Xs=G7vk80k0yqWcSsNe0OFcwc9sDBBHg@mail.gmail.com>
- <20210519060617.GA28397@lst.de> <20210519065431.GB3076809@x1>
- <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: brainfault.org; dkim=none (message not signed)
- header.d=none;brainfault.org; dmarc=none action=none header.from=wdc.com;
-x-originating-ip: [2400:2411:43c0:6000:688d:8185:801b:83a0]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d5e60540-3a13-4bc7-a567-08d91a9fb6a0
-x-ms-traffictypediagnostic: DM6PR04MB7082:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs:
- <DM6PR04MB7082237C07C90D8CC7B830F4E72B9@DM6PR04MB7082.namprd04.prod.outlook.com>
-wdcipoutbound: EOP-TRUE
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- r6TOyVCVSJj8rEGm+6i3IbXWGWXVc0y1x2WvEDVG/N9/7/l+jvDLtLSqZRwjQ4VB0iwViHKgsB+LfHaAsGWfMUdS+vDIjuIem+1T7LmbLzwOiY98MpWxANHRq/cBGeTYGN6H7sfxiFvfpR1GdWHs/iRtJMdX1kNWQ+kUemvWA3gzNCnejAhsUL7gd5f7zAlaZvAtebEamsmIbCElAots2+jUqydioBrvdFZc0y0/AIuiOfj6zSVZbts91mnNOc8WBfDrGb4PcPBEmhMLmSY0DKUyGYhW79OAqTBJr9WlpzWAR4cy539N/JkN4DfmUZc0VG3JrbOK2bOlFQ33SxSKGOcHxbYTWejUFCGadrtMCOgBvF7SguTursuqpwlA6X7Qp/d97REVS+V8h1O+5fcc2ZK7RMfwJ91lzmHcFoqn7PWqyvznE9C/AL54WOWq0/ywD+dZSCtCdc4mmvu1mjSx3M+9JcB6FBP22khJOeS9Wx1655XGkhcbw6C8S4MVyfC13ITczOFg5+VOIZdrQTgA1ce/sszYNHlwVUREEg6dFkwfEw81/nTnx2DmcoyBmu8Mr1E6NWomJCJUn5TSP7g0mknQi7YGj+43ioO2L7XkrCY=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR04MB7081.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39850400004)(346002)(136003)(366004)(396003)(122000001)(38100700002)(53546011)(83380400001)(86362001)(7696005)(186003)(6506007)(33656002)(71200400001)(64756008)(9686003)(2906002)(8936002)(55016002)(76116006)(4326008)(478600001)(91956017)(66946007)(66476007)(54906003)(110136005)(52536014)(316002)(5660300002)(66556008)(7416002)(66446008)(8676002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata:
- =?gb2312?B?bnhPZFNDRDJ1bGx1bW1xMzA3dEpoWCtWcmNBWE5Sa0R1dlRpdk8yR1h5aHVT?=
- =?gb2312?B?blpuRHczbFFMdlRRRnVQbTI3Z28rbW00aTV0OENObmZSTkc2TkJzUEhBdjFK?=
- =?gb2312?B?cnpjdnV6QmplMEhHdFdhUk9YaG5yK2tIV3YycUlPb3BjTSt6bXF3L0NReWV5?=
- =?gb2312?B?ZC83VzVoSURRRzBuSzhrRGZJRmp2dzRKemU3b0RuOW9SaDBMMmRMNVd1ektz?=
- =?gb2312?B?d1VPczBLUDFhRDlmbEV0MWlOSTZTM1Y0Y29EaDJ4bjVlYURRc0tnVmJINXB2?=
- =?gb2312?B?SU4vc2IrVGliRVJ4bjQzR1F6S0Y4ZXZXb1JIeUJ6am9qaEhobXdWOGNZMXNx?=
- =?gb2312?B?NXlIT1BjaUkzRG5kUVJJRzBhbnh6Z0dueWJmeDhBbWNaNWpxVkk2Z29jTjRJ?=
- =?gb2312?B?RW1yaHRRV1Azd3ZqMUhzTDBNa0MvU3Vvd1B6NGhiREVDbWw4U2ZPUm04dmt3?=
- =?gb2312?B?WE5SLzdveDduSTRnQ1loMnVPb0NTR1kwNXptUUlEL1lOZ0dUQlJXUTNLNzh3?=
- =?gb2312?B?ck5iSHI5S3ArT2x5bGdYVkdDVWY1amVMWkNFaVNVTFBUTzVkOXNEaElUTDZx?=
- =?gb2312?B?TTFEVnY3WnU4MTd6ejloQXRnYU9jekhyR2VkVTJ1cHBmY0FWOXRJcFV3SDg1?=
- =?gb2312?B?bW8vMWVwVkp4VHZqSE1DT2kyYXRuMGFnZDYyYUVwQVY1Y1dUUTl6aUcxWVo0?=
- =?gb2312?B?NWdiQWc5VURIQXR0T3UwaVYxMjEreFJ1ZjE2aEM1WmU2ZldhTmJlanorVCtJ?=
- =?gb2312?B?SzF0Q2RZSThzZlRiaURIOTcyeXFNblJIbllRL3ZkekNPWHFwZ1V0aTRMVVNU?=
- =?gb2312?B?VGh4QmRMaFp2MnV0a0MybWJTQU1tRzJpVUFKeFV1UFFBV3kvb2pZTmhxT0R5?=
- =?gb2312?B?WjMvcGZyY2dCNmNBS1hNdndiMm5TUHhOSFhzbjM1TUx0b0VNanUvUWpRejlj?=
- =?gb2312?B?TWNyRXcxZU9pWTI4bURGbmRmMWF1NkRzNHhvdW9sQjFsL0NTelJJL1IvcGRt?=
- =?gb2312?B?WjNKWTA4N2JnYnUrNVZRZ3Njd2pIcElha25oVnlENFlXMmxDTTVQY04raVdu?=
- =?gb2312?B?UU5lODhKMzVHOG1NWHpOK0xQbXJyK0h5eTJ4Uk1pR1BBeVFTS2F2MjYyQUdY?=
- =?gb2312?B?VjJtVzNFd0NmdFh6ejN1QXdJWk9leVZNMGZ3elZFemRwb0l3ZHlpK0M2ck9x?=
- =?gb2312?B?WHRzOVNJZHd6bllZZC9ycGE1Q3RRNEsyNlVHZHkxOTNtc0hLZFRiZWpJcmFY?=
- =?gb2312?B?MHF1VFgwQmt6b0h0aC9GRDdtMi9saXZFWCtPZTZCVEhEY0hTaGp3Y2lULzMy?=
- =?gb2312?B?b0l5Q2w5TFVQOEtGM0JqV0NleDZwTkExbDJ1aU85K0U1b0tILzBQQzVjdHFW?=
- =?gb2312?B?MHhGQkxTa1V3Vm9tdkpYcjJYU2FObHRXYkR4cW1mZGVYb3EyWVZuOEwvaU9k?=
- =?gb2312?B?bXpNb1k0dTk1aVdzWW40SCtPTlpSc1AwVzMrS3dlaVBwTE44Slc0eE5ValJG?=
- =?gb2312?B?VHFrbkhSUmtHdHk5bDFCZE5PT1l5NktBYTJwdlljUldFQ2VFcmNTYUJ0N0dC?=
- =?gb2312?B?MVloOHcvYVdBVWNvc3pzdFg2MTlodlNzZVZJTVVsTHpSYVhkTTUzV2RjZFRX?=
- =?gb2312?B?cWZqbm1ORWdBdUNCMEw1ZHBLeXcrWThDN3lJSk80WG8wL0ZYMDdYMWtSYktB?=
- =?gb2312?B?bU44WWlHWlQ5cVRLdDFRMW5GVVpvN0ZwTW80a3NFQjltSGtMMytiV1htc2Vn?=
- =?gb2312?B?YWhNVVN0dUhxNjN3QjJvWnhMTkxHNzNNdnZTT3c5V2h3OWFJMEFFZEVXaER6?=
- =?gb2312?B?YkZSSlRmUWF0Mks2YVZZdlpYUVFjNFFFMDNxWHgyUk1Ob05oNFFxYTc3NkdJ?=
- =?gb2312?B?V3V4bGcvYnBrN1ZndWRiS2dEOWlYTG92T25aNEVUd2kyQ3c9PQ==?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C1570
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 10:42:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 357E6101E;
+	Wed, 19 May 2021 03:42:08 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 745363F719;
+	Wed, 19 May 2021 03:42:06 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	Ondrej Jirman <megous@megous.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v6 00/17] arm64: sunxi: Initial Allwinner H616 SoC support
+Date: Wed, 19 May 2021 11:41:35 +0100
+Message-Id: <20210519104152.21119-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR04MB7081.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5e60540-3a13-4bc7-a567-08d91a9fb6a0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 May 2021 08:25:51.4539
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: XVCSn3BwdxclqOYddvmHu668SG2C9924wxRQymgN51CvVC51cZmhP0MhKjGhxhAdIiu1y9XB0wm+1vGvAp/q3Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB7082
 
-T24gMjAyMS8wNS8xOSAxNjoxNiwgQW51cCBQYXRlbCB3cm90ZToKPiBPbiBXZWQsIE1heSAxOSwg
-MjAyMSBhdCAxMjoyNCBQTSBEcmV3IEZ1c3RpbmkgPGRyZXdAYmVhZ2xlYm9hcmQub3JnPiB3cm90
-ZToKPj4KPj4gT24gV2VkLCBNYXkgMTksIDIwMjEgYXQgMDg6MDY6MTdBTSArMDIwMCwgQ2hyaXN0
-b3BoIEhlbGx3aWcgd3JvdGU6Cj4+PiBPbiBXZWQsIE1heSAxOSwgMjAyMSBhdCAwMjowNTowMFBN
-ICswODAwLCBHdW8gUmVuIHdyb3RlOgo+Pj4+IFNpbmNlIHRoZSBleGlzdGluZyBSSVNDLVYgSVNB
-IGNhbm5vdCBzb2x2ZSB0aGlzIHByb2JsZW0sIGl0IGlzIGJldHRlcgo+Pj4+IHRvIHByb3ZpZGUg
-c29tZSBjb25maWd1cmF0aW9uIGZvciB0aGUgU09DIHZlbmRvciB0byBjdXN0b21pemUuCj4+Pgo+
-Pj4gV2UndmUgYmVlbiB0YWxraW5nIGFib3V0IHRoaXMgcHJvYmxlbSBmb3IgY2xvc2UgdG8gZml2
-ZSB5ZWFycy4gIFNvIG5vLAo+Pj4gaWYgeW91IGRvbid0IG1hbmFnZSB0byBnZXQgdGhlIGZlYXR1
-cmUgaW50byB0aGUgSVNBIGl0IGNhbid0IGJlCj4+PiBzdXBwb3J0ZWQuCj4+Cj4+IElzbid0IGl0
-IGEgZ29vZCBnb2FsIGZvciBMaW51eCB0byBzdXBwb3J0IHRoZSBjYXBhYmlsaXRpZXMgcHJlc2Vu
-dCBpbgo+PiB0aGUgU29DIHRoYXQgYSBjdXJyZW50bHkgYmVpbmcgZmFiJ2Q/Cj4+Cj4+IEkgYmVs
-aWV2ZSB0aGUgQ01PIGdyb3VwIG9ubHkgc3RhcnRlZCBsYXN0IHllYXIgWzFdIHNvIHRoZSBSVjY0
-R0MgU29Dcwo+PiB0aGF0IGFyZSBnb2luZyBpbnRvIG1hc3MgcHJvZHVjdGlvbiB0aGlzIHllYXIg
-d291bGQgbm90IGhhdmUgaGFkIHRoZQo+PiBvcHBvcnVudGl5IG9mIHV0aWxpemluZyBhbnkgUklT
-Qy1WIElTQSBleHRlbnNpb24gZm9yIGhhbmRsaW5nIGNhY2hlCj4+IG1hbmFnZW1lbnQuCj4gCj4g
-VGhlIGN1cnJlbnQgTGludXggUklTQy1WIHBvbGljeSBpcyB0byBvbmx5IGFjY2VwdCBwYXRjaGVz
-IGZvciBmcm96ZW4gb3IKPiByYXRpZmllZCBJU0Egc3BlY3MuCj4gKFJlZmVyLCBEb2N1bWVudGF0
-aW9uL3Jpc2N2L3BhdGNoLWFjY2VwdGFuY2UucnN0KQo+IAo+IFRoaXMgbWVhbnMgZXZlbiBpZiBl
-bXVsYXRlIENNTyBpbnN0cnVjdGlvbnMgaW4gT3BlblNCSSwgdGhlIExpbnV4Cj4gcGF0Y2hlcyB3
-b24ndCBiZSB0YWtlbiBieSBQYWxtZXIgYmVjYXVzZSBDTU8gc3BlY2lmaWNhdGlvbiBpcwo+IHN0
-aWxsIGluIGRyYWZ0IHN0YWdlLgo+IAo+IEFsc28sIHdlIGFsbCBrbm93IGhvdyBtdWNoIHRpbWUg
-aXQgdGFrZXMgZm9yIFJJU0NWIGludGVybmF0aW9uYWwKPiB0byBmcmVlemUgc29tZSBzcGVjLiBK
-dWRnaW5nIGJ5IHRoYXQgd2UgYXJlIGxvb2tpbmcgYXQgYW5vdGhlcgo+IDMtNCB5ZWFycyBhdCBt
-aW5pbXVtLgoKV2hpY2ggaXMgdGhlIHJvb3QgY2F1c2Ugb2YgbW9zdCBwcm9ibGVtcyB3aXRoIHJp
-c2N2IGV4dGVuc2lvbiBzdXBwb3J0IGluIExpbnV4LgpBbGwgUklTQy1WIGZvdW5kYXRpb24gbWVt
-YmVycyBuZWVkIHRvIGFwcGx5IHByZXNzdXJlIG9uIHRoZSBmb3VuZGF0aW9uIGFuZCB0aGVzZQpz
-dGFuZGFyZCBncm91cHMgdG8gZGVsaXZlciBmcm96ZW4gc3BlY2lmaWNhdGlvbnMgd2l0aCBhbiBh
-Y2NlcHRhYmxlIHNjaGVkdWxlLgpjLmYuIHRoZSBIIGV4dGVuc2lvbnMgc3BlY3Mgd2hpY2ggYXJl
-IG5vdCB5ZXQgZnJvemVuIGRlc3BpdGUgbm90IGhhdmluZyBiZWVuCmNoYW5nZWQgZm9yIG1vbnRo
-cyBpZiBub3QgeWVhcnMuCgoKLS0gCkRhbWllbiBMZSBNb2FsCldlc3Rlcm4gRGlnaXRhbCBSZXNl
-YXJjaAo=
+Hi,
+
+after some pause those are the "remaining" patches to get the new
+Allwinner H616 SoC supported.
+Compared to v5 from January there are quite some changes: For a start
+the clock, pinctrl and MMC bits made it into v5.12 already, so this series
+starts right after that. The missing interrupt facility of the AXP is now
+hopefully solved properly (patch 02).
+The RTC turned out to be incompatible, the date is stored in a different
+way. Patch 04 addresses this now. And finally the USB support got some
+major overhaul: For a start it now seems to work - but I claimed that
+before, so don't hold your breath, but test, please! There are now two
+new patches to the Allwinner USB PHY driver to make this happen (11 and 12),
+plus we need some seemingly random extra list of clocks and reset added to
+each EHCI and OHCI node. Not pretty, but this looks like a nasty hardware
+problem, so probably justifies some quirk. Meh.
+
+Changelog below. Based on 5.13-rc1.
+
+U-Boot support is part of the v2021.04 release, and Trusted Firmware
+support is also mainline and part of the just released v2.5 version.
+
+As an added bonus I got myself the "X96 Mate" TV box [2] with this SoC, so
+the final patch contains a DT for this box as well. Probably the first
+supported Allwinner machine with 4GB of DRAM actually usable.
+
+The whole series can also be found here:
+https://github.com/apritzel/linux/commits/h616-v6
+
+Thanks!
+Andre
+
+==================
+This series gathers patches to support the Allwinner H616 SoC. This is
+a rather uninspired SoC (Quad-A53 with the usual peripherals), but
+allows for some cheap development boards and TV boxes, and supports
+up to 4GB of DRAM.
+
+Various DT binding patches are sprinkled throughout the series, to add
+the new compatible names right before they are used.
+Patch 2 teaches the AXP MFD driver to get along without having an
+interrupt, as the missing NMI pin on the H616 leads to some boards not
+having the AXP IRQ line connected.
+Patch 4 and 5 add support for the new RTC: the date is now stored as a
+linear number, not broken down into day-month-year. The benefit is that
+this lifts the limit of the old date counter, which would have rolled
+over around 2032. 
+Patch 7 adds a tweak to the EMAC driver, to deal with the second EMAC
+clock used for the second Ethernet controller.
+This is somewhat optional for the current .dts, as this doesn't use
+the second EMAC (yet).
+Patches 10-13 add the USB support, there are several small changes needed
+to the Allwinner PHY driver to make this work. Some hardware changes look
+like accidents ;-)
+Eventually we get the .dtsi for the SoC in patch 14, and the .dts for
+the OrangePi Zero2 board[1] in the penultimate patch, followed by
+the .dts for the X96 Mate TV box[2] in the final commit.
+
+U-Boot and Trusted Firmware support is now merged in released versions,
+it allows booting via FEL or SD card, also you can TFTP kernels in on
+the OrangePi Zero 2 board.
+
+Many thanks to Jernej for his tremendous help on this, also for the
+awesome input and help from the #linux-sunxi Freenode channel.
+
+Happy reviewing!
+
+Cheers,
+Andre
+
+[1] https://linux-sunxi.org/Orange_Pi_Zero_2
+[2] https://linux-sunxi.org/X96_Mate
+
+Changelog v5 .. v6:
+- Drop already merged clock, pinctrl and MMC support from this series
+- Properly fix AXP support by skipping power key initialisation
+- Add patch to support new RTC date storage encoding
+- Re-add USB HCI PHY refactoring
+- Add patch to allow USB reset line sharing
+- Add patch to introduce quirk for PHY2 SIDDQ clearing
+- Re-add USB nodes to the .dtsi
+- Enable USB gadget support
+- Add DT for X96 Mate TV box
+
+Changelog v4 .. v5:
+- Fix CCU binding to pass dtbs_check
+- Add RSB compatible string to binding doc
+- Rename IR pin name to pass dtbs_check
+- Add EMAC compatible string to binding doc
+- Drop USB PHY support and binding doc patches 
+- Drop USB nodes from .dtsi and .dts
+- Drop second EMAC node from .dtsi
+
+Changelog v3 .. v4:
+- Drop MMC and pinctrl matches (already in some -next trees)
+- Add Maxime's Acks
+- Add patch to update the AXP MFD DT bindings
+- Add new patch (05/21) to fix axp20x-pek driver
+- Change AXP IRQ fix to check for invalid IRQ line number
+- Split joint DT bindings patch (v3 18/21) into subsystems
+- move dwmac variable to keep christmas tree
+- Use enums for USB PHY compatible strings in DT binding
+- Enable watchdog (briefly verified to work)
+- Add PHY2 to HCI1&3, this fixes USB
+- limit r-ccu register frame length to not collide with NMI controller
+- add interrupt-controller property to AXP DT node
+
+Changelog v2 .. v3:
+- Add Rob's Acks
+- Drop redundant maxItems from pinctrl DT binding
+- Rename h_i2s* to just i2s* in pinctrl names
+- Use more declarative i2s0_d{in,out}{0,1} names
+- Add RSB pins to pinctrl
+- Include RSB clocks (sharing with newly added H6 versions)
+- Fix CEC clock (add 2nd enable bit, also fix predivider flag)
+- Rename PMU_UNK1 register in USB PHY
+- Add USB and MUSB DT binding patches
+- Add MMC/SD speed modes to .dtsi
+
+Changelog v1 .. v2:
+- pinctrl: adjust irq bank map to cover undocumented GPIO bank IRQs
+- use differing h_i2s0 pin output names
+- r-ccu: fix number of used clocks
+- ccu: remove PLL-PERIPHy(4X)
+- ccu: fix gpu1 divider range
+- ccu: fix usb-phy3 parent
+- ccu: add missing TV clocks
+- ccu: rework to CLK_OF_DECLARE style
+- ccu: enable output bit for PLL clocks
+- ccu: renumber clocks
+- .dtsi: drop sun50i-a64-system-control fallback
+- .dtsi: drop unknown SRAM regions
+- .dtsi: add more (undocumented) GPIO interrupts
+- .dtsi: fix I2C3 pin names
+- .dtsi: use a100-emmc fallback for MMC2
+- .dtsi: add second EMAC controller
+- .dtsi: use H3 MUSB controller fallback
+- .dtsi: fix frame size for USB PHY PMU registers
+- .dtsi: add USB0 PHY references
+- .dtsi: fix IR controller clock source
+- .dts: fix LED naming and swap pins
+- .dts: use 5V supply parent for USB supply
+- .dts: drop dummy IRQ for AXP
+- .dts: enable 3V3 header pin power rail
+- .dts: add SPI flash node
+- .dts: make USB-C port peripheral only
+- add IRQ-less AXP support
+- add two patches to support more than one EMAC clock
+- add patch to rework and extend USB PHY support
+- add DT binding documentation patches
+
+Andre Przywara (20):
+  dt-bindings: clk: sunxi-ccu: Add compatible string for Allwinner H616
+  clk: sunxi-ng: Add support for the Allwinner H616 R-CCU
+  clk: sunxi-ng: Add support for the Allwinner H616 CCU
+  dt-bindings: mfd: axp20x: Add AXP305 compatible (plus optional IRQ)
+  Input: axp20x-pek: Bail out if AXP has no interrupt line connected
+  mfd: axp20x: Allow AXP chips without interrupt lines
+  dt-bindings: sram: sunxi-sram: Add H616 compatible string
+  soc: sunxi: sram: Add support for more than one EMAC clock
+  dt-bindings: watchdog: sun4i: Add H616 compatible string
+  dt-bindings: i2c: mv64xxx: Add H616 compatible string
+  dt-bindings: media: IR: Add H616 IR compatible string
+  dt-bindings: rtc: sun6i: Add H616 compatible string
+  dt-bindings: spi: sunxi: Add H616 compatible string
+  dt-bindings: bus: rsb: Add H616 compatible string
+  dt-bindings: net: sun8i-emac: Add H616 compatible string
+  net: stmmac: dwmac-sun8i: Prepare for second EMAC clock register
+  phy: sun4i-usb: Rework HCI PHY (aka. "pmu_unk1") handling
+  arm64: dts: allwinner: Add Allwinner H616 .dtsi file
+  dt-bindings: arm: sunxi: Add OrangePi Zero 2 binding
+  arm64: dts: allwinner: Add OrangePi Zero 2 .dts
+
+Andre Przywara (17):
+  dt-bindings: mfd: axp20x: Add AXP305 compatible (plus optional IRQ)
+  mfd: axp20x: Allow AXP 806 chips without interrupt lines
+  dt-bindings: rtc: sun6i: Add H616 compatible string
+  rtc: sun6i: Add support for linear day storage
+  rtc: sun6i: Add Allwinner H616 support
+  dt-bindings: net: sun8i-emac: Add H616 compatible string
+  net: stmmac: dwmac-sun8i: Prepare for second EMAC clock register
+  dt-bindings: usb: Add H616 compatible string
+  dt-bindings: usb: sunxi-musb: Add H616 compatible string
+  phy: sun4i-usb: Rework HCI PHY (aka. "pmu_unk1") handling
+  phy: sun4i-usb: Allow reset line to be shared
+  phy: sun4i-usb: Introduce port2 SIDDQ quirk
+  phy: sun4i-usb: Add support for the H616 USB PHY
+  arm64: dts: allwinner: Add Allwinner H616 .dtsi file
+  dt-bindings: arm: sunxi: Add OrangePi Zero 2 binding
+  arm64: dts: allwinner: h616: Add OrangePi Zero 2 board support
+  arm64: dts: allwinner: h616: Add X96 Mate TV box support
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+ .../devicetree/bindings/mfd/axp20x.txt        |   3 +-
+ .../net/allwinner,sun8i-a83t-emac.yaml        |   4 +-
+ .../phy/allwinner,sun8i-h3-usb-phy.yaml       |   4 +-
+ .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |   5 +-
+ .../usb/allwinner,sun4i-a10-musb.yaml         |   3 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   2 +
+ .../allwinner/sun50i-h616-orangepi-zero2.dts  | 245 ++++++
+ .../dts/allwinner/sun50i-h616-x96-mate.dts    | 201 +++++
+ .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 747 ++++++++++++++++++
+ drivers/mfd/axp20x.c                          |  24 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c |  12 +-
+ drivers/phy/allwinner/phy-sun4i-usb.c         |  73 +-
+ drivers/rtc/rtc-sun6i.c                       |  62 +-
+ 14 files changed, 1342 insertions(+), 48 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+
+-- 
+2.17.5
+
