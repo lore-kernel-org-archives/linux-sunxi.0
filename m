@@ -1,40 +1,40 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DE872
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 06:09:31 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DFDB261364
-	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 06:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AAFC72
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 06:12:02 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1E330613B4
+	for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 06:12:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621404570;
-	bh=+tng9KOkJ4vGrdnFxKm0TZVfhTzW5k68odPKowCsvhg=;
+	s=k20201202; t=1621404722;
+	bh=aliJ2A5IaLQl1kaFJpcVaP8FxOlUquhNHY8hfbwV5oQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=qF4xfOt1jDthuAgTrYAXK5cXu/zjuNg4rW1XzACRs9Dl3LVj8Oqga++SH6/dYLNq1
-	 MFJ1kMoeQ3CLTPuLh7FXXHrgLm1i3+QeyDLAL9xlEV2azlbZynB3gxaxwa3rl+G5Lg
-	 fhc0YhitE6RWcCTD/dyboUwFeF4Y9UwocwXN8ZJnZIDQdbLZn+iQEUP0F2cO2lPPFd
-	 kifN6vvUS6iKCYt0P84E5d7/PXMrXsuHZVqzzvO6Kk9djzYR2J0+rqzIAy9j6ZGAta
-	 JEXn84LtwbnxWFeia0/mK8S0bYZHFjFC2Rfo+UHSKjl9Zn48bB45BmRP/jkmmXAuSm
-	 tTR0PoWCWy4Sg==
-Received: by mail-lj1-f180.google.com with SMTP id o8so14268319ljp.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 18 May 2021 23:09:30 -0700 (PDT)
-X-Gm-Message-State: AOAM533TpPt+GD4PHI6uWOrwAVBio7eERukhoUDJ4fXKjhLCvPm89NjG
-	7x5OU1Gpx/MOmkXuPrU7RU0iQZy4vF+HH6mnsLs=
-X-Google-Smtp-Source: ABdhPJxCD9AU161BNjQRQBYs1nLF1LGkl0Ty6pHsGbdXuhweqLk1xlX6xD5rGyODMFf4KqToUL2wB7X/Dnv9SWicVUo=
-X-Received: by 2002:a2e:9d82:: with SMTP id c2mr7361177ljj.508.1621404569271;
- Tue, 18 May 2021 23:09:29 -0700 (PDT)
+	b=G9DZR23da4IjsoJ/mtAo2AxCyf5GDW2IBuWal8rsvRSUyw0YGESWBWY9765O/zFUq
+	 OnqbcN7Xothn9+c0LxanS4KEHJFBdg7HNlH5a7rdHiMyBlCUh1DDhbKVBx2ZPl5z1T
+	 SPuWPJT/TmE2An9xwQXLbCq/JmtSIpzY2dTaSpllQnS2hujMM2i0xiKWOKGhum8cAE
+	 nde1rhH/lYw62U5AeKtUbRnV2sD44ZCQlwXr0e2I6VYgukoTamidjdhgzrnudauYJq
+	 zKyF21Fnyqd+NpIXsFzM0lCvqPJA8PaZOHLV+Mezrqm25c8acZlF3PHChGjmJjsBgX
+	 RoQPiT48pGerA==
+Received: by mail-lf1-f51.google.com with SMTP id i9so17281360lfe.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 18 May 2021 23:12:02 -0700 (PDT)
+X-Gm-Message-State: AOAM532HisI7Jr/evfU1e8FyIocjgFnOuIYxtd3EsoV21K8UpJd3OYOq
+	279SpDJbeT9BvUXd9bQALhMNd347+qD0ArBTvqo=
+X-Google-Smtp-Source: ABdhPJxlGj9xlx+dM6z1cg/1XfTAYuNHni/4fS0DrteOYCWlgF9XOUG9wrp/nkdsQ6fjglLfVBF0odXgygjFL2krD6E=
+X-Received: by 2002:ac2:5493:: with SMTP id t19mr7293363lfk.346.1621404720345;
+ Tue, 18 May 2021 23:12:00 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
- <20210519052048.GA24853@lst.de> <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com>
- <20210519055555.GA27451@lst.de>
-In-Reply-To: <20210519055555.GA27451@lst.de>
+ <20210519052048.GA24853@lst.de> <CAJF2gTR5838=Uwc5P6Xs=G7vk80k0yqWcSsNe0OFcwc9sDBBHg@mail.gmail.com>
+ <20210519060617.GA28397@lst.de>
+In-Reply-To: <20210519060617.GA28397@lst.de>
 From: Guo Ren <guoren@kernel.org>
-Date: Wed, 19 May 2021 14:09:17 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSg0TqAzmdzf7B_xASXLO-z4yVvCDnaUV4brP7tCpCdvQ@mail.gmail.com>
-Message-ID: <CAJF2gTSg0TqAzmdzf7B_xASXLO-z4yVvCDnaUV4brP7tCpCdvQ@mail.gmail.com>
+Date: Wed, 19 May 2021 14:11:48 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSd273ZuRpgFZK-UKA=LgDHGEVrWdN8admScta-mF-Hvw@mail.gmail.com>
+Message-ID: <CAJF2gTSd273ZuRpgFZK-UKA=LgDHGEVrWdN8admScta-mF-Hvw@mail.gmail.com>
 Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
 To: Christoph Hellwig <hch@lst.de>
 Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, drew@beagleboard.org, 
@@ -44,22 +44,17 @@ Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
 	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 19, 2021 at 1:55 PM Christoph Hellwig <hch@lst.de> wrote:
+On Wed, May 19, 2021 at 2:06 PM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On Wed, May 19, 2021 at 01:48:23PM +0800, Guo Ren wrote:
-> > The patchset just leaves a configuration chance for vendors. Before
-> > RISC-V ISA fixes it, we should give the chance to let vendor solve
-> > their real chip issues.
+> On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
+> > Since the existing RISC-V ISA cannot solve this problem, it is better
+> > to provide some configuration for the SOC vendor to customize.
 >
-> No.  The vendors need to work to get a feature standardized before
-> implementing it.  There is other way to have a sane kernel build that
-> supports all the different SOCs.
+> We've been talking about this problem for close to five years.  So no,
+> if you don't manage to get the feature into the ISA it can't be
+> supported.
 
-I've said the patchset doesn't define any features, It just leaves the
-chance for vendors.
-
-It's not in conflict with any standardized riscv ISA.
-
+arch/riscv/errata/ is also defined in riscv ISA?
 
 -- 
 Best Regards
