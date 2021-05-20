@@ -1,110 +1,46 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1B5C71
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 01:59:17 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D01B611BF
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 01:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621475957;
-	bh=JdmBtI/nybX20LTYzwdeu3sRM7FFnENPxyFNjn3PhTc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=aQy9ccJsdFmRayoAiTGj43uqjruUasRMW3XaC7Y51U6ChraF+gd4VnB5Mm47kDzoF
-	 YtOxGgjcaqZept35IaUQW0QVaeAhwRn2ILFnGyv9rjSwh+marLBoRCyIbJ/p6xFnft
-	 V2MQ4C4f2aWrFpBp6vD41RmLBy5yWatN4r39rw8hffgO+MRPVrijETmZN5SYhNHtC6
-	 ZJtWFpbhBZRS9NwBEwEiN3/i/Yw67Xq4F7h1bfNd9n9SMfgpmkqUqZG/X5yLoUNN5J
-	 KR0y8HJp7SkFTsys/rn8aSejDiLFMkfizOeXOFWduU2BGIsxKMnNxfTzGVg9KmA8yw
-	 9magqsOUmrp8A==
-Received: by mail-lf1-f49.google.com with SMTP id v8so17014097lft.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 19 May 2021 18:59:17 -0700 (PDT)
-X-Gm-Message-State: AOAM533GxJjQvnLU+REa0V+NyPHN+y+b1jfusuX7WKhx6qxCzqmTn6Jl
-	PFuI+wZxWxYvXpNsV+Mle8w2m5F4W1zvrkJ5HGA=
-X-Google-Smtp-Source: ABdhPJx4Yk2C9GqxDVxay2oozMIz1ibiukYQwG5GLFDi0mjK8VBRld1CDnMtfMIba/K4AMweT0lkvN1tYYTAfnwELo4=
-X-Received: by 2002:ac2:5493:: with SMTP id t19mr1678843lfk.346.1621475955570;
- Wed, 19 May 2021 18:59:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C4072
+	for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 05:48:26 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 5452967373; Thu, 20 May 2021 07:48:16 +0200 (CEST)
+Date: Thu, 20 May 2021 07:48:16 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Guo Ren <guoren@kernel.org>
+Cc: Christoph Hellwig <hch@lst.de>, Drew Fustini <drew@beagleboard.org>,
+	Anup Patel <anup.patel@wdc.com>,
+	Palmer Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com,
+	lazyparser@gmail.com, linux-riscv <linux-riscv@lists.infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Nick Kossifidis <mick@ics.forth.gr>,
+	Benjamin Koch <snowball@c3pb.de>,
+	Matteo Croce <mcroce@linux.microsoft.com>,
+	Wei Fu <tekkamanninja@gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+Message-ID: <20210520054816.GA21693@lst.de>
+References: <1621400656-25678-1-git-send-email-guoren@kernel.org> <20210519052048.GA24853@lst.de> <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com> <20210519064435.GA3076809@x1> <20210519065352.GA31590@lst.de> <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
- <20210519052048.GA24853@lst.de> <CAJF2gTR5838=Uwc5P6Xs=G7vk80k0yqWcSsNe0OFcwc9sDBBHg@mail.gmail.com>
- <20210519060617.GA28397@lst.de> <20210519065431.GB3076809@x1>
- <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com> <CAJF2gTQKqce_6cmGQnfLOX8uXvOUWUR-pQT4yOMioMcFAPfBjQ@mail.gmail.com>
-In-Reply-To: <CAJF2gTQKqce_6cmGQnfLOX8uXvOUWUR-pQT4yOMioMcFAPfBjQ@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Thu, 20 May 2021 09:59:04 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR2gWETwiszV0n4otjHxu0hGXDp1TT9n=8hX8UHVZY3tw@mail.gmail.com>
-Message-ID: <CAJF2gTR2gWETwiszV0n4otjHxu0hGXDp1TT9n=8hX8UHVZY3tw@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-To: Anup Patel <anup@brainfault.org>
-Cc: Drew Fustini <drew@beagleboard.org>, Christoph Hellwig <hch@lst.de>, Anup Patel <anup.patel@wdc.com>, 
-	Palmer Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com, 
-	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Thu, May 20, 2021 at 9:47 AM Guo Ren <guoren@kernel.org> wrote:
->
-> On Wed, May 19, 2021 at 3:15 PM Anup Patel <anup@brainfault.org> wrote:
-> >
-> > On Wed, May 19, 2021 at 12:24 PM Drew Fustini <drew@beagleboard.org> wrote:
-> > >
-> > > On Wed, May 19, 2021 at 08:06:17AM +0200, Christoph Hellwig wrote:
-> > > > On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
-> > > > > Since the existing RISC-V ISA cannot solve this problem, it is better
-> > > > > to provide some configuration for the SOC vendor to customize.
-> > > >
-> > > > We've been talking about this problem for close to five years.  So no,
-> > > > if you don't manage to get the feature into the ISA it can't be
-> > > > supported.
-> > >
-> > > Isn't it a good goal for Linux to support the capabilities present in
-> > > the SoC that a currently being fab'd?
-> > >
-> > > I believe the CMO group only started last year [1] so the RV64GC SoCs
-> > > that are going into mass production this year would not have had the
-> > > opporuntiy of utilizing any RISC-V ISA extension for handling cache
-> > > management.
-> >
-> > The current Linux RISC-V policy is to only accept patches for frozen or
-> > ratified ISA specs.
-> > (Refer, Documentation/riscv/patch-acceptance.rst)
-> >
-> > This means even if emulate CMO instructions in OpenSBI, the Linux
-I think it's CBO now.
-https://github.com/riscv/riscv-CMOs/blob/master/discussion-files/RISC_V_range_CMOs_bad_v1.00.pdf
+On Thu, May 20, 2021 at 09:45:45AM +0800, Guo Ren wrote:
+> It's a very big MIPS smell. What's the attribute of the uncached
+> window? (uncached + strong-order/ uncached + weak, most vendors still
+> use AXI interconnect, how to deal with a bufferable attribute?) In
+> fact, customers' drivers use different ways to deal with DMA memory in
+> non-coherent SOC. Most riscv SOC vendors are from ARM, so giving them
+> the same way in DMA memory is a smart choice. So using PTE attributes
+> is more suitable.
 
-> > patches won't be taken by Palmer because CMO specification is
-> > still in draft stage.
-> How do you think about
-> sbi_ecall(SBI_EXT_DMA, SBI_DMA_SYNC, start, size, dir, 0, 0, 0);
-> ? thx
-CBO insn trap is okay for me ;-)
-
-> >
-> > Also, we all know how much time it takes for RISCV international
-> > to freeze some spec. Judging by that we are looking at another
-> > 3-4 years at minimum.
-> >
-> > Regards,
-> > Anup
->
->
->
-> --
-> Best Regards
->  Guo Ren
->
-> ML: https://lore.kernel.org/linux-csky/
-
-
-
--- 
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
+I'm not saying it is a good idea.  Just that apparently this exists in
+the ASICs.
