@@ -1,31 +1,41 @@
-Received: from tux.runtux.com (tux.runtux.com [176.9.82.136])
+Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com [209.85.167.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B084470
-	for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 10:14:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by tux.runtux.com (Postfix) with ESMTP id 90D2F6F0C7;
-	Thu, 20 May 2021 12:06:58 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at tux.runtux.com
-Received: from tux.runtux.com ([127.0.0.1])
-	by localhost (tux2.runtux.com [127.0.0.1]) (amavisd-new, port 10026)
-	with LMTP id SlQcJyNvDttS; Thu, 20 May 2021 12:06:57 +0200 (CEST)
-Received: from bee.priv.zoo (62-99-217-90.static.upcbusiness.at [62.99.217.90])
-	(Authenticated sender: postmaster@runtux.com)
-	by tux.runtux.com (Postfix) with ESMTPSA id 099B66EFFE;
-	Thu, 20 May 2021 12:06:57 +0200 (CEST)
-Received: by bee.priv.zoo (Postfix, from userid 1002)
-	id 8D429471; Thu, 20 May 2021 12:06:56 +0200 (CEST)
-Date: Thu, 20 May 2021 12:06:56 +0200
-From: Ralf Schlatterbeck <rsc@runtux.com>
-To: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mirko Vogt <mirko-dev|linux@nanl.de>
-Subject: [PATCH 1/1] spi-sun6i: Fix chipselect/clock bug
-Message-ID: <20210520100656.rgkdexdvrddt3upy@runtux.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D14B70
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 01:39:09 +0000 (UTC)
+Received: by mail-oi1-f169.google.com with SMTP id b25so18311657oic.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 18:39:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=AHDUWcKLdEreHylbJ6qjwAOsVXEIpsN/MhjQoJ5Ovks=;
+        b=OjVghFYLUtFGJ1r4PdeiFQpDxjMvWhcCtzg577Fwl5+7FSvarii/IiU67ysTlhk7yJ
+         mE8l2rdih06IUY1cGKaVNUPk0thjucRpdAePjh3QkxO1HlHQYdKZZpREQd6o6KutR+iw
+         oN0XXrAsUfvBAxPt0WffBQc4Xpc3vehRkrqvob6TdKZ4PTZO/URTjVI0nKxMMr6vLqrY
+         ujWvaBfNiQPxzbMkw2g5HZQWmc+3S4Xbmg3ylbFpzI03Ta9dcbE1Hkb/E1kABRcKo/SG
+         Ap2vDA2ffnUdotygEaGbq5loWmyuLlzt40865wgacH1e7wWjApAGnksB+qgOtWN/eSZr
+         tf6g==
+X-Gm-Message-State: AOAM5322A3KcyyE5dpz1QK2rvodAmcg8ohhAMFQDm3y/wg71VAla950d
+	n7uXDF4DiM4+u3PVUuToDg==
+X-Google-Smtp-Source: ABdhPJy1os/eXheMpifGdqYKraVHyYBNJMLWCtPZfxhLS1bqSNKMrSeUUG53n/h5x7/eyOWVPHzMaw==
+X-Received: by 2002:a05:6808:a87:: with SMTP id q7mr281561oij.38.1621561148841;
+        Thu, 20 May 2021 18:39:08 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id v19sm1008850otq.35.2021.05.20.18.39.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 May 2021 18:39:08 -0700 (PDT)
+Received: (nullmailer pid 2459176 invoked by uid 1000);
+	Fri, 21 May 2021 01:39:07 -0000
+Date: Thu, 20 May 2021 20:39:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, Ondrej Jirman <megous@megous.com>, linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH v6 01/17] dt-bindings: mfd: axp20x: Add AXP305 compatible
+ (plus optional IRQ)
+Message-ID: <20210521013907.GA2456181@robh.at.kernel.org>
+References: <20210519104152.21119-1-andre.przywara@arm.com>
+ <20210519104152.21119-2-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -33,54 +43,50 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-ray: beware
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20210519104152.21119-2-andre.przywara@arm.com>
 
-The current sun6i SPI implementation initializes the transfer too early,
-resulting in SCK going high before the transfer. When using an additional
-(gpio) chipselect with sun6i, the chipselect is asserted at a time when
-clock is high, making the SPI transfer fail.
+On Wed, May 19, 2021 at 11:41:36AM +0100, Andre Przywara wrote:
+> The AXP305 PMIC used in AXP805 seems to be fully compatible to the
+> AXP805 PMIC, so add the proper chain of compatible strings.
+> 
+> Also at least on one board (Orangepi Zero2) there is no interrupt line
+> connected to the CPU, so make the "interrupts" property optional.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-This is due to SUN6I_GBL_CTL_BUS_ENABLE being written into
-SUN6I_GBL_CTL_REG at an early stage. Moving that to the transfer
-function, hence, right before the transfer starts, mitigates that
-problem.
+Don't you want to convert this to schema? It's one of the last warnings 
+for sunxi IIRC.
 
-Signed-off-by: Ralf Schlatterbeck <rsc@runtux.com>
-Signed-off-by: Mirko Vogt <mirko-dev|linux@nanl.de>
----
-For oscilloscope screenshots with/without the patch, see my blog post
-https://blog.runtux.com/posts/2019/04/18/
-or the discussion in the armbian forum at
-https://forum.armbian.com/topic/4330-spi-gpio-chip-select-support/
-(my logo there is a penguin).
+Acked-by: Rob Herring <robh@kernel.org>
 
- drivers/spi/spi-sun6i.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index cc8401980125..2db075c87f51 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -379,6 +379,10 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
- 	}
- 
- 	sun6i_spi_write(sspi, SUN6I_CLK_CTL_REG, reg);
-+	/* Finally enable the bus - doing so before might raise SCK to HIGH */
-+	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG,
-+			sun6i_spi_read(sspi, SUN6I_GBL_CTL_REG)
-+			| SUN6I_GBL_CTL_BUS_ENABLE);
- 
- 	/* Setup the transfer now... */
- 	if (sspi->tx_buf)
-@@ -504,7 +508,7 @@ static int sun6i_spi_runtime_resume(struct device *dev)
- 	}
- 
- 	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG,
--			SUN6I_GBL_CTL_BUS_ENABLE | SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
-+			SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
- 
- 	return 0;
- 
--- 
-2.20.1
+> 
+> diff --git a/Documentation/devicetree/bindings/mfd/axp20x.txt b/Documentation/devicetree/bindings/mfd/axp20x.txt
+> index 4991a6415796..4fd748101e3c 100644
+> --- a/Documentation/devicetree/bindings/mfd/axp20x.txt
+> +++ b/Documentation/devicetree/bindings/mfd/axp20x.txt
+> @@ -26,10 +26,10 @@ Required properties:
+>      * "x-powers,axp803"
+>      * "x-powers,axp806"
+>      * "x-powers,axp805", "x-powers,axp806"
+> +    * "x-powers,axp803", "x-powers,axp805", "x-powers,axp806"
+>      * "x-powers,axp809"
+>      * "x-powers,axp813"
+>  - reg: The I2C slave address or RSB hardware address for the AXP chip
+> -- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
+>  - interrupt-controller: The PMIC has its own internal IRQs
+>  - #interrupt-cells: Should be set to 1
+>  
+> @@ -43,6 +43,7 @@ more information:
+>  			AXP20x/LDO3: software-based implementation
+>  
+>  Optional properties:
+> +- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
+>  - x-powers,dcdc-freq: defines the work frequency of DC-DC in KHz
+>  		      AXP152/20X: range:  750-1875, Default: 1.5 MHz
+>  		      AXP22X/8XX: range: 1800-4050, Default: 3   MHz
+> -- 
+> 2.17.5
+> 
