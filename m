@@ -1,58 +1,123 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6F070
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 01:40:31 +0000 (UTC)
-Received: by mail-ot1-f54.google.com with SMTP id 80-20020a9d08560000b0290333e9d2b247so6095334oty.7
-        for <linux-sunxi@lists.linux.dev>; Thu, 20 May 2021 18:40:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0BIMIr+vPahmBauXRfzt2P0Ds58ZfqNsm2Ee2f6z5uE=;
-        b=hCpndqeYtI2kvWOiOp+FnLAwCXcijtaZbvLe6UNt7j0IFOVFWJltucHo8G2F6MH01F
-         NpTP89r4SXS/59ys/5YnuU5ZYc/P6yIPOyBSljzWcwApvuONjuQSBRfuG9N4rKiH8iYK
-         V3BZ6OTcegw2y4safgIaGwosA4SlKO/WsEjOdn4F1vlUUf1b8rSn7SxcMmRBvLFk9HwH
-         wrxLDbn7jlv1zmuZERmPWZOYKqLb5WhvOOxq7DZZzKHq7TaYr7u7j8PRPtXRANeb/g6P
-         cLvCTmoovTk/SRhWJ04d2UmS90BYE7XqDMnNZmQYUfD+ImQoEG+gDUp7TM+159E85arj
-         hkUg==
-X-Gm-Message-State: AOAM5319rbMSYK/Fren5hihoRvlH58rAwU9Sk7fNtoiAzWhnZgmDZjG+
-	l7q2T3JwrhAibXeG2dBncYlckUQxVg==
-X-Google-Smtp-Source: ABdhPJxNlR4PrBb+IozGsfyNMDszEoRAZvLptKfs818Bvw2pDWjPOw0VdaTzTKxTP2dLdHeFJSTf6w==
-X-Received: by 2002:a05:6830:10c9:: with SMTP id z9mr6253358oto.275.1621561230643;
-        Thu, 20 May 2021 18:40:30 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id v19sm1015441otk.22.2021.05.20.18.40.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 May 2021 18:40:30 -0700 (PDT)
-Received: (nullmailer pid 2462099 invoked by uid 1000);
-	Fri, 21 May 2021 01:40:28 -0000
-Date: Thu, 20 May 2021 20:40:28 -0500
-From: Rob Herring <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, linux-sunxi@googlegroups.com, linux-usb@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>, linux-sunxi@lists.linux.dev, Ondrej Jirman <megous@megous.com>
-Subject: Re: [PATCH v6 09/17] dt-bindings: usb: sunxi-musb: Add H616
- compatible string
-Message-ID: <20210521014028.GA2462070@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EE070
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 02:37:37 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1764C58094A;
+	Thu, 20 May 2021 22:37:37 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 20 May 2021 22:37:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	to:cc:references:from:subject:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=D
+	e6xzMF2FgeEmdaTMR3eSkk8CwPQCVbY4en6vEtoeyA=; b=GyCY0HdhhuUpmr374
+	VfMZMmReizfI2KIX6FBCHJUH+YNxdm7gVtajBS6b+3I/d7LICeo2mdVdWAmpfHr0
+	BIPLtTuWlYy9EWTwSTg6uHS+N17fgQT+tytiqJgGgQ/r1GLeF4ukLiMP+hWXEkB/
+	pLmD34ipjZtePC3G5uVNISWrlDKUUEPTtOA/ZkloP3hfk5z/aqiBnErOSgtXTkYT
+	JDH17LxNyOquZcXhQmV7JjBweDC8nKCE+Zj2DdCZ0sXmooHNtjOuNo1u4cYGiSjF
+	s2Jp1Er5XkkRTl9Y64fXEmqoLT2sD9zN3iKyrx/PdVGTDc/52Y2KxHKWg/uFc7M0
+	sVG6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=De6xzMF2FgeEmdaTMR3eSkk8CwPQCVbY4en6vEtoe
+	yA=; b=R/B7VL5XgmRVFvF0Jw4g+3tfflkqISOf6/2rXzXrS/nd2FDTYx/LOLnRK
+	lBWgJgwe3/DKj/PVws7Scj3+x31ofpDJGkvqgCNIvojKdZrdJsP9EaxbJ4GWaZ6q
+	msAj6NCs0b8y8kgy6KaG1skjuZRyEB2LKb6QzP1FeyxDwyoJSPVNIfxhPCnhgw/B
+	gWTPfny4NfCltqwvPTBKUK/bCGmrtj4PEKKByQZa+2nhr9vMvEhUUBx5CvffXgNw
+	fR7VtfDF8MJebK0qRXgBFPaGWTo7kJHPR7iFxifIsuLA066o70mwKhweo0GS9u4z
+	3MuFHSKGl2qZB4nAKWsPlgb11KAgw==
+X-ME-Sender: <xms:7xynYFU_IU-YS9abw3wxkTkrYZgXGTRwnHXE3gQ6yK-RXcc35qUjqQ>
+    <xme:7xynYFlxYPA_AMIKChNAn6I3cn5GZGkPEFELW2wua3X5OeWFDR6kv4zy3G3lqXH_G
+    lRd9DS7y3na5p7YFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejvddgheejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
+    hedtfeevuedvnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:7xynYBaRUqI3D8YrkCIHs8AoiUMdjhvH6ciBF5I4HtCmDnjFbj0u2g>
+    <xmx:7xynYIX2rGRypVm2udaXepLfm5Z_TT6razf4LIhJggqtApUkLCAJsA>
+    <xmx:7xynYPk4ABhXgKMwzixt8SqRm4yqHz3HXtiIru0Eesq-4aXbcOqx3A>
+    <xmx:8RynYC8r69Q4k1_jputi0x3LS84eIketYJpntW8loxTEydbCNM15EQ>
+Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Thu, 20 May 2021 22:37:34 -0400 (EDT)
+To: Andre Przywara <andre.przywara@arm.com>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
+ Ondrej Jirman <megous@megous.com>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
 References: <20210519104152.21119-1-andre.przywara@arm.com>
- <20210519104152.21119-10-andre.przywara@arm.com>
+ <20210519104152.21119-4-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v6 03/17] dt-bindings: rtc: sun6i: Add H616 compatible
+ string
+Message-ID: <99a2069b-99e9-9b47-12a6-aae01c7f59dc@sholland.org>
+Date: Thu, 20 May 2021 21:37:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210519104152.21119-10-andre.przywara@arm.com>
+In-Reply-To: <20210519104152.21119-4-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, 19 May 2021 11:41:44 +0100, Andre Przywara wrote:
-> The H616 MUSB peripheral is compatible to the H3 one (8 endpoints).
+Andre,
+
+On 5/19/21 5:41 AM, Andre Przywara wrote:
+> Add the obvious compatible name to the existing RTC binding.
+> The actual RTC part of the device uses a different day/month/year
+> storage scheme, so it's not compatible with the previous devices.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml      | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> index b1b0ee769b71..178c955f88bf 100644
+> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> @@ -26,6 +26,7 @@ properties:
+>            - const: allwinner,sun50i-a64-rtc
+>            - const: allwinner,sun8i-h3-rtc
+>        - const: allwinner,sun50i-h6-rtc
+> +      - const: allwinner,sun50i-h616-rtc
+>  
+>    reg:
+>      maxItems: 1
+> @@ -97,7 +98,9 @@ allOf:
+>        properties:
+>          compatible:
+>            contains:
+> -            const: allwinner,sun50i-h6-rtc
+> +            enum:
+> +              - allwinner,sun50i-h6-rtc
+> +              - allwinner,sun50i-h616-rtc
+>  
+>      then:
+>        properties:
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+This binding is missing a clock reference for the pll-periph0-2x input
+to the 32kHz clock fanout.
+
+It is also missing a clock reference to the RTC register gate (and that
+clock is in turn missing from the r_ccu driver).
+
+Regards,
+Samuel
