@@ -1,52 +1,30 @@
-Received: from aposti.net (aposti.net [89.234.176.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06C470
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 12:32:15 +0000 (UTC)
-Date: Fri, 21 May 2021 13:22:11 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is
- now the default
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>,
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter
-	<daniel.vetter@intel.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
-	<linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, Chun-Kuang Hu
-	<chunkuang.hu@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman
-	<khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut
-	<marex@denx.de>, Stefan Agner <stefan@agner.ch>, Sandy Huang
-	<hjc@rock-chips.com>, Heiko =?iso-8859-1?q?St=FCbner?= <heiko@sntech.de>,
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu
-	<philippe.cornu@foss.st.com>, Benjamin Gaignard
-	<benjamin.gaignard@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard
-	<mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen
-	<tomba@kernel.org>, linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-Message-Id: <ZCIGTQ.7N0RYBI1A3DH1@crapouillou.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B8D70
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 12:49:22 +0000 (UTC)
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <heiko@sntech.de>)
+	id 1lk48b-0006Ky-N0; Fri, 21 May 2021 14:20:21 +0200
+From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To: DRI Development <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, Daniel Vetter <daniel.vetter@intel.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, Sandy Huang <hjc@rock-chips.com>, Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, Benjamin Gaignard <benjamin.gaignard@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomba@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
+Date: Fri, 21 May 2021 14:20:19 +0200
+Message-ID: <3534824.Icojqenx9y@diego>
 In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
-	<20210521090959.1663703-6-daniel.vetter@ffwll.ch>
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch> <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Daniel,
-
-Le ven., mai 21 2021 at 11:09:54 +0200, Daniel Vetter=20
-<daniel.vetter@ffwll.ch> a =E9crit :
+Am Freitag, 21. Mai 2021, 11:09:54 CEST schrieb Daniel Vetter:
 > No need to set it explicitly.
 >=20
 > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
@@ -91,238 +69,14 @@ Le ven., mai 21 2021 at 11:09:54 +0200, Daniel Vetter=20
 >  drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
 >  drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
 >  drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
-
-For drivers/gpu/drm/ingenic/*:
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-
-Cheers,
--Paul
-
 >  drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
 >  drivers/gpu/drm/meson/meson_overlay.c       | 1 -
 >  drivers/gpu/drm/meson/meson_plane.c         | 1 -
 >  drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
 >  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
->  drivers/gpu/drm/stm/ltdc.c                  | 1 -
->  drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
->  drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
->  drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
->  drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
->  14 files changed, 15 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c=20
-> b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-> index 044d3bdf313c..ac45d54acd4e 100644
-> --- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-> +++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-> @@ -361,7 +361,6 @@ static void dcss_plane_atomic_disable(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs dcss_plane_helper_funcs =3D=20
-> {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D dcss_plane_atomic_check,
->  	.atomic_update =3D dcss_plane_atomic_update,
->  	.atomic_disable =3D dcss_plane_atomic_disable,
-> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c=20
-> b/drivers/gpu/drm/imx/ipuv3-plane.c
-> index 8710f55d2579..ef114b6aa691 100644
-> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
-> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-> @@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs ipu_plane_helper_funcs =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D ipu_plane_atomic_check,
->  	.atomic_disable =3D ipu_plane_atomic_disable,
->  	.atomic_update =3D ipu_plane_atomic_update,
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> index 389cad59e090..62db7349bf6a 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-> @@ -786,7 +786,6 @@ static const struct drm_plane_helper_funcs=20
-> ingenic_drm_plane_helper_funcs =3D {
->  	.atomic_update		=3D ingenic_drm_plane_atomic_update,
->  	.atomic_check		=3D ingenic_drm_plane_atomic_check,
->  	.atomic_disable		=3D ingenic_drm_plane_atomic_disable,
-> -	.prepare_fb		=3D drm_gem_plane_helper_prepare_fb,
->  };
->=20
->  static const struct drm_crtc_helper_funcs=20
-> ingenic_drm_crtc_helper_funcs =3D {
-> diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c=20
-> b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> index 3b1091e7c0cd..caf038f3e231 100644
-> --- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> +++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-> @@ -615,7 +615,6 @@ static const struct drm_plane_helper_funcs=20
-> ingenic_ipu_plane_helper_funcs =3D {
->  	.atomic_update		=3D ingenic_ipu_plane_atomic_update,
->  	.atomic_check		=3D ingenic_ipu_plane_atomic_check,
->  	.atomic_disable		=3D ingenic_ipu_plane_atomic_disable,
-> -	.prepare_fb		=3D drm_gem_plane_helper_prepare_fb,
->  };
->=20
->  static int
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c=20
-> b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> index b5582dcf564c..1667a7e7de38 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-> @@ -227,7 +227,6 @@ static void mtk_plane_atomic_update(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs mtk_plane_helper_funcs =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D mtk_plane_atomic_check,
->  	.atomic_update =3D mtk_plane_atomic_update,
->  	.atomic_disable =3D mtk_plane_atomic_disable,
-> diff --git a/drivers/gpu/drm/meson/meson_overlay.c=20
-> b/drivers/gpu/drm/meson/meson_overlay.c
-> index ed063152aecd..dfef8afcc245 100644
-> --- a/drivers/gpu/drm/meson/meson_overlay.c
-> +++ b/drivers/gpu/drm/meson/meson_overlay.c
-> @@ -747,7 +747,6 @@ static const struct drm_plane_helper_funcs=20
-> meson_overlay_helper_funcs =3D {
->  	.atomic_check	=3D meson_overlay_atomic_check,
->  	.atomic_disable	=3D meson_overlay_atomic_disable,
->  	.atomic_update	=3D meson_overlay_atomic_update,
-> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->  };
->=20
->  static bool meson_overlay_format_mod_supported(struct drm_plane=20
-> *plane,
-> diff --git a/drivers/gpu/drm/meson/meson_plane.c=20
-> b/drivers/gpu/drm/meson/meson_plane.c
-> index a18510dae4c8..8640a8a8a469 100644
-> --- a/drivers/gpu/drm/meson/meson_plane.c
-> +++ b/drivers/gpu/drm/meson/meson_plane.c
-> @@ -422,7 +422,6 @@ static const struct drm_plane_helper_funcs=20
-> meson_plane_helper_funcs =3D {
->  	.atomic_check	=3D meson_plane_atomic_check,
->  	.atomic_disable	=3D meson_plane_atomic_disable,
->  	.atomic_update	=3D meson_plane_atomic_update,
-> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->  };
->=20
->  static bool meson_plane_format_mod_supported(struct drm_plane *plane,
-> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c=20
-> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> index 300e7bab0f43..8797c671d0d5 100644
-> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> @@ -500,13 +500,11 @@ static bool mxsfb_format_mod_supported(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs=20
-> mxsfb_plane_primary_helper_funcs =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D mxsfb_plane_atomic_check,
->  	.atomic_update =3D mxsfb_plane_primary_atomic_update,
->  };
->=20
->  static const struct drm_plane_helper_funcs=20
-> mxsfb_plane_overlay_helper_funcs =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D mxsfb_plane_atomic_check,
->  	.atomic_update =3D mxsfb_plane_overlay_atomic_update,
->  };
-> diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c=20
-> b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> index 64469439ddf2..6406bc0a71c7 100644
-> --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> @@ -1109,7 +1109,6 @@ static const struct drm_plane_helper_funcs=20
-> plane_helper_funcs =3D {
->  	.atomic_disable =3D vop_plane_atomic_disable,
->  	.atomic_async_check =3D vop_plane_atomic_async_check,
->  	.atomic_async_update =3D vop_plane_atomic_async_update,
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  };
->=20
->  static const struct drm_plane_funcs vop_plane_funcs =3D {
-> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-> index e99771b947b6..a5a2956f23f2 100644
-> --- a/drivers/gpu/drm/stm/ltdc.c
-> +++ b/drivers/gpu/drm/stm/ltdc.c
-> @@ -946,7 +946,6 @@ static const struct drm_plane_funcs=20
-> ltdc_plane_funcs =3D {
->  };
->=20
->  static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs =3D=20
-> {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D ltdc_plane_atomic_check,
->  	.atomic_update =3D ltdc_plane_atomic_update,
->  	.atomic_disable =3D ltdc_plane_atomic_disable,
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c=20
-> b/drivers/gpu/drm/sun4i/sun4i_layer.c
-> index 11771bdd6e7c..929e95f86b5b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-> @@ -127,7 +127,6 @@ static bool=20
-> sun4i_layer_format_mod_supported(struct drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs=20
-> sun4i_backend_layer_helper_funcs =3D {
-> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_disable	=3D sun4i_backend_layer_atomic_disable,
->  	.atomic_update	=3D sun4i_backend_layer_atomic_update,
->  };
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c=20
-> b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> index 0db164a774a1..ac3d43394589 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> @@ -332,7 +332,6 @@ static void sun8i_ui_layer_atomic_update(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs=20
-> sun8i_ui_layer_helper_funcs =3D {
-> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check	=3D sun8i_ui_layer_atomic_check,
->  	.atomic_disable	=3D sun8i_ui_layer_atomic_disable,
->  	.atomic_update	=3D sun8i_ui_layer_atomic_update,
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c=20
-> b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> index 46420780db59..45b1e37f9cda 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> @@ -436,7 +436,6 @@ static void sun8i_vi_layer_atomic_update(struct=20
-> drm_plane *plane,
->  }
->=20
->  static const struct drm_plane_helper_funcs=20
-> sun8i_vi_layer_helper_funcs =3D {
-> -	.prepare_fb	=3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check	=3D sun8i_vi_layer_atomic_check,
->  	.atomic_disable	=3D sun8i_vi_layer_atomic_disable,
->  	.atomic_update	=3D sun8i_vi_layer_atomic_update,
-> diff --git a/drivers/gpu/drm/tidss/tidss_plane.c=20
-> b/drivers/gpu/drm/tidss/tidss_plane.c
-> index 1acd15aa4193..217415ec8eea 100644
-> --- a/drivers/gpu/drm/tidss/tidss_plane.c
-> +++ b/drivers/gpu/drm/tidss/tidss_plane.c
-> @@ -158,7 +158,6 @@ static void drm_plane_destroy(struct drm_plane=20
-> *plane)
->  }
->=20
->  static const struct drm_plane_helper_funcs tidss_plane_helper_funcs=20
-> =3D {
-> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
->  	.atomic_check =3D tidss_plane_atomic_check,
->  	.atomic_update =3D tidss_plane_atomic_update,
->  	.atomic_disable =3D tidss_plane_atomic_disable,
-> --
-> 2.31.0
->=20
+
+=46or Rockchip
+Acked-by: Heiko Stuebner <heiko@sntech.de>
+
 
 
