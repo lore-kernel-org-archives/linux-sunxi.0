@@ -1,120 +1,111 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4262F70
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 15:53:21 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id o127so11391465wmo.4
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 08:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kdAs0Ep5+2K53fiSGhNfrLNzj7MMY3EgOQjni9Umht8=;
-        b=IhYlOGhD14MnNUDN3/gcfgDBq/BNMorjLEdyQeq1zzib97z1tEhGiiXaphyov0B6rm
-         Fnug5G0nwmDNTjmkdcXodXq9U/gz3ibsum4pzrkpfI9FmltJSw2CUcxsWX7jGXwwmyCj
-         6vxc3W7raymKSRp3BSh9pxV9ixt7fhYnirv/L00YJBgVdZZYogPdXKuTSkEFfH1IrFRZ
-         Da9BK8RCuQqZjWtJt4Z9PY1PYT/d4yv4t/as1y1Bzr1dc6M55Y5AjpEufmJ68LUqwnaN
-         r/4pWcKNmcNKigTm4vX1D6oC/E3gRqOexUh1NDZr0Zq9RS8nw5b/KoUs/ymofl20nPkJ
-         EdEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kdAs0Ep5+2K53fiSGhNfrLNzj7MMY3EgOQjni9Umht8=;
-        b=hXHDF97OvJ+uAtVvfW2N8tEozwMAwl5M1DooRta2/cFS+YItjUBx24jrN+eb+wYnXa
-         H5422m5SyxdE3G+SL8pyvEKhd7LwqD0GjwjV8Vqrk8aK2Rbe8jP8uoVn1Sql63u2Hs7m
-         qFgG2Q/LdpvSQznvaZOqjVDZs5FZ9orkf1bzipHJxLgry9lH3ga4gQ8H90LE1W16qAYl
-         cffgWWrFkfjdjzZidfcaEjFfg9eIK9KgQajLiUPAaCL/GAeBDoBef/ALe774oulYQZTX
-         lbXmtdeofW17KftWKSOiY7n3+mq6hGG84eE2j0itv6g9v4mvFflj0HXzv5CcLNHj3+Hd
-         tJ5Q==
-X-Gm-Message-State: AOAM531xTujV3vjww8+YpDUngRiMmNq3UY4fsKqs77eR0VgfRz4vC01s
-	iEobKZRNDGAC2fM41/ap7Xk=
-X-Google-Smtp-Source: ABdhPJxTn/ueWgal7rvRO3A3ECHpC111Q7o7SxwZUm6zNTqM9YK/SolsENlCqq1BAUxDrXnfxploOg==
-X-Received: by 2002:a1c:5443:: with SMTP id p3mr9425116wmi.101.1621612399794;
-        Fri, 21 May 2021 08:53:19 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id o129sm13051356wmo.22.2021.05.21.08.53.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 May 2021 08:53:19 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: DRI Development <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
-	Daniel Vetter <daniel.vetter@intel.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Paul Cercueil <paul@crapouillou.net>, 
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, 
-	Stefan Agner <stefan@agner.ch>, Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Benjamin Gaignard <benjamin.gaignard@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomba@kernel.org>, 
-	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
-Date: Fri, 21 May 2021 17:53:16 +0200
-Message-ID: <1940958.iMR1v07LRx@jernej-laptop>
-In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch> <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C197B70
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 16:30:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C39B81480;
+	Fri, 21 May 2021 09:30:32 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 401B73F93E;
+	Fri, 21 May 2021 09:30:31 -0700 (PDT)
+Date: Fri, 21 May 2021 17:30:11 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ralf Schlatterbeck <rsc@runtux.com>
+Cc: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Mirko Vogt
+ <mirko-dev|linux@nanl.de>
+Subject: Re: [PATCH 1/1] spi-sun6i: Fix chipselect/clock bug
+Message-ID: <20210521173011.1c602682@slackpad.fritz.box>
+In-Reply-To: <20210520100656.rgkdexdvrddt3upy@runtux.com>
+References: <20210520100656.rgkdexdvrddt3upy@runtux.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dne petek, 21. maj 2021 ob 11:09:54 CEST je Daniel Vetter napisal(a):
-> No need to set it explicitly.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: "Heiko St=FCbner" <heiko@sntech.de>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-sunxi@lists.linux.dev
+On Thu, 20 May 2021 12:06:56 +0200
+Ralf Schlatterbeck <rsc@runtux.com> wrote:
 
-=46or sun4i:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Ralf,
 
-Best regards,
-Jernej
+many thanks for taking care of upstreaming this!
 
+> The current sun6i SPI implementation initializes the transfer too early,
+> resulting in SCK going high before the transfer. When using an additional
+> (gpio) chipselect with sun6i, the chipselect is asserted at a time when
+> clock is high, making the SPI transfer fail.
+> 
+> This is due to SUN6I_GBL_CTL_BUS_ENABLE being written into
+> SUN6I_GBL_CTL_REG at an early stage. Moving that to the transfer
+> function, hence, right before the transfer starts, mitigates that
+> problem.
+> 
+> Signed-off-by: Ralf Schlatterbeck <rsc@runtux.com>
+> Signed-off-by: Mirko Vogt <mirko-dev|linux@nanl.de>
+
+So if I get your last email correctly, your intention was to make this
+Mirko's patch, which you just send?
+In this case the authorship should stay with him (git commit --amend
+--author "..."), and you add your S-o-b (his first, your's next).
+If you use git format-patch & git send-email, it will take care of
+formatting this correctly (inserting a "From" line into the body).
+
+As for the technical part: I know as much about SPI to have quite some
+respect for the subtleties of the various modes. But your second
+oscilloscope shot looks much better, and matches the timing diagram in
+the manual (SS is the first to go down).
+So I trust you that's the right move.
+
+One formatting thing below:
+
+> ---
+> For oscilloscope screenshots with/without the patch, see my blog post
+> https://blog.runtux.com/posts/2019/04/18/
+> or the discussion in the armbian forum at
+> https://forum.armbian.com/topic/4330-spi-gpio-chip-select-support/
+> (my logo there is a penguin).
+> 
+>  drivers/spi/spi-sun6i.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
+> index cc8401980125..2db075c87f51 100644
+> --- a/drivers/spi/spi-sun6i.c
+> +++ b/drivers/spi/spi-sun6i.c
+> @@ -379,6 +379,10 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
+>  	}
+>  
+>  	sun6i_spi_write(sspi, SUN6I_CLK_CTL_REG, reg);
+> +	/* Finally enable the bus - doing so before might raise SCK to HIGH */
+> +	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG,
+> +			sun6i_spi_read(sspi, SUN6I_GBL_CTL_REG)
+> +			| SUN6I_GBL_CTL_BUS_ENABLE);
+
+The "|" on the new line looks a bit odd. What about you utilise "reg"
+here, as the other access do, to make this more readable?
+	reg = sun6i_spi_read(...);
+	reg |= ...
+	sun6i_spi_write(..., reg);
+
+Cheers,
+Andre
+
+>  
+>  	/* Setup the transfer now... */
+>  	if (sspi->tx_buf)
+> @@ -504,7 +508,7 @@ static int sun6i_spi_runtime_resume(struct device *dev)
+>  	}
+>  
+>  	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG,
+> -			SUN6I_GBL_CTL_BUS_ENABLE | SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
+> +			SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
+>  
+>  	return 0;
+>  
 
