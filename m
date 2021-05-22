@@ -1,109 +1,97 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A84A70
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 23:18:24 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B7DA1613EE
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 23:18:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4720570
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 00:36:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C1D7561400
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 00:36:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621639103;
-	bh=Hd7KH/71GldwhXzi4DHrPnVVlwTF8/7LpSIK8f+o37k=;
+	s=k20201202; t=1621643781;
+	bh=HaoAEb5QnxGwVYmtRURFgpSmH16cCBITcqMVRG2/0Gg=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=doSxJyE4nO23f5+oE74A09xxktTkwdzbigZe9b3YeN5TGGNX/Nv6IIoUI0F5p1+Mu
-	 ieYjeN2dLCOUY7nV7U3p8DbBZQs2VjfXLTlBeW0SWYrD0lZx7OGjEUprkiAsRpc9j+
-	 nK1zf76rbz31ZTg0DVHrVHzqsVc7xwsMK9nyuk9qlKdk9eldQYDTBU0SOLOneqnl+2
-	 pNEdFY9KRRkYPRYCS8e5/YdI/xV7Uar7Z3BKSCj9EKcPmg+gTSdn0mdGaq93QtakGb
-	 3ZY7ghsCrw2RrZJLKbfKxTcUxJ9RBPJBHdIFkycWdF7omkT/tBJPUeuBSzMagtpNAS
-	 ACy5yU4zvVDLQ==
-Received: by mail-lf1-f49.google.com with SMTP id z13so31980689lft.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 16:18:23 -0700 (PDT)
-X-Gm-Message-State: AOAM530lBM9KRBwAEAmD/5QEy6iF/vChuiO93kfoPJtjSax8/1JsJSsR
-	aSDttmr7UWUizSwXLZBSCjos1IAkc23fmpEQYA==
-X-Google-Smtp-Source: ABdhPJwLJlzlmPOVRB7WKK0qZ9/SZhKCK9XRN5xQd6mPkGwxMkeGWm/SWipPm0RU1P626dAzclwFX7nQ2tzbyDx7y90=
-X-Received: by 2002:aa7:d550:: with SMTP id u16mr11816867edr.72.1621639091092;
- Fri, 21 May 2021 16:18:11 -0700 (PDT)
+	b=MPqbJhBH3RstH9EWKnNxymskz2Pl/C3W0gZMrlE5YCNKDUTrUUl6zCvDVB5k5XAYV
+	 Y9reX8ayEACS9y0c/FUtyyh/u4B9uR1QqFmPsWzjNryQn+mrf9sJS0gsybWWjctN+6
+	 8t3HtRVEAhAQbtaZt0m0Y2ipK9Ky6/a///tbh5LM0ggxxkxKSCYeUmhmxi04t5zUHH
+	 3VoiVihlCbU5yRaTI00Hz9NhwohX5X6bXsnRYyv2VKYnPnCyVijAyx6eVeIE/4yuTU
+	 2Obo3xiF4iJYCtUfU9lO4WLwiZEypzFDL6/ggllWhgtf/ABAN9PNqOCTmfMo2TyWaN
+	 ElcxbVijfWhjQ==
+Received: by mail-lj1-f173.google.com with SMTP id 131so25987632ljj.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 17:36:21 -0700 (PDT)
+X-Gm-Message-State: AOAM533qWgNkO2Law/zWabg6Gcoqv1YgjwQ71q3uADVcKqbympjugVOs
+	swsXh4Mt/HtrSKDPHfiAd9h7oisVgiajl563bd4=
+X-Google-Smtp-Source: ABdhPJw+FdoqB7wdUwCy62OFrQ1DY0Cf6ne6oubJWNeuhIRENTiVKgOFAcEA/5SJUwdF8GiK/Z3FCxIVMCSO7UivrSQ=
+X-Received: by 2002:a05:651c:502:: with SMTP id o2mr8602037ljp.105.1621643779980;
+ Fri, 21 May 2021 17:36:19 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch> <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Sat, 22 May 2021 07:18:00 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-PKbYrREUccm5ZbTaMawpaZ7c=1zBbQBFfCZqfpu-1Hg@mail.gmail.com>
-Message-ID: <CAAOTY_-PKbYrREUccm5ZbTaMawpaZ7c=1zBbQBFfCZqfpu-1Hg@mail.gmail.com>
-Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is
- now the default
-To: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@intel.com>, 
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, Lucas Stach <l.stach@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Paul Cercueil <paul@crapouillou.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Marek Vasut <marex@denx.de>, 
-	Stefan Agner <stefan@agner.ch>, Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Benjamin Gaignard <benjamin.gaignard@linaro.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
-	Tomi Valkeinen <tomba@kernel.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	linux-mips@vger.kernel.org, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, linux-amlogic@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev
+References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
+ <20210519052048.GA24853@lst.de> <CAJF2gTR5838=Uwc5P6Xs=G7vk80k0yqWcSsNe0OFcwc9sDBBHg@mail.gmail.com>
+ <20210519060617.GA28397@lst.de> <20210519065431.GB3076809@x1> <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com>
+In-Reply-To: <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Sat, 22 May 2021 08:36:08 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTBAKTBY5AF9jd8tfT-33Y+McyFis_xk_aMvZZpLsvVxw@mail.gmail.com>
+Message-ID: <CAJF2gTTBAKTBY5AF9jd8tfT-33Y+McyFis_xk_aMvZZpLsvVxw@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+To: Anup Patel <anup@brainfault.org>
+Cc: Drew Fustini <drew@beagleboard.org>, Christoph Hellwig <hch@lst.de>, Anup Patel <anup.patel@wdc.com>, 
+	Palmer Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com, 
+	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi, Daniel:
-
-Daniel Vetter <daniel.vetter@ffwll.ch> =E6=96=BC 2021=E5=B9=B45=E6=9C=8821=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=885:10=E5=AF=AB=E9=81=93=EF=BC=
-=9A
+On Wed, May 19, 2021 at 3:15 PM Anup Patel <anup@brainfault.org> wrote:
 >
-> No need to set it explicitly.
+> On Wed, May 19, 2021 at 12:24 PM Drew Fustini <drew@beagleboard.org> wrote:
+> >
+> > On Wed, May 19, 2021 at 08:06:17AM +0200, Christoph Hellwig wrote:
+> > > On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
+> > > > Since the existing RISC-V ISA cannot solve this problem, it is better
+> > > > to provide some configuration for the SOC vendor to customize.
+> > >
+> > > We've been talking about this problem for close to five years.  So no,
+> > > if you don't manage to get the feature into the ISA it can't be
+> > > supported.
+> >
+> > Isn't it a good goal for Linux to support the capabilities present in
+> > the SoC that a currently being fab'd?
+> >
+> > I believe the CMO group only started last year [1] so the RV64GC SoCs
+> > that are going into mass production this year would not have had the
+> > opporuntiy of utilizing any RISC-V ISA extension for handling cache
+> > management.
 >
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-sunxi@lists.linux.dev
+> The current Linux RISC-V policy is to only accept patches for frozen or
+> ratified ISA specs.
+> (Refer, Documentation/riscv/patch-acceptance.rst)
+>
+> This means even if emulate CMO instructions in OpenSBI, the Linux
+> patches won't be taken by Palmer because CMO specification is
+> still in draft stage.
+Before CMO specification release, could we use a sbi_ecall to solve
+the current problem? This is not against the specification, when CMO
+is ready we could let users choose to use the new CMO in Linux.
 
-For Mediatek,
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+From a tech view, CMO trap emulation is the same as sbi_ecall.
+
+>
+> Also, we all know how much time it takes for RISCV international
+> to freeze some spec. Judging by that we are looking at another
+> 3-4 years at minimum.
+>
+> Regards,
+> Anup
+
+
+
+-- 
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
