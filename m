@@ -1,124 +1,80 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D0C170
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 14:46:26 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id D0EE0580548;
-	Sat, 22 May 2021 10:46:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sat, 22 May 2021 10:46:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=l
-	+A4yTvicWmupzboZaUYCZiVaO0UIe5ScpESUsU9qVg=; b=mwHxG35kMgCv7LB1q
-	m93yPspC9iIzIASxKMhRZY1PR8SrosB/MEsjWl4gSBI/JdqPGpa6FuMTsgIiAfmI
-	YzcaAdan8ZtJ62q+q/Bc6u6WLJFy7Ll3nD2//RqnaI/LmDnQT8d9FUxr4KBtH5Aq
-	kSMzbC1/IrxXkwWEG9gttRmEfB5uMoGPeJB89QCsKnUmrgUzWgHid8s0UGjDJQah
-	DZ8K9q4ZO3+k0U9XkySSvPnwGVYHaDFLT6/2iS6ozm6Kice/zU7Lx8LOts5JfRr+
-	VkU0qSgF5vxQNvueWpEe6+Erc+razb106C0+GvS6uySIgG//rx3sPaAxshpkP038
-	s8sAA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=l+A4yTvicWmupzboZaUYCZiVaO0UIe5ScpESUsU9q
-	Vg=; b=iyAe4uF97inD6q5ixipJ+wohnSaIU0vpOgaqTbb9qhER7he1xfsSQsST5
-	FfTT471rBYOLmhMPq50VrLdjulb+EWRly8UVHItfjEPTtOJwgvzmRCwreiC+XnnR
-	dT/ZIwssiN+AvtoTBh+v+oV0u/hijmmhJYHxSFXbEPAyF8Ln4UaE4Y4LaZBFJuNK
-	788Cto/lEqgvKlIPBsUHC15V8fRKixJhUQj5sbRM6l4maXDlHpyvwCr6A45dMECF
-	L/cDdaaNlZ7vWKmidBmIPRV9dPBD5YMgRpP49qUgSDSPKbDSgVDht1/kYFRp/l+A
-	/fX4qA43zzt9GdPhLrMtAj7dU+kHQ==
-X-ME-Sender: <xms:QBmpYJjkpcFS2_wmtrqZSvtpo3bySRLsojU_b8LHqP2TTcUaPhogZw>
-    <xme:QBmpYOAAGVPZMl09HHqrIcap2pjOC_232fNRDnZUdN1-E4IYv0bijB8LmqPWtRxSN
-    Ms_ZhJ03KB0u3JefA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejhedgkeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecukfhppedufeeirdefvddrieefrddvgedvnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
-    ugdrohhrgh
-X-ME-Proxy: <xmx:QBmpYJH3Tt5O3b2M96vRFL50wX_Wt_3hlqUzCXyvK8IX6sDkYXFHCA>
-    <xmx:QBmpYOQam9bpn4SgZ4Ah3aUlcHYFuOhrgdTWld995fbQ1VODx1qCCg>
-    <xmx:QBmpYGwPp3iT1KdpmG90bNgtnGAhN5X2Q3tDhsu5UtdE2gjYwA9U6A>
-    <xmx:QRmpYLpU4P3ia9SLLd4VKUaYzW3tpJvYn37TKMBl2XKtPL07Hy5c5Q>
-Received: from [192.168.18.153] (unknown [136.32.63.242])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Sat, 22 May 2021 10:46:23 -0400 (EDT)
-Subject: Re: [PATCH v6 01/17] dt-bindings: mfd: axp20x: Add AXP305 compatible
- (plus optional IRQ)
-To: Andre Przywara <andre.przywara@arm.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
- Ondrej Jirman <megous@megous.com>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Lee Jones <lee.jones@linaro.org>
-References: <20210519104152.21119-1-andre.przywara@arm.com>
- <20210519104152.21119-2-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <7ebfaef7-5cf2-e60c-99ef-4275c873e72d@sholland.org>
-Date: Sat, 22 May 2021 09:46:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7732F80
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 20:50:59 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id j14so22648695wrq.5
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 13:50:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FqGZVkSfOTjIydyeIzbBzvazr+vyEv7M9XhPMOmAi8A=;
+        b=QEHzQjuimSdSUCq0g6rbtS2Wu2L2XqH2E5ihW6/I0ZlO8/r96exAq6WS0+WuY1Lkwy
+         DWFy+YoImr9R4c8iNKorjUNR58DIvio7UH2KQ/L5A4899DLl3CSHeK96e+77eoKaqmIF
+         zka8aEiIL7Q9sRIzJA8zj1+BHd0Y1lgmO84monohfLj13F99hqA3+kCKxOKXjpxulK6k
+         xAPfgGuFt2jGwCW/zteVtYclYWMYe+sBK8gW0rMMPOGJxPSx5xNJLAvQaqoZV7zwTGDP
+         ajxyPL4bDcKKpUpCe36RnK3Dk+gqQcuENhn1mMNfgyTxXHp4zgyBNKhRVVozr3ecV+zu
+         Shmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FqGZVkSfOTjIydyeIzbBzvazr+vyEv7M9XhPMOmAi8A=;
+        b=Hd0fxC6LfjQylXAY7ciOozRk4AloeGOrtincyF05ESPqXytgkPgNSOBDhNtr8uW6C9
+         M3zHAE/uQUvyCvMcTXOVAgihV+VKnl88IBgMIlAgQOiDN+bFrhaeOar8RrZvJ4MwPG0j
+         vQ4A6hE7ZWE6v19rNdGKH38bSj9HGs8UzciZLMlwPRwmZ5tvL5S2Zl8m7hx++9eDiFDS
+         Y59dat+xbH5rQ/6zE2glvhmCc+vJvsdV2sPNLCmVh4DJHXHIs0w0U1nvwPnuX3OhUUAH
+         +r1bu7x4Vw5AdLdsFLekdO27DUY8mLK02ss4uu2Pw+h7sRuhrmrO/n7M03plD5KHvteC
+         IgOg==
+X-Gm-Message-State: AOAM530htbb1iP4oUanZqmzZo0vOoA0Eejo/w2ILCbijHCYTG2hyTt02
+	IWnARpFRhIeJjQj0vwwD0YA=
+X-Google-Smtp-Source: ABdhPJxrh0ij+DcignA5QkW1HZigF7cAQ5Raqv/pvvx0ZTChgrdYsg7JYWhgJoNWKsASNXHXWTX7Eg==
+X-Received: by 2002:a5d:4384:: with SMTP id i4mr13798343wrq.332.1621716658150;
+        Sat, 22 May 2021 13:50:58 -0700 (PDT)
+Received: from flex-5.fritz.box (dynamic-077-012-139-231.77.12.pool.telefonica.de. [77.12.139.231])
+        by smtp.gmail.com with ESMTPSA id p6sm3447055wma.4.2021.05.22.13.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 May 2021 13:50:57 -0700 (PDT)
+From: Andreas Rehn <rehn.andreas86@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com
+Cc: linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andreas Rehn <rehn.andreas86@gmail.com>
+Subject: [PATCH] ARM: dts: sun8i: v3s: enable emac for zero Dock
+Date: Sat, 22 May 2021 22:50:39 +0200
+Message-Id: <20210522205039.179486-1-rehn.andreas86@gmail.com>
+X-Mailer: git-send-email 2.25.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210519104152.21119-2-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/19/21 5:41 AM, Andre Przywara wrote:
-> The AXP305 PMIC used in AXP805 seems to be fully compatible to the
-                  ^^^^^^^^^^^^^^
-Typo? Do you mean "used with the H616 SoC"?
+dwmac-sun8i supports v3s and
+Licheepi-zero Dock provides an ethernet port
 
-> AXP805 PMIC, so add the proper chain of compatible strings.
-> 
-> Also at least on one board (Orangepi Zero2) there is no interrupt line
-> connected to the CPU, so make the "interrupts" property optional.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/mfd/axp20x.txt b/Documentation/devicetree/bindings/mfd/axp20x.txt
-> index 4991a6415796..4fd748101e3c 100644
-> --- a/Documentation/devicetree/bindings/mfd/axp20x.txt
-> +++ b/Documentation/devicetree/bindings/mfd/axp20x.txt
-> @@ -26,10 +26,10 @@ Required properties:
->      * "x-powers,axp803"
->      * "x-powers,axp806"
->      * "x-powers,axp805", "x-powers,axp806"
-> +    * "x-powers,axp803", "x-powers,axp805", "x-powers,axp806"
-                   ^^^^^^
-This should be x-powers,axp305.
+Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
+---
+ arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-Regards,
-Samuel
-
->      * "x-powers,axp809"
->      * "x-powers,axp813"
->  - reg: The I2C slave address or RSB hardware address for the AXP chip
-> -- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
->  - interrupt-controller: The PMIC has its own internal IRQs
->  - #interrupt-cells: Should be set to 1
->  
-> @@ -43,6 +43,7 @@ more information:
->  			AXP20x/LDO3: software-based implementation
->  
->  Optional properties:
-> +- interrupts: SoC NMI / GPIO interrupt connected to the PMIC's IRQ pin
->  - x-powers,dcdc-freq: defines the work frequency of DC-DC in KHz
->  		      AXP152/20X: range:  750-1875, Default: 1.5 MHz
->  		      AXP22X/8XX: range: 1800-4050, Default: 3   MHz
-> 
+diff --git a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
+index db5cd0b8574b..2d78b7a52fd3 100644
+--- a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
++++ b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
+@@ -94,3 +94,8 @@ button-800 {
+ 		voltage = <800000>;
+ 	};
+ };
++
++&emac {
++	allwinner,leds-active-low;
++	status = "okay";
++};
+-- 
+2.25.1
 
