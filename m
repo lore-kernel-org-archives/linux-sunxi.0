@@ -1,97 +1,80 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4720570
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 00:36:22 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C1D7561400
-	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 00:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621643781;
-	bh=HaoAEb5QnxGwVYmtRURFgpSmH16cCBITcqMVRG2/0Gg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MPqbJhBH3RstH9EWKnNxymskz2Pl/C3W0gZMrlE5YCNKDUTrUUl6zCvDVB5k5XAYV
-	 Y9reX8ayEACS9y0c/FUtyyh/u4B9uR1QqFmPsWzjNryQn+mrf9sJS0gsybWWjctN+6
-	 8t3HtRVEAhAQbtaZt0m0Y2ipK9Ky6/a///tbh5LM0ggxxkxKSCYeUmhmxi04t5zUHH
-	 3VoiVihlCbU5yRaTI00Hz9NhwohX5X6bXsnRYyv2VKYnPnCyVijAyx6eVeIE/4yuTU
-	 2Obo3xiF4iJYCtUfU9lO4WLwiZEypzFDL6/ggllWhgtf/ABAN9PNqOCTmfMo2TyWaN
-	 ElcxbVijfWhjQ==
-Received: by mail-lj1-f173.google.com with SMTP id 131so25987632ljj.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 21 May 2021 17:36:21 -0700 (PDT)
-X-Gm-Message-State: AOAM533qWgNkO2Law/zWabg6Gcoqv1YgjwQ71q3uADVcKqbympjugVOs
-	swsXh4Mt/HtrSKDPHfiAd9h7oisVgiajl563bd4=
-X-Google-Smtp-Source: ABdhPJw+FdoqB7wdUwCy62OFrQ1DY0Cf6ne6oubJWNeuhIRENTiVKgOFAcEA/5SJUwdF8GiK/Z3FCxIVMCSO7UivrSQ=
-X-Received: by 2002:a05:651c:502:: with SMTP id o2mr8602037ljp.105.1621643779980;
- Fri, 21 May 2021 17:36:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21D92FAF
+	for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 07:26:14 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id o127so12242368wmo.4
+        for <linux-sunxi@lists.linux.dev>; Sat, 22 May 2021 00:26:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Oye/WdclhJDwP8mPkPCr9y4H1Z7zAK3xEJR1qvBeaso=;
+        b=GDjzLdq47HCYuvEWQ4b6OsetImXmuisYOOQ/Cs2rqsaU5xIMzazg2ZyVBwVtTwtfAc
+         TY9bP0852THvyYYutJ6qFm3gMjrUSVc87+YlBbo2Ev63mhbk7tnS4QfU1QvM3roGOSjF
+         v6wxwxgH3o7gAah1WiDaXISCEqUFjNPfc9GHvHkdg6TKZB9lbg7QiOlyugIg3ZJFVDv/
+         MVPgSrdfhuw+XDjQHV9xlL4bOqWmnM+1/w+e6/1r3+0YPuTPZfaj8+cURvmNIjcwM193
+         LAyuN5P2YjXc1TR6UUyBwk/M7GJ7oOUDlLXDNLvzU1BwvuSchXJoDEL+OAn/Ipn910e4
+         ZnJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Oye/WdclhJDwP8mPkPCr9y4H1Z7zAK3xEJR1qvBeaso=;
+        b=Yy1OyOEgUtgJWUeNHlNq4uQJSIvHTW9/CUBl45uxAb7n+9ZQ5WRWzI+l/1J64wOqRk
+         GVj2L/1FxMJ9o/1z+1rcuIlRtoqw7MaQw92qyKUZCxiDXGsWiPUqPCoiA7xyvhBtJjcF
+         UHBwK2OibMPZYmQcK58BqwrYTb70pWYUWiy/Wg2dv4jO/37FphVuQuyInij+4l7OEe0c
+         MmT4fe4Lwmejo6/bJQKr99phS52dbLg18i9P2HECvY5o4VmGbpwi36mr+qb0O1W7kILx
+         jnqbHJtc4Axb3z7I5eR1/BZ0HWr0xNYcTTgKg3C0V9HiT7RWIkulJqKbReccj1YUZC+a
+         vwxg==
+X-Gm-Message-State: AOAM533dr8QwhXMZg7SghFUnmhQWVjp4KCzlf9pZzMQtFWSJLw+G/VgR
+	+wuafvEpRxaPYCe5O64Rh6M=
+X-Google-Smtp-Source: ABdhPJzewLyrbdH2kx6GO+S9lB4qsB4HBQ/ZQpVFtt7r3rnL9WrC1zhP3+rIYl4JM/D/IIEo7ShgJw==
+X-Received: by 2002:a1c:49c6:: with SMTP id w189mr11727864wma.108.1621668373488;
+        Sat, 22 May 2021 00:26:13 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
+        by smtp.gmail.com with ESMTPSA id k205sm1781849wmf.13.2021.05.22.00.26.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 May 2021 00:26:12 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, Ondrej Jirman <megous@megous.com>, linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v6 04/17] rtc: sun6i: Add support for linear day storage
+Date: Sat, 22 May 2021 09:26:11 +0200
+Message-ID: <5920087.Glgd6ahW17@kista>
+In-Reply-To: <20210519104152.21119-5-andre.przywara@arm.com>
+References: <20210519104152.21119-1-andre.przywara@arm.com> <20210519104152.21119-5-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
- <20210519052048.GA24853@lst.de> <CAJF2gTR5838=Uwc5P6Xs=G7vk80k0yqWcSsNe0OFcwc9sDBBHg@mail.gmail.com>
- <20210519060617.GA28397@lst.de> <20210519065431.GB3076809@x1> <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com>
-In-Reply-To: <CAAhSdy3C1owsbY_9gkxkhWfCXnL_noow7F4t=5+j7q+AJO3pZQ@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Sat, 22 May 2021 08:36:08 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTBAKTBY5AF9jd8tfT-33Y+McyFis_xk_aMvZZpLsvVxw@mail.gmail.com>
-Message-ID: <CAJF2gTTBAKTBY5AF9jd8tfT-33Y+McyFis_xk_aMvZZpLsvVxw@mail.gmail.com>
-Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-To: Anup Patel <anup@brainfault.org>
-Cc: Drew Fustini <drew@beagleboard.org>, Christoph Hellwig <hch@lst.de>, Anup Patel <anup.patel@wdc.com>, 
-	Palmer Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com, 
-	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Paul Walmsley <paul.walmsley@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, May 19, 2021 at 3:15 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Wed, May 19, 2021 at 12:24 PM Drew Fustini <drew@beagleboard.org> wrote:
-> >
-> > On Wed, May 19, 2021 at 08:06:17AM +0200, Christoph Hellwig wrote:
-> > > On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
-> > > > Since the existing RISC-V ISA cannot solve this problem, it is better
-> > > > to provide some configuration for the SOC vendor to customize.
-> > >
-> > > We've been talking about this problem for close to five years.  So no,
-> > > if you don't manage to get the feature into the ISA it can't be
-> > > supported.
-> >
-> > Isn't it a good goal for Linux to support the capabilities present in
-> > the SoC that a currently being fab'd?
-> >
-> > I believe the CMO group only started last year [1] so the RV64GC SoCs
-> > that are going into mass production this year would not have had the
-> > opporuntiy of utilizing any RISC-V ISA extension for handling cache
-> > management.
->
-> The current Linux RISC-V policy is to only accept patches for frozen or
-> ratified ISA specs.
-> (Refer, Documentation/riscv/patch-acceptance.rst)
->
-> This means even if emulate CMO instructions in OpenSBI, the Linux
-> patches won't be taken by Palmer because CMO specification is
-> still in draft stage.
-Before CMO specification release, could we use a sbi_ecall to solve
-the current problem? This is not against the specification, when CMO
-is ready we could let users choose to use the new CMO in Linux.
+Hi Andre!
 
-From a tech view, CMO trap emulation is the same as sbi_ecall.
+Dne sreda, 19. maj 2021 ob 12:41:39 CEST je Andre Przywara napisal(a):
+> Newer versions of the Allwinner RTC, as for instance found in the H616
+> SoC, no longer store a broken-down day/month/year representation in the
+> RTC_DAY_REG, but just a linear day number.
+> The user manual does not give any indication about the expected epoch
+> time of this day count, but the BSP kernel uses the UNIX epoch, which
+> allows easy support due to existing conversion functions in the kernel.
+> 
+> Allow tagging a compatible string with a flag, and use that to mark
+> those new RTCs. Then convert between a UNIX day number (converted into
+> seconds) and the broken-down day representation using mktime64() and
+> time64_to_tm() in the set_time/get_time functions.
+> 
+> That enables support for the RTC in those new chips.
+> 
+> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
->
-> Also, we all know how much time it takes for RISCV international
-> to freeze some spec. Judging by that we are looking at another
-> 3-4 years at minimum.
->
-> Regards,
-> Anup
+Change ^ to Signed-of-by. After that, you can add:
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regards,
+Jernej
 
 
-
--- 
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
