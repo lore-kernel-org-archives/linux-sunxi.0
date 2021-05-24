@@ -1,124 +1,234 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4575417F
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 08:04:45 +0000 (UTC)
-Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0ABD71315;
-	Mon, 24 May 2021 09:54:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1621842878;
-	bh=nQQLNOZHnWiuc9bVbNIPySsUX8BVfY7zKLqSjjjmqow=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=eP/n0p6WGzQZageTDgh+AhAcs/g5Ue1NYt36d3FWKJQJaTvUMj3hrq8+fQwTDYsqg
-	 Qiwo2GzlBbrg64RXzSwS8WGOPR2HHdLSIbrjQa3SmUmIPz8qikHGRXxlQgTdAuSvZD
-	 m5qtsfBYdKDyEA1AOMNDxtttFSFlN8wpwtRhKuuM=
-Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is
- now the default
-To: Daniel Vetter <daniel.vetter@ffwll.ch>,
- DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Paul Cercueil
- <paul@crapouillou.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko@sntech.de>, Yannick Fertre <yannick.fertre@foss.st.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
-References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
- <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <71ba0c85-be5d-21f9-6817-9848dafde6ea@ideasonboard.com>
-Date: Mon, 24 May 2021 10:54:35 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738D217F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 08:13:23 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id u133so14430659wmg.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 01:13:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brainfault-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hkoJ4XU3fJYIUXpsvaVz4eo9jPqdu/8/7QTK7vX9wJM=;
+        b=pL2oo52tUpRLBy49VIx5zFQfFs5QoWz6wCdaZlOZynpDEiny/Ix3dTTLDNMS3jTgP+
+         CAvTt0KKu+xM5jHc9zloqeIu+MILVF1fS0tLdulYu0KHAhGdkXyg/ezsgjuFDshU/ipv
+         Nc6vA/sFhFWX0CtXzfB8q/dBybiq/y3SCsxnogvRPd8VgF5hhq3CT56rtSKRNN3rsHZ9
+         6xA8OndA1FmuRj6PzaoOaJ9Kr0EEIbMfvHcy78eF3jAhKwg9eXN9h0Cs+EykFPkbD5cP
+         6mo1yQO1u3Iqh6grda/3LMtWRo+eGmxP449xoKZhaNwwtAnAhYQJrtAzarXyd2pmiP4f
+         /DfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hkoJ4XU3fJYIUXpsvaVz4eo9jPqdu/8/7QTK7vX9wJM=;
+        b=AJt5gFICF+dWt751PwNSYYWaAcjIW+yf6aIPWngXHNHzLZTH8Vq35B76s1JZz8F+0b
+         RrOrtjSxgBMgBBmo5QmXIrb7UV67/Q5cv/Mc0lcWUNAIOu4x+ZEDTPxm4N+5MBesTPEO
+         XRVe0Pd5qTMkKArEqu+UApLndQV8rNZh7oKDlX81hhq6yqdOvSIq7djZwjp+wmfIkTQf
+         E+Mu6ohhwwyu6yJRggP0KyPIo95XLGAPGDLgCV7Cz7SZHvcPLsiRZNKN89WhJ2jAEYJc
+         1kQtEau8pAJTzHv1GAwDsd1N3/AoBkoZobrerlXZv4H+B51uC3tJ6xak1NeJKzBl6Yr+
+         0z3A==
+X-Gm-Message-State: AOAM533P8E7FzFsfTBiNOmNWfw0JmXnc7C4uJpb2trQB2lYcwyedOkoA
+	aFk1xAkYncrqadk2PqbPyrUHGO8BqoBf8xJok+yzKQ==
+X-Google-Smtp-Source: ABdhPJyC2jCu7SFxxUWfosx6Xigmxy1B2+g0gPGzW98vy1plPs28wHz7rs4SviVoeR8UnTFwEAYZZhBVno/WhE+51kM=
+X-Received: by 2002:a1c:4e0b:: with SMTP id g11mr18341827wmh.3.1621844001916;
+ Mon, 24 May 2021 01:13:21 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <1621839068-31738-1-git-send-email-guoren@kernel.org> <1621839068-31738-3-git-send-email-guoren@kernel.org>
+In-Reply-To: <1621839068-31738-3-git-send-email-guoren@kernel.org>
+From: Anup Patel <anup@brainfault.org>
+Date: Mon, 24 May 2021 13:43:10 +0530
+Message-ID: <CAAhSdy16yXsuPRBv2Sn-OJwEhvs1UkdMUr1jqhB8qxXo+Mu7=w@mail.gmail.com>
+Subject: Re: [PATCH 3/3] riscv: Use use_asid_allocator flush TLB
+To: Guo Ren <guoren@kernel.org>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-riscv <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 21/05/2021 12:09, Daniel Vetter wrote:
-> No need to set it explicitly.
-> 
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> Cc: Lucas Stach <l.stach@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: Paul Cercueil <paul@crapouillou.net>
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Neil Armstrong <narmstrong@baylibre.com>
-> Cc: Kevin Hilman <khilman@baylibre.com>
-> Cc: Jerome Brunet <jbrunet@baylibre.com>
-> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-> Cc: Marek Vasut <marex@denx.de>
-> Cc: Stefan Agner <stefan@agner.ch>
-> Cc: Sandy Huang <hjc@rock-chips.com>
-> Cc: "Heiko Stübner" <heiko@sntech.de>
-> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Cc: Jyri Sarha <jyri.sarha@iki.fi>
-> Cc: Tomi Valkeinen <tomba@kernel.org>
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mips@vger.kernel.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-amlogic@lists.infradead.org
-> Cc: linux-rockchip@lists.infradead.org
-> Cc: linux-stm32@st-md-mailman.stormreply.com
-> Cc: linux-sunxi@lists.linux.dev
+On Mon, May 24, 2021 at 12:22 PM <guoren@kernel.org> wrote:
+>
+> From: Guo Ren <guoren@linux.alibaba.com>
+>
+> Use static_branch_unlikely(&use_asid_allocator) to keep the origin
+> tlb flush style, so it's no effect on the existing machine. Here
+> are the optimized functions:
+>  - flush_tlb_mm
+>  - flush_tlb_page
+>  - flush_tlb_range
+>
+> All above are based on the below new implement functions:
+>  - __sbi_tlb_flush_range_asid
+>  - local_flush_tlb_range_asid
+>
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Cc: Anup Patel <anup.patel@wdc.com>
+> Cc: Palmer Dabbelt <palmerdabbelt@google.com>
 > ---
->   drivers/gpu/drm/imx/dcss/dcss-plane.c       | 1 -
->   drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
->   drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
->   drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
->   drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
->   drivers/gpu/drm/meson/meson_overlay.c       | 1 -
->   drivers/gpu/drm/meson/meson_plane.c         | 1 -
->   drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
->   drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
->   drivers/gpu/drm/stm/ltdc.c                  | 1 -
->   drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
->   drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
->   drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
->   drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
->   14 files changed, 15 deletions(-)
+>  arch/riscv/include/asm/mmu_context.h |  2 ++
+>  arch/riscv/include/asm/tlbflush.h    | 22 ++++++++++++++++++++
+>  arch/riscv/mm/context.c              |  2 +-
+>  arch/riscv/mm/tlbflush.c             | 40 +++++++++++++++++++++++++++++++++---
+>  4 files changed, 62 insertions(+), 4 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
+> index b065941..7030837 100644
+> --- a/arch/riscv/include/asm/mmu_context.h
+> +++ b/arch/riscv/include/asm/mmu_context.h
+> @@ -33,6 +33,8 @@ static inline int init_new_context(struct task_struct *tsk,
+>         return 0;
+>  }
+>
+> +DECLARE_STATIC_KEY_FALSE(use_asid_allocator);
+> +
+>  #include <asm-generic/mmu_context.h>
+>
+>  #endif /* _ASM_RISCV_MMU_CONTEXT_H */
+> diff --git a/arch/riscv/include/asm/tlbflush.h b/arch/riscv/include/asm/tlbflush.h
+> index c84218a..9390319 100644
+> --- a/arch/riscv/include/asm/tlbflush.h
+> +++ b/arch/riscv/include/asm/tlbflush.h
+> @@ -8,6 +8,7 @@
+>  #define _ASM_RISCV_TLBFLUSH_H
+>
+>  #include <linux/mm_types.h>
+> +#include <asm/page.h>
+>  #include <asm/smp.h>
+>  #include <asm/errata_list.h>
+>
+> @@ -22,9 +23,30 @@ static inline void local_flush_tlb_page(unsigned long addr)
+>  {
+>         ALT_FLUSH_TLB_PAGE(__asm__ __volatile__ ("sfence.vma %0" : : "r" (addr) : "memory"));
+>  }
+> +
+> +static inline void local_flush_tlb_range_asid(unsigned long start, unsigned long size,
+> +                                             unsigned long asid)
+> +{
+> +       unsigned long page_add = PAGE_DOWN(start);
+> +       unsigned long page_end = PAGE_UP(start + size);
 
-For tidss:
+Your PATCH2 is not correct because PAGE_UP(x) should in-fact
+return 0 when x == 0.
 
-Acked-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+In fact, if both "start" and "size" are zero then both page_add and
+page_end should be zero so that no "sfence.vma" is executed.
 
-  Tomi
+If you want at least one TLB entry to be invalidated when size == 0
+then you can simply set "size = 1" when size is zero which will force
+one TLB invalidation.
+
+Please drop your PATCH2 and the rest of the things look good to me.
+
+Reviewed-by: Anup Patel <anup@brainfault.org>
+
+Regards,
+Anup
+
+> +
+> +       if (size == -1) {
+> +               __asm__ __volatile__ ("sfence.vma x0, %0" : : "r" (asid) : "memory");
+> +               return;
+> +       }
+> +
+> +       while(page_add < page_end) {
+> +               __asm__ __volatile__ ("sfence.vma %0, %1"
+> +                               :
+> +                               : "r" (page_add), "r" (asid)
+> +                               : "memory");
+> +               page_add += PAGE_SIZE;
+> +       }
+> +}
+>  #else /* CONFIG_MMU */
+>  #define local_flush_tlb_all()                  do { } while (0)
+>  #define local_flush_tlb_page(addr)             do { } while (0)
+> +#define local_flush_tlb_range_asid(addr)       do { } while (0)
+>  #endif /* CONFIG_MMU */
+>
+>  #if defined(CONFIG_SMP) && defined(CONFIG_MMU)
+> diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+> index 68aa312..45c1b04 100644
+> --- a/arch/riscv/mm/context.c
+> +++ b/arch/riscv/mm/context.c
+> @@ -18,7 +18,7 @@
+>
+>  #ifdef CONFIG_MMU
+>
+> -static DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
+> +DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
+>
+>  static unsigned long asid_bits;
+>  static unsigned long num_asids;
+> diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
+> index 720b443..69588dc 100644
+> --- a/arch/riscv/mm/tlbflush.c
+> +++ b/arch/riscv/mm/tlbflush.c
+> @@ -4,6 +4,7 @@
+>  #include <linux/smp.h>
+>  #include <linux/sched.h>
+>  #include <asm/sbi.h>
+> +#include <asm/mmu_context.h>
+>
+>  void flush_tlb_all(void)
+>  {
+> @@ -39,18 +40,51 @@ static void __sbi_tlb_flush_range(struct cpumask *cmask, unsigned long start,
+>         put_cpu();
+>  }
+>
+> +static void __sbi_tlb_flush_range_asid(struct cpumask *cmask, unsigned long start,
+> +                                      unsigned long size, unsigned long asid)
+> +{
+> +       struct cpumask hmask;
+> +       unsigned int cpuid;
+> +
+> +       if (cpumask_empty(cmask))
+> +               return;
+> +
+> +       cpuid = get_cpu();
+> +
+> +       if (cpumask_any_but(cmask, cpuid) >= nr_cpu_ids) {
+> +               local_flush_tlb_range_asid(start, size, asid);
+> +       } else {
+> +               riscv_cpuid_to_hartid_mask(cmask, &hmask);
+> +               sbi_remote_sfence_vma_asid(cpumask_bits(&hmask), start, size, asid);
+> +       }
+> +
+> +       put_cpu();
+> +}
+> +
+>  void flush_tlb_mm(struct mm_struct *mm)
+>  {
+> -       __sbi_tlb_flush_range(mm_cpumask(mm), 0, -1);
+> +       if (static_branch_unlikely(&use_asid_allocator))
+> +               __sbi_tlb_flush_range_asid(mm_cpumask(mm), 0, -1,
+> +                                          atomic_long_read(&mm->context.id));
+> +       else
+> +               __sbi_tlb_flush_range(mm_cpumask(mm), 0, -1);
+>  }
+>
+>  void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)
+>  {
+> -       __sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), addr, PAGE_SIZE);
+> +       if (static_branch_unlikely(&use_asid_allocator))
+> +               __sbi_tlb_flush_range_asid(mm_cpumask(vma->vm_mm), addr, PAGE_SIZE,
+> +                                          atomic_long_read(&vma->vm_mm->context.id));
+> +       else
+> +               __sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), addr, PAGE_SIZE);
+>  }
+>
+>  void flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
+>                      unsigned long end)
+>  {
+> -       __sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), start, end - start);
+> +       if (static_branch_unlikely(&use_asid_allocator))
+> +               __sbi_tlb_flush_range_asid(mm_cpumask(vma->vm_mm), start, end - start,
+> +                                          atomic_long_read(&vma->vm_mm->context.id));
+> +       else
+> +               __sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), start, end - start);
+>  }
+> --
+> 2.7.4
+>
