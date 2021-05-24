@@ -1,36 +1,36 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937402FAE
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 11:57:51 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 72FDE5C0054;
-	Mon, 24 May 2021 07:57:50 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 24 May 2021 07:57:50 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7073D2FAE
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 11:59:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 5584A582671;
+	Mon, 24 May 2021 07:59:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 24 May 2021 07:59:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=B529eywUmsR9JY3AcBFsjJlGcRP
-	HY45DQE7bzyzTCZE=; b=Gvo1WFDSk4JVECXX4xz0uR4964zfHSzzK+CPdWJ/9rp
-	KNJgy8jEttsQConKjtmfTjNYN97e2IZ6sWkVMuuJuxeoJvMxLmne7pAlYaW+61XD
-	TdsOq4DcQBVN/iFqNS2vQZ/xhlIXJAOr+l+EeJEeJyja82xFtKL2EcAThz//4vcY
-	D1CTahLU/Ix7CX58gudibB/otx4naGtErahE8sQOzvtoIfKSu1YuOGrzsggHmLh1
-	OQCU4dZFYsEMLSnQvdBAXZY8Vd+F/mgSMmrKLzPoWpOEZZ4FKv0vRAiR44T0ublH
-	nTxFDLMJw2GN/KsHkMNeg4qG+zHyy19Sz8dvYfrBKcQ==
+	:content-type:in-reply-to; s=fm2; bh=EMJnP4Q9UxIeWBo2UuuYOcg1Pqv
+	TS5azhJpoiLIqHIQ=; b=OUKRRQHx1ILDG0ggPhIpmjzgmg/JTKwM9OXvLkW/J4A
+	gYwwfeI1/LKKRvmJpIWVJvNvfNHPnAYHkqGkri1VF+o4kxP7xFiE8n/V0gUMQFU1
+	5kEqBz3KoWwTujEqAqOC44vZn1dmxYCyjJljuFFZXrre4zaazOmdneGSZu3n6mEr
+	l7fiMNho9ITq/FQkB7YntIpiN8Ak9M7DosdOYxfj/2weh7sd2CDAfZYSQ1iAzOQH
+	gsITZH28+VN48Pd7zWUGu4hQSbvIWjvykBNx8EbSLoG4m5sKfe1Vj1GBOKkHEMj4
+	by2YGhtxgjdYXevSOiLgD/9PcbLciAK2Evtgyg6gvNg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=B529ey
-	wUmsR9JY3AcBFsjJlGcRPHY45DQE7bzyzTCZE=; b=r9YY7HYEPhLJGKReZe8hqK
-	6jaGqem1mqRyycpkyf8tv5RcDvbePNPXqebSuhb5G4sv7xdkW16rltqGuFOuSSOX
-	ljCYwnIGQns3LbAlUHXpu9FwCyvHbOpKnaNJLC3t7GPGfwqKSX2E0ycR+gMRYY5M
-	JFT7IEYFOr4VroQ8y4itji22occbG6dT3GTlsHHX23PfiCJYeLUTJwpKTEDmSQCk
-	dM0zpMe+/uV18VK7J+ttCnFda4fV6W0kCIs7VJvlLWwlra7LvZBPas8ix70cX1ZY
-	GibV5IixRj99tctnpOOTjQDpRVu2/1QnNcC31stEEbsLYl6hCm7YrezynwgxjZyg
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EMJnP4
+	Q9UxIeWBo2UuuYOcg1PqvTS5azhJpoiLIqHIQ=; b=QW+daKaxTYMrEqLcgIuLQ1
+	x/nJ3FgX44l3zujYpurXNEFfzMTJ3x8/2w8EFid7W+50f/P8Hp04qE1etNhnSO91
+	I/sImRTaiWE0vVPzJIoOE+2A2b4rOIxTT4onsP5e8H2WIovRdpDa5+k3/r9tEzdv
+	sYHprr8VPpbSKpsk5QSxwSldyCSRk4YZs9FpEW1r6SgfegzW27mvpF+OMLS9Dnv4
+	xVMUIQWCbzmvR+ZUCI4v9lhKWzEP5PRT/RbapQP2701WF234YOZ3stIa3pZhvH7f
+	186TyDxWHv6gIegVIUI8ZS4gESf+crLFl/foLJYgo2AEC/yirqZObOYol5F7YHBg
 	==
-X-ME-Sender: <xms:vJSrYCFltTNSWLEvXZpuoWBQtcyumqjnUZ61_RNjr1ia5kalxCEUQg>
-    <xme:vJSrYDXReR2553hORjr7sj2zXlIVOTxv4gSzYWaJS7HkAkzYkG8_JVy0IEZAdKxmR
-    2N95483tIocx7ASmA8>
+X-ME-Sender: <xms:NJWrYEQA7mP-vi29nF9adGZyG8ESh5GAS3Y9YEvMlvrFATtJr2xBOw>
+    <xme:NJWrYBxROd8hQYpUmdUsN1VaX8afieB3oI1KNY4_xLQevR3kVc2u-u-nqZyvLuD6R
+    vM5HwcDdEU9WaHa__c>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -39,80 +39,78 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeejucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
     frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vJSrYMIJEMlx79njkJiInd1DWyP9iHRjIR7KLxSHy_D9wz5P4uLrXw>
-    <xmx:vJSrYMHfU4RGHfiu8TubRjC8oQr_E7BIIHBDIBi4SEiyQhwCZ7Gyeg>
-    <xmx:vJSrYIVv7ZLHrOaCKIjeIsAC_fM2Uv4f0HyAxtW-cfqoaUg9JtpCQQ>
-    <xmx:vpSrYKJUOmr7bQKgO52pbx5mHWAQNDVxJjmXD06g8LbNAI8GcaPO2A>
+X-ME-Proxy: <xmx:NJWrYB0Jd49ywHiY7McNzEEzSD5Yh075Ga63Nuus_jaZvwOb5SWFwg>
+    <xmx:NJWrYIBbftkams1hnJ2B7FypRiGlw6NdXmbWtWiwmq5VSTR6zK1RGg>
+    <xmx:NJWrYNi5Rbf25wmuVdEB0SV5I03fgSUv4iE_oSMUZfJpi0Te9Rik-Q>
+    <xmx:NZWrYGYIyWgKOrA69diLMoaGO9GHOd7LEZnyxu-eAoKdynFFuRq8sw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Mon, 24 May 2021 07:57:48 -0400 (EDT)
-Date: Mon, 24 May 2021 13:57:47 +0200
+	Mon, 24 May 2021 07:59:47 -0400 (EDT)
+Date: Mon, 24 May 2021 13:59:46 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Tobias Schramm <t.schramm@manjaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: v3s: fix incorrect postdivider on
- pll-audio
-Message-ID: <20210524115747.2vv3kigu7wcrgpmj@gilmour>
-References: <20210513131315.2059451-1-t.schramm@manjaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	Ondrej Jirman <megous@megous.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 12/17] phy: sun4i-usb: Introduce port2 SIDDQ quirk
+Message-ID: <20210524115946.jwsasjbr3biyixhz@gilmour>
+References: <20210519104152.21119-1-andre.przywara@arm.com>
+ <20210519104152.21119-13-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="3klzeylg2lfcluf4"
+	protocol="application/pgp-signature"; boundary="yeqfewi7xhvh3dbi"
 Content-Disposition: inline
-In-Reply-To: <20210513131315.2059451-1-t.schramm@manjaro.org>
+In-Reply-To: <20210519104152.21119-13-andre.przywara@arm.com>
 
 
---3klzeylg2lfcluf4
+--yeqfewi7xhvh3dbi
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 13, 2021 at 03:13:15PM +0200, Tobias Schramm wrote:
-> Commit 46060be6d840 ("clk: sunxi-ng: v3s: use sigma-delta modulation for =
-audio-pll")
-> changed the audio pll on the Allwinner V3s and V3 SoCs to use
-> sigma-delta modulation. In the process the declaration of fixed postdivid=
-er
-> providing "pll-audio" was adjusted to provide the desired clock rates from
-> the now sigma-delta modulated pll.
-> However, while the divider used for calculations by the clock framework
-> was adjusted the actual divider programmed into the hardware in
-> sun8i_v3_v3s_ccu_init was left at "divide by four". This broke the
-> "pll-audio" clock, now only providing quater the expected clock rate.
-> It would in general be desirable to program the postdivider for
-> "pll-audio" to four, such that a broader range of frequencies were
-> available on the pll outputs. But the clock for the integrated codec
-> "ac-dig" does not feature a mux that allows to select from all pll outputs
-> as it is just a simple clock gate connected to "pll-audio". Thus we need
-> to set the postdivider to one to be able to provide the 22.5792MHz and
-> 24.576MHz rates required by the internal sun4i codec.
->=20
-> This patches fixes the incorrect clock rate by forcing the postdivider to
-> one in sun8i_v3_v3s_ccu_init.
->=20
-> Fixes: 46060be6d840 ("clk: sunxi-ng: v3s: use sigma-delta modulation for =
-audio-pll")
-> Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
+Hi
 
-Applied, thanks
+On Wed, May 19, 2021 at 11:41:47AM +0100, Andre Przywara wrote:
+> At least the Allwinner H616 SoC requires a weird quirk to make most
+> USB PHYs work: Only port2 works out of the box, but all other ports
+> need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
+> RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
+> the PMU PHY control register needs to be cleared. For this register to
+> be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
+>=20
+> Instead of disguising this as some generic feature, do exactly that
+> in our PHY init:
+> If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
+> this one special clock, and clear the SIDDQ bit. We can pull in the
+> other required clocks via the DT.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+
+What is this SIDDQ bit doing exactly?
+
+I guess we could also expose this using a power-domain if it's relevant?
+
 Maxime
 
---3klzeylg2lfcluf4
+--yeqfewi7xhvh3dbi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuUuwAKCRDj7w1vZxhR
-xfLuAQDbALcSH3I9sN3aT7SM2BKzG79hN9v5u7zkilw8NofhGAEA1n9Sx3Vp0Z4M
-/DY6a26+9XAGkK7BByoqG2qVMCw7RQQ=
-=CHIg
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuVMgAKCRDj7w1vZxhR
+xSHfAP0dBPqEfgZL7NPChXsRxHByzSmhCZQ+zMbfpCQVADqDNgD7BWogJtW3+sff
+zXhIKZ/oXdr2tJxXsO8tzCyO/ECdKwE=
+=5PHW
 -----END PGP SIGNATURE-----
 
---3klzeylg2lfcluf4--
+--yeqfewi7xhvh3dbi--
