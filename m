@@ -1,147 +1,116 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 641B02FAE
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 12:08:46 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 279FD15FA;
-	Mon, 24 May 2021 08:08:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 24 May 2021 08:08:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=KuYrmIVCiLVbSSTdfz4ZTMoPZUe
-	vG5TsxBnT23F3ZtI=; b=VY3TRQAGB0UhY9VLyddLVz+IvpoHtPjcngvTgKLIcEi
-	uuQGdI+ldIF0njPwa7GstT9j793TjzmhDvFzCzEdx0mXw4E5ONfI3CvQab9MndbJ
-	2j4ZemUAdZBPZ6M4V+Vp2c5fUZZ7ITC3gQalja/LRTi/5QgAdQzos0+er8dL86hx
-	IXbTR1i70BBjR3YXzViHjzxFGZQ1/KYn5iGkPoY2ZnvEew7nk1C72YcaOftAzKF5
-	7/nfNeYppr/DxeTWgewHJ5a/ddJNcmAA2/HRblqIOgIzpS99HEK/DLyRhT4W1Rc7
-	sKAD9lfoE/xmas58MfK3R+yE63n3X32UIbTjg4O2V2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=KuYrmI
-	VCiLVbSSTdfz4ZTMoPZUevG5TsxBnT23F3ZtI=; b=jEbiZcEM/wdt6YhmQUAb5u
-	uFGA+dO8AHnmT04TSkF/5BZIS11Tr7cqaSIuorT/9ynk3bMTk8JS+MuXWFs9Itci
-	VoFL0Rtl+nrqoY9OaJKqDVWjSnsD81E77HIfZ9H/7gpC6dLNdD+WwG3fKK6pInmW
-	EG3yMurED35jNYa6Z/sWAmKJTKnTQP8YixdkQD6xwYN4wc3rgvXOt3kcKMtdUTcU
-	aAyVmNKiPpySK+Jx2Mc/e7ZXSjIjmDnPAgqN+IeB1qb/hObGfelwINQ5gzd0gh7A
-	xcZrnZPkug6ACe615JzEFo5WyKswwZ1GzQZ7xbWmvKWZu69upPnKZSQ1x7Em/yoQ
-	==
-X-ME-Sender: <xms:S5erYMFXDAp7GelPYNjYPpJ6R9YtvkC_c-gJ9u5MnQOP1UYgYHijQw>
-    <xme:S5erYFXf-un_Yv355xrw8xwZKtBCafNs8hGjvtoycWUR2OJh7K1N5tgTuyLXiF9rJ
-    UxxMxrqY5Af19vvGZI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:S5erYGLNM5SH-F3h4MFTEctwD0cBHagL0Vvqrsh_TNZJqd21kYAI8w>
-    <xmx:S5erYOHqzzv3wGHrWlTQRJRvsZ0uLIypJOXaIGGYqeQa-ks2C_4WTQ>
-    <xmx:S5erYCXsPCbR9eFCO6HEDu3BxZuxLthG5XVHv9j9GSvY3KcuXaGxaw>
-    <xmx:TJerYOSFqbod4Zu3njaEggk1J3P3aVbmiV6T9k9qqsgDuIQcclvRCmfP7pk>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Mon, 24 May 2021 08:08:43 -0400 (EDT)
-Date: Mon, 24 May 2021 14:08:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: Re: [PATCH v3 7/7] arm64: dts: allwinner: pinephone: Set audio card
- name
-Message-ID: <20210524120841.bj6fohyxrhpp3i2u@gilmour>
-References: <20210430035859.3487-1-samuel@sholland.org>
- <20210430035859.3487-8-samuel@sholland.org>
- <20210507080942.lxysxdbrviv3ys7m@gilmour>
- <2c8e512c-59f4-8869-be2e-0bf4c3cc2415@sholland.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45FC02F80
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 12:33:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 49E77113E;
+	Mon, 24 May 2021 05:33:17 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B72CD3F719;
+	Mon, 24 May 2021 05:33:15 -0700 (PDT)
+Date: Mon, 24 May 2021 13:33:01 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ralf Schlatterbeck <rsc@runtux.com>
+Cc: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Mirko Vogt
+ <mirko-dev|linux@nanl.de>
+Subject: Re: [PATCH 1/1] spi-sun6i: Fix chipselect/clock bug
+Message-ID: <20210524133301.32c74794@slackpad.fritz.box>
+In-Reply-To: <20210521201913.2gapcmrzynxekro7@runtux.com>
+References: <20210520100656.rgkdexdvrddt3upy@runtux.com>
+	<20210521173011.1c602682@slackpad.fritz.box>
+	<20210521201913.2gapcmrzynxekro7@runtux.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="vdqks5dqd2amw37s"
-Content-Disposition: inline
-In-Reply-To: <2c8e512c-59f4-8869-be2e-0bf4c3cc2415@sholland.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Fri, 21 May 2021 22:19:13 +0200
+Ralf Schlatterbeck <rsc@runtux.com> wrote:
+
+Hi,
+
+> From: Mirko Vogt <mirko-dev|linux@nanl.de>
+> 
+> The current sun6i SPI implementation initializes the transfer too early,
+> resulting in SCK going high before the transfer. When using an additional
+> (gpio) chipselect with sun6i, the chipselect is asserted at a time when
+> clock is high, making the SPI transfer fail.
+> 
+> This is due to SUN6I_GBL_CTL_BUS_ENABLE being written into
+> SUN6I_GBL_CTL_REG at an early stage. Moving that to the transfer
+> function, hence, right before the transfer starts, mitigates that
+> problem.
+> 
+> Signed-off-by: Mirko Vogt <mirko-dev|linux@nanl.de>
+> Signed-off-by: Ralf Schlatterbeck <rsc@runtux.com>
+
+Looks good to me now, thanks for the changes!
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Some comments for future contributions (should not hold back that
+patch, I think):
+- Single patch set series don't bother to have a "1/1" after the
+  "PATCH".
+- You are expected to increase the version number when you send a new
+  version, to show that *this* is better than the previous post and
+  this version should be merged. Otherwise the maintainer might pick
+  the wrong version. "git format-patch -v2" and "git send-email" will
+  automatically take care of this.
+
+> ---
+> Updated patch with suggested improvements by Andre Przywara
+> For oscilloscope screenshots with/without the patch, see my blog post
+> https://blog.runtux.com/posts/2019/04/18/
+> or the discussion in the armbian forum at
+> https://forum.armbian.com/topic/4330-spi-gpio-chip-select-support/
+> (my logo there is a penguin).
+
+Please keep in mind that text after the dashes doesn't make it in it
+repo, so this information would be lost there. Also, in general links in
+commit messages are somewhat frowned upon, since they tend to 404
+sooner or later. So ideally you can put a condensed version of your
+findings into the commit message? Don't worry if it grows long, it is
+not uncommon to have a 2 page commit message for a one-liner patch.
+
+Cheers,
+Andre
 
 
---vdqks5dqd2amw37s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 09, 2021 at 08:54:36PM -0500, Samuel Holland wrote:
-> On 5/7/21 3:09 AM, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Thu, Apr 29, 2021 at 10:58:59PM -0500, Samuel Holland wrote:
-> >> From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-> >>
-> >> Add the "PinePhone" name to the sound card: this will make
-> >> upstreaming an ALSA UCM config easier as we can use a unique name.
-> >>
-> >> It also avoids an issue where the default card name is truncated.
-> >>
-> >> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-> >> [Samuel: Split out change, updated commit message]
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>  arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b=
-/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> >> index 51cbfdc12936..02712f85f6bd 100644
-> >> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-g> >> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-> >> @@ -433,6 +433,7 @@ &reg_rtc_ldo {
-> >> =20
-> >>  &sound {
-> >>  	status =3D "okay";
-> >> +	simple-audio-card,name =3D "PinePhone";
-> >>  	simple-audio-card,aux-devs =3D <&codec_analog>, <&speaker_amp>;
-> >>  	simple-audio-card,widgets =3D "Microphone", "Headset Microphone",
-> >>  				    "Microphone", "Internal Microphone",
-> >=20
-> > Isn't that reported to the userspace? I'm not sure we can just change it
-> > without breaking it.
->=20
-> Yes, this is seen by userspace.
->=20
-> Ideally, we would add this property with a unique value when enabling
-> audio for any board, but as you mention, it would be a breaking change
-> to add those properties now.
->=20
-> In practice, all distributions supporting the PinePhone are already
-> carrying this patch, because the ALSA setup needed for the PinePhone is
-> very different from most other boards. So it would be similarly breaking
-> for them (and their users) to drop this patch.
+> 
+>  drivers/spi/spi-sun6i.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
+> index cc8401980125..23ad052528db 100644
+> --- a/drivers/spi/spi-sun6i.c
+> +++ b/drivers/spi/spi-sun6i.c
+> @@ -379,6 +379,10 @@ static int sun6i_spi_transfer_one(struct spi_master *master,
+>  	}
+>  
+>  	sun6i_spi_write(sspi, SUN6I_CLK_CTL_REG, reg);
+> +	/* Finally enable the bus - doing so before might raise SCK to HIGH */
+> +	reg = sun6i_spi_read(sspi, SUN6I_GBL_CTL_REG);
+> +	reg |= SUN6I_GBL_CTL_BUS_ENABLE;
+> +	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG, reg);
+>  
+>  	/* Setup the transfer now... */
+>  	if (sspi->tx_buf)
+> @@ -504,7 +508,7 @@ static int sun6i_spi_runtime_resume(struct device *dev)
+>  	}
+>  
+>  	sun6i_spi_write(sspi, SUN6I_GBL_CTL_REG,
+> -			SUN6I_GBL_CTL_BUS_ENABLE | SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
+> +			SUN6I_GBL_CTL_MASTER | SUN6I_GBL_CTL_TP);
+>  
+>  	return 0;
+>  
 
-Ack :)
-
-Since no one else complained, I merged this patch too
-
-Thanks!
-Maxime
-
---vdqks5dqd2amw37s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuXSQAKCRDj7w1vZxhR
-xQeqAQDH3EOIl439YaZCsAopMTIIpwmTqAD047YX53owNIwA8gEAr3PT+rxlJ51k
-fqTfXb4QIVbfh/RtIUWCrNx6tU+MGAw=
-=V5lB
------END PGP SIGNATURE-----
-
---vdqks5dqd2amw37s--
