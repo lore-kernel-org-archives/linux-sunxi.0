@@ -1,93 +1,118 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B6E2FAE
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 10:42:39 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id r12so28021908wrp.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 03:42:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/eUOrn9lE2HWE5uWnHqSiVPbmorQyM5RkNMwB1g8oIs=;
-        b=0yAdh939lZC+DNZj9zX08KI/2bh/2h7zmkHMSnczbPROY1mBpcwAmg0BQPTddC33YH
-         4poJ7dKhhKT4R4TGNXdtorC9bI2PVGH3oXRIPpAS/DKiuIxy/TzYsazkdd3Qpzv1SG/2
-         r9YwVzaeFmSJAJ3aqiEVi9Ry0XwMT4iGOOiqcC9zemBuKsWaAgalXyA5WRQrcMbcdMoY
-         sOdd9GnmW7iWCEJydL+7x3rrUSV+8pYIOL2gETTo15dqXQtU/3MvCuijaryNcvW2d3fA
-         DRH8il9kC3BqiomKign1XqgPFDcyL8bPJvmkWu1ndPqOrDtLgeCriIec0SZ8emwQGmU5
-         IH+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/eUOrn9lE2HWE5uWnHqSiVPbmorQyM5RkNMwB1g8oIs=;
-        b=aJxiMEI0IjIeWLvbw8FHFJFW6X+6ToHeF1dG5shGbjnQLCioOWTZvslIAeWiSUTJS8
-         Fum31LUdJS7I2tiw9KMcphncU0EYhIVdhy7f+6n1yBx1IsWrNR1g7mFoznZ5Y4IZv5D4
-         xbBA3s6ciImw6WCO28cLOIoX13FcLzez36mhMTAd1jY8SCo3DVMCayiozZBs97NaRL1E
-         M3BUceJJ8HyiNh0xzV3unRbXLfxgZ4/EWTdqJitDa9skjt89TsImiGfU+ZoYzGq3SCT+
-         gEqQC9Sshs1K3SIAhuiQDqE7Kn1Dtv1TlERYZb3vIL2v7WALytZurs8HK1KYrk/1JC1t
-         +P9w==
-X-Gm-Message-State: AOAM531mU8AATUA+cBIXlAA/arPFefkA9pqBY4hpGoNl6XipbefU6Anb
-	9prM9Zj6SRPupOWMBAVBcAdzF4MCGidxVWRBzsHZ4A==
-X-Google-Smtp-Source: ABdhPJyWPhOVNAkgUqE7qc9+oTrs7UQSenUtFjVASUHEuOyt8RBQDzntOc1bcLlVhXlvtZH0j/l7d8a1Eumaxmy0RFw=
-X-Received: by 2002:a5d:6701:: with SMTP id o1mr22084731wru.390.1621852958251;
- Mon, 24 May 2021 03:42:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937402FAE
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 11:57:51 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 72FDE5C0054;
+	Mon, 24 May 2021 07:57:50 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 24 May 2021 07:57:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm2; bh=B529eywUmsR9JY3AcBFsjJlGcRP
+	HY45DQE7bzyzTCZE=; b=Gvo1WFDSk4JVECXX4xz0uR4964zfHSzzK+CPdWJ/9rp
+	KNJgy8jEttsQConKjtmfTjNYN97e2IZ6sWkVMuuJuxeoJvMxLmne7pAlYaW+61XD
+	TdsOq4DcQBVN/iFqNS2vQZ/xhlIXJAOr+l+EeJEeJyja82xFtKL2EcAThz//4vcY
+	D1CTahLU/Ix7CX58gudibB/otx4naGtErahE8sQOzvtoIfKSu1YuOGrzsggHmLh1
+	OQCU4dZFYsEMLSnQvdBAXZY8Vd+F/mgSMmrKLzPoWpOEZZ4FKv0vRAiR44T0ublH
+	nTxFDLMJw2GN/KsHkMNeg4qG+zHyy19Sz8dvYfrBKcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=B529ey
+	wUmsR9JY3AcBFsjJlGcRPHY45DQE7bzyzTCZE=; b=r9YY7HYEPhLJGKReZe8hqK
+	6jaGqem1mqRyycpkyf8tv5RcDvbePNPXqebSuhb5G4sv7xdkW16rltqGuFOuSSOX
+	ljCYwnIGQns3LbAlUHXpu9FwCyvHbOpKnaNJLC3t7GPGfwqKSX2E0ycR+gMRYY5M
+	JFT7IEYFOr4VroQ8y4itji22occbG6dT3GTlsHHX23PfiCJYeLUTJwpKTEDmSQCk
+	dM0zpMe+/uV18VK7J+ttCnFda4fV6W0kCIs7VJvlLWwlra7LvZBPas8ix70cX1ZY
+	GibV5IixRj99tctnpOOTjQDpRVu2/1QnNcC31stEEbsLYl6hCm7YrezynwgxjZyg
+	==
+X-ME-Sender: <xms:vJSrYCFltTNSWLEvXZpuoWBQtcyumqjnUZ61_RNjr1ia5kalxCEUQg>
+    <xme:vJSrYDXReR2553hORjr7sj2zXlIVOTxv4gSzYWaJS7HkAkzYkG8_JVy0IEZAdKxmR
+    2N95483tIocx7ASmA8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:vJSrYMIJEMlx79njkJiInd1DWyP9iHRjIR7KLxSHy_D9wz5P4uLrXw>
+    <xmx:vJSrYMHfU4RGHfiu8TubRjC8oQr_E7BIIHBDIBi4SEiyQhwCZ7Gyeg>
+    <xmx:vJSrYIVv7ZLHrOaCKIjeIsAC_fM2Uv4f0HyAxtW-cfqoaUg9JtpCQQ>
+    <xmx:vpSrYKJUOmr7bQKgO52pbx5mHWAQNDVxJjmXD06g8LbNAI8GcaPO2A>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Mon, 24 May 2021 07:57:48 -0400 (EDT)
+Date: Mon, 24 May 2021 13:57:47 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Tobias Schramm <t.schramm@manjaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: v3s: fix incorrect postdivider on
+ pll-audio
+Message-ID: <20210524115747.2vv3kigu7wcrgpmj@gilmour>
+References: <20210513131315.2059451-1-t.schramm@manjaro.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1621839068-31738-1-git-send-email-guoren@kernel.org>
-In-Reply-To: <1621839068-31738-1-git-send-email-guoren@kernel.org>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 24 May 2021 16:12:26 +0530
-Message-ID: <CAAhSdy1QsyddHG3u=+Sv3mrVmtB15pr-hvg7+UT1evmNSwyY1g@mail.gmail.com>
-Subject: Re: [PATCH 1/3] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
-To: Guo Ren <guoren@kernel.org>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-riscv <linux-riscv@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3klzeylg2lfcluf4"
+Content-Disposition: inline
+In-Reply-To: <20210513131315.2059451-1-t.schramm@manjaro.org>
 
-On Mon, May 24, 2021 at 12:22 PM <guoren@kernel.org> wrote:
->
-> From: Guo Ren <guoren@linux.alibaba.com>
->
-> Kernel virtual address translation should avoid care asid or it'll
-> cause more TLB-miss and TLB-refill. Because the current asid in satp
-> belongs to the current process, but the target kernel va TLB entry's
-> asid still belongs to the previous process.
->
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Cc: Anup Patel <anup.patel@wdc.com>
-> Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-> ---
->  arch/riscv/include/asm/pgtable.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 78f2323..017da15 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -135,6 +135,7 @@
->                                 | _PAGE_PRESENT \
->                                 | _PAGE_ACCESSED \
->                                 | _PAGE_DIRTY \
-> +                               | _PAGE_GLOBAL \
->                                 | _PAGE_CACHE)
 
-It seems this patch is not based on the upstream kernel. The
-_PAGE_CACHE seems to be from your other patch series.
+--3klzeylg2lfcluf4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Please rebase these patches on the latest upstream kernel without
-dependency on any other patch series.
+On Thu, May 13, 2021 at 03:13:15PM +0200, Tobias Schramm wrote:
+> Commit 46060be6d840 ("clk: sunxi-ng: v3s: use sigma-delta modulation for =
+audio-pll")
+> changed the audio pll on the Allwinner V3s and V3 SoCs to use
+> sigma-delta modulation. In the process the declaration of fixed postdivid=
+er
+> providing "pll-audio" was adjusted to provide the desired clock rates from
+> the now sigma-delta modulated pll.
+> However, while the divider used for calculations by the clock framework
+> was adjusted the actual divider programmed into the hardware in
+> sun8i_v3_v3s_ccu_init was left at "divide by four". This broke the
+> "pll-audio" clock, now only providing quater the expected clock rate.
+> It would in general be desirable to program the postdivider for
+> "pll-audio" to four, such that a broader range of frequencies were
+> available on the pll outputs. But the clock for the integrated codec
+> "ac-dig" does not feature a mux that allows to select from all pll outputs
+> as it is just a simple clock gate connected to "pll-audio". Thus we need
+> to set the postdivider to one to be able to provide the 22.5792MHz and
+> 24.576MHz rates required by the internal sun4i codec.
+>=20
+> This patches fixes the incorrect clock rate by forcing the postdivider to
+> one in sun8i_v3_v3s_ccu_init.
+>=20
+> Fixes: 46060be6d840 ("clk: sunxi-ng: v3s: use sigma-delta modulation for =
+audio-pll")
+> Signed-off-by: Tobias Schramm <t.schramm@manjaro.org>
 
-Regards,
-Anup
+Applied, thanks
+Maxime
 
->
->  #define PAGE_KERNEL            __pgprot(_PAGE_KERNEL)
-> --
-> 2.7.4
->
+--3klzeylg2lfcluf4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuUuwAKCRDj7w1vZxhR
+xfLuAQDbALcSH3I9sN3aT7SM2BKzG79hN9v5u7zkilw8NofhGAEA1n9Sx3Vp0Z4M
+/DY6a26+9XAGkK7BByoqG2qVMCw7RQQ=
+=CHIg
+-----END PGP SIGNATURE-----
+
+--3klzeylg2lfcluf4--
