@@ -1,62 +1,65 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CEAC2FB1
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 00:37:17 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 885D612FC;
-	Sun, 23 May 2021 17:37:11 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EA933F73D;
-	Sun, 23 May 2021 17:37:09 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Simon Glass <sjg@chromium.org>,
-	Jagan Teki <jagan@amarulasolutions.com>
-Cc: u-boot@lists.denx.de,
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC2217F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 06:51:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A9CF6105A;
+	Mon, 24 May 2021 06:51:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621839116;
+	bh=hn/pNdORUktwb876bgR0Q9d7/7wCHAT4MmtogXIo1fI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=OyLPKyKN4zCBvU1tXo+4+eiqPf0uANbR6+w/b1cVC6Hb6dyNlVHepztt/rGDEDz3S
+	 QAJ4G661BTNRHFqAsX7vn2T9uldInvS0oEc/jRsgscxg3Xo7CQGDzsy2449DxBtmsP
+	 eSKyh3moIbEbOZfntQbDUui/mYqJUBYDmg5RJDod/X6QQwxyosXHNQNlreC0k3+lo0
+	 j1ZMCqqjh6d+xn/ZDbyq9NYzsUn/gutXKm8ixERLfxWudQoVvgbx1r7jHPt14GdXj7
+	 tzMq5Q4YWwpfYz19ZUdjJK7eYdZWyGcEPpFfo/L7OOqfkRfz+23uraImrNrf3rOct/
+	 tM1L24PbV4j9g==
+From: guoren@kernel.org
+To: guoren@kernel.org,
+	anup.patel@wdc.com,
+	palmerdabbelt@google.com,
+	arnd@arndb.de
+Cc: linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	Patrick Delaunay <patrick.delaunay@foss.st.com>,
-	Sean Anderson <sean.anderson@seco.com>,
-	Heiko Schocher <hs@denx.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Philipp Tomsich <philipp.tomsich@vrull.eu>
-Subject: [RFC PATCH 3/3] sunxi: Drop sunxi FASTBOOT_FLASH_MMC_DEV defaults
-Date: Mon, 24 May 2021 01:36:50 +0100
-Message-Id: <20210524003650.24469-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20210524003650.24469-1-andre.przywara@arm.com>
-References: <20210524003650.24469-1-andre.przywara@arm.com>
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: [PATCH 1/3] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
+Date: Mon, 24 May 2021 06:51:06 +0000
+Message-Id: <1621839068-31738-1-git-send-email-guoren@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Now that we have a runtime function to decide the default MMC device to
-use on Allwinner boards, we don't need the hardcoded Kconfig variable
-anymore (we do the same logic at runtime now).
+From: Guo Ren <guoren@linux.alibaba.com>
 
-Drop the sunxi defaults, and since there is only one other user left,
-use one generic default of 0 now. An "int" type KConfig variable needs a
-default anyway, (even when this is never used), otherwise *every* user
-has to specify one.
+Kernel virtual address translation should avoid care asid or it'll
+cause more TLB-miss and TLB-refill. Because the current asid in satp
+belongs to the current process, but the target kernel va TLB entry's
+asid still belongs to the previous process.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+Cc: Anup Patel <anup.patel@wdc.com>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>
 ---
- drivers/fastboot/Kconfig | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ arch/riscv/include/asm/pgtable.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/fastboot/Kconfig b/drivers/fastboot/Kconfig
-index 2d1836a80e0..06536e249c4 100644
---- a/drivers/fastboot/Kconfig
-+++ b/drivers/fastboot/Kconfig
-@@ -98,9 +98,7 @@ endchoice
- config FASTBOOT_FLASH_MMC_DEV
- 	int "Define FASTBOOT MMC FLASH default device"
- 	depends on FASTBOOT_FLASH_MMC
--	default 0 if ARCH_ROCKCHIP
--	default 0 if ARCH_SUNXI && MMC_SUNXI_SLOT_EXTRA = -1
--	default 1 if ARCH_SUNXI && MMC_SUNXI_SLOT_EXTRA != -1
-+	default 0
- 	help
- 	  The fastboot "flash" command requires additional information
- 	  regarding the non-volatile storage device. Define this to
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index 78f2323..017da15 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -135,6 +135,7 @@
+ 				| _PAGE_PRESENT \
+ 				| _PAGE_ACCESSED \
+ 				| _PAGE_DIRTY \
++				| _PAGE_GLOBAL \
+ 				| _PAGE_CACHE)
+ 
+ #define PAGE_KERNEL		__pgprot(_PAGE_KERNEL)
 -- 
-2.17.5
+2.7.4
 
