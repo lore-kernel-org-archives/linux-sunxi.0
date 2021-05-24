@@ -1,116 +1,96 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7073D2FAE
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 11:59:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5584A582671;
-	Mon, 24 May 2021 07:59:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 24 May 2021 07:59:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=EMJnP4Q9UxIeWBo2UuuYOcg1Pqv
-	TS5azhJpoiLIqHIQ=; b=OUKRRQHx1ILDG0ggPhIpmjzgmg/JTKwM9OXvLkW/J4A
-	gYwwfeI1/LKKRvmJpIWVJvNvfNHPnAYHkqGkri1VF+o4kxP7xFiE8n/V0gUMQFU1
-	5kEqBz3KoWwTujEqAqOC44vZn1dmxYCyjJljuFFZXrre4zaazOmdneGSZu3n6mEr
-	l7fiMNho9ITq/FQkB7YntIpiN8Ak9M7DosdOYxfj/2weh7sd2CDAfZYSQ1iAzOQH
-	gsITZH28+VN48Pd7zWUGu4hQSbvIWjvykBNx8EbSLoG4m5sKfe1Vj1GBOKkHEMj4
-	by2YGhtxgjdYXevSOiLgD/9PcbLciAK2Evtgyg6gvNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=EMJnP4
-	Q9UxIeWBo2UuuYOcg1PqvTS5azhJpoiLIqHIQ=; b=QW+daKaxTYMrEqLcgIuLQ1
-	x/nJ3FgX44l3zujYpurXNEFfzMTJ3x8/2w8EFid7W+50f/P8Hp04qE1etNhnSO91
-	I/sImRTaiWE0vVPzJIoOE+2A2b4rOIxTT4onsP5e8H2WIovRdpDa5+k3/r9tEzdv
-	sYHprr8VPpbSKpsk5QSxwSldyCSRk4YZs9FpEW1r6SgfegzW27mvpF+OMLS9Dnv4
-	xVMUIQWCbzmvR+ZUCI4v9lhKWzEP5PRT/RbapQP2701WF234YOZ3stIa3pZhvH7f
-	186TyDxWHv6gIegVIUI8ZS4gESf+crLFl/foLJYgo2AEC/yirqZObOYol5F7YHBg
-	==
-X-ME-Sender: <xms:NJWrYEQA7mP-vi29nF9adGZyG8ESh5GAS3Y9YEvMlvrFATtJr2xBOw>
-    <xme:NJWrYBxROd8hQYpUmdUsN1VaX8afieB3oI1KNY4_xLQevR3kVc2u-u-nqZyvLuD6R
-    vM5HwcDdEU9WaHa__c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:NJWrYB0Jd49ywHiY7McNzEEzSD5Yh075Ga63Nuus_jaZvwOb5SWFwg>
-    <xmx:NJWrYIBbftkams1hnJ2B7FypRiGlw6NdXmbWtWiwmq5VSTR6zK1RGg>
-    <xmx:NJWrYNi5Rbf25wmuVdEB0SV5I03fgSUv4iE_oSMUZfJpi0Te9Rik-Q>
-    <xmx:NZWrYGYIyWgKOrA69diLMoaGO9GHOd7LEZnyxu-eAoKdynFFuRq8sw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Mon, 24 May 2021 07:59:47 -0400 (EDT)
-Date: Mon, 24 May 2021 13:59:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	Ondrej Jirman <megous@megous.com>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v6 12/17] phy: sun4i-usb: Introduce port2 SIDDQ quirk
-Message-ID: <20210524115946.jwsasjbr3biyixhz@gilmour>
-References: <20210519104152.21119-1-andre.przywara@arm.com>
- <20210519104152.21119-13-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A417C2FAE
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 12:01:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4999461370
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 12:01:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621857691;
+	bh=veNGvYxcLl+vDYUz1SMH3CGwccZ8IWRdI0wIqqjpXHk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=nD8gwroafsuYGdv9NfLO0Co93IMx/me0F4AAZKDIR4kw849gUWF0ueVG7PLAVzHEq
+	 zul3q6dM9dUQ93Urx1vFQceK7M3j6tH6+N6bMr98eBb6rMOndl+c7Dh5hf88g4yblk
+	 Q5d5dTF1w8GnDEklR70EJBmKE80ZA49d2FyeYOOZnUgJP/MgVzoJqSp6l++emo3Ftd
+	 9urpVUBIYqyaSzEQ/+/5T0kOmIi9Iou86kq+VsyhNwQUtA+/dXmVzzDRg00f623Ypk
+	 tTvCTu/v3jHt7kYXvnz1aukazjAxtGZKYMA0znBQasdoA5LvhqXEAyQ46zx9ASMX16
+	 8hVMtlTLi1iDw==
+Received: by mail-lf1-f54.google.com with SMTP id c10so19288209lfm.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 05:01:31 -0700 (PDT)
+X-Gm-Message-State: AOAM531sFflEG79NRgNvzGUt752R9efk4WG3tvdi3IAOBhwi8caee+3N
+	OMRqIAhpb8aUPdST7FNOF+sLLdWNFFOTsXHSBkc=
+X-Google-Smtp-Source: ABdhPJx/oJ+jz4mGUBNUVDukdZUBydqmcR8FyJX8ZFV9ulMABT6jX8AjToYzvFvtvNgaeYZh3zITll0SsnnwsObfXs4=
+X-Received: by 2002:a05:6512:36c5:: with SMTP id e5mr10330380lfs.41.1621857689496;
+ Mon, 24 May 2021 05:01:29 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="yeqfewi7xhvh3dbi"
-Content-Disposition: inline
-In-Reply-To: <20210519104152.21119-13-andre.przywara@arm.com>
+References: <1621839068-31738-1-git-send-email-guoren@kernel.org> <CAAhSdy1QsyddHG3u=+Sv3mrVmtB15pr-hvg7+UT1evmNSwyY1g@mail.gmail.com>
+In-Reply-To: <CAAhSdy1QsyddHG3u=+Sv3mrVmtB15pr-hvg7+UT1evmNSwyY1g@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 24 May 2021 20:01:18 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTzEko6Qdt80gDJP6yFaomYa5SqA+onfbm_khnRFV0L-w@mail.gmail.com>
+Message-ID: <CAJF2gTTzEko6Qdt80gDJP6yFaomYa5SqA+onfbm_khnRFV0L-w@mail.gmail.com>
+Subject: Re: [PATCH 1/3] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
+To: Anup Patel <anup@brainfault.org>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Arnd Bergmann <arnd@arndb.de>, linux-riscv <linux-riscv@lists.infradead.org>, 
+	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, May 24, 2021 at 6:42 PM Anup Patel <anup@brainfault.org> wrote:
+>
+> On Mon, May 24, 2021 at 12:22 PM <guoren@kernel.org> wrote:
+> >
+> > From: Guo Ren <guoren@linux.alibaba.com>
+> >
+> > Kernel virtual address translation should avoid care asid or it'll
+> > cause more TLB-miss and TLB-refill. Because the current asid in satp
+> > belongs to the current process, but the target kernel va TLB entry's
+> > asid still belongs to the previous process.
+> >
+> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > Cc: Anup Patel <anup.patel@wdc.com>
+> > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+> > ---
+> >  arch/riscv/include/asm/pgtable.h | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+> > index 78f2323..017da15 100644
+> > --- a/arch/riscv/include/asm/pgtable.h
+> > +++ b/arch/riscv/include/asm/pgtable.h
+> > @@ -135,6 +135,7 @@
+> >                                 | _PAGE_PRESENT \
+> >                                 | _PAGE_ACCESSED \
+> >                                 | _PAGE_DIRTY \
+> > +                               | _PAGE_GLOBAL \
+> >                                 | _PAGE_CACHE)
+>
+> It seems this patch is not based on the upstream kernel. The
+> _PAGE_CACHE seems to be from your other patch series.
+>
+> Please rebase these patches on the latest upstream kernel without
+> dependency on any other patch series.
+Yes, it based on DMA_COHERENT. I'll rebase in PATCH V2, thx.
+
+>
+> Regards,
+> Anup
+>
+> >
+> >  #define PAGE_KERNEL            __pgprot(_PAGE_KERNEL)
+> > --
+> > 2.7.4
+> >
 
 
---yeqfewi7xhvh3dbi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi
+-- 
+Best Regards
+ Guo Ren
 
-On Wed, May 19, 2021 at 11:41:47AM +0100, Andre Przywara wrote:
-> At least the Allwinner H616 SoC requires a weird quirk to make most
-> USB PHYs work: Only port2 works out of the box, but all other ports
-> need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
-> RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
-> the PMU PHY control register needs to be cleared. For this register to
-> be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
->=20
-> Instead of disguising this as some generic feature, do exactly that
-> in our PHY init:
-> If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
-> this one special clock, and clear the SIDDQ bit. We can pull in the
-> other required clocks via the DT.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
-What is this SIDDQ bit doing exactly?
-
-I guess we could also expose this using a power-domain if it's relevant?
-
-Maxime
-
---yeqfewi7xhvh3dbi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuVMgAKCRDj7w1vZxhR
-xSHfAP0dBPqEfgZL7NPChXsRxHByzSmhCZQ+zMbfpCQVADqDNgD7BWogJtW3+sff
-zXhIKZ/oXdr2tJxXsO8tzCyO/ECdKwE=
-=5PHW
------END PGP SIGNATURE-----
-
---yeqfewi7xhvh3dbi--
+ML: https://lore.kernel.org/linux-csky/
