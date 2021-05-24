@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F3032FB1
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 00:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CEAC2FB1
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 00:37:17 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CBA6311B3;
-	Sun, 23 May 2021 17:37:09 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 885D612FC;
+	Sun, 23 May 2021 17:37:11 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 564643F73D;
-	Sun, 23 May 2021 17:37:08 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0EA933F73D;
+	Sun, 23 May 2021 17:37:09 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Simon Glass <sjg@chromium.org>,
 	Jagan Teki <jagan@amarulasolutions.com>
@@ -17,9 +17,9 @@ Cc: u-boot@lists.denx.de,
 	Heiko Schocher <hs@denx.de>,
 	Kever Yang <kever.yang@rock-chips.com>,
 	Philipp Tomsich <philipp.tomsich@vrull.eu>
-Subject: [RFC PATCH 2/3] sunxi: Implement fastboot_get_mmc_device()
-Date: Mon, 24 May 2021 01:36:49 +0100
-Message-Id: <20210524003650.24469-3-andre.przywara@arm.com>
+Subject: [RFC PATCH 3/3] sunxi: Drop sunxi FASTBOOT_FLASH_MMC_DEV defaults
+Date: Mon, 24 May 2021 01:36:50 +0100
+Message-Id: <20210524003650.24469-4-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210524003650.24469-1-andre.przywara@arm.com>
 References: <20210524003650.24469-1-andre.przywara@arm.com>
@@ -28,69 +28,35 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-The default MMC device to use for the fastboot flash command is hard to
-decide at runtime, since the numbering of the MMC devices depends on
-devicetree nodes. On the hardware side, the eMMC is connected to device
-2, but this might be U-Boot's device 1 or 2, depending on whether the DT
-contains a WiFi node for the hardware MMC1 device.
+Now that we have a runtime function to decide the default MMC device to
+use on Allwinner boards, we don't need the hardcoded Kconfig variable
+anymore (we do the same logic at runtime now).
 
-To avoid hardcoding this for each board, let's scan all MMC devices, and
-try to find the eMMC device, given that this is enabled. If not, we use
-the SD card.
+Drop the sunxi defaults, and since there is only one other user left,
+use one generic default of 0 now. An "int" type KConfig variable needs a
+default anyway, (even when this is never used), otherwise *every* user
+has to specify one.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- board/sunxi/board.c | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ drivers/fastboot/Kconfig | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-index 21651a1bfca..5f64887e48b 100644
---- a/board/sunxi/board.c
-+++ b/board/sunxi/board.c
-@@ -625,6 +625,43 @@ int board_mmc_init(struct bd_info *bis)
- }
- #endif
- 
-+#ifdef CONFIG_FASTBOOT_FLASH_MMC
-+int fastboot_get_mmc_device(void)
-+{
-+	struct udevice *dev;
-+	static int mmc_dev = -1;
-+	int sd_card = -1;
-+
-+	if (mmc_dev != -1)
-+		return mmc_dev;
-+
-+	for (uclass_first_device(UCLASS_MMC, &dev);
-+	     dev;
-+	     uclass_next_device(&dev)) {
-+		struct mmc *mmc = mmc_get_mmc_dev(dev);
-+
-+		mmc_init(mmc);
-+		if (!mmc->has_init)
-+			continue;
-+
-+		if (IS_SD(mmc)) {
-+			sd_card = dev->seq_;
-+			continue;
-+		} else {
-+			mmc_dev =  dev->seq_;
-+			break;
-+		}
-+	}
-+
-+	if (mmc_dev == -1)
-+		mmc_dev = sd_card;
-+	if (mmc_dev == -1)
-+		mmc_dev = 0;
-+
-+	return mmc_dev;
-+}
-+#endif
-+
- #ifdef CONFIG_SPL_BUILD
- 
- static void sunxi_spl_store_dram_size(phys_addr_t dram_size)
+diff --git a/drivers/fastboot/Kconfig b/drivers/fastboot/Kconfig
+index 2d1836a80e0..06536e249c4 100644
+--- a/drivers/fastboot/Kconfig
++++ b/drivers/fastboot/Kconfig
+@@ -98,9 +98,7 @@ endchoice
+ config FASTBOOT_FLASH_MMC_DEV
+ 	int "Define FASTBOOT MMC FLASH default device"
+ 	depends on FASTBOOT_FLASH_MMC
+-	default 0 if ARCH_ROCKCHIP
+-	default 0 if ARCH_SUNXI && MMC_SUNXI_SLOT_EXTRA = -1
+-	default 1 if ARCH_SUNXI && MMC_SUNXI_SLOT_EXTRA != -1
++	default 0
+ 	help
+ 	  The fastboot "flash" command requires additional information
+ 	  regarding the non-volatile storage device. Define this to
 -- 
 2.17.5
 
