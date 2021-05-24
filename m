@@ -1,96 +1,124 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568BC17F
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 08:03:22 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id u4-20020a05600c00c4b02901774b80945cso10907980wmm.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 01:03:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=l+lXZOkJT9ztp2JCl1bPRf8G039aIWHo+Vabd2KIAvY=;
-        b=hE15bhqpuXbPdzqAazrfGMf6jpdb7Plfzzuf8Tg3BA6zCx8evuNi5OahN0lBSi6jy0
-         gmL2pDkRxR+V6YGQV9V5IG0mTSsDV2iuox0/5/1IQawdULfqWvOg6DWh4BJg4fEGeK2E
-         J2AQpGvMaXThT16y4SiEJuhqSbiUyYR3D+56Ik012/2/YQXTxBpjo/ebQAUY/pqFLjxY
-         BcdjFYg6YKXxY2YcIZEYYwL+gRPsD5CEaNAlKZvfXvlhshNwe8bLJc/Nr73JUMDjdOQK
-         ParA5bj6PXKxhEZ0fHTy1lfN+l7xXY9cQCLdHYnZ95OIjte1+fWjOUXB5M0A8iL1NkqS
-         qU8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=l+lXZOkJT9ztp2JCl1bPRf8G039aIWHo+Vabd2KIAvY=;
-        b=EXl8Qik57b7yMv9QTGB5tOmXgKPabReHc/vO9716SY0TL09/oHqkmRduDq+UEuc3yT
-         ccbMh8EG8RVfewskeDK+pyrGvMwqZPBJEGSjSythtlEVMn4J16DVpPKLLjduzOB/N5G8
-         YBQDy5ZzehtZJU45fo+wJIT6hrp6X3y83roUXN1IpzRiKR30kXeMx7W6w6lf+2d9arm+
-         pb8wtEufJKxiHe2Hw5fRCyk0zjCWdPyZrwjHW6I2GBF5qmiMjq4NYodEZx2j6Sm7QIjx
-         c68rK5vAsyN/WZ3H6oN8CmQHTh585B4BlFk5S/vAaoN8/FP+oxffynRj8z1Pz3Q2HNqE
-         NO4w==
-X-Gm-Message-State: AOAM532c1KV1u0aPYI8qpJU78uHVKvFDprjMwgKXAbWBGMCGc3flS29W
-	Cr8iiPyB6Naa0S6XR6GoZTFlrNoQ2znEI8J2rIo5rA==
-X-Google-Smtp-Source: ABdhPJyeURrTyE53pS9rjIrF1XyAYSlM5EIDZxsof/N3+lCkEYOm64yTb06OT7Z706TpnIKNx0pnoQ13EAD6f/Q4bPA=
-X-Received: by 2002:a05:600c:b44:: with SMTP id k4mr19148969wmr.152.1621843400672;
- Mon, 24 May 2021 01:03:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4575417F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 08:04:45 +0000 (UTC)
+Received: from [192.168.1.111] (91-157-208-71.elisa-laajakaista.fi [91.157.208.71])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0ABD71315;
+	Mon, 24 May 2021 09:54:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1621842878;
+	bh=nQQLNOZHnWiuc9bVbNIPySsUX8BVfY7zKLqSjjjmqow=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=eP/n0p6WGzQZageTDgh+AhAcs/g5Ue1NYt36d3FWKJQJaTvUMj3hrq8+fQwTDYsqg
+	 Qiwo2GzlBbrg64RXzSwS8WGOPR2HHdLSIbrjQa3SmUmIPz8qikHGRXxlQgTdAuSvZD
+	 m5qtsfBYdKDyEA1AOMNDxtttFSFlN8wpwtRhKuuM=
+Subject: Re: [PATCH 06/11] drm/<driver>: drm_gem_plane_helper_prepare_fb is
+ now the default
+To: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Paul Cercueil
+ <paul@crapouillou.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman
+ <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko@sntech.de>, Yannick Fertre <yannick.fertre@foss.st.com>,
+ Philippe Cornu <philippe.cornu@foss.st.com>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+References: <20210521090959.1663703-1-daniel.vetter@ffwll.ch>
+ <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <71ba0c85-be5d-21f9-6817-9848dafde6ea@ideasonboard.com>
+Date: Mon, 24 May 2021 10:54:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1621839068-31738-1-git-send-email-guoren@kernel.org>
-In-Reply-To: <1621839068-31738-1-git-send-email-guoren@kernel.org>
-From: Anup Patel <anup@brainfault.org>
-Date: Mon, 24 May 2021 13:33:08 +0530
-Message-ID: <CAAhSdy3ORUGqyL-9oMQCKYCXnG8M=xrZ8q+AiWg8s+v6zsk=_A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
-To: Guo Ren <guoren@kernel.org>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, linux-riscv <linux-riscv@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210521090959.1663703-6-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 24, 2021 at 12:22 PM <guoren@kernel.org> wrote:
->
-> From: Guo Ren <guoren@linux.alibaba.com>
->
-> Kernel virtual address translation should avoid care asid or it'll
-> cause more TLB-miss and TLB-refill. Because the current asid in satp
-> belongs to the current process, but the target kernel va TLB entry's
-> asid still belongs to the previous process.
->
-> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> Cc: Anup Patel <anup.patel@wdc.com>
-> Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-
-First of all thanks for doing this series, I had similar changes in mind
-as follow-up to the ASID allocator.
-
-I went through all three patches and at least I don't see any
-obvious issue but I think we should try testing it more on a few
-existing platforms.
-
-Reviewed-by: Anup Patel <anup@brainfault.org>
-
-Regards,
-Anup
-
+On 21/05/2021 12:09, Daniel Vetter wrote:
+> No need to set it explicitly.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Matthias Brugger <matthias.bgg@gmail.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Kevin Hilman <khilman@baylibre.com>
+> Cc: Jerome Brunet <jbrunet@baylibre.com>
+> Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+> Cc: Marek Vasut <marex@denx.de>
+> Cc: Stefan Agner <stefan@agner.ch>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: "Heiko Stübner" <heiko@sntech.de>
+> Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+> Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+> Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Tomi Valkeinen <tomba@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-mediatek@lists.infradead.org
+> Cc: linux-amlogic@lists.infradead.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-sunxi@lists.linux.dev
 > ---
->  arch/riscv/include/asm/pgtable.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> index 78f2323..017da15 100644
-> --- a/arch/riscv/include/asm/pgtable.h
-> +++ b/arch/riscv/include/asm/pgtable.h
-> @@ -135,6 +135,7 @@
->                                 | _PAGE_PRESENT \
->                                 | _PAGE_ACCESSED \
->                                 | _PAGE_DIRTY \
-> +                               | _PAGE_GLOBAL \
->                                 | _PAGE_CACHE)
->
->  #define PAGE_KERNEL            __pgprot(_PAGE_KERNEL)
-> --
-> 2.7.4
->
+>   drivers/gpu/drm/imx/dcss/dcss-plane.c       | 1 -
+>   drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
+>   drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
+>   drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
+>   drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
+>   drivers/gpu/drm/meson/meson_overlay.c       | 1 -
+>   drivers/gpu/drm/meson/meson_plane.c         | 1 -
+>   drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
+>   drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
+>   drivers/gpu/drm/stm/ltdc.c                  | 1 -
+>   drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
+>   drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
+>   drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
+>   drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
+>   14 files changed, 15 deletions(-)
+
+For tidss:
+
+Acked-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
+  Tomi
