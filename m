@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C876617F
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 23:31:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CA12FB1
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 23:31:02 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83F44101E;
-	Mon, 24 May 2021 16:31:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 022476D;
+	Mon, 24 May 2021 16:31:02 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48A4C3F73D;
-	Mon, 24 May 2021 16:30:59 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB4A13F73D;
+	Mon, 24 May 2021 16:31:00 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
 	Peng Fan <peng.fan@nxp.com>
@@ -15,9 +15,9 @@ Cc: u-boot@lists.denx.de,
 	Samuel Holland <samuel@sholland.org>,
 	Ondrej Jirman <megous@megous.com>,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 7/8] mmc: sunxi: Increase MMIO FIFO read performance
-Date: Tue, 25 May 2021 00:30:28 +0100
-Message-Id: <20210524233029.16417-8-andre.przywara@arm.com>
+Subject: [PATCH 8/8] mmc: sunxi: Use mmc_of_parse()
+Date: Tue, 25 May 2021 00:30:29 +0100
+Message-Id: <20210524233029.16417-9-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210524233029.16417-1-andre.przywara@arm.com>
 References: <20210524233029.16417-1-andre.przywara@arm.com>
@@ -26,113 +26,105 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-To avoid the complexity of DMA operations (with chained descriptors), we
-use repeated MMIO reads and writes to the SD_FIFO_REG, which allows us
-to drain or fill the MMC data buffer FIFO very easily.
+At the moment the Allwinner MMC driver parses the bus-width and
+non-removable DT properties itself, in the probe() routine.
 
-However those MMIO accesses are somewhat costly, so this limits our MMC
-performance, to between 17 and 22 MB/s, but down to 9.5 MB/s on the H6
-(partly due to the lower AHB1 frequency).
+There is actually a generic function provided by the MMC framework doing
+this job, also it parses more generic properties like broken-cd and
+advanced transfer modes.
 
-As it turns out we read the FIFO status register after *every* word we
-read or write, which effectively doubles the number of MMIO accesses,
-thus effectively more than halving our performance.
-
-To avoid this overhead, we can make use of the FIFO level bits, which are
-in the very same FIFO status registers.
-So for a read request, we now can collect as many words as the FIFO
-level originally indicated, and only then need to update the status
-register.
-
-We don't know for sure the size of the FIFO (and it seems to differ
-across SoCs anyway), so writing is more fragile, which is why we still
-use the old method for that. If we find a minimum FIFO size available on
-all SoCs, we could use that, in a later optimisation.
-
-This patch increases the eMMC read speed on a Pine64-LTS from about
-22MB/s to 44 MB/s. SD card reads don't gain that much, but with 23 MB/s
-we now reach the practical limit for 3.3V SD cards.
-On the H6 we double our transfer speed, from 9.5 MB/s to 19.7 MB/s.
+Drop our own code and call mmc_of_parse() instead, to get all new
+features for free.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/include/asm/arch-sunxi/mmc.h |  1 +
- drivers/mmc/sunxi_mmc.c               | 39 +++++++++++++++++++++------
- 2 files changed, 32 insertions(+), 8 deletions(-)
+ drivers/mmc/sunxi_mmc.c | 32 +++++++++++++++++---------------
+ 1 file changed, 17 insertions(+), 15 deletions(-)
 
-diff --git a/arch/arm/include/asm/arch-sunxi/mmc.h b/arch/arm/include/asm/arch-sunxi/mmc.h
-index 340e25b04d2..5daacf10eb1 100644
---- a/arch/arm/include/asm/arch-sunxi/mmc.h
-+++ b/arch/arm/include/asm/arch-sunxi/mmc.h
-@@ -119,6 +119,7 @@ struct sunxi_mmc {
- #define SUNXI_MMC_STATUS_CARD_PRESENT		(0x1 << 8)
- #define SUNXI_MMC_STATUS_CARD_DATA_BUSY		(0x1 << 9)
- #define SUNXI_MMC_STATUS_DATA_FSM_BUSY		(0x1 << 10)
-+#define SUNXI_MMC_STATUS_FIFO_LEVEL(reg)	(((reg) >> 17) & 0x3fff)
- 
- #define SUNXI_MMC_NTSR_MODE_SEL_NEW		(0x1 << 31)
- 
 diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index a30fd8fbdb1..115b519546e 100644
+index 115b519546e..178b8cf106d 100644
 --- a/drivers/mmc/sunxi_mmc.c
 +++ b/drivers/mmc/sunxi_mmc.c
-@@ -311,8 +311,9 @@ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
- 					      SUNXI_MMC_STATUS_FIFO_FULL;
- 	unsigned i;
- 	unsigned *buff = (unsigned int *)(reading ? data->dest : data->src);
--	unsigned byte_cnt = data->blocksize * data->blocks;
--	unsigned timeout_msecs = byte_cnt >> 8;
-+	unsigned word_cnt = (data->blocksize * data->blocks) >> 2;
-+	unsigned timeout_msecs = word_cnt >> 6;
-+	uint32_t status;
- 	unsigned long  start;
+@@ -37,7 +37,6 @@ struct sunxi_mmc_priv {
+ 	uint32_t *mclkreg;
+ 	unsigned fatal_err;
+ 	struct gpio_desc cd_gpio;	/* Change Detect GPIO */
+-	int cd_inverted;		/* Inverted Card Detect */
+ 	struct sunxi_mmc *reg;
+ 	struct mmc_config cfg;
+ };
+@@ -612,12 +611,21 @@ static int sunxi_mmc_send_cmd(struct udevice *dev, struct mmc_cmd *cmd,
  
- 	if (timeout_msecs < 2000)
-@@ -323,16 +324,38 @@ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
+ static int sunxi_mmc_getcd(struct udevice *dev)
+ {
++	struct mmc *mmc = mmc_get_mmc_dev(dev);
+ 	struct sunxi_mmc_priv *priv = dev_get_priv(dev);
  
- 	start = get_timer(0);
- 
--	for (i = 0; i < (byte_cnt >> 2); i++) {
--		while (readl(&priv->reg->status) & status_bit) {
-+	for (i = 0; i < word_cnt;) {
-+		unsigned int in_fifo;
++	/* If polling, assume that the card is always present. */
++	if ((mmc->cfg->host_caps & MMC_CAP_NONREMOVABLE) ||
++	    (mmc->cfg->host_caps & MMC_CAP_NEEDS_POLL))
++		return 1;
 +
-+		while ((status = readl(&priv->reg->status)) & status_bit) {
- 			if (get_timer(start) > timeout_msecs)
- 				return -1;
- 		}
+ 	if (dm_gpio_is_valid(&priv->cd_gpio)) {
+ 		int cd_state = dm_gpio_get_value(&priv->cd_gpio);
  
--		if (reading)
--			buff[i] = readl(&priv->reg->fifo);
--		else
--			writel(buff[i], &priv->reg->fifo);
-+		/*
-+		 * For writing we do not easily know the FIFO size, so have
-+		 * to check the FIFO status after every word written.
-+		 * TODO: For optimisation we could work out a minimum FIFO
-+		 * size across all SoCs, and use that together with the current
-+		 * fill level to write chunks of words.
-+		 */
-+		if (!reading) {
-+			writel(buff[i++], &priv->reg->fifo);
-+			continue;
-+		}
+-		return cd_state ^ priv->cd_inverted;
++		if (mmc->cfg->host_caps & MMC_CAP_CD_ACTIVE_HIGH)
++			return !cd_state;
++		else
++			return cd_state;
+ 	}
+ 	return 1;
+ }
+@@ -649,23 +657,21 @@ static int sunxi_mmc_probe(struct udevice *dev)
+ 	struct mmc_config *cfg = &plat->cfg;
+ 	struct ofnode_phandle_args args;
+ 	u32 *ccu_reg;
+-	int bus_width, ret;
++	int ret;
+ 
+ 	cfg->name = dev->name;
+-	bus_width = dev_read_u32_default(dev, "bus-width", 1);
+ 
+ 	cfg->voltages = MMC_VDD_32_33 | MMC_VDD_33_34;
+-	cfg->host_caps = 0;
+-	if (bus_width == 8)
+-		cfg->host_caps |= MMC_MODE_8BIT;
+-	if (bus_width >= 4)
+-		cfg->host_caps |= MMC_MODE_4BIT;
+-	cfg->host_caps |= MMC_MODE_HS_52MHz | MMC_MODE_HS;
++	cfg->host_caps = MMC_MODE_HS_52MHz | MMC_MODE_HS;
+ 	cfg->b_max = CONFIG_SYS_MMC_MAX_BLK_COUNT;
+ 
+ 	cfg->f_min = 400000;
+ 	cfg->f_max = 52000000;
+ 
++	ret = mmc_of_parse(dev, cfg);
++	if (ret)
++		return ret;
 +
-+		/*
-+		 * The status register holds the current FIFO level, so we
-+		 * can be sure to collect as many words from the FIFO
-+		 * register without checking the status register after every
-+		 * read. That saves half of the costly MMIO reads, effectively
-+		 * doubling the read performance.
-+		 */
-+		for (in_fifo = SUNXI_MMC_STATUS_FIFO_LEVEL(status);
-+		     in_fifo > 0;
-+		     in_fifo--)
-+			buff[i++] = readl_relaxed(&priv->reg->fifo);
-+		dmb();
+ 	priv->reg = dev_read_addr_ptr(dev);
+ 
+ 	/* We don't have a sunxi clock driver so find the clock address here */
+@@ -691,17 +697,13 @@ static int sunxi_mmc_probe(struct udevice *dev)
+ 		return ret;
+ 
+ 	/* This GPIO is optional */
+-	if (!dev_read_bool(dev, "non-removable") &&
+-	    !gpio_request_by_name(dev, "cd-gpios", 0, &priv->cd_gpio,
++	if (!gpio_request_by_name(dev, "cd-gpios", 0, &priv->cd_gpio,
+ 				  GPIOD_IS_IN)) {
+ 		int cd_pin = gpio_get_number(&priv->cd_gpio);
+ 
+ 		sunxi_gpio_set_pull(cd_pin, SUNXI_GPIO_PULL_UP);
  	}
  
- 	return 0;
+-	/* Check if card detect is inverted */
+-	priv->cd_inverted = dev_read_bool(dev, "cd-inverted");
+-
+ 	upriv->mmc = &plat->mmc;
+ 
+ 	/* Reset controller */
 -- 
 2.17.5
 
