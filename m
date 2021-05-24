@@ -1,257 +1,195 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2075.outbound.protection.outlook.com [40.107.20.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6562F80
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 13:56:41 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 429535C012E;
-	Mon, 24 May 2021 09:56:41 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 24 May 2021 09:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=chBJ4ZOrDFbzWHlYJ/8zo5hqg1Y
-	QbOQCWZSq+WmwgeI=; b=RMPCDPSXgL3lQnsxdLLnp5/0KVKQeJauD2AV4MOJcIC
-	27hMW5QfqZB+KiDNFwT8F1DnU525JV4TL4uwJutYVxNn17paU1j7+pUBOKL2hZof
-	kKuYwppQeEjcrPaxqR9LaftNVmBBHBIb6qkrLPPLUiluGDxvXqMH/7kONlfSTosc
-	P4EC1iFWO6aiLyuTRmOTl+NDWDSdu7yR88Tgb8phAMR53XQfvRHvLJvZR1gpbjoI
-	ddrL7eJiy962+mnLY58Yf1FdgQY/uy0FCLs2+LA/Cb5nj9mRezypIjGTdLx673tP
-	y01pLfsWLoH+1CWxmg8HmJ+lgzZqRIK6qGsd7Zqt15A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=chBJ4Z
-	OrDFbzWHlYJ/8zo5hqg1YQbOQCWZSq+WmwgeI=; b=WIrzBHmV0icVOgzNY3JdGb
-	MUawHxg7z1B88pRRg+jYZnbG2fg/N6WaGeyVu/DFhCl4o4eBlFh1wviMRYF0gPXU
-	VJSwxRdyXZICIR7eaYOggJgUw+T6XGAPF6chfFQKyMoA/oqf6COXbfIB1WH1G4/8
-	k5Yn7v18B8ATJ6OPLkc5vxQtmw3wvalfGCnGum5yx7rttVBIQ6EhP3EQYKsx7C7I
-	/Pxga275ubHqxUI2ezvZLa8/59pJv+Xtj6YcItTvicIfebUbRE4Ry08TuJ8xykY9
-	u+sgkfYd3hSB9ZucmFpPpo9nBjj/+zfsvTu1/RIGnUOpA2IHBO8xwWqP9crCdzpg
-	==
-X-ME-Sender: <xms:mLCrYNyRVgLhVoy0JMEMS5ASD6ga3zU8FRCenLUfLoJ-kb9UTnDzmw>
-    <xme:mLCrYNTerUy0YFhn6qyEpGZpUSkhT_zMwk3VpP6sIQOnEFytriBKkJ6qFgmBfBHjK
-    tQXIcAB2c3sB0DvFWE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejledgjedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnheptdfggfelgeehieeuieegfefgueduudefheffhfejleekheefjeevveegueel
-    ueefnecuffhomhgrihhnpehlihhnuhigqdhsuhhngihirdhorhhgnecukfhppeeltddrke
-    elrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:mLCrYHWwChcn5OwO3D5asSrPOCovrgDM8He8gE24pkRK4vNGKhTyLg>
-    <xmx:mLCrYPir1dBnrvYH7K5b-pD-Q7I-o0wQ0KxQK3ARuh5P1ybFHdEu6A>
-    <xmx:mLCrYPDMXri7PYidw84cp2hIZtaSov0FpnwUCbK4P4BhixYv9UHv6A>
-    <xmx:mbCrYK7bdmxbLglhbQuL611g1cmd5lR0QTBWaHE3zjocdgF-wV4npw>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Mon, 24 May 2021 09:56:39 -0400 (EDT)
-Date: Mon, 24 May 2021 15:56:38 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	devicetree <devicetree@vger.kernel.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 0/2] sunxi: Enforce consistent MMC numbering
-Message-ID: <20210524135638.uqx2pk4rj5pozs7c@gilmour>
-References: <20210419025246.21722-1-samuel@sholland.org>
- <CAGb2v642Z3iH7fUWa31Rb5j+nWdZ=sXn2BYw3_dyE9P6iuL0Cg@mail.gmail.com>
- <20210419095443.1548432e@slackpad.fritz.box>
- <20210430091035.i4zoyzb4c2l22msb@gilmour>
- <20210430115545.6a45d1dc@slackpad.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADE9917F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 14:34:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OqU5tOiO34TbbUJfyoZbJF9fb3exTqZdABVtRTL+az0BqT6ZtORbTxx2Ns1u2QDEzvuARbrqSBR8x3DgPOUUNVRZiNjM/YZhTvYJbYOs5CKcHUPiI0zT/elePo4Otwk9Ns7eS0UWrfRJ04WB19V4pKXzcdUXELciL34wH03TwAvMGa19pFQnA508iYK4BYOyBQxyENvulTCBy6y3Vq7sDZVafztioIheivE1VENXrPJOBQI6h3Fw4cweo3m4mYVH0NjMlRvDPF+tWCSLOdciulqWVqdjDa4UFbhTpifs3Wt30CBd+MZAW/7sKgw985FaESQs3TcesxS0/w2qW7vgww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O/u/Xwx8p8YnFmZRzrXf2M38mnF1LKG2Z5I9kx5hT8c=;
+ b=EZuHTwkF18Ot0QmvWFB325Xp+umsKENl53/20iS+UP2obEPCSgegpGsuTBbr5lpAYMLdugOKBETxx4EufTwOqC4lugpq9Q4FfHnP+AOdgn4SUBDiHS2p9qxWQcHpnN+KV9e4RjVOnuID4JyHedte4eyC6GXRf46LJRQQZHEDhbGPdkdcAlOMwNo+WAY4NbBSLsAirORXJwbLxM8ZwTrkmozk/9saNjXJG2GAqwinWkebDa+dqyL1WT6Zbgfc5kATinVF20z/Jksa8dbxa4VCMG8kolKZGStozXlNCYVfEExXg9dUBfAw/r8A0kvGn9HJiLriOx7cPZKF8fVe6rQ61Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=secospa.onmicrosoft.com; s=selector2-secospa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O/u/Xwx8p8YnFmZRzrXf2M38mnF1LKG2Z5I9kx5hT8c=;
+ b=eHO6CQCJDjt6zXkXSr1Sq7Y1sBnoZr1eM9Pc8gYnCYaqYRSi2qmNpP7MD3t4AIHNHEG6xACGO5tO9CKyXdymbCs/35oWG1DSABlvU7I77zspL/gMSYciHcwaVBsFog3fohO2C6FHPnT8GsAnZXB/S1XC7tei8oK42wHQr/eIKrc=
+Authentication-Results: vrull.eu; dkim=none (message not signed)
+ header.d=none;vrull.eu; dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
+ by DBBPR03MB7129.eurprd03.prod.outlook.com (2603:10a6:10:206::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.23; Mon, 24 May
+ 2021 14:34:02 +0000
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b]) by DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b%5]) with mapi id 15.20.4150.027; Mon, 24 May 2021
+ 14:34:02 +0000
+Subject: Re: [RFC PATCH 2/3] sunxi: Implement fastboot_get_mmc_device()
+To: Andre Przywara <andre.przywara@arm.com>, Simon Glass <sjg@chromium.org>,
+ Jagan Teki <jagan@amarulasolutions.com>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
+ Patrick Delaunay <patrick.delaunay@foss.st.com>, Heiko Schocher
+ <hs@denx.de>, Kever Yang <kever.yang@rock-chips.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
+References: <20210524003650.24469-1-andre.przywara@arm.com>
+ <20210524003650.24469-3-andre.przywara@arm.com>
+From: Sean Anderson <sean.anderson@seco.com>
+Message-ID: <c4cd77a4-5e61-d2a4-15e3-164024e0051f@seco.com>
+Date: Mon, 24 May 2021 10:33:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210524003650.24469-3-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [50.195.82.171]
+X-ClientProxiedBy: MN2PR04CA0034.namprd04.prod.outlook.com
+ (2603:10b6:208:d4::47) To DB7PR03MB4523.eurprd03.prod.outlook.com
+ (2603:10a6:10:19::27)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mb2hlya2v2axj4c2"
-Content-Disposition: inline
-In-Reply-To: <20210430115545.6a45d1dc@slackpad.fritz.box>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.27.1.65] (50.195.82.171) by MN2PR04CA0034.namprd04.prod.outlook.com (2603:10b6:208:d4::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4150.26 via Frontend Transport; Mon, 24 May 2021 14:34:01 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5281c577-0717-4cda-c7c4-08d91ec0fa06
+X-MS-TrafficTypeDiagnostic: DBBPR03MB7129:
+X-Microsoft-Antispam-PRVS:
+	<DBBPR03MB71296402DBEB72405407D9D796269@DBBPR03MB7129.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	CfRL52xIfNKiRE+S4jxwIBKcpa1u01z0MPszk3wrCw3zL4/76xUUeV6i6vHVCS6GOaLqysoChnCS5Kv7J4j2v3vWLHSBD6EdhJTvaYFrdFfTvBXe18ofoKtE1/d7dd6RHQ1aDiABx6tcElBW74/imxKp66qzZxX4/Qz6AtQDANBW4jIlqH4Fd3vKKklpOabhXN1q7/Fg/VgEDWhQrAh1JOdl+ltllGA1Rv8uSh7ZeOxQ8JvM7ZEhJuolHD486SR6ohh0PluSrvKCeGOIbjkVzuOf8DBYHjnGC0JuCPRpstiBc1YXI6sud+QTRiHeBqWNLzb3Nab++dkeX47AxKr8cFwDSbeqttOb5PmKrdjdY0u7gnGNdYw9OfP3CoiyYH8qY3TyMwFNVJkFGM7eqIqDWd0qiNVj9T4ccfM5wjJ1S0EN+LIjbL6XksioJL0mrDUlMz7DvxFHLi97B8IpilP2Q8madyEkf0H7capGfZceWKZHzdlWd9sutztge4b0dDClhbBcQTr4qZzc2Z34szJL8NytYQiP6cMoHo2rVzaYNYiCwxSqI1JqPnY8lYYGqDRfC8kjMcTdu8lro/3o+leykWfyIORolHG5p5lUEvYMkkRYSZd2tUbfarPe8ZBFDhhlFKkyTURtyXDszfECKN8xX0UyG10XjGjM7LOZWuxAqWvDWYPeo1u0bBuCxq8iBJQqyR4zVm+Xll0gwvCXWKRwYnZSyOwWNvwnaJv54GYV0ho=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(136003)(39840400004)(396003)(346002)(376002)(2906002)(31686004)(54906003)(316002)(16576012)(52116002)(110136005)(38100700002)(53546011)(38350700002)(86362001)(66946007)(956004)(26005)(44832011)(66476007)(66556008)(16526019)(186003)(4326008)(8676002)(2616005)(36756003)(5660300002)(6666004)(478600001)(31696002)(8936002)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData:
+	=?utf-8?B?cFBtYmZvSHlPVmxncnpNQnhURzdLcitHdXJtc2R6aWxzVmhwUzBHeUJPM2xw?=
+ =?utf-8?B?Q1lZb0pIbjE2eVRhQ3pDVlFDVmtWWEZ4eTFBVEIzckFxcHdseE1Wa1A5aWhL?=
+ =?utf-8?B?M0lEa2JkbWpaOWl6d3BBS1VHNi9JQkVNZjVBZFlacGNEWVl4TkRHcTZKZzNj?=
+ =?utf-8?B?V2dOQ093d3BEWitVVlRocTRpaDdvSkV2YWw4YnVXODQ5TGxKUUdDOVUyejNN?=
+ =?utf-8?B?MkZNZ21TemY1cXJ3enhTSXVEZEt6U1pVdVMvc0pWcGhTQ29qWHJaT2pTMXRj?=
+ =?utf-8?B?WHBqSkI0NlVML2IwWElrd1VVcVZVVkpVL3VlTHRuTnhoUXpySUs3M2JCVjVl?=
+ =?utf-8?B?L01KKzc5YWk0WEwrbTRrdGFYNkJDSWFrOXhTUmRSNCt0WFRXZGI1QUNiMnUr?=
+ =?utf-8?B?SDZ3RDNxVXY4eXRTRjBIWTQyRFd1UFdkRmZNUXNQeFdQMWZuL1U5YUptaEZF?=
+ =?utf-8?B?NXpuSzM2N2dJaExPMVh4N0FnYXNGd2t6MThpcTR6T2IvZWZkV1k5UmRHNzMz?=
+ =?utf-8?B?QS9YZUt6NVhjcDNpUjRuRnE3N0xuQTdvTVNuMFpxRjdOQmdJVkF3K3AzSVNz?=
+ =?utf-8?B?Y005WTFON1BkRWNRd0FRVWNXditaZkZQYk9Bc3FtTXJYTzFLTmxHRDArd3Ri?=
+ =?utf-8?B?UThSendFYmswTit1NjNOczdCbmRQOXJNOVlsOThVelIvZHAzdWxMT1FaQ0ZZ?=
+ =?utf-8?B?QURJWElQMGc4RFlWelQwOHRiVU5paDlTRU9pTFVZbWpteUlvellaZi9NYTdN?=
+ =?utf-8?B?aXJmTVZMc0w1REhVNlZrSkFlNUVwSjFCMWE0clhqejRxUk8xSjBTcGFnYVNu?=
+ =?utf-8?B?MDU0QzM4aU4rbFF3YmRMUmZOajBWZU5WVzR1YnhtZ0JuK24wUFBMZDZmWXhF?=
+ =?utf-8?B?SXNZTElucmUzTjFsZFM0cHR6TmZObE5WOGpJdDFwV2RMSHUxRUlpWlVTQUdY?=
+ =?utf-8?B?TjU3dU9DRy9GbURpbEZzdFJkUkpSZXhxMEw4TTZLVmZxckJzcUJBWFhQcm03?=
+ =?utf-8?B?dWsxTGU4U1d0MU8vRVFSRHhBTE1wVHRSZnE1OXBZUyt1WU9LTGU0Y3pVaU9G?=
+ =?utf-8?B?OXgzSmVSOU9MZEFWanFCZGlZOXRvaVEyL2hSTUZWZHMyR2k5Q0IrbGdrUUQz?=
+ =?utf-8?B?QlU0ZUZQT2VOcWMwQnlsZEtyM05RdFpzRWFkMC9iek9NM3dBUk5HRlFXOTdP?=
+ =?utf-8?B?V0JETERKTzhLQXVKUWlWSFdkdEpKcVR5REZsaFhpbU1rK0FxLytvNGY0ZThu?=
+ =?utf-8?B?VFoyWGJhNWQ2RlllYkhOT1BwSzQ2dXQ3ZkQxY0ovUzFVWmo1RXRrUE9uOWVu?=
+ =?utf-8?B?RmlJQkdrQ3haNWRXa2Nrd1YrcGNiam9MOEczSVVVeEg2dk1BQmk4MmpPVjdV?=
+ =?utf-8?B?cXNMMGRNS2pic1F3b0JjY0I2TG9WSzNCRnZaLzVkNFYyOGJXVngrdU5lQ09X?=
+ =?utf-8?B?SVBISGsrblNZVHBkTVNqSlFubngvc09BWjlWUDBOeEJZeGVhT1JxRmxocnYx?=
+ =?utf-8?B?VVdhZHppTXhlelFodzlnNCtReWJscVNPOXRRSkpuYjFMOGphZXhBL1cwSXZI?=
+ =?utf-8?B?RlJwTVREOWRjZ2pybTVvQXRzUllGaFRjMHJDY1QrenRLZUFqY2xTSHdsd0hv?=
+ =?utf-8?B?ajgwa3hNdEwxNEx0SU1tVTU3NnB1YjFsRi9CdUNRaGdKV3o3UkJsS1huaW5t?=
+ =?utf-8?B?K1EvKzdySCttcFlpQVMxVDJPT0NLNVVnaGtTZS8yeFBNZnhFSkhia1I0eFc4?=
+ =?utf-8?Q?cdKXQpRAhVqQYDp0S4+lh4i+zwvPpZmAiKhWzkA?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5281c577-0717-4cda-c7c4-08d91ec0fa06
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 May 2021 14:34:02.7857
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8e/XhWeZ/jLZE/rTAC7fKDLDP1OTTWGLpA2flkZlsg3DE0tyQPnCYXEMazAnReVMzPDVKATg8NFWQJcvZbVjSA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR03MB7129
 
 
---mb2hlya2v2axj4c2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 30, 2021 at 11:55:45AM +0100, Andre Przywara wrote:
-> On Fri, 30 Apr 2021 11:10:35 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> Hi Maxime,
->=20
-> > On Mon, Apr 19, 2021 at 09:54:43AM +0100, Andre Przywara wrote:
-> > > On Mon, 19 Apr 2021 11:17:19 +0800
-> > > Chen-Yu Tsai <wens@csie.org> wrote:
-> > >=20
-> > > Hi,
-> > >  =20
-> > > > On Mon, Apr 19, 2021 at 10:52 AM Samuel Holland <samuel@sholland.or=
-g> wrote: =20
-> > > > >
-> > > > > Dealing with the inconsistent numbering has been a major pain, and
-> > > > > there is a solution with (as far as I can tell) no tangible downs=
-ides.
-> > > > > So let's use it. =20
-> > >=20
-> > > Thanks Samuel for sending this!
-> > >  =20
-> > > > > Yes, I know the kernel supports UUIDs for root=3D. But UUIDs do n=
-ot help
-> > > > > when referencing the whole, unpartitioned device, like is needed =
-for
-> > > > > updating the bootloader and firmware. So for the use case of "wri=
-te a
-> > > > > bootloader to the SD card, regardless of where the board is curre=
-ntly
-> > > > > booted from", I know of two options:
-> > > > >   - Dig around in sysfs to find the mmc number from the MMIO addr=
-ess,
-> > > > >     which means I have to know the MMIO addresses for every SoC, =
-or
-> > > > >   - Apply patches like these.
-> > > > >
-> > > > > Samuel Holland (2):
-> > > > >   ARM: dts: sunxi: h3/h5: Enforce consistent MMC numbering
-> > > > >   arm64: dts: allwinner: Enforce consistent MMC numbering
-> > > > >
-> > > > >  arch/arm/boot/dts/sunxi-h3-h5.dtsi            | 6 ++++++
-> > > > >  arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 6 ++++++
-> > > > >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 6 ++++++   =20
-> > > >=20
-> > > > At least with Rockchip this is now done at the board level. IIRC it=
- was
-> > > > a request from other people to not do it at the SoC level. I don't =
-recall
-> > > > exactly who though. =20
-> > >=20
-> > > FWIW, I am very much in favour of these patches, at a SoC level:
-> > > The *SoC* BootROM imposes an order, by probing the first (by MMIO
-> > > address order) MMC controller first for boot devices. IIRC that's a
-> > > different story for Rockchip?
-> > > And if people really don't care about the order, then having a certain
-> > > order doesn't hurt, so we could as well use the "natural" order, as it
-> > > was before. =20
-> >=20
-> > This doesn't have anything to do with the BootRom though but what we
-> > provide to the userspace?
->=20
-> My argument was that there is a "natural" order, not only by the
-> location in the MMIO space, but on a more logical level: the "first" SD
-> controller is first checked by the BootROM, so the SoC puts a "number
-> 0" tag on this particular one. This is just because I heard the
-> (reasonable) argument that location in MMIO space should not be
-> significant, and deriving an order from that is arbitrary.
+On 5/23/21 8:36 PM, Andre Przywara wrote:
+> The default MMC device to use for the fastboot flash command is hard to
+> decide at runtime, since the numbering of the MMC devices depends on
+> devicetree nodes. On the hardware side, the eMMC is connected to device
+> 2, but this might be U-Boot's device 1 or 2, depending on whether the DT
+> contains a WiFi node for the hardware MMC1 device.
 
-Unfortunately, the bootrom order is just as arbitrary. It's even worse
-since it's inconsistent across SoCs. The A31 has that boot order:
-https://linux-sunxi.org/BROM#A31
+Can you fix this with aliases? e.g.
 
-Do you really expect that we have a different ordering based on the
-state of these pins for a given boot?
+aliases {
+	mmc0 = &mmc0;
+	mmc1 = &mmc1;
+	mmc2 = &mmc2;
+};
 
-I know you don't :) And it's my point, really. There's no logical order
-that is common to all the SoCs and all the buses. So there's no point in
-even trying, the userspace and installers should just acknowledge that.
+That way the mmcs will always have the same number even if (e.g.) hardware mmc 1 is absent.
 
-> > The userspace has no guarantee about the
-> > kernel enumeration order for any bus (but UART for some reason), I'm not
-> > really sure why MMC would be an exception.
->=20
-> Userspace is one thing, but arguably there are ways to find the
-> partition you are looking for, because you have all the kernel *and*
-> userlevel tools at hand. The question is whether this needs to be overly
-> complicated and harder for the user.
-> But the other, more pressing problem is the kernel-only code in
-> init/do_mounts.c, which has very limited means to find a
-> certain partition (see below).
+--Sean
 
-To some extent it's still a userspace issue: I never heard that
-discussion for a server or desktop, even though they very much have the
-same problem. It's not for those systems because they rely on UUIDs
-and/or an initramfs to address it.
-
-If you want to build a system that is generic enough that PARTLABEL or
-PARTUUID doesn't work, it should be the preferred solution as well.
-
-> > Especially since the kernel will not try to catch up, this will be
-> > bound to be broken on a regular basis.
->=20
-> What do you mean with "will not try to catch up"? Do you mean there
-> might be other kernel changes that spoil the numbering again, in the
-> future?
-
-I mean, the kernel doesn't even try. It never really did either.
-
-We have systems where even an aliases based solution wouldn't work
-today, like the kettlepop (a CHIP with an eMMC) that has an eMMC but no
-SD card by default, but an extension card exists that has this
-capability.
-
-The natural order without the extension would be mmc0 for the eMMC, but
-obviously that would be mmc1 if the mmc0 controller is enabled, right?
-
-> > And that aside, assuming that a device only has an eMMC this would
-> > create the mmc2 device, which is completely weird and inconsistent
-> > with how any other bus behaves.
->=20
-> You have a point there, but I don't see how this would be a problem. I
-> think one advantage is *consistent* numbering across reboots, so it
-> will always be mmc2, even if you add a WiFi chip later (some boards
-> have that as an option). Also those SD-card less system could surely
-> override the labels in their board .dts files?
-
-This is inconsistent with how any bus and devices behave in Linux. You
-plug a USB key, the first one is going to be called sda. The first
-graphics card is going to be card0, etc.
-
-I don't see why we should make an exception for MMC buses on "embedded"
-devices specifically. Or if we do, I want the embedded exception for a
-few other things ;)
-
-> > > Also UUIDs only help if you boot with an initramfs to resolve them,
-> > > which proves to be extra pain if you don't compile kernels on the
-> > > device, or not inside a distribution environment. =20
-> >=20
-> > I'm not sure what you mean? The kernel is perfectly able to resolve
-> > them. You can also use PARTLABEL if you want something more user
-> > friendly.
->=20
-> init/do_mounts.c supports PARTUUID only, but most people/distributions
-> use UUID, which is filesystem metadata, so not easily accessible for
-> the kernel early and on a partition level only. And IIRC PARTLABEL is
-> only available on GPT partitioned disks.
-> Also PARTUUID is set at partition time, so a user formatting her own SD
-> card (or just changing the partition table) will have a unique PARTUUID,
-> and it cannot be used from within a filesystem image or
-> prefabricated boot script to reference its own partition
-> (in /etc/fstab).
-> And in general UUIDs are not very human friendly, so their main domain
-> is to be handled by code. I definitely don't memorise a single one of
-> them, but I do remember root=3D/dev/mmcblk0p2.
->=20
-> I find it *very* annoying to load my development kernel over TFTP, then
-> booting them with the rootfs from SD card or eMMC, and seeing it fail
-> about 50% of the time, because the numbering is off.
-
-Yeah, I know, it's annoying to me too.
-
-Maxime
-
---mb2hlya2v2axj4c2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKuwlgAKCRDj7w1vZxhR
-xY1LAQDEzFxWOhQ+jLuvDrxwGvwpolEwK2uE4+u1Q91h327lMgEA4qUdCTDXGUAL
-Y1NlXY9eR+qRWvLWqDyYg5zDcKnM6gA=
-=fm02
------END PGP SIGNATURE-----
-
---mb2hlya2v2axj4c2--
+> 
+> To avoid hardcoding this for each board, let's scan all MMC devices, and
+> try to find the eMMC device, given that this is enabled. If not, we use
+> the SD card.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>   board/sunxi/board.c | 37 +++++++++++++++++++++++++++++++++++++
+>   1 file changed, 37 insertions(+)
+> 
+> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> index 21651a1bfca..5f64887e48b 100644
+> --- a/board/sunxi/board.c
+> +++ b/board/sunxi/board.c
+> @@ -625,6 +625,43 @@ int board_mmc_init(struct bd_info *bis)
+>   }
+>   #endif
+>   
+> +#ifdef CONFIG_FASTBOOT_FLASH_MMC
+> +int fastboot_get_mmc_device(void)
+> +{
+> +	struct udevice *dev;
+> +	static int mmc_dev = -1;
+> +	int sd_card = -1;
+> +
+> +	if (mmc_dev != -1)
+> +		return mmc_dev;
+> +
+> +	for (uclass_first_device(UCLASS_MMC, &dev);
+> +	     dev;
+> +	     uclass_next_device(&dev)) {
+> +		struct mmc *mmc = mmc_get_mmc_dev(dev);
+> +
+> +		mmc_init(mmc);
+> +		if (!mmc->has_init)
+> +			continue;
+> +
+> +		if (IS_SD(mmc)) {
+> +			sd_card = dev->seq_;
+> +			continue;
+> +		} else {
+> +			mmc_dev =  dev->seq_;
+> +			break;
+> +		}
+> +	}
+> +
+> +	if (mmc_dev == -1)
+> +		mmc_dev = sd_card;
+> +	if (mmc_dev == -1)
+> +		mmc_dev = 0;
+> +
+> +	return mmc_dev;
+> +}
+> +#endif
+> +
+>   #ifdef CONFIG_SPL_BUILD
+>   
+>   static void sunxi_spl_store_dram_size(phys_addr_t dram_size)
+> 
