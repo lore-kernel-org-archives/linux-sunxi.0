@@ -1,74 +1,77 @@
-Received: from tux.runtux.com (tux.runtux.com [176.9.82.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F419317F
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 16:24:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by tux.runtux.com (Postfix) with ESMTP id 442096EFC0;
-	Mon, 24 May 2021 18:24:36 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at tux.runtux.com
-Received: from tux.runtux.com ([127.0.0.1])
-	by localhost (tux2.runtux.com [127.0.0.1]) (amavisd-new, port 10026)
-	with LMTP id 7nT45oZLbKUC; Mon, 24 May 2021 18:24:35 +0200 (CEST)
-Received: from bee.priv.zoo (62-99-217-90.static.upcbusiness.at [62.99.217.90])
-	(Authenticated sender: postmaster@runtux.com)
-	by tux.runtux.com (Postfix) with ESMTPSA id 6DB866EF06;
-	Mon, 24 May 2021 18:24:34 +0200 (CEST)
-Received: by bee.priv.zoo (Postfix, from userid 1002)
-	id EFA9846F; Mon, 24 May 2021 18:24:33 +0200 (CEST)
-Date: Mon, 24 May 2021 18:24:33 +0200
-From: Ralf Schlatterbeck <rsc@runtux.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2282017F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 23:30:50 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D8096D;
+	Mon, 24 May 2021 16:30:50 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F3F653F73D;
+	Mon, 24 May 2021 16:30:48 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>,
+	Peng Fan <peng.fan@nxp.com>
+Cc: u-boot@lists.denx.de,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mirko Vogt <mirko-dev|linux@nanl.de>
-Subject: Re: [PATCH 1/1] spi-sun6i: Fix chipselect/clock bug
-Message-ID: <20210524162433.6nebp2k7u66zbkx3@runtux.com>
-References: <20210520100656.rgkdexdvrddt3upy@runtux.com>
- <20210521173011.1c602682@slackpad.fritz.box>
- <20210521201913.2gapcmrzynxekro7@runtux.com>
- <20210524133301.32c74794@slackpad.fritz.box>
+	Samuel Holland <samuel@sholland.org>,
+	Ondrej Jirman <megous@megous.com>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/8] sunxi: mmc: Fixes and speed increase
+Date: Tue, 25 May 2021 00:30:21 +0100
+Message-Id: <20210524233029.16417-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210524133301.32c74794@slackpad.fritz.box>
-X-ray: beware
-User-Agent: NeoMutt/20180716
 
-On Mon, May 24, 2021 at 01:33:01PM +0100, Andre Przywara wrote:
-> - Single patch set series don't bother to have a "1/1" after the
->   "PATCH".
-> - You are expected to increase the version number when you send a new
->   version, to show that *this* is better than the previous post and
->   this version should be merged. Otherwise the maintainer might pick
->   the wrong version. "git format-patch -v2" and "git send-email" will
->   automatically take care of this.
+While debugging some eMMC problem on the H616 SoC, I stumbled upon some
+weird code in the Allwinner MMC driver. Some closer inspection and some
+help from Ondrej later this series of fixes emerged:
+Some patches remove part of the #ifdef hell we needlessly had in the
+driver.
+A big chunk is around the "new timing mode", which all "newer" SoCs
+(since around 2015) have, and which requires some extra bit to be set. We
+didn't enable this mode for all SoCs, this is now fixed in patches 3-6.
+Patch 7 fixes a big performance problem we had due to using MMIO accesses
+for the actual data transfer, as opposed to DMA transfers used in Linux.
+Short from adding a lot of code to use DMA as well, we can actually halve
+the number of MMIO accesses on reads, effectively doubling the bus
+transfer performance. This helps the H6 a lot, but also improves the eMMC
+read performance.
+The final patch makes use of some generic MMC DT code, to parse generic
+DT properties. This allows us to remove sunxi specific code, but also
+adds support for "broken-cd" and more advanced MMC speed modes.
 
-OK I'll keep that in mind.
+Please have a look and test this code on as many boards as possible.
+While a performance increase is nice, we don't want to risk data
+integrity over this, so please try to verify that it still works for
+you.
 
-> Please keep in mind that text after the dashes doesn't make it in it
-> repo, so this information would be lost there. Also, in general links in
-> commit messages are somewhat frowned upon, since they tend to 404
-> sooner or later. So ideally you can put a condensed version of your
-> findings into the commit message? Don't worry if it grows long, it is
-> not uncommon to have a 2 page commit message for a one-liner patch.
+Cheers,
+Andre.
 
-This was intentional, the commit message is only the upper part.
-The Links were meant to give a lot of details why the patch fixes
-something. I think the commit message already explains the condensed
-findings. I've put this additional explanation text after the '---' to
-not need an additional Patch 0/1 email ;-)
+P.S. Patches 5 and 6 use different approaches to differentiate between
+SoCs specific quirks: Patch 5/8 selects an explicit symbol from the
+SoC specific sections in our Kconfig file, while patch 6/8 compares
+the selected SoC type in the C code. Please let me know which approach
+is better, I can then use this for both patches (and in the future).
 
-Thanks!
-Ralf
+Andre Przywara (8):
+  mmc: sunxi: Avoid #ifdefs in delay and width setup
+  mmc: sunxi: Fix warnings with CONFIG_PHYS_64BIT
+  mmc: sunxi: Fix MMC clock parent selection
+  mmc: sunxi: Cleanup "new timing mode" selection
+  mmc: sunxi: Enable "new timing mode" on all new SoCs
+  mmc: sunxi: Cleanup and fix self-calibration code
+  mmc: sunxi: Increase MMIO FIFO read performance
+  mmc: sunxi: Use mmc_of_parse()
+
+ .../include/asm/arch-sunxi/clock_sun50i_h6.h  |   2 +-
+ arch/arm/include/asm/arch-sunxi/mmc.h         |   1 +
+ arch/arm/mach-sunxi/Kconfig                   |   3 +
+ drivers/mmc/sunxi_mmc.c                       | 160 +++++++++++-------
+ 4 files changed, 102 insertions(+), 64 deletions(-)
+
 -- 
-Dr. Ralf Schlatterbeck                  Tel:   +43/2243/26465-16
-Open Source Consulting                  www:   www.runtux.com
-Reichergasse 131, A-3411 Weidling       email: office@runtux.com
+2.17.5
+
