@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56C8317F
-	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 23:30:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C876617F
+	for <linux-sunxi@lists.linux.dev>; Mon, 24 May 2021 23:31:00 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 115496D;
-	Mon, 24 May 2021 16:30:59 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83F44101E;
+	Mon, 24 May 2021 16:31:00 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CA44D3F73D;
-	Mon, 24 May 2021 16:30:57 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 48A4C3F73D;
+	Mon, 24 May 2021 16:30:59 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
 	Peng Fan <peng.fan@nxp.com>
@@ -15,9 +15,9 @@ Cc: u-boot@lists.denx.de,
 	Samuel Holland <samuel@sholland.org>,
 	Ondrej Jirman <megous@megous.com>,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 6/8] mmc: sunxi: Cleanup and fix self-calibration code
-Date: Tue, 25 May 2021 00:30:27 +0100
-Message-Id: <20210524233029.16417-7-andre.przywara@arm.com>
+Subject: [PATCH 7/8] mmc: sunxi: Increase MMIO FIFO read performance
+Date: Tue, 25 May 2021 00:30:28 +0100
+Message-Id: <20210524233029.16417-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210524233029.16417-1-andre.przywara@arm.com>
 References: <20210524233029.16417-1-andre.przywara@arm.com>
@@ -26,85 +26,113 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Newer SoCs have a self calibration feature, which avoids us writing hard
-coded phase delay values into the controller.
+To avoid the complexity of DMA operations (with chained descriptors), we
+use repeated MMIO reads and writes to the SD_FIFO_REG, which allows us
+to drain or fill the MMC data buffer FIFO very easily.
 
-Consolidate the code by avoiding unnecessary #ifdefs, and also enabling
-the feature for all those newer SoCs.
+However those MMIO accesses are somewhat costly, so this limits our MMC
+performance, to between 17 and 22 MB/s, but down to 9.5 MB/s on the H6
+(partly due to the lower AHB1 frequency).
+
+As it turns out we read the FIFO status register after *every* word we
+read or write, which effectively doubles the number of MMIO accesses,
+thus effectively more than halving our performance.
+
+To avoid this overhead, we can make use of the FIFO level bits, which are
+in the very same FIFO status registers.
+So for a read request, we now can collect as many words as the FIFO
+level originally indicated, and only then need to update the status
+register.
+
+We don't know for sure the size of the FIFO (and it seems to differ
+across SoCs anyway), so writing is more fragile, which is why we still
+use the old method for that. If we find a minimum FIFO size available on
+all SoCs, we could use that, in a later optimisation.
+
+This patch increases the eMMC read speed on a Pine64-LTS from about
+22MB/s to 44 MB/s. SD card reads don't gain that much, but with 23 MB/s
+we now reach the practical limit for 3.3V SD cards.
+On the H6 we double our transfer speed, from 9.5 MB/s to 19.7 MB/s.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/mmc/sunxi_mmc.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ arch/arm/include/asm/arch-sunxi/mmc.h |  1 +
+ drivers/mmc/sunxi_mmc.c               | 39 +++++++++++++++++++++------
+ 2 files changed, 32 insertions(+), 8 deletions(-)
 
+diff --git a/arch/arm/include/asm/arch-sunxi/mmc.h b/arch/arm/include/asm/arch-sunxi/mmc.h
+index 340e25b04d2..5daacf10eb1 100644
+--- a/arch/arm/include/asm/arch-sunxi/mmc.h
++++ b/arch/arm/include/asm/arch-sunxi/mmc.h
+@@ -119,6 +119,7 @@ struct sunxi_mmc {
+ #define SUNXI_MMC_STATUS_CARD_PRESENT		(0x1 << 8)
+ #define SUNXI_MMC_STATUS_CARD_DATA_BUSY		(0x1 << 9)
+ #define SUNXI_MMC_STATUS_DATA_FSM_BUSY		(0x1 << 10)
++#define SUNXI_MMC_STATUS_FIFO_LEVEL(reg)	(((reg) >> 17) & 0x3fff)
+ 
+ #define SUNXI_MMC_NTSR_MODE_SEL_NEW		(0x1 << 31)
+ 
 diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index 33cedb4edba..a30fd8fbdb1 100644
+index a30fd8fbdb1..115b519546e 100644
 --- a/drivers/mmc/sunxi_mmc.c
 +++ b/drivers/mmc/sunxi_mmc.c
-@@ -103,21 +103,29 @@ static int mmc_resource_init(int sdc_no)
- }
- #endif
+@@ -311,8 +311,9 @@ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
+ 					      SUNXI_MMC_STATUS_FIFO_FULL;
+ 	unsigned i;
+ 	unsigned *buff = (unsigned int *)(reading ? data->dest : data->src);
+-	unsigned byte_cnt = data->blocksize * data->blocks;
+-	unsigned timeout_msecs = byte_cnt >> 8;
++	unsigned word_cnt = (data->blocksize * data->blocks) >> 2;
++	unsigned timeout_msecs = word_cnt >> 6;
++	uint32_t status;
+ 	unsigned long  start;
  
-+/*
-+ * All A64 and later MMC controllers feature auto-calibration. This would
-+ * normally be detected via the compatible string, but we need something
-+ * which works in the SPL as well.
-+ */
-+static bool sunxi_mmc_can_calibrate(void)
-+{
-+	return IS_ENABLED(CONFIG_MACH_SUN50I) ||
-+	       IS_ENABLED(CONFIG_MACH_SUN50I_H5) ||
-+	       IS_ENABLED(CONFIG_SUN50I_GEN_H6) ||
-+	       IS_ENABLED(CONFIG_MACH_SUN8I_R40);
-+}
+ 	if (timeout_msecs < 2000)
+@@ -323,16 +324,38 @@ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
+ 
+ 	start = get_timer(0);
+ 
+-	for (i = 0; i < (byte_cnt >> 2); i++) {
+-		while (readl(&priv->reg->status) & status_bit) {
++	for (i = 0; i < word_cnt;) {
++		unsigned int in_fifo;
 +
- static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- {
- 	unsigned int pll, pll_hz, div, n, oclk_dly, sclk_dly;
- 	bool new_mode = IS_ENABLED(CONFIG_MMC_SUNXI_HAS_NEW_MODE);
--	bool calibrate = false;
- 	u32 val = 0;
++		while ((status = readl(&priv->reg->status)) & status_bit) {
+ 			if (get_timer(start) > timeout_msecs)
+ 				return -1;
+ 		}
  
- 	/* A83T support new mode only on eMMC */
- 	if (IS_ENABLED(CONFIG_MACH_SUN8I_A83T) && priv->mmc_no != 2)
- 		new_mode = false;
- 
--#if defined(CONFIG_MACH_SUN50I) || defined(CONFIG_SUN50I_GEN_H6)
--	calibrate = true;
--#endif
--
- 	if (hz <= 24000000) {
- 		pll = CCM_MMC_CTRL_OSCM24;
- 		pll_hz = 24000000;
-@@ -179,7 +187,9 @@ static int mmc_set_mod_clk(struct sunxi_mmc_priv *priv, unsigned int hz)
- 	if (new_mode) {
- 		val |= CCM_MMC_CTRL_MODE_SEL_NEW;
- 		setbits_le32(&priv->reg->ntsr, SUNXI_MMC_NTSR_MODE_SEL_NEW);
--	} else if (!calibrate) {
-+	}
+-		if (reading)
+-			buff[i] = readl(&priv->reg->fifo);
+-		else
+-			writel(buff[i], &priv->reg->fifo);
++		/*
++		 * For writing we do not easily know the FIFO size, so have
++		 * to check the FIFO status after every word written.
++		 * TODO: For optimisation we could work out a minimum FIFO
++		 * size across all SoCs, and use that together with the current
++		 * fill level to write chunks of words.
++		 */
++		if (!reading) {
++			writel(buff[i++], &priv->reg->fifo);
++			continue;
++		}
 +
-+	if (!sunxi_mmc_can_calibrate()) {
- 		/*
- 		 * Use hardcoded delay values if controller doesn't support
- 		 * calibration
-@@ -237,14 +247,15 @@ static int mmc_config_clock(struct sunxi_mmc_priv *priv, struct mmc *mmc)
- 	rval &= ~SUNXI_MMC_CLK_DIVIDER_MASK;
- 	writel(rval, &priv->reg->clkcr);
++		/*
++		 * The status register holds the current FIFO level, so we
++		 * can be sure to collect as many words from the FIFO
++		 * register without checking the status register after every
++		 * read. That saves half of the costly MMIO reads, effectively
++		 * doubling the read performance.
++		 */
++		for (in_fifo = SUNXI_MMC_STATUS_FIFO_LEVEL(status);
++		     in_fifo > 0;
++		     in_fifo--)
++			buff[i++] = readl_relaxed(&priv->reg->fifo);
++		dmb();
+ 	}
  
--#if defined(CONFIG_MACH_SUN50I) || defined(CONFIG_SUN50I_GEN_H6)
-+#if defined(CONFIG_SUNXI_GEN_SUN6I) || defined(CONFIG_SUN50I_GEN_H6)
- 	/* A64 supports calibration of delays on MMC controller and we
- 	 * have to set delay of zero before starting calibration.
- 	 * Allwinner BSP driver sets a delay only in the case of
- 	 * using HS400 which is not supported by mainline U-Boot or
- 	 * Linux at the moment
- 	 */
--	writel(SUNXI_MMC_CAL_DL_SW_EN, &priv->reg->samp_dl);
-+	if (sunxi_mmc_can_calibrate())
-+		writel(SUNXI_MMC_CAL_DL_SW_EN, &priv->reg->samp_dl);
- #endif
- 
- 	/* Re-enable Clock */
+ 	return 0;
 -- 
 2.17.5
 
