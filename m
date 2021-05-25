@@ -1,83 +1,158 @@
-Received: from heliosphere.sirena.org.uk (heliosphere.sirena.org.uk [172.104.155.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E48217F
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 14:54:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sirena.org.uk; s=20170815-heliosphere; h=In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=ki/UxVATrYCQetouX/QmwaQIst2UWIZZsnwpm15gHok=; b=oo9ObZfUthqW/IFjCDipZkNAxn
-	y4Z1mRP6aPZgLGBUSXINQjADeUh0E0t2FsWhntgy2pQG7LLdpCwryPpuayZsTmEuFfqSCeSzgYIL+
-	2SmyUja9Kj9v1V+JNCPRS1N9l3KTu9QbjFb+h+eLr89sE0qwjocN4TMXqVTowhaapaYI=;
-Received: from 94.196.90.140.threembb.co.uk ([94.196.90.140] helo=fitzroy.sirena.org.uk)
-	by heliosphere.sirena.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <broonie@sirena.org.uk>)
-	id 1llY9O-005lfK-EW; Tue, 25 May 2021 14:35:18 +0000
-Received: by fitzroy.sirena.org.uk (Postfix, from userid 1000)
-	id 333F8D00B19; Tue, 25 May 2021 15:35:51 +0100 (BST)
-Date: Tue, 25 May 2021 15:35:51 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Ralf Schlatterbeck <rsc@runtux.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6668070
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 16:39:35 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id n2so33033247wrm.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 09:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=GEKgoi2/bl5p1Vp5VslwoOtEKcH+XHZmWKomAsa1ah4=;
+        b=Iz7gosRTk5IGEy3BTOerDjpxERmnYHc3S4V/cEO+bStXkiWnXSUkzx++25aTQClwsY
+         mJaZ1QHEi0FHxZrNElSvsFwctxa9qDZQIabueuI21b5C334LCIxz3dRB3nvMkzkXFZvq
+         h4e2qye7Xw5ea7YoRNK4ErV14YD4F8sZi7DHsXfVNFoaFe3+rYlYqjZNAFvfUYIT4dTa
+         pnB3jIjzsL47b8sL3PSZhMW9tjLfez8lRjVa2UOlu93uo5mqMk9ikF0pVsWPUGFeKJCH
+         9OUNN98bvhN0dIYhq1NNoJtuXFtm13ePS7OzVgEsvsKOceozDbL20UlsaA71p7UjqUyu
+         GhFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=GEKgoi2/bl5p1Vp5VslwoOtEKcH+XHZmWKomAsa1ah4=;
+        b=HlD9zQlJQvUBgc7eqlo//39WaRQEQqsD/M6+zViR697YOaaV4K1RyAN3+O41kohP68
+         RSEhG59Meki+mUVd/P3fJH03OgYO9/x9Rm8enlf3elX887JYIpWaQbgpfAJ6kaicn7hc
+         Gt9S1se7/IkRyMw0JWX6fhzH1+1GdJ5woVoWPqlMILDy7spHZr3E/cUNEqEp8vWhD6Ji
+         C/2tKEghr0sXBCxxbcW3hgpmYRMv/wbJ7yQaifKebIYWS5arMnVxVViq7eGckU7F/aPs
+         /TQskNqqqNPirtXQkgdsoip/v3juT8PBga517z4XmlgFE9Mz+oop8oFNrdYrchP8GJh6
+         saEQ==
+X-Gm-Message-State: AOAM532xEv6kGEwvBiMMkM/N8KULz4G+fEmxjiKKxad7yQ7g414VBDZw
+	DMeIWuuITcSLqi9aNCh3Rsg=
+X-Google-Smtp-Source: ABdhPJwOqI8HA0KrvXSLUIa4TLMtXrZvotnrSrOccv3vDeHR28gkQLfrT+HQTPMVGpG27i7qAoV2QA==
+X-Received: by 2002:a5d:50c7:: with SMTP id f7mr29122996wrt.189.1621960773804;
+        Tue, 25 May 2021 09:39:33 -0700 (PDT)
+Received: from localhost ([62.96.65.119])
+        by smtp.gmail.com with ESMTPSA id 11sm11715857wmo.24.2021.05.25.09.39.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 May 2021 09:39:32 -0700 (PDT)
+Date: Tue, 25 May 2021 18:41:00 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Emil Lenngren <emil.lenngren@gmail.com>
+Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Roman Beranek <roman.beranek@prusa3d.cz>,
+	Lee Jones <lee.jones@linaro.org>,
 	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-spi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mirko Vogt <mirko-dev|linux@nanl.de>
-Subject: Re: [PATCH 1/1] spi-sun6i: Fix chipselect/clock bug
-Message-ID: <YK0LR3077RUsSYti@sirena.org.uk>
-References: <20210520100656.rgkdexdvrddt3upy@runtux.com>
- <20210521173011.1c602682@slackpad.fritz.box>
- <20210521201913.2gapcmrzynxekro7@runtux.com>
+	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com,
+	Roman Beranek <roman.beranek@prusa3d.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: Re: [PATCH] pwm: sun4i: Avoid waiting until the next period
+Message-ID: <YK0onNy2r30aNw2g@orome.fritz.box>
+References: <20210511220014.1945519-1-roman.beranek@prusa3d.com>
+ <CAO1O6seU7t==O=yCVBQK0iAkeEyO3dbRQ71obJh3Jm26xxWobw@mail.gmail.com>
+ <20210512044133.6yfwyluzdx6yfh4c@pengutronix.de>
+ <CAO1O6sfZ0O7JExw07UytBcNROc9TQsu9bBp-+zFF3824PxxvRA@mail.gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eQZK+OgGNZ+kM+zd"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="Zw6ChVpkyZLA/4W4"
 Content-Disposition: inline
-In-Reply-To: <20210521201913.2gapcmrzynxekro7@runtux.com>
-X-Cookie: The wages of sin are unreported.
+In-Reply-To: <CAO1O6sfZ0O7JExw07UytBcNROc9TQsu9bBp-+zFF3824PxxvRA@mail.gmail.com>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 
 
---eQZK+OgGNZ+kM+zd
-Content-Type: text/plain; charset=us-ascii
+--Zw6ChVpkyZLA/4W4
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 21, 2021 at 10:19:13PM +0200, Ralf Schlatterbeck wrote:
-> From: Mirko Vogt <mirko-dev|linux@nanl.de>
+On Wed, May 12, 2021 at 11:18:24AM +0200, Emil Lenngren wrote:
+> Hi Uwe,
 >=20
-> The current sun6i SPI implementation initializes the transfer too early,
-> resulting in SCK going high before the transfer. When using an additional
-> (gpio) chipselect with sun6i, the chipselect is asserted at a time when
-> clock is high, making the SPI transfer fail.
+> Den ons 12 maj 2021 kl 06:41 skrev Uwe Kleine-K=C3=B6nig
+> <u.kleine-koenig@pengutronix.de>:
+> >
+> > Hello Emil,
+> >
+> > On Wed, May 12, 2021 at 02:55:26AM +0200, Emil Lenngren wrote:
+> > > Well that's one way of "solving it" ;)
+> > >
+> > > But on what hardware do you really need to wait until one full pulse
+> > > cycle ends, before a disable command takes effect?
+> > >
+> > > On the hardware I've tested on (GR8 and V3s), it's enough to wait at
+> > > most two clock cycles in order for it to take effect before we can
+> > > close the gate. And with clock cycle I mean 24 MHz divided by the
+> > > prescaler. With prescaler 1, that's 84 nanoseconds. By closing the
+> > > gate when the pwm should be disabled, I guess we could save some
+> > > nanoampere or microampere (is this important?)
+> >
+> > If I understood correctly you really have to wait longer to achieve that
+> > the output is inactive in the disabled state. Do you talk about the same
+> > thing?
+>=20
+> Exactly, i.e. after writing 0 to the EN bit, we don't have to wait
+> until the current period ends before we can observe that the output
+> signal goes to the inactive state.
+>=20
+> Simple test:
+>=20
+> 1. Set pwm interval to a long time like 2 seconds, and duty to 50%.
+> 2. Enable clock gating.
+> 3. Enable the pwm by writing 1 to the EN bit.
+> 4. Observe the LED blink once per second.
+> 5. Now at a random time write 0 to the EN bit in order to disable the
+> pwm. Don't turn off the clock gating.
+> 6. If you just look with the eye it appears the LED turns off
+> immediately, regardless of when in the pulse cycle we disabled it.
+>=20
+> Just tested the above using "devmem" on a V3s.
+>=20
+> By using a large prescaler and testing some different prescalers, I've
+> concluded that it takes at least 1 and at most 2 clock cycles before
+> we can safely turn off the gate and be certain that the output pin has
+> changed to disabled.
+>=20
+> It would be good if people having other hardware could confirm this is
+> correct there as well.
+>=20
+> Please take a look at some previous material I wrote:
+> https://lkml.org/lkml/2020/3/17/1158
+> https://linux-sunxi.org/PWM_Controller_Register_Guide (Observed
+> behaviour on GR8 from NextThing)
+> https://pastebin.com/GWrhWzPJ
 
-Please don't send new patches in reply to old threads, this makes
-it hard to follow what is going on and creates confusion as to
-what the current version of things is and means things can easily
-get missed if the earlier thread gets discarded - this goes along
-with the thing Andre mentioned about flagging the version of the
-patch in the subject line.
+I'm pretty sure Alexandre at the time reported that the instantiation of
+the controller that he was using required waiting for the period to
+complete before the output went to the disabled state. It's possible
+that this was changed in subsequent versions of the IP, so perhaps we
+need to distinguish based on compatible string?
 
---eQZK+OgGNZ+kM+zd
+Thierry
+
+--Zw6ChVpkyZLA/4W4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmCtC0YACgkQJNaLcl1U
-h9AY5QgAgcWYI2VA7WPTIjHk9SuXExgIBAH1SNcW2KwVRbBcesxqHH3Dzlfg9vqc
-C6luchIJ7CILJTdw5h1F4j3UhDtGEnQAyq5eecZ0la/eS5POfkWdObtdnWgW8qVj
-9nddoYKV/goXt9jc4VqtOZSKdl9/yY3aK44xFvLZ3k2HJUSCBsr7aGuONUGVjX6Z
-uOYROLl4x6wKUugWfrLANl1PRZBf8fSUOa426DdpWpw+FkLWnaJLAKqQQT2YJPfQ
-vNBe4PjQ9Czqr/8R+FFBAgF005PHX6l/ek2A8lWZ/YuSZGM94qoPIHF5OYLpwSQZ
-x/6RCx9aCRKKd4rU1g9Mlobv8p4Zdg==
-=ZFjA
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmCtKJoACgkQ3SOs138+
+s6E1JQ/9HBO69yTjzg/VrUEso77SFSIA1lN06S4tgKqlKULo4dc/wOu51VmixraP
+tTGvyiKbZXiFNtvJN77lGKB3T7m/+JtgIi5Tyle+6kun1xPSHee8rF5bUD0ebyFb
+lnZSeOgoKzz8TSEJ7jIN19NxQCn5R4OfviHWIM/JZNoWcFkVCOBkeqlxWf63gFDD
+8EpDEavfS05OVEACybCf3sgl9SZJBsvMmlJvuHw8G+u62iFmrlOKRxEZSaqQS5nm
+EKsb+qSrTjTws4uGuy9mIjz00cViUWwl/yK0cQ3km5spvmjXQRQfLr7KyAQUfwN1
+iUiy725WqQl28jXoXWf83t6wQ/aCBxzaZHMmW7LbRrerqzyBuqBLj+mQfL6Vw7BC
+AbFlCRQPD87bNuRhlQ72wypz00tgX0xXbr+mQ5l8+Kx52QAliapJIH3GR4VthBQl
+8YqsuXwMnNApsDTP7LxGp+mVPWLvUXvtFYOLSofXzI5eY4f0A53v1PBjh9VrTgq3
+Z6/VZVmWi3GeRXyqiHIK9xUdsrEuXU6iKIXugx5SpZI19WIyTxsNO9LDWp81QwbM
+4YDSeq7Yb40DZOIGxYz9vzCe3RTgqHiTRTrhS5rrjeV/kI1/1Vg/dIdxczz7oMMG
+E7gVp8D1scYVJh8L/v0Ps6ppIn5UfrzFXNYSSC7FAkw138V8Z9A=
+=FYSH
 -----END PGP SIGNATURE-----
 
---eQZK+OgGNZ+kM+zd--
+--Zw6ChVpkyZLA/4W4--
