@@ -1,129 +1,133 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 256EF17F
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 08:06:26 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 27F1D135E;
-	Tue, 25 May 2021 04:06:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 25 May 2021 04:06:26 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58B452FB0
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 08:24:22 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 20E84134E;
+	Tue, 25 May 2021 04:24:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 25 May 2021 04:24:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm2; bh=8k3ZcwwCrUhnCAPBECI4Cdp3Eo2
-	+fjctzRPcl25CSiY=; b=MtpM8SBtS0koCHlQP26V5ZRF8afylL8Ih62Bx8OpvwP
-	+4NfyRi2WaGU5RQybD5SHgo6GizLItLDpv8h6Gx9b3Z3xBQAy6GYfst3p/i3DVGS
-	EXRU481ySpmTbWi4Aq+6M63Csgf52Y25hsgVib4K3DAnnzLKlyaAJ0dmKo7K/Uq6
-	WUWwDi6WtSI/zw2B+WEYekRg/EbZ5AzyakNQmoUSh21hvDvDwx8owPer1Q5hc1WD
-	q2DFuhy+IIDcXu+xo26bl5kVax8hfCP/6JFyeif+XpdoZe6TJzzi3cHwUntzl1be
-	Ah3WMj2fpmKxAMLuXBVbss67oA0NWb3RxfaTgVbJ7EQ==
+	:content-type:in-reply-to; s=fm2; bh=T/RJ8jiQp+vj5a/FxgpoVSB6RkM
+	3N/iycSA1uRI4V9Y=; b=E6LWyS/AL240aCpCg0oTZ0rCRNqvK1REKMqJETsp6so
+	q8bfE9MS9h+VozUQoEM7hi/MhlIGzcU9L9B3d92VM2ZBSjkNvOYcNKPiH+GknLad
+	n16W/ULfrI6TMp7ZbmIOZ1ZuakKGOWlJwh8u1tpuXtyiU6vby671YCqzpRGeOX4O
+	iRBl7qXSg019Ix0yP//PuJq5u+OyVnMRa2UY9qZTPj2/BqoiiILzZCpZ8nfBgjps
+	6+lbg0z6EaZB6hidK1/INdMhQirD5KHhA1/VwHU65RretnDgMq8pWnmV35EjZEeA
+	AaHtRvMEoLYJ/pU6afEVixqLqjKOV5jb0Fx5fB43LTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8k3Zcw
-	wCrUhnCAPBECI4Cdp3Eo2+fjctzRPcl25CSiY=; b=NgP8PG/QciXN5ywZ+OXQ7x
-	kCwIEa2LdEw+mjPMq22zV54kk74GqJfyJqiW9jj+TEMTG4Jyh0dt62sn16rJzYSI
-	eSjOnuHKvijGbVEsgL8NV/9jmZluz2RWQhHViQbWv47GYCorggL5dtMc2svklpAb
-	dYwaGJQzCtH8V0BkAVJLAHbrsn227jw3DTC1sv1PMnXMiNw4LzFJRuvPBVDSxM8i
-	orrAMfP3UfohU7yapahlfuDQE8aOTJyNmntbXf8+JO2p37454/AcFgPPyg7iEZWH
-	gUUTMJqMg8/Q3eWw14J9zIxJiDjw7QIjtFRg86eY3gz/HPmwMbW3AM1Pew4a371A
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=T/RJ8j
+	iQp+vj5a/FxgpoVSB6RkM3N/iycSA1uRI4V9Y=; b=G7dCijkWcD6Lo0klqzMSxH
+	ZxaL1q8SPZdGtIDYRuc1Og+3VIhFgLezP22O7J0VvY3isFt2CWnbADdWA0aWrF1m
+	+W1/OKIC75NNW7Jjk9ll2uRKNs1Q2TeWpAheJC7Kjhb/NcU5YK3Lvdy/DxR1Wlqy
+	k7hF5RmeOFosvr8irUzajWUz2Tkz9LNtpnEcEuwWRME0MwTJUsI+tcH7iAn6/Z3X
+	bnB0+9NWFpwcqay0VZHUnZiU71fQeBdFxbMnopZ3ge8HgJejaKba1llJuNRiNNg/
+	O+d/bAs/9cHOWCaVGDRI61OuTJQJlGc/lu/JBm/HIRDxcxr6UfopSN6IEUslPMJw
 	==
-X-ME-Sender: <xms:AbCsYHkn0S3JlCpdQVwYRrTdNjwfL0JpJ7ZIzxmrpNyYCQZ6MWGJHQ>
-    <xme:AbCsYK2gBgX6k_3VKu7XbONtkm5T2h1cgGChjF6AUOu0xkEpggHo0IJ_kjjNAEo2n
-    EghfAApcM8F82uaiXc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdektddguddvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
-    heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:AbCsYNovCjXyrRd2MR_bSqCtYWjkk6NSFyRpC55sn12TTYythBLNDQ>
-    <xmx:AbCsYPmnLyrDbK4rfAgkKSZOWcyifpeOyl1SXWGaeCavC9NtWjXXvQ>
-    <xmx:AbCsYF3_A8vPmXuoIbQ5NnueIJGnvZ8MBePhBnPPXey_gTtvQWsIbw>
-    <xmx:AbCsYDC7Wg8ujZfnzAnfanOoJXXSbjNLmdO2EX1AzLpOufejoQEsTA>
+X-ME-Sender: <xms:MrSsYKDHe2Ve7v8xMI1Nm-a-Z3DFZ4uRgcybubU-Uy_Pmb1WDFqotQ>
+    <xme:MrSsYEjbg3rskx2DGuWGP_G-bZbjXHEl32nUCJCBsGKbiBk_WVT-dHq6Q15OvLRE4
+    2lD-lsiFdxrDspGWPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekuddgtdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:MrSsYNll5y5WwZSPVPEKuqejkPFgqJ5GoaLDJKTLzm255XlGrXpKjg>
+    <xmx:MrSsYIy_9jRluU9lX4uKu4yNWdDoCW3uZAbgnJJ5Mid3sKu8tZHUYQ>
+    <xmx:MrSsYPQae3bCTC5d9gLbFOA_f3KPKx1eomLafcxRerXw_Efe3qwcFA>
+    <xmx:NLSsYOFU6tt5S4gLXNDuSCFbPHAAg5k6GxhBt3Zcf51S5RznFDSZiw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
 	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Tue, 25 May 2021 04:06:24 -0400 (EDT)
-Date: Tue, 25 May 2021 10:06:21 +0200
+	Tue, 25 May 2021 04:24:18 -0400 (EDT)
+Date: Tue, 25 May 2021 10:24:16 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Andreas Rehn <rehn.andreas86@gmail.com>
-Cc: wens@csie.org, jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev,
+To: Samuel Holland <samuel@sholland.org>
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>, linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: dts: sun8i: v3s: enable emac for zero Dock
-Message-ID: <20210525080621.m7qpnfdarkrg3vn5@gilmour>
-References: <20210522205039.179486-1-rehn.andreas86@gmail.com>
- <20210522222329.192367-1-rehn.andreas86@gmail.com>
+Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
+Message-ID: <20210525082416.jkqmlkbdx6nhrens@gilmour>
+References: <20210419014549.26900-1-samuel@sholland.org>
+ <20210430090206.lybmygrt636nysoc@gilmour>
+ <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="t7yycpvode2l6eut"
+	protocol="application/pgp-signature"; boundary="4ls3b5jytkdblw2f"
 Content-Disposition: inline
-In-Reply-To: <20210522222329.192367-1-rehn.andreas86@gmail.com>
+In-Reply-To: <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
 
 
---t7yycpvode2l6eut
+--4ls3b5jytkdblw2f
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andreas,
+On Sun, May 09, 2021 at 10:39:30PM -0500, Samuel Holland wrote:
+> On 4/30/21 4:02 AM, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
+> >> The sun6i RTC provides 32 bytes of general-purpose data registers.
+> >> They can be used to save data in the always-on RTC power domain.
+> >> The registers are writable via 32-bit MMIO accesses only.
+> >>
+> >> Expose the region as a NVMEM provider so it can be used by userspace a=
+nd
+> >> other drivers.
+> >>
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >=20
+> > As far as I understood, you want to use those registers to implement
+> > super-standby? If so, while it makes sense for the kernel to be able to
+> > be able to write to those registers, I guess it would be a bit unwise to
+> > allow the userspace to access it?
+>=20
+> I want the user to be able to pass information to the bootloader (to
+> select a boot device, e.g. reboot to FEL). I also want the user to be
+> able to read data stored to these registers by system firmware (e.g.
+> crust writes exception information there). It's not really related to
+> standby.
 
-On Sun, May 23, 2021 at 12:23:29AM +0200, Andreas Rehn wrote:
-> dwmac-sun8i supports v3s and
-> Licheepi-zero Dock provides an ethernet port
->=20
-> Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
-> ---
-> Changes in v2:
-> 	- add ethernet0 alias.
->=20
->  arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts | 9 +++++++++
->  1 file changed, 9 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts b/arch/ar=
-m/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> index db5cd0b8574b..4d564028f286 100644
-> --- a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> +++ b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> @@ -49,6 +49,10 @@ / {
->  	compatible =3D "licheepi,licheepi-zero-dock", "licheepi,licheepi-zero",
->  		     "allwinner,sun8i-v3s";
-> =20
-> +	aliases {
-> +		ethernet0 =3D &emac;
-> +	};
-> +
->  	leds {
->  		/* The LEDs use PG0~2 pins, which conflict with MMC1 */
->  		status =3D "disabled";
-> @@ -94,3 +98,8 @@ button-800 {
->  		voltage =3D <800000>;
->  	};
->  };
-> +
-> +&emac {
-> +	allwinner,leds-active-low;
-> +	status =3D "okay";
-> +};
+What information do you want to provide? This looks like punching
+through the abstraction layer provided by the kernel. This is also an
+issue since it ties an ABI to the use of crust: if there's another user
+for those RTC registers at some point, the userspace would have no way
+to tell whether or not crust is being used and might get complete
+garbage (compared to what crust usually provides) instead.
 
-We use alphabetical order for phandle derefences
+> I would want to stack a nvmem-reboot-mode on top to give friendlier
+> names to some of the numbers, but I don't see a problem with root having
+> direct access to the registers. It's no different from /dev/nvram
+> providing access to the PC CMOS RAM.
+
+And those solutions have issues too. efivarfs for example can totally
+brick the system it runs on if the user has an unfortunate rm -rf.
 
 Maxime
 
---t7yycpvode2l6eut
+--4ls3b5jytkdblw2f
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKyv/QAKCRDj7w1vZxhR
-xewJAQDXELCjkFOUxFRq2pu+bL1yfeskQnRSjBNxlX8qnVgjwAEA30NEfJ6zUiK7
-BoYFguB7rqGtXysSCn3SSnVzsEFMzQc=
-=85T9
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYKy0MAAKCRDj7w1vZxhR
+xR+VAP0ZpqtCK0cgTcMjk72tdAhvDqLefB0iokheh3dtgHzhfAEAv6UX65vsXn/P
+qCCHgsLdWfCH+BHEVtSEd+X1hNOuJwk=
+=TKw9
 -----END PGP SIGNATURE-----
 
---t7yycpvode2l6eut--
+--4ls3b5jytkdblw2f--
