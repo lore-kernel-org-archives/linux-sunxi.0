@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C73662FAE
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 02:47:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 491FF613F5;
-	Tue, 25 May 2021 02:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8FDD2FAE
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 02:47:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B91D613F5;
+	Tue, 25 May 2021 02:47:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1621910839;
-	bh=idAratzNTXPgcm61LdWO/f8aWakVRytFHu0GjCWMvLo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=jzkgyT3GM9/C4MyH0ZehSbxHe//2BASxk8pYw3ziq54naHYtRIfoEXtbZjd9U4pFt
-	 2P5I04cQ40m4m6B+TWs7ydTKnDV7lz9pYtYDi1UcwzrMtDwkNSj9ULDPeI7D5bjTar
-	 XT5UW3bKZRJFwn3OOeJ5lhNK2R2931UCFZC7Qer5PWbjFTyi6VJspgb00XBdJg8A29
-	 aB/LHouaCOzV8UgGftJKvJXIZlh9QhdUuIUcZcSCdOLbM7aMFoSGjhu7ZYJPbP0oIv
-	 Hu8YWcG6tWQyN7aKUSrEguuqXQhcPWMdydmhrXjHHXWc4qgrm1CigrAH/6CfOcIwgI
-	 ca9W0gSJF9K1g==
+	s=k20201202; t=1621910844;
+	bh=AVRcXtmLCIJi5XnfF9tb6jrsuH0Q2wdP15ACb5u8w4k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AyyT73HbHY0cm5IyO2xEVdvH1M8nQXF7qK5A/fdEkoXO2swvy6PSID+TwxhDJtELF
+	 l9V0V2lQZzFWQEEpoOF07KLLvGQud4M1cficgvUXueJNfBpI6h9c9PNq3WaxJrsGTY
+	 5frmBpssWcFnZizsl+BrAsRXvXEeen+78LHvNFfD1FhvLo0LaUBLxm6VY6AOlqmNNt
+	 TFvvh8jiO2UcOY5Ya/zs/usVa+LDn0c3YNLVLn19tVTdVMjFAFh/VDxDBGv2eiqXrv
+	 46AeKsghCK4x7J+0oTlLr2+JsSwoMmLjTR3tAQMCQCoW/85sm9hZAxaK00d3l5kx4G
+	 nD+W/MV7yYdEQ==
 From: guoren@kernel.org
 To: guoren@kernel.org,
 	anup.patel@wdc.com,
@@ -25,10 +25,12 @@ Cc: linux-riscv@lists.infradead.org,
 	linux-arch@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Guo Ren <guoren@linux.alibaba.com>
-Subject: [PATCH V2 0/2] riscv: Fixup asid_allocator remaining issues
-Date: Tue, 25 May 2021 02:46:25 +0000
-Message-Id: <1621910787-34598-1-git-send-email-guoren@kernel.org>
+Subject: [PATCH V2 1/2] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
+Date: Tue, 25 May 2021 02:46:26 +0000
+Message-Id: <1621910787-34598-2-git-send-email-guoren@kernel.org>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1621910787-34598-1-git-send-email-guoren@kernel.org>
+References: <1621910787-34598-1-git-send-email-guoren@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -36,26 +38,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
 From: Guo Ren <guoren@linux.alibaba.com>
 
-The patchset fixes the remaining problems of asid_allocator.
- - Fixup _PAGE_GLOBAL for kernel virtual address mapping
- - Optimize tlb_flush with asid & range
+Kernel virtual address translation should avoid care asid or it'll
+cause more TLB-miss and TLB-refill. Because the current asid in satp
+belongs to the current process, but the target kernel va TLB entry's
+asid still belongs to the previous process.
 
-Changes since v1:
- - Drop PAGE_UP wrong fixup
- - Rebase on clean linux-5.13-rc2
- - Add Reviewed-by
+Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+Reviewed-by: Anup Patel <anup@brainfault.org>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+---
+ arch/riscv/include/asm/pgtable.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Guo Ren (2):
-  riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
-  riscv: Use use_asid_allocator flush TLB
-
- arch/riscv/include/asm/mmu_context.h |  2 ++
- arch/riscv/include/asm/pgtable.h     |  3 ++-
- arch/riscv/include/asm/tlbflush.h    | 22 ++++++++++++++++++++
- arch/riscv/mm/context.c              |  2 +-
- arch/riscv/mm/tlbflush.c             | 40 +++++++++++++++++++++++++++++++++---
- 5 files changed, 64 insertions(+), 5 deletions(-)
-
+diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
+index 9469f46..346a3c6 100644
+--- a/arch/riscv/include/asm/pgtable.h
++++ b/arch/riscv/include/asm/pgtable.h
+@@ -134,7 +134,8 @@
+ 				| _PAGE_WRITE \
+ 				| _PAGE_PRESENT \
+ 				| _PAGE_ACCESSED \
+-				| _PAGE_DIRTY)
++				| _PAGE_DIRTY \
++				| _PAGE_GLOBAL)
+ 
+ #define PAGE_KERNEL		__pgprot(_PAGE_KERNEL)
+ #define PAGE_KERNEL_READ	__pgprot(_PAGE_KERNEL & ~_PAGE_WRITE)
 -- 
 2.7.4
 
