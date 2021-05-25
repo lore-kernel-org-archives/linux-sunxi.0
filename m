@@ -1,37 +1,66 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7EE2FAE
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 12:22:34 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 9D8596736F; Tue, 25 May 2021 14:22:24 +0200 (CEST)
-Date: Tue, 25 May 2021 14:22:24 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: guoren@kernel.org
-Cc: anup.patel@wdc.com, palmerdabbelt@google.com, arnd@arndb.de, hch@lst.de,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Guo Ren <guoren@linux.alibaba.com>, Michal Simek <monstr@monstr.eu>
-Subject: Re: [PATCH] arch: Cleanup unused functions
-Message-ID: <20210525122224.GA4474@lst.de>
-References: <1621945234-37878-1-git-send-email-guoren@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6AD2FAE
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 12:24:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B559D61409;
+	Tue, 25 May 2021 12:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1621945495;
+	bh=kTICQpWTbjTcpQWhVugJHEfXiH/3wCrrriPNXPOkttw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=El4UawTPYLEjOubsZ760YYIv6i9zWEW9P015m+Qk/oKYQGYFis2uosnXZbX4cew1z
+	 IO15KdNgaIh1Uj1Idle3GR6y0Ms2RLXUNKUgE3KMtVxbNf4M1uaj9Dmd5bIw3pSrBv
+	 g8WDJ+pTfUaCbqH58p0elfBYECgXnlyW6xWJ1iYP28d4Vn6CfL3eDK9mwl5FnJriA+
+	 CCY7KOTb56QoBqRi/iJjJXTvrBDaJdMT87rWtP6t+Ovpd6+frD5ZCgE+YcoqI2YZop
+	 c004SKao/40ZNZIfO9OddIb9T3LAD9sQtaL9XUZ7MRJIOqZ40+dvdWhYUovJ8HofNE
+	 lSnw9GHL6dmbw==
+From: guoren@kernel.org
+To: guoren@kernel.org,
+	anup.patel@wdc.com,
+	palmerdabbelt@google.com,
+	arnd@arndb.de,
+	hch@lst.de
+Cc: linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: [PATCH V3 0/2] riscv: Fixup asid_allocator remaining issues
+Date: Tue, 25 May 2021 12:24:05 +0000
+Message-Id: <1621945447-38820-1-git-send-email-guoren@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1621945234-37878-1-git-send-email-guoren@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Tue, May 25, 2021 at 12:20:34PM +0000, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> These functions haven't been used, so just remove them. The patch
-> has been tested with riscv, but I only use grep to check the
-> microblaze's.
+From: Guo Ren <guoren@linux.alibaba.com>
 
-Looks good:
+The patchset fixes the remaining problems of asid_allocator.
+ - Fixup _PAGE_GLOBAL for kernel virtual address mapping
+ - Optimize tlb_flush with asid & range
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Changes since v2:
+ - Remove PAGE_UP/DOWN usage in tlbflush.h
+ - Optimize variable name
+
+Changes since v1:
+ - Drop PAGE_UP wrong fixup
+ - Rebase on clean linux-5.13-rc2
+ - Add Reviewed-by
+
+Guo Ren (2):
+  riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
+  riscv: Use use_asid_allocator flush TLB
+
+ arch/riscv/include/asm/mmu_context.h |  2 ++
+ arch/riscv/include/asm/pgtable.h     |  3 ++-
+ arch/riscv/include/asm/tlbflush.h    | 21 +++++++++++++++++++
+ arch/riscv/mm/context.c              |  2 +-
+ arch/riscv/mm/tlbflush.c             | 40 +++++++++++++++++++++++++++++++++---
+ 5 files changed, 63 insertions(+), 5 deletions(-)
+
+-- 
+2.7.4
+
