@@ -1,82 +1,87 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB9C070
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 09:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=77alA0oNaOdxO9Nn5XAmzEZ6uOPGgpzTh0etFfYrlAM=; b=CJtzWCtnRisoGTNMJQCQYaQgVp
-	ZVGRtAAqogEkkwH9F9sBAGoaUIJqf8hyB4tWDL7yuZj/sqQh0U+BWtvZWmQGjuMN34YGl+CVRhKqY
-	SpUjecHol9ErWniyWlQeiZ55SyQ6f5qUrCbAB5OfKHdCF0QtETh17x5xH9Cm8rZZgktR5YKtOhTaY
-	BAo+VxbRlblic7Pi6monzUyPO9BA4KI29sePHIRFeDpFieohokdd8OHlD/lC11YmnpM9AjF2UhJvK
-	mi4DXoLwyN6+LX4/ewdxrfmy4NRfdBhlIaoT1r8+VKmnGA1IUj76nNdLFH4YSTQJZb4oPpyYKmINK
-	b2mPNq0A==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-	id 1llTSP-003LFb-Qx; Tue, 25 May 2021 09:34:52 +0000
-Date: Tue, 25 May 2021 10:34:37 +0100
-From: Christoph Hellwig <hch@infradead.org>
-To: Guo Ren <guoren@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>, Anup Patel <anup.patel@wdc.com>,
-	Palmer Dabbelt <palmerdabbelt@google.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	linux-riscv <linux-riscv@lists.infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	linux-arch <linux-arch@vger.kernel.org>,
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH 2/3] riscv: Fixup PAGE_UP in asm/page.h
-Message-ID: <YKzErU3lpFO58hkY@infradead.org>
-References: <1621839068-31738-1-git-send-email-guoren@kernel.org>
- <1621839068-31738-2-git-send-email-guoren@kernel.org>
- <YKyae+8O25A8vxMS@infradead.org>
- <CAJF2gTRA=tUid7akgVXfk6MHOd0KmJpDQEZ2m9wRfhigBDzQTw@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC1782FAE
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 11:29:25 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7187BD6E;
+	Tue, 25 May 2021 04:29:19 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 740C33F719;
+	Tue, 25 May 2021 04:29:17 -0700 (PDT)
+Date: Tue, 25 May 2021 12:29:01 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel
+ Holland <samuel@sholland.org>, Ondrej Jirman <megous@megous.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Kishon Vijay
+ Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ linux-phy@lists.infradead.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH v6 12/17] phy: sun4i-usb: Introduce port2 SIDDQ quirk
+Message-ID: <20210525122901.778bfccd@slackpad.fritz.box>
+In-Reply-To: <20210524115946.jwsasjbr3biyixhz@gilmour>
+References: <20210519104152.21119-1-andre.przywara@arm.com>
+	<20210519104152.21119-13-andre.przywara@arm.com>
+	<20210524115946.jwsasjbr3biyixhz@gilmour>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJF2gTRA=tUid7akgVXfk6MHOd0KmJpDQEZ2m9wRfhigBDzQTw@mail.gmail.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 25, 2021 at 05:28:21PM +0800, Guo Ren wrote:
-> On Tue, May 25, 2021 at 2:34 PM Christoph Hellwig <hch@infradead.org> wrote:
-> >
-> > On Mon, May 24, 2021 at 06:51:07AM +0000, guoren@kernel.org wrote:
-> > > From: Guo Ren <guoren@linux.alibaba.com>
-> > >
-> > > Current PAGE_UP implementation is wrong. PAGE_UP(0) should be
-> > > 0x1000, but current implementation will give out 0.
-> > >
-> > > Although the current PAGE_UP isn't used, it will soon be used in
-> > > tlb_flush optimization.
-> >
-> > Nak.  Please just remove the PAGE_UP/PAGE_DOWN macros just like they
-> > have been removed from other architectures long ago and use the
-> > generic DIV_ROUND_UP macro for your new code like everyone else.
+On Mon, 24 May 2021 13:59:46 +0200
+Maxime Ripard <maxime@cerno.tech> wrote:
+
+Hi Maxime,
+
+> On Wed, May 19, 2021 at 11:41:47AM +0100, Andre Przywara wrote:
+> > At least the Allwinner H616 SoC requires a weird quirk to make most
+> > USB PHYs work: Only port2 works out of the box, but all other ports
+> > need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
+> > RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
+> > the PMU PHY control register needs to be cleared. For this register to
+> > be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
+> > 
+> > Instead of disguising this as some generic feature, do exactly that
+> > in our PHY init:
+> > If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
+> > this one special clock, and clear the SIDDQ bit. We can pull in the
+> > other required clocks via the DT.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
 > 
-> This patch has been dropped because it's wrong, ref Anup's reply.
-> 
-> Remove PAGE_UP/DOWN is okay for me. How about:
->  static inline void local_flush_tlb_range_asid(unsigned long start,
-> unsigned long size,
->                                               unsigned long asid)
->  {
-> -       unsigned long page_add = PAGE_DOWN(start);
-> -       unsigned long page_end = PAGE_UP(start + size);
-> +       unsigned long page_add = _ALIGN_DOWN(start, PAGE_SIZE);
-> +       unsigned long page_end = _ALIGN_UP(start + size, PAGE_SIZE);
-> 
-> _ALIGN_XXX are also defined in arch/riscv/include/asm/page.h.
+> What is this SIDDQ bit doing exactly?
 
-And these also are leftovers from days gone by and should be removed.
+I probably know as much as you do, but as Jernej pointed out, in some
+Rockchip code it's indeed documented as some analogue PHY supply switch:
+($ git grep -i siddq drivers/phy/rockchip)
 
-I think this should simply be:
+In fact we had this pin/bit for ages, it was just hidden as BIT(1) in
+our infamous PMU_UNK1 register. Patch 10/17 drags that into the light.
 
-	
-	unsigned long page_add = start & PAGE_MASK;
-	unsigned long page_end = PAGE_ALIGN(start + size);
+> I guess we could also expose this using a power-domain if it's relevant?
 
-(and page_add is a pretty horrible name as well..)
+Mmmh, interesting idea. So are you thinking about registering a genpd
+provider in sun4i_usb_phy_probe(), then having a power-domains property
+in the ehci/ohci nodes, pointing to the PHY node? And if yes, should
+the provider be a subnode of the USB PHY node, with a separate
+compatible? That sounds a bit more involved, but would have the
+advantage of allowing us to specify the resets and clocks from PHY2
+there, and would look a bit cleaner than hacking them into the
+other EHCI/OHCI nodes.
+
+I would not touch the existing SoCs (even though it seems to apply to
+them as well, just not in the exact same way), but I can give it a
+try for the H616. It seems like the other SIDDQ bits (in the other
+PHYs) are still needed for operation, but the PD provide could actually
+take care of this as well.
+
+Does that make sense or is this a bit over the top for just clearing an
+extra bit?
+
+Cheers,
+Andre
