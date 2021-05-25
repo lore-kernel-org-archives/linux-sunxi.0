@@ -1,158 +1,113 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6668070
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 16:39:35 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id n2so33033247wrm.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 09:39:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E7570
+	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 17:32:21 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id s6so37144956edu.10
+        for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 10:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GEKgoi2/bl5p1Vp5VslwoOtEKcH+XHZmWKomAsa1ah4=;
-        b=Iz7gosRTk5IGEy3BTOerDjpxERmnYHc3S4V/cEO+bStXkiWnXSUkzx++25aTQClwsY
-         mJaZ1QHEi0FHxZrNElSvsFwctxa9qDZQIabueuI21b5C334LCIxz3dRB3nvMkzkXFZvq
-         h4e2qye7Xw5ea7YoRNK4ErV14YD4F8sZi7DHsXfVNFoaFe3+rYlYqjZNAFvfUYIT4dTa
-         pnB3jIjzsL47b8sL3PSZhMW9tjLfez8lRjVa2UOlu93uo5mqMk9ikF0pVsWPUGFeKJCH
-         9OUNN98bvhN0dIYhq1NNoJtuXFtm13ePS7OzVgEsvsKOceozDbL20UlsaA71p7UjqUyu
-         GhFg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=FX+Myz9UW9+R3DoFF03APM91XZJ8+7X0lpmWP9GVHdc=;
+        b=j3/RnxzjxBQSByHoAXbaUZpLCoRKxj6b7S4lVDAMFxmWZ9K9Y8vp3bcjnonF1J6YoV
+         CFqMmCUnRQ0AjRprdBTtwoAuX3pchRY9X3IFu8qrOeGoz1sFiAXNMLBCbFUdalsd+JTl
+         TqfuE0kwZcqaDCE+ru1t/sVtYWAKprjX5cljC7MO7PvS5pW0Vye1a0z5p7UmFDGbUp/V
+         eO1OI5OdP7CC7+P+xRZqN1sKYYaSaelwrEQ++hal2SyblpLpqhmuOUbhFB83E4j+PNcg
+         VsBUCGbrsIQcS7iBAFfM/3+2p0iLRMYk2qa0tVUxCJbx7KRWSi9s7Zp84q6gps76VcRI
+         3q5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GEKgoi2/bl5p1Vp5VslwoOtEKcH+XHZmWKomAsa1ah4=;
-        b=HlD9zQlJQvUBgc7eqlo//39WaRQEQqsD/M6+zViR697YOaaV4K1RyAN3+O41kohP68
-         RSEhG59Meki+mUVd/P3fJH03OgYO9/x9Rm8enlf3elX887JYIpWaQbgpfAJ6kaicn7hc
-         Gt9S1se7/IkRyMw0JWX6fhzH1+1GdJ5woVoWPqlMILDy7spHZr3E/cUNEqEp8vWhD6Ji
-         C/2tKEghr0sXBCxxbcW3hgpmYRMv/wbJ7yQaifKebIYWS5arMnVxVViq7eGckU7F/aPs
-         /TQskNqqqNPirtXQkgdsoip/v3juT8PBga517z4XmlgFE9Mz+oop8oFNrdYrchP8GJh6
-         saEQ==
-X-Gm-Message-State: AOAM532xEv6kGEwvBiMMkM/N8KULz4G+fEmxjiKKxad7yQ7g414VBDZw
-	DMeIWuuITcSLqi9aNCh3Rsg=
-X-Google-Smtp-Source: ABdhPJwOqI8HA0KrvXSLUIa4TLMtXrZvotnrSrOccv3vDeHR28gkQLfrT+HQTPMVGpG27i7qAoV2QA==
-X-Received: by 2002:a5d:50c7:: with SMTP id f7mr29122996wrt.189.1621960773804;
-        Tue, 25 May 2021 09:39:33 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id 11sm11715857wmo.24.2021.05.25.09.39.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=FX+Myz9UW9+R3DoFF03APM91XZJ8+7X0lpmWP9GVHdc=;
+        b=L/FkcdNCvn4LIzDmthGxW44VM7eKr5GpYNITRUe1oOLm+Sz3pApdlKotiTwgMTJsmL
+         8w4jZJqpCGlTOH3EiZgIBt/HHQYGFfSqlmSznIJfGx4dD/nCqlqEv0f7kjgf2kdMqtYS
+         dunuc7U2vnoPa4KhJQOFepdliwzbZhTE3YHZkZdVzd7OtRfMcgdJ7t0aeIZ3btnMe3lc
+         t6sg+i8UUFXEXblp9zdNcZRsMZGAkgroVM4KawLKznPwPqJ3Mlcv+Og1OycNw+MGXRle
+         LffCRM08sqX2sfLbU0+QRrG4130qJNGKql+fAzTae610pz5FZZh7N9RMG5SZuo2A2inf
+         E/XA==
+X-Gm-Message-State: AOAM530YLwBkgCPszBvVo19/5jHcnxI+oeslt15SK6tTAxohdAZyCfHe
+	Q2ue8QFwDjUKaUFHCiwLczU=
+X-Google-Smtp-Source: ABdhPJzqbdQp4LPkjittPUdOdComclEgugyKd2qH/RiZEWU244OkNGIfIUuVKM4ZdqJ7Hv7F1iPl2g==
+X-Received: by 2002:a05:6402:1d39:: with SMTP id dh25mr33179428edb.113.1621963939861;
+        Tue, 25 May 2021 10:32:19 -0700 (PDT)
+Received: from flex-5.fritz.box (x4db5b374.dyn.telefonica.de. [77.181.179.116])
+        by smtp.gmail.com with ESMTPSA id z4sm11061591edc.1.2021.05.25.10.32.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 09:39:32 -0700 (PDT)
-Date: Tue, 25 May 2021 18:41:00 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Emil Lenngren <emil.lenngren@gmail.com>
-Cc: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Roman Beranek <roman.beranek@prusa3d.cz>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>, linux-pwm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com,
-	Roman Beranek <roman.beranek@prusa3d.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH] pwm: sun4i: Avoid waiting until the next period
-Message-ID: <YK0onNy2r30aNw2g@orome.fritz.box>
-References: <20210511220014.1945519-1-roman.beranek@prusa3d.com>
- <CAO1O6seU7t==O=yCVBQK0iAkeEyO3dbRQ71obJh3Jm26xxWobw@mail.gmail.com>
- <20210512044133.6yfwyluzdx6yfh4c@pengutronix.de>
- <CAO1O6sfZ0O7JExw07UytBcNROc9TQsu9bBp-+zFF3824PxxvRA@mail.gmail.com>
+        Tue, 25 May 2021 10:32:19 -0700 (PDT)
+From: Andreas Rehn <rehn.andreas86@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com
+Cc: rfried.dev@gmail.com,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andreas Rehn <rehn.andreas86@gmail.com>
+Subject: [PATCH v3] ARM: dts: sun8i: v3s: enable emac for zero Dock
+Date: Tue, 25 May 2021 19:31:59 +0200
+Message-Id: <20210525173159.183415-1-rehn.andreas86@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210522205039.179486-1-rehn.andreas86@gmail.com>
+References: <20210522205039.179486-1-rehn.andreas86@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Zw6ChVpkyZLA/4W4"
-Content-Disposition: inline
-In-Reply-To: <CAO1O6sfZ0O7JExw07UytBcNROc9TQsu9bBp-+zFF3824PxxvRA@mail.gmail.com>
-User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
+Content-Transfer-Encoding: 8bit
 
+dwmac-sun8i supports v3s and
+Licheepi-zero Dock provides an ethernet port
+furthermore, align nodes in alphabetical order
 
---Zw6ChVpkyZLA/4W4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
+---
+Changes in v3:
+	- align nodes in alphabetical order
+Changes in v2:
+	- add ethernet0 alias.
+ .../boot/dts/sun8i-v3s-licheepi-zero-dock.dts   | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-On Wed, May 12, 2021 at 11:18:24AM +0200, Emil Lenngren wrote:
-> Hi Uwe,
->=20
-> Den ons 12 maj 2021 kl 06:41 skrev Uwe Kleine-K=C3=B6nig
-> <u.kleine-koenig@pengutronix.de>:
-> >
-> > Hello Emil,
-> >
-> > On Wed, May 12, 2021 at 02:55:26AM +0200, Emil Lenngren wrote:
-> > > Well that's one way of "solving it" ;)
-> > >
-> > > But on what hardware do you really need to wait until one full pulse
-> > > cycle ends, before a disable command takes effect?
-> > >
-> > > On the hardware I've tested on (GR8 and V3s), it's enough to wait at
-> > > most two clock cycles in order for it to take effect before we can
-> > > close the gate. And with clock cycle I mean 24 MHz divided by the
-> > > prescaler. With prescaler 1, that's 84 nanoseconds. By closing the
-> > > gate when the pwm should be disabled, I guess we could save some
-> > > nanoampere or microampere (is this important?)
-> >
-> > If I understood correctly you really have to wait longer to achieve that
-> > the output is inactive in the disabled state. Do you talk about the same
-> > thing?
->=20
-> Exactly, i.e. after writing 0 to the EN bit, we don't have to wait
-> until the current period ends before we can observe that the output
-> signal goes to the inactive state.
->=20
-> Simple test:
->=20
-> 1. Set pwm interval to a long time like 2 seconds, and duty to 50%.
-> 2. Enable clock gating.
-> 3. Enable the pwm by writing 1 to the EN bit.
-> 4. Observe the LED blink once per second.
-> 5. Now at a random time write 0 to the EN bit in order to disable the
-> pwm. Don't turn off the clock gating.
-> 6. If you just look with the eye it appears the LED turns off
-> immediately, regardless of when in the pulse cycle we disabled it.
->=20
-> Just tested the above using "devmem" on a V3s.
->=20
-> By using a large prescaler and testing some different prescalers, I've
-> concluded that it takes at least 1 and at most 2 clock cycles before
-> we can safely turn off the gate and be certain that the output pin has
-> changed to disabled.
->=20
-> It would be good if people having other hardware could confirm this is
-> correct there as well.
->=20
-> Please take a look at some previous material I wrote:
-> https://lkml.org/lkml/2020/3/17/1158
-> https://linux-sunxi.org/PWM_Controller_Register_Guide (Observed
-> behaviour on GR8 from NextThing)
-> https://pastebin.com/GWrhWzPJ
+diff --git a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
+index db5cd0b8574b..752ad05c8f83 100644
+--- a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
++++ b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
+@@ -49,16 +49,18 @@ / {
+ 	compatible = "licheepi,licheepi-zero-dock", "licheepi,licheepi-zero",
+ 		     "allwinner,sun8i-v3s";
+ 
++	aliases {
++		ethernet0 = &emac;
++	};
++
+ 	leds {
+ 		/* The LEDs use PG0~2 pins, which conflict with MMC1 */
+ 		status = "disabled";
+ 	};
+ };
+ 
+-&mmc1 {
+-	broken-cd;
+-	bus-width = <4>;
+-	vmmc-supply = <&reg_vcc3v3>;
++&emac {
++	allwinner,leds-active-low;
+ 	status = "okay";
+ };
+ 
+@@ -94,3 +96,10 @@ button-800 {
+ 		voltage = <800000>;
+ 	};
+ };
++
++&mmc1 {
++	broken-cd;
++	bus-width = <4>;
++	vmmc-supply = <&reg_vcc3v3>;
++	status = "okay";
++};
+-- 
+2.25.1
 
-I'm pretty sure Alexandre at the time reported that the instantiation of
-the controller that he was using required waiting for the period to
-complete before the output went to the disabled state. It's possible
-that this was changed in subsequent versions of the IP, so perhaps we
-need to distinguish based on compatible string?
-
-Thierry
-
---Zw6ChVpkyZLA/4W4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmCtKJoACgkQ3SOs138+
-s6E1JQ/9HBO69yTjzg/VrUEso77SFSIA1lN06S4tgKqlKULo4dc/wOu51VmixraP
-tTGvyiKbZXiFNtvJN77lGKB3T7m/+JtgIi5Tyle+6kun1xPSHee8rF5bUD0ebyFb
-lnZSeOgoKzz8TSEJ7jIN19NxQCn5R4OfviHWIM/JZNoWcFkVCOBkeqlxWf63gFDD
-8EpDEavfS05OVEACybCf3sgl9SZJBsvMmlJvuHw8G+u62iFmrlOKRxEZSaqQS5nm
-EKsb+qSrTjTws4uGuy9mIjz00cViUWwl/yK0cQ3km5spvmjXQRQfLr7KyAQUfwN1
-iUiy725WqQl28jXoXWf83t6wQ/aCBxzaZHMmW7LbRrerqzyBuqBLj+mQfL6Vw7BC
-AbFlCRQPD87bNuRhlQ72wypz00tgX0xXbr+mQ5l8+Kx52QAliapJIH3GR4VthBQl
-8YqsuXwMnNApsDTP7LxGp+mVPWLvUXvtFYOLSofXzI5eY4f0A53v1PBjh9VrTgq3
-Z6/VZVmWi3GeRXyqiHIK9xUdsrEuXU6iKIXugx5SpZI19WIyTxsNO9LDWp81QwbM
-4YDSeq7Yb40DZOIGxYz9vzCe3RTgqHiTRTrhS5rrjeV/kI1/1Vg/dIdxczz7oMMG
-E7gVp8D1scYVJh8L/v0Ps6ppIn5UfrzFXNYSSC7FAkw138V8Z9A=
-=FYSH
------END PGP SIGNATURE-----
-
---Zw6ChVpkyZLA/4W4--
