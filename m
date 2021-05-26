@@ -1,113 +1,97 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83E7570
-	for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 17:32:21 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id s6so37144956edu.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 25 May 2021 10:32:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=FX+Myz9UW9+R3DoFF03APM91XZJ8+7X0lpmWP9GVHdc=;
-        b=j3/RnxzjxBQSByHoAXbaUZpLCoRKxj6b7S4lVDAMFxmWZ9K9Y8vp3bcjnonF1J6YoV
-         CFqMmCUnRQ0AjRprdBTtwoAuX3pchRY9X3IFu8qrOeGoz1sFiAXNMLBCbFUdalsd+JTl
-         TqfuE0kwZcqaDCE+ru1t/sVtYWAKprjX5cljC7MO7PvS5pW0Vye1a0z5p7UmFDGbUp/V
-         eO1OI5OdP7CC7+P+xRZqN1sKYYaSaelwrEQ++hal2SyblpLpqhmuOUbhFB83E4j+PNcg
-         VsBUCGbrsIQcS7iBAFfM/3+2p0iLRMYk2qa0tVUxCJbx7KRWSi9s7Zp84q6gps76VcRI
-         3q5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=FX+Myz9UW9+R3DoFF03APM91XZJ8+7X0lpmWP9GVHdc=;
-        b=L/FkcdNCvn4LIzDmthGxW44VM7eKr5GpYNITRUe1oOLm+Sz3pApdlKotiTwgMTJsmL
-         8w4jZJqpCGlTOH3EiZgIBt/HHQYGFfSqlmSznIJfGx4dD/nCqlqEv0f7kjgf2kdMqtYS
-         dunuc7U2vnoPa4KhJQOFepdliwzbZhTE3YHZkZdVzd7OtRfMcgdJ7t0aeIZ3btnMe3lc
-         t6sg+i8UUFXEXblp9zdNcZRsMZGAkgroVM4KawLKznPwPqJ3Mlcv+Og1OycNw+MGXRle
-         LffCRM08sqX2sfLbU0+QRrG4130qJNGKql+fAzTae610pz5FZZh7N9RMG5SZuo2A2inf
-         E/XA==
-X-Gm-Message-State: AOAM530YLwBkgCPszBvVo19/5jHcnxI+oeslt15SK6tTAxohdAZyCfHe
-	Q2ue8QFwDjUKaUFHCiwLczU=
-X-Google-Smtp-Source: ABdhPJzqbdQp4LPkjittPUdOdComclEgugyKd2qH/RiZEWU244OkNGIfIUuVKM4ZdqJ7Hv7F1iPl2g==
-X-Received: by 2002:a05:6402:1d39:: with SMTP id dh25mr33179428edb.113.1621963939861;
-        Tue, 25 May 2021 10:32:19 -0700 (PDT)
-Received: from flex-5.fritz.box (x4db5b374.dyn.telefonica.de. [77.181.179.116])
-        by smtp.gmail.com with ESMTPSA id z4sm11061591edc.1.2021.05.25.10.32.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 May 2021 10:32:19 -0700 (PDT)
-From: Andreas Rehn <rehn.andreas86@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com
-Cc: rfried.dev@gmail.com,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andreas Rehn <rehn.andreas86@gmail.com>
-Subject: [PATCH v3] ARM: dts: sun8i: v3s: enable emac for zero Dock
-Date: Tue, 25 May 2021 19:31:59 +0200
-Message-Id: <20210525173159.183415-1-rehn.andreas86@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210522205039.179486-1-rehn.andreas86@gmail.com>
-References: <20210522205039.179486-1-rehn.andreas86@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20C6170
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 May 2021 00:57:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1DE4C168F;
+	Tue, 25 May 2021 17:57:42 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D4B5D3F719;
+	Tue, 25 May 2021 17:57:40 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: u-boot@lists.denx.de,
+	Paul Kocialkowski <contact@paulk.fr>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] phy: sun4i-usb: Fix PHY0 routing and passby configuration for MUSB
+Date: Wed, 26 May 2021 01:57:18 +0100
+Message-Id: <20210526005718.23767-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-dwmac-sun8i supports v3s and
-Licheepi-zero Dock provides an ethernet port
-furthermore, align nodes in alphabetical order
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
+Recent Allwinner platforms (starting with the H3) only use the MUSB
+controller for peripheral mode and use HCI for host mode. As a result,
+extra steps need to be taken to properly route USB signals to one or
+the other. More precisely, the following is required:
+* Routing the pins to either HCI/MUSB (controlled by PHY);
+* Enabling USB PHY passby in HCI mode (controlled by PMU).
+
+The current code will enable passby for each PHY and reroute PHY0 to
+MUSB, which is inconsistent and results in broken USB host support
+for port 0.
+
+Passby on PHY0 must only be enabled when we want to use HCI. Since
+host/device mode detection is not available from the PHY code and
+because U-Boot does not support changing the mode dynamically anyway,
+we can just mux the controller to MUSB if it is enabled and mux it to
+HCI otherwise.
+
+This fixes USB host support for port 0 on platforms with PHY0 dual-route,
+especially on boards like Pine64 (with only USB-A host ports) and
+TV boxes without OTG ports.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+[Andre: tweak commit message, use IS_ENABLED()]
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
-Changes in v3:
-	- align nodes in alphabetical order
-Changes in v2:
-	- add ethernet0 alias.
- .../boot/dts/sun8i-v3s-licheepi-zero-dock.dts   | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+Hi,
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-index db5cd0b8574b..752ad05c8f83 100644
---- a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-+++ b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-@@ -49,16 +49,18 @@ / {
- 	compatible = "licheepi,licheepi-zero-dock", "licheepi,licheepi-zero",
- 		     "allwinner,sun8i-v3s";
+for H6 boards to work this requires a DT update (to get the <&usbphy 0>
+links between HCI and PHY), which I will send later.
+Tested on Pine H64, Pine64-LTS, OrangePi Zero, OrangePi PC 2, BananaPi M64,
+BananaPi M1.
+
+Cheers,
+Andre
+
+ drivers/phy/allwinner/phy-sun4i-usb.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+index 5723c980323..e6ceafc7648 100644
+--- a/drivers/phy/allwinner/phy-sun4i-usb.c
++++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+@@ -313,9 +313,21 @@ static int sun4i_usb_phy_init(struct phy *phy)
+ 				    data->cfg->disc_thresh, PHY_DISCON_TH_LEN);
+ 	}
  
-+	aliases {
-+		ethernet0 = &emac;
-+	};
+-	sun4i_usb_phy_passby(phy, true);
++	if (IS_ENABLED(CONFIG_USB_MUSB_SUNXI)) {
++		/* Needed for HCI and conflicts with MUSB, keep PHY0 on MUSB */
++		if (usb_phy->id != 0)
++			sun4i_usb_phy_passby(phy, true);
 +
- 	leds {
- 		/* The LEDs use PG0~2 pins, which conflict with MMC1 */
- 		status = "disabled";
- 	};
- };
++		/* Route PHY0 to MUSB to allow USB gadget */
++		if (data->cfg->phy0_dual_route)
++			sun4i_usb_phy0_reroute(data, true);
++	} else {
++		sun4i_usb_phy_passby(phy, true);
  
--&mmc1 {
--	broken-cd;
--	bus-width = <4>;
--	vmmc-supply = <&reg_vcc3v3>;
-+&emac {
-+	allwinner,leds-active-low;
- 	status = "okay";
- };
+-	sun4i_usb_phy0_reroute(data, true);
++		/* Route PHY0 to HCI to allow USB host */
++		if (data->cfg->phy0_dual_route)
++			sun4i_usb_phy0_reroute(data, false);
++	}
  
-@@ -94,3 +96,10 @@ button-800 {
- 		voltage = <800000>;
- 	};
- };
-+
-+&mmc1 {
-+	broken-cd;
-+	bus-width = <4>;
-+	vmmc-supply = <&reg_vcc3v3>;
-+	status = "okay";
-+};
+ 	return 0;
+ }
 -- 
-2.25.1
+2.17.5
 
