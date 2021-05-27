@@ -1,91 +1,78 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9079A70
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 May 2021 23:16:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D70CB2FB4
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 00:44:59 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E0C413A1;
-	Wed, 26 May 2021 16:16:33 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6847D3F719;
-	Wed, 26 May 2021 16:16:32 -0700 (PDT)
-Date: Thu, 27 May 2021 00:16:14 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 243B811D4;
+	Wed, 26 May 2021 17:44:59 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6BB3B3F719;
+	Wed, 26 May 2021 17:44:57 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Andreas Rehn <rehn.andreas86@gmail.com>
-Cc: mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
- rfried.dev@gmail.com, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ARM: dts: sun8i: v3s: enable emac for zero Dock
-Message-ID: <20210527001614.2edfc630@slackpad.fritz.box>
-In-Reply-To: <20210525173159.183415-1-rehn.andreas86@gmail.com>
-References: <20210522205039.179486-1-rehn.andreas86@gmail.com>
-	<20210525173159.183415-1-rehn.andreas86@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/3] sunxi: dts: Update H3/H5/H6 devicetree from Linux
+Date: Thu, 27 May 2021 01:44:35 +0100
+Message-Id: <20210527004438.19783-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 25 May 2021 19:31:59 +0200
-Andreas Rehn <rehn.andreas86@gmail.com> wrote:
+This syncs the SoC .dtsi and board .dts files from the Linux 5.12 release.
+For the H3 and H5 this brings us the proper RGMII modes for the boards
+with Gigabit Ethernet PHYs.
+The rest are smaller updates, but bring us port 0 USB support on the
+H6 boards in U-Boot.
 
-> dwmac-sun8i supports v3s and
-> Licheepi-zero Dock provides an ethernet port
-> furthermore, align nodes in alphabetical order
-> 
-> Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+I know it's a bit late in the game, but those changes look innocent
+enough to make it into the v2021.07 release still. This way we have all
+64-bit boards using Linux 5.12 DTs.
 
 Cheers,
 Andre
 
-> ---
-> Changes in v3:
-> 	- align nodes in alphabetical order
-> Changes in v2:
-> 	- add ethernet0 alias.
->  .../boot/dts/sun8i-v3s-licheepi-zero-dock.dts   | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> index db5cd0b8574b..752ad05c8f83 100644
-> --- a/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> +++ b/arch/arm/boot/dts/sun8i-v3s-licheepi-zero-dock.dts
-> @@ -49,16 +49,18 @@ / {
->  	compatible = "licheepi,licheepi-zero-dock", "licheepi,licheepi-zero",
->  		     "allwinner,sun8i-v3s";
->  
-> +	aliases {
-> +		ethernet0 = &emac;
-> +	};
-> +
->  	leds {
->  		/* The LEDs use PG0~2 pins, which conflict with MMC1 */
->  		status = "disabled";
->  	};
->  };
->  
-> -&mmc1 {
-> -	broken-cd;
-> -	bus-width = <4>;
-> -	vmmc-supply = <&reg_vcc3v3>;
-> +&emac {
-> +	allwinner,leds-active-low;
->  	status = "okay";
->  };
->  
-> @@ -94,3 +96,10 @@ button-800 {
->  		voltage = <800000>;
->  	};
->  };
-> +
-> +&mmc1 {
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +	status = "okay";
-> +};
+Andre Przywara (3):
+  arm: dts: sunxi: h6: Update DT files
+  arm: dts: sunxi: h5: Update DT files
+  arm: dts: sunxi: h3: Update DT files
+
+ .../dts/sun50i-h5-bananapi-m2-plus-v1.2.dts   |  1 +
+ arch/arm/dts/sun50i-h5-cpu-opp.dtsi           | 79 +++++++++++++++
+ .../arm/dts/sun50i-h5-libretech-all-h3-cc.dts |  1 +
+ .../arm/dts/sun50i-h5-libretech-all-h5-cc.dts |  2 +-
+ arch/arm/dts/sun50i-h5-nanopi-neo-plus2.dts   |  6 +-
+ arch/arm/dts/sun50i-h5-nanopi-neo2.dts        |  4 +-
+ arch/arm/dts/sun50i-h5-orangepi-pc2.dts       | 27 +++++-
+ arch/arm/dts/sun50i-h5-orangepi-prime.dts     |  6 +-
+ arch/arm/dts/sun50i-h5-orangepi-zero-plus.dts |  4 +-
+ .../arm/dts/sun50i-h5-orangepi-zero-plus2.dts | 38 ++++++++
+ arch/arm/dts/sun50i-h5.dtsi                   | 61 ++++++++++--
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts        |  6 +-
+ arch/arm/dts/sun50i-h6-cpu-opp.dtsi           | 20 ++--
+ arch/arm/dts/sun50i-h6-orangepi-3.dts         |  4 +-
+ arch/arm/dts/sun50i-h6-orangepi.dtsi          |  4 +-
+ arch/arm/dts/sun50i-h6-pine-h64.dts           |  7 +-
+ arch/arm/dts/sun50i-h6.dtsi                   | 26 +++++
+ .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    | 96 ++++++++++++++++++-
+ arch/arm/dts/sun8i-h3-beelink-x2.dts          |  4 +-
+ arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |  4 +-
+ arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |  4 +-
+ arch/arm/dts/sun8i-h3-nanopi.dtsi             |  4 +-
+ arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts    |  5 -
+ arch/arm/dts/sun8i-h3-orangepi-plus2e.dts     |  2 +-
+ arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts | 38 ++++++++
+ arch/arm/dts/sun8i-h3.dtsi                    | 49 +++++++++-
+ arch/arm/dts/sunxi-h3-h5.dtsi                 | 42 +++++++-
+ 27 files changed, 483 insertions(+), 61 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h5-cpu-opp.dtsi
+
+-- 
+2.17.5
 
