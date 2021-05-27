@@ -1,139 +1,227 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5606B2FAD
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 04:09:13 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 724BD5C008C;
-	Thu, 27 May 2021 00:09:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 27 May 2021 00:09:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=F
-	le4QsL0suhBg+31Rp9XpR54QEn82lcPFK4WnOHC9y4=; b=E5n39DFlE9DPPrm5d
-	fqb+MXTvx1ky93KmhWbOEApEnlCLpN4gjsjD0vh1LUKsWv6xVyrFC+F8pF0miVqf
-	lPRKF0dP3DiACFVBM/IBGcy5/9sejRb5dPmTxArjtdqVGqa2pMrhBGdbp4Gkq16H
-	FsJ6UvHK7DPuARTaRmdHPiUjgGyTvQB2XRgHBnLfsDTDW/+gS8s+6hoQs3SxVd3l
-	3CXfIkPcQNqMBXTbPTJfR1ZLs4fD/fRaA3zN1Wrumpn7RxhYwyvcTe6+/oZhRqqq
-	HP5eHCYb51ixHERmADlIkXiqKc47E1lJUlTwl/8plajyzLZjXJhmpChhCcrUpkwd
-	OEyRQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=Fle4QsL0suhBg+31Rp9XpR54QEn82lcPFK4WnOHC9
-	y4=; b=K0MzeTldCxqdNn5dAZz/PBmcUldQmPxWg7FasuY4W0WbbHZlNT9BjQesj
-	veO3jYgU0BzgPP8ubyJ+6hdjXINOZ9tZBhAE5U1NDZSxBORNDH4BoBw6baJM61wA
-	lyKifXqYlBhq8nh5HpxDDitCYGHSkBhmVRHlkesGWcItr8g6f+mYO4UqtRiFQ5rL
-	K0QTZDiXh3gwRruhwWCQ2Ghj7kLfIv6GsghBYIb6VQFVQxDAR/e7Gg8ZKpDBPMHP
-	1SSr1CBqYaFa7LYgqu356QYSahGcnQcApeRA4RJBQCR5iKIKhfGjGrrQ0p6EsXEF
-	m24UJWGXeKs7gzVHj5rKuMq8LtsKA==
-X-ME-Sender: <xms:ZhuvYJh0cr5L9dmOKvA4LUvKZ8AYlZEhBGYnqXWUc6lc2uU24JIkqg>
-    <xme:ZhuvYOBQkn_D-Sr4nz3AVvaJkBXEkNaVsvWR6TiKq5whHnqZDcUcrkXDJdxcNOcdI
-    P6-2CYU06d0Eg5Rjg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgedgjeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefheenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepheejgefhudeffeetleeigefgheetveeiteeuffehhfffkeeuvdff
-    veffveetudefnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:ZhuvYJEH1ouC1CrDnyhi6q23cij5S8c0tepDO1yLgofBZ7Dws17Y9w>
-    <xmx:ZhuvYOTqfNH7Gd80DFGV7t_xsTIS6f4MhB9dpaTuHdCoMh8bnXFrcA>
-    <xmx:ZhuvYGyfrOskCwKCmFfQ1s3DsvdIaROUdmzT9Y_DTULfrKIfYhRX-A>
-    <xmx:aBuvYNkvRsC6w3DZXXck-U2jzve_5NKEtmG0jOtUtTK3BgqsGdNU-A>
-Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
-	by mail.messagingengine.com (Postfix) with ESMTPA;
-	Thu, 27 May 2021 00:09:10 -0400 (EDT)
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
- linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210419014549.26900-1-samuel@sholland.org>
- <20210430090206.lybmygrt636nysoc@gilmour>
- <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
- <20210525082416.jkqmlkbdx6nhrens@gilmour>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
-Message-ID: <70366b7a-f8e2-abaf-682b-998094095f59@sholland.org>
-Date: Wed, 26 May 2021 23:09:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA8970
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 07:09:13 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 286FA67373; Thu, 27 May 2021 09:09:04 +0200 (CEST)
+Date: Thu, 27 May 2021 09:09:03 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: guoren@kernel.org
+Cc: anup.patel@wdc.com, palmerdabbelt@google.com, arnd@arndb.de, hch@lst.de,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: Re: [PATCH V4 2/2] riscv: Use use_asid_allocator flush TLB
+Message-ID: <20210527070903.GA32653@lst.de>
+References: <1622008161-41451-1-git-send-email-guoren@kernel.org> <1622008161-41451-3-git-send-email-guoren@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210525082416.jkqmlkbdx6nhrens@gilmour>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1622008161-41451-3-git-send-email-guoren@kernel.org>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-
-On 5/25/21 3:24 AM, Maxime Ripard wrote:
-> On Sun, May 09, 2021 at 10:39:30PM -0500, Samuel Holland wrote:
->> On 4/30/21 4:02 AM, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
->>>> The sun6i RTC provides 32 bytes of general-purpose data registers.
->>>> They can be used to save data in the always-on RTC power domain.
->>>> The registers are writable via 32-bit MMIO accesses only.
->>>>
->>>> Expose the region as a NVMEM provider so it can be used by userspace and
->>>> other drivers.
->>>>
->>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>>
->>> As far as I understood, you want to use those registers to implement
->>> super-standby? If so, while it makes sense for the kernel to be able to
->>> be able to write to those registers, I guess it would be a bit unwise to
->>> allow the userspace to access it?
->>
->> I want the user to be able to pass information to the bootloader (to
->> select a boot device, e.g. reboot to FEL). I also want the user to be
->> able to read data stored to these registers by system firmware (e.g.
->> crust writes exception information there). It's not really related to
->> standby.
+On Wed, May 26, 2021 at 05:49:21AM +0000, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
 > 
-> What information do you want to provide? This looks like punching
-> through the abstraction layer provided by the kernel.
-
-I don't see how registering an NVMEM provider is punching through any
-abstraction layer. NVMEM _is_ the relevant abstraction layer provided by
-the kernel. What else would you suggest I use?
-
-> This is also an issue since it ties an ABI to the use of crust: if
-> there's another user for those RTC registers at some point, the
-> userspace would have no way to tell whether or not crust is being
-> used and might get complete garbage (compared to what crust usually
-> provides) instead.
-
-If the user chooses to interact with the NVMEM via sysfs, then the user
-has to deal with the consequences. This is equivalent to the user's
-responsibility when using, for example, /dev/mem or libusb.
-
-For the purpose of providing the abstraction, the actual data stored
-there is irrelevant. And if you want to partition up the registers to
-reserve for different users, that is what NVMEM cells accomplish.
-
->> I would want to stack a nvmem-reboot-mode on top to give friendlier
->> names to some of the numbers, but I don't see a problem with root having
->> direct access to the registers. It's no different from /dev/nvram
->> providing access to the PC CMOS RAM.
+> Use static_branch_unlikely(&use_asid_allocator) to keep the origin
+> tlb flush style, so it's no effect on the existing machine. Here
+> are the optimized functions:
+>  - flush_tlb_mm
+>  - flush_tlb_page
+>  - flush_tlb_range
 > 
-> And those solutions have issues too. efivarfs for example can totally
-> brick the system it runs on if the user has an unfortunate rm -rf.
+> All above are based on the below new implement functions:
+>  - __sbi_tlb_flush_range_asid
+>  - local_flush_tlb_range_asid
+> 
+> These functions are based on ASID instead of previous non-ASID
+> tlb_flush implementation which invalidates more useful tlb
+> entries.
 
-The sun6i RTC, like PC CMOS, is battery-backed RAM. efivarfs writes to
-flash. The magnitude of any such "danger" is vastly different between
-the two. (And I think we can do better than vendors who release those
-brickable EFI implementations.)
+I still think the commit message is incomplete and rather misleading.
+Here is what I'd come up with from reading the patch:
 
-Regards,
-Samuel
+---------
+Subject: add ASID-based tlbflushing methods
+
+Implement optimized version of the tlb flushing routines for systems
+using ASIDs.  These are behind the use_asid_allocator static branch to
+not affect existing systems not using ASIDs.
+---------
+
+
+> +static inline void local_flush_tlb_range_asid(unsigned long start,
+> +				unsigned long size, unsigned long asid)
+> +{
+> +	unsigned long tmp, end = ALIGN(start + size, PAGE_SIZE);
+> +
+> +	for (tmp = start & PAGE_MASK; tmp < end; tmp += PAGE_SIZE) {
+> +		__asm__ __volatile__ ("sfence.vma %0, %1"
+> +				:
+> +				: "r" (tmp), "r" (asid)
+> +				: "memory");
+> +		tmp += PAGE_SIZE;
+> +	}
+
+This double increments tmp.
+
+Also the non-ASID code switches to a global flush once flushing more
+than a single page.  It might be worth documenting the tradeoff in the
+code.
+
+> +static void __sbi_tlb_flush_range_asid(struct cpumask *cmask,
+> +				       unsigned long start,
+> +				       unsigned long size,
+> +				       unsigned long asid)
+> +{
+
+I don't think the calling conventions here are optimal.  I'd pass
+the mm_struct as the first argument, as we can derive both the cpumask
+and asid from it instead of doing that in the callers.
+
+But more importantly I think the static branch check can be moved deeper
+into the code to avoid a lot of duplication.  What do you think of this
+version?
+
+diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
+index b0659413a080..7030837adc1a 100644
+--- a/arch/riscv/include/asm/mmu_context.h
++++ b/arch/riscv/include/asm/mmu_context.h
+@@ -33,6 +33,8 @@ static inline int init_new_context(struct task_struct *tsk,
+ 	return 0;
+ }
+ 
++DECLARE_STATIC_KEY_FALSE(use_asid_allocator);
++
+ #include <asm-generic/mmu_context.h>
+ 
+ #endif /* _ASM_RISCV_MMU_CONTEXT_H */
+diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
+index 68aa312fc352..45c1b04b105d 100644
+--- a/arch/riscv/mm/context.c
++++ b/arch/riscv/mm/context.c
+@@ -18,7 +18,7 @@
+ 
+ #ifdef CONFIG_MMU
+ 
+-static DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
++DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
+ 
+ static unsigned long asid_bits;
+ static unsigned long num_asids;
+diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
+index 720b443c4528..d8afbb1269d5 100644
+--- a/arch/riscv/mm/tlbflush.c
++++ b/arch/riscv/mm/tlbflush.c
+@@ -4,6 +4,33 @@
+ #include <linux/smp.h>
+ #include <linux/sched.h>
+ #include <asm/sbi.h>
++#include <asm/mmu_context.h>
++
++static inline void local_flush_tlb_all_asid(unsigned long asid)
++{
++	__asm__ __volatile__ ("sfence.vma x0, %0"
++			:
++			: "r" (asid)
++			: "memory");
++}
++
++static inline void local_flush_tlb_page_asid(unsigned long addr,
++		unsigned long asid)
++{
++	__asm__ __volatile__ ("sfence.vma %0, %1"
++			:
++			: "r" (addr), "r" (asid)
++			: "memory");
++}
++
++static inline void local_flush_tlb_range_asid(unsigned long start,
++				unsigned long size, unsigned long asid)
++{
++	unsigned long addr, end = ALIGN(start + size, PAGE_SIZE);
++
++	for (addr = start & PAGE_MASK; addr < end; addr += PAGE_SIZE)
++		local_flush_tlb_page_asid(addr, asid);
++}
+ 
+ void flush_tlb_all(void)
+ {
+@@ -12,28 +39,43 @@ void flush_tlb_all(void)
+ 
+ /*
+  * This function must not be called with cmask being null.
+- * Kernel may panic if cmask is NULL.
+  */
+-static void __sbi_tlb_flush_range(struct cpumask *cmask, unsigned long start,
++static void __sbi_tlb_flush_range(struct mm_struct *mm, unsigned long start,
+ 				  unsigned long size)
+ {
++	struct cpumask *cmask = mm_cpumask(mm);
+ 	struct cpumask hmask;
+ 	unsigned int cpuid;
++	bool broadcast;
+ 
+ 	if (cpumask_empty(cmask))
+ 		return;
+ 
+ 	cpuid = get_cpu();
++	/* check if the tlbflush needs to be sent to other CPUs */
++	broadcast = cpumask_any_but(cmask, cpuid) < nr_cpu_ids;
++	if (static_branch_unlikely(&use_asid_allocator)) {
++		unsigned long asid = atomic_long_read(&mm->context.id);
+ 
+-	if (cpumask_any_but(cmask, cpuid) >= nr_cpu_ids) {
+-		/* local cpu is the only cpu present in cpumask */
+-		if (size <= PAGE_SIZE)
++		if (broadcast) {
++			riscv_cpuid_to_hartid_mask(cmask, &hmask);
++			sbi_remote_sfence_vma_asid(cpumask_bits(&hmask),
++						   start, size, asid);
++		} else if (size != -1) {
++			local_flush_tlb_range_asid(start, size, asid);
++		} else {
++			local_flush_tlb_all_asid(asid);
++		}
++	} else {
++		if (broadcast) {
++			riscv_cpuid_to_hartid_mask(cmask, &hmask);
++			sbi_remote_sfence_vma(cpumask_bits(&hmask),
++					      start, size);
++		} else if (size <= PAGE_SIZE) {
+ 			local_flush_tlb_page(start);
+-		else
++		} else {
+ 			local_flush_tlb_all();
+-	} else {
+-		riscv_cpuid_to_hartid_mask(cmask, &hmask);
+-		sbi_remote_sfence_vma(cpumask_bits(&hmask), start, size);
++		}
+ 	}
+ 
+ 	put_cpu();
+@@ -41,16 +83,16 @@ static void __sbi_tlb_flush_range(struct cpumask *cmask, unsigned long start,
+ 
+ void flush_tlb_mm(struct mm_struct *mm)
+ {
+-	__sbi_tlb_flush_range(mm_cpumask(mm), 0, -1);
++	__sbi_tlb_flush_range(mm, 0, -1);
+ }
+ 
+ void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)
+ {
+-	__sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), addr, PAGE_SIZE);
++	__sbi_tlb_flush_range(vma->vm_mm, addr, PAGE_SIZE);
+ }
+ 
+ void flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
+ 		     unsigned long end)
+ {
+-	__sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), start, end - start);
++	__sbi_tlb_flush_range(vma->vm_mm, start, end - start);
+ }
