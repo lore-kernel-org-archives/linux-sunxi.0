@@ -1,227 +1,166 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA8970
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 07:09:13 +0000 (UTC)
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 286FA67373; Thu, 27 May 2021 09:09:04 +0200 (CEST)
-Date: Thu, 27 May 2021 09:09:03 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: guoren@kernel.org
-Cc: anup.patel@wdc.com, palmerdabbelt@google.com, arnd@arndb.de, hch@lst.de,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [PATCH V4 2/2] riscv: Use use_asid_allocator flush TLB
-Message-ID: <20210527070903.GA32653@lst.de>
-References: <1622008161-41451-1-git-send-email-guoren@kernel.org> <1622008161-41451-3-git-send-email-guoren@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13C902FB3
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 11:33:42 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id r23so482686edw.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 04:33:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sMjM+qe46y/Jo7k1r4LwIjPmwsoQjdL/c2HMoSCn0LA=;
+        b=KZW0kFpenSrAEYomUidgw0/hQBAu9GCse+dyDgY2NS9B0WRivwOy2fQMEQRyZ+njCI
+         zWX037aVcpDs1l1kvMesNf+IG6vvD4tY0dR9ND239KefFMM5koddBR4P7BGIwwWhXvZ7
+         mXmWr3ySSjyR4dWvJddAqP0IpdxiAmOK69OGA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sMjM+qe46y/Jo7k1r4LwIjPmwsoQjdL/c2HMoSCn0LA=;
+        b=HNunBl8jgYSqAzNgLmP6+n+4We5gg+Z7qTj2yMisRSuD2Tc6KE5p7PujpLxcUnOSS+
+         bgI2TJijBz9Mw5J0/UnxswvGJozpsPSNpuF4kjX5It5vembNgTGncnnVCwZFcvXc/gQ8
+         SLYZM0mYosdMAO8w/Xzgpv7o9eZQudpZ/kk/jeParsukcuqUUhsfJHK2IJdMwjfZA0Me
+         JuGqZsvvw4TyKEjlF7IZN514jzQq3f8o55oU6c9OKHnm+POOMa/DuSPrVR+rcRgV3tPR
+         yc3Y7APBWcxW4RdWijPtgHShnC2InqVBCgvPxsIEsmL5kL4y3KcZ6Et/dgR92MrGON2k
+         ssvQ==
+X-Gm-Message-State: AOAM530znuU3aTbQVNupn2yaPRFLAeP3LKGU5dPLw4ggBMwD3549h3Iy
+	v1y65EHiYBSvXMbUvS4rCFK3xLCOEUdWYkyyVZyTGQ==
+X-Google-Smtp-Source: ABdhPJyg2OhBWCi2aPhJgZFd/9M4KRoCEgYhJ3hTHNwmTFT0rjRfXhmO4lfKuIy+sn9Z1Q9+wGKe3ngB5avErSZC3NA=
+X-Received: by 2002:a05:6402:4402:: with SMTP id y2mr3658504eda.55.1622115221338;
+ Thu, 27 May 2021 04:33:41 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1622008161-41451-3-git-send-email-guoren@kernel.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+References: <20210526005718.23767-1-andre.przywara@arm.com>
+ <CAMty3ZC+8up9TPDVjPJPzico4gWQ7zJOG9t4Pcrrq1u7Pqpuow@mail.gmail.com>
+ <20210526183155.26eb331a@slackpad.fritz.box> <CAMty3ZBntt2Sa9Ff30QXGOO6=S9pR782NjEMcA6eya1MEyJiQQ@mail.gmail.com>
+ <20210526200827.493b17a3@slackpad.fritz.box>
+In-Reply-To: <20210526200827.493b17a3@slackpad.fritz.box>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Thu, 27 May 2021 17:03:30 +0530
+Message-ID: <CAMty3ZDd-M+DsmBR8b3AP0XB1PUX+10ui_4MP3LRZa31W3Zx3Q@mail.gmail.com>
+Subject: Re: [PATCH] phy: sun4i-usb: Fix PHY0 routing and passby configuration
+ for MUSB
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: U-Boot-Denx <u-boot@lists.denx.de>, Paul Kocialkowski <contact@paulk.fr>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Icenowy Zheng <icenowy@aosc.io>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 26, 2021 at 05:49:21AM +0000, guoren@kernel.org wrote:
-> From: Guo Ren <guoren@linux.alibaba.com>
-> 
-> Use static_branch_unlikely(&use_asid_allocator) to keep the origin
-> tlb flush style, so it's no effect on the existing machine. Here
-> are the optimized functions:
->  - flush_tlb_mm
->  - flush_tlb_page
->  - flush_tlb_range
-> 
-> All above are based on the below new implement functions:
->  - __sbi_tlb_flush_range_asid
->  - local_flush_tlb_range_asid
-> 
-> These functions are based on ASID instead of previous non-ASID
-> tlb_flush implementation which invalidates more useful tlb
-> entries.
+On Thu, May 27, 2021 at 12:38 AM Andre Przywara <andre.przywara@arm.com> wrote:
+>
+> On Wed, 26 May 2021 23:51:41 +0530
+> Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi,
+>
+> > On Wed, May 26, 2021 at 11:02 PM Andre Przywara <andre.przywara@arm.com> wrote:
+> > >
+> > > On Wed, 26 May 2021 22:37:14 +0530
+> > > Jagan Teki <jagan@amarulasolutions.com> wrote:
+> > >
+> > > Hi Jagan,
+> > >
+> > > thanks for having a look!
+> > >
+> > > > On Wed, May 26, 2021 at 6:27 AM Andre Przywara <andre.przywara@arm.com> wrote:
+> > > > >
+> > > > > From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > >
+> > > > > Recent Allwinner platforms (starting with the H3) only use the MUSB
+> > > > > controller for peripheral mode and use HCI for host mode. As a result,
+> > > > > extra steps need to be taken to properly route USB signals to one or
+> > > > > the other. More precisely, the following is required:
+> > > > > * Routing the pins to either HCI/MUSB (controlled by PHY);
+> > > > > * Enabling USB PHY passby in HCI mode (controlled by PMU).
+> > > > >
+> > > > > The current code will enable passby for each PHY and reroute PHY0 to
+> > > > > MUSB, which is inconsistent and results in broken USB host support
+> > > > > for port 0.
+> > > > >
+> > > > > Passby on PHY0 must only be enabled when we want to use HCI. Since
+> > > > > host/device mode detection is not available from the PHY code and
+> > > > > because U-Boot does not support changing the mode dynamically anyway,
+> > > > > we can just mux the controller to MUSB if it is enabled and mux it to
+> > > > > HCI otherwise.
+> > > > >
+> > > > > This fixes USB host support for port 0 on platforms with PHY0 dual-route,
+> > > > > especially on boards like Pine64 (with only USB-A host ports) and
+> > > > > TV boxes without OTG ports.
+> > > > >
+> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > > > [Andre: tweak commit message, use IS_ENABLED()]
+> > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > > ---
+> > > > > Hi,
+> > > > >
+> > > > > for H6 boards to work this requires a DT update (to get the <&usbphy 0>
+> > > > > links between HCI and PHY), which I will send later.
+> > > > > Tested on Pine H64, Pine64-LTS, OrangePi Zero, OrangePi PC 2, BananaPi M64,
+> > > > > BananaPi M1.
+> > > > >
+> > > > > Cheers,
+> > > > > Andre
+> > > > >
+> > > > >  drivers/phy/allwinner/phy-sun4i-usb.c | 16 ++++++++++++++--
+> > > > >  1 file changed, 14 insertions(+), 2 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > > index 5723c980323..e6ceafc7648 100644
+> > > > > --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > > +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> > > > > @@ -313,9 +313,21 @@ static int sun4i_usb_phy_init(struct phy *phy)
+> > > > >                                     data->cfg->disc_thresh, PHY_DISCON_TH_LEN);
+> > > > >         }
+> > > > >
+> > > > > -       sun4i_usb_phy_passby(phy, true);
+> > > > > +       if (IS_ENABLED(CONFIG_USB_MUSB_SUNXI)) {
+> > > >
+> > > > I believe i did comment this before to use driver_data flag as this is
+> > > > full dm driver instead of macro style.
+> > >
+> > > Which driver_data field would that be? This is not about a particular
+> > > SoC's PHY, this is about whether we use peripheral or host mode for
+> > > controller 0. As Paul mentioned in the commit message above:
+> > >
+> > > "... Since host/device mode detection is not available from the PHY
+> > > code and because U-Boot does not support changing the mode dynamically
+> > > anyway, ...."
+> >
+> > Yeah., I missed it. Thanks for pointing it out.
+> >
+> >
+> > >
+> > > So a possible alternative would be to look up the dr_mode property in
+> > > the DT node. BUT: this property lives in the musb DT node, not in this
+> > > node the PHY driver knows about. Happy to take a patch that makes the
+> > > connection and looks that up. But I am not sure that covers all cases.
+> > >
+> > > Meanwhile a equivalent and MUCH simpler solution is to use the Kconfig
+> > > symbol for the MUSB driver: as Paul correctly mentioned, this is a
+> > > static decision: only one of them can be effectively active in a build,
+> > > and inclusion of the MUSB driver wins over the host controller. So
+> > > using this symbol as a switch seems to be the best solution to me.
+> >
+> > Handling dr_mode can be possible in U-Boot, I did tried but not
+> > completed as patch.
+> > drivers/usb/musb-new/ti-musb.c has base code for ti musb chips.
+>
+> Sure, there are certainly ways to do that. As I said: patches welcome!
+>
+> But given that this patch here is around for 2 years now and fixes a
+> real problem - without any downsides, as far as I can tell - I would
+> rather take this first.
+> And while it sounds indeed cleaner to look at dr_mode, there is more to
+> it for it to be really useful: we probably need some form of dynamic
+> switching between peripheral and host mode, either by code (user calls
+> fastboot vs. user calls "usb reset"), or by sampling the ID pin.
+> And even if not, how would we deal with the case when dr_mode says
+> peripheral, but the MUSB driver is not compiled in?
+> That's why looking at CONFIG_USB_MUSB_SUNXI is actually a quite clever
+> and easy solution, at least for now.
 
-I still think the commit message is incomplete and rather misleading.
-Here is what I'd come up with from reading the patch:
-
----------
-Subject: add ASID-based tlbflushing methods
-
-Implement optimized version of the tlb flushing routines for systems
-using ASIDs.  These are behind the use_asid_allocator static branch to
-not affect existing systems not using ASIDs.
----------
-
-
-> +static inline void local_flush_tlb_range_asid(unsigned long start,
-> +				unsigned long size, unsigned long asid)
-> +{
-> +	unsigned long tmp, end = ALIGN(start + size, PAGE_SIZE);
-> +
-> +	for (tmp = start & PAGE_MASK; tmp < end; tmp += PAGE_SIZE) {
-> +		__asm__ __volatile__ ("sfence.vma %0, %1"
-> +				:
-> +				: "r" (tmp), "r" (asid)
-> +				: "memory");
-> +		tmp += PAGE_SIZE;
-> +	}
-
-This double increments tmp.
-
-Also the non-ASID code switches to a global flush once flushing more
-than a single page.  It might be worth documenting the tradeoff in the
-code.
-
-> +static void __sbi_tlb_flush_range_asid(struct cpumask *cmask,
-> +				       unsigned long start,
-> +				       unsigned long size,
-> +				       unsigned long asid)
-> +{
-
-I don't think the calling conventions here are optimal.  I'd pass
-the mm_struct as the first argument, as we can derive both the cpumask
-and asid from it instead of doing that in the callers.
-
-But more importantly I think the static branch check can be moved deeper
-into the code to avoid a lot of duplication.  What do you think of this
-version?
-
-diff --git a/arch/riscv/include/asm/mmu_context.h b/arch/riscv/include/asm/mmu_context.h
-index b0659413a080..7030837adc1a 100644
---- a/arch/riscv/include/asm/mmu_context.h
-+++ b/arch/riscv/include/asm/mmu_context.h
-@@ -33,6 +33,8 @@ static inline int init_new_context(struct task_struct *tsk,
- 	return 0;
- }
- 
-+DECLARE_STATIC_KEY_FALSE(use_asid_allocator);
-+
- #include <asm-generic/mmu_context.h>
- 
- #endif /* _ASM_RISCV_MMU_CONTEXT_H */
-diff --git a/arch/riscv/mm/context.c b/arch/riscv/mm/context.c
-index 68aa312fc352..45c1b04b105d 100644
---- a/arch/riscv/mm/context.c
-+++ b/arch/riscv/mm/context.c
-@@ -18,7 +18,7 @@
- 
- #ifdef CONFIG_MMU
- 
--static DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
-+DEFINE_STATIC_KEY_FALSE(use_asid_allocator);
- 
- static unsigned long asid_bits;
- static unsigned long num_asids;
-diff --git a/arch/riscv/mm/tlbflush.c b/arch/riscv/mm/tlbflush.c
-index 720b443c4528..d8afbb1269d5 100644
---- a/arch/riscv/mm/tlbflush.c
-+++ b/arch/riscv/mm/tlbflush.c
-@@ -4,6 +4,33 @@
- #include <linux/smp.h>
- #include <linux/sched.h>
- #include <asm/sbi.h>
-+#include <asm/mmu_context.h>
-+
-+static inline void local_flush_tlb_all_asid(unsigned long asid)
-+{
-+	__asm__ __volatile__ ("sfence.vma x0, %0"
-+			:
-+			: "r" (asid)
-+			: "memory");
-+}
-+
-+static inline void local_flush_tlb_page_asid(unsigned long addr,
-+		unsigned long asid)
-+{
-+	__asm__ __volatile__ ("sfence.vma %0, %1"
-+			:
-+			: "r" (addr), "r" (asid)
-+			: "memory");
-+}
-+
-+static inline void local_flush_tlb_range_asid(unsigned long start,
-+				unsigned long size, unsigned long asid)
-+{
-+	unsigned long addr, end = ALIGN(start + size, PAGE_SIZE);
-+
-+	for (addr = start & PAGE_MASK; addr < end; addr += PAGE_SIZE)
-+		local_flush_tlb_page_asid(addr, asid);
-+}
- 
- void flush_tlb_all(void)
- {
-@@ -12,28 +39,43 @@ void flush_tlb_all(void)
- 
- /*
-  * This function must not be called with cmask being null.
-- * Kernel may panic if cmask is NULL.
-  */
--static void __sbi_tlb_flush_range(struct cpumask *cmask, unsigned long start,
-+static void __sbi_tlb_flush_range(struct mm_struct *mm, unsigned long start,
- 				  unsigned long size)
- {
-+	struct cpumask *cmask = mm_cpumask(mm);
- 	struct cpumask hmask;
- 	unsigned int cpuid;
-+	bool broadcast;
- 
- 	if (cpumask_empty(cmask))
- 		return;
- 
- 	cpuid = get_cpu();
-+	/* check if the tlbflush needs to be sent to other CPUs */
-+	broadcast = cpumask_any_but(cmask, cpuid) < nr_cpu_ids;
-+	if (static_branch_unlikely(&use_asid_allocator)) {
-+		unsigned long asid = atomic_long_read(&mm->context.id);
- 
--	if (cpumask_any_but(cmask, cpuid) >= nr_cpu_ids) {
--		/* local cpu is the only cpu present in cpumask */
--		if (size <= PAGE_SIZE)
-+		if (broadcast) {
-+			riscv_cpuid_to_hartid_mask(cmask, &hmask);
-+			sbi_remote_sfence_vma_asid(cpumask_bits(&hmask),
-+						   start, size, asid);
-+		} else if (size != -1) {
-+			local_flush_tlb_range_asid(start, size, asid);
-+		} else {
-+			local_flush_tlb_all_asid(asid);
-+		}
-+	} else {
-+		if (broadcast) {
-+			riscv_cpuid_to_hartid_mask(cmask, &hmask);
-+			sbi_remote_sfence_vma(cpumask_bits(&hmask),
-+					      start, size);
-+		} else if (size <= PAGE_SIZE) {
- 			local_flush_tlb_page(start);
--		else
-+		} else {
- 			local_flush_tlb_all();
--	} else {
--		riscv_cpuid_to_hartid_mask(cmask, &hmask);
--		sbi_remote_sfence_vma(cpumask_bits(&hmask), start, size);
-+		}
- 	}
- 
- 	put_cpu();
-@@ -41,16 +83,16 @@ static void __sbi_tlb_flush_range(struct cpumask *cmask, unsigned long start,
- 
- void flush_tlb_mm(struct mm_struct *mm)
- {
--	__sbi_tlb_flush_range(mm_cpumask(mm), 0, -1);
-+	__sbi_tlb_flush_range(mm, 0, -1);
- }
- 
- void flush_tlb_page(struct vm_area_struct *vma, unsigned long addr)
- {
--	__sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), addr, PAGE_SIZE);
-+	__sbi_tlb_flush_range(vma->vm_mm, addr, PAGE_SIZE);
- }
- 
- void flush_tlb_range(struct vm_area_struct *vma, unsigned long start,
- 		     unsigned long end)
- {
--	__sbi_tlb_flush_range(mm_cpumask(vma->vm_mm), start, end - start);
-+	__sbi_tlb_flush_range(vma->vm_mm, start, end - start);
- }
+Agreed!
