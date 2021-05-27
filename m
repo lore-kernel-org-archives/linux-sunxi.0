@@ -1,351 +1,139 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A482FB7
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 00:45:04 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13FD9143B;
-	Wed, 26 May 2021 17:45:04 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A88333F719;
-	Wed, 26 May 2021 17:45:02 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
-	Peter Robinson <pbrobinson@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/3] arm: dts: sunxi: h3: Update DT files
-Date: Thu, 27 May 2021 01:44:38 +0100
-Message-Id: <20210527004438.19783-4-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20210527004438.19783-1-andre.przywara@arm.com>
-References: <20210527004438.19783-1-andre.przywara@arm.com>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5606B2FAD
+	for <linux-sunxi@lists.linux.dev>; Thu, 27 May 2021 04:09:13 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 724BD5C008C;
+	Thu, 27 May 2021 00:09:12 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Thu, 27 May 2021 00:09:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	to:cc:references:from:subject:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm2; bh=F
+	le4QsL0suhBg+31Rp9XpR54QEn82lcPFK4WnOHC9y4=; b=E5n39DFlE9DPPrm5d
+	fqb+MXTvx1ky93KmhWbOEApEnlCLpN4gjsjD0vh1LUKsWv6xVyrFC+F8pF0miVqf
+	lPRKF0dP3DiACFVBM/IBGcy5/9sejRb5dPmTxArjtdqVGqa2pMrhBGdbp4Gkq16H
+	FsJ6UvHK7DPuARTaRmdHPiUjgGyTvQB2XRgHBnLfsDTDW/+gS8s+6hoQs3SxVd3l
+	3CXfIkPcQNqMBXTbPTJfR1ZLs4fD/fRaA3zN1Wrumpn7RxhYwyvcTe6+/oZhRqqq
+	HP5eHCYb51ixHERmADlIkXiqKc47E1lJUlTwl/8plajyzLZjXJhmpChhCcrUpkwd
+	OEyRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=Fle4QsL0suhBg+31Rp9XpR54QEn82lcPFK4WnOHC9
+	y4=; b=K0MzeTldCxqdNn5dAZz/PBmcUldQmPxWg7FasuY4W0WbbHZlNT9BjQesj
+	veO3jYgU0BzgPP8ubyJ+6hdjXINOZ9tZBhAE5U1NDZSxBORNDH4BoBw6baJM61wA
+	lyKifXqYlBhq8nh5HpxDDitCYGHSkBhmVRHlkesGWcItr8g6f+mYO4UqtRiFQ5rL
+	K0QTZDiXh3gwRruhwWCQ2Ghj7kLfIv6GsghBYIb6VQFVQxDAR/e7Gg8ZKpDBPMHP
+	1SSr1CBqYaFa7LYgqu356QYSahGcnQcApeRA4RJBQCR5iKIKhfGjGrrQ0p6EsXEF
+	m24UJWGXeKs7gzVHj5rKuMq8LtsKA==
+X-ME-Sender: <xms:ZhuvYJh0cr5L9dmOKvA4LUvKZ8AYlZEhBGYnqXWUc6lc2uU24JIkqg>
+    <xme:ZhuvYOBQkn_D-Sr4nz3AVvaJkBXEkNaVsvWR6TiKq5whHnqZDcUcrkXDJdxcNOcdI
+    P6-2CYU06d0Eg5Rjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgedgjeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefheenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepheejgefhudeffeetleeigefgheetveeiteeuffehhfffkeeuvdff
+    veffveetudefnecukfhppeejtddrudefhedrudegkedrudehudenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:ZhuvYJEH1ouC1CrDnyhi6q23cij5S8c0tepDO1yLgofBZ7Dws17Y9w>
+    <xmx:ZhuvYOTqfNH7Gd80DFGV7t_xsTIS6f4MhB9dpaTuHdCoMh8bnXFrcA>
+    <xmx:ZhuvYGyfrOskCwKCmFfQ1s3DsvdIaROUdmzT9Y_DTULfrKIfYhRX-A>
+    <xmx:aBuvYNkvRsC6w3DZXXck-U2jzve_5NKEtmG0jOtUtTK3BgqsGdNU-A>
+Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+	by mail.messagingengine.com (Postfix) with ESMTPA;
+	Thu, 27 May 2021 00:09:10 -0400 (EDT)
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@siol.net>,
+ linux-rtc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20210419014549.26900-1-samuel@sholland.org>
+ <20210430090206.lybmygrt636nysoc@gilmour>
+ <a3b03a06-c8fc-7dbe-7c0b-ffd1f194ecbc@sholland.org>
+ <20210525082416.jkqmlkbdx6nhrens@gilmour>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
+Message-ID: <70366b7a-f8e2-abaf-682b-998094095f59@sholland.org>
+Date: Wed, 26 May 2021 23:09:09 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <20210525082416.jkqmlkbdx6nhrens@gilmour>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Update the H3 DT files from the Linux 5.12 release.
 
-The changes update some boards, and don't affect U-Boot, but fix Gigabit
-Ethernet when this DT is passed on to the Linux kernel.
+On 5/25/21 3:24 AM, Maxime Ripard wrote:
+> On Sun, May 09, 2021 at 10:39:30PM -0500, Samuel Holland wrote:
+>> On 4/30/21 4:02 AM, Maxime Ripard wrote:
+>>> Hi,
+>>>
+>>> On Sun, Apr 18, 2021 at 08:45:49PM -0500, Samuel Holland wrote:
+>>>> The sun6i RTC provides 32 bytes of general-purpose data registers.
+>>>> They can be used to save data in the always-on RTC power domain.
+>>>> The registers are writable via 32-bit MMIO accesses only.
+>>>>
+>>>> Expose the region as a NVMEM provider so it can be used by userspace and
+>>>> other drivers.
+>>>>
+>>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>>
+>>> As far as I understood, you want to use those registers to implement
+>>> super-standby? If so, while it makes sense for the kernel to be able to
+>>> be able to write to those registers, I guess it would be a bit unwise to
+>>> allow the userspace to access it?
+>>
+>> I want the user to be able to pass information to the bootloader (to
+>> select a boot device, e.g. reboot to FEL). I also want the user to be
+>> able to read data stored to these registers by system firmware (e.g.
+>> crust writes exception information there). It's not really related to
+>> standby.
+> 
+> What information do you want to provide? This looks like punching
+> through the abstraction layer provided by the kernel.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    | 96 ++++++++++++++++++-
- arch/arm/dts/sun8i-h3-beelink-x2.dts          |  4 +-
- arch/arm/dts/sun8i-h3-nanopi-duo2.dts         |  4 +-
- arch/arm/dts/sun8i-h3-nanopi-neo-air.dts      |  4 +-
- arch/arm/dts/sun8i-h3-nanopi.dtsi             |  4 +-
- arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts    |  5 -
- arch/arm/dts/sun8i-h3-orangepi-plus2e.dts     |  2 +-
- arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts | 38 ++++++++
- 8 files changed, 142 insertions(+), 15 deletions(-)
+I don't see how registering an NVMEM provider is punching through any
+abstraction layer. NVMEM _is_ the relevant abstraction layer provided by
+the kernel. What else would you suggest I use?
 
-diff --git a/arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts b/arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-index d277d043031..f3f7a2c912a 100644
---- a/arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-+++ b/arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-@@ -31,7 +31,7 @@
- 
- 		pwr_led {
- 			label = "bananapi-m2-zero:red:pwr";
--			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
-+			gpios = <&r_pio 0 10 GPIO_ACTIVE_LOW>; /* PL10 */
- 			default-state = "on";
- 		};
- 	};
-@@ -62,6 +62,35 @@
- 		states = <1100000 0>, <1300000 1>;
- 	};
- 
-+	reg_vcc_dram: vcc-dram {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-dram";
-+		regulator-min-microvolt = <1500000>;
-+		regulator-max-microvolt = <1500000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+		enable-active-high;
-+		gpio = <&r_pio 0 9 GPIO_ACTIVE_HIGH>; /* PL9 */
-+		vin-supply = <&reg_vcc5v0>;
-+	};
-+
-+	reg_vcc1v2: vcc1v2 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc1v2";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-always-on;
-+		regulator-boot-on;
-+		enable-active-high;
-+		gpio = <&r_pio 0 8 GPIO_ACTIVE_HIGH>; /* PL8 */
-+		vin-supply = <&reg_vcc5v0>;
-+	};
-+
-+	poweroff {
-+		compatible = "regulator-poweroff";
-+		cpu-supply = <&reg_vcc1v2>;
-+	};
-+
- 	wifi_pwrseq: wifi_pwrseq {
- 		compatible = "mmc-pwrseq-simple";
- 		reset-gpios = <&r_pio 0 7 GPIO_ACTIVE_LOW>; /* PL7 */
-@@ -125,6 +154,7 @@
- 
- 	bluetooth {
- 		compatible = "brcm,bcm43438-bt";
-+		max-speed = <1500000>;
- 		clocks = <&rtc 1>;
- 		clock-names = "lpo";
- 		vbat-supply = <&reg_vcc3v3>;
-@@ -136,6 +166,70 @@
- 
- };
- 
-+&pio {
-+	gpio-line-names =
-+		/* PA */
-+		"CON2-P13", "CON2-P11", "CON2-P22", "CON2-P15",
-+			"CON3-P03", "CON3-P02", "CON2-P07", "CON2-P29",
-+		"CON2-P31", "CON2-P33", "CON2-P35", "CON2-P05",
-+			"CON2-P03", "CON2-P08", "CON2-P10", "CON2-P16",
-+		"CON2-P12", "CON2-P37", "CON2-P28", "CON2-P27",
-+			"CON2-P40", "CON2-P38", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PB */
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PC */
-+		"CON2-P19", "CON2-P21", "CON2-P23", "CON2-P24",
-+			"CON2-P18", "", "", "CON2-P26",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PD */
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "CSI-PWR-EN", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PE */
-+		"CN3-P17", "CN3-P13", "CN3-P09", "CN3-P07",
-+			"CN3-P19", "CN3-P21", "CN3-P22", "CN3-P20",
-+		"CN3-P18", "CN3-P16", "CN3-P14", "CN3-P12",
-+			"CN3-P05", "CN3-P03", "CN3-P06", "CN3-P08",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PF */
-+		"SDC0-D1", "SDC0-D0", "SDC0-CLK", "SDC0-CMD", "SDC0-D3",
-+			"SDC0-D2", "SDC0-DET", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+
-+		/* PG */
-+		"WL-SDIO-CLK", "WL-SDIO-CMD", "WL-SDIO-D0", "WL-SDIO-D1",
-+			"WL-SDIO-D2", "WL-SDIO-D3", "BT-UART-TX", "BT-UART-RX",
-+		"BT-UART-RTS", "BT-UART-CTS", "WL-WAKE-AP", "BT-WAKE-AP",
-+			"BT-RST-N", "AP-WAKE-BT", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "";
-+};
-+
-+&r_pio {
-+	gpio-line-names =
-+		/* PL */
-+		"", "CPUX-SET", "CON2-P32", "POWER-KEY", "CON2-P36",
-+			"VCC-IO-EN", "USB0-ID", "WL-PWR-EN",
-+		"PWR-STB", "PWR-DRAM", "PWR-LED", "IR-RX", "", "", "", "",
-+		"", "", "", "", "", "", "", "",
-+		"", "", "", "", "", "", "", "";
-+};
-+
- &usb_otg {
- 	dr_mode = "otg";
- 	status = "okay";
-diff --git a/arch/arm/dts/sun8i-h3-beelink-x2.dts b/arch/arm/dts/sun8i-h3-beelink-x2.dts
-index 45a24441ff1..62b5280ec09 100644
---- a/arch/arm/dts/sun8i-h3-beelink-x2.dts
-+++ b/arch/arm/dts/sun8i-h3-beelink-x2.dts
-@@ -75,13 +75,13 @@
- 	leds {
- 		compatible = "gpio-leds";
- 
--		blue {
-+		led-0 {
- 			label = "beelink-x2:blue:pwr";
- 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
- 			default-state = "on";
- 		};
- 
--		red {
-+		led-1 {
- 			label = "beelink-x2:red:standby";
- 			gpios = <&pio 0 15 GPIO_ACTIVE_HIGH>; /* PA15 */
- 		};
-diff --git a/arch/arm/dts/sun8i-h3-nanopi-duo2.dts b/arch/arm/dts/sun8i-h3-nanopi-duo2.dts
-index 6b149271ef1..8e7dfcffe1f 100644
---- a/arch/arm/dts/sun8i-h3-nanopi-duo2.dts
-+++ b/arch/arm/dts/sun8i-h3-nanopi-duo2.dts
-@@ -25,13 +25,13 @@
- 	leds {
- 		compatible = "gpio-leds";
- 
--		pwr {
-+		led-0 {
- 			label = "nanopi:red:pwr";
- 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
- 			default-state = "on";
- 		};
- 
--		status {
-+		led-1 {
- 			label = "nanopi:green:status";
- 			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>; /* PA10 */
- 		};
-diff --git a/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts b/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-index 07867a0d569..be49eabbff9 100644
---- a/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-+++ b/arch/arm/dts/sun8i-h3-nanopi-neo-air.dts
-@@ -61,13 +61,13 @@
- 	leds {
- 		compatible = "gpio-leds";
- 
--		pwr {
-+		led-0 {
- 			label = "nanopi:green:pwr";
- 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>; /* PL10 */
- 			default-state = "on";
- 		};
- 
--		status {
-+		led-1 {
- 			label = "nanopi:blue:status";
- 			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>; /* PA10 */
- 		};
-diff --git a/arch/arm/dts/sun8i-h3-nanopi.dtsi b/arch/arm/dts/sun8i-h3-nanopi.dtsi
-index 4df29a65316..c7c3e7d8b3c 100644
---- a/arch/arm/dts/sun8i-h3-nanopi.dtsi
-+++ b/arch/arm/dts/sun8i-h3-nanopi.dtsi
-@@ -60,13 +60,13 @@
- 	leds {
- 		compatible = "gpio-leds";
- 
--		status {
-+		led-0 {
- 			label = "nanopi:blue:status";
- 			gpios = <&pio 0 10 GPIO_ACTIVE_HIGH>;
- 			linux,default-trigger = "heartbeat";
- 		};
- 
--		pwr {
-+		led-1 {
- 			label = "nanopi:green:pwr";
- 			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
- 			default-state = "on";
-diff --git a/arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts b/arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts
-index 71fb7320893..babf4cf1b2f 100644
---- a/arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts
-+++ b/arch/arm/dts/sun8i-h3-orangepi-pc-plus.dts
-@@ -53,11 +53,6 @@
- 	};
- };
- 
--&emac {
--	/* LEDs changed to active high on the plus */
--	/delete-property/ allwinner,leds-active-low;
--};
--
- &mmc1 {
- 	vmmc-supply = <&reg_vcc3v3>;
- 	bus-width = <4>;
-diff --git a/arch/arm/dts/sun8i-h3-orangepi-plus2e.dts b/arch/arm/dts/sun8i-h3-orangepi-plus2e.dts
-index 6dbf7b2e0c1..b6ca45d18e5 100644
---- a/arch/arm/dts/sun8i-h3-orangepi-plus2e.dts
-+++ b/arch/arm/dts/sun8i-h3-orangepi-plus2e.dts
-@@ -67,7 +67,7 @@
- 	pinctrl-0 = <&emac_rgmii_pins>;
- 	phy-supply = <&reg_gmac_3v3>;
- 	phy-handle = <&ext_rgmii_phy>;
--	phy-mode = "rgmii";
-+	phy-mode = "rgmii-id";
- 	status = "okay";
- };
- 
-diff --git a/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts b/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-index b8f46e2802f..561ea1d2f86 100644
---- a/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-+++ b/arch/arm/dts/sun8i-h3-orangepi-zero-plus2.dts
-@@ -70,6 +70,21 @@
- 		};
- 	};
- 
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			label = "orangepi:green:pwr";
-+			gpios = <&r_pio 0 10 GPIO_ACTIVE_HIGH>;
-+			default-state = "on";
-+		};
-+
-+		led-1 {
-+			label = "orangepi:red:status";
-+			gpios = <&pio 0 17 GPIO_ACTIVE_HIGH>;
-+		};
-+	};
-+
- 	reg_vcc3v3: vcc3v3 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vcc3v3";
-@@ -88,6 +103,10 @@
- 	status = "okay";
- };
- 
-+&ehci0 {
-+	status = "okay";
-+};
-+
- &hdmi {
- 	status = "okay";
- };
-@@ -132,8 +151,27 @@
- 	status = "okay";
- };
- 
-+&ohci0 {
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pa_pins>;
- 	status = "okay";
- };
-+
-+&usb_otg {
-+	/*
-+	 * According to schematics CN1 MicroUSB port can be used to take
-+	 * external 5V to power up the board VBUS. On the contrary CN1 MicroUSB
-+	 * port cannot provide power externally even if the board is powered
-+	 * via GPIO pins. It thus makes sense to force peripheral mode.
-+	 */
-+	dr_mode = "peripheral";
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
--- 
-2.17.5
+> This is also an issue since it ties an ABI to the use of crust: if
+> there's another user for those RTC registers at some point, the
+> userspace would have no way to tell whether or not crust is being
+> used and might get complete garbage (compared to what crust usually
+> provides) instead.
 
+If the user chooses to interact with the NVMEM via sysfs, then the user
+has to deal with the consequences. This is equivalent to the user's
+responsibility when using, for example, /dev/mem or libusb.
+
+For the purpose of providing the abstraction, the actual data stored
+there is irrelevant. And if you want to partition up the registers to
+reserve for different users, that is what NVMEM cells accomplish.
+
+>> I would want to stack a nvmem-reboot-mode on top to give friendlier
+>> names to some of the numbers, but I don't see a problem with root having
+>> direct access to the registers. It's no different from /dev/nvram
+>> providing access to the PC CMOS RAM.
+> 
+> And those solutions have issues too. efivarfs for example can totally
+> brick the system it runs on if the user has an unfortunate rm -rf.
+
+The sun6i RTC, like PC CMOS, is battery-backed RAM. efivarfs writes to
+flash. The magnitude of any such "danger" is vastly different between
+the two. (And I think we can do better than vendors who release those
+brickable EFI implementations.)
+
+Regards,
+Samuel
