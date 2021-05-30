@@ -1,111 +1,150 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572D871
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 00:26:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD46F61104
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 00:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622334392;
-	bh=WO4AvDQOErMivEJBVOiXhGXr5BkKrXIWDEGphngSgbo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=i/Pw+IYthyq+6HSTuiPvfqKj0VEF9TAJjD4ATVR0yZ0TtflaZ0n3IGq9ltH2zOTBF
-	 tajB4cUozkLkH3ZItczvs7cviBB4p+aT1GppQl25j1xVZc+HvUFR4A3qVgfxKT2nvu
-	 +BVQm0brOFXf92ZIS0o3wPp4W3+VLUX2MxnBDXWHKxqKyplUHGDp4wR3jqbfyjv+Kx
-	 HUo66HaMomE6mknJEBM9U0RC8Lk7RiK19GIIbJAh/DIvOIHkAmxQyW0U6NAc/Ue1XS
-	 y87nW3YwYHqm4hZLwwWOwcgwe9rbvvBXM7UU4TTU6xGdpx6JsWFm/ur1nfzK4cZrUc
-	 fJqJmuFxUv3NQ==
-Received: by mail-lj1-f176.google.com with SMTP id w15so10048509ljo.10
-        for <linux-sunxi@lists.linux.dev>; Sat, 29 May 2021 17:26:32 -0700 (PDT)
-X-Gm-Message-State: AOAM532baN/nQR5fXUrU6900AoezapCFbuCzP6/Rbz75hRv/UWtJL04P
-	A+2WbIsQonYeRv50p98oQXoolgXi6dYUXI4pMbo=
-X-Google-Smtp-Source: ABdhPJzAv7KxOF4cW+l6E6gE3uAhvDSqrsRPGJzs6vvDaU7PttVLgVopNfDeoPAKiteBVSoM5AoDZDhtiWO9RVnzXQk=
-X-Received: by 2002:a05:651c:2d0:: with SMTP id f16mr3853539ljo.18.1622334391183;
- Sat, 29 May 2021 17:26:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11643173
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 00:30:19 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id lx17-20020a17090b4b11b029015f3b32b8dbso6656993pjb.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 29 May 2021 17:30:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Xq8rjDdajOrEnJH/gYsPZPip8sU4KPaYjYp9VZxKFxg=;
+        b=Li711QZ4jfbmgsYIYc13IzJADdEzcf/jVUy5AIHJgsr00pEXHYXwBh5HE5xuHgQ9Iw
+         OuF0OawaFzTp+DkAbEwoSZxEuLtKvFH6VYDWrvzvdp6Uc1L5x+x994srisje+kTR4Qmf
+         ZExtumx+PUJg+rAkp6HwcVDgEyHlZzF9QKIolJ8rfLLazk3Yj8xfWPetx+6O+kTUkfvN
+         UVxnkBQG52r++fcHdKP9Lma7hwtC41ipDo9Ll72XXjn+dIaEvQbv66QXaMqKeMvrMa3i
+         eA976sfPV9IRtUaNQoRkp3jIev3kFelLcnuJk9khpW+A5oiHDsQFY1mJ9OZuX8A1spfz
+         OFFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=Xq8rjDdajOrEnJH/gYsPZPip8sU4KPaYjYp9VZxKFxg=;
+        b=H1mqmFvhHX4ETRAO6xr+zVhvyryod9DonifL2Kpl0UckadGocJvcm4R1XtIxP8Z4n1
+         VxF8yDIr4feHzBs9NjsmiZeEcd521xEA61MQfuxptT3zlPvNfSnRbpKFBebVN389kfg8
+         gXcnqD9QVLu+ICtfeXj/J+fdj2bBLrL+OKhql2wugE7RJ8UEmMeorbcZAvLxP/NOT57q
+         vrvPusaC/qZuvxzqvG0mqHNIDDxTFCGY0h5ojqgASRIg3BmKd7qms1D4pD0HHRlseVRr
+         rL96GikSvH+kNr1jevN/OXPOmQLIHJCgyS7OI4tGH5BvhvW1xbQs748pyis4x+mip1tM
+         08FA==
+X-Gm-Message-State: AOAM530qszoDQL0PRdM9zu5cLIvXL9bCxPqDCVZPJpjbxck1+7iWRRy1
+	hH5OVYO/LyCDKL79tQbCnEi6Kw==
+X-Google-Smtp-Source: ABdhPJxKeHz3bdKzW+qaaA5CNw7eizOlyQUSlrZom5qN9xyOtG7sUWzn4T85FVINWEK0dsYvqxAOZQ==
+X-Received: by 2002:a17:90a:6589:: with SMTP id k9mr3348112pjj.14.1622334619298;
+        Sat, 29 May 2021 17:30:19 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id a9sm7182418pfo.69.2021.05.29.17.30.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 May 2021 17:30:18 -0700 (PDT)
+Date: Sat, 29 May 2021 17:30:18 -0700 (PDT)
+X-Google-Original-Date: Sat, 29 May 2021 17:29:11 PDT (-0700)
+Subject:     Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+In-Reply-To: <CAJF2gTTBAKTBY5AF9jd8tfT-33Y+McyFis_xk_aMvZZpLsvVxw@mail.gmail.com>
+CC: anup@brainfault.org, drew@beagleboard.org, Christoph Hellwig <hch@lst.de>,
+  Anup Patel <Anup.Patel@wdc.com>, wefu@redhat.com, lazyparser@gmail.com, linux-riscv@lists.infradead.org,
+  linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
+  guoren@linux.alibaba.com, Paul Walmsley <paul.walmsley@sifive.com>
+From: Palmer Dabbelt <palmerdabbelt@google.com>
+To: guoren@kernel.org
+Message-ID: <mhng-a5f8374f-350b-4c13-86e8-c6aa5e697454@palmerdabbelt-glaptop>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <1621945234-37878-1-git-send-email-guoren@kernel.org> <mhng-93a12abf-0283-4ec3-a521-89b8d882654f@palmerdabbelt-glaptop>
-In-Reply-To: <mhng-93a12abf-0283-4ec3-a521-89b8d882654f@palmerdabbelt-glaptop>
-From: Guo Ren <guoren@kernel.org>
-Date: Sun, 30 May 2021 08:26:20 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTTMYi-fr2kz5PHBtZ17iJdq0gN5UWT+eRV7ODwNfUcqrw@mail.gmail.com>
-Message-ID: <CAJF2gTTMYi-fr2kz5PHBtZ17iJdq0gN5UWT+eRV7ODwNfUcqrw@mail.gmail.com>
-Subject: Re: [PATCH] arch: Cleanup unused functions
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Anup Patel <Anup.Patel@wdc.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Michal Simek <monstr@monstr.eu>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 30, 2021 at 7:08 AM Palmer Dabbelt <palmerdabbelt@google.com> wrote:
+On Fri, 21 May 2021 17:36:08 PDT (-0700), guoren@kernel.org wrote:
+> On Wed, May 19, 2021 at 3:15 PM Anup Patel <anup@brainfault.org> wrote:
+>>
+>> On Wed, May 19, 2021 at 12:24 PM Drew Fustini <drew@beagleboard.org> wrote:
+>> >
+>> > On Wed, May 19, 2021 at 08:06:17AM +0200, Christoph Hellwig wrote:
+>> > > On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
+>> > > > Since the existing RISC-V ISA cannot solve this problem, it is better
+>> > > > to provide some configuration for the SOC vendor to customize.
+>> > >
+>> > > We've been talking about this problem for close to five years.  So no,
+>> > > if you don't manage to get the feature into the ISA it can't be
+>> > > supported.
+>> >
+>> > Isn't it a good goal for Linux to support the capabilities present in
+>> > the SoC that a currently being fab'd?
+>> >
+>> > I believe the CMO group only started last year [1] so the RV64GC SoCs
+>> > that are going into mass production this year would not have had the
+>> > opporuntiy of utilizing any RISC-V ISA extension for handling cache
+>> > management.
+>>
+>> The current Linux RISC-V policy is to only accept patches for frozen or
+>> ratified ISA specs.
+>> (Refer, Documentation/riscv/patch-acceptance.rst)
+>>
+>> This means even if emulate CMO instructions in OpenSBI, the Linux
+>> patches won't be taken by Palmer because CMO specification is
+>> still in draft stage.
+> Before CMO specification release, could we use a sbi_ecall to solve
+> the current problem? This is not against the specification, when CMO
+> is ready we could let users choose to use the new CMO in Linux.
 >
-> On Tue, 25 May 2021 05:20:34 PDT (-0700), guoren@kernel.org wrote:
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > These functions haven't been used, so just remove them. The patch
-> > has been tested with riscv, but I only use grep to check the
-> > microblaze's.
-> >
-> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Michal Simek <monstr@monstr.eu>
-> > Cc: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  arch/microblaze/include/asm/page.h |  3 ---
-> >  arch/riscv/include/asm/page.h      | 10 ----------
-> >  2 files changed, 13 deletions(-)
-> >
-> > diff --git a/arch/microblaze/include/asm/page.h b/arch/microblaze/include/asm/page.h
-> > index bf681f2..ce55097 100644
-> > --- a/arch/microblaze/include/asm/page.h
-> > +++ b/arch/microblaze/include/asm/page.h
-> > @@ -35,9 +35,6 @@
-> >
-> >  #define ARCH_SLAB_MINALIGN   L1_CACHE_BYTES
-> >
-> > -#define PAGE_UP(addr)        (((addr)+((PAGE_SIZE)-1))&(~((PAGE_SIZE)-1)))
-> > -#define PAGE_DOWN(addr)      ((addr)&(~((PAGE_SIZE)-1)))
-> > -
-> >  /*
-> >   * PAGE_OFFSET -- the first address of the first page of memory. With MMU
-> >   * it is set to the kernel start address (aligned on a page boundary).
-> > diff --git a/arch/riscv/include/asm/page.h b/arch/riscv/include/asm/page.h
-> > index 6a7761c..a1b888f 100644
-> > --- a/arch/riscv/include/asm/page.h
-> > +++ b/arch/riscv/include/asm/page.h
-> > @@ -37,16 +37,6 @@
-> >
-> >  #ifndef __ASSEMBLY__
-> >
-> > -#define PAGE_UP(addr)        (((addr)+((PAGE_SIZE)-1))&(~((PAGE_SIZE)-1)))
-> > -#define PAGE_DOWN(addr)      ((addr)&(~((PAGE_SIZE)-1)))
-> > -
-> > -/* align addr on a size boundary - adjust address up/down if needed */
-> > -#define _ALIGN_UP(addr, size)        (((addr)+((size)-1))&(~((size)-1)))
-> > -#define _ALIGN_DOWN(addr, size)      ((addr)&(~((size)-1)))
-> > -
-> > -/* align addr on a size boundary - adjust address up if needed */
-> > -#define _ALIGN(addr, size)   _ALIGN_UP(addr, size)
-> > -
-> >  #define clear_page(pgaddr)                   memset((pgaddr), 0, PAGE_SIZE)
-> >  #define copy_page(to, from)                  memcpy((to), (from), PAGE_SIZE)
+> From a tech view, CMO trap emulation is the same as sbi_ecall.
 >
-> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
->
-> It's generally easier if you split this sort of stuff up, as it'll be
-> easier to merge if we don't have to coordinate between the trees.  I'm
-> happy to take this, but I'd prefer an Ack from one of the microblaze
-> folks first.
-Em ... I'll separate it. Thx for reply.
+>>
+>> Also, we all know how much time it takes for RISCV international
+>> to freeze some spec. Judging by that we are looking at another
+>> 3-4 years at minimum.
 
--- 
-Best Regards
- Guo Ren
+Sorry for being slow here, this thread got buried.
 
-ML: https://lore.kernel.org/linux-csky/
+I've been trying to work with a handful of folks at the RISC-V 
+foundation to try and get a subset of the various in-development 
+specifications (some simple CMOs, something about non-caching in the 
+page tables, and some way to prevent speculative accesse from generating 
+coherence traffic that will break non-coherent systems).  I'm not sure 
+we can get this together quickly, but I'd prefer to at least try before 
+we jump to taking vendor-specificed behavior here.  It's obviously an 
+up-hill battle to try and get specifications through the process and I'm 
+certainly not going to promise it will work, but I'm hoping that the 
+impending need to avoid forking the ISA will be sufficient to get people 
+behind producing some specifications in a timely fashion.
+
+I wasn't aware than this chip had non-coherent devices until I saw this 
+thread, so we'd been mostly focused on the Beagle V chip.  That was in a 
+sense an easier problem because the SiFive IP in it was never designed 
+to have non-coherent devices so we'd have to make anything work via a 
+series of slow workarounds, which would make emulating the eventually 
+standardized behavior reasonable in terms of performance (ie, everything 
+would be super slow so who really cares).
+
+I don't think relying on some sort of SBI call for the CMOs whould be 
+such a performance hit that it would prevent these systems from being 
+viable, but assuming you have reasonable performance on your non-cached 
+accesses then that's probably not going to be viable to trap and 
+emulate.  At that point it really just becomes silly to pretend that 
+we're still making things work by emulating the eventually ratified 
+behavior, as anyone who actually tries to use this thing to do IO would 
+need out of tree patches.  I'm not sure exactly what the plan is for the 
+page table bits in the specification right now, but if you can give me a 
+pointer to some documentation then I'm happy to try and push for 
+something compatible.
+
+If we can't make the process work at the foundation then I'd be strongly 
+in favor of just biting the bullet and starting to take vendor-specific 
+code that's been implemented in hardware and is necessarry to make 
+things work acceptably.  That's obviously a sub-optimal solution as 
+it'll lead to a bunch of ISA fragmentation, but at least we'll be able 
+to keep the software stack together.
+
+Can you tell us when these will be in the hands of users?  That's pretty 
+important here, as I don't want to be blocking real users from having 
+their hardware work.  IIRC there were some plans to distribute early 
+boards, but it looks like the foundation got involved and I guess I lost 
+the thread at that point.
+
+Sorry this is all such a headache, but hopefully we can get things 
+sorted out.
+
+>>
+>> Regards,
+>> Anup
