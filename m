@@ -1,97 +1,77 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98FD72
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 05:34:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7EE17611C2
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 05:34:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622352845;
-	bh=FLn/9f8WMsIdmFnvrDv3Mglo+h1LSWEE4NFwYI9qejQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=tu01rQTeK9Bh/v4eCo7w+Ip4ogwfvKVV8jD3yJSlSdusQjNnog2wrv9NoNWhfl7A5
-	 iF4kO2WVxan3vNWMmI3CNm3SGZDE+SKF81ZbAN2OKSneoYp2iYykoI1wK9577fzZAQ
-	 B3zp7YbEkujEn7vC0oZd6z2NLpDb4Mefa5D5aF/2GmKggt7oItNCMZ21JF2qwVdecM
-	 ZgiLMxDXXAINrydlVUZhboc92qKALqnlaNd42I/FfhwssZBv8Ppf7DqLat+9cRKu/M
-	 +tW7wifOivCSaShs2EuwlIIJui4Xm22K0nBxI0KKFrw7YclJGEMliQmZEh1+wV1w7S
-	 kkG5lBDKJ2F/A==
-Received: by mail-lf1-f49.google.com with SMTP id r5so11766711lfr.5
-        for <linux-sunxi@lists.linux.dev>; Sat, 29 May 2021 22:34:05 -0700 (PDT)
-X-Gm-Message-State: AOAM533qZ0PrtIWVLb7tWGDVj6WBML0JzlgIYT3I5smwQtF+/WLHcBZp
-	WrA0FoYWioJCOp+EltoMK1hUVuQAUM9hyINYw5E=
-X-Google-Smtp-Source: ABdhPJzXI4xVh66JGKFo7gHrm+ykGxENf72ornewHIx5uJq5t/cO3XwEwN5wOJP9Q3jcnMFdCSb8EzCc+wHXCIIJTuo=
-X-Received: by 2002:a05:6512:36c5:: with SMTP id e5mr10864663lfs.41.1622352843723;
- Sat, 29 May 2021 22:34:03 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BF1173
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 16:35:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09A966D;
+	Sun, 30 May 2021 09:35:39 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B93253F73D;
+	Sun, 30 May 2021 09:35:36 -0700 (PDT)
+Date: Sun, 30 May 2021 17:34:54 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Ondrej Jirman <megous@megous.com>, Chen-Yu Tsai <wens@csie.org>, Maxime
+ Ripard <mripard@kernel.org>, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
+ <jernej.skrabec@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>,
+ linux-serial@vger.kernel.org, Linux ARM Mailing List
+ <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
+ <luiz.dentz@gmail.com>, linux-bluetooth@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Cc: Josh Triplett <josh@joshtriplett.org>, tuxd3v@sapo.pt
+Subject: sunxi: Bluetooth broken since 5.6-rc1
+Message-ID: <20210530173454.5ab1dcf5@slackpad.fritz.box>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622008161-41451-2-git-send-email-guoren@kernel.org> <mhng-60806045-5ac7-4057-b596-a4d9cb79b7be@palmerdabbelt-glaptop>
-In-Reply-To: <mhng-60806045-5ac7-4057-b596-a4d9cb79b7be@palmerdabbelt-glaptop>
-From: Guo Ren <guoren@kernel.org>
-Date: Sun, 30 May 2021 13:33:52 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTSPQmWLon40GafUjEjeMfu3ZPsPREzE+4W5+0uWjj=F_A@mail.gmail.com>
-Message-ID: <CAJF2gTSPQmWLon40GafUjEjeMfu3ZPsPREzE+4W5+0uWjj=F_A@mail.gmail.com>
-Subject: Re: [PATCH V4 1/2] riscv: Fixup _PAGE_GLOBAL in _PAGE_KERNEL
-To: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Anup Patel <Anup.Patel@wdc.com>, Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 30, 2021 at 7:42 AM <palmerdabbelt@google.com> wrote:
->
-> On Tue, 25 May 2021 22:49:20 PDT (-0700), guoren@kernel.org wrote:
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > Kernel virtual address translation should avoid to use ASIDs or it'll
-> > cause more TLB-miss and TLB-refill. Because the current ASID in satp
-> > belongs to the current process, but the target kernel va TLB entry's
-> > ASID still belongs to the previous process.
->
-> Sorry, I still can't quite figure out what this is trying to say.  I
-> went ahead and re-wrote the commit text to
->
->     riscv: Use global mappings for kernel pages
->
->     We map kernel pages into all addresses spages, so they can be marked as
->     global.  This allows hardware to avoid flushing the kernel mappings when
->     moving between address spaces.
-Okay
+Hi,
 
->
-> LMK if I'm misunderstanding something here, it's on for-next.
->
-> >
-> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > Reviewed-by: Anup Patel <anup@brainfault.org>
-> > Reviewed-by: Christoph Hellwig <hch@lst.de>
-> > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-> > ---
-> >  arch/riscv/include/asm/pgtable.h | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/arch/riscv/include/asm/pgtable.h b/arch/riscv/include/asm/pgtable.h
-> > index 9469f46..346a3c6 100644
-> > --- a/arch/riscv/include/asm/pgtable.h
-> > +++ b/arch/riscv/include/asm/pgtable.h
-> > @@ -134,7 +134,8 @@
-> >                               | _PAGE_WRITE \
-> >                               | _PAGE_PRESENT \
-> >                               | _PAGE_ACCESSED \
-> > -                             | _PAGE_DIRTY)
-> > +                             | _PAGE_DIRTY \
-> > +                             | _PAGE_GLOBAL)
-> >
-> >  #define PAGE_KERNEL          __pgprot(_PAGE_KERNEL)
-> >  #define PAGE_KERNEL_READ     __pgprot(_PAGE_KERNEL & ~_PAGE_WRITE)
+as recently discovered via IRC discussions, Bluetooth (via UART)
+seems to be broken on many (if not all) Allwinner devices using recent
+mainline kernels. On *some* occasions it might work, but more often
+than not the hci_bcm driver just times out:
+....
+[    5.046126] Bluetooth: HIDP socket layer initialized
+...
+[    7.809425] Bluetooth: hci0: command 0x0c03 tx timeout
+[   15.969286] Bluetooth: hci0: BCM: Reset failed (-110)
 
+After some guessing, trying, and bisecting I pinned the problem down to:
+commit dc56ecb81a0aa46a7e127e916df5c8fdb8364f0b
+Author: Josh Triplett <josh@joshtriplett.org>
+Date:   Fri Jan 10 18:25:13 2020 -0800
 
+    serial: 8250: Support disabling mdelay-filled probes of 16550A variants
 
--- 
-Best Regards
- Guo Ren
+This seemingly innocent commit shaved off some milliseconds during the
+8250 probe, which apparently lets the Bluetooth device trip.
 
-ML: https://lore.kernel.org/linux-csky/
+An obvious easy hack-fix is to just define
+CONFIG_SERIAL_8250_16550A_VARIANTS, which brings the delays back and
+seems to avoid the problem for me.
+Another hack which seems to mitigate the problem is to avoid switching
+the baudrate to something faster than 115200.
+
+I observed this on a BananaPi-M64 (Allwinner A64 SoC with AP6212 WiFi/BT
+chip), but others reported the same issue on a NanoPi Air (Allwinner H3
+with 6212), but also other SoCs and devices (at least one AP6210).
+
+Obviously those workarounds are not real solutions, and I was
+wondering if anybody has an idea how to properly fix this?
+What puzzles me is that the delay is happening during the *UART*
+probe, so before we even start dealing with the Bluetooth device.
+
+I see that hci_bcm.c has some history with adding delays, also with
+RTS/CTS lines, so does anyone have an idea what's going on here,
+exactly, and how to properly fix this problem?
+
+Many thanks,
+Andre
