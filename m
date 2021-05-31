@@ -1,88 +1,117 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B4770
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 14:48:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	 bh=euB7BL2XuW3HoSpXnWIwx0mLzMjhawHcBqDGg751C3g=; b=tDWS4hOZfgY456Ivm/TAoCqAi
-	kwzSbsxZzymv6NNi44bQffd7ZVRueqJlNBszDtH/qddj46tkhS/3Fuw+g8KWvQi6JsUHe4dq/Kwc+
-	9YJrjaDlUyrlg1ENb0GZqTSnR8QXlZ0aakBYMTkeDqJ5SEqj+IrsOnUF/DdY9lHOzkLkGzV08kV7a
-	8h+GklEje69BI1jShscsHfdMkfebBoWOLNr7s3SllPMQAkFQqMilwb2dvauJcsy4MlG5Vm17JS1l8
-	mSG6Dfl1lID8lL4zgtQt1eM+fdGEbG6Pqm1pUw4u+Qct3o4zWw7vkf0cqlmthZbmhe2cSV0uXZ+WL
-	B5HbFDzdA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:44520)
-	by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1lnj6r-0002p9-Al; Mon, 31 May 2021 15:41:41 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1lnj6m-0007d2-9u; Mon, 31 May 2021 15:41:36 +0100
-Date: Mon, 31 May 2021 15:41:36 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Ondrej Jirman <megous@megous.com>, Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Jiri Slaby <jirislaby@kernel.org>, linux-serial@vger.kernel.org,
-	Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Johan Hedberg <johan.hedberg@gmail.com>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Josh Triplett <josh@joshtriplett.org>, tuxd3v@sapo.pt
-Subject: Re: sunxi: Bluetooth broken since 5.6-rc1
-Message-ID: <20210531144136.GS30436@shell.armlinux.org.uk>
-References: <20210530173454.5ab1dcf5@slackpad.fritz.box>
- <YLTi8iYdLiKNeaLC@kroah.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8700B72
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 18:59:39 +0000 (UTC)
+Received: by mail-qt1-f173.google.com with SMTP id h24so8506120qtm.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 11:59:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0Bj3EXA5eXVelz5o13GutbU3HKUebMCicTKBU5T9KC8=;
+        b=EFUvigUHxbjySYXNZk1SO/K98owwzVtmRgLXEaBaMtBGljxXnr/qXC6mDjy05u0vly
+         vZY8NulUG+9RmRYSrUD+VvSTZdw4fnZczhVSU1I/q1w6E7jO278WMjWLQfqa4hqM3NoN
+         j5HkrgP6i5NT64+igYXo7GYRn4hs8W8Tar44I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0Bj3EXA5eXVelz5o13GutbU3HKUebMCicTKBU5T9KC8=;
+        b=Gao/fnD6k6SQXDsSKYrDJG/+BH4y6P0XRi852678gkjtbZAzW5yMeFbd6EtjVIdOdn
+         A2zEKpI6FvSRjKjleGlB7GP3RtS1Uczi+BXEZ32Frmh+/R8J9vztx8SY7K897xaD7vaY
+         vGs468EK9A3sP8Bzv98TGRGENF62Q8Y3xK3Xb8AAT2HQBobvIh/vShG7bntxozv18xhz
+         ItdzGEyHQHfTIfRR7CSyPYY//FJPGdmriweLqE1TkWLX2JW7tRjjtELbsJAk+2k+ffR/
+         M/XSYYw0FkUvtjCkQv6Gm5+MkYUTGi5LSXLyQrSrVezU2jjnH1ytdXhx/SpcqXUBThUL
+         a+aQ==
+X-Gm-Message-State: AOAM532H/aEOXejvPdLfRbu8h3FzfsQv14erzmhPgOxacOWTSFy+W7lf
+	MhKhHBWtogf7qUaOvCL7pAMd8A==
+X-Google-Smtp-Source: ABdhPJyUXfplXoG/kZxIktim9kH0DeNDOPcPWd95Wn+xHp+1QkL5X9iruLMNFpGeUVDom9He0W5ekw==
+X-Received: by 2002:a05:622a:392:: with SMTP id j18mr16240865qtx.6.1622487577149;
+        Mon, 31 May 2021 11:59:37 -0700 (PDT)
+Received: from bill-the-cat (2603-6081-7b01-cbda-004d-7bb5-fc33-ef22.res6.spectrum.com. [2603:6081:7b01:cbda:4d:7bb5:fc33:ef22])
+        by smtp.gmail.com with ESMTPSA id j30sm9997735qki.60.2021.05.31.11.59.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 31 May 2021 11:59:36 -0700 (PDT)
+Date: Mon, 31 May 2021 14:59:34 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Samuel Holland <samuel@sholland.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Simon Baatz <gmbnomis@gmail.com>, linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com
+Subject: Re: Pull request: u-boot-sunxi/master for v2021.07
+Message-ID: <20210531185934.GA14385@bill-the-cat>
+References: <20210531002345.1335-1-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
+Content-Disposition: inline
+In-Reply-To: <20210531002345.1335-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
+
+
+--d6Gm4EdcadzBjdND
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YLTi8iYdLiKNeaLC@kroah.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 31, 2021 at 03:21:54PM +0200, Greg Kroah-Hartman wrote:
-> On Sun, May 30, 2021 at 05:34:54PM +0100, Andre Przywara wrote:
-> > An obvious easy hack-fix is to just define
-> > CONFIG_SERIAL_8250_16550A_VARIANTS, which brings the delays back and
-> > seems to avoid the problem for me.
-> > Another hack which seems to mitigate the problem is to avoid switching
-> > the baudrate to something faster than 115200.
-> > 
-> > I observed this on a BananaPi-M64 (Allwinner A64 SoC with AP6212 WiFi/BT
-> > chip), but others reported the same issue on a NanoPi Air (Allwinner H3
-> > with 6212), but also other SoCs and devices (at least one AP6210).
-> > 
-> > Obviously those workarounds are not real solutions, and I was
-> > wondering if anybody has an idea how to properly fix this?
-> > What puzzles me is that the delay is happening during the *UART*
-> > probe, so before we even start dealing with the Bluetooth device.
-> 
-> What type of bluetooth device is this, and what does it have to do with
-> the serial port?  Is the SoC device using the same IP blocks for both?
+On Mon, May 31, 2021 at 01:23:45AM +0100, Andre Przywara wrote:
 
-Many bluetooth "devices" (I mean the interface from the local machine
-to the BT world, not as in remote devices) are connected through a
-standard UART. Pictorially, it's:
+> Hi Tom,
+>=20
+> please pull the master branch from u-boot-sunxi, containing the fix
+> to bring back the SD card as MMC0. In the long run we are looking into a
+> more robust solution, but for now we need to fix this, as this breaks
+> the user experience left, right, and centre.
+> Also add the one MAINTAINERS path addition from Samuel.
+>=20
+> Thanks,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit ffd810487ec2ff6095edf3f3d058d7ed6eb85f=
+f3:
+>=20
+>   Merge tag 'u-boot-stm32-20210528' of https://source.denx.de/u-boot/cust=
+odians/u-boot-stm (2021-05-28 14:11:06 -0400)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to f264e796c06d7ce6c039bfc7255390309cbc5191:
+>=20
+>   MAINTAINERS: Add allwinner/sunxi driver directories (2021-05-31 00:39:5=
+4 +0100)
+>=20
 
-  CPU <---> UART <---> BT chip <---> Bluetooth RF world
+Applied to u-boot/master, thanks!
 
-The reporter seems to be saying is that a change to the UART driver now
-means that the bluetooth chip wired to that UART no longer functions due
-to slightly different initialisation timings of the host UART.
+--=20
+Tom
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+--d6Gm4EdcadzBjdND
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmC1Mg8ACgkQFHw5/5Y0
+tyzm7gv+KfKScNJqSXEIGc9amWZvSJ4fuiT1pKXC5M2gw8MAvbodFQSKwpaOBFgV
+l7Z9akfGUG7WLbty05683W1CxIe4f49a1nbNNVkbFcZv4FOHkIe/9M+kHsJ4B6BD
+kLqxygAlrWlw8QDYH9CxLoWZfCquEzD+GaBQe+9aOlMus+4fw7dA6mcnUc9COfWh
+667kDYnEaSsxvQqQWSoefD4z4SDN4c/V0l7ahDGYtjMu3IkytIupxp1BJOXRTSYI
+ArFm4HlxeRym2SZrdwgX1wxGXlGaGFjLj9WGxJXkg3rIsmzUGMk2NLDhmrwRoS84
+zDA0pZyKU4kALNmZPS6cL69sR04Fwefbjkz1S/bww+/P4tBT7+fdGUXLPJUSYBgZ
+q6zEi3QtNn91tw8jh85ZXCmXk6kRHYWDxPqbLD4faxnvrKGJswCCBE5+pEa/02yd
+JXGquDH4bBE69qBfBJZxwoR+Q1IByFx9NzRyyFLAPMkdyEkJADwfuqDJoAim9X/n
+7A6LP0zl
+=ymwI
+-----END PGP SIGNATURE-----
+
+--d6Gm4EdcadzBjdND--
