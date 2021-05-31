@@ -1,117 +1,97 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pmg02-out2.zxcs.nl (pmg02-out2.zxcs.nl [185.104.28.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8700B72
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 18:59:39 +0000 (UTC)
-Received: by mail-qt1-f173.google.com with SMTP id h24so8506120qtm.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 11:59:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=0Bj3EXA5eXVelz5o13GutbU3HKUebMCicTKBU5T9KC8=;
-        b=EFUvigUHxbjySYXNZk1SO/K98owwzVtmRgLXEaBaMtBGljxXnr/qXC6mDjy05u0vly
-         vZY8NulUG+9RmRYSrUD+VvSTZdw4fnZczhVSU1I/q1w6E7jO278WMjWLQfqa4hqM3NoN
-         j5HkrgP6i5NT64+igYXo7GYRn4hs8W8Tar44I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0Bj3EXA5eXVelz5o13GutbU3HKUebMCicTKBU5T9KC8=;
-        b=Gao/fnD6k6SQXDsSKYrDJG/+BH4y6P0XRi852678gkjtbZAzW5yMeFbd6EtjVIdOdn
-         A2zEKpI6FvSRjKjleGlB7GP3RtS1Uczi+BXEZ32Frmh+/R8J9vztx8SY7K897xaD7vaY
-         vGs468EK9A3sP8Bzv98TGRGENF62Q8Y3xK3Xb8AAT2HQBobvIh/vShG7bntxozv18xhz
-         ItdzGEyHQHfTIfRR7CSyPYY//FJPGdmriweLqE1TkWLX2JW7tRjjtELbsJAk+2k+ffR/
-         M/XSYYw0FkUvtjCkQv6Gm5+MkYUTGi5LSXLyQrSrVezU2jjnH1ytdXhx/SpcqXUBThUL
-         a+aQ==
-X-Gm-Message-State: AOAM532H/aEOXejvPdLfRbu8h3FzfsQv14erzmhPgOxacOWTSFy+W7lf
-	MhKhHBWtogf7qUaOvCL7pAMd8A==
-X-Google-Smtp-Source: ABdhPJyUXfplXoG/kZxIktim9kH0DeNDOPcPWd95Wn+xHp+1QkL5X9iruLMNFpGeUVDom9He0W5ekw==
-X-Received: by 2002:a05:622a:392:: with SMTP id j18mr16240865qtx.6.1622487577149;
-        Mon, 31 May 2021 11:59:37 -0700 (PDT)
-Received: from bill-the-cat (2603-6081-7b01-cbda-004d-7bb5-fc33-ef22.res6.spectrum.com. [2603:6081:7b01:cbda:4d:7bb5:fc33:ef22])
-        by smtp.gmail.com with ESMTPSA id j30sm9997735qki.60.2021.05.31.11.59.35
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 31 May 2021 11:59:36 -0700 (PDT)
-Date: Mon, 31 May 2021 14:59:34 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Samuel Holland <samuel@sholland.org>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Simon Baatz <gmbnomis@gmail.com>, linux-sunxi@lists.linux.dev,
-	linux-sunxi@googlegroups.com
-Subject: Re: Pull request: u-boot-sunxi/master for v2021.07
-Message-ID: <20210531185934.GA14385@bill-the-cat>
-References: <20210531002345.1335-1-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415AD72
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 19:24:35 +0000 (UTC)
+Received: from pmg02.zxcs.nl (localhost.localdomain [127.0.0.1])
+	by pmg02.zxcs.nl (ZXCS) with ESMTP id EDA0182B8F;
+	Mon, 31 May 2021 21:07:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=pascalroeleven.nl; s=x; h=Content-Transfer-Encoding:Content-Type:Message-ID
+	:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=LD6UHQO51Dg3HgJ9uiOrHpVNhVTobRPfvJr+H5j46UU=; b=FlabRISFHdUqKMnGbTHrMRUfM9
+	fkaMQ4yX3pEY61AdyZqfJCYNW+h87v54/uor0wX/sLxZTLqwgHq2uLIhJxnF1nI55NuUtH0HsORmu
+	wEbNuYiy52w6OTT6SYBdOEaKkqJzsuAJQJZMHS/OgEp8u/ndjH+yMvh3QUxXw6zD6LTS6z2szD1sR
+	7Hh6YEbSoRQ7plZsX4O4/jlgly6E5xJEtaikUfyh6TgKEpOsCpwpYlzZ5xxCqQTcYzOxXbeYOiArd
+	FDAndpzMFBBz+5NBYSQprP3JWN2OjolNCYFVOsDmMLeDrBGernxDuBUAxVUCGOwi91iNUm2NLz9sD
+	BGfw7psA==;
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
-Content-Disposition: inline
-In-Reply-To: <20210531002345.1335-1-andre.przywara@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Date: Mon, 31 May 2021 21:07:54 +0200
+From: Pascal Roeleven <dev@pascalroeleven.nl>
+To: Roman Beranek <roman.beranek@prusa3d.cz>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Emil Lenngren
+ <emil.lenngren@gmail.com>, Lee Jones <lee.jones@linaro.org>, Maxime Ripard
+ <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 0/6] pwm: sun4i: only wait 2 cycles prior to disabling
+In-Reply-To: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <e63e2b31c63bb9e227ed9ec04a8af54e@pascalroeleven.nl>
+X-Sender: dev@pascalroeleven.nl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Forwarded-For: roman.beranek@prusa3d.cz
+X-AuthUser: dev@pascalroeleven.nl
 
+On 2021-05-31 06:46, Roman Beranek wrote:
+> As Emil Lenngren has previously shown [1], actually only 1-2 cycles of
+> the prescaler-divided clock are necessary to pass before the PWM turns
+> off, not a full period.
+> 
+> To avoid having the PWM re-enabled from another thread while asleep,
+> ctrl_lock spinlock was converted to a mutex so that it can be released
+> only after the clock gate has finally been turned on.
+> 
+> [1] https://linux-sunxi.org/PWM_Controller_Register_Guide
+> 
+> Roman Beranek (6):
+>   pwm: sun4i: enable clk prior to getting its rate
+>   pwm: sun4i: disable EN bit prior to the delay
+>   pwm: sun4i: replace spinlock with a mutex
+>   pwm: sun4i: simplify calculation of the delay time
+>   pwm: sun4i: shorten the delay to 2 cycles
+>   pwm: sun4i: don't delay if the PWM is already off
+> 
+>  drivers/pwm/pwm-sun4i.c | 56 +++++++++++++++++++----------------------
+>  1 file changed, 26 insertions(+), 30 deletions(-)
 
---d6Gm4EdcadzBjdND
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Roman,
 
-On Mon, May 31, 2021 at 01:23:45AM +0100, Andre Przywara wrote:
+Thanks for your attempt to fix this.
 
-> Hi Tom,
->=20
-> please pull the master branch from u-boot-sunxi, containing the fix
-> to bring back the SD card as MMC0. In the long run we are looking into a
-> more robust solution, but for now we need to fix this, as this breaks
-> the user experience left, right, and centre.
-> Also add the one MAINTAINERS path addition from Samuel.
->=20
-> Thanks,
-> Andre
->=20
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> The following changes since commit ffd810487ec2ff6095edf3f3d058d7ed6eb85f=
-f3:
->=20
->   Merge tag 'u-boot-stm32-20210528' of https://source.denx.de/u-boot/cust=
-odians/u-boot-stm (2021-05-28 14:11:06 -0400)
->=20
-> are available in the Git repository at:
->=20
->   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
->=20
-> for you to fetch changes up to f264e796c06d7ce6c039bfc7255390309cbc5191:
->=20
->   MAINTAINERS: Add allwinner/sunxi driver directories (2021-05-31 00:39:5=
-4 +0100)
->=20
+Unfortunately on my A10 device (Topwise A721), the controller still gets
+stuck in an unrecoverable state after disabling and re-enabling the PWM
+when it was already on (set in U-Boot), or when enabling it when it was
+off. In this state, any changes to the period register (using devmem)
+don't seem to have any effect. It seems to be stuck in the state it was
+before disabling. The only thing which still works is enabling and
+disabling.
 
-Applied to u-boot/master, thanks!
+I can't reproduce this behavior manually so I'm not sure what is causing
+this.
 
---=20
-Tom
+Regarding the amount of cycles of sleep; Using a prescaler of 72000 the
+PWM clock is 3 ms. Although timing tests using devmem seem unreliable
+(too much overhead?), in U-Boot I need to 'sleep' for at least 7 ms
+between the commands to make sure the output doesn't sometimes get stuck
+in the enabled state. So in my case it seems to be at least 3 cycles. I
+am not sure how reliable this method is. However even if I can get it
+stuck in the enabled state using a shorter time, it doesn't cause the
+behavior I mentioned before. I was always able to recover it manually.
+Increasing the number of cycles to sleep therefore also doesn't solve my
+problem. Until we can solve that I cannot confirm nor deny if 2 cycles
+is enough.
 
---d6Gm4EdcadzBjdND
-Content-Type: application/pgp-signature; name="signature.asc"
+Regards,
+Pascal
 
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmC1Mg8ACgkQFHw5/5Y0
-tyzm7gv+KfKScNJqSXEIGc9amWZvSJ4fuiT1pKXC5M2gw8MAvbodFQSKwpaOBFgV
-l7Z9akfGUG7WLbty05683W1CxIe4f49a1nbNNVkbFcZv4FOHkIe/9M+kHsJ4B6BD
-kLqxygAlrWlw8QDYH9CxLoWZfCquEzD+GaBQe+9aOlMus+4fw7dA6mcnUc9COfWh
-667kDYnEaSsxvQqQWSoefD4z4SDN4c/V0l7ahDGYtjMu3IkytIupxp1BJOXRTSYI
-ArFm4HlxeRym2SZrdwgX1wxGXlGaGFjLj9WGxJXkg3rIsmzUGMk2NLDhmrwRoS84
-zDA0pZyKU4kALNmZPS6cL69sR04Fwefbjkz1S/bww+/P4tBT7+fdGUXLPJUSYBgZ
-q6zEi3QtNn91tw8jh85ZXCmXk6kRHYWDxPqbLD4faxnvrKGJswCCBE5+pEa/02yd
-JXGquDH4bBE69qBfBJZxwoR+Q1IByFx9NzRyyFLAPMkdyEkJADwfuqDJoAim9X/n
-7A6LP0zl
-=ymwI
------END PGP SIGNATURE-----
-
---d6Gm4EdcadzBjdND--
