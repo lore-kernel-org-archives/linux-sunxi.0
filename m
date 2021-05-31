@@ -1,77 +1,60 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BF1173
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 16:35:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55F6E72
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 00:24:15 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 09A966D;
-	Sun, 30 May 2021 09:35:39 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B93253F73D;
-	Sun, 30 May 2021 09:35:36 -0700 (PDT)
-Date: Sun, 30 May 2021 17:34:54 +0100
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65A096D;
+	Sun, 30 May 2021 17:24:14 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 23E843F774;
+	Sun, 30 May 2021 17:24:13 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Ondrej Jirman <megous@megous.com>, Chen-Yu Tsai <wens@csie.org>, Maxime
- Ripard <mripard@kernel.org>, Jernej =?UTF-8?B?xaBrcmFiZWM=?=
- <jernej.skrabec@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>,
- linux-serial@vger.kernel.org, Linux ARM Mailing List
- <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>, Luiz Augusto von Dentz
- <luiz.dentz@gmail.com>, linux-bluetooth@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Cc: Josh Triplett <josh@joshtriplett.org>, tuxd3v@sapo.pt
-Subject: sunxi: Bluetooth broken since 5.6-rc1
-Message-ID: <20210530173454.5ab1dcf5@slackpad.fritz.box>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+To: Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de,
+	Samuel Holland <samuel@sholland.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Simon Baatz <gmbnomis@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	linux-sunxi@googlegroups.com
+Subject: Pull request: u-boot-sunxi/master for v2021.07
+Date: Mon, 31 May 2021 01:23:45 +0100
+Message-Id: <20210531002345.1335-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Tom,
 
-as recently discovered via IRC discussions, Bluetooth (via UART)
-seems to be broken on many (if not all) Allwinner devices using recent
-mainline kernels. On *some* occasions it might work, but more often
-than not the hci_bcm driver just times out:
-....
-[    5.046126] Bluetooth: HIDP socket layer initialized
-...
-[    7.809425] Bluetooth: hci0: command 0x0c03 tx timeout
-[   15.969286] Bluetooth: hci0: BCM: Reset failed (-110)
+please pull the master branch from u-boot-sunxi, containing the fix
+to bring back the SD card as MMC0. In the long run we are looking into a
+more robust solution, but for now we need to fix this, as this breaks
+the user experience left, right, and centre.
+Also add the one MAINTAINERS path addition from Samuel.
 
-After some guessing, trying, and bisecting I pinned the problem down to:
-commit dc56ecb81a0aa46a7e127e916df5c8fdb8364f0b
-Author: Josh Triplett <josh@joshtriplett.org>
-Date:   Fri Jan 10 18:25:13 2020 -0800
-
-    serial: 8250: Support disabling mdelay-filled probes of 16550A variants
-
-This seemingly innocent commit shaved off some milliseconds during the
-8250 probe, which apparently lets the Bluetooth device trip.
-
-An obvious easy hack-fix is to just define
-CONFIG_SERIAL_8250_16550A_VARIANTS, which brings the delays back and
-seems to avoid the problem for me.
-Another hack which seems to mitigate the problem is to avoid switching
-the baudrate to something faster than 115200.
-
-I observed this on a BananaPi-M64 (Allwinner A64 SoC with AP6212 WiFi/BT
-chip), but others reported the same issue on a NanoPi Air (Allwinner H3
-with 6212), but also other SoCs and devices (at least one AP6210).
-
-Obviously those workarounds are not real solutions, and I was
-wondering if anybody has an idea how to properly fix this?
-What puzzles me is that the delay is happening during the *UART*
-probe, so before we even start dealing with the Bluetooth device.
-
-I see that hci_bcm.c has some history with adding delays, also with
-RTS/CTS lines, so does anyone have an idea what's going on here,
-exactly, and how to properly fix this problem?
-
-Many thanks,
+Thanks,
 Andre
+
+==============
+The following changes since commit ffd810487ec2ff6095edf3f3d058d7ed6eb85ff3:
+
+  Merge tag 'u-boot-stm32-20210528' of https://source.denx.de/u-boot/custodians/u-boot-stm (2021-05-28 14:11:06 -0400)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to f264e796c06d7ce6c039bfc7255390309cbc5191:
+
+  MAINTAINERS: Add allwinner/sunxi driver directories (2021-05-31 00:39:54 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (1):
+      sunxi: Bring back SD card as MMC device 0
+
+Samuel Holland (1):
+      MAINTAINERS: Add allwinner/sunxi driver directories
+
+ MAINTAINERS                    | 3 +++
+ arch/arm/dts/sunxi-u-boot.dtsi | 1 +
+ 2 files changed, 4 insertions(+)
