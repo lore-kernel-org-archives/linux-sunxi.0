@@ -1,102 +1,108 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB61D72
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 09:45:20 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id C324B5C01D7;
-	Mon, 31 May 2021 05:45:19 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 31 May 2021 05:45:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=k0VB3FWrxsfXM1/w80pYSH09jaS
-	p4S78U78dUKQMXm4=; b=OiQcRRpLcElS6KLN8SBFP4EMbj7iKqDed6kbPCiJvJP
-	3tK+18dTT0ULQvcyVrrLSZpL/kXLTYm5kf2jwD3XlPuUCChyk98t9F58/Iz0DLsK
-	OZBPrhc3trVYK9FFF8I944wQO3oO1tV4g8gbEN0INaTvG8bao15EK8YzxO8hPKpj
-	CWzqJw5MwTLjSUiZp6A84mYw/IWFWAliy3LD68aowOvCAazDCyUu45ZMb6tpLTXx
-	E75FheqKc0Wp7PSHyxntx/SqPg1YqIT8itv14suYmbSEWJNI2C1DTDLCkQaUX4cA
-	64EmNF+/WJoFoVQWQfO7F2o6X625HXM7OhrwnKPi1tw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=k0VB3F
-	WrxsfXM1/w80pYSH09jaSp4S78U78dUKQMXm4=; b=IZtqvgWVjUeSxIptsEkVH+
-	FMsoIPRMyOVPeXfJFeqo44nr+27D93KEYa4zA7OvQ2efO6w6vdpiCp77tW3qcmLS
-	dWyLiSXRQu62nXvjZZ29DCwdR/0d4f7b7gVqvPLKvPJItsqYEgVro4CRC9rK21CO
-	g0F1+DMDYee2luhe5zFbMChV7IE1Af7Y6egRdSW+9ahTGHaVSerO22VHFNrXIU/e
-	lu538n4YmTCAAz5tZbczzs/u2MnZH/GneigxQ+x6WfVcu5nU5lDYhZT/1T9MSWKn
-	EzNqA01cbaWchBbrmGotBopbszYK8XiVKtmFhJCNe+NRhT9qE8lp/l772/Ix4/bA
-	==
-X-ME-Sender: <xms:L7C0YNvR9W6ne3nXtpKGh9XtRlV-TyArg2Tn3eA_pKj8XI_zs-iTaw>
-    <xme:L7C0YGc4D8EH5dTiS83Y_x63LxlQqyJEocupKQBN4pi9QJOM9CA8kS_V_JruZMkRD
-    lJlCL4hhkGCqu5VJ-s>
-X-ME-Received: <xmr:L7C0YAzmeyjq0RuE8isqjK87G3caSUysj4Yignt_hPyN7SajthEfy3ovkg-7v8MEtSioWICJy87P9-VWGZro-KdlmgkvbWtombEc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelfedgvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:L7C0YEMnY01bLL6zb1r_O1qb1Tg-4nr9N2NeYFw8Htzp3MyaIG8lPA>
-    <xmx:L7C0YN-thZDaq_-Qa2hEMkpWJGsT8k_01KPykFbuyInau5XAAFwbgA>
-    <xmx:L7C0YEX-m89WT58Xn-K-m488nfc0w1yq0Rqd8SA_aKiAXMr3IVoTtA>
-    <xmx:L7C0YAllIJj0Vnzfu4uS1lnen1JYuh4sZKnF2OBONIfY03P9mxOkpQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 May 2021 05:45:18 -0400 (EDT)
-Date: Mon, 31 May 2021 11:45:17 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Andreas Rehn <rehn.andreas86@gmail.com>, wens@csie.org,
-	jernej.skrabec@gmail.com, rfried.dev@gmail.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] ARM: dts: sun8i: v3s: enable emac for zero Dock
-Message-ID: <20210531094517.5azb57jxa4mpyz5e@gilmour>
-References: <20210522205039.179486-1-rehn.andreas86@gmail.com>
- <20210525173159.183415-1-rehn.andreas86@gmail.com>
- <20210527001614.2edfc630@slackpad.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B798C71
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 12:25:00 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id e18so694984eje.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 05:25:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=monstr-eu.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=FW9/91oXBy6Mao6g/WQyoqZ2VlX3RS8bSdK17yEcolU=;
+        b=zeFMi410XXFAIk92KbRPsYvamk9jNcjSYzFyz8hyv0j66nyXqVGZ4aXT/Arsdk+n6b
+         p+XBFg5deVkez/9/judkzj3agLMeWTzkV6E16U2qRIiwSAb5Qz55SwyoJ/duSxaPbJgL
+         PAg6n4Bp9XFLgye5mUrLlElxVEVgDYhwqbrhTL8a55aS24pNLB81o4THCiSjgaEu3wZq
+         /PDzRXmk95xZNY3BzOjI1fWPV6LhHoK0jwPSK//an3mA7QJK3RX3iVThcWyn42kRmnoV
+         wcnYPsgQ8EmJIJHQaoCqAOoByUOvyldnoc76L4FNZ7VwBC0iF+Wu5ti9fDYIkB0Te8ON
+         Cb2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=FW9/91oXBy6Mao6g/WQyoqZ2VlX3RS8bSdK17yEcolU=;
+        b=qppQ1rM1s6oE9smS8f5Ud3uBeHcr/x1s56L/Wy9SDvXXiBM2CgL2ohyPO6JmHMh6Xk
+         0ALmBrd0HzgpEObzo/HB/PLhVaguDGZNGUv+YDzHDRp21Pja2c9ij7mmjvslte+qlnHP
+         mhAt36hhiGmL4hFUvsALcY0m53qAbxSmckvpq42BTLCMgZ1g0g30NnbXNxvMiHjtOOvA
+         DET+IK34x8NX0sAFYearA0CAcxqnfaL6A2VMWtURmG32e3sJYfjxG4pzoyjjnefeNZEi
+         jNLG/rwvYVsV8EuEspXs+HV6p2JjEB/dSLiDN1SW0mDbI7l5y0UVKxINgZSFLjUC6+op
+         cd+w==
+X-Gm-Message-State: AOAM533VaMYAj+TM4Ed3YdfMvvU/+H/aSPZH2oyDmhYMWv2V3TFD8486
+	ymAh+JkzIJ6T21eHWlfT9Y7I1g==
+X-Google-Smtp-Source: ABdhPJyDYlmkSLP3gas8rRrq3uvFjJoPBY9aCf31K4xNc/54kq9YOxBqvPi2P0P04x4KlgfPdlQgsg==
+X-Received: by 2002:a17:906:5d0c:: with SMTP id g12mr22408401ejt.447.1622463899056;
+        Mon, 31 May 2021 05:24:59 -0700 (PDT)
+Received: from ?IPv6:2a02:768:2307:40d6::45a? ([2a02:768:2307:40d6::45a])
+        by smtp.gmail.com with ESMTPSA id b22sm1235904eds.71.2021.05.31.05.24.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 May 2021 05:24:58 -0700 (PDT)
+Subject: Re: [PATCH V2 2/2] microblaze: Cleanup unused functions
+To: guoren@kernel.org, anup.patel@wdc.com, palmerdabbelt@google.com,
+ arnd@arndb.de
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Guo Ren <guoren@linux.alibaba.com>
+References: <1622350408-44875-1-git-send-email-guoren@kernel.org>
+ <1622350408-44875-3-git-send-email-guoren@kernel.org>
+From: Michal Simek <monstr@monstr.eu>
+Message-ID: <73bf48c1-6692-795c-ba16-b7baeb11d3b9@monstr.eu>
+Date: Mon, 31 May 2021 14:24:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="c2cnun77ajscuzfq"
-Content-Disposition: inline
-In-Reply-To: <20210527001614.2edfc630@slackpad.fritz.box>
+In-Reply-To: <1622350408-44875-3-git-send-email-guoren@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
---c2cnun77ajscuzfq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 27, 2021 at 12:16:14AM +0100, Andre Przywara wrote:
-> On Tue, 25 May 2021 19:31:59 +0200
-> Andreas Rehn <rehn.andreas86@gmail.com> wrote:
->=20
-> > dwmac-sun8i supports v3s and
-> > Licheepi-zero Dock provides an ethernet port
-> > furthermore, align nodes in alphabetical order
-> >=20
-> > Signed-off-by: Andreas Rehn <rehn.andreas86@gmail.com>
->=20
-> Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+On 5/30/21 6:53 AM, guoren@kernel.org wrote:
+> From: Guo Ren <guoren@linux.alibaba.com>
+> 
+> These functions haven't been used, so just remove them. The patch
+> just uses grep to verify.
+> 
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Michal Simek <monstr@monstr.eu>
+> ---
+>  arch/microblaze/include/asm/page.h | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/arch/microblaze/include/asm/page.h b/arch/microblaze/include/asm/page.h
+> index bf681f2..ce55097 100644
+> --- a/arch/microblaze/include/asm/page.h
+> +++ b/arch/microblaze/include/asm/page.h
+> @@ -35,9 +35,6 @@
+>  
+>  #define ARCH_SLAB_MINALIGN	L1_CACHE_BYTES
+>  
+> -#define PAGE_UP(addr)	(((addr)+((PAGE_SIZE)-1))&(~((PAGE_SIZE)-1)))
+> -#define PAGE_DOWN(addr)	((addr)&(~((PAGE_SIZE)-1)))
+> -
+>  /*
+>   * PAGE_OFFSET -- the first address of the first page of memory. With MMU
+>   * it is set to the kernel start address (aligned on a page boundary).
+> 
 
-Applied, thanks
-Maxime
+Ah ok. you have sent v2. Will take this version instead of previous one.
 
---c2cnun77ajscuzfq
-Content-Type: application/pgp-signature; name="signature.asc"
+Thanks,
+Michal
 
------BEGIN PGP SIGNATURE-----
+-- 
+Michal Simek, Ing. (M.Eng), OpenPGP -> KeyID: FE3D1F91
+w: www.monstr.eu p: +42-0-721842854
+Maintainer of Linux kernel - Xilinx Microblaze
+Maintainer of Linux kernel - Xilinx Zynq ARM and ZynqMP ARM64 SoCs
+U-Boot custodian - Xilinx Microblaze/Zynq/ZynqMP/Versal SoCs
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYLSwLQAKCRDj7w1vZxhR
-xe/XAQDcv0jTeCL1REtSYyenCVF4RyCnXhWwRtiHWTKfIZOYggEAs+kcaYy6znKi
-VOgNaNqd5btDqYh2M8zAtfEewFW2gw8=
-=g+ze
------END PGP SIGNATURE-----
-
---c2cnun77ajscuzfq--
