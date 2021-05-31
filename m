@@ -1,41 +1,41 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6BD70
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 04:46:18 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id b17so12025754ede.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 21:46:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3B36D0E
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 May 2021 04:46:19 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id dg27so2218998edb.12
+        for <linux-sunxi@lists.linux.dev>; Sun, 30 May 2021 21:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=prusa3d-cz.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sz+n+z6h/C9i8J/WRfdsHfGpM50TGPrsItNGlwXy1L0=;
-        b=LmP92wi5WKi+0qVT40ulpznUIqIDGJ4m9797edYzDaLvKu+6u4GcG4OMf1ICTG1geL
-         Vxjf9R2J8uzxgN4NsXTsDJpc4LnytncaQgYVcibxU9N0V2y1DDZFVrrq/hFs/LaZBVCN
-         bZWc3cI1VbuZZbpxE40WlgTz1+jSO9IvWSoA4aMRY+sH3N37x327l/NJa2f6WMFh2518
-         5owiw+PchTO5T0rxfWI1LptyTzWWOGkIACTjg4kqHQyMWmorxyIwc4udFfPNsQOT+Cyp
-         ZE0tYVQXBnHuKHrG7gDRkt93MUW7c8U/GeWwAys3thG5FEoeJ5TdgrWUXQDX8hZ5bUIH
-         EHWQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZZgT3an2EYN+ktsS5FyP/IHOGumhn4A6v5jkyh2PmDY=;
+        b=wpY9kpNjSEvT08pGSQrDGw0X81R1U+ELe4rSYN4gAc5EiLySzHZ2+gyidq33uOfqz1
+         VcwJCkB6Iq4yi+7JOpOk/ANqsTFZKZYvBI0NDRYCYzfE5M1pO2s9DE78P5oQrymB70zG
+         YOjCCdoyci1c+1mvnfRyG5Pyl3SkV48swzf/S8mEDsiLa9Jj+Z0S9lzytTOCC9zhN6Ci
+         vCBWuypX9sjpAGtu3+KiSaui4cV8fdg5AW70nm38du+SLf/UvdZ9d+Mu17S88yGRKiyt
+         V2fnMzLUxwSGPeh5HnnZx0oopltic8yOpy3s31Ml81pX1igjtEGQIVK5qXUED8nYXfwL
+         i/BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Sz+n+z6h/C9i8J/WRfdsHfGpM50TGPrsItNGlwXy1L0=;
-        b=fmuAARKUdIcDGa5KvChPuQ8IOn1qrpLKsvL7Gai6IvTeurKodw4mUKvtcRT/DnNsuw
-         DhRt8UFZcW2UXQAS9Q371FppAtY95PYAI5hOqEU4lbCm5/dn32HDoHmV1K8sXiP/TBp5
-         ZL4vAaOgJOggSlO+yiqxEME2MSGdF8Evv5/c2epiDmlDuJ8fWrdtw53QnCYt3J2YW+lc
-         LwNvbh0rPdxgs4IqkOt9JJeklyogPa1x/bBSAEy+s98RB96/o5OQa4UxnflI2OWLmTWK
-         E4qCVHTT3sfqc2IIcICJikY3RASVR+nbJ6BKuSYW2wS39hd+4sOS8k+Fs2gC0X8nxUmN
-         eKOg==
-X-Gm-Message-State: AOAM533OgrKRrH0CMTlks5uGnt3/FvaBBi7lBZ3RJICFgNTI5Gi9Qez9
-	DL1gsiC/z9CYwGqrtnTNAcqRBA==
-X-Google-Smtp-Source: ABdhPJzgvk3vLxLu+lNopZjiX2qNGlPgmTIubkdp4O/wIzkbFIDKHP+EWojv/tcrirKPk9eUHUELTg==
-X-Received: by 2002:aa7:c349:: with SMTP id j9mr15402010edr.48.1622436377511;
-        Sun, 30 May 2021 21:46:17 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZZgT3an2EYN+ktsS5FyP/IHOGumhn4A6v5jkyh2PmDY=;
+        b=mko3FGDp2KZtObFBuTHb+O7sIACH5ZvLh5IKM8rDfdAdkIXFY/HubQ8IruQo2dAABA
+         X83aTObvsDh5FFgIWAQ2Lu4rxfLXs/3/nfh73dnyml0rv6Pv15Atip5TRYWE8zy2nOlK
+         OistjdHsQ2IaToUmU8Ye16dwf7ZMTvGkYEe2U/nO9crBqSV0qMgvu5jaSHP39Ao/Wkmg
+         gzgRsLQYa0ReOMXxDurloG4vKzDPq+cMRvkFb8PbsHra0fgvFK+5J7Cw4+oITRt4TN7C
+         7kkVhyuG9vt78Hr1D6D8TqqubjHFFNA/DaXKcMtkeGQJiG/s4uyDlymRnkwFzZnO83oi
+         mLoA==
+X-Gm-Message-State: AOAM532gZQZJldRVwdjlJ3HCJ5U0Ia9GlG0u8M/yJi61ETxpZyg5n1lW
+	Bsj+IJh/tUUMYlr6eQae5ebnhg==
+X-Google-Smtp-Source: ABdhPJy1X788ZAmo8YDlVmNC0s+UtsAcz2syqXiIwPHdlqPt5f2EkG6qg8LD7Aa9c5iMnmc0Jwxc+w==
+X-Received: by 2002:a05:6402:3587:: with SMTP id y7mr22761532edc.360.1622436378450;
+        Sun, 30 May 2021 21:46:18 -0700 (PDT)
 Received: from zen.local (ip-89-103-215-157.net.upcbroadband.cz. [89.103.215.157])
-        by smtp.gmail.com with ESMTPSA id h9sm6238376edt.18.2021.05.30.21.46.16
+        by smtp.gmail.com with ESMTPSA id h9sm6238376edt.18.2021.05.30.21.46.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 May 2021 21:46:16 -0700 (PDT)
+        Sun, 30 May 2021 21:46:18 -0700 (PDT)
 From: Roman Beranek <roman.beranek@prusa3d.cz>
 X-Google-Original-From: Roman Beranek <roman.beranek@prusa3d.com>
 To: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
@@ -49,10 +49,12 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-sunxi@googlegroups.com
-Subject: [PATCH 0/6] pwm: sun4i: only wait 2 cycles prior to disabling
-Date: Mon, 31 May 2021 06:46:02 +0200
-Message-Id: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+Subject: [PATCH 1/6] pwm: sun4i: enable clk prior to getting its rate
+Date: Mon, 31 May 2021 06:46:03 +0200
+Message-Id: <20210531044608.1006024-2-roman.beranek@prusa3d.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -60,27 +62,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As Emil Lenngren has previously shown [1], actually only 1-2 cycles of
-the prescaler-divided clock are necessary to pass before the PWM turns
-off, not a full period.
+Ensure the PWM clock is enabled prior to retrieving its rate, as is
+already being done in sun4i_pwm_apply.
 
-To avoid having the PWM re-enabled from another thread while asleep,
-ctrl_lock spinlock was converted to a mutex so that it can be released
-only after the clock gate has finally been turned on.
+Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
+---
+ drivers/pwm/pwm-sun4i.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-[1] https://linux-sunxi.org/PWM_Controller_Register_Guide
-
-Roman Beranek (6):
-  pwm: sun4i: enable clk prior to getting its rate
-  pwm: sun4i: disable EN bit prior to the delay
-  pwm: sun4i: replace spinlock with a mutex
-  pwm: sun4i: simplify calculation of the delay time
-  pwm: sun4i: shorten the delay to 2 cycles
-  pwm: sun4i: don't delay if the PWM is already off
-
- drivers/pwm/pwm-sun4i.c | 56 +++++++++++++++++++----------------------
- 1 file changed, 26 insertions(+), 30 deletions(-)
-
+diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+index e01becd102c0..3721b9894cf6 100644
+--- a/drivers/pwm/pwm-sun4i.c
++++ b/drivers/pwm/pwm-sun4i.c
+@@ -117,8 +117,15 @@ static void sun4i_pwm_get_state(struct pwm_chip *chip,
+ 	u64 clk_rate, tmp;
+ 	u32 val;
+ 	unsigned int prescaler;
++	int ret;
+ 
++	ret = clk_prepare_enable(sun4i_pwm->clk);
++	if (ret) {
++		dev_err(chip->dev, "failed to enable PWM clock\n");
++		return;
++	}
+ 	clk_rate = clk_get_rate(sun4i_pwm->clk);
++	clk_disable_unprepare(sun4i_pwm->clk);
+ 
+ 	val = sun4i_pwm_readl(sun4i_pwm, PWM_CTRL_REG);
+ 
 -- 
 2.31.1
 
