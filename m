@@ -1,102 +1,176 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A74173
-	for <linux-sunxi@lists.linux.dev>; Tue,  1 Jun 2021 06:34:10 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FvMh55w3rzWpfF;
-	Tue,  1 Jun 2021 14:29:25 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 14:34:07 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 1 Jun 2021 14:34:06 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Lee Jones <lee.jones@linaro.org>, Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi
-	<linux-sunxi@lists.linux.dev>, linux-kernel <linux-kernel@vger.kernel.org>
-CC: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 1/1] mfd: sun6i-prcm: Use DEFINE_RES_MEM() to simplify code
-Date: Tue, 1 Jun 2021 14:34:01 +0800
-Message-ID: <20210601063401.9830-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882D670
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Jun 2021 04:13:29 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id l10-20020a17090a150ab0290162974722f2so3082147pja.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Jun 2021 21:13:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id;
+        bh=mdQe7rcfBv/z++/4DywE65Kjg4R/h0ApRxAanaCZhPk=;
+        b=fd+ibb1AZny+F8WluQ/jIE1zbUfUvf9P+Lnr32S0iD+PghCPDh2X2uqJSxvmZ8/1IL
+         n8ROE/oO/fe7kZsF+WyG14vqVqE3FZjp2VMnXhWXkiwq53p5wObdEI9f2GQHH61kr7Ie
+         ax3ZmpAh6zdQhXyVC6/Niw8nCnJowg9RJKGvsXnhE9tpbJpPLwtKHopnBaA5fVrLzRcg
+         WDkUDJclcaCJG2p+mMuvw9hYxL+RpnNlSbJXa0vyEwAiSDyX+tsHniubp2yoQHhv60+F
+         6xY345bBCAf9+NDh9wSJBGz2MulrXgBdpGs6hkhoO+jKkNw968xbek1hakK9GopdyEsb
+         OCGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id;
+        bh=mdQe7rcfBv/z++/4DywE65Kjg4R/h0ApRxAanaCZhPk=;
+        b=WlwrjX65XF3muEMfMTrKcwYCXT9x4v2htfeR01R2lgWBbJi6Lznaje1QvGCzuzILc/
+         TpET5m/V7Rrk0VjVy9cBV5eiptIlhnxfolXUJHE3HjPdXvKJlZKXPBNKHx+MMABsvXx0
+         +Aa5xGKgRL2OM9inAolenHN3JF/sIrxm/FcrGqT/j3KOFNa65SeNAxK26IVeNvR7gT/S
+         zVl48uNRY09pKkD2y1aLBsWxzFwhL/fmnboj8OhZQPy+O9a2XCsvRBDnkTdp62PXEKOc
+         j8NtSaMTPKSnoeZ9cYLN2ICtJqCXWm1W1hjnUj6qiwEbpJuO0WvGVBV6HgfjJpruVk74
+         6H4Q==
+X-Gm-Message-State: AOAM530yaSvTOlqJriunGCGpaCJRh2oAwEuEaVwHf0acitjwtM9Z3lrG
+	sGo3zih5bF11m+yExLkbC+wlJA==
+X-Google-Smtp-Source: ABdhPJyhCDbdVRbt5r/8ORm86+o6k/4hlsjsYyPQRuc0fTEcbN0So+HCQlNKs9itq7iVgl7kUmYVmg==
+X-Received: by 2002:a17:902:eac1:b029:108:4a7c:ff2d with SMTP id p1-20020a170902eac1b02901084a7cff2dmr11472514pld.62.1622693608838;
+        Wed, 02 Jun 2021 21:13:28 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id q21sm934029pfn.81.2021.06.02.21.13.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jun 2021 21:13:28 -0700 (PDT)
+Date: Wed, 02 Jun 2021 21:13:28 -0700 (PDT)
+X-Google-Original-Date: Wed, 02 Jun 2021 21:11:20 PDT (-0700)
+Subject:     Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+In-Reply-To: <mhng-a5f8374f-350b-4c13-86e8-c6aa5e697454@palmerdabbelt-glaptop>
+CC: anup@brainfault.org, drew@beagleboard.org, Christoph Hellwig <hch@lst.de>,
+  Anup Patel <Anup.Patel@wdc.com>, wefu@redhat.com, lazyparser@gmail.com, linux-riscv@lists.infradead.org,
+  linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev,
+  guoren@linux.alibaba.com, Paul Walmsley <paul.walmsley@sifive.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: guoren@kernel.org
+Message-ID: <mhng-c0406cea-776b-49d2-a223-13a83d3a7433@palmerdabbelt-glaptop>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
 
-No functional change.
+On Sat, 29 May 2021 17:30:18 PDT (-0700), Palmer Dabbelt wrote:
+> On Fri, 21 May 2021 17:36:08 PDT (-0700), guoren@kernel.org wrote:
+>> On Wed, May 19, 2021 at 3:15 PM Anup Patel <anup@brainfault.org> wrote:
+>>>
+>>> On Wed, May 19, 2021 at 12:24 PM Drew Fustini <drew@beagleboard.org> wrote:
+>>> >
+>>> > On Wed, May 19, 2021 at 08:06:17AM +0200, Christoph Hellwig wrote:
+>>> > > On Wed, May 19, 2021 at 02:05:00PM +0800, Guo Ren wrote:
+>>> > > > Since the existing RISC-V ISA cannot solve this problem, it is better
+>>> > > > to provide some configuration for the SOC vendor to customize.
+>>> > >
+>>> > > We've been talking about this problem for close to five years.  So no,
+>>> > > if you don't manage to get the feature into the ISA it can't be
+>>> > > supported.
+>>> >
+>>> > Isn't it a good goal for Linux to support the capabilities present in
+>>> > the SoC that a currently being fab'd?
+>>> >
+>>> > I believe the CMO group only started last year [1] so the RV64GC SoCs
+>>> > that are going into mass production this year would not have had the
+>>> > opporuntiy of utilizing any RISC-V ISA extension for handling cache
+>>> > management.
+>>>
+>>> The current Linux RISC-V policy is to only accept patches for frozen or
+>>> ratified ISA specs.
+>>> (Refer, Documentation/riscv/patch-acceptance.rst)
+>>>
+>>> This means even if emulate CMO instructions in OpenSBI, the Linux
+>>> patches won't be taken by Palmer because CMO specification is
+>>> still in draft stage.
+>> Before CMO specification release, could we use a sbi_ecall to solve
+>> the current problem? This is not against the specification, when CMO
+>> is ready we could let users choose to use the new CMO in Linux.
+>>
+>> From a tech view, CMO trap emulation is the same as sbi_ecall.
+>>
+>>>
+>>> Also, we all know how much time it takes for RISCV international
+>>> to freeze some spec. Judging by that we are looking at another
+>>> 3-4 years at minimum.
+>
+> Sorry for being slow here, this thread got buried.
+>
+> I've been trying to work with a handful of folks at the RISC-V
+> foundation to try and get a subset of the various in-development
+> specifications (some simple CMOs, something about non-caching in the
+> page tables, and some way to prevent speculative accesse from generating
+> coherence traffic that will break non-coherent systems).  I'm not sure
+> we can get this together quickly, but I'd prefer to at least try before
+> we jump to taking vendor-specificed behavior here.  It's obviously an
+> up-hill battle to try and get specifications through the process and I'm
+> certainly not going to promise it will work, but I'm hoping that the
+> impending need to avoid forking the ISA will be sufficient to get people
+> behind producing some specifications in a timely fashion.
+>
+> I wasn't aware than this chip had non-coherent devices until I saw this
+> thread, so we'd been mostly focused on the Beagle V chip.  That was in a
+> sense an easier problem because the SiFive IP in it was never designed
+> to have non-coherent devices so we'd have to make anything work via a
+> series of slow workarounds, which would make emulating the eventually
+> standardized behavior reasonable in terms of performance (ie, everything
+> would be super slow so who really cares).
+>
+> I don't think relying on some sort of SBI call for the CMOs whould be
+> such a performance hit that it would prevent these systems from being
+> viable, but assuming you have reasonable performance on your non-cached
+> accesses then that's probably not going to be viable to trap and
+> emulate.  At that point it really just becomes silly to pretend that
+> we're still making things work by emulating the eventually ratified
+> behavior, as anyone who actually tries to use this thing to do IO would
+> need out of tree patches.  I'm not sure exactly what the plan is for the
+> page table bits in the specification right now, but if you can give me a
+> pointer to some documentation then I'm happy to try and push for
+> something compatible.
+>
+> If we can't make the process work at the foundation then I'd be strongly
+> in favor of just biting the bullet and starting to take vendor-specific
+> code that's been implemented in hardware and is necessarry to make
+> things work acceptably.  That's obviously a sub-optimal solution as
+> it'll lead to a bunch of ISA fragmentation, but at least we'll be able
+> to keep the software stack together.
+>
+> Can you tell us when these will be in the hands of users?  That's pretty
+> important here, as I don't want to be blocking real users from having
+> their hardware work.  IIRC there were some plans to distribute early
+> boards, but it looks like the foundation got involved and I guess I lost
+> the thread at that point.
+>
+> Sorry this is all such a headache, but hopefully we can get things
+> sorted out.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/mfd/sun6i-prcm.c | 30 +++++-------------------------
- 1 file changed, 5 insertions(+), 25 deletions(-)
+I talked with some of the RISC-V foundation folks, we're not going to 
+have an ISA specification for the non-coherent stuff any time soon.  I 
+took a look at this code and I definately don't want to take it as is, 
+but I'm not opposed to taking something that makes the hardware work as 
+long as it's a lot cleaner.  We've already got two of these non-coherent 
+chips, I'm sure more will come, and I'd rather have the extra headaches 
+than make everyone fork the software stack.
 
-diff --git a/drivers/mfd/sun6i-prcm.c b/drivers/mfd/sun6i-prcm.c
-index c31927d4bbbecde..ee03db0b8485266 100644
---- a/drivers/mfd/sun6i-prcm.c
-+++ b/drivers/mfd/sun6i-prcm.c
-@@ -20,43 +20,23 @@ struct prcm_data {
- };
- 
- static const struct resource sun6i_a31_ar100_clk_res[] = {
--	{
--		.start = 0x0,
--		.end = 0x3,
--		.flags = IORESOURCE_MEM,
--	},
-+	DEFINE_RES_MEM(0x0, 4)
- };
- 
- static const struct resource sun6i_a31_apb0_clk_res[] = {
--	{
--		.start = 0xc,
--		.end = 0xf,
--		.flags = IORESOURCE_MEM,
--	},
-+	DEFINE_RES_MEM(0xc, 4)
- };
- 
- static const struct resource sun6i_a31_apb0_gates_clk_res[] = {
--	{
--		.start = 0x28,
--		.end = 0x2b,
--		.flags = IORESOURCE_MEM,
--	},
-+	DEFINE_RES_MEM(0x28, 4)
- };
- 
- static const struct resource sun6i_a31_ir_clk_res[] = {
--	{
--		.start = 0x54,
--		.end = 0x57,
--		.flags = IORESOURCE_MEM,
--	},
-+	DEFINE_RES_MEM(0x54, 4)
- };
- 
- static const struct resource sun6i_a31_apb0_rstc_res[] = {
--	{
--		.start = 0xb0,
--		.end = 0xb3,
--		.flags = IORESOURCE_MEM,
--	},
-+	DEFINE_RES_MEM(0xb0, 4)
- };
- 
- static const struct resource sun8i_codec_analog_res[] = {
--- 
-2.26.0.106.g9fadedd
+After talking to Atish it looks like there's likely to be an SBI 
+extension to handle the CMOs, which should let us avoid the bulk of the 
+vendor-specific behavior in the kernel.  I know some people are worried 
+about adding to the SBI surface.  I'm worried about that too, but that's 
+way better than sticking a bunch of vendor-specific instructions into 
+the kernel.  The SBI extension should make for a straight-forward cache 
+flush implementation in Linux, so let's just plan on that getting 
+through quickly (as has been done before).
 
+Unfortunately we've yet to come up with a way to handle the 
+non-cacheable mappings without introducing a degree of vendor-specific 
+behavior or seriously impacting performance (mark them as not valid and 
+deal with them in the trap handler).  I'm not really sure it counts as 
+supporting the hardware if it's massively slow, so that really leaves us 
+with vendor-specific mappings as the only option to make these chips 
+work.
 
+This implementation, which adds some Kconfig entries that control page 
+table bits, definately isn't suitable for upstream.  Allowing users to 
+set arbitrary page table bits will eventually conflict with the 
+standard, and is just going to be a mess.  It'll also lead to kernels 
+that are only compatible with specific designs, which we're trying very 
+hard to avoid.  At a bare minimum we'll need some way to detect systems 
+with these page table bits before setting them, and some description of 
+what the bits actually do so we can reason about them.
