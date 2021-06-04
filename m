@@ -1,62 +1,128 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5ECE70
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 10:00:02 +0000 (UTC)
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.53])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4FxJ646CBDz1BHrv;
-	Fri,  4 Jun 2021 17:55:08 +0800 (CST)
-Received: from dggemi758-chm.china.huawei.com (10.1.198.144) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 4 Jun 2021 17:59:48 +0800
-Received: from huawei.com (10.175.101.6) by dggemi758-chm.china.huawei.com
- (10.1.198.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 4 Jun
- 2021 17:59:48 +0800
-From: ChenXiaoSong <chenxiaosong2@huawei.com>
-To: <mripard@kernel.org>, <wens@csie.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>, <yi.zhang@huawei.com>,
-	<chenxiaosong2@huawei.com>
-Subject: [PATCH -next] mailbox: sun6i-msgbox: Remove redundant dev_err call in sun6i_msgbox_probe()
-Date: Fri, 4 Jun 2021 18:06:11 +0800
-Message-ID: <20210604100611.3653738-1-chenxiaosong2@huawei.com>
-X-Mailer: git-send-email 2.25.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D196E70
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 14:47:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A8EE6140F
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 14:47:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622818056;
+	bh=rR/M3AdUUihX1IBhGcTwd/czbJxTvbvVyCYM/Z+lUc0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=lOABWOHg3awLYQt4uvo1RXkz/lTtLTGFbR/WRUTauRVH14R1ofsL2mPtdY+qc1vY5
+	 M+xNF7GQWiRqpIbf1F4kOnOPLkOyUVoxsxjqClFfgsSxqEHWVgyH339FhOtZL30QYf
+	 Lkb0vggPY1qz96ORb2Nf3H1uOLYKfVr9i/P9nMQCuH93E5FDDSXkbrEufIUQFdQZzC
+	 cBc9uV1QfwNiYoTketvIhuV1xVZEt00XIAGgLed4NlljGE0lCwo0d1pQS9UkaxAhIL
+	 noAm44tgDZpG1i6i1/gTXBpG/Y5lV3d0tNgjw28fueC0P0mwC7GOlpvjGPOQB7tpz2
+	 uScpwirVnzKwg==
+Received: by mail-lf1-f45.google.com with SMTP id a1so4824478lfr.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Jun 2021 07:47:36 -0700 (PDT)
+X-Gm-Message-State: AOAM530fvj96DtjA2PUr7dITX+TvanaICe+LaXDW88PXiv1uhtdXUt1U
+	Gy3GRh1UMEX6X34retHAvRwRXN63ayHHx31eBBA=
+X-Google-Smtp-Source: ABdhPJxCtx4UJ1QpmojiNDq4Wb0bvxaMjenZ4RRwpSwqoQiYAFWz1tgIY5GuzMS/LrMuVE8dno80j5NrSM0QfUmA2b0=
+X-Received: by 2002:a05:6512:987:: with SMTP id w7mr2967857lft.41.1622818054362;
+ Fri, 04 Jun 2021 07:47:34 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggemi758-chm.china.huawei.com (10.1.198.144)
-X-CFilter-Loop: Reflected
+References: <CO6PR04MB7812D8905C6EEBDE8513866F8D3C9@CO6PR04MB7812.namprd04.prod.outlook.com>
+ <mhng-3875d1bc-74dd-4dc8-b71d-18a8f004039a@palmerdabbelt-glaptop> <CAK8P3a03sxxnzpZPxNnXLtCFOFBZ6espEj4V5y=K+59dOLJc6A@mail.gmail.com>
+In-Reply-To: <CAK8P3a03sxxnzpZPxNnXLtCFOFBZ6espEj4V5y=K+59dOLJc6A@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Fri, 4 Jun 2021 22:47:22 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTpurWpPUcA2JkF0rOFztKQgFBhOF9zQyuyi_-sxszhRQ@mail.gmail.com>
+Message-ID: <CAJF2gTTpurWpPUcA2JkF0rOFztKQgFBhOF9zQyuyi_-sxszhRQ@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <Anup.Patel@wdc.com>, 
+	Anup Patel <anup@brainfault.org>, Drew Fustini <drew@beagleboard.org>, 
+	Christoph Hellwig <hch@lst.de>, wefu@redhat.com, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
 
-There is a error message within devm_ioremap_resource
-already, so remove the dev_err call to avoid redundant
-error message.
+Hi Arnd & Palmer,
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: ChenXiaoSong <chenxiaosong2@huawei.com>
----
- drivers/mailbox/sun6i-msgbox.c | 1 -
- 1 file changed, 1 deletion(-)
+Sorry for the delayed reply, I'm working on the next version of the patch.
 
-diff --git a/drivers/mailbox/sun6i-msgbox.c b/drivers/mailbox/sun6i-msgbox.c
-index ccecf2e5941d..e357236c7dd1 100644
---- a/drivers/mailbox/sun6i-msgbox.c
-+++ b/drivers/mailbox/sun6i-msgbox.c
-@@ -255,7 +255,6 @@ static int sun6i_msgbox_probe(struct platform_device *pdev)
- 	mbox->regs = devm_ioremap_resource(&pdev->dev, res);
- 	if (IS_ERR(mbox->regs)) {
- 		ret = PTR_ERR(mbox->regs);
--		dev_err(dev, "Failed to map MMIO resource: %d\n", ret);
- 		goto err_disable_unprepare;
- 	}
- 
+On Fri, Jun 4, 2021 at 5:56 PM Arnd Bergmann <arnd@arndb.de> wrote:
+>
+> On Thu, Jun 3, 2021 at 5:39 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> > On Wed, 02 Jun 2021 23:00:29 PDT (-0700), Anup Patel wrote:
+> > >> This implementation, which adds some Kconfig entries that control page table
+> > >> bits, definately isn't suitable for upstream.  Allowing users to set arbitrary
+> > >> page table bits will eventually conflict with the standard, and is just going to
+> > >> be a mess.  It'll also lead to kernels that are only compatible with specific
+> > >> designs, which we're trying very hard to avoid.  At a bare minimum we'll need
+> > >> some way to detect systems with these page table bits before setting them,
+> > >> and some description of what the bits actually do so we can reason about
+> > >> them.
+> > >
+> > > Yes, vendor specific Kconfig options are strict NO NO. We can't give-up the
+> > > goal of unified kernel image for all platforms.
+Okay,  Agree. Please help review the next version of the patch.
+
+> >
+> > I think this is just a phrasing issue, but just to be sure:
+> >
+> > IMO it's not that they're vendor-specific Kconfig options, it's that
+> > turning them on will conflict with standard systems (and other vendors).
+> > We've already got the ability to select sets of Kconfig settings that
+> > will only boot on one vendor's system, which is fine, as long as there
+> > remains a set of Kconfig settings that will boot on all systems.
+> >
+> > An example here would be the errata: every system has errata of some
+> > sort, so if we start flipping off various vendor's errata Kconfigs
+> > you'll end up with kernels that only function properly on some systems.
+> > That's fine with me, as long as it's possible to turn on all vendor's
+> > errata Kconfigs at the same time and the resulting kernel functions
+> > correctly on all systems.
+>
+> Yes, this is generally the goal, and it would be great to have that
+> working in a way where a 'defconfig' build just turns on all the options
+> that are needed to use any SoC specific features and drivers while
+> still working on all hardware. There are however limits you may run
+> into at some point, and other architectures usually only manage to span
+> some 10 to 15 years of hardware implementations with a single
+> kernel before it get really hard.
+I could follow the goal in the next version of the patchset. Please
+help review, thx.
+
+>
+> To give some common examples that make it break down:
+>
+> - 32-bit vs 64-bit already violates that rule on risc-v (as it does on
+>   most other architectures)
+>
+> - architectures that support both big-endian and little-endian kernels
+>   tend to have platforms that require one or the other (e.g. mips,
+>   though not arm). Not an issue for you.
+>
+> - page table formats are the main cause of incompatibility: arm32
+>   and x86-32 require three-level tables for certain features, but those
+>   are incompatible with older cores, arm64 supports three different
+>   page sizes, but none of them works on all cores (4KB almost works
+>   everywhere).
+>
+> - SMP-enabled ARMv7 kernels can be configured to run on either
+>   ARMv6 or ARMv8, but not both, in this case because of incompatible
+>   barrier instructions.
+>
+> - 32-bit Arm has a couple more remaining features that require building
+>   a machine specific kernel if enabled because they hardcode physical
+>   addresses: early printk (debug_ll, not the normal earlycon), NOMMU,
+>   and XIP.
+>
+>        Arnd
+
+
+
 -- 
-2.25.4
+Best Regards
+ Guo Ren
 
+ML: https://lore.kernel.org/linux-csky/
