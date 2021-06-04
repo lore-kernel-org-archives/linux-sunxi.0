@@ -1,106 +1,98 @@
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1FF70
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Jun 2021 16:28:52 +0000 (UTC)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 153EgOXB104770;
-	Thu, 3 Jun 2021 09:42:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1622731344;
-	bh=8Ijv9UhqrX4N4JBpKzCRsR+ej46JBo6anCxAPeEUMPQ=;
-	h=From:To:CC:Subject:Date;
-	b=q9XSpqFptmst7UmoFKzsfIWJFK7OUdT/oIPVqFHtK3OQpPiLUocAMH6GkKCAfau3p
-	 ujJBD1j0Bn0N8WaY/HzJnsrIUe/xBTbVcHlkMlsuj7Qn8gkBIQhKr8lhVSZt8SwSI8
-	 sP9Zr9C4j4fd04rfBpYToFeEc1NbARZk8vejoBVg=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 153EgOgQ078876
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 3 Jun 2021 09:42:24 -0500
-Received: from DLEE101.ent.ti.com (157.170.170.31) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Thu, 3 Jun
- 2021 09:42:24 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DLEE101.ent.ti.com
- (157.170.170.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Thu, 3 Jun 2021 09:42:24 -0500
-Received: from fllv0103.dal.design.ti.com (fllv0103.dal.design.ti.com [10.247.120.73])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 153EgOGP078619;
-	Thu, 3 Jun 2021 09:42:24 -0500
-Received: from localhost ([10.250.35.153])
-	by fllv0103.dal.design.ti.com (8.14.7/8.14.7) with ESMTP id 153EgOTq031160;
-	Thu, 3 Jun 2021 09:42:24 -0500
-From: Suman Anna <s-anna@ti.com>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Wilken Gottwalt
-	<wilken.gottwalt@posteo.net>
-CC: Rob Herring <robh+dt@kernel.org>,
-        Mathieu Poirier
-	<mathieu.poirier@linaro.org>,
-        Maxime Ripard <mripard@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>,
-        <devicetree@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
-        <linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, Suman
- Anna <s-anna@ti.com>
-Subject: [RFC PATCH] dt-bindings: hwlock: sun6i: Fix various warnings in binding
-Date: Thu, 3 Jun 2021 09:42:16 -0500
-Message-ID: <20210603144216.10327-1-s-anna@ti.com>
-X-Mailer: git-send-email 2.30.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A8770
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 05:03:21 +0000 (UTC)
+Received: from submission (posteo.de [89.146.220.130]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 722CC240029
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 06:55:47 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1622782547; bh=TTyTROyQXjsSXo74wJBHn6lqKWQ3+EbGHja6XTO7Rds=;
+	h=Date:From:To:Cc:Subject:From;
+	b=b4kfkQdftGPZQAMXH5LvwkFcZ3zhObfnY0zCw1HWa3vz1OjKz0xIDlQZfAUqaYm8n
+	 LEzDIeuIPtgW+cna1vw2q7i1wnM3oFCyxkSEA+W10Mt7I3CRYrP+A9ukIObzFVybPW
+	 pMClWvFX+BOQV2lPrTodITHK5rXrTxjmGbUTwKcFW1rUQUb1/w0DWPByV2HRJQMX/A
+	 2icvC+zVgqIzhPQSq2W2c6YEOu0PV+VnOzM+DGMS+tgOEnXNRHlASnZ7hzPZRlQDME
+	 9LASZa1tebUvbv6Ie5EVrYQPsgmQlntWn/Ef8HlLZU61ngXarVx6ERq9Tfp56/pUbZ
+	 gKf2dD0fGmqfg==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Fx9Sc48Wdz6tm9;
+	Fri,  4 Jun 2021 06:55:44 +0200 (CEST)
+Date: Fri,  4 Jun 2021 04:55:43 +0000
+From: Wilken Gottwalt <wilken.gottwalt@posteo.net>
+To: Suman Anna <s-anna@ti.com>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Herring
+ <robh+dt@kernel.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, Maxime
+ Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ <devicetree@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+ <linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] dt-bindings: hwlock: sun6i: Fix various warnings in
+ binding
+Message-ID: <20210604065543.3d71ca53@monster.powergraphx.local>
+In-Reply-To: <20210603144216.10327-1-s-anna@ti.com>
+References: <20210603144216.10327-1-s-anna@ti.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The allwinner,sun6i-a31-hwspinlock.yaml binding has a mismatched
-$id and fails to compile the example due to undefined args specifier
-values for clocks and resets. Fix both of these issues.
+On Thu, 3 Jun 2021 09:42:16 -0500
+Suman Anna <s-anna@ti.com> wrote:
 
-Fixes: f9e784dcb63f ("dt-bindings: hwlock: add sun6i_hwspinlock")
-Signed-off-by: Suman Anna <s-anna@ti.com>
----
-Hi Wilken,
+> The allwinner,sun6i-a31-hwspinlock.yaml binding has a mismatched
+> $id and fails to compile the example due to undefined args specifier
+> values for clocks and resets. Fix both of these issues.
+> 
+> Fixes: f9e784dcb63f ("dt-bindings: hwlock: add sun6i_hwspinlock")
+> Signed-off-by: Suman Anna <s-anna@ti.com>
+> ---
+> Hi Wilken,
+> 
+> This fixes the warnings for now on linux-next, but I think the example
+> should be including sun6i-a31-ccu.h files instead to be accurate, and
+> those files are missing the definitions for CLK_BUS_SPINLOCK and
+> RST_BUS_SPINLOCK. Feel free to send a newer version or do an incremental
+> patch on top.
+> 
+> regards
+> Suman
 
-This fixes the warnings for now on linux-next, but I think the example
-should be including sun6i-a31-ccu.h files instead to be accurate, and
-those files are missing the definitions for CLK_BUS_SPINLOCK and
-RST_BUS_SPINLOCK. Feel free to send a newer version or do an incremental
-patch on top.
+Hi Suman,
 
-regards
-Suman
+thank you for fixing this. I would have fix it the same way for now, so it is
+fine for me. But I will keep an eye on it.
 
- .../bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml      | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+greetings,
+Will
 
-diff --git a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
-index 733c3d01e56c..10e5a53e447b 100644
---- a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
-+++ b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
-@@ -1,7 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
- %YAML 1.2
- ---
--$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-hwspinlock.yaml#
-+$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
- title: SUN6I hardware spinlock driver for Allwinner sun6i compatible SoCs
-@@ -36,6 +36,9 @@ additionalProperties: false
- 
- examples:
-   - |
-+    #include <dt-bindings/clock/sun8i-a23-a33-ccu.h>
-+    #include <dt-bindings/reset/sun8i-a23-a33-ccu.h>
-+
-     hwlock@1c18000 {
-         compatible = "allwinner,sun6i-a31-hwspinlock";
-         reg = <0x01c18000 0x1000>;
--- 
-2.30.1
+>  .../bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml      | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
+> b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml index
+> 733c3d01e56c..10e5a53e447b 100644 ---
+> a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml +++
+> b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
+>  %YAML 1.2
+>  ---
+> -$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-hwspinlock.yaml#
+> +$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+>  title: SUN6I hardware spinlock driver for Allwinner sun6i compatible SoCs
+> @@ -36,6 +36,9 @@ additionalProperties: false
+>  
+>  examples:
+>    - |
+> +    #include <dt-bindings/clock/sun8i-a23-a33-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-a23-a33-ccu.h>
+> +
+>      hwlock@1c18000 {
+>          compatible = "allwinner,sun6i-a31-hwspinlock";
+>          reg = <0x01c18000 0x1000>;
 
