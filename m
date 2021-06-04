@@ -1,128 +1,115 @@
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CCA70
-	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 09:46:03 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 1546EwYB115747;
-	Fri, 4 Jun 2021 01:14:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1622787298;
-	bh=4qEDJWt0SZhUJ71xYJKiN5cbwLyBfuhRa91+nNrSIOA=;
-	h=Subject:To:CC:References:From:Date:In-Reply-To;
-	b=JzktDYkdU2BW41ab/6s30Vi/DIc0ORyIiYX+OXSi884Hx6+7hEuupyASe1fexiJ39
-	 ftyH6BaKJ0vtGmToqgSX0n59ZJOb5QcwA8CyFClIF0XiWgv6rtfFPwocQ40G0SK9em
-	 3nKrC1MmEHR9tt6Fzc7Hu5ABGXn8lEiJb8v/Pghk=
-Received: from DLEE105.ent.ti.com (dlee105.ent.ti.com [157.170.170.35])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 1546Ew8q100327
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 4 Jun 2021 01:14:58 -0500
-Received: from DLEE105.ent.ti.com (157.170.170.35) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2; Fri, 4 Jun
- 2021 01:14:57 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE105.ent.ti.com
- (157.170.170.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2176.2 via
- Frontend Transport; Fri, 4 Jun 2021 01:14:57 -0500
-Received: from [10.250.35.153] (ileax41-snat.itg.ti.com [10.172.224.153])
-	by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 1546EuVS007115;
-	Fri, 4 Jun 2021 01:14:56 -0500
-Subject: Re: [RFC PATCH] dt-bindings: hwlock: sun6i: Fix various warnings in
- binding
-To: Wilken Gottwalt <wilken.gottwalt@posteo.net>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Rob Herring
-	<robh+dt@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Maxime
- Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        <devicetree@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
-        <linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20210603144216.10327-1-s-anna@ti.com>
- <20210604065543.3d71ca53@monster.powergraphx.local>
-From: Suman Anna <s-anna@ti.com>
-Message-ID: <3eb7afb6-629e-bac9-9a5b-7626a3f2359b@ti.com>
-Date: Fri, 4 Jun 2021 01:14:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C54170
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Jun 2021 09:55:33 +0000 (UTC)
+Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MWRZr-1lrSDg2ZSt-00XpPy for <linux-sunxi@lists.linux.dev>; Fri, 04 Jun 2021
+ 11:55:31 +0200
+Received: by mail-wr1-f48.google.com with SMTP id m18so8689707wrv.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Jun 2021 02:55:31 -0700 (PDT)
+X-Gm-Message-State: AOAM532H0ieQg4c6mhQLZncVEokv0Pq2CYoAVAE2JJSBRUMCNQ5uTa6v
+	ZHBmeS6jkwiSfRrcTpJEmy9mCO5k/0lsfFd0O1U=
+X-Google-Smtp-Source: ABdhPJxshE3+Uw6+fWuekuuwJhK8oE6TcJIBm0QrwrkRRuWDjLhV71VM+ZrxsXwvq+Gqd5ead+heu/mutRyeZaqbM2U=
+X-Received: by 2002:a5d:5084:: with SMTP id a4mr3045824wrt.286.1622800531222;
+ Fri, 04 Jun 2021 02:55:31 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210604065543.3d71ca53@monster.powergraphx.local>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <CO6PR04MB7812D8905C6EEBDE8513866F8D3C9@CO6PR04MB7812.namprd04.prod.outlook.com>
+ <mhng-3875d1bc-74dd-4dc8-b71d-18a8f004039a@palmerdabbelt-glaptop>
+In-Reply-To: <mhng-3875d1bc-74dd-4dc8-b71d-18a8f004039a@palmerdabbelt-glaptop>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 4 Jun 2021 11:53:48 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a03sxxnzpZPxNnXLtCFOFBZ6espEj4V5y=K+59dOLJc6A@mail.gmail.com>
+Message-ID: <CAK8P3a03sxxnzpZPxNnXLtCFOFBZ6espEj4V5y=K+59dOLJc6A@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+To: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Anup Patel <Anup.Patel@wdc.com>, Guo Ren <guoren@kernel.org>, 
+	Anup Patel <anup@brainfault.org>, Drew Fustini <drew@beagleboard.org>, 
+	Christoph Hellwig <hch@lst.de>, wefu@redhat.com, lazyparser@gmail.com, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:y6e4Et7PTR9OARuPX8FYQmBHfUmt+FqZDH862x+mAYqgP1fJ96k
+ YrTa9Wgf923xpC6KWCjyJL5/D5g2q2Na3/Q+2Txgr0QadnwrqmIUHDWp4ohjkK5j5jzUNbE
+ 7bDqlIQ+ggfOR1hDUAAKLl17Xfg9ip+/ZkNDNhV4pzNxhnBA4+J+F8w30bOIME+vdL9Op2W
+ oYRiXcDmTTxotmDpiGofg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7OtS1lk+6A0=:fOJCsy+6c0L4ijcTSqNwfI
+ rVpGy5g1E3dMwdxywqbJSrcVK6LeOJkd8d7AFtNT09pPQaBGUZZJh206C+NLdy/bZN3JfAUa1
+ sByoSfVkbu19Nb9PbNiAg/dmIvzZs3gW6cEe6zciNGdZCvQc+G7rndA2nZvFGgD2qQ/h7UN9J
+ 2HOd79Htt3sgqFVjDk0WxWoGsjfbIpNhLyQTSk9XrPatfiGMB83BCK0pSpA4r4spMhk5/t5cX
+ 9NTu2s83bIPE+pCoFsA8eB/LhcDeLS71HvWqMckhIUcjJfFV5VEtDlIp0k9/BbHpZMWp4U41U
+ 9HnlIU/4ldwt+RezCWFkJ0vs9NCoaXURuIfjxAS8qKVK1IvIW5yxHuXrDLQVVEZEvK8cv9CYj
+ PO1hgiC9B3knxfG0LcdFuao7q2NHUutnjsOq2UjVdu3oMYTQnE/BUperPGDPklOo2GzsO/rOB
+ dLoda2akQO7RujZYnobE/XUadzyOSov5ETCF1pCF1zZJ1jFyBiVbvB9GfwWpTuargoJGpJ7TO
+ eLOytbQZbIAz5m/WYctN4E=
 
-On 6/3/21 11:55 PM, Wilken Gottwalt wrote:
-> On Thu, 3 Jun 2021 09:42:16 -0500
-> Suman Anna <s-anna@ti.com> wrote:
-> 
->> The allwinner,sun6i-a31-hwspinlock.yaml binding has a mismatched
->> $id and fails to compile the example due to undefined args specifier
->> values for clocks and resets. Fix both of these issues.
->>
->> Fixes: f9e784dcb63f ("dt-bindings: hwlock: add sun6i_hwspinlock")
->> Signed-off-by: Suman Anna <s-anna@ti.com>
->> ---
->> Hi Wilken,
->>
->> This fixes the warnings for now on linux-next, but I think the example
->> should be including sun6i-a31-ccu.h files instead to be accurate, and
->> those files are missing the definitions for CLK_BUS_SPINLOCK and
->> RST_BUS_SPINLOCK. Feel free to send a newer version or do an incremental
->> patch on top.
->>
->> regards
->> Suman
-> 
-> Hi Suman,
-> 
-> thank you for fixing this. I would have fix it the same way for now, so it is
-> fine for me. But I will keep an eye on it.
+On Thu, Jun 3, 2021 at 5:39 PM Palmer Dabbelt <palmer@dabbelt.com> wrote:
+> On Wed, 02 Jun 2021 23:00:29 PDT (-0700), Anup Patel wrote:
+> >> This implementation, which adds some Kconfig entries that control page table
+> >> bits, definately isn't suitable for upstream.  Allowing users to set arbitrary
+> >> page table bits will eventually conflict with the standard, and is just going to
+> >> be a mess.  It'll also lead to kernels that are only compatible with specific
+> >> designs, which we're trying very hard to avoid.  At a bare minimum we'll need
+> >> some way to detect systems with these page table bits before setting them,
+> >> and some description of what the bits actually do so we can reason about
+> >> them.
+> >
+> > Yes, vendor specific Kconfig options are strict NO NO. We can't give-up the
+> > goal of unified kernel image for all platforms.
+>
+> I think this is just a phrasing issue, but just to be sure:
+>
+> IMO it's not that they're vendor-specific Kconfig options, it's that
+> turning them on will conflict with standard systems (and other vendors).
+> We've already got the ability to select sets of Kconfig settings that
+> will only boot on one vendor's system, which is fine, as long as there
+> remains a set of Kconfig settings that will boot on all systems.
+>
+> An example here would be the errata: every system has errata of some
+> sort, so if we start flipping off various vendor's errata Kconfigs
+> you'll end up with kernels that only function properly on some systems.
+> That's fine with me, as long as it's possible to turn on all vendor's
+> errata Kconfigs at the same time and the resulting kernel functions
+> correctly on all systems.
 
-Thanks Will.
+Yes, this is generally the goal, and it would be great to have that
+working in a way where a 'defconfig' build just turns on all the options
+that are needed to use any SoC specific features and drivers while
+still working on all hardware. There are however limits you may run
+into at some point, and other architectures usually only manage to span
+some 10 to 15 years of hardware implementations with a single
+kernel before it get really hard.
 
-Bjorn,
-Do ignore the RFC tag then, and you can pick up the patch.
+To give some common examples that make it break down:
 
-regards
-Suman
+- 32-bit vs 64-bit already violates that rule on risc-v (as it does on
+  most other architectures)
 
+- architectures that support both big-endian and little-endian kernels
+  tend to have platforms that require one or the other (e.g. mips,
+  though not arm). Not an issue for you.
 
-> 
-> greetings,
-> Will
-> 
->>  .../bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml      | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml
->> b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml index
->> 733c3d01e56c..10e5a53e447b 100644 ---
->> a/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml +++
->> b/Documentation/devicetree/bindings/hwlock/allwinner,sun6i-a31-hwspinlock.yaml @@ -1,7 +1,7 @@
->>  # SPDX-License-Identifier: (GPL-2.0-only or BSD-2-Clause)
->>  %YAML 1.2
->>  ---
->> -$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-hwspinlock.yaml#
->> +$id: http://devicetree.org/schemas/hwlock/allwinner,sun6i-a31-hwspinlock.yaml#
->>  $schema: http://devicetree.org/meta-schemas/core.yaml#
->>  
->>  title: SUN6I hardware spinlock driver for Allwinner sun6i compatible SoCs
->> @@ -36,6 +36,9 @@ additionalProperties: false
->>  
->>  examples:
->>    - |
->> +    #include <dt-bindings/clock/sun8i-a23-a33-ccu.h>
->> +    #include <dt-bindings/reset/sun8i-a23-a33-ccu.h>
->> +
->>      hwlock@1c18000 {
->>          compatible = "allwinner,sun6i-a31-hwspinlock";
->>          reg = <0x01c18000 0x1000>;
-> 
+- page table formats are the main cause of incompatibility: arm32
+  and x86-32 require three-level tables for certain features, but those
+  are incompatible with older cores, arm64 supports three different
+  page sizes, but none of them works on all cores (4KB almost works
+  everywhere).
 
+- SMP-enabled ARMv7 kernels can be configured to run on either
+  ARMv6 or ARMv8, but not both, in this case because of incompatible
+  barrier instructions.
+
+- 32-bit Arm has a couple more remaining features that require building
+  a machine specific kernel if enabled because they hardcode physical
+  addresses: early printk (debug_ll, not the normal earlycon), NOMMU,
+  and XIP.
+
+       Arnd
