@@ -1,139 +1,281 @@
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697AB70
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:18:33 +0000 (UTC)
-Received: from mail-wr1-f41.google.com ([209.85.221.41]) by
- mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MKKdD-1m4zE02lyR-00Lo5m for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021
- 18:18:31 +0200
-Received: by mail-wr1-f41.google.com with SMTP id i94so9552965wri.4
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 09:18:31 -0700 (PDT)
-X-Gm-Message-State: AOAM532mH38xkYpAZSmiDwhoKKB35h8HDbCRUmELuy+fIuaHsPG8xf6a
-	h+CI0SOx4VC3vJHn28WPjhs/XQQmmqVMqAsmytg=
-X-Google-Smtp-Source: ABdhPJx9dKNalsIrm0Lf+lcVcT23HpzJ96dWZFvRiQpmmC6lCKzyeQIjKu301k2n374UAlf86nYIV+I5I0wPvzdJTug=
-X-Received: by 2002:a5d:5084:: with SMTP id a4mr13649030wrt.286.1622996311239;
- Sun, 06 Jun 2021 09:18:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E9D70
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:26:33 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id i94so9568789wri.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 09:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4LMS6521uwLvF3d0VH9aHVTLaSPCmp9aqfX/Cw2Qkt8=;
+        b=qbMma+/EYBI89XYXH6O5Gn0B1ZxLNxhf+QnPVywlVhDpm4TQtWpC0b58caEwBCMnIC
+         rojWchC/QzXkvoo9WoG7CkI/9FQOI/ImTnp8KF9xJ6yXQPr8BDjhDq21NL0nfbd2sizR
+         l6tqoyurBVltuw8jmKvNFidWuqunqEb0N01jo5k/NUrcQOzJHlE3WwqvUw62xOA7Jxq6
+         Mo3cMHRMrgw9rnd251x5xx6gBnUmLtODkcYSyUYZV0XkokBiAOZV0tPdD1XiycamAGLX
+         7nyyz9G+fmLZT4BvvIZ3qaVccg5yRvDDocQocDtbPhUwfwBS5705coTiHcjG9EbA4cG1
+         YVuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4LMS6521uwLvF3d0VH9aHVTLaSPCmp9aqfX/Cw2Qkt8=;
+        b=P1hCI1AtXMh4eM+GaFxuNEEM5Zg/M2Awh7dN/moeo+Z2XN1u4Swl1jr7SPjv8Ebqew
+         cs70ZgC5k0eyIZ3tAmbS35lPpRwYlXVD1ZcKjquhfTu8VgdOeJSIcppeJyKpUV4KhSVS
+         yCyqJ/LQpWQIed2QpxY6EU753QW+dnGd4K7Q0YY53mtH2HYwkvf4XSMg0ddH5CTnoJ5V
+         6ahwGtR30tfxvlewl/Z+UkgbPOdRwfBD4O8p8ST5iFZeEpdT8FPJUQB8C1KLFxXpeKKP
+         CP6KbEmco3KSEdR5tG0W41Zt+71pVgSSG+xia2v8E2YFIBwdOtHrwyiyPmYJegIowBkp
+         Lx8Q==
+X-Gm-Message-State: AOAM531oXLeMy0rq/RQtdZ7XMbHu2zqpqxBIb/6GpGJRJGaSc6HhzDML
+	MJCWGqm1TZ136EvrGrI4A7k=
+X-Google-Smtp-Source: ABdhPJyerIt5K+ze4U8Rv+TuJdirbauulSeSldhLjdb6CNMv2sLlQ70UGAhvFiVs4ybWr75JK9jngQ==
+X-Received: by 2002:adf:fe4a:: with SMTP id m10mr13371826wrs.332.1622996792572;
+        Sun, 06 Jun 2021 09:26:32 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
+        by smtp.gmail.com with ESMTPSA id p12sm13492367wme.43.2021.06.06.09.26.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 06 Jun 2021 09:26:32 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: guoren@kernel.org, anup.patel@wdc.com, palmerdabbelt@google.com, arnd@arndb.de, wens@csie.org, maxime@cerno.tech, drew@beagleboard.org, liush@allwinnertech.com, lazyparser@gmail.com, wefu@redhat.com, guoren@kernel.org
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, Atish Patra <atish.patra@wdc.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [RFC PATCH v2 09/11] riscv: soc: Initial DTS for Allwinner D1 NeZha board
+Date: Sun, 06 Jun 2021 18:26:30 +0200
+Message-ID: <2490489.OUOj5N01qN@jernej-laptop>
+In-Reply-To: <1622970249-50770-13-git-send-email-guoren@kernel.org>
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org> <1622970249-50770-13-git-send-email-guoren@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org> <1622970249-50770-15-git-send-email-guoren@kernel.org>
-In-Reply-To: <1622970249-50770-15-git-send-email-guoren@kernel.org>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Sun, 6 Jun 2021 18:16:44 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
-Message-ID: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 11/11] riscv: soc: Allwinner D1 GMAC driver only
- for temp use
-To: Guo Ren <guoren@kernel.org>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>, Drew Fustini <drew@beagleboard.org>, 
-	liush@allwinnertech.com, lazyparser@gmail.com, wefu@redhat.com, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
-	Corentin Labbe <clabbe@baylibre.com>, Samuel Holland <samuel@sholland.org>, 
-	Icenowy Zheng <icenowy@aosc.io>, LABBE Corentin <clabbe.montjoie@gmail.com>, 
-	Michael Walle <michael@walle.cc>, Guo Ren <guoren@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:66G9BBHOFxbIJ5kQNGF9WWONFXvVbICsLDDXn9GZ3IyWuGiBMb9
- X20wTkhfRsrrZziCPX30SQtb105wxiDHyig6bC1ERYesuAqTtwY2yyM+YwiFfuiUfpqBLSC
- ZZHROoUWBNAPzSzswpibq/muPKHYkoUOdSjTz4bCqVSEqTMloDolkUUaIHOR9rkUc7CCAXz
- RVazbXYyUORHJxRKolq4w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:N95D26Oy3UY=:A6XZ1pzw+6JQxThnjHOjqJ
- ysmSNQY9GQh54yAJRWrTl2VHcUHYURUwrH9WtZb1JAGE+Tn99Px2fE2PnuFYCjZoIv+nAQ/Lq
- kWGUuwYi2gHAzFBnn2IrhNA6K/uMxdbfrw/iFXhTfHA3x954YPC87KiHMonCjH2atSSsNCx+c
- JbOzToel6iMtwiRDnBz2GezbVg6T39KpxCCuYaY40RulGyMcMqs8EfPXErRwdoXH8I881MNaC
- gcti4CXC9zHhHN13ZTVob2i14YFqaXuTWoWLEeaXGNOUZRucc4zbnouL0iIC6pcyDoCMYRiIA
- xq1uZbFm0TVuDCclQGwO5Pig+iN4e2xRcFsIyFKHEumjdUegwTnlwXgZtqangURLsl/XlENwK
- v/8c1qGf01It5czMR6HHQyVwUjBuccC4QS10Poa0SJ08kgOM2LovBU+x2xoG/1SPpa7SU16AN
- 010mbJAG4ZE8ISbVRIbtPyVc+OjeUPaMKfspP72uSMTThkkZXIJcB3vCOSuk+NhKL2AIrwszT
- qz2521Ko1LHqAVItL6u26M765AjX+z6u7D8gl3YHRPgn0FVWoqWZFDvCoCRbs+Uf2Fy8AmgNT
- SaE8Umod/e8tZF/Ag3mO6eKDfxazYFhF1RG3kyYeTpOMh3IPqr3rlmTPL2DidjoPU2iqVi8hf
- BMmneSC+VB1QT63HeYYaykT9w8lCZdF63qPuQRv52GYlYWQ==
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, Jun 6, 2021 at 11:04 AM <guoren@kernel.org> wrote:
+Hi!
 
-> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts b/a=
-rch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
-> index cd9f7c9..31b681d 100644
-> --- a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+I didn't go through all details. After you fix all comments below, you should 
+run "make dtbs_check" and fix all reported warnings too.
+
+Dne nedelja, 06. junij 2021 ob 11:04:07 CEST je guoren@kernel.org napisal(a):
+> From: Guo Ren <guoren@linux.alibaba.com>
+> 
+> Add initial DTS for Allwinner D1 NeZha board having only essential
+> devices (uart, dummy, clock, reset, clint, plic, etc).
+> 
+> Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> Co-Developed-by: Liu Shaohua <liush@allwinnertech.com>
+> Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
+> Cc: Anup Patel <anup.patel@wdc.com>
+> Cc: Atish Patra <atish.patra@wdc.com>
+> Cc: Christoph Hellwig <hch@lst.de>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Drew Fustini <drew@beagleboard.org>
+> Cc: Maxime Ripard <maxime@cerno.tech>
+> Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+> Cc: Wei Fu <wefu@redhat.com>
+> Cc: Wei Wu <lazyparser@gmail.com>
+> ---
+>  arch/riscv/boot/dts/Makefile                       |  1 +
+>  arch/riscv/boot/dts/allwinner/Makefile             |  2 +
+>  .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  | 29 ++++++++
+>  arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    | 84
+> ++++++++++++++++++++++ 4 files changed, 116 insertions(+)
+>  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+>  create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> 
+> diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Makefile
+> index fe996b8..3e7b264 100644
+> --- a/arch/riscv/boot/dts/Makefile
+> +++ b/arch/riscv/boot/dts/Makefile
+> @@ -2,5 +2,6 @@
+>  subdir-y += sifive
+>  subdir-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += canaan
+>  subdir-y += microchip
+> +subdir-y += allwinner
+> 
+>  obj-$(CONFIG_BUILTIN_DTB) := $(addsuffix /, $(subdir-y))
+> diff --git a/arch/riscv/boot/dts/allwinner/Makefile
+> b/arch/riscv/boot/dts/allwinner/Makefile new file mode 100644
+> index 00000000..4adbf4b
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/allwinner/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +dtb-$(CONFIG_SOC_SUNXI) += allwinner-d1-nezha-kit.dtb
+> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts new file mode
+> 100644
+> index 00000000..cd9f7c9
+> --- /dev/null
 > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
-> @@ -11,7 +11,7 @@
->         compatible =3D "allwinner,d1-nezha-kit";
->
->         chosen {
-> -               bootargs =3D "console=3DttyS0,115200";
-> +               bootargs =3D "console=3DttyS0,115200 rootwait init=3D/sbi=
-n/init root=3D/dev/nfs rw nfsroot=3D192.168.101.200:/tmp/rootfs_nfs,v3,tcp,=
-nolock ip=3D192.168.101.23";
 
-These are not board specific options, they should be set by the bootloader
-according to the network environment. It clearly doens't belong
-into this patch .
+Board DT names are comprised of soc name and board name, in this case it would 
+be "sun20i-d1-nezha-kit.dts"
 
->                 stdout-path =3D &serial0;
->         };
->
-> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi b/arch/riscv=
-/boot/dts/allwinner/allwinner-d1.dtsi
-> index 11cd938..d317e19 100644
-> --- a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
-> +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
-> @@ -80,5 +80,21 @@
->                         clocks =3D <&dummy_apb>;
->                         status =3D "disabled";
->                 };
+> @@ -0,0 +1,29 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+
+Usually copyrights are added below spdx id.
+
 > +
-> +               eth@4500000 {
-> +                       compatible =3D "allwinner,sunxi-gmac";
-> +                       reg =3D <0x00 0x4500000 0x00 0x10000 0x00 0x30000=
-30 0x00 0x04>;
-> +                       interrupts-extended =3D <&plic 0x3e 0x04>;
-> +                       interrupt-names =3D "gmacirq";
-> +                       device_type =3D "gmac0";
-> +                       phy-mode =3D "rgmii";
-> +                       use_ephy25m =3D <0x01>;
-> +                       tx-delay =3D <0x03>;
-> +                       rx-delay =3D <0x03>;
-> +                       gmac-power0;
-> +                       gmac-power1;
-> +                       gmac-power2;
-> +                       status =3D "okay";
-> +               };
+> +/dts-v1/;
+> +
+> +#include "allwinner-d1.dtsi"
+> +
+> +/ {
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
 
-Before you add this in the dts file, the properties need to be documented i=
-n
-the binding file. The "allwinner,sunxi-gmac" identifier does not appear to
-be specific enough here, and the properties don't match what dwmac uses,
-which would make it unnecessarily hard to change to the other driver
-later on without breaking compatibility to old dtb files.
+This should be part of SoC level DTSI.
 
-> +++ b/drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c
-> @@ -0,0 +1,690 @@
-> +/*
-> + * linux/drivers/net/ethernet/allwinner/sunxi_gmac_ops.c
-> + *
-> + * Copyright =C2=A9 2016-2018, fuzhaoke
-> + *             Author: fuzhaoke <fuzhaoke@allwinnertech.com>
-> + *
-> + * This file is provided under a dual BSD/GPL license.  When using or
-> + * redistributing this file, you may do so under either license.
+> +	model = "Allwinner D1 NeZha Kit";
+> +	compatible = "allwinner,d1-nezha-kit";
 
-Are you sure this is the correct copyright information and "fuzhaoke" is
-the copyright holder for this file? If this is derived from either the
-designware
-code or the Linux stmmac driver, the authors should be mentioned,
-and the license be compatible with the original license terms.
+Board specific compatible string should be followed with SoC compatible, in 
+this case "allwinner,sun20i-d1".  You should document it too.
 
-Andre already commented on the driver quality and code duplication, those a=
-re
-also show-stoppers, but the unclear license terms and dt binding compatibil=
-ity
-are even stronger reasons to not get anywhere close to this driver.
+> +
+> +	chosen {
+> +		bootargs = "console=ttyS0,115200";
 
-        Arnd
+Above line doesn't belong here. If anything, it should be added dynamically by 
+bootloader.
+
+> +		stdout-path = &serial0;
+> +	};
+> +
+> +	memory@40000000 {
+> +		device_type = "memory";
+> +		reg = <0x0 0x40000000 0x0 0x20000000>;
+> +	};
+
+Ditto for whole memory node.
+
+> +
+> +	soc {
+> +	};
+
+There is no point having empty nodes.
+
+> +};
+> +
+> +&serial0 {
+> +	status = "okay";
+> +};
+> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi new file mode 100644
+> index 00000000..11cd938
+> --- /dev/null
+> +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+
+Current naming approach for Allwinner SoC level DTSI is "sun20i-d1.dtsi".
+
+> @@ -0,0 +1,84 @@
+> +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+
+> +
+> +/dts-v1/;
+> +
+> +/ {
+> +	#address-cells = <2>;
+> +	#size-cells = <2>;
+
+Since all peripherals and memory are below 4 GiB, why have 64-bit addresses 
+and sizes? It just clutters DT.
+
+> +	model = "Allwinner D1 Soc";
+> +	compatible = "allwinner,d1-nezha-kit";
+
+Compatible and model don't belong to SoC level DTSI.
+
+> +
+> +	chosen {
+> +	};
+
+Remove empty node.
+
+> +
+> +	cpus {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +		timebase-frequency = <2400000>;
+> +		cpu@0 {
+> +			device_type = "cpu";
+> +			reg = <0>;
+> +			status = "okay";
+> +			compatible = "riscv";
+> +			riscv,isa = "rv64imafdcv";
+> +			mmu-type = "riscv,sv39";
+> +			cpu0_intc: interrupt-controller {
+> +				#interrupt-cells = <1>;
+> +				compatible = "riscv,cpu-intc";
+> +				interrupt-controller;
+> +			};
+> +		};
+> +	};
+> +
+> +	soc {
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		compatible = "simple-bus";
+> +		ranges;
+> +
+> +		reset: reset-sample {
+> +			compatible = "thead,reset-sample";
+> +			plic-delegate = <0x0 0x101ffffc>;
+> +		};
+> +
+> +		clint: clint@14000000 {
+> +			compatible = "riscv,clint0";
+> +			interrupts-extended = <
+> +				&cpu0_intc  3 &cpu0_intc  7
+> +				>;
+> +			reg = <0x0 0x14000000 0x0 0x04000000>;
+> +			clint,has-no-64bit-mmio;
+> +		};
+> +
+> +		plic: interrupt-controller@10000000 {
+> +			#interrupt-cells = <1>;
+> +			compatible = "riscv,plic0";
+> +			interrupt-controller;
+> +			interrupts-extended = <
+> +				&cpu0_intc  0xffffffff &cpu0_intc  9
+> +				>;
+> +			reg = <0x0 0x10000000 0x0 0x04000000>;
+> +			reg-names = "control";
+> +			riscv,max-priority = <7>;
+> +			riscv,ndev = <200>;
+> +		};
+> +
+> +		dummy_apb: apb-clock {
+> +			compatible = "fixed-clock";
+> +			clock-frequency = <24000000>;
+> +			clock-output-names = "dummy_apb";
+> +			#clock-cells = <0>;
+> +		};
+> +
+> +		serial0: serial@2500000 {
+
+This should be uart0 and board should have alias for it. Check ARM based 
+Allwinner DTs.
+
+Best regards,
+Jernej
+
+> +			compatible = "snps,dw-apb-uart";
+> +			reg = <0x0 0x02500000 0x0 0x400>;
+> +			reg-io-width = <4>;
+> +			reg-shift = <2>;
+> +			interrupt-parent = <&plic>;
+> +			interrupts = <18>;
+> +			clocks = <&dummy_apb>;
+> +			status = "disabled";
+> +		};
+> +	};
+> +};
+
+
+
+
