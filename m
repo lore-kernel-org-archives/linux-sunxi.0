@@ -1,158 +1,157 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1638A70;
-	Sun,  6 Jun 2021 08:23:40 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id c10so21359178eja.11;
-        Sun, 06 Jun 2021 01:23:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=LU58Y66UQ9FitfV6F/zH772RT9rVk1M9TCGwX2oEhpI4rXAHoIw0OPVl4OJ1WTMY4n
-         JDpht2Wjw+RwsgesIQObYGC5wk0NUhq/Pk+qnI6pkXG8GmaAnErP4fSR8IWx+d4ke2Ya
-         HIQdgTN62PvP/mWxrvmbVuIHZ/qTzuADinlXKupdjLFwsg5SYAr//OUZtsKslDZcVTD6
-         ytvHsN/vClD9RKVTqbTXCQbboJl3uopVYSHmoXJB8Bp9A/S4Q8/5pGWb02bt1C0AQ5Hd
-         Jxrol1ybnNTP3LxpxJFndvn8Pf4uByKrbvQ5p0Lrn2fhvDWXVG7BXWwtdmk7WOrKomrK
-         yy1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ckHIT+W+zFdzF0pdvXxvN2EcXoFnHIBls4vcXGLYoGY=;
-        b=tCBiS7WdPypfopaZtsSTJ1mUF2Wx0R12m1QkXx/u/D3xKAdmO0CEcMdMIKJdsHVBoh
-         iCrXtK3PnxhELY17hUo54CJ9k2ebsx2s7UsqIARh1B6MrDMjR0I8Tqwuloc5MQAOFIKq
-         JQZuEnAA2fqaL8+7DPW9zwgRZeOVik9cU5Kb77q54BSg4CERd7nEmXCB3Ew0+wKqVm8z
-         aGD4dFkaXSgVyE65c4uxsYKGPqlk2s0uJzKNZVJNyPx0O4y/fd7B6MQ/Eg33kO7KqZ9P
-         fS9ODVgNefCTqUqnVjXtVoYCuvvAKK6auf5tHrEUPLdxabvzAPT91mlWcaI9C/z6fHnl
-         2uyA==
-X-Gm-Message-State: AOAM532OkvDaVKLwUAjAzfoiH21zJ86wNSwTKhFaJB7RBS7GfetDGp7/
-	HkzX7RBFdTw6BSgx7ZBJ+58=
-X-Google-Smtp-Source: ABdhPJw1X2nuGFVnO9OCSUzei4cPO5JAv5OhSvfeDHG7Se/qVMnOjKe9TTZzzbz7LUdrSmuRs9dL/g==
-X-Received: by 2002:a17:906:2ec6:: with SMTP id s6mr12422415eji.65.1622967818617;
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id y1sm4945908ejl.7.2021.06.06.01.23.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 01:23:38 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC3E70
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 09:05:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5084A61422;
+	Sun,  6 Jun 2021 09:04:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622970300;
+	bh=WCq0jCKZFKVHZkUKk3gJmYAjMTZohhpA6kBYeDMWP54=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oxm3u1RP/XRReqemGC1w532UhAYbNFeDtf/dUXCrcNLysVUcw4/kGCyTdx9vNl5TS
+	 r6hlzvO/e7yX0PDSFziN3hyZcemocYljnFsJP7aY75U+5QY16SyqN0TRAakBGTCQmN
+	 PQM1cFGkvmha5xMK1voUxdWPUHNPcNqiCJsAvuLLb0SSka+oLcnleqO/S/4lNlMoFk
+	 oAkyp08HeBmpT1lJreARal81zS5mUr89OQm7JCNabNHIoAxKVWRc52fFZMnIfrVAEZ
+	 G8Mr7Zk5CE5h5lVNkRb8WJQOtmVvTDTQDUjAEjuNcTRB/NuYG+/NPmJNRiZRhEdXiq
+	 OkMVD5ZRlFBhA==
+From: guoren@kernel.org
+To: guoren@kernel.org,
+	anup.patel@wdc.com,
+	palmerdabbelt@google.com,
+	arnd@arndb.de,
 	wens@csie.org,
-	hverkuil-cisco@xs4all.nl,
-	ezequiel@collabora.com,
-	benjamin.gaignard@collabora.com,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+	maxime@cerno.tech,
+	drew@beagleboard.org,
+	liush@allwinnertech.com,
+	lazyparser@gmail.com,
+	wefu@redhat.com
+Cc: linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: hevc: Add support for multiple slices
-Date: Sun,  6 Jun 2021 10:23:14 +0200
-Message-Id: <20210606082314.454193-3-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210606082314.454193-1-jernej.skrabec@gmail.com>
-References: <20210606082314.454193-1-jernej.skrabec@gmail.com>
+	linux-arch@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Guo Ren <guoren@linux.alibaba.com>
+Subject: [RFC PATCH v2 00/11] riscv: Add DMA_COHERENT support for Allwinner D1
+Date: Sun,  6 Jun 2021 09:03:55 +0000
+Message-Id: <1622970249-50770-1-git-send-email-guoren@kernel.org>
+X-Mailer: git-send-email 2.7.4
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Now that segment address is available, support for multi-slice frames
-can be easily added.
+From: Guo Ren <guoren@linux.alibaba.com>
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- .../staging/media/sunxi/cedrus/cedrus_h265.c  | 26 ++++++++++++-------
- .../staging/media/sunxi/cedrus/cedrus_video.c |  1 +
- 2 files changed, 17 insertions(+), 10 deletions(-)
+The RISC-V ISA doesn't yet specify how to query or modify PMAs, so let
+vendors define the custom properties of memory regions in PTE.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-index 6821e3d05d34..ef0311a16d01 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-@@ -247,6 +247,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	const struct v4l2_ctrl_hevc_slice_params *slice_params;
- 	const struct v4l2_ctrl_hevc_decode_params *decode_params;
- 	const struct v4l2_hevc_pred_weight_table *pred_weight_table;
-+	unsigned int width_in_ctb_luma, ctb_size_luma;
-+	unsigned int log2_max_luma_coding_block_size;
- 	dma_addr_t src_buf_addr;
- 	dma_addr_t src_buf_end_addr;
- 	u32 chroma_log2_weight_denom;
-@@ -260,15 +262,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	decode_params = run->h265.decode_params;
- 	pred_weight_table = &slice_params->pred_weight_table;
- 
-+	log2_max_luma_coding_block_size =
-+		sps->log2_min_luma_coding_block_size_minus3 + 3 +
-+		sps->log2_diff_max_min_luma_coding_block_size;
-+	ctb_size_luma = 1UL << log2_max_luma_coding_block_size;
-+	width_in_ctb_luma =
-+		DIV_ROUND_UP(sps->pic_width_in_luma_samples, ctb_size_luma);
-+
- 	/* MV column buffer size and allocation. */
- 	if (!ctx->codec.h265.mv_col_buf_size) {
- 		unsigned int num_buffers =
- 			run->dst->vb2_buf.vb2_queue->num_buffers;
--		unsigned int log2_max_luma_coding_block_size =
--			sps->log2_min_luma_coding_block_size_minus3 + 3 +
--			sps->log2_diff_max_min_luma_coding_block_size;
--		unsigned int ctb_size_luma =
--			1UL << log2_max_luma_coding_block_size;
- 
- 		/*
- 		 * Each CTB requires a MV col buffer with a specific unit size.
-@@ -322,15 +326,17 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 	reg = VE_DEC_H265_BITS_END_ADDR_BASE(src_buf_end_addr);
- 	cedrus_write(dev, VE_DEC_H265_BITS_END_ADDR, reg);
- 
--	/* Coding tree block address: start at the beginning. */
--	reg = VE_DEC_H265_DEC_CTB_ADDR_X(0) | VE_DEC_H265_DEC_CTB_ADDR_Y(0);
-+	/* Coding tree block address */
-+	reg = VE_DEC_H265_DEC_CTB_ADDR_X(slice_params->slice_segment_addr % width_in_ctb_luma);
-+	reg |= VE_DEC_H265_DEC_CTB_ADDR_Y(slice_params->slice_segment_addr / width_in_ctb_luma);
- 	cedrus_write(dev, VE_DEC_H265_DEC_CTB_ADDR, reg);
- 
- 	cedrus_write(dev, VE_DEC_H265_TILE_START_CTB, 0);
- 	cedrus_write(dev, VE_DEC_H265_TILE_END_CTB, 0);
- 
- 	/* Clear the number of correctly-decoded coding tree blocks. */
--	cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		cedrus_write(dev, VE_DEC_H265_DEC_CTB_NUM, 0);
- 
- 	/* Initialize bitstream access. */
- 	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
-@@ -482,8 +488,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
- 				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
- 				slice_params->flags);
- 
--	/* FIXME: For multi-slice support. */
--	reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
-+	if (ctx->fh.m2m_ctx->new_frame)
-+		reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
- 
- 	cedrus_write(dev, VE_DEC_H265_DEC_SLICE_HDR_INFO0, reg);
- 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 9ddd789d0b1f..247ff90a26b9 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -340,6 +340,7 @@ static int cedrus_s_fmt_vid_out(struct file *file, void *priv,
- 
- 	switch (ctx->src_fmt.pixelformat) {
- 	case V4L2_PIX_FMT_H264_SLICE:
-+	case V4L2_PIX_FMT_HEVC_SLICE:
- 		vq->subsystem_flags |=
- 			VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
- 		break;
+This patchset helps SOC vendors to support their own custom interconnect
+coherent solution with PTE attributes.
+
+For example, allwinner D1[1] uses T-HEAD C906 as main processor, C906 has
+two modes in MMU:
+ - Compatible mode, the same as the definitions in spec.
+ - Enhanced mode, add custom DMA_COHERENT attribute bits in PTE which
+   not mentioned in spec.
+
+Allwinner D1 needs the enhanced mode to support the DMA type device with
+non-coherent interconnect in its SOC. C906 uses BITS(63 - 59) as custom
+attribute bits in PTE.
+
+The patchset contain 4 parts (asid, pgtable, cmo, soc) which have been
+tested on D1:
+ - asid: T-HEAD C906 of D1 contains full asid hw facilities which has no
+   conflict with RISC-V spec, and hope these patches soon could be
+   approved.
+ - pgtable: Using a image-hdr to pass vendor specific information and
+   setup custom PTE attributes in a global struct variable during boot
+   stage. Also it needs define custom protection_map in linux/mm.
+ - cmo: We need deal with dma_sync & icache_sync & __vdso_icache_sync.
+   In this patchset, I just show you how T-HEAD C9xx work, and seems Atish
+   is working for the DMA infrustructure, please let me know the idea.
+ - soc: Add allwinner gmac driver & dts & Kconfig for sunxi test.
+
+The patchset could work with linux-5.13-rc4, here is the steps for D1:
+ - Download linux-5.13-rc4 and apply the patchset
+ - make ARCH=riscv CROSS_COMPILE=riscv64-linux- defconfig
+ - make ARCH=riscv CROSS_COMPILE=riscv64-linux- Image modules dtbs
+ - mkimage -A riscv -O linux -T kernel -C none -a 0x00200000 -e 0x00200000 -n Linux -d arch/riscv/boot/Image uImage
+ - Download newest opensbi [2], build with [3], and get fw_dynamic.bin
+ - Copy uImage, fw_dynamic.bin, allwinner-d1-nezha-kit.dtb into boot
+   partition of TF card.
+ - Plugin the TF card and power on D1.
+
+Link: https://linux-sunxi.org/D1 [1]
+Link: https://github.com/riscv/opensbi branch:master [2]
+Link: https://github.com/riscv/opensbi/blob/master/docs/platform/thead-c9xx.md [3]
+
+Changes since v1:
+ - Rebase on linux-5.13-rc4
+ - Support defconfig for different PTE attributes
+ - Support C906 icache_sync
+ - Add Allwinner D1 dts & Kconfig & gmac for testing
+ - Add asid optimization for D1 usage
+
+Guo Ren (10):
+  riscv: asid: Use global mappings for kernel pages
+  riscv: asid: Add ASID-based tlbflushing methods
+  riscv: asid: Optimize tlbflush coding convention
+  riscv: pgtable: Fixup _PAGE_CHG_MASK usage
+  riscv: pgtable: Add custom protection_map init
+  riscv: pgtable: Add DMA_COHERENT with custom PTE attributes
+  riscv: cmo: Add dma-noncoherency support
+  riscv: cmo: Add vendor custom icache sync
+  riscv: soc: Initial DTS for Allwinner D1 NeZha board
+  riscv: soc: Add Allwinner SoC kconfig option
+
+liush (1):
+  riscv: soc: Allwinner D1 GMAC driver only for temp use
+
+ arch/riscv/Kconfig                                 |    9 +
+ arch/riscv/Kconfig.socs                            |   12 +
+ arch/riscv/boot/dts/Makefile                       |    1 +
+ arch/riscv/boot/dts/allwinner/Makefile             |    2 +
+ .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  |   29 +
+ arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    |  100 +
+ arch/riscv/configs/defconfig                       |    1 +
+ arch/riscv/include/asm/cacheflush.h                |   48 +-
+ arch/riscv/include/asm/mmu_context.h               |    2 +
+ arch/riscv/include/asm/pgtable-64.h                |    8 +-
+ arch/riscv/include/asm/pgtable-bits.h              |   20 +-
+ arch/riscv/include/asm/pgtable.h                   |   44 +-
+ arch/riscv/include/asm/sbi.h                       |   15 +
+ arch/riscv/include/asm/soc.h                       |    1 +
+ arch/riscv/include/asm/tlbflush.h                  |   22 +
+ arch/riscv/include/asm/vendorid_list.h             |    1 +
+ arch/riscv/kernel/sbi.c                            |   19 +
+ arch/riscv/kernel/soc.c                            |   22 +
+ arch/riscv/kernel/vdso/flush_icache.S              |   33 +-
+ arch/riscv/mm/Makefile                             |    1 +
+ arch/riscv/mm/cacheflush.c                         |    3 +-
+ arch/riscv/mm/context.c                            |    2 +-
+ arch/riscv/mm/dma-mapping.c                        |   53 +
+ arch/riscv/mm/init.c                               |   26 +
+ arch/riscv/mm/tlbflush.c                           |   57 +-
+ drivers/net/ethernet/Kconfig                       |    1 +
+ drivers/net/ethernet/Makefile                      |    1 +
+ drivers/net/ethernet/allwinnertmp/Kconfig          |   17 +
+ drivers/net/ethernet/allwinnertmp/Makefile         |    7 +
+ drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c |  690 ++++++
+ drivers/net/ethernet/allwinnertmp/sunxi-gmac.c     | 2240 ++++++++++++++++++++
+ drivers/net/ethernet/allwinnertmp/sunxi-gmac.h     |  258 +++
+ drivers/net/phy/realtek.c                          |    2 +-
+ mm/mmap.c                                          |    4 +
+ 34 files changed, 3714 insertions(+), 37 deletions(-)
+ create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+ create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+ create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+ create mode 100644 arch/riscv/mm/dma-mapping.c
+ create mode 100644 drivers/net/ethernet/allwinnertmp/Kconfig
+ create mode 100644 drivers/net/ethernet/allwinnertmp/Makefile
+ create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c
+ create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.c
+ create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.h
+
 -- 
-2.31.1
+2.7.4
 
