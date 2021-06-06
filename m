@@ -1,47 +1,36 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F8B70
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 15:42:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DF4CE61426
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 15:42:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622994121;
-	bh=UALv1P9ICCpdZuB9WXtufq8mFK4k0gfcSTsGNuUHdbs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=N9rfx5WEM01sc2oMICMR3LxHqzPwHxVD3X8RaCYGAz2aqJLvnGQKEjWlwIcAJ90vP
-	 FSyE+y4lcqtA2TIifHh6qG0g8ALpoHwdJfdFDcAoVhN6GURA2sAnCYO9UNbxvVB2RF
-	 CU2fMPGiGHcj6x0NfT7qT8+UqkfQ+nhrCTFOvdM8XKjXlDergtr9cmR/bQvMxgIhkk
-	 5ach0+jzOFf412AgFUHq0QcsDzu/AP8R/P6BV0Y9REFYKd46o+DIizQfbGlg43aBVQ
-	 W0uT8riRypy0LfiJrCdqNWH3Cojpd96xA7ZlZZ0IfKo6JIveUoo+bNCNJuwPa7nTWT
-	 vr1Minc11imBg==
-Received: by mail-lj1-f177.google.com with SMTP id w15so18428310ljo.10
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 08:42:01 -0700 (PDT)
-X-Gm-Message-State: AOAM53163CfOpMtY7B2if9CiDJQz/Hg2z7lVlzOwYX1OtZd1KmSpS09K
-	/lotsbBL2AriETzjNBiC6kIXbeICvXy3u7Z25+8=
-X-Google-Smtp-Source: ABdhPJz/ymuruvAxsVBO3eBrDTvU5oqkJkvuhWlYn5kOpMHnRZRI9xA7WGJSBhIVrhRZH65ESpGQlHUhEJNlEggaNUM=
-X-Received: by 2002:a2e:8e90:: with SMTP id z16mr11137106ljk.508.1622994120228;
- Sun, 06 Jun 2021 08:42:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 697AB70
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:18:33 +0000 (UTC)
+Received: from mail-wr1-f41.google.com ([209.85.221.41]) by
+ mrelayeu.kundenserver.de (mreue009 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MKKdD-1m4zE02lyR-00Lo5m for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021
+ 18:18:31 +0200
+Received: by mail-wr1-f41.google.com with SMTP id i94so9552965wri.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 09:18:31 -0700 (PDT)
+X-Gm-Message-State: AOAM532mH38xkYpAZSmiDwhoKKB35h8HDbCRUmELuy+fIuaHsPG8xf6a
+	h+CI0SOx4VC3vJHn28WPjhs/XQQmmqVMqAsmytg=
+X-Google-Smtp-Source: ABdhPJx9dKNalsIrm0Lf+lcVcT23HpzJ96dWZFvRiQpmmC6lCKzyeQIjKu301k2n374UAlf86nYIV+I5I0wPvzdJTug=
+X-Received: by 2002:a5d:5084:: with SMTP id a4mr13649030wrt.286.1622996311239;
+ Sun, 06 Jun 2021 09:18:31 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
- <20210606115027.5c715e64@slackpad.fritz.box> <CAJF2gTQgaJFW9knuVmW8J8zMAt_Gtq3KJ9gsGKg6=xLBuq0=uA@mail.gmail.com>
- <49182865.cm8dGOVcTj@jernej-laptop>
-In-Reply-To: <49182865.cm8dGOVcTj@jernej-laptop>
-From: Guo Ren <guoren@kernel.org>
-Date: Sun, 6 Jun 2021 23:41:48 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR3nUYsFv5=29DbE=nrgDaqmcj3KRm8F-WKsdTXHX02sQ@mail.gmail.com>
-Message-ID: <CAJF2gTR3nUYsFv5=29DbE=nrgDaqmcj3KRm8F-WKsdTXHX02sQ@mail.gmail.com>
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org> <1622970249-50770-15-git-send-email-guoren@kernel.org>
+In-Reply-To: <1622970249-50770-15-git-send-email-guoren@kernel.org>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Sun, 6 Jun 2021 18:16:44 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
+Message-ID: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
 Subject: Re: [RFC PATCH v2 11/11] riscv: soc: Allwinner D1 GMAC driver only
  for temp use
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>, Anup Patel <anup.patel@wdc.com>, 
-	Palmer Dabbelt <palmerdabbelt@google.com>, Arnd Bergmann <arnd@arndb.de>, wens@csie.org, 
-	maxime@cerno.tech, Drew Fustini <drew@beagleboard.org>, liush@allwinnertech.com, 
-	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, wefu@redhat.com, 
+To: Guo Ren <guoren@kernel.org>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>, Drew Fustini <drew@beagleboard.org>, 
+	liush@allwinnertech.com, lazyparser@gmail.com, wefu@redhat.com, 
 	linux-riscv <linux-riscv@lists.infradead.org>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
 	linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
@@ -50,93 +39,101 @@ Cc: Andre Przywara <andre.przywara@arm.com>, Anup Patel <anup.patel@wdc.com>,
 	Michael Walle <michael@walle.cc>, Guo Ren <guoren@linux.alibaba.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:66G9BBHOFxbIJ5kQNGF9WWONFXvVbICsLDDXn9GZ3IyWuGiBMb9
+ X20wTkhfRsrrZziCPX30SQtb105wxiDHyig6bC1ERYesuAqTtwY2yyM+YwiFfuiUfpqBLSC
+ ZZHROoUWBNAPzSzswpibq/muPKHYkoUOdSjTz4bCqVSEqTMloDolkUUaIHOR9rkUc7CCAXz
+ RVazbXYyUORHJxRKolq4w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:N95D26Oy3UY=:A6XZ1pzw+6JQxThnjHOjqJ
+ ysmSNQY9GQh54yAJRWrTl2VHcUHYURUwrH9WtZb1JAGE+Tn99Px2fE2PnuFYCjZoIv+nAQ/Lq
+ kWGUuwYi2gHAzFBnn2IrhNA6K/uMxdbfrw/iFXhTfHA3x954YPC87KiHMonCjH2atSSsNCx+c
+ JbOzToel6iMtwiRDnBz2GezbVg6T39KpxCCuYaY40RulGyMcMqs8EfPXErRwdoXH8I881MNaC
+ gcti4CXC9zHhHN13ZTVob2i14YFqaXuTWoWLEeaXGNOUZRucc4zbnouL0iIC6pcyDoCMYRiIA
+ xq1uZbFm0TVuDCclQGwO5Pig+iN4e2xRcFsIyFKHEumjdUegwTnlwXgZtqangURLsl/XlENwK
+ v/8c1qGf01It5czMR6HHQyVwUjBuccC4QS10Poa0SJ08kgOM2LovBU+x2xoG/1SPpa7SU16AN
+ 010mbJAG4ZE8ISbVRIbtPyVc+OjeUPaMKfspP72uSMTThkkZXIJcB3vCOSuk+NhKL2AIrwszT
+ qz2521Ko1LHqAVItL6u26M765AjX+z6u7D8gl3YHRPgn0FVWoqWZFDvCoCRbs+Uf2Fy8AmgNT
+ SaE8Umod/e8tZF/Ag3mO6eKDfxazYFhF1RG3kyYeTpOMh3IPqr3rlmTPL2DidjoPU2iqVi8hf
+ BMmneSC+VB1QT63HeYYaykT9w8lCZdF63qPuQRv52GYlYWQ==
 
-On Sun, Jun 6, 2021 at 11:39 PM Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
-om> wrote:
->
-> Hi!
->
-> Dne nedelja, 06. junij 2021 ob 17:32:22 CEST je Guo Ren napisal(a):
-> >  ,
-> >
-> > On Sun, Jun 6, 2021 at 6:50 PM Andre Przywara <andre.przywara@arm.com>
-> wrote:
-> > > On Sun,  6 Jun 2021 09:04:09 +0000
-> > > guoren@kernel.org wrote:
-> > >
-> > > Hi,
-> > >
-> > > > From: liush <liush@allwinnertech.com>
-> > > >
-> > > > This is a temporary driver, only guaranteed to work on allwinner
-> > > > D1. In order to ensure the developer's demand for network usage.
-> > >
-> > > That looks like some Allwinner BSP driver, please don't endorse code
-> > > of this quality (just look at all that commented code and the attempt
-> > > for compile-time configuration).
-> > >
-> > > > It only could work at 1Gps mode.
-> > > >
-> > > > The correct gmac driver should follow (I guess)
-> > > > drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-> > > >
-> > > > If anyone is familiar with it and can help porting, I would be
-> > > > very grateful.
-> > >
-> > > Have you tried compiling and using that driver? Ideally it should jus=
-t
-> > > work, Linux drivers are meant to be portable, by design. And the driv=
-er
-> > > is already enabled by COMPILE_TEST.
-> >
-> > It still needs some work with dwmac-sun8i.c glue layer, eg:
-> > tx/rx-delay setting, clk & pinmux drivers.
-> >
-> > The patch is just to help people using D1 with GMAC temporarily with
-> > network function.
->
-> It should be marked "DO NOT MERGE" or similar then.
-Yes, thx for reminding. I'll fix it next time.
+On Sun, Jun 6, 2021 at 11:04 AM <guoren@kernel.org> wrote:
 
+> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts b/a=
+rch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> index cd9f7c9..31b681d 100644
+> --- a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> @@ -11,7 +11,7 @@
+>         compatible =3D "allwinner,d1-nezha-kit";
 >
-> Best regards,
-> Jernej
->
-> >
-> > > But I guess you need some extra care to make the non-coherent DMA wor=
-k?
-> > > I haven't looked in detail, but are those new CMOs hooked into the
-> > > generic DMA framework?
-> >
-> > Yes, we have the simliar principle with arm & csky for non-coherent:
-> >  - Using PTE attributes setting Using PTE attributes to support
-> > _PAGE_IOREMAP & _PAGE_WRITECOMBINE
-> >  - Using CMO instructions deal SYNC_DMA_FOR_CPU/DEVICE.
-> >
-> > > Cheers,
-> > > Andre
-> > >
-> > > > Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
-> > > > Tested-by: Guo Ren <guoren@kernel.org>
-> > > > Signed-off-by: Guo Ren <guoren@kernel.org>
-> > > > Cc: Maxime Ripard <mripard@kernel.org>
-> > > > Cc: Corentin Labbe <clabbe@baylibre.com>
-> > > > Cc: Samuel Holland <samuel@sholland.org>
-> > > > Cc: Icenowy Zheng <icenowy@aosc.io>
-> > > > Cc: LABBE Corentin <clabbe.montjoie@gmail.com>
-> > > > Cc: Michael Walle <michael@walle.cc>
-> > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > Cc: Maxime Ripard <maxime@cerno.tech>
-> > > > Cc: Wei Fu <wefu@redhat.com>
-> > > > Cc: Wei Wu <lazyparser@gmail.com>
-> > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
->
->
->
+>         chosen {
+> -               bootargs =3D "console=3DttyS0,115200";
+> +               bootargs =3D "console=3DttyS0,115200 rootwait init=3D/sbi=
+n/init root=3D/dev/nfs rw nfsroot=3D192.168.101.200:/tmp/rootfs_nfs,v3,tcp,=
+nolock ip=3D192.168.101.23";
 
+These are not board specific options, they should be set by the bootloader
+according to the network environment. It clearly doens't belong
+into this patch .
 
---=20
-Best Regards
- Guo Ren
+>                 stdout-path =3D &serial0;
+>         };
+>
+> diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi b/arch/riscv=
+/boot/dts/allwinner/allwinner-d1.dtsi
+> index 11cd938..d317e19 100644
+> --- a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> @@ -80,5 +80,21 @@
+>                         clocks =3D <&dummy_apb>;
+>                         status =3D "disabled";
+>                 };
+> +
+> +               eth@4500000 {
+> +                       compatible =3D "allwinner,sunxi-gmac";
+> +                       reg =3D <0x00 0x4500000 0x00 0x10000 0x00 0x30000=
+30 0x00 0x04>;
+> +                       interrupts-extended =3D <&plic 0x3e 0x04>;
+> +                       interrupt-names =3D "gmacirq";
+> +                       device_type =3D "gmac0";
+> +                       phy-mode =3D "rgmii";
+> +                       use_ephy25m =3D <0x01>;
+> +                       tx-delay =3D <0x03>;
+> +                       rx-delay =3D <0x03>;
+> +                       gmac-power0;
+> +                       gmac-power1;
+> +                       gmac-power2;
+> +                       status =3D "okay";
+> +               };
 
-ML: https://lore.kernel.org/linux-csky/
+Before you add this in the dts file, the properties need to be documented i=
+n
+the binding file. The "allwinner,sunxi-gmac" identifier does not appear to
+be specific enough here, and the properties don't match what dwmac uses,
+which would make it unnecessarily hard to change to the other driver
+later on without breaking compatibility to old dtb files.
+
+> +++ b/drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c
+> @@ -0,0 +1,690 @@
+> +/*
+> + * linux/drivers/net/ethernet/allwinner/sunxi_gmac_ops.c
+> + *
+> + * Copyright =C2=A9 2016-2018, fuzhaoke
+> + *             Author: fuzhaoke <fuzhaoke@allwinnertech.com>
+> + *
+> + * This file is provided under a dual BSD/GPL license.  When using or
+> + * redistributing this file, you may do so under either license.
+
+Are you sure this is the correct copyright information and "fuzhaoke" is
+the copyright holder for this file? If this is derived from either the
+designware
+code or the Linux stmmac driver, the authors should be mentioned,
+and the license be compatible with the original license terms.
+
+Andre already commented on the driver quality and code duplication, those a=
+re
+also show-stoppers, but the unclear license terms and dt binding compatibil=
+ity
+are even stronger reasons to not get anywhere close to this driver.
+
+        Arnd
