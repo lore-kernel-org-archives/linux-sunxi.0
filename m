@@ -1,190 +1,259 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F02FE70
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 23:36:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-	t=1623022218; bh=GZvB4cKVUQepDY46C8gDXhb5mqbZg4ujUBa2NJqtOi8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CESemvH5PSjyLinFUeySjiEZiqsSPoo8Liw6gutud4BuOdJl0OloiW4ZnUVaUq/Zb
-	 IWEv4IMQce92KKk2437M/lb+O4R4XPqf5VsX2FFzrzCy+ekqrD/vZtmVLLpuo4lGJ6
-	 F/g8yg+x783J95I8OHH/j67jHnFVS0QA+FIMJMaY=
-From: Ondrej Jirman <megous@megous.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel@lists.freedesktop.org (open list:DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Saravana Kannan <saravanak@google.com>,
-	Ondrej Jirman <megous@megous.com>
-Subject: [PATCH] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
-Date: Mon,  7 Jun 2021 01:30:16 +0200
-Message-Id: <20210606233017.2730285-1-megous@megous.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F17170
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 23:42:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5474661436
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 23:42:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1623022952;
+	bh=i1uufPaK1BX0kA3BJtIl9yPmxo9PBjDZ/jrFo/GJyw8=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jsw4onpLJwXT0KXYZXGW3YB6Vg+YSGoAwX3d3Xu76JlRgZfEKVwoILi+DdrFtRYBb
+	 vIKbV/NdZNA6kKUMDuAzfn1MZHy7FmY2ot2jaPegpbhRUHQ7Q+IDG2V3ZPkxqOeVq9
+	 1L3UOEhgcmCrjRlowgv5cmReuegRhUCTUm9MDdCLtyQ3jOSL1XJZYnsSgM9tW8JHW0
+	 KvWTo9msYTczNFXE7VfTjH2sRlA0ACJK0yvjwx6etF4mZSlDAikgdajrUIBjkabbnB
+	 bORdrWh+x75U7XaetDbeqJAQGmwDo/lnXzfLVxlv0xVnLbs9tvCAqr498DOgujIRrh
+	 yMBAoTu3oGayA==
+Received: by mail-lf1-f48.google.com with SMTP id a1so13455137lfr.12
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 16:42:32 -0700 (PDT)
+X-Gm-Message-State: AOAM530/y0PchTKcs/PqOzRlwfnrTpAIhWcAy6+pLKbXR173PvdCbVp8
+	ouZVxUf97ObisaCfp5YoE+/dFPgmjdmS9s45XPc=
+X-Google-Smtp-Source: ABdhPJxvaxaFPrOwibMix35n1vL49cBzDLaWpXGSU6SIqkBBYbk+4WNMVtzOwyH2GWUvesqmouHHyNYsGl2aXhqhLJ8=
+X-Received: by 2002:a05:6512:987:: with SMTP id w7mr9954573lft.41.1623022950504;
+ Sun, 06 Jun 2021 16:42:30 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
+ <3110420.cQCZQDpDj9@jernej-laptop> <CAJF2gTQ1yvSNthJ2yJkqaYGaJ6OYmf0vbG=hm4ocgnw4DiZbOw@mail.gmail.com>
+ <1664140.l4xsYfQU8q@jernej-laptop>
+In-Reply-To: <1664140.l4xsYfQU8q@jernej-laptop>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 7 Jun 2021 07:42:18 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTR6zV8GuftZ1M69Ma2rxy31KvMBVjyB8G40JnyY4D+0Gw@mail.gmail.com>
+Message-ID: <CAJF2gTR6zV8GuftZ1M69Ma2rxy31KvMBVjyB8G40JnyY4D+0Gw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 00/11] riscv: Add DMA_COHERENT support for
+ Allwinner D1
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Arnd Bergmann <arnd@arndb.de>, wens@csie.org, maxime@cerno.tech, 
+	Drew Fustini <drew@beagleboard.org>, liush@allwinnertech.com, 
+	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, wefu@redhat.com, 
+	linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Saravana Kannan <saravanak@google.com>
+On Mon, Jun 7, 2021 at 1:14 AM Jernej =C5=A0krabec <jernej.skrabec@gmail.co=
+m> wrote:
+>
+> Dne nedelja, 06. junij 2021 ob 18:54:05 CEST je Guo Ren napisal(a):
+> > V5 is not related to the patch series.
+>
+> Don't top post.
+>
+> If that's the case, then your e-mail client messed things up. I got V5 pa=
+tches
+> in the same thread as board enablement patches and so did mailing list [1=
+].
+I made mistake that make two patchset mixed in my linux directory.
 
-On sunxi boards that use HDMI output, HDMI device probe keeps being
-avoided indefinitely with these repeated messages in dmesg:
+git format-patch -11
+git send-email *.patch
 
-  platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
-    not ready
+But there are still some last posted patches in *.patch.
 
-There's a fwnode_link being created with fw_devlink=on between hdmi
-and hdmi-phy nodes, because both nodes have 'compatible' property set.
+I'll prevent it in the next patchset version.
 
-Fw_devlink code assumes that nodes that have compatible property
-set will also have a device associated with them by some driver
-eventually. This is not the case with the current sun8i-hdmi-phy
-driver.
+>
+> Best regards,
+> Jernej
+>
+> [1] https://lore.kernel.org/linux-sunxi/
+> CAJF2gTQ1yvSNthJ2yJkqaYGaJ6OYmf0vbG=3Dhm4ocgnw4DiZbOw@mail.gmail.com/T/#t
+>
+> >
+> > On Mon, Jun 7, 2021 at 12:29 AM Jernej =C5=A0krabec <jernej.skrabec@gma=
+il.com>
+> wrote:
+> > > Hi!
+> > >
+> > > Dne nedelja, 06. junij 2021 ob 11:03:55 CEST je guoren@kernel.org
+> napisal(a):
+> > > > From: Guo Ren <guoren@linux.alibaba.com>
+> > > >
+> > > > The RISC-V ISA doesn't yet specify how to query or modify PMAs, so =
+let
+> > > > vendors define the custom properties of memory regions in PTE.
+> > > >
+> > > > This patchset helps SOC vendors to support their own custom interco=
+nnect
+> > > > coherent solution with PTE attributes.
+> > > >
+> > > > For example, allwinner D1[1] uses T-HEAD C906 as main processor, C9=
+06
+> > > > has
+> > > >
+> > > > two modes in MMU:
+> > > >  - Compatible mode, the same as the definitions in spec.
+> > > >  - Enhanced mode, add custom DMA_COHERENT attribute bits in PTE whi=
+ch
+> > > >
+> > > >    not mentioned in spec.
+> > > >
+> > > > Allwinner D1 needs the enhanced mode to support the DMA type device=
+ with
+> > > > non-coherent interconnect in its SOC. C906 uses BITS(63 - 59) as cu=
+stom
+> > > > attribute bits in PTE.
+> > > >
+> > > > The patchset contain 4 parts (asid, pgtable, cmo, soc) which have b=
+een
+> > > >
+> > > > tested on D1:
+> > > >  - asid: T-HEAD C906 of D1 contains full asid hw facilities which h=
+as no
+> > > >
+> > > >    conflict with RISC-V spec, and hope these patches soon could be
+> > > >    approved.
+> > > >
+> > > >  - pgtable: Using a image-hdr to pass vendor specific information a=
+nd
+> > > >
+> > > >    setup custom PTE attributes in a global struct variable during b=
+oot
+> > > >    stage. Also it needs define custom protection_map in linux/mm.
+> > > >
+> > > >  - cmo: We need deal with dma_sync & icache_sync & __vdso_icache_sy=
+nc.
+> > > >
+> > > >    In this patchset, I just show you how T-HEAD C9xx work, and seem=
+s
+> > > >    Atish
+> > > >    is working for the DMA infrustructure, please let me know the id=
+ea.
+> > > >
+> > > >  - soc: Add allwinner gmac driver & dts & Kconfig for sunxi test.
+> > > >
+> > > > The patchset could work with linux-5.13-rc4, here is the steps for =
+D1:
+> > > >  - Download linux-5.13-rc4 and apply the patchset
+> > > >  - make ARCH=3Driscv CROSS_COMPILE=3Driscv64-linux- defconfig
+> > > >  - make ARCH=3Driscv CROSS_COMPILE=3Driscv64-linux- Image modules d=
+tbs
+> > > >  - mkimage -A riscv -O linux -T kernel -C none -a 0x00200000 -e
+> > > >  0x00200000
+> > > >
+> > > > -n Linux -d arch/riscv/boot/Image uImage - Download newest opensbi =
+[2],
+> > > > build with [3], and get fw_dynamic.bin - Copy uImage, fw_dynamic.bi=
+n,
+> > > > allwinner-d1-nezha-kit.dtb into boot partition of TF card.
+> > > >
+> > > >  - Plugin the TF card and power on D1.
+> > > >
+> > > > Link: https://linux-sunxi.org/D1 [1]
+> > > > Link: https://github.com/riscv/opensbi branch:master [2]
+> > > > Link:
+> > > > https://github.com/riscv/opensbi/blob/master/docs/platform/thead-c9=
+xx.md
+> > > > [3]
+> > >
+> > > Some patches are marked with v2 and some V5. It's very confusing. Mar=
+k
+> > > them
+> > > with same version in next revision.
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > > > Changes since v1:
+> > > >  - Rebase on linux-5.13-rc4
+> > > >  - Support defconfig for different PTE attributes
+> > > >  - Support C906 icache_sync
+> > > >  - Add Allwinner D1 dts & Kconfig & gmac for testing
+> > > >  - Add asid optimization for D1 usage
+> > > >
+> > > > Guo Ren (10):
+> > > >   riscv: asid: Use global mappings for kernel pages
+> > > >   riscv: asid: Add ASID-based tlbflushing methods
+> > > >   riscv: asid: Optimize tlbflush coding convention
+> > > >   riscv: pgtable: Fixup _PAGE_CHG_MASK usage
+> > > >   riscv: pgtable: Add custom protection_map init
+> > > >   riscv: pgtable: Add DMA_COHERENT with custom PTE attributes
+> > > >   riscv: cmo: Add dma-noncoherency support
+> > > >   riscv: cmo: Add vendor custom icache sync
+> > > >   riscv: soc: Initial DTS for Allwinner D1 NeZha board
+> > > >   riscv: soc: Add Allwinner SoC kconfig option
+> > > >
+> > > > liush (1):
+> > > >   riscv: soc: Allwinner D1 GMAC driver only for temp use
+> > > >
+> > > >  arch/riscv/Kconfig                                 |    9 +
+> > > >  arch/riscv/Kconfig.socs                            |   12 +
+> > > >  arch/riscv/boot/dts/Makefile                       |    1 +
+> > > >  arch/riscv/boot/dts/allwinner/Makefile             |    2 +
+> > > >  .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  |   29 +
+> > > >  arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    |  100 +
+> > > >  arch/riscv/configs/defconfig                       |    1 +
+> > > >  arch/riscv/include/asm/cacheflush.h                |   48 +-
+> > > >  arch/riscv/include/asm/mmu_context.h               |    2 +
+> > > >  arch/riscv/include/asm/pgtable-64.h                |    8 +-
+> > > >  arch/riscv/include/asm/pgtable-bits.h              |   20 +-
+> > > >  arch/riscv/include/asm/pgtable.h                   |   44 +-
+> > > >  arch/riscv/include/asm/sbi.h                       |   15 +
+> > > >  arch/riscv/include/asm/soc.h                       |    1 +
+> > > >  arch/riscv/include/asm/tlbflush.h                  |   22 +
+> > > >  arch/riscv/include/asm/vendorid_list.h             |    1 +
+> > > >  arch/riscv/kernel/sbi.c                            |   19 +
+> > > >  arch/riscv/kernel/soc.c                            |   22 +
+> > > >  arch/riscv/kernel/vdso/flush_icache.S              |   33 +-
+> > > >  arch/riscv/mm/Makefile                             |    1 +
+> > > >  arch/riscv/mm/cacheflush.c                         |    3 +-
+> > > >  arch/riscv/mm/context.c                            |    2 +-
+> > > >  arch/riscv/mm/dma-mapping.c                        |   53 +
+> > > >  arch/riscv/mm/init.c                               |   26 +
+> > > >  arch/riscv/mm/tlbflush.c                           |   57 +-
+> > > >  drivers/net/ethernet/Kconfig                       |    1 +
+> > > >  drivers/net/ethernet/Makefile                      |    1 +
+> > > >  drivers/net/ethernet/allwinnertmp/Kconfig          |   17 +
+> > > >  drivers/net/ethernet/allwinnertmp/Makefile         |    7 +
+> > > >  drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c |  690 ++++++
+> > > >  drivers/net/ethernet/allwinnertmp/sunxi-gmac.c     | 2240
+> > > >
+> > > > ++++++++++++++++++++ drivers/net/ethernet/allwinnertmp/sunxi-gmac.h
+> > > > |
+> > > > 258 +++
+> > > >
+> > > >  drivers/net/phy/realtek.c                          |    2 +-
+> > > >  mm/mmap.c                                          |    4 +
+> > > >  34 files changed, 3714 insertions(+), 37 deletions(-)
+> > > >  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+> > > >  create mode 100644
+> > > >  arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> > > >
+> > > > create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> > > > create
+> > > > mode 100644 arch/riscv/mm/dma-mapping.c
+> > > >
+> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/Kconfig
+> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/Makefile
+> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac-op=
+s.c
+> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.c
+> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.h
+>
+>
+>
+>
 
-This commit makes sun8i-hdmi-phy into a proper platform device
-and fixes the display pipeline probe on sunxi boards that use HDMI.
 
-More context: https://lkml.org/lkml/2021/5/16/203
+--=20
+Best Regards
+ Guo Ren
 
-Signed-off-by: Saravana Kannan <saravanak@google.com>
-Signed-off-by: Ondrej Jirman <megous@megous.com>
----
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  4 +--
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  3 +-
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 42 +++++++++++++++++++++++---
- 3 files changed, 39 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index bbdfd5e26ec88..e892a05e69e9b 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -209,7 +209,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		goto err_disable_clk_tmds;
- 	}
- 
--	ret = sun8i_hdmi_phy_probe(hdmi, phy_node);
-+	ret = sun8i_hdmi_phy_get(hdmi, phy_node);
- 	of_node_put(phy_node);
- 	if (ret) {
- 		dev_err(dev, "Couldn't get the HDMI PHY\n");
-@@ -242,7 +242,6 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 
- cleanup_encoder:
- 	drm_encoder_cleanup(encoder);
--	sun8i_hdmi_phy_remove(hdmi);
- err_disable_clk_tmds:
- 	clk_disable_unprepare(hdmi->clk_tmds);
- err_assert_ctrl_reset:
-@@ -263,7 +262,6 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
- 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
- 
- 	dw_hdmi_unbind(hdmi->hdmi);
--	sun8i_hdmi_phy_remove(hdmi);
- 	clk_disable_unprepare(hdmi->clk_tmds);
- 	reset_control_assert(hdmi->rst_ctrl);
- 	gpiod_set_value(hdmi->ddc_en, 0);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index d4b55af0592f8..8a8adef48be0f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -201,8 +201,7 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
- 	return container_of(encoder, struct sun8i_dw_hdmi, encoder);
- }
- 
--int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
--void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi);
-+int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
- 
- void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index 9994edf675096..947b4231f6449 100644
---- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/delay.h>
- #include <linux/of_address.h>
-+#include <linux/of_platform.h>
- 
- #include "sun8i_dw_hdmi.h"
- 
-@@ -597,10 +598,30 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
- 	{ /* sentinel */ }
- };
- 
--int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
-+int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
-+{
-+	struct platform_device *pdev = of_find_device_by_node(node);
-+	struct sun8i_hdmi_phy *phy;
-+
-+	if (!pdev)
-+		return -EPROBE_DEFER;
-+
-+	phy = platform_get_drvdata(pdev);
-+	if (!phy)
-+		return -EPROBE_DEFER;
-+
-+	hdmi->phy = phy;
-+
-+	put_device(&pdev->dev);
-+
-+	return 0;
-+}
-+
-+int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- {
- 	const struct of_device_id *match;
--	struct device *dev = hdmi->dev;
-+	struct device *dev = &pdev->dev;
-+	struct device_node *node = dev->of_node;
- 	struct sun8i_hdmi_phy *phy;
- 	struct resource res;
- 	void __iomem *regs;
-@@ -704,7 +725,7 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 		clk_prepare_enable(phy->clk_phy);
- 	}
- 
--	hdmi->phy = phy;
-+	platform_set_drvdata(pdev, phy);
- 
- 	return 0;
- 
-@@ -728,9 +749,9 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
- 	return ret;
- }
- 
--void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
-+int sun8i_hdmi_phy_remove(struct platform_device *pdev)
- {
--	struct sun8i_hdmi_phy *phy = hdmi->phy;
-+	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
- 
- 	clk_disable_unprepare(phy->clk_mod);
- 	clk_disable_unprepare(phy->clk_bus);
-@@ -744,4 +765,15 @@ void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
- 	clk_put(phy->clk_pll1);
- 	clk_put(phy->clk_mod);
- 	clk_put(phy->clk_bus);
-+	return 0;
- }
-+
-+static struct platform_driver sun8i_hdmi_phy_driver = {
-+	.probe  = sun8i_hdmi_phy_probe,
-+	.remove = sun8i_hdmi_phy_remove,
-+	.driver = {
-+		.name = "sun8i-hdmi-phy",
-+		.of_match_table = sun8i_hdmi_phy_of_table,
-+	},
-+};
-+module_platform_driver(sun8i_hdmi_phy_driver);
--- 
-2.31.1
-
+ML: https://lore.kernel.org/linux-csky/
