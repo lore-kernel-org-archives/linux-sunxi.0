@@ -1,103 +1,98 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50BC970
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:32:55 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id l2so14655963wrw.6
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 09:32:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WY+YV1R5ZgejabQGRTVw30i8+uym8jnUtOXA94/K5lw=;
-        b=pDNjmTE9Fw2s8w/IYPMqwLkqVK0ZnfsZyN/vW6EZdkc8VQu8pqVkSoqHa/IFNWsah0
-         Xk9BMZau+4UajqSK3D6dGg9P2rhhLCOmi49Thovi1uREAelVPdWtwCJLxP5qfadEmcAk
-         b2BZ5h+5krfK1+iC/Y9oNZbhBtDU73wA3wE8xcB+jfluZLoEG4bVfDcWOvtrpwIwxMka
-         pGHdyi+gkGIxMEUcjdmpiHN9Kn+clhkiEW8J2p/XBP+PlgVLPT9ckvUgFsLnaQ/B+foi
-         RqwU+ggam2Xp/MYk7kvLqMZawzi/wp6yZ/Z9D12EerUa3MUOheTlO/q9Km5c7kScfYZ2
-         FZFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WY+YV1R5ZgejabQGRTVw30i8+uym8jnUtOXA94/K5lw=;
-        b=skxq6RKaOMnuedhl+zma8EcFydMFtDrnuw8OCt8fcxXCyT0xvKNZXSrXgPR/X+cgf6
-         eAHmXgBGRH2aMTXU5qJKnGV05WMwb4MDUJ0uxhpEEoDd9Rs04VEF2EeXlWMjFb2K5zP8
-         GsJW0brn7Xd99eWZQXxu0RpZsFa3P4I421C1eI2iNbiiSTEMx1FAWoc28lakmpvo/HlX
-         VSe95MWIZ9F7+b6rGlcSnicfl3WWn773QRGHzFVXpjLIjsqGuBbx0ERpPt/yzpadueqp
-         PkuFws/EB2rGx5Iz75Yss4UVacOvSQc+1RCGbexbOuTzggoiaxqQEdg+omHE802sEvrf
-         DcUQ==
-X-Gm-Message-State: AOAM53317WXpazO9au7gRK3/1KyA3xeO4um4OBw/tLmiw0HVjuEll6+D
-	oF/qTtE/X/xConRjXk5x90g=
-X-Google-Smtp-Source: ABdhPJx9EE3POJCPH3kxhrEgOKzF6jzZizEM4HKXVQ6BY0PswtcBRetUeMuVDjcmubaKep41FB6ang==
-X-Received: by 2002:adf:a28c:: with SMTP id s12mr13841510wra.105.1622997173876;
-        Sun, 06 Jun 2021 09:32:53 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-17-133.cable.triera.net. [86.58.17.133])
-        by smtp.gmail.com with ESMTPSA id w11sm13382470wrv.89.2021.06.06.09.32.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Jun 2021 09:32:53 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Guo Ren <guoren@kernel.org>, Arnd Bergmann <arnd@arndb.de>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>, Drew Fustini <drew@beagleboard.org>, liush@allwinnertech.com, lazyparser@gmail.com, wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <icenowy@aosc.io>, LABBE Corentin <clabbe.montjoie@gmail.com>, Michael Walle <michael@walle.cc>, Guo Ren <guoren@linux.alibaba.com>
-Subject: Re: [RFC PATCH v2 11/11] riscv: soc: Allwinner D1 GMAC driver only for temp use
-Date: Sun, 06 Jun 2021 18:32:51 +0200
-Message-ID: <811499816.OAcyhOWOk8@jernej-laptop>
-In-Reply-To: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org> <1622970249-50770-15-git-send-email-guoren@kernel.org> <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E93870
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:53:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id EF9726143C
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 16:53:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1622998395;
+	bh=ppjcq7VkjHh/NHO3vr18zVl9plR0YmQ9qVLmLi4Sae4=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SsgkBUl/7i3Itnk/2lYHQ6qkHBIdtlMQ97FPgEBiUoYr0MUafs8RAXPe8DUUEV4C5
+	 PIl2u36DcrOQBEFleqsoKaFavfm5qYyLz1lbACW2HBT+0wvNcpNQQ27+u/mnKFsL7u
+	 zBdq/+HM56zeXzA0tboM0KZIhTKM2NXI9mNHOlpZ721+WMQbhEFjIxYKB902yIk/9w
+	 vVj+h38nXxR7Seg+1Od61P85ynXtpmSDkinV+ns4ZJZvk0HAf+FZP1wDwbe0kvYUXh
+	 S9W7d+19pEUgxrFLXmnPLv3cY/5QXpqhhFRRW3EBxSrGVTBeo42WR/nGAwJ+P2NBQ8
+	 twVTKW8NwZzcQ==
+Received: by mail-lj1-f177.google.com with SMTP id bn21so18671086ljb.1
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 09:53:14 -0700 (PDT)
+X-Gm-Message-State: AOAM530LD3u0cUivDo8+KmIwzFIa8gzKjeW1knhnjmWuWKo1RfGZ32Y6
+	URNJOmoAdXsYXMkTlJgPO7ZoRfs6KzpTOMFTyU4=
+X-Google-Smtp-Source: ABdhPJy9NxOQCV1ZlTuxLXychZNM2kX2ZVKFBTMqs91GG1T/HBvezNA7d5kTjc5TxQ1zjFWPC1Y5PAOynB67SzT8zZA=
+X-Received: by 2002:a2e:320f:: with SMTP id y15mr11478502ljy.498.1622998392940;
+ Sun, 06 Jun 2021 09:53:12 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
+ <1622970249-50770-15-git-send-email-guoren@kernel.org> <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
+In-Reply-To: <CAK8P3a0yHEGH8=o_TQ+ajRn53j+mHxYxqyYLPXnUe=YWkTHDBw@mail.gmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 7 Jun 2021 00:53:01 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTT-nBuOybOq3qsBhP7nJOexG36D=GMJaut1qqcm3p1Uuw@mail.gmail.com>
+Message-ID: <CAJF2gTT-nBuOybOq3qsBhP7nJOexG36D=GMJaut1qqcm3p1Uuw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 11/11] riscv: soc: Allwinner D1 GMAC driver only
+ for temp use
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>, Drew Fustini <drew@beagleboard.org>, 
+	liush@allwinnertech.com, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
+	wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, 
+	Corentin Labbe <clabbe@baylibre.com>, Samuel Holland <samuel@sholland.org>, 
+	Icenowy Zheng <icenowy@aosc.io>, LABBE Corentin <clabbe.montjoie@gmail.com>, 
+	Michael Walle <michael@walle.cc>, Guo Ren <guoren@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Dne nedelja, 06. junij 2021 ob 18:16:44 CEST je Arnd Bergmann napisal(a):
+Sorry, wast your time reviewing the patch. It's not ready to merge,
+just for the test.
+
+On Mon, Jun 7, 2021 at 12:19 AM Arnd Bergmann <arnd@arndb.de> wrote:
+>
 > On Sun, Jun 6, 2021 at 11:04 AM <guoren@kernel.org> wrote:
-> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
-> > b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts index
-> > cd9f7c9..31b681d 100644
+>
+> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts b=
+/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> > index cd9f7c9..31b681d 100644
 > > --- a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
 > > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
 > > @@ -11,7 +11,7 @@
-> >=20
 > >         compatible =3D "allwinner,d1-nezha-kit";
-> >        =20
+> >
 > >         chosen {
-> >=20
 > > -               bootargs =3D "console=3DttyS0,115200";
 > > +               bootargs =3D "console=3DttyS0,115200 rootwait init=3D/s=
-bin/init
-> > root=3D/dev/nfs rw nfsroot=3D192.168.101.200:/tmp/rootfs_nfs,v3,tcp,nol=
-ock
-> > ip=3D192.168.101.23";
-> These are not board specific options, they should be set by the bootloader
+bin/init root=3D/dev/nfs rw nfsroot=3D192.168.101.200:/tmp/rootfs_nfs,v3,tc=
+p,nolock ip=3D192.168.101.23";
+>
+> These are not board specific options, they should be set by the bootloade=
+r
 > according to the network environment. It clearly doens't belong
 > into this patch .
->=20
+>
 > >                 stdout-path =3D &serial0;
-> >        =20
 > >         };
-> >=20
-> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
-> > b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi index 11cd938..d317e19
-> > 100644
+> >
+> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi b/arch/ris=
+cv/boot/dts/allwinner/allwinner-d1.dtsi
+> > index 11cd938..d317e19 100644
 > > --- a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
 > > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
 > > @@ -80,5 +80,21 @@
-> >=20
 > >                         clocks =3D <&dummy_apb>;
 > >                         status =3D "disabled";
-> >                =20
 > >                 };
-> >=20
 > > +
 > > +               eth@4500000 {
 > > +                       compatible =3D "allwinner,sunxi-gmac";
 > > +                       reg =3D <0x00 0x4500000 0x00 0x10000 0x00 0x300=
-0030
-> > 0x00 0x04>; +                       interrupts-extended =3D <&plic 0x3e
-> > 0x04>;
+0030 0x00 0x04>;
+> > +                       interrupts-extended =3D <&plic 0x3e 0x04>;
 > > +                       interrupt-names =3D "gmacirq";
 > > +                       device_type =3D "gmac0";
 > > +                       phy-mode =3D "rgmii";
@@ -109,45 +104,44 @@ ock
 > > +                       gmac-power2;
 > > +                       status =3D "okay";
 > > +               };
->=20
+>
 > Before you add this in the dts file, the properties need to be documented=
  in
-> the binding file. The "allwinner,sunxi-gmac" identifier does not appear to
+> the binding file. The "allwinner,sunxi-gmac" identifier does not appear t=
+o
 > be specific enough here, and the properties don't match what dwmac uses,
-> which would make it unnecessarily hard to change to the other driver later
-> on without breaking compatibility to old dtb files.
->=20
+> which would make it unnecessarily hard to change to the other driver
+> later on without breaking compatibility to old dtb files.
+>
 > > +++ b/drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c
 > > @@ -0,0 +1,690 @@
 > > +/*
 > > + * linux/drivers/net/ethernet/allwinner/sunxi_gmac_ops.c
 > > + *
-> > + * Copyright =A9 2016-2018, fuzhaoke
+> > + * Copyright =C2=A9 2016-2018, fuzhaoke
 > > + *             Author: fuzhaoke <fuzhaoke@allwinnertech.com>
 > > + *
 > > + * This file is provided under a dual BSD/GPL license.  When using or
 > > + * redistributing this file, you may do so under either license.
->=20
+>
 > Are you sure this is the correct copyright information and "fuzhaoke" is
 > the copyright holder for this file? If this is derived from either the
 > designware
 > code or the Linux stmmac driver, the authors should be mentioned,
 > and the license be compatible with the original license terms.
->=20
-> Andre already commented on the driver quality and code duplication, those
-> are also show-stoppers, but the unclear license terms and dt binding
-> compatibility are even stronger reasons to not get anywhere close to this
-> driver.
-
-I got impression that this patch is not meant to be merged and it's forward=
-=20
-ported from vendor kernel as a stop gap measure for developers until proper=
-=20
-mainline ethernet driver is developed.
-
-Best regards,
-Jernej
+>
+> Andre already commented on the driver quality and code duplication, those=
+ are
+> also show-stoppers, but the unclear license terms and dt binding compatib=
+ility
+> are even stronger reasons to not get anywhere close to this driver.
+>
+>         Arnd
 
 
 
+--=20
+Best Regards
+ Guo Ren
 
+ML: https://lore.kernel.org/linux-csky/
