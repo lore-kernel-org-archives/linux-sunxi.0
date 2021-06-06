@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0FC70
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 09:05:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 27FC161422;
-	Sun,  6 Jun 2021 09:05:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A105970
+	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 09:05:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 86D556142A;
+	Sun,  6 Jun 2021 09:05:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1622970310;
-	bh=h/LBInXkQe0GJZ3kZE09CPKLl4b0IH8I2tgS72te2ac=;
+	s=k20201202; t=1622970313;
+	bh=HrYp+e9JctxAgwPjSkrzh4E2OYtyKSesSsTWLcQlUec=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nw3bi6O1YUkjFoStLBd/sCGsQ+7DmGSy3NGq4OnbWz8EfQ0cTqINdTFjr7fJ+97vA
-	 a+qOd4+5rplRQCcmZDC9xyL2V74/JcafjYem/wagdw4DOg47DeaQq5QFChQ5Y3mkJe
-	 C4mc3hxfQv8FBkW3kDRMYkDWl/fFY5wPwBtvtTbGDwNUyrDw604ZrTwL5R2saItW9c
-	 U8LK79TT5d/eqaCHSr1Tatwn3+xCPZU4Z1lOjSErCzCfTcRlhnICVcHFLdfRpUmGmK
-	 geFniODu8eEOPJr2YWHcoW24iCXWMLBAARDRwOejqlL5+9mmnxUd2HsGokLN3accim
-	 vORfAEFjZLjKg==
+	b=R0fcggRaGTAQupIinSlV2nu4ZC8YFsp+j7cHs56LNYSGAur3rs+E6DCtnm/2ht9Ke
+	 wbktyDaPpDS3Ts3WI0EaCTRsK8zXLrnBOd25l6lEavtr/KmQ2rMKshVCVjPTKSIbiZ
+	 RwG0bxIJxZNGWlzjmTzjo46DlEq0b04D3N8xI37AYv+HBowVNSY/t8N9raS3FIoI/U
+	 DKW3xPHR33w3aPye1v4Whutki0SizCed56EYV21znb32IQUtrywEezzVdd9TJDfFeY
+	 9TSQAbxjY+pqqPnZE9+fH8uf3LakhYGsezhKeR31fs6AKOCGW+rZmxzaXOn+M8vowQ
+	 B1Z3YdB1DcuWQ==
 From: guoren@kernel.org
 To: guoren@kernel.org,
 	anup.patel@wdc.com,
@@ -32,9 +32,9 @@ Cc: linux-riscv@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	Guo Ren <guoren@linux.alibaba.com>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH V5 2/3] riscv: Add ASID-based tlbflushing methods
-Date: Sun,  6 Jun 2021 09:03:58 +0000
-Message-Id: <1622970249-50770-4-git-send-email-guoren@kernel.org>
+Subject: [RFC PATCH v2 02/11] riscv: asid: Add ASID-based tlbflushing methods
+Date: Sun,  6 Jun 2021 09:03:59 +0000
+Message-Id: <1622970249-50770-5-git-send-email-guoren@kernel.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1622970249-50770-1-git-send-email-guoren@kernel.org>
 References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
@@ -50,9 +50,15 @@ using ASIDs. These are behind the use_asid_allocator static branch to
 not affect existing systems not using ASIDs.
 
 Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
 Reviewed-by: Anup Patel <anup.patel@wdc.com>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>
 Cc: Christoph Hellwig <hch@lst.de>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Drew Fustini <drew@beagleboard.org>
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+Cc: Wei Fu <wefu@redhat.com>
+Cc: Wei Wu <lazyparser@gmail.com>
 ---
  arch/riscv/include/asm/mmu_context.h |  2 ++
  arch/riscv/include/asm/tlbflush.h    | 22 +++++++++++++++++
