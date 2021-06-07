@@ -1,104 +1,208 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68D170
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:36 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lqABr-0000dm-Bv; Mon, 07 Jun 2021 10:00:55 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1lqABn-00033K-TW; Mon, 07 Jun 2021 10:00:51 +0200
-Date: Mon, 7 Jun 2021 10:00:51 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Roman Beranek <roman.beranek@prusa3d.cz>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Emil Lenngren <emil.lenngren@gmail.com>,
-	Pascal Roeleven <dev@pascalroeleven.nl>,
-	Lee Jones <lee.jones@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 1/6] pwm: sun4i: enable clk prior to getting its rate
-Message-ID: <20210607080051.anzdfywvbpu52e2f@pengutronix.de>
-References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
- <20210531044608.1006024-2-roman.beranek@prusa3d.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587C470
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 11A106127C
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1623053273;
+	bh=gwgVr5c272t593y2hbVai/Z8i5e3WgEC6rqKmwLt5gk=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=D0VrrAd7gklOYFaN6ChWZc+RdjynB0Rc8D9ObxZinZUTZBbrcEhGH45cDmKBICGaO
+	 khCAsJvQdBK1GuWzfUrSLVeq3ixE2b15olqjfZeKa0h1SVlLrmXmedGby2wXicL9wq
+	 DHEI9daq2vYmTchuwi7wT5nT3iNW2MJ9+eGiAX94GnypYQFuqs4PYqjy75Tc0SeTuq
+	 Z7Cn4b+p2VxipC00KmOK+f4syk5YbpZPZyJicJ7Sk+OekbIfmBo5oKzUtjsjKx0E8t
+	 JMYXkKTtdKVb66HJrdQWMUqjSkKHwMY/mEfkDJKjsfaparAgk8x5jbXVS2+Si1/QDu
+	 smgygylAryUJA==
+Received: by mail-lj1-f170.google.com with SMTP id r14so1794703ljd.10
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 01:07:52 -0700 (PDT)
+X-Gm-Message-State: AOAM531ldiDZ/xrHva4+lfgtwMKMQcNa6OfzsXCBGUfm0h+JGipZHaZ5
+	wKOvdR3uxQNVs9MXDF2iZMFwyYLRPWuABZ2+22Q=
+X-Google-Smtp-Source: ABdhPJxQwxzldkvMT2Zq76A9rwF/pw+Z7buOBHq1OvQ06vSkOjbCmmydHefXi5GC0MUf1nYm1BsIrpmiOK3ACBaRfKw=
+X-Received: by 2002:a2e:8e90:: with SMTP id z16mr13480638ljk.508.1623053271241;
+ Mon, 07 Jun 2021 01:07:51 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fgvzcr2xl7qwtzjm"
-Content-Disposition: inline
-In-Reply-To: <20210531044608.1006024-2-roman.beranek@prusa3d.com>
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
+ <1622970249-50770-13-git-send-email-guoren@kernel.org> <20210607072434.3g3bqxdlpxjirg6k@gilmour>
+In-Reply-To: <20210607072434.3g3bqxdlpxjirg6k@gilmour>
+From: Guo Ren <guoren@kernel.org>
+Date: Mon, 7 Jun 2021 16:07:37 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTStppyEoLD-ZToeHYdnzNoFhH2+3Lhd76=M8OFKS=Syow@mail.gmail.com>
+Message-ID: <CAJF2gTStppyEoLD-ZToeHYdnzNoFhH2+3Lhd76=M8OFKS=Syow@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 09/11] riscv: soc: Initial DTS for Allwinner D1
+ NeZha board
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Drew Fustini <drew@beagleboard.org>, 
+	liush@allwinnertech.com, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
+	wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
+	Atish Patra <atish.patra@wdc.com>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+
+On Mon, Jun 7, 2021 at 3:24 PM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi,
+>
+> Thanks for the patches
+>
+> On Sun, Jun 06, 2021 at 09:04:07AM +0000, guoren@kernel.org wrote:
+> > From: Guo Ren <guoren@linux.alibaba.com>
+> >
+> > Add initial DTS for Allwinner D1 NeZha board having only essential
+> > devices (uart, dummy, clock, reset, clint, plic, etc).
+> >
+> > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > Co-Developed-by: Liu Shaohua <liush@allwinnertech.com>
+> > Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
+> > Cc: Anup Patel <anup.patel@wdc.com>
+> > Cc: Atish Patra <atish.patra@wdc.com>
+> > Cc: Christoph Hellwig <hch@lst.de>
+> > Cc: Chen-Yu Tsai <wens@csie.org>
+> > Cc: Drew Fustini <drew@beagleboard.org>
+> > Cc: Maxime Ripard <maxime@cerno.tech>
+> > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+> > Cc: Wei Fu <wefu@redhat.com>
+> > Cc: Wei Wu <lazyparser@gmail.com>
+> > ---
+> >  arch/riscv/boot/dts/Makefile                       |  1 +
+> >  arch/riscv/boot/dts/allwinner/Makefile             |  2 +
+> >  .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  | 29 ++++++++
+> >  arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    | 84 ++++++++++++++++++++++
+>
+> Can you add the riscv folder to our MAINTAINERS entry as well?
+Yes
+
+>
+> >  4 files changed, 116 insertions(+)
+> >  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
+> >  create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> >  create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> >
+> > diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Makefile
+> > index fe996b8..3e7b264 100644
+> > --- a/arch/riscv/boot/dts/Makefile
+> > +++ b/arch/riscv/boot/dts/Makefile
+> > @@ -2,5 +2,6 @@
+> >  subdir-y += sifive
+> >  subdir-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) += canaan
+> >  subdir-y += microchip
+> > +subdir-y += allwinner
+>
+> I assume they should be ordered alphabetically?
+Thx for pointing it out.
+
+>
+> >  obj-$(CONFIG_BUILTIN_DTB) := $(addsuffix /, $(subdir-y))
+> > diff --git a/arch/riscv/boot/dts/allwinner/Makefile b/arch/riscv/boot/dts/allwinner/Makefile
+> > new file mode 100644
+> > index 00000000..4adbf4b
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/allwinner/Makefile
+> > @@ -0,0 +1,2 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +dtb-$(CONFIG_SOC_SUNXI) += allwinner-d1-nezha-kit.dtb
+> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> > new file mode 100644
+> > index 00000000..cd9f7c9
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
+> > @@ -0,0 +1,29 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "allwinner-d1.dtsi"
+> > +
+> > +/ {
+> > +     #address-cells = <2>;
+> > +     #size-cells = <2>;
+> > +     model = "Allwinner D1 NeZha Kit";
+> > +     compatible = "allwinner,d1-nezha-kit";
+> > +
+> > +     chosen {
+> > +             bootargs = "console=ttyS0,115200";
+> > +             stdout-path = &serial0;
+> > +     };
+> > +
+> > +     memory@40000000 {
+> > +             device_type = "memory";
+> > +             reg = <0x0 0x40000000 0x0 0x20000000>;
+> > +     };
+> > +
+> > +     soc {
+> > +     };
+> > +};
+> > +
+> > +&serial0 {
+> > +     status = "okay";
+> > +};
+> > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> > new file mode 100644
+> > index 00000000..11cd938
+> > --- /dev/null
+> > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
+> > @@ -0,0 +1,84 @@
+> > +// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+> > +
+> > +/dts-v1/;
+> > +
+> > +/ {
+> > +     #address-cells = <2>;
+> > +     #size-cells = <2>;
+> > +     model = "Allwinner D1 Soc";
+> > +     compatible = "allwinner,d1-nezha-kit";
+> > +
+> > +     chosen {
+> > +     };
+> > +
+> > +     cpus {
+> > +             #address-cells = <1>;
+> > +             #size-cells = <0>;
+> > +             timebase-frequency = <2400000>;
+> > +             cpu@0 {
+> > +                     device_type = "cpu";
+> > +                     reg = <0>;
+> > +                     status = "okay";
+> > +                     compatible = "riscv";
+> > +                     riscv,isa = "rv64imafdcv";
+> > +                     mmu-type = "riscv,sv39";
+> > +                     cpu0_intc: interrupt-controller {
+> > +                             #interrupt-cells = <1>;
+> > +                             compatible = "riscv,cpu-intc";
+> > +                             interrupt-controller;
+> > +                     };
+> > +             };
+> > +     };
+> > +
+> > +     soc {
+> > +             #address-cells = <2>;
+> > +             #size-cells = <2>;
+> > +             compatible = "simple-bus";
+> > +             ranges;
+> > +
+> > +             reset: reset-sample {
+> > +                     compatible = "thead,reset-sample";
+> > +                     plic-delegate = <0x0 0x101ffffc>;
+> > +             };
+>
+> This compatible is not documented anywhere?
+It used by opensbi (riscv runtime firmware), not in Linux. But I think
+we should keep it.
+
+>
+> Maxime
 
 
---fgvzcr2xl7qwtzjm
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 31, 2021 at 06:46:03AM +0200, Roman Beranek wrote:
-> Ensure the PWM clock is enabled prior to retrieving its rate, as is
-> already being done in sun4i_pwm_apply.
->=20
-> Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
-> ---
->  drivers/pwm/pwm-sun4i.c | 7 +++++++
->  1 file changed, 7 insertions(+)
->=20
-> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-> index e01becd102c0..3721b9894cf6 100644
-> --- a/drivers/pwm/pwm-sun4i.c
-> +++ b/drivers/pwm/pwm-sun4i.c
-> @@ -117,8 +117,15 @@ static void sun4i_pwm_get_state(struct pwm_chip *chi=
-p,
->  	u64 clk_rate, tmp;
->  	u32 val;
->  	unsigned int prescaler;
-> +	int ret;
-> =20
-> +	ret =3D clk_prepare_enable(sun4i_pwm->clk);
-> +	if (ret) {
-> +		dev_err(chip->dev, "failed to enable PWM clock\n");
-> +		return;
-> +	}
->  	clk_rate =3D clk_get_rate(sun4i_pwm->clk);
-> +	clk_disable_unprepare(sun4i_pwm->clk);
-> =20
->  	val =3D sun4i_pwm_readl(sun4i_pwm, PWM_CTRL_REG);
+-- 
+Best Regards
+ Guo Ren
 
-If the clock is off, does the PWM actually run? Assuming it doesn't the
-right thing to do is to ensure the clock is enabled in .probe iff the
-PWM is enabled.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---fgvzcr2xl7qwtzjm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC90jAACgkQwfwUeK3K
-7AkTwQf/QHr6m8fTM/0AQ1Q9o6vzNcycIEHwD35swSOiuUM/FJD3zDMwbuaN5P8m
-5+Huh5ZopP6VYTl4oRqlb41J2UUzGXVhGRu8XL07fHpps6TYZzxcuPk/oc2nnEfW
-J+uEedwhAx/OrvWmZXxGx+0on1HpgBqY7SeGFkr/rB4Dm1uF1Wn+QDgM1J4QOiXt
-OmjuMKQItgz7FirKHYyUFqjZ/8v1rseUfl5GjAQlgBQUjAlnxJbL1ZP7EnfGdmdG
-5uaggsyAxgmwmEM/tigKDZjTswTKdXYjPthx6zk3MirPSb/EWxfyBGIG1Rd5pym4
-faMhKKyIIwRhVAiq80W2occrz6IGGA==
-=tXV6
------END PGP SIGNATURE-----
-
---fgvzcr2xl7qwtzjm--
+ML: https://lore.kernel.org/linux-csky/
