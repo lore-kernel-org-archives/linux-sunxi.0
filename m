@@ -1,255 +1,113 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F17170
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 23:42:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5474661436
-	for <linux-sunxi@lists.linux.dev>; Sun,  6 Jun 2021 23:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F6270
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 00:04:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2BB356142C
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 00:04:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623022952;
-	bh=i1uufPaK1BX0kA3BJtIl9yPmxo9PBjDZ/jrFo/GJyw8=;
+	s=k20201202; t=1623024293;
+	bh=atz/fcsESOx4m+4QdyLdkqW2IvLkfkghNsC8hMHMoCA=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jsw4onpLJwXT0KXYZXGW3YB6Vg+YSGoAwX3d3Xu76JlRgZfEKVwoILi+DdrFtRYBb
-	 vIKbV/NdZNA6kKUMDuAzfn1MZHy7FmY2ot2jaPegpbhRUHQ7Q+IDG2V3ZPkxqOeVq9
-	 1L3UOEhgcmCrjRlowgv5cmReuegRhUCTUm9MDdCLtyQ3jOSL1XJZYnsSgM9tW8JHW0
-	 KvWTo9msYTczNFXE7VfTjH2sRlA0ACJK0yvjwx6etF4mZSlDAikgdajrUIBjkabbnB
-	 bORdrWh+x75U7XaetDbeqJAQGmwDo/lnXzfLVxlv0xVnLbs9tvCAqr498DOgujIRrh
-	 yMBAoTu3oGayA==
-Received: by mail-lf1-f48.google.com with SMTP id a1so13455137lfr.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 16:42:32 -0700 (PDT)
-X-Gm-Message-State: AOAM530/y0PchTKcs/PqOzRlwfnrTpAIhWcAy6+pLKbXR173PvdCbVp8
-	ouZVxUf97ObisaCfp5YoE+/dFPgmjdmS9s45XPc=
-X-Google-Smtp-Source: ABdhPJxvaxaFPrOwibMix35n1vL49cBzDLaWpXGSU6SIqkBBYbk+4WNMVtzOwyH2GWUvesqmouHHyNYsGl2aXhqhLJ8=
-X-Received: by 2002:a05:6512:987:: with SMTP id w7mr9954573lft.41.1623022950504;
- Sun, 06 Jun 2021 16:42:30 -0700 (PDT)
+	b=KurZTjpisOGAbiz8svMmX6uc4+SaRSwiEJJH43yI/4co87lGcqFgAAS4k6LCPkroD
+	 lHv1jHyzy7HV08taRk5MiYDAW/mWOr34psAtqjYh53vwxwdXV7PGnZw2mkkizTbvst
+	 fPOaZgRm/0/tRQcego1vRCK0JWhYbMd0L2sqlr5iKhZbYEKQwbxE0dWlLA8Qo1bOL4
+	 Rni2BcHIbw53+0fLUm2WOqAFJO8ZqlVVbATNhg+e4pq8fOxApd7kzKAQbaOJ4A06mW
+	 iSOqOvVTZVOZE1hVm0gdM6256I/ydU8WXp8Txm6QT0h/6BvgKZeAVsiX7OMZ/Cr3mb
+	 Xhs8u93K9lyLw==
+Received: by mail-lf1-f43.google.com with SMTP id w33so23235856lfu.7
+        for <linux-sunxi@lists.linux.dev>; Sun, 06 Jun 2021 17:04:53 -0700 (PDT)
+X-Gm-Message-State: AOAM5326MURP2shc811LYrAHEb8Por3Xrhpw37tJAUGLMngCrM9OPVVt
+	8HG70Lhv95RNbxWcxGnPygI6mdNIaNKcuWvTcCo=
+X-Google-Smtp-Source: ABdhPJwuQllzav+cgeOOUIngf06MsoU9QTjK26Dvhvo+prT7F1wWL0rZ9xfVmzD2sZ6rrVJ00qzd3egZjVUgtaov0Vw=
+X-Received: by 2002:a05:6512:218d:: with SMTP id b13mr10221837lft.346.1623024291473;
+ Sun, 06 Jun 2021 17:04:51 -0700 (PDT)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
- <3110420.cQCZQDpDj9@jernej-laptop> <CAJF2gTQ1yvSNthJ2yJkqaYGaJ6OYmf0vbG=hm4ocgnw4DiZbOw@mail.gmail.com>
- <1664140.l4xsYfQU8q@jernej-laptop>
-In-Reply-To: <1664140.l4xsYfQU8q@jernej-laptop>
+References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
+ <20210519052048.GA24853@lst.de> <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com>
+ <20210519064435.GA3076809@x1> <20210519065352.GA31590@lst.de>
+ <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com> <29733b0931d9dd6a2f0b6919067c7efe@mailhost.ics.forth.gr>
+In-Reply-To: <29733b0931d9dd6a2f0b6919067c7efe@mailhost.ics.forth.gr>
 From: Guo Ren <guoren@kernel.org>
-Date: Mon, 7 Jun 2021 07:42:18 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR6zV8GuftZ1M69Ma2rxy31KvMBVjyB8G40JnyY4D+0Gw@mail.gmail.com>
-Message-ID: <CAJF2gTR6zV8GuftZ1M69Ma2rxy31KvMBVjyB8G40JnyY4D+0Gw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 00/11] riscv: Add DMA_COHERENT support for
- Allwinner D1
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, wens@csie.org, maxime@cerno.tech, 
-	Drew Fustini <drew@beagleboard.org>, liush@allwinnertech.com, 
-	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, wefu@redhat.com, 
+Date: Mon, 7 Jun 2021 08:04:40 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTTpSbNWS4VLHAu4XsV5-Vos=6R9MmPOx8-yzMFJu=wX4A@mail.gmail.com>
+Message-ID: <CAJF2gTTpSbNWS4VLHAu4XsV5-Vos=6R9MmPOx8-yzMFJu=wX4A@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+To: Nick Kossifidis <mick@ics.forth.gr>
+Cc: Christoph Hellwig <hch@lst.de>, Drew Fustini <drew@beagleboard.org>, Anup Patel <anup.patel@wdc.com>, 
+	Palmer Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com, 
+	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
 	linux-riscv <linux-riscv@lists.infradead.org>, 
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Benjamin Koch <snowball@c3pb.de>, 
+	Matteo Croce <mcroce@linux.microsoft.com>, Wei Fu <tekkamanninja@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 7, 2021 at 1:14 AM Jernej =C5=A0krabec <jernej.skrabec@gmail.co=
-m> wrote:
+On Mon, Jun 7, 2021 at 2:14 AM Nick Kossifidis <mick@ics.forth.gr> wrote:
 >
-> Dne nedelja, 06. junij 2021 ob 18:54:05 CEST je Guo Ren napisal(a):
-> > V5 is not related to the patch series.
->
-> Don't top post.
->
-> If that's the case, then your e-mail client messed things up. I got V5 pa=
-tches
-> in the same thread as board enablement patches and so did mailing list [1=
-].
-I made mistake that make two patchset mixed in my linux directory.
-
-git format-patch -11
-git send-email *.patch
-
-But there are still some last posted patches in *.patch.
-
-I'll prevent it in the next patchset version.
-
->
-> Best regards,
-> Jernej
->
-> [1] https://lore.kernel.org/linux-sunxi/
-> CAJF2gTQ1yvSNthJ2yJkqaYGaJ6OYmf0vbG=3Dhm4ocgnw4DiZbOw@mail.gmail.com/T/#t
->
+> =CE=A3=CF=84=CE=B9=CF=82 2021-05-20 04:45, Guo Ren =CE=AD=CE=B3=CF=81=CE=
+=B1=CF=88=CE=B5:
+> > On Wed, May 19, 2021 at 2:53 PM Christoph Hellwig <hch@lst.de> wrote:
+> >>
+> >> On Tue, May 18, 2021 at 11:44:35PM -0700, Drew Fustini wrote:
+> >> > This patch series looks like it might be useful for the StarFive JH7=
+100
+> >> > [1] [2] too as it has peripherals on a non-coherent interconnect. GM=
+AC,
+> >> > USB and SDIO require that the L2 cache must be manually flushed afte=
+r
+> >> > DMA operations if the data is intended to be shared with U74 cores [=
+2].
+> >>
+> >> Not too much, given that the SiFive lineage CPUs have an uncached
+> >> window, that is a totally different way to allocate uncached memory.
+> > It's a very big MIPS smell. What's the attribute of the uncached
+> > window? (uncached + strong-order/ uncached + weak, most vendors still
+> > use AXI interconnect, how to deal with a bufferable attribute?) In
+> > fact, customers' drivers use different ways to deal with DMA memory in
+> > non-coherent SOC. Most riscv SOC vendors are from ARM, so giving them
+> > the same way in DMA memory is a smart choice. So using PTE attributes
+> > is more suitable.
 > >
-> > On Mon, Jun 7, 2021 at 12:29 AM Jernej =C5=A0krabec <jernej.skrabec@gma=
-il.com>
-> wrote:
-> > > Hi!
-> > >
-> > > Dne nedelja, 06. junij 2021 ob 11:03:55 CEST je guoren@kernel.org
-> napisal(a):
-> > > > From: Guo Ren <guoren@linux.alibaba.com>
-> > > >
-> > > > The RISC-V ISA doesn't yet specify how to query or modify PMAs, so =
-let
-> > > > vendors define the custom properties of memory regions in PTE.
-> > > >
-> > > > This patchset helps SOC vendors to support their own custom interco=
-nnect
-> > > > coherent solution with PTE attributes.
-> > > >
-> > > > For example, allwinner D1[1] uses T-HEAD C906 as main processor, C9=
-06
-> > > > has
-> > > >
-> > > > two modes in MMU:
-> > > >  - Compatible mode, the same as the definitions in spec.
-> > > >  - Enhanced mode, add custom DMA_COHERENT attribute bits in PTE whi=
-ch
-> > > >
-> > > >    not mentioned in spec.
-> > > >
-> > > > Allwinner D1 needs the enhanced mode to support the DMA type device=
- with
-> > > > non-coherent interconnect in its SOC. C906 uses BITS(63 - 59) as cu=
-stom
-> > > > attribute bits in PTE.
-> > > >
-> > > > The patchset contain 4 parts (asid, pgtable, cmo, soc) which have b=
-een
-> > > >
-> > > > tested on D1:
-> > > >  - asid: T-HEAD C906 of D1 contains full asid hw facilities which h=
-as no
-> > > >
-> > > >    conflict with RISC-V spec, and hope these patches soon could be
-> > > >    approved.
-> > > >
-> > > >  - pgtable: Using a image-hdr to pass vendor specific information a=
-nd
-> > > >
-> > > >    setup custom PTE attributes in a global struct variable during b=
-oot
-> > > >    stage. Also it needs define custom protection_map in linux/mm.
-> > > >
-> > > >  - cmo: We need deal with dma_sync & icache_sync & __vdso_icache_sy=
-nc.
-> > > >
-> > > >    In this patchset, I just show you how T-HEAD C9xx work, and seem=
-s
-> > > >    Atish
-> > > >    is working for the DMA infrustructure, please let me know the id=
-ea.
-> > > >
-> > > >  - soc: Add allwinner gmac driver & dts & Kconfig for sunxi test.
-> > > >
-> > > > The patchset could work with linux-5.13-rc4, here is the steps for =
-D1:
-> > > >  - Download linux-5.13-rc4 and apply the patchset
-> > > >  - make ARCH=3Driscv CROSS_COMPILE=3Driscv64-linux- defconfig
-> > > >  - make ARCH=3Driscv CROSS_COMPILE=3Driscv64-linux- Image modules d=
-tbs
-> > > >  - mkimage -A riscv -O linux -T kernel -C none -a 0x00200000 -e
-> > > >  0x00200000
-> > > >
-> > > > -n Linux -d arch/riscv/boot/Image uImage - Download newest opensbi =
-[2],
-> > > > build with [3], and get fw_dynamic.bin - Copy uImage, fw_dynamic.bi=
-n,
-> > > > allwinner-d1-nezha-kit.dtb into boot partition of TF card.
-> > > >
-> > > >  - Plugin the TF card and power on D1.
-> > > >
-> > > > Link: https://linux-sunxi.org/D1 [1]
-> > > > Link: https://github.com/riscv/opensbi branch:master [2]
-> > > > Link:
-> > > > https://github.com/riscv/opensbi/blob/master/docs/platform/thead-c9=
-xx.md
-> > > > [3]
-> > >
-> > > Some patches are marked with v2 and some V5. It's very confusing. Mar=
-k
-> > > them
-> > > with same version in next revision.
-> > >
-> > > Best regards,
-> > > Jernej
-> > >
-> > > > Changes since v1:
-> > > >  - Rebase on linux-5.13-rc4
-> > > >  - Support defconfig for different PTE attributes
-> > > >  - Support C906 icache_sync
-> > > >  - Add Allwinner D1 dts & Kconfig & gmac for testing
-> > > >  - Add asid optimization for D1 usage
-> > > >
-> > > > Guo Ren (10):
-> > > >   riscv: asid: Use global mappings for kernel pages
-> > > >   riscv: asid: Add ASID-based tlbflushing methods
-> > > >   riscv: asid: Optimize tlbflush coding convention
-> > > >   riscv: pgtable: Fixup _PAGE_CHG_MASK usage
-> > > >   riscv: pgtable: Add custom protection_map init
-> > > >   riscv: pgtable: Add DMA_COHERENT with custom PTE attributes
-> > > >   riscv: cmo: Add dma-noncoherency support
-> > > >   riscv: cmo: Add vendor custom icache sync
-> > > >   riscv: soc: Initial DTS for Allwinner D1 NeZha board
-> > > >   riscv: soc: Add Allwinner SoC kconfig option
-> > > >
-> > > > liush (1):
-> > > >   riscv: soc: Allwinner D1 GMAC driver only for temp use
-> > > >
-> > > >  arch/riscv/Kconfig                                 |    9 +
-> > > >  arch/riscv/Kconfig.socs                            |   12 +
-> > > >  arch/riscv/boot/dts/Makefile                       |    1 +
-> > > >  arch/riscv/boot/dts/allwinner/Makefile             |    2 +
-> > > >  .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  |   29 +
-> > > >  arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    |  100 +
-> > > >  arch/riscv/configs/defconfig                       |    1 +
-> > > >  arch/riscv/include/asm/cacheflush.h                |   48 +-
-> > > >  arch/riscv/include/asm/mmu_context.h               |    2 +
-> > > >  arch/riscv/include/asm/pgtable-64.h                |    8 +-
-> > > >  arch/riscv/include/asm/pgtable-bits.h              |   20 +-
-> > > >  arch/riscv/include/asm/pgtable.h                   |   44 +-
-> > > >  arch/riscv/include/asm/sbi.h                       |   15 +
-> > > >  arch/riscv/include/asm/soc.h                       |    1 +
-> > > >  arch/riscv/include/asm/tlbflush.h                  |   22 +
-> > > >  arch/riscv/include/asm/vendorid_list.h             |    1 +
-> > > >  arch/riscv/kernel/sbi.c                            |   19 +
-> > > >  arch/riscv/kernel/soc.c                            |   22 +
-> > > >  arch/riscv/kernel/vdso/flush_icache.S              |   33 +-
-> > > >  arch/riscv/mm/Makefile                             |    1 +
-> > > >  arch/riscv/mm/cacheflush.c                         |    3 +-
-> > > >  arch/riscv/mm/context.c                            |    2 +-
-> > > >  arch/riscv/mm/dma-mapping.c                        |   53 +
-> > > >  arch/riscv/mm/init.c                               |   26 +
-> > > >  arch/riscv/mm/tlbflush.c                           |   57 +-
-> > > >  drivers/net/ethernet/Kconfig                       |    1 +
-> > > >  drivers/net/ethernet/Makefile                      |    1 +
-> > > >  drivers/net/ethernet/allwinnertmp/Kconfig          |   17 +
-> > > >  drivers/net/ethernet/allwinnertmp/Makefile         |    7 +
-> > > >  drivers/net/ethernet/allwinnertmp/sunxi-gmac-ops.c |  690 ++++++
-> > > >  drivers/net/ethernet/allwinnertmp/sunxi-gmac.c     | 2240
-> > > >
-> > > > ++++++++++++++++++++ drivers/net/ethernet/allwinnertmp/sunxi-gmac.h
-> > > > |
-> > > > 258 +++
-> > > >
-> > > >  drivers/net/phy/realtek.c                          |    2 +-
-> > > >  mm/mmap.c                                          |    4 +
-> > > >  34 files changed, 3714 insertions(+), 37 deletions(-)
-> > > >  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
-> > > >  create mode 100644
-> > > >  arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
-> > > >
-> > > > create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
-> > > > create
-> > > > mode 100644 arch/riscv/mm/dma-mapping.c
-> > > >
-> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/Kconfig
-> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/Makefile
-> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac-op=
-s.c
-> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.c
-> > > >  create mode 100644 drivers/net/ethernet/allwinnertmp/sunxi-gmac.h
+> > See:
+> > https://github.com/riscv/virtual-memory/blob/main/specs/611-virtual-mem=
+ory-diff.pdf
+> > 4.4.1
+> > The draft supports custom attribute bits in PTE.
+> >
 >
+> Not only it doesn't support custom attributes on PTEs:
 >
+> "Bits63=E2=80=9354 are reserved for future standard use and must be zeroe=
+d by
+> software for forward compatibility."
 >
+> It also goes further to say that:
 >
+> "if any of these bits are set, a page-fault exception is raised"
+
+In RISC-V VM TG, A C-bit discussion is raised. So it's a comm idea to
+support it.
+
+Let Linux support custom PTE attributes won't get any side effect in practi=
+ce.
+
+IMO:
+We needn't waste a bit in PTE, but the custom idea in PTE reserved
+bits is necessary. Because Allwinner D1 needs custom PTE bits in
+reserved bits to work around.
+So I recommend just remove the "C" bit in PTE, but allow vendors to
+define their own PTE attributes in reserved bits. I've found a way to
+compact different PTE attributes of different vendors during the Linux
+boot stage. That means we still could use One Image for all vendors in
+Linux
+
 
 
 --=20
