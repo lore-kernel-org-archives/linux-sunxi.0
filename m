@@ -1,72 +1,97 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF1070
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:36:49 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id h3so9469212wmq.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 01:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=OqAD7JyQJLtIUaTq7HisxnM/3X8ut9jR2CAddAB1Cqg=;
-        b=doyN4rgRGFyq1Kz5xW+zSGP5eyprWLTmJNWt5GNCkcTtUajEwG24mgCalhI3uWmOKW
-         E7LCI4cmGi21nURQKDnzjr6hmcWUA+rBgfNF0vs0mpK1jp45ve6KaLrJPGXSoe771ahY
-         YKf6eaFqhhkVJBN+po2m0v/39VhNx4Arqs+4GJXeCrwOnb/BEDmWL6RlCMNOZVyPCcx2
-         bFmYtkdXB5wB3CTjH+SBYgDr/uhhou6x/6QjqNkwbIk+KvX/AwWrxXr1Hfu+EZD8AZ59
-         C+/A0ECO+spDAadILs7h5QCLyZDNdFTp7/Urc2/s3rg+8a9uhPG29gc1YAzWaRhruw29
-         ym6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=OqAD7JyQJLtIUaTq7HisxnM/3X8ut9jR2CAddAB1Cqg=;
-        b=InDxMDTJFCb7+7amnYq4guG7M9xHkNLBvS3VZZ84kvtXj6qkNSeHSpuCPyi2RI0eaE
-         t56gzOyephJ5hRG8oDxjLxQNJJLp2gMcm2Ab+sjeurw8TOATUwiOgL8JTviRJmdTw6xh
-         CYQ3pbpvlK38p0fYF8NqQaFkpHRSH0mipXCWgofC4h24idGOvc8p70BtOJmt34rXZ8w3
-         kQhE0+P6bvDyW2Dts6398eHFOkUUIn1iAiO30kDEin7RmwQ4kv98xy9krNOOy3Mj5LZy
-         brcVVq7Pd5xZtyHUW/8oiDLJ+KPZi9ZhsCqIILHC3MmV7rfxemUEPo9ZKOaMNzwF3gNJ
-         GVNg==
-X-Gm-Message-State: AOAM530tjVt73ChTURBXSN5I8Tyz2OmtIeXhB1s6f1Oype3JTVZPwMRY
-	lg0Iwee2sSmEazz+t3cf9u7sAs0/wJfMju0Ftwft8A==
-X-Google-Smtp-Source: ABdhPJz8hM3hqr1V4jECe7fc+5nfq3AknPzC5rkIflKDlHDhykr0xPABNXJ3M2qlpZSxchzC5A0kjKaWCdCtcDbvsBk=
-X-Received: by 2002:a1c:b782:: with SMTP id h124mr15900314wmf.168.1623055007668;
- Mon, 07 Jun 2021 01:36:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9347170
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:41:49 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8873D5C009A;
+	Mon,  7 Jun 2021 04:41:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 07 Jun 2021 04:41:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=lwHWKCOkyXBnvnkruLCzGRsucQQ
+	+eQ3CViVtR94CBwU=; b=NJsBttidDc/0fES2Qi2+VZn0g82F8hncbfLBLGRVtRM
+	41islXDggk9IhDHLnTfLsktLt0IMknpyehKp7YtX+Olgy5wF5boRqWbrexg9Bruh
+	3N91tMJyQRiuFfsUguTXHdZnr+gHNkdvFo/YNh7ZVU+nCtF/vFkrv73Y7RR45thv
+	XN2mK5ofWxcBwp4Yl72QHGNGLl0TdXmDg0RWdqzFGE77CKejh9X/nDdJr5A52gez
+	F1x6SLn3xtuBIZ7s2HuFzKvEHzQTieo81+pINsaw23sAHbDKLzsqLbIwIh1FNYPc
+	KLX4rQymUpqg8KhJ2G2dMCjoGMRAT0gXL40fYXBENTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lwHWKC
+	OkyXBnvnkruLCzGRsucQQ+eQ3CViVtR94CBwU=; b=YKHYWhg8fTZW28aqc/Am12
+	a62kebb39qxupyEIhntY9FRb1vvOMwOqBu6s+v8fEdMOuMHOMWNHL1w+9RPVLwjn
+	JBhBCAJ5b77ld6pEs7QMfPe6roc/WJ3V4pn7XbT/krazyMGqRF2tRWz1WmsevbTV
+	dhY2p30Caay/1foJara3gRttwz3flJiv7bVUs/rA6qexJh56m2uN7OS8zCFJljc1
+	31cqZz1Rcedr7QEw3wJgGW8QtS6YL41/3+qT2Gx0oVQRUpw/W4nEfOJOs/e1X8iN
+	nJDAreZsqBkEVpERqpaB+iu8/nuozR9Y0Y3xdDH+q0OK5IB1zXpJzCwWvJRTwyZQ
+	==
+X-ME-Sender: <xms:y9u9YEAbI9f8QlqYd6EF6IsD3zzCxeEIg7_MCuz3pc2s8CdM4XE0Lg>
+    <xme:y9u9YGg2ZAu9vLhJEZakvUAdMJUfzZjZQLGksZJfFtfilixgdTEYQa9AcBXmLC9Dp
+    eySBm-OXIfHxijj6N8>
+X-ME-Received: <xmr:y9u9YHnyzDHk77cv0IVZKs-HP2k3IvzKjC7-5G9HzxOEWb8m29BrYnx-50xAT7BMISqQspsi-Wk-47h1X-QyXV9zyogazm53za65>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgtdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:y9u9YKxfixCPNJl3fUkpO-qyscjHkW_V1CnLClngo3KRA0IxqTdCEw>
+    <xmx:y9u9YJQIINpf6a1MXnBdADb9mqBrhYU70x8W_YdSWgr7gTm8yciOCw>
+    <xmx:y9u9YFY7r2gYhJiSdEtSGP1wIxzNK3z3jFaMHGz0EwhgWSbtPXFD8Q>
+    <xmx:zNu9YIHQjerxiCWcH04qO3jykkh5UlvIscL9ERBkvMqhZjbim-WbhA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Jun 2021 04:41:47 -0400 (EDT)
+Date: Mon, 7 Jun 2021 10:41:44 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Zou Wei <zou_wei@huawei.com>
+Cc: vkoul@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH -next] dmaengine: sun4i: Use list_move_tail instead of
+ list_del/list_add_tail
+Message-ID: <20210607084144.v3a5rx5ecqnussgk@gilmour>
+References: <1623036035-30614-1-git-send-email-zou_wei@huawei.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
-In-Reply-To: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
-From: Daniel Stone <daniel@fooishbar.org>
-Date: Mon, 7 Jun 2021 09:36:36 +0100
-Message-ID: <CAPj87rNFXkoRJw2_Y7aW0+7mzOYGpirs6YgUfuFrDFfXcyOMeA@mail.gmail.com>
-Subject: Re: [PATCH] drm/sun4i: de3: Be explicit about supported modifiers
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>, Daniel Stone <daniel.stone@collabora.com>, 
-	David Airlie <airlied@linux.ie>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	dri-devel <dri-devel@lists.freedesktop.org>, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="5ayy252ovvkwrpgk"
+Content-Disposition: inline
+In-Reply-To: <1623036035-30614-1-git-send-email-zou_wei@huawei.com>
 
-On Sat, 5 Jun 2021 at 08:36, Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
-> Currently only linear formats are supported in sun4i-drm driver, but
-> SoCs like H6 supports AFBC variant of some of them in multiple cores
-> (GPU, VPU, DE3). Panfrost already implements AFBC compression and is
-> sometimes confused what should be default choice (linear, AFBC) if DRM
-> driver is not explicit about modifier support (MiniMyth2 distro with
-> MythTV app).
->
-> After some discussion with Daniel Stone on #panfrost IRC, it was decided
-> to make modifiers in sun4i-drm explicit, to avoid any kind of guessing,
-> not just in panfrost, but everywhere. In fact, long term idea is to make
-> modifier parameter in drm_universal_plane_init() mandatory (non NULL).
 
-Thanks Piotr & Jernej!
+--5ayy252ovvkwrpgk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Daniel Stone <daniels@collabora.com>
+On Mon, Jun 07, 2021 at 11:20:35AM +0800, Zou Wei wrote:
+> Using list_move_tail() instead of list_del() + list_add_tail().
+>=20
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zou Wei <zou_wei@huawei.com>
 
-Cheers,
-Daniel
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Thanks!
+Maxime
+
+--5ayy252ovvkwrpgk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL3byAAKCRDj7w1vZxhR
+xe0EAQDf8GYmovI5HNv9dg6tOjLWlJowFr9dCaNvoq37fSRTeQD+Peb5aGORlfDl
+LgXaRSNY0zoh5hcqNkBz+SaO7BgYJAk=
+=ghSl
+-----END PGP SIGNATURE-----
+
+--5ayy252ovvkwrpgk--
