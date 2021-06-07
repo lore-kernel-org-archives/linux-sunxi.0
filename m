@@ -1,37 +1,37 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9347170
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:41:49 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8873D5C009A;
-	Mon,  7 Jun 2021 04:41:48 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F44F70
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:44:03 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id A43045C009A;
+	Mon,  7 Jun 2021 04:44:02 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 07 Jun 2021 04:41:48 -0400
+  by compute5.internal (MEProxy); Mon, 07 Jun 2021 04:44:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=lwHWKCOkyXBnvnkruLCzGRsucQQ
-	+eQ3CViVtR94CBwU=; b=NJsBttidDc/0fES2Qi2+VZn0g82F8hncbfLBLGRVtRM
-	41islXDggk9IhDHLnTfLsktLt0IMknpyehKp7YtX+Olgy5wF5boRqWbrexg9Bruh
-	3N91tMJyQRiuFfsUguTXHdZnr+gHNkdvFo/YNh7ZVU+nCtF/vFkrv73Y7RR45thv
-	XN2mK5ofWxcBwp4Yl72QHGNGLl0TdXmDg0RWdqzFGE77CKejh9X/nDdJr5A52gez
-	F1x6SLn3xtuBIZ7s2HuFzKvEHzQTieo81+pINsaw23sAHbDKLzsqLbIwIh1FNYPc
-	KLX4rQymUpqg8KhJ2G2dMCjoGMRAT0gXL40fYXBENTw==
+	:content-type:in-reply-to; s=fm3; bh=18ijyZ5L48A1ngB5xr0ZXKoYagA
+	14lFazbGBR6OHmF8=; b=hStDS95y7m4ZLSLFO+jDeRFo0NwA1RSIPWcQnsIoUUF
+	25QAci2Ks/KH85z9IgkpqI9zDAlAcwNK+Rj0cX9CRDWY8mHdkNsRnsPcipaOmECZ
+	rvVqZ3PcPoVV/OAewBzUV2OZw72ujsiEtLAjaLCvApr7OXnovewM0kMxKAtawbOb
+	2/r2Q4jVg0d7Tc7t0DeTQ1piorar1xFmRfW3ELeDznS8/6rOVKh846IHN1XFY27h
+	WdE9FB1+29xCbz3QphlTv9sZc001LsadLFiEzYc0d3OxMakTBiUv/PR/gVhEXw8c
+	fo6kVjBcgTJz/KuZrBShX/IIayA+R9rcRZ5igj1h27w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lwHWKC
-	OkyXBnvnkruLCzGRsucQQ+eQ3CViVtR94CBwU=; b=YKHYWhg8fTZW28aqc/Am12
-	a62kebb39qxupyEIhntY9FRb1vvOMwOqBu6s+v8fEdMOuMHOMWNHL1w+9RPVLwjn
-	JBhBCAJ5b77ld6pEs7QMfPe6roc/WJ3V4pn7XbT/krazyMGqRF2tRWz1WmsevbTV
-	dhY2p30Caay/1foJara3gRttwz3flJiv7bVUs/rA6qexJh56m2uN7OS8zCFJljc1
-	31cqZz1Rcedr7QEw3wJgGW8QtS6YL41/3+qT2Gx0oVQRUpw/W4nEfOJOs/e1X8iN
-	nJDAreZsqBkEVpERqpaB+iu8/nuozR9Y0Y3xdDH+q0OK5IB1zXpJzCwWvJRTwyZQ
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=18ijyZ
+	5L48A1ngB5xr0ZXKoYagA14lFazbGBR6OHmF8=; b=qaT4dt/PHRxDhYMhGxPQA8
+	UOhOhysWvllSwh/pHKOzwJGawQKDJy3/IT3JkEPY0JZubQA9hyVhIfBuisP6zk1q
+	/XUAonzrhGimdCessiKhBPWn56HcIMvPyRlI47aBMntJChk4obP43qJGRHDXk9FA
+	eHuWhh/2AtJy8fRq3ECfN0A5O7BxBKIRrt7cwZp76k1+agKNBJkt9msTSQI+Y6NT
+	2UN7ZClADzWAVVHuG1oR3+873TRcET97YkObhq+MO2FHGYtqiKLby19cJWQw+8zn
+	VJ4Fv5yKhmiOaRDNi6M3C+DbzcqG6gsk0uZ9fycF6tw6jowP4dk/q/xCT/SI86Bg
 	==
-X-ME-Sender: <xms:y9u9YEAbI9f8QlqYd6EF6IsD3zzCxeEIg7_MCuz3pc2s8CdM4XE0Lg>
-    <xme:y9u9YGg2ZAu9vLhJEZakvUAdMJUfzZjZQLGksZJfFtfilixgdTEYQa9AcBXmLC9Dp
-    eySBm-OXIfHxijj6N8>
-X-ME-Received: <xmr:y9u9YHnyzDHk77cv0IVZKs-HP2k3IvzKjC7-5G9HzxOEWb8m29BrYnx-50xAT7BMISqQspsi-Wk-47h1X-QyXV9zyogazm53za65>
+X-ME-Sender: <xms:UNy9YLblECMBSoccBECuTkeR1fcm4Ko6-Xc1CrjHAUFERGWq_XHLJg>
+    <xme:UNy9YKZuUfx6AV5CD6ot7l3lmGxtMA_DYi86B0PF26JdfZZkBhNUD3Wi0l0ayBExc
+    42ndWJsZGGfYpD294o>
+X-ME-Received: <xmr:UNy9YN-YfYTEU922Uq9ldlyAqE0mweLxbnQINTxy66O0w2uf2wJHzQw5QqGhXYQN1b0HSf3kDb0hEde_imKWH7PZlKDAuad-3Kd7>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgtdeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -40,58 +40,69 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgtdeiucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:y9u9YKxfixCPNJl3fUkpO-qyscjHkW_V1CnLClngo3KRA0IxqTdCEw>
-    <xmx:y9u9YJQIINpf6a1MXnBdADb9mqBrhYU70x8W_YdSWgr7gTm8yciOCw>
-    <xmx:y9u9YFY7r2gYhJiSdEtSGP1wIxzNK3z3jFaMHGz0EwhgWSbtPXFD8Q>
-    <xmx:zNu9YIHQjerxiCWcH04qO3jykkh5UlvIscL9ERBkvMqhZjbim-WbhA>
+X-ME-Proxy: <xmx:UNy9YBrdSdX6IthLuL2RZCv7hqQAg8t5BG920iQOgfHZe1whdda9NA>
+    <xmx:UNy9YGpEVMl1oIAV91UCDyChhIVJw0TavIon3hwfYitjmL7Kt7g3qQ>
+    <xmx:UNy9YHT59uzCPz-6Gxko2skSxlOlDtdxv5KZADvVaspiPPL6crpsvA>
+    <xmx:Uty9YCd30LuZ0VBZdrJZI5SOGC1RjxYGpIGCtSlAHHRVNe8YrJpibA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 04:41:47 -0400 (EDT)
-Date: Mon, 7 Jun 2021 10:41:44 +0200
+ 7 Jun 2021 04:44:00 -0400 (EDT)
+Date: Mon, 7 Jun 2021 10:43:59 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Zou Wei <zou_wei@huawei.com>
-Cc: vkoul@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] dmaengine: sun4i: Use list_move_tail instead of
- list_del/list_add_tail
-Message-ID: <20210607084144.v3a5rx5ecqnussgk@gilmour>
-References: <1623036035-30614-1-git-send-email-zou_wei@huawei.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
+	daniel.stone@collabora.com, dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Subject: Re: [PATCH] drm/sun4i: de3: Be explicit about supported modifiers
+Message-ID: <20210607084359.hkm6ng2m4hcoheyz@gilmour>
+References: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5ayy252ovvkwrpgk"
+	protocol="application/pgp-signature"; boundary="ycnegl2wrikhuac2"
 Content-Disposition: inline
-In-Reply-To: <1623036035-30614-1-git-send-email-zou_wei@huawei.com>
+In-Reply-To: <20210605073534.3786194-1-jernej.skrabec@gmail.com>
 
 
---5ayy252ovvkwrpgk
+--ycnegl2wrikhuac2
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 07, 2021 at 11:20:35AM +0800, Zou Wei wrote:
-> Using list_move_tail() instead of list_del() + list_add_tail().
+On Sat, Jun 05, 2021 at 09:35:34AM +0200, Jernej Skrabec wrote:
+> From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
 >=20
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Zou Wei <zou_wei@huawei.com>
+> Currently only linear formats are supported in sun4i-drm driver, but
+> SoCs like H6 supports AFBC variant of some of them in multiple cores
+> (GPU, VPU, DE3). Panfrost already implements AFBC compression and is
+> sometimes confused what should be default choice (linear, AFBC) if DRM
+> driver is not explicit about modifier support (MiniMyth2 distro with
+> MythTV app).
+>=20
+> After some discussion with Daniel Stone on #panfrost IRC, it was decided
+> to make modifiers in sun4i-drm explicit, to avoid any kind of guessing,
+> not just in panfrost, but everywhere. In fact, long term idea is to make
+> modifier parameter in drm_universal_plane_init() mandatory (non NULL).
+>=20
+> Signed-off-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
-Thanks!
+Applied, thanks
 Maxime
 
---5ayy252ovvkwrpgk
+--ycnegl2wrikhuac2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL3byAAKCRDj7w1vZxhR
-xe0EAQDf8GYmovI5HNv9dg6tOjLWlJowFr9dCaNvoq37fSRTeQD+Peb5aGORlfDl
-LgXaRSNY0zoh5hcqNkBz+SaO7BgYJAk=
-=ghSl
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL3cTwAKCRDj7w1vZxhR
+xfhZAQCQDar9Xj7NCzBF7OjpfeiurqurWlpsfb50m6v9VGrvjwD/VRJb8dF/j8J7
+MiecNQL73w9r1P2JPWUAzjILeoNlsA8=
+=ZjS0
 -----END PGP SIGNATURE-----
 
---5ayy252ovvkwrpgk--
+--ycnegl2wrikhuac2--
