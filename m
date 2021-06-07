@@ -1,196 +1,120 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A306D70
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 07:53:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6B15E6121D
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 07:53:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623052417;
-	bh=bZf1oPujuHjZMOhIewYXXJEcGVTtrINZZrYSSOjle5w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=NNznX+gSK1ubk2X3/IRC/NKUHBNtUpj3pIv/4c2uJBBiJUtAV/KhZcOXzgKlTc197
-	 JoaqNhfMIWWrKQn+ytYhGSXvaYtI570te4Vf2QyUsmIwnEioZqlYZoWTtD3s/olZ1r
-	 zXU5lkoWfLDBysgxbwtN+RMG+JJ6rSHG187xSFhIHkUpAhqI91/h8j7NLXHV+zL4Ya
-	 kzZSX1foXTx99yEqWn2UEdMCZtAFdYIHFVjM5lYuzSOaV0RKUi40RbmSeLfz2PBK7X
-	 uWdUT9XRikixdbajY+xQgkc2hyki1enBqAao5zY2bxSkhf1xV+/LbpZIJLfCEA4My/
-	 KUsm9jil4LFGg==
-Received: by mail-lj1-f171.google.com with SMTP id z22so4957150ljh.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 00:53:37 -0700 (PDT)
-X-Gm-Message-State: AOAM5321S2892crFYmFAe17pp69rlTt33V+XJb2PJx3d8GrXJK6e+uc+
-	Wr9yI9vEOS8+hEbhtH/vCnQTDRrEBmiz9eYqWi0=
-X-Google-Smtp-Source: ABdhPJwH/bIcZcv9bYZevLpASI9avmmDzuyYLA4C+R6RK/v/ZYHyxwKOcgETDO+RRKacBwp8wDxom+B3t+B9y1ptv1M=
-X-Received: by 2002:a2e:3506:: with SMTP id z6mr14531480ljz.238.1623052415598;
- Mon, 07 Jun 2021 00:53:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DE070
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:30 +0000 (UTC)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lqAI7-0001dM-B8; Mon, 07 Jun 2021 10:07:23 +0200
+Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1lqAI6-0004JI-2w; Mon, 07 Jun 2021 10:07:22 +0200
+Date: Mon, 7 Jun 2021 10:07:21 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Roman Beranek <roman.beranek@prusa3d.cz>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Emil Lenngren <emil.lenngren@gmail.com>,
+	Pascal Roeleven <dev@pascalroeleven.nl>,
+	Lee Jones <lee.jones@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 2/6] pwm: sun4i: disable EN bit prior to the delay
+Message-ID: <20210607080721.4o2dd4pmb4wwddgg@pengutronix.de>
+References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+ <20210531044608.1006024-3-roman.beranek@prusa3d.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
- <1622970249-50770-13-git-send-email-guoren@kernel.org> <2490489.OUOj5N01qN@jernej-laptop>
- <CAJF2gTTDVy89R-gvWUS0sgpX=B14LnH5rDoGP7pv1=OSyJq28Q@mail.gmail.com> <20210607072709.ul4jdvtyspj6t4c6@gilmour>
-In-Reply-To: <20210607072709.ul4jdvtyspj6t4c6@gilmour>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 7 Jun 2021 15:53:23 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTS9+JYBg2dPEwQccNGku4_z_tv0qwgWQiFN8dQcQ=WweQ@mail.gmail.com>
-Message-ID: <CAJF2gTS9+JYBg2dPEwQccNGku4_z_tv0qwgWQiFN8dQcQ=WweQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 09/11] riscv: soc: Initial DTS for Allwinner D1
- NeZha board
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Drew Fustini <drew@beagleboard.org>, 
-	liush@allwinnertech.com, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
-	wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Atish Patra <atish.patra@wdc.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="anudz3llin6kdgsz"
+Content-Disposition: inline
+In-Reply-To: <20210531044608.1006024-3-roman.beranek@prusa3d.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+
+
+--anudz3llin6kdgsz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Thx for the clarification.
+On Mon, May 31, 2021 at 06:46:04AM +0200, Roman Beranek wrote:
+> The reason why we wait before gating the clock is to allow for the PWM
+> to finish its cycle and stop. But it won't stop unless the EN bit is
+> disabled.
+>=20
+> Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
+> ---
+>  drivers/pwm/pwm-sun4i.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index 3721b9894cf6..2777abe66f79 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -303,6 +303,8 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, str=
+uct pwm_device *pwm,
+> =20
+>  	if (state->enabled)
+>  		ctrl |=3D BIT_CH(PWM_EN, pwm->hwpwm);
+> +	else
+> +		ctrl &=3D ~BIT_CH(PWM_EN, pwm->hwpwm);
 
-On Mon, Jun 7, 2021 at 3:27 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Jun 07, 2021 at 11:44:03AM +0800, Guo Ren wrote:
-> > On Mon, Jun 7, 2021 at 12:26 AM Jernej =C5=A0krabec <jernej.skrabec@gma=
-il.com> wrote:
-> > >
-> > > Hi!
-> > >
-> > > I didn't go through all details. After you fix all comments below, yo=
-u should
-> > > run "make dtbs_check" and fix all reported warnings too.
-> > >
-> > > Dne nedelja, 06. junij 2021 ob 11:04:07 CEST je guoren@kernel.org nap=
-isal(a):
-> > > > From: Guo Ren <guoren@linux.alibaba.com>
-> > > >
-> > > > Add initial DTS for Allwinner D1 NeZha board having only essential
-> > > > devices (uart, dummy, clock, reset, clint, plic, etc).
-> > > >
-> > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > > Co-Developed-by: Liu Shaohua <liush@allwinnertech.com>
-> > > > Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
-> > > > Cc: Anup Patel <anup.patel@wdc.com>
-> > > > Cc: Atish Patra <atish.patra@wdc.com>
-> > > > Cc: Christoph Hellwig <hch@lst.de>
-> > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > Cc: Drew Fustini <drew@beagleboard.org>
-> > > > Cc: Maxime Ripard <maxime@cerno.tech>
-> > > > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-> > > > Cc: Wei Fu <wefu@redhat.com>
-> > > > Cc: Wei Wu <lazyparser@gmail.com>
-> > > > ---
-> > > >  arch/riscv/boot/dts/Makefile                       |  1 +
-> > > >  arch/riscv/boot/dts/allwinner/Makefile             |  2 +
-> > > >  .../boot/dts/allwinner/allwinner-d1-nezha-kit.dts  | 29 ++++++++
-> > > >  arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi    | 84
-> > > > ++++++++++++++++++++++ 4 files changed, 116 insertions(+)
-> > > >  create mode 100644 arch/riscv/boot/dts/allwinner/Makefile
-> > > >  create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1-nezh=
-a-kit.dts
-> > > > create mode 100644 arch/riscv/boot/dts/allwinner/allwinner-d1.dtsi
-> > > >
-> > > > diff --git a/arch/riscv/boot/dts/Makefile b/arch/riscv/boot/dts/Mak=
-efile
-> > > > index fe996b8..3e7b264 100644
-> > > > --- a/arch/riscv/boot/dts/Makefile
-> > > > +++ b/arch/riscv/boot/dts/Makefile
-> > > > @@ -2,5 +2,6 @@
-> > > >  subdir-y +=3D sifive
-> > > >  subdir-$(CONFIG_SOC_CANAAN_K210_DTB_BUILTIN) +=3D canaan
-> > > >  subdir-y +=3D microchip
-> > > > +subdir-y +=3D allwinner
-> > > >
-> > > >  obj-$(CONFIG_BUILTIN_DTB) :=3D $(addsuffix /, $(subdir-y))
-> > > > diff --git a/arch/riscv/boot/dts/allwinner/Makefile
-> > > > b/arch/riscv/boot/dts/allwinner/Makefile new file mode 100644
-> > > > index 00000000..4adbf4b
-> > > > --- /dev/null
-> > > > +++ b/arch/riscv/boot/dts/allwinner/Makefile
-> > > > @@ -0,0 +1,2 @@
-> > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > +dtb-$(CONFIG_SOC_SUNXI) +=3D allwinner-d1-nezha-kit.dtb
-> > > > diff --git a/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.d=
-ts
-> > > > b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts new file=
- mode
-> > > > 100644
-> > > > index 00000000..cd9f7c9
-> > > > --- /dev/null
-> > > > +++ b/arch/riscv/boot/dts/allwinner/allwinner-d1-nezha-kit.dts
-> > >
-> > > Board DT names are comprised of soc name and board name, in this case=
- it would
-> > > be "sun20i-d1-nezha-kit.dts"
-> > >
-> > > > @@ -0,0 +1,29 @@
-> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > >
-> > > Usually copyrights are added below spdx id.
-> > >
-> > > > +
-> > > > +/dts-v1/;
-> > > > +
-> > > > +#include "allwinner-d1.dtsi"
-> > > > +
-> > > > +/ {
-> > > > +     #address-cells =3D <2>;
-> > > > +     #size-cells =3D <2>;
-> > >
-> > > This should be part of SoC level DTSI.
-> > >
-> > > > +     model =3D "Allwinner D1 NeZha Kit";
-> > > > +     compatible =3D "allwinner,d1-nezha-kit";
-> > >
-> > > Board specific compatible string should be followed with SoC compatib=
-le, in
-> > > this case "allwinner,sun20i-d1".  You should document it too.
-> > >
-> > > > +
-> > > > +     chosen {
-> > > > +             bootargs =3D "console=3DttyS0,115200";
-> > >
-> > > Above line doesn't belong here. If anything, it should be added dynam=
-ically by
-> > > bootloader.
-> >
-> > After discussion, we still want to keep a default value here.
-> > Sometimes we could boot with jtag and parse dtb is hard for gdbinit
-> > script.
-> >
-> > >
-> > > > +             stdout-path =3D &serial0;
-> > > > +     };
-> > > > +
-> > > > +     memory@40000000 {
-> > > > +             device_type =3D "memory";
-> > > > +             reg =3D <0x0 0x40000000 0x0 0x20000000>;
-> > > > +     };
-> > >
-> > > Ditto for whole memory node.
-> >
-> > Ditto
->
-> The thing is that there's never a good value for a default. Let's take
-> the memory node here: what would be a good default? If we want to make
-> it work everywhere it's going to be the lowest amount of memory
-> available on the D1 boards. It's going to be hard to maintain and very
-> likely to be overlooked, resulting in broken boards anyway.
->
-> If someone is savvy enough to use JTAG, it's not really difficult to
-> modify the DT for their board when they need it.
-okay, I see. I'll follow the rule in the next version of the patchset.
+Catching the case !state->enabled even earlier would make sense.
+Otherwise you might see a needless glitch after
 
->
-> Maxime
+	pwm_apply_state(mypwm, { .period =3D A, .duty_cycle =3D B, .enabled =3D tr=
+ue });
+	pwm_apply_state(mypwm, { .period =3D C, .duty_cycle =3D D, .enabled =3D fa=
+lse });
 
+which might make C+D visible on the PWM before disabling.
 
+> =20
+>  	sun4i_pwm_writel(sun4i_pwm, ctrl, PWM_CTRL_REG);
+> =20
+> @@ -325,7 +327,6 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, str=
+uct pwm_device *pwm,
+>  	spin_lock(&sun4i_pwm->ctrl_lock);
+>  	ctrl =3D sun4i_pwm_readl(sun4i_pwm, PWM_CTRL_REG);
+>  	ctrl &=3D ~BIT_CH(PWM_CLK_GATING, pwm->hwpwm);
+> -	ctrl &=3D ~BIT_CH(PWM_EN, pwm->hwpwm);
+>  	sun4i_pwm_writel(sun4i_pwm, ctrl, PWM_CTRL_REG);
+>  	spin_unlock(&sun4i_pwm->ctrl_lock);
+
+So the comment
+
+  /* We need a full period to elapse before disabling the channel. */
+
+is wrong?
+
+Best regards
+Uwe
 
 --=20
-Best Regards
- Guo Ren
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
-ML: https://lore.kernel.org/linux-csky/
+--anudz3llin6kdgsz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC907cACgkQwfwUeK3K
+7Ame3gf/Ur7YoIu9nMF20rXnA1ys1wDYe0y17G8qfQVWLhbb3wVzlQdCBxrx7zcH
+vsBQL0rRoYu04Cgdz+YSWnfDnp/LdjwAwPQ6G5KN6rlXQNiuOqMgVdpdJAlZ0jyt
+uTOTR6OfN8JKAcLTKxOWNORnZbD4cVQa58rRJYMiFJAhaGscDwdWYkwvy/QkOkiB
+j4y0A+sJbHd7M7P8vL4DeTTHZU3TFcaEqiXJ75PTkJc0Z5nE6SFjN/xkwewhfK9H
+iKHtSejdiGFvthOHNmVJ5R9obDkyGcBzNI/AO5qNrk3Ju+ckOf1lCW9TSVQYZO8a
+V1OmOtMiWRSd8K1pDBXwZeEXMBbqjA==
+=QwWJ
+-----END PGP SIGNATURE-----
+
+--anudz3llin6kdgsz--
