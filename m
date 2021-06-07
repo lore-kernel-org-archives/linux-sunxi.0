@@ -1,151 +1,168 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D487C29CA
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 14:26:16 +0000 (UTC)
-Received: by mail-lf1-f53.google.com with SMTP id f30so26627254lfj.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 07:26:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=mJLzHt2uyypGgw28MtCkK4vZD5HTfCu45L8FZnJ+cNQ=;
-        b=HX3iT8wGPyLWdDH1/egy56DW6Kk0CXFiQsHHogQ/a69NOqdcx9iEefvLAJHc4AHAgL
-         GBAeoV8Swpik461gyUGmtNHULIrTtz8VHD3IxkvRb4FQvsNblSnFFahKAy4V27Be+idT
-         SD8kbYTApE2dHvRhjf2/Km5wk0V9fRu3F9LID+4JGndJXwntVXX0q/bW0fvytHOpAxZt
-         QRHRV9cuWuia03oUYV/sGaKbaGxalTOAME1KkZAW9Wusu3W+5yMhltyJKw123fNm3iq8
-         s/TlXaC9oUMull2HJPyUqcDwn1eJ9Qt4DEsDazC0hN+G0XfCSSVjgrkXRw4eHTTJSB4q
-         f2Bg==
-X-Gm-Message-State: AOAM532DeLH0ua8LpJvoLwvjw0kHo6CG6jULKKVM2VTbWie6BHPLqgD4
-	BWr44AedtOASNsadrugTHKRHBz3dJVYamw==
-X-Google-Smtp-Source: ABdhPJxlDTbl2a+l94grm7ulG1fa23flOoPaTfzFYolmeP9zo7NBIsQCLDbsWTXF4kz7jicu3bS9aQ==
-X-Received: by 2002:a05:6512:20d9:: with SMTP id u25mr11598311lfr.452.1623075974814;
-        Mon, 07 Jun 2021 07:26:14 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id j16sm1356246lfu.168.2021.06.07.07.26.14
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Jun 2021 07:26:14 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id f11so26484435lfq.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 07:26:14 -0700 (PDT)
-X-Received: by 2002:a05:6512:20f:: with SMTP id a15mr12194697lfo.618.1623075973924;
- Mon, 07 Jun 2021 07:26:13 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FD1370
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 15:14:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6E5D55C01C4;
+	Mon,  7 Jun 2021 11:14:15 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 07 Jun 2021 11:14:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=w2Hw4xUfgzOjYV5ZuhT2Zg+R1Bv
+	G+1TREXUCNvH3tjU=; b=nGQQXPvsWtO9zxk6VeGwWysqTu7YU330LaNGonKMLTP
+	CY1s8ZnexhfMSNm5k9qmjMYtKgV5kDEOp6NdISc+7kiF99aV7EASQmfu4V2gkgws
+	H6U014rCKLLgzhzl/RvLMPzpv5KZg6oPHNMSjRaBdSPbTBTCiaxkXRlmKHJyV194
+	ioCJ/vL06k+MvTsRozpIc0oid2hjghki0tg505ofVgp1XAw6XeexiJ16f/ME7H7d
+	FqJFTvGpmeqMxjr7Akck0ZQ9UtFnHL2yKYLEsujaVpv16dJXxZPOQizKWrF9qAwk
+	K+qeIwyIIYaRNW8mxs1rUb6W8TyeMvOnzyfNeuz4big==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=w2Hw4x
+	UfgzOjYV5ZuhT2Zg+R1BvG+1TREXUCNvH3tjU=; b=QdZpx+uD/dhKiRpUUwml08
+	dZDwoTzVQqIAtov1ylk/qd2mT/DFiISZJlXVvyqLacmfUhEL0aVziyTNKa+icJ85
+	6X43FIFN0SXerDDvO7WMOeXv8Pn6dl3aa9tevEg2mjSMm0tdgAgoayZWj/WnFzPa
+	yPFumkdqXA4pq6uVU2qVnGm4kz7ohdbaDpqC981/knsZMS0OIfisjb/91vNwPf05
+	DBOKFkh8PflwIQptLa/EdpxtiFIAw2DYAaAmeQP4advlqO5FY5MC2BG46c6MPvz6
+	Agk+hKEucmlII0pwkIj+o9n1oWy1gEqEtabV+r09s0RLRGzVUzwrfI74GwBr02aQ
+	==
+X-ME-Sender: <xms:wje-YKfbZ_2Alq4yBcgvWEI5XmsHN4Am-4Io_9Yq7qv5grJXIzhrCA>
+    <xme:wje-YEOsesyuE4_JJ07UfNfkqHv9X9Y51_togYB6bfrHULaUEk6Yptu3MUVQahux9
+    bckUcsY-SDzqxKwOKc>
+X-ME-Received: <xmr:wje-YLjiIyamiR_4H2SsbYhA3bSFZzH9CX8Ijk6NMN3M2gMi6ao4U0Kz28OSj0iSIoyd1NT5uHt2n_5lqlf3j29YaCsw1C3FCEff>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedgkeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:wje-YH9EfFFgexZykUwQDhna_gi1u4nECtjP0ct5HQpTpmfP445L7g>
+    <xmx:wje-YGsIy9oqGs-s4FYzZY_izxuOTNBN6I6w2gu0PdsO4raByPuQYw>
+    <xmx:wje-YOFTjZ_SmPDrwyDpJ2B5mnMvyT2fk94JBSgFSH6PlrIKDmLOEg>
+    <xmx:xze-YEDp8OmNkYgI-EaSiy_bkYzkJ7pTKpmg3PQPcwwqy26OdILarw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Jun 2021 11:14:09 -0400 (EDT)
+Date: Mon, 7 Jun 2021 17:14:07 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Sean Anderson <sean.anderson@seco.com>
+Cc: Andre Przywara <andre.przywara@arm.com>, Simon Glass <sjg@chromium.org>,
+	Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Patrick Delaunay <patrick.delaunay@foss.st.com>,
+	Heiko Schocher <hs@denx.de>, Kever Yang <kever.yang@rock-chips.com>,
+	Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: Re: [RFC PATCH 0/3] fastboot: sunxi: Determine MMC device at runtime
+Message-ID: <20210607151407.wjktjyvd37d27nmy@gilmour>
+References: <20210524003650.24469-1-andre.przywara@arm.com>
+ <f8fa6aca-7525-355f-ec77-26819e4c785d@seco.com>
+ <20210524152831.unrg7zexsdbz6uki@gilmour>
+ <9f77283d-109a-25ad-d4be-4867ee47d0db@seco.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210519104152.21119-1-andre.przywara@arm.com>
- <20210519104152.21119-13-andre.przywara@arm.com> <20210524115946.jwsasjbr3biyixhz@gilmour>
- <20210525122901.778bfccd@slackpad.fritz.box> <20210607132255.7fa75a7k7ud2g7ux@gilmour>
- <20210607151742.2f05ff95@slackpad.fritz.box>
-In-Reply-To: <20210607151742.2f05ff95@slackpad.fritz.box>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 7 Jun 2021 22:26:02 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66mFAWzM_mqT8GiP5NmPNXjEsKq8C6cn8EHSjK82etjyg@mail.gmail.com>
-Message-ID: <CAGb2v66mFAWzM_mqT8GiP5NmPNXjEsKq8C6cn8EHSjK82etjyg@mail.gmail.com>
-Subject: Re: [linux-sunxi] Re: [PATCH v6 12/17] phy: sun4i-usb: Introduce
- port2 SIDDQ quirk
-To: =?UTF-8?Q?Andr=C3=A9_Przywara?= <andre.przywara@arm.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, 
-	Ondrej Jirman <megous@megous.com>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-sunxi <linux-sunxi@googlegroups.com>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>, Kishon Vijay Abraham I <kishon@ti.com>, 
-	Vinod Koul <vkoul@kernel.org>, linux-phy@lists.infradead.org, 
-	linux-usb <linux-usb@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="w5ki47yh52otzu5k"
+Content-Disposition: inline
+In-Reply-To: <9f77283d-109a-25ad-d4be-4867ee47d0db@seco.com>
 
-Hi,
 
-On Mon, Jun 7, 2021 at 10:17 PM Andre Przywara <andre.przywara@arm.com> wrote:
->
-> On Mon, 7 Jun 2021 15:22:55 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi Maxime,
->
-> > On Tue, May 25, 2021 at 12:29:01PM +0100, Andre Przywara wrote:
-> > > On Mon, 24 May 2021 13:59:46 +0200
-> > > Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > Hi Maxime,
-> > >
-> > > > On Wed, May 19, 2021 at 11:41:47AM +0100, Andre Przywara wrote:
-> > > > > At least the Allwinner H616 SoC requires a weird quirk to make most
-> > > > > USB PHYs work: Only port2 works out of the box, but all other ports
-> > > > > need some help from this port2 to work correctly: The CLK_BUS_PHY2 and
-> > > > > RST_USB_PHY2 clock and reset need to be enabled, and the SIDDQ bit in
-> > > > > the PMU PHY control register needs to be cleared. For this register to
-> > > > > be accessible, CLK_BUS_ECHI2 needs to be ungated. Don't ask ....
-> > > > >
-> > > > > Instead of disguising this as some generic feature, do exactly that
-> > > > > in our PHY init:
-> > > > > If the quirk bit is set, and we initialise a PHY other than PHY2, ungate
-> > > > > this one special clock, and clear the SIDDQ bit. We can pull in the
-> > > > > other required clocks via the DT.
-> > > > >
-> > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > >
-> > > > What is this SIDDQ bit doing exactly?
-> > >
-> > > I probably know as much as you do, but as Jernej pointed out, in some
-> > > Rockchip code it's indeed documented as some analogue PHY supply switch:
-> > > ($ git grep -i siddq drivers/phy/rockchip)
-> > >
-> > > In fact we had this pin/bit for ages, it was just hidden as BIT(1) in
-> > > our infamous PMU_UNK1 register. Patch 10/17 drags that into the light.
+--w5ki47yh52otzu5k
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, May 24, 2021 at 11:43:43AM -0400, Sean Anderson wrote:
+>=20
+>=20
+> On 5/24/21 11:28 AM, Maxime Ripard wrote:
+> > On Mon, May 24, 2021 at 10:37:31AM -0400, Sean Anderson wrote:
+> >>
+> >>
+> >> On 5/23/21 8:36 PM, Andre Przywara wrote:
+> >>> At the moment the fastboot code relies on the Kconfig variable
+> >>> CONFIG_FASTBOOT_FLASH_MMC_DEV to point to the MMC device to use for t=
+he
+> >>> flash command. This value needs to be the *U-Boot device number*, whi=
+ch
+> >>> is picked by the U-Boot device model at runtime. This makes it quite
+> >>> tricky and fragile to fix this variable at compile time, as other DT
+> >>> nodes and aliases influence the enumeration process.
+> >>>
+> >>> To make this process more robust, allow the device number to be picke=
+d at
+> >>> runtime, which sounds like a better fit to find this device number. P=
+atch
+> >>> 1/3 introduces a weak function for that purpose.
+> >>> Patch 2/3 then implements this function for the Allwinner platform. T=
+he
+> >>> code follows the idea behind the existing Kconfig defaults: Use the e=
+MMC
+> >>> device, if that exists, or the SD card otherwise. This patch is actua=
+lly
+> >>> not sunxi specific, so might be adopted by other platforms as well.
+> >>> Patch 3/3 then drops the existing Kconfig defaults for sunxi, to clean
+> >>> this up and remove the implicit assumption that the eMMC device is al=
+ways
+> >>> device 1 (as least for the fastboot code).
+> >>>
+> >>> I would be curious if others think this is the right way forward.
+> >>> The fact that the U-Boot device numbers are determined at runtime
+> >>> seems to conflict with the idea of a Kconfig variable in the first pl=
+ace,
+> >>> hence this series. This brings us one step closer to the end goal of
+> >>> removing the "eMMC is device 1" assumption.
+> >>
+> >> I would actually favor removing CONFIG_FASTBOOT_FLASH_MMC_DEV
+> >> altogether, and just specifying the device explicitly in fastboot
+> >> commands. If you need to dynamically change the device, you can create
+> >> some aliases. E.g. you could have something like
+> >>
+> >> "fastboot_aliases=3Dsetenv fastboot_partition_alias_user ${mmcdev}.0:0"
+> >>
+> >> and then run this variable just before calling `fastboot 0` (or whatev=
+er
+> >> your usb device is).
 > >
-> > Ok
-> >
-> > > > I guess we could also expose this using a power-domain if it's relevant?
-> > >
-> > > Mmmh, interesting idea. So are you thinking about registering a genpd
-> > > provider in sun4i_usb_phy_probe(), then having a power-domains property
-> > > in the ehci/ohci nodes, pointing to the PHY node? And if yes, should
-> > > the provider be a subnode of the USB PHY node, with a separate
-> > > compatible? That sounds a bit more involved, but would have the
-> > > advantage of allowing us to specify the resets and clocks from PHY2
-> > > there, and would look a bit cleaner than hacking them into the
-> > > other EHCI/OHCI nodes.
-> >
-> > I'm not sure we need a separate device node, we could just register the
-> > phy driver as a genpd provider, and then with an arg (so with
-> > of_genpd_add_provider_onecell?) the index of the USB controller we want
-> > to power up.
->
-> Yeah, I figured that myself meanwhile ;-) I now have a fairly nice
-> implementation, which does away with the extra clocks and resets from
-> the EHCI/OHCI nodes, and just adds one extra clock to the PHY node. The
-> rest is power domains properties.
+> > If we're going that way, maybe we can just pass the interface on the
+> > command line like dfu does?
+>=20
+> That could work, but I don't think it's necessary. At the moment there
+> are many different ways to specify partitions (KConfig, Aliases, "U-boot
+> syntax", GPT partition labels). I would rather pare things down to the
+> minimum necessary ways than add yet another bit of state to specify
+> partitions.
+>=20
+> > That way the new requirement would be very obvious instead of
+> > introducing a new environment variable no one really expects?
+>=20
+> I'm not sure what you mean here. This alias system has been in place for
+> a while, and it's very convenient for mapping a stable name to some
+> arbitrary device and partition.
 
-I'm wondering, since SIDDQ refers to the analog power for USB, it shouldn't
-really affect the HCIs, only the PHYs. Is there any way to model it like
-this and test it?
+I don't deny the fact that it can be convenient. What I was pointing out
+is that it's been optional the whole time, that I've been using fastboot
+for like 5 years and didn't realize that this feature was there, and
+it's only implemented for mmc.
 
-ChenYu
+To make it required, without any warning, would be fairly confusing.
 
-> > > I would not touch the existing SoCs (even though it seems to apply to
-> > > them as well, just not in the exact same way), but I can give it a
-> > > try for the H616. It seems like the other SIDDQ bits (in the other
-> > > PHYs) are still needed for operation, but the PD provide could actually
-> > > take care of this as well.
-> > >
-> > > Does that make sense or is this a bit over the top for just clearing an
-> > > extra bit?
-> >
-> > Using what I described above should be fairly simple, so if we can fit
-> > in an available and relevant abstraction, yeah, I guess :)
->
-> Thanks!
-> I will post what I have, just need to find some solution for the RTC
-> clock bits.
->
-> Cheers,
-> Andre
->
-> --
-> You received this message because you are subscribed to the Google Groups "linux-sunxi" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to linux-sunxi+unsubscribe@googlegroups.com.
-> To view this discussion on the web, visit https://groups.google.com/d/msgid/linux-sunxi/20210607151742.2f05ff95%40slackpad.fritz.box.
+Maxime
+
+--w5ki47yh52otzu5k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL43vwAKCRDj7w1vZxhR
+xXWjAP4ijbrP5rFBtxjiISZSUpdorzySkOxN4jszpKafqbpTrwEAtSfHf9ap918v
+1/38i3KPC+STnY6v270zr1xs3i85UAM=
+=v70t
+-----END PGP SIGNATURE-----
+
+--w5ki47yh52otzu5k--
