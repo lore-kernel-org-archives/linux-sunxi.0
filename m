@@ -1,17 +1,17 @@
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DE070
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68D170
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 08:07:36 +0000 (UTC)
 Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
 	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1lqAI7-0001dM-B8; Mon, 07 Jun 2021 10:07:23 +0200
+	id 1lqABr-0000dm-Bv; Mon, 07 Jun 2021 10:00:55 +0200
 Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
 	(envelope-from <ukl@pengutronix.de>)
-	id 1lqAI6-0004JI-2w; Mon, 07 Jun 2021 10:07:22 +0200
-Date: Mon, 7 Jun 2021 10:07:21 +0200
+	id 1lqABn-00033K-TW; Mon, 07 Jun 2021 10:00:51 +0200
+Date: Mon, 7 Jun 2021 10:00:51 +0200
 From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To: Roman Beranek <roman.beranek@prusa3d.cz>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
@@ -21,79 +21,63 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
-Subject: Re: [PATCH 2/6] pwm: sun4i: disable EN bit prior to the delay
-Message-ID: <20210607080721.4o2dd4pmb4wwddgg@pengutronix.de>
+Subject: Re: [PATCH 1/6] pwm: sun4i: enable clk prior to getting its rate
+Message-ID: <20210607080051.anzdfywvbpu52e2f@pengutronix.de>
 References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
- <20210531044608.1006024-3-roman.beranek@prusa3d.com>
+ <20210531044608.1006024-2-roman.beranek@prusa3d.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="anudz3llin6kdgsz"
+	protocol="application/pgp-signature"; boundary="fgvzcr2xl7qwtzjm"
 Content-Disposition: inline
-In-Reply-To: <20210531044608.1006024-3-roman.beranek@prusa3d.com>
+In-Reply-To: <20210531044608.1006024-2-roman.beranek@prusa3d.com>
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
 X-SA-Exim-Mail-From: ukl@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---anudz3llin6kdgsz
+--fgvzcr2xl7qwtzjm
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 31, 2021 at 06:46:04AM +0200, Roman Beranek wrote:
-> The reason why we wait before gating the clock is to allow for the PWM
-> to finish its cycle and stop. But it won't stop unless the EN bit is
-> disabled.
+On Mon, May 31, 2021 at 06:46:03AM +0200, Roman Beranek wrote:
+> Ensure the PWM clock is enabled prior to retrieving its rate, as is
+> already being done in sun4i_pwm_apply.
 >=20
 > Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
 > ---
->  drivers/pwm/pwm-sun4i.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  drivers/pwm/pwm-sun4i.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >=20
 > diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
-> index 3721b9894cf6..2777abe66f79 100644
+> index e01becd102c0..3721b9894cf6 100644
 > --- a/drivers/pwm/pwm-sun4i.c
 > +++ b/drivers/pwm/pwm-sun4i.c
-> @@ -303,6 +303,8 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
+> @@ -117,8 +117,15 @@ static void sun4i_pwm_get_state(struct pwm_chip *chi=
+p,
+>  	u64 clk_rate, tmp;
+>  	u32 val;
+>  	unsigned int prescaler;
+> +	int ret;
 > =20
->  	if (state->enabled)
->  		ctrl |=3D BIT_CH(PWM_EN, pwm->hwpwm);
-> +	else
-> +		ctrl &=3D ~BIT_CH(PWM_EN, pwm->hwpwm);
-
-Catching the case !state->enabled even earlier would make sense.
-Otherwise you might see a needless glitch after
-
-	pwm_apply_state(mypwm, { .period =3D A, .duty_cycle =3D B, .enabled =3D tr=
-ue });
-	pwm_apply_state(mypwm, { .period =3D C, .duty_cycle =3D D, .enabled =3D fa=
-lse });
-
-which might make C+D visible on the PWM before disabling.
-
+> +	ret =3D clk_prepare_enable(sun4i_pwm->clk);
+> +	if (ret) {
+> +		dev_err(chip->dev, "failed to enable PWM clock\n");
+> +		return;
+> +	}
+>  	clk_rate =3D clk_get_rate(sun4i_pwm->clk);
+> +	clk_disable_unprepare(sun4i_pwm->clk);
 > =20
->  	sun4i_pwm_writel(sun4i_pwm, ctrl, PWM_CTRL_REG);
-> =20
-> @@ -325,7 +327,6 @@ static int sun4i_pwm_apply(struct pwm_chip *chip, str=
-uct pwm_device *pwm,
->  	spin_lock(&sun4i_pwm->ctrl_lock);
->  	ctrl =3D sun4i_pwm_readl(sun4i_pwm, PWM_CTRL_REG);
->  	ctrl &=3D ~BIT_CH(PWM_CLK_GATING, pwm->hwpwm);
-> -	ctrl &=3D ~BIT_CH(PWM_EN, pwm->hwpwm);
->  	sun4i_pwm_writel(sun4i_pwm, ctrl, PWM_CTRL_REG);
->  	spin_unlock(&sun4i_pwm->ctrl_lock);
+>  	val =3D sun4i_pwm_readl(sun4i_pwm, PWM_CTRL_REG);
 
-So the comment
-
-  /* We need a full period to elapse before disabling the channel. */
-
-is wrong?
+If the clock is off, does the PWM actually run? Assuming it doesn't the
+right thing to do is to ensure the clock is enabled in .probe iff the
+PWM is enabled.
 
 Best regards
 Uwe
@@ -102,19 +86,19 @@ Uwe
 Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
 Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---anudz3llin6kdgsz
+--fgvzcr2xl7qwtzjm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC907cACgkQwfwUeK3K
-7Ame3gf/Ur7YoIu9nMF20rXnA1ys1wDYe0y17G8qfQVWLhbb3wVzlQdCBxrx7zcH
-vsBQL0rRoYu04Cgdz+YSWnfDnp/LdjwAwPQ6G5KN6rlXQNiuOqMgVdpdJAlZ0jyt
-uTOTR6OfN8JKAcLTKxOWNORnZbD4cVQa58rRJYMiFJAhaGscDwdWYkwvy/QkOkiB
-j4y0A+sJbHd7M7P8vL4DeTTHZU3TFcaEqiXJ75PTkJc0Z5nE6SFjN/xkwewhfK9H
-iKHtSejdiGFvthOHNmVJ5R9obDkyGcBzNI/AO5qNrk3Ju+ckOf1lCW9TSVQYZO8a
-V1OmOtMiWRSd8K1pDBXwZeEXMBbqjA==
-=QwWJ
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmC90jAACgkQwfwUeK3K
+7AkTwQf/QHr6m8fTM/0AQ1Q9o6vzNcycIEHwD35swSOiuUM/FJD3zDMwbuaN5P8m
+5+Huh5ZopP6VYTl4oRqlb41J2UUzGXVhGRu8XL07fHpps6TYZzxcuPk/oc2nnEfW
+J+uEedwhAx/OrvWmZXxGx+0on1HpgBqY7SeGFkr/rB4Dm1uF1Wn+QDgM1J4QOiXt
+OmjuMKQItgz7FirKHYyUFqjZ/8v1rseUfl5GjAQlgBQUjAlnxJbL1ZP7EnfGdmdG
+5uaggsyAxgmwmEM/tigKDZjTswTKdXYjPthx6zk3MirPSb/EWxfyBGIG1Rd5pym4
+faMhKKyIIwRhVAiq80W2occrz6IGGA==
+=tXV6
 -----END PGP SIGNATURE-----
 
---anudz3llin6kdgsz--
+--fgvzcr2xl7qwtzjm--
