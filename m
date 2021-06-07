@@ -1,118 +1,161 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523452F80
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 11:41:52 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 1F34E5C004D;
-	Mon,  7 Jun 2021 07:41:52 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 07 Jun 2021 07:41:52 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29002F80
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 12:12:24 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id 4D0041B0;
+	Mon,  7 Jun 2021 08:12:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 07 Jun 2021 08:12:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=G5Ws2mdv15PvC68TLAqW5lgwuqX
-	ZpoJNGuY6oJsLBA8=; b=3tRyPHtyeXaFQftLKvhJoTkFW51BVly26aSE6sSJI+R
-	IoB1DpfQ47ZDZJRU6QS6J4+0tISxsn/zU4Y+gXSbtSjqikD2risJg6UIm0SYWpEy
-	OrALQsrSV32mV54JbKzINJvk16OBmCq7VRM63RLYZ69rb0LdQrS2DNrNqy5rCb8L
-	KUsUilvadarIzaHCh4SCleujYPmfbHvSHQL0sKfVfOl0aefR6S1RTlKzLiak3teL
-	qpJTLrl46YLcEI3ciCKYgetk1GCiZe7vrPKvHoE4fZDJ9N3oPmf/GmJIVPHwhk8V
-	zYpinUefpNcbjw+MMj5WUhRmovJBwAM6ChEO3lCwjtQ==
+	:content-type:in-reply-to; s=fm3; bh=bdOV5shNGSbudXo1jwtzb6I/I3t
+	HHcGm1Y59GzTTJXo=; b=XS6uS76xyfeS/NYAouenRxCHoyQE+SRP65aLaZGI6hw
+	IN/3lQdjW+4UtOsR0kZgl6AnVpUOsyX/hzMIBan0xQqm+0O7zLaqovNZLZ7WIy6v
+	xvacgtC1QbHSMvxaASM3CIbudxtJrO3tnRju7K0+LiGGVudFcO6ub+RLkzA5pLVe
+	AcUh7YRCXRkeRaLu0KVjZEKkvvBxnmq5YRAplF5u5Tu0iWuRT4+VCFIxEUvFPvGD
+	1xLGYUKNCVdoDqQ6VET3W74UtSHLV39x3O8+jS88AjRFsX9SAf9mSzT1MX9OVEbm
+	GDD2ji8g3pHgrefEer3mlxMTrM9jGrZyuR7DHkOP7+g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G5Ws2m
-	dv15PvC68TLAqW5lgwuqXZpoJNGuY6oJsLBA8=; b=ein3MXW5EAS7eaYMMuhBtd
-	cneBPNnvS/L3YRnF3N/degKzLXVryCMneXOCg23tdXcRzekEsRqk7p5ziTyLpT7k
-	CkSaZ/2oI1KdFX2Cmvl9+eNmHUOJiI1/ROE8wxiL1S2bDyP8x6oZpouHriLXzmSE
-	JhU5RHEQr8GMx8R45ZY0ti+MWQw+9ClGJ/7gZt50jkUsfcRxStCEfcKs6tHuLxDD
-	AwZthKqOgP0P8Iiu7e2OhN35S2P11pp5AWXNkUtbMMDNZdhPr2nj5xmYVWo1UWXl
-	s6fA+iTFTGSDm2bvF6QY/wiFEVMTbiR15a+BbVvDrd6lM8R1/D+qzlfpFMddQbdw
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=bdOV5s
+	hNGSbudXo1jwtzb6I/I3tHHcGm1Y59GzTTJXo=; b=dcR5U7o+ZFK6ssgmBRE2NB
+	sO1tZWdllAJYK7ztLKKm9gdAB/E3jFPrR04sKRfzRKx/jQA7j/MihPOQa5+Xs74F
+	0GgXfeN+lDdU2Gs/hQze5S7koNIraVZRxH0kFQ3nT4g+mt8bO/SB7FUo2XSHkxmN
+	+1HUPFeyrWPnc+0ZQb6Qigl4qP9O+CY2zQVFRzaOp+dHkBl8A3uM+p9XIilmfIv6
+	tPIC3bSj2V0kHzqsDoYVQKGzUYy5teyVyemgE3q8sO0+GUp/J8EE5bGapw4iMMZq
+	+3l1mTOxI5Sec8kSi6w4Ile64Rh7ITXevxDPqgoXJ7yq9tGZVndaaXgwj448nnUA
 	==
-X-ME-Sender: <xms:_QW-YPL6pMGk8TJMk-zTM29PAGcZYasbjgr8OmTJ8lNXWahD0-dhTg>
-    <xme:_QW-YDJhwidlZb6p4_PXhfq8phUHDCbhdBrYJ1pmnlS9Gbw4V_Wmpj36eiOWQwvLw
-    ozTwP2DR9IvhP3fVZY>
-X-ME-Received: <xmr:_QW-YHumjn6lyCpBZJkSc-g9v83X-9V_JJTEgFuf2jTPS_93no5pqFQqqNsf1kHOvvpDZ5l6faKUb-PBof8ZWAR4YWH5eLYUsvBK>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedggeefucetufdoteggodetrfdotf
+X-ME-Sender: <xms:Iw2-YMLB4VWUqQZzO985pEpbj8o6VPd9Ci0OWGRR5TduaFbtnCuq7w>
+    <xme:Iw2-YMLnAYhJcFtmWahBrMZL9cwSSmCpjepUw4ljAhKTolbV0fl6MxzpjF2UuQUj_
+    Ofx-dARGpQODw9pHLs>
+X-ME-Received: <xmr:Iw2-YMtRQHnU45TaMtPodTCT2usv4X9A_LfYyaCeDXuZw60HTKG1KRS-EbVFXWLE2r48F_c4SYUO4fs__aq75Uk7ihgER4-JPkmT>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedtjedggeelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepfefhhfehieekffffgfdutdevhfehffdvtedtfeeugffggedtudeivdehgffh
-    uedunecuffhomhgrihhnpehlkhhmlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:_QW-YIbQlnTgAWwZJonFgPgKXxYSEwaJZWA3H_iectFg8HKcWz35Cw>
-    <xmx:_QW-YGbxWs9wDkr3JcxlTDLJ28Ef_pIVYj6C1XfKb1vAAcnHhGxTnw>
-    <xmx:_QW-YMAIiX3-Dg4s4Htkf1RQeNL6DaSGPDDBInuoNYtekze33S9qHg>
-    <xmx:AAa-YMMj8AbTZogx7CGTsth4upd75pVGpUsh0krHQgUO-UsOfxEQhQ>
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:Iw2-YJah5h_UePXZpbGIQgdSkdOOIlsEE0qjvih2CtERvBF2wh4hcw>
+    <xmx:Iw2-YDZV6xCk3oBVhlWRk3rnOA5wGtVZYY6mUEPhy2540hL-G0HPJA>
+    <xmx:Iw2-YFBocIU_-sAYpaRPrTM8PUOgjRppOnmUhcsErWx1TumMlonU2A>
+    <xmx:JQ2-YJzQhjl_JXbJxXc-wX3Klz5FnHdw4ounZ_k54XtDqOOLUDmq6ynMGVc>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Jun 2021 07:41:48 -0400 (EDT)
-Date: Mon, 7 Jun 2021 13:41:46 +0200
+ 7 Jun 2021 08:12:18 -0400 (EDT)
+Date: Mon, 7 Jun 2021 14:12:16 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Ondrej Jirman <megous@megous.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	"open list:DRM DRIVER FOR ALLWINNER DE2 AND DE3 ENGINE" <dri-devel@lists.freedesktop.org>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>,
-	Saravana Kannan <saravanak@google.com>
-Subject: Re: [PATCH v2] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform
- device
-Message-ID: <20210607114146.ohiqf4ousibfu4wm@gilmour>
-References: <20210607085836.2827429-1-megous@megous.com>
+To: Guo Ren <guoren@kernel.org>
+Cc: Anup Patel <anup.patel@wdc.com>,
+	Palmer Dabbelt <palmerdabbelt@google.com>,
+	Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
+	Drew Fustini <drew@beagleboard.org>, liush@allwinnertech.com,
+	Wei Wu =?utf-8?B?KOWQtOS8nyk=?= <lazyparser@gmail.com>,
+	wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>,
+	Atish Patra <atish.patra@wdc.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [RFC PATCH v2 10/11] riscv: soc: Add Allwinner SoC kconfig option
+Message-ID: <20210607121216.ypoehirsdypul3br@gilmour>
+References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
+ <1622970249-50770-14-git-send-email-guoren@kernel.org>
+ <20210607071916.kwdbtafbqp3icgia@gilmour>
+ <CAJF2gTT=aLNpwuQmOPw=L8eoezwX8DmGOunmPx0H_WzbaOpO+g@mail.gmail.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="go2u3onasjnikotj"
+	protocol="application/pgp-signature"; boundary="secwxumdfbdnmyjv"
 Content-Disposition: inline
-In-Reply-To: <20210607085836.2827429-1-megous@megous.com>
+In-Reply-To: <CAJF2gTT=aLNpwuQmOPw=L8eoezwX8DmGOunmPx0H_WzbaOpO+g@mail.gmail.com>
 
 
---go2u3onasjnikotj
+--secwxumdfbdnmyjv
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 07, 2021 at 10:58:36AM +0200, Ondrej Jirman wrote:
-> From: Saravana Kannan <saravanak@google.com>
+On Mon, Jun 07, 2021 at 03:43:03PM +0800, Guo Ren wrote:
+> On Mon, Jun 7, 2021 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > Hi,
+> >
+> > On Sun, Jun 06, 2021 at 09:04:08AM +0000, guoren@kernel.org wrote:
+> > > From: Guo Ren <guoren@linux.alibaba.com>
+> > >
+> > > Add Allwinner kconfig option which selects SoC specific and common
+> > > drivers that is required for this SoC.
+> > >
+> > > Allwinner D1 uses custom PTE attributes to solve non-coherency SOC
+> > > interconnect issues for dma synchronization, so we set the default
+> > > value when SOC_SUNXI selected.
+> > >
+> > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
+> > > Co-Developed-by: Liu Shaohua <liush@allwinnertech.com>
+> > > Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
+> > > Cc: Anup Patel <anup.patel@wdc.com>
+> > > Cc: Atish Patra <atish.patra@wdc.com>
+> > > Cc: Christoph Hellwig <hch@lst.de>
+> > > Cc: Chen-Yu Tsai <wens@csie.org>
+> > > Cc: Drew Fustini <drew@beagleboard.org>
+> > > Cc: Maxime Ripard <maxime@cerno.tech>
+> > > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
+> > > Cc: Wei Fu <wefu@redhat.com>
+> > > Cc: Wei Wu <lazyparser@gmail.com>
+> > > ---
+> > >  arch/riscv/Kconfig.socs      | 12 ++++++++++++
+> > >  arch/riscv/configs/defconfig |  1 +
+> > >  2 files changed, 13 insertions(+)
+> > >
+> > > diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
+> > > index ed96376..055fb3e 100644
+> > > --- a/arch/riscv/Kconfig.socs
+> > > +++ b/arch/riscv/Kconfig.socs
+> > > @@ -69,4 +69,16 @@ config SOC_CANAAN_K210_DTB_SOURCE
+> > >
+> > >  endif
+> > >
+> > > +config SOC_SUNXI
+> > > +     bool "Allwinner SoCs"
+> > > +     depends on MMU
+> > > +     select DWMAC_GENERIC
+> > > +     select SERIAL_8250
+> > > +     select SERIAL_8250_CONSOLE
+> > > +     select SERIAL_8250_DW
+> > > +     select SIFIVE_PLIC
+> > > +     select STMMAC_ETH
+> > > +     help
+> > > +       This enables support for Allwinner SoC platforms like the D1.
+> > > +
+> >
+> > We probably don't want to select DWMAC, STMMAC_ETH and the 8250 options,
+> > looks good otherwise.
+> >
+> > Maxime
+> Remove DWMAC, STMMAC_ETH is okay.
 >=20
-> On sunxi boards that use HDMI output, HDMI device probe keeps being
-> avoided indefinitely with these repeated messages in dmesg:
->=20
->   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
->     not ready
->=20
-> There's a fwnode_link being created with fw_devlink=3Don between hdmi
-> and hdmi-phy nodes, because both nodes have 'compatible' property set.
->=20
-> Fw_devlink code assumes that nodes that have compatible property
-> set will also have a device associated with them by some driver
-> eventually. This is not the case with the current sun8i-hdmi
-> driver.
->=20
-> This commit makes sun8i-hdmi-phy into a proper platform device
-> and fixes the display pipeline probe on sunxi boards that use HDMI.
->=20
-> More context: https://lkml.org/lkml/2021/5/16/203
->=20
-> Signed-off-by: Saravana Kannan <saravanak@google.com>
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> But I think we still need:
+> select SERIAL_8250_DW if SERIAL_8250
 
-Applied, thanks
+Well, even the UART is optional. Just enable them in the defconfig
+
 Maxime
 
---go2u3onasjnikotj
+--secwxumdfbdnmyjv
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL4F+gAKCRDj7w1vZxhR
-xQEfAP9vP3jokTFEfVVEzY9r1WA2vwZlSzf/+NvOVPNtT5JpAwD/bqlz7iyVFUtu
-CEYuLVjcA1hWAZsRTGT2RlI5eDbqnQQ=
-=y6rg
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYL4NIAAKCRDj7w1vZxhR
+xXytAP4mGdQrlps0ZkdQRDvgGoPmv63wCOgw7ukUbY9jEwIJGAEAwSHuyXFN1JP5
+4ZeSdV0JY7fJXuRP01GiYXItu7FXhg8=
+=/iVS
 -----END PGP SIGNATURE-----
 
---go2u3onasjnikotj--
+--secwxumdfbdnmyjv--
