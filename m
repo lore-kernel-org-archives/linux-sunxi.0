@@ -1,121 +1,103 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278A029CA
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 12:39:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BF35B6127A
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 12:39:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623069597;
-	bh=LUAY4oJCPkrVMDMv4EYSat/1R4o3Msb/H6pgTpNF6Dc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=KWV+7c3IjzT7FtlrB8gnUBQW/jSf/nTwRv+WGXgX1oQerF7TNwnjINy9dIy0WM9XG
-	 H1eMFTEQYp0FdRfJtMNFI3oqNy4X3oGD4+HIUq9/iTB8P8wYTaDPwD/HPWcoaF6BQu
-	 2n1h5PrujEwNugnUORQbo1zKFUmY+3LjPLub+kbavMAFzreI59ISbTUM60VJX+WXfS
-	 VVW0lJbixOMhfywWAgsIKDbu3fxk7qCyg6Lu06aqudSTABe3Cdyq/Ubusv+JNhg2vT
-	 o9fCVpoKq+s/nQ/NzUEDefCCqiMPGg3z4whipIhJYw+B4JzYo/IFTU7/Td6hKQDVxB
-	 uMx+BBnyHbJZA==
-Received: by mail-lf1-f47.google.com with SMTP id w33so26039880lfu.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Jun 2021 05:39:57 -0700 (PDT)
-X-Gm-Message-State: AOAM531Z34gVl3Xo6jnQRIYvZ361UDcp0XHQFFTRTlvR/aqHMTyCNLrg
-	aB4Y9w2JW2EI2RQmX5Cyba98BU9SZgiW5mREkNE=
-X-Google-Smtp-Source: ABdhPJz48qsWSQ02EwreDy3/VnjhXRWA7jvdPh9Ppq+bQ7kJFHb73CXOyYtlYg++k2AP3yDR3+5XzBToRYQX0vNFFNo=
-X-Received: by 2002:a05:6512:3f02:: with SMTP id y2mr12282446lfa.355.1623069595963;
- Mon, 07 Jun 2021 05:39:55 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD0E29CA
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Jun 2021 12:59:23 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 904C712FC;
+	Mon,  7 Jun 2021 05:59:17 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 690443F694;
+	Mon,  7 Jun 2021 05:59:15 -0700 (PDT)
+Date: Mon, 7 Jun 2021 13:59:10 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>, Icenowy
+ Zheng <icenowy@aosc.io>, Ondrej Jirman <megous@megous.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v6 03/17] dt-bindings: rtc: sun6i: Add H616 compatible
+ string
+Message-ID: <20210607135910.63560ffc@slackpad.fritz.box>
+In-Reply-To: <99a2069b-99e9-9b47-12a6-aae01c7f59dc@sholland.org>
+References: <20210519104152.21119-1-andre.przywara@arm.com>
+	<20210519104152.21119-4-andre.przywara@arm.com>
+	<99a2069b-99e9-9b47-12a6-aae01c7f59dc@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <1622970249-50770-1-git-send-email-guoren@kernel.org>
- <1622970249-50770-14-git-send-email-guoren@kernel.org> <20210607071916.kwdbtafbqp3icgia@gilmour>
- <CAJF2gTT=aLNpwuQmOPw=L8eoezwX8DmGOunmPx0H_WzbaOpO+g@mail.gmail.com> <20210607121216.ypoehirsdypul3br@gilmour>
-In-Reply-To: <20210607121216.ypoehirsdypul3br@gilmour>
-From: Guo Ren <guoren@kernel.org>
-Date: Mon, 7 Jun 2021 20:39:44 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTR1z3ZMOwyMBztNUnQJse2zPJV6CenXRnqu1LbUG6XW7A@mail.gmail.com>
-Message-ID: <CAJF2gTR1z3ZMOwyMBztNUnQJse2zPJV6CenXRnqu1LbUG6XW7A@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 10/11] riscv: soc: Add Allwinner SoC kconfig option
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Drew Fustini <drew@beagleboard.org>, 
-	liush@allwinnertech.com, =?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, 
-	wefu@redhat.com, linux-riscv <linux-riscv@lists.infradead.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Atish Patra <atish.patra@wdc.com>, Christoph Hellwig <hch@lst.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 7, 2021 at 8:12 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Jun 07, 2021 at 03:43:03PM +0800, Guo Ren wrote:
-> > On Mon, Jun 7, 2021 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Sun, Jun 06, 2021 at 09:04:08AM +0000, guoren@kernel.org wrote:
-> > > > From: Guo Ren <guoren@linux.alibaba.com>
-> > > >
-> > > > Add Allwinner kconfig option which selects SoC specific and common
-> > > > drivers that is required for this SoC.
-> > > >
-> > > > Allwinner D1 uses custom PTE attributes to solve non-coherency SOC
-> > > > interconnect issues for dma synchronization, so we set the default
-> > > > value when SOC_SUNXI selected.
-> > > >
-> > > > Signed-off-by: Guo Ren <guoren@linux.alibaba.com>
-> > > > Co-Developed-by: Liu Shaohua <liush@allwinnertech.com>
-> > > > Signed-off-by: Liu Shaohua <liush@allwinnertech.com>
-> > > > Cc: Anup Patel <anup.patel@wdc.com>
-> > > > Cc: Atish Patra <atish.patra@wdc.com>
-> > > > Cc: Christoph Hellwig <hch@lst.de>
-> > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > Cc: Drew Fustini <drew@beagleboard.org>
-> > > > Cc: Maxime Ripard <maxime@cerno.tech>
-> > > > Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-> > > > Cc: Wei Fu <wefu@redhat.com>
-> > > > Cc: Wei Wu <lazyparser@gmail.com>
-> > > > ---
-> > > >  arch/riscv/Kconfig.socs      | 12 ++++++++++++
-> > > >  arch/riscv/configs/defconfig |  1 +
-> > > >  2 files changed, 13 insertions(+)
-> > > >
-> > > > diff --git a/arch/riscv/Kconfig.socs b/arch/riscv/Kconfig.socs
-> > > > index ed96376..055fb3e 100644
-> > > > --- a/arch/riscv/Kconfig.socs
-> > > > +++ b/arch/riscv/Kconfig.socs
-> > > > @@ -69,4 +69,16 @@ config SOC_CANAAN_K210_DTB_SOURCE
-> > > >
-> > > >  endif
-> > > >
-> > > > +config SOC_SUNXI
-> > > > +     bool "Allwinner SoCs"
-> > > > +     depends on MMU
-> > > > +     select DWMAC_GENERIC
-> > > > +     select SERIAL_8250
-> > > > +     select SERIAL_8250_CONSOLE
-> > > > +     select SERIAL_8250_DW
-> > > > +     select SIFIVE_PLIC
-> > > > +     select STMMAC_ETH
-> > > > +     help
-> > > > +       This enables support for Allwinner SoC platforms like the D1.
-> > > > +
-> > >
-> > > We probably don't want to select DWMAC, STMMAC_ETH and the 8250 options,
-> > > looks good otherwise.
-> > >
-> > > Maxime
-> > Remove DWMAC, STMMAC_ETH is okay.
-> >
-> > But I think we still need:
-> > select SERIAL_8250_DW if SERIAL_8250
->
-> Well, even the UART is optional. Just enable them in the defconfig
-Okay
+On Thu, 20 May 2021 21:37:34 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
+Hi,
 
--- 
-Best Regards
- Guo Ren
+> On 5/19/21 5:41 AM, Andre Przywara wrote:
+> > Add the obvious compatible name to the existing RTC binding.
+> > The actual RTC part of the device uses a different day/month/year
+> > storage scheme, so it's not compatible with the previous devices.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> > index b1b0ee769b71..178c955f88bf 100644
+> > --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> > +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> > @@ -26,6 +26,7 @@ properties:
+> >            - const: allwinner,sun50i-a64-rtc
+> >            - const: allwinner,sun8i-h3-rtc
+> >        - const: allwinner,sun50i-h6-rtc
+> > +      - const: allwinner,sun50i-h616-rtc
+> >  
+> >    reg:
+> >      maxItems: 1
+> > @@ -97,7 +98,9 @@ allOf:
+> >        properties:
+> >          compatible:
+> >            contains:
+> > -            const: allwinner,sun50i-h6-rtc
+> > +            enum:
+> > +              - allwinner,sun50i-h6-rtc
+> > +              - allwinner,sun50i-h616-rtc
+> >  
+> >      then:
+> >        properties:
+> >   
+> 
+> This binding is missing a clock reference for the pll-periph0-2x input
+> to the 32kHz clock fanout.
 
-ML: https://lore.kernel.org/linux-csky/
+Right. So do I get this correctly that we don't model the OSC24M input
+explicitly so far in the DT? I only see one possible input clock, which
+is for an optional 32K crystal oscillator.
+And this means we need to change some code also? Because at the moment
+a clock specified is assumed to be the 32K OSC, and having this clock
+means we switch to the external 32K OSC.
+And who would decide which clock source to use? What would be the
+reason to use PLL_PERIPH(2x) over the RC16M based clock or the
+divided down 24MHz?
+
+So shall we ignore the PLL based input clock for now, put "0 input
+clocks" in the current binding, then later on extend this to allow
+choosing the PLL? And have it that way that having the PLL reference
+means we use it?
+
+> It is also missing a clock reference to the RTC register gate (and that
+> clock is in turn missing from the r_ccu driver).
+
+Do you mean a gate bit somewhere in the PRCM? Do you have any
+pointer/documentation for that?
+
+Cheers,
+Andre
