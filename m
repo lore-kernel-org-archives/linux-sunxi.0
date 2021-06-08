@@ -1,85 +1,51 @@
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3FC270
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jun 2021 15:00:22 +0000 (UTC)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) (Using
- TLS) by relay.mimecast.com with ESMTP id
- uk-mta-162-9RBwFXs0Nk6I40uBzgaFIw-1; Tue, 08 Jun 2021 16:00:19 +0100
-X-MC-Unique: 9RBwFXs0Nk6I40uBzgaFIw-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.18; Tue, 8 Jun 2021 16:00:17 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.018; Tue, 8 Jun 2021 16:00:17 +0100
-From: David Laight <David.Laight@ACULAB.COM>
-To: 'Christoph Hellwig' <hch@lst.de>, Guo Ren <guoren@kernel.org>
-CC: Nick Kossifidis <mick@ics.forth.gr>, Drew Fustini <drew@beagleboard.org>,
-	Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>,
-	"wefu@redhat.com" <wefu@redhat.com>, =?utf-8?B?V2VpIFd1ICjlkLTkvJ8p?=
-	<lazyparser@gmail.com>, linux-riscv <linux-riscv@lists.infradead.org>, "Linux
- Kernel Mailing List" <linux-kernel@vger.kernel.org>, linux-arch
-	<linux-arch@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, Guo Ren <guoren@linux.alibaba.com>, "Paul
- Walmsley" <paul.walmsley@sifive.com>, Benjamin Koch <snowball@c3pb.de>,
-	Matteo Croce <mcroce@linux.microsoft.com>, Wei Fu <tekkamanninja@gmail.com>
-Subject: RE: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-Thread-Topic: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
-Thread-Index: AQHXW2Yf+E+HbgFRkkm3Xv2DTkp7y6sKNaKQ
-Date: Tue, 8 Jun 2021 15:00:17 +0000
-Message-ID: <2db975b5f24149b19191120b9f0f506b@AcuMS.aculab.com>
-References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
- <20210519052048.GA24853@lst.de>
- <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com>
- <20210519064435.GA3076809@x1> <20210519065352.GA31590@lst.de>
- <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com>
- <29733b0931d9dd6a2f0b6919067c7efe@mailhost.ics.forth.gr>
- <CAJF2gTTpSbNWS4VLHAu4XsV5-Vos=6R9MmPOx8-yzMFJu=wX4A@mail.gmail.com>
- <a8f2e68dcc1a6eb1ff3b95fcb8d0d0d2@mailhost.ics.forth.gr>
- <CAJF2gTQuQ5bE6HeGSoNaDynA0o3+KEo4snwft42YGzE=+DjKOQ@mail.gmail.com>
- <20210607062701.GB24060@lst.de>
-In-Reply-To: <20210607062701.GB24060@lst.de>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1DE70
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Jun 2021 15:32:07 +0000 (UTC)
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 7F6FC68B05; Tue,  8 Jun 2021 17:32:03 +0200 (CEST)
+Date: Tue, 8 Jun 2021 17:32:03 +0200
+From: 'Christoph Hellwig' <hch@lst.de>
+To: David Laight <David.Laight@ACULAB.COM>
+Cc: 'Christoph Hellwig' <hch@lst.de>, Guo Ren <guoren@kernel.org>,
+	Nick Kossifidis <mick@ics.forth.gr>,
+	Drew Fustini <drew@beagleboard.org>,
+	Anup Patel <anup.patel@wdc.com>,
+	Palmer Dabbelt <palmerdabbelt@google.com>,
+	"wefu@redhat.com" <wefu@redhat.com>,
+	Wei Wu =?utf-8?B?KOWQtOS8nyk=?= <lazyparser@gmail.com>,
+	linux-riscv <linux-riscv@lists.infradead.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-arch <linux-arch@vger.kernel.org>,
+	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
+	Guo Ren <guoren@linux.alibaba.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Benjamin Koch <snowball@c3pb.de>,
+	Matteo Croce <mcroce@linux.microsoft.com>,
+	Wei Fu <tekkamanninja@gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+Message-ID: <20210608153203.GA6802@lst.de>
+References: <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com> <20210519064435.GA3076809@x1> <20210519065352.GA31590@lst.de> <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com> <29733b0931d9dd6a2f0b6919067c7efe@mailhost.ics.forth.gr> <CAJF2gTTpSbNWS4VLHAu4XsV5-Vos=6R9MmPOx8-yzMFJu=wX4A@mail.gmail.com> <a8f2e68dcc1a6eb1ff3b95fcb8d0d0d2@mailhost.ics.forth.gr> <CAJF2gTQuQ5bE6HeGSoNaDynA0o3+KEo4snwft42YGzE=+DjKOQ@mail.gmail.com> <20210607062701.GB24060@lst.de> <2db975b5f24149b19191120b9f0f506b@AcuMS.aculab.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2db975b5f24149b19191120b9f0f506b@AcuMS.aculab.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-RnJvbTogQ2hyaXN0b3BoIEhlbGx3aWcNCj4gU2VudDogMDcgSnVuZSAyMDIxIDA3OjI3DQo+IA0K
-PiBPbiBNb24sIEp1biAwNywgMjAyMSBhdCAxMToxOTowM0FNICswODAwLCBHdW8gUmVuIHdyb3Rl
-Og0KPiA+ID5Gcm9tIExpbnV4IG5vbi1jb2hlcmVuY3kgdmlldywgd2UgbmVlZDoNCj4gPiAgLSBO
-b24tY2FjaGUgKyBTdHJvbmcgT3JkZXIgUFRFIGF0dHJpYnV0ZXMgdG8gZGVhbCB3aXRoIGRyaXZl
-cnMnIERNQSBkZXNjcmlwdG9ycw0KPiA+ICAtIE5vbi1jYWNoZSArIHdlYWsgb3JkZXIgdG8gZGVh
-bCB3aXRoIGZyYW1lYnVmZmVyIGRyaXZlcnMNCj4gPiAgLSBDTU8gZG1hX3N5bmMgdG8gc3luYyBj
-YWNoZSB3aXRoIERNQSBkZXZpY2VzDQo+IA0KPiBUaGlzIGlzIG5vdCBzdHJpY3RseSB0cnVlLiAg
-QXQgdGhlIHZlcnkgbWluaW11bSB5b3Ugb25seSBuZWVkIGNhY2hlDQo+IGludmFsaWRhdGlvbiBh
-bmQgd3JpdGViYWNrIGluc3RydWN0aW9ucy4gIEZvciBleGFtcGxlIGVhcmx5IHBhcmlzYw0KPiBD
-UFVzIGFuZCBzb21lIG02OGtub21tdSBTT0NzIGhhdmUgbm8gc3VwcG9ydCBmb3IgdW5jYWNoZWQg
-YXJlYXMgYXQgYWxsLA0KPiBhbmQgTGludXggd29ya3MuICBCdXQgdG8gYmUgZmFpciB0aGlzIGlz
-IHZlcnkgcGFpbmZ1bCBhbmQgc3VwcG9ydHMgb25seQ0KPiB2ZXJ5IGxpbWl0ZWQgcGVyaXBoYWxz
-LiAgU28gZm9yIG1vZGVybiBmdWxsIExpbnV4IHN1cHBvcnQgc29tZSB1bmNhaGVkDQo+IG1lbW9y
-eSBpcyBhZHZpc2FibGUuICBCdXQgdGhhdCBkb2Vzbid0IGhhdmUgdG8gYmUgdXNpbmcgUFRFIGF0
-dHJpYnV0ZXMuDQo+IEl0IGNvdWxkIGFsc28gYmUgcGh5c2ljYWwgbWVtb3J5IHJlZ2lvbnMgdGhh
-dCBhcmUgZWl0aGVyIHRvdGFsbHkgZml4ZWQNCj4gb3Igc29tZXdoYXQgZHluYW1pYy4NCg0KSXQg
-aXMgYWxtb3N0IGltcG9zc2libGUgdG8gaW50ZXJmYWNlIHRvIG1hbnkgZXRoZXJuZXQgY2hpcHMg
-d2l0aG91dA0KZWl0aGVyIGNvaGVyZW50IG9yIHVuY2FjaGVkIG1lbW9yeSBmb3IgdGhlIGRlc2Ny
-aXB0b3IgcmluZ3MuDQpUaGUgc3RhdHVzIGJpdHMgb24gdGhlIHRyYW5zbWl0IHJpbmcgYXJlIHBh
-cnRpY3VsYXJseSBwcm9ibGVtYXRpYy4NCg0KVGhlIHJlY2VpdmUgcmluZyBjYW4gYmUgZG9uZSB3
-aXRoIHdyaXRlYmFjaytpbnZhbGlkYXRlIHByb3ZpZGVkIHlvdQ0KZmlsbCBhIGNhY2hlIGxpbmUg
-YXQgYSB0aW1lLg0KDQoJRGF2aWQNCg0KLQ0KUmVnaXN0ZXJlZCBBZGRyZXNzIExha2VzaWRlLCBC
-cmFtbGV5IFJvYWQsIE1vdW50IEZhcm0sIE1pbHRvbiBLZXluZXMsIE1LMSAxUFQsIFVLDQpSZWdp
-c3RyYXRpb24gTm86IDEzOTczODYgKFdhbGVzKQ0K
+On Tue, Jun 08, 2021 at 03:00:17PM +0000, David Laight wrote:
+> It is almost impossible to interface to many ethernet chips without
+> either coherent or uncached memory for the descriptor rings.
+> The status bits on the transmit ring are particularly problematic.
+> 
+> The receive ring can be done with writeback+invalidate provided you
+> fill a cache line at a time.
 
+It is horrible, but it has been done.  Take a look at:
+
+drivers/net/ethernet/i825xx/lasi_82596.c and
+drivers/net/ethernet/seeq/sgiseeq.c
