@@ -1,332 +1,136 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C1A2F80
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:33:13 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4G0Kzr2b5DzZf1j;
-	Wed,  9 Jun 2021 16:30:16 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 9 Jun 2021 16:33:06 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 9 Jun 2021 16:33:05 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>, "Lu
- Baolu" <baolu.lu@linux.intel.com>, Yong Wu <yong.wu@mediatek.com>, "Matthias
- Brugger" <matthias.bgg@gmail.com>, Maxime Ripard <mripard@kernel.org>,
-	"Chen-Yu Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	iommu <iommu@lists.linux-foundation.org>, linux-arm-kernel
-	<linux-arm-kernel@lists.infradead.org>, linux-mediatek
-	<linux-mediatek@lists.infradead.org>, linux-sunxi
-	<linux-sunxi@lists.linux.dev>
-CC: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH v3 2/2] iommu: Fix spelling mistakes
-Date: Wed, 9 Jun 2021 16:32:51 +0800
-Message-ID: <20210609083251.13827-3-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20210609083251.13827-1-thunder.leizhen@huawei.com>
-References: <20210609083251.13827-1-thunder.leizhen@huawei.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B222F80
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:47:47 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 78CB9202BA
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:39:29 +0000 (UTC)
+Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id E79C5260EC
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:39:20 +0000 (UTC)
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
+	by relay4.mymailcheap.com (Postfix) with ESMTPS id 98D462000B;
+	Wed,  9 Jun 2021 08:39:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by filter1.mymailcheap.com (Postfix) with ESMTP id D7B692A0D2;
+	Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+	s=default; t=1623227951;
+	bh=rmytQxnOpk4vxyV/FzXpiVZ2jb/LlTJDTmb0VH8OGXY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BRidAcX7tQtSncIO+5ONUE2I7NZV3XsQ/DD0AijcGygfauFb+9xw/+9/4Z9zlxRn2
+	 zgiXbfJQsAsfn5D7yVlYakSx2Mssx4qeCw/HNryNVSxxiK3AcXKtqYr4BJpfSW2jBP
+	 4Hs53VtMs/CKw5tvzTw3T1FiLO5ZMsvvkIr+QhKI=
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Ap29_pKn5cYR; Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by filter1.mymailcheap.com (Postfix) with ESMTPS;
+	Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
+Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
+	by mail20.mymailcheap.com (Postfix) with ESMTP id 8B48340CA4;
+	Wed,  9 Jun 2021 08:39:09 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com;
+	dkim=pass (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="HFRQbTFC";
+	dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from ice-e5v2.lan (unknown [59.41.163.75])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id ED7CC42655;
+	Wed,  9 Jun 2021 08:38:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1623227939; bh=rmytQxnOpk4vxyV/FzXpiVZ2jb/LlTJDTmb0VH8OGXY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=HFRQbTFC6S0hSLpNIKwHFT/LlhlJcCp4hUqDL2fYbGl734BHB5Ibpz6fMZqXLmpoA
+	 x+l6CFkOKxALmsuujoIuv+BGZS6yLpsH3jCzJs9yyCfceU5fUIsf3sI6vfJHHsFihi
+	 QHSYfVLTw7urpF7q/ZviejElG09GuAC+wZLOm/tk=
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Icenowy Zheng <icenowy@aosc.io>
+Subject: [PATCH] arm64: dts: allwinner: a64-sopine-baseboard: change RGMII mode to TXID
+Date: Wed,  9 Jun 2021 16:38:43 +0800
+Message-Id: <20210609083843.463750-1-icenowy@aosc.io>
+X-Mailer: git-send-email 2.30.2
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spamd-Result: default: False [6.40 / 20.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 R_MISSING_CHARSET(2.50)[];
+	 BROKEN_CONTENT_TYPE(1.50)[];
+	 R_SPF_SOFTFAIL(0.00)[~all];
+	 ML_SERVERS(-3.10)[148.251.23.173];
+	 DKIM_TRACE(0.00)[aosc.io:+];
+	 RCPT_COUNT_SEVEN(0.00)[9];
+	 FREEMAIL_TO(0.00)[kernel.org,csie.org,gmail.com,gmx.de];
+	 RCVD_NO_TLS_LAST(0.10)[];
+	 RECEIVED_SPAMHAUS_PBL(0.00)[59.41.163.75:received];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(0.00)[aosc.io:s=default];
+	 FROM_HAS_DN(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(0.00)[aosc.io];
+	 MID_CONTAINS_FROM(1.00)[];
+	 HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 SUSPICIOUS_RECIPS(1.50)[]
+X-Rspamd-Queue-Id: 8B48340CA4
 
-Fix some spelling mistakes in comments found by "codespell":
-alignement ==> alignment
-implemtation ==> implementation
-assignement ==> assignment
-initally ==> initially
-Returs ==> Returns
-Traverese ==> Traverse
-guarentees ==> guarantees
-resgister ==> register
-insufficent ==> insufficient
-Specifiction ==> Specification
-creats ==> creates
-tabke ==> table
-shuld ==> should
-requeset ==> request
-funcions ==> functions
-distiguish ==> distinguish
-phyiscal ==> physical
-Uppon ==> Upon
-consits ==> consists
+Although the schematics of Pine A64-LTS and SoPine Baseboard shows both
+the RX and TX internal delay are enabled, they're using the same broken
+RTL8211E chip batch with Pine A64+, so they should use TXID instead, not
+ID.
 
-And two were discovered manually by John Garry and Will Deacon:
-appropriatley ==> appropriately
-Additionally, The ==> Additionally, the
+In addition, by checking the real components soldered on both a SoPine
+Baseboard and a Pine A64-LTS, RX delay is not enabled (GR69 soldered and
+GR70 NC) despite the schematics says it's enabled. It's a common
+situation for Pine64 boards that the NC information on schematics is not
+the same with the board.
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+So the RGMII delay mode should be TXID on these boards.
+
+Fixes: c2b111e59a7b ("arm64: dts: allwinner: A64 Sopine: phy-mode rgmii-id")
+Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 ---
- drivers/iommu/amd/amd_iommu_types.h   | 2 +-
- drivers/iommu/amd/init.c              | 2 +-
- drivers/iommu/amd/iommu.c             | 2 +-
- drivers/iommu/arm/arm-smmu/arm-smmu.c | 2 +-
- drivers/iommu/fsl_pamu.c              | 2 +-
- drivers/iommu/fsl_pamu_domain.c       | 2 +-
- drivers/iommu/intel/dmar.c            | 8 ++++----
- drivers/iommu/intel/iommu.c           | 2 +-
- drivers/iommu/intel/irq_remapping.c   | 2 +-
- drivers/iommu/intel/svm.c             | 4 ++--
- drivers/iommu/iommu.c                 | 6 +++---
- drivers/iommu/mtk_iommu.c             | 4 ++--
- drivers/iommu/omap-iommu.c            | 2 +-
- drivers/iommu/sun50i-iommu.c          | 2 +-
- 14 files changed, 21 insertions(+), 21 deletions(-)
+ arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/iommu/amd/amd_iommu_types.h b/drivers/iommu/amd/amd_iommu_types.h
-index 94c1a7a9876d..67a6c2fb4de9 100644
---- a/drivers/iommu/amd/amd_iommu_types.h
-+++ b/drivers/iommu/amd/amd_iommu_types.h
-@@ -446,7 +446,7 @@ extern struct irq_remap_table **irq_lookup_table;
- /* Interrupt remapping feature used? */
- extern bool amd_iommu_irq_remap;
- 
--/* kmem_cache to get tables with 128 byte alignement */
-+/* kmem_cache to get tables with 128 byte alignment */
- extern struct kmem_cache *amd_iommu_irq_cache;
- 
- /*
-diff --git a/drivers/iommu/amd/init.c b/drivers/iommu/amd/init.c
-index 4e4fb0f4e412..52d450962288 100644
---- a/drivers/iommu/amd/init.c
-+++ b/drivers/iommu/amd/init.c
-@@ -2040,7 +2040,7 @@ static int intcapxt_irqdomain_activate(struct irq_domain *domain,
- 	xt.destid_24_31 = cfg->dest_apicid >> 24;
- 
- 	/**
--	 * Current IOMMU implemtation uses the same IRQ for all
-+	 * Current IOMMU implementation uses the same IRQ for all
- 	 * 3 IOMMU interrupts.
- 	 */
- 	writeq(xt.capxt, iommu->mmio_base + MMIO_INTCAPXT_EVT_OFFSET);
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index b1fbf2c83df5..1b635d4c2142 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -1809,7 +1809,7 @@ int __init amd_iommu_init_api(void)
-  * The following functions belong to the exported interface of AMD IOMMU
-  *
-  * This interface allows access to lower level functions of the IOMMU
-- * like protection domain handling and assignement of devices to domains
-+ * like protection domain handling and assignment of devices to domains
-  * which is not possible with the dma_ops interface.
-  *
-  *****************************************************************************/
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu.c b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-index dba15f312cbd..79db6e8c5e31 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu.c
-@@ -1360,7 +1360,7 @@ static struct iommu_device *arm_smmu_probe_device(struct device *dev)
- 		ret = arm_smmu_register_legacy_master(dev, &smmu);
- 
- 		/*
--		 * If dev->iommu_fwspec is initally NULL, arm_smmu_register_legacy_master()
-+		 * If dev->iommu_fwspec is initially NULL, arm_smmu_register_legacy_master()
- 		 * will allocate/initialise a new one. Thus we need to update fwspec for
- 		 * later use.
- 		 */
-diff --git a/drivers/iommu/fsl_pamu.c b/drivers/iommu/fsl_pamu.c
-index fc38b1fba7cf..53aff2766367 100644
---- a/drivers/iommu/fsl_pamu.c
-+++ b/drivers/iommu/fsl_pamu.c
-@@ -246,7 +246,7 @@ void get_ome_index(u32 *omi_index, struct device *dev)
-  * @stash_dest_hint: L1, L2 or L3
-  * @vcpu: vpcu target for a particular cache type.
-  *
-- * Returs stash on success or ~(u32)0 on failure.
-+ * Returns stash on success or ~(u32)0 on failure.
-  *
-  */
- u32 get_stash_id(u32 stash_dest_hint, u32 vcpu)
-diff --git a/drivers/iommu/fsl_pamu_domain.c b/drivers/iommu/fsl_pamu_domain.c
-index a47f47307109..2da312645279 100644
---- a/drivers/iommu/fsl_pamu_domain.c
-+++ b/drivers/iommu/fsl_pamu_domain.c
-@@ -363,7 +363,7 @@ static struct iommu_group *get_shared_pci_device_group(struct pci_dev *pdev)
- 	struct pci_bus *bus = pdev->bus;
- 
- 	/*
--	 * Traverese the pci bus device list to get
-+	 * Traverse the pci bus device list to get
- 	 * the shared iommu group.
- 	 */
- 	while (bus) {
-diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
-index 84057cb9596c..e1626f5eb689 100644
---- a/drivers/iommu/intel/dmar.c
-+++ b/drivers/iommu/intel/dmar.c
-@@ -45,7 +45,7 @@ struct dmar_res_callback {
- 
- /*
-  * Assumptions:
-- * 1) The hotplug framework guarentees that DMAR unit will be hot-added
-+ * 1) The hotplug framework guarantees that DMAR unit will be hot-added
-  *    before IO devices managed by that unit.
-  * 2) The hotplug framework guarantees that DMAR unit will be hot-removed
-  *    after IO devices managed by that unit.
-@@ -960,10 +960,10 @@ static void unmap_iommu(struct intel_iommu *iommu)
- /**
-  * map_iommu: map the iommu's registers
-  * @iommu: the iommu to map
-- * @phys_addr: the physical address of the base resgister
-+ * @phys_addr: the physical address of the base register
-  *
-  * Memory map the iommu's registers.  Start w/ a single page, and
-- * possibly expand if that turns out to be insufficent.
-+ * possibly expand if that turns out to be insufficient.
-  */
- static int map_iommu(struct intel_iommu *iommu, u64 phys_addr)
- {
-@@ -2128,7 +2128,7 @@ IOMMU_INIT_POST(detect_intel_iommu);
- /*
-  * DMAR Hotplug Support
-  * For more details, please refer to Intel(R) Virtualization Technology
-- * for Directed-IO Architecture Specifiction, Rev 2.2, Section 8.8
-+ * for Directed-IO Architecture Specification, Rev 2.2, Section 8.8
-  * "Remapping Hardware Unit Hot Plug".
-  */
- static guid_t dmar_hp_guid =
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index be35284a2016..80221f836ae8 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -288,7 +288,7 @@ static inline void context_clear_entry(struct context_entry *context)
- 
- /*
-  * This domain is a statically identity mapping domain.
-- *	1. This domain creats a static 1:1 mapping to all usable memory.
-+ *	1. This domain creates a static 1:1 mapping to all usable memory.
-  * 	2. It maps to each iommu if successful.
-  *	3. Each iommu mapps to this domain if successful.
-  */
-diff --git a/drivers/iommu/intel/irq_remapping.c b/drivers/iommu/intel/irq_remapping.c
-index f912fe45bea2..d66210308ede 100644
---- a/drivers/iommu/intel/irq_remapping.c
-+++ b/drivers/iommu/intel/irq_remapping.c
-@@ -74,7 +74,7 @@ static struct hpet_scope ir_hpet[MAX_HPET_TBS];
-  *	->iommu->register_lock
-  * Note:
-  * intel_irq_remap_ops.{supported,prepare,enable,disable,reenable} are called
-- * in single-threaded environment with interrupt disabled, so no need to tabke
-+ * in single-threaded environment with interrupt disabled, so no need to take
-  * the dmar_global_lock.
-  */
- DEFINE_RAW_SPINLOCK(irq_2_ir_lock);
-diff --git a/drivers/iommu/intel/svm.c b/drivers/iommu/intel/svm.c
-index 5165cea90421..da69a214ea12 100644
---- a/drivers/iommu/intel/svm.c
-+++ b/drivers/iommu/intel/svm.c
-@@ -485,7 +485,7 @@ intel_svm_bind_mm(struct device *dev, unsigned int flags,
- 	} else
- 		pasid_max = 1 << 20;
- 
--	/* Bind supervisor PASID shuld have mm = NULL */
-+	/* Bind supervisor PASID should have mm = NULL */
- 	if (flags & SVM_FLAG_SUPERVISOR_MODE) {
- 		if (!ecap_srs(iommu->ecap) || mm) {
- 			pr_err("Supervisor PASID with user provided mm.\n");
-@@ -917,7 +917,7 @@ static irqreturn_t prq_event_thread(int irq, void *d)
- 			/* No need to find the matching sdev as for bad_req */
- 			goto no_pasid;
- 		}
--		/* DMA read with exec requeset is not supported. */
-+		/* DMA read with exec request is not supported. */
- 		if (req->exe_req && req->rd_req) {
- 			pr_err("Execution request not supported\n");
- 			goto no_pasid;
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 808ab70d5df5..971068da67cb 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1479,7 +1479,7 @@ struct iommu_group *pci_device_group(struct device *dev)
- 
- 	/*
- 	 * Look for existing groups on non-isolated functions on the same
--	 * slot and aliases of those funcions, if any.  No need to clear
-+	 * slot and aliases of those functions, if any.  No need to clear
- 	 * the search bitmap, the tested devfns are still valid.
- 	 */
- 	group = get_pci_function_alias_group(pdev, (unsigned long *)devfns);
-@@ -2285,7 +2285,7 @@ struct iommu_domain *iommu_get_dma_domain(struct device *dev)
-  * iterating over the devices in a group.  Ideally we'd have a single
-  * device which represents the requestor ID of the group, but we also
-  * allow IOMMU drivers to create policy defined minimum sets, where
-- * the physical hardware may be able to distiguish members, but we
-+ * the physical hardware may be able to distinguish members, but we
-  * wish to group them at a higher level (ex. untrusted multi-function
-  * PCI devices).  Thus we attach each device.
-  */
-@@ -3152,7 +3152,7 @@ static int iommu_change_dev_def_domain(struct iommu_group *group,
- 	 */
- 	mutex_unlock(&group->mutex);
- 
--	/* Make sure dma_ops is appropriatley set */
-+	/* Make sure dma_ops is appropriately set */
- 	iommu_group_do_probe_finalize(dev, group->default_domain);
- 	iommu_domain_free(prev_dom);
- 	return 0;
-diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
-index 6f7c69688ce2..0d2e13d957e1 100644
---- a/drivers/iommu/mtk_iommu.c
-+++ b/drivers/iommu/mtk_iommu.c
-@@ -160,7 +160,7 @@ static int mtk_iommu_hw_init(const struct mtk_iommu_data *data);
-  * The Region 'A'(I/O) can NOT be mapped by M4U; For Region 'B'/'C'/'D', the
-  * bit32 of the CPU physical address always is needed to set, and for Region
-  * 'E', the CPU physical address keep as is.
-- * Additionally, The iommu consumers always use the CPU phyiscal address.
-+ * Additionally, the iommu consumers always use the CPU physical address.
-  */
- #define MTK_IOMMU_4GB_MODE_REMAP_BASE	 0x140000000UL
- 
-@@ -974,7 +974,7 @@ static int __maybe_unused mtk_iommu_runtime_resume(struct device *dev)
- 	}
- 
- 	/*
--	 * Uppon first resume, only enable the clk and return, since the values of the
-+	 * Upon first resume, only enable the clk and return, since the values of the
- 	 * registers are not yet set.
- 	 */
- 	if (!m4u_dom)
-diff --git a/drivers/iommu/omap-iommu.c b/drivers/iommu/omap-iommu.c
-index 91749654fd49..c5bcf3e577cd 100644
---- a/drivers/iommu/omap-iommu.c
-+++ b/drivers/iommu/omap-iommu.c
-@@ -1750,7 +1750,7 @@ static int __init omap_iommu_init(void)
- {
- 	struct kmem_cache *p;
- 	const slab_flags_t flags = SLAB_HWCACHE_ALIGN;
--	size_t align = 1 << 10; /* L2 pagetable alignement */
-+	size_t align = 1 << 10; /* L2 pagetable alignment */
- 	struct device_node *np;
- 	int ret;
- 
-diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-index 181bb1c3437c..a28a44e21669 100644
---- a/drivers/iommu/sun50i-iommu.c
-+++ b/drivers/iommu/sun50i-iommu.c
-@@ -149,7 +149,7 @@ static void iommu_write(struct sun50i_iommu *iommu, u32 offset, u32 value)
-  * 4096 4-bytes Directory Table Entries (DTE), each pointing to a Page
-  * Table (PT).
-  *
-- * Each PT consits of 256 4-bytes Page Table Entries (PTE), each
-+ * Each PT consists of 256 4-bytes Page Table Entries (PTE), each
-  * pointing to a 4kB page of physical memory.
-  *
-  * The IOMMU supports a single DT, pointed by the IOMMU_TTB_REG
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+index e22b94c83647..5e66ce1a334f 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
+@@ -79,7 +79,7 @@ &ehci1 {
+ &emac {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&rgmii_pins>;
+-	phy-mode = "rgmii-id";
++	phy-mode = "rgmii-txid";
+ 	phy-handle = <&ext_rgmii_phy>;
+ 	phy-supply = <&reg_dc1sw>;
+ 	status = "okay";
 -- 
-2.25.1
-
-
+2.30.2
