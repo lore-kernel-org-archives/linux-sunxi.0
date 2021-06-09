@@ -1,136 +1,155 @@
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mailgate.ics.forth.gr (mailgate.ics.forth.gr [139.91.1.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04B222F80
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:47:47 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
-	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 78CB9202BA
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:39:29 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id E79C5260EC
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 08:39:20 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id 98D462000B;
-	Wed,  9 Jun 2021 08:39:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id D7B692A0D2;
-	Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
-	s=default; t=1623227951;
-	bh=rmytQxnOpk4vxyV/FzXpiVZ2jb/LlTJDTmb0VH8OGXY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BRidAcX7tQtSncIO+5ONUE2I7NZV3XsQ/DD0AijcGygfauFb+9xw/+9/4Z9zlxRn2
-	 zgiXbfJQsAsfn5D7yVlYakSx2Mssx4qeCw/HNryNVSxxiK3AcXKtqYr4BJpfSW2jBP
-	 4Hs53VtMs/CKw5tvzTw3T1FiLO5ZMsvvkIr+QhKI=
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Ap29_pKn5cYR; Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Wed,  9 Jun 2021 04:39:11 -0400 (EDT)
-Received: from [148.251.23.173] (ml.mymailcheap.com [148.251.23.173])
-	by mail20.mymailcheap.com (Postfix) with ESMTP id 8B48340CA4;
-	Wed,  9 Jun 2021 08:39:09 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com;
-	dkim=pass (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="HFRQbTFC";
-	dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from ice-e5v2.lan (unknown [59.41.163.75])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id ED7CC42655;
-	Wed,  9 Jun 2021 08:38:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1623227939; bh=rmytQxnOpk4vxyV/FzXpiVZ2jb/LlTJDTmb0VH8OGXY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HFRQbTFC6S0hSLpNIKwHFT/LlhlJcCp4hUqDL2fYbGl734BHB5Ibpz6fMZqXLmpoA
-	 x+l6CFkOKxALmsuujoIuv+BGZS6yLpsH3jCzJs9yyCfceU5fUIsf3sI6vfJHHsFihi
-	 QHSYfVLTw7urpF7q/ZviejElG09GuAC+wZLOm/tk=
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Heinrich Schuchardt <xypron.glpk@gmx.de>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH] arm64: dts: allwinner: a64-sopine-baseboard: change RGMII mode to TXID
-Date: Wed,  9 Jun 2021 16:38:43 +0800
-Message-Id: <20210609083843.463750-1-icenowy@aosc.io>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A572F80
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Jun 2021 09:45:17 +0000 (UTC)
+Received: from av3.ics.forth.gr (av3in.ics.forth.gr [139.91.1.77])
+	by mailgate.ics.forth.gr (8.15.2/ICS-FORTH/V10-1.8-GATE) with ESMTP id 1599j96w050389
+	for <linux-sunxi@lists.linux.dev>; Wed, 9 Jun 2021 12:45:09 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; d=ics.forth.gr; s=av; c=relaxed/simple;
+	q=dns/txt; i=@ics.forth.gr; t=1623231904; x=1625823904;
+	h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=yjGGcXj2vYqKeS5nQsMSbZLVyeA0Yb+og64ORh4pZoc=;
+	b=ZHIEsIIyg1A+E4IlEj4+7B+gOESDbGe3/DVcdBzG2InLyO5KOso+4rJ+Amgkpe7r
+	EfWQ81kDSjg5z5gHscQNF4ZcRI2EBPD3PkLetk2l4lV+vAbYol08wZgkhtMx9qae
+	TCep7BFW773GcnRJf8LZE8yLJT+MM0wqoy5aIrJT1G+X/6gF1/pW42ROoFYWCDlY
+	fQftNnsQvTTViH88ENDycxAAxCLJ33TlJzaxS9JdigaCffsZ2+Yy3LVBOBDxbVTM
+	JS5Y7r/BALQ9oIFMVvGfusmyPOi0/yzyl0YLlLaKyVZKD43uEb+7x2iMC1alIm91
+	4TTq1b0YLhXu5DwaJ23pUQ==;
+X-AuditID: 8b5b014d-962f1700000067b6-3c-60c08d9f9466
+Received: from enigma.ics.forth.gr (webmail.ics.forth.gr [139.91.151.35])
+	by av3.ics.forth.gr (Symantec Messaging Gateway) with SMTP id C8.43.26550.F9D80C06; Wed,  9 Jun 2021 12:45:03 +0300 (EEST)
+X-ICS-AUTH-INFO: Authenticated user:  at ics.forth.gr
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spamd-Result: default: False [6.40 / 20.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_SPF_SOFTFAIL(0.00)[~all];
-	 ML_SERVERS(-3.10)[148.251.23.173];
-	 DKIM_TRACE(0.00)[aosc.io:+];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 FREEMAIL_TO(0.00)[kernel.org,csie.org,gmail.com,gmx.de];
-	 RCVD_NO_TLS_LAST(0.10)[];
-	 RECEIVED_SPAMHAUS_PBL(0.00)[59.41.163.75:received];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 ASN(0.00)[asn:24940, ipnet:148.251.0.0/16, country:DE];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(0.00)[aosc.io:s=default];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DMARC_NA(0.00)[aosc.io];
-	 MID_CONTAINS_FROM(1.00)[];
-	 HFILTER_HELO_BAREIP(3.00)[148.251.23.173,1];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 SUSPICIOUS_RECIPS(1.50)[]
-X-Rspamd-Queue-Id: 8B48340CA4
+Date: Wed, 09 Jun 2021 12:45:01 +0300
+From: Nick Kossifidis <mick@ics.forth.gr>
+To: Guo Ren <guoren@kernel.org>
+Cc: Nick Kossifidis <mick@ics.forth.gr>, Christoph Hellwig <hch@lst.de>,
+        Drew Fustini <drew@beagleboard.org>, Anup Patel <anup.patel@wdc.com>,
+        Palmer
+ Dabbelt <palmerdabbelt@google.com>, wefu@redhat.com,
+        =?UTF-8?Q?Wei_Wu_?=
+ =?UTF-8?Q?=28=E5=90=B4=E4=BC=9F=29?= <lazyparser@gmail.com>,
+        linux-riscv
+ <linux-riscv@lists.infradead.org>,
+        Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>, linux-sunxi@lists.linux.dev,
+        Guo Ren <guoren@linux.alibaba.com>,
+        Paul
+ Walmsley <paul.walmsley@sifive.com>,
+        Benjamin Koch <snowball@c3pb.de>,
+        Matteo Croce <mcroce@linux.microsoft.com>,
+        Wei Fu <tekkamanninja@gmail.com>
+Subject: Re: [PATCH RFC 0/3] riscv: Add DMA_COHERENT support
+Organization: FORTH
+In-Reply-To: <CAJF2gTQ5271AP8aw42yvfOg0LjtnmPD8j_Uza6NH2nHxVz_QgQ@mail.gmail.com>
+References: <1621400656-25678-1-git-send-email-guoren@kernel.org>
+ <20210519052048.GA24853@lst.de>
+ <CAJF2gTTjwB4U-NxCtfgMA5aR2HzoQtA8a51W5UM1LHGRbjz9pg@mail.gmail.com>
+ <20210519064435.GA3076809@x1> <20210519065352.GA31590@lst.de>
+ <CAJF2gTR4FXRbp7oky-ypdVJba6btFHpp-+dPyJStRaQX_-5rzg@mail.gmail.com>
+ <29733b0931d9dd6a2f0b6919067c7efe@mailhost.ics.forth.gr>
+ <CAJF2gTQ5271AP8aw42yvfOg0LjtnmPD8j_Uza6NH2nHxVz_QgQ@mail.gmail.com>
+Message-ID: <78f544f739120f5b541238a1d5f6e23b@mailhost.ics.forth.gr>
+X-Sender: mick@mailhost.ics.forth.gr
+User-Agent: Roundcube Webmail/1.3.16
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrCIsWRmVeSWpSXmKPExsXSHT1dWXd+74EEg9cXrC2efJjIZnFvxTJ2
+	ixd7G1ksjj/axWKxcvVRJotLX66xWHTs+spicXnXHDaLbZ9b2Cym7NvFZnHx13xGi+Z359gt
+	tm5cx2jRNovfYtbi2+wW99edY7No2T+FxUHQ493vZYwe994+YfLYOesuu8eCTaUeDzddYvLY
+	tKqTzWPnQ0uPX9uPMnlsXlLv8WLzTEaP3Tcb2Dze77vK5nGp+Tq7x+dNch7tB7qZAvijuGxS
+	UnMyy1KL9O0SuDK+P53EXrBdumLzz07GBsYPol2MnBwSAiYSR/5MYO5i5OIQEjjGKLHt8CNG
+	iISpxOy9nWA2r4CgxMmZT1hAbGYBC4mpV/YzQtjyEs1bZzOD2CwCqhL9S2ayg9hsApoS8y8d
+	BKsXAar5fbSTFaL+M6tE/wNeEFtYwEbi0JX1YHF+AWGJT3cvgtmcAoESjzZ9YgKxhQQ2M0ss
+	+sYHcYOLxJ3FS1khblOR+PD7AdAuDg5RIHvzXKUJjIKzkFw6C8mls5BcuoCReRWjQGKZsV5m
+	crFeWn5RSYZeetEmRnDEMvruYLy9+a3eIUYmDsZDjBIczEoivGWG+xKEeFMSK6tSi/Lji0pz
+	UosPMUpzsCiJ8/LqTYgXEkhPLEnNTk0tSC2CyTJxcEo1MLUyLPXyVnqg5HHmyoRTkdfnnP3z
+	+ek5odpJUz/zvl9Qb3jVQHnudEmmO4/VHurXzD+6ausRf5vmeFl9rUKOZVHbZvQcj5lycOX3
+	2FOt7oZOS7wUHL/rfF/KIXO0fUPV5y83J372Oe0gW6XCniLQEqZu2vfU0vDbE8ZNB/7cDM+7
+	93D3w02HzJpF0n87v2d/cb91+VYNqSOqUje+e1lkRxnIzwjuvu7QdfWChZ+Uvexh4Tid5aJ5
+	/s4aL/pVNVLK1x4JDAlPP/rpnPfnqSl/GF+t36qfVOBccss6YEo1z+wdm/fZySzo4jedfOHF
+	laUvvl01vTJbTcay1tou98o/rUgG1svXRH2unrA7UfyM470SS3FGoqEWc1FxIgDm0E7aRwMA
+	AA==
 
-Although the schematics of Pine A64-LTS and SoPine Baseboard shows both
-the RX and TX internal delay are enabled, they're using the same broken
-RTL8211E chip batch with Pine A64+, so they should use TXID instead, not
-ID.
+Στις 2021-06-09 06:28, Guo Ren έγραψε:
+> On Mon, Jun 7, 2021 at 2:14 AM Nick Kossifidis <mick@ics.forth.gr> 
+> wrote:
+>> 
+>> Στις 2021-05-20 04:45, Guo Ren έγραψε:
+>> > On Wed, May 19, 2021 at 2:53 PM Christoph Hellwig <hch@lst.de> wrote:
+>> >>
+>> >> On Tue, May 18, 2021 at 11:44:35PM -0700, Drew Fustini wrote:
+>> >> > This patch series looks like it might be useful for the StarFive JH7100
+>> >> > [1] [2] too as it has peripherals on a non-coherent interconnect. GMAC,
+>> >> > USB and SDIO require that the L2 cache must be manually flushed after
+>> >> > DMA operations if the data is intended to be shared with U74 cores [2].
+>> >>
+>> >> Not too much, given that the SiFive lineage CPUs have an uncached
+>> >> window, that is a totally different way to allocate uncached memory.
+>> > It's a very big MIPS smell. What's the attribute of the uncached
+>> > window? (uncached + strong-order/ uncached + weak, most vendors still
+>> > use AXI interconnect, how to deal with a bufferable attribute?) In
+>> > fact, customers' drivers use different ways to deal with DMA memory in
+>> > non-coherent SOC. Most riscv SOC vendors are from ARM, so giving them
+>> > the same way in DMA memory is a smart choice. So using PTE attributes
+>> > is more suitable.
+>> >
+>> > See:
+>> > https://github.com/riscv/virtual-memory/blob/main/specs/611-virtual-memory-diff.pdf
+>> > 4.4.1
+>> > The draft supports custom attribute bits in PTE.
+>> >
+>> 
+>> Not only it doesn't support custom attributes on PTEs:
+>> 
+>> "Bits63–54 are reserved for future standard use and must be zeroed by
+>> software for forward compatibility."
+>> 
+>> It also goes further to say that:
+>> 
+>> "if any of these bits are set, a page-fault exception is raised"
+> Agree, when our processor's mmu works in compatible mmu, we must keep
+> "Bits63–54 bit" zero in Linux.
+> So, I think this is the first version of the PTE format.
+> 
+> If the "PBMT" extension proposal is approved, it will cause the second
+> version of the PTE format.
+> 
+> Maybe in the future, we'll get more versions of the PTE formats.
+> 
+> So, seems Linux must support multi versions of PTE formats with one
+> Image, right?
+> 
+> Okay, we could stop arguing with the D1 PTE format. And talk about how
+> to let Linux support multi versions of PTE formats that come from the
+> future RISC-V privilege spec.
 
-In addition, by checking the real components soldered on both a SoPine
-Baseboard and a Pine A64-LTS, RX delay is not enabled (GR69 soldered and
-GR70 NC) despite the schematics says it's enabled. It's a common
-situation for Pine64 boards that the NC information on schematics is not
-the same with the board.
+The RISC-V ISA specs are meant to be backwards compatible, so newer PTE 
+versions should work on older devices (note that the spec says that 
+software must set those bits to zero for "forward compatibility" and are 
+"reserved for future use" so current implementations must ignore them). 
+Obviously the proposed "if any of these bits are set, a page-fault 
+exception is raised" will break backwards compatibility which is why we 
+need to ask for it to be removed from the draft.
 
-So the RGMII delay mode should be TXID on these boards.
+As an example the PBMT proposal uses bits 62:61 that on older hw should 
+be ignored ("reserved for future use"), if Linux uses those bits we 
+won't need a different code path for supporting older hw/older PTE 
+versions, we'll just set them and older hw will ignore them. Because of 
+the guarantee that ISA specs maintain backwards compatibility, the 
+functionality of bits 62:61 is guaranteed to remain backwards 
+compatible.
 
-Fixes: c2b111e59a7b ("arm64: dts: allwinner: A64 Sopine: phy-mode rgmii-id")
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-index e22b94c83647..5e66ce1a334f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dts
-@@ -79,7 +79,7 @@ &ehci1 {
- &emac {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&rgmii_pins>;
--	phy-mode = "rgmii-id";
-+	phy-mode = "rgmii-txid";
- 	phy-handle = <&ext_rgmii_phy>;
- 	phy-supply = <&reg_dc1sw>;
- 	status = "okay";
--- 
-2.30.2
+In other words we don't need any special handling of multiple PTE 
+formats, we just need to support the latest Priv. Spec and the Spec 
+itself will guarantee backwards compatibility.
