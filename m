@@ -1,70 +1,108 @@
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046EF29CA
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Jun 2021 02:10:09 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
-	by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4G0nQG3hS3z6vm2;
-	Thu, 10 Jun 2021 10:06:14 +0800 (CST)
-Received: from dggpemm500006.china.huawei.com (7.185.36.236) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 10 Jun 2021 10:10:06 +0800
-Received: from thunder-town.china.huawei.com (10.174.177.72) by
- dggpemm500006.china.huawei.com (7.185.36.236) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 10 Jun 2021 10:10:06 +0800
-From: Zhen Lei <thunder.leizhen@huawei.com>
-To: Miquel Raynal <miquel.raynal@bootlin.com>, Richard Weinberger
-	<richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, linux-mtd
-	<linux-mtd@lists.infradead.org>, Maxime Ripard <mripard@kernel.org>, "Chen-Yu
- Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi
-	<linux-sunxi@lists.linux.dev>
-CC: Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 1/1] mtd: rawnand: atmel: remove unnecessary oom message
-Date: Thu, 10 Jun 2021 10:09:58 +0800
-Message-ID: <20210610020958.15023-1-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84EB2F80
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Jun 2021 12:52:13 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 58E5A2101;
+	Thu, 10 Jun 2021 08:52:12 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Thu, 10 Jun 2021 08:52:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=E5Pc7fipEbBuER2SNRqORMg07Xg
+	/kjPfCBgdeNOwwzM=; b=uq6gkHgO9P4locKPO6euSQbmudLsOCueuxjgrVcQzUn
+	jIuPRd0L2ilYFUJM5fDYevFoxX3Q5mZT4EHcO2eeYX/nhzN6C/Bbk5udF9bOecCX
+	IF3ogEnb6EQE9ee8fZfCKU51fxPf1gtLymjRvGXaeSNgZB4jupKyUcK91WFUeY1h
+	C7YQW66FVS8agu5Nf6J3OUodV5qKCNdNlVe/NG7vfcNmUgYFzVTNp+/TeaGL3L/k
+	sn1hCtz9v6+4Up4fLxAnNb7mNqFJA80feYZEe3VdTZFnrthHtWn2m5UwxKDace+M
+	6xqgi0tqDyxn65Px5GpD4g3Qg2n6D1Pi5o1XTkHzeMA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E5Pc7f
+	ipEbBuER2SNRqORMg07Xg/kjPfCBgdeNOwwzM=; b=ZqXhRvdLv45r+chVTO/7Gn
+	4rkTQyCMncwDlexzWTVXLDnhXkbbSKs5Xe9MxCsVqpd0TVjcyvUfK4xAtRjSzLRI
+	gl7uAgr9e2S2Ocr9XjLPRkSG6SH1NrKWpp5s3ES8NS5S7CKays9SWhpyBFE4hS77
+	KVplRntLY+OkP0sUlE0jPpQUnnOuBv3dk87lBosI12nZe2mZKu4kEiYFA7cvzJhf
+	ufH89d4ym7eV5GD8XfnCA0RexPkqAcNKmIfl3Ejr0FeCTncX9O0Y8ybAvyh1xYCe
+	ctIL6Xbo2Ei1SHgo2h9Y7fRF2s0XB19aapdramN8/FEKyvPZQj0SMssjYB8zZPuw
+	==
+X-ME-Sender: <xms:-grCYIpZbk5lCYj5uIN1DWB4fQsO8JVtMIPqmV1WF0BXFVndtZiI4g>
+    <xme:-grCYOo3nAhFXjOAHrf3GQVv00tNDtviMzBCYRZEoeluqolcj37rIcPBiKZFTYIRk
+    ZEBd0-OkqrArdUvJc8>
+X-ME-Received: <xmr:-grCYNNi2HN3uwtsvbhZBGogEDdiC_tn2F4TBDmI_46TB2aM14r7e9TM_QHQrAXDOggB8AytUl9rhM6hc9PnFAZB-MkfML50IzvX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedufedgheeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:-grCYP4RUxWvahUH6bjMQyTyFo7s_d5zqATDaS6mrGP7hYEDPhuADQ>
+    <xmx:-grCYH6h9MyvrQghSck7vrbCmTz9Mva5GdXqYe7m8QpgnUyWJmTSqA>
+    <xmx:-grCYPiSTrLLLOf4_U1B4WhOym-nAdceCSX-CrQreObSrp6nRr0eQA>
+    <xmx:-wrCYEs1rcT8oVyHC_bxhQL45xKAEUpsBzsH6sJAbrobiqh3DWVlTA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Jun 2021 08:52:10 -0400 (EDT)
+Date: Thu, 10 Jun 2021 14:52:09 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Heinrich Schuchardt <xypron.glpk@gmx.de>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: a64-sopine-baseboard: change
+ RGMII mode to TXID
+Message-ID: <20210610125209.glrd2qlpwqiha24h@gilmour>
+References: <20210609083843.463750-1-icenowy@aosc.io>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.177.72]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpemm500006.china.huawei.com (7.185.36.236)
-X-CFilter-Loop: Reflected
-
-Fixes scripts/checkpatch.pl warning:
-WARNING: Possible unnecessary 'out of memory' message
-
-Remove it can help us save a bit of memory.
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- drivers/mtd/nand/raw/atmel/nand-controller.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/mtd/nand/raw/atmel/nand-controller.c b/drivers/mtd/nand/raw/atmel/nand-controller.c
-index 6e15f424b0718b3..f3276ee9e4fe73a 100644
---- a/drivers/mtd/nand/raw/atmel/nand-controller.c
-+++ b/drivers/mtd/nand/raw/atmel/nand-controller.c
-@@ -1634,10 +1634,8 @@ static struct atmel_nand *atmel_nand_create(struct atmel_nand_controller *nc,
- 	}
- 
- 	nand = devm_kzalloc(nc->dev, struct_size(nand, cs, numcs), GFP_KERNEL);
--	if (!nand) {
--		dev_err(nc->dev, "Failed to allocate NAND object\n");
-+	if (!nand)
- 		return ERR_PTR(-ENOMEM);
--	}
- 
- 	nand->numcs = numcs;
- 
--- 
-2.26.0.106.g9fadedd
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="io7uwxozpxpfiet4"
+Content-Disposition: inline
+In-Reply-To: <20210609083843.463750-1-icenowy@aosc.io>
 
 
+--io7uwxozpxpfiet4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Jun 09, 2021 at 04:38:43PM +0800, Icenowy Zheng wrote:
+> Although the schematics of Pine A64-LTS and SoPine Baseboard shows both
+> the RX and TX internal delay are enabled, they're using the same broken
+> RTL8211E chip batch with Pine A64+, so they should use TXID instead, not
+> ID.
+>=20
+> In addition, by checking the real components soldered on both a SoPine
+> Baseboard and a Pine A64-LTS, RX delay is not enabled (GR69 soldered and
+> GR70 NC) despite the schematics says it's enabled. It's a common
+> situation for Pine64 boards that the NC information on schematics is not
+> the same with the board.
+>=20
+> So the RGMII delay mode should be TXID on these boards.
+>=20
+> Fixes: c2b111e59a7b ("arm64: dts: allwinner: A64 Sopine: phy-mode rgmii-i=
+d")
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+
+Applied, thanks
+Maxime
+
+--io7uwxozpxpfiet4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMIK+QAKCRDj7w1vZxhR
+xdspAP9uCPofAxHimp/PmBqZWpgDIoj9Jm6i11JcI3I8w29RPQEAl/hyxPgO52Bq
+BJlk9Q56TTqTCDsAPS0wOl8F0unSGAg=
+=DvGq
+-----END PGP SIGNATURE-----
+
+--io7uwxozpxpfiet4--
