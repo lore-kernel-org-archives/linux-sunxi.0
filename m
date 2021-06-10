@@ -1,108 +1,75 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from pmg01-out1.zxcs.nl (pmg01-out1.zxcs.nl [185.104.30.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84EB2F80
-	for <linux-sunxi@lists.linux.dev>; Thu, 10 Jun 2021 12:52:13 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 58E5A2101;
-	Thu, 10 Jun 2021 08:52:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 10 Jun 2021 08:52:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=E5Pc7fipEbBuER2SNRqORMg07Xg
-	/kjPfCBgdeNOwwzM=; b=uq6gkHgO9P4locKPO6euSQbmudLsOCueuxjgrVcQzUn
-	jIuPRd0L2ilYFUJM5fDYevFoxX3Q5mZT4EHcO2eeYX/nhzN6C/Bbk5udF9bOecCX
-	IF3ogEnb6EQE9ee8fZfCKU51fxPf1gtLymjRvGXaeSNgZB4jupKyUcK91WFUeY1h
-	C7YQW66FVS8agu5Nf6J3OUodV5qKCNdNlVe/NG7vfcNmUgYFzVTNp+/TeaGL3L/k
-	sn1hCtz9v6+4Up4fLxAnNb7mNqFJA80feYZEe3VdTZFnrthHtWn2m5UwxKDace+M
-	6xqgi0tqDyxn65Px5GpD4g3Qg2n6D1Pi5o1XTkHzeMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E5Pc7f
-	ipEbBuER2SNRqORMg07Xg/kjPfCBgdeNOwwzM=; b=ZqXhRvdLv45r+chVTO/7Gn
-	4rkTQyCMncwDlexzWTVXLDnhXkbbSKs5Xe9MxCsVqpd0TVjcyvUfK4xAtRjSzLRI
-	gl7uAgr9e2S2Ocr9XjLPRkSG6SH1NrKWpp5s3ES8NS5S7CKays9SWhpyBFE4hS77
-	KVplRntLY+OkP0sUlE0jPpQUnnOuBv3dk87lBosI12nZe2mZKu4kEiYFA7cvzJhf
-	ufH89d4ym7eV5GD8XfnCA0RexPkqAcNKmIfl3Ejr0FeCTncX9O0Y8ybAvyh1xYCe
-	ctIL6Xbo2Ei1SHgo2h9Y7fRF2s0XB19aapdramN8/FEKyvPZQj0SMssjYB8zZPuw
-	==
-X-ME-Sender: <xms:-grCYIpZbk5lCYj5uIN1DWB4fQsO8JVtMIPqmV1WF0BXFVndtZiI4g>
-    <xme:-grCYOo3nAhFXjOAHrf3GQVv00tNDtviMzBCYRZEoeluqolcj37rIcPBiKZFTYIRk
-    ZEBd0-OkqrArdUvJc8>
-X-ME-Received: <xmr:-grCYNNi2HN3uwtsvbhZBGogEDdiC_tn2F4TBDmI_46TB2aM14r7e9TM_QHQrAXDOggB8AytUl9rhM6hc9PnFAZB-MkfML50IzvX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedufedgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-grCYP4RUxWvahUH6bjMQyTyFo7s_d5zqATDaS6mrGP7hYEDPhuADQ>
-    <xmx:-grCYH6h9MyvrQghSck7vrbCmTz9Mva5GdXqYe7m8QpgnUyWJmTSqA>
-    <xmx:-grCYPiSTrLLLOf4_U1B4WhOym-nAdceCSX-CrQreObSrp6nRr0eQA>
-    <xmx:-wrCYEs1rcT8oVyHC_bxhQL45xKAEUpsBzsH6sJAbrobiqh3DWVlTA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Jun 2021 08:52:10 -0400 (EDT)
-Date: Thu, 10 Jun 2021 14:52:09 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Icenowy Zheng <icenowy@aosc.io>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Heinrich Schuchardt <xypron.glpk@gmx.de>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: a64-sopine-baseboard: change
- RGMII mode to TXID
-Message-ID: <20210610125209.glrd2qlpwqiha24h@gilmour>
-References: <20210609083843.463750-1-icenowy@aosc.io>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAA12F80
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Jun 2021 13:48:15 +0000 (UTC)
+Received: from pmg01.zxcs.nl (localhost.localdomain [127.0.0.1])
+	by pmg01.zxcs.nl (ZXCS) with ESMTP id 2F022106E7C
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Jun 2021 15:41:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=pascalroeleven.nl; s=x; h=Content-Transfer-Encoding:Content-Type:Message-ID
+	:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=J7BYOV3zpefWkAu9B9rGYhAKW1ymqNGvJk9qXTZ3fm8=; b=Fnj3Kf6oQ6udqaTrf2rT63ksli
+	UFtUc05M59I8CpolR6SbTloiYykr1KmVxfkBTEQ0KksfyqsQhQh2rPXOg8uRe9HgU2MbUdfE7RX43
+	OhzPL8J3azkjyQtOY7DeiwVLp9QQnhvRVMj2pguz1wXFE5PH1aMaJraDwPdDKYfhzHd6R8IGErevx
+	6TQdYdta2OYTdKRViZm1o6ewnZHFw08UgqPH/VxoFIaG8Ih306NkmQ4BdyoNPD7QRd+nEDjHW6kGb
+	wxNqnl0SCjugcnwzVVuGhJfBQbG4kPzTbrZNq7xQ0fnDhRaAAM2rF4AVHr3bII4sS7ngUYmnVdQal
+	1DdEpEaQ==;
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="io7uwxozpxpfiet4"
-Content-Disposition: inline
-In-Reply-To: <20210609083843.463750-1-icenowy@aosc.io>
+Date: Thu, 10 Jun 2021 15:41:15 +0200
+From: Pascal Roeleven <dev@pascalroeleven.nl>
+To: Roman Beranek <roman.beranek@prusa3d.cz>
+Cc: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Thierry Reding <thierry.reding@gmail.com>, Emil Lenngren
+ <emil.lenngren@gmail.com>, Lee Jones <lee.jones@linaro.org>, Maxime Ripard
+ <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-pwm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-sunxi@googlegroups.com
+Subject: Re: [PATCH 6/6] pwm: sun4i: don't delay if the PWM is already off
+In-Reply-To: <20210531044608.1006024-7-roman.beranek@prusa3d.com>
+References: <20210531044608.1006024-1-roman.beranek@prusa3d.com>
+ <20210531044608.1006024-7-roman.beranek@prusa3d.com>
+User-Agent: Roundcube Webmail/1.4.11
+Message-ID: <f590094496dfbb711e363c36e8573687@pascalroeleven.nl>
+X-Sender: dev@pascalroeleven.nl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Forwarded-For: linux-sunxi@lists.linux.dev
+X-AuthUser: dev@pascalroeleven.nl
 
+On 2021-05-31 06:46, Roman Beranek wrote:
+> Signed-off-by: Roman Beranek <roman.beranek@prusa3d.com>
+> ---
+>  drivers/pwm/pwm-sun4i.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pwm/pwm-sun4i.c b/drivers/pwm/pwm-sun4i.c
+> index 6ab06b9749d0..88bd90498d1f 100644
+> --- a/drivers/pwm/pwm-sun4i.c
+> +++ b/drivers/pwm/pwm-sun4i.c
+> @@ -304,7 +304,7 @@ static int sun4i_pwm_apply(struct pwm_chip *chip,
+> struct pwm_device *pwm,
+>  
+>  	sun4i_pwm_writel(sun4i_pwm, ctrl, PWM_CTRL_REG);
+>  
+> -	if (state->enabled) {
+> +	if (state->enabled || !cstate.enabled) {
+>  		mutex_unlock(&sun4i_pwm->ctrl_lock);
+>  		return 0;
+>  	}
 
---io7uwxozpxpfiet4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Btw, this now leaves the gate open if the controller is currently
+disabled and we are only changing the period register and staying
+disabled. This becomes an issue because we always expect the gate to be
+disabled when the controller is disabled.
 
-On Wed, Jun 09, 2021 at 04:38:43PM +0800, Icenowy Zheng wrote:
-> Although the schematics of Pine A64-LTS and SoPine Baseboard shows both
-> the RX and TX internal delay are enabled, they're using the same broken
-> RTL8211E chip batch with Pine A64+, so they should use TXID instead, not
-> ID.
->=20
-> In addition, by checking the real components soldered on both a SoPine
-> Baseboard and a Pine A64-LTS, RX delay is not enabled (GR69 soldered and
-> GR70 NC) despite the schematics says it's enabled. It's a common
-> situation for Pine64 boards that the NC information on schematics is not
-> the same with the board.
->=20
-> So the RGMII delay mode should be TXID on these boards.
->=20
-> Fixes: c2b111e59a7b ("arm64: dts: allwinner: A64 Sopine: phy-mode rgmii-i=
-d")
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+Regards,
+Pascal
 
-Applied, thanks
-Maxime
-
---io7uwxozpxpfiet4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMIK+QAKCRDj7w1vZxhR
-xdspAP9uCPofAxHimp/PmBqZWpgDIoj9Jm6i11JcI3I8w29RPQEAl/hyxPgO52Bq
-BJlk9Q56TTqTCDsAPS0wOl8F0unSGAg=
-=DvGq
------END PGP SIGNATURE-----
-
---io7uwxozpxpfiet4--
