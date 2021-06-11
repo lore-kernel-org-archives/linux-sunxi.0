@@ -1,47 +1,47 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C8F72
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jun 2021 14:55:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B20A7611CD;
-	Fri, 11 Jun 2021 14:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F2872
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Jun 2021 14:55:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BE3BC60200;
+	Fri, 11 Jun 2021 14:55:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623423305;
-	bh=tyRd2iKhXdWd2APAupfUWzpcuCFBRtPPHsVq01oaevE=;
-	h=Date:From:To:Cc:Subject:From;
-	b=kBdpO+auuA3t53ipU10LCIFGI4o9CuWzW5RzIJjj3hqbHN4Oc8PohBSFsNR0eW0f6
-	 cOp7ERS2GsWDAnLvU/cQ+SienY0+H7RPJRtZ7gRElHl6UuEwdCLNym2UDsah4r7P7P
-	 +hS4V1KByg3T4E/WeQgiPjMcPwtzWCDo3kg97ew6g/YrRV4/ORiodJnZ/RUWhR5uzX
-	 yBTOZhPSzcFjJlOmN8e6zwz9XiRdm9JWBboNdj3xxIWvdiao+fXD4BURlRjsgamj81
-	 IbQGFaiELm+rDaz7DB/Q0nUqw+r54lZn7SmW7AMMyzo43styFohhROKUjo/6yddS5Q
-	 ZDRy6jSqHvUmQ==
-Date: Fri, 11 Jun 2021 16:55:02 +0200
+	s=k20201202; t=1623423355;
+	bh=w/BG8YY3jV6/GlxIobZ63Z5fE/8mHTGyBhH25xHGwj8=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=QZhjhvoGArMOy7qS3fi/xFRfkciJLVE8AN/sCKVlkD4OcxRdFiwbHNmaHggtwry1R
+	 aJrPKTqbBfkWqOnwKL81OltzwOX2qpd965MjpkpDGreBaRS9y/GvQ2BsCMr8n6GyYL
+	 uy9xRjL+X+JsUxc0XaHCK/MNUiYn5QlSSraWy48QZ7G9TWCvIe1Wj7+hMxhmwzgUxX
+	 VrwtF3Fm4gaKRpXZoHepcsu5zUvoEBPFwFPXhvEtkrAL5QerMB2GFVO4GKYfggLJYD
+	 8sU4AEFVBzdsU1UvtFBKcynz+V8SmQBQEOqfwwd1h2I7Lc7IsdBuP4sjR8YoSCpLV4
+	 dNJSY//5sVesQ==
+Date: Fri, 11 Jun 2021 16:55:53 +0200
 From: Maxime Ripard <mripard@kernel.org>
-To: Mike Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [GIT PULL] Allwinner Clock Fixes for 5.13
-Message-ID: <eede2490-c702-4a9d-97d0-217424727a09.lettre@localhost>
+Subject: [GIT PULL] Allwinner Platform Changes for 5.14
+Message-ID: <bf3431f6-2196-425c-9b43-0bf4de0b6d30.lettre@localhost>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="o8HGiXk6Ix1TOh80"
+	protocol="application/pgp-signature"; boundary="DwZuxS5b5A0Qc9+5"
 Content-Disposition: inline
 
 
---o8HGiXk6Ix1TOh80
+--DwZuxS5b5A0Qc9+5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-Please pull the following changes for the current release.
+Please pull the following changes for the next release.
 
 Thanks!
 Maxime
@@ -52,36 +52,34 @@ The following changes since commit 6efb943b8616ec53a5e444193dccf1af9ad627b5:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git refs/tags=
-/sunxi-clk-fixes-for-5.13-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git refs/tags/sunxi-core-for-5.14-1
 
-for you to fetch changes up to 47e4dc4e63e1dcb8eec01c4214bcefc248eb72ed:
+for you to fetch changes up to cbccad664927e98db0f12adb7434fdfe51d3073a:
 
-  clk: sunxi-ng: v3s: fix incorrect postdivider on pll-audio (2021-05-24 13=
-:57:37 +0200)
+  arm64: sunxi: Build the sun4i timer driver (2021-05-10 09:15:09 +0200)
 
 ----------------------------------------------------------------
-One patch to fix a divider on the v3s Audio PLL=20
+One patch to select one of our timer in the arm64 Kconfig option.
 
 ----------------------------------------------------------------
-Tobias Schramm (1):
-      clk: sunxi-ng: v3s: fix incorrect postdivider on pll-audio
+Samuel Holland (1):
+      arm64: sunxi: Build the sun4i timer driver
 
 
- drivers/clk/sunxi-ng/ccu-sun8i-v3s.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ arch/arm64/Kconfig.platforms | 1 +
+ 1 file changed, 1 insertion(+)
 
 
 
---o8HGiXk6Ix1TOh80
+--DwZuxS5b5A0Qc9+5
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMN5RgAKCRDj7w1vZxhR
-xUirAP9D82H/lTcHzXATNKSz83j/HMY0+xNK2KKtm8jctmSSEwEA8dKmXFRGoUFN
-6qdAcFR/AU0lyUNa0TefTUt2dXLMSwE=
-=u/n1
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMN5eQAKCRDj7w1vZxhR
+xd6jAQDbl7BSRmL174s2Qk1CxnZVVZac8/jWZssuvMSSyyp1xQEA8uJNRquAY6FT
+7C/eiWK7xrZinzbfYoe1sV0xpoAHogY=
+=+rTJ
 -----END PGP SIGNATURE-----
 
---o8HGiXk6Ix1TOh80--
+--DwZuxS5b5A0Qc9+5--
