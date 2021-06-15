@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A71B72
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E46C372
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:23 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1C30C1063;
-	Tue, 15 Jun 2021 04:07:21 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AB054113E;
+	Tue, 15 Jun 2021 04:07:23 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9DCF13F719;
-	Tue, 15 Jun 2021 04:07:18 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 542D43F719;
+	Tue, 15 Jun 2021 04:07:21 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -19,15 +19,14 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megous@megous.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	netdev@vger.kernel.org,
-	Giuseppe Cavallaro <peppe.cavallaro@st.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Jose Abreu <joabreu@synopsys.com>
-Subject: [PATCH v7 09/19] net: stmmac: dwmac-sun8i: Prepare for second EMAC clock register
-Date: Tue, 15 Jun 2021 12:06:26 +0100
-Message-Id: <20210615110636.23403-10-andre.przywara@arm.com>
+	devicetree@vger.kernel.org,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	linux-phy@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH v7 10/19] dt-bindings: usb: Add H616 compatible string
+Date: Tue, 15 Jun 2021 12:06:27 +0100
+Message-Id: <20210615110636.23403-11-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210615110636.23403-1-andre.przywara@arm.com>
 References: <20210615110636.23403-1-andre.przywara@arm.com>
@@ -36,62 +35,33 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-The Allwinner H616 SoC has two EMAC controllers, with the second one
-being tied to the internal PHY, but also using a separate EMAC clock
-register.
+The H616 has four PHYs as the H3, along with their respective clock
+gates and resets, so the property description is identical.
 
-To tell the driver about which clock register to use, we add a parameter
-to our syscon phandle. The driver will use this value as an index into
-the regmap, so that we can address more than the first register, if
-needed.
+However the PHYs itself need some special bits, so we need a new
+compatible string for it.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml   | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 4422baeed3d8..5f3fefd9a74e 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -1147,11 +1147,13 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 	struct stmmac_resources stmmac_res;
- 	struct sunxi_priv_data *gmac;
- 	struct device *dev = &pdev->dev;
-+	struct reg_field syscon_field;
- 	phy_interface_t interface;
- 	int ret;
- 	struct stmmac_priv *priv;
- 	struct net_device *ndev;
- 	struct regmap *regmap;
-+	u32 syscon_idx = 0;
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+index f80431060803..e288450e0844 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun8i-h3-usb-phy.yaml
+@@ -15,7 +15,9 @@ properties:
+     const: 1
  
- 	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
- 	if (ret)
-@@ -1209,8 +1211,12 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
- 		return ret;
- 	}
+   compatible:
+-    const: allwinner,sun8i-h3-usb-phy
++    enum:
++      - allwinner,sun8i-h3-usb-phy
++      - allwinner,sun50i-h616-usb-phy
  
--	gmac->regmap_field = devm_regmap_field_alloc(dev, regmap,
--						     *gmac->variant->syscon_field);
-+	syscon_field = *gmac->variant->syscon_field;
-+	ret = of_property_read_u32_index(pdev->dev.of_node, "syscon", 1,
-+					 &syscon_idx);
-+	if (!ret)
-+		syscon_field.reg += syscon_idx * sizeof(u32);
-+	gmac->regmap_field = devm_regmap_field_alloc(dev, regmap, syscon_field);
- 	if (IS_ERR(gmac->regmap_field)) {
- 		ret = PTR_ERR(gmac->regmap_field);
- 		dev_err(dev, "Unable to map syscon register: %d\n", ret);
-@@ -1330,6 +1336,8 @@ static const struct of_device_id sun8i_dwmac_match[] = {
- 		.data = &emac_variant_a64 },
- 	{ .compatible = "allwinner,sun50i-h6-emac",
- 		.data = &emac_variant_h6 },
-+	{ .compatible = "allwinner,sun50i-h616-emac",
-+		.data = &emac_variant_h6 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun8i_dwmac_match);
+   reg:
+     items:
 -- 
 2.17.5
 
