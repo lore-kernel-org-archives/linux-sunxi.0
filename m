@@ -1,79 +1,68 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6C92FB8
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 22:37:20 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id k16so883218ios.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 15:37:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B58A2FB8
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 23:33:51 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id b14so680556ilq.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 16:33:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=AapX0dNT59T/SI8VAeevcD55A+AFG5MSeNuhN4FA4aE=;
-        b=qAu6mJXM5VCyBhljwA4166q1Q0jp34pDdHrvrHii+cB1V61Q2W98PRRIOMwd+FSihv
-         Rssggibkub0sunDFNoa6QD36dBCB3nYD6qjBuhN6Bdqun+T0sLtympTEysrfXwJAlTNP
-         u4/nRHv7+GTBPtvex+kTTxI4oZ7WtH8gQTPCb/RLM6NP9OH9MUp/WIhfPXvGg0tBMkCe
-         Xjo5hfUz4p3fADP3GZaIzEQJihE+275jhAgqf5kARQwzrJ9aNWPPAsEpskEkotoicsmA
-         PtWdYefFOF/mW4pJJ+Dl86lQqR9J18DeZpUC/MfBbjxXwjPgmvDT/sfgfN1LAZIHaicy
-         HeCA==
-X-Gm-Message-State: AOAM533hHZeTnGHPWLssJmqZgHAfxqiWnJmjMsFrNZIZG58vmubztCkY
-	UWCbRnLVUfcKvwqbwwYCtA==
-X-Google-Smtp-Source: ABdhPJzuul7DIME4umceda7UcrTrdVy5BGMY2MljyjNdecdHBWYZbkGdJhgM9V3oTSLQxsk8AGq6aA==
-X-Received: by 2002:a05:6638:2583:: with SMTP id s3mr1244891jat.92.1623796640213;
-        Tue, 15 Jun 2021 15:37:20 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LyqHDdfMm/fHepQcQ8Q+GkviGnfZ8KOz9oxgfTRPU7I=;
+        b=FraO/X0QzEY3WfvEzrhEPgFZ/ImGdtiEI0TIhw+GHBvSyYppFKxQx2XOVxdt2F0+S+
+         8YnjBqmYauvJSWtsCgXWWbc50cy1n+qFhun1q0GsixMFvsWbix5IDXkIb2FmmXcSdPbg
+         CXW9tKGPXLSkgsuRnayENUsRAxeoFsBHyAYf1gyVi7sus29dNiVQSl1BKO/rOXBz5f3Z
+         kiGPTQp4cRPUNPDmZEozrBuwqok/g5g1EuTGiadNuguyPy+mc2fw0NCp9Gs1tE1tFdEk
+         ANiszS14yKuf05iUwRtMjf1b2iCyOr3u82wpgJr6o4xrHHCWnFuPii75FvW+xwa4YDfI
+         f+Mg==
+X-Gm-Message-State: AOAM533fiCeVVSy8A3q+ETTIWB6B1h+LE+NKsd5VDudYBzJxEFMTavqJ
+	OIpr3IwecBZtLooyK2pNXQ==
+X-Google-Smtp-Source: ABdhPJzbC5HKz5gHoX68oLX+Wabn/CX5CPYzUpZTV+qRkH3zirfL4w2wpZiZHDRNfvv71F9L/+x0lw==
+X-Received: by 2002:a92:bd06:: with SMTP id c6mr1398682ile.110.1623800030775;
+        Tue, 15 Jun 2021 16:33:50 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id h6sm215234ilj.53.2021.06.15.15.37.17
+        by smtp.gmail.com with ESMTPSA id r11sm282870ilm.23.2021.06.15.16.33.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 15:37:19 -0700 (PDT)
-Received: (nullmailer pid 1415996 invoked by uid 1000);
-	Tue, 15 Jun 2021 22:37:15 -0000
+        Tue, 15 Jun 2021 16:33:49 -0700 (PDT)
+Received: (nullmailer pid 1628454 invoked by uid 1000);
+	Tue, 15 Jun 2021 23:33:45 -0000
+Date: Tue, 15 Jun 2021 17:33:45 -0600
 From: Rob Herring <robh@kernel.org>
-To: Ban Tao <fengzheng923@gmail.com>
-Cc: wens@csie.org, robh+dt@kernel.org, mripard@kernel.org, broonie@kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, jernej.skrabec@gmail.com, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, alsa-devel@alsa-project.org, lgirdwood@gmail.com
-In-Reply-To: <20210615130737.2098-1-fengzheng923@gmail.com>
-References: <20210615130737.2098-1-fengzheng923@gmail.com>
-Subject: Re: [PATCH 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings for DMIC controller
-Date: Tue, 15 Jun 2021 16:37:15 -0600
-Message-Id: <1623796635.726367.1415995.nullmailer@robh.at.kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>, Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megous@megous.com>, Maxime Ripard <mripard@kernel.org>, Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 01/19] dt-bindings: mfd: axp20x: Add AXP305 compatible
+ (plus optional IRQ)
+Message-ID: <20210615233345.GA1627887@robh.at.kernel.org>
+References: <20210615110636.23403-1-andre.przywara@arm.com>
+ <20210615110636.23403-2-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210615110636.23403-2-andre.przywara@arm.com>
 
-On Tue, 15 Jun 2021 21:07:37 +0800, Ban Tao wrote:
-> The Allwinner SoCs feature an I2S controller across multiple SoC
-> generations.
+On Tue, 15 Jun 2021 12:06:18 +0100, Andre Przywara wrote:
+> The AXP305 PMIC used on many boards with the H616 SoC seems to be fully
+> compatible to the AXP805 PMIC, so add the proper chain of compatible
+> strings.
 > 
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
+> Also at least on one board (Orangepi Zero2) there is no interrupt line
+> connected to the CPU, so make the "interrupts" property optional.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  .../sound/allwinner,sun50i-h6-dmic.yaml       | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+>  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-yamllint warnings/errors:
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
 
-dtschema/dtc warnings/errors:
-Error: Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.example.dts:23.28-29 syntax error
-FATAL ERROR: Unable to parse input tree
-make[1]: *** [scripts/Makefile.lib:380: Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-make: *** [Makefile:1416: dt_binding_check] Error 2
-\ndoc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1492163
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+If a tag was not added on purpose, please state why and what changed.
 
