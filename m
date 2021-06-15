@@ -1,108 +1,83 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48F4A2FB2
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 09:28:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DBF246143C
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 09:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623749320;
-	bh=j5S6FfkLlDjYfSjyx+hqYrqgXmhxauWUu0zvHyqD00k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=a3KhUZlHloUuEb42snthxC1h+pJDOlnHi4MWxz/lgwZ17fOZVYJQHYIxl/roiHKnx
-	 i1HWHDotfuPDtd2w7T0yAaaMFKUH89b3Z/e6rXVJ441KfI+GHtCmljbYFhO+YRfOwX
-	 r+NOcgcG1vXMCYCJ6KZrCUKvSY6IcM2EmBXWUtKCGl/TRYnWZ9ta83SdB1hzOeE+GT
-	 uHmwgfh4kYvx5DdAA/YmGp0VSzsLQL7SGmG1UKVHbnOgLox7m/4/4eSH0AZ9tBQPRz
-	 7MjjryBFnUdzRNu7dQoUgvHjb5fziEH/oG1u0MjVBINp2njjb09eVJOmCQ5D8bAipA
-	 q8aXQxOuXGrWw==
-Received: by mail-lf1-f47.google.com with SMTP id bp38so25972344lfb.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 02:28:40 -0700 (PDT)
-X-Gm-Message-State: AOAM532IovVobnTeIwrnZhwrPBqIV4ZlOOkSUTwyOiWWpvFGLdba+mju
-	gfTZbG2k2YGktJtrHxBrjTnl/Z9nbbbnL5aVsQw=
-X-Google-Smtp-Source: ABdhPJzNz1ykPpmEfVQJ9wH1ea7bPl9WQPbFKW5ePg0Hnp7r2VMDIEQIjgiBB4veo+d3GAXdlMX6TxF51nDUbucH0sk=
-X-Received: by 2002:a05:6512:3d13:: with SMTP id d19mr14982734lfv.41.1623749319009;
- Tue, 15 Jun 2021 02:28:39 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0062372
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:06 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DDC9113E;
+	Tue, 15 Jun 2021 04:07:06 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6769B3F719;
+	Tue, 15 Jun 2021 04:07:04 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh@kernel.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ondrej Jirman <megous@megous.com>,
+	devicetree@vger.kernel.org,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH v7 03/19] dt-bindings: rtc: sun6i: Add H616 compatible string
+Date: Tue, 15 Jun 2021 12:06:20 +0100
+Message-Id: <20210615110636.23403-4-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20210615110636.23403-1-andre.przywara@arm.com>
+References: <20210615110636.23403-1-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <1623693067-53886-1-git-send-email-guoren@kernel.org>
- <1623693067-53886-3-git-send-email-guoren@kernel.org> <CAAhSdy2NTw2fHmCztXHXi+FExC12qHH0nziO7wuHOp+Ufk08KA@mail.gmail.com>
-In-Reply-To: <CAAhSdy2NTw2fHmCztXHXi+FExC12qHH0nziO7wuHOp+Ufk08KA@mail.gmail.com>
-From: Guo Ren <guoren@kernel.org>
-Date: Tue, 15 Jun 2021 17:28:27 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTT8BFyCNP4OtAaQLDYCPH+v5w5o3u02g9pQbBaE=kA_mw@mail.gmail.com>
-Message-ID: <CAJF2gTT8BFyCNP4OtAaQLDYCPH+v5w5o3u02g9pQbBaE=kA_mw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 2/2] riscv: pgtable: Add "PBMT" extension supported
-To: Anup Patel <anup@brainfault.org>
-Cc: Anup Patel <anup.patel@wdc.com>, Palmer Dabbelt <palmerdabbelt@google.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <maxime@cerno.tech>, 
-	Drew Fustini <drew@beagleboard.org>, liush <liush@allwinnertech.com>, 
-	=?UTF-8?B?V2VpIFd1ICjlkLTkvJ8p?= <lazyparser@gmail.com>, wefu@redhat.com, 
-	linux-riscv <linux-riscv@lists.infradead.org>, 
-	"linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>, linux-arch <linux-arch@vger.kernel.org>, 
-	linux-sunxi@lists.linux.dev, Guo Ren <guoren@linux.alibaba.com>, 
-	Christoph Hellwig <hch@lst.de>, Daniel Lustig <dlustig@nvidia.com>, Greg Favor <gfavor@ventanamicro.com>, 
-	Andrea Mondelli <andrea.mondelli@huawei.com>, Jonathan Behrens <behrensj@mit.edu>, 
-	Xinhaoqu <xinhaoqu@huawei.com>, Bill Huffman <huffman@cadence.com>, 
-	Nick Kossifidis <mick@ics.forth.gr>, Allen Baum <allen.baum@esperantotech.com>, 
-	Josh Scheid <jscheid@ventanamicro.com>, Richard Trauben <rtrauben@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 15, 2021 at 12:11 PM Anup Patel <anup@brainfault.org> wrote:
->
-> On Mon, Jun 14, 2021 at 11:22 PM <guoren@kernel.org> wrote:
-> >
-> > From: Guo Ren <guoren@linux.alibaba.com>
-> >
-> > "PBMT" - Page-Based Memory Types (see Link for detail), current it
-> > has defined 3 memory types [62:61] in PTE:
-> >  - WB 00 "Cacheable 'main memory'"
-> >  - NC 01 "Noncacheable 'main memory'"
-> >  - IO 11 "Non-cacheable non-idempotent 'I/O'"
-> >
-> > The patch not only implements the current PBMT extension but also
-> > considers future scalability. It uses 3 words of image header to
-> > store 8 memory types' values plus a mask value. That means there
-> > are still 5 memory types reserved for future scalability.
->
-> This is the worst work-around to the Linux RISC-V patch acceptance
-> policy.
->
-> Passing PTE attributes in the Linux Image header means boot-loaders
-> will have to update the image header before jumping to Linux kernel.
-> Basically, this is changing the Linux boot-process by adding platform
-> specific image header updation step.
->
-> Further, this patch is doing too many things in one-go. I needs to be
-> broken down into smaller fine-grained patches.
-Next time, I'll separate it into below patches:
- - riscv: pgtable: Fixup _PAGE_CHG_MASK usage
- - riscv: pgtable: Add "PBMT" extension supported
- - riscv: pgtable: Add vendor custom "PBMT" definitions interface
-How?
+Add the obvious compatible name to the existing RTC binding.
+The actual RTC part of the device uses a different day/month/year
+storage scheme, so it's not compatible with the previous devices.
+Also the clock part is quite different, as there is no external 32K LOSC
+oscillator input.
 
->
-> I totally disapprove of this patch in it's current shape since the
-> Linux boot-protocol should not have any platform specific part.
-I think you mean we shouldn't modify the uImage header.
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-How about parsing dtb before setup_vm (It's a very early stage before
-mmu enabled)?  eg:
-        cpus {
-                ...
-                rv64-pbmt-extension;
-                rv64-pbmt-custom-remapping = <[mask] [type0] [type1] [type2]>;
+diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+index b1b0ee769b71..2c3fd72e17ee 100644
+--- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+@@ -26,6 +26,7 @@ properties:
+           - const: allwinner,sun50i-a64-rtc
+           - const: allwinner,sun8i-h3-rtc
+       - const: allwinner,sun50i-h6-rtc
++      - const: allwinner,sun50i-h616-rtc
+ 
+   reg:
+     maxItems: 1
+@@ -105,6 +106,20 @@ allOf:
+           minItems: 3
+           maxItems: 3
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: allwinner,sun50i-h616-rtc
++
++    then:
++      properties:
++        clock-output-names:
++          minItems: 3
++          maxItems: 3
++        clocks:
++          maxItems: 0
++
+   - if:
+       properties:
+         compatible:
+-- 
+2.17.5
 
->
-> Also, please don't CC RVI mailing list for Linux patches because
-> the people can post to RVI mailing list only by joining it.
-Okay, I'll remove the RVI mailing list. If I needed to, I would send a
-notification email to RVI separately.
-
---
-Best Regards
- Guo Ren
-
-ML: https://lore.kernel.org/linux-csky/
