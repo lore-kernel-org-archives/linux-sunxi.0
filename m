@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F4370
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 15:49:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E53316162F;
-	Tue, 15 Jun 2021 15:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9209470
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 15:50:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DB36616E8;
+	Tue, 15 Jun 2021 15:50:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623772198;
-	bh=h927+2IxhQUvmDsFhXiGWx7fuJ9Tik4yJCKJT0/qBEs=;
+	s=k20201202; t=1623772217;
+	bh=5B/sNgq6mLqhg5dcXERN/QFxhihe4SKiipJ5eFHh8fY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=k65u/IICe3ZzyaYSImIW9+7vqtuqdCshlfezFmlRsdGGyAwEOMBl2tndD8JSa93nM
-	 aWtw0E3htQrZZ/es73yocDQMbm0OnCmp1OcDVQG/fp8S4aRtBa2S2vJYV+2fkFf3RH
-	 L8BvkvdHGzyjRTixfAXgSmtYw9kNIf9jslyeWzHfHshj5uVtqFwutOio0kw20j9g+e
-	 uDxkUEFPiR08CMK6ubgtGpy1H91kzc26CwRidmxqT/zD7+jKOWkxgqnBQkf/bjAjCb
-	 eAqKZp2QRWjdy4uBwhTkmAqzfvE0IRQDfkwqcphAK5JFpTJtw9xxDofO5Fz64kAoHb
-	 SQoRlXe27jGaA==
+	b=UOg9/H3zRFhbKVKHG6XMMwNsJLF3+n+nGGQvU6Gf4F7jN0y6SNEnHGRjvhf8K1bjo
+	 5dJHwy0934ao/jCo+AR0UVdrYdoxyyTUox43TPq4kh4/JVz0cB1T5nfkXMo9QDhLj8
+	 hLUMjowWJf8EUMUUDZBHD5VvGM58Giy1n6eR1BaO+9z9gdSuqc7LkHilgINrozyroz
+	 iAO1A/ddB3KUGogTk4tgexpQW+BjhuIl/jSq8iodQRFot3u9tmveNpGyH09ooaONle
+	 Af7l/k/kWOsS9avknqCKwrOQOZax7cCCU8fg8HJ4yRra75gouTUfUFsyOssQn9g9Ca
+	 JXygr1BbZ7oow==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,12 +26,12 @@ Cc: Saravana Kannan <saravanak@google.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 07/15] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
-Date: Tue, 15 Jun 2021 11:49:39 -0400
-Message-Id: <20210615154948.62711-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 05/12] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
+Date: Tue, 15 Jun 2021 11:50:02 -0400
+Message-Id: <20210615155009.62894-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615154948.62711-1-sashal@kernel.org>
-References: <20210615154948.62711-1-sashal@kernel.org>
+In-Reply-To: <20210615155009.62894-1-sashal@kernel.org>
+References: <20210615155009.62894-1-sashal@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -77,10 +77,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 66 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index 8f721be26477..cfb63cae4b12 100644
+index 5073622cbb56..ab048f9412e7 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -211,7 +211,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+@@ -144,7 +144,7 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
  		goto err_disable_clk_tmds;
  	}
  
@@ -89,7 +89,7 @@ index 8f721be26477..cfb63cae4b12 100644
  	of_node_put(phy_node);
  	if (ret) {
  		dev_err(dev, "Couldn't get the HDMI PHY\n");
-@@ -244,7 +244,6 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+@@ -179,7 +179,6 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
  
  cleanup_encoder:
  	drm_encoder_cleanup(encoder);
@@ -97,15 +97,15 @@ index 8f721be26477..cfb63cae4b12 100644
  err_disable_clk_tmds:
  	clk_disable_unprepare(hdmi->clk_tmds);
  err_assert_ctrl_reset:
-@@ -265,7 +264,6 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
+@@ -194,7 +193,6 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
  	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
  
  	dw_hdmi_unbind(hdmi->hdmi);
 -	sun8i_hdmi_phy_remove(hdmi);
  	clk_disable_unprepare(hdmi->clk_tmds);
  	reset_control_assert(hdmi->rst_ctrl);
- 	gpiod_set_value(hdmi->ddc_en, 0);
-@@ -322,7 +320,32 @@ static struct platform_driver sun8i_dw_hdmi_pltfm_driver = {
+ }
+@@ -230,7 +228,32 @@ static struct platform_driver sun8i_dw_hdmi_pltfm_driver = {
  		.of_match_table = sun8i_dw_hdmi_dt_ids,
  	},
  };
@@ -140,11 +140,11 @@ index 8f721be26477..cfb63cae4b12 100644
  MODULE_AUTHOR("Jernej Skrabec <jernej.skrabec@siol.net>");
  MODULE_DESCRIPTION("Allwinner DW HDMI bridge");
 diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index d707c9171824..5a299a6f5aa5 100644
+index aadbe0a10b0c..41355bf3aca8 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
 +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -194,14 +194,15 @@ struct sun8i_dw_hdmi {
- 	struct gpio_desc		*ddc_en;
+@@ -179,14 +179,15 @@ struct sun8i_dw_hdmi {
+ 	struct reset_control		*rst_ctrl;
  };
  
 +extern struct platform_driver sun8i_hdmi_phy_driver;
@@ -160,9 +160,9 @@ index d707c9171824..5a299a6f5aa5 100644
 +int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
  
  void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+ const struct dw_hdmi_phy_ops *sun8i_hdmi_phy_get_ops(void);
 diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index a4012ec13d4b..c6289328c874 100644
+index dc9b1398adb9..7e7a81f9d29a 100644
 --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
 +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
 @@ -5,6 +5,7 @@
@@ -173,7 +173,7 @@ index a4012ec13d4b..c6289328c874 100644
  
  #include "sun8i_dw_hdmi.h"
  
-@@ -596,10 +597,30 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
+@@ -433,10 +434,30 @@ static const struct of_device_id sun8i_hdmi_phy_of_table[] = {
  	{ /* sentinel */ }
  };
  
@@ -206,7 +206,7 @@ index a4012ec13d4b..c6289328c874 100644
  	struct sun8i_hdmi_phy *phy;
  	struct resource res;
  	void __iomem *regs;
-@@ -703,7 +724,7 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
+@@ -540,7 +561,7 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
  		clk_prepare_enable(phy->clk_phy);
  	}
  
@@ -215,7 +215,7 @@ index a4012ec13d4b..c6289328c874 100644
  
  	return 0;
  
-@@ -727,9 +748,9 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
+@@ -564,9 +585,9 @@ int sun8i_hdmi_phy_probe(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
  	return ret;
  }
  
@@ -227,7 +227,7 @@ index a4012ec13d4b..c6289328c874 100644
  
  	clk_disable_unprepare(phy->clk_mod);
  	clk_disable_unprepare(phy->clk_bus);
-@@ -743,4 +764,14 @@ void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
+@@ -580,4 +601,14 @@ void sun8i_hdmi_phy_remove(struct sun8i_dw_hdmi *hdmi)
  	clk_put(phy->clk_pll1);
  	clk_put(phy->clk_mod);
  	clk_put(phy->clk_bus);
