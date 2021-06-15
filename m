@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414A1173
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 372F372
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:10 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EE0BB31B;
-	Tue, 15 Jun 2021 04:07:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F57D1063;
+	Tue, 15 Jun 2021 04:07:04 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D5B783F719;
-	Tue, 15 Jun 2021 04:07:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5264C3F719;
+	Tue, 15 Jun 2021 04:07:02 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -19,12 +19,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megous@megous.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH v7 04/19] rtc: sun6i: Add support for linear day storage
-Date: Tue, 15 Jun 2021 12:06:21 +0100
-Message-Id: <20210615110636.23403-5-andre.przywara@arm.com>
+	Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH v7 02/19] mfd: axp20x: Allow AXP 806 chips without interrupt lines
+Date: Tue, 15 Jun 2021 12:06:19 +0100
+Message-Id: <20210615110636.23403-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210615110636.23403-1-andre.przywara@arm.com>
 References: <20210615110636.23403-1-andre.przywara@arm.com>
@@ -33,144 +31,67 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Newer versions of the Allwinner RTC, as for instance found in the H616
-SoC, no longer store a broken-down day/month/year representation in the
-RTC_DAY_REG, but just a linear day number.
-The user manual does not give any indication about the expected epoch
-time of this day count, but the BSP kernel uses the UNIX epoch, which
-allows easy support due to existing conversion functions in the kernel.
+Currently the AXP chip requires to have its IRQ line connected to some
+interrupt controller, and will fail probing when this is not the case.
 
-Allow tagging a compatible string with a flag, and use that to mark
-those new RTCs. Then convert between a UNIX day number (converted into
-seconds) and the broken-down day representation using mktime64() and
-time64_to_tm() in the set_time/get_time functions.
+On a new Allwinner SoC (H616) there is no NMI pin anymore, and at
+least one board does not connect the AXP's IRQ pin to anything else,
+so the interrupt functionality of the AXP chip is simply not available.
 
-That enables support for the RTC in those new chips.
+Check whether the interrupt line number returned by the platform code is
+valid, before trying to register the irqchip. If not, we skip this
+registration, to avoid the driver to bail out completely.
+Also we need to skip the power key functionality, as this relies on
+a valid IRQ as well.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/rtc/rtc-sun6i.c | 66 +++++++++++++++++++++++++++--------------
- 1 file changed, 44 insertions(+), 22 deletions(-)
+ drivers/mfd/axp20x.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index adec1b14a8de..e4fc6e4f2bfb 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -110,6 +110,8 @@
- #define SUN6I_YEAR_MIN				1970
- #define SUN6I_YEAR_OFF				(SUN6I_YEAR_MIN - 1900)
- 
-+#define SEC_PER_DAY				(24 * 3600ULL)
-+
- /*
-  * There are other differences between models, including:
-  *
-@@ -133,12 +135,15 @@ struct sun6i_rtc_clk_data {
- 	unsigned int has_auto_swt : 1;
- };
- 
-+#define RTC_LINEAR_DAY	BIT(0)
-+
- struct sun6i_rtc_dev {
- 	struct rtc_device *rtc;
- 	const struct sun6i_rtc_clk_data *data;
- 	void __iomem *base;
- 	int irq;
- 	unsigned long alarm;
-+	unsigned long flags;
- 
- 	struct clk_hw hw;
- 	struct clk_hw *int_osc;
-@@ -467,22 +472,30 @@ static int sun6i_rtc_gettime(struct device *dev, struct rtc_time *rtc_tm)
- 	} while ((date != readl(chip->base + SUN6I_RTC_YMD)) ||
- 		 (time != readl(chip->base + SUN6I_RTC_HMS)));
- 
-+	if (chip->flags & RTC_LINEAR_DAY) {
+diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
+index 3eae04e24ac8..4145a38b3890 100644
+--- a/drivers/mfd/axp20x.c
++++ b/drivers/mfd/axp20x.c
+@@ -884,8 +884,13 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
+ 		axp20x->regmap_irq_chip = &axp803_regmap_irq_chip;
+ 		break;
+ 	case AXP806_ID:
 +		/*
-+		 * Newer chips store a linear day number, the manual
-+		 * does not mandate any epoch base. The BSP driver uses
-+		 * the UNIX epoch, let's just copy that, as it's the
-+		 * easiest anyway.
++		 * Don't register the power key part if in slave mode or
++		 * if there is no interrupt line.
 +		 */
-+		rtc_time64_to_tm((date & 0xffff) * SEC_PER_DAY, rtc_tm);
-+	} else {
-+		rtc_tm->tm_mday = SUN6I_DATE_GET_DAY_VALUE(date);
-+		rtc_tm->tm_mon  = SUN6I_DATE_GET_MON_VALUE(date) - 1;
-+		rtc_tm->tm_year = SUN6I_DATE_GET_YEAR_VALUE(date);
-+
-+		/*
-+		 * switch from (data_year->min)-relative offset to
-+		 * a (1900)-relative one
-+		 */
-+		rtc_tm->tm_year += SUN6I_YEAR_OFF;
-+	}
-+
- 	rtc_tm->tm_sec  = SUN6I_TIME_GET_SEC_VALUE(time);
- 	rtc_tm->tm_min  = SUN6I_TIME_GET_MIN_VALUE(time);
- 	rtc_tm->tm_hour = SUN6I_TIME_GET_HOUR_VALUE(time);
+ 		if (of_property_read_bool(axp20x->dev->of_node,
+-					  "x-powers,self-working-mode")) {
++					  "x-powers,self-working-mode") &&
++		    axp20x->irq > 0) {
+ 			axp20x->nr_cells = ARRAY_SIZE(axp806_self_working_cells);
+ 			axp20x->cells = axp806_self_working_cells;
+ 		} else {
+@@ -959,12 +964,17 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
+ 				     AXP806_REG_ADDR_EXT_ADDR_SLAVE_MODE);
+ 	}
  
--	rtc_tm->tm_mday = SUN6I_DATE_GET_DAY_VALUE(date);
--	rtc_tm->tm_mon  = SUN6I_DATE_GET_MON_VALUE(date);
--	rtc_tm->tm_year = SUN6I_DATE_GET_YEAR_VALUE(date);
--
--	rtc_tm->tm_mon  -= 1;
--
--	/*
--	 * switch from (data_year->min)-relative offset to
--	 * a (1900)-relative one
--	 */
--	rtc_tm->tm_year += SUN6I_YEAR_OFF;
--
- 	return 0;
- }
+-	ret = regmap_add_irq_chip(axp20x->regmap, axp20x->irq,
+-			  IRQF_ONESHOT | IRQF_SHARED | axp20x->irq_flags,
+-			   -1, axp20x->regmap_irq_chip, &axp20x->regmap_irqc);
+-	if (ret) {
+-		dev_err(axp20x->dev, "failed to add irq chip: %d\n", ret);
+-		return ret;
++	/* Only if there is an interrupt line connected towards the CPU. */
++	if (axp20x->irq > 0) {
++		ret = regmap_add_irq_chip(axp20x->regmap, axp20x->irq,
++				IRQF_ONESHOT | IRQF_SHARED | axp20x->irq_flags,
++				-1, axp20x->regmap_irq_chip,
++				&axp20x->regmap_irqc);
++		if (ret) {
++			dev_err(axp20x->dev, "failed to add irq chip: %d\n",
++				ret);
++			return ret;
++		}
+ 	}
  
-@@ -571,20 +584,27 @@ static int sun6i_rtc_settime(struct device *dev, struct rtc_time *rtc_tm)
- 	u32 date = 0;
- 	u32 time = 0;
- 
--	rtc_tm->tm_year -= SUN6I_YEAR_OFF;
--	rtc_tm->tm_mon += 1;
--
--	date = SUN6I_DATE_SET_DAY_VALUE(rtc_tm->tm_mday) |
--		SUN6I_DATE_SET_MON_VALUE(rtc_tm->tm_mon)  |
--		SUN6I_DATE_SET_YEAR_VALUE(rtc_tm->tm_year);
--
--	if (is_leap_year(rtc_tm->tm_year + SUN6I_YEAR_MIN))
--		date |= SUN6I_LEAP_SET_VALUE(1);
--
- 	time = SUN6I_TIME_SET_SEC_VALUE(rtc_tm->tm_sec)  |
- 		SUN6I_TIME_SET_MIN_VALUE(rtc_tm->tm_min)  |
- 		SUN6I_TIME_SET_HOUR_VALUE(rtc_tm->tm_hour);
- 
-+	if (chip->flags & RTC_LINEAR_DAY) {
-+		rtc_tm->tm_sec = 0;
-+		rtc_tm->tm_min = 0;
-+		rtc_tm->tm_hour = 0;
-+		date = rtc_tm_to_time64(rtc_tm) / SEC_PER_DAY;
-+	} else {
-+		rtc_tm->tm_year -= SUN6I_YEAR_OFF;
-+		rtc_tm->tm_mon += 1;
-+
-+		date = SUN6I_DATE_SET_DAY_VALUE(rtc_tm->tm_mday) |
-+			SUN6I_DATE_SET_MON_VALUE(rtc_tm->tm_mon)  |
-+			SUN6I_DATE_SET_YEAR_VALUE(rtc_tm->tm_year);
-+
-+		if (is_leap_year(rtc_tm->tm_year + SUN6I_YEAR_MIN))
-+			date |= SUN6I_LEAP_SET_VALUE(1);
-+	}
-+
- 	/* Check whether registers are writable */
- 	if (sun6i_rtc_wait(chip, SUN6I_LOSC_CTRL,
- 			   SUN6I_LOSC_CTRL_ACC_MASK, 50)) {
-@@ -678,6 +698,8 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, chip);
- 
-+	chip->flags = (unsigned long)of_device_get_match_data(&pdev->dev);
-+
- 	chip->irq = platform_get_irq(pdev, 0);
- 	if (chip->irq < 0)
- 		return chip->irq;
+ 	ret = mfd_add_devices(axp20x->dev, -1, axp20x->cells,
 -- 
 2.17.5
 
