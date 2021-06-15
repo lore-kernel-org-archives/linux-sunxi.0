@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58C1A70
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 15:48:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EDF3961628;
-	Tue, 15 Jun 2021 15:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D0D70
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 15:49:33 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A10356162D;
+	Tue, 15 Jun 2021 15:49:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1623772132;
+	s=k20201202; t=1623772173;
 	bh=OO3MvYBl4TtXeN+GBmxUzYkthl3lY9s5wU6tuRwVQ6w=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=BrUURhMpzl9J9M1e6srlZTiW5qmJSynmx/CZVduzFwxVLIG6HaEdRN4o2eOii0t1r
-	 k5+kW4FQ8QXIcLYC1R7MxRscLgHZCfDvs9ROjgVIRKf1kAkempu79bcp5Vs/uA12Zw
-	 Q14YPtnkERawdNQXddY6d5yvL5Bjrl1T/WiI2OhccetazXmha538V6hzJ1gX3B/xUd
-	 OAWWvNqoavubYfHpcatf5KmdmhTpVJUvJpq9MBuZokymPDm61DuO7c53RxwPxrQTDC
-	 0/BaWCnVpryJNZfWY5sYpXryT/wmtdg3G9L4Xlnp3S+Jl4/J52chvhlsLjBg4QG5IO
-	 xiwMJ+Oy5JidA==
+	b=EBXXPv3RCMsK1v94Nqt/iinVh0Mhcfx56rM3ipJI02SKdwgso3KnRng7EmSgH8DX7
+	 qnYc2XlnhQUEC7F/CDYCQ719thqvZU3Oxd3VPArChNzHo8k+RNlk1TFC3qELIsaZ5Y
+	 3jlvnKC2WyhZqNtRSfLkBeSw7sl5WVFWmh+MJZA9c+fG7RHPuXtXFKOx3140tIkoxu
+	 6WSScyYQKZDqngxCLaRKFEmCwmQp9vhUwctCSLMSJk0XLAto8miOn24vbaaoNwDZ59
+	 asFPioee3N8dIcFLN0PykSYP+ATurFYjT2B7BeG6Bp5XA8z6fIwscKSK/13KurgpJi
+	 zdMQtCEmAi6Hg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,12 +26,12 @@ Cc: Saravana Kannan <saravanak@google.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.12 22/33] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
-Date: Tue, 15 Jun 2021 11:48:13 -0400
-Message-Id: <20210615154824.62044-22-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 20/30] drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device
+Date: Tue, 15 Jun 2021 11:48:57 -0400
+Message-Id: <20210615154908.62388-20-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210615154824.62044-1-sashal@kernel.org>
-References: <20210615154824.62044-1-sashal@kernel.org>
+In-Reply-To: <20210615154908.62388-1-sashal@kernel.org>
+References: <20210615154908.62388-1-sashal@kernel.org>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
