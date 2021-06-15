@@ -1,41 +1,41 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com [209.85.166.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B58A2FB8
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 23:33:51 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id b14so680556ilq.7
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 16:33:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931DA2FB8
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 23:35:06 +0000 (UTC)
+Received: by mail-il1-f178.google.com with SMTP id b5so649474ilc.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 16:35:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=LyqHDdfMm/fHepQcQ8Q+GkviGnfZ8KOz9oxgfTRPU7I=;
-        b=FraO/X0QzEY3WfvEzrhEPgFZ/ImGdtiEI0TIhw+GHBvSyYppFKxQx2XOVxdt2F0+S+
-         8YnjBqmYauvJSWtsCgXWWbc50cy1n+qFhun1q0GsixMFvsWbix5IDXkIb2FmmXcSdPbg
-         CXW9tKGPXLSkgsuRnayENUsRAxeoFsBHyAYf1gyVi7sus29dNiVQSl1BKO/rOXBz5f3Z
-         kiGPTQp4cRPUNPDmZEozrBuwqok/g5g1EuTGiadNuguyPy+mc2fw0NCp9Gs1tE1tFdEk
-         ANiszS14yKuf05iUwRtMjf1b2iCyOr3u82wpgJr6o4xrHHCWnFuPii75FvW+xwa4YDfI
-         f+Mg==
-X-Gm-Message-State: AOAM533fiCeVVSy8A3q+ETTIWB6B1h+LE+NKsd5VDudYBzJxEFMTavqJ
-	OIpr3IwecBZtLooyK2pNXQ==
-X-Google-Smtp-Source: ABdhPJzbC5HKz5gHoX68oLX+Wabn/CX5CPYzUpZTV+qRkH3zirfL4w2wpZiZHDRNfvv71F9L/+x0lw==
-X-Received: by 2002:a92:bd06:: with SMTP id c6mr1398682ile.110.1623800030775;
-        Tue, 15 Jun 2021 16:33:50 -0700 (PDT)
+        bh=M7mtpARxZOramxjxaW7DY3FJniUk5KYYeFWsUiBQS4s=;
+        b=m4K7GBan1XRZcTiGOs0DkrpV1PthIfCsRb+MvUzq3M1mCN2qIAsChA/rv4eUTyIF0L
+         R4NWzQmX/hkCLDS3yB398wNbPEqNCg5Ol9C69UfvPBW0eMLdEgTZsd3VrL7IMl9BDSHM
+         zDyN32lgtaDu6hpfKoYjZcISoIv7fwp4DlgMvNASYrRaE5K7rVOTXYWWRCHlQfAJhPRw
+         95ZBLk7G/St766PsFGX9PKqH6rPKOC0xkbbDiz/VLmaYL78uUmvTlhY5BBX9xvi/YYl0
+         IWpDZZyzzP8rdlAtvdI3lH/JJUccU7TIiM9h2UEDMGOhgW8seiqx7oJEiQuvAq4nKdO8
+         iq5g==
+X-Gm-Message-State: AOAM530nM0DtOLlyOs2Y4+7riJiqS0JTu7Hq9V8VKQXD7cK1eBjZAy64
+	XM1VG4rE+tOURAo4zVOrLQ==
+X-Google-Smtp-Source: ABdhPJzZpda2GZV56qSibl8HTwsctfk6cpz/tUqIyo+rWfUorW+b8tZ2HGW4F0404Loq2ti7RNgU4Q==
+X-Received: by 2002:a05:6e02:1d82:: with SMTP id h2mr1452459ila.180.1623800105906;
+        Tue, 15 Jun 2021 16:35:05 -0700 (PDT)
 Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id r11sm282870ilm.23.2021.06.15.16.33.47
+        by smtp.gmail.com with ESMTPSA id a17sm263693ilb.57.2021.06.15.16.35.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jun 2021 16:33:49 -0700 (PDT)
-Received: (nullmailer pid 1628454 invoked by uid 1000);
-	Tue, 15 Jun 2021 23:33:45 -0000
-Date: Tue, 15 Jun 2021 17:33:45 -0600
+        Tue, 15 Jun 2021 16:35:05 -0700 (PDT)
+Received: (nullmailer pid 1649131 invoked by uid 1000);
+	Tue, 15 Jun 2021 23:35:02 -0000
+Date: Tue, 15 Jun 2021 17:35:02 -0600
 From: Rob Herring <robh@kernel.org>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>, Chen-Yu Tsai <wens@csie.org>, Ondrej Jirman <megous@megous.com>, Maxime Ripard <mripard@kernel.org>, Lee Jones <lee.jones@linaro.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v7 01/19] dt-bindings: mfd: axp20x: Add AXP305 compatible
- (plus optional IRQ)
-Message-ID: <20210615233345.GA1627887@robh.at.kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v7 03/19] dt-bindings: rtc: sun6i: Add H616 compatible
+ string
+Message-ID: <20210615233502.GA1630203@robh.at.kernel.org>
 References: <20210615110636.23403-1-andre.przywara@arm.com>
- <20210615110636.23403-2-andre.przywara@arm.com>
+ <20210615110636.23403-4-andre.przywara@arm.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -43,26 +43,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210615110636.23403-2-andre.przywara@arm.com>
+In-Reply-To: <20210615110636.23403-4-andre.przywara@arm.com>
 
-On Tue, 15 Jun 2021 12:06:18 +0100, Andre Przywara wrote:
-> The AXP305 PMIC used on many boards with the H616 SoC seems to be fully
-> compatible to the AXP805 PMIC, so add the proper chain of compatible
-> strings.
-> 
-> Also at least on one board (Orangepi Zero2) there is no interrupt line
-> connected to the CPU, so make the "interrupts" property optional.
+On Tue, Jun 15, 2021 at 12:06:20PM +0100, Andre Przywara wrote:
+> Add the obvious compatible name to the existing RTC binding.
+> The actual RTC part of the device uses a different day/month/year
+> storage scheme, so it's not compatible with the previous devices.
+> Also the clock part is quite different, as there is no external 32K LOSC
+> oscillator input.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> index b1b0ee769b71..2c3fd72e17ee 100644
+> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> @@ -26,6 +26,7 @@ properties:
+>            - const: allwinner,sun50i-a64-rtc
+>            - const: allwinner,sun8i-h3-rtc
+>        - const: allwinner,sun50i-h6-rtc
+> +      - const: allwinner,sun50i-h616-rtc
+>  
+>    reg:
+>      maxItems: 1
+> @@ -105,6 +106,20 @@ allOf:
+>            minItems: 3
+>            maxItems: 3
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: allwinner,sun50i-h616-rtc
+> +
+> +    then:
+> +      properties:
+> +        clock-output-names:
+> +          minItems: 3
+> +          maxItems: 3
+> +        clocks:
+> +          maxItems: 0
 
+clocks: false
 
-Please add Acked-by/Reviewed-by tags when posting new versions. However,
-there's no need to repost patches *only* to add the tags. The upstream
-maintainer will do that for acks received on the version they apply.
+if forbidding clocks is what you want.
 
-If a tag was not added on purpose, please state why and what changed.
-
+> +
+>    - if:
+>        properties:
+>          compatible:
+> -- 
+> 2.17.5
