@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 372F372
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6879E173
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Jun 2021 11:07:11 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F57D1063;
-	Tue, 15 Jun 2021 04:07:04 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B87712FC;
+	Tue, 15 Jun 2021 04:07:11 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5264C3F719;
-	Tue, 15 Jun 2021 04:07:02 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3174A3F719;
+	Tue, 15 Jun 2021 04:07:09 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -19,10 +19,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megous@megous.com>,
-	Lee Jones <lee.jones@linaro.org>
-Subject: [PATCH v7 02/19] mfd: axp20x: Allow AXP 806 chips without interrupt lines
-Date: Tue, 15 Jun 2021 12:06:19 +0100
-Message-Id: <20210615110636.23403-3-andre.przywara@arm.com>
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: [PATCH v7 05/19] rtc: sun6i: Add support for broken-down alarm registers
+Date: Tue, 15 Jun 2021 12:06:22 +0100
+Message-Id: <20210615110636.23403-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210615110636.23403-1-andre.przywara@arm.com>
 References: <20210615110636.23403-1-andre.przywara@arm.com>
@@ -31,67 +33,110 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Currently the AXP chip requires to have its IRQ line connected to some
-interrupt controller, and will fail probing when this is not the case.
+Newer versions of the Allwinner RTC, for instance as found in the H616
+SoC, not only store the current day as a linear number, but also change
+the way the alarm is handled: There are now two registers, that
+explicitly store the wakeup time, in the same format as the current
+time.
 
-On a new Allwinner SoC (H616) there is no NMI pin anymore, and at
-least one board does not connect the AXP's IRQ pin to anything else,
-so the interrupt functionality of the AXP chip is simply not available.
-
-Check whether the interrupt line number returned by the platform code is
-valid, before trying to register the irqchip. If not, we skip this
-registration, to avoid the driver to bail out completely.
-Also we need to skip the power key functionality, as this relies on
-a valid IRQ as well.
+Add support for that variant by writing the requested wakeup time
+directly into the registers, instead of programming the seconds left, as
+the old SoCs required.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/mfd/axp20x.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ drivers/rtc/rtc-sun6i.c | 60 +++++++++++++++++++++++++++--------------
+ 1 file changed, 40 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/mfd/axp20x.c b/drivers/mfd/axp20x.c
-index 3eae04e24ac8..4145a38b3890 100644
---- a/drivers/mfd/axp20x.c
-+++ b/drivers/mfd/axp20x.c
-@@ -884,8 +884,13 @@ int axp20x_match_device(struct axp20x_dev *axp20x)
- 		axp20x->regmap_irq_chip = &axp803_regmap_irq_chip;
- 		break;
- 	case AXP806_ID:
-+		/*
-+		 * Don't register the power key part if in slave mode or
-+		 * if there is no interrupt line.
-+		 */
- 		if (of_property_read_bool(axp20x->dev->of_node,
--					  "x-powers,self-working-mode")) {
-+					  "x-powers,self-working-mode") &&
-+		    axp20x->irq > 0) {
- 			axp20x->nr_cells = ARRAY_SIZE(axp806_self_working_cells);
- 			axp20x->cells = axp806_self_working_cells;
- 		} else {
-@@ -959,12 +964,17 @@ int axp20x_device_probe(struct axp20x_dev *axp20x)
- 				     AXP806_REG_ADDR_EXT_ADDR_SLAVE_MODE);
- 	}
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index e4fc6e4f2bfb..54bd47fb0a5f 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -48,7 +48,8 @@
  
--	ret = regmap_add_irq_chip(axp20x->regmap, axp20x->irq,
--			  IRQF_ONESHOT | IRQF_SHARED | axp20x->irq_flags,
--			   -1, axp20x->regmap_irq_chip, &axp20x->regmap_irqc);
--	if (ret) {
--		dev_err(axp20x->dev, "failed to add irq chip: %d\n", ret);
--		return ret;
-+	/* Only if there is an interrupt line connected towards the CPU. */
-+	if (axp20x->irq > 0) {
-+		ret = regmap_add_irq_chip(axp20x->regmap, axp20x->irq,
-+				IRQF_ONESHOT | IRQF_SHARED | axp20x->irq_flags,
-+				-1, axp20x->regmap_irq_chip,
-+				&axp20x->regmap_irqc);
-+		if (ret) {
-+			dev_err(axp20x->dev, "failed to add irq chip: %d\n",
-+				ret);
-+			return ret;
+ /* Alarm 0 (counter) */
+ #define SUN6I_ALRM_COUNTER			0x0020
+-#define SUN6I_ALRM_CUR_VAL			0x0024
++/* This holds the remaining alarm seconds on older SoCs (current value) */
++#define SUN6I_ALRM_COUNTER_HMS			0x0024
+ #define SUN6I_ALRM_EN				0x0028
+ #define SUN6I_ALRM_EN_CNT_EN			BIT(0)
+ #define SUN6I_ALRM_IRQ_EN			0x002c
+@@ -523,36 +524,55 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 	struct sun6i_rtc_dev *chip = dev_get_drvdata(dev);
+ 	struct rtc_time *alrm_tm = &wkalrm->time;
+ 	struct rtc_time tm_now;
+-	unsigned long time_now = 0;
+ 	unsigned long time_set = 0;
+-	unsigned long time_gap = 0;
++	unsigned long counter_val, counter_val_hms;
+ 	int ret = 0;
+ 
+-	ret = sun6i_rtc_gettime(dev, &tm_now);
+-	if (ret < 0) {
+-		dev_err(dev, "Error in getting time\n");
+-		return -EINVAL;
+-	}
+-
+ 	time_set = rtc_tm_to_time64(alrm_tm);
+-	time_now = rtc_tm_to_time64(&tm_now);
+-	if (time_set <= time_now) {
+-		dev_err(dev, "Date to set in the past\n");
+-		return -EINVAL;
+-	}
+-
+-	time_gap = time_set - time_now;
+ 
+-	if (time_gap > U32_MAX) {
+-		dev_err(dev, "Date too far in the future\n");
+-		return -EINVAL;
++	if (chip->flags & RTC_LINEAR_DAY) {
++		/*
++		 * The alarm registers hold the actual alarm time, encoded
++		 * in the same way (linear day + HMS) as the current time.
++		 */
++		counter_val_hms = SUN6I_TIME_SET_SEC_VALUE(alrm_tm->tm_sec)  |
++				  SUN6I_TIME_SET_MIN_VALUE(alrm_tm->tm_min)  |
++				  SUN6I_TIME_SET_HOUR_VALUE(alrm_tm->tm_hour);
++		counter_val = mktime64(alrm_tm->tm_year + 1900, alrm_tm->tm_mon,
++				       alrm_tm->tm_mday, 0, 0, 0) / SEC_PER_DAY;
++	} else {
++		/* The alarm register holds the number of seconds left. */
++		unsigned long time_now;
++
++		ret = sun6i_rtc_gettime(dev, &tm_now);
++		if (ret < 0) {
++			dev_err(dev, "Error in getting time\n");
++			return -EINVAL;
++		}
++
++		time_now = rtc_tm_to_time64(&tm_now);
++		if (time_set <= time_now) {
++			dev_err(dev, "Date to set in the past\n");
++			return -EINVAL;
++		}
++
++		counter_val = time_set - time_now;
++
++		if (counter_val > U32_MAX) {
++			dev_err(dev, "Date too far in the future\n");
++			return -EINVAL;
 +		}
  	}
  
- 	ret = mfd_add_devices(axp20x->dev, -1, axp20x->cells,
+ 	sun6i_rtc_setaie(0, chip);
+ 	writel(0, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(0, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	usleep_range(100, 300);
+ 
+-	writel(time_gap, chip->base + SUN6I_ALRM_COUNTER);
++	writel(counter_val, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(counter_val_hms, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	chip->alarm = time_set;
+ 
+ 	sun6i_rtc_setaie(wkalrm->enabled, chip);
 -- 
 2.17.5
 
