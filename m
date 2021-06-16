@@ -1,152 +1,67 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2813A71
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Jun 2021 13:47:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 00B6D580533;
-	Wed, 16 Jun 2021 09:47:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 16 Jun 2021 09:47:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=K7K8HmNdTN19CUzpoIecFYqJU9L
-	x/mk0+DFc76H/lIQ=; b=mU99aKyC2cwAPsiRViyOpHWKzCdzvF6LDMZN3o16i3O
-	gPD0dAImpbHCmJlrV29msEJ/M/l6VzjUjAjUhV9xEcZezJfXELf4R/qTNrDhTMyg
-	/nY8RCwH7cEjn5biGY7Goy7AfNuDo6ghdoVKyDKR/sdyaQDt8djk92R7XuR7CpeF
-	tO5z3QOJRIh37dIMCBTe8B2MEWZGrx1nF+pvD9DXKHj8/2Wbh1l1ov7GILFS7bsF
-	kxtfx3Yvh8EaUP5f0FUXDSSDvSlgEUIR7ekaOgcjiSTsJpK+edggH+XFXSuHcsA5
-	NGVIVusBneiuHsrfrMOwFKaG+lqLP0LvEcSD6+7xuLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=K7K8Hm
-	NdTN19CUzpoIecFYqJU9Lx/mk0+DFc76H/lIQ=; b=fUMliT++5jIroIU/XwP7tr
-	P27hGBTyp+Hng+IAYgoXoqY6awVYPoOsYd7Gqddpy2pP5aXuhrTX0mw0bQXT7B79
-	KfP5tR3k16mywXXM9xXZC4CS/GJ5MWwmWt08THQk89mbWCm4Ilp/+wLmq3P2VtcO
-	ZQdSLSSKj+/syucb5W6OH36qd1l758f6plGCcyrzV8Hy/WBp2FCLyYFUlYAua8N7
-	fKfA7HKRqzi4mXnu5Q2l3Bh0nJiBoKLQD5wCwD75KKxvrFwNtD8Hc44mxXhzcAbI
-	Mh5Riam2rj3g4pyE0uumVAQwvo9x4pzXGR5vU3Wszcb46B/z4thvYQNQwSpHVviQ
-	==
-X-ME-Sender: <xms:BwHKYNA4b10RcSbtR_6S6gxvgUk7e3Dn5UEWWn9DppmdHcnsSpko2w>
-    <xme:BwHKYLgsHL0T0dIPv1nD_oobnjpAuJCve2O1JFGVOPf8Sx_BjtcoJ8UIg_ObBX7Y5
-    PfYI7qQe79dpIDkD8c>
-X-ME-Received: <xmr:BwHKYImyLJZIB80WdI4qL5LiNNDvaxgqxN5GLzac8IiB-n9n7-LCrko7rbjWZjaMIVHoEYWQmKM8jLgeUEam1_ApLzzbfsiwO9CO>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgjedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepveegudetkeethfetgffgtdekkefghefhffefgeduleehgeehieeuveefgedv
-    ieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BwHKYHyGnsIE0gq1sfFVnzgDBh8ExP8mlZlTemq5ZO4tyqZDE1QCiA>
-    <xmx:BwHKYCRv5ghfT_cD336fip4_LM2iOrehxOjHlD5gtTII_YG_8DeGJQ>
-    <xmx:BwHKYKZGDgC8inVOOsJQ2y4b-056Yw6iqmO0HUbUp2-KPCbpKknHBA>
-    <xmx:CAHKYJK_tdmU-Ja58__dYFrGllrSJRQ4MkAiE2d0L0XFphBkmWo2Mg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Jun 2021 09:47:51 -0400 (EDT)
-Date: Wed, 16 Jun 2021 15:47:49 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v7 06/19] rtc: sun6i: Add support for RTCs without
- external LOSCs
-Message-ID: <20210616134749.mzp52dvbjmiabgl3@gilmour>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF4A70
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Jun 2021 14:57:34 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D6E431B;
+	Wed, 16 Jun 2021 07:57:34 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4CE8E3F719;
+	Wed, 16 Jun 2021 07:57:32 -0700 (PDT)
+Date: Wed, 16 Jun 2021 15:57:15 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-sunxi@googlegroups.com, Samuel Holland <samuel@sholland.org>,
+ linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>, Chen-Yu Tsai
+ <wens@csie.org>, Ondrej Jirman <megous@megous.com>, Maxime Ripard
+ <mripard@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v7 01/19] dt-bindings: mfd: axp20x: Add AXP305
+ compatible (plus optional IRQ)
+Message-ID: <20210616155715.7d8347c5@slackpad.fritz.box>
+In-Reply-To: <20210615233345.GA1627887@robh.at.kernel.org>
 References: <20210615110636.23403-1-andre.przywara@arm.com>
- <20210615110636.23403-7-andre.przywara@arm.com>
- <20210616091431.6tm3zdf77p2x3upc@gilmour>
- <20210616111452.1d7f2423@slackpad.fritz.box>
+	<20210615110636.23403-2-andre.przywara@arm.com>
+	<20210615233345.GA1627887@robh.at.kernel.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="imbf7s7uxyughhg5"
-Content-Disposition: inline
-In-Reply-To: <20210616111452.1d7f2423@slackpad.fritz.box>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Tue, 15 Jun 2021 17:33:45 -0600
+Rob Herring <robh@kernel.org> wrote:
 
---imbf7s7uxyughhg5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Tue, 15 Jun 2021 12:06:18 +0100, Andre Przywara wrote:
+> > The AXP305 PMIC used on many boards with the H616 SoC seems to be fully
+> > compatible to the AXP805 PMIC, so add the proper chain of compatible
+> > strings.
+> > 
+> > Also at least on one board (Orangepi Zero2) there is no interrupt line
+> > connected to the CPU, so make the "interrupts" property optional.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >   
+> 
+> 
+> Please add Acked-by/Reviewed-by tags when posting new versions. However,
+> there's no need to repost patches *only* to add the tags. The upstream
+> maintainer will do that for acks received on the version they apply.
+> 
+> If a tag was not added on purpose, please state why and what changed.
 
-On Wed, Jun 16, 2021 at 11:14:52AM +0100, Andre Przywara wrote:
-> On Wed, 16 Jun 2021 11:14:31 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> Hi,
->=20
-> > On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
-> > > Some newer Allwinner RTCs (for instance the one in the H616 SoC) lack
-> > > a pin for an external 32768 Hz oscillator. As a consequence, this LOSC
-> > > can't be selected as the RTC clock source, and we must rely on the
-> > > internal RC oscillator.
-> > > To allow additions of clocks to the RTC node, add a feature bit to ig=
-nore
-> > > any provided clocks for now (the current code would think this is the
-> > > external LOSC). Later DTs and code can then for instance add the PLL
-> > > based clock input, and older kernel won't get confused.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> >=20
-> > Honestly, I don't really know if it's worth it at this point.
-> >=20
-> > If we sums this up:
-> >=20
-> >  - The RTC has 2 features that we use, mostly centered around 2
-> >    registers set plus a global one
-> >=20
-> >  - Those 2 features are programmed in a completely different way
-> >=20
-> >  - Even the common part is different, given the discussion around the
-> >    clocks that we have.
-> >=20
-> > What is there to share in that driver aside from the probe, and maybe
-> > the interrupt handling? Instead of complicating this further with more
-> > special case that you were (rightfully) complaining about, shouldn't we
-> > just acknowledge the fact that it's a completely separate design and
-> > should be treated as such, with a completely separate driver?
->=20
-> If you mean to have a separate clock driver, and one RTC driver: I
-> agree, and IIUC Samuel has a prototype, covering the H6 and D1 as well:
-> https://github.com/smaeul/linux/commit/6f8f761db1d8dd4b6abf006fb7e2427da7=
-9321c2
->=20
-> The only problem I see that they are sharing MMIO registers. Maybe it
-> works because the RTC part never touches anything below 0x10, and the
-> clock part just needs the first four registers?
-> But this means we can't easily change this for the H6, as the
-> existing H6 RTC code adds 0x10 to the MMIO base, and also old DTs will
-> have the RTC base address in their RTC reg property.
->=20
-> If we can somehow solve this (let the clock driver point to the RTC
-> node to get a regmap?) I am all in, for the reasons you mentioned.
+Argh, sorry, I was still wondering whether I should try the YAML
+conversion, so didn't apply your tag right away - and then missed it
+when I decided to postpone this. Plus I actually fixed some blunder
+(copy&paste typo in the compatible), and I mostly drop tags upon
+changes.
 
-I meant having a separate RTC+clocks driver. I'm not really sure why we
-need to split them.
-
-Maxime
-
---imbf7s7uxyughhg5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYMoBBQAKCRDj7w1vZxhR
-xbliAP9ffUPo3wF3pnVZcrXBLtFGjc2Rn5DdZDDyUE52eLFAjwD/VN2TJ+pjpVHW
-Q+5MMaBNj8qfnkPn7dLqm6i/5LaoTQw=
-=rIZz
------END PGP SIGNATURE-----
-
---imbf7s7uxyughhg5--
+Cheers,
+Andre
