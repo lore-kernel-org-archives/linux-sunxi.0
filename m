@@ -1,64 +1,73 @@
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578AC71
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Jun 2021 08:49:24 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 277DC580609;
-	Wed, 16 Jun 2021 04:49:24 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 16 Jun 2021 04:49:24 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB0D72
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Jun 2021 09:07:04 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 2C46D580648;
+	Wed, 16 Jun 2021 05:07:04 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 16 Jun 2021 05:07:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=h
-	wLAiqJqpm5oEawixERPmrijjk4aP6MKJESch0uKUAU=; b=O9toReIomtjLeV+ER
-	mN4yMF5EtW62dXfPS5Ft4j58PuOpy65v3gYXHKbuUUOD8rV6BuqaagIk4n33dHs+
-	/hYgRJoAA/2dinBop1sifaj0YMAgFjXUQXIaEQAD79BgRikYpMHSTTU9Id2H188u
-	jP743/EB8hGA5sU3KhyWqOzJh6BigW99rjmmeRGxsGqbngguI1RJvtD8y9L4Manf
-	M097IBXtWByB6Pnqy+bb8CEkhmRwD7VOJvsKj0rACgoGWwHRQW+F18fAoRAh/4xK
-	lKNQTupLnex63KyEwNlaoWJNzoJPn8ZDGWMBhiTg+20mygaJ11/PQDJoumNUu0jc
-	I3R2A==
+	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=e
+	DFBGZug2v6ZPSF1KNS2GayoOW2LHFpoZkk85fdqgpI=; b=OyNkutplAl6yGWQze
+	mjbEEZbGKE/oE1My+lAKp7wWCo27HCOgBx16p5x7GoteYk+oGWuHU/wGFv3HbqJY
+	loBMrOGbEjhkswRamHcQEYl3l8yS/pRVZGuM0K5fVm/9RJwNmm+YmH8YVNxmPAXA
+	I8xoZ7QOwequum/purWB/llTx50SNc06IViIZ6u8C80NfbP42jmEkUtkiEvm8XBZ
+	iqKxP/Hq1R/uAmmrelGQT7migdWcVgU0Kg+wFP5nFgXWk6/XVkS0f+dgCCNaexok
+	Mn3EAsNyabI/3soeievM+LShTZuRmMHf8PbN16c9D/zQcFpgm9PK7ZpZ6RCLj/xL
+	eEFcg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=hwLAiqJqpm5oEawixERPmrijjk4aP6MKJESch0uKU
-	AU=; b=gf7mv0fCUeXJCXfwAWkcxMTeb99PWPBl+Wt7CKktgnwMZi8s5gIfNqRKm
-	rsfBBipKnur/G7pXbjwkVnt+ySkZPetRCmUw7+dClz5Ina6WP+sf9VQnMDNGVSkF
-	rmYftPavpZIQ2KBpJ/rpZWmgKEru/clt5s68Gp5Ndwv0oo0/BckjISm7ZH0ycQp6
-	TGnRxVcRkvww9j+3CVaIo4dQXOfHnrcFaHF+xT3q5UOiEPFYILK4SiaebzdYpVRu
-	ARMZvMkG9+pBmMoJqXXQUM46CvkKo9ydpIMB0RZmUv5c+oTZ+HmQEb2VJTR4Xs2C
-	P5GKBBc78deZ+4Ymb+sKD+wNbfHtQ==
-X-ME-Sender: <xms:ErvJYBPlVedHQSjYyP-tlCfAI7cJyVj15eiSyALEqes9n8kk5UQABg>
-    <xme:ErvJYD-325p1fYxMGjzrOM02mxcKFyjre2-hN-ILTWMjtb-X4f56SiOgANCKOFb4t
-    VQONLOcZYFTJewiMN0>
-X-ME-Received: <xmr:ErvJYAT4o92_eB0uVteBhtlgpVOdvCbbW95OCNahsjBm4_1m0feAwKHmU8ewivf_Wr7e6sRjuDiwrEwaAKzBKZh0R4PIOha9YeQJ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledgtdelucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm3; bh=eDFBGZug2v6ZPSF1KNS2GayoOW2LHFpoZkk85fdqg
+	pI=; b=Jl21pywWeAEEa/L3P3YxORL3tS1h0Q4e6jOfe0vXmCGuuoFdrH4FwQ4aR
+	MItBu2R20DCGs198ejWQy1oV2xPDQIJNc/UsIRgBrbAxUHp9nChjtEDJ66+IbX8r
+	YgnF4b5L5q/wNmoPCDg9/lMMSev1q8ATMma+5mMVQfNzKdvu5aisn50L+6l1MUd0
+	1vxMwj7xjzCVy35GREOMkFWEZA+fbrKmqD+kItGMrWez2rDDSuP2k+8vb2xzQsC8
+	vfh3spnsdyBBR+221Am6W2kChqEGbdc6AfNRInvunzbX3gE9qIWDyj64RHMnyEEc
+	nZg+1MB/8V0/cbG/fw1hML1dIkV0g==
+X-ME-Sender: <xms:Nr_JYATzS3RPZG2h9aOP_jZNfHi3bWMTtntGSq17a0ze2kUMqLNW6g>
+    <xme:Nr_JYNwsUoiGhDI0ebVFrgPCpM3ZdZ0Dsvma5vApmgrCZKQ3BX2n90sfM2j_4qxtk
+    vhvUYD0-D_gWw4KJeo>
+X-ME-Received: <xmr:Nr_JYN0Ze_lG7KSAGunQccB8y0Ie84qKMZuDUAvFyzBY4V1o3aNA-5LioCwUcyr6p-_Mpujcx-ZqTNEbtFISavYHJa4ELyaJdSds>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvledguddvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggugfgjsehtqh
-    ertddttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegt
-    vghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepgfegvdelgfeuveevueekvedtje
-    fguddvveffhedukeejjeejgfejfedtvdeitdegnecuffhomhgrihhnpeguvghvihgtvght
-    rhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ErvJYNudNxBs7ng4vP9-yua7-0u1XI-Uca0DD_qJVik2bkOt-6rimw>
-    <xmx:ErvJYJe8qIvUs0yR78yeNt6ovXcgKuKuHx6CaCatU3HblQxBR7o9Yw>
-    <xmx:ErvJYJ2SYl56_x-ktRufe2BuDRnq0OoC97njcVrtsJLt7pCBfLuwjg>
-    <xmx:FLvJYF7rq1EjBsZ9TvCmpT4e8KMPY2aVFgUVSpQoY_NDQASghrV4IQ>
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
+    gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Nr_JYED9RZWNrWq3twggvOaRAlAesKUF-dvZJAC8WRrLzL0sB7hzLw>
+    <xmx:Nr_JYJgYmKNaoE9pClZVJfLn5y3DLdm3Zvgxmky71coeQKAZDvyu_g>
+    <xmx:Nr_JYAql4UryPXFbEdz14jTb5fa67NRA109AhHN8fmtUocEADvXwsg>
+    <xmx:OL_JYJ4MhnaBj3Qov3Edr_IzYZ1sJJrOg-QNxnP7etEYp8MH3Yv4Kw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 16 Jun 2021 04:49:22 -0400 (EDT)
-Date: Wed, 16 Jun 2021 10:49:20 +0200
+ 16 Jun 2021 05:07:02 -0400 (EDT)
+Date: Wed, 16 Jun 2021 11:07:00 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Ban Tao <fengzheng923@gmail.com>
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings for
- DMIC controller
-Message-ID: <20210616084920.y6yjic4sau6ungv5@gilmour>
-References: <20210615130737.2098-1-fengzheng923@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
+	Ondrej Jirman <megous@megous.com>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v6 03/17] dt-bindings: rtc: sun6i: Add H616 compatible
+ string
+Message-ID: <20210616090700.hvwiaifo5luiwhnf@gilmour>
+References: <20210519104152.21119-1-andre.przywara@arm.com>
+ <20210519104152.21119-4-andre.przywara@arm.com>
+ <99a2069b-99e9-9b47-12a6-aae01c7f59dc@sholland.org>
+ <20210607135910.63560ffc@slackpad.fritz.box>
+ <56ad752b-b1c2-cb05-be8b-71c29f271ec9@sholland.org>
+ <20210615132440.55793ec5@slackpad.fritz.box>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
@@ -67,98 +76,163 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210615130737.2098-1-fengzheng923@gmail.com>
+In-Reply-To: <20210615132440.55793ec5@slackpad.fritz.box>
 
 Hi,
 
-On Tue, Jun 15, 2021 at 09:07:37PM +0800, Ban Tao wrote:
-> The Allwinner SoCs feature an I2S controller across multiple SoC
-> generations.
-
-Which SoC generations?
-
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-> ---
->  .../sound/allwinner,sun50i-h6-dmic.yaml       | 66 +++++++++++++++++++
->  1 file changed, 66 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun=
-50i-h6-dmic.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-=
-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmi=
+On Tue, Jun 15, 2021 at 01:24:40PM +0100, Andre Przywara wrote:
+> > On 6/7/21 7:59 AM, Andre Przywara wrote:
+> > > On Thu, 20 May 2021 21:37:34 -0500
+> > > Samuel Holland <samuel@sholland.org> wrote:
+> > >=20
+> > > Hi,
+> > >  =20
+> > >> On 5/19/21 5:41 AM, Andre Przywara wrote: =20
+> > >>> Add the obvious compatible name to the existing RTC binding.
+> > >>> The actual RTC part of the device uses a different day/month/year
+> > >>> storage scheme, so it's not compatible with the previous devices.
+> > >>>
+> > >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > >>> ---
+> > >>>  .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml     | 5 +=
++++-
+> > >>>  1 file changed, 4 insertions(+), 1 deletion(-)
+> > >>>
+> > >>> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-=
+a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
 c.yaml
-> new file mode 100644
-> index 000000000000..81d40c374e44
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.ya=
-ml
-> @@ -0,0 +1,66 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner H6 DMIC Controller Device Tree Bindings
-> +
-> +maintainers:
-> +  - Ban Tao <fengzheng923@gmail.com>
-> +
-> +properties:
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  compatible:
-> +    const: allwinner,sun50i-h6-dmic
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: apb
-> +      - const: dmic
+> > >>> index b1b0ee769b71..178c955f88bf 100644
+> > >>> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc=
+=2Eyaml
+> > >>> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc=
+=2Eyaml
+> > >>> @@ -26,6 +26,7 @@ properties:
+> > >>>            - const: allwinner,sun50i-a64-rtc
+> > >>>            - const: allwinner,sun8i-h3-rtc
+> > >>>        - const: allwinner,sun50i-h6-rtc
+> > >>> +      - const: allwinner,sun50i-h616-rtc
+> > >>> =20
+> > >>>    reg:
+> > >>>      maxItems: 1
+> > >>> @@ -97,7 +98,9 @@ allOf:
+> > >>>        properties:
+> > >>>          compatible:
+> > >>>            contains:
+> > >>> -            const: allwinner,sun50i-h6-rtc
+> > >>> +            enum:
+> > >>> +              - allwinner,sun50i-h6-rtc
+> > >>> +              - allwinner,sun50i-h616-rtc
+> > >>> =20
+> > >>>      then:
+> > >>>        properties:
+> > >>>    =20
+> > >>
+> > >> This binding is missing a clock reference for the pll-periph0-2x inp=
+ut
+> > >> to the 32kHz clock fanout. =20
+> > >=20
+> > > Right. So do I get this correctly that we don't model the OSC24M input
+> > > explicitly so far in the DT? I only see one possible input clock, whi=
+ch
+> > > is for an optional 32K crystal oscillator.
+> > > And this means we need to change some code also? Because at the moment
+> > > a clock specified is assumed to be the 32K OSC, and having this clock
+> > > means we switch to the external 32K OSC. =20
+> >=20
+> > Right. The code would need updates to follow the binding.
+>=20
+> I changed the binding for now to not allow any clock, and the code to
+> ignore any clocks when the H616 compatible is used. This way we can
+> extend this later without breaking anything.
 
-The convention we use is bus and mod
+I'm not really a fan of this: it just creates one more special case that
+we'll have to take into account later on, complicating further the logic
+that is already way too complicated.
 
-> +
-> +  dmas:
-> +    maxItems: 1
-> +
-> +  dma-names:
-> +    const: rx
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - "#sound-dai-cells"
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - dmas
-> +  - dma-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    spdif: spdif@5095000 {
+> > > And who would decide which clock source to use? What would be the
+> > > reason to use PLL_PERIPH(2x) over the RC16M based clock or the
+> > > divided down 24MHz? =20
+> >=20
+> > Because it would be more accurate. 24MHz/750 =3D=3D 32000 Hz, while the=
+ RTC
+> > expects 32768 Hz.
+>=20
+> I thought about this as well, but this means there is no reason to not
+> use the PLL? At least not for Linux (normal operation with PLLs
+> running anyway)? This situation is different for the other SoCs, because
+> boards *might* have a separate and more precise 32K crystal.
+> So we could code this similar to the other SoCs: If we have a clock
+> property defined, we assume it's pointing to the PLL and switch to use
+> it?
 
-The label and node name seems wrong?
+We have another option though: list all the clocks that could be
+available for a 32khz source, call clk_get_accuracy on them, and then
+use the clock with the best accuracy. We already have the accuracy
+requirements in the datasheet for each crystal, so it shouldn't be too
+hard to support.
 
-> +        #sound-dai-cells =3D <0>;
-> +        compatible =3D "allwinner,sun50i-h6-dmic";
-> +        reg =3D <0x05095000 0x400>;
-> +        clocks =3D <&ccu CLK_BUS_DMIC>, <&ccu CLK_DMIC>;
+> But, looking at the diagram in the manual (and assuming it's
+> correct), the PLL based clock can only be routed to the pad, but cannot
+> be used for the RTC. That seems to be also the case for the T5, which
+> has an external LOSC pin.
+> =20
+> > > So shall we ignore the PLL based input clock for now, put "0 input
+> > > clocks" in the current binding, then later on extend this to allow
+> > > choosing the PLL? And have it that way that having the PLL reference
+> > > means we use it? =20
+> >=20
+> > No, the device tree represents the hardware, not whatever happens to be
+> > used by Linux drivers at the time. It should be in the binding
+> > regardless of what the driver does with it.
+>=20
+> I understand that very well, but was just looking for a solution where
+> we can go ahead with an easier solution *now*. I am afraid implementing
+> this annoying RTC special snowflake properly will just delay the whole
+> series.
+> In the long run your "D1 & friends" extra RTC clock driver looks the
+> right way out, but it will probably take some more time to get this
+> merged.
 
-You'll need includes for it to compile
+To be honest, I'm not entirely sure why we need the rtc in the first
+place. If your plan is to figure it out later anyway, why not just model
+the 32kHz clock as a fixed clock, and change it later once it's been
+entirely figured out?
+
+> > Though the circular dependency between the clock providers does cause
+> > problems. We cannot get a clk_hw for the PLL-based clock, so we would
+> > have to hardcode a global name for it, which means we aren't really
+> > using the device tree.
+>=20
+> I start to wonder how much business Linux really has in controlling all
+> those RTC details. The current code happens to work, because everything
+> is setup correctly already, on reset.
+
+That's not true for all the SoCs.
+
+> > We already see this "not really using the binding" with the other CCUs:
+> > the H616 CCU hardcodes the name "osc24M", while the A100 CCU hardcodes
+> > "dcxo24M" for the same clock. So moving that clock into the RTC clock
+> > provider would require using both names in one clk_hw simultaneously (or
+> > rather fixing the CCU drivers to get a clk_hw from the DT instead of
+> > referencing by name).
+> >=20
+> > And trying to deal with optional clocks by index is only going to get
+> > more painful over time. For example, with the R329 and D1, the RTC has
+> > the following inputs:
+> >  * DCXO24M (unless you model it inside the RTC)
+> >  * External OSC32k (optional!)
+> >  * The RTC bus gate/reset from the PRCM
+> >  * R-AHB from the PRCM for the RTC SPI clock domain
+> >=20
+> > So it seems time to start using clock-names in the RTC binding.
+>=20
+> Yes, that sounds reasonable. It's just a shame that we keep changing
+> the RTC bindings, and so creating a lot of incompatibility on the way.
+
+I mean, we keep changing it because the hardware keeps changing. The RTC
+on the A20 had no clock at all. The A31 later on got only a single clock
+input, and a single output. If your point is that we should have known
+better 9 years ago what the current SoCs would look like, that's a bit
+absurd, don't you think?
 
 Maxime
