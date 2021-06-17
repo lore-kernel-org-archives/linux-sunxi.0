@@ -1,41 +1,41 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7C2171
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jun 2021 13:18:08 +0000 (UTC)
-Received: by mail-pl1-f172.google.com with SMTP id x22so1376186pll.11
-        for <linux-sunxi@lists.linux.dev>; Thu, 17 Jun 2021 06:18:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4D271
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Jun 2021 13:26:23 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id t13so4954614pgu.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 17 Jun 2021 06:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NeqtpopybKuyVEBWXS5a5h/2RXc0QkBamlHDuvgOjJM=;
-        b=QxwppNYENqgBysIDeg17rqgp++BYueTK6EY/TUMVb2ydvi6dQUUyQ4ql/a1PHKJuJM
-         yHhPHXR/F2ePWEhah5bzjWScjChrUME94AlaHzKCVXGwJA6W10w28iR9BoLw0G5vLmLF
-         yj9/KRnSfjFfGR2/savkWgRXlT7VfSAkOfi/BzfGBjtqXRf9toBjlbT7W2ZVwRQciCXB
-         YRgL9tnztbISpldkHNOXdHRTzaZuDCy4Tf20i03v/uiWYj8n2VGY6kUWObxbE5ts9Dfm
-         Naast4g8b25pdQ9bxm9tmtVXRgP/+oXFqRtLmr9/WDmzXWofGh4WqTS16my9tQHk28qz
-         swmw==
+        bh=qx4jays+L+KH8X2JCPyPqSjH+k3+j2HUU6/XgwBhYyQ=;
+        b=HjFW9P093SA38oP+UnwHyAsPmXRrH2+slKn/iwKEqxRK5Irfti0ZW56nrrfrGKc5ow
+         IuVawY1npmoS0tHvXXz/UQ3EEKHvgXfR1b8uPkbSAB2FTY4asTrrkrXwCtxwRRsXnzDR
+         oV82tws8AWk3OKw6PTBMZBYXSWr49nTRMVR/im+qFBDXzKAs4u9lmAULKKyFhPaB8pe1
+         hmyRjfc+UYb9YlN5pqKctMWvwiSKfsjRWI/Ex7PXmG7IVe39disaT1Fwl17bpkQhu6+O
+         WEgmYDMkSl9IQ4vvanjCJFypIJOJtTbBQiacASysnMIzHpzPH06s8jYqlwChr+r9mQbl
+         uGKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=NeqtpopybKuyVEBWXS5a5h/2RXc0QkBamlHDuvgOjJM=;
-        b=YhxNpTGZ5mCJCGoUYdiV40jLxGwTe7+HO1TiVOMHM3nNa7ANKuEeMG0/8O0trMhTIM
-         RqTP1UsVdjq7G8YPKvyvAitZ7foL3DHMtmA2zQwBqoNDfOq2shIaQ+lOAiqpjf8efFtn
-         xe0yWPatkTg9nMO/AY29RWim9fYKH3y4fRvlO1W8aOtH05fOY0fMkTcvY5b83GB/waig
-         VjX9IDP+oR+DNsoQb6f9LAAy6WBOtgkoYRoGSPsXt2xzP7KyxNFI1gy+L55jpOR8Y/EX
-         za7GsDwOeB1eyl/w8a7VyCv7z3PoIArW8XrFKQOCWFawguKPPKbc6sCb3bQC4HMR3PJr
-         qMrA==
-X-Gm-Message-State: AOAM530OV5HVu4SgcJ7V6WLZXnQyd/m/Vv687XcBupoqOp7CGF5JXUrw
-	OBa7Q1+7aTYpx2KJ04W+DA==
-X-Google-Smtp-Source: ABdhPJygYMjO6cxxy0A5q+vEdORkBEbyzD7K3rL+lYILXl3FIFdjKwPcLZ2xdyjISUQtlz31Xwq4iw==
-X-Received: by 2002:a17:902:d211:b029:110:a94c:74b3 with SMTP id t17-20020a170902d211b0290110a94c74b3mr4461173ply.54.1623935887984;
-        Thu, 17 Jun 2021 06:18:07 -0700 (PDT)
+        bh=qx4jays+L+KH8X2JCPyPqSjH+k3+j2HUU6/XgwBhYyQ=;
+        b=k7coL93v/n8u8Mf4i53FdrZI99CgIcj9Sz19pIsZ0W5AUpTEfFfRcH8pU7eiL0kOlY
+         ZyX8ZXndSE74b5+S8f//1bVyRtlMBpiLnSwWVYqiWpuJ6WXKt42mWBvUNsLDfI9xy5VK
+         MzoHwvwtsmHnOAnwNWOrt0f6XUDG7wPTL5/rzH2/QBNITQ3ul7XsehH28PDsKIRECfU/
+         LVe0d2hd97oDvyFfS2ukCI9pXmvjXppF1llfKD73ScCcStw8Jtv4/p97DW6zawtcWvuT
+         ungM1uxdmGb1DcaGKnPybR2KXuHM8SO2RGEMHmpufTwQh0xSFB4Qvdp0DDhNS8XO7VaF
+         hZDA==
+X-Gm-Message-State: AOAM531ipzrYGJT8/eFTG+XVry/eiElfyr7k27bkbUTbK/aakErBjnIP
+	OWe0weuoWzN4cktHIifEsg==
+X-Google-Smtp-Source: ABdhPJw6T0YbNlO7zr0O+iSQ5A+XwDPh/CzNVUhTCcZm6+zV4iw7EtxAbfvi9eJECcDYOaeqeyGpiA==
+X-Received: by 2002:a63:5445:: with SMTP id e5mr5068836pgm.62.1623936383298;
+        Thu, 17 Jun 2021 06:26:23 -0700 (PDT)
 Received: from INTERNET-129.allwinnertech.com ([223.197.233.48])
-        by smtp.gmail.com with ESMTPSA id q4sm5800681pgg.0.2021.06.17.06.18.05
+        by smtp.gmail.com with ESMTPSA id ip7sm5221142pjb.39.2021.06.17.06.26.20
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 17 Jun 2021 06:18:07 -0700 (PDT)
+        Thu, 17 Jun 2021 06:26:22 -0700 (PDT)
 From: Ban Tao <fengzheng923@gmail.com>
 To: lgirdwood@gmail.com,
 	broonie@kernel.org,
@@ -53,8 +53,8 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
 Subject: [PATCH v2 1/2] ASoC: sunxi: Add Allwinner H6 Digital MIC driver
-Date: Thu, 17 Jun 2021 21:18:01 +0800
-Message-Id: <20210617131801.2530-1-fengzheng923@gmail.com>
+Date: Thu, 17 Jun 2021 21:26:16 +0800
+Message-Id: <20210617132616.2697-1-fengzheng923@gmail.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -67,6 +67,7 @@ The Allwinner H6 and later SoCs have an DMIC block
 which is capable of capture.
 
 Signed-off-by: Ban Tao <fengzheng923@gmail.com>
+
 ---
 v1->v2:
 1.fix some compilation errors.
