@@ -1,78 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F8972
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Jun 2021 15:49:08 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EFF8113A1;
-	Fri, 18 Jun 2021 08:43:38 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 583743F694;
-	Fri, 18 Jun 2021 08:43:37 -0700 (PDT)
-Date: Fri, 18 Jun 2021 16:43:20 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, kbuild-all@lists.01.org, Rob Herring
- <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel Holland
- <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 04/19] rtc: sun6i: Add support for linear day storage
-Message-ID: <20210618164320.2aa0ec2d@slackpad.fritz.box>
-In-Reply-To: <202106180321.yesYU6UQ-lkp@intel.com>
-References: <20210615110636.23403-5-andre.przywara@arm.com>
-	<202106180321.yesYU6UQ-lkp@intel.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EFF571
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Jun 2021 16:38:21 +0000 (UTC)
+Received: by mail-qk1-f179.google.com with SMTP id d196so12343084qkg.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Jun 2021 09:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=EICT/2dwcf9iKV/tvgmxFcqhbN+Pz3T0ajLLTfBeTP8=;
+        b=GEDl1885D6YajPP2fqpj6RIbAMt69Ccgg7J0GNOqPmUiY86v1Ntv/W/hp4HtLuq7cA
+         hEq1KgIiuH1bb53f8zAh7maTfTcQJ8HIb3/aCRPWZUZIJZT1brGshDWFTDlXa0616uGB
+         OYh3iO3d+IJlPxiJZ/7nS6q4rFk6rNHNkeHQs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=EICT/2dwcf9iKV/tvgmxFcqhbN+Pz3T0ajLLTfBeTP8=;
+        b=YVGP3iD+Mj+rClclQ4n/yqDcpgvvEYHXtT1/T6WFrGn1YnceU3Z0XV+AS1S9UPy2Dj
+         GwuSmsQoSo/ig7fa5DZwQwbIxB6ARYstYiQtzz7gH+sMiddDSovh6IIAPzHqUDN+2l4e
+         +pEANR24Pt98JQFhVFAIwsJEsGEGsl1yeuMahVA5W7wL4KpfiuSkb0LlYw4q7KVLpuBa
+         AEFYGvA07xHWc8CVctUeYclXRyl9MjKa1MDOkxKTp8n7Uy1m5D3Yg7AgfW2ON6hgUYYK
+         kHtuScgrYE1VxGbW1jKnCVR46WcoUsJBz1ayCBp+pCGjPfGTmxt9AyBvg8pnXhHCyLo7
+         iFag==
+X-Gm-Message-State: AOAM530ZQnfOB97zOyOxMXb6AMEUIEPBnsf4wu3BCwA4cx40NvM0Yk9v
+	LeMIf42q6tLxH6KYh57mPq3t3w==
+X-Google-Smtp-Source: ABdhPJy4YDfyX5kY+3kNElAtXIyDorWl7aVbLd0VCqob1PCn8AKB3P8syIKhXdUDKkYWrHnWHADWxA==
+X-Received: by 2002:a37:b13:: with SMTP id 19mr10202242qkl.87.1624034300271;
+        Fri, 18 Jun 2021 09:38:20 -0700 (PDT)
+Received: from bill-the-cat (2603-6081-7b01-cbda-143e-7f00-f95f-8895.res6.spectrum.com. [2603:6081:7b01:cbda:143e:7f00:f95f:8895])
+        by smtp.gmail.com with ESMTPSA id i11sm4272444qkl.95.2021.06.18.09.38.19
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 18 Jun 2021 09:38:19 -0700 (PDT)
+Date: Fri, 18 Jun 2021 12:38:17 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: Simon Glass <sjg@chromium.org>, Andre Przywara <andre.przywara@arm.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 1/4] mkimage: add a flag to describe whether -A is
+ specified
+Message-ID: <20210618163817.GS9516@bill-the-cat>
+References: <20210617184621.4083311-1-icenowy@aosc.io>
+ <20210617184621.4083311-2-icenowy@aosc.io>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="A25Mno8zdSIr3fdZ"
+Content-Disposition: inline
+In-Reply-To: <20210617184621.4083311-2-icenowy@aosc.io>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-On Fri, 18 Jun 2021 04:07:55 +0800
-kernel test robot <lkp@intel.com> wrote:
 
-> Hi Andre,
-> 
-> I love your patch! Yet something to improve:
-> 
-> [auto build test ERROR on sunxi/sunxi/for-next]
-> [also build test ERROR on v5.13-rc6]
-> [cannot apply to lee-mfd/for-mfd-next mripard/sunxi/for-next next-20210617]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch]
-> 
-> url:    https://github.com/0day-ci/linux/commits/Andre-Przywara/arm64-sunxi-Initial-Allwinner-H616-SoC-support/20210617-022925
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-> config: powerpc64-randconfig-c004-20210617 (attached as .config)
-> compiler: powerpc-linux-gcc (GCC) 9.3.0
-> reproduce (this is a W=1 build):
->         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # https://github.com/0day-ci/linux/commit/b0bd86f86f42049c6e19e25460b042fca7a7901d
->         git remote add linux-review https://github.com/0day-ci/linux
->         git fetch --no-tags linux-review Andre-Przywara/arm64-sunxi-Initial-Allwinner-H616-SoC-support/20210617-022925
->         git checkout b0bd86f86f42049c6e19e25460b042fca7a7901d
->         # save the attached .config to linux build tree
->         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=powerpc64 
-> 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> 
-> All errors (new ones prefixed by >>):
-> 
->    powerpc-linux-ld: drivers/rtc/rtc-sun6i.o: in function `sun6i_rtc_settime':
-> >> rtc-sun6i.c:(.text.sun6i_rtc_settime+0x218): undefined reference to `__udivdi3'  
+--A25Mno8zdSIr3fdZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-For the records, I am using div_u64() now, which compiles fine in both
-ARM and arm64.
-Also found some subtle bugs with the types used in that function on the
-way.
+On Fri, Jun 18, 2021 at 02:46:18AM +0800, Icenowy Zheng wrote:
 
-Thanks dear bot for also caring about those "lesser" architectures ;-)
+> The sunxi_egon type used to take no -A argument (because we assume sunxi
+> targets are all ARM). However, as Allwinner D1 appears as the first
+> RISC-V sunxi target, we need to support -A; in addition, as external
+> projects rely on U-Boot mkimage to generate sunxi eGON.BT0 header, we
+> need to keep compatibility with command line without -A.
+>=20
+> As the default value of arch in mkimage is not proper (IH_ARCH_PPC
+> instead of IH_ARCH_INVALID), to keep more compatibility, add an Aflag
+> field to image parameters to describe whether an architecture is
+> explicitly specified.
+>=20
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
-Cheers,
-Andre
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+--=20
+Tom
+
+--A25Mno8zdSIr3fdZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmDMy/kACgkQFHw5/5Y0
+tyyhugwAoFH8gaSDPu7tHt3hfpzrhJ7P4qsSdr8r36pxKm/CsDykYUnvo3MB+Dwe
+bJ5quyDTBjH6kC+ZJlRU8M5GKOXdv+s095cxHqR22Ps032BJcmKmu+NXuz/y/ZVs
+PiUGLNfQ5hSLrie+nDAg30pCBwvw4mRPZecI9PoemPtEFqWJ4JUmq4bA2wwEaVh/
+LxFXKEnM6qlycZ3NykDO4IhL9ZZt7nkrjR3/QP6HxA0tmVpVH1GznUmZQC5taQvG
+UnVjD51KooY+DgqhZC5r7Bat9OXCRpcX7wbv0rf4ZgQ4v67fCixSGkV7CZBOwHJx
+NCLTZw8uDKVtRKlX1oArDbAl3t5Z1DyeuGl1Am+rOji2TmHzVEBWc+7cMBrsw/fm
+dJvV2e5+uKAvOmDrYc8OZEaev5ArSBCBB/WRaACT0CYXy9RrybSLQfoc+NL6fOT1
+EpPWVfIHB5rvWX78lSJ54ZgjFv3WIMApF+r8PdLch4U4qanhK7zD/2baLqv7AcyI
+JOMwYzDP
+=z2c7
+-----END PGP SIGNATURE-----
+
+--A25Mno8zdSIr3fdZ--
