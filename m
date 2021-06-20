@@ -1,72 +1,152 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481D872
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Jun 2021 12:56:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B284610CA;
-	Sun, 20 Jun 2021 12:56:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1624193812;
-	bh=bWaVnm+peFovnHMu18RwWDuf3L6KT66p404kqB1aQyk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TPScjPmNxSr2YT2IvEKemKWAPgTymLvW3gbEPh9aW2ZDQXmS+k82sz2zrDcuaytnb
-	 rBC/doh50rFtdR/0+XtqFzla7SsRmcePwtR4NVQiVI2wRrwkuwWUk0kIDbZt05YO5F
-	 otWCj7/ZGl/i6yRPLueJR+I51Oeuxgq56ZCmvVnERBu1Jeagwv1QgR34hXDqEOxNdu
-	 O6iNJDRiTJWoEmz1aHW0prY2qr0OlRq0QNb1oovA/uTymM1/lcCzexFgLxMUnazULL
-	 cu779WiBhiZevR4pqBAFkWuaRwMKt4gDM2Qvxf18HUJcdLDB2FZzz4Jp24gFzRAGSJ
-	 PJxgmE5aJyK0w==
-Date: Sun, 20 Jun 2021 08:56:51 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: Saravana Kannan <saravanak@google.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, stable <stable@vger.kernel.org>,
-	Ondrej Jirman <megous@megous.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Maxime Ripard <maxime@cerno.tech>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH AUTOSEL 5.4 07/15] drm/sun4i: dw-hdmi: Make HDMI PHY into
- a platform device
-Message-ID: <YM87E3tYj+awywpN@sashalap>
-References: <20210615154948.62711-1-sashal@kernel.org>
- <20210615154948.62711-7-sashal@kernel.org>
- <CAGETcx95bOAHiOm0MHqFWSbc8ONBPEzXbDyP82pO4B5o2QOX1A@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99AB771
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Jun 2021 22:40:24 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D89F0D6E;
+	Sun, 20 Jun 2021 15:40:17 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC8643F718;
+	Sun, 20 Jun 2021 15:40:16 -0700 (PDT)
+Date: Sun, 20 Jun 2021 23:39:47 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: Simon Glass <sjg@chromium.org>, Jagan Teki <jagan@amarulasolutions.com>,
+ Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 2/4] mkimage: sunxi_egon: refactor for
+ multi-architecture support
+Message-ID: <20210620233947.09bb6433@slackpad.fritz.box>
+In-Reply-To: <20210619092006.646929-1-icenowy@aosc.io>
+References: <20210619091838.646779-1-icenowy@aosc.io>
+	<20210619092006.646929-1-icenowy@aosc.io>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <CAGETcx95bOAHiOm0MHqFWSbc8ONBPEzXbDyP82pO4B5o2QOX1A@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 15, 2021 at 09:26:16AM -0700, Saravana Kannan wrote:
->On Tue, Jun 15, 2021 at 8:50 AM Sasha Levin <sashal@kernel.org> wrote:
->>
->> From: Saravana Kannan <saravanak@google.com>
->>
->> [ Upstream commit 9bf3797796f570b34438235a6a537df85832bdad ]
->>
->> On sunxi boards that use HDMI output, HDMI device probe keeps being
->> avoided indefinitely with these repeated messages in dmesg:
->>
->>   platform 1ee0000.hdmi: probe deferral - supplier 1ef0000.hdmi-phy
->>     not ready
->>
->> There's a fwnode_link being created with fw_devlink=on between hdmi
->> and hdmi-phy nodes, because both nodes have 'compatible' property set.
->>
->> Fw_devlink code assumes that nodes that have compatible property
->> set will also have a device associated with them by some driver
->> eventually. This is not the case with the current sun8i-hdmi
->> driver.
->>
->
->fw_devlink isn't present in 5.4 or earlier. So technically this patch
->isn't needed.
+On Sat, 19 Jun 2021 17:20:04 +0800
+Icenowy Zheng <icenowy@aosc.io> wrote:
 
-I'll drop it from <=5.4, thanks!
+> Refactor some functions in mkimage sunxi_egon type, in order to prepare
+> for adding support for more CPU architectures (e.g. RISC-V). In
+> addition, compatibility for operation w/o specified architecture is
+> kept, in this case the architecture is assumed as ARM.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
--- 
-Thanks,
-Sasha
+Looks alright:
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+One thing you might want to improve (just when you respin anyway):
+
+> ---
+> Changes in v2:
+> - Merged fixes in the next patch in v1 (patch rebase issue).
+> 
+>  tools/sunxi_egon.c | 63 ++++++++++++++++++++++++++++++++++++++++------
+>  1 file changed, 56 insertions(+), 7 deletions(-)
+> 
+> diff --git a/tools/sunxi_egon.c b/tools/sunxi_egon.c
+> index a5299eb6a1..062c9bc151 100644
+> --- a/tools/sunxi_egon.c
+> +++ b/tools/sunxi_egon.c
+> @@ -16,7 +16,25 @@
+>  
+>  static int egon_check_params(struct image_tool_params *params)
+>  {
+> -	/* We just need a binary image file. */
+> +	int arch;
+> +
+> +	/* Assume ARM when no architecture specified for compatibility */
+> +	if (params->Aflag)
+> +		arch = params->arch;
+> +	else
+> +		arch = IH_ARCH_ARM;
+
+This code snippet will be used three times in this file, so you might
+want to factor this out.
+
+Cheers,
+Andre
+
+
+> +
+> +	/*
+> +	 * Check whether the architecture is supported.
+> +	 */
+> +	switch (arch) {
+> +	case IH_ARCH_ARM:
+> +		break;
+> +	default:
+> +		return EXIT_FAILURE;
+> +	}
+> +
+> +	/* We need a binary image file. */
+>  	return !params->dflag;
+>  }
+>  
+> @@ -25,10 +43,26 @@ static int egon_verify_header(unsigned char *ptr, int image_size,
+>  {
+>  	const struct boot_file_head *header = (void *)ptr;
+>  	uint32_t length;
+> +	int arch;
+>  
+> -	/* First 4 bytes must be an ARM branch instruction. */
+> -	if ((le32_to_cpu(header->b_instruction) & 0xff000000) != 0xea000000)
+> -		return EXIT_FAILURE;
+> +	/* Assume ARM when no architecture specified for compatibility */
+> +	if (params->Aflag)
+> +		arch = params->arch;
+> +	else
+> +		arch = IH_ARCH_ARM;
+> +
+> +	/*
+> +	 * First 4 bytes must be a branch instruction of the corresponding
+> +	 * architecture.
+> +	 */
+> +	switch (arch) {
+> +	case IH_ARCH_ARM:
+> +		if ((le32_to_cpu(header->b_instruction) & 0xff000000) != 0xea000000)
+> +			return EXIT_FAILURE;
+> +		break;
+> +	default:
+> +		return EXIT_FAILURE; /* Unknown architecture */
+> +	}
+>  
+>  	if (memcmp(header->magic, BOOT0_MAGIC, sizeof(header->magic)))
+>  		return EXIT_FAILURE;
+> @@ -76,10 +110,25 @@ static void egon_set_header(void *buf, struct stat *sbuf, int infd,
+>  	uint32_t *buf32 = buf;
+>  	uint32_t checksum = 0, value;
+>  	int i;
+> +	int arch;
+>  
+> -	/* Generate an ARM branch instruction to jump over the header. */
+> -	value = 0xea000000 | (sizeof(struct boot_file_head) / 4 - 2);
+> -	header->b_instruction = cpu_to_le32(value);
+> +	/* Assume ARM when no architecture specified for compatibility */
+> +	if (params->Aflag)
+> +		arch = params->arch;
+> +	else
+> +		arch = IH_ARCH_ARM;
+> +
+> +	/*
+> +	 * Different architectures need different first instruction to
+> +	 * branch to the body.
+> +	 */
+> +	switch (arch) {
+> +	case IH_ARCH_ARM:
+> +		/* Generate an ARM branch instruction to jump over the header. */
+> +		value = 0xea000000 | (sizeof(struct boot_file_head) / 4 - 2);
+> +		header->b_instruction = cpu_to_le32(value);
+> +		break;
+> +	}
+>  
+>  	memcpy(header->magic, BOOT0_MAGIC, sizeof(header->magic));
+>  	header->check_sum = cpu_to_le32(BROM_STAMP_VALUE);
+
