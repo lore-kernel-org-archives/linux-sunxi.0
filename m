@@ -1,22 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F42C70
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Jun 2021 00:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F34570
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Jun 2021 00:34:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3EB1FD6E;
-	Sun, 20 Jun 2021 17:34:13 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D35ADD6E;
+	Sun, 20 Jun 2021 17:34:37 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5812E3F718;
-	Sun, 20 Jun 2021 17:34:12 -0700 (PDT)
-Date: Mon, 21 Jun 2021 01:33:56 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C9E973F718;
+	Sun, 20 Jun 2021 17:34:36 -0700 (PDT)
+Date: Mon, 21 Jun 2021 01:34:20 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Qianfan Zhao <qianfanguijin@163.com>
-Cc: u-boot@lists.denx.de, Icenowy Zheng <icenowy@aosc.io>, Chen-Yu Tsai
- <wens@csie.org>, Jagan Teki <jagan@amarulasolutions.com>, linux-sunxi
+Cc: u-boot@lists.denx.de, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng
+ <icenowy@aosc.io>, Jagan Teki <jagan@amarulasolutions.com>, linux-sunxi
  <linux-sunxi@lists.linux.dev>
-Subject: Re: [PATCH 1/4] phy-sun4i-usb: Fix sun8i_r40_cfg
-Message-ID: <20210621013356.7ad01d6a@slackpad.fritz.box>
-In-Reply-To: <20210616023326.18135-1-qianfanguijin@163.com>
+Subject: Re: [PATCH 2/4] sunxi_musb: Add musb configurations of sun8i-r40
+Message-ID: <20210621013420.33260aa1@slackpad.fritz.box>
+In-Reply-To: <20210616023326.18135-2-qianfanguijin@163.com>
 References: <20210616023326.18135-1-qianfanguijin@163.com>
+	<20210616023326.18135-2-qianfanguijin@163.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -27,66 +28,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 16 Jun 2021 10:33:23 +0800
+On Wed, 16 Jun 2021 10:33:24 +0800
 qianfanguijin@163.com (qianfanguijin@163.com) wrote:
 
 Hi,
 
-first many thanks for sending this! Indeed OTG support was
-broken/missing on the R40, also in Linux.
-So it seems you have the found the problem: the missing PHY multiplex.
-Many thanks for that! This indeed enables OTG functionality for me
-(although with some changes). That means that actually a similar patch
-needs to go through Linux.
-Do you plan on enabling support in Linux as well?
-
 > From: qianfan Zhao <qianfanguijin@163.com>
 > 
-> The address of sun8i_r40's phyctrl is 0x01c13404,
+> R40 has 8 user-configurable endpoints and 8KB FIFO for EPs.
 
-But this isn't quite right, is it? See below.
+This means the MUSB controller is fully compatible to the H3, so this
+whole patch is not needed:
 
-> enable_pmu and dual_route.
-
-Ah, of course! The R40 is closer to the A33/A23 here, with not having
-separate EHCI0/OHCI0 controllers, instead relying on the MUSB host IP.
-So indeed we don't have the PHY multiplex for PHY0.
-I think this is the root cause of the non-working OTG support so far!
-
+> 
 > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 > ---
->  drivers/phy/allwinner/phy-sun4i-usb.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/usb/musb-new/sunxi.c | 31 ++++++++++++++++++++++++++++++-
+>  1 file changed, 30 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-> index 5723c98032..608ba46242 100644
-> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
-> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-> @@ -587,10 +587,10 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
->  	.num_phys = 3,
->  	.type = sun8i_r40_phy,
->  	.disc_thresh = 3,
-> -	.phyctl_offset = REG_PHYCTL_A33,
-> +	.phyctl_offset = REG_PHYCTL_A10,
+> diff --git a/drivers/usb/musb-new/sunxi.c
+> b/drivers/usb/musb-new/sunxi.c index fea4105f3d..e03299ea5b 100644
+> --- a/drivers/usb/musb-new/sunxi.c
+> +++ b/drivers/usb/musb-new/sunxi.c
+> @@ -263,7 +263,6 @@ static int sunxi_musb_enable(struct musb *musb)
+>  	}
+>  
+>  	USBC_ForceVbusValidToHigh(musb->mregs);
+> -
+>  	enabled = true;
+>  	return 0;
+>  }
+> @@ -438,6 +437,30 @@ static struct musb_hdrc_config musb_config_h3 = {
+>  	.ram_bits	= SUNXI_MUSB_RAM_BITS,
+>  };
+>  
+> +/* R40/A40 OTG supports only 4 endpoints */
+> +#define SUNXI_MUSB_MAX_EP_NUM_R40	5
+> +
+> +static struct musb_fifo_cfg sunxi_musb_mode_cfg_r40[] = {
+> +	MUSB_EP_FIFO_SINGLE(1, FIFO_TX, 512),
+> +	MUSB_EP_FIFO_SINGLE(1, FIFO_RX, 512),
+> +	MUSB_EP_FIFO_SINGLE(2, FIFO_TX, 512),
+> +	MUSB_EP_FIFO_SINGLE(2, FIFO_RX, 512),
+> +	MUSB_EP_FIFO_SINGLE(3, FIFO_TX, 512),
+> +	MUSB_EP_FIFO_SINGLE(3, FIFO_RX, 512),
+> +	MUSB_EP_FIFO_SINGLE(4, FIFO_TX, 512),
+> +	MUSB_EP_FIFO_SINGLE(4, FIFO_RX, 512),
+> +};
+> +
+> +static struct musb_hdrc_config musb_config_r40 = {
+> +	.fifo_cfg       = sunxi_musb_mode_cfg_r40,
+> +	.fifo_cfg_size  = ARRAY_SIZE(sunxi_musb_mode_cfg_r40),
+> +	.multipoint	= true,
+> +	.dyn_fifo	= true,
+> +	.soft_con       = true,
+> +	.num_eps	= SUNXI_MUSB_MAX_EP_NUM_R40,
+> +	.ram_bits	= SUNXI_MUSB_RAM_BITS,
+> +};
 
-So this doesn't work for me, no device appearing on the host. Also
-writing anything to this register (+0x04) reads back as 0, so it's not
-implemented, as in the H3. The register at +0x10 however works, and if I
-keep the A33 line, OTG indeed works for me. Same in Linux, btw.
+Apart from changing the name, this is identical to the H3, so you won't
+need a separate structure for that.
 
->  	.dedicated_clocks = true,
-> -	.enable_pmu_unk1 = true,
-> -	.phy0_dual_route = true,
-> +	.enable_pmu_unk1 = false,
-> +	.phy0_dual_route = false,
+> +
+>  static int musb_usb_probe(struct udevice *dev)
+>  {
+>  	struct sunxi_glue *glue = dev_get_priv(dev);
+> @@ -527,6 +550,10 @@ static const struct sunxi_musb_config
+> sun8i_h3_cfg = { .config = &musb_config_h3,
+>  };
+>  
+> +static const struct sunxi_musb_config sun8i_r40_cfg = {
+> +	.config = &musb_config_r40,
+> +};
+> +
+>  static const struct udevice_id sunxi_musb_ids[] = {
+>  	{ .compatible = "allwinner,sun4i-a10-musb",
+>  			.data = (ulong)&sun4i_a10_cfg },
+> @@ -536,6 +563,8 @@ static const struct udevice_id sunxi_musb_ids[] =
+> { .data = (ulong)&sun6i_a31_cfg },
+>  	{ .compatible = "allwinner,sun8i-h3-musb",
+>  			.data = (ulong)&sun8i_h3_cfg },
+> +	{ .compatible = "allwinner,sun8i-r40-musb",
+> +			.data = (ulong)&sun8i_r40_cfg },
 
-If they are false, you don't need to list them, the default of 0 will
-take care of this.
+And since there is no difference to the H3, you don't need a separate
+compatible string either. Just use "allwinner,sun8i-r40-musb",
+"allwinner,sun8i-h3-musb" in the DT, and drop this whole patch here.
 
 Cheers,
 Andre
 
+>  	{ }
 >  };
 >  
->  static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
 
