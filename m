@@ -1,56 +1,56 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7166E71
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 14:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DC72FB0
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 14:10:14 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 075BA2198C;
-	Tue, 22 Jun 2021 14:10:12 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id A157D2198B;
+	Tue, 22 Jun 2021 14:10:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624371012; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624371006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fj0ULM6SWDj3XJfArct/5I71EFST/ax5IRO7Eb00dl4=;
-	b=w/Qml9Sjof5YN/IJAncOd5HhBefJ2jc5Vj09vREfAnS7dLdsqU5n4u5T/VoTBHiG63UkWP
-	JjXIfj+JcljLHcZOAR4klUrJ2FB4OS56TG6MG+HZn2m90UChk9u7JL6gRsxk0LGhZ2RgBq
-	GZqG0q4hNqTNtvIHhkNJ1jYTWXoe+ds=
+	bh=SRAIM2b9hcMZtpj1XmOCRlAOXVW+Cbn/WAr682hqNSs=;
+	b=vqm9dI3V0nrHSjy2CtFLenVHqjz8WsHqZyyjhgNtOINrIavnieIQ310rzLkEAPtHq7VzGS
+	VHLPNnQEc6k693CAl2rM+uYgXq+OrJd5hMG3WynS3vDPiEhJD54dTYSd3GXskP1jP4nEyp
+	dxj1jZ3xfQ7o4TdmLLfQxD9AbLw4GdY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624371012;
+	s=susede2_ed25519; t=1624371006;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fj0ULM6SWDj3XJfArct/5I71EFST/ax5IRO7Eb00dl4=;
-	b=bv9CaKse1fpwoMkHnveY+pQ+SCRk/rqOe3V7wCjP2GWYDvB3Q6hnKxA4fQLgwud5XVKqSj
-	rZWCU2sSYYbIllAw==
+	bh=SRAIM2b9hcMZtpj1XmOCRlAOXVW+Cbn/WAr682hqNSs=;
+	b=xBXa4bW1nD4K8968XQUo8pVHbPuTILpO3mWKrxajgAUVry/PxbHgWYOtNoK22If5d4UBBj
+	w+UCYzGFnlkmd6Aw==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	by imap.suse.de (Postfix) with ESMTP id F1C6F11A98;
-	Tue, 22 Jun 2021 14:10:10 +0000 (UTC)
+	by imap.suse.de (Postfix) with ESMTP id 9B8C8118DD;
+	Tue, 22 Jun 2021 14:10:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624371011; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624371006; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fj0ULM6SWDj3XJfArct/5I71EFST/ax5IRO7Eb00dl4=;
-	b=1i3/1oyJo+bsoT6lAzblepyGphZc8eRYhjI8n5sEf6Z2Zaez9fi1AURCtBG+9GmcJpMzbp
-	RA5dBFmgg2kOMQs7leJDzEdkWZbQam40UPmJA1uTaiIaKplkeEA2UaUfZQsiVzuaQ7DJrJ
-	uSJJpz1LoNf7ktX7eP4xB8IWFC+O9qA=
+	bh=SRAIM2b9hcMZtpj1XmOCRlAOXVW+Cbn/WAr682hqNSs=;
+	b=vqm9dI3V0nrHSjy2CtFLenVHqjz8WsHqZyyjhgNtOINrIavnieIQ310rzLkEAPtHq7VzGS
+	VHLPNnQEc6k693CAl2rM+uYgXq+OrJd5hMG3WynS3vDPiEhJD54dTYSd3GXskP1jP4nEyp
+	dxj1jZ3xfQ7o4TdmLLfQxD9AbLw4GdY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624371011;
+	s=susede2_ed25519; t=1624371006;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=fj0ULM6SWDj3XJfArct/5I71EFST/ax5IRO7Eb00dl4=;
-	b=uRiG9JJn4XRpXwyA/+WvH5EnMi7Mw/r0834luiV+iSyO7QDc8TyYopyKxkhcaAeLkWhZ4c
-	vKPUoJJtibtpIoBw==
+	bh=SRAIM2b9hcMZtpj1XmOCRlAOXVW+Cbn/WAr682hqNSs=;
+	b=xBXa4bW1nD4K8968XQUo8pVHbPuTILpO3mWKrxajgAUVry/PxbHgWYOtNoK22If5d4UBBj
+	w+UCYzGFnlkmd6Aw==
 Received: from director2.suse.de ([192.168.254.72])
 	by imap3-int with ESMTPSA
-	id cHs0OkLv0WD3UAAALh3uQQ
-	(envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 14:10:10 +0000
+	id AKIBJT3v0WD3UAAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 14:10:05 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@linux.ie,
@@ -114,9 +114,9 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-sunxi@lists.linux.dev,
 	linux-tegra@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 07/22] drm/exynos: Don't set struct drm_device.irq_enabled
-Date: Tue, 22 Jun 2021 16:09:47 +0200
-Message-Id: <20210622141002.11590-8-tzimmermann@suse.de>
+Subject: [PATCH v2 02/22] drm/hibmc: Call drm_irq_uninstall() unconditionally
+Date: Tue, 22 Jun 2021 16:09:42 +0200
+Message-Id: <20210622141002.11590-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210622141002.11590-1-tzimmermann@suse.de>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
@@ -127,34 +127,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The field drm_device.irq_enabled is only used by legacy drivers
-with userspace modesetting. Don't set it in exynos.
+Remove the check around drm_irq_uninstall(). The same test is
+done by the function internally. The tested state in irq_enabled
+is considered obsolete and should not be used by KMS drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/exynos/exynos_drm_drv.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/exynos/exynos_drm_drv.c b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-index e60257f1f24b..d8f1cf4d6b69 100644
---- a/drivers/gpu/drm/exynos/exynos_drm_drv.c
-+++ b/drivers/gpu/drm/exynos/exynos_drm_drv.c
-@@ -300,16 +300,6 @@ static int exynos_drm_bind(struct device *dev)
+diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+index f4bc5386574a..f8ef711bbe5d 100644
+--- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
++++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
+@@ -253,8 +253,7 @@ static int hibmc_unload(struct drm_device *dev)
+ {
+ 	drm_atomic_helper_shutdown(dev);
  
- 	drm_mode_config_reset(drm);
+-	if (dev->irq_enabled)
+-		drm_irq_uninstall(dev);
++	drm_irq_uninstall(dev);
  
--	/*
--	 * enable drm irq mode.
--	 * - with irq_enabled = true, we can use the vblank feature.
--	 *
--	 * P.S. note that we wouldn't use drm irq handler but
--	 *	just specific driver own one instead because
--	 *	drm framework supports only one irq handler.
--	 */
--	drm->irq_enabled = true;
--
- 	/* init kms poll for handling hpd */
- 	drm_kms_helper_poll_init(drm);
+ 	pci_disable_msi(to_pci_dev(dev->dev));
  
 -- 
 2.32.0
