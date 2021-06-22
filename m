@@ -1,56 +1,56 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 739B02FB1
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 14:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66C402FB1
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 14:10:15 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 99B1521985;
-	Tue, 22 Jun 2021 14:10:05 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 2A46F1FD64;
+	Tue, 22 Jun 2021 14:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624371005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624371014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GoNglZRPP44fopTgtKNO/5FpNVm5X099LWZB3EEhRP8=;
-	b=qJBdNIl6UaV7smXq1szg7MJd5BDQATnCxs8aVghPi1MBHLX15vBH/kCV56iwatLTejONsS
-	1WpiSzFhr1nBUt7FaUH7diXhwyZLPfJvK0qPCXBtyq/kt+z80oZTyZOQOtR+IHqxlUKqi8
-	pNgWTcH/jcZjymNM3sOI7NHPuK9NKwg=
+	bh=/tUnj+4kuY7j3n/uHhMR317h4ZghN1xQUF/1nt80fbw=;
+	b=ZAfKaGwfJl/bWORgeK/1traDZQqAHYvH9UrfPHz2s2V1vb8pRnVpL5vW2PkPerovxtogwH
+	qUz4/nAUlfUtLk1spwJoMlVxAUWeAPn/f+ZFpe688fQpa/A76ndIXy6i40gNW69dfGwwqw
+	vOWNwdhHSEJ36u7fmsmvJmaX2kjRf5M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624371005;
+	s=susede2_ed25519; t=1624371014;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GoNglZRPP44fopTgtKNO/5FpNVm5X099LWZB3EEhRP8=;
-	b=Ms7KgEYGwBcGyQV/ifbNdJsHDAoMzWRHs+8ChqcaySaoGr9wjA8djfaoJZ9sz+Pi9pNsQ9
-	d0tGPVJV++W55cDg==
+	bh=/tUnj+4kuY7j3n/uHhMR317h4ZghN1xQUF/1nt80fbw=;
+	b=gf0qHoozlUiAeJS9kfa/wnaV7wfQvxuoDNlSSKCkKr+Dj5Klh7nkIQbT4lDzxzfzEtuaqu
+	ur+FHsprO/m7DSBA==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	by imap.suse.de (Postfix) with ESMTP id 7D8EF11A98;
-	Tue, 22 Jun 2021 14:10:04 +0000 (UTC)
+	by imap.suse.de (Postfix) with ESMTP id 1594311A98;
+	Tue, 22 Jun 2021 14:10:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624371005; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624371014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GoNglZRPP44fopTgtKNO/5FpNVm5X099LWZB3EEhRP8=;
-	b=qJBdNIl6UaV7smXq1szg7MJd5BDQATnCxs8aVghPi1MBHLX15vBH/kCV56iwatLTejONsS
-	1WpiSzFhr1nBUt7FaUH7diXhwyZLPfJvK0qPCXBtyq/kt+z80oZTyZOQOtR+IHqxlUKqi8
-	pNgWTcH/jcZjymNM3sOI7NHPuK9NKwg=
+	bh=/tUnj+4kuY7j3n/uHhMR317h4ZghN1xQUF/1nt80fbw=;
+	b=ZAfKaGwfJl/bWORgeK/1traDZQqAHYvH9UrfPHz2s2V1vb8pRnVpL5vW2PkPerovxtogwH
+	qUz4/nAUlfUtLk1spwJoMlVxAUWeAPn/f+ZFpe688fQpa/A76ndIXy6i40gNW69dfGwwqw
+	vOWNwdhHSEJ36u7fmsmvJmaX2kjRf5M=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624371005;
+	s=susede2_ed25519; t=1624371014;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GoNglZRPP44fopTgtKNO/5FpNVm5X099LWZB3EEhRP8=;
-	b=Ms7KgEYGwBcGyQV/ifbNdJsHDAoMzWRHs+8ChqcaySaoGr9wjA8djfaoJZ9sz+Pi9pNsQ9
-	d0tGPVJV++W55cDg==
+	bh=/tUnj+4kuY7j3n/uHhMR317h4ZghN1xQUF/1nt80fbw=;
+	b=gf0qHoozlUiAeJS9kfa/wnaV7wfQvxuoDNlSSKCkKr+Dj5Klh7nkIQbT4lDzxzfzEtuaqu
+	ur+FHsprO/m7DSBA==
 Received: from director2.suse.de ([192.168.254.72])
 	by imap3-int with ESMTPSA
-	id QEnCHTzv0WD3UAAALh3uQQ
-	(envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 14:10:04 +0000
+	id uJpiBEXv0WD3UAAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Tue, 22 Jun 2021 14:10:13 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@linux.ie,
@@ -114,9 +114,9 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-sunxi@lists.linux.dev,
 	linux-tegra@vger.kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 01/22] drm/amdgpu: Track IRQ state in local device state
-Date: Tue, 22 Jun 2021 16:09:41 +0200
-Message-Id: <20210622141002.11590-2-tzimmermann@suse.de>
+Subject: [PATCH v2 09/22] drm/imx: Don't set struct drm_device.irq_enabled
+Date: Tue, 22 Jun 2021 16:09:49 +0200
+Message-Id: <20210622141002.11590-10-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210622141002.11590-1-tzimmermann@suse.de>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
@@ -127,47 +127,58 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace usage of struct drm_device.irq_enabled with the driver's
-own state field struct amdgpu_device.irq.installed. The field in
-the DRM device structure is considered legacy and should not be
-used by KMS drivers.
+The field drm_device.irq_enabled is only used by legacy drivers
+with userspace modesetting. Don't set it in imx.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/imx/dcss/dcss-kms.c |  3 ---
+ drivers/gpu/drm/imx/imx-drm-core.c  | 11 -----------
+ 2 files changed, 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-index 32ce0e679dc7..7dad44e73cf6 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
-@@ -599,7 +599,7 @@ void amdgpu_irq_gpu_reset_resume_helper(struct amdgpu_device *adev)
- int amdgpu_irq_get(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
- 		   unsigned type)
- {
--	if (!adev_to_drm(adev)->irq_enabled)
-+	if (!adev->irq.installed)
- 		return -ENOENT;
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-kms.c b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+index 37ae68a7fba5..917834b1c80e 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-kms.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-kms.c
+@@ -133,8 +133,6 @@ struct dcss_kms_dev *dcss_kms_attach(struct dcss_dev *dcss)
+ 	if (ret)
+ 		goto cleanup_mode_config;
  
- 	if (type >= src->num_types)
-@@ -629,7 +629,7 @@ int amdgpu_irq_get(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
- int amdgpu_irq_put(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
- 		   unsigned type)
- {
--	if (!adev_to_drm(adev)->irq_enabled)
-+	if (!adev->irq.installed)
- 		return -ENOENT;
+-	drm->irq_enabled = true;
+-
+ 	ret = dcss_kms_bridge_connector_init(kms);
+ 	if (ret)
+ 		goto cleanup_mode_config;
+@@ -178,7 +176,6 @@ void dcss_kms_detach(struct dcss_kms_dev *kms)
+ 	drm_kms_helper_poll_fini(drm);
+ 	drm_atomic_helper_shutdown(drm);
+ 	drm_crtc_vblank_off(&kms->crtc.base);
+-	drm->irq_enabled = false;
+ 	drm_mode_config_cleanup(drm);
+ 	dcss_crtc_deinit(&kms->crtc, drm);
+ 	drm->dev_private = NULL;
+diff --git a/drivers/gpu/drm/imx/imx-drm-core.c b/drivers/gpu/drm/imx/imx-drm-core.c
+index 76819a8ac37f..9558e9e1b431 100644
+--- a/drivers/gpu/drm/imx/imx-drm-core.c
++++ b/drivers/gpu/drm/imx/imx-drm-core.c
+@@ -207,17 +207,6 @@ static int imx_drm_bind(struct device *dev)
+ 	if (IS_ERR(drm))
+ 		return PTR_ERR(drm);
  
- 	if (type >= src->num_types)
-@@ -660,7 +660,7 @@ int amdgpu_irq_put(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
- bool amdgpu_irq_enabled(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
- 			unsigned type)
- {
--	if (!adev_to_drm(adev)->irq_enabled)
-+	if (!adev->irq.installed)
- 		return false;
- 
- 	if (type >= src->num_types)
+-	/*
+-	 * enable drm irq mode.
+-	 * - with irq_enabled = true, we can use the vblank feature.
+-	 *
+-	 * P.S. note that we wouldn't use drm irq handler but
+-	 *      just specific driver own one instead because
+-	 *      drm framework supports only one irq handler and
+-	 *      drivers can well take care of their interrupts
+-	 */
+-	drm->irq_enabled = true;
+-
+ 	/*
+ 	 * set max width and height as default value(4096x4096).
+ 	 * this value would be used to check framebuffer size limitation
 -- 
 2.32.0
 
