@@ -1,164 +1,332 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 032A2173
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 16:18:27 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C99E10C5;
-	Tue, 22 Jun 2021 18:18:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1624378705;
-	bh=VZRaHkXmbWt79g3HywVIeyxN42SRIqciWe7F8pv0Ohc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PAFCiMffBQrxmL9kbXF04+tAFxSNJSey1X3TgZSJElZPT76zpOsJr1VxvVuS+2pLs
-	 jEuQdHa3Te4yK0fbtauEH5RYNqkMlGX9ety09L1TcAb/y8wrcCehVwWI0z+5zEyTxS
-	 Ek7I/w21y8yHUPn5eB+PAvMDVy77oMs0oniYqpo4=
-Date: Tue, 22 Jun 2021 19:17:57 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
-	christian.koenig@amd.com, Xinhui.Pan@amd.com,
-	james.qian.wang@arm.com, liviu.dudau@arm.com,
-	mihail.atanassov@arm.com, brian.starkey@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	inki.dae@samsung.com, jy0922.shim@samsung.com,
-	sw0312.kim@samsung.com, kyungmin.park@samsung.com,
-	krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
-	tiantao6@hisilicon.com, john.stultz@linaro.org,
-	kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
-	laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
-	p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	chunkuang.hu@kernel.org, matthias.bgg@gmail.com, bskeggs@redhat.com,
-	tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-	benjamin.gaignard@linaro.org, yannick.fertre@foss.st.com,
-	philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
-	alexandre.torgue@foss.st.com, wens@csie.org,
-	jernej.skrabec@gmail.com, thierry.reding@gmail.com,
-	jonathanh@nvidia.com, jyri.sarha@iki.fi, emma@anholt.net,
-	linux-graphics-maintainer@vmware.com, zackr@vmware.com,
-	hyun.kwon@xilinx.com, michal.simek@xilinx.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F30E70
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 16:55:28 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id p10-20020a05600c430ab02901df57d735f7so2214715wme.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 09:55:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=e9qeGfQqX9AidIh5P5firULmSJWTcGcvWm/ynEhQoF4=;
+        b=FsMWYJ5lfTGtzcLqUd3EzhgKtm9m+fy1KvQWXFaCde5o+EZ+PZUUGm7yrXT6k6eJnA
+         09km8ePH7w9gw0X65qQcuqmY+bf9OR/Qy/fwAhRLNIl72ePTxcO34nLR1tQvvt1rYbsl
+         MR5/ofJq5M3Wbh3ny3/NFevCNsYaA1M4qv7eI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=e9qeGfQqX9AidIh5P5firULmSJWTcGcvWm/ynEhQoF4=;
+        b=UKJp7esiLjWOBbY1teI0rNHgjR0+7n3+I5ibSx9C34QaZ3vaZKAXlBRHLP0gdTjC54
+         tbfwj+pJ+Lqdyw5K2FbZshPESnnbzDVw2YsaQBe2CfaxECb/9kgHo3x6SjNDy+GKWKMo
+         1kxO4gqjTsmpeAaWSwrUzmaZW1yXb57lyC76gJfZzT2+CY39YaFzd5+ft9ZBXPu9J+Hr
+         wcgYTjVclU45KnQQl5Od6yj4YEtkonBRJ0kwT98pgi/6/kmwRKZMEPo8QBK0Nox2X2lD
+         bzjGVjioRJnmwEzedeOsxyWSn04pKEHuxWQaedndnILyLFFD3dK0Vk+P+x4erxoFandd
+         ewrw==
+X-Gm-Message-State: AOAM530XL7GHYnB0e3+EmTAoUONbRhhrG0+Gx76H3AxfRwPlEt9RRmyT
+	WfmgLCgh8c2pYPAecN+wenZCkQ==
+X-Google-Smtp-Source: ABdhPJzOPmNLsTWMFpwqN7N34Gpx1JMNymE2e7nC6sD/zrJEtqTDzyNJetvx1U9gGv/dxoQVzysYOA==
+X-Received: by 2002:a05:600c:4f94:: with SMTP id n20mr5597106wmq.121.1624380926835;
+        Tue, 22 Jun 2021 09:55:26 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Jun 2021 09:55:26 -0700 (PDT)
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+To: DRI Development <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+	Daniel Vetter <daniel.vetter@ffwll.ch>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Philippe Cornu <philippe.cornu@foss.st.com>,
+	Lucas Stach <l.stach@pengutronix.de>,
+	Daniel Vetter <daniel.vetter@intel.com>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Marek Vasut <marex@denx.de>,
+	Stefan Agner <stefan@agner.ch>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Yannick Fertre <yannick.fertre@foss.st.com>,
+	Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomba@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, nouveau@lists.freedesktop.org,
+	linux-mips@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	linux-amlogic@lists.infradead.org,
 	linux-rockchip@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
-Message-ID: <YNINNfQjAd3R2H+0@pendragon.ideasonboard.com>
-References: <20210622141002.11590-1-tzimmermann@suse.de>
- <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 08/15] drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
+Date: Tue, 22 Jun 2021 18:55:04 +0200
+Message-Id: <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.32.0.rc2
+In-Reply-To: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 22, 2021 at 07:11:33PM +0300, Laurent Pinchart wrote:
-> Hi Thomas,
-> 
-> Thank you for the patches.
-> 
-> On Tue, Jun 22, 2021 at 04:09:40PM +0200, Thomas Zimmermann wrote:
-> > Remove references to struct drm_device.irq_enabled from modern
-> > DRM drivers and core.
-> > 
-> > KMS drivers enable IRQs for their devices internally. They don't
-> > have to keep track of the IRQ state via irq_enabled. For vblanking,
-> > it's cleaner to test for vblanking support directly than to test
-> > for enabled IRQs.
-> > 
-> > This used to be a single patch, [1] but it's now a full series.
-> > 
-> > The first 3 patches replace instances of irq_enabled that are not
-> > required.
-> > 
-> > Patch 4 fixes vblank ioctls to actually test for vblank support
-> > instead of IRQs.
-> > 
-> > THe rest of the patchset removes irq_enabled from all non-legacy
-> > drivers. The only exception is omapdrm, which has an internal
-> > dpendency on the field's value. For this drivers, the state gets
-> > duplicated internally.
-> > 
-> > With the patchset applied, drivers can later switch over to plain
-> > Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
-> > 
-> > v2:
-> > 	* keep the original test for legacy drivers in
-> > 	  drm_wait_vblank_ioctl() (Daniel)
-> > 
-> > [1] https://lore.kernel.org/dri-devel/20210608090301.4752-1-tzimmermann@suse.de/
-> > 
-> > Thomas Zimmermann (22):
-> >   drm/amdgpu: Track IRQ state in local device state
-> >   drm/hibmc: Call drm_irq_uninstall() unconditionally
-> >   drm/radeon: Track IRQ state in local device state
-> >   drm: Don't test for IRQ support in VBLANK ioctls
-> >   drm/komeda: Don't set struct drm_device.irq_enabled
-> >   drm/malidp: Don't set struct drm_device.irq_enabled
-> >   drm/exynos: Don't set struct drm_device.irq_enabled
-> >   drm/kirin: Don't set struct drm_device.irq_enabled
-> >   drm/imx: Don't set struct drm_device.irq_enabled
-> >   drm/mediatek: Don't set struct drm_device.irq_enabled
-> >   drm/nouveau: Don't set struct drm_device.irq_enabled
-> >   drm/omapdrm: Track IRQ state in local device state
-> >   drm/rockchip: Don't set struct drm_device.irq_enabled
-> >   drm/sti: Don't set struct drm_device.irq_enabled
-> >   drm/stm: Don't set struct drm_device.irq_enabled
-> >   drm/sun4i: Don't set struct drm_device.irq_enabled
-> >   drm/tegra: Don't set struct drm_device.irq_enabled
-> >   drm/tidss: Don't use struct drm_device.irq_enabled
-> >   drm/vc4: Don't set struct drm_device.irq_enabled
-> >   drm/vmwgfx: Don't set struct drm_device.irq_enabled
-> >   drm/xlnx: Don't set struct drm_device.irq_enabled
-> >   drm/zte: Don't set struct drm_device.irq_enabled
-> 
-> The list seems to be missing armada, rcar-du and vkms. It would also be
-> nice to address i915 if possible.
+No need to set it explicitly.
 
-In addition to this, for all the existing patches,
+Acked-by: Heiko Stuebner <heiko@sntech.de>
+Acked-by: Paul Cercueil <paul@crapouillou.net>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Acked-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Marek Vasut <marex@denx.de>
+Cc: Stefan Agner <stefan@agner.ch>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Yannick Fertre <yannick.fertre@foss.st.com>
+Cc: Philippe Cornu <philippe.cornu@foss.st.com>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-rockchip@lists.infradead.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-sunxi@lists.linux.dev
+---
+ drivers/gpu/drm/imx/dcss/dcss-plane.c       | 1 -
+ drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
+ drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
+ drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
+ drivers/gpu/drm/meson/meson_overlay.c       | 1 -
+ drivers/gpu/drm/meson/meson_plane.c         | 1 -
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
+ drivers/gpu/drm/stm/ltdc.c                  | 1 -
+ drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
+ drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
+ 14 files changed, 15 deletions(-)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c         |  6 +++---
-> >  drivers/gpu/drm/arm/display/komeda/komeda_kms.c |  4 ----
-> >  drivers/gpu/drm/arm/malidp_drv.c                |  4 ----
-> >  drivers/gpu/drm/drm_irq.c                       | 10 +++-------
-> >  drivers/gpu/drm/drm_vblank.c                    | 13 +++++++++----
-> >  drivers/gpu/drm/exynos/exynos_drm_drv.c         | 10 ----------
-> >  drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  3 +--
-> >  drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c |  2 --
-> >  drivers/gpu/drm/imx/dcss/dcss-kms.c             |  3 ---
-> >  drivers/gpu/drm/imx/imx-drm-core.c              | 11 -----------
-> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c          |  6 ------
-> >  drivers/gpu/drm/nouveau/nouveau_drm.c           |  3 ---
-> >  drivers/gpu/drm/omapdrm/omap_drv.h              |  2 ++
-> >  drivers/gpu/drm/omapdrm/omap_irq.c              |  6 +++---
-> >  drivers/gpu/drm/radeon/radeon_fence.c           |  2 +-
-> >  drivers/gpu/drm/radeon/radeon_irq_kms.c         | 16 ++++++++--------
-> >  drivers/gpu/drm/rockchip/rockchip_drm_drv.c     |  6 ------
-> >  drivers/gpu/drm/sti/sti_compositor.c            |  2 --
-> >  drivers/gpu/drm/stm/ltdc.c                      |  3 ---
-> >  drivers/gpu/drm/sun4i/sun4i_drv.c               |  2 --
-> >  drivers/gpu/drm/tegra/drm.c                     |  7 -------
-> >  drivers/gpu/drm/tidss/tidss_irq.c               |  3 ---
-> >  drivers/gpu/drm/vc4/vc4_kms.c                   |  1 -
-> >  drivers/gpu/drm/vmwgfx/vmwgfx_irq.c             |  8 --------
-> >  drivers/gpu/drm/xlnx/zynqmp_dpsub.c             |  2 --
-> >  drivers/gpu/drm/zte/zx_drm_drv.c                |  6 ------
-> >  26 files changed, 30 insertions(+), 111 deletions(-)
-> > 
-> > 
-> > base-commit: 8c1323b422f8473421682ba783b5949ddd89a3f4
-> > prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
-> > prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
-
+diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+index 044d3bdf313c..ac45d54acd4e 100644
+--- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
++++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
+@@ -361,7 +361,6 @@ static void dcss_plane_atomic_disable(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs dcss_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = dcss_plane_atomic_check,
+ 	.atomic_update = dcss_plane_atomic_update,
+ 	.atomic_disable = dcss_plane_atomic_disable,
+diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
+index 8710f55d2579..ef114b6aa691 100644
+--- a/drivers/gpu/drm/imx/ipuv3-plane.c
++++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+@@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs ipu_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = ipu_plane_atomic_check,
+ 	.atomic_disable = ipu_plane_atomic_disable,
+ 	.atomic_update = ipu_plane_atomic_update,
+diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+index 5244f4763477..c296472164d9 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
++++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+@@ -830,7 +830,6 @@ static const struct drm_plane_helper_funcs ingenic_drm_plane_helper_funcs = {
+ 	.atomic_update		= ingenic_drm_plane_atomic_update,
+ 	.atomic_check		= ingenic_drm_plane_atomic_check,
+ 	.atomic_disable		= ingenic_drm_plane_atomic_disable,
+-	.prepare_fb		= drm_gem_plane_helper_prepare_fb,
+ };
+ 
+ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index 61b6d9fdbba1..aeb8a757d213 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -625,7 +625,6 @@ static const struct drm_plane_helper_funcs ingenic_ipu_plane_helper_funcs = {
+ 	.atomic_update		= ingenic_ipu_plane_atomic_update,
+ 	.atomic_check		= ingenic_ipu_plane_atomic_check,
+ 	.atomic_disable		= ingenic_ipu_plane_atomic_disable,
+-	.prepare_fb		= drm_gem_plane_helper_prepare_fb,
+ };
+ 
+ static int
+diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+index b5582dcf564c..1667a7e7de38 100644
+--- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
++++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
+@@ -227,7 +227,6 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = mtk_plane_atomic_check,
+ 	.atomic_update = mtk_plane_atomic_update,
+ 	.atomic_disable = mtk_plane_atomic_disable,
+diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
+index ed063152aecd..dfef8afcc245 100644
+--- a/drivers/gpu/drm/meson/meson_overlay.c
++++ b/drivers/gpu/drm/meson/meson_overlay.c
+@@ -747,7 +747,6 @@ static const struct drm_plane_helper_funcs meson_overlay_helper_funcs = {
+ 	.atomic_check	= meson_overlay_atomic_check,
+ 	.atomic_disable	= meson_overlay_atomic_disable,
+ 	.atomic_update	= meson_overlay_atomic_update,
+-	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
+ };
+ 
+ static bool meson_overlay_format_mod_supported(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
+index a18510dae4c8..8640a8a8a469 100644
+--- a/drivers/gpu/drm/meson/meson_plane.c
++++ b/drivers/gpu/drm/meson/meson_plane.c
+@@ -422,7 +422,6 @@ static const struct drm_plane_helper_funcs meson_plane_helper_funcs = {
+ 	.atomic_check	= meson_plane_atomic_check,
+ 	.atomic_disable	= meson_plane_atomic_disable,
+ 	.atomic_update	= meson_plane_atomic_update,
+-	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
+ };
+ 
+ static bool meson_plane_format_mod_supported(struct drm_plane *plane,
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index 300e7bab0f43..8797c671d0d5 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -500,13 +500,11 @@ static bool mxsfb_format_mod_supported(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = mxsfb_plane_atomic_check,
+ 	.atomic_update = mxsfb_plane_primary_atomic_update,
+ };
+ 
+ static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = mxsfb_plane_atomic_check,
+ 	.atomic_update = mxsfb_plane_overlay_atomic_update,
+ };
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index f5b9028a16a3..ba9e14da41b4 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1110,7 +1110,6 @@ static const struct drm_plane_helper_funcs plane_helper_funcs = {
+ 	.atomic_disable = vop_plane_atomic_disable,
+ 	.atomic_async_check = vop_plane_atomic_async_check,
+ 	.atomic_async_update = vop_plane_atomic_async_update,
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ };
+ 
+ static const struct drm_plane_funcs vop_plane_funcs = {
+diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+index 08b71248044d..0a6f0239a9f8 100644
+--- a/drivers/gpu/drm/stm/ltdc.c
++++ b/drivers/gpu/drm/stm/ltdc.c
+@@ -947,7 +947,6 @@ static const struct drm_plane_funcs ltdc_plane_funcs = {
+ };
+ 
+ static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = ltdc_plane_atomic_check,
+ 	.atomic_update = ltdc_plane_atomic_update,
+ 	.atomic_disable = ltdc_plane_atomic_disable,
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index 11771bdd6e7c..929e95f86b5b 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -127,7 +127,6 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs sun4i_backend_layer_helper_funcs = {
+-	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
+ 	.atomic_disable	= sun4i_backend_layer_atomic_disable,
+ 	.atomic_update	= sun4i_backend_layer_atomic_update,
+ };
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index e779855bcd6e..7845c2a53a7f 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -332,7 +332,6 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
+-	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check	= sun8i_ui_layer_atomic_check,
+ 	.atomic_disable	= sun8i_ui_layer_atomic_disable,
+ 	.atomic_update	= sun8i_ui_layer_atomic_update,
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index 1c86c2dd0bbf..bb7c43036dfa 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -436,7 +436,6 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
+-	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check	= sun8i_vi_layer_atomic_check,
+ 	.atomic_disable	= sun8i_vi_layer_atomic_disable,
+ 	.atomic_update	= sun8i_vi_layer_atomic_update,
+diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
+index 1acd15aa4193..217415ec8eea 100644
+--- a/drivers/gpu/drm/tidss/tidss_plane.c
++++ b/drivers/gpu/drm/tidss/tidss_plane.c
+@@ -158,7 +158,6 @@ static void drm_plane_destroy(struct drm_plane *plane)
+ }
+ 
+ static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
+-	.prepare_fb = drm_gem_plane_helper_prepare_fb,
+ 	.atomic_check = tidss_plane_atomic_check,
+ 	.atomic_update = tidss_plane_atomic_update,
+ 	.atomic_disable = tidss_plane_atomic_disable,
 -- 
-Regards,
+2.32.0.rc2
 
-Laurent Pinchart
