@@ -1,188 +1,80 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4298D71
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Jun 2021 12:15:58 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69258ED1;
-	Wed, 23 Jun 2021 05:15:57 -0700 (PDT)
-Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2AC093F718;
-	Wed, 23 Jun 2021 05:15:57 -0700 (PDT)
-Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
-	id DA9E16837C9; Wed, 23 Jun 2021 13:15:55 +0100 (BST)
-Date: Wed, 23 Jun 2021 13:15:55 +0100
-From: Liviu Dudau <liviu.dudau@arm.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
-	alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
-	michal.simek@xilinx.com, linux-tegra@vger.kernel.org,
-	thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com,
-	benjamin.gaignard@linaro.org, mihail.atanassov@arm.com,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
-	krzysztof.kozlowski@canonical.com,
-	linux-rockchip@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, wens@csie.org,
-	jernej.skrabec@gmail.com, jonathanh@nvidia.com,
-	xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
-	james.qian.wang@arm.com, linux-imx@nxp.com,
-	linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
-	bskeggs@redhat.com, chunkuang.hu@kernel.org,
-	puck.chen@hisilicon.com, s.hauer@pengutronix.de,
-	laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
-	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
-	mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org,
-	hyun.kwon@xilinx.com, tomba@kernel.org, jyri.sarha@iki.fi,
-	yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
-	sw0312.kim@samsung.com, hjc@rock-chips.com,
-	christian.koenig@amd.com, kyungmin.park@samsung.com,
-	philippe.cornu@foss.st.com, alexander.deucher@amd.com,
-	tiantao6@hisilicon.com, shawnguo@kernel.org
-Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
-Message-ID: <20210623121555.ttos325zjt55dynw@e110455-lin.cambridge.arm.com>
-References: <20210622141002.11590-1-tzimmermann@suse.de>
- <20210622141002.11590-5-tzimmermann@suse.de>
- <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
- <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55CE8173
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Jun 2021 16:09:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6530961002;
+	Wed, 23 Jun 2021 16:09:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1624464565;
+	bh=thhgwnhMO2xnAWqL7Ceox1dUfMDGS5PkB8ZPYFsW+Fc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Gu6bEqeuBDd6kTGAAeS5YwKMnpgcqWz9UE7gsSVW4/F0+fMWe8oQFI2UhkoY9qKM1
+	 4Yg3QU1nggRKhyPNVrycrtp8teyKYZVI/q+XM16WX6MBmLdu8RcQpa5Vzj4KoH0YxO
+	 /+E4ys+ccn5pQZN/wT224ZRIgtqIh2DfPjth4o8LMnmRYjH4tzcCoaxjusrOYETv+L
+	 WAN5d8y4O9KnQ8KK3+RpT5Q9mj+aPp6oBqBcDCrnOOvd7aRYKXP0uWuoMxz66Z8DFi
+	 h9CbFmmBI8YFbm4JQhHprqZ2ysZA+8PYLKxj1r5W3iOT4bHDxsHSSL5pBdXQfRHiHk
+	 K1gZmYKZt+ZYw==
+From: Mark Brown <broonie@kernel.org>
+To: linux-spi@vger.kernel.org,
+	Ralf Schlatterbeck <rsc@runtux.com>,
+	Mirko Vogt <mirko-dev|linux@nanl.de>,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH v2 1/1] spi: spi-sun6i: Fix chipselect/clock bug
+Date: Wed, 23 Jun 2021 17:08:50 +0100
+Message-Id: <162446446389.55587.4675699927821368249.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210614144507.y3udezjfbko7eavv@runtux.com>
+References: <20210614144507.y3udezjfbko7eavv@runtux.com>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
 
-Hi Thomas,
-
-On Wed, Jun 23, 2021 at 08:43:07AM +0200, Thomas Zimmermann wrote:
-> Hi Liviu
+On Mon, 14 Jun 2021 16:45:07 +0200, Ralf Schlatterbeck wrote:
+> The current sun6i SPI implementation initializes the transfer too early,
+> resulting in SCK going high before the transfer. When using an additional
+> (gpio) chipselect with sun6i, the chipselect is asserted at a time when
+> clock is high, making the SPI transfer fail.
 > 
-> Am 22.06.21 um 17:25 schrieb Liviu Dudau:
-> > Hello,
-> > 
-> > On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
-> > > For KMS drivers, replace the IRQ check in VBLANK ioctls with a check for
-> > > vblank support. IRQs might be enabled wthout vblanking being supported.
-> > > 
-> > > This change also removes the DRM framework's only dependency on IRQ state
-> > > for non-legacy drivers. For legacy drivers with userspace modesetting,
-> > > the original test remains in drm_wait_vblank_ioctl().
-> > > 
-> > > v2:
-> > > 	* keep the old test for legacy drivers in
-> > > 	  drm_wait_vblank_ioctl() (Daniel)
-> > > 
-> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > ---
-> > >   drivers/gpu/drm/drm_irq.c    | 10 +++-------
-> > >   drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
-> > >   2 files changed, 12 insertions(+), 11 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
-> > > index c3bd664ea733..1d7785721323 100644
-> > > --- a/drivers/gpu/drm/drm_irq.c
-> > > +++ b/drivers/gpu/drm/drm_irq.c
-> > > @@ -74,10 +74,8 @@
-> > >    * only supports devices with a single interrupt on the main device stored in
-> > >    * &drm_device.dev and set as the device paramter in drm_dev_alloc().
-> > >    *
-> > > - * These IRQ helpers are strictly optional. Drivers which roll their own only
-> > > - * need to set &drm_device.irq_enabled to signal the DRM core that vblank
-> > > - * interrupts are working. Since these helpers don't automatically clean up the
-> > > - * requested interrupt like e.g. devm_request_irq() they're not really
-> > > + * These IRQ helpers are strictly optional. Since these helpers don't automatically
-> > > + * clean up the requested interrupt like e.g. devm_request_irq() they're not really
-> > >    * recommended.
-> > >    */
-> > > @@ -91,9 +89,7 @@
-> > >    * and after the installation.
-> > >    *
-> > >    * This is the simplified helper interface provided for drivers with no special
-> > > - * needs. Drivers which need to install interrupt handlers for multiple
-> > > - * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
-> > > - * that vblank interrupts are available.
-> > > + * needs.
-> > >    *
-> > >    * @irq must match the interrupt number that would be passed to request_irq(),
-> > >    * if called directly instead of using this helper function.
-> > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-> > > index 3417e1ac7918..a98a4aad5037 100644
-> > > --- a/drivers/gpu/drm/drm_vblank.c
-> > > +++ b/drivers/gpu/drm/drm_vblank.c
-> > > @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
-> > >   	unsigned int pipe_index;
-> > >   	unsigned int flags, pipe, high_pipe;
-> > > -	if (!dev->irq_enabled)
-> > > -		return -EOPNOTSUPP;
-> > > +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
-> > > +		if (!drm_dev_has_vblank(dev))
-> > > +			return -EOPNOTSUPP;
-> > > +	} else {
-> > > +		if (!dev->irq_enabled)
-> > > +			return -EOPNOTSUPP;
-> > > +	}
-> > 
-> > For a system call that is used quite a lot by userspace we have increased the code size
-> > in a noticeable way. Can we not cache it privately?
-> 
-> I'm not quite sure that I understand your concern. The additionally called
-> functions are trivial one-liners; probably inlined anyway.
+> This is due to SUN6I_GBL_CTL_BUS_ENABLE being written into
+> SUN6I_GBL_CTL_REG at an early stage. Moving that to the transfer
+> function, hence, right before the transfer starts, mitigates that
+> problem.
 
-They are inlined. However we replace the pointer dereference (which can be calculated
-at compile time as offset from a base pointer) with the code in
-drm_core_check_all_features() that does 3 pointer dereferences, masking and logical
-AND before checking for matching value.
+Applied to
 
-> 
-> However, irq_enabled is only relevant for legacy drivers and will eventually
-> disappear behind CONFIG_DRM_LEGACY. We can rewrite the test like this:
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 
-I get the point that irq_enabled is legacy. However the IOCTL call is not and usually
-is used in time critical code to wait for vblank before starting the old buffers for
-a new frame. At 60Hz that's probably less of a concern, but at 120Hz refresh rate and
-reduced vblank time your time slice allocation for new work matters.
+Thanks!
 
-Best regards,
-Liviu
+[1/1] spi: spi-sun6i: Fix chipselect/clock bug
+      commit: 0d7993b234c9fad8cb6bec6adfaa74694ba85ecb
 
-> 
-> ifdef CONFIG_DRM_LEGACY
->   if (unlikely(check_feature(dev, DRIVER_LEGACY))) {
->     if (!irq_enabled)
->       return;
->   } else
-> #endif
->   {
->     if (!has_vblank_support(dev))
->       return;
->   }
-> 
-> As CONFIG_DRM_LEGACY is most likely disabled on concurrent systems, we'd get
-> a single test for the modern drivers. If DRM_LEGACYis on, the compiler at
-> least knows that the else branch is preferred.
-> 
-> Best regards
-> Thomas
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
-> 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
 
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
 
--- 
-====================
-| I would like to |
-| fix the world,  |
-| but they're not |
-| giving me the   |
- \ source code!  /
-  ---------------
-    ¯\_(ツ)_/¯
+Thanks,
+Mark
