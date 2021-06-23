@@ -1,234 +1,188 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61892173
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Jun 2021 06:46:25 +0000 (UTC)
-Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 988EA2197A;
-	Wed, 23 Jun 2021 06:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624430783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2ZcrZ8mqlycZCvqIEcHhGpxfIvuTeneHVV1SxihHfFE=;
-	b=fysCyX7pl9hwhW7lTzSKgcEjXwuA1hSjnlioc+I+F/kS6sR8x0XrVBlQi9GMrNr+/TTuta
-	p08ut3LPD29iy85JVrhF1ATbHuOhPkEUualytbvgfTQ/QUpFQ/Y9FDVhGnQB0hUbv8qUV9
-	c369obDXPQ38a1O6O41ciPajyajOOSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624430783;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2ZcrZ8mqlycZCvqIEcHhGpxfIvuTeneHVV1SxihHfFE=;
-	b=4Smgv0UnJNewFhbY+AWKvoKHBM7+sC/qxgajn4EyRdKoRPnbRT113AsH3tdSvhG+pj3ZPg
-	x5HowUsIUAhcZ5Dw==
-Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	by imap.suse.de (Postfix) with ESMTP id C397811A97;
-	Wed, 23 Jun 2021 06:46:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624430783; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2ZcrZ8mqlycZCvqIEcHhGpxfIvuTeneHVV1SxihHfFE=;
-	b=fysCyX7pl9hwhW7lTzSKgcEjXwuA1hSjnlioc+I+F/kS6sR8x0XrVBlQi9GMrNr+/TTuta
-	p08ut3LPD29iy85JVrhF1ATbHuOhPkEUualytbvgfTQ/QUpFQ/Y9FDVhGnQB0hUbv8qUV9
-	c369obDXPQ38a1O6O41ciPajyajOOSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624430783;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2ZcrZ8mqlycZCvqIEcHhGpxfIvuTeneHVV1SxihHfFE=;
-	b=4Smgv0UnJNewFhbY+AWKvoKHBM7+sC/qxgajn4EyRdKoRPnbRT113AsH3tdSvhG+pj3ZPg
-	x5HowUsIUAhcZ5Dw==
-Received: from director2.suse.de ([192.168.254.72])
-	by imap3-int with ESMTPSA
-	id Gn2cLr7Y0mC4bAAALh3uQQ
-	(envelope-from <tzimmermann@suse.de>); Wed, 23 Jun 2021 06:46:22 +0000
-Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4298D71
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Jun 2021 12:15:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 69258ED1;
+	Wed, 23 Jun 2021 05:15:57 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2AC093F718;
+	Wed, 23 Jun 2021 05:15:57 -0700 (PDT)
+Received: by e110455-lin.cambridge.arm.com (Postfix, from userid 1000)
+	id DA9E16837C9; Wed, 23 Jun 2021 13:15:55 +0100 (BST)
+Date: Wed, 23 Jun 2021 13:15:55 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
- liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
- linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
- amd-gfx@lists.freedesktop.org, benjamin.gaignard@linaro.org,
- mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org,
- kong.kongxinwei@hisilicon.com, james.qian.wang@arm.com, linux-imx@nxp.com,
- linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
- bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org,
- jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
- sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
- kyungmin.park@samsung.com, philippe.cornu@foss.st.com,
- alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
+	alexandre.torgue@foss.st.com, dri-devel@lists.freedesktop.org,
+	michal.simek@xilinx.com, linux-tegra@vger.kernel.org,
+	thierry.reding@gmail.com, laurent.pinchart@ideasonboard.com,
+	benjamin.gaignard@linaro.org, mihail.atanassov@arm.com,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
+	krzysztof.kozlowski@canonical.com,
+	linux-rockchip@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, wens@csie.org,
+	jernej.skrabec@gmail.com, jonathanh@nvidia.com,
+	xinliang.liu@linaro.org, kong.kongxinwei@hisilicon.com,
+	james.qian.wang@arm.com, linux-imx@nxp.com,
+	linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
+	bskeggs@redhat.com, chunkuang.hu@kernel.org,
+	puck.chen@hisilicon.com, s.hauer@pengutronix.de,
+	laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
+	kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
+	mcoquelin.stm32@gmail.com, amd-gfx@lists.freedesktop.org,
+	hyun.kwon@xilinx.com, tomba@kernel.org, jyri.sarha@iki.fi,
+	yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
+	sw0312.kim@samsung.com, hjc@rock-chips.com,
+	christian.koenig@amd.com, kyungmin.park@samsung.com,
+	philippe.cornu@foss.st.com, alexander.deucher@amd.com,
+	tiantao6@hisilicon.com, shawnguo@kernel.org
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <20210623121555.ttos325zjt55dynw@e110455-lin.cambridge.arm.com>
 References: <20210622141002.11590-1-tzimmermann@suse.de>
- <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <03e349b3-f805-9aa8-14a7-96e674011c3a@suse.de>
-Date: Wed, 23 Jun 2021 08:46:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+ <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="3WvZxzpHzwDdgKIhf5CsBVuKNwIjhuqGE"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---3WvZxzpHzwDdgKIhf5CsBVuKNwIjhuqGE
-Content-Type: multipart/mixed; boundary="VpqofwZZWokdR6MNHNIH0htxV9CnMA5E8";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: emma@anholt.net, airlied@linux.ie, nouveau@lists.freedesktop.org,
- liviu.dudau@arm.com, alexandre.torgue@foss.st.com,
- dri-devel@lists.freedesktop.org, michal.simek@xilinx.com,
- linux-tegra@vger.kernel.org, thierry.reding@gmail.com,
- amd-gfx@lists.freedesktop.org, benjamin.gaignard@linaro.org,
- mihail.atanassov@arm.com, linux-stm32@st-md-mailman.stormreply.com,
- linux-samsung-soc@vger.kernel.org, jy0922.shim@samsung.com,
- krzysztof.kozlowski@canonical.com, linux-rockchip@lists.infradead.org,
- linux-mediatek@lists.infradead.org, wens@csie.org, jernej.skrabec@gmail.com,
- jonathanh@nvidia.com, xinliang.liu@linaro.org,
- kong.kongxinwei@hisilicon.com, james.qian.wang@arm.com, linux-imx@nxp.com,
- linux-graphics-maintainer@vmware.com, linux-sunxi@lists.linux.dev,
- bskeggs@redhat.com, chunkuang.hu@kernel.org, puck.chen@hisilicon.com,
- s.hauer@pengutronix.de, laurentiu.palcu@oss.nxp.com, matthias.bgg@gmail.com,
- kernel@pengutronix.de, linux-arm-kernel@lists.infradead.org,
- mcoquelin.stm32@gmail.com, hyun.kwon@xilinx.com, tomba@kernel.org,
- jyri.sarha@iki.fi, yannick.fertre@foss.st.com, Xinhui.Pan@amd.com,
- sw0312.kim@samsung.com, hjc@rock-chips.com, christian.koenig@amd.com,
- kyungmin.park@samsung.com, philippe.cornu@foss.st.com,
- alexander.deucher@amd.com, tiantao6@hisilicon.com, shawnguo@kernel.org
-Message-ID: <03e349b3-f805-9aa8-14a7-96e674011c3a@suse.de>
-Subject: Re: [PATCH v2 00/22] Deprecate struct drm_device.irq_enabled
-References: <20210622141002.11590-1-tzimmermann@suse.de>
- <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
-In-Reply-To: <YNILtLMkI3uoH7mJ@pendragon.ideasonboard.com>
+Hi Thomas,
 
---VpqofwZZWokdR6MNHNIH0htxV9CnMA5E8
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jun 23, 2021 at 08:43:07AM +0200, Thomas Zimmermann wrote:
+> Hi Liviu
+> 
+> Am 22.06.21 um 17:25 schrieb Liviu Dudau:
+> > Hello,
+> > 
+> > On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
+> > > For KMS drivers, replace the IRQ check in VBLANK ioctls with a check for
+> > > vblank support. IRQs might be enabled wthout vblanking being supported.
+> > > 
+> > > This change also removes the DRM framework's only dependency on IRQ state
+> > > for non-legacy drivers. For legacy drivers with userspace modesetting,
+> > > the original test remains in drm_wait_vblank_ioctl().
+> > > 
+> > > v2:
+> > > 	* keep the old test for legacy drivers in
+> > > 	  drm_wait_vblank_ioctl() (Daniel)
+> > > 
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > ---
+> > >   drivers/gpu/drm/drm_irq.c    | 10 +++-------
+> > >   drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
+> > >   2 files changed, 12 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+> > > index c3bd664ea733..1d7785721323 100644
+> > > --- a/drivers/gpu/drm/drm_irq.c
+> > > +++ b/drivers/gpu/drm/drm_irq.c
+> > > @@ -74,10 +74,8 @@
+> > >    * only supports devices with a single interrupt on the main device stored in
+> > >    * &drm_device.dev and set as the device paramter in drm_dev_alloc().
+> > >    *
+> > > - * These IRQ helpers are strictly optional. Drivers which roll their own only
+> > > - * need to set &drm_device.irq_enabled to signal the DRM core that vblank
+> > > - * interrupts are working. Since these helpers don't automatically clean up the
+> > > - * requested interrupt like e.g. devm_request_irq() they're not really
+> > > + * These IRQ helpers are strictly optional. Since these helpers don't automatically
+> > > + * clean up the requested interrupt like e.g. devm_request_irq() they're not really
+> > >    * recommended.
+> > >    */
+> > > @@ -91,9 +89,7 @@
+> > >    * and after the installation.
+> > >    *
+> > >    * This is the simplified helper interface provided for drivers with no special
+> > > - * needs. Drivers which need to install interrupt handlers for multiple
+> > > - * interrupts must instead set &drm_device.irq_enabled to signal the DRM core
+> > > - * that vblank interrupts are available.
+> > > + * needs.
+> > >    *
+> > >    * @irq must match the interrupt number that would be passed to request_irq(),
+> > >    * if called directly instead of using this helper function.
+> > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
+> > > index 3417e1ac7918..a98a4aad5037 100644
+> > > --- a/drivers/gpu/drm/drm_vblank.c
+> > > +++ b/drivers/gpu/drm/drm_vblank.c
+> > > @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
+> > >   	unsigned int pipe_index;
+> > >   	unsigned int flags, pipe, high_pipe;
+> > > -	if (!dev->irq_enabled)
+> > > -		return -EOPNOTSUPP;
+> > > +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> > > +		if (!drm_dev_has_vblank(dev))
+> > > +			return -EOPNOTSUPP;
+> > > +	} else {
+> > > +		if (!dev->irq_enabled)
+> > > +			return -EOPNOTSUPP;
+> > > +	}
+> > 
+> > For a system call that is used quite a lot by userspace we have increased the code size
+> > in a noticeable way. Can we not cache it privately?
+> 
+> I'm not quite sure that I understand your concern. The additionally called
+> functions are trivial one-liners; probably inlined anyway.
+
+They are inlined. However we replace the pointer dereference (which can be calculated
+at compile time as offset from a base pointer) with the code in
+drm_core_check_all_features() that does 3 pointer dereferences, masking and logical
+AND before checking for matching value.
+
+> 
+> However, irq_enabled is only relevant for legacy drivers and will eventually
+> disappear behind CONFIG_DRM_LEGACY. We can rewrite the test like this:
+
+I get the point that irq_enabled is legacy. However the IOCTL call is not and usually
+is used in time critical code to wait for vblank before starting the old buffers for
+a new frame. At 60Hz that's probably less of a concern, but at 120Hz refresh rate and
+reduced vblank time your time slice allocation for new work matters.
+
+Best regards,
+Liviu
+
+> 
+> ifdef CONFIG_DRM_LEGACY
+>   if (unlikely(check_feature(dev, DRIVER_LEGACY))) {
+>     if (!irq_enabled)
+>       return;
+>   } else
+> #endif
+>   {
+>     if (!has_vblank_support(dev))
+>       return;
+>   }
+> 
+> As CONFIG_DRM_LEGACY is most likely disabled on concurrent systems, we'd get
+> a single test for the modern drivers. If DRM_LEGACYis on, the compiler at
+> least knows that the else branch is preferred.
+> 
+> Best regards
+> Thomas
+> 
+> -- 
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 Nürnberg, Germany
+> (HRB 36809, AG Nürnberg)
+> Geschäftsführer: Felix Imendörffer
+> 
 
 
 
-Am 22.06.21 um 18:11 schrieb Laurent Pinchart:
-> Hi Thomas,
->=20
-> Thank you for the patches.
->=20
-> On Tue, Jun 22, 2021 at 04:09:40PM +0200, Thomas Zimmermann wrote:
->> Remove references to struct drm_device.irq_enabled from modern
->> DRM drivers and core.
->>
->> KMS drivers enable IRQs for their devices internally. They don't
->> have to keep track of the IRQ state via irq_enabled. For vblanking,
->> it's cleaner to test for vblanking support directly than to test
->> for enabled IRQs.
->>
->> This used to be a single patch, [1] but it's now a full series.
->>
->> The first 3 patches replace instances of irq_enabled that are not
->> required.
->>
->> Patch 4 fixes vblank ioctls to actually test for vblank support
->> instead of IRQs.
->>
->> THe rest of the patchset removes irq_enabled from all non-legacy
->> drivers. The only exception is omapdrm, which has an internal
->> dpendency on the field's value. For this drivers, the state gets
->> duplicated internally.
->>
->> With the patchset applied, drivers can later switch over to plain
->> Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
->>
->> v2:
->> 	* keep the original test for legacy drivers in
->> 	  drm_wait_vblank_ioctl() (Daniel)
->>
->> [1] https://lore.kernel.org/dri-devel/20210608090301.4752-1-tzimmerman=
-n@suse.de/
->>
->> Thomas Zimmermann (22):
->>    drm/amdgpu: Track IRQ state in local device state
->>    drm/hibmc: Call drm_irq_uninstall() unconditionally
->>    drm/radeon: Track IRQ state in local device state
->>    drm: Don't test for IRQ support in VBLANK ioctls
->>    drm/komeda: Don't set struct drm_device.irq_enabled
->>    drm/malidp: Don't set struct drm_device.irq_enabled
->>    drm/exynos: Don't set struct drm_device.irq_enabled
->>    drm/kirin: Don't set struct drm_device.irq_enabled
->>    drm/imx: Don't set struct drm_device.irq_enabled
->>    drm/mediatek: Don't set struct drm_device.irq_enabled
->>    drm/nouveau: Don't set struct drm_device.irq_enabled
->>    drm/omapdrm: Track IRQ state in local device state
->>    drm/rockchip: Don't set struct drm_device.irq_enabled
->>    drm/sti: Don't set struct drm_device.irq_enabled
->>    drm/stm: Don't set struct drm_device.irq_enabled
->>    drm/sun4i: Don't set struct drm_device.irq_enabled
->>    drm/tegra: Don't set struct drm_device.irq_enabled
->>    drm/tidss: Don't use struct drm_device.irq_enabled
->>    drm/vc4: Don't set struct drm_device.irq_enabled
->>    drm/vmwgfx: Don't set struct drm_device.irq_enabled
->>    drm/xlnx: Don't set struct drm_device.irq_enabled
->>    drm/zte: Don't set struct drm_device.irq_enabled
->=20
-> The list seems to be missing armada, rcar-du and vkms. It would also be=
 
-> nice to address i915 if possible.
-
-Indeed. I grepped for \>irq_enabled. But some few drivers use=20
-=2Eirq_enabled. I'll fix this in the patchset's next iteration. Thanks fo=
-r=20
-double checking.
-
-Best regards
-Thomas
-
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---VpqofwZZWokdR6MNHNIH0htxV9CnMA5E8--
-
---3WvZxzpHzwDdgKIhf5CsBVuKNwIjhuqGE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDS2L4FAwAAAAAACgkQlh/E3EQov+DU
-wBAAw45Ui6qNyMQ6l7x7FjeKz6BOxeL/3pFiEg6QBuIF3dcF1K/av6JC94zL+kHXKPKf8RL0kK6R
-llSacrxSur3jN59j06sLSWaj+i6zIfcJnZGVC0gc943dR4mqoXM3xY2lbxKjscSbT4ZAnNRAueqe
-aVPvREhaES8K8dUdi1SvXbPGYu0SFpncaamo2SjRwCpsgaBuqR/en65vDdOMMZXF7wvON+UVnLDO
-eNmXxqxe6J4nAaMej8d05VkTFbGjnMQRYFNpml0jme9KeCIidOWuhiTn8B2TfJflgozLDLSuI9Oc
-HrAUMfEi/ylWg3AYV/7kw0sOHPK0u2yPy/o4y5rMkZE0WUC6r0quMB77bAHZvCBtotod2P85oVoY
-6aspu2FDzpID6HrFcsBr9mY/3AVMJD1OFWrK7GvzTfhuY22oEiNr5iE6VccabOn0Sh2UkCU/ZV1u
-NmlpoaRQm1ha7gITQisOwkps5C+gE5Cazo8hFAbJ0kalSzXr7JA2sifCm8GN5qtHnRpFv2UxfceG
-XMbscIhcKgiIDQU4PksI0w4o7/u0pKVfb7JA2NzNqwItMDAITSJk083kJXrNqPXRZZlLTX+U25SN
-rtpXlEe13EoOtMeXDiZP2rn7CZmWoFQrgsmTKOUrBPWMMpfr9PMgakJNUBThOirbykuQ+SrNpYgt
-rgY=
-=zLOG
------END PGP SIGNATURE-----
-
---3WvZxzpHzwDdgKIhf5CsBVuKNwIjhuqGE--
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
