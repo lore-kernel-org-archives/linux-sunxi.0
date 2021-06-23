@@ -1,332 +1,285 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F30E70
-	for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 16:55:28 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id p10-20020a05600c430ab02901df57d735f7so2214715wme.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 22 Jun 2021 09:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=e9qeGfQqX9AidIh5P5firULmSJWTcGcvWm/ynEhQoF4=;
-        b=FsMWYJ5lfTGtzcLqUd3EzhgKtm9m+fy1KvQWXFaCde5o+EZ+PZUUGm7yrXT6k6eJnA
-         09km8ePH7w9gw0X65qQcuqmY+bf9OR/Qy/fwAhRLNIl72ePTxcO34nLR1tQvvt1rYbsl
-         MR5/ofJq5M3Wbh3ny3/NFevCNsYaA1M4qv7eI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=e9qeGfQqX9AidIh5P5firULmSJWTcGcvWm/ynEhQoF4=;
-        b=UKJp7esiLjWOBbY1teI0rNHgjR0+7n3+I5ibSx9C34QaZ3vaZKAXlBRHLP0gdTjC54
-         tbfwj+pJ+Lqdyw5K2FbZshPESnnbzDVw2YsaQBe2CfaxECb/9kgHo3x6SjNDy+GKWKMo
-         1kxO4gqjTsmpeAaWSwrUzmaZW1yXb57lyC76gJfZzT2+CY39YaFzd5+ft9ZBXPu9J+Hr
-         wcgYTjVclU45KnQQl5Od6yj4YEtkonBRJ0kwT98pgi/6/kmwRKZMEPo8QBK0Nox2X2lD
-         bzjGVjioRJnmwEzedeOsxyWSn04pKEHuxWQaedndnILyLFFD3dK0Vk+P+x4erxoFandd
-         ewrw==
-X-Gm-Message-State: AOAM530XL7GHYnB0e3+EmTAoUONbRhhrG0+Gx76H3AxfRwPlEt9RRmyT
-	WfmgLCgh8c2pYPAecN+wenZCkQ==
-X-Google-Smtp-Source: ABdhPJzOPmNLsTWMFpwqN7N34Gpx1JMNymE2e7nC6sD/zrJEtqTDzyNJetvx1U9gGv/dxoQVzysYOA==
-X-Received: by 2002:a05:600c:4f94:: with SMTP id n20mr5597106wmq.121.1624380926835;
-        Tue, 22 Jun 2021 09:55:26 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id l23sm3632342wmc.5.2021.06.22.09.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jun 2021 09:55:26 -0700 (PDT)
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-To: DRI Development <dri-devel@lists.freedesktop.org>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Philippe Cornu <philippe.cornu@foss.st.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Daniel Vetter <daniel.vetter@intel.com>,
-	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Marek Vasut <marex@denx.de>,
-	Stefan Agner <stefan@agner.ch>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Yannick Fertre <yannick.fertre@foss.st.com>,
-	Benjamin Gaignard <benjamin.gaignard@linaro.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomba@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 08/15] drm/<driver>: drm_gem_plane_helper_prepare_fb is now the default
-Date: Tue, 22 Jun 2021 18:55:04 +0200
-Message-Id: <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.32.0.rc2
-In-Reply-To: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
-References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DCA173
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Jun 2021 06:43:17 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7CD3D1FD66;
+	Wed, 23 Jun 2021 06:43:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+	b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
+	uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
+	xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1624430589;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+	b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
+	D7AeOlonnA0UfzBQ==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+	by imap.suse.de (Postfix) with ESMTP id 7CE9211A97;
+	Wed, 23 Jun 2021 06:43:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1624430589; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+	b=UL41/fdqkxp8KiBTP5sNgkK3QzSU6SjtYTCEKYkWMnVzCi0BsNO6N7H6Z/xHRP1nMXJTSK
+	uAOvfeYpPY7ReQoGYz0BeGd1DtemAc5QyqOXIZOtYXgrkn7Ds1VLptp+gjp1TLwppTBvXC
+	xy1xTFf1031DvsP89g+ewUEcPYWmU8w=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1624430589;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TlGZRZ99uCIt4JDAjOFXnswm4yaCa3ZMTl87RK83waE=;
+	b=hrob67bWMmViAg5CAyhvDg8xtRHrAUBAM0VSFniEqSI0myWGdc/UaBO6QCSVllrliNsDjF
+	D7AeOlonnA0UfzBQ==
+Received: from director2.suse.de ([192.168.254.72])
+	by imap3-int with ESMTPSA
+	id RGKAHfzX0mBnawAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Wed, 23 Jun 2021 06:43:08 +0000
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
+ mihail.atanassov@arm.com, brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
+ jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, john.stultz@linaro.org,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
+ matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
+ yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
+ jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
+ zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
+ michal.simek@xilinx.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+References: <20210622141002.11590-1-tzimmermann@suse.de>
+ <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
+Date: Wed, 23 Jun 2021 08:43:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb"
 
-No need to set it explicitly.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
+Content-Type: multipart/mixed; boundary="3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Liviu Dudau <liviu.dudau@arm.com>
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, james.qian.wang@arm.com,
+ mihail.atanassov@arm.com, brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, inki.dae@samsung.com,
+ jy0922.shim@samsung.com, sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+ krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org,
+ tiantao6@hisilicon.com, john.stultz@linaro.org,
+ kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
+ laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de, p.zabel@pengutronix.de,
+ shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+ festevam@gmail.com, linux-imx@nxp.com, chunkuang.hu@kernel.org,
+ matthias.bgg@gmail.com, bskeggs@redhat.com, tomba@kernel.org,
+ hjc@rock-chips.com, heiko@sntech.de, benjamin.gaignard@linaro.org,
+ yannick.fertre@foss.st.com, philippe.cornu@foss.st.com,
+ mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, wens@csie.org,
+ jernej.skrabec@gmail.com, thierry.reding@gmail.com, jonathanh@nvidia.com,
+ jyri.sarha@iki.fi, emma@anholt.net, linux-graphics-maintainer@vmware.com,
+ zackr@vmware.com, hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
+ michal.simek@xilinx.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ nouveau@lists.freedesktop.org, linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org
+Message-ID: <f7e72a3c-df86-2d4b-2caa-bf91442290a9@suse.de>
+Subject: Re: [PATCH v2 04/22] drm: Don't test for IRQ support in VBLANK ioctls
+References: <20210622141002.11590-1-tzimmermann@suse.de>
+ <20210622141002.11590-5-tzimmermann@suse.de>
+ <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
+In-Reply-To: <20210622152504.2sw6khajwydsoaqa@e110455-lin.cambridge.arm.com>
 
-Acked-by: Heiko Stuebner <heiko@sntech.de>
-Acked-by: Paul Cercueil <paul@crapouillou.net>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Acked-by: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Acked-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Acked-by: Philippe Cornu <philippe.cornu@foss.st.com>
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
-Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Kevin Hilman <khilman@baylibre.com>
-Cc: Jerome Brunet <jbrunet@baylibre.com>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
-Cc: Marek Vasut <marex@denx.de>
-Cc: Stefan Agner <stefan@agner.ch>
-Cc: Sandy Huang <hjc@rock-chips.com>
-Cc: "Heiko Stübner" <heiko@sntech.de>
-Cc: Yannick Fertre <yannick.fertre@foss.st.com>
-Cc: Philippe Cornu <philippe.cornu@foss.st.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Tomi Valkeinen <tomba@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-mediatek@lists.infradead.org
-Cc: linux-amlogic@lists.infradead.org
-Cc: linux-rockchip@lists.infradead.org
-Cc: linux-stm32@st-md-mailman.stormreply.com
-Cc: linux-sunxi@lists.linux.dev
----
- drivers/gpu/drm/imx/dcss/dcss-plane.c       | 1 -
- drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c   | 1 -
- drivers/gpu/drm/ingenic/ingenic-ipu.c       | 1 -
- drivers/gpu/drm/mediatek/mtk_drm_plane.c    | 1 -
- drivers/gpu/drm/meson/meson_overlay.c       | 1 -
- drivers/gpu/drm/meson/meson_plane.c         | 1 -
- drivers/gpu/drm/mxsfb/mxsfb_kms.c           | 2 --
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 1 -
- drivers/gpu/drm/stm/ltdc.c                  | 1 -
- drivers/gpu/drm/sun4i/sun4i_layer.c         | 1 -
- drivers/gpu/drm/sun4i/sun8i_ui_layer.c      | 1 -
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c      | 1 -
- drivers/gpu/drm/tidss/tidss_plane.c         | 1 -
- 14 files changed, 15 deletions(-)
+--3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/imx/dcss/dcss-plane.c b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-index 044d3bdf313c..ac45d54acd4e 100644
---- a/drivers/gpu/drm/imx/dcss/dcss-plane.c
-+++ b/drivers/gpu/drm/imx/dcss/dcss-plane.c
-@@ -361,7 +361,6 @@ static void dcss_plane_atomic_disable(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs dcss_plane_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = dcss_plane_atomic_check,
- 	.atomic_update = dcss_plane_atomic_update,
- 	.atomic_disable = dcss_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv3-plane.c
-index 8710f55d2579..ef114b6aa691 100644
---- a/drivers/gpu/drm/imx/ipuv3-plane.c
-+++ b/drivers/gpu/drm/imx/ipuv3-plane.c
-@@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs ipu_plane_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = ipu_plane_atomic_check,
- 	.atomic_disable = ipu_plane_atomic_disable,
- 	.atomic_update = ipu_plane_atomic_update,
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index 5244f4763477..c296472164d9 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -830,7 +830,6 @@ static const struct drm_plane_helper_funcs ingenic_drm_plane_helper_funcs = {
- 	.atomic_update		= ingenic_drm_plane_atomic_update,
- 	.atomic_check		= ingenic_drm_plane_atomic_check,
- 	.atomic_disable		= ingenic_drm_plane_atomic_disable,
--	.prepare_fb		= drm_gem_plane_helper_prepare_fb,
- };
- 
- static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
-diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-index 61b6d9fdbba1..aeb8a757d213 100644
---- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
-@@ -625,7 +625,6 @@ static const struct drm_plane_helper_funcs ingenic_ipu_plane_helper_funcs = {
- 	.atomic_update		= ingenic_ipu_plane_atomic_update,
- 	.atomic_check		= ingenic_ipu_plane_atomic_check,
- 	.atomic_disable		= ingenic_ipu_plane_atomic_disable,
--	.prepare_fb		= drm_gem_plane_helper_prepare_fb,
- };
- 
- static int
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_plane.c b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-index b5582dcf564c..1667a7e7de38 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_plane.c
-@@ -227,7 +227,6 @@ static void mtk_plane_atomic_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs mtk_plane_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = mtk_plane_atomic_check,
- 	.atomic_update = mtk_plane_atomic_update,
- 	.atomic_disable = mtk_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/meson/meson_overlay.c b/drivers/gpu/drm/meson/meson_overlay.c
-index ed063152aecd..dfef8afcc245 100644
---- a/drivers/gpu/drm/meson/meson_overlay.c
-+++ b/drivers/gpu/drm/meson/meson_overlay.c
-@@ -747,7 +747,6 @@ static const struct drm_plane_helper_funcs meson_overlay_helper_funcs = {
- 	.atomic_check	= meson_overlay_atomic_check,
- 	.atomic_disable	= meson_overlay_atomic_disable,
- 	.atomic_update	= meson_overlay_atomic_update,
--	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
- };
- 
- static bool meson_overlay_format_mod_supported(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/meson/meson_plane.c b/drivers/gpu/drm/meson/meson_plane.c
-index a18510dae4c8..8640a8a8a469 100644
---- a/drivers/gpu/drm/meson/meson_plane.c
-+++ b/drivers/gpu/drm/meson/meson_plane.c
-@@ -422,7 +422,6 @@ static const struct drm_plane_helper_funcs meson_plane_helper_funcs = {
- 	.atomic_check	= meson_plane_atomic_check,
- 	.atomic_disable	= meson_plane_atomic_disable,
- 	.atomic_update	= meson_plane_atomic_update,
--	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
- };
- 
- static bool meson_plane_format_mod_supported(struct drm_plane *plane,
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index 300e7bab0f43..8797c671d0d5 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -500,13 +500,11 @@ static bool mxsfb_format_mod_supported(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs mxsfb_plane_primary_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = mxsfb_plane_atomic_check,
- 	.atomic_update = mxsfb_plane_primary_atomic_update,
- };
- 
- static const struct drm_plane_helper_funcs mxsfb_plane_overlay_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = mxsfb_plane_atomic_check,
- 	.atomic_update = mxsfb_plane_overlay_atomic_update,
- };
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index f5b9028a16a3..ba9e14da41b4 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -1110,7 +1110,6 @@ static const struct drm_plane_helper_funcs plane_helper_funcs = {
- 	.atomic_disable = vop_plane_atomic_disable,
- 	.atomic_async_check = vop_plane_atomic_async_check,
- 	.atomic_async_update = vop_plane_atomic_async_update,
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- };
- 
- static const struct drm_plane_funcs vop_plane_funcs = {
-diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
-index 08b71248044d..0a6f0239a9f8 100644
---- a/drivers/gpu/drm/stm/ltdc.c
-+++ b/drivers/gpu/drm/stm/ltdc.c
-@@ -947,7 +947,6 @@ static const struct drm_plane_funcs ltdc_plane_funcs = {
- };
- 
- static const struct drm_plane_helper_funcs ltdc_plane_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = ltdc_plane_atomic_check,
- 	.atomic_update = ltdc_plane_atomic_update,
- 	.atomic_disable = ltdc_plane_atomic_disable,
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 11771bdd6e7c..929e95f86b5b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -127,7 +127,6 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs sun4i_backend_layer_helper_funcs = {
--	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
- 	.atomic_disable	= sun4i_backend_layer_atomic_disable,
- 	.atomic_update	= sun4i_backend_layer_atomic_update,
- };
-diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-index e779855bcd6e..7845c2a53a7f 100644
---- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-@@ -332,7 +332,6 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
--	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
- 	.atomic_check	= sun8i_ui_layer_atomic_check,
- 	.atomic_disable	= sun8i_ui_layer_atomic_disable,
- 	.atomic_update	= sun8i_ui_layer_atomic_update,
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 1c86c2dd0bbf..bb7c43036dfa 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -436,7 +436,6 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
- }
- 
- static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
--	.prepare_fb	= drm_gem_plane_helper_prepare_fb,
- 	.atomic_check	= sun8i_vi_layer_atomic_check,
- 	.atomic_disable	= sun8i_vi_layer_atomic_disable,
- 	.atomic_update	= sun8i_vi_layer_atomic_update,
-diff --git a/drivers/gpu/drm/tidss/tidss_plane.c b/drivers/gpu/drm/tidss/tidss_plane.c
-index 1acd15aa4193..217415ec8eea 100644
---- a/drivers/gpu/drm/tidss/tidss_plane.c
-+++ b/drivers/gpu/drm/tidss/tidss_plane.c
-@@ -158,7 +158,6 @@ static void drm_plane_destroy(struct drm_plane *plane)
- }
- 
- static const struct drm_plane_helper_funcs tidss_plane_helper_funcs = {
--	.prepare_fb = drm_gem_plane_helper_prepare_fb,
- 	.atomic_check = tidss_plane_atomic_check,
- 	.atomic_update = tidss_plane_atomic_update,
- 	.atomic_disable = tidss_plane_atomic_disable,
--- 
-2.32.0.rc2
+Hi Liviu
 
+Am 22.06.21 um 17:25 schrieb Liviu Dudau:
+> Hello,
+>=20
+> On Tue, Jun 22, 2021 at 04:09:44PM +0200, Thomas Zimmermann wrote:
+>> For KMS drivers, replace the IRQ check in VBLANK ioctls with a check f=
+or
+>> vblank support. IRQs might be enabled wthout vblanking being supported=
+=2E
+>>
+>> This change also removes the DRM framework's only dependency on IRQ st=
+ate
+>> for non-legacy drivers. For legacy drivers with userspace modesetting,=
+
+>> the original test remains in drm_wait_vblank_ioctl().
+>>
+>> v2:
+>> 	* keep the old test for legacy drivers in
+>> 	  drm_wait_vblank_ioctl() (Daniel)
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> ---
+>>   drivers/gpu/drm/drm_irq.c    | 10 +++-------
+>>   drivers/gpu/drm/drm_vblank.c | 13 +++++++++----
+>>   2 files changed, 12 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/drm_irq.c b/drivers/gpu/drm/drm_irq.c
+>> index c3bd664ea733..1d7785721323 100644
+>> --- a/drivers/gpu/drm/drm_irq.c
+>> +++ b/drivers/gpu/drm/drm_irq.c
+>> @@ -74,10 +74,8 @@
+>>    * only supports devices with a single interrupt on the main device =
+stored in
+>>    * &drm_device.dev and set as the device paramter in drm_dev_alloc()=
+=2E
+>>    *
+>> - * These IRQ helpers are strictly optional. Drivers which roll their =
+own only
+>> - * need to set &drm_device.irq_enabled to signal the DRM core that vb=
+lank
+>> - * interrupts are working. Since these helpers don't automatically cl=
+ean up the
+>> - * requested interrupt like e.g. devm_request_irq() they're not reall=
+y
+>> + * These IRQ helpers are strictly optional. Since these helpers don't=
+ automatically
+>> + * clean up the requested interrupt like e.g. devm_request_irq() they=
+'re not really
+>>    * recommended.
+>>    */
+>>  =20
+>> @@ -91,9 +89,7 @@
+>>    * and after the installation.
+>>    *
+>>    * This is the simplified helper interface provided for drivers with=
+ no special
+>> - * needs. Drivers which need to install interrupt handlers for multip=
+le
+>> - * interrupts must instead set &drm_device.irq_enabled to signal the =
+DRM core
+>> - * that vblank interrupts are available.
+>> + * needs.
+>>    *
+>>    * @irq must match the interrupt number that would be passed to requ=
+est_irq(),
+>>    * if called directly instead of using this helper function.
+>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank=
+=2Ec
+>> index 3417e1ac7918..a98a4aad5037 100644
+>> --- a/drivers/gpu/drm/drm_vblank.c
+>> +++ b/drivers/gpu/drm/drm_vblank.c
+>> @@ -1748,8 +1748,13 @@ int drm_wait_vblank_ioctl(struct drm_device *de=
+v, void *data,
+>>   	unsigned int pipe_index;
+>>   	unsigned int flags, pipe, high_pipe;
+>>  =20
+>> -	if (!dev->irq_enabled)
+>> -		return -EOPNOTSUPP;
+>> +	if  (drm_core_check_feature(dev, DRIVER_MODESET)) {
+>> +		if (!drm_dev_has_vblank(dev))
+>> +			return -EOPNOTSUPP;
+>> +	} else {
+>> +		if (!dev->irq_enabled)
+>> +			return -EOPNOTSUPP;
+>> +	}
+>=20
+> For a system call that is used quite a lot by userspace we have increas=
+ed the code size
+> in a noticeable way. Can we not cache it privately?
+
+I'm not quite sure that I understand your concern. The additionally=20
+called functions are trivial one-liners; probably inlined anyway.
+
+However, irq_enabled is only relevant for legacy drivers and will=20
+eventually disappear behind CONFIG_DRM_LEGACY. We can rewrite the test=20
+like this:
+
+ifdef CONFIG_DRM_LEGACY
+   if (unlikely(check_feature(dev, DRIVER_LEGACY))) {
+     if (!irq_enabled)
+       return;
+   } else
+#endif
+   {
+     if (!has_vblank_support(dev))
+       return;
+   }
+
+As CONFIG_DRM_LEGACY is most likely disabled on concurrent systems, we'd =
+
+get a single test for the modern drivers. If DRM_LEGACYis on, the=20
+compiler at least knows that the else branch is preferred.
+
+Best regards
+Thomas
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--3ihYu1sFcNnMMAMmUEcEMG76YaQ22m49E--
+
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmDS1/sFAwAAAAAACgkQlh/E3EQov+DQ
+GBAAgLEWLgvBzCF5hV0mjIUdLsPzDOR+sZaMmkihftgMzVIfDXBMfZp4PON/h5XP/oa3S7zWw9+W
+RaNndoHIiRezAR4dnNcXern7ByoYb3kFLVlzcdpjZYvhitX8fUEanpR8nSXzouFAPuevtw8dNzr3
+pyvXZCqqdXCmGz09Qrfc48j7bCYMgZ/b21GUHjKRGIC7JFkcSnGm2JopJOCsc9EiUD7tr0l7VfwS
+/H0ho3e9vLqI/p+1MdU/KMUjItmN71b2VEm8yp0KPceIEiCgsggBrW4np4kg8qoBrSVFNT+NDy1O
+weBoJYVfyPVT4UJXatHhqff7l9GUVWHtk2h2JfMrPIGj4qc15wiXUAiY9Goi5+z/9MgpJLl0TkXt
+GkxkK4Vdx1AdFMhNfE0PqmHjp1pOlLU/apueEhoeVslIwyatSi2cuTLKmRylHOzBYQhK9VsnS0Ip
+bLKBFuKu1QNELEqow7/6jmoneBg7LQwCtrFUZZ1juJfaHqCGttl8f4SleboXZe0fb8nPAgrQPItN
+TNb/u1tvc0hQhQ2DooSdMzvuCsM5qPlCi2ZLUwNNsj9uJo6rYJ49Xv7ay4pKE0TWQQN9MC+oyaa1
+InbjRqUF5ubLt361DDxI0YuEq7FBhvcQ1dC0J4I/uKgXvATLllGtOvUzyK0ZAkiXQZ+UKkd0HRDx
+v9w=
+=aQqG
+-----END PGP SIGNATURE-----
+
+--7jLGShJWLlf8CSqVlOcnyBWWcy9Lp6Rkb--
