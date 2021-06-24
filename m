@@ -1,56 +1,56 @@
 Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E4970
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E152FB6
 	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 07:29:33 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 002CC1FD6C;
-	Thu, 24 Jun 2021 07:29:31 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 5A1F61FD71;
+	Thu, 24 Jun 2021 07:29:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624519772; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624519767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
-	b=0xFk8NimM1qqvzap0A70kc2hRAkvng7iD8kaq7UaXBIvcTrEnLcPdQymTn/GQBIPBGGLtB
-	QwRNLkqmfHLpvLvZ8HIJZlu/pEcFN4duztgdkADc4PKIiGIxy+syH3UtmgNB21XtJmHPuZ
-	v4u2l1EtDH4lZ85UHqwJ8mnhHQVVEeA=
+	bh=8ogLEOlbRqAQd2RJqrB9gv196PzgeGQ2osFk6goTStA=;
+	b=CY1YzbPa8ReAs8p4kHDM+yaxEBVk5CXqCsu0IySC1RfbwEkY4dKSlInc3L5atuuzWjWG9y
+	2rhcnUVZIRIdl7e1RKAsaXKBS8o6DEFnwHaBXtMDKV8EsggH0D5I2PSYe+h7DvXTIIqiqp
+	e6GKt42IMCGtpyKD6OugfqxZnkj93iY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624519772;
+	s=susede2_ed25519; t=1624519767;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
-	b=jtxWilsW1MyGCBaGYcGGm/G4Xi/Bu0lVnJb4eKCF1igZVNgipe1gEocD9hjdjU7kkjj4JP
-	gLbA8EoREdaR/dBA==
+	bh=8ogLEOlbRqAQd2RJqrB9gv196PzgeGQ2osFk6goTStA=;
+	b=ErFol0Ee/4pC9+kbn4Eui4amW/RaGhBNhVK19emWptQ/sOx9Cnz/28FsK6156STDeGl9Bm
+	YSUlrHtk2rMVlRAA==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	by imap.suse.de (Postfix) with ESMTP id D120611A97;
-	Thu, 24 Jun 2021 07:29:30 +0000 (UTC)
+	by imap.suse.de (Postfix) with ESMTP id 421E411A97;
+	Thu, 24 Jun 2021 07:29:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624519771; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624519767; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
-	b=K3ZdIvurRTsc8lq9wXYtYTilULrFC5SFtwfJhELDy917Pv/10E0YJWYVE+GfHUlUr21Gcz
-	MAEs7775s50Uyt29dQRNjchWeSSgVhhKsPyVfUeS2TFZP5/ZiowSUk0wINXhLvQ58s/eny
-	5ldT0xeXLSJdlDKF2URMCrtOdxPagGU=
+	bh=8ogLEOlbRqAQd2RJqrB9gv196PzgeGQ2osFk6goTStA=;
+	b=CY1YzbPa8ReAs8p4kHDM+yaxEBVk5CXqCsu0IySC1RfbwEkY4dKSlInc3L5atuuzWjWG9y
+	2rhcnUVZIRIdl7e1RKAsaXKBS8o6DEFnwHaBXtMDKV8EsggH0D5I2PSYe+h7DvXTIIqiqp
+	e6GKt42IMCGtpyKD6OugfqxZnkj93iY=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624519771;
+	s=susede2_ed25519; t=1624519767;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=SLzKsIZA1d52/kbw8dyxn4baJfnhn8GvqO/eIvChuCE=;
-	b=oUCdrmVRbMo74mrhDbmtRcA0XdSv73+pFJttH3kbfvkP/Hq4DHKY4A9oR6T3g5K9Dz8ppc
-	y7FY+iO0apBC3xBg==
+	bh=8ogLEOlbRqAQd2RJqrB9gv196PzgeGQ2osFk6goTStA=;
+	b=ErFol0Ee/4pC9+kbn4Eui4amW/RaGhBNhVK19emWptQ/sOx9Cnz/28FsK6156STDeGl9Bm
+	YSUlrHtk2rMVlRAA==
 Received: from director2.suse.de ([192.168.254.72])
 	by imap3-int with ESMTPSA
-	id 4KEjMlo01GAJfwAALh3uQQ
-	(envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:30 +0000
+	id aNVJD1Y01GAJfwAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Thu, 24 Jun 2021 07:29:26 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@linux.ie,
@@ -121,11 +121,10 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-sunxi@lists.linux.dev,
 	linux-tegra@vger.kernel.org,
 	intel-gfx@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH v3 10/27] drm/kirin: Don't set struct drm_device.irq_enabled
-Date: Thu, 24 Jun 2021 09:28:59 +0200
-Message-Id: <20210624072916.27703-11-tzimmermann@suse.de>
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 06/27] drm/i915: Track IRQ state in local device state
+Date: Thu, 24 Jun 2021 09:28:55 +0200
+Message-Id: <20210624072916.27703-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210624072916.27703-1-tzimmermann@suse.de>
 References: <20210624072916.27703-1-tzimmermann@suse.de>
@@ -137,29 +136,64 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The field drm_device.irq_enabled is only used by legacy drivers
-with userspace modesetting. Don't set it in kirin.
+Replace usage of struct drm_device.irq_enabled with the driver's
+own state field struct drm_i915_private.irq_enabled. The field in
+the DRM device structure is considered legacy and should not be
+used by KMS drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/gpu/drm/i915/i915_drv.h | 2 ++
+ drivers/gpu/drm/i915/i915_irq.c | 8 ++++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-index e590e19db657..98ae9a48f3fe 100644
---- a/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c
-@@ -185,8 +185,6 @@ static int kirin_drm_kms_init(struct drm_device *dev,
- 		DRM_ERROR("failed to initialize vblank.\n");
- 		goto err_unbind_all;
- 	}
--	/* with irq_enabled = true, we can use the vblank feature. */
--	dev->irq_enabled = true;
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 01e11fe38642..48c1835bd54b 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1134,6 +1134,8 @@ struct drm_i915_private {
+ 	/* For i915gm/i945gm vblank irq workaround */
+ 	u8 vblank_enabled;
  
- 	/* reset all the states of crtc/plane/encoder/connector */
- 	drm_mode_config_reset(dev);
++	bool irq_enabled;
++
+ 	/* perform PHY state sanity checks? */
+ 	bool chv_phy_assert[2];
+ 
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index a11bdb667241..987211f21761 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -4488,14 +4488,14 @@ int intel_irq_install(struct drm_i915_private *dev_priv)
+ 	 */
+ 	dev_priv->runtime_pm.irqs_enabled = true;
+ 
+-	dev_priv->drm.irq_enabled = true;
++	dev_priv->irq_enabled = true;
+ 
+ 	intel_irq_reset(dev_priv);
+ 
+ 	ret = request_irq(irq, intel_irq_handler(dev_priv),
+ 			  IRQF_SHARED, DRIVER_NAME, dev_priv);
+ 	if (ret < 0) {
+-		dev_priv->drm.irq_enabled = false;
++		dev_priv->irq_enabled = false;
+ 		return ret;
+ 	}
+ 
+@@ -4521,10 +4521,10 @@ void intel_irq_uninstall(struct drm_i915_private *dev_priv)
+ 	 * intel_modeset_driver_remove() calling us out of sequence.
+ 	 * Would be nice if it didn't do that...
+ 	 */
+-	if (!dev_priv->drm.irq_enabled)
++	if (!dev_priv->irq_enabled)
+ 		return;
+ 
+-	dev_priv->drm.irq_enabled = false;
++	dev_priv->irq_enabled = false;
+ 
+ 	intel_irq_reset(dev_priv);
+ 
 -- 
 2.32.0
 
