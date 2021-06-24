@@ -1,46 +1,45 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BB82FB6
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 12:01:38 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id m3so3772036wms.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 05:01:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C92168
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 12:02:30 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id v20-20020a05600c2154b02901dcefb16af0so3445393wml.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 05:02:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=WvUvm5hWnbpKvx8lC8t4mJz6e0uKheDES6Tk0i+zY+w=;
-        b=ulOl1WR6hUsemVsWu+nXQKAaF+NWBGm9rArEOLeaoN0WxBaALD4ZQdlEtLUwiyntGS
-         6aCzvNYrxKlD5RcUH9is5U5vKg0MMhLQGX5wphQ1t0LH3vRbjIejDfUNRl6yOZmEdArX
-         ER4/AMzQk4RBswWBd14g4JyfQMQGAaQQl4ui6PTfaGCfGogzHiHmR0HN3yKrkh/cTjSY
-         DP2SS855aTgplaldxRVj7hkHvGVB5OucvNpiMP2/osl+xTvYX1oZFoe3TRDpf2HWT8kC
-         VWqIAp/206jzxPaefTLjmUt197n96j5inNoBvy2OtVPTiEtJy5ooWX2wRmaQY3coNk4A
-         U1/Q==
+        bh=+SpIYl8f+mm4xc/wATx8xxQwIh7YjYdlE5uQ7ip0aaU=;
+        b=A4ZJSYnWcvNDaAGkscckQ1T0JedTdFDVSuL2YBNdwwF7acWK0AZcsU5zvsVBjaEnE0
+         vsxLXeiOkPXV0sDkt5mf5/o226lI7HBeiLI3sEq1aMRGbypsf6Bch2Kg62wRL1La4pDI
+         oGZydtxItkAsfL83TfuEmUWoDMxV7rufPNivK3ryBzWPLuL+5usBc6MglcCUM6IzelM8
+         Nz6qtrU0C9W4JeYrs7rwBFAjukEAoFywD8y16Q8wkRFeIXm2GbxrFHrfjHBLNTda9rqV
+         SY0IiWXgH48K8ZPh9MWtQ5Dh1jLdaybwti7HCY0TZjkN9TbYA/yL3MNnHzS9FYivGbwv
+         lUKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=WvUvm5hWnbpKvx8lC8t4mJz6e0uKheDES6Tk0i+zY+w=;
-        b=rHYx7uqSV2i6nRTjUYj2ZKlZm8ZgAJWaV2T0Ug6q2enTAsJz2l/i3B7IvvqO7Uum50
-         o43uD0SUFGvgGpkvmf8ZWy0WdBy2sZzWbaGnDnE9BXApOfxe0UILCa8lrqJuSdZgXaNm
-         8pQbChra91r9PHT+302XKi1G18NYvgXscKVcK+Ru8Yp7Mgtq/f/Lhwdi7pkpii5mMnT0
-         PxC2b+mWZS6cv7NqDzpV/LcW5GafmIFsxe99p7F8Z/FJeXTxwBuB4gTobr8dlsoA987P
-         Sozulfv9V8uj3g9wUrB1gPmaDp6nxBnXJCqUpUYhFsf+FVoiYe6xJ8/VeANNEtBU0c0n
-         nl3w==
-X-Gm-Message-State: AOAM532y8zkbbBSIu+wk4QOnbtSbHZUslIUfCSCYhZ55oINu9u8GD5IU
-	qEPGKJZgrc4PjzlkQ/gBTKg=
-X-Google-Smtp-Source: ABdhPJzn2HGsmWMVY2UrZXCNwuzUPp/4W4zcfowMlCWK89vJwbYcDL9+9zVkS5DWjagvR0lWoKHFhQ==
-X-Received: by 2002:a05:600c:1c08:: with SMTP id j8mr3921135wms.73.1624536097480;
-        Thu, 24 Jun 2021 05:01:37 -0700 (PDT)
+        bh=+SpIYl8f+mm4xc/wATx8xxQwIh7YjYdlE5uQ7ip0aaU=;
+        b=ZNAolY9OQE6zX5YPFLurpTBwS+hKo+Fm9WNFNl2Zp7mm5/EeGBVyJS1p0BuvSapGpV
+         MCi5MrEFwylGaEV1AkwfokmWEs9Z1dBpKj+uX54QCwp6ZI+20IDaacFHiuQSjSahFpK6
+         9NJdyJcCoEYkJWcprAwJhGcdmIF8fwiiGxx4KuCeZL6cfafsSi3hzGTDG4Mo4IM4TX22
+         fvnGxvyQl3PjI/hWngbOTmIo2e4QMOb3wX6aUrAD5I+BLHvyHmtebQ66+fWojYMVnpqo
+         T4Y8e1uQMy/V4FI1iUaxtJkl2eg4E4IPqZvaTaxgkau0erxlaT3e/VKitArSzMVaH2v8
+         y2gg==
+X-Gm-Message-State: AOAM5324sDPHU6OavVHdALZBOBVkTg6sx5XCxsdamror2YQk0y+Bfl72
+	1vweSnLa6lJ3Tqv7oRElQUw=
+X-Google-Smtp-Source: ABdhPJwnAQpQT/2sEz7viSMJ7t/+2zmdWLWtmPK9rh67Szq5oWv4lL/lZy1xAEGpP06+iHH3w5wUNg==
+X-Received: by 2002:a05:600c:4a19:: with SMTP id c25mr3844668wmp.125.1624536148907;
+        Thu, 24 Jun 2021 05:02:28 -0700 (PDT)
 Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id e3sm3089350wro.26.2021.06.24.05.01.36
+        by smtp.gmail.com with ESMTPSA id c12sm2972417wrw.46.2021.06.24.05.02.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 05:01:36 -0700 (PDT)
-Date: Thu, 24 Jun 2021 14:03:39 +0200
+        Thu, 24 Jun 2021 05:02:27 -0700 (PDT)
+Date: Thu, 24 Jun 2021 14:04:30 +0200
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
-	airlied@linux.ie, alexander.deucher@amd.com,
+Cc: daniel@ffwll.ch, airlied@linux.ie, alexander.deucher@amd.com,
 	christian.koenig@amd.com, Xinhui.Pan@amd.com,
 	james.qian.wang@arm.com, liviu.dudau@arm.com,
 	mihail.atanassov@arm.com, brian.starkey@arm.com,
@@ -62,25 +61,24 @@ Cc: Jani Nikula <jani.nikula@linux.intel.com>, daniel@ffwll.ch,
 	emma@anholt.net, linux-graphics-maintainer@vmware.com,
 	zackr@vmware.com, hyun.kwon@xilinx.com,
 	laurent.pinchart@ideasonboard.com, michal.simek@xilinx.com,
-	rodrigo.vivi@intel.com, linux@armlinux.org.uk,
-	kieran.bingham+renesas@ideasonboard.com,
+	jani.nikula@linux.intel.com, rodrigo.vivi@intel.com,
+	linux@armlinux.org.uk, kieran.bingham+renesas@ideasonboard.com,
 	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, linux-samsung-soc@vger.kernel.org,
-	nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	hamohammed.sa@gmail.com, amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org,
-	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, nouveau@lists.freedesktop.org,
 	linux-rockchip@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org,
-	Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
-Message-ID: <YNR0m2DJsdIW3NAZ@orome.fritz.box>
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH v3 21/27] drm/tegra: Don't set struct
+ drm_device.irq_enabled
+Message-ID: <YNR0zpVzMxQauzet@orome.fritz.box>
 References: <20210624072916.27703-1-tzimmermann@suse.de>
- <20210624072916.27703-5-tzimmermann@suse.de>
- <87im23u1ok.fsf@intel.com>
- <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
- <877dijtzl2.fsf@intel.com>
- <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
+ <20210624072916.27703-22-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -88,116 +86,48 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Lm2ZaOZ7foAeT6XX"
+	protocol="application/pgp-signature"; boundary="ENqalYeZVO/RAx3+"
 Content-Disposition: inline
-In-Reply-To: <af21db75-584f-aec0-9659-d5386f27b4ea@suse.de>
+In-Reply-To: <20210624072916.27703-22-tzimmermann@suse.de>
 User-Agent: Mutt/2.0.7 (481f3800) (2021-05-04)
 
 
---Lm2ZaOZ7foAeT6XX
+--ENqalYeZVO/RAx3+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 24, 2021 at 11:07:57AM +0200, Thomas Zimmermann wrote:
-> Hi
+On Thu, Jun 24, 2021 at 09:29:10AM +0200, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in tegra.
 >=20
-> Am 24.06.21 um 10:51 schrieb Jani Nikula:
-> > On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > Hi
-> > >=20
-> > > Am 24.06.21 um 10:06 schrieb Jani Nikula:
-> > > > On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> > > > > diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_v=
-blank.c
-> > > > > index 3417e1ac7918..10fe16bafcb6 100644
-> > > > > --- a/drivers/gpu/drm/drm_vblank.c
-> > > > > +++ b/drivers/gpu/drm/drm_vblank.c
-> > > > > @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_devic=
-e *dev, void *data,
-> > > > >    	unsigned int pipe_index;
-> > > > >    	unsigned int flags, pipe, high_pipe;
-> > > > > -	if (!dev->irq_enabled)
-> > > > > -		return -EOPNOTSUPP;
-> > > > > +#if defined(CONFIG_DRM_LEGACY)
-> > > > > +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
-> > > > > +		if (!dev->irq_enabled)
-> > > > > +			return -EOPNOTSUPP;
-> > > > > +	} else /* if DRIVER_MODESET */
-> > > > > +#endif
-> > > > > +	{
-> > > > > +		if (!drm_dev_has_vblank(dev))
-> > > > > +			return -EOPNOTSUPP;
-> > > > > +	}
-> > > >=20
-> > > > Sheesh I hate this kind of inline #ifdefs.
-> > > >=20
-> > > > Two alternate suggestions that I believe should be as just efficien=
-t:
-> > >=20
-> > > Or how about:
-> > >=20
-> > > static bool drm_wait_vblank_supported(struct drm_device *dev)
-> > >=20
-> > > {
-> > >=20
-> > > if defined(CONFIG_DRM_LEGACY)
-> > > 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
-> > >=20
-> > > 		return dev->irq_enabled;
-> > >=20
-> > > #endif
-> > > 	return drm_dev_has_vblank(dev);
-> > >=20
-> > > }
-> > >=20
-> > >=20
-> > > ?
-> > >=20
-> > > It's inline, but still readable.
-> >=20
-> > It's definitely better than the original, but it's unclear to me why
-> > you'd prefer this over option 2) below. I guess the only reason I can
-> > think of is emphasizing the conditional compilation. However,
-> > IS_ENABLED() is widely used in this manner specifically to avoid inline
-> > #if, and the compiler optimizes it away.
->=20
-> It's simply more readable to me as the condition is simpler. But option 2=
- is
-> also ok.
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ---
+>  drivers/gpu/drm/tegra/drm.c | 7 -------
+>  1 file changed, 7 deletions(-)
 
-Perhaps do something like this, then:
+Acked-by: Thierry Reding <treding@nvidia.com>
 
-	if (IS_ENABLED(CONFIG_DRM_LEGACY)) {
-		if (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
-			return dev->irq_enabled;
-	}
-
-	return drm_dev_has_vblank(dev);
-
-That's about just as readable as the variant involving the preprocessor
-but has all the benefits of not using the preprocessor.
-
-Thierry
-
---Lm2ZaOZ7foAeT6XX
+--ENqalYeZVO/RAx3+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDUdJsACgkQ3SOs138+
-s6GX9A/+JnX2q7LN8UzemTORS9HFtHwUAvUZS/tcgEtSUkLf0Sf8oIREq4vU6mR3
-gZ3hsE5Hn381Tc/ec7MCrbJG09BKGgg3XM2CZetMfKaEK+rL58OZhwSihyprbqKf
-uDFxqXSEKRX2mufyn2NjwLaIv7tVG8oL0jCwdW0Pj+s4rX9X1qWbU85JKZ2LFVhY
-Syt9T/2kOp0Btnx6KWiezWZU7kliWtXr55PcfVfwcPmM8ISrBkLR2BT5ZBd5CJtv
-sBWAgFMUBwAWbkszskSrxD1iGkmdZ7Ik0a3278+AdxEUZmL99gg3fG33CMH7Dt0Q
-9c+ZouwJlyGKEPY3ZahWwNW28nYlLBH1Gojqkmrjf9MYP0uTGkEW6rKYjQWs/ZI2
-Fuzmvo/i8pLhSxlYYpAFHScIQW7z6AiRNFHAq0O4eXCIFN0VK1QVRje3KrDawWVf
-KOIxC08UAGY+rfOcGABxDdutsiegkLqjUYDOORbul5Jda/4kt2izbUOGKOMrS1wt
-uiRoVoyw8p9jqpKMb+fNZHSWkkSHrqrUS09iyNM0eE3f8KOQwVAoExV40Hg4h2fp
-1NM98icmiHuCD6BfCHJrzKeBltLOqY8nY4JwkBLzwKnWmnAFNW+6U5mSOriTV9Vz
-JjFitWRGitM+/oADAzUvPspL3TTGCBzwiAUPSVsBgnTmeiseOX8=
-=4o32
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmDUdM4ACgkQ3SOs138+
+s6Ed0A/5ASxTJhpMIfL1u/g0kk5pjZX8ukNK72+ftE+sJWJhxDmTGuM+EzcPNaNg
+sKT+65FK2YsGeoA5fnN9QKWuUyS+bpExys5n39Aty+YN4tI4CV7CbU9OJeYm9Iru
+i+Ziu6gkJl2SYom/+cxuU42UkUDkQkWofYRel+HJZeDMogSRAIhiiQy5/fadGiJc
+36fJrXjueiB3EZjkg7CubNsLgy08qblR+sZGpuq4RIc3aVe6j6U8QxHiZ1eA7tMD
+ki2Nmub5WThcAUGn/ky+FD9m/yfieoI9sPkVWRpAF0oa6SDp6YO/oPFf2hJzl4jk
+HPXABfAWIYFTEzjFkGdRHjOfGgahPAXvwd1ku5zjBuFSH3vM9kNaNRuIQe2Rg9ti
+p3+b5RfPlO/1fiVRkuzXwROpjWNW44Y+eVVyee84h813aqYh9OOLJVrmxmrzZ1Xx
+mzDTvyZXuxtVb79T4XSkb0LnRw3wrraylMLP1X4/QTqttUBoWgYeKM5MwDgy+6zH
+Bx1VWtnjn9NmwEPfRmPpwIQNByNJ2DG/E8wZmEfeqJAEHo1SLOYaBixh9W7DUlWC
+e9mZFcD+tYSTurqcg0mS5T1mSPJGyCjcZFP27RkFRSc9JbRAQt2uuKcr1R54mjTh
+gAJ6mf8hPIWA8Q6ro+2TgW8p0X/wbPsnZdXjZrTGBsV1QA84k+M=
+=pLLR
 -----END PGP SIGNATURE-----
 
---Lm2ZaOZ7foAeT6XX--
+--ENqalYeZVO/RAx3+--
