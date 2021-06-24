@@ -1,186 +1,88 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8091C177
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 08:52:08 +0000 (UTC)
-IronPort-SDR: uydQi5tYl3aut7Pi2gSYwTnlrwuSbDHpmDX3EcwictTAdhQU0s7GAnmA1sqn8l5GeBhMHn2RUS
- 0giUAuV/KLSQ==
-X-IronPort-AV: E=McAfee;i="6200,9189,10024"; a="207367510"
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="207367510"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 01:52:06 -0700
-IronPort-SDR: b2WPW20xI/GJO29ic6WIfxIMz72rLAtb0USOd7lNI7J+Sgm2+3/EG1ErQrLUO2vnU20Qh+TbCW
- rzKM1urai8Fg==
-X-IronPort-AV: E=Sophos;i="5.83,296,1616482800"; 
-   d="scan'208";a="487681787"
-Received: from schulke-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.59.242])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2021 01:51:41 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, daniel@ffwll.ch,
- airlied@linux.ie, alexander.deucher@amd.com, christian.koenig@amd.com,
- Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
- mihail.atanassov@arm.com, brian.starkey@arm.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
- kyungmin.park@samsung.com, krzysztof.kozlowski@canonical.com,
- xinliang.liu@linaro.org, tiantao6@hisilicon.com, john.stultz@linaro.org,
- kong.kongxinwei@hisilicon.com, puck.chen@hisilicon.com,
- laurentiu.palcu@oss.nxp.com, l.stach@pengutronix.de,
- p.zabel@pengutronix.de, shawnguo@kernel.org, s.hauer@pengutronix.de,
- kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- chunkuang.hu@kernel.org, matthias.bgg@gmail.com, bskeggs@redhat.com,
- tomba@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
- benjamin.gaignard@linaro.org, yannick.fertre@foss.st.com,
- philippe.cornu@foss.st.com, mcoquelin.stm32@gmail.com,
- alexandre.torgue@foss.st.com, wens@csie.org, jernej.skrabec@gmail.com,
- thierry.reding@gmail.com, jonathanh@nvidia.com, jyri.sarha@iki.fi,
- emma@anholt.net, linux-graphics-maintainer@vmware.com, zackr@vmware.com,
- hyun.kwon@xilinx.com, laurent.pinchart@ideasonboard.com,
- michal.simek@xilinx.com, rodrigo.vivi@intel.com, linux@armlinux.org.uk,
- kieran.bingham+renesas@ideasonboard.com, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com
-Cc: linux-samsung-soc@vger.kernel.org, nouveau@lists.freedesktop.org, intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev, linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org, amd-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, linux-tegra@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 04/27] drm: Don't test for IRQ support in VBLANK ioctls
-In-Reply-To: <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210624072916.27703-1-tzimmermann@suse.de> <20210624072916.27703-5-tzimmermann@suse.de> <87im23u1ok.fsf@intel.com> <b5e7729f-ed11-e9ca-386e-562feb2bd2b7@suse.de>
-Date: Thu, 24 Jun 2021 11:51:37 +0300
-Message-ID: <877dijtzl2.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2287E29D6
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 08:52:52 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1lwKmk-0006cm-HJ; Thu, 24 Jun 2021 10:32:30 +0200
+Received: from pza by lupine with local (Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1lwKmX-0006oO-Cb; Thu, 24 Jun 2021 10:32:17 +0200
+Message-ID: <43f805608f1172b73c62717f6cdc72c7a15d145c.camel@pengutronix.de>
+Subject: Re: [PATCH 08/15] drm/<driver>: drm_gem_plane_helper_prepare_fb is
+ now the default
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, DRI Development
+	 <dri-devel@lists.freedesktop.org>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Heiko
+ Stuebner <heiko@sntech.de>, Paul Cercueil <paul@crapouillou.net>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Chun-Kuang Hu
+ <chunkuang.hu@kernel.org>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>,  Philippe Cornu
+ <philippe.cornu@foss.st.com>, Lucas Stach <l.stach@pengutronix.de>, Daniel
+ Vetter <daniel.vetter@intel.com>, Laurentiu Palcu
+ <laurentiu.palcu@oss.nxp.com>,  Shawn Guo <shawnguo@kernel.org>, Sascha
+ Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team
+ <linux-imx@nxp.com>, Matthias Brugger <matthias.bgg@gmail.com>, Neil
+ Armstrong <narmstrong@baylibre.com>, Kevin Hilman <khilman@baylibre.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>, Stefan
+ Agner <stefan@agner.ch>, Sandy Huang <hjc@rock-chips.com>, Yannick Fertre
+ <yannick.fertre@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>,  Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu
+ Tsai <wens@csie.org>, Jyri Sarha <jyri.sarha@iki.fi>,  Tomi Valkeinen
+ <tomba@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-mips@vger.kernel.org,  linux-mediatek@lists.infradead.org,
+ linux-amlogic@lists.infradead.org,  linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com,  linux-sunxi@lists.linux.dev
+Date: Thu, 24 Jun 2021 10:32:17 +0200
+In-Reply-To: <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
+References: <20210622165511.3169559-1-daniel.vetter@ffwll.ch>
+	 <20210622165511.3169559-9-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> Hi
->
-> Am 24.06.21 um 10:06 schrieb Jani Nikula:
->> On Thu, 24 Jun 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
->>> diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
->>> index 3417e1ac7918..10fe16bafcb6 100644
->>> --- a/drivers/gpu/drm/drm_vblank.c
->>> +++ b/drivers/gpu/drm/drm_vblank.c
->>> @@ -1748,8 +1748,16 @@ int drm_wait_vblank_ioctl(struct drm_device *dev, void *data,
->>>   	unsigned int pipe_index;
->>>   	unsigned int flags, pipe, high_pipe;
->>>   
->>> -	if (!dev->irq_enabled)
->>> -		return -EOPNOTSUPP;
->>> +#if defined(CONFIG_DRM_LEGACY)
->>> +	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY))) {
->>> +		if (!dev->irq_enabled)
->>> +			return -EOPNOTSUPP;
->>> +	} else /* if DRIVER_MODESET */
->>> +#endif
->>> +	{
->>> +		if (!drm_dev_has_vblank(dev))
->>> +			return -EOPNOTSUPP;
->>> +	}
->> 
->> Sheesh I hate this kind of inline #ifdefs.
->> 
->> Two alternate suggestions that I believe should be as just efficient:
->
-> Or how about:
->
-> static bool drm_wait_vblank_supported(struct drm_device *dev)
->
-> {
->
-> if defined(CONFIG_DRM_LEGACY)
-> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->
-> 		return dev->irq_enabled;
->
-> #endif
-> 	return drm_dev_has_vblank(dev);
->
-> }
->
->
-> ?
->
-> It's inline, but still readable.
+On Tue, 2021-06-22 at 18:55 +0200, Daniel Vetter wrote:
+> No need to set it explicitly.
+>=20
+[...]
+>  drivers/gpu/drm/imx/ipuv3-plane.c           | 1 -
+>  14 files changed, 15 deletions(-)
+>=20
+[...]
+> diff --git a/drivers/gpu/drm/imx/ipuv3-plane.c b/drivers/gpu/drm/imx/ipuv=
+3-plane.c
+> index 8710f55d2579..ef114b6aa691 100644
+> --- a/drivers/gpu/drm/imx/ipuv3-plane.c
+> +++ b/drivers/gpu/drm/imx/ipuv3-plane.c
+> @@ -772,7 +772,6 @@ static void ipu_plane_atomic_update(struct drm_plane =
+*plane,
+>  }
+> =20
+>  static const struct drm_plane_helper_funcs ipu_plane_helper_funcs =3D {
+> -	.prepare_fb =3D drm_gem_plane_helper_prepare_fb,
+>  	.atomic_check =3D ipu_plane_atomic_check,
+>  	.atomic_disable =3D ipu_plane_atomic_disable,
+>  	.atomic_update =3D ipu_plane_atomic_update,
 
-It's definitely better than the original, but it's unclear to me why
-you'd prefer this over option 2) below. I guess the only reason I can
-think of is emphasizing the conditional compilation. However,
-IS_ENABLED() is widely used in this manner specifically to avoid inline
-#if, and the compiler optimizes it away.
+Acked-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-BR,
-Jani.
-
-
->
-> Best regards
-> Thomas
->
->> 
->> 1) The more verbose:
->> 
->> #if defined(CONFIG_DRM_LEGACY)
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	if  (unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->> 		return dev->irq_enabled;
->> 	else
->> 		return drm_dev_has_vblank(dev);
->> }
->> #else
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	return drm_dev_has_vblank(dev);
->> }
->> #endif
->> 
->> 2) The more compact:
->> 
->> static bool drm_wait_vblank_supported(struct drm_device *dev)
->> {
->> 	if  (IS_ENABLED(CONFIG_DRM_LEGACY) && unlikely(drm_core_check_feature(dev, DRIVER_LEGACY)))
->> 		return dev->irq_enabled;
->> 	else
->> 		return drm_dev_has_vblank(dev);
->> }
->> 
->> Then, in drm_wait_vblank_ioctl().
->> 
->> 	if (!drm_wait_vblank_supported(dev))
->> 		return -EOPNOTSUPP;
->> 
->> The compiler should do the right thing without any explicit inline
->> keywords etc.
->> 
->> BR,
->> Jani.
->> 
->>>   
->>>   	if (vblwait->request.type & _DRM_VBLANK_SIGNAL)
->>>   		return -EINVAL;
->>> @@ -2023,7 +2031,7 @@ int drm_crtc_get_sequence_ioctl(struct drm_device *dev, void *data,
->>>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>>   		return -EOPNOTSUPP;
->>>   
->>> -	if (!dev->irq_enabled)
->>> +	if (!drm_dev_has_vblank(dev))
->>>   		return -EOPNOTSUPP;
->>>   
->>>   	crtc = drm_crtc_find(dev, file_priv, get_seq->crtc_id);
->>> @@ -2082,7 +2090,7 @@ int drm_crtc_queue_sequence_ioctl(struct drm_device *dev, void *data,
->>>   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->>>   		return -EOPNOTSUPP;
->>>   
->>> -	if (!dev->irq_enabled)
->>> +	if (!drm_dev_has_vblank(dev))
->>>   		return -EOPNOTSUPP;
->>>   
->>>   	crtc = drm_crtc_find(dev, file_priv, queue_seq->crtc_id);
->> 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+regards
+Philipp
