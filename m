@@ -1,56 +1,56 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 088822FB3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC776D0E
 	for <linux-sunxi@lists.linux.dev>; Fri, 25 Jun 2021 08:22:32 +0000 (UTC)
 Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ABB6721C27;
-	Fri, 25 Jun 2021 08:22:31 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E823121C24;
+	Fri, 25 Jun 2021 08:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624609351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624609345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k21ytxdwuagnYHB/6ETN2rcU6BM9To9c9USq7vW8NO4=;
-	b=WjnW94upPPZHpHnFsyF604UfvoBQhWeejRU0Prlex6LqdFTqSCBnHbQ5dRr8fIL6Ep3aKu
-	Q02BKKNbJkdYu2MfMpHNNdtHl55kNqvjkaZADAy/JYDCOQRH5P+2uCi1jqoRZR2zRdckIE
-	1CH5hTkruWM9tCXHK1kBkl47yvBoKLo=
+	bh=I2b+OAsCJKUqsLrlVmOYBZwpzn6VVNgnC//qyqITxAA=;
+	b=JecIdkAXQEg+JAhWyp69foTG4XVZSF+Y2TyugjRzQvMzjROS2aDDfhDhf5MJ8moltpFZTp
+	aSKyFzxsPDUAk+9x79pZdrLg1Aq1ml3xwP05Y3sXhC0ouWmUDzIARunjYMss3d/zn2punm
+	0yCRPf9ioa3sVa3UaVY6l1wB2ZcjNpU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624609351;
+	s=susede2_ed25519; t=1624609345;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k21ytxdwuagnYHB/6ETN2rcU6BM9To9c9USq7vW8NO4=;
-	b=O/Clv2y4xq6/nquduOgRV2lycZpEHtF5WoP/nMI/G83GThrUuKcuEiQaACZ76yyj57tkCx
-	1ChsAbsuZoRkezAw==
+	bh=I2b+OAsCJKUqsLrlVmOYBZwpzn6VVNgnC//qyqITxAA=;
+	b=rs2umVLjEuy4ksuEY4dyrT4lvDqz8faqJP7hWIE6uGBGFzVvk52PElwdySd7bbdPBCD1E9
+	Jj5kqHjQfHsWUwCA==
 Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
-	by imap.suse.de (Postfix) with ESMTP id 84F6311A97;
-	Fri, 25 Jun 2021 08:22:30 +0000 (UTC)
+	by imap.suse.de (Postfix) with ESMTP id C56AE11C9B;
+	Fri, 25 Jun 2021 08:22:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1624609351; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1624609345; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k21ytxdwuagnYHB/6ETN2rcU6BM9To9c9USq7vW8NO4=;
-	b=WjnW94upPPZHpHnFsyF604UfvoBQhWeejRU0Prlex6LqdFTqSCBnHbQ5dRr8fIL6Ep3aKu
-	Q02BKKNbJkdYu2MfMpHNNdtHl55kNqvjkaZADAy/JYDCOQRH5P+2uCi1jqoRZR2zRdckIE
-	1CH5hTkruWM9tCXHK1kBkl47yvBoKLo=
+	bh=I2b+OAsCJKUqsLrlVmOYBZwpzn6VVNgnC//qyqITxAA=;
+	b=JecIdkAXQEg+JAhWyp69foTG4XVZSF+Y2TyugjRzQvMzjROS2aDDfhDhf5MJ8moltpFZTp
+	aSKyFzxsPDUAk+9x79pZdrLg1Aq1ml3xwP05Y3sXhC0ouWmUDzIARunjYMss3d/zn2punm
+	0yCRPf9ioa3sVa3UaVY6l1wB2ZcjNpU=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1624609351;
+	s=susede2_ed25519; t=1624609345;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=k21ytxdwuagnYHB/6ETN2rcU6BM9To9c9USq7vW8NO4=;
-	b=O/Clv2y4xq6/nquduOgRV2lycZpEHtF5WoP/nMI/G83GThrUuKcuEiQaACZ76yyj57tkCx
-	1ChsAbsuZoRkezAw==
+	bh=I2b+OAsCJKUqsLrlVmOYBZwpzn6VVNgnC//qyqITxAA=;
+	b=rs2umVLjEuy4ksuEY4dyrT4lvDqz8faqJP7hWIE6uGBGFzVvk52PElwdySd7bbdPBCD1E9
+	Jj5kqHjQfHsWUwCA==
 Received: from director2.suse.de ([192.168.254.72])
 	by imap3-int with ESMTPSA
-	id GM6aH0aS1WAISwAALh3uQQ
-	(envelope-from <tzimmermann@suse.de>); Fri, 25 Jun 2021 08:22:30 +0000
+	id iJBdL0CS1WAISwAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Fri, 25 Jun 2021 08:22:24 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: daniel@ffwll.ch,
 	airlied@linux.ie,
@@ -121,10 +121,10 @@ Cc: amd-gfx@lists.freedesktop.org,
 	linux-tegra@vger.kernel.org,
 	intel-gfx@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v4 06/27] drm/i915: Track IRQ state in local device state
-Date: Fri, 25 Jun 2021 10:22:01 +0200
-Message-Id: <20210625082222.3845-7-tzimmermann@suse.de>
+	Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v4 01/27] drm/amdgpu: Track IRQ state in local device state
+Date: Fri, 25 Jun 2021 10:21:56 +0200
+Message-Id: <20210625082222.3845-2-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210625082222.3845-1-tzimmermann@suse.de>
 References: <20210625082222.3845-1-tzimmermann@suse.de>
@@ -137,64 +137,48 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Replace usage of struct drm_device.irq_enabled with the driver's
-own state field struct drm_i915_private.irq_enabled. The field in
+own state field struct amdgpu_device.irq.installed. The field in
 the DRM device structure is considered legacy and should not be
 used by KMS drivers.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Jani Nikula <jani.nikula@intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/gpu/drm/i915/i915_drv.h | 2 ++
- drivers/gpu/drm/i915/i915_irq.c | 8 ++++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 01e11fe38642..48c1835bd54b 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -1134,6 +1134,8 @@ struct drm_i915_private {
- 	/* For i915gm/i945gm vblank irq workaround */
- 	u8 vblank_enabled;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+index 32ce0e679dc7..7dad44e73cf6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c
+@@ -599,7 +599,7 @@ void amdgpu_irq_gpu_reset_resume_helper(struct amdgpu_device *adev)
+ int amdgpu_irq_get(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
+ 		   unsigned type)
+ {
+-	if (!adev_to_drm(adev)->irq_enabled)
++	if (!adev->irq.installed)
+ 		return -ENOENT;
  
-+	bool irq_enabled;
-+
- 	/* perform PHY state sanity checks? */
- 	bool chv_phy_assert[2];
+ 	if (type >= src->num_types)
+@@ -629,7 +629,7 @@ int amdgpu_irq_get(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
+ int amdgpu_irq_put(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
+ 		   unsigned type)
+ {
+-	if (!adev_to_drm(adev)->irq_enabled)
++	if (!adev->irq.installed)
+ 		return -ENOENT;
  
-diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-index a11bdb667241..987211f21761 100644
---- a/drivers/gpu/drm/i915/i915_irq.c
-+++ b/drivers/gpu/drm/i915/i915_irq.c
-@@ -4488,14 +4488,14 @@ int intel_irq_install(struct drm_i915_private *dev_priv)
- 	 */
- 	dev_priv->runtime_pm.irqs_enabled = true;
+ 	if (type >= src->num_types)
+@@ -660,7 +660,7 @@ int amdgpu_irq_put(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
+ bool amdgpu_irq_enabled(struct amdgpu_device *adev, struct amdgpu_irq_src *src,
+ 			unsigned type)
+ {
+-	if (!adev_to_drm(adev)->irq_enabled)
++	if (!adev->irq.installed)
+ 		return false;
  
--	dev_priv->drm.irq_enabled = true;
-+	dev_priv->irq_enabled = true;
- 
- 	intel_irq_reset(dev_priv);
- 
- 	ret = request_irq(irq, intel_irq_handler(dev_priv),
- 			  IRQF_SHARED, DRIVER_NAME, dev_priv);
- 	if (ret < 0) {
--		dev_priv->drm.irq_enabled = false;
-+		dev_priv->irq_enabled = false;
- 		return ret;
- 	}
- 
-@@ -4521,10 +4521,10 @@ void intel_irq_uninstall(struct drm_i915_private *dev_priv)
- 	 * intel_modeset_driver_remove() calling us out of sequence.
- 	 * Would be nice if it didn't do that...
- 	 */
--	if (!dev_priv->drm.irq_enabled)
-+	if (!dev_priv->irq_enabled)
- 		return;
- 
--	dev_priv->drm.irq_enabled = false;
-+	dev_priv->irq_enabled = false;
- 
- 	intel_irq_reset(dev_priv);
- 
+ 	if (type >= src->num_types)
 -- 
 2.32.0
 
