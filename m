@@ -1,65 +1,230 @@
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE68173
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 21:35:09 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id r12so10099655ioa.7
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Jun 2021 14:35:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ssSkZmcRFIuWVzrZF3p+ms6WDNX9rtUCDy4iiIHPjac=;
-        b=S67W845W0oBujwLVpa/wgGgwjYEhl2YxdnSpLUHfuP9nU3dYSHPLQTY/Fo+JIfQcrf
-         10t1PzEIQmN7eKaSeqhONmMIeRyNnCHrMwSlDzeV1n6RylLcxTuhek9ATNQRYHGvYlnD
-         4+RLBse7OFyWsM0yyBuMOsXmHTD7aCKtic/B4ebNsZJg5Hu8h1tx/CHVs3JvGpDFcmSf
-         bG9vvzsrQH7bGBibjN14myZ9YLYBXKFdvrZbOn9vg7obdSKuwgkUP6uab/a2ej/QM8hm
-         o/wd4shN5VZ5d5DdjVWNyEYT2MBRHSMXMpkRer/v8GOGc2HmESreiyr5E6N9a4NsVDuR
-         ebeg==
-X-Gm-Message-State: AOAM530+m4fqj6mbfTvlJFnf093MQntRd/DEz66zk5PqSjohaRiFKOjW
-	he181XFbxpuj8eeh6mUHnQ==
-X-Google-Smtp-Source: ABdhPJxLG5mS/R5Kp70cqPpAfemerqR8JG+XdsktURkXgw56B3TqFTUh2d7/TUWZeX6qNuzTikAyeA==
-X-Received: by 2002:a05:6638:3048:: with SMTP id u8mr6388166jak.91.1624570508746;
-        Thu, 24 Jun 2021 14:35:08 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id m13sm1985143iob.35.2021.06.24.14.35.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Jun 2021 14:35:06 -0700 (PDT)
-Received: (nullmailer pid 2025804 invoked by uid 1000);
-	Thu, 24 Jun 2021 21:35:03 -0000
-Date: Thu, 24 Jun 2021 15:35:03 -0600
-From: Rob Herring <robh@kernel.org>
-To: Ban Tao <fengzheng923@gmail.com>
-Cc: mripard@kernel.org, wens@csie.org, lgirdwood@gmail.com, jernej.skrabec@gmail.com, broonie@kernel.org, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, robh+dt@kernel.org
-Subject: Re: [PATCH v3 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
- for DMIC controller
-Message-ID: <20210624213503.GA2025774@robh.at.kernel.org>
-References: <20210618060644.2830-1-fengzheng923@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406FB2FB2
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Jun 2021 08:22:32 +0000 (UTC)
+Received: from imap.suse.de (imap-alt.suse-dmz.suse.de [192.168.254.47])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C124721C22;
+	Fri, 25 Jun 2021 08:22:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1624609344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xmMBjdIQxn88DbEVG5TvHaTNv0fMM7Fk0W+dtuw1P5k=;
+	b=c8mqqRyyGvgW96sIBzNkUvBvL9cL2p9CBVkbGrhlqk7HC6jdBkgB+8HQzxgWo22Kj6axOs
+	fz/qKGkTy37Qgctvsv5asTkubcrcsvEvHyAxx9AqUmS7WqfIk64opdOyOxjF+V29YhUKKL
+	/EB3+wqaeeW+1GcazmAh0rrp7atuNKw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1624609344;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xmMBjdIQxn88DbEVG5TvHaTNv0fMM7Fk0W+dtuw1P5k=;
+	b=rpkFMIxIqKtJO2iW62YOJLHcKB93dVaWkjMtNJVNDBMDnIW1WJDAPufXr013u+Ngc7k7bZ
+	4iFa6YeY3o7yg8CA==
+Received: from imap3-int (imap-alt.suse-dmz.suse.de [192.168.254.47])
+	by imap.suse.de (Postfix) with ESMTP id 9B57111A97;
+	Fri, 25 Jun 2021 08:22:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1624609344; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xmMBjdIQxn88DbEVG5TvHaTNv0fMM7Fk0W+dtuw1P5k=;
+	b=c8mqqRyyGvgW96sIBzNkUvBvL9cL2p9CBVkbGrhlqk7HC6jdBkgB+8HQzxgWo22Kj6axOs
+	fz/qKGkTy37Qgctvsv5asTkubcrcsvEvHyAxx9AqUmS7WqfIk64opdOyOxjF+V29YhUKKL
+	/EB3+wqaeeW+1GcazmAh0rrp7atuNKw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1624609344;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=xmMBjdIQxn88DbEVG5TvHaTNv0fMM7Fk0W+dtuw1P5k=;
+	b=rpkFMIxIqKtJO2iW62YOJLHcKB93dVaWkjMtNJVNDBMDnIW1WJDAPufXr013u+Ngc7k7bZ
+	4iFa6YeY3o7yg8CA==
+Received: from director2.suse.de ([192.168.254.72])
+	by imap3-int with ESMTPSA
+	id Ky8IJT+S1WAISwAALh3uQQ
+	(envelope-from <tzimmermann@suse.de>); Fri, 25 Jun 2021 08:22:23 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: daniel@ffwll.ch,
+	airlied@linux.ie,
+	alexander.deucher@amd.com,
+	christian.koenig@amd.com,
+	Xinhui.Pan@amd.com,
+	james.qian.wang@arm.com,
+	liviu.dudau@arm.com,
+	mihail.atanassov@arm.com,
+	brian.starkey@arm.com,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	inki.dae@samsung.com,
+	jy0922.shim@samsung.com,
+	sw0312.kim@samsung.com,
+	kyungmin.park@samsung.com,
+	krzysztof.kozlowski@canonical.com,
+	xinliang.liu@linaro.org,
+	tiantao6@hisilicon.com,
+	john.stultz@linaro.org,
+	kong.kongxinwei@hisilicon.com,
+	puck.chen@hisilicon.com,
+	laurentiu.palcu@oss.nxp.com,
+	l.stach@pengutronix.de,
+	p.zabel@pengutronix.de,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	chunkuang.hu@kernel.org,
+	matthias.bgg@gmail.com,
+	bskeggs@redhat.com,
+	tomba@kernel.org,
+	hjc@rock-chips.com,
+	heiko@sntech.de,
+	yannick.fertre@foss.st.com,
+	philippe.cornu@foss.st.com,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	jyri.sarha@iki.fi,
+	emma@anholt.net,
+	linux-graphics-maintainer@vmware.com,
+	zackr@vmware.com,
+	hyun.kwon@xilinx.com,
+	laurent.pinchart@ideasonboard.com,
+	michal.simek@xilinx.com,
+	jani.nikula@linux.intel.com,
+	rodrigo.vivi@intel.com,
+	linux@armlinux.org.uk,
+	kieran.bingham+renesas@ideasonboard.com,
+	rodrigosiqueiramelo@gmail.com,
+	melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com
+Cc: amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-mediatek@lists.infradead.org,
+	nouveau@lists.freedesktop.org,
+	linux-rockchip@lists.infradead.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	intel-gfx@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v4 00/27] Deprecate struct drm_device.irq_enabled
+Date: Fri, 25 Jun 2021 10:21:55 +0200
+Message-Id: <20210625082222.3845-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210618060644.2830-1-fengzheng923@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, 18 Jun 2021 14:06:44 +0800, Ban Tao wrote:
-> DT binding documentation for this new ASoC driver.
-> 
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-> 
-> ---
-> v1->v2:
-> 1.Fix some build errors.
-> ---
-> v2->v3:
-> 1.Fix some build errors.
-> ---
->  .../sound/allwinner,sun50i-h6-dmic.yaml       | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-> 
+Remove references to struct drm_device.irq_enabled from modern
+DRM drivers and core.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+KMS drivers enable IRQs for their devices internally. They don't
+have to keep track of the IRQ state via irq_enabled. For vblanking,
+it's cleaner to test for vblanking support directly than to test
+for enabled IRQs.
+
+The first 3 patches replace uses of irq_enabled that are not
+required.
+
+Patch 4 fixes vblank ioctls to actually test for vblank support
+instead of IRQs (for KMS drivers).
+
+The rest of the patchset removes irq_enabled from all non-legacy
+drivers. The only exceptions are i915 and omapdrm, which have an
+internal dpendency on the field's value. For these drivers, the
+state gets duplicated internally.
+
+With the patchset applied, drivers can later switch over to plain
+Linux IRQ interfaces and DRM's IRQ midlayer can be declared legacy.
+
+v4:
+	* avoid preprocessor ifdef in drm_wait_vblank_ioctl()
+	  (Jani, Thierry)
+v3:
+	* update armada, i915, rcar-du and vkms as well (Laurent)
+	* optimize drm_wait_vblank_ioctl() for KMS (Liviu)
+	* move imx/dcss changes into their own patch (Laurentiu)
+	* doc cleanups
+v2:
+	* keep the original test for legacy drivers in
+	  drm_wait_vblank_ioctl() (Daniel)
+
+Thomas Zimmermann (27):
+  drm/amdgpu: Track IRQ state in local device state
+  drm/hibmc: Call drm_irq_uninstall() unconditionally
+  drm/radeon: Track IRQ state in local device state
+  drm: Don't test for IRQ support in VBLANK ioctls
+  drm/armada: Don't set struct drm_device.irq_enabled
+  drm/i915: Track IRQ state in local device state
+  drm/komeda: Don't set struct drm_device.irq_enabled
+  drm/malidp: Don't set struct drm_device.irq_enabled
+  drm/exynos: Don't set struct drm_device.irq_enabled
+  drm/kirin: Don't set struct drm_device.irq_enabled
+  drm/imx: Don't set struct drm_device.irq_enabled
+  drm/imx/dcss: Don't set struct drm_device.irq_enabled
+  drm/mediatek: Don't set struct drm_device.irq_enabled
+  drm/nouveau: Don't set struct drm_device.irq_enabled
+  drm/omapdrm: Track IRQ state in local device state
+  drm/rcar-du: Don't set struct drm_device.irq_enabled
+  drm/rockchip: Don't set struct drm_device.irq_enabled
+  drm/sti: Don't set struct drm_device.irq_enabled
+  drm/stm: Don't set struct drm_device.irq_enabled
+  drm/sun4i: Don't set struct drm_device.irq_enabled
+  drm/tegra: Don't set struct drm_device.irq_enabled
+  drm/tidss: Don't use struct drm_device.irq_enabled
+  drm/vc4: Don't set struct drm_device.irq_enabled
+  drm/vkms: Don't set struct drm_device.irq_enabled
+  drm/vmwgfx: Don't set struct drm_device.irq_enabled
+  drm/xlnx: Don't set struct drm_device.irq_enabled
+  drm/zte: Don't set struct drm_device.irq_enabled
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_irq.c         |  6 +++---
+ drivers/gpu/drm/arm/display/komeda/komeda_kms.c |  4 ----
+ drivers/gpu/drm/arm/malidp_drv.c                |  4 ----
+ drivers/gpu/drm/armada/armada_drv.c             |  2 --
+ drivers/gpu/drm/drm_irq.c                       | 13 ++++---------
+ drivers/gpu/drm/drm_vblank.c                    | 15 ++++++++++++---
+ drivers/gpu/drm/exynos/exynos_drm_drv.c         | 10 ----------
+ drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c |  3 +--
+ drivers/gpu/drm/hisilicon/kirin/kirin_drm_drv.c |  2 --
+ drivers/gpu/drm/i915/i915_drv.h                 |  2 ++
+ drivers/gpu/drm/i915/i915_irq.c                 |  8 ++++----
+ drivers/gpu/drm/imx/dcss/dcss-kms.c             |  3 ---
+ drivers/gpu/drm/imx/imx-drm-core.c              | 11 -----------
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c          |  6 ------
+ drivers/gpu/drm/nouveau/nouveau_drm.c           |  3 ---
+ drivers/gpu/drm/omapdrm/omap_drv.h              |  2 ++
+ drivers/gpu/drm/omapdrm/omap_irq.c              |  6 +++---
+ drivers/gpu/drm/radeon/radeon_fence.c           |  2 +-
+ drivers/gpu/drm/radeon/radeon_irq_kms.c         | 16 ++++++++--------
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c           |  2 --
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c     |  6 ------
+ drivers/gpu/drm/sti/sti_compositor.c            |  2 --
+ drivers/gpu/drm/stm/ltdc.c                      |  3 ---
+ drivers/gpu/drm/sun4i/sun4i_drv.c               |  2 --
+ drivers/gpu/drm/tegra/drm.c                     |  7 -------
+ drivers/gpu/drm/tidss/tidss_irq.c               |  3 ---
+ drivers/gpu/drm/vc4/vc4_kms.c                   |  1 -
+ drivers/gpu/drm/vkms/vkms_drv.c                 |  2 --
+ drivers/gpu/drm/vmwgfx/vmwgfx_irq.c             |  8 --------
+ drivers/gpu/drm/xlnx/zynqmp_dpsub.c             |  2 --
+ drivers/gpu/drm/zte/zx_drm_drv.c                |  6 ------
+ 31 files changed, 40 insertions(+), 122 deletions(-)
+
+
+base-commit: 8c1323b422f8473421682ba783b5949ddd89a3f4
+prerequisite-patch-id: c2b2f08f0eccc9f5df0c0da49fa1d36267deb11d
+prerequisite-patch-id: c67e5d886a47b7d0266d81100837557fda34cb24
+--
+2.32.0
+
