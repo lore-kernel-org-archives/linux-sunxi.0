@@ -1,54 +1,55 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA99168
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Jun 2021 18:32:01 +0000 (UTC)
-Received: by mail-ot1-f44.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso13230545otu.10
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Jun 2021 11:32:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AEDE168
+	for <linux-sunxi@lists.linux.dev>; Sat, 26 Jun 2021 18:32:04 +0000 (UTC)
+Received: by mail-ot1-f42.google.com with SMTP id i12-20020a05683033ecb02903346fa0f74dso13230648otu.10
+        for <linux-sunxi@lists.linux.dev>; Sat, 26 Jun 2021 11:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=74AxLvmVaiaJbdMU5QTfz31h53EKJxg76jxp0ED+OLQ=;
-        b=kIQQxIhVgra4Fa0ExLlQR09NQAO7hFwkkMXIVMwX78hRrw0rkWvUZCI7hAENR3vQWL
-         4yVimwAINItbaFXc1qjtnJpjtXY++dDegpz4O9FUuqM8LkwzbqvQAHlgmwWhacydBLVm
-         6AG4YCYMlC1fyVZIHWbdfmaV7ygNxMT5C9mWY=
+        bh=gQZiZVg9ozqLL04eEwQiQJBxyvYlBF3KVvFJv6VXsrY=;
+        b=LfwFO1cIs9wB/gAc1/9C+hNIQE8sPV5mPtnge05FsJovBRefR2wlqNVCY4eZX639UN
+         z2wPzJx4jtghRfCbjB857oTvyOE/q7hSd8GVjWgfZX3IzOBLFlOgb/e5HlOBx4xfot18
+         GcJTu+sKLRDd+rdwUpHyAur8uF/Za0+AVuUuM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=74AxLvmVaiaJbdMU5QTfz31h53EKJxg76jxp0ED+OLQ=;
-        b=B/e1YxvqbgIkt1hTIi4w/DZ1KDjLPGA/eKw7nmGYjX3MB3u26NJ6E+hjUjY1qfd6dg
-         31KdV22dp7Hc8w3346w5ym4kowuJBoh4kjvTUluhEJ397Di1RRrmoVJP4EEj6/Go6FCk
-         +LhI0HqM9+psx1dcH2tW4lM1QX0xYBHZ8wxxjDDw19LS/KVGruppSMs8lUx6cQzFeK/s
-         FP1j69L4b5K9kk+TXd6sds/o/HcXNdAYwuJSBPUMO+h2pX7rPZfvEauRbrfIS6zu6eQ/
-         Q6HnbPa9/VRPXUMMqeZNDD5t9SpCZTW1rxG/wZY8rEhDLh1jZCjrdyMs2lnrPslhBO/G
-         RZGw==
-X-Gm-Message-State: AOAM532h+aAzV6atPx3SwIw3btEMJUXcw1q6T4PAOAEr8ueW3h1LN4wY
-	X/5m/hZtLBsn0xKPmRZwQwS4X5XyMsZHqPPC781+kQ==
-X-Google-Smtp-Source: ABdhPJw1/HLtEv+9aIWikdDn6a9JB6LAovJdXi6JHtDuUMBLl8b03kTqlBbg01DCuud34Cfo/v304vlRPb66IecAw5w=
-X-Received: by 2002:a9d:74d4:: with SMTP id a20mr14753079otl.28.1624732320237;
- Sat, 26 Jun 2021 11:32:00 -0700 (PDT)
+        bh=gQZiZVg9ozqLL04eEwQiQJBxyvYlBF3KVvFJv6VXsrY=;
+        b=mC9KxmgL8VSRxG6mjgCJ4X6cLk+g28Crr5JhCvJFT9+XUovM2fwlGlthOdlltCJBeu
+         JpMMC3izKMuEvWe9X2Zdb/sOy/Hsw/9+u0WJ1YiSw5vrN42xMtnxoXaC3w4EVK9+9njC
+         a2hT/0dPJ7hcT0J6cxJLSBcfKsvhc3LKAqeQvHSZw2SBO2qExz3wHQzyIxjFfDOGA17i
+         oPT+sDJOBmdwlZSjLuiTZZeO/TIDYq2ci1j2nAROt2b3XGz4Q4U5gJeSManOJebOB+1J
+         s42n8jHhJTZXtKCVvA12/hMgB+dREaPeMACJbMb6KEZ797kNqnDF/upfSltt8KsP27FS
+         qdrQ==
+X-Gm-Message-State: AOAM530sAjTOVYSblDAAKx+R8E8NwQ975H1jkkIq1JsJeu5i1RYawAsq
+	ZFBaIS+E7bo2in5WYV0k5Jfix4IIINWegHRwNqDN4A==
+X-Google-Smtp-Source: ABdhPJzgktMQUY+st+217v9ZgGGzooHut9YBLfyEjm6gKgyJcb3vVouhJTE9GLqjtGuFGUOtMIdmkXeQ2fDKMLIHJxg=
+X-Received: by 2002:a9d:2dc2:: with SMTP id g60mr14878325otb.54.1624732323238;
+ Sat, 26 Jun 2021 11:32:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210617184621.4083311-1-icenowy@aosc.io> <20210617184621.4083311-2-icenowy@aosc.io>
-In-Reply-To: <20210617184621.4083311-2-icenowy@aosc.io>
+References: <20210619091838.646779-1-icenowy@aosc.io> <20210619091838.646779-2-icenowy@aosc.io>
+In-Reply-To: <20210619091838.646779-2-icenowy@aosc.io>
 From: Simon Glass <sjg@chromium.org>
-Date: Sat, 26 Jun 2021 12:31:48 -0600
-Message-ID: <CAPnjgZ3FzF714HWWw2Ay8b5HnPPx82cf8piAVc3pU7eFe=LH=A@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/4] mkimage: add a flag to describe whether -A is specified
+Date: Sat, 26 Jun 2021 12:31:50 -0600
+Message-ID: <CAPnjgZ3-iAng7Y9d+cjZY95vOeKfJStbVbQWYiUZURhptxZrmQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] mkimage: add a flag to describe whether -A is specified
 To: Icenowy Zheng <icenowy@aosc.io>
 Cc: Andre Przywara <andre.przywara@arm.com>, Jagan Teki <jagan@amarulasolutions.com>, 
-	Samuel Holland <samuel@sholland.org>, U-Boot Mailing List <u-boot@lists.denx.de>, linux-sunxi@lists.linux.dev
+	Samuel Holland <samuel@sholland.org>, Tom Rini <trini@konsulko.com>, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
 Hi Icenowy,
 
-On Thu, 17 Jun 2021 at 12:47, Icenowy Zheng <icenowy@aosc.io> wrote:
+On Sat, 19 Jun 2021 at 03:19, Icenowy Zheng <icenowy@aosc.io> wrote:
 >
 > The sunxi_egon type used to take no -A argument (because we assume sunxi
 > targets are all ARM). However, as Allwinner D1 appears as the first
@@ -61,8 +62,17 @@ On Thu, 17 Jun 2021 at 12:47, Icenowy Zheng <icenowy@aosc.io> wrote:
 > field to image parameters to describe whether an architecture is
 > explicitly specified.
 >
+> Reviewed-by: Tom Rini <trini@konsulko.com>
 > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > ---
+> Changes in v2:
+> - Added Tom Rini's Review tag.
+
+This is not actually a change so should not appear in the log.
+
+Also note 'patman status' can be used to automatically collect these.
+
+>
 >  tools/imagetool.h | 1 +
 >  tools/mkimage.c   | 1 +
 >  2 files changed, 2 insertions(+)
