@@ -1,199 +1,126 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77A170
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Jun 2021 12:46:38 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 9569E58073B;
-	Mon, 28 Jun 2021 08:46:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 28 Jun 2021 08:46:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=FGZcwoZwyPYceIqBEn/JL4z0fxH
-	5zp8oJcvt5w3ABb4=; b=XjUIgotobppm/S2dYlC7NoZCJ/kNNH0oSeeon95yHoB
-	H9MShuY7w68ElblP8T8S1w7sEfRA1EYmMBGLD9ukAEbNEHH6ba24/RfkjfqvUK7t
-	XOvKskUlGp3k1hsJWVZv75Tt/rhYAm/vj2itcFPiLNuxQxTn5EZAzuxW25krnkQU
-	oLmlnh4qwobducCXpO/lpEtO2QE62N0wLGWGeJdo0nAasd5UJJ4gOIgI2nTR3xoh
-	zkC1xOcEiT7rq6mcEgWaIIy0yPpnRQQSDb5SVhnWWKJE+UmS60lBV3xv4p1XNfuk
-	+QqFIMhz4Osbcgi8du6Mt8NQq7k8PcSjQoKMnI8MqqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=FGZcwo
-	ZwyPYceIqBEn/JL4z0fxH5zp8oJcvt5w3ABb4=; b=TH3R+UNmoK5PEOZO0SEp/9
-	NiyHWqi6Z9WkqJHlk3iZ9Cyatb64kvA42MRX1STlR8cAvlQKHFiBD4grIKs8nGUM
-	KCHQK9IgD0RfvIo85eYwgwJ9EfW2C1rT3Khb+iVOUp+sSILxN2cQYSxxcyHleXzd
-	6YpI04UCgALJtfoBE4Pk/nkld56HRobKfYY0xrEOWPffHrkzuWbu808Cl6IGo23l
-	OgTtd8+lwfgAEgWnLLv+zY/8UkAJKEPwBhiUdUQFUugLsomXRB7fEL7OI+LRbSoC
-	JaVhxa04zZkRyQE+aTlfEnySfIJGwVD+YJImqofDcG5OeYtpINcbOKCiKGowlpzQ
-	==
-X-ME-Sender: <xms:rMTZYNrL03vBsHOo3OnkaqUrKRFqdzTYB4grOdmd7_FsquwcESGZrQ>
-    <xme:rMTZYPrDQUOQVbOzEHOCU4-g2seksclyIhrHZONtneskB8E64z4chmq8HR_M3TgDx
-    dmt-OvTYtwCWs90tbw>
-X-ME-Received: <xmr:rMTZYKNl6yZmXyuEOp8Ge0mErhQByV9xGdDoHezsfL_K9SHAVKI6UPBXcmBVvkQNf_ZZtuwrVoftuexjFxXPBdtzK0EVvIAFJEqN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeehgedgheehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesghdtre
-    ertddtvdenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvgestggv
-    rhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeffteetveeijeetuefhffegkeetgf
-    fhieelheehtdduudethffhjedtvddtudelvdenucffohhmrghinhepuggvvhhitggvthhr
-    vggvrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:rMTZYI4ksmDYF0Rqye_Zjemx9NMc4sjt7Iy8dfpcV8lyxsrHNhmvHA>
-    <xmx:rMTZYM7o3EswVER0tS5OmjiQjoxAOty1lqHhNhB-SA8mE7iCoWwb7w>
-    <xmx:rMTZYAjQBolGbcWO8EhD2KMFPdodZd2yvUyB-_GoPb9i5EledZ6Hcw>
-    <xmx:rcTZYNGE8d4nF2MgHBficmLTRao3CglHH2dy2cEygBcZwSngR1G96g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Jun 2021 08:46:36 -0400 (EDT)
-Date: Mon, 28 Jun 2021 14:46:34 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: fengzheng923@gmail.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
- for DMIC controller
-Message-ID: <20210628124634.radw3ywstfdl2fqw@gilmour>
-References: <20210625090721.6183-1-fengzheng923@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A6F177
+	for <linux-sunxi@lists.linux.dev>; Tue, 29 Jun 2021 10:34:45 +0000 (UTC)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 15T9CNdD011848;
+	Tue, 29 Jun 2021 11:18:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=X80iUh6QaVW3Kbhqm1Aj0gKrTFwcCwrTAiEMB/p3SAE=;
+ b=M/Gpy87EawNbKSyujei9NTa2BHd1JzRtJKVCH/vGpuB6iraaPrj9PBwQUVfPYsXuEi4b
+ U89GAVJiC3lC/DeWbQZw4SzKasVUu1BcPrrJ7NZxZM/Smb2odqyFeMS6jULMOgYVGCCC
+ 7shI7zTjLrdvIi8p8jGiR0A6FaS4SklEqli6BK9D/Mj3iOJjHrxGKf+6SCFwQH4pwaNm
+ FIfKIo1Zm3wn5NTvQkCPDKPrXkwNoscqO+xFO6IthXTt+0IG3S0BxM/PWWed4gkPPOVt
+ ebi8/NeZQMSpte6HtHZ0b399eEymWAv+MRO6617GH2iDTs8JEBlA/XIWEgcBFur5uiNf 4w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com with ESMTP id 39fc116d9j-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 29 Jun 2021 11:18:52 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id C74F710002A;
+	Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag2node3.st.com [10.75.127.6])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D8BF21BF75;
+	Tue, 29 Jun 2021 11:18:46 +0200 (CEST)
+Received: from lmecxl0951.lme.st.com (10.75.127.49) by SFHDAG2NODE3.st.com
+ (10.75.127.6) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 29 Jun
+ 2021 11:18:43 +0200
+Subject: Re: [PATCH v4 19/27] drm/stm: Don't set struct drm_device.irq_enabled
+To: Thomas Zimmermann <tzimmermann@suse.de>, <daniel@ffwll.ch>,
+        <airlied@linux.ie>, <alexander.deucher@amd.com>,
+        <christian.koenig@amd.com>, <Xinhui.Pan@amd.com>,
+        <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+        <mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+        <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+        <inki.dae@samsung.com>, <jy0922.shim@samsung.com>,
+        <sw0312.kim@samsung.com>, <kyungmin.park@samsung.com>,
+        <krzysztof.kozlowski@canonical.com>, <xinliang.liu@linaro.org>,
+        <tiantao6@hisilicon.com>, <john.stultz@linaro.org>,
+        <kong.kongxinwei@hisilicon.com>, <puck.chen@hisilicon.com>,
+        <laurentiu.palcu@oss.nxp.com>, <l.stach@pengutronix.de>,
+        <p.zabel@pengutronix.de>, <shawnguo@kernel.org>,
+        <s.hauer@pengutronix.de>, <kernel@pengutronix.de>,
+        <festevam@gmail.com>, <linux-imx@nxp.com>, <chunkuang.hu@kernel.org>,
+        <matthias.bgg@gmail.com>, <bskeggs@redhat.com>, <tomba@kernel.org>,
+        <hjc@rock-chips.com>, <heiko@sntech.de>, <philippe.cornu@foss.st.com>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@foss.st.com>,
+        <wens@csie.org>, <jernej.skrabec@gmail.com>,
+        <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <jyri.sarha@iki.fi>, <emma@anholt.net>,
+        <linux-graphics-maintainer@vmware.com>, <zackr@vmware.com>,
+        <hyun.kwon@xilinx.com>, <laurent.pinchart@ideasonboard.com>,
+        <michal.simek@xilinx.com>, <jani.nikula@linux.intel.com>,
+        <rodrigo.vivi@intel.com>, <linux@armlinux.org.uk>,
+        <kieran.bingham+renesas@ideasonboard.com>,
+        <rodrigosiqueiramelo@gmail.com>, <melissa.srw@gmail.com>,
+        <hamohammed.sa@gmail.com>
+CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-samsung-soc@vger.kernel.org>,
+        <linux-mediatek@lists.infradead.org>, <nouveau@lists.freedesktop.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <intel-gfx@lists.freedesktop.org>,
+        Daniel
+ Vetter <daniel.vetter@ffwll.ch>
+References: <20210625082222.3845-1-tzimmermann@suse.de>
+ <20210625082222.3845-20-tzimmermann@suse.de>
+From: yannick Fertre <yannick.fertre@foss.st.com>
+Message-ID: <1c946098-bf82-4028-1543-ba9e4f960aa3@foss.st.com>
+Date: Tue, 29 Jun 2021 11:18:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ersryph7t25vlhha"
-Content-Disposition: inline
-In-Reply-To: <20210625090721.6183-1-fengzheng923@gmail.com>
+In-Reply-To: <20210625082222.3845-20-tzimmermann@suse.de>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.49]
+X-ClientProxiedBy: SFHDAG2NODE1.st.com (10.75.127.4) To SFHDAG2NODE3.st.com
+ (10.75.127.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.790
+ definitions=2021-06-29_05:2021-06-25,2021-06-29 signatures=0
+
+Hello Thomas,
+thanks for the patch.
+
+Tested-by: Yannick Fertre <yannick.fertre@foss.st.com>
+
+Best regards
 
 
---ersryph7t25vlhha
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Jun 25, 2021 at 05:07:21AM -0400, fengzheng923@gmail.com wrote:
-> From: Ban Tao <fengzheng923@gmail.com>
->=20
-> DT binding documentation for this new ASoC driver.
->=20
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
->=20
+On 6/25/21 10:22 AM, Thomas Zimmermann wrote:
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in stm.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
-> v1->v2:
-> 1.Fix some build errors.
-> ---
-> v2->v3:
-> 1.Fix some build errors.
-> ---
-> v3->v4:
-> 1.None.
-> ---
->  .../sound/allwinner,sun50i-h6-dmic.yaml       | 68 +++++++++++++++++++
->  1 file changed, 68 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun=
-50i-h6-dmic.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-=
-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmi=
-c.yaml
-> new file mode 100644
-> index 000000000000..d9107685b78d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.ya=
-ml
-> @@ -0,0 +1,68 @@
-> +# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner H6 DMIC Device Tree Bindings
-> +
-> +maintainers:
-> +  - Ban Tao <fengzheng923@gmail.com>
-> +
-> +properties:
-> +  "#sound-dai-cells":
-> +    const: 0
-> +
-> +  compatible:
-> +    const: allwinner,sun50i-h6-dmic
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +
-> +  dmas:
-> +    items:
-> +      - description: RX DMA Channel
-> +
-> +  dma-names:
-> +    items:
-> +      - const: rx
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +required:
-> +  - "#sound-dai-cells"
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - dmas
-> +  - dma-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dmic: dmic@5095000 {
-> +      #sound-dai-cells =3D <0>;
-> +      compatible =3D "allwinner,sun50i-h6-dmic";
-> +      reg =3D <0x05095000 0x400>;
-> +      clocks =3D <&ccu 101>, <&ccu 100>;
-> +      clock-names =3D "bus", "mod";
-> +      dmas =3D <&dma 7>;
-> +      dma-names =3D "rx";
-> +      resets =3D <&ccu 42>;
-> +    };
-
-You can keep the clock and reset indices, it's more readable that way,
-you just have to add the headers dt-bindings/clock/sun50i-h6-ccu.h and
-dt-bindings/reset/sun50i-h6-ccu.h like what
-Documentation/devicetree/bindings/iommu/allwinner,sun50i-h6-iommu.yaml
-is doing.
-
-Also, this controller has an interrupt. Even if the driver doesn't use
-it it should be in the binding.
-
-Maxime
-
---ersryph7t25vlhha
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYNnEqgAKCRDj7w1vZxhR
-xae2AP4qPv9ltkegaT6Rdk9GGRXJUgBLvDbFtsYo+bDb8jTrGwD/S+Pb9PvRC7ey
-moBzsqtqHcl2FG/ce2wg5N3rQ9f7EwU=
-=c0fk
------END PGP SIGNATURE-----
-
---ersryph7t25vlhha--
+>   drivers/gpu/drm/stm/ltdc.c | 3 ---
+>   1 file changed, 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 08b71248044d..e9c5a52f041a 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -1339,9 +1339,6 @@ int ltdc_load(struct drm_device *ddev)
+>   		goto err;
+>   	}
+>   
+> -	/* Allow usage of vblank without having to call drm_irq_install */
+> -	ddev->irq_enabled = 1;
+> -
+>   	clk_disable_unprepare(ldev->pixel_clk);
+>   
+>   	pinctrl_pm_select_sleep_state(ddev->dev);
+> 
