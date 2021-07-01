@@ -1,114 +1,90 @@
-Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34D370
-	for <linux-sunxi@lists.linux.dev>; Wed, 30 Jun 2021 07:05:45 +0000 (UTC)
+Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 478AB168
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jul 2021 01:50:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Subject:From:Message-ID:Date:MIME-Version; bh=waD0X
-	OGzYVlXCqgQjmoijjU1B5+WcDju/rUDU+04b9s=; b=Ft+5u959VrVOpVI4wKmSC
-	dzYDeu0WJwPVj0P+l+bBDPRp+97xGtKU9gf3QFCpL4e0kMaN+9IP5ojtPTRM9nBH
-	IAzpxIBIAPhvBkkGtCTbFfNE6kx7FBhfcQlVsr31PMsZYd4nhHaB84K8Qu4OoVpk
-	4djoTbDuxWBB4OPOHE/Grk=
-Received: from [192.168.3.109] (unknown [218.201.129.20])
-	by smtp11 (Coremail) with SMTP id D8CowABXZo7fE9xgx59nAA--.29S2;
-	Wed, 30 Jun 2021 14:49:12 +0800 (CST)
-Subject: Re: [PATCH 1/4] phy-sun4i-usb: Fix sun8i_r40_cfg
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, Icenowy Zheng <icenowy@aosc.io>,
- Chen-Yu Tsai <wens@csie.org>, Jagan Teki <jagan@amarulasolutions.com>,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-References: <20210616023326.18135-1-qianfanguijin@163.com>
- <20210621013356.7ad01d6a@slackpad.fritz.box>
-From: qianfan <qianfanguijin@163.com>
-Message-ID: <4fd361e7-89a0-712d-e8f1-56955ae04680@163.com>
-Date: Wed, 30 Jun 2021 14:48:57 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	s=s110527; h=From:Subject:Date:Message-Id; bh=zHdQnfpXOaaYIj0CmL
+	qSBzZnX7QWdRQ6IV6jlCwApK0=; b=MfCJCmMqA1wwcERarrh/K2lndwRUa7kmKO
+	Co+LKz7u98PlnblqAWAsf961KcZkNiUdnUG2DqQI2QmALk1KE6JFR+p3rp18HDqp
+	g9fwk+fQ3Fjdr1gVsroOwUCAg+BbOCwOC1A6vIhJxQ3ndvwqfO9hsgjxE6O/zo+4
+	oc+zIALfU=
+Received: from localhost.localdomain (unknown [218.201.129.20])
+	by smtp8 (Coremail) with SMTP id DMCowABXPVpUH91g0KifMg--.33338S6;
+	Thu, 01 Jul 2021 09:50:14 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH 3/3] ARM: dts: sun8i: r40: bananapi-m2-ultra: Enable usb_otg
+Date: Thu,  1 Jul 2021 09:50:09 +0800
+Message-Id: <20210701015009.13985-3-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210701015009.13985-1-qianfanguijin@163.com>
+References: <20210701015009.13985-1-qianfanguijin@163.com>
+X-CM-TRANSID:DMCowABXPVpUH91g0KifMg--.33338S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7JF1fZFyrCr43ArWUArWDArb_yoW8JryUp3
+	sruFZ5G3y8KF4rXwnIvrWvkry5CFnYqrySyF1xCa48Jrn7XayDXryfKwn3uFW5XrWrAw4F
+	9FZ3ArnrGr4qvwUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j5PEfUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBRxfC7VPADPh67gAAsM
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <20210621013356.7ad01d6a@slackpad.fritz.box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:D8CowABXZo7fE9xgx59nAA--.29S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCrWUWryrCr17Ar1UAF4DXFb_yoW5XFyxpF
-	WrKFy2krsYgFWag392qF4DJryUXa1kWryjyrWDt343XFnxGas2vFW8Kws0gFZY9r1fAa12
-	qan0qFyfuF1DAaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j9ID7UUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXAjB7VXl0IdT4gAAsu
 
+From: qianfan Zhao <qianfanguijin@163.com>
 
-在 2021/6/21 8:33, Andre Przywara 写道:
-> On Wed, 16 Jun 2021 10:33:23 +0800
-> qianfanguijin@163.com (qianfanguijin@163.com) wrote:
->
-> Hi,
->
-> first many thanks for sending this! Indeed OTG support was
-> broken/missing on the R40, also in Linux.
-> So it seems you have the found the problem: the missing PHY multiplex.
-> Many thanks for that! This indeed enables OTG functionality for me
-> (although with some changes). That means that actually a similar patch
-> needs to go through Linux.
-> Do you plan on enabling support in Linux as well?
-sure.
->> From: qianfan Zhao <qianfanguijin@163.com>
->>
->> The address of sun8i_r40's phyctrl is 0x01c13404,
-> But this isn't quite right, is it? See below.
+Enable it.
 
-Yes, the right address of R40 is 0x01c13410. I had checked the bsp code 
-of allwinner: #if defined (CONFIG_ARCH_SUN50I) || defined 
-(CONFIG_ARCH_SUN8IW10) || defined (CONFIG_ARCH_SUN8IW11)#define  
-USBPHYC_REG_o_PHYCTL            0x0410#else#define  
-USBPHYC_REG_o_PHYCTL            0x0404#endif
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-But I had no idea why the addres 0x01c13404 can work fine, maybe I load u-boot by using
-sunxi-tools, that the usb otg is already init by IBR.
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index a6a1087a0c9b..072535b383b5 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -43,6 +43,7 @@
+ 
+ /dts-v1/;
+ #include "sun8i-r40.dtsi"
++#include "sunxi-common-regulators.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
+@@ -299,6 +300,11 @@
+ 	regulator-name = "vdd1v2-sata";
+ };
+ 
++&reg_usb0_vbus {
++	gpio = <&pio 8 13 GPIO_ACTIVE_HIGH>; /* PI13 */
++	status = "okay";
++};
++
+ &tcon_tv0 {
+ 	status = "okay";
+ };
+@@ -328,7 +334,15 @@
+ 	};
+ };
+ 
++&usb_otg {
++	dr_mode = "peripheral";
++	status = "okay";
++};
++
+ &usbphy {
++	usb0_id_det-gpios = <&pio 8 4 GPIO_ACTIVE_HIGH>; /* PI4 */
++	usb0_vbus_det-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; /* PH8 */
++	usb0_vbus-supply = <&reg_usb0_vbus>;
+ 	usb1_vbus-supply = <&reg_vcc5v0>;
+ 	usb2_vbus-supply = <&reg_vcc5v0>;
+ 	status = "okay";
+-- 
+2.17.1
 
->> enable_pmu and dual_route.
-> Ah, of course! The R40 is closer to the A33/A23 here, with not having
-> separate EHCI0/OHCI0 controllers, instead relying on the MUSB host IP.
-> So indeed we don't have the PHY multiplex for PHY0.
-> I think this is the root cause of the non-working OTG support so far!
->
->> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->> ---
->>   drivers/phy/allwinner/phy-sun4i-usb.c | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
->> index 5723c98032..608ba46242 100644
->> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
->> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
->> @@ -587,10 +587,10 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
->>   	.num_phys = 3,
->>   	.type = sun8i_r40_phy,
->>   	.disc_thresh = 3,
->> -	.phyctl_offset = REG_PHYCTL_A33,
->> +	.phyctl_offset = REG_PHYCTL_A10,
-> So this doesn't work for me, no device appearing on the host. Also
-> writing anything to this register (+0x04) reads back as 0, so it's not
-> implemented, as in the H3. The register at +0x10 however works, and if I
-> keep the A33 line, OTG indeed works for me. Same in Linux, btw.
->
->>   	.dedicated_clocks = true,
->> -	.enable_pmu_unk1 = true,
->> -	.phy0_dual_route = true,
->> +	.enable_pmu_unk1 = false,
->> +	.phy0_dual_route = false,
-> If they are false, you don't need to list them, the default of 0 will
-> take care of this.
-
-Thanks for yours guide, I will make a change later.
-
->
-> Cheers,
-> Andre
->
->>   };
->>   
->>   static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
 
