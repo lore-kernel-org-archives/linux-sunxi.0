@@ -1,62 +1,93 @@
-Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23528177
-	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jul 2021 02:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=hbrzA4//vaT6dZt0dD
-	Gxz+KUPoa7VTMDtHjkCieaV0s=; b=Yap3mjmtX3zr/UL+mmqgUHvMzQ8piylnE5
-	j2q1Er1k5PsW6cYceRq1xigBFNv1SZkU6LScdb9L/UpiCBZgMOQ3gUGoCxPWYXvT
-	I6yZlZnF3SK5V6QOvJUMaYUYG3YFFVQu0c2koFCj5rBgrHRTf4t4P6s9k7zG3Do0
-	HYuM5DmQU=
-Received: from localhost.localdomain (unknown [218.201.129.20])
-	by smtp8 (Coremail) with SMTP id DMCowABXPVpUH91g0KifMg--.33338S4;
-	Thu, 01 Jul 2021 09:50:14 +0800 (CST)
-From: qianfanguijin@163.com
-To: linux-sunxi@lists.linux.dev
-Cc: mripard@kernel.org,
+Received: from qq.com (smtpbg476.qq.com [59.36.132.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7B8168
+	for <linux-sunxi@lists.linux.dev>; Thu,  1 Jul 2021 13:32:53 +0000 (UTC)
+X-QQ-mid: bizesmtp43t1625145759tidyuqpf
+Received: from localhost.localdomain (unknown [182.148.13.55])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Thu, 01 Jul 2021 21:22:38 +0800 (CST)
+X-QQ-SSF: 0100000000800030B000C00A0000000
+X-QQ-FEAT: wBH9KxarUr7L4E45ckeNFtCb4eKB/U0CoWgf/3ipYZXktK2UHOiFmCHsWHfya
+	/gs+fPThY1CwHRcJVCXI4I8O7kzW2DAbpFH3tQ0OTGMCR659PN7Wo4tVCRcyN3CnOK9PWqc
+	WU7z4mhXbrgnYBLc9OjvoAuszHilEE3DOyjjZzYUl07j540UIT5TGvEXBWUu5SpV0IUJPgU
+	Ps/6O16AQHUe+w2Z7UXQAeh+KWf+OzSHdErcPh/YeIVzDFN1FfJZQz5cYw816eU70RdvN6E
+	KcZ24GsusLRaXxT+/NzuRLHDw3Nre7z653r/k+j7Y0w5tdNM7etHKSR5S/FARze3LR5facd
+	VitnvFGbWMooip6u7jdLzVepOAxlg==
+X-QQ-GoodBg: 0
+From: Jason Wang <wangborong@cdjrlc.com>
+To: herbert@gondor.apana.org.au
+Cc: clabbe.montjoie@gmail.com,
+	davem@davemloft.net,
+	mripard@kernel.org,
 	wens@csie.org,
 	jernej.skrabec@gmail.com,
-	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH 1/3] phy-sun4i-usb: Fix sun8i_r40_cfg
-Date: Thu,  1 Jul 2021 09:50:07 +0800
-Message-Id: <20210701015009.13985-1-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:DMCowABXPVpUH91g0KifMg--.33338S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7Xr43Jw1fZF17Wr1rtF4kXrb_yoW3twc_uF
-	W8Xrs7XFZ8ur98JF12qr45Z3y09a18XF1kWw48tFy5A3W2qa1S93WjqrsrurW5GrWYkas8
-	Ja45ZF15C3929jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUbYsj7UUUUU==
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzhbC7VQHNEvYkwAAsQ
+	colin.king@canonical.com,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jason Wang <wangborong@cdjrlc.com>
+Subject: [PATCH] crypto: sun8i-ss - Use kfree_sensitive
+Date: Thu,  1 Jul 2021 21:22:00 +0800
+Message-Id: <20210701132200.31583-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgweb:qybgweb14
 
-From: qianfan Zhao <qianfanguijin@163.com>
+The kfree_sensitive is a kernel API to clear sensitive information
+that should not be leaked to other future users of the same memory
+objects and free the memory. Its function is the same as the
+combination of memzero_explicit and kfree. Thus, we can replace the
+combination APIs with the single kfree_sensitive API.
 
-the r40 has the same configurations with a33, disable enable_pmu_unk1 and
-phy0_dual_route feature.
-
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 ---
- drivers/phy/allwinner/phy-sun4i-usb.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 788dd5cdbb7d..8c4136e72947 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -935,8 +935,6 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
- 	.disc_thresh = 3,
- 	.phyctl_offset = REG_PHYCTL_A33,
- 	.dedicated_clocks = true,
--	.enable_pmu_unk1 = true,
--	.phy0_dual_route = true,
- };
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+index 3191527928e4..246a6782674c 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+@@ -20,8 +20,7 @@ int sun8i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed,
+ 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_rng_ctx(tfm);
  
- static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+ 	if (ctx->seed && ctx->slen != slen) {
+-		memzero_explicit(ctx->seed, ctx->slen);
+-		kfree(ctx->seed);
++		kfree_sensitive(ctx->seed);
+ 		ctx->slen = 0;
+ 		ctx->seed = NULL;
+ 	}
+@@ -48,8 +47,7 @@ void sun8i_ss_prng_exit(struct crypto_tfm *tfm)
+ {
+ 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_tfm_ctx(tfm);
+ 
+-	memzero_explicit(ctx->seed, ctx->slen);
+-	kfree(ctx->seed);
++	kfree_sensitive(ctx->seed);
+ 	ctx->seed = NULL;
+ 	ctx->slen = 0;
+ }
+@@ -167,9 +165,8 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
+ 		/* Update seed */
+ 		memcpy(ctx->seed, d + dlen, ctx->slen);
+ 	}
+-	memzero_explicit(d, todo);
+ err_free:
+-	kfree(d);
++	kfree_sensitive(d);
+ 
+ 	return err;
+ }
 -- 
-2.17.1
-
+2.32.0
 
