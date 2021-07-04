@@ -1,32 +1,34 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDD2B72
-	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jul 2021 23:04:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C57961283;
-	Sun,  4 Jul 2021 23:04:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7192972;
+	Sun,  4 Jul 2021 23:05:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0FADA613E9;
+	Sun,  4 Jul 2021 23:04:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625439877;
-	bh=VvBNWVfKMUPM1hXDvZqcj89kC+byaY2wtn0l6MzVFvM=;
+	s=k20201202; t=1625439900;
+	bh=ZptdSvTsaDQgc709i4bznaO+Cpu4QV9ScxZjMqvcgDY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CRQc3VBO6+e3uKNkyTt4PT9iiC3oIAbjOguQWlYPtlIWWbYskQIkQdNnmKD71LGHh
-	 Z/ojjSu2DANP7IYcOX9WlixMbj1aCWwQZnprpNgxxlVed3Ix0a2vSc9QRP1w0rRIKz
-	 8GUOKm3jBKYjFY/XesCuvoDl7/oAR+G97bnbTHLFsQwGMpPWE5as5gljakmYG7XpI4
-	 v1JS3wo6aHIZuvOxyaVts2dmsWngkGc3DJ34kwkzZhKLJ8mXejre4zOYzL+jw6tAZn
-	 GhXo/tZ4zororHS6Z1+pG00V/VmvZnHcTJFpFU6+hW17sfLZLr6AXR+X7cfxxwOjFp
-	 cvhmYZ1M0h+IA==
+	b=tu+hK3ZWW/tmzTlii9AY6OF3DKl344ZC/yRvQphY8Y7BA2QIkA1fhLYPGHOyVI0cm
+	 F+9O37tDvvVcozhlNUqw8wybYupHzzirIu59nLnAv0S3YzXJNoj3w8htonEmiqzesU
+	 4CZI3MMGalNg+JmHkjA3NJ82kVUcAlLG495jmqof53+sst+Het+BniLulVBJV1GU1o
+	 r6TxFgP23fPVa8PDxqiTHifuWuMLAtMRemIt+gJDh7Pf6Zt7yWCeDxdz26Ra1ASI3I
+	 QjONoXdr1jWkgVTGVupy/e9V29hDg3jScsJ/PUbNYeeRoFs9C6wIWnp9EPm35JdVCf
+	 dfA5ItatZAKKA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+Cc: Jernej Skrabec <jernej.skrabec@siol.net>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.13 12/85] media: sunxi: fix pm_runtime_get_sync() usage count
-Date: Sun,  4 Jul 2021 19:03:07 -0400
-Message-Id: <20210704230420.1488358-12-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 28/85] media: hevc: Fix dependent slice segment flags
+Date: Sun,  4 Jul 2021 19:03:23 -0400
+Message-Id: <20210704230420.1488358-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
 References: <20210704230420.1488358-1-sashal@kernel.org>
@@ -40,37 +42,86 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-[ Upstream commit 9c298f82d8392f799a0595f50076afa1d91e9092 ]
+[ Upstream commit 67a7e53d5b21f3a84efc03a4e62db7caf97841ef ]
 
-The pm_runtime_get_sync() internally increments the
-dev->power.usage_count without decrementing it, even on errors.
-Replace it by the new pm_runtime_resume_and_get(), introduced by:
-commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
-in order to properly decrement the usage counter, avoiding
-a potential PM usage counter leak.
+Dependent slice segment flag for PPS control is misnamed. It should have
+"enabled" at the end. It only tells if this flag is present in slice
+header or not and not the actual value.
 
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Fix this by renaming the PPS flag and introduce another flag for slice
+control which tells actual value.
+
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 5 ++++-
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 4 ++--
+ include/media/hevc-ctrls.h                                | 3 ++-
+ 3 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-index 3f81dd17755c..fbcca59a0517 100644
---- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-+++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-@@ -494,7 +494,7 @@ static int rotate_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		struct device *dev = ctx->dev->dev;
- 		int ret;
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index b0de4e6e7ebd..514b334470ea 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -3053,7 +3053,7 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     :stub-columns: 0
+     :widths:       1 1 2
  
--		ret = pm_runtime_get_sync(dev);
-+		ret = pm_runtime_resume_and_get(dev);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to enable module\n");
+-    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT``
++    * - ``V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED``
+       - 0x00000001
+       -
+     * - ``V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT``
+@@ -3277,6 +3277,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+     * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED``
+       - 0x00000100
+       -
++    * - ``V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT``
++      - 0x00000200
++      -
  
+ .. raw:: latex
+ 
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index ce497d0197df..10744fab7cea 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -477,8 +477,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+ 				slice_params->flags);
+ 
+ 	reg |= VE_DEC_H265_FLAG(VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_DEPENDENT_SLICE_SEGMENT,
+-				V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT,
+-				pps->flags);
++				V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT,
++				slice_params->flags);
+ 
+ 	/* FIXME: For multi-slice support. */
+ 	reg |= VE_DEC_H265_DEC_SLICE_HDR_INFO0_FLAG_FIRST_SLICE_SEGMENT_IN_PIC;
+diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+index b4cb2ef02f17..226fcfa0e026 100644
+--- a/include/media/hevc-ctrls.h
++++ b/include/media/hevc-ctrls.h
+@@ -81,7 +81,7 @@ struct v4l2_ctrl_hevc_sps {
+ 	__u64	flags;
+ };
+ 
+-#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT		(1ULL << 0)
++#define V4L2_HEVC_PPS_FLAG_DEPENDENT_SLICE_SEGMENT_ENABLED	(1ULL << 0)
+ #define V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT			(1ULL << 1)
+ #define V4L2_HEVC_PPS_FLAG_SIGN_DATA_HIDING_ENABLED		(1ULL << 2)
+ #define V4L2_HEVC_PPS_FLAG_CABAC_INIT_PRESENT			(1ULL << 3)
+@@ -160,6 +160,7 @@ struct v4l2_hevc_pred_weight_table {
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_USE_INTEGER_MV		(1ULL << 6)
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_DEBLOCKING_FILTER_DISABLED (1ULL << 7)
+ #define V4L2_HEVC_SLICE_PARAMS_FLAG_SLICE_LOOP_FILTER_ACROSS_SLICES_ENABLED (1ULL << 8)
++#define V4L2_HEVC_SLICE_PARAMS_FLAG_DEPENDENT_SLICE_SEGMENT	(1ULL << 9)
+ 
+ struct v4l2_ctrl_hevc_slice_params {
+ 	__u32	bit_size;
 -- 
 2.30.2
 
