@@ -1,37 +1,35 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D75272;
-	Sun,  4 Jul 2021 23:05:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5AA3A613F7;
-	Sun,  4 Jul 2021 23:05:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFAA972
+	for <linux-sunxi@lists.linux.dev>; Sun,  4 Jul 2021 23:06:32 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E81A4613F1;
+	Sun,  4 Jul 2021 23:06:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625439920;
-	bh=v4eR9eBfNJKTlaalPEbz0PmDz4ulYk8/v1YOXOn6Qy8=;
+	s=k20201202; t=1625439992;
+	bh=VvBNWVfKMUPM1hXDvZqcj89kC+byaY2wtn0l6MzVFvM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bp7gd62glvRAPWRIo4bZF6wWJzDpuGOh+M8WRBzNjktZyKpPfzRVPCwoyrYQ4FuJw
-	 SZ+JVdJTETzXfG8r3LsoqBCrgD7bx9G55JvbvQ1M06GZV+RyAL7GHm9j6JVsqq37Bu
-	 M5Nko1X6JdIpAdo5DT8Y1/T6XtB3CuAfVQudLfdC4+hRAZzOewC8louWf6MgEuu3f9
-	 3Z5hcj8ugCqsLxr+RlIZuhoCYzvHqRju1t3L3bLFj7DVgP7enbu5ANFLBpzEkOzwGL
-	 uIuKfpMTu/tdLbN11wCAu9faYW0S6AUtNpFOgPMF2r66ozmJJMXjs9QO6HB8c7GMIr
-	 RipGcD/tjq5rA==
+	b=NrRFKkUMYfJ7niNI3k/BIGn5No6wKQaqX6lpCAIoVEcBcQUtoZmr3hlC4BzOMOeJo
+	 evVY0CzLjbYcPAzOpa3fPiWpYvff4gAaBsFr8LquUFBsZGQy7zlvF6LrHbAD32Znyj
+	 6kuSjJ1/Re+JjAPUvbXMedz/CKVl3958PwMLdQAV5jYHHvCKQHaFPz742fVW5k75CV
+	 KcjC/4r0kA1TjvhIBSZUyAbqo0W8JtkWS4ZNDWc8s5mYR0Ma0HHiDRAIqFCbLq5cBz
+	 6J1w/5iR/2Sln8h/r9wNOjd/YGmyNZ3Xzj0CKI030xyeiqQsCaW4xhQ0+cd0oMVGKg
+	 zytRx9x0OGQOw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.13 43/85] media: cedrus: Fix .buf_prepare
-Date: Sun,  4 Jul 2021 19:03:38 -0400
-Message-Id: <20210704230420.1488358-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.12 12/80] media: sunxi: fix pm_runtime_get_sync() usage count
+Date: Sun,  4 Jul 2021 19:05:08 -0400
+Message-Id: <20210704230616.1489200-12-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230420.1488358-1-sashal@kernel.org>
-References: <20210704230420.1488358-1-sashal@kernel.org>
+In-Reply-To: <20210704230616.1489200-1-sashal@kernel.org>
+References: <20210704230616.1489200-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,45 +40,37 @@ X-stable: review
 X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit d84b9202d712309840f8b5abee0ed272506563bd ]
+[ Upstream commit 9c298f82d8392f799a0595f50076afa1d91e9092 ]
 
-The driver should only set the payload on .buf_prepare if the
-buffer is CAPTURE type. If an OUTPUT buffer has a zero bytesused
-set by userspace then v4l2-core will set it to buffer length.
+The pm_runtime_get_sync() internally increments the
+dev->power.usage_count without decrementing it, even on errors.
+Replace it by the new pm_runtime_resume_and_get(), introduced by:
+commit dd8088d5a896 ("PM: runtime: Add pm_runtime_resume_and_get to deal with usage counter")
+in order to properly decrement the usage counter, avoiding
+a potential PM usage counter leak.
 
-If we overwrite bytesused for OUTPUT buffers, too, then
-vb2_get_plane_payload() will return incorrect value which might be then
-written to hw registers by the driver in cedrus_h264.c or cedrus_vp8.c.
-
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index b62eb8e84057..bf731caf2ed5 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -457,7 +457,13 @@ static int cedrus_buf_prepare(struct vb2_buffer *vb)
- 	if (vb2_plane_size(vb, 0) < pix_fmt->sizeimage)
- 		return -EINVAL;
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+index 3f81dd17755c..fbcca59a0517 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
++++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+@@ -494,7 +494,7 @@ static int rotate_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		struct device *dev = ctx->dev->dev;
+ 		int ret;
  
--	vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
-+	/*
-+	 * Buffer's bytesused must be written by driver for CAPTURE buffers.
-+	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
-+	 * it to buffer length).
-+	 */
-+	if (V4L2_TYPE_IS_CAPTURE(vq->type))
-+		vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
+-		ret = pm_runtime_get_sync(dev);
++		ret = pm_runtime_resume_and_get(dev);
+ 		if (ret < 0) {
+ 			dev_err(dev, "Failed to enable module\n");
  
- 	return 0;
- }
 -- 
 2.30.2
 
