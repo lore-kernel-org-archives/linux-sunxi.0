@@ -1,21 +1,21 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 757DB177
-	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jul 2021 23:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413AD72
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jul 2021 23:05:28 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 27DCD1042;
-	Mon,  5 Jul 2021 16:05:21 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4182511D4;
+	Mon,  5 Jul 2021 16:05:22 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45C393F73B;
-	Mon,  5 Jul 2021 16:05:20 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F8983F73B;
+	Mon,  5 Jul 2021 16:05:21 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/3] sunxi: SPL SPI: Allow larger SPL
-Date: Tue,  6 Jul 2021 00:04:43 +0100
-Message-Id: <20210705230445.14834-2-andre.przywara@arm.com>
+Subject: [PATCH 2/3] sunxi: SPL SPI: Add SPI boot support for the Allwinner H616 SoC
+Date: Tue,  6 Jul 2021 00:04:44 +0100
+Message-Id: <20210705230445.14834-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210705230445.14834-1-andre.przywara@arm.com>
 References: <20210705230445.14834-1-andre.przywara@arm.com>
@@ -25,69 +25,133 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-The more recent Allwinner SoCs BootROMs can actually load SPL images
-larger than 32KB. We use this on the H616 to fit the extra code needed
-for the PMIC into the image, and have provisions in board.c to respect
-that larger SPL size when booting from MMC.
+The H616 SoC uses the same SPI IP as the H6, also shares the same clocks
+and reset bits.
+The only real difference is a slight change in the pin assignment: the
+H6 uses PC5, the H616 PC4 instead. This makes for a small change in
+our spi0_pinmux_setup() routine.
 
-However the sunxi SPL SPI loader has a hardcoded load offset of 32KB,
-which will fail on the H616.
-
-To fix this, use the same algorithm we use for MMC: if the SPL size is
-smaller than 32KB, we use 32KB, otherwise we expect the U-Boot payload
-directly after the SPL code.
-
-This prepares for SPI booting with larger SPLs like on the H616.
+Apart from that, just extend the H6 #ifdef guards to also cover the H616,
+using the shared CONFIG_SUN50I_GEN_H6 symbol.
+Also use this symbol for the Kconfig dependency.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/mach-sunxi/spl_spi_sunxi.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ arch/arm/mach-sunxi/Kconfig         |  2 +-
+ arch/arm/mach-sunxi/spl_spi_sunxi.c | 27 +++++++++++++++------------
+ 2 files changed, 16 insertions(+), 13 deletions(-)
 
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index 49f94f095c1..6b9bbed9a7a 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -1057,7 +1057,7 @@ config SPL_STACK_R_ADDR
+ 
+ config SPL_SPI_SUNXI
+ 	bool "Support for SPI Flash on Allwinner SoCs in SPL"
+-	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUNXI_H3_H5 || MACH_SUN50I || MACH_SUN8I_R40 || MACH_SUN50I_H6
++	depends on MACH_SUN4I || MACH_SUN5I || MACH_SUN7I || MACH_SUNXI_H3_H5 || MACH_SUN50I || MACH_SUN8I_R40 || SUN50I_GEN_H6
+ 	help
+ 	  Enable support for SPI Flash. This option allows SPL to read from
+ 	  sunxi SPI Flash. It uses the same method as the boot ROM, so does
 diff --git a/arch/arm/mach-sunxi/spl_spi_sunxi.c b/arch/arm/mach-sunxi/spl_spi_sunxi.c
-index 15e86cbac8f..3499c4cc5f8 100644
+index 3499c4cc5f8..d00c34708be 100644
 --- a/arch/arm/mach-sunxi/spl_spi_sunxi.c
 +++ b/arch/arm/mach-sunxi/spl_spi_sunxi.c
-@@ -7,6 +7,7 @@
- #include <image.h>
- #include <log.h>
- #include <spl.h>
-+#include <asm/arch/spl.h>
- #include <asm/gpio.h>
- #include <asm/io.h>
- #include <linux/bitops.h>
-@@ -326,10 +327,13 @@ static int spl_spi_load_image(struct spl_image_info *spl_image,
- 	int ret = 0;
- 	struct image_header *header;
- 	header = (struct image_header *)(CONFIG_SYS_TEXT_BASE);
-+	int load_offset = readl(SPL_ADDR + 0x10);
+@@ -78,7 +78,7 @@
+ 
+ #define CCM_AHB_GATING0             (0x01C20000 + 0x60)
+ #define CCM_H6_SPI_BGR_REG          (0x03001000 + 0x96c)
+-#ifdef CONFIG_MACH_SUN50I_H6
++#ifdef CONFIG_SUN50I_GEN_H6
+ #define CCM_SPI0_CLK                (0x03001000 + 0x940)
+ #else
+ #define CCM_SPI0_CLK                (0x01C20000 + 0xA0)
+@@ -96,7 +96,7 @@
+ /*
+  * Allwinner A10/A20 SoCs were using pins PC0,PC1,PC2,PC23 for booting
+  * from SPI Flash, everything else is using pins PC0,PC1,PC2,PC3.
+- * The H6 uses PC0, PC2, PC3, PC5.
++ * The H6 uses PC0, PC2, PC3, PC5, the H616 PC0, PC2, PC3, PC4.
+  */
+ static void spi0_pinmux_setup(unsigned int pin_function)
+ {
+@@ -104,11 +104,14 @@ static void spi0_pinmux_setup(unsigned int pin_function)
+ 	sunxi_gpio_set_cfgpin(SUNXI_GPC(0), pin_function);
+ 	sunxi_gpio_set_cfgpin(SUNXI_GPC(2), pin_function);
+ 
+-	/* All chips except H6 use PC1, and only H6 uses PC5. */
+-	if (!IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	/* All chips except H6 and H616 use PC1. */
++	if (!IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		sunxi_gpio_set_cfgpin(SUNXI_GPC(1), pin_function);
+-	else
 +
-+	load_offset = max(load_offset, CONFIG_SYS_SPI_U_BOOT_OFFS);
++	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
+ 		sunxi_gpio_set_cfgpin(SUNXI_GPC(5), pin_function);
++	if (IS_ENABLED(CONFIG_MACH_SUN50I_H616))
++		sunxi_gpio_set_cfgpin(SUNXI_GPC(4), pin_function);
  
- 	spi0_init();
+ 	/* Older generations use PC23 for CS, newer ones use PC3. */
+ 	if (IS_ENABLED(CONFIG_MACH_SUN4I) || IS_ENABLED(CONFIG_MACH_SUN7I) ||
+@@ -121,7 +124,7 @@ static void spi0_pinmux_setup(unsigned int pin_function)
+ static bool is_sun6i_gen_spi(void)
+ {
+ 	return IS_ENABLED(CONFIG_SUNXI_GEN_SUN6I) ||
+-	       IS_ENABLED(CONFIG_MACH_SUN50I_H6);
++	       IS_ENABLED(CONFIG_SUN50I_GEN_H6);
+ }
  
--	spi0_read_data((void *)header, CONFIG_SYS_SPI_U_BOOT_OFFS, 0x40);
-+	spi0_read_data((void *)header, load_offset, 0x40);
+ static uintptr_t spi0_base_address(void)
+@@ -129,7 +132,7 @@ static uintptr_t spi0_base_address(void)
+ 	if (IS_ENABLED(CONFIG_MACH_SUN8I_R40))
+ 		return 0x01C05000;
  
-         if (IS_ENABLED(CONFIG_SPL_LOAD_FIT) &&
- 		image_get_magic(header) == FDT_MAGIC) {
-@@ -342,14 +346,14 @@ static int spl_spi_load_image(struct spl_image_info *spl_image,
- 		load.bl_len = 1;
- 		load.read = spi_load_read;
- 		ret = spl_load_simple_fit(spl_image, &load,
--					  CONFIG_SYS_SPI_U_BOOT_OFFS, header);
-+					  load_offset, header);
- 	} else {
- 		ret = spl_parse_image_header(spl_image, header);
- 		if (ret)
- 			return ret;
+-	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		return 0x05010000;
  
- 		spi0_read_data((void *)spl_image->load_addr,
--			       CONFIG_SYS_SPI_U_BOOT_OFFS, spl_image->size);
-+			       load_offset, spl_image->size);
- 	}
+ 	if (!is_sun6i_gen_spi())
+@@ -146,14 +149,14 @@ static void spi0_enable_clock(void)
+ 	uintptr_t base = spi0_base_address();
  
- 	spi0_deinit();
+ 	/* Deassert SPI0 reset on SUN6I */
+-	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		setbits_le32(CCM_H6_SPI_BGR_REG, (1U << 16) | 0x1);
+ 	else if (is_sun6i_gen_spi())
+ 		setbits_le32(SUN6I_BUS_SOFT_RST_REG0,
+ 			     (1 << AHB_RESET_SPI0_SHIFT));
+ 
+ 	/* Open the SPI0 gate */
+-	if (!IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	if (!IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		setbits_le32(CCM_AHB_GATING0, (1 << AHB_GATE_OFFSET_SPI0));
+ 
+ 	/* Divide by 4 */
+@@ -194,11 +197,11 @@ static void spi0_disable_clock(void)
+ 	writel(0, CCM_SPI0_CLK);
+ 
+ 	/* Close the SPI0 gate */
+-	if (!IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	if (!IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		clrbits_le32(CCM_AHB_GATING0, (1 << AHB_GATE_OFFSET_SPI0));
+ 
+ 	/* Assert SPI0 reset on SUN6I */
+-	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	if (IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		clrbits_le32(CCM_H6_SPI_BGR_REG, (1U << 16) | 0x1);
+ 	else if (is_sun6i_gen_spi())
+ 		clrbits_le32(SUN6I_BUS_SOFT_RST_REG0,
+@@ -210,7 +213,7 @@ static void spi0_init(void)
+ 	unsigned int pin_function = SUNXI_GPC_SPI0;
+ 
+ 	if (IS_ENABLED(CONFIG_MACH_SUN50I) ||
+-	    IS_ENABLED(CONFIG_MACH_SUN50I_H6))
++	    IS_ENABLED(CONFIG_SUN50I_GEN_H6))
+ 		pin_function = SUN50I_GPC_SPI0;
+ 
+ 	spi0_pinmux_setup(pin_function);
 -- 
 2.17.5
 
