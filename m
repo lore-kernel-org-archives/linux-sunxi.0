@@ -1,86 +1,103 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26BB72;
-	Sun,  4 Jul 2021 23:08:56 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6CD3E61965;
-	Sun,  4 Jul 2021 23:08:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1625440136;
-	bh=TaoS9g5TrRsUhghe3xa90/jrdsLyfglBekaPaQsb4d8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=vQ5ZyvRzjMHfWnTjnk7DaQzTQBpzYtaKlGCxSE18v4b7mbFrrv3uvle4DcZP3up1Z
-	 a6ZVOJ+ivuTMmPcVIFsLP479ucIScsxCkkqt/Dg6cXYCY2Ndiw2kTB4qKd48OwCOTQ
-	 CbV/CVLBATm1x745ytJfMJD93A8hl4pU1cTsda0HZ6vK+YiXNJMqkwKXEFmt/ynEMf
-	 BuCVC04Tgm6657EWJ0M+kZnu03il2f0eM+KlO7BxJi5LkXfnnksLUQQFC5IE11fzSI
-	 tfYlIU+qMVLKkSWDBzoynG8OzfcDpOSIBVudmmFq1jVsvWcR4HILpcvvJkeTAh15qG
-	 3KGJQqTWx/l2g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 38/70] media: cedrus: Fix .buf_prepare
-Date: Sun,  4 Jul 2021 19:07:31 -0400
-Message-Id: <20210704230804.1490078-38-sashal@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210704230804.1490078-1-sashal@kernel.org>
-References: <20210704230804.1490078-1-sashal@kernel.org>
+Received: from m12-14.163.com (m12-14.163.com [220.181.12.14])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EC94168
+	for <linux-sunxi@lists.linux.dev>; Mon,  5 Jul 2021 03:31:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id; bh=mlvt/TFaHoC2i1egkM
+	uZiaKIlPJMLgZcLOd+NMsIg4U=; b=S57yWLVgogMo+mfeyS+/UuTJoK0eeRn1eQ
+	NP58OWglIyr5HqP6X6Gwzdee2+R+4PV3HrP1kqQNz86bhAbBbI/F6U+1sGSxJGA5
+	Asx/GA7YRRNP9DDdO2Q3gE8xuzZQMsnS+8kHFskxS0SJgU/C+JJgHz6xkrgnHe0j
+	c6qW9T08M=
+Received: from localhost.localdomain (unknown [218.201.129.20])
+	by smtp10 (Coremail) with SMTP id DsCowAB3U30AfeJgWfg4SQ--.36461S6;
+	Mon, 05 Jul 2021 11:31:14 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	andre.przywara@arm.com,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v3 3/3] ARM: dts: sun8i: r40: bananapi-m2-ultra: Enable usb_otg
+Date: Mon,  5 Jul 2021 11:31:04 +0800
+Message-Id: <20210705033104.7824-3-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210705033104.7824-1-qianfanguijin@163.com>
+References: <20210705033104.7824-1-qianfanguijin@163.com>
+X-CM-TRANSID:DsCowAB3U30AfeJgWfg4SQ--.36461S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr1fCF15KryxWw1xXF1kXwb_yoW8XF4rpa
+	4DuFs8Cr4rGr43JwnIqr40ya43C3Z5uryFvF1xCa48Jrn7XanrXryfKwn5uFW5G34rAw40
+	vFZxZr1xGr4DZw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnTmhUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXALG7VXl0LWzoAAAsz
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
 
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+From: qianfan Zhao <qianfanguijin@163.com>
 
-[ Upstream commit d84b9202d712309840f8b5abee0ed272506563bd ]
+Enable it.
 
-The driver should only set the payload on .buf_prepare if the
-buffer is CAPTURE type. If an OUTPUT buffer has a zero bytesused
-set by userspace then v4l2-core will set it to buffer length.
-
-If we overwrite bytesused for OUTPUT buffers, too, then
-vb2_get_plane_payload() will return incorrect value which might be then
-written to hw registers by the driver in cedrus_h264.c or cedrus_vp8.c.
-
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_video.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 911f607d9b09..16327be904d1 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -449,7 +449,13 @@ static int cedrus_buf_prepare(struct vb2_buffer *vb)
- 	if (vb2_plane_size(vb, 0) < pix_fmt->sizeimage)
- 		return -EINVAL;
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index a6a1087a0c9b..23b054665b9a 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -43,6 +43,7 @@
  
--	vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
-+	/*
-+	 * Buffer's bytesused must be written by driver for CAPTURE buffers.
-+	 * (for OUTPUT buffers, if userspace passes 0 bytesused, v4l2-core sets
-+	 * it to buffer length).
-+	 */
-+	if (V4L2_TYPE_IS_CAPTURE(vq->type))
-+		vb2_set_plane_payload(vb, 0, pix_fmt->sizeimage);
+ /dts-v1/;
+ #include "sun8i-r40.dtsi"
++#include "sunxi-common-regulators.dtsi"
  
- 	return 0;
- }
+ #include <dt-bindings/gpio/gpio.h>
+ 
+@@ -159,6 +160,7 @@
+ 		reg = <0x34>;
+ 		interrupt-parent = <&nmi_intc>;
+ 		interrupts = <0 IRQ_TYPE_LEVEL_LOW>;
++		x-powers,drive-vbus-en;
+ 	};
+ };
+ 
+@@ -293,6 +295,11 @@
+ 	regulator-name = "vdd2v5-sata";
+ };
+ 
++&reg_drivevbus {
++	regulator-name = "usb0-vbus";
++	status = "okay";
++};
++
+ &reg_eldo3 {
+ 	regulator-min-microvolt = <1200000>;
+ 	regulator-max-microvolt = <1200000>;
+@@ -328,7 +335,20 @@
+ 	};
+ };
+ 
++&usb_otg {
++	dr_mode = "otg";
++	status = "okay";
++};
++
++&usb_power_supply {
++	status = "okay";
++};
++
+ &usbphy {
++	usb0_id_det-gpios = <&pio 8 4 GPIO_ACTIVE_HIGH>; /* PI4 */
++	usb0_vbus_det-gpios = <&pio 8 8 GPIO_ACTIVE_HIGH>; /* PI8 */
++	usb0_vbus_power-supply = <&usb_power_supply>;
++	usb0_vbus-supply = <&reg_drivevbus>;
+ 	usb1_vbus-supply = <&reg_vcc5v0>;
+ 	usb2_vbus-supply = <&reg_vcc5v0>;
+ 	status = "okay";
 -- 
-2.30.2
+2.17.1
 
