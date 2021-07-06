@@ -1,46 +1,47 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E6170
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 14:22:45 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id c17so34389884ejk.13
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Jul 2021 07:22:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB3170
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 14:23:10 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id nd37so34440033ejc.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 06 Jul 2021 07:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=amarulasolutions.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KXznDDoKxPvronr6ZB/8oix8P+kbXwv/iUS7d/f7KFg=;
-        b=lZNLFjX+u81zO0Q773q7YkwEXePP/o3hQVa2F+rKErxqibLR+c8FLOvs8avXO8yAPg
-         1/WHlGO09f1yLhr5IOBL9NCwgUcwOzVEyac5mxBAB+JhzVPscRDNGiMbbmwUKlTNJT5E
-         sFbcharYwQrE6dL8+wVONusgk4PGsb8lLy0oo=
+        bh=4o1TdLi09yGFx/0vrPQXG9W9Ym3vbmhNdLW/6AcNEY4=;
+        b=Bv8S5tic8luNXnFOSbEow1By+watP3n2S5dn1UKmBEPMMn7ScJxRC77acbYfi+Dt/6
+         UDxMA3b7A2gRRe9KAHsBC4vT9Dji4qc20Q5mqD6QN6HkCJ1E9D5eTpirtEmeX3Oth8u9
+         ivFNH8ObWM1HKT6osfEoNyL5b+aTEKcPibYPw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KXznDDoKxPvronr6ZB/8oix8P+kbXwv/iUS7d/f7KFg=;
-        b=XiOhMGDvHSvOGluUc2xBld4xRfhyFWG0/tIpMxh0DfXQrCG2uZ73OfDvc6urOTaeJc
-         bTxaenwcwRhrtFKuiM4bOQNJ9uE8C2nCywfiMsjYSMlSe1Qusj6V2A4j5NzDyQm4pyyS
-         xT/Din3cqxhb1OlJwKDPzYYUI0ofe/Siaw4Neho/dmZlhZtDPD6XCrzv0CVunlF5jONZ
-         dj7KSSMKQdmVxrV110vT8V7S546intyxsHFINoOppB+r6z7D9ewjJZstrylWE75xCjBY
-         C9Miiym/yAKOanMVpKcAcX53ZcfoIyUKsvlYV406NarVqsNDafRI2R2WQZnMgbkdZZ7+
-         nAvw==
-X-Gm-Message-State: AOAM531HotVi+gqO+arCwxZDTUQC8DlvZ7dE4LUUYAZ1n2C6HMqiYDwP
-	0P2esJ/xFgFNSEKtXyzqmuXss31G8IiPzCSNdnCtNQ==
-X-Google-Smtp-Source: ABdhPJxY3de/fa6HtiJ0aSkMxFnIfe8IFC58ychndTovYKjZPvABuH+YHjXHb8kBtYndJRw1GDEMJpUbNulY0CR9/zE=
-X-Received: by 2002:a17:906:5d12:: with SMTP id g18mr18761112ejt.186.1625581364144;
- Tue, 06 Jul 2021 07:22:44 -0700 (PDT)
+        bh=4o1TdLi09yGFx/0vrPQXG9W9Ym3vbmhNdLW/6AcNEY4=;
+        b=fK73SOOhg6b8gkpeGv6kAxXzzflaDWqUPPYz1NaflaZyZZ1ukUsLwbxK3iG/JvUc7j
+         lPJv2TGocBpzLR0jUhKZ4xtibH1dFZ6p+O2pdwVSWSq4AMaV6ku33to91nXNgIrnI2pg
+         z7T2LjBlupCLAtg5kxWMrtGCKeNJ5Cdqw+GiS33VzS2sAE31pYvPqrwtvPOleyVw9VRH
+         WY1j4S0HUGn+F75Gc7jY4MA7ncCXpD42xpsPvDeWicCHSU73ostfli/g4ifSktdCf8Uw
+         JSzXsBErgLB3JmlSSRLbvqbEHGu0Pn2AHseTLkhHsvgwfxTYAgN8HUtM2UgOt/gRG3NB
+         /EtQ==
+X-Gm-Message-State: AOAM532wgNwcyla+5+uuxF2I9yKjgX/ga7ENY2y3LpuA6GG3aeNuu1xl
+	UwB2pvBymuP57/hdMYOiGRrXr630cVC8z6klHp3x+A==
+X-Google-Smtp-Source: ABdhPJy0fhk/SVM9TaoXf/40hEy+kTkzkNqte7Zy5noVkUCyF/GpnOY7w5hCc9ryXFkcR3PVTHxt7Fy42ZIabgdseXU=
+X-Received: by 2002:a17:906:368e:: with SMTP id a14mr19075919ejc.60.1625581389310;
+ Tue, 06 Jul 2021 07:23:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210705230445.14834-1-andre.przywara@arm.com> <20210705230445.14834-2-andre.przywara@arm.com>
-In-Reply-To: <20210705230445.14834-2-andre.przywara@arm.com>
+References: <20210705230445.14834-1-andre.przywara@arm.com> <20210705230445.14834-3-andre.przywara@arm.com>
+In-Reply-To: <20210705230445.14834-3-andre.przywara@arm.com>
 From: Jagan Teki <jagan@amarulasolutions.com>
-Date: Tue, 6 Jul 2021 19:52:33 +0530
-Message-ID: <CAMty3ZDURDZtPRmzbm9KOjUDZWGN6oXFpkw6nhbmPMu1SUeVjA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] sunxi: SPL SPI: Allow larger SPL
+Date: Tue, 6 Jul 2021 19:52:58 +0530
+Message-ID: <CAMty3ZAaJQu7L99kwHX3cdiapQnR1rVgoH8mfwgyYktV4zQ4-A@mail.gmail.com>
+Subject: Re: [PATCH 2/3] sunxi: SPL SPI: Add SPI boot support for the
+ Allwinner H616 SoC
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	U-Boot-Denx <u-boot@lists.denx.de>, linux-sunxi@lists.linux.dev
@@ -48,19 +49,15 @@ Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Jul 6, 2021 at 4:35 AM Andre Przywara <andre.przywara@arm.com> wrote:
 >
-> The more recent Allwinner SoCs BootROMs can actually load SPL images
-> larger than 32KB. We use this on the H616 to fit the extra code needed
-> for the PMIC into the image, and have provisions in board.c to respect
-> that larger SPL size when booting from MMC.
+> The H616 SoC uses the same SPI IP as the H6, also shares the same clocks
+> and reset bits.
+> The only real difference is a slight change in the pin assignment: the
+> H6 uses PC5, the H616 PC4 instead. This makes for a small change in
+> our spi0_pinmux_setup() routine.
 >
-> However the sunxi SPL SPI loader has a hardcoded load offset of 32KB,
-> which will fail on the H616.
->
-> To fix this, use the same algorithm we use for MMC: if the SPL size is
-> smaller than 32KB, we use 32KB, otherwise we expect the U-Boot payload
-> directly after the SPL code.
->
-> This prepares for SPI booting with larger SPLs like on the H616.
+> Apart from that, just extend the H6 #ifdef guards to also cover the H616,
+> using the shared CONFIG_SUN50I_GEN_H6 symbol.
+> Also use this symbol for the Kconfig dependency.
 >
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
