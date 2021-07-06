@@ -1,150 +1,200 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from EUR03-DB5-obe.outbound.protection.outlook.com (mail-eopbgr40073.outbound.protection.outlook.com [40.107.4.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5020417F
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 18:51:24 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id f20so12436418pfa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 06 Jul 2021 11:51:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238A370
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 19:23:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OA2Zt7QNDht6EsehVgdZ44jnXCiLB8cbTUb7hwqxynmu1JTYnX1YwJ+sYdNkVpgo+SNSD+YoqTy4Wgnr/reCBndLLOIDsDnu9e8qwGwgvFxZHkfG81fXx8AaE8iowG3BuIXiCCPt0NxNUZP4ar6JevEcHmlSI77hSv14kJyYMN8KFe4K9n25xi5r98MJSsVNKb2v4phsYkOFqfZ4DaV4ejHcdqseIYu5K+eakJ3K/swhtcVSJ23No+R0JJxCD3v23Q66DMgXkeGPmKt+sqPmr4XRs6GBmu8eNDC04e2J/Q+TfDqBwjk8rh+3QQao71goeXXSPWY7h3vJdEn8OH41cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y9x93nz2ACSrzZ87cMS2dkL9fctJ1JWHPiiqn3UEVoY=;
+ b=OAb07fu0WvyvJxDPOv3ZWWPtsGOjTcA1go8KMujf1psJPTGzRhGZbiyPdZpBd1lhSyKKV/hGb+J5grUQmqPikeyibv7du/75IVzr+iVoOc8CMh9dzNFT5DVWNKHyazgLOhfIvQlDh/RQa+0vE6NgvsNdt0vYG0vrj+O1lBMNWAHMtuwZ9XnP6Gn5YxioG561FpT5wPSi0TIDzKT2A/r1XoSsDuAD4KWxEuJAv3EZIObZnI8Eu6ga6W6vT5ZRq7DBA02MaM/Nc+SabnqAOIfvZorSEIyJ6VTW6X6wOdAvmQHpVEwk5xXuboAGivAts6jsEt6BZDWImyI7AIArJ/CSJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=seco.com; dmarc=pass action=none header.from=seco.com;
+ dkim=pass header.d=seco.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=CUB/wg8JoGmq3NIMuzXfvTu1/LaQA3sJa9mgD0RKZNM=;
-        b=NCdUcCEYBEoF+OVX9fy25TDeiKDiyu7MS8rvWeBmnwWDnPpc5+QhpNeuAg5+M01lgv
-         DRH8QNEoIXVvsAW/9oBoS2NReA9bsV6Hj2cFB9jLLFtRzn+HzyElennnBW9tDomDrZF/
-         XkbSLC4duPiBx+pb77e5uH0fYLMkjK217pwgB1wYqGKrM1h34OqVCa5M9I67oCpiuU+f
-         pbgZ3PKaRiScHxRehdZaD+636T/YBbbzOrYq9ouzPlMVA0x6yucHaPT19ze0f0ZjxqqZ
-         KMetsaE3O5ReiI2mpGtW6/n68aQ7RKzzGVSyyRz/qTwzg+JiHPzeut5+sQawTaXHwNB/
-         HKBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=CUB/wg8JoGmq3NIMuzXfvTu1/LaQA3sJa9mgD0RKZNM=;
-        b=OW9wPCY0Zu1G5s5NA+IDv1sEJjQNnKCnOKbgUHYCWhF0wTubarZonvKRpHBYgKQFWd
-         Sz9lclyMDHMNXWvB67ZYnHVS+KRD7lQA5jq5fEQhCn2rcBPGFOQZSrkgcU/D06ojIU1k
-         oBri0wYcAGGQmQz8mg8y2v1p6nbwvjcKVZYBrgnLaazaASVultiyU2Q2Kwq/vHirAa7O
-         nlY0/MYZtZAQFY9Lls8kN8IsIEjfenSVk0oP0GkZeZhWJbdlpcKLi7PPr9/Aft7qsw9O
-         AcWbo+5VdyG6faCjdvUWWx6mGSRBAjy9NfsQg4XBhKbcdaMt9GLdIcJhTEyj9tQSfipf
-         XllA==
-X-Gm-Message-State: AOAM5307Q8mxuZs+1NomSPNgXA9uUdFMLD7eOS9bjJB/izxLdD1l8ZtW
-	U40XsJcjmtCzfI4W6phjxWiEnwx8qtglKk7p9+L/lQ==
-X-Google-Smtp-Source: ABdhPJyL0D13WbWlA6qnw/Xmlwa19pDI+XNQ21Npie/wgUkDgmHM1zT9YORdF5DHiOOYSSe1zuHfWr+DfQo+lHkX354=
-X-Received: by 2002:a63:4c3:: with SMTP id 186mr12014592pge.240.1625597483385;
- Tue, 06 Jul 2021 11:51:23 -0700 (PDT)
+ d=secospa.onmicrosoft.com; s=selector2-secospa-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=y9x93nz2ACSrzZ87cMS2dkL9fctJ1JWHPiiqn3UEVoY=;
+ b=TUwICxNpqIGp004Yhfe0VopwU5nU067dP5CGr3jgjjwMcysQZe2TfC7rGymyCKWgw9ETbn0i4zo3myPRNxclvQ3EGs70GgyQ63CGWMdkOlS04JBjDYEwNXLry+2GiLUtGnXjxaTXLO96ADtN0QwGrdWNUugLGKf6n52XDLwBmw8=
+Authentication-Results: lists.linux.dev; dkim=none (message not signed)
+ header.d=none;lists.linux.dev; dmarc=none action=none header.from=seco.com;
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com (2603:10a6:10:19::27)
+ by DB8PR03MB6203.eurprd03.prod.outlook.com (2603:10a6:10:140::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.26; Tue, 6 Jul
+ 2021 19:23:43 +0000
+Received: from DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b]) by DB7PR03MB4523.eurprd03.prod.outlook.com
+ ([fe80::40d5:3554:c709:6b1b%5]) with mapi id 15.20.4264.026; Tue, 6 Jul 2021
+ 19:23:43 +0000
+From: Sean Anderson <sean.anderson@seco.com>
+Subject: Re: [PATCH] cmd: ums: Enable by default for sunxi
+To: Maxime Ripard <maxime@cerno.tech>, Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Tom Rini <trini@konsulko.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, U-Boot-Denx <u-boot@lists.denx.de>,
+ linux-sunxi@lists.linux.dev
+References: <20210705232319.15149-1-andre.przywara@arm.com>
+ <CAMty3ZDv3WPqRAMQEZe6D8BxJgz+MhzxdaKMQLUcG5K-CL7=Ew@mail.gmail.com>
+ <20210706165732.7a532568@slackpad.fritz.box>
+ <20210706161118.im2majzm4kwhuqw6@gilmour>
+Message-ID: <0ed283bb-db0f-6ad4-7258-d316439b548a@seco.com>
+Date: Tue, 6 Jul 2021 15:23:38 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20210706161118.im2majzm4kwhuqw6@gilmour>
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL0PR02CA0097.namprd02.prod.outlook.com
+ (2603:10b6:208:51::38) To DB7PR03MB4523.eurprd03.prod.outlook.com
+ (2603:10a6:10:19::27)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de> <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 6 Jul 2021 11:51:12 -0700
-Message-ID: <CAPcyv4gxjV7Xj8AN6aCkSLSi=yT6GdcAyigK6Au3mZQ1idBxJg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
-To: =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@pengutronix.de, 
-	Cornelia Huck <cohuck@redhat.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Russell King <linux@armlinux.org.uk>, 
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, Helge Deller <deller@gmx.de>, 
-	Geoff Levand <geoff@infradead.org>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, 
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, 
-	William Breathitt Gray <vilhelm.gray@gmail.com>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Alison Schofield <alison.schofield@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Ben Widawsky <ben.widawsky@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Vinod Koul <vkoul@kernel.org>, Stefan Richter <stefanr@s5r6.in-berlin.de>, 
-	Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi <cristian.marussi@arm.com>, 
-	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, 
-	Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>, 
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, 
-	"K. Y. Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>, 
-	Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Wolfram Sang <wsa@kernel.org>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Samuel Iglesias Gonsalvez <siglesias@igalia.com>, Jens Taprogge <jens.taprogge@taprogge.org>, 
-	Johannes Thumshirn <morbidrsa@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov <oakad@yahoo.com>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones <lee.jones@linaro.org>, 
-	Tomas Winkler <tomas.winkler@intel.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, Jon Mason <jdmason@kudzu.us>, 
-	Allen Hubbe <allenbh@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, 
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Dominik Brodowski <linux@dominikbrodowski.net>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mark Gross <mgross@linux.intel.com>, Matt Porter <mporter@kernel.crashing.org>, 
-	Alexandre Bounine <alex.bou9@gmail.com>, Ohad Ben-Cohen <ohad@wizery.com>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Mathieu Poirier <mathieu.poirier@linaro.org>, 
-	"Martin K. Petersen" <martin.petersen@oracle.com>, Thorsten Scherer <t.scherer@eckelmann.de>, 
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Stephen Boyd <sboyd@kernel.org>, Michael Buesch <m@bues.ch>, 
-	Sven Van Asbroeck <TheSven73@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, 
-	Andreas Noever <andreas.noever@gmail.com>, Michael Jamet <michael.jamet@intel.com>, 
-	Mika Westerberg <mika.westerberg@linux.intel.com>, Yehezkel Bernat <YehezkelShB@gmail.com>, 
-	Rob Herring <robh@kernel.org>, Jiri Slaby <jirislaby@kernel.org>, 
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>, "Michael S. Tsirkin" <mst@redhat.com>, 
-	Jason Wang <jasowang@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, Martyn Welch <martyn@welchs.me.uk>, 
-	Manohar Vanga <manohar.vanga@gmail.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Juergen Gross <jgross@suse.com>, Stefano Stabellini <sstabellini@kernel.org>, 
-	Johannes Berg <johannes@sipsolutions.net>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Marc Zyngier <maz@kernel.org>, Tyrel Datwyler <tyreld@linux.ibm.com>, 
-	Vladimir Zapolskiy <vz@mleia.com>, Samuel Holland <samuel@sholland.org>, 
-	Qinglang Miao <miaoqinglang@huawei.com>, Alexey Kardashevskiy <aik@ozlabs.ru>, 
-	Kai-Heng Feng <kai.heng.feng@canonical.com>, Joey Pabalan <jpabalanb@gmail.com>, 
-	=?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Frank Li <lznuaa@gmail.com>, 
-	Mike Christie <michael.christie@oracle.com>, Bodo Stroesser <bostroesser@gmail.com>, 
-	Hannes Reinecke <hare@suse.de>, David Woodhouse <dwmw@amazon.co.uk>, SeongJae Park <sjpark@amazon.de>, 
-	Julien Grall <jgrall@amazon.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev, dmaengine@vger.kernel.org, 
-	linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org, 
-	industrypack-devel@lists.sourceforge.net, linux-media@vger.kernel.org, 
-	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, linux-ntb@googlegroups.com, 
-	linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org, 
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev, 
-	greybus-dev@lists.linaro.org, target-devel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org, 
-	xen-devel@lists.xenproject.org, Russell King <rmk+kernel@armlinux.org.uk>, 
-	Johannes Thumshirn <jth@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.27.1.65] (50.195.82.171) by BL0PR02CA0097.namprd02.prod.outlook.com (2603:10b6:208:51::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4287.31 via Frontend Transport; Tue, 6 Jul 2021 19:23:42 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 61f21bbb-93c2-4760-f38e-08d940b39185
+X-MS-TrafficTypeDiagnostic: DB8PR03MB6203:
+X-Microsoft-Antispam-PRVS:
+	<DB8PR03MB6203EEF777D32DC7F952DCAB961B9@DB8PR03MB6203.eurprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	dJkGUIrguJRPUDLROz535iZqLVyDQ/vANmjMTYgJQwBU8LH9v1kv7T6TvYnRoFQNCuS6XRq8WuNaJ9ShdyCiphAJS5msXYYfjNldCh38S4fDW5qZpnWA0hFXsggCme2EJa/McsfrkS4q3ZKGKtlyVq3KfAu9fDXcH6pFuRTMHMfh9wLqlsHA2afIRMknOAckIce3PJRQPSmj62/aZpLMCwctrFpbDj59UWW7RZRoEVPCzJAFCfuwpNuPdwzXgT4aY0j1UgP0W0yjaUAfMN36JE3839OscFTeIg6bt2DXVKS0G7r9hIgKxFLNPNQYYorKxxSk0f7jlO3iGWqCuzX27osm2IvopIWZRoX8Q3SYHUwF+fnre0jd06c2mrund7demhopIoC4Jh2C+NI0MpNkiJQQSSZp7JZcKyMmRJpwytnmFYERBOjKDwIlGgp8aWaKMdxgxsCkA5A5TDs6ylFuuTgmPqKSDHCvdmlUGKH8e7DefYDtawrPDZGvVPccniZ4wq4HEs5Qmr0KOzchi8L3WcbIfpFbFDVGNpL5IgeNU7Y+euN2G05RJWA/TebcCJT74rQF8n/hKL9fs0xRdRie3hTIMspynZDVv4VpkVOBFY+Z2ZLPeJU6w55/FvmKeZhn4nbb6zkYZeWhn1CxDxk23dvWitL1zC+2LYRLE1Ko9Rii9vZQNYsYdqR+sBVcV2ZNVvALI/xN9FB8Au3en6SMbsZaEq0Cb7CxXdr5sD/DykJ1v4pL0hFmBNLTifzuA1SdyxKrvknoRcn7W21dEhGsig==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR03MB4523.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(346002)(136003)(396003)(376002)(39840400004)(478600001)(8676002)(31686004)(8936002)(83380400001)(5660300002)(6486002)(54906003)(186003)(66476007)(16576012)(38350700002)(66556008)(38100700002)(44832011)(316002)(66946007)(52116002)(86362001)(110136005)(26005)(2616005)(956004)(53546011)(6666004)(31696002)(2906002)(4326008)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?Windows-1252?Q?aUSa9hRbGo94MOCjUaL3KiNz7tZpI7oe6nYQ6vr3sx4heZqUT0tqDZjk?=
+ =?Windows-1252?Q?uqmglvhAEgQ7qImeKfqrDMWN6r6qdJOAF7zXeAO3aVSDoiDuZ2sohH+2?=
+ =?Windows-1252?Q?ED2sOk/VOAifPDXx1U6U2Hnpu4KYj5cumi2Q8NadRxNtFgCK9KGbEyEZ?=
+ =?Windows-1252?Q?RY4Oqc1/7+0K7ISu3/Rao/khPLeXYufPGC/zfRjA8ucD73wQJYLo8MIH?=
+ =?Windows-1252?Q?IewtadT7/OrZ7GLhs3QabHsIceS8uU4kLujCNI58q3gbujvbtaBQhHFr?=
+ =?Windows-1252?Q?Uo5gnY352L+DiuSL8MdwifNPjnSjy03gNEhZEB5s8EFfM82a/9L2M+RR?=
+ =?Windows-1252?Q?SBumjK+EasVCQnEvEyY+YLk1G7UuLLAaE99Vz/d9iFkVU+nvll2gTee9?=
+ =?Windows-1252?Q?XXi++gxf6ynferUNR6MkvQ4JVLwDi0xQf+dX0RprwwQDqgcu/CPxaXyZ?=
+ =?Windows-1252?Q?l0CpEnM+Y6yWFNdoa0O5Bv4XfLuP0iduU2xOh2T9ikffcANDIo3hADvO?=
+ =?Windows-1252?Q?b20yhIs9aWs2Q5zjGremqKic8mFLl/QJny3VWKPSKaJt3f/Ku8TIahsK?=
+ =?Windows-1252?Q?BN5D8U2sxZkpok6KowtnFBRpVtWFtNBVCsUkpnzCoauFNrTqCVZ8OHab?=
+ =?Windows-1252?Q?2tnJW8YUPF8VY6MEGnaduh4F9jD/IGsb5Kpe1XJV5sFwnudeHjZr60WF?=
+ =?Windows-1252?Q?6v33Qy+fV1SxEcvJXdTq7IRrenVo0gbU5Tnm26nSY3B0XXPRDIhsaHAZ?=
+ =?Windows-1252?Q?z2Ef6mF01hBDIpARbV6/OjNS9SCfzS9jdYwMjGy/JSy45CIVaf6Miyqc?=
+ =?Windows-1252?Q?Yse+dBnIKF73GjUrVqzzOS4H7l5bLal0EMzHUXKxVrbsnM4knehdVS6F?=
+ =?Windows-1252?Q?G3NEwFsnNzjPVkbOJI0/AvIiusmu9UeaL219w5NycJ6r/lMOImU9Taw5?=
+ =?Windows-1252?Q?CGSBBMNHWoCvK31k34yqRmh5E/eOdJhPZcJBB9cJBjh51g5fiM5vqZV/?=
+ =?Windows-1252?Q?pZTcT/JUWhI5dKOrIZVNFLrjMPTRX2N5fUerz2FKTG7r4t0UWzdobA5F?=
+ =?Windows-1252?Q?x1hc3SOvxPGstWJa6a7ljmlGtUfBtgZYY7OaiJY960idnelYgJELDzSm?=
+ =?Windows-1252?Q?EHwiS1yOZDuDNPjfPJDlcB3YG6xrRrgUx9x0x2KtF1eoeMPhcOxP3fEc?=
+ =?Windows-1252?Q?QqmL2FIcG8QSZz0uO9tEq1bu9QROO4YL6VPl7B7r+/EDXXlpH9zq0WpC?=
+ =?Windows-1252?Q?3TgYrW0uDZg7KulUjZfhseOeGG8uTRfr7XuS31v2wKtHPPgyW98REzfL?=
+ =?Windows-1252?Q?S06PdQRx0+pKke1cRN77QUpJQ8JGIMVRs/V791jCu8GoG9Gk2p1yIovO?=
+ =?Windows-1252?Q?EvNNRoEfvgTih2C5X1HNYiOK1QeTPQq3OcJHtxVdTWZJMmC0ATuhvr6b?=
+X-OriginatorOrg: seco.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61f21bbb-93c2-4760-f38e-08d940b39185
+X-MS-Exchange-CrossTenant-AuthSource: DB7PR03MB4523.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jul 2021 19:23:43.6253
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bebe97c3-6438-442e-ade3-ff17aa50e733
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +0IMwA47grLubyh1ZvEQ6olRmGrVXNf9qTRNImitUgT8YAyw15BxkZVAY1VnB9XRbOUzDqD0qkHpoe4Pzohy7Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6203
 
-On Tue, Jul 6, 2021 at 8:51 AM Uwe Kleine-K=C3=B6nig
-<u.kleine-koenig@pengutronix.de> wrote:
->
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->
 
->  drivers/cxl/core.c                        | 3 +--
->  drivers/dax/bus.c                         | 4 +---
->  drivers/nvdimm/bus.c                      | 3 +--
 
-For CXL, DAX, and NVDIMM
+On 7/6/21 12:11 PM, Maxime Ripard wrote:
+> On Tue, Jul 06, 2021 at 04:57:32PM +0100, Andre Przywara wrote:
+>> On Tue, 6 Jul 2021 19:56:24 +0530
+>> Jagan Teki <jagan@amarulasolutions.com> wrote:
+>>
+>> Hi Jagan,
+>>
+>> thanks for the response!
+>>
+>> > On Tue, Jul 6, 2021 at 4:53 AM Andre Przywara <andre.przywara@arm.com> wrote:
+>> > >
+>> > > The ums command (presenting a U-Boot block device as a USB mass storage
+>> > > device) is very useful for accessing eMMC devices via USB-OTG.
+>> > >
+>> > > At the moment we enable USB fastboot by default for Allwinner devices,
+>> > > so it makes sense to do the same with USB mass storage, which is
+>> > > actually more versatile and can be accessed on any USB host easily.
+>> > >
+>> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> > > ---
+>> > >  cmd/Kconfig | 1 +
+>> > >  1 file changed, 1 insertion(+)
+>> > >
+>> > > diff --git a/cmd/Kconfig b/cmd/Kconfig
+>> > > index a9fb4eead29..7b1c96910a8 100644
+>> > > --- a/cmd/Kconfig
+>> > > +++ b/cmd/Kconfig
+>> > > @@ -1347,6 +1347,7 @@ config CMD_USB_MASS_STORAGE
+>> > >         bool "UMS usb mass storage"
+>> > >         select USB_FUNCTION_MASS_STORAGE
+>> > >         depends on BLK && USB_GADGET
+>> > > +       default y if ARCH_SUNXI && USB_MUSB_GADGET
+>> >
+>> > UMS or any secondary-emmc accessible are considered in production
+>> > u-boot config instead of mainline u-boot since we have fastboot
+>> > already available for this kind of purpose. This might be one of the
+>> > reason not conisidered UMS by default till now, atleast on Allwinner.
+>>
+>> Well, I consider fastboot inferior to UMS. I understand that
+>> Android phone hackers use it all the time, but I think having a block
+>> device is far more versatile - you can partition it as you like, create
+>> and populate a filesystem, dd an image to it, extract or update
+>> firmware, etc. - most without extra software, even on Windows or Mac.
+>> I think fastboot offers a reboot command, but are there other killer
+>> reasons for it?
 
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+During manufacturing it is very convenient to be able to run arbitrary
+commands with ACMD/UCMD, or particular commands like partconf. Fastboot
+also allows loading things directly to ram, which is nice for loading a
+ramdisk/kernel when you don't have network/mass storage.
+
+There is also no way to stop UMS other than by yanking the cord or by
+hitting Ctrl-C (though I am working on this).
+
+> And having the ums command in addition to fastboot does
+>> not hurt, both would still work.
+>
+> fastboot abstracts away the storage medium, whereas UMS doesn't. You
+> cannot run UMS on a NAND or SPI-NOR, while this causes no issue at all
+> to fastboot.
+>
+> Similarly, UMS exposes the whole partition to the host. You then need to
+> have a driver for that FS on that machine, otherwise you just can't
+> access it.
+
+You can expose just one partition like
+
+ums 0 mmc 0:2
+
+you can also expose multiple partitions like
+
+ums 0 mmc 0:1,0:2,0.1,0.2
+
+--Sean
+
+> Sure, it's convenient, but it's far from being ubiquitous and the silver
+> bullet you claim it is.
+>
+>> So are there any real arguments for not adding ums as well? I am not
+>> sure many people tweak their config, so I would like to offer a decent
+>> out-of-the-box experience, even for casual users.
+>
+> As usual, we also have to balance that with the size limit, but I'm not
+> sure it's an issue these days?
+>
+> Maxime
+>
