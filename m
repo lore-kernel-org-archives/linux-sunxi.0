@@ -1,196 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E031A2FAD
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 16:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1625587781;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5risqcJR3SRZugYRxSjL/FvvM4+olXr1vxcAoe7tQ/0=;
-	b=a2Fp2s0RNmEfhOiWtVlAxnwporE8Iec5f9NIyahKVrzYHnh6fhPpnX4ZwINyUJw0wEh3PI
-	5NQ0wg4SC/rIaHvouVrje36CnZ5FjJBDVvQ98lGR6TwWYCbTsW/WwXWM9zeyY5KC1M+kNc
-	U2iNFU1hUfBVabsmDJ+GBo7xSi8o23Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-a5wCyw6hOsih0Wr2yFDVpA-1; Tue, 06 Jul 2021 12:09:40 -0400
-X-MC-Unique: a5wCyw6hOsih0Wr2yFDVpA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 973D9804140;
-	Tue,  6 Jul 2021 16:09:34 +0000 (UTC)
-Received: from localhost (ovpn-113-13.ams2.redhat.com [10.36.113.13])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A281B16D28;
-	Tue,  6 Jul 2021 16:09:18 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Greg
- Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: kernel@pengutronix.de, linux-kernel@vger.kernel.org, Russell King
- <linux@armlinux.org.uk>, Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, Helge
- Deller <deller@gmx.de>, Geoff Levand <geoff@infradead.org>, Michael
- Ellerman <mpe@ellerman.id.au>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Paul Mackerras <paulus@samba.org>, "Rafael J.
- Wysocki" <rjw@rjwysocki.net>, Len Brown <lenb@kernel.org>, William
- Breathitt Gray <vilhelm.gray@gmail.com>, =?utf-8?Q?Rafa=C5=82_Mi=C5=82eck?=
- =?utf-8?Q?i?= <zajec5@gmail.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Alison Schofield
- <alison.schofield@intel.com>, Vishal Verma <vishal.l.verma@intel.com>, Ira
- Weiny <ira.weiny@intel.com>, Ben Widawsky <ben.widawsky@intel.com>, Dan
- Williams <dan.j.williams@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Vinod Koul <vkoul@kernel.org>, Stefan Richter <stefanr@s5r6.in-berlin.de>,
- Sudeep Holla <sudeep.holla@arm.com>, Cristian Marussi
- <cristian.marussi@arm.com>, Wu Hao <hao.wu@intel.com>, Tom Rix
- <trix@redhat.com>, Moritz Fischer <mdf@kernel.org>, Jiri Kosina
- <jikos@kernel.org>, Benjamin Tissoires <benjamin.tissoires@redhat.com>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Alexander Shishkin
- <alexander.shishkin@linux.intel.com>, Wolfram Sang <wsa@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Samuel Iglesias Gonsalvez
- <siglesias@igalia.com>, Jens Taprogge <jens.taprogge@taprogge.org>,
- Johannes Thumshirn <morbidrsa@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Maxim Levitsky <maximlevitsky@gmail.com>, Alex Dubov
- <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>, Lee Jones
- <lee.jones@linaro.org>, Tomas Winkler <tomas.winkler@intel.com>, Arnd
- Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>, "David S.
- Miller" <davem@davemloft.net>, Jon Mason <jdmason@kudzu.us>, Allen Hubbe
- <allenbh@gmail.com>, Kishon Vijay Abraham I <kishon@ti.com>, Lorenzo
- Pieralisi <lorenzo.pieralisi@arm.com>, Krzysztof =?utf-8?Q?Wilczy=C5=84sk?=
- =?utf-8?Q?i?=
- <kw@linux.com>, Bjorn Helgaas <bhelgaas@google.com>, Dominik Brodowski
- <linux@dominikbrodowski.net>, Maximilian Luz <luzmaximilian@gmail.com>,
- Hans de Goede <hdegoede@redhat.com>, Mark Gross <mgross@linux.intel.com>,
- Matt Porter <mporter@kernel.crashing.org>, Alexandre Bounine
- <alex.bou9@gmail.com>, Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson
- <bjorn.andersson@linaro.org>, Mathieu Poirier
- <mathieu.poirier@linaro.org>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Thorsten Scherer <t.scherer@eckelmann.de>,
- Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Andy Gross
- <agross@kernel.org>, Mark Brown <broonie@kernel.org>, Stephen Boyd
- <sboyd@kernel.org>, Michael Buesch <m@bues.ch>, Sven Van Asbroeck
- <TheSven73@gmail.com>, Johan Hovold <johan@kernel.org>, Alex Elder
- <elder@kernel.org>, Andreas Noever <andreas.noever@gmail.com>, Michael
- Jamet <michael.jamet@intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Rob Herring <robh@kernel.org>, Jiri Slaby
- <jirislaby@kernel.org>, Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Alex Williamson
- <alex.williamson@redhat.com>, Martyn Welch <martyn@welchs.me.uk>, Manohar
- Vanga <manohar.vanga@gmail.com>, Boris Ostrovsky
- <boris.ostrovsky@oracle.com>, Juergen Gross <jgross@suse.com>, Stefano
- Stabellini <sstabellini@kernel.org>, Johannes Berg
- <johannes@sipsolutions.net>, Jaroslav Kysela <perex@perex.cz>, Takashi
- Iwai <tiwai@suse.com>, Marc Zyngier <maz@kernel.org>, Tyrel Datwyler
- <tyreld@linux.ibm.com>, Vladimir Zapolskiy <vz@mleia.com>, Samuel Holland
- <samuel@sholland.org>, Qinglang Miao <miaoqinglang@huawei.com>, Alexey
- Kardashevskiy <aik@ozlabs.ru>, Kai-Heng Feng
- <kai.heng.feng@canonical.com>, Joey Pabalan <jpabalanb@gmail.com>, Pali
- =?utf-8?Q?Roh=C3=A1r?= <pali@kernel.org>, Adrian Hunter
- <adrian.hunter@intel.com>, Frank Li
- <lznuaa@gmail.com>, Mike Christie <michael.christie@oracle.com>, Bodo
- Stroesser <bostroesser@gmail.com>, Hannes Reinecke <hare@suse.de>, David
- Woodhouse <dwmw@amazon.co.uk>, SeongJae Park <sjpark@amazon.de>, Julien
- Grall <jgrall@amazon.com>, linux-arm-kernel@lists.infradead.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-acpi@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-cxl@vger.kernel.org, nvdimm@lists.linux.dev,
- dmaengine@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
- linux-fpga@vger.kernel.org, linux-input@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org,
- linux-i3c@lists.infradead.org, industrypack-devel@lists.sourceforge.net,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, linux-ntb@googlegroups.com,
- linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
- alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
- linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
- greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
- virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
- xen-devel@lists.xenproject.org, Russell King <rmk+kernel@armlinux.org.uk>,
- Johannes Thumshirn <jth@kernel.org>
-Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
-In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-Organization: Red Hat GmbH
-References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
- <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Tue, 06 Jul 2021 18:09:17 +0200
-Message-ID: <87r1gbfmqa.fsf@redhat.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA6B168
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 16:11:22 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9B7395C028C;
+	Tue,  6 Jul 2021 12:11:21 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 06 Jul 2021 12:11:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=KliTMefJzAYxrzLSNlhl2xYe2MN
+	Ej8H99kpUpPg4XGs=; b=EWUh5GLHdZs0RGGSax/o/pXeDSvIz56CzeDMA3U9P6m
+	x3yIA4OGPWywJ/GgrjM5C24T+lUVNKI3+OtIZ1rra0hATQVfdb3J5C/w4t3i/F5E
+	HOkP+1rcwbsU0awucBl/cxBfBfPHyN/qKrbTObX+allKyVbM5gJbM88AEune248W
+	QGTH9BOdk3HpPfBWDLn3iNh2iSpUz61JZo5byquJQsHcY+GQ9pB0dFKlwvGNOYkA
+	s0FxTC2Bvuip8ttZQX6nsZIDiPRWOcWUSiDHZy2x14ZL1z5B3y6uat+QnG5IRHx4
+	uNTWDqWUhOiXv3jR0WSS/cA8loL2WJWhKqlHehbOUAw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=KliTMe
+	fJzAYxrzLSNlhl2xYe2MNEj8H99kpUpPg4XGs=; b=lwfXiN8MUo0ZdyRmCkNvzu
+	jRhwf4i1GWbBhXi83RuVyNCsmb22jd8dEdWIfKy8wZkEFlvY90tcEPfcSBe1jQL2
+	hTHOeS/R5jq7fytr8HUoNuUhvD5it3Vp1YkLPnZGo4NxBG4s/88lgJT5Lq8oIQa+
+	9B8NYRX4kKI8v8HV/uGR7VwsCJ0C30wjAV2yB7a0kh/qJVglTI3LrzqNeJibubIW
+	s5xu+bCGCWE8UQb8xGZ747qAJ+BM3vdlEyl/GqVuy+tKPxve9HQQqoRcaRgf7yhh
+	AKcOJl9aixAkgyq1kR2nMb32a4IYa66XhuAF+dxbbc/7gNLeye2KZFa51GwwK9Fw
+	==
+X-ME-Sender: <xms:qIDkYFxsqfn9JEJWjC7wkeYqttCdV4z2t6OJgApuLybxJqHT4gdTrw>
+    <xme:qIDkYFTnQ3mHtHkn_cm3-WL4dD_a1iUxyyT2u2WnTxJpxCZg8wEpmpE6rDYV9gOHX
+    4JvbY66LQn_TXHt-Rs>
+X-ME-Received: <xmr:qIDkYPVOj7TemAlU7saHI9XawRiOzhh05FC3v0MqeNYlaDlbGID5kDdKXXZ39BC9eFVxNjISpWIJETvKryPOacZNm_VNaIUj5KpA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrtddtgdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:qIDkYHgotCbYdGTc01aLthtcA55Zw_wKrugBY-qh0AZlgTNHllYgmg>
+    <xmx:qIDkYHDP9PHYCPvsA8Dy3ijawCM6xQbvCi4_a0LUrlMtUfclvEi5NQ>
+    <xmx:qIDkYAKPwdOWlYy1gKv1soGvIY8ahwEknxpMG_NCdVjPdt4JMzmfbQ>
+    <xmx:qYDkYJ2g-vt_JXa8yIvfe8gwAvb6TOwLwiEZdDsr7qEyYdLwwldGDg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 6 Jul 2021 12:11:20 -0400 (EDT)
+Date: Tue, 6 Jul 2021 18:11:18 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+	Tom Rini <trini@konsulko.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	U-Boot-Denx <u-boot@lists.denx.de>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] cmd: ums: Enable by default for sunxi
+Message-ID: <20210706161118.im2majzm4kwhuqw6@gilmour>
+References: <20210705232319.15149-1-andre.przywara@arm.com>
+ <CAMty3ZDv3WPqRAMQEZe6D8BxJgz+MhzxdaKMQLUcG5K-CL7=Ew@mail.gmail.com>
+ <20210706165732.7a532568@slackpad.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qsp4r3pxjv2y6osi"
+Content-Disposition: inline
+In-Reply-To: <20210706165732.7a532568@slackpad.fritz.box>
+
+
+--qsp4r3pxjv2y6osi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 06 2021, Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>=
- wrote:
+On Tue, Jul 06, 2021 at 04:57:32PM +0100, Andre Przywara wrote:
+> On Tue, 6 Jul 2021 19:56:24 +0530
+> Jagan Teki <jagan@amarulasolutions.com> wrote:
+>=20
+> Hi Jagan,
+>=20
+> thanks for the response!
+>=20
+> > On Tue, Jul 6, 2021 at 4:53 AM Andre Przywara <andre.przywara@arm.com> =
+wrote:
+> > >
+> > > The ums command (presenting a U-Boot block device as a USB mass stora=
+ge
+> > > device) is very useful for accessing eMMC devices via USB-OTG.
+> > >
+> > > At the moment we enable USB fastboot by default for Allwinner devices,
+> > > so it makes sense to do the same with USB mass storage, which is
+> > > actually more versatile and can be accessed on any USB host easily.
+> > >
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  cmd/Kconfig | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/cmd/Kconfig b/cmd/Kconfig
+> > > index a9fb4eead29..7b1c96910a8 100644
+> > > --- a/cmd/Kconfig
+> > > +++ b/cmd/Kconfig
+> > > @@ -1347,6 +1347,7 @@ config CMD_USB_MASS_STORAGE
+> > >         bool "UMS usb mass storage"
+> > >         select USB_FUNCTION_MASS_STORAGE
+> > >         depends on BLK && USB_GADGET
+> > > +       default y if ARCH_SUNXI && USB_MUSB_GADGET
+> >=20
+> > UMS or any secondary-emmc accessible are considered in production
+> > u-boot config instead of mainline u-boot since we have fastboot
+> > already available for this kind of purpose. This might be one of the
+> > reason not conisidered UMS by default till now, atleast on Allwinner.
+>=20
+> Well, I consider fastboot inferior to UMS. I understand that
+> Android phone hackers use it all the time, but I think having a block
+> device is far more versatile - you can partition it as you like, create
+> and populate a filesystem, dd an image to it, extract or update
+> firmware, etc. - most without extra software, even on Windows or Mac.
+> I think fastboot offers a reboot command, but are there other killer
+> reasons for it? And having the ums command in addition to fastboot does
+> not hurt, both would still work.
 
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
->
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
->
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
->
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Am=
-ba and related parts)
-> Acked-by: Mark Brown <broonie@kernel.org>
-> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
-> Acked-by: Pali Roh=C3=A1r <pali@kernel.org>
-> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
-> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
-> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> Acked-By: Vinod Koul <vkoul@kernel.org>
-> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
-> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
-> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drive=
-rs/slimbus)
-> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
-> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and=
- typec)
-> Acked-by: Samuel Iglesias Gons=C3=A1lvez <siglesias@igalia.com> (For ipac=
-k)
-> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
-> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
-> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
-> ---
->
->  drivers/s390/cio/ccwgroup.c               | 4 +---
->  drivers/s390/cio/css.c                    | 4 +---
->  drivers/s390/cio/device.c                 | 4 +---
->  drivers/s390/cio/scm.c                    | 4 +---
->  drivers/s390/crypto/ap_bus.c              | 4 +---
->  drivers/vfio/mdev/mdev_driver.c           | 4 +---
+fastboot abstracts away the storage medium, whereas UMS doesn't. You
+cannot run UMS on a NAND or SPI-NOR, while this causes no issue at all
+to fastboot.
 
-For drivers/s390 and drivers/vfio:
+Similarly, UMS exposes the whole partition to the host. You then need to
+have a driver for that FS on that machine, otherwise you just can't
+access it.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Sure, it's convenient, but it's far from being ubiquitous and the silver
+bullet you claim it is.
 
+> So are there any real arguments for not adding ums as well? I am not
+> sure many people tweak their config, so I would like to offer a decent
+> out-of-the-box experience, even for casual users.
+
+As usual, we also have to balance that with the size limit, but I'm not
+sure it's an issue these days?
+
+Maxime
+
+--qsp4r3pxjv2y6osi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYOSApgAKCRDj7w1vZxhR
+xf2LAQCJg6BGZ03KCmVckLHFXECjm8293eLHV3kyf9giRqNd/AD9EJjK79BcMKFV
+LjHE+2dvURGDYay5DjROxTg2gYNPBwk=
+=grQz
+-----END PGP SIGNATURE-----
+
+--qsp4r3pxjv2y6osi--
