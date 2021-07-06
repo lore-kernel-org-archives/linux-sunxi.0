@@ -1,304 +1,82 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F33168
-	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 15:53:47 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1m0nLI-0007mL-3h; Tue, 06 Jul 2021 17:50:36 +0200
-Received: from ukl by ptx.hi.pengutronix.de with local (Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1m0nL5-0005Si-VW; Tue, 06 Jul 2021 17:50:23 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: kernel@pengutronix.de,
-	Cornelia Huck <cohuck@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Russell King <linux@armlinux.org.uk>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Helge Deller <deller@gmx.de>,
-	Geoff Levand <geoff@infradead.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Paul Mackerras <paulus@samba.org>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	Len Brown <lenb@kernel.org>,
-	William Breathitt Gray <vilhelm.gray@gmail.com>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Stefan Richter <stefanr@s5r6.in-berlin.de>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Wu Hao <hao.wu@intel.com>,
-	Tom Rix <trix@redhat.com>,
-	Moritz Fischer <mdf@kernel.org>,
-	Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Wolfram Sang <wsa@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-	Jens Taprogge <jens.taprogge@taprogge.org>,
-	Johannes Thumshirn <morbidrsa@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Lee Jones <lee.jones@linaro.org>,
-	Tomas Winkler <tomas.winkler@intel.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jon Mason <jdmason@kudzu.us>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mark Gross <mgross@linux.intel.com>,
-	Matt Porter <mporter@kernel.crashing.org>,
-	Alexandre Bounine <alex.bou9@gmail.com>,
-	Ohad Ben-Cohen <ohad@wizery.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Thorsten Scherer <t.scherer@eckelmann.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Michael Buesch <m@bues.ch>,
-	Sven Van Asbroeck <TheSven73@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Michael Jamet <michael.jamet@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Kirti Wankhede <kwankhede@nvidia.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>,
-	Vladimir Zapolskiy <vz@mleia.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Qinglang Miao <miaoqinglang@huawei.com>,
-	Alexey Kardashevskiy <aik@ozlabs.ru>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Joey Pabalan <jpabalanb@gmail.com>,
-	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Frank Li <lznuaa@gmail.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	Hannes Reinecke <hare@suse.de>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	SeongJae Park <sjpark@amazon.de>,
-	Julien Grall <jgrall@amazon.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mips@vger.kernel.org,
-	linux-parisc@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	linux-acpi@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-cxl@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	dmaengine@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net,
-	linux-fpga@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org,
-	industrypack-devel@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-ntb@googlegroups.com,
-	linux-pci@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	alsa-devel@alsa-project.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-spi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	greybus-dev@lists.linaro.org,
-	target-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	kvm@vger.kernel.org,
-	xen-devel@lists.xenproject.org
-Subject: [PATCH v2 0/4] bus: Make remove callback return void
-Date: Tue,  6 Jul 2021 17:47:59 +0200
-Message-Id: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F3E168
+	for <linux-sunxi@lists.linux.dev>; Tue,  6 Jul 2021 15:58:09 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83AE6106F;
+	Tue,  6 Jul 2021 08:58:08 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 603753F73B;
+	Tue,  6 Jul 2021 08:58:07 -0700 (PDT)
+Date: Tue, 6 Jul 2021 16:57:32 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Maxime Ripard <mripard@kernel.org>, U-Boot-Denx <u-boot@lists.denx.de>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] cmd: ums: Enable by default for sunxi
+Message-ID: <20210706165732.7a532568@slackpad.fritz.box>
+In-Reply-To: <CAMty3ZDv3WPqRAMQEZe6D8BxJgz+MhzxdaKMQLUcG5K-CL7=Ew@mail.gmail.com>
+References: <20210705232319.15149-1-andre.przywara@arm.com>
+	<CAMty3ZDv3WPqRAMQEZe6D8BxJgz+MhzxdaKMQLUcG5K-CL7=Ew@mail.gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Tue, 6 Jul 2021 19:56:24 +0530
+Jagan Teki <jagan@amarulasolutions.com> wrote:
 
-compared to (implicit) v1 that I sent earlier today
-(https://lore.kernel.org/r/20210706095037.1425211-1-u.kleine-koenig@pengutronix.de)
-the following is changed:
+Hi Jagan,
 
- - Add three more patches preparing some s390 specific busses
-   and adapt them in the last patch. Thanks to Cornelia Huck for
-   pointing this out.
- - Add various Acks to the last patch
+thanks for the response!
 
-I now tested allmodconfig on arm, powerpc, s390 and amd64.
+> On Tue, Jul 6, 2021 at 4:53 AM Andre Przywara <andre.przywara@arm.com> wrote:
+> >
+> > The ums command (presenting a U-Boot block device as a USB mass storage
+> > device) is very useful for accessing eMMC devices via USB-OTG.
+> >
+> > At the moment we enable USB fastboot by default for Allwinner devices,
+> > so it makes sense to do the same with USB mass storage, which is
+> > actually more versatile and can be accessed on any USB host easily.
+> >
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  cmd/Kconfig | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/cmd/Kconfig b/cmd/Kconfig
+> > index a9fb4eead29..7b1c96910a8 100644
+> > --- a/cmd/Kconfig
+> > +++ b/cmd/Kconfig
+> > @@ -1347,6 +1347,7 @@ config CMD_USB_MASS_STORAGE
+> >         bool "UMS usb mass storage"
+> >         select USB_FUNCTION_MASS_STORAGE
+> >         depends on BLK && USB_GADGET
+> > +       default y if ARCH_SUNXI && USB_MUSB_GADGET
+> 
+> UMS or any secondary-emmc accessible are considered in production
+> u-boot config instead of mainline u-boot since we have fastboot
+> already available for this kind of purpose. This might be one of the
+> reason not conisidered UMS by default till now, atleast on Allwinner.
 
-As before this depends on "PCI: endpoint: Make struct pci_epf_driver::remove
-return void" that is not yet applied, see
-https://lore.kernel.org/r/20210223090757.57604-1-u.kleine-koenig@pengutronix.de.
+Well, I consider fastboot inferior to UMS. I understand that
+Android phone hackers use it all the time, but I think having a block
+device is far more versatile - you can partition it as you like, create
+and populate a filesystem, dd an image to it, extract or update
+firmware, etc. - most without extra software, even on Windows or Mac.
+I think fastboot offers a reboot command, but are there other killer
+reasons for it? And having the ums command in addition to fastboot does
+not hurt, both would still work.
+So are there any real arguments for not adding ums as well? I am not
+sure many people tweak their config, so I would like to offer a decent
+out-of-the-box experience, even for casual users.
 
-Best regards
-Uwe
-
-Uwe Kleine-König (4):
-  s390/cio: Make struct css_driver::remove return void
-  s390/ccwgroup: Drop if with an always false condition
-  s390/scm: Make struct scm_driver::remove return void
-  bus: Make remove callback return void
-
- arch/arm/common/locomo.c                  | 3 +--
- arch/arm/common/sa1111.c                  | 4 +---
- arch/arm/mach-rpc/ecard.c                 | 4 +---
- arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
- arch/parisc/kernel/drivers.c              | 5 ++---
- arch/powerpc/platforms/ps3/system-bus.c   | 3 +--
- arch/powerpc/platforms/pseries/ibmebus.c  | 3 +--
- arch/powerpc/platforms/pseries/vio.c      | 3 +--
- arch/s390/include/asm/eadm.h              | 2 +-
- drivers/acpi/bus.c                        | 3 +--
- drivers/amba/bus.c                        | 4 +---
- drivers/base/auxiliary.c                  | 4 +---
- drivers/base/isa.c                        | 4 +---
- drivers/base/platform.c                   | 4 +---
- drivers/bcma/main.c                       | 6 ++----
- drivers/bus/sunxi-rsb.c                   | 4 +---
- drivers/cxl/core.c                        | 3 +--
- drivers/dax/bus.c                         | 4 +---
- drivers/dma/idxd/sysfs.c                  | 4 +---
- drivers/firewire/core-device.c            | 4 +---
- drivers/firmware/arm_scmi/bus.c           | 4 +---
- drivers/firmware/google/coreboot_table.c  | 4 +---
- drivers/fpga/dfl.c                        | 4 +---
- drivers/hid/hid-core.c                    | 4 +---
- drivers/hid/intel-ish-hid/ishtp/bus.c     | 4 +---
- drivers/hv/vmbus_drv.c                    | 5 +----
- drivers/hwtracing/intel_th/core.c         | 4 +---
- drivers/i2c/i2c-core-base.c               | 5 +----
- drivers/i3c/master.c                      | 4 +---
- drivers/input/gameport/gameport.c         | 3 +--
- drivers/input/serio/serio.c               | 3 +--
- drivers/ipack/ipack.c                     | 4 +---
- drivers/macintosh/macio_asic.c            | 4 +---
- drivers/mcb/mcb-core.c                    | 4 +---
- drivers/media/pci/bt8xx/bttv-gpio.c       | 3 +--
- drivers/memstick/core/memstick.c          | 3 +--
- drivers/mfd/mcp-core.c                    | 3 +--
- drivers/misc/mei/bus.c                    | 4 +---
- drivers/misc/tifm_core.c                  | 3 +--
- drivers/mmc/core/bus.c                    | 4 +---
- drivers/mmc/core/sdio_bus.c               | 4 +---
- drivers/net/netdevsim/bus.c               | 3 +--
- drivers/ntb/core.c                        | 4 +---
- drivers/ntb/ntb_transport.c               | 4 +---
- drivers/nvdimm/bus.c                      | 3 +--
- drivers/pci/endpoint/pci-epf-core.c       | 4 +---
- drivers/pci/pci-driver.c                  | 3 +--
- drivers/pcmcia/ds.c                       | 4 +---
- drivers/platform/surface/aggregator/bus.c | 4 +---
- drivers/platform/x86/wmi.c                | 4 +---
- drivers/pnp/driver.c                      | 3 +--
- drivers/rapidio/rio-driver.c              | 4 +---
- drivers/rpmsg/rpmsg_core.c                | 4 +---
- drivers/s390/block/scm_drv.c              | 4 +---
- drivers/s390/cio/ccwgroup.c               | 6 +-----
- drivers/s390/cio/chsc_sch.c               | 3 +--
- drivers/s390/cio/css.c                    | 7 +++----
- drivers/s390/cio/css.h                    | 2 +-
- drivers/s390/cio/device.c                 | 9 +++------
- drivers/s390/cio/eadm_sch.c               | 4 +---
- drivers/s390/cio/scm.c                    | 5 +++--
- drivers/s390/cio/vfio_ccw_drv.c           | 3 +--
- drivers/s390/crypto/ap_bus.c              | 4 +---
- drivers/scsi/scsi_debug.c                 | 3 +--
- drivers/siox/siox-core.c                  | 4 +---
- drivers/slimbus/core.c                    | 4 +---
- drivers/soc/qcom/apr.c                    | 4 +---
- drivers/spi/spi.c                         | 4 +---
- drivers/spmi/spmi.c                       | 3 +--
- drivers/ssb/main.c                        | 4 +---
- drivers/staging/fieldbus/anybuss/host.c   | 4 +---
- drivers/staging/greybus/gbphy.c           | 4 +---
- drivers/target/loopback/tcm_loop.c        | 5 ++---
- drivers/thunderbolt/domain.c              | 4 +---
- drivers/tty/serdev/core.c                 | 4 +---
- drivers/usb/common/ulpi.c                 | 4 +---
- drivers/usb/serial/bus.c                  | 4 +---
- drivers/usb/typec/bus.c                   | 4 +---
- drivers/vdpa/vdpa.c                       | 4 +---
- drivers/vfio/mdev/mdev_driver.c           | 4 +---
- drivers/virtio/virtio.c                   | 3 +--
- drivers/vme/vme.c                         | 4 +---
- drivers/xen/xenbus/xenbus.h               | 2 +-
- drivers/xen/xenbus/xenbus_probe.c         | 4 +---
- include/linux/device/bus.h                | 2 +-
- sound/aoa/soundbus/core.c                 | 4 +---
- 86 files changed, 95 insertions(+), 236 deletions(-)
-
-
-base-commit: 79160a603bdb51916226caf4a6616cc4e1c58a58
-prerequisite-patch-id: e5c7b97ea399fddc2695e8cf5d0c02d14175abac
--- 
-2.30.2
-
+Thanks,
+Andre
