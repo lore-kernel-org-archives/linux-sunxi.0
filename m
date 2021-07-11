@@ -1,175 +1,94 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A20370
-	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jul 2021 12:49:20 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id p14-20020a17090ad30eb02901731c776526so8717837pju.4
-        for <linux-sunxi@lists.linux.dev>; Sun, 11 Jul 2021 05:49:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=mIxSmufWuDTKwlxgFXvm/s5Rjq6omybGQ7A5dLknTx4=;
-        b=B1hyEQpkq0+TBnqVNyJV0dgFXD20LT36fA/k3KQPRS3hUE/zFKjBiCGUuGL6mzypy3
-         hVqvKg6k7Kxh4uLv7XllrVeMs6/ZW9mmVFINbSGM2lAwUCQT7279OIen1pVwVymJvow/
-         nuV6+Hah+K5vel9DXkerdfpirZnewPI68CKv7OoMFIb6VOAA7L+t73HvRjbS5I4YHROZ
-         /N88JZBxtJG6ZS5CLw9kirsAEj0MGHT8dwucIdCfZtrUqZIAGXzLcXOgJZn/EUZnStEH
-         iYrOoOyV2tNrNvmJjb9Y/A8NTCdGZP7elTZr+1y9CYiK32J1NfZA8ZNyMIQz4MRHsTWX
-         hLqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=mIxSmufWuDTKwlxgFXvm/s5Rjq6omybGQ7A5dLknTx4=;
-        b=c3t5LK/KedtNkBF+o+7lNu7JApzc1z5GD5oPR2QXm9zJ9wWTPMnLhi6+yTdoCRSiw8
-         tsIYFQdU+nMSXLwgvdXQsumVmmXwUaQxZV/V3UVpLOwS5J262ci4TAsp++yo8fVqgPNE
-         RT+TNMQ2cbPijS37/PPjBbWrT2dBz9eXfSIAEkX5I/E4O34AjkVDHNRRnYiXqyqmJfwQ
-         njCq/Dp0IDUCGKPBg3G2zbDKXsmkY7iV0k7jiA2mD1vcDvPgV771Eds7yh82Org5dTtQ
-         lORH5p3cwXd/6uHzA5mQJzxxEwHrzyqeoVpZ94WE/0fFCpiTXiDDuPaG8J/0m/Z/E+le
-         VczQ==
-X-Gm-Message-State: AOAM532P4onoUY39BZGQeS6loqUjg4AvTP3vZYpCo2AOEjjVgUGK0zM/
-	vjpgZ0BMzt9KMRjcs7xV/g==
-X-Google-Smtp-Source: ABdhPJxvFbvViX+F8Vrs22jIs658qzk0Elx92cNANGF4OQD9QFj1l6fZgMamKh9cIhVwhNlshf2Jew==
-X-Received: by 2002:a17:902:a50f:b029:11a:cd45:9009 with SMTP id s15-20020a170902a50fb029011acd459009mr39227014plq.38.1626007760610;
-        Sun, 11 Jul 2021 05:49:20 -0700 (PDT)
-Received: from localhost.localdomain ([113.104.213.237])
-        by smtp.gmail.com with ESMTPSA id pj4sm17717343pjb.18.2021.07.11.05.49.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Jul 2021 05:49:20 -0700 (PDT)
-From: fengzheng923@gmail.com
-To: fengzheng923@gmail.com,
-	lgirdwood@gmail.com,
-	broonie@kernel.org,
-	robh+dt@kernel.org,
-	mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com
-Cc: alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings for DMIC controller
-Date: Sun, 11 Jul 2021 08:48:26 -0400
-Message-Id: <20210711124826.5376-1-fengzheng923@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D670072
+	for <linux-sunxi@lists.linux.dev>; Sun, 11 Jul 2021 22:38:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5BF87106F;
+	Sun, 11 Jul 2021 15:38:52 -0700 (PDT)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 236E43F766;
+	Sun, 11 Jul 2021 15:38:51 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>,
+	Sunil Mohan Adapa <sunil@medhas.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 3/3] sunxi: defconfig: enable eMMC boot partition support
+Date: Sun, 11 Jul 2021 23:38:12 +0100
+Message-Id: <20210711223812.29886-4-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
+In-Reply-To: <20210711223812.29886-1-andre.przywara@arm.com>
+References: <20210711223812.29886-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-From: Ban Tao <fengzheng923@gmail.com>
+Now that the SPL can safely detect whether it was loaded from an eMMC
+boot partition or the normal user data partition, let's enable this
+feature on some boards that feature eMMC storage.
 
-DT binding documentation for this new ASoC driver.
+That covers the boards where I could test this on, and allows the same
+build to be written to an SD card, eMMC user partition, eMMC boot
+partition, or into SPI NOR flash.
 
-Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-Reviewed-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ configs/bananapi_m64_defconfig             | 1 +
+ configs/emlid_neutis_n5_devboard_defconfig | 1 +
+ configs/pine64-lts_defconfig               | 1 +
+ configs/pine_h64_defconfig                 | 1 +
+ 4 files changed, 4 insertions(+)
 
----
-v1->v2:
-1.Fix some build errors.
----
-v2->v3:
-1.Fix some build errors.
----
-v3->v4:
-1.None.
----
-v4->v5:
-1.Add interrupt.
-2.Keep clock and reset index.
----
-v5->v6:
-1.None.
----
- .../sound/allwinner,sun50i-h6-dmic.yaml       | 79 +++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-
-diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-new file mode 100644
-index 000000000000..0cfc07f369bd
---- /dev/null
-+++ b/Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
-@@ -0,0 +1,79 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/sound/allwinner,sun50i-h6-dmic.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allwinner H6 DMIC Device Tree Bindings
-+
-+maintainers:
-+  - Ban Tao <fengzheng923@gmail.com>
-+
-+properties:
-+  "#sound-dai-cells":
-+    const: 0
-+
-+  compatible:
-+    const: allwinner,sun50i-h6-dmic
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Bus Clock
-+      - description: Module Clock
-+
-+  clock-names:
-+    items:
-+      - const: bus
-+      - const: mod
-+
-+  dmas:
-+    items:
-+      - description: RX DMA Channel
-+
-+  dma-names:
-+    items:
-+      - const: rx
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - "#sound-dai-cells"
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - dmas
-+  - dma-names
-+  - resets
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    #include <dt-bindings/clock/sun50i-h6-ccu.h>
-+    #include <dt-bindings/reset/sun50i-h6-ccu.h>
-+
-+    dmic: dmic@5095000 {
-+      #sound-dai-cells = <0>;
-+      compatible = "allwinner,sun50i-h6-dmic";
-+      reg = <0x05095000 0x400>;
-+      interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
-+      clocks = <&ccu CLK_BUS_DMIC>, <&ccu CLK_DMIC>;
-+      clock-names = "bus", "mod";
-+      dmas = <&dma 7>;
-+      dma-names = "rx";
-+      resets = <&ccu RST_BUS_DMIC>;
-+    };
-+
-+...
+diff --git a/configs/bananapi_m64_defconfig b/configs/bananapi_m64_defconfig
+index 292044d7b8b..0c0117e3c14 100644
+--- a/configs/bananapi_m64_defconfig
++++ b/configs/bananapi_m64_defconfig
+@@ -6,6 +6,7 @@ CONFIG_MACH_SUN50I=y
+ CONFIG_RESERVE_ALLWINNER_BOOT0_HEADER=y
+ CONFIG_MMC0_CD_PIN="PH13"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_SUPPORT_EMMC_BOOT=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+ CONFIG_USB_EHCI_HCD=y
+diff --git a/configs/emlid_neutis_n5_devboard_defconfig b/configs/emlid_neutis_n5_devboard_defconfig
+index e2d3b1397e2..586f0f031aa 100644
+--- a/configs/emlid_neutis_n5_devboard_defconfig
++++ b/configs/emlid_neutis_n5_devboard_defconfig
+@@ -7,4 +7,5 @@ CONFIG_DRAM_CLK=408
+ CONFIG_DRAM_ZQ=3881977
+ # CONFIG_DRAM_ODT_EN is not set
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_SUPPORT_EMMC_BOOT=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+diff --git a/configs/pine64-lts_defconfig b/configs/pine64-lts_defconfig
+index 6209e68e2d1..b3727009d73 100644
+--- a/configs/pine64-lts_defconfig
++++ b/configs/pine64-lts_defconfig
+@@ -8,6 +8,7 @@ CONFIG_DRAM_CLK=552
+ CONFIG_DRAM_ZQ=3881949
+ CONFIG_MMC0_CD_PIN=""
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_SUPPORT_EMMC_BOOT=y
+ CONFIG_SPL_SPI_SUNXI=y
+ # CONFIG_SYS_MALLOC_CLEAR_ON_INIT is not set
+ CONFIG_SUN8I_EMAC=y
+diff --git a/configs/pine_h64_defconfig b/configs/pine_h64_defconfig
+index 4e621db0c03..75f49fc81d1 100644
+--- a/configs/pine_h64_defconfig
++++ b/configs/pine_h64_defconfig
+@@ -7,6 +7,7 @@ CONFIG_SUNXI_DRAM_H6_LPDDR3=y
+ CONFIG_MACPWR="PC16"
+ CONFIG_MMC0_CD_PIN="PF6"
+ CONFIG_MMC_SUNXI_SLOT_EXTRA=2
++CONFIG_SUPPORT_EMMC_BOOT=y
+ CONFIG_USB3_VBUS_PIN="PL5"
+ CONFIG_SPL_SPI_SUNXI=y
+ # CONFIG_PSCI_RESET is not set
 -- 
-2.17.1
+2.17.5
 
