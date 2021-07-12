@@ -1,119 +1,94 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F424168
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 16:50:25 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id b40so25262879ljf.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 09:50:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C72170
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 19:44:05 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id f17so27204014wrt.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 12:44:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20150623.gappssmtp.com; s=20150623;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=o8W1dNWyc77g/GhN9T2NWTwNOeLb+k1LmC+rbhxkZPc=;
-        b=MLL2y6mGJpe2v3dc+r2DITIyOSOUsd0A923QC4WmFqRpZJDdsZKUMuo0+xRo5BQCgg
-         Skpt2ZwNTKiCfEqYAFRARwHuin4Wp4kjXCUDc/UgWe90g+GnmT/+asoMQVk9Mazdi82n
-         J4VnCL3umFyyDSdAs9763NTJjn0VPVU/u+vE9rhoN2DJI1Y6ty3cKHtK2TW7PeMEvqEa
-         2Ooz2+tKUpQoBnoMZzOIJEzHJMZvbgQ9k5V2Yth/mmADEmOnDVQK1E2ryeasONwlZc5l
-         SvT9sw5FLV7l66C82YWQKpfMKQGr02hASm4GbfRCzYyAS+CnBM/VWvlwvhl7JsF3EpuJ
-         PkyA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oBKmlyhox/mqoK0hf8kDuqm6dV4AXupAQC7AOPACPzk=;
+        b=drr1uZyqxLdtc4s6fz9RPA5MECJjN9UgJQHTdqCXxKJYhPQF3Rf9DhePAay6DYrxCh
+         fxT7tWpV5lMibXeRKj06FVyhG00TgJ/dYct9IsvdXtIGgk0PDhO7mycSwRGFbZW65XEx
+         vEZfBuUX6hultDVNvd7nyMOuJqkuPZUeRFPgU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=o8W1dNWyc77g/GhN9T2NWTwNOeLb+k1LmC+rbhxkZPc=;
-        b=Kn1o0qnSJtRULzA+RVdi/Iz0D27T6VwKtE48sdeZU2uebxlKoB17gtqg1id9Dx0JTU
-         sefjC9FXVsFtN4OoRTHOTH5dVjgoewyiPzB+8K9lTwkiKSLRtWy49NeOFfMo1r8QqcDn
-         kGruqVJxPGCZ+qfS4rm26AD9mTRADFgaKeSdd9cyd7dKOZZmx2YsA5VIyDwnaaS3/iyr
-         uZuvR0BRI/TQCQzosAjIUNjpllav7PLZKH7wtWVXIPPtEZ4FHV1zneR5YnlHaDTmHO9g
-         YyvJmw5zCiukds1/nsxbzTndm23Spa4T2EkSY7vQnXEpBbZ9/awOatdsjYbrz9k8ruaK
-         kvWA==
-X-Gm-Message-State: AOAM530Za0BAVxSw1hnMEIIImbtDf4ET3MJ+ROGZhJ0WqRAQaELH3940
-	vVToP9tI3d2m2Es8O4PLvfAiL0eZk80Xu+8W
-X-Google-Smtp-Source: ABdhPJzRmjg4ige4Q76R9GfUzKH6Q22fEzHtFe8dsyFLremmfKDTEGCbOYwPjkmdRfug1Ybfd1mC+A==
-X-Received: by 2002:a2e:9059:: with SMTP id n25mr130746ljg.314.1626108623325;
-        Mon, 12 Jul 2021 09:50:23 -0700 (PDT)
-Received: from [192.168.1.213] (81.5.110.226.dhcp.mipt-telecom.ru. [81.5.110.226])
-        by smtp.googlemail.com with ESMTPSA id f14sm1627141ljk.42.2021.07.12.09.50.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Jul 2021 09:50:22 -0700 (PDT)
-To: andre.przywara@arm.com
-Cc: icenowy@aosc.io, jernej.skrabec@gmail.com, kishon@ti.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-sunxi@googlegroups.com,
- linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, megous@megous.com,
- mripard@kernel.org, robh@kernel.org, samuel@sholland.org, vkoul@kernel.org,
- wens@csie.org
-References: <20210615110636.23403-16-andre.przywara@arm.com>
-Subject: Re: [PATCH v7 15/19] phy: sun4i-usb: Add support for the H616 USB PHY
-From: Evgeny Boger <boger@wirenboard.com>
-Message-ID: <880c62ea-4844-04f7-7b40-a9e8a14de202@wirenboard.com>
-Date: Mon, 12 Jul 2021 19:50:22 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oBKmlyhox/mqoK0hf8kDuqm6dV4AXupAQC7AOPACPzk=;
+        b=EKugV3rPFc+tQ1wfCcdqS3zLyyV2OPqDyAuIg6CZFIxEKtALF4NJr/rDyZWAeZpDFm
+         OWMcIpbAZgjPUiEKDjVS4sfGq4uEcDjGg6DTjwlEgSrXWPP4J76eCM/emUfXoTyue598
+         Vy4bKgNRZUObfLawlffNkKboUjqz8mbOuevkxQQq6ciCPFUi0fsBNrwhn8Gsd5+kEq8N
+         e/ryNMxELpW2+fH9cmtQdTPJH3n2tGvEVXvtFlIjKTQfoWKNy8li2qCdHJUr79ORxkwF
+         jSo6ea7NZ0wUUPDHKs3m3xIPf7hNtmH+ubuLcqaFWGFRFzTXqNFWIRHOwAYkKDuVTvXF
+         CrTg==
+X-Gm-Message-State: AOAM530X+ElN2ZAq2nu8V2MW0Ho4uufqs5qtwQV+VXKrhEy1WIf1762p
+	pKvZLlCR0YSX7M/S3E+asf3GPWP6yYQ3UDwBxTUACA==
+X-Google-Smtp-Source: ABdhPJz+UGW5Ih+ndr3noxhfy+B6xp0r78/Vxh28Jd/4O4uDWDwRlhhDLEkGP4mHfpFUAnaPxjIxXyLpSYfFu2gaWsU=
+X-Received: by 2002:a5d:4522:: with SMTP id j2mr735413wra.43.1626119043641;
+ Mon, 12 Jul 2021 12:44:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210615110636.23403-16-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+References: <20210711223812.29886-1-andre.przywara@arm.com> <20210711223812.29886-2-andre.przywara@arm.com>
+In-Reply-To: <20210711223812.29886-2-andre.przywara@arm.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Mon, 12 Jul 2021 13:43:50 -0600
+Message-ID: <CAPnjgZ2T+dVVduzwnHnXnQT3khiNQdVPTh5j7rJ_tmMWZQ9ZGw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] spl: mmc: extend spl_mmc_boot_mode() to take mmc argument
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland <samuel@sholland.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, 
+	Aleksandr Aleksandrov <aleksandr.aleksandrov@emlid.com>, Sunil Mohan Adapa <sunil@medhas.org>, 
+	linux-sunxi@lists.linux.dev, Stefano Babic <sbabic@denx.de>, 
+	Fabio Estevam <festevam@gmail.com>, "NXP i . MX U-Boot Team" <uboot-imx@nxp.com>, 
+	Lokesh Vutla <lokeshvutla@ti.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+	Kever Yang <kever.yang@rock-chips.com>, Marek Vasut <marex@denx.de>, 
+	Simon Goldschmidt <simon.k.r.goldschmidt@gmail.com>, Ley Foon Tan <lftan.linux@gmail.com>, 
+	Patrick Delaunay <patrick.delaunay@foss.st.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Andre!
+Hi Andre,
 
-> The USB PHY used in the Allwinner H616 SoC inherits some traits from its
-> various predecessors: it has four full PHYs like the H3, needs some
-> extra bits to be set like the H6, and puts SIDDQ on a different bit like
-> the A100. Plus it needs this weird PHY2 quirk.
+On Sun, 11 Jul 2021 at 16:38, Andre Przywara <andre.przywara@arm.com> wrote:
 >
-> Name all those properties in a new config struct and assign a new
-> compatible name to it.
+> Platforms can overwrite the weak definition of spl_mmc_boot_mode() to
+> determine where to load U-Boot proper from.
+> For most of them this is a trivial decision based on Kconfig variables,
+> but it might be desirable the probe the actual device to answer this
+> question.
 >
-> Signed-off-by: Andre Przywara<andre.przywara@arm.com>
+> Pass the pointer to the mmc struct to that function, so implementations
+> can make use of that.
+>
+> Compile-tested for all users changed.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Stefano Babic <sbabic@denx.de>
+> Reviewed-by: Ley Foon Tan <ley.foon.tan@inte.com> (for SoCFPGA)
+> Acked-by: Lokesh Vutla <lokeshvutla@ti.com> (for OMAP and K3)
 > ---
->   drivers/phy/allwinner/phy-sun4i-usb.c  <https://lore.kernel.org/linux-sunxi/20210615110636.23403-16-andre.przywara@arm.com/#Z30drivers:phy:allwinner:phy-sun4i-usb.c>  | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
->
-> diff 
-> <https://lore.kernel.org/linux-sunxi/20210615110636.23403-16-andre.przywara@arm.com/#iZ30drivers:phy:allwinner:phy-sun4i-usb.c> 
-> --git a/drivers/phy/allwinner/phy-sun4i-usb.c 
-> b/drivers/phy/allwinner/phy-sun4i-usb.c index 
-> 316ef5fca831..85a9771280b7 100644 --- 
-> a/drivers/phy/allwinner/phy-sun4i-usb.c +++ 
-> b/drivers/phy/allwinner/phy-sun4i-usb.c @@ -1024,6 +1024,17 @@ static 
-> const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {   	.missing_phys = BIT(1) | BIT(2),
->   };
->   
-> +static const struct sun4i_usb_phy_cfg sun50i_h616_cfg = { + .num_phys 
-> = 4, + .type = sun50i_h6_phy,
+>  arch/arm/mach-imx/spl.c                | 2 +-
+>  arch/arm/mach-k3/am6_init.c            | 2 +-
+>  arch/arm/mach-k3/j721e_init.c          | 2 +-
+>  arch/arm/mach-omap2/boot-common.c      | 2 +-
+>  arch/arm/mach-rockchip/spl.c           | 2 +-
+>  arch/arm/mach-socfpga/spl_a10.c        | 2 +-
+>  arch/arm/mach-socfpga/spl_gen5.c       | 2 +-
+>  arch/arm/mach-stm32mp/spl.c            | 2 +-
+>  arch/arm/mach-uniphier/mmc-boot-mode.c | 5 +----
+>  common/spl/spl_mmc.c                   | 4 ++--
+>  include/spl.h                          | 3 ++-
+>  11 files changed, 13 insertions(+), 15 deletions(-)
 
-Since this usb phy is considerable different from the one in H6, 
-wouldn't it better to define a new phy type here? The way the driver is 
-designed, I would expect the type to be shared by more or less identical 
-parts.
+This looks like U-Boot code but it doesn't seem to be going to the
+U-Boot mailing list.
 
-Honestly, I think it would be better to get rid of .type in the 
-sun4i_usb_phy_cfg completely replacing it by a couple more traits in 
-.cfg. It's impossible to know for sure which Allwinner parts really 
-share the identical revision of this hardware.
-
-> + .disc_thresh = 3, + .phyctl_offset = REG_PHYCTL_A33, + 
-> .dedicated_clocks = true, + .phy0_dual_route = true, + 
-> .hci_phy_ctl_clear = PHY_CTL_SIDDQ, + .needs_phy2_siddq = true, +}; +   static const struct of_device_id sun4i_usb_phy_of_match[] = {
->   	{ .compatible = "allwinner,sun4i-a10-usb-phy", .data = &sun4i_a10_cfg },
->   	{ .compatible = "allwinner,sun5i-a13-usb-phy", .data = &sun5i_a13_cfg },
-> @@ -1038,6 +1049,7 @@ static const struct of_device_id 
-> sun4i_usb_phy_of_match[] = {   	{ .compatible = "allwinner,sun50i-a64-usb-phy",
->   	  .data = &sun50i_a64_cfg},
->   	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
-> + { .compatible = "allwinner,sun50i-h616-usb-phy", .data = 
-> &sun50i_h616_cfg },   	{ },
->   };
->   MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
-> -- 
-> 2.17.5
->
-
+Regards,
+Simon
