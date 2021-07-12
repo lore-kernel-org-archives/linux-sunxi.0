@@ -1,186 +1,119 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBFC8168
-	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 11:53:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DF586D;
-	Mon, 12 Jul 2021 04:53:52 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4DBDB3F766;
-	Mon, 12 Jul 2021 04:53:51 -0700 (PDT)
-Date: Mon, 12 Jul 2021 12:53:19 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jaehoon Chung <jh80.chung@samsung.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland
- <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy
- Zheng <icenowy@aosc.io>, Sunil Mohan Adapa <sunil@medhas.org>,
- linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
-Subject: Re: [RESEND PATCH v2 2/3] sunxi: eMMC: Improve automatic boot
- source detection
-Message-ID: <20210712125319.31350da4@slackpad.fritz.box>
-In-Reply-To: <881f4ae3-a635-29d2-1549-8a27b8781f37@samsung.com>
-References: <20210712100651.6912-1-andre.przywara@arm.com>
-	<CGME20210712100805epcas1p20992d4369e127fe979bd6003d938abcd@epcas1p2.samsung.com>
-	<20210712100651.6912-3-andre.przywara@arm.com>
-	<881f4ae3-a635-29d2-1549-8a27b8781f37@samsung.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F424168
+	for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 16:50:25 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id b40so25262879ljf.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 12 Jul 2021 09:50:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard-com.20150623.gappssmtp.com; s=20150623;
+        h=to:cc:references:subject:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=o8W1dNWyc77g/GhN9T2NWTwNOeLb+k1LmC+rbhxkZPc=;
+        b=MLL2y6mGJpe2v3dc+r2DITIyOSOUsd0A923QC4WmFqRpZJDdsZKUMuo0+xRo5BQCgg
+         Skpt2ZwNTKiCfEqYAFRARwHuin4Wp4kjXCUDc/UgWe90g+GnmT/+asoMQVk9Mazdi82n
+         J4VnCL3umFyyDSdAs9763NTJjn0VPVU/u+vE9rhoN2DJI1Y6ty3cKHtK2TW7PeMEvqEa
+         2Ooz2+tKUpQoBnoMZzOIJEzHJMZvbgQ9k5V2Yth/mmADEmOnDVQK1E2ryeasONwlZc5l
+         SvT9sw5FLV7l66C82YWQKpfMKQGr02hASm4GbfRCzYyAS+CnBM/VWvlwvhl7JsF3EpuJ
+         PkyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=o8W1dNWyc77g/GhN9T2NWTwNOeLb+k1LmC+rbhxkZPc=;
+        b=Kn1o0qnSJtRULzA+RVdi/Iz0D27T6VwKtE48sdeZU2uebxlKoB17gtqg1id9Dx0JTU
+         sefjC9FXVsFtN4OoRTHOTH5dVjgoewyiPzB+8K9lTwkiKSLRtWy49NeOFfMo1r8QqcDn
+         kGruqVJxPGCZ+qfS4rm26AD9mTRADFgaKeSdd9cyd7dKOZZmx2YsA5VIyDwnaaS3/iyr
+         uZuvR0BRI/TQCQzosAjIUNjpllav7PLZKH7wtWVXIPPtEZ4FHV1zneR5YnlHaDTmHO9g
+         YyvJmw5zCiukds1/nsxbzTndm23Spa4T2EkSY7vQnXEpBbZ9/awOatdsjYbrz9k8ruaK
+         kvWA==
+X-Gm-Message-State: AOAM530Za0BAVxSw1hnMEIIImbtDf4ET3MJ+ROGZhJ0WqRAQaELH3940
+	vVToP9tI3d2m2Es8O4PLvfAiL0eZk80Xu+8W
+X-Google-Smtp-Source: ABdhPJzRmjg4ige4Q76R9GfUzKH6Q22fEzHtFe8dsyFLremmfKDTEGCbOYwPjkmdRfug1Ybfd1mC+A==
+X-Received: by 2002:a2e:9059:: with SMTP id n25mr130746ljg.314.1626108623325;
+        Mon, 12 Jul 2021 09:50:23 -0700 (PDT)
+Received: from [192.168.1.213] (81.5.110.226.dhcp.mipt-telecom.ru. [81.5.110.226])
+        by smtp.googlemail.com with ESMTPSA id f14sm1627141ljk.42.2021.07.12.09.50.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Jul 2021 09:50:22 -0700 (PDT)
+To: andre.przywara@arm.com
+Cc: icenowy@aosc.io, jernej.skrabec@gmail.com, kishon@ti.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-phy@lists.infradead.org, linux-sunxi@googlegroups.com,
+ linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, megous@megous.com,
+ mripard@kernel.org, robh@kernel.org, samuel@sholland.org, vkoul@kernel.org,
+ wens@csie.org
+References: <20210615110636.23403-16-andre.przywara@arm.com>
+Subject: Re: [PATCH v7 15/19] phy: sun4i-usb: Add support for the H616 USB PHY
+From: Evgeny Boger <boger@wirenboard.com>
+Message-ID: <880c62ea-4844-04f7-7b40-a9e8a14de202@wirenboard.com>
+Date: Mon, 12 Jul 2021 19:50:22 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20210615110636.23403-16-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 
-On Mon, 12 Jul 2021 19:57:04 +0900
-Jaehoon Chung <jh80.chung@samsung.com> wrote:
+Hi Andre!
 
-> Hi Andre,
-> 
-> On 7/12/21 7:06 PM, Andre Przywara wrote:
-> > When the Allwinner BROM loads the SPL from an eMMC boot partition, it
-> > sets the boot source byte to the same value as when booting from the
-> > user data partition. This prevents us from determining the boot source
-> > to load U-Boot proper from the proper partition for sure.
-> > 
-> > The generic SPL MMC code already looks at the enabled boot partition
-> > number, to load U-Boot proper from the same partition, but this fails
-> > if there is nothing bootable in this partition, as the BROM then
-> > silently falls back to the user data partition, which the SPL misses.
-> > 
-> > To learn about the actual boot source anyway, we repeat the algorithm
-> > the BROM used to select the boot partition in the first place:
-> > - Test EXT_CSD[179] to check if an eMMC boot partition is enabled.
-> > - Test EXT_CSD[177] to check for valid MMC interface settings.
-> > - Check if BOOT_ACK is enabled.
-> > - Check the beginning of the first sector for a valid eGON signature.
-> > - Load the whole SPL.
-> > - Recalculate the checksum to verify the SPL is valid.
-> > 
-> > If one of those steps fails, we bail out and continue loading from the
-> > user data partition. Otherwise we load from the selected boot partition.
-> > 
-> > Since the boot source is needed twice in the boot process, we cache the
-> > result of this test to avoid doing this costly test multiple times.
-> > 
-> > This allows the very same image file to be put onto an SD card, into the
-> > eMMC user data partition or into the eMMC boot partition, and safely
-> > loads the whole of U-Boot from there.
-> > 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> > 
-> > (resent to also include forgotten U-Boot list)
-> > 
-> >  arch/arm/mach-sunxi/board.c | 80 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 80 insertions(+)
-> > 
-> > diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> > index e979e426dd1..2552c34733b 100644
-> > --- a/arch/arm/mach-sunxi/board.c
-> > +++ b/arch/arm/mach-sunxi/board.c
-> > @@ -334,6 +334,86 @@ u32 spl_boot_device(void)
-> >  	return sunxi_get_boot_device();
-> >  }
-> >  
-> > +/*
-> > + * When booting from an eMMC boot partition, the SPL puts the same boot
-> > + * source code into SRAM A1 as when loading the SPL from the normal
-> > + * eMMC user data partition: 0x2. So to know where we have been loaded
-> > + * from, we repeat the BROM algorithm here: checking for a valid eGON boot
-> > + * image at offset 0 of a (potentially) selected boot partition.
-> > + * If any of the conditions is not met, it must have been the eMMC user
-> > + * data partition.
-> > + */
-> > +static bool sunxi_valid_emmc_boot(struct mmc *mmc)
-> > +{
-> > +	struct blk_desc *bd = mmc_get_blk_desc(mmc);
-> > +	uint32_t *buffer = (void *)(uintptr_t)CONFIG_SYS_TEXT_BASE;
-> > +	int bootpart = EXT_CSD_EXTRACT_BOOT_PART(mmc->part_config);
-> > +	uint32_t spl_size, emmc_checksum, chksum = 0;
-> > +	ulong count;
-> > +
-> > +	/* The BROM requires BOOT_ACK to be enabled. */
-> > +	if (!EXT_CSD_EXTRACT_BOOT_ACK(mmc->part_config))
-> > +		return false;
-> > +
-> > +	/*
-> > +	 * The BOOT_BUS_CONDITION register must be 4-bit SDR, with (0x09)
-> > +	 * or without (0x01) high speed timings.
-> > +	 */
-> > +	if ((mmc->ext_csd[EXT_CSD_BOOT_BUS_WIDTH] & 0x1b) != 0x01 &&
-> > +	    (mmc->ext_csd[EXT_CSD_BOOT_BUS_WIDTH] & 0x1b) != 0x09)
-> > +		return false;
-> > +
-> > +	/* Partition 0 is the user data partition, bootpart must be 1 or 2. */
-> > +	if (bootpart != 1 && bootpart != 2)
-> > +		return false;
-> > +
-> > +	mmc_switch_part(mmc, bootpart);  
-> 
-> It can be failed to switch to bootpart. Doesn't need to control error?
+> The USB PHY used in the Allwinner H616 SoC inherits some traits from its
+> various predecessors: it has four full PHYs like the H3, needs some
+> extra bits to be set like the H6, and puts SIDDQ on a different bit like
+> the A100. Plus it needs this weird PHY2 quirk.
+>
+> Name all those properties in a new config struct and assign a new
+> compatible name to it.
+>
+> Signed-off-by: Andre Przywara<andre.przywara@arm.com>
+> ---
+>   drivers/phy/allwinner/phy-sun4i-usb.c  <https://lore.kernel.org/linux-sunxi/20210615110636.23403-16-andre.przywara@arm.com/#Z30drivers:phy:allwinner:phy-sun4i-usb.c>  | 12 ++++++++++++
+>   1 file changed, 12 insertions(+)
+>
+> diff 
+> <https://lore.kernel.org/linux-sunxi/20210615110636.23403-16-andre.przywara@arm.com/#iZ30drivers:phy:allwinner:phy-sun4i-usb.c> 
+> --git a/drivers/phy/allwinner/phy-sun4i-usb.c 
+> b/drivers/phy/allwinner/phy-sun4i-usb.c index 
+> 316ef5fca831..85a9771280b7 100644 --- 
+> a/drivers/phy/allwinner/phy-sun4i-usb.c +++ 
+> b/drivers/phy/allwinner/phy-sun4i-usb.c @@ -1024,6 +1024,17 @@ static 
+> const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {   	.missing_phys = BIT(1) | BIT(2),
+>   };
+>   
+> +static const struct sun4i_usb_phy_cfg sun50i_h616_cfg = { + .num_phys 
+> = 4, + .type = sun50i_h6_phy,
 
-Yeah, good point, we should check this. If we can't switch to the boot
-partition, that hopefully means the BROM couldn't do either. In any case
-we can't continue booting from there, so we can as well return false
-here.
+Since this usb phy is considerable different from the one in H6, 
+wouldn't it better to define a new phy type here? The way the driver is 
+designed, I would expect the type to be shared by more or less identical 
+parts.
 
-Cheers,
-Andre
+Honestly, I think it would be better to get rid of .type in the 
+sun4i_usb_phy_cfg completely replacing it by a couple more traits in 
+.cfg. It's impossible to know for sure which Allwinner parts really 
+share the identical revision of this hardware.
 
-> Best Regards,
-> Jaehoon Chung
-> 
-> > +
-> > +	/* Read the first block to do some sanity checks on the eGON header. */
-> > +	count = blk_dread(bd, 0, 1, buffer);
-> > +	if (count != 1 || !is_boot0_magic(buffer + 1))
-> > +		return false;
-> > +
-> > +	/* Read the rest of the SPL now we know it's halfway sane. */
-> > +	spl_size = buffer[4];
-> > +	count = blk_dread(bd, 1, DIV_ROUND_UP(spl_size, bd->blksz) - 1,
-> > +			  buffer + bd->blksz / 4);
-> > +
-> > +	/* Save the checksum and replace it with the "stamp value". */
-> > +	emmc_checksum = buffer[3];
-> > +	buffer[3] = 0x5f0a6c39;
-> > +
-> > +	/* The checksum is a simple ignore-carry addition of all words. */
-> > +	for (count = 0; count < spl_size / 4; count++)
-> > +		chksum += buffer[count];
-> > +
-> > +	debug("eMMC boot part SPL checksum: stored: 0x%08x, computed: 0x%08x\n",
-> > +	       emmc_checksum, chksum);
-> > +
-> > +	return emmc_checksum == chksum;
-> > +}
-> > +
-> > +u32 spl_mmc_boot_mode(struct mmc *mmc, const u32 boot_device)
-> > +{
-> > +	static u32 result = ~0;
-> > +
-> > +	if (result != ~0)
-> > +		return result;
-> > +
-> > +	result = MMCSD_MODE_RAW;
-> > +	if (!IS_SD(mmc) && IS_ENABLED(CONFIG_SUPPORT_EMMC_BOOT)) {
-> > +		if (sunxi_valid_emmc_boot(mmc))
-> > +			result = MMCSD_MODE_EMMCBOOT;
-> > +		else
-> > +			mmc_switch_part(mmc, 0);
-> > +	}
-> > +
-> > +	debug("%s(): %s part\n", __func__,
-> > +	      result == MMCSD_MODE_RAW ? "user" : "boot");
-> > +
-> > +	return result;
-> > +}
-> > +
-> >  void board_init_f(ulong dummy)
-> >  {
-> >  	spl_init();
-> >   
-> 
+> + .disc_thresh = 3, + .phyctl_offset = REG_PHYCTL_A33, + 
+> .dedicated_clocks = true, + .phy0_dual_route = true, + 
+> .hci_phy_ctl_clear = PHY_CTL_SIDDQ, + .needs_phy2_siddq = true, +}; +   static const struct of_device_id sun4i_usb_phy_of_match[] = {
+>   	{ .compatible = "allwinner,sun4i-a10-usb-phy", .data = &sun4i_a10_cfg },
+>   	{ .compatible = "allwinner,sun5i-a13-usb-phy", .data = &sun5i_a13_cfg },
+> @@ -1038,6 +1049,7 @@ static const struct of_device_id 
+> sun4i_usb_phy_of_match[] = {   	{ .compatible = "allwinner,sun50i-a64-usb-phy",
+>   	  .data = &sun50i_a64_cfg},
+>   	{ .compatible = "allwinner,sun50i-h6-usb-phy", .data = &sun50i_h6_cfg },
+> + { .compatible = "allwinner,sun50i-h616-usb-phy", .data = 
+> &sun50i_h616_cfg },   	{ },
+>   };
+>   MODULE_DEVICE_TABLE(of, sun4i_usb_phy_of_match);
+> -- 
+> 2.17.5
+>
 
