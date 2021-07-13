@@ -1,195 +1,346 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA41F168
-	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jul 2021 12:07:47 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id b26so17491933lfo.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 13 Jul 2021 05:07:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8352iHkl0Yrxdg9vY81krfsoSyfvHtWK/xGBQ/Fg6Q8=;
-        b=qh0h/pJdYWlhAY3uOh/VUFIMKN4Ha2pek58KztkxO45Ikn7ld2dkrCLhWH64E0qm7q
-         BAvnhEpEEzX1CGNn62TbA0x2AoUDTGuvmftjkMdZbkzehAaL1HbbD7SUoi2Qf6mMQRvV
-         Iww1W4Qwju/RsGLSnNQ67uHjloS/BpsONl/LZiERK6tcSQBZzWmwfbalQIPltZ6XseP0
-         HnLal+nX8GzIeBCOH8T6Znz5w5AxcyJnkxjaq018WgVZHgz1Tdqax238StCnY5ux70Bl
-         DM0SopDHBnEqBkwfOEOBk3y41P7Ipipb7NmjFJP158hngNdnAk5JOo0ivVhKgehyTfLZ
-         ATxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=8352iHkl0Yrxdg9vY81krfsoSyfvHtWK/xGBQ/Fg6Q8=;
-        b=Sgis4j2s6WHX+sDzljYlLDVt9+ypjeasnc0z/ZW/m9IKiUA2Oq2syWaP4a4YBSx/4k
-         sY64HOQhEDUFuvbT2vv5SucqAjRW4GwpUL/BfwhIPHJWXR0GmJ6OPe2qr0SxZm9sPUf8
-         W4k//sTh2mXoQ6yS30u+QZm0kwg7uAecUq75fnynzCzboKLz8bKDfE+NQBO/Xl1lxwwJ
-         kKthGXZUqUkVcQGWfznJJpTHrcQGZceRlstJxrhBZjd9A0OVemGjo4t8cS1Fj3apfQY7
-         TkMzZucRoQqrjCUPu/hmsCv6AmbaWAhu44W+dm+B1NPcbpSYW9QYVFvL2Nwkpy+KEZE+
-         /0vQ==
-X-Gm-Message-State: AOAM531jn3Jx7r7QzOcZdpROIxhzrIDw/WdUA7QLBGNMfPdghyAbxFu5
-	Tk8v7tlONjLOa4WlvWaYIt/x49vwEW4ZcA==
-X-Google-Smtp-Source: ABdhPJxwtocUq7RGDqGJzaJJ9eTsy9xroN8Ns70O4LslsogHjoA6GJKZ9+33hadJaKwMiORcg8izOA==
-X-Received: by 2002:a05:6512:23a6:: with SMTP id c38mr3288367lfv.78.1626178065537;
-        Tue, 13 Jul 2021 05:07:45 -0700 (PDT)
-Received: from boger-laptop.lan (81.5.110.226.dhcp.mipt-telecom.ru. [81.5.110.226])
-        by smtp.gmail.com with ESMTPSA id v13sm1902355lji.30.2021.07.13.05.07.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Jul 2021 05:07:45 -0700 (PDT)
-From: Evgeny Boger <boger@wirenboard.com>
-To: linux-sunxi@lists.linux.dev
-Cc: Evgeny Boger <boger@wirenboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD9570
+	for <linux-sunxi@lists.linux.dev>; Tue, 13 Jul 2021 19:36:25 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3OBr-0001GT-RJ; Tue, 13 Jul 2021 21:35:35 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3OBi-0006p7-4I; Tue, 13 Jul 2021 21:35:26 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1m3OBh-0002bU-W6; Tue, 13 Jul 2021 21:35:25 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: kernel@pengutronix.de,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>,
+	Alex Elder <elder@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Allen Hubbe <allenbh@gmail.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Andy Gross <agross@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Bodo Stroesser <bostroesser@gmail.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
 	Chen-Yu Tsai <wens@csie.org>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Dexuan Cui <decui@microsoft.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Eric Farman <farman@linux.ibm.com>,
+	Finn Thain <fthain@linux-m68k.org>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Frank Li <lznuaa@gmail.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Geoff Levand <geoff@infradead.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Hannes Reinecke <hare@suse.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Harald Freudenberger <freude@linux.ibm.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Helge Deller <deller@gmx.de>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Jason Wang <jasowang@redhat.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiri Kosina <jikos@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Joey Pabalan <jpabalanb@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Johannes Thumshirn <morbidrsa@gmail.com>,
+	Jon Mason <jdmason@kudzu.us>,
+	Juergen Gross <jgross@suse.com>,
+	Julien Grall <jgrall@amazon.com>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Kirti Wankhede <kwankhede@nvidia.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Lee Jones <lee.jones@linaro.org>,
+	Len Brown <lenb@kernel.org>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Mark Brown <broonie@kernel.org>,
+	Mark Gross <mgross@linux.intel.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Matthew Rosato <mjrosato@linux.ibm.com>,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
-	qianfan Zhao <qianfanguijin@163.com>,
-	andre.przywara@arm.com
-Subject: [PATCH] phy: sun4i-usb: fix phy write on H3 and newer
-Date: Tue, 13 Jul 2021 15:07:11 +0300
-Message-Id: <20210713120711.995629-1-boger@wirenboard.com>
-X-Mailer: git-send-email 2.25.1
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Michael Buesch <m@bues.ch>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Michael Jamet <michael.jamet@intel.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Moritz Fischer <mdf@kernel.org>,
+	Ohad Ben-Cohen <ohad@wizery.com>,
+	=?UTF-8?q?Pali=20Roh=C3=A1r?= <pali@kernel.org>,
+	Paul Mackerras <paulus@samba.org>,
+	Peter Oberparleiter <oberpar@linux.ibm.com>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
+	Rich Felker <dalias@libc.org>,
+	Rikard Falkeborn <rikard.falkeborn@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Samuel Holland <samuel@sholland.org>,
+	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+	SeongJae Park <sjpark@amazon.de>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Stefan Richter <stefanr@s5r6.in-berlin.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Sven Van Asbroeck <TheSven73@gmail.com>,
+	Takashi Iwai <tiwai@suse.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Thorsten Scherer <t.scherer@eckelmann.de>,
+	Tomas Winkler <tomas.winkler@intel.com>,
+	Tom Rix <trix@redhat.com>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Vineeth Vijayan <vneethv@linux.ibm.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Wei Liu <wei.liu@kernel.org>,
+	William Breathitt Gray <vilhelm.gray@gmail.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Wu Hao <hao.wu@intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Yoshinori Sato <ysato@users.sourceforge.jp>,
+	YueHaibing <yuehaibing@huawei.com>,
+	Yufen Yu <yuyufen@huawei.com>,
+	alsa-devel@alsa-project.org,
+	dmaengine@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	industrypack-devel@lists.sourceforge.net,
+	kvm@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-cxl@vger.kernel.org,
+	linux-fpga@vger.kernel.org,
+	linux-hyperv@vger.kernel.org,
+	linux-i2c@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-ntb@googlegroups.com,
+	linux-parisc@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	linux-remoteproc@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-sh@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-sunxi@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	nvdimm@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	sparclinux@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org,
+	xen-devel@lists.xenproject.org
+Subject: [PATCH v4 0/5] bus: Make remove callback return void
+Date: Tue, 13 Jul 2021 21:35:17 +0200
+Message-Id: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On older SoCs (prior to H3) PHY register are accessed by manipulating
-the common register for all PHYs. PHY index is specified by pulsing
-usbc bit.
+Hello,
 
-Newer SoCs leave the access procedure mostly unchanged, the
-difference being that the latch registers are separate for each PHY.
+this is v4 of the final patch set for my effort to make struct
+bus_type::remove return void.
 
-Additionally, accessing USB PHY registers is only possible if phy0 is
-routed to musb IP instead of HCI.
+The first four patches contain cleanups that make some of these
+callbacks (more obviously) always return 0. They are acked by the
+respective maintainers. Bjorn Helgaas explicitly asked to include the
+pci patch (#1) into this series, so Greg taking this is fine. I assume
+the s390 people are fine with Greg taking patches #2 to #4, too, they
+didn't explicitly said so though.
 
-Introduce phy_reg_access_v2 cfg flag for H3 (H2+, H5),
-R40 (V40, A40i, T3), V3s (V3, S3) and A64 SoCs.
+The last patch actually changes the prototype and so touches quite some
+drivers and has the potential to conflict with future developments, so I
+consider it beneficial to put these patches into next soon. I expect
+that it will be Greg who takes the complete series, he already confirmed
+via irc (for v2) to look into this series.
 
-On A83t, H6, H616, T507 and probably on more recent hardware,
-these PHY registers are not used in vendor BSP.
-So don't set v2 flag for these even newer SoCs as a precaution.
+The only change compared to v3 is in the fourth patch where I modified a
+few more drivers to fix build failures. Some of them were found by build
+bots (thanks!), some of them I found myself using a regular expression
+search. The newly modified files are:
 
-Signed-off-by: Evgeny Boger <boger@wirenboard.com>
----
- drivers/phy/allwinner/phy-sun4i-usb.c | 44 ++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 5 deletions(-)
+ arch/sparc/kernel/vio.c
+ drivers/nubus/bus.c
+ drivers/sh/superhyway/superhyway.c
+ drivers/vlynq/vlynq.c
+ drivers/zorro/zorro-driver.c
+ sound/ac97/bus.c
 
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 651d5e2a25ce..f7c974914619 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -119,6 +119,7 @@ struct sun4i_usb_phy_cfg {
- 	bool dedicated_clocks;
- 	bool enable_pmu_unk1;
- 	bool phy0_dual_route;
-+	bool phy_reg_access_v2;
- 	int missing_phys;
- };
- 
-@@ -192,13 +193,38 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
- 				int len)
- {
- 	struct sun4i_usb_phy_data *phy_data = to_sun4i_usb_phy_data(phy);
--	u32 temp, usbc_bit = BIT(phy->index * 2);
-+	u32 otgctl_val, temp, usbc_bit;
- 	void __iomem *phyctl = phy_data->base + phy_data->cfg->phyctl_offset;
-+	void __iomem *phyctl_latch;
- 	unsigned long flags;
- 	int i;
- 
- 	spin_lock_irqsave(&phy_data->reg_lock, flags);
- 
-+	/* On older SoCs (prior to H3) PHY register are accessed by manipulating the
-+	 * common register for all PHYs. PHY index is specified by pulsing usbc bit.
-+	 * Newer SoCs leave the access procedure mostly unchanged, the difference
-+	 * being that the latch registers are separate for each PHY.
-+	 */
-+	if (phy_data->cfg->phy_reg_access_v2) {
-+		if (phy->index == 0)
-+			phyctl_latch = phy_data->base + phy_data->cfg->phyctl_offset;
-+		else
-+			phyctl_latch = phy->pmu + phy_data->cfg->phyctl_offset;
-+		usbc_bit = 1;
-+
-+		/* Accessing USB PHY registers is only possible if phy0 is routed to musb.
-+		 * As it's not clear whether is this related to actual PHY
-+		 * routing or rather the hardware is just reusing the same bit,
-+		 * don't check phy0_dual_route here.
-+		 */
-+		otgctl_val = readl(phy_data->base + REG_PHY_OTGCTL);
-+		writel(otgctl_val | OTGCTL_ROUTE_MUSB, phy_data->base + REG_PHY_OTGCTL);
-+	} else {
-+		phyctl_latch = phyctl;
-+		usbc_bit = BIT(phy->index * 2);
-+	}
-+
- 	if (phy_data->cfg->phyctl_offset == REG_PHYCTL_A33) {
- 		/* SoCs newer than A33 need us to set phyctl to 0 explicitly */
- 		writel(0, phyctl);
-@@ -224,17 +250,21 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
- 		writeb(temp, phyctl);
- 
- 		/* pulse usbc_bit */
--		temp = readb(phyctl);
-+		temp = readb(phyctl_latch);
- 		temp |= usbc_bit;
--		writeb(temp, phyctl);
-+		writeb(temp, phyctl_latch);
- 
--		temp = readb(phyctl);
-+		temp = readb(phyctl_latch);
- 		temp &= ~usbc_bit;
--		writeb(temp, phyctl);
-+		writeb(temp, phyctl_latch);
- 
- 		data >>= 1;
- 	}
- 
-+	/* Restore PHY routing and the rest of OTGCTL */
-+	if (phy_data->cfg->phy_reg_access_v2)
-+		writel(otgctl_val, phy_data->base + REG_PHY_OTGCTL);
-+
- 	spin_unlock_irqrestore(&phy_data->reg_lock, flags);
- }
- 
-@@ -931,6 +961,7 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
-@@ -941,6 +972,7 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
-@@ -951,6 +983,7 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
-@@ -961,6 +994,7 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
+Best regards
+Uwe
+
+Uwe Kleine-König (5):
+  PCI: endpoint: Make struct pci_epf_driver::remove return void
+  s390/cio: Make struct css_driver::remove return void
+  s390/ccwgroup: Drop if with an always false condition
+  s390/scm: Make struct scm_driver::remove return void
+  bus: Make remove callback return void
+
+ arch/arm/common/locomo.c                  | 3 +--
+ arch/arm/common/sa1111.c                  | 4 +---
+ arch/arm/mach-rpc/ecard.c                 | 4 +---
+ arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
+ arch/parisc/kernel/drivers.c              | 5 ++---
+ arch/powerpc/platforms/ps3/system-bus.c   | 3 +--
+ arch/powerpc/platforms/pseries/ibmebus.c  | 3 +--
+ arch/powerpc/platforms/pseries/vio.c      | 3 +--
+ arch/s390/include/asm/eadm.h              | 2 +-
+ arch/sparc/kernel/vio.c                   | 4 +---
+ drivers/acpi/bus.c                        | 3 +--
+ drivers/amba/bus.c                        | 4 +---
+ drivers/base/auxiliary.c                  | 4 +---
+ drivers/base/isa.c                        | 4 +---
+ drivers/base/platform.c                   | 4 +---
+ drivers/bcma/main.c                       | 6 ++----
+ drivers/bus/sunxi-rsb.c                   | 4 +---
+ drivers/cxl/core.c                        | 3 +--
+ drivers/dax/bus.c                         | 4 +---
+ drivers/dma/idxd/sysfs.c                  | 4 +---
+ drivers/firewire/core-device.c            | 4 +---
+ drivers/firmware/arm_scmi/bus.c           | 4 +---
+ drivers/firmware/google/coreboot_table.c  | 4 +---
+ drivers/fpga/dfl.c                        | 4 +---
+ drivers/hid/hid-core.c                    | 4 +---
+ drivers/hid/intel-ish-hid/ishtp/bus.c     | 4 +---
+ drivers/hv/vmbus_drv.c                    | 5 +----
+ drivers/hwtracing/intel_th/core.c         | 4 +---
+ drivers/i2c/i2c-core-base.c               | 5 +----
+ drivers/i3c/master.c                      | 4 +---
+ drivers/input/gameport/gameport.c         | 3 +--
+ drivers/input/serio/serio.c               | 3 +--
+ drivers/ipack/ipack.c                     | 4 +---
+ drivers/macintosh/macio_asic.c            | 4 +---
+ drivers/mcb/mcb-core.c                    | 4 +---
+ drivers/media/pci/bt8xx/bttv-gpio.c       | 3 +--
+ drivers/memstick/core/memstick.c          | 3 +--
+ drivers/mfd/mcp-core.c                    | 3 +--
+ drivers/misc/mei/bus.c                    | 4 +---
+ drivers/misc/tifm_core.c                  | 3 +--
+ drivers/mmc/core/bus.c                    | 4 +---
+ drivers/mmc/core/sdio_bus.c               | 4 +---
+ drivers/net/netdevsim/bus.c               | 3 +--
+ drivers/ntb/core.c                        | 4 +---
+ drivers/ntb/ntb_transport.c               | 4 +---
+ drivers/nubus/bus.c                       | 6 ++----
+ drivers/nvdimm/bus.c                      | 3 +--
+ drivers/pci/endpoint/pci-epf-core.c       | 7 ++-----
+ drivers/pci/pci-driver.c                  | 3 +--
+ drivers/pcmcia/ds.c                       | 4 +---
+ drivers/platform/surface/aggregator/bus.c | 4 +---
+ drivers/platform/x86/wmi.c                | 4 +---
+ drivers/pnp/driver.c                      | 3 +--
+ drivers/rapidio/rio-driver.c              | 4 +---
+ drivers/rpmsg/rpmsg_core.c                | 7 ++-----
+ drivers/s390/block/scm_drv.c              | 4 +---
+ drivers/s390/cio/ccwgroup.c               | 6 +-----
+ drivers/s390/cio/chsc_sch.c               | 3 +--
+ drivers/s390/cio/css.c                    | 7 +++----
+ drivers/s390/cio/css.h                    | 2 +-
+ drivers/s390/cio/device.c                 | 9 +++------
+ drivers/s390/cio/eadm_sch.c               | 4 +---
+ drivers/s390/cio/scm.c                    | 5 +++--
+ drivers/s390/cio/vfio_ccw_drv.c           | 3 +--
+ drivers/s390/crypto/ap_bus.c              | 4 +---
+ drivers/scsi/scsi_debug.c                 | 3 +--
+ drivers/sh/superhyway/superhyway.c        | 8 ++------
+ drivers/siox/siox-core.c                  | 4 +---
+ drivers/slimbus/core.c                    | 4 +---
+ drivers/soc/qcom/apr.c                    | 4 +---
+ drivers/spi/spi.c                         | 4 +---
+ drivers/spmi/spmi.c                       | 3 +--
+ drivers/ssb/main.c                        | 4 +---
+ drivers/staging/fieldbus/anybuss/host.c   | 4 +---
+ drivers/staging/greybus/gbphy.c           | 4 +---
+ drivers/target/loopback/tcm_loop.c        | 5 ++---
+ drivers/thunderbolt/domain.c              | 4 +---
+ drivers/tty/serdev/core.c                 | 4 +---
+ drivers/usb/common/ulpi.c                 | 4 +---
+ drivers/usb/serial/bus.c                  | 4 +---
+ drivers/usb/typec/bus.c                   | 4 +---
+ drivers/vdpa/vdpa.c                       | 4 +---
+ drivers/vfio/mdev/mdev_driver.c           | 4 +---
+ drivers/virtio/virtio.c                   | 3 +--
+ drivers/vlynq/vlynq.c                     | 4 +---
+ drivers/vme/vme.c                         | 4 +---
+ drivers/xen/xenbus/xenbus.h               | 2 +-
+ drivers/xen/xenbus/xenbus_probe.c         | 4 +---
+ drivers/zorro/zorro-driver.c              | 3 +--
+ include/linux/device/bus.h                | 2 +-
+ include/linux/pci-epf.h                   | 2 +-
+ sound/ac97/bus.c                          | 6 ++----
+ sound/aoa/soundbus/core.c                 | 4 +---
+ 93 files changed, 107 insertions(+), 263 deletions(-)
+
+
+base-commit: e73f0f0ee7541171d89f2e2491130c7771ba58d3
 -- 
-2.25.1
+2.30.2
 
