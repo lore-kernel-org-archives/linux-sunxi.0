@@ -1,203 +1,591 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD74B70;
-	Wed, 14 Jul 2021 10:27:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3209A1042;
-	Wed, 14 Jul 2021 03:27:00 -0700 (PDT)
-Received: from bogus (unknown [10.57.79.213])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2FF633F774;
-	Wed, 14 Jul 2021 03:26:27 -0700 (PDT)
-Date: Wed, 14 Jul 2021 11:25:29 +0100
-From: Sudeep Holla <sudeep.holla@arm.com>
-To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@pengutronix.de,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Bounine <alex.bou9@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>, Alex Elder <elder@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Allen Hubbe <allenbh@gmail.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Andy Gross <agross@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Ben Widawsky <ben.widawsky@intel.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Bodo Stroesser <bostroesser@gmail.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Christian Borntraeger <borntraeger@de.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Dexuan Cui <decui@microsoft.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	Finn Thain <fthain@linux-m68k.org>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Frank Li <lznuaa@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Geoff Levand <geoff@infradead.org>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Hannes Reinecke <hare@suse.de>, Hans de Goede <hdegoede@redhat.com>,
-	Harald Freudenberger <freude@linux.ibm.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Heiko Carstens <hca@linux.ibm.com>, Helge Deller <deller@gmx.de>,
-	Ira Weiny <ira.weiny@intel.com>, Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Jaroslav Kysela <perex@perex.cz>, Jason Wang <jasowang@redhat.com>,
-	Jens Taprogge <jens.taprogge@taprogge.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jiri Kosina <jikos@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Joey Pabalan <jpabalanb@gmail.com>, Johan Hovold <johan@kernel.org>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Johannes Thumshirn <morbidrsa@gmail.com>,
-	Jon Mason <jdmason@kudzu.us>, Juergen Gross <jgross@suse.com>,
-	Julien Grall <jgrall@amazon.com>,
-	Kai-Heng Feng <kai.heng.feng@canonical.com>,
-	Kirti Wankhede <kwankhede@nvidia.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Manohar Vanga <manohar.vanga@gmail.com>,
-	Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-	Mark Gross <mgross@linux.intel.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Martyn Welch <martyn@welchs.me.uk>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Matt Porter <mporter@kernel.crashing.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Michael Buesch <m@bues.ch>, Michael Ellerman <mpe@ellerman.id.au>,
-	Michael Jamet <michael.jamet@intel.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>,
-	Mike Christie <michael.christie@oracle.com>,
-	Moritz Fischer <mdf@kernel.org>, Ohad Ben-Cohen <ohad@wizery.com>,
-	Pali =?utf-8?B?Um9ow6Fy?= <pali@kernel.org>,
-	Paul Mackerras <paulus@samba.org>,
-	Peter Oberparleiter <oberpar@linux.ibm.com>,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
-	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
-	Rich Felker <dalias@libc.org>,
-	Rikard Falkeborn <rikard.falkeborn@gmail.com>,
-	Rob Herring <robh@kernel.org>, Russell King <linux@armlinux.org.uk>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
-	SeongJae Park <sjpark@amazon.de>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	Stefan Richter <stefanr@s5r6.in-berlin.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Stephen Hemminger <sthemmin@microsoft.com>,
-	Sven Van Asbroeck <TheSven73@gmail.com>,
-	Takashi Iwai <tiwai@suse.com>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thorsten Scherer <t.scherer@eckelmann.de>,
-	Tomas Winkler <tomas.winkler@intel.com>, Tom Rix <trix@redhat.com>,
-	Tyrel Datwyler <tyreld@linux.ibm.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Vineeth Vijayan <vneethv@linux.ibm.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	William Breathitt Gray <vilhelm.gray@gmail.com>,
-	Wolfram Sang <wsa@kernel.org>, Wu Hao <hao.wu@intel.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	YueHaibing <yuehaibing@huawei.com>, Yufen Yu <yuyufen@huawei.com>,
-	alsa-devel@alsa-project.org, dmaengine@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	industrypack-devel@lists.sourceforge.net, kvm@vger.kernel.org,
-	linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-cxl@vger.kernel.org, linux-fpga@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-i3c@lists.infradead.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-mmc@vger.kernel.org, linux-ntb@googlegroups.com,
-	linux-parisc@vger.kernel.org, linux-pci@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-remoteproc@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-serial@vger.kernel.org, linux-sh@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-	nvdimm@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	sparclinux@vger.kernel.org, target-devel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org,
-	xen-devel@lists.xenproject.org, Johannes Thumshirn <jth@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v4 5/5] bus: Make remove callback return void
-Message-ID: <20210714102529.ehwquc2s2qlbccyg@bogus>
-References: <20210713193522.1770306-1-u.kleine-koenig@pengutronix.de>
- <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9EC72
+	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jul 2021 07:47:57 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 0B8002B011CF;
+	Thu, 15 Jul 2021 03:47:55 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Thu, 15 Jul 2021 03:47:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=N
+	Ov7jiopagSnGAS6p/FZibV4TWfEsquqg1pqD3quAGk=; b=zwE686/llzIfzNsKN
+	eTnNhXpS/7+2u5pUeCpNTQzo7Kygd0yBmkPnJASBo9lSWCq9Bqojv7FDQoiYCE/Q
+	nPGoweF5WN3TNCozSWMguwbry/fi/PtJzTElAUpQdqLp+MnYbFeE2EMSjKRHlikN
+	UG4eWAdx1Pv91WQr77F8+trM/4XlQ5F5fDrKyA+HQxmSdibDsWgki/84L2CGRMxE
+	CsEdlzRRVtMVfYG1M/M6MDAuqXT5HnO/YFLpGd+j4upLxjZ1+aApsRxjwInogWuo
+	xvmhEqGKcYFcTMVOCIPuEb2Rx6q54hhF30dFmn+1pXVXXVnXFEsyAiLYWcNn8WL/
+	lNZkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=NOv7jiopagSnGAS6p/FZibV4TWfEsquqg1pqD3quA
+	Gk=; b=Zxn4uDl71FMFa5dz3ZVxMbSKCkUC/gCNYkqCNyD2SCSo+ZuORW3y6kOVr
+	vFd8ae5He16hkDwN1WMTKPw+ua8JlfR2/bR/GutLPJNYPxNsmb1qspqwLqSbehUf
+	KE5mQtSkrDMAMpgbzLpJhN6IlKeEnFZzjdnRiCu01QR8hqX9GKeoBodzDMscCBqC
+	ehuI08mUfPG7Jk/GzTEpDtKW5EO1vB/jt3lDWZ8uF4jsoqr8n1fUgxIl1HtaerYx
+	OcOFCRcHsVeMbONvxrQPqCS329FNW/8yAKF1RxarJf1ZeVhiDn/0uvmpwOy+tejV
+	7+8fUqcA25Qfqpboob8TNIEpdFCKQ==
+X-ME-Sender: <xms:KejvYHBw0TLcu5D41Zue7XzkCr_WXTsXb_ozo2B_FwBzlccKq0TmYQ>
+    <xme:KejvYNibZ93wmhS8pJ27I25qbv4oLTdMkSy2PB5YkELzSJ24udyTw6xhgURqMG-sL
+    uE7BbdnMTw9kMJJtX4>
+X-ME-Received: <xmr:KejvYCnDoU3FJSfTMiUtdcFpKhMJ8Jzx92Cl-RUK17eWxkwqOTcmcEm1wBds_KQQG2nhsf-zFTb3oDpmqypQxIze56q4mSS7gRDy>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelgddugeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggugfgjsehtqh
+    ertddttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegt
+    vghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepgfejtedtjefggfffvdetuedthe
+    dtheegheeuteekfeeghfdtteejkeeludegvddunecuvehluhhsthgvrhfuihiivgeptden
+    ucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:KejvYJxa5h8Ty9ih5wYIgqWN_5S5Ns2pzqr0NsVQcz-nhak4FVzdcA>
+    <xmx:KejvYMSAkJbX-aHmTFzgOhOeDs8q-Au6NnMOVyBGhnSVitQhjPBrMw>
+    <xmx:KejvYMaHzRwTDzfvCpx9UdBUow__HWZUcKkMNR6OTL29TS5huGoNEg>
+    <xmx:K-jvYDIi-wStCRaN5qfFgbUPx1xxQfyZcoVcjhM-kcsjiCtwzUTihIXJMr0>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 15 Jul 2021 03:47:53 -0400 (EDT)
+Date: Thu, 15 Jul 2021 09:47:50 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: fengzheng923@gmail.com
+Cc: lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+	wens@csie.org, jernej.skrabec@gmail.com, p.zabel@pengutronix.de,
+	samuel@sholland.org, krzk@kernel.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] ASoC: sunxi: Add Allwinner H6 Digital MIC driver
+Message-ID: <20210715074750.ewbggulc5kast6ez@gilmour>
+References: <20210711122055.4529-1-fengzheng923@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210713193522.1770306-6-u.kleine-koenig@pengutronix.de>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210711122055.4529-1-fengzheng923@gmail.com>
 
-On Tue, Jul 13, 2021 at 09:35:22PM +0200, Uwe Kleine-König wrote:
-> The driver core ignores the return value of this callback because there
-> is only little it can do when a device disappears.
-> 
-> This is the final bit of a long lasting cleanup quest where several
-> buses were converted to also return void from their remove callback.
-> Additionally some resource leaks were fixed that were caused by drivers
-> returning an error code in the expectation that the driver won't go
-> away.
-> 
-> With struct bus_type::remove returning void it's prevented that newly
-> implemented buses return an ignored error code and so don't anticipate
-> wrong expectations for driver authors.
-> 
+Hi
 
-[...]
+On Sun, Jul 11, 2021 at 08:20:55AM -0400, fengzheng923@gmail.com wrote:
+> From: Ban Tao <fengzheng923@gmail.com>
+>=20
+> The Allwinner H6 and later SoCs have an DMIC block
+> which is capable of capture.
+>=20
+> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
+>=20
+> ---
+> v1->v2:
+> 1.Fix some compilation errors.
+> 2.Modify some code styles.
+> ---
+> v2->v3:
+> None.
+> ---
+> v3->v4:
+> 1.add sig_bits.
+> ---
+> v4->v5:
+> None.
+> ---
+> v5->v6:
+> 1.Modify RXFIFO_CTL_MODE to mode 1.
+> ---
+>  MAINTAINERS                   |   7 +
+>  sound/soc/sunxi/Kconfig       |   8 +
+>  sound/soc/sunxi/Makefile      |   1 +
+>  sound/soc/sunxi/sun50i-dmic.c | 403 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 419 insertions(+)
+>  create mode 100644 sound/soc/sunxi/sun50i-dmic.c
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e924f9e5df97..8d700baaa3ca 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -760,6 +760,13 @@ L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/staging/media/sunxi/cedrus/
+> =20
+> +ALLWINNER DMIC DRIVERS
+> +M:	Ban Tao <fengzheng923@gmail.com>
+> +L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/sound/allwinner,sun50i-h6-dmic.yaml
+> +F:	sound/soc/sunxi/sun50i-dmic.c
+> +
+>  ALPHA PORT
+>  M:	Richard Henderson <rth@twiddle.net>
+>  M:	Ivan Kokshaysky <ink@jurassic.park.msu.ru>
+> diff --git a/sound/soc/sunxi/Kconfig b/sound/soc/sunxi/Kconfig
+> index ddcaaa98d3cb..2a3bf7722e11 100644
+> --- a/sound/soc/sunxi/Kconfig
+> +++ b/sound/soc/sunxi/Kconfig
+> @@ -56,6 +56,14 @@ config SND_SUN4I_SPDIF
+>  	  Say Y or M to add support for the S/PDIF audio block in the Allwinner
+>  	  A10 and affiliated SoCs.
+> =20
+> +config SND_SUN50I_DMIC
+> +	tristate "Allwinner H6 DMIC Support"
+> +	depends on (OF && ARCH_SUNXI) || COMPILE_TEST
+> +	select SND_SOC_GENERIC_DMAENGINE_PCM
+> +	help
+> +	  Say Y or M to add support for the DMIC audio block in the Allwinner
+> +	  H6 and affiliated SoCs.
+> +
+>  config SND_SUN8I_ADDA_PR_REGMAP
+>  	tristate
+>  	select REGMAP
+> diff --git a/sound/soc/sunxi/Makefile b/sound/soc/sunxi/Makefile
+> index a86be340a076..4483fe9c94ef 100644
+> --- a/sound/soc/sunxi/Makefile
+> +++ b/sound/soc/sunxi/Makefile
+> @@ -6,3 +6,4 @@ obj-$(CONFIG_SND_SUN8I_CODEC_ANALOG) +=3D sun8i-codec-ana=
+log.o
+>  obj-$(CONFIG_SND_SUN50I_CODEC_ANALOG) +=3D sun50i-codec-analog.o
+>  obj-$(CONFIG_SND_SUN8I_CODEC) +=3D sun8i-codec.o
+>  obj-$(CONFIG_SND_SUN8I_ADDA_PR_REGMAP) +=3D sun8i-adda-pr-regmap.o
+> +obj-$(CONFIG_SND_SUN50I_DMIC) +=3D sun50i-dmic.o
+> diff --git a/sound/soc/sunxi/sun50i-dmic.c b/sound/soc/sunxi/sun50i-dmic.c
+> new file mode 100644
+> index 000000000000..bbac836ba4de
+> --- /dev/null
+> +++ b/sound/soc/sunxi/sun50i-dmic.c
+> @@ -0,0 +1,403 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +//
+> +// This driver supports the DMIC in Allwinner's H6 SoCs.
+> +//
+> +// Copyright 2021 Ban Tao <fengzheng923@gmail.com>
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/of_device.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/reset.h>
+> +#include <sound/dmaengine_pcm.h>
+> +#include <sound/pcm_params.h>
+> +#include <sound/soc.h>
+> +
+> +#define SUN50I_DMIC_EN_CTL		(0x00)
+> +	#define SUN50I_DMIC_EN_CTL_GLOBE			BIT(8)
+> +	#define SUN50I_DMIC_EN_CTL_CHAN(v)		((v) << 0)
+> +	#define SUN50I_DMIC_EN_CTL_CHAN_MASK		GENMASK(7, 0)
+> +#define SUN50I_DMIC_SR			(0x04)
+> +	#define SUN50I_DMIC_SR_SAMPLE_RATE(v)		((v) << 0)
+> +	#define SUN50I_DMIC_SR_SAMPLE_RATE_MASK		GENMASK(2, 0)
+> +#define SUN50I_DMIC_CTL			(0x08)
+> +	#define SUN50I_DMIC_CTL_OVERSAMPLE_RATE		BIT(0)
+> +#define SUN50I_DMIC_DATA			(0x10)
+> +#define SUN50I_DMIC_INTC			(0x14)
+> +	#define SUN50I_DMIC_FIFO_DRQ_EN			BIT(2)
+> +#define SUN50I_DMIC_INT_STA		(0x18)
+> +	#define SUN50I_DMIC_INT_STA_OVERRUN_IRQ_PENDING	BIT(1)
+> +	#define SUN50I_DMIC_INT_STA_DATA_IRQ_PENDING	BIT(0)
+> +#define SUN50I_DMIC_RXFIFO_CTL		(0x1c)
+> +	#define SUN50I_DMIC_RXFIFO_CTL_FLUSH		BIT(31)
+> +	#define SUN50I_DMIC_RXFIFO_CTL_MODE		BIT(9)
+> +	#define SUN50I_DMIC_RXFIFO_CTL_RESOLUTION	BIT(8)
+> +#define SUN50I_DMIC_CH_NUM		(0x24)
+> +	#define SUN50I_DMIC_CH_NUM_N(v)			((v) << 0)
+> +	#define SUN50I_DMIC_CH_NUM_N_MASK		GENMASK(2, 0)
+> +#define SUN50I_DMIC_CNT			(0x2c)
+> +	#define SUN50I_DMIC_CNT_N			BIT(0)
+> +#define SUN50I_DMIC_HPF_CTRL		(0x38)
+> +#define SUN50I_DMIC_VERSION		(0x50)
+> +
+> +
 
-> diff --git a/drivers/firmware/arm_scmi/bus.c b/drivers/firmware/arm_scmi/bus.c
-> index 784cf0027da3..2682c3df651c 100644
-> --- a/drivers/firmware/arm_scmi/bus.c
-> +++ b/drivers/firmware/arm_scmi/bus.c
-> @@ -116,15 +116,13 @@ static int scmi_dev_probe(struct device *dev)
->  	return scmi_drv->probe(scmi_dev);
->  }
->  
-> -static int scmi_dev_remove(struct device *dev)
-> +static void scmi_dev_remove(struct device *dev)
->  {
->  	struct scmi_driver *scmi_drv = to_scmi_driver(dev->driver);
->  	struct scmi_device *scmi_dev = to_scmi_dev(dev);
->  
->  	if (scmi_drv->remove)
->  		scmi_drv->remove(scmi_dev);
-> -
-> -	return 0;
->  }
->  
->  static struct bus_type scmi_bus_type = {
+There's multiple blank lines here
 
-Acked-by: Sudeep Holla <sudeep.holla@arm.com>
+> +struct sun50i_dmic_dev {
+> +	struct clk *dmic_clk;
+> +	struct clk *bus_clk;
+> +	struct reset_control *rst;
+> +	struct regmap *regmap;
+> +	struct snd_dmaengine_dai_dma_data dma_params_rx;
+> +	unsigned int chan_en;
+> +};
+> +
+> +struct dmic_rate {
+> +	unsigned int samplerate;
+> +	unsigned int rate_bit;
+> +};
+> +
+> +static int sun50i_dmic_startup(struct snd_pcm_substream *substream,
+> +			       struct snd_soc_dai *cpu_dai)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd =3D substream->private_data;
+> +	struct sun50i_dmic_dev *host =3D snd_soc_dai_get_drvdata(asoc_rtd_to_cp=
+u(rtd, 0));
+> +
+> +	/* only support capture */
+> +	if (substream->stream !=3D SNDRV_PCM_STREAM_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+> +			   SUN50I_DMIC_RXFIFO_CTL_FLUSH,
+> +			   SUN50I_DMIC_RXFIFO_CTL_FLUSH);
+> +	regmap_write(host->regmap, SUN50I_DMIC_CNT, SUN50I_DMIC_CNT_N);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun50i_dmic_hw_params(struct snd_pcm_substream *substream,
+> +				 struct snd_pcm_hw_params *params,
+> +				 struct snd_soc_dai *cpu_dai)
+> +{
+> +	int i =3D 0;
+> +	unsigned long rate =3D params_rate(params);
+> +	unsigned int mclk =3D 0;
+> +	unsigned int channels =3D params_channels(params);
+> +	struct sun50i_dmic_dev *host =3D snd_soc_dai_get_drvdata(cpu_dai);
+> +	static struct dmic_rate dmic_rate_s[] =3D {
+> +		{44100, 0x0},
+> +		{48000, 0x0},
+> +		{22050, 0x2},
+> +		{24000, 0x2},
+> +		{11025, 0x4},
+> +		{12000, 0x4},
+> +		{32000, 0x1},
+> +		{16000, 0x3},
+> +		{8000,  0x5},
+> +	};
 
---
-Regards,
-Sudeep
+We should order these items. It looks like descending rate makes the
+most sense?
+
+Also, I'm not sure why we need to make that array local, can't this be a
+global variable?
+
+> +	/* DMIC num is N+1 */
+> +	regmap_update_bits(host->regmap, SUN50I_DMIC_CH_NUM,
+> +			   SUN50I_DMIC_CH_NUM_N_MASK,
+> +			   SUN50I_DMIC_CH_NUM_N(channels - 1));
+> +	host->chan_en =3D (1 << channels) - 1;
+> +	regmap_write(host->regmap, SUN50I_DMIC_HPF_CTRL, host->chan_en);
+
+Do we need to store the channels bitmask in the main structure? It looks
+fairly easy to generate, so I guess we could just use a macro
+
+> +	switch (params_format(params)) {
+> +	case SNDRV_PCM_FORMAT_S16_LE:
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+> +				   SUN50I_DMIC_RXFIFO_CTL_RESOLUTION, 0);
+> +		break;
+> +	case SNDRV_PCM_FORMAT_S24_LE:
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+> +				   SUN50I_DMIC_RXFIFO_CTL_RESOLUTION,
+> +				   SUN50I_DMIC_RXFIFO_CTL_RESOLUTION);
+> +		break;
+
+These two defines could be named a bit better, it's not really clear
+what SUN50I_DMIC_RXFIFO_CTL_RESOLUTION means, exactly, as opposed to 0
+(while it's actually the sample width).
+
+What about something like SUN50I_DMIC_RXFIFO_CTL_SAMPLE_16 (for 0) and
+_24 (for 1), while changing SUN50I_DMIC_RXFIFO_CTL_RESOLUTION for
+SUN50I_DMIC_RXFIFO_CTL_SAMPLE_MASK ?
+
+> +	default:
+> +		dev_err(cpu_dai->dev, "Invalid format!\n");
+> +		return -EINVAL;
+> +	}
+> +	regmap_update_bits(host->regmap, SUN50I_DMIC_RXFIFO_CTL,
+> +			   SUN50I_DMIC_RXFIFO_CTL_MODE,
+> +			   SUN50I_DMIC_RXFIFO_CTL_MODE);
+
+Same thing here, MODE doesn't really explain what this does, and why
+we'd want to always set it.
+
+I guess 0 is LSB_ZERO and 1 is MSB_SIGN?
+
+> +	switch (rate) {
+> +	case 11025:
+> +	case 22050:
+> +	case 44100:
+> +		mclk =3D 22579200;
+> +		break;
+> +	case 8000:
+> +	case 12000:
+> +	case 16000:
+> +	case 24000:
+> +	case 32000:
+> +	case 48000:
+> +		mclk =3D 24576000;
+> +		break;
+> +	default:
+> +		dev_err(cpu_dai->dev, "Invalid rate!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (clk_set_rate(host->dmic_clk, mclk)) {
+> +		dev_err(cpu_dai->dev, "mclk : %u not support\n", mclk);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(dmic_rate_s); i++) {
+> +		if (dmic_rate_s[i].samplerate =3D=3D rate) {
+> +			regmap_update_bits(host->regmap, SUN50I_DMIC_SR,
+> +					   SUN50I_DMIC_SR_SAMPLE_RATE_MASK,
+> +					   SUN50I_DMIC_SR_SAMPLE_RATE(dmic_rate_s[i].rate_bit));
+> +			break;
+> +		}
+> +	}
+> +
+> +	switch (params_physical_width(params)) {
+> +	case 16:
+> +		host->dma_params_rx.addr_width =3D DMA_SLAVE_BUSWIDTH_2_BYTES;
+> +		break;
+> +	case 32:
+> +		host->dma_params_rx.addr_width =3D DMA_SLAVE_BUSWIDTH_4_BYTES;
+> +		break;
+> +	default:
+> +		dev_err(cpu_dai->dev, "Unsupported physical sample width: %d\n",
+> +			params_physical_width(params));
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* oversamplerate adjust */
+> +	if (params_rate(params) >=3D 24000)
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_CTL,
+> +				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE,
+> +				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE);
+> +	else
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_CTL,
+> +				   SUN50I_DMIC_CTL_OVERSAMPLE_RATE, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun50i_dmic_trigger(struct snd_pcm_substream *substream, int =
+cmd,
+> +			       struct snd_soc_dai *dai)
+> +{
+> +	int ret =3D 0;
+> +	struct sun50i_dmic_dev *host =3D snd_soc_dai_get_drvdata(dai);
+> +
+> +	if (substream->stream !=3D SNDRV_PCM_STREAM_CAPTURE)
+> +		return -EINVAL;
+> +
+> +	switch (cmd) {
+> +	case SNDRV_PCM_TRIGGER_START:
+> +	case SNDRV_PCM_TRIGGER_RESUME:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+> +		/* DRQ ENABLE */
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_INTC,
+> +				   SUN50I_DMIC_FIFO_DRQ_EN,
+> +				   SUN50I_DMIC_FIFO_DRQ_EN);
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
+> +				   SUN50I_DMIC_EN_CTL_CHAN_MASK,
+> +				   SUN50I_DMIC_EN_CTL_CHAN(host->chan_en));
+> +		/* Global enable */
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
+> +				   SUN50I_DMIC_EN_CTL_GLOBE,
+> +				   SUN50I_DMIC_EN_CTL_GLOBE);
+> +		break;
+
+Do we really need to clear the channel and global enable bits? and DRQ?
+
+> +	case SNDRV_PCM_TRIGGER_STOP:
+> +	case SNDRV_PCM_TRIGGER_SUSPEND:
+> +	case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+> +		/* DRQ DISABLE */
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_INTC,
+> +				   SUN50I_DMIC_FIFO_DRQ_EN, 0);
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
+> +				   SUN50I_DMIC_EN_CTL_CHAN_MASK,
+> +				   SUN50I_DMIC_EN_CTL_CHAN(0));
+> +		/* Global disable */
+> +		regmap_update_bits(host->regmap, SUN50I_DMIC_EN_CTL,
+> +				   SUN50I_DMIC_EN_CTL_GLOBE, 0);
+> +		break;
+> +
+> +	default:
+> +		ret =3D -EINVAL;
+> +		break;
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int sun50i_dmic_soc_dai_probe(struct snd_soc_dai *dai)
+> +{
+> +	struct sun50i_dmic_dev *host =3D snd_soc_dai_get_drvdata(dai);
+> +
+> +	snd_soc_dai_init_dma_data(dai, NULL, &host->dma_params_rx);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct snd_soc_dai_ops sun50i_dmic_dai_ops =3D {
+> +	.startup	=3D sun50i_dmic_startup,
+> +	.trigger	=3D sun50i_dmic_trigger,
+> +	.hw_params	=3D sun50i_dmic_hw_params,
+> +};
+> +
+> +static const struct regmap_config sun50i_dmic_regmap_config =3D {
+> +	.reg_bits =3D 32,
+> +	.reg_stride =3D 4,
+> +	.val_bits =3D 32,
+> +	.max_register =3D SUN50I_DMIC_VERSION,
+> +	.cache_type =3D REGCACHE_NONE,
+> +};
+> +
+> +#define	SUN50I_DMIC_RATES (SNDRV_PCM_RATE_8000_48000)
+> +#define SUN50I_FORMATS	(SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_L=
+E)
+
+SUN50I_DMIC_RATES has a tab between the define and its name, while
+SUN50I_FORMATS has the tab after the name. We should be consistent.
+Similarly, we should name both with the SUN50I_DMIC prefix.
+
+> +static struct snd_soc_dai_driver sun50i_dmic_dai =3D {
+> +	.capture =3D {
+> +		.channels_min =3D 1,
+> +		.channels_max =3D 8,
+> +		.rates =3D SUN50I_DMIC_RATES,
+> +		.formats =3D SUN50I_FORMATS,
+> +		.sig_bits =3D 21,
+> +	},
+> +	.probe =3D sun50i_dmic_soc_dai_probe,
+> +	.ops =3D &sun50i_dmic_dai_ops,
+> +	.name =3D "dmic",
+> +};
+> +
+> +static const struct of_device_id sun50i_dmic_of_match[] =3D {
+> +	{
+> +		.compatible =3D "allwinner,sun50i-h6-dmic",
+> +	},
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sun50i_dmic_of_match);
+> +
+> +static const struct snd_soc_component_driver sun50i_dmic_component =3D {
+> +	.name		=3D "sun50i-dmic",
+> +};
+> +
+> +static int sun50i_dmic_runtime_suspend(struct device *dev)
+> +{
+> +	struct sun50i_dmic_dev *host  =3D dev_get_drvdata(dev);
+> +
+> +	clk_disable_unprepare(host->dmic_clk);
+> +	clk_disable_unprepare(host->bus_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun50i_dmic_runtime_resume(struct device *dev)
+> +{
+> +	struct sun50i_dmic_dev *host  =3D dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret =3D clk_prepare_enable(host->dmic_clk);
+> +	if (ret)
+> +		return ret;
+
+A new line here would be great.
+
+> +	ret =3D clk_prepare_enable(host->bus_clk);
+> +	if (ret)
+> +		clk_disable_unprepare(host->dmic_clk);
+> +
+> +	return ret;
+
+In general we prefer to treat the error path and the success path
+differently. In this case it would mean changing that part to
+
+ret =3D clk_prepare_enable(host->bus_clk);
+if (ret) {
+   	 clk_disable_unprepare(host->dmic_clk);
+	 return ret;
+}
+
+return 0;
+
+> +}
+> +
+> +static int sun50i_dmic_probe(struct platform_device *pdev)
+> +{
+> +	struct sun50i_dmic_dev *host;
+> +	struct resource *res;
+> +	int ret;
+> +	void __iomem *base;
+> +
+> +	host =3D devm_kzalloc(&pdev->dev, sizeof(*host), GFP_KERNEL);
+> +	if (!host)
+> +		return -ENOMEM;
+> +
+> +	/* Get the addresses */
+> +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	base =3D devm_ioremap_resource(&pdev->dev, res);
+> +	if (IS_ERR(base))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(base),
+> +				     "get resource failed.\n");
+> +
+> +	host->regmap =3D devm_regmap_init_mmio(&pdev->dev, base,
+> +						&sun50i_dmic_regmap_config);
+
+Your second line should be aligned on the opening parenthesis
+
+> +	/* Clocks */
+> +	host->bus_clk =3D devm_clk_get(&pdev->dev, "bus");
+> +	if (IS_ERR(host->bus_clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(host->bus_clk),
+> +				     "failed to get bus clock.\n");
+> +
+> +	host->dmic_clk =3D devm_clk_get(&pdev->dev, "mod");
+> +	if (IS_ERR(host->dmic_clk))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(host->dmic_clk),
+> +				     "failed to get dmic clock.\n");
+> +
+> +	host->dma_params_rx.addr =3D res->start + SUN50I_DMIC_DATA;
+> +	host->dma_params_rx.maxburst =3D 8;
+> +
+> +	platform_set_drvdata(pdev, host);
+> +
+> +	host->rst =3D devm_reset_control_get_optional_exclusive(&pdev->dev, NUL=
+L);
+> +	if (IS_ERR(host->rst))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(host->rst),
+> +				     "Failed to get reset.\n");
+
+Your binding states that the reset is mandatory so you don't need the
+optional variant.
+
+> +	reset_control_deassert(host->rst);
+
+Can't this be moved to the runtime_pm hooks?
+
+> +	ret =3D devm_snd_soc_register_component(&pdev->dev,
+> +				&sun50i_dmic_component, &sun50i_dmic_dai, 1);
+
+Your second line should be aligned on the opening parenthesis
+
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "failed to register component.\n");
+> +
+> +	pm_runtime_enable(&pdev->dev);
+> +	if (!pm_runtime_enabled(&pdev->dev)) {
+> +		ret =3D sun50i_dmic_runtime_resume(&pdev->dev);
+> +		if (ret)
+> +			goto err_unregister;
+> +	}
+
+We have a depends on PM on some drivers already, so I guess it would
+just make sense to add one more here instead of dealing with whether
+runtime_pm is compiled in or not.
+
+Also, the name of the label is misleading: it's called err_unregister
+but you don't need to unregister anything and you actually disable
+runtime_pm for that device.
+
+err_disable_runtime_pm or something similar would be a better pick
+
+Thanks!
+Maxime
