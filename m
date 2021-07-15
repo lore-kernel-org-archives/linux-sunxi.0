@@ -1,119 +1,189 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF66572
-	for <linux-sunxi@lists.linux.dev>; Thu, 15 Jul 2021 07:50:03 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id AC6A22B01189;
-	Thu, 15 Jul 2021 03:50:02 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 15 Jul 2021 03:50:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=U
-	29kzEGbfUM6Z8XvuEF2py4Ztxj0+cmZ1D2H3aHU1Rk=; b=P/zZfzMQ3jBhkBgtZ
-	TBXCgMzWuy3/yttcjD6D6HmiAKv8so5lCut6KHhcZjI5DyGXb5Wj2T0z+PJnkZ0+
-	vUlvr1m+e/jNqDNZLT5pIXgVbADLVM0k+VBGQKawTl+hp8E4TEvlgoF2NKYSlTIo
-	Zw/COeP2p8kI9El0SC2PiTTQJBkkLTHai8FNeuIk5B/ILf84dIWGmJL4kmpUl601
-	aX311EMl08JxE3pynjmXzcuwSiuKyNxIghO3XAMemo825OD3AINCxOneSlBIMfQA
-	JQH3LHaaS5mb8vCJ3NN2TQC0qF8h5ox+xKPGL0txcvWN5md/2NFg1/AnGv5PB6B6
-	MLpOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=U29kzEGbfUM6Z8XvuEF2py4Ztxj0+cmZ1D2H3aHU1
-	Rk=; b=kIE7Kfv+i+lwi3GdUglJydCo6srdsKxhjEVKAz85cKLp13nombLw6jgxb
-	rHK5ylbJfS0M4DXTO17zpu/4oonqs0Exmcktf5JzurrHT3AtcaewM2KO7n9D52WK
-	pYY1Cv+xdZQScjmjrLVYM5lZ61nsvHfLWBX4XIIGS6lLOdIuQnGq5QFwUCMbc6eX
-	D9aLt2C8DQ6S9l0k7unWU++CHqZ5/KqYjzoYYxotEKthVWhIhM5a1XOuZgCBJeNE
-	PlUK+AE4ig1OqmVwpy0cJ0m8iRuSP+jBpYcnwt0YHOhUbrjwZVoOjVuWznIaefCv
-	QldBWa496rXqx084tqjvRgzdc4ehw==
-X-ME-Sender: <xms:qejvYBTU5O-BDYHWIvv5zYYhcZNfdT0shVzU6GG9Wpi8jY49T08G6g>
-    <xme:qejvYKxgXt3ANkAlTQsNH5jMZiuBxv0EZVF8ujRtQTSPUvsjsJn-osnIKdDtqFjDl
-    78RMZMn8FLqdLNPyus>
-X-ME-Received: <xmr:qejvYG0J-klDNHInXJ1vTpaEGyN0Tl9Tt7bO_0B8iocAKnV-zD4WHnqGqDnDtRM02E6APeAmtS-T92THxVRSRSo23EwCAMLZW_cv>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelgddugeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggugfgjsehtqh
-    ertddttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegt
-    vghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepgfejtedtjefggfffvdetuedthe
-    dtheegheeuteekfeeghfdtteejkeeludegvddunecuvehluhhsthgvrhfuihiivgeptden
-    ucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qejvYJBdTZ-uy74WMfOHpf9yGBOFCt9PR00A58yZUdRpOxRuWMj2YQ>
-    <xmx:qejvYKj6A7POSj7xPU1a4kgskh3qVuwq7G21x7YLvZFf36ZXVw8N0A>
-    <xmx:qejvYNpFqw8gMyB_lT4aeFu58JX5AvG0yzq2UJrCgtf-msAQMtU2Ag>
-    <xmx:qujvYFMCtY_0qzASHVQ2b8MW28OCO5d9EraZrt9QM6ywd83Rj9HsL2HK92o>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 15 Jul 2021 03:50:01 -0400 (EDT)
-Date: Thu, 15 Jul 2021 09:49:59 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: fengzheng923@gmail.com
-Cc: lgirdwood@gmail.com, broonie@kernel.org, robh+dt@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 2/2] ASoC: sun50i-dmic: dt-bindings: add DT bindings
- for DMIC controller
-Message-ID: <20210715074959.lepsaiyl3ihthy4s@gilmour>
-References: <20210711124826.5376-1-fengzheng923@gmail.com>
+Received: from elvis.franken.de (elvis.franken.de [193.175.24.41])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A17670;
+	Thu, 15 Jul 2021 14:41:42 +0000 (UTC)
+Received: from uucp (helo=alpha)
+	by elvis.franken.de with local-bsmtp (Exim 3.36 #1)
+	id 1m42Ly-0004w9-01; Thu, 15 Jul 2021 16:28:42 +0200
+Received: by alpha.franken.de (Postfix, from userid 1000)
+	id AC72DC099E; Thu, 15 Jul 2021 15:02:21 +0200 (CEST)
+Date: Thu, 15 Jul 2021 15:02:21 +0200
+From: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kernel@pengutronix.de,
+	Cornelia Huck <cohuck@redhat.com>, linux-kernel@vger.kernel.org,
+	Russell King <linux@armlinux.org.uk>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Helge Deller <deller@gmx.de>, Geoff Levand <geoff@infradead.org>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+	Paul Mackerras <paulus@samba.org>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Len Brown <lenb@kernel.org>,
+	William Breathitt Gray <vilhelm.gray@gmail.com>,
+	=?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Ben Widawsky <ben.widawsky@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Vinod Koul <vkoul@kernel.org>,
+	Stefan Richter <stefanr@s5r6.in-berlin.de>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Cristian Marussi <cristian.marussi@arm.com>,
+	Wu Hao <hao.wu@intel.com>, Tom Rix <trix@redhat.com>,
+	Moritz Fischer <mdf@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	"K. Y. Srinivasan" <kys@microsoft.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Wolfram Sang <wsa@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Samuel Iglesias Gonsalvez <siglesias@igalia.com>,
+	Jens Taprogge <jens.taprogge@taprogge.org>,
+	Johannes Thumshirn <morbidrsa@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Lee Jones <lee.jones@linaro.org>,
+	Tomas Winkler <tomas.winkler@intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jon Mason <jdmason@kudzu.us>, Allen Hubbe <allenbh@gmail.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Dominik Brodowski <linux@dominikbrodowski.net>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Mark Gross <mgross@linux.intel.com>,
+	Matt Porter <mporter@kernel.crashing.org>,
+	Alexandre Bounine <alex.bou9@gmail.com>,
+	Ohad Ben-Cohen <ohad@wizery.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Thorsten Scherer <t.scherer@eckelmann.de>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Andy Gross <agross@kernel.org>, Mark Brown <broonie@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>, Michael Buesch <m@bues.ch>,
+	Sven Van Asbroeck <TheSven73@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Michael Jamet <michael.jamet@intel.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Rob Herring <robh@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Kirti Wankhede <kwankhede@nvidia.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Martyn Welch <martyn@welchs.me.uk>,
+	Manohar Vanga <manohar.vanga@gmail.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Tyrel Datwyler <tyreld@linux.ibm.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Qinglang Miao <miaoqinglang@huawei.com>,
+	Alexey Kardashevskiy <aik@ozlabs.ru>,
+	Kai-Heng Feng <kai.heng.feng@canonical.com>,
+	Joey Pabalan <jpabalanb@gmail.com>,
+	Pali =?iso-8859-1?Q?Roh=E1r?= <pali@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Frank Li <lznuaa@gmail.com>,
+	Mike Christie <michael.christie@oracle.com>,
+	Bodo Stroesser <bostroesser@gmail.com>,
+	Hannes Reinecke <hare@suse.de>, David Woodhouse <dwmw@amazon.co.uk>,
+	SeongJae Park <sjpark@amazon.de>, Julien Grall <jgrall@amazon.com>,
+	linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
+	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-acpi@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-cxl@vger.kernel.org,
+	nvdimm@lists.linux.dev, dmaengine@vger.kernel.org,
+	linux1394-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-i3c@lists.infradead.org,
+	industrypack-devel@lists.sourceforge.net,
+	linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, linux-ntb@googlegroups.com,
+	linux-pci@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-arm-msm@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-staging@lists.linux.dev,
+	greybus-dev@lists.linaro.org, target-devel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	Russell King <rmk+kernel@armlinux.org.uk>,
+	Johannes Thumshirn <jth@kernel.org>
+Subject: Re: [PATCH v2 4/4] bus: Make remove callback return void
+Message-ID: <20210715130221.GA10298@alpha.franken.de>
+References: <20210706154803.1631813-1-u.kleine-koenig@pengutronix.de>
+ <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210711124826.5376-1-fengzheng923@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210706154803.1631813-5-u.kleine-koenig@pengutronix.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sun, Jul 11, 2021 at 08:48:26AM -0400, fengzheng923@gmail.com wrote:
-> From: Ban Tao <fengzheng923@gmail.com>
->=20
-> DT binding documentation for this new ASoC driver.
->=20
-> Signed-off-by: Ban Tao <fengzheng923@gmail.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-
+On Tue, Jul 06, 2021 at 05:48:03PM +0200, Uwe Kleine-König wrote:
+> The driver core ignores the return value of this callback because there
+> is only little it can do when a device disappears.
+> 
+> This is the final bit of a long lasting cleanup quest where several
+> buses were converted to also return void from their remove callback.
+> Additionally some resource leaks were fixed that were caused by drivers
+> returning an error code in the expectation that the driver won't go
+> away.
+> 
+> With struct bus_type::remove returning void it's prevented that newly
+> implemented buses return an ignored error code and so don't anticipate
+> wrong expectations for driver authors.
+> 
+> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk> (For ARM, Amba and related parts)
+> Acked-by: Mark Brown <broonie@kernel.org>
+> Acked-by: Chen-Yu Tsai <wens@csie.org> (for drivers/bus/sunxi-rsb.c)
+> Acked-by: Pali Rohár <pali@kernel.org>
+> Acked-by: Mauro Carvalho Chehab <mchehab@kernel.org> (for drivers/media)
+> Acked-by: Hans de Goede <hdegoede@redhat.com> (For drivers/platform)
+> Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> Acked-By: Vinod Koul <vkoul@kernel.org>
+> Acked-by: Juergen Gross <jgross@suse.com> (For Xen)
+> Acked-by: Lee Jones <lee.jones@linaro.org> (For drivers/mfd)
+> Acked-by: Johannes Thumshirn <jth@kernel.org> (For drivers/mcb)
+> Acked-by: Johan Hovold <johan@kernel.org>
+> Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org> (For drivers/slimbus)
+> Acked-by: Kirti Wankhede <kwankhede@nvidia.com> (For drivers/vfio)
+> Acked-by: Maximilian Luz <luzmaximilian@gmail.com>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com> (For ulpi and typec)
+> Acked-by: Samuel Iglesias Gonsálvez <siglesias@igalia.com> (For ipack)
+> Reviewed-by: Tom Rix <trix@redhat.com> (For fpga)
+> Acked-by: Geoff Levand <geoff@infradead.org> (For ps3)
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 > ---
-> v1->v2:
-> 1.Fix some build errors.
-> ---
-> v2->v3:
-> 1.Fix some build errors.
-> ---
-> v3->v4:
-> 1.None.
-> ---
-> v4->v5:
-> 1.Add interrupt.
-> 2.Keep clock and reset index.
-> ---
-> v5->v6:
-> 1.None.
-> ---
+> [...] 
+>  arch/mips/sgi-ip22/ip22-gio.c             | 3 +--
 
-Just as a general comment, you don't need to duplicate the --- all the
-time, here something like the following would have been fine
+Acked-by: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
 
----
-
-v1->v2:
-1.Fix some build errors.
-
-v2->v3:
-1.Fix some build errors.
-
-v3->v4:
-1.None
-
-etc.
-
-git will ignore anything after ---, so it doesn't matter whether there's
-one or multiple.
-
-Maxime
+-- 
+Crap can work. Given enough thrust pigs will fly, but it's not necessarily a
+good idea.                                                [ RFC1925, 2.3 ]
