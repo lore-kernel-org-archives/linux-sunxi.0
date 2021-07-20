@@ -1,92 +1,98 @@
-Received: from smtpbg587.qq.com (smtpbg126.qq.com [106.55.201.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3EA72
-	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jul 2021 13:05:32 +0000 (UTC)
-X-QQ-mid: bizesmtp48t1626786092tzpucwkl
-Received: from localhost.localdomain (unknown [125.70.163.19])
-	by esmtp6.qq.com (ESMTP) with 
-	id ; Tue, 20 Jul 2021 21:01:30 +0800 (CST)
-X-QQ-SSF: 0100000000400080B000B00A0000000
-X-QQ-FEAT: QiB9IW2pbdELcbxTZh3ALvEfJuv/cKfiB1Sgs9+zAap2LDX7uELg/zrJw7mXo
-	LCArt9ZnyYCpMPfPv84aIAqD1PFZcLqJ1pAn7juYQxgZgvNAecBHTMMvZuUMvAjZIxTiwtF
-	3v3HeJgZP1hQuec3h1mof2XoCuV849eJ8C08AS+gQ3cCEEcXwcljoQf1kCZvXBWWjHukv6s
-	25JZ9nq32sO7m2hswDQUeQE6RMo2MipAFDuKzwyGmkrPSEOTjWwQ1cPPQ9JRgP1bdhspvK4
-	mTst0UxBugvg0ubqNmo8v6xk7sLBExUEUU+aP2B8re5w3hfUKLPnC1OOmwyks3cIcI/Q==
-X-QQ-GoodBg: 0
-From: Jason Wang <wangborong@cdjrlc.com>
-To: herbert@gondor.apana.org.au
-Cc: clabbe.montjoie@gmail.com,
-	davem@davemloft.net,
-	mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	colin.king@canonical.com,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jason Wang <wangborong@cdjrlc.com>
-Subject: [PATCH] crypto: sun8i-ss - Use kfree_sensitive
-Date: Tue, 20 Jul 2021 21:01:04 +0800
-Message-Id: <20210720130104.42867-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DA7168
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jul 2021 18:33:46 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id r11so27024590wro.9
+        for <linux-sunxi@lists.linux.dev>; Tue, 20 Jul 2021 11:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=61Kmkgq9U7prtsfWxGCCK1IlTSw2fR1J6ed3KYPzzMY=;
+        b=cg4fNoQrysS/jzj2g1Ww6ktVPGtfNV7t77CUekEUnlQTBdNYlhjXMDtsFhk5GVUrL5
+         Jhv0MfLmuD/oecKzGCQqAigQQE6KwWAjhNDhqk3vd8vJPCoNK49/4TR/dWIF49VBIy/R
+         GaSi6hLdvumAdcNB3b91uozgM0R/Le/sYLNPc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=61Kmkgq9U7prtsfWxGCCK1IlTSw2fR1J6ed3KYPzzMY=;
+        b=I/T7BbwjCPHEYEOBPsjcjpGK01wKIC/F6gJS+LO6hPO7aEvSYWopE74cqzP5e6EEky
+         mkdwa4LaRTkQ/Vf9rBhgnpuBvmynpxzYh9NswDekbBvQ4GDg0p/ffTWm6Pwyhjlr9h6z
+         ZYE4cXXNpoNBAbonNl0NK9vTtVDEXTZovsbC74u2CCc0IGJeshwUtYROndJmyY3e6JH+
+         G+/vCAsBjXp/cLnlBimWDf7I5QusnvEeeG40fh47LCiei+aVnWQxC6jUpQHQcpclJktk
+         bbb0hV0IGah2crZohKpoc/MaedF+j/Y4ntTbwKcQnA6bnUYZOCWXfNyVhFowKfWU0m/J
+         2qaQ==
+X-Gm-Message-State: AOAM533glvxX7s5L9ve5dM5qNzyNhPRxtUk7MfYQ+Z13HAHGeEA07PRD
+	ieRN84oPqvUFwsrLdX8FRhZlPraZ8X9IsCBkQQzBTw==
+X-Google-Smtp-Source: ABdhPJz+FJZeG9i0PdzNgehf+VAHZ462NYEteH3MI2EKlVU5RLfgUncbXPrjBKcqQvUjcg41oBUBHlAGtaDkH8Ou59U=
+X-Received: by 2002:adf:ec4b:: with SMTP id w11mr37986031wrn.420.1626806024762;
+ Tue, 20 Jul 2021 11:33:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam2
+References: <20210712100651.6912-1-andre.przywara@arm.com> <20210712100651.6912-2-andre.przywara@arm.com>
+In-Reply-To: <20210712100651.6912-2-andre.przywara@arm.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Tue, 20 Jul 2021 12:32:53 -0600
+Message-ID: <CAPnjgZ1qhkxrQ-2jm3A8b4wtZMJe5YH-KtBxp10FK_mxc6YWtg@mail.gmail.com>
+Subject: Re: [RESEND PATCH v2 1/3] spl: mmc: extend spl_mmc_boot_mode() to
+ take mmc argument
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Samuel Holland <samuel@sholland.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, 
+	Sunil Mohan Adapa <sunil@medhas.org>, linux-sunxi@lists.linux.dev, 
+	U-Boot Mailing List <u-boot@lists.denx.de>, Stefano Babic <sbabic@denx.de>, 
+	Fabio Estevam <festevam@gmail.com>, "NXP i . MX U-Boot Team" <uboot-imx@nxp.com>, 
+	Lokesh Vutla <lokeshvutla@ti.com>, Philipp Tomsich <philipp.tomsich@vrull.eu>, 
+	Kever Yang <kever.yang@rock-chips.com>, Marek Vasut <marex@denx.de>, 
+	Simon Goldschmidt <simon.k.r.goldschmidt@gmail.com>, Ley Foon Tan <lftan.linux@gmail.com>, 
+	Patrick Delaunay <patrick.delaunay@foss.st.com>, 
+	Patrice Chotard <patrice.chotard@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The kfree_sensitive is a kernel API to clear sensitive information
-that should not be leaked to other future users of the same memory
-objects and free the memory. Its function is the same as the
-combination of memzero_explicit and kfree. Thus, we can replace the
-combination APIs with the single kfree_sensitive API.
+Hi Andre,
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+On Mon, 12 Jul 2021 at 04:07, Andre Przywara <andre.przywara@arm.com> wrote:
+>
+> Platforms can overwrite the weak definition of spl_mmc_boot_mode() to
+> determine where to load U-Boot proper from.
+> For most of them this is a trivial decision based on Kconfig variables,
+> but it might be desirable the probe the actual device to answer this
+> question.
+>
+> Pass the pointer to the mmc struct to that function, so implementations
+> can make use of that.
+>
+> Compile-tested for all users changed.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Stefano Babic <sbabic@denx.de>
+> Reviewed-by: Ley Foon Tan <ley.foon.tan@inte.com> (for SoCFPGA)
+> Acked-by: Lokesh Vutla <lokeshvutla@ti.com> (for OMAP and K3)
+> ---
+> (resent to also include forgotten U-Boot list)
+>
+>  arch/arm/mach-imx/spl.c                | 2 +-
+>  arch/arm/mach-k3/am6_init.c            | 2 +-
+>  arch/arm/mach-k3/j721e_init.c          | 2 +-
+>  arch/arm/mach-omap2/boot-common.c      | 2 +-
+>  arch/arm/mach-rockchip/spl.c           | 2 +-
+>  arch/arm/mach-socfpga/spl_a10.c        | 2 +-
+>  arch/arm/mach-socfpga/spl_gen5.c       | 2 +-
+>  arch/arm/mach-stm32mp/spl.c            | 2 +-
+>  arch/arm/mach-uniphier/mmc-boot-mode.c | 5 +----
+>  common/spl/spl_mmc.c                   | 4 ++--
+>  include/spl.h                          | 3 ++-
+>  11 files changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-index 3191527928e4..246a6782674c 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-@@ -20,8 +20,7 @@ int sun8i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed,
- 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_rng_ctx(tfm);
- 
- 	if (ctx->seed && ctx->slen != slen) {
--		memzero_explicit(ctx->seed, ctx->slen);
--		kfree(ctx->seed);
-+		kfree_sensitive(ctx->seed);
- 		ctx->slen = 0;
- 		ctx->seed = NULL;
- 	}
-@@ -48,8 +47,7 @@ void sun8i_ss_prng_exit(struct crypto_tfm *tfm)
- {
- 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_tfm_ctx(tfm);
- 
--	memzero_explicit(ctx->seed, ctx->slen);
--	kfree(ctx->seed);
-+	kfree_sensitive(ctx->seed);
- 	ctx->seed = NULL;
- 	ctx->slen = 0;
- }
-@@ -167,9 +165,8 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
- 		/* Update seed */
- 		memcpy(ctx->seed, d + dlen, ctx->slen);
- 	}
--	memzero_explicit(d, todo);
- err_free:
--	kfree(d);
-+	kfree_sensitive(d);
- 
- 	return err;
- }
--- 
-2.32.0
+Reviewed-by: Simon Glass <sjg@chromium.org>
 
+But I think this should come from a sysinfo driver.
+
+Regards,
+Simon
