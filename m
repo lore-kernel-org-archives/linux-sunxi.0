@@ -1,52 +1,92 @@
-Received: from deadmen.hmeau.com (helcar.hmeau.com [216.24.177.18])
+Received: from smtpbg587.qq.com (smtpbg126.qq.com [106.55.201.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED6B177
-	for <linux-sunxi@lists.linux.dev>; Fri, 16 Jul 2021 08:00:06 +0000 (UTC)
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-	by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
-	id 1m4IGO-0004rw-KJ; Fri, 16 Jul 2021 15:28:00 +0800
-Received: from herbert by gondobar with local (Exim 4.92)
-	(envelope-from <herbert@gondor.apana.org.au>)
-	id 1m4IGF-0001z9-SW; Fri, 16 Jul 2021 15:27:51 +0800
-Date: Fri, 16 Jul 2021 15:27:51 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Jason Wang <wangborong@cdjrlc.com>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net, mripard@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com, colin.king@canonical.com,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] crypto: sun8i-ss - Use kfree_sensitive
-Message-ID: <20210716072751.GA7595@gondor.apana.org.au>
-References: <20210701132200.31583-1-wangborong@cdjrlc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3EA72
+	for <linux-sunxi@lists.linux.dev>; Tue, 20 Jul 2021 13:05:32 +0000 (UTC)
+X-QQ-mid: bizesmtp48t1626786092tzpucwkl
+Received: from localhost.localdomain (unknown [125.70.163.19])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Tue, 20 Jul 2021 21:01:30 +0800 (CST)
+X-QQ-SSF: 0100000000400080B000B00A0000000
+X-QQ-FEAT: QiB9IW2pbdELcbxTZh3ALvEfJuv/cKfiB1Sgs9+zAap2LDX7uELg/zrJw7mXo
+	LCArt9ZnyYCpMPfPv84aIAqD1PFZcLqJ1pAn7juYQxgZgvNAecBHTMMvZuUMvAjZIxTiwtF
+	3v3HeJgZP1hQuec3h1mof2XoCuV849eJ8C08AS+gQ3cCEEcXwcljoQf1kCZvXBWWjHukv6s
+	25JZ9nq32sO7m2hswDQUeQE6RMo2MipAFDuKzwyGmkrPSEOTjWwQ1cPPQ9JRgP1bdhspvK4
+	mTst0UxBugvg0ubqNmo8v6xk7sLBExUEUU+aP2B8re5w3hfUKLPnC1OOmwyks3cIcI/Q==
+X-QQ-GoodBg: 0
+From: Jason Wang <wangborong@cdjrlc.com>
+To: herbert@gondor.apana.org.au
+Cc: clabbe.montjoie@gmail.com,
+	davem@davemloft.net,
+	mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	colin.king@canonical.com,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jason Wang <wangborong@cdjrlc.com>
+Subject: [PATCH] crypto: sun8i-ss - Use kfree_sensitive
+Date: Tue, 20 Jul 2021 21:01:04 +0800
+Message-Id: <20210720130104.42867-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210701132200.31583-1-wangborong@cdjrlc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam2
 
-On Thu, Jul 01, 2021 at 09:22:00PM +0800, Jason Wang wrote:
-> The kfree_sensitive is a kernel API to clear sensitive information
-> that should not be leaked to other future users of the same memory
-> objects and free the memory. Its function is the same as the
-> combination of memzero_explicit and kfree. Thus, we can replace the
-> combination APIs with the single kfree_sensitive API.
-> 
-> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
-> ---
->  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 9 +++------
->  1 file changed, 3 insertions(+), 6 deletions(-)
+The kfree_sensitive is a kernel API to clear sensitive information
+that should not be leaked to other future users of the same memory
+objects and free the memory. Its function is the same as the
+combination of memzero_explicit and kfree. Thus, we can replace the
+combination APIs with the single kfree_sensitive API.
 
-I don't know what happened but this patch didn't make it into
-patchwork.  Could you please check and resubmit?
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+---
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-Thanks,
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+index 3191527928e4..246a6782674c 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+@@ -20,8 +20,7 @@ int sun8i_ss_prng_seed(struct crypto_rng *tfm, const u8 *seed,
+ 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_rng_ctx(tfm);
+ 
+ 	if (ctx->seed && ctx->slen != slen) {
+-		memzero_explicit(ctx->seed, ctx->slen);
+-		kfree(ctx->seed);
++		kfree_sensitive(ctx->seed);
+ 		ctx->slen = 0;
+ 		ctx->seed = NULL;
+ 	}
+@@ -48,8 +47,7 @@ void sun8i_ss_prng_exit(struct crypto_tfm *tfm)
+ {
+ 	struct sun8i_ss_rng_tfm_ctx *ctx = crypto_tfm_ctx(tfm);
+ 
+-	memzero_explicit(ctx->seed, ctx->slen);
+-	kfree(ctx->seed);
++	kfree_sensitive(ctx->seed);
+ 	ctx->seed = NULL;
+ 	ctx->slen = 0;
+ }
+@@ -167,9 +165,8 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
+ 		/* Update seed */
+ 		memcpy(ctx->seed, d + dlen, ctx->slen);
+ 	}
+-	memzero_explicit(d, todo);
+ err_free:
+-	kfree(d);
++	kfree_sensitive(d);
+ 
+ 	return err;
+ }
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+2.32.0
+
