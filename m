@@ -1,92 +1,105 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28E092FB0
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 16:12:31 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id c15so6528228wrs.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 09:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0bqMHX1s5ON0P7G769ywkrdppi3QjEs9pnjlyttXWnc=;
-        b=RXwkYkexQEKkLCXsqRryuyPidSJ+VOWO/PGQdljrghi5ZDOAFYv2W3wQtJH5zpT+AX
-         4QPeETEkT0omWmfD5GAIL4bUm5HPaTtlgJ4vdOZ69mKKiKiBhto9ZDaCNHv31qRuvLCq
-         27g0cGUHOjIfjINu7EfhLPBkegXxlIaBcZoPyGIyJKf4AhFmcI6SlgQ4RXUFOtdMzNJK
-         NcG85ptmXPoQwyQMDBhsgpgId6+LsqlO2IRf9SvocG+QzSPepLBP/RixTDFWD9/8j+4J
-         VqxKO3XAYHPr6OBKnMAnwwsGbsVSo/dKceOilV2R+MisanFecvHKQzqKnfbP3qNmkwkL
-         kjBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0bqMHX1s5ON0P7G769ywkrdppi3QjEs9pnjlyttXWnc=;
-        b=p21vF64U0ZbjOAO3qjE71zG0K0GBMDdHbOScvySRR6qtUBQdNptZhvAp0Gr7KDyoCo
-         j2jesq1lDbVJB2BGdm2Vqa7rLUjp6tTW0FbS0ItY93KpUDkMbQusZlVhTZX4k9Fh74U8
-         hNRh+yGl24W6y+VDyQiKMULSetEIGMc/HSPO/eSKtdz4ocb1sjjuRio1Fs6vEmsddngs
-         dyoZcNMMow0fKiM+60/QbT67pLN2Y3d7E/9MdCPdYMzgn9KxGQMhE3wQOeWo1Xn507WJ
-         1NUBPv+12LlqsbKwpYLnwI8Y18qtwjV0uBKt8IqSHUkt0BdnaRDSsqn4aJH57QkaqrKB
-         MaeA==
-X-Gm-Message-State: AOAM531+DHEE6LnnEfRT5Qf9Ow2LcOWNVuUmlVHpi0fwBOB100GAtHH7
-	zNN5T0Z3h34j0CLNVNxow0g=
-X-Google-Smtp-Source: ABdhPJzdIlGt7hRUSmmIIGbdzgB8uOb7SBIsZVTfRdyRalx7H7ANG9HEXZMzxgR29SzoxNaiLfp8Yg==
-X-Received: by 2002:a5d:4010:: with SMTP id n16mr768096wrp.142.1626970349607;
-        Thu, 22 Jul 2021 09:12:29 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-46-198.static.triera.net. [86.58.46.198])
-        by smtp.gmail.com with ESMTPSA id z6sm3585363wmp.1.2021.07.22.09.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Jul 2021 09:12:29 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
-	jernej.skrabec@gmail.com,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: h6: tanix-tx6: enable emmc
-Date: Thu, 22 Jul 2021 18:12:20 +0200
-Message-Id: <20210722161220.51181-4-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210722161220.51181-1-jernej.skrabec@gmail.com>
-References: <20210722161220.51181-1-jernej.skrabec@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BDD372
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 23:18:00 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E767106F;
+	Thu, 22 Jul 2021 16:17:59 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5BC713F694;
+	Thu, 22 Jul 2021 16:17:57 -0700 (PDT)
+Date: Fri, 23 Jul 2021 00:17:21 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel
+ Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Ondrej Jirman <megous@megous.com>, Alessandro
+ Zummo <a.zummo@towertech.it>, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v7 06/19] rtc: sun6i: Add support for RTCs without
+ external LOSCs
+Message-ID: <20210723001721.0bb02cf2@slackpad.fritz.box>
+In-Reply-To: <20210616091431.6tm3zdf77p2x3upc@gilmour>
+References: <20210615110636.23403-1-andre.przywara@arm.com>
+	<20210615110636.23403-7-andre.przywara@arm.com>
+	<20210616091431.6tm3zdf77p2x3upc@gilmour>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Tanix TX6 has 32 GiB eMMC. Add a node for it.
+On Wed, 16 Jun 2021 11:14:31 +0200
+Maxime Ripard <maxime@cerno.tech> wrote:
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Hi Maxime,
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-index cf9721ca6370..8f2a80f128de 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-@@ -98,6 +98,16 @@ &mmc0 {
- 	status = "okay";
- };
- 
-+&mmc2 {
-+	vmmc-supply = <&reg_vcc3v3>;
-+	vqmmc-supply = <&reg_vcc1v8>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
- &ohci0 {
- 	status = "okay";
- };
--- 
-2.32.0
+> On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
+> > Some newer Allwinner RTCs (for instance the one in the H616 SoC) lack
+> > a pin for an external 32768 Hz oscillator. As a consequence, this LOSC
+> > can't be selected as the RTC clock source, and we must rely on the
+> > internal RC oscillator.
+> > To allow additions of clocks to the RTC node, add a feature bit to ignore
+> > any provided clocks for now (the current code would think this is the
+> > external LOSC). Later DTs and code can then for instance add the PLL
+> > based clock input, and older kernel won't get confused.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>  
+> 
+> Honestly, I don't really know if it's worth it at this point.
+> 
+> If we sums this up:
+> 
+>  - The RTC has 2 features that we use, mostly centered around 2
+>    registers set plus a global one
+> 
+>  - Those 2 features are programmed in a completely different way
+> 
+>  - Even the common part is different, given the discussion around the
+>    clocks that we have.
+> 
+> What is there to share in that driver aside from the probe, and maybe
+> the interrupt handling? Instead of complicating this further with more
+> special case that you were (rightfully) complaining about, shouldn't we
+> just acknowledge the fact that it's a completely separate design and
+> should be treated as such, with a completely separate driver?
 
+So I had a look, and I don't think it justifies a separate driver:
+- Indeed it looks like the core functionality is different, but there
+  are a lot of commonalities, with all the RTC and driver boilerplate,
+  register offsets, and also the special access pattern (rtc_wait and
+  rtc_setaie).
+- The actual difference is really in the way the *date* is stored
+  (the time is still in 24h H/M/S format), and the missing LOSC input
+  clock - which is already optional for existing devices. The two
+  patches just make this obvious, by using if() statements at the parts
+  where they differ.
+
+So we would end up with possibly some shared .c file, and two driver
+front-end files, which I am not sure is really worth it.
+
+Next I thought about providing separate rtc_class_ops, but even they
+share a lot of code, so they would be possibly be calling a shared
+function each. I don't think that is really better.
+
+If you dislike the rather large if/else branches in the previous two
+patches, I could move that out into separate functions, but I feel this
+is more code, for no real benefit.
+
+So for now I am tempted to keep it shared. I think Samuel had ideas for
+bigger changes in the clock part, at which point we could revisit this
+decision - for instance keep the RTC part (still quite similar) mostly
+in a shared file, while modelling the clocks in separate files - in a
+more "common clock" style for the new SoCs.
+
+Feel free to disagree, but when I tried to actually separate the drivers
+it just felt wrong.
+
+Cheers,
+Andre
