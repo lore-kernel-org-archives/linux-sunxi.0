@@ -1,19 +1,19 @@
-Received: from smtpbg604.qq.com (smtpbg604.qq.com [59.36.128.82])
+Received: from smtpbg587.qq.com (smtpbg587.qq.com [113.96.223.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C537173
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 06:31:56 +0000 (UTC)
-X-QQ-mid: bizesmtp46t1626935439txkev71m
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F9729D6
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 06:32:02 +0000 (UTC)
+X-QQ-mid: bizesmtp46t1626935447tympp7jf
 Received: from localhost.localdomain (unknown [14.154.30.9])
 	by esmtp6.qq.com (ESMTP) with 
-	id ; Thu, 22 Jul 2021 14:30:37 +0800 (CST)
+	id ; Thu, 22 Jul 2021 14:30:45 +0800 (CST)
 X-QQ-SSF: 01100000002000104000B00A0000000
-X-QQ-FEAT: g9nl15ZGxlgX1pMUlq7iTlvaV/rxVsnruemfKmbPF0GDbtW/F647MgVaw5TcR
-	5ski0F7IoiuCqa3MUTr2G8YHncCm0qrmK/4mBfO5yRR4TC6vFUAD0V3aKpVH+OoSr9XPcxN
-	l9Aed408CHTl+b5deWE99sur1NP/yQMjZ2pxQay9QyfBL3X7GG7BqvTAchfCdIj9cqcq/DO
-	TTqkGZXxOEd/3UbVrOPGlpUZO6FelPQSuBWdK20DxiWP+QceBZ9LS+ScooBWGVQUvqrxuVz
-	uriFJBWxlxJGhC/olS4f4tgiVmKWRIP2OXbNUfWgVRI0NEPIJupAlixLT36QKhLoVwOFVi7
-	9IlvrKGsqDCU98wVW8j2W5BqXnCCw==
+X-QQ-FEAT: UIkxF7XA8bC3xmJedzJvBHW9cuCmyChnv0H8ggIVhCAzAlystGLPc4+lXCw2U
+	KuXw3lmWhsnjHzoscMtIlUT5CEJ81z2h2qJRfiBsYLBxbfbtVoB4Lh02p66lyATiR5Mk0ON
+	i7HvOIEsrfdVdT48LsGXaFcsHBZOU93Umylt4TiphppZYD7IhyhSeMZM9wY7ZY2dLkiM/O+
+	qyC2klUUSVVzkfr6jyaKpztpiDiJi6Lol2qAVzt5IH09W1wsgSuc3XVmW2FzUq9nzPAI4sF
+	oMQJBnX6dFwU0DhC5jKlCAfu6DdLQLE5LzfvO1CTg9LBCusmMhIWVgEtGxm480UC6F1zrrT
+	vl6Eg+aNTRzcqTaEOcGmpP/6+N5Dg==
 X-QQ-GoodBg: 0
 From: Icenowy Zheng <icenowy@sipeed.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
@@ -23,9 +23,9 @@ To: Jagan Teki <jagan@amarulasolutions.com>,
 Cc: u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
 	Icenowy Zheng <icenowy@sipeed.com>
-Subject: [RFC PATCH 06/13] sunxi: add support for basical pinmux setup on R329
-Date: Thu, 22 Jul 2021 14:30:08 +0800
-Message-Id: <20210722063015.421923-7-icenowy@sipeed.com>
+Subject: [RFC PATCH 08/13] sunxi: add Kconfig option for R329
+Date: Thu, 22 Jul 2021 14:30:10 +0800
+Message-Id: <20210722063015.421923-9-icenowy@sipeed.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210722063015.421923-1-icenowy@sipeed.com>
 References: <20210722063015.421923-1-icenowy@sipeed.com>
@@ -37,118 +37,110 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam4
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam3
 
-Allwinner R329 SoC is the first known Allwinner SoC that has two
-possible pinmux setups for MMC0 controller.
-
-Support configuration of both setups of MMC0 and UART0 at PB4/5.
+As most code are ready for basic R329 support, let's add a Kconfig
+option for it.
 
 Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 ---
- arch/arm/include/asm/arch-sunxi/gpio.h |  3 +++
- arch/arm/mach-sunxi/Kconfig            |  7 +++++++
- arch/arm/mach-sunxi/board.c            |  4 ++++
- board/sunxi/board.c                    | 20 ++++++++++++++++++++
- 4 files changed, 34 insertions(+)
+ arch/arm/mach-sunxi/Kconfig    | 14 +++++++++++++-
+ arch/arm/mach-sunxi/cpu_info.c |  2 ++
+ common/spl/Kconfig             |  1 +
+ 3 files changed, 16 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm/include/asm/arch-sunxi/gpio.h b/arch/arm/include/asm/arch-sunxi/gpio.h
-index 2969a530ae..da9acfab78 100644
---- a/arch/arm/include/asm/arch-sunxi/gpio.h
-+++ b/arch/arm/include/asm/arch-sunxi/gpio.h
-@@ -166,12 +166,14 @@ enum sunxi_gpio_number {
- #define SUN8I_A83T_GPB_UART0	2
- #define SUN8I_V3S_GPB_UART0	3
- #define SUN50I_GPB_UART0	4
-+#define SUN50I_R329_GPB_UART0	2
- 
- #define SUNXI_GPC_NAND		2
- #define SUNXI_GPC_SPI0		3
- #define SUNXI_GPC_SDC2		3
- #define SUN6I_GPC_SDC3		4
- #define SUN50I_GPC_SPI0		4
-+#define SUN50I_R329_GPC_SDC0	3
- 
- #define SUN8I_GPD_SDC1		3
- #define SUNXI_GPD_LCD0		2
-@@ -185,6 +187,7 @@ enum sunxi_gpio_number {
- #define SUNXI_GPF_SDC0		2
- #define SUNXI_GPF_UART0		4
- #define SUN8I_GPF_UART0		3
-+#define SUN50I_R329_GPF_SDC0	5
- 
- #define SUN4I_GPG_SDC1		4
- #define SUN5I_GPG_SDC1		2
 diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-index 49f94f095c..391a3dd9e5 100644
+index c9bb47a8bd..9d3ec82497 100644
 --- a/arch/arm/mach-sunxi/Kconfig
 +++ b/arch/arm/mach-sunxi/Kconfig
-@@ -672,6 +672,13 @@ config MMC3_CD_PIN
+@@ -128,6 +128,7 @@ config SUN8I_RSB
+ config SUNXI_SRAM_ADDRESS
+ 	hex
+ 	default 0x10000 if MACH_SUN9I || MACH_SUN50I || MACH_SUN50I_H5
++	default 0x100000 if MACH_SUN50I_R329
+ 	default 0x20000 if SUN50I_GEN_H6
+ 	default 0x0
  	---help---
- 	See MMC0_CD_PIN help text.
+@@ -371,6 +372,12 @@ config MACH_SUN50I_H616
+ 	select DRAM_SUN50I_H616
+ 	select SUN50I_GEN_H6
  
-+config MMC0_PINS
-+	string "Pins for mmc0"
-+	default "PF"
-+	depends on MACH_SUN50I_R329
-+	---help---
-+	See MMC1_PINS help text.
++config MACH_SUN50I_R329
++	bool "sun50i (Allwinner R329)"
++	select ARM64
++	select DRAM_SUN50I_R329
++	select SUN50I_GEN_H6
 +
- config MMC1_PINS
- 	string "Pins for mmc1"
- 	default ""
-diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index e979e426dd..1aa31c7e05 100644
---- a/arch/arm/mach-sunxi/board.c
-+++ b/arch/arm/mach-sunxi/board.c
-@@ -129,6 +129,10 @@ static int gpio_init(void)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
- 	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-+#elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN50I_R329)
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(4), SUN50I_R329_GPB_UART0);
-+	sunxi_gpio_set_cfgpin(SUNXI_GPB(5), SUN50I_R329_GPB_UART0);
-+	sunxi_gpio_set_pull(SUNXI_GPB(5), SUNXI_GPIO_PULL_UP);
- #elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN8I_A83T)
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
- 	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
-diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-index 67acc01d83..bfc90345d9 100644
---- a/board/sunxi/board.c
-+++ b/board/sunxi/board.c
-@@ -417,12 +417,32 @@ static void mmc_pinmux_setup(int sdc)
+ endchoice
  
- 	switch (sdc) {
- 	case 0:
-+#if defined(CONFIG_MACH_SUN50I_R329)
-+		pins = sunxi_name_to_gpio_bank(CONFIG_MMC0_PINS);
-+
-+		if (pins == SUNXI_GPIO_C) {
-+			/* SDC0: PC0-PC6 */
-+			for (pin = SUNXI_GPC(0); pin <= SUNXI_GPC(6); pin++) {
-+				sunxi_gpio_set_cfgpin(pin, SUN50I_R329_GPC_SDC0);
-+				sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-+				sunxi_gpio_set_drv(pin, 2);
-+			}
-+		} else {
-+			/* SDC0: PF0-PF5 */
-+			for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
-+				sunxi_gpio_set_cfgpin(pin, SUN50I_R329_GPF_SDC0);
-+				sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-+				sunxi_gpio_set_drv(pin, 2);
-+			}
-+		}
-+#else
- 		/* SDC0: PF0-PF5 */
- 		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
- 			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
- 			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
- 			sunxi_gpio_set_drv(pin, 2);
- 		}
-+#endif
- 		break;
+ # The sun8i SoCs share a lot, this helps to avoid a lot of "if A23 || A33"
+@@ -420,7 +427,8 @@ config SUNXI_DRAM_LPDDR3
  
- 	case 1:
+ choice
+ 	prompt "DRAM Type and Timing"
+-	default SUNXI_DRAM_DDR3_1333 if !MACH_SUN8I_V3S
++	default SUNXI_DRAM_DDR3_1333 if !MACH_SUN8I_V3S && !MACH_SUN50I_R329
++	default SUNXI_DRAM_DDR3_R329 if MACH_SUN50I_R329
+ 	default SUNXI_DRAM_DDR2_V3S if MACH_SUN8I_V3S
+ 
+ config SUNXI_DRAM_DDR3_1333
+@@ -488,6 +496,7 @@ config DRAM_CLK
+ 		       MACH_SUN8I_V3S
+ 	default 672 if MACH_SUN50I
+ 	default 744 if MACH_SUN50I_H6
++	default 775 if MACH_SUN50I_R329
+ 	default 720 if MACH_SUN50I_H616
+ 	---help---
+ 	Set the dram clock speed, valid range 240 - 480 (prior to sun9i),
+@@ -510,6 +519,7 @@ config DRAM_ZQ
+ 		       MACH_SUN8I_A23 || MACH_SUN8I_A33 || MACH_SUN8I_A83T
+ 	default 127 if MACH_SUN7I
+ 	default 14779 if MACH_SUN8I_V3S
++	default 3067 if MACH_SUN50I_R329
+ 	default 3881979 if MACH_SUNXI_H3_H5 || MACH_SUN8I_R40 || MACH_SUN50I_H6
+ 	default 4145117 if MACH_SUN9I
+ 	default 3881915 if MACH_SUN50I
+@@ -616,6 +626,7 @@ config SYS_CLK_FREQ
+ 	default 1008000000 if MACH_SUN9I
+ 	default 888000000 if MACH_SUN50I_H6
+ 	default 1008000000 if MACH_SUN50I_H616
++	default 1008000000 if MACH_SUN50I_R329
+ 
+ config SYS_CONFIG_NAME
+ 	default "sun4i" if MACH_SUN4I
+@@ -627,6 +638,7 @@ config SYS_CONFIG_NAME
+ 	default "sun50i" if MACH_SUN50I
+ 	default "sun50i" if MACH_SUN50I_H6
+ 	default "sun50i" if MACH_SUN50I_H616
++	default "sun50i" if MACH_SUN50I_R329
+ 
+ config SYS_BOARD
+ 	default "sunxi"
+diff --git a/arch/arm/mach-sunxi/cpu_info.c b/arch/arm/mach-sunxi/cpu_info.c
+index ba33ef2430..8021f4c307 100644
+--- a/arch/arm/mach-sunxi/cpu_info.c
++++ b/arch/arm/mach-sunxi/cpu_info.c
+@@ -101,6 +101,8 @@ int print_cpuinfo(void)
+ 	puts("CPU:   Allwinner H6 (SUN50I)\n");
+ #elif defined CONFIG_MACH_SUN50I_H616
+ 	puts("CPU:   Allwinner H616 (SUN50I)\n");
++#elif defined CONFIG_MACH_SUN50I_R329
++	puts("CPU:   Allwinner R329 (SUN50I)\n");
+ #else
+ #warning Please update cpu_info.c with correct CPU information
+ 	puts("CPU:   SUNXI Family\n");
+diff --git a/common/spl/Kconfig b/common/spl/Kconfig
+index 2df3e5d869..ed4477ff93 100644
+--- a/common/spl/Kconfig
++++ b/common/spl/Kconfig
+@@ -150,6 +150,7 @@ config SPL_TEXT_BASE
+ 	hex "SPL Text Base"
+ 	default ISW_ENTRY_ADDR if AM43XX || AM33XX || OMAP54XX || ARCH_KEYSTONE
+ 	default 0x10060 if MACH_SUN50I || MACH_SUN50I_H5 || MACH_SUN9I
++	default 0x100060 if MACH_SUN50I_R329
+ 	default 0x20060 if SUN50I_GEN_H6
+ 	default 0x00060 if ARCH_SUNXI
+ 	default 0xfffc0000 if ARCH_ZYNQMP
 -- 
 2.30.2
 
