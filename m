@@ -1,85 +1,70 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71755173
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 13:36:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10E22173
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 13:47:35 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7B645113E;
-	Thu, 22 Jul 2021 06:26:26 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A2A53F694;
-	Thu, 22 Jul 2021 06:26:24 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B4B611B3;
+	Thu, 22 Jul 2021 06:47:35 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9A18C3F694;
+	Thu, 22 Jul 2021 06:47:34 -0700 (PDT)
+Date: Thu, 22 Jul 2021 14:46:58 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] pinctrl: sunxi: Don't underestimate number of functions
-Date: Thu, 22 Jul 2021 14:25:48 +0100
-Message-Id: <20210722132548.22121-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
+To: Icenowy Zheng <icenowy@sipeed.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec
+ <jernej.skrabec@siol.net>, Samuel Holland <samuel@sholland.org>,
+ u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 02/13] sunxi: only include alias for eMMC when mmc2
+ used
+Message-ID: <20210722144658.56215012@slackpad.fritz.box>
+In-Reply-To: <20210722063015.421923-3-icenowy@sipeed.com>
+References: <20210722063015.421923-1-icenowy@sipeed.com>
+	<20210722063015.421923-3-icenowy@sipeed.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-When we are building all the various pinctrl structures for the
-Allwinner pinctrl devices, we do some estimation about the maximum
-number of distinct function (names) that we will need.
+On Thu, 22 Jul 2021 14:30:04 +0800
+Icenowy Zheng <icenowy@sipeed.com> wrote:
 
-So far we take the number of pins as an upper bound, even though we
-can actually have up to four special functions per pin. This wasn't a
-problem until now, since we indeed have typically far more pins than
-functions, and most pins share common functions.
+> Some Allwinner SoCs (e.g. R329) doesn't have a MMC2 controller at all,
+> and on boards that we do not utilize MMC2, the alias for it is just
+> useless.
+> 
+> Only include the alias when we specify CONFIG_MMC_SUNXI_EXTRA_SLOT to 2.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 
-However the H616 "-r" pin controller has only two pins, but four
-functions, so we run over the end of the array when we are looking for
-a matching function name in sunxi_pinctrl_add_function - there is no
-NULL sentinel left that would terminate the loop:
+Meh, not a friend of #ifdefs everywhere, but ideally we get rid of this
+one day anyway, and it's in U-Boot DT "overlay" only, so:
 
-[    8.200648] Unable to handle kernel paging request at virtual address fffdff7efbefaff5
-[    8.209179] Mem abort info:
-....
-[    8.368456] Call trace:
-[    8.370925]  __pi_strcmp+0x90/0xf0
-[    8.374559]  sun50i_h616_r_pinctrl_probe+0x1c/0x28
-[    8.379557]  platform_probe+0x68/0xd8
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Do an actual worst case allocation (4 functions per pin, three common
-functions and the sentinel) for the initial array allocation. This is
-now heavily overestimating the number of functions in the common case,
-but we will reallocate this array later with the actual number of
-functions, so it's only temporarily.
+Cheers,
+Andre
 
-Fixes: 561c1cf17c46 ("pinctrl: sunxi: Add support for the Allwinner H616-R pin controller")
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- drivers/pinctrl/sunxi/pinctrl-sunxi.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-index dc8d39ae045b..9c7679c06dca 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-@@ -1219,10 +1219,12 @@ static int sunxi_pinctrl_build_state(struct platform_device *pdev)
- 	}
- 
- 	/*
--	 * We suppose that we won't have any more functions than pins,
--	 * we'll reallocate that later anyway
-+	 * Find an upper bound for the maximum number of functions: in
-+	 * the worst case we have gpio_in, gpio_out, irq and up to four
-+	 * special functions per pin, plus one entry for the sentinel.
-+	 * We'll reallocate that later anyway.
- 	 */
--	pctl->functions = kcalloc(pctl->ngroups,
-+	pctl->functions = kcalloc(4 * pctl->ngroups + 4,
- 				  sizeof(*pctl->functions),
- 				  GFP_KERNEL);
- 	if (!pctl->functions)
--- 
-2.17.6
+> ---
+>  arch/arm/dts/sunxi-u-boot.dtsi | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm/dts/sunxi-u-boot.dtsi b/arch/arm/dts/sunxi-u-boot.dtsi
+> index 4a6ed3a7dd..b7244c1112 100644
+> --- a/arch/arm/dts/sunxi-u-boot.dtsi
+> +++ b/arch/arm/dts/sunxi-u-boot.dtsi
+> @@ -13,7 +13,9 @@
+>  / {
+>  	aliases {
+>  		mmc0 = &mmc0;
+> +#if CONFIG_MMC_SUNXI_EXTRA_SLOT == 2
+>  		mmc1 = &mmc2;
+> +#endif
+>  	};
+>  
+>  	binman: binman {
 
