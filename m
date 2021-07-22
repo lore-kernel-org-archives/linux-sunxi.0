@@ -1,126 +1,89 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E12173
-	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 14:09:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 358275C0164;
-	Thu, 22 Jul 2021 10:09:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 22 Jul 2021 10:09:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=fMIyRCILHtleUhWfpXsc7vMymcB
-	Fk2L6abLtJS24bJQ=; b=Njqj4cdRmAbN2/g98gTHuHrHlNUaywGNHVPgTX4Zu2n
-	7CcWRSEfhKSvHSbQgJfA5fdT1h3E+Rpt7GKtHJ0iYN4G3O3vpwHTht5YRn3PWJrA
-	CbEspM7IFNs0dkg9DsU29BCdcHW2OWpixRdHCwZYT6OZ3EfkkAjJ6mXnD+rwsoxe
-	eq2Yn9p0rPVYcvdwsRlH9BbZZw9UB/NBy6ki4R7ufjlIIlf0m0/EeHWTNM0QhUES
-	eaCmhSRttfWCNdKIsBbI3ejqAnYRkOxVhNuato5OoW3IHJUuEHn7aRo9maN7Tmxg
-	5iGSU1rY8cp0zms/u/fIi1Fm+kmHV8TJ46LKtFOTGMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fMIyRC
-	ILHtleUhWfpXsc7vMymcBFk2L6abLtJS24bJQ=; b=XqhfMC1+dXkKYbAcws+YkL
-	iZlXgAuGGe7nWLV2NwGeKpnzRQz+Wa/iaN2YL2BwPnjUyIPEmrAprCF1dKWjX/de
-	WBtX/3wiw1Us4QJseWV8A9VWF62chdegmW6qZ5E4fDIgSpQI75LgJe34LsdY+NfQ
-	GEAn4nrScCJO1zShw3207YDALiRJ6tU7qEg94lMF02/T3u7fx+nieFqjosyRS/kQ
-	ozpYm59B9X1hyUowZjT+CEPyiQ/nBTeWKwEmY0c4fgr95k/ePzyjRYaUY8Let99s
-	0R9vL7plS+fht9z5Dtf9zzSLdTxpSz3zYQfmghwzyJoeMtBJ8f3yq8d6D+vDSN/w
-	==
-X-ME-Sender: <xms:KXz5YBXi0tYRy-CELI8Alvaqe3J0AqkBGgXthnTjBx90YL3T2RY_Iw>
-    <xme:KXz5YBk9O9iiCgP5B93K9dM4G-t4VQ-hufv2RCld7OTNNwQeWtAXKd00FNXbuFeGs
-    egQVp6j-kuph6DqsGY>
-X-ME-Received: <xmr:KXz5YNbRiULjngyBMzhfANrGpPCJNwqKA5v1bdJZNKggyD9iO2nSJIKf_HkJb45mfVOl-gxeOhSXg4TukeTmZ0x1uu2yPzu5geBd>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrfeeigdejudcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KXz5YEUIYHHOkWnjOV1JK9XkRDNT4FByN9OKT5yTvlra47PFDG5hAQ>
-    <xmx:KXz5YLlHMT94vgVNVKQGz3c4OJFR28xcSnO1sN4Vgg6zCjZjp7FisQ>
-    <xmx:KXz5YBdc3jtDhpD_rYFzqj77Y3674fV1WhrkTGPoW5AKstUcc8-IQA>
-    <xmx:K3z5YJb2QC5N9r9g68L_JE2UMN2vTYuRfvpzJLt5cY-k5dG8D05SVg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 22 Jul 2021 10:09:45 -0400 (EDT)
-Date: Thu, 22 Jul 2021 16:09:42 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>, linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] pinctrl: sunxi: Don't underestimate number of functions
-Message-ID: <20210722140942.2ew6htf5kmvpldsm@gilmour>
-References: <20210722132548.22121-1-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F8B72
+	for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 16:12:28 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id m2so6544809wrq.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 22 Jul 2021 09:12:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DknKiUJ1n/RLZ4+I9ca+avCYVdAr6cHwKq7eFg5+Szw=;
+        b=Gxc6+feSDwxy/kDJZFwuTtl8x0XIhG4/HY6AJSVZQS/yMXLirtt46OFoBlypl0kK9p
+         G0pSbtGUQxF9MskmpLxHrIlptkC5xdNlNt4rDmjFkJtIhODYLVWu77dyo6kFWRb+952x
+         IhOeM0SYJznAWqJaDUvoqgtsuKlkxVOWORg+9GZmxO4nK5HhEa4vFZz9HAx5Aj9sv73T
+         StVdp/no0rd2qviEsN0eUXtRPMu5sv8W7pvvwM7buP6PCJ38xjxHaLOgoIMlVYIRSq/0
+         CfNu3DKOrdjw1ksahy8d9OgQYTgl/YN8IeFTWRlpOXc1SM2dNtrZCYlknLm09b9qKkGI
+         DyKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DknKiUJ1n/RLZ4+I9ca+avCYVdAr6cHwKq7eFg5+Szw=;
+        b=bZlWFD2F22DkZ2AELuI6auFPsnqgeLJVFgqeKHBGMpFrlFQlJGF0j57T7iPCogkeCB
+         mHnWBJL8/fJfE8XXuziPan/QABBwNB2W/27J0IJQF2dbpQe9+36m387heONCCDjxBaxM
+         DGnY9GBGGuWo0uejoqKFZJg6MUFfiKmyy72mR7FhPXsH0fFYhStQf1mUI6cKvhjhC1gp
+         1MDBqW9xuCgWXtXjHiNOanPaiK0YYKUCP3HDat5nRmjWUXfwN/ZDYgE8SdfQijRaTvY4
+         noRtT2ltityaqEg8GdWHUZ/A4YVv5X/b8H38EnKOcKknYVLTLtLyreOMpEWUXE5Ktbmm
+         pIaA==
+X-Gm-Message-State: AOAM5320KhgvRPnYfDGNv1zRd58enWyGAEyV0cWLXrhjsPJWzLhDyGR0
+	oG/QTX+XV88/btD82Y5UTR4=
+X-Google-Smtp-Source: ABdhPJxus3TmI2AC0/9MZCiNd+lOPiUbsD2XoBS2EVm2jWx2T4xw2ho8fBhw+wTDLElVUsKpKhKTRQ==
+X-Received: by 2002:adf:eed0:: with SMTP id a16mr730587wrp.324.1626970346872;
+        Thu, 22 Jul 2021 09:12:26 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-46-198.static.triera.net. [86.58.46.198])
+        by smtp.gmail.com with ESMTPSA id z6sm3585363wmp.1.2021.07.22.09.12.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jul 2021 09:12:26 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: robh+dt@kernel.org,
+	jernej.skrabec@gmail.com,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/3] arm64: dts: allwinner: h6: tanix-tx6: Enable eMMC
+Date: Thu, 22 Jul 2021 18:12:17 +0200
+Message-Id: <20210722161220.51181-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="uprzxwinadb43mu3"
-Content-Disposition: inline
-In-Reply-To: <20210722132548.22121-1-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
 
+Tanix TX6 box has a 32 GB eMMC module. With changes in this series, I
+get following figures with hdparm -tT:
 
---uprzxwinadb43mu3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+/dev/mmcblk2:
+ Timing cached reads:   1638 MB in  2.00 seconds = 818.44 MB/sec
+ Timing buffered disk reads: 376 MB in  3.01 seconds = 124.74 MB/sec
 
-On Thu, Jul 22, 2021 at 02:25:48PM +0100, Andre Przywara wrote:
-> When we are building all the various pinctrl structures for the
-> Allwinner pinctrl devices, we do some estimation about the maximum
-> number of distinct function (names) that we will need.
->=20
-> So far we take the number of pins as an upper bound, even though we
-> can actually have up to four special functions per pin. This wasn't a
-> problem until now, since we indeed have typically far more pins than
-> functions, and most pins share common functions.
->=20
-> However the H616 "-r" pin controller has only two pins, but four
-> functions, so we run over the end of the array when we are looking for
-> a matching function name in sunxi_pinctrl_add_function - there is no
-> NULL sentinel left that would terminate the loop:
->=20
-> [    8.200648] Unable to handle kernel paging request at virtual address =
-fffdff7efbefaff5
-> [    8.209179] Mem abort info:
-> ....
-> [    8.368456] Call trace:
-> [    8.370925]  __pi_strcmp+0x90/0xf0
-> [    8.374559]  sun50i_h616_r_pinctrl_probe+0x1c/0x28
-> [    8.379557]  platform_probe+0x68/0xd8
->=20
-> Do an actual worst case allocation (4 functions per pin, three common
-> functions and the sentinel) for the initial array allocation. This is
-> now heavily overestimating the number of functions in the common case,
-> but we will reallocate this array later with the actual number of
-> functions, so it's only temporarily.
->=20
-> Fixes: 561c1cf17c46 ("pinctrl: sunxi: Add support for the Allwinner H616-=
-R pin controller")
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+First patch fixes regulator node names. Second patch sets proper power
+supplies to GPIO banks and third adds eMMC support.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Please take a look.
 
-Thanks!
-Maxime
+Best regards,
+Jernej Skrabec
 
---uprzxwinadb43mu3
-Content-Type: application/pgp-signature; name="signature.asc"
+Changes from v1:
+- added patch 1 (fixing regulator node names with "regulator-" prefix)
+- fixed regulator node name in patch 2 (adding "regulator-" prefix)
 
------BEGIN PGP SIGNATURE-----
+Jernej Skrabec (3):
+  arm64: dts: allwinner: h6: tanix-tx6: Fix regulator node names
+  arm64: dts: allwinner: h6: tanix-tx6: Add PIO power supplies
+  arm64: dts: allwinner: h6: tanix-tx6: enable emmc
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYPl8JgAKCRDj7w1vZxhR
-xc6pAP9FWmnMG+2wThYKQA0F6aZPiXi2REY9fahjVY7w+NMy6AEAk1Sf+TU5NY9W
-1zeubTfWfaPO/mEG8J3dZ8BTmMEuiQs=
-=5TJ+
------END PGP SIGNATURE-----
+ .../dts/allwinner/sun50i-h6-tanix-tx6.dts     | 27 +++++++++++++++++--
+ 1 file changed, 25 insertions(+), 2 deletions(-)
 
---uprzxwinadb43mu3--
+-- 
+2.32.0
+
