@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7333529D6
-	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jul 2021 15:39:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D3BC168
+	for <linux-sunxi@lists.linux.dev>; Fri, 23 Jul 2021 15:39:27 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E98E613D5;
-	Fri, 23 Jul 2021 08:39:19 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D4D5F13A1;
+	Fri, 23 Jul 2021 08:39:26 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7ECC3F73D;
-	Fri, 23 Jul 2021 08:39:17 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C1F283F73D;
+	Fri, 23 Jul 2021 08:39:24 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -19,13 +19,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megous@megous.com>,
-	devicetree@vger.kernel.org,
 	Alessandro Zummo <a.zummo@towertech.it>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	linux-rtc@vger.kernel.org
-Subject: [PATCH v8 02/11] dt-bindings: rtc: sun6i: Add H616 compatible string
-Date: Fri, 23 Jul 2021 16:38:29 +0100
-Message-Id: <20210723153838.6785-3-andre.przywara@arm.com>
+Subject: [PATCH v8 05/11] rtc: sun6i: Add support for broken-down alarm registers
+Date: Fri, 23 Jul 2021 16:38:32 +0100
+Message-Id: <20210723153838.6785-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210723153838.6785-1-andre.przywara@arm.com>
 References: <20210723153838.6785-1-andre.przywara@arm.com>
@@ -35,49 +34,109 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-Add the obvious compatible name to the existing RTC binding.
-The actual RTC part of the device uses a different day/month/year
-storage scheme, so it's not compatible with the previous devices.
-Also the clock part is quite different, as there is no external 32K LOSC
-oscillator input.
+Newer versions of the Allwinner RTC, for instance as found in the H616
+SoC, not only store the current day as a linear number, but also change
+the way the alarm is handled: There are now two registers, that
+explicitly store the wakeup time, in the same format as the current
+time.
+
+Add support for that variant by writing the requested wakeup time
+directly into the registers, instead of programming the seconds left, as
+the old SoCs required.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/rtc/rtc-sun6i.c | 60 +++++++++++++++++++++++++++++------------
+ 1 file changed, 43 insertions(+), 17 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-index beeb90e55727..d8a6500e5840 100644
---- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-@@ -26,6 +26,7 @@ properties:
-           - const: allwinner,sun50i-a64-rtc
-           - const: allwinner,sun8i-h3-rtc
-       - const: allwinner,sun50i-h6-rtc
-+      - const: allwinner,sun50i-h616-rtc
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index a02be8bca6f3..f0ee20bfdccb 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -48,7 +48,8 @@
  
-   reg:
-     maxItems: 1
-@@ -104,6 +105,19 @@ allOf:
-           minItems: 3
-           maxItems: 3
+ /* Alarm 0 (counter) */
+ #define SUN6I_ALRM_COUNTER			0x0020
+-#define SUN6I_ALRM_CUR_VAL			0x0024
++/* This holds the remaining alarm seconds on older SoCs (current value) */
++#define SUN6I_ALRM_COUNTER_HMS			0x0024
+ #define SUN6I_ALRM_EN				0x0028
+ #define SUN6I_ALRM_EN_CNT_EN			BIT(0)
+ #define SUN6I_ALRM_IRQ_EN			0x002c
+@@ -523,32 +524,57 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 	struct sun6i_rtc_dev *chip = dev_get_drvdata(dev);
+ 	struct rtc_time *alrm_tm = &wkalrm->time;
+ 	struct rtc_time tm_now;
+-	time64_t time_now, time_set;
++	time64_t time_set;
++	u32 counter_val, counter_val_hms;
+ 	int ret;
  
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: allwinner,sun50i-h616-rtc
+-	ret = sun6i_rtc_gettime(dev, &tm_now);
+-	if (ret < 0) {
+-		dev_err(dev, "Error in getting time\n");
+-		return -EINVAL;
+-	}
+-
+ 	time_set = rtc_tm_to_time64(alrm_tm);
+-	time_now = rtc_tm_to_time64(&tm_now);
+-	if (time_set <= time_now) {
+-		dev_err(dev, "Date to set in the past\n");
+-		return -EINVAL;
+-	}
+ 
+-	if ((time_set - time_now) > U32_MAX) {
+-		dev_err(dev, "Date too far in the future\n");
+-		return -EINVAL;
++	if (chip->flags & RTC_LINEAR_DAY) {
++		time64_t seconds;
 +
-+    then:
-+      properties:
-+        clock-output-names:
-+          minItems: 3
-+          maxItems: 3
-+        clocks: false
++		/*
++		 * The alarm registers hold the actual alarm time, encoded
++		 * in the same way (linear day + HMS) as the current time.
++		 */
++		counter_val_hms = SUN6I_TIME_SET_SEC_VALUE(alrm_tm->tm_sec)  |
++				  SUN6I_TIME_SET_MIN_VALUE(alrm_tm->tm_min)  |
++				  SUN6I_TIME_SET_HOUR_VALUE(alrm_tm->tm_hour);
++		seconds = mktime64(alrm_tm->tm_year + 1900, alrm_tm->tm_mon,
++				   alrm_tm->tm_mday, 0, 0, 0);
++		counter_val = div_u64(seconds, SECS_PER_DAY);
++	} else {
++		/* The alarm register holds the number of seconds left. */
++		time64_t time_now;
 +
-   - if:
-       properties:
-         compatible:
++		ret = sun6i_rtc_gettime(dev, &tm_now);
++		if (ret < 0) {
++			dev_err(dev, "Error in getting time\n");
++			return -EINVAL;
++		}
++
++		time_now = rtc_tm_to_time64(&tm_now);
++		if (time_set <= time_now) {
++			dev_err(dev, "Date to set in the past\n");
++			return -EINVAL;
++		}
++		if ((time_set - time_now) > U32_MAX) {
++			dev_err(dev, "Date too far in the future\n");
++			return -EINVAL;
++		}
++
++		counter_val = time_set - time_now;
+ 	}
+ 
+ 	sun6i_rtc_setaie(0, chip);
+ 	writel(0, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(0, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	usleep_range(100, 300);
+ 
+-	writel(time_set - time_now, chip->base + SUN6I_ALRM_COUNTER);
++	writel(counter_val, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(counter_val_hms, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	chip->alarm = time_set;
+ 
+ 	sun6i_rtc_setaie(wkalrm->enabled, chip);
 -- 
 2.17.6
 
