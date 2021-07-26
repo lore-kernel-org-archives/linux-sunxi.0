@@ -1,173 +1,139 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD7E72
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 14:59:28 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 0F50E58041D;
-	Mon, 26 Jul 2021 10:59:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 26 Jul 2021 10:59:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=aafEayI1sVZWEQ+8Kldbq4Mehnl
-	cqhooAS5lRNnCO7Q=; b=1xZtgOsNPwxRhKdemCXg5/P1UQ/TvHM4SDl8L/Wrepj
-	uxm931dVSx7NZlCh5RaWw38eIDlyO+8DFnlyMMX7JNr0tM81i2kTMCUl8WpnodEI
-	Crq/XQ8W8++H+nGxC/8Wy4ZsmoEXh7kNZVFKAOzZxFCDIrQa2ADfQzjag3RG/foi
-	JLHNpezIBnAW9IYnySDRs2+i/5ItKePmc1l8of6gQRazAhWtKXjupKTAEyupanGJ
-	B5ZGHbz5I4pbeFWBT4e9jv3JWk78QXmNAq/J83rC26g/6YC8QZjEABUqrun0zEnK
-	7M87gSb/vgKBJgRGMoQKkfrkwIH+TIVkp2Z9St0uJPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aafEay
-	I1sVZWEQ+8Kldbq4MehnlcqhooAS5lRNnCO7Q=; b=IDplYQoIDpe3BvYBGdCCGE
-	ISvOzLFz4DkiFBdTRDWWDBFNzgh5CLpcQU4g6faWBjdPUWBApjP3wlIveSEqYACa
-	oYsyrZXmbJjJGL864XGnfH8I7iBKk6AHkceKcTz/to6zJnCJ3W+fFwVznBm2cGJC
-	T3fSBfryP7hSaY9eeIHYXOMSM40tD5PUAoznE0yPKXvT79NcOVFVOLZDYn7rSXZl
-	l/eq5V9lVWe4kt6AQgjZD2E7w7UJCKfhUJ60AanLHqCVAKT9dn0JFA8ZNh6Dckm2
-	vi4jXw9L3lAfgZObV3Xu7JETGAp1uOZ/K/2CTf/1k01VQ3d7k8fQYnubzzJMQSBA
-	==
-X-ME-Sender: <xms:zs3-YOrglhDinUb178XSqdTPmaCBfUWUbwMF7pnA4x3Tyk3EnxwQAw>
-    <xme:zs3-YMob_ilDdwC2CfszxsHIK7B0_okJ9Sa4iMNBVRCYty8cqj6g2HS4ptBf6ttkY
-    tp29_x9Ad18wph46lY>
-X-ME-Received: <xmr:zs3-YDOpwe8ntxr5nMc8bAc0upEOW-IEwCC3PDPVJWlyAac-AI1E4mtWIejMEeVSQQrrSBlhP6MGMf2vI8osB1d9yyl2m4SxN2NR>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdekfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zs3-YN5IYI0swRCWggQbhtzS0YQMvgQY4l2fEnQUP_iWEgVZD7uGkA>
-    <xmx:zs3-YN4-YqAaUbk-2cEucrS45SQyvXpPXPRNSlwYYMW7jXAT029yIQ>
-    <xmx:zs3-YNjU3odC2wMq2IRedW0elXhyV8Qpfl3kAonXrpd4SdKh5Xxf-Q>
-    <xmx:0M3-YFydLwFOWLiu5r3gu1u6_wPd77I0NZ-GuidvVzUER6i3P8sB2Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Jul 2021 10:59:26 -0400 (EDT)
-Date: Mon, 26 Jul 2021 16:59:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v7 06/19] rtc: sun6i: Add support for RTCs without
- external LOSCs
-Message-ID: <20210726145923.mdk6llzqppczkv5v@gilmour>
-References: <20210615110636.23403-1-andre.przywara@arm.com>
- <20210615110636.23403-7-andre.przywara@arm.com>
- <20210616091431.6tm3zdf77p2x3upc@gilmour>
- <20210723001721.0bb02cf2@slackpad.fritz.box>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF872
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 15:25:48 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id f13so1535611plj.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 08:25:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YJ2wiacers242b03J1VtREz0S4EVBe3CkaiVWqJ9kVg=;
+        b=hXQPIflR8ZhFX0feKPijERYg/69KAJPHtc16bQXnx5lGj90ised38lKMXuA3isoLjo
+         Fb50Xww5eEsA1wFlnsHLSziCczZE1Jagx9Y8YNEElKJ9qPA88sVm8K8dfT0dnWRS5BBa
+         aKK94+bXmAgSdIIza7k3+8Q8vrqK9rKc9OgqYH99Irpn8FwFP0USqQxAefNFiJKtKq4F
+         zJw47BcDpvQR/nqjoY9oFLkizYEnsh3ERrDltT3NvLQp2Ma9Bo5Da4ob/Pwme5++Q4ZM
+         Zju/5+OCgF0Po3B1EDRpC/L+DU14X7eIbPkPGtbo5VxH3GW7U79ANkpwjL3SAgv1qHnB
+         VkRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YJ2wiacers242b03J1VtREz0S4EVBe3CkaiVWqJ9kVg=;
+        b=iY20ht6e5EarJwWi8IU3pWrO606sqQxvIoH8o6KQhUg4w8oewQ7lddaPSQ+AD3o5pH
+         nknCt24U4VUtLoz7Zo7GS7B6YtMjpn4T7sgTE6o5Ne3n3iQtKcpVSEF0qlRRrBMwXWNT
+         GMws6DGBZN3y3F7/21xu/lbhpCMucBE9oQeDcFddRpgJAUdup5spZoIzGrY6aAo5Nisz
+         QnuAKZEI2zmp9MpGlSoVQ0FKk5Pxu2f7xRPf+704ZHRhsYKxc2mgcPza057o9e86GyQi
+         QWAAI/fm+4CL1imp4aL2C1tiTYTy9PUnwnHyFB9axZZKnOJA8tLtIxQI3OYIMebhJaKQ
+         4Zdw==
+X-Gm-Message-State: AOAM533PUl6KMRmxxX9djoZHqCGTaj0SMgEuT63kDnmspWV+68c0WlcY
+	+K9lLDVFMVMZpZNG7fvQe4A=
+X-Google-Smtp-Source: ABdhPJz9jcD2Df8C8OTsG5zvot3I4VXhYSaUTGjdkxXuICoBM5u5IMzBo9TCZcXaWwQ1mgTN5C2Ltw==
+X-Received: by 2002:aa7:9541:0:b029:32c:cefa:123f with SMTP id w1-20020aa795410000b029032ccefa123fmr18103572pfq.24.1627313147752;
+        Mon, 26 Jul 2021 08:25:47 -0700 (PDT)
+Received: from localhost.localdomain ([154.16.166.171])
+        by smtp.gmail.com with ESMTPSA id x14sm307079pfu.200.2021.07.26.08.25.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Jul 2021 08:25:47 -0700 (PDT)
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Dongliang Mu <mudongliangabcd@gmail.com>,
+	Colin Ian King <colin.king@canonical.com>
+Cc: linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4] crypto: sun8i-ss: fix multiple memory leaks in sun8i_ss_hash_run
+Date: Mon, 26 Jul 2021 23:25:21 +0800
+Message-Id: <20210726152533.2281139-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="lfxsk3mfqv3tm5fy"
-Content-Disposition: inline
-In-Reply-To: <20210723001721.0bb02cf2@slackpad.fritz.box>
+Content-Transfer-Encoding: 8bit
 
+In sun8i_ss_hash_run, all the dma_mmap_sg/single will cause memory leak
+due to no corresponding unmap operation if errors happen.
 
---lfxsk3mfqv3tm5fy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix this by adding error handling part for all the dma_mmap_sg/single.
 
-On Fri, Jul 23, 2021 at 12:17:21AM +0100, Andre Przywara wrote:
-> On Wed, 16 Jun 2021 11:14:31 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
->=20
-> Hi Maxime,
->=20
-> > On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
-> > > Some newer Allwinner RTCs (for instance the one in the H616 SoC) lack
-> > > a pin for an external 32768 Hz oscillator. As a consequence, this LOSC
-> > > can't be selected as the RTC clock source, and we must rely on the
-> > > internal RC oscillator.
-> > > To allow additions of clocks to the RTC node, add a feature bit to ig=
-nore
-> > > any provided clocks for now (the current code would think this is the
-> > > external LOSC). Later DTs and code can then for instance add the PLL
-> > > based clock input, and older kernel won't get confused.
-> > >=20
-> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
-> >=20
-> > Honestly, I don't really know if it's worth it at this point.
-> >=20
-> > If we sums this up:
-> >=20
-> >  - The RTC has 2 features that we use, mostly centered around 2
-> >    registers set plus a global one
-> >=20
-> >  - Those 2 features are programmed in a completely different way
-> >=20
-> >  - Even the common part is different, given the discussion around the
-> >    clocks that we have.
-> >=20
-> > What is there to share in that driver aside from the probe, and maybe
-> > the interrupt handling? Instead of complicating this further with more
-> > special case that you were (rightfully) complaining about, shouldn't we
-> > just acknowledge the fact that it's a completely separate design and
-> > should be treated as such, with a completely separate driver?
->=20
-> So I had a look, and I don't think it justifies a separate driver:
-> - Indeed it looks like the core functionality is different, but there
->   are a lot of commonalities, with all the RTC and driver boilerplate,
->   register offsets, and also the special access pattern (rtc_wait and
->   rtc_setaie).
-> - The actual difference is really in the way the *date* is stored
->   (the time is still in 24h H/M/S format), and the missing LOSC input
->   clock - which is already optional for existing devices. The two
->   patches just make this obvious, by using if() statements at the parts
->   where they differ.
+Fixes: d9b45418a917 ("crypto: sun8i-ss - support hash algorithms")
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+v1->v2: move crypto_finalize_hash_request to the end of function; move
+the memcpy after the dma_mmap_sg/single functions.
+v2->v3: remove some unrelated code changes; delete the fix of return value
+since there is no corresponding handling code
+v3->v4: change sun8i_ce to sun8i_ss
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-My point was that the code that is shared, like the driver boilerplate,
-is much more complicated than it can be precisely because it's shared.
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index 3c073eb3db03..5448705e8ae1 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -368,14 +368,14 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
+ 		dev_err(ss->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_result;
+ 	}
+ 
+ 	addr_res = dma_map_single(ss->dev, result, digestsize, DMA_FROM_DEVICE);
+ 	if (dma_mapping_error(ss->dev, addr_res)) {
+ 		dev_err(ss->dev, "DMA map dest\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_sg;
+ 	}
+ 
+ 	len = areq->nbytes;
+@@ -390,7 +390,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (len > 0) {
+ 		dev_err(ss->dev, "remaining len %d\n", len);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_addr_res;
+ 	}
+ 
+ 	byte_count = areq->nbytes;
+@@ -428,18 +428,19 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (dma_mapping_error(ss->dev, addr_pad)) {
+ 		dev_err(ss->dev, "DMA error on padding SG\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_addr_res;
+ 	}
+ 
+ 	err = sun8i_ss_run_hash_task(ss, rctx, crypto_tfm_alg_name(areq->base.tfm));
+ 
+ 	dma_unmap_single(ss->dev, addr_pad, j * 4, DMA_TO_DEVICE);
++err_addr_res:
++	dma_unmap_single(ss->dev, addr_res, digestsize, DMA_FROM_DEVICE);
++err_unmap_sg:
+ 	dma_unmap_sg(ss->dev, areq->src, sg_nents(areq->src),
+ 		     DMA_TO_DEVICE);
+-	dma_unmap_single(ss->dev, addr_res, digestsize, DMA_FROM_DEVICE);
+-
+ 	memcpy(areq->result, result, algt->alg.hash.halg.digestsize);
+-theend:
++err_result:
+ 	kfree(pad);
+ 	kfree(result);
+ 	crypto_finalize_hash_request(engine, breq, err);
+-- 
+2.25.1
 
-I'd take two simple-but-with-some-redundancy drivers over one big,
-shared but complicated driver any day.
-
-But fine, I guess.
-
-> So we would end up with possibly some shared .c file, and two driver
-> front-end files, which I am not sure is really worth it.
->=20
-> Next I thought about providing separate rtc_class_ops, but even they
-> share a lot of code, so they would be possibly be calling a shared
-> function each. I don't think that is really better.
->=20
-> If you dislike the rather large if/else branches in the previous two
-> patches, I could move that out into separate functions, but I feel this
-> is more code, for no real benefit.
->=20
-> So for now I am tempted to keep it shared. I think Samuel had ideas for
-> bigger changes in the clock part, at which point we could revisit this
-> decision - for instance keep the RTC part (still quite similar) mostly
-> in a shared file, while modelling the clocks in separate files - in a
-> more "common clock" style for the new SoCs.
-
-What's the plan?
-
-Maxime
-
---lfxsk3mfqv3tm5fy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYP7NywAKCRDj7w1vZxhR
-xRY+AP41nD/WBdA9hAMZ6UcQge286Jku1Q+P63JZGaIwFd1zPgD7BOEoO8cWt8Fg
-ep6EHpxzz7yzcEIouyu2MVJ5FNzHMQI=
-=nHk2
------END PGP SIGNATURE-----
-
---lfxsk3mfqv3tm5fy--
