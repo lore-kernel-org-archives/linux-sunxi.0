@@ -1,38 +1,38 @@
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A927C72
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 14:52:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD7E72
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 14:59:28 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 8D84658037C;
-	Mon, 26 Jul 2021 10:52:32 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 26 Jul 2021 10:52:32 -0400
+	by mailnew.nyi.internal (Postfix) with ESMTP id 0F50E58041D;
+	Mon, 26 Jul 2021 10:59:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Mon, 26 Jul 2021 10:59:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=YH7NgoqGItUWkC7R6deH5Zcu+he
-	6CbEh3YXSIrNnpb4=; b=H8MMkapgWYqx7TUdwyCHNxnxVB+sJa/W8mEH2H2VJFa
-	H4FufngYs+O322+lobj0qzRCbnVufStEGheOzrJUuYeTvDQvDGdBephi+K3kkRra
-	xmH8g8TNxKLtjlaFxqRv/e/0Do0as/vLMvGZ+/D/AoPUd+fEmn8uqq6p1/9oJM/G
-	ioOUqLLDQn4PgFyLncmMnOvzsrzztRXQUh+M3zDbAuIz09zLRwelS9ssOuf1zT7E
-	z7RNL822mfraCW4ddYHhkay82Ypn59ejOSgYa421TkIjft2ywFmRVyhpYSU5XWfM
-	xay7jDCmYGgg92ZSh/hca0n44pODk2UbwL6E3/+UzkQ==
+	:content-type:in-reply-to; s=fm3; bh=aafEayI1sVZWEQ+8Kldbq4Mehnl
+	cqhooAS5lRNnCO7Q=; b=1xZtgOsNPwxRhKdemCXg5/P1UQ/TvHM4SDl8L/Wrepj
+	uxm931dVSx7NZlCh5RaWw38eIDlyO+8DFnlyMMX7JNr0tM81i2kTMCUl8WpnodEI
+	Crq/XQ8W8++H+nGxC/8Wy4ZsmoEXh7kNZVFKAOzZxFCDIrQa2ADfQzjag3RG/foi
+	JLHNpezIBnAW9IYnySDRs2+i/5ItKePmc1l8of6gQRazAhWtKXjupKTAEyupanGJ
+	B5ZGHbz5I4pbeFWBT4e9jv3JWk78QXmNAq/J83rC26g/6YC8QZjEABUqrun0zEnK
+	7M87gSb/vgKBJgRGMoQKkfrkwIH+TIVkp2Z9St0uJPQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YH7Ngo
-	qGItUWkC7R6deH5Zcu+he6CbEh3YXSIrNnpb4=; b=dO61XLazOwLFEsSUkUI1K0
-	4HSOVQW2gjnzaK2aL9mZV5YI78w6wextAPR7jMvvVAw47a1pR59XbE1Tuzc13Mlf
-	mQ9lObSayuJ1xAwRED8CXgb/yWyGVZ6bTNBcbX/xbuXyt7Kv39ayCAH36+oSEB3y
-	DSgSYT1+xR++aOOWY9GCCFRBMF/g1xCDPEIMgXvwI5f13IV2GNvLdLVBnjjgaCi7
-	rWW/MXVk3bYfkprQF6rwiLoIzuUwqGwrgvWEnNG6BfNWnJ/mauUxV07wTO2vuBu1
-	4CHrcenzZQ7vn119A1J9+pOQEPynTNgjHzt1sbjSu3zQa4gNmP2Wq74kYsvCdioA
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aafEay
+	I1sVZWEQ+8Kldbq4MehnlcqhooAS5lRNnCO7Q=; b=IDplYQoIDpe3BvYBGdCCGE
+	ISvOzLFz4DkiFBdTRDWWDBFNzgh5CLpcQU4g6faWBjdPUWBApjP3wlIveSEqYACa
+	oYsyrZXmbJjJGL864XGnfH8I7iBKk6AHkceKcTz/to6zJnCJ3W+fFwVznBm2cGJC
+	T3fSBfryP7hSaY9eeIHYXOMSM40tD5PUAoznE0yPKXvT79NcOVFVOLZDYn7rSXZl
+	l/eq5V9lVWe4kt6AQgjZD2E7w7UJCKfhUJ60AanLHqCVAKT9dn0JFA8ZNh6Dckm2
+	vi4jXw9L3lAfgZObV3Xu7JETGAp1uOZ/K/2CTf/1k01VQ3d7k8fQYnubzzJMQSBA
 	==
-X-ME-Sender: <xms:L8z-YGfQVPO3WQdueYzUy0e750a7NFVgtABpF5ORgZ-yqBg1H_24fA>
-    <xme:L8z-YANiQ4dbfQaGZG6ktY-P6boaBsp3Pe5pgq5CeoLaLH6zolhEUKRdHm3kOxGsC
-    g0BkvfWvUtINv-jYYc>
-X-ME-Received: <xmr:L8z-YHjF4w3_lwPc6mVXvMj8nhoBgxyYcyUc1clAzlMcuF0LSofXtkcFBDaeHvgz3RQ7vmcZzc5TM2kHWrkDckWFrbYKRiQoLZbp>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdektdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:zs3-YOrglhDinUb178XSqdTPmaCBfUWUbwMF7pnA4x3Tyk3EnxwQAw>
+    <xme:zs3-YMob_ilDdwC2CfszxsHIK7B0_okJ9Sa4iMNBVRCYty8cqj6g2HS4ptBf6ttkY
+    tp29_x9Ad18wph46lY>
+X-ME-Received: <xmr:zs3-YDOpwe8ntxr5nMc8bAc0upEOW-IEwCC3PDPVJWlyAac-AI1E4mtWIejMEeVSQQrrSBlhP6MGMf2vI8osB1d9yyl2m4SxN2NR>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdekfecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
@@ -40,13 +40,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdektdcutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:L8z-YD9Q6Oz1ZGYO53MOcPnyGJuceH0XLysh0Y4HnTHd_pQcbubldw>
-    <xmx:L8z-YCuJWm8gew6O5VMdb0zv7ybOhpZCIzOH7sneKg6OnfYo8nJTtw>
-    <xmx:L8z-YKGlU_8FelJnDLWw9AG1jbN1qiAxVJ1Jj7Gk-5se5xTfN4cyRA>
-    <xmx:MMz-YML-PRHXMxU7D3h_XcEQ8iNen4uoSqWy0ZDU8TbVhKsotFt3jQ>
+X-ME-Proxy: <xmx:zs3-YN5IYI0swRCWggQbhtzS0YQMvgQY4l2fEnQUP_iWEgVZD7uGkA>
+    <xmx:zs3-YN4-YqAaUbk-2cEucrS45SQyvXpPXPRNSlwYYMW7jXAT029yIQ>
+    <xmx:zs3-YNjU3odC2wMq2IRedW0elXhyV8Qpfl3kAonXrpd4SdKh5Xxf-Q>
+    <xmx:0M3-YFydLwFOWLiu5r3gu1u6_wPd77I0NZ-GuidvVzUER6i3P8sB2Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Jul 2021 10:52:31 -0400 (EDT)
-Date: Mon, 26 Jul 2021 16:52:30 +0200
+ 26 Jul 2021 10:59:26 -0400 (EDT)
+Date: Mon, 26 Jul 2021 16:59:23 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -54,10 +54,17 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>
-Subject: Re: [PATCH v8 00/11] arm64: sunxi: Initial Allwinner H616 SoC support
-Message-ID: <20210726145230.uevhinsrvo7gtuty@gilmour>
-References: <20210723153838.6785-1-andre.przywara@arm.com>
+	Ondrej Jirman <megous@megous.com>,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v7 06/19] rtc: sun6i: Add support for RTCs without
+ external LOSCs
+Message-ID: <20210726145923.mdk6llzqppczkv5v@gilmour>
+References: <20210615110636.23403-1-andre.przywara@arm.com>
+ <20210615110636.23403-7-andre.przywara@arm.com>
+ <20210616091431.6tm3zdf77p2x3upc@gilmour>
+ <20210723001721.0bb02cf2@slackpad.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -65,48 +72,102 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="up2ns35lavo3yw5c"
+	protocol="application/pgp-signature"; boundary="lfxsk3mfqv3tm5fy"
 Content-Disposition: inline
-In-Reply-To: <20210723153838.6785-1-andre.przywara@arm.com>
+In-Reply-To: <20210723001721.0bb02cf2@slackpad.fritz.box>
 
 
---up2ns35lavo3yw5c
+--lfxsk3mfqv3tm5fy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Fri, Jul 23, 2021 at 04:38:27PM +0100, Andre Przywara wrote:
-> Hi,
+On Fri, Jul 23, 2021 at 12:17:21AM +0100, Andre Przywara wrote:
+> On Wed, 16 Jun 2021 11:14:31 +0200
+> Maxime Ripard <maxime@cerno.tech> wrote:
 >=20
-> another try on the basic Allwinner H616 support, now on top of 5.14-rc1.
+> Hi Maxime,
 >=20
-> This time I dropped the USB support from the basic series, to split off
-> the discussion, and simplify the core SoC support. I will post the USB
-> series soon, to be applied on top.
-> I kept the RTC support in, even though this is still under discussion,
-> because this is important to keep future DT files compatible with this
-> kernel.
+> > On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
+> > > Some newer Allwinner RTCs (for instance the one in the H616 SoC) lack
+> > > a pin for an external 32768 Hz oscillator. As a consequence, this LOSC
+> > > can't be selected as the RTC clock source, and we must rely on the
+> > > internal RC oscillator.
+> > > To allow additions of clocks to the RTC node, add a feature bit to ig=
+nore
+> > > any provided clocks for now (the current code would think this is the
+> > > external LOSC). Later DTs and code can then for instance add the PLL
+> > > based clock input, and older kernel won't get confused.
+> > >=20
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com> =20
+> >=20
+> > Honestly, I don't really know if it's worth it at this point.
+> >=20
+> > If we sums this up:
+> >=20
+> >  - The RTC has 2 features that we use, mostly centered around 2
+> >    registers set plus a global one
+> >=20
+> >  - Those 2 features are programmed in a completely different way
+> >=20
+> >  - Even the common part is different, given the discussion around the
+> >    clocks that we have.
+> >=20
+> > What is there to share in that driver aside from the probe, and maybe
+> > the interrupt handling? Instead of complicating this further with more
+> > special case that you were (rightfully) complaining about, shouldn't we
+> > just acknowledge the fact that it's a completely separate design and
+> > should be treated as such, with a completely separate driver?
+>=20
+> So I had a look, and I don't think it justifies a separate driver:
+> - Indeed it looks like the core functionality is different, but there
+>   are a lot of commonalities, with all the RTC and driver boilerplate,
+>   register offsets, and also the special access pattern (rtc_wait and
+>   rtc_setaie).
+> - The actual difference is really in the way the *date* is stored
+>   (the time is still in 24h H/M/S format), and the missing LOSC input
+>   clock - which is already optional for existing devices. The two
+>   patches just make this obvious, by using if() statements at the parts
+>   where they differ.
 
-Honestly, I don't want to support something we don't guarantee if it's
-at the expense of making something we do guarantee more complicated.
+My point was that the code that is shared, like the driver boilerplate,
+is much more complicated than it can be precisely because it's shared.
 
-Delaying the clock tree description to sometime in the future will only
-further complicate the probe part of the driver, and there's far too
-many special cases already.
+I'd take two simple-but-with-some-redundancy drivers over one big,
+shared but complicated driver any day.
+
+But fine, I guess.
+
+> So we would end up with possibly some shared .c file, and two driver
+> front-end files, which I am not sure is really worth it.
+>=20
+> Next I thought about providing separate rtc_class_ops, but even they
+> share a lot of code, so they would be possibly be calling a shared
+> function each. I don't think that is really better.
+>=20
+> If you dislike the rather large if/else branches in the previous two
+> patches, I could move that out into separate functions, but I feel this
+> is more code, for no real benefit.
+>=20
+> So for now I am tempted to keep it shared. I think Samuel had ideas for
+> bigger changes in the clock part, at which point we could revisit this
+> decision - for instance keep the RTC part (still quite similar) mostly
+> in a shared file, while modelling the clocks in separate files - in a
+> more "common clock" style for the new SoCs.
+
+What's the plan?
 
 Maxime
 
---up2ns35lavo3yw5c
+--lfxsk3mfqv3tm5fy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYP7MLgAKCRDj7w1vZxhR
-xQviAP43ZH6hYvpPTFTh0Ky76XcmPg9oNB230+/EeQWij2EJmAD+Ms7eRM11Jm2A
-xrMLoAPlLR++oEqHzkAKBoz/daz2NgY=
-=OQKY
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYP7NywAKCRDj7w1vZxhR
+xRY+AP41nD/WBdA9hAMZ6UcQge286Jku1Q+P63JZGaIwFd1zPgD7BOEoO8cWt8Fg
+ep6EHpxzz7yzcEIouyu2MVJ5FNzHMQI=
+=nHk2
 -----END PGP SIGNATURE-----
 
---up2ns35lavo3yw5c--
+--lfxsk3mfqv3tm5fy--
