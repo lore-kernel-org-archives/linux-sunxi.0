@@ -1,38 +1,38 @@
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DBE372
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 14:41:43 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailnew.nyi.internal (Postfix) with ESMTP id CAB13580422;
-	Mon, 26 Jul 2021 10:41:42 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A927C72
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 14:52:33 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 8D84658037C;
+	Mon, 26 Jul 2021 10:52:32 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 26 Jul 2021 10:41:42 -0400
+  by compute6.internal (MEProxy); Mon, 26 Jul 2021 10:52:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=iVDLFnFaqPyU6ygsCm/rZzf8cgw
-	XDYGnNuYlC3C9qO0=; b=sOoPnrKgIZqPxVRFVnrEQkdMvp9sIF7l9+Gh3ImJ+oL
-	HnxOZ8U7AELAZr7TMzUKgZUQlx/8s620xdLtKMmbzwmcolHoSbN5i9O2ORmxF71n
-	qpacyTLPe+y1cCVkupKXM5+hSE2SVhQNvwEZ82kLjCY5hDP9XmngRW7E6GoAGkRS
-	0ahanFceojZL0F7yCuc5aEzXBYLMdyr9yU1tcyXs9H9t5/YZSGMnYW44Mq14LZJz
-	TNr3m13GISNpu6ER12aJ3+vRU4C1eeZ9poji0w2z7YZ3l3Ov1JIvsjU8V/1HBuPu
-	3ixEHshTRZ2KuHGDTx1ajqzZHWsnY/5GXfMklQcFllg==
+	:content-type:in-reply-to; s=fm3; bh=YH7NgoqGItUWkC7R6deH5Zcu+he
+	6CbEh3YXSIrNnpb4=; b=H8MMkapgWYqx7TUdwyCHNxnxVB+sJa/W8mEH2H2VJFa
+	H4FufngYs+O322+lobj0qzRCbnVufStEGheOzrJUuYeTvDQvDGdBephi+K3kkRra
+	xmH8g8TNxKLtjlaFxqRv/e/0Do0as/vLMvGZ+/D/AoPUd+fEmn8uqq6p1/9oJM/G
+	ioOUqLLDQn4PgFyLncmMnOvzsrzztRXQUh+M3zDbAuIz09zLRwelS9ssOuf1zT7E
+	z7RNL822mfraCW4ddYHhkay82Ypn59ejOSgYa421TkIjft2ywFmRVyhpYSU5XWfM
+	xay7jDCmYGgg92ZSh/hca0n44pODk2UbwL6E3/+UzkQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iVDLFn
-	FaqPyU6ygsCm/rZzf8cgwXDYGnNuYlC3C9qO0=; b=tUljJ4ohL5+EutNVYmCfXP
-	3iC/W2KNVYjxtnU1dZJ1EWAkPJhHhabD1ksogY75/6HbOit7FmbczxjMNE7uc7pu
-	ycJWCqhvaBJuXlts2CiIi682qb7zefK8lInpdnuW4LykCQX2BGB1YdfeUxVKADpZ
-	JQayHsAHGdJ7dX68NGeXFf7EZEbouQmCD4R86l0U8I8xmcyp+Jm2kTqJZPsVzGV+
-	iJ70x6M/tZhAy7jZHbdl6LL6SgQIAo59p+5FJ4ylJW4eXe6jL8UbtCdXSnIt9ZzM
-	o073eSY1iEPh7X6tKs2v/JjnDfDJ1S3FkMsv7lbnh7BceCXLwFFkT3eLrLcuhoJA
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=YH7Ngo
+	qGItUWkC7R6deH5Zcu+he6CbEh3YXSIrNnpb4=; b=dO61XLazOwLFEsSUkUI1K0
+	4HSOVQW2gjnzaK2aL9mZV5YI78w6wextAPR7jMvvVAw47a1pR59XbE1Tuzc13Mlf
+	mQ9lObSayuJ1xAwRED8CXgb/yWyGVZ6bTNBcbX/xbuXyt7Kv39ayCAH36+oSEB3y
+	DSgSYT1+xR++aOOWY9GCCFRBMF/g1xCDPEIMgXvwI5f13IV2GNvLdLVBnjjgaCi7
+	rWW/MXVk3bYfkprQF6rwiLoIzuUwqGwrgvWEnNG6BfNWnJ/mauUxV07wTO2vuBu1
+	4CHrcenzZQ7vn119A1J9+pOQEPynTNgjHzt1sbjSu3zQa4gNmP2Wq74kYsvCdioA
 	==
-X-ME-Sender: <xms:pMn-YA-NZt5-eeap61mn_0PK3cDa_klkIkhU6hjahPHy0VOJU7xoFg>
-    <xme:pMn-YIulLygpQ6-nsXr0DTqbvD-mtIL9_ZA18EvMQrAqxUgd3CKtNmm7KqaET12ew
-    pPQF_HC6GnOhNuSxtI>
-X-ME-Received: <xmr:pMn-YGC2iAiulA4cf2WHrjHoYIiYDGz1sIJJVrQ0fc1YJ0oL35LpG_wXBrMQX2dSxqOhd4u9m7vQNizv7GsazIb7_pLhLY1ZxwGl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdejlecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:L8z-YGfQVPO3WQdueYzUy0e750a7NFVgtABpF5ORgZ-yqBg1H_24fA>
+    <xme:L8z-YANiQ4dbfQaGZG6ktY-P6boaBsp3Pe5pgq5CeoLaLH6zolhEUKRdHm3kOxGsC
+    g0BkvfWvUtINv-jYYc>
+X-ME-Received: <xmr:L8z-YHjF4w3_lwPc6mVXvMj8nhoBgxyYcyUc1clAzlMcuF0LSofXtkcFBDaeHvgz3RQ7vmcZzc5TM2kHWrkDckWFrbYKRiQoLZbp>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdektdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
@@ -40,13 +40,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeehgdejlecutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pMn-YAdTcxvCBHEG_jWfMHUiTINCAewm0RouEQN5yQDeGUkQ0UWIIA>
-    <xmx:pMn-YFNoaiVfVpOjDnzYpdAPGuKkkcoQyiK9HbJTx7Q9M2oTSFLjAg>
-    <xmx:pMn-YKmZcy8IE4CuESC_7W34T5W6ipjgQGPDZPBxdsaoiThWjB9fAA>
-    <xmx:psn-YLtnwRgTvnT3gOnyCT2tDy4TeZ5kFwzjlud_fSReho2I0XbDIg>
+X-ME-Proxy: <xmx:L8z-YD9Q6Oz1ZGYO53MOcPnyGJuceH0XLysh0Y4HnTHd_pQcbubldw>
+    <xmx:L8z-YCuJWm8gew6O5VMdb0zv7ybOhpZCIzOH7sneKg6OnfYo8nJTtw>
+    <xmx:L8z-YKGlU_8FelJnDLWw9AG1jbN1qiAxVJ1Jj7Gk-5se5xTfN4cyRA>
+    <xmx:MMz-YML-PRHXMxU7D3h_XcEQ8iNen4uoSqWy0ZDU8TbVhKsotFt3jQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 26 Jul 2021 10:41:39 -0400 (EDT)
-Date: Mon, 26 Jul 2021 16:41:37 +0200
+ 26 Jul 2021 10:52:31 -0400 (EDT)
+Date: Mon, 26 Jul 2021 16:52:30 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -54,15 +54,10 @@ Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v8 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
- string
-Message-ID: <20210726144137.6dauuxdssu7yszox@gilmour>
+	Ondrej Jirman <megous@megous.com>
+Subject: Re: [PATCH v8 00/11] arm64: sunxi: Initial Allwinner H616 SoC support
+Message-ID: <20210726145230.uevhinsrvo7gtuty@gilmour>
 References: <20210723153838.6785-1-andre.przywara@arm.com>
- <20210723153838.6785-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,85 +65,48 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="aiq5ywgupr4t6rom"
+	protocol="application/pgp-signature"; boundary="up2ns35lavo3yw5c"
 Content-Disposition: inline
-In-Reply-To: <20210723153838.6785-3-andre.przywara@arm.com>
+In-Reply-To: <20210723153838.6785-1-andre.przywara@arm.com>
 
 
---aiq5ywgupr4t6rom
+--up2ns35lavo3yw5c
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-On Fri, Jul 23, 2021 at 04:38:29PM +0100, Andre Przywara wrote:
-> Add the obvious compatible name to the existing RTC binding.
-> The actual RTC part of the device uses a different day/month/year
-> storage scheme, so it's not compatible with the previous devices.
-> Also the clock part is quite different, as there is no external 32K LOSC
-> oscillator input.
+On Fri, Jul 23, 2021 at 04:38:27PM +0100, Andre Przywara wrote:
+> Hi,
 >=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->
-> ---
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> another try on the basic Allwinner H616 support, now on top of 5.14-rc1.
 >=20
-> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
-c.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> index beeb90e55727..d8a6500e5840 100644
-> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - const: allwinner,sun50i-a64-rtc
->            - const: allwinner,sun8i-h3-rtc
->        - const: allwinner,sun50i-h6-rtc
-> +      - const: allwinner,sun50i-h616-rtc
-> =20
->    reg:
->      maxItems: 1
-> @@ -104,6 +105,19 @@ allOf:
->            minItems: 3
->            maxItems: 3
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun50i-h616-rtc
-> +
-> +    then:
-> +      properties:
-> +        clock-output-names:
-> +          minItems: 3
-> +          maxItems: 3
+> This time I dropped the USB support from the basic series, to split off
+> the discussion, and simplify the core SoC support. I will post the USB
+> series soon, to be applied on top.
+> I kept the RTC support in, even though this is still under discussion,
+> because this is important to keep future DT files compatible with this
+> kernel.
 
-You don't need both of them when they are equal
+Honestly, I don't want to support something we don't guarantee if it's
+at the expense of making something we do guarantee more complicated.
 
-> +        clocks: false
-> +
-
-It's not entirely clear to me what those clocks are about though. If we
-look at the clock output in the user manual, it looks like there's only
-two clocks that are actually being output: the 32k "fanout" clock and
-the losc. What are the 3 you're talking about?
-
-Also, it looks like the 32k fanout clock needs at least the hosc or
-pll-periph in input, so we probably don't want to ask for no parent
-clock?
+Delaying the clock tree description to sometime in the future will only
+further complicate the probe part of the driver, and there's far too
+many special cases already.
 
 Maxime
 
---aiq5ywgupr4t6rom
+--up2ns35lavo3yw5c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYP7JoQAKCRDj7w1vZxhR
-xQRLAQDVnReS1EyY1LoZj+IrPcI0+iNFJA6ywfgcCyvxILsY1wEAwKCt/M3I7GRN
-ZcZzGWYP2AxXqE9As3rd3HZaWUE/3Qw=
-=irLn
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYP7MLgAKCRDj7w1vZxhR
+xQviAP43ZH6hYvpPTFTh0Ky76XcmPg9oNB230+/EeQWij2EJmAD+Ms7eRM11Jm2A
+xrMLoAPlLR++oEqHzkAKBoz/daz2NgY=
+=OQKY
 -----END PGP SIGNATURE-----
 
---aiq5ywgupr4t6rom--
+--up2ns35lavo3yw5c--
