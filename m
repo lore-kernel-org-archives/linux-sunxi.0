@@ -1,70 +1,63 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7B62FB2
-	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 03:51:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 096CE58045A;
-	Sun, 25 Jul 2021 23:51:48 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 25 Jul 2021 23:51:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm3; bh=k3FFcPhqCAND3
-	XKLb3s8dDhV8GC8RamGsODpXFVE8Dw=; b=pTX19j08oUdGotxPXYgxd6Cs+HKU8
-	QZYwEWdvHt8umRXgHCc+6sptWlNbjwsSMSN1qhnsFCumHFt6HYPptJOAtoL4dm85
-	TPqb5X0tH1Kca4Gb542/caL79Q8AJ1xkQSe6SghSCQOyE5t1QhaWiO0Ay9ZMxonp
-	BIi/Cx1gdfCPBQs21VBA9NCYNgpjt/5m1aSpF4E0dTgfX9M/+hI5CC9Zp92Ugncx
-	9407m74pCd1Wiu+WoXm1wkCcRbxiiMbyRJKicAXwenff/N/JTQAwKCE3KB+PxUwE
-	jTvH8OMGn0lylqEDYJFOmSxneBD3/XONXeKkYZo5/RqkE5ToYT6JfltjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; bh=k3FFcPhqCAND3XKLb3s8dDhV8GC8RamGsODpXFVE8Dw=; b=GPFr+3QV
-	lSoyrNsxZx4LUJaVv3rW76DWfSJZ4NB/JdQgaQAHIJUXnEiKIR9nlD8aBlQfZYSH
-	3eKNCeCOycsxHISOyd4WdjLwOOCiR6FOejfdgxlXtcOUMW93G1K+KN5PHM2JlFJJ
-	iHDSyNsy+T/XXePGO54B01f2zVzGC0P2iLWOVqhCcNIqX8cczfgVUOAdh3PdEtwA
-	zzzFCvYYoBNPq63Sq9AC6X9pPQp+nXJnXQN6xNdDl6OuLJqeQy0bZF6gqXkHuy/v
-	AJIRQBokF4S4WrUfHGnWtamuhHZ0++oq6ja/JrSJbeid9Av7PK4GFdT99ffnxfNo
-	QfTi8ddunBQnug==
-X-ME-Sender: <xms:UzH-YNAjxr-U7A4aTWIH6NMpfea2p70FDq9G6S_64ImiZMjVBMYPRw>
-    <xme:UzH-YLg7QFcuRhQvfdDuDSW9bZAgVYre3cf2Drn8J_P6FQYjPLiha9znLMaioCt81
-    Fheaj3LUFaoexs6wA>
-X-ME-Received: <xmr:UzH-YIkVAXHYZwgw5Dm65n3iDLIW7R0fhWFIm-Rc7wsfiSrTVZ5eEFXRO5JhCfTlUHZDVtnTLU19Y7dI7QxPTCKZXJmOFwod-dF3T1oy-zMJLgcj4EcC9C22HInxQfRkpU8p2A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrgeeggdejvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepudfhjeefvdfhgfefheetgffhieeigfefhefgvddvveefgeejheejvdfg
-    jeehueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:UzH-YHyt_gOq8FOaxLpXkphqF6hiaUM80VhtdC5ZOtO2GWRiffEv-A>
-    <xmx:UzH-YCQK4TXlrFoZqJg9v-w1fQNcVJl55Z4vn7kbisAOPZUjAa-vYg>
-    <xmx:UzH-YKZFBDIIOyh14nhnPTowsUW4QHAwlZNP67aU97UPD73W8l2_DA>
-    <xmx:VDH-YHJt7hgUdqKH8iLZS3e-vsgqzV5rMSIjIPo6OFWRiq1wj3w5Rg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 25 Jul 2021 23:51:47 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Rob Herring <robh+dt@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DD1168
+	for <linux-sunxi@lists.linux.dev>; Mon, 26 Jul 2021 06:28:22 +0000 (UTC)
+Received: by mail-pj1-f43.google.com with SMTP id ch6so2531332pjb.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 25 Jul 2021 23:28:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fJtZ1Lge7ch9gY6HxQCqLZ3+7A2ZCl+Ej1e0SFj7GW4=;
+        b=UdWjKO+LBekJG2YJTComW+9j6yGUTpqqkY21ZZ/fdzX6poSUAItOZDdq5l+7yt7egq
+         kclO4AjkRKmmS32JhDD8/iENz4Uce8y5b95yD5hI4OiW7J34vwufDJOi0KVtQvssI7lp
+         xCBMLBgtQtiYz97unMlw+4i+PGWF06sYybX1h1fHm291/iTDcXDWoJ417rP4lEV+JKKy
+         FZZuhQsGyrzZuUkvnMxMv8ZpNHVBbv3QaFWRIl5cYOGf5xsn9mqS8NPjuEMgqHJ8nDLd
+         WauHF7rZwn4SdGQ3OIiatqYHfWsh9J/zSeQqxyzXkWGFXZNrgQr2rHFOVodxbWoKshmD
+         crTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fJtZ1Lge7ch9gY6HxQCqLZ3+7A2ZCl+Ej1e0SFj7GW4=;
+        b=MjPhPn8CvwxsMPK02p/DBY8DLpCfXoL8kY6FFEQaZgFsju5SAhOU09mnXutbqdzttp
+         l4YfXCU5VGD8GqAeJbdiZ5aUR02s9INmzTRBy2+HPmBhQXQ4Ono0naAAm+AdOxCVYyvQ
+         I5VlUTM7HnFSkZlsPZsRI6vH2OSfv/XK3pwwP7RE13meRwjt24guT10fhyFV3empn6H+
+         kcZariyTGRar09cWuFLmJQla8le48OkR/n6/KXk9C8lmGoGrUKeQLEWA6HuhmlLb0Xc0
+         RE1rLouKB92JhodKRTTYhwE+Z/jjz3dNKwXJ7IvIxnxUaRu/XKMUYydfnnV/ndP/eR0X
+         qrmw==
+X-Gm-Message-State: AOAM532e6YctgxNeuzPUclzEFEI4jvbjDCJs4EtTSiMHzPDYjxlITUDa
+	ErA6Cm3SRly2NCAlYzzZTMs=
+X-Google-Smtp-Source: ABdhPJydxRF0jWm3UmMPuPpO+Clvc8XaF4cFhSLLWu1nFOvN5MOJf1A0EifKXWs21u3+WNN6hzukoA==
+X-Received: by 2002:a63:3741:: with SMTP id g1mr17137811pgn.134.1627280902185;
+        Sun, 25 Jul 2021 23:28:22 -0700 (PDT)
+Received: from localhost.localdomain ([154.16.166.171])
+        by smtp.gmail.com with ESMTPSA id w2sm12325363pjd.35.2021.07.25.23.28.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Jul 2021 23:28:21 -0700 (PDT)
+From: Dongliang Mu <mudongliangabcd@gmail.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
 	Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: devicetree@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Dongliang Mu <mudongliangabcd@gmail.com>,
+	Colin Ian King <colin.king@canonical.com>,
+	Xiang Chen <chenxiang66@hisilicon.com>
+Cc: dan.carpenter@oracle.com,
+	linux-crypto@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 3/3] watchdog: sunxi_wdt: Add support for D1
-Date: Sun, 25 Jul 2021 22:51:43 -0500
-Message-Id: <20210726035143.53132-3-samuel@sholland.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210726035143.53132-1-samuel@sholland.org>
-References: <20210726035143.53132-1-samuel@sholland.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] crypto: sun8i-ce: fix memory leak and return value of sun8i_ce_hash_run
+Date: Mon, 26 Jul 2021 14:27:50 +0800
+Message-Id: <20210726062801.2078117-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,102 +66,104 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 adds a key field to the "CFG" and "MODE" registers, that must be set
-to change the other bits. Add logic to set the key when updating those
-registers.
+This patch fixes some memory leak caused by dma_mmap_sg/single
+in the error handling code. In addition, it fixes the return value
+when errors related with dma_mmap_sg/single occur.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
+Reported-by: Dongliang Mu <mudongliangabcd@gmail.com>
+Fixes: 732b764099f65 ("crypto: sun8i-ce - fix two error path's memory leak")
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
 ---
- drivers/watchdog/sunxi_wdt.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 37 ++++++++++---------
+ 1 file changed, 20 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-index b50757882a98..6cf82922d3fb 100644
---- a/drivers/watchdog/sunxi_wdt.c
-+++ b/drivers/watchdog/sunxi_wdt.c
-@@ -48,6 +48,7 @@ struct sunxi_wdt_reg {
- 	u8 wdt_timeout_shift;
- 	u8 wdt_reset_mask;
- 	u8 wdt_reset_val;
-+	u32 wdt_key_val;
- };
- 
- struct sunxi_wdt_dev {
-@@ -91,12 +92,14 @@ static int sunxi_wdt_restart(struct watchdog_device *wdt_dev,
- 	val = readl(wdt_base + regs->wdt_cfg);
- 	val &= ~(regs->wdt_reset_mask);
- 	val |= regs->wdt_reset_val;
-+	val |= regs->wdt_key_val;
- 	writel(val, wdt_base + regs->wdt_cfg);
- 
- 	/* Set lowest timeout and enable watchdog */
- 	val = readl(wdt_base + regs->wdt_mode);
- 	val &= ~(WDT_TIMEOUT_MASK << regs->wdt_timeout_shift);
- 	val |= WDT_MODE_EN;
-+	val |= regs->wdt_key_val;
- 	writel(val, wdt_base + regs->wdt_mode);
- 
- 	/*
-@@ -109,6 +112,7 @@ static int sunxi_wdt_restart(struct watchdog_device *wdt_dev,
- 		mdelay(5);
- 		val = readl(wdt_base + regs->wdt_mode);
- 		val |= WDT_MODE_EN;
-+		val |= regs->wdt_key_val;
- 		writel(val, wdt_base + regs->wdt_mode);
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index 3c073eb3db03..7c4ed19f5466 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -324,11 +324,11 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	struct sun8i_ss_alg_template *algt;
+ 	struct sun8i_ss_dev *ss;
+ 	struct scatterlist *sg;
+-	int nr_sgs, err, digestsize;
++	int j, i, todo, nr_sgs, tmp_err, digestsize;
++	int err = 0;
+ 	unsigned int len;
+ 	u64 fill, min_fill, byte_count;
+ 	void *pad, *result;
+-	int j, i, todo;
+ 	__be64 *bebits;
+ 	__le64 *lebits;
+ 	dma_addr_t addr_res, addr_pad;
+@@ -368,14 +368,14 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
+ 		dev_err(ss->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_result;
  	}
- 	return 0;
-@@ -141,6 +145,7 @@ static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 	reg = readl(wdt_base + regs->wdt_mode);
- 	reg &= ~(WDT_TIMEOUT_MASK << regs->wdt_timeout_shift);
- 	reg |= wdt_timeout_map[timeout] << regs->wdt_timeout_shift;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_mode);
  
- 	sunxi_wdt_ping(wdt_dev);
-@@ -154,7 +159,7 @@ static int sunxi_wdt_stop(struct watchdog_device *wdt_dev)
- 	void __iomem *wdt_base = sunxi_wdt->wdt_base;
- 	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
+ 	addr_res = dma_map_single(ss->dev, result, digestsize, DMA_FROM_DEVICE);
+ 	if (dma_mapping_error(ss->dev, addr_res)) {
+ 		dev_err(ss->dev, "DMA map dest\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_unmap_sg;
+ 	}
  
--	writel(0, wdt_base + regs->wdt_mode);
-+	writel(regs->wdt_key_val, wdt_base + regs->wdt_mode);
+ 	len = areq->nbytes;
+@@ -390,7 +390,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	if (len > 0) {
+ 		dev_err(ss->dev, "remaining len %d\n", len);
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_addr_res;
+ 	}
  
- 	return 0;
- }
-@@ -176,11 +181,13 @@ static int sunxi_wdt_start(struct watchdog_device *wdt_dev)
- 	reg = readl(wdt_base + regs->wdt_cfg);
- 	reg &= ~(regs->wdt_reset_mask);
- 	reg |= regs->wdt_reset_val;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_cfg);
+ 	byte_count = areq->nbytes;
+@@ -421,27 +421,30 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	}
  
- 	/* Enable watchdog */
- 	reg = readl(wdt_base + regs->wdt_mode);
- 	reg |= WDT_MODE_EN;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_mode);
+ 	addr_pad = dma_map_single(ss->dev, pad, j * 4, DMA_TO_DEVICE);
+-	rctx->t_src[i].addr = addr_pad;
+-	rctx->t_src[i].len = j;
+-	rctx->t_dst[i].addr = addr_res;
+-	rctx->t_dst[i].len = digestsize / 4;
+ 	if (dma_mapping_error(ss->dev, addr_pad)) {
+ 		dev_err(ss->dev, "DMA error on padding SG\n");
+ 		err = -EINVAL;
+-		goto theend;
++		goto err_addr_res;
+ 	}
++	rctx->t_src[i].addr = addr_pad;
++	rctx->t_src[i].len = j;
++	rctx->t_dst[i].addr = addr_res;
++	rctx->t_dst[i].len = digestsize / 4;
  
- 	return 0;
-@@ -220,9 +227,20 @@ static const struct sunxi_wdt_reg sun6i_wdt_reg = {
- 	.wdt_reset_val = 0x01,
- };
- 
-+static const struct sunxi_wdt_reg sun20i_wdt_reg = {
-+	.wdt_ctrl = 0x10,
-+	.wdt_cfg = 0x14,
-+	.wdt_mode = 0x18,
-+	.wdt_timeout_shift = 4,
-+	.wdt_reset_mask = 0x03,
-+	.wdt_reset_val = 0x01,
-+	.wdt_key_val = 0x16aa0000,
-+};
+-	err = sun8i_ss_run_hash_task(ss, rctx, crypto_tfm_alg_name(areq->base.tfm));
++	tmp_err = sun8i_ss_run_hash_task(ss, rctx, crypto_tfm_alg_name(areq->base.tfm));
 +
- static const struct of_device_id sunxi_wdt_dt_ids[] = {
- 	{ .compatible = "allwinner,sun4i-a10-wdt", .data = &sun4i_wdt_reg },
- 	{ .compatible = "allwinner,sun6i-a31-wdt", .data = &sun6i_wdt_reg },
-+	{ .compatible = "allwinner,sun20i-d1-wdt", .data = &sun20i_wdt_reg },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sunxi_wdt_dt_ids);
++	memcpy(areq->result, result, algt->alg.hash.halg.digestsize);
++
++	crypto_finalize_hash_request(engine, breq, tmp_err);
+ 
+ 	dma_unmap_single(ss->dev, addr_pad, j * 4, DMA_TO_DEVICE);
++err_addr_res:
++	dma_unmap_single(ss->dev, addr_res, digestsize, DMA_FROM_DEVICE);
++err_unmap_sg:
+ 	dma_unmap_sg(ss->dev, areq->src, sg_nents(areq->src),
+ 		     DMA_TO_DEVICE);
+-	dma_unmap_single(ss->dev, addr_res, digestsize, DMA_FROM_DEVICE);
+-
+-	memcpy(areq->result, result, algt->alg.hash.halg.digestsize);
+-theend:
++err_result:
+ 	kfree(pad);
+ 	kfree(result);
+-	crypto_finalize_hash_request(engine, breq, err);
+-	return 0;
++	return err;
+ }
 -- 
-2.31.1
+2.25.1
 
