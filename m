@@ -1,166 +1,75 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8BA3481
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 13:06:00 +0000 (UTC)
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [149.56.97.132])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id D75B5200FD
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 13:05:52 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id 39DDF3F201;
-	Thu, 29 Jul 2021 13:05:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id 1817A2A0D1;
-	Thu, 29 Jul 2021 09:05:45 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
-	s=default; t=1627563945;
-	bh=5vcSiXiJq1vyGGMAj0g4J/Y/RySHDPXvj3CJRgr1fWs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=yXrbnHU9HGlTVNmAjwrPmg57EMx7sd1aiQ7tWVpq4DKpLHZ/5ScRlUgXxKUbHWx1R
-	 k+/geg2cLCHV9gg3Ngit36wPVCDv9fxj+q+ZmNnvKrM77zk12U5AxReO9+gcXL+0OW
-	 rZV8eIhMhR9ilCy4yVN+2Y/0UVh77Z7H0MCAR0bM=
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id mw1wZ6RQBUBU; Thu, 29 Jul 2021 09:05:44 -0400 (EDT)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Thu, 29 Jul 2021 09:05:43 -0400 (EDT)
-Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
-	by mail20.mymailcheap.com (Postfix) with ESMTP id 014A442015;
-	Thu, 29 Jul 2021 13:05:41 +0000 (UTC)
-Authentication-Results: mail20.mymailcheap.com;
-	dkim=pass (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="ZxDQIRWn";
-	dkim-atps=neutral
-AI-Spam-Status: Not processed
-Received: from [127.0.0.1] (unknown [27.38.203.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id AD7A3436B9;
-	Thu, 29 Jul 2021 13:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1627563887; bh=5vcSiXiJq1vyGGMAj0g4J/Y/RySHDPXvj3CJRgr1fWs=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=ZxDQIRWnfuAeY1pbweuOXmoEI0mptaGrY9HKlCXWso705fAwwWnovxSQFCxsQqkof
-	 CNS1X1Uvh4nBm3vcYL7lXcg1O139pP+wZ4THDa0eS2eohC8sGvIj3m21pDj8aNjL8U
-	 krM6HfGah79y8UK3EzE6qzpN1TfOq2fRflb7T1GE=
-Date: Thu, 29 Jul 2021 21:04:21 +0800
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Maxime Ripard <maxime@cerno.tech>
-CC: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>,
- Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Ondrej Jirman <megous@megous.com>,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v7_06/19=5D_rtc=3A_sun6i=3A_Add_s?= =?US-ASCII?Q?upport_for_RTCs_without_external_LOSCs?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20210729103228.prdav7eobi52y3ny@gilmour>
-References: <20210615110636.23403-1-andre.przywara@arm.com> <20210615110636.23403-7-andre.przywara@arm.com> <20210616091431.6tm3zdf77p2x3upc@gilmour> <1e49692a2f4548ae942e170bc1ae9431a6eb512e.camel@aosc.io> <20210729103228.prdav7eobi52y3ny@gilmour>
-Message-ID: <E4567E12-60C1-4DF5-89D6-C93DC3152D4F@aosc.io>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4670272
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 22:39:50 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id f6so3276502ioc.6
+        for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 15:39:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=XlptD/tZIHvjx581AafuTapU2M/nw56BX9ZwEjQcLOM=;
+        b=L2UAGOibiz7YoosqX1kAq5iAc5Ugc54DQD8+aZJVtq0BmQthrUzaiARTXvrsHSBw5J
+         R6H7zfTY9flq2Jhf+CWxplEzB1HPgRXG+YrKwBowSGQcItXstncWeca1kUifjFbPVqiV
+         2aPllWtyu1JGx7tF3+tgbDq8Pt78EL1RuHT8Mi3CImAIq7vfRydXtHr9xn7wW3FmQiPb
+         knv1YxavsykzIcc4DRouseviyAv5HkacPW2CYEnWkKyd/RmJV9Vuk3EOhzujpEdZElEP
+         6KzWzKds0Whn0taa7zZC7lkZ8EnJ/SfrslkCKIRpIpdsECzXfj8klywBc06y0kt62w53
+         pRrw==
+X-Gm-Message-State: AOAM530Fw3c5V+nAjPsLaCkjiaydKd8WbPV4jCkl8Z5wsdaYgOpy7pHH
+	7cTToMzKt9nnnsmx5dh8ng==
+X-Google-Smtp-Source: ABdhPJzJOkvgxA1BTZ4PAi4OWpI9cFABggjmNMgJcaQ7V8JKyLgCLbuj+pSyPTNZmoVNLJoo924bRQ==
+X-Received: by 2002:a02:90cb:: with SMTP id c11mr6480022jag.53.1627598389390;
+        Thu, 29 Jul 2021 15:39:49 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id w14sm3078200ioa.47.2021.07.29.15.39.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Jul 2021 15:39:48 -0700 (PDT)
+Received: (nullmailer pid 1035245 invoked by uid 1000);
+	Thu, 29 Jul 2021 22:39:47 -0000
+Date: Thu, 29 Jul 2021 16:39:47 -0600
+From: Rob Herring <robh@kernel.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Samuel Holland <samuel@sholland.org>, Wim Van Sebroeck <wim@linux-watchdog.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] dt-bindings: watchdog: sunxi: Add compatible for D1
+Message-ID: <YQMuM2McwNGzqAhe@robh.at.kernel.org>
+References: <20210726035143.53132-1-samuel@sholland.org>
+ <20210726035143.53132-2-samuel@sholland.org>
+ <20210729042449.GA1716994@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 014A442015
-X-Rspamd-Server: mail20.mymailcheap.com
-X-Spamd-Result: default: False [2.60 / 10.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 ARC_NA(0.00)[];
-	 R_DKIM_ALLOW(0.00)[aosc.io:s=default];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DMARC_NA(0.00)[aosc.io];
-	 R_SPF_SOFTFAIL(0.00)[~all];
-	 HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
-	 ML_SERVERS(-3.10)[213.133.102.83];
-	 DKIM_TRACE(0.00)[aosc.io:+];
-	 RCPT_COUNT_TWELVE(0.00)[14];
-	 SUBJ_EXCESS_QP(1.20)[];
-	 RECEIVED_SPAMHAUS_PBL(0.00)[27.38.203.54:received];
-	 RCVD_NO_TLS_LAST(0.10)[];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
-	 FREEMAIL_CC(0.00)[arm.com,csie.org,gmail.com,kernel.org,sholland.org,lists.infradead.org,googlegroups.com,lists.linux.dev,vger.kernel.org,megous.com,towertech.it,bootlin.com];
-	 SUSPICIOUS_RECIPS(1.50)[];
-	 RCVD_COUNT_TWO(0.00)[2]
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210729042449.GA1716994@roeck-us.net>
 
+On Wed, Jul 28, 2021 at 09:24:49PM -0700, Guenter Roeck wrote:
+> On Sun, Jul 25, 2021 at 10:51:42PM -0500, Samuel Holland wrote:
+> > D1 keeps the same register layout and clock sources as the R329, but it
+> > adds a key field which must be set to update the watchdog's "CFG" and
+> > "MODE" registers. Therefore it is not backward-compatible.
+> > 
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> > ---
+> >  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > index 853ceb1b7c0f..756e6ab99860 100644
+> > --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > @@ -29,6 +29,7 @@ properties:
+> >        - items:
+> >            - const: allwinner,suniv-f1c100s-wdt
+> >            - const: allwinner,sun4i-a10-wdt
+> > +      - const: allwinner,sun20i-d1-wdt
+> 
+> Alignment is off.
 
+No, it's correct. It's not part of the above list, but a new 'oneOf' 
+entry.
 
-=E4=BA=8E 2021=E5=B9=B47=E6=9C=8829=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=886=
-:32:28, Maxime Ripard <maxime@cerno=2Etech> =E5=86=99=E5=88=B0:
->On Thu, Jul 29, 2021 at 04:04:10PM +0800, Icenowy Zheng wrote:
->> =E5=9C=A8 2021-06-16=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 11:14 +0200=EF=
-=BC=8CMaxime Ripard=E5=86=99=E9=81=93=EF=BC=9A
->> > Hi,
->> >=20
->> > On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
->> > > Some newer Allwinner RTCs (for instance the one in the H616 SoC)
->> > > lack
->> > > a pin for an external 32768 Hz oscillator=2E As a consequence, this
->> > > LOSC
->> > > can't be selected as the RTC clock source, and we must rely on the
->> > > internal RC oscillator=2E
->> > > To allow additions of clocks to the RTC node, add a feature bit to
->> > > ignore
->> > > any provided clocks for now (the current code would think this is
->> > > the
->> > > external LOSC)=2E Later DTs and code can then for instance add the
->> > > PLL
->> > > based clock input, and older kernel won't get confused=2E
->> > >=20
->> > > Signed-off-by: Andre Przywara <andre=2Eprzywara@arm=2Ecom>
->> >=20
->> > Honestly, I don't really know if it's worth it at this point=2E
->> >=20
->> > If we sums this up:
->> >=20
->> > =C2=A0- The RTC has 2 features that we use, mostly centered around 2
->> > =C2=A0=C2=A0 registers set plus a global one
->> >=20
->> > =C2=A0- Those 2 features are programmed in a completely different way
->> >=20
->> > =C2=A0- Even the common part is different, given the discussion aroun=
-d the
->> > =C2=A0=C2=A0 clocks that we have=2E
->> >=20
->> > What is there to share in that driver aside from the probe, and maybe
->> > the interrupt handling? Instead of complicating this further with
->> > more
->> > special case that you were (rightfully) complaining about, shouldn't
->> > we
->> > just acknowledge the fact that it's a completely separate design and
->> > should be treated as such, with a completely separate driver?
->>=20
->> I think our problem is just that we're having a single driver for both
->> functionalities (clock manager and RTC)=2E
->>=20
->> Personally I don't think we should have seperated driver for clock
->> managers, although I am fine with seperated RTC driver for linear days=
-=2E
->
->Why do you think it's a bad idea to have the RTC and clocks in the same
->driver?
-
-Well you really misread, I'm just thinking we shouldn't have a new driver
-from scratch=2E As we're going to have a single sun6i-rtc, please allow H6=
-16
-and R329 to enter it=2E
-
->
->Maxime
+Rob
