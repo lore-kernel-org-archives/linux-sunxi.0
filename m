@@ -1,98 +1,162 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30ABB3481
-	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 04:24:52 +0000 (UTC)
-Received: by mail-qk1-f177.google.com with SMTP id x3so4666160qkl.6
-        for <linux-sunxi@lists.linux.dev>; Wed, 28 Jul 2021 21:24:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7Oqj3DttJ5RhEJCqZkn0/WMVhGGM0rTesKNmkQoAdSg=;
-        b=l+w5qTrAUfiJGPqP+BIKupqZOTbFZyq9f2ChgMbFZrCOSpM7nb2S+o1Jy99HoSLAdl
-         V/4RzbWceiywjoYdXUD27eRMLKoexStLUvEZX5SYtpfBZq05+YnRmNqQlSkOqhZySKnT
-         6E8/GOKw9GNKPz8H+oalgsmKb+Vj8BuC1zHsD8EtoCKAOFfpeKj7ZRFz8QDna0NDxth6
-         kDQr5hVQyxYnyI+f8++f8xx/9IKwDitR/d2tSmQarVLoQ2at/zWYRQPNlzEoBYMCnN2e
-         9C4JoLg4Y/yUnkCXmaRfcAwRVKKY+mD687U3PR6WQ8pNPSC+CamJUvs7IR5UBBaibUVs
-         NSdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=7Oqj3DttJ5RhEJCqZkn0/WMVhGGM0rTesKNmkQoAdSg=;
-        b=pNEVflhhC5et5mfGJgl5cSooB/ZrBI2X3jr9SD3LQ+NMDy1DSM2uD18yOT+uRJE3bX
-         m4RXcRNEd+2Qdzk0P/+VH1z9c8xTdAk0sssya9slka8jAe+7QnbIsJC2G5y7IfxwGtgL
-         cMlk9pGygD3h/5r1H7bLYnMnXF88f7bEe0ZR73DB0GwigRWI5LsTCwRQCP8UlPtUMeiQ
-         pE4WIzu0d4veixQAFoyoGjHzLTjq6z5rYQ9MCaxw+Fd/vT8a8JjK8Q/Y+L4qdrYP0+T3
-         KeTGzh3Sn3+EOnycjTPRK+pvyfvaaO+OHtLPWsnQcvoLObQgvwhHrepurHuQ1js6xc3J
-         vijA==
-X-Gm-Message-State: AOAM530R4Gybi/dTfMZhCGs2j01H8QWEUc/RFqRRiwZVxRKelKzPS56x
-	x/EtCa9z+qR5k+9GdpHHoco=
-X-Google-Smtp-Source: ABdhPJz4GevoejyfdnOCq1g5/zuOuNU2b/OD8GiMc+U3hhNU0CHPpZcIgdplnlu3wFkebxkhJY/O0A==
-X-Received: by 2002:a05:620a:204c:: with SMTP id d12mr3279206qka.417.1627532691260;
-        Wed, 28 Jul 2021 21:24:51 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id n14sm846138qti.47.2021.07.28.21.24.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Jul 2021 21:24:50 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Wed, 28 Jul 2021 21:24:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] dt-bindings: watchdog: sunxi: Add compatible for D1
-Message-ID: <20210729042449.GA1716994@roeck-us.net>
-References: <20210726035143.53132-1-samuel@sholland.org>
- <20210726035143.53132-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFBEF72
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 08:07:03 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id AF9CE210D2
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 08:06:56 +0000 (UTC)
+Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.66.161])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 29FD7260EB
+	for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 08:06:48 +0000 (UTC)
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com [91.134.140.82])
+	by relay3.mymailcheap.com (Postfix) with ESMTPS id B28F63F15F;
+	Thu, 29 Jul 2021 10:06:39 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by filter2.mymailcheap.com (Postfix) with ESMTP id 866EC2A514;
+	Thu, 29 Jul 2021 10:06:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+	s=default; t=1627545999;
+	bh=MxHmdT4bsC43647pu5QM2aJET0ZwS2Bb3sTp+rRAXqs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=FdCP0ilGJPnQuZ5rudRg5Rk6XLpM8blugW+0fOFYAuI3grN9JWvT0l+bx0inXNtu8
+	 tx2zjTY3hiphcqAxb6BCTj+BKLTNeWr3HG8q+syF7TSNONZyky7AYNPWLSSTaVj2qp
+	 Na/C7YVFjgrKt1iQs28ekRbskrGVbHdhaygNSDe4=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+	by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id J9GZCaWJa08s; Thu, 29 Jul 2021 10:06:38 +0200 (CEST)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by filter2.mymailcheap.com (Postfix) with ESMTPS;
+	Thu, 29 Jul 2021 10:06:38 +0200 (CEST)
+Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
+	by mail20.mymailcheap.com (Postfix) with ESMTP id D444541BC6;
+	Thu, 29 Jul 2021 08:06:36 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com;
+	dkim=pass (1024-bit key; unprotected) header.d=aosc.io header.i=@aosc.io header.b="wL7QlJco";
+	dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from [192.168.0.46] (unknown [14.154.30.140])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 8D48D41BC6;
+	Thu, 29 Jul 2021 08:05:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1627545982; bh=MxHmdT4bsC43647pu5QM2aJET0ZwS2Bb3sTp+rRAXqs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=wL7QlJcoPqMLq/nXtvFWnwybsQmHWtPSTk2Kmy+ZPkht1BUy52Q8B8PhstnLmbZrG
+	 kBy4VxKXZnjRXzhI19yi4OzYv8E4a6URGOOQ/J7ZeZ385gv8swRpXmlokN1of0yxRq
+	 8IG0vcuhYv2vYraQHY9WhLXD4c44dwzd7TTn8aZ0=
+Message-ID: <1e49692a2f4548ae942e170bc1ae9431a6eb512e.camel@aosc.io>
+Subject: Re: [PATCH v7 06/19] rtc: sun6i: Add support for RTCs without
+ external LOSCs
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Maxime Ripard <maxime@cerno.tech>, Andre Przywara
+ <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+  Rob Herring <robh@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@googlegroups.com,
+ linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org, Ondrej Jirman
+ <megous@megous.com>, Alessandro Zummo <a.zummo@towertech.it>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>,  linux-rtc@vger.kernel.org
+Date: Thu, 29 Jul 2021 16:04:10 +0800
+In-Reply-To: <20210616091431.6tm3zdf77p2x3upc@gilmour>
+References: <20210615110636.23403-1-andre.przywara@arm.com>
+	 <20210615110636.23403-7-andre.przywara@arm.com>
+	 <20210616091431.6tm3zdf77p2x3upc@gilmour>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210726035143.53132-2-samuel@sholland.org>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D444541BC6
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spamd-Result: default: False [1.40 / 10.00];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 ARC_NA(0.00)[];
+	 R_DKIM_ALLOW(0.00)[aosc.io:s=default];
+	 MID_RHS_MATCH_FROM(0.00)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 TAGGED_RCPT(0.00)[];
+	 MIME_GOOD(-0.10)[text/plain];
+	 DMARC_NA(0.00)[aosc.io];
+	 R_SPF_SOFTFAIL(0.00)[~all];
+	 HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
+	 ML_SERVERS(-3.10)[213.133.102.83];
+	 DKIM_TRACE(0.00)[aosc.io:+];
+	 RCPT_COUNT_TWELVE(0.00)[14];
+	 RECEIVED_SPAMHAUS_PBL(0.00)[14.154.30.140:received];
+	 RCVD_NO_TLS_LAST(0.10)[];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+];
+	 ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+	 FREEMAIL_CC(0.00)[csie.org,gmail.com,kernel.org,sholland.org,lists.infradead.org,googlegroups.com,lists.linux.dev,vger.kernel.org,megous.com,towertech.it,bootlin.com];
+	 SUSPICIOUS_RECIPS(1.50)[];
+	 RCVD_COUNT_TWO(0.00)[2]
 
-On Sun, Jul 25, 2021 at 10:51:42PM -0500, Samuel Holland wrote:
-> D1 keeps the same register layout and clock sources as the R329, but it
-> adds a key field which must be set to update the watchdog's "CFG" and
-> "MODE" registers. Therefore it is not backward-compatible.
+在 2021-06-16星期三的 11:14 +0200，Maxime Ripard写道：
+> Hi,
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
->  1 file changed, 2 insertions(+)
+> On Tue, Jun 15, 2021 at 12:06:23PM +0100, Andre Przywara wrote:
+> > Some newer Allwinner RTCs (for instance the one in the H616 SoC)
+> > lack
+> > a pin for an external 32768 Hz oscillator. As a consequence, this
+> > LOSC
+> > can't be selected as the RTC clock source, and we must rely on the
+> > internal RC oscillator.
+> > To allow additions of clocks to the RTC node, add a feature bit to
+> > ignore
+> > any provided clocks for now (the current code would think this is
+> > the
+> > external LOSC). Later DTs and code can then for instance add the
+> > PLL
+> > based clock input, and older kernel won't get confused.
+> > 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > 
-> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> index 853ceb1b7c0f..756e6ab99860 100644
-> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> @@ -29,6 +29,7 @@ properties:
->        - items:
->            - const: allwinner,suniv-f1c100s-wdt
->            - const: allwinner,sun4i-a10-wdt
-> +      - const: allwinner,sun20i-d1-wdt
+> Honestly, I don't really know if it's worth it at this point.
+> 
+> If we sums this up:
+> 
+>  - The RTC has 2 features that we use, mostly centered around 2
+>    registers set plus a global one
+> 
+>  - Those 2 features are programmed in a completely different way
+> 
+>  - Even the common part is different, given the discussion around the
+>    clocks that we have.
+> 
+> What is there to share in that driver aside from the probe, and maybe
+> the interrupt handling? Instead of complicating this further with
+> more
+> special case that you were (rightfully) complaining about, shouldn't
+> we
+> just acknowledge the fact that it's a completely separate design and
+> should be treated as such, with a completely separate driver?
 
-Alignment is off.
+I think our problem is just that we're having a single driver for both
+functionalities (clock manager and RTC).
 
-Guenter
+Personally I don't think we should have seperated driver for clock
+managers, although I am fine with seperated RTC driver for linear days.
 
->  
->    reg:
->      maxItems: 1
-> @@ -59,6 +60,7 @@ if:
->      compatible:
->        contains:
->          enum:
-> +          - allwinner,sun20i-d1-wdt
->            - allwinner,sun50i-r329-wdt
->  
->  then:
+By the way, not having a LOSC is only what happens on H616, maybe
+because there should never be a battery-backed H616 device. On R329,
+the RTC part has linear day storage, but it still have LOSC. Because of
+this, I don't think we should duplicate at least at least the current
+sun6i-rtc dual-functionality driver, because the clock funtionality is
+just the same with previous SoCs on R329.
+
+> 
+> Maxime
+
