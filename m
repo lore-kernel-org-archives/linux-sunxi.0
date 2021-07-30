@@ -1,99 +1,49 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from deadmen.hmeau.com (helcar.hmeau.com [216.24.177.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF7970
-	for <linux-sunxi@lists.linux.dev>; Fri, 30 Jul 2021 01:14:29 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id c2-20020a0568303482b029048bcf4c6bd9so7790852otu.8
-        for <linux-sunxi@lists.linux.dev>; Thu, 29 Jul 2021 18:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=PwzNvjTXIRZgn/UCAoG6LastN6448esuCf66H5wLEFs=;
-        b=WP1RDPXeaIkvSiRYFgixic53nzvAYYlFzXQhkAwA75nwMiQYl+3LebW9vLdVUFM0+Y
-         p22tw3sSwAzuxsKL+GmSCdnDiXbnX5etMhfnfwFiORL7QFUDTRYv0dd2I5saCK/wtd3G
-         WK14wnGl/OPavbBGAUDsXU7J6lWp4jZijpqsRmMCoW9K3rhLlelw51cvHsOz1J+n0/M6
-         msZ20c4U3475JnzJ2AnH3DKYBFfkFJJitgEKLrsuye5rN5+Nba2S5UTpnWqaH1C6KrMF
-         +DsenrpBcQa3InWI9M3C5yIlOLzCvvyMOS4bVWiHkXPP9537Ec0apy4u84yqD7DVmRqw
-         Cswg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PwzNvjTXIRZgn/UCAoG6LastN6448esuCf66H5wLEFs=;
-        b=MFHIwPQ3KdtR+LqnKR0VnmiMDzQOMI8W5MQMsxy5pnQM6tpE5DNkncmmRLQWP9VcjZ
-         w0+NaWggdB8QRndiNLMXQV4QHFFIsY9hAiaQRFinJxhx0UzReKd5jEEuK4vXEqgwWqOg
-         eyTeTUQK2k+rQS0njDpRXvtLVl8yu3bRkP7m5vY3xFuILTep/UmFToUS9Gwa5g7C9A8u
-         yutgW7ejhQrA4igl/GNxtUrjNmbjoLO3GTD0hbL8wp5danH05e5lCnF8n4NGMORO+OB1
-         zhul9n5cFFKKCrKTXdh+0JKP42nUTxeU+CjnaQ0BZ/0IrQHKoUQS0+C+eEez5mR9hyJ6
-         OLQg==
-X-Gm-Message-State: AOAM530YS1LGb0nppmzpblaL4ilIQyoeT2XDgaIHeFR++FRyyZN+n/5w
-	x8dhRz+TicVeN23G+WyDgwc=
-X-Google-Smtp-Source: ABdhPJxxyU6hdrXj1vTUK8w4Jtxldh4HC0Kkl0dY99VjUcbxDIk/mvBPCOWtqralg+3UO+K/yH3IKw==
-X-Received: by 2002:a05:6830:120b:: with SMTP id r11mr153605otp.173.1627607668533;
-        Thu, 29 Jul 2021 18:14:28 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u3sm31794otg.15.2021.07.29.18.14.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Jul 2021 18:14:27 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 2/3] dt-bindings: watchdog: sunxi: Add compatible for D1
-To: Rob Herring <robh@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Maxime Ripard
- <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210726035143.53132-1-samuel@sholland.org>
- <20210726035143.53132-2-samuel@sholland.org>
- <20210729042449.GA1716994@roeck-us.net> <YQMuM2McwNGzqAhe@robh.at.kernel.org>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <0a5956b2-f9d6-ce92-a517-37e67da81324@roeck-us.net>
-Date: Thu, 29 Jul 2021 18:14:25 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBAF3483
+	for <linux-sunxi@lists.linux.dev>; Fri, 30 Jul 2021 03:30:06 +0000 (UTC)
+Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
+	by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
+	id 1m9Iv0-0000f3-Gp; Fri, 30 Jul 2021 11:10:38 +0800
+Received: from herbert by gondobar with local (Exim 4.92)
+	(envelope-from <herbert@gondor.apana.org.au>)
+	id 1m9Iuv-0003BC-GZ; Fri, 30 Jul 2021 11:10:33 +0800
+Date: Fri, 30 Jul 2021 11:10:33 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Jason Wang <wangborong@cdjrlc.com>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net, mripard@kernel.org,
+	wens@csie.org, jernej.skrabec@gmail.com, colin.king@canonical.com,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] crypto: sun8i-ss - Use kfree_sensitive
+Message-ID: <20210730031033.GC12121@gondor.apana.org.au>
+References: <20210720130104.42867-1-wangborong@cdjrlc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <YQMuM2McwNGzqAhe@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210720130104.42867-1-wangborong@cdjrlc.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 7/29/21 3:39 PM, Rob Herring wrote:
-> On Wed, Jul 28, 2021 at 09:24:49PM -0700, Guenter Roeck wrote:
->> On Sun, Jul 25, 2021 at 10:51:42PM -0500, Samuel Holland wrote:
->>> D1 keeps the same register layout and clock sources as the R329, but it
->>> adds a key field which must be set to update the watchdog's "CFG" and
->>> "MODE" registers. Therefore it is not backward-compatible.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>> ---
->>>   .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
->>>   1 file changed, 2 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
->>> index 853ceb1b7c0f..756e6ab99860 100644
->>> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
->>> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
->>> @@ -29,6 +29,7 @@ properties:
->>>         - items:
->>>             - const: allwinner,suniv-f1c100s-wdt
->>>             - const: allwinner,sun4i-a10-wdt
->>> +      - const: allwinner,sun20i-d1-wdt
->>
->> Alignment is off.
+On Tue, Jul 20, 2021 at 09:01:04PM +0800, Jason Wang wrote:
+> The kfree_sensitive is a kernel API to clear sensitive information
+> that should not be leaked to other future users of the same memory
+> objects and free the memory. Its function is the same as the
+> combination of memzero_explicit and kfree. Thus, we can replace the
+> combination APIs with the single kfree_sensitive API.
 > 
-> No, it's correct. It's not part of the above list, but a new 'oneOf'
-> entry.
-> 
+> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
 
-Ok, I really should not try to review devicetree files.
-
-Thanks,
-Guenter
+Patch applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
