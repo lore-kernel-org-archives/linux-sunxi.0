@@ -1,19 +1,19 @@
-Received: from smtpbg587.qq.com (smtpbg126.qq.com [106.55.201.22])
+Received: from smtpbg604.qq.com (smtpbg604.qq.com [59.36.128.82])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B66AD3481
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:24:42 +0000 (UTC)
-X-QQ-mid: bizesmtp41t1627885378thkqeux2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F0443487
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:24:47 +0000 (UTC)
+X-QQ-mid: bizesmtp41t1627885358tbu3l0yk
 Received: from localhost.localdomain (unknown [113.89.245.207])
 	by esmtp6.qq.com (ESMTP) with 
-	id ; Mon, 02 Aug 2021 14:22:57 +0800 (CST)
+	id ; Mon, 02 Aug 2021 14:22:37 +0800 (CST)
 X-QQ-SSF: 01100000002000206000B00A0000000
-X-QQ-FEAT: zuISFTXeVwLI7T7y7eeg4g78iC351nEVHKQd2b+SncmfD3a+XPdRldWBHL5MP
-	U+jKj8T2vm+sT1R4NldxCktYHKAPu5c/UfCarfief8tPYl50Xoqzs4DSt5s9XXdwmmVL51Q
-	b+VorZom+X2Q86oOr27dY8kNUaK6+/0ksH1sCse47cdnapwVWmzK9PpJ38dQbsdaVd0LIZH
-	lX7J+3pJJAoKPXjyTbyBzy6sSf3JafkX/MJdLOvzY4+JvCDG7AWrICMCD4BYty3qHcVLYlL
-	1uMggGxxMV963YowffSGLScmf1pRDxMvCn0t8dbs9JCR4PUXG4Wd2+l6O8r3KYRlLM8711+
-	DOI7BmrqhOw0dTh7ok=
+X-QQ-FEAT: vCa7dv7JIu4AIx2Tnge217fKbr8I+9aySDaTdWFJ3NmXbL2fQ9dSIbBGlM+83
+	ru1igvgEiL5Hy2fg6PqltX08K2mD8Pju4Ms6o744hzViRvCNdm2TIsx3USxZG4rUjGaEuvF
+	xy6WmM/AVs9XK2yqUT1YVKiBA681i7WjdVUOb8/UIcL0Zjm80IAoXvqq/zLRT/KDrDHz3rg
+	g0D0G84TcEt030BGvc9/lAO4uPLETSgv98VvSaxhfizck80Xb01rWXLQh721aenrTSHi1CA
+	y2iwP2vas0ToE9IhYK4RYQI6aISrsEWcyJjybkRAxOHLr7sNGak8rNnlvPfZb1VyDW8tCi+
+	8ezpdaX7hB0oWwYkmE=
 X-QQ-GoodBg: 0
 From: Icenowy Zheng <icenowy@sipeed.com>
 To: Rob Herring <robh+dt@kernel.org>,
@@ -30,9 +30,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <icenowy@sipeed.com>
-Subject: [PATCH 12/17] dt-bindings: mmc: sunxi-mmc: add R329 MMC compatible string
-Date: Mon,  2 Aug 2021 14:22:07 +0800
-Message-Id: <20210802062212.73220-13-icenowy@sipeed.com>
+Subject: [PATCH 05/17] rtc: sun6i: add support for R329 RTC
+Date: Mon,  2 Aug 2021 14:22:00 +0800
+Message-Id: <20210802062212.73220-6-icenowy@sipeed.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210802062212.73220-1-icenowy@sipeed.com>
 References: <20210802062212.73220-1-icenowy@sipeed.com>
@@ -44,32 +44,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam2
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam4
 
-R329 SoC has two MMC controllers similar to ones in the previous
-Allwinner SoCs. However, as R329 has no eMMC controller, the two MMC
-controllers look like a mixture of previous SoCs' ordinary MMC
-controller and eMMC controller.
+Allwinner R329 SoC has a RTC with similar clock control capability to
+H6, but its day storage changed to be linear, similar to the one in H616
+RTC.
 
-Add a compatible string for R329 MMC controllers.
+Add support for it.
 
 Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 ---
- .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml         | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/rtc/rtc-sun6i.c | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-index 4f62ad6ce50c..3e8c3c747a9b 100644
---- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-+++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-@@ -28,6 +28,7 @@ properties:
-       - const: allwinner,sun50i-a64-mmc
-       - const: allwinner,sun50i-a100-emmc
-       - const: allwinner,sun50i-a100-mmc
-+      - const: allwinner,sun50i-r329-mmc
-       - items:
-           - const: allwinner,sun8i-a83t-mmc
-           - const: allwinner,sun7i-a20-mmc
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 752bea949050..06eca57e5215 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -386,6 +386,24 @@ static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
+ CLK_OF_DECLARE_DRIVER(sun50i_h6_rtc_clk, "allwinner,sun50i-h6-rtc",
+ 		      sun50i_h6_rtc_clk_init);
+ 
++static const struct sun6i_rtc_clk_data sun50i_r329_rtc_data = {
++	.rc_osc_rate = 16000000,
++	.fixed_prescaler = 32,
++	.has_prescaler = 1,
++	.has_out_clk = 1,
++	.export_iosc = 1,
++	.has_losc_en = 1,
++	.has_auto_swt = 1,
++};
++
++static void __init sun50i_r329_rtc_clk_init(struct device_node *node)
++{
++	sun6i_rtc_clk_init(node, &sun50i_r329_rtc_data);
++}
++
++CLK_OF_DECLARE_DRIVER(sun50i_r329_rtc_clk, "allwinner,sun50i-r329-rtc",
++		      sun50i_r329_rtc_clk_init);
++
+ /*
+  * The R40 user manual is self-conflicting on whether the prescaler is
+  * fixed or configurable. The clock diagram shows it as fixed, but there
+@@ -791,6 +809,8 @@ static const struct of_device_id sun6i_rtc_dt_ids[] = {
+ 	{ .compatible = "allwinner,sun8i-v3-rtc" },
+ 	{ .compatible = "allwinner,sun50i-h5-rtc" },
+ 	{ .compatible = "allwinner,sun50i-h6-rtc" },
++	{ .compatible = "allwinner,sun50i-r329-rtc",
++		.data = (void *)RTC_LINEAR_DAY },
+ 	{ /* sentinel */ },
+ };
+ MODULE_DEVICE_TABLE(of, sun6i_rtc_dt_ids);
 -- 
 2.30.2
 
