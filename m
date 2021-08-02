@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA1770
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 00:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68D8070
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 00:41:03 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D456611D4;
-	Sun,  1 Aug 2021 17:40:58 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2A0C5D6E;
+	Sun,  1 Aug 2021 17:41:03 -0700 (PDT)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB0DA3F66F;
-	Sun,  1 Aug 2021 17:40:56 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C5AA3F66F;
+	Sun,  1 Aug 2021 17:41:01 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -19,12 +19,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ondrej Jirman <megous@megous.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: [PATCH v9 07/11] rtc: sun6i: Add Allwinner H616 support
-Date: Mon,  2 Aug 2021 01:39:48 +0100
-Message-Id: <20210802003952.19942-8-andre.przywara@arm.com>
+	devicetree@vger.kernel.org
+Subject: [PATCH v9 09/11] dt-bindings: arm: sunxi: Add two H616 board compatible strings
+Date: Mon,  2 Aug 2021 01:39:50 +0100
+Message-Id: <20210802003952.19942-10-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20210802003952.19942-1-andre.przywara@arm.com>
 References: <20210802003952.19942-1-andre.przywara@arm.com>
@@ -34,54 +32,38 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-The H616 RTC changes its day storage to the newly introduced linear day
-scheme, so pair the new compatible string with this feature flag.
-The clock part is missing an external 32768 Hz oscillator input pin,
-for future expansion we must thus ignore any provided clock for now.
-
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/rtc/rtc-sun6i.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ Documentation/devicetree/bindings/arm/sunxi.yaml | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index fe1bee3a4ec6..77db4f0a042c 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -392,6 +392,23 @@ static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
- CLK_OF_DECLARE_DRIVER(sun50i_h6_rtc_clk, "allwinner,sun50i-h6-rtc",
- 		      sun50i_h6_rtc_clk_init);
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 889128acf49a..1c557a736d86 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -848,6 +848,11 @@ properties:
+           - const: yones-toptech,bs1078-v2
+           - const: allwinner,sun6i-a31s
  
-+static const struct sun6i_rtc_clk_data sun50i_h616_rtc_data = {
-+	.rc_osc_rate = 16000000,
-+	.fixed_prescaler = 32,
-+	.has_prescaler = 1,
-+	.has_out_clk = 1,
-+	.export_iosc = 1,
-+	.no_ext_losc = 1,
-+};
++      - description: X96 Mate TV box
++        items:
++          - const: hechuang,x96-mate
++          - const: allwinner,sun50i-h616
 +
-+static void __init sun50i_h616_rtc_clk_init(struct device_node *node)
-+{
-+	sun6i_rtc_clk_init(node, &sun50i_h616_rtc_data);
-+}
+       - description: Xunlong OrangePi
+         items:
+           - const: xunlong,orangepi
+@@ -948,4 +953,9 @@ properties:
+           - const: xunlong,orangepi-zero-plus2-h3
+           - const: allwinner,sun8i-h3
+ 
++      - description: Xunlong OrangePi Zero 2
++        items:
++          - const: xunlong,orangepi-zero2
++          - const: allwinner,sun50i-h616
 +
-+CLK_OF_DECLARE_DRIVER(sun50i_h616_rtc_clk, "allwinner,sun50i-h616-rtc",
-+		      sun50i_h616_rtc_clk_init);
-+
- /*
-  * The R40 user manual is self-conflicting on whether the prescaler is
-  * fixed or configurable. The clock diagram shows it as fixed, but there
-@@ -797,6 +814,8 @@ static const struct of_device_id sun6i_rtc_dt_ids[] = {
- 	{ .compatible = "allwinner,sun8i-v3-rtc" },
- 	{ .compatible = "allwinner,sun50i-h5-rtc" },
- 	{ .compatible = "allwinner,sun50i-h6-rtc" },
-+	{ .compatible = "allwinner,sun50i-h616-rtc",
-+		.data = (void *)RTC_LINEAR_DAY },
- 	{ /* sentinel */ },
- };
- MODULE_DEVICE_TABLE(of, sun6i_rtc_dt_ids);
+ additionalProperties: true
 -- 
 2.17.6
 
