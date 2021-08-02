@@ -1,19 +1,19 @@
-Received: from smtpbg587.qq.com (smtpbg587.qq.com [113.96.223.105])
+Received: from smtpbg587.qq.com (smtpbg126.qq.com [106.55.201.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB623486
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:25:17 +0000 (UTC)
-X-QQ-mid: bizesmtp41t1627885384tved9odr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0253481
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:25:35 +0000 (UTC)
+X-QQ-mid: bizesmtp41t1627885355t7mamqow
 Received: from localhost.localdomain (unknown [113.89.245.207])
 	by esmtp6.qq.com (ESMTP) with 
-	id ; Mon, 02 Aug 2021 14:23:03 +0800 (CST)
+	id ; Mon, 02 Aug 2021 14:22:34 +0800 (CST)
 X-QQ-SSF: 01100000002000206000B00A0000000
-X-QQ-FEAT: QGWlG8nlCFgleCPruuQmzR0U8s4zkQHYElEYonj/YF2MwZnAezFr2N4+nxZx3
-	ows+kwHo5BfXQl8Uz8dKuxrt9r9Z85NPRio61rKxMxp8KoYlJkQy4pjRJJECQi8VSu0RxkF
-	lxfnSfjYyEKWo10akpPVRdaetk0bijChQHOth8uP9+3xuyE1UJSY9Z5MZ7qW+p5gbsjB07K
-	7+AeeFVkKZ8AwEFezTQYIc31qntycD9bHvOWlJGO1rU/U5VmWLMwsnWpVLHE/yv7wg8qENw
-	Bd7EZsBclM6J/aOim3b6B9XpHygc5Gi/DPfZxssHh/uA35+tZz7Ecgt7OLNlLVYsr8E0BRr
-	w5KV1ymYde3AwEC5MA=
+X-QQ-FEAT: vYPicSn3yivSq6QGr6Xr+kymFQWQtsjJ62icRpbhhKXiBSKIjaIX5ndmrYfUs
+	LLsHXI1XavseIxk1b8JeVXU2u8efMPEzYCCLWCuZnBD8nfQVoubUlYY4+TuevNrM+levrZP
+	8bopquqiXFprX2A7qo1bJxTYXBfA+CnwJ8RTE6ykFcADNSsFNu6Zafr0eEp5IiSQkwQgilI
+	XS+bQkeAJi2vKNs8qE9THmlJXd/bXYx3AfglWxxhCUJmP/btFMqbe0cJGWdJ4rxXnieWqHN
+	Ug3Qa9qGs3wY3hveezwbcTb01gCSx5ejscx4EU1evh5p+32+KD9pjZvy1Lz8fjyDzvNHH6k
+	c83OGdpF4Lbams9yic=
 X-QQ-GoodBg: 0
 From: Icenowy Zheng <icenowy@sipeed.com>
 To: Rob Herring <robh+dt@kernel.org>,
@@ -30,9 +30,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <icenowy@sipeed.com>
-Subject: [PATCH 14/17] dt-bindings: arm: sunxi: add compatible strings for Sipeed MaixSense
-Date: Mon,  2 Aug 2021 14:22:09 +0800
-Message-Id: <20210802062212.73220-15-icenowy@sipeed.com>
+Subject: [PATCH 04/17] dt-bindings: rtc: sun6i: add compatible string for R329 RTC
+Date: Mon,  2 Aug 2021 14:21:59 +0800
+Message-Id: <20210802062212.73220-5-icenowy@sipeed.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210802062212.73220-1-icenowy@sipeed.com>
 References: <20210802062212.73220-1-icenowy@sipeed.com>
@@ -44,35 +44,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam3
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam2
 
-Sipeed MaixSense is an Allwinner R329 development kit based on Maix IIA
-SoM.
+Allwinner R329 has a RTC similar to previous ones, capable of
+controlling LOSC and IOSC and with only one alarm.
 
-Add compatible strings for it.
+Add a compatible string for it.
 
 Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 ---
- Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml    | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
-index 889128acf49a..bce306908eff 100644
---- a/Documentation/devicetree/bindings/arm/sunxi.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
-@@ -444,6 +444,12 @@ properties:
-           - const: haoyu,a10-marsboard
-           - const: allwinner,sun4i-a10
+diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+index beeb90e55727..7fd1ad46496b 100644
+--- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+@@ -26,6 +26,7 @@ properties:
+           - const: allwinner,sun50i-a64-rtc
+           - const: allwinner,sun8i-h3-rtc
+       - const: allwinner,sun50i-h6-rtc
++      - const: allwinner,sun50i-r329-rtc
  
-+      - description: Sipeed MaixSense
-+        items:
-+          - const: sipeed,maixsense
-+          - const: sipeed,maix-iia
-+          - const: allwinner,sun50i-r329
-+
-       - description: MapleBoard MP130
-         items:
-           - const: mapleboard,mp130
+   reg:
+     maxItems: 1
+@@ -85,6 +86,7 @@ allOf:
+             enum:
+               - allwinner,sun8i-h3-rtc
+               - allwinner,sun50i-h5-rtc
++              - allwinner,sun50i-r329-rtc
+ 
+     then:
+       properties:
+@@ -108,7 +110,9 @@ allOf:
+       properties:
+         compatible:
+           contains:
+-            const: allwinner,sun8i-r40-rtc
++            enum:
++              - allwinner,sun8i-r40-rtc
++              - allwinner,sun50i-r329-rtc
+ 
+     then:
+       properties:
 -- 
 2.30.2
 
