@@ -1,256 +1,133 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6A8370
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 00:41:07 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 54FE3139F;
-	Sun,  1 Aug 2021 17:41:07 -0700 (PDT)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7788F3F66F;
-	Sun,  1 Aug 2021 17:41:05 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxime Ripard <mripard@kernel.org>,
+Received: from smtpbg.qq.com (smtpbg127.qq.com [109.244.180.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53DA43481
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:24:08 +0000 (UTC)
+X-QQ-mid: bizesmtp41t1627885335t6snh1mb
+Received: from localhost.localdomain (unknown [113.89.245.207])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Mon, 02 Aug 2021 14:22:15 +0800 (CST)
+X-QQ-SSF: 01100000002000206000B00A0000000
+X-QQ-FEAT: tC2PljDBqdOnSOAMdfK8/oTKxZqOlTXJ/nzFj4aElef7BKEDnL9OqCXepP4ZR
+	wII5p+HPpxxMunVvTwyx2FgZWE9tJPFdxfiJKqw2X+4a2F4eNrAFaTcHPVXmgCkrukzzGp3
+	KwtTDKS/Ekha4OKV1kXsPOb8bHUS5C/tQkx3/HFozgD6ZVsigAYEmcALc4K7clp876XircB
+	KCsWzpvLQIa5eaTiH24TTCcE6/P5hN+l9lekbwINEOXTv1yQ0mFF0NbiODLpM/QF3JNSqaR
+	RaqTi0RdpOPU8jqUwuJIMzVr6/FvTSiRxnVIOah6bmkn/0vOl4GdXy10eXuYpMslPpkA==
+X-QQ-GoodBg: 0
+From: Icenowy Zheng <icenowy@sipeed.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>,
-	devicetree@vger.kernel.org
-Subject: [PATCH v9 11/11] arm64: dts: allwinner: h616: Add X96 Mate TV box support
-Date: Mon,  2 Aug 2021 01:39:52 +0100
-Message-Id: <20210802003952.19942-12-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20210802003952.19942-1-andre.przywara@arm.com>
-References: <20210802003952.19942-1-andre.przywara@arm.com>
+	Icenowy Zheng <icenowy@sipeed.com>
+Subject: [PATCH 00/17] Basical Allwinner R329 support
+Date: Mon,  2 Aug 2021 14:21:55 +0800
+Message-Id: <20210802062212.73220-1-icenowy@sipeed.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam1
 
-The X96 Mate is an Allwinner H616 based TV box, featuring:
-  - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-  - 2GiB/4GiB RAM (fully usable!)
-  - 16/32/64GiB eMMC
-  - 100Mbps Ethernet (via embedded AC200 EPHY, not yet supported)
-  - Unsupported Allwinner WiFi chip
-  - 2 x USB 2.0 host ports
-  - HDMI port
-  - IR receiver
-  - 5V/2A DC power supply via barrel plug
+This patchset tries to add basical support for Allwinner R329 SoC to the
+Linux kernel, including clock/pintrl driver and MMC support.
 
-For more information see: https://linux-sunxi.org/X96_Mate
+Three patches from the H616 patchset, which are used to support the RTC
+with linear day, are attached into this patchset. Other RTC-related
+patches of that patchset is not included, because the binding of the
+clock part there is still under discussion.
 
-Add a basic devicetree for it, with SD card and eMMC working, as
-well as serial and the essential peripherals, like the AXP PMIC.
+Then I added RTC binding and support (which is now only a struct
+addition). I added RTC into this patchset, with the same reason that
+H616 patchset contains RTC, which is to make the clock tree correct at
+the first inclusion.
 
-This DT is somewhat minimal, and should work on many other similar TV
-boxes with the Allwinner H616 chip.
+After RTC, main basical SoC-specific part, pinctrl and CCU, come. The
+R329 CCU is something special because PLLs are in R-CCU, no main CCU.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
+MMC support is added here because it's also a simple struct addition
+work, no main driver code change needed.
+
+Finally it comes the DT part. The DT binding of MaixSense, the device
+that I am working on now, is added. Then the DTSI for R329 SoC, the DTSI
+file for Sipeed Maix IIA SoM (which is utilized on MaixSense) and the
+main DT file for MaixSense are added.
+
+Andre Przywara (3):
+  rtc: sun6i: Fix time overflow handling
+  rtc: sun6i: Add support for linear day storage
+  rtc: sun6i: Add support for broken-down alarm registers
+
+Icenowy Zheng (14):
+  dt-bindings: rtc: sun6i: add compatible string for R329 RTC
+  rtc: sun6i: add support for R329 RTC
+  dt-bindings: pinctrl: document Allwinner R329 PIO and R-PIO
+  pinctrl: sunxi: add support for R329 CPUX pin controller
+  pinctrl: sunxi: add support for R329 R-PIO pin controller
+  dt-bindings: clock: sunxi-ng: add compatibles for R329 CCUs
+  clk: sunxi=ng: add support for R329 R-CCU
+  clk: sunxi-ng: add support for Allwinner R329 CCU
+  dt-bindings: mmc: sunxi-mmc: add R329 MMC compatible string
+  mmc: sunxi: add support for R329 MMC controllers
+  dt-bindings: arm: sunxi: add compatible strings for Sipeed MaixSense
+  arm64: allwinner: dts: add DTSI file for R329 SoC
+  arm64: allwinner: dts: r329: add DTSI file for Sipeed Maix IIA
+  arm64: allwinner: dts: r329: add support for Sipeed MaixSense
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |   4 +
+ .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml |   1 +
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |   4 +
+ .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |   6 +-
  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun50i-h616-x96-mate.dts    | 178 ++++++++++++++++++
- 2 files changed, 179 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+ .../dts/allwinner/sun50i-r329-maix-iia.dtsi   |  34 ++
+ .../dts/allwinner/sun50i-r329-maixsense.dts   |  37 ++
+ .../arm64/boot/dts/allwinner/sun50i-r329.dtsi | 244 ++++++++
+ drivers/clk/sunxi-ng/Kconfig                  |  10 +
+ drivers/clk/sunxi-ng/Makefile                 |   2 +
+ drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c      | 374 +++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h      |  33 ++
+ drivers/clk/sunxi-ng/ccu-sun50i-r329.c        | 526 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun50i-r329.h        |  32 ++
+ drivers/mmc/host/sunxi-mmc.c                  |  10 +
+ drivers/pinctrl/sunxi/Kconfig                 |  10 +
+ drivers/pinctrl/sunxi/Makefile                |   2 +
+ drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c | 292 ++++++++++
+ drivers/pinctrl/sunxi/pinctrl-sun50i-r329.c   | 410 ++++++++++++++
+ drivers/rtc/rtc-sun6i.c                       | 154 +++--
+ include/dt-bindings/clock/sun50i-r329-ccu.h   |  73 +++
+ include/dt-bindings/clock/sun50i-r329-r-ccu.h |  33 ++
+ include/dt-bindings/reset/sun50i-r329-ccu.h   |  45 ++
+ include/dt-bindings/reset/sun50i-r329-r-ccu.h |  24 +
+ 25 files changed, 2320 insertions(+), 47 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329-maix-iia.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.h
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun50i-r329.c
+ create mode 100644 include/dt-bindings/clock/sun50i-r329-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun50i-r329-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun50i-r329-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun50i-r329-r-ccu.h
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 62f8d43cf84d..14053c566601 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -38,3 +38,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-new file mode 100644
-index 000000000000..6334f4e20fd0
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -0,0 +1,178 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ * Copyright (C) 2021 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "X96 Mate";
-+	compatible = "hechuang,x96-mate", "allwinner,sun50i-h616";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dcdce>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc2 {
-+	vmmc-supply = <&reg_dcdce>;
-+	vqmmc-supply = <&reg_bldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
-+&r_rsb {
-+	status = "okay";
-+
-+	axp305: pmic@745 {
-+		compatible = "x-powers,axp305", "x-powers,axp805",
-+			     "x-powers,axp806";
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+		#address-cells = <0>;
-+		reg = <0x745>;
-+
-+		x-powers,self-working-mode;
-+		vina-supply = <&reg_vcc5v>;
-+		vinb-supply = <&reg_vcc5v>;
-+		vinc-supply = <&reg_vcc5v>;
-+		vind-supply = <&reg_vcc5v>;
-+		vine-supply = <&reg_vcc5v>;
-+		aldoin-supply = <&reg_vcc5v>;
-+		bldoin-supply = <&reg_vcc5v>;
-+		cldoin-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-sys";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_aldo2: aldo2 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext";
-+				status = "disabled";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_aldo3: aldo3 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext2";
-+				status = "disabled";
-+			};
-+
-+			reg_bldo1: bldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_bldo2: bldo2 {
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8-2";
-+				status = "disabled";
-+			};
-+
-+			bldo3 {
-+				/* unused */
-+			};
-+
-+			bldo4 {
-+				/* unused */
-+			};
-+
-+			cldo1 {
-+				regulator-min-microvolt = <2500000>;
-+				regulator-max-microvolt = <2500000>;
-+				regulator-name = "vcc2v5";
-+			};
-+
-+			cldo2 {
-+				/* unused */
-+			};
-+
-+			cldo3 {
-+				/* unused */
-+			};
-+
-+			reg_dcdca: dcdca {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdcc: dcdcc {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdcd: dcdcd {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1360000>;
-+				regulator-max-microvolt = <1360000>;
-+				regulator-name = "vdd-dram";
-+			};
-+
-+			reg_dcdce: dcdce {
-+				regulator-boot-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-eth-mmc";
-+			};
-+
-+			sw {
-+				/* unused */
-+			};
-+		};
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
 -- 
-2.17.6
+2.30.2
 
