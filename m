@@ -1,39 +1,40 @@
-Received: from smtpbg587.qq.com (smtpbg587.qq.com [113.96.223.105])
+Received: from smtpbg587.qq.com (smtpbg128.qq.com [106.55.201.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2293870
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 Aug 2021 12:57:59 +0000 (UTC)
-X-QQ-mid: bizesmtp37t1627995332t0z35aya
-Received: from localhost.localdomain (unknown [125.69.40.136])
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120AE29D6
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 06:24:08 +0000 (UTC)
+X-QQ-mid: bizesmtp41t1627885352t59cfljp
+Received: from localhost.localdomain (unknown [113.89.245.207])
 	by esmtp6.qq.com (ESMTP) with 
-	id ; Tue, 03 Aug 2021 20:55:30 +0800 (CST)
-X-QQ-SSF: 01000000002000B0C000B00A0000000
-X-QQ-FEAT: FsG0r2mBeltZwXHsnSFyQIVXmyMoeC5BD2c5iGCpiLDw2FB21T+BluHr2+WdJ
-	oph6RdKQTsSFUCzmZUnpNtkvp7eRJJ7u4igpOBS3y1HdKXXsaVO7JQf5TGooeEoSctgHhA8
-	OXl9EoQ04EBtRvwL3HqP+UCbpDMWLeVkuWP3fiXqES3NnB44Hyo5mQ1OoJemMhdsRwVPFxE
-	Qn3LIQsc1dHzAB5VHQ7o+h4EE1wdh7/PGW+rcJmy8JOO3AagTdn8xhSW26L620rIClOA0LB
-	JmUxJ0S/Cx2RsqipiQbq1yD67gbfWKBZTBJy0J4LL1wFz+stATLDWWpOxFfU/SGyz+ZJYmL
-	k/6kLXzErmCrW71M+Y=
+	id ; Mon, 02 Aug 2021 14:22:29 +0800 (CST)
+X-QQ-SSF: 01100000002000206000B00A0000000
+X-QQ-FEAT: vLPYWrwZbqtrOYimloWC80mCd88KyGqnh5+mRCGmtELPdmXRolfov7pigmWm5
+	UcMMc1kruqGDfB8dF3zFwxrv55vXjltWPzJyOn5O4dvjgjCg/ZU5yRypx/T0HRBT3Wq8Hd0
+	2pDFFYVFTyo5vecpZsLW5nmFywYduc7P7azcQTDLefsTKkmqgAx/QJdGIHz92E7zSPZxXw4
+	QsykHj3HRBD5mgCWRFYU+eC46J7V8b+r/LLHr+4XfaLifWYjbJovMux0XTfB7wRsOy7AlKY
+	nprp3HQu36knnVBQ61xr1q2GbLgMdDV5NY84+/MFAk82RhP80QHuy/VzAfqt9ecNEgjAuNp
+	qk6s1yjX/WQq2CiKFI=
 X-QQ-GoodBg: 0
-From: Jason Wang <wangborong@cdjrlc.com>
-To: herbert@gondor.apana.org.au
-Cc: clabbe.montjoie@gmail.com,
-	davem@davemloft.net,
-	mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	wangborong@cdjrlc.com,
-	mchehab+huawei@kernel.org,
-	corbet@lwn.net,
-	baijiaju1990@gmail.com,
-	linux-crypto@vger.kernel.org,
+From: Icenowy Zheng <icenowy@sipeed.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] crypto: sun8i-ce - use kfree_sensitive to clear and free sensitive data
-Date: Tue,  3 Aug 2021 20:55:25 +0800
-Message-Id: <20210803125525.72603-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.32.0
+Subject: [PATCH 03/17] rtc: sun6i: Add support for broken-down alarm registers
+Date: Mon,  2 Aug 2021 14:21:58 +0800
+Message-Id: <20210802062212.73220-4-icenowy@sipeed.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210802062212.73220-1-icenowy@sipeed.com>
+References: <20210802062212.73220-1-icenowy@sipeed.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,70 +43,111 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam3
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam5
 
-The kfree_sensitive is a kernel API to clear sensitive information
-that should not be leaked to other future users of the same memory
-objects and free the memory. Its function is the same as the
-combination  of memzero_explicit and kfree. Thus, we can replace the
-combination APIs with the single kfree_sensitive API.
+From: Andre Przywara <andre.przywara@arm.com>
 
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+Newer versions of the Allwinner RTC, for instance as found in the H616
+SoC, not only store the current day as a linear number, but also change
+the way the alarm is handled: There are now two registers, that
+explicitly store the wakeup time, in the same format as the current
+time.
+
+Add support for that variant by writing the requested wakeup time
+directly into the registers, instead of programming the seconds left, as
+the old SoCs required.
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 9 +++------
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 3 +--
- 2 files changed, 4 insertions(+), 8 deletions(-)
+ drivers/rtc/rtc-sun6i.c | 57 +++++++++++++++++++++++++++++------------
+ 1 file changed, 40 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-index cd1baee424a1..b3a9bbfb8831 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
-@@ -26,8 +26,7 @@ void sun8i_ce_prng_exit(struct crypto_tfm *tfm)
- {
- 	struct sun8i_ce_rng_tfm_ctx *ctx = crypto_tfm_ctx(tfm);
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index a980d4e7408d..752bea949050 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -48,7 +48,8 @@
  
--	memzero_explicit(ctx->seed, ctx->slen);
--	kfree(ctx->seed);
-+	kfree_sensitive(ctx->seed);
- 	ctx->seed = NULL;
- 	ctx->slen = 0;
- }
-@@ -38,8 +37,7 @@ int sun8i_ce_prng_seed(struct crypto_rng *tfm, const u8 *seed,
- 	struct sun8i_ce_rng_tfm_ctx *ctx = crypto_rng_ctx(tfm);
+ /* Alarm 0 (counter) */
+ #define SUN6I_ALRM_COUNTER			0x0020
+-#define SUN6I_ALRM_CUR_VAL			0x0024
++/* This holds the remaining alarm seconds on older SoCs (current value) */
++#define SUN6I_ALRM_COUNTER_HMS			0x0024
+ #define SUN6I_ALRM_EN				0x0028
+ #define SUN6I_ALRM_EN_CNT_EN			BIT(0)
+ #define SUN6I_ALRM_IRQ_EN			0x002c
+@@ -523,32 +524,54 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 	struct sun6i_rtc_dev *chip = dev_get_drvdata(dev);
+ 	struct rtc_time *alrm_tm = &wkalrm->time;
+ 	struct rtc_time tm_now;
+-	time64_t time_now, time_set;
++	time64_t time_set;
++	u32 counter_val, counter_val_hms;
+ 	int ret;
  
- 	if (ctx->seed && ctx->slen != slen) {
--		memzero_explicit(ctx->seed, ctx->slen);
--		kfree(ctx->seed);
-+		kfree_sensitive(ctx->seed);
- 		ctx->slen = 0;
- 		ctx->seed = NULL;
- 	}
-@@ -157,9 +155,8 @@ int sun8i_ce_prng_generate(struct crypto_rng *tfm, const u8 *src,
- 		memcpy(dst, d, dlen);
- 		memcpy(ctx->seed, d + dlen, ctx->slen);
- 	}
--	memzero_explicit(d, todo);
- err_iv:
--	kfree(d);
-+	kfree_sensitive(d);
- err_mem:
- 	return err;
- }
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-index 5b7af4498bd5..19cd2e52f89d 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-@@ -95,9 +95,8 @@ static int sun8i_ce_trng_read(struct hwrng *rng, void *data, size_t max, bool wa
- 		memcpy(data, d, max);
- 		err = max;
- 	}
--	memzero_explicit(d, todo);
- err_dst:
--	kfree(d);
-+	kfree_sensitive(d);
- 	return err;
- }
+-	ret = sun6i_rtc_gettime(dev, &tm_now);
+-	if (ret < 0) {
+-		dev_err(dev, "Error in getting time\n");
+-		return -EINVAL;
+-	}
+-
+ 	time_set = rtc_tm_to_time64(alrm_tm);
+-	time_now = rtc_tm_to_time64(&tm_now);
+-	if (time_set <= time_now) {
+-		dev_err(dev, "Date to set in the past\n");
+-		return -EINVAL;
+-	}
  
+-	if ((time_set - time_now) > U32_MAX) {
+-		dev_err(dev, "Date too far in the future\n");
+-		return -EINVAL;
++	if (chip->flags & RTC_LINEAR_DAY) {
++		/*
++		 * The alarm registers hold the actual alarm time, encoded
++		 * in the same way (linear day + HMS) as the current time.
++		 */
++		counter_val_hms = SUN6I_TIME_SET_SEC_VALUE(alrm_tm->tm_sec)  |
++				  SUN6I_TIME_SET_MIN_VALUE(alrm_tm->tm_min)  |
++				  SUN6I_TIME_SET_HOUR_VALUE(alrm_tm->tm_hour);
++		/* The division will cut off the H:M:S part of alrm_tm. */
++		counter_val = div_u64(rtc_tm_to_time64(alrm_tm), SECS_PER_DAY);
++	} else {
++		/* The alarm register holds the number of seconds left. */
++		time64_t time_now;
++
++		ret = sun6i_rtc_gettime(dev, &tm_now);
++		if (ret < 0) {
++			dev_err(dev, "Error in getting time\n");
++			return -EINVAL;
++		}
++
++		time_now = rtc_tm_to_time64(&tm_now);
++		if (time_set <= time_now) {
++			dev_err(dev, "Date to set in the past\n");
++			return -EINVAL;
++		}
++		if ((time_set - time_now) > U32_MAX) {
++			dev_err(dev, "Date too far in the future\n");
++			return -EINVAL;
++		}
++
++		counter_val = time_set - time_now;
+ 	}
+ 
+ 	sun6i_rtc_setaie(0, chip);
+ 	writel(0, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(0, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	usleep_range(100, 300);
+ 
+-	writel(time_set - time_now, chip->base + SUN6I_ALRM_COUNTER);
++	writel(counter_val, chip->base + SUN6I_ALRM_COUNTER);
++	if (chip->flags & RTC_LINEAR_DAY)
++		writel(counter_val_hms, chip->base + SUN6I_ALRM_COUNTER_HMS);
+ 	chip->alarm = time_set;
+ 
+ 	sun6i_rtc_setaie(wkalrm->enabled, chip);
 -- 
-2.32.0
+2.30.2
 
