@@ -1,70 +1,66 @@
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC75A70
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 Aug 2021 04:57:23 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id E14702B005AE;
-	Thu,  5 Aug 2021 00:57:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 05 Aug 2021 00:57:23 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565BD70
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Aug 2021 05:12:45 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.west.internal (Postfix) with ESMTP id 2EBA82B00468;
+	Thu,  5 Aug 2021 01:12:44 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 05 Aug 2021 01:12:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm3; bh=ihmVq/5E6B8RM
-	yKVyGoR6c5bmUO1IuRGAjBHKTOJfhw=; b=U2NV4aUQG9wR4z0XiwQi3HdYxn/+m
-	05cgs80oX14V4BQ8UKQowZAA3BNqBfB5272W03NeFYnmyWe+4+B8WRdY1oDetfAd
-	sSyC8Sdescx1nANWS9pcPKJjovX8fYsR06J1YYgQ0FMvaeS0uOHfxpC2N2e3xHP4
-	jGmx2WWvHAfiQ/V0I8GhGbXF+L5UGWjdPhDnAVRC3fszaVKlnoSTqq+8LO0ythP1
-	RP6qWbFwL6boOpYpMyZRhJLXy9OLKTDgBGUJxb0edqvpK0PJQCfW36ZdQCYBiogV
-	rGt26zAC062KXuVXzd/njzVmNNG/fn/JbKb6A02QnRuvJ6I/tTA796dDQ==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=ylzuFqQalkG2vG2ySza3AsSddL
+	2cK1QcJ+AnzriT8Ts=; b=FoxpSthifZIOSLQL24bF38ob04szUYrkDto3VLxEkJ
+	Ntzx0Nw4kSTTTCOq7OO7lmrxp7GPG/AcczyeUnZE6i/nwldicKvLD9p+19RoD40y
+	jeqVLhsFblqEAPk6Ysbh071FnctrqxmvuoLg71gXpy4dH1MvYDNuX+bA45SGUwJ4
+	YE5cq9V9d1ZfkA8PaSM54iXaw5NwiBAstL/WgUfaISchZQZC0zG6rSpdq3JFqiVR
+	/C8cAC8dEiCiVquPgUvloFb9B6noJ+FpUEAcOR0wZkclu0Z5etvlb81SmmFJH2HW
+	pMfmHTTv4MY3tEpQrdxfN9MG52mrD9fcNMhOz7usJ5aQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; bh=ihmVq/5E6B8RMyKVyGoR6c5bmUO1IuRGAjBHKTOJfhw=; b=NwiumweV
-	sRelxj4vHvK3lYRvYcco9o5tF+vjGQHeBR1Fl23rP9obSJinM8lZjiQ9Ogwn1Stt
-	AhbwIbjoO+cn43eIL/aR8UmFyEKVt4Fc+B4MD74rQqOA+8J+TKGi9s57IyKbLdQT
-	P+W6BbAg32GiVglqyfG6sQ/R8jHztYj9p/0In2P2L8gv8AcPkvWITBO5swCPtRnd
-	1pSz/6A3p/xRAFc3Er52bgnUxZsJ8MifP/hb6dsXGDCgzdzSn8qFixCWLN1wSox0
-	Hi5sd9VOaXs3EJ3ObxVhFuFI+fXlccCbdhI8Xl9YCd8P1zbF/ZQ+ULXmbHJemsUU
-	JrUAVo1etj6Fcg==
-X-ME-Sender: <xms:sm8LYfmol11OBXOWalNw1CcNDQwa9JOVl2uUEHPqGtgfccV366UXbA>
-    <xme:sm8LYS3E5BaJMlgkrvWDI1zWD_-XTIbjKPMlzeb9SAjcFjSCNUVSa8zJ9wLEq3RDF
-    pdf4JJFFWu6-7kOEA>
-X-ME-Received: <xmr:sm8LYVpNhB5z7K3PEmmcyrsjIj0q_Vxya3az7YwSI83qD1aJRD69oWJFkq2l0lZkJlUM8Bym6BeQ6xOi1s3osDr6x0n306ldYux5ICEWo7mNwjSJ2OReWxCuZXAd1X7GJCyesA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieekgdekiecutefuodetggdotefrodftvf
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ylzuFqQalkG2vG2yS
+	za3AsSddL2cK1QcJ+AnzriT8Ts=; b=BnyrL/l9BJU3S2otfiEOurEWr1yrjSE8P
+	IduCla8GPr3AhElIrCMDWXQc5GTa31cecDSEKFkcu4mj8tKtNh4jHYq2oJ3PIsCi
+	a+wKCncjQLkdQyUOmbjN9fj2o3kQHjJC/swWlolLsfFpT2BLGjb8Wm3lv++Niibn
+	Q5fwncvd1jyqmc6u6D4Lq7t0Wp9bZqiPeSN/JcVfN+0UwmEYrdWFp5RDazFCSXkT
+	NHZ0/6SrAUQAMOfpuAAPfnioYWlaJ+AGX74iUsxandIqmMx8cb1/BucP+qw1Jdg2
+	98KPSgovsYdWb6zCZQkwEY9FKAySnSIAKZpeEnreQ9uHKxrFHqLsQ==
+X-ME-Sender: <xms:S3MLYbSK95NhybXaTgihvq7wWwms57zmBVBAwZuSdam74VaATIKZAA>
+    <xme:S3MLYczi6aSxvaJSF5UyytAUo573G2dljIsaW-cWlZJnguxqWQa-6h7Vnr05BQGYR
+    bzjQgo4ZTv8o3O0Lg>
+X-ME-Received: <xmr:S3MLYQ0xyUzytp8CQAoOpM9666ZXqZda_FGGUPR8-Q3hB7O3oxCobHEji6z0OHwmILcV14GTjgx01ttq1g83AE7rpBOC6zitTwACw4p9rhhCOA2R_9sVR8LiK5P6Wblo0PNX3Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieekgdekkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepudfhjeefvdfhgfefheetgffhieeigfefhefgvddvveefgeejheejvdfg
-    jeehueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:sm8LYXk3r3sx7OXNj8i8uTZOzFnnqAoBnW4_GpzsnWIEm_0jZCRbiA>
-    <xmx:sm8LYd0YQWOiUVxfliI8jxlYjtdzxmLpje4KOmgQZgc1F2_tCiuMFw>
-    <xmx:sm8LYWvAsNFl7Cn9FNGrDca5drT4sxA3BQwgxBXBZYlE4cHRxcKmWQ>
-    <xmx:sm8LYWucQ2r_683M7atFVlYPervBE4l3zsJY6MtxYQtSCEXRM5wNhfdWGFI>
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:S3MLYbD8mjaYmBy0E68oMP7Jxdu5bofDsQgYPBcj71Z2rLNEAcNXAg>
+    <xmx:S3MLYUh7h00jPNGGWLN0XC1oix8uDeJFhnR7PeqWkmQRgRJQPawKYg>
+    <xmx:S3MLYfrJuFIQ4JQZLgZ1pMxZE0OxBdxlbj1v0ukgOjc03txJvKzvfg>
+    <xmx:S3MLYXOpKLDlAZ-qc8ECsa1zwoULZty3-5Se2H_2A6yikq9cwMOD9Tbt67g>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 5 Aug 2021 00:57:21 -0400 (EDT)
+ 5 Aug 2021 01:12:42 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-watchdog@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@siol.net>,
+	devicetree@vger.kernel.org,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 3/3] watchdog: sunxi_wdt: Add support for D1
-Date: Wed,  4 Aug 2021 23:57:16 -0500
-Message-Id: <20210805045716.46141-3-samuel@sholland.org>
+Subject: [PATCH resend v3 0/2] sunxi LRADC/volume key wakeup support
+Date: Thu,  5 Aug 2021 00:12:39 -0500
+Message-Id: <20210805051241.47168-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210805045716.46141-1-samuel@sholland.org>
-References: <20210805045716.46141-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,106 +69,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 adds a key field to the "CFG" and "MODE" registers, that must be set
-to change the other bits. Add logic to set the key when updating those
-registers.
+This series allows the volume keys on the PinePhone (and other devices
+with LRADC buttons) to wake up the device from sleep.
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-Changes v1 to v2:
- - None.
+Currently `make dtbs_check` complains because the DT update was merged
+without the binding.
 
- drivers/watchdog/sunxi_wdt.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+Changes since v2:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
 
-diff --git a/drivers/watchdog/sunxi_wdt.c b/drivers/watchdog/sunxi_wdt.c
-index b50757882a98..6cf82922d3fb 100644
---- a/drivers/watchdog/sunxi_wdt.c
-+++ b/drivers/watchdog/sunxi_wdt.c
-@@ -48,6 +48,7 @@ struct sunxi_wdt_reg {
- 	u8 wdt_timeout_shift;
- 	u8 wdt_reset_mask;
- 	u8 wdt_reset_val;
-+	u32 wdt_key_val;
- };
- 
- struct sunxi_wdt_dev {
-@@ -91,12 +92,14 @@ static int sunxi_wdt_restart(struct watchdog_device *wdt_dev,
- 	val = readl(wdt_base + regs->wdt_cfg);
- 	val &= ~(regs->wdt_reset_mask);
- 	val |= regs->wdt_reset_val;
-+	val |= regs->wdt_key_val;
- 	writel(val, wdt_base + regs->wdt_cfg);
- 
- 	/* Set lowest timeout and enable watchdog */
- 	val = readl(wdt_base + regs->wdt_mode);
- 	val &= ~(WDT_TIMEOUT_MASK << regs->wdt_timeout_shift);
- 	val |= WDT_MODE_EN;
-+	val |= regs->wdt_key_val;
- 	writel(val, wdt_base + regs->wdt_mode);
- 
- 	/*
-@@ -109,6 +112,7 @@ static int sunxi_wdt_restart(struct watchdog_device *wdt_dev,
- 		mdelay(5);
- 		val = readl(wdt_base + regs->wdt_mode);
- 		val |= WDT_MODE_EN;
-+		val |= regs->wdt_key_val;
- 		writel(val, wdt_base + regs->wdt_mode);
- 	}
- 	return 0;
-@@ -141,6 +145,7 @@ static int sunxi_wdt_set_timeout(struct watchdog_device *wdt_dev,
- 	reg = readl(wdt_base + regs->wdt_mode);
- 	reg &= ~(WDT_TIMEOUT_MASK << regs->wdt_timeout_shift);
- 	reg |= wdt_timeout_map[timeout] << regs->wdt_timeout_shift;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_mode);
- 
- 	sunxi_wdt_ping(wdt_dev);
-@@ -154,7 +159,7 @@ static int sunxi_wdt_stop(struct watchdog_device *wdt_dev)
- 	void __iomem *wdt_base = sunxi_wdt->wdt_base;
- 	const struct sunxi_wdt_reg *regs = sunxi_wdt->wdt_regs;
- 
--	writel(0, wdt_base + regs->wdt_mode);
-+	writel(regs->wdt_key_val, wdt_base + regs->wdt_mode);
- 
- 	return 0;
- }
-@@ -176,11 +181,13 @@ static int sunxi_wdt_start(struct watchdog_device *wdt_dev)
- 	reg = readl(wdt_base + regs->wdt_cfg);
- 	reg &= ~(regs->wdt_reset_mask);
- 	reg |= regs->wdt_reset_val;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_cfg);
- 
- 	/* Enable watchdog */
- 	reg = readl(wdt_base + regs->wdt_mode);
- 	reg |= WDT_MODE_EN;
-+	reg |= regs->wdt_key_val;
- 	writel(reg, wdt_base + regs->wdt_mode);
- 
- 	return 0;
-@@ -220,9 +227,20 @@ static const struct sunxi_wdt_reg sun6i_wdt_reg = {
- 	.wdt_reset_val = 0x01,
- };
- 
-+static const struct sunxi_wdt_reg sun20i_wdt_reg = {
-+	.wdt_ctrl = 0x10,
-+	.wdt_cfg = 0x14,
-+	.wdt_mode = 0x18,
-+	.wdt_timeout_shift = 4,
-+	.wdt_reset_mask = 0x03,
-+	.wdt_reset_val = 0x01,
-+	.wdt_key_val = 0x16aa0000,
-+};
-+
- static const struct of_device_id sunxi_wdt_dt_ids[] = {
- 	{ .compatible = "allwinner,sun4i-a10-wdt", .data = &sun4i_wdt_reg },
- 	{ .compatible = "allwinner,sun6i-a31-wdt", .data = &sun6i_wdt_reg },
-+	{ .compatible = "allwinner,sun20i-d1-wdt", .data = &sun20i_wdt_reg },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sunxi_wdt_dt_ids);
+Changes since v1:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
+
+Ondrej Jirman (1):
+  input: sun4i-lradc-keys - Add wakup support
+
+Samuel Holland (1):
+  dt-bindings: sun4i-a10-lradc-keys: Accept wakeup-source property
+
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml |  2 ++
+ drivers/input/keyboard/sun4i-lradc-keys.c     | 20 +++++++++++++++----
+ 2 files changed, 18 insertions(+), 4 deletions(-)
+
 -- 
-2.31.1
+2.26.3
 
