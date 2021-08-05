@@ -1,38 +1,67 @@
-Received: from smtpbg.qq.com (smtpbg127.qq.com [109.244.180.96])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B07F70
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 Aug 2021 09:54:47 +0000 (UTC)
-X-QQ-mid: bizesmtp37t1627897973tswe4cud
-Received: from [192.168.0.46] (unknown [113.89.245.207])
-	by esmtp6.qq.com (ESMTP) with 
-	id ; Mon, 02 Aug 2021 17:52:52 +0800 (CST)
-X-QQ-SSF: 00100000002000209000D00A0000000
-X-QQ-FEAT: JN+C/NT9bLPnvSsDS+Rz5vENXxe8N1Wx5bYyvoQrGp+sPrsGLouO+1xgixt/q
-	NfkCKAK6dwEnwhDPKnkIpw2orTv5S5EdN6G7Whb5Q28rwCAQa8BbhYuwQSdTFvo61PT0KbA
-	ZBhwv+4FX13cQHMGW71XLRDjIedT3Em9C1yS9W++FfNcvwLb+hrtWNjBelXiy6Icc0e68in
-	eo1TGiIfwBmFGsjyCp/3LBUs8C+zSZO6ODtsMnA2YOxx60rx7CIVYmR7qtTtA9fBt21PZf7
-	uPk8UtAgSYlitN05XCZN6qhjZsHIkWWi2ZmRC0+Rp6VCAehK17/4dmxnuU5NWWJQbupXRKM
-	6PzNQfVDqTdLHAnUElS7uEbvyKWa+O9wyActyMG
-X-QQ-GoodBg: 0
-Message-ID: <d08fbaae055fc88246cd9f39ce5112f80fcc734c.camel@sipeed.com>+B00387BDD8D62B3B
-Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
-From: Icenowy Zheng <icenowy@sipeed.com>
-To: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Linus Walleij
- <linus.walleij@linaro.org>,  Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Andre Przywara <andre.przywara@arm.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Mon, 02 Aug 2021 17:52:52 +0800
-In-Reply-To: <20210802062212.73220-11-icenowy@sipeed.com>
-References: <20210802062212.73220-1-icenowy@sipeed.com>
-	 <20210802062212.73220-11-icenowy@sipeed.com>
-Organization: Sipeed
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 303B970
+	for <linux-sunxi@lists.linux.dev>; Thu,  5 Aug 2021 04:57:20 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id DE3A12B004AB;
+	Thu,  5 Aug 2021 00:57:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 05 Aug 2021 00:57:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=E52/j2R5l9gMw0d5KOs9lNmLDB
+	fBSjHZQgpnRrtTk1s=; b=NHPC6tkxnh87VKuo8T9vd7Jc/E/Mx3cEBA3pb+fX4l
+	Qz6wed6s8n1j2Hnx1m+CGxA8gZP2N/FfmLWFkp0epKc0WgwTjEu8/vZD7a7I1X5h
+	zvNynYOQMnxV3+5OHvr4s3t3RSyDIoSkZ++JK47KlQdgP4nnKiRXSuc2N/zmCPTR
+	kZMR+39VC9/ohiFe1sPWBLJQcErk3ADWWP2bwiql3hFzGlYor36aAcuuqJDbtQ0X
+	6VojGZiYRrc25WA5jqg4LtDxTsVyLGhlTHxdi64O1YWtDnG7vXl5uLFxLN/WGIiJ
+	RwZ89lYYkUqOugF/0uaODSDPmNAwHcempcM3+VphQH4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=E52/j2R5l9gMw0d5K
+	Os9lNmLDBfBSjHZQgpnRrtTk1s=; b=FBhWOgyQ2Ayc62M4Y+Qt85IMXeckICQVy
+	iqmGSPj3hWrL6kvQbige2UKmDTIHwAGV/Tdzvn+XoO3LNqHONb1ynIsnCKE/afyS
+	wBaL7dWs6LmHNgDOyn6hucnmTDkSMToltQecY2anP+fNYbitPyc3PqUfgXT1XgTn
+	llwKoOZwNTf3x5VLSUth7IXrnkk+YxWvvktZSBHjWU6AmeiU6IfsZpf2qOd3V+U1
+	0TZivQebv6174GCb3o2X+rh76fwfcX5MmZb32b6+sL/lvX5NO9XPg4LxW6cf2b+B
+	G4AUuyEAyK3zLTsNKvjWGW6VflZfN+Wy/H2d3ikDVVLEo4vRen4Mg==
+X-ME-Sender: <xms:rW8LYRy7oPwvjhsPaNLPuRPcZZL7DKZX6OzzQ4pLln8_rU3wRLEuIQ>
+    <xme:rW8LYRTvUAY9Q419MzIQQ_trLHNT01PA5CMbP8hX90SevE9mQpf-Iyhk9PPgtTJPS
+    Wz4OgFjHIgwaKDlaQ>
+X-ME-Received: <xmr:rW8LYbUbEh2-3okRdaZ0wswCn7uk1eWp-0RP0GPOmGN_hEo02UMMbewLCi_Nk1-JZr2n7iE2T6NLsqszWH7ve8OEaDyDJlciLIGGCj3l1RmJCCi-rm_uHE3rbC217LSd4699cg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrieekgdekhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:rW8LYTjWWWujfkaoVyLsK4W0AKJMEVS2g3xmT0HdHGqNZIV9bB_G2w>
+    <xmx:rW8LYTBKmrOK7fC3s_xM_r7iMrXjTKQcLp-KUOb966MaT2gkUQLYtA>
+    <xmx:rW8LYcJSf5wID8HepurG2sRnyyWfvkk8whqsE_vb-eIGukgLOu4Jag>
+    <xmx:rm8LYX7I5_zX1DqK7PCNqvbfMp_TURXs8FArdfIgIZsvtL1xlMWzxFlrgbc>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 5 Aug 2021 00:57:16 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 1/3] dt-bindings: watchdog: sunxi: Add compatible for R329
+Date: Wed,  4 Aug 2021 23:57:14 -0500
+Message-Id: <20210805045716.46141-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,605 +69,84 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam1
 
-在 2021-08-02星期一的 14:22 +0800，Icenowy Zheng写道：
-> Allwinner R329 has clock controls in PRCM, like other new Allwinner
-> SoCs.
-> 
-> Add support for them.
-> 
-> This driver is added before the main CCU because PLLs are controlled
-> by
-> R-CCU on R329.
-> 
-> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
-> ---
->  drivers/clk/sunxi-ng/Kconfig                  |   5 +
->  drivers/clk/sunxi-ng/Makefile                 |   1 +
->  drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c      | 374
-> ++++++++++++++++++
->  drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h      |  33 ++
->  include/dt-bindings/clock/sun50i-r329-r-ccu.h |  33 ++
->  include/dt-bindings/reset/sun50i-r329-r-ccu.h |  24 ++
->  6 files changed, 470 insertions(+)
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
->  create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
->  create mode 100644 include/dt-bindings/clock/sun50i-r329-r-ccu.h
->  create mode 100644 include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> 
-> diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-
-> ng/Kconfig
-> index cd46d8853876..e49b2c2fa5b7 100644
-> --- a/drivers/clk/sunxi-ng/Kconfig
-> +++ b/drivers/clk/sunxi-ng/Kconfig
-> @@ -42,6 +42,11 @@ config SUN50I_H6_R_CCU
->         default ARM64 && ARCH_SUNXI
->         depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
->  
-> +config SUN50I_R329_R_CCU
-> +       bool "Support for the Allwinner R329 PRCM CCU"
-> +       default ARM64 && ARCH_SUNXI
-> +       depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
-> +
->  config SUN4I_A10_CCU
->         bool "Support for the Allwinner A10/A20 CCU"
->         default MACH_SUN4I
-> diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-
-> ng/Makefile
-> index 96c324306d97..db338a2188fd 100644
-> --- a/drivers/clk/sunxi-ng/Makefile
-> +++ b/drivers/clk/sunxi-ng/Makefile
-> @@ -28,6 +28,7 @@ obj-$(CONFIG_SUN50I_A100_R_CCU)       += ccu-
-> sun50i-a100-r.o
->  obj-$(CONFIG_SUN50I_H6_CCU)    += ccu-sun50i-h6.o
->  obj-$(CONFIG_SUN50I_H616_CCU)  += ccu-sun50i-h616.o
->  obj-$(CONFIG_SUN50I_H6_R_CCU)  += ccu-sun50i-h6-r.o
-> +obj-$(CONFIG_SUN50I_R329_R_CCU)        += ccu-sun50i-r329-r.o
->  obj-$(CONFIG_SUN4I_A10_CCU)    += ccu-sun4i-a10.o
->  obj-$(CONFIG_SUN5I_CCU)                += ccu-sun5i.o
->  obj-$(CONFIG_SUN6I_A31_CCU)    += ccu-sun6i-a31.o
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
-> b/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
-> new file mode 100644
-> index 000000000000..5413a701cb57
-> --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
-> @@ -0,0 +1,374 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + * Based on the H616 CCU driver, which is:
-> + *   Copyright (c) 2020 Arm Ltd.
-> + */
-> +
-> +#include <linux/clk-provider.h>
-> +#include <linux/io.h>
-> +#include <linux/of_address.h>
-> +#include <linux/platform_device.h>
-> +
-> +#include "ccu_common.h"
-> +#include "ccu_reset.h"
-> +
-> +#include "ccu_div.h"
-> +#include "ccu_gate.h"
-> +#include "ccu_mp.h"
-> +#include "ccu_mult.h"
-> +#include "ccu_nk.h"
-> +#include "ccu_nkm.h"
-> +#include "ccu_nkmp.h"
-> +#include "ccu_nm.h"
-> +
-> +#include "ccu-sun50i-r329-r.h"
-> +
-> +/*
-> + * The M factor is present in the register's description, but not in
-> the
-> + * frequency formula, and it's documented as "The bit is only for
-> + * testing", so it's not modelled and then force to 0.
-> + */
-> +#define SUN50I_R329_PLL_CPUX_REG       0x1000
-> +static struct ccu_mult pll_cpux_clk = {
-> +       .enable         = BIT(31),
-> +       .lock           = BIT(28),
-> +       .mult           = _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> +       .common         = {
-> +               .reg            = 0x1000,
-> +               .hw.init        = CLK_HW_INIT("pll-cpux", "osc24M",
-> +                                             &ccu_mult_ops,
-> +                                             CLK_SET_RATE_UNGATE),
-> +       },
-> +};
-> +
-> +#define SUN50I_R329_PLL_PERIPH_REG     0x1010
-> +static struct ccu_nm pll_periph_base_clk = {
-> +       .enable         = BIT(31),
-> +       .lock           = BIT(28),
-> +       .n              = _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> +       .m              = _SUNXI_CCU_DIV(1, 1), /* input divider */
-> +       .common         = {
-> +               .reg            = 0x1010,
-> +               .hw.init        = CLK_HW_INIT("pll-periph-base",
-> "osc24M",
-> +                                             &ccu_nm_ops,
-> +                                             CLK_SET_RATE_UNGATE),
-> +       },
-> +};
-> +
-> +static SUNXI_CCU_M(pll_periph_2x_clk, "pll-periph-2x", "pll-periph-
-> base",
-> +                  0x1010, 16, 3, 0);
-> +static SUNXI_CCU_M(pll_periph_800m_clk, "pll-periph-800m", "pll-
-> periph-base",
-> +                  0x1010, 20, 3, 0);
-> +static CLK_FIXED_FACTOR_HW(pll_periph_clk, "pll-periph",
-> +                          &pll_periph_2x_clk.common.hw, 2, 1, 0);
-> +
-> +#define SUN50I_R329_PLL_AUDIO0_REG     0x1020
-> +static struct ccu_sdm_setting pll_audio0_sdm_table[] = {
-> +       { .rate = 1548288000, .pattern = 0xc0070624, .m = 1, .n = 64
-> },
-> +};
-> +
-> +static struct ccu_nm pll_audio0_clk = {
-> +       .enable         = BIT(31),
-> +       .lock           = BIT(28),
-> +       .n              = _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> +       .m              = _SUNXI_CCU_DIV(1, 1),
-> +       .sdm            = _SUNXI_CCU_SDM(pll_audio0_sdm_table,
-> +                                        BIT(24), 0x1120, BIT(31)),
-> +       .common         = {
-> +               .features       = CCU_FEATURE_SIGMA_DELTA_MOD,
-> +               .reg            = 0x1020,
-> +               .hw.init        = CLK_HW_INIT("pll-audio0", "osc24M",
-> +                                             &ccu_nm_ops,
-> +                                             CLK_SET_RATE_UNGATE),
-> +       },
-> +};
-> +
-> +static SUNXI_CCU_M(pll_audio0_div2_clk, "pll-audio0-div2", "pll-
-> audio0",
-> +                  0x1020, 16, 3, 0);
-> +static SUNXI_CCU_M(pll_audio0_div5_clk, "pll-audio0-div5", "pll-
-> audio0",
-> +                  0x1020, 20, 3, 0);
-> +
-> +/*
-> + * PLL-AUDIO1 has 3 dividers defined in the datasheet, however the
-> + * BSP driver always has M0 = 1 and M1 = 2 (this is also the
-> + * reset value in the register).
-> + *
-> + * Here just module it as NM clock, and force M0 = 1 and M1 = 2.
-> + */
-> +#define SUN50I_R329_PLL_AUDIO1_REG     0x1030
-> +static struct ccu_sdm_setting pll_audio1_4x_sdm_table[] = {
-> +       { .rate = 22579200, .pattern = 0xc001288d, .m = 12, .n = 22
-> },
-> +       { .rate = 24576000, .pattern = 0xc00126e9, .m = 12, .n = 24
-> },
-> +       { .rate = 90316800, .pattern = 0xc001288d, .m = 3, .n = 22 },
-> +       { .rate = 98304000, .pattern = 0xc00126e9, .m = 3, .n = 24 },
-> +};
+On existing SoCs, the watchdog has a single clock input: HOSC (OSC24M)
+divided by 750.  However, starting with R329, LOSC (OSC32k) is added as
+an alternative clock source, with a bit to switch between them.
 
-Sorry, the SDM table here is wrong -- all rate here should be *2
-(because I wrongly assumed how postdiv works with sdm).
+Since 24 MHz / 750 == 32 kHz, not 32.768 kHz, the hardware adjusts the
+cycle counts to keep the timeouts independent of the clock source. This
+keeps the programming interface backward-compatible.
 
-> +static struct ccu_nm pll_audio1_4x_clk = {
-> +       .enable         = BIT(31),
-> +       .lock           = BIT(28),
-> +       .n              = _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> +       .m              = _SUNXI_CCU_DIV(16, 6),
-> +       .fixed_post_div = 2,
-> +       .sdm            = _SUNXI_CCU_SDM(pll_audio1_4x_sdm_table,
-> +                                        BIT(24), 0x1130, BIT(31)),
-> +       .common         = {
-> +               .features       = CCU_FEATURE_FIXED_POSTDIV |
-> +                                 CCU_FEATURE_SIGMA_DELTA_MOD,
-> +               .reg            = 0x1030,
-> +               .hw.init        = CLK_HW_INIT("pll-audio1-4x",
-> "osc24M",
-> +                                             &ccu_nm_ops,
-> +                                             CLK_SET_RATE_UNGATE),
-> +       },
-> +};
-> +
-> +static CLK_FIXED_FACTOR_HW(pll_audio1_2x_clk, "pll-audio1-2x",
-> +                          &pll_audio1_4x_clk.common.hw, 2, 1,
-> +                          CLK_SET_RATE_PARENT);
-> +static CLK_FIXED_FACTOR_HW(pll_audio1_clk, "pll-audio1",
-> +                          &pll_audio1_4x_clk.common.hw, 4, 1,
-> +                          CLK_SET_RATE_PARENT);
-> +
-> +static const char * const r_bus_parents[] = { "osc24M", "osc32k",
-> "iosc",
-> +                                             "pll-periph-2x",
-> +                                             "pll-audio0-div2" };
-> +static SUNXI_CCU_MP_WITH_MUX(r_ahb_clk, "r-ahb", r_bus_parents,
-> 0x000,
-> +                            0, 5,      /* M */
-> +                            8, 2,      /* P */
-> +                            24, 3,     /* mux */
-> +                            0);
-> +
-> +static SUNXI_CCU_MP_WITH_MUX(r_apb1_clk, "r-apb1", r_bus_parents,
-> 0x00c,
-> +                            0, 5,      /* M */
-> +                            8, 2,      /* P */
-> +                            24, 3,     /* mux */
-> +                            0);
-> +
-> +static SUNXI_CCU_MP_WITH_MUX(r_apb2_clk, "r-apb2", r_bus_parents,
-> 0x010,
-> +                            0, 5,      /* M */
-> +                            8, 2,      /* P */
-> +                            24, 3,     /* mux */
-> +                            0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_gpadc_clk, "r-bus-gpadc", "r-apb1",
-> +                     0x0ec, BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_ths_clk, "r-bus-ths", "r-apb1", 0x0fc,
-> BIT(0), 0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_dma_clk, "r-bus-dma", "r-apb1", 0x10c,
-> BIT(0), 0);
-> +
-> +static const char * const r_pwm_parents[] = { "osc24M", "osc32k",
-> "iosc" };
-> +static SUNXI_CCU_MUX_WITH_GATE(r_pwm_clk, "r-pwm", r_pwm_parents,
-> 0x130,
-> +                              24, 3,   /* mux */
-> +                              BIT(31), /* gate */
-> +                              0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_pwm_clk, "r-bus-pwm", "r-apb1", 0x13c,
-> BIT(0), 0);
-> +
-> +static const char * const r_audio_parents[] = { "pll-audio0-div5",
-> "pll-audio0-div2",
-> +                                               "pll-audio1-1x",
-> "pll-audio1-4x" };
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_codec_adc_clk, "r-codec-adc",
-> r_audio_parents, 0x140,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_codec_dac_clk, "r-codec-dac",
-> r_audio_parents, 0x144,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_codec_clk, "r-bus-codec", "r-apb1",
-> +                     0x14c, BIT(0), 0);
-> +
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_dmic_clk, "r-dmic",
-> r_audio_parents, 0x150,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_dmic_clk, "r-bus-dmic", "r-apb1", 0x15c,
-> BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_lradc_clk, "r-bus-lradc", "r-apb1",
-> +                     0x16c, BIT(0), 0);
-> +
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_i2s_clk, "r-i2s",
-> r_audio_parents, 0x170,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_i2s_asrc_clk, "r-i2s-asrc",
-> +                                 r_audio_parents, 0x174,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +static SUNXI_CCU_GATE(r_bus_i2s_clk, "r-bus-i2s", "r-apb1", 0x17c,
-> BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_uart_clk, "r-bus-uart", "r-apb2", 0x18c,
-> BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_i2c_clk, "r-bus-i2c", "r-apb2", 0x19c,
-> BIT(0), 0);
-> +
-> +static const char * const r_ir_parents[] = { "osc32k", "osc24M" };
-> +static SUNXI_CCU_MP_WITH_MUX_GATE(r_ir_clk, "r-ir", r_ir_parents,
-> 0x1c0,
-> +                                 0, 5,         /* M */
-> +                                 8, 2,         /* P */
-> +                                 24, 3,        /* mux */
-> +                                 BIT(31),      /* gate */
-> +                                 0);
-> +
-> +static SUNXI_CCU_GATE(r_bus_ir_clk, "r-bus-ir", "r-apb1", 0x1cc,
-> BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_msgbox_clk, "r-bus-msgbox", "r-apb1",
-> +                     0x1dc, BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_spinlock_clk, "r-bus-spinlock", "r-
-> apb1",
-> +                     0x1ec, BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_bus_rtc_clk, "r-bus-rtc", "r-ahb",
-> +                     0x20c, BIT(0), CLK_IS_CRITICAL);
-> +
-> +static struct ccu_common *sun50i_r329_r_ccu_clks[] = {
-> +       &pll_cpux_clk.common,
-> +       &pll_periph_base_clk.common,
-> +       &pll_periph_2x_clk.common,
-> +       &pll_periph_800m_clk.common,
-> +       &pll_audio0_clk.common,
-> +       &pll_audio0_div2_clk.common,
-> +       &pll_audio0_div5_clk.common,
-> +       &pll_audio1_4x_clk.common,
-> +       &r_ahb_clk.common,
-> +       &r_apb1_clk.common,
-> +       &r_apb2_clk.common,
-> +       &r_bus_gpadc_clk.common,
-> +       &r_bus_ths_clk.common,
-> +       &r_bus_dma_clk.common,
-> +       &r_pwm_clk.common,
-> +       &r_bus_pwm_clk.common,
-> +       &r_codec_adc_clk.common,
-> +       &r_codec_dac_clk.common,
-> +       &r_bus_codec_clk.common,
-> +       &r_dmic_clk.common,
-> +       &r_bus_dmic_clk.common,
-> +       &r_bus_lradc_clk.common,
-> +       &r_i2s_clk.common,
-> +       &r_i2s_asrc_clk.common,
-> +       &r_bus_i2s_clk.common,
-> +       &r_bus_uart_clk.common,
-> +       &r_bus_i2c_clk.common,
-> +       &r_ir_clk.common,
-> +       &r_bus_ir_clk.common,
-> +       &r_bus_msgbox_clk.common,
-> +       &r_bus_spinlock_clk.common,
-> +       &r_bus_rtc_clk.common,
-> +};
-> +
-> +static struct clk_hw_onecell_data sun50i_r329_r_hw_clks = {
-> +       .hws    = {
-> +               [CLK_PLL_CPUX]          = &pll_cpux_clk.common.hw,
-> +               [CLK_PLL_PERIPH_BASE]   =
-> &pll_periph_base_clk.common.hw,
-> +               [CLK_PLL_PERIPH_2X]     =
-> &pll_periph_2x_clk.common.hw,
-> +               [CLK_PLL_PERIPH_800M]   =
-> &pll_periph_800m_clk.common.hw,
-> +               [CLK_PLL_PERIPH]        = &pll_periph_clk.hw,
-> +               [CLK_PLL_AUDIO0]        = &pll_audio0_clk.common.hw,
-> +               [CLK_PLL_AUDIO0_DIV2]   =
-> &pll_audio0_div2_clk.common.hw,
-> +               [CLK_PLL_AUDIO0_DIV5]   =
-> &pll_audio0_div5_clk.common.hw,
-> +               [CLK_PLL_AUDIO1_4X]     =
-> &pll_audio1_4x_clk.common.hw,
-> +               [CLK_PLL_AUDIO1_2X]     = &pll_audio1_2x_clk.hw,
-> +               [CLK_PLL_AUDIO1]        = &pll_audio1_clk.hw,
-> +               [CLK_R_AHB]             = &r_ahb_clk.common.hw,
-> +               [CLK_R_APB1]            = &r_apb1_clk.common.hw,
-> +               [CLK_R_APB2]            = &r_apb2_clk.common.hw,
-> +               [CLK_R_BUS_GPADC]       = &r_bus_gpadc_clk.common.hw,
-> +               [CLK_R_BUS_THS]         = &r_bus_ths_clk.common.hw,
-> +               [CLK_R_BUS_DMA]         = &r_bus_dma_clk.common.hw,
-> +               [CLK_R_PWM]             = &r_pwm_clk.common.hw,
-> +               [CLK_R_BUS_PWM]         = &r_bus_pwm_clk.common.hw,
-> +               [CLK_R_CODEC_ADC]       = &r_codec_adc_clk.common.hw,
-> +               [CLK_R_CODEC_DAC]       = &r_codec_dac_clk.common.hw,
-> +               [CLK_R_BUS_CODEC]       = &r_bus_codec_clk.common.hw,
-> +               [CLK_R_DMIC]            = &r_dmic_clk.common.hw,
-> +               [CLK_R_BUS_DMIC]        = &r_bus_dmic_clk.common.hw,
-> +               [CLK_R_BUS_LRADC]       = &r_bus_lradc_clk.common.hw,
-> +               [CLK_R_I2S]             = &r_i2s_clk.common.hw,
-> +               [CLK_R_I2S_ASRC]        = &r_i2s_asrc_clk.common.hw,
-> +               [CLK_R_BUS_I2S]         = &r_bus_i2s_clk.common.hw,
-> +               [CLK_R_BUS_UART]        = &r_bus_uart_clk.common.hw,
-> +               [CLK_R_BUS_I2C]         = &r_bus_i2c_clk.common.hw,
-> +               [CLK_R_IR]              = &r_ir_clk.common.hw,
-> +               [CLK_R_BUS_IR]          = &r_bus_ir_clk.common.hw,
-> +               [CLK_R_BUS_MSGBOX]      =
-> &r_bus_msgbox_clk.common.hw,
-> +               [CLK_R_BUS_SPINLOCK]    =
-> &r_bus_spinlock_clk.common.hw,
-> +               [CLK_R_BUS_RTC]         = &r_bus_rtc_clk.common.hw,
-> +       },
-> +       .num = CLK_NUMBER,
-> +};
-> +
-> +static struct ccu_reset_map sun50i_r329_r_ccu_resets[] = {
-> +       [RST_R_BUS_GPADC]       = { 0x0ec, BIT(16) },
-> +       [RST_R_BUS_THS]         = { 0x0fc, BIT(16) },
-> +       [RST_R_BUS_DMA]         = { 0x10c, BIT(16) },
-> +       [RST_R_BUS_PWM]         = { 0x13c, BIT(16) },
-> +       [RST_R_BUS_CODEC]       = { 0x14c, BIT(16) },
-> +       [RST_R_BUS_DMIC]        = { 0x15c, BIT(16) },
-> +       [RST_R_BUS_LRADC]       = { 0x16c, BIT(16) },
-> +       [RST_R_BUS_I2S]         = { 0x17c, BIT(16) },
-> +       [RST_R_BUS_UART]        = { 0x18c, BIT(16) },
-> +       [RST_R_BUS_I2C]         = { 0x19c, BIT(16) },
-> +       [RST_R_BUS_IR]          = { 0x1cc, BIT(16) },
-> +       [RST_R_BUS_MSGBOX]      = { 0x1dc, BIT(16) },
-> +       [RST_R_BUS_SPINLOCK]    = { 0x1ec, BIT(16) },
-> +       [RST_R_BUS_RTC]         = { 0x20c, BIT(16) },
-> +};
-> +
-> +static const struct sunxi_ccu_desc sun50i_r329_r_ccu_desc = {
-> +       .ccu_clks       = sun50i_r329_r_ccu_clks,
-> +       .num_ccu_clks   = ARRAY_SIZE(sun50i_r329_r_ccu_clks),
-> +
-> +       .hw_clks        = &sun50i_r329_r_hw_clks,
-> +
-> +       .resets         = sun50i_r329_r_ccu_resets,
-> +       .num_resets     = ARRAY_SIZE(sun50i_r329_r_ccu_resets),
-> +};
-> +
-> +static const u32 pll_regs[] = {
-> +       SUN50I_R329_PLL_CPUX_REG,
-> +       SUN50I_R329_PLL_PERIPH_REG,
-> +       SUN50I_R329_PLL_AUDIO0_REG,
-> +       SUN50I_R329_PLL_AUDIO1_REG,
-> +};
-> +
-> +static void __init sun50i_r329_r_ccu_setup(struct device_node *node)
-> +{
-> +       void __iomem *reg;
-> +       u32 val;
-> +       int i;
-> +
-> +       reg = of_io_request_and_map(node, 0,
-> of_node_full_name(node));
-> +       if (IS_ERR(reg)) {
-> +               pr_err("%pOF: Could not map clock registers\n",
-> node);
-> +               return;
-> +       }
-> +
-> +       /* Enable the lock bits and the output enable bits on all
-> PLLs */
-> +       for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
-> +               val = readl(reg + pll_regs[i]);
-> +               val |= BIT(29) | BIT(27);
-> +               writel(val, reg + pll_regs[i]);
-> +       }
-> +
-> +       /*
-> +        * Force the I/O dividers of PLL-AUDIO1 to reset default
-> value
-> +        *
-> +        * See the comment before pll-audio1 definition for the
-> reason.
-> +        */
-> +
-> +       val = readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
-> +       val &= ~BIT(1);
-> +       val |= BIT(0);
-> +       writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
-> +
-> +       i = sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
-> +       if (i)
-> +               pr_err("%pOF: probing clocks fails: %d\n", node, i);
-> +}
-> +
-> +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
-> +              sun50i_r329_r_ccu_setup);
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
-> b/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
-> new file mode 100644
-> index 000000000000..62cf65322116
-> --- /dev/null
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
-> @@ -0,0 +1,33 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _CCU_SUN50I_R329_R_H
-> +#define _CCU_SUN50I_R329_R_H
-> +
-> +#include <dt-bindings/clock/sun50i-r329-r-ccu.h>
-> +#include <dt-bindings/reset/sun50i-r329-r-ccu.h>
-> +
-> +#define CLK_PLL_CPUX           0
-> +#define CLK_PLL_PERIPH_BASE    1
-> +#define CLK_PLL_PERIPH_2X      2
-> +#define CLK_PLL_PERIPH_800M    3
-> +#define CLK_PLL_PERIPH         4
-> +#define CLK_PLL_AUDIO0         5
-> +#define CLK_PLL_AUDIO0_DIV2    6
-> +#define CLK_PLL_AUDIO0_DIV5    7
-> +#define CLK_PLL_AUDIO1_4X      8
-> +#define CLK_PLL_AUDIO1_2X      9
-> +#define CLK_PLL_AUDIO1         10
-> +#define CLK_R_AHB              11
-> +
-> +/* R_APB1 exported for PIO */
-> +
-> +#define CLK_R_APB2             13
-> +
-> +/* All module / bus gate clocks exported */
-> +
-> +#define CLK_NUMBER     (CLK_R_BUS_RTC + 1)
-> +
-> +#endif /* _CCU_SUN50I_R329_R_H */
-> diff --git a/include/dt-bindings/clock/sun50i-r329-r-ccu.h
-> b/include/dt-bindings/clock/sun50i-r329-r-ccu.h
-> new file mode 100644
-> index 000000000000..df9bc58de5c4
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun50i-r329-r-ccu.h
-> @@ -0,0 +1,33 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_
-> +#define _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_
-> +
-> +#define CLK_R_APB1             12
-> +
-> +#define CLK_R_BUS_GPADC                14
-> +#define CLK_R_BUS_THS          15
-> +#define CLK_R_BUS_DMA          16
-> +#define CLK_R_PWM              17
-> +#define CLK_R_BUS_PWM          18
-> +#define CLK_R_CODEC_ADC                19
-> +#define CLK_R_CODEC_DAC                20
-> +#define CLK_R_BUS_CODEC                21
-> +#define CLK_R_DMIC             22
-> +#define CLK_R_BUS_DMIC         23
-> +#define CLK_R_BUS_LRADC                24
-> +#define CLK_R_I2S              25
-> +#define CLK_R_I2S_ASRC         26
-> +#define CLK_R_BUS_I2S          27
-> +#define CLK_R_BUS_UART         28
-> +#define CLK_R_BUS_I2C          29
-> +#define CLK_R_IR               30
-> +#define CLK_R_BUS_IR           31
-> +#define CLK_R_BUS_MSGBOX       32
-> +#define CLK_R_BUS_SPINLOCK     33
-> +#define CLK_R_BUS_RTC          34
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_ */
-> diff --git a/include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> b/include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> new file mode 100644
-> index 000000000000..40644f2f21c6
-> --- /dev/null
-> +++ b/include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> @@ -0,0 +1,24 @@
-> +/* SPDX-License-Identifier: (GPL-2.0+ or MIT) */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_
-> +#define _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_
-> +
-> +#define RST_R_BUS_GPADC                0
-> +#define RST_R_BUS_THS          1
-> +#define RST_R_BUS_DMA          2
-> +#define RST_R_BUS_PWM          3
-> +#define RST_R_BUS_CODEC                4
-> +#define RST_R_BUS_DMIC         5
-> +#define RST_R_BUS_LRADC                6
-> +#define RST_R_BUS_I2S          7
-> +#define RST_R_BUS_UART         8
-> +#define RST_R_BUS_I2C          9
-> +#define RST_R_BUS_IR           10
-> +#define RST_R_BUS_MSGBOX       11
-> +#define RST_R_BUS_SPINLOCK     12
-> +#define RST_R_BUS_RTC          13
-> +
-> +#endif /* _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_ */
+R329 also adds two new registers, to allow software to immediately drive
+the SoC reset signal.
 
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+Changes v1 to v2:
+ - Switch from enum to const
+ - Add descriptions to "clocks" items
+
+ .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 32 ++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+index 9aa3c313c49f..8fa5b0d32381 100644
+--- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
++++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+@@ -24,6 +24,7 @@ properties:
+               - allwinner,sun50i-a100-wdt
+               - allwinner,sun50i-h6-wdt
+               - allwinner,sun50i-h616-wdt
++              - allwinner,sun50i-r329-wdt
+           - const: allwinner,sun6i-a31-wdt
+       - items:
+           - const: allwinner,suniv-f1c100s-wdt
+@@ -33,7 +34,18 @@ properties:
+     maxItems: 1
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++    items:
++      - description: High-frequency oscillator input, divided internally
++      - description: Low-frequency oscillator input, only found on some variants
++
++  clock-names:
++    minItems: 1
++    maxItems: 2
++    items:
++      - const: hosc
++      - const: losc
+ 
+   interrupts:
+     maxItems: 1
+@@ -44,6 +56,24 @@ required:
+   - clocks
+   - interrupts
+ 
++if:
++  properties:
++    compatible:
++      contains:
++        enum:
++          - allwinner,sun50i-r329-wdt
++
++then:
++  properties:
++    clocks:
++      minItems: 2
++
++    clock-names:
++      minItems: 2
++
++  required:
++    - clock-names
++
+ unevaluatedProperties: false
+ 
+ examples:
+-- 
+2.31.1
 
