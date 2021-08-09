@@ -1,61 +1,115 @@
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com [209.85.166.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F8972
-	for <linux-sunxi@lists.linux.dev>; Fri,  6 Aug 2021 21:43:15 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id l20so12016917iom.4
-        for <linux-sunxi@lists.linux.dev>; Fri, 06 Aug 2021 14:43:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/zWfW8RsAFbtp93s/xAdzSAqFLqIYUcrzczKfwh3Lh0=;
-        b=bGHoCOxrW8w6s7tt3CIOAFZsQUNsDRVIQP41m4I5HMHlLe2LsHF4PupWE//AEkvifY
-         m84Rq2XWjDl/9QppIQ10/vRdo4DItlgHMulY90dcEYnVBn2deUJYOw0agtKpA6txb3uF
-         66lySXdsRadS7H5VUjb5pwIaCfhcdcw+4sNrMAxPH1YA82A3DVsa3p7msXWXZVMWFSHu
-         3qHx7lV6vrF+mJ/vpl4iIb0WhmWeyYGYN4JAICXasrHAmx2YT+Qofecgkqa1Wi9ADF73
-         YbkXsjveQuS8L+ziZIOhM9AICJs0oez6XnFOMFRBhvmTzOlLFscu8+aDmgDxe4TlXXWn
-         hszw==
-X-Gm-Message-State: AOAM533H7J0nN1AHoxivFDUfqamadH6c91PNT78Bywva/7F61qHs8ojH
-	5kxbw5hwC+tzdn04UbaZpw==
-X-Google-Smtp-Source: ABdhPJxdjcRaDyo4+/BjQuPLS4tWO4TCwPJiNts1M12fu5TnSKD3P19/6gfPvDWqOM/NZc6Xjt9+pA==
-X-Received: by 2002:a6b:6b08:: with SMTP id g8mr2374131ioc.141.1628286194460;
-        Fri, 06 Aug 2021 14:43:14 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id 12sm3514613ily.7.2021.08.06.14.43.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Aug 2021 14:43:13 -0700 (PDT)
-Received: (nullmailer pid 1855489 invoked by uid 1000);
-	Fri, 06 Aug 2021 21:43:11 -0000
-Date: Fri, 6 Aug 2021 15:43:11 -0600
-From: Rob Herring <robh@kernel.org>
-To: Icenowy Zheng <icenowy@sipeed.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Linus Walleij <linus.walleij@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Ulf Hansson <ulf.hansson@linaro.org>, Maxime Ripard <mripard@kernel.org>, Andre Przywara <andre.przywara@arm.com>
-Subject: Re: [PATCH 14/17] dt-bindings: arm: sunxi: add compatible strings
- for Sipeed MaixSense
-Message-ID: <YQ2s762cl83X7go1@robh.at.kernel.org>
-References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-15-icenowy@sipeed.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617AD17F
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Aug 2021 13:09:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A84E61051
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 Aug 2021 13:09:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1628514551;
+	bh=YzG7BnFCln4Yyp6LxrxvxeyUMj5GmzMjIhVfIPMKSYc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=B8pvYpwPzQ18zhH2+y0BGlUA/OJhSA/B0e0InC/nca080ep3tJvTyYkjw4iA0bIXy
+	 YJkfsyL7WJqFEvGlYZsDdfkS8W4gkzs2dxMYwyXUt2VpcSaAsgcNhIj8ai/6CAVUZ2
+	 ldHAUzQEOhshkYgfdQv79fOgiKArwiLUzaIB6uXf33e9Dwx6fJNaNUWADrL3Q2AY27
+	 Bl9LecINy6PsqQyvEgFzW02xNT9GIlS0Tp9TuaVC5l/yfox0JcJblrMOq9WQey5+Yx
+	 UjWS8SLAwRaq9m1jBvtg7XtqOaG9lvGylZ+m8LNCf4Md/cmndcHE0D+U5Qp6wYUHub
+	 B20Q3cXMUBSvw==
+Received: by mail-wr1-f41.google.com with SMTP id m12so21349029wru.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 Aug 2021 06:09:10 -0700 (PDT)
+X-Gm-Message-State: AOAM530/a1gnQ4R8iS36Q2XukGWwPi/z4f1W1HmondJQ3DEsWFfM3zHS
+	0bJfD89n2tGzM3z+EH3VulB0tXmL0BwjcWR5Yg==
+X-Google-Smtp-Source: ABdhPJzottn9lR1w4Ou5tspJmaMhExuHvfqLuRluAKs7dQZoer2iHn4k6bWFWu6HusN3FgH38v3t3o0558IoBlRW8NU=
+X-Received: by 2002:a17:906:4156:: with SMTP id l22mr6919385ejk.75.1628514539014;
+ Mon, 09 Aug 2021 06:08:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210802062212.73220-15-icenowy@sipeed.com>
+References: <20210625082222.3845-1-tzimmermann@suse.de> <20210625082222.3845-14-tzimmermann@suse.de>
+In-Reply-To: <20210625082222.3845-14-tzimmermann@suse.de>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Mon, 9 Aug 2021 21:08:48 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8Y7VZm2JWtPXVGfsPQ-j72wMULQJHCHdmQEV+a=TyW1Q@mail.gmail.com>
+Message-ID: <CAAOTY_8Y7VZm2JWtPXVGfsPQ-j72wMULQJHCHdmQEV+a=TyW1Q@mail.gmail.com>
+Subject: Re: [PATCH v4 13/27] drm/mediatek: Don't set struct drm_device.irq_enabled
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com, 
+	mihail.atanassov@arm.com, brian.starkey@arm.com, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org, 
+	tiantao6@hisilicon.com, john.stultz@linaro.org, kong.kongxinwei@hisilicon.com, 
+	puck.chen@hisilicon.com, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
+	Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Ben Skeggs <bskeggs@redhat.com>, 
+	Tomi Valkeinen <tomba@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Thierry Reding <thierry.reding@gmail.com>, jonathanh@nvidia.com, 
+	Jyri Sarha <jyri.sarha@iki.fi>, emma@anholt.net, linux-graphics-maintainer@vmware.com, 
+	zackr@vmware.com, hyun.kwon@xilinx.com, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, michal.simek@xilinx.com, 
+	jani.nikula@linux.intel.com, rodrigo.vivi@intel.com, 
+	Russell King <linux@armlinux.org.uk>, kieran.bingham+renesas@ideasonboard.com, 
+	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>, 
+	Haneen Mohammed <hamohammed.sa@gmail.com>, amd-gfx@lists.freedesktop.org, 
+	DRI Development <dri-devel@lists.freedesktop.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-samsung-soc@vger.kernel.org, 
+	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, nouveau@lists.freedesktop.org, 
+	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 02 Aug 2021 14:22:09 +0800, Icenowy Zheng wrote:
-> Sipeed MaixSense is an Allwinner R329 development kit based on Maix IIA
-> SoM.
-> 
-> Add compatible strings for it.
-> 
-> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
+Hi, Thomas:
+
+Thomas Zimmermann <tzimmermann@suse.de> =E6=96=BC 2021=E5=B9=B46=E6=9C=8825=
+=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:22=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> The field drm_device.irq_enabled is only used by legacy drivers
+> with userspace modesetting. Don't set it in mediatek.
+>
+
+Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 > ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-
-Acked-by: Rob Herring <robh@kernel.org>
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 6 ------
+>  1 file changed, 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
+iatek/mtk_drm_drv.c
+> index b46bdb8985da..9b60bec33d3b 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
+> @@ -270,12 +270,6 @@ static int mtk_drm_kms_init(struct drm_device *drm)
+>                 goto err_component_unbind;
+>         }
+>
+> -       /*
+> -        * We don't use the drm_irq_install() helpers provided by the DRM
+> -        * core, so we need to set this manually in order to allow the
+> -        * DRM_IOCTL_WAIT_VBLANK to operate correctly.
+> -        */
+> -       drm->irq_enabled =3D true;
+>         ret =3D drm_vblank_init(drm, MAX_CRTC);
+>         if (ret < 0)
+>                 goto err_component_unbind;
+> --
+> 2.32.0
+>
