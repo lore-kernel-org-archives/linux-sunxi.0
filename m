@@ -1,115 +1,83 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617AD17F
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Aug 2021 13:09:11 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A84E61051
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 Aug 2021 13:09:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1628514551;
-	bh=YzG7BnFCln4Yyp6LxrxvxeyUMj5GmzMjIhVfIPMKSYc=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=B8pvYpwPzQ18zhH2+y0BGlUA/OJhSA/B0e0InC/nca080ep3tJvTyYkjw4iA0bIXy
-	 YJkfsyL7WJqFEvGlYZsDdfkS8W4gkzs2dxMYwyXUt2VpcSaAsgcNhIj8ai/6CAVUZ2
-	 ldHAUzQEOhshkYgfdQv79fOgiKArwiLUzaIB6uXf33e9Dwx6fJNaNUWADrL3Q2AY27
-	 Bl9LecINy6PsqQyvEgFzW02xNT9GIlS0Tp9TuaVC5l/yfox0JcJblrMOq9WQey5+Yx
-	 UjWS8SLAwRaq9m1jBvtg7XtqOaG9lvGylZ+m8LNCf4Md/cmndcHE0D+U5Qp6wYUHub
-	 B20Q3cXMUBSvw==
-Received: by mail-wr1-f41.google.com with SMTP id m12so21349029wru.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 Aug 2021 06:09:10 -0700 (PDT)
-X-Gm-Message-State: AOAM530/a1gnQ4R8iS36Q2XukGWwPi/z4f1W1HmondJQ3DEsWFfM3zHS
-	0bJfD89n2tGzM3z+EH3VulB0tXmL0BwjcWR5Yg==
-X-Google-Smtp-Source: ABdhPJzottn9lR1w4Ou5tspJmaMhExuHvfqLuRluAKs7dQZoer2iHn4k6bWFWu6HusN3FgH38v3t3o0558IoBlRW8NU=
-X-Received: by 2002:a17:906:4156:: with SMTP id l22mr6919385ejk.75.1628514539014;
- Mon, 09 Aug 2021 06:08:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 352C072
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 Aug 2021 11:04:45 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id a1so12053345vsd.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 10 Aug 2021 04:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7G6Ytc0pL75dT7oBzRYQRV/PqpL3MiLjj11SQTrmI/w=;
+        b=ATyV9Hkb/32GLHbt4+s0SijWAQfOMigNeNWFIUo9kj8nEwAgSLI46Wq70CaiWa3Dw6
+         OfL9JyOkJIU7SkJaaiArzpbiz79MXkx7s16Xx4FBgjZCpOJ+CCrceeHfK570NhKrgYFV
+         eafHiLvQ3CzZ17UNqE0FY2Pg0sMMvEInvv/pyIv9mQLbOmsUzcmEnEmOAgCkd3hV/tWz
+         hDZGLTJIDV/mDF5DasZWsy5x6Zi89gdecqPSivy049vL8FWPosiHn+8EfzhCHiwocfTK
+         4NuGnPsgfPrfYl8qJQMVk1qh015w5xhIDtj4vPfqLX6/00R7TAHJFbMUYFlrskNfMuEw
+         Q3XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7G6Ytc0pL75dT7oBzRYQRV/PqpL3MiLjj11SQTrmI/w=;
+        b=bQI5CO0My9XNnRkQk3LCgG450l+GtfZ3UuPqTDUDFkryFQ0VoYGjF4ZUOgIT2a9aKj
+         LzOCxnOT91NZg/06LLFDwWRnxDmQoQB8kJjFVgKbG0aAAuv9iPSzLmHUUfcDhgStwJDk
+         PGlKWqERdQYQWBGcthY71e5y2RBrfB5x47975CHuTWyEZPvnYQsldM827XLkaeeSJYWc
+         Jzf0eNBNmgiN+Kqu9uKD7bbxWkaLZvOFXmCjysoTXof3RE6TpAiua9vkm+gZVStxC5Wa
+         vo8bKSoYSBvkv00n/8/iNqG45BVaJGVnF0HAXbbHi+nkgnALYyK1SJMFq+4+DO2ggKn7
+         +HRg==
+X-Gm-Message-State: AOAM532SoHVkjJSBYZiwJDEtBYrhDOnT3oR8ieAKKvuI4Yvps+hcNRPC
+	WQBgC/PgS4o7NEBDkE6gJGcIDMwiNA/YmUfXyB2iDA==
+X-Google-Smtp-Source: ABdhPJwceVyJX3DPlFP+mrX17PzCp6nVuJo1728/yo4SGqlaa2irpTqgqKxr3bksTV0NDNdGscj/YgQDyft6YTcKhOo=
+X-Received: by 2002:a67:328f:: with SMTP id y137mr20625440vsy.34.1628593484132;
+ Tue, 10 Aug 2021 04:04:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210625082222.3845-1-tzimmermann@suse.de> <20210625082222.3845-14-tzimmermann@suse.de>
-In-Reply-To: <20210625082222.3845-14-tzimmermann@suse.de>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Mon, 9 Aug 2021 21:08:48 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8Y7VZm2JWtPXVGfsPQ-j72wMULQJHCHdmQEV+a=TyW1Q@mail.gmail.com>
-Message-ID: <CAAOTY_8Y7VZm2JWtPXVGfsPQ-j72wMULQJHCHdmQEV+a=TyW1Q@mail.gmail.com>
-Subject: Re: [PATCH v4 13/27] drm/mediatek: Don't set struct drm_device.irq_enabled
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
-	Alex Deucher <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Xinhui.Pan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com, 
-	mihail.atanassov@arm.com, brian.starkey@arm.com, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>, 
-	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
-	krzysztof.kozlowski@canonical.com, xinliang.liu@linaro.org, 
-	tiantao6@hisilicon.com, john.stultz@linaro.org, kong.kongxinwei@hisilicon.com, 
-	puck.chen@hisilicon.com, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
-	Lucas Stach <l.stach@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, Ben Skeggs <bskeggs@redhat.com>, 
-	Tomi Valkeinen <tomba@kernel.org>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Philippe Cornu <philippe.cornu@foss.st.com>, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, jonathanh@nvidia.com, 
-	Jyri Sarha <jyri.sarha@iki.fi>, emma@anholt.net, linux-graphics-maintainer@vmware.com, 
-	zackr@vmware.com, hyun.kwon@xilinx.com, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, michal.simek@xilinx.com, 
-	jani.nikula@linux.intel.com, rodrigo.vivi@intel.com, 
-	Russell King <linux@armlinux.org.uk>, kieran.bingham+renesas@ideasonboard.com, 
-	Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>, Melissa Wen <melissa.srw@gmail.com>, 
-	Haneen Mohammed <hamohammed.sa@gmail.com>, amd-gfx@lists.freedesktop.org, 
-	DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-samsung-soc@vger.kernel.org, 
-	"moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, nouveau@lists.freedesktop.org, 
-	linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	Intel Graphics Development <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210802062212.73220-1-icenowy@sipeed.com>
+In-Reply-To: <20210802062212.73220-1-icenowy@sipeed.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 10 Aug 2021 13:04:08 +0200
+Message-ID: <CAPDyKFrOcoFi4iTYSkbTAyZaXkfPb4RV=zMPm9j1dmK88=mgpA@mail.gmail.com>
+Subject: Re: [PATCH 00/17] Basical Allwinner R329 support
+To: Icenowy Zheng <icenowy@sipeed.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Andre Przywara <andre.przywara@arm.com>, 
+	Samuel Holland <samuel@sholland.org>, DTML <devicetree@vger.kernel.org>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi, Thomas:
+On Mon, 2 Aug 2021 at 08:24, Icenowy Zheng <icenowy@sipeed.com> wrote:
+>
+> This patchset tries to add basical support for Allwinner R329 SoC to the
+> Linux kernel, including clock/pintrl driver and MMC support.
+>
+> Three patches from the H616 patchset, which are used to support the RTC
+> with linear day, are attached into this patchset. Other RTC-related
+> patches of that patchset is not included, because the binding of the
+> clock part there is still under discussion.
+>
+> Then I added RTC binding and support (which is now only a struct
+> addition). I added RTC into this patchset, with the same reason that
+> H616 patchset contains RTC, which is to make the clock tree correct at
+> the first inclusion.
+>
+> After RTC, main basical SoC-specific part, pinctrl and CCU, come. The
+> R329 CCU is something special because PLLs are in R-CCU, no main CCU.
+>
+> MMC support is added here because it's also a simple struct addition
+> work, no main driver code change needed.
 
-Thomas Zimmermann <tzimmermann@suse.de> =E6=96=BC 2021=E5=B9=B46=E6=9C=8825=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=884:22=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> The field drm_device.irq_enabled is only used by legacy drivers
-> with userspace modesetting. Don't set it in mediatek.
->
+It sounds like the MMC updates can be posted separately to linux-mmc.
+Please do so I can pick them up.
 
-Acked-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+[...]
 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index b46bdb8985da..9b60bec33d3b 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -270,12 +270,6 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->                 goto err_component_unbind;
->         }
->
-> -       /*
-> -        * We don't use the drm_irq_install() helpers provided by the DRM
-> -        * core, so we need to set this manually in order to allow the
-> -        * DRM_IOCTL_WAIT_VBLANK to operate correctly.
-> -        */
-> -       drm->irq_enabled =3D true;
->         ret =3D drm_vblank_init(drm, MAX_CRTC);
->         if (ret < 0)
->                 goto err_component_unbind;
-> --
-> 2.32.0
->
+Kind regards
+Uffe
