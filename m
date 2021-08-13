@@ -1,26 +1,40 @@
-Received: from deadmen.hmeau.com (helcar.hmeau.com [216.24.177.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38310173
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 Aug 2021 11:36:17 +0000 (UTC)
-Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
-	by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
-	id 1mE90J-0003L0-S9; Thu, 12 Aug 2021 19:36:07 +0800
-Received: from herbert by gondobar with local (Exim 4.92)
-	(envelope-from <herbert@gondor.apana.org.au>)
-	id 1mE90H-00009T-7U; Thu, 12 Aug 2021 19:36:05 +0800
-Date: Thu, 12 Aug 2021 19:36:05 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: Jason Wang <wangborong@cdjrlc.com>
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net, mripard@kernel.org,
-	wens@csie.org, jernej.skrabec@gmail.com, mchehab+huawei@kernel.org,
-	corbet@lwn.net, baijiaju1990@gmail.com,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] crypto: sun8i-ce - use kfree_sensitive to clear and free
- sensitive data
-Message-ID: <20210812113605.GA561@gondor.apana.org.au>
-References: <20210803125525.72603-1-wangborong@cdjrlc.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047C272
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 Aug 2021 17:46:51 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id t128so17034926oig.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 Aug 2021 10:46:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=nruG5wbXF+Ql+fb23mE0km1GyZSsSCOkm8QTSIH25Qs=;
+        b=uQslwK68GIJ5SnNc5BuRuSCYTDb4eEmFL9ikkeNnghp0gX8TKSJV3QwjufzKFcVw+k
+         9x3lH10JbullYrApGaDz6+1ZD8b1OMH7Dr9zGR6LmoJmOzeYY1VuarqZs5QubJvaGNnJ
+         5RWlIh5GZ1YN7cJU9ptrNFHrEPgS97dT78HAb4sS1hCL13NvO2wWgsx0yssQ6vE3sCC2
+         XxCphzLOaZ4+/n4y2k9DBqMq+0TLnHjQXH1BRQrY4pOnCUSfrfIHc1jMd8i5paIdJcfU
+         VrisCWx0agWRmj4yAZu2ndonh8ynNmGh/kt2UzBi78h+X/I91nbwHCxR0y004eOTrztm
+         okkg==
+X-Gm-Message-State: AOAM531Hs9lFFcf35+E7kUzm341xc+0TiY6sLmoFCek+603o6N31mAGY
+	wVXvdrzX+1vsZ+cH2HRy4A==
+X-Google-Smtp-Source: ABdhPJwmioe5mchEce3/NXdPmIyIO3ho3zWNNzXefOSZaEwZx1f/l2+dUrbHFkGd9aBwM/Xzf4ogsA==
+X-Received: by 2002:a05:6808:6cc:: with SMTP id m12mr3167933oih.51.1628876811264;
+        Fri, 13 Aug 2021 10:46:51 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id g13sm206497oos.39.2021.08.13.10.46.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Aug 2021 10:46:50 -0700 (PDT)
+Received: (nullmailer pid 3746395 invoked by uid 1000);
+	Fri, 13 Aug 2021 17:46:49 -0000
+Date: Fri, 13 Aug 2021 12:46:49 -0500
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: watchdog: sunxi: Add compatible for
+ R329
+Message-ID: <YRawCZ0BWEzTE4El@robh.at.kernel.org>
+References: <20210805045716.46141-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,24 +43,91 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210803125525.72603-1-wangborong@cdjrlc.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210805045716.46141-1-samuel@sholland.org>
 
-On Tue, Aug 03, 2021 at 12:55:25PM +0000, Jason Wang wrote:
-> The kfree_sensitive is a kernel API to clear sensitive information
-> that should not be leaked to other future users of the same memory
-> objects and free the memory. Its function is the same as the
-> combination  of memzero_explicit and kfree. Thus, we can replace the
-> combination APIs with the single kfree_sensitive API.
+On Wed, Aug 04, 2021 at 11:57:14PM -0500, Samuel Holland wrote:
+> On existing SoCs, the watchdog has a single clock input: HOSC (OSC24M)
+> divided by 750.  However, starting with R329, LOSC (OSC32k) is added as
+> an alternative clock source, with a bit to switch between them.
 > 
-> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+> Since 24 MHz / 750 == 32 kHz, not 32.768 kHz, the hardware adjusts the
+> cycle counts to keep the timeouts independent of the clock source. This
+> keeps the programming interface backward-compatible.
+> 
+> R329 also adds two new registers, to allow software to immediately drive
+> the SoC reset signal.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 9 +++------
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 3 +--
->  2 files changed, 4 insertions(+), 8 deletions(-)
+> Changes v1 to v2:
+>  - Switch from enum to const
+>  - Add descriptions to "clocks" items
+> 
+>  .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 32 ++++++++++++++++++-
+>  1 file changed, 31 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> index 9aa3c313c49f..8fa5b0d32381 100644
+> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> @@ -24,6 +24,7 @@ properties:
+>                - allwinner,sun50i-a100-wdt
+>                - allwinner,sun50i-h6-wdt
+>                - allwinner,sun50i-h616-wdt
+> +              - allwinner,sun50i-r329-wdt
+>            - const: allwinner,sun6i-a31-wdt
+>        - items:
+>            - const: allwinner,suniv-f1c100s-wdt
+> @@ -33,7 +34,18 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - description: High-frequency oscillator input, divided internally
+> +      - description: Low-frequency oscillator input, only found on some variants
+> +
+> +  clock-names:
+> +    minItems: 1
+> +    maxItems: 2
+> +    items:
+> +      - const: hosc
+> +      - const: losc
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -44,6 +56,24 @@ required:
+>    - clocks
+>    - interrupts
+>  
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - allwinner,sun50i-r329-wdt
+> +
+> +then:
+> +  properties:
+> +    clocks:
+> +      minItems: 2
+> +
+> +    clock-names:
+> +      minItems: 2
+> +
+> +  required:
+> +    - clock-names
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+Needs an else clause with 'maxItems: 1' or is the 2nd clock now valid 
+for all?
+
+> +
+>  unevaluatedProperties: false
+>  
+>  examples:
+> -- 
+> 2.31.1
+> 
+> 
