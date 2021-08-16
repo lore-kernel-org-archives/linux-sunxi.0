@@ -1,133 +1,87 @@
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047C272
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 Aug 2021 17:46:51 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id t128so17034926oig.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 Aug 2021 10:46:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051222FAE
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 Aug 2021 12:39:14 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id r6so23430119wrt.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 16 Aug 2021 05:39:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=rzZaQ6s2L8HTP/N+G7lyZXAfcU7PndFNzvU/KdGwi9Y=;
+        b=QlNlgUbNjG0m1HA8MWuitLFzXBkPqVYzU+AdZ45Rd3gQXpgaysrPo86WK3Ch/6sbjA
+         0Jup9IUiYxa7n3h3p5kWtOlZc50ulFWd4uMRk/T4adIIgemWs1nFyU0k0XvL9NBhs5dp
+         8lRqkR7wt65s6amS0/hvZtr2N6joSDuPXh1Zo8gPXdJ79VwEweICP3zbLQ9MuFSD0ERY
+         VQl89N0JdOugZbtKNiXniryTiHttwZr5XPWCIiQ/9wuVrZn48LHDIvl2XaCTBM7HkZZ6
+         E4gzvEbRQQlv6lnFL/3nx1X9SUCzHbLd7hFLz4N6uKVvZE3RJlQE7gHjsEgpv2NYBv+v
+         dQgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nruG5wbXF+Ql+fb23mE0km1GyZSsSCOkm8QTSIH25Qs=;
-        b=uQslwK68GIJ5SnNc5BuRuSCYTDb4eEmFL9ikkeNnghp0gX8TKSJV3QwjufzKFcVw+k
-         9x3lH10JbullYrApGaDz6+1ZD8b1OMH7Dr9zGR6LmoJmOzeYY1VuarqZs5QubJvaGNnJ
-         5RWlIh5GZ1YN7cJU9ptrNFHrEPgS97dT78HAb4sS1hCL13NvO2wWgsx0yssQ6vE3sCC2
-         XxCphzLOaZ4+/n4y2k9DBqMq+0TLnHjQXH1BRQrY4pOnCUSfrfIHc1jMd8i5paIdJcfU
-         VrisCWx0agWRmj4yAZu2ndonh8ynNmGh/kt2UzBi78h+X/I91nbwHCxR0y004eOTrztm
-         okkg==
-X-Gm-Message-State: AOAM531Hs9lFFcf35+E7kUzm341xc+0TiY6sLmoFCek+603o6N31mAGY
-	wVXvdrzX+1vsZ+cH2HRy4A==
-X-Google-Smtp-Source: ABdhPJwmioe5mchEce3/NXdPmIyIO3ho3zWNNzXefOSZaEwZx1f/l2+dUrbHFkGd9aBwM/Xzf4ogsA==
-X-Received: by 2002:a05:6808:6cc:: with SMTP id m12mr3167933oih.51.1628876811264;
-        Fri, 13 Aug 2021 10:46:51 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id g13sm206497oos.39.2021.08.13.10.46.49
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=rzZaQ6s2L8HTP/N+G7lyZXAfcU7PndFNzvU/KdGwi9Y=;
+        b=onFok8uo1DVqDX3/+eah3lZG8nOgiiFhlGP/vI4XPbqFq14NGiHtLJgiwK+vhHn+UT
+         87S4rFl4Gukc9yzTQf5nqi4/OdxB89h/TnHEkaZ/DCaTHtT5Udc1V6zyQNB2tfs+tlE+
+         SnUpfuzAljfpxjYeNWSeIjPc5mBB6ZCoK7shTkgNSR/EEHK/xrXbkA8Z8zYNZkmKrRdA
+         HskNlNctJ5Yz3zdZuLNCJr1Zdjmvu022Tv9KaDdzilTX3K0uhc0awtINvRLMmTR+tG0w
+         Sug42oHncknqmoGazanLUbYNGaFzb9EJwiKXxn1tzUWZDcvL0arfp0s4gUSK+gpmg4bH
+         CwXw==
+X-Gm-Message-State: AOAM5310cZX3klamKdNbgA2fhjEyFO0wmTYSEYtugYJRPLc7CHWlvr7O
+	yNs7cvmyCQd647AfaMIzGBNN5w==
+X-Google-Smtp-Source: ABdhPJweINsp2xPplWcV/+0/jpRqDBMONwmRcfnXbq5OUUxaouSweFzLLHnl0sy+OcrlhnZhe5uGpA==
+X-Received: by 2002:a5d:4143:: with SMTP id c3mr6512603wrq.29.1629117553329;
+        Mon, 16 Aug 2021 05:39:13 -0700 (PDT)
+Received: from google.com ([2.31.167.59])
+        by smtp.gmail.com with ESMTPSA id r129sm10460277wmr.7.2021.08.16.05.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Aug 2021 10:46:50 -0700 (PDT)
-Received: (nullmailer pid 3746395 invoked by uid 1000);
-	Fri, 13 Aug 2021 17:46:49 -0000
-Date: Fri, 13 Aug 2021 12:46:49 -0500
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: watchdog: sunxi: Add compatible for
- R329
-Message-ID: <YRawCZ0BWEzTE4El@robh.at.kernel.org>
-References: <20210805045716.46141-1-samuel@sholland.org>
+        Mon, 16 Aug 2021 05:39:12 -0700 (PDT)
+Date: Mon, 16 Aug 2021 13:39:10 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org
+Subject: Re: [PATCH v8 01/11] dt-bindings: mfd: axp20x: Add AXP305 compatible
+ (plus optional IRQ)
+Message-ID: <YRpcboGSk+WyLLy8@google.com>
+References: <20210723153838.6785-1-andre.przywara@arm.com>
+ <20210723153838.6785-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210805045716.46141-1-samuel@sholland.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210723153838.6785-2-andre.przywara@arm.com>
 
-On Wed, Aug 04, 2021 at 11:57:14PM -0500, Samuel Holland wrote:
-> On existing SoCs, the watchdog has a single clock input: HOSC (OSC24M)
-> divided by 750.  However, starting with R329, LOSC (OSC32k) is added as
-> an alternative clock source, with a bit to switch between them.
+On Fri, 23 Jul 2021, Andre Przywara wrote:
+
+> The AXP305 PMIC used on many boards with the H616 SoC seems to be fully
+> compatible to the AXP805 PMIC, so add the proper chain of compatible
+> strings.
 > 
-> Since 24 MHz / 750 == 32 kHz, not 32.768 kHz, the hardware adjusts the
-> cycle counts to keep the timeouts independent of the clock source. This
-> keeps the programming interface backward-compatible.
+> Also at least on one board (Orangepi Zero2) there is no interrupt line
+> connected to the CPU, so make the "interrupts" property optional.
 > 
-> R329 also adds two new registers, to allow software to immediately drive
-> the SoC reset signal.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Acked-by: Rob Herring <robh@kernel.org>
 > ---
-> Changes v1 to v2:
->  - Switch from enum to const
->  - Add descriptions to "clocks" items
-> 
->  .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 32 ++++++++++++++++++-
->  1 file changed, 31 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> index 9aa3c313c49f..8fa5b0d32381 100644
-> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> @@ -24,6 +24,7 @@ properties:
->                - allwinner,sun50i-a100-wdt
->                - allwinner,sun50i-h6-wdt
->                - allwinner,sun50i-h616-wdt
-> +              - allwinner,sun50i-r329-wdt
->            - const: allwinner,sun6i-a31-wdt
->        - items:
->            - const: allwinner,suniv-f1c100s-wdt
-> @@ -33,7 +34,18 @@ properties:
->      maxItems: 1
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - description: High-frequency oscillator input, divided internally
-> +      - description: Low-frequency oscillator input, only found on some variants
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    maxItems: 2
-> +    items:
-> +      - const: hosc
-> +      - const: losc
->  
->    interrupts:
->      maxItems: 1
-> @@ -44,6 +56,24 @@ required:
->    - clocks
->    - interrupts
->  
-> +if:
-> +  properties:
-> +    compatible:
-> +      contains:
-> +        enum:
-> +          - allwinner,sun50i-r329-wdt
-> +
-> +then:
-> +  properties:
-> +    clocks:
-> +      minItems: 2
-> +
-> +    clock-names:
-> +      minItems: 2
-> +
-> +  required:
-> +    - clock-names
+>  Documentation/devicetree/bindings/mfd/axp20x.txt | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Needs an else clause with 'maxItems: 1' or is the 2nd clock now valid 
-for all?
+Applied, thanks.
 
-> +
->  unevaluatedProperties: false
->  
->  examples:
-> -- 
-> 2.31.1
-> 
-> 
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
