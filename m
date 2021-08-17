@@ -1,61 +1,156 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89A02F80
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 08:38:57 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id E4F5CC9069
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 08:13:20 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 73E60FF80B;
-	Tue, 17 Aug 2021 08:13:11 +0000 (UTC)
-Date: Tue, 17 Aug 2021 10:13:11 +0200
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
-	Alessandro Zummo <a.zummo@towertech.it>, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v8 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
- string
-Message-ID: <YRtvl2FWKqAw4b3l@piout.net>
-References: <20210723153838.6785-1-andre.przywara@arm.com>
- <20210723153838.6785-3-andre.przywara@arm.com>
- <20210726144137.6dauuxdssu7yszox@gilmour>
- <20210802013938.29fa18ed@slackpad.fritz.box>
- <20210817073810.7stuzrppyjf4spab@gilmour>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BEF173
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 14:36:12 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id v4so21835260wro.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 07:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=32BbilmGfCuDF7W5py1DJuk1LLN3QBDSYH1TFrCq2mY=;
+        b=tMdjbJwxYEWdeWbPLcwYNALlygjm2QlQHFvwi4gCaiEMX3BJFag1ODnieOVDergbxA
+         ZQisYfqm+roT57FJvJr6OqNGlq+bj/t7t2ZBwEV87/7c1VjuS5ZkiLQyp3OBO5SQamDg
+         xaAgnjxxjOaPSR1LAqP4nGOeNhRqz1YuFqpspocvpbY+LIt1arW/vbuwDsyz2pJm7fYC
+         l3mkiNBuwvKsm2IQkkENdCbmzZ2mbUOaelwKgKe0y6GCfwvpZm4QCETG92VmLhaqp93I
+         VnqAET/LKoFGjN0CvUQoibs9YDBdGrwrla7wfeyLECd6MSH4HUFAE1NxQndZ1ZxJYnVT
+         lCUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=32BbilmGfCuDF7W5py1DJuk1LLN3QBDSYH1TFrCq2mY=;
+        b=WHJfQGGiYY1lII/57q9HLMkkq3aOO9h2t2KJA6XRsvBiGqkvUuVPpr4qx5Bq8ClXeo
+         QLzcrbiKy2EpdhxAed/cK/ayAmkvT4LB2m/rTUlkGQ8e6Gu7IFr657RL84cdKXIJPHd2
+         apD5cHZ3QfpcO8Vbp126iIblezkwdTY7gNmNJYjl3V2rBe+6063RJY9nB1HnMhaTTKgn
+         T7sLlfonGUMq1nAdFrE80Ve2IuOEP+UObqipN4m7eGJEZDWXZzkZUYWLtbrhVAl2Cd0/
+         cX4/att5+l4f1HsuAmFefgX1uoTEu8DGC7qW+VqXedduIRh1wNlchprXfIcH3gPO2fsn
+         N8Pg==
+X-Gm-Message-State: AOAM5301x2X1QZMqWBGEqahu7krNNLA5ksHB/sBFcFUYpiQTvOR429yv
+	IomoPzJEjcZJFzSpO6pfeUc=
+X-Google-Smtp-Source: ABdhPJyn+VAp03/TboZuAJqZd2Ko2/a9yx+awX3ZxvVLZkxqHDnFSJZQtHJxiP5wf2+lwRoucixblA==
+X-Received: by 2002:adf:df08:: with SMTP id y8mr4640628wrl.124.1629210971225;
+        Tue, 17 Aug 2021 07:36:11 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+        by smtp.gmail.com with ESMTPSA id l38sm2171675wmp.15.2021.08.17.07.36.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Aug 2021 07:36:09 -0700 (PDT)
+Date: Tue, 17 Aug 2021 16:36:08 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, sam@ravnborg.org, airlied@linux.ie,
+	daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel-simple: Add Vivax TPC-9150 panel
+Message-ID: <YRvJWKwfCWLSdroy@orome.fritz.box>
+References: <20210817083201.675133-1-pavlica.nikola@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="b7dhfi5BpguSqJ8j"
+Content-Disposition: inline
+In-Reply-To: <20210817083201.675133-1-pavlica.nikola@gmail.com>
+User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
+
+
+--b7dhfi5BpguSqJ8j
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210817073810.7stuzrppyjf4spab@gilmour>
+Content-Transfer-Encoding: quoted-printable
 
-On 17/08/2021 09:38:10+0200, Maxime Ripard wrote:
-> > > It's not entirely clear to me what those clocks are about though. If we
-> > > look at the clock output in the user manual, it looks like there's only
-> > > two clocks that are actually being output: the 32k "fanout" clock and
-> > > the losc. What are the 3 you're talking about?]
-> > 
-> > I see three: the raw SYSTEM "CLK32K_LOSC", the RTC input + debounce
-> > clock (/32), and the multiplexed PAD.
-> 
-> But the input and debounce clock is only for the RTC itself right? So it
-> should be local to the driver and doesn't need to be made available to
-> the other drivers
-> 
+On Tue, Aug 17, 2021 at 10:32:01AM +0200, Nikola Pavlica wrote:
+> The model and make of the LCD panel of the Vivax TPC-9150 is unknown,
+> hence the panel settings that were retrieved with a FEX dump are named
+> after the device NOT the actual panel.
+>=20
+> The LCD in question is a 50 pin MISO TFT LCD panel of the resolution
+> 1024x600 used by the aforementioned device.
+>=20
+> Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
+/panel-simple.c
+> index 4e2dad314c79..97fc3c5740bb 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -4090,6 +4090,29 @@ static const struct panel_desc arm_rtsm =3D {
+>  	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
+>  };
+> =20
+> +static const struct drm_display_mode vivax_tpc9150_panel_mode =3D {
+> +	.clock =3D 60000,
+> +	.hdisplay =3D 1024,
+> +	.hsync_start =3D 1024 + 160,
+> +	.hsync_end =3D 1024 + 160 + 100,
+> +	.htotal =3D 1024 + 160 + 100 + 60,
+> +	.vdisplay =3D 600,
+> +	.vsync_start =3D 600 + 12,
+> +	.vsync_end =3D 600 + 12 + 10,
+> +	.vtotal =3D 600 + 12 + 10 + 13,
+> +};
+> +
+> +static const struct panel_desc vivax_tpc9150_panel =3D {
+> +	.modes =3D &vivax_tpc9150_panel_mode,
+> +	.num_modes =3D 1,
+> +	.size =3D {
+> +		.width =3D 223,
+> +		.height =3D 125,
+> +	},
+> +	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
+> +};
+> +
 
-Shouldn't they be exposed to be able to use assigned-clock?
+These were originally supposed to be alphabetically ordered by
+compatible string, though it looks like at least the data structures for
+ARM RTSM weren't properly ordered.
 
+Perhaps you can prepend a patch correcting that order and then make sure
+your patch keeps the alphabetical ordering, too?
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>  static const struct of_device_id platform_of_match[] =3D {
+>  	{
+>  		.compatible =3D "ampire,am-1280800n3tzqw-t00h",
+> @@ -4103,6 +4126,9 @@ static const struct of_device_id platform_of_match[=
+] =3D {
+>  	}, {
+>  		.compatible =3D "arm,rtsm-display",
+>  		.data =3D &arm_rtsm,
+> +	}, {
+> +		.compatible =3D "vivax,tpc9150-panel",
+> +		.data =3D &vivax_tpc9150_panel,
+
+Also make sure to keep the alphabetical order here.
+
+Thierry
+
+--b7dhfi5BpguSqJ8j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEbyVgACgkQ3SOs138+
+s6ErjRAAmZHoChhXTJUJZc+v0XU6iXsi3V4+q299AH8/BWEzn2a/9Mi3mU0tijtV
+fNV11F63jT9JDDEzBFlDfo4xPzBmYK+4yFovu7TCrbVxKRRTKKHo6hOJkNMAXMFy
+Ieu8XitQe1m23AY36VnoHD57xeFAemwQqDmBL9c5tNO/MnSAtbb764IBHMESxuvV
+pJQau1OJMB4oDJCoOP2u5aAWleEQoYzmkXUs2DcVrzfEZdJUHE1Svl3b0R7Onf13
+XERC5CmlMId0+uJK2d/DED9aBSTvcLbwqGioZdHtGN6WSgXHAIBneYZr/F7sy+vP
+GQuBlYVmq04biulqAPBESicTtwA34WH+RKuktHE12PxssYGAZfjNZTGgUZgJ+AF7
+NBH+kFFtjCT+p/XYg1ComDPc6zGyYx/f5560W9NOlI7DnHKRCWSs7xKV7kfDivs+
+0x2sqP9w3DpFog0RWjdtmU+UTnAYiyw57TcOFgKwa2gaBSSi3KX4D7JXn74V4Vz1
+6pESNYIqqHRZyTrVE+kxw4MM8WFO1iZSX7b4j4bjXymx1td7vC1ux1GOPu32hHS+
+tb+oExlrl2hPv6Ei7NTPbmesARcVGIIN5u3Zpn2vqGWcf+OJ+eRaL1DMtPG1TNHK
+kFli7R0ekIbwKr9v8c2coj6YLszO5UBbd1YX3qZtK1O1axFGnWU=
+=ffYx
+-----END PGP SIGNATURE-----
+
+--b7dhfi5BpguSqJ8j--
