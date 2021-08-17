@@ -1,91 +1,133 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com [91.221.196.228])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52822FB0
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 16:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1629219567;
-	bh=Wt1Gfa74aGaeFve/KcE/rZ8HsK7KgulSzUjTwDDDzic=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=YqnZmoDWdEJX63qtoDsogNo5I0JDR8I4jMW6MCgzzslVi99tCNJRaTAcKJljGbmWd
-	 OoFQ0QEXcPud34sod1PxOnoblTcP8vr1+A/jPmqTXgXYBLiPhXzwapxNcWnprBsBfd
-	 fdLIpgwsvyhpsK6kFDyOVJ1IsRA4G+CKxz1SzHCE=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MDQeK-1mPM5Z2lQk-00ASZB; Tue, 17 Aug 2021 18:59:27 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Len Baker <len.baker@gmx.com>,
-	linux-i2c@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] i2c: sun6i-pw2i: Prefer strscpy over strlcpy
-Date: Tue, 17 Aug 2021 18:58:59 +0200
-Message-Id: <20210817165859.5429-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACBB2FB0
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 17:43:09 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+	by mx2.smtp.larsendata.com (Halon) with ESMTPS
+	id 65e973ba-ff82-11eb-aa7e-0050568cd888;
+	Tue, 17 Aug 2021 17:41:48 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sam@ravnborg.org)
+	by mail01.mxhotel.dk (Postfix) with ESMTPSA id EF143194B04;
+	Tue, 17 Aug 2021 19:42:08 +0200 (CEST)
+Date: Tue, 17 Aug 2021 19:41:57 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Nikola Pavlica <pavlica.nikola@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+	airlied@linux.ie, daniel@ffwll.ch,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/panel-simple: Add Vivax TPC-9150 panel v3
+Message-ID: <YRv05QbPz4lBQG8E@ravnborg.org>
+References: <20210817163605.1077257-1-pavlica.nikola@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:eUX8iGeHdrCmQwqUvgLJI1PlMs2ap/qw3UAD7StzS2DGEIG7K93
- YzsVmA0OcXTvwaWHsLlX39BPkLzsLWj7tJvfc822oUEqkPdNoLnY/gCdjYSrZ6qgyIah/+t
- IUopIqUu63BntXEAYza4UcJJF4lX+PtvrcNvds2/NGZN/svsDJ5hxEriwNeLUX535Tvzj6M
- VSM2eZBRQsR09fflwYnlA==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5/Wish7CQms=:Gyfn31whfCPinEUsghZsBR
- rKAjkZ3YnZeIf+Z0lyPjJfYyaJMqErXIxdtVuibw5G/g9a+04PqpHu/q0kAXXjMsr1Hlp56u4
- YDrGcJnk5oojDeNF1AelD7615kS7RPE3VtLspP9wuCU6ZihaCIH7Oi1K1wtwwi+vvl1oi/xjo
- un2A/l8LjAzRlj7rJU5eM0eREwFA/F3ip/WliZAKHzeIxB5VpiODmhGz7j8Ob1rwALINB87Ty
- ZX5T1C68Dfeg60K7S08REZr12qT+Sa2poNM5VpAM6pMYhwkKAaZDplL1qDFL7XGkYtuiutl1P
- Qmyk+YgIyZWpOBut5Hl409CyNOF2/9ZKdXaRIy9fIdnJ6I+ATYpcUrCvetgYQmb6q2LKfEyaf
- zb+xYE8JOeXo6c7rtX7y8RbOkoJB4c9Ajp//HM3MqQACphD8j6SlPA5hzEQznRnvXVn++vIAQ
- b30NL9npDuWMf8xGs+5Qp40ge3jmEFqxen5WnchImWk1OO6tDpu370WpN3Is/rXEwVpaofeM/
- ZZvin71DwbVVjA8WRl64Ux8rct8tHccTbtG+XD97ufUMr7/zUXf+Sce7n5ruXDlffg5NhvXxX
- T3vzIGWP6fbMn/D0qO0SbPBMD71lJUXdelOq52+9VtRMk8z6EsDnMpHnjSttKSnjQhcuq2EE7
- vJVazlSW5jjkKRWjVmSzhUUSIkPTyDMFcnUxIEGw0Fiki9xpw6nvI64ix95BmrVX4hq4Cqwj2
- g3WjmyrVGxxEa9S9Hlw42trTYxB5mnSC2JEK6WLgxvmrQzPd2md083h7/YxXUhRmAwG4v+eL/
- s/A83N4SIey/2Y/jT1dGWFs3QXu9fPCEDbAUov+bTuVKRBQQvkoaiaQAxhe2lwzlIFPMGit3s
- I3RK737PKEMOMfNghXEcWXxItGrYVaPCx0uoO2jhFc5805njCfOyrnxN115GNjFCO9n8iOfDn
- uJ7nWWQjvNi4Vprl2BSUNrbKZKlvQvDbJQKQkcj97v1nq7wbmODowrREHNIjei1piMtMKhgAz
- 93q55Ij+/W49q6xLNRH/k2SGR1R7R7+JFIazyJs7UdrtmavfOjCTxNUVoGzfDFQWFiaIq83sf
- Y7g33ZqX/kU5Y5VWkBexZ+JOM47rTmIKimNKBd0DxLTxTW1fSp7XWy58Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210817163605.1077257-1-pavlica.nikola@gmail.com>
 
-strlcpy() reads the entire source buffer first. This read may exceed the
-destination size limit. This is both inefficient and can lead to linear
-read overflows if a source string is not NUL-terminated. The safe
-replacement is strscpy().
+Hi Nikola,
 
-This is a previous step in the path to remove the strlcpy() function
-entirely from the kernel [1].
+thanks for the quick re-spin. There is still a few things that needs to
+be addressed though. Sorry for not catching these the first time.
 
-[1] https://github.com/KSPP/linux/issues/89
+On Tue, Aug 17, 2021 at 06:36:05PM +0200, Nikola Pavlica wrote:
+> The model and make of the LCD panel of the Vivax TPC-9150 is unknown,
+> hence the panel settings that were retrieved with a FEX dump are named
+HEX dump?
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/i2c/busses/i2c-sun6i-p2wi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> after the device NOT the actual panel.
+> 
+> The LCD in question is a 50 pin MISO TFT LCD panel of the resolution
+> 1024x600 used by the aforementioned device.
+> 
+> Version 2, as Thierry kindly suggested that I fix the order in which the
+> panel was ordered compared to others.
+> 
+> Version 3, filling in the required info suggested by Sam. Plus some
+> factual issues that I've corrected myself (tested working)
+> 
+> Thanks,
+> Nikola
+> 
+> Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
+> ---
+>  drivers/gpu/drm/panel/panel-simple.c | 29 ++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> index 4e2dad314c79..f6b3e58c162b 100644
+> --- a/drivers/gpu/drm/panel/panel-simple.c
+> +++ b/drivers/gpu/drm/panel/panel-simple.c
+> @@ -3989,6 +3989,32 @@ static const struct panel_desc urt_umsh_8596md_parallel = {
+>  	.bus_format = MEDIA_BUS_FMT_RGB666_1X18,
+>  };
+>  
+> +static const struct drm_display_mode vivax_tpc9150_panel_mode = {
+> +	.clock = 60000,
+> +	.hdisplay = 1024,
+> +	.hsync_start = 1024 + 160,
+> +	.hsync_end = 1024 + 160 + 100,
+> +	.htotal = 1024 + 160 + 100 + 60,
+> +	.vdisplay = 600,
+> +	.vsync_start = 600 + 12,
+> +	.vsync_end = 600 + 12 + 10,
+> +	.vtotal = 600 + 12 + 10 + 13,
+> +};
+> +
+> +static const struct panel_desc vivax_tpc9150_panel = {
+> +	.modes = &vivax_tpc9150_panel_mode,
+> +	.num_modes = 1,
+Most panels put .bpc right above .size, so they follow the order in the
+struct. This is bikeshedding but my OCD triggered here.
 
-diff --git a/drivers/i2c/busses/i2c-sun6i-p2wi.c b/drivers/i2c/busses/i2c-=
-sun6i-p2wi.c
-index 2f6f6468214d..9e3483f507ff 100644
-=2D-- a/drivers/i2c/busses/i2c-sun6i-p2wi.c
-+++ b/drivers/i2c/busses/i2c-sun6i-p2wi.c
-@@ -234,7 +234,7 @@ static int p2wi_probe(struct platform_device *pdev)
- 	if (IS_ERR(p2wi->regs))
- 		return PTR_ERR(p2wi->regs);
+> +	.size = {
+> +		.width = 200,
+> +		.height = 115,
+> +	},
+> +	.bpc = 6,
+> +	.bus_format = MEDIA_BUS_FMT_RGB666_1X24,
+This does not build - I have no MEDIA_BUS_FMT_RGB666_1X24 in my kernel
+(drm-misc-next).
 
--	strlcpy(p2wi->adapter.name, pdev->name, sizeof(p2wi->adapter.name));
-+	strscpy(p2wi->adapter.name, pdev->name, sizeof(p2wi->adapter.name));
- 	irq =3D platform_get_irq(pdev, 0);
- 	if (irq < 0)
- 		return irq;
-=2D-
-2.25.1
+With an LVDS connector and bpc equals 6 my bet is on: MEDIA_BUS_FMT_RGB666_1X7X3_SPWG
+This is from looking at similar panels.
 
+
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
+> +	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> +};
+> +
+> +
+>  static const struct drm_display_mode vl050_8048nt_c01_mode = {
+>  	.clock = 33333,
+>  	.hdisplay = 800,
+> @@ -4490,6 +4516,9 @@ static const struct of_device_id platform_of_match[] = {
+>  	}, {
+>  		.compatible = "urt,umsh-8596md-20t",
+>  		.data = &urt_umsh_8596md_parallel,
+> +	}, {
+> +		.compatible = "vivax,tpc9150-panel",
+vivax is an unknown vendor, needs to be added to
+Documentation/devicetree/bindings/vendor-prefixes.yaml in a separate
+patch.
+
+tpc9150-panel should be added to
+Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+or at least I assume this is the file to add it to.
+Again as a separate patch.
+
+For the two binding related patches see
+Documentation/devicetree/bindings/submitting-patches.rst
+
+Sorry for making this difficult, but we need it done right.
+
+	Sam
