@@ -1,50 +1,28 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com [91.221.196.215])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BEF173
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 14:36:12 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id v4so21835260wro.12
-        for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 07:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=32BbilmGfCuDF7W5py1DJuk1LLN3QBDSYH1TFrCq2mY=;
-        b=tMdjbJwxYEWdeWbPLcwYNALlygjm2QlQHFvwi4gCaiEMX3BJFag1ODnieOVDergbxA
-         ZQisYfqm+roT57FJvJr6OqNGlq+bj/t7t2ZBwEV87/7c1VjuS5ZkiLQyp3OBO5SQamDg
-         xaAgnjxxjOaPSR1LAqP4nGOeNhRqz1YuFqpspocvpbY+LIt1arW/vbuwDsyz2pJm7fYC
-         l3mkiNBuwvKsm2IQkkENdCbmzZ2mbUOaelwKgKe0y6GCfwvpZm4QCETG92VmLhaqp93I
-         VnqAET/LKoFGjN0CvUQoibs9YDBdGrwrla7wfeyLECd6MSH4HUFAE1NxQndZ1ZxJYnVT
-         lCUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=32BbilmGfCuDF7W5py1DJuk1LLN3QBDSYH1TFrCq2mY=;
-        b=WHJfQGGiYY1lII/57q9HLMkkq3aOO9h2t2KJA6XRsvBiGqkvUuVPpr4qx5Bq8ClXeo
-         QLzcrbiKy2EpdhxAed/cK/ayAmkvT4LB2m/rTUlkGQ8e6Gu7IFr657RL84cdKXIJPHd2
-         apD5cHZ3QfpcO8Vbp126iIblezkwdTY7gNmNJYjl3V2rBe+6063RJY9nB1HnMhaTTKgn
-         T7sLlfonGUMq1nAdFrE80Ve2IuOEP+UObqipN4m7eGJEZDWXZzkZUYWLtbrhVAl2Cd0/
-         cX4/att5+l4f1HsuAmFefgX1uoTEu8DGC7qW+VqXedduIRh1wNlchprXfIcH3gPO2fsn
-         N8Pg==
-X-Gm-Message-State: AOAM5301x2X1QZMqWBGEqahu7krNNLA5ksHB/sBFcFUYpiQTvOR429yv
-	IomoPzJEjcZJFzSpO6pfeUc=
-X-Google-Smtp-Source: ABdhPJyn+VAp03/TboZuAJqZd2Ko2/a9yx+awX3ZxvVLZkxqHDnFSJZQtHJxiP5wf2+lwRoucixblA==
-X-Received: by 2002:adf:df08:: with SMTP id y8mr4640628wrl.124.1629210971225;
-        Tue, 17 Aug 2021 07:36:11 -0700 (PDT)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id l38sm2171675wmp.15.2021.08.17.07.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Aug 2021 07:36:09 -0700 (PDT)
-Date: Tue, 17 Aug 2021 16:36:08 +0200
-From: Thierry Reding <thierry.reding@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 276CF173
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 15:46:29 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+	by mx1.smtp.larsendata.com (Halon) with ESMTPS
+	id 1a1bb594-ff72-11eb-b37b-0050568c148b;
+	Tue, 17 Aug 2021 15:45:09 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sam@ravnborg.org)
+	by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2547A194B56;
+	Tue, 17 Aug 2021 17:45:28 +0200 (CEST)
+Date: Tue, 17 Aug 2021 17:45:16 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
 To: Nikola Pavlica <pavlica.nikola@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, sam@ravnborg.org, airlied@linux.ie,
-	daniel@ffwll.ch, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+	airlied@linux.ie, daniel@ffwll.ch,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] drm/panel-simple: Add Vivax TPC-9150 panel
-Message-ID: <YRvJWKwfCWLSdroy@orome.fritz.box>
+Message-ID: <YRvZjDfSxMC5q8ac@ravnborg.org>
 References: <20210817083201.675133-1-pavlica.nikola@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -52,105 +30,84 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="b7dhfi5BpguSqJ8j"
-Content-Disposition: inline
-In-Reply-To: <20210817083201.675133-1-pavlica.nikola@gmail.com>
-User-Agent: Mutt/2.1.1 (e2a89abc) (2021-07-12)
-
-
---b7dhfi5BpguSqJ8j
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210817083201.675133-1-pavlica.nikola@gmail.com>
+
+Hi Nikola,
+
+see a few comments in the following.
 
 On Tue, Aug 17, 2021 at 10:32:01AM +0200, Nikola Pavlica wrote:
 > The model and make of the LCD panel of the Vivax TPC-9150 is unknown,
 > hence the panel settings that were retrieved with a FEX dump are named
 > after the device NOT the actual panel.
->=20
+> 
 > The LCD in question is a 50 pin MISO TFT LCD panel of the resolution
 > 1024x600 used by the aforementioned device.
->=20
+> 
 > Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 > ---
 >  drivers/gpu/drm/panel/panel-simple.c | 26 ++++++++++++++++++++++++++
 >  1 file changed, 26 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel=
-/panel-simple.c
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
 > index 4e2dad314c79..97fc3c5740bb 100644
 > --- a/drivers/gpu/drm/panel/panel-simple.c
 > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> @@ -4090,6 +4090,29 @@ static const struct panel_desc arm_rtsm =3D {
->  	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
+> @@ -4090,6 +4090,29 @@ static const struct panel_desc arm_rtsm = {
+>  	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
 >  };
-> =20
-> +static const struct drm_display_mode vivax_tpc9150_panel_mode =3D {
-> +	.clock =3D 60000,
-> +	.hdisplay =3D 1024,
-> +	.hsync_start =3D 1024 + 160,
-> +	.hsync_end =3D 1024 + 160 + 100,
-> +	.htotal =3D 1024 + 160 + 100 + 60,
-> +	.vdisplay =3D 600,
-> +	.vsync_start =3D 600 + 12,
-> +	.vsync_end =3D 600 + 12 + 10,
-> +	.vtotal =3D 600 + 12 + 10 + 13,
+>  
+> +static const struct drm_display_mode vivax_tpc9150_panel_mode = {
+> +	.clock = 60000,
+> +	.hdisplay = 1024,
+> +	.hsync_start = 1024 + 160,
+> +	.hsync_end = 1024 + 160 + 100,
+> +	.htotal = 1024 + 160 + 100 + 60,
+> +	.vdisplay = 600,
+> +	.vsync_start = 600 + 12,
+> +	.vsync_end = 600 + 12 + 10,
+> +	.vtotal = 600 + 12 + 10 + 13,
 > +};
+.flags?
+
 > +
-> +static const struct panel_desc vivax_tpc9150_panel =3D {
-> +	.modes =3D &vivax_tpc9150_panel_mode,
-> +	.num_modes =3D 1,
-> +	.size =3D {
-> +		.width =3D 223,
-> +		.height =3D 125,
+> +static const struct panel_desc vivax_tpc9150_panel = {
+> +	.modes = &vivax_tpc9150_panel_mode,
+> +	.num_modes = 1,
+> +	.size = {
+> +		.width = 223,
+> +		.height = 125,
 > +	},
-> +	.bus_format =3D MEDIA_BUS_FMT_RGB888_1X24,
-> +	.bus_flags =3D DRM_BUS_FLAG_DE_HIGH,
+> +	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
+> +	.bus_flags = DRM_BUS_FLAG_DE_HIGH,
 > +};
+
+Specifying .connector_type is mandatory today.
+Please specify .bpc too.
+
+Consider if .bus_flags cover it all, they can be a little tricky to add
+them all. And many many displays have failed to do so.
+
+I hope to see a new version soon with these comments and also the
+comments from Thierry fixed.
+
+	Sam
+
 > +
-
-These were originally supposed to be alphabetically ordered by
-compatible string, though it looks like at least the data structures for
-ARM RTSM weren't properly ordered.
-
-Perhaps you can prepend a patch correcting that order and then make sure
-your patch keeps the alphabetical ordering, too?
-
->  static const struct of_device_id platform_of_match[] =3D {
+>  static const struct of_device_id platform_of_match[] = {
 >  	{
->  		.compatible =3D "ampire,am-1280800n3tzqw-t00h",
-> @@ -4103,6 +4126,9 @@ static const struct of_device_id platform_of_match[=
-] =3D {
+>  		.compatible = "ampire,am-1280800n3tzqw-t00h",
+> @@ -4103,6 +4126,9 @@ static const struct of_device_id platform_of_match[] = {
 >  	}, {
->  		.compatible =3D "arm,rtsm-display",
->  		.data =3D &arm_rtsm,
+>  		.compatible = "arm,rtsm-display",
+>  		.data = &arm_rtsm,
 > +	}, {
-> +		.compatible =3D "vivax,tpc9150-panel",
-> +		.data =3D &vivax_tpc9150_panel,
-
-Also make sure to keep the alphabetical order here.
-
-Thierry
-
---b7dhfi5BpguSqJ8j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmEbyVgACgkQ3SOs138+
-s6ErjRAAmZHoChhXTJUJZc+v0XU6iXsi3V4+q299AH8/BWEzn2a/9Mi3mU0tijtV
-fNV11F63jT9JDDEzBFlDfo4xPzBmYK+4yFovu7TCrbVxKRRTKKHo6hOJkNMAXMFy
-Ieu8XitQe1m23AY36VnoHD57xeFAemwQqDmBL9c5tNO/MnSAtbb764IBHMESxuvV
-pJQau1OJMB4oDJCoOP2u5aAWleEQoYzmkXUs2DcVrzfEZdJUHE1Svl3b0R7Onf13
-XERC5CmlMId0+uJK2d/DED9aBSTvcLbwqGioZdHtGN6WSgXHAIBneYZr/F7sy+vP
-GQuBlYVmq04biulqAPBESicTtwA34WH+RKuktHE12PxssYGAZfjNZTGgUZgJ+AF7
-NBH+kFFtjCT+p/XYg1ComDPc6zGyYx/f5560W9NOlI7DnHKRCWSs7xKV7kfDivs+
-0x2sqP9w3DpFog0RWjdtmU+UTnAYiyw57TcOFgKwa2gaBSSi3KX4D7JXn74V4Vz1
-6pESNYIqqHRZyTrVE+kxw4MM8WFO1iZSX7b4j4bjXymx1td7vC1ux1GOPu32hHS+
-tb+oExlrl2hPv6Ei7NTPbmesARcVGIIN5u3Zpn2vqGWcf+OJ+eRaL1DMtPG1TNHK
-kFli7R0ekIbwKr9v8c2coj6YLszO5UBbd1YX3qZtK1O1axFGnWU=
-=ffYx
------END PGP SIGNATURE-----
-
---b7dhfi5BpguSqJ8j--
+> +		.compatible = "vivax,tpc9150-panel",
+> +		.data = &vivax_tpc9150_panel,
+>  	}, {
+>  		.compatible = "armadeus,st0700-adapt",
+>  		.data = &armadeus_st0700_adapt,
+> -- 
+> 2.32.0
