@@ -1,82 +1,183 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D3912FAE
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 Aug 2021 13:22:13 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id i22so7654250edq.11
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 Aug 2021 06:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ASKfOUpZVAKtKzShqT3td46CJv+FH9BqYMNcktsexHo=;
-        b=IcBlsysZ3ws214IXTNUrCb+4+DCBm2SCE3c2JJUL51h6dJBKF7Ula8/ob58WJ2k0Cy
-         FEZGtmG1NZYmGAts9FtG2XE/HJ9M843p4t4PU60ERpqzs4zwSqYWgN2XuMd+ihWFP/yv
-         rGHOO9ST32fto7q/TQRueLCBGLMF3huT1BD3tFRwsnzyBrU3vTQ571+4kDHGPVkBwrVw
-         +912H8BxXAm1Vyc1ojbRdp3xiIWUBKeJF4A1z7yDucdj/IHJWLX2lwCvi1UlkXT/qsRj
-         DFg5w+st1jy8gPlwybQpWDfgZVk27vmOxuG/qT3AVWfIE2wfqqx/NjJJcZ+L0esWgr1B
-         oeuw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ASKfOUpZVAKtKzShqT3td46CJv+FH9BqYMNcktsexHo=;
-        b=CxWuPrOE+BKRi/iKRAkUlWFpzOfFJT2g1D39VW2OcFbcuCtcceeL9PSA93JeyXPtbd
-         wEcOgZ52qfg5X9F+y0oFJwf+kHnJx/b9Xc5yHmh+D0Gf6dp9vlOURWQU+Ml0IBxbClRg
-         knZHbQ1FMIcgzXMwjUNWQ3tBE+eNur8q8O0UIoL/DW3WkCR0dbn2gJxgQdMx7UBrcwob
-         Yxz2AohROiAgJsNFUQQgKnj6f4HpXfC8rKucYLXEacmxS29JjSF+OsD5cXJGkac3/Mjf
-         Ymygvf20O+FLosFENcNM+8IryaZ4hoEbH0/Qk+RWfcLVuLJiqyKyL6GtSJewLiUeJthD
-         21ng==
-X-Gm-Message-State: AOAM532Cc28GQq9+HH3v6ZbBFuMNRSFyp740piHc/YME1R5RfGgMXCCv
-	4Qug6AAPh1OFluUkfA3PbzCvPx0yCXznyaItGJM=
-X-Google-Smtp-Source: ABdhPJx//v0XFjAw696+fxHOjjII7EueTho7mjMVcewyNR038dnvShSmcCCRNZTFY7RXYVxbYyXC1TDmTnk3eFMRwfE=
-X-Received: by 2002:a05:6402:288b:: with SMTP id eg11mr20341402edb.241.1629120131918;
- Mon, 16 Aug 2021 06:22:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14E92FB6
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 07:12:27 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.west.internal (Postfix) with ESMTP id 1EB592B008FF;
+	Tue, 17 Aug 2021 03:12:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 17 Aug 2021 03:12:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=4/94n/KGPF1vmUxfP+ZmhtXHWFk
+	9voOY4f3v9/jT4is=; b=uh/WT0klq5f6AqZrCKiOYaWIVTyNbpINzrtrQWQrLOy
+	zn9iPa50CPXgWfj9REM4+u/o6KZ05onXMh9T3ya3y2vnVLlx4S+4OhWCD1SN+2r6
+	5Y08YS8DbneXf1/LymasxgzXw9aaACgiTIGVMVaye5OBs2WMxK8vgiEY7b6Js9X2
+	rhc38CJMkhgIZruXfdMuLxyh8pJrpAjceQxgFFsEYAxXuZilQmOrcfX+9BVEhSrq
+	aqQFGR6tzEQ58PX7Oim1BhRppUIrzGEMO5VRenPl6lPj2LSqIlmJ64xvH2gULD5t
+	GYnrq6VN+RSIzJ1X5hedDfkwHoHrRnJoGqs3/LBWobg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=4/94n/
+	KGPF1vmUxfP+ZmhtXHWFk9voOY4f3v9/jT4is=; b=FW/xpWtMyCM+KWUn6W7Fxp
+	uT9cvwaaAGJOdTyVTLjJRwrc78g6+U9CEIqmqh0pznc/DvKBTFROwK9Bf9AH05cw
+	g/lM9H4gglFclCvsAMMWUB4HDsEqSCGaOX87fMpX/Fh4LWhlH/PVHACcM621Ox/L
+	NgnTdO5E/nV1vWVGmg3sSg1VtePekVqxfLJiEGw1nhh5RBQhsocW1ax61Y1YjIf3
+	lN8vOJf56+xoKNIA59JNtyphd/B7eLavR+SNDkuogrN8nBnjpDb9FEVZVAjdq52u
+	8Jl2yk07dDQ6HEdhb7fjhKDMYwTayR7Jakw4eHaF+hrb9tEkvN5s7fqduPMD67ag
+	==
+X-ME-Sender: <xms:VmEbYUvCTXFq6hn7W8WkhggELcU8eFgT5P9HKdmoNRf6qN3siC9VSQ>
+    <xme:VmEbYRc4xYkIJJFhDH_5DuuyPH3b6jx5A5D8cEw7RNf-WH9oZ1SO9atGvaiwWef7T
+    zGvcXXLmN0MT4tlJeo>
+X-ME-Received: <xmr:VmEbYfzj8XencrovpqpdEYBbZtLYqxQMa2ujcSj3aM_CHhF9cWLfQnidDbbtgb9MU1jx5RLt0VL5C9mnFlf-12kD0mL-AKQu11TH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrledvgdduudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:VmEbYXPmBV6mWP5-J85esk3XJ36M6-cKhgydQ0iqbB1dHgQNC2WxcA>
+    <xmx:VmEbYU811r2EH0Kl6q2VHresMHbqqEpk5G77hx_s2xo-ExytQAVHVA>
+    <xmx:VmEbYfVI1G-jftzkSLa3CVOKhyhoNnRgAMDS3YpqMXa1FWlvd01NpQ>
+    <xmx:WWEbYfVjMOHmKFS77OFi7iU4PjnXMVJbJTw0ZijdYNEuVfLvf20FV6RJy2U>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Aug 2021 03:12:22 -0400 (EDT)
+Date: Tue, 17 Aug 2021 09:12:20 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: =?utf-8?B?54+t5rab?= <fengzheng923@gmail.com>
+Cc: lgirdwood@gmail.com, Mark Brown <broonie@kernel.org>, perex@perex.cz,
+	tiwai@suse.com, wens@csie.org, jernej.skrabec@gmail.com,
+	p.zabel@pengutronix.de, Samuel Holland <samuel@sholland.org>,
+	krzk@kernel.org, linux-kernel@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v6 1/2] ASoC: sunxi: Add Allwinner H6 Digital MIC driver
+Message-ID: <20210817071220.idoxpwzbpemdjqdz@gilmour>
+References: <20210711122055.4529-1-fengzheng923@gmail.com>
+ <20210715074750.ewbggulc5kast6ez@gilmour>
+ <CAE=m61_=XfhtG9Q1r34McWWCUXt1KP67cjZ0ER62+YaGrG+b4w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210803063149.2821093-1-mudongliangabcd@gmail.com>
- <20210812100437.GA5055@gondor.apana.org.au> <CAD-N9QWGgBBddi5kwTNANKVVdWaQRwagMHvaH592B5GDALpBrg@mail.gmail.com>
- <20210812102954.GA5569@gondor.apana.org.au> <CAD-N9QU6r-yLBvJUpV+xy4pgOFnrtquBymthG7k5ddHt20APzg@mail.gmail.com>
- <20210812104318.GA5780@gondor.apana.org.au>
-In-Reply-To: <20210812104318.GA5780@gondor.apana.org.au>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Mon, 16 Aug 2021 21:21:45 +0800
-Message-ID: <CAD-N9QVz3W1E0D4i9iVTpkHVaB_Y9u1_HK2VW+FoQKJ9H8krrA@mail.gmail.com>
-Subject: Re: [PATCH v2] crypto: sun8i-ce: fix multiple memory leaks in sun8i_ce_hash_run
-To: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Eric Biggers <ebiggers@google.com>, 
-	Xiang Chen <chenxiang66@hisilicon.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, 
-	"Jason A. Donenfeld" <Jason@zx2c4.com>, Ard Biesheuvel <ardb@kernel.org>, linux-crypto@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="yncixzh4whlvhxud"
+Content-Disposition: inline
+In-Reply-To: <CAE=m61_=XfhtG9Q1r34McWWCUXt1KP67cjZ0ER62+YaGrG+b4w@mail.gmail.com>
 
-On Thu, Aug 12, 2021 at 6:43 PM Herbert Xu <herbert@gondor.apana.org.au> wrote:
->
-> On Thu, Aug 12, 2021 at 06:40:20PM +0800, Dongliang Mu wrote:
+
+--yncixzh4whlvhxud
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+On Sun, Aug 01, 2021 at 05:47:46PM +0800, =E7=8F=AD=E6=B6=9B wrote:
+> > > +     /* DMIC num is N+1 */
+> > > +     regmap_update_bits(host->regmap, SUN50I_DMIC_CH_NUM,
+> > > +                        SUN50I_DMIC_CH_NUM_N_MASK,
+> > > +                        SUN50I_DMIC_CH_NUM_N(channels - 1));
+> > > +     host->chan_en =3D (1 << channels) - 1;
+> > > +     regmap_write(host->regmap, SUN50I_DMIC_HPF_CTRL, host->chan_en);
 > >
-> > I agree with you and would like to modify "return 0" to "return err"
-> > in the next version.  Even if the parent function does not care about
-> > the return value, it is still necessary to keep the right return
-> > value.
->
-> Well if the parent is ignoring the error then returning the error
-> there obviously isn't going to help.
+> > Do we need to store the channels bitmask in the main structure? It looks
+> > fairly easy to generate, so I guess we could just use a macro
+>=20
+> I need to store channels bitmask and use it in sun50i_dmic_trigger functi=
+on.
 
-If so, do I still need to change my current patch?
+But you don't need it outside of hw_params. The channel setup is
+typically done in hw_params, not in the trigger hook.
 
-Dongliang Mu
+[...]
 
->
-> Cheers,
-> --
-> Email: Herbert Xu <herbert@gondor.apana.org.au>
-> Home Page: http://gondor.apana.org.au/~herbert/
-> PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+> > > +     /* Clocks */
+> > > +     host->bus_clk =3D devm_clk_get(&pdev->dev, "bus");
+> > > +     if (IS_ERR(host->bus_clk))
+> > > +             return dev_err_probe(&pdev->dev, PTR_ERR(host->bus_clk),
+> > > +                                  "failed to get bus clock.\n");
+> > > +
+> > > +     host->dmic_clk =3D devm_clk_get(&pdev->dev, "mod");
+> > > +     if (IS_ERR(host->dmic_clk))
+> > > +             return dev_err_probe(&pdev->dev, PTR_ERR(host->dmic_clk=
+),
+> > > +                                  "failed to get dmic clock.\n");
+> > > +
+> > > +     host->dma_params_rx.addr =3D res->start + SUN50I_DMIC_DATA;
+> > > +     host->dma_params_rx.maxburst =3D 8;
+> > > +
+> > > +     platform_set_drvdata(pdev, host);
+> > > +
+> > > +     host->rst =3D devm_reset_control_get_optional_exclusive(&pdev->=
+dev, NULL);
+> > > +     if (IS_ERR(host->rst))
+> > > +             return dev_err_probe(&pdev->dev, PTR_ERR(host->rst),
+> > > +                                  "Failed to get reset.\n");
+> >
+> > Your binding states that the reset is mandatory so you don't need the
+> > optional variant.
+> >
+> > > +     reset_control_deassert(host->rst);
+> >
+> > Can't this be moved to the runtime_pm hooks?
+>=20
+> Is this necessary? I see that most of the driver files execute
+> reset_control_deassert in the probe function, and reset_control_assert
+> in the remove function.
+
+Your driver seems to not rely on the fact that the device remains
+powered between each run anyway, so yeah, that way you will completely
+power it down.
+
+> >
+> > > +     ret =3D devm_snd_soc_register_component(&pdev->dev,
+> > > +                             &sun50i_dmic_component, &sun50i_dmic_da=
+i, 1);
+> >
+> > Your second line should be aligned on the opening parenthesis
+> >
+> > > +     if (ret)
+> > > +             return dev_err_probe(&pdev->dev, ret,
+> > > +                                  "failed to register component.\n");
+> > > +
+> > > +     pm_runtime_enable(&pdev->dev);
+> > > +     if (!pm_runtime_enabled(&pdev->dev)) {
+> > > +             ret =3D sun50i_dmic_runtime_resume(&pdev->dev);
+> > > +             if (ret)
+> > > +                     goto err_unregister;
+> > > +     }
+> >
+> > We have a depends on PM on some drivers already, so I guess it would
+> > just make sense to add one more here instead of dealing with whether
+> > runtime_pm is compiled in or not.
+>=20
+> I don't understand. I am referring to the sun4i-spdif.c file. Which
+> driver files should I refer to?
+
+That whole logic is there to enable the device is CONFIG_PM is not
+enabled (and thus the calls to pm_runtime_* won't do anything).
+
+Just add a depends on PM to your Kconfig entry, and call
+pm_runtime_enable there.
+
+Maxime
+
+--yncixzh4whlvhxud
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRthVAAKCRDj7w1vZxhR
+xV5tAQDgo2PFfMG3oI+WJpwKhRvxyNOZwsTG3w/3ZeravzZx4AEA8cAL7Kk9k3li
+rT0wIeYDdfx6CDXMjnnGlqzr/0YvlAs=
+=VTo/
+-----END PGP SIGNATURE-----
+
+--yncixzh4whlvhxud--
