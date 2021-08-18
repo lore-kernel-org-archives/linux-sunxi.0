@@ -1,87 +1,141 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3970772
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 Aug 2021 19:36:32 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 459506023F;
-	Tue, 17 Aug 2021 19:36:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1629228991;
-	bh=lVa/cd8lqAuqi9Xb46n1dPF4Die4VhK2NzXYomfF1F8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MpJqbMTJoY9HiVSZCsZrCWmeFiwYxVmy4mvIkY/TJff233HbXI+HI8emvSQdhDnJm
-	 cldRNM3O2aVw8yw8aqyKfCfpGEkKLJfWa0n1ky2BpCQvl1h4jRXohis0wYuD75rLGe
-	 3fFg/KGIBqfqYC2g3Wtr+cv06xJFYMt5tkSsofOZap6dXiPj+KYJjn8xMBuUWr90xO
-	 y007nNsP0lBUpseo1WG1MmFBr1gMygd03q+3kwknYO/3PNTOFzt6CjYnhWl2hT99v0
-	 +jm3vyqtQmwLjH0Rg08PmYb4Kpd7SftftL4pCMPmyUGrpz80BgkA8xzCjEcD2XlFRj
-	 XXwP/Yym/QKdA==
-Date: Tue, 17 Aug 2021 21:36:28 +0200
-From: Wolfram Sang <wsa@kernel.org>
-To: Len Baker <len.baker@gmx.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] i2c: sun6i-pw2i: Prefer strscpy over strlcpy
-Message-ID: <YRwPvKZm8i47xFXP@kunai>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-	Len Baker <len.baker@gmx.com>, Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-i2c@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210817165859.5429-1-len.baker@gmx.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4362FAF
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 08:15:32 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id A7B09580AE8;
+	Wed, 18 Aug 2021 04:15:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 18 Aug 2021 04:15:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=yYt+4EJ3cWamqkGEsAvOSuOlm+F
+	MX0V4UjsXtAe6pK8=; b=ml3gnKHE4PYqlaOtY/4d/1MAfJkN6cf+Yn2CTAqz8bq
+	T5IbbMJyI8smWzB4TGQ2Tvko0wp7cdDxP1Pyfcc5FCpeNDgsu4QHJhOvMhJbYw3Y
+	Zu6vMKs76Un2vGA8UMm8nzp3vOZwIrIb6B7MtQVoPQqp84WaOilmAS+AwFHUuBi7
+	OQcV8ulV1C2DkJHcR599F0jfwb5QO67j7zVqS1D1t0wYLDb6cGZ+S3BWs6xioIek
+	moCtHMZJEN0vp095N8WJbBnHuEMxQWc2eImW6Te8zRpSwQfRfv9NxB3ey4sxFild
+	u/gDY7gR0e7IkTCUD/ACU4HnIdji3Ya/ZDfXzTgGIYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yYt+4E
+	J3cWamqkGEsAvOSuOlm+FMX0V4UjsXtAe6pK8=; b=iE6TghD30HnYXnkPqyg9Gz
+	Lyjw1Rmts6xoSN8/UyVdGi7dgMl8d3wIR3u6e/LBFv7XEYO9Wc3+YVvn4uI3OyUu
+	7TJqR5bri2SDJAOJSVnM5Z1fbpNjOGG6AP5M+oxMGNZEWkGwI7Hsb4sKNGxGmvhI
+	AUKPtfP6VSq9jUoZFyBPfnw3u8+U6+bNl/A5vG7WvW1LyTUBfBRD7r7oCXSBpQCx
+	TOphU837MkLxS8j1OsFEDtPYldlGdiZl1vvRHOTQmZ/70Hef+F0K6TjEVnLeQO/3
+	rwcWkMBzetthgrrKPFwJR31E5RkafFKLiixh1XU9lU8ft0Nm0Pp9DLLsGCRNd9bg
+	==
+X-ME-Sender: <xms:oMEcYel3r6tW14ohxboieOvua6Q5_ag6QSdyjwU5rW7Rg8t1RgKKXw>
+    <xme:oMEcYV2AM6C5yNHUBzSX6suoda96Kx5pKinKTOcbxkcjnYYMvPRSHAJS3iuyfzf4y
+    9pmbXxd-mayDVkVLlo>
+X-ME-Received: <xmr:oMEcYcqNXW4cg_-7g3txMxRiiZ-q4_8ZTLXjrOeRrYyQ74NVbXE-zBPxqlBbbD-K7i0P-kvgNgfrR1CeHuMlSIGLpxxENkf9APpq>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:oMEcYSlHVDKX5Xk1YEpyJOTIb9SfsDtZv1bZgw5e9pLBAVYpu9KK8A>
+    <xmx:oMEcYc3m4IlzrOwBIwSox9d8dCS_1lGCI278o_w_3Z5d5ChxVqL6hQ>
+    <xmx:oMEcYZsPAdDvsd5td1UVPfbWEZLBCTifd6eCiq_k-JwCt-IOl_XjnA>
+    <xmx:o8EcYX3Q52OikCWntV5thyGm7TtP1McnSk0X6b8iba9pipF5ZrKsfw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 18 Aug 2021 04:15:28 -0400 (EDT)
+Date: Wed, 18 Aug 2021 10:15:26 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v9 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
+ string
+Message-ID: <20210818081526.ejzqyz4tqvf2mmdj@gilmour>
+References: <20210802003952.19942-1-andre.przywara@arm.com>
+ <20210802003952.19942-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zfDDtb3v1My09Y6o"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="jw4w7fdrdj57gaky"
 Content-Disposition: inline
-In-Reply-To: <20210817165859.5429-1-len.baker@gmx.com>
+In-Reply-To: <20210802003952.19942-3-andre.przywara@arm.com>
 
 
---zfDDtb3v1My09Y6o
+--jw4w7fdrdj57gaky
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 17, 2021 at 06:58:59PM +0200, Len Baker wrote:
-> strlcpy() reads the entire source buffer first. This read may exceed the
-> destination size limit. This is both inefficient and can lead to linear
-> read overflows if a source string is not NUL-terminated. The safe
-> replacement is strscpy().
+On Mon, Aug 02, 2021 at 01:39:43AM +0100, Andre Przywara wrote:
+> Add the obvious compatible name to the existing RTC binding.
+> The actual RTC part of the device uses a different day/month/year
+> storage scheme, so it's not compatible with the previous devices.
+> Also the clock part is quite different, as there is no external 32K LOSC
+> oscillator input.
 >=20
-> This is a previous step in the path to remove the strlcpy() function
-> entirely from the kernel [1].
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >=20
-> [1] https://github.com/KSPP/linux/issues/89
->=20
-> Signed-off-by: Len Baker <len.baker@gmx.com>
+> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
+c.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> index beeb90e55727..d8a6500e5840 100644
+> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> @@ -26,6 +26,7 @@ properties:
+>            - const: allwinner,sun50i-a64-rtc
+>            - const: allwinner,sun8i-h3-rtc
+>        - const: allwinner,sun50i-h6-rtc
+> +      - const: allwinner,sun50i-h616-rtc
+> =20
+>    reg:
+>      maxItems: 1
+> @@ -104,6 +105,19 @@ allOf:
+>            minItems: 3
+>            maxItems: 3
+> =20
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: allwinner,sun50i-h616-rtc
+> +
+> +    then:
+> +      properties:
+> +        clock-output-names:
+> +          minItems: 3
+> +          maxItems: 3
 
-Applied to for-next, thanks!
+The comments I made here on the v7 are still relevant: you only need one
+of these two, and the list of clocks should be documented.
 
+Maxime
 
---zfDDtb3v1My09Y6o
+--jw4w7fdrdj57gaky
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmEcD7wACgkQFA3kzBSg
-KbbAshAAqzwcYf+sCrGC16fOCkh5J4iMfSbWmFFrJB1GzLD+Prabz99WbMT9wTR1
-s4E8qEP8AH2l88yhtKcgoT4apvfeZxJi6AWJ52pD3n+noQ3xAZie3ss6dVSI1Bib
-6VI/+GeEGLZQZkM5rUXWWkYeugOJClYyj2g1aulpW4vLDa9G7rd3/FjEsMk/cMH8
-a3yyTm8tRhMGJOIiMTIhxZybdvEzQuyHMNWkhDHrjt+H+KnkQmhqBImmfijEM+HM
-uS639QWzCTw1d5mwK9VFcM0Kd4f6rrZUFLq2qw8sMB2jVgN7ZchOLnw7JhXM73ok
-SEETZe5RsaUupDkvhm9+hygBH+1klK+ZDz/G081yyPqJYXtHkYcArDPO1ZnjGNr2
-RirCAQokAa/Nly4vJWiRMGNyckLWcx2teYK9t2RTUqwtXC9ivK9b7DtmyGkLX8d1
-maIlre3Cy1DeQRuqKGBFC4/xZ9RSP+B8fsrcjnKjur3gUJaNWSCZb+Ub7F2fhiNL
-QGmzyxqUU7oGNruxICTiNniJ2qm5yNgXQwwWwCRzKt/psap1Kh1jbjgWAQ6uBAgu
-NRRrVtkw5G1s8UMtThS8Hi4BdTMwTy1klt7R+qeuqE3f/87hBHfOUCQM8mJHp12F
-RzlRw/o2bBGOlb6OMV5nDH1o/ME8c6rwmGieMXDaN4kfoJWGIn0=
-=/o4W
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRzBngAKCRDj7w1vZxhR
+xdHnAQCthhOj0Myap+OgRtaGj1JPwv/wVtAEsOsf0ajXVyutfwD9FIh6MpNJ/GC7
+POzUJR3WJY93IHn9sXevpJMSQ3XLxAQ=
+=HwrA
 -----END PGP SIGNATURE-----
 
---zfDDtb3v1My09Y6o--
+--jw4w7fdrdj57gaky--
