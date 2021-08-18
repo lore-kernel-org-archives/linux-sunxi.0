@@ -1,151 +1,231 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 112B9168
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 09:12:47 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8EA6A101E;
-	Wed, 18 Aug 2021 02:04:16 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7F7D53F40C;
-	Wed, 18 Aug 2021 02:04:14 -0700 (PDT)
-Date: Wed, 18 Aug 2021 10:04:07 +0100
-From: Andre Przywara <andre.przywara@arm.com>
+Received: from smtpbg604.qq.com (smtpbg604.qq.com [59.36.128.82])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F678168
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 09:19:44 +0000 (UTC)
+X-QQ-mid: bizesmtp35t1629278113t5er5ad8
+Received: from [127.0.0.1] (unknown [112.96.109.179])
+	by esmtp6.qq.com (ESMTP) with 
+	id ; Wed, 18 Aug 2021 17:15:12 +0800 (CST)
+X-QQ-SSF: 0010000000200070B000B00A0000000
+X-QQ-FEAT: RUJ7g7zpdcFh8d4RQ6S/OfFAlrahh0AxSQd/6q9sMXCXJuMRuFdhrPCzyWCbv
+	22zpDSa1w+pEDyRs3qLG7y9achh8XlJLUJxCeKV6POKYi4gQ9795xy2eE90Zq8NB/MoTG5t
+	Ue7UEg43xOJ0FsV0IzI3QidBgNXEOYSKX2rXA7lh/0KPlych+e8usWWnm0Td7LO7SEz2RZ4
+	9utX/FQ/nJKykOVhB9DjsB0crRWlPmVc8wpV0ry1xpoKErEM7MJP5wZBdh8tv7gL0XyJ7pi
+	sXT7m/gqOubsHXoDGonpRUNJ2Xm2mu7CeD7c1XwrV294M9BdOoJtrcZvtkf8GGqUsZcK7gC
+	FrFSIshmg8zJyXAmkY2QnV4wxD2grNwNbqYss09
+X-QQ-GoodBg: 0
+Date: Wed, 18 Aug 2021 17:15:05 +0800
+From: Icenowy Zheng <icenowy@sipeed.com>
 To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, Samuel
- Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@googlegroups.com, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Ondrej Jirman <megous@megous.com>,
- devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>,
+CC: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v8 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
- string
-Message-ID: <20210818100407.7cf7cfb7@slackpad.fritz.box>
-In-Reply-To: <20210817073810.7stuzrppyjf4spab@gilmour>
-References: <20210723153838.6785-1-andre.przywara@arm.com>
-	<20210723153838.6785-3-andre.przywara@arm.com>
-	<20210726144137.6dauuxdssu7yszox@gilmour>
-	<20210802013938.29fa18ed@slackpad.fritz.box>
-	<20210817073810.7stuzrppyjf4spab@gilmour>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+ Andre Przywara <andre.przywara@arm.com>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 15/17] arm64: allwinner: dts: add DTSI file for R329 SoC
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20210818090139.rllz4fvvq3pzdkls@gilmour>
+References: <20210802062212.73220-1-icenowy@sipeed.com> <20210802062212.73220-16-icenowy@sipeed.com> <20210818090139.rllz4fvvq3pzdkls@gilmour>
+Message-ID: <74F51516-2470-4A49-972B-E19D8EDD9A3D@sipeed.com>+2C0AB55E581E37B6
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:sipeed.com:qybgspam:qybgspam4
 
-On Tue, 17 Aug 2021 09:38:10 +0200
-Maxime Ripard <maxime@cerno.tech> wrote:
 
-Hi Maxime,
 
-> On Mon, Aug 02, 2021 at 01:39:38AM +0100, Andre Przywara wrote:
-> > On Mon, 26 Jul 2021 16:41:37 +0200
-> > Maxime Ripard <maxime@cerno.tech> wrote:
-> >   
-> > > Hi,
-> > > 
-> > > On Fri, Jul 23, 2021 at 04:38:29PM +0100, Andre Przywara wrote:  
-> > > > Add the obvious compatible name to the existing RTC binding.
-> > > > The actual RTC part of the device uses a different day/month/year
-> > > > storage scheme, so it's not compatible with the previous devices.
-> > > > Also the clock part is quite different, as there is no external 32K LOSC
-> > > > oscillator input.
-> > > > 
-> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > >
-> > > > ---
-> > > >  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
-> > > >  1 file changed, 14 insertions(+)
-> > > > 
-> > > > diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> > > > index beeb90e55727..d8a6500e5840 100644
-> > > > --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> > > > +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> > > > @@ -26,6 +26,7 @@ properties:
-> > > >            - const: allwinner,sun50i-a64-rtc
-> > > >            - const: allwinner,sun8i-h3-rtc
-> > > >        - const: allwinner,sun50i-h6-rtc
-> > > > +      - const: allwinner,sun50i-h616-rtc
-> > > >  
-> > > >    reg:
-> > > >      maxItems: 1
-> > > > @@ -104,6 +105,19 @@ allOf:
-> > > >            minItems: 3
-> > > >            maxItems: 3
-> > > >  
-> > > > +  - if:
-> > > > +      properties:
-> > > > +        compatible:
-> > > > +          contains:
-> > > > +            const: allwinner,sun50i-h616-rtc
-> > > > +
-> > > > +    then:
-> > > > +      properties:
-> > > > +        clock-output-names:
-> > > > +          minItems: 3
-> > > > +          maxItems: 3    
-> > > 
-> > > You don't need both of them when they are equal
-> > >   
-> > > > +        clocks: false
-> > > > +    
-> > > 
-> > > It's not entirely clear to me what those clocks are about though. If we
-> > > look at the clock output in the user manual, it looks like there's only
-> > > two clocks that are actually being output: the 32k "fanout" clock and
-> > > the losc. What are the 3 you're talking about?]  
-> > 
-> > I see three: the raw SYSTEM "CLK32K_LOSC", the RTC input + debounce
-> > clock (/32), and the multiplexed PAD.  
-> 
-> But the input and debounce clock is only for the RTC itself right? So it
-> should be local to the driver and doesn't need to be made available to
-> the other drivers
+=E4=BA=8E 2021=E5=B9=B48=E6=9C=8818=E6=97=A5 GMT+08:00 =E4=B8=8B=E5=8D=885=
+:01:39, Maxime Ripard <maxime@cerno=2Etech> =E5=86=99=E5=88=B0:
+>On Mon, Aug 02, 2021 at 02:22:10PM +0800, Icenowy Zheng wrote:
+>> Allwinner R329 is a new SoC focused on smart audio devices=2E
+>>=20
+>> Add a DTSI file for it=2E
+>>=20
+>> Signed-off-by: Icenowy Zheng <icenowy@sipeed=2Ecom>
+>> ---
+>>  =2E=2E=2E/arm64/boot/dts/allwinner/sun50i-r329=2Edtsi | 244 ++++++++++=
+++++++++
+>>  1 file changed, 244 insertions(+)
+>>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329=2Edtsi
+>>=20
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-r329=2Edtsi b/arch/ar=
+m64/boot/dts/allwinner/sun50i-r329=2Edtsi
+>> new file mode 100644
+>> index 000000000000=2E=2Ebfefa2b734b0
+>> --- /dev/null
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-r329=2Edtsi
+>> @@ -0,0 +1,244 @@
+>> +// SPDX-License-Identifier: (GPL-2=2E0+ OR MIT)
+>> +// Copyright (c) 2021 Sipeed
+>> +
+>> +#include <dt-bindings/interrupt-controller/arm-gic=2Eh>
+>> +#include <dt-bindings/clock/sun50i-r329-ccu=2Eh>
+>> +#include <dt-bindings/reset/sun50i-r329-ccu=2Eh>
+>> +#include <dt-bindings/clock/sun50i-r329-r-ccu=2Eh>
+>> +#include <dt-bindings/reset/sun50i-r329-r-ccu=2Eh>
+>> +
+>> +/ {
+>> +	interrupt-parent =3D <&gic>;
+>> +	#address-cells =3D <1>;
+>> +	#size-cells =3D <1>;
+>> +
+>> +	cpus {
+>> +		#address-cells =3D <1>;
+>> +		#size-cells =3D <0>;
+>> +
+>> +		cpu0: cpu@0 {
+>> +			compatible =3D "arm,cortex-a53";
+>> +			device_type =3D "cpu";
+>> +			reg =3D <0>;
+>> +			enable-method =3D "psci";
+>> +		};
+>> +
+>> +		cpu1: cpu@1 {
+>> +			compatible =3D "arm,cortex-a53";
+>> +			device_type =3D "cpu";
+>> +			reg =3D <1>;
+>> +			enable-method =3D "psci";
+>> +		};
+>> +	};
+>> +
+>> +	osc24M: osc24M_clk {
+>> +		#clock-cells =3D <0>;
+>> +		compatible =3D "fixed-clock";
+>> +		clock-frequency =3D <24000000>;
+>> +		clock-output-names =3D "osc24M";
+>> +	};
+>> +
+>> +	psci {
+>> +		compatible =3D "arm,psci-0=2E2";
+>> +		method =3D "smc";
+>> +	};
+>> +
+>> +	timer {
+>> +		compatible =3D "arm,armv8-timer";
+>> +		arm,no-tick-in-suspend;
+>> +		interrupts =3D <GIC_PPI 13
+>> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+>> +			     <GIC_PPI 14
+>> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+>> +			     <GIC_PPI 11
+>> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+>> +			     <GIC_PPI 10
+>> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
+>> +	};
+>> +
+>> +	soc {
+>> +		compatible =3D "simple-bus";
+>> +		#address-cells =3D <1>;
+>> +		#size-cells =3D <1>;
+>> +		ranges;
+>> +
+>> +		pio: pinctrl@2000400 {
+>> +			compatible =3D "allwinner,sun50i-r329-pinctrl";
+>> +			reg =3D <0x02000400 0x400>;
+>> +			interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
+>> +				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+>> +			clocks =3D <&ccu CLK_APB1>, <&osc24M>, <&rtc 0>;
+>> +			clock-names =3D "apb", "hosc", "losc";
+>> +			gpio-controller;
+>> +			#gpio-cells =3D <3>;
+>> +			interrupt-controller;
+>> +			#interrupt-cells =3D <3>;
+>> +
+>> +			uart0_pb_pins: uart0-pb-pins {
+>> +				pins =3D "PB4", "PB5";
+>> +				function =3D "uart0";
+>> +			};
+>> +
+>> +			mmc0_pf_pins: mmc0-pf-pins {
+>> +				pins =3D "PF0", "PF1", "PF2",
+>> +				       "PF3", "PF4", "PF5";
+>> +				function =3D "mmc0";
+>> +			};
+>> +
+>> +			mmc1_clk_pg0: mmc1-clk-pg0 {
+>> +				pins =3D "PG0";
+>> +				function =3D "mmc1_clk";
+>> +			};
+>
+>Argh, of course it was bound to happen :)
+>
+>Make sure your DT pass validation though, all your mmc1 node names will r=
+eport errors=2E
+>
+>> +
+>> +			mmc1_cmd_pg1: mmc1-clk-pg1 {
+>
+>s/clk/cmd/ ?
+>
+>> +				pins =3D "PG1";
+>> +				function =3D "mmc1_cmd";
+>> +			};
+>> +
+>> +			mmc1_d0_pg2: mmc1-clk-pg2 {
+>
+>s/clk/d0/
+>
+>> +				pins =3D "PG2";
+>> +				function =3D "mmc1_d0";
+>> +			};
+>> +
+>> +			mmc1_d1_pg3: mmc1-clk-pg3 {
+>
+>s/clk/d1/
+>
+>> +				pins =3D "PG3";
+>> +				function =3D "mmc1_d1";
+>> +			};
+>> +
+>> +			mmc1_d2_pg4: mmc1-clk-pg4 {
+>
+>s/clk/d2/
+>
+>> +				pins =3D "PG4";
+>> +				function =3D "mmc1_d2";
+>> +			};
+>> +
+>> +			mmc1_d3_pg5: mmc1-clk-pg5 {
+>
+>s/clk/d3/
+>
+>> +				pins =3D "PG5";
+>> +				function =3D "mmc1_d3";
+>> +			};
+>> +		};
+>> +
+>> +		ccu: clock@2001000 {
+>> +			compatible =3D "allwinner,sun50i-r329-ccu";
+>> +			reg =3D <0x02001000 0x1000>;
+>> +			clocks =3D <&osc24M>, <&rtc 0>, <&rtc 2>;
+>> +			clock-names =3D "hosc", "losc", "iosc";
+>
+>Do we have a clock tree for the RTC? Is it the same than the H616?
 
-I understood "debounce" as being the clock used for the pinctrl
-debouncer. What would it debounce otherwise? Do you think that this
-"debounce circuit" is something internal to the RTC and is totally
-irrelevant for us?
+Nope, it's the same with H6 because of external LOSC crystal is
+possible=2E (Although production M2A SoMs has it NC for cost control=2E)
 
-But in general I looked at how many *different* clocks this diagram
-describes, and I count: one unaltered ("SYSTEM"), one "div by
-32" (RTC/debounce), and one multiplexed. My aim was to avoid
-DT binding changes when we later discover we do need one of them for
-something (as happened in the past). So three seemed to be the safe
-choice here, to avoid surprises. In the worst case we just will never
-reference one of them.
+What's the same between H616 and R329 is linear day storage of the timekee=
+ping
+part, not the clock part=2E
 
-> Either way, what this list is must be documented.
+>
+>Maxime
 
-You mean to overwrite the "description" stanza for clock-output-names?
-And can this be done in the per-SoC parts in the later part of the
-binding, keeping the existing description?
-
-Cheers,
-Andre
-
-> 
-> > > Also, it looks like the 32k fanout clock needs at least the hosc or
-> > > pll-periph in input, so we probably don't want to ask for no parent
-> > > clock?  
-> > 
-> > Well, we never seem to reference the HOSC this way, this was always
-> > somewhat explicit. And yes, there is PLL-PERIPH as an input, but we
-> > don't support this yet. So I went with 0 input clocks *for now*: the
-> > driver can then ignore all clocks, so any clock referenced in the DT
-> > later won't cause any harm. This will all be addressed by Samuel's RTC
-> > clock patch, which will also touch the H6, IIRC. And it looks like we
-> > will need to touch the binding anyway then, but can then just *extend*
-> > this.  
-> 
-> You mentioned that series several times already and never provided an
-> explanation for what it was supposed to be doing except fixing
-> everything. What's the general plan for that series?
-> 
-> Maxime
-
+--=20
+=E4=BD=BF=E7=94=A8 K-9 Mail =E5=8F=91=E9=80=81=E8=87=AA=E6=88=91=E7=9A=84A=
+ndroid=E8=AE=BE=E5=A4=87=E3=80=82
