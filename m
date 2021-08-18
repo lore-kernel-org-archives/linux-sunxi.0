@@ -1,38 +1,38 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4362FAF
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 08:15:32 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id A7B09580AE8;
-	Wed, 18 Aug 2021 04:15:31 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9398E168
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 08:47:18 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 5DCE1580BCE;
+	Wed, 18 Aug 2021 04:47:17 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 18 Aug 2021 04:15:31 -0400
+  by compute2.internal (MEProxy); Wed, 18 Aug 2021 04:47:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=yYt+4EJ3cWamqkGEsAvOSuOlm+F
-	MX0V4UjsXtAe6pK8=; b=ml3gnKHE4PYqlaOtY/4d/1MAfJkN6cf+Yn2CTAqz8bq
-	T5IbbMJyI8smWzB4TGQ2Tvko0wp7cdDxP1Pyfcc5FCpeNDgsu4QHJhOvMhJbYw3Y
-	Zu6vMKs76Un2vGA8UMm8nzp3vOZwIrIb6B7MtQVoPQqp84WaOilmAS+AwFHUuBi7
-	OQcV8ulV1C2DkJHcR599F0jfwb5QO67j7zVqS1D1t0wYLDb6cGZ+S3BWs6xioIek
-	moCtHMZJEN0vp095N8WJbBnHuEMxQWc2eImW6Te8zRpSwQfRfv9NxB3ey4sxFild
-	u/gDY7gR0e7IkTCUD/ACU4HnIdji3Ya/ZDfXzTgGIYA==
+	:content-type:in-reply-to; s=fm3; bh=Wv1WmLMep7dFaT8jfGEaMi7tqlP
+	V+6Sld2o5UJJO29s=; b=YfQEpXEVxESCzSIj6K0QKj0RD4pot640SQiSflKmevd
+	jdYx2gWJbzNjVl2RAmeIVIscA3EUkCM1efA7B9DAK562np/XgCG0LqKKfg8UwUMm
+	6BfSixL5McURh/ek7NDvT+aha2i3VaBFuaWCHWPQi3KOf+PS5A5bnJcViBdTpURx
+	fdlvzq8EuFSaKAN7y1kiEtVCh+wI4hvSR9UzR2kHzj3pE1Ls2fNj2K1fVvv3m8FY
+	glpF1X5OEhvy5dJ+NY1Do9+3npqDzb2igbJmyi5EkEAjtzj7bJzjllwcaXffL+N0
+	N6Esmm/LII0xlPbvju6U6HCcUwGDIOcjKZjKIikGlCw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yYt+4E
-	J3cWamqkGEsAvOSuOlm+FMX0V4UjsXtAe6pK8=; b=iE6TghD30HnYXnkPqyg9Gz
-	Lyjw1Rmts6xoSN8/UyVdGi7dgMl8d3wIR3u6e/LBFv7XEYO9Wc3+YVvn4uI3OyUu
-	7TJqR5bri2SDJAOJSVnM5Z1fbpNjOGG6AP5M+oxMGNZEWkGwI7Hsb4sKNGxGmvhI
-	AUKPtfP6VSq9jUoZFyBPfnw3u8+U6+bNl/A5vG7WvW1LyTUBfBRD7r7oCXSBpQCx
-	TOphU837MkLxS8j1OsFEDtPYldlGdiZl1vvRHOTQmZ/70Hef+F0K6TjEVnLeQO/3
-	rwcWkMBzetthgrrKPFwJR31E5RkafFKLiixh1XU9lU8ft0Nm0Pp9DLLsGCRNd9bg
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Wv1WmL
+	Mep7dFaT8jfGEaMi7tqlPV+6Sld2o5UJJO29s=; b=NP14a4OiosHFqzQbEOcX6L
+	mfp9zEjfUPiA6K5WZBU/PUFh3H0hr9DXtLZSSLE1FMi7Pe56DBC0LTQeqSSr6gUa
+	4rELkoku/+OmQNd6+M5+5f+oht/8v+7hJev3bGsQ4UQsxU8fB353Zs2kB9r+K32J
+	KITRgh50kcgwkgWX7zP0yOieBtHCauuVk2LHp/p8MHKuKc1nd3kM/kZPkWXsOSNC
+	EJaxHj8yAwLIvj8GzPOK7kVDTG9u0TtBngwsGI+OFri1vPEDYWBoUKPf+7ZEERG3
+	KT3UmP9DOOmbDQL5Dc3LONbWoOgQsOvqLEojBiT/m5np26kwosBLpBfo3YUSB1dw
 	==
-X-ME-Sender: <xms:oMEcYel3r6tW14ohxboieOvua6Q5_ag6QSdyjwU5rW7Rg8t1RgKKXw>
-    <xme:oMEcYV2AM6C5yNHUBzSX6suoda96Kx5pKinKTOcbxkcjnYYMvPRSHAJS3iuyfzf4y
-    9pmbXxd-mayDVkVLlo>
-X-ME-Received: <xmr:oMEcYcqNXW4cg_-7g3txMxRiiZ-q4_8ZTLXjrOeRrYyQ74NVbXE-zBPxqlBbbD-K7i0P-kvgNgfrR1CeHuMlSIGLpxxENkf9APpq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtvdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:E8kcYcpOmx-QPn4ca8wKoBhFIZIoFObuITuwF7_kMrFQmACOveaiNg>
+    <xme:E8kcYSokGBSKAy16Mm3GkgTbhAYXnxbVu3JoVFdG-SSzWCxaW5Ebums7v0Ur0WUl9
+    CIitDcx-doRMbvSDDk>
+X-ME-Received: <xmr:E8kcYRN63fiaQMaMdbYHLreV2Z6kBisoHfJ1D4D_90q5EG894KS4RMpzW-myCKYwG2PHa_UTRrDN4rAVysreQnAHsUPHXYictOO0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
@@ -40,29 +40,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtvdcutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:oMEcYSlHVDKX5Xk1YEpyJOTIb9SfsDtZv1bZgw5e9pLBAVYpu9KK8A>
-    <xmx:oMEcYc3m4IlzrOwBIwSox9d8dCS_1lGCI278o_w_3Z5d5ChxVqL6hQ>
-    <xmx:oMEcYZsPAdDvsd5td1UVPfbWEZLBCTifd6eCiq_k-JwCt-IOl_XjnA>
-    <xmx:o8EcYX3Q52OikCWntV5thyGm7TtP1McnSk0X6b8iba9pipF5ZrKsfw>
+X-ME-Proxy: <xmx:E8kcYT54YTpAF7LXDLpHckcvMp3KEFqkh2DmfLrzkQjfauZ74qknIg>
+    <xmx:E8kcYb6q80YXRnjZDaya95vLaPwMVRJSCXdgZkZfF6GGeB7AayDPiQ>
+    <xmx:E8kcYTgDNc2MQpE1GxDFi7OjBYRKoSNFbHBsP6B4CWdjIwRusAT73g>
+    <xmx:FckcYfhTcjjpQXUcCl9ob0paGIshs5Rzuyrfx-DO89-A980zBx4uFw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 04:15:28 -0400 (EDT)
-Date: Wed, 18 Aug 2021 10:15:26 +0200
+ 18 Aug 2021 04:47:14 -0400 (EDT)
+Date: Wed, 18 Aug 2021 10:47:13 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
-	Alessandro Zummo <a.zummo@towertech.it>,
+To: Icenowy Zheng <icenowy@sipeed.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v9 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
- string
-Message-ID: <20210818081526.ejzqyz4tqvf2mmdj@gilmour>
-References: <20210802003952.19942-1-andre.przywara@arm.com>
- <20210802003952.19942-3-andre.przywara@arm.com>
+	Andre Przywara <andre.przywara@arm.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 12/17] dt-bindings: mmc: sunxi-mmc: add R329 MMC
+ compatible string
+Message-ID: <20210818084713.klz3ijd4tskhorzm@gilmour>
+References: <20210802062212.73220-1-icenowy@sipeed.com>
+ <20210802062212.73220-13-icenowy@sipeed.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,72 +70,39 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jw4w7fdrdj57gaky"
+	protocol="application/pgp-signature"; boundary="ehiead6yfp2hmcse"
 Content-Disposition: inline
-In-Reply-To: <20210802003952.19942-3-andre.przywara@arm.com>
+In-Reply-To: <20210802062212.73220-13-icenowy@sipeed.com>
 
 
---jw4w7fdrdj57gaky
+--ehiead6yfp2hmcse
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 02, 2021 at 01:39:43AM +0100, Andre Przywara wrote:
-> Add the obvious compatible name to the existing RTC binding.
-> The actual RTC part of the device uses a different day/month/year
-> storage scheme, so it's not compatible with the previous devices.
-> Also the clock part is quite different, as there is no external 32K LOSC
-> oscillator input.
+On Mon, Aug 02, 2021 at 02:22:07PM +0800, Icenowy Zheng wrote:
+> R329 SoC has two MMC controllers similar to ones in the previous
+> Allwinner SoCs. However, as R329 has no eMMC controller, the two MMC
+> controllers look like a mixture of previous SoCs' ordinary MMC
+> controller and eMMC controller.
 >=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> ---
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Add a compatible string for R329 MMC controllers.
 >=20
-> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rt=
-c.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> index beeb90e55727..d8a6500e5840 100644
-> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> @@ -26,6 +26,7 @@ properties:
->            - const: allwinner,sun50i-a64-rtc
->            - const: allwinner,sun8i-h3-rtc
->        - const: allwinner,sun50i-h6-rtc
-> +      - const: allwinner,sun50i-h616-rtc
-> =20
->    reg:
->      maxItems: 1
-> @@ -104,6 +105,19 @@ allOf:
->            minItems: 3
->            maxItems: 3
-> =20
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun50i-h616-rtc
-> +
-> +    then:
-> +      properties:
-> +        clock-output-names:
-> +          minItems: 3
-> +          maxItems: 3
+> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 
-The comments I made here on the v7 are still relevant: you only need one
-of these two, and the list of clocks should be documented.
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---jw4w7fdrdj57gaky
+--ehiead6yfp2hmcse
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRzBngAKCRDj7w1vZxhR
-xdHnAQCthhOj0Myap+OgRtaGj1JPwv/wVtAEsOsf0ajXVyutfwD9FIh6MpNJ/GC7
-POzUJR3WJY93IHn9sXevpJMSQ3XLxAQ=
-=HwrA
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRzJEQAKCRDj7w1vZxhR
+xZYnAP9B+XLHb8xJusE9+/MDItMQgZp3Fd4DgCaMnhkMmgOSmgEA41fsWU7UE5iR
+ICQf8x3MNt3DL8U/VoQAweINu9DDVwo=
+=Txi1
 -----END PGP SIGNATURE-----
 
---jw4w7fdrdj57gaky--
+--ehiead6yfp2hmcse--
