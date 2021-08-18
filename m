@@ -1,19 +1,19 @@
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com [91.221.196.228])
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com [91.221.196.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 232792FAF
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 18:22:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF672FAF
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 18:24:55 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
-	by mx2.smtp.larsendata.com (Halon) with ESMTPS
-	id 42771a87-0051-11ec-aa7e-0050568cd888;
-	Wed, 18 Aug 2021 18:22:34 +0000 (UTC)
+	by mx1.smtp.larsendata.com (Halon) with ESMTPS
+	id 8fbb1805-0051-11ec-b37b-0050568c148b;
+	Wed, 18 Aug 2021 18:24:44 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	(Authenticated sender: sam@ravnborg.org)
-	by mail01.mxhotel.dk (Postfix) with ESMTPSA id 2FDB2194B25;
-	Wed, 18 Aug 2021 20:22:56 +0200 (CEST)
-Date: Wed, 18 Aug 2021 20:22:43 +0200
+	by mail01.mxhotel.dk (Postfix) with ESMTPSA id CD104194B25;
+	Wed, 18 Aug 2021 20:25:04 +0200 (CEST)
+Date: Wed, 18 Aug 2021 20:24:52 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Nikola Pavlica <pavlica.nikola@gmail.com>
@@ -21,10 +21,11 @@ Cc: dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
 	airlied@linux.ie, daniel@ffwll.ch,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] dt-bindings: add vendor prefix for Vivax
-Message-ID: <YR1P86H+s3BuLebl@ravnborg.org>
+Subject: Re: [PATCH 2/3] dt-bindings: display: simple: Add Vivax TPC-9150
+ panel
+Message-ID: <YR1QdDgB0H+8J318@ravnborg.org>
 References: <20210818144648.72665-1-pavlica.nikola@gmail.com>
- <20210818144648.72665-3-pavlica.nikola@gmail.com>
+ <20210818144648.72665-2-pavlica.nikola@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,37 +34,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210818144648.72665-3-pavlica.nikola@gmail.com>
+In-Reply-To: <20210818144648.72665-2-pavlica.nikola@gmail.com>
 
-On Wed, Aug 18, 2021 at 04:46:48PM +0200, Nikola Pavlica wrote:
-> Add vendor prefix for the Vivax brand by M SAN Grupa d.o.o.
+Hi Nikola,
+
+On Wed, Aug 18, 2021 at 04:46:47PM +0200, Nikola Pavlica wrote:
+> This tablet display is unique and hence must be added to documentation.
+> Unfortunately, it's real make and number is not known due to obscure and
+> missing documentation and lack of writing on the display assembly
+> itself.
 > 
-> Source (in Croatian): https://www.vivax.com/hr/o-nama.aspx
+> So the natural alternative that came to mind is to name the panel after
+> the device that contained it (an Android tablet). Hopefully that isn't
+> an issue.
+> 
+> I can confirm that the parameters that I've obtained are correct since
+> they came from a dump of the original Android OS.
 > 
 > Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-I like this as the first in the series, as we cannot apply the patch to
-the panel-simple binding before the vendor prefix is present.
+I like this to be *before* the patch to panel-simple.c, as we cannot
+apply the panel-simple.c patch before the compatible is documented.
+
+Or we can apply it, but checkpatch will complain and that will stop me
+applying.
+
+So in other words - reverse the order of the patches.
 
 	Sam
 
 > ---
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
 >  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> index f6064d84a424..c234c392538d 100644
-> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> @@ -1206,6 +1206,8 @@ patternProperties:
->      description: Vitesse Semiconductor Corporation
->    "^vivante,.*":
->      description: Vivante Corporation
-> +  "^vivax,.*":
-> +    description: Vivax brand by M SAN Grupa d.o.o.
->    "^vocore,.*":
->      description: VoCore Studio
->    "^voipac,.*":
+> diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> index 62b0d54d87b7..d0efefa5a820 100644
+> --- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> +++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+> @@ -285,6 +285,8 @@ properties:
+>        - urt,umsh-8596md-11t
+>        - urt,umsh-8596md-19t
+>        - urt,umsh-8596md-20t
+> +        # Vivax TPC-9150 tablet 9.0" WSVGA TFT LCD panel
+> +      - vivax,tpc9150-panel
+>          # VXT 800x480 color TFT LCD panel
+>        - vxt,vl050-8048nt-c01
+>          # Winstar Display Corporation 3.5" QVGA (320x240) TFT LCD panel
 > -- 
 > 2.32.0
