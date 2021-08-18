@@ -1,37 +1,37 @@
 Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9398E168
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 08:47:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5DCE1580BCE;
-	Wed, 18 Aug 2021 04:47:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 18 Aug 2021 04:47:17 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49CB168
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 Aug 2021 08:47:47 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 2FDCF580BCE;
+	Wed, 18 Aug 2021 04:47:47 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Wed, 18 Aug 2021 04:47:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=Wv1WmLMep7dFaT8jfGEaMi7tqlP
-	V+6Sld2o5UJJO29s=; b=YfQEpXEVxESCzSIj6K0QKj0RD4pot640SQiSflKmevd
-	jdYx2gWJbzNjVl2RAmeIVIscA3EUkCM1efA7B9DAK562np/XgCG0LqKKfg8UwUMm
-	6BfSixL5McURh/ek7NDvT+aha2i3VaBFuaWCHWPQi3KOf+PS5A5bnJcViBdTpURx
-	fdlvzq8EuFSaKAN7y1kiEtVCh+wI4hvSR9UzR2kHzj3pE1Ls2fNj2K1fVvv3m8FY
-	glpF1X5OEhvy5dJ+NY1Do9+3npqDzb2igbJmyi5EkEAjtzj7bJzjllwcaXffL+N0
-	N6Esmm/LII0xlPbvju6U6HCcUwGDIOcjKZjKIikGlCw==
+	:content-type:in-reply-to; s=fm3; bh=hsyVK7qJHHuj5gPDNSdTsPzWA01
+	bJfj2s8A4rzDCYeM=; b=cixuqyYClMGrVDcdy8O3PVuLZefGrwyUY3KkVmwV2Ki
+	dpRaulWZD+UO81GP1M18wNgod/oCl2NpcOJrU+NvrgMN9YyH5tcO6ZcW1yhAkKs7
+	4RR/m93pyMh0nfxGYbaefsO1CwI6MWY+ESkQU6I6LncOIKze1EMLdHmmlO9eqtvn
+	6spGbRVErUHUE+Ta4QTAYDU5Y+/2wCiu3aKw4+dtt4lRf8oOOajMqWHAL4FYg6v8
+	x21Moo/MSvh5bcCooA/2DTMiYFF07fD5kzmvo44AJRsK3herexrvo5CYlB3gAcpP
+	02BZ73ARUWV1rWdrojb8h0P2U3/Rn2sNladg39VFAQA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Wv1WmL
-	Mep7dFaT8jfGEaMi7tqlPV+6Sld2o5UJJO29s=; b=NP14a4OiosHFqzQbEOcX6L
-	mfp9zEjfUPiA6K5WZBU/PUFh3H0hr9DXtLZSSLE1FMi7Pe56DBC0LTQeqSSr6gUa
-	4rELkoku/+OmQNd6+M5+5f+oht/8v+7hJev3bGsQ4UQsxU8fB353Zs2kB9r+K32J
-	KITRgh50kcgwkgWX7zP0yOieBtHCauuVk2LHp/p8MHKuKc1nd3kM/kZPkWXsOSNC
-	EJaxHj8yAwLIvj8GzPOK7kVDTG9u0TtBngwsGI+OFri1vPEDYWBoUKPf+7ZEERG3
-	KT3UmP9DOOmbDQL5Dc3LONbWoOgQsOvqLEojBiT/m5np26kwosBLpBfo3YUSB1dw
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hsyVK7
+	qJHHuj5gPDNSdTsPzWA01bJfj2s8A4rzDCYeM=; b=oyq1CBzukwBkSlqbJKwaa8
+	2XUL2pXcyW/xd6t06WoOKYm86e7mqbhy4wfpLGg81zoB81TyPWG3ysOtxmkH/e4i
+	zMkmamgL2eja5jztv66Gto42gkkcWhPTRdwXmJPtYgQaJu7sgZ2gpJDB8XY2RD4T
+	qqLkuqoY61ocUjP1OradkgDyRtjwE3LffYQhFRV8dSQLGEszLHJV9FtiDzB2t7NO
+	WICNl1Z+nhXK+M5bIqxPgyf5v0C0B8X/b8m07K0NTXj8PwHSH0V7wTmjFvrDcGan
+	Xy1r9YJkRRUw625u+8f3zooq+aJFNpF1MmA2i6Vxs6WEs5R/Q47TMYVzw4K62CUA
 	==
-X-ME-Sender: <xms:E8kcYcpOmx-QPn4ca8wKoBhFIZIoFObuITuwF7_kMrFQmACOveaiNg>
-    <xme:E8kcYSokGBSKAy16Mm3GkgTbhAYXnxbVu3JoVFdG-SSzWCxaW5Ebums7v0Ur0WUl9
-    CIitDcx-doRMbvSDDk>
-X-ME-Received: <xmr:E8kcYRN63fiaQMaMdbYHLreV2Z6kBisoHfJ1D4D_90q5EG894KS4RMpzW-myCKYwG2PHa_UTRrDN4rAVysreQnAHsUPHXYictOO0>
+X-ME-Sender: <xms:MckcYRjKPL6JUzpGb6re6cHm4hms_hnUUk5wLU63_odrvlggU36mFA>
+    <xme:MckcYWC4iQNpq23LPTHKqDZ9yyydhQ5gM-Qppo7xcNiOIX_mWqsqyrYQnsomZcq7L
+    ebUzA42J41Coodg4jk>
+X-ME-Received: <xmr:MckcYREZKm29jUCj_CByovFV9XytU9PbHRTHNDcVvJ6CT9hbl0qPKmvscmMn5gBn0r6OwbrIHWXzK9cbdJVkFDqEfLAe6bVEqKcU>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -40,13 +40,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleehgddtkecutefuodetggdote
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
     udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:E8kcYT54YTpAF7LXDLpHckcvMp3KEFqkh2DmfLrzkQjfauZ74qknIg>
-    <xmx:E8kcYb6q80YXRnjZDaya95vLaPwMVRJSCXdgZkZfF6GGeB7AayDPiQ>
-    <xmx:E8kcYTgDNc2MQpE1GxDFi7OjBYRKoSNFbHBsP6B4CWdjIwRusAT73g>
-    <xmx:FckcYfhTcjjpQXUcCl9ob0paGIshs5Rzuyrfx-DO89-A980zBx4uFw>
+X-ME-Proxy: <xmx:MckcYWReAWwP6hrUc5UikMmM7t8YI673y6--taGdQPdBTQWMeFiarQ>
+    <xmx:MckcYezM1i-b9qyTYHFZZvYNFoELvhFRk3hWwYI5qA4GNGDXkgqdIw>
+    <xmx:MckcYc7kB20uoEoQfTVBE9fpnm02DsdaeI8o2Ro72BqB7lUY4-igeg>
+    <xmx:M8kcYQ7HuOotLlNtJtWDim5n9-dja_usogj1Z9K0572fpkph2a2M2A>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 04:47:14 -0400 (EDT)
-Date: Wed, 18 Aug 2021 10:47:13 +0200
+ 18 Aug 2021 04:47:44 -0400 (EDT)
+Date: Wed, 18 Aug 2021 10:47:42 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Icenowy Zheng <icenowy@sipeed.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -58,11 +58,10 @@ Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 12/17] dt-bindings: mmc: sunxi-mmc: add R329 MMC
- compatible string
-Message-ID: <20210818084713.klz3ijd4tskhorzm@gilmour>
+Subject: Re: [PATCH 13/17] mmc: sunxi: add support for R329 MMC controllers
+Message-ID: <20210818084742.mi4mipyrjochvbat@gilmour>
 References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-13-icenowy@sipeed.com>
+ <20210802062212.73220-14-icenowy@sipeed.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,23 +69,21 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ehiead6yfp2hmcse"
+	protocol="application/pgp-signature"; boundary="e2zgsnfvydtovqb4"
 Content-Disposition: inline
-In-Reply-To: <20210802062212.73220-13-icenowy@sipeed.com>
+In-Reply-To: <20210802062212.73220-14-icenowy@sipeed.com>
 
 
---ehiead6yfp2hmcse
+--e2zgsnfvydtovqb4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 02, 2021 at 02:22:07PM +0800, Icenowy Zheng wrote:
-> R329 SoC has two MMC controllers similar to ones in the previous
-> Allwinner SoCs. However, as R329 has no eMMC controller, the two MMC
-> controllers look like a mixture of previous SoCs' ordinary MMC
-> controller and eMMC controller.
+On Mon, Aug 02, 2021 at 02:22:08PM +0800, Icenowy Zheng wrote:
+> The two MMC controllers in Allwinner R329 have a mixed feature set
+> comparing to the previous SoCs' ordinary MMC and eMMC controllers.
 >=20
-> Add a compatible string for R329 MMC controllers.
+> Add support for them.
 >=20
 > Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 
@@ -94,15 +91,15 @@ Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---ehiead6yfp2hmcse
+--e2zgsnfvydtovqb4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRzJEQAKCRDj7w1vZxhR
-xZYnAP9B+XLHb8xJusE9+/MDItMQgZp3Fd4DgCaMnhkMmgOSmgEA41fsWU7UE5iR
-ICQf8x3MNt3DL8U/VoQAweINu9DDVwo=
-=Txi1
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYRzJLgAKCRDj7w1vZxhR
+xUb7AP9Tp1Zq7BhlAIEJVqPR6yzA+CGmxCrwfVkNkR9xx3I4HQEAtzoEcKHyLpJ8
+EC9LMczaOLk2pbptHMAyMuvr0woqTwk=
+=u9kn
 -----END PGP SIGNATURE-----
 
---ehiead6yfp2hmcse--
+--e2zgsnfvydtovqb4--
