@@ -1,155 +1,94 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FF22F80
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 Aug 2021 03:22:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97BE6D17
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 Aug 2021 07:44:04 +0000 (UTC)
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 64445580E09;
-	Wed, 18 Aug 2021 23:22:52 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 7F22C5C01C0;
+	Thu, 19 Aug 2021 03:44:03 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 18 Aug 2021 23:22:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=J
-	0hKvQPS8dExpxRPdMBJPpKCELXT/DpiSuWLnUrwnKk=; b=XmDbbMMi0IPdHkIga
-	/Dr8Tcd3+4kKG99+hsVFpZ8PWkmKP7DRNGI5dYUHBL7geWxnR5eqtQQCk70p+lcI
-	kYxoJKhIGg4qFXAMqVLpIRfMHpyBO1QGSBaVJEiBensGTSGrF6Lgqsh2sgL7fosk
-	sCT4n5+3donYmJJUbihq5V58gqOXigNjdmwXo9SCH6FuVSs9ganQASdjl8ubk5mq
-	FWm9c3tTNwejfXAryN/vLWsc7FTh3nCbShvd8kzMhaUrCeGCLCcb8yzjLSpmPY9Q
-	xafPqIPPqI+jU2Lp5e0ka4iNH9jBwyT6f7lM5gz33tFY63pxE7N7u+yuoPqS0t/0
-	b3l3g==
+  by compute6.internal (MEProxy); Thu, 19 Aug 2021 03:44:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=vqHEFmRLPXy4aW0PbN0wGkXPUzD
+	nDzq+Y4jb3Y6XRvo=; b=il4ZH5R/KimZdVI6bBZabPFI4yvjZqxguE5YEM9DFJc
+	0Dwd3sOqPQyt3HkyNhCEGXgNzQybSoeIxWs/zQQoloooCJMnj32CCAoqivfmpk+L
+	ypwh3tKoA/9QGXDLjZMm35WhuIfwsm+0z738Fwq21uf/8Z5D1RveyYRinehpnp9s
+	WT2tialQb8qOPjrPHW5pFLHUb5rhh0SPrp8EuUSahFSW7xFzrk3JnfKnRY29i8Nf
+	3p7fUTglcLarIy/0UyZJBt2GbMohpkxXopSuE02MAoupu06oM/otDudqahoatfYk
+	0K14PR2+QN4YAhjHBiwg9xbknI8mQGQfAQKRz9IoPaw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=J0hKvQPS8dExpxRPdMBJPpKCELXT/DpiSuWLnUrwn
-	Kk=; b=ngovGQUngFRyRuClX8be3K6k1jC+4uCvbnmVt54Wfz/yB+pA/HPNQsYqu
-	2lp+npdjHgOyoy/smMOFrZsyKXw1JEnV1ZnmXelrh6siqyYX6IujJErtRUNcm4zo
-	9di1i9pxHWaZKLdp7cbL+Y0ynvNIzr0oZgOkzVlRx31gtxZ2xtJDti8ZvY7zb8ju
-	SgtaQOIyUw+FoRJftCJWQtVqDVPCFcExVxZWLNfkJ6w1EjxRjt8xRR73w28hgMZ0
-	GT05EC3zUU1S72cLGcMXx1aHMXEt/9ISfET3RCnwr1u0vedcHqI90Kv4B6LpEHCP
-	yDom5UmUlVj35Ru58naO43kz0T7gw==
-X-ME-Sender: <xms:ic4dYctXnVyGbbCuoZnLILjFa_1O61BSBqU3sg-PVTmaAXIMG2kn1g>
-    <xme:ic4dYZff-AwFXcLnXGaNvZY5n_tdOSUrIAH1uf3EORrlyRkaCEqEEicwdrgclM1vF
-    daSp4z9HP1WiMQr_Q>
-X-ME-Received: <xmr:ic4dYXw1bSdCgFIonTgyW2oF58c1yQFSdQ7rXJzvK0CHjleQ_8NDBfL23D5LpgcQ31I2BIRhT9JgkZBjr4Y1GqcKdom903OWNzeWY4ZEU5Cc8SWnTTOIqN68wg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeigdeilecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
-    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:ic4dYfOZwAIZHuHzXbSDJVFZWdzuj9Dv92M-pViBEwG4HW-nW0c5qA>
-    <xmx:ic4dYc-imRgA87x1MS9NpA0kECZNEi0LTntWvJXK-Xkddonkzgq0Cg>
-    <xmx:ic4dYXXoaptD7lpuOOrSE9Ea07w-sS8iJ-E681liFt8Ez0LTPEv2_Q>
-    <xmx:jM4dYXUCkL91RXkzfsOzSzKbtB5HL_UkD2_FuHZ4LJ0Px1ecDEY1Kw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 18 Aug 2021 23:22:49 -0400 (EDT)
-Subject: Re: [PATCH 08/17] pinctrl: sunxi: add support for R329 R-PIO pin
- controller
-To: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-9-icenowy@sipeed.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <e9937a23-8a8a-ebec-0a44-0d15a06b7e89@sholland.org>
-Date: Wed, 18 Aug 2021 22:22:48 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vqHEFm
+	RLPXy4aW0PbN0wGkXPUzDnDzq+Y4jb3Y6XRvo=; b=qZsLQvaHJgUCUWwQCSX3ea
+	T6tSykS393jHhdwvRdwN7B4cGczTSP6lfAWP9AZezCsgOZZIWL2DgPeyL3Ic9IVa
+	FwBHqRG5hQ6l6Z27FTZV9HVpBeLr+LAD5Nb/rDvAiBfpFl5jfj4+nj2LPqCEkUZ4
+	x2BfNR/FRMYbwkeLMLdk8jyZ9PAHgpx1jpJG8xfc+LfAbtzJonutMm4+zsjhNVzv
+	6wImCtLLU+O1n9eMaMKRZ91yVgvV468eC7EBRV7TIQsmtFuwxvzlDmWjnHH5tDRQ
+	ffOsAFmUQ+bZpM5ZpnC3DBexTKnbjRdGKC2hYJPducVgHAi0h753JRhLpCSwEcjA
+	==
+X-ME-Sender: <xms:wQseYZOiUGQG4Ow-4qJ3j0BCLb07JvP6kMlGtWD6OWuNeIus1V8oJg>
+    <xme:wQseYb9m38mDUjLrZUFgnCXpjVpdQ4kAzgM3s_ZRlS3vF-hajtMnxA-j84hKcEvlY
+    FTKwMRciAz1CJdDUeE>
+X-ME-Received: <xmr:wQseYYSx4vs4eRlmTO27MMXl1XlwSXrHHz_gOeq0tztjCWswpaueX9MXoKsHFmKJsK2uxyKK34aGUAeL068obzXO4_9N2AAnJmMK>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleeigdduvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:wQseYVuZlU0Xbc54SN-4haPkgBj9DDtALZU2Kky-6KJWUvjdN5FRvQ>
+    <xmx:wQseYRfSofa_bBMo-xNZMKr8J_xfZoQuD0iTbOgwt2KJUK5n6BNAbQ>
+    <xmx:wQseYR26wYWJusRrdtVFfZGqn0H6Je9SQdV6dCG4AgILdeG1dED0Yw>
+    <xmx:wwseYaG7u9ONHZ7XKBdg9sDoVEigbm97pH6T3sxy286eTiUf6Wh8ng>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Aug 2021 03:44:01 -0400 (EDT)
+Date: Thu, 19 Aug 2021 09:43:58 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jason Wang <wangborong@cdjrlc.com>
+Cc: wens@csie.org, linux@armlinux.org.uk, jernej.skrabec@gmail.com,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] ARM: sunxi: Add a missing SPDX license header
+Message-ID: <20210819074358.qkvu4ynwk7s7ssuj@gilmour>
+References: <20210810132954.107518-1-wangborong@cdjrlc.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210802062212.73220-9-icenowy@sipeed.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vbqmul2x32a7rofh"
+Content-Disposition: inline
+In-Reply-To: <20210810132954.107518-1-wangborong@cdjrlc.com>
 
-On 8/2/21 1:22 AM, Icenowy Zheng wrote:
-> Allwinner R320 SoC has a pin controller in the CPUS power domain.
-> 
-> Add support for it.
-> 
-> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
-> ---
->  drivers/pinctrl/sunxi/Kconfig                 |   5 +
->  drivers/pinctrl/sunxi/Makefile                |   1 +
->  drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c | 292 ++++++++++++++++++
->  3 files changed, 298 insertions(+)
->  create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c
-> 
-> diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-> index c662e8b1b351..abd60ff8daec 100644
-> --- a/drivers/pinctrl/sunxi/Kconfig
-> +++ b/drivers/pinctrl/sunxi/Kconfig
-> @@ -134,4 +134,9 @@ config PINCTRL_SUN50I_R329
->  	default ARM64 && ARCH_SUNXI
->  	select PINCTRL_SUNXI
->  
-> +config PINCTRL_SUN50I_R329_R
-> +	bool "Support for the Allwinner R329 R-PIO"
-> +	default ARM64 && ARCH_SUNXI
-> +	select PINCTRL_SUNXI
-> +
->  endif
-> diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
-> index e33f7c5f1ff9..245840a7959e 100644
-> --- a/drivers/pinctrl/sunxi/Makefile
-> +++ b/drivers/pinctrl/sunxi/Makefile
-> @@ -26,5 +26,6 @@ obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
->  obj-$(CONFIG_PINCTRL_SUN50I_H616)	+= pinctrl-sun50i-h616.o
->  obj-$(CONFIG_PINCTRL_SUN50I_H616_R)	+= pinctrl-sun50i-h616-r.o
->  obj-$(CONFIG_PINCTRL_SUN50I_R329)	+= pinctrl-sun50i-r329.o
-> +obj-$(CONFIG_PINCTRL_SUN50I_R329_R)	+= pinctrl-sun50i-r329-r.o
->  obj-$(CONFIG_PINCTRL_SUN9I_A80)		+= pinctrl-sun9i-a80.o
->  obj-$(CONFIG_PINCTRL_SUN9I_A80_R)	+= pinctrl-sun9i-a80-r.o
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c b/drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c
-> new file mode 100644
-> index 000000000000..dc4792c685ba
-> --- /dev/null
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c
-> @@ -0,0 +1,292 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Allwinner H616 R_PIO pin controller driver
 
-This needs to be updated.
+--vbqmul2x32a7rofh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> + *
-> + * Copyright (C) 2020 Arm Ltd.
-> + * Based on former work, which is:
-> + *   Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
-> + */
-> +
-> +#include <linux/init.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pinctrl/pinctrl.h>
-> +#include <linux/reset.h>
-> +
-> +#include "pinctrl-sunxi.h"
-> +
-> +static const struct sunxi_desc_pin sun50i_r329_r_pins[] = {
-> +	SUNXI_PIN(SUNXI_PINCTRL_PIN(L, 0),
-> +		  SUNXI_FUNCTION(0x0, "gpio_in"),
-> +		  SUNXI_FUNCTION(0x1, "gpio_out"),
-> +		  SUNXI_FUNCTION(0x2, "s_i2s"),		/* LRCK */
+On Tue, Aug 10, 2021 at 09:29:54PM +0800, Jason Wang wrote:
+> Add the missing SPDX license header to arch/arm/mach-sunxi/sunxi.c.
+>=20
+> Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
 
-"s_i2s0" for these would match existing drivers (and the manual).
+Queued for 5.16, thanks
+Maxime
 
-Everything else matches the manual.
+--vbqmul2x32a7rofh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Samuel
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYR4LvgAKCRDj7w1vZxhR
+xYU/AQD4g6jwiHmuIFjM33kxqZ9OzeTFf8y/Gr80kcYW+7ZIaAEA35RX0bkLIFYO
+NyGZqgj3aFPd96sZcQrBUI5FpgMbpgE=
+=lOWc
+-----END PGP SIGNATURE-----
+
+--vbqmul2x32a7rofh--
