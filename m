@@ -1,39 +1,39 @@
 Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BE772
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 02:44:02 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 13B07580B19;
-	Thu, 19 Aug 2021 22:44:02 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C1672
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 02:59:14 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 3FC41580B51;
+	Thu, 19 Aug 2021 22:59:13 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 19 Aug 2021 22:44:02 -0400
+  by compute6.internal (MEProxy); Thu, 19 Aug 2021 22:59:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=8
-	ib7lPalhLxy+mvQQtHrtvZJrUfHN851sDVcL+6mrQo=; b=nL4+7PC4gYMIQo9dU
-	Aue4wmjuI/ysc5EzyUh6WHFY2kNoXf7xlik5qep/W2IC+5wr1aLri1Zk/WtN1dJu
-	yeoqFP8RBhw9yBarxmQYA8jyf6yOWQBgEEQttfMFzj/GgZU0Bl91awt21/C8IP1H
-	SUWaS6UwLHcx7sYnGmrMY3y/MD/9tgfYMPP6GzcSQJTeNy0O1Wq2KG7q7pSn6/Qt
-	lkSTZwhfNgxk+PpocsqgJbVb25w7LbbqaHKfizzDR0l5kFnE/JJOMXlhpFb1/HfW
-	0yqLoqshuSGFO7gm6P16kRtSPaAAKQRFI1h2E+rSNf5MefS6wIff10uTkQsXQJba
-	PlLxg==
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=W
+	4csqGF7EaCVQldDEP3prZ8OVQrteF1bQXmpxlvS0MU=; b=TvXK8//vl0XRoOqZ2
+	C6a7geG3s3ZbGnxUZCsDNXc+023N1sy6gYH9IuZVgdSYc4OH6EHzSubEn6RHa4xM
+	ROCBzVNPDvoQ9iOJCgwt5Q3owFsJb3P1+BB0Ta1LXDKdbo553mLIFKnjq5KJ/8If
+	qCHtmBHCezOukFQ0NmXcoLCiDmUpAwVDeR2jNUvuOlzeV57zsL1ph7nGFGKxMYf+
+	ZXtARtH0MydN65laKAlEu1RgZWhmyK52sf/t6nvgovSXJry3O1XkezGNMRtJeGP2
+	G8i11DuLiKRf9K/Yb6J2e79Ai7ylpdIfrJ7DJIVnOuP0LVVKrqPN3cLUH9n7XapG
+	uI0oQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=8ib7lPalhLxy+mvQQtHrtvZJrUfHN851sDVcL+6mr
-	Qo=; b=QhEJJfPfJt9DsihP2XKKUHWf3ODh46gi0Ujm6tb+nG65xKmi2ElRfABf/
-	WUNzNgJd6d99gS6dMtdiQyw/EiK7CoUrwFHEQG2beJ2imMJOtk57fgFp9Y11Ab4r
-	DankjNFnZYt1dyR3Setay2BjxaIhY2dGA/1KbXioQD06HzUYgRB2P8HX5bQQICR5
-	8g6fEG0/TyVirHpRcDEmBo0jKaMolkOQGl3xGNP9OHfmwGYMQyxIiMMHOIeU4V4i
-	+cEAveOs2e9wySMpxWDDeSQPhDLGE6ymFqiWS40f2FNTMq+P+GyrnVxyNRRvyQbH
-	VASEGmuHVb2mj7iIchn2SDkJItY9w==
-X-ME-Sender: <xms:7xYfYewfM4R0JUVJ-nIQgfW0n0i8sH1jRLzywLAkKiyimt8DLcIt8g>
-    <xme:7xYfYaS7-JXdr8bjOlnOARg0or-t1sNilB7lb-f7cM982L2nIKyOKy1g-VM5XRnEM
-    lRr8Varbsd1Qys6iA>
-X-ME-Received: <xmr:7xYfYQWVDX4ECPliPr2IaB_qhvU4NCTfduJFmYimAZnZyAFcl6-G-CxcE1hEyavGPCdwtgENTLEK4uQUeGrJ2Po7z51rmbe47Ez2t8wY1tJRRBTxIXS9rvHWjA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleekgdeitdcutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm3; bh=W4csqGF7EaCVQldDEP3prZ8OVQrteF1bQXmpxlvS0
+	MU=; b=XiW/wQd79FiWRlvKJbBCB4kxzSdBP6NtnDSt+gxv/PGEhnrSSdJ2MCUxv
+	m5yPhooO0apj7S+/Xc5LSHxAfvP3a9fgIORh9o/reTnZdserZkLYG/35cot3XTqc
+	/a9ZIeKCvy4uQMtvhkjO+1FHcnjtOT3p6tXXebIE6Qy4e05dJ/8WVmSAho8Py+J1
+	9aD/3bFaPu+yqV16T3ey4BX13BM2bbtsjWi+CzOmz8sJGRkMqL/t0E/RVHUjm9aA
+	9oAX/7C+psAltrgdwrURA48KSFe5yiyzb+G/kWXUxieVqIU2agsErGbwezVwl5qY
+	ozJIW/86/dDg9dbrQd025jfb29W4Q==
+X-ME-Sender: <xms:fhofYVc4NjDcSwrkWsUocQ1Bnt4ulGdSJuIOJaDdBfVXw5eN3yY_Jg>
+    <xme:fhofYTND3ue24QH4ZrpC5Y5dJW9JZbavjdsyucRMV3g0yV7Vvx2lcxEAtJB8cipRB
+    e_V5Cm4gpAGRpNC4w>
+X-ME-Received: <xmr:fhofYejGZo4G9XbkM2Xh9he6HIChrA5EcWtoZCU3ZEwuzMJ2jZ3x5hFPFuqBkVdAv8fYHbecipRLEJX0HtyLZVvGIU0xslfFGnX46j4R_75eAJkcKTA_WsX-wQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleekgdeivdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
@@ -41,13 +41,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleekgdeitdcutefuodetggdote
     frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
     gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
     hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:8BYfYUhdKttyVerHsqI9rKFfSwQWvCjdKDZyhIIQ_12p_HN0N_v0EQ>
-    <xmx:8BYfYQAsfAt5Yys-ds_EE1LtYQdzUB02iNfMdnjtix_b4RPE9lVpsA>
-    <xmx:8BYfYVJYTYT0faU4ev0ey0M0WCPKI9afWQ-fZfm6e8McygFZax-OjA>
-    <xmx:8hYfYZIjEjboHrAaTmddVXw1wxXm1AE1Rk94YXJj4IS69ybLOzJUcA>
+X-ME-Proxy: <xmx:fhofYe-MOstNYwS3psbp0Nd9WfwC2Lf18M1IVcsLVka8AcHvwLQZkw>
+    <xmx:fhofYRuAJI0Qo1Xb86kGnwRdWgqoOPrH8oS9IiNv-faScT-LSUu71A>
+    <xmx:fhofYdFpbefr-jY9pxUNPvX_z-qxPgRYgyDTXUhYx0HDJbKiKU-eWw>
+    <xmx:gRofYdGS5S6pbBsv7ptKqWQ0ZEGNXU1QBKo3m6BgsHIZy2y7WB2SIw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 22:43:59 -0400 (EDT)
-Subject: Re: [PATCH 13/17] mmc: sunxi: add support for R329 MMC controllers
+ 19 Aug 2021 22:59:09 -0400 (EDT)
+Subject: Re: [PATCH 15/17] arm64: allwinner: dts: add DTSI file for R329 SoC
 To: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
  Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -58,10 +58,10 @@ To: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
 Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-14-icenowy@sipeed.com>
+ <20210802062212.73220-16-icenowy@sipeed.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <9000e312-a0d7-fa52-0a48-439312e12572@sholland.org>
-Date: Thu, 19 Aug 2021 21:43:58 -0500
+Message-ID: <6863e247-9ae5-0f90-bf99-8989efd45352@sholland.org>
+Date: Thu, 19 Aug 2021 21:59:08 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -70,20 +70,114 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210802062212.73220-14-icenowy@sipeed.com>
+In-Reply-To: <20210802062212.73220-16-icenowy@sipeed.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 On 8/2/21 1:22 AM, Icenowy Zheng wrote:
-> The two MMC controllers in Allwinner R329 have a mixed feature set
-> comparing to the previous SoCs' ordinary MMC and eMMC controllers.
+> Allwinner R329 is a new SoC focused on smart audio devices.
 > 
-> Add support for them.
+> Add a DTSI file for it.
 > 
 > Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 > ---
->  drivers/mmc/host/sunxi-mmc.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  .../arm64/boot/dts/allwinner/sun50i-r329.dtsi | 244 ++++++++++++++++++
+>  1 file changed, 244 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+One comment below.
+
+All of my other concerns are about the CCU and RTC bindings, which I have
+commented on elsewhere.
+
+Regards,
+Samuel
+
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi
+> new file mode 100644
+> index 000000000000..bfefa2b734b0
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi
+> @@ -0,0 +1,244 @@
+> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> +// Copyright (c) 2021 Sipeed
+> +
+> +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> +#include <dt-bindings/clock/sun50i-r329-ccu.h>
+> +#include <dt-bindings/reset/sun50i-r329-ccu.h>
+> +#include <dt-bindings/clock/sun50i-r329-r-ccu.h>
+> +#include <dt-bindings/reset/sun50i-r329-r-ccu.h>
+> +
+> +/ {
+> +	interrupt-parent = <&gic>;
+> +	#address-cells = <1>;
+> +	#size-cells = <1>;
+> +
+> +	cpus {
+> +		#address-cells = <1>;
+> +		#size-cells = <0>;
+> +
+> +		cpu0: cpu@0 {
+> +			compatible = "arm,cortex-a53";
+> +			device_type = "cpu";
+> +			reg = <0>;
+> +			enable-method = "psci";
+> +		};
+> +
+> +		cpu1: cpu@1 {
+> +			compatible = "arm,cortex-a53";
+> +			device_type = "cpu";
+> +			reg = <1>;
+> +			enable-method = "psci";
+> +		};
+> +	};
+> +
+> +	osc24M: osc24M_clk {
+> +		#clock-cells = <0>;
+> +		compatible = "fixed-clock";
+> +		clock-frequency = <24000000>;
+> +		clock-output-names = "osc24M";
+> +	};
+> +
+> +	psci {
+> +		compatible = "arm,psci-0.2";
+> +		method = "smc";
+> +	};
+> +
+> +	timer {
+> +		compatible = "arm,armv8-timer";
+> +		arm,no-tick-in-suspend;
+> +		interrupts = <GIC_PPI 13
+> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+> +			     <GIC_PPI 14
+> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+> +			     <GIC_PPI 11
+> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>,
+> +			     <GIC_PPI 10
+> +			(GIC_CPU_MASK_SIMPLE(2) | IRQ_TYPE_LEVEL_HIGH)>;
+> +	};
+> +
+> +	soc {
+> +		compatible = "simple-bus";
+> +		#address-cells = <1>;
+> +		#size-cells = <1>;
+> +		ranges;
+> +
+> +		pio: pinctrl@2000400 {
+> +			compatible = "allwinner,sun50i-r329-pinctrl";
+> +			reg = <0x02000400 0x400>;
+> +			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>,
+
+There is an IRQ documented for port C (at SPI 70). Do those pins possibly have
+interrupt capability?
+
+> +				     <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>,
+> +				     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks = <&ccu CLK_APB1>, <&osc24M>, <&rtc 0>;
+> +			clock-names = "apb", "hosc", "losc";
+> +			gpio-controller;
+> +			#gpio-cells = <3>;
+> +			interrupt-controller;
+> +			#interrupt-cells = <3>;
