@@ -1,72 +1,66 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42CEC72
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 03:57:20 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 68D4F580B0E;
-	Thu, 19 Aug 2021 23:57:19 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F0972
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 04:04:58 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id 16E592B01222;
+	Fri, 20 Aug 2021 00:04:57 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 19 Aug 2021 23:57:19 -0400
+  by compute1.internal (MEProxy); Fri, 20 Aug 2021 00:04:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=U
-	jmLtA+f8OC3+lbFmpzvt1mYLDqKmlXSvR6zMgM6p1A=; b=GxElH6unmVGlWH1XX
-	xSciszONKWEZ4UrBmkA650Mjbaef43UhTvWDM6fag5s0kzUdcdaOQQBHze3VukOA
-	r0wS/L55YW9kyBZONqR4ivtqi4AlelWftqunRuptqVQudIXU+PxZ21dp/95aUxpN
-	yF/XiqXnTHb4XDf1rS0EIaKajm8IUgnSzK1m2VcrwfJRacFeb23/77EKQzDWeViv
-	5m36/6FibT4sKTFXy+JawD69Sz4++GyS66JRvVPKHEbKLajy3ctVuZ5jC3J40pHp
-	uSzywtbnYnfqYmAEUnccA7Bt6L4FGTnbIzK4wtWxCbOLZl6e5yLgrIo3qtwHGP57
-	YZhqw==
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=b
+	9n8FHHgB7n5u9D8RC9mb2DdWFB5BNJvEHs32+cU4qs=; b=qJqaqGL6pvo9EXe29
+	js30k3msoz5yqpOxMzJvXJuXPP77IcK/QYEgNX3wJcmy+B3uAxBOKL/Dmu+qb5Hs
+	IgjrI7z7H0xm4fJmhosRB09ZvRYrSSZXy5APwYbH9Ucz4GBdCdvuY2qbp8yYXATn
+	CeIA1AHUc3mxaVpwzcG0dU6MxPR+/lpwIaB3asF5NkotSKtNQLyCjgMJ6gLLSyaH
+	JYC2mAvz/Xcv4HBr64DKcR49+ky0y4SOPeaO5KyL82NhRcXMwNGFDDwf2aNO2MOR
+	he5+FywrmsDx83NSj0H1T3YSq1Cn/N072quKKxbXyltlsBOI6g0WWn8buoAU1/is
+	MCkHA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=UjmLtA+f8OC3+lbFmpzvt1mYLDqKmlXSvR6zMgM6p
-	1A=; b=neiht85Bgu9HmSeDxveJQpmMXAaDoAe7lerhbWe5+y4R99ejb6FOtBhHk
-	rIK3nJpQ02VCD9zA9wyFWl6FCjNA1p23eF5GbGWPNk3lHDLYfGJCp3685mdY5a7y
-	7K1Q7pp/x4OoNu/Ue5gPxQZYm1GqsFimZ5C+cn9E0jBMQ6Y014tIikqw9OEQ41c9
-	VvL3bFQ4y0eIZXDPKZtN0bS9BlamR1yeOKj+FDLQewLVC0N4x/oG40F5aDGJcGMA
-	g698O+f0xqciOMVhKCgVmtUdwgusMqmB0M3FYVVjBH7fhi2ROBrtqiDcjLf7XhE+
-	RJ+EXB+Eg/hnqzP1ddyWFukENjmmA==
-X-ME-Sender: <xms:HCgfYanmo28FcpWj-bTXtHwllKR4hMhu9nvxBO3HUlOPl00w81LwCQ>
-    <xme:HCgfYR0ox0MWidTstZ6XrquAfYXQ8tmO-sipC4XiE0qKsk2DziZalPKrtGdbepQ6g
-    j363Xv5ORu_cl-GzQ>
-X-ME-Received: <xmr:HCgfYYp68uHhhCpZEcTCWL_Ib2rIdIIB-98-ndbJhqCQBOjB-kELOlddipoGV-qN5Dp_8jwLVq0gjLTIC-cIgESvwCvGjTYlO2hFZA6yD4F7iDw4Kfn86JNQMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleekgdejgecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm3; bh=b9n8FHHgB7n5u9D8RC9mb2DdWFB5BNJvEHs32+cU4
+	qs=; b=GQv/zb2BvjDnXsLzad63nSdXBfCS0IXLUfgfmJNtsxlhY3HG9OdBXrRCy
+	mX94NHVXw/YiBUE3IokZEpLa3b/IsBz6LF42nSEQqZZEyPisIkSYIKifbRE8Gs7w
+	fR3UtoGKMfnNbm69bxOzFZ4JmgW9JiPuVxVLgJPZo0nlw8WBgLyUvZZa5nT+tx3s
+	Bckvg/0zNxJmhd+f9fMjOacU31SoH4x5m7PAAZmimpmympXGpAX3NlHpP9NY7F5S
+	NsW4nFgwL1ci5mOyZDkw1bLMrEAbqLfZwWWx3Q9z8eAUwJ8ot+K7WthrDphOqc94
+	+DXctOpPMWp9n6iTD5meB0vQQM5wg==
+X-ME-Sender: <xms:5ikfYYsxSEmzEnuJqa8Y2AcqufbUWw_4Hk2gSPVwTDjI1W0Uz-ekiQ>
+    <xme:5ikfYVcWWo6vhP2OyMhnmCc-QVw8-AfN2zJgESSgAnusL7n8JFGWI5xeuL4svgzbr
+    xe1Pm4IF-3fbnDLwg>
+X-ME-Received: <xmr:5ikfYTwFAo6QvXPHHKDsOL43o2UuyN3XI9KWcYy3DQgnDZlCFUZMnioMJnD-q3JSnM_8bevMG_sng0MTErMHDD-fOoAZaqA0rQBEiUfgQfn3AZyLAZS3hTOxTQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrleekgdejiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
     lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeetteffjeefhfegtdduledutdegudffleduueeftddvlefgieffveef
-    hfdukeegvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
-    ugdrohhrgh
-X-ME-Proxy: <xmx:HCgfYemUcfbGXxM6CwpXu0wkmFrvIXMMBqHbH5whVhZNXZ-7SU9pzQ>
-    <xmx:HCgfYY2BNYsD0I44glEMho1T7Ho1X1OdijCUTN4C1oqdge-NUJxAaw>
-    <xmx:HCgfYVtzD41eBUxZxqy-oCnO4WAB67hYluQjZYB62GyifEiiEYOClQ>
-    <xmx:HygfYT0qoh3_k0BXyvrsVkw-pEEIE9pwC6TI43KI-JjtO9r8uYZkOw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Aug 2021 23:57:15 -0400 (EDT)
-Subject: Re: [PATCH v8 02/11] dt-bindings: rtc: sun6i: Add H616 compatible
- string
-To: Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@googlegroups.com,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Ondrej Jirman <megous@megous.com>, devicetree@vger.kernel.org,
- Alessandro Zummo <a.zummo@towertech.it>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-rtc@vger.kernel.org
-References: <20210723153838.6785-1-andre.przywara@arm.com>
- <20210723153838.6785-3-andre.przywara@arm.com>
- <20210726144137.6dauuxdssu7yszox@gilmour>
- <20210802013938.29fa18ed@slackpad.fritz.box>
- <20210817073810.7stuzrppyjf4spab@gilmour>
- <20210818100407.7cf7cfb7@slackpad.fritz.box>
+    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
+    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:5ikfYbOOw2ep0wGByRHzma11LZDXi9zLrlUuKzfIBpcWauOoVmJn7A>
+    <xmx:5ikfYY9YwOPZlh4-PErgUOehQ-Mybq-_OjKijqkdJQt5Kna0Wl2YUA>
+    <xmx:5ikfYTXLMO_lSu8q9lkyXvLTURMHYPnIyMyJ9ptNC_8XkN4m5i53KQ>
+    <xmx:6CkfYTbC9cXYJ-vHOpchVNp1H6hwRtOu9GvTL8h4RpExaBRT2XTA3Wmb79Y>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Aug 2021 00:04:53 -0400 (EDT)
+Subject: Re: [PATCH v2 1/3] dt-bindings: watchdog: sunxi: Add compatible for
+ R329
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20210805045716.46141-1-samuel@sholland.org>
+ <20210818090732.wdickyw67oc4zqpt@gilmour>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <2b0504f6-9e01-88c1-84c9-c7714715dcb7@sholland.org>
-Date: Thu, 19 Aug 2021 22:57:14 -0500
+Message-ID: <791b7548-cd7b-6cdf-8364-671f6a2029a9@sholland.org>
+Date: Thu, 19 Aug 2021 23:04:52 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -75,159 +69,99 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210818100407.7cf7cfb7@slackpad.fritz.box>
+In-Reply-To: <20210818090732.wdickyw67oc4zqpt@gilmour>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/18/21 4:04 AM, Andre Przywara wrote:
-> On Tue, 17 Aug 2021 09:38:10 +0200
-> Maxime Ripard <maxime@cerno.tech> wrote:
+On 8/18/21 4:07 AM, Maxime Ripard wrote:
+> Hi,
 > 
-> Hi Maxime,
-> 
->> On Mon, Aug 02, 2021 at 01:39:38AM +0100, Andre Przywara wrote:
->>> On Mon, 26 Jul 2021 16:41:37 +0200
->>> Maxime Ripard <maxime@cerno.tech> wrote:
->>>   
->>>> Hi,
->>>>
->>>> On Fri, Jul 23, 2021 at 04:38:29PM +0100, Andre Przywara wrote:  
->>>>> Add the obvious compatible name to the existing RTC binding.
->>>>> The actual RTC part of the device uses a different day/month/year
->>>>> storage scheme, so it's not compatible with the previous devices.
->>>>> Also the clock part is quite different, as there is no external 32K LOSC
->>>>> oscillator input.
->>>>>
->>>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>>>>
->>>>> ---
->>>>>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml      | 14 ++++++++++++++
->>>>>  1 file changed, 14 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>>> index beeb90e55727..d8a6500e5840 100644
->>>>> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>>> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>>> @@ -26,6 +26,7 @@ properties:
->>>>>            - const: allwinner,sun50i-a64-rtc
->>>>>            - const: allwinner,sun8i-h3-rtc
->>>>>        - const: allwinner,sun50i-h6-rtc
->>>>> +      - const: allwinner,sun50i-h616-rtc
->>>>>  
->>>>>    reg:
->>>>>      maxItems: 1
->>>>> @@ -104,6 +105,19 @@ allOf:
->>>>>            minItems: 3
->>>>>            maxItems: 3
->>>>>  
->>>>> +  - if:
->>>>> +      properties:
->>>>> +        compatible:
->>>>> +          contains:
->>>>> +            const: allwinner,sun50i-h616-rtc
->>>>> +
->>>>> +    then:
->>>>> +      properties:
->>>>> +        clock-output-names:
->>>>> +          minItems: 3
->>>>> +          maxItems: 3    
->>>>
->>>> You don't need both of them when they are equal
->>>>   
->>>>> +        clocks: false
->>>>> +    
->>>>
->>>> It's not entirely clear to me what those clocks are about though. If we
->>>> look at the clock output in the user manual, it looks like there's only
->>>> two clocks that are actually being output: the 32k "fanout" clock and
->>>> the losc. What are the 3 you're talking about?]  
->>>
->>> I see three: the raw SYSTEM "CLK32K_LOSC", the RTC input + debounce
->>> clock (/32), and the multiplexed PAD.  
+> On Wed, Aug 04, 2021 at 11:57:14PM -0500, Samuel Holland wrote:
+>> On existing SoCs, the watchdog has a single clock input: HOSC (OSC24M)
+>> divided by 750.  However, starting with R329, LOSC (OSC32k) is added as
+>> an alternative clock source, with a bit to switch between them.
 >>
->> But the input and debounce clock is only for the RTC itself right? So it
->> should be local to the driver and doesn't need to be made available to
->> the other drivers
-> 
-> I understood "debounce" as being the clock used for the pinctrl
-> debouncer. What would it debounce otherwise? Do you think that this
-> "debounce circuit" is something internal to the RTC and is totally
-> irrelevant for us?
-
-I'm pretty sure this is the debounce for the NMI and the SoC reset signal, not
-the pinctrl. The pinctrl debounce clock pretty clearly references 32 kHz.
-
-> But in general I looked at how many *different* clocks this diagram
-> describes, and I count: one unaltered ("SYSTEM"), one "div by
-> 32" (RTC/debounce), and one multiplexed. My aim was to avoid
-> DT binding changes when we later discover we do need one of them for
-> something (as happened in the past). So three seemed to be the safe
-> choice here, to avoid surprises. In the worst case we just will never
-> reference one of them.
-
-Plus RC16M/IOSC (and depending on how you look at it, DCXO24M/HOSC).
-
->> Either way, what this list is must be documented.
-> 
-> You mean to overwrite the "description" stanza for clock-output-names?
-> And can this be done in the per-SoC parts in the later part of the
-> binding, keeping the existing description?
-> 
-> Cheers,
-> Andre
-> 
+>> Since 24 MHz / 750 == 32 kHz, not 32.768 kHz, the hardware adjusts the
+>> cycle counts to keep the timeouts independent of the clock source. This
+>> keeps the programming interface backward-compatible.
 >>
->>>> Also, it looks like the 32k fanout clock needs at least the hosc or
->>>> pll-periph in input, so we probably don't want to ask for no parent
->>>> clock?  
-
-Do you suggest we fix this for the existing bindings?
-
->>> Well, we never seem to reference the HOSC this way, this was always
->>> somewhat explicit. And yes, there is PLL-PERIPH as an input, but we
->>> don't support this yet. So I went with 0 input clocks *for now*: the
->>> driver can then ignore all clocks, so any clock referenced in the DT
->>> later won't cause any harm. This will all be addressed by Samuel's RTC
->>> clock patch, which will also touch the H6, IIRC. And it looks like we
->>> will need to touch the binding anyway then, but can then just *extend*
->>> this.  
+>> R329 also adds two new registers, to allow software to immediately drive
+>> the SoC reset signal.
 >>
->> You mentioned that series several times already and never provided an
->> explanation for what it was supposed to be doing except fixing
->> everything. What's the general plan for that series?
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>> Changes v1 to v2:
+>>  - Switch from enum to const
+>>  - Add descriptions to "clocks" items
+>>
+>>  .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 32 ++++++++++++++++++-
+>>  1 file changed, 31 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+>> index 9aa3c313c49f..8fa5b0d32381 100644
+>> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+>> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+>> @@ -24,6 +24,7 @@ properties:
+>>                - allwinner,sun50i-a100-wdt
+>>                - allwinner,sun50i-h6-wdt
+>>                - allwinner,sun50i-h616-wdt
+>> +              - allwinner,sun50i-r329-wdt
+>>            - const: allwinner,sun6i-a31-wdt
+>>        - items:
+>>            - const: allwinner,suniv-f1c100s-wdt
+>> @@ -33,7 +34,18 @@ properties:
+>>      maxItems: 1
+>>  
+>>    clocks:
+>> -    maxItems: 1
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      - description: High-frequency oscillator input, divided internally
+>> +      - description: Low-frequency oscillator input, only found on some variants
+>> +
+>> +  clock-names:
+>> +    minItems: 1
+>> +    maxItems: 2
+>> +    items:
+>> +      - const: hosc
+>> +      - const: losc
+>>  
+>>    interrupts:
+>>      maxItems: 1
+>> @@ -44,6 +56,24 @@ required:
+>>    - clocks
+>>    - interrupts
+>>  
+>> +if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        enum:
+>> +          - allwinner,sun50i-r329-wdt
+>> +
+>> +then:
+>> +  properties:
+>> +    clocks:
+>> +      minItems: 2
+>> +
+>> +    clock-names:
+>> +      minItems: 2
+>> +
+>> +  required:
+>> +    - clock-names
+>> +
+> 
+> We should also make sure through an else clause that all the other SoCs
+> have a length of one for both clocks and clock-names
 
-This is my fault for not sending anything yet. Since the initial version of the
-driver had the RTC providing HOSC, it depended on converting the existing A100,
-H6, and H616 CCU drivers to use .fw_name for parents, since those drivers
-hardcode two different global names for HOSC. And I had no opportunit to do that
-yet.
+Yes, I'll do that for v3.
 
-However, I should really send something that 100% matches the current binding
-for SoCs where that exists (i.e. osc24M is a fixed clock), and doing so is a
-smaller job.
+> Also, it looks like you forgot the patch to enable the compatible in the
+> driver?
 
-On the other hand, having osc24M as an RTC *output* neatly sidesteps the fact
-that it has been missing from the input list :)
-
-(But on the other-other hand, A50 gets even more fun, as the HOSC crystal may
-not be 24MHz anymore. So the RTC has to choose one of three possible HOSC->LOSC
-dividers based on the HOSC frequency. But there is no register for HOSC
-frequency. So in this case it is convenient to have HOSC as a separate fixed
-clock input.)
-
-The basic idea of my patch is that using the CCU library code lets us cleanly
-have slightly different clock trees for each of the RTC variants that Allwinner
-comes up with.
-
-The secondary goal is to add support for osc32k calibration.
-
-An early version of the patch is here[1], and I will send something as soon as I
-have made the modifications described above. But I know you were skeptical about
-moving the clock part out of the RTC driver. So if you NACK that, somebody will
-have to add all of the variants to the RTC driver.
+R329 has a fallback to A31, so it doesn't need any changes to the driver.
 
 Regards,
 Samuel
-
-[1]: https://github.com/smaeul/linux/commit/9510ca9e95cb.patch
