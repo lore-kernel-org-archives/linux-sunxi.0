@@ -1,111 +1,93 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC6E3FC0
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 12:55:39 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 3F35540768
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 12:48:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1629463735;
-	bh=e6+/LPJwCnWwvmlU9AwLblFP9pPUPAQRXF2MXzGKarc=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type;
-	b=M8CGVywXFcug97xay5x2rXg28H7w0KAAUgWM+WrZ7YLG1QiXTeLsTon82wqM/SoBJ
-	 zuawysYIZUL+/8vDAytB/QT/QHaUx/+PvX32w1P6g8UhXO+EWTgjn4pYy1+/rxjFnt
-	 Gt7k3LSExs+peagtlflA2kSjn+DVA7AQGEFLINCbHO2QIQ6CaETjTqXG32Y+3YWNm2
-	 ARHHJmL4qk3GvY8262DcFSzChy0kbtaS5uLafSrONinznzJ9BK0Fg0hId0u/f7MoXv
-	 mkkcQAJVV/ZmzRjF+nsZ5AaDA2wnfZkWkLgwP3Sd/UDBpqowebb2sVMNsBDpY03b33
-	 9oLcuRdYxLkHg==
-Received: by mail-ed1-f72.google.com with SMTP id eg56-20020a05640228b8b02903be79801f9aso4457505edb.21
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 Aug 2021 05:48:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e6+/LPJwCnWwvmlU9AwLblFP9pPUPAQRXF2MXzGKarc=;
-        b=lArxxJ72yK+ZWffuo9Ewuond6cihZrrr0nnb72oC5OX4IGyrxZfORMN6fGIz2VaGc3
-         euFrwKtFOVZloy9xvCwHL5HC0I5UAiCmvbowtIp2JVCUWZw100kWPp/upNopCHdhjNZ3
-         A1a/dL7wd2OQjf55acRiKErbiQ3m66LSbMo9HgqyZa1KeS5508P5zmchWvbsSEEOH9A3
-         SOLJgTNyhdrzUO5CE8cnvc31IUcqejXs1KWp5iA0bDPkLvKn31J6PpgyS2HFrRb5xUO6
-         7IQoQvQAeYwyrxSs1TM6ORYm+EY1ekRE+/iWmSpB7AbLbW8eiDJaybB5kZT7KUzx3c1h
-         NwQA==
-X-Gm-Message-State: AOAM531MBDz0g9mafjk3BaLYZWNURevOm17eomoVvmloPCDH7dj/nAPQ
-	AlIkHfODvgB1tppQKgqq8Qb82M8JNIqtd/zYz5FzkfvXcfri1pW3EI+8s8W/u2OfwAg6whEs0LA
-	Mbx6MRKgRVJpwzj4dpdQYGXUwE0mc8+GhooNnzbHc
-X-Received: by 2002:a17:906:30d8:: with SMTP id b24mr21486604ejb.358.1629463733476;
-        Fri, 20 Aug 2021 05:48:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzEA4LvHamf6qG6ri+17OoBEIe8kZxRulHqECry6rlL5gh8PL/y/8DEYXFpdW+LnXDSZLDtA==
-X-Received: by 2002:a17:906:30d8:: with SMTP id b24mr21486588ejb.358.1629463733338;
-        Fri, 20 Aug 2021 05:48:53 -0700 (PDT)
-Received: from [192.168.8.102] ([86.32.42.198])
-        by smtp.gmail.com with ESMTPSA id q21sm2800011eji.59.2021.08.20.05.48.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Aug 2021 05:48:53 -0700 (PDT)
-Subject: Re: [PATCH 1/2] arm64: dts: allwinner: h5: align operating-points
- table name with dtschema
-To: wens@csie.org
-Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree <devicetree@vger.kernel.org>,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
-References: <20210820081645.83796-1-krzysztof.kozlowski@canonical.com>
- <CAGb2v66EnW+iO2CPueauRob+b53pNFEuL6LUoSYb09_TN+=_cw@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <adea5de5-30db-72b4-9a65-121b0c3032b5@canonical.com>
-Date: Fri, 20 Aug 2021 14:48:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750CB72
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 Aug 2021 01:15:41 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8A7765C00A1;
+	Sat, 21 Aug 2021 21:15:40 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sat, 21 Aug 2021 21:15:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	subject:to:cc:references:from:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=2
+	jUwAOsYm7NGxbU53voW7SQqUCFlMtcPM9jh9VdS7Ww=; b=LiB5deVIzy1epr/AT
+	+E1qDECuCamFPGlXG3FHhgVYconTF5dYU9/3TSNWbst44jwcGW4xNwSwHKMM2w98
+	X1l1DSIcGWrJulIHabYrZYVdrxyQEuuDd7OI/JIHS0Ou5UoUieTINruWH4l6ciX/
+	7jOFJvKg/SF6uUJjKBfX8oZfr6rR8z+55ja9UYK0diBlGqPbaZkAbtbj2AuRoPIw
+	6yP3eQHFoKo3Bqs6cI6hhu3iz5QDkDLaXhzcNcfq/jN7DtE3nu1A5aH0ADzzdaWO
+	2JqGazboHPrJ7YEYcYh4QYZJPOy/YbfYb3dBz5duA2UmdXJ8aEK3PlTOFArLz1hy
+	u0QFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=2jUwAOsYm7NGxbU53voW7SQqUCFlMtcPM9jh9VdS7
+	Ww=; b=Xj0JwFIjAjeNUBjzsl8a+ntoAp7IiHnMCTT7/X2aohUUJWBgpw5NTABQG
+	tZnNsU7G4dVRZEjxY/ulsgF+CZtkSBzvcNRoVO9wOVsIBqQDowR0ghjJJ8FAqSoe
+	09qc6LDzwBgQhbCEOgEA7EFpEdJFe80iNVOX6Y11/jFlxFdAxq+nFzBbRLgsyHPR
+	xgbQINew0jPp1JZp+41y4hhVOPBBBl5sV8zyVKGc27u+qk+Q5+Yh9V9FhoKKzAhq
+	yICGmVoIn7dLyTwIlx7Pim29RSGx59GdY0/oMbU/1GGp2+b63QR+K6/2WQ0Rarvl
+	/bis6+CbrQ+LGxsdi6pucOcLkeA4g==
+X-ME-Sender: <xms:O6UhYaoKOQ48yapkHB5WuKRrr2fkvprmwvsvKgUpsmmR-UlitMaC2A>
+    <xme:O6UhYYpijNaM-dy8g3ctLsL8NiWmMGjtzD-yrkwdiWgmVYW6UG0QNeRwTIMl0cBJB
+    jPTqsDZ_TqfuX-m7g>
+X-ME-Received: <xmr:O6UhYfNI5vSWUrTVxzVPVRm5kexI0iOufWcQRHqnsHd5ifnGEfuXTAlc9k68qnWFC42EbWnhDtyJ32IFXH1KMOaA-geIdn_UZ4zgif241sUAwH3T3adfdV8lYA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtvddggeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:O6UhYZ7NfmrQUzWTVb-3US5J4CbUoknFLQMWGxjCUvS99bAmlepnmQ>
+    <xmx:O6UhYZ5EpRLnT0yI6S3xvJTDPVBHwM0x8rsYmpahJjg-U7tHa1kr0Q>
+    <xmx:O6UhYZjHkjJr8G--u2fgznEi1R-q1RsFZVIXW55JeGB8cd8rlNw92Q>
+    <xmx:PKUhYXQsfe3RTgcsZRT1eoQN83GYuOx2_zpR5K8p8jNzlCu2YRkdiA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 21 Aug 2021 21:15:39 -0400 (EDT)
+Subject: Re: [PATCH v2 0/4] mkimage: sunxi_egon: add riscv support
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
+ Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Andre Przywara <andre.przywara@arm.com>, Tom Rini <trini@konsulko.com>
+References: <20210619091838.646779-1-icenowy@aosc.io>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <fa18e1f2-ab31-337c-2d75-5b1938e35251@sholland.org>
+Date: Sat, 21 Aug 2021 20:15:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAGb2v66EnW+iO2CPueauRob+b53pNFEuL6LUoSYb09_TN+=_cw@mail.gmail.com>
+In-Reply-To: <20210619091838.646779-1-icenowy@aosc.io>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 20/08/2021 14:11, Chen-Yu Tsai wrote:
-> On Fri, Aug 20, 2021 at 4:16 PM Krzysztof Kozlowski
-> <krzysztof.kozlowski@canonical.com> wrote:
->>
->> Align the name of operating-points node to dtschema to fix warnings like:
->>
->>   arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml:
->>     cpu-opp-table: $nodename:0: 'cpu-opp-table' does not match '^opp-table(-[a-z0-9]+)?$'
->>
->> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
->> ---
->>  arch/arm64/boot/dts/allwinner/sun50i-h5-cpu-opp.dtsi | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-cpu-opp.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h5-cpu-opp.dtsi
->> index b2657201957e..0b6914a165b0 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-cpu-opp.dtsi
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-cpu-opp.dtsi
->> @@ -2,7 +2,7 @@
->>  // Copyright (C) 2020 Chen-Yu Tsai <wens@csie.org>
->>
->>  / {
->> -       cpu_opp_table: cpu-opp-table {
->> +       cpu_opp_table: opp-table-0 {
+On 6/19/21 4:18 AM, Icenowy Zheng wrote:
+> This patchset tries to make mkimage -T sunxi_egon to be able to generate
+> an eGON.BT0 image for Allwinner RISC-V SoCs (e.g. D1).
 > 
-> Maybe we should just reorder the name? Name it "opp-table-cpu" instead.
-> That way if and when we add one for the GPU, we don't accidentally
-> clash on the name.
+> In addition, to keep the compatibility, it will still consider the
+> architecture to be ARM when no architecture is specified.
+> 
+> Icenowy Zheng (4):
+>   mkimage: add a flag to describe whether -A is specified
+>   mkimage: sunxi_egon: refactor for multi-architecture support
+>   mkimage: sunxi_egon: add support for riscv
+>   sunxi: specify architecture when generating SPL boot image
+> 
+>  scripts/Makefile.spl |  2 +-
+>  tools/imagetool.h    |  1 +
+>  tools/mkimage.c      |  1 +
+>  tools/sunxi_egon.c   | 86 ++++++++++++++++++++++++++++++++++++++++----
+>  4 files changed, 82 insertions(+), 8 deletions(-)
 
-Although the schema allows such name, but still the devicetree
-specification says that name should be generic (representing generic
-type of a device). Just like there is a "clock-controller" or
-"nand-controller", there should be generic "opp-table".
+This works great on D1. For the whole series:
 
-
-Best regards,
-Krzysztof
+Tested-by: Samuel Holland <samuel@sholland.org>
