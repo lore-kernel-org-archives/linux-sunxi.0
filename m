@@ -1,93 +1,160 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750CB72
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 Aug 2021 01:15:41 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8A7765C00A1;
-	Sat, 21 Aug 2021 21:15:40 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Sat, 21 Aug 2021 21:15:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=2
-	jUwAOsYm7NGxbU53voW7SQqUCFlMtcPM9jh9VdS7Ww=; b=LiB5deVIzy1epr/AT
-	+E1qDECuCamFPGlXG3FHhgVYconTF5dYU9/3TSNWbst44jwcGW4xNwSwHKMM2w98
-	X1l1DSIcGWrJulIHabYrZYVdrxyQEuuDd7OI/JIHS0Ou5UoUieTINruWH4l6ciX/
-	7jOFJvKg/SF6uUJjKBfX8oZfr6rR8z+55ja9UYK0diBlGqPbaZkAbtbj2AuRoPIw
-	6yP3eQHFoKo3Bqs6cI6hhu3iz5QDkDLaXhzcNcfq/jN7DtE3nu1A5aH0ADzzdaWO
-	2JqGazboHPrJ7YEYcYh4QYZJPOy/YbfYb3dBz5duA2UmdXJ8aEK3PlTOFArLz1hy
-	u0QFA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A963FC2
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Aug 2021 14:50:32 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id EA6975810A7;
+	Wed, 25 Aug 2021 10:50:31 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 25 Aug 2021 10:50:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=j25qG8ukGnHu+GbG45H46dChMEe
+	xlabwoRMynBr2xQU=; b=wVFPjE3MTevKsL7NaaHJE9zSwMBfgYJGOnMnoreO3AX
+	vk1O/cfAFCBEQJW2L9B8JoYEWYLQJdAI5KIn4Wg4+x4Y6VlmlZ1BG6ImYNx542zv
+	G9T3VKCY9v0TxTqVkaKuI9D6W5CzAES/W6iKJXWy+ui7nmoZ609OH5ERQx1YR8ur
+	IPK0UfMgEY7knOBO2qJFN+mEVcht6sgiSWRUXEqMbskGagO0qAWnIzACvD3rdzwg
+	hplhXB+FqckBRoNI7rpurBpEmzK2IrbzRdxy6UVNdeO+AQJSrqU03pZ2i1Ng969p
+	sXX5jhsWfUrDhqt+EuPTH+Dab1Oom9Axy7O7U1ap0pw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=2jUwAOsYm7NGxbU53voW7SQqUCFlMtcPM9jh9VdS7
-	Ww=; b=Xj0JwFIjAjeNUBjzsl8a+ntoAp7IiHnMCTT7/X2aohUUJWBgpw5NTABQG
-	tZnNsU7G4dVRZEjxY/ulsgF+CZtkSBzvcNRoVO9wOVsIBqQDowR0ghjJJ8FAqSoe
-	09qc6LDzwBgQhbCEOgEA7EFpEdJFe80iNVOX6Y11/jFlxFdAxq+nFzBbRLgsyHPR
-	xgbQINew0jPp1JZp+41y4hhVOPBBBl5sV8zyVKGc27u+qk+Q5+Yh9V9FhoKKzAhq
-	yICGmVoIn7dLyTwIlx7Pim29RSGx59GdY0/oMbU/1GGp2+b63QR+K6/2WQ0Rarvl
-	/bis6+CbrQ+LGxsdi6pucOcLkeA4g==
-X-ME-Sender: <xms:O6UhYaoKOQ48yapkHB5WuKRrr2fkvprmwvsvKgUpsmmR-UlitMaC2A>
-    <xme:O6UhYYpijNaM-dy8g3ctLsL8NiWmMGjtzD-yrkwdiWgmVYW6UG0QNeRwTIMl0cBJB
-    jPTqsDZ_TqfuX-m7g>
-X-ME-Received: <xmr:O6UhYfNI5vSWUrTVxzVPVRm5kexI0iOufWcQRHqnsHd5ifnGEfuXTAlc9k68qnWFC42EbWnhDtyJ32IFXH1KMOaA-geIdn_UZ4zgif241sUAwH3T3adfdV8lYA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtvddggeehucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=j25qG8
+	ukGnHu+GbG45H46dChMEexlabwoRMynBr2xQU=; b=R7bAv9tR+HlbzPrN/rR+Nk
+	o3C5o2WqYYqhlDyY0BUR3xrz6jhciIJtYchoOWaGZISQJV9tT4QuDUg1q5M9tMVK
+	kE9+M2AkV0jm96CSBGUbRXkT2bzpY5A4IXwZBymVzbzFYdihxl3D1mXgRgQbU6P9
+	C5j+yrHrEmdyME9iGbZWXAVvNpFdmanHTeyJyQwFirpHBic8r1/9wNlRpl0xdCxR
+	MUYEndKm8tEeJJpwiTJ90h3zj+wm6Hc1wdKKjM9vnG9MMHVI1+OPS4vHuLS4t4MP
+	BejePOQa9MjVVxP9ClMomsjXLLKU49bts241TRraMaauZvT/6Qu8nOB4j36+bgfg
+	==
+X-ME-Sender: <xms:tVgmYdVgF9flf2GSdFBmL7HcJupf808NuWROnLgOJ1wC7TcMUbkiSw>
+    <xme:tVgmYdm0Rdipl-dI3gZWe3-KmIp00lMpX4lb1vfiKkgjldDhYfH39AEiNs6CwWC7H
+    Dlyt89bpJ93xIpK-n4>
+X-ME-Received: <xmr:tVgmYZZOlZNlU_aP1H4ifQDVubyL06XATXfR5GbO0CMUin_TZoHFzI70QKCCogLzTgD0TLQhXewSQbXB2KysJLceCtiXKCyvSybr>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgkeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:O6UhYZ7NfmrQUzWTVb-3US5J4CbUoknFLQMWGxjCUvS99bAmlepnmQ>
-    <xmx:O6UhYZ5EpRLnT0yI6S3xvJTDPVBHwM0x8rsYmpahJjg-U7tHa1kr0Q>
-    <xmx:O6UhYZjHkjJr8G--u2fgznEi1R-q1RsFZVIXW55JeGB8cd8rlNw92Q>
-    <xmx:PKUhYXQsfe3RTgcsZRT1eoQN83GYuOx2_zpR5K8p8jNzlCu2YRkdiA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 21 Aug 2021 21:15:39 -0400 (EDT)
-Subject: Re: [PATCH v2 0/4] mkimage: sunxi_egon: add riscv support
-To: Icenowy Zheng <icenowy@aosc.io>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev,
- Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
- Andre Przywara <andre.przywara@arm.com>, Tom Rini <trini@konsulko.com>
-References: <20210619091838.646779-1-icenowy@aosc.io>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <fa18e1f2-ab31-337c-2d75-5b1938e35251@sholland.org>
-Date: Sat, 21 Aug 2021 20:15:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:tVgmYQWmWMZ8XdEcYmO4Mb1LLHGBOQtGGUpVrfmZuJEkUK-X2ZYS5A>
+    <xmx:tVgmYXnyxrdWekkYo6Y50byHM6awvwK4hsM1JVpD6BV9Z0rQpqm0nw>
+    <xmx:tVgmYdePAPRyJRQLp4E4wnhL3Yts9Ci-RhXNvTnK8dCrovnH9_esPQ>
+    <xmx:t1gmYVdGRgEdEgnktFIjj6c_5IXTieARkO9Y1WDKEmbzFNbYS9djug>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Aug 2021 10:50:29 -0400 (EDT)
+Date: Wed, 25 Aug 2021 16:50:27 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andre Przywara <andre.przywara@arm.com>,
+	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
+Message-ID: <20210825145027.ixc7wnh3x5w6wzny@gilmour>
+References: <20210802062212.73220-1-icenowy@sipeed.com>
+ <20210802062212.73220-11-icenowy@sipeed.com>
+ <99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org>
+ <5432230.1UTMcGJKg4@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210619091838.646779-1-icenowy@aosc.io>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="l3qwbvgcz3gjr7tn"
+Content-Disposition: inline
+In-Reply-To: <5432230.1UTMcGJKg4@jernej-laptop>
+
+
+--l3qwbvgcz3gjr7tn
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/19/21 4:18 AM, Icenowy Zheng wrote:
-> This patchset tries to make mkimage -T sunxi_egon to be able to generate
-> an eGON.BT0 image for Allwinner RISC-V SoCs (e.g. D1).
-> 
-> In addition, to keep the compatibility, it will still consider the
-> architecture to be ARM when no architecture is specified.
-> 
-> Icenowy Zheng (4):
->   mkimage: add a flag to describe whether -A is specified
->   mkimage: sunxi_egon: refactor for multi-architecture support
->   mkimage: sunxi_egon: add support for riscv
->   sunxi: specify architecture when generating SPL boot image
-> 
->  scripts/Makefile.spl |  2 +-
->  tools/imagetool.h    |  1 +
->  tools/mkimage.c      |  1 +
->  tools/sunxi_egon.c   | 86 ++++++++++++++++++++++++++++++++++++++++----
->  4 files changed, 82 insertions(+), 8 deletions(-)
+Hi,
 
-This works great on D1. For the whole series:
+On Fri, Aug 20, 2021 at 06:34:38AM +0200, Jernej =C5=A0krabec wrote:
+> > > +static void __init sun50i_r329_r_ccu_setup(struct device_node *node)
+> > > +{
+> > > +	void __iomem *reg;
+> > > +	u32 val;
+> > > +	int i;
+> > > +
+> > > +	reg =3D of_io_request_and_map(node, 0, of_node_full_name(node));
+> > > +	if (IS_ERR(reg)) {
+> > > +		pr_err("%pOF: Could not map clock registers\n", node);
+> > > +		return;
+> > > +	}
+> > > +
+> > > +	/* Enable the lock bits and the output enable bits on all PLLs */
+> > > +	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
+> > > +		val =3D readl(reg + pll_regs[i]);
+> > > +		val |=3D BIT(29) | BIT(27);
+> > > +		writel(val, reg + pll_regs[i]);
+> > > +	}
+> > > +
+> > > +	/*
+> > > +	 * Force the I/O dividers of PLL-AUDIO1 to reset default value
+> > > +	 *
+> > > +	 * See the comment before pll-audio1 definition for the reason.
+> > > +	 */
+> > > +
+> > > +	val =3D readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
+> > > +	val &=3D ~BIT(1);
+> > > +	val |=3D BIT(0);
+> > > +	writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
+> > > +
+> > > +	i =3D sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
+> > > +	if (i)
+> > > +		pr_err("%pOF: probing clocks fails: %d\n", node, i);
+> > > +}
+> > > +
+> > > +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
+> > > +	       sun50i_r329_r_ccu_setup);
+> >=20
+> > Please make this a platform driver. There is no particular reason why it
+> > needs to be an early OF clock provider.
+>=20
+> Why? It's good to have it as early clock provider. It has no dependencies=
+ and=20
+> other drivers that depends on it, like IR, can be deferred, if this is lo=
+aded=20
+> later.
 
-Tested-by: Samuel Holland <samuel@sholland.org>
+No, Samuel is right, we should make them regular drivers as much as we
+can.
+
+The reason we had CLK_OF_DECLARE in the first place is that timers
+usually have a parent clock, and you need the timers before the device
+model is set up.
+
+Fortunately for us, since the A20, the architected timers don't require
+a parent clock from us, and we can thus boot up fine.
+
+Since the dependencies are minimal, it should probe fairly early and
+with the on-demand probing from the device links you might not even tell
+the difference for most consumers.
+
+Maxime
+
+--l3qwbvgcz3gjr7tn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSZYswAKCRDj7w1vZxhR
+xSPEAP9Zhi9W1anVqHAPOuCAL6FS67fx29ak4D6qwqqA9LiJzgEApDVyVFqkg5H3
+IG8aBvBUnCeV6HIK+MZOyJENIasJwQM=
+=NwLi
+-----END PGP SIGNATURE-----
+
+--l3qwbvgcz3gjr7tn--
