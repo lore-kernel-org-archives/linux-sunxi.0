@@ -1,68 +1,68 @@
 Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A963FC2
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Aug 2021 14:50:32 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id EA6975810A7;
-	Wed, 25 Aug 2021 10:50:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 25 Aug 2021 10:50:31 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237443FC2
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 Aug 2021 14:54:39 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 4942D581075;
+	Wed, 25 Aug 2021 10:54:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 25 Aug 2021 10:54:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=j25qG8ukGnHu+GbG45H46dChMEe
-	xlabwoRMynBr2xQU=; b=wVFPjE3MTevKsL7NaaHJE9zSwMBfgYJGOnMnoreO3AX
-	vk1O/cfAFCBEQJW2L9B8JoYEWYLQJdAI5KIn4Wg4+x4Y6VlmlZ1BG6ImYNx542zv
-	G9T3VKCY9v0TxTqVkaKuI9D6W5CzAES/W6iKJXWy+ui7nmoZ609OH5ERQx1YR8ur
-	IPK0UfMgEY7knOBO2qJFN+mEVcht6sgiSWRUXEqMbskGagO0qAWnIzACvD3rdzwg
-	hplhXB+FqckBRoNI7rpurBpEmzK2IrbzRdxy6UVNdeO+AQJSrqU03pZ2i1Ng969p
-	sXX5jhsWfUrDhqt+EuPTH+Dab1Oom9Axy7O7U1ap0pw==
+	:content-type:in-reply-to; s=fm3; bh=IqJM9t4viIksZpN3cNv1P81kyYI
+	WsJz+PszGrJJmalk=; b=q0s2segFpoUph9ozZyNmF175KEKs6Jw9GmRitRQibTD
+	KlsRtCsrwUtITeiUXVIfefFSqFR3WHjhdv4GY5lNJ0fQyzm9Yjk+ph/jw3r3Lp4m
+	STdFxzfQiXSnaekbeA3dt5p46YqG+HKHP2favJ5qegt9vXNl9THGVKk9ADU9C5k1
+	c3QCpVRB8H8Hr+RLBETaTXFB0/cYwOwtdH5xAfn8/eaiGExCqc0vvMMwbAlTGj6R
+	nGsJ+9csqoAj8FejrSwPy1SW7fBKvp2fBks9YKvio8zCHTfJCVLNJoP2MRZWlQAS
+	0tELQsIMTZmCUVgDeXZHOh4pAU6d/mcGoLSjKO0zMfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=j25qG8
-	ukGnHu+GbG45H46dChMEexlabwoRMynBr2xQU=; b=R7bAv9tR+HlbzPrN/rR+Nk
-	o3C5o2WqYYqhlDyY0BUR3xrz6jhciIJtYchoOWaGZISQJV9tT4QuDUg1q5M9tMVK
-	kE9+M2AkV0jm96CSBGUbRXkT2bzpY5A4IXwZBymVzbzFYdihxl3D1mXgRgQbU6P9
-	C5j+yrHrEmdyME9iGbZWXAVvNpFdmanHTeyJyQwFirpHBic8r1/9wNlRpl0xdCxR
-	MUYEndKm8tEeJJpwiTJ90h3zj+wm6Hc1wdKKjM9vnG9MMHVI1+OPS4vHuLS4t4MP
-	BejePOQa9MjVVxP9ClMomsjXLLKU49bts241TRraMaauZvT/6Qu8nOB4j36+bgfg
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=IqJM9t
+	4viIksZpN3cNv1P81kyYIWsJz+PszGrJJmalk=; b=noD1zg8iL2XnTLBPh+0OWT
+	MVo4oaUJFG8knVLYoYtfJQkKl2Ih59G5GFOGPZBJxwBBSSY5M7/WUg5TWY+8ZA4h
+	kAKInzBShxqjWyeNlFEGR22jgmdiwoE5W0VvhvvXbtu1muMV3VMnboZQNvQtwoaj
+	8mM4OvMrWxiGPuyxO/l8LEAw7VWQPwYVweMXMsX3h/IZkwFAU6qr3lrjhNK0UABj
+	ST9ps2d697SGL7Mb9jSHlIObLoyBBqwVL8Wf64Z346LQvH888nBAtyP7jQFYi1iM
+	+zxjijY1REKfu0Mt0oRTYYz0RzSWWqZDcOllr+ilWzynP/GAa0vfuZM9f2gKxR6w
 	==
-X-ME-Sender: <xms:tVgmYdVgF9flf2GSdFBmL7HcJupf808NuWROnLgOJ1wC7TcMUbkiSw>
-    <xme:tVgmYdm0Rdipl-dI3gZWe3-KmIp00lMpX4lb1vfiKkgjldDhYfH39AEiNs6CwWC7H
-    Dlyt89bpJ93xIpK-n4>
-X-ME-Received: <xmr:tVgmYZZOlZNlU_aP1H4ifQDVubyL06XATXfR5GbO0CMUin_TZoHFzI70QKCCogLzTgD0TLQhXewSQbXB2KysJLceCtiXKCyvSybr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgkeduucetufdoteggodetrfdotf
+X-ME-Sender: <xms:rFkmYSMV0JB1vBFiDtusGG3tX6WrCQD0ew2UiLk349WsVA00J_xBQQ>
+    <xme:rFkmYQ-O0LlivwPriktmL0hPlgSlwJvMBExUlz8iwByS8OXFi3BRCemQsuT8Aa5OL
+    MBlljn6HwijPlwDvpA>
+X-ME-Received: <xmr:rFkmYZROomxG6Q9lU4m2nB26ZW4HxflpoKPLIeT3mGVroMcpWn1q_73cVKy8qMQClX8J127Il8D10AKyFqcW_PC4qjRrkdQJ0dRc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgkeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:tVgmYQWmWMZ8XdEcYmO4Mb1LLHGBOQtGGUpVrfmZuJEkUK-X2ZYS5A>
-    <xmx:tVgmYXnyxrdWekkYo6Y50byHM6awvwK4hsM1JVpD6BV9Z0rQpqm0nw>
-    <xmx:tVgmYdePAPRyJRQLp4E4wnhL3Yts9Ci-RhXNvTnK8dCrovnH9_esPQ>
-    <xmx:t1gmYVdGRgEdEgnktFIjj6c_5IXTieARkO9Y1WDKEmbzFNbYS9djug>
+X-ME-Proxy: <xmx:rFkmYSvZByGSCuHIEr1Wd9vWY6OlBG3GZ5u1W80CjZlXkfWzL8d3nQ>
+    <xmx:rFkmYafdW9dNvgVrYVcGc0tIDVyVIeVH4UsLfUDxsBlQceUVQLURjg>
+    <xmx:rFkmYW0GHOQhCUeuFLRgJHNzN27jieRrsRngYMJyKXwc5lbo-rJtjg>
+    <xmx:rlkmYW2OJCvYMC4APBf6mcrQ1_930_A78G9qUVVtSxA19XL34fj9Kg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Aug 2021 10:50:29 -0400 (EDT)
-Date: Wed, 25 Aug 2021 16:50:27 +0200
+ 25 Aug 2021 10:54:36 -0400 (EDT)
+Date: Wed, 25 Aug 2021 16:54:34 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
 Cc: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
 	Linus Walleij <linus.walleij@linaro.org>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
-Message-ID: <20210825145027.ixc7wnh3x5w6wzny@gilmour>
+Subject: Re: [PATCH 11/17] clk: sunxi-ng: add support for Allwinner R329 CCU
+Message-ID: <20210825145434.vdrhgrgblnnmvmve@gilmour>
 References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-11-icenowy@sipeed.com>
- <99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org>
- <5432230.1UTMcGJKg4@jernej-laptop>
+ <20210802062212.73220-12-icenowy@sipeed.com>
+ <3e56e53f-e6df-50cf-5545-e9132e521ed1@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,91 +70,140 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="l3qwbvgcz3gjr7tn"
+	protocol="application/pgp-signature"; boundary="jd6omazv7t4jt7hs"
 Content-Disposition: inline
-In-Reply-To: <5432230.1UTMcGJKg4@jernej-laptop>
+In-Reply-To: <3e56e53f-e6df-50cf-5545-e9132e521ed1@sholland.org>
 
 
---l3qwbvgcz3gjr7tn
-Content-Type: text/plain; charset=utf-8
+--jd6omazv7t4jt7hs
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Fri, Aug 20, 2021 at 06:34:38AM +0200, Jernej =C5=A0krabec wrote:
-> > > +static void __init sun50i_r329_r_ccu_setup(struct device_node *node)
-> > > +{
-> > > +	void __iomem *reg;
-> > > +	u32 val;
-> > > +	int i;
-> > > +
-> > > +	reg =3D of_io_request_and_map(node, 0, of_node_full_name(node));
-> > > +	if (IS_ERR(reg)) {
-> > > +		pr_err("%pOF: Could not map clock registers\n", node);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	/* Enable the lock bits and the output enable bits on all PLLs */
-> > > +	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-> > > +		val =3D readl(reg + pll_regs[i]);
-> > > +		val |=3D BIT(29) | BIT(27);
-> > > +		writel(val, reg + pll_regs[i]);
-> > > +	}
-> > > +
-> > > +	/*
-> > > +	 * Force the I/O dividers of PLL-AUDIO1 to reset default value
-> > > +	 *
-> > > +	 * See the comment before pll-audio1 definition for the reason.
-> > > +	 */
-> > > +
-> > > +	val =3D readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
-> > > +	val &=3D ~BIT(1);
-> > > +	val |=3D BIT(0);
-> > > +	writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
-> > > +
-> > > +	i =3D sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
-> > > +	if (i)
-> > > +		pr_err("%pOF: probing clocks fails: %d\n", node, i);
-> > > +}
-> > > +
-> > > +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
-> > > +	       sun50i_r329_r_ccu_setup);
+On Thu, Aug 19, 2021 at 09:41:26PM -0500, Samuel Holland wrote:
+> On 8/2/21 1:22 AM, Icenowy Zheng wrote:
+> > Allwinner R329 has a CCU that is similar to the H616 one, but it's cut
+> > down and have PLLs moved out.
 > >=20
-> > Please make this a platform driver. There is no particular reason why it
-> > needs to be an early OF clock provider.
+> > Add support for it.
+> >=20
+> > Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
+> > ---
+> >  drivers/clk/sunxi-ng/Kconfig                |   5 +
+> >  drivers/clk/sunxi-ng/Makefile               |   1 +
+> >  drivers/clk/sunxi-ng/ccu-sun50i-r329.c      | 526 ++++++++++++++++++++
+> >  drivers/clk/sunxi-ng/ccu-sun50i-r329.h      |  32 ++
+> >  include/dt-bindings/clock/sun50i-r329-ccu.h |  73 +++
+> >  include/dt-bindings/reset/sun50i-r329-ccu.h |  45 ++
+> >  6 files changed, 682 insertions(+)
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.c
+> >  create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.h
+> >  create mode 100644 include/dt-bindings/clock/sun50i-r329-ccu.h
+> >  create mode 100644 include/dt-bindings/reset/sun50i-r329-ccu.h
+> >=20
+> > diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
+> > index e49b2c2fa5b7..4b32d5f81ea8 100644
+> > --- a/drivers/clk/sunxi-ng/Kconfig
+> > +++ b/drivers/clk/sunxi-ng/Kconfig
+> > @@ -42,6 +42,11 @@ config SUN50I_H6_R_CCU
+> >  	default ARM64 && ARCH_SUNXI
+> >  	depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
+> > =20
+> > +config SUN50I_R329_CCU
+> > +	bool "Support for the Allwinner R329 CCU"
+> > +	default ARM64 && ARCH_SUNXI
+> > +	depends on (ARM64 && ARCH_SUNXI) || COMPILE_TEST
+> > +
+> >  config SUN50I_R329_R_CCU
+> >  	bool "Support for the Allwinner R329 PRCM CCU"
+> >  	default ARM64 && ARCH_SUNXI
+> > diff --git a/drivers/clk/sunxi-ng/Makefile b/drivers/clk/sunxi-ng/Makef=
+ile
+> > index db338a2188fd..62f3c5bf331c 100644
+> > --- a/drivers/clk/sunxi-ng/Makefile
+> > +++ b/drivers/clk/sunxi-ng/Makefile
+> > @@ -28,6 +28,7 @@ obj-$(CONFIG_SUN50I_A100_R_CCU)	+=3D ccu-sun50i-a100-=
+r.o
+> >  obj-$(CONFIG_SUN50I_H6_CCU)	+=3D ccu-sun50i-h6.o
+> >  obj-$(CONFIG_SUN50I_H616_CCU)	+=3D ccu-sun50i-h616.o
+> >  obj-$(CONFIG_SUN50I_H6_R_CCU)	+=3D ccu-sun50i-h6-r.o
+> > +obj-$(CONFIG_SUN50I_R329_CCU)	+=3D ccu-sun50i-r329.o
+> >  obj-$(CONFIG_SUN50I_R329_R_CCU)	+=3D ccu-sun50i-r329-r.o
+> >  obj-$(CONFIG_SUN4I_A10_CCU)	+=3D ccu-sun4i-a10.o
+> >  obj-$(CONFIG_SUN5I_CCU)		+=3D ccu-sun5i.o
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-r329.c b/drivers/clk/sunxi=
+-ng/ccu-sun50i-r329.c
+> > new file mode 100644
+> > index 000000000000..a0b4cfd6e1db
+> > --- /dev/null
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-r329.c
+> > @@ -0,0 +1,526 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Based on the H616 CCU driver, which is:
+> > + *   Copyright (c) 2020 Arm Ltd.
+> > + */
+> > +
+> > +#include <linux/clk-provider.h>
+> > +#include <linux/io.h>
+> > +#include <linux/module.h>
+> > +#include <linux/of_address.h>
+> > +#include <linux/platform_device.h>
+> > +
+> > +#include "ccu_common.h"
+> > +#include "ccu_reset.h"
+> > +
+> > +#include "ccu_div.h"
+> > +#include "ccu_gate.h"
+> > +#include "ccu_mp.h"
+> > +#include "ccu_mult.h"
+> > +#include "ccu_nk.h"
+> > +#include "ccu_nkm.h"
+> > +#include "ccu_nkmp.h"
+> > +#include "ccu_nm.h"
+> > +
+> > +#include "ccu-sun50i-r329.h"
+> > +
+> > +/*
+> > + * An external divider of PLL-CPUX is controlled here. As it's similar=
+ to
+> > + * the external divider of PLL-CPUX on previous SoCs (only usable under
+> > + * 288MHz}, ignore it.
 >=20
-> Why? It's good to have it as early clock provider. It has no dependencies=
- and=20
-> other drivers that depends on it, like IR, can be deferred, if this is lo=
-aded=20
-> later.
+> Mismatched (braces} here
+>=20
+> > + */
+> > +static const char * const cpux_parents[] =3D { "osc24M", "osc32k", "io=
+sc",
+> > +					     "pll-cpux", "pll-periph",
+> > +					     "pll-periph-2x",
+> > +					     "pll=3Dperiph-800m" };
+>=20
+> =3D should be a -.
+>=20
+> Now that these PLLs are in a different device, how is this supposed to af=
+fect
+> the DT binding? Do we put all of them in the clocks property?
+>=20
+> If so, we can use .fw_name at some point. If not, why bother with the clo=
+cks
+> property at all? This is another part of the "let's get the clock tree ri=
+ght
+> from the start" discussion.
 
-No, Samuel is right, we should make them regular drivers as much as we
-can.
-
-The reason we had CLK_OF_DECLARE in the first place is that timers
-usually have a parent clock, and you need the timers before the device
-model is set up.
-
-Fortunately for us, since the A20, the architected timers don't require
-a parent clock from us, and we can thus boot up fine.
-
-Since the dependencies are minimal, it should probe fairly early and
-with the on-demand probing from the device links you might not even tell
-the difference for most consumers.
+Agreed
 
 Maxime
 
---l3qwbvgcz3gjr7tn
+--jd6omazv7t4jt7hs
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSZYswAKCRDj7w1vZxhR
-xSPEAP9Zhi9W1anVqHAPOuCAL6FS67fx29ak4D6qwqqA9LiJzgEApDVyVFqkg5H3
-IG8aBvBUnCeV6HIK+MZOyJENIasJwQM=
-=NwLi
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSZZqgAKCRDj7w1vZxhR
+xf7MAQCaA0w3oNAOvdQ5ITxY5Ab2GivujOLUDDhU3UcM2ZnHEAEAxNsnCPVFwlPY
+bfCv++67RwNPa1FPsCUxvKudlvWfWQc=
+=Z5kK
 -----END PGP SIGNATURE-----
 
---l3qwbvgcz3gjr7tn--
+--jd6omazv7t4jt7hs--
