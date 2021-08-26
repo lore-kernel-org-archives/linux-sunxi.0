@@ -1,171 +1,132 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E6E3FC2
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 Aug 2021 15:37:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id CD8E9581083;
-	Wed, 25 Aug 2021 11:37:39 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 25 Aug 2021 11:37:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=/0eVR1LO8zbGReZXGH8OHCw0mxS
-	kJRrqtSARXT+ndjE=; b=jOJoLOZJ7qqIkWp6K7FpTOChGd2qZmIRXLmSWjlJqRO
-	dQblvhua/6eE+Jt9fE8sbongC2crCLUSrfuLXEB24ESruSTwCM6CkhnUwcqxFNbY
-	uLP9YHVAyfzCcWG+EIQhcp4XXa+lSkJJKk4rjvtDFC9tW1sGxP547FTA3wqVH3oZ
-	1G2tZSQ9oJPKob+ToTi4396mjeDSANBauZTG3jeP5W/cn+S9jH8E1UOCFz8dxq7w
-	TJNjnyrayo3vrTs2Bvik7r/XDcTHOEQSCPb0GLhJlqE/X2fiuBeTRIO/dnbGMW1P
-	jLvoagU4A2J7qAWmzRahj4zGv1aCzrMIijvELcGYBPA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43523FC4
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 Aug 2021 00:20:59 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.nyi.internal (Postfix) with ESMTP id CAE0D580CEF;
+	Wed, 25 Aug 2021 20:20:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 25 Aug 2021 20:20:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	to:cc:references:from:subject:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=5
+	ujsR+nWOM34qVhCf5iPx4BoztRKl0Ef/LKi3phS+UI=; b=cBa9ZeCTqXipij9Qf
+	L+kzwosi2cv1djoF6kzDSrCZ030qkVzOB2pEdiBiTRcCsq2mdpCES4fSY7ivS4Eg
+	tg7eOEQEMPbt5mZHHSRyaMPh12vCd/scNQ0LZaCWNV4gWgjdEju8qcrA9v0SU6w2
+	W0BcIzF3txTM6xNCNCjqrSnpRkrg32speLWFa3+NUZjXusf5769X5lQxUoxy2VOA
+	/IATrEJuBTX7zEa3JY2pF6ko1gvGlOwSbZy5/H21Kkz5QKmxHN92NX7yyjPSwj9C
+	I70BvUW1SOKX60m5SbC3k5TMw/TCKfg6FlBylws7S9uz9gNGu+kXTJhvZ26jdhwl
+	Jf6Zg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/0eVR1
-	LO8zbGReZXGH8OHCw0mxSkJRrqtSARXT+ndjE=; b=ChzAkc6XRxFFWDxmLe9OTf
-	nhPLQSPOH9FW3yTzhJFXc3LYrqPB6yuDnV+al0sLOpcSX92N9q2oGnlw1AqpeKHn
-	arPkznBwpy9V2HgIYM1ZZFRFcpukVoEXEv4bHZbFglsX4UquxVwhEfuZWBPjIvF/
-	90eCztKUJjttdPPh7slJPAr3JT+L3543JmGeCrezchXTnQsg4B07Nd/45Sw+SHo4
-	QCIfzLIWlRg99+seytJOe1aEpBtF+krEw0WAK8OdqVsAOG/sfLTu+7odouUQeoVl
-	pUOHlb2+WsK15GyK0BwWS9ad6dmV+IE8arI3ZmpVyXbX8jwOPjG3ncQEfIBxjv8g
-	==
-X-ME-Sender: <xms:wGMmYaOx6PU9g5zpPTMk0xavlo2KZrCYc7MjBG-E5dxsZenG3J4LMg>
-    <xme:wGMmYY8w5ieXwOZSGWLwYLWqgEQykpIc1HJWdb5BlG_7wtsRlz2zYQHeJUpMs6zpT
-    dzIoeNoIqfgOx-TX0Y>
-X-ME-Received: <xmr:wGMmYRR_14ki0BgOD3QDXfE-sTab2EUT9bmzCk_R66UtJpPeiPeVCnH2fmsj4zyXpVd6CAhtkBiFzl_Q9IqDBnsOV4fp8AOip9wQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledgleduucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=5ujsR+nWOM34qVhCf5iPx4BoztRKl0Ef/LKi3phS+
+	UI=; b=Q1tYLPCHfF/cdUS1nRjZFN0jAYRwejRNYXLaW6uYu2pEIoaFCZYkOU2DR
+	qvCx03Zm1YtPixX6zEexSA9G5XvMARuf0VLWdOqZCTZQ885eqlX2LGOZAO6y4w51
+	KyheuycgwFmA7kvHJWsU8xcm2XJaR5APWSYfHdJGttjij+gtIx/IsZmJg5vzlnEN
+	hN7/prKy2RzW1gBBM43XkPtuCepSR2Q2IS8Mdq416gkja6ZUe/AaapPG3ZlGLwFa
+	nN+8YwkcZgkSJS8JuiqK8/IlaYFX+HMxcZMQfyBZzRIlP4hPCGlp92DLm9/tgD0B
+	W7aNNQ8HN0nfJcRUxJxnDD8349faQ==
+X-ME-Sender: <xms:Z94mYZWspjgS2bHXeI6po_VqnVEsm5DW-i2FIZT7Wzu1EJNTA2abBA>
+    <xme:Z94mYZl1V3WlGHQXeTsOjULiw3ZZXstJy-157_uHIQMJnKShOuQkc7AE9tg_kX2XI
+    oPHJEm-CEahJuoKQQ>
+X-ME-Received: <xmr:Z94mYVbgUJhpyDYS_RjuQm5I1LITDLJTPtqFrfMXEEaMPnVI1ts1d-myqwFJKPcqZD7ItTx0fQGCn3QzxD7s9HV83P4_PAfE74kEBXJCf1t-wPcdWGzGmYEPSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddutddgfedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:wGMmYat_QBC7cfDUTgFkenPs_zYq0rJu85JLMSP_htH1Xjgah0MHSg>
-    <xmx:wGMmYSfCERYHwBrYVDj_5JPoCbF_WOJgINH0pXCIfNofHeBo6WKN8w>
-    <xmx:wGMmYe1Q2ahKsgSOwaiB-6YhJC6UqRTz1SGN3NJ3SgfJEWOcFVL69w>
-    <xmx:w2MmYe14yVuP9zsqrKPxmCVDC-XVE0jny2BzZCLuShtq3cHkrCbaiA>
+    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
+    hedtfeevuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:Z94mYcU0KCy-dkAcySGlHKoP0cpFiIvscZ2p7ihOFG5R0YLBkNnZ2g>
+    <xmx:Z94mYTk6Z6RwqrCd0iQAZb8_RuZti-XC29M-R4KTYvLU0FArk9ESGw>
+    <xmx:Z94mYZectVkQdWOuKpgzFdtYn8CkgY0Nrhps96G7WDYBR8Oj7aF5UA>
+    <xmx:at4mYRcDWAVTM-2c03H53IysZ2KzsyU9QizwW323f5vyNw6dDv6J-A>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Aug 2021 11:37:36 -0400 (EDT)
-Date: Wed, 25 Aug 2021 17:37:34 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
-Message-ID: <20210825153734.3cwlufietc63ma3m@gilmour>
+ 25 Aug 2021 20:20:55 -0400 (EDT)
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Andre Przywara <andre.przywara@arm.com>
 References: <20210802062212.73220-1-icenowy@sipeed.com>
+ <20210802062212.73220-11-icenowy@sipeed.com>
+ <99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org>
  <5432230.1UTMcGJKg4@jernej-laptop>
- <20210825145027.ixc7wnh3x5w6wzny@gilmour>
- <3221818.pD4rYpbbZ1@jernej-laptop>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
+Message-ID: <5d0489ac-0693-f1f0-17d5-bfe9ca5df0ff@sholland.org>
+Date: Wed, 25 Aug 2021 19:20:54 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ujvj4sh6srxe5rru"
-Content-Disposition: inline
-In-Reply-To: <3221818.pD4rYpbbZ1@jernej-laptop>
-
-
---ujvj4sh6srxe5rru
+In-Reply-To: <5432230.1UTMcGJKg4@jernej-laptop>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 25, 2021 at 05:03:30PM +0200, Jernej =C5=A0krabec wrote:
-> Dne sreda, 25. avgust 2021 ob 16:50:27 CEST je Maxime Ripard napisal(a):
-> > Hi,
-> >=20
-> > On Fri, Aug 20, 2021 at 06:34:38AM +0200, Jernej =C5=A0krabec wrote:
-> > > > > +static void __init sun50i_r329_r_ccu_setup(struct device_node *n=
-ode)
-> > > > > +{
-> > > > > +	void __iomem *reg;
-> > > > > +	u32 val;
-> > > > > +	int i;
-> > > > > +
-> > > > > +	reg =3D of_io_request_and_map(node, 0, of_node_full_name(node));
-> > > > > +	if (IS_ERR(reg)) {
-> > > > > +		pr_err("%pOF: Could not map clock registers\n", node);
-> > > > > +		return;
-> > > > > +	}
-> > > > > +
-> > > > > +	/* Enable the lock bits and the output enable bits on all PLLs =
-*/
-> > > > > +	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-> > > > > +		val =3D readl(reg + pll_regs[i]);
-> > > > > +		val |=3D BIT(29) | BIT(27);
-> > > > > +		writel(val, reg + pll_regs[i]);
-> > > > > +	}
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Force the I/O dividers of PLL-AUDIO1 to reset default value
-> > > > > +	 *
-> > > > > +	 * See the comment before pll-audio1 definition for the reason.
-> > > > > +	 */
-> > > > > +
-> > > > > +	val =3D readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
-> > > > > +	val &=3D ~BIT(1);
-> > > > > +	val |=3D BIT(0);
-> > > > > +	writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
-> > > > > +
-> > > > > +	i =3D sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
-> > > > > +	if (i)
-> > > > > +		pr_err("%pOF: probing clocks fails: %d\n", node, i);
-> > > > > +}
-> > > > > +
-> > > > > +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
-> > > > > +	       sun50i_r329_r_ccu_setup);
-> > > >=20
-> > > > Please make this a platform driver. There is no particular reason w=
-hy it
-> > > > needs to be an early OF clock provider.
-> > >=20
-> > > Why? It's good to have it as early clock provider. It has no dependen=
-cies
-> > > and other drivers that depends on it, like IR, can be deferred, if th=
-is
-> > > is loaded later.
-> >=20
-> > No, Samuel is right, we should make them regular drivers as much as we
-> > can.
-> >=20
-> > The reason we had CLK_OF_DECLARE in the first place is that timers
-> > usually have a parent clock, and you need the timers before the device
-> > model is set up.
-> >=20
-> > Fortunately for us, since the A20, the architected timers don't require
-> > a parent clock from us, and we can thus boot up fine.
->=20
-> There are other timers. A lot of SoCs, newer than A20 (like H6), have Hig=
-h=20
-> Speed Timer, which requires parent clock to be enabled. We just choose no=
-t to=20
-> add node for it to DT, even if it's there and driver already exists.
+On 8/19/21 11:34 PM, Jernej Škrabec wrote:
+>>> +static void __init sun50i_r329_r_ccu_setup(struct device_node *node)
+>>> +{
+>>> +	void __iomem *reg;
+>>> +	u32 val;
+>>> +	int i;
+>>> +
+>>> +	reg = of_io_request_and_map(node, 0, of_node_full_name(node));
+>>> +	if (IS_ERR(reg)) {
+>>> +		pr_err("%pOF: Could not map clock registers\n", node);
+>>> +		return;
+>>> +	}
+>>> +
+>>> +	/* Enable the lock bits and the output enable bits on all PLLs */
+>>> +	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
+>>> +		val = readl(reg + pll_regs[i]);
+>>> +		val |= BIT(29) | BIT(27);
+>>> +		writel(val, reg + pll_regs[i]);
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * Force the I/O dividers of PLL-AUDIO1 to reset default value
+>>> +	 *
+>>> +	 * See the comment before pll-audio1 definition for the reason.
+>>> +	 */
+>>> +
+>>> +	val = readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
+>>> +	val &= ~BIT(1);
+>>> +	val |= BIT(0);
+>>> +	writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
+>>> +
+>>> +	i = sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
+>>> +	if (i)
+>>> +		pr_err("%pOF: probing clocks fails: %d\n", node, i);
+>>> +}
+>>> +
+>>> +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
+>>> +	       sun50i_r329_r_ccu_setup);
+>>
+>> Please make this a platform driver. There is no particular reason why it
+>> needs to be an early OF clock provider.
+> 
+> Why? It's good to have it as early clock provider. It has no dependencies and 
+> other drivers that depends on it, like IR, can be deferred, if this is loaded 
+> later.
 
-Yeah, I know. The thing is, we just need one timer in order to boot to
-the point where the DM is there. We can totally have a timer driver
-probing just like any other driver, through the DM, later on.
+Another reason is so the driver can be built as a module. Each of these
+CCU drivers has 30k-70k of data in it (lots of pointers, plus lots of
+relocations). So it saves some RAM to only load the ones you need,
+especially if that is none of them.
 
-Maxime
-
---ujvj4sh6srxe5rru
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYSZjvgAKCRDj7w1vZxhR
-xX+TAP0WGHG2s4yHamp+fjkYZIyN3blRmTbmA8bbbYAZDDpWPAD8D3b0gM0/5VYF
-c22yVcU2bytiqTiat5LMPSwOhQzTCQo=
-=zJhK
------END PGP SIGNATURE-----
-
---ujvj4sh6srxe5rru--
+Regards,
+Samuel
