@@ -1,132 +1,59 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43523FC4
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 Aug 2021 00:20:59 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailnew.nyi.internal (Postfix) with ESMTP id CAE0D580CEF;
-	Wed, 25 Aug 2021 20:20:58 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 25 Aug 2021 20:20:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=5
-	ujsR+nWOM34qVhCf5iPx4BoztRKl0Ef/LKi3phS+UI=; b=cBa9ZeCTqXipij9Qf
-	L+kzwosi2cv1djoF6kzDSrCZ030qkVzOB2pEdiBiTRcCsq2mdpCES4fSY7ivS4Eg
-	tg7eOEQEMPbt5mZHHSRyaMPh12vCd/scNQ0LZaCWNV4gWgjdEju8qcrA9v0SU6w2
-	W0BcIzF3txTM6xNCNCjqrSnpRkrg32speLWFa3+NUZjXusf5769X5lQxUoxy2VOA
-	/IATrEJuBTX7zEa3JY2pF6ko1gvGlOwSbZy5/H21Kkz5QKmxHN92NX7yyjPSwj9C
-	I70BvUW1SOKX60m5SbC3k5TMw/TCKfg6FlBylws7S9uz9gNGu+kXTJhvZ26jdhwl
-	Jf6Zg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=5ujsR+nWOM34qVhCf5iPx4BoztRKl0Ef/LKi3phS+
-	UI=; b=Q1tYLPCHfF/cdUS1nRjZFN0jAYRwejRNYXLaW6uYu2pEIoaFCZYkOU2DR
-	qvCx03Zm1YtPixX6zEexSA9G5XvMARuf0VLWdOqZCTZQ885eqlX2LGOZAO6y4w51
-	KyheuycgwFmA7kvHJWsU8xcm2XJaR5APWSYfHdJGttjij+gtIx/IsZmJg5vzlnEN
-	hN7/prKy2RzW1gBBM43XkPtuCepSR2Q2IS8Mdq416gkja6ZUe/AaapPG3ZlGLwFa
-	nN+8YwkcZgkSJS8JuiqK8/IlaYFX+HMxcZMQfyBZzRIlP4hPCGlp92DLm9/tgD0B
-	W7aNNQ8HN0nfJcRUxJxnDD8349faQ==
-X-ME-Sender: <xms:Z94mYZWspjgS2bHXeI6po_VqnVEsm5DW-i2FIZT7Wzu1EJNTA2abBA>
-    <xme:Z94mYZl1V3WlGHQXeTsOjULiw3ZZXstJy-157_uHIQMJnKShOuQkc7AE9tg_kX2XI
-    oPHJEm-CEahJuoKQQ>
-X-ME-Received: <xmr:Z94mYVbgUJhpyDYS_RjuQm5I1LITDLJTPtqFrfMXEEaMPnVI1ts1d-myqwFJKPcqZD7ItTx0fQGCn3QzxD7s9HV83P4_PAfE74kEBXJCf1t-wPcdWGzGmYEPSA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddutddgfedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
-    hedtfeevuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Z94mYcU0KCy-dkAcySGlHKoP0cpFiIvscZ2p7ihOFG5R0YLBkNnZ2g>
-    <xmx:Z94mYTk6Z6RwqrCd0iQAZb8_RuZti-XC29M-R4KTYvLU0FArk9ESGw>
-    <xmx:Z94mYZectVkQdWOuKpgzFdtYn8CkgY0Nrhps96G7WDYBR8Oj7aF5UA>
-    <xmx:at4mYRcDWAVTM-2c03H53IysZ2KzsyU9QizwW323f5vyNw6dDv6J-A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Aug 2021 20:20:55 -0400 (EDT)
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Icenowy Zheng <icenowy@sipeed.com>, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andre Przywara <andre.przywara@arm.com>
-References: <20210802062212.73220-1-icenowy@sipeed.com>
- <20210802062212.73220-11-icenowy@sipeed.com>
- <99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org>
- <5432230.1UTMcGJKg4@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 10/17] clk: sunxi=ng: add support for R329 R-CCU
-Message-ID: <5d0489ac-0693-f1f0-17d5-bfe9ca5df0ff@sholland.org>
-Date: Wed, 25 Aug 2021 19:20:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAD73FC6
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 Aug 2021 13:12:48 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id e15so3897739plh.8
+        for <linux-sunxi@lists.linux.dev>; Fri, 27 Aug 2021 06:12:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=T15NdlZMMRoCEeuW2qnUiXkXVgH1zfdF1eWyTLHVIqE=;
+        b=tFMWCTZkT1tRI3bnrHAICYSoUPfi5TOLS3q2pNtOGJKGiylU/AYtMU3hInHHsCRK/e
+         QViF5Kc5FdZ5dUocpreR7txGnNlJFyWguGkNKYpbaLvsksVW5qi8MBf0ZOd6Wy+9Wg2e
+         yOgwD3Kn+G6Gz5CSxqg9TG4h1iYWDYJmKf8lWRbqxcjhc+rqd58lDLoIVq+4/UYzpM1r
+         inhlTH4KG7hdekepDLg17uINltdwjVyfRgo4RVslLs2sazP9SNQF9ByVGUFxCxPwdVVl
+         PRYO/nrbpxq93OHyd308pe2nsQDsohdxGmjypOwSdppBsaoMZycSBt3eU/TrvUOFfjo9
+         QRWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=T15NdlZMMRoCEeuW2qnUiXkXVgH1zfdF1eWyTLHVIqE=;
+        b=C7e+6ZJ7rkwR0TXTH2wM0DXhV9AXrRVdO97qmxrLed/vzo8s1l8C8uwFnZL14WcGAK
+         iwoxagcAm6bqMONQmSjPk3Im8Bfk5hfvkTlpN/oiP1yarRfqMEiC04duXLLp5Knn9WTt
+         JcLY4UqFw6HRVQgrVPJnQmU08hcbfAwdbys5XdD4HAvKTGjIZX5hwV1oTAvPP0Va39c9
+         zxdJbQTges8sZQheIzkTotHcz6LR4zGTRKB7r/ZHPq+5p588Tw7tgiYhZI0mi3c4DGLc
+         N8RygAIsO8OIAPr10krvYVhJu9Gh5dajSLBGa+klJOSusn2l9b3LZgtDlOq1i3M/xVp7
+         pivQ==
+X-Gm-Message-State: AOAM533n7a0FDTBc4x8GwPzEojqDp3AORo94gozZ34ONA1L4L3m5OpeB
+	z4ZTfokV0hhfMG1ODsSpVluhliVmOzZJheLmhJs=
+X-Google-Smtp-Source: ABdhPJy169Xz+X0HIcK/gMs98m/AgDtuHIfk6Lji713rXgIleIiXTrX7Vl3O9lB0DmCmpN2kZT/oGJ+gF4LukikiwXM=
+X-Received: by 2002:a17:903:2349:b0:12d:ada3:192e with SMTP id
+ c9-20020a170903234900b0012dada3192emr8556564plh.3.1630069968016; Fri, 27 Aug
+ 2021 06:12:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <5432230.1UTMcGJKg4@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Fri, 27 Aug 2021 16:12:36 +0300
+Message-ID: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
+Subject: DE2.0 YV12 playback issues after ea067aee45a8
+To: Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On 8/19/21 11:34 PM, Jernej Škrabec wrote:
->>> +static void __init sun50i_r329_r_ccu_setup(struct device_node *node)
->>> +{
->>> +	void __iomem *reg;
->>> +	u32 val;
->>> +	int i;
->>> +
->>> +	reg = of_io_request_and_map(node, 0, of_node_full_name(node));
->>> +	if (IS_ERR(reg)) {
->>> +		pr_err("%pOF: Could not map clock registers\n", node);
->>> +		return;
->>> +	}
->>> +
->>> +	/* Enable the lock bits and the output enable bits on all PLLs */
->>> +	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
->>> +		val = readl(reg + pll_regs[i]);
->>> +		val |= BIT(29) | BIT(27);
->>> +		writel(val, reg + pll_regs[i]);
->>> +	}
->>> +
->>> +	/*
->>> +	 * Force the I/O dividers of PLL-AUDIO1 to reset default value
->>> +	 *
->>> +	 * See the comment before pll-audio1 definition for the reason.
->>> +	 */
->>> +
->>> +	val = readl(reg + SUN50I_R329_PLL_AUDIO1_REG);
->>> +	val &= ~BIT(1);
->>> +	val |= BIT(0);
->>> +	writel(val, reg + SUN50I_R329_PLL_AUDIO1_REG);
->>> +
->>> +	i = sunxi_ccu_probe(node, reg, &sun50i_r329_r_ccu_desc);
->>> +	if (i)
->>> +		pr_err("%pOF: probing clocks fails: %d\n", node, i);
->>> +}
->>> +
->>> +CLK_OF_DECLARE(sun50i_r329_r_ccu, "allwinner,sun50i-r329-r-ccu",
->>> +	       sun50i_r329_r_ccu_setup);
->>
->> Please make this a platform driver. There is no particular reason why it
->> needs to be an early OF clock provider.
-> 
-> Why? It's good to have it as early clock provider. It has no dependencies and 
-> other drivers that depends on it, like IR, can be deferred, if this is loaded 
-> later.
+Hello Jernej,
 
-Another reason is so the driver can be built as a module. Each of these
-CCU drivers has 30k-70k of data in it (lots of pointers, plus lots of
-relocations). So it saves some RAM to only load the ones you need,
-especially if that is none of them.
+During local testing I faced an issue where YV12 buffers are displayed
+all in blue.
 
-Regards,
-Samuel
+Issue can be fixed by reverting:
+ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
+
+Could you have a look please?
+
+Best regards,
+Roman Stratiienko
