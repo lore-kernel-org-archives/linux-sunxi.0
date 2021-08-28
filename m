@@ -1,69 +1,102 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4674F3FC6
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 Aug 2021 13:16:15 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id 17so5946003pgp.4
-        for <linux-sunxi@lists.linux.dev>; Fri, 27 Aug 2021 06:16:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717763FC2
+	for <linux-sunxi@lists.linux.dev>; Sat, 28 Aug 2021 16:23:52 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id x10-20020a056830408a00b004f26cead745so12120779ott.10
+        for <linux-sunxi@lists.linux.dev>; Sat, 28 Aug 2021 09:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WterxneLBK/OCP/E7bFO9SR6ncKFFjBVYrR2V8OSQcQ=;
-        b=KL2Yo4CySi2AFRj1BLeMGAl0tFgwTSxjFXRH7Td59NAh6eWduJ2gzDzGmzSC7/YJFT
-         ONEWd/ZSnddGymiWAg7ih0pfZACWZwNAT7g96GOIEh9uYlhvR/3McsJTrQPv4PWbz7nB
-         xeZevyC4r2jmH6bjT8d3u4Gd1kRfA5tioUn4hQgiJ3uvR3X95fgCXV8EEQIvZWJKsHH2
-         Mys9zCwZUCJrwOFMScmEjxQh/wJPywDenMOL1/EZCswsgP0cO8ksKN8rnq0DeFFPAKr3
-         tA6ZDmQY2nwkhhWPvsNJgtFATHSIDqoejFbp0LtkQQ0JYUUN7TfXIE7jxsXz0UEJnKhK
-         WqUg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=e00tT1WGM1MeY+aTqkfLBt5Jw5xRDnXK4DZViwul0w4=;
+        b=OGY7XuCS+3wQSZKNoOjPzD+Veeh9GBMavXAYkIR6oli4r+4VvzzVQMx+u26rzlJRgX
+         O+FBBMBB+gmT4aX7WE4opxSP9teu9aHt27P2/Lp5njVurRNJHUT99TIs13gyOuvNBBi2
+         k43kS2qfw4+zQXEh0biZdBkKDu51Nd6JCdIsAajanyQsZy8KUBuucOY8PxUILvOGUXoz
+         lCmVgn/3VhvvZkd7zAxgRmj8uDsWxGqOnvEyUGfpepvn4M28vSxmiP1tjpZfs2x+nMNc
+         sVXug/9z4Sgqcuj7/8Qwf7Q7VzLRMCCSOWwbnPq2g8CYH7m9M4y+SA1yxScb8jW/poOG
+         DW6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WterxneLBK/OCP/E7bFO9SR6ncKFFjBVYrR2V8OSQcQ=;
-        b=KhK93430aaeTkNYIL39P6AoScEYQ6yBQ9o3W53IjdChGj0OYyX4QBBckP1yydWG2Hi
-         iOLbE6pANXAp4yXf/u6cjozuiYjLopOqdd4v1Gg/E5JFFZvDZzXJ5Ed8QTVwwt11SClh
-         cRXBMeNxUnFX3UK20D1GInLzo95j/T+7jHME1apgUZpXAzaYE5LmO7jFq15WgJOnrPbU
-         7SpU0yR/Y84qQvPYHrE9oET7kCnkqAcU5imysLI+H4OwU+orFkV4Mm780w+lYL01iawg
-         LyoPtXCFm9K1NiUHuwJObtr1BU7ZuQoKonvO/XhhUb5pzO+rL+t2fNQhRLvKnS1JOt9g
-         aYjA==
-X-Gm-Message-State: AOAM531E3FU6jIR0Asqdtau+rBcl6VDA6dN2xOaFj0VUVwhcA/jnmQL1
-	pj6AkZiUdcQDdoe3JtmszCLqpTRyswEf++C5oCY=
-X-Google-Smtp-Source: ABdhPJzLYGADqZhxBCkXHH8aaA6+1exmoi7R3gZCpIBguXGiWFPBtn02FaOs3Wbur95Y7N7SNpE08zmbY4+4+FKZrcI=
-X-Received: by 2002:a62:e402:0:b0:3f7:656:6ad2 with SMTP id
- r2-20020a62e402000000b003f706566ad2mr301877pfh.4.1630070174842; Fri, 27 Aug
- 2021 06:16:14 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=e00tT1WGM1MeY+aTqkfLBt5Jw5xRDnXK4DZViwul0w4=;
+        b=YAN0F9eaRd0fnG34B1KkuX8Bzyf80ULzyRiz43xfordzUK1XSOYpaSXxvnVEy5arMh
+         B9rGL5WKNonE8VSeJX+bg9Jz+e81XSN6vXB85BqWz33iO21qz020iQtPIH0YsHUefS7d
+         BYKMf86EYoP3aKJdZdPEm7wAQtHtN680Jw8zNHsQwDhV6RYMZddgSDJd8b5Y5FSlnv2o
+         fa+8gk650+VQIoZOJJfkeXoXZTtAE+PrhfzDGqV4MGQKN/HF+hL9F4UHB+lT9zWOi/vW
+         uRvxHMypZ66RSc/Fr4MdcrCDpN7VZGZ6zsDnLhTiXBMhYnKAGzijs7yNOX2yOgwqqe89
+         QslQ==
+X-Gm-Message-State: AOAM5330nSc6KhdMakKWXbx7oZpTp1ABfpLjcu6wWNH2oANa7bP/K8Rp
+	V9xY/iRS6AH0qZcLaAhG6zw=
+X-Google-Smtp-Source: ABdhPJwgheHP9xFxdiCDi0/2ty3Qhjm8CypzDW4X80tPGWRcHgx4iqDm18vlTXVU6xmvSUjtzhnsNA==
+X-Received: by 2002:a9d:6c4c:: with SMTP id g12mr12465615otq.298.1630167831683;
+        Sat, 28 Aug 2021 09:23:51 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 4sm1847076ooa.11.2021.08.28.09.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Aug 2021 09:23:51 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Sat, 28 Aug 2021 09:23:49 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: watchdog: sunxi: Add compatible for
+ D1
+Message-ID: <20210828162349.GA824322@roeck-us.net>
+References: <20210805045716.46141-1-samuel@sholland.org>
+ <20210805045716.46141-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
-In-Reply-To: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com>
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-Date: Fri, 27 Aug 2021 16:16:03 +0300
-Message-ID: <CAGphcd=L8GazB_io8Guy-0TdPGAt-m+4H38jrwCzNmt4+=moNg@mail.gmail.com>
-Subject: Re: DE2.0 YV12 playback issues after ea067aee45a8
-To: jernej.skrabec@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210805045716.46141-2-samuel@sholland.org>
 
-+CC: jernej.skrabec@gmail.com
+On Wed, Aug 04, 2021 at 11:57:15PM -0500, Samuel Holland wrote:
+> D1 keeps the same register layout and clock sources as the R329, but it
+> adds a key field which must be set to update the watchdog's "CFG" and
+> "MODE" registers. Therefore it is not backward-compatible.
+> 
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-=D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman Strat=
-iienko <r.stratiienko@gmail.com>:
->
-> Hello Jernej,
->
-> During local testing I faced an issue where YV12 buffers are displayed
-> all in blue.
->
-> Issue can be fixed by reverting:
-> ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
->
-> Could you have a look please?
->
-> Best regards,
-> Roman Stratiienko
+Acked-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
+> Changes v1 to v2:
+>  - None.
+> 
+>  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> index 8fa5b0d32381..6ef5e7caae80 100644
+> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> @@ -29,6 +29,7 @@ properties:
+>        - items:
+>            - const: allwinner,suniv-f1c100s-wdt
+>            - const: allwinner,sun4i-a10-wdt
+> +      - const: allwinner,sun20i-d1-wdt
+>  
+>    reg:
+>      maxItems: 1
+> @@ -61,6 +62,7 @@ if:
+>      compatible:
+>        contains:
+>          enum:
+> +          - allwinner,sun20i-d1-wdt
+>            - allwinner,sun50i-r329-wdt
+>  
+>  then:
