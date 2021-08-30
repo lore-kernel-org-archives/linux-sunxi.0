@@ -1,34 +1,35 @@
 Received: from ssq0.pkh.me (laubervilliers-656-1-228-164.w92-154.abo.wanadoo.fr [92.154.28.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8CE3FC2
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 15:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C361F3FC2
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 15:16:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pkh.me; s=selector1;
-	t=1630336549;
+	t=1630336609;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding;
 	bh=q/K70fg2XIvSdORvPi9aHyTtzWbQf+QQawoUXEWMd/E=;
-	b=CZ8EqaU4f3Cj1T9Rk28e+IC+lXBCDUr8bw5oC+rJTMI15sQO48Qgm93z0Xj9eUEv6Gagbt
-	1203RzQYfJqzsOS4p99GeSSpUCcmqoYvU4iURQ+uGTAnsall56dW5uEzzJSjn3eSrmJ/Af
-	II1tg8kHXChuEU9iEN75dny2V1WkXNU=
+	b=BZVV6u9tZoUsx/H0kQ6mrX9GBObotQ65MfZtbXpsBqN+t2k9eWuf0lW6vh5Y0UA5mZTTIx
+	TorU492aRWcFIIvaFxLGElhB/or0VGa2Y3yac+WTKZb0pTIl/AvEubbH/ETL9q+vDjxqcI
+	4K8McbevrH/Wfq7ix71LKsDm0iLfvJk=
 Received: from localhost (ssq0.pkh.me [local])
-	by ssq0.pkh.me (OpenSMTPD) with ESMTPA id 26ce879a;
-	Mon, 30 Aug 2021 15:15:49 +0000 (UTC)
+	by ssq0.pkh.me (OpenSMTPD) with ESMTPA id 02164e4b;
+	Mon, 30 Aug 2021 15:16:49 +0000 (UTC)
 From: =?UTF-8?q?Cl=C3=A9ment=20B=C5=93sch?= <u@pkh.me>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec  --cc= Willy Liu <jernej.skrabec@gmail.comwilly.liu@realtek.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Willy Liu <willy.liu@realtek.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
 	Andrew Lunn <andrew@lunn.ch>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Cl=C3=A9ment=20B=C5=93sch?= <u@pkh.me>
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Cl=C3=A9ment=20B=C5=93sch?= <u@pkh.me>
 Subject: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
-Date: Mon, 30 Aug 2021 17:15:39 +0200
-Message-Id: <20210830151539.17891-1-u@pkh.me>
+Date: Mon, 30 Aug 2021 17:16:45 +0200
+Message-Id: <20210830151645.18018-1-u@pkh.me>
 X-Mailer: git-send-email 2.31.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
