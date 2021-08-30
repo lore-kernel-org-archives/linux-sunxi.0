@@ -1,31 +1,32 @@
-Received: from ssq0.pkh.me (laubervilliers-656-1-228-164.w92-154.abo.wanadoo.fr [92.154.28.164])
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA9172
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 00:59:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pkh.me; s=selector1;
-	t=1630284778;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=npBp7WbmtiPU0EE4g71XUbLHJkGWHeertqZ8nJ2kRIE=;
-	b=Lrs7RFgCixbAMl3bNXhHrXkNCs53EwjDnTAsK7arnbLjXrvUQAVMWuWHASRwVBw91FwiPD
-	o6mlQmbv/bbXOpnIzf0LbM5u/amPkVNW0nP8T0NOGfnn3F/FJilvo+24XC9EVwlbXkG/z8
-	zT2ie4/WhlLblWtZ+Wsgg9nsQdmgh/g=
-Received: from localhost (ssq0.pkh.me [local])
-	by ssq0.pkh.me (OpenSMTPD) with ESMTPA id 9b1de0ac;
-	Mon, 30 Aug 2021 00:52:57 +0000 (UTC)
-Date: Mon, 30 Aug 2021 02:52:57 +0200
-From: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
-To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6B03FC1
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 14:18:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=9DGgUo2ugpU41hWzsW/N+Nu2joYqP2tCgM60Nh03GC4=; b=5s
+	k1rHmyE1QQyrq2xcPMU4SNSmqh6fo9dEbWF93Jp0v7TVuONsN3mymtZ5402qJJqOA6wYl+dU3rF4b
+	7fZNkMa8OnIljxahEh2iQgv86oEdlcNqO4qXrZf6bHsAgh6fGJKPX1/WIXUmLRm5W/hgRmCiGbHtw
+	66SIBCBvyOzFur8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1mKhh7-004ZKf-EG; Mon, 30 Aug 2021 15:51:25 +0200
+Date: Mon, 30 Aug 2021 15:51:25 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
 	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Willy Liu <willy.liu@realtek.com>
-Cc: netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org
-Subject: sunxi H5 DTB fix for realtek regression
-Message-ID: <YSwr6YZXjNrdKoBZ@ssq0.pkh.me>
+	Willy Liu <willy.liu@realtek.com>, netdev@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: sunxi H5 DTB fix for realtek regression
+Message-ID: <YSziXfll/p/5OrOv@lunn.ch>
+References: <YSwr6YZXjNrdKoBZ@ssq0.pkh.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -35,40 +36,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YSwr6YZXjNrdKoBZ@ssq0.pkh.me>
 
-Hi,
+On Mon, Aug 30, 2021 at 02:52:57AM +0200, Clément Bœsch wrote:
+> Hi,
+> 
+> Commit bbc4d71d63549bcd003a430de18a72a742d8c91e ("net: phy: realtek: fix
+> rtl8211e rx/tx delay config") broke the network on the NanoPI NEO 2 board
+> (RTL8211E chip).
+> 
+> Following what was suggested by Andrew Lunn for another hardware¹, I tried
+> the following diff:
+> 
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+> index 02f8e72f0cad..05486cccee1c 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+> @@ -75,7 +75,7 @@ &emac {
+>         pinctrl-0 = <&emac_rgmii_pins>;
+>         phy-supply = <&reg_gmac_3v3>;
+>         phy-handle = <&ext_rgmii_phy>;
+> -       phy-mode = "rgmii";
+> +       phy-mode = "rgmii-id";
+>         status = "okay";
+>  };
+> 
+> 
+> ...which fixed the issue. This was tested on v5.11.4 but the patch applies
+> cleanly on stable so far.
+> 
+> I'm sorry for not sending a proper patch: I unfortunately have very little
+> clue about what I'm doing here so it's very hard for me to elaborate a
+> proper commit description.
 
-Commit bbc4d71d63549bcd003a430de18a72a742d8c91e ("net: phy: realtek: fix
-rtl8211e rx/tx delay config") broke the network on the NanoPI NEO 2 board
-(RTL8211E chip).
+Hi Clément
 
-Following what was suggested by Andrew Lunn for another hardware¹, I tried
-the following diff:
+You are not too far away from a proper patch. I can either guide you,
+if you want to learn, or the allwinner maintainer can probably take
+your work and finish it off.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
-index 02f8e72f0cad..05486cccee1c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
-@@ -75,7 +75,7 @@ &emac {
-        pinctrl-0 = <&emac_rgmii_pins>;
-        phy-supply = <&reg_gmac_3v3>;
-        phy-handle = <&ext_rgmii_phy>;
--       phy-mode = "rgmii";
-+       phy-mode = "rgmii-id";
-        status = "okay";
- };
-
-
-...which fixed the issue. This was tested on v5.11.4 but the patch applies
-cleanly on stable so far.
-
-I'm sorry for not sending a proper patch: I unfortunately have very little
-clue about what I'm doing here so it's very hard for me to elaborate a
-proper commit description.
-
-Best regards,
-
-[1]: https://www.spinics.net/lists/netdev/msg692731.html
-
--- 
-Clément B.
+     Andrew
