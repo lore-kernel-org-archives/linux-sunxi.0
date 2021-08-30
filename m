@@ -1,72 +1,69 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from ssq0.pkh.me (laubervilliers-656-1-228-164.w92-154.abo.wanadoo.fr [92.154.28.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6FFC2FAF
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 15:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=bL28JptUtAL4Jouyvz4ajT1BB84wg50lUMYs9+7LAQ8=; b=P5
-	LbcUcU0pSZph2xB8UOOyvAk+j1U+gMY+is0vQHHJG79odnEogPiUJCWiamoPuaOqQzSNzCnIYdmQo
-	J5XyPUKkepBoCS6OJVjyd75TcIQ/tLeUUWArIfi1EI99mTlupPENa9AoFO7M8qZStIX96B+MyXJL9
-	VW8SyMx8CLV8s3E=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1mKiqm-004aHV-6G; Mon, 30 Aug 2021 17:05:28 +0200
-Date: Mon, 30 Aug 2021 17:05:28 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8CE3FC2
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 15:15:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pkh.me; s=selector1;
+	t=1630336549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=q/K70fg2XIvSdORvPi9aHyTtzWbQf+QQawoUXEWMd/E=;
+	b=CZ8EqaU4f3Cj1T9Rk28e+IC+lXBCDUr8bw5oC+rJTMI15sQO48Qgm93z0Xj9eUEv6Gagbt
+	1203RzQYfJqzsOS4p99GeSSpUCcmqoYvU4iURQ+uGTAnsall56dW5uEzzJSjn3eSrmJ/Af
+	II1tg8kHXChuEU9iEN75dny2V1WkXNU=
+Received: from localhost (ssq0.pkh.me [local])
+	by ssq0.pkh.me (OpenSMTPD) with ESMTPA id 26ce879a;
+	Mon, 30 Aug 2021 15:15:49 +0000 (UTC)
+From: =?UTF-8?q?Cl=C3=A9ment=20B=C5=93sch?= <u@pkh.me>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec  --cc= Willy Liu <jernej.skrabec@gmail.comwilly.liu@realtek.com>,
+	Rob Herring <robh+dt@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Willy Liu <willy.liu@realtek.com>, netdev@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org
-Subject: Re: sunxi H5 DTB fix for realtek regression
-Message-ID: <YSzzuDvd1fWXxcAb@lunn.ch>
-References: <YSwr6YZXjNrdKoBZ@ssq0.pkh.me>
- <YSziXfll/p/5OrOv@lunn.ch>
- <YSzsmy1f2//NNzXm@ssq0.pkh.me>
+	Andrew Lunn <andrew@lunn.ch>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20B=C5=93sch?= <u@pkh.me>
+Subject: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
+Date: Mon, 30 Aug 2021 17:15:39 +0200
+Message-Id: <20210830151539.17891-1-u@pkh.me>
+X-Mailer: git-send-email 2.31.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YSzsmy1f2//NNzXm@ssq0.pkh.me>
 
-> See attached patch, heavily based on other commits.
+Since commit bbc4d71d6354 ("net: phy: realtek: fix rtl8211e rx/tx delay
+config") network is broken on the NanoPi Neo 2.
 
-Looks good.
+This patch changes the phy-mode to use internal delays both for RX and
+TX as has been done for other boards affected by the same commit.
 
-You need to add a Signed-off-by: See
+Fixes: bbc4d71d6354 ("net: phy: realtek: fix rtl8211e rx/tx delay config")
+Signed-off-by: Clément Bœsch <u@pkh.me>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+index 02f8e72f0cad..05486cccee1c 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dts
+@@ -75,7 +75,7 @@ &emac {
+ 	pinctrl-0 = <&emac_rgmii_pins>;
+ 	phy-supply = <&reg_gmac_3v3>;
+ 	phy-handle = <&ext_rgmii_phy>;
+-	phy-mode = "rgmii";
++	phy-mode = "rgmii-id";
+ 	status = "okay";
+ };
+ 
+-- 
+2.33.0
 
-Patches need to be in the body of the email, not attachments.
-
-You can use scripts/get_maintainers.pl to get a list of people to send
-it to. I would use To: for
-Maxime Ripard <mripard@kernel.org> (maintainer:ARM/Allwinner sunXi SoC support)
-Chen-Yu Tsai <wens@csie.org> (maintainer:ARM/Allwinner sunXi SoC support)
-Jernej Skrabec <jernej.skrabec@gmail.com> (reviewer:ARM/Allwinner sunXi SoC support)
-
-and Cc: for the rest.
-
-> Note: running `git grep 'phy-mode\s*=\s*"rgmii"' arch` shows that it might
-> affect other hardware as well.
-
-"rgmii" can be correct. So you need to narrow your search.
-
-> I don't know how one is supposed to check
-> that, but I would guess at least sun50i-a64-nanopi-a64.dts is affected (a
-> quick internet search shows that it's using a RTL8211E�)
-
-This seems reasonable. You could provide a second patch for this.
-
-     Andrew
