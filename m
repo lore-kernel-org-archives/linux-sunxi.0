@@ -1,54 +1,65 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3D13FC1
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 Aug 2021 21:52:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=LQm/99fYy7tEEihcpqLleK4oaykLQ5hbrCKmuLvP2ys=; b=gO
-	Y+j4GOAp3ph5f2GsxlhYJbTShUlrL/XErXWrrFFoMDLEID00uo5UPUX6POucfqgQCvi89fMH8NFho
-	qe5PE5nJQZ5Vh/9gjs/DqMqnPLlYQ08PkWdQ5TfEBf7O6Bmcs7J6CQbWIh3ILfCUCQgNIx/4REvTM
-	FCWbXReX7X4uJE8=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1mKpCH-004dAl-Nv; Mon, 30 Aug 2021 23:52:05 +0200
-Date: Mon, 30 Aug 2021 23:52:05 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Willy Liu <willy.liu@realtek.com>, Rob Herring <robh+dt@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
-Message-ID: <YS1TBT8WW1MFemyf@lunn.ch>
-References: <20210830151645.18018-1-u@pkh.me>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F2472;
+	Tue, 31 Aug 2021 09:49:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [IPv6:2a01:e0a:4cb:a870:2d6:5982:f5be:998c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 268E21F42FC8;
+	Tue, 31 Aug 2021 10:49:09 +0100 (BST)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	hverkuil-cisco@xs4all.nl,
+	jc@kynesim.co.uk,
+	ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH 0/2] media: HEVC: RPS clean up
+Date: Tue, 31 Aug 2021 11:48:58 +0200
+Message-Id: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210830151645.18018-1-u@pkh.me>
 
-On Mon, Aug 30, 2021 at 05:16:45PM +0200, Clément Bœsch wrote:
-> Since commit bbc4d71d6354 ("net: phy: realtek: fix rtl8211e rx/tx delay
-> config") network is broken on the NanoPi Neo 2.
-> 
-> This patch changes the phy-mode to use internal delays both for RX and
-> TX as has been done for other boards affected by the same commit.
-> 
-> Fixes: bbc4d71d6354 ("net: phy: realtek: fix rtl8211e rx/tx delay config")
-> Signed-off-by: Clément Bœsch <u@pkh.me>
+This series aims to clean up Reference Picture Set usage and flags.
 
-Cc: stable@vger.kernel.org
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Long term flag was named with RPS prefix while it is not used for RPS
+but for mark long term references in DBP. Remane it and remove the two
+other useless RPS flags.
 
-    Andrew
+Clarify documentation about RPS lists content and make sure that Hantro
+driver use them correctly (i.e without look up in DBP).
+
+Benjamin
+
+Benjamin Gaignard (2):
+  media: hevc: Remove RPS named flags
+  media: hevc: Embedded indexes in RPS
+
+ .../media/v4l/ext-ctrls-codec.rst             | 12 ++++-----
+ .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+ include/media/hevc-ctrls.h                    |  4 +--
+ 4 files changed, 14 insertions(+), 31 deletions(-)
+
+-- 
+2.25.1
+
