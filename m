@@ -1,226 +1,174 @@
-Received: from baidu.com (mx21.baidu.com [220.181.3.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294523FC1
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 14:13:04 +0000 (UTC)
-Received: from BC-Mail-Ex06.internal.baidu.com (unknown [172.31.51.46])
-	by Forcepoint Email with ESMTPS id 36AE43F512D1FCBF18F5;
-	Tue, 31 Aug 2021 21:57:47 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex06.internal.baidu.com (172.31.51.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 31 Aug 2021 21:57:47 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 31 Aug 2021 21:57:46 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/sun4i: Make use of the helper function devm_platform_ioremap_resource()
-Date: Tue, 31 Aug 2021 21:57:39 +0800
-Message-ID: <20210831135740.4826-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E30B2F80
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 14:33:32 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id q14so28088863wrp.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 07:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=smPFOktGxjGC+Ka43r7/WQHSP01FF5/7pAB/RUjJpV4=;
+        b=AsLarEwC2DIl28aNaxfHmcVDR7gDLzrwBaNfCtVmbTjYTzeuBYYtVHy299w2bZPviv
+         ETmWhowsY0U9rXtNQNPN4MKmznVwFEVDZsyytb1jSoRUrrH5aforeiajolKjky2Nzibr
+         7geWsndye6eIADa/BAjii6HRRxaVMhT6flG/c4dNOipJem/jjNwFaZE4Ja4PZi0o+Oyb
+         e44rtVA6eMzcSBCXdh8RSrhh02I/fN0M07w7kxnTsAjmewoeBhgkJn2cCS69NLt+Y63H
+         qj/51daTnKPEeLbhhy+Rkg0uLCJFpYMPb6EPbDLd+CpVYotV13Pt1jyL2fIjBjZ/63OL
+         3WIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=smPFOktGxjGC+Ka43r7/WQHSP01FF5/7pAB/RUjJpV4=;
+        b=dRhE1WkFpZ7IbNCdPHrnEfBFWr2F+VX08vt68LHt59AYJTGLyzq+tE4b6+Jd5ahTw1
+         DZCTkRNjKT1DDNqC+4ySMrWcwWS8IS434gI8K2R1neC0sQZ3ixl7/QeBbDlERUdX2of2
+         7YWB6IlTqMXx3+leUMFPOpP8NOH6G1FfUfE6h7o6u7ad0k4623cnK/6rCZqrzsZi+kfs
+         9sBKVeg/Rynv8LJLEOKEmp4FgGGlULPJgvDGgZl79m/8kkLNVCE3HV5Ub0ri+ajLAnJj
+         hzyZR97NbOVzrIoIkLzKN70+uh9NxWcpDEjZsez+JC1xvKVxZDLHlwMoreBkXUaUYpEg
+         v9jA==
+X-Gm-Message-State: AOAM531q+ABK5HEPXvBe+mUSTOJ7/f+TnlndNXp3TtEchGOnKTOyGD2y
+	9ZQ5A0w46tIrr+IdoN6Vik6KHQ==
+X-Google-Smtp-Source: ABdhPJyTTR6zGQEBSRbTCv9IzZ2WJeGXy2X5XoQq/beWXTSp/UY3OL+GBF9XPwA6D7i3seGROy3HXw==
+X-Received: by 2002:a5d:49cd:: with SMTP id t13mr31334228wrs.175.1630420410752;
+        Tue, 31 Aug 2021 07:33:30 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id c9sm16291108wrf.77.2021.08.31.07.33.29
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Tue, 31 Aug 2021 07:33:30 -0700 (PDT)
+From: John Cox <jc@kynesim.co.uk>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] media: hevc: Remove RPS named flags
+Date: Tue, 31 Aug 2021 15:33:30 +0100
+Message-ID: <l0fsigdnavn1n1n33a8a2ftfuj81tgv3if@4ax.com>
+References: <20210831094900.203283-1-benjamin.gaignard@collabora.com> <20210831094900.203283-2-benjamin.gaignard@collabora.com> <4g2sigpsttf80t72c7spdqqjvvijnths2d@4ax.com> <fdf6417e-09cd-f0a0-a351-fccd64bfc8c7@collabora.com>
+In-Reply-To: <fdf6417e-09cd-f0a0-a351-fccd64bfc8c7@collabora.com>
+User-Agent: ForteAgent/8.00.32.1272
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex30.internal.baidu.com (172.31.51.24) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
+>Le 31/08/2021 =C3=A0 13:08, John Cox a =C3=A9crit=C2=A0:
+>>> Marking a picture as long-term reference is valid for DPB but not for=
+ RPS.
+>>> Change flag name to match with it description in HEVC spec chapiter
+>>> "8.3.2 Decoding process for reference picture set".
+>>> Remove the other unused RPS flags.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++----
+>>> drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
+>>> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+>>> include/media/hevc-ctrls.h                                | 4 +---
+>>> 4 files changed, 5 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git =
+a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> index 3865acb9e0fd..eff33c511090 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> @@ -3138,10 +3138,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
+ -
+>>> 	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
+>>>      * - __u8
+>>>        - ``rps``
+>>> -      - The reference set for the reference frame
+>>> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
+>>> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
+>>> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+>>> +      - Long term flag for the reference frame
+>>> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
+>>>      * - __u8
+>>>        - ``field_pic``
+>>>        - Whether the reference is a field picture or a frame.
+>> If you are going to remove all the RPS values except for Long Term
+>> wouldn't it be better to rename the field too, either to "flags" or a
+>> bool "is_long_term"?  If we have a field called RPS it really should =
+be
+>> able to have a value for any of the 5 valid Reference Picture Sets =
+that
+>> a DPB entry can belong to.
+>
+>I will send a v2 and rename rps into flags.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/sun4i/sun4i_backend.c  | 4 +---
- drivers/gpu/drm/sun4i/sun4i_frontend.c | 4 +---
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 4 +---
- drivers/gpu/drm/sun4i/sun4i_tcon.c     | 4 +---
- drivers/gpu/drm/sun4i/sun4i_tv.c       | 4 +---
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 4 +---
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 4 +---
- drivers/gpu/drm/sun4i/sun8i_tcon_top.c | 4 +---
- 8 files changed, 8 insertions(+), 24 deletions(-)
+OK. I was going to say that you should merge the "field_pic" entry into
+a flags bitfield, but then I remembered that H265 doesn't have the
+concept of field_pics in the way that H264 does and I believe that both
+it and pic_order_count[1] are redundant (i.e. can never be used). But I
+guess that is the subject of yet another patch.
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_backend.c b/drivers/gpu/drm/sun4i/sun4i_backend.c
-index bf8cfefa0365..f52ff4e6c662 100644
---- a/drivers/gpu/drm/sun4i/sun4i_backend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_backend.c
-@@ -782,7 +782,6 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_backend *backend;
- 	const struct sun4i_backend_quirks *quirks;
--	struct resource *res;
- 	void __iomem *regs;
- 	int i, ret;
- 
-@@ -815,8 +814,7 @@ static int sun4i_backend_bind(struct device *dev, struct device *master,
- 	if (IS_ERR(backend->frontend))
- 		dev_warn(dev, "Couldn't find matching frontend, frontend features disabled\n");
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_frontend.c b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-index edb60ae0a9b7..56ae38389db0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_frontend.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_frontend.c
-@@ -561,7 +561,6 @@ static int sun4i_frontend_bind(struct device *dev, struct device *master,
- 	struct sun4i_frontend *frontend;
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
--	struct resource *res;
- 	void __iomem *regs;
- 
- 	frontend = devm_kzalloc(dev, sizeof(*frontend), GFP_KERNEL);
-@@ -576,8 +575,7 @@ static int sun4i_frontend_bind(struct device *dev, struct device *master,
- 	if (!frontend->data)
- 		return -ENODEV;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index 2f2c9f0a1071..3799a745b7dd 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -489,7 +489,6 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	struct cec_connector_info conn_info;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_hdmi *hdmi;
--	struct resource *res;
- 	u32 reg;
- 	int ret;
- 
-@@ -504,8 +503,7 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 	if (!hdmi->variant)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	hdmi->base = devm_ioremap_resource(dev, res);
-+	hdmi->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(hdmi->base)) {
- 		dev_err(dev, "Couldn't map the HDMI encoder registers\n");
- 		return PTR_ERR(hdmi->base);
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 9f06dec0fc61..88db2d2a9336 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -841,11 +841,9 @@ static int sun4i_tcon_init_regmap(struct device *dev,
- 				  struct sun4i_tcon *tcon)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
--	struct resource *res;
- 	void __iomem *regs;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tv.c b/drivers/gpu/drm/sun4i/sun4i_tv.c
-index cb91bc11a0c7..94883abe0dfd 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tv.c
-@@ -538,7 +538,6 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun4i_tv *tv;
--	struct resource *res;
- 	void __iomem *regs;
- 	int ret;
- 
-@@ -548,8 +547,7 @@ static int sun4i_tv_bind(struct device *dev, struct device *master,
- 	tv->drv = drv;
- 	dev_set_drvdata(dev, tv);
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs)) {
- 		dev_err(dev, "Couldn't map the TV encoder registers\n");
- 		return PTR_ERR(regs);
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 4f5efcace68e..4371684697bd 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1104,7 +1104,6 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	struct device *dev = &pdev->dev;
- 	const char *bus_clk_name = NULL;
- 	struct sun6i_dsi *dsi;
--	struct resource *res;
- 	void __iomem *base;
- 	int ret;
- 
-@@ -1120,8 +1119,7 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 				    "allwinner,sun6i-a31-mipi-dsi"))
- 		bus_clk_name = "bus";
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base)) {
- 		dev_err(dev, "Couldn't map the DSI encoder registers\n");
- 		return PTR_ERR(base);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 5b42cf25cc86..f5e8aeaa3cdf 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -337,7 +337,6 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	struct drm_device *drm = data;
- 	struct sun4i_drv *drv = drm->dev_private;
- 	struct sun8i_mixer *mixer;
--	struct resource *res;
- 	void __iomem *regs;
- 	unsigned int base;
- 	int plane_cnt;
-@@ -390,8 +389,7 @@ static int sun8i_mixer_bind(struct device *dev, struct device *master,
- 	if (!mixer->cfg)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-index 75d8e60c149d..1b9b8b48f4a7 100644
---- a/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_tcon_top.c
-@@ -128,7 +128,6 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 	struct clk_hw_onecell_data *clk_data;
- 	struct sun8i_tcon_top *tcon_top;
- 	const struct sun8i_tcon_top_quirks *quirks;
--	struct resource *res;
- 	void __iomem *regs;
- 	int ret, i;
- 
-@@ -158,8 +157,7 @@ static int sun8i_tcon_top_bind(struct device *dev, struct device *master,
- 		return PTR_ERR(tcon_top->bus);
- 	}
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	regs = devm_ioremap_resource(dev, res);
-+	regs = devm_platform_ioremap_resource(pdev, 0);
- 	tcon_top->regs = regs;
- 	if (IS_ERR(regs))
- 		return PTR_ERR(regs);
--- 
-2.25.1
+Regards
 
+John Cox
+
+>> As a side note, it is important to my code that the DPB array contains
+>> all the DPB entries not just the ones that are in use in this frame.  =
+I
+>> need them so I can track which frames have left the DPB so I can
+>> reuse/free the MV tables associated with them (yes I could keep one =
+for
+>> every entry in the capture Q but that is generally wasteful on memory
+>> and the Pi is often memory constrained). So maybe update the docn on =
+DPB
+>> to make this explicit please? (I suspect that current code does this
+>> anyway as it is generally easier to do than to not.)
+>
+>That should be in another patch :-)
+>
+>Benjamin
+>
+>>
+>> John Cox
+>>
+>>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c =
+b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> index 9ea864ca5625..be46b3c28b17 100644
+>>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> @@ -503,7 +503,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>> 		compress_luma_addr =3D luma_addr + compress_luma_offset;
+>>> 		compress_chroma_addr =3D luma_addr + compress_chroma_offset;
+>>>
+>>> -		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+>>> +		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
+>>> 			dpb_longterm_e |=3D BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
+>>>
+>>> 		/*
+>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
+b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> index ef0311a16d01..6086cc35e8cc 100644
+>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> @@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct=
+ cedrus_dev *dev,
+>>> 		unsigned int index =3D list[i];
+>>> 		u8 value =3D list[i];
+>>>
+>>> -		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
+>>> +		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
+>>> 			value |=3D VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
+>>>
+>>> 		/* Each SRAM word gathers up to 4 references. */
+>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>> index ef63bc205756..f587448ef495 100644
+>>> --- a/include/media/hevc-ctrls.h
+>>> +++ b/include/media/hevc-ctrls.h
+>>> @@ -127,9 +127,7 @@ struct v4l2_ctrl_hevc_pps {
+>>> 	__u64	flags;
+>>> };
+>>>
+>>> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
+>>> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
+>>> -#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
+>>> +#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
+>>>
+>>> #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
+>>>
