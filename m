@@ -1,113 +1,70 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC163FC2
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 18:49:33 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id c129-20020a1c35870000b02902e6b6135279so219052wma.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 11:49:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B263FC2
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 19:01:06 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id u16so696731wrn.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 12:01:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
-        b=Dq4GrPtWYnjI7PdaRg1IumGNlB44PZSucGm9dkqcxaFRVTtR7mBHN0AWl7woAcYqVa
-         SpVwV3DJp67FH2aL7ESf87/ZHT4YX9a0dWmiL6wsA90raBTueNXG3y/s+LuJOybUPv0S
-         nhyItsTCAonsIFzohuEh6tIzkb3lDSoiwOmo0wgUJp74UZorJ0mUvTs0l0rlFbGRoCil
-         Al86cXeBVzIcTLWC716gBirbwVpbEHr8ARyrLhY+Qt4W6r6JVD5y/Cpu7ej3qLTmVpxa
-         iR8Gq9CF1ogUW1TQENSq0YD9gGt1SNG2zTrga4D+yGCEKca/GW/WJ+B1gOCoVK7uc+tU
-         NtTw==
+        bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
+        b=YUG3gg4HztKsujLCsWJkVM63g5Ld67nElGVgmaaKpnO00peskYekUXADHXQacrLLGZ
+         o4kXYmPzBOKFaZilUon4gZHiF50Ky/lT2mqJjuPaMZ+J8UbDEvFQz6btJTc7yvwOjRm2
+         MsPulb8kG37VQyBoPlAQ93dGI1slLOtc4kRiF7UBlHF8R4bsNs2nMQ/vG2vU4YOWWNPf
+         aHuHQqGdNBST9fzF0d4kW3VGCet8xSyjzRnp5/WwZlcEmkIMlcudjGv2ljcmAfGiLiFz
+         DsbIDLvg6yBpIL6zjIqn+Yxlo2uiGL8StBibDApyH4aHAgaaYWn6iEKqIBmQxbjM94Mi
+         uXIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ttx6bMAS94NZgVYt3K54B5DCBv1SzFZ1QKmkOM0BMAg=;
-        b=JolPTCvbNuU0GXA1Poc48smyCaD5wt4Ba2pVnbUq7Mner7BkGh7ZARz5MVJi5EJuch
-         iimUxP2uV4ouPIMt3PHWXlv+uQwtJpvnrAm1RIl325eUw7zcE/XRlA8O4YxBuDu2omPT
-         kOD8eqHxiZAzq9tsxFTY/lTBO54HbB4Kr9QajOytWgpbcnjs3yG7OiU8QCc8M3vgI8th
-         WAJxr2cu1pbNMifroclqyycpPWjOIfueiIAlTwAJ9s7gONQ9WXKDvzNBhdzE0EIEMfTk
-         xlC2niLOVmRMxLHYraZvqbD8FSvoxNLacUQd78drgvdeQs37VFc0rcpwXUewimCjZ7cn
-         JKig==
-X-Gm-Message-State: AOAM530/qnQmMHaxNJi3s3uCSsPyFfpVfEuQ9MAeQEwDly3aeUyaSdlW
-	GjOFGjDr2FxKuaES3h9Qcws=
-X-Google-Smtp-Source: ABdhPJwAEe8emf73MKBgtwUTkWNiQwV7+aOlGc21X5WxoUr2WhNG7cEgbtVvKlNEZqofi4z1CN+rYw==
-X-Received: by 2002:a7b:c255:: with SMTP id b21mr5745302wmj.44.1630435771581;
-        Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
+        bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
+        b=L0lmLLrp2fWsUNAs8sIRobLEmp5XY20zv+arARkeSqgydYFEMExb4WF21v1ANn4zIA
+         wCoBAPeUHZ32M/78JndIlRRVFjRzAet0TxGtOOAijb1hJukCqXqSKp9Fbd/nMFtebmyv
+         l5brqlgWtiz+fcKpmFUQ5ctXjTkGq7gFHrAs+VkusarBR3M0+vG0/KA1JAimIqSleIaF
+         w7u4q21XR5D4apwed/SV/xkoy3Myd5s9kOCfCMd2sEjD4PoDshO9BigIb+Y1LgVL+qw4
+         eTjwxMdtRShytDO7jcRVIbFmyMCgUCAgdHB5FvnAHXHoA9CyrihB8dzL4CMJGX5nNlTv
+         IPJQ==
+X-Gm-Message-State: AOAM531IIM9LxLorI3//OfoEknvNAvJWmETRYU4oMp02onjFYtIc5br4
+	A0szeeQS9AnbanOHxxMz3vE=
+X-Google-Smtp-Source: ABdhPJxOmIjlk4xNGEooBmwcvg3/uM6eZEOaaAuISu6L6yMnHMyNxJUsSeX6S3KIALWZ26cW9yF9cQ==
+X-Received: by 2002:a5d:6e91:: with SMTP id k17mr33391524wrz.77.1630436464829;
+        Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id a133sm3354391wme.5.2021.08.31.11.49.30
+        by smtp.gmail.com with ESMTPSA id j17sm18906057wrh.67.2021.08.31.12.01.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 11:49:31 -0700 (PDT)
+        Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: Re: DE2.0 YV12 playback issues after ea067aee45a8
-Date: Tue, 31 Aug 2021 20:49:30 +0200
-Message-ID: <8627733.mJVyAx2qjc@kista>
-In-Reply-To: <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
-References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com> <2072790.9m3SFDGqga@kista> <CAGphcdnAtpFaAtp_QSKhNfQ4HkiL6dwYfP_pfMgNKwNGdyW-sw@mail.gmail.com>
+To: caihuoqing@baidu.com, Cai Huoqing <caihuoqing@baidu.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Make use of the helper function devm_platform_ioremap_resource()
+Date: Tue, 31 Aug 2021 21:01:03 +0200
+Message-ID: <3342147.tElmWuj8HH@kista>
+In-Reply-To: <20210831135740.4826-1-caihuoqing@baidu.com>
+References: <20210831135740.4826-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 31. avgust 2021 ob 19:18:42 CEST je Roman Stratiienko napisal(a):
-> Hi Jernej,
->=20
-> =D0=B2=D1=82, 31 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 19:52, Jernej =
-=C5=A0krabec <jernej.skrabec@gmail.com>:
-> >
-> > Hi!
-> >
-> > Dne petek, 27. avgust 2021 ob 15:16:03 CEST je Roman Stratiienko=20
-napisal(a):
-> > > +CC: jernej.skrabec@gmail.com
-> > >
-> > > =D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman=
- Stratiienko=20
-<r.stratiienko@gmail.com>:
-> > > >
-> > > > Hello Jernej,
-> > > >
-> > > > During local testing I faced an issue where YV12 buffers are displa=
-yed
-> > > > all in blue.
-> > > >
-> > > > Issue can be fixed by reverting:
-> > > > ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
-> > > >
-> > > > Could you have a look please?
-> >
-> > I believe I found the issue. Can you try replacing this line:
-> > https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/sun4i/
-> > sun8i_csc.h#L20
-> >
-> > with:
-> > #define SUN8I_CSC_COEFF(base, i)        (base + 0x10 + 4 * (i))
-> >
-> > Note that "i" is in parenthesis.
->=20
-> Thank you for your quick response.
-> Yeah, that's it. Adding parenthesis solves the issue.
+Hi!
 
-Thanks for reporting & testing!
+Dne torek, 31. avgust 2021 ob 15:57:39 CEST je Cai Huoqing napisal(a):
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> > > >
-> > > > Best regards,
-> > > > Roman Stratiienko
-> > >
-> >
-> >
->=20
 
 
