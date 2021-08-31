@@ -1,174 +1,86 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E30B2F80
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 14:33:32 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id q14so28088863wrp.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 07:33:32 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E98772
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 16:38:56 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id q14so53264wrp.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 09:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynesim-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:references:in-reply-to
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=smPFOktGxjGC+Ka43r7/WQHSP01FF5/7pAB/RUjJpV4=;
-        b=AsLarEwC2DIl28aNaxfHmcVDR7gDLzrwBaNfCtVmbTjYTzeuBYYtVHy299w2bZPviv
-         ETmWhowsY0U9rXtNQNPN4MKmznVwFEVDZsyytb1jSoRUrrH5aforeiajolKjky2Nzibr
-         7geWsndye6eIADa/BAjii6HRRxaVMhT6flG/c4dNOipJem/jjNwFaZE4Ja4PZi0o+Oyb
-         e44rtVA6eMzcSBCXdh8RSrhh02I/fN0M07w7kxnTsAjmewoeBhgkJn2cCS69NLt+Y63H
-         qj/51daTnKPEeLbhhy+Rkg0uLCJFpYMPb6EPbDLd+CpVYotV13Pt1jyL2fIjBjZ/63OL
-         3WIQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=w8Pqc83PIRgH3BzycVik/NXM5xJcLHU0opchQoMghiA=;
+        b=ohTmwadsjLj+nN9yVdB0KWJYMalk079iIuEW2E0omzhq/AkuPSQ99UXMoJH2rflYHr
+         9Pn3ebrbpXnxZNYEQ4cDlPF/2gmVFY8BLNVmmFpfPn4BCYKLn8D9x6iJpW8Js/PWJCkr
+         dsDxNsrbxzJ7/B6vv6l4/S7unoT3U7AWp3/ZLHG8W92wecrU9PwH/+a00Tmh+A1nGQfE
+         9KQ3LJ7x1vfuFaeP/3ejee2Ppwu/7xzG3gkqX8ZlrQpLAkENLjQtGCeWyUVbNVWy1jdJ
+         T3FklFix0j3n7hpqQG1Bj17BRk1xLrnty32xfekHcFbvGqteswksRbZXZAiIS9CMxFlh
+         Sccg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
-         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
-        bh=smPFOktGxjGC+Ka43r7/WQHSP01FF5/7pAB/RUjJpV4=;
-        b=dRhE1WkFpZ7IbNCdPHrnEfBFWr2F+VX08vt68LHt59AYJTGLyzq+tE4b6+Jd5ahTw1
-         DZCTkRNjKT1DDNqC+4ySMrWcwWS8IS434gI8K2R1neC0sQZ3ixl7/QeBbDlERUdX2of2
-         7YWB6IlTqMXx3+leUMFPOpP8NOH6G1FfUfE6h7o6u7ad0k4623cnK/6rCZqrzsZi+kfs
-         9sBKVeg/Rynv8LJLEOKEmp4FgGGlULPJgvDGgZl79m/8kkLNVCE3HV5Ub0ri+ajLAnJj
-         hzyZR97NbOVzrIoIkLzKN70+uh9NxWcpDEjZsez+JC1xvKVxZDLHlwMoreBkXUaUYpEg
-         v9jA==
-X-Gm-Message-State: AOAM531q+ABK5HEPXvBe+mUSTOJ7/f+TnlndNXp3TtEchGOnKTOyGD2y
-	9ZQ5A0w46tIrr+IdoN6Vik6KHQ==
-X-Google-Smtp-Source: ABdhPJyTTR6zGQEBSRbTCv9IzZ2WJeGXy2X5XoQq/beWXTSp/UY3OL+GBF9XPwA6D7i3seGROy3HXw==
-X-Received: by 2002:a5d:49cd:: with SMTP id t13mr31334228wrs.175.1630420410752;
-        Tue, 31 Aug 2021 07:33:30 -0700 (PDT)
-Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
-        by smtp.gmail.com with ESMTPSA id c9sm16291108wrf.77.2021.08.31.07.33.29
-        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
-        Tue, 31 Aug 2021 07:33:30 -0700 (PDT)
-From: John Cox <jc@kynesim.co.uk>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, ezequiel@vanguardiasur.com.ar, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2] media: hevc: Remove RPS named flags
-Date: Tue, 31 Aug 2021 15:33:30 +0100
-Message-ID: <l0fsigdnavn1n1n33a8a2ftfuj81tgv3if@4ax.com>
-References: <20210831094900.203283-1-benjamin.gaignard@collabora.com> <20210831094900.203283-2-benjamin.gaignard@collabora.com> <4g2sigpsttf80t72c7spdqqjvvijnths2d@4ax.com> <fdf6417e-09cd-f0a0-a351-fccd64bfc8c7@collabora.com>
-In-Reply-To: <fdf6417e-09cd-f0a0-a351-fccd64bfc8c7@collabora.com>
-User-Agent: ForteAgent/8.00.32.1272
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=w8Pqc83PIRgH3BzycVik/NXM5xJcLHU0opchQoMghiA=;
+        b=Gi9ME+OBDJH5Qec4SFMaSnEKvF3tK650q3FXM//EflwRXGdT2+QRuoE/a/AWFaWJ34
+         nD1KnLUv/iBy/JQSXgkjeZ4+za7cMNm6y/G7cAJF3jkW3fOf1K5Bl0vkTT/17QDgdAZl
+         KCnPvyE/mHPPYi27qPM5X2OKSTz7S++5ek9ZhrDgohPaMdlFtuz+LrKi5dONWc/Bf4Lp
+         NMMPLGfhJFPrZuPOB6fSV9D0YproasyOMyLt3y5kIXKS/8YPY54pash++xOOlMz625u7
+         xf0Zu0aq8IjGN47Z+H+82CNAKSi1Xcuk61Rtd2wFhhkDLf0/lO46YBXI70j4y/7NF4xL
+         zdPw==
+X-Gm-Message-State: AOAM532df/jnXs+/7dwXlakz5jkCogpf/eoibgGXyB6JpUvpbKqC9xlt
+	0vyFAebQAcymLyLOT8ObfYo=
+X-Google-Smtp-Source: ABdhPJxzc5ivgUekzySQzRU9Vf+RmAdoZOerJx8PIQ3ULePwuTt/SuSyqiJrF4TtZ4s91DT7Ap4x9w==
+X-Received: by 2002:adf:c104:: with SMTP id r4mr12682824wre.404.1630427934982;
+        Tue, 31 Aug 2021 09:38:54 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id d9sm23133899wrb.36.2021.08.31.09.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Aug 2021 09:38:54 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-sunxi@lists.linux.dev
+Subject: Re: Re: DE2.0 YV12 playback issues after ea067aee45a8
+Date: Tue, 31 Aug 2021 18:38:53 +0200
+Message-ID: <5260533.ZaFvgIizOL@kista>
+In-Reply-To: <CAGphcd=L8GazB_io8Guy-0TdPGAt-m+4H38jrwCzNmt4+=moNg@mail.gmail.com>
+References: <CAGphcd=ZR-Gh0zq=y-L9mf9agLwJBiav34q6TqUV+Te_UWFBuA@mail.gmail.com> <CAGphcd=L8GazB_io8Guy-0TdPGAt-m+4H38jrwCzNmt4+=moNg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
->Le 31/08/2021 =C3=A0 13:08, John Cox a =C3=A9crit=C2=A0:
->>> Marking a picture as long-term reference is valid for DPB but not for=
- RPS.
->>> Change flag name to match with it description in HEVC spec chapiter
->>> "8.3.2 Decoding process for reference picture set".
->>> Remove the other unused RPS flags.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++----
->>> drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
->>> drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->>> include/media/hevc-ctrls.h                                | 4 +---
->>> 4 files changed, 5 insertions(+), 9 deletions(-)
->>>
->>> diff --git =
-a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
-b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> index 3865acb9e0fd..eff33c511090 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>> @@ -3138,10 +3138,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
->>> 	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->>>      * - __u8
->>>        - ``rps``
->>> -      - The reference set for the reference frame
->>> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
->>> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
->>> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->>> +      - Long term flag for the reference frame
->>> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->>>      * - __u8
->>>        - ``field_pic``
->>>        - Whether the reference is a field picture or a frame.
->> If you are going to remove all the RPS values except for Long Term
->> wouldn't it be better to rename the field too, either to "flags" or a
->> bool "is_long_term"?  If we have a field called RPS it really should =
-be
->> able to have a value for any of the 5 valid Reference Picture Sets =
-that
->> a DPB entry can belong to.
->
->I will send a v2 and rename rps into flags.
+Hi Roman!
 
-OK. I was going to say that you should merge the "field_pic" entry into
-a flags bitfield, but then I remembered that H265 doesn't have the
-concept of field_pics in the way that H264 does and I believe that both
-it and pic_order_count[1] are redundant (i.e. can never be used). But I
-guess that is the subject of yet another patch.
+Dne petek, 27. avgust 2021 ob 15:16:03 CEST je Roman Stratiienko napisal(a):
+> +CC: jernej.skrabec@gmail.com
+>=20
+> =D0=BF=D1=82, 27 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 16:12, Roman Str=
+atiienko <r.stratiienko@gmail.com>:
+> >
+> > Hello Jernej,
+> >
+> > During local testing I faced an issue where YV12 buffers are displayed
+> > all in blue.
+> >
+> > Issue can be fixed by reverting:
+> > ea067aee45a8 ("drm/sun4i: de2/de3: Remove redundant CSC matrices")
+> >
+> > Could you have a look please?
 
-Regards
+Yes, but I need more info - which SoCs are you using? Different routes are=
+=20
+taken for DE3 and DE2. In theory, they should be the same...
 
-John Cox
+Best regards,
+Jernej
 
->> As a side note, it is important to my code that the DPB array contains
->> all the DPB entries not just the ones that are in use in this frame.  =
-I
->> need them so I can track which frames have left the DPB so I can
->> reuse/free the MV tables associated with them (yes I could keep one =
-for
->> every entry in the capture Q but that is generally wasteful on memory
->> and the Pi is often memory constrained). So maybe update the docn on =
-DPB
->> to make this explicit please? (I suspect that current code does this
->> anyway as it is generally easier to do than to not.)
->
->That should be in another patch :-)
->
->Benjamin
->
->>
->> John Cox
->>
->>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c =
-b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>> index 9ea864ca5625..be46b3c28b17 100644
->>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
->>> @@ -503,7 +503,7 @@ static int set_ref(struct hantro_ctx *ctx)
->>> 		compress_luma_addr =3D luma_addr + compress_luma_offset;
->>> 		compress_chroma_addr =3D luma_addr + compress_chroma_offset;
->>>
->>> -		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->>> +		if (dpb[i].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->>> 			dpb_longterm_e |=3D BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->>>
->>> 		/*
->>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c =
-b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>> index ef0311a16d01..6086cc35e8cc 100644
->>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
->>> @@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct=
- cedrus_dev *dev,
->>> 		unsigned int index =3D list[i];
->>> 		u8 value =3D list[i];
->>>
->>> -		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
->>> +		if (dpb[index].rps =3D=3D V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->>> 			value |=3D VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
->>>
->>> 		/* Each SRAM word gathers up to 4 references. */
->>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>> index ef63bc205756..f587448ef495 100644
->>> --- a/include/media/hevc-ctrls.h
->>> +++ b/include/media/hevc-ctrls.h
->>> @@ -127,9 +127,7 @@ struct v4l2_ctrl_hevc_pps {
->>> 	__u64	flags;
->>> };
->>>
->>> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
->>> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
->>> -#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
->>> +#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->>>
->>> #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->>>
+> >
+> > Best regards,
+> > Roman Stratiienko
+>=20
+
+
