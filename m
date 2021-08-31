@@ -1,70 +1,91 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B263FC2
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 19:01:06 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id u16so696731wrn.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 12:01:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB4C3FC2
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 19:19:24 +0000 (UTC)
+Received: by mail-io1-f51.google.com with SMTP id b7so187322iob.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 12:19:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
-        b=YUG3gg4HztKsujLCsWJkVM63g5Ld67nElGVgmaaKpnO00peskYekUXADHXQacrLLGZ
-         o4kXYmPzBOKFaZilUon4gZHiF50Ky/lT2mqJjuPaMZ+J8UbDEvFQz6btJTc7yvwOjRm2
-         MsPulb8kG37VQyBoPlAQ93dGI1slLOtc4kRiF7UBlHF8R4bsNs2nMQ/vG2vU4YOWWNPf
-         aHuHQqGdNBST9fzF0d4kW3VGCet8xSyjzRnp5/WwZlcEmkIMlcudjGv2ljcmAfGiLiFz
-         DsbIDLvg6yBpIL6zjIqn+Yxlo2uiGL8StBibDApyH4aHAgaaYWn6iEKqIBmQxbjM94Mi
-         uXIA==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
+        b=k8Uq/xSxlaLj3DJmwHqi3zi23+XTDI345vnvhN5QS8pnpgx8a0Q49xhD5D4KS8+DLC
+         gtYdQDcKGi80NEfOReWj/tPYUGw6JOZLDane/KBJPXnNoHM9WB2/1f+riot8p/HOeB7G
+         u8BARTX9hRBylvw5eZW2vgu6vn4Si0ptrSmEEckvMh4M/81RefCoqC1u5cM7rBtbBLNs
+         z5Hpha8wYRq/8xulDm1+MfqK4W0ggyxAhzcul7WLDxCMRZq6YH10Lb4hjPT1rOlWa6Nc
+         WC0yq2hPUZ3DtgBpKPenD7oBZyvF3EX39LxtgC0rOpCGm8b2Itupimky3nERNn1xhvv/
+         A1zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GaO4Y8XjQpzWxvDdexo754mM2cY3NapS9Dixf6RCivI=;
-        b=L0lmLLrp2fWsUNAs8sIRobLEmp5XY20zv+arARkeSqgydYFEMExb4WF21v1ANn4zIA
-         wCoBAPeUHZ32M/78JndIlRRVFjRzAet0TxGtOOAijb1hJukCqXqSKp9Fbd/nMFtebmyv
-         l5brqlgWtiz+fcKpmFUQ5ctXjTkGq7gFHrAs+VkusarBR3M0+vG0/KA1JAimIqSleIaF
-         w7u4q21XR5D4apwed/SV/xkoy3Myd5s9kOCfCMd2sEjD4PoDshO9BigIb+Y1LgVL+qw4
-         eTjwxMdtRShytDO7jcRVIbFmyMCgUCAgdHB5FvnAHXHoA9CyrihB8dzL4CMJGX5nNlTv
-         IPJQ==
-X-Gm-Message-State: AOAM531IIM9LxLorI3//OfoEknvNAvJWmETRYU4oMp02onjFYtIc5br4
-	A0szeeQS9AnbanOHxxMz3vE=
-X-Google-Smtp-Source: ABdhPJxOmIjlk4xNGEooBmwcvg3/uM6eZEOaaAuISu6L6yMnHMyNxJUsSeX6S3KIALWZ26cW9yF9cQ==
-X-Received: by 2002:a5d:6e91:: with SMTP id k17mr33391524wrz.77.1630436464829;
-        Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id j17sm18906057wrh.67.2021.08.31.12.01.03
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BnfnduHx3i2X80cz742KibQtwDjAziOnxR1dEDNguNQ=;
+        b=XsEjtu5w2LDpxyL4/6l3yzNJW2aXoDFnWG/BZaXpxqnAdCZCd4/Wvb1EHJmZD7T3lY
+         3oqWbsm2qy79w2pzRk7d6RROyxNedHbPsKpuDrBgOmL1+5PIFc0jLAEBq7GcNseklhql
+         vqzEXjI3XfE+j9fHvMisefuiqXzjev/tnVK5z3DYWLGmDAP0Fer4uj5dKLI6PSCx5N48
+         lpToHAArH8vVXGpRCKrgXZF6mjtmY4H52ig5RtXvtf/J3VktxUoGZY8NTiIMU+NlGcbC
+         lzif70NKTc1qbTENZLBn/uPaoXY3N4Km/1SzPB4StqL9FP5DmTDZEnW95GldIiDIu6Ma
+         ZiYg==
+X-Gm-Message-State: AOAM5328P2+XD6qmfB0qJdSuc1iQrW459cZSL2INyMdoYqHO9Ujg/Vde
+	aMD2RuS+aWNEms+14Ov2U06V7g==
+X-Google-Smtp-Source: ABdhPJzLpm8haUqn3kfzyuXtg4CiQZwskLDtRsRbptxnszVRu77+8NA0/wO490W6qNwD3GPt10CQDw==
+X-Received: by 2002:a02:2348:: with SMTP id u69mr4216099jau.141.1630437562446;
+        Tue, 31 Aug 2021 12:19:22 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id c23sm10143469ioi.31.2021.08.31.12.19.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 12:01:04 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: caihuoqing@baidu.com, Cai Huoqing <caihuoqing@baidu.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: Make use of the helper function devm_platform_ioremap_resource()
-Date: Tue, 31 Aug 2021 21:01:03 +0200
-Message-ID: <3342147.tElmWuj8HH@kista>
-In-Reply-To: <20210831135740.4826-1-caihuoqing@baidu.com>
-References: <20210831135740.4826-1-caihuoqing@baidu.com>
+        Tue, 31 Aug 2021 12:19:21 -0700 (PDT)
+Message-ID: <1484b5ebb9c943c72d7d7a0481c1a2cd9899705b.camel@ndufresne.ca>
+Subject: Re: [PATCH 0/2] media: HEVC: RPS clean up
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, 
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, 
+ hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Date: Tue, 31 Aug 2021 15:19:19 -0400
+In-Reply-To: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
+References: <20210831094900.203283-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Hi!
+As per discussion with Ezequiel, I think this patch should perhaps be made an
+RFC titled "media: uapi: clean and make HEVC uAPI public". Keep it RFC until we
+have collected all the needed changes.
 
-Dne torek, 31. avgust 2021 ob 15:57:39 CEST je Cai Huoqing napisal(a):
-> Use the devm_platform_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately
+Opinion ?
+
+Le mardi 31 août 2021 à 11:48 +0200, Benjamin Gaignard a écrit :
+> This series aims to clean up Reference Picture Set usage and flags.
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+> 
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
+> 
+> Benjamin
+> 
+> Benjamin Gaignard (2):
+>   media: hevc: Remove RPS named flags
+>   media: hevc: Embedded indexes in RPS
+> 
+>  .../media/v4l/ext-ctrls-codec.rst             | 12 ++++-----
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++++--------------
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>  include/media/hevc-ctrls.h                    |  4 +--
+>  4 files changed, 14 insertions(+), 31 deletions(-)
+> 
 
 
