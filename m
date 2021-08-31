@@ -1,49 +1,49 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32453FC2
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 19:53:53 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id e26so216124wmk.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 12:53:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9FA3FC2
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 20:17:59 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id z9-20020a7bc149000000b002e8861aff59so3153016wmi.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 Aug 2021 13:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qQ7pRpfj3Zvhm7mtC8636KmrgJunLoZPtX0Bf0A/Whw=;
-        b=kuDYr9xO5OpyFL0y8r/WxNtqmTwOYUJc9AMOyYOtaHl2NUbh7topJfQoiJpt4s0l+6
-         ADFBe9aovwAjs4wNe2EA4+I4pHO+fftDvDG/ReRFk+7PTuPJEA04l61TiGN/J2Gc3YY/
-         2SoDwkHetZPQ7KdIWx577FLJEVDvqZqLjwXgGSo5VWfraljZ/Gmg3dLbC4w/4w1s1EPN
-         xiBEN7xNAfNETBBy6+tbxE1e24WyG2SapbkCsfyHovrdmpWVCmwsPgAg9uckdAw0KWnM
-         P9xP77tQ3UO4sanXYfUEUy0Olysk1hMKn5vGGLCvtb9HttGgcIZp954U8gFOsAGImbFl
-         wl9g==
+        bh=eTA4MTa9fR7VQl13W35WSPsOZXqyOOwDKcbbECJxILw=;
+        b=G3z6lMvK9dc+oIbe10pHol1ME0wuCgBBEhuDUYy4KRHTHkIP+f2/0op8WYYdbodZGl
+         5Ey8pzsGLFOvKwE9uZjxa+/CtjRoiRSNMGf7/kpWAI/dboyehMeOmQRdLLfRnWdhJkF2
+         eRS566MiVYLuEnJ+gYRM72BJ3B1A1qIp2VPxi4yuYI2EP6Hs5uksIRThWp3R8M0a4yuY
+         BGBIpUEtaqHyn/5oMWnysrc6DuqtDySLFLr5jpt40W+uAZQ0D9LbPvw7Jr9sx1bw8rYw
+         nySCH+kIPMmzNUxYxW4Tm6ofO1GxQ8rKd2OiTombEmBKbBmOjGBV6n36vm69+tHrzZLD
+         OBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qQ7pRpfj3Zvhm7mtC8636KmrgJunLoZPtX0Bf0A/Whw=;
-        b=fbiEWce1/t1D9zJ4dBMOgdEQ3YkELrg4Xt5FE3acSrb0wuSgH/im/Qxt85YFY6xYJx
-         oenOQEottDyhVz1xTVljKoxWBx7XfnpvEVbbTT4EQXHtAI4Ih5XSc72neHkAKee7eqQx
-         KSLjvdeD48Zp133UTQJZNP67mOASLriwsqbFHryL9TH96XfZvQumrwk3XvmArs2vKNSa
-         Lff1cyC2q6u2Ep4mqKD4jtG4CCJz3Vk1JDi31yetn0A0wwKcw8+8VArAPXWm6A1xF/HC
-         nPnR8Je/Tvr1Vd1o8FyaalUgu3xmoswknEkmH8K2EQ9xLzMkw3H6bFAAV8pjKl8BOMYP
-         y+FQ==
-X-Gm-Message-State: AOAM530RROkrAOGtnYbqrFtls1BVSbCIzmDAmN+VnuIt6kJZuZ0ue8Ah
-	tSrTrOIm5iiJpVsISM6Pq8M=
-X-Google-Smtp-Source: ABdhPJxGWxr4kDCDpQ6LMo42hH4LRXFBwPKhVoasjCcPzF94SSAdxocVyGF3wev5aGuu+rtKUuESqA==
-X-Received: by 2002:a1c:f712:: with SMTP id v18mr5904179wmh.25.1630439632249;
-        Tue, 31 Aug 2021 12:53:52 -0700 (PDT)
+        bh=eTA4MTa9fR7VQl13W35WSPsOZXqyOOwDKcbbECJxILw=;
+        b=HOPvkvgOwS8XvijRuAXLtNeEjdKXpfdJjCy7GhXMf68FCpXElKd23IySqcrYIs9qke
+         oEeUnZ5DQDlmtQQKD5hDRUvgz6Dd4dduqbaURCMkTlS2/FWyDt40iS82oe5zCUzM188y
+         bVV2U1k/otCBSWMUgrYYMEjR7G7R4a5JLgoWyUgt3rFmqpOLRdWldAHafQsyc+rZIaHX
+         UL9eome+R1YIdM7e9iZQYX+wA63jgsJp/OpcKGoPzPchr9W9YyaXqT2ChCSR32quSFH1
+         Uhh3i6vtQAgI+0nv+BSpnyc78oJ2b0n2klZSvPT9itYTKDnW0irmFySx4M5sSZPtdAKx
+         hKuA==
+X-Gm-Message-State: AOAM531oz97Co79V35XddCjPNKQnO3hEbJmEKgd56qjTsOl1XqkH3lvy
+	X2sdBRw+sVc9o57BqQEl6Gg=
+X-Google-Smtp-Source: ABdhPJwDme9//+ocNFePWdkzBV2WpSwAReezNa5CDT36Ft0F9wihyqeujVjDZqvfUmnPB7f6zyG9UQ==
+X-Received: by 2002:a1c:4cd:: with SMTP id 196mr6146070wme.10.1630441077752;
+        Tue, 31 Aug 2021 13:17:57 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id k25sm20318237wrd.42.2021.08.31.12.53.50
+        by smtp.gmail.com with ESMTPSA id q11sm3508781wmc.41.2021.08.31.13.17.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Aug 2021 12:53:51 -0700 (PDT)
+        Tue, 31 Aug 2021 13:17:57 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>, Willy Liu <willy.liu@realtek.com>, Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+To: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Willy Liu <willy.liu@realtek.com>, Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: Re: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
-Date: Tue, 31 Aug 2021 21:53:50 +0200
-Message-ID: <1746741.3t3T1tWQfl@kista>
-In-Reply-To: <YS1SsqDgGFOvyIT0@lunn.ch>
-References: <20210830151645.18018-1-u@pkh.me> <116454729.UZi3dMzWh7@jernej-laptop> <YS1SsqDgGFOvyIT0@lunn.ch>
+Date: Tue, 31 Aug 2021 22:17:56 +0200
+Message-ID: <4192454.QcIURlJl1r@kista>
+In-Reply-To: <YS1Mwz+fT9P2qskW@ssq0.pkh.me>
+References: <20210830151645.18018-1-u@pkh.me> <116454729.UZi3dMzWh7@jernej-laptop> <YS1Mwz+fT9P2qskW@ssq0.pkh.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,12 +53,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Andrew!
+Hi!
 
-Dne ponedeljek, 30. avgust 2021 ob 23:50:42 CEST je Andrew Lunn napisal(a):
+Dne ponedeljek, 30. avgust 2021 ob 23:25:23 CEST je Cl=C3=A9ment B=C5=93sch=
+ napisal(a):
 > On Mon, Aug 30, 2021 at 10:49:37PM +0200, Jernej =C5=A0krabec wrote:
 > > Hi!
 > >=20
+>=20
+> Hi,
+>=20
 > > Dne ponedeljek, 30. avgust 2021 ob 17:16:45 CEST je Cl=C3=A9ment B=C5=
 =93sch=20
 napisal(a):
@@ -79,39 +83,88 @@ fig")
 rd=20
 DT. =20
 >=20
-> Hi Jernej
+> Shouldn't I add it instead of replacing? I followed what I observed in
+> `git log --grep bbc4d71d63` where all the commits pretty much follow this
+> pattern: that commit is the one causing the actual observed regression,
+> while 44a94c7ef989 is much older, and while it's wrong, it wasn't causing
+> an issue in practice.
 >=20
-> I would say, it is debatable. The board broke when the driver started
-> acting on the value, which is commit bbc4d71d6354. It could be argued
-> it was always technically broken, since it has the wrong value, but
-> practically, it was not broken. One of the rules for stable is:
->=20
->  - It must fix a real bug that bothers people (not a, "This could be a
->    problem..." type thing).
->=20
-> So i would argue, anything before bbc4d71d6354 does not fulfil stable
-> requirements, since it does not bother anybody.
+> Or did I misunderstand something?
 
-True, but then again, DT is a bit special, since it's not used only by Linu=
-x.=20
-It's shared at least with BSDs and U-Boot, which most likely have independe=
-nt=20
-driver implementation. That's why it's good to have DT fixes referencing DT=
+With that grep command you limited yourself only to those commits which=20
+reference this particular commit. There are others, which also change "rgmi=
+i"=20
+to "rgmii-id" and reference other commits, like:
+544cc3f8573b ("arm64: dts: allwinner: h6: orangepi-one-plus: Fix ethernet")
+97a38c1c213b ("arm64: dts: allwinner: beelink-gs1: Enable both RGMII RX/TX=
 =20
-related commits. As you said, DT described HW wrong.
+delay")
+(there are more).
 
-Looking at past Allwinner related DT commits regarding this issue, we were =
-not=20
-totally consistent. Most of them reference commit where emac node was=20
-introduced in DT. But I also found a couple of commits which indeed have fi=
-xes=20
-tag for bbc4d71d6354.
+Anyway, let's continue this discussion in Andrew's thread.
+
+>=20
+> > Other than that, this patch is fine and once fixes tag is fixed, you ca=
+n add:
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
+> > For next version, you should:
+> > - change fixed tag
+> > - add my review-by tag right above your signed-off-by tag
+> > - mark patch as v2 (add "-v2" parameter to git format-patch)
+> > - describe change right under "---" line
+> >=20
+>=20
+> Will do.
+
+Please wait until discussion reaches a conclusion.
+
+>=20
+> > Note, if you borked something when sending, you should mark patch or pa=
+tch=20
+> > series as "RESEND", so recipients don't look for changes in two subsequ=
+ent=20
+e-
+> > mails (--subject-prefix=3D"RESEND PATCH").
+>=20
+> Not sure I follow you so before I disturb everyone with more noise I'd
+> just like to confirm: you mean a git send-email in-reply-to=3D[broken pat=
+ch
+> attempt] (the one where I borked the --cc), right? But with what patch?
+> I'm a bit confused here.
+
+That's just for the future reference. No need to do anything now for this=20
+patch. If you bork any send attempt in the future, recreate same patch(es)=
+=20
+with this additional tag ("RESEND") and send them again.
+
+>=20
+> > Thanks for the fix!
+>=20
+> No problem; I really think a scan of all the other boards would be
+> meaningful though, it looks like a lot of them got fixed but there are
+> many other candidates and the issue feels pretty critical to me
+> (regression, and no network at all).
+
+I guess you speak for all boards, not just those with Allwinner SoC? I fixe=
+d as=20
+many boards as I have - testing is very desired. On some boards rgmii was=20
+changed to rgmii-txid, so it's not as straightforward as search and replace=
+=2E=20
+It could be also deducted from schematics, but at least one Allwinner board=
+=20
+has this configured in HW wrong (SW fix was needed for that board) and othe=
+r=20
+boards might not have schematics publicy available.
+
+In short, I wouldn't start mass generating patches for this.
 
 Best regards,
 Jernej
 
 >=20
->       Andrew
+> --=20
+> Cl=C3=A9ment B.
 >=20
 
 
