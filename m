@@ -1,94 +1,92 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C853FC3
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 12:06:23 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id p2so3472587oif.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 05:06:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA8D3FCD
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 13:55:06 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id i28so5088506ljm.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 06:55:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=M3T4yrG7zQ/orfLEy+dtJ3O+/bOtwc3PAJxag5037YY=;
-        b=UdsWUxA7D87ZzP65PaTgOM2gM9yA2tG2rju8xeVs8pFQAmjGFhAT6WlbaTqbzZ+g0P
-         6X/l0K9hqLvQErEPjhDH5RCKO9cpBO0nqcRtCkX5poUe642OkN/0QtQE74MwhEqqoTem
-         g3PiGvOR+IwoF8f3qG3ndSDDJnjv1t6Y+qHd6mRAgaYpLaNEQjkT1mLSxh512sJ1k/HF
-         /weduXfFaJ934Uff1Tuox6t5HjUP0O+Lhu0ddCxMfQ9t2kdXGKfLjkTB/2NIhvD/xRuL
-         vddLxQ6IMwr0FLvcbPxBp6LtiKFCBurdGhcYXH11jtO+31ZTKyIXgD3VP4RLOlxHZpkY
-         BXvw==
-X-Gm-Message-State: AOAM532My6xM/DMhqdO6AxkOH5LuPh+82FHib+P32hfmO2rg3xNj7flk
-	fRkU8O006AhfAl8XqiowvA==
-X-Google-Smtp-Source: ABdhPJwunR5Oi9U858lSr+FGBBEaPHCwSaIHZ8qexSKC4A6YcEqQPvtO7EN46LQRqXcwBNS1fp/c0Q==
-X-Received: by 2002:aca:b80b:: with SMTP id i11mr6967474oif.26.1630497982327;
-        Wed, 01 Sep 2021 05:06:22 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id v29sm4314843ooe.31.2021.09.01.05.06.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Sep 2021 05:06:21 -0700 (PDT)
-Received: (nullmailer pid 1876487 invoked by uid 1000);
-	Wed, 01 Sep 2021 12:06:19 -0000
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
-In-Reply-To: <20210901053951.60952-2-samuel@sholland.org>
-References: <20210901053951.60952-1-samuel@sholland.org> <20210901053951.60952-2-samuel@sholland.org>
-Subject: Re: [RFC PATCH 1/7] dt-bindings: rtc: sun6i: Add H616 and R329 compatibles
-Date: Wed, 01 Sep 2021 07:06:19 -0500
-Message-Id: <1630497979.405519.1876486.nullmailer@robh.at.kernel.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=1qbLir7t00tIXtsSOowis8wzBunbda5Sb7xAud87L5k=;
+        b=uG/5F+o1v8/SIUcCtTARgam4bmRy8nw+0FXW+/SosC09XjMMhDoazsa7gvTxhU1nGi
+         +rAfhvJdQA0iAw0a0Caz2lgIuqkbjQjPUpUlVmLLtEBU5sPlmAQCbT48H0zQvOiJgF2h
+         Ev1yOTyf5fceZRGRBSL76irx+fidnYynkX+4WT6SPyMxvst0jM3lrU3Hp2m5Vy0hjQgS
+         Lzvar/YfL7m7b7Erljbwhg/8COG5AQZdB4lJqytdgTv1nwWruCCTtHzPkcSRLN8KMkzm
+         NP+jiiPNMEalhDwsVrFR6v/51Rkx1o/kJGjaYF6T0HKw+tRo7n9YSu+R7VAcJYaNAcBx
+         rNyA==
+X-Gm-Message-State: AOAM530o6A5mtAixDA9LyROlemcHXVmjOJaOgkyy7OBg8qdS4PYcLZQY
+	8UPTXa1W9J1lu5Ne3DME7ZmEMRhemZS+GA==
+X-Google-Smtp-Source: ABdhPJw0X7MBea4lea9mlZ9geMKJem/jY2Qx9DUqDxrR0UBYHh8eMgQMbx8fbgWSL+tm7qhDrgtVRg==
+X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr29024841ljk.121.1630504505001;
+        Wed, 01 Sep 2021 06:55:05 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id w16sm1007565lfn.83.2021.09.01.06.55.03
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Sep 2021 06:55:04 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id k13so6625049lfv.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 06:55:03 -0700 (PDT)
+X-Received: by 2002:a05:6512:3f89:: with SMTP id x9mr26306205lfa.233.1630504503566;
+ Wed, 01 Sep 2021 06:55:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+References: <20210901050526.45673-1-samuel@sholland.org> <20210901050526.45673-6-samuel@sholland.org>
+In-Reply-To: <20210901050526.45673-6-samuel@sholland.org>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 1 Sep 2021 21:54:52 +0800
+X-Gmail-Original-Message-ID: <CAGb2v668_prQ8zw9rX3=Xi9L73cqqo+KhUN_4m8OUzF0qhCH1A@mail.gmail.com>
+Message-ID: <CAGb2v668_prQ8zw9rX3=Xi9L73cqqo+KhUN_4m8OUzF0qhCH1A@mail.gmail.com>
+Subject: Re: [PATCH 5/8] clk: sunxi-ng: Export symbols used by CCU drivers
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-clk <linux-clk@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 01 Sep 2021 00:39:45 -0500, Samuel Holland wrote:
-> For these new SoCs, start requiring a complete list of input clocks.
-> 
-> For H616, this means bus, hosc, and pll-32k. For R329, this means ahb,
-> bus, and hosc; and optionally ext-osc32k.
-> 
-> I'm not sure how to best represent this in the binding...
-> 
+On Wed, Sep 1, 2021 at 1:05 PM Samuel Holland <samuel@sholland.org> wrote:
+>
+> For the individual drivers to be built as modules, the ops structs and
+> callback registration functions must be exported. None of the helper
+> functions are exported, because they are only referenced from the
+> corresponding ops structs. of_sunxi_ccu_probe is not exported, because
+> it is only used for built-in early OF clock providers.
+>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 55 +++++++++++++++++--
->  include/dt-bindings/clock/sun50i-rtc.h        | 12 ++++
->  2 files changed, 61 insertions(+), 6 deletions(-)
->  create mode 100644 include/dt-bindings/clock/sun50i-rtc.h
-> 
+>  drivers/clk/sunxi-ng/ccu_common.c | 2 ++
+>  drivers/clk/sunxi-ng/ccu_div.c    | 1 +
+>  drivers/clk/sunxi-ng/ccu_gate.c   | 1 +
+>  drivers/clk/sunxi-ng/ccu_mp.c     | 2 ++
+>  drivers/clk/sunxi-ng/ccu_mult.c   | 1 +
+>  drivers/clk/sunxi-ng/ccu_mux.c    | 2 ++
+>  drivers/clk/sunxi-ng/ccu_nk.c     | 1 +
+>  drivers/clk/sunxi-ng/ccu_nkm.c    | 1 +
+>  drivers/clk/sunxi-ng/ccu_nkmp.c   | 1 +
+>  drivers/clk/sunxi-ng/ccu_nm.c     | 1 +
+>  drivers/clk/sunxi-ng/ccu_phase.c  | 1 +
+>  drivers/clk/sunxi-ng/ccu_reset.c  | 1 +
+>  12 files changed, 15 insertions(+)
+>
+> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
+> index 31af8b6b5286..3ab109582646 100644
+> --- a/drivers/clk/sunxi-ng/ccu_common.c
+> +++ b/drivers/clk/sunxi-ng/ccu_common.c
+> @@ -83,6 +83,7 @@ int ccu_pll_notifier_register(struct ccu_pll_nb *pll_nb)
+>         return clk_notifier_register(pll_nb->common->hw.clk,
+>                                      &pll_nb->clk_nb);
+>  }
+> +EXPORT_SYMBOL_GPL(ccu_pll_notifier_register);
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+These symbol names aren't exactly specific to sunxi. Maybe we could apply
+symbol namespaces?
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
-    ret = check_doc(f)
-  File "/usr/local/bin/dt-doc-validate", line 33, in check_doc
-    for error in sorted(dtschema.DTValidator.iter_schema_errors(testtree), key=lambda e: e.linecol):
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 723, in iter_schema_errors
-    cls(meta_schema).annotate_error(error, meta_schema, error.schema_path)
-  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 706, in annotate_error
-    schema = schema[p]
-KeyError: 'properties'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml: ignoring, error in schema: allOf: 5: if: properties
-warning: no schema found in file: ./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.example.dt.yaml:0:0: /example-0/rtc@1f00000: failed to match any schema with compatible: ['allwinner,sun6i-a31-rtc']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1522863
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+ChenYu
