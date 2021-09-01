@@ -1,27 +1,27 @@
-Received: from baidu.com (mx21.baidu.com [220.181.3.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 157E43FC2
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 05:57:01 +0000 (UTC)
-Received: from BJHW-Mail-Ex15.internal.baidu.com (unknown [10.127.64.38])
-	by Forcepoint Email with ESMTPS id 99AEA8CAD256AF771766;
-	Wed,  1 Sep 2021 13:57:00 +0800 (CST)
+Received: from baidu.com (mx20.baidu.com [111.202.115.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E36A3FC2
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 06:11:04 +0000 (UTC)
+Received: from BC-Mail-Ex23.internal.baidu.com (unknown [172.31.51.17])
+	by Forcepoint Email with ESMTPS id 7219324BE1E108A4E051;
+	Wed,  1 Sep 2021 13:55:09 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) with Microsoft SMTP Server
+ BC-Mail-Ex23.internal.baidu.com (172.31.51.17) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 1 Sep 2021 13:57:00 +0800
+ 15.1.2242.12; Wed, 1 Sep 2021 13:55:08 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 1 Sep 2021 13:56:59 +0800
+ 15.1.2308.14; Wed, 1 Sep 2021 13:55:08 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
-CC: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, Yong Deng <yong.deng@magewell.com>,
-	<linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] media: sunxi: Make use of the helper function devm_platform_ioremap_resource()
-Date: Wed, 1 Sep 2021 13:56:53 +0800
-Message-ID: <20210901055654.7979-1-caihuoqing@baidu.com>
+CC: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "Jernej
+ Skrabec" <jernej.skrabec@gmail.com>, <linux-media@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH] media: rc: sunxi-cir: Make use of the helper function devm_platform_ioremap_resource()
+Date: Wed, 1 Sep 2021 13:55:02 +0800
+Message-ID: <20210901055503.7229-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -33,7 +33,6 @@ Content-Type: text/plain
 X-Originating-IP: [172.31.63.8]
 X-ClientProxiedBy: BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) To
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex15_2021-09-01 13:57:00:553
 
 Use the devm_platform_ioremap_resource() helper instead of
 calling platform_get_resource() and devm_ioremap_resource()
@@ -41,74 +40,31 @@ separately
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c | 4 +---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 4 +---
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   | 4 +---
- 3 files changed, 3 insertions(+), 9 deletions(-)
+ drivers/media/rc/sunxi-cir.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-index 94e98e470aff..80a10f238bbe 100644
---- a/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-+++ b/drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
-@@ -154,7 +154,6 @@ static int sun4i_csi_probe(struct platform_device *pdev)
- 	struct v4l2_subdev *subdev;
- 	struct video_device *vdev;
- 	struct sun4i_csi *csi;
+diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
+index 168e1d2c876a..391a591c1b75 100644
+--- a/drivers/media/rc/sunxi-cir.c
++++ b/drivers/media/rc/sunxi-cir.c
+@@ -255,7 +255,6 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct device_node *dn = dev->of_node;
+ 	const struct sunxi_ir_quirks *quirks;
 -	struct resource *res;
- 	int ret;
- 	int irq;
+ 	struct sunxi_ir *ir;
+ 	u32 b_clk_freq = SUNXI_IR_BASE_CLK;
  
-@@ -179,8 +178,7 @@ static int sun4i_csi_probe(struct platform_device *pdev)
- 	media_device_init(&csi->mdev);
- 	csi->v4l.mdev = &csi->mdev;
+@@ -301,8 +300,7 @@ static int sunxi_ir_probe(struct platform_device *pdev)
+ 	dev_dbg(dev, "set base clock frequency to %d Hz.\n", b_clk_freq);
  
+ 	/* IO */
 -	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	csi->regs = devm_ioremap_resource(&pdev->dev, res);
-+	csi->regs = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(csi->regs))
- 		return PTR_ERR(csi->regs);
- 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 4b8d66fec3cf..fc96921b0583 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -833,13 +833,11 @@ static const struct regmap_config sun6i_csi_regmap_config = {
- static int sun6i_csi_resource_request(struct sun6i_csi_dev *sdev,
- 				      struct platform_device *pdev)
- {
--	struct resource *res;
- 	void __iomem *io_base;
- 	int ret;
- 	int irq;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	io_base = devm_ioremap_resource(&pdev->dev, res);
-+	io_base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(io_base))
- 		return PTR_ERR(io_base);
- 
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index 671e4a928993..aa65d70b6270 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -803,7 +803,6 @@ static int deinterlace_probe(struct platform_device *pdev)
- {
- 	struct deinterlace_dev *dev;
- 	struct video_device *vfd;
--	struct resource *res;
- 	int irq, ret;
- 
- 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
-@@ -825,8 +824,7 @@ static int deinterlace_probe(struct platform_device *pdev)
- 		return ret;
+-	ir->base = devm_ioremap_resource(dev, res);
++	ir->base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(ir->base)) {
+ 		return PTR_ERR(ir->base);
  	}
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	dev->base = devm_ioremap_resource(&pdev->dev, res);
-+	dev->base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(dev->base))
- 		return PTR_ERR(dev->base);
- 
 -- 
 2.25.1
 
