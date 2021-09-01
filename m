@@ -1,92 +1,88 @@
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA8D3FCD
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 13:55:06 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id i28so5088506ljm.7
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 06:55:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E327B3FC1
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 15:31:35 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id h9so7568471ejs.4
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 08:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=dsuhvXX76hOQeJoPDJljlY+ezW6yiXQY+zesm9qzvQs=;
+        b=jyVO5OvKrLrerLgG+AMJkCrN67BjtvT7Aoi0OjBblnbirfwF5iV5c4PUfYrKqtgEgu
+         n1QgSOJovoFKjR+/km7ubUgfjbZXXfYj8b/z2hXt8fNra0JPuhTsewXkJ8M9E3GN5CK4
+         kZfa53Eys8voleaFMBuLQq24RO2V4rT2YNNQmoDDi1vdvX6HwSHJkl+//+b00SpuVBxo
+         Wfr8/ipeOP8N8GlUIylYt2oi3NgO5zvpVP22ZxEP279Ej6JN3jniGVrRIYQnzjWwzLEN
+         WzmLciSv/eBvrAQX3Mw3Ckycq2k/kv23g0u3uNiyRR51BTQ5pBqrDTqbHuzEDYOxvtkh
+         6UoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=1qbLir7t00tIXtsSOowis8wzBunbda5Sb7xAud87L5k=;
-        b=uG/5F+o1v8/SIUcCtTARgam4bmRy8nw+0FXW+/SosC09XjMMhDoazsa7gvTxhU1nGi
-         +rAfhvJdQA0iAw0a0Caz2lgIuqkbjQjPUpUlVmLLtEBU5sPlmAQCbT48H0zQvOiJgF2h
-         Ev1yOTyf5fceZRGRBSL76irx+fidnYynkX+4WT6SPyMxvst0jM3lrU3Hp2m5Vy0hjQgS
-         Lzvar/YfL7m7b7Erljbwhg/8COG5AQZdB4lJqytdgTv1nwWruCCTtHzPkcSRLN8KMkzm
-         NP+jiiPNMEalhDwsVrFR6v/51Rkx1o/kJGjaYF6T0HKw+tRo7n9YSu+R7VAcJYaNAcBx
-         rNyA==
-X-Gm-Message-State: AOAM530o6A5mtAixDA9LyROlemcHXVmjOJaOgkyy7OBg8qdS4PYcLZQY
-	8UPTXa1W9J1lu5Ne3DME7ZmEMRhemZS+GA==
-X-Google-Smtp-Source: ABdhPJw0X7MBea4lea9mlZ9geMKJem/jY2Qx9DUqDxrR0UBYHh8eMgQMbx8fbgWSL+tm7qhDrgtVRg==
-X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr29024841ljk.121.1630504505001;
-        Wed, 01 Sep 2021 06:55:05 -0700 (PDT)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id w16sm1007565lfn.83.2021.09.01.06.55.03
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Sep 2021 06:55:04 -0700 (PDT)
-Received: by mail-lf1-f50.google.com with SMTP id k13so6625049lfv.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 06:55:03 -0700 (PDT)
-X-Received: by 2002:a05:6512:3f89:: with SMTP id x9mr26306205lfa.233.1630504503566;
- Wed, 01 Sep 2021 06:55:03 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=dsuhvXX76hOQeJoPDJljlY+ezW6yiXQY+zesm9qzvQs=;
+        b=CWY2ook6+AtvboiA5jLYYT+kYvB+D9M1WXYd268WW6cKl/4O+4KSfsXYAooIky2Prv
+         B9DqirCHHrqBXECBto6prZgBG+lnzbK/EZI173Gy9byea0EKaidxTDTCBIMtOmXPzZ5t
+         xh44t6Q2OnBJ/f0adgSIsh3bTJM2lbFblvPYtPUTBnXGIkNieeko0PbXI94FnPn2ac7R
+         HciCqwhB8+xL3pfPg8dl9SuEvIMIeMH56Xgy+Zz0FQmp1g4LLK+M1Jp96SDuE+eI5zbu
+         wQf87wszfcpr/ECnq/jp0441OPHFo32fPysJLloXdMn7Fa/BhgnoAKliRLE4c2VcVULX
+         JIvQ==
+X-Gm-Message-State: AOAM5328g9c+BhEn2hHKwBjxsegtkFPaNaQDw8NjnPJOX5Msh9RHKBnq
+	gBAEAL/fCtkmQMJxbhq9l5Q=
+X-Google-Smtp-Source: ABdhPJy3q16jqERBgwVEnjzmGdMqTZ/q6C8k9CzEfYc7tWekVjbunW10NLYbeHyZi46pnrqzRVtA2A==
+X-Received: by 2002:a17:906:680a:: with SMTP id k10mr24000ejr.298.1630510294210;
+        Wed, 01 Sep 2021 08:31:34 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id o12sm9626edv.19.2021.09.01.08.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 08:31:33 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>, Willy Liu <willy.liu@realtek.com>, Rob Herring <robh+dt@kernel.org>, "David S. Miller" <davem@davemloft.net>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: Re: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
+Date: Wed, 01 Sep 2021 17:31:32 +0200
+Message-ID: <6939430.QNQgkB6KyE@kista>
+In-Reply-To: <YS6WxHtJtNDaBxqz@lunn.ch>
+References: <20210830151645.18018-1-u@pkh.me> <1746741.3t3T1tWQfl@kista> <YS6WxHtJtNDaBxqz@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210901050526.45673-1-samuel@sholland.org> <20210901050526.45673-6-samuel@sholland.org>
-In-Reply-To: <20210901050526.45673-6-samuel@sholland.org>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Wed, 1 Sep 2021 21:54:52 +0800
-X-Gmail-Original-Message-ID: <CAGb2v668_prQ8zw9rX3=Xi9L73cqqo+KhUN_4m8OUzF0qhCH1A@mail.gmail.com>
-Message-ID: <CAGb2v668_prQ8zw9rX3=Xi9L73cqqo+KhUN_4m8OUzF0qhCH1A@mail.gmail.com>
-Subject: Re: [PATCH 5/8] clk: sunxi-ng: Export symbols used by CCU drivers
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-clk <linux-clk@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Sep 1, 2021 at 1:05 PM Samuel Holland <samuel@sholland.org> wrote:
->
-> For the individual drivers to be built as modules, the ops structs and
-> callback registration functions must be exported. None of the helper
-> functions are exported, because they are only referenced from the
-> corresponding ops structs. of_sunxi_ccu_probe is not exported, because
-> it is only used for built-in early OF clock providers.
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->  drivers/clk/sunxi-ng/ccu_common.c | 2 ++
->  drivers/clk/sunxi-ng/ccu_div.c    | 1 +
->  drivers/clk/sunxi-ng/ccu_gate.c   | 1 +
->  drivers/clk/sunxi-ng/ccu_mp.c     | 2 ++
->  drivers/clk/sunxi-ng/ccu_mult.c   | 1 +
->  drivers/clk/sunxi-ng/ccu_mux.c    | 2 ++
->  drivers/clk/sunxi-ng/ccu_nk.c     | 1 +
->  drivers/clk/sunxi-ng/ccu_nkm.c    | 1 +
->  drivers/clk/sunxi-ng/ccu_nkmp.c   | 1 +
->  drivers/clk/sunxi-ng/ccu_nm.c     | 1 +
->  drivers/clk/sunxi-ng/ccu_phase.c  | 1 +
->  drivers/clk/sunxi-ng/ccu_reset.c  | 1 +
->  12 files changed, 15 insertions(+)
->
-> diff --git a/drivers/clk/sunxi-ng/ccu_common.c b/drivers/clk/sunxi-ng/ccu_common.c
-> index 31af8b6b5286..3ab109582646 100644
-> --- a/drivers/clk/sunxi-ng/ccu_common.c
-> +++ b/drivers/clk/sunxi-ng/ccu_common.c
-> @@ -83,6 +83,7 @@ int ccu_pll_notifier_register(struct ccu_pll_nb *pll_nb)
->         return clk_notifier_register(pll_nb->common->hw.clk,
->                                      &pll_nb->clk_nb);
->  }
-> +EXPORT_SYMBOL_GPL(ccu_pll_notifier_register);
+Dne torek, 31. avgust 2021 ob 22:53:24 CEST je Andrew Lunn napisal(a):
+> > True, but then again, DT is a bit special, since it's not used only by 
+Linux. 
+> > It's shared at least with BSDs and U-Boot, which most likely have 
+independent 
+> > driver implementation. That's why it's good to have DT fixes referencing DT 
+> > related commits. As you said, DT described HW wrong.
+> > 
+> > Looking at past Allwinner related DT commits regarding this issue, we were 
+not 
+> > totally consistent. Most of them reference commit where emac node was 
+> > introduced in DT. But I also found a couple of commits which indeed have 
+fixes 
+> > tag for bbc4d71d6354.
+> 
+> All true, and it is not a big deal if it does go back further. I don't
+> care, we can let the Allwinner Maintainer decide. Ah, that is you :-)
+> 
+> I just want to try to keep it simple for somebody who is contributing
+> their first Linux kernel patch. If it is good enough, i say accept it,
+> and we can do a bit more education on the second contribution.
 
-These symbol names aren't exactly specific to sunxi. Maybe we could apply
-symbol namespaces?
+Maxime, Chen-Yu, thoughts?
 
-ChenYu
+Since there are both approaches for fixes tag already in, I guess this is also 
+fine.
+
+Best regards,
+Jernej
+
+
+
+
