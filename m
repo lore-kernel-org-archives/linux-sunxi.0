@@ -1,51 +1,59 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103F13FCD
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 21:12:11 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id t42so802139pfg.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 14:12:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFAF43FC1
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 23:16:39 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id e18so129561qvo.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 16:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lixom-net.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=NmD6NfZ4ntJSAzZVeHzGwx+9LMKE03Sdt9CwYbMKD7Y=;
-        b=rrRU0L93Wl3dd/9llX/ZnoKYuGFSdDWKG1uN8Gv1fFTegETF12B23Ag/5WGRKWIWau
-         O8EFhntrOcOx6d3AuhaU2V/BjDQCb3DDLPHbovVi9M84wf1HCPIfdTV3Ba9ZKbS4IcCZ
-         6YwnCs8Zp7jc6H4EJrtjsZ2KLjXqnLzng7NRbloC/ZV8ZeG9KOkOWoMxlnk4mkCW/ld7
-         KBqQbYocAZvotTNrQotqhaBCSrQ83H2JX/t6VU/1//LmZ3sJZKp0o6j2aD3IYvNDDn9D
-         MVfd+v7Ryf93lGSGYO8a9PhqJoN1GODF+EVDV18LG2HXaHV9nfFd6fumgo4HVnFq9yqu
-         0N1g==
+        bh=1Y+GVokmV9xV7i0Kbyl+zT81HcVIXennIBiGTGbWIfQ=;
+        b=Ss78CZppoDiVB5zdMTBxQWBVResulcnOWqd8Qi3UkjhRlNgSbjSTQDveLQ4owdMFOd
+         mgwlrVIyuyDeGaBwBWxBoZvXlIJfVMzhnF2/tIAtLNZqNqrIQMexqtyQHl+M/z23jDJt
+         /l6kSthz2Kvx8zBGuz1IIWMUwzkcbS3DLX0UM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=NmD6NfZ4ntJSAzZVeHzGwx+9LMKE03Sdt9CwYbMKD7Y=;
-        b=lowI33qJsVhQDcqPrhw2LPFgIZiYp2Z6ev1EPYMEVXjyASCEyVfMJ7HG6KqO7q1nW0
-         a7eDAwuKcHwUlUaRlFEgET3KZaQv0FbW1jw802/8IoI0AVB8yLJlWKFoVvoakydTCwuf
-         bqlzrB6gFOgr7qf5YOaXdQNZMSh6m5aG0LcTW4BaTGu6wBROQvCkwlsaMU81bTNIKa/1
-         2+A7FMHwjAlmSvOIwqMmo6ThTNEfqB5HIWIOobnt9wWM6mE72MAWOQnLX68lnSAf/GGY
-         47PEE7GTTL70j/3/x0tTqySvSsoTi1Cr4Rm6tyO65kj+4vn06hp3VZP4K7OqYpMiL9++
-         LOLg==
-X-Gm-Message-State: AOAM533X6MMUdukHPhQbllr/gkMsdoOu6qpe1Ocw4Pd0bzX4uwgo4uOE
-	aMRjN5HN3Ah+Z5wT74i3RYVm8FR8AZyVA3xQYbpRlg==
-X-Google-Smtp-Source: ABdhPJylbGieillP4v3Sou9GfiOafHmfSdD7JjHyJBYaAf+EOtB7ue7nViFrVdrgxVrSReapdfqxB6ae0ZGRSPj/Qs0=
-X-Received: by 2002:a65:44c4:: with SMTP id g4mr981021pgs.254.1630530731360;
- Wed, 01 Sep 2021 14:12:11 -0700 (PDT)
+        bh=1Y+GVokmV9xV7i0Kbyl+zT81HcVIXennIBiGTGbWIfQ=;
+        b=QvCKcAZkf4GCt5MpLDbM4tsxzn165kwJpI+jyNEmQjjpbjjin/xYAwyq8f1mZFaUl1
+         0bh4EEgU4rPc4GJdguvvmYwHPmSzsv7Hq6LN6pihjQQcRPl+Olhasi8ppY5cWFnnuKtf
+         m/kVFrJ7jmdKwWyeSPBuL6jRZBuy9OlW2Vf99pMd16i1biemhluccmT+JBa1/DJgTDXD
+         hQxVhBj35T7WazJHYVXdCcLpAQn5yPYtlv7YGosepbVlO/PFl3rfLlPI4uz6EzvK3IUG
+         Ja1gGxLtejAACmjaOCjhOOmgikuASyikuVePCGt9Mo/9X6HRtPHgYI4cNyFJD21Jidjd
+         33Nw==
+X-Gm-Message-State: AOAM531HRtx2FtbpRhfI+4X7/82BZ/fa47FDuM4V4a+lIH4Qdfua03/U
+	UgncI1TNhRrMQLPIyd13V3ZInJh6cka+IQ==
+X-Google-Smtp-Source: ABdhPJy5R9XaOKQwiOFFS0ZOLmHaU1MCIjCxgFNxc62pjQ6svA9IcxbgfhcvmarUIvOXiO53wPWQCg==
+X-Received: by 2002:a0c:ac4a:: with SMTP id m10mr51646qvb.37.1630538198647;
+        Wed, 01 Sep 2021 16:16:38 -0700 (PDT)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com. [209.85.160.175])
+        by smtp.gmail.com with ESMTPSA id i19sm104103qka.53.2021.09.01.16.16.38
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Sep 2021 16:16:38 -0700 (PDT)
+Received: by mail-qt1-f175.google.com with SMTP id r21so2400qtw.11
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 16:16:38 -0700 (PDT)
+X-Received: by 2002:a02:ca0b:: with SMTP id i11mr277172jak.84.1630537827704;
+ Wed, 01 Sep 2021 16:10:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210901201934.1084250-1-dianders@chromium.org> <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
-In-Reply-To: <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
-From: Olof Johansson <olof@lixom.net>
-Date: Wed, 1 Sep 2021 14:12:00 -0700
-Message-ID: <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid> <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+In-Reply-To: <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Wed, 1 Sep 2021 16:10:15 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+Message-ID: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
 Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE now
  gets PANEL_SIMPLE_EDP
-To: Douglas Anderson <dianders@chromium.org>
+To: Olof Johansson <olof@lixom.net>
 Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
 	Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
 	linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
@@ -85,18 +93,34 @@ Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
 	"open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>, =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
+Hi,
+
+On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
 >
-> In the patch ("drm/panel-simple-edp: Split eDP panels out of
-> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
-> give everyone who had the old driver enabled the new driver too. If
-> folks want to opt-out of one or the other they always can later.
+> On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
+> >
+> > In the patch ("drm/panel-simple-edp: Split eDP panels out of
+> > panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+> > give everyone who had the old driver enabled the new driver too. If
+> > folks want to opt-out of one or the other they always can later.
+> >
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 >
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> Isn't this a case where the new option should just have had the old
+> option as the default value to avoid this kind of churn and possibly
+> broken platforms?
 
-Isn't this a case where the new option should just have had the old
-option as the default value to avoid this kind of churn and possibly
-broken platforms?
+I'm happy to go either way. I guess I didn't do that originally
+because logically there's not any reason to link the two drivers going
+forward. Said another way, someone enabling the "simple panel" driver
+for non-eDP panels wouldn't expect that the "simple panel" driver for
+DP panels would also get enabled by default. They really have nothing
+to do with one another. Enabling by default for something like this
+also seems like it would lead to bloat. I could have sworn that
+periodically people get yelled at for marking drivers on by default
+when it doesn't make sense.
 
+...that being said, I'm happy to change the default as you suggest.
+Just let me know.
 
--Olof
+-Doug
