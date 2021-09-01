@@ -1,122 +1,94 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CCEB72
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 09:44:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9E9435C0211;
-	Wed,  1 Sep 2021 05:44:33 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:44:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=ObGIxgtavz3gno3t76LBvmoj5Ql
-	2fJX6NjBj+UThj6Q=; b=fD9vSbiQMjsju5Wr/6YMldqR0dR7nVHim4kMKlkpg6e
-	N/ddGyhhZs7fQOS46tNWmUZvVhrJRwuj5C1DGlqdF4XjYnL+EJ/13Kgsi4m9O6/E
-	Qu1JHnkKlgykl1gBYgGHzjaly7yN4yQgkqiMRaVk4iGeRg7H5RfRi2oRrrjeJaWh
-	ntH7ve8skERGo5Kn1Ju9i028n2WWnUSq2D1N2j2NDFWryNAxxCt0DpvpjSjACqcC
-	2WngnQ0ZRtEJTQrw7gs3MCZcadQ5UwZ4M0sPTcSoAhVzwNaqbpt7kqymUIB5lZOW
-	0nrYtHCLkx6A8okEnYzRVAEMFfOozKKIdzPlA9WnfBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ObGIxg
-	tavz3gno3t76LBvmoj5Ql2fJX6NjBj+UThj6Q=; b=Kf+ltLw9cRH78lTyx0wdM0
-	+wXcWBGj3THi5181qi7Z/j5L2e0Omvf1dNrNjnf2Cv4wEIIbeT8/jGm6QZoCPjXd
-	yzRQUwNeUgq9I8wLNkP6l09eVakoyzbHvyltddc3wANztx+AW4M9pAWzberFmF7J
-	X8IVj990Agr2L/6CQaR3kON1bjTCo75RCMOIfJsiOEtwEXhd8p4lB5s2Vr8kWr16
-	eqVvfWrIFSBgoVhzAaTbiy8xsPV1ShYdBGszZVzA83VibdaJNvJZ6/WVU00p2N4Q
-	2kL83GgVm/EfAvf+NusQINP9AwHLtxM014jWQpsaNzvL+a5yVvWRrQJAm5p6oZwA
-	==
-X-ME-Sender: <xms:gUsvYeFG3KDBUrpUOEtB3pgzpdq6Jzo1DJo0xMRpbUXCe0FnNewUSA>
-    <xme:gUsvYfVv2iI5SR4no5M8O_bOPlUEsJL85kRKdU-q5vnK_A9Jw1c0GAHfvi3H002CP
-    QDC0fP8JakWfA7Jjoo>
-X-ME-Received: <xmr:gUsvYYIh1Lr603A8LAfwA1NGWEooOukZOnOaCP5-CIQHP5OPSAEiNR33FwsJEWYKDmlmg0piabrD9j_oqbAm6sZfEPv0PIAyjGIy>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:gUsvYYF8KAdQeuXI97NPjWwpeX4Lb95ZiyZ4GVBgOyti-aKyM1XdXw>
-    <xmx:gUsvYUWtSE1e3WWp3NqcvkhDLZ7RAMg2-ffVkGI7lEn_MWtZXRLdEw>
-    <xmx:gUsvYbNgIEZLky4TK0swAZXMC9H9_Xc6qloa6AgWw_4VPYZC3q2fNw>
-    <xmx:gUsvYYputj4KvjXaczmNAbCZw9J_IaHArtPVAn-vX4Q5RqZFPUf7Ng>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:44:33 -0400 (EDT)
-Date: Wed, 1 Sep 2021 11:44:32 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	dri-devel <dri-devel@lists.freedesktop.org>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel <linux-kernel@vger.kernel.org>,
-	stable <stable@vger.kernel.org>,
-	Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH] drm/sun4i: Fix macros in sun8i_csc.h
-Message-ID: <20210901094432.5kc33m2bnmkbjahq@gilmour>
-References: <20210831184819.93670-1-jernej.skrabec@gmail.com>
- <CAGb2v67TNrkeP438t3nLcquFvGTfS+F0MvBmGAS=qmZ5JZFmag@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C853FC3
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 12:06:23 +0000 (UTC)
+Received: by mail-oi1-f179.google.com with SMTP id p2so3472587oif.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Sep 2021 05:06:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=M3T4yrG7zQ/orfLEy+dtJ3O+/bOtwc3PAJxag5037YY=;
+        b=UdsWUxA7D87ZzP65PaTgOM2gM9yA2tG2rju8xeVs8pFQAmjGFhAT6WlbaTqbzZ+g0P
+         6X/l0K9hqLvQErEPjhDH5RCKO9cpBO0nqcRtCkX5poUe642OkN/0QtQE74MwhEqqoTem
+         g3PiGvOR+IwoF8f3qG3ndSDDJnjv1t6Y+qHd6mRAgaYpLaNEQjkT1mLSxh512sJ1k/HF
+         /weduXfFaJ934Uff1Tuox6t5HjUP0O+Lhu0ddCxMfQ9t2kdXGKfLjkTB/2NIhvD/xRuL
+         vddLxQ6IMwr0FLvcbPxBp6LtiKFCBurdGhcYXH11jtO+31ZTKyIXgD3VP4RLOlxHZpkY
+         BXvw==
+X-Gm-Message-State: AOAM532My6xM/DMhqdO6AxkOH5LuPh+82FHib+P32hfmO2rg3xNj7flk
+	fRkU8O006AhfAl8XqiowvA==
+X-Google-Smtp-Source: ABdhPJwunR5Oi9U858lSr+FGBBEaPHCwSaIHZ8qexSKC4A6YcEqQPvtO7EN46LQRqXcwBNS1fp/c0Q==
+X-Received: by 2002:aca:b80b:: with SMTP id i11mr6967474oif.26.1630497982327;
+        Wed, 01 Sep 2021 05:06:22 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id v29sm4314843ooe.31.2021.09.01.05.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Sep 2021 05:06:21 -0700 (PDT)
+Received: (nullmailer pid 1876487 invoked by uid 1000);
+	Wed, 01 Sep 2021 12:06:19 -0000
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
+In-Reply-To: <20210901053951.60952-2-samuel@sholland.org>
+References: <20210901053951.60952-1-samuel@sholland.org> <20210901053951.60952-2-samuel@sholland.org>
+Subject: Re: [RFC PATCH 1/7] dt-bindings: rtc: sun6i: Add H616 and R329 compatibles
+Date: Wed, 01 Sep 2021 07:06:19 -0500
+Message-Id: <1630497979.405519.1876486.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jscf64iuvdbjnile"
-Content-Disposition: inline
-In-Reply-To: <CAGb2v67TNrkeP438t3nLcquFvGTfS+F0MvBmGAS=qmZ5JZFmag@mail.gmail.com>
 
+On Wed, 01 Sep 2021 00:39:45 -0500, Samuel Holland wrote:
+> For these new SoCs, start requiring a complete list of input clocks.
+> 
+> For H616, this means bus, hosc, and pll-32k. For R329, this means ahb,
+> bus, and hosc; and optionally ext-osc32k.
+> 
+> I'm not sure how to best represent this in the binding...
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 55 +++++++++++++++++--
+>  include/dt-bindings/clock/sun50i-rtc.h        | 12 ++++
+>  2 files changed, 61 insertions(+), 6 deletions(-)
+>  create mode 100644 include/dt-bindings/clock/sun50i-rtc.h
+> 
 
---jscf64iuvdbjnile
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-On Wed, Sep 01, 2021 at 11:13:01AM +0800, Chen-Yu Tsai wrote:
-> On Wed, Sep 1, 2021 at 2:48 AM Jernej Skrabec <jernej.skrabec@gmail.com> =
-wrote:
-> >
-> > Macros SUN8I_CSC_CTRL() and SUN8I_CSC_COEFF() don't follow usual
-> > recommendation of having arguments enclosed in parenthesis. While that
-> > didn't change anything for quiet sometime, it actually become important
->=20
->                              ^ Typo
->=20
-> > after CSC code rework with commit ea067aee45a8 ("drm/sun4i: de2/de3:
-> > Remove redundant CSC matrices").
-> >
-> > Without this fix, colours are completely off for supported YVU formats
-> > on SoCs with DE2 (A64, H3, R40, etc.).
-> >
-> > Fix the issue by enclosing macro arguments in parenthesis.
-> >
-> > Cc: stable@vger.kernel.org # 5.12+
-> > Fixes: 883029390550 ("drm/sun4i: Add DE2 CSC library")
-> > Reported-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->=20
-> Otherwise,
->=20
-> Reviewed-by: Chen-Yu Tsai <wens@csie.org>
+yamllint warnings/errors:
 
-Fixed the typo and applied, thanks
-Maxime
+dtschema/dtc warnings/errors:
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
+    ret = check_doc(f)
+  File "/usr/local/bin/dt-doc-validate", line 33, in check_doc
+    for error in sorted(dtschema.DTValidator.iter_schema_errors(testtree), key=lambda e: e.linecol):
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 723, in iter_schema_errors
+    cls(meta_schema).annotate_error(error, meta_schema, error.schema_path)
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 706, in annotate_error
+    schema = schema[p]
+KeyError: 'properties'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml: ignoring, error in schema: allOf: 5: if: properties
+warning: no schema found in file: ./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.example.dt.yaml:0:0: /example-0/rtc@1f00000: failed to match any schema with compatible: ['allwinner,sun6i-a31-rtc']
 
---jscf64iuvdbjnile
-Content-Type: application/pgp-signature; name="signature.asc"
+doc reference errors (make refcheckdocs):
 
------BEGIN PGP SIGNATURE-----
+See https://patchwork.ozlabs.org/patch/1522863
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9LgAAKCRDj7w1vZxhR
-xQCQAP4rfWKEyPEnTNdnRgDKYsiznnq7wZw/kcJzMyysWVHTCAD/Th6T6Tj85KFX
-yNQia6HiL+VmJWmGWJtFXjh0G495iwc=
-=nV88
------END PGP SIGNATURE-----
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
---jscf64iuvdbjnile--
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
