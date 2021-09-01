@@ -1,64 +1,64 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89AB272
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 09:21:24 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id AD3785C012B;
-	Wed,  1 Sep 2021 05:21:23 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BBB872
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Sep 2021 09:44:06 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.nyi.internal (Postfix) with ESMTP id 70FD15C014F;
+	Wed,  1 Sep 2021 05:44:05 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 01 Sep 2021 05:21:23 -0400
+  by compute2.internal (MEProxy); Wed, 01 Sep 2021 05:44:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=qiHXnNjIN4q+hXuGsmo1K3sGTz0
-	RPyZxCI10POS99NY=; b=rBJysFNX6Hic+LxESnnWe++SIpanJqXSv1iv/rOaDmE
-	XQfW6+GNK0auVNdnWFTIYmwsvIxXGvX3ANcYXrYznZd5LD1te00ePN7Nd8AFj4Yo
-	wcBWEy9HZI62h2ILOiMvSL70I2FhKmPgFISN7duah56BvhPotSixglU1DJlZNJKe
-	ZNM3gFKwsiK3dRw+l9v9r5hHlN9UCJwJB8ro1Mtk2SW0QqDOfvPp50jqXbMvmUu5
-	QUvyA+Se/XqUVzvCRGIwdlpcCnb+g7BswTLTMJLkqkrMkGti+dSUlznZPp/hTLQz
-	v158z8MRFhqBLMm0bemHbjiYraNNcWb5gWphCycYddg==
+	:content-type:in-reply-to; s=fm3; bh=6cqD6nQU5pFx8MAxYYBBxZtH1FT
+	T+OpzwxSoVHjjIx8=; b=Jjx+mQGGcl0KfpMh6xBG9jcGkscjv7OVbOWc6HAYONz
+	i/zDxG1I1XyZTkJ5cuPlhpAiQjZGl78/YwGXaT8wcOwkxRERAs+m+/LbUFq6Sqil
+	nleOQlAWeiSCk1kKuVywYvz29de7sXDCdkyHJWq41sW2Voov+XO7Gko8bxJKElga
+	vu3mnoNNhdO2+OmEl98W3EbUmNVfiFUgpuoSxvh+NmYQHeZJKfBy18lmaEoVtyxH
+	UUIRMDpflee9nGPOLpam9IW88WtjthcGs3cgAEW+9WVhq4uni/WsjasQx99X2sop
+	f+6oxY4pmGss9aBbfcxti782vfg/W1hRNj6DRLRITkQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qiHXnN
-	jIN4q+hXuGsmo1K3sGTz0RPyZxCI10POS99NY=; b=nGTMBRV0K+uM6B6Sv5sPtw
-	vDy5dTD+gM2StyTmuhW4L7tU9jCoF1nkXCejDt2puKwlVq0wudL+40WH9+O2VbGc
-	Nc/c8Sm+voVubPSPF4gOSusdx5LU58P3NRT4j1+wm3f4gCDe9WEiIkibZQey5ikx
-	0qoOBKtqk6JW05f69bUxm327+7oAh8XQ4jaHkpx+iKnhk2HjRDCoAfaHWkO/6GBN
-	Yr+25MlWInMzt+3Ane9xKoRtM/fqrSVvDWSOlaWn89GTJBoZ1YRt8SP7BkxlXJDJ
-	queosHaHUWED78nRodiGR66lldMRwSm0tVfOmzfBydAfmk4eKaut9PtlQB03O07Q
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=6cqD6n
+	QU5pFx8MAxYYBBxZtH1FTT+OpzwxSoVHjjIx8=; b=du+Xej6xiP9EGnN59wRQ/a
+	Srup81rEW7CptsszqncYW44yweYDS5Yow4Tndzd1Vje9aH23zXdjfL0uDVxb6YcM
+	JkAblFPLpPTXv7vp5TjEt1qTs2pxRcnKV9EeOZAo5NHhPOzrZmIV8HmWxeXr6qO0
+	Ll8iesTe9SJZ2ygGJFW0qzf2fdI0gmFHKbvYBf6YCWGPNjA9Q29h6fGNSAIC4tlY
+	f1147co1vzcWT6BKc/r6xuvdzHrsnp0ZI74dTSOVQ9UALuCdR0tjSfj82GypE5iS
+	uSVEz6rLba5bXjvD4xAKORyuTBdIN36jB0n7ZWiChPi9o4MbMqf99EFVLY844WPg
 	==
-X-ME-Sender: <xms:EUYvYXPYUDi4RXglKRnp_ksLuWe1XNHjMDetJ2LS7RDgLPqlHLDBcg>
-    <xme:EUYvYR-X3Sjy2ljvzaSdCOVI-gplbr3rbE8Ws1jm7PH6UsODHxxYFmW0JhVEj-kS0
-    TcjnIVHVQSVxyXBJJQ>
-X-ME-Received: <xmr:EUYvYWSKE6aODhOJccFC1frTquHw94ERdjNYug7ED6-jzMl_wxvTLHuvmTAXLc2wk6aedEhO3f-IxdgHl2jKtxL3s6PfxJc8Slo6>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudehucetufdoteggodetrfdotf
+X-ME-Sender: <xms:ZEsvYVDH1KnE0bc8Baym3zYXNNAWm3wJOmdSJ72I_in2S2y3Wipv-w>
+    <xme:ZEsvYTjZYOBbdprRwYe75IHuNPEkqm0FHDUikMn2Ce5ZWNypHVQmSonr2v5IaEdYC
+    oaOzyVdFwXVSbN3hAw>
+X-ME-Received: <xmr:ZEsvYQklZVOEx5MBsBXLLx2nXZeV_DTowQQ42dlenbzDlu9i9uRtcGauwVmqZ3V17W_Ok7UxolH7E9P4lQTU8oA9JqnsbUoFhIPM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgudelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    gedunecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:EUYvYbswu9V3-FacHgxFxoup3az0HjuyRNhH1jaH9FzQki_HWZ6gcg>
-    <xmx:EUYvYfeFI4Eh2XtuAGx3dOoe2-rGADxxKxmp_w1aeg4UBXba6wWEvg>
-    <xmx:EUYvYX2QFhkGHkCPl5RPdn9m6ZPCHKxugnFjUA5WzssM8_nlUGUZEw>
-    <xmx:E0YvYRsn5yfOEUvcHCFZ7FVSpidT7FlIuptqORTqfNRokmbbZu0xSA>
+X-ME-Proxy: <xmx:ZEsvYfxGhphYsEYqMY5S5EZLsCb2iSI-MIPUCIREA0Uv56IupVkhcg>
+    <xmx:ZEsvYaRlhskCQbmNGpMbNLLxyLFLbOW2vUico55VB9yRTmumYGEiqQ>
+    <xmx:ZEsvYSY7ofla5CHO8g_f4_5nxffjlqRgctqxC-rgEaxjbVlaVtIHlQ>
+    <xmx:ZUsvYXQhExoXMwwJPUBJzGcUT3dPtW-8_k6sEuhvWq5b0OlvzFYfQg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 05:21:21 -0400 (EDT)
-Date: Wed, 1 Sep 2021 11:21:20 +0200
+ 1 Sep 2021 05:44:03 -0400 (EDT)
+Date: Wed, 1 Sep 2021 11:44:01 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Yong Deng <yong.deng@magewell.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: sunxi: Make use of the helper function
+Subject: Re: [PATCH] drm/sun4i: Make use of the helper function
  devm_platform_ioremap_resource()
-Message-ID: <20210901092120.g6v5ug57ojr73aos@gilmour>
-References: <20210901055654.7979-1-caihuoqing@baidu.com>
+Message-ID: <20210901094401.rwaux4lyy3ivn4nc@gilmour>
+References: <20210831135740.4826-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,36 +66,35 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="dgostsm5f4gqjmbq"
+	protocol="application/pgp-signature"; boundary="okxolxv65jazku7a"
 Content-Disposition: inline
-In-Reply-To: <20210901055654.7979-1-caihuoqing@baidu.com>
+In-Reply-To: <20210831135740.4826-1-caihuoqing@baidu.com>
 
 
---dgostsm5f4gqjmbq
+--okxolxv65jazku7a
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 01, 2021 at 01:56:53PM +0800, Cai Huoqing wrote:
+On Tue, Aug 31, 2021 at 09:57:39PM +0800, Cai Huoqing wrote:
 > Use the devm_platform_ioremap_resource() helper instead of
 > calling platform_get_resource() and devm_ioremap_resource()
 > separately
 >=20
 > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
+Applied, thanks
 Maxime
 
---dgostsm5f4gqjmbq
+--okxolxv65jazku7a
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9GEAAKCRDj7w1vZxhR
-xVFnAP4/zVD62+m/OZ3fNsxueRD6sZrgPTvxrSuxAVwP1l+8JQEAtOqWjgp2V6qL
-OTTotVTle8T+S2x/pF0XYla1YaspoAo=
-=D6bC
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYS9LYQAKCRDj7w1vZxhR
+xX18AP4/IqAB1srwA8hQX/sBqM5thlUz3OEzuv9Pc2S2lAEzLQEAkizux+YgDtIN
+iesfNJpUVVlmUgfshBN/eXr4M/T4Kwo=
+=YXNY
 -----END PGP SIGNATURE-----
 
---dgostsm5f4gqjmbq--
+--okxolxv65jazku7a--
