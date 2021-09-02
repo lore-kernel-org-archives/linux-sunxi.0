@@ -1,36 +1,36 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA393FC1
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Sep 2021 23:02:03 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id BB964320094B;
-	Thu,  2 Sep 2021 19:02:02 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6F8A3FC1
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Sep 2021 23:03:40 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id DA9DD3200A07;
+	Thu,  2 Sep 2021 19:03:39 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 02 Sep 2021 19:02:03 -0400
+  by compute5.internal (MEProxy); Thu, 02 Sep 2021 19:03:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm3; bh=dMOJsy0kcae44XC/LGRiBL+H+K
-	kmGvDivPUnj3WmBgw=; b=dvPutcBJY4eJd8M7UK+vpFfytx5TbRf1kpv3ThMjf6
-	xoOsmnpUc3kFC2zMKU1g+i2hg5Qp1yl391esO5/sMl4H44Gl29MgyiyOL3/8t0BN
-	vabFn7u1YjZOpa4P6+0xAkNVON4hiYAdnq/VhH3cUcG0XSzxzCR1HvqZlaY/g34q
-	MKVof879q1XCO3dOO3mh19y7noDvDN7Sl0FgV4P0OCltQbyWLUEuzHsaTN3uh7aL
-	Me8ZE8IFh9vqjmzwqv+u20SwdSBmzBov6YNr4pMwJmFW/5iQo9goxR70rOhqAXsk
-	E3dlDKoysZZonZF6T96I3lF3mmlSUtTk/8brxIxpxHSQ==
+	:content-transfer-encoding; s=fm3; bh=rspByYKuMKIepMHyyNh663Mha1
+	e5KFmbBZesXve1h4E=; b=Y0cL7CLS5ViYIqVAo05a015lr+HQYQsd7VYzXNNKWa
+	13TZkpDQHih598d6KPLoKVum/DwLmsNGRapKyAVrBnhwDoNo+JEVw770Zj166qIB
+	U0OKv2Rt2xR1lSVhV7TjxPoRIa18Xuw9b09ytUuVwmOvbmDrAjeeB/lJqufaJOyb
+	ybXI8sybibSFVNXkQACgvAx9gfsoUo9j4G5ritP8Z1GYAJ3i0yNSOWFStkftCKNu
+	X8qhFUFjTgVojrNNK7lWzQv909GXhmuyzLRcTwuI++gv1nWWZtzX9ncT3y2S5INm
+	yRJI23pveKJ9b2mHw8qCzweArmNVuEM9m08CY0TBdPXQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
 	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=dMOJsy0kcae44XC/L
-	GRiBL+H+KkmGvDivPUnj3WmBgw=; b=vgK59s62AuIfb0qx6Gwm/dhLmOprhmhyP
-	YK9Dwmeq/g/LAUn+55AK5JieQyY8feGffRareN7YvBz/pC8/KNDWBlmWW9nbqugL
-	g2f/DdIjWlfDXR7e6CB8iLlcx8gQiFq0PwNTBxVusldY8bZsPdg3eVq86mPqh8J5
-	C4U3+EaKy/r+z4VoOwAv3Wqx/RkIq39zP+RIbBa04fBmcnj/XjsbMa8MB21pR6MM
-	j2dOdJGNbU5kUhJGCg5NAr1OL4iniEVF6o51lLNwF4owkLYQo+PRfvp5VNadck0M
-	3dAidDImdzGtNtMxD4cEYab3MjOvVvCyBnbfJMrhb435dmRtwresw==
-X-ME-Sender: <xms:6VcxYblyDtqaj5ANTOsBaXh3fNxpIb-EtqVRR8xv3AkakgX3Lrb2JA>
-    <xme:6VcxYe0qu0uf7Q6gxaYt33eNMDx-61CZJLxrQOQvbE7MOYwJlri5DugykBXF8Xs6-
-    B4DG3Kphsb0SQkUdA>
-X-ME-Received: <xmr:6VcxYRqNHne3-sRjrAFXzvN9h35uWJZN6y2hvFQNgjKzEsEWU9gXL2HXr7WYhfOAojTttC4eevHsZOMIkbY-6LAmeCT3Wx4UvdUnqpM4BZgNj4JTxU1C0D3sXTv8sSe2CLcPrQ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rspByYKuMKIepMHyy
+	Nh663Mha1e5KFmbBZesXve1h4E=; b=CkF45+BL10r7keKriqqtoCKGjGVFBfZBb
+	qdl+9Ib3UQllupWcKAtr4yQKgw2i0boSqWvwgJjgS9H9OUyNPD2tjoJy29MtNGk1
+	UA6VHuYXnMKB7dnY1rCg19oK6LDK94iI0Z8ywRzqQAMFWgXZqxAblyfgsWGpnBHC
+	3ifLwumOB3XF6UPTbbeXtfe03cJhFOX8rNyr+Ow8lJOrPowjwleZFasIcJlEpc3i
+	Dg++0kDMXyYJq7U/kes5WkZcK1VTozFb5LQAmCvf2P35x7Oib+LxBoZzIOc+NMA/
+	29RyA7r6pVEaorlQygb41Tad5sCKwP4Xny87KKNYMBQPB2ga7Xftw==
+X-ME-Sender: <xms:SVgxYcFm20vkwbW6gMdojwYOz7k5g2cDhWP83A50KnTx09c0Lr2jfg>
+    <xme:SVgxYVVCnsqAMbzBj_ZkdoPipltGve0GX8Uy4gq4Fy5y76MkPtuKV5Ud3VGrVyxOg
+    352_8BwMr3gNgFDPw>
+X-ME-Received: <xmr:SVgxYWL0tkhYI8macrYRFtCVr3dsm8Ifoh7epl5jjuzPPpB3kLNOBIDQpiAWookF6J-wrY0rZRx8knry96mqtU7X6XlKSdO0oyID1gpxEsXpFJi3zizXWUiAJVpz4JzqIwgh6A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddviedgudekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -39,12 +39,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddviedgudekucetufdoteggod
     htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
     vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:6VcxYTncog_H_QsHoc2nziLWQLL0Ob0mcDIlr4rqlAXL25kRpXnJPw>
-    <xmx:6VcxYZ2-Aqns-46q8DEvu3GUIaqbl0Af-xKmMFk-e7JqKfFg0Pc_ig>
-    <xmx:6VcxYSvTDs2EL3OtU6a01iHGytsDA1M5i7u7xiRk8UzeacypjW44sA>
-    <xmx:6lcxYSLwUmNNfU8H-FuRMgQU_JzjNbxtt6yFHgIJ_O8VPSvihdSrgQ>
+X-ME-Proxy: <xmx:SVgxYeGFseDuPO56Agdscq92y1TtaNcuKvK-rVl4mli1RNHJnT0XWA>
+    <xmx:SVgxYSXrje8pi8NUOvIYTGy9Qc5_N3ZAC1fTHaqES62y1JY81vKyOw>
+    <xmx:SVgxYRP5st2ki9bEpabsK0VLPEQ6cof0Ma0TuRigoefvNKRR82anfg>
+    <xmx:S1gxYWq5c5iX9-rfuhttO7AuPCX7G5gPfL15kkEpeqjjQ6mqpPwSaw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Sep 2021 19:02:01 -0400 (EDT)
+ 2 Sep 2021 19:03:37 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -56,9 +56,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH] clk: sunxi-ng: Add machine dependency to A83T CCU
-Date: Thu,  2 Sep 2021 18:02:00 -0500
-Message-Id: <20210902230200.29574-1-samuel@sholland.org>
+Subject: [PATCH] clk: sunxi-ng: mux: Remove unused 'reg' field
+Date: Thu,  2 Sep 2021 18:03:36 -0500
+Message-Id: <20210902230336.29745-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -68,28 +68,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CCUs for all other 32-bit SoCs have a dependency on a specific
-MACH_SUNxI symbol. This effectively hides these drivers when building
-an ARCH=arm64 kernel. However, the A83T CCU still shows up because it
-is missing this dependency. Let's add it for consistency.
+The driver uses 'reg' from 'struct ccu_common' everywhere, so this
+duplicate field is unused and unnecessary. Remove it.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- drivers/clk/sunxi-ng/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/clk/sunxi-ng/ccu_mux.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/clk/sunxi-ng/Kconfig b/drivers/clk/sunxi-ng/Kconfig
-index cd46d8853876..e76e1676f0f0 100644
---- a/drivers/clk/sunxi-ng/Kconfig
-+++ b/drivers/clk/sunxi-ng/Kconfig
-@@ -71,6 +71,7 @@ config SUN8I_A33_CCU
- config SUN8I_A83T_CCU
- 	bool "Support for the Allwinner A83T CCU"
- 	default MACH_SUN8I
-+	depends on MACH_SUN8I || COMPILE_TEST
+diff --git a/drivers/clk/sunxi-ng/ccu_mux.h b/drivers/clk/sunxi-ng/ccu_mux.h
+index f165395effb5..e31efc509b3d 100644
+--- a/drivers/clk/sunxi-ng/ccu_mux.h
++++ b/drivers/clk/sunxi-ng/ccu_mux.h
+@@ -40,7 +40,6 @@ struct ccu_mux_internal {
+ 	_SUNXI_CCU_MUX_TABLE(_shift, _width, NULL)
  
- config SUN8I_H3_CCU
- 	bool "Support for the Allwinner H3 CCU"
+ struct ccu_mux {
+-	u16			reg;
+ 	u32			enable;
+ 
+ 	struct ccu_mux_internal	mux;
 -- 
 2.31.1
 
