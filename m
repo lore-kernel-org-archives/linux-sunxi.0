@@ -1,110 +1,78 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA46B3FC1
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 16:21:32 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4DF875C0045;
-	Fri,  3 Sep 2021 12:21:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 03 Sep 2021 12:21:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=BhFvsBDYgdIUZQDlF11XLS4+MMn
-	v4O04RCaT0WttSd4=; b=HsIX9f5NkEbmCKEPbfhN+LdlMO6z9n2Pa0V40f9A32n
-	BBW4lRiuKQQTHjyNvap51KUe3l16b4tINHArQFiZT3DlcAmkgc11TwJfyGQTmdMl
-	ihPO4/ykEBW2ZwWQau7bqPPYgpJrv0VwivmOsY6QUzxv7dTYZ5n9cW2yHyV0xfv2
-	YP1Nc2DNm78gjuyqUOkFhPvAIAT80SaeTDojhXYXOje1v9BK5Z66PyVpbXuPPXhS
-	jLPO26oJInedczad+rP++9beOMdYXVplKQETSAjeeMG8AVqUJaI/qWcfYqbHP7l3
-	+3/W60SRw72PphcaiJneUYakAn7V24LE5pD0X6/VB4Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BhFvsB
-	DYgdIUZQDlF11XLS4+MMnv4O04RCaT0WttSd4=; b=ujWnbVJ6NHWzrx1TsMOUWU
-	729x2AyfCtyhJhF245qk63ODbU/W/X8yxDxfWcdePRjlWDQH+ZG/sYT3RM0A/xvT
-	vq4z/yabbVEjfMxIN2iGXu73vNCAmkVPbPv1pNtqf7AYN3oKXQJDR4f00CmTuiTR
-	ZyZ8POmGdGg0xTwfvEeAFaj5cl3L18oYcoQXVZkFcvMxlgiQqlXDTC0bK9LLMAzU
-	/KZLEJQYCj/J0ntkntVYwGPqY0kSiGxm/G6qLWyGvv8w5sM3ki1qWFYvZ6cQLy6P
-	+xhva4Q/aIzkrEz00CYeYRcO8ZOLdxuvTuYzG/k7eVbo2sgjEjp8rtMlcn4m5S1Q
-	==
-X-ME-Sender: <xms:iksyYefmkB7u4rzd_gkmxA7U1M_rakzkfIfX4GkSUJCqN5n4phQcag>
-    <xme:iksyYYP2D6qiKy30iwnKpmnYG_C-Q8VAsS9BHz3Y1Q6BJ517KVsjW1u85gESOZ7kU
-    86vI80OLAXg8cPnYxw>
-X-ME-Received: <xmr:iksyYfj_aZKcy5KL5ZnM8PIir5MGfkD_Jc3ZQJJezdlhRiacJy6cyoUcO4_yZsnDo2sxPpNGZFzug93k-vQSE1MnDzyAwOlYzRwH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgleekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepveevfeffudeviedtgeethffhteeuffetfeffvdehvedvheetteehvdelfffg
-    jedvnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
-    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:iksyYb84nuB71ckXuxD9MTjSLIerzysz8gwRVTxb4VP9HUTk_3gL6Q>
-    <xmx:iksyYauHsfjGmyi2rUHf2h9bJ2JbJpjUBtW6yNmuCyMJdYeti6zuIg>
-    <xmx:iksyYSECBUCsWOzjWU0oMCbeOmCavpboycLM_nxFuLSE4BydfiWydg>
-    <xmx:i0syYejTsdAYVQIzcEQUDpVdlgt945NYbRQ7N1vZNgounDSAQR-d7g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Sep 2021 12:21:30 -0400 (EDT)
-Date: Fri, 3 Sep 2021 18:21:27 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] arm64: dts: allwinner: h5: align operating-points
- table name with dtschema
-Message-ID: <20210903162127.zql7fbrhwyblujhw@gilmour>
-References: <20210820081645.83796-1-krzysztof.kozlowski@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E543FCD
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 20:38:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 25CE160F11;
+	Fri,  3 Sep 2021 20:38:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630701527;
+	bh=VPiKJsT2BC+jznkBKIDvLFaZ9KWcnhXM3FTSZYnsXbE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=tBcYBWGO8jgrSa0BkPfGeEv13zdeknqSBIX7q2eEAaFW2UoYM8Ez2UngeTmH/t4FK
+	 Nw7H2t7dpzl5is+a38LKPg80GMSa/0OYapaKUPHwiuVJRywVaaSpkjB0nx4xqz0MPe
+	 iKZSEjz3JfLWe1etKC8tZPTsMZfK1CUZgZFbAPQCyX6yStnz2UHx9nceis6aKUJuee
+	 JBxMrvxEqUxGk6Ga5rbfhzU6t1erU3/cyKPPAglZOi02fliGamxwM1+PEdUPHupsT8
+	 QzF8+tGA8wXWm3+Ukr1IB1XoOWeTDdDVKNoBt4V0Gq4XMjYXTeb/RK3vsyiVyhiQan
+	 TAr1gcPv9jo7g==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kfy4x7ot25dote7l"
-Content-Disposition: inline
-In-Reply-To: <20210820081645.83796-1-krzysztof.kozlowski@canonical.com>
-
-
---kfy4x7ot25dote7l
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+References: <20210901201934.1084250-1-dianders@chromium.org> <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid> <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com> <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, linux-arm-msm <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>, DRI mailing list <dri-devel@lists.freedesktop.org>, Al Viro <viro@zeniv.linux.org.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Andreas Kemnade <andreas@kemnade.info>, Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>, Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Core
+ ntin Labbe <clabbe@baylibre.com>, Daniel Thompson <daniel.thompson@linaro.org>, Dmitry Osipenko <digetx@gmail.com>, Emil Velikov <emil.velikov@collabora.com>, Eugen Hristev <eugen.hristev@microchip.com>, Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, Florian Fainelli <f.fainelli@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Grygorii Strashko <grygorii.strashko@ti.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>, Kees Cook <keescook@chromium.org>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Martin =?utf-8?q?J=C3=BCcker?= <martin.juecker@gmail.com>, NXP Linux Team <lin
+ ux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Olivier Moysan <olivier.moysan@st.com>, Otavio Salvador <otavio@ossystems.com.br>, Pengutronix Kernel Team <kernel@pengutronix.de>, Razvan Stefanescu <razvan.stefanescu@microchip.com>, Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>, Sudeep Holla <sudeep.holla@arm.com>, Tony Lindgren <tony@atomide.com>, Tudor Ambarus <tudor.ambarus@microchip.com>, Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>, Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-omap <linux-omap@vger.kernel.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, open list:TEGRA ARCHITECTURE SUPPORT <linux-
+ tegra@vger.kernel.org>, =?utf-8?q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>;
+To: Doug Anderson <dianders@chromium.org>, Olof Johansson <olof@lixom.net>
+Date: Fri, 03 Sep 2021 13:38:45 -0700
+Message-ID: <163070152582.405991.9480635890491684680@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 
-On Fri, Aug 20, 2021 at 10:16:44AM +0200, Krzysztof Kozlowski wrote:
-> Align the name of operating-points node to dtschema to fix warnings like:
+Quoting Doug Anderson (2021-09-01 16:10:15)
+> Hi,
 >=20
->   arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml:
->     cpu-opp-table: $nodename:0: 'cpu-opp-table' does not match '^opp-tabl=
-e(-[a-z0-9]+)?$'
+> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
+> >
+> > On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org>=
+ wrote:
+> > >
+> > > In the patch ("drm/panel-simple-edp: Split eDP panels out of
+> > > panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+> > > give everyone who had the old driver enabled the new driver too. If
+> > > folks want to opt-out of one or the other they always can later.
+> > >
+> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> >
+> > Isn't this a case where the new option should just have had the old
+> > option as the default value to avoid this kind of churn and possibly
+> > broken platforms?
 >=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> I'm happy to go either way. I guess I didn't do that originally
+> because logically there's not any reason to link the two drivers going
+> forward. Said another way, someone enabling the "simple panel" driver
+> for non-eDP panels wouldn't expect that the "simple panel" driver for
+> DP panels would also get enabled by default. They really have nothing
+> to do with one another. Enabling by default for something like this
+> also seems like it would lead to bloat. I could have sworn that
+> periodically people get yelled at for marking drivers on by default
+> when it doesn't make sense.
+>=20
+> ...that being said, I'm happy to change the default as you suggest.
+> Just let me know.
 
-I already sent those patches a few weeks ago:
-https://lore.kernel.org/linux-arm-kernel/20210721140424.725744-43-maxime@ce=
-rno.tech/
-https://lore.kernel.org/linux-arm-kernel/20210721140424.725744-48-maxime@ce=
-rno.tech/
-https://lore.kernel.org/linux-arm-kernel/20210721140424.725744-50-maxime@ce=
-rno.tech/
+Having the default will help olddefconfig users seamlessly migrate to
+the new Kconfig. Sadly they don't notice that they should probably
+disable the previous Kconfig symbol, but oh well. At least with the
+default they don't go on a hunt/bisect to figure out that some Kconfig
+needed to be enabled now that they're using a new kernel version.
 
-I sent a v2 last week, and will merge them soon
-
-Thanks!
-Maxime
-
---kfy4x7ot25dote7l
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYTJLhwAKCRDj7w1vZxhR
-xe3aAP4sPVBAWRhV7R3IOPEjEn5XORabXHjGBK03SzIzEJv47gD+O4r/P8gHB7Qt
-K9RVKxf1fu61axMjWkFhgJ0Xr3QuVA0=
-=qXpc
------END PGP SIGNATURE-----
-
---kfy4x7ot25dote7l--
+Maybe the default should have a TODO comment next to it indicating we
+should remove the default in a year or two.
