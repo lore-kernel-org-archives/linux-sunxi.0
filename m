@@ -1,64 +1,66 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520A972
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 09:19:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D76E72
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 09:21:13 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 382A232009A4;
-	Fri,  3 Sep 2021 05:19:12 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id 837B832001FC;
+	Fri,  3 Sep 2021 05:21:12 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 03 Sep 2021 05:19:12 -0400
+  by compute1.internal (MEProxy); Fri, 03 Sep 2021 05:21:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=jVxn/4v9E3VEwSOtkkpFTKH8mhl
-	2X8WtKi4ZUbok6o4=; b=Lc5ABoi1KOKOzQ86OXZCi4odRLWCR7On5ZHyFA2EGq4
-	tiKX3Frze7DWSztmOOzWTVPGgiwwpTsQhAlyDvcOeFmXa98Kowau61ZTFqR3Uhqq
-	swnu0RQNzk3R+JXNIJkTXUdXcYqj5U7RdhmvR6zgbUKZ7EySjG1Dw6TigkzXFF2L
-	c6ZRzwFjv7cegegNLiyY/5zXSo93BVGVa1Q2+RXrkWedW5qyv2aXRR5YdhpAM97S
-	GdK7LONZXuS0o7xCAh9NyteEcg6+7i3ii2zY3U9iCyvfLvLdl4enQoLCRov9dFe3
-	xWlS9cPJFzNqvtv8GF8xDBAvKXnYz81+oyMIb46J9yA==
+	:content-type:in-reply-to; s=fm3; bh=sAiRI9c4Qga0Ic/pFIIogIPRDm5
+	9Php5SKSojiIRi2M=; b=GTITGcZfwHPhKcJ0YbdWs+77drjMuX+GOGL/caWx0CQ
+	LB0rx8Qo49Jb6V7r3QtF+DQ1HGPLSvWwriYNZT6kSA/stV0+c5XPJ7yk6YlSiICf
+	LryluppuuYWbEEgfj2EVVLIMOV2U2XnGMZwz9Ux6JAqZyHYmlCkva5m49WnVmpwr
+	VB6o20E5zk11oyxgS4ylIglxqN+XhlRqxxjmi714oEqj2Z40tpuPva2zQOqYqxDj
+	GP8KyX0Dv96gptg7gANyGehoh1jvQKptRbOuH0t/xs4DErGgFfo8fW2sRZIcomcK
+	qnqgrJ0soGcLfr9QLrFycCfaQXpcE5PxUMvADqF/CiA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jVxn/4
-	v9E3VEwSOtkkpFTKH8mhl2X8WtKi4ZUbok6o4=; b=RN8q7uo+t3Oojk+GPktStl
-	T+QPdm+Ef5i5Npr72t4/3onhc5ePxpfXX4rG18AAVKjfFp9vwSOap8phC213BUiO
-	XwUX63KjyMp19pHeH9sL8VzbwKEfERfemswRkp/qvAGBYGD+xbhsUo5rJVYEnyFJ
-	5otFmYeVoDI/rv4768gTF8bQttxFyXNSSQ6Kkw2eKyDv/gELhuOlrvW5EbQ0X21g
-	7ZqiIKqNVDQeCGgsLnPP0YdfgO6dcn9ZYL3m4vgcA1phBJ4I9IYvcbfaEwAn4lUX
-	leJC6P+FOBAOAi6rk/VwA1v5FPvrxP7b0J8QsiCZcky9Fveh8l5JaQf9X8W8GvEA
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=sAiRI9
+	c4Qga0Ic/pFIIogIPRDm59Php5SKSojiIRi2M=; b=lq56pGPZ44bjRLjn9OsJk3
+	BZ1v41iIcfR//FNYxbI0Yw41yMTaJIlGok4nnJe+dQyph84JV1eioAsQEF2lYVvz
+	Q9j3ivCrhD31E3w9uHebBgbPwo18varz7sfXgIYSXMpAarIxqzN1itRHM1PhBOA3
+	2qiDwlL/4p1O6TO6cplD9k/PRw+2dKx0xKr8j/gpK38qO4rKuiZNlzgiN6e5DX6k
+	qSuZfeiWYy5FiMbq1jgs6Wam605LpmTnkh14GFNC5uqQlqFB0AljNit3x+0DIqyC
+	MwEXmGu7F2o2gPlU/foOFqM+4wGOVro7BR2Mx1/HKVKGx33mOVwjHrsUx+fDgmuw
 	==
-X-ME-Sender: <xms:jugxYRMwfN5bStI9Q4nsWPABkuMxzA8gYj2yRFiInVZxedFveQFHEQ>
-    <xme:jugxYT-mi2FhAJ_3S9z5ysDl4RB_oDmVjDELYFyhMq7JeQ59s-gxCJPMHoNEx5T__
-    YNYDVNDti8cAb806bE>
-X-ME-Received: <xmr:jugxYQS7Rtv9B9rG9L0xDDeFwXtEDaR5V8EciSS_30wb90rgKjasejf_x8ctXnE-k1Zluc1zTQqeQFSdOR-ttWdC-_EwsiR1X1G5>
+X-ME-Sender: <xms:BekxYTVc3BWx58LfDSdLzbndC82PjPXEQ7wGzC88uyUh3QRave5MJw>
+    <xme:BekxYbn8fIihL6JJ4BQNU7DZlCg5GPlYgCPJsRYGS067mnGJ16JaGSYWCqnllTd4M
+    IzA5FMBfKGTDV4Le-0>
+X-ME-Received: <xmr:BekxYfYoMsjM5wOhZ_vstXhGYRjjUowgRoxSjo3VhlnWHkWGDxPGOrhge4DpBm-G2QLf0qX_RlYnBH3cStM7cQOKcYllMRXIXOmz>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgudegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    htvghrnhepuedtgfejueduheevgfevvdettdduleffgfffkeeltdffkeegudekjeeuveei
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jugxYduktg0uIpE36nFYOWWLsck6pcGWZLEKdVOysehG8g7Km9_ZUA>
-    <xmx:jugxYZe3CA-WaLjCPBSRLPdGahfJnyMJKnEudhqK92OEz33F1eKbTg>
-    <xmx:jugxYZ1xwu2tU5iUuZxlrQxxU98SpH66zzECl0W_XYoFnUbEtMKMyw>
-    <xmx:j-gxYTs-t8K-4hassUZ4KW7tEsS5lOC2av4UDHiG4WDPp0tjbRSuNw>
+X-ME-Proxy: <xmx:BekxYeXg06lWWFaBCE7Cg7iEc7e0by7j6xyDWDs1Px6KWxdtZV-Y1Q>
+    <xmx:BekxYdlDpNDr2Qrp_p6J-prI3fX8ltM5H4kuVhhJc2cXPDSytACIRQ>
+    <xmx:BekxYbd12KVl904RzHUnnHM1Ftcp28eswHfnZtcaUhshXiQc627m9w>
+    <xmx:COkxYf46NUDz4BvaEzV5o6rjPFadN0zW5Qg6yjnbxRTnRVrHSaB3KA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Sep 2021 05:19:10 -0400 (EDT)
-Date: Fri, 3 Sep 2021 11:19:09 +0200
+ 3 Sep 2021 05:21:09 -0400 (EDT)
+Date: Fri, 3 Sep 2021 11:21:08 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 7/8] clk: sunxi-ng: Convert early providers to platform
- drivers
-Message-ID: <20210903091909.dbibqmw5dx3l5xzu@gilmour>
-References: <20210901050526.45673-1-samuel@sholland.org>
- <20210901050526.45673-8-samuel@sholland.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Chen-Yu Tsai <wens@csie.org>,
+	=?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>,
+	Willy Liu <willy.liu@realtek.com>, Rob Herring <robh+dt@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: sun50i: h5: NanoPI Neo 2: phy-mode rgmii-id
+Message-ID: <20210903092108.62oqmqveze7usrgk@gilmour>
+References: <20210830151645.18018-1-u@pkh.me>
+ <1746741.3t3T1tWQfl@kista>
+ <YS6WxHtJtNDaBxqz@lunn.ch>
+ <6939430.QNQgkB6KyE@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,58 +68,66 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hbabr2aynocczr7s"
+	protocol="application/pgp-signature"; boundary="2mnkm2zv2dbvyw5v"
 Content-Disposition: inline
-In-Reply-To: <20210901050526.45673-8-samuel@sholland.org>
+In-Reply-To: <6939430.QNQgkB6KyE@kista>
 
 
---hbabr2aynocczr7s
-Content-Type: text/plain; charset=us-ascii
+--2mnkm2zv2dbvyw5v
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Wed, Sep 01, 2021 at 12:05:25AM -0500, Samuel Holland wrote:
-> The PRCM CCU drivers depend on clocks provided by other CCU drivers. For
-> example, the sun8i-r-ccu driver uses the "pll-periph" clock provided by
-> the SoC's main CCU.
+On Wed, Sep 01, 2021 at 05:31:32PM +0200, Jernej =C5=A0krabec wrote:
+> Dne torek, 31. avgust 2021 ob 22:53:24 CEST je Andrew Lunn napisal(a):
+> > > True, but then again, DT is a bit special, since it's not used only b=
+y=20
+> Linux.=20
+> > > It's shared at least with BSDs and U-Boot, which most likely have=20
+> independent=20
+> > > driver implementation. That's why it's good to have DT fixes referenc=
+ing DT=20
+> > > related commits. As you said, DT described HW wrong.
+> > >=20
+> > > Looking at past Allwinner related DT commits regarding this issue, we=
+ were=20
+> not=20
+> > > totally consistent. Most of them reference commit where emac node was=
+=20
+> > > introduced in DT. But I also found a couple of commits which indeed h=
+ave=20
+> fixes=20
+> > > tag for bbc4d71d6354.
+> >=20
+> > All true, and it is not a big deal if it does go back further. I don't
+> > care, we can let the Allwinner Maintainer decide. Ah, that is you :-)
+> >=20
+> > I just want to try to keep it simple for somebody who is contributing
+> > their first Linux kernel patch. If it is good enough, i say accept it,
+> > and we can do a bit more education on the second contribution.
 >=20
-> However, sun8i-r-ccu is an early OF clock provider, and many of the
-> main CCUs (e.g. sun50i-a64-ccu) use platform drivers. This means that
-> the consumer clocks will be orphaned until the supplier driver is bound.
-> This can be avoided by converting the remaining CCUs to use platform
-> drivers. Then fw_devlink will ensure the drivers are bound in the
-> optimal order.
+> Maxime, Chen-Yu, thoughts?
 >=20
-> The sun5i CCU is the only one which actually needs to be an early clock
-> provider, because it provides the clock for the system timer. That one
-> is left alone.
->=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Since there are both approaches for fixes tag already in, I guess this is=
+ also=20
+> fine.
 
-The patch looks great to me, thanks for doing this work
-
-I'm surprised you were able to convert the A10 and F1C100S as well,
-since they don't have the arch timer.
-
-It seems we only use the fixed 24MHz clock on the A10 for the timer and
-the interrupt controller doesn't have a parent clock, so it works. The
-A10 timer can be fed with one PLL though and would require that
-dependency, but I guess no one ever cared. It's easy enough to revert if
-someone complains anyway.
+I agree with you, the fixes should point at the initial Device Tree
+issue. Our DT are used by other projects and even if in Linux it wasn't
+causing any issue before another commit showed up, it might affect those
+projects differently.
 
 Maxime
 
---hbabr2aynocczr7s
+--2mnkm2zv2dbvyw5v
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYTHojQAKCRDj7w1vZxhR
-xY24AP9QkxtXTpu2pkuoyr5bNFaWFTYVALN9LHVRfNLojuWD9wEAgXLRbTNdtw7/
-kgv7agI8PXtUG/dYtIOGlZoM4OfgDgc=
-=UHC4
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYTHpBAAKCRDj7w1vZxhR
+xe77AQDS7w4amoRbxd9sNcrSODsRJ0/4gRAAoPBh7Z+Q+gDAmAEA1dXNXw9B74Bm
+jH0v9R+BTKJ7wCf+9NtwDGhFFLrbCQg=
+=qQ3P
 -----END PGP SIGNATURE-----
 
---hbabr2aynocczr7s--
+--2mnkm2zv2dbvyw5v--
