@@ -1,175 +1,97 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740213FC5
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 07:18:36 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210903071834euoutp029977a7712f1ea2654d644bffc66f931f~hPrs-aUjs1157011570euoutp027
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 07:18:33 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210903071834euoutp029977a7712f1ea2654d644bffc66f931f~hPrs-aUjs1157011570euoutp027
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1630653514;
-	bh=jzfva8tySkoBOZr2tYVsxf46AbNPcgeN/pneM9rWZ7M=;
-	h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-	b=YHQT2KhGoOEH+ry4ouVkAW9b7mjzp7NHHnYMhKJyvj5aS8/1nWhoqnQhSZfstHmUh
-	 eFn7KIm7X0znMMoIRkfT31nu3YD1oE5sHcrcxcfpe8Srv9F0M9+W7mw9s46lEEq6mS
-	 UUU/r3hPJQoabiDe6YIfg1D7HgekIwgSNFR84GFo=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-	20210903071833eucas1p176cb4b6def20e6660e2b3ce075ab5b68~hPrsTJmFf2482524825eucas1p1M;
-	Fri,  3 Sep 2021 07:18:33 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-	eusmges2new.samsung.com (EUCPMTA) with SMTP id BA.3B.42068.94CC1316; Fri,  3
-	Sep 2021 08:18:33 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1~hPrr0SjpP2476624766eucas1p1c;
-	Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20210903071832eusmtrp1ee4a743996cc9c282753936e3c679c16~hPrryLsZp3052030520eusmtrp1y;
-	Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
-X-AuditID: cbfec7f4-c89ff7000002a454-1c-6131cc49558e
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
-	eusmgms2.samsung.com (EUCPMTA) with SMTP id 23.36.20981.84CC1316; Fri,  3
-	Sep 2021 08:18:32 +0100 (BST)
-Received: from [192.168.0.14] (unknown [106.210.131.79]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20210903071831eusmtip1b3a77e8d246906c962e97defe4b33642~hPrqixxyX3135731357eusmtip1I;
-	Fri,  3 Sep 2021 07:18:31 +0000 (GMT)
-Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE
- now gets PANEL_SIMPLE_EDP
-To: Doug Anderson <dianders@chromium.org>, Olof Johansson <olof@lixom.net>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring
-	<robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, linux-arm-msm
-	<linux-arm-msm@vger.kernel.org>, Bjorn Andersson
-	<bjorn.andersson@linaro.org>, Linus W <linus.walleij@linaro.org>, Daniel
-	Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, Maxime Ripard
-	<mripard@kernel.org>, David Airlie <airlied@linux.ie>, DRI mailing list
-	<dri-devel@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>, Emil
-	Velikov <emil.velikov@collabora.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@canonical.com>, NXP Linux Team <linux-imx@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Russell King
-	<linux@armlinux.org.uk>, Linux ARM Mailing List
-	<linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
-	<linux-kernel@vger.kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
-	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, "moderated
- list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
-	<linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, "open
- list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-Message-ID: <5c3b3c1c-6fc2-123b-b1bc-c6e085996e01@samsung.com>
-Date: Fri, 3 Sep 2021 09:18:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
-	Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8692272
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 08:48:50 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 109CB320084E;
+	Fri,  3 Sep 2021 04:48:48 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Fri, 03 Sep 2021 04:48:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=hQ1nmr8FqIrbd7jINZ288GcuT/J
+	36KiVUNQgsJszPMw=; b=PHjrllx4NVqgM8Jlnh9b8LbrI0yOGsmdFY0e5PFVTT3
+	xUsPT1ETrtPdT/QDWMp6ZbK73MmjO47tLT5xtGMT7jGqGoskKxgtH466HHIacouO
+	9jT6o3LLkPN9B2Yj661uqlTldpwJBUNqxdFGRo7/wZwVw330zcT65bNGKkfPgiDy
+	ZK/dYL5vbc09dW4nvw6/ZMGsmo8toerRGlmwBuTnAACXywn2DH8Ew7NdQDHs6x5F
+	uHp3Ym9pC/2XPTYU3eRDNcIZEhgJ+u3VIMoZZ2vLCjyyUXJ+2oYQBgjEYKH1XY8e
+	fDJIpSFbsBjQizTXxWachS27+jdp5TmI11hEHtwkYew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hQ1nmr
+	8FqIrbd7jINZ288GcuT/J36KiVUNQgsJszPMw=; b=iRffeU5WL7OKLXbVkxkq9F
+	i9NH4i8SlvY7ZMQW/T3X6u+b5G6ewerWIdW+5/D2MDJSPvQGbvIbj7z4VoamWltr
+	Y/Je+0DGvCJSHsoTBXusokpS9rht9USjmdPTrod6t5Xr9Fw9JD/C3vRoqV0uw2Gi
+	gVgUoHtT6QhyZAP+nAsqybmzKHY7MsJJc8UIgl3kY2Dqc5lV5zIuDSSX3ylit4Gv
+	cH3kL6SaAemZiXvYlHvvoN3xGNTMdQU6RdPXKSfFx5fBSsK1ASxz00t3m1g84d+x
+	+y+MokPoooBO+mqf6G2HCDWTU/gLFUrcraIL8W53kzMasUx3+x8iAY0t62+LUTQg
+	==
+X-ME-Sender: <xms:b-ExYbnOD5s0DvCXfIGa3YrbEqtOmv_paincGAhXmhAA4F7WCES9cA>
+    <xme:b-ExYe1W94F4Eq9mMLgR6cVQJinS4OxF6VPztlacPSMZriObGD1fvH03WsAXeBXeq
+    u_uptTaH6RCTjjYqEw>
+X-ME-Received: <xmr:b-ExYRpJRS7EqtiCYSnl64N_Kds4KagIwJChAfwKS1SwC5F8xEfaolhl7Q40RhviFmb33KPv4lXmlozjiSmIqW0Xs3Fg9BiWlYg_>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:b-ExYTnoCChahLwAj2Lgdv9J3ocYOSTJYYCpf9a487cwGLk1G6ipcg>
+    <xmx:b-ExYZ3aPcvwkoZ_lcNLrxrwqyooUE2E5l4z_O510hfrDdWln69nOw>
+    <xmx:b-ExYSu_YUsx04U4wuGZtercfDzNSGFUf1Nzu4AgMJTdqXt5ztK3lg>
+    <xmx:cOExYWl2SCSMyPs5l0CR5IQAXvpHd00HgSLGWZreHgU3pLGUoSrS4A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Sep 2021 04:48:46 -0400 (EDT)
+Date: Fri, 3 Sep 2021 10:48:44 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi-ng: mux: Remove unused 'reg' field
+Message-ID: <20210903084844.fizlsjnfne3kcwz2@gilmour>
+References: <20210902230336.29745-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e9uiLdfixis2KmRuw20gSrKXbHHTkHG34ZQtYdNtYsVr
-	NVAkvaDsI4MxYcCsCk6FlggkfElMtNRC21mIXaUiX0qhTCapDsYYrjDKZ2Gdo1zM+O85z/md
-	9zkneQW4xEgGCY6lpDHKFFlyCOlHNLR4ul57tz1CtrVwXIBUna0Y8ha18FFb8xiBnjYU4qjM
-	2slDHdW3SNQzPU6i3wtcJKq7YCSQ1jWHoR//qcFQ/aCDhwqbO/ioYP4KjuymUhJpKs8SSP/n
-	GIaKu5oWuSYTifKn1CSyXDADVDGhJ1BufjUP3e2bJFGO2cpHtR49QB7TZeLt9bTdcR+nF+aL
-	AK3OUpG0Jus+QRsGKgFtniknaKN6gE/X1+WT9EPHTZJunHnEoy+3xtHOH2wYravMpEd0JYDu
-	uZPNo7VjBmxvwH6/Nw8zycdOMMrwHQf9jj445yRTTVRG71/D/CxQKioAQgGkIqHdkccvAH4C
-	CVUL4NCQe7mYAtBebCK4YhLAEvNV3rMRzeQwyTVqAKzy3MG4wgXgRPZpzEcFUAy0tdzj+/Ra
-	6j140fBkCcKpYiGsGO1fgkgqFHp1D0ifFlE7oK6oB/dpgnoBdo5MEz79HLUPeltNPI5ZA1tL
-	hpZ8IRUHf/5teInHqUDYP1SGcXojbHSV4r4wSJn94GyXAeP2joZ9zRcJTgfAUdsNPqelsO38
-	6WU/EzprTy0P5wGov27EucYb8GHn/OKmgsWEUHjNFM7ZO6H9tpvw2ZASw19ca7gdxLCo4RLO
-	2SKYlyvh6GDo7NAvPxgIq+5Nk+dAiHrFZeoV16hXXKP+P7ccEHUgkElnFXKG3ZbCnAxjZQo2
-	PUUelnhcUQ8Wf3fbv7YpA6gZnQizAEwALAAK8JC1IuM7W2US0WHZF18yyuMJyvRkhrWA9QIi
-	JFB06MbVBAkll6UxSQyTyiifdTGBMCgLi9M6viqWHtLMJp5flzDAard39wY/37Rqu/elt8Y3
-	bXZkfDjnhU+yK+sjRMFqdfxn9rqamLnvbkX5r3p/XfnH0RVNu1xXeg8oE6pybuvgtfaMlzNY
-	99n4Ld//dOJkmKq4YdO+usbuAKnpk7I0/QfA3R7lMfj3RkfyreW5sUWWkehLqqCbObtfmd4v
-	j9QiL5X07YvUpxv+Xv2He9AMPwprCu3TyPsrDD1RXbO7fz0QEzMzSxl5muHXqTPW6l1HrKvF
-	jw5u6371a1w1mFzmVsjlexThVRuv7zFlJjnZnZrUb/ptT7sTY3n10gWz/112w2axOPbxkdSc
-	z/cKpQvxZWcenyJEIQR7VBaxBVeysv8AlYUuhUwEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDKsWRmVeSWpSXmKPExsVy+t/xu7oeZwwTDb49VLboPXeSyeLvpGPs
-	Fqf3v2Ox+L9tIrPF/CPnWC3OLjvIZnHl63s2i6ddb9ksVk3dyWKx8e0PJospf5YzWWx6fI3V
-	YuL+s+wWXb9WMltc3jWHzWL2kn4Wi60v3zFZzDi/D6hu3y42i84vs9gsDk3dy2ix8ONWFou2
-	zmWsFqeuf2azaN17hN1ixc+tjBY/d81jcZD2uHztIrPH71+TGD1mNfSyecxuuMjisePuEkaP
-	vd8WsHjsnHWX3WPTqk42jzvX9rB5bP/2gNVj3slAj/vdx5k8Ni+p93ixeSajx5UTTaweG9/t
-	YAoQjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL
-	uDnhPlvBLoGKq2+esTcwzuHtYuTkkBAwkZj9+RlbFyMXh5DAUkaJ+X9/s0EkxCV2z3/LDGEL
-	S/y51gVV9JpR4u/CF0wgCWGBVIlrB5cygtgiAl4S03a8ZgIpYhaYxynxefojFoiOqUwSy1//
-	YQGpYhPQlPi7+SbYCl4BO4nNk66ArWARUJE49+IrWI2oQKRE04mtUDWCEidnPgGLcwoEShx+
-	9AysnlnATGLe5odQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3
-	PbfYSK84Mbe4NC9dLzk/dxMjMFltO/Zzyw7Gla8+6h1iZOJgPMQowcGsJMK7080gUYg3JbGy
-	KrUoP76oNCe1+BCjKdA/E5mlRJPzgekyryTe0MzA1NDEzNLA1NLMWEmc1+TImnghgfTEktTs
-	1NSC1CKYPiYOTqkGph1rbWbMmzXjSG2amHRz3sLLVyasclgV8HE2w44Hp/lOCMYKZ7lZmGou
-	XykuZy4oHnLxhAdT+aTOb/rZr5Y8vZTRktTQycCxIuxqQ4zCxIU6scq6GmoztimZNUn3/Xt6
-	w9tMtFLiQ/Ct3eXPQhw6T8Qa7IsOf6dl8e6envRB9ikn97ld7+ncv7XgsNebmoTKOm45SY7d
-	P4tKShnf7p+uv8T+FsOW+pUtZ4vuF8VI/c6/dSvElVk6+fB8EbEE9+bflwvk3rFFbL3mtMv/
-	VphE6IH7RQ93mNk6Tog3irVb2Rt/vu7uRY5Ja9sOhK5akbHm7Dqt04tccuZah7L4HNJSZ503
-	Y7vf+wNzkl/uvRXxX4mlOCPRUIu5qDgRAD32K4LfAwAA
-X-CMS-MailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
-References: <20210901201934.1084250-1-dianders@chromium.org>
-	<20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
-	<CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
-	<CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
-	<CGME20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1@eucas1p1.samsung.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="d7hw5q2u25hewzka"
+Content-Disposition: inline
+In-Reply-To: <20210902230336.29745-1-samuel@sholland.org>
 
-On 02.09.2021 01:10, Doug Anderson wrote:
-> Hi,
-> 
-> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
->>
->> On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
->>>
->>> In the patch ("drm/panel-simple-edp: Split eDP panels out of
->>> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
->>> give everyone who had the old driver enabled the new driver too. If
->>> folks want to opt-out of one or the other they always can later.
->>>
->>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->>
->> Isn't this a case where the new option should just have had the old
->> option as the default value to avoid this kind of churn and possibly
->> broken platforms?
-> 
-> I'm happy to go either way. I guess I didn't do that originally
-> because logically there's not any reason to link the two drivers going
-> forward. Said another way, someone enabling the "simple panel" driver
-> for non-eDP panels wouldn't expect that the "simple panel" driver for
-> DP panels would also get enabled by default. They really have nothing
-> to do with one another. Enabling by default for something like this
-> also seems like it would lead to bloat. I could have sworn that
-> periodically people get yelled at for marking drivers on by default
-> when it doesn't make sense.
-> 
-> ...that being said, I'm happy to change the default as you suggest.
-> Just let me know.
 
-I guess this is just misunderstanding. Symbol names:
-	CONFIG_DRM_PANEL_SIMPLE=y
-	CONFIG_DRM_PANEL_SIMPLE_EDP=y
-suggests that CONFIG_DRM_PANEL_SIMPLE_EDP is an 'suboption' of 
-CONFIG_DRM_PANEL_SIMPLE, but these symbols are independent - old symbol 
-has been split into two independent new symbols.
-So Doug's approach seems correct to me. Maybe one could change names of 
-symbols to avoid confusion(?).
+--d7hw5q2u25hewzka
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-One more thing, I suspect previous patch can break platforms with EDP 
-panels. Even if this patch fixes it, maybe it would be better to squash 
-these patches? Or add temporal solution to save bisecatability.
+On Thu, Sep 02, 2021 at 06:03:36PM -0500, Samuel Holland wrote:
+> The driver uses 'reg' from 'struct ccu_common' everywhere, so this
+> duplicate field is unused and unnecessary. Remove it.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Regards
-Andrzej
+Applied, thanks
+Maxime
 
-> 
-> -Doug
-> 
+--d7hw5q2u25hewzka
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYTHhbAAKCRDj7w1vZxhR
+xU8xAP0UchnkM21a+7FRcDf8V3tLLjiXwA9OuhHwustIVgcqcwEAoHWky7HFXUTg
+HXNooCq6avRrPF51PXqr90oqtOOTkgA=
+=h0s4
+-----END PGP SIGNATURE-----
+
+--d7hw5q2u25hewzka--
