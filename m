@@ -1,78 +1,111 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E543FCD
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 20:38:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 25CE160F11;
-	Fri,  3 Sep 2021 20:38:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1630701527;
-	bh=VPiKJsT2BC+jznkBKIDvLFaZ9KWcnhXM3FTSZYnsXbE=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=tBcYBWGO8jgrSa0BkPfGeEv13zdeknqSBIX7q2eEAaFW2UoYM8Ez2UngeTmH/t4FK
-	 Nw7H2t7dpzl5is+a38LKPg80GMSa/0OYapaKUPHwiuVJRywVaaSpkjB0nx4xqz0MPe
-	 iKZSEjz3JfLWe1etKC8tZPTsMZfK1CUZgZFbAPQCyX6yStnz2UHx9nceis6aKUJuee
-	 JBxMrvxEqUxGk6Ga5rbfhzU6t1erU3/cyKPPAglZOi02fliGamxwM1+PEdUPHupsT8
-	 QzF8+tGA8wXWm3+Ukr1IB1XoOWeTDdDVKNoBt4V0Gq4XMjYXTeb/RK3vsyiVyhiQan
-	 TAr1gcPv9jo7g==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FCA3FCD
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 20:57:18 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 32EC55C00D0;
+	Fri,  3 Sep 2021 16:57:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 03 Sep 2021 16:57:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	to:cc:references:from:subject:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=P
+	OkR53bpiytg3PxhnG+iPG0KgVHiDmhYTOhrNM2TBK8=; b=or3Plv4161tY48aBE
+	Z3/6qfS4TluR1yI1v/xoq9Anj0tbUVUsRu3nMdsHaj7mjqKUIN0LGQ2zGpuSjCYC
+	bgarS3q0blM+oFzDj7TplibBFQxO4qmv/0h8KXdPBERxtOABaDqb9oSUHlDdI8KW
+	i3q5VjsCwPt583p28ddEwhvyGUj9kpKU/FR5AlFRQK4nqUB6sb7YcAlzJKGVqiOi
+	hIQnHB5DrfBCDJVWx2jS8sMRWOL2OY/NQZ19ijKFyviOflo0pf/+CDvVBihhLlqT
+	NtobzXMpu/DoQIZJUKT7ClREQB/GMsnMYYZioe3nuF9+HZodYfPPNyO1MbeV5HUV
+	JDQ6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=POkR53bpiytg3PxhnG+iPG0KgVHiDmhYTOhrNM2TB
+	K8=; b=fILS8KHRP18Yb28LBzT0oNZ7zNryQiB3SyZISgp2opU8XaHUB6PyzUw8c
+	rwnscn+ZP5nNXCsdusldyoE83k/Bt23UaQOqy/y3APmvCSaP+2STukfBh3imrBqG
+	pxJtKDg23O78T/SdXxzvwVQn04qXToqUGFFhThiKYT6+ZJFiuNKTkQV05/po4qvs
+	yExmiexeuCBXG3Xd4/NcGRUSAXN6PaAJb8R0xz1BmGbEOwkUzQkTidKmVYRK27pk
+	eeR6ewcmOthLkboTQd9bd5pXJ4pl7ri1jnX5l+TsYMJnQKFIdWlOHfvUCi55poKI
+	q4fnqutak7fjOxP9OeFTDnK18hqCg==
+X-ME-Sender: <xms:LIwyYWRwN_vH5_D3BF79vTAk5VC1Yvi1JahpKI-gaqSZVVinvsssfg>
+    <xme:LIwyYbzOumHoAXT1ETk4wwiCIprKSqiwIXbA4Zd7estRecMRVBOBtqLsfWapxwpn_
+    msMPaLnXiN-M_61Nw>
+X-ME-Received: <xmr:LIwyYT1G9wZIh5OBZPkCzPuwvvCbIQ8-DaRCq1crJKBPdY_QfyRxOW-pVfsUluhM99vbL9ZICvgEQKdPJEVzIvcR1PRMjJOHBTFFOBNbT8aRvOLypgiXo-fPCg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgudehfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeehjeeghfdufeefteelieeggfehteevieetueffhefhffekuedv
+    ffevffevtedufeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:LIwyYSAigwu7JRvcmRFlsK9Vg0XSwgFdGEeiNfzHgTSerYiiimrbHw>
+    <xmx:LIwyYfgLQikdsc-Q6-ZPkkYolWjrg_nlV_4l0xYfo-whUJrNOXfd4w>
+    <xmx:LIwyYeqEZoGFA19h7mYFeQAXPl3IlN0nXezAv24FWQjahGBAWWzexw>
+    <xmx:LYwyYfh_pWWwsTHUqzCijPmtWIJTYmmxJkLg6YHM1k73JPp12ii7cA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Sep 2021 16:57:15 -0400 (EDT)
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20210901050526.45673-1-samuel@sholland.org>
+ <20210901050526.45673-5-samuel@sholland.org>
+ <20210903091040.2bngsvhem2ftzhaz@gilmour>
+From: Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH 4/8] clk: sunxi-ng: Rename files to match Kconfig and
+ drivers
+Message-ID: <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
+Date: Fri, 3 Sep 2021 15:57:14 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
-References: <20210901201934.1084250-1-dianders@chromium.org> <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid> <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com> <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
-Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, linux-arm-msm <linux-arm-msm@vger.kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>, DRI mailing list <dri-devel@lists.freedesktop.org>, Al Viro <viro@zeniv.linux.org.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, Andreas Kemnade <andreas@kemnade.info>, Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>, Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>, Claudiu Beznea <claudiu.beznea@microchip.com>, Codrin Ciubotariu <codrin.ciubotariu@microchip.com>, Core
- ntin Labbe <clabbe@baylibre.com>, Daniel Thompson <daniel.thompson@linaro.org>, Dmitry Osipenko <digetx@gmail.com>, Emil Velikov <emil.velikov@collabora.com>, Eugen Hristev <eugen.hristev@microchip.com>, Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, Florian Fainelli <f.fainelli@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Grygorii Strashko <grygorii.strashko@ti.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>, Kees Cook <keescook@chromium.org>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Ludovic Desroches <ludovic.desroches@microchip.com>, Magnus Damm <magnus.damm@gmail.com>, Manivannan Sadhasivam <mani@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Martin =?utf-8?q?J=C3=BCcker?= <martin.juecker@gmail.com>, NXP Linux Team <lin
- ux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, Olivier Moysan <olivier.moysan@st.com>, Otavio Salvador <otavio@ossystems.com.br>, Pengutronix Kernel Team <kernel@pengutronix.de>, Razvan Stefanescu <razvan.stefanescu@microchip.com>, Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>, Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>, Sudeep Holla <sudeep.holla@arm.com>, Tony Lindgren <tony@atomide.com>, Tudor Ambarus <tudor.ambarus@microchip.com>, Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>, Linux ARM Mailing List <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, linux-omap <linux-omap@vger.kernel.org>, Linux-Renesas <linux-renesas-soc@vger.kernel.org>, moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, open list:TEGRA ARCHITECTURE SUPPORT <linux-
- tegra@vger.kernel.org>, =?utf-8?q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>;
-To: Doug Anderson <dianders@chromium.org>, Olof Johansson <olof@lixom.net>
-Date: Fri, 03 Sep 2021 13:38:45 -0700
-Message-ID: <163070152582.405991.9480635890491684680@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <20210903091040.2bngsvhem2ftzhaz@gilmour>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Quoting Doug Anderson (2021-09-01 16:10:15)
+Hi Maxime,
+
+On 9/3/21 4:10 AM, Maxime Ripard wrote:
 > Hi,
->=20
-> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
-> >
-> > On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org>=
- wrote:
-> > >
-> > > In the patch ("drm/panel-simple-edp: Split eDP panels out of
-> > > panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
-> > > give everyone who had the old driver enabled the new driver too. If
-> > > folks want to opt-out of one or the other they always can later.
-> > >
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > Isn't this a case where the new option should just have had the old
-> > option as the default value to avoid this kind of churn and possibly
-> > broken platforms?
->=20
-> I'm happy to go either way. I guess I didn't do that originally
-> because logically there's not any reason to link the two drivers going
-> forward. Said another way, someone enabling the "simple panel" driver
-> for non-eDP panels wouldn't expect that the "simple panel" driver for
-> DP panels would also get enabled by default. They really have nothing
-> to do with one another. Enabling by default for something like this
-> also seems like it would lead to bloat. I could have sworn that
-> periodically people get yelled at for marking drivers on by default
-> when it doesn't make sense.
->=20
-> ...that being said, I'm happy to change the default as you suggest.
-> Just let me know.
+> 
+> On Wed, Sep 01, 2021 at 12:05:22AM -0500, Samuel Holland wrote:
+>> When the drivers are built as modules, the file name will become the
+>> module name. Rename the files so everything matches: the Kconfig symbol,
+>> the platform driver name (as seen in sysfs), and the module name.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> 
+> I'm not a big fan of big renames like this, it makes merging and
+> backporting patches harder in the long term.
 
-Having the default will help olddefconfig users seamlessly migrate to
-the new Kconfig. Sadly they don't notice that they should probably
-disable the previous Kconfig symbol, but oh well. At least with the
-default they don't go on a hunt/bisect to figure out that some Kconfig
-needed to be enabled now that they're using a new kernel version.
+I can split this into two commits, first the .c files and then the .h
+files, so everything is a 100% rename, if that makes a difference.
 
-Maybe the default should have a TODO comment next to it indicating we
-should remove the default in a year or two.
+> I assume you did this to make the module autoloading work? If so, using
+> MODULE_ALIAS would be less intrusive
+
+Autoloading should work anyway, since there is a module alias for the
+compatible string. This change is more about the principle of least
+surprise. The compatible is allwinner,sun50i-a64-ccu, the Kconfig symbol
+is SUN50I_A64_CCU, the driver name (in /sys/bus/platform/drivers) is
+sun50i_a64_ccu, but yet the module name is ccu-sun50i-a64???
+
+Once we allow building modules, the names are ABI, and this
+inconsistency will bother me until the end of time :)
+
+If there is a way to completely rename the module without renaming the
+files (not adding an alias), then that would be enough for me.
+
+Regards,
+Samuel
