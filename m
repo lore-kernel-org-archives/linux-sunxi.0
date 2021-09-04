@@ -1,111 +1,110 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20FCA3FCD
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Sep 2021 20:57:18 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 32EC55C00D0;
-	Fri,  3 Sep 2021 16:57:17 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 03 Sep 2021 16:57:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=P
-	OkR53bpiytg3PxhnG+iPG0KgVHiDmhYTOhrNM2TBK8=; b=or3Plv4161tY48aBE
-	Z3/6qfS4TluR1yI1v/xoq9Anj0tbUVUsRu3nMdsHaj7mjqKUIN0LGQ2zGpuSjCYC
-	bgarS3q0blM+oFzDj7TplibBFQxO4qmv/0h8KXdPBERxtOABaDqb9oSUHlDdI8KW
-	i3q5VjsCwPt583p28ddEwhvyGUj9kpKU/FR5AlFRQK4nqUB6sb7YcAlzJKGVqiOi
-	hIQnHB5DrfBCDJVWx2jS8sMRWOL2OY/NQZ19ijKFyviOflo0pf/+CDvVBihhLlqT
-	NtobzXMpu/DoQIZJUKT7ClREQB/GMsnMYYZioe3nuF9+HZodYfPPNyO1MbeV5HUV
-	JDQ6Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=POkR53bpiytg3PxhnG+iPG0KgVHiDmhYTOhrNM2TB
-	K8=; b=fILS8KHRP18Yb28LBzT0oNZ7zNryQiB3SyZISgp2opU8XaHUB6PyzUw8c
-	rwnscn+ZP5nNXCsdusldyoE83k/Bt23UaQOqy/y3APmvCSaP+2STukfBh3imrBqG
-	pxJtKDg23O78T/SdXxzvwVQn04qXToqUGFFhThiKYT6+ZJFiuNKTkQV05/po4qvs
-	yExmiexeuCBXG3Xd4/NcGRUSAXN6PaAJb8R0xz1BmGbEOwkUzQkTidKmVYRK27pk
-	eeR6ewcmOthLkboTQd9bd5pXJ4pl7ri1jnX5l+TsYMJnQKFIdWlOHfvUCi55poKI
-	q4fnqutak7fjOxP9OeFTDnK18hqCg==
-X-ME-Sender: <xms:LIwyYWRwN_vH5_D3BF79vTAk5VC1Yvi1JahpKI-gaqSZVVinvsssfg>
-    <xme:LIwyYbzOumHoAXT1ETk4wwiCIprKSqiwIXbA4Zd7estRecMRVBOBtqLsfWapxwpn_
-    msMPaLnXiN-M_61Nw>
-X-ME-Received: <xmr:LIwyYT1G9wZIh5OBZPkCzPuwvvCbIQ8-DaRCq1crJKBPdY_QfyRxOW-pVfsUluhM99vbL9ZICvgEQKdPJEVzIvcR1PRMjJOHBTFFOBNbT8aRvOLypgiXo-fPCg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgudehfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeehnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeehjeeghfdufeefteelieeggfehteevieetueffhefhffekuedv
-    ffevffevtedufeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:LIwyYSAigwu7JRvcmRFlsK9Vg0XSwgFdGEeiNfzHgTSerYiiimrbHw>
-    <xmx:LIwyYfgLQikdsc-Q6-ZPkkYolWjrg_nlV_4l0xYfo-whUJrNOXfd4w>
-    <xmx:LIwyYeqEZoGFA19h7mYFeQAXPl3IlN0nXezAv24FWQjahGBAWWzexw>
-    <xmx:LYwyYfh_pWWwsTHUqzCijPmtWIJTYmmxJkLg6YHM1k73JPp12ii7cA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Sep 2021 16:57:15 -0400 (EDT)
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210901050526.45673-1-samuel@sholland.org>
- <20210901050526.45673-5-samuel@sholland.org>
- <20210903091040.2bngsvhem2ftzhaz@gilmour>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 4/8] clk: sunxi-ng: Rename files to match Kconfig and
- drivers
-Message-ID: <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
-Date: Fri, 3 Sep 2021 15:57:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069A83FC9
+	for <linux-sunxi@lists.linux.dev>; Sat,  4 Sep 2021 10:38:22 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id v123so1524101pfb.11
+        for <linux-sunxi@lists.linux.dev>; Sat, 04 Sep 2021 03:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=R1xW5dhI5MdMWEzd4wBz2g9T6oS/nscW3i7iz8B4JF4=;
+        b=HpqLoJEgYUbhqc2bFgHHAv1ULMAbKdNHpo6SpdPmUUBATbKEnlMs+yaSVQLt5DT2/5
+         EKu12Uyy3/y0qrd0KJQe5fC/7LKo8J53JUWXbas8GyI0Gq0vD71CkG8yeXd3r/3GJg9G
+         OLzVdSZpzBi0AmeDbvyGaYQzza5Xu+2Sh49Kal9UsyC2hPl/nkIY+lufeNkijKROKe6k
+         1Hv2HjfkVX3Iu5uk9cglsBlUNfcjsMtBHvvByrF0+uW3jylO7g9taH/CTug9d+uViNqh
+         k7DfAbNYwH6IVH0Z3TcFhWreAhcNYHeJB8XOoc+jxDy48rHI3l90aoYGdffDWVEeYXRJ
+         ez/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=R1xW5dhI5MdMWEzd4wBz2g9T6oS/nscW3i7iz8B4JF4=;
+        b=A6EJlXTpzJuxmaWCGXByD5nXVcuXzlzLVI4THXv2aBbUJjQQzMgFca2MgaCDGry+tk
+         IEGQIwC5cS5D4AhRzL4t90quYF/qBsLOOUJzg4m41Ej134tj3y5titstZ8P/0+liM5DZ
+         PBkBA2Rj7b4jR12YHbKd6wKoXsySprMLlQYXoyEaer0EEBOW37Yso+Gba+0+UuyAqX6o
+         Quo2e8aR7wSk37QNN0laDEpfn6nZJ+AFkfcRx4OCJ2+210tYXmNXYaC5P3z+eAPygfy/
+         oCXMBVvPXwxDYdkOFKIsclHCIj0FOt5kYQ1UiihCw077qCQQR+t80dPk7yeb1Fj8pBKS
+         Rp/w==
+X-Gm-Message-State: AOAM5331jvvONojRCCXHq8TfFlPwVTF767nbMAX0YTBaUFzVk0jA3mqj
+	EpURZz5CjpZmmqjS7PII5ojU24Zm0al3Zw==
+X-Google-Smtp-Source: ABdhPJw4py10hDMDA93ust0NUPG+eBLUsaxvPqJbHkdz6EfAp7jHVCWxkNnhkfvO5kQK5Yd60zVsjA==
+X-Received: by 2002:a63:111f:: with SMTP id g31mr3147053pgl.80.1630751901812;
+        Sat, 04 Sep 2021 03:38:21 -0700 (PDT)
+Received: from [172.16.100.12] ([1.235.44.150])
+        by smtp.gmail.com with ESMTPSA id 66sm2027792pfx.29.2021.09.04.03.38.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Sep 2021 03:38:20 -0700 (PDT)
+Subject: Re: [PATCH] sunxi: mmc: A20: Fix MMC optimisation
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+References: <20210903154916.5264-1-andre.przywara@arm.com>
+From: Jaehoon Chung <jh80.chung@gmail.com>
+Message-ID: <9459f678-17ca-19dc-e5e5-b1e2e1b61a31@gmail.com>
+Date: Sat, 4 Sep 2021 19:38:17 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210903091040.2bngsvhem2ftzhaz@gilmour>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <20210903154916.5264-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
 
-On 9/3/21 4:10 AM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Wed, Sep 01, 2021 at 12:05:22AM -0500, Samuel Holland wrote:
->> When the drivers are built as modules, the file name will become the
->> module name. Rename the files so everything matches: the Kconfig symbol,
->> the platform driver name (as seen in sysfs), and the module name.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> 
-> I'm not a big fan of big renames like this, it makes merging and
-> backporting patches harder in the long term.
 
-I can split this into two commits, first the .c files and then the .h
-files, so everything is a 100% rename, if that makes a difference.
+Andre Przywara wrote on 9/4/21 12:49 AM:
+> Some SoCs (as seen on A20) seem to misreport the MMC FIFO level if the
+> FIFO is completely full: the level size reads as zero, but the FIFO_FULL
+> bit is set. We won't do a single iteration of the read loop in this
+> case, so will be stuck forever.
+>
+> Check for this situation and use a safe minimal FIFO size instead when
+> we hit this case.
+>
+> This fixes MMC boot on A20 devices after the MMC FIFO optimisation
+> (9faae5457f52).
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-> I assume you did this to make the module autoloading work? If so, using
-> MODULE_ALIAS would be less intrusive
+Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
 
-Autoloading should work anyway, since there is a module alias for the
-compatible string. This change is more about the principle of least
-surprise. The compatible is allwinner,sun50i-a64-ccu, the Kconfig symbol
-is SUN50I_A64_CCU, the driver name (in /sys/bus/platform/drivers) is
-sun50i_a64_ccu, but yet the module name is ccu-sun50i-a64???
+Best Regards,
+Jaehoon Chung
 
-Once we allow building modules, the names are ABI, and this
-inconsistency will bother me until the end of time :)
+> ---
+>  drivers/mmc/sunxi_mmc.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+> index 178b8cf106..aaab0cf866 100644
+> --- a/drivers/mmc/sunxi_mmc.c
+> +++ b/drivers/mmc/sunxi_mmc.c
+> @@ -349,10 +349,14 @@ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
+>  		 * register without checking the status register after every
+>  		 * read. That saves half of the costly MMIO reads, effectively
+>  		 * doubling the read performance.
+> +		 * Some SoCs (A20) report a level of 0 if the FIFO is
+> +		 * completely full (value masked out?). Use a safe minimal
+> +		 * FIFO size in this case.
+>  		 */
+> -		for (in_fifo = SUNXI_MMC_STATUS_FIFO_LEVEL(status);
+> -		     in_fifo > 0;
+> -		     in_fifo--)
+> +		in_fifo = SUNXI_MMC_STATUS_FIFO_LEVEL(status);
+> +		if (in_fifo == 0 && (status & SUNXI_MMC_STATUS_FIFO_FULL))
+> +			in_fifo = 32;
+> +		for (; in_fifo > 0; in_fifo--)
+>  			buff[i++] = readl_relaxed(&priv->reg->fifo);
+>  		dmb();
+>  	}
 
-If there is a way to completely rename the module without renaming the
-files (not adding an alias), then that would be enough for me.
-
-Regards,
-Samuel
