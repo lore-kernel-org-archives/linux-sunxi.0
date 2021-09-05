@@ -1,51 +1,212 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com [91.221.196.215])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E763FC7
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Sep 2021 00:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=MtoS3nIxFjGLmLa7oxlvwoAJICq8MHy8HmSBPzcja1w=; b=fg
-	ysAOFmktp/3/y4aFomG63vb9cQMtlktWwiFpinyxyRdNBx5O17o0ao/YPROW3ajjomi7HnKRYwCNa
-	5UPhbY59GXkydU5MNZaUlTm4Kf1bhyZYe4rOm0YLgW/M9awLdB1l88qApwDCq0v7sk60fESpxIP/i
-	8ZOuIsRUJnW6gJE=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1mMgFD-005KGS-9W; Sun, 05 Sep 2021 02:42:47 +0200
-Date: Sun, 5 Sep 2021 02:42:47 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: =?utf-8?B?Q2zDqW1lbnQgQsWTc2No?= <u@pkh.me>
-Cc: jernej.skrabec@gmail.com, davem@davemloft.net,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3EC72
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Sep 2021 18:56:26 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+	by mx1.smtp.larsendata.com (Halon) with ESMTPS
+	id c864104b-0e7a-11ec-a02a-0050568c148b;
+	Sun, 05 Sep 2021 18:55:05 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net [80.162.45.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sam@ravnborg.org)
+	by mail01.mxhotel.dk (Postfix) with ESMTPSA id A14BA194B5D;
+	Sun,  5 Sep 2021 20:54:57 +0200 (CEST)
+Date: Sun, 5 Sep 2021 20:55:04 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Douglas Anderson <dianders@chromium.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-arm-msm@vger.kernel.org,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+	devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
+	dri-devel@lists.freedesktop.org, Al Viro <viro@zeniv.linux.org.uk>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+	Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Eugen Hristev <eugen.hristev@microchip.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@st.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kees Cook <keescook@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Lionel Debieve <lionel.debieve@st.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>,
+	Michael Walle <michael@walle.cc>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Nishanth Menon <nm@ti.com>, Olivier Moysan <olivier.moysan@st.com>,
+	Olof Johansson <olof@lixom.net>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+	Robert Richter <rric@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	Tony Lindgren <tony@atomide.com>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Vladimir Zapolskiy <vz@mleia.com>, Will Deacon <will@kernel.org>,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, mripard@kernel.org, robh+dt@kernel.org,
-	wens@csie.org, willy.liu@realtek.com
-Subject: Re: [PATCH v2] arm64: dts: allwinner: h5: NanoPI Neo 2: Fix ethernet
- node
-Message-ID: <YTQShyhvCMcEmxkA@lunn.ch>
-References: <116454729.UZi3dMzWh7@jernej-laptop>
- <20210905002027.171984-1-u@pkh.me>
+	linux-mips@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>
+Subject: Re: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically
+ instead of hardcoding
+Message-ID: <YTUSiHiCgihz1AcO@ravnborg.org>
+References: <20210901201934.1084250-1-dianders@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210905002027.171984-1-u@pkh.me>
+In-Reply-To: <20210901201934.1084250-1-dianders@chromium.org>
 
-On Sun, Sep 05, 2021 at 02:20:27AM +0200, Clément Bœsch wrote:
-> RX and TX delay are provided by ethernet PHY. Reflect that in ethernet
-> node.
+Hi Douglas,
+
+On Wed, Sep 01, 2021 at 01:19:18PM -0700, Douglas Anderson wrote:
+> The goal of this patch series is to move away from hardcoding exact
+> eDP panels in device tree files. As discussed in the various patches
+> in this series (I'm not repeating everything here), most eDP panels
+> are 99% probable and we can get that last 1% by allowing two "power
+> up" delays to be specified in the device tree file and then using the
+> panel ID (found in the EDID) to look up additional power sequencing
+> delays for the panel.
 > 
-> Fixes: 44a94c7ef989 ("arm64: dts: allwinner: H5: Restore EMAC changes")
-> Signed-off-by: Clément Bœsch <u@pkh.me>
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> This patch series is the logical contiunation of a previous patch
+> series where I proposed solving this problem by adding a
+> board-specific compatible string [1]. In the discussion that followed
+> it sounded like people were open to something like the solution
+> proposed in this new series.
+> 
+> In version 2 I got rid of the idea that we could have a "fallback"
+> compatible string that we'd use if we didn't recognize the ID in the
+> EDID. This simplifies the bindings a lot and the implementation
+> somewhat. As a result of not having a "fallback", though, I'm not
+> confident in transitioning any existing boards over to this since
+> we'll have to fallback to very conservative timings if we don't
+> recognize the ID from the EDID and I can't guarantee that I've seen
+> every panel that might have shipped on an existing product. The plan
+> is to use "edp-panel" only on new boards or new revisions of old
+> boards where we can guarantee that every EDID that ships out of the
+> factory has an ID in the table.
+> 
+> Version 3 of this series now splits out all eDP panels to their own
+> driver and adds the generic eDP panel support to this new driver. I
+> believe this is what Sam was looking for [2].
+> 
+> [1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+> [2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+> 
+> Changes in v3:
+> - Decode hex product ID w/ same endianness as everyone else.
+> - ("Reorder logicpd_type_28...") patch new for v3.
+> - Split eDP panels patch new for v3.
+> - Move wayward panels patch new for v3.
+> - ("Non-eDP panels don't need "HPD" handling") new for v3.
+> - Split the delay structure out patch just on eDP now.
+> - ("Better describe eDP panel delays") new for v3.
+> - Fix "prepare_to_enable" patch new for v3.
+> - ("Don't re-read the EDID every time") moved to eDP only patch.
+> - Generic "edp-panel" handled by the eDP panel driver now.
+> - Change init order to we power at the end.
+> - Adjust endianness of product ID.
+> - Fallback to conservative delays if panel not recognized.
+> - Add Sharp LQ116M1JW10 to table.
+> - Add AUO B116XAN06.1 to table.
+> - Rename delays more generically so they can be reused.
+> 
+> Changes in v2:
+> - No longer allow fallback to panel-simple.
+> - Add "-ms" suffix to delays.
+> - Don't support a "fallback" panel. Probed panels must be probed.
+> - Not based on patch to copy "desc"--just allocate for probed panels.
+> - Add "-ms" suffix to delays.
+> 
+> Douglas Anderson (16):
+>   dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+>   drm/edid: Break out reading block 0 of the EDID
+>   drm/edid: Allow the querying/working with the panel ID from the EDID
+>   drm/panel-simple: Reorder logicpd_type_28 / mitsubishi_aa070mc01
+>   drm/panel-simple-edp: Split eDP panels out of panel-simple
+>   ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
+>   arm64: defconfig: Everyone who had PANEL_SIMPLE now gets
+>     PANEL_SIMPLE_EDP
+>   MIPS: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
+>   drm/panel-simple-edp: Move some wayward panels to the eDP driver
+>   drm/panel-simple: Non-eDP panels don't need "HPD" handling
+>   drm/panel-simple-edp: Split the delay structure out
+>   drm/panel-simple-edp: Better describe eDP panel delays
+>   drm/panel-simple-edp: hpd_reliable shouldn't be subtraced from
+>     hpd_absent
+>   drm/panel-simple-edp: Fix "prepare_to_enable" if panel doesn't handle
+>     HPD
+>   drm/panel-simple-edp: Don't re-read the EDID every time we power off
+>     the panel
+>   drm/panel-simple-edp: Implement generic "edp-panel"s probed by EDID
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+Thanks for looking into this. I really like the outcome.
+We have panel-simple that now (mostly) handle simple panels,
+and thus all the eDP functionality is in a separate driver.
 
-    Andrew
+I have provided a few nits.
+My only take on this is the naming - as we do not want to confuse
+panel-simple and panel-edp I strongly suggest renaming the driver to
+panel-edp.
+And then rename the corresponding Kconfig entry.
+
+With these few changes all patches are:
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+
+For bisectability I suggest to move the defconfig patches up before you
+introduce the new Kconfig symbol. Or maybe they will be added via
+another tree and then this is not possible to control
+
+I assume you will apply the patches yourself.
+
+Thanks again!
+
+	Sam
