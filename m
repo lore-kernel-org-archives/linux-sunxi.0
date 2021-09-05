@@ -1,111 +1,77 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B896272
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Sep 2021 19:40:53 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id i21so8968016ejd.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 05 Sep 2021 12:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ktfu/1dI5EriLXE5SDDhbia+REVwP853qU4CVNxHqiI=;
-        b=Rxqu+vGpTbt09JrFUNrJ30s3AmbCiII568kBUn+HM9TNaW3Nup6GeXNLCRvBVD85AV
-         uHOfgUPXJL/wvBjFiuGcTIrmKZyJ+R6pw5IKhP9gSOEDs+glsWckJ6NsGbH9w5mEu5Ir
-         w8bdZ8EU2f4eHWxa/nLSHjIWYyKKr25er9bV38pGOY9QdIGNESJQyHdpIsdoFM9kRVBM
-         RFVYf43E8HRO0i8oHWVEr9KxpUCkvN+6xqbQWqNZgE2JCj5gVYrwCOh3ThJnabAHcY+B
-         Z2QZAyFg+V8WIqV8TtBhcLiTiTdUipy+THlZ3so7j8lP+hlaDCAGFeclPeBGDLLe98jp
-         km7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ktfu/1dI5EriLXE5SDDhbia+REVwP853qU4CVNxHqiI=;
-        b=J8zBxPY+i4Te4SFsH6bmpFhiIZK3DmsEo43G1FqAQniVALQu7zwMHABvkIKXn08OTC
-         TTlXgI/IUq1affC+FnIAT2ZcSm5qCPspg7RBhEFFg77b5AkuOgHWXFuQti6Ps8syqXv4
-         /1oOQT27YiL7VV2DyLIFMFl1YB3T0aBrwcWYYobuN0hodx5PAk2opejD2bObwmyEdEJ9
-         TJU3oYZZTR0ldBn2iIYfXgHtlqRW3KCFNwKt/7gB8v0yduCaMC/NbiALPXwtiW0a3zSN
-         ouCn/mpqFmz2M3uuFhRDOpAPbpzHs0RZaoS91Or8ktriG1AnSAlzDbsIc6+ea+REgGyd
-         /vMw==
-X-Gm-Message-State: AOAM533GNtAqSHchPdPBVtQlG7/ttfOEGX/PPF99fZ+iTf0L0JUVioc2
-	m/lGzXpd9KenM++ng5BIBU1APKJuBR0=
-X-Google-Smtp-Source: ABdhPJx9zcPWC1IOubNX+p+CD/pSo0c5XPiVDRow8ByiiVq9DoQW/HLDz1WVsBR2IX2OinBEA9EdJQ==
-X-Received: by 2002:a17:906:1615:: with SMTP id m21mr10662315ejd.279.1630870852109;
-        Sun, 05 Sep 2021 12:40:52 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id o19sm3263530edr.18.2021.09.05.12.40.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Sep 2021 12:40:51 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mripard@kernel.org, wens@csie.org
-Cc: robh+dt@kernel.org, codekipper@gmail.com, peron.clem@gmail.com, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm: dts: sunxi: h3/h5: Fix I2S2 node
-Date: Sun, 05 Sep 2021 21:40:50 +0200
-Message-ID: <4281589.rpS0U0bY3j@kista>
-In-Reply-To: <20210905192628.206061-1-jernej.skrabec@gmail.com>
-References: <20210905192628.206061-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C0F3FC0
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Sep 2021 20:51:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C695960555;
+	Sun,  5 Sep 2021 20:51:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1630875082;
+	bh=EN7nU+iSum7n5Y5ag0WJ0/Ms0wLl3a2CLSEOne9eMKU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=k1j8zXVgxxMuFqM0x9KwOux+t0FYtDzewKGjBIdX19Zo5V5dfwBCHHUcs5tcXVxVt
+	 eyyyGm9bUI8Sy823GvLt+XdtkXIbo5Mu2q/oj9LXzRYQ2fzz89kX+9+TYcrJiStlxe
+	 fa1JlCmP+vKtUIO91TDcQH545ceRJ0F5pXOXbgtAbyIRICskoqeFaFZhDhXVYO7tjF
+	 A/TOifjmLSlp9e4Jn+8tgccl5ECuKkyildi0EbBQmNaLIZxKvkYrBtNIYaob+CVCrp
+	 zdpjTELz2MKAWx8R0ZhDMBTU9t8pLG1NwFTWHsuM3xhYVNbouqMu3ncRGgw6mG0R0l
+	 GWFG8VGGVkL1w==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
+References: <20210901050526.45673-1-samuel@sholland.org> <20210901050526.45673-5-samuel@sholland.org> <20210903091040.2bngsvhem2ftzhaz@gilmour> <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
+Subject: Re: [PATCH 4/8] clk: sunxi-ng: Rename files to match Kconfig and drivers
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+To: Maxime Ripard <maxime@cerno.tech>, Samuel Holland <samuel@sholland.org>
+Date: Sun, 05 Sep 2021 13:51:21 -0700
+Message-ID: <163087508158.405991.8011400324694193509@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 
-Hi all,
+Quoting Samuel Holland (2021-09-03 13:57:14)
+> Hi Maxime,
+>=20
+> On 9/3/21 4:10 AM, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, Sep 01, 2021 at 12:05:22AM -0500, Samuel Holland wrote:
+> >> When the drivers are built as modules, the file name will become the
+> >> module name. Rename the files so everything matches: the Kconfig symbo=
+l,
+> >> the platform driver name (as seen in sysfs), and the module name.
+> >>
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >=20
+> > I'm not a big fan of big renames like this, it makes merging and
+> > backporting patches harder in the long term.
+>=20
+> I can split this into two commits, first the .c files and then the .h
+> files, so everything is a 100% rename, if that makes a difference.
+>=20
+> > I assume you did this to make the module autoloading work? If so, using
+> > MODULE_ALIAS would be less intrusive
+>=20
+> Autoloading should work anyway, since there is a module alias for the
+> compatible string. This change is more about the principle of least
+> surprise. The compatible is allwinner,sun50i-a64-ccu, the Kconfig symbol
+> is SUN50I_A64_CCU, the driver name (in /sys/bus/platform/drivers) is
+> sun50i_a64_ccu, but yet the module name is ccu-sun50i-a64???
+>=20
+> Once we allow building modules, the names are ABI, and this
+> inconsistency will bother me until the end of time :)
+>=20
+> If there is a way to completely rename the module without renaming the
+> files (not adding an alias), then that would be enough for me.
 
-Dne nedelja, 05. september 2021 ob 21:26:28 CEST je Jernej Skrabec napisal(a):
-> I2S2 controller has RX DMA channel according to documentation.
-> 
+Yes. You have to use Makefile logic to make an object manually that
+renames the old one. The linker will build oldname.o as
+new-module-name.o and then make a .ko out of it if the final goal is a
+module.
 
-Sorry for mistake. This is not true. Documentation doesn't have RX DMA 
-documented (I2S2 is connected to HDMI).
-
-Marcus, do you remember if loopback mode actually works on H3, with DMA 
-enabled? Maybe DMA is there, just undocumented. Some SoCs (H6, R40) have RX 
-DMA channel documented, even though it's used for HDMI TX only, and others 
-don't (A64, H3, H5).
-
-Anyway, I got report that I2S driver from 5.14 onwards can't register 
-controller anymore due to missing RX DMA channel. So either driver or DT has 
-to be fixed.
-
-Please disregard this patch for now.
-
-Best regards,
-Jernej
-
-> Add it.
-> 
-> Fixes: cd7c897821a0 ("arm: dts: sunxi: h3/h5: Add I2S2 node")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-
-h5.dtsi
-> index c7428df9469e..bd26f2059220 100644
-> --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-> +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
-> @@ -670,9 +670,9 @@ i2s2: i2s@1c22800 {
->  			interrupts = <GIC_SPI 15 
-IRQ_TYPE_LEVEL_HIGH>;
->  			clocks = <&ccu CLK_BUS_I2S2>, <&ccu 
-CLK_I2S2>;
->  			clock-names = "apb", "mod";
-> -			dmas = <&dma 27>;
-> +			dmas = <&dma 27>, <&dma 27>;
->  			resets = <&ccu RST_BUS_I2S2>;
-> -			dma-names = "tx";
-> +			dma-names = "tx", "rx";
->  			status = "disabled";
->  		};
->  
-> -- 
-> 2.33.0
-> 
-> 
-
-
+  new-module-name-y :=3D oldname.o
+  obj-$(CONFIG_YOUR_SYMBOL_HERE) +=3D new-module-name.o
