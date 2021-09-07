@@ -1,67 +1,41 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB5A72
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 17:43:29 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id AF3A45C01B7;
-	Tue,  7 Sep 2021 13:43:28 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 07 Sep 2021 13:43:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=z
-	krYxpxmyK+adj+hCKejbSyS7Z1m9laTt+mMUb/p9ww=; b=Z+oZusxgQLEjF/bo6
-	RYFNLbH9FEKQSvdBdAkAyzYUMDDO2sc6szJ/GT57HChLT3uS4AP/8auuK9Si98Yb
-	3csQazCMiS0v6Jrb7w+uTbYZvrW7k2oIn9SHkpUeZKCsO7LYb3+V+U49YbTCnJo+
-	BP1sZaYbuwqoCqm4NPQtdvr3cSz+W1oVYRIwaY3AfBRN8NvoVlHB5tHQEoiTmBVp
-	kHSlTd1ih2q7GptCZaCpy2X0yRrZF0kASmKomYYiPTBNEJPvpVaWLSRiWXA/Ko3t
-	Z3dxckVUgXrer+kwxZzZJC2cCo51tBfBYZ+LFPFhCON932KokLrh0N5Bs8ckBE1V
-	HwtHg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=zkrYxpxmyK+adj+hCKejbSyS7Z1m9laTt+mMUb/p9
-	ww=; b=AwhVB5Hrv+dwdXAbibD2+Ww2oMXujC+0Gah1GBo6AA+FaDJNZVRzoMwDD
-	mjnVOgbXf9+jGVsTeNDpjsE6hcKSdiKL8vRBtVehVWzn8hD7j5kfAPfEOxAuNy/9
-	Ras61q5EjnT4fzEfo5XsT9NCQ9C0JotPBrekyaEagKV4isA5uonExqZULONv5ThU
-	6OsjglmYfJZZh8df0oNMgiqk2bllRMnJyd2oao+X6vk2paG/+IgSs1FB4J3zoQaD
-	n95T8eVTx+3mzsIq0rTX+ouyOgFgLzBKwebW2dXZ2POK2LGJZ1f0sS4faWrf49Xz
-	GhK2JRwu+tnkQBScsdsTA1arkD3tQ==
-X-ME-Sender: <xms:vqQ3YQUe0nVECkjDpnGJfEWf-x58VfL3S2pPxhWuD4ZBAFwFlPHkpw>
-    <xme:vqQ3YUliATyesEcOz1VGwifiLCkI6Y4dDcFQGKus1f1faycnUTQuIDk8xIdHgiP--
-    JE4YY3Wge0zf_h-5ck>
-X-ME-Received: <xmr:vqQ3YUbHkKvE2cOQVfRRiZvrwM7An87m5b1x3_OLaR-LNclJUnM0m_Yzb9vxLfeunPiNhAkgH8SHqCBwQYg8u8m0Ps5sL_BtzGzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefhedgudduiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeel
-    udegvddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vqQ3YfUoGc3Q71mZ90lqAP4mctSJssiKF4JLoTGsnAbwm6PNwFOPgw>
-    <xmx:vqQ3YalSomLBJ50F_fq4f_neAKYCAdnmUMy0ID83EZa-6iUmKaBuUg>
-    <xmx:vqQ3YUekExhWtZySiKuBnOqryGQZxj9ejuGiNt5zaG4qYx2cPL1c4g>
-    <xmx:wKQ3YcUQnBp7HDWhES8VCKOiHw2y9dIkvBKQTs3RuK8bQhoVcIJWZA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 13:43:26 -0400 (EDT)
-Date: Tue, 7 Sep 2021 19:43:24 +0200
-From: Maxime Ripard <maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CC972
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 19:09:11 +0000 (UTC)
+Received: by mail-ot1-f50.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so385728otf.6
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Sep 2021 12:09:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=y6f0OvD6qMOZIJO8Ax2BSoOx4xel1z8MSZtwDVuqZG4=;
+        b=YmDW1LSmpyno7OHdNjDi9I23ZM8VeDgcgV2056OQfDQpXFwbx6mcf8ggchaVzv3U4b
+         5hE3FN/PXzN4KVTNNIgpDczgHUta1LxHqIiaqJqyt5fUJdWF37n4Gm1yX5S6kQIavU84
+         MHbUjGKpsZ9yfK87saDv/KlIO/D4r+gw73gPpvsu90lSRnA8cgDoE18te4llWrOeIQ4I
+         pOEVZtWmS0Y7Z6647X5G43lgzPGJx681tO52rpzGrvpAXea531054ZZFCz76OD8E5FPs
+         0UqUhqS1WO7oUa9vRWIq66opwjY0nRo81u/jA+vQ8+sUJwYRQGPGGZ59KUfMDZnqTzya
+         kDKA==
+X-Gm-Message-State: AOAM531xVSYm7gcOhsqVK2YYvDBVLZkpSpuGBYbO7cfJ8tQvmTWLKGg2
+	S4XKYzXagzuDDZmL/UvRow==
+X-Google-Smtp-Source: ABdhPJwyWZEq2w/4Mwc8OOnY+ZM6/dWiGZ2obaXegjgzTgjLf0vQ0Va+W9t3AfsRWmBdCHbeme6CZQ==
+X-Received: by 2002:a9d:5a81:: with SMTP id w1mr13219426oth.307.1631041750386;
+        Tue, 07 Sep 2021 12:09:10 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id u15sm2455443oon.35.2021.09.07.12.09.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Sep 2021 12:09:09 -0700 (PDT)
+Received: (nullmailer pid 174203 invoked by uid 1000);
+	Tue, 07 Sep 2021 19:09:08 -0000
+Date: Tue, 7 Sep 2021 14:09:08 -0500
+From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/8] clk: sunxi-ng: Rename files to match Kconfig and
- drivers
-Message-ID: <20210907174324.lho3vdl2z6uealnf@gilmour>
-References: <20210901050526.45673-1-samuel@sholland.org>
- <20210901050526.45673-5-samuel@sholland.org>
- <20210903091040.2bngsvhem2ftzhaz@gilmour>
- <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
+Cc: linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, linux-watchdog@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v3 2/3] dt-bindings: watchdog: sunxi: Add compatibles for
+ D1
+Message-ID: <YTe41ClZvYS/llHF@robh.at.kernel.org>
+References: <20210902225750.29313-1-samuel@sholland.org>
+ <20210902225750.29313-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -70,52 +44,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
+In-Reply-To: <20210902225750.29313-3-samuel@sholland.org>
 
-Hi,
+On Thu, 02 Sep 2021 17:57:49 -0500, Samuel Holland wrote:
+> D1 keeps the same register layout and clock sources as the R329, but it
+> adds a key field which must be set to update the watchdog's "CFG" and
+> "MODE" registers. Therefore it is not backward-compatible.
+> 
+> Similarly to the R329, the D1 has three watchdog instances, and only one
+> of them has the "soft reset" registers. So that instance needs an extra
+> compatible string.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> Changes v2 to v3:
+>  - Add additional allwinner,sun20i-d1-wdt-reset compatible
+> Changes v1 to v2:
+>  - None
+> 
+>  .../bindings/watchdog/allwinner,sun4i-a10-wdt.yaml          | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-On Fri, Sep 03, 2021 at 03:57:14PM -0500, Samuel Holland wrote:
-> Hi Maxime,
->=20
-> On 9/3/21 4:10 AM, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Wed, Sep 01, 2021 at 12:05:22AM -0500, Samuel Holland wrote:
-> >> When the drivers are built as modules, the file name will become the
-> >> module name. Rename the files so everything matches: the Kconfig symbo=
-l,
-> >> the platform driver name (as seen in sysfs), and the module name.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >=20
-> > I'm not a big fan of big renames like this, it makes merging and
-> > backporting patches harder in the long term.
->=20
-> I can split this into two commits, first the .c files and then the .h
-> files, so everything is a 100% rename, if that makes a difference.
->=20
-> > I assume you did this to make the module autoloading work? If so, using
-> > MODULE_ALIAS would be less intrusive
->=20
-> Autoloading should work anyway, since there is a module alias for the
-> compatible string. This change is more about the principle of least
-> surprise. The compatible is allwinner,sun50i-a64-ccu, the Kconfig symbol
-> is SUN50I_A64_CCU, the driver name (in /sys/bus/platform/drivers) is
-> sun50i_a64_ccu, but yet the module name is ccu-sun50i-a64???
-
-We can't really do much for the compatible, and it's the standard
-practice there anyway. However, it looks much more common for Kconfig to
-have a pattern like $FRAMEWORK_$SOC, so maybe we could just rename the
-Kconfig (and drivers name) to CCU_SUN50I_A64? It's not been exposed to
-the defconfig so far anyway, so we can change them without any real harm
-
-> Once we allow building modules, the names are ABI, and this
-> inconsistency will bother me until the end of time :)
->=20
-> If there is a way to completely rename the module without renaming the
-> files (not adding an alias), then that would be enough for me.
-
-Otherwise, yeah, we can do what Stephen suggested
-
-Maxime
+Acked-by: Rob Herring <robh@kernel.org>
