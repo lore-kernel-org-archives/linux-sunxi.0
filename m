@@ -1,163 +1,121 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E372
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 14:44:57 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 37B0661106
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 14:44:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631025897;
-	bh=pb6uQnkJOj7jZan0UZ5W50IT54400yv6W78lHUUCqDA=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=GuVHmRa9F+YxsE7/VqZYKEPDBHgnctH14+lDJxav5wg4mIWlsd4XSaT0FeBdXyY2E
-	 Mqty3aIwOvW9OIjveu64e2UvY3NILsfErPO0daYvljrNmkPls+cmqnm+LzDIUSARCI
-	 vz5RS0+z+Rk9fAwc85Q7JzaC+oPYJJ9N5QckUU+HzkGBY3zpFl/UrFcQvkYsQVhZDj
-	 KQ7aczAbXcRK8GoMUgmaofQYXHnxTM3YaI95CoxIw+20VV6f/iq/+vtje+rvaKLNS9
-	 yYx70IBlL6juOSsJSg/UYadyELkCfKl9pKE93kavxUbf3PSG4KT0WRhKHBnCcHsgbO
-	 4cT0Y1d+YXqxw==
-Received: by mail-ed1-f54.google.com with SMTP id g8so13019590edt.7
-        for <linux-sunxi@lists.linux.dev>; Tue, 07 Sep 2021 07:44:57 -0700 (PDT)
-X-Gm-Message-State: AOAM532wJ6YVwFoywQFDLSsriYUoouCRTKOOJs9IFeYHHpFKamNGOWew
-	MqK03QZ8sOrAMOw32EbmBVylczaPvv6CjWamDA==
-X-Google-Smtp-Source: ABdhPJz35+eT13PtjAMyE1Cn8up0MviN8dZ3s6bQ7mHM7z/iu5075VVR/KfUXFoatJy0IhBX3jK0MFw2F/aL12TBWMA=
-X-Received: by 2002:a50:ed09:: with SMTP id j9mr19082569eds.164.1631025895705;
- Tue, 07 Sep 2021 07:44:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB5A72
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 17:43:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id AF3A45C01B7;
+	Tue,  7 Sep 2021 13:43:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 07 Sep 2021 13:43:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=z
+	krYxpxmyK+adj+hCKejbSyS7Z1m9laTt+mMUb/p9ww=; b=Z+oZusxgQLEjF/bo6
+	RYFNLbH9FEKQSvdBdAkAyzYUMDDO2sc6szJ/GT57HChLT3uS4AP/8auuK9Si98Yb
+	3csQazCMiS0v6Jrb7w+uTbYZvrW7k2oIn9SHkpUeZKCsO7LYb3+V+U49YbTCnJo+
+	BP1sZaYbuwqoCqm4NPQtdvr3cSz+W1oVYRIwaY3AfBRN8NvoVlHB5tHQEoiTmBVp
+	kHSlTd1ih2q7GptCZaCpy2X0yRrZF0kASmKomYYiPTBNEJPvpVaWLSRiWXA/Ko3t
+	Z3dxckVUgXrer+kwxZzZJC2cCo51tBfBYZ+LFPFhCON932KokLrh0N5Bs8ckBE1V
+	HwtHg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=zkrYxpxmyK+adj+hCKejbSyS7Z1m9laTt+mMUb/p9
+	ww=; b=AwhVB5Hrv+dwdXAbibD2+Ww2oMXujC+0Gah1GBo6AA+FaDJNZVRzoMwDD
+	mjnVOgbXf9+jGVsTeNDpjsE6hcKSdiKL8vRBtVehVWzn8hD7j5kfAPfEOxAuNy/9
+	Ras61q5EjnT4fzEfo5XsT9NCQ9C0JotPBrekyaEagKV4isA5uonExqZULONv5ThU
+	6OsjglmYfJZZh8df0oNMgiqk2bllRMnJyd2oao+X6vk2paG/+IgSs1FB4J3zoQaD
+	n95T8eVTx+3mzsIq0rTX+ouyOgFgLzBKwebW2dXZ2POK2LGJZ1f0sS4faWrf49Xz
+	GhK2JRwu+tnkQBScsdsTA1arkD3tQ==
+X-ME-Sender: <xms:vqQ3YQUe0nVECkjDpnGJfEWf-x58VfL3S2pPxhWuD4ZBAFwFlPHkpw>
+    <xme:vqQ3YUliATyesEcOz1VGwifiLCkI6Y4dDcFQGKus1f1faycnUTQuIDk8xIdHgiP--
+    JE4YY3Wge0zf_h-5ck>
+X-ME-Received: <xmr:vqQ3YUbHkKvE2cOQVfRRiZvrwM7An87m5b1x3_OLaR-LNclJUnM0m_Yzb9vxLfeunPiNhAkgH8SHqCBwQYg8u8m0Ps5sL_BtzGzw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefhedgudduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeel
+    udegvddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:vqQ3YfUoGc3Q71mZ90lqAP4mctSJssiKF4JLoTGsnAbwm6PNwFOPgw>
+    <xmx:vqQ3YalSomLBJ50F_fq4f_neAKYCAdnmUMy0ID83EZa-6iUmKaBuUg>
+    <xmx:vqQ3YUekExhWtZySiKuBnOqryGQZxj9ejuGiNt5zaG4qYx2cPL1c4g>
+    <xmx:wKQ3YcUQnBp7HDWhES8VCKOiHw2y9dIkvBKQTs3RuK8bQhoVcIJWZA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Sep 2021 13:43:26 -0400 (EDT)
+Date: Tue, 7 Sep 2021 19:43:24 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/8] clk: sunxi-ng: Rename files to match Kconfig and
+ drivers
+Message-ID: <20210907174324.lho3vdl2z6uealnf@gilmour>
+References: <20210901050526.45673-1-samuel@sholland.org>
+ <20210901050526.45673-5-samuel@sholland.org>
+ <20210903091040.2bngsvhem2ftzhaz@gilmour>
+ <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210901053951.60952-1-samuel@sholland.org> <20210901053951.60952-2-samuel@sholland.org>
- <YTDtelCx5If3J5cM@robh.at.kernel.org> <53d6d018-93bf-9bfc-e296-a232105306de@sholland.org>
-In-Reply-To: <53d6d018-93bf-9bfc-e296-a232105306de@sholland.org>
-From: Rob Herring <robh@kernel.org>
-Date: Tue, 7 Sep 2021 09:44:43 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
-Message-ID: <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
-Subject: Re: [RFC PATCH 1/7] dt-bindings: rtc: sun6i: Add H616 and R329 compatibles
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-clk <linux-clk@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1d269ff8-9219-cc0a-fda7-236bfd4b4510@sholland.org>
 
-On Fri, Sep 3, 2021 at 10:36 AM Samuel Holland <samuel@sholland.org> wrote:
->
-> On 9/2/21 10:27 AM, Rob Herring wrote:
-> > On Wed, Sep 01, 2021 at 12:39:45AM -0500, Samuel Holland wrote:
-> >> For these new SoCs, start requiring a complete list of input clocks.
-> >>
-> >> For H616, this means bus, hosc, and pll-32k. For R329, this means ahb,
-> >> bus, and hosc; and optionally ext-osc32k.
-> >>
-> >> I'm not sure how to best represent this in the binding...
+Hi,
+
+On Fri, Sep 03, 2021 at 03:57:14PM -0500, Samuel Holland wrote:
+> Hi Maxime,
+>=20
+> On 9/3/21 4:10 AM, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Wed, Sep 01, 2021 at 12:05:22AM -0500, Samuel Holland wrote:
+> >> When the drivers are built as modules, the file name will become the
+> >> module name. Rename the files so everything matches: the Kconfig symbo=
+l,
+> >> the platform driver name (as seen in sysfs), and the module name.
 > >>
 > >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 55 +++++++++++++++++--
-> >>  include/dt-bindings/clock/sun50i-rtc.h        | 12 ++++
-> >>  2 files changed, 61 insertions(+), 6 deletions(-)
-> >>  create mode 100644 include/dt-bindings/clock/sun50i-rtc.h
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> >> index beeb90e55727..3e085db1294f 100644
-> >> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> >> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-> >> @@ -26,6 +26,8 @@ properties:
-> >>            - const: allwinner,sun50i-a64-rtc
-> >>            - const: allwinner,sun8i-h3-rtc
-> >>        - const: allwinner,sun50i-h6-rtc
-> >> +      - const: allwinner,sun50i-h616-rtc
-> >> +      - const: allwinner,sun50i-r329-rtc
-> >
-> > Can you please make all the single entry cases a single 'enum'.
-> >
-> >>
-> >>    reg:
-> >>      maxItems: 1
-> >> @@ -37,7 +39,24 @@ properties:
-> >>        - description: RTC Alarm 1
-> >>
-> >>    clocks:
-> >> -    maxItems: 1
-> >> +    minItems: 1
-> >> +    maxItems: 4
-> >> +
-> >> +  clock-names:
-> >> +    minItems: 1
-> >> +    maxItems: 4
-> >> +    items:
-> >> +      - anyOf:
-> >
-> > This says the first entry is any of these. What about the rest of them?
->
-> Oh, right. The list below is the list of all possible clocks.
->
-> >> +          - const: ahb
-> >> +            description: AHB parent for SPI bus clock
-> >
-> > The description should go in 'clocks'.
->
-> Will do for v2.
->
-> > The order should be defined as well with the first clock being the
-> > one that existed previously.
->
-> The only way I know how to further refine the list is with
-> minItems/maxItems. My problem is that 1) some clocks are only valid for
-> certain SoCs, and 2) some clocks are optional, depending on how the
-> board is wired. So there is no single order where the "valid"
-> combinations are prefixes of the "possible" combinations of clocks.
->
-> Or in other words, how can I say "clocks #1 and #2 from this list are
-> required, and #4 is optional, but #3 is not allowed"?
+> >=20
+> > I'm not a big fan of big renames like this, it makes merging and
+> > backporting patches harder in the long term.
+>=20
+> I can split this into two commits, first the .c files and then the .h
+> files, so everything is a 100% rename, if that makes a difference.
+>=20
+> > I assume you did this to make the module autoloading work? If so, using
+> > MODULE_ALIAS would be less intrusive
+>=20
+> Autoloading should work anyway, since there is a module alias for the
+> compatible string. This change is more about the principle of least
+> surprise. The compatible is allwinner,sun50i-a64-ccu, the Kconfig symbol
+> is SUN50I_A64_CCU, the driver name (in /sys/bus/platform/drivers) is
+> sun50i_a64_ccu, but yet the module name is ccu-sun50i-a64???
 
-This says you have up to 4 clocks, but only defines the 1st 2:
+We can't really do much for the compatible, and it's the standard
+practice there anyway. However, it looks much more common for Kconfig to
+have a pattern like $FRAMEWORK_$SOC, so maybe we could just rename the
+Kconfig (and drivers name) to CCU_SUN50I_A64? It's not been exposed to
+the defconfig so far anyway, so we can change them without any real harm
 
-maxItems: 4
-items:
-  - description: 1st clock
-  - description: 2nd clock
+> Once we allow building modules, the names are ABI, and this
+> inconsistency will bother me until the end of time :)
+>=20
+> If there is a way to completely rename the module without renaming the
+> files (not adding an alias), then that would be enough for me.
 
-But I think you will be better off with just defining the range
-(minItems/maxItems) at the top level and then use if/then schemas.
+Otherwise, yeah, we can do what Stephen suggested
 
->
-> Some concrete examples, with the always-required clocks moved to the
-> beginning:
->
-> H6:
->  - bus: required
->  - hosc: required
->  - ahb: not allowed
->  - ext-osc32k: optional
->  - pll-32k: not allowed
-
-Is this really 2 different 32k clock inputs to the h/w block? Doesn't
-seem like it given both are never valid.
-
->
-> H616:
->  - bus: required
->  - hosc: required
->  - ahb: not allowed
->  - ext-osc32k: not allowed
->  - pll-32k: required
->
-> R329:
->  - bus: required
->  - hosc: required
->  - ahb: required
->  - ext-osc32k: optional
->  - pll-32k: not allowed
->
-> Should I just move the entire clocks/clock-items properties to if/then
-> blocks based on the compatible?
-
-Probably so.
-
-Rob
+Maxime
