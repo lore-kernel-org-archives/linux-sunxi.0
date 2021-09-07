@@ -1,67 +1,163 @@
-Received: from baidu.com (mx20.baidu.com [111.202.115.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CBEE72
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 08:53:26 +0000 (UTC)
-Received: from BC-Mail-Ex10.internal.baidu.com (unknown [172.31.51.50])
-	by Forcepoint Email with ESMTPS id 2C61F9366C515B109760;
-	Tue,  7 Sep 2021 16:53:26 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex10.internal.baidu.com (172.31.51.50) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Tue, 7 Sep 2021 16:53:25 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Tue, 7 Sep 2021 16:53:25 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: =?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>, Michael Turquette
-	<mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Maxime Ripard
-	<mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, <linux-clk@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] clk: sunxi: sun8i-apb0: Make use of the helper function devm_platform_ioremap_resource()
-Date: Tue, 7 Sep 2021 16:53:19 +0800
-Message-ID: <20210907085319.5121-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF8E372
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 14:44:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 37B0661106
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 14:44:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1631025897;
+	bh=pb6uQnkJOj7jZan0UZ5W50IT54400yv6W78lHUUCqDA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=GuVHmRa9F+YxsE7/VqZYKEPDBHgnctH14+lDJxav5wg4mIWlsd4XSaT0FeBdXyY2E
+	 Mqty3aIwOvW9OIjveu64e2UvY3NILsfErPO0daYvljrNmkPls+cmqnm+LzDIUSARCI
+	 vz5RS0+z+Rk9fAwc85Q7JzaC+oPYJJ9N5QckUU+HzkGBY3zpFl/UrFcQvkYsQVhZDj
+	 KQ7aczAbXcRK8GoMUgmaofQYXHnxTM3YaI95CoxIw+20VV6f/iq/+vtje+rvaKLNS9
+	 yYx70IBlL6juOSsJSg/UYadyELkCfKl9pKE93kavxUbf3PSG4KT0WRhKHBnCcHsgbO
+	 4cT0Y1d+YXqxw==
+Received: by mail-ed1-f54.google.com with SMTP id g8so13019590edt.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Sep 2021 07:44:57 -0700 (PDT)
+X-Gm-Message-State: AOAM532wJ6YVwFoywQFDLSsriYUoouCRTKOOJs9IFeYHHpFKamNGOWew
+	MqK03QZ8sOrAMOw32EbmBVylczaPvv6CjWamDA==
+X-Google-Smtp-Source: ABdhPJz35+eT13PtjAMyE1Cn8up0MviN8dZ3s6bQ7mHM7z/iu5075VVR/KfUXFoatJy0IhBX3jK0MFw2F/aL12TBWMA=
+X-Received: by 2002:a50:ed09:: with SMTP id j9mr19082569eds.164.1631025895705;
+ Tue, 07 Sep 2021 07:44:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex09.internal.baidu.com (172.31.51.49) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+References: <20210901053951.60952-1-samuel@sholland.org> <20210901053951.60952-2-samuel@sholland.org>
+ <YTDtelCx5If3J5cM@robh.at.kernel.org> <53d6d018-93bf-9bfc-e296-a232105306de@sholland.org>
+In-Reply-To: <53d6d018-93bf-9bfc-e296-a232105306de@sholland.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 7 Sep 2021 09:44:43 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
+Message-ID: <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/7] dt-bindings: rtc: sun6i: Add H616 and R329 compatibles
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-clk <linux-clk@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
+On Fri, Sep 3, 2021 at 10:36 AM Samuel Holland <samuel@sholland.org> wrote:
+>
+> On 9/2/21 10:27 AM, Rob Herring wrote:
+> > On Wed, Sep 01, 2021 at 12:39:45AM -0500, Samuel Holland wrote:
+> >> For these new SoCs, start requiring a complete list of input clocks.
+> >>
+> >> For H616, this means bus, hosc, and pll-32k. For R329, this means ahb,
+> >> bus, and hosc; and optionally ext-osc32k.
+> >>
+> >> I'm not sure how to best represent this in the binding...
+> >>
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 55 +++++++++++++++++--
+> >>  include/dt-bindings/clock/sun50i-rtc.h        | 12 ++++
+> >>  2 files changed, 61 insertions(+), 6 deletions(-)
+> >>  create mode 100644 include/dt-bindings/clock/sun50i-rtc.h
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> >> index beeb90e55727..3e085db1294f 100644
+> >> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> >> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+> >> @@ -26,6 +26,8 @@ properties:
+> >>            - const: allwinner,sun50i-a64-rtc
+> >>            - const: allwinner,sun8i-h3-rtc
+> >>        - const: allwinner,sun50i-h6-rtc
+> >> +      - const: allwinner,sun50i-h616-rtc
+> >> +      - const: allwinner,sun50i-r329-rtc
+> >
+> > Can you please make all the single entry cases a single 'enum'.
+> >
+> >>
+> >>    reg:
+> >>      maxItems: 1
+> >> @@ -37,7 +39,24 @@ properties:
+> >>        - description: RTC Alarm 1
+> >>
+> >>    clocks:
+> >> -    maxItems: 1
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >> +
+> >> +  clock-names:
+> >> +    minItems: 1
+> >> +    maxItems: 4
+> >> +    items:
+> >> +      - anyOf:
+> >
+> > This says the first entry is any of these. What about the rest of them?
+>
+> Oh, right. The list below is the list of all possible clocks.
+>
+> >> +          - const: ahb
+> >> +            description: AHB parent for SPI bus clock
+> >
+> > The description should go in 'clocks'.
+>
+> Will do for v2.
+>
+> > The order should be defined as well with the first clock being the
+> > one that existed previously.
+>
+> The only way I know how to further refine the list is with
+> minItems/maxItems. My problem is that 1) some clocks are only valid for
+> certain SoCs, and 2) some clocks are optional, depending on how the
+> board is wired. So there is no single order where the "valid"
+> combinations are prefixes of the "possible" combinations of clocks.
+>
+> Or in other words, how can I say "clocks #1 and #2 from this list are
+> required, and #4 is optional, but #3 is not allowed"?
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/clk/sunxi/clk-sun8i-apb0.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+This says you have up to 4 clocks, but only defines the 1st 2:
 
-diff --git a/drivers/clk/sunxi/clk-sun8i-apb0.c b/drivers/clk/sunxi/clk-sun8i-apb0.c
-index fc5d6e3b77d1..f605ecca879f 100644
---- a/drivers/clk/sunxi/clk-sun8i-apb0.c
-+++ b/drivers/clk/sunxi/clk-sun8i-apb0.c
-@@ -87,12 +87,10 @@ CLK_OF_DECLARE_DRIVER(sun8i_a23_apb0, "allwinner,sun8i-a23-apb0-clk",
- static int sun8i_a23_apb0_clk_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
--	struct resource *r;
- 	void __iomem *reg;
- 	struct clk *clk;
- 
--	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	reg = devm_ioremap_resource(&pdev->dev, r);
-+	reg = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(reg))
- 		return PTR_ERR(reg);
- 
--- 
-2.25.1
+maxItems: 4
+items:
+  - description: 1st clock
+  - description: 2nd clock
 
+But I think you will be better off with just defining the range
+(minItems/maxItems) at the top level and then use if/then schemas.
+
+>
+> Some concrete examples, with the always-required clocks moved to the
+> beginning:
+>
+> H6:
+>  - bus: required
+>  - hosc: required
+>  - ahb: not allowed
+>  - ext-osc32k: optional
+>  - pll-32k: not allowed
+
+Is this really 2 different 32k clock inputs to the h/w block? Doesn't
+seem like it given both are never valid.
+
+>
+> H616:
+>  - bus: required
+>  - hosc: required
+>  - ahb: not allowed
+>  - ext-osc32k: not allowed
+>  - pll-32k: required
+>
+> R329:
+>  - bus: required
+>  - hosc: required
+>  - ahb: required
+>  - ext-osc32k: optional
+>  - pll-32k: not allowed
+>
+> Should I just move the entire clocks/clock-items properties to if/then
+> blocks based on the compatible?
+
+Probably so.
+
+Rob
