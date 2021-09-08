@@ -1,69 +1,84 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CC972
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Sep 2021 19:09:11 +0000 (UTC)
-Received: by mail-ot1-f50.google.com with SMTP id m7-20020a9d4c87000000b0051875f56b95so385728otf.6
-        for <linux-sunxi@lists.linux.dev>; Tue, 07 Sep 2021 12:09:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=y6f0OvD6qMOZIJO8Ax2BSoOx4xel1z8MSZtwDVuqZG4=;
-        b=YmDW1LSmpyno7OHdNjDi9I23ZM8VeDgcgV2056OQfDQpXFwbx6mcf8ggchaVzv3U4b
-         5hE3FN/PXzN4KVTNNIgpDczgHUta1LxHqIiaqJqyt5fUJdWF37n4Gm1yX5S6kQIavU84
-         MHbUjGKpsZ9yfK87saDv/KlIO/D4r+gw73gPpvsu90lSRnA8cgDoE18te4llWrOeIQ4I
-         pOEVZtWmS0Y7Z6647X5G43lgzPGJx681tO52rpzGrvpAXea531054ZZFCz76OD8E5FPs
-         0UqUhqS1WO7oUa9vRWIq66opwjY0nRo81u/jA+vQ8+sUJwYRQGPGGZ59KUfMDZnqTzya
-         kDKA==
-X-Gm-Message-State: AOAM531xVSYm7gcOhsqVK2YYvDBVLZkpSpuGBYbO7cfJ8tQvmTWLKGg2
-	S4XKYzXagzuDDZmL/UvRow==
-X-Google-Smtp-Source: ABdhPJwyWZEq2w/4Mwc8OOnY+ZM6/dWiGZ2obaXegjgzTgjLf0vQ0Va+W9t3AfsRWmBdCHbeme6CZQ==
-X-Received: by 2002:a9d:5a81:: with SMTP id w1mr13219426oth.307.1631041750386;
-        Tue, 07 Sep 2021 12:09:10 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id u15sm2455443oon.35.2021.09.07.12.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Sep 2021 12:09:09 -0700 (PDT)
-Received: (nullmailer pid 174203 invoked by uid 1000);
-	Tue, 07 Sep 2021 19:09:08 -0000
-Date: Tue, 7 Sep 2021 14:09:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, linux-watchdog@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v3 2/3] dt-bindings: watchdog: sunxi: Add compatibles for
- D1
-Message-ID: <YTe41ClZvYS/llHF@robh.at.kernel.org>
-References: <20210902225750.29313-1-samuel@sholland.org>
- <20210902225750.29313-3-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3026572
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 02:22:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 0E61B320039A;
+	Tue,  7 Sep 2021 22:22:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Tue, 07 Sep 2021 22:22:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	subject:to:cc:references:from:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=K
+	BQJ2htm+9uNSNpB1V4iykXXKdsWXwGHJy4WSWj9p/Q=; b=lUJ3LpEP6r98th3O0
+	4K+5iB0uku7U1jSOK/WhRYiypKj9nt7ZogjFa+Fm66/6Z8M1KRoFx3VZXUZMW5S/
+	qWpEFpZ3HHtof6Bi1Pd+hORgHnB8f/fSNuDk1Rx7ZSGQ0RERuSiyzenegbRxKVDt
+	RiKDUiHQAqKe9mhe5pqP1wgWPaO3hTKWEF0ePZZ7Yd0ZuvmNJNk4WfrhkonG3Rvp
+	y/6zJTS0cMy/fYFbtGBm35Wb9pS7vg9KfswZxgTCREWv3C6A9VZzCxBLA06c2Dw1
+	XK36GNt+oXpgiVEwgkqeZPyQEaP/PInSm9jPUDpKlTt1pieP9hSoaSt/6L3AmMaL
+	mgVDA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=KBQJ2htm+9uNSNpB1V4iykXXKdsWXwGHJy4WSWj9p
+	/Q=; b=GqKyIaWF9Rg4lLQtqUrcB6Q8Mg+DHcisLXb6tPIuvcoO0Km2/0DpNmm4K
+	8Y7BXPAf7UMCwiYGERbbHtpqoFeK5VXTh9/tqxlw+9ptaVG7sR8o8vOsv02CMD7S
+	+sxu6Mtw0x6uqfxw5dVZqpXNyt4TfPbfKPNEqMewDxjDcDIPZJXtU4Dmunf3/CoA
+	E68tg9HeTcpDx+bt7/AKRdJwzdf1jv1ijHDt9j06r2sj7P8NnbL3i9b8PlYvdTjR
+	DN7NMa8eXYCpGoWhBia74lUhJgA7C/fOUIuHqJ04z2zzZBO2VHeOR20eH0+q7EkJ
+	9sfHN7jnVh+6Pj5Ucg09aCpemlHCg==
+X-ME-Sender: <xms:cR44YfDcO0OZ7yVf7qw7FKwEJWqFCygHTI_X-MybMuLvr0Wu6FGALw>
+    <xme:cR44YVjOMn66_rCD5pp3BDmvo2bWyLlQN13MrroHU19i4af5ghzUpNFsZ1MsKIfqA
+    G_-5qfkEFv4LkBECg>
+X-ME-Received: <xmr:cR44YalDheHy-e836mfcc8MrXLEBS_vNz7Jfc9vnZLUtPhRVq-HeD5H2r1kFxuxLCBLjZYh5X1VYGilZwkDGjKRda93sw_TDC7eSxXyjefV3r-zDGDMbACEW1A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:cR44YRwRN_MmVcL7Z05EG1q1xe4egkawkUalaZ-dVv02Q12DEU7IcQ>
+    <xmx:cR44YUQ15VGKT-eHqKDByJnYmNHQWwJMCVoVnvs4nHnd71mPwlLW3g>
+    <xmx:cR44YUZiCWBgdwPOm1UppSHBnj7ZtKiPs7-uZn-r9USJWk_-LNT_Lw>
+    <xmx:cx44YTFeGlIIrsXmGY3hPaxJxt8bsYR3MV8UCufFSY91Xy8lUY77aw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Sep 2021 22:22:41 -0400 (EDT)
+Subject: Re: [PATCH] mailbox: sun6i: Make use of the helper function
+ devm_platform_ioremap_resource()
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Jassi Brar <jassisinghbrar@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20210907074201.2553-1-caihuoqing@baidu.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <0d8c959b-d256-921c-e6a4-2f99e298b9cc@sholland.org>
+Date: Tue, 7 Sep 2021 21:22:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210902225750.29313-3-samuel@sholland.org>
+In-Reply-To: <20210907074201.2553-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, 02 Sep 2021 17:57:49 -0500, Samuel Holland wrote:
-> D1 keeps the same register layout and clock sources as the R329, but it
-> adds a key field which must be set to update the watchdog's "CFG" and
-> "MODE" registers. Therefore it is not backward-compatible.
+On 9/7/21 2:42 AM, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
 > 
-> Similarly to the R329, the D1 has three watchdog instances, and only one
-> of them has the "soft reset" registers. So that instance needs an extra
-> compatible string.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 > ---
-> Changes v2 to v3:
->  - Add additional allwinner,sun20i-d1-wdt-reset compatible
-> Changes v1 to v2:
->  - None
-> 
->  .../bindings/watchdog/allwinner,sun4i-a10-wdt.yaml          | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
+>  drivers/mailbox/sun6i-msgbox.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
