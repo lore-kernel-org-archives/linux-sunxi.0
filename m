@@ -1,54 +1,80 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FAFD72
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 06:52:02 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mNr9I-0007Wr-61; Wed, 08 Sep 2021 08:33:32 +0200
-Received: from pza by lupine with local (Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1mNr9G-0002oS-8y; Wed, 08 Sep 2021 08:33:30 +0200
-Message-ID: <688d0dc9fd83e98e0a7ed9d8d166e232e75031c6.camel@pengutronix.de>
-Subject: Re: [PATCH 2/3] Input: sun4i-lradc-keys: Add optional clock/reset
- support
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Samuel Holland <samuel@sholland.org>, Dmitry Torokhov
- <dmitry.torokhov@gmail.com>, Hans de Goede <hdegoede@redhat.com>, Rob
- Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-input@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 08 Sep 2021 08:33:30 +0200
-In-Reply-To: <20210908034016.24119-3-samuel@sholland.org>
-References: <20210908034016.24119-1-samuel@sholland.org>
-	 <20210908034016.24119-3-samuel@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+Received: from baidu.com (mx21.baidu.com [220.181.3.85])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE13372
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 07:11:32 +0000 (UTC)
+Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
+	by Forcepoint Email with ESMTPS id 607D8EDA2FE6260E1176;
+	Wed,  8 Sep 2021 15:11:31 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Wed, 8 Sep 2021 15:11:31 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Wed, 8 Sep 2021 15:11:30 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <caihuoqing@baidu.com>
+CC: Neil Armstrong <narmstrong@baylibre.com>, Kevin Hilman
+	<khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, "Martin
+ Blumenstingl" <martin.blumenstingl@googlemail.com>,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>, Florian Fainelli
+	<f.fainelli@gmail.com>, <bcm-kernel-feedback-list@broadcom.com>, Li Yang
+	<leoyang.li@nxp.com>, Krzysztof Halasa <khalasa@piap.pl>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai
+	<wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Thierry Reding
+	<thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, "Santosh
+ Shilimkar" <ssantosh@kernel.org>, Nishanth Menon <nm@ti.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
+	<linux-mips@vger.kernel.org>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-mediatek@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-tegra@vger.kernel.org>
+Subject: [PATCH 1/2] soc: amlogic: canvas: Make use of the helper function devm_platform_ioremap_resource()
+Date: Wed, 8 Sep 2021 15:11:11 +0800
+Message-ID: <20210908071123.348-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 
-On Tue, 2021-09-07 at 22:40 -0500, Samuel Holland wrote:
-> Until the R329, the LRADC hardware was always active. Now it requires
-> enabling a clock gate and deasserting a reset line. Do this if the clock
-> and reset are provided in the device tree, but keep them optional to
-> maintain support for the existing binding.
->=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Use the devm_platform_ioremap_resource() helper instead of
+calling platform_get_resource() and devm_ioremap_resource()
+separately
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+ drivers/soc/amlogic/meson-canvas.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-regards
-Philipp
+diff --git a/drivers/soc/amlogic/meson-canvas.c b/drivers/soc/amlogic/meson-canvas.c
+index d0329ad170d1..383b0cfc584e 100644
+--- a/drivers/soc/amlogic/meson-canvas.c
++++ b/drivers/soc/amlogic/meson-canvas.c
+@@ -168,7 +168,6 @@ EXPORT_SYMBOL_GPL(meson_canvas_free);
+ 
+ static int meson_canvas_probe(struct platform_device *pdev)
+ {
+-	struct resource *res;
+ 	struct meson_canvas *canvas;
+ 	struct device *dev = &pdev->dev;
+ 
+@@ -176,8 +175,7 @@ static int meson_canvas_probe(struct platform_device *pdev)
+ 	if (!canvas)
+ 		return -ENOMEM;
+ 
+-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	canvas->reg_base = devm_ioremap_resource(dev, res);
++	canvas->reg_base = devm_platform_ioremap_resource(pdev, 0);
+ 	if (IS_ERR(canvas->reg_base))
+ 		return PTR_ERR(canvas->reg_base);
+ 
+-- 
+2.25.1
+
