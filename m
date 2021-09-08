@@ -1,207 +1,98 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B330772
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 02:26:17 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailnew.west.internal (Postfix) with ESMTP id 7C98F2B0027C;
-	Tue,  7 Sep 2021 22:26:16 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 07 Sep 2021 22:26:17 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97EA72
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 03:02:44 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id AE8802B0028E;
+	Tue,  7 Sep 2021 23:02:43 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:02:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=e
-	KnyYOS2v782jSePg7xdkP7npAfnDnVRMX0yx7qLjeE=; b=ix6wRrcGWQmnPM2q5
-	jPwq1ukeQGIb2k9xJJSZyjp1c9TpGgLBHYfiQKRAUf7MPlnosKsFN7iqxxM3vBJF
-	Iab7ePyQsMDFabsabI+/KO0Kp7nhUk2j4GXmiNdWp0y8uPn6MGojc0WkCtX+GjSB
-	NCrq39LaFca5OqYUawOzAHNMIrDAs+ejZnP/nbCTLe8oKpo2dXI8MlEDa5s0aT7L
-	soUuZySCPHcF3qPLDi67IvfSJFYeh/sgRc8Hw1h7+tx/W62m0qCH9chSfxCpP/Og
-	PZnl3RZLUqSLPzehubcIdBQfFQTY0aqXOekm+P5b268l2LN7aNoMja1sJgbW9jj5
-	uOTbw==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=yugISvk6ahKA18WyB5Dtl/32FJ
+	Cm7tuQeJ17QqmQL+w=; b=hAUo83B+FMlXPMEVpLpjYZ5LAihaKxQikF0NdWeR7e
+	qel8VhdrrQKPG9S1MRCKP2sR6bQmtYcepYOp3fEv99AtQ6b5JabKZYuKP94KU/4b
+	cTnHbTB0I8s6gYFbaXD3Arrr9nmWsG/UbJAIC4/iQoHBRMdAYIlen5+wmWSLZ7bJ
+	H+4O/xyaK3cSp0d3DkeIWBoGKrgZtwALLdgRO2E2koRI/I9dr1pvaebZlieJ70uG
+	Fqa8Xd5Fpz1EyO+2nvLb2sNbufoM4KJ31c7iJAgToF8igvSAexQXaBMZ65j8H1sN
+	mz9QIkF4Y5NIjRnQlSjyL0Gmojt7pGSBLybqedQzenPg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=eKnyYOS2v782jSePg7xdkP7npAfnDnVRMX0yx7qLj
-	eE=; b=i86/NE/TaKJwB4dmLA8GlS60zzbqRoHFIOh4swDBZ7yjGrvj0OcvMsSTj
-	WhZK3Lm/xPAtoXGBIaS7e3dcZbYXbMqpsW+xehauntd1IYsCTHH/0A9+BiN1HwNj
-	qkkDGCYKxKaIPk7mIXng1Lo44DggDC6OVewrPM+EiVd6Al704kYm4lqk6Yv7iAhq
-	aYKOu+nmjkB5N7bX+tZIiZajePRJmMyXUTH650HPlEA5jedxlbGH02depu+JcPsI
-	z5CngEzR8EEYB7mqTefyIFfADtCVZCJPTImG3+D1I9EImolsrb7vZNPtfDfq1WO9
-	O13md6cqo6RxcoS5y3HNeck5aNpBQ==
-X-ME-Sender: <xms:Rx84YRdhK0A5zQojiQIiPUsZ7gRMeVHU7A1NYtTsl5zAdzyiZx_UkQ>
-    <xme:Rx84YfMc3QZk7f98L_lKKgR5Jrrz1N4nbyPPm_JtdU1detyZop8FkdEene6la9vc6
-    9MOTrIY_H-8JRZO8g>
-X-ME-Received: <xmr:Rx84Yaj9i_WPCvIP3-SPqUrc0jVJQUq-eTA9-XH49mFKO_3AsMwuee_tBAockSP50aV-Uud7_EwCyJBbjsRgFT7C7grdN3nXBrPZVHlX7wCZp_Jkad9SyoG_kg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgheehucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yugISvk6ahKA18WyB
+	5Dtl/32FJCm7tuQeJ17QqmQL+w=; b=X/Dl81qj11QfzZ/yV8DcvSiRgQbZKdkSW
+	JhMKvHQWeNZLiDFaiXoKlfyZqJKy7jnDcrezyB6wbzbtR0sZUfw6rX4KLceZo4n3
+	kpZn0RDd+MyPqr/NZSwk8tKvm76IZCFbjd+JwCaw8myN/5w2AmvykThu0rBuOOI5
+	4jgPjuGZxs+YsplpB+gzj30BcgIBgFpcllKjz+86bJiPBrb8TW5eS+vKoMxThiZP
+	oa1BdhvUprgfxUj4VgFtYY2Mum4i0MoyzpavGIVI+ovMgVRfxIl+UV0uBm6TINmq
+	gfBsXtzWnXab92cLVgzp1pd9YJM3SGGhvMiixv9b9Y2N5q5bRtobA==
+X-ME-Sender: <xms:0ic4Yf4fpAnkqMXlG3Jt7tP90KXlkcqBerJY6T727wXefLyKlfcMqw>
+    <xme:0ic4YU7vvZngDWuDEkoDIZ02v0AoeoZOiJ--8pIVk1LNFTYdyjk-bvIauHqzEmz_l
+    qfspz9_lBj9e38QrA>
+X-ME-Received: <xmr:0ic4YWdQJ1KkhGJI7aPSVRjxKIKzj5NnSvj1qR-Qxj98sVdawxK-TuXFq5CQuGCKaueZxwlYTEVFhUV5GN-yzajwflWM021fzaoku3LdBEgsKwbbZwFP5IRZMe73ngeMpTmU9A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgieefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
-    hedtfeevuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Rx84Ya9cQx7iRtuj6ysYroa66quK2rVA6kmgAZHua-4Gz1KPo8Bapw>
-    <xmx:Rx84Ydt0i9cjqQoeKmhyW7vcOA_u3BCO2vrDGBXyTpsesnb2z4asWg>
-    <xmx:Rx84YZEfKDYodQw-iPRmZKG5VGmMjI_BkuN9xwviB-_7SeHMrjEV6A>
-    <xmx:SB84YTIHNfI_YzmKdVPAPQlXK2mPQqyKPxQN0x90vos8Viy3jVWjg2kggIk>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:0ic4YQIy0QL8QuNoa5oz7hrMxPYLM6gVeTcCj_Up7gYpXfZC-bMDMw>
+    <xmx:0ic4YTLbGzgPudMc2iQQXUbKxD9EfSOCbaeVzQ9MS9dQt8M6UMorQg>
+    <xmx:0ic4YZzcydncsRtC-Q3QgnhPN7FdDjnz4voyVvHr3lMZOZQBQ7rtHA>
+    <xmx:0yc4YQCe1xku8365-WRlDPGqmzFJbemBpLrLjicGFhkd5U5kxBbyW-rtLKs>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 22:26:14 -0400 (EDT)
-To: Rob Herring <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
- linux-clk <linux-clk@vger.kernel.org>, linux-sunxi@lists.linux.dev,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20210901053951.60952-1-samuel@sholland.org>
- <20210901053951.60952-2-samuel@sholland.org>
- <YTDtelCx5If3J5cM@robh.at.kernel.org>
- <53d6d018-93bf-9bfc-e296-a232105306de@sholland.org>
- <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
+ 7 Sep 2021 23:02:41 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [RFC PATCH 1/7] dt-bindings: rtc: sun6i: Add H616 and R329
- compatibles
-Message-ID: <80fb6869-4955-25a1-ed1c-118dbf61b206@sholland.org>
-Date: Tue, 7 Sep 2021 21:26:14 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+To: "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Guo Ren <guoren@kernel.org>,
+	devicetree@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH] dt-bindings: net: sun8i-emac: Add compatible for D1
+Date: Tue,  7 Sep 2021 22:02:40 -0500
+Message-Id: <20210908030240.9007-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAL_JsqKQ-9EWLPah2+q0=Y9viES1FSMS2_Mq6Kw-dMkN=rAhyQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 9/7/21 9:44 AM, Rob Herring wrote:
-> On Fri, Sep 3, 2021 at 10:36 AM Samuel Holland <samuel@sholland.org> wrote:
->>
->> On 9/2/21 10:27 AM, Rob Herring wrote:
->>> On Wed, Sep 01, 2021 at 12:39:45AM -0500, Samuel Holland wrote:
->>>> For these new SoCs, start requiring a complete list of input clocks.
->>>>
->>>> For H616, this means bus, hosc, and pll-32k. For R329, this means ahb,
->>>> bus, and hosc; and optionally ext-osc32k.
->>>>
->>>> I'm not sure how to best represent this in the binding...
->>>>
->>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>>> ---
->>>>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 55 +++++++++++++++++--
->>>>  include/dt-bindings/clock/sun50i-rtc.h        | 12 ++++
->>>>  2 files changed, 61 insertions(+), 6 deletions(-)
->>>>  create mode 100644 include/dt-bindings/clock/sun50i-rtc.h
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>> index beeb90e55727..3e085db1294f 100644
->>>> --- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>> +++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
->>>> @@ -26,6 +26,8 @@ properties:
->>>>            - const: allwinner,sun50i-a64-rtc
->>>>            - const: allwinner,sun8i-h3-rtc
->>>>        - const: allwinner,sun50i-h6-rtc
->>>> +      - const: allwinner,sun50i-h616-rtc
->>>> +      - const: allwinner,sun50i-r329-rtc
->>>
->>> Can you please make all the single entry cases a single 'enum'.
->>>
->>>>
->>>>    reg:
->>>>      maxItems: 1
->>>> @@ -37,7 +39,24 @@ properties:
->>>>        - description: RTC Alarm 1
->>>>
->>>>    clocks:
->>>> -    maxItems: 1
->>>> +    minItems: 1
->>>> +    maxItems: 4
->>>> +
->>>> +  clock-names:
->>>> +    minItems: 1
->>>> +    maxItems: 4
->>>> +    items:
->>>> +      - anyOf:
->>>
->>> This says the first entry is any of these. What about the rest of them?
->>
->> Oh, right. The list below is the list of all possible clocks.
->>
->>>> +          - const: ahb
->>>> +            description: AHB parent for SPI bus clock
->>>
->>> The description should go in 'clocks'.
->>
->> Will do for v2.
->>
->>> The order should be defined as well with the first clock being the
->>> one that existed previously.
->>
->> The only way I know how to further refine the list is with
->> minItems/maxItems. My problem is that 1) some clocks are only valid for
->> certain SoCs, and 2) some clocks are optional, depending on how the
->> board is wired. So there is no single order where the "valid"
->> combinations are prefixes of the "possible" combinations of clocks.
->>
->> Or in other words, how can I say "clocks #1 and #2 from this list are
->> required, and #4 is optional, but #3 is not allowed"?
-> 
-> This says you have up to 4 clocks, but only defines the 1st 2:
-> 
-> maxItems: 4
-> items:
->   - description: 1st clock
->   - description: 2nd clock
-> 
-> But I think you will be better off with just defining the range
-> (minItems/maxItems) at the top level and then use if/then schemas.
+The D1 SoC contains EMAC hardware which is compatible with the A64 EMAC.
+Add the new compatible string, with the A64 as a fallback.
 
-Ah, thanks for the suggestions.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+ .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml    | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->>
->> Some concrete examples, with the always-required clocks moved to the
->> beginning:
->>
->> H6:
->>  - bus: required
->>  - hosc: required
->>  - ahb: not allowed
->>  - ext-osc32k: optional
->>  - pll-32k: not allowed
-> 
-> Is this really 2 different 32k clock inputs to the h/w block? Doesn't
-> seem like it given both are never valid.
-
-Yes, there are two separate 32k inputs. Both are valid at the same time
-on some SoCs like T5 (patch 7), but not on any of those I listed here.
-
-Regards,
-Samuel
-
->>
->> H616:
->>  - bus: required
->>  - hosc: required
->>  - ahb: not allowed
->>  - ext-osc32k: not allowed
->>  - pll-32k: required
->>
->> R329:
->>  - bus: required
->>  - hosc: required
->>  - ahb: required
->>  - ext-osc32k: optional
->>  - pll-32k: not allowed
->>
->> Should I just move the entire clocks/clock-items properties to if/then
->> blocks based on the compatible?
-> 
-> Probably so.
-> 
-> Rob
-> 
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+index 7f2578d48e3f..9eb4bb529ad5 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+@@ -19,7 +19,9 @@ properties:
+       - const: allwinner,sun8i-v3s-emac
+       - const: allwinner,sun50i-a64-emac
+       - items:
+-          - const: allwinner,sun50i-h6-emac
++          - enum:
++              - allwinner,sun20i-d1-emac
++              - allwinner,sun50i-h6-emac
+           - const: allwinner,sun50i-a64-emac
+ 
+   reg:
+-- 
+2.31.1
 
