@@ -1,69 +1,100 @@
-Received: from baidu.com (mx21.baidu.com [220.181.3.85])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B33B72
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 07:17:23 +0000 (UTC)
-Received: from BJHW-Mail-Ex15.internal.baidu.com (unknown [10.127.64.38])
-	by Forcepoint Email with ESMTPS id 454A2FD7F629CE20DA80;
-	Wed,  8 Sep 2021 15:17:22 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 8 Sep 2021 15:17:22 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 8 Sep 2021 15:17:21 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "Jernej
- Skrabec" <jernej.skrabec@gmail.com>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] soc: sunxi_sram: Make use of the helper function devm_platform_ioremap_resource()
-Date: Wed, 8 Sep 2021 15:17:15 +0800
-Message-ID: <20210908071716.772-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4619B72
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 07:28:52 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 13A525C00A9;
+	Wed,  8 Sep 2021 03:28:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 08 Sep 2021 03:28:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=UH/Fz+ngRvuAMDOLvef7SxJD8KQ
+	e+wo5ukPSXQ4O0+8=; b=PD9RdzzNeHkgqQQTE/Iuearr2/sG2Hn1QBl4lYtW/UG
+	ppitm/ht945tYG2EMhqV71i2gGhMxOshfgWiP21mVbb5omWBHdIUgHJSvjur8kwq
+	qgqTyez9wvp/0vfv4SRdn22k0RRWKQ9NpIbi5hOuTzs3IhciD9faS2icI2/w1g5c
+	h1OglWYv3NPer+bKBNB99KgdcPIrksbgYb6eSo/CArtWHjgEXQtJw1P5RFcR0FOw
+	bd0An7XfCCwM26aSlPjGsq35ssu3LONtDA+MQUQ2yABJk8TAmnETaulcnn99a6Fa
+	ZUk6JE6yrG3LBVlwxdZgqGR61cC19H/uRjZEsAeKf6Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=UH/Fz+
+	ngRvuAMDOLvef7SxJD8KQe+wo5ukPSXQ4O0+8=; b=oadT05wDcUU6XWi1Pp2v2f
+	WTpz7mrEw2hC7yySC0I9ISKsjhg2EkC0+DK0Gxjk57mSQfG0oVP2o0HOkr1vZLS8
+	9sejBTW2BVMjfDvmMNUQY9ktvvDQWfz1GuquKT3YWrA9xsmKRqiaMwfY+b3xeBJk
+	gqh6Ac6WgIXgQhxdN7pmtKGk2ADCV90e/9D+MAVgLSNXXFl/NXji2eEW6t307CCm
+	XkxeLDc6fq1tJszBB66xtVjl2Y+O6sqlC59v7UloxZZJQzCXn1qam0kh0FrPM9M+
+	dm7SaC41FmtPCa9bU9NCsbtqWZdT+UCh7PPjqw4pc2jMSK/T5oivq99Ir4Ra7jeA
+	==
+X-ME-Sender: <xms:MmY4YUJ_CDY_z6kH89hnS376Haigb5nV4-xpcuVj1UL9kKYd6A06zA>
+    <xme:MmY4YUKXwXjORLBnL5JnMj-WCLgNaareSAc_XT8dATkYg--rUApcfDR1E3adAjzcb
+    9fZsG0G8MXqNtQ33w4>
+X-ME-Received: <xmr:MmY4YUsLi_xaRhHFNHnTtgJGJT7ZcK0anOw53loLlOBRLhzZMFqDcjYN7HaWbGRp3IOK4-M4T4QomStuBKW5hHuRiYMFsvTO7aGg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgudduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:MmY4YRadYCvBdhxgL3aH377b5GcW9KrjR2QywQgHP5CmBbaI05n5MQ>
+    <xmx:MmY4YbZq0GXSamh02nhUavKwHGjwXgj-Sc1NhvMtQpBrt3xYkQ7xvQ>
+    <xmx:MmY4YdCPS05JzwM6dnolPfzgT9kXTJr8p1snkHFPA-KlydHeJVhxIQ>
+    <xmx:NGY4YZNcD6v0qVHFh88OZcSzsT0oaviyoez6IayfqM3OOWRCcE2oFA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Sep 2021 03:28:50 -0400 (EDT)
+Date: Wed, 8 Sep 2021 09:28:48 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Emilio =?utf-8?B?TMOzcGV6?= <emilio@elopez.com.ar>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clk: sunxi: sun8i-apb0: Make use of the helper function
+ devm_platform_ioremap_resource()
+Message-ID: <20210908072848.tr6vfhiiweaem673@gilmour>
+References: <20210907085319.5121-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex11.internal.baidu.com (10.127.64.34) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
-X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex15_2021-09-08 15:17:22:229
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="d66oxfztvfrotapa"
+Content-Disposition: inline
+In-Reply-To: <20210907085319.5121-1-caihuoqing@baidu.com>
 
-Use the devm_platform_ioremap_resource() helper instead of
-calling platform_get_resource() and devm_ioremap_resource()
-separately
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/soc/sunxi/sunxi_sram.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+--d66oxfztvfrotapa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 42833e33a96c..a8f3876963a0 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -331,7 +331,6 @@ static struct regmap_config sunxi_sram_emac_clock_regmap = {
- 
- static int sunxi_sram_probe(struct platform_device *pdev)
- {
--	struct resource *res;
- 	struct dentry *d;
- 	struct regmap *emac_clock;
- 	const struct sunxi_sramc_variant *variant;
-@@ -342,8 +341,7 @@ static int sunxi_sram_probe(struct platform_device *pdev)
- 	if (!variant)
- 		return -EINVAL;
- 
--	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	base = devm_ioremap_resource(&pdev->dev, res);
-+	base = devm_platform_ioremap_resource(pdev, 0);
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
--- 
-2.25.1
+On Tue, Sep 07, 2021 at 04:53:19PM +0800, Cai Huoqing wrote:
+> Use the devm_platform_ioremap_resource() helper instead of
+> calling platform_get_resource() and devm_ioremap_resource()
+> separately
+>=20
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
+Applied, thanks
+Maxime
+
+--d66oxfztvfrotapa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYThmMAAKCRDj7w1vZxhR
+xRKnAQDRyjvUVOeAGal1aJPJBDkvJ8bGtMpBiDYIUSEbbZJAJQD7Bv0ILFEZyWdM
+K7MYrdq0aIbshXKW/gX/PA4DN+z5HQc=
+=07Vi
+-----END PGP SIGNATURE-----
+
+--d66oxfztvfrotapa--
