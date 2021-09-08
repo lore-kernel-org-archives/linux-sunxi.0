@@ -1,101 +1,100 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC7272
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 03:40:26 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id 655D22B00247;
-	Tue,  7 Sep 2021 23:40:25 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA5E72
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 05:35:32 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.west.internal (Postfix) with ESMTP id 53E722B00211;
+	Wed,  8 Sep 2021 01:35:31 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:40:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm3; bh=z/DhIupFja/3u
-	n3TMROM4CDZ3kmgdNlpaaMI2P2BtL0=; b=IJn811RUQPHrjpxPO0QtzjhXwEIjR
-	eGx11NcF+U6p/l2EwmRi8ZVBwpA6SUlZ3D21R0YCEbiHtMq46zpcBBt1Rdi/LLda
-	xH2hfJsZ+yK5sAH8yTOEU55HeS08S7CvJT2/nlgp0ZY65zIDOpYRowHBFXzPrftO
-	ajZQBlxsYp8KCnPiG0FaDXPNey4IPJzZvjQAo6TogrCnavwxjXNr1VF4AKLXYipA
-	GD1Zp1zmSOivjSJjSCtVylKAugn8WYlFNOOAHkdSAzoReg1H+Dw3PMRMakqL5YTl
-	pOIKwCyfTrSlzJkMecHPkk3CHYdez3sE58LCb9BqvYAixExXRIvR8cyYQ==
+  by compute4.internal (MEProxy); Wed, 08 Sep 2021 01:35:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=GMMTgRFqoDWXrlsxTrcsveKldCO
+	7Mc0t0dXFf3Rc3U4=; b=O/Db1L6fnLndSCQj7k2aLqShkJ/VlsBKvKJxE6D9aCE
+	cezsm1nPQMCBTUGQDREIXtMAhuZ0ufn6z1zqIVnqwLiJrhXTjvz0QYgbb2Oo4SSa
+	PH4izzLG2Xq0H8OrG+EtTqWuBpEkqCmKFxpEcxwBaZdQ/FaYbwHp4D2TSnu3GRZl
+	VOQ3s2XmQ799fKMwEheIrPFLQyJucR8PCAZ92oje0buBJHVf8PrRnWNuqmyx8Xmn
+	BkT1r3/HFKt/I38kPbupVF4vBNJUsYWr+lU27f0/SkHH/sgCiAiMlYS3UrmCCTtq
+	F8hHYmaaIArEy19IDAsD0Ys+D3GwTiwdaIWEyax1VCw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; bh=z/DhIupFja/3un3TMROM4CDZ3kmgdNlpaaMI2P2BtL0=; b=ta77mbg4
-	9qskT2Y45piWYPeehClZHedklTtHUnUsKnALRLGjX6A2e3r09WxtSI0c8eOjgZ/s
-	5HgK5OWBnWBF8MQg7LCD2m05biaGWXIhODdNIELLi3bFkTBRbQyr6ulMCXNZvzh7
-	Udoo3gVoImDRRSYje4h0QOOCfx2ZHjEdPQrgPJhuze8NbMIblF/Df+ZJYo/M3gnc
-	9rwV2ArcQQSbvXSoQaMwFh5i1fgUeVJmAwJXeHtMwD2ZhDRO7p7zcbvYuvTW4n81
-	kUSLK8QXxfWcdP/kSJ4FQpJIWNVB4fnn1gJXZgyL/lSlLmi5iyflBKz/6RStDaVu
-	5TxW57Irm+0LMA==
-X-ME-Sender: <xms:qDA4YZ-DlUiw-K8a3N8w14a0Ya67KS0nPiXNbPxR_dg-fmKXTrFVnQ>
-    <xme:qDA4YdsAdLztVPfqo0-u6xXtgoLtgsGlJF4NM6F4M_k2jpHIxfDXXYTDluyRC6piD
-    MHPUvOQziY8f0P7TQ>
-X-ME-Received: <xmr:qDA4YXB3bSErW9nSJFbQEYjisraMgdUL3PLaTtPwukttdYiI55f9b8-i5RFdE89GI2XWiMtNeAT-TQP-oPiM4w8S5ONMTVfSh0WOEMq80yvpg0D4g6kk81kX0XxSRa80dQSvgg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GMMTgR
+	FqoDWXrlsxTrcsveKldCO7Mc0t0dXFf3Rc3U4=; b=Zw0okaIuvQg6L27q0/g0O9
+	4usEwjINfX35xsw6/1YEsLLwkh7DDXmJAiix01Mht849vxaQFyyQW5Tl/q4PR0SD
+	5K7JimbyHzxRYyWK6iffNMZjvVY90ogwIdFQeto3pz1Ou0PnIcxMBSKXgD2zUtKs
+	zLyt/pYr8p7GyetchZwJSCgtzHs/z0M//2JEquHBjtqAwevnU8KacxF2GkVFaRjp
+	jLztHMU5w2Ed+KPnCqVwMeQCXb41w7pkbCuAhZ2QO1tUm5m9MbgHsEmAml83B5EK
+	WK1buTm1KoG5Sgr/pwnEdzJMpOJqThaXoD20UNwVtZK08O2nqFzF4BLj+odgorqw
+	==
+X-ME-Sender: <xms:oks4YSvI5jmbp7jiaSR06ZOdjWhsytNr6U2hpxqChQfYs61uDTUniA>
+    <xme:oks4YXf4sxiwkmNvjVdSd5zr3oe0InsigaWB-U5-dpBsvwzNDWOAhKdJlnkk9uzuf
+    _7w-BmfBe6Oqop7FV4>
+X-ME-Received: <xmr:oks4YdwM8GyvndKnn0TT7xOIZjR_eMT5NRkhynIdzjV8mZEe2cy9qa5XwaZXXXaURAVoCR1l78FPZ5qtgnWi992OSisZttjutuk8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgleegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
-    gfejheeuieenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:qDA4YdfmDRUqzt25xwKadZo7p33q1bL89g-b5WA3f-tLBakrB_jwpg>
-    <xmx:qDA4YeM3yPCCCsiGDeHrWwC9Us5Z3Rl9PnerxY6PfqNYs1zO8OKnIg>
-    <xmx:qDA4YflZoEepx_4pY3gJCtYAsqPkLX4N6QbWHiJ3rNnw6YlTltGX8w>
-    <xmx:qTA4Yfnc1NNiKChg0F56H7JgeKnlEmgamDyJoXiclP4uaY4GGpF-rpzheLo>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 23:40:24 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:oks4YdONdvU54Byu9PvijwK2-p7IT6kiY1sSaEJCbNQNdMScTWflrw>
+    <xmx:oks4YS-5rfsO0TvWOZVxeTMX6uHV1wa0ou4KrgvnnNej5zEYPIqNXw>
+    <xmx:oks4YVWvkjey5J8TF-dBXjaUH3SQ_tv2fns8fyyf2LqLVihPvlsVkQ>
+    <xmx:oks4YVbJ5sC-PhJd23yCHOIWr1whksTz9nSP9-OyB4EqwFLHXbfJXloRDNU>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Sep 2021 01:35:29 -0400 (EDT)
+Date: Wed, 8 Sep 2021 07:35:27 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 3/3] Input: sun4i-lradc-keys: Add support for R329 and D1
-Date: Tue,  7 Sep 2021 22:40:16 -0500
-Message-Id: <20210908034016.24119-4-samuel@sholland.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210908034016.24119-1-samuel@sholland.org>
-References: <20210908034016.24119-1-samuel@sholland.org>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Guo Ren <guoren@kernel.org>, devicetree@vger.kernel.org,
+	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: net: sun8i-emac: Add compatible for D1
+Message-ID: <20210908053527.fzoa3b4bfr4uo6tb@gilmour>
+References: <20210908030240.9007-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ik7vtjftu7yl4fsr"
+Content-Disposition: inline
+In-Reply-To: <20210908030240.9007-1-samuel@sholland.org>
 
-This LRADC variant uses the same 3/4*AVCC reference voltage as the A83T
-variant. The R329 and D1 LRADCs appear to be identical, so D1 support is
-accomplished through having the R329 LRADC as a fallback compatible.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- drivers/input/keyboard/sun4i-lradc-keys.c | 2 ++
- 1 file changed, 2 insertions(+)
+--ik7vtjftu7yl4fsr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-index 50fc18052829..06e63c9560f9 100644
---- a/drivers/input/keyboard/sun4i-lradc-keys.c
-+++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-@@ -319,6 +319,8 @@ static const struct of_device_id sun4i_lradc_of_match[] = {
- 		.data = &lradc_variant_a10 },
- 	{ .compatible = "allwinner,sun8i-a83t-r-lradc",
- 		.data = &r_lradc_variant_a83t },
-+	{ .compatible = "allwinner,sun50i-r329-lradc",
-+		.data = &r_lradc_variant_a83t },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
--- 
-2.31.1
+On Tue, Sep 07, 2021 at 10:02:40PM -0500, Samuel Holland wrote:
+> The D1 SoC contains EMAC hardware which is compatible with the A64 EMAC.
+> Add the new compatible string, with the A64 as a fallback.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Maxime
+
+--ik7vtjftu7yl4fsr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYThLmgAKCRDj7w1vZxhR
+xTgxAPoCxJsim0qsvjpeCUFgsfq8yKZtsvaz5Y3r3YaCL/RBBAD/RDXUQbq/mjBe
+KZGg3exMO76p7nDt3qWta29TvBYiPwA=
+=gFwk
+-----END PGP SIGNATURE-----
+
+--ik7vtjftu7yl4fsr--
