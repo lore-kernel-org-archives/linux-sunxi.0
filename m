@@ -1,38 +1,38 @@
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA5E72
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 05:35:32 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 53E722B00211;
-	Wed,  8 Sep 2021 01:35:31 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39CEE72
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 05:51:42 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.west.internal (Postfix) with ESMTP id 048AA2B00283;
+	Wed,  8 Sep 2021 01:51:40 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Wed, 08 Sep 2021 01:35:32 -0400
+  by compute2.internal (MEProxy); Wed, 08 Sep 2021 01:51:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=GMMTgRFqoDWXrlsxTrcsveKldCO
-	7Mc0t0dXFf3Rc3U4=; b=O/Db1L6fnLndSCQj7k2aLqShkJ/VlsBKvKJxE6D9aCE
-	cezsm1nPQMCBTUGQDREIXtMAhuZ0ufn6z1zqIVnqwLiJrhXTjvz0QYgbb2Oo4SSa
-	PH4izzLG2Xq0H8OrG+EtTqWuBpEkqCmKFxpEcxwBaZdQ/FaYbwHp4D2TSnu3GRZl
-	VOQ3s2XmQ799fKMwEheIrPFLQyJucR8PCAZ92oje0buBJHVf8PrRnWNuqmyx8Xmn
-	BkT1r3/HFKt/I38kPbupVF4vBNJUsYWr+lU27f0/SkHH/sgCiAiMlYS3UrmCCTtq
-	F8hHYmaaIArEy19IDAsD0Ys+D3GwTiwdaIWEyax1VCw==
+	:content-type:in-reply-to; s=fm3; bh=60L7gSawCRjRSO6rv6WF7jd8HL/
+	UOBIL33p5VtmELSw=; b=WYpNJOJ0KkBlLIpR7Dj/+QZ3veNkMTkFvczME3BPyUS
+	6+GwGAw0n4Js7kC6AB49NWDfA+ukodwp1jeBrl/fPX8khHoNFf3k+3jiqBA3n75l
+	o2Cjiqf1qG/X92NTqIRdWf7jnjgRvwnbILrO0Zy+s0BzPtl4RH3/I9ILYYpIfsMW
+	9DK456iRc/mRGpst2iL+FCQw031ula3snupQU8fmrH4gs9xSjqMxCrBBpqGP/16z
+	3ozUSQuOREZkUPQQ8XeY70FstGyRQ4IjwLNsUN5ZEaTx/luPMDVKbHQ6Owvcp21l
+	mVJQVAhNt5KiwaikNTow9SjAwMCbG+Z9E1vxiwyWDqg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GMMTgR
-	FqoDWXrlsxTrcsveKldCO7Mc0t0dXFf3Rc3U4=; b=Zw0okaIuvQg6L27q0/g0O9
-	4usEwjINfX35xsw6/1YEsLLwkh7DDXmJAiix01Mht849vxaQFyyQW5Tl/q4PR0SD
-	5K7JimbyHzxRYyWK6iffNMZjvVY90ogwIdFQeto3pz1Ou0PnIcxMBSKXgD2zUtKs
-	zLyt/pYr8p7GyetchZwJSCgtzHs/z0M//2JEquHBjtqAwevnU8KacxF2GkVFaRjp
-	jLztHMU5w2Ed+KPnCqVwMeQCXb41w7pkbCuAhZ2QO1tUm5m9MbgHsEmAml83B5EK
-	WK1buTm1KoG5Sgr/pwnEdzJMpOJqThaXoD20UNwVtZK08O2nqFzF4BLj+odgorqw
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=60L7gS
+	awCRjRSO6rv6WF7jd8HL/UOBIL33p5VtmELSw=; b=cHD28nxDpBZGJ9OW98+qoT
+	3JrOq+rRepH0HiodvstcOQ3MJg3nzej/0oQc9PoHtevxz9VOG/X4u4Eu+41nZ7HG
+	m6u2XDQvQg+rX/Q+EWH2Eufki0wmBalYMVV6MaAskrXHNqBqEsez+A5GG34Eh/34
+	2eVhV4eecAdIRPj8qb96kVO3/48wrwJkpPE27RjQjWkcxv3OZOIq3paeQhhKM3n/
+	BBD9wlkPVbe+YyzXb60uHE0Q9l8yT0JYnux5/5gTG6gLyvZZWOjcDp17KfHMBBoB
+	H5NrDaa69YFnflwegKDRQUT0FNDm6OaW4aLsHlRVPhYUjP6f7v7VM4lP/+epXM9Q
 	==
-X-ME-Sender: <xms:oks4YSvI5jmbp7jiaSR06ZOdjWhsytNr6U2hpxqChQfYs61uDTUniA>
-    <xme:oks4YXf4sxiwkmNvjVdSd5zr3oe0InsigaWB-U5-dpBsvwzNDWOAhKdJlnkk9uzuf
-    _7w-BmfBe6Oqop7FV4>
-X-ME-Received: <xmr:oks4YdwM8GyvndKnn0TT7xOIZjR_eMT5NRkhynIdzjV8mZEe2cy9qa5XwaZXXXaURAVoCR1l78FPZ5qtgnWi992OSisZttjutuk8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgleegucetufdoteggodetrfdotf
+X-ME-Sender: <xms:a084YblgeD9Yh35f2sWxbT_uRF4Fo9s8OhCt_TJ4s07XP0aHqyROug>
+    <xme:a084Ye2AqQ0jl0CZh0X9nCU3E0RcR4iBVmNZYhswpgVjaJ5_szzyJgWfT8E2zgIQJ
+    hTYDQjaOgs2M1FAJk4>
+X-ME-Received: <xmr:a084YRor3XILlQhQz6Dyp5LvhKTxEV2e3QKzKxiferprYpsidZdyyfAAgFLfMfsmy88Z-4qQZwgXWlmJB2IhvkU-Zd6FE-yAGuLt>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgleeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -40,25 +40,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgleegucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:oks4YdONdvU54Byu9PvijwK2-p7IT6kiY1sSaEJCbNQNdMScTWflrw>
-    <xmx:oks4YS-5rfsO0TvWOZVxeTMX6uHV1wa0ou4KrgvnnNej5zEYPIqNXw>
-    <xmx:oks4YVWvkjey5J8TF-dBXjaUH3SQ_tv2fns8fyyf2LqLVihPvlsVkQ>
-    <xmx:oks4YVbJ5sC-PhJd23yCHOIWr1whksTz9nSP9-OyB4EqwFLHXbfJXloRDNU>
+X-ME-Proxy: <xmx:a084YTkiwCmOFhpnCPT22w6PYO2qGEtLe6Ptf02hHpbgkF9BwNl_CQ>
+    <xmx:a084YZ2MXZyOkIuykMxMORfo8NWHTQDXbhKB9lNlQdn38xxZME4E-w>
+    <xmx:a084YSuJzOclRZYOYrlc0Rtqg39qa9dhWetVGOEKFoH-6-QxTme1jg>
+    <xmx:bE84YSuAZJbwHGawZ9d9obvN-waEPxMZ3an2f-z9sGA_RI74jtk-zLIpTGM>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 8 Sep 2021 01:35:29 -0400 (EDT)
-Date: Wed, 8 Sep 2021 07:35:27 +0200
+ 8 Sep 2021 01:51:38 -0400 (EDT)
+Date: Wed, 8 Sep 2021 07:51:37 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Samuel Holland <samuel@sholland.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Guo Ren <guoren@kernel.org>, devicetree@vger.kernel.org,
-	netdev@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: net: sun8i-emac: Add compatible for D1
-Message-ID: <20210908053527.fzoa3b4bfr4uo6tb@gilmour>
-References: <20210908030240.9007-1-samuel@sholland.org>
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: input: sun4i-lradc-keys: Add R329 and
+ D1 compatibles
+Message-ID: <20210908055137.bhlgacvoytwyaxkf@gilmour>
+References: <20210908034016.24119-1-samuel@sholland.org>
+ <20210908034016.24119-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -66,19 +68,23 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ik7vtjftu7yl4fsr"
+	protocol="application/pgp-signature"; boundary="av3evqvm62blkzv7"
 Content-Disposition: inline
-In-Reply-To: <20210908030240.9007-1-samuel@sholland.org>
+In-Reply-To: <20210908034016.24119-2-samuel@sholland.org>
 
 
---ik7vtjftu7yl4fsr
+--av3evqvm62blkzv7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 07, 2021 at 10:02:40PM -0500, Samuel Holland wrote:
-> The D1 SoC contains EMAC hardware which is compatible with the A64 EMAC.
-> Add the new compatible string, with the A64 as a fallback.
+On Tue, Sep 07, 2021 at 10:40:14PM -0500, Samuel Holland wrote:
+> The R329 and D1 SoCs each contain an LRADC with a programming interface
+> compatible to earlier LRADCs. However, the LRADC now has its own clock
+> gate and reset line, instead of being always active.
+>=20
+> To support this, add clock/reset properties to the binding, and require
+> them for the variant in the new SoCs.
 >=20
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
@@ -86,15 +92,15 @@ Acked-by: Maxime Ripard <maxime@cerno.tech>
 
 Maxime
 
---ik7vtjftu7yl4fsr
+--av3evqvm62blkzv7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYThLmgAKCRDj7w1vZxhR
-xTgxAPoCxJsim0qsvjpeCUFgsfq8yKZtsvaz5Y3r3YaCL/RBBAD/RDXUQbq/mjBe
-KZGg3exMO76p7nDt3qWta29TvBYiPwA=
-=gFwk
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYThPaQAKCRDj7w1vZxhR
+xWgBAQCR6MOJPt5KqOPcf0CSq+dHJmmPtiDUyXMqK0pTVhcqVQEAkjG9l7QwxgmS
+WXmuqGxAjFvXdvBbaMJ8oKO0ysEsJAs=
+=3pfG
 -----END PGP SIGNATURE-----
 
---ik7vtjftu7yl4fsr--
+--av3evqvm62blkzv7--
