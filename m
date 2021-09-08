@@ -1,66 +1,68 @@
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E97EA72
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 03:02:44 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id AE8802B0028E;
-	Tue,  7 Sep 2021 23:02:43 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8874B72
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Sep 2021 03:40:20 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailnew.west.internal (Postfix) with ESMTP id 145672B00247;
+	Tue,  7 Sep 2021 23:40:19 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 07 Sep 2021 23:02:44 -0400
+  by compute2.internal (MEProxy); Tue, 07 Sep 2021 23:40:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm3; bh=yugISvk6ahKA18WyB5Dtl/32FJ
-	Cm7tuQeJ17QqmQL+w=; b=hAUo83B+FMlXPMEVpLpjYZ5LAihaKxQikF0NdWeR7e
-	qel8VhdrrQKPG9S1MRCKP2sR6bQmtYcepYOp3fEv99AtQ6b5JabKZYuKP94KU/4b
-	cTnHbTB0I8s6gYFbaXD3Arrr9nmWsG/UbJAIC4/iQoHBRMdAYIlen5+wmWSLZ7bJ
-	H+4O/xyaK3cSp0d3DkeIWBoGKrgZtwALLdgRO2E2koRI/I9dr1pvaebZlieJ70uG
-	Fqa8Xd5Fpz1EyO+2nvLb2sNbufoM4KJ31c7iJAgToF8igvSAexQXaBMZ65j8H1sN
-	mz9QIkF4Y5NIjRnQlSjyL0Gmojt7pGSBLybqedQzenPg==
+	:content-transfer-encoding; s=fm3; bh=5COa0wVVrtdfa0gTBNofmOof6q
+	DfWnoFnqMWJA5jhro=; b=UUzw/24tsi4HOZOj5Jq4a0HIL6Bi1131y+cHyZyjAV
+	/4/SkNY9jZjR65mg2faAFJPxlSmGAIelqzK2iObWTmgCu1hIphPG4lZrzSBpJB/A
+	qS5tNbcki3CxsPP2Fh8LFOdQkYjaLSU/kUA4z3SuryFjrH+LdHGG3vPaN2+aOA75
+	kL83JeOzizFftD9uTItODUNDQZKewWPTD96m+2u0ZDLtXwQQQE7XrePOdAoAom1s
+	OxsrS2psO/IvczGkqJ+hggqX+pxZ5B9KLdkSTvzda1myaEj8LXbeZ7bvdV1QQoh2
+	Do9LEwn/tc2D2zVVkdRTxRItd/S9UnYNx+dbP3fQLLKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
 	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yugISvk6ahKA18WyB
-	5Dtl/32FJCm7tuQeJ17QqmQL+w=; b=X/Dl81qj11QfzZ/yV8DcvSiRgQbZKdkSW
-	JhMKvHQWeNZLiDFaiXoKlfyZqJKy7jnDcrezyB6wbzbtR0sZUfw6rX4KLceZo4n3
-	kpZn0RDd+MyPqr/NZSwk8tKvm76IZCFbjd+JwCaw8myN/5w2AmvykThu0rBuOOI5
-	4jgPjuGZxs+YsplpB+gzj30BcgIBgFpcllKjz+86bJiPBrb8TW5eS+vKoMxThiZP
-	oa1BdhvUprgfxUj4VgFtYY2Mum4i0MoyzpavGIVI+ovMgVRfxIl+UV0uBm6TINmq
-	gfBsXtzWnXab92cLVgzp1pd9YJM3SGGhvMiixv9b9Y2N5q5bRtobA==
-X-ME-Sender: <xms:0ic4Yf4fpAnkqMXlG3Jt7tP90KXlkcqBerJY6T727wXefLyKlfcMqw>
-    <xme:0ic4YU7vvZngDWuDEkoDIZ02v0AoeoZOiJ--8pIVk1LNFTYdyjk-bvIauHqzEmz_l
-    qfspz9_lBj9e38QrA>
-X-ME-Received: <xmr:0ic4YWdQJ1KkhGJI7aPSVRjxKIKzj5NnSvj1qR-Qxj98sVdawxK-TuXFq5CQuGCKaueZxwlYTEVFhUV5GN-yzajwflWM021fzaoku3LdBEgsKwbbZwFP5IRZMe73ngeMpTmU9A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgieefucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=5COa0wVVrtdfa0gTB
+	NofmOof6qDfWnoFnqMWJA5jhro=; b=ipBdJ5vDzOY6Ga3yropOJdLFlfKk13Tw6
+	NTa68FhJB48w1GIajZzy42na4J6vXSD51nqeB2MENC2y/RpVcomuN34R7rTjQCRD
+	LOuWqErdruM2MORQLEIctMuD6H6eMX86r9w5kgYzc+oJJkHA9LRLpFh+ksi+dMap
+	RZptotS0wPwxfXhmWRueemjJ2HSPb25PSHYAcOAIpcWANGwGbDDFmQzHuu8CZsDo
+	rcRXuBItIXt5pMXo94eIue44ocqiAsFHQ/WBACRGvQIqu1EAC3wGxbjdlhnnBD+s
+	kSAMp5IH+91SUmj//t4UTnd1EZNMouaiEk/dSVsIpwlOz7h+O2Irg==
+X-ME-Sender: <xms:oTA4YYOfcy30WCQG_Y9IcGcy5bRcPoNYgof7Xt2fUNDE5Tsla3-yCQ>
+    <xme:oTA4Ye-4RCpFyt5W_sfwGH-bGmwDzHjWHhGWPvkjpsdP2_gpEidwu64_Y7G-8oWz9
+    030hGIWg4tI1Ni_jQ>
+X-ME-Received: <xmr:oTA4YfTPHXOkyPhlloxxmxZ9-tM-VyTMlGSdhrnP66sJ-QU7UStLdPjqnGqE4jWMH1bZ0u7p1Yyt39d7VU1FKob3T9bWphbba9FFeg5Hf0kF4IVOSto9nCi_5O6CnF8z_r6mPA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefiedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
     jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:0ic4YQIy0QL8QuNoa5oz7hrMxPYLM6gVeTcCj_Up7gYpXfZC-bMDMw>
-    <xmx:0ic4YTLbGzgPudMc2iQQXUbKxD9EfSOCbaeVzQ9MS9dQt8M6UMorQg>
-    <xmx:0ic4YZzcydncsRtC-Q3QgnhPN7FdDjnz4voyVvHr3lMZOZQBQ7rtHA>
-    <xmx:0yc4YQCe1xku8365-WRlDPGqmzFJbemBpLrLjicGFhkd5U5kxBbyW-rtLKs>
+    htthgvrhhnpeekkeffffetgfegfeeffeevgffhleehjefglefhveelkeeggeekgfevgeff
+    hfeiueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdr
+    ohhrgh
+X-ME-Proxy: <xmx:oTA4YQsvWl4MF_Ek8G_1exb0YvsEz-FZM3BufQ6VaL7CsVCwrYW42w>
+    <xmx:oTA4YQeuEVfjPKEUt0lGFTxsMMB1FkNPMI9QXBh1SR12xDNmO9fAlQ>
+    <xmx:oTA4YU3_O_Ys9SQScp5jgBMO6V06xvqWz1W8pNIN63BouSNpkmqKPw>
+    <xmx:ojA4YU1_tMonsNiPpplJbNK64EhwVvFxx27KIAFWr1Nc2xLSZxRwGl5UV6M>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 7 Sep 2021 23:02:41 -0400 (EDT)
+ 7 Sep 2021 23:40:17 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: "David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Guo Ren <guoren@kernel.org>,
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	devicetree@vger.kernel.org,
-	netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH] dt-bindings: net: sun8i-emac: Add compatible for D1
-Date: Tue,  7 Sep 2021 22:02:40 -0500
-Message-Id: <20210908030240.9007-1-samuel@sholland.org>
+Subject: [PATCH 0/3] Input: sun4i-lradc-keys: R329 and D1 support
+Date: Tue,  7 Sep 2021 22:40:13 -0500
+Message-Id: <20210908034016.24119-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,29 +72,25 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The D1 SoC contains EMAC hardware which is compatible with the A64 EMAC.
-Add the new compatible string, with the A64 as a fallback.
+This series adds R329 and D1 SoC support to the LRADC driver. These SoCs
+do not change the register interface, only the platform integration.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
- .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml    | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I have another series[1] which adds wakeup support to this driver.
+It has been reviewed/acked and is waiting to be merged for several
+months[2]. That series merges cleanly with this one.
 
-diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-index 7f2578d48e3f..9eb4bb529ad5 100644
---- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-+++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-@@ -19,7 +19,9 @@ properties:
-       - const: allwinner,sun8i-v3s-emac
-       - const: allwinner,sun50i-a64-emac
-       - items:
--          - const: allwinner,sun50i-h6-emac
-+          - enum:
-+              - allwinner,sun20i-d1-emac
-+              - allwinner,sun50i-h6-emac
-           - const: allwinner,sun50i-a64-emac
- 
-   reg:
+[1]: https://patchwork.kernel.org/project/linux-input/cover/20210805051241.47168-1-samuel@sholland.org/
+[2]: https://patchwork.kernel.org/project/linux-input/cover/20210430042003.4591-1-samuel@sholland.org/
+
+Samuel Holland (3):
+  dt-bindings: input: sun4i-lradc-keys: Add R329 and D1 compatibles
+  Input: sun4i-lradc-keys: Add optional clock/reset support
+  Input: sun4i-lradc-keys: Add support for R329 and D1
+
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml | 22 +++++++++++++
+ drivers/input/keyboard/sun4i-lradc-keys.c     | 31 +++++++++++++++++++
+ 2 files changed, 53 insertions(+)
+
 -- 
 2.31.1
 
