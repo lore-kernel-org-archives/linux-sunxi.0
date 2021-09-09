@@ -1,178 +1,257 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308333FE9
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Sep 2021 13:54:32 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id F0498320090C;
-	Thu,  9 Sep 2021 09:54:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 09 Sep 2021 09:54:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=e
-	2NWabPI043cjZ/MxTPxc2aylv7yormTp/tno/siWdw=; b=jwaBzV+ErWAx8Tt31
-	l6FIAZqzIZQNZGmFS5n7idDfw88RasWwfuLisxlPsDYx0aJ3b+XBN/3GOhd9e+6k
-	VqtcHO/0WZMmfdt64Cl4D7yYsBWZ1YaJzxP5nSWRl+4vxwz/7qXTWmKodZtsK4Wq
-	oHHn3+IYj+BYa1I/ija9PWS0DxofPTpACallovMS7WEj0GTEErP/GehfPRLenuVh
-	5E46G19DdP6pMaq0QrUhaZSaBG7amoS2XWXpa8nFPATzEP9lSpReEm6qwOfI4gY8
-	Uv0tBqUYiuxGzin7M1ZLa8RGT8DtY0xNab5fc82BBBH4wLBCI+Yx/4rLJUeJtvkl
-	1SlOw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=e2NWabPI043cjZ/MxTPxc2aylv7yormTp/tno/siW
-	dw=; b=HdSTnZpVCo++0uwD0eTCXpXhMt9jD/WziufMvXSu4FeQaZpB/lBeNEdtm
-	XW8P3XUJ4ONoMEwH0LfGG1GO8J0sp/QnH+oDYaAR8iN5StIrtlAD8EyXNS1NjXwO
-	gNlLk69pnCYqHOenk0c/Fy7EiIL0GVStPJ1ZBJQmSnsMo0rhB9/1IFsmqp5XXBGP
-	LiACrb6zVP0rg/R/ko4zMVBsfeCKH/XBvnTP5WiVdtyUSq0gOqQ038Ja7wJT6DdQ
-	SBkuBP0lFXHFjsI8kOegp5wjIRbYLyqhPs6+D3Ir1I2MxXtcG8LISObvexif4Vtl
-	dxKS4vWtcdLqYajaUV5NXydE6Vouw==
-X-ME-Sender: <xms:FRI6YTTFh1cQ0goHIKTFyUOEaVK15mENL9AJSaXhtFwp8qm0opS-1g>
-    <xme:FRI6YUzL4Wu_VoIq7BW4SRLaxHBa9eQHvNvtCsPV68HD6DN1f_3wXoEiqKvFgEt1P
-    ucybRwjudmYIlPVPQ>
-X-ME-Received: <xmr:FRI6YY0vOhWW9W3e1vQHOrjUQzJwQW8NHan8z9mQqDTPDjsZ35Dt-Hkh5vqdLEx8Mn-5nkAVYPXXkXx41B5YtBLXOhr1Mx0EzX4yH-c5dYoWQ-qBDSLkrqrAsQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudefledgjedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepvddttdejieduudfgffevteekffegffeguddtgfefkeduvedukeff
-    hedtfeevuedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:FRI6YTBZXrGx7EzPVkyNdM_VMqriBDTb47Z8GL7LXuvi-8sqQYMahA>
-    <xmx:FRI6Ycjd0F0DT6Ml9jp1HkWdGNyIkuaBoFl2--pNR2FxgqjlVXY4aw>
-    <xmx:FRI6YXq6dv5TnlbJDe3ff4WGjDu_UlntgEBK0KFp1yiLaQRqjZh7Eg>
-    <xmx:FhI6YVUVuHtKWwcOyPIejmOvc0I90HMn9FtgbR3f5b8uixL3iXVuGg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 9 Sep 2021 09:54:29 -0400 (EDT)
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Pavel Machek <pavel@ucw.cz>, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org,
- linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20210902234228.32223-1-samuel@sholland.org>
- <20210902234228.32223-2-samuel@sholland.org>
- <20210903103638.5yhuvkyf62i3rp6a@gilmour>
- <70c76fe4-41e4-7232-c961-785193a68859@sholland.org>
- <20210909113628.ojbtbao7jlb6ophy@gilmour>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 2/2] leds: sunxi: New driver for the R329/D1 LED
- controller
-Message-ID: <a890e40a-7fed-de1f-ef6a-6fab414fd7ca@sholland.org>
-Date: Thu, 9 Sep 2021 08:54:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE853FEE
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Sep 2021 21:01:19 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id j16so2870205pfc.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 09 Sep 2021 14:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TgYZsymCmqy6vs2OAQuoPF75DcvJ7dTHyXuxA0yEqwQ=;
+        b=l3z9MTSjdnlmhP5mE7FA5iEXUZFoTQXDdRHC+RW4FVdcmwc4PenpU06QOYEENGQV7u
+         G2ulyEeNyekNayLflnSI2V4wHKdy9EH9yUa50gYrRaW6weQ6+jrhJXV2earkNzZQ2rFB
+         KtCzrZPvcxxigSjMFri/KLpVSnvl/0QKhpJOA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TgYZsymCmqy6vs2OAQuoPF75DcvJ7dTHyXuxA0yEqwQ=;
+        b=zi0fvT9Mfl9bbKwoSdu0diCRmaEyKeSsX48TROSSiLto3yIg1Y9EYnNzChU53hRJT8
+         zt5pKVjEJ8wrnht/wC+giY7pmqAKkOa8rkGMCtQX/eap00x+NGioQCv4huAAYTCc06Sf
+         nkKHwYBIo4/RvlyK5y6MSd54R7VFuc89JezX/K/BNOwQQoM1/8dahOALez7+FK0tQuEp
+         Mi6H5TudFiF6racEAWcGqv3Uz8fgEqaiqXK+McvlWsZITTu1IbvjpRPay9VnnWcFDoGG
+         ZpgbtOgWB3DViDLedbC1hjwq1SaZCvLC/JZE/Wvv9L4JUCWZp0E/4TsGJeq5A4vIhyTi
+         VJPQ==
+X-Gm-Message-State: AOAM530lxWeUjvEXjcqHPVQCt2y42bJrXBd1daZm5umZhUIuaDw/E7IZ
+	wcDUG7EVZpVcmixbmx4ojPle4w==
+X-Google-Smtp-Source: ABdhPJzNYdLP54ZPrpCmZ3ORzDC7zdYKwrZ7BBoTmjOUbsHF+UzEN4SItH8EnPA93NK8fIF0hPxZ7g==
+X-Received: by 2002:a63:9a19:: with SMTP id o25mr4440039pge.61.1631221279054;
+        Thu, 09 Sep 2021 14:01:19 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:8da3:b0fb:4261:2c10])
+        by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Sep 2021 14:01:18 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Linus W <linus.walleij@linaro.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	linux-arm-msm@vger.kernel.org,
+	Steev Klimaszewski <steev@kali.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	David Airlie <airlied@linux.ie>,
+	dri-devel@lists.freedesktop.org,
+	Douglas Anderson <dianders@chromium.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+	Anson Huang <Anson.Huang@nxp.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Eugen Hristev <eugen.hristev@microchip.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@st.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Joel Stanley <joel@jms.id.au>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Lionel Debieve <lionel.debieve@st.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michael Walle <michael@walle.cc>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Nishanth Menon <nm@ti.com>,
+	Olivier Moysan <olivier.moysan@st.com>,
+	Olof Johansson <olof@lixom.net>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+	Robert Richter <rric@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+Subject: [PATCH v4 00/15] eDP: Support probing eDP panels dynamically instead of hardcoding
+Date: Thu,  9 Sep 2021 14:00:16 -0700
+Message-Id: <20210909210032.465570-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210909113628.ojbtbao7jlb6ophy@gilmour>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 9/9/21 6:36 AM, Maxime Ripard wrote:
-> Hi,
-> 
-> On Sun, Sep 05, 2021 at 11:17:19PM -0500, Samuel Holland wrote:
->> Hi,
->>
->> On 9/3/21 5:36 AM, Maxime Ripard wrote:
->>> On Thu, Sep 02, 2021 at 06:42:28PM -0500, Samuel Holland wrote:
->>>> Some Allwinner sunxi SoCs, starting with the R329, contain an LED
->>>> controller designed to drive RGB LED pixels. Add a driver for it using
->>>> the multicolor LED framework, and with LEDs defined in the device tree.
->>>>
->>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>>> ---
->>>>  drivers/leds/Kconfig      |   8 +
->>>>  drivers/leds/Makefile     |   1 +
->>>>  drivers/leds/leds-sunxi.c | 562 ++++++++++++++++++++++++++++++++++++++
->>>>  3 files changed, 571 insertions(+)
->>>>  create mode 100644 drivers/leds/leds-sunxi.c
->>>>
->>>> diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
->>>> index ed800f5da7d8..559d2ca0a7f4 100644
->>>> --- a/drivers/leds/Kconfig
->>>> +++ b/drivers/leds/Kconfig
->>>> @@ -297,6 +297,14 @@ config LEDS_SUNFIRE
->>>>  	  This option enables support for the Left, Middle, and Right
->>>>  	  LEDs on the I/O and CPU boards of SunFire UltraSPARC servers.
->>>>  
->>>> +config LEDS_SUNXI
->>>> +	tristate "LED support for Allwinner sunxi LED controller"
->>>> +	depends on LEDS_CLASS
->>>> +	depends on ARCH_SUNXI || COMPILE_TEST
->>>> +	help
->>>> +	  This option enables support for the LED controller provided in
->>>> +	  some Allwinner sunxi SoCs.
->>>> +
->>>
->>> Same comment for the name
->>
->> Are you concerned about the help text only, or do you also want me to rename the
->> Kconfig symbol?
-> 
-> The driver, the driver symbols and the Kconfig symbol would be nice
-> 
->> I am happy to change the help text to something like: "This option enables
->> support for the LED controller provided in the Allwinner R329 and D1 SoCs."
->>
->> But I don't know of any satisfying way to rename the Kconfig symbol. There is no
->> general category name for "R329 and D1."
-> 
-> Yeah, this is not ideal, but the issue is that nothing is telling us
-> whether or not it will support *only* the R329 and D1. Chances are it's
-> going to be featured in a number of other SoCs in the future, so if we
-> were to have the entire list of supported SoCs in the Kconfig symbol and
-> driver name, we'd have to always change them everytime a new SoC support
-> is introduced.
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-This is why I named it LEDS_SUNXI: until and unless a "v2" hardware
-block shows up, this is the LED controller in all sunxi SoCs [that have
-an LED controller at all]. And at that point, naming the new driver
-LEDS_SUNXI_V2 makes more sense to me than trying to guess the pattern
-for SoC support, where there likely is no pattern.
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-> It would be a pain, and it's pretty much guaranteed that someone is
-> going to forget at some point. To mitigate this, we took the approach to
-> use the same semantic than the DT compatible: the driver name doesn't
-> really define the list of all the SoCs supported but matches every SoC
-> (more or less) compatible with that SoC.
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since
+we'll have to fallback to very conservative timings if we don't
+recognize the ID from the EDID and I can't guarantee that I've seen
+every panel that might have shipped on an existing product. The plan
+is to use "edp-panel" only on new boards or new revisions of old
+boards where we can guarantee that every EDID that ships out of the
+factory has an ID in the table.
 
-Ok, but this still doesn't tell me what you expect the driver to be
-named. Again, there is no general name for "every SoC (more or less)
-compatible with R329".
+Version 3 of this series now splits out all eDP panels to their own
+driver and adds the generic eDP panel support to this new driver. I
+believe this is what Sam was looking for [2].
 
-We tried to guess the pattern around the time H6 came out, and named a
-bunch of things "sun50i" (like the IOMMU driver) that are now showing up
-on sun8i (A50) and sun20i (D1) SoCs. And it turns out most of the
-changes were not even new for H6 (sun50iw6), but already present in the
-A63 (sun50iw3).
+Version 4 of this series is mostly small fixes / renames from review
+feedback. It's largely the same as v3. Other than naming /
+description / comment changes, the differences are:
+- Dropped the MIPS config patch as per request.
+- Reorder config patches first.
+- Added a new patch to use the panel ID scheme for quirks.
+- Landed the reorder of logicpd_type_28 / mitsubishi_aa070mc01
+It could possibly be ready to land?
 
-I'm in sort of the same situation here. I know the hardware exists on
-the R329 (sun50iw11); and from looking at the A100 (sun50iw10) pinctrl
-driver, I know some LED controller exists there as well. But I don't
-have a manual for the A100 to verify that LED controller is compatible.
-So I don't even know if R329 is the first supported SoC.
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
 
-To be clear: do you want me to name the driver "sun50i_r329_ledc"?
+Changes in v4:
+- "u8 *edid" => "void *edid" to avoid cast.
+- ("Use new encoded panel id style for quirks matching") new for v4.
+- Don't put kmalloc() in the "if" test even if the old code did.
+- Don't refer to "panel-simple" in commit message.
+- PANEL_SIMPLE_EDP => PANEL_EDP
+- Remove "non-eDP" in panel-simple description.
+- Reordered config patches to be before code patch
+- decode_edid_id() => drm_edid_decode_panel_id()
+- drm_do_get_edid_blk0() => drm_do_get_edid_base_block()
+- drm_get_panel_id() => drm_edid_get_panel_id()
+- encode_edid_id() => drm_edid_encode_panel_id()
+- panel-simple-edp => panel-edp
+- split panel id extraction out to its own function.
 
-Or maybe "sun50i_a100_ledc", since that came first and it is most likely
-compatible?
+Changes in v3:
+- ("Better describe eDP panel delays") new for v3.
+- ("Don't re-read the EDID every time") moved to eDP only patch.
+- ("Non-eDP panels don't need "HPD" handling") new for v3.
+- Add AUO B116XAN06.1 to table.
+- Add Sharp LQ116M1JW10 to table.
+- Adjust endianness of product ID.
+- Change init order to we power at the end.
+- Decode hex product ID w/ same endianness as everyone else.
+- Fallback to conservative delays if panel not recognized.
+- Fix "prepare_to_enable" patch new for v3.
+- Generic "edp-panel" handled by the eDP panel driver now.
+- Move wayward panels patch new for v3.
+- Rename delays more generically so they can be reused.
+- Split eDP panels patch new for v3.
+- Split the delay structure out patch just on eDP now.
 
-Regards,
-Samuel
+Changes in v2:
+- Add "-ms" suffix to delays.
+- Don't support a "fallback" panel. Probed panels must be probed.
+- No longer allow fallback to panel-simple.
+- Not based on patch to copy "desc"--just allocate for probed panels.
 
-> If you want to have the entire list in the Kconfig help though, I don't
-> see anything wrong with that. Even if it goes unmaintained, it wouldn't
-> really be a big deal.
-> 
-> Maxime
-> 
+Douglas Anderson (15):
+  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow querying/working with the panel ID from the EDID
+  drm/edid: Use new encoded panel id style for quirks matching
+  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  drm/panel-edp: Split eDP panels out of panel-simple
+  drm/panel-edp: Move some wayward panels to the eDP driver
+  drm/panel-simple: Non-eDP panels don't need "HPD" handling
+  drm/panel-edp: Split the delay structure out
+  drm/panel-edp: Better describe eDP panel delays
+  drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+  drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+  drm/panel-edp: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     |  188 ++
+ arch/arm/configs/at91_dt_defconfig            |    1 +
+ arch/arm/configs/exynos_defconfig             |    1 +
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +
+ arch/arm/configs/lpc32xx_defconfig            |    1 +
+ arch/arm/configs/multi_v5_defconfig           |    1 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/omap2plus_defconfig          |    1 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ arch/arm/configs/realview_defconfig           |    1 +
+ arch/arm/configs/sama5_defconfig              |    1 +
+ arch/arm/configs/shmobile_defconfig           |    1 +
+ arch/arm/configs/sunxi_defconfig              |    1 +
+ arch/arm/configs/tegra_defconfig              |    1 +
+ arch/arm/configs/versatile_defconfig          |    1 +
+ arch/arm/configs/vexpress_defconfig           |    1 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/gpu/drm/drm_edid.c                    |  281 ++-
+ drivers/gpu/drm/panel/Kconfig                 |   16 +-
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-edp.c             | 1896 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 1072 +---------
+ include/drm/drm_edid.h                        |   47 +
+ 23 files changed, 2355 insertions(+), 1162 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-edp.c
+
+-- 
+2.33.0.309.g3052b89438-goog
 
