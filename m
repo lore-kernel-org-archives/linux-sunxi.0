@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993EE3FE1
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Sep 2021 11:47:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 73D9161205;
-	Thu,  9 Sep 2021 11:47:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4442FAE
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Sep 2021 11:52:16 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CED3A61B32;
+	Thu,  9 Sep 2021 11:52:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1631188071;
+	s=k20201202; t=1631188336;
 	bh=p+sAzM/XDE2JhZloIqQUgcKpO2Gb1o+zgmF5bat62yk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Va78L2sd5Havz0l0xX2cwATyYBcJAka7SOJlwDUVtdwLVLxvCGaZU66hrwtpZIiz7
-	 CIivdZS8Z31NHrHqTPByy8FlOOxLpDH2r6xcfuCntxTTv8uQNjf8P1Nl8FFqS9Ct1d
-	 vYLzh+V0b+P0BY9J05/LiqhmXn+GXDWyoy75WFfjt6xLQTV3sADe0rWgpGzg/pkY+P
-	 XC3tH9c13CO1dfLhB6ujsc7I7VKPTXtAfzchzP6/3HEfQN91TABlp4SOaLy6PJjwe6
-	 mprjbnWHYMJweWMxze3YAPaKD8QIfl/ieXi/+VvP+YLwOaE1nGP4P8+wWAnv3yno1S
-	 OqlI0caKpF08Q==
+	b=rw+S++0rwbkQI99ZrlijyiWQDRmu76sz4r4o9+wN+BOVUeNhjd9o0i3lTxr+raIV/
+	 potKDPK63xGKIC1LQ46Qy2VWmaCB5NvC6HH/4JhpRPfaR9NAaV6q/QtsEpVze5gvYI
+	 HRS9ceAKyhugR2hOTA5+za553q76gEuf7rp7GPnih+OD7XFe/4kX7b5rvvJPqTCfhM
+	 H5LXUKJNHbdEDrOuhGz0Gz6lCUtBCXYrpyx8YV/NwLA3y8ro3wBd6e06aw76rE8yCj
+	 wWgXFDnyg7Qzl7f0jX5RDVvrlU27Qlrjy9m/f9JYhy2vhi7ypL67MFZ3C3Uc90XL7y
+	 bM7l4zik6qTvg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -24,12 +24,12 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.13 058/219] arm64: dts: allwinner: h6: tanix-tx6: Fix regulator node names
-Date: Thu,  9 Sep 2021 07:43:54 -0400
-Message-Id: <20210909114635.143983-58-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 045/176] arm64: dts: allwinner: h6: tanix-tx6: Fix regulator node names
+Date: Thu,  9 Sep 2021 07:49:07 -0400
+Message-Id: <20210909115118.146181-45-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
+In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
+References: <20210909115118.146181-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
