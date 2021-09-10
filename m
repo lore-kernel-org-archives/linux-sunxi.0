@@ -1,116 +1,40 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D6D3FEE
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Sep 2021 21:01:32 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id k23-20020a17090a591700b001976d2db364so2414820pji.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 Sep 2021 14:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=n006i3IBW2iUEGDiSQzDbT/ZRDF6GTq7cgbwR3bFSGQ=;
-        b=DmLMttWEuMDptT4pkUI7EML70x7xxDpq3k4Bd4QKmj6PYOaerM1g4jawU+xW+E3l4h
-         XqQjq9OjDcHwFNHbf7zAlzTeduNdvCx+dRFawLlvMv1ZcZmDe2d+oYZ8+SdyVwjSvsHz
-         363GXhzw/rR0tjwlk6umJ8aUsmep/ehQge0ds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=n006i3IBW2iUEGDiSQzDbT/ZRDF6GTq7cgbwR3bFSGQ=;
-        b=gBfwvUlp58WElcccBTQGf3fReEd+wxOWscsrUnzgCUeoVuZf3EpnCi1fZX/xcv7TeK
-         THnKP6wydBnhSkEAsAIhAoPVRS+ThN4D0E7yEiLiDoU5qJ7nMFtUl3A1SeMWKxFE7vxj
-         iJV4PORdln89xwdr7uPdilIvB8XCNZFhV9rbSWmM0eVyE2xfRPYZbkSOP176EHuMUMND
-         8BWnlA/Vi2/ykWtiGFXaXLkYuBA1v1WuFs6+JGrZoHgEpvgqG6P0ByK43EgzdQ0864At
-         Opz1HuYCUHrbnqg4aIh625Nduwy94M92oW0fjAVKVE2lO/WL8a7UFf2y4btNlSBYwkaT
-         6Wqw==
-X-Gm-Message-State: AOAM531bE9b9W+yqdH61KoXi/6mxKz12+kX06hkazGk6lE7ISPXpXpCF
-	jfKuBxGEWYJHt8gtjG6E1v4WGQ==
-X-Google-Smtp-Source: ABdhPJzjG7YLOczzbE3Y9qWt5C8gEnPH762+qg5P1jHWQwBpJiTKvjdTN7Ijd0U5T+C2rUT6AUCZpg==
-X-Received: by 2002:a17:902:c40e:b0:138:e2f9:6c97 with SMTP id k14-20020a170902c40e00b00138e2f96c97mr4522970plk.26.1631221291607;
-        Thu, 09 Sep 2021 14:01:31 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:8da3:b0fb:4261:2c10])
-        by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Sep 2021 14:01:31 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: Thierry Reding <thierry.reding@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sam Ravnborg <sam@ravnborg.org>
-Cc: devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Linus W <linus.walleij@linaro.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	linux-arm-msm@vger.kernel.org,
-	Steev Klimaszewski <steev@kali.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	David Airlie <airlied@linux.ie>,
-	dri-devel@lists.freedesktop.org,
-	Douglas Anderson <dianders@chromium.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Andreas Kemnade <andreas@kemnade.info>,
-	Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-	Anson Huang <Anson.Huang@nxp.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Emil Velikov <emil.velikov@collabora.com>,
-	Eugen Hristev <eugen.hristev@microchip.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Fabrice Gasnier <fabrice.gasnier@st.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Grygorii Strashko <grygorii.strashko@ti.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Lionel Debieve <lionel.debieve@st.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Ludovic Desroches <ludovic.desroches@microchip.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	=?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Olivier Moysan <olivier.moysan@st.com>,
-	Olof Johansson <olof@lixom.net>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Razvan Stefanescu <razvan.stefanescu@microchip.com>,
-	Robert Richter <rric@kernel.org>,
-	Russell King <linux@armlinux.org.uk>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Vladimir Zapolskiy <vz@mleia.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9B23FC3;
+	Fri, 10 Sep 2021 18:42:24 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by relay10.mail.gandi.net (Postfix) with ESMTPSA id A4711240005;
+	Fri, 10 Sep 2021 18:42:20 +0000 (UTC)
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-omap@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
-Subject: [PATCH v4 05/15] ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
-Date: Thu,  9 Sep 2021 14:00:21 -0700
-Message-Id: <20210909135838.v4.5.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
-X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
-In-Reply-To: <20210909210032.465570-1-dianders@chromium.org>
-References: <20210909210032.465570-1-dianders@chromium.org>
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH 05/22] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+Date: Fri, 10 Sep 2021 20:41:30 +0200
+Message-Id: <20210910184147.336618-6-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -119,217 +43,126 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In the patch ("drm/panel-simple-edp: Split eDP panels out of
-panel-simple") we will split the PANEL_SIMPLE driver in two. By
-default let's give everyone who had the old driver enabled the new
-driver too. If folks want to opt-out of one or the other they always
-can later.
+The A31 CSI controller supports two distinct input interfaces:
+parallel and an external MIPI CSI-2 bridge. The parallel interface
+is often connected to a set of hardware pins while the MIPI CSI-2
+bridge is an internal FIFO-ish link. As a result, these two inputs
+are distinguished as two different ports.
 
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Note that only one of the two may be present on a controller instance.
+For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+dedicated to parallel.
+
+Update the binding with an explicit ports node that holds two distinct
+port nodes: one for parallel input and one for MIPI CSI-2.
+
+This is backward-compatible with the single-port approach that was
+previously taken for representing the parallel interface port, which
+stays enumerated as fwnode port 0.
+
+Note that additional ports may be added in the future, especially to
+support feeding the CSI controller's output to the ISP.
+
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
+ .../media/allwinner,sun6i-a31-csi.yaml        | 75 +++++++++++++++----
+ 1 file changed, 62 insertions(+), 13 deletions(-)
 
-Changes in v4:
-- PANEL_SIMPLE_EDP => PANEL_EDP
-- Reordered config patches to be before code patch
-
- arch/arm/configs/at91_dt_defconfig   | 1 +
- arch/arm/configs/exynos_defconfig    | 1 +
- arch/arm/configs/imx_v6_v7_defconfig | 1 +
- arch/arm/configs/lpc32xx_defconfig   | 1 +
- arch/arm/configs/multi_v5_defconfig  | 1 +
- arch/arm/configs/multi_v7_defconfig  | 1 +
- arch/arm/configs/omap2plus_defconfig | 1 +
- arch/arm/configs/qcom_defconfig      | 1 +
- arch/arm/configs/realview_defconfig  | 1 +
- arch/arm/configs/sama5_defconfig     | 1 +
- arch/arm/configs/shmobile_defconfig  | 1 +
- arch/arm/configs/sunxi_defconfig     | 1 +
- arch/arm/configs/tegra_defconfig     | 1 +
- arch/arm/configs/versatile_defconfig | 1 +
- arch/arm/configs/vexpress_defconfig  | 1 +
- 15 files changed, 15 insertions(+)
-
-diff --git a/arch/arm/configs/at91_dt_defconfig b/arch/arm/configs/at91_dt_defconfig
-index b1564e0aa000..a6310c8abcc3 100644
---- a/arch/arm/configs/at91_dt_defconfig
-+++ b/arch/arm/configs/at91_dt_defconfig
-@@ -144,6 +144,7 @@ CONFIG_VIDEO_MT9V032=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_FB_ATMEL=y
- CONFIG_BACKLIGHT_ATMEL_LCDC=y
- CONFIG_BACKLIGHT_PWM=y
-diff --git a/arch/arm/configs/exynos_defconfig b/arch/arm/configs/exynos_defconfig
-index f4e1873912a3..cae09010a799 100644
---- a/arch/arm/configs/exynos_defconfig
-+++ b/arch/arm/configs/exynos_defconfig
-@@ -227,6 +227,7 @@ CONFIG_DRM_EXYNOS_DPI=y
- CONFIG_DRM_EXYNOS_DSI=y
- CONFIG_DRM_EXYNOS_HDMI=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SAMSUNG_LD9040=y
- CONFIG_DRM_PANEL_SAMSUNG_S6E63J0X03=y
- CONFIG_DRM_PANEL_SAMSUNG_S6E8AA0=y
-diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
-index 079fcd8d1d11..f46cdc4a0ca8 100644
---- a/arch/arm/configs/imx_v6_v7_defconfig
-+++ b/arch/arm/configs/imx_v6_v7_defconfig
-@@ -280,6 +280,7 @@ CONFIG_DRM=y
- CONFIG_DRM_MSM=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SEIKO_43WVF1G=y
- CONFIG_DRM_TI_TFP410=y
- CONFIG_DRM_DW_HDMI_AHB_AUDIO=m
-diff --git a/arch/arm/configs/lpc32xx_defconfig b/arch/arm/configs/lpc32xx_defconfig
-index 989bcc84e7fb..6c3e4a141963 100644
---- a/arch/arm/configs/lpc32xx_defconfig
-+++ b/arch/arm/configs/lpc32xx_defconfig
-@@ -108,6 +108,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PL111=y
- CONFIG_FB_MODE_HELPERS=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
-diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
-index 80a3ae02d759..fe8d760256a4 100644
---- a/arch/arm/configs/multi_v5_defconfig
-+++ b/arch/arm/configs/multi_v5_defconfig
-@@ -194,6 +194,7 @@ CONFIG_VIDEO_ATMEL_ISI=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_ASPEED_GFX=m
- CONFIG_FB_IMX=y
- CONFIG_FB_ATMEL=y
-diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
-index d9abaae118dd..610e3453d720 100644
---- a/arch/arm/configs/multi_v7_defconfig
-+++ b/arch/arm/configs/multi_v7_defconfig
-@@ -699,6 +699,7 @@ CONFIG_DRM_TEGRA=y
- CONFIG_DRM_STM=m
- CONFIG_DRM_STM_DSI=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_PANEL_SAMSUNG_LD9040=m
- CONFIG_DRM_PANEL_ORISETECH_OTM8009A=m
- CONFIG_DRM_PANEL_RAYDIUM_RM68200=m
-diff --git a/arch/arm/configs/omap2plus_defconfig b/arch/arm/configs/omap2plus_defconfig
-index 2ac2418084ab..d933b787d934 100644
---- a/arch/arm/configs/omap2plus_defconfig
-+++ b/arch/arm/configs/omap2plus_defconfig
-@@ -511,6 +511,7 @@ CONFIG_OMAP2_DSS_DSI=y
- CONFIG_DRM_TILCDC=m
- CONFIG_DRM_PANEL_DSI_CM=m
- CONFIG_DRM_PANEL_SIMPLE=m
-+CONFIG_DRM_PANEL_EDP=m
- CONFIG_DRM_PANEL_LG_LB035Q02=m
- CONFIG_DRM_PANEL_NEC_NL8048HL11=m
- CONFIG_DRM_PANEL_SHARP_LS037V7DW01=m
-diff --git a/arch/arm/configs/qcom_defconfig b/arch/arm/configs/qcom_defconfig
-index 26353cbfa968..0daa9c0d298e 100644
---- a/arch/arm/configs/qcom_defconfig
-+++ b/arch/arm/configs/qcom_defconfig
-@@ -158,6 +158,7 @@ CONFIG_MEDIA_SUPPORT=y
- CONFIG_DRM=y
- CONFIG_DRM_MSM=m
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_ANALOGIX_ANX78XX=m
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
-diff --git a/arch/arm/configs/realview_defconfig b/arch/arm/configs/realview_defconfig
-index 4c01e313099f..3ef3521c19db 100644
---- a/arch/arm/configs/realview_defconfig
-+++ b/arch/arm/configs/realview_defconfig
-@@ -61,6 +61,7 @@ CONFIG_REGULATOR=y
- CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
-diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
-index 17db3b3e2dd3..fe0d7ccc8fb2 100644
---- a/arch/arm/configs/sama5_defconfig
-+++ b/arch/arm/configs/sama5_defconfig
-@@ -160,6 +160,7 @@ CONFIG_VIDEO_MT9V032=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_LCD_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
- CONFIG_BACKLIGHT_PWM=y
-diff --git a/arch/arm/configs/shmobile_defconfig b/arch/arm/configs/shmobile_defconfig
-index d9a27e4e0914..b772105039f6 100644
---- a/arch/arm/configs/shmobile_defconfig
-+++ b/arch/arm/configs/shmobile_defconfig
-@@ -129,6 +129,7 @@ CONFIG_VIDEO_ML86V7667=y
- CONFIG_DRM=y
- CONFIG_DRM_RCAR_DU=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_LVDS_CODEC=y
- CONFIG_DRM_SII902X=y
-diff --git a/arch/arm/configs/sunxi_defconfig b/arch/arm/configs/sunxi_defconfig
-index a60c134c5e04..8ba7935bd039 100644
---- a/arch/arm/configs/sunxi_defconfig
-+++ b/arch/arm/configs/sunxi_defconfig
-@@ -108,6 +108,7 @@ CONFIG_DRM_SUN4I_HDMI_CEC=y
- CONFIG_DRM_SUN8I_DW_HDMI=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_LIMA=y
- CONFIG_FB_SIMPLE=y
-diff --git a/arch/arm/configs/tegra_defconfig b/arch/arm/configs/tegra_defconfig
-index 3d8d8af9524d..055e35b48706 100644
---- a/arch/arm/configs/tegra_defconfig
-+++ b/arch/arm/configs/tegra_defconfig
-@@ -204,6 +204,7 @@ CONFIG_DRM_TEGRA=y
- CONFIG_DRM_TEGRA_STAGING=y
- CONFIG_DRM_PANEL_LVDS=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_LVDS_CODEC=y
- # CONFIG_LCD_CLASS_DEVICE is not set
- CONFIG_BACKLIGHT_CLASS_DEVICE=y
-diff --git a/arch/arm/configs/versatile_defconfig b/arch/arm/configs/versatile_defconfig
-index b703f4757021..d06aa64e05a1 100644
---- a/arch/arm/configs/versatile_defconfig
-+++ b/arch/arm/configs/versatile_defconfig
-@@ -57,6 +57,7 @@ CONFIG_GPIO_PL061=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_ARM_VERSATILE=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_DISPLAY_CONNECTOR=y
- CONFIG_DRM_SIMPLE_BRIDGE=y
- CONFIG_DRM_PL111=y
-diff --git a/arch/arm/configs/vexpress_defconfig b/arch/arm/configs/vexpress_defconfig
-index b5e246dd23f4..947987730eb7 100644
---- a/arch/arm/configs/vexpress_defconfig
-+++ b/arch/arm/configs/vexpress_defconfig
-@@ -77,6 +77,7 @@ CONFIG_SENSORS_VEXPRESS=y
- CONFIG_REGULATOR_VEXPRESS=y
- CONFIG_DRM=y
- CONFIG_DRM_PANEL_SIMPLE=y
-+CONFIG_DRM_PANEL_EDP=y
- CONFIG_DRM_SII902X=y
- CONFIG_DRM_PL111=y
- CONFIG_FB=y
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+index 8b568072a069..f4a686b77a38 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+@@ -61,6 +61,49 @@ properties:
+ 
+     additionalProperties: false
+ 
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Parallel input port, connect to a parallel sensor
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              bus-width:
++                enum: [ 8, 10, 12, 16 ]
++
++              pclk-sample: true
++              hsync-active: true
++              vsync-active: true
++
++            required:
++              - bus-width
++
++        additionalProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: MIPI CSI-2 bridge input port
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++        additionalProperties: false
++
+ required:
+   - compatible
+   - reg
+@@ -89,19 +132,25 @@ examples:
+                       "ram";
+         resets = <&ccu RST_BUS_CSI>;
+ 
+-        port {
+-            /* Parallel bus endpoint */
+-            csi1_ep: endpoint {
+-                remote-endpoint = <&adv7611_ep>;
+-                bus-width = <16>;
+-
+-                /*
+-                 * If hsync-active/vsync-active are missing,
+-                 * embedded BT.656 sync is used.
+-                 */
+-                 hsync-active = <0>; /* Active low */
+-                 vsync-active = <0>; /* Active low */
+-                 pclk-sample = <1>;  /* Rising */
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                /* Parallel bus endpoint */
++                csi1_ep: endpoint {
++                    remote-endpoint = <&adv7611_ep>;
++                    bus-width = <16>;
++
++                    /*
++                     * If hsync-active/vsync-active are missing,
++                     * embedded BT.656 sync is used.
++                     */
++                     hsync-active = <0>; /* Active low */
++                     vsync-active = <0>; /* Active low */
++                     pclk-sample = <1>;  /* Rising */
++                };
+             };
+         };
+     };
 -- 
-2.33.0.309.g3052b89438-goog
+2.32.0
 
