@@ -1,60 +1,54 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3559C3FC5;
-	Sun, 12 Sep 2021 08:21:06 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id i23so9521883wrb.2;
-        Sun, 12 Sep 2021 01:21:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696853FC3
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 09:50:47 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id i3so4409479wmq.3
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 02:50:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=loVuR5rf8xXZUXrkvmuZ4jdfaeutXsglZCQg6SpqqWI=;
-        b=mz9rcT5C8Hmf5wIRx6BVghFw/iPtNymfvfF8cuTcwBpj3tVtFNUDyVqKD9m/hwVuja
-         3oAvSb7+QD/evuBHr8Ge9l0bHp6YhNR5ijLNRdBnZH9ubgoCtegSHThuZGr3Naml2G/U
-         W4YxkMnq5xXcIl5MkbWBAFtwdeVgbAl9fHQ49aJZpXXC9l2Ak8oXuHuFx1hnFGI06Oa3
-         QQFCQY32NwzQQVDyh4iAJF43lBrDw0Zhr6PysXZk2hkbX2C0/Zy7fukuJ+kVdJH9evC7
-         NAJy4Q8w5Jwri1ZgA23SAcCuPq+NeBWHegfSMHCTApZ/Ls1t2EoVpYrEiAKf3szTCznS
-         F3MA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZfUDMjhaBW28irP63CnwhnXUauvV+ceBbmfpoRw/Bl8=;
+        b=T1/hhsyBRS2DZ/592/U9LVU+905MkddkZ7e1nzYGxk3NrFdUaONbjuCPUU+gYQAHf6
+         a1qCH3aWLd+2sKyN1+2zeYJQLYcEL/LZZwvW/b6O4juccBqfNW4nQncgbff+UwRkuXd4
+         zKp96LxjFMOVlsVhsiJDad//D8305kdp21qeIu6Sd+AbbolgW+OSAkDc9EoWo9V8a48i
+         nv9/oBTQwPlH4eCmKGCMoZTQ00ZQooVtNjRSwqL5zCep+fL3NLkM+nXrDeuo8xBKk/aH
+         l0HebZCPiIoQrqZ6ZwIOfvpcBoeuQ861jdq4/sIkzWS9K030Sj/hYNhrbd5bZXL+ZUI5
+         vzbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=loVuR5rf8xXZUXrkvmuZ4jdfaeutXsglZCQg6SpqqWI=;
-        b=i5F6WCWZ8W1Y/P7mIZh354avywYYzlrSNhwrltc/DT8Uvihg/mkxFo8SpWTs1YaUqh
-         SelAC4DeQkGCXgpQ3hBppKPUK+KTDy2wlcvwNoF5QuWmRGpWgaW/fDy8wz06QQ7Q65o3
-         EWV5SUbNrYGj6oPRiscwaKfNGgPdGfrcOGK4y/WCDwHTmNAT7MrnGO1HivqtmYhFYGjl
-         dimYSoSLAkJWPP6sgs60rjxahbcYBDqbfYQbmEHIepYabvonLx6r7UvH6myIJ2Tt4yGn
-         YODkGDtME67onhqEB+Md0AEjstxGzNEViIWB0mYYUJowIMKADfqidHnKhfFvgn7tChUc
-         ++dg==
-X-Gm-Message-State: AOAM5300a5j5pv6daK7yQ63Jj4YIK93MYZxumwWML5xyqPJbwHbOCOz9
-	0IUYayzdbVE0K0quHfGH5b0=
-X-Google-Smtp-Source: ABdhPJymmVlbyu3mVI7xzQefhW6DAWK5wy+DMJxGBpj1f82ZRDyXtzqEeAd+gIeNepxhQTShqR7x+Q==
-X-Received: by 2002:a5d:63c5:: with SMTP id c5mr6563829wrw.135.1631434864600;
-        Sun, 12 Sep 2021 01:21:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZfUDMjhaBW28irP63CnwhnXUauvV+ceBbmfpoRw/Bl8=;
+        b=fNeCfKr9tLIIuJhY/OoK5a7WV6NAdoypmI1qPrhz0/+VviszP2OMfIDLMYnnydJZLw
+         qxQ2bbl6dGg7SVbz7xGU+sDdyHxdgEkdiBZ7h64oidnP1Z9qltLUU1axOmWxJXx4y0Os
+         rGQW70Zk8xegNHFTpqSX3WWBpafcyXquNBi6F7EM49M8nUYYE5doVAgkEQOieekm2v59
+         qidW/B6hmbhR0iwiW+Qf/pQJ0LjH3qUCRQ/Yw6SZYWQ3M2Tn5CtgdecRZ5U9P9gBU//s
+         iQCMe1THZLdtqKprkap/rsFgxmLLudwJR2IyDka9BbMKoSii83nR1301PIoe32pSd4Rr
+         zMdA==
+X-Gm-Message-State: AOAM530nfk2s10ais/OAzfdf1mOW874jEEoYvTfBWDuwaSfN4B1w7kHT
+	AyVL3OWFFhUYbMmG4vkQJOA=
+X-Google-Smtp-Source: ABdhPJyzMQK6uGv0+edsUnseYhz0bylpHJqwuQWPA5iwYb8Cj0rz5723JiK4lVGjA+DXjoqok7/erg==
+X-Received: by 2002:a7b:cd15:: with SMTP id f21mr1464839wmj.16.1631440245762;
+        Sun, 12 Sep 2021 02:50:45 -0700 (PDT)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id z7sm4734148wre.72.2021.09.12.01.21.03
+        by smtp.gmail.com with ESMTPSA id n13sm3471487wmq.3.2021.09.12.02.50.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 01:21:04 -0700 (PDT)
+        Sun, 12 Sep 2021 02:50:45 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: wens@csie.org,
-	mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	wens@csie.org
+Cc: robh+dt@kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] media: cedrus: add check for H264 and H265 limitations
-Date: Sun, 12 Sep 2021 10:20:51 +0200
-Message-Id: <20210912082051.404645-3-jernej.skrabec@gmail.com>
+Subject: [PATCH] arm64: dts: allwinner: a64: Add GPU opp table
+Date: Sun, 12 Sep 2021 11:50:32 +0200
+Message-Id: <20210912095032.2397824-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210912082051.404645-1-jernej.skrabec@gmail.com>
-References: <20210912082051.404645-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,88 +57,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Cedrus supports only YUV420 H264/H265 content and mostly only 8-bit
-colours (except on H6, where 10-bit are also supported).
+GPU on A64 currently runs at default frequency, which is 297 MHz. This
+is a bit low in some cases and noticeable lag can be observed in GPU
+rendered UIs. GPU is capable to run at 432 MHz.
 
-Add validation callback to SPS controls, which will reject unsupported
-combinations.
+Add GPU OPP table.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 46 +++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index e7741178465b..9dd30cb568e8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -28,6 +28,50 @@
- #include "cedrus_dec.h"
- #include "cedrus_hw.h"
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+index 6ddb717f2f98..5ba379078500 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
+@@ -102,6 +102,22 @@ de: display-engine {
+ 		status = "disabled";
+ 	};
  
-+static int cedrus_try_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
-+		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
++	gpu_opp_table: opp-table-gpu {
++		compatible = "operating-points-v2";
 +
-+		if (sps->chroma_format_idc != 1)
-+			/* Only 4:2:0 is supported */
-+			return -EINVAL;
-+		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-+			/* Luma and chroma bit depth mismatch */
-+			return -EINVAL;
-+		if (sps->bit_depth_luma_minus8 != 0)
-+			/* Only 8-bit is supported */
-+			return -EINVAL;
-+	} else if (ctrl->id == V4L2_CID_MPEG_VIDEO_HEVC_SPS) {
-+		const struct v4l2_ctrl_hevc_sps *sps = ctrl->p_new.p_hevc_sps;
-+		struct cedrus_ctx *ctx = container_of(ctrl->handler, struct cedrus_ctx, hdl);
++		opp-120000000 {
++			opp-hz = /bits/ 64 <120000000>;
++		};
 +
-+		if (sps->chroma_format_idc != 1)
-+			/* Only 4:2:0 is supported */
-+			return -EINVAL;
++		opp-312000000 {
++			opp-hz = /bits/ 64 <312000000>;
++		};
 +
-+		if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
-+			/* Luma and chroma bit depth mismatch */
-+			return -EINVAL;
++		opp-432000000 {
++			opp-hz = /bits/ 64 <432000000>;
++		};
++	};
 +
-+		if (ctx->dev->capabilities & CEDRUS_CAPABILITY_H265_10_DEC) {
-+			if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-+				/* Only 8-bit and 10-bit are supported */
-+				return -EINVAL;
-+		} else {
-+			if (sps->bit_depth_luma_minus8 != 0)
-+				/* Only 8-bit is supported */
-+				return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_ctrl_ops cedrus_ctrl_ops = {
-+	.try_ctrl = cedrus_try_ctrl,
-+};
-+
- static const struct cedrus_control cedrus_controls[] = {
- 	{
- 		.cfg = {
-@@ -62,6 +106,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_STATELESS_H264_SPS,
-+			.ops	= &cedrus_ctrl_ops,
- 		},
- 		.codec		= CEDRUS_CODEC_H264,
- 	},
-@@ -120,6 +165,7 @@ static const struct cedrus_control cedrus_controls[] = {
- 	{
- 		.cfg = {
- 			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SPS,
-+			.ops	= &cedrus_ctrl_ops,
- 		},
- 		.codec		= CEDRUS_CODEC_H265,
- 	},
+ 	osc24M: osc24M_clk {
+ 		#clock-cells = <0>;
+ 		compatible = "fixed-clock";
+@@ -1103,6 +1119,7 @@ mali: gpu@1c40000 {
+ 			clocks = <&ccu CLK_BUS_GPU>, <&ccu CLK_GPU>;
+ 			clock-names = "bus", "core";
+ 			resets = <&ccu RST_BUS_GPU>;
++			operating-points-v2 = <&gpu_opp_table>;
+ 		};
+ 
+ 		gic: interrupt-controller@1c81000 {
 -- 
 2.33.0
 
