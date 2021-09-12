@@ -1,59 +1,58 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4073FC5
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 07:29:26 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id i23so9407442wrb.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 00:29:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240AF3FC5;
+	Sun, 12 Sep 2021 08:21:04 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id g74so4301633wmg.5;
+        Sun, 12 Sep 2021 01:21:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=p8XhEt4Fmunfa8NpIGRPQuJN1xu6qouTV5IkQcF+ghU=;
-        b=cKXO0KuhajEgiGk1+uT4HTy5EyOwfRg/XscYGA04SmmiTfiwVzN5cb8yuTT+w1S/tc
-         fHHVCQoE52EXSOh056ofPSHaNg327CEj2v3BkOpPgPl1R7Chrtp2BYKHp9YUrgB5WIWb
-         pk1rOUYa0txYlOq9SCialmsGXlsZLqTHzD0vE8u5yh84Dnff4sRu/9b5J5z3igoVcpaR
-         MvFo/IMAILvxNbVjxGT5PJApS40MYHBmcCYwEm/BSshsevBBOuMJjf1Py9eRcYaJE1q7
-         qMgO97pF+3YnVuj7+wSwObrDEFuPuzoQskz+UmD4Du/e+odHpEFFLGK98DUkaPDhXDBL
-         GSJQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LT34+O2y8jlTFIaCq6B6/Rp8/2SCwO8Z1dBB/RqrE7o=;
+        b=ZbaLrC4FD3vx/1V0YKwP6kGOJvQjS+QTu7htpwg4T7cDEFVUwbEmPv6ojk6sDnGDZZ
+         KZOCeQVo/8s2dSI2B1hveQo2CIEahpxsVnSoXSKlctcIFGS0FynfUqSevuWu9pVKknsw
+         R3/qvQpPCqhMIJEnaEhaE+X2RILw0pecPN1Xn119e+ewzThGoyvblzRFYjlmWHPO43le
+         VCxzFEjf7L7/ZDjoCi8Hga8vGCPtgBdq8Jj9r972sJeYqnE4wnnpdsqgnJTCc2XJgZan
+         /4WDb1I2isOhvUZLUkzvrxs9CzCYsNrAzU2POCwhU56XCLDc89QNgjdx5pm2JfeFhS/6
+         mkyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=p8XhEt4Fmunfa8NpIGRPQuJN1xu6qouTV5IkQcF+ghU=;
-        b=Y+v4U9sumGqOX4hnA0/g4NIGGoOjgK8rXU5ksGU4kPn+jtPigrbJTNV7pMVKerPLkg
-         7w2AqVx3Hlb9vV8ckAPHC9rNLjVLoEjno+gaAsbi0rjbJE5Hls1VTMdjeDYpzvjtDjcq
-         cGWXctmitosnEcQ2PtcpkC4bUOGhSIpM3Yh5UymgPlYXAJ0WwXkcSxJW5eII9TlLIdwV
-         6kQoofOyYDppp3P0h+Hd0XRcBy7jJcbqP1vxPAfv1/GUo+TkYOn8aW+zDqLQQ/dla3dc
-         zjGm076LhtXpHg0nud7Eydfb8870arm/J0011pDKAIGUcIICbh4tsHXqlcArZRokMJ/u
-         3Hgg==
-X-Gm-Message-State: AOAM531PMhRi7vC6OjJiND+7c/y+KSVyZEUsbiBTFUrsU+60az47to4s
-	9/NKe47GWPWeHW8mkFof+aw=
-X-Google-Smtp-Source: ABdhPJw8j95ed8Tv5MAZwOMVe8G4B4HBMDkVEHQ3XC1PQKwL8HHqVAy8O8rZnTdOeGzxz6l+b1oylA==
-X-Received: by 2002:adf:c109:: with SMTP id r9mr6361561wre.184.1631431764810;
-        Sun, 12 Sep 2021 00:29:24 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LT34+O2y8jlTFIaCq6B6/Rp8/2SCwO8Z1dBB/RqrE7o=;
+        b=iZUHlDZN3175UM2UZ+hFmHfqNIcBDdYvODpzAwuNrK4sfxtFaBfr1s8QIYXa4HBdbo
+         70xf2z5ocatl5t3T8cYbmhCbzt5D4bNORxt8ahnO8IsblWvEkeiS73NQZPBucNa3Dk8n
+         VsgEojsyHxcTkGODoongcdFRlWq1CDIQna/oWXHv+8XuLTiUOBaFU/IhmabZFeP3PK9L
+         AuTcmo8u7vEYRO0PcxdkBnahYgFFuft3s1R5yQOT4hfjbK2EZ5OPR2wN+LogkykYIWTx
+         lRLsGLNLHIlKsqYdKhyBdSdEgloma2ob7hiNqk6MoL1Zqw8rvYWW41WKKnWOFQ63Kilh
+         3e4w==
+X-Gm-Message-State: AOAM533yojfzcoksEvoVf8/UEWFCzsWOjvv39R0aA+Vn+jGHgoTMEQZS
+	ZI0wvv75Obv10+VF4Mu07u4=
+X-Google-Smtp-Source: ABdhPJyqLnC1HxRGb9sUgb6iU1MmFNSzSyZOI+NhOigKON5velkaZkdi84vHFDZIyu/1TLAbWjzS8w==
+X-Received: by 2002:a1c:800e:: with SMTP id b14mr5923995wmd.54.1631434862589;
+        Sun, 12 Sep 2021 01:21:02 -0700 (PDT)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id t18sm3584889wrp.97.2021.09.12.00.29.23
+        by smtp.gmail.com with ESMTPSA id z7sm4734148wre.72.2021.09.12.01.21.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 00:29:24 -0700 (PDT)
+        Sun, 12 Sep 2021 01:21:02 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
-	broonie@kernel.org,
-	lgirdwood@gmail.com,
-	alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: wens@csie.org,
+	mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 2/2] ARM: dts: sun8i: r40: Add I2S nodes
-Date: Sun, 12 Sep 2021 09:29:14 +0200
-Message-Id: <20210912072914.398419-3-jernej.skrabec@gmail.com>
+Subject: [PATCH 0/2] media: cedrus: validate H264 and H265 SPS controls
+Date: Sun, 12 Sep 2021 10:20:49 +0200
+Message-Id: <20210912082051.404645-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210912072914.398419-1-jernej.skrabec@gmail.com>
-References: <20210912072914.398419-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,66 +61,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner R40 has 3 I2S controllers, compatible to those in H3. First
-two are routed to pins, while third is used internally for HDMI audio.
+Since Cedrus core doesn't support decoding all possible H264 and H265
+formats, it's good to add some validation, which would reject unsupported
+combinations.
 
-Add nodes for all 3 I2S controllers.
+Patch 1 adds H265 10-bit capability flag, currently supported only on H6.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 39 ++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Patch 2 adds H264/H265 SPS validation callback.
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 291f4784e86c..1d87fc0c24ee 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -736,6 +736,45 @@ ir1: ir@1c21c00 {
- 			status = "disabled";
- 		};
- 
-+		i2s0: i2s@1c22000 {
-+			#sound-dai-cells = <0>;
-+			compatible = "allwinner,sun8i-r40-i2s",
-+				     "allwinner,sun8i-h3-i2s";
-+			reg = <0x01c22000 0x400>;
-+			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_I2S0>, <&ccu CLK_I2S0>;
-+			clock-names = "apb", "mod";
-+			resets = <&ccu RST_BUS_I2S0>;
-+			dmas = <&dma 3>, <&dma 3>;
-+			dma-names = "rx", "tx";
-+		};
-+
-+		i2s1: i2s@1c22400 {
-+			#sound-dai-cells = <0>;
-+			compatible = "allwinner,sun8i-r40-i2s",
-+				     "allwinner,sun8i-h3-i2s";
-+			reg = <0x01c22400 0x400>;
-+			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_I2S1>, <&ccu CLK_I2S1>;
-+			clock-names = "apb", "mod";
-+			resets = <&ccu RST_BUS_I2S1>;
-+			dmas = <&dma 4>, <&dma 4>;
-+			dma-names = "rx", "tx";
-+		};
-+
-+		i2s2: i2s@1c22800 {
-+			#sound-dai-cells = <0>;
-+			compatible = "allwinner,sun8i-r40-i2s",
-+				     "allwinner,sun8i-h3-i2s";
-+			reg = <0x01c22800 0x400>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_I2S2>, <&ccu CLK_I2S2>;
-+			clock-names = "apb", "mod";
-+			resets = <&ccu RST_BUS_I2S2>;
-+			dmas = <&dma 6>, <&dma 6>;
-+			dma-names = "rx", "tx";
-+		};
-+
- 		ths: thermal-sensor@1c24c00 {
- 			compatible = "allwinner,sun8i-r40-ths";
- 			reg = <0x01c24c00 0x100>;
+Please take a look.
+
+Best regards,
+Jernej
+
+Jernej Skrabec (2):
+  media: cedrus: Add H265 10-bit capability flag
+  media: cedrus: add check for H264 and H265 limitations
+
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 47 +++++++++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus.h |  1 +
+ 2 files changed, 48 insertions(+)
+
 -- 
 2.33.0
 
