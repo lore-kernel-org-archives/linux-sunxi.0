@@ -1,41 +1,41 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D1E2F80
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 07:29:25 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id m9so9423930wrb.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 00:29:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4073FC5
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 07:29:26 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id i23so9407442wrb.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 00:29:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=q4RL0sqYDQpryks2hL9tjkn/HeWDVonzaaoKuLG05Vk=;
-        b=kV0FwxCcUZPNv2Sxt7roikRo7jM6LiDDicK3Z0IAjf9ahaa9/SsZpSS8lIFmdFQajj
-         xka8kYlyccXLabLzhnOcQpIkfve3AA3L8dWk2RWcgt5adAy0pj39oLYYKbM4ik0cORKQ
-         gDo8aB3rA1Ybkd1MEzEZkvW3EEpn74O9kzlJZ7IFsEb3rdwWmHyV1f+slsZ7XL4kKLKF
-         Iqiyt6FtmRE+ceskzSZw3X7zXHetZ1wrpc/tL8ZSYHUqhuVzYn59JWOyPxMpmknxroPZ
-         2SXDjJDrbkMjDhXHJ8zYH0dDKDvNPGmXJ28LFJFjPcQ37iXo3y0E+PnaCbMsqkYsTqlk
-         9ekw==
+        bh=p8XhEt4Fmunfa8NpIGRPQuJN1xu6qouTV5IkQcF+ghU=;
+        b=cKXO0KuhajEgiGk1+uT4HTy5EyOwfRg/XscYGA04SmmiTfiwVzN5cb8yuTT+w1S/tc
+         fHHVCQoE52EXSOh056ofPSHaNg327CEj2v3BkOpPgPl1R7Chrtp2BYKHp9YUrgB5WIWb
+         pk1rOUYa0txYlOq9SCialmsGXlsZLqTHzD0vE8u5yh84Dnff4sRu/9b5J5z3igoVcpaR
+         MvFo/IMAILvxNbVjxGT5PJApS40MYHBmcCYwEm/BSshsevBBOuMJjf1Py9eRcYaJE1q7
+         qMgO97pF+3YnVuj7+wSwObrDEFuPuzoQskz+UmD4Du/e+odHpEFFLGK98DUkaPDhXDBL
+         GSJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=q4RL0sqYDQpryks2hL9tjkn/HeWDVonzaaoKuLG05Vk=;
-        b=5/vkAS4wwiN6P4ghovE7LazKd8R1L1SqLKPPYdTMQbO4nB/LFBaX8u61KOpwSYx02n
-         w360/pn7HJl+GslfWx2I62AGrMW8F2rnLNcePYCaNeCBELV8qwZ9yy8UODeAYSkqud7a
-         jMlsU08uee01CQsm1KHIRQpHogOyPG67hI4/WNJG0aRSyIgRSG5Wzb5+zex385t32VSP
-         YxwRS6EpOlV1C54vXuxq3iAwt9B53ccaOVdJ7uOtdjFOhFuqZ68MVmKq2Y1aP95pXEqC
-         ICub1uL+gcQxTL/0+asyOTFBOijhMEE6X1NeSFj3G0ndS1mvxVj8BNw6idFgE8EBArjj
-         TuRg==
-X-Gm-Message-State: AOAM530ScyNUmbFcihFwQIzk2edFAyVtsBUkOEop4/XWmkWjw8fooodr
-	fiE6ABl5qRlJyF2LFYS9O1s=
-X-Google-Smtp-Source: ABdhPJyzGL9pJtzMKYuimQOy8clVHIFsJ1uTW6/YaQEONAIxa49BkFdACyZzJGio4nTTzUBvHyzDNw==
-X-Received: by 2002:a05:6000:1081:: with SMTP id y1mr3890013wrw.14.1631431763798;
-        Sun, 12 Sep 2021 00:29:23 -0700 (PDT)
+        bh=p8XhEt4Fmunfa8NpIGRPQuJN1xu6qouTV5IkQcF+ghU=;
+        b=Y+v4U9sumGqOX4hnA0/g4NIGGoOjgK8rXU5ksGU4kPn+jtPigrbJTNV7pMVKerPLkg
+         7w2AqVx3Hlb9vV8ckAPHC9rNLjVLoEjno+gaAsbi0rjbJE5Hls1VTMdjeDYpzvjtDjcq
+         cGWXctmitosnEcQ2PtcpkC4bUOGhSIpM3Yh5UymgPlYXAJ0WwXkcSxJW5eII9TlLIdwV
+         6kQoofOyYDppp3P0h+Hd0XRcBy7jJcbqP1vxPAfv1/GUo+TkYOn8aW+zDqLQQ/dla3dc
+         zjGm076LhtXpHg0nud7Eydfb8870arm/J0011pDKAIGUcIICbh4tsHXqlcArZRokMJ/u
+         3Hgg==
+X-Gm-Message-State: AOAM531PMhRi7vC6OjJiND+7c/y+KSVyZEUsbiBTFUrsU+60az47to4s
+	9/NKe47GWPWeHW8mkFof+aw=
+X-Google-Smtp-Source: ABdhPJw8j95ed8Tv5MAZwOMVe8G4B4HBMDkVEHQ3XC1PQKwL8HHqVAy8O8rZnTdOeGzxz6l+b1oylA==
+X-Received: by 2002:adf:c109:: with SMTP id r9mr6361561wre.184.1631431764810;
+        Sun, 12 Sep 2021 00:29:24 -0700 (PDT)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id t18sm3584889wrp.97.2021.09.12.00.29.22
+        by smtp.gmail.com with ESMTPSA id t18sm3584889wrp.97.2021.09.12.00.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 00:29:23 -0700 (PDT)
+        Sun, 12 Sep 2021 00:29:24 -0700 (PDT)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	wens@csie.org
@@ -48,9 +48,9 @@ Cc: robh+dt@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 1/2] dt-bindings: sound: sun4i-i2s: add Allwinner R40 I2S compatible
-Date: Sun, 12 Sep 2021 09:29:13 +0200
-Message-Id: <20210912072914.398419-2-jernej.skrabec@gmail.com>
+Subject: [PATCH 2/2] ARM: dts: sun8i: r40: Add I2S nodes
+Date: Sun, 12 Sep 2021 09:29:14 +0200
+Message-Id: <20210912072914.398419-3-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210912072914.398419-1-jernej.skrabec@gmail.com>
 References: <20210912072914.398419-1-jernej.skrabec@gmail.com>
@@ -62,29 +62,66 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner R40 has 3 I2S controllers, compatible to those, found in H3.
+Allwinner R40 has 3 I2S controllers, compatible to those in H3. First
+two are routed to pins, while third is used internally for HDMI audio.
 
-Add R40/H3 compatible pair to DT bindings.
+Add nodes for all 3 I2S controllers.
 
 Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- .../devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml     | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm/boot/dts/sun8i-r40.dtsi | 39 ++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
-index 39b66e9ce3e3..7d48ea094c66 100644
---- a/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
-+++ b/Documentation/devicetree/bindings/sound/allwinner,sun4i-a10-i2s.yaml
-@@ -20,6 +20,9 @@ properties:
-       - const: allwinner,sun6i-a31-i2s
-       - const: allwinner,sun8i-a83t-i2s
-       - const: allwinner,sun8i-h3-i2s
-+      - items:
-+          - const: allwinner,sun8i-r40-i2s
-+          - const: allwinner,sun8i-h3-i2s
-       - items:
-           - const: allwinner,sun8i-v3-i2s
-           - const: allwinner,sun8i-h3-i2s
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 291f4784e86c..1d87fc0c24ee 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -736,6 +736,45 @@ ir1: ir@1c21c00 {
+ 			status = "disabled";
+ 		};
+ 
++		i2s0: i2s@1c22000 {
++			#sound-dai-cells = <0>;
++			compatible = "allwinner,sun8i-r40-i2s",
++				     "allwinner,sun8i-h3-i2s";
++			reg = <0x01c22000 0x400>;
++			interrupts = <GIC_SPI 16 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2S0>, <&ccu CLK_I2S0>;
++			clock-names = "apb", "mod";
++			resets = <&ccu RST_BUS_I2S0>;
++			dmas = <&dma 3>, <&dma 3>;
++			dma-names = "rx", "tx";
++		};
++
++		i2s1: i2s@1c22400 {
++			#sound-dai-cells = <0>;
++			compatible = "allwinner,sun8i-r40-i2s",
++				     "allwinner,sun8i-h3-i2s";
++			reg = <0x01c22400 0x400>;
++			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2S1>, <&ccu CLK_I2S1>;
++			clock-names = "apb", "mod";
++			resets = <&ccu RST_BUS_I2S1>;
++			dmas = <&dma 4>, <&dma 4>;
++			dma-names = "rx", "tx";
++		};
++
++		i2s2: i2s@1c22800 {
++			#sound-dai-cells = <0>;
++			compatible = "allwinner,sun8i-r40-i2s",
++				     "allwinner,sun8i-h3-i2s";
++			reg = <0x01c22800 0x400>;
++			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_I2S2>, <&ccu CLK_I2S2>;
++			clock-names = "apb", "mod";
++			resets = <&ccu RST_BUS_I2S2>;
++			dmas = <&dma 6>, <&dma 6>;
++			dma-names = "rx", "tx";
++		};
++
+ 		ths: thermal-sensor@1c24c00 {
+ 			compatible = "allwinner,sun8i-r40-ths";
+ 			reg = <0x01c24c00 0x100>;
 -- 
 2.33.0
 
