@@ -1,60 +1,35 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE413FC4
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Sep 2021 07:18:44 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 35F935C0097;
-	Mon, 13 Sep 2021 03:18:44 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 13 Sep 2021 03:18:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=0MoBU2TKSI3he66YNKrDniJl3da
-	Z8O9OnUCh+6ULEkk=; b=tlK1Keon5Htn3wN0R6+4/ELID4kLFK7Oer/E1nUn907
-	M2fNkePNKDfEV0BlPy2231Lis3p+QaRBGTDjPU8K0wDLey5x5hCbPbWbCLAC2h59
-	bGrE6Af9MVTrMDFZU7amMWAnolkttPSle3MkLzu5YWgOhbbyCFlSOquasn6JsxHH
-	oeOvwo2vN8q9P4xr4zIEbOAPQFxUKNyYUGNZNNZKvbEMTjJ+X/etUgEVRFVpf2wN
-	OKgj/4ijCvsI9t2685uqhspn3rPwN42T7w9kxtdqDfbthxjyfULmlM+5qqNFqISA
-	3Xjz1fjKKKKm1WbBbCnjcIm33G9s/VkHw6PTJqav0jg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0MoBU2
-	TKSI3he66YNKrDniJl3daZ8O9OnUCh+6ULEkk=; b=jbeo/dTjKFGneETVcvSqdu
-	yeTjXpGDCQLwcJUPX9nEem1RM7Ry2BJMsvpTjpidh4SRPmd0+kKtSFsKGqauP8Tj
-	M/9iTB3U3sTvqICwvcmfKOCLlAVWnUwvdJ1qyUw+0Qr1HxWM1zq3V/5zOikPP2nh
-	uQ7IrduCTyGxY8ohEbk4Nw+SUwK00ZXPad2IFGoU/m/kuKEkfanyXSbAn3+XDL+B
-	u0xvoQhr5RDoTSM7GF8ZMvuzjAaA1fyMrLI24ywRH8MSCvikoZKdj0pht3qTxcgI
-	IEqdGoajuVAVWu5LtCj+GDsS3IF+syo/+fqIb3o5X0PMUralfmbJm8JW/LRfPi6A
-	==
-X-ME-Sender: <xms:U_s-YV0PZ2o0ubeJdo4CWJ1myBwJBqDqwZ6YdOGss2P0jFjZ9PILgA>
-    <xme:U_s-YcE0Yf1B2pTdDbN4Z1MLV54NL4SwhB_ZqZduKtZYKOEilnhci2JWvmbYXHzaY
-    vgrxeW5OEVKuhaTE_4>
-X-ME-Received: <xmr:U_s-YV40FS8WT_in2H-hV7AElUCMy-tR6Ldr1mD23IcMRFFMK3W886vIgKRwuyJqBGIbV-YtC6Y6LsZy99mZ83D8Gb_D1m95K1P1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegiedguddujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
-    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:U_s-YS0snyhnyvGiWxcX0fyrRdoM5JmLMKActwOpCWjtSrFRecLuRw>
-    <xmx:U_s-YYEBNkmUQWEzikfjmQtMIJ_Z8zQBvh-IV0YDGmfOG9jKuFBy9Q>
-    <xmx:U_s-YT8mK3P3LDHtDI1zlUM_KL948vC4XO5t05TwANu41voLbwWMEg>
-    <xmx:VPs-YdN1y5VuU2Op6GZ-I8ZNNwXSuZl2nXrEEBhwyp3PNmjNF7mRFA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 13 Sep 2021 03:18:42 -0400 (EDT)
-Date: Mon, 13 Sep 2021 09:18:40 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: wens@csie.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9324E3FC4;
+	Mon, 13 Sep 2021 07:45:33 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id EAB981BF209;
+	Mon, 13 Sep 2021 07:45:22 +0000 (UTC)
+Date: Mon, 13 Sep 2021 09:45:22 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: a64: Add GPU opp table
-Message-ID: <20210913071840.cy7ujx35sckcptf5@gilmour>
-References: <20210912095032.2397824-1-jernej.skrabec@gmail.com>
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 19/22] soc: sunxi: mbus: Add A31 ISP compatibles to the
+ list
+Message-ID: <YT8BkjAZUGGYTR9l@aptenodytes>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-20-paul.kocialkowski@bootlin.com>
+ <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,37 +37,86 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="saqxio7jzpaoxodf"
+	protocol="application/pgp-signature"; boundary="47pajI10N0kGx3V3"
 Content-Disposition: inline
-In-Reply-To: <20210912095032.2397824-1-jernej.skrabec@gmail.com>
+In-Reply-To: <208239ba-01b1-451e-6030-894bd25770c3@sholland.org>
 
 
---saqxio7jzpaoxodf
-Content-Type: text/plain; charset=us-ascii
+--47pajI10N0kGx3V3
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 12, 2021 at 11:50:32AM +0200, Jernej Skrabec wrote:
-> GPU on A64 currently runs at default frequency, which is 297 MHz. This
-> is a bit low in some cases and noticeable lag can be observed in GPU
-> rendered UIs. GPU is capable to run at 432 MHz.
->=20
-> Add GPU OPP table.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Samuel,
 
-Applied, thanks
-Maxime
+On Fri 10 Sep 21, 21:36, Samuel Holland wrote:
+> On 9/10/21 1:41 PM, Paul Kocialkowski wrote:
+> > The A31 ISP sits on the mbus and requires the usual bus address
+> > adaptation. Add its compatibles to the list.
+>=20
+> My understanding is that this driver only exists to work around old DT
+> bindings where the interconnects/interconnect-names =3D "dma-mem"
+> properties are not required (and so they are historically missing from
+> the device trees).
+>=20
+> For new bindings, it would be better to use those properties and not add
+> to this list.
 
---saqxio7jzpaoxodf
+Oh okay, I didn't really look into it and just did the same thing that was
+done for the CSI controller. Thanks for the heads up!
+
+Paul
+
+> Regards,
+> Samuel
+>=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  drivers/soc/sunxi/sunxi_mbus.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >=20
+> > diff --git a/drivers/soc/sunxi/sunxi_mbus.c b/drivers/soc/sunxi/sunxi_m=
+bus.c
+> > index d90e4a264b6f..7f0079ea30b1 100644
+> > --- a/drivers/soc/sunxi/sunxi_mbus.c
+> > +++ b/drivers/soc/sunxi/sunxi_mbus.c
+> > @@ -37,6 +37,7 @@ static const char * const sunxi_mbus_devices[] =3D {
+> >  	"allwinner,sun5i-a13-video-engine",
+> >  	"allwinner,sun6i-a31-csi",
+> >  	"allwinner,sun6i-a31-display-backend",
+> > +	"allwinner,sun6i-a31-isp",
+> >  	"allwinner,sun7i-a20-csi0",
+> >  	"allwinner,sun7i-a20-display-backend",
+> >  	"allwinner,sun7i-a20-display-frontend",
+> > @@ -50,6 +51,7 @@ static const char * const sunxi_mbus_devices[] =3D {
+> >  	"allwinner,sun8i-h3-csi",
+> >  	"allwinner,sun8i-h3-video-engine",
+> >  	"allwinner,sun8i-v3s-csi",
+> > +	"allwinner,sun8i-v3s-isp",
+> >  	"allwinner,sun9i-a80-display-backend",
+> >  	"allwinner,sun50i-a64-csi",
+> >  	"allwinner,sun50i-a64-video-engine",
+> >=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--47pajI10N0kGx3V3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT77UAAKCRDj7w1vZxhR
-xcwkAP9HOibW1BQNC/e0SEAa2jqU3A6FXJUzfNJeCjEEXpHQLAD/YoLQvRhxoajx
-B31oMZtohKUNcpd6qarqGHoExL4y6g8=
-=c0XN
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/AZIACgkQ3cLmz3+f
+v9HI1wf/b/uiL/LNM4ar7LYjzQX7BdaBGjb90aD2mdIi3U+jTM2QjcnvDcWrmKXa
+KtNwOdxKB+9/l5qoOzNJgoddBs0EMS//K1kcsr/m0s/+bX32+x+IzZlf3JNp5CUp
+gO8q2V1PznhOppOajF1ozaBa9O7XXY1HLy3aoxrOQGziWF/OuQKp0K0qag59avxi
+jR6bJdBimD2FNMN4vGooXfCfXEKlVgFe1danPQKA9R0Zos7qQSXO4qbEB1PH5NXJ
+kNkPyZpLsYbEFH1o7dnzlxKaqmw8uwLsQy8Vy9KkrKgEyMbrchBM86nyPfVcZZPL
+FuWgSOGqcL/+uN5VONdKyYxwYU4i6Q==
+=ligS
 -----END PGP SIGNATURE-----
 
---saqxio7jzpaoxodf--
+--47pajI10N0kGx3V3--
