@@ -1,108 +1,101 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696853FC3
-	for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 09:50:47 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id i3so4409479wmq.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 12 Sep 2021 02:50:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZfUDMjhaBW28irP63CnwhnXUauvV+ceBbmfpoRw/Bl8=;
-        b=T1/hhsyBRS2DZ/592/U9LVU+905MkddkZ7e1nzYGxk3NrFdUaONbjuCPUU+gYQAHf6
-         a1qCH3aWLd+2sKyN1+2zeYJQLYcEL/LZZwvW/b6O4juccBqfNW4nQncgbff+UwRkuXd4
-         zKp96LxjFMOVlsVhsiJDad//D8305kdp21qeIu6Sd+AbbolgW+OSAkDc9EoWo9V8a48i
-         nv9/oBTQwPlH4eCmKGCMoZTQ00ZQooVtNjRSwqL5zCep+fL3NLkM+nXrDeuo8xBKk/aH
-         l0HebZCPiIoQrqZ6ZwIOfvpcBoeuQ861jdq4/sIkzWS9K030Sj/hYNhrbd5bZXL+ZUI5
-         vzbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZfUDMjhaBW28irP63CnwhnXUauvV+ceBbmfpoRw/Bl8=;
-        b=fNeCfKr9tLIIuJhY/OoK5a7WV6NAdoypmI1qPrhz0/+VviszP2OMfIDLMYnnydJZLw
-         qxQ2bbl6dGg7SVbz7xGU+sDdyHxdgEkdiBZ7h64oidnP1Z9qltLUU1axOmWxJXx4y0Os
-         rGQW70Zk8xegNHFTpqSX3WWBpafcyXquNBi6F7EM49M8nUYYE5doVAgkEQOieekm2v59
-         qidW/B6hmbhR0iwiW+Qf/pQJ0LjH3qUCRQ/Yw6SZYWQ3M2Tn5CtgdecRZ5U9P9gBU//s
-         iQCMe1THZLdtqKprkap/rsFgxmLLudwJR2IyDka9BbMKoSii83nR1301PIoe32pSd4Rr
-         zMdA==
-X-Gm-Message-State: AOAM530nfk2s10ais/OAzfdf1mOW874jEEoYvTfBWDuwaSfN4B1w7kHT
-	AyVL3OWFFhUYbMmG4vkQJOA=
-X-Google-Smtp-Source: ABdhPJyzMQK6uGv0+edsUnseYhz0bylpHJqwuQWPA5iwYb8Cj0rz5723JiK4lVGjA+DXjoqok7/erg==
-X-Received: by 2002:a7b:cd15:: with SMTP id f21mr1464839wmj.16.1631440245762;
-        Sun, 12 Sep 2021 02:50:45 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id n13sm3471487wmq.3.2021.09.12.02.50.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Sep 2021 02:50:45 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] arm64: dts: allwinner: a64: Add GPU opp table
-Date: Sun, 12 Sep 2021 11:50:32 +0200
-Message-Id: <20210912095032.2397824-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.33.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4892F3FC4
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Sep 2021 07:16:21 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id F40E15C0097;
+	Mon, 13 Sep 2021 03:16:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 13 Sep 2021 03:16:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=3Drb7itOQtyw+8s9nG9D2KLbtAr
+	Lqp9QKHVCPoN3x3A=; b=mYAG2WcF6g3Yv7iRc7KceuWZ19gRlxvRKeZgvSSyeID
+	ixcN5YsrrTD+VtTtPdqb3Bbbu2N2AWFvQM8Oz1PyPdixl3X2qpnTKL06A/tbUazV
+	VrKboC92L4TG2EuEhLZWLduOclvRb2UCUEEVcR9fQwMlBTK93MxskZ135ALo1sDo
+	m6MAaPX3zIEeCn3+7zcfq9O3arLxjtucHQwwztVeJxyXNNqNIZDpvnOzzo6r7rQD
+	4APljjdZWK5Oo3tK/48L4eGFKL3Pa3tAcuxXqltNr6AMTPYNQsKIZPyKZMJjwGlh
+	BZV3401Mz4MILWv1wNamD3gPo0KsNoKv8lbH1ZPm6cA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=3Drb7i
+	tOQtyw+8s9nG9D2KLbtArLqp9QKHVCPoN3x3A=; b=Ucg5mGrJhezteg3puAz0dG
+	hQZq7wK7gP1GCFBBznu1HopA7bPziLir1FhWysl4pJRpfX9ZKAB3VWdgW85hN0x/
+	OwAmlKIDtJYZAawK1OagfmQ0G54SC6dCgF2T0XSMjOThA6Ys1ehSE4MMYIdkW3QY
+	FAxG7z+4cyKpM4GmlCjqlHuMeseH47RWc3WDLNogxH0z8yjADMaCuSChY1BdzL7q
+	QhRD+pypdkJVDa3YeJDgE9+L63XynGjE8OU2LUCaRg+WZGBo3ZOJNtaWLPdp0loE
+	vpZYoP6C5xww/qXNX7NJxqSSVU+75oX42nSDOoJFJLQq4emRNYuPtvYHK0LVqU4g
+	==
+X-ME-Sender: <xms:w_o-Yd2T3CHYzWblX8iyWy91BMnnTbump3-8aMaMi1eI62ZCk-Hb_w>
+    <xme:w_o-YUGfddWEMzaVcrcmwNa4qiQEwSVBdfSjGwxPz0TAnnUSHc8Dg_rV3uvn6oo3z
+    buP5BhhCqkxIQFH4Nk>
+X-ME-Received: <xmr:w_o-Yd6MdbU94rsMSV6Kc6zwAjjdsiQT54MXO3nzz4y1TaXsvgjnKzW8CEHgeJ-kqyQiTBd0VO0kZhM3MpCN89yl9HRbyDVBX9aY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegiedgudduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+    heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:w_o-Ya3aJ4WUWBZzb8IDr8gVmnORINowJBFGcF-oXAvPM60-rVBMBg>
+    <xmx:w_o-YQFOL1pcttYo2bSC_b410zWT2A4qibl1IORsWJvl2-20YYyItg>
+    <xmx:w_o-Yb-4Cy7MIlxSvEXx8css486FPG5Cy2ZCN0upCgZJKewKkfJ8RA>
+    <xmx:xPo-YeZoOUpvltYs1EpCmZBzjDZjr3RsugB5FfEXVMENSaUIb53NxA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 13 Sep 2021 03:16:19 -0400 (EDT)
+Date: Mon, 13 Sep 2021 09:16:17 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, robh+dt@kernel.org, broonie@kernel.org,
+	lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/2] ARM: dts: sun8i: r40: Add I2S nodes
+Message-ID: <20210913071617.i6lkibxh4ylnfkem@gilmour>
+References: <20210912072914.398419-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="zkuatqnldjiqikz5"
+Content-Disposition: inline
+In-Reply-To: <20210912072914.398419-1-jernej.skrabec@gmail.com>
 
-GPU on A64 currently runs at default frequency, which is 297 MHz. This
-is a bit low in some cases and noticeable lag can be observed in GPU
-rendered UIs. GPU is capable to run at 432 MHz.
 
-Add GPU OPP table.
+--zkuatqnldjiqikz5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+On Sun, Sep 12, 2021 at 09:29:12AM +0200, Jernej Skrabec wrote:
+> Allwinner R40 has 3 I2S controllers, compatible to those in H3.
+>=20
+> Patch 1 adds R40/H3 compatible pair to DT bindings.
+> Patch 2 adds I2S nodes to R40 DT.
+>=20
+> Please take a look.
+>=20
+> Best regards,
+> Jernej
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-index 6ddb717f2f98..5ba379078500 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi
-@@ -102,6 +102,22 @@ de: display-engine {
- 		status = "disabled";
- 	};
- 
-+	gpu_opp_table: opp-table-gpu {
-+		compatible = "operating-points-v2";
-+
-+		opp-120000000 {
-+			opp-hz = /bits/ 64 <120000000>;
-+		};
-+
-+		opp-312000000 {
-+			opp-hz = /bits/ 64 <312000000>;
-+		};
-+
-+		opp-432000000 {
-+			opp-hz = /bits/ 64 <432000000>;
-+		};
-+	};
-+
- 	osc24M: osc24M_clk {
- 		#clock-cells = <0>;
- 		compatible = "fixed-clock";
-@@ -1103,6 +1119,7 @@ mali: gpu@1c40000 {
- 			clocks = <&ccu CLK_BUS_GPU>, <&ccu CLK_GPU>;
- 			clock-names = "bus", "core";
- 			resets = <&ccu RST_BUS_GPU>;
-+			operating-points-v2 = <&gpu_opp_table>;
- 		};
- 
- 		gic: interrupt-controller@1c81000 {
--- 
-2.33.0
+Applied, thanks
+Maxime
 
+--zkuatqnldjiqikz5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYT76wQAKCRDj7w1vZxhR
+xZsJAQDeEDPcZDmfMJalBcC7nUafBRgdZvuSCYixP+VuD4aS0AEAzQFuhhZPW67l
+kpEcVV3B0CGdnUzkW5jo2Zlfq6bSeAo=
+=6FwN
+-----END PGP SIGNATURE-----
+
+--zkuatqnldjiqikz5--
