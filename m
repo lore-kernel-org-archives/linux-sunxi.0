@@ -1,117 +1,75 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C643FD6;
-	Mon, 13 Sep 2021 08:56:55 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 0B32ECDED2;
-	Mon, 13 Sep 2021 08:54:02 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 5001B40003;
-	Mon, 13 Sep 2021 08:53:52 +0000 (UTC)
-Date: Mon, 13 Sep 2021 10:53:51 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
-Message-ID: <YT8RnzVqLebtPMD+@aptenodytes>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
- <20210913075417.ampb2jt4quftpqzj@gilmour>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575C82FAF
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Sep 2021 11:11:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4253260F46;
+	Mon, 13 Sep 2021 11:11:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1631531516;
+	bh=OYAJ6dqKcszI0F7Ps07XpeMuXLTtjPt2OWp/s1gxtVc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iNAhPNLS4Au5LtRq6PQ7W2fr7JlS//Zy/r4bbrVrUx/I4FkDcprS7mXhOBKhZO7Po
+	 bLYi1s3dQm0GgV0GncGDZHp4qDVPQQ3WVeCWBl2UsHhzTM9SVeIdWQ5e/d8CuV/VGu
+	 L3/FRUZpcdKmRZRPOMTeh2fuCIWZc9vr7KDt8N55tuCS5ZqIs9Qog8CzyAJP0jsXqy
+	 KGX3ggosf5YKtfh6+7p35kaaS8F5Mjm3AmlkR+ZSal2qtBaBp5RQAB08GobdvlyXgD
+	 UMjjkiv+Xm/O1IX0rpSG8L/am0dpu+gEuzzRWKRgg9566QB9rkq8j+ZRMw3EETT1C3
+	 zDnhbY0RBD4Bg==
+Date: Mon, 13 Sep 2021 12:11:17 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, wens@csie.org, robh+dt@kernel.org,
+	lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: sound: sun4i-i2s: add Allwinner R40 I2S
+ compatible
+Message-ID: <20210913111117.GB4283@sirena.org.uk>
+References: <20210912072914.398419-1-jernej.skrabec@gmail.com>
+ <20210912072914.398419-2-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="jDKl5hLx33khB+zy"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Yylu36WmvOXNoKYn"
 Content-Disposition: inline
-In-Reply-To: <20210913075417.ampb2jt4quftpqzj@gilmour>
+In-Reply-To: <20210912072914.398419-2-jernej.skrabec@gmail.com>
+X-Cookie: Above all else -- sky.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
 
---jDKl5hLx33khB+zy
-Content-Type: text/plain; charset=utf-8
+--Yylu36WmvOXNoKYn
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
-> On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
-> > In order to reparent the CSI module clock to the ISP PLL via
-> > device-tree, export the ISP PLL clock declaration in the public
-> > device-tree header.
+On Sun, Sep 12, 2021 at 09:29:13AM +0200, Jernej Skrabec wrote:
+> Allwinner R40 has 3 I2S controllers, compatible to those, found in H3.
 >=20
-> You use clk_set_rate_exclusive in the ISP driver on the module clock so
-> it should prevent what you're mentioning from happening.
+> Add R40/H3 compatible pair to DT bindings.
 
-It does, but then it breaks display support entirely (because the DRM
-driver doesn't use clk_set_rate_exclusive).
+Please submit patches using subject lines reflecting the style for the
+subsystem, this makes it easier for people to identify relevant patches.
+Look at what existing commits in the area you're changing are doing and
+make sure your subject lines visually resemble what they're doing.
+There's no need to resubmit to fix this alone.
 
-The bottomline is that using the same PLL for both display and camera
-easily results in conflicts.
-
-> If it doesn't, then clk_set_rate_exclusive has a bug and should be
-> fixed.
->=20
-> Either way, using assigned-clock-parents is not a good solution here
-> either, it only makes sure that this is the case when probe is run.
-
-I'm not sure what could provide better guarantees. There is a clock
-parenting API (in the clock framework) which may, but this implies
-providing the parent clock to the driver which seems way out of line
-since this is a platform-specific matter that should certainly not
-be handled by the driver.
-
-I also tried hardcoding the reparenting bit in the CCU driver, but
-this felt less clean than doing it in device-tree.
-
-What do you think?
-
-> > Details regarding why the CSI module clock is best parented to the ISP
-> > PLL are provided in the related commit.
->=20
-> This is relevant to this commit too and "the related commit" is far too
-> blurry when you consider the entire Linux git history.
-
-Fair enough!
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---jDKl5hLx33khB+zy
+--Yylu36WmvOXNoKYn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmE/EZ8ACgkQ3cLmz3+f
-v9GAXgf/WonaK8RTTtsz/x2Qh5N5DUQf8yAr5T68Jmx1Vo0uTy0bCi81Er1mcels
-4i6fI+7VeDZT5eopMWHisHVtgCj0u9mACqHgNnH6izOCei7WU1I9NANeIqDDZeow
-QVK16HSwIMpe5Be5UTu/tloyf8WGxcmEXTLyAhYSW3wynlegWFx7qe0GpSby7SCW
-moBvtsHEQ9k3FlvvRtwnZEuUWuBFf5eWN/o0dHy69BL92MYCA0D4lDg0phCrZzru
-ru41/xE+7fKLDTcOUCoVoKQX4Sh23iymP7dzk+YDbXjN8httuTe0HjZiC89sMDX/
-NMsXWS3qM/Owy4KyJP7K4dfSLylwQQ==
-=Rhfu
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmE/MdUACgkQJNaLcl1U
+h9Cu9wf/VM+++mQxRG5zosD+5PVPxZ/AZqZuv+WaB5dknktVNI6nZJ0rCgeR9Zgf
+bmMVexYZgmNnRZe07t6gs6XUbiI+6EqJyAkEtlOQ1EpcYG99HnT50qD+3712psjt
+9/UvpRSZkiOschuvInRtGnecT0PbCizK9ExxrLayvHfQpzk6mQTtrVRX3S1uQFZk
+6BlB5/9EQmNxoVGM6bXA1mCcHp9DMEzYoVHkAy13Ci+YfxaJUJHpxHjCa7Qww61h
+Wrp2LKZQK+Y5XRJU1N0JI/ibWMc0PcVPHylkXWH6ZNB7jLZzvwcEK0I2RKw4cY8n
+bbJCpgXED2/vnIDglnysrHHfeB9HXw==
+=h6F1
 -----END PGP SIGNATURE-----
 
---jDKl5hLx33khB+zy--
+--Yylu36WmvOXNoKYn--
