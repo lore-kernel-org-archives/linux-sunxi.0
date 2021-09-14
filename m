@@ -1,224 +1,237 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424283FC4;
-	Tue, 14 Sep 2021 12:07:48 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 661922B01379;
-	Tue, 14 Sep 2021 08:07:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 14 Sep 2021 08:07:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=BS95iNxDHg5IOU2+CDcWqYE/6lG
-	WFlRvAAVzj9l4DcI=; b=XD0+gQOXZbokDOzAZ6flaxp1i3L29WmBNgvS1Iax+5y
-	tsCM8t450uG5+RRc7xYNnAZju6OG5oxHlE87g3dz6IA/5AZAJZ9ieDc5CFsVBP8J
-	UoBhlPs0o3Yzz2JkZM5T09E0j5wlMAY4LXAx1tycjB0wn3r9m9VSRtZnUr8IhwdZ
-	qgB/QgS9zlUj8CNgvt+nBK+ynRBhOikrLj3pvUpootJKV3K6ARUGsYm61Lc0zInB
-	k77qW8Ttx8A/wmqmhnthJFZWdQntKS8o0a2V0YyD7x4I190U+zQkIlfi6RWsAjlD
-	GcjswuV7jTYPP9ujh/SSpZaxq5F5KBGtTDKW+8i7yjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=BS95iN
-	xDHg5IOU2+CDcWqYE/6lGWFlRvAAVzj9l4DcI=; b=KuRS788U0D00PNM0rHpJOb
-	paqmhCQq/lTNWXqchtoymYAiUr/aHBjKWnjwESbx6+wXIJeKvarfuqe40r/Eo+IC
-	UtLey5pD9YswkZGbwxb6iTGksHQIdQwGkDJJtvyIIyPQJrG9sceNofxIi99njlUd
-	QZ6WoKRkmC8P+T44zr6uXJMUxqwjiCjseXhuOylMAfyw+LD00O0spSZfR7W2O3ca
-	FuTWM00Nv/PBVHbmfN9Wd8QIIi+YcS5yn/PBPBFOmgMJ7rxV85jnxE6hhrQ18qmk
-	lB7PYwwv4QBj7OsiW95ac6T6Edqm5dC1MXqY/sBjdEr3HB9chrqiWZr+U2OWlv/Q
-	==
-X-ME-Sender: <xms:j5BAYQgogg9sngRVjbTllDyGz7_Kw68pQmB09t8RMJtmGL--F_6WtQ>
-    <xme:j5BAYZBXuKmNNkVESltB9bCqWSLLgqlFKLfzVei9eSTuVId4NwCTviiUD1Slz3kAW
-    SI0QzJz6MaoHj_xqx8>
-X-ME-Received: <xmr:j5BAYYEASXI7suVY92ZYBFAlV-f55ITFV58C4ljccexpd4S1KCpHW9ndY45IMhSRrZ-FqZ5BjCqSkjRBmFlIsninoT6MsBQwK4gA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledggeejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepffetteevieejteeuhfffgeektefghfeileehhedtuddutefhhfejtddvtddu
-    ledvnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
-    thgvtghh
-X-ME-Proxy: <xmx:j5BAYRSJWNm5GuLVrGpo9E_Arz34Zw8bK4nebFcVEEdapol1o0KCyw>
-    <xmx:j5BAYdwZjghzUaDfTNUNN3dvAN2ZCuaKDbXLmTpQWN-GaQr10aWZ0Q>
-    <xmx:j5BAYf5Gc2_Bmqj5UMvNQiwkXWWIAaJMHbzI0vj8bCM7XQ4EpkDZIg>
-    <xmx:kpBAYepHMCq04u8C3mlL2dWZog89syeFPfOKB36rETkDZP8WxmfuL8_Onp4>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Sep 2021 08:07:43 -0400 (EDT)
-Date: Tue, 14 Sep 2021 14:07:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH 17/22] dt-bindings: media: Add Allwinner A31 ISP bindings
- documentation
-Message-ID: <20210914120741.gmrqdlev2p7r6f5l@gilmour>
-References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
- <20210910184147.336618-18-paul.kocialkowski@bootlin.com>
- <20210913081808.esgqvz4eeatp4hkp@gilmour>
- <YUBS1sdHKUMZx6gx@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A142B3FD0
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 15:42:47 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id g21so20629764edw.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 08:42:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=kRUP3124jFCDeJuxRpcOBXiHwnacoHhJ7Zfv1dwnqGk=;
+        b=l1x3YMt+D40sQh5Xj/MGN8XZugv8sHGNHuk5PfiUKUU34OF4TUpxkWKaF/FDOxcygz
+         zNRDHmW3HgcmmKzaP0kedYhEnfqKhAYDsQc8xFrWAgQntsD3h0IUStdgiJ5bpg5t6ALP
+         rkyM/xF7XB2c5RoZX4RWobBlT4EuZ7MAZTWhTnSeQFMWNthLabFaaaxIP6Ov+GKxFBNc
+         GpNa46fLPnsgQL9M7eGCFq1vhaWgJGi0NdKSgn9kXLe6P6ampgDXbIU+dBUgoi6IjqNe
+         Sk85Oqaqgy5+HIkGtFzxJFUfdLDprsO1ejsekEDhAGKW2swtOaENfRi3jL4WX2V3ftg8
+         dk8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kRUP3124jFCDeJuxRpcOBXiHwnacoHhJ7Zfv1dwnqGk=;
+        b=EzAQqDxT86eP3km0mhFxqJsT39QCxToU9KzbnYJybYc6RhsD087t4pSNp6HRtI1wLz
+         fOZO4d3Y3VLXHPAIkNhg+7ZhC5CCoYPCxZOREkNt+/obfxgHvnoP6WucA2RT279sOgAO
+         K3bPIs7xUX1QnqQBQAW3QiRiPSAR295zhfjOnoTGPc1QbOpZwFgnR7Nbbc7W3ED5IHC9
+         W2DptJyrTKawPiDqA0pOaGzy5tqR68/fxIgZIiC71Rgi1zmf572YFmckYWRAz75IHM5+
+         3b/XCGOVBnFXw5xtZskkLzsdjJm8gzPuC+qHVQ1j32tkJ2M4uCWt03nV7qirw3BtHeAd
+         a51w==
+X-Gm-Message-State: AOAM530DyOppW1AtU3uhoCjuoDbuj9brG6DfhPjHhfrN8QWhDXWgNfpf
+	i2pL5G1r6ozrTRhKNwEmTQc=
+X-Google-Smtp-Source: ABdhPJwGvwpsqvOBoHYx+3TGl1oPwUPzbvzzUiAzPN3tCNVotPdIOmLvk/3Hq0xHWbjN4q7JKBr9yg==
+X-Received: by 2002:aa7:c80a:: with SMTP id a10mr19943269edt.174.1631634165997;
+        Tue, 14 Sep 2021 08:42:45 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id bi3sm5715920edb.91.2021.09.14.08.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 08:42:45 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: =?utf-8?B?T25kxZllag==?= Jirman <megous@megous.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch, saravanak@google.com, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
+Date: Tue, 14 Sep 2021 17:42:43 +0200
+Message-ID: <1850995.CcfoNp1lXK@kista>
+In-Reply-To: <20210914085922.qxhmr6puvy5d2ceo@core>
+References: <20210913172154.2686-1-jernej.skrabec@gmail.com> <20210914085922.qxhmr6puvy5d2ceo@core>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gqq67qthp5eyfcss"
-Content-Disposition: inline
-In-Reply-To: <YUBS1sdHKUMZx6gx@aptenodytes>
-
-
---gqq67qthp5eyfcss
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 14, 2021 at 09:44:22AM +0200, Paul Kocialkowski wrote:
-> Hi,
+Hi!
+
+Dne torek, 14. september 2021 ob 10:59:22 CEST je Ond=C5=99ej Jirman napisa=
+l(a):
+> Hello Jernej,
 >=20
-> On Mon 13 Sep 21, 10:18, Maxime Ripard wrote:
-> > On Fri, Sep 10, 2021 at 08:41:42PM +0200, Paul Kocialkowski wrote:
-> > > This introduces YAML bindings documentation for the Allwinner A31 Ima=
-ge
-> > > Signal Processor (ISP).
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        |   2 +-
-> > >  .../media/allwinner,sun6i-a31-isp.yaml        | 111 ++++++++++++++++=
-++
-> > >  2 files changed, 112 insertions(+), 1 deletion(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner=
-,sun6i-a31-isp.yaml
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-=
-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-csi.yaml
-> > > index f4a686b77a38..c60f6b5403fa 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi=
-=2Eyaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi=
-=2Eyaml
-> > > @@ -1,4 +1,4 @@
-> > > -# SPDX-License-Identifier: GPL-2.0
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > >  %YAML 1.2
-> > >  ---
-> > >  $id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-csi.yam=
-l#
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-=
-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
-isp.yaml
-> > > new file mode 100644
-> > > index 000000000000..a0f82f150e90
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp=
-=2Eyaml
-> > > @@ -0,0 +1,111 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yam=
-l#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree=
- Bindings
-> > > +
-> > > +maintainers:
-> > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - allwinner,sun6i-a31-isp
-> > > +      - allwinner,sun8i-v3s-isp
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Bus Clock
-> > > +      - description: Module Clock
-> > > +      - description: DRAM Clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: bus
-> > > +      - const: mod
-> > > +      - const: ram
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI0 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI1 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
+> On Mon, Sep 13, 2021 at 07:21:54PM +0200, Jernej Skrabec wrote:
+> > Recent rework, which made HDMI PHY driver a platform device, inadvertely
+> > reversed clock setup order. HW is very touchy about it. Proper way is to
+> > handle controllers resets and clocks first and HDMI PHYs second.
 > >=20
-> > port@0 and port@1 required?
+> > Currently, without this fix, first mode set completely fails (nothing on
+> > HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
+> >=20
+> > Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
+> > will assure that code is executed after controllers reset & clocks are
+> > handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
+> > them at controllers driver unload.
+> >=20
+> > Tested on A64, H3, H6 and R40.
+> >=20
+> > Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform=
+=20
+device")
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  7 +-
+> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  4 +-
+> >  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 97 ++++++++++++++------------
+> >  3 files changed, 61 insertions(+), 47 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/su=
+n4i/
+sun8i_dw_hdmi.c
+> > index f75fb157f2ff..5fa5407ac583 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+> > @@ -216,11 +216,13 @@ static int sun8i_dw_hdmi_bind(struct device *dev,=
+=20
+struct device *master,
+> >  		goto err_disable_clk_tmds;
+> >  	}
 >=20
-> I'd say just one of them, does that make sense?
+> ^^^ This looks like...
+>=20
+> > +	ret =3D sun8i_hdmi_phy_init(hdmi->phy);
+> > +	if (ret)
+> > +		return ret;
+>=20
+> ... you need 'goto err_disable_clk_tmds;' here, instead.
 
-Don't we have some SoC with both? If so, we should have an anyOf here.
+Ah, right. Will fix in v2.
 
-maxime
+>=20
+> > +
+> >  	drm_encoder_helper_add(encoder,=20
+&sun8i_dw_hdmi_encoder_helper_funcs);
+> >  	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+> > =20
+> > -	sun8i_hdmi_phy_init(hdmi->phy);
+> > -
+> >  	plat_data->mode_valid =3D hdmi->quirks->mode_valid;
+> >  	plat_data->use_drm_infoframe =3D hdmi->quirks->use_drm_infoframe;
+> >  	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
+> > @@ -262,6 +264,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev=
+,=20
+struct device *master,
+> >  	struct sun8i_dw_hdmi *hdmi =3D dev_get_drvdata(dev);
+> > =20
+> >  	dw_hdmi_unbind(hdmi->hdmi);
+> > +	sun8i_hdmi_phy_deinit(hdmi->phy);
+> >  	clk_disable_unprepare(hdmi->clk_tmds);
+> >  	reset_control_assert(hdmi->rst_ctrl);
+> >  	gpiod_set_value(hdmi->ddc_en, 0);
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/su=
+n4i/
+sun8i_dw_hdmi.h
+> > index 74f6ed0e2570..bffe1b9cd3dc 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+> > @@ -169,6 +169,7 @@ struct sun8i_hdmi_phy {
+> >  	struct clk			*clk_phy;
+> >  	struct clk			*clk_pll0;
+> >  	struct clk			*clk_pll1;
+> > +	struct device			*dev;
+> >  	unsigned int			rcal;
+> >  	struct regmap			*regs;
+> >  	struct reset_control		*rst_phy;
+> > @@ -205,7 +206,8 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encode=
+r)
+> > =20
+> >  int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node=
+=20
+*node);
+> > =20
+> > -void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
+> > +int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
+> > +void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy);
+> >  void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+> >  			    struct dw_hdmi_plat_data *plat_data);
+> > =20
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/
+sun4i/sun8i_hdmi_phy.c
+> > index c9239708d398..78b152973957 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> > @@ -506,9 +506,60 @@ static void sun8i_hdmi_phy_init_h3(struct=20
+sun8i_hdmi_phy *phy)
+> >  	phy->rcal =3D (val & SUN8I_HDMI_PHY_ANA_STS_RCAL_MASK) >> 2;
+> >  }
+> > =20
+> > -void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
+> > +int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
+> >  {
+> > +	int ret;
+> > +
+> > +	ret =3D reset_control_deassert(phy->rst_phy);
+> > +	if (ret) {
+> > +		dev_err(phy->dev, "Cannot deassert phy reset control:=20
+%d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	ret =3D clk_prepare_enable(phy->clk_bus);
+> > +	if (ret) {
+> > +		dev_err(phy->dev, "Cannot enable bus clock: %d\n",=20
+ret);
+> > +		goto err_deassert_rst_phy;
+>=20
+> I know it was there before, but please:
+>=20
+> s/deassert/assert/
 
---gqq67qthp5eyfcss
-Content-Type: application/pgp-signature; name="signature.asc"
+Ok.
 
------BEGIN PGP SIGNATURE-----
+Best regards,
+Jernej
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUCQjQAKCRDj7w1vZxhR
-xZnQAP0T5rrW8HglxlUdmhQBMd2gsP7z48fcaN5uOKJXVZgVogD9FAslehFY8qhg
-xTl+YmcTWItiWy/6SBH6p5vjuNGCHQk=
-=ePfT
------END PGP SIGNATURE-----
+>=20
+> kind regards,
+> 	o.
+>=20
+> > +	}
+> > +
+> > +	ret =3D clk_prepare_enable(phy->clk_mod);
+> > +	if (ret) {
+> > +		dev_err(phy->dev, "Cannot enable mod clock: %d\n",=20
+ret);
+> > +		goto err_disable_clk_bus;
+> > +	}
+> > +
+> > +	if (phy->variant->has_phy_clk) {
+> > +		ret =3D sun8i_phy_clk_create(phy, phy->dev,
+> > +					   phy->variant-
+>has_second_pll);
+> > +		if (ret) {
+> > +			dev_err(phy->dev, "Couldn't create the PHY=20
+clock\n");
+> > +			goto err_disable_clk_mod;
+> > +		}
+> > +
+> > +		clk_prepare_enable(phy->clk_phy);
+> > +	}
+> > +
+> >  	phy->variant->phy_init(phy);
+> > +
+> > +	return 0;
+> > +
+> > +err_disable_clk_mod:
+> > +	clk_disable_unprepare(phy->clk_mod);
+> > +err_disable_clk_bus:
+> > +	clk_disable_unprepare(phy->clk_bus);
+> > +err_deassert_rst_phy:
+> > +	reset_control_assert(phy->rst_phy);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >
+> > [......]
+>=20
 
---gqq67qthp5eyfcss--
+
