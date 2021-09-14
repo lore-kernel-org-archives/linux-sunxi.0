@@ -1,185 +1,121 @@
-Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C6E3FC5
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 08:59:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
-	t=1631609962; bh=FMNEyanpnGkCzKioEYG1k/II7rKs6qQbFTwCXVGg4oc=;
-	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
-	b=GGvk1MCa4lFwc1uX1oYJ6MPX92vPtub7KCi60FulGvIvB4YakA/B6yWwCeCJbkvaF
-	 sdE2vneLJROD6ev1jyF1TxBuoaEp5kBzeFUBkFa89/dNGlnyb3UzeQKatkzk55w5fu
-	 Xq4JkBithVZ/VaOEzMCCktvrEqFFBVw58taz9MnQ=
-Date: Tue, 14 Sep 2021 10:59:22 +0200
-From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
-	saravanak@google.com, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
-Message-ID: <20210914085922.qxhmr6puvy5d2ceo@core>
-Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
-	wens@csie.org, airlied@linux.ie, daniel@ffwll.ch,
-	saravanak@google.com, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
- <https://xff.cz/key.txt>
-References: <20210913172154.2686-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F72A3FD2;
+	Tue, 14 Sep 2021 11:11:45 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E3C042A5;
+	Tue, 14 Sep 2021 13:11:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1631617904;
+	bh=UVN9Czt4d3zRJH4FreSTQyVzvDmfnJhgwAWZq7jgpak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ir49+m105z1jz+jtGji8tsAqWQZ8kgxHOFeV7vW3ytIHrvOU2IzjHw58VO4/UNxu+
+	 lIOsD8oGDBYhTPM01llE3XGSal0gIdRzQ6loCzgMS4e37f+38xDpUvlMovjblgVpDW
+	 A3sCb3MMKNHeEYv1m+wh50lSeuiIqwZI6gF1G9ME=
+Date: Tue, 14 Sep 2021 14:11:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 20/22] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <YUCDVm4OA3C3Re09@pendragon.ideasonboard.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-21-paul.kocialkowski@bootlin.com>
+ <20210913083135.v7q7joux2xckat62@gilmour>
+ <YUBUUQxBaGUkjzMP@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210913172154.2686-1-jernej.skrabec@gmail.com>
+In-Reply-To: <YUBUUQxBaGUkjzMP@aptenodytes>
 
-Hello Jernej,
+Hi Paul,
 
-On Mon, Sep 13, 2021 at 07:21:54PM +0200, Jernej Skrabec wrote:
-> Recent rework, which made HDMI PHY driver a platform device, inadvertely
-> reversed clock setup order. HW is very touchy about it. Proper way is to
-> handle controllers resets and clocks first and HDMI PHYs second.
+On Tue, Sep 14, 2021 at 09:50:41AM +0200, Paul Kocialkowski wrote:
+> On Mon 13 Sep 21, 10:31, Maxime Ripard wrote:
+> > On Fri, Sep 10, 2021 at 08:41:45PM +0200, Paul Kocialkowski wrote:
+> > > Some Allwinner platforms come with an Image Signal Processor, which
+> > > supports various features in order to enhance and transform data
+> > > received by image sensors into good-looking pictures. In most cases,
+> > > the data is raw bayer, which gets internally converted to RGB and
+> > > finally YUV, which is what the hardware produces.
+> > > 
+> > > This driver supports ISPs that are similar to the A31 ISP, which was
+> > > the first standalone ISP found in Allwinner platforms. Simpler ISP
+> > > blocks were found in the A10 and A20, where they are tied to a CSI
+> > > controller. Newer generations of Allwinner SoCs (starting with the
+> > > H6, H616, etc) come with a new camera subsystem and revised ISP.
+> > > Even though these previous and next-generation ISPs are somewhat
+> > > similar to the A31 ISP, they have enough significant differences to
+> > > be out of the scope of this driver.
+> > > 
+> > > While the ISP supports many features, including 3A and many
+> > > enhancement blocks, this implementation is limited to the following:
+> > > - V3s (V3/S3) platform support;
+> > > - Bayer media bus formats as input;
+> > > - Semi-planar YUV (NV12/NV21) as output;
+> > > - Debayering with per-component gain and offset configuration;
+> > > - 2D noise filtering with configurable coefficients.
+> > > 
+> > > Since many features are missing from the associated uAPI, the driver
+> > > is aimed to integrate staging until all features are properly
+> > > described.
+> > 
+> > We can add new features/interfaces to a !staging driver. Why do you
+> > think staging is required?
 > 
-> Currently, without this fix, first mode set completely fails (nothing on
-> HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
+> This is true for the driver but not so much for the uAPI, so it seems that
+> the uAPI must be added to staging in some way. Then I'm not sure it makes sense
+> to have a !staging driver that depends on a staging uAPI.
 > 
-> Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
-> will assure that code is executed after controllers reset & clocks are
-> handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
-> them at controllers driver unload.
+> Besides that, I added it to staging because that's the process that was
+> followed by rkisp1, which is a very similar case.
+
+Maxime is right in the sense that uAPI can always be extended, but it
+has to be done in a backward-compatible manner, and staging is sometimes
+considered as not being covered by the ABI stability requirements of the
+kernel. Not everybody agrees on this, but there are clear cases where
+userspace really can't expect staging ABIs to be stable (for instance
+when the driver doesn't even compile).
+
+I think there's value in having the driver in staging to facilitate
+development until we consider the ABI stable, but I'm not entirely sure
+if there should be another step taken to mark this ABI is not being
+ready yet.
+
+> > > On the technical side, it uses the v4l2 and media controller APIs,
+> > > with a video node for capture, a processor subdev and a video node
+> > > for parameters submission. A specific uAPI structure and associated
+> > > v4l2 meta format are used to configure parameters of the supported
+> > > modules.
+> > 
+> > This meta format needs to be documented
 > 
-> Tested on A64, H3, H6 and R40.
-> 
-> Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  7 +-
->  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  4 +-
->  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 97 ++++++++++++++------------
->  3 files changed, 61 insertions(+), 47 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> index f75fb157f2ff..5fa5407ac583 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-> @@ -216,11 +216,13 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
->  		goto err_disable_clk_tmds;
->  	}
+> You're right, there should probably be a pixfmt-meta-sun6i-isp.rst
+> documentation file. I guess it should live along in the staging driver
+> directory for now and be destaged later.
 
-^^^ This looks like...
+Can documentation in staging be compiled ? If not I think it can go to
+Documentation/
 
-> +	ret = sun8i_hdmi_phy_init(hdmi->phy);
-> +	if (ret)
-> +		return ret;
+-- 
+Regards,
 
-... you need 'goto err_disable_clk_tmds;' here, instead.
-
-> +
->  	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
->  	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
->  
-> -	sun8i_hdmi_phy_init(hdmi->phy);
-> -
->  	plat_data->mode_valid = hdmi->quirks->mode_valid;
->  	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
->  	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
-> @@ -262,6 +264,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
->  	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
->  
->  	dw_hdmi_unbind(hdmi->hdmi);
-> +	sun8i_hdmi_phy_deinit(hdmi->phy);
->  	clk_disable_unprepare(hdmi->clk_tmds);
->  	reset_control_assert(hdmi->rst_ctrl);
->  	gpiod_set_value(hdmi->ddc_en, 0);
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> index 74f6ed0e2570..bffe1b9cd3dc 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> +++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-> @@ -169,6 +169,7 @@ struct sun8i_hdmi_phy {
->  	struct clk			*clk_phy;
->  	struct clk			*clk_pll0;
->  	struct clk			*clk_pll1;
-> +	struct device			*dev;
->  	unsigned int			rcal;
->  	struct regmap			*regs;
->  	struct reset_control		*rst_phy;
-> @@ -205,7 +206,8 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
->  
->  int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
->  
-> -void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
-> +int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
-> +void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy);
->  void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
->  			    struct dw_hdmi_plat_data *plat_data);
->  
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> index c9239708d398..78b152973957 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> @@ -506,9 +506,60 @@ static void sun8i_hdmi_phy_init_h3(struct sun8i_hdmi_phy *phy)
->  	phy->rcal = (val & SUN8I_HDMI_PHY_ANA_STS_RCAL_MASK) >> 2;
->  }
->  
-> -void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
-> +int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
->  {
-> +	int ret;
-> +
-> +	ret = reset_control_deassert(phy->rst_phy);
-> +	if (ret) {
-> +		dev_err(phy->dev, "Cannot deassert phy reset control: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(phy->clk_bus);
-> +	if (ret) {
-> +		dev_err(phy->dev, "Cannot enable bus clock: %d\n", ret);
-> +		goto err_deassert_rst_phy;
-
-I know it was there before, but please:
-
-s/deassert/assert/
-
-kind regards,
-	o.
-
-> +	}
-> +
-> +	ret = clk_prepare_enable(phy->clk_mod);
-> +	if (ret) {
-> +		dev_err(phy->dev, "Cannot enable mod clock: %d\n", ret);
-> +		goto err_disable_clk_bus;
-> +	}
-> +
-> +	if (phy->variant->has_phy_clk) {
-> +		ret = sun8i_phy_clk_create(phy, phy->dev,
-> +					   phy->variant->has_second_pll);
-> +		if (ret) {
-> +			dev_err(phy->dev, "Couldn't create the PHY clock\n");
-> +			goto err_disable_clk_mod;
-> +		}
-> +
-> +		clk_prepare_enable(phy->clk_phy);
-> +	}
-> +
->  	phy->variant->phy_init(phy);
-> +
-> +	return 0;
-> +
-> +err_disable_clk_mod:
-> +	clk_disable_unprepare(phy->clk_mod);
-> +err_disable_clk_bus:
-> +	clk_disable_unprepare(phy->clk_bus);
-> +err_deassert_rst_phy:
-> +	reset_control_assert(phy->rst_phy);
-> +
-> +	return ret;
-> +}
-> +
->
-> [......]
+Laurent Pinchart
