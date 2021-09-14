@@ -1,99 +1,266 @@
-Received: from knopi.disroot.org (knopi.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859D83FC4
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 19:48:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id DCC1668BCB;
-	Tue, 14 Sep 2021 21:39:33 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at disroot.org
-Received: from knopi.disroot.org ([127.0.0.1])
-	by localhost (disroot.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 6nv9AjfJ1uAC; Tue, 14 Sep 2021 21:39:32 +0200 (CEST)
-From: Dang Huynh <danct12@disroot.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1631648372; bh=21YM0oEBGyLKOXXb7tgpuU14Cr9ptLcQQ8hfRWL2FKc=;
-	h=From:To:Cc:Subject:Date;
-	b=kWG2gAO8TwaAORW4zhxHelTwQIg9vEXo0AhNBPrRIm6XMz7vKtIbJdwLJVQVDzznY
-	 rjG7Ns8pkGFGcFvwj0oxYPyJNOQYO+zUXP2u4YJoHDaq5dHmkSEioKvfRQwyQx9cqH
-	 j+V56niiiWUcNXfvGOOyEYEk/xm1Hx2a31lFndTPlXRakdShm84BRBRvmnOJRiWO9c
-	 seymZjEXaPZLFCDAlS4cSS7rlpAbtngn77ULqOq3TtD/Mbed3JEOcx2UcnWk0yAF8W
-	 sVxBXIfWK2QN6Xm+5Fpz+x04o6Oa7N+c5UcLAzDFDDCuBRn3f9Sait67hKR53gD4n6
-	 v8Ccbh6Xhn5yA==
-To: 
-Cc: danct12@disroot.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99BD3FC4
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 20:22:17 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id w19-20020a17090aaf9300b00191e6d10a19so534037pjq.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 14 Sep 2021 13:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29glUktI+TgFcu0s/snTaCZqtPLPWr2Rvd/8CIHFfUI=;
+        b=cfcIKIVYpE12XwL7GHkvoewGDjTUKq7LX1i1W01aOLR2X0kcbmmtIty6rTJxAE+UtB
+         EXZxeVBBlW0eOxly76fpGdXjzLRCH4txhTigfbfrX8f/zh/8A7hgaqNAM5UUtMVWefkw
+         ptV8EFOYK9tU6rzbt9T1ncBVfQuDJ/F5eB0Hw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=29glUktI+TgFcu0s/snTaCZqtPLPWr2Rvd/8CIHFfUI=;
+        b=bu74XmSErw2ErjEEANcasEneOSKoqEil3T9m+7EC/eYXrOaKRwTJpuQxIC1/gPx62E
+         OsM4VRkJERAVPFC+DS09CGXFPoDAFyBycxFIqAeWxUfclh2IYQArhTBnCsofcy5tjBCg
+         0U2cbcOVt8GD33jBnIKXIEI4gY3GCEBfrFLZGMKGdZnEcwpmljhlZKvCkrQI1e2e4s2s
+         Ag/ngiER9FV4/IrO1IFHgRFX0jC8E7YS/YcdbZy5eiJFbFKokBjU/dr1mzS6c/Fxd7W/
+         CVfRkZR0N2pwFgT1PeF/8GQxSPuBfKXzsLh1dCYl1en6TQeyyLpMRReUTzvWa56el8zt
+         AtBQ==
+X-Gm-Message-State: AOAM531bNKGe+SxnJlr4/X9gt3cXy0Z8t3e/xQ3oHfd52nuJ6vqXni83
+	2X6yVVvg4dohksHcw1uYCJtMfw==
+X-Google-Smtp-Source: ABdhPJy2EEe19ESWg5bxUnradbRUCA2EQ+Ty9mf2FrxoWf30CMjk9tPMo/WXlF/y4jzWF/N4QIc6ZA==
+X-Received: by 2002:a17:902:9682:b0:138:e2f9:720d with SMTP id n2-20020a170902968200b00138e2f9720dmr16562742plp.57.1631650937237;
+        Tue, 14 Sep 2021 13:22:17 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:201:f38f:9d0f:3eba:f8c4])
+        by smtp.gmail.com with ESMTPSA id 141sm12185393pgg.16.2021.09.14.13.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Sep 2021 13:22:16 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
 	Rob Herring <robh+dt@kernel.org>,
+	Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org,
+	Steev Klimaszewski <steev@kali.org>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Linus W <linus.walleij@linaro.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
 	Maxime Ripard <mripard@kernel.org>,
+	Douglas Anderson <dianders@chromium.org>,
+	Adam Ford <aford173@gmail.com>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Andreas Kemnade <andreas@kemnade.info>,
+	Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+	Anson Huang <Anson.Huang@nxp.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Catalin Marinas <catalin.marinas@arm.com>,
 	Chen-Yu Tsai <wens@csie.org>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Emil Velikov <emil.velikov@collabora.com>,
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+	Eugen Hristev <eugen.hristev@microchip.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Fabrice Gasnier <fabrice.gasnier@st.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Grygorii Strashko <grygorii.strashko@ti.com>,
+	=?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org,
+	Joel Stanley <joel@jms.id.au>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Kees Cook <keescook@chromium.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Lionel Debieve <lionel.debieve@st.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Michael Walle <michael@walle.cc>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Nishanth Menon <nm@ti.com>,
+	Olivier Moysan <olivier.moysan@st.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+	Robert Richter <rric@kernel.org>,
+	Russell King <linux@armlinux.org.uk>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Will Deacon <will@kernel.org>,
+	William Cohen <wcohen@redhat.com>,
 	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] arm64: dts: allwinner: pinetab: Add HDMI support
-Date: Wed, 15 Sep 2021 02:37:32 +0700
-Message-Id: <20210914193732.3047668-1-danct12@disroot.org>
+	linux-tegra@vger.kernel.org,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+Subject: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically instead of hardcoding
+Date: Tue, 14 Sep 2021 13:21:47 -0700
+Message-Id: <20210914202202.1702601-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch enables HDMI display on PINE64 PineTab.
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-The PineTab has a HDMI Type C (mini) port.
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-Signed-off-by: Dang Huynh <danct12@disroot.org>
----
- .../boot/dts/allwinner/sun50i-a64-pinetab.dts | 26 +++++++++++++++++++
- 1 file changed, 26 insertions(+)
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since
+we'll have to fallback to very conservative timings if we don't
+recognize the ID from the EDID and I can't guarantee that I've seen
+every panel that might have shipped on an existing product. The plan
+is to use "edp-panel" only on new boards or new revisions of old
+boards where we can guarantee that every EDID that ships out of the
+factory has an ID in the table.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-index 6a4af14718f5..adb0b28b06d8 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-@@ -35,6 +35,17 @@ chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
- 
-+	hdmi-connector {
-+		compatible = "hdmi-connector";
-+		type = "c";
-+
-+		port {
-+			hdmi_con_in: endpoint {
-+				remote-endpoint = <&hdmi_out_con>;
-+			};
-+		};
-+	};
-+
- 	i2c-csi {
- 		compatible = "i2c-gpio";
- 		sda-gpios = <&pio 4 13 GPIO_ACTIVE_HIGH>; /* PE13 */
-@@ -410,6 +421,21 @@ &reg_rtc_ldo {
- 	regulator-name = "vcc-rtc";
- };
- 
-+&simplefb_hdmi {
-+	vcc-hdmi-supply = <&reg_dldo1>;
-+};
-+
-+&hdmi {
-+	hvcc-supply = <&reg_dldo1>;
-+	status = "okay";
-+};
-+
-+&hdmi_out {
-+	hdmi_out_con: endpoint {
-+		remote-endpoint = <&hdmi_con_in>;
-+	};
-+};
-+
- &sound {
- 	status = "okay";
- 	simple-audio-card,aux-devs = <&codec_analog>, <&speaker_amp>;
+Version 3 of this series now splits out all eDP panels to their own
+driver and adds the generic eDP panel support to this new driver. I
+believe this is what Sam was looking for [2].
+
+Version 4 of this series is mostly small fixes / renames from review
+feedback. It's largely the same as v3. Other than naming /
+description / comment changes, the differences are:
+- Dropped the MIPS config patch as per request.
+- Reorder config patches first.
+- Added a new patch to use the panel ID scheme for quirks.
+- Landed the reorder of logicpd_type_28 / mitsubishi_aa070mc01
+
+Version 5 of this series just fixes the panel ID encode macro to be
+cleaner and adds Jani's review tags.
+
+It could possibly be ready to land?
+
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+
+Changes in v5:
+- Prettier encode panel ID function (thanks Andrzej!)
+- Probable => Probeable
+
+Changes in v4:
+- "u8 *edid" => "void *edid" to avoid cast.
+- ("Use new encoded panel id style for quirks matching") new for v4.
+- Don't put kmalloc() in the "if" test even if the old code did.
+- Don't refer to "panel-simple" in commit message.
+- PANEL_SIMPLE_EDP => PANEL_EDP
+- Remove "non-eDP" in panel-simple description.
+- Reordered config patches to be before code patch
+- decode_edid_id() => drm_edid_decode_panel_id()
+- drm_do_get_edid_blk0() => drm_do_get_edid_base_block()
+- drm_get_panel_id() => drm_edid_get_panel_id()
+- encode_edid_id() => drm_edid_encode_panel_id()
+- panel-simple-edp => panel-edp
+- split panel id extraction out to its own function.
+
+Changes in v3:
+- ("Better describe eDP panel delays") new for v3.
+- ("Don't re-read the EDID every time") moved to eDP only patch.
+- ("Non-eDP panels don't need "HPD" handling") new for v3.
+- Add AUO B116XAN06.1 to table.
+- Add Sharp LQ116M1JW10 to table.
+- Adjust endianness of product ID.
+- Change init order to we power at the end.
+- Decode hex product ID w/ same endianness as everyone else.
+- Fallback to conservative delays if panel not recognized.
+- Fix "prepare_to_enable" patch new for v3.
+- Generic "edp-panel" handled by the eDP panel driver now.
+- Move wayward panels patch new for v3.
+- Rename delays more generically so they can be reused.
+- Split eDP panels patch new for v3.
+- Split the delay structure out patch just on eDP now.
+
+Changes in v2:
+- Add "-ms" suffix to delays.
+- Don't support a "fallback" panel. Probed panels must be probed.
+- No longer allow fallback to panel-simple.
+- Not based on patch to copy "desc"--just allocate for probed panels.
+
+Douglas Anderson (15):
+  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow querying/working with the panel ID from the EDID
+  drm/edid: Use new encoded panel id style for quirks matching
+  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  drm/panel-edp: Split eDP panels out of panel-simple
+  drm/panel-edp: Move some wayward panels to the eDP driver
+  drm/panel-simple: Non-eDP panels don't need "HPD" handling
+  drm/panel-edp: Split the delay structure out
+  drm/panel-edp: Better describe eDP panel delays
+  drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+  drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+  drm/panel-edp: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     |  188 ++
+ arch/arm/configs/at91_dt_defconfig            |    1 +
+ arch/arm/configs/exynos_defconfig             |    1 +
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +
+ arch/arm/configs/lpc32xx_defconfig            |    1 +
+ arch/arm/configs/multi_v5_defconfig           |    1 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/omap2plus_defconfig          |    1 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ arch/arm/configs/realview_defconfig           |    1 +
+ arch/arm/configs/sama5_defconfig              |    1 +
+ arch/arm/configs/shmobile_defconfig           |    1 +
+ arch/arm/configs/sunxi_defconfig              |    1 +
+ arch/arm/configs/tegra_defconfig              |    1 +
+ arch/arm/configs/versatile_defconfig          |    1 +
+ arch/arm/configs/vexpress_defconfig           |    1 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/gpu/drm/drm_edid.c                    |  280 ++-
+ drivers/gpu/drm/panel/Kconfig                 |   16 +-
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-edp.c             | 1895 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 1072 +---------
+ include/drm/drm_edid.h                        |   45 +
+ 23 files changed, 2351 insertions(+), 1162 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-edp.c
+
 -- 
-2.33.0
+2.33.0.309.g3052b89438-goog
 
