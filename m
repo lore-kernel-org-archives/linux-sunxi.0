@@ -1,142 +1,167 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047B83FC9
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 18:59:48 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id g21so7309827edw.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 11:59:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dUAnM7XafL3HEwdhqn1xHOeagiNkEafdquQLQJNCzu0=;
-        b=km4+wUdcqE5jNctpfK8IFrlxKqFM66CgmaIF667vNGEr/lbF38h8/swwP7+1u1zLJv
-         ZcbRjtiHy04rlHWRmJntzQx+R2KM0Ewcgdu7f7splur4G1Yk35U90ty1MV5qNbH/2rHF
-         L3lbDnsG156i6+TJK8b6Z3TOEzGy4lexv2dRqb9djGCepn7cBfUdsuwDbzOsMSRf54kB
-         v4gnX1Fyl7EHAkZFO3UofRyEnACRaf1SYJyqequ/vkCHnhFTVwbFuved6dNaCK2t19dv
-         lmRReQ32lSAhKHHLwnU3ypDvO4+XqK9fKFNZHi7x+5CM9C8BSDDuLqMGi+kikl7g6lf1
-         Ka/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dUAnM7XafL3HEwdhqn1xHOeagiNkEafdquQLQJNCzu0=;
-        b=Y6PytwJOI6RS/ZTX2MhlXDIvS2+XMYEfxE4VLxbfRL1fjlMl5avdy54l3UqIXXauyg
-         iLSaUnNUB6RC4zKVaJiHZN7GWhtv7i/Ps2nQsGoas2066fMgnVSoBzRY7v6CE7UK6eVC
-         kASIKiuib6TH3DZuJ2rFGovF8BCs/jOjlGrSgWEapTgODGEXYJj46c9BDZS0cCzPIiRC
-         GDZNXMTC9p0CoTeC2rIb9IP10VnHKdJQJMV1cZnZC5nMx2IIZvt8ubpKJ1VU0353yxeN
-         Ze2C2EeUyCmg6FOvYbvyV6sh/QFnfvU6M7A9qgYMsNvovZwVKH6D3dghv+eBylj9A3N5
-         RsDg==
-X-Gm-Message-State: AOAM530U6ew8H058EGPDmeP1pJGtTQlonnhql8hkd4jOlz+rmltxBRFs
-	bmpfBso1vKybjN0vrDeF5T4UMFxyMKg=
-X-Google-Smtp-Source: ABdhPJx+y/NF9DDn83K85OIC57v2kqNoBDSDg72fVr7qXWp1XRUnkFIf5uMPibRVDdsFylZoNJ60FA==
-X-Received: by 2002:a17:906:ed1:: with SMTP id u17mr1675134eji.304.1631732387312;
-        Wed, 15 Sep 2021 11:59:47 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id k21sm343768ejj.55.2021.09.15.11.59.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 11:59:46 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Saravana Kannan <saravanak@google.com>
-Cc: linux-sunxi@lists.linux.dev, Android Kernel Team <kernel-team@android.com>, linux-kernel@vger.kernel.org
-Subject: Re: Re: Issue with fw_devlink=on on 5.14
-Date: Wed, 15 Sep 2021 20:59:46 +0200
-Message-ID: <33995494.1UIDBzYVPQ@kista>
-In-Reply-To: <CAGETcx_6muHgmDAviMf-UBvriePwc+o5408nDeNd_v3zR_x9TQ@mail.gmail.com>
-References: <5570111.f9yF5Hohu3@kista> <CAGETcx9_dy4qdmZ-+X+WLsezPKWfZzmRU8QmhKOu6FdZcysWDA@mail.gmail.com> <CAGETcx_6muHgmDAviMf-UBvriePwc+o5408nDeNd_v3zR_x9TQ@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1F03FC9;
+	Wed, 15 Sep 2021 19:52:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="222076195"
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="222076195"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 12:52:00 -0700
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; 
+   d="scan'208";a="482468324"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2021 12:51:55 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+	id 42E0920656; Wed, 15 Sep 2021 22:51:53 +0300 (EEST)
+Date: Wed, 15 Sep 2021 22:51:53 +0300
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev, Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 15/22] media: sunxi: Remove the sun6i-csi driver
+ implementation
+Message-ID: <YUJO2cG/46vOkuBe@paasikivi.fi.intel.com>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-16-paul.kocialkowski@bootlin.com>
+ <20210913081707.3pjcfuwan46pbdep@gilmour>
+ <YUBXiSrQjccLoa8b@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUBXiSrQjccLoa8b@aptenodytes>
 
-/cc linux-kernel@vger.kernel.org
+Hi Paul, Maxime,
 
-Dne sreda, 15. september 2021 ob 20:36:11 CEST je Saravana Kannan napisal(a=
-):
-> On Wed, Sep 15, 2021 at 11:23 AM Saravana Kannan <saravanak@google.com>=20
-wrote:
-> >
-> > On Wed, Sep 15, 2021 at 11:07 AM Jernej =C5=A0krabec
-> > <jernej.skrabec@gmail.com> wrote:
-> > >
-> > > Hi Saravana!
-> > >
-> > > I noticed that in kernel 5.14, at least on Allwinner H3, deinterlace=
-=20
-driver
-> > > doesn't load anymore if fw_devlink is set to on. If I set it to off,=
-=20
-driver
-> > > loads and works without problems. If I remove interconnects property =
-in=20
-DT
-> > > node and use driver hack instead, it also loads and work ok.
-> > >
-> > > For reference, I speak about this node:
-> > > https://elixir.bootlin.com/linux/v5.14/source/arch/arm/boot/dts/sun8i=
-=2Dh3.dtsi#L153
->=20
-> Oh the dts file please. Not dtsi. I need the full picture of dependencies.
+On Tue, Sep 14, 2021 at 10:04:25AM +0200, Paul Kocialkowski wrote:
+> Hi,
+> 
+> On Mon 13 Sep 21, 10:17, Maxime Ripard wrote:
+> > On Fri, Sep 10, 2021 at 08:41:40PM +0200, Paul Kocialkowski wrote:
+> > > As described in the commit adding support for the new sun6i-csi driver,
+> > > a complete rewrite was necessary to support the Allwinner A31 ISP as
+> > > well as fix a number of issues with the current implementation.
+> > > 
+> > > Farewell and thanks for all the pixels!
+> > > 
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > 
+> > For completeness, this is what the other commit log mentions:
+> > 
+> > > While adapting the sun6i-csi driver for MIPI CSI-2 support was
+> > > possible, it became clear that adding support for the ISP required
+> > > very heavy changes to the driver which were quite hard to break down
+> > > into a series of subsequent changes.
+> > 
+> > > The first major difficulty comes from the lack of v4l2 subdev that
+> > > acts a bridge, separate from the video node representing the DMA
+> > > engine. To support the ISP, only parts of the hardware must be
+> > > configured (excluding aspects related to the DMA output), which made
+> > > the separation a hard requirement.
+> > 
+> > > Another significant difficulty was the specific dance that is required
+> > > to have both the ISP and CSI device be part of the same media device.
+> > > Because the ISP and CSI are two different hardware blocks, they have
+> > > two distinct drivers that will each try to register their own v4l2
+> > > and media devices, resulting in two distinct pipelines. When the ISP
+> > > is in use, we actually want the CSI driver to register with the ISP's
+> > > v4l2 and media devices while keeping the ability to register its own
+> > > when the ISP is not in use. This is done by:
+> > > 1. Having the CSI driver check whether the ISP is available, using
+> > >    sun6i_csi_isp_detect();
+> > > 2. If not, it can register when its own async subdevs are ready, using
+> > >    sun6i_csi_v4l2_complete();
+> > > 3. If so, it will register its bridge as an async subdev which will
+> > >    be picked-up by the ISP driver (from the fwnode graph link);
+> > > 4. When the subdev becomes bound to the ISP's v4l2 device, we can
+> > >    then access that device (and the associated media device) to
+> > >    complete registration of the capture video node, using
+> > >    sun6i_csi_isp_complete();
+> > > Besides the logic rework, other issues were identified and resolved:
+> > > - The sync mechanism for buffer flipping was based on the frame done
+> > >   interrupt, which is too late (next frame is already being processed).
+> > >   This lead to requiring 3 buffers to start and writing two addresses
+> > >   when starting. Using vsync as a sync point seems to be the correct
+> > >   approach and allows using only two buffers without tearing;
+> > > - Using devm_regmap_init_mmio_clk was incorrect since the reset also
+> > >   comes into play;
+> > > - Some register definitions were inverted compared to their actual
+> > >   effect (which was inherited from the Allwinner documentation and
+> > >   code): comments were added where relevant;
+> > > - The deprecated v4l2_async_notifier_parse_fwnode_endpoints() helper
+> > >   is no longer used by the driver;
+> > 
+> > With that being said, NAK.
+> > 
+> > Having heavy changes to a driver is completely fine, and is kind of
+> > expected really with such a big change. Breaking all possibility of
+> > bisection and throwing away years of stabilization and maintenance
+> > isn't.
+> > 
+> > And all those small bug fixes you mention at the end are just that:
+> > small bug fixes that can be done on the current driver just fine too.
+> 
+> I understand that this looks like we're trashing all the work that was
+> done previously by removing the current driver and adding the new one
+> but the logic for deciding what to write into registers was carefully
+> preserved from the original driver to make sure that the works of
+> stabilization and maintenance are not lost.
+> 
+> However I would understand that my good promise on this is not enough,
+> so perhaps I could provide a combinatory verification that the same set
+> of mbus/pixel formats end up with the same thing being written into
+> registers.
+> 
+> In addition I understand that it will be necessary to split the changes
+> up into small commits to clarify the transition path between the two
+> drivers. So I will do my best to split things up.
+> 
+> Does that seem like an agreeable plan or do you see other things that
+> would be blockers?
 
-I just dumped DTB from the board I use for testing this:
-http://ix.io/3yZB
+Please do refactor the patches into reviewable chunks that make sense on
+their own. I'd see the result being the same driver but with additional
+patches fixing bugs, doing some or more refactoring and adding new
+functionality. Please use -C100 -M100 if there's a need to rename files,
+and preferrably do so in separate patches.
 
->=20
-> -Saravana
->=20
-> > >
-> > > Do you have any clue why it doesn't work?
-> >
-> > Kinda busy today and I'll take a close look later, but if you delete
-> > "interconnect" but it works, then it seems like you have no driver for
-> > your "mbus" interconnect? Is that expected?
+See e.g. patches to the smiapp driver that turned it into a CCS driver:
 
-Ah, you're completely right. There is no MBUS driver (yet), since current=20
-purpose of that node is to determine DMA memory offsets and for that you do=
-n't=20
-need a driver.
+	git log 2db8166f739e75c1269d7e8afe8da68e70098810..b24cc2a18c50e4e315abc76a86b26b4c49652f79~ -- drivers/media/i2c/smiapp
+	git log drivers/media/i2c/ccs
 
-There is already WIP driver for it, though:
-https://github.com/crust-firmware/linux/commit/
-db34316a0194dbf0fcb8eba677ef11085a06a340
+Usually bugfixes are best put first.
 
-> >
-> > If you have a driver, then make it use the proper driver model (probe
-> > a platform device).
-> >
-> > If you don't have a driver for it, I'm assuming you have
-> > CONFIG_MODULES enabled. Otherwise, fw_devlink=3Don is smart enough to
-> > know not to block on devices that'll never be probed.
+> 
+> My initial thought was that it would be much easier to review the driver as a
+> rewrite, but I'm not too surprised I was wrong. To be honest it was nearly
+> impossible to actually have the initial development happen as sequential steps
+> and I preferred to allocate my time on other tasks than splitting the changes
+> into these sequential steps.
 
-Correct, modules are enabled.
+This isn't really unusual when you're changing an existing driver:
+sometimes you have to implement what you want to achieve in whole, and only
+then figure out how to split it into something that can be reviewed. Often
+the end result will look different than what you arrived with on the first
+time.
 
-> >
-> > If you do need CONFIG_MODULES enabled, then use
-> > deferred_probe_timeout=3Dxxx so that fw_devlink doesn't wait for more
-> > modules to be loaded past xxx seconds.
+-- 
+Kind regards,
 
-It's not what I want, but more that we broke default configuration and=20
-CONFIG_MODULES=3Dy should really work. Is there any other way to fix this b=
-esides=20
-providing dummy MBUS driver? I doubt it would be accepted for backporting.
-
-> >
-> > Also I like to look up emails on lore, so when emailing me about
-> > fw_devlink (or any Linux stuff in general I suppose), it'd be nice if
-> > you can cc LKML.
-
-Noted.
-
-Best regards,
-Jernej
-
-> >
-> > Thanks,
-> > Saravana
->=20
-
-
+Sakari Ailus
