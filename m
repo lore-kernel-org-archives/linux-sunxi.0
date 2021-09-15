@@ -1,93 +1,278 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52CD3FC4
-	for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 16:31:23 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id n10so5616425eda.10
-        for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 09:31:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607372FAF
+	for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 17:58:42 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id j13so6631323edv.13
+        for <linux-sunxi@lists.linux.dev>; Wed, 15 Sep 2021 10:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=EFqug29mO3vbFWGSrI/1RvpvL9yEVHmFJFSMpcyO/D0=;
-        b=UXufWIgN+iIt2kTGcgk2/QvgWZXZxZmsFdb+oZHQ/ZaIWInpXjpPT1TO19otc7dapr
-         xCU8SGOLOJYNO5DtjYXx6VtC2Xcph0fy1/m13VC658uw+4m8WeYnejuSuN7uoijpZeCH
-         7osLtNe+9H1/WyAHbX+HjTYIq/x3wnIkv1eU/dBIyIawdUue/tJd7U0FVmKSUBcc/hp8
-         jqNASK8RoNT0KmuKhxlyqzbLtiH70OqW4gHyWCbo83Q1CifY0i0RfxFMa2nsIHo4vYVf
-         hWyE0fkxO4errp83fDAqDSfZT3Y1Av30dnq9UnfXumsucC/J6eprSfHOhY/T+7rzs951
-         DKjQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
+        b=pI6ibrBUGZ/y3BQiGt9xj8Sn6cIX8dKbwDaBSAkBdO8IEMU4t2EKuzO7KivRBLg5Fv
+         dlHaFEmQDUcMqlITguLRyZgVhmibbESbnSvex4JJFwy9a4ZOYB/zMK6bBy6RJqIaWdZp
+         LYVQTCpZfDh0CWc1tpKogFHUavq1s2T6Qad0iebdgjDzNS3DLsIyKWuPMKnX4sEzpz9+
+         Cf9Ac5F4iKiyZXlRQygLsWnOdtMD9wAeLFNJ1tT8ELWnBWkjhP5DW2emd0VahOgO2Yp2
+         yOgDkf6SXuKceqrTnzNoaisOwH7mrUd7v4d1CKQIsDF4lrj8Wb5FH6X7hn7ccR7oo5UA
+         8s+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=EFqug29mO3vbFWGSrI/1RvpvL9yEVHmFJFSMpcyO/D0=;
-        b=ElJZ7uXbn5E2H+ZTcWUUrHBXSlMwegCwpEKiHE3IjkbL29J3qgiOUOt04pq7wW209n
-         eWSjv8TkvGtFpzC7rdNiPEPXzOiPkQyJenJA6mul9OIvnaEPRWyoKjLIAdaDoIXsn43T
-         qXZIZFEmIK/QZMdzKqY9alqvOHYa0O7zmoVa0fyvFf5e+vAPuFMqN6Tt3JiJ7/4rodqS
-         oRVSeG55s+D20+hVIaUH2d1bjK1dX0HBsAgm+PCvclDGA5Cuu1DQIN2+s6MJlFBt/KAH
-         Y7NF2q5d8Vkk3JlsDiWfncoaYiIBWGSZI4a8skY7SMHrklG6XhWmcRovlt9GPSwhgsJN
-         LNMQ==
-X-Gm-Message-State: AOAM530K9Ukrps0C186hcLXvCHpDFXMpNqlqh+XcBw2fqi7sIxpUD3Yb
-	rR/k+qIYemtSah81u3WQlL8=
-X-Google-Smtp-Source: ABdhPJyNT5tuWqL5VdFq6b5f10J9qWPN4RnW1uZ2pn60g/i01gH6ZIFSvdpUuCcq2ox80ka2Twlc0Q==
-X-Received: by 2002:a05:6402:1c87:: with SMTP id cy7mr892737edb.311.1631723482246;
-        Wed, 15 Sep 2021 09:31:22 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id kt19sm207194ejb.26.2021.09.15.09.31.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
+        b=ZMw9kkAcfvY6LyRm0uO9+6MlxIbmDGH698Hkvaf2ZuFvnlcY9/OzFCQhKcEBy0+Hs1
+         HWsv6Ab/wzRnBTguCG53CENWtHDiI4ILMtcRPKv4OmYhVcJB8NejouJfBQrLrGXM3OGP
+         uHuT6I2ZQVVU3qD5dJk+r6/3oKFAdvAYAu0D+rG7Ss4fVbT629nulSW8JF/c3aN2ffnO
+         nY2OB58DdB2dZOVxsqXrllJTM3MRQQ2N21lYd95rTJUjORTwbBf9eDjZTYJn5t8BZPWc
+         1h3IScUWnbKTUleMxjxPa46LxhnjT2/UUo1UxMeddzJ7iDae8AOZEy/jaR7lsrxrXRFr
+         5Sqg==
+X-Gm-Message-State: AOAM533yIDWsKQpWJpARmpvT0G/BQPPWd0PaacOZSM0+OVUTnK2QeEDV
+	xNzOQyFBZHQM1kEmt8gfaCU=
+X-Google-Smtp-Source: ABdhPJxdi/JG8c10XwZsrcZvXDgA1bTfn3nW2pCMiwj4CtChcE4eBzyauVxrOJzsOeZsN+TZEssHew==
+X-Received: by 2002:aa7:d2ce:: with SMTP id k14mr1386600edr.396.1631728720668;
+        Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id b38sm314843edf.46.2021.09.15.10.58.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Sep 2021 09:31:21 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dang Huynh <danct12@disroot.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH] arm64: dts: allwinner: pinetab: Add HDMI support
-Date: Wed, 15 Sep 2021 18:31:20 +0200
-Message-ID: <2776109.MaXvng3DlT@kista>
-In-Reply-To: <4816863.IXWdtHWlKd@melttower>
-References: <20210914193732.3047668-1-danct12@disroot.org> <2558517.IGp7HM5rsX@kista> <4816863.IXWdtHWlKd@melttower>
+        Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: airlied@linux.ie,
+	daniel@ffwll.ch,
+	saravanak@google.com,
+	megous@megous.com,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
+Date: Wed, 15 Sep 2021 19:58:36 +0200
+Message-Id: <20210915175836.3158839-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne sreda, 15. september 2021 ob 07:47:31 CEST je Dang Huynh napisal(a):
-> On Wednesday, September 15, 2021 3:26:51 AM +07 Jernej =C5=A0krabec wrote:
-> > > +&simplefb_hdmi {
-> > > +	vcc-hdmi-supply =3D <&reg_dldo1>;
-> >=20
-> > You have to set status to okay here.
+Recent rework, which made HDMI PHY driver a platform device, inadvertely
+reversed clock setup order. HW is very touchy about it. Proper way is to
+handle controllers resets and clocks first and HDMI PHYs second.
 
-Sorry, this is actually the job of bootloader, so it's all good.
+Currently, without this fix, first mode set completely fails (nothing on
+HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
 
-> >=20
-> > With that fixed, you can add:
+Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
+will assure that code is executed after controllers reset & clocks are
+handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
+them at controllers driver unload.
 
-No fixing needed for R-b tag.
+Tested on A64, H3, H6 and R40.
 
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
->=20
-> Is it really needed? The DE2 HDMI driver can be loaded and make this pret=
-ty=20
-> much obsolete.
+Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
 
-DE2 and HDMI driver could read current settings from that node and implemen=
-t=20
-flicker free transition. However, that's not supported yet. Another use cas=
-e is=20
-to optimize kernel size to minimum for storing it in SPI flash by removing =
-DRM=20
-driver if simplefb is good enough.
+Changes from v1:
+- if sun8i_hdmi_phy_init() fails, go to error hanling instead of returning
+  immediately
+- rename err_deassert_rst_phy -> err_assert_rst_phy
 
-Anyway, patch looks good. Thanks!
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  7 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  4 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 97 ++++++++++++++------------
+ 3 files changed, 61 insertions(+), 47 deletions(-)
 
-Best regards,
-Jernej
-
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index f75fb157f2ff..016b877051da 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -216,11 +216,13 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 		goto err_disable_clk_tmds;
+ 	}
+ 
++	ret = sun8i_hdmi_phy_init(hdmi->phy);
++	if (ret)
++		goto err_disable_clk_tmds;
++
+ 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+-	sun8i_hdmi_phy_init(hdmi->phy);
+-
+ 	plat_data->mode_valid = hdmi->quirks->mode_valid;
+ 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
+ 	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
+@@ -262,6 +264,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
+ 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
+ 
+ 	dw_hdmi_unbind(hdmi->hdmi);
++	sun8i_hdmi_phy_deinit(hdmi->phy);
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ 	reset_control_assert(hdmi->rst_ctrl);
+ 	gpiod_set_value(hdmi->ddc_en, 0);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+index 74f6ed0e2570..bffe1b9cd3dc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+@@ -169,6 +169,7 @@ struct sun8i_hdmi_phy {
+ 	struct clk			*clk_phy;
+ 	struct clk			*clk_pll0;
+ 	struct clk			*clk_pll1;
++	struct device			*dev;
+ 	unsigned int			rcal;
+ 	struct regmap			*regs;
+ 	struct reset_control		*rst_phy;
+@@ -205,7 +206,8 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
+ 
+ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
+ 
+-void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
++int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
++void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy);
+ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+ 			    struct dw_hdmi_plat_data *plat_data);
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+index c9239708d398..b64d93da651d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
++++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+@@ -506,9 +506,60 @@ static void sun8i_hdmi_phy_init_h3(struct sun8i_hdmi_phy *phy)
+ 	phy->rcal = (val & SUN8I_HDMI_PHY_ANA_STS_RCAL_MASK) >> 2;
+ }
+ 
+-void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
++int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
+ {
++	int ret;
++
++	ret = reset_control_deassert(phy->rst_phy);
++	if (ret) {
++		dev_err(phy->dev, "Cannot deassert phy reset control: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(phy->clk_bus);
++	if (ret) {
++		dev_err(phy->dev, "Cannot enable bus clock: %d\n", ret);
++		goto err_assert_rst_phy;
++	}
++
++	ret = clk_prepare_enable(phy->clk_mod);
++	if (ret) {
++		dev_err(phy->dev, "Cannot enable mod clock: %d\n", ret);
++		goto err_disable_clk_bus;
++	}
++
++	if (phy->variant->has_phy_clk) {
++		ret = sun8i_phy_clk_create(phy, phy->dev,
++					   phy->variant->has_second_pll);
++		if (ret) {
++			dev_err(phy->dev, "Couldn't create the PHY clock\n");
++			goto err_disable_clk_mod;
++		}
++
++		clk_prepare_enable(phy->clk_phy);
++	}
++
+ 	phy->variant->phy_init(phy);
++
++	return 0;
++
++err_disable_clk_mod:
++	clk_disable_unprepare(phy->clk_mod);
++err_disable_clk_bus:
++	clk_disable_unprepare(phy->clk_bus);
++err_assert_rst_phy:
++	reset_control_assert(phy->rst_phy);
++
++	return ret;
++}
++
++void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy)
++{
++	clk_disable_unprepare(phy->clk_mod);
++	clk_disable_unprepare(phy->clk_bus);
++	clk_disable_unprepare(phy->clk_phy);
++
++	reset_control_assert(phy->rst_phy);
+ }
+ 
+ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+@@ -638,6 +689,7 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	phy->variant = (struct sun8i_hdmi_phy_variant *)match->data;
++	phy->dev = dev;
+ 
+ 	ret = of_address_to_resource(node, 0, &res);
+ 	if (ret) {
+@@ -696,47 +748,10 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 		goto err_put_clk_pll1;
+ 	}
+ 
+-	ret = reset_control_deassert(phy->rst_phy);
+-	if (ret) {
+-		dev_err(dev, "Cannot deassert phy reset control: %d\n", ret);
+-		goto err_put_rst_phy;
+-	}
+-
+-	ret = clk_prepare_enable(phy->clk_bus);
+-	if (ret) {
+-		dev_err(dev, "Cannot enable bus clock: %d\n", ret);
+-		goto err_deassert_rst_phy;
+-	}
+-
+-	ret = clk_prepare_enable(phy->clk_mod);
+-	if (ret) {
+-		dev_err(dev, "Cannot enable mod clock: %d\n", ret);
+-		goto err_disable_clk_bus;
+-	}
+-
+-	if (phy->variant->has_phy_clk) {
+-		ret = sun8i_phy_clk_create(phy, dev,
+-					   phy->variant->has_second_pll);
+-		if (ret) {
+-			dev_err(dev, "Couldn't create the PHY clock\n");
+-			goto err_disable_clk_mod;
+-		}
+-
+-		clk_prepare_enable(phy->clk_phy);
+-	}
+-
+ 	platform_set_drvdata(pdev, phy);
+ 
+ 	return 0;
+ 
+-err_disable_clk_mod:
+-	clk_disable_unprepare(phy->clk_mod);
+-err_disable_clk_bus:
+-	clk_disable_unprepare(phy->clk_bus);
+-err_deassert_rst_phy:
+-	reset_control_assert(phy->rst_phy);
+-err_put_rst_phy:
+-	reset_control_put(phy->rst_phy);
+ err_put_clk_pll1:
+ 	clk_put(phy->clk_pll1);
+ err_put_clk_pll0:
+@@ -753,12 +768,6 @@ static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
+ {
+ 	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
+ 
+-	clk_disable_unprepare(phy->clk_mod);
+-	clk_disable_unprepare(phy->clk_bus);
+-	clk_disable_unprepare(phy->clk_phy);
+-
+-	reset_control_assert(phy->rst_phy);
+-
+ 	reset_control_put(phy->rst_phy);
+ 
+ 	clk_put(phy->clk_pll0);
+-- 
+2.33.0
 
