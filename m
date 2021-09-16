@@ -1,82 +1,101 @@
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4765B3FC5
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Sep 2021 11:43:44 +0000 (UTC)
-Received: from BC-Mail-Ex11.internal.baidu.com (unknown [172.31.51.51])
-	by Forcepoint Email with ESMTPS id 6157DCA3F27F65723DA1;
-	Thu, 16 Sep 2021 18:56:31 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex11.internal.baidu.com (172.31.51.51) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 18:56:30 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 18:56:30 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/sun4i: dsi: Make use of the helper function dev_err_probe()
-Date: Thu, 16 Sep 2021 18:56:24 +0800
-Message-ID: <20210916105625.12109-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6983FCF
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Sep 2021 13:47:39 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.west.internal (Postfix) with ESMTP id 53571320098F;
+	Thu, 16 Sep 2021 09:47:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 16 Sep 2021 09:47:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm3; bh=rZIDhlnuGK6V5cK46t4Uvw4Yatx
+	suOQ9msENEMMFQqI=; b=uv/epXvay+8cnwW6oginqM584OwhufyHQT+S40iMGgK
+	vPXbLjOOX8k6QAS5g6DCS3j31W3GVXuX56KJNa+hPnrem0A9pJdpLbSvTZAR2EoJ
+	nts2jUyVa+bl62kUBk8L8wMhqb8T106TVur2xcPSbVAZD3c9paMK+Es/u5wX5Xpu
+	1OCuOtRxycdvbvYCk7qEc6jlKyU+mTEs8i1O4aWO1buVOxnelsc4z2BnE9L3Leex
+	FkoLYfKVg15qL29ayW+K+yOyQzE08ZbIz5MFIlNh6UYwi3uLRICTUv+3bUUXjDCf
+	keY0idC36xt0JbjEFn89iMI6tjgmkqXyi26LEcdEQFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rZIDhl
+	nuGK6V5cK46t4Uvw4YatxsuOQ9msENEMMFQqI=; b=dJS9yWAXBKBHPQoeFPhIOm
+	UKsY5+U52WPnXbNE9gbXqCfpxuzqnVyY8u4H0k9HeCianCiXsAjjVHVRgxckijP8
+	UT/KvgCcy3Da+t9XvO8rcta3RyyA7kW6m2JoSJOVRsqTGMFh/ic5i+HTbYRvYsoS
+	IlkoL9ChqdWfz3Yn723dEA3yiA5vMNj0kezOZWFeXgP2Qcz0DclhmZQbDj5P+znU
+	qnAwhGao/ezWiENFRfkatARJumjp+HlAxJBoJHM0DYPTM2x47TkTaNVF5aFXOweV
+	sTVfD4rsjJu7dUIE/MsidkjSOiDOtuDSnvHtgv694QuVomGjHBGasuiXcUtgoYeg
+	==
+X-ME-Sender: <xms:90pDYYKz52dtZfZFQPIdBg6vYDuZXW7Jezd71XKuATEWfEz7WLNVQQ>
+    <xme:90pDYYJWvOhOpLL6HuEk0VpBDCta_IUVGmAOhmgLSDUvGprUYipkyxEnP5cU2cREq
+    nmdzAuUOKp-mkXOQL8>
+X-ME-Received: <xmr:90pDYYv5IcH41WLpUpttmTdYUwCwM-o-rcvcWVJT6G3R-pUZA1LVuIqQG3O-DocYWc8ZB0vem_GhNsDdxRyELJJ_DKpEEpPZeObx>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:90pDYVaOsZxLsFhBUfmXtDfXH0cGlAmgLCtWSWGSazV-Exr14QD6dg>
+    <xmx:90pDYfaiBkWcPrDkuh1x39HoFVYH9UD1tE4A_ibDllbSKHpk3_9WAQ>
+    <xmx:90pDYRAD62klcaI8dDpBd3EYP6s3UPfaJegCdazVOwsF35g7738ZLw>
+    <xmx:-UpDYT6F0HWMwp2jPwntqaXgoi2LhKh1ktAA5XNnHsw8POUml6VI3Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Sep 2021 09:47:34 -0400 (EDT)
+Date: Thu, 16 Sep 2021 15:47:32 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Make use of the helper function
+ dev_err_probe()
+Message-ID: <20210916134732.nrzetz4io5fmbxpq@gilmour>
+References: <20210916105633.12162-1-caihuoqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex15.internal.baidu.com (172.31.51.55) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="42fvjejcppad3kvp"
+Content-Disposition: inline
+In-Reply-To: <20210916105633.12162-1-caihuoqing@baidu.com>
 
-When possible use dev_err_probe help to properly deal with the
-PROBE_DEFER error, the benefit is that DEFER issue will be logged
-in the devices_deferred debugfs file.
-And using dev_err_probe() can reduce code size, the error value
-gets printed.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+--42fvjejcppad3kvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 4f5efcace68e..be60b16bcea9 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1128,10 +1128,9 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	}
- 
- 	dsi->regulator = devm_regulator_get(dev, "vcc-dsi");
--	if (IS_ERR(dsi->regulator)) {
--		dev_err(dev, "Couldn't get VCC-DSI supply\n");
--		return PTR_ERR(dsi->regulator);
--	}
-+	if (IS_ERR(dsi->regulator))
-+		return dev_err_probe(dev, PTR_ERR(dsi->regulator),
-+				     "Couldn't get VCC-DSI supply\n");
- 
- 	dsi->reset = devm_reset_control_get_shared(dev, NULL);
- 	if (IS_ERR(dsi->reset)) {
-@@ -1146,10 +1145,9 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- 	}
- 
- 	dsi->bus_clk = devm_clk_get(dev, bus_clk_name);
--	if (IS_ERR(dsi->bus_clk)) {
--		dev_err(dev, "Couldn't get the DSI bus clock\n");
--		return PTR_ERR(dsi->bus_clk);
--	}
-+	if (IS_ERR(dsi->bus_clk))
-+		return dev_err_probe(dev, PTR_ERR(dsi->bus_clk),
-+				     "Couldn't get the DSI bus clock\n");
- 
- 	ret = regmap_mmio_attach_clk(dsi->regs, dsi->bus_clk);
- 	if (ret)
--- 
-2.25.1
+On Thu, Sep 16, 2021 at 06:56:32PM +0800, Cai Huoqing wrote:
+> When possible use dev_err_probe help to properly deal with the
+> PROBE_DEFER error, the benefit is that DEFER issue will be logged
+> in the devices_deferred debugfs file.
+> And using dev_err_probe() can reduce code size, the error value
+> gets printed.
+>=20
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
+Applied, thanks
+Maxime
+
+--42fvjejcppad3kvp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNK9AAKCRDj7w1vZxhR
+xTSkAP98QRtzTOPuHy5A4zj83HE4sXcoxFGmghpXGhbYDhK6EAEAgs7KVG1NXR0z
+loVt2Z3KCbUWVguTpLIBYkbQxonnMAE=
+=vbrR
+-----END PGP SIGNATURE-----
+
+--42fvjejcppad3kvp--
