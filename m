@@ -1,38 +1,38 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD029CA
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Sep 2021 13:52:16 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id A3A6A3200970;
-	Thu, 16 Sep 2021 09:52:15 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C073FD0;
+	Thu, 16 Sep 2021 16:30:09 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.west.internal (Postfix) with ESMTP id B62142B00B18;
+	Thu, 16 Sep 2021 12:30:07 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Thu, 16 Sep 2021 09:52:16 -0400
+  by compute1.internal (MEProxy); Thu, 16 Sep 2021 12:30:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=P6BBuNiEaEPiNV/0YQaIad18nlp
-	DySRjD154k7UbZYc=; b=bK1jS/5jZsW7UA+FeJJue/+F5NJ9OZ9BTMd+AwYlRmH
-	dbXSFsqncpg4kbmMdGjNjAY0J5t/OSAB/UD5/b1KO45Qln3GLhrnP4ARED5BcNtn
-	I4QG8NPm2bJCtacmsJoPnjYFiXF/Izo7+/65YCx86z6SXIg6ZbOXICm6vuw4PBoZ
-	T3YBffMOOVHzYQaf/TleejdnkTXaP8QJ6DQKZPvCYZHj9JleWKjBhisk5+hpZ0Xd
-	eKhuvY/SehAJ1cJXyuX4jvwMYYU0OkFiplJbxj7FMB0WVkLz7o1rM76kNBBTS5on
-	2GpGBhBebugkaOhZH8O7shwC6WqFgXbnCVCmHTFLz7Q==
+	:content-type:in-reply-to; s=fm3; bh=Lqt0we4A/T0SHYBhw0ZBiteVrFa
+	e9rbK0EPrRuFl3oY=; b=LnIWuareiS2jP4nnsunZoVLeH91/ijKlwjtNs0JMLTq
+	W5SkajmnGWk707CsLe1azxnZa8myH4n+bFwA8ckwnQjA8EphQZ0JCTbh4Y6K4n92
+	g2g1F/E53xOP06kQjsn+JOMXRyEu2S88ZzuGGJQxDVYZTatLErit5ewiKV6u2BdI
+	lsdp1cZ5a3HMBapmFj07mGRW4hl42aMEFuzE7fU2OxArRkU7uz0Iikxns502WK2A
+	VurLq8I/YfExtRjENhb9CeCKHxLmcZVIj9cZsKuRCnd2TZcIYlaMPv+7tJ16zeKO
+	lv+MK8f24hm/KgC6L9xe5JnBP56ZQ7rQAeA2NIPzziw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=P6BBuN
-	iEaEPiNV/0YQaIad18nlpDySRjD154k7UbZYc=; b=dHSaDsYcGUJ0voilJhRVV/
-	gDMJRe6anFnn0s3lIy1LuZ9bhctzXIKyYVVaF/8TOinUyrZhjt2qIqJD7QmV8GMm
-	OBzGJHuizQmxVzV1yrb+o7OuZ6qmcrk9ubzeSUgChQhoBrmTA0aeNnoogLD57/fV
-	zK11JrzJC/aXkaojOOj0NJOv4V8BqEhsRC1JOmZ2bI/p/wQauLDFBHT/ZOrY9MyK
-	28to/BLzKjMsUj3RtoCcxKJR6n0tpmFdxKDIxQ6PT04rAwtvEfuSKjjcnc/0F890
-	VhgO23rSXpHcFkVMG8dHP4npujTD3D44nW8S0lk2gIZT4JWcjRuFwnycX/nGsrRA
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Lqt0we
+	4A/T0SHYBhw0ZBiteVrFae9rbK0EPrRuFl3oY=; b=hzcmiTskzfJ0LpViQyTC36
+	ukeBnRV3kVOlWsu8LkC8k3TIb0V6CrrFJkdx5Op//6RBN8W6uLa83Op2gJZ5M6bA
+	5CKZYAMI8pT3jB91IQObI/Zwdf7H9RY3lcqQvuTZhmouwzJmpjnAINJFQk9RZqCP
+	oU/PuigbRr66lGhsqy7F+GrdxXBtRVpmg3VbU/sccLOyqg5GIWO6uiqOk+75rKvi
+	GRDXS8VgLCMv6LllYt39AjMMPv/a9ZRqCUaBNHwX4nrPHQB95LHjWGSY5fpeEy9C
+	I78PdIa9tVQJn/iwGijd8nj+guRXbXSpCIkz5ojHdqqkHjRo0hnQ5vsB7RyPdKEA
 	==
-X-ME-Sender: <xms:DExDYffpws5TT8ktwwJdbP34nSPElgehUCCZgXNd4IMur-IA0e11TA>
-    <xme:DExDYVOk21DNX-1NFT0-Y8LG9QZI0AT0vv10bdmMZBRyfjBMfBeeOqLXv74oH4rIT
-    QRlj31eKejncFJrnL4>
-X-ME-Received: <xmr:DExDYYjhCzHxO9LrqAU-iVUDbRF84YT5XDg_9a9kXkVjWr7qrOpwKbFnFXwfrIhvlWc7S2X-x6ntVyWPd_zmfQr9cspKnqsRiFf9>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieegucetufdoteggodetrfdotf
+X-ME-Sender: <xms:DHFDYefc5hj8gi4dxWD0LPwIZ-7eCAuChRgl45hXKphK3maJmwnwXg>
+    <xme:DHFDYYO0rUPS9nmSFSqwpcxqfQ_pQUfnIXBaWh_gKPlov19Nv09H08sl9fMbW8jej
+    x4FLS8PBE-WDjuxu1Q>
+X-ME-Received: <xmr:DHFDYfjlR9vtTu4VW1DUC-1go9vAGAgiu4mdYnnLPoc-sg8jUE3667OYC6LwQ6eKgLK2bp65AsiHYahP4-YRGqqoixLRb-JI6Ggs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgleeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -40,22 +40,35 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieegucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:DExDYQ-j8qz1JbGNEKJ_zS6CKX918C4UBa4bEEfPFqg6bvUGynsyUw>
-    <xmx:DExDYbur5jFaY0w2MtyQaK4CG8lgGbmaRrfO-GPK9fVpXXIFvEt3SQ>
-    <xmx:DExDYfG8y3hn2WSfKSjwVkZ_eOcQIlggN5QvhzyRvfGrVhinvwWbXA>
-    <xmx:D0xDYfi6qlSWUaSx5qLTQWZxsMr2VhqexiILdDjm_S_0taEpf6tR4Q>
+X-ME-Proxy: <xmx:DHFDYb8mvUuKkKkddxegg6gItiZ5TjT8Cc64Qf7pAUHPtYmMU-xSjA>
+    <xmx:DHFDYavdsMaQrdk1zzZdfVtKrlwD3fDdTKdBvT-bzXktew1v5aVQpw>
+    <xmx:DHFDYSGgAKXuaQV93QNJ2A44fGIJFswzUnmo5pe6HbLIx8qSeTi1UA>
+    <xmx:D3FDYVkgEXJK3xiJFUwFzoVSyYi_MlOVvwBGpewYBcsbvogO0Rptf9nzLW8>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 09:52:12 -0400 (EDT)
-Date: Thu, 16 Sep 2021 15:52:09 +0200
+ 16 Sep 2021 12:30:03 -0400 (EDT)
+Date: Thu, 16 Sep 2021 18:30:00 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Dang Huynh <danct12@disroot.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm64: dts: allwinner: pinetab: Add HDMI support
-Message-ID: <20210916135209.giscejyyratasjdg@gilmour>
-References: <20210914193732.3047668-1-danct12@disroot.org>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 01/22] clk: sunxi-ng: v3s: Make the ISP PLL clock public
+Message-ID: <20210916163000.6ezo6muhq23bewyi@gilmour>
+References: <20210910184147.336618-1-paul.kocialkowski@bootlin.com>
+ <20210910184147.336618-2-paul.kocialkowski@bootlin.com>
+ <20210913075417.ampb2jt4quftpqzj@gilmour>
+ <YT8RnzVqLebtPMD+@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,35 +76,72 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="nkqxigxo62xn7yj4"
+	protocol="application/pgp-signature"; boundary="6h7nudibxh245pvl"
 Content-Disposition: inline
-In-Reply-To: <20210914193732.3047668-1-danct12@disroot.org>
+In-Reply-To: <YT8RnzVqLebtPMD+@aptenodytes>
 
 
---nkqxigxo62xn7yj4
+--6h7nudibxh245pvl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 15, 2021 at 02:37:32AM +0700, Dang Huynh wrote:
-> This patch enables HDMI display on PINE64 PineTab.
->=20
-> The PineTab has a HDMI Type C (mini) port.
->=20
-> Signed-off-by: Dang Huynh <danct12@disroot.org>
+Salut Paul,
 
-Applied, thanks
+On Mon, Sep 13, 2021 at 10:53:51AM +0200, Paul Kocialkowski wrote:
+> On Mon 13 Sep 21, 09:54, Maxime Ripard wrote:
+> > On Fri, Sep 10, 2021 at 08:41:26PM +0200, Paul Kocialkowski wrote:
+> > > In order to reparent the CSI module clock to the ISP PLL via
+> > > device-tree, export the ISP PLL clock declaration in the public
+> > > device-tree header.
+> >=20
+> > You use clk_set_rate_exclusive in the ISP driver on the module clock so
+> > it should prevent what you're mentioning from happening.
+>=20
+> It does, but then it breaks display support entirely (because the DRM
+> driver doesn't use clk_set_rate_exclusive).
+>=20
+> The bottomline is that using the same PLL for both display and camera
+> easily results in conflicts.
+
+The commit log should reflect that then
+
+> > If it doesn't, then clk_set_rate_exclusive has a bug and should be
+> > fixed.
+> >=20
+> > Either way, using assigned-clock-parents is not a good solution here
+> > either, it only makes sure that this is the case when probe is run.
+>=20
+> I'm not sure what could provide better guarantees. There is a clock
+> parenting API (in the clock framework) which may, but this implies
+> providing the parent clock to the driver which seems way out of line
+> since this is a platform-specific matter that should certainly not
+> be handled by the driver.
+>=20
+> I also tried hardcoding the reparenting bit in the CCU driver, but
+> this felt less clean than doing it in device-tree.
+>=20
+> What do you think?
+
+This is essentially policy, and putting it in the DT fails for the
+reason we already discussed, but also if we ever want to change it for
+example to optimize it a bit. In this case, we would have to deal with
+the old and new DT, and the possible consequences.
+
+So yeah, hardcoding it in the clock driver seems like a more sensible
+choice.
+
 Maxime
 
---nkqxigxo62xn7yj4
+--6h7nudibxh245pvl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNMCQAKCRDj7w1vZxhR
-xTEqAP9ro5D53+31qOxH8kBn5T6Ou9v/necu0PAF6j7FTKjoqgEAnrx+No2LMAoz
-PO2bFzKODx0r5ulxuskCxduClVqMpwY=
-=+jtd
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNxCAAKCRDj7w1vZxhR
+xTHSAP94s1QU8mIU0mn77banRpkH0ZGKIUjPYygrvhOgdlCSegD/UryBgzqTDNlY
+omqVVtLWlYLTj9NQE+yJaYV+lXE3oQo=
+=K8KU
 -----END PGP SIGNATURE-----
 
---nkqxigxo62xn7yj4--
+--6h7nudibxh245pvl--
