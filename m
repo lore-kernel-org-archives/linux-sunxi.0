@@ -1,37 +1,37 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF0B3FCF
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Sep 2021 13:49:37 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id F281832009A1;
-	Thu, 16 Sep 2021 09:49:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Thu, 16 Sep 2021 09:49:36 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BD029CA
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Sep 2021 13:52:16 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id A3A6A3200970;
+	Thu, 16 Sep 2021 09:52:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 16 Sep 2021 09:52:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=hGTVPZFTMsORaX5yiAkxUoFb7lF
-	s1xVmUrZXKC4Tl80=; b=2TxfP18c0sCp4qlaH7ELC8YOs/GELiQ9PFVvGHPOnOe
-	Jsepbl3Z6AYjMRYqEsWXWuFVawpmw9eg9UTz+R3j+1XAKDgOh2krQiUgMTxwsX3x
-	728KnZwLVuvaF7oDoyt4vLXzsqrp2niSiVDJg3mOQp7TSngrXqg3BC0nRZika9Wu
-	S/aQ1e2g4pFmqJ3nmX9Odz0NY4zDb/vDWKcxNXHxpK/2RYNMW6KlWcQYMdEhC7qn
-	FBLiaQ4RWThuQVqkmWkBy0Z1I7a8Mw//hNGsicV+FlYVufvUlc9cWwtOEWt6HHHh
-	1FBlYQjxF6OczhLY1l1Y52IkVtCHls+8EnJDLw3a1jA==
+	:content-type:in-reply-to; s=fm3; bh=P6BBuNiEaEPiNV/0YQaIad18nlp
+	DySRjD154k7UbZYc=; b=bK1jS/5jZsW7UA+FeJJue/+F5NJ9OZ9BTMd+AwYlRmH
+	dbXSFsqncpg4kbmMdGjNjAY0J5t/OSAB/UD5/b1KO45Qln3GLhrnP4ARED5BcNtn
+	I4QG8NPm2bJCtacmsJoPnjYFiXF/Izo7+/65YCx86z6SXIg6ZbOXICm6vuw4PBoZ
+	T3YBffMOOVHzYQaf/TleejdnkTXaP8QJ6DQKZPvCYZHj9JleWKjBhisk5+hpZ0Xd
+	eKhuvY/SehAJ1cJXyuX4jvwMYYU0OkFiplJbxj7FMB0WVkLz7o1rM76kNBBTS5on
+	2GpGBhBebugkaOhZH8O7shwC6WqFgXbnCVCmHTFLz7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=hGTVPZ
-	FTMsORaX5yiAkxUoFb7lFs1xVmUrZXKC4Tl80=; b=Y6JykOIqHJmeOZW1JYFlHU
-	hoESyUgOnZZfrVbZm9t4TNgWbJDO4R1Ra66CzDDLsb2FdoJphcnCLZHij7MNVhty
-	hxKkAu1tike17BhuF5l33+0hFukv8vzVrZUyEVxFjOrOKT9BaQJR/OjqkyHo1yVs
-	pbncNPsssG0kni3PsR1KMHDAtY1MnoIsEdRUHzdu1LqKIEaz4VSyyy5MqFcLtYlS
-	Vf0g+afLWFKScXRvN+PQCBVi191u+tEl1I7RenGqFNsb+tG5VUOP53Rw0vR/HNGU
-	exVSnOTZHilRSlNB14xonyZl7TsMd9ydqmernpVL8+bdHA0TKzPUe6EqMNNSCfXQ
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=P6BBuN
+	iEaEPiNV/0YQaIad18nlpDySRjD154k7UbZYc=; b=dHSaDsYcGUJ0voilJhRVV/
+	gDMJRe6anFnn0s3lIy1LuZ9bhctzXIKyYVVaF/8TOinUyrZhjt2qIqJD7QmV8GMm
+	OBzGJHuizQmxVzV1yrb+o7OuZ6qmcrk9ubzeSUgChQhoBrmTA0aeNnoogLD57/fV
+	zK11JrzJC/aXkaojOOj0NJOv4V8BqEhsRC1JOmZ2bI/p/wQauLDFBHT/ZOrY9MyK
+	28to/BLzKjMsUj3RtoCcxKJR6n0tpmFdxKDIxQ6PT04rAwtvEfuSKjjcnc/0F890
+	VhgO23rSXpHcFkVMG8dHP4npujTD3D44nW8S0lk2gIZT4JWcjRuFwnycX/nGsrRA
 	==
-X-ME-Sender: <xms:bUtDYVOZoH2BtLRrGzbOC1dewN5f7LqSi8IdSCbtoAfMljrgSpFyWw>
-    <xme:bUtDYX_2m2F890zccEPFzp-y8Z9eU91-T2LwbA91DIEnnjsmTfAGHBYQlG6Ed5FSL
-    m95Blnj7OL5E7xaQPw>
-X-ME-Received: <xmr:bUtDYURmUgX1u9GxjNrqykowIsoX19Ps4lwqxM9a3jb9ifp4Aqno6_vZTpxO76Mr_cvnyah-hOyXO5HeNy1NMguXrfWZxvyvANrm>
+X-ME-Sender: <xms:DExDYffpws5TT8ktwwJdbP34nSPElgehUCCZgXNd4IMur-IA0e11TA>
+    <xme:DExDYVOk21DNX-1NFT0-Y8LG9QZI0AT0vv10bdmMZBRyfjBMfBeeOqLXv74oH4rIT
+    QRlj31eKejncFJrnL4>
+X-ME-Received: <xmr:DExDYYjhCzHxO9LrqAU-iVUDbRF84YT5XDg_9a9kXkVjWr7qrOpwKbFnFXwfrIhvlWc7S2X-x6ntVyWPd_zmfQr9cspKnqsRiFf9>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -40,22 +40,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieegucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:bUtDYRsPis-zFAWHuhhRBol9ZJRiYwijCo2kY7w9MqEwJ9ZaeRXo3A>
-    <xmx:bUtDYdd0gvr-IkdUNWfFxX5wA5EbzCykj7g_b2T7NoBDZ24-aPYwhA>
-    <xmx:bUtDYd2Fn4fR30AvRgZTT_Bu3X1eDGJ0cUs2fq_EOWQYdI5DGydosA>
-    <xmx:b0tDYcxnNw1aHhRz5GSvMJZpDz0VKPmFa8GjkTCqin3TtnGCvfB2Jw>
+X-ME-Proxy: <xmx:DExDYQ-j8qz1JbGNEKJ_zS6CKX918C4UBa4bEEfPFqg6bvUGynsyUw>
+    <xmx:DExDYbur5jFaY0w2MtyQaK4CG8lgGbmaRrfO-GPK9fVpXXIFvEt3SQ>
+    <xmx:DExDYfG8y3hn2WSfKSjwVkZ_eOcQIlggN5QvhzyRvfGrVhinvwWbXA>
+    <xmx:D0xDYfi6qlSWUaSx5qLTQWZxsMr2VhqexiILdDjm_S_0taEpf6tR4Q>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 09:49:33 -0400 (EDT)
-Date: Thu, 16 Sep 2021 15:49:32 +0200
+ 16 Sep 2021 09:52:12 -0400 (EDT)
+Date: Thu, 16 Sep 2021 15:52:09 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: wens@csie.org, airlied@linux.ie, daniel@ffwll.ch, saravanak@google.com,
-	megous@megous.com, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
-Message-ID: <20210916134932.omo7uln7vgwuponn@gilmour>
-References: <20210915175836.3158839-1-jernej.skrabec@gmail.com>
+To: Dang Huynh <danct12@disroot.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm64: dts: allwinner: pinetab: Add HDMI support
+Message-ID: <20210916135209.giscejyyratasjdg@gilmour>
+References: <20210914193732.3047668-1-danct12@disroot.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,47 +63,35 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zoalnj333bw3b74u"
+	protocol="application/pgp-signature"; boundary="nkqxigxo62xn7yj4"
 Content-Disposition: inline
-In-Reply-To: <20210915175836.3158839-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20210914193732.3047668-1-danct12@disroot.org>
 
 
---zoalnj333bw3b74u
+--nkqxigxo62xn7yj4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 15, 2021 at 07:58:36PM +0200, Jernej Skrabec wrote:
-> Recent rework, which made HDMI PHY driver a platform device, inadvertely
-> reversed clock setup order. HW is very touchy about it. Proper way is to
-> handle controllers resets and clocks first and HDMI PHYs second.
+On Wed, Sep 15, 2021 at 02:37:32AM +0700, Dang Huynh wrote:
+> This patch enables HDMI display on PINE64 PineTab.
 >=20
-> Currently, without this fix, first mode set completely fails (nothing on
-> HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
+> The PineTab has a HDMI Type C (mini) port.
 >=20
-> Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
-> will assure that code is executed after controllers reset & clocks are
-> handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
-> them at controllers driver unload.
->=20
-> Tested on A64, H3, H6 and R40.
->=20
-> Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform d=
-evice")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Dang Huynh <danct12@disroot.org>
 
 Applied, thanks
 Maxime
 
---zoalnj333bw3b74u
+--nkqxigxo62xn7yj4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNLbAAKCRDj7w1vZxhR
-xZ1VAP97LhyfzDujhDpzpZoCr0Ek8Vrbmxn2TWjt+iqPJjmXJwD/ZfGocsWg01VQ
-TbwLRdd1aOIfVXtbQfCKOhuuV4nakg0=
-=XBvq
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNMCQAKCRDj7w1vZxhR
+xTEqAP9ro5D53+31qOxH8kBn5T6Ou9v/necu0PAF6j7FTKjoqgEAnrx+No2LMAoz
+PO2bFzKODx0r5ulxuskCxduClVqMpwY=
+=+jtd
 -----END PGP SIGNATURE-----
 
---zoalnj333bw3b74u--
+--nkqxigxo62xn7yj4--
