@@ -1,176 +1,61 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2EA29CA
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Sep 2021 15:48:26 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id E4D873200914;
-	Fri, 17 Sep 2021 11:48:25 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 17 Sep 2021 11:48:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm3; bh=fDrqAiKkTh/di0wnBvNl4ElHMUw
-	aF9hP7mXIhAjdorE=; b=MhRTZhbCxUctdBSDpy3/ySDBIhavriObviDI5cc396u
-	LzbAWDjCHxY12wkF+bCRRL0PImB/QHWM/5obURepNARozx2MsRhUXUeDYe+xoBxK
-	FrxPOLAb9VXeLZ7i8C0bXPUCQ+1gX4NKQeAqLS2pjeSLZvWoXWk3z/RIRF5M7AiM
-	DWkc8Uam/Htnd4ODYD9D1qJOmf2VsgSWsuhRix0u24LyP+vK76Fsvcpk0fKPU4kg
-	uSX69cUM0/lx5wRF1rPu2ThMCZHsHMC7qfNliIPq/zjmTlFn4Sv+LFqYlMnH1bVB
-	ZbmMl0xzxlRErFmCcKzr4EAtzjOPoG9dJTKBkYKMQCg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=fDrqAi
-	KkTh/di0wnBvNl4ElHMUwaF9hP7mXIhAjdorE=; b=rxyve818Zslr7fTyiVUggq
-	+MgKdbnkmbS5YM3kQHdZJzO5YmR0lSCsJJRdcb2gS6qSEMHTdW3lmCO9qXLUh/++
-	sJbGTsmogOkAam8V7xk695CTDKwiH4MCspUyI2EsTDWOA+ZUBjY/JzddPprcvyQt
-	xOu6XewErG8FhDycYhr73pVrrbQuQT+Fm2KxWJ4woM2ucUfzQMq4yz2wc//HCeVx
-	n4oPBblslp/ijnvRWbttehcVUFdHdVUuzIMtVO/O0oJAfGaeIFZPsvW9e/vB+EQG
-	+3dP3f8uLQlrvMAfckD/d10ECax1h8PLHRyNUYKroH34WI3IrIgaCAYOSjB1PwlA
-	==
-X-ME-Sender: <xms:ybhEYXGrVxF61T9s3Hplmdh92hN1ZHf1uMt5qzPQ-Kj4UtQRnHSs4Q>
-    <xme:ybhEYUWhfXjZoNCyA7N7PTSMna-2mVJGnD-W9EgNerKd2dnDMPZqHAOxv_L6NjOcM
-    BGL6jjp-tg8g-Pfutk>
-X-ME-Received: <xmr:ybhEYZIAXqX5ejj6_vJsTX1ivDYAeyl_YVi6mqg9Uu6RfiKZj6rLCmBVjWHtEfe00BrICQ3nOJr8So9oTe4GhS0fWD1M4ItezZgB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedgkeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    goufhushhpvggtthffohhmrghinhculdegledmnecujfgurhepfffhvffukfhfgggtuggj
-    sehgtderredttdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimh
-    gvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnheplefgkeffudffleeijeef
-    gffgtdegvdeuieetkedvueejfeegudehueehkedtleeknecuffhomhgrihhnpegsohhoth
-    hlihhnrdgtohhmpdhigidrihhonecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ybhEYVHWBEU4h0MD14EeJQOCavksI1B_RbyNczXgBuVQ5gVO4wTAbg>
-    <xmx:ybhEYdXKi8hYHL5am4JJSz1n37gOkmI3eTacCl8aWJwf0ZD2uxeTWQ>
-    <xmx:ybhEYQNXAy-ES9xZbABa8KXcayRPiwOOaPoEEW5hcS7S--XSb3KRRw>
-    <xmx:ybhEYQR6kHiWmp3kJ6fFPYWEw1ZHP_wdRjThnb1JGpu15VVcZ1KWOQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 11:48:24 -0400 (EDT)
-Date: Fri, 17 Sep 2021 17:48:23 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Saravana Kannan <saravanak@google.com>, linux-sunxi@lists.linux.dev,
-	Android Kernel Team <kernel-team@android.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: Issue with fw_devlink=on on 5.14
-Message-ID: <20210917154823.jly4hsbe73bathce@gilmour>
-References: <5570111.f9yF5Hohu3@kista>
- <33995494.1UIDBzYVPQ@kista>
- <CAGETcx-_sNJ1Z-8Bmqh+awi-2xnQQLjnJf+Zncj23ByDmJYDJQ@mail.gmail.com>
- <1757257.sNEdEUkno9@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF44A72
+	for <linux-sunxi@lists.linux.dev>; Sat, 18 Sep 2021 07:49:51 +0000 (UTC)
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HBMvb2jfCz1DH4k;
+	Sat, 18 Sep 2021 15:31:39 +0800 (CST)
+Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Sat, 18 Sep 2021 15:32:43 +0800
+Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
+ (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Sat, 18 Sep
+ 2021 15:32:43 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
+CC: <p.zabel@pengutronix.de>, <mturquette@baylibre.com>
+Subject: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
+Date: Sat, 18 Sep 2021 15:37:52 +0800
+Message-ID: <20210918073752.105959-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cyyux7n7aa3lplag"
-Content-Disposition: inline
-In-Reply-To: <1757257.sNEdEUkno9@jernej-laptop>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500017.china.huawei.com (7.185.36.243)
+X-CFilter-Loop: Reflected
 
+It will cause null-ptr-deref if platform_get_resource() returns NULL,
+we need check the return value.
 
---cyyux7n7aa3lplag
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/clk/sunxi/clk-sun9i-mmc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Fri, Sep 17, 2021 at 06:32:45AM +0200, Jernej =C5=A0krabec wrote:
-> Dne petek, 17. september 2021 ob 04:55:22 CEST je Saravana Kannan napisal=
-(a):
-> > On Wed, Sep 15, 2021 at 11:59 AM Jernej =C5=A0krabec
-> >=20
-> > <jernej.skrabec@gmail.com> wrote:
-> > > /cc linux-kernel@vger.kernel.org
-> > >=20
-> > > Dne sreda, 15. september 2021 ob 20:36:11 CEST je Saravana Kannan=20
-> napisal(a):
-> > > > On Wed, Sep 15, 2021 at 11:23 AM Saravana Kannan <saravanak@google.=
-com>
-> > >=20
-> > > wrote:
-> > > > > On Wed, Sep 15, 2021 at 11:07 AM Jernej =C5=A0krabec
-> > > > >=20
-> > > > > <jernej.skrabec@gmail.com> wrote:
-> > > > > > Hi Saravana!
-> > > > > >=20
-> > > > > > I noticed that in kernel 5.14, at least on Allwinner H3, deinte=
-rlace
-> > >=20
-> > > driver
-> > >=20
-> > > > > > doesn't load anymore if fw_devlink is set to on. If I set it to=
- off,
-> > >=20
-> > > driver
-> > >=20
-> > > > > > loads and works without problems. If I remove interconnects pro=
-perty
-> > > > > > in
-> > >=20
-> > > DT
-> > >=20
-> > > > > > node and use driver hack instead, it also loads and work ok.
-> > > > > >=20
-> > > > > > For reference, I speak about this node:
-> > > > > > https://elixir.bootlin.com/linux/v5.14/source/arch/arm/boot/dts=
-/sun8
-> > > > > > i-h3.dtsi#L153> >=20
-> > > > Oh the dts file please. Not dtsi. I need the full picture of
-> > > > dependencies.
-> > >=20
-> > > I just dumped DTB from the board I use for testing this:
-> > > http://ix.io/3yZB
-> >=20
-> > I was basically asking for this:
-> > arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts
-> >=20
-> > > > -Saravana
-> > > >=20
-> > > > > > Do you have any clue why it doesn't work?
-> > > > >=20
-> > > > > Kinda busy today and I'll take a close look later, but if you del=
-ete
-> > > > > "interconnect" but it works, then it seems like you have no drive=
-r for
-> > > > > your "mbus" interconnect? Is that expected?
-> > >=20
-> > > Ah, you're completely right. There is no MBUS driver (yet), since cur=
-rent
-> > > purpose of that node is to determine DMA memory offsets and for that =
-you
-> > > don't need a driver.
-> >=20
-> > Can you explain more how you get the DMA memory offsets in the code
-> > from this node?
->=20
-> Maxime, can you help with this?
+diff --git a/drivers/clk/sunxi/clk-sun9i-mmc.c b/drivers/clk/sunxi/clk-sun9i-mmc.c
+index 542b31d6e96d..636bcf2439ef 100644
+--- a/drivers/clk/sunxi/clk-sun9i-mmc.c
++++ b/drivers/clk/sunxi/clk-sun9i-mmc.c
+@@ -109,6 +109,8 @@ static int sun9i_a80_mmc_config_clk_probe(struct platform_device *pdev)
+ 	spin_lock_init(&data->lock);
+ 
+ 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
++	if (!r)
++		return -EINVAL;
+ 	/* one clock/reset pair per word */
+ 	count = DIV_ROUND_UP((resource_size(r)), SUN9I_MMC_WIDTH);
+ 	data->membase = devm_ioremap_resource(&pdev->dev, r);
+-- 
+2.25.1
 
-Sure, Jernej is right, the interconnects binding with the dma-mem name
-is here to describe the path DMA accesses take between devices.
-
-In our case, the registers accesses go through the usual busses, but the
-DMA accesses go through a separate one controlled by the mbus controller
-Jernej was talking about.
-
-The driver core will then take this into account and apply any DMA
-mapping the mbus controller has:
-https://elixir.bootlin.com/linux/latest/source/drivers/of/address.c#L582
-
-So it's entirely transparent to the consumer driver.
-
-Maxime
-
---cyyux7n7aa3lplag
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUS4xwAKCRDj7w1vZxhR
-xdh2AP46XGze/rsedwcLNrSmU/Q4Mz2R/XKJSzttmt1e5kR9bwEA/U/Kh4kQYt3d
-qKJI6rkrJdzYM8NxQn8D7sGbq2JwdQA=
-=IjO6
------END PGP SIGNATURE-----
-
---cyyux7n7aa3lplag--
