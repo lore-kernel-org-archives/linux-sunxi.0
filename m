@@ -1,61 +1,51 @@
-Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF44A72
-	for <linux-sunxi@lists.linux.dev>; Sat, 18 Sep 2021 07:49:51 +0000 (UTC)
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
-	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HBMvb2jfCz1DH4k;
-	Sat, 18 Sep 2021 15:31:39 +0800 (CST)
-Received: from dggpeml500017.china.huawei.com (7.185.36.243) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Sat, 18 Sep 2021 15:32:43 +0800
-Received: from huawei.com (10.175.103.91) by dggpeml500017.china.huawei.com
- (7.185.36.243) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Sat, 18 Sep
- 2021 15:32:43 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
-CC: <p.zabel@pengutronix.de>, <mturquette@baylibre.com>
-Subject: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
-Date: Sat, 18 Sep 2021 15:37:52 +0800
-Message-ID: <20210918073752.105959-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B2A72
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Sep 2021 15:03:21 +0000 (UTC)
+Received: from wf0416.dip.tu-dresden.de ([141.76.181.160] helo=phil.dip.tu-dresden.de)
+	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <heiko@sntech.de>)
+	id 1mSKHr-0005O5-UB; Mon, 20 Sep 2021 16:28:51 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: linux-rockchip@lists.infradead.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-kernel@vger.kernel.org
+Cc: Heiko Stuebner <heiko@sntech.de>
+Subject: Re: (subset) [PATCH 1/2] arm64: dts: allwinner: a64: align operating-points table name with dtschema
+Date: Mon, 20 Sep 2021 16:28:45 +0200
+Message-Id: <163214478705.1547258.14943918538537687859.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210819182311.223443-1-krzysztof.kozlowski@canonical.com>
+References: <20210819182311.223443-1-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggpeml500017.china.huawei.com (7.185.36.243)
-X-CFilter-Loop: Reflected
 
-It will cause null-ptr-deref if platform_get_resource() returns NULL,
-we need check the return value.
+On Thu, 19 Aug 2021 20:23:10 +0200, Krzysztof Kozlowski wrote:
+> Align the name of operating-points node to dtschema to fix warnings like:
+> 
+>   arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml:
+>     opp_table0: $nodename:0: 'opp_table0' does not match '^opp-table(-[a-z0-9]+)?$'
 
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- drivers/clk/sunxi/clk-sun9i-mmc.c | 2 ++
- 1 file changed, 2 insertions(+)
+Applied, thanks!
 
-diff --git a/drivers/clk/sunxi/clk-sun9i-mmc.c b/drivers/clk/sunxi/clk-sun9i-mmc.c
-index 542b31d6e96d..636bcf2439ef 100644
---- a/drivers/clk/sunxi/clk-sun9i-mmc.c
-+++ b/drivers/clk/sunxi/clk-sun9i-mmc.c
-@@ -109,6 +109,8 @@ static int sun9i_a80_mmc_config_clk_probe(struct platform_device *pdev)
- 	spin_lock_init(&data->lock);
- 
- 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!r)
-+		return -EINVAL;
- 	/* one clock/reset pair per word */
- 	count = DIV_ROUND_UP((resource_size(r)), SUN9I_MMC_WIDTH);
- 	data->membase = devm_ioremap_resource(&pdev->dev, r);
+[2/2] arm64: dts: rockchip: align operating-points table name with dtschema
+      commit: a30f3d90e2d2f4d0452c0f6f77693d0e9bba3b1e
+
+Best regards,
 -- 
-2.25.1
-
+Heiko Stuebner <heiko@sntech.de>
