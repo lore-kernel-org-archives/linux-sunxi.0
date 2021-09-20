@@ -1,51 +1,132 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B2A72
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Sep 2021 15:03:21 +0000 (UTC)
-Received: from wf0416.dip.tu-dresden.de ([141.76.181.160] helo=phil.dip.tu-dresden.de)
-	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <heiko@sntech.de>)
-	id 1mSKHr-0005O5-UB; Mon, 20 Sep 2021 16:28:51 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-rockchip@lists.infradead.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>,
-	linux-kernel@vger.kernel.org
-Cc: Heiko Stuebner <heiko@sntech.de>
-Subject: Re: (subset) [PATCH 1/2] arm64: dts: allwinner: a64: align operating-points table name with dtschema
-Date: Mon, 20 Sep 2021 16:28:45 +0200
-Message-Id: <163214478705.1547258.14943918538537687859.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210819182311.223443-1-krzysztof.kozlowski@canonical.com>
-References: <20210819182311.223443-1-krzysztof.kozlowski@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A2AB3FC0
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Sep 2021 16:48:41 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id i13so19415691ilm.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Sep 2021 09:48:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qwTJ7Ad7zVwW8MXijFTCxqxIz/INuyLU038X6Cl8cX8=;
+        b=gEpnnaWNfeGWV1YEfOrXuq+LS+LgPIPsf1DgmGFv9Am5IX4FzgUCAAz9kv6Wok3gcj
+         hyqxFa0fPyvhfifyDUGVN6FUhXjQr5JBt69GUObZUMETluh34krbCh9RfSG3gJ2vz7WU
+         m2sKlwAIdi+n4v1ByPZGwiF865i2wURG5Xvpg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qwTJ7Ad7zVwW8MXijFTCxqxIz/INuyLU038X6Cl8cX8=;
+        b=dObtMCvsDWIv/QlWFgMcGl1k0nMJcenWhRVxO5pqcj4d37fwK9SGkOOFmr7+2fcqBL
+         X2QyKAYDFtXamSKpH/NHptL6Xh/Fr25At9W45gEFIRhHycXdAm3aAv1lX7dlRIKMHAWN
+         wigEZqKNEa+1EVntaxtq7X/c1teFZa599WTy49hkUCEYHqgCFL83bI/b6waLIJgCjE1J
+         eWGSt1RnetxO7tb84047bDiZ/wK525be4gripZrjg/yBZgFKh+0AfJJs/IkiHkxJj9+e
+         m9B0x9xW2uFjExzMWlonpEQhghSdAQhsrvJCcZ70tcop/5OAJBpSNuzypz1ScChkeBhe
+         htag==
+X-Gm-Message-State: AOAM531S3R1+LzdIB80P18MKE0j2Pax2YiYh5dicN7JWOfjOuJJme5nM
+	tBmyc1+NuyFvVCIDiYD2dB6oERZsylvEww==
+X-Google-Smtp-Source: ABdhPJxUNy0ifWVDL0QTlEJdOYPem7MCvnWhON9d1Skgv/a5ptXLr5S/9orGdNRrGbNSVE7y65A1Xw==
+X-Received: by 2002:a05:6e02:1a22:: with SMTP id g2mr10372636ile.135.1632156520316;
+        Mon, 20 Sep 2021 09:48:40 -0700 (PDT)
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com. [209.85.166.181])
+        by smtp.gmail.com with ESMTPSA id v7sm8809912ilm.19.2021.09.20.09.48.40
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Sep 2021 09:48:40 -0700 (PDT)
+Received: by mail-il1-f181.google.com with SMTP id h20so19380589ilj.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Sep 2021 09:48:40 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1847:: with SMTP id b7mr18604550ilv.180.1632156161095;
+ Mon, 20 Sep 2021 09:42:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+References: <20210914202202.1702601-1-dianders@chromium.org> <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
+In-Reply-To: <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 20 Sep 2021 09:42:28 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Message-ID: <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Subject: Re: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically
+ instead of hardcoding
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>, 
+	Sam Ravnborg <sam@ravnborg.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, 
+	"open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, MSM <linux-arm-msm@vger.kernel.org>, 
+	David Airlie <airlied@linux.ie>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
+	Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Adam Ford <aford173@gmail.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Andreas Kemnade <andreas@kemnade.info>, 
+	Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>, Anson Huang <Anson.Huang@nxp.com>, 
+	Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, Corentin Labbe <clabbe@baylibre.com>, 
+	Daniel Thompson <daniel.thompson@linaro.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	Dmitry Osipenko <digetx@gmail.com>, Emil Velikov <emil.velikov@collabora.com>, 
+	Enric Balletbo i Serra <enric.balletbo@collabora.com>, Eugen Hristev <eugen.hristev@microchip.com>, 
+	Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Grygorii Strashko <grygorii.strashko@ti.com>, =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>, Kees Cook <keescook@chromium.org>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, 
+	Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, Magnus Damm <magnus.damm@gmail.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	=?UTF-8?Q?Martin_J=C3=BCcker?= <martin.juecker@gmail.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Michael Walle <michael@walle.cc>, 
+	NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Nishanth Menon <nm@ti.com>, Olivier Moysan <olivier.moysan@st.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Razvan Stefanescu <razvan.stefanescu@microchip.com>, Robert Richter <rric@kernel.org>, 
+	Russell King <linux@armlinux.org.uk>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Shawn Guo <shawnguo@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Tony Lindgren <tony@atomide.com>, 
+	Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>, Will Deacon <will@kernel.org>, 
+	William Cohen <wcohen@redhat.com>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, Linux-OMAP <linux-omap@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, 
+	linux-tegra <linux-tegra@vger.kernel.org>, =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 19 Aug 2021 20:23:10 +0200, Krzysztof Kozlowski wrote:
-> Align the name of operating-points node to dtschema to fix warnings like:
-> 
->   arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml:
->     opp_table0: $nodename:0: 'opp_table0' does not match '^opp-table(-[a-z0-9]+)?$'
+Hi,
 
-Applied, thanks!
+On Tue, Sep 14, 2021 at 3:12 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+>
+> On Tue, Sep 14, 2021 at 10:22 PM Douglas Anderson <dianders@chromium.org> wrote:
+>
+> > Version 5 of this series just fixes the panel ID encode macro to be
+> > cleaner and adds Jani's review tags.
+> >
+> > It could possibly be ready to land?
+>
+> Definitely IMO, the kernel look so much better after this change,
+> so for the series:
+> Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-[2/2] arm64: dts: rockchip: align operating-points table name with dtschema
-      commit: a30f3d90e2d2f4d0452c0f6f77693d0e9bba3b1e
+Pushed all 15 to drm-misc-next.
 
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+5540cf8f3e8d drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+24e27de11560 drm/panel-edp: Don't re-read the EDID every time we power
+off the panel
+a64ad9c3e4a5 drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+c46a4cc1403e drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+52824ca4502d drm/panel-edp: Better describe eDP panel delays
+9ea10a500045 drm/panel-edp: Split the delay structure out
+b6d5ffce11dd drm/panel-simple: Non-eDP panels don't need "HPD" handling
+3fd68b7b13c2 drm/panel-edp: Move some wayward panels to the eDP driver
+5f04e7ce392d drm/panel-edp: Split eDP panels out of panel-simple
+c0c11c70a6d0 arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+310720875efa ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+e8de4d55c259 drm/edid: Use new encoded panel id style for quirks matching
+d9f91a10c3e8 drm/edid: Allow querying/working with the panel ID from the EDID
+bac9c2948224 drm/edid: Break out reading block 0 of the EDID
+29145a566873 dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+
+-Doug
