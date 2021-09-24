@@ -1,188 +1,133 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5D53FCC
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Sep 2021 07:28:05 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 93105580F3A;
-	Fri, 24 Sep 2021 03:28:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 24 Sep 2021 03:28:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm3; bh=42KPiA9o6F1jM
-	s8b/YN0eR5v0rC8lVUlITBUqZ+gpAk=; b=30UmSNETnSA1rVkshReILd/ybGt/d
-	o+tPZnDH10SbNaZCyi5UEeEF4I981p5InBGJ12W8DJNgOCfSv3Z63GVevDZIX62Z
-	q2izQsWkX+p18jgtWArbHeIQfdIhA/DdfFGiq9DmPtPpkNnk8Z1dDWgQ/I6nyhPM
-	/DPn8rjiY4dlPG7zPfw+H9nG8R4/xBFpFfB06P6p6dFTZmBf1MEpbpZMCcfzp6QW
-	EBebQH7k4Y6iCtwwLACfxFlw76YIgQKTdumWOP1JulIG0r8eGO1AyXAuCMnDUYF/
-	wNCvbUJ8rtpML9rtTSmaWGA17gki7RKa2Yxf7YqUCoedmP1gHrmPB3ZiA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; bh=42KPiA9o6F1jMs8b/YN0eR5v0rC8lVUlITBUqZ+gpAk=; b=b60VlNH0
-	5vIDtx7ZaYWKOb+kZF06HYyyfBLshe9d3Ez7KwaOoVQ0JO4DVq5/IfDA0xzUXGL0
-	sl1qVerjyxSs7EUjVlSe5kalur9zZVOnrD1fsZv07pNQguYm5b+NtZjJRhUOMB2w
-	bAAbfHM5J/sGbOa1jLaTgnr7AqndmMmf5yCQmUKXA1ZcQXVxRG5OML7YQeIokGXZ
-	reuHtx4jLPVyD08M4HJyLUBoAIhKWF/xvWGmUxOUy7UYzjvA+TtEj1Mj6y03NrIg
-	CJFhEvuNIkCQw/FQYmFq+vG1JT4GcAac5yQbvYnUHgKlco1SVNly6oFIhEXhx3lW
-	OTTeLtUxAMngPg==
-X-ME-Sender: <xms:BH5NYR0lnb2tWfs1pGlM1FZE1JoufhXT-oYPUY0QuwldNhGBkCXJZg>
-    <xme:BH5NYYH38o8E62AntUj9-rq2kbb5rcchDhYphZ5Wdr5kw8F6HcDIXzj9GfIqDdPNW
-    0wP3rW7q8FNw6OyQns>
-X-ME-Received: <xmr:BH5NYR6gHZXSzj0N-dppSbTIzSjDaAoETmR9I9aVVc_Etry3fmYgV9a-koX5VYo5jClmlZk6PBId-WL6yo_4IByVmLYJ8Osdigmx>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enogevohgrshhtrghlqdfhgeduvddqtddvucdludehtddmnecujfgurhephffvufffkffo
-    jghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomh
-    grgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepveejieejtdev
-    gfffgfejuefggfeutdelteekgeetueeftddutddtgfffhffgueffnecuffhomhgrihhnpe
-    guvghvihgtvghtrhgvvgdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:BH5NYe2MAwDRWAG4flVu1h4_lOzu5sJtkZHjZCkhIsCRP4wZMo_0VA>
-    <xmx:BH5NYUGz397XGoshxw3qHfLvwBq1HSgjpbwFPQuTUB-ZbT13NT-prw>
-    <xmx:BH5NYf9UHv8iLcYqOtWz58UV59aqjEkBHMlPK2HY1jD-Q3b8mhV1eg>
-    <xmx:BH5NYYG3ggfJF6IP6l7KgYEKN939MckgiZ-RnN93BfA416qz7sIzLA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 03:28:03 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <maxime@cerno.tech>,
-	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	"David S. Miller" <davem@davemloft.net>,
-	de Goede <hdegoede@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Kalle Valo <kvalo@codeaurora.org>,
-	linux-wireless@vger.kernel.org,
-	netdev@vger.kernel.org,
-	Rob Herring <robh@kernel.org>
-Subject: [RESEND v2 4/4] dt-bindings: net: wireless: Convert ESP ESP8089 binding to a schema
-Date: Fri, 24 Sep 2021 09:27:56 +0200
-Message-Id: <20210924072756.869731-4-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210924072756.869731-1-maxime@cerno.tech>
-References: <20210924072756.869731-1-maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35C683FCB
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Sep 2021 08:04:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10116"; a="224069854"
+X-IronPort-AV: E=Sophos;i="5.85,319,1624345200"; 
+   d="scan'208";a="224069854"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 01:04:04 -0700
+X-IronPort-AV: E=Sophos;i="5.85,319,1624345200"; 
+   d="scan'208";a="551488631"
+Received: from avanhout-mobl.ger.corp.intel.com (HELO localhost) ([10.249.37.153])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2021 01:03:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Doug Anderson <dianders@chromium.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, "open list\:OPEN
+ FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>, "open list\:DRM PANEL DRIVERS"
+ <dri-devel@lists.freedesktop.org>, MSM <linux-arm-msm@vger.kernel.org>,
+ David Airlie <airlied@linux.ie>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, Adam
+ Ford <aford173@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>, Alexandre
+ Belloni <alexandre.belloni@bootlin.com>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Andreas Kemnade <andreas@kemnade.info>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>, Anson Huang
+ <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>, Catalin Marinas
+ <catalin.marinas@arm.com>, Chen-Yu Tsai <wens@csie.org>, Claudiu Beznea
+ <claudiu.beznea@microchip.com>, Corentin Labbe <clabbe@baylibre.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Dmitry Osipenko <digetx@gmail.com>, Emil
+ Velikov <emil.velikov@collabora.com>, Enric Balletbo i Serra
+ <enric.balletbo@collabora.com>, Eugen Hristev
+ <eugen.hristev@microchip.com>, Fabio Estevam <festevam@gmail.com>, Fabrice
+ Gasnier <fabrice.gasnier@st.com>, Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, Grygorii Strashko
+ <grygorii.strashko@ti.com>, Guido =?utf-8?Q?G=C3=BCnther?=
+ <agx@sigxcpu.org>, Jagan Teki
+ <jagan@amarulasolutions.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Kees Cook <keescook@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, Lionel Debieve
+ <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, Lorenzo
+ Pieralisi <lorenzo.pieralisi@arm.com>, Ludovic Desroches
+ <ludovic.desroches@microchip.com>, Magnus Damm <magnus.damm@gmail.com>,
+ Manivannan Sadhasivam <mani@kernel.org>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Martin =?utf-8?Q?J=C3=BCcker?=
+ <martin.juecker@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, Michael Walle
+ <michael@walle.cc>, NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Nishanth Menon <nm@ti.com>, Olivier Moysan
+ <olivier.moysan@st.com>, Otavio Salvador <otavio@ossystems.com.br>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Razvan Stefanescu
+ <razvan.stefanescu@microchip.com>, Robert Richter <rric@kernel.org>,
+ Russell King <linux@armlinux.org.uk>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, Stefan Wahren
+ <stefan.wahren@i2se.com>, Sudeep Holla <sudeep.holla@arm.com>, Tony
+ Lindgren <tony@atomide.com>, Viresh Kumar <viresh.kumar@linaro.org>,
+ Vladimir Zapolskiy <vz@mleia.com>, Will Deacon <will@kernel.org>, William
+ Cohen <wcohen@redhat.com>, Linux ARM
+ <linux-arm-kernel@lists.infradead.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>, Linux-OMAP <linux-omap@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, linux-samsung-soc
+ <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev,
+ linux-tegra <linux-tegra@vger.kernel.org>, =?utf-8?Q?=C5=81ukasz?= Stelmach
+ <l.stelmach@samsung.com>, Stanislav Lisovskiy
+ <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically instead of hardcoding
+In-Reply-To: <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210914202202.1702601-1-dianders@chromium.org> <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com> <CAD=FV=VPgFRBLgOGvt4a4afDr80aQL64L7=H3kqeRf2ffiusPg@mail.gmail.com>
+Date: Fri, 24 Sep 2021 11:03:34 +0300
+Message-ID: <874kaabdt5.fsf@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The ESP8089 Wireless Chip is supported by Linux (through an out-of-tree
-driver) thanks to its device tree binding.
+On Mon, 20 Sep 2021, Doug Anderson <dianders@chromium.org> wrote:
+> Pushed all 15 to drm-misc-next.
+...
+> e8de4d55c259 drm/edid: Use new encoded panel id style for quirks matching
+> d9f91a10c3e8 drm/edid: Allow querying/working with the panel ID from the =
+EDID
 
-Now that we have the DT validation in place, let's convert the device
-tree bindings for that driver over to a YAML schema.
+Hi Doug, Stan's reporting "initializer element is not constant" issues
+here that were discussed before [1]. I wonder what gives, you said you'd
+hit them on a draft version, but not with what was merged, and I can't
+reproduce this either. Curious.
 
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: de Goede <hdegoede@redhat.com>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: linux-wireless@vger.kernel.org
-Cc: netdev@vger.kernel.org
-Reviewed-by: Rob Herring <robh@kernel.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../bindings/net/wireless/esp,esp8089.txt     | 30 -------------
- .../bindings/net/wireless/esp,esp8089.yaml    | 43 +++++++++++++++++++
- 2 files changed, 43 insertions(+), 30 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/net/wireless/esp,esp8089.txt
- create mode 100644 Documentation/devicetree/bindings/net/wireless/esp,esp8089.yaml
+BR,
+Jani.
 
-diff --git a/Documentation/devicetree/bindings/net/wireless/esp,esp8089.txt b/Documentation/devicetree/bindings/net/wireless/esp,esp8089.txt
-deleted file mode 100644
-index 6830c4786f8a..000000000000
---- a/Documentation/devicetree/bindings/net/wireless/esp,esp8089.txt
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Espressif ESP8089 wireless SDIO devices
--
--This node provides properties for controlling the ESP8089 wireless device.
--The node is expected to be specified as a child node to the SDIO controller
--that connects the device to the system.
--
--Required properties:
--
-- - compatible : Should be "esp,esp8089".
--
--Optional properties:
-- - esp,crystal-26M-en: Integer value for the crystal_26M_en firmware parameter
--
--Example:
--
--&mmc1 {
--	#address-cells = <1>;
--	#size-cells = <0>;
--
--	vmmc-supply = <&reg_dldo1>;
--	mmc-pwrseq = <&wifi_pwrseq>;
--	bus-width = <4>;
--	non-removable;
--
--	esp8089: sdio_wifi@1 {
--		compatible = "esp,esp8089";
--		reg = <1>;
--		esp,crystal-26M-en = <2>;
--	};
--};
-diff --git a/Documentation/devicetree/bindings/net/wireless/esp,esp8089.yaml b/Documentation/devicetree/bindings/net/wireless/esp,esp8089.yaml
-new file mode 100644
-index 000000000000..284ef45add99
---- /dev/null
-+++ b/Documentation/devicetree/bindings/net/wireless/esp,esp8089.yaml
-@@ -0,0 +1,43 @@
-+# SPDX-License-Identifier: GPL-2.0
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/net/wireless/esp,esp8089.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Espressif ESP8089 Device Tree Bindings
-+
-+maintainers:
-+  - Hans de Goede <hdegoede@redhat.com>
-+
-+properties:
-+  compatible:
-+    const: esp,esp8089
-+
-+  reg:
-+    maxItems: 1
-+
-+  esp,crystal-26M-en:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: >
-+      Value for the crystal_26M_en firmware parameter
-+
-+required:
-+  - compatible
-+  - reg
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+      mmc {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          wifi@1 {
-+              compatible = "esp,esp8089";
-+              reg = <1>;
-+              esp,crystal-26M-en = <2>;
-+          };
-+      };
-+
-+...
--- 
-2.31.1
 
+In file included from drivers/gpu/drm/drm_edid.c:42:0:
+./include/drm/drm_edid.h:525:2: error: initializer element is not constant
+  ((((u32)((vend)[0]) - '@') & 0x1f) << 26 | \
+  ^
+drivers/gpu/drm/drm_edid.c:111:14: note: in expansion of macro =E2=80=98drm=
+_edid_encode_panel_id=E2=80=99
+  .panel_id =3D drm_edid_encode_panel_id(vend, product_id), \
+	      ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/drm_edid.c:120:2: note: in expansion of macro =E2=80=98EDID=
+_QUIRK=E2=80=99
+  EDID_QUIRK("ACR", 44358, EDID_QUIRK_PREFER_LARGE_60),
+  ^~~~~~~~~~
+./include/drm/drm_edid.h:525:2: note: (near initialization for =E2=80=98edi=
+d_quirk_list[0].panel_id=E2=80=99)
+  ((((u32)((vend)[0]) - '@') & 0x1f) << 26 | \
+  ^
+drivers/gpu/drm/drm_edid.c:111:14: note: in expansion of macro =E2=80=98drm=
+_edid_encode_panel_id=E2=80=99
+  .panel_id =3D drm_edid_encode_panel_id(vend, product_id), \
+	      ^~~~~~~~~~~~~~~~~~~~~~~~
+drivers/gpu/drm/drm_edid.c:120:2: note: in expansion of macro =E2=80=98EDID=
+_QUIRK=E2=80=99
+  EDID_QUIRK("ACR", 44358, EDID_QUIRK_PREFER_LARGE_60),
+  ^~~~~~~~~~
+
+
+[1] https://lore.kernel.org/all/CAD=3DFV=3DXHvFq5+Rtax7WNq2-BieQr-BM4UnmOcm=
+a_eTzkX2ZtNA@mail.gmail.com/
+
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
