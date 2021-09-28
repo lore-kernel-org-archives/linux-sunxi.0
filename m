@@ -1,217 +1,156 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369003FCC
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 09:06:29 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id B00A02B01605;
-	Tue, 28 Sep 2021 05:06:28 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 28 Sep 2021 05:06:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=3
-	+KWQOmitGlx5dS7qikRhiEwaMwGqnlRLiJbVG/4vB8=; b=dhwTA5T8yWAPFeHs1
-	qwbkgrHqohaW/mbsotgt1VPB7urO3mWKXpAD8yxlrbk/bJICddts8vEpBzr8BmP2
-	+mViREf0WVmwrnT6pbmpPlXavHOTrjW2lkXS6NR/MOaWtdTdY+4KcXTI9smdVEVf
-	LHCdc7z4n9KmakPnRJ4+EWYSwmdjLDZh7JnUjDEnG3qxNb/CZeNg9sx3sJbvFvgg
-	jboNPluRGcMVRwWevjesxhSCmAUeuLjrKQzLMjB/bzNYWJ/2doPUIfkGioiOHA5R
-	2TYnexm7bsa7glZbeNumPuan3VTGhzGQejb4K53nyBHkPYzURhxTSFf1NbaYd17n
-	Xv+7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=3+KWQOmitGlx5dS7qikRhiEwaMwGqnlRLiJbVG/4v
-	B8=; b=wu2VOcyAxjXpLYAo505J3eaVGTZoQccNmueq7IUlW00Kwk3NC8Nu5z9fV
-	k8fOyRW4/eznPeyw0XuJn3teesPS4xl9KgPaQAd61lwRaQFEZWuZ6M2FepiMeCAu
-	eYs0YjZwnVo8G11B6CJGRaNQtR77L7odeEfbiRQG4tuRpSUIcLxc+fsBlh4xXdVk
-	K84/3CUEVdPnq4RnZP8jrYBAOpCkDwNADs81G8uGTwNjQtV+oZKUsGta3edljmOg
-	Tld2Wym2VRvS6/Ul89GvaCHCB1wNWJMpjCHriO+S0+tNLkAT1/rxcWrH4tm4VVDV
-	FNiOwp9uUpT/fOao3tPfPcZFBEs7A==
-X-ME-Sender: <xms:E9tSYTeKFMnsgkCrQ1twBNMq3gxMcIggnWTwgLaTkednGlhIBVI9IQ>
-    <xme:E9tSYZNflnaFuUjIqV-6eh2pdVmT3Qe13I1CYtuE64bdjY3XsuqHneW1zrzmGCQGB
-    IxyNyO2wpayOVFxPck>
-X-ME-Received: <xmr:E9tSYcgbySTrWhz414tVgEzNxhE7q9CvW88EbIZnB6vobE_45CxhUGpxXdHbwC2vmBzZNW3rbzmnIroCRouRwSTvgfWb_FZCgfxH9Dxk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgtdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
-    gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:E9tSYU_w2akdumQCi5yQHjVcKFX48JWRqnpKnAvhTsSzGtFzCquYUQ>
-    <xmx:E9tSYfsPymaoY6lyY0lk7FoCxQvZzisPc3K3mZqA1YQH_StmeRksBg>
-    <xmx:E9tSYTHsrjTmI8jQ5QAK37RhTJXSA2uGCn2xnKe0QcTlR6LlKkF6OQ>
-    <xmx:FNtSYdLCF3X69qnIoHXDtWvqtq6F-3JBsyDODXIYgKDU5ReqwE3f8PkjGZY>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 05:06:27 -0400 (EDT)
-Date: Tue, 28 Sep 2021 11:06:25 +0200
-From: Maxime Ripard <maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A722FAE
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 12:28:22 +0000 (UTC)
+Received: by mail-oi1-f180.google.com with SMTP id n64so10422428oih.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 05:28:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=1e86EGaNQSFspYR+g+H0ErCWrHt26ybPuetKkhUZAfk=;
+        b=gEtbt7C6qjP3In17X/Gq+UBAEjQrCDd5ajV1hjPVicf5UHP7oUQi+3R/OWwx8hXsGR
+         URAINC7ApzgmZHx0OLYYmGLjhk9w+2OGCxupJcJ+jNIYhiMJ6XdQxF6iSG6xTPrAJ6i5
+         bwpKvEzIq+y5ZD90tIAENS5bz0GM1CP4ADQrvlztTGmaYnnycHN0HCevW/8dFQQjtuAk
+         hK1bFVfPLO/qAPHgAjESDmTObGdHc9LGmZB8owdlAfsWIPuN8B+HIDT9QTF4w18eaq0c
+         FTcoB4yM2aQyEFoUMR8pu/PHAmtxhIJC9kofyIYQTzIlz8VVHDOZZhJ2dSPHGl5+STn9
+         8cJw==
+X-Gm-Message-State: AOAM5332RLquQnx7mIXlJ3bgVoUHBVNn+kgqhaX7n6sYS0YX0T6nY02+
+	uMtEqjy3SQn6F1kfEIxwxA==
+X-Google-Smtp-Source: ABdhPJxdweC4ViDWcuCSxhRm4TIg6wXEUwWOerbwOEDdBE9l96ZkoENskHa8vCNSMU3oKGJlcGSTAg==
+X-Received: by 2002:aca:ab4d:: with SMTP id u74mr3334236oie.120.1632832102003;
+        Tue, 28 Sep 2021 05:28:22 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id z12sm4585394ote.16.2021.09.28.05.28.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Sep 2021 05:28:20 -0700 (PDT)
+Received: (nullmailer pid 963816 invoked by uid 1000);
+	Tue, 28 Sep 2021 12:28:18 -0000
+From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/7] clk: sunxi-ng: Add a RTC CCU driver
-Message-ID: <20210928090625.rq3atiaejaq5kcbx@gilmour>
-References: <20210901053951.60952-1-samuel@sholland.org>
- <20210903145013.hn6dv7lfyvfys374@gilmour>
- <4a187add-462b-dfe4-868a-fdab85258b8d@sholland.org>
- <20210909084538.jeqltc7b3rtqvu4h@gilmour>
- <c910527d-e2d7-31ca-efd9-1915db62d85d@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, Chen-Yu Tsai <wens@csie.org>, linux-clk@vger.kernel.org, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>, Jernej Skrabec <jernej.skrabec@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-rtc@vger.kernel.org
+In-Reply-To: <20210928080335.36706-3-samuel@sholland.org>
+References: <20210928080335.36706-1-samuel@sholland.org> <20210928080335.36706-3-samuel@sholland.org>
+Subject: Re: [PATCH v2 2/9] dt-bindings: rtc: sun6i: Add H616, R329, and D1 support
+Date: Tue, 28 Sep 2021 07:28:18 -0500
+Message-Id: <1632832098.554951.963815.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <c910527d-e2d7-31ca-efd9-1915db62d85d@sholland.org>
 
-Hi,
+On Tue, 28 Sep 2021 03:03:28 -0500, Samuel Holland wrote:
+> These new RTC variants all have a single alarm, like the R40 variant.
+> 
+> For the new SoCs, start requiring a complete list of input clocks. The
+> H616 has three required clocks. The R329 also has three required clocks
+> (but one is different), plus an optional crystal oscillator input. The
+> D1 RTC is identical to the one in the R329.
+> 
+> And since these new SoCs will have a well-defined output clock order as
+> well, they do not need the clock-output-names property.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> Changes since v1:
+>   - Properly update the DT binding clocks and clock-names properties.
+> 
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 72 ++++++++++++++++++-
+>  include/dt-bindings/clock/sun6i-rtc.h         | 10 +++
+>  2 files changed, 79 insertions(+), 3 deletions(-)
+>  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
+> 
 
-On Tue, Sep 28, 2021 at 02:46:39AM -0500, Samuel Holland wrote:
-> On 9/9/21 3:45 AM, Maxime Ripard wrote:
-> > On Fri, Sep 03, 2021 at 10:21:13AM -0500, Samuel Holland wrote:
-> >> On 9/3/21 9:50 AM, Maxime Ripard wrote:
-> >>> Hi,
-> >>>
-> >>> On Wed, Sep 01, 2021 at 12:39:44AM -0500, Samuel Holland wrote:
-> >>>> This patch series adds a CCU driver for the RTC in the H616 and R329.
-> >>>> The extra patches at the end of this series show how it would be
-> >>>> explanded to additional hardware variants.
-> >>>>
-> >>>> The driver is intended to support the existing binding used for the =
-H6,
-> >>>> but also an updated binding which includes all RTC input clocks. I do
-> >>>> not know how to best represent that binding -- that is a major reason
-> >>>> why this series is an RFC.
-> >>>>
-> >>>> A future patch series could add functionality to the driver to manage
-> >>>> IOSC calibration at boot and during suspend/resume.
-> >>>>
-> >>>> It may be possible to support all of these hardware variants in the
-> >>>> existing RTC clock driver and avoid some duplicate code, but I'm
-> >>>> concerned about the complexity there, without any of the CCU
-> >>>> abstraction.
-> >>>>
-> >>>> This series is currently based on top of the other series I just sent
-> >>>> (clk: sunxi-ng: Lifetime fixes and module support), but I can rebase=
- it
-> >>>> elsewhere.
-> >>>
-> >>> I'm generally ok with this, it makes sense to move it to sunxi-ng,
-> >>> especially with that other series of yours.
-> >>>
-> >>> My main concern about this is the split driver approach. We used to h=
-ave
-> >>> that before in the RTC too, but it was mostly due to the early clock
-> >>> requirements. With your previous work, that requirement is not there
-> >>> anymore and we can just register it as a device just like the other
-> >>> clock providers.
-> >>
-> >> That's a good point. Originally, I had this RTC CCU providing osc24M, =
-so
-> >> it did need to be an early provider. But with the current version, we
-> >> could have the RTC platform driver call devm_sunxi_ccu_probe. That does
-> >> seem cleaner.
-> >>
-> >> (Since it wasn't immediately obvious to me why this works: the only
-> >> early provider remaining is the sun5i CCU, and it doesn't use the sun6i
-> >> RTC driver.)
-> >>
-> >>> And since we can register all those clocks at device probe time, we
-> >>> don't really need to split the driver in two (and especially in two
-> >>> different places). The only obstacle to this after your previous seri=
-es
-> >>> is that we don't have of_sunxi_ccu_probe / devm_sunxi_ccu_probe
-> >>> functions public, but that can easily be fixed by moving their
-> >>> definition to include/linux/clk/sunxi-ng.h
-> >>
-> >> Where are you thinking the clock definitions would go? We don't export
-> >> any of those structures (ccu_mux, ccu_common) or macros
-> >> (SUNXI_CCU_GATE_DATA) in a public header either.
-> >=20
-> > Ah, right...
-> >=20
-> >> Would you want to export those? That seems like a lot of churn. Or wou=
-ld
-> >> we put the CCU descriptions in drivers/clk/sunxi-ng and export a
-> >> function that the RTC driver can call? (Or some other idea?)
-> >=20
-> > I guess we could export it. There's some fairly big headers in
-> > include/linux/clk already (tegra and ti), it's not uAPI and we do have
-> > reasons to do so, so I guess it's fine.
-> >=20
-> > I'd like to avoid having two drivers for the same device if possible,
-> > especially in two separate places. This creates some confusion since the
-> > general expectation is that there's only one driver per device. There's
-> > also the fact that this could lead to subtle bugs since the probe order
-> > is the link order (or module loading).
->=20
-> I don't think there can be two "struct device"s for a single OF node.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-That's not what I meant, there's indeed a single of_node for a single
-struct device. If we dig a bit into the core framework, the most likely
-scenario is that we would register both the RTC and clock driver at
-module_init, and with the device already created with its of_node set
-during the initial DT parsing.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml:122:9: [error] duplication of key "minItems" in mapping (key-duplicates)
+./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml:150:9: [error] duplication of key "minItems" in mapping (key-duplicates)
 
-We register our platform driver using module_platform_driver, which
-expands to calling driver_register() at module_init(), setting the
-driver bus to the platform_bus in the process (in
-__platform_driver_register()).
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.example.dts'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 45, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 121, column 9
+found duplicate key "minItems" with value "3" (original value: "3")
+  in "<unicode string>", line 122, column 9
 
-After some sanity check, driver_register() calls bus_add_driver(), which
-will call driver_attach() if drivers_autoprobe is set (which is the
-default, set into bus_register()).
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
 
-driver_attach() will, for each device on the platform bus, call
-__driver_attach(). If there's a match between that device and our driver
-(which is evaluated by platform_match() in our case), we'll call our
-driver probe with that device through driver_probe_device(),
-__driver_probe_device() and finally really_probe().
+make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
+    testtree = dtschema.load(filename, line_number=line_number)
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 623, in load
+    return yaml.load(f.read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 121, column 9
+found duplicate key "minItems" with value "3" (original value: "3")
+  in "<unicode string>", line 122, column 9
 
-However, at no point in time there's any check about whether that device
-has already been bound to a driver, nor does it create a new device for
-each driver. So this means that, if you have two drivers that match the
-same device (like our clock and RTC drivers), you'll have both probe
-being called with the same device, and the probe order will be defined
-by the link order. Worse, they would share the same driver_data, with
-each driver not being aware of the other. This is incredibly fragile,
-and hard to notice since it goes against the usual expectations.
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
 
-> So if the CCU part is in drivers/clk/sunxi-ng, the CCU "probe"
-> function would have to be called from the RTC driver.
 
-No, it would be called by the core directly if there's a compatible to
-match.
+During handling of the above exception, another exception occurred:
 
-> Since there has to be cooperation anyway, I don't think there would be
-> any ordering problems.
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
+    ret = check_doc(f)
+  File "/usr/local/bin/dt-doc-validate", line 30, in check_doc
+    print(filename + ":", exc.path[-1], exc.message, file=sys.stderr)
+AttributeError: 'DuplicateKeyError' object has no attribute 'path'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
+make: *** [Makefile:1441: dt_binding_check] Error 2
 
-My initial point was that, with a direct function call, it's both
-deterministic and obvious.
+doc reference errors (make refcheckdocs):
 
-> > And synchronizing access to registers between those two drivers will be
-> > hard, while we could just share the same spin lock between the RTC and
-> > clock drivers if they are instanciated in the same place.
->=20
-> While the RTC driver currently shares a spinlock between the clock part
-> and the RTC part, there isn't actually any overlap in register usage
-> between the two. So there doesn't need to be any synchronization.
+See https://patchwork.ozlabs.org/patch/1533753
 
-I know, but this was more of a social problem than a technical one. Each
-contributor and reviewer in the future will have to know or remember
-that it's there, and make sure that it's still the case after any change
-they make or review.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-This is again a fairly fragile assumption.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Maxime
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
