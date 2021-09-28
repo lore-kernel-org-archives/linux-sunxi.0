@@ -1,86 +1,143 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0171329CA
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 07:05:15 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1632812719; h=Content-Type: MIME-Version: Message-ID:
+ In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
+ bh=mcC+NI9lbMYVHDFKxEvKMLG3JdbT8e+is/T3jV6QeT8=; b=aSr/8BFzC60d8JAORv05uHEiBn3Aae8Oj68K70Yiv4nGMC4s/V1Fws76Mrn5RALhAARWM1lg
+ DDTvdsBL9nPS0kfMTaSTGwOhZvBaN9rYefzco911rlFfZcsiMMXN9nMtKny210k7TKaTKRSZ
+ COur6UqkdpEzKSIMgDHK6e4Sjd8=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJlMjg2NSIsICJsaW51eC1zdW54aUBsaXN0cy5saW51eC5kZXYiLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 6152be4b47d64efb6d878226 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 07:03:39
+ GMT
+Sender: kvalo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+	id 1D82EC43460; Tue, 28 Sep 2021 07:03:38 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+	aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL
+	autolearn=no autolearn_force=no version=3.4.0
+Received: from tykki (tynnyri.adurom.net [51.15.11.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703263FE7
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Sep 2021 20:48:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1AB5E6103B
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Sep 2021 20:48:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632775685;
-	bh=GHCCCNNGDh7j8AzsSAwR+7WjFwTTkZQkWzBp4yf5Anw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EtTYXuV99xHvDuCezChTC1fYR0ncVq3Rk1GokwMu8SQwpY+EmUiFM+RJIajTO8jW3
-	 VrmnSOnx8ztK/horbiFLR4Q1ZWDBNyvy7tKy9OeuG4ddMCv7tR6NZWpZqi+5myOFRZ
-	 fUlC6Cg5AZEODAOrfOLYA3DADysDTM/85vB/lrkAnFddU4ZJYrY9Qs93uwL2IgXWp2
-	 ShOzsV013bF2pbhJUOsUOYV7NBfbitxpmzxjeFzmgMdmeTIB3GqmWBkk202+UoozT6
-	 QbwxnW2Yp/G+PD6grSc1VyWUP3kS05HQi/kIejRv/Gb69g5//VZRJWFOBSMsttdGMH
-	 imsrWEit+NvGQ==
-Received: by mail-wr1-f52.google.com with SMTP id u18so54176993wrg.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Sep 2021 13:48:05 -0700 (PDT)
-X-Gm-Message-State: AOAM530kGjGkX+h+yIe6JvV2Up8WHKwIs9RWm6QRCZlXKOQ/RwazAE1w
-	ig3QxIDN/mCBQ7Dy/Yl5r1chi6lv6NfLKOsplx4=
-X-Google-Smtp-Source: ABdhPJyr//9nG+qcYuFmIIHo02EBLzzoRAIp7o7Kc5vnLIs/c/42qbXfOQSeIjG8WR8ZxK+L1GxrgnNIqE5zvhpeDJ8=
-X-Received: by 2002:a5d:6a08:: with SMTP id m8mr2207127wru.336.1632775683762;
- Mon, 27 Sep 2021 13:48:03 -0700 (PDT)
+	(Authenticated sender: kvalo)
+	by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA53C4338F;
+	Tue, 28 Sep 2021 07:03:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 9DA53C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=codeaurora.org
+From: Kalle Valo <kvalo@codeaurora.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,  Arnd Bergmann
+ <arnd@arndb.de>,  Rob Clark <robdclark@gmail.com>,  Sean Paul
+ <sean@poorly.run>,  David Airlie <airlied@linux.ie>,  Daniel Vetter
+ <daniel@ffwll.ch>,  Joerg Roedel <joro@8bytes.org>,  Will Deacon
+ <will@kernel.org>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Ulf
+ Hansson <ulf.hansson@linaro.org>,  Alex Elder <elder@kernel.org>,  "David
+ S. Miller" <davem@davemloft.net>,  Jakub Kicinski <kuba@kernel.org>,  Andy
+ Gross <agross@kernel.org>,  Linus Walleij <linus.walleij@linaro.org>,
+  Maxime Ripard <mripard@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,
+  Jernej Skrabec <jernej.skrabec@gmail.com>,  Mark Rutland
+ <mark.rutland@arm.com>,  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+  Sudeep Holla <sudeep.holla@arm.com>,  linux-kernel@vger.kernel.org,
+  linux-arm-msm@vger.kernel.org,  dri-devel@lists.freedesktop.org,
+  freedreno@lists.freedesktop.org,  iommu@lists.linux-foundation.org,
+  linux-media@vger.kernel.org,  linux-mmc@vger.kernel.org,
+  netdev@vger.kernel.org,  ath10k@lists.infradead.org,
+  linux-wireless@vger.kernel.org,  linux-gpio@vger.kernel.org,
+  linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
+References: <20210927152412.2900928-1-arnd@kernel.org>
+Date: Tue, 28 Sep 2021 10:03:25 +0300
+In-Reply-To: <20210927152412.2900928-1-arnd@kernel.org> (Arnd Bergmann's
+	message of "Mon, 27 Sep 2021 17:22:13 +0200")
+Message-ID: <87k0j1qj0i.fsf@codeaurora.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210927152412.2900928-1-arnd@kernel.org> <YVIg9CxJGaJr1vpp@ripper>
- <CAK8P3a1fEuFsQVY9b1oGdTOHzr8pu9wvrSBCMn2iOvgWqtHNnA@mail.gmail.com> <YVIsrgKiOG/gFVdT@ripper>
-In-Reply-To: <YVIsrgKiOG/gFVdT@ripper>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Mon, 27 Sep 2021 22:47:47 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1WRBA4mP691fO82ZhYdPhHLGjLH=VhcUxGNeGRMX8knw@mail.gmail.com>
-Message-ID: <CAK8P3a1WRBA4mP691fO82ZhYdPhHLGjLH=VhcUxGNeGRMX8knw@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: John Stultz <john.stultz@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, 
-	Daniel Vetter <daniel@ffwll.ch>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Alex Elder <elder@kernel.org>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Kalle Valo <kvalo@codeaurora.org>, Andy Gross <agross@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Maxime Ripard <mripard@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
-	Sudeep Holla <sudeep.holla@arm.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	freedreno <freedreno@lists.freedesktop.org>, 
-	"open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>, 
-	Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Mon, Sep 27, 2021 at 10:42 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
-> On Mon 27 Sep 13:15 PDT 2021, Arnd Bergmann wrote:
-> > On Mon, Sep 27, 2021 at 9:52 PM Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
-> >
-> > An easier option might be to find a way to build QCOM_SCM without
-> > RESET_CONTROLLER for compile testing purposes. I don't know
-> > what would break from that.
-> >
->
-> Afaict the reset API is properly stubbed and RESET_CONTROLLER is a bool,
-> so I think we can simply drop the "select" and the kernel will still
-> compile fine in all combinations.
->
-> When it comes to runtime, we currently select RESET_CONTROLLER from the
-> Qualcomm common clocks. If that is dropped (why would it...) it seems
-> possible to build a custom kernel for msm8916 that we can boot and miss
-> the stubbed out "mss restart" reset line from the SCM.
->
->
-> So, let's just drop the select RESET_CONTROLLER from SCM for now.
+Arnd Bergmann <arnd@kernel.org> writes:
 
-Ok, I've made that change locally, giving it more time on the randconfig
-build box now.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> Now that SCM can be a loadable module, we have to add another
+> dependency to avoid link failures when ipa or adreno-gpu are
+> built-in:
+>
+> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
+> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+>
+> ld.lld: error: undefined symbol: qcom_scm_is_available
+>>>> referenced by adreno_gpu.c
+>>>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load)
+>>>> in archive drivers/built-in.a
+>
+> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
+> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
+> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
+> but that causes dependency loops from other things selecting QCOM_SCM.
+>
+> This appears to be an endless problem, so try something different this
+> time:
+>
+>  - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
+>    but that is simply selected by all of its users
+>
+>  - All the stubs in include/linux/qcom_scm.h can go away
+>
+>  - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
+>    allow compile-testing QCOM_SCM on all architectures.
+>
+>  - To avoid a circular dependency chain involving RESET_CONTROLLER
+>    and PINCTRL_SUNXI, change the 'depends on RESET_CONTROLLER' in
+>    the latter one to 'select'.
+>
+> The last bit is rather annoying, as drivers should generally never
+> 'select' another subsystem, and about half the users of the reset
+> controller interface do this anyway.
+>
+> Nevertheless, this version seems to pass all my randconfig tests
+> and is more robust than any of the prior versions.
+>
+> Comments?
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-       Arnd
+[...]
+
+> diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
+> index 741289e385d5..ca007b800f75 100644
+> --- a/drivers/net/wireless/ath/ath10k/Kconfig
+> +++ b/drivers/net/wireless/ath/ath10k/Kconfig
+> @@ -44,7 +44,7 @@ config ATH10K_SNOC
+>  	tristate "Qualcomm ath10k SNOC support"
+>  	depends on ATH10K
+>  	depends on ARCH_QCOM || COMPILE_TEST
+> -	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
+> +	select QCOM_SCM
+>  	select QCOM_QMI_HELPERS
+>  	help
+>  	  This module adds support for integrated WCN3990 chip connected
+
+I assume I can continue to build test ATH10K_SNOC with x86 as before?
+That's important for me. If yes, then:
+
+Acked-by: Kalle Valo <kvalo@codeaurora.org>
+
+-- 
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
