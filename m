@@ -1,75 +1,128 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3D729CA
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 07:09:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E0D8561288
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 07:09:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632812941;
-	bh=UL3HabPZo5poDvomfSgnMsUOXswOov4XaFV+Mhe/hPM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=peKRlRdshfCDM0WKkr1XAFZ5JA0DCpMVcB0qXm9NxkojuV08GN8y4VUWHQuL7c9ZY
-	 6sWn8yb6HkL33eo7lHoIpmV+16YmcV5URUsbb5ROqMLP/B2oYGO9uzYlQKzwmYIte9
-	 JjCrZb+8LY02VUAqdkytXO6BXCrNT6hTbVe6tjxqsCJOIcI5lKKEAFEQw+MtMj1kd9
-	 7TD06BzKQnK5KlREkvXV6RcZ4dYFoBhJ+Sg8NqJMxbI95VJng6XTqHy4AQImO9S4Kf
-	 gEL4X76N6d2P14bUwruG/Y5pIfa3QIReUn3JXZEw80+7KD8/DNNMDPScLhF7pMaSHH
-	 +Epm+raz+IWiQ==
-Received: by mail-wm1-f53.google.com with SMTP id s24so2574396wmh.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 00:09:01 -0700 (PDT)
-X-Gm-Message-State: AOAM5321eMmGvaE4QnXABnE2SeNhqPDj7nZtRx9x9yLbIeoh2vwNqLmx
-	GTIDY0pysw87pDoeW/lx35OQLQXpYP7XpkMTas4=
-X-Google-Smtp-Source: ABdhPJy7UdwG5CMt3vBprQtkQXDtnziSdWAdhBrxF2DYHzwuiJfWIuOu4DEBfNVS3j3HCobxe7h4te4Xc8Y+nnvjU1E=
-X-Received: by 2002:a1c:7413:: with SMTP id p19mr3161995wmc.98.1632812940328;
- Tue, 28 Sep 2021 00:09:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF13429CA
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Sep 2021 07:39:25 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.west.internal (Postfix) with ESMTP id DF2973201C6E;
+	Tue, 28 Sep 2021 03:39:24 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 28 Sep 2021 03:39:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=rQofqKCwgwQyVPNRlD1YlEE278
+	8xpwMoIdiKnvJlJBg=; b=aPW8RiIi4daLt5eIcAy7ORw3D+HEbp/FNTWfKK44+B
+	ncrc00ToEOueMJMkQB5qf7B11kg2iKXGF/wclibNrY5jRAwE//CE9SeP6w7WAnfi
+	2R7X4RxuTP29cRaMFlrftbZNDQ7TJLZjHnb3WRPlAbJMTtTeMOmp8MFo32rZRlvf
+	ax2zHmGe4gm1/GdghW63ll3zvR/jVNlWYU/oKKvJ031CRmbKD+QPsUGq9mGmTn9D
+	XyFVPJyg8z1debz8bRxJNw8FqY8wYPm6EJeHDJY6NEOeSWb3Xe36mxcJL4Rry58S
+	w0Fui9OPTpVpVYcY7i6xcNM3Fw5bDuviExRjFz0FOTKA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rQofqKCwgwQyVPNRl
+	D1YlEE2788xpwMoIdiKnvJlJBg=; b=u4OcKhboc3iRzJUGuJYnWPUDWND9opTS7
+	8NjhOQLq2PVCKurIgfIfhYiJkiwwApmrxGmV0KXMatfE8du2hd9svfa3xsx57Cyw
+	+1XfeJSuMhOY13EzwNlu5oEDEnWbYxHexCOdFJdZHU+JK/POVcIuYm/ObpwrKeZI
+	QUBepj2RADW5pTb3VmglBk1ZEF6v8aAlIIlvnDv32cIMS6fw48TKuCJZ6cgnvfGt
+	MvjJlN9vKvFmPLbTME22wK+l31y5CqIxC1+uHx16qgwyUcXPBtJRxiKvarPh0LYs
+	+o0OVbcJdlssYNXTAhdGvrwUMc9pKrqMf9JZjgeWI2vWEkI5Jo+NA==
+X-ME-Sender: <xms:q8ZSYXaFURkRd7i7ni3c6trB0SYkXWOcbSxPokN7f_I3DupH0i8GfQ>
+    <xme:q8ZSYWbzW6on0Y7GQtHdPelmPZdTPacVg0IcQB2HginHbZkWbJko1arcoYIWY62_I
+    s_h6JnNyflWeBeJJQ>
+X-ME-Received: <xmr:q8ZSYZ-ePPMBtS4asLNpnFsy_kRuZE1RkA664TF8W85xLSm5VOgr6GrIbR9e6yP2gjl8lefwcoSaxz7W_1PhS6maChL5kc-E5W9WD-zg3SHXUdW6cn99Q6WSYTLEqXmxsDngMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejledguddukecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehieff
+    tdevtdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:q8ZSYdrPyWjVf8fvcMYcV49ha2kRibHJkI1EZZqTGir3jHMRu2FyDA>
+    <xmx:q8ZSYSog59Nq8GgVghLzFVKtfoub_OvpfbGsdwb08cIEc1wYJI5lRg>
+    <xmx:q8ZSYTQK7XPm7jjzxEQ85SXMiWMJ4lOtAcmq6y-MDMBaxCZB2F7PnA>
+    <xmx:rMZSYedsXPPwSAuGmcDYdiv0pgV2Bilr8lmG-mba_eaarbilGampEQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Sep 2021 03:39:23 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v2 0/4] clk: sunxi-ng: Module support
+Date: Tue, 28 Sep 2021 02:39:18 -0500
+Message-Id: <20210928073922.34264-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210927152412.2900928-1-arnd@kernel.org> <87k0j1qj0i.fsf@codeaurora.org>
-In-Reply-To: <87k0j1qj0i.fsf@codeaurora.org>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Tue, 28 Sep 2021 09:08:44 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2FiMLZK7W9L9XD5h=3yS8QJ6iMr0pXHtCNrpctZG4FhQ@mail.gmail.com>
-Message-ID: <CAK8P3a2FiMLZK7W9L9XD5h=3yS8QJ6iMr0pXHtCNrpctZG4FhQ@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-To: Kalle Valo <kvalo@codeaurora.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, 
-	Daniel Vetter <daniel@ffwll.ch>, Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulf.hansson@linaro.org>, 
-	Alex Elder <elder@kernel.org>, "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
-	Andy Gross <agross@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	freedreno <freedreno@lists.freedesktop.org>, 
-	"open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>, 
-	Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 28, 2021 at 9:05 AM Kalle Valo <kvalo@codeaurora.org> wrote:
-> Arnd Bergmann <arnd@kernel.org> writes:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> I assume I can continue to build test ATH10K_SNOC with x86 as before?
-> That's important for me. If yes, then:
->
-> Acked-by: Kalle Valo <kvalo@codeaurora.org>
->
-> --
-> https://patchwork.kernel.org/project/linux-wireless/list/
->
-> https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+This series allows the CCU core and drivers to be loaded/unloaded as
+modules. As part of this, patch 3 converts most of the early OF clock
+providers to platform drivers.
 
-Yes, the difference is that this will then also build the qcom_scm module, but
-that should not cause any problems after the other changes in this patch.
+Changes from v1:
+  - Patches 1-3 of 8 were merged.
+  - Name modules using Makefile logic, not by renaming the source files.
+    (Drop patch 4 of 8).
+  - Export symbols to the SUNXI_CCU namespace.
 
-      Arnd
+Samuel Holland (4):
+  clk: sunxi-ng: Export symbols used by CCU drivers
+  clk: sunxi-ng: Allow drivers to be built as modules
+  clk: sunxi-ng: Convert early providers to platform drivers
+  clk: sunxi-ng: Allow the CCU core to be built as a module
+
+ drivers/clk/Makefile                     |  2 +-
+ drivers/clk/sunxi-ng/Kconfig             | 39 +++++-----
+ drivers/clk/sunxi-ng/Makefile            | 97 +++++++++++++++---------
+ drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 58 ++++++++------
+ drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c |  4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c   |  4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c    |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 56 +++++++++-----
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c     |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 33 +++++---
+ drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 40 +++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 35 ++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 40 +++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a83t.c    |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c     |  9 ++-
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 62 ++++++++++-----
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 65 +++++++++-------
+ drivers/clk/sunxi-ng/ccu-sun8i-r40.c     |  6 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 57 ++++++++------
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c  |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80.c     |  7 +-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 38 +++++++---
+ drivers/clk/sunxi-ng/ccu_common.c        |  5 ++
+ drivers/clk/sunxi-ng/ccu_div.c           |  1 +
+ drivers/clk/sunxi-ng/ccu_gate.c          |  1 +
+ drivers/clk/sunxi-ng/ccu_mp.c            |  2 +
+ drivers/clk/sunxi-ng/ccu_mult.c          |  1 +
+ drivers/clk/sunxi-ng/ccu_mux.c           |  2 +
+ drivers/clk/sunxi-ng/ccu_nk.c            |  1 +
+ drivers/clk/sunxi-ng/ccu_nkm.c           |  1 +
+ drivers/clk/sunxi-ng/ccu_nkmp.c          |  1 +
+ drivers/clk/sunxi-ng/ccu_nm.c            |  1 +
+ drivers/clk/sunxi-ng/ccu_phase.c         |  1 +
+ drivers/clk/sunxi-ng/ccu_reset.c         |  1 +
+ drivers/mmc/host/Kconfig                 |  1 +
+ include/linux/clk/sunxi-ng.h             | 15 ----
+ 37 files changed, 470 insertions(+), 251 deletions(-)
+
+-- 
+2.31.1
+
