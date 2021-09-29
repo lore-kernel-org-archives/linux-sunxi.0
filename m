@@ -1,114 +1,132 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6784E29CA
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Sep 2021 03:55:25 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 9798C580E5F;
-	Tue, 28 Sep 2021 23:55:24 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 692982F80
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Sep 2021 04:42:57 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 8DE53580B80;
+	Wed, 29 Sep 2021 00:42:56 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Tue, 28 Sep 2021 23:55:24 -0400
+  by compute1.internal (MEProxy); Wed, 29 Sep 2021 00:42:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm3; bh=f
-	+KFVJLO4WVRmj/HTHjGnTK+KP5rTnlcIHm18veFkRI=; b=m+HXJv6/jdqHeg6Vr
-	lPZwV7tYpGmF/eWHXZJrqqXunRbH98Aimzm7PF6g7o7J7gR2+hAbqHPXMsmMCcMd
-	GXuU1T5ZoF04NDHtTLMJuiO4ho8+RcCCrB9BRRiKHKw1+6Sjb3uN2XlIF+N50ldr
-	t1djvAOlwMMzmpPZPy130gv9HziVBg7Jdb5fBEFzWXml3MkROpzMpqxUxRDVDkd1
-	V7xbl6GcYl2mwyWW14WBTgcfK4UzXSooZrCbrlToYfDp/B79iJyOvluZxX/Rvh2t
-	22tqHOZoqGvhV80Ll5zDZy5lAntiw64KP0/Z5zDgG9/ExOASkl9bAOwLoFp9yMLR
-	im3FQ==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=qs7rOkinBPHpqLW6M5nctLByUA
+	e3O8t6z/LIIxVOeT0=; b=BZo0nvQBMEZY2FhpSC+3qwC3o8M8Ih6AFsHZp10rbI
+	fdzF+vOInI3kiawzF0xd1lg0gMKKpaGoGItV9XnZAuIIn3tk7jYy66thxHFs7WUZ
+	Ka3hgIB++X0U4KQ5YorXU0s77Bb8q+tr0Q3Z9J/kfv354YBDSMrGMFCJCmi5Qb7e
+	6jqMzaNtDFtH7j2UPgPVtp9U7/ZxFPld3MKjSR0q0C0YKjBo/mjXwiwHk6fENSGO
+	k9EiAThDYODKgYK8gdsh/OU+FzRREh/Z/2vrGe8/rar4qY9WgdU1VmiJmhmwoFro
+	saMbm/ZRfSMr6wbE5ErUdZ9kwl3Y0cLT3ffZNAaZuluQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=f+KFVJLO4WVRmj/HTHjGnTK+KP5rTnlcIHm18veFk
-	RI=; b=rqtHne48tOJpbGUUmnjX53hsDhMfm8ZQRHdQrGDQPNe/zd3OTMwK1EghK
-	ay2HlGnnA8FADp0VASaUsG/wz1vhSAjBhKtSDvFEFrnxbV2yTqqccCARwp/u9em/
-	nmwns7Km3JIuvXdWE46vi3xQUSHkpjBz52/31XfGVfalj08OhLByay/j44KZ3mEj
-	jaV9qgkikk4eUJbab6y/hXMKqUEcq4QdrvZa5RKT6Q+MPpI+gA5+3/KG7oLcM03k
-	4mwiCk/B+dFLlyRts83ZQwkpqa29rJbCL0TXrZbm8+GJgAm5FfnCAzbWxl+L+Q9O
-	LswREis7KWPefrv9Sy501GqkC0sQQ==
-X-ME-Sender: <xms:rONTYaECJA2UWWfWV57upeU_cHzpVKvfgVp-1Z7xghZBcrgMZEgIeg>
-    <xme:rONTYbXgE0UYDnkmUOQGkDWgB8VuqQ-ew4YQOQDBh2-q0y6mXjpSsdCC7isIfFjxf
-    kqkVUxZif482zibAg>
-X-ME-Received: <xmr:rONTYUKjlVnwsDVPEywzb5hYlS0y2TDQegJy2Ie6hsHqrfsNO4oicnRtBP98MIXoL0J1USwMMg_4dQsGWrF-GGviI3_oqPp8w2Sy0aJ9_oehD7AXaBaU9iCHmQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekuddgjeegucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qs7rOkinBPHpqLW6M
+	5nctLByUAe3O8t6z/LIIxVOeT0=; b=bXM4T2TL4EziCSFpBz82vTbxmaDuWxk83
+	IOlYaghKYUqbeMVa62bPfbNrd1Xzvj4j83mItyrE9RFhhwRsWO1aN78GJ4bO6Y8m
+	wFBhcLLz1YGWc3Q+Ds6kN+zAuuUiTPK8SlufLtf8yVvH37nHpfHnhEjVXRq6GKKw
+	jhz582ubWfjzAkfsfmcwBKjH57ZNL1GtkebrlZv3mE6nADEQuKmKS5WUAVBYQ+pB
+	n9FWQ72t0ssVxt7G7imXHFDPbm0CChlDVGiI0OdDIncMkWJ4LSeTucNjlxXcyl/3
+	Z1MibOy02LeaestPqrw/nFFWRuca2zHtUyXJ+ABL4cqptI9Sd4lOQ==
+X-ME-Sender: <xms:z-5TYQgFyAXG3ROp4qQnEmSlZK1GM2u86wOpMk7QWjRZtfc1R9Nn8g>
+    <xme:z-5TYZBwBQbGQFoPS99gdlR-NK3BdI_y0EgkgxabJMmyZRTDNMUpWkJG8bM_FDr_x
+    3EgVylAnnGnSlRLvQ>
+X-ME-Received: <xmr:z-5TYYGlkg9zTFoYcSwAe8ZXs353FvM8lB_rW0DBYl3tPcXVWhZqqrQHvBBkSzHoyfLVqVXJlT92pwM4OTZkl_ZXAmgcnb4UKAWnHhHM2RGfmci742X0vI9eU41eQbTtuwHX2g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekuddgkeegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:rONTYUE7H5d2Eqzo4jKRouGBpAWLhCfDnJXCUlAJD6TnooKaCgiwcA>
-    <xmx:rONTYQVluKHkdMah2xyT8K7Z6mTsK2HPWAJwumlH9149PzDKk4k5Ag>
-    <xmx:rONTYXMdyH31Hs9c_LQHkyrufSfYORWmUdulDeppD9YRWIVa_Kavug>
-    <xmx:rONTYRWE-dQ1utt4PqjrNlZUFTTYt3cmCr1yUD1zmJR4SOiJV5KiCA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 23:55:23 -0400 (EDT)
-Subject: Re: [PATCH v2 2/9] dt-bindings: rtc: sun6i: Add H616, R329, and D1
- support
-To: Rob Herring <robh@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Chen-Yu Tsai <wens@csie.org>,
- linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org,
- Stephen Boyd <sboyd@kernel.org>, Alessandro Zummo <a.zummo@towertech.it>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-rtc@vger.kernel.org
-References: <20210928080335.36706-1-samuel@sholland.org>
- <20210928080335.36706-3-samuel@sholland.org>
- <1632832098.554951.963815.nullmailer@robh.at.kernel.org>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:z-5TYRTK8ReBOmu_ex1QYi6GUCL_FuMHN5Dds77zQIqoegk6G-g1Rw>
+    <xmx:z-5TYdzGNEy6R5LVyKw2WtHczO20KXlsZfvF_81mKOFNEk0tDQjC9A>
+    <xmx:z-5TYf7v2HiznDzWxqbEHyZsozCzi01EvlMavLFTHVxmAeZ-fBtQxA>
+    <xmx:0O5TYdiTGWxcKumawvrH54CQiMFIp0cdTw6LjP6iQxskWjNbZarujw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 29 Sep 2021 00:42:55 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <6ae69109-d26b-f6b5-85a6-4ecca4133dfe@sholland.org>
-Date: Tue, 28 Sep 2021 22:55:23 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+To: MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-pm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH 00/10] DRAM devfreq support for Allwinner A64/H5
+Date: Tue, 28 Sep 2021 23:42:44 -0500
+Message-Id: <20210929044254.38301-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.31.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1632832098.554951.963815.nullmailer@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/28/21 7:28 AM, Rob Herring wrote:
-> On Tue, 28 Sep 2021 03:03:28 -0500, Samuel Holland wrote:
->> These new RTC variants all have a single alarm, like the R40 variant.
->>
->> For the new SoCs, start requiring a complete list of input clocks. The
->> H616 has three required clocks. The R329 also has three required clocks
->> (but one is different), plus an optional crystal oscillator input. The
->> D1 RTC is identical to the one in the R329.
->>
->> And since these new SoCs will have a well-defined output clock order as
->> well, they do not need the clock-output-names property.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->> Changes since v1:
->>   - Properly update the DT binding clocks and clock-names properties.
->>
->>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 72 ++++++++++++++++++-
->>  include/dt-bindings/clock/sun6i-rtc.h         | 10 +++
->>  2 files changed, 79 insertions(+), 3 deletions(-)
->>  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
->>
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml:122:9: [error] duplication of key "minItems" in mapping (key-duplicates)
-> ./Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml:150:9: [error] duplication of key "minItems" in mapping (key-duplicates)
+This series adds a new devfreq driver for the MBUS/DRAM controller in
+some Allwinner SoCs, and enables it for the A64 and H5.
 
-Whoops, I have a couple of minItems where I meant maxItems. Sorry, will
-fix for v3.
+The first four patches make some improvements to the devfreq core to
+support drivers without any OPPs in the DT. They could be merged
+independently. (Since this driver controls only a divider, and can only
+slow down the DRAM clock, it works with most any base DRAM frequency.)
 
-Samuel
+Then the binding and DTs are updated in patches 5-9. The MBUS nodes
+already existed, but were not bound to any driver before; they were only
+used for their dma-ranges property.
+
+Finally, the driver is added in patch 10.
+
+I am not 100% sure the best way to handle DRAM register access -- as a
+separate reg property, a separate node, or simply enlarging the MBUS
+register range. While the DRAM controller is a separate IP block, the
+MBUS hardware has the ability to double-buffer certain DRAM controller
+registers, and the hardware MDFS process writes to some DRAM controller
+registers as well. So they are rather tightly integrated.
+
+Like the patch 10 description says, this driver could support additional
+SoCs: at least A33, A83T, and H3. I can send follow-up patches for
+these, but I cannot test A33 or A83T.
+
+Samuel Holland (10):
+  PM / devfreq: strengthen check for freq_table
+  PM / devfreq: Do not require devices to have OPPs
+  PM / devfreq: Drop code for descending freq_table
+  PM / devfreq: Add a recommended frequency helper
+  dt-bindings: clock: sunxi: Export CLK_DRAM for devfreq
+  dt-bindings: arm: sunxi: Expand MBUS binding
+  dt-bindings: arm: sunxi: Add H5 MBUS compatible
+  ARM: dts: sunxi: h3/h5: Update MBUS node
+  arm64: dts: allwinner: a64: Update MBUS node
+  PM / devfreq: Add a driver for the sun8i/sun50i MBUS
+
+ .../arm/sunxi/allwinner,sun4i-a10-mbus.yaml   |  77 ++-
+ arch/arm/boot/dts/sun8i-h3.dtsi               |   4 +
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi            |  11 +-
+ arch/arm64/boot/dts/allwinner/sun50i-a64.dtsi |  10 +-
+ arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi  |   4 +
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.h         |   2 -
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.h           |   2 -
+ drivers/devfreq/Kconfig                       |   8 +
+ drivers/devfreq/Makefile                      |   1 +
+ drivers/devfreq/devfreq.c                     |  77 ++-
+ drivers/devfreq/sun8i-a33-mbus.c              | 482 ++++++++++++++++++
+ include/dt-bindings/clock/sun50i-a64-ccu.h    |   2 +-
+ include/dt-bindings/clock/sun8i-h3-ccu.h      |   2 +-
+ include/linux/devfreq.h                       |   2 +
+ 14 files changed, 644 insertions(+), 40 deletions(-)
+ create mode 100644 drivers/devfreq/sun8i-a33-mbus.c
+
+-- 
+2.31.1
+
