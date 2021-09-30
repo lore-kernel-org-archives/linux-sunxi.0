@@ -1,160 +1,149 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DDE72
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Sep 2021 18:30:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 80F8061501
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Sep 2021 18:30:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1632940249;
-	bh=gjF28VMTIug2m1bl/FU/M9snQ4rR61AFv5fVsRKalNI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=CISl9Rl7R+M6haM6b37hM8Y55j2HAbcMi0eojp8x2X5LO3rMaVS5sudmIbZDpY2Fa
-	 v3jkZlxqIQsgk7xdc/KNDPDNwnRYggSWDCUgB/s/FiZxlhlKX24dWHVpR7Wt0mlN/7
-	 mhK6ym9B69BkMQdp4WI4pKJ+rr90hmai+tmZp9rhMJtK7ONWh9AhmLAFD2pHKhaUG3
-	 HMRbEb2CCpVxIrKjjd6yE6ttU5SikyGGITOLPKJu1L7QFLNrx8p43TXVkgBvbCSBJk
-	 HoUf+R5uDfbywO7AlRlXS5uX8pbpj5u56JSH5+uMScUwkPlS/zeQ1/1lCIAk541NMv
-	 d88464bdH/fHQ==
-Received: by mail-wr1-f46.google.com with SMTP id t8so5851350wri.1
-        for <linux-sunxi@lists.linux.dev>; Wed, 29 Sep 2021 11:30:49 -0700 (PDT)
-X-Gm-Message-State: AOAM533eMnPKrlYQoyWvvfSMeF3dKpv2abvImAFmRMXYJIleSminu4SI
-	Cv0+WeY8AgvRBR7mt1CpJH+I91CbyA6wmu+Ezx8=
-X-Google-Smtp-Source: ABdhPJznh64DeD5YLkqLyCdpGZrw2eJDCFhsGINcOBsXO/6p1u7dAzpxKDez727ElHRBigRMgHpji/X6aGMkMR1n8h4=
-X-Received: by 2002:a05:6000:1561:: with SMTP id 1mr1607418wrz.369.1632940247984;
- Wed, 29 Sep 2021 11:30:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773792FAF
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Sep 2021 03:46:27 +0000 (UTC)
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20210930033659epoutp02d315a5aff0a9484fd643192676fdb67b~pfE8t2cya2881028810epoutp02H
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Sep 2021 03:36:59 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20210930033659epoutp02d315a5aff0a9484fd643192676fdb67b~pfE8t2cya2881028810epoutp02H
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1632973019;
+	bh=3L70PVEx/+F97xNBRCjA70lj65JFm14a0TJ1us+LDPQ=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+	b=OTK3ZE2TA7FAxjA/WTLRzU/S5ZxnUSfYu6XUyssa3rc8KXht4+ebrccuFbhxMGIyF
+	 HXU2OpkTkYE7Ebw8bpLPJ/LMCiogHRW9+IY5oqUqrG7lBGbohMBhFLOyNiHiTdEZBX
+	 DOxeeM/0jU+ltkqvcCF6yA0mI7Vkay1o/HoV4qPw=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20210930033658epcas1p14739e98633ceb209164c236f998e6f71~pfE75zfaW0668406684epcas1p1U;
+	Thu, 30 Sep 2021 03:36:58 +0000 (GMT)
+Received: from epsmges1p5.samsung.com (unknown [182.195.38.232]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4HKf796K4pz4x9Pv; Thu, 30 Sep
+	2021 03:36:53 +0000 (GMT)
+Received: from epcas1p3.samsung.com ( [182.195.41.47]) by
+	epsmges1p5.samsung.com (Symantec Messaging Gateway) with SMTP id
+	20.F7.13888.5D035516; Thu, 30 Sep 2021 12:36:53 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas1p3.samsung.com (KnoxPortal) with ESMTPA id
+	20210930033653epcas1p34537f75ad56be624c9b9aa3b66186c4c~pfE2yQs-j3149231492epcas1p37;
+	Thu, 30 Sep 2021 03:36:53 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20210930033653epsmtrp229051498b39aa6bc9af23c209f8bcc99~pfE2xIGJT1081410814epsmtrp2W;
+	Thu, 30 Sep 2021 03:36:53 +0000 (GMT)
+X-AuditID: b6c32a39-227ff70000003640-59-615530d5aacb
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+	55.20.08750.4D035516; Thu, 30 Sep 2021 12:36:52 +0900 (KST)
+Received: from [10.113.221.102] (unknown [10.113.221.102]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20210930033652epsmtip1969926569f975b4587601f5e5c5b745a~pfE2bjQr-2345623456epsmtip1b;
+	Thu, 30 Sep 2021 03:36:52 +0000 (GMT)
+Subject: Re: [PATCH 01/10] PM / devfreq: strengthen check for freq_table
+To: Samuel Holland <samuel@sholland.org>, MyungJoo Ham
+	<myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+	Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>
+Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+	<sboyd@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-pm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+From: Chanwoo Choi <cw00.choi@samsung.com>
+Organization: Samsung Electronics
+Message-ID: <4c306d89-836f-a8d3-90ec-ed22641d0e48@samsung.com>
+Date: Thu, 30 Sep 2021 12:58:08 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
+	Thunderbird/59.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20210927152412.2900928-1-arnd@kernel.org> <20210929095107.GA21057@willie-the-truck>
- <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com> <YVR8Q7LO0weiFin+@yoga>
-In-Reply-To: <YVR8Q7LO0weiFin+@yoga>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Wed, 29 Sep 2021 20:30:30 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a2Kk6Y1Hs98z2UFEis8cWekREFt8YKg2Nbu3G5WQJ7Fag@mail.gmail.com>
-Message-ID: <CAK8P3a2Kk6Y1Hs98z2UFEis8cWekREFt8YKg2Nbu3G5WQJ7Fag@mail.gmail.com>
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>, 
-	Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
-	Joerg Roedel <joro@8bytes.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder <elder@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@codeaurora.org>, 
-	Andy Gross <agross@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Mark Rutland <mark.rutland@arm.com>, 
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Sudeep Holla <sudeep.holla@arm.com>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	linux-arm-msm <linux-arm-msm@vger.kernel.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
-	freedreno <freedreno@lists.freedesktop.org>, 
-	"open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, linux-mmc <linux-mmc@vger.kernel.org>, 
-	Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org, 
-	linux-wireless <linux-wireless@vger.kernel.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210929044254.38301-2-samuel@sholland.org>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrLJsWRmVeSWpSXmKPExsWy7bCmvu5Vg9BEg/79ehbzj5xjtXg+fx2j
+	xdmmN+wWmx5fY7W4vGsOm8Xn3iOMFlP27WKzaOtcxmpx8ZSrxe3GFWwWrXuPsFs8f9TJZvHv
+	2kYWi5+HzjM58Hm8v9HK7rHh0WpWj52z7rJ7bFrVyeaxeUm9x4vNMxk9+rasYvR49XUuo8fn
+	TXIBnFHZNhmpiSmpRQqpecn5KZl56bZK3sHxzvGmZgaGuoaWFuZKCnmJuam2Si4+AbpumTlA
+	tysplCXmlAKFAhKLi5X07WyK8ktLUhUy8otLbJVSC1JyCkwL9IoTc4tL89L18lJLrAwNDIxM
+	gQoTsjPunV3JXPCbs+JDy3yWBsapHF2MnBwSAiYShw5+YwGxhQR2MEos+K7cxcgFZH9ilDg9
+	5TsjhPOZUeLf4S42mI6FnX+ZIRK7GCWOHOtlh3DeM0qcPHkFqIWDQ1jAQ6LlaTFIXERgIpPE
+	7PsHWEAcZoG3jBILd+1gBhnFJqAlsf/FDbCx/AKKEld/PGYEsXkF7CReTpjGBGKzCKhKLPj4
+	GqxeVCBM4uS2FqgaQYmTM5+AHc4pYCnx52wXWA2zgLjErSfzmSBseYntb+cwQ5z9gkNi7wVX
+	CNtF4vH0lUwQtrDEq+Nb2CFsKYnP7/ZCvVktsfLkETaQoyUEOhgltuy/wAqRMJbYv3QyE8iX
+	zAKaEut36UOEFSV2/p7LCLGXT+Ld1x5WkBIJAV6JjjYhiBJlicsP7kKtlZRY3N7JNoFRaRaS
+	b2Yh+WAWkg9mISxbwMiyilEstaA4Nz212LDAFB7byfm5mxjB6VrLcgfj9Lcf9A4xMnEwHmKU
+	4GBWEuH9IR6cKMSbklhZlVqUH19UmpNafIjRFBi+E5mlRJPzgRkjryTe0MTSwMTMyNjEwtDM
+	UEmc99hry0QhgfTEktTs1NSC1CKYPiYOTqkGJunCS8c8fD3yKjnOBM7yflZlvrT+Adf/Nx6C
+	YmaV39RO3Z/kcPlh0M/4k4d444r32T+/1e5/vTfVWJixr9/gxnbO1Ep7b6+CTyJJ5jtcUr4n
+	OAS858zaPtPUV27650eCn5gnGER/dNSyn53G/yIwg3eRQe3dgIML7c7IzBAsFzLmnXhyQmG+
+	ooCY4kP/7qo7nzMcfm1OOdJ6x/RlcrkOX0Op+vdJk18ufPzl8f/bRw5L/rjltz9hXlCIsf2T
+	Qu9t2mGeKp/rXSYJFEZu5/z01yduTnfOMSmHNx+ZN76oMJ/j59aXV2+/UCPvdsys5sP3q3xu
+	/50h78aafmRptdOGeyfyYmfy2gb+P/ZoQ6azEktxRqKhFnNRcSIAi2fHh2AEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsWy7bCSnO4Vg9BEgz9fTSzmHznHavF8/jpG
+	i7NNb9gtNj2+xmpxedccNovPvUcYLabs28Vm0da5jNXi4ilXi9uNK9gsWvceYbd4/qiTzeLf
+	tY0sFj8PnWdy4PN4f6OV3WPDo9WsHjtn3WX32LSqk81j85J6jxebZzJ69G1Zxejx6utcRo/P
+	m+QCOKO4bFJSczLLUov07RK4Mu6dXclc8Juz4kPLfJYGxqkcXYycHBICJhILO/8ydzFycQgJ
+	7GCUWHW9mwUiISkx7eJRoAQHkC0scfhwMUTNW0aJ+bf3sYLEhQU8JFqegsVFBCYzSZzcepwJ
+	xGEGKXp14TojRMduRon700AmcXKwCWhJ7H9xgw3E5hdQlLj64zEjiM0rYCfxcsI0JhCbRUBV
+	YsHH12D1ogJhEjuXPGaCqBGUODnzCdh1nAKWEn/OdoHVMAuoS/yZdwnKFpe49WQ+E4QtL7H9
+	7RzmCYzCs5C0z0LSMgtJyywkLQsYWVYxSqYWFOem5xYbFhjlpZbrFSfmFpfmpesl5+duYgTH
+	rpbWDsY9qz7oHWJk4mA8xCjBwawkwvtDPDhRiDclsbIqtSg/vqg0J7X4EKM0B4uSOO+FrpPx
+	QgLpiSWp2ampBalFMFkmDk6pBiaxNJ/VLRsj7rrUbdobysUs++zHnB07ozNLVYLO5LXsyuYU
+	4ZCsYl7X79RieatJe9WTvzI9590X5FkrnZ/9SvPmN2P307lst6WL7xQLr1hwYvlU84iYCpcG
+	cx+18I+vp5S5O9S/Nz+cfMHXjVHuwOqJ89VvmaesLcisO1WzQbEtoV76wuSLi79Mmq6p2v9i
+	xtZ/uowJ287+9HZcvFF1ud3ZtuOzAy+8Ssm3/7ph6+u3J3d0RByo2jjnb1XZLnWvnS9PJDho
+	f9928Q7rgS8N4pfdP3G8sDj/k23vblnWdRcyov4obGmYOYXtw4zTbZuvTn3SLXEjPur4/UsV
+	B/NzJ0puZ/OuydgptsJap8hqhY+LEktxRqKhFnNRcSIAIKpPhUwDAAA=
+X-CMS-MailID: 20210930033653epcas1p34537f75ad56be624c9b9aa3b66186c4c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210929044259epcas1p45d15a4d7913caa0bf12c18bd55d48a54
+References: <20210929044254.38301-1-samuel@sholland.org>
+	<CGME20210929044259epcas1p45d15a4d7913caa0bf12c18bd55d48a54@epcas1p4.samsung.com>
+	<20210929044254.38301-2-samuel@sholland.org>
 
-On Wed, Sep 29, 2021 at 4:46 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Wed 29 Sep 05:04 CDT 2021, Arnd Bergmann wrote:
->
-> > On Wed, Sep 29, 2021 at 11:51 AM Will Deacon <will@kernel.org> wrote:
-> > > On Mon, Sep 27, 2021 at 05:22:13PM +0200, Arnd Bergmann wrote:
-> > > >
-> > > > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> > > > index 124c41adeca1..989c83acbfee 100644
-> > > > --- a/drivers/iommu/Kconfig
-> > > > +++ b/drivers/iommu/Kconfig
-> > > > @@ -308,7 +308,7 @@ config APPLE_DART
-> > > >  config ARM_SMMU
-> > > >       tristate "ARM Ltd. System MMU (SMMU) Support"
-> > > >       depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> > > > -     depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-> > > > +     select QCOM_SCM
-> > > >       select IOMMU_API
-> > > >       select IOMMU_IO_PGTABLE_LPAE
-> > > >       select ARM_DMA_USE_IOMMU if ARM
-> > >
-> > > I don't want to get in the way of this patch because I'm also tired of the
-> > > randconfig failures caused by QCOM_SCM. However, ARM_SMMU is applicable to
-> > > a wide variety of (non-qcom) SoCs and so it seems a shame to require the
-> > > QCOM_SCM code to be included for all of those when it's not strictly needed
-> > > at all.
-> >
-> > Good point, I agree that needs to be fixed. I think this additional
-> > change should do the trick:
-> >
->
-> ARM_SMMU and QCOM_IOMMU are two separate implementations and both uses
-> QCOM_SCM. So both of them should select QCOM_SCM.
-
-Right, I figured that out later as well.
-
-> "Unfortunately" the Qualcomm portion of ARM_SMMU is builtin
-> unconditionally, so going with something like select QCOM_SCM if
-> ARCH_QCOM would still require the stubs in qcom_scm.h.
-
-Yes, sounds good. I also noticed that I still need one hack in there
-if I do this:
-
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-index 55690af1b25d..36c304a8fc9b 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c
-@@ -427,6 +427,9 @@ struct arm_smmu_device *qcom_smmu_impl_init(struct
-arm_smmu_device *smmu)
- {
-        const struct device_node *np = smmu->dev->of_node;
-
-+       if (!IS_ENABLED(CONFIG_QCOM_SCM))
-+               return ERR_PTR(-ENXIO);
-+
- #ifdef CONFIG_ACPI
-        if (np == NULL) {
-                /* Match platform for ACPI boot */
+On 9/29/21 1:42 PM, Samuel Holland wrote:
+> Since commit ea572f816032 ("PM / devfreq: Change return type of
+> devfreq_set_freq_table()"), all devfreq devices are expected to have a
+> valid freq_table. The devfreq core unconditionally dereferences
+> freq_table in the sysfs code and in get_freq_range().
+> 
+> Therefore, we need to ensure that freq_table is both non-null and
+> non-empty (length is > 0). If either check fails, replace the table
+> using set_freq_table() or return the error.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  drivers/devfreq/devfreq.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/devfreq/devfreq.c b/drivers/devfreq/devfreq.c
+> index 28f3e0ba6cdd..7a8b022ba456 100644
+> --- a/drivers/devfreq/devfreq.c
+> +++ b/drivers/devfreq/devfreq.c
+> @@ -827,7 +827,7 @@ struct devfreq *devfreq_add_device(struct device *dev,
+>  		goto err_dev;
+>  	}
+>  
+> -	if (!devfreq->profile->max_state && !devfreq->profile->freq_table) {
+> +	if (!devfreq->profile->max_state || !devfreq->profile->freq_table) {
+>  		mutex_unlock(&devfreq->lock);
+>  		err = set_freq_table(devfreq);
+>  		if (err < 0)
+> 
 
 
-Otherwise it still breaks with ARM_SMMU=y and QCOM_SCM=m.
+Applied it. Thanks.
 
-Splitting out the qualcomm portion of the arm_smmu driver using
-a separate 'bool' symbol should also work, if  you prefer that
-and can suggest a name and help text for that symbol. It would
-look like
-
-diff --git a/drivers/iommu/arm/arm-smmu/Makefile
-b/drivers/iommu/arm/arm-smmu/Makefile
-index e240a7bcf310..b0cc01aa20c9 100644
---- a/drivers/iommu/arm/arm-smmu/Makefile
-+++ b/drivers/iommu/arm/arm-smmu/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_QCOM_IOMMU) += qcom_iommu.o
- obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
--arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-nvidia.o arm-smmu-qcom.o
-+arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-nvidia.o
-+arm_smmu-$(CONFIG_ARM_SMMU_QCOM) += arm-smmu-qcom.o
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index 9f465e146799..2c25cce38060 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -215,7 +215,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct
-arm_smmu_device *smmu)
-            of_device_is_compatible(np, "nvidia,tegra186-smmu"))
-                return nvidia_smmu_impl_init(smmu);
-
--       smmu = qcom_smmu_impl_init(smmu);
-+       if (IS_ENABLED(CONFIG_ARM_SMMU_QCOM))
-+               smmu = qcom_smmu_impl_init(smmu);
-
-        if (of_device_is_compatible(np, "marvell,ap806-smmu-500"))
-                smmu->impl = &mrvl_mmu500_impl;
-
-
-
-       Arnd
+-- 
+Best Regards,
+Chanwoo Choi
+Samsung Electronics
