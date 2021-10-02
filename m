@@ -1,64 +1,86 @@
-Received: from mail-m17638.qiye.163.com (mail-m17638.qiye.163.com [59.111.176.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70C52F80
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Oct 2021 15:01:47 +0000 (UTC)
-Received: from localhost.localdomain (unknown [112.48.80.210])
-	by mail-m17638.qiye.163.com (Hmail) with ESMTPA id 588041C00DC;
-	Fri,  1 Oct 2021 22:50:48 +0800 (CST)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7673FC9
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Oct 2021 20:29:33 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id l7so24390072edq.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Oct 2021 13:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vt8iMexHSdD7KbcYDMZcdIIcyzlp3dp1Lof2sQDbqO0=;
+        b=M/mzD4/EMeKIOCfJBivq3S4lbawIgHIBp794vss/bPAb9x734BRVXuFVVeunx7Mjqg
+         SwWoQjrRlTaP9IJYmIHXkBYFII7A9IkH978/b1/pcib6WdMOduW6c1qa5WO55h8jdwVH
+         VLoNIQKXDhTi2fQZ21UBda9RGzZgw3tZj52LQGReC1EgoQwBW+VRwJRv3+Vduh6s+w4b
+         c2QjkVyj1iOE7jPLpNKKbbJOADgLas6420+39W/+vI6oCrzBiC8N9cFcYJcB16FeRchX
+         rc4iNDyh/6apEp0c8+AtBzE6lEM2bOfxQjCwLSIFgphSyHxNxOfgq4xVtjO4Ryw9/AgL
+         uOAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Vt8iMexHSdD7KbcYDMZcdIIcyzlp3dp1Lof2sQDbqO0=;
+        b=b/ZbbDytpVaFjwvXeMHoBCImZ4hxdqW5qc9x6LAib5KoDjjo80/Ov8Tb8zHFCHvN1r
+         jjUPaWRgb4928KPbywaDnWRpwpTDKVDc4hYEVxgAAh+iCaCX9Lx1LFkITP3bKFJnMqht
+         yEoCSh5aKw+qDds4Dg/hLB18EEZlW0BJQT8x8oGICKrPdKifosyZZxxfn6n0SjXd0xNZ
+         9NGjfJT5RWiBcbb1RsWYqHOKgeSzLwEdRnLxuTBLfqKUulUFDq2u56t/HO6qFNJV33p9
+         RF9VDVgbgyssRed7EaOPWenwKp/DMK05SBmIgroybyaFYrey0mMHxZZS4PEFqBcESeYg
+         LkPg==
+X-Gm-Message-State: AOAM533Srib562N66asoQHpSdaX/U0ZZ0kdBwXrU7TdSR1u99WH0xkuV
+	EJcKp8yRYLvYhEVTQ2SBssI=
+X-Google-Smtp-Source: ABdhPJy0d8P8w3XvIbR9dgUeoowMYVdxVx6bZnqiPHejidI5ELd5zXNysiRwgmiPD7bkyV4B9le5KA==
+X-Received: by 2002:a17:906:ad5:: with SMTP id z21mr6255743ejf.109.1633206571868;
+        Sat, 02 Oct 2021 13:29:31 -0700 (PDT)
+Received: from localhost.localdomain ([213.91.86.150])
+        by smtp.gmail.com with ESMTPSA id v13sm4546771ejh.62.2021.10.02.13.29.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Oct 2021 13:29:31 -0700 (PDT)
+From: Nikola Pavlica <pavlica.nikola@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: thierry.reding@gmail.com,
+	sam@ravnborg.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
 	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@googlegroups.com,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH] arm64: dts: allwinner: NanoPi R1S H5: use the correct compatible for the eeprom
-Date: Fri,  1 Oct 2021 22:50:36 +0800
-Message-Id: <20211001145036.18129-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWRpJTExWTExPGkxOSUxPGU
-	1JVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWVVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6MRA6OBw*PD4NNzgiAkkRNipJ
-	OQoKCx1VSlVKTUhIS0JCQ09CS0pJVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUpK
-	SVVPQ1VDS1VJSktZV1kIAVlBSUtJTTcG
-X-HM-Tid: 0a7c3c561b9cd993kuws588041c00dc
+	Nikola Pavlica <pavlica.nikola@gmail.com>
+Subject: [PATCH 1/2] dt-bindings: add vendor prefix for Vivax
+Date: Sat,  2 Oct 2021 22:29:04 +0200
+Message-Id: <20211002202905.509437-1-pavlica.nikola@gmail.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The 'microchip,24c02' compatible does not match the at24 driver, so
-replace it with 'atmel,24c02'. In addition, because the mac address
-is stored on this eeprom, set it to read-only mode.
+Add vendor prefix for the Vivax brand by M SAN Grupa d.o.o.
 
-Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
+Source (in Croatian): https://www.vivax.com/hr/o-nama.aspx
+
+Signed-off-by: Nikola Pavlica <pavlica.nikola@gmail.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-index 55bcdf8d1a07..4f01c17c49e0 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-@@ -142,9 +142,10 @@
- 	status = "okay";
- 
- 	eeprom@51 {
--		compatible = "microchip,24c02";
--		reg = <0x51>;
-+		compatible = "atmel,24c02";
- 		pagesize = <16>;
-+		reg = <0x51>;
-+		read-only; /* This holds our MAC */
- 	};
- };
- 
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index a867f7102..1a7d9ca02 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -1264,6 +1264,8 @@ patternProperties:
+     description: Vitesse Semiconductor Corporation
+   "^vivante,.*":
+     description: Vivante Corporation
++  "^vivax,.*":
++    description: Vivax brand by M SAN Grupa d.o.o.
+   "^vocore,.*":
+     description: VoCore Studio
+   "^voipac,.*":
 -- 
-2.17.1
+2.33.0
 
