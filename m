@@ -1,302 +1,416 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97353FC7
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Oct 2021 12:21:30 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id j11-20020a9d190b000000b00546fac94456so21233643ota.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Oct 2021 05:21:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB513FCC;
+	Mon,  4 Oct 2021 16:06:36 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id z20so15368365edc.13;
+        Mon, 04 Oct 2021 09:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=GqpwaHcYLWxKjnZgog6w5RyFafP586fBMegQAr62NIY=;
+        b=QHqHkuI29B7ysAsKw3DIQtMpkDe2IVUsf2mPVI1tuSQczP83Om194FDjMbL035HJEp
+         +97UN/SmVU9e4K5PhrDyR2lP+pKHeZUsiQTY/WZNayt46flF8OW7m1+WNRB7kq1scb3C
+         cZBteAEGktBh+Lp9YjVp8KqmGSjKDLxykRAEPL/zr0kTaXfaWr3utY4re7T08wraYNmX
+         mXH4xoYa49n7so495p8mkAEvW1BsxCIdmJEz6SvhneLxyiBt2fRvLhNR0mf2dEWJTgvK
+         Ffjq2BQiN5EhrU6ImaLSxnrqCIUPAQcHEtSVecLdRPxDMLGGnNThFiOsaz7y9nwvTPGl
+         4RYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=fZ63krPMlh3kt7911YLk7W+3mai0yNydNaCDOTzrm4E=;
-        b=GzSXqnEEFsFA8fGr0fd0ZetitQixxKi9npGbfNUfrF4wPy8efWS5SUQch+Xe1GQHzB
-         q3VO5gZFqqFp/1u+gkNaC5v2acsdSPJd6Mz33yVvXjw+yDOWXrmviyPMIjCLNoRhqj8t
-         D5+ZVWFzWEkG0EzJWZ9MAb7SiDjQvGOIfIRy1kXQyy6+Hnd5GMSlQln0hx//J5ZtKDYg
-         gXi7V3xYE5+12ozZzqRFAd4dKyYYA/EYbccVGDsV9V6FLSzrMlqZnp8OJRXSvEw+MREz
-         OWBtVZ6ZOUZQ3WB7sWpy3j5X75G8yjzymJe3SWVHfao/mkovLSdxZCdlnOqaPqezpt5E
-         c0Fw==
-X-Gm-Message-State: AOAM53241EPRrY7L/2bbSTE3k8lzDuPFd19Uni54/gaVxevMqWTJ09Vg
-	MrcjITiDiD6jacMZFnriPw==
-X-Google-Smtp-Source: ABdhPJySJbWCHS0cTjUYXBjhPSL+DTwFSvHXl+qRad/Pxp7aQH2zdRBDfcW88BhRBmbmcdAqehL3Rg==
-X-Received: by 2002:a9d:6f9a:: with SMTP id h26mr9210824otq.140.1633350089886;
-        Mon, 04 Oct 2021 05:21:29 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id v1sm2841291otj.70.2021.10.04.05.21.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=GqpwaHcYLWxKjnZgog6w5RyFafP586fBMegQAr62NIY=;
+        b=NusnN0gqTZ+H8J+dT+cpkwm+OiHHxaonHwBB/dgUitE8FI6CM1TMzfP0OVAWntIPIJ
+         raWAHhObekUz0pllh3xdnYbJ6dLLqZ36Ne5UPIWvnlud32cUg5iUN7GV24uDHvQ0nyIK
+         PwSFXAojjK0KW0/DLmOT7F/ZtEuApd3DZz/d8NBjn1MsB+2RHc0fPr3BcuddV0P23ciG
+         0qoz0Ps7kIlhDg2sjxBXt6NiURda3EMRMSG5YLuSYIvK2DZbD+5gcS/X4N0HyixbKuPu
+         DA8cmxeNypcVghbgY3N1ARHUoG/reikrPUOzFUPq2APLcqQh/DOcjYm1sTTfnYWev/+k
+         WXBQ==
+X-Gm-Message-State: AOAM532lWHLXRYC6PID6N1pf9b1dT75pJDH3b+uLkt1NIwAXRm4cMi44
+	VEhdfB20o1uuTHGvLwlx9t4=
+X-Google-Smtp-Source: ABdhPJyBAp9owrsAfLgtmeoTzk6EGj3S9yhX24KyVsty+2JN9PWNljDsMFTcAhhxDmedLBudzk9ZHg==
+X-Received: by 2002:a50:d8cf:: with SMTP id y15mr19412186edj.66.1633363499052;
+        Mon, 04 Oct 2021 09:04:59 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id p10sm2240068ejf.45.2021.10.04.09.04.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 05:21:29 -0700 (PDT)
-Received: (nullmailer pid 1051512 invoked by uid 1000);
-	Mon, 04 Oct 2021 12:21:26 -0000
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev, Michael Turquette <mturquette@baylibre.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, Chanwoo Choi <cw00.choi@samsung.com>, devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Kyungmin Park <kyungmin.park@samsung.com>, Chen-Yu Tsai <wens@csie.org>, linux-pm@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-In-Reply-To: <20211004012739.39053-4-samuel@sholland.org>
-References: <20211004012739.39053-1-samuel@sholland.org> <20211004012739.39053-4-samuel@sholland.org>
-Subject: Re: [PATCH v2 3/6] dt-bindings: arm: sunxi: Add H5 MBUS compatible
-Date: Mon, 04 Oct 2021 07:21:26 -0500
-Message-Id: <1633350086.771765.1051511.nullmailer@robh.at.kernel.org>
+        Mon, 04 Oct 2021 09:04:58 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, paul.kocialkowski@bootlin.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: wens@csie.org, mchehab@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] media: cedrus: Don't kernel map most buffers
+Date: Mon, 04 Oct 2021 18:04:56 +0200
+Message-ID: <2933502.8iB9r8yIO8@kista>
+In-Reply-To: <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
+References: <20210912060812.222996-1-jernej.skrabec@gmail.com> <0cb81145-16d9-fd28-832e-4010646e9512@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 03 Oct 2021 20:27:36 -0500, Samuel Holland wrote:
-> The H5 SoC has a MBUS very similar to the H3 SoC, but it has a smaller
-> MDFS divider range (1-4 instead of 1-16). Add a separate compatible for
-> this variant.
+Hi!
+
+Dne ponedeljek, 04. oktober 2021 ob 10:10:55 CEST je Hans Verkuil napisal(a):
+> Hi Jernej,
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->  .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> Some comments below:
+> 
+> On 12/09/2021 08:08, Jernej Skrabec wrote:
+> > Except VP8 probability coefficients buffer, all other buffers are never
+> 
+> Except -> Except for
 > 
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+Ok.
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+> > accessed by CPU. That allows us to mark them with 
+DMA_ATTR_NO_KERNEL_MAPPING
+> > flag. This helps with decoding big (like 4k) videos on 32-bit ARM
+> > platforms where default vmalloc size is relatively small - 240 MiB.
+> > Since auxiliary buffer are not yet efficiently allocated, this can be
+> > easily exceeded. Even if allocation is optimized, 4k videos will still
+> > often exceed this limit.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 102 ++++++++++--------
+> >  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  28 ++---
+> >  .../staging/media/sunxi/cedrus/cedrus_video.c |   2 +
+> >  3 files changed, 73 insertions(+), 59 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_h264.c
+> > index de7442d4834d..6e38b37d9fe1 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -538,23 +538,23 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  
+> >  	ctx->codec.h264.pic_info_buf_size = pic_info_size;
+> >  	ctx->codec.h264.pic_info_buf =
+> > -		dma_alloc_coherent(dev->dev, ctx-
+>codec.h264.pic_info_buf_size,
+> > -				   &ctx-
+>codec.h264.pic_info_buf_dma,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, ctx-
+>codec.h264.pic_info_buf_size,
+> > +				&ctx-
+>codec.h264.pic_info_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h264.pic_info_buf)
+> >  		return -ENOMEM;
+> >  
+> >  	/*
+> >  	 * That buffer is supposed to be 16kiB in size, and be aligned
+> > -	 * on 16kiB as well. However, dma_alloc_coherent provides the
+> > +	 * on 16kiB as well. However, dma_alloc_attrs provides the
+> >  	 * guarantee that we'll have a CPU and DMA address aligned on
+> 
+> Does the 'CPU' part of this sentence still make sense since the CPU
+> won't access the buffer?
+> 
 
-Full log is available here: https://patchwork.ozlabs.org/patch/1535893
+Good catch! I'll remove it.
 
+> >  	 * the smallest page order that is greater to the requested
+> >  	 * size, so we don't have to overallocate.
+> >  	 */
+> >  	ctx->codec.h264.neighbor_info_buf =
+> > -		dma_alloc_coherent(dev->dev, 
+CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -				   &ctx-
+>codec.h264.neighbor_info_buf_dma,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, 
+CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +				&ctx-
+>codec.h264.neighbor_info_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> 
+> I think it would be good to have a comment for all these dma_alloc_attrs
+> calls where you note that these buffers are used by the HW only, and
+> never by the CPU, hence the use of DMA_ATTR_NO_KERNEL_MAPPING.
+> 
 
-dram-controller@1c62000: 'clock-names' is a required property
-	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+Ok.
 
-dram-controller@1c62000: clocks: [[2, 112]] is too short
-	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
+> >  	if (!ctx->codec.h264.neighbor_info_buf) {
+> >  		ret = -ENOMEM;
+> >  		goto err_pic_buf;
+> > @@ -582,10 +582,11 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  
+> >  	mv_col_size = field_size * 2 * CEDRUS_H264_FRAME_NUM;
+> >  	ctx->codec.h264.mv_col_buf_size = mv_col_size;
+> > -	ctx->codec.h264.mv_col_buf = dma_alloc_coherent(dev->dev,
+> > -							
+ctx->codec.h264.mv_col_buf_size,
+> > -							
+&ctx->codec.h264.mv_col_buf_dma,
+> > -							
+GFP_KERNEL);
+> > +	ctx->codec.h264.mv_col_buf =
+> > +		dma_alloc_attrs(dev->dev,
+> > +				ctx->codec.h264.mv_col_buf_size,
+> > +				&ctx->codec.h264.mv_col_buf_dma,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h264.mv_col_buf) {
+> >  		ret = -ENOMEM;
+> >  		goto err_neighbor_buf;
+> > @@ -600,10 +601,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  		ctx->codec.h264.deblk_buf_size =
+> >  			ALIGN(ctx->src_fmt.width, 32) * 12;
+> >  		ctx->codec.h264.deblk_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h264.deblk_buf_size,
+> > -					   &ctx-
+>codec.h264.deblk_buf_dma,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h264.deblk_buf_size,
+> > +					&ctx-
+>codec.h264.deblk_buf_dma,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h264.deblk_buf) {
+> >  			ret = -ENOMEM;
+> >  			goto err_mv_col_buf;
+> > @@ -616,10 +617,10 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  		ctx->codec.h264.intra_pred_buf_size =
+> >  			ALIGN(ctx->src_fmt.width, 64) * 5 * 2;
+> >  		ctx->codec.h264.intra_pred_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h264.intra_pred_buf_size,
+> > -					   &ctx-
+>codec.h264.intra_pred_buf_dma,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h264.intra_pred_buf_size,
+> > +					&ctx-
+>codec.h264.intra_pred_buf_dma,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h264.intra_pred_buf) {
+> >  			ret = -ENOMEM;
+> >  			goto err_deblk_buf;
+> > @@ -629,24 +630,28 @@ static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> >  	return 0;
+> >  
+> >  err_deblk_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.deblk_buf_size,
+> > -			  ctx->codec.h264.deblk_buf,
+> > -			  ctx->codec.h264.deblk_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.deblk_buf_size,
+> > +		       ctx->codec.h264.deblk_buf,
+> > +		       ctx->codec.h264.deblk_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_mv_col_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > -			  ctx->codec.h264.mv_col_buf,
+> > -			  ctx->codec.h264.mv_col_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > +		       ctx->codec.h264.mv_col_buf,
+> > +		       ctx->codec.h264.mv_col_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_neighbor_buf:
+> > -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h264.neighbor_info_buf,
+> > -			  ctx->codec.h264.neighbor_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h264.neighbor_info_buf,
+> > +		       ctx->codec.h264.neighbor_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  err_pic_buf:
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > -			  ctx->codec.h264.pic_info_buf,
+> > -			  ctx->codec.h264.pic_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > +		       ctx->codec.h264.pic_info_buf,
+> > +		       ctx->codec.h264.pic_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	return ret;
+> >  }
+> >  
+> > @@ -654,23 +659,28 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+> >  {
+> >  	struct cedrus_dev *dev = ctx->dev;
+> >  
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > -			  ctx->codec.h264.mv_col_buf,
+> > -			  ctx->codec.h264.mv_col_buf_dma);
+> > -	dma_free_coherent(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h264.neighbor_info_buf,
+> > -			  ctx->codec.h264.neighbor_info_buf_dma);
+> > -	dma_free_coherent(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > -			  ctx->codec.h264.pic_info_buf,
+> > -			  ctx->codec.h264.pic_info_buf_dma);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.mv_col_buf_size,
+> > +		       ctx->codec.h264.mv_col_buf,
+> > +		       ctx->codec.h264.mv_col_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> > +	dma_free_attrs(dev->dev, CEDRUS_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h264.neighbor_info_buf,
+> > +		       ctx->codec.h264.neighbor_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> > +	dma_free_attrs(dev->dev, ctx->codec.h264.pic_info_buf_size,
+> > +		       ctx->codec.h264.pic_info_buf,
+> > +		       ctx->codec.h264.pic_info_buf_dma,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (ctx->codec.h264.deblk_buf_size)
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h264.deblk_buf_size,
+> > -				  ctx->codec.h264.deblk_buf,
+> > -				  ctx->codec.h264.deblk_buf_dma);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h264.deblk_buf_size,
+> > +			       ctx->codec.h264.deblk_buf,
+> > +			       ctx->codec.h264.deblk_buf_dma,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (ctx->codec.h264.intra_pred_buf_size)
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h264.intra_pred_buf_size,
+> > -				  ctx->codec.h264.intra_pred_buf,
+> > -				  ctx-
+>codec.h264.intra_pred_buf_dma);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h264.intra_pred_buf_size,
+> > +			       ctx->codec.h264.intra_pred_buf,
+> > +			       ctx->codec.h264.intra_pred_buf_dma,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  }
+> >  
+> >  static void cedrus_h264_trigger(struct cedrus_ctx *ctx)
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_h265.c
+> > index 3d9561d4aadb..bb7eb56106c5 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > @@ -351,10 +351,10 @@ static void cedrus_h265_setup(struct cedrus_ctx 
+*ctx,
+> >  			ctx->codec.h265.mv_col_buf_unit_size;
+> >  
+> >  		ctx->codec.h265.mv_col_buf =
+> > -			dma_alloc_coherent(dev->dev,
+> > -					   ctx-
+>codec.h265.mv_col_buf_size,
+> > -					   &ctx-
+>codec.h265.mv_col_buf_addr,
+> > -					   GFP_KERNEL);
+> > +			dma_alloc_attrs(dev->dev,
+> > +					ctx-
+>codec.h265.mv_col_buf_size,
+> > +					&ctx-
+>codec.h265.mv_col_buf_addr,
+> > +					GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  		if (!ctx->codec.h265.mv_col_buf) {
+> >  			ctx->codec.h265.mv_col_buf_size = 0;
+> >  			// TODO: Abort the process here.
+> > @@ -668,9 +668,9 @@ static int cedrus_h265_start(struct cedrus_ctx *ctx)
+> >  	ctx->codec.h265.mv_col_buf_size = 0;
+> >  
+> >  	ctx->codec.h265.neighbor_info_buf =
+> > -		dma_alloc_coherent(dev->dev, 
+CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > -				   &ctx-
+>codec.h265.neighbor_info_buf_addr,
+> > -				   GFP_KERNEL);
+> > +		dma_alloc_attrs(dev->dev, 
+CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > +				&ctx-
+>codec.h265.neighbor_info_buf_addr,
+> > +				GFP_KERNEL, 
+DMA_ATTR_NO_KERNEL_MAPPING);
+> >  	if (!ctx->codec.h265.neighbor_info_buf)
+> >  		return -ENOMEM;
+> >  
+> > @@ -682,16 +682,18 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+> >  	struct cedrus_dev *dev = ctx->dev;
+> >  
+> >  	if (ctx->codec.h265.mv_col_buf_size > 0) {
+> > -		dma_free_coherent(dev->dev, ctx-
+>codec.h265.mv_col_buf_size,
+> > -				  ctx->codec.h265.mv_col_buf,
+> > -				  ctx-
+>codec.h265.mv_col_buf_addr);
+> > +		dma_free_attrs(dev->dev, ctx-
+>codec.h265.mv_col_buf_size,
+> > +			       ctx->codec.h265.mv_col_buf,
+> > +			       ctx->codec.h265.mv_col_buf_addr,
+> > +			       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  
+> >  		ctx->codec.h265.mv_col_buf_size = 0;
+> >  	}
+> >  
+> > -	dma_free_coherent(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > -			  ctx->codec.h265.neighbor_info_buf,
+> > -			  ctx->codec.h265.neighbor_info_buf_addr);
+> > +	dma_free_attrs(dev->dev, CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE,
+> > +		       ctx->codec.h265.neighbor_info_buf,
+> > +		       ctx->codec.h265.neighbor_info_buf_addr,
+> > +		       DMA_ATTR_NO_KERNEL_MAPPING);
+> >  }
+> >  
+> >  static void cedrus_h265_trigger(struct cedrus_ctx *ctx)
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/
+staging/media/sunxi/cedrus/cedrus_video.c
+> > index 66714609b577..800ffa5382de 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> > @@ -568,6 +568,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue 
+*src_vq,
+> >  
+> >  	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> >  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> > +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> >  	src_vq->drv_priv = ctx;
+> >  	src_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+> >  	src_vq->ops = &cedrus_qops;
+> > @@ -584,6 +585,7 @@ int cedrus_queue_init(void *priv, struct vb2_queue 
+*src_vq,
+> >  
+> >  	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> >  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+> > +	src_vq->dma_attrs = DMA_ATTR_NO_KERNEL_MAPPING;
+> 
+> This should be dst_vq!
+> 
+> I'm also not quite sure that it is right to use this for the destination
+> buffer. Could this cause problems if this buffer is exported to a dmabuf
+> and another driver will be using it and requiring a kernel mapping.
 
-dram-controller@1c62000: clocks: [[3, 113]] is too short
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+Hm, if I fix this, it actually breaks DRM mapping. For some reason it expects 
+vmap to be valid. I'll drop this for now.
 
-dram-controller@1c62000: reg: [[29761536, 4096]] is too short
-	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+Thanks for review!
 
-dram-controller@1c62000: 'reg-names' is a required property
-	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
-	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
-	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+Best regards,
+Jernej
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> >  	dst_vq->drv_priv = ctx;
+> >  	dst_vq->buf_struct_size = sizeof(struct cedrus_buffer);
+> >  	dst_vq->ops = &cedrus_qops;
+> > 
+> 
+> 
+
 
