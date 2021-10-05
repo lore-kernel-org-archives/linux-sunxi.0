@@ -1,62 +1,111 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C473FC9
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Oct 2021 18:26:10 +0000 (UTC)
-Received: by mail-ot1-f46.google.com with SMTP id l16-20020a9d6a90000000b0053b71f7dc83so22745108otq.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Oct 2021 11:26:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7CC2C89
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Oct 2021 17:48:51 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id f2so111090vsj.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Oct 2021 10:48:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=o8bwhkN79EalIrTbnnOWRqEA3DSi10UHvsR2eJcQa94=;
-        b=Dr1D1Oq0DcbIIlWFgQknqnSccJG3EnyOFJVWL7R277eJbOGluzr81NhnpbcpwFHSdW
-         d1j0A/V8XKR/OFQJyHA0n9VV+D4i7nbZQkq+FYYfiDCetaXUTeSm3MJAlp0JgoTWdpVA
-         7bzAnuWecsKSJzp/oBfZvhH9WQoq8GKVzosUcm2XfCd7PqMo2me0rxTlcrgXwSQWTRKt
-         zm0uIMR7xIH1469ljmULmWOSJHAqPYTB7x8/ScccZ6rVyxI8ZLGTfKMPY2mEGpzZFRDQ
-         4OSNQg3XQ4QWEPQW53J//hFxbU5lJXnTGd0iAgZjTZjrAv7fZkGoYdkD1syWaa4OXNvG
-         mMZg==
-X-Gm-Message-State: AOAM533rsJG8qgRVutxaJ0Qo/hce38wt5yfUfXCvvXwoicKw+H/ZeW0H
-	UJQPR14xZpnSx1nicAgP9A==
-X-Google-Smtp-Source: ABdhPJz2K7KCGZfqZNBbWPfWIgbCS+HZoWQP3+s7HnKACw+3nQsHcrlj9kQ5sRUN6acBuzNlHkKtng==
-X-Received: by 2002:a05:6830:1616:: with SMTP id g22mr10744306otr.79.1633371969600;
-        Mon, 04 Oct 2021 11:26:09 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id j24sm2186115otq.72.2021.10.04.11.26.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Oct 2021 11:26:09 -0700 (PDT)
-Received: (nullmailer pid 1608195 invoked by uid 1000);
-	Mon, 04 Oct 2021 18:26:08 -0000
-Date: Mon, 4 Oct 2021 13:26:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: linux-arm-kernel@lists.infradead.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>, devicetree@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>, Maxime Ripard <mripard@kernel.org>, linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v2 1/9] dt-bindings: rtc: sun6i: Clean up repetition
-Message-ID: <YVtHQMMzPn00tLDw@robh.at.kernel.org>
-References: <20210928080335.36706-1-samuel@sholland.org>
- <20210928080335.36706-2-samuel@sholland.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc;
+        bh=knPNhU6TGHSpaIW4FMVFzxPZT1aU7QZlnO0dpjVPljQ=;
+        b=m4qFeYVA5YXl+s4S70rW2kyfBdwTGooKi5YqCUUFgP5YHlVtTlBRfF9LRxQO5Sbtp8
+         Wes5biqUqFj1+6NqjZBKytQOfHx7vgIaV92tSPdJPGY4XMLHJQpldbcMpL3u/qaLbFKC
+         NHb2WgPBjNpQxkjkpgiuvekAxVnFyizb8Ahua3QjiLYKr+mnQ8sbr2B4MZWBD8Z5WL68
+         7NPocnB8G3Tybk3jTCDhgRzc58X3tKdXeW1N/zYa8wP1BzbDYdeMBz9aNljfuXdtKQvr
+         zkDoOHIerSBrtG9R+zxsRLwf5HSbOgSzm1WvTvVciuXDmiDBa9AJa5GxYNvHeQYDFIye
+         +PmQ==
+X-Gm-Message-State: AOAM530Jqi7GQ7RVWNlMkJElFAaGViJ7VM0goRvJNHFIBGOevBghQbqT
+	S0Vr095od2cHlX1PTFYjmyhDlKyM6u3VqQ==
+X-Google-Smtp-Source: ABdhPJxamPYMbToORORa63qzmzrugZnQUNNEZcbRK/LgApP/UrNYfL4wjTlMlJBfRtbWiDV60/9K7g==
+X-Received: by 2002:a67:ef44:: with SMTP id k4mr8277784vsr.36.1633456130360;
+        Tue, 05 Oct 2021 10:48:50 -0700 (PDT)
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com. [209.85.217.45])
+        by smtp.gmail.com with ESMTPSA id s81sm4697799vks.55.2021.10.05.10.48.49
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 Oct 2021 10:48:49 -0700 (PDT)
+Received: by mail-vs1-f45.google.com with SMTP id v4so57482vsg.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Oct 2021 10:48:49 -0700 (PDT)
+X-Received: by 2002:a05:6102:448:: with SMTP id e8mr8269328vsq.49.1633456129199;
+ Tue, 05 Oct 2021 10:48:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210928080335.36706-2-samuel@sholland.org>
+References: <20211001145036.18129-1-amadeus@jmu.edu.cn>
+In-Reply-To: <20211001145036.18129-1-amadeus@jmu.edu.cn>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Wed, 6 Oct 2021 01:48:37 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64r-OvoUQOHyTbJ9e==ZFASO54MW56Lw654nhwWM-bj7A@mail.gmail.com>
+Message-ID: <CAGb2v64r-OvoUQOHyTbJ9e==ZFASO54MW56Lw654nhwWM-bj7A@mail.gmail.com>
+Subject: Re: [PATCH] arm64: dts: allwinner: NanoPi R1S H5: use the correct
+ compatible for the eeprom
+To: Chukun Pan <amadeus@jmu.edu.cn>
+Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 28 Sep 2021 03:03:27 -0500, Samuel Holland wrote:
-> - Use "enum" for compatibles instead of several "const" alternatives.
-> - Merge the H6 clock-output-names minItems/maxItems constraint into the
->   identical block above.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi,
+
+On Fri, Oct 1, 2021 at 10:51 PM Chukun Pan <amadeus@jmu.edu.cn> wrote:
+>
+> The 'microchip,24c02' compatible does not match the at24 driver, so
+> replace it with 'atmel,24c02'. In addition, because the mac address
+> is stored on this eeprom, set it to read-only mode.
+>
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
 > ---
-> Changes since v1:
->   - New patch.
-> 
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 28 ++++++-------------
->  1 file changed, 9 insertions(+), 19 deletions(-)
-> 
+>  arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> index 55bcdf8d1a07..4f01c17c49e0 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> @@ -142,9 +142,10 @@
+>         status = "okay";
+>
+>         eeprom@51 {
+> -               compatible = "microchip,24c02";
+> -               reg = <0x51>;
+> +               compatible = "atmel,24c02";
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+You should add the atmel compatible as a fallback one, not replace the
+microchip one.
+
+Also FTR 24c02 is not the correct part number. It is 24aa025e48.
+
+
+>                 pagesize = <16>;
+> +               reg = <0x51>;
+
+Please don't move the reg property. It should follow the compatible.
+
+> +               read-only; /* This holds our MAC */
+
+Please also add a cell representing the MAC address, and hook it up
+to the GMAC. You can find an example here [1].
+
+Regards
+ChenYu
+
+[1] https://lore.kernel.org/linux-rockchip/20210622034505.18824-1-cnsztl@gmail.com/
+
+>         };
+>  };
+>
+> --
+> 2.17.1
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
