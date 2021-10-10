@@ -1,74 +1,74 @@
-Received: from mail-m17638.qiye.163.com (mail-m17638.qiye.163.com [59.111.176.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E504E72
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Oct 2021 13:56:46 +0000 (UTC)
-Received: from amadeus-VLT-WX0.lan (unknown [58.23.36.250])
-	by mail-m17638.qiye.163.com (Hmail) with ESMTPA id 3B1A31C0189;
-	Sun, 10 Oct 2021 21:50:42 +0800 (CST)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Chen-Yu Tsai <wens@csie.org>
-Cc: Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: [PATCH v2 0/1] arm64: dts: allwinner: NanoPi R1S H5: Add generic compatible string for I2C EEPROM
-Date: Sun, 10 Oct 2021 21:50:16 +0800
-Message-Id: <20211010135017.6855-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.17.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6EEA2C81
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Oct 2021 17:21:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DF44A1FB;
+	Sun, 10 Oct 2021 10:21:15 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 684EA3F694;
+	Sun, 10 Oct 2021 10:21:14 -0700 (PDT)
+Date: Sun, 10 Oct 2021 18:19:46 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, wens@csie.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] bus: sun50i-de2: Adjust printing error message
+Message-ID: <20211010181848.7b0ac8d4@slackpad.fritz.box>
+In-Reply-To: <20211010071812.145178-1-jernej.skrabec@gmail.com>
+References: <20211010071812.145178-1-jernej.skrabec@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 3.17.1 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUMZGElWTENDS0oYQhgaGk
-	keVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWVVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Pz46Ejo6Oj4XETcJTgFCPxw4
-	CD0aCk9VSlVKTUhIQ0xIQ09JTEtDVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWU5D
-	VUlIVUhNVUlOS1lXWQgBWUFJSElONwY+
-X-HM-Tid: 0a7c6a7850ffd993kuws3b1a31c0189
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi ChenYu,
+On Sun, 10 Oct 2021 09:18:12 +0200
+Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
 
-> You should add the atmel compatible as a fallback one, not replace the
-> microchip one.
+> SRAM driver often returns -EPROBE_DEFER and thus this bus driver often
+> prints error message, even if it probes successfully later. This is
+> confusing for users and they often think that something is wrong.
+> 
+> Use dev_err_probe() helper for printing error message. It handles
+> -EPROBE_DEFER automatically.
 
-Thanks for correcting, I did it, also upgrade the commit message.
+Ah, many thanks for just fixing this, it was indeed confusing people.
+And thanks for pointing to this useful helper!
 
-> Please also add a cell representing the MAC address, and hook it up
-> to the GMAC. You can find an example here [1].
+Would this actually be a candidate for stable?
 
-Frankly speaking, I’m a little confused about this. There is a rtl8153
-usb network card on this machine, the original factory seems to store
-its mac address on this eeprom. It seems that there is no usb network
-card written in dts in the kernel before, and the rtl8152 driver may
-also need to be modified accordingly to support reading the mac address
-from eeprom.
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Sorry for my bad English.
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 
-Thanks,
-Chukun
+Cheers,
+Andre
 
-Changes from v2:
-* Typo fixes for the position format.
-* Add a nvmem cell representing the MAC address.
-
-Chukun Pan (1):
-  arm64: dts: allwinner: NanoPi R1S H5: Add generic compatible string
-    for I2C EEPROM
-
- .../arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
--- 
-2.17.1
+> ---
+>  drivers/bus/sun50i-de2.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/bus/sun50i-de2.c b/drivers/bus/sun50i-de2.c
+> index 672518741f86..414f29cdedf0 100644
+> --- a/drivers/bus/sun50i-de2.c
+> +++ b/drivers/bus/sun50i-de2.c
+> @@ -15,10 +15,9 @@ static int sun50i_de2_bus_probe(struct platform_device *pdev)
+>  	int ret;
+>  
+>  	ret = sunxi_sram_claim(&pdev->dev);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "Error couldn't map SRAM to device\n");
+> -		return ret;
+> -	}
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "Couldn't map SRAM to device\n");
+>  
+>  	of_platform_populate(np, NULL, NULL, &pdev->dev);
+>  
 
