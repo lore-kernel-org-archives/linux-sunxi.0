@@ -1,129 +1,114 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D17A2C80;
+	Tue, 12 Oct 2021 15:57:56 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06] (unknown [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FFD2C80
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 15:52:07 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id o20so68118117wro.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 08:52:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=9hjlZVhXoXo3FL11esprff5bCUJHk8umIxjYSUWWgeI=;
-        b=kV0X6h2dQAv2MkM2vrW6GjCGiJI0xIG0PHHSVveSz2hyjC8lk8aMORT44wf492yBY1
-         KBPSvLUoNxR8Em6FU6PL5kNNE5AWJ+K4PqUcdQhTiDLmJB6i1afD/q/xuDojGWMjGy6p
-         TteAbpw7kviXf+aoTS45z0NBdEm9eS4jTmflE4qXJdhSuMoQr0zOQGciG1rm7MvDL7Z5
-         FoAmvN/17V1px+kALM8NPM0nrOiNO8Ru15yur/HY4FXwkxFoDY9+a6u/mdLwqu53L9+3
-         l08Rp8EAsF9ryAW7fCBLH8KlIhnVPBOZBVxhzU/VPtTn6nzxPw5uCh1b/vmMn5dvRI73
-         YJzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9hjlZVhXoXo3FL11esprff5bCUJHk8umIxjYSUWWgeI=;
-        b=vZ9MKCuAhcmhM+q++vViy0L1FNlJ4kTfSBNx0+vHAovSRzc5nmgvtqi7+6eWtVsZTh
-         LfKHGeay4uDvPSogIX8yy5aiwMvrtXFzL9LGfSI06lesUKwX65CbQgt1U09KYJo2iqqv
-         +gSMxyfug8il8xUYv2qhFuLqwWEiFA3+RxwHU4HYg3tqsV+8/n4tYhXkVOfqm01GVMhF
-         cGyJnoU+aoloKOgqQNbrM4ijGnuMGZyq5y3WIHe0QZT0zmEUPXs2ScPQ6nQpVTdpR8ur
-         q7AVNo1BuldPUGc9txOXYSjbmXT2t5KDI3yUGg2ahMh+PHtLMmsYhZ0+P10sID2eiDnV
-         TP/g==
-X-Gm-Message-State: AOAM531HuS/6aixPejcEVhPRoWVHL37drVBKg+JOkYylCAnmUc+/8has
-	WDXJI4IZtrJBOovObdWvTBfPpA==
-X-Google-Smtp-Source: ABdhPJymeTTqFwbQopH1XYOQsNuPgTZb78WfIdf0kD+JmZX8+BYbhfIbLHpTNtRFuzH7N1t7JtCmgA==
-X-Received: by 2002:a7b:c3d4:: with SMTP id t20mr6390465wmj.10.1634053926395;
-        Tue, 12 Oct 2021 08:52:06 -0700 (PDT)
-Received: from google.com ([95.148.6.175])
-        by smtp.gmail.com with ESMTPSA id s3sm10875737wrm.40.2021.10.12.08.52.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 08:52:06 -0700 (PDT)
-Date: Tue, 12 Oct 2021 16:52:04 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Rob Herring <robh+dt@kernel.org>
-Cc: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Frank Rowand <frowand.list@gmail.com>,
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [RESEND v2 1/3] dt-bindings: gpio: Convert X-Powers AXP209 GPIO
- binding to a schema
-Message-ID: <YWWvJKs8K9Z8WIGV@google.com>
-References: <20210924071614.868307-1-maxime@cerno.tech>
- <CAL_JsqL3BUX8jO4X12Au_VAytboisQAoxDYz03rQfDMJjL4EDA@mail.gmail.com>
- <YWWg0PjnuBCKO3Tq@google.com>
- <CAL_JsqKK_ZC95QfDYsKWdFM3bF+DD7wD=R=--6d74DwqHkgexA@mail.gmail.com>
- <YWWu+t487giK/FB2@google.com>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AF3521F43876;
+	Tue, 12 Oct 2021 16:57:53 +0100 (BST)
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+ hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+ <21222555.EfDdHjke4D@kista>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+Date: Tue, 12 Oct 2021 17:57:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <21222555.EfDdHjke4D@kista>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YWWu+t487giK/FB2@google.com>
+Content-Language: en-US
 
-On Tue, 12 Oct 2021, Lee Jones wrote:
 
-> On Tue, 12 Oct 2021, Rob Herring wrote:
-> 
-> > On Tue, Oct 12, 2021 at 9:51 AM Lee Jones <lee.jones@linaro.org> wrote:
-> > >
-> > > On Tue, 12 Oct 2021, Rob Herring wrote:
-> > >
-> > > > On Fri, Sep 24, 2021 at 2:16 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > >
-> > > > > The X-Powers AXP PMICs feature a GPIO Controller supported by Linux
-> > > > > thanks to its device tree binding.
-> > > > >
-> > > > > Now that we have the DT validation in place, let's convert the device
-> > > > > tree bindings for that driver over to a YAML schema.
-> > > > >
-> > > > > Cc: Chen-Yu Tsai <wens@csie.org>
-> > > > > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > > > > Cc: linux-gpio@vger.kernel.org
-> > > > > Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > > >
-> > > > > ---
-> > > > >
-> > > > > Changes from v1:
-> > > > >   - Removed the example and moved it in the mfd schema
-> > > > > ---
-> > > > >  .../devicetree/bindings/gpio/gpio-axp209.txt  | 75 -------------------
-> > > > >  .../bindings/gpio/x-powers,axp209-gpio.yaml   | 55 ++++++++++++++
-> > > > >  2 files changed, 55 insertions(+), 75 deletions(-)
-> > > > >  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-axp209.txt
-> > > > >  create mode 100644 Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
-> > > >
-> > > > This one not being applied with the rest of the series is also
-> > > > breaking linux-next.
-> > > >
-> > > > b4 am -P_ -sl -o - 20210924071614.868307-1-maxime@cerno.tech | git am
-> > >
-> > > Thanks for the link.
-> > >
-> > > Seeing as there are no *real* dependencies, it would be better for
-> > > Linus to take the patch (if he's okay with it of course).
-> > 
-> > Only that 'make dt_binding_check' is broken for anyone using your
-> > branch (and linux-next ATM). It's as real as a broken build due to a
-> > missing header. If you don't think this is a problem, then don't apply
-> > MFD binding patches.
-> 
-> Ah, I missed Bartosz Ack up there.
-> 
-> Happy to apply it.
+Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
+> Hi Benjamin!
+>
+> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard napisal(a):
+>> This series aims to clean up Reference Picture Set usage and flags.
+>>
+>> Long term flag was named with RPS prefix while it is not used for RPS
+>> but for mark long term references in DBP. Remane it and remove the two
+>> other useless RPS flags.
+>>
+>> Clarify documentation about RPS lists content and make sure that Hantro
+>> driver use them correctly (i.e without look up in DBP).
+>>
+>> These patches are the last in my backlog impacting HEVC uAPI.
+>>  From my point of view, once they get merged, you could start talking
+>> about how move HEVC uAPI to stable.
+> With your changes, HEVC uAPI controls still won't be complete. Cedrus needs
+> entry point control, which in turn needs dynamic array support. I'm a bit lazy
+> implementing that control, but I guess I can take a look in a month or so.
+> rkvdec also needs more fields for HEVC. With patches collected here:
+> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
+> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
+> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
 
-Linus, Bartosz, do you require a PR?
+Hi Jernej,
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Thanks for your feedback, getting a list of missing items in HEVC uAPI
+will definitively help to fill the hope.
+The patch you mention for rkvdec are already merged in mainline kernel (at
+least for uAPI part).
+Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and entry_point_offset_minus1[ i ]
+in HEVC specifications ?
+
+Regards,
+Benjamin
+
+>
+> I would certainly wait with moving HEVC uAPI to stable.
+>
+> Best regards,
+> Jernej
+>
+>> version 2:
+>> - change DPB field name from rps to flags
+>>
+>> Please note that the only purpose of commits 3 and 4 is to allow to test
+>> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+>> can be found. Do not merge them.
+>>
+>> GStreamer HEVC plugin merge request can be found here:
+>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>>
+>> With those piece of code fluster score is 77/147.
+>>
+>> Benjamin
+>>
+>> Benjamin Gaignard (4):
+>>    media: hevc: Remove RPS named flags
+>>    media: hevc: Embedded indexes in RPS
+>>    media: hantro: Use syscon instead of 'ctrl' register
+>>    arm64: dts: imx8mq: Add node to G2 hardware
+>>
+>>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>>   drivers/staging/media/hantro/hantro.h         |  5 +-
+>>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>>   include/media/hevc-ctrls.h                    |  6 +--
+>>   7 files changed, 84 insertions(+), 61 deletions(-)
+>>
+>> -- 
+>> 2.30.2
+>>
+>>
+>
