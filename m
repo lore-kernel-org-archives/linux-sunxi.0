@@ -1,220 +1,77 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5820F2C80
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 01:15:02 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id z11so26974107oih.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Oct 2021 18:15:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8guroVPH6/gNfHo5cZ8DZfxGp6mmHxatL0hXvlIRlAw=;
-        b=7Mijxpl8LB5Gx9m0816/wqokjPpj4DmqPMZtcb4Xamya4d+KjO9hp5s+o1jI/atI1v
-         vcLg7XpqwDdT9vTXJp3f8ij2O9xc+5swiZvI5y/hsttGENcx2U+UTI5/oFplyMpYCvG3
-         hBkp2cy4qRgMU/LRZbxqSlTs0BDM80RvrU+pd90I/znCzDTGUyLzvBgyNnl3GuiXLQBL
-         zUjWqyRE/ZFcz3EbR9KIui5OirBuI5HfC+laoPENFsUkDoQl+rhEKlXlrGVWPx/TeLk6
-         06NHABX+f+FSDxJiP05CWBIXHBgxQyfeQMSUAnj2Zo8D/mA15r5WbuPIpYvtiXovo4rZ
-         yrvA==
-X-Gm-Message-State: AOAM532rXbAKQqcXUgzQxSMUVxZy7Y/ey1gPMh8B08AwAgp/zfZAcqzG
-	CKd3YXm0f6SLE/U3BkVPhg==
-X-Google-Smtp-Source: ABdhPJw8PjwiP0yFElsjrewyt2KeHNI9F0RpvFeFGvILZARkJje5Oautd2DPfd9OSd2Ci46Za3zjXQ==
-X-Received: by 2002:aca:b609:: with SMTP id g9mr1703544oif.154.1634001301381;
-        Mon, 11 Oct 2021 18:15:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id 21sm2071589oix.1.2021.10.11.18.14.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Oct 2021 18:15:00 -0700 (PDT)
-Received: (nullmailer pid 1526504 invoked by uid 1000);
-	Tue, 12 Oct 2021 01:14:59 -0000
-Date: Mon, 11 Oct 2021 20:14:59 -0500
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Pavel Machek <pavel@ucw.cz>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org, linux-leds@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: leds: Add Allwinner R329/D1 LED
- controller
-Message-ID: <YWThkxDK72N5TC3a@robh.at.kernel.org>
-References: <20211004022601.10653-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F772C83
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 14:04:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6C9CF60F11
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 14:04:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1634047489;
+	bh=CM715X93mwOfebn9okb1cn60LPdLuCAP97k7YQ925Zs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=eE9l10nRCwFP9JwQm5CBzQbVgED40qFbvqxZpS5Q594VM0NaFYDhIkmPkAkKOkSZR
+	 dxZAbcyVHosz4i/m8hC0JZOLlrm+vfeElh/CoV7xACEAy9YYB58wGK0+7oWREfS0Tn
+	 SZUf50ExqKsXNgJGlJnIGB7D4zXnaNnuS6W1/aEtPmjLz5HqVvQSkosNBjE4vLuymR
+	 HavTbMLdHrzty3LZB1zgEVpi2uZOjTMxORXrdBwfcLBy+YkJNVU4C6OP45p5fUY3nj
+	 3XCJGo+s7Rw1tmMc2qJH9VKxe/FK2Lw1GOte1jKrxgJRxqmEC6kd/+x9w1oXU61jtN
+	 1SlCjNnCzg6Hg==
+Received: by mail-ed1-f47.google.com with SMTP id g8so53964edt.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 07:04:49 -0700 (PDT)
+X-Gm-Message-State: AOAM532skOMR31GWsB7oXmziP9rty6xrXdo5CAt6D4Q5f9Uxxf8KFLXw
+	xuqvleDZj6Y6JZdjxvOnwqFRxvjOGg3AOuwtZg==
+X-Google-Smtp-Source: ABdhPJwPDiBfN77c2V77s+DF2ulIEohbF2WPsDSFsQtO7KsY/+TG1HOFqiE53/kzqDEpDbfGFVsXC/v7dU3yjLvJBdM=
+X-Received: by 2002:a05:6402:27d3:: with SMTP id c19mr158659ede.70.1634047487830;
+ Tue, 12 Oct 2021 07:04:47 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211004022601.10653-1-samuel@sholland.org>
+References: <20210924071614.868307-1-maxime@cerno.tech>
+In-Reply-To: <20210924071614.868307-1-maxime@cerno.tech>
+From: Rob Herring <robh+dt@kernel.org>
+Date: Tue, 12 Oct 2021 09:04:36 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL3BUX8jO4X12Au_VAytboisQAoxDYz03rQfDMJjL4EDA@mail.gmail.com>
+Message-ID: <CAL_JsqL3BUX8jO4X12Au_VAytboisQAoxDYz03rQfDMJjL4EDA@mail.gmail.com>
+Subject: Re: [RESEND v2 1/3] dt-bindings: gpio: Convert X-Powers AXP209 GPIO
+ binding to a schema
+To: Maxime Ripard <maxime@cerno.tech>, Lee Jones <lee.jones@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	Frank Rowand <frowand.list@gmail.com>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, 
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Oct 03, 2021 at 09:26:00PM -0500, Samuel Holland wrote:
-> The Allwinner R329 and D1 SoCs contain an LED controller designed to
-> drive a series of RGB LED pixels. It supports PIO and DMA transfers, and
-> has configurable timing and pixel format.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+On Fri, Sep 24, 2021 at 2:16 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> The X-Powers AXP PMICs feature a GPIO Controller supported by Linux
+> thanks to its device tree binding.
+>
+> Now that we have the DT validation in place, let's convert the device
+> tree bindings for that driver over to a YAML schema.
+>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: linux-gpio@vger.kernel.org
+> Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>
 > ---
-> 
+>
 > Changes from v1:
->  - Fixed typo leading to duplicate t1h-ns property
->  - Removed "items" layer in definition of dmas/dma-names
->  - Replaced uint32 type reference with maxItems in timing properties
-> 
->  .../leds/allwinner,sun50i-r329-ledc.yaml      | 140 ++++++++++++++++++
->  1 file changed, 140 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
-> new file mode 100644
-> index 000000000000..d70cb2393a2e
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/leds/allwinner,sun50i-r329-ledc.yaml
-> @@ -0,0 +1,140 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/leds/allwinner,sun50i-r329-ledc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner R329 LED Controller Bindings
-> +
-> +maintainers:
-> +  - Samuel Holland <samuel@sholland.org>
-> +
-> +description:
-> +  The LED controller found in Allwinner sunxi SoCs uses a one-wire serial
-> +  interface to drive up to 1024 RGB LEDs.
-> +
-> +properties:
-> +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun50i-r329-ledc
-> +      - items:
-> +          - enum:
-> +              - allwinner,sun20i-d1-ledc
-> +          - const: allwinner,sun50i-r329-ledc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus clock
-> +      - description: Module clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  dmas:
-> +    maxItems: 1
-> +    description: TX DMA channel
-> +
-> +  dma-names:
-> +    const: tx
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  vled-supply:
-> +    description: Regulator supplying power to external LEDs
-> +
-> +  format:
-> +    description: Pixel format (subpixel transmission order), default is "grb"
-> +    enum:
-> +      - "bgr"
-> +      - "brg"
-> +      - "gbr"
-> +      - "grb"
-> +      - "rbg"
-> +      - "rgb"
+>   - Removed the example and moved it in the mfd schema
+> ---
+>  .../devicetree/bindings/gpio/gpio-axp209.txt  | 75 -------------------
+>  .../bindings/gpio/x-powers,axp209-gpio.yaml   | 55 ++++++++++++++
+>  2 files changed, 55 insertions(+), 75 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-axp209.txt
+>  create mode 100644 Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
 
-Don't need quotes.
+This one not being applied with the rest of the series is also
+breaking linux-next.
 
-> +
-> +  t0h-ns:
-> +    maxItems: 1
-> +    description: Length of high pulse when transmitting a "0" bit
-> +
-> +  t0l-ns:
-> +    maxItems: 1
-> +    description: Length of low pulse when transmitting a "0" bit
-> +
-> +  t1h-ns:
-> +    maxItems: 1
-> +    description: Length of high pulse when transmitting a "1" bit
-> +
-> +  t1l-ns:
-> +    maxItems: 1
-> +    description: Length of low pulse when transmitting a "1" bit
-> +
-> +  treset-ns:
-
-All these need a vendor prefix.
-
-> +    maxItems: 1
-> +    description: Minimum delay between transmission frames
-> +
-> +patternProperties:
-> +  "^multi-led@[0-9a-f]+$":
-> +    type: object
-> +    $ref: leds-class-multicolor.yaml#
-> +    properties:
-> +      reg:
-> +        minimum: 0
-> +        maximum: 1023
-> +        description: Index of the LED in the series (must be contiguous)
-> +
-> +    required:
-> +      - reg
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - dmas
-> +  - dma-names
-> +  - interrupts
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/leds/common.h>
-> +
-> +    ledc: led-controller@2008000 {
-> +      compatible = "allwinner,sun20i-d1-ledc",
-> +                   "allwinner,sun50i-r329-ledc";
-> +      reg = <0x2008000 0x400>;
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +      clocks = <&ccu 12>, <&ccu 34>;
-> +      clock-names = "bus", "mod";
-> +      resets = <&ccu 12>;
-> +      dmas = <&dma 42>;
-> +      dma-names = "tx";
-> +      interrupts = <36 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +      multi-led@0 {
-> +        reg = <0x0>;
-> +        color = <LED_COLOR_ID_RGB>;
-> +        function = LED_FUNCTION_INDICATOR;
-> +      };
-> +    };
-> +
-> +...
-> -- 
-> 2.32.0
-> 
-> 
+b4 am -P_ -sl -o - 20210924071614.868307-1-maxime@cerno.tech | git am
