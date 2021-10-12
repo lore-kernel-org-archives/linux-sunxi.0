@@ -1,130 +1,109 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5031A2C86;
-	Tue, 12 Oct 2021 14:36:12 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:4cb:a870:dcd8:9f87:c3be:dc06])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 581031F43BCA;
-	Tue, 12 Oct 2021 15:36:04 +0100 (BST)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	hverkuil-cisco@xs4all.nl,
-	jc@kynesim.co.uk,
-	ezequiel@vanguardiasur.com.ar
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v2 4/4] arm64: dts: imx8mq: Add node to G2 hardware
-Date: Tue, 12 Oct 2021 16:35:52 +0200
-Message-Id: <20211012143552.661751-5-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB372C80
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 14:51:00 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id v17so67682268wrv.9
+        for <linux-sunxi@lists.linux.dev>; Tue, 12 Oct 2021 07:51:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=CjTQbSHcm7VtINyZoRSXIZ9bJVbGO3ptnUtUnzquW7Q=;
+        b=xI3YY7OTNUdc763OfDc3VV9hte9dq1H7Sp/X9Q956NkzANA1kGGirWrn87WKTt0FQJ
+         UjL5Pxeh382JtYyH0RwzzdAV6EurHgx9mYOY8rv6gkGhrKYh+Pc74JaHyl5X0Xuz4o50
+         As0jbux70rntYo3L8ZnBffUxjcQnxPjG2khuZ/dxOCDpcqgsbwHQEdMtcHl2EnYK+i2y
+         IgTjpRZiyWIpHjtwR2b83/2z4KhLpJCV3Xv51iBscjbVW9x5IOttox8TPsSkplKwFRj3
+         m6YNiG8Udfd2SvG3PlRsHqxpn1i4zuft7FUEx0+g2tJ3dJNSWeSBJIg2qxZjSlEmrlz8
+         dHWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=CjTQbSHcm7VtINyZoRSXIZ9bJVbGO3ptnUtUnzquW7Q=;
+        b=LHq9h7fy4Fhyfh1YBqqFbcH87tJhrw3sEOjKd54pZXoMOQvcntArcnJvm2qZgRhh1p
+         3LWEcisSliWroaGqYRdgq7sLGDFmpbJJYX4yniQrO0yxgi1mlSp8LBBkPbvalnKzNIXW
+         k14jrCBnh2jrSpBB7vti6FT/fLgmlRr1jY6PHVNg5AbcOVLLOGOxeuZIP7vDkfSAFqzl
+         czZ8ZdQGKu+4orHM8irLjVNjiSHnyk8r43K9XfF0Oc3gsZ/irdNe48LQaLY5boz6+7fJ
+         ccm0SzI9PHlwvItnXpxDqguRuYYKMRfFldTx2/kKFspJuxvAHt6CGKP8EedKDcE9OW+x
+         +G/A==
+X-Gm-Message-State: AOAM531zdKXtLCWbZQbiMj30gk+tiVjGrt3aUV2xpiJQQuswD8mo8v1f
+	nRi1z7BUrV/ZtuVXhIDl7Jr3VQ==
+X-Google-Smtp-Source: ABdhPJzZ3bh4fiEUDaG8ALYrKIFy7DJqjTc+COvz2Ky6QaGqldCge7K0tJSBmcdrDZbWi6KsycgvoA==
+X-Received: by 2002:a05:6000:1563:: with SMTP id 3mr8033532wrz.20.1634050258581;
+        Tue, 12 Oct 2021 07:50:58 -0700 (PDT)
+Received: from google.com ([95.148.6.175])
+        by smtp.gmail.com with ESMTPSA id t3sm2621283wmj.33.2021.10.12.07.50.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Oct 2021 07:50:58 -0700 (PDT)
+Date: Tue, 12 Oct 2021 15:50:56 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Rob Herring <robh+dt@kernel.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+	Frank Rowand <frowand.list@gmail.com>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [RESEND v2 1/3] dt-bindings: gpio: Convert X-Powers AXP209 GPIO
+ binding to a schema
+Message-ID: <YWWg0PjnuBCKO3Tq@google.com>
+References: <20210924071614.868307-1-maxime@cerno.tech>
+ <CAL_JsqL3BUX8jO4X12Au_VAytboisQAoxDYz03rQfDMJjL4EDA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_JsqL3BUX8jO4X12Au_VAytboisQAoxDYz03rQfDMJjL4EDA@mail.gmail.com>
 
-Split the VPU node in two: one for G1 and one for G2 since they are
-different hardware blocks.
-Add syscon for the hardware control block.
-Remove the reg-names property that is useless.
-Each VPU node only needs one interrupt.
-Change G2 assigned clock to match the specification.
-In both nodes all the clocks need to be assigned to make
-sure that the control block will be correctly clocked even if
-only one device node is enabled.
+On Tue, 12 Oct 2021, Rob Herring wrote:
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> On Fri, Sep 24, 2021 at 2:16 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> >
+> > The X-Powers AXP PMICs feature a GPIO Controller supported by Linux
+> > thanks to its device tree binding.
+> >
+> > Now that we have the DT validation in place, let's convert the device
+> > tree bindings for that driver over to a YAML schema.
+> >
+> > Cc: Chen-Yu Tsai <wens@csie.org>
+> > Cc: Linus Walleij <linus.walleij@linaro.org>
+> > Cc: linux-gpio@vger.kernel.org
+> > Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >
+> > ---
+> >
+> > Changes from v1:
+> >   - Removed the example and moved it in the mfd schema
+> > ---
+> >  .../devicetree/bindings/gpio/gpio-axp209.txt  | 75 -------------------
+> >  .../bindings/gpio/x-powers,axp209-gpio.yaml   | 55 ++++++++++++++
+> >  2 files changed, 55 insertions(+), 75 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-axp209.txt
+> >  create mode 100644 Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
+> 
+> This one not being applied with the rest of the series is also
+> breaking linux-next.
+> 
+> b4 am -P_ -sl -o - 20210924071614.868307-1-maxime@cerno.tech | git am
 
-Please note that the only purpose of this commit is to allow to test
-G2 hardware block for IMX8MQ until a proper solution isuing power domain
-can be found. Do not merge it.
+Thanks for the link.
 
----
- arch/arm64/boot/dts/freescale/imx8mq.dtsi | 43 ++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 9 deletions(-)
+Seeing as there are no *real* dependencies, it would be better for
+Linus to take the patch (if he's okay with it of course).
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-index 4066b1612655..9125e52147df 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-@@ -1432,15 +1432,16 @@ usb3_phy1: usb-phy@382f0040 {
- 			status = "disabled";
- 		};
- 
--		vpu: video-codec@38300000 {
-+		vpu_ctrl: syscon@38320000 {
-+			compatible = "nxp,imx8mq-vpu-ctrl", "syscon";
-+			reg = <0x38320000 0x10000>;
-+		};
-+
-+		vpu_g1: video-codec@38300000 {
- 			compatible = "nxp,imx8mq-vpu";
--			reg = <0x38300000 0x10000>,
--			      <0x38310000 0x10000>,
--			      <0x38320000 0x10000>;
--			reg-names = "g1", "g2", "ctrl";
--			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
--				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
--			interrupt-names = "g1", "g2";
-+			reg = <0x38300000 0x10000>;
-+			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g1";
- 			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
- 				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-@@ -1453,9 +1454,33 @@ vpu: video-codec@38300000 {
- 						 <&clk IMX8MQ_VPU_PLL_OUT>,
- 						 <&clk IMX8MQ_SYS1_PLL_800M>,
- 						 <&clk IMX8MQ_VPU_PLL>;
--			assigned-clock-rates = <600000000>, <600000000>,
-+			assigned-clock-rates = <600000000>, <300000000>,
-+					       <800000000>, <0>;
-+			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
-+		};
-+
-+		vpu_g2: video-codec@38310000 {
-+			compatible = "nxp,imx8mq-vpu-g2";
-+			reg = <0x38310000 0x10000>;
-+			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "g2";
-+			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-+				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-+			clock-names = "g1", "g2",  "bus";
-+			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-+					  <&clk IMX8MQ_CLK_VPU_G2>,
-+					  <&clk IMX8MQ_CLK_VPU_BUS>,
-+					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-+			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_VPU_PLL_OUT>,
-+						 <&clk IMX8MQ_SYS1_PLL_800M>,
-+						 <&clk IMX8MQ_VPU_PLL>;
-+			assigned-clock-rates = <600000000>, <300000000>,
- 					       <800000000>, <0>;
- 			power-domains = <&pgc_vpu>;
-+			nxp,imx8m-vpu-ctrl = <&vpu_ctrl>;
- 		};
- 
- 		pcie0: pcie@33800000 {
 -- 
-2.30.2
-
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
