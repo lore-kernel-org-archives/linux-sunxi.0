@@ -1,172 +1,86 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D02342C80;
-	Tue, 12 Oct 2021 16:08:51 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r18so68549268wrg.6;
-        Tue, 12 Oct 2021 09:08:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8iTn6JCetRXd4IT612o9kFxWnkw0z7CnatM7cjVZeCw=;
-        b=VWmxe1rkc0SyCEnv6WESlmQl4KwCG/9Ve7fPdhu0kMByCPv7NAVfpPamI9IdcNWGMT
-         ipqW8UYh6yzkpwjgWmFIya7VXL40v0YXl/CVJTtXq25v5eL8NskoVzx8n3zI1mBrNgkD
-         CqXrB4oTKkvdg015w7SMxcYVe+XWQsrsiB4e9BEIiSJRyHVHE50BeTMjE9CoF9MnT5lS
-         3npz7WEyxAoh9Zj7CXKMfE7OBfFH+gGK0uzMMfZJ+LmFBZKZ1WMk2jR76EuP/NwtGsAO
-         7BCoyBjbvjdP42PjEkXl3GM20zpH/sJ0RaPwh87anEucKurtIuoE2RwquwoYKRVbh8WC
-         nKEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8iTn6JCetRXd4IT612o9kFxWnkw0z7CnatM7cjVZeCw=;
-        b=kHr14Yw8qn/inEUe/qczqJydbBgQCZnuX8hIocv7vO04lRH0b0uwtmXpy4TxIUujLO
-         YAQfaCgNsyRZCOHZ2PQL4y4LuIApFJzXyZqUygy769d5mnOYzoCV/fQCAi7ertkj75+Q
-         eCXARwpCDc4GB5PgCEJxIDVQfGqXWnth6AQa5VmAZF8VJMZgakpFrdvkvqyLKTYO9qI8
-         FPypIzUDVEm+NFITxgbISm4ZPC6jAydfJQBqUzJFUatTz+xSmkk8GW4dBxLTbW6N3iBR
-         bCIJqK801WFHHAoNQqkKE5UqUqXGOfktbXRizk0fVD+ipa2OvD3U5qZ4SxH8VsdCWS3b
-         W4qg==
-X-Gm-Message-State: AOAM531PdSEAnKwLFix41CesfsoABAhRk1jZXL89bvNW16E3PQSJpuR9
-	kiydNTqVC740yWLJKWPCXT0=
-X-Google-Smtp-Source: ABdhPJyCW/aSSXgGlpCvgSSH1yQrJXNiVnC7SeluZxb7rKiMZjvpzOnH5ye7V3mz1ZiHn4cmsLywnw==
-X-Received: by 2002:adf:979a:: with SMTP id s26mr33782239wrb.2.1634054930069;
-        Tue, 12 Oct 2021 09:08:50 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id s186sm3172217wme.14.2021.10.12.09.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Oct 2021 09:08:49 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
-Date: Tue, 12 Oct 2021 18:08:48 +0200
-Message-ID: <1705005.VLH7GnMWUR@kista>
-In-Reply-To: <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com> <21222555.EfDdHjke4D@kista> <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20522C81
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Oct 2021 12:49:38 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 864845C01FE;
+	Wed, 13 Oct 2021 08:49:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 13 Oct 2021 08:49:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	Nezv3xX9C+NZ3LE8aAUySU2l+Ulj3A/5fhcFrlbpAkA=; b=IQlOZL6hhDVF+Sfj
+	b5SD7OxXBACGfPkmchisG25DHwxpjtbisDRlLJlUm8m69Vu7oAliOLmgMApubyAJ
+	gUyoF3nIVZVfRDgjizoA7VKzWJOEwus06uaUNlBTSTHmO5cbK6yE5O0fnBwgUPB5
+	XC2N+NMhKcYDmIjze9dXXD+YfyNAe7ZhaIUFBygcCm6V6QlhnLVYe9oxleoYfosZ
+	GeQtzN4rfAWGCGYrINC0vH+0sdZsGIlTbEXgFefuXj+jdU5NPjmecJuY7p6wfZTm
+	dqy2skZkRxPYAITD3r4szmS7/aybY92Bat6oXda+T3W7vSt+naBgcOmWSs94IkMq
+	sA2a5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=Nezv3xX9C+NZ3LE8aAUySU2l+Ulj3A/5fhcFrlbpA
+	kA=; b=SW7QpByU2qd7Y+kokRmuk8uyTjRhevFld6UF/vcxtI4ml/5M95wBW6rSJ
+	PDHh+OOH2mcMwO/Osnqd0N4UxlMb3Zpif8on9FGsUn7yzMFUKj0i4rP02ftgxZ7I
+	wxfWmcith79pZa7HBRfJ3ZSEXc5nQjfzsC5Fo0KKEHarfFyJYspwo7facUjLg2Ln
+	20WRghoRfzgX+pQDpFZNzMxiiigh7i66h92rT52G1YmH4c2dz9sTfBZrcty9rtLU
+	0b74Z9KH/RFWBNcQgzJtijhx1SZ5qPbeDRBrf47fEh7b+j8hNZtCpGXZz2xIhnAj
+	xvVvA0AKkQEIUPXTtiqjac7kQ76PA==
+X-ME-Sender: <xms:4NVmYf70s91LlOf0NTVzdG27gPJskaNC0XRZQlkGjLTakoUuSMSBzw>
+    <xme:4NVmYU6g2XkvKA6LzSb-Tb1lEsBte_GyahvbkQxE1CpjI26kd5nC5LHwZjWXbfs_j
+    22CBYCNPlZEo3F_7Jo>
+X-ME-Received: <xmr:4NVmYWet98qPYshPq0vUzPb9Cpwy0tr_gKT_3VDxfI67-SlOWXRmj2HTNmIYZVv42oPv7Kj3GUZKdx41k4Vll7lSm_PthdAHIiG7z-TZ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:4NVmYQLLFmPd0BZaG7KqQ-yQeo0cjh0bDT_crWesPnQ-kfJL-WRvNg>
+    <xmx:4NVmYTIANMlVT6A11gQcLVZ_hgTQ95rRqET2qTWbu9dRImYJpWl6Ww>
+    <xmx:4NVmYZydT269C8DTez7242PBkk1m0FzqlBZMi366htxiJ5yuJmsTrA>
+    <xmx:4dVmYZjsVU5FsflMMV-sl9GL_1nh791MoAbm0vDGWW0cyLK_f5h2og>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 13 Oct 2021 08:49:36 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: mripard@kernel.org,
+	wens@csie.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH] bus: sun50i-de2: Adjust printing error message
+Date: Wed, 13 Oct 2021 14:49:28 +0200
+Message-Id: <163412936102.160436.18173629691350762862.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211010071812.145178-1-jernej.skrabec@gmail.com>
+References: <20211010071812.145178-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-CC: Alex Bee
+On Sun, 10 Oct 2021 09:18:12 +0200, Jernej Skrabec wrote:
+> SRAM driver often returns -EPROBE_DEFER and thus this bus driver often
+> prints error message, even if it probes successfully later. This is
+> confusing for users and they often think that something is wrong.
+> 
+> Use dev_err_probe() helper for printing error message. It handles
+> -EPROBE_DEFER automatically.
+> 
+> [...]
 
-Alex, please take a look to these patches too.
+Applied to local tree (sunxi/drivers-for-5.16).
 
-Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard napisal(a=
-):
->=20
-> Le 12/10/2021 =C3=A0 17:34, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin!
-> >
-> > Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard=20
-napisal(a):
-> >> This series aims to clean up Reference Picture Set usage and flags.
-> >>
-> >> Long term flag was named with RPS prefix while it is not used for RPS
-> >> but for mark long term references in DBP. Remane it and remove the two
-> >> other useless RPS flags.
-> >>
-> >> Clarify documentation about RPS lists content and make sure that Hantro
-> >> driver use them correctly (i.e without look up in DBP).
-> >>
-> >> These patches are the last in my backlog impacting HEVC uAPI.
-> >>  From my point of view, once they get merged, you could start talking
-> >> about how move HEVC uAPI to stable.
-> > With your changes, HEVC uAPI controls still won't be complete. Cedrus=20
-needs
-> > entry point control, which in turn needs dynamic array support. I'm a b=
-it=20
-lazy
-> > implementing that control, but I guess I can take a look in a month or =
-so.
-> > rkvdec also needs more fields for HEVC. With patches collected here:
-> > https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/
-> > patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
-> > fluster HEVC test score is reportedly 121/135 (8-bit tests only).
->=20
-> Hi Jernej,
->=20
-> Thanks for your feedback, getting a list of missing items in HEVC uAPI
-> will definitively help to fill the hope.
-> The patch you mention for rkvdec are already merged in mainline kernel (at
-> least for uAPI part).
-
-Are they? What about:
-video_parameter_set_id
-seq_parameter_set_id
-pic_parameter_set_id
-short_term_ref_pic_set_size
-long_term_ref_pic_set_size
-
-At least I don't see them in linux-next. Maybe that information can be=20
-obtained in some other way?
-
-> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and=20
-entry_point_offset_minus1[ i ]
-> in HEVC specifications ?
-
-Yes, Cedrus needs to know whole list of entry points. I don't think we need=
- to=20
-worry about offset_len_minus1, list could be pre-processed - just number of=
-=20
-entry points and their values.
-
-Best regards,
-Jernej
-
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > I would certainly wait with moving HEVC uAPI to stable.
-> >
-> > Best regards,
-> > Jernej
-> >
-> >> version 2:
-> >> - change DPB field name from rps to flags
-> >>
-> >> Please note that the only purpose of commits 3 and 4 is to allow to te=
-st
-> >> G2 hardware block for IMX8MQ until a proper solution isuing power doma=
-in
-> >> can be found. Do not merge them.
-> >>
-> >> GStreamer HEVC plugin merge request can be found here:
-> >> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10=
-79
-> >>
-> >> With those piece of code fluster score is 77/147.
-> >>
-> >> Benjamin
-> >>
-> >> Benjamin Gaignard (4):
-> >>    media: hevc: Remove RPS named flags
-> >>    media: hevc: Embedded indexes in RPS
-> >>    media: hantro: Use syscon instead of 'ctrl' register
-> >>    arm64: dts: imx8mq: Add node to G2 hardware
-> >>
-> >>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
-> >>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
-> >>   drivers/staging/media/hantro/hantro.h         |  5 +-
-> >>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
-> >>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-----=
-=2D-
-> >>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
-> >>   include/media/hevc-ctrls.h                    |  6 +--
-> >>   7 files changed, 84 insertions(+), 61 deletions(-)
-> >>
-> >> --=20
-> >> 2.30.2
-> >>
-> >>
-> >
->=20
-
-
+Thanks!
+Maxime
