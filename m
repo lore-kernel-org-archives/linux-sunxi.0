@@ -1,100 +1,89 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D490D2C80
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Oct 2021 06:41:27 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id o20so16082810wro.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Oct 2021 23:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=mdoHQevChWPiak1ksDMgXK04B0B7nQ0b8w5IVONlPR0=;
-        b=mSIy650ipvtRUAD8Fd6UvoKUpyT6iy9422oVCVv4DzGf+gLtD2hOQYWANJXPvqqzl+
-         kxjBQG+y4bGn1xYSl3gJXj59H9uOgTZRkFZiRm7osZh9v5E5sXQEyhsrOj1oKW2PYSel
-         9kClVPdceZqK249GSdBPTMhpep8sk8iGV8l6oApyIJQB5dVHPRDVlxwUh8sOHdMkAnIx
-         aJUotsbRi/kGusIt0HCcAd7v3qBa2kg8HICRlwjavQuTa0Yk3hpQaRb5pSTETMkmxWHZ
-         yG89znmRVkYr8QNy56uM6tTNcGgXM7RsKFKjXznt6LUHMuHesfEWqIGDBuNdjUwDf6Uu
-         Nv6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=mdoHQevChWPiak1ksDMgXK04B0B7nQ0b8w5IVONlPR0=;
-        b=nm9pWJfsbp2ZE9aIukH2o+1gegb1fa/QFdMsioWbxIqSMeNrWa72VLI+RlyVNJHqR9
-         /hWUrkxEfLdQTlnDwxoy6lphHbUzCc6Xpr0bIXFkDgFqaF5eTHZuF9R6GKG4dohpNERn
-         pqaXR8eS4PBY7PENXSp5tpawo46WyAa7CIMvVH79AXkEPQR9ae9RHBCOFO/k4Amu96Q+
-         7bTWfgX/6lcT8gmxLVlT8Q6ohomxtMhzXZiMuxegDRuTreI/+NWbr6kMQ5VgmZB7O+91
-         lQ7hyOFnbvqwETZlCcNX0mJNgii02/JmWtpsAXAc8H5ZtitZ3tWV4VDVboMgkvdp52Kk
-         K2CQ==
-X-Gm-Message-State: AOAM530CJaBAaILcdUi1CPrLVOIrArrok82fE7Efvs0tsKMVfU2x8PLm
-	I6Asdl6FGMYfNewp0JW6L755Hg==
-X-Google-Smtp-Source: ABdhPJz9pPGFHGHAvAYohz36c1b7XdKuDR7rAmgGOwGzyvFPsiz12FQm0Vu9mc2EwECRnBZsiNp+qA==
-X-Received: by 2002:a05:6000:1449:: with SMTP id v9mr4349017wrx.433.1634193686149;
-        Wed, 13 Oct 2021 23:41:26 -0700 (PDT)
-Received: from google.com (176-35-142-29.xdsl.murphx.net. [176.35.142.29])
-        by smtp.gmail.com with ESMTPSA id p18sm1313365wrt.54.2021.10.13.23.41.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Oct 2021 23:41:25 -0700 (PDT)
-Date: Thu, 14 Oct 2021 07:41:22 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B9042C80
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Oct 2021 07:19:14 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id C077E3200F76;
+	Thu, 14 Oct 2021 03:19:13 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 14 Oct 2021 03:19:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	F2Rlo3pG7/T2FxEsr0KOZ4crG200uyMmemWSXA7DDOo=; b=GA8tV7q7SGfmJK5v
+	LDKn+8unvR8XwjmUoeF/SrPAnNfYSW8mT/AEi5Nr1pxPztJ6pDrp8hun0DKtwqbT
+	YikOlqjiRX3hPRE+G/pInUI9QEYlqgyJaMmDvolQSlSaOQrTRFfCnP4qG4CZ7vvn
+	Bc1eIg1WgjHXkkj90VdZ9j0anOgFXgPeJi85TSnHuxVEArmZ0S9AH7RaoPS8q2N4
+	33VdIZsoUDEGwervYy9sBu9axNWTRuQHr5c+ehkLFzhrwmH36Lct1Dbh1WarO1Hp
+	dxn4IrKfAZT66jHNbv4XNd2RLLzv7AdRZ03QRT+5+4L5Xp5yklqr6hgIZ2kvU2ZN
+	z/i6vQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=F2Rlo3pG7/T2FxEsr0KOZ4crG200uyMmemWSXA7DD
+	Oo=; b=c/9CA+5TDikB4A5E6mnApLU29SsCfmZhDkNHhcYPTQpQWTu3QgRgUQx5T
+	93qcdYqYK5VQZRmH+eciN9zl3El1acyQWO/D+JOknCv7GLMjh+HAfqlf6NJOW8ow
+	OCuyx3vJhwUYryDEG/TxweBVPhqrgNwI0Qf0gKcXU4+eEyqRdgL3RBcRag6+FHXP
+	wX3mD5r1OJHWI9hq5cYWW46l5tObWiVP64vTbdPrCXLjgiZpsGz6yrWRXqJJRVUk
+	CDJfOCESCheUYjRzedEQcXfBsSrK+BFqkPaO9rdM2doZUdPv7gt2oA4v04l/mMsi
+	GSQl86Yu/d0XcWagbkXIlvQw7ggaw==
+X-ME-Sender: <xms:79lnYUULpDR2qqLf5eCpwWIgydUtUwnz5LxDSCgjgrj9mUN0vC5V5A>
+    <xme:79lnYYnmik0_8XpAEsULCi2r1Rl1srW1Rh4sVtQ55cANCRGNlsU5gnrAgGYcTSioy
+    iCIeuDiKWmQPMdQUMQ>
+X-ME-Received: <xmr:79lnYYaW7xohNCGgoUJil_rtnalZmgDu6Z79-imYlOHQXbocis7SHaxtMzvWLCfgn2qMcEdnwjEv8mK-igq9p0f5geDVZ9fVPeNJeB3q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvdduuddgudduvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
+    geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:79lnYTXnqvW97G0CDq25cIzZP-Xv_pJQNLajPyqiFoybqXBJ6KkBkw>
+    <xmx:79lnYenTnXwXQ9efh2GUiAel2KTYxwxtdxPex6sWpKHG9AhY6WZNyw>
+    <xmx:79lnYYcsScVfGs9xdr6TEj0ADLdaBLXSzRB_9iSscENAInrYb3iUDA>
+    <xmx:8dlnYY4saWINoiMW8fOvz5EBMwi-JW35roxIdNGrqwg2H1LZUPg9Fw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 14 Oct 2021 03:19:11 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Chukun Pan <amadeus@jmu.edu.cn>
+Cc: Maxime Ripard <maxime@cerno.tech>,
 	linux-sunxi@lists.linux.dev,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-gpio@vger.kernel.org,
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [RESEND v2 1/3] dt-bindings: gpio: Convert X-Powers AXP209 GPIO
- binding to a schema
-Message-ID: <YWfREhBIFLD/9aqo@google.com>
-References: <20210924071614.868307-1-maxime@cerno.tech>
+	linux-arm-kernel@lists.infradead.org,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: (subset) [PATCH v2 1/1] arm64: dts: allwinner: NanoPi R1S H5: Add generic compatible string for I2C EEPROM
+Date: Thu, 14 Oct 2021 09:19:08 +0200
+Message-Id: <163419591550.12887.3922965522049640915.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211010135017.6855-2-amadeus@jmu.edu.cn>
+References: <20211010135017.6855-1-amadeus@jmu.edu.cn> <20211010135017.6855-2-amadeus@jmu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210924071614.868307-1-maxime@cerno.tech>
 
-On Fri, 24 Sep 2021, Maxime Ripard wrote:
+On Sun, 10 Oct 2021 21:50:17 +0800, Chukun Pan wrote:
+> The 'microchip,24c02' compatible does not match the at24 driver, so
+> add this generic fallback to the device node compatible string to
+> make the device to match the driver using the OF device ID table.
+> 
+> Also set this eeprom to read-only mode because it stores the mac
+> address of the onboard usb network card.
+> 
+> [...]
 
-> The X-Powers AXP PMICs feature a GPIO Controller supported by Linux
-> thanks to its device tree binding.
-> 
-> Now that we have the DT validation in place, let's convert the device
-> tree bindings for that driver over to a YAML schema.
-> 
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Linus Walleij <linus.walleij@linaro.org>
-> Cc: linux-gpio@vger.kernel.org
-> Acked-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
-> ---
-> 
-> Changes from v1:
->   - Removed the example and moved it in the mfd schema
-> ---
->  .../devicetree/bindings/gpio/gpio-axp209.txt  | 75 -------------------
->  .../bindings/gpio/x-powers,axp209-gpio.yaml   | 55 ++++++++++++++
->  2 files changed, 55 insertions(+), 75 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/gpio/gpio-axp209.txt
->  create mode 100644 Documentation/devicetree/bindings/gpio/x-powers,axp209-gpio.yaml
+Applied to local tree (sunxi/dt-for-5.16).
 
-Applied, thanks.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Thanks!
+Maxime
