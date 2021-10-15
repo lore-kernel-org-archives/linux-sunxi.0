@@ -1,47 +1,46 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8705B2C82
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Oct 2021 08:07:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855342C82
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Oct 2021 08:14:39 +0000 (UTC)
 Received: from epcas1p2.samsung.com (unknown [182.195.41.46])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20211015080749epoutp03e45ab2f4336a7c3efb0f0efbec9f1b59~uJcsjO77W1329113291epoutp03y
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Oct 2021 08:07:49 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20211015080749epoutp03e45ab2f4336a7c3efb0f0efbec9f1b59~uJcsjO77W1329113291epoutp03y
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20211015080828epoutp048f008a6eb30601f1d54feb9f1ec88b50~uJdRBOEiy0928709287epoutp04e
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Oct 2021 08:08:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20211015080828epoutp048f008a6eb30601f1d54feb9f1ec88b50~uJdRBOEiy0928709287epoutp04e
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1634285269;
-	bh=7Byz6yHaFyOlmUCVCF6GE7hQH0GcypoytV5GiyWBWl4=;
+	s=mail20170921; t=1634285308;
+	bh=Dk+3Nxj8QWis9FqVBLsyTS4L9LyesVIOtSg6qZP5d5A=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-	b=prjZVTYvd0bWvtJhnYI4TToCigs/YMBfOH/sn9GagYDJJsFvc0DDq22AqnbqCXAod
-	 qMZDk1eGe+dCrvjXun6dqi/5YpIfEDJmMTottOS1URT2zZjGQGf+O2j8DI/qFgKZy4
-	 /7pbuEhYL8J5GORvzq6/SFnnwvP3BOlPyrw00P2A=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+	b=fHfm1CBtBsOJQTG0ZlTmuGQPTCf5C1ab9Iz7t9FZFiQwWnIbEVbKFpq1uBGl5UFzB
+	 ZNKcXS0xpIAszqJeIeirJXoSHIMStQUMfaBayKZW1WVblCznrcMozxV6L0Q3i0Wmd6
+	 eWkvfPcLfOk+uaWQ/DwxacnXnWiD5e9COELURm1c=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
 	epcas1p4.samsung.com (KnoxPortal) with ESMTP id
-	20211015080748epcas1p4761a8b0969435ed1eade41fe27965b98~uJcrrUD2b0145601456epcas1p4S;
-	Fri, 15 Oct 2021 08:07:48 +0000 (GMT)
-Received: from epsmges1p1.samsung.com (unknown [182.195.38.236]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4HVzQT0TbMz4x9Q8; Fri, 15 Oct
-	2021 08:07:29 +0000 (GMT)
-Received: from epcas1p2.samsung.com ( [182.195.41.46]) by
-	epsmges1p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	1E.42.24398.5B639616; Fri, 15 Oct 2021 17:07:17 +0900 (KST)
+	20211015080827epcas1p47065b6ddbdd353936c28b21e628b83da~uJdQi-VjR0131701317epcas1p4r;
+	Fri, 15 Oct 2021 08:08:27 +0000 (GMT)
+Received: from epsmges1p3.samsung.com (unknown [182.195.38.233]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4HVzRS2Vxtz4x9QG; Fri, 15 Oct
+	2021 08:08:20 +0000 (GMT)
+Received: from epcas1p4.samsung.com ( [182.195.41.48]) by
+	epsmges1p3.samsung.com (Symantec Messaging Gateway) with SMTP id
+	9F.8B.13696.4F639616; Fri, 15 Oct 2021 17:08:20 +0900 (KST)
 Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20211015080716epcas1p2a5d55913228043d0034623f33b8a2235~uJcORftPN1459114591epcas1p26;
-	Fri, 15 Oct 2021 08:07:16 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+	epcas1p4.samsung.com (KnoxPortal) with ESMTPA id
+	20211015080819epcas1p4c9367ff621e03529a9a37fa17253f486~uJdI102wF0131701317epcas1p4V;
+	Fri, 15 Oct 2021 08:08:19 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
 	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20211015080716epsmtrp2cf6bfe09c3a7f4114f0e812204825dcb~uJcOLUyuv0472204722epsmtrp2c;
-	Fri, 15 Oct 2021 08:07:16 +0000 (GMT)
-X-AuditID: b6c32a35-0edff70000005f4e-88-616936b56761
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
-	A0.92.08750.4B639616; Fri, 15 Oct 2021 17:07:16 +0900 (KST)
+	20211015080819epsmtrp26e98309c3265a431e1542c6d62ed0ee0~uJdI0-Bi_0470904709epsmtrp2K;
+	Fri, 15 Oct 2021 08:08:19 +0000 (GMT)
+X-AuditID: b6c32a37-297ff70000023580-a9-616936f4cac1
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	44.1F.09091.3F639616; Fri, 15 Oct 2021 17:08:19 +0900 (KST)
 Received: from [10.113.221.102] (unknown [10.113.221.102]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20211015080716epsmtip2210df3418359de6cbbd6e6d521b23c98~uJcNx_eGJ1330313303epsmtip2d;
-	Fri, 15 Oct 2021 08:07:16 +0000 (GMT)
-Subject: Re: [PATCH v2 6/6] PM / devfreq: Add a driver for the sun8i/sun50i
- MBUS
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20211015080819epsmtip145bf31673f77aaba181dec1343e90377~uJdIfDuS32625826258epsmtip1b;
+	Fri, 15 Oct 2021 08:08:19 +0000 (GMT)
+Subject: Re: [PATCH v2 4/6] ARM: dts: sunxi: h3/h5: Update MBUS node
 To: Samuel Holland <samuel@sholland.org>, MyungJoo Ham
 	<myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>,
 	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
@@ -52,8 +51,8 @@ Cc: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 From: Chanwoo Choi <cw00.choi@samsung.com>
 Organization: Samsung Electronics
-Message-ID: <b6650bd2-7459-2604-f6ff-6eb6df739412@samsung.com>
-Date: Fri, 15 Oct 2021 17:28:45 +0900
+Message-ID: <435d622b-4ad9-d9d5-3c9b-7b66304e42e4@samsung.com>
+Date: Fri, 15 Oct 2021 17:29:48 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:59.0) Gecko/20100101
 	Thunderbird/59.0
 Precedence: bulk
@@ -62,86 +61,125 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211004012739.39053-7-samuel@sholland.org>
+In-Reply-To: <20211004012739.39053-5-samuel@sholland.org>
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrPJsWRmVeSWpSXmKPExsWy7bCmnu5Ws8xEg7k7ZC3mHznHavF8/jpG
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf0xTVxTHvf3xWtiKz4LjSjIpbzhDZ7G1P3gYypZY3HOQpYuJIXMJvrVv
+	QCht7Q/DXDJwQYHimA4lsUJQAcePZLACgk1Ka8ERyGAyZ8EZcFEQ0LXCGEO2Bdb24cZ/n3Py
+	Pfd7zrn3cpn8ESSOm6+3UCY9qcOQSNaN/iSx6A9FPin+aSwKrx8YZeOz9d8CfOSL3zi447GP
+	jd911iL40pcDAL/Q50TwMxXX2fjYcAb+4FQzgp92DXDw2UcVCL7m+46Fr3p/ZLwTRTyfOM0h
+	Oh61sYmb9kkO4WitQIjOxmJirvMSIKq6WgHxdLkOEEuOneqIDwvS8ihSS5kElF5j0Obrc5VY
+	5uGcAzlyhVgikqTiKZhATxZSSkyVpRYdzNcFe8cEJ0idNZhSk2Yztjc9zWSwWihBnsFsUWKU
+	Uaszyo3JZrLQbNXnJuspy36JWLxPHhQeK8gLlHkR42p0UYMrsQTYUBuI4EJUBnvm2xEbiOTy
+	0V4Aq8a7OHTwO4DOYTuDDv4EcHmmnvGyZKHGwwkxH3UBeMX7Hi16DmBzS1tYFI2qYMPX98NH
+	xaDnGfDyQw8rFDBRP4BXnb3MkApBhdA9N4GEeCuaAO+9eAxCzEPTYUegkR1iFroLfrU+xwrx
+	dvQIHLpRuqHZBocuTYfzEWgqXKz8IcxMNBb+Mk23ykTjYY+/lkm3Pc2F1a0GmlWwf2KcTXM0
+	fDrYxaE5Di4FXAjNn8GWoYHwZiBaDmCX+85GgRS6m6qDBtygQRJsd+6l0wnw5t91gPaNgoHl
+	s+yQBKI8WH6GT0vegHd/ndzY4g7YUFaBnAOYfdM09k0T2DdNYP/f7ApgtYLXKKO5MJcyS4zS
+	/25bYyh0gPC7Fqb0ghr/QrIXMLjACyCXicXwAp5cks/Tkp+epEyGHJNVR5m9QB7c73lm3HaN
+	Ifgx9JYciSxVLFPsk8pwiUKCxfK+f5ZK8tFc0kIVUJSRMr2sY3Aj4koY+1etPXP3itK3JU5V
+	xi/brSBb7d9xbPGjD1Sjb2+t9nE/3gLWXm9O+2bQkrWgPFGnSLvY33dxbLVJXfng9m3cN/5C
+	mGKrNDTOdN53Tq2cyh6NIhYZuuS3xg4fMu1+tWT9c09N7x7LenN3YlL5P8dfEe2JXonJFHAU
+	ZbGi3e+3T8sfCmRZs1Pnht9duS6ffuY7uPAEjgRmzgprJv5SXivO0OpYxU1tKlPLmyvdkdKA
+	m5VEzD9JVMf69GWO45knt9zqFrr7MrLFnqX5+JhbGtURnaTWXVWU0OGx+UtnqnQS6VHHz5Sr
+	+M61Q4GiwTWXc7JFJ+/Julo6susy88BRzc5PMJY5j5QImSYz+S9sBOduYAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsWy7bCSnO5ns8xEg8PfxC3mHznHavF8/jpG
 	i7NNb9gtNj2+xmpxedccNovPvUcYLabs28Vm0da5jNXi4ilXi9uNK9gsWvceYbd4/qiTzeLf
 	tY0sFj8PnWdy4PN4f6OV3WPDo9WsHjtn3WX32LSqk81j85J6jxebZzJ69G1Zxejx6utcRo/P
-	m+QCOKOybTJSE1NSixRS85LzUzLz0m2VvIPjneNNzQwMdQ0tLcyVFPISc1NtlVx8AnTdMnOA
-	bldSKEvMKQUKBSQWFyvp29kU5ZeWpCpk5BeX2CqlFqTkFJgW6BUn5haX5qXr5aWWWBkaGBiZ
-	AhUmZGecm7OApeAuZ8XMFR2MDYw32bsYOTgkBEwkWvYmdjFycQgJ7GCUeLLqGROE84lRYu/9
-	g+wQzmdGif4vbxm7GDnBOnp+vIdK7GKU+H56OSOE855RYlnzXzaQKmGBIIndd6aDVYkITGSS
-	mH3/AAuIwyzwllFi4a4dzCBVbAJaEvtf3ADr4BdQlLj64zHYDl4BO4mPT08zgdgsAqoSjTNf
-	sIPYogJhEie3tUDVCEqcnPmEBcTmFLCUmLC2D6yeWUBc4taT+VC2vMT2t3OYQRZLCLzgkNg4
-	dzUbxBMuEqdv7WCCsIUlXh3fwg5hS0l8frcXqqZaYuXJI2wQzR2MElv2X2CFSBhL7F86mQkU
-	fswCmhLrd+lDhBUldv6eywixmE/i3dceVkgQ80p0tAlBlChLXH5wF2qtpMTi9k62CYxKs5C8
-	MwvJC7OQvDALYdkCRpZVjGKpBcW56anFhgWG8PhOzs/dxAhO2VqmOxgnvv2gd4iRiYPxEKME
-	B7OSCO+7A+mJQrwpiZVVqUX58UWlOanFhxhNgQE8kVlKNDkfmDXySuINTSwNTMyMjE0sDM0M
-	lcR5j722TBQSSE8sSc1OTS1ILYLpY+LglGpg6pPepX55gsrE8K0Na3ZoFalOe1pWdmzq/g+x
-	q0RsDh14W3h2/1Hp5b/eKs22nqba+m6jvXsSg2BmiPincEPtkKQHbz/8MdNh99RODvk6b/nZ
-	z/Im/pp/OK/2H0/c8IxBtJ87m4+jeuH6KuvN9cIv2xkPKSkcW5fr9PRHy4Mpb55wrZ3h8m7i
-	1FuaJodKnFfu4fj6wsTDXPVp+iSmDdfDGLwarm/Z7VRVvbhnvkjnwYA7NxUjPh4Se2zk/e13
-	K4v767y4iEuPii9ek13O6rDmcPVU4RMKGg/Z+gKl1aZmbd10Y9bPF/eufDj7fHZrp/yNlXO2
-	rmP+qPfVY+N6XWX3zZ+aVvD+0DSNaWHWrOdpuaLEUpyRaKjFXFScCADjc84kYgQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrJIsWRmVeSWpSXmKPExsWy7bCSvO4Ws8xEg7lzJS3mHznHavF8/jpG
-	i7NNb9gtNj2+xmpxedccNovPvUcYLabs28Vm0da5jNXi4ilXi9uNK9gsWvceYbd4/qiTzeLf
-	tY0sFj8PnWdy4PN4f6OV3WPDo9WsHjtn3WX32LSqk81j85J6jxebZzJ69G1Zxejx6utcRo/P
-	m+QCOKO4bFJSczLLUov07RK4Ms7NWcBScJezYuaKDsYGxpvsXYycHBICJhI9P96D2UICOxgl
-	3vyNhYhLSky7eJS5i5EDyBaWOHy4uIuRC6jkLaPEiTvtTCA1wgJBErvvTGcHSYgITGaSOLn1
-	OBOIwwxS9erCdUaIlt2MEltWXWUBaWET0JLY/+IGG4jNL6AocfXHY0YQm1fATuLj09NgY1kE
-	VCUaZ74AO0lUIExi55LHTBA1ghInZz4Bm8MpYCkxYW0fWJxZQF3iz7xLzBC2uMStJ/Oh4vIS
-	29/OYZ7AKDwLSfssJC2zkLTMQtKygJFlFaNkakFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZG
-	cOxqae1g3LPqg94hRiYOxkOMEhzMSiK87w6kJwrxpiRWVqUW5ccXleakFh9ilOZgURLnvdB1
-	Ml5IID2xJDU7NbUgtQgmy8TBKdXA1DRnTdana6fWnHf8ujBw7X350MXveLQ1RRs/mDmu4jT9
-	Kq5oxLhgekzIc8O8y7EhQvLvG3dVO/+1XXKZLXpW2CmrzuOxNU+fainGPdrbfXJ12J+z9g6L
-	9jyom/qu/rjousWbv3Xl+L2X0V5g4rggRKkvMUPl+hfBe9MVmgLuLZj2vWjHi4kr+sueR2tv
-	/ph/4fnmeq7Htvlabv7PPhwxaem5+o2zJid+rnaB27NPQsb7TJYXN2grfvV2mv7G01jHmal5
-	wtbpaxz6GqY+5ilINm6u+Xn6pgBLz7l435treD3ki2Iivda7LHkq+orhzsQNFn4rU42m2hv8
-	T4+x+zEpubFgupQml9OEfM1HZXlLlFiKMxINtZiLihMByaHgWkwDAAA=
-X-CMS-MailID: 20211015080716epcas1p2a5d55913228043d0034623f33b8a2235
+	m+QCOKO4bFJSczLLUov07RK4Mt61H2Ir+ClcsXivSgNjl0AXIyeHhICJxIdpB9i7GLk4hAR2
+	M0q8n/WWGSIhKTHt4lEgmwPIFpY4fLgYouYto8TX64/YQGqEBVwkFk+6CdYsIjCZSeLk1uNM
+	IA4zSNWrC9cZ4ca+/DUPbCybgJbE/hc3wNr5BRQlrv54zAhi8wrYSWx4t4QVxGYRUJXo//+C
+	BcQWFQiT2LnkMRNEjaDEyZlPwOKcApYSH7vPgNnMAuoSf+ZdYoawxSVuPZnPBGHLS2x/O4d5
+	AqPwLCTts5C0zELSMgtJywJGllWMkqkFxbnpucWGBYZ5qeV6xYm5xaV56XrJ+bmbGMGxq6W5
+	g3H7qg96hxiZOBgPMUpwMCuJ8L47kJ4oxJuSWFmVWpQfX1Sak1p8iFGag0VJnPdC18l4IYH0
+	xJLU7NTUgtQimCwTB6dUA9NlV4v61gP/FPMMP/NfvGQQ/PXH04cHbYpdy5deWcX/UnD/lZ6H
+	dseuxjz3nuvB9+PRhu1n70nG3llzw5Hx1qXHlbUlXfGHtuZER+/43+agYPwwd0a2t+E9/m2G
+	DO/fzFt8sjC311+l7dtH0T3cM1/sZjs9LfHaaZ/NG1Pz//JsO3+STeZ5scCiNzOPBNdMPjHh
+	YEEfq4SOZ0zF/PCXv0MzVQ2+vplx4KBcb7yuVuOcearp/2qeP49hnBi5m6t+2/mekPfBMTq6
+	0yW4X5uEykQcYJU5/qTLT+jOqmkWkSY3Lhk3PtsfuiWurG2FBHMJu1QPi/I7OeFNsvdm757e
+	eE9mZ5v11gNcsi9OlZ2dPGmNEktxRqKhFnNRcSIAX8cX7kwDAAA=
+X-CMS-MailID: 20211015080819epcas1p4c9367ff621e03529a9a37fa17253f486
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: SVC_REQ_APPROVE
 CMS-TYPE: 101P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20211004012806epcas1p1ba8ec0edc024a14e520865f689773be8
+X-CMS-RootMailID: 20211004012802epcas1p27d6b3e2df865cc6d4beb379e2b65e002
 References: <20211004012739.39053-1-samuel@sholland.org>
-	<CGME20211004012806epcas1p1ba8ec0edc024a14e520865f689773be8@epcas1p1.samsung.com>
-	<20211004012739.39053-7-samuel@sholland.org>
-
-Hi Samuel,
+	<CGME20211004012802epcas1p27d6b3e2df865cc6d4beb379e2b65e002@epcas1p2.samsung.com>
+	<20211004012739.39053-5-samuel@sholland.org>
 
 On 10/4/21 10:27 AM, Samuel Holland wrote:
-> This driver works by adjusting the divider on the DRAM controller's
-> module clock. Thus there is no fixed set of OPPs, only "full speed" down
-> to "quarter speed" (or whatever the maximum divider is on that variant).
+> In order to support memory dynamic frequency scaling (MDFS), the MBUS
+> binding now requires enumerating more resources. Provide them in the
+> device tree.
 > 
-> It makes use of the MDFS hardware in the MBUS, in "DFS" mode, which
-> takes care of updating registers during the critical section while DRAM
-> is inaccessible.
-> 
-> This driver should support several sunxi SoCs, starting with the A33,
-> which have a DesignWare DDR3 controller with merged PHY register space
-> and the matching MBUS register layout (so not A63 or later). However,
-> the driver has only been tested on the A64/H5, so those are the only
-> compatibles enabled for now.
+> Since the H3 and H5 have different clock divider limits, they need
+> separate compatibles.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
->  drivers/devfreq/Kconfig          |   8 +
->  drivers/devfreq/Makefile         |   1 +
->  drivers/devfreq/sun8i-a33-mbus.c | 511 +++++++++++++++++++++++++++++++
->  3 files changed, 520 insertions(+)
->  create mode 100644 drivers/devfreq/sun8i-a33-mbus.c
+>  arch/arm/boot/dts/sun8i-h3.dtsi              |  4 ++++
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi           | 11 ++++++++---
+>  arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi |  4 ++++
+>  3 files changed, 16 insertions(+), 3 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-h3.dtsi b/arch/arm/boot/dts/sun8i-h3.dtsi
+> index 4e89701df91f..43acb98cf390 100644
+> --- a/arch/arm/boot/dts/sun8i-h3.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-h3.dtsi
+> @@ -282,6 +282,10 @@ &display_clocks {
+>  	compatible = "allwinner,sun8i-h3-de2-clk";
+>  };
+>  
+> +&mbus {
+> +	compatible = "allwinner,sun8i-h3-mbus";
+> +};
+> +
+>  &mmc0 {
+>  	compatible = "allwinner,sun7i-a20-mmc";
+>  	clocks = <&ccu CLK_BUS_MMC0>,
+> diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> index c7428df9469e..3a683e190dab 100644
+> --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> @@ -568,9 +568,14 @@ external_mdio: mdio@2 {
+>  		};
+>  
+>  		mbus: dram-controller@1c62000 {
+> -			compatible = "allwinner,sun8i-h3-mbus";
+> -			reg = <0x01c62000 0x1000>;
+> -			clocks = <&ccu CLK_MBUS>;
+> +			/* compatible is in per SoC .dtsi file */
+> +			reg = <0x01c62000 0x1000>,
+> +			      <0x01c63000 0x1000>;
+> +			reg-names = "mbus", "dram";
+> +			clocks = <&ccu CLK_MBUS>,
+> +				 <&ccu CLK_DRAM>,
+> +				 <&ccu CLK_BUS_DRAM>;
+> +			clock-names = "mbus", "dram", "bus";
+>  			#address-cells = <1>;
+>  			#size-cells = <1>;
+>  			dma-ranges = <0x00000000 0x40000000 0xc0000000>;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+> index 578a63dedf46..35d5d238e313 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5.dtsi
+> @@ -233,6 +233,10 @@ &display_clocks {
+>  	compatible = "allwinner,sun50i-h5-de2-clk";
+>  };
+>  
+> +&mbus {
+> +	compatible = "allwinner,sun50i-h5-mbus";
+> +};
+> +
+>  &mmc0 {
+>  	compatible = "allwinner,sun50i-h5-mmc",
+>  		     "allwinner,sun50i-a64-mmc";
+> 
 
-
-(snip)
-
-Looks good to me.
-
-Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
+Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
 
 -- 
 Best Regards,
