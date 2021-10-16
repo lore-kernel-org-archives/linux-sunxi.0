@@ -1,227 +1,138 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30DDF2C81;
-	Fri, 15 Oct 2021 14:53:23 +0000 (UTC)
-Received: from [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b] (unknown [IPv6:2a01:e0a:4cb:a870:6fac:80cf:59ad:86b])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C23A41F453E9;
-	Fri, 15 Oct 2021 15:53:20 +0100 (BST)
-Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
-To: Alex Bee <knaerzche@gmail.com>, =?UTF-8?Q?Jernej_=c5=a0krabec?=
- <jernej.skrabec@gmail.com>, mchehab@kernel.org, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl,
- jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
- <21222555.EfDdHjke4D@kista>
- <3c5851ac-3b8a-decc-93c1-01a65b1f8611@collabora.com>
- <1705005.VLH7GnMWUR@kista> <4f8f6da3-70b1-5dd8-27b7-c9f9fd37920b@gmail.com>
- <9d9645a1-9d44-4fec-55e7-5b0a1c69e7ab@collabora.com>
- <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Message-ID: <302e317c-451e-eb1d-46d9-c4f6e5245c47@collabora.com>
-Date: Fri, 15 Oct 2021 16:53:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B722C81
+	for <linux-sunxi@lists.linux.dev>; Sat, 16 Oct 2021 10:20:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aferraris)
+	with ESMTPSA id 991501F44913
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	Martin Kepplinger <martink@posteo.de>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Andy Gross <agross@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Lucas Stach <dev@lynxeye.de>,
+	Angus Ainslie <angus@akkea.ca>,
+	Guido Gunther <agx@sigxcpu.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Eddie Cai <eddie.cai.linux@gmail.com>,
+	Shunqian Zheng <zhengsq@rock-chips.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Dan Johansen <strit@manjaro.org>,
+	Simon South <simon@simonsouth.net>,
+	Matthias Brugger <mbrugger@suse.com>
+Subject: [PATCH 0/4] arm64: dts: add 'chassis-type' property
+Date: Sat, 16 Oct 2021 12:20:21 +0200
+Message-Id: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
+X-Mailer: git-send-email 2.33.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <7d6df94a-e0bb-b364-5ab1-3ef4d02803dc@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+
+Hello,
+
+A new root node property named 'chassis-type' has recently been approved
+added to the device tree specification[1]. This will allow userspace to
+easily detect the device form factor on DT-based devices, and act
+accordingly.
+
+This patchset fills in this property for existing ARM64 consumer
+devices (laptops, phones, tablets...).
+
+[1] https://github.com/devicetree-org/devicetree-specification/blob/main/source/chapter3-devicenodes.rst#root-node
+
+--
+Arnaud Ferraris (4):
+      arm64: dts: allwinner: add 'chassis-type' property
+      arm64: dts: freescale: add 'chassis-type' property
+      arm64: dts: qcom: add 'chassis-type' property
+      arm64: dts: rockchip: add 'chassis-type' property
+
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts                 | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi               | 2 ++
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts                  | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts                  | 1 +
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi                     | 1 +
+ arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts                  | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts                 | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi               | 2 ++
+ arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts                  | 1 +
+ arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts                  | 1 +
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi                     | 1 +
+ arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/apq8094-sony-xperia-kitakami-karin_windy.dts | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-alcatel-idol347.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-asus-z00l.dts                        | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-huawei-g7.dts                        | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-longcheer-l8150.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-longcheer-l8910.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-samsung-a3u-eur.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-samsung-a5u-eur.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8916-wingtech-wt88047.dts                 | 1 +
+ arch/arm64/boot/dts/qcom/msm8992-bullhead-rev-101.dts                 | 2 ++
+ arch/arm64/boot/dts/qcom/msm8992-msft-lumia-octagon-talkman.dts       | 1 +
+ arch/arm64/boot/dts/qcom/msm8992-xiaomi-libra.dts                     | 2 ++
+ arch/arm64/boot/dts/qcom/msm8994-angler-rev-101.dts                   | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-msft-lumia-octagon-cityman.dts       | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-ivy.dts         | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-karin.dts       | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-satsuki.dts     | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-sumire.dts      | 1 +
+ arch/arm64/boot/dts/qcom/msm8994-sony-xperia-kitakami-suzuran.dts     | 1 +
+ arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone-dora.dts            | 1 +
+ arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone-kagura.dts          | 1 +
+ arch/arm64/boot/dts/qcom/msm8996-sony-xperia-tone-keyaki.dts          | 1 +
+ arch/arm64/boot/dts/qcom/msm8996-xiaomi-gemini.dts                    | 1 +
+ arch/arm64/boot/dts/qcom/msm8996-xiaomi-scorpio.dts                   | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-asus-novago-tp370ql.dts              | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-fxtec-pro1.dts                       | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-hp-envy-x2.dts                       | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-lenovo-miix-630.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-cheeseburger.dts             | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-oneplus-dumpling.dts                 | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-lilac.dts        | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-maple.dts        | 1 +
+ arch/arm64/boot/dts/qcom/msm8998-sony-xperia-yoshino-poplar.dts       | 1 +
+ arch/arm64/boot/dts/qcom/sdm630-sony-xperia-ganges-kirin.dts          | 1 +
+ arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile-discovery.dts        | 1 +
+ arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile-pioneer.dts          | 1 +
+ arch/arm64/boot/dts/qcom/sdm630-sony-xperia-nile-voyager.dts          | 1 +
+ arch/arm64/boot/dts/qcom/sdm660-xiaomi-lavender.dts                   | 1 +
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-enchilada.dts                 | 1 +
+ arch/arm64/boot/dts/qcom/sdm845-oneplus-fajita.dts                    | 1 +
+ arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/sdm850-lenovo-yoga-c630.dts                  | 1 +
+ arch/arm64/boot/dts/qcom/sm6125-sony-xperia-seine-pdx201.dts          | 1 +
+ arch/arm64/boot/dts/qcom/sm6350-sony-xperia-lena-pdx213.dts           | 1 +
+ arch/arm64/boot/dts/qcom/sm8150-microsoft-surface-duo.dts             | 1 +
+ arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-bahamut.dts        | 1 +
+ arch/arm64/boot/dts/qcom/sm8150-sony-xperia-kumano-griffin.dts        | 1 +
+ arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx203.dts            | 1 +
+ arch/arm64/boot/dts/qcom/sm8250-sony-xperia-edo-pdx206.dts            | 1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dts                       | 1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dts                     | 1 +
+ arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi                  | 1 +
+ arch/arm64/boot/dts/rockchip/rk3399-pinebook-pro.dts                  | 1 +
+ 59 files changed, 62 insertions(+)
 
 
-Le 15/10/2021 à 16:14, Alex Bee a écrit :
->
-> Am 15.10.21 um 16:06 schrieb Benjamin Gaignard:
->>
->> Le 15/10/2021 à 12:33, Alex Bee a écrit :
->>> Hi Benjamin, Jernej
->>> Am 12.10.21 um 18:08 schrieb Jernej Škrabec:
->>>> CC: Alex Bee
->>>>
->>>> Alex, please take a look to these patches too.
->>> These patches don't remove anything that would be need for rkvdec 
->>> hevc - but indeed - we need some more:
->>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch#L242-L305 
->>>
->>>
->>> v4l2_ctrl_hevc_sps:
->>> __u8    video_parameter_set_id
->>> __u8    seq_parameter_set_id
->>>
->>> v4l2_ctrl_hevc_pps:
->>> __u8    pic_parameter_set_id
->>> __u16    short_term_ref_pic_set_size
->>> __u16    long_term_ref_pic_set_size
->>>
->>> As far as I can see, they are all part of the spec and should be 
->>> therefore good to go in the uapi.
->>
->> Do you have any plan to upstream these fields in HEVC uAPI ?
->
-> I might be upstreaming them at some point, yes.
->
-> With this I just wanted to underline Jernej said: HEVC uapi is NOT ready
-> to get unstaged yet.
-
-Ok but the question is how to get it unstaged ?
-Should we continue to do changes in staged uAPI ?
-or send a RFC to move it to stable and review all the missing parts at that time ?
-
-Regards,
-Benjamin
-
->
->>
->> Regards,
->> Benjamin
->>
->>>
->>> As you might now, even rkvdec is a frame-based decoder, it doesn't 
->>> fully parse slice headers in HW for HEVC and we need to set 
->>> references in SW which requires looping over the slices. Downstream 
->>> we have a hack to give num_slices in v4l2_ctrl_hevc_sps for doing that.
->>> That could fully go away, if V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS 
->>> could get dynamic array control support and would make upstreaming 
->>> this a lot easier - as far as I'm concered this would be required 
->>> for RPi HEVC decoder as well.
->>> As a last resort we could also implement a HW specifc control à la
->>> V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP - but I'd like to avoid that, 
->>> knowing it would certainly be better from performance pov.
->>>
->>> Alex.
->>>>
->>>> Dne torek, 12. oktober 2021 ob 17:57:50 CEST je Benjamin Gaignard 
->>>> napisal(a):
->>>>>
->>>>> Le 12/10/2021 à 17:34, Jernej Škrabec a écrit :
->>>>>> Hi Benjamin!
->>>>>>
->>>>>> Dne torek, 12. oktober 2021 ob 16:35:48 CEST je Benjamin Gaignard
->>>> napisal(a):
->>>>>>> This series aims to clean up Reference Picture Set usage and flags.
->>>>>>>
->>>>>>> Long term flag was named with RPS prefix while it is not used 
->>>>>>> for RPS
->>>>>>> but for mark long term references in DBP. Remane it and remove 
->>>>>>> the two
->>>>>>> other useless RPS flags.
->>>>>>>
->>>>>>> Clarify documentation about RPS lists content and make sure that 
->>>>>>> Hantro
->>>>>>> driver use them correctly (i.e without look up in DBP).
->>>>>>>
->>>>>>> These patches are the last in my backlog impacting HEVC uAPI.
->>>>>>>   From my point of view, once they get merged, you could start 
->>>>>>> talking
->>>>>>> about how move HEVC uAPI to stable.
->>>>>> With your changes, HEVC uAPI controls still won't be complete. 
->>>>>> Cedrus
->>>> needs
->>>>>> entry point control, which in turn needs dynamic array support. 
->>>>>> I'm a bit
->>>> lazy
->>>>>> implementing that control, but I guess I can take a look in a 
->>>>>> month or so.
->>>>>> rkvdec also needs more fields for HEVC. With patches collected here:
->>>>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/ 
->>>>>>
->>>>>> patches/linux/default/linux-2001-v4l-wip-rkvdec-hevc.patch
->>>>>> fluster HEVC test score is reportedly 121/135 (8-bit tests only).
->>>>>
->>>>> Hi Jernej,
->>>>>
->>>>> Thanks for your feedback, getting a list of missing items in HEVC 
->>>>> uAPI
->>>>> will definitively help to fill the hope.
->>>>> The patch you mention for rkvdec are already merged in mainline 
->>>>> kernel (at
->>>>> least for uAPI part).
->>>>
->>>> Are they? What about:
->>>> video_parameter_set_id
->>>> seq_parameter_set_id
->>>> pic_parameter_set_id
->>>> short_term_ref_pic_set_size
->>>> long_term_ref_pic_set_size
->>>>
->>>> At least I don't see them in linux-next. Maybe that information can be
->>>> obtained in some other way?
->>>>
->>>>> Cedrus needs are about num_entry_point_offsets, offset_len_minus1 and
->>>> entry_point_offset_minus1[ i ]
->>>>> in HEVC specifications ?
->>>>
->>>> Yes, Cedrus needs to know whole list of entry points. I don't think 
->>>> we need to
->>>> worry about offset_len_minus1, list could be pre-processed - just 
->>>> number of
->>>> entry points and their values.
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>>
->>>>> Regards,
->>>>> Benjamin
->>>>>
->>>>>>
->>>>>> I would certainly wait with moving HEVC uAPI to stable.
->>>>>>
->>>>>> Best regards,
->>>>>> Jernej
->>>>>>
->>>>>>> version 2:
->>>>>>> - change DPB field name from rps to flags
->>>>>>>
->>>>>>> Please note that the only purpose of commits 3 and 4 is to allow 
->>>>>>> to test
->>>>>>> G2 hardware block for IMX8MQ until a proper solution isuing 
->>>>>>> power domain
->>>>>>> can be found. Do not merge them.
->>>>>>>
->>>>>>> GStreamer HEVC plugin merge request can be found here:
->>>>>>> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079 
->>>>>>>
->>>>>>>
->>>>>>> With those piece of code fluster score is 77/147.
->>>>>>>
->>>>>>> Benjamin
->>>>>>>
->>>>>>> Benjamin Gaignard (4):
->>>>>>>     media: hevc: Remove RPS named flags
->>>>>>>     media: hevc: Embedded indexes in RPS
->>>>>>>     media: hantro: Use syscon instead of 'ctrl' register
->>>>>>>     arm64: dts: imx8mq: Add node to G2 hardware
->>>>>>>
->>>>>>>    .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
->>>>>>>    arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 
->>>>>>> +++++++++++++----
->>>>>>>    drivers/staging/media/hantro/hantro.h         |  5 +-
->>>>>>>    .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
->>>>>>>    drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 
->>>>>>> ++++++++++++-------
->>>>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
->>>>>>>    include/media/hevc-ctrls.h                    |  6 +--
->>>>>>>    7 files changed, 84 insertions(+), 61 deletions(-)
->>>>>>>
->>>>>>> -- 
->>>>>>> 2.30.2
->>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>
->>>>
->>>
