@@ -1,11 +1,11 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1D872C82
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Oct 2021 10:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1147B2C83
+	for <linux-sunxi@lists.linux.dev>; Sat, 16 Oct 2021 10:20:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: aferraris)
-	with ESMTPSA id A1FDA1F44939
+	with ESMTPSA id A817E1F44B37
 From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: linux-rockchip@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc: linux-rockchip@lists.infradead.org,
 	Simon South <simon@simonsouth.net>,
 	Matthias Brugger <mbrugger@suse.com>,
 	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Subject: [PATCH 1/4] arm64: dts: allwinner: add 'chassis-type' property
-Date: Sat, 16 Oct 2021 12:20:22 +0200
-Message-Id: <20211016102025.23346-2-arnaud.ferraris@collabora.com>
+Subject: [PATCH 2/4] arm64: dts: freescale: add 'chassis-type' property
+Date: Sat, 16 Oct 2021 12:20:23 +0200
+Message-Id: <20211016102025.23346-3-arnaud.ferraris@collabora.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
 References: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
@@ -58,64 +58,37 @@ userspace to detect the device form factor and adjust their behavior
 accordingly.
 
 This patch fills in this property for end-user devices (such as laptops,
-smartphones and tablets) based on Allwinner ARM64 processors.
+smartphones and tablets) based on NXP ARM64 processors.
 
 Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
 ---
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts   | 1 +
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi | 2 ++
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts    | 1 +
- arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts    | 1 +
- 4 files changed, 5 insertions(+)
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi    | 1 +
+ arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-index 34e67f5f8297..63571df24da4 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dts
-@@ -15,6 +15,7 @@
- / {
- 	model = "Pinebook";
- 	compatible = "pine64,pinebook", "allwinner,sun50i-a64";
-+	chassis-type = "laptop";
- 
- 	aliases {
- 		serial0 = &uart0;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-index 5b44a979f250..87847116ab6d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone.dtsi
-@@ -12,6 +12,8 @@
- #include <dt-bindings/pwm/pwm.h>
- 
- / {
-+	chassis-type = "handset";
-+
- 	aliases {
- 		ethernet0 = &rtl8723cs;
- 		serial0 = &uart0;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-index 6a4af14718f5..6303cd2fc398 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dts
-@@ -16,6 +16,7 @@
- / {
- 	model = "PineTab, Development Sample";
- 	compatible = "pine64,pinetab", "allwinner,sun50i-a64";
-+	chassis-type = "tablet";
- 
- 	aliases {
- 		serial0 = &uart0;
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
-index aef571acd67f..aff0660b899c 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
+index 3f7524400a63..4523f21bb5ac 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
++++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
 @@ -14,6 +14,7 @@
  / {
- 	model = "Olimex A64 Teres-I";
- 	compatible = "olimex,a64-teres-i", "allwinner,sun50i-a64";
+ 	model = "Purism Librem 5";
+ 	compatible = "purism,librem5", "fsl,imx8mq";
++	chassis-type = "handset";
+ 
+ 	backlight_dsi: backlight-dsi {
+ 		compatible = "led-backlight";
+diff --git a/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts b/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
+index 4f2db6197b39..fa721a13de20 100644
+--- a/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
++++ b/arch/arm64/boot/dts/freescale/imx8mq-mnt-reform2.dts
+@@ -12,6 +12,7 @@
+ / {
+ 	model = "MNT Reform 2";
+ 	compatible = "mntre,reform2", "boundary,imx8mq-nitrogen8m-som", "fsl,imx8mq";
 +	chassis-type = "laptop";
  
- 	aliases {
- 		serial0 = &uart0;
+ 	pcie1_refclk: clock-pcie1-refclk {
+ 		compatible = "fixed-clock";
 -- 
 2.33.0
