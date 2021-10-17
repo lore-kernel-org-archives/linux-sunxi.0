@@ -1,95 +1,103 @@
-Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D8C272
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Oct 2021 10:13:11 +0000 (UTC)
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 367074005C
-	for <linux-sunxi@lists.linux.dev>; Sun, 17 Oct 2021 10:03:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1634465018;
-	bh=/w7rnLVxUNTURGieCGfqqQ4bUB62VIx19Vc4b3uH07U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type;
-	b=Syw6PWxsIVg+9BACtbHhY5TDfantVSxI0kxK5HdqsqcaGMp7pF41vluGvmCvwlb65
-	 5m8ARYmZCf1ed+3HMcwUzLkq3y5pDfH3qyxEJZHjonblt4LB7ZRQhpIRPISzW/6AnP
-	 hJm2tG9cGfVqUZu9ZGcdtj0ly47Rx6xtZm4B9+2IVVQdvjMb7l1X8bqr5Wt+xqYNUx
-	 pNvskuFcuQWVHtRONNK+zA/qgSopQ0G4m7/oc3EAOepruh7fkKs66R7ywbpfmCjIsL
-	 5jHx9HrhCJAnbj/0h4IauikaMhErQwSIhjYuWGnrQuJUnoP6O60MYTgYaSl+qJTJE0
-	 O2KCgEpHdbmwQ==
-Received: by mail-ed1-f69.google.com with SMTP id t28-20020a508d5c000000b003dad7fc5caeso11763851edt.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 17 Oct 2021 03:03:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EA02C81
+	for <linux-sunxi@lists.linux.dev>; Sun, 17 Oct 2021 15:31:20 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id o4so20915129oia.10
+        for <linux-sunxi@lists.linux.dev>; Sun, 17 Oct 2021 08:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=xNI/fqSmWltjImZA+3I0T0IoPCdlprAOazFOStLyFNQ=;
+        b=eIn3KPrwMzRcAEhVrvpaCX1sK1rURrMUuzGw6u8KDZb5pOCqybeVIJ42eNZB16MjyW
+         IxZyo3C8K90IlNMJOvlGDMAcNpMLT3h3RJNxQob9SBC0ltatbxZQ1E0wTXYfwhQzs+xS
+         GXEILVFfC0jkbU1LqQc2StSicMpc2G61bgO2IymliMOs/rTTI1nnMcfmnqKjK0NP699A
+         /8eNlf1lg/Bqev+nMmKar8bOC+JdloqAIDTfYQDF+LNCeCOzayh9O/n4GOc2Pths/9My
+         762onKZvrtqjXDETlJHmOYt/JIJnx//tE+IizCVPwvSAzYXy0ikDlTXWsehIKk1hOgQm
+         YLFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/w7rnLVxUNTURGieCGfqqQ4bUB62VIx19Vc4b3uH07U=;
-        b=nEM9dqNZfHXVHuE2aZUkakLhhoEUWQUUAgLUDR8p4KLO9aWOkcCmEtALaT76hig0m/
-         0Y7Fh+gy34aijU/SmoaFQaPk/L7k6o3dGMzDDpxt1+IIhZvZf255XPRDC6tAInGlFt9C
-         wRCdRzL1WaWrMrkzZC4rsdlEQQiQ7G524GjxlJexaCLNywnxf+n6yZA8dZ2KlN4myuGO
-         8ulDM+9CS5iHMsw6nfLoxsOK/zkVxkKyL3XCtyeRNWS6AFdbpZf+4sUOqeRb84FmAQow
-         Sk9rTF5iw63xrW9ZpYQTBTArteA+nWf+v8RpXR/IFY68VoYyM0iZZXgfua43LNmi1IhG
-         ilHA==
-X-Gm-Message-State: AOAM532cZpP6exTq1QJk8Tl+FM+VJYl7KOCgu0/VNxvDN0PaSa6+z4Ac
-	+rll9TdIcCnCiCAwvIBFb4JNMA0YFpcGZ1rYQzhUbnN2CDk70dzxKYWaCN+ymCNIeCRmFOkFOp8
-	87SU0Gnbn3F+TMwDEhFSoAMdPRy5vL0vcC6m+wRD+O2Rymv2gAZH+btUv
-X-Received: by 2002:a17:906:919:: with SMTP id i25mr21077544ejd.171.1634465017812;
-        Sun, 17 Oct 2021 03:03:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBD4IVI+3m1jDS1GLi//iCI68rTkdNzvWdP8PXY93uSfBu2PzfjILpnco+k3Rb/r6y11YH8kKxYU50YYZPaHc=
-X-Received: by 2002:a17:906:919:: with SMTP id i25mr21077516ejd.171.1634465017650;
- Sun, 17 Oct 2021 03:03:37 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=xNI/fqSmWltjImZA+3I0T0IoPCdlprAOazFOStLyFNQ=;
+        b=6oRdttwORtToRAdJkO9TMAspm4LSjVmgB76+nvOTwAHB6JDydt6xHSKxLmQCpD+PZt
+         bGv/bTqiu1DGhafJ9vRH5QWA19SXyYdEaNqswUEt9pzdcy/B9YNyYlN8Mmmr5WsNpqz4
+         Hluyoz8fQluO/zTOV5rhUugjG05BNK2FnzAERnvVYHOJVTAAzR0Tu/ACvzT02p7GplSx
+         23nc+p+iC9tiopIUOqz87OWTPs/zGSehLbkZs5fev7jcq5S2//JVVYIaR7io8yzNhRWn
+         FEjPcFsX9MEpX2qSw9AL+Xf23nb+q77QdM8EWuNcxAVL5sAzG4PXMEOX3LoNiFt1EpUY
+         N8SA==
+X-Gm-Message-State: AOAM533AQ+5CHePMDeVYpK3TE1pBB/+pmvGuYreoGip0AKnoEZNRnAzX
+	A/lGojENng+KL0vJGMV4Ib7Q/Q==
+X-Google-Smtp-Source: ABdhPJwVxS/MjPNX0T0Nx9Mr6ypflotXnob3w24BwfCxT2HW++E7bsXZHzZF9vRr299QYpi1mB+1oQ==
+X-Received: by 2002:a54:4f8f:: with SMTP id g15mr15986476oiy.169.1634484679542;
+        Sun, 17 Oct 2021 08:31:19 -0700 (PDT)
+Received: from builder.lan ([2600:1700:a0:3dc8:3697:f6ff:fe85:aac9])
+        by smtp.gmail.com with ESMTPSA id x6sm2565698otp.49.2021.10.17.08.31.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Oct 2021 08:31:19 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: linux-kernel@vger.kernel.org,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Cc: Shunqian Zheng <zhengsq@rock-chips.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	linux-arm-msm@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	Guido Gunther <agx@sigxcpu.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Dan Johansen <strit@manjaro.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	linux-rockchip@lists.infradead.org,
+	Lucas Stach <dev@lynxeye.de>,
+	Simon South <simon@simonsouth.net>,
+	Fabio Estevam <festevam@gmail.com>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Brian Norris <briannorris@chromium.org>,
+	Andy Gross <agross@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Angus Ainslie <angus@akkea.ca>,
+	Rob Herring <robh+dt@kernel.org>,
+	Eddie Cai <eddie.cai.linux@gmail.com>
+Subject: Re: (subset) [PATCH 3/4] arm64: dts: qcom: add 'chassis-type' property
+Date: Sun, 17 Oct 2021 10:31:04 -0500
+Message-Id: <163448466184.410927.10597282951257964258.b4-ty@linaro.org>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211016102025.23346-4-arnaud.ferraris@collabora.com>
+References: <20211016102025.23346-1-arnaud.ferraris@collabora.com> <20211016102025.23346-4-arnaud.ferraris@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
-In-Reply-To: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Date: Sun, 17 Oct 2021 12:03:26 +0200
-Message-ID: <CA+Eumj5zqbk7Vn7dAvjNWXKK6pCNgu34-VZGudP=BmO0_+0Tgw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] arm64: dts: add 'chassis-type' property
-To: Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, linux-rockchip@lists.infradead.org, 
-	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-	Martin Kepplinger <martink@posteo.de>, Heiko Stuebner <heiko@sntech.de>, 
-	Bjorn Andersson <bjorn.andersson@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Fabio Estevam <festevam@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, Lucas Stach <dev@lynxeye.de>, 
-	Angus Ainslie <angus@akkea.ca>, Guido Gunther <agx@sigxcpu.org>, Tomasz Figa <tfiga@chromium.org>, 
-	Johan Jonker <jbx6244@gmail.com>, Eddie Cai <eddie.cai.linux@gmail.com>, 
-	Shunqian Zheng <zhengsq@rock-chips.com>, Brian Norris <briannorris@chromium.org>, 
-	Dan Johansen <strit@manjaro.org>, Simon South <simon@simonsouth.net>, 
-	Matthias Brugger <mbrugger@suse.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, 16 Oct 2021 at 12:20, Arnaud Ferraris
-<arnaud.ferraris@collabora.com> wrote:
->
-> Hello,
->
-> A new root node property named 'chassis-type' has recently been approved
-> added to the device tree specification[1]. This will allow userspace to
-> easily detect the device form factor on DT-based devices, and act
+On Sat, 16 Oct 2021 12:20:24 +0200, Arnaud Ferraris wrote:
+> A new 'chassis-type' root node property has recently been approved for
+> the device-tree specification, in order to provide a simple way for
+> userspace to detect the device form factor and adjust their behavior
 > accordingly.
->
-> This patchset fills in this property for existing ARM64 consumer
-> devices (laptops, phones, tablets...).
->
-> [1] https://github.com/devicetree-org/devicetree-specification/blob/main/source/chapter3-devicenodes.rst#root-node
->
+> 
+> This patch fills in this property for end-user devices (such as laptops,
+> smartphones and tablets) based on Qualcomm ARM64 processors.
+> 
+> [...]
 
-I'll add the same for Exynos, S3C and S5P. Do you know by any chance
-what is the meaning of "embedded"? How a development board should be
-classified?
+Applied, thanks!
 
+[3/4] arm64: dts: qcom: add 'chassis-type' property
+      commit: eaa744b1c101a33fba5978866defc8a7e87f8d79
 
 Best regards,
-Krzysztof
+-- 
+Bjorn Andersson <bjorn.andersson@linaro.org>
