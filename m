@@ -1,102 +1,103 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800B02C88
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Oct 2021 15:21:17 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5BBA3580B22;
-	Mon, 18 Oct 2021 11:21:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 18 Oct 2021 11:21:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	CGCHnQh8YfsDbNmhWqbZpULcIeaSOSKYfULNXySwmlk=; b=faJlnAxBWFPKhHS0
-	FOLGZX6QFb7LE/iIHc9Vwie9La5cfIHcjzGnty1lxbfkJbwvEGi229gvVkztyQn7
-	EtZ9UlVZjmGKuM9daN+I1wdxjHkujzgMr2VHmzx97MdkiMX4RPZK5uIQRqxwe2Yz
-	U8SPfNXDm7O8KVw63ZV8VBsIv/4Hbio9D/xj1WIezh6Gng5W5hXPiZ68E1g8TCiE
-	ehMzdo38VoRtbAB775MLVTTw3LCzc+Uo2Peb1qOGdWIyONqXpBNKbp7HU6aYbyZc
-	6ZEkwd8mD5n1vz1/uNXh8i3+LOV90r4asZ9YaYICDwE+qLNSwGgcc/iPlViaP5QQ
-	u5lx9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=CGCHnQh8YfsDbNmhWqbZpULcIeaSOSKYfULNXySwm
-	lk=; b=EJXXByRwYNJKyuZp8Fv1JrVK0kbg8+koFVIewVimO2jjO9pkPhuFzygQz
-	5PxuL2DI8YYT3fkVn9mMpP58MHW5nxnsnwlopmdBNH19jq8V718VAQL1qLXzxM4S
-	+omS+SIZWK6Yjw20zM8DR3lq0UswVE6Pq/966ODWNRgQz7Om1vOamTAZs1PAaBag
-	rpv2f4ITVmfg4KKhw5hNkwXmmLB+As6ZUWzAx63cSjULOdGQE2gJCX6l00SEmd3T
-	qIJS5jN93OCh1F72y+75JOKTRGqGOpnf1yT9iVJ2ryZR8BrnLx9hUe7UokZRun3M
-	Ae3LooVBP9v7fnY479BLFzZifi+Bg==
-X-ME-Sender: <xms:6pBtYc54dO3NJRE5nNjAfZs8FjKpm0aK18j9rgS38YsWIPq5y4hZDQ>
-    <xme:6pBtYd6f_giIuzB_Qv6PmMJyKKBc-gG6ATWqmsz9EDjxfiT1di8mFpQBmgRIb3X1O
-    hb0gGerLn69Icf3ySI>
-X-ME-Received: <xmr:6pBtYbfdE3T88CMPoA3TaHGpBkEYofDpH-SS9VWbp1HnCKGFGBIkEy6JqWVKgbkbz1LDw60fz-hVYYqXzpnITNtTuTEMRRlRqHiixOCr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvtddgkeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
-    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:6pBtYRI9P6GXidggW157octoSwj5AXLhP05YWq10_TDxKwDKr1vi9g>
-    <xmx:6pBtYQLxpp08AfCEp31VSH_90uxpKxg9XNMW7tWyVAa0u9dEDSejKA>
-    <xmx:6pBtYSwGW4dnCXd-Xc_faVs53Y2VgyWnRoA0Mdc4bkkZxaIixNNvkw>
-    <xmx:7JBtYfUAnag_ZqFjB8_cDQ8ZRd7q8mX2wC9y9fgVN7X8s2vC1tE79g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 18 Oct 2021 11:21:13 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: linux-kernel@vger.kernel.org,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Andy Gross <agross@kernel.org>,	linux-arm-msm@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,	Brian Norris <briannorris@chromium.org>,
-	Shawn Guo <shawnguo@kernel.org>,	Dan Johansen <strit@manjaro.org>,
-	devicetree@vger.kernel.org,	Fabio Estevam <festevam@gmail.com>,
-	Johan Jonker <jbx6244@gmail.com>,	Eddie Cai <eddie.cai.linux@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,	Lucas Stach <dev@lynxeye.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Rob Herring <robh+dt@kernel.org>,	linux-rockchip@lists.infradead.org,
-	Heiko Stuebner <heiko@sntech.de>,	Angus Ainslie <angus@akkea.ca>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shunqian Zheng <zhengsq@rock-chips.com>,
-	Maxime Ripard <mripard@kernel.org>,	linux-sunxi@lists.linux.dev,
-	Matthias Brugger <mbrugger@suse.com>,
-	linux-arm-kernel@lists.infradead.org,	Simon South <simon@simonsouth.net>,
-	Guido Gunther <agx@sigxcpu.org>
-Subject: Re: (subset) [PATCH 1/4] arm64: dts: allwinner: add 'chassis-type' property
-Date: Mon, 18 Oct 2021 17:21:11 +0200
-Message-Id: <163457046206.219378.2737975440418368271.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211016102025.23346-2-arnaud.ferraris@collabora.com>
-References: <20211016102025.23346-1-arnaud.ferraris@collabora.com> <20211016102025.23346-2-arnaud.ferraris@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1DB2C88
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Oct 2021 13:12:59 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id a25so12677434edx.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Oct 2021 06:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iBrOklT6wRz3+4Sv0nSOix/uEw45k7IhgJcWd50H2V4=;
+        b=deOrvOSZJ7Ax/hHX/I0bj/ua6fjX1rP1DhOlu075couX1a3c1NVd1vCXiKTksJ8yXW
+         qp4uXHhYMHHGxeF0zRIXPw9gurIoJ3aRUNnKbOAe8ArOMSk57YGOgDvnqpZIjI5pEo4Z
+         cNOwb5tFsa/EZb+qlgBK9hUuhTQpDnP7tE1vX1OxMa5fUH/G9FCb1T2XFaA3XjPmvKVd
+         dPYjOPOJrqXvXlcYtNWa+RaDM/Y8Rn+1e9mqNRVeUb4kvgVK7Ntrb0cdAT9Ackzt55Vo
+         Nf7tiQol+2HlOzjTdRwPlexTUAyoCtbWQg81M4LN82vslZ3ear0azg0nfJ7vueyiZAuk
+         6H/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iBrOklT6wRz3+4Sv0nSOix/uEw45k7IhgJcWd50H2V4=;
+        b=kf4rHKm0NrdG4H0U+Dtu2y8BkzNjKDYme5qk7lwV3zQvemO8qPd+v5bTpEG9CdscTF
+         PPxChF5WSly8FZNxruWkQz8nKzBFof1rbsQCfYE7XzIXyWxYE9emGj5Ubb6QtAajED0L
+         yosNVsOnZEbAXmKMi9UzKSRP9baJnnE+a114XZywevwaCLJM5rB9gWesImpIcTMTStGl
+         7VRLDSC9hfwLbVvwG/iqmnTXf2VRFbgatbz0vO0bbbvjGH9BP0MhTTrVIcpM5X+5W6Do
+         vpCY4onv3D3fTv49zwk+XKiyYHhL1Nu8q9cz8jwcM7lgObBaU+ekxxNi0Zt5TY8Uf15X
+         lzTQ==
+X-Gm-Message-State: AOAM530ddv9yAfsB5y/WCY1ZdxcUJ1iBiwtxDoF9TJj0//YFV3brojhZ
+	xUXVDrphy+Ov3cWNqc6GxwlxQtc9iX4=
+X-Google-Smtp-Source: ABdhPJzP6RuvLFjU20H2PG1567GaG8/B+U9ZCxaQnE9gpZ3riwQ97C9SC3UHkFwm4W7diIY+IG7Xpg==
+X-Received: by 2002:a17:906:e104:: with SMTP id gj4mr36909389ejb.358.1634649169355;
+        Tue, 19 Oct 2021 06:12:49 -0700 (PDT)
+Received: from roman-Latitude-3400.. (178-133-75-113.mobile.vf-ua.net. [178.133.75.113])
+        by smtp.gmail.com with ESMTPSA id g2sm11334590edq.81.2021.10.19.06.12.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Oct 2021 06:12:48 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+To: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org,
+	mripard@kernel.org,
+	b-liu@ti.com,
+	megous@megous.com,
+	Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: [PATCH] usb: musb: sunxi: Don't print error on MUSB_ULPI_BUSCONTROL access
+Date: Tue, 19 Oct 2021 16:12:44 +0300
+Message-Id: <20211019131244.1568560-1-r.stratiienko@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Sat, 16 Oct 2021 12:20:22 +0200, Arnaud Ferraris wrote:
-> A new 'chassis-type' root node property has recently been approved for
-> the device-tree specification, in order to provide a simple way for
-> userspace to detect the device form factor and adjust their behavior
-> accordingly.
-> 
-> This patch fills in this property for end-user devices (such as laptops,
-> smartphones and tablets) based on Allwinner ARM64 processors.
-> 
-> [...]
+Error message appears during suspend, where musb driver is storing
+the register state in musb_save_context():
+```
+musb-sunxi 1c19000.usb: Error unknown readb offset 112
+```
 
-Applied to local tree (sunxi/dt-for-5.17).
+Print warning instead to avoid confusion.
 
-Thanks!
-Maxime
+Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+---
+ drivers/usb/musb/sunxi.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+index f3f76f2ac63f9b..961c858fb349e1 100644
+--- a/drivers/usb/musb/sunxi.c
++++ b/drivers/usb/musb/sunxi.c
+@@ -440,6 +440,10 @@ static u8 sunxi_musb_readb(void __iomem *addr, u32 offset)
+ 				return 0xde;
+ 
+ 			return readb(addr + SUNXI_MUSB_CONFIGDATA);
++		case MUSB_ULPI_BUSCONTROL:
++			dev_warn(sunxi_musb->controller->parent,
++				"sunxi-musb does not have ULPI bus control register\n");
++			return 0;
+ 		/* Offset for these is fixed by sunxi_musb_busctl_offset() */
+ 		case SUNXI_MUSB_TXFUNCADDR:
+ 		case SUNXI_MUSB_TXHUBADDR:
+@@ -494,6 +498,10 @@ static void sunxi_musb_writeb(void __iomem *addr, unsigned offset, u8 data)
+ 			return writeb(data, addr + SUNXI_MUSB_TXFIFOSZ);
+ 		case MUSB_RXFIFOSZ:
+ 			return writeb(data, addr + SUNXI_MUSB_RXFIFOSZ);
++		case MUSB_ULPI_BUSCONTROL:
++			dev_warn(sunxi_musb->controller->parent,
++				"sunxi-musb does not have ULPI bus control register\n");
++			return;
+ 		/* Offset for these is fixed by sunxi_musb_busctl_offset() */
+ 		case SUNXI_MUSB_TXFUNCADDR:
+ 		case SUNXI_MUSB_TXHUBADDR:
+-- 
+2.30.2
+
