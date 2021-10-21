@@ -1,36 +1,69 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FA52C8B
-	for <linux-sunxi@lists.linux.dev>; Wed, 20 Oct 2021 21:26:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 7C995610E7;
-	Wed, 20 Oct 2021 21:26:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1634765186;
-	bh=+Rp2vscxbxg3jT6N4n0or5HcOx4VLKMx3dxZ67B0u+U=;
-	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K4Nn9ED424rlzASOiKgZwTdkMJkiM6Jzk50IqpOOfE09VXsGYVMwnoG2sFGUz+i+Z
-	 nGeJ7Plu15WlnuQXcqiDlW03NcUh03Wpjt/yb0JhgVyfw3eiD89Rxf1LC/PF8MYQMD
-	 BNRYeWGVnyDAd2XoWNLJZCwkQ0ZF3BmOxEDzFQVdA/KAbk1g5YJUu6a1BLsJ42RwxT
-	 VaVTIP6b1GuzouZIc2z88egLkOK41ucP1ITXGE5G8cQ3M7Ncdo81W0O3jkA5eZiuso
-	 ZiKJvHg+eXlB8/L2uS8UJNXqU+uhWLG1JohMlFGFnC/d6w/ts4Sy9tLFHy7/qRcqVS
-	 nnzzLJu6CZpIw==
-From: Arnd Bergmann <arnd@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: Maxime Ripard <mripard@kernel.org>,
-	arm@kernel.org,
-	soc@kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4A82C8B
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Oct 2021 07:53:38 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+	by mailout.west.internal (Postfix) with ESMTP id A99D1320100E;
+	Thu, 21 Oct 2021 03:53:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Thu, 21 Oct 2021 03:53:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	O+ihxC6+a8hsyBFVP4aRMPlZa6WIr1zpcOAhP1S05Fk=; b=FXRT0gobhGitctju
+	frTegO8Ty1EQaLy9ZgsxWmNtIcBKQtRG24osioU1pCXL5V3TvWcE48frOaZ3HGul
+	K3vLM5UnD5Z0g3BbpkMKUTHQnKosMXQ9D3Lf6eDMWCzTA6SB4d2SR09bU2GaTCNr
+	uMFQepNXvScgOzzqU+DeQaRUKG5t35kFq1A2r/7FsF7W33IfLFVI3zrgeuWi7lyH
+	XCt/5TXCvdscraJQzeRrTOKCnDKbaEwzM9qD6wzBKF88EMNFHdU8ABJEkT2pUdgd
+	Xa3yBHllcRFa07JJ6Hjl6L8/rKZ85+FWabGeHHmTgSbOS5stTn7QhFhe8EEm/5eP
+	7OcnFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=O+ihxC6+a8hsyBFVP4aRMPlZa6WIr1zpcOAhP1S05
+	Fk=; b=G+nHXRGq3ox3v57XAVnyl6/K0PuuRJ+h+iK2DOTvoUkcJJLAX4NXY/Wdc
+	+B5zSf/YZdfUYgLePcw+ii/JDVv5seziTAIbNr6803I6n7PrlPFVQ9Ro2CguQ9hF
+	ITrC97/rqnh4SmVnm/+B1G42hDkmoGytZTpA5enf2SuecT95SnW+0mHNA2i80+4G
+	Xgk3vdg/JFZfcW7dRosDKJNojdvM688y1+wT3RaGiuLgnHaJANXTCBvYXRvD1+gV
+	jBrxwAnlKtpk1w2OqZT4STd6+HvuHK3x12lt+XaDrsB75W15cP1t9VriMKro8JCA
+	kvsCTZd7o8tb8EI8Pr8M0mgaDjcOw==
+X-ME-Sender: <xms:gRxxYUGziBSzLvNfhVenJI-64ZVg6wV8oxDa87yU6jbfiEPAC49k4w>
+    <xme:gRxxYdXUInV0jo22_hVC-Yn_Q00zWKncVWdq-KrV9X3OP9jk9QAmnR2rDIIKEJsL2
+    b76KevDUlAZaX0Uvpc>
+X-ME-Received: <xmr:gRxxYeJUyAwYUFVsy1cQdtsNYey6DTSeJFZYQM7p-Sm70MaEuM_DYZWQSVkwjf-XIomOGCVtX9p_p-JpsD9GAxiiYrw-EbMFxbyW6QwX>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvhedguddulecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
+    geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:gRxxYWGcyu6KJQ_mzrytbEox8WJAjcnlPpdxGZTNIHdmZJwdVSqU_Q>
+    <xmx:gRxxYaV_czh9aXvq2AbfMGAWy_gGJSW4nNq7Bdfi4jb1wBKyKo9tFA>
+    <xmx:gRxxYZMz3hDbhZ8aPofbSI91LxDEcGSVEQzuSNqp-4GmRsci6W5ztw>
+    <xmx:gRxxYeo5nj0qHCAAHjbVhPUWQVZGkXDn7FZtrcI3QdQrt9G-Cn5-NA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 21 Oct 2021 03:53:36 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	mripard@kernel.org,
+	wens@csie.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
 	linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [GIT PULL] Allwinner Platform Changes for 5.16
-Date: Wed, 20 Oct 2021 23:25:52 +0200
-Message-Id: <163476513266.4063285.114162714174187124.b4-ty@arndb.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <0ceaad3e-dc26-4be6-b98f-d25e51a41b81.lettre@localhost>
-References: <0ceaad3e-dc26-4be6-b98f-d25e51a41b81.lettre@localhost>
+	airlied@linux.ie,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	daniel@ffwll.ch,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH] drm/sun4i: virtual CMA addresses are not needed
+Date: Thu, 21 Oct 2021 09:53:34 +0200
+Message-Id: <163480280299.501699.809157203649061929.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211019181028.4190737-1-jernej.skrabec@gmail.com>
+References: <20211019181028.4190737-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -40,22 +73,18 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
-
-On Mon, 18 Oct 2021 10:06:27 +0200, Maxime Ripard wrote:
-> Please pull the following changes for the next release.
+On Tue, 19 Oct 2021 20:10:28 +0200, Jernej Skrabec wrote:
+> Driver never uses virtual address of DRM CMA buffers. Switch to CMA
+> helpers which don't deal with virtual mapping.
 > 
-> Thanks!
-> Maxime
-> 
-> The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
-> 
->   Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+> This was actually already the case before commit ad408c766cef
+> ("drm/sun4i: Use DRM_GEM_CMA_VMAP_DRIVER_OPS for GEM operations"),
+> but only convenient macro at the time used helpers with virtual
+> mapping.
 > 
 > [...]
 
-Merged into arm/soc, thanks!
+Applied to drm/drm-misc (drm-misc-next).
 
-merge commit: 5cec64e5f97efa55a3f0a7f625263e66d09198f7
-
-       Arnd
+Thanks!
+Maxime
