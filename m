@@ -1,69 +1,36 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4A82C8B
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Oct 2021 07:53:38 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.west.internal (Postfix) with ESMTP id A99D1320100E;
-	Thu, 21 Oct 2021 03:53:37 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 21 Oct 2021 03:53:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	O+ihxC6+a8hsyBFVP4aRMPlZa6WIr1zpcOAhP1S05Fk=; b=FXRT0gobhGitctju
-	frTegO8Ty1EQaLy9ZgsxWmNtIcBKQtRG24osioU1pCXL5V3TvWcE48frOaZ3HGul
-	K3vLM5UnD5Z0g3BbpkMKUTHQnKosMXQ9D3Lf6eDMWCzTA6SB4d2SR09bU2GaTCNr
-	uMFQepNXvScgOzzqU+DeQaRUKG5t35kFq1A2r/7FsF7W33IfLFVI3zrgeuWi7lyH
-	XCt/5TXCvdscraJQzeRrTOKCnDKbaEwzM9qD6wzBKF88EMNFHdU8ABJEkT2pUdgd
-	Xa3yBHllcRFa07JJ6Hjl6L8/rKZ85+FWabGeHHmTgSbOS5stTn7QhFhe8EEm/5eP
-	7OcnFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=O+ihxC6+a8hsyBFVP4aRMPlZa6WIr1zpcOAhP1S05
-	Fk=; b=G+nHXRGq3ox3v57XAVnyl6/K0PuuRJ+h+iK2DOTvoUkcJJLAX4NXY/Wdc
-	+B5zSf/YZdfUYgLePcw+ii/JDVv5seziTAIbNr6803I6n7PrlPFVQ9Ro2CguQ9hF
-	ITrC97/rqnh4SmVnm/+B1G42hDkmoGytZTpA5enf2SuecT95SnW+0mHNA2i80+4G
-	Xgk3vdg/JFZfcW7dRosDKJNojdvM688y1+wT3RaGiuLgnHaJANXTCBvYXRvD1+gV
-	jBrxwAnlKtpk1w2OqZT4STd6+HvuHK3x12lt+XaDrsB75W15cP1t9VriMKro8JCA
-	kvsCTZd7o8tb8EI8Pr8M0mgaDjcOw==
-X-ME-Sender: <xms:gRxxYUGziBSzLvNfhVenJI-64ZVg6wV8oxDa87yU6jbfiEPAC49k4w>
-    <xme:gRxxYdXUInV0jo22_hVC-Yn_Q00zWKncVWdq-KrV9X3OP9jk9QAmnR2rDIIKEJsL2
-    b76KevDUlAZaX0Uvpc>
-X-ME-Received: <xmr:gRxxYeJUyAwYUFVsy1cQdtsNYey6DTSeJFZYQM7p-Sm70MaEuM_DYZWQSVkwjf-XIomOGCVtX9p_p-JpsD9GAxiiYrw-EbMFxbyW6QwX>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddvhedguddulecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfef
-    geeikeeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:gRxxYWGcyu6KJQ_mzrytbEox8WJAjcnlPpdxGZTNIHdmZJwdVSqU_Q>
-    <xmx:gRxxYaV_czh9aXvq2AbfMGAWy_gGJSW4nNq7Bdfi4jb1wBKyKo9tFA>
-    <xmx:gRxxYZMz3hDbhZ8aPofbSI91LxDEcGSVEQzuSNqp-4GmRsci6W5ztw>
-    <xmx:gRxxYeo5nj0qHCAAHjbVhPUWQVZGkXDn7FZtrcI3QdQrt9G-Cn5-NA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 21 Oct 2021 03:53:36 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	mripard@kernel.org,
-	wens@csie.org
-Cc: Maxime Ripard <maxime@cerno.tech>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A823272
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Oct 2021 22:08:47 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 19C63C936C
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Oct 2021 21:51:00 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 708BA1BF207;
+	Sat, 23 Oct 2021 21:50:49 +0000 (UTC)
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	devicetree@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-rtc@vger.kernel.org,
+	Alessandro Zummo <a.zummo@towertech.it>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	airlied@linux.ie,
 	linux-arm-kernel@lists.infradead.org,
-	dri-devel@lists.freedesktop.org,
-	daniel@ffwll.ch,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH] drm/sun4i: virtual CMA addresses are not needed
-Date: Thu, 21 Oct 2021 09:53:34 +0200
-Message-Id: <163480280299.501699.809157203649061929.b4-ty@cerno.tech>
+	linux-clk@vger.kernel.org
+Subject: Re: (subset) [PATCH v2 6/9] rtc: sun6i: Allow probing without an early clock provider
+Date: Sat, 23 Oct 2021 23:50:48 +0200
+Message-Id: <163502583211.396329.16763679649213996205.b4-ty@bootlin.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211019181028.4190737-1-jernej.skrabec@gmail.com>
-References: <20211019181028.4190737-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20210928080335.36706-7-samuel@sholland.org>
+References: <20210928080335.36706-1-samuel@sholland.org> <20210928080335.36706-7-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -73,18 +40,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 19 Oct 2021 20:10:28 +0200, Jernej Skrabec wrote:
-> Driver never uses virtual address of DRM CMA buffers. Switch to CMA
-> helpers which don't deal with virtual mapping.
+On Tue, 28 Sep 2021 03:03:32 -0500, Samuel Holland wrote:
+> Some SoCs have an RTC supported by this RTC driver, but do not have an
+> early clock provider declared here. Currently, this prevents the RTC
+> driver from probing, because it expects a global struct to already be
+> allocated. Fix probing the driver by copying the missing pieces from the
+> clock provider setup function, replacing them with the devm variants.
 > 
-> This was actually already the case before commit ad408c766cef
-> ("drm/sun4i: Use DRM_GEM_CMA_VMAP_DRIVER_OPS for GEM operations"),
-> but only convenient macro at the time used helpers with virtual
-> mapping.
 > 
 > [...]
 
-Applied to drm/drm-misc (drm-misc-next).
+Applied, thanks!
 
-Thanks!
-Maxime
+[6/9] rtc: sun6i: Allow probing without an early clock provider
+      commit: 814691c7f7d1f958ac30c3dca5070a95c1f658dd
+
+Best regards,
+-- 
+Alexandre Belloni <alexandre.belloni@bootlin.com>
