@@ -1,123 +1,106 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32A668
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Nov 2021 06:27:31 +0000 (UTC)
-Received: from dggeme755-chm.china.huawei.com (unknown [172.30.72.54])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4HjNNz6Fjtz90fs;
-	Mon,  1 Nov 2021 14:27:15 +0800 (CST)
-Received: from huawei.com (10.67.174.47) by dggeme755-chm.china.huawei.com
- (10.3.19.101) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.15; Mon, 1
- Nov 2021 14:27:23 +0800
-From: He Ying <heying24@huawei.com>
-To: <mripard@kernel.org>, <wens@csie.org>, <airlied@linux.ie>,
-	<daniel@ffwll.ch>, <jernej.skrabec@gmail.com>
-CC: <dri-devel@lists.freedesktop.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm: Grab reference of connector before return connector from sun4i_tcon_get_connector
-Date: Mon, 1 Nov 2021 02:29:06 -0400
-Message-ID: <20211101062906.231518-1-heying24@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5742C80
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Nov 2021 08:18:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id E76C1212C7;
+	Mon,  1 Nov 2021 08:17:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1635754672; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=froXKkwnXcE09hCLAbIHSihJ/nL3UBMsXPk/fd1O4Cg=;
+	b=Ofrd8rLNErIfwlciDlpg7G4g2oRWnuCd/EYLyZo4l1Tf+J5KSJmNLbB8/jRtq9pP87Mngi
+	u/GZA5CCRgRERoUS8x+iPkf3p6tPki631VOLLVpn8i9d3ZMXyHx1K1jMctj6KsitYD3qjI
+	Mz7yB1cf1nLDJSAaOYEvKkYiXzfox90=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1635754672;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=froXKkwnXcE09hCLAbIHSihJ/nL3UBMsXPk/fd1O4Cg=;
+	b=19E+Jk2zifLgLxkjMjIKZ6k4BeftOIiScpU3DtesQB4m4QWycwzbz0A6jFfElB0XbIDyqr
+	JcD2/xC8RLfXENBg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 92C9013AA1;
+	Mon,  1 Nov 2021 08:17:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id /SfQIrCif2EIIAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 01 Nov 2021 08:17:52 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	noralf@tronnes.org,
+	marcel@ziswiler.com,
+	naresh.kamboju@linaro.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 0/2] drm: Small CMA cleanups
+Date: Mon,  1 Nov 2021 09:17:49 +0100
+Message-Id: <20211101081751.24613-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.47]
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- dggeme755-chm.china.huawei.com (10.3.19.101)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 
-From the comments of drm_for_each_connector_iter(), we know
-that "connector is only valid within the list body, if you
-want to use connector after calling drm_connector_list_iter_end()
-then you need to grab your own reference first using
-drm_connector_get()". So fix the wrong use of connector
-according to the comments and then call drm_connector_put()
-after using connector finishes.
+Remove CMA dependencies from MIPI-DBI and replace the config
+symbol DRM_KMS_CMA_HELPER with DRM_KMS_HELPER. This allows to
+link drm_fb_cma_helper.o into a helper library.
 
-Signed-off-by: He Ying <heying24@huawei.com>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Thomas Zimmermann (2):
+  drm/mipi-dbi: Remove dependency on GEM CMA helper library
+  drm: Remove CONFIG_DRM_KMS_CMA_HELPER option
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 9f06dec0fc61..24fa6784ee5f 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector(const struct drm_encoder *
- 	drm_connector_list_iter_begin(encoder->dev, &iter);
- 	drm_for_each_connector_iter(connector, &iter)
- 		if (connector->encoder == encoder) {
--			drm_connector_list_iter_end(&iter);
--			return connector;
-+			drm_connector_get(connector);
-+			break;
- 		}
- 	drm_connector_list_iter_end(&iter);
- 
--	return NULL;
-+	return connector;
- }
- 
- static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
-@@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
- 		return -EINVAL;
- 
- 	info = &connector->display_info;
-+	drm_connector_put(connector);
- 	if (info->num_bus_formats != 1)
- 		return -EINVAL;
- 
-@@ -361,6 +362,7 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	/* TODO support normal CPU interface modes */
- 	struct sun6i_dsi *dsi = encoder_to_sun6i_dsi(encoder);
- 	struct mipi_dsi_device *device = dsi->device;
-+	struct drm_connector *connector;
- 	u8 bpp = mipi_dsi_pixel_format_to_bpp(device->format);
- 	u8 lanes = device->lanes;
- 	u32 block_space, start_delay;
-@@ -372,7 +374,9 @@ static void sun4i_tcon0_mode_set_cpu(struct sun4i_tcon *tcon,
- 	sun4i_tcon0_mode_set_common(tcon, mode);
- 
- 	/* Set dithering if needed */
--	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-+	connector = sun4i_tcon_get_connector(encoder);
-+	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	regmap_update_bits(tcon->regs, SUN4I_TCON0_CTL_REG,
- 			   SUN4I_TCON0_CTL_IF_MASK,
-@@ -430,6 +434,7 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 				      const struct drm_display_mode *mode)
- {
- 	unsigned int bp;
-+	struct drm_connector *connector;
- 	u8 clk_delay;
- 	u32 reg, val = 0;
- 
-@@ -440,7 +445,9 @@ static void sun4i_tcon0_mode_set_lvds(struct sun4i_tcon *tcon,
- 	sun4i_tcon0_mode_set_common(tcon, mode);
- 
- 	/* Set dithering if needed */
--	sun4i_tcon0_mode_set_dithering(tcon, sun4i_tcon_get_connector(encoder));
-+	connector = sun4i_tcon_get_connector(encoder);
-+	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
-@@ -518,6 +525,7 @@ static void sun4i_tcon0_mode_set_rgb(struct sun4i_tcon *tcon,
- 
- 	/* Set dithering if needed */
- 	sun4i_tcon0_mode_set_dithering(tcon, connector);
-+	drm_connector_put(connector);
- 
- 	/* Adjust clock delay */
- 	clk_delay = sun4i_tcon_get_clk_delay(mode, 0);
--- 
-2.17.1
+ drivers/gpu/drm/Kconfig                 |  7 -----
+ drivers/gpu/drm/Makefile                |  2 +-
+ drivers/gpu/drm/arm/Kconfig             |  2 --
+ drivers/gpu/drm/arm/display/Kconfig     |  1 -
+ drivers/gpu/drm/aspeed/Kconfig          |  1 -
+ drivers/gpu/drm/atmel-hlcdc/Kconfig     |  1 -
+ drivers/gpu/drm/drm_mipi_dbi.c          | 34 ++++++++++++++++++-------
+ drivers/gpu/drm/fsl-dcu/Kconfig         |  1 -
+ drivers/gpu/drm/hisilicon/kirin/Kconfig |  1 -
+ drivers/gpu/drm/imx/Kconfig             |  2 +-
+ drivers/gpu/drm/imx/dcss/Kconfig        |  2 +-
+ drivers/gpu/drm/ingenic/Kconfig         |  1 -
+ drivers/gpu/drm/kmb/Kconfig             |  1 -
+ drivers/gpu/drm/mcde/Kconfig            |  1 -
+ drivers/gpu/drm/meson/Kconfig           |  1 -
+ drivers/gpu/drm/mxsfb/Kconfig           |  2 +-
+ drivers/gpu/drm/panel/Kconfig           |  2 +-
+ drivers/gpu/drm/pl111/Kconfig           |  1 -
+ drivers/gpu/drm/rcar-du/Kconfig         |  1 -
+ drivers/gpu/drm/shmobile/Kconfig        |  1 -
+ drivers/gpu/drm/sti/Kconfig             |  1 -
+ drivers/gpu/drm/stm/Kconfig             |  1 -
+ drivers/gpu/drm/sun4i/Kconfig           |  1 -
+ drivers/gpu/drm/tidss/Kconfig           |  1 -
+ drivers/gpu/drm/tilcdc/Kconfig          |  1 -
+ drivers/gpu/drm/tiny/Kconfig            | 20 +++++++--------
+ drivers/gpu/drm/tve200/Kconfig          |  1 -
+ drivers/gpu/drm/vc4/Kconfig             |  1 -
+ drivers/gpu/drm/xlnx/Kconfig            |  1 -
+ 29 files changed, 40 insertions(+), 53 deletions(-)
+
+--
+2.33.1
 
