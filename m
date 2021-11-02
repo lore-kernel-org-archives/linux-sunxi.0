@@ -1,127 +1,43 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57022C85
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Nov 2021 15:09:47 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id A20B15C0125;
-	Tue,  2 Nov 2021 11:09:46 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 02 Nov 2021 11:09:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=ls42lHAs9gBZOIsdVGXqxUQvy1f
-	6gbOB9gv3uDCyIBg=; b=DqBTK8LDvrSWaKHLtbnlXkzD22eb9kEK4TX0t6VaWXE
-	l17d1eUdXIpm0v2scb/R3Ij8kLRiBMd73STIQHbKsJo47fowhx+cj9WPHuKBeKDd
-	liIql3R9fkzeSxfgMzdQC2Z1hKZIhAfQ2s+ZIJkwgvnYl+I+bkoE57RujbzMYtQ8
-	teL8JwqlNm5eKkXtAu81UaHUTSLoCczpNRPAKEZlGGoI1Ykj8MuAQVtKOb8lR/zO
-	k9S9xdj0jqHLHuJXA3mUe6lMTk59pByrsAPNqzWJ6qqjvCRfohj1n6ucrt5J7jt4
-	mJlDU0EipQIASRwr+j482Z6qjn6yO4KGZ6NXkPgEdvw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=ls42lH
-	As9gBZOIsdVGXqxUQvy1f6gbOB9gv3uDCyIBg=; b=JWtHx13aD8KrmXsrmAa3/Q
-	jN+20FvmhkWkxVd4AEez/QgHtAMZJ1O5vrv7Of5UxQkjNw7N3jzVvhxgw2/XhxH6
-	MKvYFTb6ijKLypbX8HRDdvWN+4KeTZc+sha51QxSPg1UTW1r8iS8Da908QAwbQNV
-	gHGl7Mf3n7v5YJCtIHfp1qkVzc5ao2LQNJtQgjElwT4vtQL5dDcey3r7C+jxfLJ4
-	tTLjnzGjR9WM9WdoZnfrw8+SlZbsbawx/HpuGTSguznvTOx1w0bZrHwjSFVrqnn5
-	fYYzI0epC/85HcDZM/1uQk15M77kpP6lMuJRv6N444pVM/++TiBb4+t30TNzHY6A
-	==
-X-ME-Sender: <xms:ulSBYbo0JB6YkWezlQORanMiLgQksc-Z-hfGS1JV3bPxb83RzD7Q9g>
-    <xme:ulSBYVqrN4zLxx2hcnzSaAq58UqJEVxHSDe0-cdJJI-cgMT4cZItW0ImMmGVynLwQ
-    QcIUVRznB6vK15oko4>
-X-ME-Received: <xmr:ulSBYYMp_7GW2DTw-rRwj97zwQWZINXpor-sY4xjzzwg7GO74H3beAjOyDv6dONAIR-0ky9x2egrItD3tswr5p4NAsO9Z5lYgPpkFJq0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtddtgdegjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ulSBYe7Klywsj3H8rO0BZ6qyJe4QPnnnPtlvWTibi8ORNcU09NTLQQ>
-    <xmx:ulSBYa7_nhARWMM8vK69Rd2GDFXrhyVAIW1WVhPIR6sZZ1p-udHtmw>
-    <xmx:ulSBYWjNtwZk7DVlnsGrCqT46_P4G0f97XpALyu3ryINuihiyCinNg>
-    <xmx:ulSBYct4J1emakOHen1h8kSCy0Sxqrw00yvXQhQYFM6k94b_hVa68w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Nov 2021 11:09:46 -0400 (EDT)
-Date: Tue, 2 Nov 2021 16:09:44 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, jernej.skrabec@gmail.com,
-	wens@csie.org, dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, fazilyildiran@gmail.com
-Subject: Re: [PATCH] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for
- PHY_SUN6I_MIPI_DPHY
-Message-ID: <20211102150944.h7ycdzlm4s5kvk4j@gilmour>
-References: <20211028221327.17984-1-julianbraha@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5AD2C99
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Nov 2021 21:41:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A79E560FC2;
+	Tue,  2 Nov 2021 21:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1635889278;
+	bh=E8Q6b9kzV+qxpnKe+huC6uwsewEUSIn3GqUxFYWHWcs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=PuU/g/wO5NmCgvFCCoeYUwUF6qO/iaQEHYgd7ow4OYPCjzki3nh6zH2Klbx8Dmiyc
+	 zuG6aIvBvVrvunskBg+7EQScXBSpe82yosA7Op12SBGVseTbKvTk9KqXRG4zSeVqdz
+	 RSJRoeZrE1oQ31DpcLNRRjhQo4fgJMIStDcq9QBX46NyH1q2TrsIlj46O9O1e8EB81
+	 Q7ApfK/zRpnkieV9JQMg7+9Gz1XiNABMO5YHwHGvjOBFXenvZ4zeVrSPINlbcscwIg
+	 ZQqB6vnIB0pcctVCMCDESPjOeIHKGwiGW1seN3L2d6vjmaZvFurVbwHJMpLUYQYWqJ
+	 OUc6obHnUwO6g==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sdgbi7nuhb2tf3wq"
-Content-Disposition: inline
-In-Reply-To: <20211028221327.17984-1-julianbraha@gmail.com>
-
-
---sdgbi7nuhb2tf3wq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210918073752.105959-1-yangyingliang@huawei.com>
+References: <20210918073752.105959-1-yangyingliang@huawei.com>
+Subject: Re: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: p.zabel@pengutronix.de, mturquette@baylibre.com
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Date: Tue, 02 Nov 2021 14:41:17 -0700
+Message-ID: <163588927731.2993099.16538060448350679890@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 
-Hi,
-
-On Thu, Oct 28, 2021 at 06:13:27PM -0400, Julian Braha wrote:
-> When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-> is not selected, Kbuild gives the following warning:
+Quoting Yang Yingliang (2021-09-18 00:37:52)
+> It will cause null-ptr-deref if platform_get_resource() returns NULL,
+> we need check the return value.
 >=20
-> WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
->   Depends on [n]: (ARCH_SUNXI [=3Dn] || COMPILE_TEST [=3Dy]) && HAS_IOMEM=
- [=3Dy] && COMMON_CLK [=3Dy] && RESET_CONTROLLER [=3Dn]
->   Selected by [y]:
->   - DRM_SUN6I_DSI [=3Dy] && HAS_IOMEM [=3Dy] && DRM_SUN4I [=3Dy]
->=20
-> This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
-> without selecting or depending on RESET_CONTROLLER, despite
-> PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
->=20
-> These unmet dependency bugs were detected by Kismet,
-> a static analysis tool for Kconfig. Please advise if this
-> is not the appropriate solution.
->=20
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  drivers/gpu/drm/sun4i/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-> index 5755f0432e77..3f70a14a3c94 100644
-> --- a/drivers/gpu/drm/sun4i/Kconfig
-> +++ b/drivers/gpu/drm/sun4i/Kconfig
-> @@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
->  	default MACH_SUN8I
->  	select CRC_CCITT
->  	select DRM_MIPI_DSI
-> +  select RESET_CONTROLLER
 
-The indentation is off, can you fix it and resend it?
-
-Maxime
-
---sdgbi7nuhb2tf3wq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYYFUuAAKCRDj7w1vZxhR
-xdQVAQCEOb8We3hYtT3mqkzFKDO4114iJbKGuP+0OpjI3IatWwD/dQ/ShFBmVkCN
-VR9uV82ZNKb6qsodk3xIjJPhbE8+Pw4=
-=2Lra
------END PGP SIGNATURE-----
-
---sdgbi7nuhb2tf3wq--
+Can we delete this driver now?
