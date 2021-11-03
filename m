@@ -1,43 +1,106 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5AD2C99
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Nov 2021 21:41:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A79E560FC2;
-	Tue,  2 Nov 2021 21:41:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1635889278;
-	bh=E8Q6b9kzV+qxpnKe+huC6uwsewEUSIn3GqUxFYWHWcs=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=PuU/g/wO5NmCgvFCCoeYUwUF6qO/iaQEHYgd7ow4OYPCjzki3nh6zH2Klbx8Dmiyc
-	 zuG6aIvBvVrvunskBg+7EQScXBSpe82yosA7Op12SBGVseTbKvTk9KqXRG4zSeVqdz
-	 RSJRoeZrE1oQ31DpcLNRRjhQo4fgJMIStDcq9QBX46NyH1q2TrsIlj46O9O1e8EB81
-	 Q7ApfK/zRpnkieV9JQMg7+9Gz1XiNABMO5YHwHGvjOBFXenvZ4zeVrSPINlbcscwIg
-	 ZQqB6vnIB0pcctVCMCDESPjOeIHKGwiGW1seN3L2d6vjmaZvFurVbwHJMpLUYQYWqJ
-	 OUc6obHnUwO6g==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138B62C80
+	for <linux-sunxi@lists.linux.dev>; Wed,  3 Nov 2021 02:44:19 +0000 (UTC)
+Received: from dggeme756-chm.china.huawei.com (unknown [172.30.72.57])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HkVw64WdJz1DHkd;
+	Wed,  3 Nov 2021 10:24:38 +0800 (CST)
+Received: from [10.67.110.136] (10.67.110.136) by
+ dggeme756-chm.china.huawei.com (10.3.19.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.15; Wed, 3 Nov 2021 10:26:42 +0800
+Subject: Re: [PATCH -V2] drm/sun4i: Grab reference of connector before return
+ connector from sun4i_tcon_get_connector
+To: Maxime Ripard <maxime@cerno.tech>
+CC: <wens@csie.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+	<jernej.skrabec@gmail.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>
+References: <33e01d45-c9f9-0e8c-6871-868ecd198368@huawei.com>
+ <20211102084628.149070-1-heying24@huawei.com>
+ <20211102150331.526nn2e6oqjbf6ur@gilmour>
+From: He Ying <heying24@huawei.com>
+Message-ID: <a0871590-62b2-bbf2-d6ab-920abdf20fad@huawei.com>
+Date: Wed, 3 Nov 2021 10:26:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20210918073752.105959-1-yangyingliang@huawei.com>
-References: <20210918073752.105959-1-yangyingliang@huawei.com>
-Subject: Re: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: p.zabel@pengutronix.de, mturquette@baylibre.com
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Date: Tue, 02 Nov 2021 14:41:17 -0700
-Message-ID: <163588927731.2993099.16538060448350679890@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+In-Reply-To: <20211102150331.526nn2e6oqjbf6ur@gilmour>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.67.110.136]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggeme756-chm.china.huawei.com (10.3.19.102)
+X-CFilter-Loop: Reflected
 
-Quoting Yang Yingliang (2021-09-18 00:37:52)
-> It will cause null-ptr-deref if platform_get_resource() returns NULL,
-> we need check the return value.
->=20
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> ---
 
-Can we delete this driver now?
+在 2021/11/2 23:03, Maxime Ripard 写道:
+> Hi,
+>
+> On Tue, Nov 02, 2021 at 04:46:28AM -0400, He Ying wrote:
+>>  From the comments of drm_for_each_connector_iter(), we know
+>> that "connector is only valid within the list body, if you
+>> want to use connector after calling drm_connector_list_iter_end()
+>> then you need to grab your own reference first using
+>> drm_connector_get()". So fix the wrong use of connector
+>> according to the comments and then call drm_connector_put()
+>> after using connector finishes.
+>>
+>> Signed-off-by: He Ying <heying24@huawei.com>
+>> ---
+>>
+>> V2:
+>>   Use proper subject prefix
+>>
+>>   drivers/gpu/drm/sun4i/sun4i_tcon.c | 18 +++++++++++++-----
+>>   1 file changed, 13 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+>> index 9f06dec0fc61..24fa6784ee5f 100644
+>> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
+>> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
+>> @@ -47,12 +47,12 @@ static struct drm_connector *sun4i_tcon_get_connector(const struct drm_encoder *
+>>   	drm_connector_list_iter_begin(encoder->dev, &iter);
+>>   	drm_for_each_connector_iter(connector, &iter)
+>>   		if (connector->encoder == encoder) {
+>> -			drm_connector_list_iter_end(&iter);
+>> -			return connector;
+>> +			drm_connector_get(connector);
+>> +			break;
+>>   		}
+>>   	drm_connector_list_iter_end(&iter);
+>>   
+>> -	return NULL;
+>> +	return connector;
+> Connector might be uninitialized if we don't find one here
+
+Connector should be NULL if we don't find one. The code is
+
+#define drm_for_each_connector_iter(connector, iter) \
+    while ((connector = drm_connector_list_iter_next(iter)))
+
+So, when we don't break from the while body, connector
+
+can only be NULL.
+
+>
+>>   }
+>>   
+>>   static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
+>> @@ -65,6 +65,7 @@ static int sun4i_tcon_get_pixel_depth(const struct drm_encoder *encoder)
+>>   		return -EINVAL;
+>>   
+>>   	info = &connector->display_info;
+>> +	drm_connector_put(connector);
+>>   	if (info->num_bus_formats != 1)
+> We're still accessing connector->display_info here, but it might have been
+> freed already.
+Agree. I'll place it after using 'info' finishes in v3.
+>
+> Maxime
