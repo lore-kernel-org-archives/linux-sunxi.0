@@ -1,63 +1,62 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA052C9A
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 03:12:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2283B5C00DE;
-	Fri,  5 Nov 2021 23:12:13 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E9A2C9A
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 03:22:31 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 64C385C00F5;
+	Fri,  5 Nov 2021 23:22:30 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 05 Nov 2021 23:12:13 -0400
+  by compute6.internal (MEProxy); Fri, 05 Nov 2021 23:22:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	subject:to:cc:references:from:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=/
-	gPzTh9lKbeVX2G13aezYcHtepoPYGfdF+e0XmPiia4=; b=DCnhGfzndZrH7KnBI
-	X7LvUs91uBCXzwZ1CIRsIUUMFtcPFd5OTnTQLnVS9DhG4cBPV4NqtWUQtuBB0iq4
-	+HGCokngz+An4rq9+AScXSFw3qPIqQhkJx92Cnj5cqEgGsTNcCQ59hEQrb9GnjzY
-	aiflEB3WHN88nB49hRkhpiDjHNFdc8oXg0ECE95gH9c8NRp0bImXNLLI8IUGKpNO
-	w39xtrH0SMSp/i3FrzJRBqsbOQcPBFf8Er9m3IAZePq2mq76a3W4DQU9vKvwn84Z
-	ubMfAcZZLT2RiiUbFu+pn1R/ju80Vbd1WN/0RzqPoBx+l+eodBmtFDGYEDlDqF7D
-	Qr3Rg==
+	to:cc:references:from:subject:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=v
+	fHZYgfD3RWUkA0Mw2l9ruceirgieSFU4L5y9Vfg/Bk=; b=ee5+bp+CUTZgTQs1+
+	f0RkYpBRMG1CsiTS0Ll66I511aNpanjzY2Rh5PNWwhbiYCb4eKckwFnKI/WrTPak
+	iuwtZUlza6e96ug+fbz+TEa0aWZtEk5aAlamefVH5UV3VHnIln2ESuLC9PYWDR6W
+	UxE2htIV+VPAzzbzR4Z2SivTjlvIFMCQmtY77gq/pa+gUAH6VKDJPzMUqY4ltXko
+	/rgACAUS3FdUKg7aDPU6das0dlNgSHvminEJj7AlF0gJcqNOF25llTGe67tnXTNi
+	WIxhu6YkowYeXnlIXm/cN+Ad5ui/vBhQO2jE6XOMuI3NrIwb3GJhrF6sJH3L/cOD
+	CIeYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=/gPzTh9lKbeVX2G13aezYcHtepoPYGfdF+e0XmPii
-	a4=; b=dKX96TTdAE93kdfNj1uSztHPzBsjDVDA6S7d2Ya+eJwyNwVQoNz3IUFH1
-	9CASM6FVph6bEb/yvBaqyQD3Wh68lSdAIuMfvnMzOOxyIyUW9SASevLHbPZixNav
-	k9+RSjuxwvdnjDSkAUbVJ/883SA5JDh1S4dN8lNqO8QlHIkrikjzzjtC2y8F2FX1
-	J3/XecjoM6LLroDgHTZczAwDGJRvczzLQCTzZ69qlys1kuJ0z9gM9FEUiK53B1f1
-	dSarC8P0pdCjvdNgvS2Qa9o86TQ5VX7oFCTh94YfnhrOWfK17emrfaIQLp8zH0GS
-	0/aehLRFZLKMvYtwLBRokw6Z8dx8Q==
-X-ME-Sender: <xms:jPKFYQsDMK_BCR3RI7l4mjJlqMRduMfu5Nf6_5HYYSjBgWd6SgO6MQ>
-    <xme:jPKFYddJR1pDpfepC8xIsXvC6EnK6K6E_ouHddpFZ6Ide4trH538kLGJwa-F3fO1V
-    AYAqrN2TwAe8eGvNA>
-X-ME-Received: <xmr:jPKFYbzyRfjVHAs5OKEoMVBrXLhUa5UYQVQldAg7Hcf1p_RxT-pAyFwl3Vl4ZZqMNy62gKVmkR4U2hlgB2GeGZzLrD6dTLE1GXlgSA0voG8S4GMvemccypsvpQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgdehgecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; bh=vfHZYgfD3RWUkA0Mw2l9ruceirgieSFU4L5y9Vfg/
+	Bk=; b=SLCwKL/Ge9enB5Z8TSNXBVqeVeVPJLENWphKNIUgLEY9nT+qVVaMi9TMD
+	TCtLZEGJDKwNeVhAMWg7eUEXm+SDIpwHZQvz2Ik24iNEpzt1/+Dn4dQP3Y/syAGJ
+	Y0UCyLTC0UoyGMbJSsfmne36xJ5vKhFzS3vgZGY4GMdO0IoeE4e/qAWXsRvrAK2P
+	pUA1FgVMfJQBymp4BX1eQLIhmMNgHCcVFti/GLmQEbuN/IePZFP2Q4S3Ftzc6sQK
+	LMPPdPjmp9CFdyYXVSjlWewu3RXvNvhlXzUjJ5O6o6kN6VDf5cclHPcR/vcPbk8S
+	mI7N9CVTvX8sFejOAsP0KnEzO8y7g==
+X-ME-Sender: <xms:9fSFYTZzp7cxu-wJLV29vhxrNyPwmnbTaaWu8PvniNhNv7FD-S9UcQ>
+    <xme:9fSFYSaujPUd9aKBfArXrbs2nXk3cUlp_KWenKofeOYr5GBKfCr6mQ5AtYj2pYmYj
+    jHljiFXEEGs0S_6nA>
+X-ME-Received: <xmr:9fSFYV-ixGdNikFrquP7JJehBnYwilLYTdD-lVzEGl49yxLrBAtbcF1oX4XnmpEQLewaft1IGjDbsVgxtAqwv8V8R9YvmoiY3tVc0iCzUrIwnkqSagyIrLpz2Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgdehiecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+    fjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghmuhgv
     lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
-    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:jfKFYTOuEKAS980hG9HdNqd-91wau9cTqFnGsiwzhUTvmAEsNasIGA>
-    <xmx:jfKFYQ_C4zD7LLXFsN1I2BXWIJ8pW-tpvwM7zIdJhMg5ZWIMAWMfKQ>
-    <xmx:jfKFYbW2DdpdAm7bwfKRWfKfjUN8H1c6MbErQxn4dzvMUNPrfTsF9w>
-    <xmx:jfKFYfZdEFnYIlyKf2kwIvhmdQAOiqtbGEot_zCE6nVUzbeGURrOSA>
+    frrghtthgvrhhnpeeuhfffgeetgeekjedugeekieffgfejffffjeeltedtuedvgefgheel
+    heejveevieenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+    ugdrohhrgh
+X-ME-Proxy: <xmx:9fSFYZroES_hHwEfWLl6TCbpuHMXy5OypzTnl3HvScUW-ibxuw5xUw>
+    <xmx:9fSFYeop1ldqE-fSkZkvj3CKtgO4s5oofKFcNRGCwjiHV9kieqIhrA>
+    <xmx:9fSFYfSwduAoogtONKQYkU7Is9C1mCzfkgfpLXPRNQBeceVxrS5djQ>
+    <xmx:9vSFYRXBIKwc5e-lqWy5UPOsB4qaU1hrjxZPQP1S6QhstUQRtbLAgA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Nov 2021 23:12:12 -0400 (EDT)
-Subject: Re: [RFC PATCH 12/13] sunxi: sync R329 DTs from internal WIP kernel
- tree
+ 5 Nov 2021 23:22:29 -0400 (EDT)
 To: Icenowy Zheng <icenowy@sipeed.com>,
  Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>
 Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
 References: <20210722063015.421923-1-icenowy@sipeed.com>
- <20210722063015.421923-13-icenowy@sipeed.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <74ccb4ff-7eb9-e6da-48a7-ed728697a157@sholland.org>
-Date: Fri, 5 Nov 2021 22:12:11 -0500
+Subject: Re: [RFC PATCH 00/13] Add support for Allwinner R329
+Message-ID: <a275734d-62a0-a06b-2985-3d6bb3e16b22@sholland.org>
+Date: Fri, 5 Nov 2021 22:22:28 -0500
 User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 Precedence: bulk
@@ -66,25 +65,37 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210722063015.421923-13-icenowy@sipeed.com>
+In-Reply-To: <20210722063015.421923-1-icenowy@sipeed.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 On 7/22/21 1:30 AM, Icenowy Zheng wrote:
-> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
-> ---
->  arch/arm/dts/Makefile                      |   2 +
->  arch/arm/dts/sun50i-r329-maix-iia-dock.dts |  36 ++++
->  arch/arm/dts/sun50i-r329-maix-iia.dtsi     |  45 +++++
->  arch/arm/dts/sun50i-r329.dtsi              | 225 +++++++++++++++++++++
->  4 files changed, 308 insertions(+)
->  create mode 100644 arch/arm/dts/sun50i-r329-maix-iia-dock.dts
->  create mode 100644 arch/arm/dts/sun50i-r329-maix-iia.dtsi
->  create mode 100644 arch/arm/dts/sun50i-r329.dtsi
+> This patchset adds Allwinner R329 support to U-Boot.
+> 
+> First, some code refactors happen for SoCs w/o SCP/MMC2.
+> 
+> Then the basical support for R329 come as several parts (memory map,
+> clocks, pinmux, DRAM, final Kconfig option).
+> 
+> Then, as the RFC part of this patchset, some device tree related
+> changes.
+> 
+> Finally it comes the defconfig file for a R329 board, Sipeed Maix IIA
+> Dock.
 
-One thing to note when you rebase: you will need to add the watchdog
-node for rebooting to work.
+I was able to boot into Linux on my MaixSense, but I also needed the top
+patch from your branch here:
+
+https://github.com/sipeed/u-boot/commits/r329-wip
+
+Otherwise, U-Boot complained that $kernel_addr_r overlapped reserved memory.
+
+> This patchset is RFC mainly because of the DT-related part, as no DT
+> binding is mainlined in Linux now (it's still WIP). All other patches
+> are ready for being reviewed and, if proper, merged.
+Yes, I would like to have the Kconfig available so I can support R329 in
+my pinctrl series.
 
 Regards,
 Samuel
