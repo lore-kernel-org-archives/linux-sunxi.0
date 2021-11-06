@@ -1,64 +1,64 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F4D2C9A
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 03:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B67AF2C9A
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 03:06:14 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id E5C8D5C01A6;
-	Fri,  5 Nov 2021 23:01:45 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id C206E5C0105;
+	Fri,  5 Nov 2021 23:06:13 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 05 Nov 2021 23:01:45 -0400
+  by compute5.internal (MEProxy); Fri, 05 Nov 2021 23:06:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=b
-	tGGnWViORfaJ1G9X29CelAjypoLF26F+CpWzU74NDI=; b=HxXNWRF4zl/P14u6W
-	1zXbzFzIYw/iVNi2fZ00jZLZF95c431nm1thdT4cziwy9yyfCU5nWU2xNNJ/691D
-	aJvaGcppNkbpnFOnjXxxdwh+632Z6dS6CkAd9pzohxepfsuVaC+zuRArL9l7AAIA
-	bMhGeZSPw5ZzBRTiFAr/3GNiBSCjEeHlxaiEFLhBbeHCWc/agbEbL1h1oNPvdqdh
-	lrbnL3d6EG8ovp+0uZLeb2508FMgVC8iEM5uFXwA+NwSSPr8RtoreDeMfO0c41Yj
-	T++qGjjG8PdsNth8ypIcA7SwPE6lPKTRWNfNxdXop59xzMcM/zqS5aDMkqWT0bl/
-	WqJ2g==
+	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=+
+	xWOdOURL8e+JHXxMEneDCPyipFlFYpi6CTnwSZVNEI=; b=PWw/VgybYhrq1QXbu
+	DDkWazKFPj0Z5zQnjQEuzsrCDyax3VGFtKtvS5SObojLGQ+A2ipnjsu950TpOAxp
+	zJe/u2aJykS7l9t+yAASrqW3Ton9UUspu6uvBdq3qSSVUNnVO1kF3zJyyo4Ouu+k
+	vqRFFjl5rT8BbV+lwfJJTBRqrJG3ut/DUBOBNYm5meuSfvQzC07oSgnsoAPEGFMx
+	w4jq+aW3yMnq5AqwNKLnMLf9KNJZDBr/ZLY+sqRVv2qLXY66U9WENhGiP8iVwIWC
+	BkG2JPaRxV77/wLINXkiWG29ZR4WBZA1wRigqLBgqyh0BB/xUfjJ8RFPn6LdhIC6
+	nXOrQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=btGGnWViORfaJ1G9X29CelAjypoLF26F+CpWzU74N
-	DI=; b=n6XNZTSacr7HwUCnFhY9r2sWsnLC9+Cb01WkCCdwyFHoUmggCu5X+xmZB
-	bjMVvNT0yiM1NKsJi/c+GNpzGDnlI0n+73KMy87K+MSRzhuoz8Ze37ui2YsdzQp5
-	lUHgI9qWRra1XpmSxc8KkELV4D9wyYAavmAaTBT1xiJDA9W+6NhowotgVtDekckK
-	lFOM7z34bTQ5rcMAJZlMYDSS2eIx1Hb/4pHK0FvbQEvGB3EItVlIwBM6qSWz/1hu
-	jVtAXyCu630X1oyAXuLRzk7U4ndtNf5+IHZD6k7zD0O1KbDgdCXQCEfaxeAW49dd
-	wRgQz/XL39HJITG991hmaKE5Od0BQ==
-X-ME-Sender: <xms:GfCFYRo7lwfyEUa5Ztj-ltToKRiLY15kaB4dgeRX2YZhcm7rkQ242A>
-    <xme:GfCFYTqia2rWjwsi3zZwgKx5yKN5UH7DAFV660arMavwSSy2OtCHhsdsRqV4V6d5R
-    yyHyJ8UHZ6RwgfKkQ>
-X-ME-Received: <xmr:GfCFYeOGbNSjFfzc03K6-UEfkkxQ9Xh-d6j0rP8TxLifcxGu74UQm6ng6rvqjGqEhL2qE1ZnxzSy4n0wo4tyvxpmxPvBCvr3wX6LvbS_dKi-0ra0tq5L4nc8-w>
+	:x-sasl-enc; s=fm1; bh=+xWOdOURL8e+JHXxMEneDCPyipFlFYpi6CTnwSZVN
+	EI=; b=FoU4pFC9qEs/pqBSx8OMRhEdxQG5xUZK0E8t34js9UlVc5cO0jFcIoeV2
+	I3zuxrs5FYINLy89MIUW0dfnhuONaCKT/+NpUNGzE1XlKIwwO4+VT4376GnMM+EU
+	vJt5SsbjF48+g3roMk66K1KV6zGaoQfSwyfMZ2DzmcmeV2B2vjznSO0csnyDx0JL
+	pGbSx/8pO+BDJvX8xnOq6EJ28wy0tEoH+I1AK489RvEDlillbJZ93D2X9sW9FoZW
+	0tZpTzpAMSr6MeZUg6JgooFT62FbJCMCC6PNK8GlRQQNnLKgGNEBtqES5T5dwism
+	jpXD5nWBE1DOsq/CBsJmjkay/Qu8w==
+X-ME-Sender: <xms:JfGFYbbM31XB7WTZRBC4HeLvSxbonGEy6UANQ0Cm5yYJvwOFxWam_Q>
+    <xme:JfGFYabJ83We1q6LAX98pFmfRhZLc9qPLXJjvhuk5Ms-tkNIhLCMFfo3SpKHopKe8
+    3rJu5ptXg4BfofmWA>
+X-ME-Received: <xmr:JfGFYd9XYBAGG-YHwbleRy5E4PdPXAKQ5wDFGO9tNst8B2EOcnT6dnec55mUvMrFgC3hm3NyrH0MS92qToBgt7AEW8EcjpRnpme_3OHj_AN2cuGXPYtXx9x75w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgdehvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghmuhgv
     lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedvtddtjeeiuddugfffveetkeffgeffgedutdfgfeekudevudekffeh
-    tdefveeuvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:GfCFYc7MjGs9rlxRCu14nIlS01rS-iIu3NgtAxtXNtlNTU0y1g1yQg>
-    <xmx:GfCFYQ4MIPm1nH39QFPACsLrT_XhH1WimH5eobV8IqaWWQGv7NarZQ>
-    <xmx:GfCFYUhSSJ-WP7ApqPChwfQQfBVPUqkQSkX0TrqVWbPb0W9oZ4V0ng>
-    <xmx:GfCFYb2wCNjvHW2oWGU9dyW-NmPAnmjuxetjU6Irj60do7glHBwpqA>
+    frrghtthgvrhhnpeeuhfffgeetgeekjedugeekieffgfejffffjeeltedtuedvgefgheel
+    heejveevieenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
+    ugdrohhrgh
+X-ME-Proxy: <xmx:JfGFYRowbzAOcLC9gC5VPRpMBM8MNNwPlA_MH2NnKQKRMyy5g_GbWQ>
+    <xmx:JfGFYWqbyqSrSsikZtafxaeJNxCTH2e64pwL-JgL7Sw3XWsPnI1Bxg>
+    <xmx:JfGFYXQEhOQDigiBShUE7chtLWS7y_j8ybOIoDr29Jw11GzFnYxv4w>
+    <xmx:JfGFYflwoEKR2xLk6FAIZx4r0urqx5U5kjR-mxifNT_v7ZQS8rKRhQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Nov 2021 23:01:45 -0400 (EDT)
+ 5 Nov 2021 23:06:12 -0400 (EDT)
 To: Icenowy Zheng <icenowy@sipeed.com>,
  Jagan Teki <jagan@amarulasolutions.com>,
  Andre Przywara <andre.przywara@arm.com>,
  Jernej Skrabec <jernej.skrabec@siol.net>
 Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
 References: <20210722063015.421923-1-icenowy@sipeed.com>
- <20210722063015.421923-7-icenowy@sipeed.com>
+ <20210722063015.421923-8-icenowy@sipeed.com>
 From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [RFC PATCH 06/13] sunxi: add support for basical pinmux setup on
- R329
-Message-ID: <42bdece2-87dd-2377-ae90-e9325e30f677@sholland.org>
-Date: Fri, 5 Nov 2021 22:01:44 -0500
+Subject: Re: [RFC PATCH 07/13] sunxi: add support for R329 DRAM controller
+Message-ID: <28efdf36-e1a3-6acd-c18e-2d68eca13aaf@sholland.org>
+Date: Fri, 5 Nov 2021 22:06:12 -0500
 User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.2
 Precedence: bulk
@@ -67,131 +67,109 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210722063015.421923-7-icenowy@sipeed.com>
+In-Reply-To: <20210722063015.421923-8-icenowy@sipeed.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
 On 7/22/21 1:30 AM, Icenowy Zheng wrote:
-> Allwinner R329 SoC is the first known Allwinner SoC that has two
-> possible pinmux setups for MMC0 controller.
+> R329 has a new DRAM controller, which looks like a combination of the
+> H6/H616 MCTL_COM part and the SUNXI_DW MCTL_CTL part. This design has
+> already got reused by Allwinner, and V831/V833 SoCs have similar
+> memory controller.
 > 
-> Support configuration of both setups of MMC0 and UART0 at PB4/5.
+> Add support for it. To prepare for further support of other SoCs,
+> routines with socid parameter are added, although not checked now.
 > 
 > Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
-> ---
->  arch/arm/include/asm/arch-sunxi/gpio.h |  3 +++
->  arch/arm/mach-sunxi/Kconfig            |  7 +++++++
->  arch/arm/mach-sunxi/board.c            |  4 ++++
->  board/sunxi/board.c                    | 20 ++++++++++++++++++++
->  4 files changed, 34 insertions(+)
-> 
-> diff --git a/arch/arm/include/asm/arch-sunxi/gpio.h b/arch/arm/include/asm/arch-sunxi/gpio.h
-> index 2969a530ae..da9acfab78 100644
-> --- a/arch/arm/include/asm/arch-sunxi/gpio.h
-> +++ b/arch/arm/include/asm/arch-sunxi/gpio.h
-> @@ -166,12 +166,14 @@ enum sunxi_gpio_number {
->  #define SUN8I_A83T_GPB_UART0	2
->  #define SUN8I_V3S_GPB_UART0	3
->  #define SUN50I_GPB_UART0	4
-> +#define SUN50I_R329_GPB_UART0	2
->  
->  #define SUNXI_GPC_NAND		2
->  #define SUNXI_GPC_SPI0		3
->  #define SUNXI_GPC_SDC2		3
->  #define SUN6I_GPC_SDC3		4
->  #define SUN50I_GPC_SPI0		4
-> +#define SUN50I_R329_GPC_SDC0	3
->  
->  #define SUN8I_GPD_SDC1		3
->  #define SUNXI_GPD_LCD0		2
-> @@ -185,6 +187,7 @@ enum sunxi_gpio_number {
->  #define SUNXI_GPF_SDC0		2
->  #define SUNXI_GPF_UART0		4
->  #define SUN8I_GPF_UART0		3
-> +#define SUN50I_R329_GPF_SDC0	5
->  
->  #define SUN4I_GPG_SDC1		4
->  #define SUN5I_GPG_SDC1		2
-> diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
-> index 49f94f095c..391a3dd9e5 100644
-> --- a/arch/arm/mach-sunxi/Kconfig
-> +++ b/arch/arm/mach-sunxi/Kconfig
-> @@ -672,6 +672,13 @@ config MMC3_CD_PIN
->  	---help---
->  	See MMC0_CD_PIN help text.
->  
-> +config MMC0_PINS
-> +	string "Pins for mmc0"
-> +	default "PF"
-> +	depends on MACH_SUN50I_R329
-> +	---help---
-> +	See MMC1_PINS help text.
+
+I cannot really review the DRAM init part. But it works, so that's
+probably good enough.
+
+Tested-by: Samuel Holland <samuel@sholland.org>
+
+There are a couple of magic values I happen to have an explanation for:
+
+> diff --git a/arch/arm/mach-sunxi/dram_sun50i_r329.c b/arch/arm/mach-sunxi/dram_sun50i_r329.c
+> new file mode 100644
+> index 0000000000..730883999c
+> --- /dev/null
+> +++ b/arch/arm/mach-sunxi/dram_sun50i_r329.c
+> ...> +unsigned long sunxi_dram_init(void)
+> +{
+> +	struct sunxi_mctl_com_reg * const mctl_com =
+> +			(struct sunxi_mctl_com_reg *)SUNXI_DRAM_COM_BASE;
+> +	struct sunxi_mctl_ctl_reg * const mctl_ctl =
+> +			(struct sunxi_mctl_ctl_reg *)SUNXI_DRAM_CTL0_BASE;
 > +
+> +	struct dram_para para = {
+> +		.dual_rank = 0,
+> +		.bus_full_width = 1,
+> +		.row_bits = 16,
+> +		.bank_bits = 3,
+> +		.page_size = 8192,
+> +
+> +		.dx_read_delays  = SUN50I_R329_DX_READ_DELAYS,
+> +		.dx_write_delays = SUN50I_R329_DX_WRITE_DELAYS,
+> +		.ac_delays	 = SUN50I_R329_AC_DELAYS,
+> +	};
+> +
+> +	/* Unknown magic */
+> +	writel(0x10, 0x07010250);
 
-Please make this a Boolean MMC0_PINS_PC (this area was changed since you
-sent these patches).
+This is VDD_SYS_POWEROFF_GATING_REG, presumably disabling pad hold.
 
->  config MMC1_PINS
->  	string "Pins for mmc1"
->  	default ""
-> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-> index e979e426dd..1aa31c7e05 100644
-> --- a/arch/arm/mach-sunxi/board.c
-> +++ b/arch/arm/mach-sunxi/board.c
-> @@ -129,6 +129,10 @@ static int gpio_init(void)
->  	sunxi_gpio_set_cfgpin(SUNXI_GPH(0), SUN50I_H616_GPH_UART0);
->  	sunxi_gpio_set_cfgpin(SUNXI_GPH(1), SUN50I_H616_GPH_UART0);
->  	sunxi_gpio_set_pull(SUNXI_GPH(1), SUNXI_GPIO_PULL_UP);
-> +#elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN50I_R329)
-> +	sunxi_gpio_set_cfgpin(SUNXI_GPB(4), SUN50I_R329_GPB_UART0);
-> +	sunxi_gpio_set_cfgpin(SUNXI_GPB(5), SUN50I_R329_GPB_UART0);
-> +	sunxi_gpio_set_pull(SUNXI_GPB(5), SUNXI_GPIO_PULL_UP);
->  #elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUN8I_A83T)
->  	sunxi_gpio_set_cfgpin(SUNXI_GPB(9), SUN8I_A83T_GPB_UART0);
->  	sunxi_gpio_set_cfgpin(SUNXI_GPB(10), SUN8I_A83T_GPB_UART0);
-> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index 67acc01d83..bfc90345d9 100644
-> --- a/board/sunxi/board.c
-> +++ b/board/sunxi/board.c
-> @@ -417,12 +417,32 @@ static void mmc_pinmux_setup(int sdc)
->  
->  	switch (sdc) {
->  	case 0:
-> +#if defined(CONFIG_MACH_SUN50I_R329)
+> +	writel(0x330000, 0x07010310);
+> +	writel(0x330003, 0x07010310);
 
-Please use if (IS_ENABLED(...)).
+This is a resistor calibration process. See here:
+
+https://github.com/smaeul/sun20i_d1_spl/blob/342cb1d8/include/arch/cpu_ncat.h#L172
+https://github.com/smaeul/sun20i_d1_spl/blob/342cb1d8/board/sun20iw1p1/clock.c#L186
+
+Some other BSP code has:
+
+#define REG_CALIB_CONTROL_REG           0x0310
+#define OHMS200_REG                     0x0314
+#define OHMS240_REG                     0x0318
+#define REG_CALIB_STATUS_REG            0x031c
+
+So this suggests we are calibrating the termination resistors.
 
 Regards,
 Samuel
 
-> +		pins = sunxi_name_to_gpio_bank(CONFIG_MMC0_PINS);
 > +
-> +		if (pins == SUNXI_GPIO_C) {
-> +			/* SDC0: PC0-PC6 */
-> +			for (pin = SUNXI_GPC(0); pin <= SUNXI_GPC(6); pin++) {
-> +				sunxi_gpio_set_cfgpin(pin, SUN50I_R329_GPC_SDC0);
-> +				sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-> +				sunxi_gpio_set_drv(pin, 2);
-> +			}
-> +		} else {
-> +			/* SDC0: PF0-PF5 */
-> +			for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
-> +				sunxi_gpio_set_cfgpin(pin, SUN50I_R329_GPF_SDC0);
-> +				sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
-> +				sunxi_gpio_set_drv(pin, 2);
-> +			}
-> +		}
-> +#else
->  		/* SDC0: PF0-PF5 */
->  		for (pin = SUNXI_GPF(0); pin <= SUNXI_GPF(5); pin++) {
->  			sunxi_gpio_set_cfgpin(pin, SUNXI_GPF_SDC0);
->  			sunxi_gpio_set_pull(pin, SUNXI_GPIO_PULL_UP);
->  			sunxi_gpio_set_drv(pin, 2);
->  		}
+> +#if defined(CONFIG_MACH_SUN50I_R329)
+> +	uint16_t socid = SOCID_R329;
 > +#endif
->  		break;
->  
->  	case 1:
-> 
-
+> +
+> +	mctl_sys_init(&para);
+> +	if (mctl_channel_init(socid, &para))
+> +		return 0;
+> +
+> +	udelay(1);
+> +
+> +	clrbits_le32(&mctl_ctl->unk_0x0a0, 0xffff);
+> +	clrbits_le32(&mctl_ctl->pwrctl, 0x1);
+> +
+> +	/* HDR/DDR dynamic mode */
+> +	clrbits_le32(&mctl_ctl->pgcr[0], 0xf000);
+> +
+> +	/* power down zq calibration module for power save */
+> +	setbits_le32(&mctl_ctl->zqcr, ZQCR_PWRDOWN);
+> +
+> +	/* DQ hold disable (tpr13[26] == 1) */
+> +	clrbits_le32(&mctl_ctl->pgcr[2], (1 << 13));
+> +
+> +	mctl_auto_detect_dram_size(&para);
+> +	mctl_apply_para(&para);
+> +
+> +	/* enable master access */
+> +	writel(0xffffffff, &mctl_com->maer0);
+> +	writel(0x7f, &mctl_com->maer1);
+> +	writel(0xffff, &mctl_com->maer2);
+> +
+> +	return (1UL << (para.row_bits + para.bank_bits)) * para.page_size *
+> +	       (para.dual_rank ? 2 : 1);
+> +}
