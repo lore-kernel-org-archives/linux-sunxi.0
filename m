@@ -1,101 +1,110 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E9A2C9A
-	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 03:22:31 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 64C385C00F5;
-	Fri,  5 Nov 2021 23:22:30 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Fri, 05 Nov 2021 23:22:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	to:cc:references:from:subject:message-id:date:mime-version
-	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=v
-	fHZYgfD3RWUkA0Mw2l9ruceirgieSFU4L5y9Vfg/Bk=; b=ee5+bp+CUTZgTQs1+
-	f0RkYpBRMG1CsiTS0Ll66I511aNpanjzY2Rh5PNWwhbiYCb4eKckwFnKI/WrTPak
-	iuwtZUlza6e96ug+fbz+TEa0aWZtEk5aAlamefVH5UV3VHnIln2ESuLC9PYWDR6W
-	UxE2htIV+VPAzzbzR4Z2SivTjlvIFMCQmtY77gq/pa+gUAH6VKDJPzMUqY4ltXko
-	/rgACAUS3FdUKg7aDPU6das0dlNgSHvminEJj7AlF0gJcqNOF25llTGe67tnXTNi
-	WIxhu6YkowYeXnlIXm/cN+Ad5ui/vBhQO2jE6XOMuI3NrIwb3GJhrF6sJH3L/cOD
-	CIeYg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=vfHZYgfD3RWUkA0Mw2l9ruceirgieSFU4L5y9Vfg/
-	Bk=; b=SLCwKL/Ge9enB5Z8TSNXBVqeVeVPJLENWphKNIUgLEY9nT+qVVaMi9TMD
-	TCtLZEGJDKwNeVhAMWg7eUEXm+SDIpwHZQvz2Ik24iNEpzt1/+Dn4dQP3Y/syAGJ
-	Y0UCyLTC0UoyGMbJSsfmne36xJ5vKhFzS3vgZGY4GMdO0IoeE4e/qAWXsRvrAK2P
-	pUA1FgVMfJQBymp4BX1eQLIhmMNgHCcVFti/GLmQEbuN/IePZFP2Q4S3Ftzc6sQK
-	LMPPdPjmp9CFdyYXVSjlWewu3RXvNvhlXzUjJ5O6o6kN6VDf5cclHPcR/vcPbk8S
-	mI7N9CVTvX8sFejOAsP0KnEzO8y7g==
-X-ME-Sender: <xms:9fSFYTZzp7cxu-wJLV29vhxrNyPwmnbTaaWu8PvniNhNv7FD-S9UcQ>
-    <xme:9fSFYSaujPUd9aKBfArXrbs2nXk3cUlp_KWenKofeOYr5GBKfCr6mQ5AtYj2pYmYj
-    jHljiFXEEGs0S_6nA>
-X-ME-Received: <xmr:9fSFYV-ixGdNikFrquP7JJehBnYwilLYTdD-lVzEGl49yxLrBAtbcF1oX4XnmpEQLewaft1IGjDbsVgxtAqwv8V8R9YvmoiY3tVc0iCzUrIwnkqSagyIrLpz2Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrtdejgdehiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefvfhfhuffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeeuhfffgeetgeekjedugeekieffgfejffffjeeltedtuedvgefgheel
-    heejveevieenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghn
-    ugdrohhrgh
-X-ME-Proxy: <xmx:9fSFYZroES_hHwEfWLl6TCbpuHMXy5OypzTnl3HvScUW-ibxuw5xUw>
-    <xmx:9fSFYeop1ldqE-fSkZkvj3CKtgO4s5oofKFcNRGCwjiHV9kieqIhrA>
-    <xmx:9fSFYfSwduAoogtONKQYkU7Is9C1mCzfkgfpLXPRNQBeceVxrS5djQ>
-    <xmx:9vSFYRXBIKwc5e-lqWy5UPOsB4qaU1hrjxZPQP1S6QhstUQRtbLAgA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 5 Nov 2021 23:22:29 -0400 (EDT)
-To: Icenowy Zheng <icenowy@sipeed.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-References: <20210722063015.421923-1-icenowy@sipeed.com>
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [RFC PATCH 00/13] Add support for Allwinner R329
-Message-ID: <a275734d-62a0-a06b-2985-3d6bb3e16b22@sholland.org>
-Date: Fri, 5 Nov 2021 22:22:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 753F92C80
+	for <linux-sunxi@lists.linux.dev>; Sat,  6 Nov 2021 19:35:20 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 46CE12171F;
+	Sat,  6 Nov 2021 19:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1636227313; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5D/EvtfQAj4wvspwPbd79LEEeiKkU4WNjg4xKiX4H7E=;
+	b=0BQpqv/Fi8WEKJvFjOf9j7KsG30YsKsa6cB8ZQrSoAka66ebVbfwjPWz4LpoylYsf1pt38
+	PAjHVusD8As2XaVCz+0tSM18TtQuAY5L/mCNQf/wZpXeVeMcN2azIKmXpaoYo9fqn05md0
+	lwLRK1ORaMdobbTaNU6/PgQxJplIEt4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1636227313;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=5D/EvtfQAj4wvspwPbd79LEEeiKkU4WNjg4xKiX4H7E=;
+	b=iP9aR7b9xMeCarp9AXAxmYxCWo3zJywkz2IqvlcT0H0gyznyTsnDvfoXybyE3TI/0ITSKd
+	yamf/sq6e4ntsFDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E539313A1D;
+	Sat,  6 Nov 2021 19:35:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id cBLSNvDYhmEdLQAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Sat, 06 Nov 2021 19:35:12 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	noralf@tronnes.org,
+	marcel@ziswiler.com,
+	naresh.kamboju@linaro.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-aspeed@lists.ozlabs.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [RESEND PATCH v2 0/2] drm: Small CMA cleanups
+Date: Sat,  6 Nov 2021 20:35:07 +0100
+Message-Id: <20211106193509.17472-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.33.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20210722063015.421923-1-icenowy@sipeed.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 7/22/21 1:30 AM, Icenowy Zheng wrote:
-> This patchset adds Allwinner R329 support to U-Boot.
-> 
-> First, some code refactors happen for SoCs w/o SCP/MMC2.
-> 
-> Then the basical support for R329 come as several parts (memory map,
-> clocks, pinmux, DRAM, final Kconfig option).
-> 
-> Then, as the RFC part of this patchset, some device tree related
-> changes.
-> 
-> Finally it comes the defconfig file for a R329 board, Sipeed Maix IIA
-> Dock.
+(no changes; resending for kernel CI)
 
-I was able to boot into Linux on my MaixSense, but I also needed the top
-patch from your branch here:
+Remove CMA dependencies from MIPI-DBI and replace the config
+symbol DRM_KMS_CMA_HELPER with DRM_KMS_HELPER. This allows to
+link drm_fb_cma_helper.o into a helper library.
 
-https://github.com/sipeed/u-boot/commits/r329-wip
+Thomas Zimmermann (2):
+  drm/mipi-dbi: Remove dependency on GEM CMA helper library
+  drm: Remove CONFIG_DRM_KMS_CMA_HELPER option
 
-Otherwise, U-Boot complained that $kernel_addr_r overlapped reserved memory.
+ drivers/gpu/drm/Kconfig                 |  7 -----
+ drivers/gpu/drm/Makefile                |  2 +-
+ drivers/gpu/drm/arm/Kconfig             |  2 --
+ drivers/gpu/drm/arm/display/Kconfig     |  1 -
+ drivers/gpu/drm/aspeed/Kconfig          |  1 -
+ drivers/gpu/drm/atmel-hlcdc/Kconfig     |  1 -
+ drivers/gpu/drm/drm_mipi_dbi.c          | 34 ++++++++++++++++++-------
+ drivers/gpu/drm/fsl-dcu/Kconfig         |  1 -
+ drivers/gpu/drm/hisilicon/kirin/Kconfig |  1 -
+ drivers/gpu/drm/imx/Kconfig             |  2 +-
+ drivers/gpu/drm/imx/dcss/Kconfig        |  2 +-
+ drivers/gpu/drm/ingenic/Kconfig         |  1 -
+ drivers/gpu/drm/kmb/Kconfig             |  1 -
+ drivers/gpu/drm/mcde/Kconfig            |  1 -
+ drivers/gpu/drm/meson/Kconfig           |  1 -
+ drivers/gpu/drm/mxsfb/Kconfig           |  2 +-
+ drivers/gpu/drm/panel/Kconfig           |  2 +-
+ drivers/gpu/drm/pl111/Kconfig           |  1 -
+ drivers/gpu/drm/rcar-du/Kconfig         |  1 -
+ drivers/gpu/drm/shmobile/Kconfig        |  1 -
+ drivers/gpu/drm/sti/Kconfig             |  1 -
+ drivers/gpu/drm/stm/Kconfig             |  1 -
+ drivers/gpu/drm/sun4i/Kconfig           |  1 -
+ drivers/gpu/drm/tidss/Kconfig           |  1 -
+ drivers/gpu/drm/tilcdc/Kconfig          |  1 -
+ drivers/gpu/drm/tiny/Kconfig            | 20 +++++++--------
+ drivers/gpu/drm/tve200/Kconfig          |  1 -
+ drivers/gpu/drm/vc4/Kconfig             |  1 -
+ drivers/gpu/drm/xlnx/Kconfig            |  1 -
+ 29 files changed, 40 insertions(+), 53 deletions(-)
 
-> This patchset is RFC mainly because of the DT-related part, as no DT
-> binding is mainlined in Linux now (it's still WIP). All other patches
-> are ready for being reviewed and, if proper, merged.
-Yes, I would like to have the Kconfig available so I can support R329 in
-my pinctrl series.
 
-Regards,
-Samuel
+base-commit: c2502072fe2bd823d59749dca7fde064b345e61c
+--
+2.33.1
+
