@@ -1,101 +1,97 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2862C83;
+	Tue,  9 Nov 2021 14:45:05 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:120:3210:5cd8:9f51:76ae:8ed8] (unknown [IPv6:2a01:e0a:120:3210:5cd8:9f51:76ae:8ed8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C9A2C85
-	for <linux-sunxi@lists.linux.dev>; Tue,  9 Nov 2021 03:23:54 +0000 (UTC)
-Received: by mail-qv1-f44.google.com with SMTP id s9so13318799qvk.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 08 Nov 2021 19:23:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2V3HogjR6tzeLasoYLzy6we6u4i3vWdwDzTcRieWiEM=;
-        b=LKmalwKErazJJMZDAs8oZwXA/te5qGZYGXTxMEHcmVJf+XS9M8wT0fh3k0hmf/XDZ0
-         yi6id+IP38VRYUwbGNeq4MlUgDwU6N9MtCw1q1yYh3c6N0FV1jJbo4WOxtjzaZtrryUS
-         NFWk0a96iyu6mjMc260jlsndn+BUXvcJjLP5KXc1Nl0vksgTp8IIAEQ4GuzXrRJ8+Hi5
-         SM021kwP48z1A77N3qqpuKy2P0XXTXHnFSTvBr8VmJ/Jt7CClHTX47WUh1yw15J51bu+
-         9NHvn3fWf/R0o/blQpqIr2amky3axROrIpPPoeDiU+gOAQXGZhygjP9eTO9tFM20Lcjx
-         ZPcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=2V3HogjR6tzeLasoYLzy6we6u4i3vWdwDzTcRieWiEM=;
-        b=7UtN8Y73MVidPhThwMU+P17J1Fb2hqOlNCAiZOUGK+Er0YmTORtNN2olNoUEqMRwb7
-         ytDRoyDmvx9RfKR7WHtHTqlm7WIjZGhbHS56Rcm4mA/c4PwElGU3SnHemugUUjHsXg66
-         MYrIoT97A21cdjktm2dcvcrvfWUNtb2N6ZDzowKN1HFrgmYP5iWL8LyT9kHlRQhy5HPZ
-         VITePMDmvCTR+o3O248ACWQTU84ToLKDJ+CIFhWwc5GZXzzrvdtH6ZnZLAaMwYtpjoB2
-         OHgP6y7Dv33asXND4Trvym+1+lE1/JmGo7eHYsxNiBHD7NHSu86fcT4e49l/PbtCPWG6
-         gGWA==
-X-Gm-Message-State: AOAM532pR4uJabWZtm35/SGzKTtF+GiY6HB3Iv19Ge6rClKGYxyUO5rX
-	RpF8aO/K7XfsM0j62HdpgX0=
-X-Google-Smtp-Source: ABdhPJx/A45jDBxyjJp26aQ17KId/KksS/DEix+3w66MMwl/WrSdu8dJIgKKzsVCzb8Z0GoWSqPLkg==
-X-Received: by 2002:a05:6214:411d:: with SMTP id kc29mr4253736qvb.22.1636428233263;
-        Mon, 08 Nov 2021 19:23:53 -0800 (PST)
-Received: from localhost.localdomain ([67.8.38.84])
-        by smtp.gmail.com with ESMTPSA id f7sm11032327qkp.107.2021.11.08.19.23.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Nov 2021 19:23:52 -0800 (PST)
-Sender: Julian Braha <julian.braha@gmail.com>
-From: Julian Braha <julianbraha@gmail.com>
-To: airlied@linux.ie,
-	daniel@ffwll.ch,
-	jernej.skrabec@gmail.com,
-	wens@csie.org,
-	mripard@kernel.org
-Cc: dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	fazilyildiran@gmail.com
-Subject: [PATCH] [PATCH v2] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Mon,  8 Nov 2021 22:23:51 -0500
-Message-Id: <20211109032351.43322-1-julianbraha@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 101901F4465D;
+	Tue,  9 Nov 2021 14:35:08 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1636468508; bh=BrTB4hM7VfksIFjI74aYf8PVE6yEqs2GneUpf/pr2cM=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=y7DTvCV8PHyoqWkUXpkmGvqdr5Gi1Dp5auF4QWib1j2XSplCTEiXtlMZl63EYSvyA
+	 MJJeoP6cCNKOc1ZC31KvOdEV08rQNdRndGUEyoxtoOFjXbjw8mHK0/woPMtZtWq9oU
+	 Z4nuXpJojaHbIs95c+vHH9kOAtczz4V23iR5v7/6y6KVZUhHO7/x1XjOfXW7ZE19wK
+	 kW4x6ec5hivMi0xRsw+SCBRDsrAO0a7ZJKFjPQMhhuEMzDINqInms2NYyXIPRSe3Fe
+	 qUGKxhUewJgAV1Uw4poa/86eU1Y8KiddqqHLnE1tB1II+vgBXgT5mur6LiDS/NONcT
+	 9B5uDGPiLXzyg==
+Subject: Re: [PATCH v2 0/4] media: HEVC: RPS clean up
+To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+ jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk,
+ ezequiel@vanguardiasur.com.ar
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <b0a0c2be-c4e1-a7fa-23a4-034e181ebf1b@collabora.com>
+Date: Tue, 9 Nov 2021 15:35:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20211012143552.661751-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-is not selected, Kbuild gives the following warning:
 
-WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
-  Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
-  Selected by [y]:
-  - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
+Le 12/10/2021 à 16:35, Benjamin Gaignard a écrit :
+> This series aims to clean up Reference Picture Set usage and flags.
+>
+> Long term flag was named with RPS prefix while it is not used for RPS
+> but for mark long term references in DBP. Remane it and remove the two
+> other useless RPS flags.
+>
+> Clarify documentation about RPS lists content and make sure that Hantro
+> driver use them correctly (i.e without look up in DBP).
 
-This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
-without selecting or depending on RESET_CONTROLLER, despite
-PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
+This series generates feedback about what is missing to move HEVC uAPI
+out of staging but lack of remarks about the proposed changes themselves.
+Does someone has an opinion about this RPS flag clean up ?
 
-These unmet dependency bugs were detected by Kismet,
-a static analysis tool for Kconfig. Please advise if this
-is not the appropriate solution.
+Regards,
+Benjamin
 
-v2:
-Fixed indentation to match the rest of the file.
-
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
----
- drivers/gpu/drm/sun4i/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 5755f0432e77..8c796de53222 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
- 	default MACH_SUN8I
- 	select CRC_CCITT
- 	select DRM_MIPI_DSI
-+	select RESET_CONTROLLER
- 	select PHY_SUN6I_MIPI_DPHY
- 	help
- 	  Choose this option if you want have an Allwinner SoC with
--- 
-2.30.2
-
+>
+> These patches are the last in my backlog impacting HEVC uAPI.
+>  From my point of view, once they get merged, you could start talking
+> about how move HEVC uAPI to stable.
+>
+> version 2:
+> - change DPB field name from rps to flags
+>
+> Please note that the only purpose of commits 3 and 4 is to allow to test
+> G2 hardware block for IMX8MQ until a proper solution isuing power domain
+> can be found. Do not merge them.
+>
+> GStreamer HEVC plugin merge request can be found here:
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/1079
+>
+> With those piece of code fluster score is 77/147.
+>
+> Benjamin
+>
+> Benjamin Gaignard (4):
+>    media: hevc: Remove RPS named flags
+>    media: hevc: Embedded indexes in RPS
+>    media: hantro: Use syscon instead of 'ctrl' register
+>    arm64: dts: imx8mq: Add node to G2 hardware
+>
+>   .../media/v4l/ext-ctrls-codec.rst             | 14 +++---
+>   arch/arm64/boot/dts/freescale/imx8mq.dtsi     | 43 +++++++++++++----
+>   drivers/staging/media/hantro/hantro.h         |  5 +-
+>   .../staging/media/hantro/hantro_g2_hevc_dec.c | 27 +++--------
+>   drivers/staging/media/hantro/imx8m_vpu_hw.c   | 48 ++++++++++++-------
+>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |  2 +-
+>   include/media/hevc-ctrls.h                    |  6 +--
+>   7 files changed, 84 insertions(+), 61 deletions(-)
+>
