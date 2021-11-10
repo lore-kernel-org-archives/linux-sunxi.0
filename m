@@ -1,49 +1,49 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E7372;
-	Wed, 10 Nov 2021 19:26:07 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id r8so5809798wra.7;
-        Wed, 10 Nov 2021 11:26:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326F872
+	for <linux-sunxi@lists.linux.dev>; Wed, 10 Nov 2021 20:27:31 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id i8-20020a7bc948000000b0030db7b70b6bso5616680wml.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 10 Nov 2021 12:27:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=stxfGq5TzEk/m+h1V0oWIaH2yEXT1vhy8334vKhpSbk=;
-        b=HSbkCB5tuRc+2W2n8fgn9E3Tq0iwlPq1i+mBl1CVpMIVh0k5ZYJaWbZ5Hb146uIwb7
-         1m/7OWgXQ6CvJCRl1QHVqTV1f5a/bHcJhkEHoxF8CDvtwhBBc+rOYnUfwkIbMRF8oGxa
-         /0cUt5yNj3ON6xQ+cqwzUZw59rA2Cs0kG8GZBrBdIOI9Cj0nN5iJWMz9e+hD4yGqOImh
-         +g+ElXEzWESJZTGgaRBPCmMiKqGCvjhKUCrDGfCd2WLzYaa10S8wsSJ1USQulhDKhXQW
-         KRHmCIQwul/QBl2TzNKh8MakjGfZZyMLMqvVeZ2FvQn+EhVbW9RKQdgpwWFOCoVbwHGN
-         O8nQ==
+        bh=VCO5uvUOcT27e+DRykZRIen3xP0SFPGTd6Mp1JZTAsY=;
+        b=HThajDrDc6kB1OnizIXhqzZNZZvMfdEHMWtMO4M30i37Pl73wkt59s0uAsKI/RdkPF
+         1wk6JxgmAhSrbRsPWAIvz6B3dIzTqP1/gcXhrAg3Kw18a7B2hIY3mE0EgiG057B8KZUy
+         2r4dyL/l4YIrur+Kn5hq7L8zexNdXLUoevOaZRRL88bHNDHY//iJvBd2HxSsP/+sevHM
+         tY78m10uixmloXgSMDKdn29FiasKIn3plMw6EOexg0Mz5o2pMLWAK4GZFdnnyT0Wr1xo
+         31pw1Ol0dCl/18DjBGfMtfvKMD+VkFS36tRt/sMqI0UGRF8tV70VpN2eqyLFtlwLzfWL
+         U+nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=stxfGq5TzEk/m+h1V0oWIaH2yEXT1vhy8334vKhpSbk=;
-        b=5pR5Az/FtRXI3uapOyD5ZccFxD3ZWgAXuxPXh/a9Ge1d3sdAS1/CltUg/RubDrWY8u
-         ZRN640PwqJf7NOVS1bxzpNwZiRVEqaEE+YoNdSfDrn6TbCXDgFJDibS1OoBFt3QEDcLx
-         a22VRUpQxPDP3Ge0sLVZrzXhffmVHYZ1ejRB8/H0wgAuqjTPCWg/4H5fZPwTlsEMoux9
-         iDfz+Nq43KgtdLjYTIrMrjAP6p1HDtpao6UDAzNOMZZD1UCaYKJkK6cEAI7rpty/sRl1
-         j8HRJ8bKAn6D1qSGddIYw8LvSQxAaJd3y0XTv04TutRd6vvA03PctfNE1ZHtH6LPQwAQ
-         CPtA==
-X-Gm-Message-State: AOAM531s4+7kjM9RSZife87DGyLfiZi5H1Ek4pcjF1bKa0WEqy4yT2hR
-	foDa/jgtThTfaPB7da5BkaQ=
-X-Google-Smtp-Source: ABdhPJxTG94yTUSY/Xh7rvmJIuspjf0raoj13K6wYdvH8/nsbTpXXHcT2atafOeteM53GX0FbKj6Ow==
-X-Received: by 2002:a05:6000:1688:: with SMTP id y8mr1773432wrd.420.1636572366357;
-        Wed, 10 Nov 2021 11:26:06 -0800 (PST)
+        bh=VCO5uvUOcT27e+DRykZRIen3xP0SFPGTd6Mp1JZTAsY=;
+        b=7Wbxk7E4QjhkD9sDPuOoYmpUlBXqj+1GCl7QMSj/Hg1kFCaTctMLKztq95rUmS9xr9
+         evYJ+v1xIyegRblStPKBTluaCtJ6XzfNecge3v2Ccoh9H1Sj9wH8JUqBFW6WaYdey2a0
+         2RiLqcQ6qmjUjt+n+NQB58KvCGXIOdQYoV1sANJkpI++vsiIbcreXOr+clBXAEnRA9oy
+         4GTSARgZTyjK5nMcoJFKp797eOPm4e0eiay5kN0bSD7pHdKMmdcoU7rxZWz/ramT7Ffb
+         s/mmsewP8g7BqqRXP676L0m6QDcgSWbO5/TbeNVICaT5tas5hE4HzV4PAjXkdbl6Le0K
+         qW3w==
+X-Gm-Message-State: AOAM530VXL7Vo/xDBjFizF+jXkj6paagtG4tO9J3pnYNOWQ3z+5Yv0wy
+	XFNxFQF3fI3DFeTe8ONWPPGKSaMf0gnK1A==
+X-Google-Smtp-Source: ABdhPJw4KjDz2RofXLwp2G67jkwH49HdpJCT6V9QEt9aux7cGkvEY9V4DGLIjaCPxROLcjclfo3KDw==
+X-Received: by 2002:a1c:4d13:: with SMTP id o19mr2192192wmh.164.1636576049474;
+        Wed, 10 Nov 2021 12:27:29 -0800 (PST)
 Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id b197sm610739wmb.24.2021.11.10.11.26.05
+        by smtp.gmail.com with ESMTPSA id q123sm6506007wma.30.2021.11.10.12.27.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Nov 2021 11:26:05 -0800 (PST)
+        Wed, 10 Nov 2021 12:27:29 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jc@kynesim.co.uk, ezequiel@vanguardiasur.com.ar, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v2 1/4] media: hevc: Remove RPS named flags
-Date: Wed, 10 Nov 2021 20:26:04 +0100
-Message-ID: <2215692.ElGaqSPkdT@kista>
-In-Reply-To: <20211012143552.661751-2-benjamin.gaignard@collabora.com>
-References: <20211012143552.661751-1-benjamin.gaignard@collabora.com> <20211012143552.661751-2-benjamin.gaignard@collabora.com>
+To: linux-sunxi@lists.linux.dev, Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, wens@csie.org, mripard@kernel.org, b-liu@ti.com, megous@megous.com, Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: Re: [PATCH] usb: musb: sunxi: Don't print error on MUSB_ULPI_BUSCONTROL access
+Date: Wed, 10 Nov 2021 21:27:23 +0100
+Message-ID: <7984413.T7Z3S40VBb@kista>
+In-Reply-To: <20211019131244.1568560-1-r.stratiienko@gmail.com>
+References: <20211019131244.1568560-1-r.stratiienko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,112 +53,69 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Benjamin,
+Hi Roman,
 
-Dne torek, 12. oktober 2021 ob 16:35:49 CET je Benjamin Gaignard napisal(a):
-> Marking a picture as long-term reference is valid for DPB but not for RPS.
-> Change flag name to match with it description in HEVC spec chapiter
+sorry for late reply.
 
-chapiter -> chapter
-
-> "8.3.2 Decoding process for reference picture set".
-> Remove the other unused RPS flags.
+Dne torek, 19. oktober 2021 ob 15:12:44 CET je Roman Stratiienko napisal(a):
+> Error message appears during suspend, where musb driver is storing
+> the register state in musb_save_context():
+> ```
+> musb-sunxi 1c19000.usb: Error unknown readb offset 112
+> ```
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Print warning instead to avoid confusion.
+> 
+> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
 > ---
-> version 2:
-> - change DPB field name from rps to flags
+>  drivers/usb/musb/sunxi.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 8 +++-----
->  drivers/staging/media/hantro/hantro_g2_hevc_dec.c         | 2 +-
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
->  include/media/hevc-ctrls.h                                | 6 ++----
->  4 files changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index e141f0e4eec9..38da33e61c3d 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3166,11 +3166,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->  	:c:func:`v4l2_timeval_to_ns()` function to convert the struct
->  	:c:type:`timeval` in struct :c:type:`v4l2_buffer` to a __u64.
->      * - __u8
-> -      - ``rps``
-> -      - The reference set for the reference frame
-> -        (V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE,
-> -        V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER or
-> -        V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +      - ``flags``
-> +      - Long term flag for the reference frame
-> +        (V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->      * - __u8
->        - ``field_pic``
->        - Whether the reference is a field picture or a frame.
-> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/
-staging/media/hantro/hantro_g2_hevc_dec.c
-> index 76a921163b9a..bbf71dcea099 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> @@ -445,7 +445,7 @@ static int set_ref(struct hantro_ctx *ctx)
->  		chroma_addr = luma_addr + cr_offset;
->  		mv_addr = luma_addr + mv_offset;
+> diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
+> index f3f76f2ac63f9b..961c858fb349e1 100644
+> --- a/drivers/usb/musb/sunxi.c
+> +++ b/drivers/usb/musb/sunxi.c
+> @@ -440,6 +440,10 @@ static u8 sunxi_musb_readb(void __iomem *addr, u32 
+offset)
+>  				return 0xde;
 >  
-> -		if (dpb[i].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +		if (dpb[i].flags == 
-V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
->  			dpb_longterm_e |= 
-BIT(V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1 - i);
->  
->  		hantro_write_addr(vpu, G2_REG_ADDR_REF(i), luma_addr);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/
-staging/media/sunxi/cedrus/cedrus_h265.c
-> index 3d9561d4aadb..1edfc3823a57 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -169,7 +169,7 @@ static void cedrus_h265_ref_pic_list_write(struct 
-cedrus_dev *dev,
->  		unsigned int index = list[i];
->  		u8 value = list[i];
->  
-> -		if (dpb[index].rps == V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR)
-> +		if (dpb[index].flags == 
-V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE)
+>  			return readb(addr + SUNXI_MUSB_CONFIGDATA);
+> +		case MUSB_ULPI_BUSCONTROL:
+> +			dev_warn(sunxi_musb->controller->parent,
+> +				"sunxi-musb does not have ULPI bus 
+control register\n");
 
-Flags are usually checked with "&", same goes in Hantro case.
+Since this register doesn't exist, wouldn't be better to print only debug 
+message? Warning would imply something that's out of the ordinary, but in this 
+case it's benign.
 
-Once all fixed, this patch is:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> +			return 0;
+>  		/* Offset for these is fixed by sunxi_musb_busctl_offset() 
+*/
+>  		case SUNXI_MUSB_TXFUNCADDR:
+>  		case SUNXI_MUSB_TXHUBADDR:
+> @@ -494,6 +498,10 @@ static void sunxi_musb_writeb(void __iomem *addr, 
+unsigned offset, u8 data)
+>  			return writeb(data, addr + 
+SUNXI_MUSB_TXFIFOSZ);
+>  		case MUSB_RXFIFOSZ:
+>  			return writeb(data, addr + 
+SUNXI_MUSB_RXFIFOSZ);
+> +		case MUSB_ULPI_BUSCONTROL:
+> +			dev_warn(sunxi_musb->controller->parent,
+> +				"sunxi-musb does not have ULPI bus 
+control register\n");
+> +			return;
+>  		/* Offset for these is fixed by sunxi_musb_busctl_offset() 
+*/
+
+Same here.
 
 Best regards,
 Jernej
 
->  			value |= 
-VE_DEC_H265_SRAM_REF_PIC_LIST_LT_REF;
->  
->  		/* Each SRAM word gathers up to 4 references. */
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index ef63bc205756..01ccda48d8c5 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -127,15 +127,13 @@ struct v4l2_ctrl_hevc_pps {
->  	__u64	flags;
->  };
->  
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_BEFORE	0x01
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_ST_CURR_AFTER	0x02
-> -#define V4L2_HEVC_DPB_ENTRY_RPS_LT_CURR		0x03
-> +#define V4L2_HEVC_DPB_ENTRY_LONG_TERM_REFERENCE	0x01
->  
->  #define V4L2_HEVC_DPB_ENTRIES_NUM_MAX		16
->  
->  struct v4l2_hevc_dpb_entry {
->  	__u64	timestamp;
-> -	__u8	rps;
-> +	__u8	flags;
->  	__u8	field_pic;
->  	__u16	pic_order_cnt[2];
->  	__u8	padding[2];
+>  		case SUNXI_MUSB_TXFUNCADDR:
+>  		case SUNXI_MUSB_TXHUBADDR:
 > -- 
 > 2.30.2
 > 
