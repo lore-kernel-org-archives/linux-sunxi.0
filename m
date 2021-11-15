@@ -1,63 +1,92 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD85C2C81
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Nov 2021 04:19:42 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id x19-20020a9d7053000000b0055c8b39420bso12121306otj.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 11 Nov 2021 20:19:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qxOn87ULPwV2ERYJX91GmCv249cvAtIa56rKI6JKMzk=;
-        b=NKAqdZLfVm5QkPJ6DJ1eWVR8u5H1arADki8SGweemdXApnNeHAvo1Wu0j83AHVcbrX
-         eW5oX3cVbVKTjxxpjyX3gzxDkqwW/eScYNSFWD68q191n/NfBm6MP6L1pLScZCMbz6KT
-         O3yay8ouLzLlns030PvYoZ0d7lcFtq5p8IOjWM+nc755CgyjGgFZtU0PiCra+9HQVgcs
-         uVQ3ElhjnX84PokBg4wuL+ZOIEuum/M/Q7be24a6YPdmup35afW5usz8U65FdzHFr6sP
-         9MWbzByWxdlcF+eXDIaKvLaY5Kt4ETuWIXFiSz8ONPKs4ZS2DxBcYwZQ93V6uKdeEMig
-         atjA==
-X-Gm-Message-State: AOAM531Fsomq229eikJmlvh2+GijI9Wey7wP1kpG2jscdZjxIRthUqrS
-	JR89kSzT0YH6Qku1Z8D/TQ==
-X-Google-Smtp-Source: ABdhPJwcK2aLTenLOImwG5si5qgq36w7YMDwGzNedczDclnQAxDotdfG+bzfTYlQD4IWl7Ex88oHCw==
-X-Received: by 2002:a05:6830:22d8:: with SMTP id q24mr9908105otc.170.1636690782006;
-        Thu, 11 Nov 2021 20:19:42 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id 62sm922824ooa.47.2021.11.11.20.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Nov 2021 20:19:41 -0800 (PST)
-Received: (nullmailer pid 756536 invoked by uid 1000);
-	Fri, 12 Nov 2021 04:19:39 -0000
-Date: Thu, 11 Nov 2021 22:19:39 -0600
-From: Rob Herring <robh@kernel.org>
-To: David Heidelberg <david@ixit.cz>
-Cc: linux-sunxi@lists.linux.dev, Wim Van Sebroeck <wim@linux-watchdog.org>, Chen-Yu Tsai <wens@csie.org>, ~okias/devicetree@lists.sr.ht, linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>, devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, linux-watchdog@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: watchdog: sunxi: fix error in schema
-Message-ID: <YY3rWykk1lIjPVe8@robh.at.kernel.org>
-References: <20211029142443.68779-1-david@ixit.cz>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672A272
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Nov 2021 09:52:45 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id DD33D2B012F6;
+	Mon, 15 Nov 2021 04:52:43 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 15 Nov 2021 04:52:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	3ThKSd0gqW4Pa/bRoS/H8v/D8qsxDWz8kI73Cf3+wQs=; b=ns/17SbdCR1hg2Wj
+	8SfAJHvSkWrH1BYLrbiQYvgZJjSXti9ZIGUMi1dJn4Gui0qZ0UgVEP/YmxlnP0R6
+	4Q/jhMZDBfi+lpq6mQpYbOCLNtbuUA8n1gMm5/RqG+6PHPInq5Fel4mS4z0TF+dV
+	DtYq6Xlki9xOMrff7ksH6ciB6lJM6TCXrxpM9vAir7p3sce1Lt57m7IV2vBDOyaB
+	ZPjnNHm433eJHDuJFoRnhCcN4cb94jKNrtUFQwAx5T8ymLZV5+qxoXkhbX5lNBFm
+	1jNSnYTKhbLe8zUP3ORj53Un8St9+05Fvkw88Mtp98WESxd/IsRUWN/MrPhvxTB+
+	HVMX4g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=3ThKSd0gqW4Pa/bRoS/H8v/D8qsxDWz8kI73Cf3+w
+	Qs=; b=eb0b+Mv0wTMs/NN/dk5C1NCZtYCFF1F3H+UA2MSODvxgja2iCLKaINRBL
+	bjFPLchl+1nMNRAPxQJXP3w6aQdJoKTKtRlu+NamI3wkJATPWpkm9FXZlZKsvuRF
+	2VMkcYl02raE7RjFnQzs3mjAI6JbMypaWVv69fryiKuthjLCSAQtpXELzZr5uLm9
+	qF9HZ5pjNOQPiU82/pGg3ReTR+YV1jaAumPuMUa710lU6Qu8/RxKqmmyKysneMEW
+	F2BMQ5gsYgkwLEMFJXHX+UEkk7jYkHm3YW4BASDmB+yB5t1Ee/Y0BdLUFa9JCUGH
+	nO4FXWE+EynfVYnppQrEwzz/2WBMw==
+X-ME-Sender: <xms:6i2SYSA3AyiuYBFbdfrhSZV9g7P2Uo4tIdtwZWk1G4Pg1Y7wSBUuJg>
+    <xme:6i2SYchUW8bVZjPiNqPOdMJOCR-Ket4OvfBmzClt4Rc4s1GSNW_tHLwjiC17twfVl
+    Oq2HoODIILpwSdvKT8>
+X-ME-Received: <xmr:6i2SYVkhzxL9Y7RORtEFpAyTKhHBnPdumAS82-ez00tXz6QqAANcYlArAYHhiycWh6Jwr9N2ae1Fdsggr-4kd4oCsGqiB8azMuUXNhuP>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvdelgddtjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:6i2SYQyVFkszi2viszbUMrA6Dqft_42XsaOUnWdGqU16ZQ-vdpliqQ>
+    <xmx:6i2SYXQC2k3WRXxFUXXAj_rmdtUDsCdF6UY9ss0YzkjMqr1w97KfRw>
+    <xmx:6i2SYbbf3V8YfWHX6jSP2CSGvjRnpMMStqSrSLnE4R91qJ-A1X3OIA>
+    <xmx:6y2SYcIZVqXKUBjeV8waSCct9fSrcIczfEZsREW-ChOWi853u0Ax0qb-7u8>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Nov 2021 04:52:41 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: jernej.skrabec@gmail.com,
+	daniel@ffwll.ch,
+	airlied@linux.ie,
+	Julian Braha <julianbraha@gmail.com>,
+	wens@csie.org,
+	mripard@kernel.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	fazilyildiran@gmail.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: (subset) [PATCH] [PATCH v2] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
+Date: Mon, 15 Nov 2021 10:52:38 +0100
+Message-Id: <163696994488.38690.15132529754055054115.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211109032351.43322-1-julianbraha@gmail.com>
+References: <20211109032351.43322-1-julianbraha@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211029142443.68779-1-david@ixit.cz>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 29 Oct 2021 16:24:42 +0200, David Heidelberg wrote:
-> "maxItems" is not needed with an "items" list
+On Mon, 8 Nov 2021 22:23:51 -0500, Julian Braha wrote:
+> When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
+> is not selected, Kbuild gives the following warning:
 > 
-> Fixes:
-> $ DT_SCHEMA_FILES=Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml make dtbs_check
-> Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml: properties:clocks: {'required': ['maxItems']} is not allowed for {'minItems': 1, 'maxItems': 2, 'items': [{'description': 'High-frequency oscillator input, divided internally'}, {'description': 'Low-frequency oscillator input, only found on some variants'}]}
-> 	hint: "maxItems" is not needed with an "items" list
-> 	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-> ...
+> WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
+>   Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
+>   Selected by [y]:
+>   - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
 > 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 --
->  1 file changed, 2 deletions(-)
-> 
+> [...]
 
-Applied, thanks!
+Applied to drm/drm-misc (drm-misc-fixes).
+
+Thanks!
+Maxime
