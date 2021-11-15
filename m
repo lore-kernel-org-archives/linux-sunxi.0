@@ -1,92 +1,196 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672A272
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Nov 2021 09:52:45 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id DD33D2B012F6;
-	Mon, 15 Nov 2021 04:52:43 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 15 Nov 2021 04:52:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	3ThKSd0gqW4Pa/bRoS/H8v/D8qsxDWz8kI73Cf3+wQs=; b=ns/17SbdCR1hg2Wj
-	8SfAJHvSkWrH1BYLrbiQYvgZJjSXti9ZIGUMi1dJn4Gui0qZ0UgVEP/YmxlnP0R6
-	4Q/jhMZDBfi+lpq6mQpYbOCLNtbuUA8n1gMm5/RqG+6PHPInq5Fel4mS4z0TF+dV
-	DtYq6Xlki9xOMrff7ksH6ciB6lJM6TCXrxpM9vAir7p3sce1Lt57m7IV2vBDOyaB
-	ZPjnNHm433eJHDuJFoRnhCcN4cb94jKNrtUFQwAx5T8ymLZV5+qxoXkhbX5lNBFm
-	1jNSnYTKhbLe8zUP3ORj53Un8St9+05Fvkw88Mtp98WESxd/IsRUWN/MrPhvxTB+
-	HVMX4g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=3ThKSd0gqW4Pa/bRoS/H8v/D8qsxDWz8kI73Cf3+w
-	Qs=; b=eb0b+Mv0wTMs/NN/dk5C1NCZtYCFF1F3H+UA2MSODvxgja2iCLKaINRBL
-	bjFPLchl+1nMNRAPxQJXP3w6aQdJoKTKtRlu+NamI3wkJATPWpkm9FXZlZKsvuRF
-	2VMkcYl02raE7RjFnQzs3mjAI6JbMypaWVv69fryiKuthjLCSAQtpXELzZr5uLm9
-	qF9HZ5pjNOQPiU82/pGg3ReTR+YV1jaAumPuMUa710lU6Qu8/RxKqmmyKysneMEW
-	F2BMQ5gsYgkwLEMFJXHX+UEkk7jYkHm3YW4BASDmB+yB5t1Ee/Y0BdLUFa9JCUGH
-	nO4FXWE+EynfVYnppQrEwzz/2WBMw==
-X-ME-Sender: <xms:6i2SYSA3AyiuYBFbdfrhSZV9g7P2Uo4tIdtwZWk1G4Pg1Y7wSBUuJg>
-    <xme:6i2SYchUW8bVZjPiNqPOdMJOCR-Ket4OvfBmzClt4Rc4s1GSNW_tHLwjiC17twfVl
-    Oq2HoODIILpwSdvKT8>
-X-ME-Received: <xmr:6i2SYVkhzxL9Y7RORtEFpAyTKhHBnPdumAS82-ez00tXz6QqAANcYlArAYHhiycWh6Jwr9N2ae1Fdsggr-4kd4oCsGqiB8azMuUXNhuP>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrvdelgddtjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
-    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:6i2SYQyVFkszi2viszbUMrA6Dqft_42XsaOUnWdGqU16ZQ-vdpliqQ>
-    <xmx:6i2SYXQC2k3WRXxFUXXAj_rmdtUDsCdF6UY9ss0YzkjMqr1w97KfRw>
-    <xmx:6i2SYbbf3V8YfWHX6jSP2CSGvjRnpMMStqSrSLnE4R91qJ-A1X3OIA>
-    <xmx:6y2SYcIZVqXKUBjeV8waSCct9fSrcIczfEZsREW-ChOWi853u0Ax0qb-7u8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Nov 2021 04:52:41 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: jernej.skrabec@gmail.com,
-	daniel@ffwll.ch,
-	airlied@linux.ie,
-	Julian Braha <julianbraha@gmail.com>,
-	wens@csie.org,
-	mripard@kernel.org
-Cc: Maxime Ripard <maxime@cerno.tech>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55A472
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Nov 2021 20:08:39 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id u1so32992828wru.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Nov 2021 12:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vv3++EAvq4bz+YuG3ou53n/DT6vcjuuoVxgm/bXL6Vw=;
+        b=ETdHq22ic93KuqD21fistzxz9DwapDxVE5IFlchvdlZLMZVkDkdQdtI0XfWM0TkRMo
+         7owXz/jTpVlQoqmO+nXOnmpKpkYm0l5uFLvT8Qobk+ks9yiZAscigvn/wu+20NFYsXsz
+         p+Zwq5DBi561IUJfq0Me8tBsFvjsxuiNVzw3DwofnZysI0e0XvegFAETn/Bad0dhhC0p
+         NrhzFo4UBQFQMxWbL0eDEAfrPHNfgX5VBDQmbs2NZ/avjNMU/5vcBiudHr+7SivjuCct
+         GcURA9tHOs9rXQi/w7PtVzwMCSMuUCDG2AlLExJ/TKtfJqjCgkofIaG2xyBX69GAK2h0
+         nV5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vv3++EAvq4bz+YuG3ou53n/DT6vcjuuoVxgm/bXL6Vw=;
+        b=DwjW4wtcA3rhI81umD1csR3Dy1JkuN9atQJmLFcoJNoPQR+bxblelu3yqMv8uNYN+h
+         eEjl/Owv1GFW7vQ9j+nWr3H8rrVYRoof12YawCeG0UVeTVSDZv2mvQuTmZVFdzWdhgCn
+         cttvNJi1Jojq/oOr197EX93jMzMwTFiZKQkUvvFE58IH/m81CcG35IrOQzQuTeR56/tC
+         SED1jZrz56iqyaFYu2DU2DpnqeHeVr/yz+v/J+34kRqq8SybLvlXKUYDOkcYIC1eglWX
+         czEAh3V0SKQ/Bsk6591wAzLQOSzt9V3j5vwCotaV8KI/Stauza/QHxho0swTsEeMJUIx
+         i0Kw==
+X-Gm-Message-State: AOAM532s3ePKcLFWkm4CKrQqIiKU4U3VbPYSDhjcyMUiOWI0ucOaVqek
+	b6VAk5F4XEkEbG8Wx2ILuM8=
+X-Google-Smtp-Source: ABdhPJzJcHuXy3LPbIo21wm3J2OBVA00Rxd1RPMy7rqvNd62ZvgeaLU5H2MB62p4KuUsBnAXDoedPg==
+X-Received: by 2002:adf:f947:: with SMTP id q7mr2120309wrr.260.1637006917995;
+        Mon, 15 Nov 2021 12:08:37 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id h13sm15645389wrx.82.2021.11.15.12.08.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Nov 2021 12:08:37 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	fazilyildiran@gmail.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH] [PATCH v2] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Mon, 15 Nov 2021 10:52:38 +0100
-Message-Id: <163696994488.38690.15132529754055054115.b4-ty@cerno.tech>
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] ASoC: sunxi: sun4i-spdif: Implement IEC958 control
+Date: Mon, 15 Nov 2021 21:08:33 +0100
+Message-Id: <20211115200833.452559-1-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211109032351.43322-1-julianbraha@gmail.com>
-References: <20211109032351.43322-1-julianbraha@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Mon, 8 Nov 2021 22:23:51 -0500, Julian Braha wrote:
-> When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-> is not selected, Kbuild gives the following warning:
-> 
-> WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
->   Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
->   Selected by [y]:
->   - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
-> 
-> [...]
+SPDIF core is capable of sending custom status.
 
-Applied to drm/drm-misc (drm-misc-fixes).
+Implement IEC958 control handling.
 
-Thanks!
-Maxime
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ sound/soc/sunxi/sun4i-spdif.c | 99 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+
+diff --git a/sound/soc/sunxi/sun4i-spdif.c b/sound/soc/sunxi/sun4i-spdif.c
+index a10949bf0ca1..f7438e3ece65 100644
+--- a/sound/soc/sunxi/sun4i-spdif.c
++++ b/sound/soc/sunxi/sun4i-spdif.c
+@@ -21,6 +21,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/reset.h>
++#include <sound/asoundef.h>
+ #include <sound/dmaengine_pcm.h>
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+@@ -385,11 +386,109 @@ static int sun4i_spdif_trigger(struct snd_pcm_substream *substream, int cmd,
+ 	return ret;
+ }
+ 
++static int sun4i_spdif_info(struct snd_kcontrol *kcontrol,
++			    struct snd_ctl_elem_info *uinfo)
++{
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_IEC958;
++	uinfo->count = 1;
++
++	return 0;
++}
++
++static int sun4i_spdif_get_status_mask(struct snd_kcontrol *kcontrol,
++				       struct snd_ctl_elem_value *ucontrol)
++{
++	u8 *status = ucontrol->value.iec958.status;
++
++	status[0] = 0xff;
++	status[1] = 0xff;
++	status[2] = 0xff;
++	status[3] = 0xff;
++	status[4] = 0xff;
++	status[5] = 0x03;
++
++	return 0;
++}
++
++static int sun4i_spdif_get_status(struct snd_kcontrol *kcontrol,
++				  struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_dai *cpu_dai = snd_kcontrol_chip(kcontrol);
++	struct sun4i_spdif_dev *host = snd_soc_dai_get_drvdata(cpu_dai);
++	u8 *status = ucontrol->value.iec958.status;
++	unsigned int reg;
++
++	regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA0, &reg);
++
++	status[0] = reg & 0xff;
++	status[1] = (reg >> 8) & 0xff;
++	status[2] = (reg >> 16) & 0xff;
++	status[3] = (reg >> 24) & 0xff;
++
++	regmap_read(host->regmap, SUN4I_SPDIF_TXCHSTA1, &reg);
++
++	status[4] = reg & 0xff;
++	status[5] = (reg >> 8) & 0x3;
++
++	return 0;
++}
++
++static int sun4i_spdif_set_status(struct snd_kcontrol *kcontrol,
++				  struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_soc_dai *cpu_dai = snd_kcontrol_chip(kcontrol);
++	struct sun4i_spdif_dev *host = snd_soc_dai_get_drvdata(cpu_dai);
++	u8 *status = ucontrol->value.iec958.status;
++	unsigned int reg;
++
++	reg = (u32)status[3] << 24;
++	reg |= (u32)status[2] << 16;
++	reg |= (u32)status[1] << 8;
++	reg |= (u32)status[0];
++
++	regmap_write(host->regmap, SUN4I_SPDIF_TXCHSTA0, reg);
++
++	reg = (u32)(status[5] & 3) << 8;
++	reg |= (u32)status[4];
++
++	regmap_write(host->regmap, SUN4I_SPDIF_TXCHSTA1, reg);
++
++	reg = SUN4I_SPDIF_TXCFG_CHSTMODE;
++	if (status[0] & IEC958_AES0_NONAUDIO)
++		reg |= SUN4I_SPDIF_TXCFG_NONAUDIO;
++
++	regmap_update_bits(host->regmap, SUN4I_SPDIF_TXCFG,
++			   SUN4I_SPDIF_TXCFG_CHSTMODE |
++			   SUN4I_SPDIF_TXCFG_NONAUDIO, reg);
++
++	return 0;
++}
++
++static struct snd_kcontrol_new sun4i_spdif_controls[] = {
++	{
++		.access = SNDRV_CTL_ELEM_ACCESS_READ,
++		.iface = SNDRV_CTL_ELEM_IFACE_PCM,
++		.name = SNDRV_CTL_NAME_IEC958("", PLAYBACK, MASK),
++		.info = sun4i_spdif_info,
++		.get = sun4i_spdif_get_status_mask
++	},
++	{
++		.iface = SNDRV_CTL_ELEM_IFACE_PCM,
++		.name = SNDRV_CTL_NAME_IEC958("", PLAYBACK, DEFAULT),
++		.info = sun4i_spdif_info,
++		.get = sun4i_spdif_get_status,
++		.put = sun4i_spdif_set_status
++	}
++};
++
+ static int sun4i_spdif_soc_dai_probe(struct snd_soc_dai *dai)
+ {
+ 	struct sun4i_spdif_dev *host = snd_soc_dai_get_drvdata(dai);
+ 
+ 	snd_soc_dai_init_dma_data(dai, &host->dma_params_tx, NULL);
++	snd_soc_add_dai_controls(dai, sun4i_spdif_controls,
++				 ARRAY_SIZE(sun4i_spdif_controls));
++
+ 	return 0;
+ }
+ 
+-- 
+2.33.1
+
