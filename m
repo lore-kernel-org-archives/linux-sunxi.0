@@ -1,136 +1,195 @@
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (mail-psaapc01on2101.outbound.protection.outlook.com [40.107.255.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BAA572
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Nov 2021 02:15:02 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B+tS/dlzBvBay/z8yD90b0p9aQ3tplbBZsKDeiY62DzyVA5qCLLIA8R13wRDtNclVteSbJS0drBukivDgQ4a+6YdSZ7njJnVDYPbHv92SfnRxgoRGiLPmlKY5DySfbhkJjlLf7GG+x6H93Oo2BofS9mk4Bp5qXSTBncfdH+tmUwWVX3R0oBp3OvjSKs0Cc7MPHbu/GEe/DzZLDwMmlYdwzvEiyaPvtuZ9pf+1pLI+YGUYXd00b4QQeuuctoUGI5irfcKT2h+DzB0RcZGnl4rhqBzUkqP2ROgNvVKvZ4m4jfcS4Unk87sAmmhuj06+V/AojgqXgPnn5znqtQWt/iKNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h5UJJY7mBe5KpxCvwQA4FzeaMaEuHEqAhrSQ4HYieQA=;
- b=VOT5UQ3jjU95HQYFpurhqEnjnvIHqv0q7GwshAar8Pq5dUx5/vTcvtJpxdvSAORqbukSt/OQE7OpRCGNB6Vrwq0euh534wl0nZSWVCXXaPkJF8R6UC2OQ2arZdLuxvqGSNuO5s6mFcXOf/T3jYxZOeCbg3pqVwEQ8lCzlV8Nvf4j5za/5e0OeTAzpLO+pCcZDmvJvX5C4xRAyJFS39sIRwWccnvKHLEPVGAPuQKo61v0b0thddIQ6gz5PAqGGVH1ufcDYkQUFwNRWi3lSREpki+06sWCkg+RyJ2RYMmXp6ggMpFb1wqoUvN5bRwFLrIhvegDgMS/Qhk6HI6ojTfVmw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h5UJJY7mBe5KpxCvwQA4FzeaMaEuHEqAhrSQ4HYieQA=;
- b=ggbiQJX+1QciwSXxLBedTUFJmbDiATtra2O8WmXUljdQu908/9NaEM+Z9aiqv8L6xCYhE2Bj7fdWfMzJMv4pVlGkpFbpSmgFk3dweHA+os5HsS1dU5dPQKw8ZlSC91R7TcDDUhNhszEPwKy/wzBRB5m4pOjeeN8KxHxdg7Ix4xk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com (2603:1096:301:37::11)
- by PS1PR06MB2789.apcprd06.prod.outlook.com (2603:1096:803:3f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.27; Tue, 16 Nov
- 2021 02:14:59 +0000
-Received: from PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385]) by PSAPR06MB4021.apcprd06.prod.outlook.com
- ([fe80::395a:f2d7:d67f:b385%5]) with mapi id 15.20.4690.027; Tue, 16 Nov 2021
- 02:14:59 +0000
-From: Bernard Zhao <bernard@vivo.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	David Airlie <airlied@linux.ie>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	dri-devel@lists.freedesktop.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5738072
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Nov 2021 09:35:43 +0000 (UTC)
+Received: by mail-lj1-f178.google.com with SMTP id z8so41860573ljz.9
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Nov 2021 01:35:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5a/Std0CdLhhceL3Y6/V4PWA+iMZUZInfEMYaHuWA/8=;
+        b=2EC4inBIQ6DU4E/YdDNE1Z/ONgexouKomSmmpfYVQkvSKtLOSjBBXheuodS4tu3fAx
+         FSpaSKubDT3enRImiyulPEEEy5Fl7g89YmRW1ddxYXsPql23Q2zuB2l4g5OzQ3zugA6x
+         EFciMItxNcYfGzeCIN4r/77WUlxttwax/UMqp7svzChKDvUfvLMGDP+Cw+MddO3KzMWQ
+         fvbAOTcxz0akrpzjEcBLJLrU1/KYQDtlpLIxAq5xGOeeVKyM+xkG5X5kQ7UX36uMqug7
+         tIfMxeaoXhr2byypT7qSTVVeDopEfsLAGJfQ0tyfAP3IuIW3rYmjxaV/UasprKnj3Vwa
+         fL+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5a/Std0CdLhhceL3Y6/V4PWA+iMZUZInfEMYaHuWA/8=;
+        b=EeeDlx6PnsUCaHSEti6mxjDH+0AS8UpkgqXRNUNWYWoVY7X5UVfjNXPrHsKSKcdqRf
+         xZYhhgI1DaU+H+P0MO9uJsst6jRGqAtGLn0RUEkmx/vrlUw8Gd8iYiURXli82uiuTxUX
+         +JS7bRhVsUeFj6dU8EajgwB/avGJYLdTU2P4OT7IQwv49T9lmBcrJyHS5/YTB3kwCbRb
+         FbdLN9QyJMoz3+LGm/YUMVIkEBWWXTcg6mkKBx/2ozi0P3JhwnIXpkT5wfDaNIA92V32
+         ZvV7EXePMZJ25a3xX3vVqxyFEQ+xGx+xdHsjGuNXwATHBUhrFeZG5uinBRHHQu7UN1lD
+         yanQ==
+X-Gm-Message-State: AOAM531jqSvUs8/sUMN+aP7Qe+RXZr3hp7vRb7hjwZ9LYdmQeTNke/+N
+	gNu5RkxS1ru3FAo51A+DJe1R9BztRtu3og==
+X-Google-Smtp-Source: ABdhPJyIslw7cKCT8hE8JR8XKYFUQof01sWdaSDzd51ceZSUftuk7ZhBqkIFCCgWW3S3r0WrRKYCvw==
+X-Received: by 2002:a05:651c:503:: with SMTP id o3mr5662800ljp.353.1637055341690;
+        Tue, 16 Nov 2021 01:35:41 -0800 (PST)
+Received: from boger-laptop.lan (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
+        by smtp.gmail.com with ESMTPSA id m28sm1281080lfq.189.2021.11.16.01.35.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Nov 2021 01:35:41 -0800 (PST)
+From: Evgeny Boger <boger@wirenboard.com>
+To: linux-sunxi@lists.linux.dev
+Cc: Evgeny Boger <boger@wirenboard.com>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Bernard Zhao <bernard@vivo.com>
-Subject: [PATCH] drm/sun4i: remove no need type conversion to bool
-Date: Mon, 15 Nov 2021 18:14:49 -0800
-Message-Id: <20211116021449.27503-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.33.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HK2PR02CA0208.apcprd02.prod.outlook.com
- (2603:1096:201:20::20) To PSAPR06MB4021.apcprd06.prod.outlook.com
- (2603:1096:301:37::11)
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Yangtao Li <frank@allwinnertech.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	andre.przywara@arm.com
+Subject: [PATCH RESEND] phy: sun4i-usb: fix phy write on H3 and newer
+Date: Tue, 16 Nov 2021 12:35:10 +0300
+Message-Id: <20211116093509.346002-1-boger@wirenboard.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from ubuntu.localdomain (203.90.234.87) by HK2PR02CA0208.apcprd02.prod.outlook.com (2603:1096:201:20::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4690.18 via Frontend Transport; Tue, 16 Nov 2021 02:14:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61864a89-f720-43d9-9bc0-08d9a8a6e3e9
-X-MS-TrafficTypeDiagnostic: PS1PR06MB2789:
-X-Microsoft-Antispam-PRVS:
-	<PS1PR06MB2789B5A5CFA86053D2B1F70BDF999@PS1PR06MB2789.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:849;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	kmXt8IYuFDjK4FS8khvLvhzSxfKNGDjG15S/+Kz+hv0dRIPjv2cRr+ZYBVgBiRykYtAm0Oy3sQsOFH5uJAeuOJEgZn6NkdNBa4xEU4SO+/a6CZg+P+n+7+Q5+yGjDbSmJhxXF1I4qhv40vseMGYfRt+j2tjIWX9uDjTPVpb3u7BO1GYfw9+PS9DhCuXBEiSZnvoItZyeVTygvO8cqs+cnklmW/tO+ZZOROnIHwIr7hfDbDY5NDnOEawTqXX6gU5RO6Sz6iESjY86eDpdd0pxDk8y0Jdw48rlHKU01d4kqh8v1Ac5OmkxubH8CG6v4e9l4e7yyLj2yaubINtU0Jg2pUNIOPMwMbOOtA5JyrdC9EmSbyHR4rCbrDfAWbKkkVhg6fkQ7W0l6ksAWT77Rrvgbe+qxmDWAp1LANeQqV5RDaIKvFQJr22mrv0NxnE5q38U7JgQVp2cM9dqP77533L307sKfTPixp26T0mea7PyfGV1iDaSQNH3zSGMmxmey/lesQaaJYDaU5OsmQDnodolXMxn4Ldg4gRcILxPqgko9WLE6LNHU/kNMFmF4BZG3PoadVctipN60ewYI8KSAjZHTRbxII7/i3pUVTwWByERF07Bakofkltm6WhxRRlyR77/P5lN3/01Q8aHBUC3LaaVOC+JwvlE8bn/ddjNMih2LjaKh2k31on34NhL6rk0DanPzl3K3u0oFWgse4dlP7cJ9Q==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PSAPR06MB4021.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(4326008)(6506007)(36756003)(2616005)(2906002)(26005)(5660300002)(508600001)(86362001)(6666004)(8676002)(956004)(52116002)(38100700002)(8936002)(107886003)(38350700002)(83380400001)(316002)(66946007)(66476007)(66556008)(6486002)(1076003)(186003)(4744005)(110136005)(6512007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?o6RelEhbzyCVDYDSdsWXKesrtrt8/ILST2G2xdSS2soqm0wS16rGN3ji4alX?=
- =?us-ascii?Q?fTGxQySVG4QKdTvDaZkITGEdj4vvEAj6puvVEcWr4gTuBZPTQRINAV/pUe8Y?=
- =?us-ascii?Q?VI41607b3Oeq2GwmCLXV91E4WXO2h3a7oFDL7Y9IkhyxbEdDgsc/dNVMEsaN?=
- =?us-ascii?Q?Xie1OMuO8RihcuBI0y3m3l7n4nPt/YkFZCzjQt1NVFdwOS6tN0qChGj3f4OG?=
- =?us-ascii?Q?qsn6hv5D5HvnwdgAIaD37p3VobzeCLb4Q0KcyGZCvuZS5eWeSEVtfB2d8HUh?=
- =?us-ascii?Q?KMVxaeVih9/4T4A6+/+AyEssUQNHNDVRvSVzVDMTYm0cEc2UekSDlbBW88s/?=
- =?us-ascii?Q?yfbCEkBKX7BGp39PeLmv1kDSev3fKCANOSr5FG1BhTFOdj8Hy+an+gVAQcVN?=
- =?us-ascii?Q?3iEYvBM+MwXp/Pi329z48JYnGvrznRLUb8tdZPpR1QysBysC9A4yI76ZQuJs?=
- =?us-ascii?Q?oGRYIkdFeuzCPzWA8KGb6dPBW/Ul1cqj9UJ1V10fiX5b48pSUlc9pclIf2s/?=
- =?us-ascii?Q?IaN2QSjy1ljprQa4C2M7sh9B54UOfcE4s00//9m1j3awKfGquKDTg0Lm3lES?=
- =?us-ascii?Q?mTj91uEt7CeW28zqIwyp4bciQvHpofzISpM8imN5iKtG/0LebznbuabkcCn4?=
- =?us-ascii?Q?sMoSGH1EMDbJJWwbo1eXtnvJ/zkv2eGychxXVykJrvou3eHjocnshlMlhE7z?=
- =?us-ascii?Q?NM1ZVTWx8YnKeCPC7ORbRR+O8oSG3vKR48cO5WO3s5BloxnVfQpjDjyZ2W9L?=
- =?us-ascii?Q?lqkVGKoiDGBs7nhwVii6/QpXA8pJ/UmXv9pSaV4nWlHWgnGxXFBSbf+V7IJc?=
- =?us-ascii?Q?3rqqCVKfx3lj16BqkMz8iMD8oSqfnb3i6OPhVecFXte12jdzH/fj97f5SSts?=
- =?us-ascii?Q?kLQmvQ7+5w97eajfUgQBDav3MuiHTV37jposhaCJhAgvPoR1pKi4FnjidNkT?=
- =?us-ascii?Q?kOqL+l7r6kJsrppFgwuIgMqLPSeUugiiieuMRd1Q9bgiy78l+nYMHM3bxpEp?=
- =?us-ascii?Q?dKmdcsMiE9NG9p58fQxEh/VIHDnDmu4Ru5js/R2QRHAKyi0iUmMv4GEgBQwD?=
- =?us-ascii?Q?clPAUMwFPWFtZrZMG3KCrlb4WLn74z5+x7iLeEyw3AP1I9qde+Ny/Q/c/mHg?=
- =?us-ascii?Q?2F4fpYYT4B68wV3fXMzBkCeg8RsWbD+faVbyQqBVYk6TYZT7CQhsN//r0C8Y?=
- =?us-ascii?Q?GZBdw5skiW/heAqLuuhIYkOZpdzvynuU6cY/BcaciCPVN7lB13CMrXFJX71p?=
- =?us-ascii?Q?MHV4MdcrWqlA7oAvXuJqSUCo6V3ZJEhJ1Fxvm8RSmkkYxjXht0O/qf+umXBg?=
- =?us-ascii?Q?r3neSpsgpZ3H/8/97XovjEDKyLTSPtCh55tnedAMHcKi6BOp8+65ImVqhAOH?=
- =?us-ascii?Q?I0x+Irqws2OZhwfTofxWUWa1mrRFFmocokV9gWswS6Fsae9dp+oKLyP0rxz0?=
- =?us-ascii?Q?UklYm6+h2+k6XhSyJHFE/ej302wry82jL1xxF+dyvewtvxG8fmes1J6w4vS8?=
- =?us-ascii?Q?WlBdHOtPOVPa9GAU5S270eeFw0kx1yyN/6heNa3t8HTWcVDeLbzFaS6tXRjL?=
- =?us-ascii?Q?0AujjJajyJrl5M3GS4iGmVv5Ws1qF4UH3GzvWMMEwti40MjDK0S3+QmmbFPV?=
- =?us-ascii?Q?/NjM8h3t7o0xscXEa4GZprM=3D?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61864a89-f720-43d9-9bc0-08d9a8a6e3e9
-X-MS-Exchange-CrossTenant-AuthSource: PSAPR06MB4021.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2021 02:14:59.3272
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: btnHyYfDEOCvQZ4JTMmHfFjDa2Z7zTXBzKy6nFPCkxkHgd/0Q7lCNqfdK6NC1N1ONSAauscn1+ZAay8EE3FjLg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PS1PR06MB2789
+Content-Transfer-Encoding: 8bit
 
-This change is to cleanup the code a bit.
+On older SoCs (prior to H3) PHY register are accessed by manipulating
+the common register for all PHYs. PHY index is specified by pulsing
+usbc bit.
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+Newer SoCs leave the access procedure mostly unchanged, the
+difference being that the latch registers are separate for each PHY.
+
+Additionally, accessing USB PHY registers is only possible if phy0 is
+routed to musb IP instead of HCI.
+
+Introduce phy_reg_access_v2 cfg flag for H3 (H2+, H5),
+R40 (V40, A40i, T3), V3s (V3, S3) and A64 SoCs.
+
+On A83t, H6, H616, T507 and probably on more recent hardware,
+these PHY registers are not used in vendor BSP.
+So don't set v2 flag for these even newer SoCs as a precaution.
+
+Signed-off-by: Evgeny Boger <boger@wirenboard.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/phy/allwinner/phy-sun4i-usb.c | 44 ++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
-index fbf7da9d9592..25e6f85fed0b 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_tmds_clk.c
-@@ -49,7 +49,7 @@ static unsigned long sun4i_tmds_calc_divider(unsigned long rate,
- 			    (rate - tmp_rate) < (rate - best_rate)) {
- 				best_rate = tmp_rate;
- 				best_m = m;
--				is_double = (d == 2) ? true : false;
-+				is_double = (d == 2);
- 			}
- 		}
+diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+index 788dd5cdbb7d..cf10e385f199 100644
+--- a/drivers/phy/allwinner/phy-sun4i-usb.c
++++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+@@ -119,6 +119,7 @@ struct sun4i_usb_phy_cfg {
+ 	bool dedicated_clocks;
+ 	bool enable_pmu_unk1;
+ 	bool phy0_dual_route;
++	bool phy_reg_access_v2;
+ 	int missing_phys;
+ };
+ 
+@@ -192,13 +193,38 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
+ 				int len)
+ {
+ 	struct sun4i_usb_phy_data *phy_data = to_sun4i_usb_phy_data(phy);
+-	u32 temp, usbc_bit = BIT(phy->index * 2);
++	u32 otgctl_val, temp, usbc_bit;
+ 	void __iomem *phyctl = phy_data->base + phy_data->cfg->phyctl_offset;
++	void __iomem *phyctl_latch;
+ 	unsigned long flags;
+ 	int i;
+ 
+ 	spin_lock_irqsave(&phy_data->reg_lock, flags);
+ 
++	/* On older SoCs (prior to H3) PHY register are accessed by manipulating the
++	 * common register for all PHYs. PHY index is specified by pulsing usbc bit.
++	 * Newer SoCs leave the access procedure mostly unchanged, the difference
++	 * being that the latch registers are separate for each PHY.
++	 */
++	if (phy_data->cfg->phy_reg_access_v2) {
++		if (phy->index == 0)
++			phyctl_latch = phy_data->base + phy_data->cfg->phyctl_offset;
++		else
++			phyctl_latch = phy->pmu + phy_data->cfg->phyctl_offset;
++		usbc_bit = 1;
++
++		/* Accessing USB PHY registers is only possible if phy0 is routed to musb.
++		 * As it's not clear whether is this related to actual PHY
++		 * routing or rather the hardware is just reusing the same bit,
++		 * don't check phy0_dual_route here.
++		 */
++		otgctl_val = readl(phy_data->base + REG_PHY_OTGCTL);
++		writel(otgctl_val | OTGCTL_ROUTE_MUSB, phy_data->base + REG_PHY_OTGCTL);
++	} else {
++		phyctl_latch = phyctl;
++		usbc_bit = BIT(phy->index * 2);
++	}
++
+ 	if (phy_data->cfg->phyctl_offset == REG_PHYCTL_A33) {
+ 		/* SoCs newer than A33 need us to set phyctl to 0 explicitly */
+ 		writel(0, phyctl);
+@@ -224,17 +250,21 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
+ 		writeb(temp, phyctl);
+ 
+ 		/* pulse usbc_bit */
+-		temp = readb(phyctl);
++		temp = readb(phyctl_latch);
+ 		temp |= usbc_bit;
+-		writeb(temp, phyctl);
++		writeb(temp, phyctl_latch);
+ 
+-		temp = readb(phyctl);
++		temp = readb(phyctl_latch);
+ 		temp &= ~usbc_bit;
+-		writeb(temp, phyctl);
++		writeb(temp, phyctl_latch);
+ 
+ 		data >>= 1;
  	}
+ 
++	/* Restore PHY routing and the rest of OTGCTL */
++	if (phy_data->cfg->phy_reg_access_v2)
++		writel(otgctl_val, phy_data->base + REG_PHY_OTGCTL);
++
+ 	spin_unlock_irqrestore(&phy_data->reg_lock, flags);
+ }
+ 
+@@ -927,6 +957,7 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
+ 	.dedicated_clocks = true,
+ 	.enable_pmu_unk1 = true,
+ 	.phy0_dual_route = true,
++	.phy_reg_access_v2 = true,
+ };
+ 
+ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+@@ -937,6 +968,7 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+ 	.dedicated_clocks = true,
+ 	.enable_pmu_unk1 = true,
+ 	.phy0_dual_route = true,
++	.phy_reg_access_v2 = true,
+ };
+ 
+ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+@@ -947,6 +979,7 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+ 	.dedicated_clocks = true,
+ 	.enable_pmu_unk1 = true,
+ 	.phy0_dual_route = true,
++	.phy_reg_access_v2 = true,
+ };
+ 
+ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+@@ -957,6 +990,7 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+ 	.dedicated_clocks = true,
+ 	.enable_pmu_unk1 = true,
+ 	.phy0_dual_route = true,
++	.phy_reg_access_v2 = true,
+ };
+ 
+ static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
 -- 
-2.33.1
+2.25.1
 
