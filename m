@@ -1,105 +1,85 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A153B2C82
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Nov 2021 14:33:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id 119052B012A8;
-	Tue, 16 Nov 2021 09:33:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 16 Nov 2021 09:33:00 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9831B2C82
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Nov 2021 15:15:24 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 5B6863200B5E;
+	Tue, 16 Nov 2021 10:15:23 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 16 Nov 2021 10:15:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm1; bh=6hLb7OiPLBrXnVyULLTa9eHYTZ
-	vzjrzL3lOYSa2SxUA=; b=h+v4YcQKu+CrzkqZTy9bmNtSZ2hXULf0aC8sHp1E4e
-	Z/ni0EHF0HiM3Dfl0QtAymT2PVq5z15HzVNWqobF6+eZ52f1AwdsXWMin7hBXBSp
-	pvU8fbVOaIrUgt2e2yddrhKm+O1Lct/lW/7QSPQVaKe3eiitFNp1mXJ36czbQHjJ
-	/ZnfsX+qvTJfgSkUWnKCMTUJRBJvJIcFtPVOZnY4nCYJr2O0/W+QQqcjSO2hEWS0
-	TzULGCzNEngZZLnj88B0Wm4X5l9dAx2HkJSfyS0XSGE8ZDErYb08/qgn+9SLAnsv
-	ZLe3LFgLzqHGoO8Y+2hTFyI/Gc9mIaq2Zm4sDbkLtiwg==
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	D/F/AfKJj86ZhqS1GUEtYPWSp/tbVPMVzBI2O66iYyc=; b=FUB4sSWwRVNqsilb
+	fZmI9XtNqXz6MG87K5hZT/vSZyl516CMOvX5rGBUkHwKAvY+cXy++gFDzK+iu9Dr
+	qPbvrbGtQ+26pybwUzQAt26Hflc2qxjDmKgYvN98ehS3k/uA1su8W145BwGDVCtT
+	xXYL8Wc3HTcxdplWO2rBPZanDLtd4Q9MMtSsSEdZarQq4M3hzhIaCzoBr+HeRQqK
+	TCzFClZ6UK+PVLIr/NOsc/wvX+0/Tdzb9ehU8ykQCW+U7AIu9uiXplrP2MbDFXIU
+	8gF3dXhblWsD7cKx1MbSBT+G6lnCk8QoR9aXsyz3+n8qaignwvD2S6c/ZMiLFl6k
+	AkaIHA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6hLb7OiPLBrXnVyUL
-	LTa9eHYTZvzjrzL3lOYSa2SxUA=; b=lYvIBrks1J5OC0qoI5w0NwLEF2d0RtLzt
-	T3CZQ28oh4ijYSJNm3DU/+p7e7YWPFHJAzR4DcUWDrWmkqLnKrOqWjBWOkFkDFGO
-	PyRJpmFX+VC0Xl7UkwJXQmO6C/4CCbnfz5J1rFZHX7uCKEd16v4h+qFIlz+ax+Wk
-	bWu205D/op0Z7zBV3/AV68PyJHJz0NLlpi3ZvnOiLAwl8vNdk03B0xiIy4VKQyef
-	ClK28MkyIsyhCBOSOsJ0e3BdGzCYB4NyetwFXb6hPMG2pAofPIlLJLzpm44KPB+8
-	97UCHeXcPymYwjKG5lhP1KlyZxpUdP+Gf/aRgLPpu4WgDvdD2+HoQ==
-X-ME-Sender: <xms:GsGTYaDtOYcM-Y8T8Yrf_Qa12vKN-RydhBqdTbCRuYz5RnX6kQ1t8A>
-    <xme:GsGTYUgJnra-_Hvasw9UEjf4k75ehvU4UMaNTe-OentATW79qAUSnuY7hCbpHwZFa
-    Gv-Mby9hZ-eTvsvN_E>
-X-ME-Received: <xmr:GsGTYdn7YLMx-5UDDrr6pBS9i5zMfeLUP9-cc8KJiESiVCaHI1dQfpRRP8aYK9f0jEtTjQubqCqToQy18WT7ezdBkIzBddaGLWDesIiq>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedvgdeigecutefuodetggdotefrodftvf
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=D/F/AfKJj86ZhqS1GUEtYPWSp/tbVPMVzBI2O66iY
+	yc=; b=B5rq4vkw61plJhKQ7IsSuNdliHQDU18cUTRLmy1U4/um7IyYi7CH+im6x
+	r8VF8mHnzpiW47tYO7KSvhv5KGq9WLQm8eVLcOPTNFUq9heWydcQLNm7gg5npfeb
+	5A2wRnxh+ETZc+BbaU6SvOcRoV5SecJtQ/vgoLBKIg+HbVoougVgGMXNewZktpRN
+	2hp/dcedSdXQqK4hAE2eKK6jGf3Eg2eADwjPRfIklZ4ZWLUBxeQzDpAA2SvlxB1y
+	qlPKB+s5a4CFtFUXrkrQQC2KV3cNMIHfA+YjrZphWp4qFXo5ICFdiusitDjx77OQ
+	kejSkuGAWRVLefuztjjyd+3UKvV/Q==
+X-ME-Sender: <xms:CsuTYR1yW4i08qbJNEs1XGva81QzQtMMDTTaJXgwqjjVjzqXrgX1ow>
+    <xme:CsuTYYHAJ9gIcclcfWoxWa9LuArcyTjzdRsh_WqDOKkOh_5P1etMJuRohOERKU35Y
+    KzqFuSqHFne6Y0-Mbs>
+X-ME-Received: <xmr:CsuTYR41LQycxY82s63jqa9BBMBWrJ-NZ9SXKE0HgOHHQEWshWfQJZf1xH2EbGxw7Ieu7ziPCuuWy8mBVY4hnZQoyr5CJJFEAx8qUHi2>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfedvgdejvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgvucft
-    ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
-    hnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeejgeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
-    hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:GsGTYYydfyEhLnPJlKflOFIZ_j1DFl04W98JVkOIUe-tYdaeX7NZ5A>
-    <xmx:GsGTYfSgNcwwotchPUcyJW44h9c5fBLbRjzqIi4w2KWS6ail8IYaoA>
-    <xmx:GsGTYTZcR5tiSfewkOu_Sunv2DYjKHLFPt-NBkDRTJCDVe-qEPko5Q>
-    <xmx:G8GTYU85J4GqdSITe81KCz4ZBAi-AChIINzXopoqrU_PLlPAddjqHLr9Khk>
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:CsuTYe39gw19agJVDDE5nbF69w2M8UIAoo6lsTqfFsBXjDbQlY7ilg>
+    <xmx:CsuTYUHQFTC8HEzMo5Cxh1p41XrTQYAxTzEiLO2TD7I-y3DkZjdrhg>
+    <xmx:CsuTYf-tNu2F60tBb2sW2nMaXgcpbIoxdxx8G2zFhHJnaD9ANEFtxg>
+    <xmx:CsuTYf1sdr4rbAd-v8fiRWNKlrpewoCg5mu8GXkwD2wpaaj5A6sNmA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Nov 2021 09:32:57 -0500 (EST)
+ 16 Nov 2021 10:15:21 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <maxime@cerno.tech>,
-	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>,
+To: wens@csie.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	mripard@kernel.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
 	linux-sunxi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org
-Subject: [PATCH] dt-bindings: crypto: Add optional dma properties
-Date: Tue, 16 Nov 2021 15:32:55 +0100
-Message-Id: <20211116143255.385480-1-maxime@cerno.tech>
+	robh+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: (subset) [PATCH] arm64: dts: allwinner: h6: tanix-tx6: Add SPDIF
+Date: Tue, 16 Nov 2021 16:15:19 +0100
+Message-Id: <163707571157.389306.3979022331947907978.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211115201112.452696-1-jernej.skrabec@gmail.com>
+References: <20211115201112.452696-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Some platforms, like the v3s, have DMA channels assigned to the crypto
-engine, which were in the DTSI but were never documented.
+On Mon, 15 Nov 2021 21:11:12 +0100, Jernej Skrabec wrote:
+> Tanix TX6 board has SPDIF connector in form of 3.5 mm jack.
+> 
+> Add support for it.
+> 
+> 
 
-Let's make sure they are.
+Applied to sunxi/linux.git (sunxi/dt-for-5.17).
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- .../bindings/crypto/allwinner,sun4i-a10-crypto.yaml    | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-index 0429fb774f10..dedc99e34ebc 100644
---- a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-+++ b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
-@@ -44,6 +44,16 @@ properties:
-       - const: ahb
-       - const: mod
- 
-+  dmas:
-+    items:
-+      - description: RX DMA Channel
-+      - description: TX DMA Channel
-+
-+  dma-names:
-+    items:
-+      - const: rx
-+      - const: tx
-+
-   resets:
-     maxItems: 1
- 
--- 
-2.33.1
-
+Thanks!
+Maxime
