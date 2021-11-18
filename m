@@ -1,155 +1,311 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 575F968
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Nov 2021 05:55:50 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id g18so4880626pfk.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Nov 2021 21:55:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=H8bNW+/3U4emAhklg4BSuX8zNKroe2K7jyAYYwHKqm4=;
-        b=mg3XzZdbe7EcdZZtXLojwHiBR6uWTSvFY9ntHbhfEGw7cOVLLhR7iq2jHlKjYvZKje
-         tE98js5JX9B6xqseBuRndexsGHMMuU3ADEDlh5H+HXgIHthM6leIFNy7PjWvB+41wDCY
-         Fw0EYqNAn3Zoep9Guk6z59BfYRGIufh7KG6fajD72OY0h62Di+Q14hviUQbzYjJzFJWv
-         2dFsxxpuCFs/oNzXPT1S4WqVgrzvvcfCPlTD+yX2NnbtnO4UB7ulEOKr9yTK0ylpw1Yn
-         zw7oT68jRtVyd/Bpj5yWFVXwEA7JEysMP4L8wqZ/fabFYwGG8LnV28erijgAGOcQ+Jxp
-         H2hg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A22E68
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Nov 2021 13:58:29 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id t19so14484449oij.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Nov 2021 05:58:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=H8bNW+/3U4emAhklg4BSuX8zNKroe2K7jyAYYwHKqm4=;
-        b=rCExwbH0vc3z3XJCo66iw9DGXgf/5LZRVSkMlNFJXRwpWikv6e/eWHB75HEn9aGADI
-         pd7LBzlzfMgtbhFl5KPIeVvp3I4MLBsXgLQ4Xz67XpR7YX4KY7NgeYk9WCzY3rn5TUJe
-         NMTjEFdBbLRAEDz92E5IAi2xE4F/LXhqgd0Pd8B9P9hOkC4QJWfpvIc+nfwbB4mKtLOC
-         FCX7i5joIKZcH8BkrmWoNPw2WIUuvhqc1UWyVPZW60in7lQba4Gr8atyP3ImuyqlFxat
-         RcG+LT09d7MoxWEjJ2mGHZxyAS8smPBdd6n5sd8ASf1P0A4DBE4JIJdwhSh3Agoear0U
-         VleQ==
-X-Gm-Message-State: AOAM533dURsO4xw8MJNGc5Y2jrT2A4loEC1ugG96q7LGFiWEH4ojtNOb
-	m3eHaKC6qNmmXVgWXIEIbLs=
-X-Google-Smtp-Source: ABdhPJy0bmOuMEiQB/QKzFcS3+3GEWN0C50DyDQSp5zYyw2lNe4d9dYFO/p2JPM66iyRTU1smPLeIg==
-X-Received: by 2002:a63:b502:: with SMTP id y2mr9363870pge.214.1637214949470;
-        Wed, 17 Nov 2021 21:55:49 -0800 (PST)
-Received: from google.com ([2620:15c:202:201:e863:bb5d:673b:3a6d])
-        by smtp.gmail.com with ESMTPSA id d2sm1502726pfu.203.2021.11.17.21.55.47
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=L+1EFFQEVUzHvIKDEFNtXuuodd0KJOWIJZc/I07HBGM=;
+        b=cn4k1s0HHs5lySNXfDQt0BRVIh5GYje8GY8epd9s2I54Tdy+B7MDaUHIf791u/yydP
+         TpYEXVheJYVb+CCR7gDD6yurUpjRl9AOgS/6A/amMiRGTi+M95ug+k3DwPNAz74wRJj4
+         mDm40BQt6m+aviloF/M3EKoxjJL9sOKLVtShC6k8jTZGhxKB9w/gALRRJMwJ3urCGcL6
+         OU326au6qpsGPJnoJO6uffH+r/XlJZmbUPFW8AvJTBiWPPOuRHfLAt0bR2xUN5EGI6Ph
+         0Oiz1CSS3yon0f+NGcSuPHGgyRvFutG5N84PrJDxjAuds4eAbdA4Xk+B+WjKWT4EtmH6
+         d35w==
+X-Gm-Message-State: AOAM531WDaNPquOwPLrGbjkehjUL9dIZngnWd9x1YDkEmKi775PDqqXY
+	6bIv0QhwqAfd/kBy7S5E1A==
+X-Google-Smtp-Source: ABdhPJxJn9aDv3ESZiqtnlnO+DbXLP+Qg0jRjAQSTOO69pFMvmlCJud/IeQZMmd9fmvmvjElF7x/Sg==
+X-Received: by 2002:aca:230b:: with SMTP id e11mr7939069oie.22.1637243908404;
+        Thu, 18 Nov 2021 05:58:28 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id j187sm733988oih.5.2021.11.18.05.58.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Nov 2021 21:55:48 -0800 (PST)
-Date: Wed, 17 Nov 2021 21:55:45 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Thu, 18 Nov 2021 05:58:26 -0800 (PST)
+Received: (nullmailer pid 998657 invoked by uid 1000);
+	Thu, 18 Nov 2021 13:58:21 -0000
+From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	devicetree@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	Ondrej Jirman <megous@megous.com>
-Subject: Re: [RERESEND PATCH v3] Input: sun4i-lradc-keys -  Add wakup support
-Message-ID: <YZXq4Z/7HHNtn2bj@google.com>
-References: <20211118033013.43116-1-samuel@sholland.org>
+Cc: linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Chanwoo Choi <cw00.choi@samsung.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, linux-pm@vger.kernel.org
+In-Reply-To: <20211118031841.42315-3-samuel@sholland.org>
+References: <20211118031841.42315-1-samuel@sholland.org> <20211118031841.42315-3-samuel@sholland.org>
+Subject: Re: [PATCH v3 2/6] dt-bindings: arm: sunxi: Expand MBUS binding
+Date: Thu, 18 Nov 2021 07:58:21 -0600
+Message-Id: <1637243901.379133.998656.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211118033013.43116-1-samuel@sholland.org>
 
-Hi,
-
-On Wed, Nov 17, 2021 at 09:30:13PM -0600, Samuel Holland wrote:
-> From: Ondrej Jirman <megous@megous.com>
+On Wed, 17 Nov 2021 21:18:37 -0600, Samuel Holland wrote:
+> The MBUS provides more than address translation and bandwidth control.
+> It also provides a PMU to measure bandwidth usage by certain masters,
+> and it provides notification via IRQ when they are active or idle.
 > 
-> Allow the driver to wake the system on key press if the "wakeup-source"
-> property is provided in the device tree. Using the LRADC as a wakeup
-> source requires keeping the AVCC domain active during sleep. Since this
-> has a nontrivial impact on power consumption (sometimes doubling it),
-> disable the LRADC wakeup source by default.
+> The MBUS is also tightly integrated with the DRAM controller to provide
+> a Memory Dynamic Frequency Scaling (MDFS) feature. In view of this, the
+> MBUS binding needs to represent the hardware resources needed for MDFS,
+> which include the clocks and MMIO range of the adjacent DRAM controller.
 > 
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
+> Add the additional resources for the H3 and A64 compatibles, and a new
+> example showing how they are used.
+> 
+> Reviewed-by: Chanwoo Choi <cw00.choi@samsung.com>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
+>  .../arm/sunxi/allwinner,sun4i-a10-mbus.yaml   | 89 ++++++++++++++++++-
+>  1 file changed, 86 insertions(+), 3 deletions(-)
 > 
-> Changes since resend v3:
->   - An entirely different, but equivalent, DT binding patch was merged,
->     so there is only one patch left...
-> 
-> Changes since v2:
->   - Dropped unnecessary pr_err in platform_get_irq() error path
->   - Dropped patch 3 (DT update) as it was merged
->   - Added Acked-by/Reviewed-by tags
-> 
-> Changes since v1:
->   - Add requisite DT binding change
->   - Only add wakeup capability if "wakeup-source" is present
->   - Warn but do not error out if setting the wake IRQ fails
->   - Add "wakeup-source" property to PinePhone device tree
-> 
-> ---
->  drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-> index 4a796bed48ac..af1683d68c8c 100644
-> --- a/drivers/input/keyboard/sun4i-lradc-keys.c
-> +++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-> @@ -22,6 +22,8 @@
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_wakeirq.h>
-> +#include <linux/pm_wakeup.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  
-> @@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  {
->  	struct sun4i_lradc_data *lradc;
->  	struct device *dev = &pdev->dev;
-> -	int i;
-> -	int error;
-> +	int error, i, irq;
->  
->  	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
->  	if (!lradc)
-> @@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  	if (IS_ERR(lradc->base))
->  		return PTR_ERR(lradc->base);
->  
-> -	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
-> -				 sun4i_lradc_irq, 0,
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
->  				 "sun4i-a10-lradc-keys", lradc);
->  	if (error)
->  		return error;
-> @@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  	if (error)
->  		return error;
->  
-> +	if (device_property_read_bool(dev, "wakeup-source")) {
-> +		device_set_wakeup_capable(dev, true);
-> +
-> +		error = dev_pm_set_wake_irq(dev, irq);
-> +		if (error)
-> +			dev_warn(dev, "Failed to set wake IRQ\n");
 
-Should we make it
+Running 'make dtbs_check' with the schema in this patch gives the
+following warnings. Consider if they are expected or the schema is
+incorrect. These may not be new warnings.
 
-		else
-			device_set_wakeup_capable(dev, true);
+Note that it is not yet a requirement to have 0 warnings for dtbs_check.
+This will change in the future.
 
-?
+Full log is available here: https://patchwork.ozlabs.org/patch/1556462
 
-Thanks.
 
--- 
-Dmitry
+dram-controller@1c62000: 'clock-names' is a required property
+	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+
+dram-controller@1c62000: clocks: [[2, 112]] is too short
+	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
+
+dram-controller@1c62000: clocks: [[3, 113]] is too short
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+
+dram-controller@1c62000: reg: [[29761536, 4096]] is too short
+	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+
+dram-controller@1c62000: 'reg-names' is a required property
+	arch/arm64/boot/dts/allwinner/sun50i-a64-amarula-relic.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-bananapi-m64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-nanopi-a64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-oceanic-5205-5inmfd.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino-emmc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-lts.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pine64-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinebook.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-pinetab-early-adopter.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-sopine-baseboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-emlid-neutis-n5-devboard.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h3-it.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-libretech-all-h5-cc.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-neo-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-pc2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-prime.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus2.dt.yaml
+	arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-bananapi-m2-plus-v1.2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-beelink-x2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-emlid-neutis-n5h3-devboard.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-libretech-all-h3-cc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-neo.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-nanopi-r1.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-lite.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-one.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-pc-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-plus.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-orangepi-zero-plus2.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-rervision-dvk.dt.yaml
+	arch/arm/boot/dts/sun8i-h3-zeropi.dt.yaml
+
