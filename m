@@ -1,37 +1,37 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A41272
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Nov 2021 03:30:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0020B72
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Nov 2021 03:36:47 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 1619F58096D;
-	Wed, 17 Nov 2021 22:30:15 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 162865C0199;
+	Wed, 17 Nov 2021 22:36:47 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 17 Nov 2021 22:30:15 -0500
+  by compute1.internal (MEProxy); Wed, 17 Nov 2021 22:36:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm1; bh=/cj2kNWq2UVok38XhOoZvbWa1e
-	3Ab7EbCh9ffCDhegQ=; b=SlaJoQPZ0D8JAqVMzmyHi0sw+sgy7uu/oANeIVxm29
-	HFrEmWErsV7kaRg+X1SIr5rXJU6D+FjcqyWejxatHkx2v1KTe4JjEi0W9BS2+cm9
-	bPBhbmL5y9XTvKFHq9QBfnezgc0urHipU2U7C6ABvCr6VWIFYI38DByxYYKeHHsX
-	bswFcXp5iup85w9pjO4C1VkVckQwdRA6N4HdF9/3YB/cWk0+eeWbp2M928T96bxl
-	cjkZ8Gslusr6IgLFnbvtfCGAZJvD7TMO+qiQTXxMrA7+v56pvngE+3cVZSXtKZDV
-	aWVgbZa8Wd+olciVeTlQg2LNjVweNcORGWqbKgY/VE0Q==
+	:content-transfer-encoding; s=fm1; bh=71AZcMww/v9dGhq5/Lg9/+aqxm
+	2uzvsx7xw8b2lcXco=; b=mr/+oqxfKgG7E6ArPEO9HhV7fZYYKYgOOL17+S4QeI
+	kasgonFtAjXA02DSbiGlPKcmtv2o1IhqXLvsUmfsRG2FHI5ztu+xcRGnAFDfqE0p
+	PPuFva0g4Dyo5kIRl0cwqBV8oe7KGeq7d+Kv5LEPZQdpw8M2NC6Ar5ToOCsmuCNP
+	Yj4Yo3AVfP/8f5q6Omd9BaSiBDvMkmpIyyPhQYBcqLP/lTS0wZOlMvDnw9CMOpEJ
+	zbtCnfO/u5rffwI6qsRKBzeRsnMYd3LoM1lTiWwoB90poGW49suK9IKiC2Xs0LFv
+	yExbEqu19YurTMecgtRc/Xs/7FOZK8TVoYZcqz3eSXSA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
 	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/cj2kNWq2UVok38Xh
-	OoZvbWa1e3Ab7EbCh9ffCDhegQ=; b=dh0I2lx53fPhtPjNglmfjZXV7+KbNoQ/5
-	YZkfTZBKl3VGVI4+q6yJwFO861lkDJ2Y5gDT60h30hjEvNaOVq7Tmcj8Hn9Cu7E9
-	6SVTNpjJq2xN1wxBSzbHQQGaWtFjd3U3BIIIoYU2Vy84kEDYFRpjyUJdiXYfgl+J
-	k1ixViqChTnIEFsnHQwh0/W/uIc8lC4oycDSA7n22JkTMEQiKKQTxnAUicFBzB+s
-	aAaT1uH4FMma/annEutUQOVLLXn+qwQi6dh6TQpHkyRvI5hxi/0RhleRArMEZk8T
-	8QrHvaHHxPwOc+HMv331o+Uty6WEibTfDlzA8hnGOfUv6DN5ocVEw==
-X-ME-Sender: <xms:xsiVYf_fFXbvi0b076db3MsHV3a5_28GkGAg1hB6aGdf9Mg6Y0WOjw>
-    <xme:xsiVYbuVmdfJ1HlCBWyDcrOuxIK3N999jUCL8aIbTGiKrR4260iBcPIOZZ7_Z_2vB
-    6mDAZQwG6YlRL04CQ>
-X-ME-Received: <xmr:xsiVYdAar_JRGDNmKmSamg6bOpH3pHQI_PEjpMylSmDNABveJ60nPHBKLD_6o5qOWzy2cuKdmuTowLfp3Nqs4spxu8cSt7xMKXC1GGhu0sf1P0__27BBhMt6aGNDG7xByXJ5sw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeehgdehjecutefuodetggdotefrodftvf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=71AZcMww/v9dGhq5/
+	Lg9/+aqxm2uzvsx7xw8b2lcXco=; b=DSFhbU+jdHf2uvAAKCeK9HKZ6XvILIjZI
+	/H32KSNzAxrKSHdUhucCrKoA2NpbBCoJW3AIX3YLtzuk1t50g+rtzFmuxMQAcreY
+	RxWiDNV1YMU5SslMwyqzAJVQh03L3V6OlOlJMbQ0o2yoSJXMB1UbEHicl3ugGIg9
+	eDq15sAW8jX71aiY/HE51RNHKI8NhdtjTXXZ2Wwl1YUICRr7HygTmILHoZGbSAUn
+	Dq9E9jNf4z52qqhHupDjftZzQOAKHDRMPcC7NTGgyfBtLsiWoqUpP7vMpYUFcM+6
+	q7ugf0vW4+fEVldVjKCAaybdK8stDSHA4GZiTlpEVic46Mc+7ZjRA==
+X-ME-Sender: <xms:TsqVYTsJdLBml6rILFTxjjtcgVb9vzspNEi9nmHM_hsLfFT0ocQbiA>
+    <xme:TsqVYUcMDVZMGLpU09ec4_QpaC9tZFf2f0Fdr8O67zwyJfWqJxNEG9YpKR4GoLBbm
+    v5kqzFrDqPfBlJgUA>
+X-ME-Received: <xmr:TsqVYWxcajcOLEJ644Amuw-EsAiZWT0dMXVUWycd-byDaa-LQcw-MzEaMlOEb7Da1GCVoj8T_LkmqGq1NhPmtkrzbOvYYcxLFGFtx4SoyE_2oCDobqo-DZo5H65sQxEOtZjEwQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeehgdehlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
@@ -39,28 +39,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeehgdehjecutefuodetggdote
     htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
     tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
     grmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:xsiVYbe2SAOXq52AakDhDwW9wRYj5kzZ-w6LXtnb0W0UkguWvzlVuQ>
-    <xmx:xsiVYUP6FRn0RlBvk0ID7YE-Wvb0kGYjFEubjvlf0FHAkCH09BlcEw>
-    <xmx:xsiVYdlc3r3S9iphdjBQIE5b-vCRHe5RKdujgdmtTyihozvgTiksRA>
-    <xmx:x8iVYVGjS6GTwHVPHNO5xLQN3UmTFXDe83kG0l_ZF9IRHVhSeo_i4g>
+X-ME-Proxy: <xmx:TsqVYSPOxUdvMXFqYuwLBz_ZVQUZXG8AUT5fwrbEeCKSRQm02cxRFA>
+    <xmx:TsqVYT_78-SHf-AslkJ1SCW_kQYmHaBUZNeAB5y_c3SH5jMj3115AA>
+    <xmx:TsqVYSUwl3C6uTbW9TUB97oxCUv_bKvhZNgTndZ6Usz182XX5P-Z7A>
+    <xmx:T8qVYUM2_hUf6R8FQpMbcfDJFc0ZrDvKEIXtQmUE9YYfVBaOjLXp2w>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Nov 2021 22:30:13 -0500 (EST)
+ 17 Nov 2021 22:36:45 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
+To: Mark Brown <broonie@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>,
-	devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	alsa-devel@alsa-project.org,
 	linux-sunxi@lists.linux.dev,
-	Ondrej Jirman <megous@megous.com>,
+	linux-kernel@vger.kernel.org,
 	Samuel Holland <samuel@sholland.org>
-Subject: [RERESEND PATCH v3] Input: sun4i-lradc-keys -  Add wakup support
-Date: Wed, 17 Nov 2021 21:30:13 -0600
-Message-Id: <20211118033013.43116-1-samuel@sholland.org>
+Subject: [PATCH] ASoC: sun8i-codec: Add AIF, ADC, and DAC volume controls
+Date: Wed, 17 Nov 2021 21:36:45 -0600
+Message-Id: <20211118033645.43524-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,91 +67,123 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ondrej Jirman <megous@megous.com>
+This allows changing the volume of each digital input/output
+independently, and provides the only "master volume" for the DAC.
+(The ADC also has a gain control on the analog side.)
 
-Allow the driver to wake the system on key press if the "wakeup-source"
-property is provided in the device tree. Using the LRADC as a wakeup
-source requires keeping the AVCC domain active during sleep. Since this
-has a nontrivial impact on power consumption (sometimes doubling it),
-disable the LRADC wakeup source by default.
+While the hardware supports digital gain up to +72dB, the controls here
+are limited to +24dB maximum, as any gain above that level makes volume
+sliders difficult to use, and is extremely likely to cause clipping.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Ondrej Jirman <megous@megous.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
+ sound/soc/sunxi/sun8i-codec.c | 56 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
-Changes since resend v3:
-  - An entirely different, but equivalent, DT binding patch was merged,
-    so there is only one patch left...
-
-Changes since v2:
-  - Dropped unnecessary pr_err in platform_get_irq() error path
-  - Dropped patch 3 (DT update) as it was merged
-  - Added Acked-by/Reviewed-by tags
-
-Changes since v1:
-  - Add requisite DT binding change
-  - Only add wakeup capability if "wakeup-source" is present
-  - Warn but do not error out if setting the wake IRQ fails
-  - Add "wakeup-source" property to PinePhone device tree
-
----
- drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-index 4a796bed48ac..af1683d68c8c 100644
---- a/drivers/input/keyboard/sun4i-lradc-keys.c
-+++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-@@ -22,6 +22,8 @@
- #include <linux/module.h>
- #include <linux/of_platform.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_wakeirq.h>
-+#include <linux/pm_wakeup.h>
- #include <linux/regulator/consumer.h>
- #include <linux/slab.h>
+diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+index 518bfb724a5b..0bea2162f68d 100644
+--- a/sound/soc/sunxi/sun8i-codec.c
++++ b/sound/soc/sunxi/sun8i-codec.c
+@@ -21,6 +21,7 @@
+ #include <sound/pcm_params.h>
+ #include <sound/soc.h>
+ #include <sound/soc-dapm.h>
++#include <sound/tlv.h>
  
-@@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ #define SUN8I_SYSCLK_CTL				0x00c
+ #define SUN8I_SYSCLK_CTL_AIF1CLK_ENA			11
+@@ -72,6 +73,12 @@
+ #define SUN8I_AIF1_MXR_SRC_AD0R_MXR_SRC_AIF2DACR	10
+ #define SUN8I_AIF1_MXR_SRC_AD0R_MXR_SRC_ADCR		9
+ #define SUN8I_AIF1_MXR_SRC_AD0R_MXR_SRC_AIF2DACL	8
++#define SUN8I_AIF1_VOL_CTRL1				0x050
++#define SUN8I_AIF1_VOL_CTRL1_AD0L_VOL			8
++#define SUN8I_AIF1_VOL_CTRL1_AD0R_VOL			0
++#define SUN8I_AIF1_VOL_CTRL3				0x058
++#define SUN8I_AIF1_VOL_CTRL3_DA0L_VOL			8
++#define SUN8I_AIF1_VOL_CTRL3_DA0R_VOL			0
+ #define SUN8I_AIF2_ADCDAT_CTRL				0x084
+ #define SUN8I_AIF2_ADCDAT_CTRL_AIF2_ADCL_ENA		15
+ #define SUN8I_AIF2_ADCDAT_CTRL_AIF2_ADCR_ENA		14
+@@ -91,6 +98,12 @@
+ #define SUN8I_AIF2_MXR_SRC_ADCR_MXR_SRC_AIF1DA1R	10
+ #define SUN8I_AIF2_MXR_SRC_ADCR_MXR_SRC_AIF2DACL	9
+ #define SUN8I_AIF2_MXR_SRC_ADCR_MXR_SRC_ADCR		8
++#define SUN8I_AIF2_VOL_CTRL1				0x090
++#define SUN8I_AIF2_VOL_CTRL1_ADCL_VOL			8
++#define SUN8I_AIF2_VOL_CTRL1_ADCR_VOL			0
++#define SUN8I_AIF2_VOL_CTRL2				0x098
++#define SUN8I_AIF2_VOL_CTRL2_DACL_VOL			8
++#define SUN8I_AIF2_VOL_CTRL2_DACR_VOL			0
+ #define SUN8I_AIF3_CLK_CTRL_AIF3_CLK_SRC_AIF1		(0x0 << 0)
+ #define SUN8I_AIF3_CLK_CTRL_AIF3_CLK_SRC_AIF2		(0x1 << 0)
+ #define SUN8I_AIF3_CLK_CTRL_AIF3_CLK_SRC_AIF1CLK	(0x2 << 0)
+@@ -102,8 +115,14 @@
+ #define SUN8I_ADC_DIG_CTRL_ENAD				15
+ #define SUN8I_ADC_DIG_CTRL_ADOUT_DTS			2
+ #define SUN8I_ADC_DIG_CTRL_ADOUT_DLY			1
++#define SUN8I_ADC_VOL_CTRL				0x104
++#define SUN8I_ADC_VOL_CTRL_ADCL_VOL			8
++#define SUN8I_ADC_VOL_CTRL_ADCR_VOL			0
+ #define SUN8I_DAC_DIG_CTRL				0x120
+ #define SUN8I_DAC_DIG_CTRL_ENDA				15
++#define SUN8I_DAC_VOL_CTRL				0x124
++#define SUN8I_DAC_VOL_CTRL_DACL_VOL			8
++#define SUN8I_DAC_VOL_CTRL_DACR_VOL			0
+ #define SUN8I_DAC_MXR_SRC				0x130
+ #define SUN8I_DAC_MXR_SRC_DACL_MXR_SRC_AIF1DA0L		15
+ #define SUN8I_DAC_MXR_SRC_DACL_MXR_SRC_AIF1DA1L		14
+@@ -696,6 +715,41 @@ static struct snd_soc_dai_driver sun8i_codec_dais[] = {
+ 	},
+ };
+ 
++static const DECLARE_TLV_DB_SCALE(sun8i_codec_vol_scale, -12000, 75, 1);
++
++static const struct snd_kcontrol_new sun8i_codec_controls[] = {
++	SOC_DOUBLE_TLV("AIF1 AD0 Capture Volume",
++		       SUN8I_AIF1_VOL_CTRL1,
++		       SUN8I_AIF1_VOL_CTRL1_AD0L_VOL,
++		       SUN8I_AIF1_VOL_CTRL1_AD0R_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++	SOC_DOUBLE_TLV("AIF1 DA0 Playback Volume",
++		       SUN8I_AIF1_VOL_CTRL3,
++		       SUN8I_AIF1_VOL_CTRL3_DA0L_VOL,
++		       SUN8I_AIF1_VOL_CTRL3_DA0R_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++	SOC_DOUBLE_TLV("AIF2 ADC Capture Volume",
++		       SUN8I_AIF2_VOL_CTRL1,
++		       SUN8I_AIF2_VOL_CTRL1_ADCL_VOL,
++		       SUN8I_AIF2_VOL_CTRL1_ADCR_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++	SOC_DOUBLE_TLV("AIF2 DAC Playback Volume",
++		       SUN8I_AIF2_VOL_CTRL2,
++		       SUN8I_AIF2_VOL_CTRL2_DACL_VOL,
++		       SUN8I_AIF2_VOL_CTRL2_DACR_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++	SOC_DOUBLE_TLV("ADC Capture Volume",
++		       SUN8I_ADC_VOL_CTRL,
++		       SUN8I_ADC_VOL_CTRL_ADCL_VOL,
++		       SUN8I_ADC_VOL_CTRL_ADCR_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++	SOC_DOUBLE_TLV("DAC Playback Volume",
++		       SUN8I_DAC_VOL_CTRL,
++		       SUN8I_DAC_VOL_CTRL_DACL_VOL,
++		       SUN8I_DAC_VOL_CTRL_DACR_VOL,
++		       0xc0, 0, sun8i_codec_vol_scale),
++};
++
+ static int sun8i_codec_aif_event(struct snd_soc_dapm_widget *w,
+ 				 struct snd_kcontrol *kcontrol, int event)
  {
- 	struct sun4i_lradc_data *lradc;
- 	struct device *dev = &pdev->dev;
--	int i;
--	int error;
-+	int error, i, irq;
- 
- 	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
- 	if (!lradc)
-@@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
- 	if (IS_ERR(lradc->base))
- 		return PTR_ERR(lradc->base);
- 
--	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
--				 sun4i_lradc_irq, 0,
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
- 				 "sun4i-a10-lradc-keys", lradc);
- 	if (error)
- 		return error;
-@@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
- 	if (error)
- 		return error;
- 
-+	if (device_property_read_bool(dev, "wakeup-source")) {
-+		device_set_wakeup_capable(dev, true);
-+
-+		error = dev_pm_set_wake_irq(dev, irq);
-+		if (error)
-+			dev_warn(dev, "Failed to set wake IRQ\n");
-+	}
-+
- 	return 0;
+@@ -1215,6 +1269,8 @@ static int sun8i_codec_component_probe(struct snd_soc_component *component)
  }
  
+ static const struct snd_soc_component_driver sun8i_soc_component = {
++	.controls		= sun8i_codec_controls,
++	.num_controls		= ARRAY_SIZE(sun8i_codec_controls),
+ 	.dapm_widgets		= sun8i_codec_dapm_widgets,
+ 	.num_dapm_widgets	= ARRAY_SIZE(sun8i_codec_dapm_widgets),
+ 	.dapm_routes		= sun8i_codec_dapm_routes,
 -- 
 2.32.0
 
