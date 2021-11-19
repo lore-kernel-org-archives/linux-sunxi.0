@@ -1,49 +1,49 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6FC68
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Nov 2021 15:49:01 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id d27so18897708wrb.6
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Nov 2021 07:49:01 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1F9768;
+	Fri, 19 Nov 2021 15:53:44 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id s13so18941830wrb.3;
+        Fri, 19 Nov 2021 07:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=meEjyOFEk8NLwqmQYbedVmiXvkxGhx3w8P4bOKYAV/Q=;
-        b=qrgfQVMTtExx+nPYfWUhM3GkoqKoggaX20OQRUwYcalgg+n8coEr2frtfljckN7C9V
-         Py30PwdeXK4mYpM0PpjiTHnUzN362xqXFU5sTXmVBfHiv8MkKuqgouYu9b/nirUS0FO0
-         VYpq9YIzG9KwCwNt0GcfQf57Fv5hCHof1yjk86S0uXWzzxFDxEuALSK4vu1taQGE9WaS
-         U6H2cbJQLYBSEMypRuglCYr7xIqmeX5KSOVaZo37bcZ7yxm+K3FXgvZJeRAZLxd4q/le
-         R3TGHFlmisk9jEyyLNg+GewPe66cN8M3Ars9GQHoWqSttx1vhx5d2IR2r+20tlCzKa6z
-         IjAA==
+        bh=kHaNRUFisXjYgHBC5B676Xg2I2fpmEyhpkjhdGVDAKM=;
+        b=ZdsrF1YMpdZEaLIT879zO5XP/0/GIL8TxMBkQ+oBsQDHC1XffTe15Xo3zOi3CfQsIW
+         SfVZp4yHJp3z6FO0MsoJXz0l5pt72hEQWvDyTiTNXJ65m72213zH2YphOawDgUHrqFZg
+         tf1fwGadrOC01WL4AAOUCOhNnAIBOhdtZDBp3yH4MwsBVM9OKuO6vgyh1H8JHe9c3xY1
+         UcZo8yTpxG5QeCXLSEf6W72WVbX+H0+LNvX6UNtwHB7Trtj91sRqcosYwE/7fDXi08aS
+         XGvGFyrXuKCwi0OFOk6jB9JJC6OpJTiJYJKoFXtDW03cMkWwti8iZlRh1DJ1Q3TKYKQR
+         epJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=meEjyOFEk8NLwqmQYbedVmiXvkxGhx3w8P4bOKYAV/Q=;
-        b=XKH31rEWxv8bGQZdndiF2vkAKR+U3tZXnNCdv3nxQV0lAbKNsFsCHRpaP3flvi6nUH
-         WR+oahibHzFSwto9kfvi+UrL8gvwGPR0V+lePc1Wmp+9Atmm9RzDEHHqCCD7QigN/SXb
-         zVH9p9Dezt6J90+Gn8EwkM2d175+wN91vYm8ZvAHcATAcc4USl/yCzCi3vSV1aeY7/O3
-         cVxaTQwl0Y9OKrZZL+kluzBVS695LPOr++jG3N5nqIUDuZvZMnhKelz5xyoyYnMExbwY
-         +j3C913ySNIHZfnitGXUr3Is4WewZfubwHvBMtZKAyofBWz7rgWIyssLGGyRONj2xRT4
-         p0bA==
-X-Gm-Message-State: AOAM531jTv6pLjYjXejrUEQ4Kx260u4FGE9QZYqxRk4YMQDoshgqS44b
-	J7/yzTUuXg80ganC6OnS2ZM=
-X-Google-Smtp-Source: ABdhPJyi+uZ1amKREnxjcMgf1RhYUF7WME7H0ITXU52PZrELCYo3ygvIGD13OHR893HvJtxjjsH2Kg==
-X-Received: by 2002:a5d:588b:: with SMTP id n11mr8808652wrf.344.1637336939749;
-        Fri, 19 Nov 2021 07:48:59 -0800 (PST)
+        bh=kHaNRUFisXjYgHBC5B676Xg2I2fpmEyhpkjhdGVDAKM=;
+        b=BPbg8Y+I7IDKX2STe0BgA5rXI9Gw257FSJMToRwAZt24vd/+wXt0OuCIiyLp97Vw6g
+         KEJyHTRuAL7BnQZM3VzMvg4r5qFRYtRmd9jLcuEKOre3WUWdW5tA5ubw1fTYrNb2ggP4
+         km8M+aGcfXtJp+OQ90R9BCbFxmm2Yr1Bl60tAaoJRBZ/aDOsW+TgIPXjS6yif8maG5hg
+         zWxo5209GhENtaqHJpY2n6ifao5JSLT2R6g3gXnyP+NAHitUQ4+zX7D6khXEf7EAKQ2u
+         SfZUrHwqo1iC/UpMOEH8D+hAGz1cFwQsnH60aS9ddhPnjI3TRmHLLlKNVqj50CH7wZHt
+         IsRQ==
+X-Gm-Message-State: AOAM530uagcFitMh1C+6zRmPon6DdKEuAzes4TlRg/muvsDucI7b2IoJ
+	+pOQaNJC1A3jaPaMBExIHxA=
+X-Google-Smtp-Source: ABdhPJwoTWQYUCPa9Te8PwG+K8gFrG5i33W0fugyKvlgWtaRFt6efNHW+zbBPrEgEzqCPEArSG3Bvw==
+X-Received: by 2002:a5d:69ce:: with SMTP id s14mr8340988wrw.25.1637337222991;
+        Fri, 19 Nov 2021 07:53:42 -0800 (PST)
 Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id l5sm33096wml.20.2021.11.19.07.48.58
+        by smtp.gmail.com with ESMTPSA id m2sm12397317wml.15.2021.11.19.07.53.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Nov 2021 07:48:59 -0800 (PST)
+        Fri, 19 Nov 2021 07:53:42 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Samuel Holland <samuel@sholland.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Ondrej Jirman <megous@megous.com>, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v4] Input: sun4i-lradc-keys -  Add wakup support
-Date: Fri, 19 Nov 2021 16:48:58 +0100
-Message-ID: <2604187.mvXUDI8C0e@kista>
-In-Reply-To: <20211119025415.18642-1-samuel@sholland.org>
-References: <20211119025415.18642-1-samuel@sholland.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, Samuel Holland <samuel@sholland.org>
+Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] media: cedrus: Add support for the D1 variant
+Date: Fri, 19 Nov 2021 16:53:41 +0100
+Message-ID: <5766379.lOV4Wx5bFT@kista>
+In-Reply-To: <20211119031519.23430-2-samuel@sholland.org>
+References: <20211119031519.23430-1-samuel@sholland.org> <20211119031519.23430-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,23 +53,60 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi!
+Hi Samuel!
 
-Dne petek, 19. november 2021 ob 03:54:15 CET je Samuel Holland napisal(a):
-> From: Ondrej Jirman <megous@megous.com>
+Dne petek, 19. november 2021 ob 04:15:18 CET je Samuel Holland napisal(a):
+> D1 has a unique variant of the video engine, which appears to drop the
+> VP8 support found on most earlier variants.
 > 
-> Allow the driver to wake the system on key press if the "wakeup-source"
-> property is provided in the device tree. Using the LRADC as a wakeup
-> source requires keeping the AVCC domain active during sleep. Since this
-> has a nontrivial impact on power consumption (sometimes doubling it),
-> disable the LRADC wakeup source by default.
-> 
-> Signed-off-by: Ondrej Jirman <megous@megous.com>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/
+media/sunxi/cedrus/cedrus.c
+> index c76fc97d97a0..4a4b714b0f26 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -580,6 +580,14 @@ static const struct cedrus_variant 
+sun8i_r40_cedrus_variant = {
+>  	.mod_rate	= 297000000,
+>  };
+>  
+> +static const struct cedrus_variant sun20i_d1_cedrus_variant = {
+> +	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+> +			  CEDRUS_CAPABILITY_MPEG2_DEC |
+> +			  CEDRUS_CAPABILITY_H264_DEC |
+> +			  CEDRUS_CAPABILITY_H265_DEC,
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Did you check if VP8 really doesn't work? It would be strange because it 
+shares decoding blocks with H264 and VP8 is present in (almost) all SoCs.
 
 Best regards,
 Jernej
+
+> +	.mod_rate	= 432000000,
+> +};
+> +
+>  static const struct cedrus_variant sun50i_a64_cedrus_variant = {
+>  	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
+>  			  CEDRUS_CAPABILITY_MPEG2_DEC |
+> @@ -637,6 +645,10 @@ static const struct of_device_id cedrus_dt_match[] = {
+>  		.compatible = "allwinner,sun8i-r40-video-engine",
+>  		.data = &sun8i_r40_cedrus_variant,
+>  	},
+> +	{
+> +		.compatible = "allwinner,sun20i-d1-video-engine",
+> +		.data = &sun20i_d1_cedrus_variant,
+> +	},
+>  	{
+>  		.compatible = "allwinner,sun50i-a64-video-engine",
+>  		.data = &sun50i_a64_cedrus_variant,
+> -- 
+> 2.32.0
+> 
+> 
 
 
