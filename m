@@ -1,72 +1,65 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B6468;
-	Fri, 19 Nov 2021 03:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A32468
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Nov 2021 03:33:41 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id 3BA3E2B00BDE;
-	Thu, 18 Nov 2021 22:15:24 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 18 Nov 2021 22:15:25 -0500
+	by mailout.west.internal (Postfix) with ESMTP id 1A4733201D40;
+	Thu, 18 Nov 2021 22:33:40 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Thu, 18 Nov 2021 22:33:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm1; bh=h3Hk7f2yCSyGf
-	a4CWbT3bM125byZdGI9jFEAsPjrUwQ=; b=AxLhODWqienBU8Do+yo3CcUcBJMPM
-	V9OqhuvQNJL7vrum6akxrmQtxtCGu+xcm8rv1mVgwIOI0EDGi3ZznGsU2kkxaMK4
-	+WAlppjRlRkhxgPkoZxx4/1uAtml/Zs5vDVIOEgqLJy46CseiMlhUs5nW3OhVsly
-	Itu5PGaXleD5nlg5kC09oIcX7JV93cvwwIEgVkvrc+89BhzZ31dQXQal4g9zVf/P
-	zsYWNC1GKO7X7zDh1feW9BolfIxb77cnsxbGCCoA6vFtElFSw7FCE1KSE1zLwYZO
-	xTRGI6L+KUX/tdW1PYYnt+bw+B4nh3QbLagnryT+daLW4ezz/2lie955A==
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm1; bh=HcpAtjbCxVLVCdO/fc3cclnSG7
+	r71145LdITVbNqVN4=; b=XJ/5jzxMb+5m/x3+/N579fLniSfJVFnjh5RB5VCDiA
+	ezNVhvwkhdtRhsN70GbPeL5XkcCG1VipNH3XdSEoGBMuxBKWWyJO4Dbsqkoh1u9g
+	RNDcxGkyotOOxkbfAUor7SG5ZsbrqAERLQ/QUgGE3AFA8iSqkpziLJYMNwsHgnLV
+	zVg/izO70cGpAs2C8MPQKbVNjwz5JawkRIAeqC2x3j0eIbXDkJER2EPtLtvaXV5j
+	6vKe+C5M2ufbpL4q1AB5dPMqo1QZQ4TuY3yihOEIs93grvHp9fH3ax+aBR98FcXz
+	Ci0Ntrw5dzf0AR6NYKjc6KEn+EoLw29vyxbQqNWCIvVg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; bh=h3Hk7f2yCSyGfa4CWbT3bM125byZdGI9jFEAsPjrUwQ=; b=a18hLt/8
-	FDtoWwMqL0CVOaUonM77tS0iE2MWRCJHfq6c6xqH28qiL0MPBM9cxMdvc9CpwRTy
-	EZNkz4Yy8icloqT0TdY0g13nMVvIbGZaYSUbaT8Cwt2Go3JBAgjveyTK561xb1Eq
-	bc8RyMOT7cwOIkP1MEtw/Uzy6jOqXztZ2t8sx4AuuGRJTpoAnH+kmPFdul1GmYh/
-	Ym+VzXOK0VfsbYiN0WanBowiLWIDYDOgT3rtbXgu1XTxP9BfJ7E4wcTfmMEXtbg6
-	jX/fufl6HgWbPU5lgjQLIE3dpa9abrH9IADaNq5c69ZZ4UkUaK1Grm9gmaz2qlu3
-	uTNYbyb36/g0pQ==
-X-ME-Sender: <xms:yxaXYX0g1TolDVBhEp7dyXJ4p3rZOhwujk9_RKnaFXx6e1gU7RFAPA>
-    <xme:yxaXYWE_ISmQbVe12PiM2-6Cta_exn_pBkkWrIjMX6QJWufwNG5aVejT4YizKOlfk
-    t2-_bLDYlAeytnXqA>
-X-ME-Received: <xmr:yxaXYX565eR4F0zm02SDbMHUbnjNXiYLM4JFGS0tCgbANhv-P7UdIf-gf9ADfHuBr7Wy3E-445d5TOKvCzhMgrfN2o8oXQ8-x0xu84HF15K8NV0LLKpfuCr6hS_tstANN6G1LQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeejgdehhecutefuodetggdotefrodftvf
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=HcpAtjbCxVLVCdO/f
+	c3cclnSG7r71145LdITVbNqVN4=; b=iP/p3CIEAxWYOKlKy0UE67a92zQoPBlD6
+	svB+aCDreR+SrwlMeqRQwNXXGdRrk+8Yhxi8j4bsiKeZ/oA4E/S4ROFVi01MyGow
+	uRFLJmUEtJ24ytNvO25TL9GWgA9tKiLzlsKXlmzu9Mf2pOJnWm5NX3iVhtZ9HE+J
+	tAlAxHlf6R1HqNayIsrek5igAHgPDV02ik7rQRWBXP6/FpnTQVUa8SM+Bd2oRQvo
+	TArrlDB6SstSy4XircznJ62BENz2PJFNbhXzeKEGdbUCMrYPWMc4Fw9Ggoou3grE
+	zhgBLPHBa+9+/PmnPYECp0+JPNhiJG8Kj94hfdqm1uJvNLth7vltA==
+X-ME-Sender: <xms:ExuXYWZjJCPvO1z9VshvKGeJ6YVo8gLMPe18zZVGhXw41KKjpGdluA>
+    <xme:ExuXYZYSygXUlTdXUiCS9RrMWzS34YiH6peo0MJc_8q79yHQyflO8nDveWzwJwO0L
+    V25TFtW_eOkCJhdlA>
+X-ME-Received: <xmr:ExuXYQ8GZTEGj66LHqfIICvW2xiS0v-uHAAWqcHYsv1tIXBkQFe3bGnB6WvsiMRo8EnB8YknvMWew4DcXRcJFZbe3PSxtcEZZSxfAeS3Yyds7JBlDAr5zru7erEjzfuLwpA1BQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrfeejgdehlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepudfhjeefvdfhgfefheetgffhieeigfefhefgvddvveefgeejheejvdfg
-    jeehueeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:yxaXYc3HzRZRK5lIcD_hgggUZyEhAswXF1efdZMxWVIG2RAuOcNt4g>
-    <xmx:yxaXYaEEYMrTxMXo5Nn2XN1Zj20rgOYhLtrceSzHAe76PeKxP4zGhg>
-    <xmx:yxaXYd86XdK1EOrpbR3uJ5apiGbWTD-3giZA0WOTFFijBfexOc1PJw>
-    <xmx:yxaXYRcNQB7D4Xsjlmnoy0Fg2yQtk6ZLnx2a_QK5t7CGoa0QBS2m0Uo4GlQ>
+    fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghlucfj
+    ohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrfgrth
+    htvghrnhepieetkefhheduudfgledtudefjeejfeegveehkeeufffhhfejkeehiefftdev
+    tdevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsh
+    grmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:ExuXYYp6LKihcyz9rn8leYYQcWEAOb3p5D88RDi2qu80c4mV90iwuQ>
+    <xmx:ExuXYRrtg3CnnmFt_7KhP75l-5CV7xQJS9VtT1CjSkc-MkhByEyLCw>
+    <xmx:ExuXYWTsDxByYqIGOmNCxDvLzHtU3t1_H5oxW2eiMTbBEd-nGm_tZQ>
+    <xmx:ExuXYVeQLevht3aQPJgEyd8v61mBoNM74iudvgwKFoZTvWz-R-S-nA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Nov 2021 22:15:22 -0500 (EST)
+ 18 Nov 2021 22:33:38 -0500 (EST)
 From: Samuel Holland <samuel@sholland.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
+To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Samuel Holland <samuel@sholland.org>,
+	linux-sunxi@lists.linux.dev
+Cc: Michael Turquette <mturquette@baylibre.com>,
+	linux-clk@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	Stephen Boyd <sboyd@kernel.org>,
 	linux-kernel@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 2/2] media: cedrus: Add support for the D1 variant
-Date: Thu, 18 Nov 2021 21:15:18 -0600
-Message-Id: <20211119031519.23430-2-samuel@sholland.org>
+	Samuel Holland <samuel@sholland.org>
+Subject: [PATCH v3 0/4] clk: sunxi-ng: Module support
+Date: Thu, 18 Nov 2021 21:33:33 -0600
+Message-Id: <20211119033338.25486-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211119031519.23430-1-samuel@sholland.org>
-References: <20211119031519.23430-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,45 +68,68 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 has a unique variant of the video engine, which appears to drop the
-VP8 support found on most earlier variants.
+This series allows the CCU core and drivers to be loaded/unloaded as
+modules. As part of this, patch 3 converts most of the early OF clock
+providers to platform drivers.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Changes in v3:
+ - Also export helper functions.
 
- drivers/staging/media/sunxi/cedrus/cedrus.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Changes in v2:
+ - Export symbols to the SUNXI_CCU namespace.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index c76fc97d97a0..4a4b714b0f26 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -580,6 +580,14 @@ static const struct cedrus_variant sun8i_r40_cedrus_variant = {
- 	.mod_rate	= 297000000,
- };
- 
-+static const struct cedrus_variant sun20i_d1_cedrus_variant = {
-+	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
-+			  CEDRUS_CAPABILITY_MPEG2_DEC |
-+			  CEDRUS_CAPABILITY_H264_DEC |
-+			  CEDRUS_CAPABILITY_H265_DEC,
-+	.mod_rate	= 432000000,
-+};
-+
- static const struct cedrus_variant sun50i_a64_cedrus_variant = {
- 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
- 			  CEDRUS_CAPABILITY_MPEG2_DEC |
-@@ -637,6 +645,10 @@ static const struct of_device_id cedrus_dt_match[] = {
- 		.compatible = "allwinner,sun8i-r40-video-engine",
- 		.data = &sun8i_r40_cedrus_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun20i-d1-video-engine",
-+		.data = &sun20i_d1_cedrus_variant,
-+	},
- 	{
- 		.compatible = "allwinner,sun50i-a64-video-engine",
- 		.data = &sun50i_a64_cedrus_variant,
+Changes in v1:
+ - Patches 1-3 of 8 were merged.
+ - Name modules using Makefile logic, not by renaming the source files.
+   (Drop patch 4 of 8.)
+
+Samuel Holland (4):
+  clk: sunxi-ng: Export symbols used by CCU drivers
+  clk: sunxi-ng: Allow drivers to be built as modules
+  clk: sunxi-ng: Convert early providers to platform drivers
+  clk: sunxi-ng: Allow the CCU core to be built as a module
+
+ drivers/clk/Makefile                     |  2 +-
+ drivers/clk/sunxi-ng/Kconfig             | 39 +++++-----
+ drivers/clk/sunxi-ng/Makefile            | 97 +++++++++++++++---------
+ drivers/clk/sunxi-ng/ccu-sun4i-a10.c     | 58 ++++++++------
+ drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c |  4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c   |  4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c    |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c   | 56 +++++++++-----
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c     |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c   | 33 +++++---
+ drivers/clk/sunxi-ng/ccu-sun6i-a31.c     | 40 +++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a23.c     | 35 ++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a33.c     | 40 +++++++---
+ drivers/clk/sunxi-ng/ccu-sun8i-a83t.c    |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c     |  9 ++-
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c      | 62 ++++++++++-----
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c       | 65 +++++++++-------
+ drivers/clk/sunxi-ng/ccu-sun8i-r40.c     |  6 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c     | 57 ++++++++------
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c  |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c |  7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80.c     |  7 +-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c | 38 +++++++---
+ drivers/clk/sunxi-ng/ccu_common.c        |  6 ++
+ drivers/clk/sunxi-ng/ccu_div.c           |  1 +
+ drivers/clk/sunxi-ng/ccu_frac.c          |  6 ++
+ drivers/clk/sunxi-ng/ccu_gate.c          |  4 +
+ drivers/clk/sunxi-ng/ccu_mp.c            |  2 +
+ drivers/clk/sunxi-ng/ccu_mult.c          |  1 +
+ drivers/clk/sunxi-ng/ccu_mux.c           |  6 ++
+ drivers/clk/sunxi-ng/ccu_nk.c            |  1 +
+ drivers/clk/sunxi-ng/ccu_nkm.c           |  1 +
+ drivers/clk/sunxi-ng/ccu_nkmp.c          |  1 +
+ drivers/clk/sunxi-ng/ccu_nm.c            |  1 +
+ drivers/clk/sunxi-ng/ccu_phase.c         |  1 +
+ drivers/clk/sunxi-ng/ccu_reset.c         |  1 +
+ drivers/clk/sunxi-ng/ccu_sdm.c           |  6 ++
+ drivers/mmc/host/Kconfig                 |  1 +
+ include/linux/clk/sunxi-ng.h             | 15 ----
+ 39 files changed, 490 insertions(+), 251 deletions(-)
+
 -- 
 2.32.0
 
