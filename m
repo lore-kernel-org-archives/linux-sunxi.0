@@ -1,62 +1,94 @@
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8191B2C80
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 08:17:42 +0000 (UTC)
-Received: by mail-ua1-f49.google.com with SMTP id w23so30199846uao.5
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 00:17:42 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504402C81
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 08:35:41 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id j140-20020a1c2392000000b003399ae48f58so6179984wmj.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 00:35:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h1W02faQu+Szravq8WQw5MogG6/ITT6EryqDefYAc60=;
+        b=prsKTRolTZAn/eLp8jy5tA8v6BeaTxkby23xqeYZ6awHFSgKsVm13oLN/jcEZ9SyIl
+         I1Ywe/CZ+wOhuip2GCVpBVBa0K7XjExRe5HJsIs/Nlligz8qyTuaIlBV9GuoGuw1Jcgk
+         CQ0B/F7MnQObw0ZX5G50GwOpx8FMOVYLcag09isovlJct6uD6A45u2VOXNC0HCcN78x0
+         yvxOcfI9/llc+5+ebilSShkZ9jfbd1LdHUY5KdaP7i3AayQOGN43XDAPlhJdhATs2BnB
+         8o8I97bJ07mxVenWWUkjDrXe23PDh6FqOharpfFWFfoSKH47Blo0BFBEIRRkRDuRmpmP
+         626w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=YPdHw4igg7YGQnROWzeeN0m+U3heN/q62UEOUxqqzSU=;
-        b=QRSvGaABstXW7Wu2cClhSOIc2VpgcALi+eqff+bpGRz16ZOY3YXC55inrPkjTYzAOW
-         zPtG/0tL9yZxVIzJ7aIpger9b/8aA4t8Zg98CpVxYlndMrrS0AdFS2CM+DYS3k2tI3XO
-         Ep+MeuQjRgYzgnW2RZWb45SpZSB40u+ZEUzwaUfzMFV6J8WELOOd189vLITBkXS2ZT7V
-         C6HhxzwmJjYik3tgptYXinfFWp561K4+Aa9FxcZBNG28oWdJ7NxweERKSJ35TOwVfQT3
-         k5r4ahBnisbzVg9ixbuN465+BHY6BzNsOc805TY8HNDk7CemcxUfHFLgAaixOb+VOZrN
-         ToJQ==
-X-Gm-Message-State: AOAM532rN/vQuI04pRjP/eXGBReQUR/I3Dhh8Qm0veuMeyhJ7G0bCrRH
-	FIxDvVjguPe4CYj06vVuRv+wX2g2IG1V5g==
-X-Google-Smtp-Source: ABdhPJwx4YCoT9Fm2tR4dCtCwpHqMPN/Qx5C1Ywfv2aiUBju1ZXYD99w1QGF/EPWJxdtj+vdNSMz+A==
-X-Received: by 2002:a67:d893:: with SMTP id f19mr113470484vsj.39.1637482661387;
-        Sun, 21 Nov 2021 00:17:41 -0800 (PST)
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com. [209.85.222.50])
-        by smtp.gmail.com with ESMTPSA id q9sm2640751vkn.44.2021.11.21.00.17.41
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 21 Nov 2021 00:17:41 -0800 (PST)
-Received: by mail-ua1-f50.google.com with SMTP id n6so30262076uak.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 00:17:41 -0800 (PST)
-X-Received: by 2002:ab0:4324:: with SMTP id k33mr71136243uak.43.1637482660900;
- Sun, 21 Nov 2021 00:17:40 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=h1W02faQu+Szravq8WQw5MogG6/ITT6EryqDefYAc60=;
+        b=GAlWqkbTfF/hi/b6nqGxQO6/a3XnjKAOX2ZM8iMLlBkQEOxD15dAFMjXJ2/U3Npf0n
+         htNB9Mw8r99KU8dDdcfJEfJRFkM0TLWpWFnwKpF+lA+NhbT59G7B3Bh/m3H4x+ro7zk5
+         gJ9ig4usbzIuxWk/X+CsQz886FKoXfy4yrfRAWeW4VjAhSNk7mV+zFImIinDExhoRA/t
+         OzuJCDsx+Jk1iz3FLAU/zFNsImUJbbZ0+oPBHBKS8xHCt4DKbD7u505scZNNgjepwGcF
+         L+dfvIYKQRT7l+MFqD62bOZSBDFli1FIUoLr15bDMK4csn92pM35kpayEIXuTlLho6/a
+         NdXQ==
+X-Gm-Message-State: AOAM533s9ylL5UQHh/c4lUepQ1BILi1d0hJlJVhcijQzcE4odCSDaiOH
+	kp3zyItqXXj6UtQR7ig8rTI=
+X-Google-Smtp-Source: ABdhPJzCdBRcE5NpSYEOCmOLME4QneazaEDFzZrCDOhWB2wRMzb3iKPwCltWj7nYRNphcWEq9/+RwQ==
+X-Received: by 2002:a05:600c:358a:: with SMTP id p10mr17212213wmq.180.1637483739638;
+        Sun, 21 Nov 2021 00:35:39 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
+        by smtp.gmail.com with ESMTPSA id o1sm5100456wrn.63.2021.11.21.00.35.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Nov 2021 00:35:39 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] bus: sunxi-rsb: Fix shutdown
+Date: Sun, 21 Nov 2021 09:35:37 +0100
+Message-Id: <20211121083537.612473-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.34.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211121070321.601659-1-jernej.skrabec@gmail.com>
-In-Reply-To: <20211121070321.601659-1-jernej.skrabec@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Sun, 21 Nov 2021 16:17:29 +0800
-X-Gmail-Original-Message-ID: <CAGb2v65KpiW7s4BVTfiBRp1o=wM+CS5SBH1RT+2ZJP-ymtT4CQ@mail.gmail.com>
-Message-ID: <CAGb2v65KpiW7s4BVTfiBRp1o=wM+CS5SBH1RT+2ZJP-ymtT4CQ@mail.gmail.com>
-Subject: Re: [PATCH] ARM: dts: sun8i: h3: beelink-x2: Sort nodes
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 21, 2021 at 3:03 PM Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
->
-> Nodes are not sorted alphabetically. Do it.
->
-> There is no functional change.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Function sunxi_rsb_hw_exit() is sometimes called with pm runtime
+disabled, so in such cases pm_runtime_resume() will fail with -EACCES.
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Instead of doing whole dance of enabling pm runtime and thus clock just
+to disable it again immediately, just check if disabling clock is
+needed. That way calling pm_runtime_resume() is not needed at all.
+
+Fixes: 4a0dbc12e618 ("bus: sunxi-rsb: Implement runtime power management")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/bus/sunxi-rsb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index 6f225dddc74f..4566e730ef2b 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -687,11 +687,11 @@ static int sunxi_rsb_hw_init(struct sunxi_rsb *rsb)
+ 
+ static void sunxi_rsb_hw_exit(struct sunxi_rsb *rsb)
+ {
+-	/* Keep the clock and PM reference counts consistent. */
+-	if (pm_runtime_status_suspended(rsb->dev))
+-		pm_runtime_resume(rsb->dev);
+ 	reset_control_assert(rsb->rstc);
+-	clk_disable_unprepare(rsb->clk);
++
++	/* Keep the clock and PM reference counts consistent. */
++	if (!pm_runtime_status_suspended(rsb->dev))
++		clk_disable_unprepare(rsb->clk);
+ }
+ 
+ static int __maybe_unused sunxi_rsb_runtime_suspend(struct device *dev)
+-- 
+2.34.0
+
