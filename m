@@ -1,89 +1,69 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4278272
-	for <linux-sunxi@lists.linux.dev>; Sat, 20 Nov 2021 10:20:31 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id n29so22553300wra.11
-        for <linux-sunxi@lists.linux.dev>; Sat, 20 Nov 2021 02:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LEaW6sQllQeiUAlR7VXlAWH45Q9pIWU2d/TfbfgcPXY=;
-        b=i6Z4Z1lM7/46HyWl8T7vlO0nFHyyAHpd9jl5OpLIUO8B01KVgIXrLeSUA7wQm4Hbem
-         ebKHl/xU8pj1ugoTomhhh+DBk4oU1ID1iU0JrSdgJj1/vOMRseOy+CVHAt2WUr3g376C
-         wo34jNKOwtwGnIp7hLW5Z+0Cw9KCE4M8/u0Q/LpNlc9TJsNSjCi3O66qdqqBd6sdlRF6
-         Xxekc+NhqT7xzJdnSVKKcfLOrYVPzJ1awBDHNAA/5KHdZlZAFs3lIPpeK5oMUN2cs8cD
-         A457k7+6fXv1W61dffoQ4PjWTV3Ab7j21BeYUtb512FqrK/F0ekK+A/tVdi/dZ6i+V5J
-         ks6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LEaW6sQllQeiUAlR7VXlAWH45Q9pIWU2d/TfbfgcPXY=;
-        b=4aWEwB2DHptSHitExBcPfZP4V+Igdx13nKR+xf3puvFx3u6T3znykp0wkNm6VlJvU5
-         C+wjL95LwqomQPOnE8075qjccsJ2hLrAtYqO2kfDECyV1j8PPTVapkJT0D6z5NVf5jEo
-         KF4ihCbXbiHrb2KajKju8ulnffiWnJ8YZil4BeGLMYNIZJzfrR++DcKmRGRrDIoIcog7
-         S2G1pCUu95azXgRbPNuXRP4yLf9XVRrClqGnBnPnElZ6ZJHO1QUdXrrSYElbmNWmAU05
-         g8D4pqwf9mT4BmTPgcYtTqj9GbOHgsliiS34cZKPxa+/uP27lasGRWOJLt4UWdLDrane
-         D7+g==
-X-Gm-Message-State: AOAM53232UGFl0BfuA/nJOPUvx00lDRYh32zuSbFKKvZ+ocjJWAZFBcl
-	YRFUhotD8bxfdIVB3d3ulas=
-X-Google-Smtp-Source: ABdhPJwHPV8MS0HMq4lqynVHggq/3i0b79h2bOQmtKTpYRNvjsHuJcaimdZUtJQCO2MEHdWtpPSMDw==
-X-Received: by 2002:a5d:668f:: with SMTP id l15mr16656879wru.182.1637403629609;
-        Sat, 20 Nov 2021 02:20:29 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id j134sm2543534wmj.3.2021.11.20.02.20.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Nov 2021 02:20:29 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] ARM: dts: sun8i: h3: beelink-x2: Add GPIO CEC node
-Date: Sat, 20 Nov 2021 11:20:24 +0100
-Message-Id: <20211120102024.439456-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.34.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B042C83
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 02:21:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 69B466008E;
+	Sun, 21 Nov 2021 02:21:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1637461266;
+	bh=UCzrbM2fD+0HR8OTJ7bvKM6jrnWGIk1QV2RUx+6+AcA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FfnIEeglJ9iE1+Wx5hFdSxZpOkvthyDqWEDkBw4C1Vd6ZtaZf+8fR4cr43d08z7dA
+	 qcRRdvOY8CW8F17K4HbW6cJjr16Txh7jeyBnYADlO1yuTRhW0R/weewwrnJ68hFKG7
+	 jPeEveZVC6QAPjyRgxVmvfgUyx1q35NqXxgHciXYmvpu9L06qqEQ+XoDO8oJihks9W
+	 +8rtWRYyyz7ni5kVSl8g1CbBxxaN8lGlCMnJaZ+z3kikfg30k036wL3o35OFuP6WK0
+	 /65KBwUqpvJcx5cC5FCxVyLAhw3OHPbBdaFRj+Gn+30cLlYG2Ln2ElZ3A8vAAvechV
+	 IWP+EDosvx0XA==
+Date: Sun, 21 Nov 2021 10:20:57 +0800
+From: Shawn Guo <shawnguo@kernel.org>
+To: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+	Martin Kepplinger <martink@posteo.de>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Andy Gross <agross@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Lucas Stach <dev@lynxeye.de>, Angus Ainslie <angus@akkea.ca>,
+	Guido Gunther <agx@sigxcpu.org>, Tomasz Figa <tfiga@chromium.org>,
+	Johan Jonker <jbx6244@gmail.com>,
+	Eddie Cai <eddie.cai.linux@gmail.com>,
+	Shunqian Zheng <zhengsq@rock-chips.com>,
+	Brian Norris <briannorris@chromium.org>,
+	Dan Johansen <strit@manjaro.org>,
+	Simon South <simon@simonsouth.net>,
+	Matthias Brugger <mbrugger@suse.com>
+Subject: Re: [PATCH 2/4] arm64: dts: freescale: add 'chassis-type' property
+Message-ID: <20211121022056.GD31998@dragon>
+References: <20211016102025.23346-1-arnaud.ferraris@collabora.com>
+ <20211016102025.23346-3-arnaud.ferraris@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211016102025.23346-3-arnaud.ferraris@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 
-Beelink X2 doesn't use HW CEC controller found in DW HDMI core. It has
-dedicated GPIO pin for that purpose.
+On Sat, Oct 16, 2021 at 12:20:23PM +0200, Arnaud Ferraris wrote:
+> A new 'chassis-type' root node property has recently been approved for
+> the device-tree specification, in order to provide a simple way for
+> userspace to detect the device form factor and adjust their behavior
+> accordingly.
+> 
+> This patch fills in this property for end-user devices (such as laptops,
+> smartphones and tablets) based on NXP ARM64 processors.
+> 
+> Signed-off-by: Arnaud Ferraris <arnaud.ferraris@collabora.com>
 
-Add a node for it.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/boot/dts/sun8i-h3-beelink-x2.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-index f0e591e1c771..4ab4bbf001ba 100644
---- a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-@@ -57,6 +57,12 @@ aliases {
- 		ethernet1 = &sdiowifi;
- 	};
- 
-+	cec-gpio {
-+		compatible = "cec-gpio";
-+		cec-gpios = <&pio 0 14 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PA14 */
-+		hdmi-phandle = <&hdmi>;
-+	};
-+
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
--- 
-2.34.0
-
+Applied, thanks.
