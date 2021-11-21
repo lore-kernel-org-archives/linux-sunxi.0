@@ -1,54 +1,53 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC1068
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 11:50:07 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id k37-20020a05600c1ca500b00330cb84834fso14277163wms.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 03:50:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573022C80
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 19:53:59 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id l22so70344584lfg.7
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 11:53:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AQmd9SukAAF43qeHe/hCA71TFxm5LvRKe4XmZtcUxKc=;
-        b=RDBLjNI76TODJM5qgyUj027n20BGoY1WOj3Sk4nSnC6FBvtLMT33IwaMDmdfTDYFk2
-         5gZrxAkjvuSPuGCqJOWY5SMu0IqlALluQyjPAehA5A1MXs9pSrbScBUDV05crA0YqeLp
-         yJHH2utY3c7U/Mlrf347VYeNpa11wGoCGqA/jY7c8nWwAc2gM5Nmc1pyKXzRGgSn9Z0w
-         YiyniT8plYjOUsC1pjJWPW1KgxJ8am5hcXNIg/IRA87P0vwOtpDbGNVsWfsgVO1c4OpL
-         Z4Tji7oXKQoGU7+/Ky+YIiquaU1bNobwpqc0LwP75b8qeI5w35E3L13iGnr49J6u3UdC
-         p9lQ==
+        bh=jDQ8casRaZS+l1rxrJCeAbTXhjCUovQT3i2rAe9QnHQ=;
+        b=MspbIXHJZk6p7mD0w87WeBtdD2oQQ6mFcbm/J1qs30y1odPZzznO6xCH/B/wkCBNSN
+         X/nWbP+N04MmihCNEK2Gt99s8ezqN6FH1yYQuArKeosps1EGRR32bAf6FDdq0PAKVlDd
+         pwbafdunsgefopVeK/1o7iWYESVYpeqJvgIbIpvAVzEIenJ2tLTkoWEtl+Umw3YtfqYD
+         Wu0bmamuT4LFy36T/ElYlv/ZaSqjzSt6W624cw/jeD2/ZdosRqmRTJqUW4ThYc1YaFGD
+         s/vew8Y8wbdTkQzlhLCl1NyHddBSZFfik14o2stDjB7gNcFZEJN5RVe4X3OPKrvgJmoV
+         N1Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=AQmd9SukAAF43qeHe/hCA71TFxm5LvRKe4XmZtcUxKc=;
-        b=O8uN8W+TABhlricWScUpD+LS+68VRMJ/pnFdRMElajypnukpJ0/uQYxe3F69neoBLc
-         0dVLyPUymA6nmsMyRuL5rxNnI0T04CgPYBJAEQm9i+4Tp5UzNZD5jL1Njp05e2PdwxFr
-         eBPcHwxSGLcffZCDIJEM7yf/i+WIwI1Ov4qOmxCBTF/E1rB4EyB4o+3hEl+H72aqmNdg
-         Eyep0n4uOBYirD7WfS3b8a3UUcTpy0RdF9NjESTsDeqbYVhh5u/Vkp4oEHFjOujcXKf1
-         Hd/pZO5NhNG4oWB7FqrxE2r3/8io+TgSmBAb9EF/H+rD/dvrkIoyayjJHy7pujd+BFHw
-         SOZQ==
-X-Gm-Message-State: AOAM530VpPW6q2n2xX7/7esFWOGvNuhxIqA4D5XtU4jltQNxNvE87GJb
-	Std9riWcsj16v5fnmbSFbjg=
-X-Google-Smtp-Source: ABdhPJzkhFF5ybtUoDP7TCWR73DLqGOFVRq0CK/YuNI+VJs8DFIFv3aOv6EVyx43I5Ml2MGHzwWBtA==
-X-Received: by 2002:a1c:488:: with SMTP id 130mr19311234wme.157.1637495405798;
-        Sun, 21 Nov 2021 03:50:05 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id m36sm6575118wms.25.2021.11.21.03.50.04
+        bh=jDQ8casRaZS+l1rxrJCeAbTXhjCUovQT3i2rAe9QnHQ=;
+        b=6xoHXJrqV+wZ4qJ6BTdUBumaymp/PATswFYnVrz4pXbIwiz4Psm27R3AxfwGM0Sx3o
+         kbDMEoROcw9Pp2VS7T2UrKqGrTsA7a3rW2CMNNA9kDKSatwIsCNP6zAeAlfADVAP0fcA
+         tv14bRFs8ZNtkRXpbEh+0UY2Ut2DPLK2PVLsaJ7KBER2myLThw9cF2wibFX0ah4Ecfcq
+         8cuGMAduI5lBAwHyEFea0Uzd0cMUnbScAFxs35FFCWtu+BScjNvMEKqxJL+rNYRK5BOT
+         ldE5Mnn1k038ckhsq16fWraC/HlGsWsyCzi4+M26BqnC1+Y6Vjry+qrtZXpIa9SnCE4y
+         iFPQ==
+X-Gm-Message-State: AOAM532pAEzrs39Yg5IIjcU/oWfqx3QX5QwL2juF3BUMIt17hUL1avku
+	d+5YBR81W3k7Ks3r2IiDqmP73w==
+X-Google-Smtp-Source: ABdhPJwYpfyTLMo2Ivu2ZTj1fJkpboEZubzV2cCg94mVmf+fnyIlfXPkRv+Ng7Qi7mRHrLClMA9mJw==
+X-Received: by 2002:a2e:b177:: with SMTP id a23mr45983013ljm.168.1637524437115;
+        Sun, 21 Nov 2021 11:53:57 -0800 (PST)
+Received: from boger-laptop.lan (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
+        by smtp.gmail.com with ESMTPSA id a24sm768987ljq.18.2021.11.21.11.53.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Nov 2021 03:50:05 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: robh+dt@kernel.org,
+        Sun, 21 Nov 2021 11:53:56 -0800 (PST)
+From: Evgeny Boger <boger@wirenboard.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-arm-kernel@lists.infradead.org
+Cc: Evgeny Boger <boger@wirenboard.com>,
 	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] arm64: dts: allwinner: h6: tanix-tx6: Add I2C node
-Date: Sun, 21 Nov 2021 12:50:02 +0100
-Message-Id: <20211121115002.693329-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.34.0
+	Rob Herring <robh+dt@kernel.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v3 0/3] sun8i: r40: second ethernet support
+Date: Sun, 21 Nov 2021 22:53:34 +0300
+Message-Id: <20211121195337.230475-1-boger@wirenboard.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,36 +56,43 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Tanix TX6 has a LED display driven by FD650.
+This patch series adds support for two Ethernet ports on Allwinner R40.
 
-Currently there is no Linux driver nor any binding for it. However, we
-can at least provide I2C node in DT, so user space scripts or programs
-can manually control it.
+R40 (aka V40,A40i,T3) has two different Ethernet IPs called EMAC and GMAC.
+EMAC only support 10/100 Mbit in MII mode, while GMAC support both 10/100
+(MII) and 10/100/1000 (RGMII).
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+In contrast to A10/A20 where GMAC and EMAC share the same pins making EMAC
+somewhat pointless, on R40 EMAC can be routed to port H.
+Both EMAC (on port H) and GMAC (on port A) can be then enabled at the same 
+time, allowing for two ethernet ports.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-index 6c10ff7f4b1c..7c37aa4c60cb 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
-@@ -32,6 +32,14 @@ hdmi_con_in: endpoint {
- 		};
- 	};
- 
-+	/* used for FD650 LED display driver */
-+	i2c {
-+		compatible = "i2c-gpio";
-+		sda-gpios = <&pio 7 6 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH6 */
-+		scl-gpios = <&pio 7 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH5 */
-+		i2c-gpio,delay-us = <5>;
-+	};
-+
- 	reg_vcc1v8: regulator-vcc1v8 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "vcc1v8";
+Tested on custom A40i board with two IP101GRI PHYs in MII mode.
+
+Changes in v3:
+Minor fixes in bindings. Rebased on top of linux-next/master.
+dt_bindings_check and dtbs_check passed.
+
+ - bindings: separate commit for DT bindings
+ - bindings: simplify handling of compatible strings
+ - bindings: make resets property required on R40
+ - dts: get rid of duplicate node
+
+Changes in v2:
+ - EMAC reset is no longer optional on R40
+ - Add a new DT compatible string for R40 EMAC
+ - Deassert reset line before enabling the clock
+ - minor fixes: formatting, DT node order, leftover pinctrl props
+
+Evgeny Boger (3):
+  net: allwinner: reset control support
+  dt-bindings: net: support for Allwinner R40 EMAC controller
+  dts: r40: add second ethernet support
+
+ .../net/allwinner,sun4i-a10-emac.yaml         | 20 +++++-
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 50 +++++++++++++++
+ drivers/net/ethernet/allwinner/sun4i-emac.c   | 64 +++++++++++++++++--
+ 3 files changed, 128 insertions(+), 6 deletions(-)
+
 -- 
-2.34.0
-
+2.25.1
