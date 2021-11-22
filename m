@@ -1,153 +1,106 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D9F2C80
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 19:54:04 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id c32so70659864lfv.4
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Nov 2021 11:54:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gkETZgyxLCY3o9a3tZ61sgO6O+YAt+suAi+pGxqWqDY=;
-        b=BNZUjnnWTCnm7u8qVG8rdE9BXMaJkjKRsu/8h1GipaXuzMyM+toqh9JM0mZoqHWQBo
-         H4jLvJxOmViIK/bqBnWgu0yh+OqFQfWE/OKviXxf3sM8Rk+N2JH3Hnrcn3mqQem5nkGn
-         9xm9kGvi1AD5c8Ja1x808ULKAo6LRMsERl2VosX/4GM/rw4ijMyaeoBLK0mQ0zoHfM16
-         riqW3COY1nT3tG9x46cau0DOzeoo45eFmi23OaSW4bAUmaaT/4ExlBGhfk60xQP4niSS
-         gL/PAh0V1Ond6fadi7IQtX+Rmm1/N+TTQptMgvn36D64O+mu3jWQQ4Ju/BZgXxZMHI59
-         vjmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gkETZgyxLCY3o9a3tZ61sgO6O+YAt+suAi+pGxqWqDY=;
-        b=WMaYBuEtQci8SgV8MwdjvWAjKpe7Po1aUQSwTjjpLi1QE/7OyW829mq+w5m6C6yXIF
-         XMYY20TEq/hOv2OVdwFQpVHN1SkzNAKIOnKvNC4U9UM9o9e96mcE5zVf/GfZAk5IRMo/
-         TeFwfmEz/sr8W+nYlQs4Ag82wI3dotS4tOYu9wU4DhK/XfP0shKeNZCOFsCCdgW6JYQD
-         pTgoBREuFVUKklZAhl7DgPQYPrzBMFOaIWckUNcvRXNMNgFzuA/gH2MHsuOX1b+YXJ4a
-         aHn6Ph3mLym8+YoO82Hsi1eNlihbchQMlQL6A/SYrzvXr1iTeVr1V9qzmwbEfEweWNxB
-         o3Cw==
-X-Gm-Message-State: AOAM5306oSphKYT6ymV7EcKgWqoCe9IjFiig19WEePQzD2Y4IvxKfWNx
-	HN8vxBevzyEn+Ig1oaB3tBnF0g==
-X-Google-Smtp-Source: ABdhPJzQCCzuisHdFb2CLsfbM7uHhh84OKJ7As3BTkdw/n6nTZGoeg07+LPbdUJFkpE+GRJ7m1USJQ==
-X-Received: by 2002:a05:6512:12c4:: with SMTP id p4mr50559707lfg.274.1637524443033;
-        Sun, 21 Nov 2021 11:54:03 -0800 (PST)
-Received: from boger-laptop.lan (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
-        by smtp.gmail.com with ESMTPSA id a24sm768987ljq.18.2021.11.21.11.54.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Nov 2021 11:54:02 -0800 (PST)
-From: Evgeny Boger <boger@wirenboard.com>
-To: Maxime Ripard <mripard@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FB32C82
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 08:45:09 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id B51DC3200E91;
+	Mon, 22 Nov 2021 03:45:08 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 22 Nov 2021 03:45:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=IEQFLYmwMPm+QnJiU4zImMcu/1U
+	6t6+5t6Sfxd7594o=; b=Z3DT7q7a1nfcJhugd+NnEVHYsagN45ODpa6vPQAlJ9R
+	AwX8yvPSpgqTKp+wGtQk85oSO9XyiumqqBBYqIJj5zK8XltBcytKch/jE5hNmbqL
+	GZLk5elidg7zvV47tRGBmRrUKqjK/huqkUlSmZ7vJT0HATmq4tXBPM1utwN8utkb
+	gzMlt42xodx1+ErnTuCmrIIfcif24P/u51Od85bbbQVIQGTGr3xn3a26rp7d2+OV
+	h35WyXeFm9UfgPvf2iL/SW/vgA2KaKtmKidj3cZGvQ4rO/mRIje39OrqZ3RiCryj
+	qkL7uQfJjndShgu69Da8DeWoQ35lHUoPT02jsaqyELw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=IEQFLY
+	mwMPm+QnJiU4zImMcu/1U6t6+5t6Sfxd7594o=; b=F13FPfU93S1oq3hZ3JRXDj
+	u9OgxmQ0bANgLDzF4pGSqYTAbjDuqAEkoKfqPfAF+kInTQLSjZqc0y7Y0y3KSFoP
+	PZlnlf1EeZ7JDLhS6cWXtDTyMxmCunLF1F4elRiaqvGCyJzBj/DhV57AtJZZCbJp
+	EPam/ZWrzNZswMSVbimbiRj1FlJ3rJ2/vzQuCmItN7IfscP7Z8rerFJ/bXl5/L/K
+	BG+xKetb8/JpUnpjRkcvAxRzqTLyBReee5YclSNSZ2fK8qXJL0jeOLwrcRknk3Wy
+	evRPAVj1Rdz2UaFiF1uv/Osi2qE9quzTtoOLinz9DUBYY+QrVoEJKup8dh5X1Lrg
+	==
+X-ME-Sender: <xms:k1ibYaIgMPEz0bSgchnu15xWm_EtRQ_F-gc6hbEysFW3PFzuvjMQ9A>
+    <xme:k1ibYSKNHciI1tPTn13vueDIF2Hr8q3PUW-YYK6Cquev_XQIsiRVjmIA-TfvMauAK
+    aOoqvwqlhhxualGeNM>
+X-ME-Received: <xmr:k1ibYav7GVDlqgR-Gy8yae0tfEqhZwZrNs1l5RkkU0QWgVVUNwogwIf_d9vQ0V7-LP5snZMtk258ZvQXJFzdDmDYFCPLEEUtUro>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeefgdduvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:k1ibYfY1swP51FYp9KgqukI-vCDZnbS3x_AULgSXEGwnBlDQVF_JVA>
+    <xmx:k1ibYRbC1OT00tC7WSQcSJUyW_7dj6aFJc39uf9zzGGNMWTC38zlfg>
+    <xmx:k1ibYbADJRZjtYtYi1q0okSGVMzaI9FSL1kzuW5stxsr_ykU9LBsqg>
+    <xmx:lFibYWPyTtLyLc5BtSUf3TC3UNDEQ6m_nPK3LBCoG_gzWbhT0XbfAA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Nov 2021 03:45:07 -0500 (EST)
+Date: Mon, 22 Nov 2021 09:45:04 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
 	Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-kernel@lists.infradead.org
-Cc: Evgeny Boger <boger@wirenboard.com>,
-	devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 3/3] dts: r40: add second ethernet support
-Date: Sun, 21 Nov 2021 22:53:37 +0300
-Message-Id: <20211121195337.230475-4-boger@wirenboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211121195337.230475-1-boger@wirenboard.com>
-References: <20211121195337.230475-1-boger@wirenboard.com>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/4] dmaengine: sun6i: Add support for 34-bit physical
+ addresses
+Message-ID: <20211122084504.5picqz6xxaiup6tf@gilmour>
+References: <20211119052702.14392-1-samuel@sholland.org>
+ <20211119052702.14392-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7inek6mjn4muxwl4"
+Content-Disposition: inline
+In-Reply-To: <20211119052702.14392-4-samuel@sholland.org>
 
-R40 (aka V40, A40i, T3) has two different Ethernet IP
-called EMAC and GMAC.
-EMAC only support 10/100 Mbit in MII mode,
-while GMAC support both 10/100 (MII) and 10/100/1000 (RGMII).
 
-In contrast to A10/A20 where GMAC and EMAC share the same pins
-making EMAC somewhat pointless, on R40 EMAC can be routed to port H.
-Both EMAC (on port H) and GMAC (on port A)
- can be then enabled at the same time, allowing for two ethernet ports.
+--7inek6mjn4muxwl4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Evgeny Boger <boger@wirenboard.com>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 50 ++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
+Hi,
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 1d87fc0c24ee..19ea33421c63 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -217,6 +217,20 @@ syscon: system-control@1c00000 {
- 			#size-cells = <1>;
- 			ranges;
- 
-+			sram_a: sram@0 {
-+				compatible = "mmio-sram";
-+				reg = <0x00000000 0xc000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x00000000 0xc000>;
-+
-+				emac_sram: sram-section@8000 {
-+					compatible = "allwinner,sun4i-a10-sram-a3-a4";
-+					reg = <0x8000 0x4000>;
-+					status = "okay";
-+				};
-+			};
-+
- 			sram_c: sram@1d00000 {
- 				compatible = "mmio-sram";
- 				reg = <0x01d00000 0xd0000>;
-@@ -543,6 +557,24 @@ gmac_rgmii_pins: gmac-rgmii-pins {
- 				drive-strength = <40>;
- 			};
- 
-+			emac_pa_pins: emac-pa-pins {
-+				pins = "PA0", "PA1", "PA2",
-+				       "PA3", "PA4", "PA5", "PA6",
-+				       "PA7", "PA8", "PA9", "PA10",
-+				       "PA11", "PA12", "PA13", "PA14",
-+				       "PA15", "PA16";
-+				function = "emac";
-+			};
-+
-+			emac_ph_pins: emac-ph-pins {
-+				pins = "PH8", "PH9", "PH10", "PH11",
-+				       "PH14", "PH15", "PH16", "PH17",
-+				       "PH18","PH19", "PH20", "PH21",
-+				       "PH22", "PH23", "PH24", "PH25",
-+				       "PH26", "PH27";
-+				function = "emac";
-+			};
-+
- 			i2c0_pins: i2c0-pins {
- 				pins = "PB0", "PB1";
- 				function = "i2c0";
-@@ -980,6 +1012,24 @@ gmac_mdio: mdio {
- 			};
- 		};
- 
-+		emac: ethernet@1c0b000 {
-+			compatible = "allwinner,sun4i-r40-emac";
-+			reg = <0x01c0b000 0x1000>;
-+			interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_EMAC>;
-+			resets = <&ccu RST_BUS_EMAC>;
-+			allwinner,sram = <&emac_sram 1>;
-+			status = "disabled";
-+		};
-+
-+		emac_mdio: mdio@1c0b080 {
-+			compatible = "allwinner,sun4i-a10-mdio";
-+			reg = <0x01c0b080 0x14>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		mbus: dram-controller@1c62000 {
- 			compatible = "allwinner,sun8i-r40-mbus";
- 			reg = <0x01c62000 0x1000>;
--- 
-2.25.1
+On Thu, Nov 18, 2021 at 11:27:00PM -0600, Samuel Holland wrote:
+> @@ -645,7 +660,7 @@ static struct dma_async_tx_descriptor *sun6i_dma_prep=
+_dma_memcpy(
+>  	if (!txd)
+>  		return NULL;
+> =20
+> -	v_lli =3D dma_pool_alloc(sdev->pool, GFP_NOWAIT, &p_lli);
+> +	v_lli =3D dma_pool_alloc(sdev->pool, GFP_DMA32|GFP_NOWAIT, &p_lli);
 
+This raises a checkpatch --strict warning since we're supposed to have
+spaces around the pipe.
+
+Maxime
+
+--7inek6mjn4muxwl4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZtYkAAKCRDj7w1vZxhR
+xXcRAP0S6BzQLRMjoeNCFMCmHaQ8A9vR83TuAg85HtLWJIrgrwEA1GUWojfLx+Ns
+NRB9aejX7t2F8h/xA5GDox29cy3gIAU=
+=L02M
+-----END PGP SIGNATURE-----
+
+--7inek6mjn4muxwl4--
