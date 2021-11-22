@@ -1,68 +1,70 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C932C82
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 09:07:58 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id D6D623200E83;
-	Mon, 22 Nov 2021 04:07:57 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 22 Nov 2021 04:07:58 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48912C82
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 09:08:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id A40DB2B01C7D;
+	Mon, 22 Nov 2021 04:08:01 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 22 Nov 2021 04:08:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	G/XaaQn1wpINf7ztTpVzNG/AUZxJhlmbIY1Y0oQZkGg=; b=nhwkT/eLzc38lou4
-	OXDf9ZsWteb3IyvPSH9UeoHSGuS+iO0IHaHYuodkHjKXxgBQ4ihLZ9HJNuc2kuOa
-	aT5AGDfMu2PFndKAJlI/d+O3ymj8Js7P3GkKRIr7lnXzjY0aMVAb4WQ5DaDTCBOk
-	2P2oHTPJsSo43ugUlqVnpui1i0P1o1apQl9zTKyMARw6JJLTg1aoQ2uvQRlv/05Y
-	NGhwfD+OX/BYM+4JHNZqbWKc1f9qMksI+sNnqaMLGmpivGK6A+Gsw1dRYwgzscqg
-	hong4BZBwFpa0hF6glZN5w/wqhzwhRS6Z2CIpNDESlSR8l65xB843lgAC72f2XhF
-	Ac58Ow==
+	g7CpQC4vqv3CcMQzgY8dtmqZ9qwA0gZLzM452E0RDCs=; b=b2lIs3yG2e/ficTn
+	epg6iTHeQ40ACMnqwWDOnEVS0dIzLAG0/flD9QzXCsXdxkqDYuUAk1pB6DJNO26q
+	PtJdwcszKiAmb4AjxoaIfrdHhv5f34Tfxgq3l6dZLwU4xST0f8Yb0/Y7QmpM4iJI
+	HzsKptuumIOD2XSAZoZ5q5XH8LTPY3IYI28PkVQvHCl+DXzUgySsMssUDgdlPiU3
+	4jQ9ASmR/MoHQXMzOv7U90iDxyCCjvRwWmknDbU6c5jmX2nIDVkCJP2ipnTg9YB3
+	OYMy2kvQCgUlK5z/ChAddKmwItzO0GYyG7MKNIb16YyOIJCnDlE86XTi4ZlQAKiQ
+	0Gp6zA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=G/XaaQn1wpINf7ztTpVzNG/AUZxJhlmbIY1Y0oQZk
-	Gg=; b=MTsa4PRzKRhbw2EAoa/k1da4JIP2iEAwM6Y4mjbTGVdRvuv2uLHF4gQZZ
-	nZO8nGJK8cwu11eRQ+PY0M3p5vUZYxbmTNPyb4Tgf2moDPOAaXoMtsNKi3uIVpqY
-	VhSFryDmI5UWK5sTJjV8/yCuucPWN17NzORuGZOpn3tkHRcVn8h+sknuD0FmDb1T
-	fAAT+pQywBMje5bU3kMhYmupKzuxgw/hcanmVsr9nCFt3LzTx6UsYSJ6A/K0yzWe
-	gbYtyC+lersA+xwTA207K+VqZEbp4Fu4LLhpmnhbgDng6cuDy5vhUQ4ZLuiqnGGm
-	si115r/Uqy9aMAJaRRylFD7aExCRA==
-X-ME-Sender: <xms:7V2bYUyuL7oUONUJwYZ3cB52g-m1Cvc67f4BptJXgdhqn1zcXIotqA>
-    <xme:7V2bYYSa6_rlKMja9F6_oi975Rpqp8JnSo4QbMx9XHW8aKwjB1b6naoXeg3xKQN0w
-    3SRoNiznUhdiftKjFQ>
-X-ME-Received: <xmr:7V2bYWW6M2RY8e1fR_5J0TyM12tCwzZ-JveWfFcDvVnm57XApEsK_seWcfpkFOWhOiBmVHNiajkFsLZ157-wt5yFvOMLzOfiink>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeefgdduvdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
-    ieekkeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:7V2bYSiHfNOcsjUv9xYsm6XHTkB5aZPrPFUNA8rcjZMxRZ7Svg4hIA>
-    <xmx:7V2bYWBAl3LKqTz-_sPtXbh7F15QZZXGuMYv-g1Hkc3v2bsA1u0g5w>
-    <xmx:7V2bYTJFo8eMKqQGG5bKby02-MOm_AauA-KqKhGYqVaH0B6Q4235rA>
-    <xmx:7V2bYcDNQAMyl0mAMGzVWOi7wNJ8ZaHL8BZTcRqtRfFPUwF-u4CHaA>
+	:x-sasl-enc; s=fm1; bh=g7CpQC4vqv3CcMQzgY8dtmqZ9qwA0gZLzM452E0RD
+	Cs=; b=RRTqYd9X69muQLRFLybXxZlogBe9pb5PzGldgRH/o/X9B6zbRlZooOEfM
+	h/2MyaNR+Aofa2yFaM19+SOalDkX7Wl2O+lrLSLUg0TIOTH/EqwjxnuBw89VhnQ4
+	vyvaLnFYGYXYLo/eJ54yZhoIX3PwXqc5jhnNJerTOD8U6Dfhb8oSl1+G1YB/fPsR
+	c3JAArBqZMKNh9cI5kUvkFChsLG4QMSCu0MO7sdhbSNaxhKsoqEu/9FSR2MSOMVb
+	gNwS48BSAQmDCpDrAGSz/ztFIt/K5aTil9RFtFIX0WAQPKfYNLwws25o6pqf1a1S
+	/s05xn2FLLS2mi5N4JLsEY/Y43YkA==
+X-ME-Sender: <xms:8F2bYbUtTSdAW_vGMfwvlyxmgNd430hQVdGzhDU011i5-NSIAHEghQ>
+    <xme:8F2bYTkwv3Nf9XdaCBufEjWsdmibVApgvtPtsMg3NhicGZV4g0kUGWzmmbdebwO7U
+    qakbeKUtZwc4rdWBaw>
+X-ME-Received: <xmr:8F2bYXYWp-dngPH4puf0HIBDiwjlXr3N8qF8LPHUfV2NscTFTbZ_V93K3PMvj1ieti0kELxP8mPi32CQ2llu_y7fNzc5_wfaano>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeegucetufdoteggodetrfdotffvucfrrh
+    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    ephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihimhgvucft
+    ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
+    hnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeegieekkeen
+    ucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
+    hmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:8F2bYWUA_g0RFjw9a7o7KOFn1lhHZ_1fnIlfafJ93mVvDBaSunKhCg>
+    <xmx:8F2bYVmt4Fh9c4-zIFYjxi86mP8O_nA37hNJlhQ9CEFsAjQz5h7QMQ>
+    <xmx:8F2bYTdhWjB_G3BAvJJNxzlQtJmKOp2EGzxMjQ5WwSD7xVqZv6LjJA>
+    <xmx:8V2bYWgEWLSopLfjHoAHChO5IxMCArtiv6X33NFz7x6CGC6r66WCRA9oRr4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 04:07:56 -0500 (EST)
+ 22 Nov 2021 04:07:59 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: mripard@kernel.org,
-	wens@csie.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	robh+dt@kernel.org,
+To: Frank Rowand <frowand.list@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Rob Herring <robh+dt@kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Maxime Ripard <maxime@cerno.tech>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] ARM: dts: sun8i: h3: beelink-x2: Sort nodes
-Date: Mon, 22 Nov 2021 10:07:44 +0100
-Message-Id: <163757205949.21212.16601638001637017389.b4-ty@cerno.tech>
+	linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>,
+	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: Re: [PATCH] dt-bindings: crypto: Add optional dma properties
+Date: Mon, 22 Nov 2021 10:07:45 +0100
+Message-Id: <163757205949.21212.15408545485243752460.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211121070321.601659-1-jernej.skrabec@gmail.com>
-References: <20211121070321.601659-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20211116143255.385480-1-maxime@cerno.tech>
+References: <20211116143255.385480-1-maxime@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,10 +74,11 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Sun, 21 Nov 2021 08:03:21 +0100, Jernej Skrabec wrote:
-> Nodes are not sorted alphabetically. Do it.
+On Tue, 16 Nov 2021 15:32:55 +0100, Maxime Ripard wrote:
+> Some platforms, like the v3s, have DMA channels assigned to the crypto
+> engine, which were in the DTSI but were never documented.
 > 
-> There is no functional change.
+> Let's make sure they are.
 > 
 > 
 
