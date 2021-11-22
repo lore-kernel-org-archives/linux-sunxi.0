@@ -1,88 +1,102 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48912C82
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 09:08:02 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id A40DB2B01C7D;
-	Mon, 22 Nov 2021 04:08:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 22 Nov 2021 04:08:02 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 889A62C82
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 09:10:53 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id B549E32003F4;
+	Mon, 22 Nov 2021 04:10:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 22 Nov 2021 04:10:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	g7CpQC4vqv3CcMQzgY8dtmqZ9qwA0gZLzM452E0RDCs=; b=b2lIs3yG2e/ficTn
-	epg6iTHeQ40ACMnqwWDOnEVS0dIzLAG0/flD9QzXCsXdxkqDYuUAk1pB6DJNO26q
-	PtJdwcszKiAmb4AjxoaIfrdHhv5f34Tfxgq3l6dZLwU4xST0f8Yb0/Y7QmpM4iJI
-	HzsKptuumIOD2XSAZoZ5q5XH8LTPY3IYI28PkVQvHCl+DXzUgySsMssUDgdlPiU3
-	4jQ9ASmR/MoHQXMzOv7U90iDxyCCjvRwWmknDbU6c5jmX2nIDVkCJP2ipnTg9YB3
-	OYMy2kvQCgUlK5z/ChAddKmwItzO0GYyG7MKNIb16YyOIJCnDlE86XTi4ZlQAKiQ
-	0Gp6zA==
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=j9PkAsJA7WbZrpKLzP2k50HQ2+L
+	e6gnz/bXImbAiWYc=; b=Jcg4/DnG++M3g+JI3kAsDjod6w6ODFti4dpzU9OLBhe
+	DOWKPPg+xLJofDXdfM5eWKyDMNKNi3qnfEeD6zLj7g9DvzeV0ZtBVQ4cSb9dG+Bj
+	Q1SBL0YTpfw+m2LTjTK0FQ7o2y8b3dV1hSk8EZjhv4VSbpRIuHubhADnIiYameGR
+	cnnvAojuPWSOCeeVzz40PYdFsfcixVw3CZM7fdFO2AG9CNHeg1AHRkeZiut4aeu8
+	3vQznLK0UsoU8v1qbi8/CPRLi5iS4bilT+mx4dlg1tEchEq8+3p45qXKvpunh122
+	gCj8obCyDFYhbJJUUuqf8ofUsSZQSAwxP3pgqj5YEAw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=g7CpQC4vqv3CcMQzgY8dtmqZ9qwA0gZLzM452E0RD
-	Cs=; b=RRTqYd9X69muQLRFLybXxZlogBe9pb5PzGldgRH/o/X9B6zbRlZooOEfM
-	h/2MyaNR+Aofa2yFaM19+SOalDkX7Wl2O+lrLSLUg0TIOTH/EqwjxnuBw89VhnQ4
-	vyvaLnFYGYXYLo/eJ54yZhoIX3PwXqc5jhnNJerTOD8U6Dfhb8oSl1+G1YB/fPsR
-	c3JAArBqZMKNh9cI5kUvkFChsLG4QMSCu0MO7sdhbSNaxhKsoqEu/9FSR2MSOMVb
-	gNwS48BSAQmDCpDrAGSz/ztFIt/K5aTil9RFtFIX0WAQPKfYNLwws25o6pqf1a1S
-	/s05xn2FLLS2mi5N4JLsEY/Y43YkA==
-X-ME-Sender: <xms:8F2bYbUtTSdAW_vGMfwvlyxmgNd430hQVdGzhDU011i5-NSIAHEghQ>
-    <xme:8F2bYTkwv3Nf9XdaCBufEjWsdmibVApgvtPtsMg3NhicGZV4g0kUGWzmmbdebwO7U
-    qakbeKUtZwc4rdWBaw>
-X-ME-Received: <xmr:8F2bYXYWp-dngPH4puf0HIBDiwjlXr3N8qF8LPHUfV2NscTFTbZ_V93K3PMvj1ieti0kELxP8mPi32CQ2llu_y7fNzc5_wfaano>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeegucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    ephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihimhgvucft
-    ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
-    hnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeegieekkeen
-    ucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
-    hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:8F2bYWUA_g0RFjw9a7o7KOFn1lhHZ_1fnIlfafJ93mVvDBaSunKhCg>
-    <xmx:8F2bYVmt4Fh9c4-zIFYjxi86mP8O_nA37hNJlhQ9CEFsAjQz5h7QMQ>
-    <xmx:8F2bYTdhWjB_G3BAvJJNxzlQtJmKOp2EGzxMjQ5WwSD7xVqZv6LjJA>
-    <xmx:8V2bYWgEWLSopLfjHoAHChO5IxMCArtiv6X33NFz7x6CGC6r66WCRA9oRr4>
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=j9PkAs
+	JA7WbZrpKLzP2k50HQ2+Le6gnz/bXImbAiWYc=; b=ilEAS5/vWBMWZA12OqH/Ay
+	3UbFSIbxzTdn4DftC1Tb8PCPONaDLU4fMqh9N+pyirVCFPSzV+WkzacWxuzZ6Drt
+	JPv4anX2fjZtkTrtrwfKS8J7L+MPj6sZrWh2hzq2XjAxjgolkTpKNWZnkriMtjmb
+	th2Dfz3uVeoMSpt+pXFPtv9LNWd2L/2vYgW/YtkCMQbJHLmTnEWzdsZgLCifUBeZ
+	vn8+ssiD6oMLAJCEFFwblSm2DUWTZLd45vGPYrt3ZjU79wKwAapdH/gi+CMEJx8u
+	sN6Vas6TAF320xTgUdSzMKgdue45XDA3X7aFQ76JvjYsi7PbmdWvGej/JYVoBloA
+	==
+X-ME-Sender: <xms:m16bYVW3PsD6QellRttk19U7IzhvgCnE2erWDDscHss2JyVV34aAqg>
+    <xme:m16bYVmJvDPnECsdOUHyiqnAQXEdM_IXqLjBafqzMYciODVG0xlRDsAUjzKSqVSYY
+    pXhh8unzsooAvnY4ts>
+X-ME-Received: <xmr:m16bYRbJGC7-ENaiJl-6sZQ8VADrOK0T0uEEm8fyCZceod5Onxd_YM0wPPMIigqYeEcybwK6W_xuIm01VfX09MEQEQJyKW4yE3A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:m16bYYXOYp7jrDcw5EOYgtaR6F3NoIEw13fu46KmpGuuRLI8hco6LQ>
+    <xmx:m16bYfkwfSqCfeI8WU3X0mdSzu5ia2cij5OaDybIcvNaf-EnLLENNg>
+    <xmx:m16bYVcswCVOVwZpUIAFVG3Y4K1Swq46JysHL-MQAxVLj0DvR35YjQ>
+    <xmx:nF6bYdabTOs3Y4AiDzvmzpPfNphGMr8cdoEYlrdtBcSdJZUp8msMZg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 04:07:59 -0500 (EST)
+ 22 Nov 2021 04:10:51 -0500 (EST)
+Date: Mon, 22 Nov 2021 10:10:50 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Frank Rowand <frowand.list@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Rob Herring <robh+dt@kernel.org>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Maxime Ripard <maxime@cerno.tech>
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org,
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+	Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>,
-	=?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH] dt-bindings: crypto: Add optional dma properties
-Date: Mon, 22 Nov 2021 10:07:45 +0100
-Message-Id: <163757205949.21212.15408545485243752460.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211116143255.385480-1-maxime@cerno.tech>
-References: <20211116143255.385480-1-maxime@cerno.tech>
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/3] dt-bindings: iio: adc: new compatible for Allwinner
+ R40 RTP controller
+Message-ID: <20211122091050.2skbohgcfl5x4byt@gilmour>
+References: <20211119191456.510435-1-boger@wirenboard.com>
+ <20211119191456.510435-3-boger@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lcc7moh4ael7oljc"
+Content-Disposition: inline
+In-Reply-To: <20211119191456.510435-3-boger@wirenboard.com>
 
-On Tue, 16 Nov 2021 15:32:55 +0100, Maxime Ripard wrote:
-> Some platforms, like the v3s, have DMA channels assigned to the crypto
-> engine, which were in the DTSI but were never documented.
-> 
-> Let's make sure they are.
-> 
-> 
 
-Applied to sunxi/linux.git (sunxi/dt-for-5.17).
+--lcc7moh4ael7oljc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Fri, Nov 19, 2021 at 10:14:55PM +0300, Evgeny Boger wrote:
+> R40 SoC has touchscreen controller also serving as general-purpose ADC.
+> The hardware is very similar to A31, except that R40 has separate
+> calibrated thermal sensor IP, so temperature sensing channel in RTP is
+> not documented and is not to be used.
+>=20
+> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
 Maxime
+
+--lcc7moh4ael7oljc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZtemgAKCRDj7w1vZxhR
+xe0VAQCmBz1r4RXwATjrL938HLoLE6P2ixND+9LPIg0B9MTVsQEAnRzoBZ07i5t2
+2c24NDTMqyU5Grj+ttjpZHViiAqO0QQ=
+=sVTA
+-----END PGP SIGNATURE-----
+
+--lcc7moh4ael7oljc--
