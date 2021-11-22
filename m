@@ -1,39 +1,39 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC89F2C81
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 10:49:18 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id E62353201C5D;
-	Mon, 22 Nov 2021 05:49:17 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 22 Nov 2021 05:49:18 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721E22C81
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 10:56:40 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 4D9A35806CD;
+	Mon, 22 Nov 2021 05:56:39 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 22 Nov 2021 05:56:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=S
-	GOZfLk5kGTbYYso5PbMkrIaaOpV17t/xhhyHD8MqZY=; b=S5/VfUWx6CBJK+h1T
-	ZEQsR+RUQc/CuxhdQ1/COaOiC+h+Lh1pqGssm3uKrXRcN5Al6BDTO7nOYx3RCEn+
-	TGTeQRJqni0X/4MvKD2RzIfeoZiyolBBHye+h3hl0FEEPKi+uGGET94pwD9bf3Wh
-	PyWgItK42X+FrbHHmdYj/XrZbF0+aAu2pU1vxpCkniieq7HREwE2q50HZD4ZchuM
-	v+mkvJDgl2IiLe/MOBr9M7ZHIZUu8vs/5YAdN+3FPpOaGyer0egiMcbVghSK91kb
-	mFxG1gLsqo+cAFbQBaX8bPPmRHPJdvKzZduPqj27SWIiHcvo5bwVK6AF78s12+Co
-	qHa8w==
+	:content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=3
+	xg1j45XvLcI9SMbIPKJaFl/VijTp7HMTsSS/iuy1cA=; b=Y9sTf+oP8fkpJIixw
+	0RtMD75j0yeEm1/xuNz3gJO93e4QP6Ff0/WTSuR33OhHJzfJByRWlkJ9J4OCRSod
+	QaNngJtmyfJcoeC1qQt++T4/z8+jiAMUkSTLUImajCdPPx7jVxZQn7wySi6bUamQ
+	NZpRuiQWrchJWAJXlPqWMxeFkjKn+OHFufL9MfMIRbLDCC5+5kEEEeelZ2VjtWN3
+	ECaG138XTJkx5XnSk9ez7v7pxl0zbX+8s49k9vChquRo93bXRlk062hfeBvoh4Mg
+	5eoR2g2kvM73f0Wn7bTWW92NuhYcLW3h9z2kQK+Ebrj5TqNFOtSpWpj0b5kFuTjf
+	7PR+g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:date:from:in-reply-to:message-id:mime-version:references
 	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=SGOZfLk5kGTbYYso5PbMkrIaaOpV17t/xhhyHD8Mq
-	ZY=; b=lWwSgtV+ph8FAypsFeUg2X4956knWs4GayowCvJAcYe2p2z77RzWJKhO6
-	tv4GKOCXsa9mmnA/BJCZu/aUx3Re5TZ9jEMsi6iuSy2y9+nmJ9Sjy10o5Ml03pqR
-	kUSfCaksFvPNgOeYmW2kDt8VqFwJDl6fvcIz/M6njirtZotvSmJE3/oZu7PjJZeb
-	d9LgQJyT/0L5Nesa2pofrQ7fX3uNXCfC9Lp8EqMIhxYI84mJIeKr9jhO2JR4L7/q
-	FkPxvK2WCEd5oZ7hepBFrPyaDdUb1Y6dPL3+AKyJ/DTVQO/Y4Yqw07VsmRIfqnL4
-	zbVlgdaNL4Ubvxtg5PGnP478q5X5Q==
-X-ME-Sender: <xms:rXWbYerEB7EKaC1RdUM8uny4FEOvbj278mEngOH-zum3GFKTd5Trkw>
-    <xme:rXWbYcov5xbFPvlRXknEW74YmB9aKoj49JZdRm7c7UAyYEwJyJa1dL4hyAIb4V8-v
-    u_mGImVoG3WiwOaztQ>
-X-ME-Received: <xmr:rXWbYTMt96bbLRIavzWkA72l9neIG9CjZfJW56L409BGIJtAz1W8kwzmpNfU8d2v1oq1pf5ZE5NPAMa5tOJqy0j0qdFsBiZekyg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddvtdcutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; bh=3xg1j45XvLcI9SMbIPKJaFl/VijTp7HMTsSS/iuy1
+	cA=; b=jweKHrMdnyrAlhWhEbgDDoMaSU4+QZULqi12xrSHhAhNgxXBWvbjsJ14a
+	wXAtR3ZTW5vIaZxmG/lcbBw63rOdCec2ugdzG56K2Oj0pBoWNgSr5qCd7Rw3wvpD
+	uhMEf7vpYHFd1B0V4+ZAn2CMTaojA6u2+qPXJTQOEkfE/GI75srTjyqH330Rp6xp
+	n+nPRwdOgxPpNkuPzCCp/BR/e0K7FQATvq/e5Pi8FFCitw9hAUQsXxReTfnVFdZc
+	BvruT8qbhtDNHVylDP+cxQ4/3I4PgKXCpsfYVuIluAQfzft2Fre0SZ+aFvSuQ7Lq
+	4syLLf66QhaYtGY3+nWLhzPDu63+w==
+X-ME-Sender: <xms:ZnebYayr3JZOz4v3q6rsro0nCoCOk786FdgVYkcLwZ0wC_w0jFkE6A>
+    <xme:ZnebYWS8tzC-A1viLVbImGZs-XilGcwnjkuXiHyFWtUNzjPjLUaUZHAEPA-yDTc0I
+    rYs3yCBkZGOvweDKRQ>
+X-ME-Received: <xmr:ZnebYcVmDS1BXn9x_4dwyKSdhGwVYVCsNf10MLOdmFqeG4G4GA-e_7vIwmmHORiywA4FUYifnwDau4D5qE_O5YZU0J8tmxlr0lE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddvvdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
@@ -41,25 +41,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddvtdcutefuodetggdote
     htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
     vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:rXWbYd58wVPqtc2imblH-ahoV-0w-hTuqa7S9wBpu1EXKd8Ce2LEQA>
-    <xmx:rXWbYd5ifVwId9cMdC_eAcuJEtGxH-eD3VY69Hn6JaXIDMzoZzrDxg>
-    <xmx:rXWbYdgoxTExmXovA7gaMyD9aLKB5cj0rGxMViPorsSnHMYdV67elg>
-    <xmx:rXWbYYZABPnogdX2vNu0PkmXNsu5UdEygX2cqj_St-BQb5rA1BdOwQ>
+X-ME-Proxy: <xmx:ZnebYQgsiREyA7MDZxp1G74xLfddFx-Oaznjplz59njAXQl812CXmA>
+    <xmx:ZnebYcCzmngL_qkXEtp1Llt0l4E5KDFXFZXsknthcYyXTIDuxPrAiw>
+    <xmx:ZnebYRKlQw2r5W1LhGOXoQXn7ceIJsAIrV-98wttSo6EvnfCHg__ng>
+    <xmx:Z3ebYcte4ZY3YxejotSj9DJKGMq-0sdGkjKU4O0itJZVoPWs01D_Sg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 05:49:16 -0500 (EST)
-Date: Mon, 22 Nov 2021 11:49:15 +0100
+ 22 Nov 2021 05:56:37 -0500 (EST)
+Date: Mon, 22 Nov 2021 11:56:35 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Evgeny Boger <boger@wirenboard.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Quentin Schulz <foss@0leil.net>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
- PMICs
-Message-ID: <20211122104915.zism6uadgwxjz5d2@gilmour>
-References: <20211118141233.247907-1-boger@wirenboard.com>
- <20211118141233.247907-3-boger@wirenboard.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jeroen Hofstee <jhofstee@victronenergy.com>,
+	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+Subject: Re: [PATCH 3/3] ARM: dts: sun8i: r40: add node for CAN controller
+Message-ID: <20211122105635.mmusmv5hhulvrz6x@gilmour>
+References: <20211122104616.537156-1-boger@wirenboard.com>
+ <20211122104616.537156-4-boger@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,16 +70,68 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211118141233.247907-3-boger@wirenboard.com>
+In-Reply-To: <20211122104616.537156-4-boger@wirenboard.com>
 
-On Thu, Nov 18, 2021 at 05:12:33PM +0300, Evgeny Boger wrote:
-> Most AXPxxx-based reference designs place a 10k NTC thermistor on a
-> TS pin. axp20x IIO driver now report the voltage of this pin via
-> additional IIO channel. Add new "ts_v" channel to the channel description.
+Hi,
+
+On Mon, Nov 22, 2021 at 01:46:16PM +0300, Evgeny Boger wrote:
+> Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
+> controller is the same as in earlier A10 and A20 SoCs, but needs reset
+> line to be deasserted before use.
+>=20
+> This patch adds a CAN node and the corresponding pinctrl descriptions.
 >=20
 > Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+> ---
+>  arch/arm/boot/dts/sun8i-r40.dtsi | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r=
+40.dtsi
+> index 1d87fc0c24ee..c99c92f008a0 100644
+> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+> @@ -511,6 +511,16 @@ pio: pinctrl@1c20800 {
+>  			#interrupt-cells =3D <3>;
+>  			#gpio-cells =3D <3>;
+> =20
+> +			can_ph_pins: can-ph-pins {
+> +				pins =3D "PH20", "PH21";
+> +				function =3D "can";
+> +			};
+> +
+> +			can_pa_pins: can-pa-pins {
+> +				pins =3D "PA16", "PA17";
+> +				function =3D "can";
+> +			};
+> +
 
-Would it make sense to put the resistance in the DT as well or is it
-made mandatory by Allwinner?
+These nodes should be ordered alphabetically
+
+Also, we should mark them with /omit-if-no-ref/ to remove them from the
+DT if they are not referenced anywhere else in the DT.
 
 Maxime
+
+>  			clk_out_a_pin: clk-out-a-pin {
+>  				pins =3D "PI12";
+>  				function =3D "clk_out_a";
+> @@ -926,6 +936,15 @@ i2c3: i2c@1c2b800 {
+>  			#size-cells =3D <0>;
+>  		};
+>
+> +		can0: can@1c2bc00 {
+> +			compatible =3D "allwinner,sun8i-r40-can";
+> +			reg =3D <0x01c2bc00 0x400>;
+> +			interrupts =3D <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&ccu CLK_BUS_CAN>;
+> +			resets =3D <&ccu RST_BUS_CAN>;
+> +			status =3D "disabled";
+> +		};
+> +
+>  		i2c4: i2c@1c2c000 {
+>  			compatible =3D "allwinner,sun6i-a31-i2c";
+>  			reg =3D <0x01c2c000 0x400>;
+> --
+> 2.25.1
+>
