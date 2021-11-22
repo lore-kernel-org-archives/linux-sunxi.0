@@ -1,210 +1,92 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F1392C81
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 10:46:51 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id y26so78427856lfa.11
-        for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 02:46:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xWB86lLShMOvVXpcj6liSWQMqibhlefo7YzIyCndAFs=;
-        b=NVM2yTFkeI20Q17ovDrj/12XWRhFICmqXXeCPY8oMh10umlW6fbpZMxDGGQ87jtORt
-         BLv8AnvRYkzyu0GleR/yDgT8qWBOiZBpt9oNZ1GtDjr91O2qTGeNhKoeoucFORc2NXlE
-         DloY7LVP88u+RofuHEoSzNxtAy8yPHJivPsoyaYJoJnc5MSt+3PeS8FHOpnIOniw1prC
-         M4EuyRDomnXXorpj83CQvLP32a2piT/4bY1j7tezricJbWXH5+SiVz2sBSTCRaWtO/kt
-         tbcV15Zj5iYn1hnH78nKXe8YswxdE8pDCbqQtjqUmleuKV0yUjMzAwDXiWr7h7PFkP8C
-         olhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xWB86lLShMOvVXpcj6liSWQMqibhlefo7YzIyCndAFs=;
-        b=i+MIEciokKFHUBbchcRjRJ+wN7VcFH19K4z/7JTFRFwOXoxuOPjPu1HL+aVz7KThDe
-         pBbfQ9kPWkgJb68oLZfDs+kw6bbj009ddTuAEYd2C4ObRqhXs67ZzGglhqOeY+WAHhSI
-         VA8iKJZpLlfP2lMM0LPYWHrrUZW5s3QiUtFdrXCs+F8egL6IETqVBtJWcg1IrCoBwem3
-         QZntAbIht0F0PyluggIoIeKfEIr3YX5vrT7FYU/ypHjk7M8SfXJgXiB+TaSgIQU7pN2w
-         hlpnJhT22BiYym4guyEOoIerzrwGMTBJjl5z8Mv4qykOpKpSYQCWiOI3apuURJyIu74S
-         xS1g==
-X-Gm-Message-State: AOAM532k6cTPjU5R4xwefQcaXWRbuT1Mc3DBQl251EIljdSrteB7GhGI
-	Qd/TgjmwE+4WmSu5t0iUQLHm1w==
-X-Google-Smtp-Source: ABdhPJx4YYbm7oORJJDG5wdR7Lb/yZeMhbEKW46eG/jE1YOu/FIUK0eNoiG1RFd8p1LtgUk/2NIXmA==
-X-Received: by 2002:a05:651c:1787:: with SMTP id bn7mr47814602ljb.22.1637578005290;
-        Mon, 22 Nov 2021 02:46:45 -0800 (PST)
-Received: from boger-laptop.lan (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
-        by smtp.gmail.com with ESMTPSA id bi24sm923538lfb.49.2021.11.22.02.46.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Nov 2021 02:46:44 -0800 (PST)
-From: Evgeny Boger <boger@wirenboard.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-kernel@lists.infradead.org
-Cc: Evgeny Boger <boger@wirenboard.com>,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-can@vger.kernel.org,
-	Wolfgang Grandegger <wg@grandegger.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jeroen Hofstee <jhofstee@victronenergy.com>,
-	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
-Subject: [PATCH 2/3] can: sun4i_can: add support for R40 CAN controller
-Date: Mon, 22 Nov 2021 13:46:15 +0300
-Message-Id: <20211122104616.537156-3-boger@wirenboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211122104616.537156-1-boger@wirenboard.com>
-References: <20211122104616.537156-1-boger@wirenboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2E22C81
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 10:48:31 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id B7ADF3200F88;
+	Mon, 22 Nov 2021 05:48:30 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 22 Nov 2021 05:48:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=c
+	5iRukaxGlJeP6gkdhXLOuzT2kshMt7kbEn14vRBX8g=; b=R+vh4XUwhryhlNX7k
+	7751cbY2ZD5S+gkLJ9Dhmxd+JX+VP5XuOpKMq3fQkxO5H4wPEuI4AhMzlhUiR4ao
+	R14WHRsD2RsK1gNTO1Zay6GgD+czlJoi7FNvgDycRjnf60/pQXp2Rrc/dojS2kk7
+	1zl+N0ExsdUDrulmQqTYqdc4Hq/ckyvdFgL+XYdMFd/U7E8AAw8bdUchG/aTXQDp
+	YQAeYtoYZ9/h75YuD37wPRUMBPQWmVROfFAUQmXpIEhVBqi/49c4GlpqKVNs2Bmd
+	6u5cb+XZicV04N0uV9piNKI0UBZBqHZDLusjJ1WDjFErD8bE590XWhYT9LlWpSd7
+	J8nBQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=c5iRukaxGlJeP6gkdhXLOuzT2kshMt7kbEn14vRBX
+	8g=; b=QNvZ4tLlsPknUswhQh3mvWgXYsi8BeA5nj0QbbpRoqS8GBLvWCqk7DTTL
+	dlPVu/85i0+c8jFmlmzR/fPVwsFE+Pnqvc0wUi0S4yYqxXQR92pDP370y+8Krso7
+	e8Gpo2i4Zo6f0Y2Vy5lcu703aYMjT3mRxA+WuYfHU706uZC6qkLCxpk6Pp5fiDGs
+	DnjTy5PIpavZu0pUpGA1JfsgFqtAp4MU5N0UvOtccd/9VVAM6F18EAz6fP0hCLHp
+	reTYTVn6IsLBrGk1f/J9nNjGhILD/F/9r36HblpzrQIv2i9v6nUrhd2GaJpgvpaR
+	PKt++ehInFBtIC3w+ygwgj/QSj2kA==
+X-ME-Sender: <xms:fnWbYehoKWnapuB3e6pjA-Nik0450N4hi1eQBfiDISFS0tygwbbJkw>
+    <xme:fnWbYfA2uCin9_JYKU8J6RS057oB0UXofX3YnT7LMHrOegUDu3FIhvnSYqs5orQ5L
+    bj2H6YPKTXoymClZxE>
+X-ME-Received: <xmr:fnWbYWFca5Q1cZor-Sa3Iv24ImQ04XMcIbrilp0NSBCeAWWZUxU6p8MPSM0rBhQt521yc_CU5hipNg9DokPHmtyi5WLXG71j8x4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddvtdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
+    vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:fnWbYXTnBDOd6AlufaBxzmQoKSs5VUVXq0kpGjULjSbVRXEO6HLlew>
+    <xmx:fnWbYbyIPFSNS49TIhcqdT8p9QO05_U5lRrZHwP0K6YtRQUtr7iAvQ>
+    <xmx:fnWbYV681dYNojjKRqEnF8wVxkEIK_x1Wl2J9FHTqncin3IQo88L6Q>
+    <xmx:fnWbYSxdXZ4KbJFgBcfiJNEUPt8mlJO9ea9mxTgJNLnv8JPJ2GtpoA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Nov 2021 05:48:29 -0500 (EST)
+Date: Mon, 22 Nov 2021 11:48:28 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Quentin Schulz <foss@0leil.net>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] iio:adc:axp20x: add support for NTC thermistor
+Message-ID: <20211122104828.uewr6cj6ynkut5lv@gilmour>
+References: <20211118141233.247907-1-boger@wirenboard.com>
+ <20211118141233.247907-2-boger@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20211118141233.247907-2-boger@wirenboard.com>
 
-Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
-controller is the same as in earlier A10 and A20 SoCs, but needs reset
-line to be deasserted before use.
+On Thu, Nov 18, 2021 at 05:12:32PM +0300, Evgeny Boger wrote:
+> Most AXPxxx-based reference designs place a 10k NTC thermistor on a
+> TS pin. When appropriately configured, AXP PMICs will inject fixed
+> current (80uA by default) into TS pin and measure the voltage across a
+> thermistor. The PMIC itself will by default compare this voltage with
+> predefined thresholds  and disable battery charging whenever
+> the battery is too hot or too cold.
+>=20
+> Alternatively, the TS pin can be configured as general-purpose
+> ADC input. This mode is not supported by the driver.
+>=20
+> This patch allows reading the voltage on the TS pin. It can be then
+> either processed by userspace or used by kernel consumer like hwmon
+> ntc thermistor driver.
+>=20
+> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
 
-This patch adds a new compatible for R40 CAN controller. Depending
-on the compatible, reset line can be requested from DT.
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Evgeny Boger <boger@wirenboard.com>
----
- drivers/net/can/sun4i_can.c | 61 ++++++++++++++++++++++++++++++++++++-
- 1 file changed, 60 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
-index 54aa7c25c4de..24a61326915e 100644
---- a/drivers/net/can/sun4i_can.c
-+++ b/drivers/net/can/sun4i_can.c
-@@ -61,6 +61,7 @@
- #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- 
- #define DRV_NAME "sun4i_can"
- 
-@@ -200,10 +201,20 @@
- #define SUN4I_CAN_MAX_IRQ	20
- #define SUN4I_MODE_MAX_RETRIES	100
- 
-+/**
-+ * struct sun4ican_quirks - Differences between SoC variants.
-+ *
-+ * @has_reset: SoC needs reset deasserted.
-+ */
-+struct sun4ican_quirks {
-+	bool		has_reset;
-+};
-+
- struct sun4ican_priv {
- 	struct can_priv can;
- 	void __iomem *base;
- 	struct clk *clk;
-+	struct reset_control *reset;
- 	spinlock_t cmdreg_lock;	/* lock for concurrent cmd register writes */
- };
- 
-@@ -702,6 +713,13 @@ static int sun4ican_open(struct net_device *dev)
- 		goto exit_irq;
- 	}
- 
-+	/* software reset deassert */
-+	err = reset_control_deassert(priv->reset);
-+	if (err) {
-+		netdev_err(dev, "could not deassert CAN reset\n");
-+		goto exit_soft_reset;
-+	}
-+
- 	/* turn on clocking for CAN peripheral block */
- 	err = clk_prepare_enable(priv->clk);
- 	if (err) {
-@@ -723,6 +741,8 @@ static int sun4ican_open(struct net_device *dev)
- exit_can_start:
- 	clk_disable_unprepare(priv->clk);
- exit_clock:
-+	reset_control_assert(priv->reset);
-+exit_soft_reset:
- 	free_irq(dev->irq, dev);
- exit_irq:
- 	close_candev(dev);
-@@ -736,6 +756,7 @@ static int sun4ican_close(struct net_device *dev)
- 	netif_stop_queue(dev);
- 	sun4i_can_stop(dev);
- 	clk_disable_unprepare(priv->clk);
-+	reset_control_assert(priv->reset);
- 
- 	free_irq(dev->irq, dev);
- 	close_candev(dev);
-@@ -750,8 +771,27 @@ static const struct net_device_ops sun4ican_netdev_ops = {
- 	.ndo_start_xmit = sun4ican_start_xmit,
- };
- 
-+static const struct sun4ican_quirks sun4ican_quirks_a10 = {
-+	.has_reset = false,
-+};
-+
-+static const struct sun4ican_quirks sun4ican_quirks_r40 = {
-+	.has_reset = true,
-+};
-+
- static const struct of_device_id sun4ican_of_match[] = {
--	{.compatible = "allwinner,sun4i-a10-can"},
-+	{
-+		.compatible = "allwinner,sun4i-a10-can",
-+		.data = &sun4ican_quirks_a10
-+	},
-+	{
-+		.compatible = "allwinner,sun7i-a20-can",
-+		.data = &sun4ican_quirks_a10
-+	},
-+	{
-+		.compatible = "allwinner,sun8i-r40-can",
-+		.data = &sun4ican_quirks_r40
-+	},
- 	{},
- };
- 
-@@ -771,10 +811,28 @@ static int sun4ican_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
- 	struct clk *clk;
-+	struct reset_control *reset = NULL;
- 	void __iomem *addr;
- 	int err, irq;
- 	struct net_device *dev;
- 	struct sun4ican_priv *priv;
-+	const struct sun4ican_quirks *quirks;
-+
-+	quirks = of_device_get_match_data(&pdev->dev);
-+	if (!quirks) {
-+		dev_err(&pdev->dev, "failed to determine the quirks to use\n");
-+		err = -ENODEV;
-+		goto exit;
-+	}
-+
-+	if (quirks->has_reset) {
-+		reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-+		if (IS_ERR(reset)) {
-+			dev_err(&pdev->dev, "unable to request reset\n");
-+			err = PTR_ERR(reset);
-+			goto exit;
-+		}
-+	}
- 
- 	clk = of_clk_get(np, 0);
- 	if (IS_ERR(clk)) {
-@@ -818,6 +876,7 @@ static int sun4ican_probe(struct platform_device *pdev)
- 				       CAN_CTRLMODE_3_SAMPLES;
- 	priv->base = addr;
- 	priv->clk = clk;
-+	priv->reset = reset;
- 	spin_lock_init(&priv->cmdreg_lock);
- 
- 	platform_set_drvdata(pdev, dev);
--- 
-2.25.1
-
+Maxime
