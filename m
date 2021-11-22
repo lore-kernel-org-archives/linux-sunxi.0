@@ -1,137 +1,100 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 721E22C81
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 10:56:40 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 4D9A35806CD;
-	Mon, 22 Nov 2021 05:56:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 22 Nov 2021 05:56:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=3
-	xg1j45XvLcI9SMbIPKJaFl/VijTp7HMTsSS/iuy1cA=; b=Y9sTf+oP8fkpJIixw
-	0RtMD75j0yeEm1/xuNz3gJO93e4QP6Ff0/WTSuR33OhHJzfJByRWlkJ9J4OCRSod
-	QaNngJtmyfJcoeC1qQt++T4/z8+jiAMUkSTLUImajCdPPx7jVxZQn7wySi6bUamQ
-	NZpRuiQWrchJWAJXlPqWMxeFkjKn+OHFufL9MfMIRbLDCC5+5kEEEeelZ2VjtWN3
-	ECaG138XTJkx5XnSk9ez7v7pxl0zbX+8s49k9vChquRo93bXRlk062hfeBvoh4Mg
-	5eoR2g2kvM73f0Wn7bTWW92NuhYcLW3h9z2kQK+Ebrj5TqNFOtSpWpj0b5kFuTjf
-	7PR+g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=3xg1j45XvLcI9SMbIPKJaFl/VijTp7HMTsSS/iuy1
-	cA=; b=jweKHrMdnyrAlhWhEbgDDoMaSU4+QZULqi12xrSHhAhNgxXBWvbjsJ14a
-	wXAtR3ZTW5vIaZxmG/lcbBw63rOdCec2ugdzG56K2Oj0pBoWNgSr5qCd7Rw3wvpD
-	uhMEf7vpYHFd1B0V4+ZAn2CMTaojA6u2+qPXJTQOEkfE/GI75srTjyqH330Rp6xp
-	n+nPRwdOgxPpNkuPzCCp/BR/e0K7FQATvq/e5Pi8FFCitw9hAUQsXxReTfnVFdZc
-	BvruT8qbhtDNHVylDP+cxQ4/3I4PgKXCpsfYVuIluAQfzft2Fre0SZ+aFvSuQ7Lq
-	4syLLf66QhaYtGY3+nWLhzPDu63+w==
-X-ME-Sender: <xms:ZnebYayr3JZOz4v3q6rsro0nCoCOk786FdgVYkcLwZ0wC_w0jFkE6A>
-    <xme:ZnebYWS8tzC-A1viLVbImGZs-XilGcwnjkuXiHyFWtUNzjPjLUaUZHAEPA-yDTc0I
-    rYs3yCBkZGOvweDKRQ>
-X-ME-Received: <xmr:ZnebYcVmDS1BXn9x_4dwyKSdhGwVYVCsNf10MLOdmFqeG4G4GA-e_7vIwmmHORiywA4FUYifnwDau4D5qE_O5YZU0J8tmxlr0lE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeggddvvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepgfejtedtjefggfffvdetuedthedtheegheeuteekfeeghfdtteejkeeludeg
-    vddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ZnebYQgsiREyA7MDZxp1G74xLfddFx-Oaznjplz59njAXQl812CXmA>
-    <xmx:ZnebYcCzmngL_qkXEtp1Llt0l4E5KDFXFZXsknthcYyXTIDuxPrAiw>
-    <xmx:ZnebYRKlQw2r5W1LhGOXoQXn7ceIJsAIrV-98wttSo6EvnfCHg__ng>
-    <xmx:Z3ebYcte4ZY3YxejotSj9DJKGMq-0sdGkjKU4O0itJZVoPWs01D_Sg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 05:56:37 -0500 (EST)
-Date: Mon, 22 Nov 2021 11:56:35 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Evgeny Boger <boger@wirenboard.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	linux-can@vger.kernel.org, Wolfgang Grandegger <wg@grandegger.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	"David S . Miller" <davem@davemloft.net>,
-	Jeroen Hofstee <jhofstee@victronenergy.com>,
-	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
-Subject: Re: [PATCH 3/3] ARM: dts: sun8i: r40: add node for CAN controller
-Message-ID: <20211122105635.mmusmv5hhulvrz6x@gilmour>
-References: <20211122104616.537156-1-boger@wirenboard.com>
- <20211122104616.537156-4-boger@wirenboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB522C81
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 11:17:41 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id n12so79122935lfe.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 03:17:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=Dkx0MUSWm0/HiS+F3NFCxyYWLWk3gc8tkuA/thO1Wts=;
+        b=zsuyJqBsCCRI+kyI+cAlne1apGSUoTSjcpRwrQzjGYOxcS2V6z7Ajlw5r7C50qVPtk
+         twb1Lfrkj7Txe7EQK5BfuKcw/O7gTyF0YMqZvO62vQTIrZR0tXkDeDVgmretFZ7wwmcO
+         8ZhhaTx9PdHwuVR8ZcIBXzFiBPUmxfszkWtoXtajlP75b/KzULEMUOe2SkmbESy8dFpa
+         IHejibuhFJw6e8B/UDEVMax1UGbfmHxdQFuiCXwHoTdCVQ4IMdz234pVkRITl1V1B69W
+         0v/Wg+cVWdpE7gvSPQkEngBwduBCKLsf6OTIYcOWDEnOsc6S0jj8ra0RNqrvALOHv1sP
+         QKFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=Dkx0MUSWm0/HiS+F3NFCxyYWLWk3gc8tkuA/thO1Wts=;
+        b=sILMmy0axanUnb3CuHJotoEDFvvaEXpLOHB8GvmC8+Y1Npw1RWsxbCnVgrPRXuAPWr
+         yphFWdpTVfQZ3ybCDawlA4UAu3ZnSDmAYhncNM8F18jeEnAz1AmLjCv64wjFOlP9qoG1
+         0VH2BMKfq0xs2uFWjYUpTrCpUNR0vH9tHIL7JBmcrFnTqP3EdSdWSjazmFOnQ2s9Ohim
+         aYeXoFmrjYfXvgqytPKVyU6MJgGgeoSdJzibMnSqKjrCOJs+6chN1jddfm0+aVkgADqq
+         ZoSNjdvFBnFzJylkURlQT0wMwQGHIdtigZwg1dLPjzwmEB96DoCRt1W/Jmaj05P0trio
+         lxVA==
+X-Gm-Message-State: AOAM531Iq3uFZtMxOs1lDzsoHGxAhVbix6sUQvD7TO3lYRZdVhDQrtud
+	j2sJZ8aGnci1oGBFIJR5eXWh3+MLVNOuVw==
+X-Google-Smtp-Source: ABdhPJy8WK37v2EIorSjH7f5lkHs9whG2eHW5P4949bVrxmWUE0NBaA3HsSGEh3j0H/xK0co6ai4KA==
+X-Received: by 2002:a2e:9107:: with SMTP id m7mr49560782ljg.209.1637579858969;
+        Mon, 22 Nov 2021 03:17:38 -0800 (PST)
+Received: from [192.168.1.213] (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
+        by smtp.googlemail.com with ESMTPSA id x133sm929333lff.282.2021.11.22.03.17.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Nov 2021 03:17:38 -0800 (PST)
+Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
+ PMICs
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Quentin Schulz <foss@0leil.net>, linux-sunxi@lists.linux.dev
+References: <20211118141233.247907-1-boger@wirenboard.com>
+ <20211118141233.247907-3-boger@wirenboard.com>
+ <20211122104915.zism6uadgwxjz5d2@gilmour>
+From: Evgeny Boger <boger@wirenboard.com>
+Message-ID: <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
+Date: Mon, 22 Nov 2021 14:17:37 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20211122104616.537156-4-boger@wirenboard.com>
+In-Reply-To: <20211122104915.zism6uadgwxjz5d2@gilmour>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
 
-Hi,
-
-On Mon, Nov 22, 2021 at 01:46:16PM +0300, Evgeny Boger wrote:
-> Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
-> controller is the same as in earlier A10 and A20 SoCs, but needs reset
-> line to be deasserted before use.
->=20
-> This patch adds a CAN node and the corresponding pinctrl descriptions.
->=20
-> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
-> ---
->  arch/arm/boot/dts/sun8i-r40.dtsi | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r=
-40.dtsi
-> index 1d87fc0c24ee..c99c92f008a0 100644
-> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
-> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-> @@ -511,6 +511,16 @@ pio: pinctrl@1c20800 {
->  			#interrupt-cells =3D <3>;
->  			#gpio-cells =3D <3>;
-> =20
-> +			can_ph_pins: can-ph-pins {
-> +				pins =3D "PH20", "PH21";
-> +				function =3D "can";
-> +			};
-> +
-> +			can_pa_pins: can-pa-pins {
-> +				pins =3D "PA16", "PA17";
-> +				function =3D "can";
-> +			};
-> +
-
-These nodes should be ordered alphabetically
-
-Also, we should mark them with /omit-if-no-ref/ to remove them from the
-DT if they are not referenced anywhere else in the DT.
-
-Maxime
-
->  			clk_out_a_pin: clk-out-a-pin {
->  				pins =3D "PI12";
->  				function =3D "clk_out_a";
-> @@ -926,6 +936,15 @@ i2c3: i2c@1c2b800 {
->  			#size-cells =3D <0>;
->  		};
+22.11.2021 13:49, Maxime Ripard пишет:
+> On Thu, Nov 18, 2021 at 05:12:33PM +0300, Evgeny Boger wrote:
+>> Most AXPxxx-based reference designs place a 10k NTC thermistor on a
+>> TS pin. axp20x IIO driver now report the voltage of this pin via
+>> additional IIO channel. Add new "ts_v" channel to the channel description.
+>>
+>> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+> Would it make sense to put the resistance in the DT as well or is it
+> made mandatory by Allwinner?
 >
-> +		can0: can@1c2bc00 {
-> +			compatible =3D "allwinner,sun8i-r40-can";
-> +			reg =3D <0x01c2bc00 0x400>;
-> +			interrupts =3D <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&ccu CLK_BUS_CAN>;
-> +			resets =3D <&ccu RST_BUS_CAN>;
-> +			status =3D "disabled";
-> +		};
-> +
->  		i2c4: i2c@1c2c000 {
->  			compatible =3D "allwinner,sun6i-a31-i2c";
->  			reg =3D <0x01c2c000 0x400>;
-> --
-> 2.25.1
->
+> Maxime
+Well, I don't think so. Basically, by default AXP20x injects 80uA current
+into the TS pin and measure the voltage. Then, there are voltage thresholds
+to stop charging if the battery is too hot or too cold. The default 
+thresholds
+were calculated by the manufacturer for default 10k resistance and 80uA 
+current.
+Finally, if TS pin isshorted to GND, the AXP2xx will detect it and won't 
+shut
+
+down charging.
+Note that AXP2xx doesn't convert the measured voltage to temperature.
+
+So while it's possible to use AXP2xx with resistance other than 10k, it will
+require us to override these protection thresholds. Moreover, if one 
+want to
+put the actual resistance in DT, then the driver would need to calculate 
+these
+protection thresholds based on NTC parameters and injection current.
+I think we better keep things simple and let DT followthe hardware, 
+which only
+operates in terms of voltage, not temperature and resistance.
+
+-- 
+
