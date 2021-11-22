@@ -1,99 +1,92 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3352C82
-	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 08:45:23 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id D3EFE3200E91;
-	Mon, 22 Nov 2021 03:45:22 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Mon, 22 Nov 2021 03:45:23 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699422C82
+	for <linux-sunxi@lists.linux.dev>; Mon, 22 Nov 2021 09:06:55 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailnew.west.internal (Postfix) with ESMTP id 1803F2B01C7D;
+	Mon, 22 Nov 2021 04:06:54 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 22 Nov 2021 04:06:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=F44KrvcvGUuA+pebqxc+PW7CgP4
-	M7zEHojCNTsaH//4=; b=isWq5Q5qDtTe9rEVOzNg8+80EV2j/EoCgo+vSe25sJO
-	ZawzXgS3sRhCmvAPhjHoLW3/SOMa7RxsuS0BQDL+kU+xTbEf0A72IDiH9IUvhemk
-	rw3+6eAuQBW/80+Ba9D4R0JORkYAhFo7q8naK6OLs9v7jDT3O0p+iBozEwMhV5HT
-	P/oAe6F7v22hlW9rV2x66ZiXm5WBGyBPa138QPbeg+CF4mUwomMP9kNzP/TQAaBC
-	g3eV9YmGPysdpNi67BzTvz0nG/3XJ/GL1nHxdi6I10QsaMMzcsXhkKUS4CG2eihF
-	2Q3Do2h9OLDrsVk8iHPHM7DShWw1rb/6DI+qmXwycHw==
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	3sAYDhdU8A/Wo/wR51x2QNHufjbDBbL+eEem9wZy/BE=; b=YjQgWbk1fEx+mRCE
+	N2IyrXzXMxMT6Bi8dEdXkHvwPVx+skHzxolDlWeZ+PjoixxVsNVprIUzZp1kB7LE
+	B5ryQqsxyb1t2cTLh9RF6m2QKY0LCv6XeSoAHrV7dv6N1yNzLGcOE6q4XO5ijqng
+	zJYBSeiAdT5+W5ooKq0VJZ6hThSho6xCJ2dLd5gQAGYanxktjkfJ7IYp6bErhPuZ
+	En35MTx48YLGN9+TLaIXF9qKL1Y6sVUA8Pq7LJaZHYzyxxQSjCcF4C2Y3dC1QFWj
+	StbrhAzSSa/5JQB3QmpnqUZJnAzz8+msRV1hjmvat4nAJ4fLB6LpxiNKJQlyYdxK
+	GlTUCQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=F44Krv
-	cvGUuA+pebqxc+PW7CgP4M7zEHojCNTsaH//4=; b=Yr5mOGpP8NmK11EVRBsFNS
-	53yjxw7xM5p93j2T8Qp7si95h7AvlHOa1clTUs/waUEOcxrsa6B2Q9YvW91t/VQo
-	YFHs/xRYy0MgNb+VoJMkJMFZy6b7OlCKXe166ZCaAVpPIzKqHQ3lxJdBcQ8Y1yIN
-	ddNziJu6XKiyMe0Lsm1BcO9dplRRR1CfguBUj1sjWWEUFULW5Ek84WyPBglxqETu
-	bCb0+D2IeAU9RQdU8Gkaf/YBtbuMG7tDAYTu1uFxCecUVtdyzmn1pmTlahnO91YP
-	h2QclJ+fyB7efXHQntGmLX0Q042dwCiCt28LKWsMSjxfwjiRscy+eGKBY9z5EDhg
-	==
-X-ME-Sender: <xms:olibYa4zuBiFVQesLCjaqRtORt2f97KZgyrZwDobsXEzK5R5tEkhsw>
-    <xme:olibYT5xOtWIWZ7kl7-YgW16Geu5bk5BaCkcRBdhdxs5kIFeFfItifXvr4gXVJ3Go
-    aguMUnqRYV18QRdXJ8>
-X-ME-Received: <xmr:olibYZdDKGz0fZDhtyM5stFhkAg6kP0IuwR8tUKUuGYioOhe5iYm7GWyTiFapMfup_2MAQrmuWvvqbPs2rKSYneTov9dLGSiJE8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeefgdduvdehucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=3sAYDhdU8A/Wo/wR51x2QNHufjbDBbL+eEem9wZy/
+	BE=; b=kK+Ag1tFMj2D4Thqhnd3vQaVNbySJBY+KWz+iKaORexurPizJJGXmmIGS
+	L3ZE9b0OgMPNPb1FoRuXUcHgWux/4//wesdlSTQsINRIc1JGyMy9YMLDl1WwOpbg
+	hCquhCuwskubV2Y+L7jjz5rAcThAn51y/FpCAiQopGRGC1xf1JUhbdsLgoaYBzwJ
+	TQTZu95+tUBvZhB2kww/fKjZ0PN1byi8VxzzP8pmbXwa3RsAVn4kEnlAHAFHhKKW
+	K6GI54UzNm9zLND0gqDPw4HE1Vanim9eWoLmYxoSq1INyvoxGpQQyPOdPbE9ZiDh
+	HN6VPJw/xRz4BVrrqm37uzahyKP5w==
+X-ME-Sender: <xms:rV2bYSxhZnKc6bQeyk2njC-pz30-joVHb01-RfkyKBnh0qVzkMegQw>
+    <xme:rV2bYeQDa7WQcc3_vaJIKbgzGfKAf7pw05yjuZER7L8DILQxwJzkGlz4pnzoo89Ez
+    b4l2rAIXIPX6PW9Ih8>
+X-ME-Received: <xmr:rV2bYUXYn6nnijuPzv5J1gxvDIAWBplu7W8RQBekPzps7rAZBR4zvw_jBTEaZhzqcaiaQv2EdXtmrCgi0Qv891gtGgtYwJoQr10>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeefgdduvdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:olibYXLd9b_kfpIU7TrWslzvrmnVh3Abw3CX7EneS8_tQOJX9NhkaQ>
-    <xmx:olibYeJ5_93Ov0lu9O8_z6BPY-CyJNNQpqk6FvTqNX3KtWxZhyHYrA>
-    <xmx:olibYYyNhubgSIH5e6LmB6mL3ox9ZhQomMcFBOHL5GCMAxNS0elm6A>
-    <xmx:olibYW_gcQ2wyCmp7qS2Cv7kU9G6vi-ptPzr2-jl89X2JYscU3QDbQ>
+    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:rV2bYYh_3E_bgI-B6eSeaSiPHyAOgAM5OF8vdemmpk9KYrB9Z3CslQ>
+    <xmx:rV2bYUBBGtmJ0W6lAXnY8NYaxaQZ17LAq19YQqAyTcFFWr7XC19npg>
+    <xmx:rV2bYZLksy5GxP_nFxnnxd2OwWZFB0kAuhc08E9t93hU7gvDgzjW7w>
+    <xmx:rV2bYdI_NNSyXCCegfwICYDl95QcQSjHz9N2lkzDB7i85z1_g6QJ_8sSofY>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 22 Nov 2021 03:45:21 -0500 (EST)
-Date: Mon, 22 Nov 2021 09:45:20 +0100
+ 22 Nov 2021 04:06:52 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 0/4] dmaengine: sun6i: Allwinner D1 support
-Message-ID: <20211122084520.zy3cij7cazd22eyj@gilmour>
-References: <20211119052702.14392-1-samuel@sholland.org>
+	Maxime Ripard <mripard@kernel.org>,
+	linux-sunxi@lists.linux.dev
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	linux-arm-kernel@lists.infradead.org,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-clk@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 0/6] clk: sunxi-ng: Allwinner D1 clock support
+Date: Mon, 22 Nov 2021 10:06:48 +0100
+Message-Id: <163757200586.20884.2695235529451513458.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211119043545.4010-1-samuel@sholland.org>
+References: <20211119043545.4010-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="w5n3awswhwzyah63"
-Content-Disposition: inline
-In-Reply-To: <20211119052702.14392-1-samuel@sholland.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Thu, 18 Nov 2021 22:35:38 -0600, Samuel Holland wrote:
+> This series adds support for the D1's CCU and R_CCU.
+> 
+> I attempted to hook up clock parents the "right" way, not using global
+> names. To accomplish that, I added several new macros. I am open to
+> comments on this approach. It looks a bit messier, but seems like it
+> could be less prone to errors.
+> 
+> [...]
 
---w5n3awswhwzyah63
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Applied to sunxi/linux.git (sunxi/clk-for-5.17).
 
-On Thu, Nov 18, 2021 at 11:26:57PM -0600, Samuel Holland wrote:
-> D1 is a new RISC-V SoC that uses mostly the same peripherals as
-> existing ARM-based sunxi SoCs. This series adds dmaengine support for
-> D1, after fixing an issue where the driver depended on architecture-
-> specific behavior (patch 2) and resolving a TODO item (patch 3).
-
-With the comment on patch 3 fixed,
-
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
+Thanks!
 Maxime
-
---w5n3awswhwzyah63
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZtYoAAKCRDj7w1vZxhR
-xXPeAP9KzA7Aann9BSzn6mFst2keC9v1BPrDeEuHthn6c1m+8QEAlqMIa/xzm2Ki
-qh9qjvAtYEJpsu8SUkZlHZQ9gPtl6A4=
-=EaYm
------END PGP SIGNATURE-----
-
---w5n3awswhwzyah63--
