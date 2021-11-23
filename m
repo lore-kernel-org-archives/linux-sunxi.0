@@ -1,21 +1,21 @@
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968312C94;
-	Tue, 23 Nov 2021 11:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3FA2C94;
+	Tue, 23 Nov 2021 11:22:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 289601F454F9
+	with ESMTPSA id 6067A1F4197A
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1637665746; bh=NuYVgYcm/5QmTwPPl+jnnTdg3Amocx5TpmqHRzUvEcg=;
+	t=1637666539; bh=PBtrVueCq3tmvWtlDU2yVa4NxTm9tEbs7ezcIMVF6mU=;
 	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=LSqSWvdz2ir1uJRRRP+MYhzzqSCvQZXUIBGUzi1rgAsuwV6O1MxSQ8YhOI51oH/dp
-	 H6HzqaI4iRClnWmQhWz6yBILvWHnjD1XuG0EKeHg1L/go7KulSSW9x82lw6wv0PR5S
-	 eDjKRYx8ohBfs2Q55Mr18weoiX70ePI50Ll/OGLSWQlV7LMzcwCsBEFiHpHDv4n8dr
-	 gvfHlQ8ysV5xX0Nnxf7fp4FdFkmA3ftpCeqf2f+xhJGxdyGdDacAsL65jeVuuSqbE5
-	 T2CzggMgSeNlZh9480EWQJbSyKQutbEpimE2LUk+2F0bnWe4bU7aldi3NXvPjDQ96D
-	 pLUQPB/xWapxg==
-Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
+	b=ant/0iSEfOetB3rzdly/nH/Bl9Qamh7a33r5df/m71IQS825rZ+bGTsuaGPgBuSdt
+	 b6nOBza61O2QqJSuhXL2hLlKMPfkXB9jNBAt0CDZKBcLKrVPWRbVS5ENPI9JOlB/ZL
+	 j7VYxNJ1OoVSEm+S072GDpINrEVMCaLaoQ/TdKUA/lrQEEQu9XawdIe1dZi46bNRYK
+	 0AwFMKvb3tAAW32AOveePty95p8xrSh+9VPktX20R+lKCo6/1MV9odRUPBrQkjrfgR
+	 qisGchn8vytOlbsuymVe6SeJK4IReC1lZvsBqeWY+vgIC/Akx7UB0F2iOjLOCPc1JJ
+	 hJUYGCQE3MHRw==
+Subject: Re: [PATCH 2/7] media: hantro: vp9: use double buffering if needed
 To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org
 Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
  mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
@@ -24,10 +24,10 @@ Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-2-jernej.skrabec@gmail.com>
+ <20211122184702.768341-3-jernej.skrabec@gmail.com>
 From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
-Date: Tue, 23 Nov 2021 12:09:03 +0100
+Message-ID: <55bb35b0-b98b-9961-aa95-554f8af141f5@collabora.com>
+Date: Tue, 23 Nov 2021 12:22:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 Precedence: bulk
@@ -36,115 +36,71 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211122184702.768341-2-jernej.skrabec@gmail.com>
+In-Reply-To: <20211122184702.768341-3-jernej.skrabec@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Hi Jernej,
-
-Thanks for the patch.
-
 W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
-> Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
-> support for them.
+> Some G2 variants need double buffering to be enabled in order to work
+> correctly, like that found in Allwinner H6 SoC.
+> 
+> Add platform quirk for that.
 > 
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+
 > ---
->   drivers/staging/media/hantro/hantro.h     |  3 +++
->   drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
->   2 files changed, 17 insertions(+), 1 deletion(-)
+>   drivers/staging/media/hantro/hantro.h            | 2 ++
+>   drivers/staging/media/hantro/hantro_g2_regs.h    | 1 +
+>   drivers/staging/media/hantro/hantro_g2_vp9_dec.c | 2 ++
+>   3 files changed, 5 insertions(+)
 > 
 > diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 7da23f7f207a..33eb3e092cc1 100644
+> index 33eb3e092cc1..d03824fa3222 100644
 > --- a/drivers/staging/media/hantro/hantro.h
 > +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -16,6 +16,7 @@
->   #include <linux/videodev2.h>
->   #include <linux/wait.h>
->   #include <linux/clk.h>
-> +#include <linux/reset.h>
+> @@ -73,6 +73,7 @@ struct hantro_irq {
+>    * @num_clocks:			number of clocks in the array
+>    * @reg_names:			array of register range names
+>    * @num_regs:			number of register range names in the array
+> + * @double_buffer:		core needs double buffering
+>    */
+>   struct hantro_variant {
+>   	unsigned int enc_offset;
+> @@ -94,6 +95,7 @@ struct hantro_variant {
+>   	int num_clocks;
+>   	const char * const *reg_names;
+>   	int num_regs;
+> +	unsigned int double_buffer : 1;
+>   };
 >   
->   #include <media/v4l2-ctrls.h>
->   #include <media/v4l2-device.h>
-> @@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
->    * @dev:		Pointer to device for convenient logging using
->    *			dev_ macros.
->    * @clocks:		Array of clock handles.
-> + * @resets:		Array of reset handles.
->    * @reg_bases:		Mapped addresses of VPU registers.
->    * @enc_base:		Mapped address of VPU encoder register for convenience.
->    * @dec_base:		Mapped address of VPU decoder register for convenience.
-> @@ -190,6 +192,7 @@ struct hantro_dev {
->   	struct platform_device *pdev;
->   	struct device *dev;
->   	struct clk_bulk_data *clocks;
-> +	struct reset_control *resets;
->   	void __iomem **reg_bases;
->   	void __iomem *enc_base;
->   	void __iomem *dec_base;
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index ab2467998d29..8c3de31f51b3 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
->   			return PTR_ERR(vpu->clocks[0].clk);
->   	}
+>   /**
+> diff --git a/drivers/staging/media/hantro/hantro_g2_regs.h b/drivers/staging/media/hantro/hantro_g2_regs.h
+> index 9c857dd1ad9b..15a391a4650e 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_regs.h
+> +++ b/drivers/staging/media/hantro/hantro_g2_regs.h
+> @@ -270,6 +270,7 @@
+>   #define g2_apf_threshold	G2_DEC_REG(55, 0, 0xffff)
 >   
-> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
-> +	if (IS_ERR(vpu->resets))
-> +		return PTR_ERR(vpu->resets);
-> +
->   	num_bases = vpu->variant->num_regs ?: 1;
->   	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
->   				      sizeof(*vpu->reg_bases), GFP_KERNEL);
-> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
->   	pm_runtime_use_autosuspend(vpu->dev);
->   	pm_runtime_enable(vpu->dev);
+>   #define g2_clk_gate_e		G2_DEC_REG(58, 16, 0x1)
+> +#define g2_double_buffer_e	G2_DEC_REG(58, 15, 0x1)
+>   #define g2_buswidth		G2_DEC_REG(58, 8,  0x7)
+>   #define g2_max_burst		G2_DEC_REG(58, 0,  0xff)
 >   
-> +	ret = reset_control_deassert(vpu->resets);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
-> +		return ret;
-> +	}
-> +
->   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
->   	if (ret) {
->   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
-> -		return ret;
-> +		goto err_rst_assert;
-
-Before your patch is applied if clk_bulk_prepare() fails, we
-simply return on the spot. After the patch is applied not only
-do you...
-
->   	}
+> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> index e04242d10fa2..d4fc649a4da1 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
+> @@ -847,6 +847,8 @@ config_registers(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_p
+>   	hantro_reg_write(ctx->dev, &g2_clk_gate_e, 1);
+>   	hantro_reg_write(ctx->dev, &g2_max_cb_size, 6);
+>   	hantro_reg_write(ctx->dev, &g2_min_cb_size, 3);
+> +	if (ctx->dev->variant->double_buffer)
+> +		hantro_reg_write(ctx->dev, &g2_double_buffer_e, 1);
 >   
->   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
->   	v4l2_device_unregister(&vpu->v4l2_dev);
->   err_clk_unprepare:
->   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> +err_rst_assert:
-> +	reset_control_assert(vpu->resets);
-
-...revert the effect of reset_control_deassert(), you also...
-
->   	pm_runtime_dont_use_autosuspend(vpu->dev);
->   	pm_runtime_disable(vpu->dev);
-
-... do pm_*() stuff. Is there any reason why this is needed?
-
-Andrzej
-
->   	return ret;
-> @@ -1055,6 +1067,7 @@ static int hantro_remove(struct platform_device *pdev)
->   	v4l2_m2m_release(vpu->m2m_dev);
->   	v4l2_device_unregister(&vpu->v4l2_dev);
->   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> +	reset_control_assert(vpu->resets);
->   	pm_runtime_dont_use_autosuspend(vpu->dev);
->   	pm_runtime_disable(vpu->dev);
->   	return 0;
+>   	config_output(ctx, dst, dec_params);
+>   
 > 
 
