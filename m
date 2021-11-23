@@ -1,90 +1,150 @@
-Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com [66.111.4.230])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8CE82C94
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 10:40:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id D8FB95806FD;
-	Tue, 23 Nov 2021 05:40:39 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 23 Nov 2021 05:40:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	jHqBa28rn0MiiSXkTCsCMYCgTGVsLvmpc1gU9q4ZI7w=; b=e/FJypxlBwtIruv1
-	giNDF2yNqbdBEmI6S+1VTycjsO7BCKqadvvZDcu4T+GvxQvxrYVFg5JE7CpRrwwW
-	5C6dif7cCQjOzYamaoJiFFHNOzrm8oGEsGoLu+vFkb4zey08qQAjITHe2y5GrQXq
-	E0bTRQbZUteb9OU5fOnrkIGyhNjVIgA8YKXfUVtI67Wa4omxGp1ue0U4AN1szW8+
-	4WFk77bjNwL/F6Blv18qdOuH9s5PEGrUqICtV16Rt4bC3SJAcQAjkNTRa/5lTrQ1
-	BMjdQLOP3KI9Hb1iLl0PB6NIYSZpUrrQpLdAlZb/cu0AXJStAeWR2Ky0dsyYLX7F
-	7CBrBw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=jHqBa28rn0MiiSXkTCsCMYCgTGVsLvmpc1gU9q4ZI
-	7w=; b=GYzx/cRQg9ot4vBajGs7ecBeuirTIjeqmgZy7XcAkufCuHCeY3bZLC9Mn
-	ujwXLhtSvf9feMHeB77HTYy7ZJ4VtTK5Nmp3HUBNWNe25c7FFuPSciMO/WAIB9oC
-	zNViUtE2EnyxuzCpFeKqyYJqXvwjE0bQW/TZwpFxNDRxjHmn+Bo2LTOHVM48U+fs
-	ZhrfLSknGCiMFs6p6NvEig17sNaekiGqOOrr9Am/3D28HqLPbGoX98J/4QxnTkVz
-	qyuoQaDKG53p1Nuz/2ja0733xSmErtc004EwG+KNWkxfPBO2UgTG/KY/DnMU8Cr3
-	LRCYFWkiR6y03c+cVR1l7vyLaTy5w==
-X-ME-Sender: <xms:J8WcYeQyyBmtsOuPcGH6rWf_WBhTOKhktwq_SLCVOuWIFs7r4JXU6Q>
-    <xme:J8WcYTyfHMKYTKwcpaNuJnuq1usu1lpV4HPRAWgaIndZ01Lb5FnzcnAa9I1Lvtri3
-    phXEHsy9R_ErqdHrFg>
-X-ME-Received: <xmr:J8WcYb0M8CdkGa5JmCSTFxEMYO2Hbsk7n_gjyvXuMKmoKx-_FiXi7X6nXa3-tjw_vuGRlUyqYv5KNdsbseHi_yZsHizM1hLd25Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeigddulecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
-    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:J8WcYaCmxpX4nNti5EcnJcNIefx-e7R6qCS6BfE0q9MI79AwEyj5vw>
-    <xmx:J8WcYXh2DNcgTLCO38RGBYMpDuRJp7YWbu4ehI4JJ9n1eOPfLiYR_w>
-    <xmx:J8WcYWrdRIpbprKcdruRSAnRDbeXgRI2uZBt1yQztcSDtGDkAooJJQ>
-    <xmx:J8WcYQZOzZhE32lb3QdYaoMKI2YDDHLlDTjt5JOBYuYj2dr91cYXWA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 23 Nov 2021 05:40:39 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v3 5/6] arm64: dts: allwinner: a64: Update MBUS node
-Date: Tue, 23 Nov 2021 11:40:28 +0100
-Message-Id: <163766402024.90163.13990616546329316010.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211118031841.42315-6-samuel@sholland.org>
-References: <20211118031841.42315-1-samuel@sholland.org> <20211118031841.42315-6-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968312C94;
+	Tue, 23 Nov 2021 11:09:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrzej.p)
+	with ESMTPSA id 289601F454F9
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1637665746; bh=NuYVgYcm/5QmTwPPl+jnnTdg3Amocx5TpmqHRzUvEcg=;
+	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+	b=LSqSWvdz2ir1uJRRRP+MYhzzqSCvQZXUIBGUzi1rgAsuwV6O1MxSQ8YhOI51oH/dp
+	 H6HzqaI4iRClnWmQhWz6yBILvWHnjD1XuG0EKeHg1L/go7KulSSW9x82lw6wv0PR5S
+	 eDjKRYx8ohBfs2Q55Mr18weoiX70ePI50Ll/OGLSWQlV7LMzcwCsBEFiHpHDv4n8dr
+	 gvfHlQ8ysV5xX0Nnxf7fp4FdFkmA3ftpCeqf2f+xhJGxdyGdDacAsL65jeVuuSqbE5
+	 T2CzggMgSeNlZh9480EWQJbSyKQutbEpimE2LUk+2F0bnWe4bU7aldi3NXvPjDQ96D
+	 pLUQPB/xWapxg==
+Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org
+Cc: ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
+ mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-2-jernej.skrabec@gmail.com>
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Message-ID: <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
+Date: Tue, 23 Nov 2021 12:09:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20211122184702.768341-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On Wed, 17 Nov 2021 21:18:40 -0600, Samuel Holland wrote:
-> In order to support memory dynamic frequency scaling (MDFS), the MBUS
-> binding now requires enumerating more resources. Provide them in the
-> device tree.
+Hi Jernej,
+
+Thanks for the patch.
+
+W dniu 22.11.2021 o 19:46, Jernej Skrabec pisze:
+> Some SoCs like Allwinner H6 use reset lines for resetting Hantro G2. Add
+> support for them.
 > 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>   drivers/staging/media/hantro/hantro.h     |  3 +++
+>   drivers/staging/media/hantro/hantro_drv.c | 15 ++++++++++++++-
+>   2 files changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 7da23f7f207a..33eb3e092cc1 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -16,6 +16,7 @@
+>   #include <linux/videodev2.h>
+>   #include <linux/wait.h>
+>   #include <linux/clk.h>
+> +#include <linux/reset.h>
+>   
+>   #include <media/v4l2-ctrls.h>
+>   #include <media/v4l2-device.h>
+> @@ -171,6 +172,7 @@ hantro_vdev_to_func(struct video_device *vdev)
+>    * @dev:		Pointer to device for convenient logging using
+>    *			dev_ macros.
+>    * @clocks:		Array of clock handles.
+> + * @resets:		Array of reset handles.
+>    * @reg_bases:		Mapped addresses of VPU registers.
+>    * @enc_base:		Mapped address of VPU encoder register for convenience.
+>    * @dec_base:		Mapped address of VPU decoder register for convenience.
+> @@ -190,6 +192,7 @@ struct hantro_dev {
+>   	struct platform_device *pdev;
+>   	struct device *dev;
+>   	struct clk_bulk_data *clocks;
+> +	struct reset_control *resets;
+>   	void __iomem **reg_bases;
+>   	void __iomem *enc_base;
+>   	void __iomem *dec_base;
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index ab2467998d29..8c3de31f51b3 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
+>   			return PTR_ERR(vpu->clocks[0].clk);
+>   	}
+>   
+> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
+> +	if (IS_ERR(vpu->resets))
+> +		return PTR_ERR(vpu->resets);
+> +
+>   	num_bases = vpu->variant->num_regs ?: 1;
+>   	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+>   				      sizeof(*vpu->reg_bases), GFP_KERNEL);
+> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
+>   	pm_runtime_use_autosuspend(vpu->dev);
+>   	pm_runtime_enable(vpu->dev);
+>   
+> +	ret = reset_control_deassert(vpu->resets);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+> +		return ret;
+> +	}
+> +
+>   	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+>   	if (ret) {
+>   		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> -		return ret;
+> +		goto err_rst_assert;
+
+Before your patch is applied if clk_bulk_prepare() fails, we
+simply return on the spot. After the patch is applied not only
+do you...
+
+>   	}
+>   
+>   	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   err_clk_unprepare:
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +err_rst_assert:
+> +	reset_control_assert(vpu->resets);
+
+...revert the effect of reset_control_deassert(), you also...
+
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
+
+... do pm_*() stuff. Is there any reason why this is needed?
+
+Andrzej
+
+>   	return ret;
+> @@ -1055,6 +1067,7 @@ static int hantro_remove(struct platform_device *pdev)
+>   	v4l2_m2m_release(vpu->m2m_dev);
+>   	v4l2_device_unregister(&vpu->v4l2_dev);
+>   	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> +	reset_control_assert(vpu->resets);
+>   	pm_runtime_dont_use_autosuspend(vpu->dev);
+>   	pm_runtime_disable(vpu->dev);
+>   	return 0;
 > 
 
-Applied to sunxi/linux.git (sunxi/dt-for-5.17).
-
-Thanks!
-Maxime
