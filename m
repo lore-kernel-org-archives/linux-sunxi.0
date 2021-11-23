@@ -1,156 +1,76 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6AF2C82;
-	Tue, 23 Nov 2021 16:46:33 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id r11so94779998edd.9;
-        Tue, 23 Nov 2021 08:46:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
-        b=Zj+3CJZE0XsYGYGYbsDr0DYBjiqHXd2f5fMTK9cVdyGyjRri79BNak1r1pO4TvaLRq
-         mXZmqKqev8CBnsCUgrxk9ldLOGcCt+98Zl8LEoBmAjcyYtC5zMdWRyXrPTsAw/f0O8L2
-         LWM44mrZbsV3vwrGKU4wEZUHwpi+wFVuJuUGSsweQYx2oosoEKyQM08lqHYnmtGiQJ4f
-         Ui31KKYZUDpQFsWrFqHw4mOlEefSQotTLs8oQmJbfMgife4lHzVd3PTnekWATc6MxcfB
-         w0IgRVV9uqOZaKtwJKRnQVP22fX1wu90+z9sL3FPB0ApnrmY5t8hhg5+Q/33ZuSMjJgZ
-         4P3Q==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC7B2C82
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 18:11:03 +0000 (UTC)
+Received: by mail-yb1-f173.google.com with SMTP id y68so61871186ybe.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 10:11:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
-        b=6AJk66vfp6zKSYmq5WqHdR6LISbhsr2I9L1snEKFw9EzG6pnePBqNRc0s832e04oI/
-         7pw6k9CYN9tpVieMirwzly/5JAr8VyYR9KTgSBnzLNodnlQQmUbficzzdQFcUl7QtvWl
-         5FFs4SqSRZiL43j7FsHdrDQsMNctwpBnNWAYqXqOgcj6TFAkDJg97ofexR3YpMfjWx68
-         ebMVBbQXJALP/JoXpygaBtO8PrEE7Q72DwSLXiDt70NFls/PNg+RQfCQP7ShguB6TbE8
-         y2xq4TXv82DRmUovoN7W58D+p8waAnKsLoC9FeH/kt3Qq3v5dTcl4uaFX5g8ehSwNmDH
-         H7Jw==
-X-Gm-Message-State: AOAM5322eLD+crF3htLK4z3UO20hI0VGAlRS8Wi9OPDhifRzTAU7hG5P
-	O1ev4FBgvVO65bUKVKlg+hylKUYgsj+hEQ==
-X-Google-Smtp-Source: ABdhPJyLUBFkleYwLguLP2uuKkGq/+WQboEpjtMa960SFj6OrZVxonrXlQIEc9ZoEK9pemmQ0f6bkQ==
-X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr9243839ejb.198.1637685991743;
-        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id w23sm6127157edr.19.2021.11.23.08.46.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: Re: [PATCH 1/7] media: hantro: add support for reset lines
-Date: Tue, 23 Nov 2021 17:46:30 +0100
-Message-ID: <9986998.nUPlyArG6x@kista>
-In-Reply-To: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211123145933.GD6514@kadam> <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MUbZEn/3SdS1wqqgUfSx8CmvXfjoSF7ouvMsnJiO5NA=;
+        b=mJpAe9L3s409U8oAfzbvbhRfynnyxvlYEfzfjmQDh5930EJCyKHS7OXrwlMS7RCBRN
+         r3zgECnVRDEoTH46vfOTDimih8m6nLa1dLT6aMNbzy0TpjkR7RrEgeyHwWsIbHIFtl/3
+         x+bWUMNjVXDs8zaRsluO+jhPDMePWwHOaynMwV5fmT+aC1yukuDvFoa+SocVXEmzPHDy
+         xRFwPwHs2hnIqt2AooY/5jXVfTpdf6z4LEhrbeVohzOxys1iBe3AMLxe62Vgpm3YtZwq
+         IfgHALHxFgjg89guNPUktijG0O4RQwH29N9lJALF4XgvuOR9saYr7HvbmdOU5H4HFjxP
+         5Dhg==
+X-Gm-Message-State: AOAM5305wvY4lqkpNqJ3gpDQAfjVl+SOQqIkQL68iMsPTt7t6Ohn4bGo
+	OsVDFsjl3uNISAjBlZ69zP5Q9Ly8EAQur050yl4=
+X-Google-Smtp-Source: ABdhPJxRFhK5k5paqCyxrIeq+pgrATdTva88twcto4HVEG4JbbIHmOdJnz3Ra/cinSMh+cljZYv0Hji1HsxZMD9JErw=
+X-Received: by 2002:a25:ba0f:: with SMTP id t15mr8897642ybg.62.1637691061954;
+ Tue, 23 Nov 2021 10:11:01 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20211123115333.624335-1-mailhol.vincent@wanadoo.fr> <20211123115333.624335-3-mailhol.vincent@wanadoo.fr>
+In-Reply-To: <20211123115333.624335-3-mailhol.vincent@wanadoo.fr>
+From: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
+Date: Wed, 24 Nov 2021 03:10:50 +0900
+Message-ID: <CAMZ6RqJEFvn9f8quYWyfPL+A7hjLJG67tQenTsearuF-5hcEsQ@mail.gmail.com>
+Subject: Re: [PATCH v1 2/2] can: do not increase rx_bytes statistics for RTR frames
+To: Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	Jimmy Assarsson <extja@kvaser.com>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Ludovic Desroches <ludovic.desroches@microchip.com>, 
+	Chandrasekar Ramakrishnan <rcsekar@samsung.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Yasushi SHOJI <yashi@spacecubics.com>, 
+	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>, 
+	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>, Michal Simek <michal.simek@xilinx.com>, 
+	Stephane Grosjean <s.grosjean@peak-system.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+On Tue. 23 Nov. 2021 at 20:53, Vincent Mailhol
+<mailhol.vincent@wanadoo.fr> wrote:
+> The actual payload length of the CAN Remote Transmission Request (RTR)
+> frames is always 0, i.e. nothing is transmitted on the wire. However,
+> those RTR frames still uses the DLC to indicate the length of the
+> requested frame.
+>
+> As such, net_device_stats:rx_bytes should not be increased for the RTR
+> frames.
+>
+> This patch fixes all the CAN drivers.
 
-Dne torek, 23. november 2021 ob 17:36:57 CET je Andrzej Pietrasiewicz 
-napisal(a):
-> Hi Dan, hi Jernej,
-> 
-> W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
-> > On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
-> >>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
-media/hantro/hantro_drv.c
-> >>> index ab2467998d29..8c3de31f51b3 100644
-> >>> --- a/drivers/staging/media/hantro/hantro_drv.c
-> >>> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> >>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    			return PTR_ERR(vpu->clocks[0].clk);
-> >>>    	}
-> >>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, 
-true);
-> >>> +	if (IS_ERR(vpu->resets))
-> >>> +		return PTR_ERR(vpu->resets);
-> >>> +
-> >>>    	num_bases = vpu->variant->num_regs ?: 1;
-> >>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
-> >>>    				      sizeof(*vpu->reg_bases), 
-GFP_KERNEL);
-> >>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    	pm_runtime_use_autosuspend(vpu->dev);
-> >>>    	pm_runtime_enable(vpu->dev);
-> >          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > It looks like this is the pm stuff that we have to unwind on error
-> > 
-> >>> +	ret = reset_control_deassert(vpu->resets);
-> >>> +	if (ret) {
-> >>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
-> >>> +		return ret;
-> >                  ^^^^^^^^^^
-> > So this return should be a goto undo_pm_stuff
-> > 
-> > 
-> >>> +	}
-> >>> +
-> >>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
-> >>>    	if (ret) {
-> >>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
-> >>> -		return ret;
-> > 
-> > And this return should also have been a goto so it's a bug in the
-> > original code.
-> 
-> So we probably want a separate patch addressing that first, and then
-> the series proper on top of that.
+Actually, I just realized that we also need to fix the tx path.
 
-I was just about to suggest that.
+Since [1], can_get_echo_skb() returns the correct length (even
+for RTR frames). So as long as the drivers use this function,
+everything should be fine. But the fact is that the majority do
+not (probably for historical reasons).  Long story short, I will
+send a v2 in which there will be an additional third patch to
+address the tx_bytes statistics of the RTR frames in the tx
+path.
 
-Other drivers usually enable PM last, so they don't have PM calls in unwind 
-code. However, I think current approach is just as valid (with a fix).
+[1] commit 59d24425c93d ("can: dev: replace can_priv::ctrlmode_static
+by can_get_static_ctrlmode()")
+https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/commit/?h=testing&id=ed3320cec279407a86bc4c72edc4a39eb49165ec
 
-Best regards,
-Jernej
-
-> 
-> Regards,
-> 
-> Andrzej
-> 
-> > 
-> >>> +		goto err_rst_assert;
-> >>
-> >> Before your patch is applied if clk_bulk_prepare() fails, we
-> >> simply return on the spot. After the patch is applied not only
-> >> do you...
-> >>
-> >>>    	}
-> >>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
-> >>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device 
-*pdev)
-> >>>    	v4l2_device_unregister(&vpu->v4l2_dev);
-> >>>    err_clk_unprepare:
-> >>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
-> >>> +err_rst_assert:
-> >>> +	reset_control_assert(vpu->resets);
-> >>
-> >> ...revert the effect of reset_control_deassert(), you also...
-> >>
-> >>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
-> >>>    	pm_runtime_disable(vpu->dev);
-> >>
-> >> ... do pm_*() stuff. Is there any reason why this is needed?
-> > 
-> > So, yes, it's needed, but you're correct to spot that it's not
-> > consistent.
-> > 
-> > regards,
-> > dan carpenter
-> > 
-> 
-> 
-
-
+Yours sincerely,
+Vincent Mailhol
