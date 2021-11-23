@@ -1,125 +1,319 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1DEA2C82;
-	Tue, 23 Nov 2021 16:37:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: andrzej.p)
-	with ESMTPSA id 5E5ED1F42E68
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
-	t=1637685421; bh=daLlUwwNiWxjyGD9q5YosR2QXIU4H+EhNkLeXPcw3AE=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=G4Z1I8lixs87F0ianK1zbYPYVeiBnYksWWed/JJdLhzfz9Cd8k4R7g600a4jgqT6e
-	 CEJQNsDcOsTXbCNiW2JoBfjJGggrDNF7rnf0+QzIsHUypEAERKqCf6Z53jkzRO+9FE
-	 JM2P6zCOUxqL4wlqrOj2CZdpKdm4KZgyOwfAt0RVJ65pN016UYDqXMW/8CtrjbUw9f
-	 VFm53j2Tz51kP+1zCh6QM+dGE541/YFf7aTkx2eG69oREeEwP765jox5HopYmz9n+x
-	 NIF5qlSs7WZKB3E4alMSpNAvZk0E7VCq1iTq9e3FVB5PsDtDh1yXiahcY9O907fa5R
-	 KT9ke1sko2Fmw==
-Subject: Re: [PATCH 1/7] media: hantro: add support for reset lines
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, linux-media@vger.kernel.org,
- ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com,
- mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
- <20211122184702.768341-2-jernej.skrabec@gmail.com>
- <08e80e9e-f646-72e4-e4d4-f8e6310228f1@collabora.com>
- <20211123145933.GD6514@kadam>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Message-ID: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
-Date: Tue, 23 Nov 2021 17:36:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810A12C82
+	for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 16:39:49 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 251DA5C0183;
+	Tue, 23 Nov 2021 11:39:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Tue, 23 Nov 2021 11:39:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=DqKiH80SmKDpWn7GfxtaEYlMlLh
+	8S4gQFuzGT1W1fr8=; b=U/TFpeI7JZvyXBix7hg4DWZUYTAQ4BUFUbRvKcTXl6o
+	Qzij/YrjlvCd6xdQOa8Ro5N1flXZgMhxWanLmsKRwFE0ptqazmCf6bhxGaQ5SHiD
+	R8NNgzynfkuAiuu+Ng9/0mL/+Pxlk6y3pbPs+T+jNaeifXWXTiU+fhzJPC+Hhp1T
+	0ipOZZ39Yvy0aew2XuJw0jwIq4FtH2+caLc8A/iEYA3cLVCQ2IkIJuZjQT9sz4/y
+	6UJc4MgfujBTVZOIFrOYfPI4ApDFkJVqsoIDdCrx9l4iEFIu9+RBlMLhr+6O/u7z
+	XCRzThDAkHzqDgvkJeIa6qgBhtnYvqg45AH/SOM3bhw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=DqKiH8
+	0SmKDpWn7GfxtaEYlMlLh8S4gQFuzGT1W1fr8=; b=Tg7J9d+SjUjiGH3ob7XnO+
+	Uj3sV/mDBX4RNxwWY9ZLgzY764iTN079KeasFhrZGpJTR5dLlShmNxhuTZEF5eVB
+	XHlX9qBursQyrcF6WTpvOY1tlJ1zYvhugz/m8oiS0378+S7W+eUUAl9fVlGLtb1w
+	7ZtbgmuamHPkzRUgiiuYz4cB3UxVA8gXAR58p/oHFJTrattvwVsjpMNy43C51sml
+	PXIC7nQKxdUboOAke+izqb7E0oa6EOqv/kAfk/zjunD+CdH4M6PhIRtagciHz7HZ
+	FaMkIjFhR99+co8skyA5YC3UjIVyRLYyr3j1BQN2Wc1wESRyjDDvyznL4AvXGtcA
+	==
+X-ME-Sender: <xms:UxmdYUKHsDSSl-Sd9A308saqWVWfTlw-j9yFcIcBDXqmni5JeKGP8A>
+    <xme:UxmdYUL_fD1o1jeRpqA1hrFykUJNiilISW5fiae0iDhw6laVwlnb8FaunK3H8xPjG
+    QZshixdDhmMnMwqNFE>
+X-ME-Received: <xmr:UxmdYUtTxv8qChQjjyEWd_TO3Q2i55mcLo3Wjvl4oVTW_ldHrQbeyaAmMg3kYNQD2tJ5cof79IibNczP5mwhNubkDikrJ2Enw4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrgeeigdelvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:UxmdYRZFTi659-YHklB1TryhWd1undaLnMGEI1EMitqorMdNfKmMZQ>
+    <xmx:UxmdYbby8AkfS02hXePbNSluVyMZwt5LKQRFBqscuyR-dzBKLwb_sw>
+    <xmx:UxmdYdB3Vcr1wPl7TQvkDlbvd-3nJJBVK8UQ4NM1WZBualmWTpC8RQ>
+    <xmx:VBmdYZOkrJNLO5dfizTB_OzsJYB8vCiK2YgPUobgXLxqpQqvjegoyA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 23 Nov 2021 11:39:47 -0500 (EST)
+Date: Tue, 23 Nov 2021 17:39:45 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] leds: sun50i-r329: New driver for the R329/D1 LED
+ controller
+Message-ID: <20211123163945.xj2xmqymj3dkba55@gilmour>
+References: <20211119054044.16286-1-samuel@sholland.org>
+ <20211119054044.16286-2-samuel@sholland.org>
+ <20211119082850.lrfq2wuyzhyvczdi@gilmour>
+ <fd4d08ee-3048-a54a-58d2-9510413c166f@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211123145933.GD6514@kadam>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="nwidnpvmer74tu3y"
+Content-Disposition: inline
+In-Reply-To: <fd4d08ee-3048-a54a-58d2-9510413c166f@sholland.org>
 
-Hi Dan, hi Jernej,
 
-W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
-> On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
->>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->>> index ab2467998d29..8c3de31f51b3 100644
->>> --- a/drivers/staging/media/hantro/hantro_drv.c
->>> +++ b/drivers/staging/media/hantro/hantro_drv.c
->>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device *pdev)
->>>    			return PTR_ERR(vpu->clocks[0].clk);
->>>    	}
->>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, true);
->>> +	if (IS_ERR(vpu->resets))
->>> +		return PTR_ERR(vpu->resets);
->>> +
->>>    	num_bases = vpu->variant->num_regs ?: 1;
->>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
->>>    				      sizeof(*vpu->reg_bases), GFP_KERNEL);
->>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device *pdev)
->>>    	pm_runtime_use_autosuspend(vpu->dev);
->>>    	pm_runtime_enable(vpu->dev);
->          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> It looks like this is the pm stuff that we have to unwind on error
-> 
->>> +	ret = reset_control_deassert(vpu->resets);
->>> +	if (ret) {
->>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
->>> +		return ret;
->                  ^^^^^^^^^^
-> So this return should be a goto undo_pm_stuff
-> 
-> 
->>> +	}
->>> +
->>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
->>>    	if (ret) {
->>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
->>> -		return ret;
-> 
-> And this return should also have been a goto so it's a bug in the
-> original code.
+--nwidnpvmer74tu3y
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So we probably want a separate patch addressing that first, and then
-the series proper on top of that.
+On Fri, Nov 19, 2021 at 05:57:01PM -0600, Samuel Holland wrote:
+> Hi Maxime,
+>=20
+> On 11/19/21 2:28 AM, Maxime Ripard wrote:
+> > Hi,
+> >=20
+> > On Thu, Nov 18, 2021 at 11:40:43PM -0600, Samuel Holland wrote:
+> >> +static const struct sun50i_r329_ledc_timing sun50i_r329_ledc_default_=
+timing =3D {
+> >> +	.t0h_ns =3D 336,
+> >> +	.t0l_ns =3D 840,
+> >> +	.t1h_ns =3D 882,
+> >> +	.t1l_ns =3D 294,
+> >> +	.treset_ns =3D 300000,
+> >> +};
+> >=20
+> > This should be mentioned in the binding as well (using the default keyw=
+ord)
+>=20
+> Ok, I'll do this for v4.
+>=20
+> >> +static int sun50i_r329_ledc_parse_timing(const struct device_node *np,
+> >> +					 struct sun50i_r329_ledc *priv)
+> >> +{
+> >> +	struct sun50i_r329_ledc_timing *timing =3D &priv->timing;
+> >> +
+> >> +	*timing =3D sun50i_r329_ledc_default_timing;
+> >> +
+> >> +	of_property_read_u32(np, "allwinner,t0h-ns", &timing->t0h_ns);
+> >> +	of_property_read_u32(np, "allwinner,t0l-ns", &timing->t0l_ns);
+> >> +	of_property_read_u32(np, "allwinner,t1h-ns", &timing->t1h_ns);
+> >> +	of_property_read_u32(np, "allwinner,t1l-ns", &timing->t1l_ns);
+> >> +	of_property_read_u32(np, "allwinner,treset-ns", &timing->treset_ns);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void sun50i_r329_ledc_set_timing(struct sun50i_r329_ledc *priv)
+> >> +{
+> >> +	const struct sun50i_r329_ledc_timing *timing =3D &priv->timing;
+> >> +	unsigned long mod_freq =3D clk_get_rate(priv->mod_clk);
+> >> +	u32 cycle_ns =3D NSEC_PER_SEC / mod_freq;
+> >> +	u32 val;
+> >> +
+> >> +	val =3D (timing->t1h_ns / cycle_ns) << 21 |
+> >> +	      (timing->t1l_ns / cycle_ns) << 16 |
+> >> +	      (timing->t0h_ns / cycle_ns) <<  6 |
+> >> +	      (timing->t0l_ns / cycle_ns);
+> >> +	writel(val, priv->base + LEDC_T01_TIMING_CTRL_REG);
+> >> +
+> >> +	val =3D (timing->treset_ns / cycle_ns) << 16 |
+> >> +	      (priv->num_leds - 1);
+> >> +	writel(val, priv->base + LEDC_RESET_TIMING_CTRL_REG);
+> >> +}
+> >> +
+> >> +static int sun50i_r329_ledc_resume(struct device *dev)
+> >> +{
+> >> +	struct sun50i_r329_ledc *priv =3D dev_get_drvdata(dev);
+> >> +	u32 val;
+> >> +	int ret;
+> >> +
+> >> +	ret =3D reset_control_deassert(priv->reset);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret =3D clk_prepare_enable(priv->bus_clk);
+> >> +	if (ret)
+> >> +		goto err_assert_reset;
+> >> +
+> >> +	ret =3D clk_prepare_enable(priv->mod_clk);
+> >> +	if (ret)
+> >> +		goto err_disable_bus_clk;
+> >> +
+> >> +	sun50i_r329_ledc_set_format(priv);
+> >> +	sun50i_r329_ledc_set_timing(priv);
+> >> +
+> >> +	/* The trigger level must be at least the burst length. */
+> >> +	val =3D readl(priv->base + LEDC_DMA_CTRL_REG);
+> >> +	val &=3D ~LEDC_DMA_CTRL_REG_FIFO_TRIG_LEVEL;
+> >> +	val |=3D LEDC_FIFO_DEPTH / 2;
+> >> +	writel(val, priv->base + LEDC_DMA_CTRL_REG);
+> >> +
+> >> +	val =3D LEDC_INT_CTRL_REG_GLOBAL_INT_EN |
+> >> +	      LEDC_INT_CTRL_REG_TRANS_FINISH_INT_EN;
+> >> +	writel(val, priv->base + LEDC_INT_CTRL_REG);
+> >> +
+> >> +	return 0;
+> >> +
+> >> +err_disable_bus_clk:
+> >> +	clk_disable_unprepare(priv->bus_clk);
+> >> +err_assert_reset:
+> >> +	reset_control_assert(priv->reset);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static int sun50i_r329_ledc_suspend(struct device *dev)
+> >> +{
+> >> +	struct sun50i_r329_ledc *priv =3D dev_get_drvdata(dev);
+> >> +
+> >> +	clk_disable_unprepare(priv->mod_clk);
+> >> +	clk_disable_unprepare(priv->bus_clk);
+> >> +	reset_control_assert(priv->reset);
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static void sun50i_r329_ledc_dma_cleanup(void *data)
+> >> +{
+> >> +	struct sun50i_r329_ledc *priv =3D data;
+> >> +	struct device *dma_dev =3D dmaengine_get_dma_device(priv->dma_chan);
+> >> +
+> >> +	if (priv->buffer)
+> >> +		dma_free_wc(dma_dev, LEDS_TO_BYTES(priv->num_leds),
+> >> +			    priv->buffer, priv->dma_handle);
+> >> +	dma_release_channel(priv->dma_chan);
+> >> +}
+> >> +
+> >> +static int sun50i_r329_ledc_probe(struct platform_device *pdev)
+> >> +{
+> >> +	const struct device_node *np =3D pdev->dev.of_node;
+> >> +	struct dma_slave_config dma_cfg =3D {};
+> >> +	struct led_init_data init_data =3D {};
+> >> +	struct device *dev =3D &pdev->dev;
+> >> +	struct device_node *child;
+> >> +	struct sun50i_r329_ledc *priv;
+> >> +	struct resource *mem;
+> >> +	int count, irq, ret;
+> >> +
+> >> +	count =3D of_get_available_child_count(np);
+> >> +	if (!count)
+> >> +		return -ENODEV;
+> >> +	if (count > LEDC_MAX_LEDS) {
+> >> +		dev_err(dev, "Too many LEDs! (max is %d)\n", LEDC_MAX_LEDS);
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	priv =3D devm_kzalloc(dev, struct_size(priv, leds, count), GFP_KERNE=
+L);
+> >> +	if (!priv)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	priv->dev =3D dev;
+> >> +	priv->num_leds =3D count;
+> >> +	spin_lock_init(&priv->lock);
+> >> +	dev_set_drvdata(dev, priv);
+> >> +
+> >> +	ret =3D sun50i_r329_ledc_parse_format(np, priv);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret =3D sun50i_r329_ledc_parse_timing(np, priv);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	priv->base =3D devm_platform_get_and_ioremap_resource(pdev, 0, &mem);
+> >> +	if (IS_ERR(priv->base))
+> >> +		return PTR_ERR(priv->base);
+> >> +
+> >> +	priv->bus_clk =3D devm_clk_get(dev, "bus");
+> >> +	if (IS_ERR(priv->bus_clk))
+> >> +		return PTR_ERR(priv->bus_clk);
+> >> +
+> >> +	priv->mod_clk =3D devm_clk_get(dev, "mod");
+> >> +	if (IS_ERR(priv->mod_clk))
+> >> +		return PTR_ERR(priv->mod_clk);
+> >> +
+> >> +	priv->reset =3D devm_reset_control_get_exclusive(dev, NULL);
+> >> +	if (IS_ERR(priv->reset))
+> >> +		return PTR_ERR(priv->reset);
+> >> +
+> >> +	priv->dma_chan =3D dma_request_chan(dev, "tx");
+> >> +	if (IS_ERR(priv->dma_chan))
+> >> +		return PTR_ERR(priv->dma_chan);
+> >> +
+> >> +	ret =3D devm_add_action_or_reset(dev, sun50i_r329_ledc_dma_cleanup, =
+priv);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	dma_cfg.dst_addr	=3D mem->start + LEDC_DATA_REG;
+> >> +	dma_cfg.dst_addr_width	=3D DMA_SLAVE_BUSWIDTH_4_BYTES;
+> >> +	dma_cfg.dst_maxburst	=3D LEDC_FIFO_DEPTH / 2;
+> >> +	ret =3D dmaengine_slave_config(priv->dma_chan, &dma_cfg);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	priv->buffer =3D dma_alloc_wc(dmaengine_get_dma_device(priv->dma_cha=
+n),
+> >> +				    LEDS_TO_BYTES(priv->num_leds),
+> >> +				    &priv->dma_handle, GFP_KERNEL);
+> >> +	if (!priv->buffer)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	irq =3D platform_get_irq(pdev, 0);
+> >> +	if (irq < 0)
+> >> +		return irq;
+> >> +
+> >> +	ret =3D devm_request_irq(dev, irq, sun50i_r329_ledc_irq,
+> >> +			       0, dev_name(dev), priv);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	ret =3D sun50i_r329_ledc_resume(dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >=20
+> > You seem to fill the runtime_pm hooks, but only call them directly and
+> > never enable runtime_pm on that device, is that intentional?
+>=20
+> Yes. I did not want to delay the initial version by adding runtime PM
+> (and debugging the refcounts) when the driver already works now.
+> However, I had runtime/system PM in mind while writing the driver.
+>=20
+> If you think it is too confusing, I could rename the functions to
+> something like sun50i_r329_ledc_hw_init / sun50i_r329_ledc_hw_exit.
 
-Regards,
+It's not really the functions themselves that are confusing but rather
+that you set them as runtime_pm hooks.
 
-Andrzej
+If you plan on submitting it later on, I guess the easiest would just be
+to remove the sun50i_r329_ledc_pm structure, and then you'll just have
+to introduce it back with a call to pm_runtime_enable when it's ready
 
-> 
->>> +		goto err_rst_assert;
->>
->> Before your patch is applied if clk_bulk_prepare() fails, we
->> simply return on the spot. After the patch is applied not only
->> do you...
->>
->>>    	}
->>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
->>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device *pdev)
->>>    	v4l2_device_unregister(&vpu->v4l2_dev);
->>>    err_clk_unprepare:
->>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
->>> +err_rst_assert:
->>> +	reset_control_assert(vpu->resets);
->>
->> ...revert the effect of reset_control_deassert(), you also...
->>
->>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
->>>    	pm_runtime_disable(vpu->dev);
->>
->> ... do pm_*() stuff. Is there any reason why this is needed?
-> 
-> So, yes, it's needed, but you're correct to spot that it's not
-> consistent.
-> 
-> regards,
-> dan carpenter
-> 
+Maxime
 
+--nwidnpvmer74tu3y
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYZ0ZUAAKCRDj7w1vZxhR
+xcdeAQCvPy9SiSH/Y7VJ6IhQponGjRSkn2R6FQPh8eAiTW9u3wD/X8zFlTD2q7zL
+etZ4zF6mnpnVs18o1Lb0mgI44ClMTg0=
+=/9wd
+-----END PGP SIGNATURE-----
+
+--nwidnpvmer74tu3y--
