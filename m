@@ -1,49 +1,49 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42822C82
-	for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 16:43:03 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id g14so94817599edb.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 23 Nov 2021 08:43:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6AF2C82;
+	Tue, 23 Nov 2021 16:46:33 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id r11so94779998edd.9;
+        Tue, 23 Nov 2021 08:46:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=MC5epeKImcx3/KQhLYCZ1HLgX1y87eAw5+H5JNQv9sA=;
-        b=lFopLDuY6MPMp7pIgftj6vLLHx6gwKafB2NAA3QebNbR4G8rQoWE+xXn1ZNViGOqPE
-         LBILL9hVz83u8+PUceyxvc5xIeneoZ6NfOHgoHtjbeTfWDHnYy0Ug0gn+KsvcyVXY0Ci
-         GANzc7vFdpFCe+aCCwqtJSxkIZR+uT4nJYlXxzib+9RLLxPTTaBUYHwXNrwf1gwPKnEv
-         sl6oTBhgjLZghpGlIDd0Ztz0iEbRW8HwI7mfY2kcU5yfVWpd6OqqfEuHfYZdzzi7INrn
-         hnDJclq9jNI9Eo2FLSym6dpNL2/kUxi32FxPwjR80F6zFDCNuQcH84OZobb5M6ZFm89E
-         n50Q==
+        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
+        b=Zj+3CJZE0XsYGYGYbsDr0DYBjiqHXd2f5fMTK9cVdyGyjRri79BNak1r1pO4TvaLRq
+         mXZmqKqev8CBnsCUgrxk9ldLOGcCt+98Zl8LEoBmAjcyYtC5zMdWRyXrPTsAw/f0O8L2
+         LWM44mrZbsV3vwrGKU4wEZUHwpi+wFVuJuUGSsweQYx2oosoEKyQM08lqHYnmtGiQJ4f
+         Ui31KKYZUDpQFsWrFqHw4mOlEefSQotTLs8oQmJbfMgife4lHzVd3PTnekWATc6MxcfB
+         w0IgRVV9uqOZaKtwJKRnQVP22fX1wu90+z9sL3FPB0ApnrmY5t8hhg5+Q/33ZuSMjJgZ
+         4P3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=MC5epeKImcx3/KQhLYCZ1HLgX1y87eAw5+H5JNQv9sA=;
-        b=h68Tt0kvDg9u9bdPW+dF0TGGE/QzD7yumhUEZ3BbGw6bGYYmgW5t4WPWHisiPVw+zQ
-         NP3A404o/nuNZGro+skim2b7GG8s6fIIudR6ElhAHAs4ecgHBY3oUxymLb/HJ3SKPbmd
-         toDlhxbzhC1j9QDZUlLMfBcDb5JckQyOB92VERZE5ToW4AaxL6JB3EN6dSvS7OnvKLzz
-         T5TO5XvSZ9OctBm8eCpPMav4u3r7L06zWjyocTLSWg6bA1Au0J3z2qfkdJuJsDAVBSwb
-         bSuYyh8Q4q3vxqpa7rYVOAxjzlRZhwMJkT3SGKO/bJ8MU8CQ6ITlXeVrD3ZIWXZzr4Au
-         LgnQ==
-X-Gm-Message-State: AOAM532ciAuTmu8g9I6XBSQbL487SoNn6GQ2VQ6+QlJvh1CuhGzzcxpl
-	UOA64fUsSnebGihtvI7OPfk=
-X-Google-Smtp-Source: ABdhPJw8TCJCwiaCGpqcYo8YHmkWjG3beYZVJAdIgmxdbcP1nkoBberCXFC9tmHu6n1fgwJ+WIwoqQ==
-X-Received: by 2002:a17:907:7850:: with SMTP id lb16mr9444354ejc.67.1637685782143;
-        Tue, 23 Nov 2021 08:43:02 -0800 (PST)
+        bh=T8hJVvhjj03aAS4wCWYZ0NqxD8bQ/6nHp3n3m7zAEZI=;
+        b=6AJk66vfp6zKSYmq5WqHdR6LISbhsr2I9L1snEKFw9EzG6pnePBqNRc0s832e04oI/
+         7pw6k9CYN9tpVieMirwzly/5JAr8VyYR9KTgSBnzLNodnlQQmUbficzzdQFcUl7QtvWl
+         5FFs4SqSRZiL43j7FsHdrDQsMNctwpBnNWAYqXqOgcj6TFAkDJg97ofexR3YpMfjWx68
+         ebMVBbQXJALP/JoXpygaBtO8PrEE7Q72DwSLXiDt70NFls/PNg+RQfCQP7ShguB6TbE8
+         y2xq4TXv82DRmUovoN7W58D+p8waAnKsLoC9FeH/kt3Qq3v5dTcl4uaFX5g8ehSwNmDH
+         H7Jw==
+X-Gm-Message-State: AOAM5322eLD+crF3htLK4z3UO20hI0VGAlRS8Wi9OPDhifRzTAU7hG5P
+	O1ev4FBgvVO65bUKVKlg+hylKUYgsj+hEQ==
+X-Google-Smtp-Source: ABdhPJyLUBFkleYwLguLP2uuKkGq/+WQboEpjtMa960SFj6OrZVxonrXlQIEc9ZoEK9pemmQ0f6bkQ==
+X-Received: by 2002:a17:906:eb8a:: with SMTP id mh10mr9243839ejb.198.1637685991743;
+        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
 Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id d3sm6074046edx.79.2021.11.23.08.43.01
+        by smtp.gmail.com with ESMTPSA id w23sm6127157edr.19.2021.11.23.08.46.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Nov 2021 08:43:01 -0800 (PST)
+        Tue, 23 Nov 2021 08:46:31 -0800 (PST)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: wens@csie.org, robh+dt@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Klein <michael@fossekall.de>
-Subject: Re: Re: [PATCH] ARM: dts: sun8i: Adjust power key nodes
-Date: Tue, 23 Nov 2021 17:42:55 +0100
-Message-ID: <3138437.aeNJFYEL58@kista>
-In-Reply-To: <20211123103219.4y2pjywt2uxunc5s@gilmour>
-References: <20211122213637.922088-1-jernej.skrabec@gmail.com> <20211123103219.4y2pjywt2uxunc5s@gilmour>
+To: Dan Carpenter <dan.carpenter@oracle.com>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+Cc: linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: Re: [PATCH 1/7] media: hantro: add support for reset lines
+Date: Tue, 23 Nov 2021 17:46:30 +0100
+Message-ID: <9986998.nUPlyArG6x@kista>
+In-Reply-To: <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211123145933.GD6514@kadam> <c474e2b5-8900-a7ca-620d-e03a284cf0fb@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,35 +53,104 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi!
+Hi all,
 
-Dne torek, 23. november 2021 ob 11:32:19 CET je Maxime Ripard napisal(a):
-> Hi,
+Dne torek, 23. november 2021 ob 17:36:57 CET je Andrzej Pietrasiewicz 
+napisal(a):
+> Hi Dan, hi Jernej,
 > 
-> On Mon, Nov 22, 2021 at 10:36:37PM +0100, Jernej Skrabec wrote:
-> > Several H3 and one H2+ board have power key nodes, which are slightly
-> > off. Some are missing wakeup-source property and some have BTN_0 code
-> > assigned instead of KEY_POWER.
+> W dniu 23.11.2021 o 15:59, Dan Carpenter pisze:
+> > On Tue, Nov 23, 2021 at 12:09:03PM +0100, Andrzej Pietrasiewicz wrote:
+> >>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/
+media/hantro/hantro_drv.c
+> >>> index ab2467998d29..8c3de31f51b3 100644
+> >>> --- a/drivers/staging/media/hantro/hantro_drv.c
+> >>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> >>> @@ -905,6 +905,10 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    			return PTR_ERR(vpu->clocks[0].clk);
+> >>>    	}
+> >>> +	vpu->resets = devm_reset_control_array_get(&pdev->dev, false, 
+true);
+> >>> +	if (IS_ERR(vpu->resets))
+> >>> +		return PTR_ERR(vpu->resets);
+> >>> +
+> >>>    	num_bases = vpu->variant->num_regs ?: 1;
+> >>>    	vpu->reg_bases = devm_kcalloc(&pdev->dev, num_bases,
+> >>>    				      sizeof(*vpu->reg_bases), 
+GFP_KERNEL);
+> >>> @@ -978,10 +982,16 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    	pm_runtime_use_autosuspend(vpu->dev);
+> >>>    	pm_runtime_enable(vpu->dev);
+> >          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > It looks like this is the pm stuff that we have to unwind on error
 > > 
-> > Adjust them, so they can function as intended by designer.
+> >>> +	ret = reset_control_deassert(vpu->resets);
+> >>> +	if (ret) {
+> >>> +		dev_err(&pdev->dev, "Failed to deassert resets\n");
+> >>> +		return ret;
+> >                  ^^^^^^^^^^
+> > So this return should be a goto undo_pm_stuff
 > > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > [BananaPi M2 Zero changes]
-> > Signed-off-by: Michael Klein <michael@fossekall.de>
+> > 
+> >>> +	}
+> >>> +
+> >>>    	ret = clk_bulk_prepare(vpu->variant->num_clocks, vpu->clocks);
+> >>>    	if (ret) {
+> >>>    		dev_err(&pdev->dev, "Failed to prepare clocks\n");
+> >>> -		return ret;
+> > 
+> > And this return should also have been a goto so it's a bug in the
+> > original code.
 > 
-> This looks a bit weird. If Michael is the author, then his SoB should be
-> here first and mentioned either in From or Co-developed-by.
-> 
-> If you are, I'm not sure why he's mentioned?
+> So we probably want a separate patch addressing that first, and then
+> the series proper on top of that.
 
-I'm main author and Michael just adapted BananaPi M2 Zero DT based on my 
-changes. What is preferred way to mark him as co-author?
+I was just about to suggest that.
+
+Other drivers usually enable PM last, so they don't have PM calls in unwind 
+code. However, I think current approach is just as valid (with a fix).
 
 Best regards,
 Jernej
 
 > 
-> Maxime
+> Regards,
+> 
+> Andrzej
+> 
+> > 
+> >>> +		goto err_rst_assert;
+> >>
+> >> Before your patch is applied if clk_bulk_prepare() fails, we
+> >> simply return on the spot. After the patch is applied not only
+> >> do you...
+> >>
+> >>>    	}
+> >>>    	ret = v4l2_device_register(&pdev->dev, &vpu->v4l2_dev);
+> >>> @@ -1037,6 +1047,8 @@ static int hantro_probe(struct platform_device 
+*pdev)
+> >>>    	v4l2_device_unregister(&vpu->v4l2_dev);
+> >>>    err_clk_unprepare:
+> >>>    	clk_bulk_unprepare(vpu->variant->num_clocks, vpu->clocks);
+> >>> +err_rst_assert:
+> >>> +	reset_control_assert(vpu->resets);
+> >>
+> >> ...revert the effect of reset_control_deassert(), you also...
+> >>
+> >>>    	pm_runtime_dont_use_autosuspend(vpu->dev);
+> >>>    	pm_runtime_disable(vpu->dev);
+> >>
+> >> ... do pm_*() stuff. Is there any reason why this is needed?
+> > 
+> > So, yes, it's needed, but you're correct to spot that it's not
+> > consistent.
+> > 
+> > regards,
+> > dan carpenter
+> > 
+> 
 > 
 
 
