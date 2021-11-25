@@ -1,177 +1,118 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9D92C80
-	for <linux-sunxi@lists.linux.dev>; Wed, 24 Nov 2021 23:55:45 +0000 (UTC)
-Received: by mail-qk1-f172.google.com with SMTP id i9so6304322qki.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 24 Nov 2021 15:55:45 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335D672
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 12:00:32 +0000 (UTC)
+Received: by mail-vk1-f182.google.com with SMTP id d130so3727482vke.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 04:00:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
+        b=erksV85QXm/bqtxQPmB7msXlbNBDCVOQLjiysuFCaDkVczzFvYyAl5dXhwb+8YbvxT
+         yYfptkjAO28P25RNMRp7yU2utcDxwTtprCmykjLrDjlwBXc+xEXFM03rSibA7KbedEpP
+         Z4tEpYadJa01M2Ewa2YfPP0S+CIEP7EDKn+vc1o3jAuGRqF6ucXS4hC9ZTURS8fm2GwZ
+         AMhr8TAKYcvFsrQUlRtTGtPVu/3nW1h5xGvbd79S22JduH8vIEZDlT0gKFOtiwU+JybA
+         JkVte1dr+fEhRJ19HCwBFy3luCv+Aa+nIQm8NWdS+NN/a1+vHezBFoJ1lkIVnEjat7Ka
+         o1RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GN3PIwpL+ERryD6L7UO03x3iOUbpm53NcLZtTh43TYo=;
-        b=Gw3ddAhnMZ+sAGuggznhW53WEw3oXFUZFQDn5rJwNG2IPrh8KRFD1bs0FEOSsNSgUB
-         SPjUDYSn9jw/oTknjdoeCV6huBYCpXB3OI1jTeZyQSos4y8liJc/KRx0NPYTw9yh8CMH
-         7OOmrC5G7aGHJ6FLFI+OGDV9HL6lfDB9aecKEbnvv8ylHt33qBvZ+F61A5KNqxPvjLlj
-         L7/i+RgIxuUHrQhGFzROoIDYTkL+1EhguhEdh8o03NUN3TQmSajRwdbFt0qKaU1tPvcL
-         xXnwc/AV/5knMEmqYiGpGcQGTNnQ2olPFp0JElbS+L5ku6pp0wngMLyFWjQf3c1RNuLb
-         /wjg==
-X-Gm-Message-State: AOAM531X1JVTvQ7DZ7eWsUCUWsE7VUP8tPosaI8tGJpb+K7+b0imdI0z
-	M4EwYwCrrHdPPyC14x0dg+5sA+6QB4KiwrKGk5o=
-X-Google-Smtp-Source: ABdhPJzcIGpIB9SJjGWBHDNUsIoxo4sDxPgxKlEvJaTIxZRIUV/Klnk+NGISbDOBvWup4NClDAcRVy7RrGGl+wn3jQU=
-X-Received: by 2002:a25:ae62:: with SMTP id g34mr1445748ybe.388.1637798144105;
- Wed, 24 Nov 2021 15:55:44 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6Lylh8DR+450t+VKD+Wrn7i+Xuwy9BF3AUDecTVOK4g=;
+        b=OKSMt7uYvBXc5dTAmzEb816p+S1edHY0yj1LC+Swfl7gwWlmFhZVRkrEGF84wBXdQp
+         IfryQiP+NVMy6A6AKVTqaSJ52yDCeR9vhWIJCbUafsmwrbPrvh8+ASvwd7uxDR044Tzg
+         nVBaK+x6yk7+N8NSrqt+okN0rjhgIXU3q8o/QLl3UBjFPOltSrJ0J9uQqvhnQi/vlvq6
+         ijbQ/o22FKE4h7cyjtV9e27U8snuJEcxBLv8XTEaji39keYYUtUtMJshwbwgTneI1Mbx
+         0XpSieyMMT5nUMTKTD6BHGDtIiH9Ay6jAro2y/xw2pa1thnObViGmz2YeZKi47aYi5YP
+         nelQ==
+X-Gm-Message-State: AOAM531bY8HWrfO3bxu+/5Ervhn1aV05hthg25V5CyFkcusFfHzWjev/
+	znFMNpB87IXe1qPqilC/JE/AOg==
+X-Google-Smtp-Source: ABdhPJygr6uthtUgThXM0nJKXNt/5LsubRRa0ZItKbmNtKp+p8GFTBFPOJp05+fRHPe/w8EB24DpCg==
+X-Received: by 2002:a05:6122:d08:: with SMTP id az8mr9774743vkb.15.1637841631793;
+        Thu, 25 Nov 2021 04:00:31 -0800 (PST)
+Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
+        by smtp.gmail.com with ESMTPSA id c9sm1710140uaf.12.2021.11.25.04.00.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 04:00:30 -0800 (PST)
+Date: Thu, 25 Nov 2021 09:00:24 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
+	mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
+	wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
+	gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
+Message-ID: <YZ962CvUbKoiIGyZ@eze-laptop>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com>
+ <20211122184702.768341-5-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211123115333.624335-1-mailhol.vincent@wanadoo.fr>
- <20211123115333.624335-3-mailhol.vincent@wanadoo.fr> <e2d90af1cf41bb9893225289822f93f036d415bb.camel@esd.eu>
-In-Reply-To: <e2d90af1cf41bb9893225289822f93f036d415bb.camel@esd.eu>
-From: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date: Thu, 25 Nov 2021 08:55:33 +0900
-Message-ID: <CAMZ6RqKKe=hooYH7xSGyJC2n+MGG8vSOZtZVfbT7-QQ_Ax=Hww@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] can: do not increase rx_bytes statistics for RTR frames
-To: =?UTF-8?Q?Stefan_M=C3=A4tje?= <Stefan.Maetje@esd.eu>
-Cc: "linux-can@vger.kernel.org" <linux-can@vger.kernel.org>, "mkl@pengutronix.de" <mkl@pengutronix.de>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"alexandre.belloni@bootlin.com" <alexandre.belloni@bootlin.com>, 
-	"appana.durga.rao@xilinx.com" <appana.durga.rao@xilinx.com>, 
-	"michal.simek@xilinx.com" <michal.simek@xilinx.com>, "mripard@kernel.org" <mripard@kernel.org>, 
-	"wens@csie.org" <wens@csie.org>, "jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>, 
-	"yashi@spacecubics.com" <yashi@spacecubics.com>, "rcsekar@samsung.com" <rcsekar@samsung.com>, 
-	"naga.sureshkumar.relli@xilinx.com" <naga.sureshkumar.relli@xilinx.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, 
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>, 
-	"s.grosjean@peak-system.com" <s.grosjean@peak-system.com>, 
-	"ludovic.desroches@microchip.com" <ludovic.desroches@microchip.com>, "extja@kvaser.com" <extja@kvaser.com>, 
-	"nicolas.ferre@microchip.com" <nicolas.ferre@microchip.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211122184702.768341-5-jernej.skrabec@gmail.com>
 
-Hi Stefan,
+Hi Jernej,
 
-On Thu. 25 Nov 2021 at 02:59, Stefan M=C3=A4tje <Stefan.Maetje@esd.eu> wrot=
-e:
-> Hi Vincent,
->
-> I would like to suggest a slightly different patch for the esd_usb2.c (as
-> added below).
->
-> Best regards,
->     Stefan M=C3=A4tje
->
-> Am Dienstag, den 23.11.2021, 20:53 +0900 schrieb Vincent Mailhol:
-> > The actual payload length of the CAN Remote Transmission Request (RTR)
-> > frames is always 0, i.e. nothing is transmitted on the wire. However,
-> > those RTR frames still uses the DLC to indicate the length of the
-> > requested frame.
-> >
-> > As such, net_device_stats:rx_bytes should not be increased for the RTR
-> > frames.
-> >
-> > This patch fixes all the CAN drivers.
-> >
-> > CC: Jimmy Assarsson <extja@kvaser.com>
-> > CC: Marc Kleine-Budde <mkl@pengutronix.de>
-> > CC: Nicolas Ferre <nicolas.ferre@microchip.com>
-> > CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> > CC: Ludovic Desroches <ludovic.desroches@microchip.com>
-> > CC: Chandrasekar Ramakrishnan <rcsekar@samsung.com>
-> > CC: Maxime Ripard <mripard@kernel.org>
-> > CC: Chen-Yu Tsai <wens@csie.org>
-> > CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > CC: Yasushi SHOJI <yashi@spacecubics.com>
-> > CC: Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>
-> > CC: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-> > CC: Michal Simek <michal.simek@xilinx.com>
-> > CC: Stephane Grosjean <s.grosjean@peak-system.com>
-> > Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-> > ---
-> >  drivers/net/can/at91_can.c                        | 3 ++-
-> >  drivers/net/can/c_can/c_can_main.c                | 3 ++-
-> >  drivers/net/can/cc770/cc770.c                     | 3 ++-
-> >  drivers/net/can/dev/rx-offload.c                  | 3 ++-
-> >  drivers/net/can/grcan.c                           | 3 ++-
-> >  drivers/net/can/ifi_canfd/ifi_canfd.c             | 3 ++-
-> >  drivers/net/can/janz-ican3.c                      | 3 ++-
-> >  drivers/net/can/kvaser_pciefd.c                   | 3 ++-
-> >  drivers/net/can/m_can/m_can.c                     | 3 ++-
-> >  drivers/net/can/mscan/mscan.c                     | 3 ++-
-> >  drivers/net/can/pch_can.c                         | 3 ++-
-> >  drivers/net/can/peak_canfd/peak_canfd.c           | 3 ++-
-> >  drivers/net/can/rcar/rcar_can.c                   | 3 ++-
-> >  drivers/net/can/rcar/rcar_canfd.c                 | 3 ++-
-> >  drivers/net/can/sja1000/sja1000.c                 | 3 ++-
-> >  drivers/net/can/slcan.c                           | 3 ++-
-> >  drivers/net/can/spi/hi311x.c                      | 3 ++-
-> >  drivers/net/can/spi/mcp251x.c                     | 3 ++-
-> >  drivers/net/can/sun4i_can.c                       | 3 ++-
-> >  drivers/net/can/usb/ems_usb.c                     | 3 ++-
-> >  drivers/net/can/usb/esd_usb2.c                    | 3 ++-
-> >  drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c | 6 ++++--
-> >  drivers/net/can/usb/kvaser_usb/kvaser_usb_leaf.c  | 3 ++-
-> >  drivers/net/can/usb/mcba_usb.c                    | 3 ++-
-> >  drivers/net/can/usb/peak_usb/pcan_usb.c           | 3 ++-
-> >  drivers/net/can/usb/peak_usb/pcan_usb_fd.c        | 8 ++++----
-> >  drivers/net/can/usb/peak_usb/pcan_usb_pro.c       | 9 +++++----
-> >  drivers/net/can/usb/ucan.c                        | 3 ++-
-> >  drivers/net/can/usb/usb_8dev.c                    | 8 ++++----
-> >  drivers/net/can/xilinx_can.c                      | 8 +++++---
-> >  30 files changed, 72 insertions(+), 42 deletions(-)
-> >
-...
-> >
-> > diff --git a/drivers/net/can/usb/esd_usb2.c b/drivers/net/can/usb/esd_u=
-sb2.c
-> > index 5f6915a27b3d..ac65ddfe814d 100644
-> > --- a/drivers/net/can/usb/esd_usb2.c
-> > +++ b/drivers/net/can/usb/esd_usb2.c
-> > @@ -335,7 +335,8 @@ static void esd_usb2_rx_can_msg(struct esd_usb2_net=
-_priv *priv,
-> >               }
-> >
-> >               stats->rx_packets++;
-> > -             stats->rx_bytes +=3D cf->len;
-> > +             if (!(cf->can_id & CAN_RTR_FLAG))
-> > +                     stats->rx_bytes +=3D cf->len;
-> >               netif_rx(skb);
-> >       }
-> >
->
-> The version below would save us adding another if() statement to check fo=
-r RTR or
-> normal frame that is already tested in the if() statement directly before=
-.
->
-> diff --git a/drivers/net/can/usb/esd_usb2.c b/drivers/net/can/usb/esd_usb=
-2.c
-> index c6068a251fbe..2f91a18fe592 100644
-> --- a/drivers/net/can/usb/esd_usb2.c
-> +++ b/drivers/net/can/usb/esd_usb2.c
-> @@ -332,14 +332,14 @@ static void esd_usb2_rx_can_msg(struct esd_usb2_net=
-_priv *priv,
->                 if (msg->msg.rx.dlc & ESD_RTR) {
->                         cf->can_id |=3D CAN_RTR_FLAG;
->                 } else {
->                         for (i =3D 0; i < cf->len; i++)
->                                 cf->data[i] =3D msg->msg.rx.data[i];
-> +                       stats->rx_bytes +=3D cf->len;
->                 }
-> -
->                 stats->rx_packets++;
-> -               stats->rx_bytes +=3D cf->len;
+On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
+> Older G2 cores, like that in Allwinner H6, seem to have issue with
+> latching postproc register values if this is first thing done in job.
+> Moving that to the end solves the issue.
+> 
+
+Any idea what exact register should be written before the post-processor
+is enabled, for H6 to work? Also, which of the PP registers need
+to be written "at the end"?
+
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 8c3de31f51b3..530994ab3024 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ctx)
+>  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+>  				&ctx->ctrl_handler);
+>  
+> -	if (!ctx->is_encoder) {
+> +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+
+To make this less fragile, do you think it would make sense to
+have a dedicated quirk flag, something like "legacy_post_proc",
+instead of overloading the meaning of legacy_regs.
+
+What do you think?
+
+Thanks,
+Ezequiel
+
+>  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+>  			hantro_postproc_enable(ctx);
+>  		else
+> @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+>  {
+>  	struct vb2_v4l2_buffer *src_buf;
+>  
+> +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
+> +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> +			hantro_postproc_enable(ctx);
+> +		else
+> +			hantro_postproc_disable(ctx);
+> +	}
 > +
->                 netif_rx(skb);
->         }
->
->         return;
->  }
-
-Work for me! I will add this in the v2 (under preparation).
-
-Yours sincerely,
-Vincent Mailhol
+>  	src_buf = hantro_get_src_buf(ctx);
+>  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+>  				   &ctx->ctrl_handler);
+> -- 
+> 2.34.0
+> 
