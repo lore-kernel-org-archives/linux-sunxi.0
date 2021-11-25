@@ -1,143 +1,93 @@
-Received: from smtp.smtpout.orange.fr (smtp09.smtpout.orange.fr [80.12.242.131])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5EF2C80
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 17:28:22 +0000 (UTC)
-Received: from tomoyo.flets-east.jp ([114.149.34.46])
-	by smtp.orange.fr with ESMTPA
-	id qIQDm0ronE8xTqIQKm0kjf; Thu, 25 Nov 2021 18:20:45 +0100
-X-ME-Helo: tomoyo.flets-east.jp
-X-ME-Auth: MDU0YmViZGZmMDIzYiBlMiM2NTczNTRjNWZkZTMwOGRiOGQ4ODf3NWI1ZTMyMzdiODlhOQ==
-X-ME-Date: Thu, 25 Nov 2021 18:20:45 +0100
-X-ME-IP: 114.149.34.46
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	linux-can@vger.kernel.org
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Subject: [PATCH v2 0/5] fix statistics and payload issues for error
-Date: Fri, 26 Nov 2021 02:20:16 +0900
-Message-Id: <20211125172021.976384-1-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A56168
+	for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 18:52:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637866204;
+    s=strato-dkim-0002; d=hartkopp.net;
+    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
+    From:Subject:Sender;
+    bh=iBQ+vqxgwLF6dT3pSXOjf18nr9Ye1/Cz08Fes5fTY+o=;
+    b=JNXH103kFDPqjsb1RadqNnJTSrOTucDLvp82wwejQ16RBYqpEOITrRorX2dH2GqwFn
+    EZ3q5S0iIOtappCxaQANU7EN+L2/HlV35kAYjBk0R9YLXSZ1wHyJeHP9YOFmnNXONaNU
+    VNtIy8KczuxtUWwYIHbPD8OglsGICw7QYFEbhDzXXX3LxPeL6DwD5bszb+shcYkq75G1
+    S1JHxTgiTlbSosNhE/Fzvh125JR5LstQF+DSJSMIVS8VmX3mCwf399xoY7kV4kY8skSs
+    AVL8cdkSX491E5XyUJOnbzV4Frvb1pnl40p64DkFdTCLmEA/jxl7JQvAdpRgQegToYAb
+    9h2w==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjG14FZxedJy6qgO1qCHSa1GLptZHusx3hdd0DIgVuBOfXW6v7w=="
+X-RZG-CLASS-ID: mo00
+Received: from [IPv6:2a00:6020:1cfa:f900::b82]
+    by smtp.strato.de (RZmta 47.34.10 AUTH)
+    with ESMTPSA id c09e88xAPIo14Pz
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+	(Client did not present a certificate);
+    Thu, 25 Nov 2021 19:50:01 +0100 (CET)
+Subject: Re: [PATCH v2 4/5] can: do not increase rx_bytes statistics for RTR
+ frames
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+ Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Jimmy Assarsson <extja@kvaser.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Yasushi SHOJI <yashi@spacecubics.com>,
+ Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
+ Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
+ Michal Simek <michal.simek@xilinx.com>,
+ Stephane Grosjean <s.grosjean@peak-system.com>
+References: <20211125172021.976384-1-mailhol.vincent@wanadoo.fr>
+ <20211125172021.976384-5-mailhol.vincent@wanadoo.fr>
+From: Oliver Hartkopp <socketcan@hartkopp.net>
+Message-ID: <ed755990-4169-604e-d982-7e4370114512@hartkopp.net>
+Date: Thu, 25 Nov 2021 19:50:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211125172021.976384-5-mailhol.vincent@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Important: this patch series depends on below patch:
-https://lore.kernel.org/linux-can/20211123111654.621610-1-mailhol.vincent@wanadoo.fr/T/#u
+Hi Vincent,
 
-There are some common errors which are made when updating the network
-statistics or processing the CAN payload:
+On 25.11.21 18:20, Vincent Mailhol wrote:
 
-  1. Incrementing the "normal" stats when generating or sending a CAN
-  error message frame. Error message frames are an abstraction of
-  Socket CAN and do not exist on the wire. The first patch of this
-  series fixes the RX stats for 22 different drivers, the second one
-  fixes the TX stasts for the kvaser driver (N.B. only this driver is
-  capable of sending error on the bus).
+> diff --git a/drivers/net/can/usb/ucan.c b/drivers/net/can/usb/ucan.c
+> index d582c39fc8d0..717d4925fdb0 100644
+> --- a/drivers/net/can/usb/ucan.c
+> +++ b/drivers/net/can/usb/ucan.c
+> @@ -619,12 +619,13 @@ static void ucan_rx_can_msg(struct ucan_priv *up, struct ucan_message_in *m)
+>   	/* copy the payload of non RTR frames */
+>   	if (!(cf->can_id & CAN_RTR_FLAG) || (cf->can_id & CAN_ERR_FLAG))
+>   		memcpy(cf->data, m->msg.can_msg.data, cf->len);
+> +	/* only frames which are neither RTR nor ERR have a payload */
+> +	else
+> +		stats->rx_bytes += cf->len;
 
-  2. Copying the payload of RTR frames: RTR frames have no payload and
-  the data buffer only contains garbage. The DLC/length should not be
-  used to do a memory copy. The third patch of this series address
-  this issue for 3 different drivers.
+This 'else' path looks wrong ...
 
-  3. Counting the length of the Remote Transmission Frames (RTR). The
-  length of an RTR frame is the length of the requested frame not the
-  actual payload. In reality the payload of an RTR frame is always 0
-  bytes long. The fourth patch of this series fixes the RX stats for
-  27 different drivers and the fifth one fixes the TX stats for 25
-  different ones.
+>   
+>   	/* don't count error frames as real packets */
+> -	if (!(cf->can_id & CAN_ERR_FLAG)) {
+> +	if (!(cf->can_id & CAN_ERR_FLAG))
+>   		stats->rx_packets++;
+> -		stats->rx_bytes += cf->len;
+> -	}
+>   
+>   	/* pass it to Linux */
+>   	netif_rx(skb);
 
-
-* Changelog *
-
-v1 -> v2:
-
-  * can_rx_offload_napi_poll: v1 used CAN_ERR_MASK instead of
-    CAN_ERR_FLAG. Fixed the issue.
-
-  * use correct vocabulary. The correct term to designate the Socket
-    CAN specific error skb is "error message frames" not "error
-    frames". "error frames" is used in the standard and has a
-    different meaning.
-
-  * better factorize code for the rx RTR frames. Most of the driver
-    already has a switch to check if the frame is a RTR. Moved the
-    instruction to increase net_device_stats:rx_bytes inside the else
-    branch of those switches whenever possible (for some drivers with
-    some complex logic, putting and additional RTR check was easier).
-
-  * add a patch which prevent drivers to copy the payload of RTR
-    frames.
-
-  * add a patch to cover the tx RTR frames (the fifth patch of
-    v2). The tx RTR frames issue was supposedly covered by the
-    can_get_echo_skb() function which returns the correct length for
-    drivers to increase their stats. However, the reality is that most
-    of the drivers do not check this value and instead use a local
-    copy of the length/dlc.
-
-Vincent Mailhol (5):
-  can: do not increase rx statistics when generating a CAN rx error
-    message frame
-  can: kvaser_usb: do not increase tx statistics when sending error
-    message frames
-  can: do not copy the payload of RTR frames
-  can: do not increase rx_bytes statistics for RTR frames
-  can: do not increase tx_bytes statistics for RTR frames
-
- drivers/net/can/at91_can.c                    | 18 ++---
- drivers/net/can/c_can/c_can.h                 |  1 -
- drivers/net/can/c_can/c_can_main.c            | 16 +---
- drivers/net/can/cc770/cc770.c                 | 16 ++--
- drivers/net/can/dev/dev.c                     |  4 -
- drivers/net/can/dev/rx-offload.c              |  7 +-
- drivers/net/can/grcan.c                       |  6 +-
- drivers/net/can/ifi_canfd/ifi_canfd.c         | 11 +--
- drivers/net/can/janz-ican3.c                  |  6 +-
- drivers/net/can/kvaser_pciefd.c               | 16 ++--
- drivers/net/can/m_can/m_can.c                 | 13 +---
- drivers/net/can/mscan/mscan.c                 | 14 ++--
- drivers/net/can/pch_can.c                     | 33 ++++----
- drivers/net/can/peak_canfd/peak_canfd.c       | 14 ++--
- drivers/net/can/rcar/rcar_can.c               | 22 +++---
- drivers/net/can/rcar/rcar_canfd.c             | 13 +---
- drivers/net/can/sja1000/sja1000.c             | 11 +--
- drivers/net/can/slcan.c                       |  7 +-
- drivers/net/can/softing/softing_main.c        |  8 +-
- drivers/net/can/spi/hi311x.c                  | 31 ++++----
- drivers/net/can/spi/mcp251x.c                 | 31 ++++----
- drivers/net/can/sun4i_can.c                   | 22 +++---
- drivers/net/can/usb/ems_usb.c                 | 14 ++--
- drivers/net/can/usb/esd_usb2.c                | 13 ++--
- drivers/net/can/usb/etas_es58x/es58x_core.c   |  7 --
- drivers/net/can/usb/gs_usb.c                  |  7 +-
- drivers/net/can/usb/kvaser_usb/kvaser_usb.h   |  5 +-
- .../net/can/usb/kvaser_usb/kvaser_usb_core.c  |  4 +-
- .../net/can/usb/kvaser_usb/kvaser_usb_hydra.c | 78 +++++++++----------
- .../net/can/usb/kvaser_usb/kvaser_usb_leaf.c  | 20 ++---
- drivers/net/can/usb/mcba_usb.c                | 23 +++---
- drivers/net/can/usb/peak_usb/pcan_usb.c       |  9 +--
- drivers/net/can/usb/peak_usb/pcan_usb_core.c  | 20 +++--
- drivers/net/can/usb/peak_usb/pcan_usb_core.h  |  1 -
- drivers/net/can/usb/peak_usb/pcan_usb_fd.c    | 11 +--
- drivers/net/can/usb/peak_usb/pcan_usb_pro.c   | 12 +--
- drivers/net/can/usb/ucan.c                    | 17 ++--
- drivers/net/can/usb/usb_8dev.c                | 17 ++--
- drivers/net/can/vcan.c                        |  7 +-
- drivers/net/can/vxcan.c                       |  2 +-
- drivers/net/can/xilinx_can.c                  | 19 ++---
- include/linux/can/skb.h                       |  5 +-
- 42 files changed, 258 insertions(+), 353 deletions(-)
-
-
-base-commit: 4cc19cc269921210f3da65e4b038ad987835b342
--- 
-2.32.0
-
+Regards,
+Oliver
