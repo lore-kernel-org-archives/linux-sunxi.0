@@ -1,93 +1,142 @@
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de [81.169.146.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A56168
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 18:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1637866204;
-    s=strato-dkim-0002; d=hartkopp.net;
-    h=In-Reply-To:Date:Message-ID:From:References:Cc:To:Subject:Cc:Date:
-    From:Subject:Sender;
-    bh=iBQ+vqxgwLF6dT3pSXOjf18nr9Ye1/Cz08Fes5fTY+o=;
-    b=JNXH103kFDPqjsb1RadqNnJTSrOTucDLvp82wwejQ16RBYqpEOITrRorX2dH2GqwFn
-    EZ3q5S0iIOtappCxaQANU7EN+L2/HlV35kAYjBk0R9YLXSZ1wHyJeHP9YOFmnNXONaNU
-    VNtIy8KczuxtUWwYIHbPD8OglsGICw7QYFEbhDzXXX3LxPeL6DwD5bszb+shcYkq75G1
-    S1JHxTgiTlbSosNhE/Fzvh125JR5LstQF+DSJSMIVS8VmX3mCwf399xoY7kV4kY8skSs
-    AVL8cdkSX491E5XyUJOnbzV4Frvb1pnl40p64DkFdTCLmEA/jxl7JQvAdpRgQegToYAb
-    9h2w==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P2MHfkW8eP4Mre39l357AZT/I7AY/7nT2yrDxb8mjG14FZxedJy6qgO1qCHSa1GLptZHusx3hdd0DIgVuBOfXW6v7w=="
-X-RZG-CLASS-ID: mo00
-Received: from [IPv6:2a00:6020:1cfa:f900::b82]
-    by smtp.strato.de (RZmta 47.34.10 AUTH)
-    with ESMTPSA id c09e88xAPIo14Pz
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-	(Client did not present a certificate);
-    Thu, 25 Nov 2021 19:50:01 +0100 (CET)
-Subject: Re: [PATCH v2 4/5] can: do not increase rx_bytes statistics for RTR
- frames
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
- Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Jimmy Assarsson <extja@kvaser.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Yasushi SHOJI <yashi@spacecubics.com>,
- Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>,
- Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Stephane Grosjean <s.grosjean@peak-system.com>
-References: <20211125172021.976384-1-mailhol.vincent@wanadoo.fr>
- <20211125172021.976384-5-mailhol.vincent@wanadoo.fr>
-From: Oliver Hartkopp <socketcan@hartkopp.net>
-Message-ID: <ed755990-4169-604e-d982-7e4370114512@hartkopp.net>
-Date: Thu, 25 Nov 2021 19:50:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0542C83;
+	Thu, 25 Nov 2021 19:21:45 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id e3so29544845edu.4;
+        Thu, 25 Nov 2021 11:21:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=kSCD7fAFOjTdgiLnjLYynUIfaux94u8yqksuzZVUebj/D10Hp3wTDktIjqQV59Di+5
+         m7hmzvMRWj2bM7ffFwopd6cIf81D7oXFRj7Uhf1H6USYExNgAvQixhwCe2a2U5CfLl5Z
+         vNXswG2lgBlRCX6sBrDx0MbUPDf2+0LwcuuHpMPrES9MuqCL1yv/5OWDm1tUrJIeaa/T
+         GXijeTf3n119pGg45yxgz0nHDtZWaP7xvnBfeoeJ/Ul5edKBpIN+6CDc6K+66o87/2FO
+         xhi2xwo8qnDYWn4GCbTMujIrOumUOBcrSD6481anYBkTnyhzhZS17dymUiznzOTHGAeD
+         JtkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/Vc3FfetVxIdpRbBGRnWlkdOorbqQWmi/1JlvobARac=;
+        b=yLDUl3ipkehtSu0gj+3geHcMPgUu0LXHk+nAo5kRv95Z52OQW8eeHZpMxkLafpYnNR
+         wlBA+qAdncbczfug95lr4qODbXMeNyHlwb07L+yebd/jWfeR09pkFIcncFY7ht8xXIZa
+         Fke4DKF/IKGx0/4/Fr1P2Qn2jCAGaznFMzWaXnENbn1Zcv9kEL71XZnbrma48vewq2B0
+         30t+wTU3ydaWDCz5rSMYqXDv4Qfoko+I7aA4LkPUld9VXfIpIzMT0szPiAjYSqaXFeUU
+         UQA2yUZK59uC4naAp1Z8EAKwpEgMh4NmpM3AavBJi7m6OIe0Jd5w4S+2/SgmxYQcukO6
+         EhqA==
+X-Gm-Message-State: AOAM5322a5IM5dWeNrXAmx3UQASaWydUYfQoIFqv3BBrwkuS8c/9GN1Y
+	97LL2QRR9HTrnLFi0UeHmO8=
+X-Google-Smtp-Source: ABdhPJxsCCabBHBJ2oAC81Nu1JW2uYRVapJ0pqZTRte9s2XejGZRR2ce+rzmuo3a2NTAx3XP5MAtdw==
+X-Received: by 2002:a17:907:7e8e:: with SMTP id qb14mr33225652ejc.562.1637868103865;
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
+        by smtp.gmail.com with ESMTPSA id i8sm2983304edc.12.2021.11.25.11.21.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Nov 2021 11:21:43 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com, mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org, wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com, gregkh@linuxfoundation.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 4/7] media: hantro: move postproc enablement for old cores
+Date: Thu, 25 Nov 2021 20:21:41 +0100
+Message-ID: <4693726.31r3eYUQgx@jernej-laptop>
+In-Reply-To: <YZ962CvUbKoiIGyZ@eze-laptop>
+References: <20211122184702.768341-1-jernej.skrabec@gmail.com> <20211122184702.768341-5-jernej.skrabec@gmail.com> <YZ962CvUbKoiIGyZ@eze-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211125172021.976384-5-mailhol.vincent@wanadoo.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Vincent,
+Hi Ezequiel,
 
-On 25.11.21 18:20, Vincent Mailhol wrote:
+Dne =C4=8Detrtek, 25. november 2021 ob 13:00:24 CET je Ezequiel Garcia napi=
+sal(a):
+> Hi Jernej,
+>=20
+> On Mon, Nov 22, 2021 at 07:46:59PM +0100, Jernej Skrabec wrote:
+> > Older G2 cores, like that in Allwinner H6, seem to have issue with
+> > latching postproc register values if this is first thing done in job.
+> > Moving that to the end solves the issue.
+>=20
+> Any idea what exact register should be written before the post-processor
+> is enabled, for H6 to work? Also, which of the PP registers need
+> to be written "at the end"?
 
-> diff --git a/drivers/net/can/usb/ucan.c b/drivers/net/can/usb/ucan.c
-> index d582c39fc8d0..717d4925fdb0 100644
-> --- a/drivers/net/can/usb/ucan.c
-> +++ b/drivers/net/can/usb/ucan.c
-> @@ -619,12 +619,13 @@ static void ucan_rx_can_msg(struct ucan_priv *up, struct ucan_message_in *m)
->   	/* copy the payload of non RTR frames */
->   	if (!(cf->can_id & CAN_RTR_FLAG) || (cf->can_id & CAN_ERR_FLAG))
->   		memcpy(cf->data, m->msg.can_msg.data, cf->len);
-> +	/* only frames which are neither RTR nor ERR have a payload */
-> +	else
-> +		stats->rx_bytes += cf->len;
+No, there is too much registers to determine this exactly. Vendor library=20
+actually stores register values in buffer and write them all at once in=20
+increasing order. This is probably the reason why HDL engineers missed this=
+=20
+issue...
 
-This 'else' path looks wrong ...
+>=20
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> >=20
+> >  drivers/staging/media/hantro/hantro_drv.c | 9 ++++++++-
+> >  1 file changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> > b/drivers/staging/media/hantro/hantro_drv.c index
+> > 8c3de31f51b3..530994ab3024 100644
+> > --- a/drivers/staging/media/hantro/hantro_drv.c
+> > +++ b/drivers/staging/media/hantro/hantro_drv.c
+> > @@ -130,7 +130,7 @@ void hantro_start_prepare_run(struct hantro_ctx *ct=
+x)
+> >=20
+> >  	v4l2_ctrl_request_setup(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				&ctx->ctrl_handler);
+> >=20
+> > -	if (!ctx->is_encoder) {
+> > +	if (!ctx->is_encoder && !ctx->dev->variant->legacy_regs) {
+>=20
+> To make this less fragile, do you think it would make sense to
+> have a dedicated quirk flag, something like "legacy_post_proc",
+> instead of overloading the meaning of legacy_regs.
 
->   
->   	/* don't count error frames as real packets */
-> -	if (!(cf->can_id & CAN_ERR_FLAG)) {
-> +	if (!(cf->can_id & CAN_ERR_FLAG))
->   		stats->rx_packets++;
-> -		stats->rx_bytes += cf->len;
-> -	}
->   
->   	/* pass it to Linux */
->   	netif_rx(skb);
+Sure, it can be done :) But then I suggest "late_post_proc" - it better=20
+describes what it does.
 
-Regards,
-Oliver
+Best regards,
+Jernej
+
+>=20
+> What do you think?
+>=20
+> Thanks,
+> Ezequiel
+>=20
+> >  		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> >  	=09
+> >  			hantro_postproc_enable(ctx);
+> >  	=09
+> >  		else
+> >=20
+> > @@ -142,6 +142,13 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
+> >=20
+> >  {
+> > =20
+> >  	struct vb2_v4l2_buffer *src_buf;
+> >=20
+> > +	if (ctx->dev->variant->legacy_regs && !ctx->is_encoder) {
+> > +		if (hantro_needs_postproc(ctx, ctx->vpu_dst_fmt))
+> > +			hantro_postproc_enable(ctx);
+> > +		else
+> > +			hantro_postproc_disable(ctx);
+> > +	}
+> > +
+> >=20
+> >  	src_buf =3D hantro_get_src_buf(ctx);
+> >  	v4l2_ctrl_request_complete(src_buf->vb2_buf.req_obj.req,
+> >  =09
+> >  				   &ctx->ctrl_handler);
+
+
+
+
