@@ -1,87 +1,94 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A16422C81
-	for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 23:29:08 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id y68so15554567ybe.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 25 Nov 2021 15:29:08 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=blV1Fv4hcoWLPMa9NW0Mv4Ujudwc+s6b2OZ54WL07S4=;
-        b=B7NOz26Pmz+F1j1/yC5jIMhWQfKW3I4PpkKMqY9vLq58eituVy9/c+ylRVHb/kxIQs
-         f0sK9lUobylZRYu3Qq9jWYFpzlZesA0OKKVv0dC74LaBI5Q/wvgPQcsEKoqr8kv+Ib3+
-         afmy+J3+IUoSJWHKT5vzZAmGxDxzrkSPepoiU1Loanrbj98eiiQapT11+/qOChtes+kz
-         NeKn3U/+bZOQzpAN8ZXoLhHGU7s+0oS7grt85jit2aRBtOoxlqLqffW7YtQBwC5PFx7M
-         IkF8lrRxRaMp5RUVO1+Sbx8VQEv9reqZTT6JihGFwU5KwB//Za3e4dZKZdm0xlqpCn1R
-         /UrQ==
-X-Gm-Message-State: AOAM531kziHhTafXYgcQoMvFGEWwmee1Ve8XO3WguaAxky7YmLCSX9Mg
-	boHNeNABMTdFprFJK9w9lGRUIiXlXdad8xJICUo=
-X-Google-Smtp-Source: ABdhPJxqAoOcr1wx1llTSS3Z489P1w21Bx/evl9uijsb35Apz8cCAD32funRnACdZQbh02+XLSTjm7lel8mdyMh18Jg=
-X-Received: by 2002:a25:c987:: with SMTP id z129mr7183395ybf.62.1637882947711;
- Thu, 25 Nov 2021 15:29:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500862C80
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Nov 2021 02:32:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 93EC361183;
+	Fri, 26 Nov 2021 02:32:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1637893926;
+	bh=KWxXtW72Tj7fGimpSt36yqmxv90yxBqm44E4kmS6tPg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NX6l95a5iwdNnEHgFbFu6Xvl/p+YdoU7xxX2JI8yIr2nccRiYTricHIqKNpwXO9Zo
+	 3awovS32Sn6vv2FNSOMjyezKursN4IBkAag9BcRuyrl5Jp75v+5ojFrMwyrPqFxxHT
+	 muq6pP2FBm0bvMIhPAU+UgP6rqhIBWe+oJtafO19lEyYIwotZpzF5shrrMY7iKYIpM
+	 +6peBgHF4SaWByiR69UZ/Us6yxvGqan/wfjvvuum11uPhCmnAZqPl4V4jUAF5vVCD7
+	 g8YGZbIrYbdRfY5vfdfRLZBvuGLXjThlDh4gL+KJq7yAkcElNpziMFsgTFYMQHVwrl
+	 DlXLUCJ4O0rYg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Julian Braha <julianbraha@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <maxime@cerno.tech>,
+	Sasha Levin <sashal@kernel.org>,
+	mripard@kernel.org,
+	wens@csie.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.15 05/39] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
+Date: Thu, 25 Nov 2021 21:31:22 -0500
+Message-Id: <20211126023156.441292-5-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211126023156.441292-1-sashal@kernel.org>
+References: <20211126023156.441292-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211125172021.976384-1-mailhol.vincent@wanadoo.fr>
- <20211125172021.976384-5-mailhol.vincent@wanadoo.fr> <ed755990-4169-604e-d982-7e4370114512@hartkopp.net>
-In-Reply-To: <ed755990-4169-604e-d982-7e4370114512@hartkopp.net>
-From: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Date: Fri, 26 Nov 2021 08:28:56 +0900
-Message-ID: <CAMZ6RqJWdO3tvOz020Ee_zcFnJDFWO9qxM7Rtjw2+n_o79B+cw@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] can: do not increase rx_bytes statistics for RTR frames
-To: Oliver Hartkopp <socketcan@hartkopp.net>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, Jimmy Assarsson <extja@kvaser.com>, 
-	Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Ludovic Desroches <ludovic.desroches@microchip.com>, 
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Yasushi SHOJI <yashi@spacecubics.com>, 
-	Appana Durga Kedareswara rao <appana.durga.rao@xilinx.com>, 
-	Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>, Michal Simek <michal.simek@xilinx.com>, 
-	Stephane Grosjean <s.grosjean@peak-system.com>
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Hi Oliver,
+From: Julian Braha <julianbraha@gmail.com>
 
-On. 26 Nov. 2021 at 03:50, Oliver Hartkopp <socketcan@hartkopp.net> wrote:
-> Hi Vincent,
->
-> On 25.11.21 18:20, Vincent Mailhol wrote:
->
-> > diff --git a/drivers/net/can/usb/ucan.c b/drivers/net/can/usb/ucan.c
-> > index d582c39fc8d0..717d4925fdb0 100644
-> > --- a/drivers/net/can/usb/ucan.c
-> > +++ b/drivers/net/can/usb/ucan.c
-> > @@ -619,12 +619,13 @@ static void ucan_rx_can_msg(struct ucan_priv *up, struct ucan_message_in *m)
-> >       /* copy the payload of non RTR frames */
-> >       if (!(cf->can_id & CAN_RTR_FLAG) || (cf->can_id & CAN_ERR_FLAG))
-> >               memcpy(cf->data, m->msg.can_msg.data, cf->len);
-> > +     /* only frames which are neither RTR nor ERR have a payload */
-> > +     else
-> > +             stats->rx_bytes += cf->len;
->
-> This 'else' path looks wrong ...
+[ Upstream commit bb162bb2b4394108c8f055d1b115735331205e28 ]
 
-Ack. I will send a v3.
-And thanks a lot for the review!
+When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
+is not selected, Kbuild gives the following warning:
 
-> >
-> >       /* don't count error frames as real packets */
-> > -     if (!(cf->can_id & CAN_ERR_FLAG)) {
-> > +     if (!(cf->can_id & CAN_ERR_FLAG))
-> >               stats->rx_packets++;
-> > -             stats->rx_bytes += cf->len;
-> > -     }
-> >
-> >       /* pass it to Linux */
-> >       netif_rx(skb);
->
-> Regards,
-> Oliver
+WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
+  Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
+  Selected by [y]:
+  - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
+
+This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
+without selecting or depending on RESET_CONTROLLER, despite
+PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
+
+These unmet dependency bugs were detected by Kismet,
+a static analysis tool for Kconfig. Please advise if this
+is not the appropriate solution.
+
+v2:
+Fixed indentation to match the rest of the file.
+
+Signed-off-by: Julian Braha <julianbraha@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20211109032351.43322-1-julianbraha@gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/sun4i/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 5755f0432e774..8c796de53222c 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
+ 	default MACH_SUN8I
+ 	select CRC_CCITT
+ 	select DRM_MIPI_DSI
++	select RESET_CONTROLLER
+ 	select PHY_SUN6I_MIPI_DPHY
+ 	help
+ 	  Choose this option if you want have an Allwinner SoC with
+-- 
+2.33.0
+
