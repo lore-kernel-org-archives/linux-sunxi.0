@@ -1,94 +1,55 @@
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+Received: from deadmen.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B1E2C80
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Nov 2021 02:34:52 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA89C61250;
-	Fri, 26 Nov 2021 02:34:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637894092;
-	bh=8w0m37tGQJigkgi7EqMfOZuXWaYJzFpEyI1NrXGnru8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eHk+BoyS/9q4ZTTwSnr6Nr0P0u4jmbCcBpJcyJ+xLhBScYy5ebknUKL9xkk4WwTTK
-	 HU8jY5FWXkdFZGs9psvPu3WSrGvF3THZtnlnsGlfH8QkN32zX984p4aJ/S02ueaRmc
-	 zKJfHhtwSZcdrrHO6cDRvLYnG8kGWOqIX73AD7CeLBEcqT2/+wiaU+riqKi1e9xE6C
-	 qF387gjNyEV/nX2ksCrzeNmoryWGiNuVHJj7/q2TI03/0E6kJMn8Xnsj9+iGqHDRIR
-	 qv9UF6DxosugvfwHSM7KdyieU9Hn2Im7gFzCkYYPsyeRuqt5abtBFPNtlpuR2y0uEF
-	 w4Mh7qKYW2RjA==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Julian Braha <julianbraha@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892A22C82
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Nov 2021 05:58:33 +0000 (UTC)
+Received: from gondobar.mordor.me.apana.org.au ([192.168.128.4] helo=gondobar)
+	by deadmen.hmeau.com with esmtp (Exim 4.92 #5 (Debian))
+	id 1mqTpm-0008R7-9g; Fri, 26 Nov 2021 13:31:42 +0800
+Received: from herbert by gondobar with local (Exim 4.92)
+	(envelope-from <herbert@gondor.apana.org.au>)
+	id 1mqTpi-0004Z1-TO; Fri, 26 Nov 2021 13:31:38 +0800
+Date: Fri, 26 Nov 2021 13:31:38 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-crypto@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Sasha Levin <sashal@kernel.org>,
-	mripard@kernel.org,
-	wens@csie.org,
-	airlied@linux.ie,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 02/19] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Thu, 25 Nov 2021 21:34:31 -0500
-Message-Id: <20211126023448.442529-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211126023448.442529-1-sashal@kernel.org>
-References: <20211126023448.442529-1-sashal@kernel.org>
+Subject: Re: [PATCH 2/2] crypto: sun8i-ce: Add support for the D1 variant
+Message-ID: <20211126053138.GC17477@gondor.apana.org.au>
+References: <20211119051026.13049-1-samuel@sholland.org>
+ <20211119051026.13049-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211119051026.13049-2-samuel@sholland.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Julian Braha <julianbraha@gmail.com>
+On Thu, Nov 18, 2021 at 11:10:25PM -0600, Samuel Holland wrote:
+> From: Corentin Labbe <clabbe.montjoie@gmail.com>
+> 
+> The Allwinner D1 SoC has a crypto engine compatible with sun8i-ce.
+> Add support for it.
+> 
+> Signed-off-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 21 +++++++++++++++++++
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  |  1 +
+>  2 files changed, 22 insertions(+)
 
-[ Upstream commit bb162bb2b4394108c8f055d1b115735331205e28 ]
-
-When PHY_SUN6I_MIPI_DPHY is selected, and RESET_CONTROLLER
-is not selected, Kbuild gives the following warning:
-
-WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
-  Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
-  Selected by [y]:
-  - DRM_SUN6I_DSI [=y] && HAS_IOMEM [=y] && DRM_SUN4I [=y]
-
-This is because DRM_SUN6I_DSI selects PHY_SUN6I_MIPI_DPHY
-without selecting or depending on RESET_CONTROLLER, despite
-PHY_SUN6I_MIPI_DPHY depending on RESET_CONTROLLER.
-
-These unmet dependency bugs were detected by Kismet,
-a static analysis tool for Kconfig. Please advise if this
-is not the appropriate solution.
-
-v2:
-Fixed indentation to match the rest of the file.
-
-Signed-off-by: Julian Braha <julianbraha@gmail.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20211109032351.43322-1-julianbraha@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/sun4i/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 37e90e42943f6..0e2d304f0d83f 100644
---- a/drivers/gpu/drm/sun4i/Kconfig
-+++ b/drivers/gpu/drm/sun4i/Kconfig
-@@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
- 	default MACH_SUN8I
- 	select CRC_CCITT
- 	select DRM_MIPI_DSI
-+	select RESET_CONTROLLER
- 	select PHY_SUN6I_MIPI_DPHY
- 	help
- 	  Choose this option if you want have an Allwinner SoC with
+Patch applied.  Thanks.
 -- 
-2.33.0
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
