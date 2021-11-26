@@ -1,20 +1,20 @@
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A216B29CA
-	for <linux-sunxi@lists.linux.dev>; Fri, 26 Nov 2021 02:33:51 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E889C61212;
-	Fri, 26 Nov 2021 02:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B1E2C80
+	for <linux-sunxi@lists.linux.dev>; Fri, 26 Nov 2021 02:34:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA89C61250;
+	Fri, 26 Nov 2021 02:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1637894031;
-	bh=KWxXtW72Tj7fGimpSt36yqmxv90yxBqm44E4kmS6tPg=;
+	s=k20201202; t=1637894092;
+	bh=8w0m37tGQJigkgi7EqMfOZuXWaYJzFpEyI1NrXGnru8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=TvWZ1/5GXv1XQb2M7BYcdxSgGjNiX34N+lUUyLAT8Cu9PsjDc6CVbBkl7PGLNjR4w
-	 xEn/2Nox+glHpHGhpz75feN/JWb9UcqyXAOrfAckxhGqblIN+OF5eVNVZnZRskJPs9
-	 Srf2AuhZtVhM9V/CEOsg95J0CNzL67jR5SV1dIyUjpo+ENs0sEaLLUBFwnS+9f8yfm
-	 2NossODChhXOz73sZe1QzszoOOMe0OXT3gAK/IZw0btOkn0p6m2Ig7jbc7wJtvZq7e
-	 UvNOTEZL62/ejGHFfyik69CQSdREfRtY0nT0P+LgNuhcp+zJ72a7CG5DeiWLK0fLAI
-	 OVongqvRatWAQ==
+	b=eHk+BoyS/9q4ZTTwSnr6Nr0P0u4jmbCcBpJcyJ+xLhBScYy5ebknUKL9xkk4WwTTK
+	 HU8jY5FWXkdFZGs9psvPu3WSrGvF3THZtnlnsGlfH8QkN32zX984p4aJ/S02ueaRmc
+	 zKJfHhtwSZcdrrHO6cDRvLYnG8kGWOqIX73AD7CeLBEcqT2/+wiaU+riqKi1e9xE6C
+	 qF387gjNyEV/nX2ksCrzeNmoryWGiNuVHJj7/q2TI03/0E6kJMn8Xnsj9+iGqHDRIR
+	 qv9UF6DxosugvfwHSM7KdyieU9Hn2Im7gFzCkYYPsyeRuqt5abtBFPNtlpuR2y0uEF
+	 w4Mh7qKYW2RjA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,12 @@ Cc: Julian Braha <julianbraha@gmail.com>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 04/28] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
-Date: Thu, 25 Nov 2021 21:33:19 -0500
-Message-Id: <20211126023343.442045-4-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 02/19] drm/sun4i: fix unmet dependency on RESET_CONTROLLER for PHY_SUN6I_MIPI_DPHY
+Date: Thu, 25 Nov 2021 21:34:31 -0500
+Message-Id: <20211126023448.442529-2-sashal@kernel.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211126023343.442045-1-sashal@kernel.org>
-References: <20211126023343.442045-1-sashal@kernel.org>
+In-Reply-To: <20211126023448.442529-1-sashal@kernel.org>
+References: <20211126023448.442529-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,7 +78,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
-index 5755f0432e774..8c796de53222c 100644
+index 37e90e42943f6..0e2d304f0d83f 100644
 --- a/drivers/gpu/drm/sun4i/Kconfig
 +++ b/drivers/gpu/drm/sun4i/Kconfig
 @@ -46,6 +46,7 @@ config DRM_SUN6I_DSI
