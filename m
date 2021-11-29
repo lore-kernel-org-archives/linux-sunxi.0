@@ -1,87 +1,98 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AE472
-	for <linux-sunxi@lists.linux.dev>; Mon, 29 Nov 2021 17:29:08 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id y196so15303226wmc.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 29 Nov 2021 09:29:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=snUyZmX49ru2DxVA1QAuDQ2irOH1QZcg7Kt2R5LKKWA=;
-        b=Y6AcF3jqLTQfik4x4LzAlDhqYQEGVK/QibQuHs0n/w1FmHLhdAIimow51Xk6wvo9Dd
-         +j1Ki3GuabZUY7f0fwMnuMM8SmAomLcMRHXZorpK451L2d1AwLPaPIfVefkyglDvNLQc
-         ANiRYra38Sj9dEAcAFjQeo+yCn73kVy1iutaiq6MvzsOpDQwc4Mud47Br9qBqnr2eg85
-         p8qVMr2pO8dqHem46+AQxYgSPK1ZpnNq2MJiHjDy8r9JYgjpfyQrw4NHTxyi3/sAyNVo
-         Lvy6RyoEyA7su2D185Pz/xkFTv8cDIEbbNzN8wND1uCgf+8+YbZgljL989B+lRYuELHo
-         57FA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51DEB72
+	for <linux-sunxi@lists.linux.dev>; Mon, 29 Nov 2021 17:35:49 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id y5so35696603ual.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Nov 2021 09:35:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=snUyZmX49ru2DxVA1QAuDQ2irOH1QZcg7Kt2R5LKKWA=;
-        b=PLDfnoVHRIfYlRxoN2dlhsTVSKbFjdD3cgv8BDYQYl2CarViLaLlH0fpyOfWkI1pFS
-         maUbO0jLGLGeYIa95aS/qLWE2B2TTZSTOPo3cZk12E+8IP5nxxgYxq38It+bwgOnoARE
-         /Oqiew9jZn0i7BdH1R1bL49XE/MJR43cNGeQKTCduOMoG6tRfArEK9WSd5AU7hDmi50y
-         Ft+R8W9DncAwXUrYIQGS86eOZ8M5nSXww0Cp+KQbhD8QYl/trjX3t00o7o7HqaUvPuX9
-         d95Otthq22trqF9Gpyhs0KO7p7N9Ahw8xS4N4yPvU5zjqRl0uFsve3qbiuNui8NtYV8Y
-         yb7Q==
-X-Gm-Message-State: AOAM533kLfo3w1T6/sjE/qUJ2mq324xSpuDR7TnFDrYbHLrVoXGVXv+m
-	+CUOFjJ4sdu0jAnKgrjybyc=
-X-Google-Smtp-Source: ABdhPJyYfAAl2JWSuMRXT7tjdS//D0XTqPX2pxL3Jw8TBUDKfnIv56MLGMyEa4sMII81Uq6dT3Oubg==
-X-Received: by 2002:a05:600c:19d0:: with SMTP id u16mr37736357wmq.111.1638206947141;
-        Mon, 29 Nov 2021 09:29:07 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id f15sm19025488wmg.30.2021.11.29.09.29.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Nov 2021 09:29:06 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: wens@csie.org
-Cc: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree <devicetree@vger.kernel.org>, linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>, Michael Klein <michael@fossekall.de>
-Subject: Re: Re: [PATCH v2] ARM: dts: sun8i: Adjust power key nodes
-Date: Mon, 29 Nov 2021 18:29:01 +0100
-Message-ID: <5516984.DvuYhMxLoT@kista>
-In-Reply-To: <CAGb2v67M2Qi5tUq0BNbgahTsY4bbYGQeqzjoH8RZ6fYWzrWsYA@mail.gmail.com>
-References: <20211129165510.370717-1-jernej.skrabec@gmail.com> <CAGb2v67M2Qi5tUq0BNbgahTsY4bbYGQeqzjoH8RZ6fYWzrWsYA@mail.gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+         :from:date:message-id:subject:to:cc:content-transfer-encoding;
+        bh=LNSjwgPBAW69tYr5ppeJRmtuxxe2teojG1+3mTlzbk8=;
+        b=vL6F6Z9eQO0jv5sTwWgN8gIvJD4DN2cNBxTAtz42sb/zve/HoZ6LhMQph9GYRLs9Xk
+         9kiXr3DdYBF+MD+PYpe1Jy8fo5u7FSEkhtSnrn83Lz7Xc7Fptb+SgJc4NTXSdbCrLGmj
+         Xc5vs/UERBDfLEkycxe/fZghnC3jLVd2hmLElVxMP4AZy266Akd3PUQXais5Nx6X2zXo
+         KbBrw/LNkX3L537C8KKRxup46awaIZrFZ4BNm6VbmfEbCdyrm1uw6TC3mBReBK7CVFFA
+         3CBrD87LG2MeLftvcTO0LibFJMVRtqoXLDPjdn3Wf7e03NnB+Z/Lxxc/ycYOFiu90D3k
+         6uDA==
+X-Gm-Message-State: AOAM531EuFbiZgQ+RhG6xrz9K059OHeH1i53vG0qyPj4VLFEg1nG2oGm
+	DPc6Fcls3OFkk0E5pIn4PJn0ATkuACSqCA==
+X-Google-Smtp-Source: ABdhPJyRBx8JfGF515RHSfX8t9eXPJkD6X/1No2foOAoDk6nxYklYH5hJ+Gj7zQEqZQTh1EH0iViXg==
+X-Received: by 2002:a05:6102:511e:: with SMTP id bm30mr34665148vsb.48.1638207348174;
+        Mon, 29 Nov 2021 09:35:48 -0800 (PST)
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com. [209.85.222.44])
+        by smtp.gmail.com with ESMTPSA id 66sm9119007uao.0.2021.11.29.09.35.47
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Nov 2021 09:35:48 -0800 (PST)
+Received: by mail-ua1-f44.google.com with SMTP id az37so35667233uab.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 29 Nov 2021 09:35:47 -0800 (PST)
+X-Received: by 2002:a67:c90a:: with SMTP id w10mr34928412vsk.22.1638207347791;
+ Mon, 29 Nov 2021 09:35:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+References: <20211129165510.370717-1-jernej.skrabec@gmail.com>
+ <CAGb2v67M2Qi5tUq0BNbgahTsY4bbYGQeqzjoH8RZ6fYWzrWsYA@mail.gmail.com> <5516984.DvuYhMxLoT@kista>
+In-Reply-To: <5516984.DvuYhMxLoT@kista>
+Reply-To: wens@csie.org
+From: Chen-Yu Tsai <wens@csie.org>
+Date: Tue, 30 Nov 2021 01:35:35 +0800
+X-Gmail-Original-Message-ID: <CAGb2v66ZGMxqgU7sGrSrnog3yHZ+Ny_xJdvBFVYZWH2Q5XbiCQ@mail.gmail.com>
+Message-ID: <CAGb2v66ZGMxqgU7sGrSrnog3yHZ+Ny_xJdvBFVYZWH2Q5XbiCQ@mail.gmail.com>
+Subject: Re: Re: [PATCH v2] ARM: dts: sun8i: Adjust power key nodes
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+	devicetree <devicetree@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>, Michael Klein <michael@fossekall.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne ponedeljek, 29. november 2021 ob 18:16:31 CET je Chen-Yu Tsai napisal(a):
-> On Tue, Nov 30, 2021 at 12:55 AM Jernej Skrabec
-> <jernej.skrabec@gmail.com> wrote:
+On Tue, Nov 30, 2021 at 1:29 AM Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
+om> wrote:
+>
+> Dne ponedeljek, 29. november 2021 ob 18:16:31 CET je Chen-Yu Tsai napisal=
+(a):
+> > On Tue, Nov 30, 2021 at 12:55 AM Jernej Skrabec
+> > <jernej.skrabec@gmail.com> wrote:
+> > >
+> > > Several H3 and one H2+ board have power key nodes, which are slightly
+> > > off. Some are missing wakeup-source property and some have BTN_0 code
+> > > assigned instead of KEY_POWER.
 > >
-> > Several H3 and one H2+ board have power key nodes, which are slightly
-> > off. Some are missing wakeup-source property and some have BTN_0 code
-> > assigned instead of KEY_POWER.
-> 
-> It might have been that after shutdown there was really no way to
-> "power on" the board with these GPIO power keys, so we didn't use
-> KEY_POWER for them?
+> > It might have been that after shutdown there was really no way to
+> > "power on" the board with these GPIO power keys, so we didn't use
+> > KEY_POWER for them?
+>
+> KEY_POWER is actually processed by userspace, so it would still make sens=
+e to
+> power down board if power key is pressed. Correct me if I'm wrong, but in
+> combination with wfi it could work before SCP FW was available?
 
-KEY_POWER is actually processed by userspace, so it would still make sense to 
-power down board if power key is pressed. Correct me if I'm wrong, but in 
-combination with wfi it could work before SCP FW was available?
+I guess it could? But where would it do wfi, and what would execute
+after wfi?
 
-> 
-> > Adjust them, so they can function as intended by designer.
+IIRC the kernel's halt sequence doesn't really clean up interrupts,
+so wfi isn't going to get very far.
+
 > >
-> > Co-developed-by: Michael Klein <michael@fossekall.de>
-> > Signed-off-by: Michael Klein <michael@fossekall.de>
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Acked-by: Chen-Yu Tsai <wens@csie.org>
-> 
-
-Thanks!
-
-Best regards,
-Jernej
-
-
+> > > Adjust them, so they can function as intended by designer.
+> > >
+> > > Co-developed-by: Michael Klein <michael@fossekall.de>
+> > > Signed-off-by: Michael Klein <michael@fossekall.de>
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >
+> > Acked-by: Chen-Yu Tsai <wens@csie.org>
+> >
+>
+> Thanks!
+>
+> Best regards,
+> Jernej
+>
+>
