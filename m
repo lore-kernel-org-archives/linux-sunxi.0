@@ -1,116 +1,122 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041DE2C82
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:43:28 +0000 (UTC)
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id DDF09D95D6
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:42:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6D32C82
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 11:02:48 +0000 (UTC)
 Received: (Authenticated sender: foss@0leil.net)
-	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id D299E40005;
-	Wed,  1 Dec 2021 10:42:17 +0000 (UTC)
-Date: Wed, 1 Dec 2021 11:42:15 +0100
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 529F11C0015;
+	Wed,  1 Dec 2021 11:02:43 +0000 (UTC)
+Date: Wed, 1 Dec 2021 12:02:41 +0100
 From: Quentin Schulz <foss+kernel@0leil.net>
 To: Evgeny Boger <boger@wirenboard.com>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+Cc: Samuel Holland <samuel@sholland.org>, Maxime Ripard <maxime@cerno.tech>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	Jonathan Cameron <jic23@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2] iio:adc:axp20x: add support for NTC thermistor
-Message-ID: <20211201104215.usstwfbvrv7pamqp@fiqs>
+	linux-sunxi@lists.linux.dev, Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
+ PMICs
+Message-ID: <20211201110241.kts5caycdmzqtp3i@fiqs>
 References: <20211118141233.247907-1-boger@wirenboard.com>
- <20211118141233.247907-2-boger@wirenboard.com>
+ <20211118141233.247907-3-boger@wirenboard.com>
+ <20211122104915.zism6uadgwxjz5d2@gilmour>
+ <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
+ <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org>
+ <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20211118141233.247907-2-boger@wirenboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
 
-Hi Evgeny,
+Hi all,
 
-On Thu, Nov 18, 2021 at 05:12:32PM +0300, Evgeny Boger wrote:
-> Most AXPxxx-based reference designs place a 10k NTC thermistor on a
-> TS pin. When appropriately configured, AXP PMICs will inject fixed
-> current (80uA by default) into TS pin and measure the voltage across a
-> thermistor. The PMIC itself will by default compare this voltage with
-> predefined thresholds  and disable battery charging whenever
-
-They actually are configurable, we just don't have the knobs for this in
-the kernel.
-
-"In the diagram above, VTH/VTL refers to the high temperature threshold
-and low temperature threshold, which is programmable via registers
-REG38H/39H/3CH/3DH respectively. " in AXP209 datasheet, section
-"Battery temperature detection".
-
-> the battery is too hot or too cold.
+On Tue, Nov 30, 2021 at 02:58:23AM +0300, Evgeny Boger wrote:
+> (added linux-pm@ list and maintainers)
 > 
-> Alternatively, the TS pin can be configured as general-purpose
-> ADC input. This mode is not supported by the driver.
 > 
-> This patch allows reading the voltage on the TS pin. It can be then
-> either processed by userspace or used by kernel consumer like hwmon
-> ntc thermistor driver.
+> Actually, on second though, I think it might be doable to add voltage to
+> temperature conversion to this driver.
 > 
-> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
-> ---
->  drivers/iio/adc/axp20x_adc.c | 45 +++++++++++++++++++++++++++++++-----
->  1 file changed, 39 insertions(+), 6 deletions(-)
+> I think since the NTC thermistor belongs to the battery, not charger, the
+> thermistor should be described in monitored battery node.
+> So I propose to extend battery node (power/supply/battery.yaml) by adding
+> something like:
 > 
-> diff --git a/drivers/iio/adc/axp20x_adc.c b/drivers/iio/adc/axp20x_adc.c
-> index 3e0c0233b431..12d469a52cea 100644
-> --- a/drivers/iio/adc/axp20x_adc.c
-> +++ b/drivers/iio/adc/axp20x_adc.c
-[...]
-> +static int axp22x_adc_scale_voltage(int channel, int *val, int *val2)
-> +{
-> +	switch (channel) {
-> +	case AXP22X_BATT_V:
-> +		/* 1.1 mV per LSB */
-> +		*val = 1;
-> +		*val2 = 100000;
-> +		return IIO_VAL_INT_PLUS_MICRO;
-> +
-> +	case AXP22X_TS_IN:
-> +		/* 0.8 mV per LSB */
-> +		*val = 0;
-> +		*val2 = 800000;
-> +		return IIO_VAL_INT_PLUS_MICRO;
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
->  static int axp813_adc_scale_voltage(int channel, int *val, int *val2)
->  {
->  	switch (channel) {
-[...]
-> @@ -378,12 +415,7 @@ static int axp22x_adc_scale(struct iio_chan_spec const *chan, int *val,
->  {
->  	switch (chan->type) {
->  	case IIO_VOLTAGE:
-> -		if (chan->channel != AXP22X_BATT_V)
-> -			return -EINVAL;
-> -
-> -		*val = 1;
-> -		*val2 = 100000;
-> -		return IIO_VAL_INT_PLUS_MICRO;
-> +		return axp22x_adc_scale_voltage(chan->channel, val, val2);
->  
+> thermistor-resistance-temp-table = <25 10000>, <35 6530>, ...;
+> 
+> This driver will then interpolate between points to report temperature.
+> 
 
-I would have personally split the move to a separate
-axp22x_adc_scale_voltage function in a separate commit. I was a bit
-confused at first why in the diff above there was a AXP22X_BATT_V
-addition since this commit is about AXP22X_TS_IN.
+I disagree, I think it does not make much sense. This is already done by
+the NTC thermistor driver.
+The battery "subsystem" already provides operating-range-celsius and
+alert-celsius properties for that.
+Since the battery is linked to the AXP, all we need is to be able to ask
+the NTC thermistor driver to do the conversion from temperature to
+voltage of the two voltage values we get from the battery and use the
+result as threshold in the AXP registers.
+I wouldn't want to have the extrapolation done in two different places.
 
-If the maintainers are ok with it, I don't mind too much.
+I can see two ways of specifying that interation:
 
-I don't have the HW to test this, but changes look ok.
+battery -------------------> axp --------------------> ntc
+	min/max °C			request °C to V
+				 <--------------------
+					response V
+
+This however would require a phandle in the AXP to the NTC thermistor
+driver and I don't feel like it's that good of an idea?
+
+Another way would be to use the battery as a proxy for the voltage
+request to ntc.
+
+		     battery --------------------> axp
+				min/max °C
+ntc <--------------- 	     <--------------------
+	request °C to V		request °C to V
+    --------------->	     --------------------->
+	response V		response V
+
+This would require a phandle to the ntc thermistor in the battery node,
+which kind of makes sense to me. And since the AXP already has knowledge
+of the battery, it can request the appropriate value to the battery
+which then proxies it to and back from the ntc.
+
+Forgive me for my poor ASCII drawing skills :) hopefully it's good
+enough to convey my thoughts.
+
+> We can also adjust PMIC voltage thresholds based on this table and
+> "alert-celsius" property already described in battery.yaml.
+> 
+> I think the driver should report raw TS voltage as well, because the TS pin
+> can also be used as general-purpose ADC pin.
+> 
+
+Since the ntc anyway needs this raw TS voltage and that patch does that,
+I think it's fine. Specifically, re-using this pin as a general-purpose
+ADC won't impact the current patchset.
+
+What we'll need is to have a pinctrl driver for the few pins in the AXP
+which have multiple functions. But that's outside of the scope of this
+patchset.
+
+Regarding the injected current, I don't have enough knowledge in
+electronics to understand how this will change things in the thermistor
+since in the NTC thermistor driver there's no logic related to the
+actual current being injected. Maybe it is related to some operating
+value required by the NTC? I can't say unfortunately.
+
+We can continue this discussion but I don't think this should block this
+patch as I don't see the outcome of this discussion change anything in
+this patchset.
 
 Reviewed-by: Quentin Schulz <foss+kernel@0leil.net>
 
