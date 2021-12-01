@@ -1,41 +1,41 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A2A2C9D
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 18:21:30 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 77-20020a1c0450000000b0033123de3425so486982wme.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 01 Dec 2021 10:21:29 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6AB8168
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 18:21:34 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id c6-20020a05600c0ac600b0033c3aedd30aso1815111wmr.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 01 Dec 2021 10:21:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yuM/SdfKQLHrjcyLgHfF3Sato5LO/cQMcLshE9oQn64=;
-        b=Oc1glAx9ooL9XMK3XBK3yetsuhBDuKP8OM6GZ59MzIs+PaKJDn+IUDMchSFmbDSvBC
-         PnaDnBw32U23IZB0yXjby2F5SiV/dCZoHsAzxQ9TjeNnReylzTLF6TZqLDj8JvblROCC
-         xFfCBsmO/w6n9wEo13ChHSS3QFA+eUvdEEkU2p8HCVmQLsj0JWPYXRLOnjgW53NyKAfh
-         TPk9Aq3QaowCRIW/qDiQajgc+dpBZGQd2sZMfY0oK9eg4Zr4EkPsZF9Em3BBK8kq4WQN
-         J988HMdyPYYvgCJKZkJ5q/241BXIfPUDhvqpKPMC3jaavht0iv04xlxgXPB4uUzUs19Q
-         /vbA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=/WroRDb6MKbU3FJ1ZPL1YT3ab/zhWwGmxwsKBVpS1gQ=;
+        b=OTA+O1L8HGjFyFIkQKV2eq3XXXqY7kF0fcV4OyiemDwmnUQShEj9JcVUM8DriCqnX1
+         Ui9dA/zsbD/HiawuakujXnKFAx27S/thf2VNZvHI4i7dNL5kR185LV3znlqDu5J8rmci
+         qm5Aj2vk2EE/dQBc0g/izHziNk0H8RdD8wNyQDpJqwXDhYc0n2UV2SdsBqyt//UxpszO
+         e4zeloWjrYK+HX5Yc75IC1aRKIpPQOqegWzTdIVUc4k2XcKHqWuA53jheVY1wKHVrGKn
+         QCpmQwLcK6EyH30WauQVNmsc8VV2H69AXSvLMB+1uq4kDIu8udjSRTcLMDcGzLc4u17S
+         rNZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yuM/SdfKQLHrjcyLgHfF3Sato5LO/cQMcLshE9oQn64=;
-        b=QS5Oh4F5xWQnqvrahILNUioKde33hkyr2TnCp3mXElWjipGtoYdqpUT2r6wf7WiBvB
-         WlhNwpB2B4t/wkHGS2cFmICPn12PqgH1olB3RfKyJY7OXq1QhXmBL6jQNTUE/YL+I6RY
-         5Uon12Fv+qcjMWMcAp40teTWsgSUASYjZy+r6qDwoOffHfn40DykndN8jlhmLGYlPY9Z
-         jHa1cGZOHZEs24g4KdQV6bFItjy4EonLMF5Rk+fo86gQQahbRmpJzfZpgLihLDM5TefT
-         iGRdwuafWC/ibaVYEkoz2Xl/897wXJwgFiemj9yrVCmT+l1nPSi+KHkUybfR0Rb+e298
-         0tuA==
-X-Gm-Message-State: AOAM532IZomYK2tmWP1RQ58KfRDxXofM3B+w0USHdvCbApHQLssQp4jH
-	c5wIb9M/QNrzsXRk4eqC8KI=
-X-Google-Smtp-Source: ABdhPJw7zlCx1zFhjTin5TXNN3RE35rMroict+M40JheekUbsyMM2CUyaTM2OpGtkZ+2YqM6eKZQ5g==
-X-Received: by 2002:a7b:c097:: with SMTP id r23mr8794547wmh.193.1638382888511;
-        Wed, 01 Dec 2021 10:21:28 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=/WroRDb6MKbU3FJ1ZPL1YT3ab/zhWwGmxwsKBVpS1gQ=;
+        b=Agencn5kS+9QBHQXg2TiuObOJnECEmaLTKLNzdoSa8eBisk5ndCc22Vw7UR3eoG0qi
+         dKd94ylQKC6hZxnnbc/ZXgYpzewwyaSopwmDBv2NncPchpjhnyDK2Pcd9fZqeuECvMC9
+         6mgETd9prqJp7cXjPnSQlQBlQbPqDZujEHF2V5C/tPAXu+xuM4xxrmEYhBM3Qwc0P8ve
+         Av3z+mydBE0AySrXUu/KFvdHxf/1b+hZITPD6WjTvKRxG2Sjbex9DbtRwasJ2qldPnV0
+         PBm3wf8h1zcCKJBbJgF3FgrUs91a/SS1XsUjXFkZ9sHP77d3d0X3DX9Lt7ESeZsfUOwA
+         GBAA==
+X-Gm-Message-State: AOAM53220XDSzY5bbISASKLgp0MiNWBTy6Hia4FTngOwHJf+dtL8B2Kz
+	YFJSMiB6IMZZfEB1W+uWEM4=
+X-Google-Smtp-Source: ABdhPJwTH9ldu2VWmwBL0F1m67vb3qWTMSTnJR60+cKgyN6x6ibinctgSAlRKsZsdNCHwiYvP/uoeg==
+X-Received: by 2002:a05:600c:4e45:: with SMTP id e5mr9155796wmq.43.1638382893333;
+        Wed, 01 Dec 2021 10:21:33 -0800 (PST)
 Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net. [86.58.29.253])
-        by smtp.gmail.com with ESMTPSA id f7sm604705wri.74.2021.12.01.10.21.24
+        by smtp.gmail.com with ESMTPSA id f7sm604705wri.74.2021.12.01.10.21.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Dec 2021 10:21:28 -0800 (PST)
+        Wed, 01 Dec 2021 10:21:33 -0800 (PST)
 From: Jernej Skrabec <jernej.skrabec@gmail.com>
 To: mripard@kernel.org,
 	wens@csie.org
@@ -45,10 +45,12 @@ Cc: robh+dt@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 0/5] arm64: dts: allwinner: h6: tanix tx6
-Date: Wed,  1 Dec 2021 19:21:13 +0100
-Message-Id: <20211201182118.1213806-1-jernej.skrabec@gmail.com>
+Subject: [PATCH 1/5] arm64: dts: allwinner: h6: tanix-tx6: Split to DT and DTSI
+Date: Wed,  1 Dec 2021 19:21:14 +0100
+Message-Id: <20211201182118.1213806-2-jernej.skrabec@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20211201182118.1213806-1-jernej.skrabec@gmail.com>
+References: <20211201182118.1213806-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -57,31 +59,377 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series adds new Tanix TX6 mini DT file (less capable as Tanix TX6),
-adds MMC1 node for wifi and enables bluetooth on Tanix TX6 (no bluetooth
-on mini).
+There is another very similar device to Tanix TX6, namely Tanix TX6
+mini. Because most of the board design is shared, it makes sense to have
+common nodes in DTSI file.
 
-Please take a look.
-
-Best regards,
-Jernej
-
-Jernej Skrabec (5):
-  arm64: dts: allwinner: h6: tanix-tx6: Split to DT and DTSI
-  dt-bindings: arm: sunxi: Add Tanix TX6 mini
-  arm64: dts: allwinner: h6: Add Tanix TX6 mini dts
-  arm64: dts: allwinner: h6: tanix: Add MMC1 node
-  arm64: dts: allwinner: h6: tanix-tx6: Enable bluetooth
-
- .../devicetree/bindings/arm/sunxi.yaml        |   5 +
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../allwinner/sun50i-h6-tanix-tx6-mini.dts    |  15 ++
- .../dts/allwinner/sun50i-h6-tanix-tx6.dts     | 168 +---------------
- .../boot/dts/allwinner/sun50i-h6-tanix.dtsi   | 189 ++++++++++++++++++
- 5 files changed, 220 insertions(+), 158 deletions(-)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6-mini.dts
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ .../dts/allwinner/sun50i-h6-tanix-tx6.dts     | 164 +----------------
+ .../boot/dts/allwinner/sun50i-h6-tanix.dtsi   | 173 ++++++++++++++++++
+ 2 files changed, 174 insertions(+), 163 deletions(-)
  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
 
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
+index 7c37aa4c60cb..a6e69f4b2666 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix-tx6.dts
+@@ -3,175 +3,13 @@
+ 
+ /dts-v1/;
+ 
+-#include "sun50i-h6.dtsi"
+-#include "sun50i-h6-cpu-opp.dtsi"
+-
+-#include <dt-bindings/gpio/gpio.h>
++#include "sun50i-h6-tanix.dtsi"
+ 
+ / {
+ 	model = "Tanix TX6";
+ 	compatible = "oranth,tanix-tx6", "allwinner,sun50i-h6";
+-
+-	aliases {
+-		serial0 = &uart0;
+-	};
+-
+-	chosen {
+-		stdout-path = "serial0:115200n8";
+-	};
+-
+-	connector {
+-		compatible = "hdmi-connector";
+-		ddc-en-gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>; /* PH2 */
+-		type = "a";
+-
+-		port {
+-			hdmi_con_in: endpoint {
+-				remote-endpoint = <&hdmi_out_con>;
+-			};
+-		};
+-	};
+-
+-	/* used for FD650 LED display driver */
+-	i2c {
+-		compatible = "i2c-gpio";
+-		sda-gpios = <&pio 7 6 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH6 */
+-		scl-gpios = <&pio 7 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH5 */
+-		i2c-gpio,delay-us = <5>;
+-	};
+-
+-	reg_vcc1v8: regulator-vcc1v8 {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vcc1v8";
+-		regulator-min-microvolt = <1800000>;
+-		regulator-max-microvolt = <1800000>;
+-	};
+-
+-	reg_vcc3v3: regulator-vcc3v3 {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vcc3v3";
+-		regulator-min-microvolt = <3300000>;
+-		regulator-max-microvolt = <3300000>;
+-	};
+-
+-	reg_vdd_cpu_gpu: regulator-vdd-cpu-gpu {
+-		compatible = "regulator-fixed";
+-		regulator-name = "vdd-cpu-gpu";
+-		regulator-min-microvolt = <1135000>;
+-		regulator-max-microvolt = <1135000>;
+-	};
+-
+-	sound-spdif {
+-		compatible = "simple-audio-card";
+-		simple-audio-card,name = "sun50i-h6-spdif";
+-
+-		simple-audio-card,cpu {
+-			sound-dai = <&spdif>;
+-		};
+-
+-		simple-audio-card,codec {
+-			sound-dai = <&spdif_out>;
+-		};
+-	};
+-
+-	spdif_out: spdif-out {
+-		#sound-dai-cells = <0>;
+-		compatible = "linux,spdif-dit";
+-	};
+-};
+-
+-&cpu0 {
+-	cpu-supply = <&reg_vdd_cpu_gpu>;
+-};
+-
+-&de {
+-	status = "okay";
+-};
+-
+-&dwc3 {
+-	status = "okay";
+-};
+-
+-&ehci0 {
+-	status = "okay";
+-};
+-
+-&ehci3 {
+-	status = "okay";
+-};
+-
+-&gpu {
+-	mali-supply = <&reg_vdd_cpu_gpu>;
+-	status = "okay";
+-};
+-
+-&hdmi {
+-	status = "okay";
+-};
+-
+-&hdmi_out {
+-	hdmi_out_con: endpoint {
+-		remote-endpoint = <&hdmi_con_in>;
+-	};
+-};
+-
+-&mmc0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&mmc0_pins>;
+-	vmmc-supply = <&reg_vcc3v3>;
+-	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
+-	bus-width = <4>;
+-	status = "okay";
+-};
+-
+-&mmc2 {
+-	vmmc-supply = <&reg_vcc3v3>;
+-	vqmmc-supply = <&reg_vcc1v8>;
+-	bus-width = <8>;
+-	non-removable;
+-	cap-mmc-hw-reset;
+-	mmc-hs200-1_8v;
+-	status = "okay";
+-};
+-
+-&ohci0 {
+-	status = "okay";
+-};
+-
+-&ohci3 {
+-	status = "okay";
+-};
+-
+-&pio {
+-	vcc-pc-supply = <&reg_vcc1v8>;
+-	vcc-pd-supply = <&reg_vcc3v3>;
+-	vcc-pg-supply = <&reg_vcc1v8>;
+ };
+ 
+ &r_ir {
+ 	linux,rc-map-name = "rc-tanix-tx5max";
+-	status = "okay";
+-};
+-
+-&spdif {
+-	status = "okay";
+-};
+-
+-&uart0 {
+-	pinctrl-names = "default";
+-	pinctrl-0 = <&uart0_ph_pins>;
+-	status = "okay";
+-};
+-
+-&usb2otg {
+-	dr_mode = "host";
+-	status = "okay";
+-};
+-
+-&usb2phy {
+-	status = "okay";
+-};
+-
+-&usb3phy {
+-	status = "okay";
+ };
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+new file mode 100644
+index 000000000000..166b6a7a586c
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-tanix.dtsi
+@@ -0,0 +1,173 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++// Copyright (c) 2019 Jernej Skrabec <jernej.skrabec@siol.net>
++
++/dts-v1/;
++
++#include "sun50i-h6.dtsi"
++#include "sun50i-h6-cpu-opp.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++
++/ {
++	aliases {
++		serial0 = &uart0;
++	};
++
++	chosen {
++		stdout-path = "serial0:115200n8";
++	};
++
++	connector {
++		compatible = "hdmi-connector";
++		ddc-en-gpios = <&pio 7 2 GPIO_ACTIVE_HIGH>; /* PH2 */
++		type = "a";
++
++		port {
++			hdmi_con_in: endpoint {
++				remote-endpoint = <&hdmi_out_con>;
++			};
++		};
++	};
++
++	/* used for FD650 LED display driver */
++	i2c {
++		compatible = "i2c-gpio";
++		sda-gpios = <&pio 7 6 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH6 */
++		scl-gpios = <&pio 7 5 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN)>; /* PH5 */
++		i2c-gpio,delay-us = <5>;
++	};
++
++	reg_vcc1v8: regulator-vcc1v8 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc1v8";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++	};
++
++	reg_vcc3v3: regulator-vcc3v3 {
++		compatible = "regulator-fixed";
++		regulator-name = "vcc3v3";
++		regulator-min-microvolt = <3300000>;
++		regulator-max-microvolt = <3300000>;
++	};
++
++	reg_vdd_cpu_gpu: regulator-vdd-cpu-gpu {
++		compatible = "regulator-fixed";
++		regulator-name = "vdd-cpu-gpu";
++		regulator-min-microvolt = <1135000>;
++		regulator-max-microvolt = <1135000>;
++	};
++
++	sound-spdif {
++		compatible = "simple-audio-card";
++		simple-audio-card,name = "sun50i-h6-spdif";
++
++		simple-audio-card,cpu {
++			sound-dai = <&spdif>;
++		};
++
++		simple-audio-card,codec {
++			sound-dai = <&spdif_out>;
++		};
++	};
++
++	spdif_out: spdif-out {
++		#sound-dai-cells = <0>;
++		compatible = "linux,spdif-dit";
++	};
++};
++
++&cpu0 {
++	cpu-supply = <&reg_vdd_cpu_gpu>;
++};
++
++&de {
++	status = "okay";
++};
++
++&dwc3 {
++	status = "okay";
++};
++
++&ehci0 {
++	status = "okay";
++};
++
++&ehci3 {
++	status = "okay";
++};
++
++&gpu {
++	mali-supply = <&reg_vdd_cpu_gpu>;
++	status = "okay";
++};
++
++&hdmi {
++	status = "okay";
++};
++
++&hdmi_out {
++	hdmi_out_con: endpoint {
++		remote-endpoint = <&hdmi_con_in>;
++	};
++};
++
++&mmc0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&mmc0_pins>;
++	vmmc-supply = <&reg_vcc3v3>;
++	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;
++	bus-width = <4>;
++	status = "okay";
++};
++
++&mmc2 {
++	vmmc-supply = <&reg_vcc3v3>;
++	vqmmc-supply = <&reg_vcc1v8>;
++	bus-width = <8>;
++	non-removable;
++	cap-mmc-hw-reset;
++	mmc-hs200-1_8v;
++	status = "okay";
++};
++
++&ohci0 {
++	status = "okay";
++};
++
++&ohci3 {
++	status = "okay";
++};
++
++&pio {
++	vcc-pc-supply = <&reg_vcc1v8>;
++	vcc-pd-supply = <&reg_vcc3v3>;
++	vcc-pg-supply = <&reg_vcc1v8>;
++};
++
++&r_ir {
++	status = "okay";
++};
++
++&spdif {
++	status = "okay";
++};
++
++&uart0 {
++	pinctrl-names = "default";
++	pinctrl-0 = <&uart0_ph_pins>;
++	status = "okay";
++};
++
++&usb2otg {
++	dr_mode = "host";
++	status = "okay";
++};
++
++&usb2phy {
++	status = "okay";
++};
++
++&usb3phy {
++	status = "okay";
++};
 -- 
 2.34.1
 
