@@ -1,15 +1,15 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B862C80
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:16:06 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id E27AEC24B3
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:12:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 041DE2C82
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:43:28 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id DDF09D95D6
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:42:27 +0000 (UTC)
 Received: (Authenticated sender: foss@0leil.net)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 1B44E1C0015;
-	Wed,  1 Dec 2021 10:11:54 +0000 (UTC)
-Date: Wed, 1 Dec 2021 11:11:52 +0100
+	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id D299E40005;
+	Wed,  1 Dec 2021 10:42:17 +0000 (UTC)
+Date: Wed, 1 Dec 2021 11:42:15 +0100
 From: Quentin Schulz <foss+kernel@0leil.net>
 To: Evgeny Boger <boger@wirenboard.com>
 Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
@@ -18,7 +18,7 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Maxime Ripard <maxime@cerno.tech>, linux-sunxi@lists.linux.dev
 Subject: Re: [PATCH 1/2] iio:adc:axp20x: add support for NTC thermistor
-Message-ID: <20211201101152.fyimgddfd7mpwjg2@fiqs>
+Message-ID: <20211201104215.usstwfbvrv7pamqp@fiqs>
 References: <20211118141233.247907-1-boger@wirenboard.com>
  <20211118141233.247907-2-boger@wirenboard.com>
 Precedence: bulk
@@ -40,12 +40,12 @@ On Thu, Nov 18, 2021 at 05:12:32PM +0300, Evgeny Boger wrote:
 > thermistor. The PMIC itself will by default compare this voltage with
 > predefined thresholds  and disable battery charging whenever
 
-They actually are configurable, it's just that we don't have the means
-to configure it currently from the kernel.
+They actually are configurable, we just don't have the knobs for this in
+the kernel.
 
 "In the diagram above, VTH/VTL refers to the high temperature threshold
 and low temperature threshold, which is programmable via registers
-REG38H/39H/3CH/3DH respectively." in the AXP209 datasheet, section
+REG38H/39H/3CH/3DH respectively. " in AXP209 datasheet, section
 "Battery temperature detection".
 
 > the battery is too hot or too cold.
@@ -86,6 +86,9 @@ REG38H/39H/3CH/3DH respectively." in the AXP209 datasheet, section
 > +		return -EINVAL;
 > +	}
 > +}
+>  static int axp813_adc_scale_voltage(int channel, int *val, int *val2)
+>  {
+>  	switch (channel) {
 [...]
 > @@ -378,12 +415,7 @@ static int axp22x_adc_scale(struct iio_chan_spec const *chan, int *val,
 >  {
@@ -100,14 +103,15 @@ REG38H/39H/3CH/3DH respectively." in the AXP209 datasheet, section
 > +		return axp22x_adc_scale_voltage(chan->channel, val, val2);
 >  
 
-I would actually have made the move to axp22x_adc_scale_voltage function
-for AXP22X_BATT_V channel separate from this commit because I was a bit
-confused in the original review why suddenly there was an addition for
-AXP22X_BATT_V while this patch is about AXP22X_TS_IN.
+I would have personally split the move to a separate
+axp22x_adc_scale_voltage function in a separate commit. I was a bit
+confused at first why in the diff above there was a AXP22X_BATT_V
+addition since this commit is about AXP22X_TS_IN.
 
-If maintainers are ok with this, I don't mind.
+If the maintainers are ok with it, I don't mind too much.
 
-I don't have any HW to test this but the changes make sense to me:
+I don't have the HW to test this, but changes look ok.
+
 Reviewed-by: Quentin Schulz <foss+kernel@0leil.net>
 
 Thanks!
