@@ -1,237 +1,89 @@
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A57A2C9D
-	for <linux-sunxi@lists.linux.dev>; Tue, 30 Nov 2021 12:24:49 +0000 (UTC)
-Received: by mail-ua1-f45.google.com with SMTP id az37so40903032uab.13
-        for <linux-sunxi@lists.linux.dev>; Tue, 30 Nov 2021 04:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lWG+lQ/6Yyq7YVu+fKpvYuX6lXAAwVWMMq+4sXlQZDo=;
-        b=dgYsyVrTZSW3QgPN0fB1QAzXx7AqXNRb+PMGyROWIBG+couZ0XM3uRyKuVLjqozJ+R
-         19Z3AHKn8WMrAc8SWWbc415ZRc4Xfo0QkLlEbb7an/1IbezcIFyGZZnw50CiOfRHOrjq
-         2gZQPSvIYcrXTYJtA4KTwBCJ62R6/otZD19SRxTFdMWfpQWq2kzlyI/ZjV+0sPsVgaes
-         tbzMnGgGUTWoCjUurx+wXGmO/GEBTHe/qY/YuHTOfcVUnrb93fC+oeEoxT+92aNjSdfz
-         R+myw3KhthPb7804AP8d0PRL3bqsNSwL0dgx8wh09D9HvEla0sPmi0dAK3kaDp9IykQW
-         bxWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lWG+lQ/6Yyq7YVu+fKpvYuX6lXAAwVWMMq+4sXlQZDo=;
-        b=UsK/gmklLx5im/uKgDSUZj3D78pfnDuh+GwD+w2cg/KRqFxjTAvQa+3u7uvyu8IDxj
-         I/vsUsGWoNJ8em6yDgQizHfG4779bugtVl3NWRqPsejSHuVMUqCyiJgPoNRjx4NX4pSK
-         anbqf+LpCXs62et5MR4Y0S4JFM0hijwJdkiZDLJR3d7tFZKMFHJdL08vQ/yhm7+NreiI
-         1/eXew5cSU55+YUfdd9ejifnkNdhBlSED5fsmZrf2akaeJo1xvZ+weVy4eK+Gzw6s3VT
-         LRJBFgbabnC5NN1dZ0H433ZN2u+EF0Ug1lLhezfTPVtkOBwV6k0tahN43FmJdpv0psk5
-         jFQA==
-X-Gm-Message-State: AOAM530QLRpo23UOYjqhLKKp+C9Zvu3FfBz2yMS+TvPTKlxMG5QqDb7D
-	5jd4/D5en1vRwaV4j7q1LZyjSA==
-X-Google-Smtp-Source: ABdhPJy5WbQIWizmyO+U8N1STRX2VYDr9MI16pKd0PLQHWZZB3l5X6BUWLMIBSUlAA7ncA00FoMb8Q==
-X-Received: by 2002:a05:6102:b0c:: with SMTP id b12mr40148494vst.27.1638275088172;
-        Tue, 30 Nov 2021 04:24:48 -0800 (PST)
-Received: from eze-laptop (host208.201-253-22.telecom.net.ar. [201.253.22.208])
-        by smtp.gmail.com with ESMTPSA id v7sm10324560uaj.13.2021.11.30.04.24.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Nov 2021 04:24:47 -0800 (PST)
-Date: Tue, 30 Nov 2021 09:24:42 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-media@vger.kernel.org, nicolas.dufresne@collabora.com,
-	mchehab@kernel.org, robh+dt@kernel.org, mripard@kernel.org,
-	wens@csie.org, p.zabel@pengutronix.de, andrzej.p@collabora.com,
-	gregkh@linuxfoundation.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 8/9] media: hantro: Add support for Allwinner H6
-Message-ID: <YaYYCpJWabFy9Lfq@eze-laptop>
-References: <20211129182633.480021-1-jernej.skrabec@gmail.com>
- <20211129182633.480021-9-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6E868
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 08:21:51 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 5549B3200E31;
+	Wed,  1 Dec 2021 03:21:49 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 01 Dec 2021 03:21:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	tdPEg+U3TLS2hwbuuXjF2mBi3jyYrUxzHA4hSiAkcLo=; b=NFodBgGHT6f+Quak
+	mJ8rLKHUS27NrdwrsHsrQN+KYnQyk5GYGf6rdKkZKx2s4ct1VvGOyKrYJfJbNXfH
+	+PBHduh81GhvXM3joNX+nP8BgSDcIpyNU1Oba+12ila7zRvfFL8EvYMu5DbcN8e8
+	V6IeWTVjVZQmQGyykp27Cz90wUVX8SqOAaciTHGE35gkzDwFqcxcSm85JmGr5ak3
+	FvUhvqRQffX2JsmIIhCSD3D4eCsNW2DySxuLgFb6VAI2NXrL8IrPkZ9tvUDvX6G6
+	clJMezIBZtY6ock9c048v067J7tyXHom7JcjzQ9q02FGECzqzVXng5fnl6j78qYZ
+	+t1CMQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=tdPEg+U3TLS2hwbuuXjF2mBi3jyYrUxzHA4hSiAkc
+	Lo=; b=TYBOMs9cJPCSCYJ11VaITJZgbWBiNHZW9R0Ft9tnqur/qZPQmD+vx8zd4
+	CykskVCHtIj3Fw/MPlNwKgv5TsgGjDNgK8A6VHP0DHTMefZzWkmOwdaupayOhJdo
+	DZQafi3CPxMATiGNSw38h31bJxcmU0D74Tw5Hkfs7kRwNnEmYgKvEnowtGlmgWkS
+	O9cntTs6uJilnSH1jmm+81RUwlufYJ4LZTgK1Gk+5pASMvmRu/UrjpontTGvd5Io
+	44y8anHQ97M7KldlY7eSnCmaV4PTxlK3/KlgbCWBp8zjzwFKk4acIx9rnPcy+LGm
+	8toprgiOu8JkkO+3BngRdJNWeQadw==
+X-ME-Sender: <xms:mzCnYUZaHyfxm4plR3wbThO803wgiEMrIKR-dZQ-E4xTK054AXX7uA>
+    <xme:mzCnYfZv8gemPNOLkGz2Jl2_oN0z5EQpQhFt_LCFp3f1ppy4mLkdTPdAeURL21F7w
+    zKTKS0TFWlNWgS7iew>
+X-ME-Received: <xmr:mzCnYe8H-bTB7MYbSY9sErABSrDNVgBs-BN8xhDA3swT9U0sUMOhFqFnMkTWe5Oe4ITcTcinQawa1R2_oXYsKp4LS4wXfB51A_Q6gY9XusgbbQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedvgdduvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:nDCnYeqGYKJCgrmGS3SuhV4Up0g-d-OJ-tfIE73hcOdI-62aAp-NpQ>
+    <xmx:nDCnYfpxS2RKJYNpOxf0u6NdVXuvXnW3pWvEzwrh1vFXImGNtzYxnw>
+    <xmx:nDCnYcS_5NtyDoyFJTyD-84oyLNuhMcedr32b0MdNhWRg3jTInchKA>
+    <xmx:nDCnYTfKRVVZKCBwtDu7kmX1xIhDwyjGRcsgS7B5MukO0M9tBuo3dQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Dec 2021 03:21:47 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: wens@csie.org,
+	mripard@kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	robh+dt@kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Michael Klein <michael@fossekall.de>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: (subset) [PATCH v2] ARM: dts: sun8i: Adjust power key nodes
+Date: Wed,  1 Dec 2021 09:21:44 +0100
+Message-Id: <163834688049.16473.3626415624264430661.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211129165510.370717-1-jernej.skrabec@gmail.com>
+References: <20211129165510.370717-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211129182633.480021-9-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 29, 2021 at 07:26:32PM +0100, Jernej Skrabec wrote:
-> Allwinner H6 has a Hantro G2 core used for VP9 decoding. It's not clear
-> at this time if HEVC is also supported or not.
+On Mon, 29 Nov 2021 17:55:10 +0100, Jernej Skrabec wrote:
+> Several H3 and one H2+ board have power key nodes, which are slightly
+> off. Some are missing wakeup-source property and some have BTN_0 code
+> assigned instead of KEY_POWER.
 > 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Adjust them, so they can function as intended by designer.
+> 
+> 
+> [...]
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Applied to sunxi/linux.git (sunxi/dt-for-5.17).
 
 Thanks!
-
-> ---
->  drivers/staging/media/hantro/Kconfig        | 10 ++-
->  drivers/staging/media/hantro/Makefile       |  3 +
->  drivers/staging/media/hantro/hantro_drv.c   |  3 +
->  drivers/staging/media/hantro/hantro_hw.h    |  1 +
->  drivers/staging/media/hantro/sunxi_vpu_hw.c | 86 +++++++++++++++++++++
->  5 files changed, 102 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/staging/media/hantro/sunxi_vpu_hw.c
-> 
-> diff --git a/drivers/staging/media/hantro/Kconfig b/drivers/staging/media/hantro/Kconfig
-> index 00a57d88c92e..3c5d833322c8 100644
-> --- a/drivers/staging/media/hantro/Kconfig
-> +++ b/drivers/staging/media/hantro/Kconfig
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  config VIDEO_HANTRO
->  	tristate "Hantro VPU driver"
-> -	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || COMPILE_TEST
-> +	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || COMPILE_TEST
->  	depends on VIDEO_DEV && VIDEO_V4L2
->  	select MEDIA_CONTROLLER
->  	select MEDIA_CONTROLLER_REQUEST_API
-> @@ -40,3 +40,11 @@ config VIDEO_HANTRO_ROCKCHIP
->  	default y
->  	help
->  	  Enable support for RK3288, RK3328, and RK3399 SoCs.
-> +
-> +config VIDEO_HANTRO_SUNXI
-> +	bool "Hantro VPU Allwinner support"
-> +	depends on VIDEO_HANTRO
-> +	depends on ARCH_SUNXI || COMPILE_TEST
-> +	default y
-> +	help
-> +	  Enable support for H6 SoC.
-> diff --git a/drivers/staging/media/hantro/Makefile b/drivers/staging/media/hantro/Makefile
-> index 28af0a1ee4bf..ebd5ede7bef7 100644
-> --- a/drivers/staging/media/hantro/Makefile
-> +++ b/drivers/staging/media/hantro/Makefile
-> @@ -33,3 +33,6 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_SAMA5D4) += \
->  
->  hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) += \
->  		rockchip_vpu_hw.o
-> +
-> +hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) += \
-> +		sunxi_vpu_hw.o
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 33bf78be145b..6a51f39dde56 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -620,6 +620,9 @@ static const struct of_device_id of_hantro_match[] = {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_SAMA5D4
->  	{ .compatible = "microchip,sama5d4-vdec", .data = &sama5d4_vdec_variant, },
-> +#endif
-> +#ifdef CONFIG_VIDEO_HANTRO_SUNXI
-> +	{ .compatible = "allwinner,sun50i-h6-vpu-g2", .data = &sunxi_vpu_variant, },
->  #endif
->  	{ /* sentinel */ }
->  };
-> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> index c33b1f5df37b..c92a6ec4b187 100644
-> --- a/drivers/staging/media/hantro/hantro_hw.h
-> +++ b/drivers/staging/media/hantro/hantro_hw.h
-> @@ -308,6 +308,7 @@ extern const struct hantro_variant rk3288_vpu_variant;
->  extern const struct hantro_variant rk3328_vpu_variant;
->  extern const struct hantro_variant rk3399_vpu_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
-> +extern const struct hantro_variant sunxi_vpu_variant;
->  
->  extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->  extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> new file mode 100644
-> index 000000000000..90633406c4eb
-> --- /dev/null
-> +++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-> @@ -0,0 +1,86 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Allwinner Hantro G2 VPU codec driver
-> + *
-> + * Copyright (C) 2021 Jernej Skrabec <jernej.skrabec@gmail.com>
-> + */
-> +
-> +#include <linux/clk.h>
-> +
-> +#include "hantro.h"
-> +
-> +static const struct hantro_fmt sunxi_vpu_postproc_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +		.postprocessed = true,
-> +	},
-> +};
-> +
-> +static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_NV12_4L4,
-> +		.codec_mode = HANTRO_MODE_NONE,
-> +	},
-> +	{
-> +		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
-> +		.codec_mode = HANTRO_MODE_VP9_DEC,
-> +		.max_depth = 2,
-> +		.frmsize = {
-> +			.min_width = 48,
-> +			.max_width = 3840,
-> +			.step_width = MB_DIM,
-> +			.min_height = 48,
-> +			.max_height = 2160,
-> +			.step_height = MB_DIM,
-> +		},
-> +	},
-> +};
-> +
-> +static int sunxi_vpu_hw_init(struct hantro_dev *vpu)
-> +{
-> +	clk_set_rate(vpu->clocks[0].clk, 300000000);
-> +
-> +	return 0;
-> +}
-> +
-> +static void sunxi_vpu_reset(struct hantro_ctx *ctx)
-> +{
-> +	struct hantro_dev *vpu = ctx->dev;
-> +
-> +	reset_control_reset(vpu->resets);
-> +}
-> +
-> +static const struct hantro_codec_ops sunxi_vpu_codec_ops[] = {
-> +	[HANTRO_MODE_VP9_DEC] = {
-> +		.run = hantro_g2_vp9_dec_run,
-> +		.done = hantro_g2_vp9_dec_done,
-> +		.reset = sunxi_vpu_reset,
-> +		.init = hantro_vp9_dec_init,
-> +		.exit = hantro_vp9_dec_exit,
-> +	},
-> +};
-> +
-> +static const struct hantro_irq sunxi_irqs[] = {
-> +	{ NULL, hantro_g2_irq },
-> +};
-> +
-> +static const char * const sunxi_clk_names[] = { "mod", "bus" };
-> +
-> +const struct hantro_variant sunxi_vpu_variant = {
-> +	.dec_fmts = sunxi_vpu_dec_fmts,
-> +	.num_dec_fmts = ARRAY_SIZE(sunxi_vpu_dec_fmts),
-> +	.postproc_fmts = sunxi_vpu_postproc_fmts,
-> +	.num_postproc_fmts = ARRAY_SIZE(sunxi_vpu_postproc_fmts),
-> +	.postproc_ops = &hantro_g2_postproc_ops,
-> +	.codec = HANTRO_VP9_DECODER,
-> +	.codec_ops = sunxi_vpu_codec_ops,
-> +	.init = sunxi_vpu_hw_init,
-> +	.irqs = sunxi_irqs,
-> +	.num_irqs = ARRAY_SIZE(sunxi_irqs),
-> +	.clk_names = sunxi_clk_names,
-> +	.num_clocks = ARRAY_SIZE(sunxi_clk_names),
-> +	.double_buffer = 1,
-> +	.legacy_regs = 1,
-> +	.late_postproc = 1,
-> +};
-> -- 
-> 2.34.1
-> 
+Maxime
