@@ -1,89 +1,137 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6E868
-	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 08:21:51 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 5549B3200E31;
-	Wed,  1 Dec 2021 03:21:49 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 01 Dec 2021 03:21:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	tdPEg+U3TLS2hwbuuXjF2mBi3jyYrUxzHA4hSiAkcLo=; b=NFodBgGHT6f+Quak
-	mJ8rLKHUS27NrdwrsHsrQN+KYnQyk5GYGf6rdKkZKx2s4ct1VvGOyKrYJfJbNXfH
-	+PBHduh81GhvXM3joNX+nP8BgSDcIpyNU1Oba+12ila7zRvfFL8EvYMu5DbcN8e8
-	V6IeWTVjVZQmQGyykp27Cz90wUVX8SqOAaciTHGE35gkzDwFqcxcSm85JmGr5ak3
-	FvUhvqRQffX2JsmIIhCSD3D4eCsNW2DySxuLgFb6VAI2NXrL8IrPkZ9tvUDvX6G6
-	clJMezIBZtY6ock9c048v067J7tyXHom7JcjzQ9q02FGECzqzVXng5fnl6j78qYZ
-	+t1CMQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=tdPEg+U3TLS2hwbuuXjF2mBi3jyYrUxzHA4hSiAkc
-	Lo=; b=TYBOMs9cJPCSCYJ11VaITJZgbWBiNHZW9R0Ft9tnqur/qZPQmD+vx8zd4
-	CykskVCHtIj3Fw/MPlNwKgv5TsgGjDNgK8A6VHP0DHTMefZzWkmOwdaupayOhJdo
-	DZQafi3CPxMATiGNSw38h31bJxcmU0D74Tw5Hkfs7kRwNnEmYgKvEnowtGlmgWkS
-	O9cntTs6uJilnSH1jmm+81RUwlufYJ4LZTgK1Gk+5pASMvmRu/UrjpontTGvd5Io
-	44y8anHQ97M7KldlY7eSnCmaV4PTxlK3/KlgbCWBp8zjzwFKk4acIx9rnPcy+LGm
-	8toprgiOu8JkkO+3BngRdJNWeQadw==
-X-ME-Sender: <xms:mzCnYUZaHyfxm4plR3wbThO803wgiEMrIKR-dZQ-E4xTK054AXX7uA>
-    <xme:mzCnYfZv8gemPNOLkGz2Jl2_oN0z5EQpQhFt_LCFp3f1ppy4mLkdTPdAeURL21F7w
-    zKTKS0TFWlNWgS7iew>
-X-ME-Received: <xmr:mzCnYe8H-bTB7MYbSY9sErABSrDNVgBs-BN8xhDA3swT9U0sUMOhFqFnMkTWe5Oe4ITcTcinQawa1R2_oXYsKp4LS4wXfB51A_Q6gY9XusgbbQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddriedvgdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
-    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:nDCnYeqGYKJCgrmGS3SuhV4Up0g-d-OJ-tfIE73hcOdI-62aAp-NpQ>
-    <xmx:nDCnYfpxS2RKJYNpOxf0u6NdVXuvXnW3pWvEzwrh1vFXImGNtzYxnw>
-    <xmx:nDCnYcS_5NtyDoyFJTyD-84oyLNuhMcedr32b0MdNhWRg3jTInchKA>
-    <xmx:nDCnYTfKRVVZKCBwtDu7kmX1xIhDwyjGRcsgS7B5MukO0M9tBuo3dQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Dec 2021 03:21:47 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: wens@csie.org,
-	mripard@kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	robh+dt@kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Michael Klein <michael@fossekall.de>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH v2] ARM: dts: sun8i: Adjust power key nodes
-Date: Wed,  1 Dec 2021 09:21:44 +0100
-Message-Id: <163834688049.16473.3626415624264430661.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211129165510.370717-1-jernej.skrabec@gmail.com>
-References: <20211129165510.370717-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAD52C80
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:09:20 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C1647CEECC
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Dec 2021 10:03:46 +0000 (UTC)
+Received: (Authenticated sender: foss@0leil.net)
+	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 19582C0015;
+	Wed,  1 Dec 2021 10:03:35 +0000 (UTC)
+Date: Wed, 1 Dec 2021 11:03:33 +0100
+From: Quentin Schulz <foss+kernel@0leil.net>
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: Samuel Holland <samuel@sholland.org>, Maxime Ripard <maxime@cerno.tech>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, Sebastian Reichel <sre@kernel.org>,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
+ PMICs
+Message-ID: <20211201100333.lwvxi5aluibm4iue@fiqs>
+References: <20211118141233.247907-1-boger@wirenboard.com>
+ <20211118141233.247907-3-boger@wirenboard.com>
+ <20211122104915.zism6uadgwxjz5d2@gilmour>
+ <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
+ <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org>
+ <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
 
-On Mon, 29 Nov 2021 17:55:10 +0100, Jernej Skrabec wrote:
-> Several H3 and one H2+ board have power key nodes, which are slightly
-> off. Some are missing wakeup-source property and some have BTN_0 code
-> assigned instead of KEY_POWER.
-> 
-> Adjust them, so they can function as intended by designer.
-> 
-> 
-> [...]
+Hi Evgeny,
 
-Applied to sunxi/linux.git (sunxi/dt-for-5.17).
+On Tue, Nov 30, 2021 at 02:58:23AM +0300, Evgeny Boger wrote:
+> (added linux-pm@ list and maintainers)
+> 
+> 
+> Actually, on second though, I think it might be doable to add voltage to
+> temperature conversion to this driver.
+> 
+> I think since the NTC thermistor belongs to the battery, not charger, the
+> thermistor should be described in monitored battery node.
 
-Thanks!
-Maxime
+Then we would duplicate the code in ntc thermistor driver and battery
+subsystem (or simple-battery driver I assume), instead of reusing the
+ntc thermistor driver.
+
+> So I propose to extend battery node (power/supply/battery.yaml) by adding
+> something like:
+> 
+> thermistor-resistance-temp-table = <25 10000>, <35 6530>, ...;
+> 
+> This driver will then interpolate between points to report temperature.
+> 
+
+Not sure this makes sense, that's the point of the ntc thermistor driver
+which does all of this already AFAICT.
+
+The battery node already supports operating-range-celsius and
+alert-celsius. This driver should read that and then ask the ntc
+thermistor driver what's the voltage of the thermistor associated with
+this temperature and then set the register to this value.
+
+What's missing in the ntc thermistor driver and/or its subsystem is the
+ability to request a specific temperature to voltage conversion,
+unrelated to the current value of the NTC thermistor.
+
+In my head I picture the following:
+
+battery node ----------> axp -------------------------------> ntc
+             max/min °C		request °C to V for max/min
+			     <-------------------------------
+				V for max/min °C
+
+The issue I see in this is that the axp needs to have a phandle to the
+ntc thermistor... which does not make much sense from DTS point of view
+IMO.
+
+Now.. we could also have the following instead by extending the battery
+subsystem:
+
+		battery node --------------> axp
+				max/min °C
+ntc <----------		     <-------------
+	request °C to V		request °C to V
+    ---------->		     -------------->
+	V for max/min °C	V for max/min °C
+
+which means the battery driver/susbystem would have a phandle to the ntc
+thermistor and proxy the °C to V conversionr equest from axp to ntc and
+the answer back to the axp.
+
+Obviously, ntc would still be a consumer of axp ts iio channel to
+report the battery temp to userspace.
+
+> We can also adjust PMIC voltage thresholds based on this table and
+> "alert-celsius" property already described in battery.yaml.
+> 
+> I think the driver should report raw TS voltage as well, because the TS pin
+> can also be used as general-purpose ADC pin.
+> 
+
+Raw TS voltage is still reported with your first patch so that's fine.
+
+We'd need to create a pinctrl driver for the AXP to handle the few pins
+with multiple fonctions, but it's outside of the scope of this patch
+series :)
+
+Regarding the injected current, I don't have enough knowledge in
+electronics to understand what exactly would happen to the NTC
+thermistor here since it seems the current is not used anywhere in the
+formula to get the ohm of the resistor which is then converted to the
+actual temperature. At least in the ntc thermistor driver. Also not sure
+where this injected current should be declared in the device tree, is it
+a limitation of the NTC thermistor (some kind of operating range?) which
+should be propagated to the AXP to make it inject more/less current
+depending on the NTC thermistor?
+
+This patch is fine in itself since it's required for doing anything more
+that is currently discussed in this thread. We can continue discussing
+this but I don't think it is preventing this patch to continue its
+normal life and be merged :)
+
+Reviewed-by: Quentin Schulz <foss+kernel@0leil.net>
+
+Cheers,
+Quentin
