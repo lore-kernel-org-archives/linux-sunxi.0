@@ -1,296 +1,90 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AC968
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Dec 2021 08:45:31 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id l22so4809115lfg.7
-        for <linux-sunxi@lists.linux.dev>; Fri, 03 Dec 2021 00:45:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kvaser.com; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hSx51RMOJ0FTpbNjbF8SUJHv2Jt1L4wZn0byvDbwpqw=;
-        b=vF1QhrGNoXlmfo+Gg/HioWHmjlt8+4x+C+M765Sk4W5C5OFYMYW9trh22FFQbyWf4D
-         BbxipvLIx58URkbPDORYjR0acoTLVfsXA9C1wwy/3OHqC7b1iQv3ChbiKxv49RymEJpW
-         oqJn3akpr+srYxImuI/9qcC2HAY69OolUvppbTIRKlBj56eyclKkSMHQTRWFwriYFEgS
-         FCogvElrQLVWRw6cJhh2kt8dvClvQ8YFplNS5wOmVW3ut8LlULohBMcU9FuskMXhKjBy
-         B6UV7mqxxT06fwVxPcy5GWKJgN013rK28rGGczvVsE1JJm0N62lcz8GdOAwWOwEcD/Gz
-         InMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=hSx51RMOJ0FTpbNjbF8SUJHv2Jt1L4wZn0byvDbwpqw=;
-        b=Fljt54iWo7bmuW41HgLP7THwcZu6DieuADUUPSMLbaI1bnk/c+2ac0trYcfRNOJF3g
-         SG0j7D2kbrY+aceB57DEfecFqy6YGm2aqwDwQ5P4GK8wRx3Z1mi9Z+yideOAaqkoIWl8
-         YQK5IAuJzbe0xlSCAXyFIall8C4YRYanXmQkZ5ogo78j9SL0TjQiD2xzwtaqemHE71Mx
-         YxhwiUPoF8/bS8vmKQbGXbXmClMFqeIr0J1u04vBn4IC0ZWAovekSpfTmru8q74/5NTg
-         eFoCBqXDSGpxmo1coIsI7MHySLb34uh7dNvgkU5WntyWQl5MmuJIPXtMVbhZ6YnjV2ct
-         b8lw==
-X-Gm-Message-State: AOAM533tHUbolF+dWgeIafc71TQ7FtacGtDSikl0cxpEkQORAVZL0hP1
-	c2UA8e0KPsuFma3WgkQY4MFhmdhRCE9W6lRy
-X-Google-Smtp-Source: ABdhPJxeQssufK3tURdiz+ycvGo9XOJGEiN1TZZMIhqRH1ceM8gOFosx2s1ThPMX8v8le8XBXR4Ffw==
-X-Received: by 2002:a19:431b:: with SMTP id q27mr16049380lfa.562.1638521129280;
-        Fri, 03 Dec 2021 00:45:29 -0800 (PST)
-Received: from [10.0.6.3] (rota.kvaser.com. [195.22.86.90])
-        by smtp.gmail.com with ESMTPSA id a7sm283093lfk.233.2021.12.03.00.45.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Dec 2021 00:45:28 -0800 (PST)
-Subject: Re: [PATCH v3 2/5] can: kvaser_usb: do not increase tx statistics
- when sending error message frames
-To: Vincent MAILHOL <mailhol.vincent@wanadoo.fr>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org,
- Oliver Hartkopp <socketcan@hartkopp.net>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20211128123734.1049786-1-mailhol.vincent@wanadoo.fr>
- <20211128123734.1049786-3-mailhol.vincent@wanadoo.fr>
- <82ea8723-a234-0dad-ea9f-1b5ccac0b812@kvaser.com>
- <CAMZ6RqKtn-EuSLCTAppzz0THzr7KUYBUBOTHkwhSCzrDyzSzhw@mail.gmail.com>
-From: Jimmy Assarsson <extja@kvaser.com>
-Message-ID: <5aed4f5a-cc80-7ad9-2834-a31da53412a5@kvaser.com>
-Date: Fri, 3 Dec 2021 09:45:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B569668
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Dec 2021 09:55:32 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 36DED5C03D2;
+	Fri,  3 Dec 2021 04:55:31 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 03 Dec 2021 04:55:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+	XF066aufznsJ0VVJ2AMVED5Bp4crZLwsOB+9OwvG+vk=; b=O9s1ulDr2jcmN6+u
+	bquRYNCdxId8cgdFm40tc0ply85Z2xxv5QxA3qMvQkNUttHgIpLe+pyavjfr0Jn+
+	1L9+jTr835ncwrP1x0axHqwpanOvuSFRgd7F8A881DIUaDYGgIKV9oVHE3yjkQOl
+	9RsKIxsTL/ttlMhXTvl+W7iOOQlAh2cAVh1nrCexXm+3pvQ3NEYtaUCKoJIT6LLo
+	27WMKF2Uhw/r4D6KE2PLnaqbHUtKFsPaMqQlk+2z3BgEn/+vMjhy1czc651uztv+
+	bw302ZtECl8RvZL6XoRGUQ4d89ELP4I737vcNwAi6Tw5oB/5EqcRoE8UkmdQzUbp
+	MKymIg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=XF066aufznsJ0VVJ2AMVED5Bp4crZLwsOB+9OwvG+
+	vk=; b=gHJDgZKaSGS+e7V3q6ENLxJbTYUglMhCyIEKxdEpmvv/RuTgDPnXp6joL
+	wLMfQoEAW1sRBINslbYJqJ+Duykjn0m8YkmqTxBIyHfm1409pwHhagnKGMryaiMK
+	/ID+pCB4rcJSgeNK//eRPxsuKtYTZrG/mWJrutv/TjaYT8t/x8d7uBjd7eYIG3m5
+	9RbX/3dPq0gC9JLMnGKClqPSfURidWd/jWzS0/xz/eCXoB76hrN7d6LJh590mu8g
+	2q7DuhUynE8QOloBqRpvvXn8jWZBvaxIperrim2GtFxJ6mS0K5FFT0zLw1IgTQcI
+	XgXsBP4N6Nmfq7VVXR93hTzInvU+Q==
+X-ME-Sender: <xms:kumpYazfc8tvvp1EfLvhEVV8C-oLcIb8_eIIt4fVSt0gRMSQg0Yafg>
+    <xme:kumpYWTg0F2vyVv3gh6GkXTWLTEMKgOHooKQiRXfHOCQr-9BxpVBm9QWpaUnB8xSR
+    9fwupTDSFspGRc_Fcs>
+X-ME-Received: <xmr:kumpYcW6GSdpQfU-4u6Q2Owq4aS-32sSPpvmMTL7lcxEHPlFC2GEg98O335JVZnsTeuQoAdiG6AYMi7Ft5RwgU9o6Dlxv9ebPHD8Z_I2a8sAiQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrieejgdduudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:kumpYQjwQAywo628Q-YDfd8yH-l6taDVNoydlLRYolN5CAi6zZKo_A>
+    <xmx:kumpYcAn8QJdd1oDgWEwV2gw_Ga929WVjlRo1HLj_pYesF24C4qxpw>
+    <xmx:kumpYRIJS5A9aH7k8sqqV4rACkqS5G1yf7rKEDZ_moE9NXkd5ysEag>
+    <xmx:k-mpYaBLg5N5lZwYUqenfHlEhjoyXeMwaD7YTWhDb6HTdA97zAOvQw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 3 Dec 2021 04:55:30 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	mripard@kernel.org,
+	wens@csie.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	robh+dt@kernel.org
+Subject: Re: [PATCH 0/5] arm64: dts: allwinner: h6: tanix tx6
+Date: Fri,  3 Dec 2021 10:55:26 +0100
+Message-Id: <163852532166.564423.11849623195083021706.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.33.1
+In-Reply-To: <20211201182118.1213806-1-jernej.skrabec@gmail.com>
+References: <20211201182118.1213806-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CAMZ6RqKtn-EuSLCTAppzz0THzr7KUYBUBOTHkwhSCzrDyzSzhw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On 2021-12-03 05:02, Vincent MAILHOL wrote:
-> On Fri. 3 Dec 2021 at 08:35, Jimmy Assarsson <extja@kvaser.com> wrote:
->> On 2021-11-28 13:37, Vincent Mailhol wrote:
->>> The CAN error message frames (i.e. error skb) are an interface
->>> specific to socket CAN. The payload of the CAN error message frames
->>> does not correspond to any actual data sent on the wire. Only an error
->>> flag and a delimiter are transmitted when an error occurs (c.f. ISO
->>> 11898-1 section 10.4.4.2 "Error flag").
->>>
->>> For this reason, it makes no sense to increment the tx_packets and
->>> tx_bytes fields of struct net_device_stats when sending an error
->>> message frame because no actual payload will be transmitted on the
->>> wire.
->>>
->>> N.B. Sending error message frames is a very specific feature which, at
->>> the moment, is only supported by the Kvaser Hydra hardware. Please
->>> refer to [1] for more details on the topic.
->>>
->>> [1] https://lore.kernel.org/linux-can/CAMZ6RqK0rTNg3u3mBpZOoY51jLZ-et-J01tY6-+mWsM4meVw-A@mail.gmail.com/t/#u
->>>
->>> CC: Jimmy Assarsson <extja@kvaser.com>
->>> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
->>
->> Hi Vincent!
->>
->> Thanks for the patch.
->> There are flags in the TX ACK package, which makes it possible to
->> determine if it was an error frame or not. So we don't need to get
->> the original CAN frame to determine this.
->> I suggest the following change:
+On Wed, 1 Dec 2021 19:21:13 +0100, Jernej Skrabec wrote:
+> This series adds new Tanix TX6 mini DT file (less capable as Tanix TX6),
+> adds MMC1 node for wifi and enables bluetooth on Tanix TX6 (no bluetooth
+> on mini).
 > 
-> This is a great suggestion. I was not a fan of getting the
-> original CAN frame, this TX ACK solves the issue.
+> Please take a look.
 > 
->> ---
->>    .../net/can/usb/kvaser_usb/kvaser_usb_hydra.c | 25 ++++++++++++-------
->>    1 file changed, 16 insertions(+), 9 deletions(-)
->>
->> diff --git a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
->> b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
->> index 3398da323126..01b076f04e26 100644
->> --- a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
->> +++ b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
->> @@ -295,6 +295,7 @@ struct kvaser_cmd {
->>    #define KVASER_USB_HYDRA_CF_FLAG_OVERRUN      BIT(1)
->>    #define KVASER_USB_HYDRA_CF_FLAG_REMOTE_FRAME BIT(4)
->>    #define KVASER_USB_HYDRA_CF_FLAG_EXTENDED_ID  BIT(5)
->> +#define KVASER_USB_HYDRA_CF_FLAG_TX_ACK        BIT(6)
->>    /* CAN frame flags. Used in ext_rx_can and ext_tx_can */
->>    #define KVASER_USB_HYDRA_CF_FLAG_OSM_NACK     BIT(12)
->>    #define KVASER_USB_HYDRA_CF_FLAG_ABL          BIT(13)
->> @@ -1112,7 +1113,9 @@ static void kvaser_usb_hydra_tx_acknowledge(const
->> struct kvaser_usb *dev,
->>          struct kvaser_usb_tx_urb_context *context;
->>          struct kvaser_usb_net_priv *priv;
->>          unsigned long irq_flags;
->> +       unsigned int len;
->>          bool one_shot_fail = false;
->> +       bool is_err_frame = false;
->>          u16 transid = kvaser_usb_hydra_get_cmd_transid(cmd);
->>
->>          priv = kvaser_usb_hydra_net_priv_from_cmd(dev, cmd);
->> @@ -1131,24 +1134,28 @@ static void
->> kvaser_usb_hydra_tx_acknowledge(const struct kvaser_usb *dev,
->>                          kvaser_usb_hydra_one_shot_fail(priv, cmd_ext);
->>                          one_shot_fail = true;
->>                  }
->> -       }
->> -
->> -       context = &priv->tx_contexts[transid % dev->max_tx_urbs];
->> -       if (!one_shot_fail) {
->> -               struct net_device_stats *stats = &priv->netdev->stats;
->> -
->> -               stats->tx_packets++;
->> -               stats->tx_bytes += can_fd_dlc2len(context->dlc);
->> +               if (flags & KVASER_USB_HYDRA_CF_FLAG_TX_ACK &&
->> +                   flags & KVASER_USB_HYDRA_CF_FLAG_ERROR_FRAME)
->> +                        is_err_frame = true;
+> Best regards,
+> Jernej
 > 
-> Nitpick, but I prefer to write:
-> 
-> +                is_err_frame = flags & KVASER_USB_HYDRA_CF_FLAG_TX_ACK &&
-> +                               flags & KVASER_USB_HYDRA_CF_FLAG_ERROR_FRAME;
-> 
+> [...]
 
-Agree, I also prefer this.
-
->>          }
->>
->>          spin_lock_irqsave(&priv->tx_contexts_lock, irq_flags);
->>
->> -       can_get_echo_skb(priv->netdev, context->echo_index, NULL);
->> +       context = &priv->tx_contexts[transid % dev->max_tx_urbs];
->> +       len = can_get_echo_skb(priv->netdev, context->echo_index, NULL);
-> 
-> This line is related to the tx RTR. I will rebase this into
-> "can: do not increase rx_bytes statistics for RTR frames" (patch 4/5).
-> 
->> +
->>          context->echo_index = dev->max_tx_urbs;
->>          --priv->active_tx_contexts;
->>          netif_wake_queue(priv->netdev);
->>
->>          spin_unlock_irqrestore(&priv->tx_contexts_lock, irq_flags);
->> +
->> +       if (!one_shot_fail && !is_err_frame) {
->> +               struct net_device_stats *stats = &priv->netdev->stats;
->> +
->> +               stats->tx_packets++;
->> +               stats->tx_bytes += len;
->> +       }
-> 
-> Same here, there is no need anymore to move this block *in this
-> patch*, will rebase it.
-
-Agree.
-
->>    }
->>
->>    static void kvaser_usb_hydra_rx_msg_std(const struct kvaser_usb *dev,
-> 
-> 
-> This patch ("can: kvaser_usb: do not increase tx statistics when
-> sending error message frames") will become:
-> 
-> diff --git a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> index 3398da323126..75009d38f8e3 100644
-> --- a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> +++ b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> @@ -295,6 +295,7 @@ struct kvaser_cmd {
->   #define KVASER_USB_HYDRA_CF_FLAG_OVERRUN       BIT(1)
->   #define KVASER_USB_HYDRA_CF_FLAG_REMOTE_FRAME  BIT(4)
->   #define KVASER_USB_HYDRA_CF_FLAG_EXTENDED_ID   BIT(5)
-> +#define KVASER_USB_HYDRA_CF_FLAG_TX_ACK                BIT(6)
->   /* CAN frame flags. Used in ext_rx_can and ext_tx_can */
->   #define KVASER_USB_HYDRA_CF_FLAG_OSM_NACK      BIT(12)
->   #define KVASER_USB_HYDRA_CF_FLAG_ABL           BIT(13)
-> @@ -1113,6 +1114,7 @@ static void
-> kvaser_usb_hydra_tx_acknowledge(const struct kvaser_usb *dev,
->          struct kvaser_usb_net_priv *priv;
->          unsigned long irq_flags;
->          bool one_shot_fail = false;
-> +       bool is_err_frame = false;
->          u16 transid = kvaser_usb_hydra_get_cmd_transid(cmd);
-> 
->          priv = kvaser_usb_hydra_net_priv_from_cmd(dev, cmd);
-> @@ -1131,10 +1133,13 @@ static void
-> kvaser_usb_hydra_tx_acknowledge(const struct kvaser_usb *dev,
->                          kvaser_usb_hydra_one_shot_fail(priv, cmd_ext);
->                          one_shot_fail = true;
->                  }
-> +
-> +               is_err_frame = flags & KVASER_USB_HYDRA_CF_FLAG_TX_ACK &&
-> +                              flags & KVASER_USB_HYDRA_CF_FLAG_ERROR_FRAME;
->          }
-> 
->          context = &priv->tx_contexts[transid % dev->max_tx_urbs];
-> -       if (!one_shot_fail) {
-> +       if (!one_shot_fail && !is_err_frame) {
->                  struct net_device_stats *stats = &priv->netdev->stats;
-> 
->                  stats->tx_packets++;
-> 
-> 
-> And patch 5/5 ("can: do not increase tx_bytes
-> statistics for RTR frames") becomes:
-> 
-> diff --git a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> index 75009d38f8e3..2cb35bd162a4 100644
-> --- a/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> +++ b/drivers/net/can/usb/kvaser_usb/kvaser_usb_hydra.c
-> @@ -1113,6 +1113,7 @@ static void
-> kvaser_usb_hydra_tx_acknowledge(const struct kvaser_usb *dev,
->          struct kvaser_usb_tx_urb_context *context;
->          struct kvaser_usb_net_priv *priv;
->          unsigned long irq_flags;
-> +       unsigned int len;
->          bool one_shot_fail = false;
->          bool is_err_frame = false;
->          u16 transid = kvaser_usb_hydra_get_cmd_transid(cmd);
-> @@ -1139,21 +1140,23 @@ static void
-> kvaser_usb_hydra_tx_acknowledge(const struct kvaser_usb *dev,
->          }
-> 
->          context = &priv->tx_contexts[transid % dev->max_tx_urbs];
-> -       if (!one_shot_fail && !is_err_frame) {
-> -               struct net_device_stats *stats = &priv->netdev->stats;
-> -
-> -               stats->tx_packets++;
-> -               stats->tx_bytes += can_fd_dlc2len(context->dlc);
-> -       }
-> 
->          spin_lock_irqsave(&priv->tx_contexts_lock, irq_flags);
-> 
-> -       can_get_echo_skb(priv->netdev, context->echo_index, NULL);
-> +       len = can_get_echo_skb(priv->netdev, context->echo_index, NULL);
->          context->echo_index = dev->max_tx_urbs;
->          --priv->active_tx_contexts;
->          netif_wake_queue(priv->netdev);
-> 
->          spin_unlock_irqrestore(&priv->tx_contexts_lock, irq_flags);
-> +
-> +       if (!one_shot_fail && !is_err_frame) {
-> +               struct net_device_stats *stats = &priv->netdev->stats;
-> +
-> +               stats->tx_packets++;
-> +               stats->tx_bytes += len;
-> +       }
->   }
-> 
-> Does this look good to you? If so, can I add these tags to patch 2/5?
-> Co-developed-by: Jimmy Assarsson <extja@kvaser.com>
-> Signed-off-by: Jimmy Assarsson <extja@kvaser.com>
-
-Yes.
-
-> Also, can I add your tested-by to patches 1/5, 4/5 and 5/5?
-> Tested-by: Jimmy Assarsson <extja@kvaser.com>
-
-Yes.
-
-> Yours sincerely,
-> Vincent Mailhol
+Applied to sunxi/linux.git (sunxi/dt-for-5.17).
 
 Thanks!
-
-Best regards,
-jimmy
+Maxime
