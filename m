@@ -1,165 +1,228 @@
-Received: from smtp.smtpout.orange.fr (smtp04.smtpout.orange.fr [80.12.242.126])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D92B92C9E
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Dec 2021 13:26:06 +0000 (UTC)
-Received: from localhost.localdomain ([114.149.34.46])
-	by smtp.orange.fr with ESMTPA
-	id t8S9mZgOjWUfjt8SGmn0s3; Fri, 03 Dec 2021 14:18:28 +0100
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: MDU0YmViZGZmMDIzYiBlMiM2NTczNTRjNWZkZTMwOGRiOGQ4ODf3NWI1ZTMyMzdiODlhOQ==
-X-ME-Date: Fri, 03 Dec 2021 14:18:28 +0100
-X-ME-IP: 114.149.34.46
-From: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
-	linux-can@vger.kernel.org
-Cc: Oliver Hartkopp <socketcan@hartkopp.net>,
-	Jimmy Assarsson <extja@kvaser.com>,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Subject: [PATCH v4 0/5] fix statistics and payload issues for error
-Date: Fri,  3 Dec 2021 22:18:03 +0900
-Message-Id: <20211203131808.2380042-1-mailhol.vincent@wanadoo.fr>
-X-Mailer: git-send-email 2.32.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B043C68
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Dec 2021 20:48:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: sre)
+	with ESMTPSA id D33A61F4737E
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=collabora.com; s=mail;
+	t=1638564476; bh=rj1VxQi2dWb+NHaEWofff8PIL6ybOwxjGYXKpXTihKE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SMngz7WPwURRIp5At6Ewio/ZfNIHL8KUqfxuul/DamsKWXoXpO5oC6pU1G+xvdw1F
+	 5bBURAFkwPsm3M2JItq9uaSvq/N3up2nCalO33UkTmFBCv/Lnr5jORf4hWlPmLJsqu
+	 eGxGPSGe4CTelp437aqrebPPLJx5oyzWY26AyPUlaICM1bUpxhSB5Scq3pzQYCu5by
+	 22cETcPAFa8zGwukQMuySB58vQKbaKeb/efauQTnSwU0yMjiE5ajoxc41uOaaDKRyB
+	 rbojkLjvRPnjqlaADAbL6MdQefXm84iXxSUpDILWQB5e/NUo7q5ym7GxuDcWn4u0zv
+	 bB5jTMzJxonfQ==
+Received: by earth.universe (Postfix, from userid 1000)
+	id 19C7B3C0CA8; Fri,  3 Dec 2021 21:47:54 +0100 (CET)
+Date: Fri, 3 Dec 2021 21:47:54 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: Quentin Schulz <foss+kernel@0leil.net>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <maxime@cerno.tech>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
+ PMICs
+Message-ID: <20211203204754.2ucaiiwyrvbtwgbz@earth.universe>
+References: <20211118141233.247907-1-boger@wirenboard.com>
+ <20211118141233.247907-3-boger@wirenboard.com>
+ <20211122104915.zism6uadgwxjz5d2@gilmour>
+ <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
+ <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org>
+ <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
+ <20211201110241.kts5caycdmzqtp3i@fiqs>
+ <4fd167ed-d5dc-358a-00f5-6590f4c20a68@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-Important: this patch series depends on below patch:
-https://lore.kernel.org/linux-can/20211123111654.621610-1-mailhol.vincent@wanadoo.fr/T/#u
-
-There are some common errors which are made when updating the network
-statistics or processing the CAN payload:
-
-  1. Incrementing the "normal" stats when generating or sending a CAN
-  error message frame. Error message frames are an abstraction of
-  Socket CAN and do not exist on the wire. The first patch of this
-  series fixes the RX stats for 22 different drivers, the second one
-  fixes the TX stasts for the kvaser driver (N.B. only this driver is
-  capable of sending error on the bus).
-
-  2. Copying the payload of RTR frames: RTR frames have no payload and
-  the data buffer only contains garbage. The DLC/length should not be
-  used to do a memory copy. The third patch of this series address
-  this issue for 3 different drivers.
-
-  3. Counting the length of the Remote Transmission Frames (RTR). The
-  length of an RTR frame is the length of the requested frame not the
-  actual payload. In reality the payload of an RTR frame is always 0
-  bytes long. The fourth patch of this series fixes the RX stats for
-  27 different drivers and the fifth one fixes the TX stats for 25
-  different ones.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jv2resdmlukfd3qt"
+Content-Disposition: inline
+In-Reply-To: <4fd167ed-d5dc-358a-00f5-6590f4c20a68@wirenboard.com>
 
 
-* Changelog *
+--jv2resdmlukfd3qt
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v3 -> v4:
+Hi,
 
-  * patch 2/5: kvaser: include the suggestion from Jimmy Assarsson so
-    that we don't need to get the original CAN frame anymore to
-    determine whether or not it was an error frame. patch 5/5 is
-    rebased accordingly.
+On Wed, Dec 01, 2021 at 06:45:44PM +0300, Evgeny Boger wrote:
+> Hi Quentin,
+>=20
+> thank you for the feedback!
+>=20
+> 01.12.2021 14:02, Quentin Schulz =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > Hi all,
+> >=20
+> > On Tue, Nov 30, 2021 at 02:58:23AM +0300, Evgeny Boger wrote:
+> > > (added linux-pm@ list and maintainers)
+> > >=20
+> > >=20
+> > > Actually, on second though, I think it might be doable to add voltage=
+ to
+> > > temperature conversion to this driver.
+> > >=20
+> > > I think since the NTC thermistor belongs to the battery, not charger,=
+ the
+> > > thermistor should be described in monitored battery node.
+> > > So I propose to extend battery node (power/supply/battery.yaml) by ad=
+ding
+> > > something like:
+> > >=20
+> > > thermistor-resistance-temp-table =3D <25 10000>, <35 6530>, ...;
+> > >=20
+> > > This driver will then interpolate between points to report temperatur=
+e.
+> > >=20
+> > I disagree, I think it does not make much sense. This is already done by
+> > the NTC thermistor driver.
+> > The battery "subsystem" already provides operating-range-celsius and
+> > alert-celsius properties for that.
+> > Since the battery is linked to the AXP, all we need is to be able to ask
+> > the NTC thermistor driver to do the conversion from temperature to
+> > voltage of the two voltage values we get from the battery and use the
+> > result as threshold in the AXP registers.
+> > I wouldn't want to have the extrapolation done in two different places.
+> >=20
+> > I can see two ways of specifying that interation:
+> >=20
+> > battery -------------------> axp --------------------> ntc
+> > 	min/max =C2=B0C			request =C2=B0C to V
+> > 				 <--------------------
+> > 					response V
+> >=20
+> > This however would require a phandle in the AXP to the NTC thermistor
+> > driver and I don't feel like it's that good of an idea?
+> >=20
+> > Another way would be to use the battery as a proxy for the voltage
+> > request to ntc.
+> >=20
+> > 		     battery --------------------> axp
+> > 				min/max =C2=B0C
+> > ntc <--------------- 	     <--------------------
+> > 	request =C2=B0C to V		request =C2=B0C to V
+> >      --------------->	     --------------------->
+> > 	response V		response V
+> >=20
+> > This would require a phandle to the ntc thermistor in the battery node,
+> > which kind of makes sense to me. And since the AXP already has knowledge
+> > of the battery, it can request the appropriate value to the battery
+> > which then proxies it to and back from the ntc.
+> >=20
+> > Forgive me for my poor ASCII drawing skills :) hopefully it's good
+> > enough to convey my thoughts.
+> I see quite a few problems with NTC driver approach.
+>=20
+> The problem is, I don't know any suitable subsystem for that. NTC
+> is not a subsystem, NTC in kernel is a mere hwmon driver, and also
+> is quite an old one.
+>=20
+> Also, we already have iio-afe, which, in a sense, already does pretty much
+> the same as NTC
+> hwmon driver. Maybe using iio-afe is the better idea?
+> But then, I think that's a very complicated interaction for a simple
+> interpolation between points.
+>=20
+> Another thing is, in our design we ended up using not a simple 10k NTC
+> thermistor, but a 10k NTC is series with fixed 2.2k.
+> The reason why it's needed is that AXP NTC voltage thresholds are fixed at
+> startup time, and if we somehow have to deal
+> with default thresholds to get different behaviour.=C2=A0 So the
+> resistance-temperature curve in our case is different from any standard
+> NTC. Speaking of "standard" NTC, our supplier has like 15 different models
+> for *each* resistance, which slightly differ in
+> resistance-temperature curve. Adding them all into a driver would be
+> strange.
+>=20
+> Personally, I think better approach with NTCs is to place the
+> resistance-temperature tables for bunch of models to .dtsi
+> files, describe the thermistor node in DT and then make all drivers (hwmon
+> NTC, iio-afe, this one) to use this data in the same way
+> it's done with monitored-battery node.
+>=20
+> > > We can also adjust PMIC voltage thresholds based on this table and
+> > > "alert-celsius" property already described in battery.yaml.
+> > >=20
+> > > I think the driver should report raw TS voltage as well, because the =
+TS pin
+> > > can also be used as general-purpose ADC pin.
+> > >=20
+> > Since the ntc anyway needs this raw TS voltage and that patch does that,
+> > I think it's fine. Specifically, re-using this pin as a general-purpose
+> > ADC won't impact the current patchset.
+> >=20
+> > What we'll need is to have a pinctrl driver for the few pins in the AXP
+> > which have multiple functions. But that's outside of the scope of this
+> > patchset.
+> Should it really be pinctrl, though? Unfortunately the choice will alter
+> other
+> functions as well. Say, if we use TS pin in GPADC mode, we'll have to
+> disable
+> temperature thresholds and current injection.
+> >=20
+> > Regarding the injected current, I don't have enough knowledge in
+> > electronics to understand how this will change things in the thermistor
+> > since in the NTC thermistor driver there's no logic related to the
+> > actual current being injected. Maybe it is related to some operating
+> > value required by the NTC? I can't say unfortunately.
+> It's basically Ohm's law, so it's not related to the NTC thermistor itsel=
+f,
+> but more to the voltage across NTC that the AXP can measure.
+> Say, if maximum measurable voltage is 3.3V, than the maximum measurable
+> resistance
+> at the given current would be 3.3V/80uA =3D 41 kOhm. In case of 10k NTC i=
+t's
+> about -5C or so.
+>=20
+> But again, one can't really alter startup voltage thresholds of the AXP. =
+And
+> also, regardless of
+> settings, at least AXP221s will completely disable TS-based protection if
+> voltage on TS pin is below 0.2V.
+> So at the end, unfortunately, there are not so many options when it comes=
+ to
+> the thermistor and the injection current.
 
-  * patch 5/5: kvaser: kvaser_usb_hydra_frame_to_cmd_std: remove
-    unrelated change.
+Linus W. recently sent a series for NTC support in power-supply
+core, please synchronize with him (added to Cc):
 
-  * patch 5/5: slcan: better factorize code for the tx RTR frames
-    (reorder the line instead of adding a new "if" branch).
+https://lore.kernel.org/linux-pm/20211122234141.3356340-1-linus.walleij@lin=
+aro.org/
 
+(FWIW I don't have any strong opinion about any solution)
 
-v2 -> v3:
+-- Sebastian
 
-  * Fix an issue in the fourth patch ("do not increase rx_bytes
-    statistics for RTR frames"). In ucan_rx_can_msg() of the ucan
-    driver, the changes in v2 made no sense. Reverted it to v1.
+--jv2resdmlukfd3qt
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-v1 -> v2:
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmGqgnIACgkQ2O7X88g7
++prZ/g//a2qPyKtdJ+uEKmjaFcSzXLu0fHssW1T0VP7vFUb+ZxIsNM2cL1PiUtKi
+kCjsE5EOP/JLFI7mzXuYTI4uDFOe3d4DThMGj2pzt69Jv8n3b+jOH5W9ypAIfQPZ
+OQ2E13l7wQi1YFLDdjMnB8YZHEeqK6sxGEtSQs3f0nNnC+QMZ9Y025k+YfXe8VvW
+qqz4veJidfOHAC7bbFVsTBRWq57rB34YC0OcUDoVtN5zHf2rs6IWjeYQNRb4y6qw
+AlELWL3fMxMtt6s8IB7RRhAFMN0JAu6VS6EBTEYqPyemdgwWMb4doKyPlCr8eT/y
++TeypMnmzw95ZLLawgqGriyx0VjEFb5HxEYT/O2zlnQX+5bVOO/hFPpaMDtvjn+8
+xd4l2zKH5mJwez+RjrJ8WpPZFCavk/1z3b7Pcm1f3TBcXhsKEZ63mBq44/LPC2sk
+sXof43zI6haBl00N0YSoZO5CqXS8uMG0PMybJWhXiivnkh/XujlIjm2nYWvMoPvp
+YHD+T7xAlcxL8RHe2Xk/qDTjWi1Mz/EvP/mS5h4V1Sdpma00JXsp3nPGpWMKe/ed
+jBFU9AT/kpuvFL8iTGTSCO3CVan8myU3GwODl7xL0pimBhYqIqQDm2xXdyM+AKaK
+d1y9Uumzcq+3mZug+zle2/kYQZHUQFW9wkjqgEyvZagA1hEmt/U=
+=kU2b
+-----END PGP SIGNATURE-----
 
-  * can_rx_offload_napi_poll: v1 used CAN_ERR_MASK instead of
-    CAN_ERR_FLAG. Fixed the issue.
-
-  * use correct vocabulary. The correct term to designate the Socket
-    CAN specific error skb is "error message frames" not "error
-    frames". "error frames" is used in the standard and has a
-    different meaning.
-
-  * better factorize code for the rx RTR frames. Most of the driver
-    already has a switch to check if the frame is a RTR. Moved the
-    instruction to increase net_device_stats:rx_bytes inside the else
-    branch of those switches whenever possible (for some drivers with
-    some complex logic, putting and additional RTR check was easier).
-
-  * add a patch which prevent drivers to copy the payload of RTR
-    frames.
-
-  * add a patch to cover the tx RTR frames (the fifth patch of
-    v2). The tx RTR frames issue was supposedly covered by the
-    can_get_echo_skb() function which returns the correct length for
-    drivers to increase their stats. However, the reality is that most
-    of the drivers do not check this value and instead use a local
-    copy of the length/dlc.
-
-Vincent Mailhol (5):
-  can: do not increase rx statistics when generating a CAN rx error
-    message frame
-  can: kvaser_usb: do not increase tx statistics when sending error
-    message frames
-  can: do not copy the payload of RTR frames
-  can: do not increase rx_bytes statistics for RTR frames
-  can: do not increase tx_bytes statistics for RTR frames
-
- drivers/net/can/at91_can.c                    | 18 ++---
- drivers/net/can/c_can/c_can.h                 |  1 -
- drivers/net/can/c_can/c_can_main.c            | 16 ++---
- drivers/net/can/cc770/cc770.c                 | 16 ++---
- drivers/net/can/dev/dev.c                     |  4 --
- drivers/net/can/dev/rx-offload.c              |  7 +-
- drivers/net/can/grcan.c                       |  6 +-
- drivers/net/can/ifi_canfd/ifi_canfd.c         | 11 +--
- drivers/net/can/janz-ican3.c                  |  6 +-
- drivers/net/can/kvaser_pciefd.c               | 16 ++---
- drivers/net/can/m_can/m_can.c                 | 13 +---
- drivers/net/can/mscan/mscan.c                 | 14 ++--
- drivers/net/can/pch_can.c                     | 33 ++++-----
- drivers/net/can/peak_canfd/peak_canfd.c       | 14 ++--
- drivers/net/can/rcar/rcar_can.c               | 22 +++---
- drivers/net/can/rcar/rcar_canfd.c             | 13 +---
- drivers/net/can/sja1000/sja1000.c             | 11 ++-
- drivers/net/can/slcan.c                       |  7 +-
- drivers/net/can/softing/softing_main.c        |  8 +--
- drivers/net/can/spi/hi311x.c                  | 31 ++++----
- drivers/net/can/spi/mcp251x.c                 | 31 ++++----
- drivers/net/can/sun4i_can.c                   | 22 +++---
- drivers/net/can/usb/ems_usb.c                 | 14 ++--
- drivers/net/can/usb/esd_usb2.c                | 13 ++--
- drivers/net/can/usb/etas_es58x/es58x_core.c   |  7 --
- drivers/net/can/usb/gs_usb.c                  |  7 +-
- drivers/net/can/usb/kvaser_usb/kvaser_usb.h   |  5 +-
- .../net/can/usb/kvaser_usb/kvaser_usb_core.c  |  4 +-
- .../net/can/usb/kvaser_usb/kvaser_usb_hydra.c | 71 +++++++++----------
- .../net/can/usb/kvaser_usb/kvaser_usb_leaf.c  | 20 ++----
- drivers/net/can/usb/mcba_usb.c                | 23 +++---
- drivers/net/can/usb/peak_usb/pcan_usb.c       |  9 ++-
- drivers/net/can/usb/peak_usb/pcan_usb_core.c  | 20 +++---
- drivers/net/can/usb/peak_usb/pcan_usb_core.h  |  1 -
- drivers/net/can/usb/peak_usb/pcan_usb_fd.c    | 11 ++-
- drivers/net/can/usb/peak_usb/pcan_usb_pro.c   | 12 ++--
- drivers/net/can/usb/ucan.c                    | 17 +++--
- drivers/net/can/usb/usb_8dev.c                | 17 ++---
- drivers/net/can/vcan.c                        |  7 +-
- drivers/net/can/vxcan.c                       |  2 +-
- drivers/net/can/xilinx_can.c                  | 19 +++--
- include/linux/can/skb.h                       |  5 +-
- 42 files changed, 254 insertions(+), 350 deletions(-)
-
-
-base-commit: 4cc19cc269921210f3da65e4b038ad987835b342
--- 
-2.32.0
-
+--jv2resdmlukfd3qt--
