@@ -1,182 +1,135 @@
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEDC2C9E
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Dec 2021 10:50:43 +0000 (UTC)
-Received: by mail-lj1-f170.google.com with SMTP id j18so15217022ljc.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 05 Dec 2021 02:50:43 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7992C9D
+	for <linux-sunxi@lists.linux.dev>; Sun,  5 Dec 2021 19:46:40 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id s139so17443602oie.13
+        for <linux-sunxi@lists.linux.dev>; Sun, 05 Dec 2021 11:46:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=2s+VwgSqLqvkFO3wYIggCnaS4ihJvSlM944/U7Hrs1s=;
-        b=w4yffush2DrvoU77h+0CwkxMF1i8hvsyKLfm2H7bf0L12rO234gPgRH1JTP+PWwmVX
-         IrRQHEt/dlwQ3oJxrTPxabG6Nqhuhw5cm3vZ+9cmXbLvyCkp4y+wbwiIddyI15euUTFs
-         LMuqpdFUVSNRJPqIqepb9CH9R44jlxkk34RFEstj3iHfB+qGb8uFWkpGmlRj9m42eDwr
-         dUe3w1EcHZeJGtHlcR2r1gLsSuCSADB/Y3jbWR5ih2b2OUM6Bm+8TgfEkrBuOXbST3xf
-         woULq9moiOe66Ur4zmyspBwWquWhiF0VGj77Zly3JHAn4/x7+Rf6yBanROBd7ZhfdOhS
-         CtqQ==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EcFKiX7xbKqkQNXA7B58bii58XjgqxU59DDHx7WJlQI=;
+        b=fziO+LbTAROemtggbzAuNFIUyuvFQ5kz6OBRYrtdUf+LMsEIFXSHQQfHVpIzQQIsRJ
+         RCIEfxbp5qYZe1sSnJI2jSHYYAt4EFxJWHu+GWQAHTczGqgRPcSC5MYSeohUJ+/3ryI3
+         4lqXzXdptThMXbLjRC/5yivLLC7KkRHFo/8jRDMtPHYYoqf3umu9v1GOKn0V/G136Ej5
+         w7m9vyZNLObByWYGemLunYoNGPvRfAdpYDaBbO0CsVjxk7YjJGRzAj58wuJd0k684KrZ
+         8kMSBdE1p6blQoi27X7Sykps4xxBuwAvVDnm/HIDrW8/lTd9LSqElQ63W2NQ1j9yi7lA
+         xMLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=2s+VwgSqLqvkFO3wYIggCnaS4ihJvSlM944/U7Hrs1s=;
-        b=39JMFvvc2Ga7KnHnoEeNz9xRcLD2nqsmYBN4EW9PM3O+6i3voW6Bx0e+kGd/L3xlXR
-         NU095G0Wezb44x9BH4DM6V8dx+tw4S9FUpyTnHFrbe2PNoHlvtiUTGtdDA4Znh3ZQT4S
-         3Axn3FmPmrDc+emp3kXYeHOlduIiGNwdMOCMcfoK2CcSOAnZU65NcTXzAMOiOXrgAdp5
-         wewYzq2rXF3i7n6M/SV3ZIQ4aICRNECBcYn5qpDNmVB59M6JAD38X3wp5AKK5wrfBpYw
-         sTooXypbEwu+nOkadH8miXAVDPai2FQnPPhgLeYxXvfQ7lsKGANpvGFjl5HsagUiAGmS
-         7RZg==
-X-Gm-Message-State: AOAM530C4wZJ/MH051GLG3K7jbAUlJvFQ42953BICaIm80+iRlE7V+Th
-	w4+WsbRV1ndOMTGPQ7Dbr4ZQFw==
-X-Google-Smtp-Source: ABdhPJxfihr3Fi6TaU5fQnGybICickaoNBBFCHrcjLqorb6H7LfDDlD/mDM1RkbUqZoMHrjNTsUiFQ==
-X-Received: by 2002:a2e:7216:: with SMTP id n22mr28842986ljc.44.1638701442018;
-        Sun, 05 Dec 2021 02:50:42 -0800 (PST)
-Received: from [192.168.1.213] (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
-        by smtp.googlemail.com with ESMTPSA id h6sm1046507lfv.202.2021.12.05.02.50.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Dec 2021 02:50:41 -0800 (PST)
-Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP
- PMICs
-To: Linus Walleij <linus.walleij@linaro.org>,
- Jonathan Cameron <jic23@kernel.org>
-Cc: Sebastian Reichel <sebastian.reichel@collabora.com>,
- Quentin Schulz <foss+kernel@0leil.net>, Samuel Holland
- <samuel@sholland.org>, Maxime Ripard <maxime@cerno.tech>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- linux-pm@vger.kernel.org
-References: <20211118141233.247907-1-boger@wirenboard.com>
- <20211118141233.247907-3-boger@wirenboard.com>
- <20211122104915.zism6uadgwxjz5d2@gilmour>
- <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
- <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org>
- <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
- <20211201110241.kts5caycdmzqtp3i@fiqs>
- <4fd167ed-d5dc-358a-00f5-6590f4c20a68@wirenboard.com>
- <20211203204754.2ucaiiwyrvbtwgbz@earth.universe>
- <20211204152621.4f15b3d0@jic23-huawei>
- <CACRpkdZ+WWz7JoyE3a1Ra8dx27YcHH6zRNcTmNJyX_vfcu0n7w@mail.gmail.com>
-From: Evgeny Boger <boger@wirenboard.com>
-Message-ID: <a45c37e5-caa3-e5e4-62d2-e2418ed95441@wirenboard.com>
-Date: Sun, 5 Dec 2021 13:50:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EcFKiX7xbKqkQNXA7B58bii58XjgqxU59DDHx7WJlQI=;
+        b=266qXietoPFA+qpF2FEfmzzUGkxDLvGOl2rkdN10Qy0gcqnO1/oq1wybsJUYUyl2pp
+         vLWY3jtF2p8OwPtkHHajZ+/vHDm17LW4OeLK+tnPPVPHFkEUf7MXwrBkydk6OdOZvxic
+         WMs8Fz7Z0q/YAvWzuzWlVtMHHgl1mj127uMnDG5GekaXylpaehiX8f9k6jbyKD6W0GVJ
+         Vx96D9z/OulDFvds0viZnrH3JGyeJBwbz+WzX8ARAfOzWo5+EJ6f+YhkvUlhOWWDOpEa
+         /+M73MYs45BGN2GGU6mZsUpx6Pfc9YgOZJDmdYYuXCQ75J8XwioeSZkVblu/hFfs5Phu
+         Al+g==
+X-Gm-Message-State: AOAM533G/Rq6sFkAmNV++PbfpYHJwSrpR3krPSpizB46o4CUKcYPPh7H
+	kGDg0ePIRX5yF9XxXARgil5LGxPDCzONtucDky5Dsg==
+X-Google-Smtp-Source: ABdhPJwDo16TQrPKVqAGuE0uBJ0FxE7MYgH77QQwApEKH62cTw8KZncd3gIBXH/r97N6WrjrnctIHelwjHLoH3qrV28=
+X-Received: by 2002:aca:120f:: with SMTP id 15mr19749633ois.132.1638733599530;
+ Sun, 05 Dec 2021 11:46:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdZ+WWz7JoyE3a1Ra8dx27YcHH6zRNcTmNJyX_vfcu0n7w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
+References: <20211118141233.247907-1-boger@wirenboard.com> <20211118141233.247907-3-boger@wirenboard.com>
+ <20211122104915.zism6uadgwxjz5d2@gilmour> <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
+ <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org> <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
+ <20211201110241.kts5caycdmzqtp3i@fiqs> <4fd167ed-d5dc-358a-00f5-6590f4c20a68@wirenboard.com>
+ <20211203204754.2ucaiiwyrvbtwgbz@earth.universe> <20211204152621.4f15b3d0@jic23-huawei>
+ <CACRpkdZ+WWz7JoyE3a1Ra8dx27YcHH6zRNcTmNJyX_vfcu0n7w@mail.gmail.com> <a45c37e5-caa3-e5e4-62d2-e2418ed95441@wirenboard.com>
+In-Reply-To: <a45c37e5-caa3-e5e4-62d2-e2418ed95441@wirenboard.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 5 Dec 2021 20:46:24 +0100
+Message-ID: <CACRpkdaxXQD-VxSg-zouRTwWJUQbVPJJRvEn8=kV-8BK77xrfQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP PMICs
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Quentin Schulz <foss+kernel@0leil.net>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <maxime@cerno.tech>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	linux-pm@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus!
+On Sun, Dec 5, 2021 at 11:50 AM Evgeny Boger <boger@wirenboard.com> wrote:
 
-05.12.2021 04:02, Linus Walleij пишет:
-> On Sat, Dec 4, 2021 at 4:21 PM Jonathan Cameron <jic23@kernel.org> wrote:
+> >> Agreed those tables would be needed whatever the solution.  We might
+> >> stick to 'standard' tables for simple cases but someone will always wire
+> >> a circuit up that does something we haven't thought of.
+> > What we usually do is model the wiring in the device tree like we (I) have
+> > already done with much pain in:
+> > Documentation/devicetree/bindings/hwmon/ntc-thermistor.yaml
 >
->> If we were going to do something like this, I'd see the battery as a
->> consumer of the the temperature measurement from the NTC (might also consume other
->> things from axp directly).  So it should be
->>
->> Temperature / events flow.
->>
->> battery <---temperature----- NTC driver <--Voltage----   axp
-> That's the idea.
+> Earlier in this thread I mentioned our use case with AXP221s: we ended
+> up wiring 10k NTC in series with 12k fixed resistance.
+> The only reason was to work around poorly-designed AXP NTC detection
+> "feature", which would turn off protection whenever
+> the voltage on TS pin drops below 0.2V.
 >
-> I think the battery will get a handle on a thermal zone and then
-> you get the temperature from that.
+> How would you suggest to handle such a wiring?
 
+Correct me if I'm wrong but it is pretty standard to connect an extra
+resistor in series with a thermistor, for example batteries often have
+an BTI "Battery Type Indicator" resistor in series with the thermistor.
 
+If you check the NTC bindings:
+Documentation/devicetree/bindings/hwmon/ntc-thermistor.yaml
+they already cover this, in two different ways depending of how
+the voltage is measured and if the resistor is in series with the
+thermistor to ground or to VCC.
 
+The thermistor table goes in the driver for the 10k resistor
+and the 12k resistor is pullup-ohm or pulldown-ohm.
+
+> > battery: battery {
+> >          compatible = "simple-battery";
+> >
+> >          ntc-resistor {
+> >                  ...
+> >          };
+> > };
+> >
+> > For the Samsung batteries my plan is to spawn a platform device from inside the
+> > Samsung battery driver and add pull-down resistor value and
+> > compatible using software nodes from within the kernel.
 >
->> Threshold configuration flow
->>
->> battery --temp thresh-----> NTC driver ---volt thres--> axp
-> I don't understand this so not commenting.
->
->>>> Personally, I think better approach with NTCs is to place the
->>>> resistance-temperature tables for bunch of models to .dtsi
->>>> files, describe the thermistor node in DT and then make all drivers (hwmon
->>>> NTC, iio-afe, this one) to use this data in the same way
->>>> it's done with monitored-battery node.
-> The DT maintainers are not happy about the device tree being used
-> as a general data container. The rule of thumb is that things that are
-> configurable should be in the device tree, things which are hard data
-> from a datasheet should be in a struct in the driver, and the compatible
-> string tells you which data to use.
->
-> For an NTC the resistance-to-temperature is a clear case of data from
-> a datasheet and should not be in the device tree but in a table in
-> the kernel.
->
->> Agreed those tables would be needed whatever the solution.  We might
->> stick to 'standard' tables for simple cases but someone will always wire
->> a circuit up that does something we haven't thought of.
-> What we usually do is model the wiring in the device tree like we (I) have
-> already done with much pain in:
-> Documentation/devicetree/bindings/hwmon/ntc-thermistor.yaml
-Earlier in this thread I mentioned our use case with AXP221s: we ended 
-up wiring 10k NTC in series with 12k fixed resistance.
-The only reason was to work around poorly-designed AXP NTC detection 
-"feature", which would turn off protection whenever
-the voltage on TS pin drops below 0.2V.
+> In this example, the ntc-resistor node will be handled by current NTC
+> hwmon driver, right?
 
-How would you suggest to handle such a wiring?
+Yes
 
->
->>> Linus W. recently sent a series for NTC support in power-supply
->>> core, please synchronize with him (added to Cc):
->>>
->>> https://lore.kernel.org/linux-pm/20211122234141.3356340-1-linus.walleij@linaro.org/
-> For the type of battery described in
-> Documentation/devicetree/bindings/power/supply/battery.yaml
-> a thermistor node inside the battery will be needed and then code
-> added to the power management core to spawn a OF-based
-> platform device from that.
->
-> battery: battery {
->          compatible = "simple-battery";
->
->          ntc-resistor {
->                  ...
->          };
-> };
->
-> For the Samsung batteries my plan is to spawn a platform device from inside the
-> Samsung battery driver and add pull-down resistor value and
-> compatible using software nodes from within the kernel.
-In this example, the ntc-resistor node will be handled by current NTC 
-hwmon driver, right?
-Frankly, I'm quite confused about hwmon vs iio choice in this case.
-Wouldn't it be better to use iio here, say, by extending iio-afe?
+> Frankly, I'm quite confused about hwmon vs iio choice in this case.
+> Wouldn't it be better to use iio here, say, by extending iio-afe?
 
+The hwmon driver uses IIO for voltage sampling. It is in the hwmon
+driver folder because the driver provides a temperature and for
+historical reasons: it was used for hwmon use cases.
 
+It is possible to refactor it to a driver in
+drivers/iio/temperature/* if so desired, and make sure all users
+are moved over and the Kconfig symbols are resolved to the
+new driver. After that it can be used by hwmon using the
+iio-to-hwmon bridge driver.
 
->
-> Since I already have the compatible of the battery itself, I know
-> which thermistor this is and how it is mounted with an ID resistor
-> as pull-down and Samsung batteries can just hardcode that from the
-> kernel without
-> modeling the resistor in the device tree at all.
-As for pull-down it's the same for AXP, the only difference is there 
-will be fixed injection current instead.
-But you still need to describe the particular NTC model in device tree, 
-right?
->
-> Yours,
-> Linus Walleij
+It's just work, someone who want to fix it can step in and submit
+the patches and drive the change.
 
+> But you still need to describe the particular NTC model in device tree,
+> right?
 
--- 
-С уважением,
-     Евгений Богер / Evgeny Boger
-     CTO, Wiren Board Team
-     https://wirenboard.com/ru
-     +7 495 150 66 19 (# 33)
+No. Drivers can spawn devices including fwnode properties that will
+work identical to a device spawn from a device tree node.
 
+We can instatiate an NTC as a subdevice of a battery without
+the need of sich a NTC node in the device tree, This is the
+ambition of the fwnode concept,
+
+Yours,
+Linus Walleij
