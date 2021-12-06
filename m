@@ -1,135 +1,185 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F7992C9D
-	for <linux-sunxi@lists.linux.dev>; Sun,  5 Dec 2021 19:46:40 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id s139so17443602oie.13
-        for <linux-sunxi@lists.linux.dev>; Sun, 05 Dec 2021 11:46:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=EcFKiX7xbKqkQNXA7B58bii58XjgqxU59DDHx7WJlQI=;
-        b=fziO+LbTAROemtggbzAuNFIUyuvFQ5kz6OBRYrtdUf+LMsEIFXSHQQfHVpIzQQIsRJ
-         RCIEfxbp5qYZe1sSnJI2jSHYYAt4EFxJWHu+GWQAHTczGqgRPcSC5MYSeohUJ+/3ryI3
-         4lqXzXdptThMXbLjRC/5yivLLC7KkRHFo/8jRDMtPHYYoqf3umu9v1GOKn0V/G136Ej5
-         w7m9vyZNLObByWYGemLunYoNGPvRfAdpYDaBbO0CsVjxk7YjJGRzAj58wuJd0k684KrZ
-         8kMSBdE1p6blQoi27X7Sykps4xxBuwAvVDnm/HIDrW8/lTd9LSqElQ63W2NQ1j9yi7lA
-         xMLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=EcFKiX7xbKqkQNXA7B58bii58XjgqxU59DDHx7WJlQI=;
-        b=266qXietoPFA+qpF2FEfmzzUGkxDLvGOl2rkdN10Qy0gcqnO1/oq1wybsJUYUyl2pp
-         vLWY3jtF2p8OwPtkHHajZ+/vHDm17LW4OeLK+tnPPVPHFkEUf7MXwrBkydk6OdOZvxic
-         WMs8Fz7Z0q/YAvWzuzWlVtMHHgl1mj127uMnDG5GekaXylpaehiX8f9k6jbyKD6W0GVJ
-         Vx96D9z/OulDFvds0viZnrH3JGyeJBwbz+WzX8ARAfOzWo5+EJ6f+YhkvUlhOWWDOpEa
-         /+M73MYs45BGN2GGU6mZsUpx6Pfc9YgOZJDmdYYuXCQ75J8XwioeSZkVblu/hFfs5Phu
-         Al+g==
-X-Gm-Message-State: AOAM533G/Rq6sFkAmNV++PbfpYHJwSrpR3krPSpizB46o4CUKcYPPh7H
-	kGDg0ePIRX5yF9XxXARgil5LGxPDCzONtucDky5Dsg==
-X-Google-Smtp-Source: ABdhPJwDo16TQrPKVqAGuE0uBJ0FxE7MYgH77QQwApEKH62cTw8KZncd3gIBXH/r97N6WrjrnctIHelwjHLoH3qrV28=
-X-Received: by 2002:aca:120f:: with SMTP id 15mr19749633ois.132.1638733599530;
- Sun, 05 Dec 2021 11:46:39 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1714C2C80
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Dec 2021 16:16:11 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1muGen-0006iD-Pf; Mon, 06 Dec 2021 17:16:01 +0100
+Received: from pengutronix.de (2a03-f580-87bc-d400-10fe-3935-792e-fa54.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:10fe:3935:792e:fa54])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id BC0596BCFE2;
+	Mon,  6 Dec 2021 14:19:41 +0000 (UTC)
+Date: Mon, 6 Dec 2021 15:19:40 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: linux-can@vger.kernel.org, Oliver Hartkopp <socketcan@hartkopp.net>,
+	Jimmy Assarsson <extja@kvaser.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Ludovic Desroches <ludovic.desroches@microchip.com>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Yasushi SHOJI <yashi@spacecubics.com>,
+	Stephane Grosjean <s.grosjean@peak-system.com>
+Subject: Re: [PATCH v4 5/5] can: do not increase tx_bytes statistics for RTR
+ frames
+Message-ID: <20211206141940.o3g4uydg6ibspqyq@pengutronix.de>
+References: <20211203131808.2380042-1-mailhol.vincent@wanadoo.fr>
+ <20211203131808.2380042-6-mailhol.vincent@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211118141233.247907-1-boger@wirenboard.com> <20211118141233.247907-3-boger@wirenboard.com>
- <20211122104915.zism6uadgwxjz5d2@gilmour> <d1a18116-e198-1b26-d73a-36fbf31aaa81@wirenboard.com>
- <35630e89-4988-a6a9-b801-0e9e44419684@sholland.org> <206c2a66-42b9-7e07-66c3-6007b010c996@wirenboard.com>
- <20211201110241.kts5caycdmzqtp3i@fiqs> <4fd167ed-d5dc-358a-00f5-6590f4c20a68@wirenboard.com>
- <20211203204754.2ucaiiwyrvbtwgbz@earth.universe> <20211204152621.4f15b3d0@jic23-huawei>
- <CACRpkdZ+WWz7JoyE3a1Ra8dx27YcHH6zRNcTmNJyX_vfcu0n7w@mail.gmail.com> <a45c37e5-caa3-e5e4-62d2-e2418ed95441@wirenboard.com>
-In-Reply-To: <a45c37e5-caa3-e5e4-62d2-e2418ed95441@wirenboard.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sun, 5 Dec 2021 20:46:24 +0100
-Message-ID: <CACRpkdaxXQD-VxSg-zouRTwWJUQbVPJJRvEn8=kV-8BK77xrfQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dt-bindings: iio: adc: document TS voltage in AXP PMICs
-To: Evgeny Boger <boger@wirenboard.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Quentin Schulz <foss+kernel@0leil.net>, Samuel Holland <samuel@sholland.org>, 
-	Maxime Ripard <maxime@cerno.tech>, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	Lars-Peter Clausen <lars@metafoo.de>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
-	linux-pm@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yjx3cdgtyh6ektcc"
+Content-Disposition: inline
+In-Reply-To: <20211203131808.2380042-6-mailhol.vincent@wanadoo.fr>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
-On Sun, Dec 5, 2021 at 11:50 AM Evgeny Boger <boger@wirenboard.com> wrote:
 
-> >> Agreed those tables would be needed whatever the solution.  We might
-> >> stick to 'standard' tables for simple cases but someone will always wire
-> >> a circuit up that does something we haven't thought of.
-> > What we usually do is model the wiring in the device tree like we (I) have
-> > already done with much pain in:
-> > Documentation/devicetree/bindings/hwmon/ntc-thermistor.yaml
->
-> Earlier in this thread I mentioned our use case with AXP221s: we ended
-> up wiring 10k NTC in series with 12k fixed resistance.
-> The only reason was to work around poorly-designed AXP NTC detection
-> "feature", which would turn off protection whenever
-> the voltage on TS pin drops below 0.2V.
->
-> How would you suggest to handle such a wiring?
+--yjx3cdgtyh6ektcc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Correct me if I'm wrong but it is pretty standard to connect an extra
-resistor in series with a thermistor, for example batteries often have
-an BTI "Battery Type Indicator" resistor in series with the thermistor.
+On 03.12.2021 22:18:08, Vincent Mailhol wrote:
+> The actual payload length of the CAN Remote Transmission Request (RTR)
+> frames is always 0, i.e. nothing is transmitted on the wire. However,
+> those RTR frames still use the DLC to indicate the length of the
+> requested frame.
+>=20
+> As such, net_device_stats:tx_bytes should not be increased when
+> sending RTR frames.
+>=20
+> The function can_get_echo_skb() already returns the correct length,
+> even for RTR frames (c.f. [1]). However, for historical reasons, the
+> drivers do not use can_get_echo_skb()'s return value and instead, most
+> of them store a temporary length (or dlc) in some local structure or
+> array. Using the return value of can_get_echo_skb() solves the
+> issue. After doing this, such length/dlc fields become unused and so
+> this patch does the adequate cleaning when needed.
+>=20
+> This patch fixes all the CAN drivers.
+>=20
+> Finally, can_get_echo_skb() is decorated with the __must_check
+> attribute in order to force future drivers to correctly use its return
+> value (else the compiler would emit a warning).
+>=20
+> [1] commit ed3320cec279 ("can: dev: __can_get_echo_skb():
+> fix real payload length return value for RTR frames")
+>=20
+> CC: Nicolas Ferre <nicolas.ferre@microchip.com>
+> CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> CC: Ludovic Desroches <ludovic.desroches@microchip.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Chen-Yu Tsai <wens@csie.org>
+> CC: Jernej Skrabec <jernej.skrabec@gmail.com>
+> CC: Yasushi SHOJI <yashi@spacecubics.com>
+> CC: Oliver Hartkopp <socketcan@hartkopp.net>
+> CC: Stephane Grosjean <s.grosjean@peak-system.com>
+> Tested-by: Jimmy Assarsson <extja@kvaser.com>
+> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> ---
+>  drivers/net/can/at91_can.c                    |  8 ++--
+>  drivers/net/can/c_can/c_can.h                 |  1 -
+>  drivers/net/can/c_can/c_can_main.c            |  7 +---
+>  drivers/net/can/cc770/cc770.c                 |  8 +---
+>  drivers/net/can/janz-ican3.c                  |  3 +-
+>  drivers/net/can/mscan/mscan.c                 |  4 +-
+>  drivers/net/can/pch_can.c                     |  9 ++--
+>  drivers/net/can/peak_canfd/peak_canfd.c       |  3 +-
+>  drivers/net/can/rcar/rcar_can.c               | 11 +++--
+>  drivers/net/can/rcar/rcar_canfd.c             |  6 +--
+>  drivers/net/can/sja1000/sja1000.c             |  4 +-
+>  drivers/net/can/slcan.c                       |  3 +-
+>  drivers/net/can/softing/softing_main.c        |  8 ++--
+>  drivers/net/can/spi/hi311x.c                  | 24 +++++------
+>  drivers/net/can/spi/mcp251x.c                 | 25 +++++------
+>  drivers/net/can/sun4i_can.c                   |  5 +--
+>  drivers/net/can/usb/ems_usb.c                 |  7 +---
+>  drivers/net/can/usb/esd_usb2.c                |  6 +--
+>  drivers/net/can/usb/gs_usb.c                  |  7 ++--
+>  drivers/net/can/usb/kvaser_usb/kvaser_usb.h   |  5 +--
+>  .../net/can/usb/kvaser_usb/kvaser_usb_core.c  |  2 +-
+>  .../net/can/usb/kvaser_usb/kvaser_usb_hydra.c | 42 +++++++++----------
+>  .../net/can/usb/kvaser_usb/kvaser_usb_leaf.c  | 13 +++---
+>  drivers/net/can/usb/mcba_usb.c                | 12 ++----
+>  drivers/net/can/usb/peak_usb/pcan_usb_core.c  | 20 ++++-----
+>  drivers/net/can/usb/peak_usb/pcan_usb_core.h  |  1 -
+>  drivers/net/can/usb/ucan.c                    | 10 ++---
+>  drivers/net/can/usb/usb_8dev.c                |  6 +--
+>  drivers/net/can/vcan.c                        |  7 ++--
+>  drivers/net/can/vxcan.c                       |  2 +-
+>  include/linux/can/skb.h                       |  5 ++-
+>  31 files changed, 114 insertions(+), 160 deletions(-)
+>=20
+> diff --git a/drivers/net/can/at91_can.c b/drivers/net/can/at91_can.c
+> index 97f1d08b4133..b37d9b4f508e 100644
+> --- a/drivers/net/can/at91_can.c
+> +++ b/drivers/net/can/at91_can.c
+> @@ -448,7 +448,6 @@ static void at91_chip_stop(struct net_device *dev, en=
+um can_state state)
+>  static netdev_tx_t at91_start_xmit(struct sk_buff *skb, struct net_devic=
+e *dev)
+>  {
+>  	struct at91_priv *priv =3D netdev_priv(dev);
+> -	struct net_device_stats *stats =3D &dev->stats;
+>  	struct can_frame *cf =3D (struct can_frame *)skb->data;
+>  	unsigned int mb, prio;
+>  	u32 reg_mid, reg_mcr;
+> @@ -480,8 +479,6 @@ static netdev_tx_t at91_start_xmit(struct sk_buff *sk=
+b, struct net_device *dev)
+>  	/* This triggers transmission */
+>  	at91_write(priv, AT91_MCR(mb), reg_mcr);
+> =20
+> -	stats->tx_bytes +=3D cf->len;
+> -
+>  	/* _NOTE_: subtract AT91_MB_TX_FIRST offset from mb! */
+>  	can_put_echo_skb(skb, dev, mb - get_mb_tx_first(priv), 0);
+> =20
+> @@ -852,7 +849,10 @@ static void at91_irq_tx(struct net_device *dev, u32 =
+reg_sr)
+>  		if (likely(reg_msr & AT91_MSR_MRDY &&
+>  			   ~reg_msr & AT91_MSR_MABT)) {
+>  			/* _NOTE_: subtract AT91_MB_TX_FIRST offset from mb! */
+> -			can_get_echo_skb(dev, mb - get_mb_tx_first(priv), NULL);
+> +			dev->stats.tx_bytes =3D
+                                            +=3D ?
 
-If you check the NTC bindings:
-Documentation/devicetree/bindings/hwmon/ntc-thermistor.yaml
-they already cover this, in two different ways depending of how
-the voltage is measured and if the resistor is in series with the
-thermistor to ground or to VCC.
+Marc
 
-The thermistor table goes in the driver for the 10k resistor
-and the 12k resistor is pullup-ohm or pulldown-ohm.
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
 
-> > battery: battery {
-> >          compatible = "simple-battery";
-> >
-> >          ntc-resistor {
-> >                  ...
-> >          };
-> > };
-> >
-> > For the Samsung batteries my plan is to spawn a platform device from inside the
-> > Samsung battery driver and add pull-down resistor value and
-> > compatible using software nodes from within the kernel.
->
-> In this example, the ntc-resistor node will be handled by current NTC
-> hwmon driver, right?
+--yjx3cdgtyh6ektcc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Yes
+-----BEGIN PGP SIGNATURE-----
 
-> Frankly, I'm quite confused about hwmon vs iio choice in this case.
-> Wouldn't it be better to use iio here, say, by extending iio-afe?
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmGuG/IACgkQqclaivrt
+76kHGAf/eeW82yLFm3pp3ocLQd2I5RH8wp6Wa+wCXoHSRzTGwVADsy1ypNZR7XWs
+g5NP776Fnz9w0NgnxxQ77Yevyvg2RxzCKH7YpPp30J/3BG60Ow9+9LEPqhGxsdDe
+Rf8GiJmDgyDeVCI5jfcXvN+QXofDInFQt126Cpxw+t8MMGQCTd7KBzjnhI1mTJ8y
+RqNd7IZus5l8pvYOgvXiDSy2Dq/hh7Pi/QZvjNXm9bnNRCmN/DR61FzCd0seI4t/
+dCVEA3kL2Y/dpmwBIFVMipsfxQQ6m1jPZ71CmHLOmPIuS3vc3MEjyGS14/JSofvn
+1OtNksaTQSO76PfB+21mwSFJOvyJyQ==
+=GSxX
+-----END PGP SIGNATURE-----
 
-The hwmon driver uses IIO for voltage sampling. It is in the hwmon
-driver folder because the driver provides a temperature and for
-historical reasons: it was used for hwmon use cases.
-
-It is possible to refactor it to a driver in
-drivers/iio/temperature/* if so desired, and make sure all users
-are moved over and the Kconfig symbols are resolved to the
-new driver. After that it can be used by hwmon using the
-iio-to-hwmon bridge driver.
-
-It's just work, someone who want to fix it can step in and submit
-the patches and drive the change.
-
-> But you still need to describe the particular NTC model in device tree,
-> right?
-
-No. Drivers can spawn devices including fwnode properties that will
-work identical to a device spawn from a device tree node.
-
-We can instatiate an NTC as a subdevice of a battery without
-the need of sich a NTC node in the device tree, This is the
-ambition of the fwnode concept,
-
-Yours,
-Linus Walleij
+--yjx3cdgtyh6ektcc--
