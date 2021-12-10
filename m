@@ -1,102 +1,89 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD71173
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Dec 2021 06:57:06 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id u17so5642249plg.9
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 Dec 2021 22:57:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kR78Vf9G/BpR7pM6V254GxdHt+F2Tbo/465DsK1qwKE=;
-        b=IFsqpF0iQ2yOjzbxp5S4JHaKVkeqOG4VTmlNuqN+jfmsljTZbfrMD/cJxRhBLvxi2a
-         9K+6vhZRqofHqd7+ko6vYbnQABBIhEykYsTJ4olKQsu2gnm03Jd9Qb2WSG1Pj0fdeVh4
-         ZIBAhnX0oC5/47PiOn4yuvxDXUrRNXvYI1Wheg7aveZD2YD/cQUArZvvQOZYUNq+XrkS
-         3Hhkixu+Ugb+FuXK7kDYBrhOAsCMj5ybstU0moOAUeGO2LuEJ06nHEHgEbsBMWTe0sh1
-         xLdNnvMVa7Sstb9nctQerCvPj2Z191aZFTfN91ywKuaEZRzF088NOe1Mjrsok476dDcZ
-         dOIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=kR78Vf9G/BpR7pM6V254GxdHt+F2Tbo/465DsK1qwKE=;
-        b=3IOFNCGOmsSXrTXLYPKfx0Ee6/jES0kodhdMd79Lsp3pXdDRTlI7N1mlBBCc0EHoBU
-         i/m4tBxp+GgktSmewjA6RIB1nL0z1JGc5rIkA8d0XPT/7uu3u43B1Hvv9PtJ6HEs/Y1w
-         9S/cHE+nqO+f5uzz1u5ziDDkl7F1eFgSxZov9XSnnuKGYiSlxcLmFm3Qs9+B+s6uZGRk
-         oWFopl/rRmXoyHdVzmL/YCxP2EaYnB7U+Qjz2ZXcUbEbqDNY7ndtAtcFQ/rUg9yqQjPY
-         RwS2YQdCXrZ5oOwtp7De0c8Ayn6PwoUInX0Hz73iystGyY2Vv2DI+XM51iZwlCGiTZjv
-         MTlA==
-X-Gm-Message-State: AOAM532r8HyVuSWmTK0WWsHh8tz7y+g4ujVCovby8IsTQ+g1pgakV+6h
-	wdbksFCzlQz5i3xE900bUUw=
-X-Google-Smtp-Source: ABdhPJzQqiZpOZPRrLmfyUo+pIckIWEO48+EG7ury7tg1kbEr0hT0s/WZydwAB+KsAjlmhJlrwMUgA==
-X-Received: by 2002:a17:902:e0d4:b0:142:8897:94e2 with SMTP id e20-20020a170902e0d400b00142889794e2mr73277767pla.58.1639119426164;
-        Thu, 09 Dec 2021 22:57:06 -0800 (PST)
-Received: from [172.30.1.18] ([14.32.163.5])
-        by smtp.gmail.com with ESMTPSA id i191sm1571372pgd.90.2021.12.09.22.57.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Dec 2021 22:57:05 -0800 (PST)
-Subject: Re: [PATCH v3 6/6] PM / devfreq: Add a driver for the sun8i/sun50i
- MBUS
-To: Samuel Holland <samuel@sholland.org>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-pm@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20211118031841.42315-1-samuel@sholland.org>
- <20211118031841.42315-7-samuel@sholland.org>
-From: Chanwoo Choi <cwchoi00@gmail.com>
-Message-ID: <21922806-e64c-1c41-1373-55603604cf34@gmail.com>
-Date: Fri, 10 Dec 2021 15:57:00 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95984173
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Dec 2021 07:35:58 +0000 (UTC)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=bjornoya.blackshift.org)
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mkl@pengutronix.de>)
+	id 1mvaRZ-0002AJ-Nw; Fri, 10 Dec 2021 08:35:49 +0100
+Received: from pengutronix.de (2a03-f580-87bc-d400-5708-5a2a-1200-a3e0.ip6.dokom21.de [IPv6:2a03:f580:87bc:d400:5708:5a2a:1200:a3e0])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: mkl-all@blackshift.org)
+	by smtp.blackshift.org (Postfix) with ESMTPSA id 0E13F6C1172;
+	Fri, 10 Dec 2021 07:35:46 +0000 (UTC)
+Date: Fri, 10 Dec 2021 08:35:45 +0100
+From: Marc Kleine-Budde <mkl@pengutronix.de>
+To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+Cc: linux-can@vger.kernel.org, Oliver Hartkopp <socketcan@hartkopp.net>,
+	Jimmy Assarsson <extja@kvaser.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, Yasushi SHOJI <yashi@spacecubics.com>
+Subject: Re: [PATCH v5 3/5] can: do not copy the payload of RTR frames
+Message-ID: <20211210073545.qdldwmaykts5dr4u@pengutronix.de>
+References: <20211207121531.42941-1-mailhol.vincent@wanadoo.fr>
+ <20211207121531.42941-4-mailhol.vincent@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211118031841.42315-7-samuel@sholland.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-
-On 21. 11. 18. 오후 12:18, Samuel Holland wrote:
-> This driver works by adjusting the divider on the DRAM controller's
-> module clock. Thus there is no fixed set of OPPs, only "full speed" down
-> to "quarter speed" (or whatever the maximum divider is on that variant).
-> 
-> It makes use of the MDFS hardware in the MBUS, in "DFS" mode, which
-> takes care of updating registers during the critical section while DRAM
-> is inaccessible.
-> 
-> This driver should support several sunxi SoCs, starting with the A33,
-> which have a DesignWare DDR3 controller with merged PHY register space
-> and the matching MBUS register layout (so not A63 or later). However,
-> the driver has only been tested on the A64/H5, so those are the only
-> compatibles enabled for now.
-> 
-> Acked-by: Chanwoo Choi <cw00.choi@samsung.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->   drivers/devfreq/Kconfig          |   8 +
->   drivers/devfreq/Makefile         |   1 +
->   drivers/devfreq/sun8i-a33-mbus.c | 511 +++++++++++++++++++++++++++++++
->   3 files changed, 520 insertions(+)
->   create mode 100644 drivers/devfreq/sun8i-a33-mbus.c
-> 
-
-(snip)
-
-Applied it. Thanks.
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xgu4n4z4axtjgfbb"
+Content-Disposition: inline
+In-Reply-To: <20211207121531.42941-4-mailhol.vincent@wanadoo.fr>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: mkl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
--- 
-Best Regards,
-Samsung Electronics
-Chanwoo Choi
+--xgu4n4z4axtjgfbb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On 07.12.2021 21:15:29, Vincent Mailhol wrote:
+> The actual payload length of the CAN Remote Transmission Request (RTR)
+> frames is always 0, i.e. nothing is transmitted on the wire. However,
+                           ^^^^^^^
+I've changed this to "no payload" to make it more unambiguous.
+
+> those RTR frames still use the DLC to indicate the length of the
+> requested frame.
+>=20
+> For this reason, it is incorrect to copy the payload of RTR frames
+> (the payload buffer would only contain garbage data). This patch
+> encapsulates the payload copy in a check toward the RTR flag.
+>=20
+> CC: Yasushi SHOJI <yashi@spacecubics.com>
+> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+
+Marc
+
+--=20
+Pengutronix e.K.                 | Marc Kleine-Budde           |
+Embedded Linux                   | https://www.pengutronix.de  |
+Vertretung West/Dortmund         | Phone: +49-231-2826-924     |
+Amtsgericht Hildesheim, HRA 2686 | Fax:   +49-5121-206917-5555 |
+
+--xgu4n4z4axtjgfbb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEK3kIWJt9yTYMP3ehqclaivrt76kFAmGzA08ACgkQqclaivrt
+76k0wgf/Tt5RLv/yuQOh0Bg1Eim3GqTp91tjekXp/Kx65epni6ViEkdY6/B3bhN2
+8cprQ2aeC7npSQVSGr4AU8OhoX1dAn7Z986ThJOOl0v0JtuFjniNHoXK9FNjKWNJ
+NlpH7wYE3vv5jy9Yy3mSbQPP3Bp539dRfq5puTgFygv3yp2RzRVL0pX8/FK1dal8
+Ziq98LUACZF6Tc+uqIfaj9p2CJq94xQBHrmoOtpN7722ODt9JQjqGB8Bk1Dwe8l7
+XVWWbTrsWkt0SNniKIQAdo4UsigGQ6Ba3+MhEBraR0uZU7Qt6gNCXIYYR9dd7Iu8
+spshptUSQ0EvOSdsXO6MBy0KhT5p5w==
+=Niul
+-----END PGP SIGNATURE-----
+
+--xgu4n4z4axtjgfbb--
