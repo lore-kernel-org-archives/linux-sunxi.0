@@ -1,75 +1,211 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E402C80
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Dec 2021 08:57:47 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id y8so5857892plg.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 10 Dec 2021 00:57:47 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBF468
+	for <linux-sunxi@lists.linux.dev>; Sun, 12 Dec 2021 13:14:53 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id e24so531706lfc.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 12 Dec 2021 05:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=spacecubics-com.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o78r8oCqesWT7jqTVPoth6IM19LStgzO1ZNNWGxpAcg=;
-        b=vPd16In+A27Rtsr9JY+O/2Hhe6R2WbhGgeymIxYHdMog/u8sC6FA+A0AYVoLk8xwMA
-         iDtr43nagI2JOPL5sk04xRMumKM2+C07uZI8HTbJjJZYO9NAjbuIFc+56B0kue+bMtJe
-         G8JJbVJ8LmbR1w1tfl0lBJEXDZfid+5OXvO5GNNDE8U/uAN+kdpvRp7jRBFf6Q4oOUmh
-         7h4Z5cwDvC8EdQOMUOGB0GNgQkU5mVVs8Y50vIRQV0gWVxVzGRsWJpXWGmdl0GGo4lis
-         mb6+Ezxjoj4G28UsTlCPq2Jq0orWzGVTXEA47Ch7TO8IlC1+Euhf61FdP2jz/DPL3LZz
-         aFnQ==
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=/PPLY5MQj0v1fN7Yk4GtGQYrLdec1WTdN/LqLpbcnKE=;
+        b=Hqk/7fX/oIIQxF+xLiOX62+FbMiT+u+Pig8xpKw0IuWReLHH4FayV9z/VwdtXge/qB
+         WmqferKkxT4d83BXQavZ70zFx32U41vJ7u43cREEXVy1t9LMeyX6Y9qaG7hyRCGyumqq
+         qPuyxk6NoiYLP3Hs7k2uhm5HXT1GBKR7kBKHiprlrjXAKkJ3thpiiWBDT2EtI6X7rva/
+         so63xnAvfK63qQMTXkf/TlZZYrEmjKnpJv2HQh78FEGB+9idw0i5yWePD9q/BIYUziPB
+         Po0x6neggO2R6WOWTMt/YDQFpMOSJT6vCS8IV7QxUB2+hT+ThKkMTPMlDf1GFd6lfWW/
+         glDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o78r8oCqesWT7jqTVPoth6IM19LStgzO1ZNNWGxpAcg=;
-        b=alsAIiyVcCCBoscP01+VmgyO2Y+iXVIhD8+hD2F37vo598taMvGB37aqTs6lgdozqn
-         hYd7n53l+wpCWRqFDxhUtL92tuLxIyYKW/fuwmk6kujss5djwr5qpxahxtQviC/LEUo9
-         ss02/S9A1iPa7ssGCcuE69QFsHie+GVQ92sq5Fg3RFkStXThYa0Aux9IBYGYd8b/Vq8P
-         BtS19EHAg82rS8jrfcjo4XSQz05ClVtxxkwtmK5eYmsjwgM4JM22Zr2bLEjw84FNRCH5
-         gQLyEXQuhJaRxf1Sa8g90lvW5N52l92nbSNe1zTWcZl/5CRzMJgii01pm88egFLnjQAF
-         MsMQ==
-X-Gm-Message-State: AOAM531MgXaflO6vBg14LsNicNOp/ZJI4ZNM5sB97PN9OhV0H0ZjfcmI
-	cZrZ+t5Pe40WTtxYwxRi+An6PufC2JkUeySQkgtFrw==
-X-Google-Smtp-Source: ABdhPJyStS5NlCVO8vdDsg26SLoOFytFOZeSf1AZFKF4jXizeNkyXoXGEeLcX55fgZCj2gqpe0wshFUG6BWMGgUQ+t0=
-X-Received: by 2002:a17:90a:d515:: with SMTP id t21mr22452866pju.123.1639126666591;
- Fri, 10 Dec 2021 00:57:46 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=/PPLY5MQj0v1fN7Yk4GtGQYrLdec1WTdN/LqLpbcnKE=;
+        b=Oc6aZep9RRxkoRtEV6fq2ohr403vjrSLJEulEoB3CbSbDEClkCThQmYSnHx/ddOzc0
+         mywum64JL9/Hki2O13aEy7IHjXDV9TCDxCwUll8icpDVxvKO1tF+c0BASWK3WzMEp/87
+         s5cYPUdsCYeBPkslFRqKbCrcO+39f6Dy0U7vXR/nS0DEFBfNahxa4s6JXvWliztUd75S
+         bHA/YU2jyw+ym5aR02CneAdS33GV7C3NywR3xbB+zIt6ZZnrQRzSxTiInA4kedaeozg7
+         AMyzGAAA/cM/bF363EXGN2UC4yz5vDGqEHR2QibmT1EDTxBwxrx4VzoOysiiXhgFAryH
+         Uwtg==
+X-Gm-Message-State: AOAM533YRi71oxEE7mLc3f1hqB4oNrvk6XYWk16PDX/glKkYlIJ+3c7k
+	8xFqnXmzeeveNWn5v5hds831e32BY54Mfg==
+X-Google-Smtp-Source: ABdhPJwlkve82f/zkbf3Qf6Q8jDHu9rmxfplPdUFXykPtl7tC/yfrIKAtxOGzFLmxtari9TYF2g1Sw==
+X-Received: by 2002:a05:6512:ace:: with SMTP id n14mr23385946lfu.53.1639314890745;
+        Sun, 12 Dec 2021 05:14:50 -0800 (PST)
+Received: from [192.168.1.213] (81.5.99.121.dhcp.mipt-telecom.ru. [81.5.99.121])
+        by smtp.googlemail.com with ESMTPSA id m14sm1044010ljg.2.2021.12.12.05.14.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 12 Dec 2021 05:14:49 -0800 (PST)
+Subject: Re: [PATCH RESEND] phy: sun4i-usb: fix phy write on H3 and newer
+To: Maxime Ripard <mripard@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Yangtao Li <frank@allwinnertech.com>, Icenowy Zheng <icenowy@aosc.io>,
+ andre.przywara@arm.com, linux-sunxi@lists.linux.dev
+References: <20211116093509.346002-1-boger@wirenboard.com>
+From: Evgeny Boger <boger@wirenboard.com>
+Message-ID: <a52cdfbb-c90f-5707-d00f-17e0e12daa62@wirenboard.com>
+Date: Sun, 12 Dec 2021 16:14:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20211207121531.42941-1-mailhol.vincent@wanadoo.fr> <20211207121531.42941-4-mailhol.vincent@wanadoo.fr>
-In-Reply-To: <20211207121531.42941-4-mailhol.vincent@wanadoo.fr>
-From: Yasushi SHOJI <yashi@spacecubics.com>
-Date: Fri, 10 Dec 2021 17:57:35 +0900
-Message-ID: <CAGLTpnJp_v3Eev61gPWRi6fzj400mUR7hLmezXGc2RmA7XDcoA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/5] can: do not copy the payload of RTR frames
-To: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
-Cc: Marc Kleine-Budde <mkl@pengutronix.de>, linux-can@vger.kernel.org, 
-	Oliver Hartkopp <socketcan@hartkopp.net>, Jimmy Assarsson <extja@kvaser.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20211116093509.346002-1-boger@wirenboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
 
-Hi Vincent,
+Hi Maxime!
 
-On Tue, Dec 7, 2021 at 9:16 PM Vincent Mailhol
-<mailhol.vincent@wanadoo.fr> wrote:
+I'm sorry to bother you, but is there anything else I can do to make 
+this patch merged?
+It's been sitting there for 5 months already.
+
+
+16.11.2021 12:35, Evgeny Boger пишет:
+> On older SoCs (prior to H3) PHY register are accessed by manipulating
+> the common register for all PHYs. PHY index is specified by pulsing
+> usbc bit.
 >
-> The actual payload length of the CAN Remote Transmission Request (RTR)
-> frames is always 0, i.e. nothing is transmitted on the wire. However,
-> those RTR frames still use the DLC to indicate the length of the
-> requested frame.
+> Newer SoCs leave the access procedure mostly unchanged, the
+> difference being that the latch registers are separate for each PHY.
 >
-> For this reason, it is incorrect to copy the payload of RTR frames
-> (the payload buffer would only contain garbage data). This patch
-> encapsulates the payload copy in a check toward the RTR flag.
+> Additionally, accessing USB PHY registers is only possible if phy0 is
+> routed to musb IP instead of HCI.
 >
-> CC: Yasushi SHOJI <yashi@spacecubics.com>
-> Signed-off-by: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+> Introduce phy_reg_access_v2 cfg flag for H3 (H2+, H5),
+> R40 (V40, A40i, T3), V3s (V3, S3) and A64 SoCs.
+>
+> On A83t, H6, H616, T507 and probably on more recent hardware,
+> these PHY registers are not used in vendor BSP.
+> So don't set v2 flag for these even newer SoCs as a precaution.
+>
+> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+> ---
+>   drivers/phy/allwinner/phy-sun4i-usb.c | 44 ++++++++++++++++++++++++---
+>   1 file changed, 39 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
+> index 788dd5cdbb7d..cf10e385f199 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -119,6 +119,7 @@ struct sun4i_usb_phy_cfg {
+>   	bool dedicated_clocks;
+>   	bool enable_pmu_unk1;
+>   	bool phy0_dual_route;
+> +	bool phy_reg_access_v2;
+>   	int missing_phys;
+>   };
+>   
+> @@ -192,13 +193,38 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
+>   				int len)
+>   {
+>   	struct sun4i_usb_phy_data *phy_data = to_sun4i_usb_phy_data(phy);
+> -	u32 temp, usbc_bit = BIT(phy->index * 2);
+> +	u32 otgctl_val, temp, usbc_bit;
+>   	void __iomem *phyctl = phy_data->base + phy_data->cfg->phyctl_offset;
+> +	void __iomem *phyctl_latch;
+>   	unsigned long flags;
+>   	int i;
+>   
+>   	spin_lock_irqsave(&phy_data->reg_lock, flags);
+>   
+> +	/* On older SoCs (prior to H3) PHY register are accessed by manipulating the
+> +	 * common register for all PHYs. PHY index is specified by pulsing usbc bit.
+> +	 * Newer SoCs leave the access procedure mostly unchanged, the difference
+> +	 * being that the latch registers are separate for each PHY.
+> +	 */
+> +	if (phy_data->cfg->phy_reg_access_v2) {
+> +		if (phy->index == 0)
+> +			phyctl_latch = phy_data->base + phy_data->cfg->phyctl_offset;
+> +		else
+> +			phyctl_latch = phy->pmu + phy_data->cfg->phyctl_offset;
+> +		usbc_bit = 1;
+> +
+> +		/* Accessing USB PHY registers is only possible if phy0 is routed to musb.
+> +		 * As it's not clear whether is this related to actual PHY
+> +		 * routing or rather the hardware is just reusing the same bit,
+> +		 * don't check phy0_dual_route here.
+> +		 */
+> +		otgctl_val = readl(phy_data->base + REG_PHY_OTGCTL);
+> +		writel(otgctl_val | OTGCTL_ROUTE_MUSB, phy_data->base + REG_PHY_OTGCTL);
+> +	} else {
+> +		phyctl_latch = phyctl;
+> +		usbc_bit = BIT(phy->index * 2);
+> +	}
+> +
+>   	if (phy_data->cfg->phyctl_offset == REG_PHYCTL_A33) {
+>   		/* SoCs newer than A33 need us to set phyctl to 0 explicitly */
+>   		writel(0, phyctl);
+> @@ -224,17 +250,21 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
+>   		writeb(temp, phyctl);
+>   
+>   		/* pulse usbc_bit */
+> -		temp = readb(phyctl);
+> +		temp = readb(phyctl_latch);
+>   		temp |= usbc_bit;
+> -		writeb(temp, phyctl);
+> +		writeb(temp, phyctl_latch);
+>   
+> -		temp = readb(phyctl);
+> +		temp = readb(phyctl_latch);
+>   		temp &= ~usbc_bit;
+> -		writeb(temp, phyctl);
+> +		writeb(temp, phyctl_latch);
+>   
+>   		data >>= 1;
+>   	}
+>   
+> +	/* Restore PHY routing and the rest of OTGCTL */
+> +	if (phy_data->cfg->phy_reg_access_v2)
+> +		writel(otgctl_val, phy_data->base + REG_PHY_OTGCTL);
+> +
+>   	spin_unlock_irqrestore(&phy_data->reg_lock, flags);
+>   }
+>   
+> @@ -927,6 +957,7 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
+>   	.dedicated_clocks = true,
+>   	.enable_pmu_unk1 = true,
+>   	.phy0_dual_route = true,
+> +	.phy_reg_access_v2 = true,
+>   };
+>   
+>   static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+> @@ -937,6 +968,7 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
+>   	.dedicated_clocks = true,
+>   	.enable_pmu_unk1 = true,
+>   	.phy0_dual_route = true,
+> +	.phy_reg_access_v2 = true,
+>   };
+>   
+>   static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+> @@ -947,6 +979,7 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
+>   	.dedicated_clocks = true,
+>   	.enable_pmu_unk1 = true,
+>   	.phy0_dual_route = true,
+> +	.phy_reg_access_v2 = true,
+>   };
+>   
+>   static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+> @@ -957,6 +990,7 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
+>   	.dedicated_clocks = true,
+>   	.enable_pmu_unk1 = true,
+>   	.phy0_dual_route = true,
+> +	.phy_reg_access_v2 = true,
+>   };
+>   
+>   static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
 
-It works and LGTM.
 
-Tested-by: Yasushi SHOJI <yashi@spacecubics.com>
 -- 
-              yashi
+С уважением,
+     Евгений Богер / Evgeny Boger
+     CTO, Wiren Board Team
+     https://wirenboard.com/ru
+     +7 495 150 66 19 (# 33)
+
