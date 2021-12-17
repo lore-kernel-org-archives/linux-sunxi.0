@@ -1,92 +1,156 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60B8E2CA4;
-	Thu, 16 Dec 2021 07:48:44 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id A3B492B00211;
-	Thu, 16 Dec 2021 02:48:42 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Thu, 16 Dec 2021 02:48:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-	from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding; s=fm1; bh=
-	brGpKAbHSatyt+6U6fdOq8xciGlXAc1QxVcd3uIFK0U=; b=ngRC06rmjNE67xVf
-	W/gX1CEXkhFQNpzlFChPu1OnpwjXx1YhZVnDqwusfRn++/KNuJVTpMTxcODV6fIc
-	UErmQpDa6wjnTeqnc9GSMj8V8Cj9n4AhXhwz8Qgx76PZqUda5W/9ppZj7SamOmms
-	UxwdWjtG1yLljMc5ChnYiR+o86FqkI5sb9Mfu3kkzmONyQJzE/8S/2yruP1rHKFT
-	s+UFpbFbHs6YkwaYf130VfG95ircvi9QaUtW3e3HPY7S3QpxaVkP4vGlAnEqDngC
-	qhRlOPqrec0dLhN/1CXnaAH10pQzpBidUDZ7N/+XouhQsOnQnD7tMAqHedIPUHrb
-	oCvD5Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=brGpKAbHSatyt+6U6fdOq8xciGlXAc1QxVcd3uIFK
-	0U=; b=hoF6LyZMg4KxrolnBGyy34gytPD1g4asZq0IuEncfmjLUw1OoMXlzwH3r
-	F3hz6VOIuWVKtYqiveUvVXl1kEKaT6WgPrCOLOIk+HXADq51V/xE5ihhHbqPECHd
-	yr5Y5mkdEYac8sSz7prh0tJ12YxcITFJVlcdEbnkxdhi7hnxxTZqmX4bylwttx4A
-	WD3/BMOodJUPa4CZsG3AlT91cyQOGD6aErQhx+fsmfSIoL36ETXzKOrZdgQvOF8n
-	P+sfi3Jdg7cBvqI25NMOHyFxG1TH78Vj/ZgBI4aWcv7OdX6B2NIGKVGh0SAHjdRd
-	k1xziFU6vE6JqphyNht/HnIN6Qt+g==
-X-ME-Sender: <xms:WO-6YVBejOPnLuF7QQreVcLtIHf8Oc3zBZ2W1YP7pe3I7fq0MaoVmg>
-    <xme:WO-6YTgkNpmFSKzkymJgma7F8LNVGdyLvahEmfrIBVAQQ2sLDYNa6o6hU4LK_U9Mm
-    Bo97_FAuDWbV-f-AU4>
-X-ME-Received: <xmr:WO-6YQkUmMsqExnbW1qxmjy_mdyYcwTcer6covo1qOHd8rFthSaTFLJPhDgIdP8Af4uRdlY_1Fqs0aMt8lEOpxiVe2IjDt0DG_t51mI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrleefgddutdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
-    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WO-6YfwJ8NzFD30EzKqtWEQUR-gP6zydJTydOePqYNmabKb9dPzkMg>
-    <xmx:WO-6YaRswLMDMkWb3W-aY3MwFDPTMIoP_FILoi-el_VKOZLhaUU3NQ>
-    <xmx:WO-6YSY2oEqyyHthmrmgtmxLUcmWx1Yhx74Mof-K4NLp4TtU0mjmTA>
-    <xmx:Wu-6YfjSNPS1AQZm15noobMAiBbP4g6ej828fmP0MYmvmf9jIIp1pvqih1Y>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Dec 2021 02:48:40 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	linux-sunxi@lists.linux.dev,
-	p.zabel@pengutronix.de,
-	linux-staging@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	linux-arm-kernel@lists.infradead.org,
-	mripard@kernel.org,
-	devicetree@vger.kernel.org,
-	ezequiel@vanguardiasur.com.ar,
-	robh+dt@kernel.org,
-	linux-kernel@vger.kernel.org,
-	wens@csie.org,
-	mchehab@kernel.org,
-	nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com
-Subject: Re: (subset) [PATCH v2 9/9] arm64: dts: allwinner: h6: Add Hantro G2 node
-Date: Thu, 16 Dec 2021 08:48:37 +0100
-Message-Id: <163964090958.427634.7595301324701306993.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.33.1
-In-Reply-To: <20211129182633.480021-10-jernej.skrabec@gmail.com>
-References: <20211129182633.480021-1-jernej.skrabec@gmail.com> <20211129182633.480021-10-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC8F2C9D
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Dec 2021 09:23:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CA26C36AE5;
+	Fri, 17 Dec 2021 09:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1639733001;
+	bh=AvRt0DMIoh9fgqBQ3OwSZEq5js55F2MDHQa7OduvRnU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=pAI1PllpGWl9ZF78d8aKGUNtFu6XIRthQJN2jAd8D2EcQdoGOOm7V87svIroQXVvG
+	 8aChg6AguLJTiKrmJ1cSSItOk49+4bkmsc9fgJIHBLnzrx+lOZKSShmmyXC+hISFTd
+	 EvolqzaJdROPVP4tB20Fo3qxai83sF/lm1TyHaZWXeUdaJD8b1S4+ZW5O0sFZWzO1c
+	 sQZVJXP9ZbLqHfPEcUd84LhWxZUwvW9U+4s/rhRp4EBxqDmGLvd8iMT0m7Mw3+7tyM
+	 zZtR9Q+kfReLVNSixqV+G8zzRv+tPZ9f7+fMw4sosnaTeVm7f124CpUr0el1qP3AcK
+	 BqBcd/AH52vhg==
+Date: Fri, 17 Dec 2021 10:23:19 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Mike Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: [GIT PULL] Allwinner Clock Changes for 5.17
+Message-ID: <3c4863eb-9bad-43e4-81bd-3b659616e59c.lettre@localhost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="BWhZCh2u7Mlx/RXt"
+Content-Disposition: inline
 
-On Mon, 29 Nov 2021 19:26:33 +0100, Jernej Skrabec wrote:
-> H6 SoC has a second VPU, dedicated to VP9 decoding. It's a slightly
-> older design, though.
-> 
-> 
 
-Applied to sunxi/linux.git (sunxi/dt-for-5.17).
+--BWhZCh2u7Mlx/RXt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi,
+
+Please pull the following changes for the next release.
 
 Thanks!
 Maxime
+
+The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
+
+  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git refs/tags/sunxi-clk-for-5.17-1
+
+for you to fetch changes up to 35b97bb941110a20fea1f3125837a98fdf8de054:
+
+  clk: sunxi-ng: Add support for the D1 SoC clocks (2021-11-23 10:29:05 +0100)
+
+----------------------------------------------------------------
+Our usual PR for the Allwinner SoCs, this time enabling our
+sub-framework to be built as a module, converting most drivers to
+platform drivers and allow them to be built as modules, and support for
+the Allwinner D1
+
+----------------------------------------------------------------
+Samuel Holland (10):
+      clk: sunxi-ng: Export symbols used by CCU drivers
+      clk: sunxi-ng: Allow drivers to be built as modules
+      clk: sunxi-ng: Convert early providers to platform drivers
+      clk: sunxi-ng: Allow the CCU core to be built as a module
+      dt-bindings: clk: Add compatibles for D1 CCUs
+      clk: sunxi-ng: div: Add macros using clk_parent_data and clk_hw
+      clk: sunxi-ng: mp: Add macros using clk_parent_data and clk_hw
+      clk: sunxi-ng: mux: Add macros using clk_parent_data and clk_hw
+      clk: sunxi-ng: gate: Add macros for gates with fixed dividers
+      clk: sunxi-ng: Add support for the D1 SoC clocks
+
+
+ Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml |    4 +-
+ drivers/clk/Makefile                                                 |    2 +-
+ drivers/clk/sunxi-ng/Kconfig                                         |   49 +-
+ drivers/clk/sunxi-ng/Makefile                                        |  101 +-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c                               |  140 +-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1-r.h                               |   17 +-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.c                                 | 1390 +++++++-
+ drivers/clk/sunxi-ng/ccu-sun20i-d1.h                                 |   15 +-
+ drivers/clk/sunxi-ng/ccu-sun4i-a10.c                                 |   58 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100-r.c                             |    4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a100.c                               |    4 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-a64.c                                |    7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c                               |   56 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c                                 |    7 +-
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c                               |   33 +-
+ drivers/clk/sunxi-ng/ccu-sun6i-a31.c                                 |   40 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a23.c                                 |   35 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a33.c                                 |   40 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-a83t.c                                |    7 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c                                 |    9 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c                                  |   62 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c                                   |   65 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-r40.c                                 |    6 +-
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c                                 |   57 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-de.c                              |    7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80-usb.c                             |    7 +-
+ drivers/clk/sunxi-ng/ccu-sun9i-a80.c                                 |    7 +-
+ drivers/clk/sunxi-ng/ccu-suniv-f1c100s.c                             |   40 +-
+ drivers/clk/sunxi-ng/ccu_common.c                                    |    6 +-
+ drivers/clk/sunxi-ng/ccu_div.c                                       |    1 +-
+ drivers/clk/sunxi-ng/ccu_div.h                                       |   78 +-
+ drivers/clk/sunxi-ng/ccu_frac.c                                      |    6 +-
+ drivers/clk/sunxi-ng/ccu_gate.c                                      |    4 +-
+ drivers/clk/sunxi-ng/ccu_gate.h                                      |   32 +-
+ drivers/clk/sunxi-ng/ccu_mp.c                                        |    2 +-
+ drivers/clk/sunxi-ng/ccu_mp.h                                        |   49 +-
+ drivers/clk/sunxi-ng/ccu_mult.c                                      |    1 +-
+ drivers/clk/sunxi-ng/ccu_mux.c                                       |    6 +-
+ drivers/clk/sunxi-ng/ccu_mux.h                                       |   33 +-
+ drivers/clk/sunxi-ng/ccu_nk.c                                        |    1 +-
+ drivers/clk/sunxi-ng/ccu_nkm.c                                       |    1 +-
+ drivers/clk/sunxi-ng/ccu_nkmp.c                                      |    1 +-
+ drivers/clk/sunxi-ng/ccu_nm.c                                        |    1 +-
+ drivers/clk/sunxi-ng/ccu_phase.c                                     |    1 +-
+ drivers/clk/sunxi-ng/ccu_reset.c                                     |    1 +-
+ drivers/clk/sunxi-ng/ccu_sdm.c                                       |    6 +-
+ drivers/mmc/host/Kconfig                                             |    1 +-
+ include/dt-bindings/clock/sun20i-d1-ccu.h                            |  156 +-
+ include/dt-bindings/clock/sun20i-d1-r-ccu.h                          |   19 +-
+ include/dt-bindings/reset/sun20i-d1-ccu.h                            |   77 +-
+ include/dt-bindings/reset/sun20i-d1-r-ccu.h                          |   16 +-
+ include/linux/clk/sunxi-ng.h                                         |   15 +-
+ 52 files changed, 2530 insertions(+), 253 deletions(-)
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun20i-d1-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun20i-d1-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun20i-d1.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun20i-d1.h
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun20i-d1-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun20i-d1-r-ccu.h
+
+
+
+--BWhZCh2u7Mlx/RXt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbxXBgAKCRDj7w1vZxhR
+xaGQAQCL2Y87Y1PxcFjr6hzUCaQLIxTZtg5dZleJHtSLdvci6QEAiZXYGjDgIZoW
+MHSpvZlNz8oKecXmnwusVXKXZgT+Dgc=
+=Gtxv
+-----END PGP SIGNATURE-----
+
+--BWhZCh2u7Mlx/RXt--
