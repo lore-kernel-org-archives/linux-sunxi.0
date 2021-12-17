@@ -1,86 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313FF2C9D
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Dec 2021 09:38:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 878AEC36AE5;
-	Fri, 17 Dec 2021 09:38:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1639733919;
-	bh=7yReAoDGVIbTjZA2nEM044WCC4ccguKERnbN4BryHqI=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=J91v6fOIWfq1wn6Mon6wIPZsntdoOegX5SD80WxOPgk39w+79kvykH2gQcxZOKZYN
-	 p+J6Dhd5ICPmhZTp/KYjzjav+1vXT8Mkk5LZixykUHhB38fTphEBs8YA8XcoftiwUd
-	 9raRWZ3J96joRIjtpcYiLplmD1rKOhKoAn+bhw/0SduvOWSx42lxmRNdQ/2UzsDQkG
-	 N+imUX70ZbwUUnHLKP9Rd/kMpo2/+967aznaNQvp0LJU92GDJxoE6LaJ3GUnfesYR9
-	 d24dVLd/puaexHsmze0virU2z/kynFKCw17/GY97k5+XZ02l3K06bmwD3o5+MkfLFG
-	 TOWBPtiKD2cwQ==
-Date: Fri, 17 Dec 2021 10:38:36 +0100
-From: Maxime Ripard <mripard@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: Maxime Ripard <mripard@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: [GIT PULL] Allwinner Fixes for 5.16
-Message-ID: <e295f1f7-cd24-4a7a-ae83-aafb2a3263b6.lettre@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D0E173
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Dec 2021 16:37:21 +0000 (UTC)
+Received: by mail-ua1-f42.google.com with SMTP id o1so5443814uap.4
+        for <linux-sunxi@lists.linux.dev>; Fri, 17 Dec 2021 08:37:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AEp4T9Kp6OQ9uqAmVDJWHVQF79DqzDMm0wcZ5f4ILdM=;
+        b=SgHpYuEoviE6Pv/XXd6GHBCp1NaZOTpCYqkjQcn5lC1TEa4OSNlmAeRM4jlTllxTs2
+         gKN5e9OaFtersTGj7mSJVQJWGnOYgmGpWC/tM8bxxeA3yZObtPcdhcbjP4mv1V2cqmks
+         EpIIH6MqP/QmTEX/vfqCnMuGMAqDc5p2AhW7k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AEp4T9Kp6OQ9uqAmVDJWHVQF79DqzDMm0wcZ5f4ILdM=;
+        b=zfOVHdXduHA+fuzEv6e11OCJrq2SBzNceysjaU3PrTQEip5XCUccU6c97yLyc1Touh
+         1YULBL2/aB+2KNK06oEYuHeYGIDF7WjROUDqBBNhtXhVt9aKnKcMqJDCmCbti65JKVm/
+         MqgtnHjpM+1sTWf83yOIxXZDhVjN+AZzMOhKbelxcBz2XlFsfkXDLIxs7nqE4HMme6D+
+         S6ExWiDK+uMzIK+u4gDQSmClqJPWAAMcWT6cWKgghZI0lG3pcv5NhDbcJVvDiVeSz5Ho
+         zHjC6DB4FZpQh0uNZ9WewaSa/n5wAC0P2/Qc+stFJmS65GBjLHpE9+K01Vj7hMA/MJP/
+         3/+A==
+X-Gm-Message-State: AOAM5321l/HxLN+Jmak8ddIShHrPiuMONfB7lXyOatMGuimH2kgzXqpF
+	eWHgs2hhVhCFTdHK8vWsmeVRQLj6L0rN3fI9yum9dQ==
+X-Google-Smtp-Source: ABdhPJw55zvca557135Br53Vgyb33kKsdAmmgIeQuHax0oA0pDL+Yo6csOhJVeqb/FsK7zNf/0WfWMzZpZq39EYT2I4=
+X-Received: by 2002:a67:e003:: with SMTP id c3mr1408331vsl.51.1639759040440;
+ Fri, 17 Dec 2021 08:37:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6JTfa2X1VT+/LTI8"
-Content-Disposition: inline
+References: <20211213010322.10726-1-andre.przywara@arm.com>
+In-Reply-To: <20211213010322.10726-1-andre.przywara@arm.com>
+From: Simon Glass <sjg@chromium.org>
+Date: Fri, 17 Dec 2021 09:37:08 -0700
+Message-ID: <CAPnjgZ2QxLib_XLdaGzPFw8Q8yGo69UVxb5_prmMaafnLnoAeQ@mail.gmail.com>
+Subject: Re: [PATCH] sunxi: add board documentation
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, 
+	Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Icenowy Zheng <icenowy@aosc.io>, 
+	linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Andre,
 
---6JTfa2X1VT+/LTI8
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Sun, 12 Dec 2021 at 18:03, Andre Przywara <andre.przywara@arm.com> wrote:
+>
+> Add some long overdue instructions for building and installing U-Boot on
+> Allwinner SoC based boards.
+> This describes the building process, including TF-A and crust, plus
+> installation to SD card, eMMC and SPI flash, both from Linux and U-Boot
+> itself. Also describe FEL booting.
+>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+> Hi,
+>
+> please have a look whether this makes sense. Feel free to just try something,
+> and point out ambiguities or missing bits. For missing topics, please
+> send a follow-up patch ;-)
+>
+> Also this is quite long, shall this be split up in two (or more) files?
+>
+> This is what rst.ninjs.org made of it, if you prefer to read it formatted:
+> https://paste.c-net.org/PleasantNeedy
+>
+> Cheers,
+> Andre
+>
+>  doc/board/allwinner/index.rst |   9 +
+>  doc/board/allwinner/sunxi.rst | 304 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 313 insertions(+)
+>  create mode 100644 doc/board/allwinner/index.rst
+>  create mode 100644 doc/board/allwinner/sunxi.rst
 
-Hi,
+Reviewed-by: Simon Glass <sjg@chromium.org>
 
-Please pull the following changes for the current release.
+I agree that a follow-on patch to remove the duplicated files would be
+helpful, but this patch is a big step forward on its own.
 
-Thanks!
-Maxime
+It would be interesting to convert sunxi to use binman.
 
-The following changes since commit fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf:
-
-  Linux 5.16-rc1 (2021-11-14 13:56:52 -0800)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git refs/tags/sunxi-fixes-for-5.16-1
-
-for you to fetch changes up to 08d2061ff9c5319a07bf9ca6bbf11fdec68f704a:
-
-  arm64: dts: allwinner: orangepi-zero-plus: fix PHY mode (2021-11-17 16:40:50 +0100)
-
-----------------------------------------------------------------
-One patch to fix the GMAC PHY mode on the OrangePi Zero Plus
-
-----------------------------------------------------------------
-Robert Marko (1):
-      arm64: dts: allwinner: orangepi-zero-plus: fix PHY mode
-
-
- arch/arm64/boot/dts/allwinner/sun50i-h5-orangepi-zero-plus.dts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-
-
---6JTfa2X1VT+/LTI8
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYbxanAAKCRDj7w1vZxhR
-xWTeAP9XhEFDX6jtPbd3oRqVcYWM73ytvzlukOmYWxDY+wW3zQD/blRGhnPpF+2A
-S+3p5jzmnQPdigKWqRV3d6dbNFqFfQI=
-=A608
------END PGP SIGNATURE-----
-
---6JTfa2X1VT+/LTI8--
+Regards,
+Simon
