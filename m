@@ -1,87 +1,97 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E81EB173
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Dec 2021 17:01:51 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7E786D6E;
-	Mon, 20 Dec 2021 09:01:45 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45F803F774;
-	Mon, 20 Dec 2021 09:01:44 -0800 (PST)
-Date: Mon, 20 Dec 2021 17:01:41 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Simon Glass <sjg@chromium.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
- u-boot@lists.denx.de, Samuel Holland <samuel@sholland.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard
- <mripard@kernel.org>, Icenowy Zheng <icenowy@aosc.io>,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: add board documentation
-Message-ID: <20211220170141.21770084@donnerap.cambridge.arm.com>
-In-Reply-To: <CAPnjgZ2QxLib_XLdaGzPFw8Q8yGo69UVxb5_prmMaafnLnoAeQ@mail.gmail.com>
-References: <20211213010322.10726-1-andre.przywara@arm.com>
-	<CAPnjgZ2QxLib_XLdaGzPFw8Q8yGo69UVxb5_prmMaafnLnoAeQ@mail.gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08AC92CA0
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Dec 2021 10:13:28 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id y83-20020a1c7d56000000b003456dfe7c5cso1295566wmc.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Dec 2021 02:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LiEdSYmJyAKWAqc7ui3XIZTznDZvFBWaDk4WF2mm3yA=;
+        b=pBXL5mIQQqrE1sWVIayqcv1+QL5wyX/RH88FEO/rknbs31q5lPo7Gc1vsNLcyk0aeN
+         GuQyqQB6ckAM/UMXeqF1shw9N22mmOkGalFRHuT+sytdWtPUY6l7oo5EMLPSC9rjEBV9
+         21LHQ2WLsLqRROwJubFBoMUkkb+f2Mpgjv1O/Ong1dxmOUlcsz23vfcjqJD2j++ltWGb
+         peffVNVGts7WXOfgJi/2dptWzKdsMGvyg+itPpnhRpO0/hj/T1dXFnSDVMWoyycHht3+
+         GFC1s6NEkiwfR0QXZ9Es+IKcEhWteFlyreBY4mGdFzuw81AT1JVQ9BVWyEvFcTHkgWVa
+         kz1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LiEdSYmJyAKWAqc7ui3XIZTznDZvFBWaDk4WF2mm3yA=;
+        b=ifURinH+b9N2DF9sv85vGkdJPFwhi5bfMsYpMeH4AUCnQTLYXFDe+LKzKavyOgPsob
+         GXn5vb14pTdsHRd6kXytQS/gJlxLELse9tlAb+/xgiJaykC2w3LkbINjTB7ibfCx3Rau
+         4KuB+ozu5KyP9O0Bxte9L/MR8pFRsvQ7lkCbzZoo0CT+KRwMPUQTXa6QWTJ75h6yz4wV
+         lQw3ikUD/5DW4/7oquAe+9rx+6U7AUj2loRBo6UP0MLMAp91OztOYKo0FL6VJPFG05iQ
+         CgPoqTHcL++jVVkYbRS3vfWoVJkuJb1GdXEccwUChFqIPv+4vMrzJ3obQipfh0bIkDVG
+         hLkQ==
+X-Gm-Message-State: AOAM5326UbvqBG+u3a9S7SeFuvpkdY4EpvE5ptRAX4TbtL6ZOb/Lkk/5
+	wmIYXy+Q47DFITpGaOzzkis=
+X-Google-Smtp-Source: ABdhPJxsRp72r/sEXZushQwODicy6txDdNbXADlfasQ0YwZfEqd1nrA21efVDrckpVqgvVS1sVerog==
+X-Received: by 2002:a1c:7e41:: with SMTP id z62mr2105184wmc.62.1640081607375;
+        Tue, 21 Dec 2021 02:13:27 -0800 (PST)
+Received: from localhost.localdomain ([217.113.240.86])
+        by smtp.gmail.com with ESMTPSA id m21sm18012267wrb.2.2021.12.21.02.13.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Dec 2021 02:13:26 -0800 (PST)
+From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+To: robdclark@gmail.com
+Cc: maarten.lankhorst@linux.intel.com,
+	sean@poorly.run,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	tzimmermann@suse.de,
+	maxime@cerno.tech,
+	mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+Subject: [PATCH 0/3] Add missing format_mod_supported functions
+Date: Tue, 21 Dec 2021 11:13:16 +0100
+Message-Id: <20211221101319.7980-1-jose.exposito89@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 17 Dec 2021 09:37:08 -0700
-Simon Glass <sjg@chromium.org> wrote:
+Hi all,
 
-Hi Simon,
+When setting IN_FORMATS, implementing the
+"drm_plane_funcs.format_mod_supported" function is mandatory to avoid
+exposing a bogus blob.
 
-> On Sun, 12 Dec 2021 at 18:03, Andre Przywara <andre.przywara@arm.com> wrote:
-> >
-> > Add some long overdue instructions for building and installing U-Boot on
-> > Allwinner SoC based boards.
-> > This describes the building process, including TF-A and crust, plus
-> > installation to SD card, eMMC and SPI flash, both from Linux and U-Boot
-> > itself. Also describe FEL booting.
-> >
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> > Hi,
-> >
-> > please have a look whether this makes sense. Feel free to just try something,
-> > and point out ambiguities or missing bits. For missing topics, please
-> > send a follow-up patch ;-)
-> >
-> > Also this is quite long, shall this be split up in two (or more) files?
-> >
-> > This is what rst.ninjs.org made of it, if you prefer to read it formatted:
-> > https://paste.c-net.org/PleasantNeedy
-> >
-> > Cheers,
-> > Andre
-> >
-> >  doc/board/allwinner/index.rst |   9 +
-> >  doc/board/allwinner/sunxi.rst | 304 ++++++++++++++++++++++++++++++++++
-> >  2 files changed, 313 insertions(+)
-> >  create mode 100644 doc/board/allwinner/index.rst
-> >  create mode 100644 doc/board/allwinner/sunxi.rst  
-> 
-> Reviewed-by: Simon Glass <sjg@chromium.org>
-> 
-> I agree that a follow-on patch to remove the duplicated files would be
-> helpful, but this patch is a big step forward on its own.
+This patchset adds a bit of documentation and fixes the issue in a
+couple of drivers affected by the bug.
 
-Thanks! I will address the other comments ASAP.
+I reviewed all the other drivers and I didn't find more instances of
+the issue.
 
-> It would be interesting to convert sunxi to use binman.
+Jose
 
-But Samuel fixed that already, didn't he? Or is there anything left that
-binman should do? We even now use mkimage to generate the magic BROM
-SPL signature, and then let binman combine this with the FIT image into the
-final binary. Or am I missing something here?
+José Expósito (3):
+  drm/plane: Mention format_mod_supported in IN_FORMATS docs
+  drm/msm/mdp4: Add format_mod_supported function
+  drm/sun4i: Add format_mod_supported function
 
-Or are you asking for patches that remove sunxi as the bad example from
-the existing documentation? ;-)
+ drivers/gpu/drm/drm_plane.c                | 7 +++++--
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c | 8 ++++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c     | 7 +++++++
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c     | 7 +++++++
+ 4 files changed, 27 insertions(+), 2 deletions(-)
 
-Cheers,
-Andre
+-- 
+2.25.1
+
