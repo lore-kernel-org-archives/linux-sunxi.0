@@ -1,25 +1,29 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C7129CA
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Dec 2021 10:49:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3CC511FB;
-	Wed, 22 Dec 2021 02:49:52 -0800 (PST)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF26B3F5A1;
-	Wed, 22 Dec 2021 02:49:50 -0800 (PST)
-Date: Wed, 22 Dec 2021 10:49:47 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Michael Wu <michael@allwinnertech.com>
-Cc: ulf.hansson@linaro.org, mripard@kernel.org, wens@csie.org,
- samuel@sholland.org, jernej.skrabec@gmail.com, linux-mmc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] mmc: sunxi-mmc: use pll to increase clock speed
-Message-ID: <20211222104947.1d978864@donnerap.cambridge.arm.com>
-In-Reply-To: <20211222031557.34242-1-michael@allwinnertech.com>
-References: <20211222031557.34242-1-michael@allwinnertech.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ED629CA
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Dec 2021 00:57:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3B7AC36AE8;
+	Thu, 23 Dec 2021 00:57:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1640221027;
+	bh=vTG9ZnsGMRzH8oZvJPuLB0V+2YSVILxTecBO+MYsPrk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=spqDlssSJlKbsfyjyA0SwISVNYMAFxkgUMs3DtDK/l/rIExKGcDtqm3zTxaiZYEoR
+	 wFtYBb4cvswXiNsgpKoAm4s7A4EUZFS+Sqkc0wv9mrEZLG8yfrZj7Izje4Djc7yxZQ
+	 QM7WIX++tQ4tcFRY33abZWZX1DPTDg0jElwg/rirU2NkgvmRgHflMyR/YA8f7n4YHc
+	 TQGAAu2KoZfHSAkKLjgc3/ytms6d6sdXr9JH1mTS2uXrJw3xoXeyXSstjylGcalcbP
+	 t1RG0ATmOW0AOZik8Mf16QN1jAxks7lCOry9bE2WdxNsfoJnWR7f+0qtGnPb3ljbqn
+	 mTorozgPTnGjw==
+Date: Wed, 22 Dec 2021 16:57:06 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: conleylee@foxmail.com
+Cc: davem@davemloft.net, mripard@kernel.org, wens@csie.org,
+ netdev@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] sun4i-emac.c: add dma support
+Message-ID: <20211222165706.28089162@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <tencent_004AE1B7729BE20B02D8003D40DE850A9609@qq.com>
+References: <tencent_004AE1B7729BE20B02D8003D40DE850A9609@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,112 +33,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 22 Dec 2021 11:15:57 +0800
-Michael Wu <michael@allwinnertech.com> wrote:
-
-Hi Michael,
-
-> Default clock soucre is 24M,if we want clock over 24M
-> We should use pll as clock source
-
-Can you say what this patch actually fixes? What is the problem?
-
-As far as I know, we don't have any issues with MMC clock frequencies, and
-are basically always using the PLL as the clock source. This is
-handled automatically by the common clock framework, which knows about all
-possible muxes and their parents:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/clk/sunxi-ng/ccu-sun50i-a64.c#n417
-In fact that also probably explains the issue you address in patch 2/3.
-
-One more comment below.
-
-> 
-> Signed-off-by: Michael Wu <michael@allwinnertech.com>
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 57 +++++++++++++++++++++++++++++++++++-
->  1 file changed, 56 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index 7b47ec453fb6..0039ee58b303 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -756,6 +756,57 @@ static int sunxi_mmc_clk_set_phase(struct sunxi_mmc_host *host,
->  	return 0;
->  }
+On Wed, 22 Dec 2021 15:09:27 +0800 conleylee@foxmail.com wrote:
+> -#define DRV_NAME		"sun4i-emac"
+> +#define DRV_NAME "sun4i-emac"
 >  
-> +/**
-> + *
-> + * sunxi_clk_get_parent() - get parent pll from dts
-> + * @host:		sunxi_mmc_host struct point
-> + * @@clock:		the clock frequency that requested
-> + *
-> + * Default clock source is 24M,if we want clock over 24M,We should use
-> + * pll as clock soure
-> + *
-> + * Return:the 0:ok,other:failed
-> + */
-> +static int sunxi_clk_get_parent(struct sunxi_mmc_host *host, u32 clock)
-> +{
-> +	struct clk *sclk = NULL;
-> +	char *sclk_name = NULL;
-> +	u32 src_clk = 0;
-> +	s32 err = 0;
-> +	struct device *dev = mmc_dev(host->mmc);
-> +
-> +	sclk = clk_get(dev, "osc24m");
-> +	sclk_name = "osc24m";
-
-This "getting clocks by their global name" is not the way it should work,
-you just reference clocks you get from your very own DT node (devm_clk_get()).
-This is probably something that the BSP kernel does very differently?
-
-Cheers,
-Andre
-
-> +
-> +	if (IS_ERR(sclk)) {
-> +		dev_err(mmc_dev(host->mmc), "Error to get source clock %s\n",
-> +				sclk_name);
-> +		return PTR_ERR(sclk);
-> +	}
-> +
-> +	src_clk = clk_get_rate(sclk);
-> +	if (clock > src_clk) {
-> +		clk_put(sclk);
-> +		sclk = clk_get(dev, "pll_periph");
-> +		sclk_name = "pll_periph";
-> +	}
-> +	if (IS_ERR(sclk)) {
-> +		dev_err(mmc_dev(host->mmc), "Error to get source clock %s\n",
-> +				sclk_name);
-> +		return PTR_ERR(sclk);
-> +	}
-> +
-> +	err = clk_set_parent(host->clk_mmc, sclk);
-> +	if (err) {
-> +		dev_err(mmc_dev(host->mmc), "set parent failed\n");
-> +		clk_put(sclk);
-> +		return err;
-> +	}
-> +	clk_put(sclk);
-> +	return 0;
-> +}
-> +
-> +
->  static int sunxi_mmc_clk_set_rate(struct sunxi_mmc_host *host,
->  				  struct mmc_ios *ios)
->  {
-> @@ -801,7 +852,11 @@ static int sunxi_mmc_clk_set_rate(struct sunxi_mmc_host *host,
->  			return ret;
->  		}
->  	}
+> -#define EMAC_MAX_FRAME_LEN	0x0600
+> +#define EMAC_MAX_FRAME_LEN 0x600
+>  
+>  #define EMAC_DEFAULT_MSG_ENABLE 0x0000
+> -static int debug = -1;     /* defaults above */;
+> +static int debug = -1; /* defaults above */
+> +;
+>  module_param(debug, int, 0);
+>  MODULE_PARM_DESC(debug, "debug message flags");
+>  
+> @@ -69,24 +71,25 @@ MODULE_PARM_DESC(watchdog, "transmit timeout in milliseconds");
+>   */
+>  
+>  struct emac_board_info {
+> -	struct clk		*clk;
+> -	struct device		*dev;
+> -	struct platform_device	*pdev;
+> -	spinlock_t		lock;
+> -	void __iomem		*membase;
+> -	u32			msg_enable;
+> -	struct net_device	*ndev;
+> -	struct sk_buff		*skb_last;
+> -	u16			tx_fifo_stat;
 > -
-> +	/**
-> +	 * No check return value,because dts may not have osc24M, and pll_periph,
-> +	 * at that time,use default value from clk system
-> +	 */
-> +	sunxi_clk_get_parent(host, clock);
->  	rate = clk_round_rate(host->clk_mmc, clock);
->  	if (rate < 0) {
->  		dev_err(mmc_dev(mmc), "error rounding clk to %d: %ld\n",
+> -	int			emacrx_completed_flag;
+> -
+> -	struct device_node	*phy_node;
+> -	unsigned int		link;
+> -	unsigned int		speed;
+> -	unsigned int		duplex;
+> -
+> -	phy_interface_t		phy_interface;
+> +	struct clk *clk;
+> +	struct device *dev;
+> +	struct platform_device *pdev;
+> +	spinlock_t lock;
+> +	void __iomem *membase;
+> +	u32 msg_enable;
+> +	struct net_device *ndev;
+> +	u16 tx_fifo_stat;
+> +
+> +	int emacrx_completed_flag;
+> +
+> +	struct device_node *phy_node;
+> +	unsigned int link;
+> +	unsigned int speed;
+> +	unsigned int duplex;
+> +
+> +	phy_interface_t phy_interface;
+> +	struct dma_chan *rx_chan;
+> +	phys_addr_t emac_rx_fifo;
 
+Please remove all the code formatting changes from the patch and repost.
+It makes it hard to review the patch when most of it is an unrelated
+whitespace modification.
