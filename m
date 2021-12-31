@@ -1,164 +1,120 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail142-3.mail.alibaba.com (mail142-3.mail.alibaba.com [198.11.142.3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AADD29CA
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Dec 2021 12:15:09 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id h7so15397967lfu.4
-        for <linux-sunxi@lists.linux.dev>; Fri, 31 Dec 2021 04:15:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qA48Fk3mQBHDUQYEpc8DXFnUfIf/OAvjGHgizTaa2Rs=;
-        b=Dd9Hc2hoiQD56GDie5hYLl56IxuoyREYBA/QBeDuW83mVjBF5S+ttDPs1ypjV4KY5n
-         qQu7LWeBnYgsbZSY2UxPPyQ3jo9jzhIttuWh1bOjR9cTe+8JsG8E7ZmtQftPeo5NXKHr
-         3rCPvkwjP0dw5HR3BOFRrrCMW+7TnJAPQtuh0FNkbPWMxaOxdGWNnKlS24qgWQx/X6H5
-         l1PJYZtl/omcNOe4fOlTxilJUGUOta8YRQHjLkVaL5meRIvLnnTnA2Ct3XVZmyZwS1U/
-         jEAZDY1ICBe35GQQcLdzEqftwDKpQXdJA31/eFYrBqrwT8NfUhGHeIQQGk9RHvF9l1eT
-         gW/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qA48Fk3mQBHDUQYEpc8DXFnUfIf/OAvjGHgizTaa2Rs=;
-        b=UzWBuWSQQYubLdmTeOLQy+ftnoYGts9iZ69GaPXb+dWH3r2HpDrYQboDGKEQhKf+WM
-         coXiLKAvmMZxiiuHG/yuICQ1hRFwimkSWUX6e7rBf0s41vsUlxI2UmFMYCvgKNOsk7m8
-         edoeqteSVA2/Q5sfYFvlLCWiQCMo53nkeePVVNv2pvwYIPJtrhnCmvqRDaXnuyFUoA3M
-         SayBDBMBeNj3Gt77AcU2efSjV3I0k8EpZsmKqB0C8cQ+X1r865oq9EhXcoWr74FHQ1W5
-         VyZq6YrEfbxLAiQE9MhwlJQ1nNB1bq4WoUBh+M8ag0qPY+4y9SEpJ3AKFrkpGRNrm6+n
-         Qc2A==
-X-Gm-Message-State: AOAM531yPLcXeA20Y5ZLUIwC9F/wcr07qWnWGoVLGxAEdU3gFI/Nn5JA
-	5WS26JzHSnFBVnMGQDuc/ZXZOY4cmzn1BRRR43CRpg==
-X-Google-Smtp-Source: ABdhPJxB39SYIrqnEbN1Ilx/4u6YrucaTYRt8Dnw/aiO1ez8cHGoyYDvdb9NnCiH6rmQEcuBQzLFiuVZRWuE+q1QEq8=
-X-Received: by 2002:a19:6748:: with SMTP id e8mr2099004lfj.358.1640952907072;
- Fri, 31 Dec 2021 04:15:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0809173
+	for <linux-sunxi@lists.linux.dev>; Fri, 31 Dec 2021 14:11:54 +0000 (UTC)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06537051|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0358684-0.00370216-0.960429;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047206;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.MV40a3-_1640959584;
+Received: from YanYan-NB(mailfrom:michael@allwinnertech.com fp:SMTPD_---.MV40a3-_1640959584)
+          by smtp.aliyun-inc.com(10.147.42.197);
+          Fri, 31 Dec 2021 22:06:26 +0800
+Date: Fri, 31 Dec 2021 22:06:23 +0800
+From: "michael@allwinnertech.com" <michael@allwinnertech.com>
+To: "Ulf Hansson" <ulf.hansson@linaro.org>
+Cc: mripard <mripard@kernel.org>, 
+	wens <wens@csie.org>, 
+	samuel <samuel@sholland.org>, 
+	andre.przywara <andre.przywara@arm.com>, 
+	jernej.skrabec <jernej.skrabec@gmail.com>, 
+	linux-mmc <linux-mmc@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+	linux-sunxi <linux-sunxi@lists.linux.dev>, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] mmc:sunxi-mmc:add support on discrete device power supply
+References: <20211222030634.33816-1-michael@allwinnertech.com>, 
+	<CAPDyKFoNuWX76Haq0MfvukbHR8mMq0rX7qC+o_ZhEAxAwwpBbQ@mail.gmail.com>, 
+	<2021123116275961132724@allwinnertech.com>, 
+	<CAPDyKFpnTk9Ky-zr-dakTZJr1N_65_6py9=3_78vwOR930apEQ@mail.gmail.com>
+X-Priority: 3
+X-GUID: 4FA5C177-3B19-4D61-B241-12BA2B9C9D5A
+X-Has-Attach: no
+X-Mailer: Foxmail 7.2.22.194[cn]
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20211222030634.33816-1-michael@allwinnertech.com>
- <CAPDyKFoNuWX76Haq0MfvukbHR8mMq0rX7qC+o_ZhEAxAwwpBbQ@mail.gmail.com> <2021123116275961132724@allwinnertech.com>
-In-Reply-To: <2021123116275961132724@allwinnertech.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 31 Dec 2021 13:14:30 +0100
-Message-ID: <CAPDyKFpnTk9Ky-zr-dakTZJr1N_65_6py9=3_78vwOR930apEQ@mail.gmail.com>
-Subject: Re: Re: [PATCH 1/3] mmc:sunxi-mmc:add support on discrete device
- power supply
-To: "michael@allwinnertech.com" <michael@allwinnertech.com>
-Cc: mripard <mripard@kernel.org>, wens <wens@csie.org>, samuel <samuel@sholland.org>, 
-	"andre.przywara" <andre.przywara@arm.com>, "jernej.skrabec" <jernej.skrabec@gmail.com>, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-sunxi <linux-sunxi@lists.linux.dev>, linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+Message-ID: <2021123121313177857228@allwinnertech.com>
+Content-Type: text/plain;
+	charset="UTF-8"
+Content-Transfer-Encoding: base64
 
-On Fri, 31 Dec 2021 at 09:28, michael@allwinnertech.com
-<michael@allwinnertech.com> wrote:
->
-> > From: Ulf Hansson
-> > Date: 2021-12-29 00:49
-> > To: Michael Wu
-> > CC: mripard; wens; samuel; andre.przywara; jernej.skrabec; linux-mmc; linux-arm-kernel; linux-sunxi; linux-kernel
-> > Subject: Re: [PATCH 1/3] mmc:sunxi-mmc:add support on discrete device power supply
-> > On Wed, 22 Dec 2021 at 04:07, Michael Wu <michael@allwinnertech.com> wrote:
-> > >
-> > > Because some platform has no regulator, only use discrete devices
-> > > to supply power,For this situation, to use sd/mmc card, we add ocr manually
-> > >
-> > > Signed-off-by: Michael Wu <michael@allwinnertech.com>
-> > > ---
-> > >  drivers/mmc/host/sunxi-mmc.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> > > index 2702736a1c57..afeefead6501 100644
-> > > --- a/drivers/mmc/host/sunxi-mmc.c
-> > > +++ b/drivers/mmc/host/sunxi-mmc.c
-> > > @@ -1300,6 +1300,14 @@ static int sunxi_mmc_resource_request(struct sunxi_mmc_host *host,
-> > >         if (ret)
-> > >                 return ret;
-> > >
-> > > +       /**
-> > > +        * Some platforms has no regulator. Discrete devices are used instead.
-> > > +        * To support sd/mmc card, we need to add ocr manually.
-> > > +        */
-> > > +       if (!host->mmc->ocr_avail)
-> > > +               host->mmc->ocr_avail = MMC_VDD_32_33 | MMC_VDD_33_34;
-> > > +
-> >
-> > Rather than doing this, I suggest you hook up a fixed vmmc regulator in the DTS.
-> >
-> > Nevertheless, it seems reasonable to check that the ocr_avail gets set
-> > up correctly. And if it doesn't, perhaps we should print a warning and
-> > return an error code.
-> >
-> > > +
-> > >         host->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> > >         if (IS_ERR(host->reg_base))
-> > >                 return PTR_ERR(host->reg_base);
-> >
-> > Kind regards
-> > Uffe
->
-> Dear Uffe,
-> Thanks for your suggestion. It is a better solution.
-> I've modified my patch. Please check if it's reasonable. If it is, I'll re-sumbit it later.
->
-> ---
-> Subject: [PATCH v2] mmc: sunxi-mmc: check ocr_avail on resource request
->
-> Some platforms have no regulator, discrete power devices are used instead.
-> However, sunxi_mmc_probe does not catch this exception when regulator is
-> absent in DTS. This leads to sd or eMMC init failure.
-> To solve this, a fixed vmmc regulator must be hooked up in DTS, like this:
-> reg_dummy_vmmc: dummy_vmmc {
->         compatible = "regulator-fixed";
->         regulator-name = "dummy-vmmc";
->         regulator-min-microvolt = <500000>;
->         regulator-max-microvolt = <3500000>;
+PiBPbiBGcmksIDMxIERlYyAyMDIxIGF0IDA5OjI4LCBtaWNoYWVsQGFsbHdpbm5lcnRlY2guY29t
+Cj4gPG1pY2hhZWxAYWxsd2lubmVydGVjaC5jb20+IHdyb3RlOgo+ID4KPiA+ID4gRnJvbTogVWxm
+IEhhbnNzb24KPiA+ID4gRGF0ZTogMjAyMS0xMi0yOSAwMDo0OQo+ID4gPiBUbzogTWljaGFlbCBX
+dQo+ID4gPiBDQzogbXJpcGFyZDsgd2Vuczsgc2FtdWVsOyBhbmRyZS5wcnp5d2FyYTsgamVybmVq
+LnNrcmFiZWM7IGxpbnV4LW1tYzsgbGludXgtYXJtLWtlcm5lbDsgbGludXgtc3VueGk7IGxpbnV4
+LWtlcm5lbAo+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gbW1jOnN1bnhpLW1tYzphZGQg
+c3VwcG9ydCBvbiBkaXNjcmV0ZSBkZXZpY2UgcG93ZXIgc3VwcGx5Cj4gPiA+IE9uIFdlZCwgMjIg
+RGVjIDIwMjEgYXQgMDQ6MDcsIE1pY2hhZWwgV3UgPG1pY2hhZWxAYWxsd2lubmVydGVjaC5jb20+
+IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gQmVjYXVzZSBzb21lIHBsYXRmb3JtIGhhcyBubyByZWd1
+bGF0b3IsIG9ubHkgdXNlIGRpc2NyZXRlIGRldmljZXMKPiA+ID4gPiB0byBzdXBwbHkgcG93ZXIs
+Rm9yIHRoaXMgc2l0dWF0aW9uLCB0byB1c2Ugc2QvbW1jIGNhcmQsIHdlIGFkZCBvY3IgbWFudWFs
+bHkKPiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgV3UgPG1pY2hhZWxAYWxs
+d2lubmVydGVjaC5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+ID4gIGRyaXZlcnMvbW1jL2hvc3Qvc3Vu
+eGktbW1jLmMgfCA4ICsrKysrKysrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlv
+bnMoKykKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21tYy9ob3N0L3N1bnhp
+LW1tYy5jIGIvZHJpdmVycy9tbWMvaG9zdC9zdW54aS1tbWMuYwo+ID4gPiA+IGluZGV4IDI3MDI3
+MzZhMWM1Ny4uYWZlZWZlYWQ2NTAxIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvbW1jL2hv
+c3Qvc3VueGktbW1jLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL21tYy9ob3N0L3N1bnhpLW1tYy5j
+Cj4gPiA+ID4gQEAgLTEzMDAsNiArMTMwMCwxNCBAQCBzdGF0aWMgaW50IHN1bnhpX21tY19yZXNv
+dXJjZV9yZXF1ZXN0KHN0cnVjdCBzdW54aV9tbWNfaG9zdCAqaG9zdCwKPiA+ID4gPiAgICAgICAg
+IGlmIChyZXQpCj4gPiA+ID4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiA+ID4KPiA+
+ID4gPiArICAgICAgIC8qKgo+ID4gPiA+ICsgICAgICAgICogU29tZSBwbGF0Zm9ybXMgaGFzIG5v
+IHJlZ3VsYXRvci4gRGlzY3JldGUgZGV2aWNlcyBhcmUgdXNlZCBpbnN0ZWFkLgo+ID4gPiA+ICsg
+ICAgICAgICogVG8gc3VwcG9ydCBzZC9tbWMgY2FyZCwgd2UgbmVlZCB0byBhZGQgb2NyIG1hbnVh
+bGx5Lgo+ID4gPiA+ICsgICAgICAgICovCj4gPiA+ID4gKyAgICAgICBpZiAoIWhvc3QtPm1tYy0+
+b2NyX2F2YWlsKQo+ID4gPiA+ICsgICAgICAgICAgICAgICBob3N0LT5tbWMtPm9jcl9hdmFpbCA9
+IE1NQ19WRERfMzJfMzMgfCBNTUNfVkREXzMzXzM0Owo+ID4gPiA+ICsKPiA+ID4KPiA+ID4gUmF0
+aGVyIHRoYW4gZG9pbmcgdGhpcywgSSBzdWdnZXN0IHlvdSBob29rIHVwIGEgZml4ZWQgdm1tYyBy
+ZWd1bGF0b3IgaW4gdGhlIERUUy4KPiA+ID4KPiA+ID4gTmV2ZXJ0aGVsZXNzLCBpdCBzZWVtcyBy
+ZWFzb25hYmxlIHRvIGNoZWNrIHRoYXQgdGhlIG9jcl9hdmFpbCBnZXRzIHNldAo+ID4gPiB1cCBj
+b3JyZWN0bHkuIEFuZCBpZiBpdCBkb2Vzbid0LCBwZXJoYXBzIHdlIHNob3VsZCBwcmludCBhIHdh
+cm5pbmcgYW5kCj4gPiA+IHJldHVybiBhbiBlcnJvciBjb2RlLgo+ID4gPgo+ID4gPiA+ICsKPiA+
+ID4gPiAgICAgICAgIGhvc3QtPnJlZ19iYXNlID0gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291
+cmNlKHBkZXYsIDApOwo+ID4gPiA+ICAgICAgICAgaWYgKElTX0VSUihob3N0LT5yZWdfYmFzZSkp
+Cj4gPiA+ID4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGhvc3QtPnJlZ19iYXNlKTsK
+PiA+ID4KPiA+ID4gS2luZCByZWdhcmRzCj4gPiA+IFVmZmUKPiA+Cj4gPiBEZWFyIFVmZmUsCj4g
+PiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4gSXQgaXMgYSBiZXR0ZXIgc29sdXRpb24uCj4g
+PiBJJ3ZlIG1vZGlmaWVkIG15IHBhdGNoLiBQbGVhc2UgY2hlY2sgaWYgaXQncyByZWFzb25hYmxl
+LiBJZiBpdCBpcywgSSdsbCByZS1zdW1iaXQgaXQgbGF0ZXIuCj4gPgo+ID4gLS0tCj4gPiBTdWJq
+ZWN0OiBbUEFUQ0ggdjJdIG1tYzogc3VueGktbW1jOiBjaGVjayBvY3JfYXZhaWwgb24gcmVzb3Vy
+Y2UgcmVxdWVzdAo+ID4KPiA+IFNvbWUgcGxhdGZvcm1zIGhhdmUgbm8gcmVndWxhdG9yLCBkaXNj
+cmV0ZSBwb3dlciBkZXZpY2VzIGFyZSB1c2VkIGluc3RlYWQuCj4gPiBIb3dldmVyLCBzdW54aV9t
+bWNfcHJvYmUgZG9lcyBub3QgY2F0Y2ggdGhpcyBleGNlcHRpb24gd2hlbiByZWd1bGF0b3IgaXMK
+PiA+IGFic2VudCBpbiBEVFMuIFRoaXMgbGVhZHMgdG8gc2Qgb3IgZU1NQyBpbml0IGZhaWx1cmUu
+Cj4gPiBUbyBzb2x2ZSB0aGlzLCBhIGZpeGVkIHZtbWMgcmVndWxhdG9yIG11c3QgYmUgaG9va2Vk
+IHVwIGluIERUUywgbGlrZSB0aGlzOgo+ID4gcmVnX2R1bW15X3ZtbWM6IGR1bW15X3ZtbWMgewo+
+ID4gICAgICAgICBjb21wYXRpYmxlID0gInJlZ3VsYXRvci1maXhlZCI7Cj4gPiAgICAgICAgIHJl
+Z3VsYXRvci1uYW1lID0gImR1bW15LXZtbWMiOwo+ID4gICAgICAgICByZWd1bGF0b3ItbWluLW1p
+Y3Jvdm9sdCA9IDw1MDAwMDA+Owo+ID4gICAgICAgICByZWd1bGF0b3ItbWF4LW1pY3Jvdm9sdCA9
+IDwzNTAwMDAwPjsKPiAKPiBUaGUgbWluL21heCBzaG91bGQgYmUgc2V0IHRvIHRoZSBzYW1lIHZh
+bHVlIGFzIHlvdSBjYW4ndCByZWFsbHkgY2hhbmdlCj4gdGhlIHZvbHRhZ2UgbGV2ZWxzLgo+IAo+
+IElmIHlvdSBrbm93IHRoZSB2b2x0YWdlIGxldmVsIHRoYXQgaXMgc3VwcGxpZWQgZm9yIHlvdXIg
+cGxhdGZvcm0sIHRoZW4KPiBzdGF0ZSB0aGlzIHZhbHVlIC0gb3RoZXJ3aXNlIEkgd291bGQgc3Vn
+Z2VzdCBwaWNraW5nIDMuM1YsIHdoaWNoIGlzCj4gcmF0aGVyIGNvbW1vbmx5IHVzZWQgZm9yIE1N
+Qy9TRC4KCk9rYXkuIFRoZSBzdXBwbGllZCB2b2x0YWdlIGlzIDIuN1Z+My42Vi4gbCdsbCBjb3Jy
+ZWN0IHRoZSBtaW4vbWF4IHZhbHVlIHRvIDMuM1Y6CgogICAgICAgIHJlZ3VsYXRvci1taW4tbWlj
+cm92b2x0ID0gPDMzMDAwMDA+OwogICAgICAgIHJlZ3VsYXRvci1tYXgtbWljcm92b2x0ID0gPDMz
+MDAwMDA+OwoKPiA+IH07Cj4gPiBtbWMwOm1tY0A0MDIwMDAwIHsKPiA+ICAgICAgICAgY29tcGF0
+aWJsZSA9ICJhbGx3aW5uZXIsc3VuNTBpLWExMDAtZW1tYyI7Cj4gPiAgICAgICAgIGRldmljZV90
+eXBlID0gIm1tYzAiOwo+ID4gICAgICAgICB2bW1jLXN1cHBseSA9IDwmcmVnX2R1bW15X3ZtbWM+
+Owo+ID4gfQo+ID4gSW4gdGhpcyBwYXRjaCwgd2UgcHJpbnQgYW4gZXJyb3IgbWVzc2FnZSBhbmQg
+YWJvcnQgdGhlIHByb2JlIHByb2Nlc3MgaWYKPiA+IHRoZSByZWd1bGF0b3IgaXMgbm90IHNwZWNp
+ZmllZCBpbiBEVFMuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogTWljaGFlbCBXdSA8bWljaGFlbEBh
+bGx3aW5uZXJ0ZWNoLmNvbT4KPiA+IC0tLQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21t
+Yy9ob3N0L3N1bnhpLW1tYy5jIGIvZHJpdmVycy9tbWMvaG9zdC9zdW54aS1tbWMuYwo+ID4gaW5k
+ZXggMjcwMjczNi4uMGRhNzRiZCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvbW1jL2hvc3Qvc3Vu
+eGktbW1jLmMKPiA+ICsrKyBiL2RyaXZlcnMvbW1jL2hvc3Qvc3VueGktbW1jLmMKPiA+IEBAIC0x
+MzAwLDYgKzEzMDAsMTEgQEAKPiA+ICAgICAgICAgaWYgKHJldCkKPiA+ICAgICAgICAgICAgICAg
+ICByZXR1cm4gcmV0Owo+ID4KPiA+ICsgICAgICAgaWYgKCFob3N0LT5tbWMtPm9jcl9hdmFpbCkg
+ewo+ID4gKyAgICAgICAgICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwgIkNvdWxkIG5vdCBnZXQg
+bW1jIHJlZ3VsYXRvclxuIik7Cj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4g
+PiArICAgICAgIH0KPiA+ICsKPiA+ICAgICAgICAgaG9zdC0+cmVnX2Jhc2UgPSBkZXZtX3BsYXRm
+b3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7Cj4gPiAgICAgICAgIGlmIChJU19FUlIoaG9z
+dC0+cmVnX2Jhc2UpKQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGhvc3QtPnJl
+Z19iYXNlKTsKPiA+Cj4gPiBCZXN0IFJlZ2FyZHMsCj4gPiBNaWNoYWVsIFd1Cj4gCj4gWWVwLCB0
+aGlzIGxvb2tzIGdvb2QgdG8gbWUhCj4gCj4gS2luZCByZWdhcmRzCj4gVWZmZQoKSSdsbCBzdWJt
+aXQgdGhlIHBhdGNoIG9uY2UgSSBnZXQgYmFjayB0byB3b3JrLiBUaGFua3MgZm9yIHlvdXIgZWZm
+b3J0IGFuZCBoYXBweSBuZXcgeWVhciA6KQoKQmVzdCBSZWdhcmRzLApNaWNoYWVsIFd1
 
-The min/max should be set to the same value as you can't really change
-the voltage levels.
-
-If you know the voltage level that is supplied for your platform, then
-state this value - otherwise I would suggest picking 3.3V, which is
-rather commonly used for MMC/SD.
-
-> };
-> mmc0:mmc@4020000 {
->         compatible = "allwinner,sun50i-a100-emmc";
->         device_type = "mmc0";
->         vmmc-supply = <&reg_dummy_vmmc>;
-> }
-> In this patch, we print an error message and abort the probe process if
-> the regulator is not specified in DTS.
->
-> Signed-off-by: Michael Wu <michael@allwinnertech.com>
-> ---
->
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index 2702736..0da74bd 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -1300,6 +1300,11 @@
->         if (ret)
->                 return ret;
->
-> +       if (!host->mmc->ocr_avail) {
-> +               dev_err(&pdev->dev, "Could not get mmc regulator\n");
-> +               return -EINVAL;
-> +       }
-> +
->         host->reg_base = devm_platform_ioremap_resource(pdev, 0);
->         if (IS_ERR(host->reg_base))
->                 return PTR_ERR(host->reg_base);
->
-> Best Regards,
-> Michael Wu
-
-Yep, this looks good to me!
-
-Kind regards
-Uffe
