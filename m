@@ -1,120 +1,132 @@
-Received: from mail142-3.mail.alibaba.com (mail142-3.mail.alibaba.com [198.11.142.3])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0809173
-	for <linux-sunxi@lists.linux.dev>; Fri, 31 Dec 2021 14:11:54 +0000 (UTC)
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06537051|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.0358684-0.00370216-0.960429;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047206;MF=michael@allwinnertech.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.MV40a3-_1640959584;
-Received: from YanYan-NB(mailfrom:michael@allwinnertech.com fp:SMTPD_---.MV40a3-_1640959584)
-          by smtp.aliyun-inc.com(10.147.42.197);
-          Fri, 31 Dec 2021 22:06:26 +0800
-Date: Fri, 31 Dec 2021 22:06:23 +0800
-From: "michael@allwinnertech.com" <michael@allwinnertech.com>
-To: "Ulf Hansson" <ulf.hansson@linaro.org>
-Cc: mripard <mripard@kernel.org>, 
-	wens <wens@csie.org>, 
-	samuel <samuel@sholland.org>, 
-	andre.przywara <andre.przywara@arm.com>, 
-	jernej.skrabec <jernej.skrabec@gmail.com>, 
-	linux-mmc <linux-mmc@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-sunxi <linux-sunxi@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] mmc:sunxi-mmc:add support on discrete device power supply
-References: <20211222030634.33816-1-michael@allwinnertech.com>, 
-	<CAPDyKFoNuWX76Haq0MfvukbHR8mMq0rX7qC+o_ZhEAxAwwpBbQ@mail.gmail.com>, 
-	<2021123116275961132724@allwinnertech.com>, 
-	<CAPDyKFpnTk9Ky-zr-dakTZJr1N_65_6py9=3_78vwOR930apEQ@mail.gmail.com>
-X-Priority: 3
-X-GUID: 4FA5C177-3B19-4D61-B241-12BA2B9C9D5A
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.22.194[cn]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E5A2C80
+	for <linux-sunxi@lists.linux.dev>; Sun,  2 Jan 2022 17:38:55 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id i22so65789318wrb.13
+        for <linux-sunxi@lists.linux.dev>; Sun, 02 Jan 2022 09:38:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wWLcKGVB1L+M/AiUcBrGPhY5Q0k7V6b5eY3DoUOJMD8=;
+        b=csZHGY26pjatP+CDAnS2WMlOd0K0PgW1V0FMFl7ejbepqwQz/MGKn+eRen/1UweBeu
+         GGi0g8PdQ87eLfPzL1mDNUcGf3cF70JSGhz3D4AYURckPR/vcZ3y5hpw1fP40aIJgfTn
+         Fne7LZ7shhqEYP3gT8cXawpvhAYyPbm5mBHWnTKcaEag+ms7hlf3U+q9D+b3NiF3paUS
+         eRwVJxbpHMBEPdatzAl7z648n5OBTRNH16Ll703ovq0c/3RGCxYPje9jcq+QIMe1Olj+
+         +FpO7R98DAJZnP+/fbvUbBUNQrivxylkP2iIcUBAk16cbT7oMhGBtvfiq1+SlNZg2Xnp
+         yj0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wWLcKGVB1L+M/AiUcBrGPhY5Q0k7V6b5eY3DoUOJMD8=;
+        b=PHQfv508GP2L2CPSw5HmYNQcn59Y+jlDhEvufdYChobG7+C6gQL4Bd/ofzP2HZp6PI
+         jxydzKyqL440+l5EZFDY6GpchmpgHmJHmITDOGHkhuMHtFASkrfALG7vAJPYC2jR4enj
+         f6ch1+2lKctJRNZbYpzYhhYZYL9sSMBrO0oe+WlY6tMbDHokjk3LSHU+y1D6ni5r4MnM
+         vC6og7qpmBTyAivZOEcDoMqv4Rbvt4n/kDmxjFHg/s2bQa9G0nk89qK9rRO4S0W8kMnh
+         d4H2ytZngSY5alr/g0dKk5AOAZzwXZs7vAxYiY6PIP4M9LaOwqHWuYCzLo4b6k2w4J9Y
+         x01g==
+X-Gm-Message-State: AOAM530WmC2i+u1d7BgvySc++LQhz+aAJz8A6J3oGmrVAL9ut4c8Jdfb
+	pv/i/gGzlEPka75tV9fZ+2w=
+X-Google-Smtp-Source: ABdhPJx3omdWEPyY14zY26ZL/okoE6UgJ7jwIZfMCKhDBqivpngpgjI4u0TAz3uLzlOh77rjr6U7+A==
+X-Received: by 2002:a5d:4ac1:: with SMTP id y1mr24447262wrs.588.1641145134005;
+        Sun, 02 Jan 2022 09:38:54 -0800 (PST)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id b16sm35872809wmq.41.2022.01.02.09.38.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Jan 2022 09:38:53 -0800 (PST)
+Date: Sun, 2 Jan 2022 18:38:51 +0100
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: Conley Lee <conleylee@foxmail.com>
+Cc: davem@davemloft.net, kuba@kernel.org, mripard@kernel.org, wens@csie.org,
+	netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	jernej.skrabec@gmail.com
+Subject: Re: [PATCH v6] sun4i-emac.c: add dma support
+Message-ID: <YdHjK+/SzaeI/V2Q@Red>
+References: <20211228164817.1297c1c9@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+ <tencent_DE05ADA53D5B084D4605BE6CB11E49EF7408@qq.com>
+ <Yc7e6V9/oioEpx8c@Red>
+ <tencent_57960DDC83F43DA3E0A2F47DEBAD69A4A005@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-ID: <2021123121313177857228@allwinnertech.com>
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_57960DDC83F43DA3E0A2F47DEBAD69A4A005@qq.com>
 
-PiBPbiBGcmksIDMxIERlYyAyMDIxIGF0IDA5OjI4LCBtaWNoYWVsQGFsbHdpbm5lcnRlY2guY29t
-Cj4gPG1pY2hhZWxAYWxsd2lubmVydGVjaC5jb20+IHdyb3RlOgo+ID4KPiA+ID4gRnJvbTogVWxm
-IEhhbnNzb24KPiA+ID4gRGF0ZTogMjAyMS0xMi0yOSAwMDo0OQo+ID4gPiBUbzogTWljaGFlbCBX
-dQo+ID4gPiBDQzogbXJpcGFyZDsgd2Vuczsgc2FtdWVsOyBhbmRyZS5wcnp5d2FyYTsgamVybmVq
-LnNrcmFiZWM7IGxpbnV4LW1tYzsgbGludXgtYXJtLWtlcm5lbDsgbGludXgtc3VueGk7IGxpbnV4
-LWtlcm5lbAo+ID4gPiBTdWJqZWN0OiBSZTogW1BBVENIIDEvM10gbW1jOnN1bnhpLW1tYzphZGQg
-c3VwcG9ydCBvbiBkaXNjcmV0ZSBkZXZpY2UgcG93ZXIgc3VwcGx5Cj4gPiA+IE9uIFdlZCwgMjIg
-RGVjIDIwMjEgYXQgMDQ6MDcsIE1pY2hhZWwgV3UgPG1pY2hhZWxAYWxsd2lubmVydGVjaC5jb20+
-IHdyb3RlOgo+ID4gPiA+Cj4gPiA+ID4gQmVjYXVzZSBzb21lIHBsYXRmb3JtIGhhcyBubyByZWd1
-bGF0b3IsIG9ubHkgdXNlIGRpc2NyZXRlIGRldmljZXMKPiA+ID4gPiB0byBzdXBwbHkgcG93ZXIs
-Rm9yIHRoaXMgc2l0dWF0aW9uLCB0byB1c2Ugc2QvbW1jIGNhcmQsIHdlIGFkZCBvY3IgbWFudWFs
-bHkKPiA+ID4gPgo+ID4gPiA+IFNpZ25lZC1vZmYtYnk6IE1pY2hhZWwgV3UgPG1pY2hhZWxAYWxs
-d2lubmVydGVjaC5jb20+Cj4gPiA+ID4gLS0tCj4gPiA+ID4gIGRyaXZlcnMvbW1jL2hvc3Qvc3Vu
-eGktbW1jLmMgfCA4ICsrKysrKysrCj4gPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlv
-bnMoKykKPiA+ID4gPgo+ID4gPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21tYy9ob3N0L3N1bnhp
-LW1tYy5jIGIvZHJpdmVycy9tbWMvaG9zdC9zdW54aS1tbWMuYwo+ID4gPiA+IGluZGV4IDI3MDI3
-MzZhMWM1Ny4uYWZlZWZlYWQ2NTAxIDEwMDY0NAo+ID4gPiA+IC0tLSBhL2RyaXZlcnMvbW1jL2hv
-c3Qvc3VueGktbW1jLmMKPiA+ID4gPiArKysgYi9kcml2ZXJzL21tYy9ob3N0L3N1bnhpLW1tYy5j
-Cj4gPiA+ID4gQEAgLTEzMDAsNiArMTMwMCwxNCBAQCBzdGF0aWMgaW50IHN1bnhpX21tY19yZXNv
-dXJjZV9yZXF1ZXN0KHN0cnVjdCBzdW54aV9tbWNfaG9zdCAqaG9zdCwKPiA+ID4gPiAgICAgICAg
-IGlmIChyZXQpCj4gPiA+ID4gICAgICAgICAgICAgICAgIHJldHVybiByZXQ7Cj4gPiA+ID4KPiA+
-ID4gPiArICAgICAgIC8qKgo+ID4gPiA+ICsgICAgICAgICogU29tZSBwbGF0Zm9ybXMgaGFzIG5v
-IHJlZ3VsYXRvci4gRGlzY3JldGUgZGV2aWNlcyBhcmUgdXNlZCBpbnN0ZWFkLgo+ID4gPiA+ICsg
-ICAgICAgICogVG8gc3VwcG9ydCBzZC9tbWMgY2FyZCwgd2UgbmVlZCB0byBhZGQgb2NyIG1hbnVh
-bGx5Lgo+ID4gPiA+ICsgICAgICAgICovCj4gPiA+ID4gKyAgICAgICBpZiAoIWhvc3QtPm1tYy0+
-b2NyX2F2YWlsKQo+ID4gPiA+ICsgICAgICAgICAgICAgICBob3N0LT5tbWMtPm9jcl9hdmFpbCA9
-IE1NQ19WRERfMzJfMzMgfCBNTUNfVkREXzMzXzM0Owo+ID4gPiA+ICsKPiA+ID4KPiA+ID4gUmF0
-aGVyIHRoYW4gZG9pbmcgdGhpcywgSSBzdWdnZXN0IHlvdSBob29rIHVwIGEgZml4ZWQgdm1tYyBy
-ZWd1bGF0b3IgaW4gdGhlIERUUy4KPiA+ID4KPiA+ID4gTmV2ZXJ0aGVsZXNzLCBpdCBzZWVtcyBy
-ZWFzb25hYmxlIHRvIGNoZWNrIHRoYXQgdGhlIG9jcl9hdmFpbCBnZXRzIHNldAo+ID4gPiB1cCBj
-b3JyZWN0bHkuIEFuZCBpZiBpdCBkb2Vzbid0LCBwZXJoYXBzIHdlIHNob3VsZCBwcmludCBhIHdh
-cm5pbmcgYW5kCj4gPiA+IHJldHVybiBhbiBlcnJvciBjb2RlLgo+ID4gPgo+ID4gPiA+ICsKPiA+
-ID4gPiAgICAgICAgIGhvc3QtPnJlZ19iYXNlID0gZGV2bV9wbGF0Zm9ybV9pb3JlbWFwX3Jlc291
-cmNlKHBkZXYsIDApOwo+ID4gPiA+ICAgICAgICAgaWYgKElTX0VSUihob3N0LT5yZWdfYmFzZSkp
-Cj4gPiA+ID4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGhvc3QtPnJlZ19iYXNlKTsK
-PiA+ID4KPiA+ID4gS2luZCByZWdhcmRzCj4gPiA+IFVmZmUKPiA+Cj4gPiBEZWFyIFVmZmUsCj4g
-PiBUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4gSXQgaXMgYSBiZXR0ZXIgc29sdXRpb24uCj4g
-PiBJJ3ZlIG1vZGlmaWVkIG15IHBhdGNoLiBQbGVhc2UgY2hlY2sgaWYgaXQncyByZWFzb25hYmxl
-LiBJZiBpdCBpcywgSSdsbCByZS1zdW1iaXQgaXQgbGF0ZXIuCj4gPgo+ID4gLS0tCj4gPiBTdWJq
-ZWN0OiBbUEFUQ0ggdjJdIG1tYzogc3VueGktbW1jOiBjaGVjayBvY3JfYXZhaWwgb24gcmVzb3Vy
-Y2UgcmVxdWVzdAo+ID4KPiA+IFNvbWUgcGxhdGZvcm1zIGhhdmUgbm8gcmVndWxhdG9yLCBkaXNj
-cmV0ZSBwb3dlciBkZXZpY2VzIGFyZSB1c2VkIGluc3RlYWQuCj4gPiBIb3dldmVyLCBzdW54aV9t
-bWNfcHJvYmUgZG9lcyBub3QgY2F0Y2ggdGhpcyBleGNlcHRpb24gd2hlbiByZWd1bGF0b3IgaXMK
-PiA+IGFic2VudCBpbiBEVFMuIFRoaXMgbGVhZHMgdG8gc2Qgb3IgZU1NQyBpbml0IGZhaWx1cmUu
-Cj4gPiBUbyBzb2x2ZSB0aGlzLCBhIGZpeGVkIHZtbWMgcmVndWxhdG9yIG11c3QgYmUgaG9va2Vk
-IHVwIGluIERUUywgbGlrZSB0aGlzOgo+ID4gcmVnX2R1bW15X3ZtbWM6IGR1bW15X3ZtbWMgewo+
-ID4gICAgICAgICBjb21wYXRpYmxlID0gInJlZ3VsYXRvci1maXhlZCI7Cj4gPiAgICAgICAgIHJl
-Z3VsYXRvci1uYW1lID0gImR1bW15LXZtbWMiOwo+ID4gICAgICAgICByZWd1bGF0b3ItbWluLW1p
-Y3Jvdm9sdCA9IDw1MDAwMDA+Owo+ID4gICAgICAgICByZWd1bGF0b3ItbWF4LW1pY3Jvdm9sdCA9
-IDwzNTAwMDAwPjsKPiAKPiBUaGUgbWluL21heCBzaG91bGQgYmUgc2V0IHRvIHRoZSBzYW1lIHZh
-bHVlIGFzIHlvdSBjYW4ndCByZWFsbHkgY2hhbmdlCj4gdGhlIHZvbHRhZ2UgbGV2ZWxzLgo+IAo+
-IElmIHlvdSBrbm93IHRoZSB2b2x0YWdlIGxldmVsIHRoYXQgaXMgc3VwcGxpZWQgZm9yIHlvdXIg
-cGxhdGZvcm0sIHRoZW4KPiBzdGF0ZSB0aGlzIHZhbHVlIC0gb3RoZXJ3aXNlIEkgd291bGQgc3Vn
-Z2VzdCBwaWNraW5nIDMuM1YsIHdoaWNoIGlzCj4gcmF0aGVyIGNvbW1vbmx5IHVzZWQgZm9yIE1N
-Qy9TRC4KCk9rYXkuIFRoZSBzdXBwbGllZCB2b2x0YWdlIGlzIDIuN1Z+My42Vi4gbCdsbCBjb3Jy
-ZWN0IHRoZSBtaW4vbWF4IHZhbHVlIHRvIDMuM1Y6CgogICAgICAgIHJlZ3VsYXRvci1taW4tbWlj
-cm92b2x0ID0gPDMzMDAwMDA+OwogICAgICAgIHJlZ3VsYXRvci1tYXgtbWljcm92b2x0ID0gPDMz
-MDAwMDA+OwoKPiA+IH07Cj4gPiBtbWMwOm1tY0A0MDIwMDAwIHsKPiA+ICAgICAgICAgY29tcGF0
-aWJsZSA9ICJhbGx3aW5uZXIsc3VuNTBpLWExMDAtZW1tYyI7Cj4gPiAgICAgICAgIGRldmljZV90
-eXBlID0gIm1tYzAiOwo+ID4gICAgICAgICB2bW1jLXN1cHBseSA9IDwmcmVnX2R1bW15X3ZtbWM+
-Owo+ID4gfQo+ID4gSW4gdGhpcyBwYXRjaCwgd2UgcHJpbnQgYW4gZXJyb3IgbWVzc2FnZSBhbmQg
-YWJvcnQgdGhlIHByb2JlIHByb2Nlc3MgaWYKPiA+IHRoZSByZWd1bGF0b3IgaXMgbm90IHNwZWNp
-ZmllZCBpbiBEVFMuCj4gPgo+ID4gU2lnbmVkLW9mZi1ieTogTWljaGFlbCBXdSA8bWljaGFlbEBh
-bGx3aW5uZXJ0ZWNoLmNvbT4KPiA+IC0tLQo+ID4KPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21t
-Yy9ob3N0L3N1bnhpLW1tYy5jIGIvZHJpdmVycy9tbWMvaG9zdC9zdW54aS1tbWMuYwo+ID4gaW5k
-ZXggMjcwMjczNi4uMGRhNzRiZCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMvbW1jL2hvc3Qvc3Vu
-eGktbW1jLmMKPiA+ICsrKyBiL2RyaXZlcnMvbW1jL2hvc3Qvc3VueGktbW1jLmMKPiA+IEBAIC0x
-MzAwLDYgKzEzMDAsMTEgQEAKPiA+ICAgICAgICAgaWYgKHJldCkKPiA+ICAgICAgICAgICAgICAg
-ICByZXR1cm4gcmV0Owo+ID4KPiA+ICsgICAgICAgaWYgKCFob3N0LT5tbWMtPm9jcl9hdmFpbCkg
-ewo+ID4gKyAgICAgICAgICAgICAgIGRldl9lcnIoJnBkZXYtPmRldiwgIkNvdWxkIG5vdCBnZXQg
-bW1jIHJlZ3VsYXRvclxuIik7Cj4gPiArICAgICAgICAgICAgICAgcmV0dXJuIC1FSU5WQUw7Cj4g
-PiArICAgICAgIH0KPiA+ICsKPiA+ICAgICAgICAgaG9zdC0+cmVnX2Jhc2UgPSBkZXZtX3BsYXRm
-b3JtX2lvcmVtYXBfcmVzb3VyY2UocGRldiwgMCk7Cj4gPiAgICAgICAgIGlmIChJU19FUlIoaG9z
-dC0+cmVnX2Jhc2UpKQo+ID4gICAgICAgICAgICAgICAgIHJldHVybiBQVFJfRVJSKGhvc3QtPnJl
-Z19iYXNlKTsKPiA+Cj4gPiBCZXN0IFJlZ2FyZHMsCj4gPiBNaWNoYWVsIFd1Cj4gCj4gWWVwLCB0
-aGlzIGxvb2tzIGdvb2QgdG8gbWUhCj4gCj4gS2luZCByZWdhcmRzCj4gVWZmZQoKSSdsbCBzdWJt
-aXQgdGhlIHBhdGNoIG9uY2UgSSBnZXQgYmFjayB0byB3b3JrLiBUaGFua3MgZm9yIHlvdXIgZWZm
-b3J0IGFuZCBoYXBweSBuZXcgeWVhciA6KQoKQmVzdCBSZWdhcmRzLApNaWNoYWVsIFd1
+Le Sat, Jan 01, 2022 at 03:09:01PM +0800, Conley Lee a écrit :
+> On 12/31/21 at 11:43上午, Corentin Labbe wrote:
+> > Date: Fri, 31 Dec 2021 11:43:53 +0100
+> > From: Corentin Labbe <clabbe.montjoie@gmail.com>
+> > To: conleylee@foxmail.com
+> > Cc: davem@davemloft.net, kuba@kernel.org, mripard@kernel.org,
+> >  wens@csie.org, netdev@vger.kernel.org,
+> >  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+> > Subject: Re: [PATCH v6] sun4i-emac.c: add dma support
+> > 
+> > Le Wed, Dec 29, 2021 at 09:43:51AM +0800, conleylee@foxmail.com a écrit :
+> > > From: Conley Lee <conleylee@foxmail.com>
+> > > 
+> > > Thanks for your review. Here is the new version for this patch.
+> > > 
+> > > This patch adds support for the emac rx dma present on sun4i. The emac
+> > > is able to move packets from rx fifo to RAM by using dma.
+> > > 
+> > > Change since v4.
+> > >   - rename sbk field to skb
+> > >   - rename alloc_emac_dma_req to emac_alloc_dma_req
+> > >   - using kzalloc(..., GPF_ATOMIC) in interrupt context to avoid
+> > >     sleeping
+> > >   - retry by using emac_inblk_32bit when emac_dma_inblk_32bit fails
+> > >   - fix some code style issues 
+> > > 
+> > > Change since v5.
+> > >   - fix some code style issue
+> > > 
+> > 
+> > Hello
+> > 
+> > I just tested this on a sun4i-a10-olinuxino-lime
+> > 
+> > I got:
+> > [    2.922812] sun4i-emac 1c0b000.ethernet (unnamed net_device) (uninitialized): get io resource from device: 0x1c0b000, size = 4096
+> > [    2.934512] sun4i-emac 1c0b000.ethernet (unnamed net_device) (uninitialized): failed to request dma channel. dma is disabled
+> > [    2.945740] sun4i-emac 1c0b000.ethernet (unnamed net_device) (uninitialized): configure dma failed. disable dma.
+> > [    2.957887] sun4i-emac 1c0b000.ethernet: eth0: at (ptrval), IRQ 19 MAC: 02:49:09:40:ab:3d
+> > 
+> > On which board did you test it and how ?
+> > 
+> > Regards
+> 
+> Sorry. I sent the email with text/html format. This email is an clean version.
+> 
+> In order to enable dma rx channel. `dmas` and `dma-names` properties
+> should be added to emac section in dts:
+> 
+> emac: ethernet@1c0b000 {
+> 	...
+> 	dmas = <&dma SUN4I_DMA_DEDICATED 7>;
+> 	dma-names = "rx";
+> 	...
+> }
 
+Helo
+
+Yes I figured that out. But you should have done a patch serie adding this.
+Your patch is now applied but it is a useless change without the dtb change.
+You should also probably update the driver binding (Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml) since you add new members to DT node.
+
+Furthermore, why did you add RX only and not TX dma also ?
+
+Probably it is too late since patch is applied but it is:
+Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Tested-on: sun4i-a10-olinuxino-lime
+
+Regards
