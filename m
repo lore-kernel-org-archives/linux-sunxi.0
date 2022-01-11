@@ -1,151 +1,193 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7ACC2CA3
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 16:06:14 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id x6so58022918lfa.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 08:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bYtvX5HQuAitP08saJOKuYpfCeQXY0Sh6iR2sKKOOhE=;
-        b=V4oNrihpl0g5rusObHEQEingCrDHv8fatmD3Y2N3UezjRfOG+xsixWcPyd4ogqlcQv
-         +kBeeusRXKF9jK7XBJaXRKt4flnFEnR5iuFn8X6hyxsAqtD+IXZiTGNJ5F8XmtP8ChDU
-         sTHtq7Kj6BLr+sZ4ppr2YXuaokIntn9n1frZjk8rVZK/ok/mSknoOz6hh83PJcewecVK
-         ZFhFaLGnORQmGzxBEzxZsqzb4o6MA2VgMTJNM4FJyB1wrd4rBSdusHFOue/Ncom1YPtw
-         G6SCL1f3+Nl7gzmnTCbSraOtN1rs4++/LyUjw5q1pGxFGI55dxRn5YNzQRwn1+43vUog
-         eghA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bYtvX5HQuAitP08saJOKuYpfCeQXY0Sh6iR2sKKOOhE=;
-        b=DLXQhjVagtvj2JazlHjCyoz56OZjfFrI3f2tyjUS9Diusdhlq5GBgZlTdAa1qoRzL7
-         0I9A6ncgVTg/xZ/b2sBpeHB9ZJcbkrK/UX0ImTx+hLuwn3576nfosOT6PkFYyvttBmHP
-         O2oRzqkKmp1VIo/caRPmKCp4xjVZXXp+lmlZzl9wNgp/yV6dxodvvMtWL5zGqDoJSGGi
-         lXG/UG9nUcj1YrQ4X1UGLyIXrULe4drPww6pbLWPudH0ITffNaa3eRtMKB3W+lulFZ9C
-         4mIOH89K17mDDcbpoU7GJDrhxel8kUIs3jzPaDqk1ephjo4AKBhZrK18mfGb+ySxh3LZ
-         fRhw==
-X-Gm-Message-State: AOAM5310Rcig2GmgNm36zNe+4xQVvvvOAvQMtHowZxodoi5rKCzJmPOw
-	gfSF1FH/HQhRmOI87Fm5ZtcoUQ==
-X-Google-Smtp-Source: ABdhPJzAwnKImXksiAJ5zwd4qBZpNZQNCRyuGjzKiGyUZnZRo1yV5WOyyr85RAkC++U3vMrTVSJi6Q==
-X-Received: by 2002:ac2:4d36:: with SMTP id h22mr3740700lfk.560.1641917172789;
-        Tue, 11 Jan 2022 08:06:12 -0800 (PST)
-Received: from boger-laptop.lan (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
-        by smtp.gmail.com with ESMTPSA id k39sm564803lfv.150.2022.01.11.08.06.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 08:06:12 -0800 (PST)
-From: Evgeny Boger <boger@wirenboard.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-kernel@lists.infradead.org
-Cc: Evgeny Boger <boger@wirenboard.com>,
-	devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v4 3/3] ARM: dts: sun8i: r40: add second ethernet support
-Date: Tue, 11 Jan 2022 19:06:00 +0300
-Message-Id: <20220111160600.58384-4-boger@wirenboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220111160600.58384-1-boger@wirenboard.com>
-References: <20220111160600.58384-1-boger@wirenboard.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08B6A2C9C
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 16:24:32 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 879AD6D;
+	Tue, 11 Jan 2022 08:24:26 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id F31BB3F774;
+	Tue, 11 Jan 2022 08:24:24 -0800 (PST)
+Date: Tue, 11 Jan 2022 16:24:22 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Evgeny Boger <boger@wirenboard.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-can@vger.kernel.org, Wolfgang Grandegger
+ <wg@grandegger.com>, Marc Kleine-Budde <mkl@pengutronix.de>, "David S .
+ Miller" <davem@davemloft.net>, Jeroen Hofstee <jhofstee@victronenergy.com>,
+ Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+Subject: Re: [PATCH v2 2/3] can: sun4i_can: add support for R40 CAN
+ controller
+Message-ID: <20220111162422.62d0ceb0@donnerap.cambridge.arm.com>
+In-Reply-To: <20220111155709.56501-3-boger@wirenboard.com>
+References: <20220111155709.56501-1-boger@wirenboard.com>
+	<20220111155709.56501-3-boger@wirenboard.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-R40 (aka V40, A40i, T3) has two different Ethernet IPs
-called EMAC and GMAC. EMAC only support 10/100 Mbit in MII mode,
-while GMAC support both 10/100 (MII) and 10/100/1000 (RGMII).
+On Tue, 11 Jan 2022 18:57:08 +0300
+Evgeny Boger <boger@wirenboard.com> wrote:
 
-In contrast to A10/A20 where GMAC and EMAC share the same pins
-making EMAC somewhat pointless, on R40 EMAC can be routed to port H.
-Both EMAC (on port H) and GMAC (on port A) can be then enabled at
-the same time, allowing for two ethernet ports.
+Hi,
 
-Signed-off-by: Evgeny Boger <boger@wirenboard.com>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 49 ++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+> Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
+> controller is the same as in earlier A10 and A20 SoCs, but needs reset
+> line to be deasserted before use.
+> 
+> This patch adds a new compatible for R40 CAN controller. Depending
+> on the compatible, reset line can be requested from DT.
+> 
+> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+> ---
+>  drivers/net/can/sun4i_can.c | 61 ++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 60 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+> index 54aa7c25c4de..24a61326915e 100644
+> --- a/drivers/net/can/sun4i_can.c
+> +++ b/drivers/net/can/sun4i_can.c
+> @@ -61,6 +61,7 @@
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/reset.h>
+>  
+>  #define DRV_NAME "sun4i_can"
+>  
+> @@ -200,10 +201,20 @@
+>  #define SUN4I_CAN_MAX_IRQ	20
+>  #define SUN4I_MODE_MAX_RETRIES	100
+>  
+> +/**
+> + * struct sun4ican_quirks - Differences between SoC variants.
+> + *
+> + * @has_reset: SoC needs reset deasserted.
+> + */
+> +struct sun4ican_quirks {
+> +	bool		has_reset;
+> +};
+> +
+>  struct sun4ican_priv {
+>  	struct can_priv can;
+>  	void __iomem *base;
+>  	struct clk *clk;
+> +	struct reset_control *reset;
+>  	spinlock_t cmdreg_lock;	/* lock for concurrent cmd register writes */
+>  };
+>  
+> @@ -702,6 +713,13 @@ static int sun4ican_open(struct net_device *dev)
+>  		goto exit_irq;
+>  	}
+>  
+> +	/* software reset deassert */
+> +	err = reset_control_deassert(priv->reset);
+> +	if (err) {
+> +		netdev_err(dev, "could not deassert CAN reset\n");
+> +		goto exit_soft_reset;
+> +	}
+> +
+>  	/* turn on clocking for CAN peripheral block */
+>  	err = clk_prepare_enable(priv->clk);
+>  	if (err) {
+> @@ -723,6 +741,8 @@ static int sun4ican_open(struct net_device *dev)
+>  exit_can_start:
+>  	clk_disable_unprepare(priv->clk);
+>  exit_clock:
+> +	reset_control_assert(priv->reset);
+> +exit_soft_reset:
+>  	free_irq(dev->irq, dev);
+>  exit_irq:
+>  	close_candev(dev);
+> @@ -736,6 +756,7 @@ static int sun4ican_close(struct net_device *dev)
+>  	netif_stop_queue(dev);
+>  	sun4i_can_stop(dev);
+>  	clk_disable_unprepare(priv->clk);
+> +	reset_control_assert(priv->reset);
+>  
+>  	free_irq(dev->irq, dev);
+>  	close_candev(dev);
+> @@ -750,8 +771,27 @@ static const struct net_device_ops sun4ican_netdev_ops = {
+>  	.ndo_start_xmit = sun4ican_start_xmit,
+>  };
+>  
+> +static const struct sun4ican_quirks sun4ican_quirks_a10 = {
+> +	.has_reset = false,
+> +};
+> +
+> +static const struct sun4ican_quirks sun4ican_quirks_r40 = {
+> +	.has_reset = true,
+> +};
+> +
+>  static const struct of_device_id sun4ican_of_match[] = {
+> -	{.compatible = "allwinner,sun4i-a10-can"},
+> +	{
+> +		.compatible = "allwinner,sun4i-a10-can",
+> +		.data = &sun4ican_quirks_a10
+> +	},
+> +	{
+> +		.compatible = "allwinner,sun7i-a20-can",
+> +		.data = &sun4ican_quirks_a10
+> +	},
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 1d87fc0c24ee..870d63fae1fc 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -217,6 +217,19 @@ syscon: system-control@1c00000 {
- 			#size-cells = <1>;
- 			ranges;
- 
-+			sram_a: sram@0 {
-+				compatible = "mmio-sram";
-+				reg = <0x00000000 0xc000>;
-+				#address-cells = <1>;
-+				#size-cells = <1>;
-+				ranges = <0 0x00000000 0xc000>;
-+
-+				emac_sram: sram-section@8000 {
-+					compatible = "allwinner,sun4i-a10-sram-a3-a4";
-+					reg = <0x8000 0x4000>;
-+				};
-+			};
-+
- 			sram_c: sram@1d00000 {
- 				compatible = "mmio-sram";
- 				reg = <0x01d00000 0xd0000>;
-@@ -543,6 +556,24 @@ gmac_rgmii_pins: gmac-rgmii-pins {
- 				drive-strength = <40>;
- 			};
- 
-+			emac_pa_pins: emac-pa-pins {
-+				pins = "PA0", "PA1", "PA2",
-+				       "PA3", "PA4", "PA5", "PA6",
-+				       "PA7", "PA8", "PA9", "PA10",
-+				       "PA11", "PA12", "PA13", "PA14",
-+				       "PA15", "PA16";
-+				function = "emac";
-+			};
-+
-+			emac_ph_pins: emac-ph-pins {
-+				pins = "PH8", "PH9", "PH10", "PH11",
-+				       "PH14", "PH15", "PH16", "PH17",
-+				       "PH18","PH19", "PH20", "PH21",
-+				       "PH22", "PH23", "PH24", "PH25",
-+				       "PH26", "PH27";
-+				function = "emac";
-+			};
-+
- 			i2c0_pins: i2c0-pins {
- 				pins = "PB0", "PB1";
- 				function = "i2c0";
-@@ -980,6 +1011,24 @@ gmac_mdio: mdio {
- 			};
- 		};
- 
-+		emac: ethernet@1c0b000 {
-+			compatible = "allwinner,sun8i-r40-emac";
-+			reg = <0x01c0b000 0x1000>;
-+			interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_EMAC>;
-+			resets = <&ccu RST_BUS_EMAC>;
-+			allwinner,sram = <&emac_sram 1>;
-+			status = "disabled";
-+		};
-+
-+		emac_mdio: mdio@1c0b080 {
-+			compatible = "allwinner,sun4i-a10-mdio";
-+			reg = <0x01c0b080 0x14>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		mbus: dram-controller@1c62000 {
- 			compatible = "allwinner,sun8i-r40-mbus";
- 			reg = <0x01c62000 0x1000>;
--- 
-2.25.1
+This one looks unnecessary, the binding says that it must be paired with
+the A10 fallback.
+We should only add an A20 compatible match if there is really a reason,
+otherwise it encourages people to produce DTs with *only* the A20
+compatible (violating the binding).
+
+Cheers,
+Andre
+
+> +	{
+> +		.compatible = "allwinner,sun8i-r40-can",
+> +		.data = &sun4ican_quirks_r40
+> +	},
+>  	{},
+>  };
+>  
+> @@ -771,10 +811,28 @@ static int sun4ican_probe(struct platform_device *pdev)
+>  {
+>  	struct device_node *np = pdev->dev.of_node;
+>  	struct clk *clk;
+> +	struct reset_control *reset = NULL;
+>  	void __iomem *addr;
+>  	int err, irq;
+>  	struct net_device *dev;
+>  	struct sun4ican_priv *priv;
+> +	const struct sun4ican_quirks *quirks;
+> +
+> +	quirks = of_device_get_match_data(&pdev->dev);
+> +	if (!quirks) {
+> +		dev_err(&pdev->dev, "failed to determine the quirks to use\n");
+> +		err = -ENODEV;
+> +		goto exit;
+> +	}
+> +
+> +	if (quirks->has_reset) {
+> +		reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> +		if (IS_ERR(reset)) {
+> +			dev_err(&pdev->dev, "unable to request reset\n");
+> +			err = PTR_ERR(reset);
+> +			goto exit;
+> +		}
+> +	}
+>  
+>  	clk = of_clk_get(np, 0);
+>  	if (IS_ERR(clk)) {
+> @@ -818,6 +876,7 @@ static int sun4ican_probe(struct platform_device *pdev)
+>  				       CAN_CTRLMODE_3_SAMPLES;
+>  	priv->base = addr;
+>  	priv->clk = clk;
+> +	priv->reset = reset;
+>  	spin_lock_init(&priv->cmdreg_lock);
+>  
+>  	platform_set_drvdata(pdev, dev);
 
