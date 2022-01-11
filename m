@@ -1,235 +1,231 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA7A2CA3
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 16:52:09 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id x7so58494549lfu.8
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 08:52:09 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83472CA1
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 16:58:51 +0000 (UTC)
+Received: by mail-lf1-f42.google.com with SMTP id u13so58465217lff.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 08:58:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=rrlL7bK8FZhyKt4mIdGvNP9RYrYKcyozulIsDBS9RXE=;
-        b=KyJZrFvp3SaqM2Ug1MOfE2gKsuGfGifd7WrkbdbmxgPVsc9Ns5nNdo96fBs7Dho3mG
-         Lef+bY1Pc2VgP9LQeLvAkoeprJEFrF6TJGxRocfadD9XuYT+sT9GBJcqWArdT3Nd4Zzx
-         o9Qzv6Zq1Lz7Y1wyRb90OmEAtObTh6WBVX4gOZn+9ZUP8nsFZLXVq2XZBqH8CCkEc9wo
-         ef5vcu0n0Sx14rvcDLN5bJdfoA0uqyjoAhExn4lr7PJxmgt9UDrxBAkp/A5wAygrSd4u
-         fRkKX5Yj6c0hNpL4vd8Ol8I9R5ZDnqp7lUgznuP2FJMFAY0u9y9bUJdwAVkWUZWgYQ+o
-         XeaA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=VUh4EGQd2mpMCt69/uN9G3DPSpqP0qgCqhvdDSm0YX0=;
+        b=uX2WVJR/v2yBgVoM05Em7Fo26WKnXSFbQxo0tV31bmJFJuGsclisqU3B1sqy6gWOOl
+         arLp5ZNMsEfy7jQ+2BKUKpMVn7ro0tfdP/vEK3qh1iDxccih1NDRyvDF1vZC+jFL+o17
+         jkSuBIrwhxuzKFYqZcP5K3/8ny5oXKsdSy60b1NUDcVTzRACFsaC9WAALQySfEFDgykr
+         1rH99c/RYh5bcr6t1wqpzkx2nULsduRHZhKnz1RxvQ3+x5Z67Q2y8KuLC4xms+iVAMWb
+         vBrLSKmlMMr+JB/8hwW7LAx3rufHz92EceAX/6nL0xl1cDNvIMPOUqTZrAqMxmxMK3V9
+         9zXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=rrlL7bK8FZhyKt4mIdGvNP9RYrYKcyozulIsDBS9RXE=;
-        b=kMPc6dM4/M33A9X66gckrNL8Zvbau3eheJP7krzhx8mtwkGul37dJNQdYlZ4sm3nuB
-         TS/jEJ5AlIY8MwIJanBCh5lTflw+rNHI0H5u7QXl9+gRoKnEwv9RUQO6vb1yZhPPrnTB
-         xCjo3IIqMmNDemU8S6m5yxXCrqtvfvBvdgSNaJ9nOrvzv68zC76Cep2W182851dYXvmG
-         VB2n+HMTp5z2r+LVFo9lpkyORBTaJn82Hfa5N0yjhT5qZ/Uxx1O8g7sW53HFJdm6pQ6J
-         NogpI9PgAIKVOFZQwaRMb/PaGzvN3A7p+YTei0M6TUrEiAdmNKtqfBEt2z755SvQPv5n
-         T48g==
-X-Gm-Message-State: AOAM532Pqe7bcOOLwW75VpQIOkoYj/GdwMjCiktltVGygJdp/uAInYg2
-	QgaOrQW1wiRNWyYSpfuA+fBp6dMJVXmJCw==
-X-Google-Smtp-Source: ABdhPJwYH5IH5SC+OdbQpmLgtOnmWy9EKOPfUBoYmEqaV/rmX3j5HtPnBCwUEnXVWefuqrrZA6eWqA==
-X-Received: by 2002:ac2:57c7:: with SMTP id k7mr4112756lfo.110.1641919927655;
-        Tue, 11 Jan 2022 08:52:07 -0800 (PST)
-Received: from boger-laptop.lan (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
-        by smtp.gmail.com with ESMTPSA id c21sm1386388lfi.95.2022.01.11.08.52.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Jan 2022 08:52:07 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=VUh4EGQd2mpMCt69/uN9G3DPSpqP0qgCqhvdDSm0YX0=;
+        b=SV4XlZAuJu9lHjvLhAXZZcf88H/FFvZiNbmeoyd0rSvTucG5y2EyFO8TOgbV4OCB+M
+         oEdDqgF+uTNPiDBzGPKqWNqg7j0ZHRHiTFEVSqG+ihZ/xiGEhr7X1ixphwE43tN0ZNsW
+         ipzJQHh15w0BTc0gip6KedBi0nwXmmHfhWBi8G2FyNnXtFzj5EVUVPmyLEYlvya4fCPv
+         Scs0OibzhKyj0L6WfjhDCRdEjNfg0SWOZxpLK8OPr1DBkbsfLs/3EGUJCnWryWw9YDPQ
+         XN2SAxZpI1YY4DbiIu14qXM+HoexHcFwGZCPpnEI2uWwci1+/GuIx1RTfV00Lvul/XsC
+         8dPg==
+X-Gm-Message-State: AOAM530EqAGEZM/g8HxF3TGpryEYKfBc+x//3XsAQFjP6W05DD0wSe4/
+	bUnSak+IgfTcwPiF98lJPDiOXw==
+X-Google-Smtp-Source: ABdhPJzx1Trs5bpDCvEywbuBUfhJFyyAofq0QrP+LNlsuKFnHowYxLIi7NvbhHzsgAOFENpl8I5qcw==
+X-Received: by 2002:a05:6512:323a:: with SMTP id f26mr3978835lfe.238.1641920329663;
+        Tue, 11 Jan 2022 08:58:49 -0800 (PST)
+Received: from [192.168.1.213] (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
+        by smtp.googlemail.com with ESMTPSA id x14sm1365087ljh.15.2022.01.11.08.58.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 11 Jan 2022 08:58:49 -0800 (PST)
+Subject: Re: [PATCH v2 2/3] can: sun4i_can: add support for R40 CAN controller
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-can@vger.kernel.org,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Marc Kleine-Budde <mkl@pengutronix.de>,
+ "David S . Miller" <davem@davemloft.net>,
+ Jeroen Hofstee <jhofstee@victronenergy.com>,
+ Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+References: <20220111155709.56501-1-boger@wirenboard.com>
+ <20220111155709.56501-3-boger@wirenboard.com>
+ <20220111162422.62d0ceb0@donnerap.cambridge.arm.com>
 From: Evgeny Boger <boger@wirenboard.com>
-To: linux-sunxi@lists.linux.dev
-Cc: Evgeny Boger <boger@wirenboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Yangtao Li <frank@allwinnertech.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	andre.przywara@arm.com
-Subject: [PATCH v2 1/1] phy: sun4i-usb: fix phy write on H3 and newer
-Date: Tue, 11 Jan 2022 19:51:53 +0300
-Message-Id: <20220111165153.63632-2-boger@wirenboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220111165153.63632-1-boger@wirenboard.com>
-References: <20220111165153.63632-1-boger@wirenboard.com>
+Message-ID: <e6b51670-1e08-abff-8bb8-b920e68ec118@wirenboard.com>
+Date: Tue, 11 Jan 2022 19:58:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20220111162422.62d0ceb0@donnerap.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
 
-We noticed that USB hosts won't reliably enumerate USB HS (480Mb/s) devices
-in our custom A40i-based design. What we observe is that after several
-attempts USB device would fail to enumerate on EHCI port (HS) and will be
-enumerated instead on OHCI (FS, 12Mb/s) only:
+11.01.2022 19:24, Andre Przywara пишет:
+> On Tue, 11 Jan 2022 18:57:08 +0300
+> Evgeny Boger <boger@wirenboard.com> wrote:
+>
+> Hi,
+>
+>> Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
+>> controller is the same as in earlier A10 and A20 SoCs, but needs reset
+>> line to be deasserted before use.
+>>
+>> This patch adds a new compatible for R40 CAN controller. Depending
+>> on the compatible, reset line can be requested from DT.
+>>
+>> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+>> ---
+>>   drivers/net/can/sun4i_can.c | 61 ++++++++++++++++++++++++++++++++++++-
+>>   1 file changed, 60 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/net/can/sun4i_can.c b/drivers/net/can/sun4i_can.c
+>> index 54aa7c25c4de..24a61326915e 100644
+>> --- a/drivers/net/can/sun4i_can.c
+>> +++ b/drivers/net/can/sun4i_can.c
+>> @@ -61,6 +61,7 @@
+>>   #include <linux/of.h>
+>>   #include <linux/of_device.h>
+>>   #include <linux/platform_device.h>
+>> +#include <linux/reset.h>
+>>   
+>>   #define DRV_NAME "sun4i_can"
+>>   
+>> @@ -200,10 +201,20 @@
+>>   #define SUN4I_CAN_MAX_IRQ	20
+>>   #define SUN4I_MODE_MAX_RETRIES	100
+>>   
+>> +/**
+>> + * struct sun4ican_quirks - Differences between SoC variants.
+>> + *
+>> + * @has_reset: SoC needs reset deasserted.
+>> + */
+>> +struct sun4ican_quirks {
+>> +	bool		has_reset;
+>> +};
+>> +
+>>   struct sun4ican_priv {
+>>   	struct can_priv can;
+>>   	void __iomem *base;
+>>   	struct clk *clk;
+>> +	struct reset_control *reset;
+>>   	spinlock_t cmdreg_lock;	/* lock for concurrent cmd register writes */
+>>   };
+>>   
+>> @@ -702,6 +713,13 @@ static int sun4ican_open(struct net_device *dev)
+>>   		goto exit_irq;
+>>   	}
+>>   
+>> +	/* software reset deassert */
+>> +	err = reset_control_deassert(priv->reset);
+>> +	if (err) {
+>> +		netdev_err(dev, "could not deassert CAN reset\n");
+>> +		goto exit_soft_reset;
+>> +	}
+>> +
+>>   	/* turn on clocking for CAN peripheral block */
+>>   	err = clk_prepare_enable(priv->clk);
+>>   	if (err) {
+>> @@ -723,6 +741,8 @@ static int sun4ican_open(struct net_device *dev)
+>>   exit_can_start:
+>>   	clk_disable_unprepare(priv->clk);
+>>   exit_clock:
+>> +	reset_control_assert(priv->reset);
+>> +exit_soft_reset:
+>>   	free_irq(dev->irq, dev);
+>>   exit_irq:
+>>   	close_candev(dev);
+>> @@ -736,6 +756,7 @@ static int sun4ican_close(struct net_device *dev)
+>>   	netif_stop_queue(dev);
+>>   	sun4i_can_stop(dev);
+>>   	clk_disable_unprepare(priv->clk);
+>> +	reset_control_assert(priv->reset);
+>>   
+>>   	free_irq(dev->irq, dev);
+>>   	close_candev(dev);
+>> @@ -750,8 +771,27 @@ static const struct net_device_ops sun4ican_netdev_ops = {
+>>   	.ndo_start_xmit = sun4ican_start_xmit,
+>>   };
+>>   
+>> +static const struct sun4ican_quirks sun4ican_quirks_a10 = {
+>> +	.has_reset = false,
+>> +};
+>> +
+>> +static const struct sun4ican_quirks sun4ican_quirks_r40 = {
+>> +	.has_reset = true,
+>> +};
+>> +
+>>   static const struct of_device_id sun4ican_of_match[] = {
+>> -	{.compatible = "allwinner,sun4i-a10-can"},
+>> +	{
+>> +		.compatible = "allwinner,sun4i-a10-can",
+>> +		.data = &sun4ican_quirks_a10
+>> +	},
+>> +	{
+>> +		.compatible = "allwinner,sun7i-a20-can",
+>> +		.data = &sun4ican_quirks_a10
+>> +	},
+> This one looks unnecessary, the binding says that it must be paired with
+> the A10 fallback.
+> We should only add an A20 compatible match if there is really a reason,
+> otherwise it encourages people to produce DTs with *only* the A20
+> compatible (violating the binding).
 
-[    6.368009] usb 1-1: new high-speed USB device number 5 using ehci-platform
-[    6.818008] usb 1-1: device not accepting address 5, error -71
-[    6.823868] usb usb1-port1: unable to enumerate USB device
-[    7.308013] usb 3-1: new full-speed USB device number 2 using ohci-platform
-[    7.575045] usb 3-1: not running at top speed; connect to a high speed hub
+Right, thank you! Since this series has been around for a couple of 
+months already,
+and changes in v2 are trivial, would it make sense to submit v3 right away?
 
-On some boards one of the ports would work in high-speed mode, but
-on most of the boards all three USB ports would only work in FS mode.
 
-At the same time, USB work flawlessly in high-speed mode in vendor kernel.
-
-Looking for the differences in USB code, we found the issue with USB PHY
-register initialization. Basically, USB PHY driver sets a couple of
-internal undocumented PHY registers to the predefined constants. These PHY
-registers are accessed in a very (and I mean VERY) weird way by shifting
-register addresses and values bit-by-bit. This access method was slightly
-changed starting from H3 SoC, according to the BSP source for different
-SoCs.
-
-As a result, mainline PHY driver won't set these PHY registers properly
-resulting in unreliable enumeration in high-speed mode.
-
-We don't know whether this issue will result in broken HS mode on all
-affected SoCs or instead the A40i is an unfortunate exception. What we
-indeed verified, is that BSPs for all affected SoCs write these registers
-properly while mainline kernel don't. We also were able to reproduce the
-USB issue on a couple of A40i boards from other vendors, so we are pretty
-sure these registers have to always be properly set, regardlress of
-a hardware layout.
-
-The proposed patch is tested on A40i-based Wiren Board 7 building
-automation controller. More details are below.
-
-On older SoCs (prior to H3) PHY register are accessed by manipulating
-the common register for all PHYs. PHY index is specified by pulsing
-usbc bit.
-
-Newer SoCs leave the access procedure mostly unchanged, the
-difference being that the latch registers are separate for each PHY.
-
-Additionally, accessing USB PHY registers is only possible if phy0 is
-routed to musb IP instead of HCI.
-
-Introduce phy_reg_access_v2 cfg flag for H3 (H2+, H5),
-R40 (V40, A40i, T3), V3s (V3, S3) and A64 SoCs.
-
-On A83t, H6, H616, T507 and probably on more recent hardware,
-these PHY registers are not used in vendor BSP.
-So don't set v2 flag for these even newer SoCs as a precaution.
-
-Signed-off-by: Evgeny Boger <boger@wirenboard.com>
----
- drivers/phy/allwinner/phy-sun4i-usb.c | 44 ++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 788dd5cdbb7d..cf10e385f199 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -119,6 +119,7 @@ struct sun4i_usb_phy_cfg {
- 	bool dedicated_clocks;
- 	bool enable_pmu_unk1;
- 	bool phy0_dual_route;
-+	bool phy_reg_access_v2;
- 	int missing_phys;
- };
- 
-@@ -192,13 +193,38 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
- 				int len)
- {
- 	struct sun4i_usb_phy_data *phy_data = to_sun4i_usb_phy_data(phy);
--	u32 temp, usbc_bit = BIT(phy->index * 2);
-+	u32 otgctl_val, temp, usbc_bit;
- 	void __iomem *phyctl = phy_data->base + phy_data->cfg->phyctl_offset;
-+	void __iomem *phyctl_latch;
- 	unsigned long flags;
- 	int i;
- 
- 	spin_lock_irqsave(&phy_data->reg_lock, flags);
- 
-+	/* On older SoCs (prior to H3) PHY register are accessed by manipulating the
-+	 * common register for all PHYs. PHY index is specified by pulsing usbc bit.
-+	 * Newer SoCs leave the access procedure mostly unchanged, the difference
-+	 * being that the latch registers are separate for each PHY.
-+	 */
-+	if (phy_data->cfg->phy_reg_access_v2) {
-+		if (phy->index == 0)
-+			phyctl_latch = phy_data->base + phy_data->cfg->phyctl_offset;
-+		else
-+			phyctl_latch = phy->pmu + phy_data->cfg->phyctl_offset;
-+		usbc_bit = 1;
-+
-+		/* Accessing USB PHY registers is only possible if phy0 is routed to musb.
-+		 * As it's not clear whether is this related to actual PHY
-+		 * routing or rather the hardware is just reusing the same bit,
-+		 * don't check phy0_dual_route here.
-+		 */
-+		otgctl_val = readl(phy_data->base + REG_PHY_OTGCTL);
-+		writel(otgctl_val | OTGCTL_ROUTE_MUSB, phy_data->base + REG_PHY_OTGCTL);
-+	} else {
-+		phyctl_latch = phyctl;
-+		usbc_bit = BIT(phy->index * 2);
-+	}
-+
- 	if (phy_data->cfg->phyctl_offset == REG_PHYCTL_A33) {
- 		/* SoCs newer than A33 need us to set phyctl to 0 explicitly */
- 		writel(0, phyctl);
-@@ -224,17 +250,21 @@ static void sun4i_usb_phy_write(struct sun4i_usb_phy *phy, u32 addr, u32 data,
- 		writeb(temp, phyctl);
- 
- 		/* pulse usbc_bit */
--		temp = readb(phyctl);
-+		temp = readb(phyctl_latch);
- 		temp |= usbc_bit;
--		writeb(temp, phyctl);
-+		writeb(temp, phyctl_latch);
- 
--		temp = readb(phyctl);
-+		temp = readb(phyctl_latch);
- 		temp &= ~usbc_bit;
--		writeb(temp, phyctl);
-+		writeb(temp, phyctl_latch);
- 
- 		data >>= 1;
- 	}
- 
-+	/* Restore PHY routing and the rest of OTGCTL */
-+	if (phy_data->cfg->phy_reg_access_v2)
-+		writel(otgctl_val, phy_data->base + REG_PHY_OTGCTL);
-+
- 	spin_unlock_irqrestore(&phy_data->reg_lock, flags);
- }
- 
-@@ -927,6 +957,7 @@ static const struct sun4i_usb_phy_cfg sun8i_h3_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
-@@ -937,6 +968,7 @@ static const struct sun4i_usb_phy_cfg sun8i_r40_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
-@@ -947,6 +979,7 @@ static const struct sun4i_usb_phy_cfg sun8i_v3s_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
-@@ -957,6 +990,7 @@ static const struct sun4i_usb_phy_cfg sun50i_a64_cfg = {
- 	.dedicated_clocks = true,
- 	.enable_pmu_unk1 = true,
- 	.phy0_dual_route = true,
-+	.phy_reg_access_v2 = true,
- };
- 
- static const struct sun4i_usb_phy_cfg sun50i_h6_cfg = {
--- 
-2.25.1
+> Cheers,
+> Andre
+>
+>> +	{
+>> +		.compatible = "allwinner,sun8i-r40-can",
+>> +		.data = &sun4ican_quirks_r40
+>> +	},
+>>   	{},
+>>   };
+>>   
+>> @@ -771,10 +811,28 @@ static int sun4ican_probe(struct platform_device *pdev)
+>>   {
+>>   	struct device_node *np = pdev->dev.of_node;
+>>   	struct clk *clk;
+>> +	struct reset_control *reset = NULL;
+>>   	void __iomem *addr;
+>>   	int err, irq;
+>>   	struct net_device *dev;
+>>   	struct sun4ican_priv *priv;
+>> +	const struct sun4ican_quirks *quirks;
+>> +
+>> +	quirks = of_device_get_match_data(&pdev->dev);
+>> +	if (!quirks) {
+>> +		dev_err(&pdev->dev, "failed to determine the quirks to use\n");
+>> +		err = -ENODEV;
+>> +		goto exit;
+>> +	}
+>> +
+>> +	if (quirks->has_reset) {
+>> +		reset = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+>> +		if (IS_ERR(reset)) {
+>> +			dev_err(&pdev->dev, "unable to request reset\n");
+>> +			err = PTR_ERR(reset);
+>> +			goto exit;
+>> +		}
+>> +	}
+>>   
+>>   	clk = of_clk_get(np, 0);
+>>   	if (IS_ERR(clk)) {
+>> @@ -818,6 +876,7 @@ static int sun4ican_probe(struct platform_device *pdev)
+>>   				       CAN_CTRLMODE_3_SAMPLES;
+>>   	priv->base = addr;
+>>   	priv->clk = clk;
+>> +	priv->reset = reset;
+>>   	spin_lock_init(&priv->cmdreg_lock);
+>>   
+>>   	platform_set_drvdata(pdev, dev);
 
