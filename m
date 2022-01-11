@@ -1,109 +1,95 @@
 Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4CE29CA
-	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 13:13:06 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id br17so24994450lfb.6
-        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 05:13:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6A72C9C
+	for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 15:57:35 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id x7so57902410lfu.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 11 Jan 2022 07:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=HexBkH7IffTlCvDylw+G6ZVzQ2BUVoFgl2mC3mgeHX8=;
-        b=5Wf3hap5AZRbMO2KtXQL6Y/jtuLHF9cg2HUFpAtgmKsD+p5kYZvdbE38ZfdUKWqoDy
-         dddQcy60+sYew/kg53hMXSXTHQjdZqvAlt4vz0bNRIjKj6hgwaG+Tc0A/fzTzWe14lDG
-         xUUeGMhRRDnme/GsZyHE6NrbpE7D4eYX2ktBooxJsHkHwyML4Bqvpap7v4qYru4YFGmp
-         jNvI4/kXGnU2JKBfOajZazXxr7yQTrS8q18F16HP2HC+keyobwHKixpZPf0epN5qgZrr
-         CLqmXogtTcuJ/7eKyPOKdJOv6tvaQTJIFzI4n+/EqIJEjzfU8p0UlMtq9ePBgVl9la8D
-         HF3A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nTUgBUzWqYITQnAEDWeHOtQPiYS2wv61d5KwBi3uYs=;
+        b=t84dYxCCv052E4gw3UFG/bbNlvC8YH8gRdSgmtYiwENmKguYf09md0nJys7744EKcC
+         Gb18/zBvF7TLIj8+vZBwHGt+hft0CIAnff82KzRuskCyFc8yQOJw6Nu6hcXE99ke0sAm
+         1tAe+v9OsXmA80J5pSeGvWogw5cMcB/vs5exZWVIINMYL8DeWujfwdVFf+RIm+suxIoS
+         6knSFycPXx9hDxLxMhOv0ymGkjJ7nd3loxPGiSTqrx6JuowFH4HxehN5hG3v84ncX3+b
+         6zqraG1VyL0SdOUHNRAtcoEqagW5t7uEvEQsqRz3VpCoWQLqQqc8XIBNZoyYoCgRAsd7
+         DQCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=HexBkH7IffTlCvDylw+G6ZVzQ2BUVoFgl2mC3mgeHX8=;
-        b=fV057MITSTGZy5kAqUWfXKnIHuX1qGUCxk4HdnI4dLwDwecc8kZP4B49tFDjrolggJ
-         N+bwkIFYelVbATibYEPqoz68DQonbiu4QPS8KEu8rZ4LV2DM1mUdjQ3MejUCIRcwTonU
-         6koDfJVZq1TS3/NqlBaBTzcfzlAMvgSz0pz2G1JLnyrfOb33QakA7GoIPzgNX2hDKUap
-         hQI64a0BL/rpTaphdeuoKT1Wm3SuMeuyl4keoq9y6WWCDr8WCYUqJZ3g/rVjXgs47p5Z
-         QFoQ19gsuoAPsQBcDbMGmRCS6E14E2PtUxvqHqsn5ghGhTg21F+7FZzwbNrimzpCs78K
-         VAQw==
-X-Gm-Message-State: AOAM532xglha8XpD3tkqdRn9NGmbyiSHCqBQ0v0nU8KYWOPo1ohYEJ6+
-	/KOa8CckXCeKmfx0W0s44mIauQ==
-X-Google-Smtp-Source: ABdhPJz5CmqUsI8AwKAkSmuFVrJyv0PTq2BHqKKwqEDZ0HMGLPjd3R4ayPll7KW5YV+J701nrFEFeA==
-X-Received: by 2002:a05:6512:3445:: with SMTP id j5mr3250433lfr.30.1641906784075;
-        Tue, 11 Jan 2022 05:13:04 -0800 (PST)
-Received: from [192.168.1.213] (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
-        by smtp.googlemail.com with ESMTPSA id i9sm1331120lfe.195.2022.01.11.05.13.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Jan 2022 05:13:03 -0800 (PST)
-Subject: Re: [PATCH 1/3] iio: adc: sun4i-gpadc-iio: no temp sensor on R40
-To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>,
- Maxime Ripard <maxime@cerno.tech>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
- Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-iio@vger.kernel.org
-References: <20211119191456.510435-1-boger@wirenboard.com>
- <20211119191456.510435-2-boger@wirenboard.com>
- <20211122091132.yjudzei3bdqmnxq6@gilmour>
- <20211122124115.00005186@Huawei.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nTUgBUzWqYITQnAEDWeHOtQPiYS2wv61d5KwBi3uYs=;
+        b=FWB3QWf4tNw/0dzYHV81YzboWeayqPYF3YS6xdAXOo6nGZ+TOvjinOSuQDKnO8as2q
+         EMD2OaLP4Lmvx2N8IfOhHV1z34ovk3ug/fqHd8UzMQBIEPVpBeyNYhNYQ7WpdmS261la
+         NxDeXju5/OBlM5Qyxgi67QszYuN7nTrSQPVwYTqBzAX2+/ZR/1DRbDDdieouofCjf+ag
+         X5r9nTxIF+Ud58pKhYFF6LUyJP9Twn7sJ7HjEoCdHW5ORuT7DJEdTQujBdPyWQ5CorDW
+         ZlBf7mmnmM2QohQMGxbm1ZKfRyZrcdwj4k0djCtOI84DLG0b2cYXjWw9bPJQtqDwWU4P
+         GUVQ==
+X-Gm-Message-State: AOAM533+lf5fBvEs3j92Za+z73SBYPMtHh46JzyQ5Fqi+XCHX0aqN5zB
+	W9vcr+qBfWmVH8R9AGX2Rn9mxg==
+X-Google-Smtp-Source: ABdhPJxDkpX6B9o6w77LG43w7VqtyI0FEwgWWHHETUr5EU+pxPzv92RWWzfNd7pnF/3igejqxXgdoQ==
+X-Received: by 2002:a05:651c:160c:: with SMTP id f12mr913606ljq.462.1641916654069;
+        Tue, 11 Jan 2022 07:57:34 -0800 (PST)
+Received: from boger-laptop.lan (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
+        by smtp.gmail.com with ESMTPSA id y7sm1370706lfa.92.2022.01.11.07.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Jan 2022 07:57:33 -0800 (PST)
 From: Evgeny Boger <boger@wirenboard.com>
-Message-ID: <85db7e8a-2b9a-7e44-ec96-b804201a3491@wirenboard.com>
-Date: Tue, 11 Jan 2022 16:13:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-arm-kernel@lists.infradead.org
+Cc: Evgeny Boger <boger@wirenboard.com>,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-can@vger.kernel.org,
+	Wolfgang Grandegger <wg@grandegger.com>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jeroen Hofstee <jhofstee@victronenergy.com>,
+	Gerhard Bertelsmann <info@gerhard-bertelsmann.de>
+Subject: [PATCH v2 0/3] add support for Allwinner R40 CAN controller
+Date: Tue, 11 Jan 2022 18:57:06 +0300
+Message-Id: <20220111155709.56501-1-boger@wirenboard.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20211122124115.00005186@Huawei.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
 
+Allwinner R40 (also known as A40i, T3, V40) has a CAN controller. The
+controller is the same as in earlier A10 and A20 SoCs, but needs reset
+line to be deasserted before use.
 
-22.11.2021 15:41, Jonathan Cameron пишет:
-> On Mon, 22 Nov 2021 10:11:32 +0100
-> Maxime Ripard <maxime@cerno.tech> wrote:
->
->> On Fri, Nov 19, 2021 at 10:14:54PM +0300, Evgeny Boger wrote:
->>> R40 SoC has touchscreen controller also serving as general-purpose ADC.
->>> The hardware is very similar to A31, except that R40 has separate
->>> calibrated thermal sensor IP (handled by sun8i_thermal).
->>>
->>> Despite the temperature sensor in the RTP is never mentioned in
->>> the R40 family user manuals, it appears to be working. However,
->>> it's not very useful as it lacks calibration data and there is another
->>> fully functioning temperature sensor anyway.
->>>
->>> This patch disables the temperature sensor in RTP/GPADC IP on R40.
->>>
->>> The reason for disabling the temperature sensor is that the IP
->>> needs to be switched back and forth between RTP and GPADC modes for
->>> temperature measurements. Not only this introduces delays, but it also
->>> disturbs external circuitry by injecting current into ADC inputs.
->>>
->>> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
->> Acked-by: Maxime Ripard <maxime@cerno.tech>
-> +Cc linux-iio@vger.kernel.org
->
-> I'm fine with this and assuming Lee is happy to pick it up + send
-> me an immutable branch in case anything crosses with it this cycle..
->
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+This patch series introduce new compatible for R40 CAN controller,
+add support for reset line in driver and add the corresponding nodes
+to the SoC .dtsi file.
 
-Hi Jonathan!
+The CAN IP was documented in early V40 datasheet [1]. It also fully
+supported in vendor BSP. However, CAN description was removed from
+more recent A40i, T3 and R40 user manuals and datasheets.
+Anyway, we verified that the CAN controller is indeed there and tested
+it extensively on A40i-based custom hardware [2].
 
-Is there anything else I should do to make this patch series accepted?
+[1] https://linux-sunxi.org/File:Allwinner_V40_Datasheet_V1.0.pdf
+[2] https://wirenboard.com/en/product/wiren-board-7/
 
+Changes in v2:
+  - sort pinmux nodes alphabetically and mark them with omit-if-no-ref
 
-> Thanks,
->
-> Jonathan
->
->> Maxime
->>
+Evgeny Boger (3):
+  dt-bindings: net: can: add support for Allwinner R40 CAN controller
+  can: sun4i_can: add support for R40 CAN controller
+  ARM: dts: sun8i: r40: add node for CAN controller
 
+ .../net/can/allwinner,sun4i-a10-can.yaml      | 24 ++++++++
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 21 +++++++
+ drivers/net/can/sun4i_can.c                   | 61 ++++++++++++++++++-
+ 3 files changed, 105 insertions(+), 1 deletion(-)
+
+-- 
+2.25.1
