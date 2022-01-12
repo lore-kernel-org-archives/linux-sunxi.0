@@ -1,38 +1,38 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E237173
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 09:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBF52CA7
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 09:34:18 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 2BCC15C0079;
-	Wed, 12 Jan 2022 04:20:57 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 12 Jan 2022 04:20:57 -0500
+	by mailout.nyi.internal (Postfix) with ESMTP id 37BCF5C01D9;
+	Wed, 12 Jan 2022 04:34:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 12 Jan 2022 04:34:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=V+GbNSPBdICaZKehO+PC4kEUsaB
-	EXQDl4qLU+2VgtCk=; b=B+onJ4TC5FsYfNdGlXGkmB7EI/LR4jr+5mMGyKN+SNg
-	lztvN0zNHoVIq5q2cZoDS6tBGBQJKQ+Bs4fZvcSytUTiO3p4BLYPmEgSkM/wDSyY
-	8Mx1KoWsCRzwjBMyN3uNhjJptxc2oAzp7Nkw747Ojz6rgo8Fgv7r/lZbuJ+7ADvy
-	aZuFEaqIlAAuzDUWlZr/c1jkfymyOkYjCg8Uu3ViQMf1WlqT6Hi7uADfedcXwsEY
-	9txzMYNzigtUwY13wNQvT7Fw2/T8QJLV+4ZCYeSlB5dWTlAD/oA+knhidpdALEqJ
-	Hg0WCUlnGyv/dJH7c+x+BYk75YUwIF+wA+oCSvGgICQ==
+	:content-type:in-reply-to; s=fm1; bh=nSi69K8gaCgxD8PERPpX2MbEXfG
+	odendEfrDj5aR6zg=; b=PXInPjp7CShsxgmDyZXuJmRtSJ1aWAcINblm17yKHuG
+	uN2NBTHcY8rrYLGDBkvgd05VYrkZCHQs5tN0WD4xerEXEOLtsvkj1ycnb04EUktI
+	LdlmehsTJoO4V+ARTc9CGCaXAtfncVIxCGYtUOpvxoQF3oaQ63VqRRTyVn8ZzMGV
+	y0ztAZEs5GI0ySqaBULEruxJ9Lxn18130OmWrFqoLVc4cL2FmelYUZo0ifYjeKr1
+	cKJ5z2koX2PHtW3W5UfscBwuBKe/eu94uwf8Swa7LIejkxC9HwtRpj4u0/DtChAH
+	LYFUmVmOZ07p/mvuOby4qd3DBFg6jC/a7NhXR2gdGGQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V+GbNS
-	PBdICaZKehO+PC4kEUsaBEXQDl4qLU+2VgtCk=; b=Vn8EuFshYYWqDRfu8bbAVb
-	4P8KYMLNyFv+CQ0zJ24q1f5Xgr315b2l1S/MAGyijhM9B7CP1PEoPG80Fpy0yPLq
-	KsuCs9XLKmSjbRgRGgPFMPLTGrBITTitAOLDgmnYSmQC8HoROlV0Oq6IT0T+Az2c
-	bR/t7eEH2wfvSeffjXX4IBeVuV3Gnug60Fq4pQy9C/o3h83Tcwq5IC9vR5AhYVrP
-	bn/hYYuWXDhrinZv+ODmYCvoKsoEDXtyZAYcuIWPKsBhwQgrSYE2j95HZFWRJnhA
-	1Wyldluxag40wPsizr3t2EyKLkfpHnv08lrSVH3ZRQ9VEksyZ/QsmkGmmb7n4fWQ
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nSi69K
+	8gaCgxD8PERPpX2MbEXfGodendEfrDj5aR6zg=; b=CyIrNRVubvEw5KPJEY2iNX
+	+Qhxie9sFBuV9CKDJNM94M+t3ZRTOnsL/xPQb8WDXZLke4bgtvRwr1qR1AGrEakp
+	sbn120YNRZo2AcvKA8plNiF5g8tyreaNligFMvNDpY/GrtqbD4CSA/oFn2m644n5
+	ymNY0jQ9Lm85m1xCoug6NwMPcizZmwyurGt/r7M4BPDR/yqNmCCTSD83KRd0DxJI
+	F3hq+jJDVMg1bDbJxLBpv/momrKHbgvhP1NBdnGgngkdSNtdUUt2R2OgGgb03fCw
+	MgjD0oE9nplYsaHXzyM82ffLNHL+UY2tjm4r03OPM0DuN4TMfGbZUkBm95x5vCFQ
 	==
-X-ME-Sender: <xms:eJ3eYVtLivXks0Lo1j1X3k40KaYs9UH4AfWuOOs2ZX2D-ywkCNX3vg>
-    <xme:eJ3eYefzb3WNeaWUyRJ6maBE9fkBO_bHqhFocP3BLDzFcThax0HjZ31B5Ee5-xoqG
-    O0umP0piN84psVqvJQ>
-X-ME-Received: <xmr:eJ3eYYy7ILhrB4KQTNA1LWuD3LTY8S37TH60Ai5qHoDZeHlWjsVyQ_gQdRIUUD9USHkXSCjWhvb9Nsd9j2lubww0RaZu2--KsWC35Rc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehhedgtdduucetufdoteggodetrfdotf
+X-ME-Sender: <xms:maDeYWKDVRLD8PxbQ6poUErvN6XbjHYDZ4MgmVl8f69DdgLzGt0tHA>
+    <xme:maDeYeIYwQRZBtrGYMmQNro2sBcN0vnE6RKxSHrf9vOmBJnbbTQoIHW_wB9XrJz5O
+    0Evywo_iqsxRvMuaoE>
+X-ME-Received: <xmr:maDeYWv8SmZzMYPLWGauYO1ajzNR5-fglAcLx0oaQ1fScJjUFejGqv-elOOsF9zejeodA8Drp4DPikzzSEsXKpGUT6e2ymYgpQWSmW8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehhedgtdegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
@@ -40,22 +40,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehhedgtdduucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
     grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:eJ3eYcMOY2Brwe45QOyu9PtKPzGPP2E_lUpTIA5LZvwmFfYinSQ7wQ>
-    <xmx:eJ3eYV8_ePtoPGIjt_2n_vm4lK44NpI53XFF3LuUb5VzO9MrQx7H_w>
-    <xmx:eJ3eYcXxnGmEHkt8YL7oBx8vR1k5xKJ_S86-Z30G_RfgwZCSYDLgyA>
-    <xmx:eZ3eYRSf5bQozSvczJvW58RTM7y15QEiyclZ3HrGsbXqwPyCUkM6UQ>
+X-ME-Proxy: <xmx:maDeYbYHPa7gRM4h0Xv7o4CDKtZmCOmr0JAGuq_4b0GZp4dIrdICAg>
+    <xmx:maDeYdaQ9TD5USGKXqM3Bh3xH8hojFjovuPJcy-SiSJuxYP3H4-WoQ>
+    <xmx:maDeYXCL3RJV5pPCc--ev-VpJQT4WFzdYLhLBfEojKmDxORMKDXsTA>
+    <xmx:mqDeYbPVLUe_l9UW2ZW8FCNrLSPVA_0gUwfCM7M88tAm1RctSSTDiQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 12 Jan 2022 04:20:55 -0500 (EST)
-Date: Wed, 12 Jan 2022 10:20:54 +0100
+ 12 Jan 2022 04:34:17 -0500 (EST)
+Date: Wed, 12 Jan 2022 10:34:15 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Michael Wu <michael@allwinnertech.com>
 Cc: ulf.hansson@linaro.org, wens@csie.org, samuel@sholland.org,
 	andre.przywara@arm.com, jernej.skrabec@gmail.com,
 	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] mmc:sunxi-mmc:fix clock division for timing mode
-Message-ID: <20220112092054.4agh3lydvibea5wh@houat>
-References: <20211222031521.34170-1-michael@allwinnertech.com>
+Subject: Re: [PATCH v2] mmc: sunxi-mmc: check ocr_avail on resource request
+Message-ID: <20220112093415.wdy3ht5yizw5lffl@houat>
+References: <20220104060325.3957-1-michael@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,94 +63,72 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fymmmzrzovlh7ofo"
+	protocol="application/pgp-signature"; boundary="pow7a6h6ea2halol"
 Content-Disposition: inline
-In-Reply-To: <20211222031521.34170-1-michael@allwinnertech.com>
+In-Reply-To: <20220104060325.3957-1-michael@allwinnertech.com>
 
 
---fymmmzrzovlh7ofo
+--pow7a6h6ea2halol
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+Hi,
 
-Thanks for your patch
+On Tue, Jan 04, 2022 at 02:03:25PM +0800, Michael Wu wrote:
+> Some platforms have no regulator, discrete power devices are used instead.
 
-On Wed, Dec 22, 2021 at 11:15:21AM +0800, Michael Wu wrote:
-> When use new timings,all speed mode requires a doubled module clock
-> if speed mode is ddr,requires a four times module clock
-> When use old timings,only 8 bit ddr requires a doubled module clock
+Is it really the case? vmmc at least should be mandatory so a platform
+not having a regulator would violate the binding itself.
+
+> However, sunxi_mmc_probe does not catch this exception when regulator is
+> absent in DTS. This leads to sd or eMMC init failure.
+
+This will still happen with your patch though?
+
+> To solve this, a fixed vmmc regulator must be hooked up in DTS, like this:
+> reg_dummy_vmmc: dummy_vmmc {
+> 	compatible =3D "regulator-fixed";
+> 	regulator-name =3D "dummy-vmmc";
+> 	regulator-min-microvolt =3D <3300000>;
+> 	regulator-max-microvolt =3D <3300000>;
+> };
 >=20
-> Signed-off-by: Michael Wu <michael@allwinnertech.com>
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
+> mmc0:mmc@4020000 {
+> 	compatible =3D "allwinner,sun50i-a100-emmc";
+> 	device_type =3D "mmc0";
+> 	vmmc-supply =3D <&reg_dummy_vmmc>;
+> }
 >=20
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index afeefead6501..7b47ec453fb6 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -774,20 +774,23 @@ static int sunxi_mmc_clk_set_rate(struct sunxi_mmc_=
-host *host,
->  	if (!ios->clock)
->  		return 0;
-> =20
-> -	/*
-> -	 * Under the old timing mode, 8 bit DDR requires the module
-> -	 * clock to be double the card clock. Under the new timing
-> -	 * mode, all DDR modes require a doubled module clock.
-> -	 *
-> -	 * We currently only support the standard MMC DDR52 mode.
-> -	 * This block should be updated once support for other DDR
-> -	 * modes is added.
-> +	/**
-> +	 * When use new timings, all speed mode requires a doubled module clock.
-> +	 * if speed mode is ddr, requires a four times module clock.
-> +	 * When use old timings, only 8 bit ddr requires a doubled module clock.
->  	 */
+> In this patch, we print an error message and abort the probe process if
+> the regulator is not specified in DTS.
 
-I found the original comment to be clearer, maybe we can change it to
-something like:
+I'm fine with the patch itself, but it's really not clear to me what
+situation is being fixed or improved here.
 
-    /*
-     * Under the old timing mode, 8 bit DDR requires the module
-     * clock to be double the card clock. Under the new timing
-     * mode, all modes require a doubled module clock, and DDR modes
-     * require a quadrupled module clock.
-     *
-     * ...
+You're first mentioning that this is fixing the driver probing even if a
+regulator is absent, but then states (rightfully) that in such a case we
+should use a fixed regulator. So we should always have a regulator then?
 
-> -	if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52 &&
-> -	    (host->use_new_timings ||
-> -	     ios->bus_width =3D=3D MMC_BUS_WIDTH_8)) {
-> -		div =3D 2;
-> +	if (host->use_new_timings) {
->  		clock <<=3D 1;
-> +		if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52) {
-> +			div =3D 2;
+I assume that you want the driver to properly error out instead of going
+on if either a regulator is missing or if its voltages are out of range?
 
-Shouldn't that be 4?
-
-> +			clock <<=3D 1;
-> +		}
-> +	} else {
-> +		if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52 &&
-> +				(ios->bus_width =3D=3D MMC_BUS_WIDTH_8)) {
-
-This creates some checkpatch.pl --strict warnings
+If the former, then we should probably check if host->mmc->supply.vmmc
+returned an error. If the latter, then yes, checking ocr_avail is
+probably fine but we should make it clearer in the error message that
+it's what it's about.
 
 Maxime
 
---fymmmzrzovlh7ofo
+--pow7a6h6ea2halol
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYd6ddgAKCRDj7w1vZxhR
-xaLiAP47v9sW+jH0z6DXKRDumXm1PSSMgqdjfsjbfy1lddD97gD9FGv36UyHu+Do
-VjNu5T34Utzn7S9mZeT4p/pUA5ic/wY=
-=F8YC
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYd6glwAKCRDj7w1vZxhR
+xYMDAQDOvoByLoNbucD0rg09oRxg0ac/oM8XXvRnOEoOgNtc6AD7B4fNMTPoPSrt
+SOyuoXTJa0OcH67vLGECca6JGG6L/gg=
+=5+yC
 -----END PGP SIGNATURE-----
 
---fymmmzrzovlh7ofo--
+--pow7a6h6ea2halol--
