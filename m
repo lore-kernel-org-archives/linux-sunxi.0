@@ -1,75 +1,156 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AAE173
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 09:09:39 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id s1so2926495wra.6
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 01:09:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=uFI93CtNgpLSVgsGqkYUt0u6KZ3ujOeANIDoe0U4El0=;
-        b=RHe+7ArESJJteE852aYXPpssf9GAAGdgeCYED9RfNMwpOZLZI46zKd7w9vkePr7y2b
-         kRgukMz7dRyxH09vAGR4baW0T6ulLgZeRG3pjLMCzPisrCO6A1ueBkjVi2Xjl7iKoX6A
-         18WyDzqFxwwn6fSaU8m9NORqzovZ8Gb74Lv6v8Rr/8sySE7zeokuMZYrtDpcpblFMjEW
-         uIYQ3uZw/FuHS51oGiNCGxh+M0oI2gtF5phdNxYkjHaoH/exwGHwnnMxQD+SGDW4sTmM
-         Hg69B1IKp/dKLIJZKvFf9QrYRWNCrTM8/pJewYrQ02B8q/NocGXANqc+rVXzx0WKZ4Lf
-         tbEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=uFI93CtNgpLSVgsGqkYUt0u6KZ3ujOeANIDoe0U4El0=;
-        b=HYwsCNbtsyfvl960P+5T9mfpQ1pNrKRkRLE6/feVPOYPxry67ww9A2U7ODPR+E7nKc
-         MTABMAdih2Jeplz+juFQ/5jzpzR7nsUa3Bq6+V+1KxxdjHhcjTgNZO0Wx6lrgvjelM5q
-         BZI1rzaPMj9OJEHAomgn4RURw8PS4M6e0pYA8R9jqrhEo+M6bcvK8xEAKeV7labsCd53
-         3XynpB37JyafNi9Rb/4FubsfpXzsFxlnhDuS9lxXfeLxGKeNX1AGpQx1zmIJ6vFsDhxN
-         n1tdY5GZzoO3HgqNkY5TfycCZF1TKpAcM1A+QMAxPbaW8akPuX7DBMtxQYbrFJjyGuGF
-         pDkQ==
-X-Gm-Message-State: AOAM532K0uLPZlYCqL1p9VnAkpmCtJT7tNTQaxyuDoG/JkOcjmc6xxte
-	FPC3nufI8N8T9uOjn5WwoFk=
-X-Google-Smtp-Source: ABdhPJywKaiNXLjM/wWWkgUyAfOy8wmye+J/lUwdTcdaGgUYZpmS8XJverywA140xrcXDhwAfiC8qg==
-X-Received: by 2002:adf:e291:: with SMTP id v17mr7069653wri.479.1641978578101;
-        Wed, 12 Jan 2022 01:09:38 -0800 (PST)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id b13sm4212525wrm.72.2022.01.12.01.09.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Jan 2022 01:09:37 -0800 (PST)
-Date: Wed, 12 Jan 2022 10:09:35 +0100
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: Evgeny Boger <boger@wirenboard.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v4 1/3] net: allwinner: reset control support
-Message-ID: <Yd6az3ZlQ4UsSpSM@Red>
-References: <20220111160600.58384-1-boger@wirenboard.com>
- <20220111160600.58384-2-boger@wirenboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E237173
+	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 09:20:58 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2BCC15C0079;
+	Wed, 12 Jan 2022 04:20:57 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 12 Jan 2022 04:20:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+	date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:in-reply-to; s=fm1; bh=V+GbNSPBdICaZKehO+PC4kEUsaB
+	EXQDl4qLU+2VgtCk=; b=B+onJ4TC5FsYfNdGlXGkmB7EI/LR4jr+5mMGyKN+SNg
+	lztvN0zNHoVIq5q2cZoDS6tBGBQJKQ+Bs4fZvcSytUTiO3p4BLYPmEgSkM/wDSyY
+	8Mx1KoWsCRzwjBMyN3uNhjJptxc2oAzp7Nkw747Ojz6rgo8Fgv7r/lZbuJ+7ADvy
+	aZuFEaqIlAAuzDUWlZr/c1jkfymyOkYjCg8Uu3ViQMf1WlqT6Hi7uADfedcXwsEY
+	9txzMYNzigtUwY13wNQvT7Fw2/T8QJLV+4ZCYeSlB5dWTlAD/oA+knhidpdALEqJ
+	Hg0WCUlnGyv/dJH7c+x+BYk75YUwIF+wA+oCSvGgICQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=V+GbNS
+	PBdICaZKehO+PC4kEUsaBEXQDl4qLU+2VgtCk=; b=Vn8EuFshYYWqDRfu8bbAVb
+	4P8KYMLNyFv+CQ0zJ24q1f5Xgr315b2l1S/MAGyijhM9B7CP1PEoPG80Fpy0yPLq
+	KsuCs9XLKmSjbRgRGgPFMPLTGrBITTitAOLDgmnYSmQC8HoROlV0Oq6IT0T+Az2c
+	bR/t7eEH2wfvSeffjXX4IBeVuV3Gnug60Fq4pQy9C/o3h83Tcwq5IC9vR5AhYVrP
+	bn/hYYuWXDhrinZv+ODmYCvoKsoEDXtyZAYcuIWPKsBhwQgrSYE2j95HZFWRJnhA
+	1Wyldluxag40wPsizr3t2EyKLkfpHnv08lrSVH3ZRQ9VEksyZ/QsmkGmmb7n4fWQ
+	==
+X-ME-Sender: <xms:eJ3eYVtLivXks0Lo1j1X3k40KaYs9UH4AfWuOOs2ZX2D-ywkCNX3vg>
+    <xme:eJ3eYefzb3WNeaWUyRJ6maBE9fkBO_bHqhFocP3BLDzFcThax0HjZ31B5Ee5-xoqG
+    O0umP0piN84psVqvJQ>
+X-ME-Received: <xmr:eJ3eYYy7ILhrB4KQTNA1LWuD3LTY8S37TH60Ai5qHoDZeHlWjsVyQ_gQdRIUUD9USHkXSCjWhvb9Nsd9j2lubww0RaZu2--KsWC35Rc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvuddrudehhedgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:eJ3eYcMOY2Brwe45QOyu9PtKPzGPP2E_lUpTIA5LZvwmFfYinSQ7wQ>
+    <xmx:eJ3eYV8_ePtoPGIjt_2n_vm4lK44NpI53XFF3LuUb5VzO9MrQx7H_w>
+    <xmx:eJ3eYcXxnGmEHkt8YL7oBx8vR1k5xKJ_S86-Z30G_RfgwZCSYDLgyA>
+    <xmx:eZ3eYRSf5bQozSvczJvW58RTM7y15QEiyclZ3HrGsbXqwPyCUkM6UQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 12 Jan 2022 04:20:55 -0500 (EST)
+Date: Wed, 12 Jan 2022 10:20:54 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Michael Wu <michael@allwinnertech.com>
+Cc: ulf.hansson@linaro.org, wens@csie.org, samuel@sholland.org,
+	andre.przywara@arm.com, jernej.skrabec@gmail.com,
+	linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] mmc:sunxi-mmc:fix clock division for timing mode
+Message-ID: <20220112092054.4agh3lydvibea5wh@houat>
+References: <20211222031521.34170-1-michael@allwinnertech.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fymmmzrzovlh7ofo"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220111160600.58384-2-boger@wirenboard.com>
+In-Reply-To: <20211222031521.34170-1-michael@allwinnertech.com>
 
-Le Tue, Jan 11, 2022 at 07:05:58PM +0300, Evgeny Boger a écrit :
-> R40 (aka V40/A40i/T3) and A10/A20 share the same EMAC IP.
-> However, on R40 the EMAC reset needs to be deasserted.
-> 
-> Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+
+--fymmmzrzovlh7ofo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Michael,
+
+Thanks for your patch
+
+On Wed, Dec 22, 2021 at 11:15:21AM +0800, Michael Wu wrote:
+> When use new timings,all speed mode requires a doubled module clock
+> if speed mode is ddr,requires a four times module clock
+> When use old timings,only 8 bit ddr requires a doubled module clock
+>=20
+> Signed-off-by: Michael Wu <michael@allwinnertech.com>
 > ---
->  drivers/net/ethernet/allwinner/sun4i-emac.c | 64 +++++++++++++++++++--
->  1 file changed, 59 insertions(+), 5 deletions(-)
-> 
+>  drivers/mmc/host/sunxi-mmc.c | 27 +++++++++++++++------------
+>  1 file changed, 15 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index afeefead6501..7b47ec453fb6 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -774,20 +774,23 @@ static int sunxi_mmc_clk_set_rate(struct sunxi_mmc_=
+host *host,
+>  	if (!ios->clock)
+>  		return 0;
+> =20
+> -	/*
+> -	 * Under the old timing mode, 8 bit DDR requires the module
+> -	 * clock to be double the card clock. Under the new timing
+> -	 * mode, all DDR modes require a doubled module clock.
+> -	 *
+> -	 * We currently only support the standard MMC DDR52 mode.
+> -	 * This block should be updated once support for other DDR
+> -	 * modes is added.
+> +	/**
+> +	 * When use new timings, all speed mode requires a doubled module clock.
+> +	 * if speed mode is ddr, requires a four times module clock.
+> +	 * When use old timings, only 8 bit ddr requires a doubled module clock.
+>  	 */
 
-Hello
+I found the original comment to be clearer, maybe we can change it to
+something like:
 
-You need to rebase your patch, it does not apply cleanly anymore due to the dmaengine addition to sun4i-emac.
+    /*
+     * Under the old timing mode, 8 bit DDR requires the module
+     * clock to be double the card clock. Under the new timing
+     * mode, all modes require a doubled module clock, and DDR modes
+     * require a quadrupled module clock.
+     *
+     * ...
 
-Regards
+> -	if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52 &&
+> -	    (host->use_new_timings ||
+> -	     ios->bus_width =3D=3D MMC_BUS_WIDTH_8)) {
+> -		div =3D 2;
+> +	if (host->use_new_timings) {
+>  		clock <<=3D 1;
+> +		if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52) {
+> +			div =3D 2;
+
+Shouldn't that be 4?
+
+> +			clock <<=3D 1;
+> +		}
+> +	} else {
+> +		if (ios->timing =3D=3D MMC_TIMING_MMC_DDR52 &&
+> +				(ios->bus_width =3D=3D MMC_BUS_WIDTH_8)) {
+
+This creates some checkpatch.pl --strict warnings
+
+Maxime
+
+--fymmmzrzovlh7ofo
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYd6ddgAKCRDj7w1vZxhR
+xaLiAP47v9sW+jH0z6DXKRDumXm1PSSMgqdjfsjbfy1lddD97gD9FGv36UyHu+Do
+VjNu5T34Utzn7S9mZeT4p/pUA5ic/wY=
+=F8YC
+-----END PGP SIGNATURE-----
+
+--fymmmzrzovlh7ofo--
