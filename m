@@ -1,109 +1,109 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF8B2C9D
-	for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 10:38:22 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id x6so6557520lfa.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 02:38:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF78F2C80
+	for <linux-sunxi@lists.linux.dev>; Thu, 13 Jan 2022 05:37:47 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id br17so15740042lfb.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 12 Jan 2022 21:37:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=my1JYoEiT1gg/0wBQ3AmYSF58BomzlSIMMv9wEH/Wj8=;
-        b=LssndgcLu0hMWC6Zaltu/L4Ygbgam74yEK5Mc3g+kkSWR37FnDKmHLpYl6l7eiJGPr
-         fX/PBU5TpP5v3h621MkentElJF+hQbAWCoLx6kElctBlyqqhTcJaghbUn9mx1l+zZudm
-         GOTTp9bxDhk2nd8NEL1P/nVMnSSisXZLFm72b3TIjgO2KekhR/W8sOQFoOoHEKBgLQcF
-         S6RX33TVr0CwBO0iudfHkIaTh5hP6pSiBBjoEj6nQYOnh2bjAkOosWe9zNt+qVGeNdi4
-         RErx5IdjaensUOxj37M5rUkhyDl9skppod/kbd933aqHCIULu002QPwIDLRamhuCn1Sc
-         cs5w==
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fer7mUkd7brJ1mxdjvl5SPv5rmLRsQ3o5FR92yeQeCo=;
+        b=mfzcu7ZvALRtO+M4LyO9ux3ZJNvxIXq+EuN5zKHltFJOVdTiSdvQgXAZ5QVJ64QMgP
+         5tKalUAC6iMi+Z8Sa9xO7RsvQwsBCJJIslkvfHyt86oaJ3ONSs2S6EZm1zJkXE4Po71e
+         DmzbsLSPXl8VZcLp8hhOS5Jm8vVFktXkyscYenD/BL6fkSYAhqs8ybqakU07Ctghx5xP
+         bzD6IMq+dFWIwN4pdtHPEqRDAPvUECzKjGMND/XIbfmQYEhdzcem7K/4XyurjNWrK21g
+         pmoYGR+cKJlISCVoyuxAc3RfOG7DS+tKUT+vwrUv9iBLZuq1p1kzaCGHhe4bATpMb7Ve
+         hOeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=my1JYoEiT1gg/0wBQ3AmYSF58BomzlSIMMv9wEH/Wj8=;
-        b=src3j4OOHKOQ0dn8yP3EQrUhSLYZ8iD1tUap6iUcFW9zYHs1A2XVVUaztz674A94CK
-         mPOwPe4oKvwOor4vvuDAk/6a/3kzkwe0bus3bqZpvcVxtc/uQAxrEixUVZ4IAK+OMWyP
-         AfDcFoqoHXvY0oJcYodBeBJx0JmzstGW5qY/2nkqiM2N/YzF7LlsOowEhdSiCy5SRsIk
-         id5l2VoY3xIGZ1b/CkBhe+CEB+ras889J7GaDLoF/s+FlKfN8gfQ3uKf3wNXyI6U5GoP
-         IwnAWGnTzUPkvg764vPX2LJscmAuUOWYsci8UO/AO569UJeVLO+BjSFh4o5N9oFwLohx
-         bUKw==
-X-Gm-Message-State: AOAM533Ay86TarTSMuSzR01i7CwnZRJyFqGzn9SmEhVK+zQrPhn+TQZA
-	ZDEZzNvQA6oA1H3NN1YeN8Y0scCaBwYbXb7uoPeLaQ==
-X-Google-Smtp-Source: ABdhPJxNLa3Ky4ELrS281ZBj7vXZdGR+ehC76qbhJRH36UFdnXSeLB0v0lqH+5U/BaOdmBopCoSVQvBbkn9Vc8GIY6c=
-X-Received: by 2002:a05:6512:400f:: with SMTP id br15mr4970479lfb.233.1641983900527;
- Wed, 12 Jan 2022 02:38:20 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fer7mUkd7brJ1mxdjvl5SPv5rmLRsQ3o5FR92yeQeCo=;
+        b=e+i7aymRLvWIbRWKECBaWZOub53f1sJdIcxnUP8YczMfMz84xFrn8TV5BL/v/rk3G7
+         qFJzBqQfvCyAfdphhr8mOYWTe+9enirMIIdHbODjtbCLOOynwK7Sj501WUv0ZnKeDyUX
+         PdJL7OWg4lpB6s/M0oZvGfSjcX8NBQHT2Xh2LtdHMDVtossj7T6ioXDYmcUScQ4DF5oB
+         z/epxgNfF3KSIUDZ/uvo0ZOjict9w6QmplEHzWu6/vljlJJkYQhhlXdj5uhjb7Om266h
+         FPkKRtkUucBqRAt39MBqRJwaRG7vsLAc2vIK0Y1OBL73G4mXIiRwNYx6POw/7BT4/qH3
+         hxQQ==
+X-Gm-Message-State: AOAM532gw0NX0nCSWQ9IcIxJMVK+Aq/Jhw49ucZ2e9Xjl2KI6qHW9YZ2
+	n6JgFiZSldRR7DccApwaufJpgQ==
+X-Google-Smtp-Source: ABdhPJwIZMKX//1tHJPBIbf2ecJ2fhAtfSrS1g129oAi1cqR243lLBMeSgWiQ2++JG2MVQXJ0gg8qg==
+X-Received: by 2002:a05:651c:a0e:: with SMTP id k14mr1952570ljq.514.1642052265598;
+        Wed, 12 Jan 2022 21:37:45 -0800 (PST)
+Received: from boger-laptop.lan (81.5.110.253.dhcp.mipt-telecom.ru. [81.5.110.253])
+        by smtp.gmail.com with ESMTPSA id x21sm180212lfa.296.2022.01.12.21.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Jan 2022 21:37:45 -0800 (PST)
+From: Evgeny Boger <boger@wirenboard.com>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	linux-arm-kernel@lists.infradead.org
+Cc: Evgeny Boger <boger@wirenboard.com>,
+	devicetree@vger.kernel.org,
+	Rob Herring <robh+dt@kernel.org>,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v5 0/3] sun8i: r40: second ethernet support
+Date: Thu, 13 Jan 2022 08:37:31 +0300
+Message-Id: <20220113053734.105813-1-boger@wirenboard.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220104060325.3957-1-michael@allwinnertech.com> <20220112093415.wdy3ht5yizw5lffl@houat>
-In-Reply-To: <20220112093415.wdy3ht5yizw5lffl@houat>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 12 Jan 2022 11:37:44 +0100
-Message-ID: <CAPDyKFrD_c36Di66_TCJP3hFFwGHmAgH-DQAPLkJLx-m57VQvw@mail.gmail.com>
-Subject: Re: [PATCH v2] mmc: sunxi-mmc: check ocr_avail on resource request
-To: Maxime Ripard <maxime@cerno.tech>, Michael Wu <michael@allwinnertech.com>
-Cc: wens@csie.org, samuel@sholland.org, andre.przywara@arm.com, 
-	jernej.skrabec@gmail.com, linux-mmc@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 12 Jan 2022 at 10:34, Maxime Ripard <maxime@cerno.tech> wrote:
->
-> Hi,
->
-> On Tue, Jan 04, 2022 at 02:03:25PM +0800, Michael Wu wrote:
-> > Some platforms have no regulator, discrete power devices are used instead.
->
-> Is it really the case? vmmc at least should be mandatory so a platform
-> not having a regulator would violate the binding itself.
->
-> > However, sunxi_mmc_probe does not catch this exception when regulator is
-> > absent in DTS. This leads to sd or eMMC init failure.
->
-> This will still happen with your patch though?
->
-> > To solve this, a fixed vmmc regulator must be hooked up in DTS, like this:
-> > reg_dummy_vmmc: dummy_vmmc {
-> >       compatible = "regulator-fixed";
-> >       regulator-name = "dummy-vmmc";
-> >       regulator-min-microvolt = <3300000>;
-> >       regulator-max-microvolt = <3300000>;
-> > };
-> >
-> > mmc0:mmc@4020000 {
-> >       compatible = "allwinner,sun50i-a100-emmc";
-> >       device_type = "mmc0";
-> >       vmmc-supply = <&reg_dummy_vmmc>;
-> > }
-> >
-> > In this patch, we print an error message and abort the probe process if
-> > the regulator is not specified in DTS.
->
-> I'm fine with the patch itself, but it's really not clear to me what
-> situation is being fixed or improved here.
->
-> You're first mentioning that this is fixing the driver probing even if a
-> regulator is absent, but then states (rightfully) that in such a case we
-> should use a fixed regulator. So we should always have a regulator then?
->
-> I assume that you want the driver to properly error out instead of going
-> on if either a regulator is missing or if its voltages are out of range?
->
-> If the former, then we should probably check if host->mmc->supply.vmmc
-> returned an error. If the latter, then yes, checking ocr_avail is
-> probably fine but we should make it clearer in the error message that
-> it's what it's about.
+Maxime, Corentin, thank you for the review of v4!
 
-Just wanted to mention that I just had a very similar discussion
-around another patch [1]. Please have a look at that discussion to get
-my opinion on this.
+This patch series adds support for two Ethernet ports on Allwinner R40.
 
-Kind regards
-Uffe
+R40 (aka V40,A40i,T3) has two different Ethernet IPs called EMAC and GMAC.
+EMAC only support 10/100 Mbit in MII mode, while GMAC support both 10/100
+(MII) and 10/100/1000 (RGMII).
 
-[1]
-https://patchwork.kernel.org/project/linux-mmc/patch/20211215130711.111186-4-gsomlo@gmail.com/
+In contrast to A10/A20 where GMAC and EMAC share the same pins making EMAC
+somewhat pointless, on R40 EMAC can be routed to port H.
+Both EMAC (on port H) and GMAC (on port A) can be then enabled at the same 
+time, allowing for two ethernet ports.
+
+Tested on custom A40i board with two IP101GRI PHYs in MII mode.
+
+Changes in v5:
+ - Rebase on fresh linux-next
+ - Remove reset line from example bindings
+
+Changes in v4:
+ - Rename sun4i-r40-emac to sun8i-r40-emac to match R40 family.
+ - remove redundant status = "okay" in dts
+ - less obscure commit messages
+
+Changes in v3:
+Minor fixes in bindings. Rebased on top of linux-next/master.
+dt_bindings_check and dtbs_check passed.
+
+ - bindings: separate commit for DT bindings
+ - bindings: simplify handling of compatible strings
+ - bindings: make resets property required on R40
+ - dts: get rid of duplicate node
+
+Changes in v2:
+ - EMAC reset is no longer optional on R40
+ - Add a new DT compatible string for R40 EMAC
+ - Deassert reset line before enabling the clock
+ - minor fixes: formatting, DT node order, leftover pinctrl props
+
+Evgeny Boger (3):
+  net: allwinner: reset control support
+  dt-bindings: net: support for Allwinner R40 EMAC controller
+  ARM: dts: sun8i: r40: add second ethernet support
+
+ .../net/allwinner,sun4i-a10-emac.yaml         | 17 ++++-
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 49 ++++++++++++++
+ drivers/net/ethernet/allwinner/sun4i-emac.c   | 64 +++++++++++++++++--
+ 3 files changed, 124 insertions(+), 6 deletions(-)
+
+-- 
+2.25.1
