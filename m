@@ -1,62 +1,61 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85388173
-	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jan 2022 09:41:12 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id A509A5C00DF;
-	Fri, 14 Jan 2022 04:41:11 -0500 (EST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F86E173
+	for <linux-sunxi@lists.linux.dev>; Fri, 14 Jan 2022 09:42:58 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4CB295C00DF;
+	Fri, 14 Jan 2022 04:42:57 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Fri, 14 Jan 2022 04:41:11 -0500
+  by compute4.internal (MEProxy); Fri, 14 Jan 2022 04:42:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=fm1; bh=rNAiTiR8/FMAVuyHL7ug4y3np8a
-	xgmmTM0zAKSsR9Ks=; b=RZtRhObvaqp+4pkup4dOD0JOBXzkU9DfFCNACOzTsfR
-	uj8r8L/1SKbC1iG/p6pZzKhUaeF4OgM4ThsTs6oa836mEVnAuB/9EvDpO/ns0v0u
-	C3bi2wlx8O8zCcknlCO2QNXo11W0Xx87vobmz5FLoVKYQLn9FnhfIp79F10GA7bL
-	vnegm2BED3xf6XPpRj4UJxMM7bBx/j092rX2KvYDKsHaYXdzlKNJSSzXmslTm4LK
-	eTT9Pg3YlqccimLuFNTQCCnKDwOgDmpE24OG/ggyjNG7hmLh5QQnevJ/602KlQ6w
-	ZxetER+rVrSBAvSfHXWldIL8Fwy0dnZFwHN4lZLBKCQ==
+	:content-type:in-reply-to; s=fm1; bh=7FsO9Eyh3oA4aLA9gZOLbO6/pki
+	yQDIQ/yUeSjhdSsE=; b=TIYvaqNYquozRPBokoai9ymOKQhzxQRtEHJHmKqy2i6
+	v6tatnnv+pzx8DEfdF1iyUKZz4bLBDQd4t/4kTg3YAkZHOHnXKapMfAeN2P7dOpS
+	uNlwJjD3TIk5GBSNUexFdCM4esHP58UMoLSvmVvtz1LkKb9pb9duF8QqdOrN3Jdt
+	NcXCMJ+XMmeG1vnAZHgJxZ1tiXKauZO6cpUL8QbCUOsqnh+1Y8p3UfkddNjnKCTB
+	7Vt8O2zeDUu1I0Qjo0Vf+nu6WOzATd+XYKUw+ZCHLxMJRJ8mhHQ1YwmxLjr8XoSj
+	VeUN8ApTks6ZnrBt/2gDfK0QjqkDxKrfJZK1PfeaBOA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=rNAiTi
-	R8/FMAVuyHL7ug4y3np8axgmmTM0zAKSsR9Ks=; b=AdCtwey1+YqZPE/xz94SKc
-	lFEjWZwOIqM298bkZcxB+uuk9Pt0E8Brmvjzujv8aTXDnUMJFyWVR5teEsywveEh
-	kBmauaYjUivBpBoJ/WapZEdaX2d8rolwiVzjBBSEMl+NEgkGHD07aubG6Bppf3kv
-	9mFf+CvjKXFuTvM4tE0AVNlw+xuWPPaDQTa+ijuap9gf9UQYgtaQbmTw8d5i17y6
-	W7RGyW8YfOIKs7X7Dx5yzseRBYtMfDNQy+Rtiyo52RphVPC7ycAQuNwbtcrt5IsR
-	hTm1ouMJjMJXazo6s3wKFYjafc42xDkHXSd/bvwCwdpXIHTTaJM2qCZid/yVi9DQ
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7FsO9E
+	yh3oA4aLA9gZOLbO6/pkiyQDIQ/yUeSjhdSsE=; b=JqwDWGm+gq87iGEHFYzJpc
+	9yxr2wfdyzlMprDvVYSTbSOTXqeOUbxC06vzSs+YDmPymGb4Zm+yFNQMdYwC/iRC
+	Y+YJGqGoaULQMDcrKzhJwv7Popsj5fzEGkUPeuRI/dcQwspQPijh3mNcuz6MzsHX
+	SREQ0cBoqpbisQy1TmbimRHpKRqTprXoZCsnwX1pYADzWaa6gXgkv8pihTsRMmOU
+	skJl5QHLjoDO68D2HHxoGz4KmoBA/KcbcRe55NOXZMA8qpIjmywkLY5YWDE7R5s0
+	xHLagICwKSh5Ft7mkqDiiO+rmacmXIwnUxgXRQpItQj22O7ZlA8cKNSfoFrqnKlg
 	==
-X-ME-Sender: <xms:N0XhYbC5bAp-6gsUafbtjKw_BiRJ33abnL7cwViXz2A5KB2RMJltsw>
-    <xme:N0XhYRhMVTXEw_UpD-g2_0Ofk8gtzpwo8X-rvd1t8_6zNfTGCtVdqJO5WKj-qPGBp
-    ytd4hbDc5ydFlrx4Bo>
-X-ME-Received: <xmr:N0XhYWlOL0UNIvNzxFvoZum8wmi28Gr_r3UEF7OAyHXGMLe__6mwogV3fTwqglg-ym0NudGdVpi4HTS6uFNLPNWVFBzD34v9RPxuDkY>
+X-ME-Sender: <xms:oUXhYaKQWzOas506AqwaGUbmikCz9zcw0VyWjl3yP1Mexqg97v3QPA>
+    <xme:oUXhYSI9PDsPT4kPe-ltQcOSAC_YoexRXdOLGxfQqPWQYNSu9gs1t9RcW36aaMT8B
+    YQH6sqi-3-i-bA81ik>
+X-ME-Received: <xmr:oUXhYavrSibpqCLX5j2c0I5HB3iUmBq0HxE_rCbD2O6SpXjlW2w3DYVcfcl1Zc77L5t6iZ7gObZcGznsPhsKNGBsaoxN2MCh93MWnD8>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrtdehgddtjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
     ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
     gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
     igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:N0XhYdwkRpElId41tZ3k-uca9sCyhO2UiggBVbURIY0d_ZBN5IQ9SQ>
-    <xmx:N0XhYQQeD99nKDt34yOjd-fZ1_JjOizhGatwi1J-D54IgVQ5CGGjaQ>
-    <xmx:N0XhYQb8_TKgX2FQCjvlB8Q4Ue84Rw--_4OD3hR2mHmGm3a3MDuI9g>
-    <xmx:N0XhYWPBvaQdA5CswnHT27h7r7EJUJ7EIDxa9ld0c6uYQf308FBfEw>
+X-ME-Proxy: <xmx:oUXhYfZlKW43DHGWfQ0m2vTvxsDcJXvnCSr2znputTHHxZYLkROYHw>
+    <xmx:oUXhYRYyR6hCx_OC57cfH3NlZeCuPS0KVmLDJQRk9IZkI4f_QZf2KA>
+    <xmx:oUXhYbCzfl5xFt4p3ZUTo2oyyiw1jPVmwKuV5dn6t02_G4lMtz0L0w>
+    <xmx:oUXhYQV7PAEwOJ3F8RrDqpWGRINSKzK6xnHwT2X0iemuo-r_Vs7Icw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 14 Jan 2022 04:41:11 -0500 (EST)
-Date: Fri, 14 Jan 2022 10:41:09 +0100
+ 14 Jan 2022 04:42:56 -0500 (EST)
+Date: Fri, 14 Jan 2022 10:42:55 +0100
 From: Maxime Ripard <maxime@cerno.tech>
 To: Evgeny Boger <boger@wirenboard.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
 	devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5 2/3] dt-bindings: net: support for Allwinner R40 EMAC
- controller
-Message-ID: <20220114094109.l2xjbdxt77aqaxcq@houat>
+Subject: Re: [PATCH v5 3/3] ARM: dts: sun8i: r40: add second ethernet support
+Message-ID: <20220114094255.br6qqqgoajvhpt2x@houat>
 References: <20220113053734.105813-1-boger@wirenboard.com>
- <20220113053734.105813-3-boger@wirenboard.com>
+ <20220113053734.105813-4-boger@wirenboard.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -64,36 +63,93 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="az6qbs37g3myot7a"
+	protocol="application/pgp-signature"; boundary="vfbvflpajhnring3"
 Content-Disposition: inline
-In-Reply-To: <20220113053734.105813-3-boger@wirenboard.com>
+In-Reply-To: <20220113053734.105813-4-boger@wirenboard.com>
 
 
---az6qbs37g3myot7a
+--vfbvflpajhnring3
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 13, 2022 at 08:37:33AM +0300, Evgeny Boger wrote:
-> R40 and A10/A20 share the same EMAC IP.
-> However, on R40 the EMAC reset needs to be deasserted first,
-> so resets property is required.
+Hi,
+
+On Thu, Jan 13, 2022 at 08:37:34AM +0300, Evgeny Boger wrote:
+> R40 (aka V40, A40i, T3) has two different Ethernet IPs
+> called EMAC and GMAC. EMAC only support 10/100 Mbit in MII mode,
+> while GMAC support both 10/100 (MII) and 10/100/1000 (RGMII).
+>=20
+> In contrast to A10/A20 where GMAC and EMAC share the same pins
+> making EMAC somewhat pointless, on R40 EMAC can be routed to port H.
+> Both EMAC (on port H) and GMAC (on port A) can be then enabled at
+> the same time, allowing for two ethernet ports.
 >=20
 > Signed-off-by: Evgeny Boger <boger@wirenboard.com>
+> ---
+>  arch/arm/boot/dts/sun8i-r40.dtsi | 49 ++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r=
+40.dtsi
+> index 03d3e5f45a09..8770b105f86e 100644
+> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+> @@ -217,6 +217,19 @@ syscon: system-control@1c00000 {
+>  			#size-cells =3D <1>;
+>  			ranges;
+> =20
+> +			sram_a: sram@0 {
+> +				compatible =3D "mmio-sram";
+> +				reg =3D <0x00000000 0xc000>;
+> +				#address-cells =3D <1>;
+> +				#size-cells =3D <1>;
+> +				ranges =3D <0 0x00000000 0xc000>;
+> +
+> +				emac_sram: sram-section@8000 {
+> +					compatible =3D "allwinner,sun4i-a10-sram-a3-a4";
+> +					reg =3D <0x8000 0x4000>;
+> +				};
+> +			};
+> +
+>  			sram_c: sram@1d00000 {
+>  				compatible =3D "mmio-sram";
+>  				reg =3D <0x01d00000 0xd0000>;
+> @@ -553,6 +566,24 @@ gmac_rgmii_pins: gmac-rgmii-pins {
+>  				drive-strength =3D <40>;
+>  			};
+> =20
+> +			emac_pa_pins: emac-pa-pins {
+> +				pins =3D "PA0", "PA1", "PA2",
+> +				       "PA3", "PA4", "PA5", "PA6",
+> +				       "PA7", "PA8", "PA9", "PA10",
+> +				       "PA11", "PA12", "PA13", "PA14",
+> +				       "PA15", "PA16";
+> +				function =3D "emac";
+> +			};
+> +
+> +			emac_ph_pins: emac-ph-pins {
+> +				pins =3D "PH8", "PH9", "PH10", "PH11",
+> +				       "PH14", "PH15", "PH16", "PH17",
+> +				       "PH18","PH19", "PH20", "PH21",
+> +				       "PH22", "PH23", "PH24", "PH25",
+> +				       "PH26", "PH27";
+> +				function =3D "emac";
+> +			};
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+There's 17 pins on the first group, but 18 on the second, is it intentional?
 
 Maxime
 
---az6qbs37g3myot7a
+--vfbvflpajhnring3
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYeFFNQAKCRDj7w1vZxhR
-xcyMAP9y/SIROUIFIkZskBfjrsyJya8+/iHl3H8GJFEySqOuQAEAzaiUH5AXufBk
-NbTfAangJVXiJC4yVkKCF3uWKg+zMA0=
-=g1iw
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYeFFnwAKCRDj7w1vZxhR
+xXkZAQCKQ7+xkW6oWByyX8qwszAt/NG8+XXQZLQ9wjrl9MK8NwD/QygXtWj+qowA
+JqejHgagbZsLpZvpkK4ihDZ04v6byAI=
+=NhN3
 -----END PGP SIGNATURE-----
 
---az6qbs37g3myot7a--
+--vfbvflpajhnring3--
