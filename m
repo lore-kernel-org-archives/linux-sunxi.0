@@ -1,70 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00CAA2C9C
-	for <linux-sunxi@lists.linux.dev>; Sat, 15 Jan 2022 22:40:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B1C08C36AEC;
-	Sat, 15 Jan 2022 22:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1642286409;
-	bh=CM/dcwr1T5eT7kHp/PEIguWwvyAkBSLmzeeBHvnaeI0=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=Ettey1UYCiVK1B1C6dzZQupVWDuoqaO7OIOCLHFbkd9m4O5wzE/iH59O7s7r038Cn
-	 QHtQgRqDcmHjzbb115HYzco1y11wOQJC+TUy7pl1YljQljSUVPxV3LQ7RzlerMzf/2
-	 +NpBtnZXhakmdnx+8FVjUV0OF3wBNjneDWRS27MGqhWKo9+6iiCmylZI9Pu+YiNiwh
-	 vOZcqYv6K+AJ49uhG5EuzbZ8IgTWSddcPM6mx14y5rUU/4eQSUH3/pMiHBGHXxuaoO
-	 5iOQu6gY94hoo4g4Cu8HsQBcF1YtH3ebkLpqxHTzgCsoqq3t6urhJQdIwnwP8za//K
-	 QRf2idOQLovIA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 8D2D8F60796;
-	Sat, 15 Jan 2022 22:40:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A552C9D
+	for <linux-sunxi@lists.linux.dev>; Sun, 16 Jan 2022 01:05:38 +0000 (UTC)
+Received: by mail-oi1-f174.google.com with SMTP id x193so18170447oix.0
+        for <linux-sunxi@lists.linux.dev>; Sat, 15 Jan 2022 17:05:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XZu/hPMQAR6JerGfyaKVu4NwDn/+L++TXjPb4qGe5LA=;
+        b=xlYARUpK95WH+obZMuApEx27EFq2DTEmuY1EX1dOlNfwSX4ub5aUwaoVdly/t9HR1+
+         TSY9EHLXKep2AnA7YMHm2hIRDh7Dzc5Xc5JFAY1mdNkuLxAeJvcRyINKZvbrT3J6opwA
+         vqRvFHkDNRN3w48/884LL235NWIvDq9lRSY6P/wnH0SRZANcVph1cQoToqjC4otHs26S
+         LibgbBYdz4j9P+2XgQ75maFZb9Fa30lmDZE9ZrYMaJLV7OZfOi7Cgk+BkMptzV4FCIhe
+         Nx/rQXDg+rZyRiHxpQb2UPfolwD0oXSFnF20Cas5f5bTNs1aCTeRABxQIucp8KFj4XpY
+         GEPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XZu/hPMQAR6JerGfyaKVu4NwDn/+L++TXjPb4qGe5LA=;
+        b=QmANQ0Cyze7ejv5fcDJDbSYhxY6e9DqoABbixa4mrIGdnMuQbVDHkImyOE8ZqwHXN6
+         fbcFGv6Dk5vuH+nSq6/GJzUccPmMRn3sutCYzqT6blkoMC9WpIyeUJiijzQjy8xLtKm1
+         cd5nszHwVuwfQGHbWiMGdFzivxB4QRjDV7zL3nnoNWAxIIHd8KXhr26/WXsRWk5sz3W6
+         k+hPc8d3KTnTsC8Roi79+KZwgAOmjs0t6uE6tbXO+x35oI4JvMSjv+8Qqm8aKTpGg+9i
+         NW5uISdpUHIbXgc6mvBSqdO0j1EDkQHg2bT1GOdEipgUWMbdRRH2xQGbnL1S+5cuSj1k
+         eepA==
+X-Gm-Message-State: AOAM530s3/RgUaxbh5GjeBHfHmKi9WqHrPVdRxgzAnPS1YVVWOuVC5j1
+	bfk+rlJOY/yRUxvbJkVcewyxgV8vImH12e2BNVETbg==
+X-Google-Smtp-Source: ABdhPJwDK4/ffYyTCt/T0hFCZfC/epnKIPbY3tO20B3nOviEnXENCjxIeq6FW49NrdbhZ59gZWdBbiMdt9mv01MUZro=
+X-Received: by 2002:a54:4613:: with SMTP id p19mr12265631oip.162.1642295137712;
+ Sat, 15 Jan 2022 17:05:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: ethernet: sun4i-emac: Fix an error handling path in
- emac_probe()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <164228640957.24744.13688338637735089336.git-patchwork-notify@kernel.org>
-Date: Sat, 15 Jan 2022 22:40:09 +0000
-References: <aa2344da574f58aeba869a9219b3549dbd65d8e4.1642250684.git.christophe.jaillet@wanadoo.fr>
-In-Reply-To: <aa2344da574f58aeba869a9219b3549dbd65d8e4.1642250684.git.christophe.jaillet@wanadoo.fr>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: davem@davemloft.net, kuba@kernel.org, mripard@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, conleylee@foxmail.com,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
+References: <20220105172952.23347-1-andre.przywara@arm.com>
+In-Reply-To: <20220105172952.23347-1-andre.przywara@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sun, 16 Jan 2022 02:05:26 +0100
+Message-ID: <CACRpkdZ528B4b9XzBpfGAwPbDaDH12LQ8rTce9AsDuKF+v5A=A@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: Fix H616 I2S3 pin data
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, SASANO Takayoshi <uaa@mx5.nisiq.net>, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hello:
+On Wed, Jan 5, 2022 at 6:30 PM Andre Przywara <andre.przywara@arm.com> wrote:
 
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
+> Two bugs have sneaked in the H616 pinctrl data:
+> - PH9 uses the mux value of 0x3 twice (one should be 0x5 instead)
+> - PH8 and PH9 use the "i2s3" function name twice in each pin
+>
+> For the double pin name we use the same trick we pulled for i2s0: append
+> the pin function to the group name to designate the special function.
+>
+> Fixes: 25adc29407fb ("pinctrl: sunxi: Add support for the Allwinner H616 pin controller")
+> Reported-by: SASANO Takayoshi <uaa@mx5.nisiq.net>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-On Sat, 15 Jan 2022 13:45:03 +0100 you wrote:
-> A dma_request_chan() call is hidden in emac_configure_dma().
-> It must be released in the probe if an error occurs, as already done in
-> the remove function.
-> 
-> Add the corresponding dma_release_channel() call.
-> 
-> Fixes: 47869e82c8b8 ("sun4i-emac.c: add dma support")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> [...]
+Patch applied for fixes.
 
-Here is the summary with links:
-  - net: ethernet: sun4i-emac: Fix an error handling path in emac_probe()
-    https://git.kernel.org/netdev/net/c/9a9acdccdfa4
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Yours,
+Linus Walleij
