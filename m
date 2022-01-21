@@ -1,74 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2E0173
-	for <linux-sunxi@lists.linux.dev>; Tue, 18 Jan 2022 14:13:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2CBEC00446;
-	Tue, 18 Jan 2022 14:13:21 +0000 (UTC)
-Message-ID: <2f82dbe8-50d6-d905-9065-d3869948aa06@xs4all.nl>
-Date: Tue, 18 Jan 2022 15:13:20 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 137632C80
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jan 2022 13:37:38 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 241FD101E;
+	Fri, 21 Jan 2022 05:37:38 -0800 (PST)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E11853F766;
+	Fri, 21 Jan 2022 05:37:36 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Chris Morgan <macromorgan@hotmail.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev,
+	Tom Rini <trini@konsulko.com>
+Subject: [PATCH v2 0/2] sunxi: Add option to prevent boot on plug-in
+Date: Fri, 21 Jan 2022 13:37:30 +0000
+Message-Id: <20220121133732.2397273-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.1
-Subject: Re: [BUG] pinctrl: reg-fixed-voltage usb0-vbus: error -EINVAL: can't
- get GPIO
-Content-Language: en-US
-To: Corentin Labbe <clabbe.montjoie@gmail.com>, linus.walleij@linaro.org,
- mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com
-Cc: linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- zhangn1985@gmail.com
-References: <Yea3rBmY+MO4AhhV@Red>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <Yea3rBmY+MO4AhhV@Red>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 1/18/22 13:50, Corentin Labbe wrote:
-> Hello
-> 
-> As reported on old googlegroup sunxi mainling list, on linux-next-20220118, USB storage fail to bring up on orangepiPC.
-> We can see some error logs in dmesg:
-> reg-fixed-voltage usb0-vbus: error -EINVAL: can't get GPIO
-> reg-fixed-voltage: probe of usb0-vbus failed with error -22
-> 
-> This is bisected to: 8df89a7cbc63c7598c00611ad17b67e8d5b4fad3 pinctrl-sunxi: don't call pinctrl_gpio_direction()
-> 
-> Reverting this commit lead to a working USB storage being setuped.
+Sometimes it is desirable to prevent a board from automatically booting
+as soon as the power cable is plugged in. For boards with an AXP PMIC,
+we can actually query the power up source.
 
-Hmm, I'll bet it's EPROBE_DEFER related.
+Add a AXP_DISABLE_BOOT_ON_POWERON Kconfig option to enable this
+behaviour.
+Patch 1 prepares the PMIC header files to export the same symbol, which
+Chris' patch 2 then uses to do the actual work.
 
-The original call (pre that commit) of pinctrl_gpio_direction_output() checks
-if the pin controller could find the pin (pinctrl_get_device_gpio_range()).
+I rearranged Chris' code to get rid of the nasty #ifdef's. This function
+is already a "good" example of why #ifdefs are bad, we don't need to add
+to that. I will try to clean that up further, but for now this doesn't
+need to block this patch.
 
-That doesn't happen in the new code.
+Cheers,
+Andre.
 
-The sunxi appears to have two pincontrollers in the device tree (&pio and &r_pio),
-that might be part of the reason this is an issue here.
+Andre Przywara (1):
+  pmic: axp: define ALDO_IN startup bit
 
-Linus, should there be a check somewhere for a missing pincontroller in
-gpiod_get_index()? I suspect that before my commit it was the gpiod_configure_flags
-call in that function that returned -EPROBE_DEFER, but I'm not completely certain.
+Chris Morgan (1):
+  sunxi: Add option to prevent booting on power plug-in
 
-If someone can give me a hint about what should be done, then I can make a patch.
+ arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
+ board/sunxi/board.c         | 11 +++++++++++
+ include/axp152.h            |  2 ++
+ include/axp209.h            |  3 ++-
+ include/axp221.h            |  3 ++-
+ include/axp305.h            |  3 +++
+ include/axp809.h            |  3 ++-
+ include/axp818.h            |  3 ++-
+ 8 files changed, 34 insertions(+), 4 deletions(-)
 
-The alternative is to revert this sunxi patch, but perhaps this is a deeper
-problem with these pincontroller drivers that set the direction directly
-instead of going through pinctrl_gpio_direction_output().
+-- 
+2.25.1
 
-Corentin, it would help me if you can figure out where the EPROBE_DEFER is
-returned (pre-commit) in drivers/pinctrl/core.c. Probably pinctrl_get_device_gpio_range().
-
-And I'd love to have the WARN_ON(1) output from just before the 'return -EPROBE_DEFER'.
-
-Regards,
-
-	Hans
-
-> 
-> Regards
