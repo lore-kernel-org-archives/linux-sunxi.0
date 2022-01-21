@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBEDC2C9C
-	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jan 2022 13:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487DF2C80
+	for <linux-sunxi@lists.linux.dev>; Fri, 21 Jan 2022 13:37:41 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8AFEA113E;
-	Fri, 21 Jan 2022 05:37:39 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0435D11B3;
+	Fri, 21 Jan 2022 05:37:41 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 55F013F766;
-	Fri, 21 Jan 2022 05:37:38 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BE5B43F766;
+	Fri, 21 Jan 2022 05:37:39 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Chris Morgan <macromorgan@hotmail.com>,
@@ -16,9 +16,9 @@ Cc: Chris Morgan <macromorgan@hotmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev,
 	Tom Rini <trini@konsulko.com>
-Subject: [PATCH v2 1/2] pmic: axp: define ALDO_IN startup bit
-Date: Fri, 21 Jan 2022 13:37:31 +0000
-Message-Id: <20220121133732.2397273-2-andre.przywara@arm.com>
+Subject: [PATCH v2 2/2] sunxi: Add option to prevent booting on power plug-in
+Date: Fri, 21 Jan 2022 13:37:32 +0000
+Message-Id: <20220121133732.2397273-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220121133732.2397273-1-andre.przywara@arm.com>
 References: <20220121133732.2397273-1-andre.przywara@arm.com>
@@ -30,103 +30,80 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Most AXP PMICs feature a "startup source" register, which keeps
-information about how the PMIC started operation. Bit 0 in there means
-it has been started by "plugging in the power cable".
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Define a symbol in each PMIC's header file to be able to use that
-register and bit later on.
+For sunxi boards with the AXP209, AXP221, AXP809, and AXP818 PMICs
+(plus possibly others, I only confirmed the datasheets for these),
+it is sometimes desirable to not boot whenever the device is
+plugged in. An example would be when using the NTC CHIP inside a
+PocketCHIP.
+This provides a configurable option to check if bit 0 of
+register 0 of the PMIC says it was powered because of a power button
+press (0) or a plug-in event (1). If the value is 1 and this option
+is selected, the device shuts down shortly after printing a message
+to console stating the reason why it's shutting down. Powering up the
+board with the power button is not affected.
 
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+[Andre: reword to speak of boot, remove #ifdefs]
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- include/axp152.h | 2 ++
- include/axp209.h | 3 ++-
- include/axp221.h | 3 ++-
- include/axp305.h | 3 +++
- include/axp809.h | 3 ++-
- include/axp818.h | 3 ++-
- 6 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/include/axp152.h b/include/axp152.h
-index 10d845fec4..bac6526a36 100644
---- a/include/axp152.h
-+++ b/include/axp152.h
-@@ -16,6 +16,8 @@ enum axp152_reg {
+adapt board.c to generic AXP symbols
+---
+ arch/arm/mach-sunxi/Kconfig | 10 ++++++++++
+ board/sunxi/board.c         | 11 +++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+index 2c18cf02d1..d7f9a03152 100644
+--- a/arch/arm/mach-sunxi/Kconfig
++++ b/arch/arm/mach-sunxi/Kconfig
+@@ -785,6 +785,16 @@ config AXP_GPIO
+ 	---help---
+ 	Say Y here to enable support for the gpio pins of the axp PMIC ICs.
  
- /* For axp_gpio.c */
- #ifdef CONFIG_AXP152_POWER
-+#define AXP_POWER_STATUS		0x00
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
- #define AXP_GPIO0_CTRL			0x90
- #define AXP_GPIO1_CTRL			0x91
- #define AXP_GPIO2_CTRL			0x92
-diff --git a/include/axp209.h b/include/axp209.h
-index 30399a8d62..414f88a32c 100644
---- a/include/axp209.h
-+++ b/include/axp209.h
-@@ -76,7 +76,8 @@ enum axp209_reg {
- /* For axp_gpio.c */
- #ifdef CONFIG_AXP209_POWER
- #define AXP_POWER_STATUS		0x00
--#define AXP_POWER_STATUS_VBUS_PRESENT	BIT(5)
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
-+#define AXP_POWER_STATUS_VBUS_PRESENT		BIT(5)
- #define AXP_GPIO0_CTRL			0x90
- #define AXP_GPIO1_CTRL			0x92
- #define AXP_GPIO2_CTRL			0x93
-diff --git a/include/axp221.h b/include/axp221.h
-index a02e9b4f64..8dfcc5b5a2 100644
---- a/include/axp221.h
-+++ b/include/axp221.h
-@@ -52,7 +52,8 @@
- /* For axp_gpio.c */
- #ifdef CONFIG_AXP221_POWER
- #define AXP_POWER_STATUS		0x00
--#define AXP_POWER_STATUS_VBUS_PRESENT		(1 << 5)
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
-+#define AXP_POWER_STATUS_VBUS_PRESENT		BIT(5)
- #define AXP_VBUS_IPSOUT			0x30
- #define AXP_VBUS_IPSOUT_DRIVEBUS		(1 << 2)
- #define AXP_MISC_CTRL			0x8f
-diff --git a/include/axp305.h b/include/axp305.h
-index 225c5040a3..0a42bc6804 100644
---- a/include/axp305.h
-+++ b/include/axp305.h
-@@ -15,3 +15,6 @@ enum axp305_reg {
- #define AXP305_OUTPUT_CTRL1_DCDCD_EN	(1 << 3)
- 
- #define AXP305_POWEROFF			(1 << 7)
++config AXP_DISABLE_BOOT_ON_POWERON
++	bool "Disable device boot on power plug-in"
++	depends on AXP209_POWER || AXP221_POWER || AXP809_POWER || AXP818_POWER
++	default n
++	---help---
++	  Say Y here to prevent the device from booting up because of a plug-in
++	  event. When set, the device will boot into the SPL briefly to
++	  determine why it was powered on, and if it was determined because of
++	  a plug-in event instead of a button press event it will shut back off.
 +
-+#define AXP_POWER_STATUS		0x00
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
-diff --git a/include/axp809.h b/include/axp809.h
-index 430dbef622..8082e402e2 100644
---- a/include/axp809.h
-+++ b/include/axp809.h
-@@ -46,7 +46,8 @@
- /* For axp_gpio.c */
- #ifdef CONFIG_AXP809_POWER
- #define AXP_POWER_STATUS		0x00
--#define AXP_POWER_STATUS_VBUS_PRESENT		(1 << 5)
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
-+#define AXP_POWER_STATUS_VBUS_PRESENT		BIT(5)
- #define AXP_VBUS_IPSOUT			0x30
- #define AXP_VBUS_IPSOUT_DRIVEBUS		(1 << 2)
- #define AXP_MISC_CTRL			0x8f
-diff --git a/include/axp818.h b/include/axp818.h
-index 8bac6b67ca..8ac517a2bf 100644
---- a/include/axp818.h
-+++ b/include/axp818.h
-@@ -60,7 +60,8 @@
- /* For axp_gpio.c */
- #ifdef CONFIG_AXP818_POWER
- #define AXP_POWER_STATUS		0x00
--#define AXP_POWER_STATUS_VBUS_PRESENT		(1 << 5)
-+#define AXP_POWER_STATUS_ALDO_IN		BIT(0)
-+#define AXP_POWER_STATUS_VBUS_PRESENT		BIT(5)
- #define AXP_VBUS_IPSOUT			0x30
- #define AXP_VBUS_IPSOUT_DRIVEBUS		(1 << 2)
- #define AXP_MISC_CTRL			0x8f
+ config VIDEO_SUNXI
+ 	bool "Enable graphical uboot console on HDMI, LCD or VGA"
+ 	depends on !MACH_SUN8I_A83T
+diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+index fdbcd40269..3b5e7f3cdc 100644
+--- a/board/sunxi/board.c
++++ b/board/sunxi/board.c
+@@ -27,6 +27,7 @@
+ #include <asm/arch/dram.h>
+ #include <asm/arch/mmc.h>
+ #include <asm/arch/prcm.h>
++#include <asm/arch/pmic_bus.h>
+ #include <asm/arch/spl.h>
+ #include <asm/global_data.h>
+ #include <linux/delay.h>
+@@ -601,6 +602,16 @@ void sunxi_board_init(void)
+ 	defined CONFIG_AXP809_POWER || defined CONFIG_AXP818_POWER
+ 	power_failed = axp_init();
+ 
++	if (IS_ENABLED(AXP_DISABLE_BOOT_ON_POWERON) && !power_failed) {
++		u8 boot_reason;
++
++		pmic_bus_read(AXP_POWER_STATUS, &boot_reason);
++		if (boot_reason & AXP_POWER_STATUS_ALDO_IN) {
++			printf("Power on by plug-in, shutting down.\n");
++			pmic_bus_write(0x32, BIT(7));
++		}
++	}
++
+ #if defined CONFIG_AXP221_POWER || defined CONFIG_AXP809_POWER || \
+ 	defined CONFIG_AXP818_POWER
+ 	power_failed |= axp_set_dcdc1(CONFIG_AXP_DCDC1_VOLT);
 -- 
 2.25.1
 
