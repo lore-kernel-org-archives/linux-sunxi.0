@@ -1,41 +1,41 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E9963FCE
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 21:04:56 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id o30-20020a05600c511e00b0034f4c3186f4so4555134wms.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 13:04:56 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699223FCF
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 21:04:57 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id q9-20020a7bce89000000b00349e697f2fbso4590362wmj.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 13:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=buaazu1WrMDzlwPQHqm8IQrYu7KI8/m+gyfaMuk4eCE=;
-        b=1A4bnZJMdAQkBvC7PZ9mskNXQQhnZE6VRNKHHrWqzWuGTS1Z16M0qFlCtl/SufBbX6
-         ju7zpaQvvPl6/6yYxzVAG0qOGzlZEII7AF3FnhhTi8gxB2bibYzmW8UAoccwQyy+q2tQ
-         nk3Y4gy280Pf5xsbL9gjfo7lTPTwpKmR3lYhx3vr2TS5qr61thhOlWKFDo4Nx4rbZQ4C
-         mW8yQ9Hi+dQ6D8GfzdecOb6Dj2uvVs2GVkILNRnWPDyo2JaeDSd8sF+fP/NVnpwKGGUC
-         vrEG0Hrce98hI4JJCkrSa3eKAmWNBmBsu70WuYFLzr7bX/qaa8EBe3iAGVn/Uc6wQ0OE
-         H07Q==
+        bh=snYrFJ12aUfxHMb2aqbQr58aBrO9I7pzj7+8V1Dw+/A=;
+        b=4ulCosohtZpKHKk1OWZvg15RfCT5UKS1+RX7vVL4SOremHHI031JCQQpK4rmR26rrz
+         sncnRcjqlcn/aNLuhLe4gpkJdGxAwSaAVhujtXACxeo0tMhyIzkskAWEDshjgajbUUoL
+         MbRYqeK7HlPbBOuLGz2L6FtBtVuHO34J9qm0UEcmJkTXsxGQbUKvq+K8PWToMHofCpNG
+         wd+ln/PqR7hEzYAsc9qOup9JfzLBm7EN+RLBDTgA+lb5G0AnXlIjaGZhzAMnW5gxEoKx
+         c/dstabSdqeOY1eOIDthWf6qFk12kiX5Hfz5wlAg5/tyBbYSkbpR6JTqUYSVEBVkWTh3
+         zOkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=buaazu1WrMDzlwPQHqm8IQrYu7KI8/m+gyfaMuk4eCE=;
-        b=6W+izUHyQ6z2IMZ7DIYsvlaRKp1QSeUdMlwPE28vGWWhSE4YXkEBNTaVFjbuRnKKUi
-         KnnL8Y+Im825ghoyIME4nzCen3At9+eM6UW9P+rCB0VjsS/GFiK3cerNvrc+yjN0Iz8J
-         Lc7s8CkegFG8gE91YSf27hAm0JqQ+4ZngnpIZiZiEysB1JxBtCK8YxTe5FCJ5MuBIg+Q
-         FeSNYcqPMPtQtIEwYHjDq6y01LtEB6nxR5d3QHS5Nm2dAp3J4PAzCyzMMz1B9n3dlpJb
-         cKmn7Olu/Tl3O5surnpw6jCnXI4P3PqOg/XXBr+eNJrsO2G/V3yqXEPHrqI02el6l1mq
-         2Slg==
-X-Gm-Message-State: AOAM532SCIGFggD+G8Iwd8TiBkx4k2vZS8h6JOW4SKW3Kz6JfZ3sBKrH
-	Tfle+WKbx/2BBNPFotljNUQ8uw==
-X-Google-Smtp-Source: ABdhPJwjF2ajoGSl2zYfi3anBFhjjlzUNBMG2st7gOW9X9MaMsEN3LPB/dFbwfDv5lsPqcizGI2x+w==
-X-Received: by 2002:a05:600c:1e86:: with SMTP id be6mr8890155wmb.79.1643231094782;
-        Wed, 26 Jan 2022 13:04:54 -0800 (PST)
+        bh=snYrFJ12aUfxHMb2aqbQr58aBrO9I7pzj7+8V1Dw+/A=;
+        b=Z37MUtBezF8FrdraqiXaunK8C1iwFLNnKTkP4TclmLHRSaBZaXmkh41GjNf1cmh0rv
+         F1lg3strEUjV3GiQxSG+3dNXJkD9+DMBMAtvLp9UJBWMZW/WLf47Khe5vt2/Vb9VFF0W
+         bsEC22rP6dvaZKe/6L7X6vxagLpP75gjhBuBSZnDfKUm6mYIQvEuv7nkb5T4GFOk68I8
+         dPwbLGRRZdYKY1dsV/KZO3oiVT4gyGSMbfmVpJjV3EJQJJ5DlqnffgmruqtfsbV2Z6CX
+         KQqYE7+W1lsp2KXG0aTxM1UFw/WYhNmMnfxJgC5BTj4hY5xrXDrbL5/pzoClMzH8C429
+         TFXA==
+X-Gm-Message-State: AOAM53206Bv8EGDz05IG6hcHQuYWLY9oDZpjz6QZyppWh+jmK8QG8/7N
+	7QaaVRFlPOAHPCh+EccozT2fzQ==
+X-Google-Smtp-Source: ABdhPJw+yWKxm6iGT9HIPz6Vr8isQ+lpFIiKvyXZgf1R+aoAldml+w5ZXDElVXNYI3y5J0Jnqz5IVA==
+X-Received: by 2002:a7b:c3c3:: with SMTP id t3mr488729wmj.94.1643231095799;
+        Wed, 26 Jan 2022 13:04:55 -0800 (PST)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id j19sm4948611wmq.17.2022.01.26.13.04.53
+        by smtp.googlemail.com with ESMTPSA id j19sm4948611wmq.17.2022.01.26.13.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Jan 2022 13:04:54 -0800 (PST)
+        Wed, 26 Jan 2022 13:04:55 -0800 (PST)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: davem@davemloft.net,
 	herbert@gondor.apana.org.au,
@@ -48,9 +48,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-sunxi@googlegroups.com,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 5/8] crypto: sun8i-ss: do not zeroize all pad
-Date: Wed, 26 Jan 2022 21:04:38 +0000
-Message-Id: <20220126210441.3661782-6-clabbe@baylibre.com>
+Subject: [PATCH 6/8] crypto: sun8i-ss: remove redundant test
+Date: Wed, 26 Jan 2022 21:04:39 +0000
+Message-Id: <20220126210441.3661782-7-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220126210441.3661782-1-clabbe@baylibre.com>
 References: <20220126210441.3661782-1-clabbe@baylibre.com>
@@ -62,46 +62,40 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Instead of memset all pad buffer, it is faster to only put 0 where
-needed.
+Some fallback tests were redundant with what sun8i_ss_hash_need_fallback() already do.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
 diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-index f7a9578e87f7..ef3020bc9547 100644
+index ef3020bc9547..7ebd11d3ff7d 100644
 --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
 +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-@@ -328,7 +328,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
- 	unsigned int len;
- 	u64 fill, min_fill, byte_count;
- 	void *pad, *result;
--	int j, i, todo;
-+	int j, i, k, todo;
- 	__be64 *bebits;
- 	__le64 *lebits;
- 	dma_addr_t addr_res, addr_pad;
-@@ -343,7 +343,6 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+@@ -287,21 +287,11 @@ int sun8i_ss_hash_digest(struct ahash_request *areq)
+ 	struct sun8i_ss_alg_template *algt;
+ 	struct sun8i_ss_dev *ss;
+ 	struct crypto_engine *engine;
+-	struct scatterlist *sg;
+-	int nr_sgs, e, i;
++	int e;
  
- 	result = ss->flows[rctx->flow].result;
- 	pad = ss->flows[rctx->flow].pad;
--	memset(pad, 0, algt->alg.hash.halg.base.cra_blocksize * 2);
- 	bf = (__le32 *)pad;
+ 	if (sun8i_ss_hash_need_fallback(areq))
+ 		return sun8i_ss_hash_digest_fb(areq);
  
- 	for (i = 0; i < MAX_SG; i++) {
-@@ -404,7 +403,10 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
- 	if (fill < min_fill)
- 		fill += 64;
+-	nr_sgs = sg_nents(areq->src);
+-	if (nr_sgs > MAX_SG - 1)
+-		return sun8i_ss_hash_digest_fb(areq);
+-
+-	for_each_sg(areq->src, sg, nr_sgs, i) {
+-		if (sg->length % 4 || !IS_ALIGNED(sg->offset, sizeof(u32)))
+-			return sun8i_ss_hash_digest_fb(areq);
+-	}
+-
+ 	algt = container_of(alg, struct sun8i_ss_alg_template, alg.hash);
+ 	ss = algt->ss;
  
-+	k = j;
- 	j += (fill - min_fill) / sizeof(u32);
-+	for (; k < j; k++)
-+		bf[k] = 0;
- 
- 	switch (algt->ss_algo_id) {
- 	case SS_ID_HASH_MD5:
 -- 
 2.34.1
 
