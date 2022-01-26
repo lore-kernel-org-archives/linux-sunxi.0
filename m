@@ -1,41 +1,41 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D763FD3
-	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 21:04:53 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id n12-20020a05600c3b8c00b0034eb13edb8eso2453357wms.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 13:04:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AAC3FCF
+	for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 21:04:52 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id n12-20020a05600c3b8c00b0034eb13edb8eso2453341wms.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 26 Jan 2022 13:04:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uQfQxPxFJ18OHZiKr+H6x2uvjjAUEJks7M+mZV0XyDU=;
-        b=gI5EvP3Vb93EkxWs5/NGdIKIUHXcZ9cD9PdxdQ7AihS1mp1WTtquESrkQ6JOACLki7
-         b2yp7STxQIt6XVZNAdkqGfgp+Lz/deN30PAjSTkDJl/MSHZLDhnBwPHPjpDB+t1qbsoN
-         /3T5mHPFZmgSIkaDztl2MQfQto871u3/wf28GDMSsqYwmBdYWkQPqzZxA1n7iDQ6BJ2R
-         RAe4PUYx4cn45hZeDcg6MRkKdyCcefKnagdZiyC32zANamTA1ve0rX2BC5g3wBrhqozr
-         aW1epb7TiZPn/6GRVlyA6plsOHzrsfw5rr57aGhyuJWIHNE5hamLD6o5boZpoLi9gxN2
-         zMNQ==
+        bh=UWL8x42G4N1mlzu+WAhCp4FrFZgbOxSegmwVdqQbXCc=;
+        b=c9QwSRmxbkHtqyg3Uh1XyeWdr/bT2I/i1Hji99sMoRdk7hEvZYnwb3+zsdZBEjgTsD
+         jMKZBuZqN31tOjUY8FtDuMKFvr3PdPRk2D3bIkcAcHKdVM1DMKJGLGoD2Z5+3gEPeWNx
+         d3nnBGkxqeEnRyepp8lggh0qWR/VvdVo6jW4CbpFNbN8L/3drOzJNsUd4ASyuiMip7F2
+         yHqE7+7K5Fg249794TBd2CYythGOb4m8Vus9fok28hpCNTk7qj7zjOEa9G0Sml9mda0I
+         DazCF0Xe+FvCDxD23jQnrW6QDjgRIjZwWPm1twk/D3cBt+beDfgSMUMF7tp56MT8G34c
+         6QmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uQfQxPxFJ18OHZiKr+H6x2uvjjAUEJks7M+mZV0XyDU=;
-        b=rH6msYk/DQiLFUGjxJvs4x7aZVHrTYon8AJm7erkG/N/ZKBERIbRAtjxXSXJ20UDVc
-         EZlzm9/Vk/1ou8rAoY7UtMiH8Rh4EoycucfvVEJUyeIuhfPvjhf11noYyZ/ORRlKZwLK
-         79JxCnJtaWMkweyUVJ+6e4doUdBChTbeWl/prLFFFLRiINRUFxZfwLDRi62Im6mFZiOe
-         trMwGYa70yLps/vvrcopE0jjBpCUQwmyviE4kOX+ZZq5q/RZYlCiRZ8TZApUdUWXxAOK
-         FfAmsQB0BCE3sympJTg2oROTVPzp6GmpI2MCZKREh29JONF4iuhJ0l+t1Tgk1oWpDQe2
-         ZtFw==
-X-Gm-Message-State: AOAM530/X/lUNRDKtRiRUyyXFiQfU+7/ad1tkFoE2L2BF5moXU1whKKT
-	jNLtjQcjtMXzfSIZOipISabHuw==
-X-Google-Smtp-Source: ABdhPJz0wDzZ/chLZNIXRRbPWQZRsRz89OXrDdMn3YyXcTITc7q8YpCcfv3JsZnHYnOX78ChNWqaVw==
-X-Received: by 2002:a05:600c:1c16:: with SMTP id j22mr480719wms.60.1643231091453;
-        Wed, 26 Jan 2022 13:04:51 -0800 (PST)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id j19sm4948611wmq.17.2022.01.26.13.04.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=UWL8x42G4N1mlzu+WAhCp4FrFZgbOxSegmwVdqQbXCc=;
+        b=xwWKxyqYlWLovNeMdbWmQtAOBWMwqjNsoHurrqoqyaHfUI0OUrGoKiTK8mReieO75G
+         B/t6ZU0r8+Dq+N+hRjp5S2nL8W16x5CV4ehs5Xq8x1ycLHkcXmmT/tGbOtDybiArmNpN
+         gmnga5iZtOVMdlAyGOwvDp7mJfskl/bknhB1vkS7VKBb49lYDp5oeycaOrk6Vo3drZ4e
+         jBrCTAa7Om5XKe62GjKn9eVqKXlcKQUzO9PqL9VJW6i2o3BiaCUDqLDH2c1WhY/sZR8a
+         JMHRssFZWxtsAns28XUkuX35J7E4SrTYLaxr2MaNAU+skWNRu/UAEUfKBF7CUXgXFD4S
+         xfaQ==
+X-Gm-Message-State: AOAM532aMMNTGUSA9TYeIpUm3cI6PxBC7Bjptx0tfeeRUn7xa84yy8ea
+	Bl24l4vEvLrAgCHUiOdYDvaY0Q==
+X-Google-Smtp-Source: ABdhPJymHTxLjf2FgxbjiTu/XUpjTu+pXwe1QOMFEwpsZ+dU33AWK0VJw4YCcEvVi4G9m7gVdpSZpA==
+X-Received: by 2002:a05:600c:40b:: with SMTP id q11mr8804315wmb.43.1643231090439;
         Wed, 26 Jan 2022 13:04:50 -0800 (PST)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id j19sm4948611wmq.17.2022.01.26.13.04.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Jan 2022 13:04:49 -0800 (PST)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: davem@davemloft.net,
 	herbert@gondor.apana.org.au,
@@ -48,9 +48,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-sunxi@googlegroups.com,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 2/8] crypto: sun4i-ss: do not allocate backup IV on requests
-Date: Wed, 26 Jan 2022 21:04:35 +0000
-Message-Id: <20220126210441.3661782-3-clabbe@baylibre.com>
+Subject: [PATCH 1/8] crypto: sun8i-ce: do not allocate memory when handling requests
+Date: Wed, 26 Jan 2022 21:04:34 +0000
+Message-Id: <20220126210441.3661782-2-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220126210441.3661782-1-clabbe@baylibre.com>
 References: <20220126210441.3661782-1-clabbe@baylibre.com>
@@ -63,94 +63,180 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Instead of allocate memory on each requests, it is easier to
-pre-allocate buffer for backup IV.
+pre-allocate buffer for IV.
 This made error path easier.
+
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- .../allwinner/sun4i-ss/sun4i-ss-cipher.c      | 22 +++++++------------
- drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h  |  1 +
- 2 files changed, 9 insertions(+), 14 deletions(-)
+ .../allwinner/sun8i-ce/sun8i-ce-cipher.c      | 28 ++++++-------------
+ .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c | 20 ++++++++++---
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  |  8 +++---
+ 3 files changed, 29 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c
-index 8dc2a475c601..a8c784acce13 100644
---- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c
-+++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss-cipher.c
-@@ -20,7 +20,6 @@ static int noinline_for_stack sun4i_ss_opti_poll(struct skcipher_request *areq)
- 	unsigned int ivsize = crypto_skcipher_ivsize(tfm);
- 	struct sun4i_cipher_req_ctx *ctx = skcipher_request_ctx(areq);
- 	u32 mode = ctx->mode;
--	void *backup_iv = NULL;
- 	/* when activating SS, the default FIFO space is SS_RX_DEFAULT(32) */
- 	u32 rx_cnt = SS_RX_DEFAULT;
- 	u32 tx_cnt = 0;
-@@ -47,10 +46,8 @@ static int noinline_for_stack sun4i_ss_opti_poll(struct skcipher_request *areq)
- 	}
- 
- 	if (areq->iv && ivsize > 0 && mode & SS_DECRYPTION) {
--		backup_iv = kzalloc(ivsize, GFP_KERNEL);
--		if (!backup_iv)
--			return -ENOMEM;
--		scatterwalk_map_and_copy(backup_iv, areq->src, areq->cryptlen - ivsize, ivsize, 0);
-+		scatterwalk_map_and_copy(ctx->backup_iv, areq->src,
-+					 areq->cryptlen - ivsize, ivsize, 0);
- 	}
- 
- 	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_DEBUG)) {
-@@ -133,8 +130,8 @@ static int noinline_for_stack sun4i_ss_opti_poll(struct skcipher_request *areq)
- 
- 	if (areq->iv) {
- 		if (mode & SS_DECRYPTION) {
--			memcpy(areq->iv, backup_iv, ivsize);
--			kfree_sensitive(backup_iv);
-+			memcpy(areq->iv, ctx->backup_iv, ivsize);
-+			memzero_explicit(ctx->backup_iv, ivsize);
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+index 8f0031e45a03..f4221025d651 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+@@ -151,23 +151,13 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ 	ivsize = crypto_skcipher_ivsize(tfm);
+ 	if (areq->iv && crypto_skcipher_ivsize(tfm) > 0) {
+ 		rctx->ivlen = ivsize;
+-		rctx->bounce_iv = kzalloc(ivsize, GFP_KERNEL | GFP_DMA);
+-		if (!rctx->bounce_iv) {
+-			err = -ENOMEM;
+-			goto theend_key;
+-		}
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+-			rctx->backup_iv = kzalloc(ivsize, GFP_KERNEL);
+-			if (!rctx->backup_iv) {
+-				err = -ENOMEM;
+-				goto theend_key;
+-			}
+ 			offset = areq->cryptlen - ivsize;
+-			scatterwalk_map_and_copy(rctx->backup_iv, areq->src,
++			scatterwalk_map_and_copy(chan->backup_iv, areq->src,
+ 						 offset, ivsize, 0);
+ 		}
+-		memcpy(rctx->bounce_iv, areq->iv, ivsize);
+-		rctx->addr_iv = dma_map_single(ce->dev, rctx->bounce_iv, rctx->ivlen,
++		memcpy(chan->bounce_iv, areq->iv, ivsize);
++		rctx->addr_iv = dma_map_single(ce->dev, chan->bounce_iv, rctx->ivlen,
+ 					       DMA_TO_DEVICE);
+ 		if (dma_mapping_error(ce->dev, rctx->addr_iv)) {
+ 			dev_err(ce->dev, "Cannot DMA MAP IV\n");
+@@ -256,13 +246,13 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ 			dma_unmap_single(ce->dev, rctx->addr_iv, rctx->ivlen, DMA_TO_DEVICE);
+ 		offset = areq->cryptlen - ivsize;
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+-			memcpy(areq->iv, rctx->backup_iv, ivsize);
+-			kfree_sensitive(rctx->backup_iv);
++			memcpy(areq->iv, chan->backup_iv, ivsize);
++			memzero_explicit(chan->backup_iv, ivsize);
  		} else {
- 			scatterwalk_map_and_copy(areq->iv, areq->dst, areq->cryptlen - ivsize,
+ 			scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
  						 ivsize, 0);
-@@ -198,7 +195,6 @@ static int sun4i_ss_cipher_poll(struct skcipher_request *areq)
- 	unsigned int ileft = areq->cryptlen;
- 	unsigned int oleft = areq->cryptlen;
- 	unsigned int todo;
--	void *backup_iv = NULL;
- 	struct sg_mapping_iter mi, mo;
- 	unsigned long pi = 0, po = 0; /* progress for in and out */
- 	bool miter_err;
-@@ -242,10 +238,8 @@ static int sun4i_ss_cipher_poll(struct skcipher_request *areq)
- 		return sun4i_ss_cipher_poll_fallback(areq);
- 
- 	if (areq->iv && ivsize > 0 && mode & SS_DECRYPTION) {
--		backup_iv = kzalloc(ivsize, GFP_KERNEL);
--		if (!backup_iv)
--			return -ENOMEM;
--		scatterwalk_map_and_copy(backup_iv, areq->src, areq->cryptlen - ivsize, ivsize, 0);
-+		scatterwalk_map_and_copy(ctx->backup_iv, areq->src,
-+					 areq->cryptlen - ivsize, ivsize, 0);
+ 		}
+-		kfree(rctx->bounce_iv);
++		memzero_explicit(chan->bounce_iv, ivsize);
  	}
  
- 	if (IS_ENABLED(CONFIG_CRYPTO_DEV_SUN4I_SS_DEBUG)) {
-@@ -382,8 +376,8 @@ static int sun4i_ss_cipher_poll(struct skcipher_request *areq)
- 	}
- 	if (areq->iv) {
- 		if (mode & SS_DECRYPTION) {
--			memcpy(areq->iv, backup_iv, ivsize);
--			kfree_sensitive(backup_iv);
-+			memcpy(areq->iv, ctx->backup_iv, ivsize);
-+			memzero_explicit(ctx->backup_iv, ivsize);
+ theend_key:
+@@ -319,13 +309,13 @@ static int sun8i_ce_cipher_unprepare(struct crypto_engine *engine, void *async_r
+ 			dma_unmap_single(ce->dev, rctx->addr_iv, rctx->ivlen, DMA_TO_DEVICE);
+ 		offset = areq->cryptlen - ivsize;
+ 		if (rctx->op_dir & CE_DECRYPTION) {
+-			memcpy(areq->iv, rctx->backup_iv, ivsize);
+-			kfree_sensitive(rctx->backup_iv);
++			memcpy(areq->iv, chan->backup_iv, ivsize);
++			memzero_explicit(chan->backup_iv, ivsize);
  		} else {
- 			scatterwalk_map_and_copy(areq->iv, areq->dst, areq->cryptlen - ivsize,
+ 			scatterwalk_map_and_copy(areq->iv, areq->dst, offset,
  						 ivsize, 0);
-diff --git a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
-index 0fee6f4e2d90..ba59c7a48825 100644
---- a/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
-+++ b/drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h
-@@ -183,6 +183,7 @@ struct sun4i_tfm_ctx {
+ 		}
+-		kfree(rctx->bounce_iv);
++		memzero_explicit(chan->bounce_iv, ivsize);
+ 	}
  
- struct sun4i_cipher_req_ctx {
- 	u32 mode;
-+	u8 backup_iv[AES_BLOCK_SIZE];
- 	struct skcipher_request fallback_req;   // keep at the end
- };
- 
+ 	dma_unmap_single(ce->dev, rctx->addr_key, op->keylen, DMA_TO_DEVICE);
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+index ea2c655e4ff1..b57aed120d33 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+@@ -305,7 +305,7 @@ static struct sun8i_ce_alg_template ce_algs[] = {
+ 			.cra_priority = 400,
+ 			.cra_blocksize = AES_BLOCK_SIZE,
+ 			.cra_flags = CRYPTO_ALG_TYPE_SKCIPHER |
+-				CRYPTO_ALG_ASYNC | CRYPTO_ALG_ALLOCATES_MEMORY |
++				CRYPTO_ALG_ASYNC |
+ 				CRYPTO_ALG_NEED_FALLBACK,
+ 			.cra_ctxsize = sizeof(struct sun8i_cipher_tfm_ctx),
+ 			.cra_module = THIS_MODULE,
+@@ -332,7 +332,7 @@ static struct sun8i_ce_alg_template ce_algs[] = {
+ 			.cra_priority = 400,
+ 			.cra_blocksize = AES_BLOCK_SIZE,
+ 			.cra_flags = CRYPTO_ALG_TYPE_SKCIPHER |
+-				CRYPTO_ALG_ASYNC | CRYPTO_ALG_ALLOCATES_MEMORY |
++				CRYPTO_ALG_ASYNC |
+ 				CRYPTO_ALG_NEED_FALLBACK,
+ 			.cra_ctxsize = sizeof(struct sun8i_cipher_tfm_ctx),
+ 			.cra_module = THIS_MODULE,
+@@ -358,7 +358,7 @@ static struct sun8i_ce_alg_template ce_algs[] = {
+ 			.cra_priority = 400,
+ 			.cra_blocksize = DES3_EDE_BLOCK_SIZE,
+ 			.cra_flags = CRYPTO_ALG_TYPE_SKCIPHER |
+-				CRYPTO_ALG_ASYNC | CRYPTO_ALG_ALLOCATES_MEMORY |
++				CRYPTO_ALG_ASYNC |
+ 				CRYPTO_ALG_NEED_FALLBACK,
+ 			.cra_ctxsize = sizeof(struct sun8i_cipher_tfm_ctx),
+ 			.cra_module = THIS_MODULE,
+@@ -385,7 +385,7 @@ static struct sun8i_ce_alg_template ce_algs[] = {
+ 			.cra_priority = 400,
+ 			.cra_blocksize = DES3_EDE_BLOCK_SIZE,
+ 			.cra_flags = CRYPTO_ALG_TYPE_SKCIPHER |
+-				CRYPTO_ALG_ASYNC | CRYPTO_ALG_ALLOCATES_MEMORY |
++				CRYPTO_ALG_ASYNC |
+ 				CRYPTO_ALG_NEED_FALLBACK,
+ 			.cra_ctxsize = sizeof(struct sun8i_cipher_tfm_ctx),
+ 			.cra_module = THIS_MODULE,
+@@ -728,6 +728,18 @@ static int sun8i_ce_allocate_chanlist(struct sun8i_ce_dev *ce)
+ 			err = -ENOMEM;
+ 			goto error_engine;
+ 		}
++		ce->chanlist[i].bounce_iv = devm_kmalloc(ce->dev, AES_BLOCK_SIZE,
++							 GFP_KERNEL | GFP_DMA);
++		if (!ce->chanlist[i].bounce_iv) {
++			err = -ENOMEM;
++			goto error_engine;
++		}
++		ce->chanlist[i].backup_iv = devm_kmalloc(ce->dev, AES_BLOCK_SIZE,
++							 GFP_KERNEL);
++		if (!ce->chanlist[i].backup_iv) {
++			err = -ENOMEM;
++			goto error_engine;
++		}
+ 	}
+ 	return 0;
+ error_engine:
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+index 719f9a730857..229b696d5a2c 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h
+@@ -213,6 +213,8 @@ struct ce_task {
+  * @status:	set to 1 by interrupt if task is done
+  * @t_phy:	Physical address of task
+  * @tl:		pointer to the current ce_task for this flow
++ * @backup_iv:		buffer which contain the next IV to store
++ * @bounce_iv:		buffer which contain the IV
+  * @stat_req:	number of request done by this flow
+  */
+ struct sun8i_ce_flow {
+@@ -222,6 +224,8 @@ struct sun8i_ce_flow {
+ 	dma_addr_t t_phy;
+ 	int timeout;
+ 	struct ce_task *tl;
++	void *backup_iv;
++	void *bounce_iv;
+ #ifdef CONFIG_CRYPTO_DEV_SUN8I_CE_DEBUG
+ 	unsigned long stat_req;
+ #endif
+@@ -268,8 +272,6 @@ struct sun8i_ce_dev {
+  * struct sun8i_cipher_req_ctx - context for a skcipher request
+  * @op_dir:		direction (encrypt vs decrypt) for this request
+  * @flow:		the flow to use for this request
+- * @backup_iv:		buffer which contain the next IV to store
+- * @bounce_iv:		buffer which contain the IV
+  * @ivlen:		size of bounce_iv
+  * @nr_sgs:		The number of source SG (as given by dma_map_sg())
+  * @nr_sgd:		The number of destination SG (as given by dma_map_sg())
+@@ -280,8 +282,6 @@ struct sun8i_ce_dev {
+ struct sun8i_cipher_req_ctx {
+ 	u32 op_dir;
+ 	int flow;
+-	void *backup_iv;
+-	void *bounce_iv;
+ 	unsigned int ivlen;
+ 	int nr_sgs;
+ 	int nr_sgd;
 -- 
 2.34.1
 
