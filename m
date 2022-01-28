@@ -1,72 +1,48 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A54A2C9D
-	for <linux-sunxi@lists.linux.dev>; Thu, 27 Jan 2022 14:00:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ECE5FC36AE3;
-	Thu, 27 Jan 2022 14:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643292011;
-	bh=CYunBMddd9vXfgSmHRNWWiWCi6UBp8t/F0L+BGJTblw=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=GDqCgLj/oQJw5bzxosAu+/6SPgVHY/PzrLOsoqJEaQ27fLnjjm/Zt5r8HDw0NAve5
-	 blCbLhqGyU46Kk2AtJnw1oJcH7jzz+bSrawwRvDBxtFcuHoYdsEJpbBE9wnvc+50N+
-	 Ku3j7xMWpbWoPXnK470dKEqOECp4/8XrVeMojq120wWUTHp1y/GidaI/1gzsRhdA8R
-	 1A7wTcYW5jnu0AuWO7jijjfePhauzP2ogYJ4gKEe0CUv0MnmAw/dbf7hU/eQHvdHu3
-	 xPWePYCr7iU2M1PKz3/MDtuStZr34Lpj9kIV9gyC0XXWt/HwryHfy1qX4BAYiKT+Lh
-	 Moax/0wzh0R/w==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D2AB1E5D084;
-	Thu, 27 Jan 2022 14:00:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397C629CA
+	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jan 2022 06:59:38 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
+	id 1nDKgp-00014U-8l; Fri, 28 Jan 2022 17:24:56 +1100
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 28 Jan 2022 17:24:55 +1100
+Date: Fri, 28 Jan 2022 17:24:55 +1100
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: davem@davemloft.net, jernej.skrabec@gmail.com, mripard@kernel.org,
+	wens@csie.org, linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] crypto: sun8i-ss: really disable hash on A80
+Message-ID: <YfOMNy1kiI4gvePu@gondor.apana.org.au>
+References: <20220115100714.3016838-1-clabbe@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: stmmac: dwmac-sun8i: use return val of
- readl_poll_timeout()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <164329201085.13469.12025143259464894463.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Jan 2022 14:00:10 +0000
-References: <20220126165215.1921-1-jszhang@kernel.org>
-In-Reply-To: <20220126165215.1921-1-jszhang@kernel.org>
-To: Jisheng Zhang <jszhang@kernel.org>
-Cc: peppe.cavallaro@st.com, alexandre.torgue@foss.st.com,
- joabreu@synopsys.com, davem@davemloft.net, kuba@kernel.org,
- mcoquelin.stm32@gmail.com, mripard@kernel.org, wens@csie.org,
- jernej.skrabec@gmail.com, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220115100714.3016838-1-clabbe@baylibre.com>
 
-Hello:
-
-This patch was applied to netdev/net.git (master)
-by David S. Miller <davem@davemloft.net>:
-
-On Thu, 27 Jan 2022 00:52:15 +0800 you wrote:
-> When readl_poll_timeout() timeout, we'd better directly use its return
-> value.
+On Sat, Jan 15, 2022 at 10:07:14AM +0000, Corentin Labbe wrote:
+> When adding hashes support to sun8i-ss, I have added them only on A83T.
+> But I forgot that 0 is a valid algorithm ID, so hashes are enabled on A80 but
+> with an incorrect ID.
+> Anyway, even with correct IDs, hashes do not work on A80 and I cannot
+> find why.
+> So let's disable all of them on A80.
 > 
-> Before this patch:
-> [    2.145528] dwmac-sun8i: probe of 4500000.ethernet failed with error -14
-> 
-> After this patch:
-> [    2.138520] dwmac-sun8i: probe of 4500000.ethernet failed with error -110
-> 
-> [...]
+> Fixes: d9b45418a917 ("crypto: sun8i-ss - support hash algorithms")
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Here is the summary with links:
-  - net: stmmac: dwmac-sun8i: use return val of readl_poll_timeout()
-    https://git.kernel.org/netdev/net/c/9e0db41e7a0b
-
-You are awesome, thank you!
+Patch applied.  Thanks.
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
