@@ -1,212 +1,88 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 897162CA6
-	for <linux-sunxi@lists.linux.dev>; Sat, 29 Jan 2022 02:32:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 90A1ED6E;
-	Fri, 28 Jan 2022 18:32:08 -0800 (PST)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC63A3F7D7;
-	Fri, 28 Jan 2022 18:32:06 -0800 (PST)
-Date: Sat, 29 Jan 2022 02:31:55 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jesse Taube <mr.bossman075@gmail.com>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org, Mesih Kilinc
- <mesihkilinc@gmail.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Chris
- Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH] ARM: dts: suniv: Add MMC and clock macros.
-Message-ID: <20220129023155.401b2fa3@slackpad.fritz.box>
-In-Reply-To: <d19e70d8-02e1-b986-c0cf-f081fd82b52a@gmail.com>
-References: <20220125011352.2691365-1-Mr.Bossman075@gmail.com>
-	<20220126235726.03abdab4@slackpad.fritz.box>
-	<d69233d8-4e3d-56db-d4d3-1b39fe84ee30@gmail.com>
-	<20220127005304.06215ae8@slackpad.fritz.box>
-	<d19e70d8-02e1-b986-c0cf-f081fd82b52a@gmail.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7AE2C82
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Jan 2022 15:42:45 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id c23so16691765wrb.5
+        for <linux-sunxi@lists.linux.dev>; Sat, 29 Jan 2022 07:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xDfBcCV+jqICJ+umnEPyh0zc5fKOvTpA/0JLXbxrvaw=;
+        b=YRADI/76mabaLf4IRcW+iUVwM4d5XalrfrM65rAgmDHXMgw/pREmSDXS1OlC0Bn00W
+         BYD58D2rRkOkUXyYsmqT6UsbbLZOE49yI72y1wbyFYP0oh3pTbKX+whITxjx54FwHT54
+         rcY0tfctVsXgFc046Jyzq7yoGgtWwTbIU696dGNvIju/PnrS7YBdaqlqkoPYwHqtF81b
+         R1iPZVhdmnGJQ7jdzQtZ5/9vx/0mE9TN8rOW1bl1XyoPbB8TDqjnTKzxLbU4X7u477iX
+         vPMAuxN69n3L4m0hkvoTRM62uivp3iH4vnoWcwG0fD8h4qMX1f3LOxV2lbFv7d4OCDJz
+         deTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=xDfBcCV+jqICJ+umnEPyh0zc5fKOvTpA/0JLXbxrvaw=;
+        b=m2Ff/YQLceYZw3bYOhk4fgu+vyhpvLv9W7dqIEqQc+QrcPwThew3EM976yoV1Z4mRe
+         OQ4F3juDnJwxIBw7hE3Ty5z0/oUlGCcvmjc7cHp61slnPJ4fJVr6AHJjoDLyoI8WXsJp
+         ukoUbW67vgeRAqQFLOEyvdpdg2+KxYy5fiOBWeB/3vS2aCwZGY0PNOvoQ5Iish5rnW6K
+         KHOP2CyzA5msZoe389RXj7Gjhb4w6mfIXgl/HHOh+kCLV1IwL44o7+7J56QwgSH6qdcW
+         Kt8xpsBpiWtJFQT2rLdj9sn7Nf9v/180YB0E78lHzRap7lGMfbNG9jV3CsfnQXO3XWnX
+         hYBA==
+X-Gm-Message-State: AOAM5309SPc/JcNUwRRNN0Q0TUKbFjL+2TuZ/O8oXjZNS1JuK66sbW4W
+	+ItZGz636sAWxB+d5RfWVdc=
+X-Google-Smtp-Source: ABdhPJzuryF9xXT+zqclTdu3vlK9c6QeyBNyyqPs6N9Gl6EC9RT7kbjuBw1I6Pf7pwGVHC/qP48VuA==
+X-Received: by 2002:adf:ff83:: with SMTP id j3mr11159990wrr.618.1643470963900;
+        Sat, 29 Jan 2022 07:42:43 -0800 (PST)
+Received: from pluto.desnull.home (84-236-21-114.pool.digikabel.hu. [84.236.21.114])
+        by smtp.gmail.com with ESMTPSA id b11sm4478557wmq.46.2022.01.29.07.42.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 29 Jan 2022 07:42:43 -0800 (PST)
+From: =?UTF-8?q?Baltaz=C3=A1r=20Radics?= <baltazar.radics@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Baltaz=C3=A1r=20Radics?= <baltazar.radics@gmail.com>
+Subject: [PATCH] Add ethernet0 alias in Nanopi NEO's device tree
+Date: Sat, 29 Jan 2022 16:42:14 +0100
+Message-Id: <20220129154214.45629-1-baltazar.radics@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 28 Jan 2022 21:05:28 -0500
-Jesse Taube <mr.bossman075@gmail.com> wrote:
+This is required for U-Boot to generate a MAC address for it
+automatically.
+(Without this, the MAC address will be random on each boot.)
 
-> On 1/26/22 19:53, Andre Przywara wrote:
-> > On Wed, 26 Jan 2022 19:12:05 -0500
-> > Jesse Taube <mr.bossman075@gmail.com> wrote:
-> >   
-> >> On 1/26/22 18:57, Andre Przywara wrote:  
-> >>> On Mon, 24 Jan 2022 20:13:52 -0500
-> >>> Jesse Taube <mr.bossman075@gmail.com> wrote:
-> >>>
-> >>> Hi Jesse,
-> >>>
-> >>> I understand that get_maintainers.pl suggested this CC: list,  but you
-> >>> should add sunxi people and linux-arm kernel ML. Doing that now.  
-> >> Uh yeah that makes sense in hind sight.  
-> >>>> Include clock and reset macros and replace magic numbers.
-> >>>> Add MMC node.  
-> >>>
-> >>> This patch itself does not do much, does it? You would at least need to
-> >>> enable that in the board dts.  
-> >> True it doesn't do much just so that its in both u-boot and linux.  
-> >>> And this should be multiple patches:
-> >>> 1) replace numbers with macros (part of this patch)
-> >>> 2) Add the MMC compatible string combo to the the bindings doc  
-> Uh there is no f1c100s driver yet its just a placeholder it should be 
-> compatible with the a20 though.
+Signed-off-by: Baltazár Radics <baltazar.radics@gmail.com>
+---
+ arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-That is expected, ideally we won't need any addition to the driver
-file, as indeed chances are it's really compatible to the A20.
-But in any case we need to document the compatible string, and how it
-is used: paired with the actual defining A20 fallback string. This
-needs to go to
-Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml.
-If you look around in that file and its git history, you should get the
-idea what you need to do.
-
-> >>> 3) Add the *two* MMC nodes and at least the pinctrl node for MMC0 to the
-> >>> SoC .dtsi (partly in this patch)
-> >>> 4) Enable the MMC and the card detect pin in the Nano board .dts  
-> Uh after like an hour of trying to find the schematic I found it here 
-> nano.lichee.pro but the card detect pin isn't connected ;-(.
-
-That's fine, it wouldn't be the first one. We have the "broken-cd;"
-property for this.
-
-Cheers,
-Andre
-
-
-> >>>
-> >>> I checked that the macros names match the numbers they replace, so
-> >>> you can add my R-b: on that patch 1 (if you follow my suggestion).
-> >>> The MMC node also seems to look sane.  
-> >> That seems okay.  
-> >>>>
-> >>>> Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>  
-> >>>
-> >>> It is not evident why Mesih's S-o-b: is in here? The patch seems to be
-> >>> authored and sent by you? Either you make him the author if that is his
-> >>> patch originally, or you put him just as Cc: or in Suggested-by:, maybe.  
-> >> I did write the patch after I wrote it I was looking at his github and
-> >> he had almost the same patch.  
-> > 
-> > Yeah, not really surprising, there are only so many ways to write a DT.
-> > I guess he never sent it, and since you wrote it, it's yours, so just
-> > add him in Cc:, since he was involved in the F1C100s upstreaming.
-> > 
-> > Cheers,
-> > Andre
-> >   
-> >>> Cheers,
-> >>> Andre
-> >>>      
-> >>>> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> >>>> ---
-> >>>>    arch/arm/boot/dts/suniv-f1c100s.dtsi | 41 +++++++++++++++++++++++-----
-> >>>>    1 file changed, 34 insertions(+), 7 deletions(-)
-> >>>>
-> >>>> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> >>>> index 6100d3b75f61..32872bb29917 100644
-> >>>> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> >>>> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-> >>>> @@ -4,6 +4,9 @@
-> >>>>     * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
-> >>>>     */
-> >>>>    
-> >>>> +#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
-> >>>> +#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
-> >>>> +
-> >>>>    / {
-> >>>>    	#address-cells = <1>;
-> >>>>    	#size-cells = <1>;
-> >>>> @@ -82,7 +85,7 @@ pio: pinctrl@1c20800 {
-> >>>>    			compatible = "allwinner,suniv-f1c100s-pinctrl";
-> >>>>    			reg = <0x01c20800 0x400>;
-> >>>>    			interrupts = <38>, <39>, <40>;
-> >>>> -			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
-> >>>> +			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
-> >>>>    			clock-names = "apb", "hosc", "losc";
-> >>>>    			gpio-controller;
-> >>>>    			interrupt-controller;
-> >>>> @@ -93,6 +96,11 @@ uart0_pe_pins: uart0-pe-pins {
-> >>>>    				pins = "PE0", "PE1";
-> >>>>    				function = "uart0";
-> >>>>    			};
-> >>>> +
-> >>>> +			mmc0_pins: mmc0-pins {
-> >>>> +				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
-> >>>> +				function = "mmc0";
-> >>>> +			};
-> >>>>    		};
-> >>>>    
-> >>>>    		timer@1c20c00 {
-> >>>> @@ -108,14 +116,33 @@ wdt: watchdog@1c20ca0 {
-> >>>>    			reg = <0x01c20ca0 0x20>;
-> >>>>    		};
-> >>>>    
-> >>>> +		mmc0: mmc@1c0f000 {
-> >>>> +			compatible = "allwinner,suniv-f1c100s-mmc",
-> >>>> +				     "allwinner,sun7i-a20-mmc";
-> >>>> +			reg = <0x01c0f000 0x1000>;
-> >>>> +			clocks = <&ccu CLK_BUS_MMC0>,
-> >>>> +				 <&ccu CLK_MMC0>,
-> >>>> +				 <&ccu CLK_MMC0_OUTPUT>,
-> >>>> +				 <&ccu CLK_MMC0_SAMPLE>;
-> >>>> +			clock-names = "ahb", "mmc", "output", "sample";
-> >>>> +			resets = <&ccu RST_BUS_MMC0>;
-> >>>> +			reset-names = "ahb";
-> >>>> +			interrupts = <23>;
-> >>>> +			pinctrl-names = "default";
-> >>>> +			pinctrl-0 = <&mmc0_pins>;
-> >>>> +			status = "disabled";
-> >>>> +			#address-cells = <1>;
-> >>>> +			#size-cells = <0>;
-> >>>> +		};
-> >>>> +
-> >>>>    		uart0: serial@1c25000 {
-> >>>>    			compatible = "snps,dw-apb-uart";
-> >>>>    			reg = <0x01c25000 0x400>;
-> >>>>    			interrupts = <1>;
-> >>>>    			reg-shift = <2>;
-> >>>>    			reg-io-width = <4>;
-> >>>> -			clocks = <&ccu 38>;
-> >>>> -			resets = <&ccu 24>;
-> >>>> +			clocks = <&ccu CLK_BUS_UART0>;
-> >>>> +			resets = <&ccu RST_BUS_UART0>;
-> >>>>    			status = "disabled";
-> >>>>    		};
-> >>>>    
-> >>>> @@ -125,8 +152,8 @@ uart1: serial@1c25400 {
-> >>>>    			interrupts = <2>;
-> >>>>    			reg-shift = <2>;
-> >>>>    			reg-io-width = <4>;
-> >>>> -			clocks = <&ccu 39>;
-> >>>> -			resets = <&ccu 25>;
-> >>>> +			clocks = <&ccu CLK_BUS_UART1>;
-> >>>> +			resets = <&ccu RST_BUS_UART1>;
-> >>>>    			status = "disabled";
-> >>>>    		};
-> >>>>    
-> >>>> @@ -136,8 +163,8 @@ uart2: serial@1c25800 {
-> >>>>    			interrupts = <3>;
-> >>>>    			reg-shift = <2>;
-> >>>>    			reg-io-width = <4>;
-> >>>> -			clocks = <&ccu 40>;
-> >>>> -			resets = <&ccu 26>;
-> >>>> +			clocks = <&ccu CLK_BUS_UART2>;
-> >>>> +			resets = <&ccu RST_BUS_UART2>;
-> >>>>    			status = "disabled";
-> >>>>    		};
-> >>>>    	};  
-> >>>      
-> >   
-> 
+diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts
+index 9f33f6fae5..df71fab3cf 100644
+--- a/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts
++++ b/arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts
+@@ -45,6 +45,10 @@
+ / {
+ 	model = "FriendlyARM NanoPi NEO";
+ 	compatible = "friendlyarm,nanopi-neo", "allwinner,sun8i-h3";
++
++	aliases {
++		ethernet0 = &emac;
++	};
+ };
+ 
+ &ehci0 {
+-- 
+2.35.1
 
