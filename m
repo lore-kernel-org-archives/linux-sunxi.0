@@ -1,125 +1,221 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414F52C80
-	for <linux-sunxi@lists.linux.dev>; Fri, 28 Jan 2022 17:20:06 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id b17-20020a9d4791000000b005a17fc2dfc1so6369109otf.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jan 2022 09:20:06 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46F72CA8
+	for <linux-sunxi@lists.linux.dev>; Sat, 29 Jan 2022 02:05:31 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id a7so7582119qvl.1
+        for <linux-sunxi@lists.linux.dev>; Fri, 28 Jan 2022 18:05:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UwbQPftUNn9yAB4yzqKeQDB/pWC4kXl5NucfopNQ3ag=;
-        b=PWuAAkFkDtJVYG819y6ifto/NACTzta68iof02lYXGK4TQCZ6YMwgpN6x9wGagpTkD
-         i0EsTVdeo+F/4UtWOICMnSpByL4d8E2QtiDXKxRyVNS23Ik15kjtMaH5bsNQ8KZCBR7I
-         a0d+7BEf2jH6K+izh54gYOll0z3ec2q43de18V1jcr1UPlgSxdSC4l+dmcThpwizmIq4
-         w0EYEQFz1T1zElGgk8xJ7KRPprPSoDGttAyOnXaxCp8Ze2AC4WE9ije+JsSVAn82xuFK
-         uweG/N5/k6zc4rYLV0ib3U4euYOuQOvLVaqCDK7o1M7eGyF+94uMF1V8xB/t0cXov9ju
-         HYlQ==
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=3V8eDYaet3+NfSUV5VLucxjlZN7Pq8XNIYlXdCIYQKI=;
+        b=Enhx7LDibgQuMQtbVyVU/EQJM5LyRW5GBIg68iTB0X50z1XNW85AtrWG9aBgNBBCdi
+         a0Idv1qkWfKsJo3N63ge8/wWBgGbdpiT/D4n8CEseIHew+yw2ikYAZRI8C0svLO3VCCu
+         KC3+MeZs8JNv6VKBlV8RZvndUygQFl2gSuvN47HTi4B87REm7t6xE8Buk3UekGcfKbhy
+         tyzwRIwAEk6VvSARN026gwieTxZXqpB/mjX75MMw6MbxNRZd/varXNiy8XiFHaY2cuxI
+         iGAlmvQQIY3/jTXoEWJ19IhsKNiVTlunZk/8M7hISvt0GrxRfjYVJEKeR9bVSTgARO3a
+         d5rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=UwbQPftUNn9yAB4yzqKeQDB/pWC4kXl5NucfopNQ3ag=;
-        b=isqyO6D3CRvvl2uabLZGyqONir8B9c3/q4nWKbBgflJYQeRQ1hNAKdLlYGASUysGG+
-         zVT44w3lG1lJGHTRlbq28vrbwjOuzFYLaLNHfkxy++Yjua+N7XmtpaujUrnBrO3atQEg
-         8fCbXdYXG3mCYXgdpo2secsBv2Gd4bDkryC8ilqVIMsV3nGN+YZcsj2uJUK/jVv/wT2D
-         pHOQkhi5X+enAAfBjJjD9iekrnQOGByD/dqne4bYD5/OAXdLMeFzQCi0DlWE58QyrzKW
-         N4X3/SMQjs2ibv162GvX18EI2+0goZa1YlqfevAzMyFEttWjmiadX2WFbarJD1d1v/Zv
-         ZTkQ==
-X-Gm-Message-State: AOAM533sXY3025c+EyDLMPjVAy632xS/H0b27QO5VCgQ+clAZndrOPBQ
-	YaRwpHBn70OC+RenwF+axs8=
-X-Google-Smtp-Source: ABdhPJyvhy6GpcH81DShxWe8ImoRoO9OShyxokZ7SwtkWzv+0GKqFn3QzOSGVNutpWMxaWa4rky3xQ==
-X-Received: by 2002:a9d:7e88:: with SMTP id m8mr5100388otp.123.1643390405340;
-        Fri, 28 Jan 2022 09:20:05 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id t21sm3983087otq.81.2022.01.28.09.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Jan 2022 09:20:04 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Fri, 28 Jan 2022 09:20:03 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Corentin Labbe <clabbe.montjoie@gmail.com>, linus.walleij@linaro.org,
-	mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	zhangn1985@gmail.com
-Subject: Re: [BUG] pinctrl: reg-fixed-voltage usb0-vbus: error -EINVAL: can't
- get GPIO
-Message-ID: <20220128172003.GA2666058@roeck-us.net>
-References: <Yea3rBmY+MO4AhhV@Red>
- <2f82dbe8-50d6-d905-9065-d3869948aa06@xs4all.nl>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=3V8eDYaet3+NfSUV5VLucxjlZN7Pq8XNIYlXdCIYQKI=;
+        b=6/0+oOR8d+K6Mxhs0mQ481NCr3i6/ILOIey64iZCQ5/Yt4Z4ozez1RIGJ7CYtEUSMW
+         y1x6P7vgM7jXDfiUVjG1V4JOP/3vYbJWZJkR1PxFQRasQ94DZzvZDkn4wh8CvDaXQJFq
+         guanN0YoyrSNYoD4+UNLZL+TAgGA0aWjMOn/L5Aibj7ST0brRFIJSRQbmKu9ucE4OKq6
+         1g55knvYa1bR/+3AVGp4X11hoyaLWWJ7H8C7U/9E7IylQQTQVKKsP4FQd/c6RpfI3J34
+         2JP+TIHBalJDzbQHDfbvUPGW22ESjaI4dec0LBd6cKKnLSqdQj5y1eDoTZNYYTZrewgq
+         3N0w==
+X-Gm-Message-State: AOAM5311oEMpHZu4fx6qkmWC07anoc6ZRtyQNEQWyKqFdlCnc6GDHwdc
+	8Fr/EDPRCRjncmCx9HXNh40=
+X-Google-Smtp-Source: ABdhPJydb2Z0zwIP4g9aTkpHZWBqS6DiRY+sCVLkY/Fe+I/UMcba8KxrmRZ4d0Xqd8UKWqy/SUsv6g==
+X-Received: by 2002:a05:6214:29c8:: with SMTP id gh8mr9984430qvb.118.1643421930803;
+        Fri, 28 Jan 2022 18:05:30 -0800 (PST)
+Received: from [10.4.10.38] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
+        by smtp.gmail.com with ESMTPSA id i5sm4513286qkn.19.2022.01.28.18.05.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Jan 2022 18:05:30 -0800 (PST)
+Message-ID: <d19e70d8-02e1-b986-c0cf-f081fd82b52a@gmail.com>
+Date: Fri, 28 Jan 2022 21:05:28 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2f82dbe8-50d6-d905-9065-d3869948aa06@xs4all.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: [PATCH] ARM: dts: suniv: Add MMC and clock macros.
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ Mesih Kilinc <mesihkilinc@gmail.com>, Maxime Ripard <mripard@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Chris Morgan <macroalpha82@gmail.com>
+References: <20220125011352.2691365-1-Mr.Bossman075@gmail.com>
+ <20220126235726.03abdab4@slackpad.fritz.box>
+ <d69233d8-4e3d-56db-d4d3-1b39fe84ee30@gmail.com>
+ <20220127005304.06215ae8@slackpad.fritz.box>
+From: Jesse Taube <mr.bossman075@gmail.com>
+In-Reply-To: <20220127005304.06215ae8@slackpad.fritz.box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 18, 2022 at 03:13:20PM +0100, Hans Verkuil wrote:
-> On 1/18/22 13:50, Corentin Labbe wrote:
-> > Hello
-> > 
-> > As reported on old googlegroup sunxi mainling list, on linux-next-20220118, USB storage fail to bring up on orangepiPC.
-> > We can see some error logs in dmesg:
-> > reg-fixed-voltage usb0-vbus: error -EINVAL: can't get GPIO
-> > reg-fixed-voltage: probe of usb0-vbus failed with error -22
-> > 
-> > This is bisected to: 8df89a7cbc63c7598c00611ad17b67e8d5b4fad3 pinctrl-sunxi: don't call pinctrl_gpio_direction()
-> > 
-> > Reverting this commit lead to a working USB storage being setuped.
+
+
+On 1/26/22 19:53, Andre Przywara wrote:
+> On Wed, 26 Jan 2022 19:12:05 -0500
+> Jesse Taube <mr.bossman075@gmail.com> wrote:
 > 
-> Hmm, I'll bet it's EPROBE_DEFER related.
+>> On 1/26/22 18:57, Andre Przywara wrote:
+>>> On Mon, 24 Jan 2022 20:13:52 -0500
+>>> Jesse Taube <mr.bossman075@gmail.com> wrote:
+>>>
+>>> Hi Jesse,
+>>>
+>>> I understand that get_maintainers.pl suggested this CC: list,  but you
+>>> should add sunxi people and linux-arm kernel ML. Doing that now.
+>> Uh yeah that makes sense in hind sight.
+>>>> Include clock and reset macros and replace magic numbers.
+>>>> Add MMC node.
+>>>
+>>> This patch itself does not do much, does it? You would at least need to
+>>> enable that in the board dts.
+>> True it doesn't do much just so that its in both u-boot and linux.
+>>> And this should be multiple patches:
+>>> 1) replace numbers with macros (part of this patch)
+>>> 2) Add the MMC compatible string combo to the the bindings doc
+Uh there is no f1c100s driver yet its just a placeholder it should be 
+compatible with the a20 though.
+>>> 3) Add the *two* MMC nodes and at least the pinctrl node for MMC0 to the
+>>> SoC .dtsi (partly in this patch)
+>>> 4) Enable the MMC and the card detect pin in the Nano board .dts
+Uh after like an hour of trying to find the schematic I found it here 
+nano.lichee.pro but the card detect pin isn't connected ;-(.
+>>>
+>>> I checked that the macros names match the numbers they replace, so
+>>> you can add my R-b: on that patch 1 (if you follow my suggestion).
+>>> The MMC node also seems to look sane.
+>> That seems okay.
+>>>>
+>>>> Signed-off-by: Mesih Kilinc <mesihkilinc@gmail.com>
+>>>
+>>> It is not evident why Mesih's S-o-b: is in here? The patch seems to be
+>>> authored and sent by you? Either you make him the author if that is his
+>>> patch originally, or you put him just as Cc: or in Suggested-by:, maybe.
+>> I did write the patch after I wrote it I was looking at his github and
+>> he had almost the same patch.
 > 
-
-No. For me the problem is only seen if I try to boot from the second usb
-interface with the orangepi-pc qemu emulation, but not when I try to boot
-from the first usb interface. That alone makes it unlikely to be an
-EPROBE_DEFER related problem.
-
-Some debugging with your code in the tree:
-
-[    7.076227] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=10, input=0
-[    7.076567] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pinctrl_gpio_direction_output: offset=10, value=1, ret=-22
-[    7.076992] leds-gpio: probe of leds failed with error -22
-[    7.081645] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=2, input=0
-[    7.081887] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pinctrl_gpio_direction_output: offset=2, value=0, ret=-22
-[    7.082424] reg-fixed-voltage usb0-vbus: error -EINVAL: can't get GPIO
-[    7.082793] reg-fixed-voltage: probe of usb0-vbus failed with error -22
-[    7.129355] sun8i-h3-pinctrl 1c20800.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=166, input=1
-[    7.129844] sun8i-h3-pinctrl 1c20800.pinctrl: ######### sunxi_pinctrl_gpio_direction_input: offset=166, ret=0
-[    7.130788] sunxi-mmc 1c0f000.mmc: Got CD GPIO
-[    7.169391] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=3, input=1
-[    7.169663] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ######### sunxi_pinctrl_gpio_direction_input: offset=3, ret=-22
-[    7.170054] gpio-keys r_gpio_keys: failed to get gpio: -22
-[    7.170262] gpio-keys: probe of r_gpio_keys failed with error -22
-
-And after reverting it:
-
-[    6.138097] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=362, input=0
-[    6.138375] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pinctrl_gpio_direction_output: offset=10, value=1, ret=0
-[    6.140762] sun8i-h3-pinctrl 1c20800.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=15, input=0
-[    6.140918] sun8i-h3-pinctrl 1c20800.pinctrl: ########### sunxi_pinctrl_gpio_direction_output: offset=15, value=0, ret=0
-[    6.142808] sun8i-h3-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    6.148879] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=354, input=0
-[    6.149086] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pinctrl_gpio_direction_output: offset=2, value=0, ret=0
-[    6.154485] sun8i-h3-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
-[    6.155657] sun8i-h3-pinctrl 1c20800.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=204, input=1
-[    6.155853] sun8i-h3-pinctrl 1c20800.pinctrl: ######### sunxi_pinctrl_gpio_direction_input: offset=204, ret=0
-[    6.174411] ehci-platform 1c1b000.usb: EHCI Host Controller
-[    6.174737] ehci-platform 1c1b000.usb: new USB bus registered, assigned bus number 3
-[    6.188776] sun8i-h3-pinctrl 1c20800.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=166, input=1
-[    6.189149] sun8i-h3-pinctrl 1c20800.pinctrl: ######### sunxi_pinctrl_gpio_direction_input: offset=166, ret=0
-[    6.189720] sunxi-mmc 1c0f000.mmc: Got CD GPIO
-...
-[    6.674660] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ########### sunxi_pmx_gpio_set_direction: offset=355, input=1
-[    6.674796] sun8i-h3-r-pinctrl 1f02c00.pinctrl: ######### sunxi_pinctrl_gpio_direction_input: offset=3, ret=0
-
-In other words, there is some offset translation missing with your patch,
-causing -EINVAL returns.
-
-Guenter
+> Yeah, not really surprising, there are only so many ways to write a DT.
+> I guess he never sent it, and since you wrote it, it's yours, so just
+> add him in Cc:, since he was involved in the F1C100s upstreaming.
+> 
+> Cheers,
+> Andre
+> 
+>>> Cheers,
+>>> Andre
+>>>    
+>>>> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+>>>> ---
+>>>>    arch/arm/boot/dts/suniv-f1c100s.dtsi | 41 +++++++++++++++++++++++-----
+>>>>    1 file changed, 34 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+>>>> index 6100d3b75f61..32872bb29917 100644
+>>>> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+>>>> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+>>>> @@ -4,6 +4,9 @@
+>>>>     * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
+>>>>     */
+>>>>    
+>>>> +#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
+>>>> +#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
+>>>> +
+>>>>    / {
+>>>>    	#address-cells = <1>;
+>>>>    	#size-cells = <1>;
+>>>> @@ -82,7 +85,7 @@ pio: pinctrl@1c20800 {
+>>>>    			compatible = "allwinner,suniv-f1c100s-pinctrl";
+>>>>    			reg = <0x01c20800 0x400>;
+>>>>    			interrupts = <38>, <39>, <40>;
+>>>> -			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
+>>>> +			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
+>>>>    			clock-names = "apb", "hosc", "losc";
+>>>>    			gpio-controller;
+>>>>    			interrupt-controller;
+>>>> @@ -93,6 +96,11 @@ uart0_pe_pins: uart0-pe-pins {
+>>>>    				pins = "PE0", "PE1";
+>>>>    				function = "uart0";
+>>>>    			};
+>>>> +
+>>>> +			mmc0_pins: mmc0-pins {
+>>>> +				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
+>>>> +				function = "mmc0";
+>>>> +			};
+>>>>    		};
+>>>>    
+>>>>    		timer@1c20c00 {
+>>>> @@ -108,14 +116,33 @@ wdt: watchdog@1c20ca0 {
+>>>>    			reg = <0x01c20ca0 0x20>;
+>>>>    		};
+>>>>    
+>>>> +		mmc0: mmc@1c0f000 {
+>>>> +			compatible = "allwinner,suniv-f1c100s-mmc",
+>>>> +				     "allwinner,sun7i-a20-mmc";
+>>>> +			reg = <0x01c0f000 0x1000>;
+>>>> +			clocks = <&ccu CLK_BUS_MMC0>,
+>>>> +				 <&ccu CLK_MMC0>,
+>>>> +				 <&ccu CLK_MMC0_OUTPUT>,
+>>>> +				 <&ccu CLK_MMC0_SAMPLE>;
+>>>> +			clock-names = "ahb", "mmc", "output", "sample";
+>>>> +			resets = <&ccu RST_BUS_MMC0>;
+>>>> +			reset-names = "ahb";
+>>>> +			interrupts = <23>;
+>>>> +			pinctrl-names = "default";
+>>>> +			pinctrl-0 = <&mmc0_pins>;
+>>>> +			status = "disabled";
+>>>> +			#address-cells = <1>;
+>>>> +			#size-cells = <0>;
+>>>> +		};
+>>>> +
+>>>>    		uart0: serial@1c25000 {
+>>>>    			compatible = "snps,dw-apb-uart";
+>>>>    			reg = <0x01c25000 0x400>;
+>>>>    			interrupts = <1>;
+>>>>    			reg-shift = <2>;
+>>>>    			reg-io-width = <4>;
+>>>> -			clocks = <&ccu 38>;
+>>>> -			resets = <&ccu 24>;
+>>>> +			clocks = <&ccu CLK_BUS_UART0>;
+>>>> +			resets = <&ccu RST_BUS_UART0>;
+>>>>    			status = "disabled";
+>>>>    		};
+>>>>    
+>>>> @@ -125,8 +152,8 @@ uart1: serial@1c25400 {
+>>>>    			interrupts = <2>;
+>>>>    			reg-shift = <2>;
+>>>>    			reg-io-width = <4>;
+>>>> -			clocks = <&ccu 39>;
+>>>> -			resets = <&ccu 25>;
+>>>> +			clocks = <&ccu CLK_BUS_UART1>;
+>>>> +			resets = <&ccu RST_BUS_UART1>;
+>>>>    			status = "disabled";
+>>>>    		};
+>>>>    
+>>>> @@ -136,8 +163,8 @@ uart2: serial@1c25800 {
+>>>>    			interrupts = <3>;
+>>>>    			reg-shift = <2>;
+>>>>    			reg-io-width = <4>;
+>>>> -			clocks = <&ccu 40>;
+>>>> -			resets = <&ccu 26>;
+>>>> +			clocks = <&ccu CLK_BUS_UART2>;
+>>>> +			resets = <&ccu RST_BUS_UART2>;
+>>>>    			status = "disabled";
+>>>>    		};
+>>>>    	};
+>>>    
+> 
