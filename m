@@ -1,80 +1,125 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0A92CA5
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 16:29:35 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 1FF225C00EB;
-	Sun, 30 Jan 2022 11:29:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sun, 30 Jan 2022 11:29:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; bh=dBxhQOjCUDSpCg
-	dJXpTrnjRt+78pd1rV2WgYCCxfaMk=; b=kyMtbSEBtKj6VDBAJRTPZcQ1wMoAX6
-	pyP7OG59lM2PRBGG5ZH705zYe65B/qNbzBnbtTwbcDQv/zvgN8qDEnaX1RPpyynb
-	ZDJ1+y1Iflknt0H/KDnXoEfvLnR3U5ut1dqml9fjVousz+1JgqYNBvalY0onYPWJ
-	VDRHLbypQiZCzsU2tXs2DBc5+uj9toFIGnmQL3pvbHPyiRoAExsv6G1+I5QwqoCP
-	1r4+GSA1Xsdu7x+GnIf6wvYlYu9A8FrGH5AIVtpqwJo62auOVod2JJtaPC3aM48J
-	JUdt8uebF3BmaaA9q39gTvBB/ITVuwj0oNSHenzyaUfcIkcO9kjSFRAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; bh=dBxhQOjCUDSpCgdJXpTrnjRt+78pd1rV2WgYCCxfa
-	Mk=; b=VTI+nFXpLcBjuEEgzCexijsA+okkUtTCkKUo4DV8wtJHebTGoAuj5WcYi
-	2zZKqDn4K82saw3vCQ/bAfhkDnRomFba1byyQctS2eekV7iiwRjqDaeA1Zixl+F4
-	jBTiA1LOZny4jLsv/rN8mg0XcbrHHhTn36QiKL1Jb9KOQx/oAi36mRI4+lzIWRoL
-	HNxeY+aNLulpW1ztcwwMYZf+tHadVzNOov/d0tG7Hrvx6O/Z7CC9gocKwDhkB+Q0
-	9HHs5dRPdaS/8rj2Xer+HITWbdlADCvqpcW0O5RTvJnbpLFYW6iO3Sri+I4uqCn6
-	Szttn34YoHZGWNjoB40eQZ8+P4d5A==
-X-ME-Sender: <xms:7bz2YbSjGkRFdPQUF808eXpz7nVopiJv3Ha6uhMawjxx6q759cv_hg>
-    <xme:7bz2YcyHUThx7uQpkM2MB_-e4_iKZvBMcS2KzWpb6fFQ_SC0vf80EA2KagBhdvKAg
-    k9b1ODd_iVNhn2Wjg>
-X-ME-Received: <xmr:7bz2YQ1yKEp_-MwFJ7L1syeCWSXkn26-N1t6wCohHVEkY9PnBDJGMwePwAMuAnmUI_De7p41eWrXCExkYiOX7A69dLdTIY6b-sDGumDx91HSiHYgqM7M_POHZw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeelgdeltdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
-    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:7bz2YbCpj5iSVISTWJG0Y-ghR169yYOAsmPqY4dGRAJqPuo_vz_AaA>
-    <xmx:7bz2YUgkI1LiJbzttBTkRAyA-yza11urh7pL1XLG7B8Bdv0YcJMQmg>
-    <xmx:7bz2Yfq-1e6ni6pWBIYVAkdFs0VyuYCqi7ZpvWHYoaqqIgNgJkKVQg>
-    <xmx:7rz2YdtJ9VBzZdnhvzMdiI3KCzURXQtvbgRghQQcaM-C62godv6Eqw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 30 Jan 2022 11:29:33 -0500 (EST)
-Subject: Re: [PATCH 1/3] sunxi: prcm: Add a few registers
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, jagan@amarulasolutions.com,
- andre.przywara@arm.com
-Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-References: <20220130142715.291427-1-jernej.skrabec@gmail.com>
- <20220130142715.291427-2-jernej.skrabec@gmail.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <f5690887-06fb-7579-7e3b-899d414162da@sholland.org>
-Date: Sun, 30 Jan 2022 10:29:32 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8B529CA
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 22:03:28 +0000 (UTC)
+Received: by mail-qk1-f170.google.com with SMTP id j24so8281997qkk.10
+        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 14:03:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oBgDNmNrOOnlb0Mg5ouD+YxV6ZtLCLEZj9tfMCfsu+Q=;
+        b=KWv8c8kIwOrcrnxMUOzr4WIpb0fkoJhnMZ9wu1V+LPvkdi5uY7l9f5hBvSWfchiyYT
+         6ImYWabE3E4R2GFHW0fuOBHrIsA60jh48V2sqWXkmmz0ljam8eKfWmetMQ8gyVUxR+6l
+         6n57VAGAfE1jjygMScpf3pnkUeTr6DfwUl4xS9ayyHPupNIADsOn4ZbzHSjgpb9zKmPw
+         btvOrzEl1cYmUnkYQzC44v7G6/M8PKDo8FIkeg3iApHtVEHg65kSy5jfHkn2tLpXuk+M
+         DkrAJ/nNkImWhIBahglBx3qA7g0i2JRUgglcjriOWNgnNHZWXhpErFEV/+rnwj9o+uLr
+         VlRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oBgDNmNrOOnlb0Mg5ouD+YxV6ZtLCLEZj9tfMCfsu+Q=;
+        b=0LhG46INN8Nnu2mbVnhab/eXOJObhcjtIbGPrn7TeD7MW6cjgsWnkMh6t0bAUPph3W
+         nqUIXIGTVh9SylvusOpY2pbealN5Oa1aJYr5Nc9XIASaHLZkjh/CpSjUPQiAp8IUP4Or
+         nrb/WGHzVmHr2dmXqZcgq7tHEpvNJsBPX8A6AFOar1CtJW1DHKWxM0RfYROg2cL5b0ev
+         Eh+Z3T6s0YmFEAVs7oRQMIzIsCkLLVrBCpD+n+iduwCbPc/V2YJOh+eTw8h72FvWnHCN
+         JyGEECPtrFRpzsHhxulVUx7uCjmhurTtQtBeht6wIHWy0eBVQfCqA4AzsAuyhabKpwPy
+         fVQg==
+X-Gm-Message-State: AOAM531sGCMJi4U4n5QEQeUF7c66P1hUj88Xm9vAl/xFWr9eR7vWtmNb
+	NwtP0CAqz8FISFqwJ4ZtL0A=
+X-Google-Smtp-Source: ABdhPJxftSKAAHXMcfmw/XMOGZ0c407TMeh9lZ0bUTX/aPhoX/tfan0sMdUjWEeZqW4mKTDTPz99RQ==
+X-Received: by 2002:a05:620a:f02:: with SMTP id v2mr11462754qkl.41.1643580207858;
+        Sun, 30 Jan 2022 14:03:27 -0800 (PST)
+Received: from jesse-desktop.jtp-bos.lab (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
+        by smtp.gmail.com with ESMTPSA id h12sm7556651qkp.129.2022.01.30.14.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jan 2022 14:03:27 -0800 (PST)
+From: Jesse Taube <mr.bossman075@gmail.com>
+X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
+To: devicetree@vger.kernel.org
+Cc: robh+dt@kernel.org,
+	Mr.Bossman075@gmail.com,
+	andre.przywara@arm.com,
+	linux-sunxi@lists.linux.dev,
+	mripard@kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 1/4] ARM: dtsi: suniv: F1c100s add clock and reset macros
+Date: Sun, 30 Jan 2022 17:03:22 -0500
+Message-Id: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220130142715.291427-2-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 1/30/22 8:27 AM, Jernej Skrabec wrote:
-> H6 and H616 SPL code has a few writes to unknown PRCM registers. Now
-> that we know what they are, let's replace magic offsets with proper
-> register names.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Include clock and reset macros and replace magic numbers.
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+---
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 6100d3b75f61..953228cc8d52 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -4,6 +4,9 @@
+  * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
+  */
+ 
++#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
++#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
++
+ / {
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+@@ -82,7 +85,7 @@ pio: pinctrl@1c20800 {
+ 			compatible = "allwinner,suniv-f1c100s-pinctrl";
+ 			reg = <0x01c20800 0x400>;
+ 			interrupts = <38>, <39>, <40>;
+-			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
++			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
+ 			clock-names = "apb", "hosc", "losc";
+ 			gpio-controller;
+ 			interrupt-controller;
+@@ -114,8 +117,8 @@ uart0: serial@1c25000 {
+ 			interrupts = <1>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 38>;
+-			resets = <&ccu 24>;
++			clocks = <&ccu CLK_BUS_UART0>;
++			resets = <&ccu RST_BUS_UART0>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -125,8 +128,8 @@ uart1: serial@1c25400 {
+ 			interrupts = <2>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 39>;
+-			resets = <&ccu 25>;
++			clocks = <&ccu CLK_BUS_UART1>;
++			resets = <&ccu RST_BUS_UART1>;
+ 			status = "disabled";
+ 		};
+ 
+@@ -136,8 +139,8 @@ uart2: serial@1c25800 {
+ 			interrupts = <3>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 40>;
+-			resets = <&ccu 26>;
++			clocks = <&ccu CLK_BUS_UART2>;
++			resets = <&ccu RST_BUS_UART2>;
+ 			status = "disabled";
+ 		};
+ 	};
+-- 
+2.34.1
+
