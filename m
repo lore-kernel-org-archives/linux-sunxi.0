@@ -1,88 +1,80 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CECA72CA7
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 14:27:23 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id w14so21706057edd.10
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 06:27:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZUNpG29Fm+/GYPPOfXv1yZJI+FdzI5pP8ZnZ4GLVPiY=;
-        b=K6PlWZ8k/OkqI57X6n7xKDrUyMSVAEiPB1e8bjZIgGUJO0H/uS67TkPFyUDKPxy68/
-         HpQ4irXPi3x3IzEzQrloyjdjGK6qaVW91G0GUjTPaKQIuUrnyasqtzPbXcnr9BBuRE4F
-         P1BPkfNIrxKdCuLmz1UQHMfb87Z7JEZ1JGVGXIxsJV57b5ak8nY1oCJ8By0Uj2P9Q7iG
-         SqeGPFmzkv+QKkrk7tms1BbE0WGesdOaQrGxT74eR+sJtw++TLIO7hILPE8xNhp/zEB2
-         vc96PCRVoYLhVdrhre6vSdBU392MHT2c6E9MZOi5Me+s8CoQxuGgdxtQ6iGFuo0qf5z1
-         F2bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZUNpG29Fm+/GYPPOfXv1yZJI+FdzI5pP8ZnZ4GLVPiY=;
-        b=fykFPStxsqFsQ0A8pXB1q3dGocMee8tASZnMghh/XFNAh/kN+MDddA3VDsij06Mi7C
-         lWLGYdMCK4vbB3/p0vlOc5kImSw/HOrLSwbPfNhbrLHVqnIf7Zof8j1vZl0oKhtydJ4U
-         hK2Kpe06k3iN7FDWmbGfpaHTLyHx5yP3ob9LQssG6qX5EJwLf4c4BBF65sy1iGLL2Bcg
-         KXdn9dbf6f6bZyifgVmrBMQKi1YjVhUgRH8vO9Qf5L4GoShBO4pmxzMONWStd9/qKahl
-         +dvTLvkfeIOy2Wr6oKVbMkjTqa2vifvt4vSSmNFKc01bH+PEEs+qzQpvSyoRMPSHXLtQ
-         Bu4Q==
-X-Gm-Message-State: AOAM533gHtWwQUn3w+d6S70odK9QLBER4cYZxQfIv52XNiCh57vUkL3p
-	ukDlSMIWKo6d+HG2Oo3gIMg=
-X-Google-Smtp-Source: ABdhPJwPMmm7B8ycVmCh28zOA2fGOOMbAvnHh3Dl3vHOlhGooHyCsNvyHBIM7OgMu8wZm4yvPXyfAA==
-X-Received: by 2002:a05:6402:345:: with SMTP id r5mr17151988edw.269.1643552842238;
-        Sun, 30 Jan 2022 06:27:22 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id o14sm12274616eju.118.2022.01.30.06.27.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 06:27:21 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: jagan@amarulasolutions.com,
-	andre.przywara@arm.com
-Cc: samuel@sholland.org,
-	u-boot@lists.denx.de,
-	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 3/3] sunxi: clock: H6: Adjust PLL LDO before clock setup
-Date: Sun, 30 Jan 2022 15:27:15 +0100
-Message-Id: <20220130142715.291427-4-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220130142715.291427-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0A92CA5
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 16:29:35 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 1FF225C00EB;
+	Sun, 30 Jan 2022 11:29:34 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sun, 30 Jan 2022 11:29:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; bh=dBxhQOjCUDSpCg
+	dJXpTrnjRt+78pd1rV2WgYCCxfaMk=; b=kyMtbSEBtKj6VDBAJRTPZcQ1wMoAX6
+	pyP7OG59lM2PRBGG5ZH705zYe65B/qNbzBnbtTwbcDQv/zvgN8qDEnaX1RPpyynb
+	ZDJ1+y1Iflknt0H/KDnXoEfvLnR3U5ut1dqml9fjVousz+1JgqYNBvalY0onYPWJ
+	VDRHLbypQiZCzsU2tXs2DBc5+uj9toFIGnmQL3pvbHPyiRoAExsv6G1+I5QwqoCP
+	1r4+GSA1Xsdu7x+GnIf6wvYlYu9A8FrGH5AIVtpqwJo62auOVod2JJtaPC3aM48J
+	JUdt8uebF3BmaaA9q39gTvBB/ITVuwj0oNSHenzyaUfcIkcO9kjSFRAg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=dBxhQOjCUDSpCgdJXpTrnjRt+78pd1rV2WgYCCxfa
+	Mk=; b=VTI+nFXpLcBjuEEgzCexijsA+okkUtTCkKUo4DV8wtJHebTGoAuj5WcYi
+	2zZKqDn4K82saw3vCQ/bAfhkDnRomFba1byyQctS2eekV7iiwRjqDaeA1Zixl+F4
+	jBTiA1LOZny4jLsv/rN8mg0XcbrHHhTn36QiKL1Jb9KOQx/oAi36mRI4+lzIWRoL
+	HNxeY+aNLulpW1ztcwwMYZf+tHadVzNOov/d0tG7Hrvx6O/Z7CC9gocKwDhkB+Q0
+	9HHs5dRPdaS/8rj2Xer+HITWbdlADCvqpcW0O5RTvJnbpLFYW6iO3Sri+I4uqCn6
+	Szttn34YoHZGWNjoB40eQZ8+P4d5A==
+X-ME-Sender: <xms:7bz2YbSjGkRFdPQUF808eXpz7nVopiJv3Ha6uhMawjxx6q759cv_hg>
+    <xme:7bz2YcyHUThx7uQpkM2MB_-e4_iKZvBMcS2KzWpb6fFQ_SC0vf80EA2KagBhdvKAg
+    k9b1ODd_iVNhn2Wjg>
+X-ME-Received: <xmr:7bz2YQ1yKEp_-MwFJ7L1syeCWSXkn26-N1t6wCohHVEkY9PnBDJGMwePwAMuAnmUI_De7p41eWrXCExkYiOX7A69dLdTIY6b-sDGumDx91HSiHYgqM7M_POHZw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrfeelgdeltdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
+    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:7bz2YbCpj5iSVISTWJG0Y-ghR169yYOAsmPqY4dGRAJqPuo_vz_AaA>
+    <xmx:7bz2YUgkI1LiJbzttBTkRAyA-yza11urh7pL1XLG7B8Bdv0YcJMQmg>
+    <xmx:7bz2Yfq-1e6ni6pWBIYVAkdFs0VyuYCqi7ZpvWHYoaqqIgNgJkKVQg>
+    <xmx:7rz2YdtJ9VBzZdnhvzMdiI3KCzURXQtvbgRghQQcaM-C62godv6Eqw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Jan 2022 11:29:33 -0500 (EST)
+Subject: Re: [PATCH 1/3] sunxi: prcm: Add a few registers
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, jagan@amarulasolutions.com,
+ andre.przywara@arm.com
+Cc: u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
 References: <20220130142715.291427-1-jernej.skrabec@gmail.com>
+ <20220130142715.291427-2-jernej.skrabec@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <f5690887-06fb-7579-7e3b-899d414162da@sholland.org>
+Date: Sun, 30 Jan 2022 10:29:32 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220130142715.291427-2-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-BSP boot0 adjust PLL LDO regulator before clocks are initialized.
-Let's do that.
+On 1/30/22 8:27 AM, Jernej Skrabec wrote:
+> H6 and H616 SPL code has a few writes to unknown PRCM registers. Now
+> that we know what they are, let's replace magic offsets with proper
+> register names.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- arch/arm/mach-sunxi/clock_sun50i_h6.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/arch/arm/mach-sunxi/clock_sun50i_h6.c b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-index 32119ad16555..7926394cf762 100644
---- a/arch/arm/mach-sunxi/clock_sun50i_h6.c
-+++ b/arch/arm/mach-sunxi/clock_sun50i_h6.c
-@@ -21,6 +21,13 @@ void clock_init_safe(void)
- 	clrbits_le32(&prcm->res_cal_ctrl, 1);
- 	setbits_le32(&prcm->res_cal_ctrl, 1);
- 
-+	if (IS_ENABLED(CONFIG_MACH_SUN50I_H6)) {
-+		/* set key field for ldo enable */
-+		setbits_le32(&prcm->pll_ldo_cfg, 0xA7000000);
-+		/* set PLL VDD LDO output to 1.14 V */
-+		setbits_le32(&prcm->pll_ldo_cfg, 0x60000);
-+	}
-+
- 	clock_set_pll1(408000000);
- 
- 	writel(CCM_PLL6_DEFAULT, &ccm->pll6_cfg);
--- 
-2.35.1
-
+Reviewed-by: Samuel Holland <samuel@sholland.org>
