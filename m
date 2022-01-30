@@ -1,88 +1,107 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 849952CA8
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 22:03:32 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id h25so9099659qtm.1
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 14:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6qiePQaFCn1ZGPCNmG2bQohlbkcHJHVngAid2qwzesM=;
-        b=XOquuE6+leFupXRFTrasECGzeQsYzTYPp3l4osaT5HiTo6neKNQp6wwKb1xG9FW+YE
-         FHvQcgfmeHmuqfXuUAqMKMsS3Qe8MNRSliJ0Ddmr7SwAfNtnFWeNXfXTA2CIdt8CYdQ4
-         bkDvIDL/tLDNb2oCGYTZHbRnNlzJ/+psTq7Rzkltr70MHCjk+Du4zPuvq1XRi1HIyUjj
-         9MbvgnqQ9Ryb3AM8DYPCukpYRZWii5r/ye64Yw7P1B1n71Hajew0Qno4YWy6Igx+sKUC
-         Kj1X3nW3ca/TOc7Bwdm5foMCwc4i1jHlQa+WAOyye8QZxxCia/kGvU46XeD6+CBViuhC
-         hdbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6qiePQaFCn1ZGPCNmG2bQohlbkcHJHVngAid2qwzesM=;
-        b=5EX7GGYBPktWT/KaD/wtg8noDgXg6x0Nb/a+TiOr63TTr3/W1D5vMJMotglx23Cmri
-         FMGjqgK2SibGQFIg7DchVKMIS9TkFyhKOKmNoercg/RNU5sqWAHJ45kMWwM0YfjYydP7
-         XWIp5xgSLX0klhMU6cEDmyI8ZtKo/82RQo357SKDmuxWIT6i04rvR2bZ9nDhhlnSksfr
-         9G7uGfd/lZcI3LgbFY/wGMXbFBj8sSnQm013zcfNyA07rMfvEm4O0w1hUFrtmJ5VycLb
-         I3ja9EwP8gnj+nsMynHg3Ze+d56KIYlv9MNQcdfn+h8GPH4RGq20AstjrxjaeAzQ0K4e
-         CFuw==
-X-Gm-Message-State: AOAM5304+oWVNy/YNzUU1nWDJH+tXRLYhpxPGDsYRcEe+4zwrCeW9GGf
-	3E//ZQmp3PnWXj6TIUfLMPQK5EFUNp8=
-X-Google-Smtp-Source: ABdhPJxMJhxrMrTxwGFCEmXjNwICsOJcPiNWFbd5jxVwXQ71fDUJraFuqlS2DMNlQEn/sqwTs72a8Q==
-X-Received: by 2002:a05:622a:118b:: with SMTP id m11mr2448324qtk.96.1643580211596;
-        Sun, 30 Jan 2022 14:03:31 -0800 (PST)
-Received: from jesse-desktop.jtp-bos.lab (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
-        by smtp.gmail.com with ESMTPSA id h12sm7556651qkp.129.2022.01.30.14.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 14:03:31 -0800 (PST)
-From: Jesse Taube <mr.bossman075@gmail.com>
-X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
-To: devicetree@vger.kernel.org
-Cc: robh+dt@kernel.org,
-	Mr.Bossman075@gmail.com,
-	andre.przywara@arm.com,
-	linux-sunxi@lists.linux.dev,
-	mripard@kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 4/4] ARM: dts: suniv: Enable mmc for f1c100s.
-Date: Sun, 30 Jan 2022 17:03:25 -0500
-Message-Id: <20220130220325.1983918-4-Mr.Bossman075@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
-References: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C2CF29CA
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 22:11:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66972D6E;
+	Sun, 30 Jan 2022 14:11:11 -0800 (PST)
+Received: from localhost.localdomain (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A8AA93F718;
+	Sun, 30 Jan 2022 14:11:09 -0800 (PST)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Simon Glass <sjg@chromium.org>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Daniel Wagenknecht <dwagenk@mailbox.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Pull request: u-boot-sunxi/master for 2022.04
+Date: Sun, 30 Jan 2022 22:10:56 +0000
+Message-Id: <20220130221056.6659-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.14.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Enable mmc0 in f1c100s-licheepi-nano device tree.
+Hi Tom,
 
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
----
-V1 -> V2:
-* New patch
----
- arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 6 ++++++
- 1 file changed, 6 insertions(+)
+a bit delayed, the first batch of the sunxi pull request for this cycle.
+This is mostly collecting some patches that were lying around for a while,
+plus some recent fixes. Nothing too exciting at this point, but of course
+they should be merged nevertheless.
+There is the much bigger F1C100s SoC support coming up, which I hope to be
+able to send in the next few days, along with the removal of sunxi's
+lowlevel_init usage.
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-index a1154e6c7cb5..c856a6a20dc8 100644
---- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -24,3 +24,9 @@ &uart0 {
- 	pinctrl-0 = <&uart0_pe_pins>;
- 	status = "okay";
- };
-+
-+&mmc0 {
-+	bus-width = <4>;
-+	broken-cd;
-+	status = "okay";
-+};
--- 
-2.34.1
+Compile tested for all 159 sunxi boards, plus briefly tested on BananaPi M1,
+OrangePi Zero, Pine64 and Pine-H64.
 
+Thanks,
+Andre
+
+========================
+The following changes since commit 98a90b2730696c1ba773359b7944f6685ae13344:
+
+  Merge branch '2022-01-28-assorted-fixes' (2022-01-29 13:42:58 -0500)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 50d5c6428fc280c095b0edd1a612b3661b5db77d:
+
+  mkimage: sunxi_egon: Allow overriding the padding size (2022-01-30 01:25:00 +0000)
+
+----------------------------------------------------------------
+Andre Przywara (2):
+      sunxi: gpio: Fix up pointer arithmetic
+      pmic: axp: define ALDO_IN startup bit
+
+Chris Morgan (2):
+      i2c: mvtwsi: Add compatible string for allwinner, sun4i-a10-i2c
+      sunxi: Add option to prevent booting on power plug-in
+
+Daniel Wagenknecht (1):
+      sunxi: SPI: fix pinmuxing for Allwinner H6 SoCs
+
+Giulio Benetti (1):
+      sunxi: dram_sun4i/5i: use DRAM_MEMORY_TYPE_DDR3 instead of magic number 3
+
+Icenowy Zheng (1):
+      sunxi: call fdt_fixup_ethernet again to set macaddr for more aliases
+
+Jernej Skrabec (2):
+      sunxi: fix H616 DRAM ODT support
+      sunxi: Fix H616 DRAM read calibration for dual rank
+
+Samuel Holland (5):
+      sunxi: gpio: Return void from setter functions
+      sunxi: gpio: Add per-bank drive and pull setters
+      gpio: sunxi: Implement .set_flags
+      mmc: sunxi: Use DM_GPIO flags to set pull-up
+      mkimage: sunxi_egon: Allow overriding the padding size
+
+ arch/arm/include/asm/arch-sunxi/gpio.h |  6 ++--
+ arch/arm/mach-sunxi/Kconfig            | 10 ++++++
+ arch/arm/mach-sunxi/dram_sun50i_h616.c |  4 +--
+ arch/arm/mach-sunxi/pinmux.c           | 32 +++++++++++-------
+ board/sunxi/board.c                    | 17 ++++++++--
+ board/sunxi/dram_sun4i_auto.c          |  2 +-
+ board/sunxi/dram_sun5i_auto.c          |  2 +-
+ drivers/gpio/sunxi_gpio.c              | 62 +++++++++++++++-------------------
+ drivers/i2c/mvtwsi.c                   |  1 +
+ drivers/mmc/sunxi_mmc.c                |  8 ++---
+ drivers/spi/spi-sunxi.c                |  3 +-
+ include/axp152.h                       |  2 ++
+ include/axp209.h                       |  3 +-
+ include/axp221.h                       |  3 +-
+ include/axp305.h                       |  3 ++
+ include/axp809.h                       |  3 +-
+ include/axp818.h                       |  3 +-
+ tools/sunxi_egon.c                     |  9 +++--
+ 18 files changed, 104 insertions(+), 69 deletions(-)
