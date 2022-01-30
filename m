@@ -1,41 +1,41 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E542CA6
-	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 22:03:30 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id 200so10592231qki.2
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 14:03:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7AF52CA6
+	for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 22:03:31 +0000 (UTC)
+Received: by mail-qt1-f180.google.com with SMTP id r14so10008422qtt.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 14:03:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SY9YKyrTOsZYdhpR7gLV9XUnkAxeX5e6CMz+d+vP15g=;
-        b=RvK1d0oNjw7XDzLRnZ8VsvbHJycZTAWrUI5YeHJNSKO5tTQkCbx7TrkqIZ0w+mD1TM
-         DbC75gPJ4NFIs3R4ANpkiAkffMTXp8dQRcfbz3+ifxHnNF8jG2zoK5gTW1vTGBs3n7au
-         xz9NirVrNWfUNEPNCojT25wxC/V8PQyyIM28hE+S4niQ96IQh7pgez0NXh3SXhhaeKzE
-         5KrwyID6ZEwUjUmjc8GEIoxHgdFqMv+qGjDvX7PrFTaab6nSLMOl+Sw0LP+u2Nfml84X
-         KwZUqJ2PBksiqi2yWXDUc9oMTELQ43kXFboL7i27n+1RjfD6bKgjbybNc8zq5rfTlfG4
-         /8HA==
+        bh=J+VZN81DjRtnX/IoUmKj4ZH1dOHtItVzq+kTBINm8/g=;
+        b=qWt79QkIWwG86Zc52IIfCB+t7KbzF1jMXD5NLv6XpgLYgMH9XUk+w9WQTSqz9eGsYm
+         YeyklQXM1FiSoxs+d2dYKEwPZJkUct0eeedS6ObuL3JOlvLHv5ZWQGEr1Bf2rjmzoWCq
+         SRTDyBAzXPdyMNF3ysV3WrVyC/Wcyefps43ExkMNbQvyTTov+w56pao3Yv9bTcu2Mhtt
+         a6PTAVWW+AiTdRldPZze9al7OwdkmSkqaM61Dk5SW/utQXQb3CnePPgh09JxI3NrqC/L
+         0Y4Jb9090nS803chFGqLeZ2BA79lQOVu2QB3HTAu4gpxD15HZ+20yuzknWoy26mPFaF7
+         bqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SY9YKyrTOsZYdhpR7gLV9XUnkAxeX5e6CMz+d+vP15g=;
-        b=P3ynmxpWlEnZ9K+l5AcizMKjUKN35AKEW5+cVZ2/RCleD7rVf/Vf7kyIj1fQODE6ce
-         fFC3mJ1nu1I/YYmqMHBRiezqD5MdVMi7jWMFgpoZ7tdKuFIqhlUuqfV3xV2H1iMm0/PZ
-         zvpiRZmrddmRPjPq7ba51kZLyUHKl1jnXL7Czr3QX0VBSHOA5DeZslsaXV0JgQ5tgQXs
-         /CT+GXEl2SBY7McdYjAJiQfidkC0eSFQb4TV1sNA/NPbnYQLrnX/NRuz8PhvkxrdEQ9Y
-         Dv0vvJx1K0fFRTMWxbvqoRW/iN1sF6yC9l7981tIq3tNundE+sp3+IPN/wRyoZ/JWp7H
-         wmLQ==
-X-Gm-Message-State: AOAM531GN+n36rSsb/HwoWJ9FLZxXC0mqeAOvCT4gmRz8J5oKt9P36kB
-	fJxJ+bSo8DksP4+UMZCFQ6Q=
-X-Google-Smtp-Source: ABdhPJzyrt88bgpefLRdQwuEGsixY1dfgovZLKKnuwMJxiS28ieAUANxCGWfWyq3TjQ3xQw4ckm5WQ==
-X-Received: by 2002:a05:620a:4048:: with SMTP id i8mr6032906qko.482.1643580209305;
-        Sun, 30 Jan 2022 14:03:29 -0800 (PST)
+        bh=J+VZN81DjRtnX/IoUmKj4ZH1dOHtItVzq+kTBINm8/g=;
+        b=WXqRIbSbJrk/rEzRTnt5plR8wTrK/Ou9D/cCzjsHAAmQV+KFGLpC+seFx7oUL55FBG
+         zmLTzk3a4CfUVCMngsjWYLFfN0r/yX55hGqjXypUcUx+vEdddFXG3Iy61U993vBfZAcd
+         Ks2FzH2285WN/sfiXMTQH+LL6TL23TJ2pwjC/T6TSpgjFofZCg2IURSxLTPJeHE7jp2y
+         1nCrsMtLWP72eeaj49n4E6heh/CRRZjqV1k87FQNfk3druHfEuuuPLxfg1ChYWU9K5Id
+         8OCxpZYHsJAqrKw057VonhGVkZCo/AfIGOAOCEE/0Q6Y7gclC2Rtr5b0Le1j+Nuqmjja
+         qDBQ==
+X-Gm-Message-State: AOAM531q0ft0hRfTLNj3FdtcP7XueIDu5oqD3VlxyAQXfq7A+mcOKuBn
+	VBWMoh0WS2TsWTBUDwCICsg=
+X-Google-Smtp-Source: ABdhPJwMCI3bv6EseDTBUkj8wPjpkE5xmoHYqtuQeksSgf+B3dffimd0cJnmdIziwuUTxG9FJMr0bw==
+X-Received: by 2002:a05:622a:1307:: with SMTP id v7mr12950496qtk.118.1643580210626;
+        Sun, 30 Jan 2022 14:03:30 -0800 (PST)
 Received: from jesse-desktop.jtp-bos.lab (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
-        by smtp.gmail.com with ESMTPSA id h12sm7556651qkp.129.2022.01.30.14.03.27
+        by smtp.gmail.com with ESMTPSA id h12sm7556651qkp.129.2022.01.30.14.03.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Jan 2022 14:03:28 -0800 (PST)
+        Sun, 30 Jan 2022 14:03:30 -0800 (PST)
 From: Jesse Taube <mr.bossman075@gmail.com>
 X-Google-Original-From: Jesse Taube <Mr.Bossman075@gmail.com>
 To: devicetree@vger.kernel.org
@@ -45,9 +45,9 @@ Cc: robh+dt@kernel.org,
 	linux-sunxi@lists.linux.dev,
 	mripard@kernel.org,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 2/4] dt-bindings: mmc: sunxi: Add Allwinner F1c100s compatibles
-Date: Sun, 30 Jan 2022 17:03:23 -0500
-Message-Id: <20220130220325.1983918-2-Mr.Bossman075@gmail.com>
+Subject: [PATCH v2 3/4] ARM: dtsi: suniv: Add mmc to f1c100s dtsi.
+Date: Sun, 30 Jan 2022 17:03:24 -0500
+Message-Id: <20220130220325.1983918-3-Mr.Bossman075@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
 References: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
@@ -59,30 +59,75 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add binding for F1c100s's mmc controller.
+Add mmc0 and 1 for f1c100s dtsi.
 
 Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
 ---
 V1 -> V2:
-* New commit
+* Split patch
 ---
- .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml       | 3 +++
- 1 file changed, 3 insertions(+)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 41 ++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-index 4f62ad6ce50c..76137132500d 100644
---- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-+++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-@@ -55,6 +55,9 @@ properties:
-       - items:
-           - const: allwinner,sun50i-h616-mmc
-           - const: allwinner,sun50i-a100-mmc
-+      - items:
-+          - const: allwinner,suniv-f1c100s-mmc
-+          - const: allwinner,sun7i-a20-mmc
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 953228cc8d52..60fa56c278a8 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -96,6 +96,11 @@ uart0_pe_pins: uart0-pe-pins {
+ 				pins = "PE0", "PE1";
+ 				function = "uart0";
+ 			};
++
++			mmc0_pins: mmc0-pins {
++				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
++				function = "mmc0";
++			};
+ 		};
  
-   reg:
-     maxItems: 1
+ 		timer@1c20c00 {
+@@ -111,6 +116,42 @@ wdt: watchdog@1c20ca0 {
+ 			reg = <0x01c20ca0 0x20>;
+ 		};
+ 
++		mmc0: mmc@1c0f000 {
++			compatible = "allwinner,suniv-f1c100s-mmc",
++				     "allwinner,sun7i-a20-mmc";
++			reg = <0x01c0f000 0x1000>;
++			clocks = <&ccu CLK_BUS_MMC0>,
++				 <&ccu CLK_MMC0>,
++				 <&ccu CLK_MMC0_OUTPUT>,
++				 <&ccu CLK_MMC0_SAMPLE>;
++			clock-names = "ahb", "mmc", "output", "sample";
++			resets = <&ccu RST_BUS_MMC0>;
++			reset-names = "ahb";
++			interrupts = <23>;
++			pinctrl-names = "default";
++			pinctrl-0 = <&mmc0_pins>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
++		mmc1: mmc@1c10000 {
++			compatible = "allwinner,suniv-f1c100s-mmc",
++				     "allwinner,sun7i-a20-mmc";
++			reg = <0x01c10000 0x1000>;
++			clocks = <&ccu CLK_BUS_MMC1>,
++				 <&ccu CLK_MMC1>,
++				 <&ccu CLK_MMC1_OUTPUT>,
++				 <&ccu CLK_MMC1_SAMPLE>;
++			clock-names = "ahb", "mmc", "output", "sample";
++			resets = <&ccu RST_BUS_MMC1>;
++			reset-names = "ahb";
++			interrupts = <24>;
++			status = "disabled";
++			#address-cells = <1>;
++			#size-cells = <0>;
++		};
++
+ 		uart0: serial@1c25000 {
+ 			compatible = "snps,dw-apb-uart";
+ 			reg = <0x01c25000 0x400>;
 -- 
 2.34.1
 
