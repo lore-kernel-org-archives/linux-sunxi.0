@@ -1,117 +1,126 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799FB2C9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 09:47:02 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 85EF75C00F3;
-	Mon, 31 Jan 2022 04:47:01 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Mon, 31 Jan 2022 04:47:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=8PooEsBVNKxO/gG3TkHXHYTVcASv4tz+akaDcs
-	EfkQk=; b=jFBMFcKszn46Ho2oceSuLdmdB9sNkdkfGBPm8Zq41lntCiPFbcsLDO
-	CXNzo6oNHoaeS5OrTX5DkCQD34gpNqFmlP8UmuaGj8JeDYEC92CrzXTqtdt75NcU
-	GCVQTOTXr2ItFbhiKZJtCRJNoy3F8eOOuVnfUXpa0RwP34cTPN1ALZgftug4Bprl
-	r4ra8FnHeCYC3TdVCNpJAJ21B32wPBPD9GyLHKZ07qVpV5EEAAYTJSkTqHryOduD
-	HiEDMtIz1Iawv0b538mp6SGQnP+KtEvVYqNLgVz/xXmLLA0/DVwJFSmH69f0NzFk
-	ZKE9XbfZje8XP8x8cKA8hrdylgSiUDfQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=8PooEsBVNKxO/gG3T
-	kHXHYTVcASv4tz+akaDcsEfkQk=; b=UTuhXAtDEhWycM8IdcjPbbeiI+Gcj9zN7
-	aYvFRxUjFUv3Wqku9xEdgahnKlUjfTITWHEDcy5q8CP/kMy80hsdzA/hfi+5v3XZ
-	qlwoyNLBblhbWuMP55R6P0pSRvs1iPiv+cvOJqFYI1R6SshFM44VdFHWpT1bbC5E
-	9pMO6Xqedg1DdIJa07A0GEnHp3oiI+RTegHKatY7laxCZRMKjhFs0KNOtY6mTeSr
-	hDB2HPZLZH/3IIFI5W+KMTOPt3orpGzRgyHzeeYQwkwV697RtKkICjFKvKGilkjk
-	gV4Q5Iu17y37Bk/mz64sEpUXu9syCgENKEOQQx9WfJleJqogqIG5Q==
-X-ME-Sender: <xms:FbD3YUq8MnbbWXpcmlXrPe3gEORGrB_n0r5amQCcX9sKIHtAlMX0cA>
-    <xme:FbD3YarD8vAVhzTEaMSllMUqKsezBL4W_xNNRCZJd1RPqkZgPi_7Qnn_RYbbs01LJ
-    iN-b0MXQzYvv4jIA1w>
-X-ME-Received: <xmr:FbD3YZNjQHcFX1KnDzefFsW1CUqx2cS7Hyx5pXfZ_a0RuLsaFXVtGUwaxaS_4sHQeYRtV6InmQ2tLSewcfyZP500krPFGONAWTb56sI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgedugddtkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtderre
-    dttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghr
-    nhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhfdutdeljefgleejffehff
-    fgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgvrhfuihiivgeptdenucfr
-    rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:FbD3Yb7jRypL9bPgCgoNzeJ_6bT-gkXSfX52QaJ_QQquXmZJwyZcHw>
-    <xmx:FbD3YT5wpIr7Ce40niqe6vLsTKDQibg4xn_mbnE2RA6N42_WHwDv3A>
-    <xmx:FbD3Ybga6oJrWp4aAi4N-tjaN3y1xLkfUsd_-oirOr1-V1j6-mQnTw>
-    <xmx:FbD3YW3uZOwJtVIh3W8J3Dve4cXKnVS71ohpmda4Os-ByiiY7VQLTA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Jan 2022 04:47:00 -0500 (EST)
-Date: Mon, 31 Jan 2022 10:46:59 +0100
-From: Maxime Ripard <maxime@cerno.tech>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B79A2C9E
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 10:19:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 25ECAD6E;
+	Mon, 31 Jan 2022 02:19:38 -0800 (PST)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3DC443F774;
+	Mon, 31 Jan 2022 02:19:37 -0800 (PST)
+Date: Mon, 31 Jan 2022 10:14:28 +0000
+From: Andre Przywara <andre.przywara@foss.arm.com>
 To: Jesse Taube <mr.bossman075@gmail.com>
-Cc: devicetree@vger.kernel.org, robh+dt@kernel.org, andre.przywara@arm.com,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 4/4] ARM: dts: suniv: Enable mmc for f1c100s.
-Message-ID: <20220131094659.uarrupjd5zeu76xw@houat>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org,
+ linux-sunxi@lists.linux.dev, mripard@kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 3/4] ARM: dtsi: suniv: Add mmc to f1c100s dtsi.
+Message-ID: <20220131101428.58f19968@donnerap.cambridge.arm.com>
+In-Reply-To: <20220130220325.1983918-3-Mr.Bossman075@gmail.com>
 References: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
- <20220130220325.1983918-4-Mr.Bossman075@gmail.com>
+	<20220130220325.1983918-3-Mr.Bossman075@gmail.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xluz7hayxvbnsdjm"
-Content-Disposition: inline
-In-Reply-To: <20220130220325.1983918-4-Mr.Bossman075@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Sun, 30 Jan 2022 17:03:24 -0500
+Jesse Taube <mr.bossman075@gmail.com> wrote:
 
---xluz7hayxvbnsdjm
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Jan 30, 2022 at 05:03:25PM -0500, Jesse Taube wrote:
-> Enable mmc0 in f1c100s-licheepi-nano device tree.
->=20
+> Add mmc0 and 1 for f1c100s dtsi.
+> 
 > Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+
+The numbers looks alright, just one thing below:
+
 > ---
 > V1 -> V2:
-> * New patch
+> * Split patch
 > ---
->  arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm=
-/boot/dts/suniv-f1c100s-licheepi-nano.dts
-> index a1154e6c7cb5..c856a6a20dc8 100644
-> --- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-> +++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-> @@ -24,3 +24,9 @@ &uart0 {
->  	pinctrl-0 =3D <&uart0_pe_pins>;
->  	status =3D "okay";
->  };
+>  arch/arm/boot/dts/suniv-f1c100s.dtsi | 41 ++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> index 953228cc8d52..60fa56c278a8 100644
+> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> @@ -96,6 +96,11 @@ uart0_pe_pins: uart0-pe-pins {
+>  				pins = "PE0", "PE1";
+>  				function = "uart0";
+>  			};
 > +
-> +&mmc0 {
-> +	bus-width =3D <4>;
-> +	broken-cd;
-> +	status =3D "okay";
-> +};
+> +			mmc0_pins: mmc0-pins {
+> +				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
+> +				function = "mmc0";
+> +			};
+>  		};
+>  
+>  		timer@1c20c00 {
+> @@ -111,6 +116,42 @@ wdt: watchdog@1c20ca0 {
+>  			reg = <0x01c20ca0 0x20>;
+>  		};
+>  
+> +		mmc0: mmc@1c0f000 {
+> +			compatible = "allwinner,suniv-f1c100s-mmc",
+> +				     "allwinner,sun7i-a20-mmc";
+> +			reg = <0x01c0f000 0x1000>;
+> +			clocks = <&ccu CLK_BUS_MMC0>,
+> +				 <&ccu CLK_MMC0>,
+> +				 <&ccu CLK_MMC0_OUTPUT>,
+> +				 <&ccu CLK_MMC0_SAMPLE>;
+> +			clock-names = "ahb", "mmc", "output", "sample";
+> +			resets = <&ccu RST_BUS_MMC0>;
+> +			reset-names = "ahb";
 
-The labels are ordered alphabetically
+The A20 does not have a reset control for the MMC controllers. It looks
+like the Linux driver is fine with this (it always tries to get a reset
+control, but treats it as optional), and the binding makes it optional for
+all compatibles.
+I just wonder if that would need to be strengthened in the binding? At the
+cost of dropping the sun7i-a20-mmc fallback here? Or do we keep at least
+the A20 supporting both, so that existing kernel can support this device?
+Or do we not care and just keep the reset control deliberately optional
+for all SoCs?
 
-Maxime
+The other bits check out when compared to the manual, though the
+full compatibility to the A20 is more a less an assumption at this point.
+At least the clock story seems to match (non-calibrate, extra sample
+clocks).
 
---xluz7hayxvbnsdjm
-Content-Type: application/pgp-signature; name="signature.asc"
+Cheers,
+Andre
 
------BEGIN PGP SIGNATURE-----
+> +			interrupts = <23>;
+> +			pinctrl-names = "default";
+> +			pinctrl-0 = <&mmc0_pins>;
+> +			status = "disabled";
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+> +		mmc1: mmc@1c10000 {
+> +			compatible = "allwinner,suniv-f1c100s-mmc",
+> +				     "allwinner,sun7i-a20-mmc";
+> +			reg = <0x01c10000 0x1000>;
+> +			clocks = <&ccu CLK_BUS_MMC1>,
+> +				 <&ccu CLK_MMC1>,
+> +				 <&ccu CLK_MMC1_OUTPUT>,
+> +				 <&ccu CLK_MMC1_SAMPLE>;
+> +			clock-names = "ahb", "mmc", "output", "sample";
+> +			resets = <&ccu RST_BUS_MMC1>;
+> +			reset-names = "ahb";
+> +			interrupts = <24>;
+> +			status = "disabled";
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +		};
+> +
+>  		uart0: serial@1c25000 {
+>  			compatible = "snps,dw-apb-uart";
+>  			reg = <0x01c25000 0x400>;
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfewEwAKCRDj7w1vZxhR
-xQAhAQDWuP+xthxLAzSXLUxH1MwG5n6kHiynhk7abn4d74s0ZgD/djfOneld0jRd
-DYMIzsvE0NLqMlAaBRy0igi15wBQlQY=
-=Isag
------END PGP SIGNATURE-----
-
---xluz7hayxvbnsdjm--
