@@ -1,114 +1,126 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F682CA4
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 02:12:34 +0000 (UTC)
-Received: by mail-qt1-f177.google.com with SMTP id r14so10348667qtt.5
-        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 18:12:34 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785BB2CA4
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 02:27:16 +0000 (UTC)
+Received: by mail-qv1-f42.google.com with SMTP id i19so11581467qvx.12
+        for <linux-sunxi@lists.linux.dev>; Sun, 30 Jan 2022 18:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=oWLaWBqKU9bDFEI7jGwjFV9Oc6o6kN6a87M4jeJhOxw=;
-        b=JH9oLHMHm93TCWMIP4fie4uh+G1lO3v+0v+3TYuhfknvns213SeIYpjdoWNfo3bxGH
-         STV8nmvOcHl7jk2Qee+RdbNAndTOHAOrBNF39z5cTSE/k59nSJx9RJQnjQfnO0zW6EFr
-         oq+m4vGLK6NQVQcC6/w9EfYQqPiPnYehAYEzdUroa13X6aBU1JdKNqxjDLdD1YAeuKHb
-         +8LQmGhR1nk3fQ7HlM1nP5HmQIvZqiFm7h8jBGT6DHzZQbqAbPO6a/ZQT6m9/d9UJLfp
-         11ftWCetmMq+NY+YGCVkNsN4FdrmKNJPIn6V+SmxqiUdKzad+tPxG7jw+Y4I/vPMTkqU
-         UbJw==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ngk8jvWLj3Za0mUF8RENCe9Xd0wCoe7alukpo0cK3Zg=;
+        b=duoPgmvWpkyLHpWioH+/DgSgOrbSV0GaCfeNn5LUmhpaWAEgTagsdey8Ps+FLehZWH
+         ArX6jqLDj+fg7qCO0tafM17p45aa9ntF8/dXOw+Jm2tlSvoiIWykNNSU+zZoJRtN2+R8
+         Q1F48V4RnGYY98PxMPiBMXImLWpuwQoHrH3hI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=oWLaWBqKU9bDFEI7jGwjFV9Oc6o6kN6a87M4jeJhOxw=;
-        b=WsQHGVQJrDJc2I47zhKyScwqs507pSZAWIdnvzgYf4wrqv9NyJXsMmOTKGED6oct3Y
-         tZQw8FIGJr1dCcxWq1BElsieEUE5TnysZnTN41vVWWG//AXAz/LoiSnBaD4OPOEhG54R
-         1gXwxwUdykUjvzVE+U1jfwg3rruRguBAEs/1bt2ZLXDiynuMNmr0hsyaMu7KX5fb3Msm
-         qvKxJ8VjI+Mm4RSFk+YgIVhMWnRO2dISTcNYEgBywISNgbCZcaaL7RwYVfn8qVLX4jVg
-         Li/Pk2VvF+pF9mvpD9i1bGD0kJjdoFkNngBpx266QsYxbIfU1HJBmf1slcCxo/6HUFL+
-         lUmQ==
-X-Gm-Message-State: AOAM531VcCt/o7mKpVZmPPcRRwAZ4TxxmfCT5LqgNd/h3OKciQ9Hc1nF
-	gaYTS+TAslnajb+u4ZmCB48=
-X-Google-Smtp-Source: ABdhPJznKffd+HN16htrFyNhstC5Qrq0dvTjICntTtkZ2Jeq1h2aC9sn1a8L1JacBVoqFrtcjqw5QA==
-X-Received: by 2002:a05:622a:1a84:: with SMTP id s4mr13136152qtc.593.1643595153122;
-        Sun, 30 Jan 2022 18:12:33 -0800 (PST)
-Received: from [10.4.10.38] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
-        by smtp.gmail.com with ESMTPSA id o22sm7197857qkl.88.2022.01.30.18.12.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Jan 2022 18:12:32 -0800 (PST)
-Message-ID: <2ba1e2bb-e65d-8b79-dad9-1698b2dc6d12@gmail.com>
-Date: Sun, 30 Jan 2022 21:12:31 -0500
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ngk8jvWLj3Za0mUF8RENCe9Xd0wCoe7alukpo0cK3Zg=;
+        b=lprlLs3SVqvSlx2GJdZBbzaLwdTduqnLH903w9a0LHA/zcUY00BkAx2lFSvcKMiPPt
+         mUSWfK86/CVEbabcOD+l/hsvhvVrL6RFV3HnxDINk/0lxwAzYp4TZb0TW5ymilzelSEV
+         39Y8la/pgQnGMXGrDVKUjD3kIzz4Wn8cyuQ6amCs9o74n1l22QTc7kF0bYLzSgnXNUGF
+         hYKqGYFCXkcCDqS4nD3g3q706mqLupfvQMFGGIlmW5a3X5xiGE1ewTMBTfo3Sb2A8ylY
+         uwB5nBoCLsg82jRWU6r+ntPp20UrakigPpYMJBfXRa7FVMv9EMlt2JaPzPmK3Gi9Pv30
+         NaFg==
+X-Gm-Message-State: AOAM533frXFU5Gc22matmdmh/wzu5YPA9OmQqJyhItZZe9Orr/1wpiAJ
+	AcCI9wM0x2RxAD0g4TdyXKCN9A==
+X-Google-Smtp-Source: ABdhPJzGCGNUlvIEMw4Zqi+3X55FK8XgU9K9MjceNYSgR2v7hZQvD2rEZcvmoSgNHsQkRXmKoWRXog==
+X-Received: by 2002:a05:6214:e4c:: with SMTP id o12mr15975099qvc.57.1643596035344;
+        Sun, 30 Jan 2022 18:27:15 -0800 (PST)
+Received: from bill-the-cat (2603-6081-7b01-cbda-2ef0-5dff-fedb-a8ba.res6.spectrum.com. [2603:6081:7b01:cbda:2ef0:5dff:fedb:a8ba])
+        by smtp.gmail.com with ESMTPSA id d22sm1450813qkn.112.2022.01.30.18.27.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Jan 2022 18:27:14 -0800 (PST)
+Date: Sun, 30 Jan 2022 21:27:12 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Simon Glass <sjg@chromium.org>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	Chris Morgan <macromorgan@hotmail.com>,
+	Daniel Wagenknecht <dwagenk@mailbox.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: Pull request: u-boot-sunxi/master for 2022.04
+Message-ID: <20220131022712.GF7515@bill-the-cat>
+References: <20220130221056.6659-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: Please test U-Boot Allwinner F1C100s support
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Samuel Holland <samuel@sholland.org>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>,
- linux-sunxi <linux-sunxi@lists.linux.dev>
-References: <20220131020427.2e57f75d@slackpad.fritz.box>
-From: Jesse Taube <mr.bossman075@gmail.com>
-In-Reply-To: <20220131020427.2e57f75d@slackpad.fritz.box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="WiG3HOh2BFypK78Q"
+Content-Disposition: inline
+In-Reply-To: <20220130221056.6659-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
 
+--WiG3HOh2BFypK78Q
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/30/22 21:04, Andre Przywara wrote:
-> Hi,
-> 
-> thanks to the tireless work of Jesse, I think the basic Allwinner
-> F1C100s support for mainline U-Boot is now ready to be merged. Since I
-> don't have the hardware, can any of you who have boards please give it a
-> try on their hardware? I would really love to see some confirmations
-> before I merge it.
+On Sun, Jan 30, 2022 at 10:10:56PM +0000, Andre Przywara wrote:
 
-I really have to thank you for reviewing!
-
-> I put a branch here:
-> https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/tree/f1c100s
-> 
-> This should probably work on any F1C100s board, using the LicheePi Nano
-> defconfig. Also curious about the F1C200s (looking at you, George ;-)
-
-I have tested on both. Giulio has them aswell now.
-
-> 
-> This is very basic support at this point, there is no USB or SPI
-> support, and even the SD card is not usable from U-Boot proper.
-
-Sd card will work if we add it to the dts.
-
-> I am hopeful we can add MMC and SPI support still in this cycle, but I don't
-> want to hold back this series any longer, and it should be relatively
-> simple support patches.
-
-I have patches for both spi-boot and U-Boot proper spi suport.
-I did manage to get it to find the boot device with:
-`u32 brom_call = *(u32*)(fel_stash.sp-4);` in mach-sunxi/board.c with 
-the suggestion that Stephen said. Should I submit after it gets into 
-master or is tomorrow fine.
-
-Many thanks,
-	Jesse Taube
-> 
-> What should work though is booting via FEL and from SD card (the SPL
-> MMC code is in place, if I am not mistaken). Just booting it to a U-Boot
-> prompt via both methods would be a great test already. Maybe you can
-> even upload a kernel and initrd via FEL and boot it from there, using
-> $fdtcontroladdr for the DT address, for instance.
-> 
-> Any replies would be highly appreciated!
-> 
-> Many thanks,
+> Hi Tom,
+>=20
+> a bit delayed, the first batch of the sunxi pull request for this cycle.
+> This is mostly collecting some patches that were lying around for a while,
+> plus some recent fixes. Nothing too exciting at this point, but of course
+> they should be merged nevertheless.
+> There is the much bigger F1C100s SoC support coming up, which I hope to be
+> able to send in the next few days, along with the removal of sunxi's
+> lowlevel_init usage.
+>=20
+> Compile tested for all 159 sunxi boards, plus briefly tested on BananaPi =
+M1,
+> OrangePi Zero, Pine64 and Pine-H64.
+>=20
+> Thanks,
 > Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit 98a90b2730696c1ba773359b7944f6685ae133=
+44:
+>=20
+>   Merge branch '2022-01-28-assorted-fixes' (2022-01-29 13:42:58 -0500)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to 50d5c6428fc280c095b0edd1a612b3661b5db77d:
+>=20
+>   mkimage: sunxi_egon: Allow overriding the padding size (2022-01-30 01:2=
+5:00 +0000)
+>=20
+
+Applied to u-boot/master, thanks!
+
+--=20
+Tom
+
+--WiG3HOh2BFypK78Q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmH3SP0ACgkQFHw5/5Y0
+tyxf0Qv/aSxh5j9FoVqZc8oboSYIC+VCv0DaEMqytbg3VdolcCfFFIudBXLQ4rBF
+FDo76XW8LcTdsehql8MzNWw8/K8FVp5PHV70t+6DAOxp8cOXspp2te8dppjjQoZ/
+ha46l3Mj7evtBg5OihE2TAVkhayYmgsWSBz7NhYaCSM5RQ2pN+soRPM7LbnYn3QY
+Jr6s1TwBscfB4GKDGP/LA/VqvN4l5MFYp/SYwkNbGxqILhKd0VooKVtUdeolUJQD
+wF+JWAIsSniMBsIuWUgnT/ppXJ1BhMtmgTF4Yyo1ISwatDBkCW/R9bA3z/lQIRwN
+Pq2DAVUAU+rVA0nRaeYG31HeOrE29mlS/f4wn4/NH/Lcmy35rB0W+82uf4iS/JF3
+iThcq6HIwb8twdom5NgKrPxTs91+6Inm79NzcXeM1272hRCWRos+0n56EfaDPm/z
+VnOboU5I6hDZMM8V2HYqR+YJtn5kZatTGU3DV8wfDvYKX//StzyQbWurOnuEO5PJ
+MrsE7W8T
+=zumY
+-----END PGP SIGNATURE-----
+
+--WiG3HOh2BFypK78Q--
