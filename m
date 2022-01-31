@@ -1,87 +1,99 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F4A2C9E
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 09:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B8832C9E
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 09:45:22 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 1E9533201F32;
-	Mon, 31 Jan 2022 04:21:32 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id A6A895C00C6;
+	Mon, 31 Jan 2022 04:45:21 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 31 Jan 2022 04:21:32 -0500
+  by compute4.internal (MEProxy); Mon, 31 Jan 2022 04:45:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=yUDZE4c/QgB5X4
-	ztLzqYxeifoxmkCBP/adi9DeT4MKo=; b=NqsFfm8SyKSStrBGGVkfukHoMcVm/V
-	H9xnruaYrEZr11B04mE0vSykBL1Eh6bTLicQ2eQ/y4FEhbAYSynIwNgXu1sSdveV
-	TIqtug9B8s9j71DoNWoU7cgiYr4omBik0YssNXPpb7n5hbyOTDa09jETXyHo++Y9
-	U8mXqaND2Uijpc5OAl2JfkHpnIX9jhNeleQ1cT2YrvQ7vdGd7r58Et096qA/TEp+
-	v9UNG7aqdUJryoDbnVovqoRH+RQHappXdm4xkKsGwhDFfAxHwhEsppjjYuC0w5fz
-	ru0nhjH27HmI3Unz/UroylgiPmwBKPn182f/hjy9kEAFfsv4eU4mNNPA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=yUDZE4c/QgB5X4ztLzqYxeifoxmkCBP/adi9DeT4M
-	Ko=; b=CXzrMpfqacKhJzJwRr7oN4PaKjo8uEPGbu/NSXHNXu5ohI64j5+A7Wson
-	kzA119iJzxXr/0AagSaXgXeCcMghQvfsHK/7atxKOiiG9PRkko6/e7u45NJoHLEm
-	9JZiusRux2sD855GUDrY3VLnPyGkFMiF3DEELo4TXIMIFXInDmH68YbHvI45HGCZ
-	WdHVcAb//Qxn8JKoIVPrsU6F4roN9ICarSAfdV78rxlGgn04ZVWw0Y8mwIHqf5wH
-	DRqP8AQJjq++Ye1SJfLefD4Itiy01GEc3GVQQmf6kypVa0zX1lfT0tzIuGuT6w9N
-	CzDV41U+C3eIMjlI5oEWJmXtU7qYw==
-X-ME-Sender: <xms:Gqr3YTE7h3A-xoH81Q-0wyTqOdxPrMtht-idf7jhv6M5DrikDMUSRg>
-    <xme:Gqr3YQVW5L_SfjRdjADrffUZPc-Wxv91NubYjA12OT_SA49q-BwzMsfN61M0s2dJZ
-    INPRTUKzPCsB3h0KFM>
-X-ME-Received: <xmr:Gqr3YVJ2fXNZK5Nl5EIiEAYvJ9KmhKeSRGKlZT4z8xcQVK3IA85D1VxsjrxjA7w0Wk09_VVsVsOdtKZGTlj2o4-6IH6Ar4XkIMiy85Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgedugddtvdcutefuodetggdotefrodftvf
+	:subject:to:to; s=fm2; bh=OEWLDL/FcN4j0YUVdIMua8neLJfK4MwNh246ii
+	mUMs4=; b=LtH0Ysw8MWl2FchRPkHdLHZhOjPMHnm94FSR0FQ8g8SIo8T3ieZCYL
+	AUGdJKqRRmm7ZE8/5+qWdmeinuxqVK54u9S0zN2D73OMODil+mLhJgF3eXnGxg8J
+	aEgEzom7oF7tMrifgF31MeQZ2tqzrgMZ2sKBo104B8ZPkuGY8tz3n/H3Rs4v5y7L
+	QOT5NJxBHhNrM688qOS0DcQKeZAM1TK9Fy5mZag3/qEo2uBup71U6xBDP7uSBgdt
+	bQNhjbBcxTt0t4ZXfIHPk9ZC8Fv8/qT/h2xfmkuoGy0Bc5eVc07se5Ow0lG96u2w
+	qOBrQ5QIh+bBcRjGSuS9aoGSvmOK1LpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=OEWLDL/FcN4j0YUVd
+	IMua8neLJfK4MwNh246iimUMs4=; b=XCT7bvbAMaRHhoXoNHh9vkYGuQ/UPrQrX
+	2POh0qyCeHWBSbSnYa6gs2y5dsTnkIlYy9tHU0qakXaqEX50WV1KTjBQ3ThAEk3I
+	RXhkMtsWaaPVSB6P3jtHhJdLlw4O6cDkUOce/A+JqfxTjQDEngPCzXnN933mWnjZ
+	bhzWJZoa+1bzvzM5Epq2SezEHTpspwWh1XLHzPqZdQfpWIBMac2CmP+Hvz1jKpUB
+	29TfOBpCcKmn9f65JUmN32lWU6wBXuVOBKE53R/qfAgviuGJQmfL5MHHnfg+jhm6
+	p41CNnnhYHvCBxnI1tswF2VVvJkt+vUCBz0fB3945E737w6FBCf7w==
+X-ME-Sender: <xms:sa_3YX3sR6PmhiUGq1OmbCeeraaWEcmgEktO1cBlUc_o5N3T1m4-OA>
+    <xme:sa_3YWEbStXZIQ9Ati3ompPI-LFg_pWNKvSuGIR8MlQpFP6f9-ptLuFsn2BvALLdt
+    lyksd2o1ypzgpB6ZIc>
+X-ME-Received: <xmr:sa_3YX4m87dfzbouOBeh38IbljcXWFkAa65TG8JRKLnYF5oZpNmx56tOvnM9CYrZfcbZPUDuPqBcvMWhkTat7ccyBrhn3bAiapoe90g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrgedugddtjecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
-    keeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Gqr3YRF5NFkuv5MwUkqduSFnP74JR39Z5tkGz3oMCmrzEvPgW_KTuw>
-    <xmx:Gqr3YZWWDLYoIdkuVEKPVSs-YaW0-jxsJtPtUzzbtwC8mpELg9ugOA>
-    <xmx:Gqr3YcOX6FqcjhAaGlerl8kz3nlyDfIvl_RgHJQdDFWuopN-Zi9dZg>
-    <xmx:G6r3YVqXnuLPUJuiTxnLTfgkWmKuSjjsCfk9eD_YBrIBNhDYDbKUqQ>
+    uegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtderre
+    dttddvnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghr
+    nhhordhtvggthheqnecuggftrfgrthhtvghrnhepleekgeehhfdutdeljefgleejffehff
+    fgieejhffgueefhfdtveetgeehieehgedunecuvehluhhsthgvrhfuihiivgeptdenucfr
+    rghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:sa_3Yc0DKMzuzjCcza5bMCB1OrzoTKXnuZue15mvm4Mrx08WTBnj9g>
+    <xmx:sa_3YaGQs2O8TcpCedBs_2PWnmXUn9k8qCDoNN72E7JXO4yP9WC2CQ>
+    <xmx:sa_3Yd_WtzogaSdGFbwBsWv6BpHzCT2i15vVXWvyom96eiGWpBzJtA>
+    <xmx:sa_3YWgtY5ji836PKF5OJPIZZMuO2OfDnCOik0ycPOQ-lLocGr1izA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Jan 2022 04:21:29 -0500 (EST)
+ 31 Jan 2022 04:45:20 -0500 (EST)
+Date: Mon, 31 Jan 2022 10:45:19 +0100
 From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	=?UTF-8?q?Baltaz=C3=A1r=20Radics?= <baltazar.radics@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: (subset) [PATCH] Add ethernet0 alias in Nanopi NEO's device tree
-Date: Mon, 31 Jan 2022 10:21:26 +0100
-Message-Id: <164362087329.15921.5807470907175600465.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220129154214.45629-1-baltazar.radics@gmail.com>
-References: <20220129154214.45629-1-baltazar.radics@gmail.com>
+To: Jesse Taube <mr.bossman075@gmail.com>
+Cc: devicetree@vger.kernel.org, robh+dt@kernel.org, andre.przywara@arm.com,
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/4] dt-bindings: mmc: sunxi: Add Allwinner F1c100s
+ compatibles
+Message-ID: <20220131094519.24xonxizaoejjmt6@houat>
+References: <20220130220325.1983918-1-Mr.Bossman075@gmail.com>
+ <20220130220325.1983918-2-Mr.Bossman075@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="aspkofvbtc35kzor"
+Content-Disposition: inline
+In-Reply-To: <20220130220325.1983918-2-Mr.Bossman075@gmail.com>
 
-On Sat, 29 Jan 2022 16:42:14 +0100, Baltazár Radics wrote:
-> This is required for U-Boot to generate a MAC address for it
-> automatically.
-> (Without this, the MAC address will be random on each boot.)
-> 
-> 
 
-Applied to sunxi/linux.git (sunxi/for-next).
+--aspkofvbtc35kzor
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+Hi,
+
+On Sun, Jan 30, 2022 at 05:03:23PM -0500, Jesse Taube wrote:
+> Add binding for F1c100s's mmc controller.
+>=20
+> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+
+Some description of why the A20 is a good pick compared to the other
+variants would be nice.
+
 Maxime
+
+--aspkofvbtc35kzor
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYfevrwAKCRDj7w1vZxhR
+xRe5AP4q7SMWvfWzGn55Ko8duFNSbBV7gb5pfVZtRpGNnhmWsAD8DEfPv7lBpMnr
+XJnIA+WbGKP72iO5puNHasksfaAS7ws=
+=ioOV
+-----END PGP SIGNATURE-----
+
+--aspkofvbtc35kzor--
