@@ -1,133 +1,133 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D57C2C9C
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 18:04:50 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id l24-20020a17090aec1800b001b55738f633so90266pjy.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 10:04:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31C92C9C
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 18:13:31 +0000 (UTC)
+Received: by mail-qt1-f172.google.com with SMTP id j12so11913435qtr.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 10:13:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pensando.io; s=google;
+        d=gmail.com; s=20210112;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=c4Q5GbHlG477GDu8eKVa3wxvGBbayrQI0q4Ora6UJKM=;
-        b=tqRPGJPSBTirucVoZRcW3Pfn8BwsifiN/2zFudpAcytP87mX6mRx+Z2+R8wpSJO6rJ
-         E21sG6i5x1UJi7SIERlnMvo8Jw0MLeFM6mvgDhxTj45ED5x+ylbmR3r1yaZ8mJx2fzpx
-         udWsOYVxp3K/E4/g+A1Uv/ovIRjY7g5AdBlMS01qOGp/RnNoU+KHggkPTU0eVD0DU8s9
-         0BeQOAnHzHWADyIK4Vu+WAIlTn0apQDnBPfgCcsWeZOXKK9/5IWZ2oh4MKVGtqnRvPWe
-         5941r9GmvDJ9BaTRBHT9nHnwJ9e+INLC12aBfS+Ob2isiRQG967ObJegi9wJYUDWinQX
-         qgZg==
+        bh=wUgl1Nx6ur30CB8RGVTiHTC9v38C5q5fllfbmJRA1nw=;
+        b=hEvuc0iUzfqNhOgQLSg27zkIYxcr3kRWjOy6zDJyofQjPNRn9xIm5dA43jKeQgwB91
+         ZYNM1jgR80MHD2CThfE2SYgBSF2SnqNtLBjCUwwgJ8lgLjwVqqWj62TxaeBBpP5ovtCc
+         4d2kR+rMPHOhwY+ER6NFo09B9N0iHp9Wpwhj4sm8Ls0IjiYxkiAx6lzxF8RteqyJQLve
+         YPD63Z+Y7AaPaL/AhA+JG2ykT4gYDB7bjlHuJwB8UHWhe1wEvwKx/cEalGWvgVwTkwwx
+         Eyraw8c6YRvvGB6gIDe0e4axFm661r10VYgZeZkOHi/YfGEhOVwcGwxFtdcKotvKREK9
+         8ylw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=c4Q5GbHlG477GDu8eKVa3wxvGBbayrQI0q4Ora6UJKM=;
-        b=Hehr1N//fNSFBfHz2nrRFxejLF/c0HIGOM2d21r0LDBb/Gt236JkkOAKDR18SF+4ET
-         fl9VY6avwkErAairKYhDcSeF3VPcINRAncX1LsSZMPLIyEcQkh1Sip+Gptas87++zjNG
-         P38rp8dehKDJgWtj57HlNVkHlvEuJxGnea4WMHGU2MGN8Iakzwwf67+R1k3GpMs20BMe
-         NrbTvdpqXb7xEk6dgr8A6m2nLQEjWxvqQA7j+TN6Jp2GhFyn6xUrn0kI4LfjNlByOYsT
-         SeT3nFcfFkgBxNWRUQ736PFiNZwcuVLgLBNaLbNO2qrBk+19KHLco+k33Kcz8vFNF2Mm
-         c4tw==
-X-Gm-Message-State: AOAM532+k7ZwqHRHVYmSwZTvW3rGQDisF6lbJclGvWKl8ShDmFuH67ZV
-	8Hd9qrfLCxqQBLTSnL59JuML9w==
-X-Google-Smtp-Source: ABdhPJwiCZ3y7ls9K5IfS1T6T0ClceNUAK7SZtIbNYVDQUzoxeIbETevQnD06wi4x9WLSkmqa1d5tw==
-X-Received: by 2002:a17:902:d2c3:: with SMTP id n3mr21984876plc.45.1643652289541;
-        Mon, 31 Jan 2022 10:04:49 -0800 (PST)
-Received: from [192.168.0.2] ([50.53.47.17])
-        by smtp.gmail.com with ESMTPSA id y42sm19810173pfa.5.2022.01.31.10.04.41
+        bh=wUgl1Nx6ur30CB8RGVTiHTC9v38C5q5fllfbmJRA1nw=;
+        b=iNHG4Zs1prlKhMBvYOTDl4E9ES6HCOkbJM6uy8iSrRSnS6gZQGte0Ha7THw4dzGVrf
+         qwP9Wues3HvELlZCBAaCG2JQl7khzdJUdnZFkkuFV++nTzcOplwmJc0plm6PV0F3ZTvS
+         TIAqvfgowEcGkzKqsMsgURdMyvWwGjkIbCUygdpopr/JopSE16Z+S+F6bGiq6o9KSWjp
+         fwF7P9uW5+uAevMGcuTh3Vf5MlXbWUtAQyWPRZlZSJHDv2fuQi3z24sJzdANyaXdlc0w
+         g4e3oSfQRclwn8bRUwKpucH/DSaL9mtl1fLEQNqWb3HTnPlLgDM56gLxWY+li2JZkaUN
+         nDMQ==
+X-Gm-Message-State: AOAM531cNr5hWENOoX9VQ5aj8HHDlEJnbLX2+k8nQRrEv+8FCLDq/jA7
+	oV+NCJzUyWHixKzRWWl0/D4=
+X-Google-Smtp-Source: ABdhPJxES8Pf2Y+00LGGZ5MBPGxdmDs1cnFmjGpUTcTeUg4moYmDfQeFwcRwB0+DxzR03v0XYS382w==
+X-Received: by 2002:a05:622a:38a:: with SMTP id j10mr16124398qtx.325.1643652810592;
+        Mon, 31 Jan 2022 10:13:30 -0800 (PST)
+Received: from [10.4.10.38] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
+        by smtp.gmail.com with ESMTPSA id 41sm8176023qtb.82.2022.01.31.10.13.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Jan 2022 10:04:49 -0800 (PST)
-Message-ID: <e9e124b0-4ea0-e84c-cd8e-1c6ad4df9d74@pensando.io>
-Date: Mon, 31 Jan 2022 10:04:40 -0800
+        Mon, 31 Jan 2022 10:13:30 -0800 (PST)
+Message-ID: <38e0aba2-78e4-d3fd-1c03-d0382eefde77@gmail.com>
+Date: Mon, 31 Jan 2022 13:13:29 -0500
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:91.0)
- Gecko/20100101 Thunderbird/91.5.0
-Subject: Re: [PATCH net-next] net: kbuild: Don't default net vendor configs to
- y
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.0
+Subject: Re: Please test U-Boot Allwinner F1C100s support
 Content-Language: en-US
-To: Saeed Mahameed <saeed@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>
-Cc: Mark Einon <mark.einon@gmail.com>, Lino Sanfilippo
- <LinoSanfilippo@gmx.de>, Maxime Ripard <mripard@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Shay Agroskin <shayagr@amazon.com>, Arthur Kiyanovski <akiyano@amazon.com>,
- David Arinzon <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>,
- Saeed Bishara <saeedb@amazon.com>, Chris Snook <chris.snook@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Hans Ulli Kroll <ulli.kroll@googlemail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Jeroen de Borst <jeroendb@google.com>, Catherine Sullivan
- <csully@google.com>, David Awogbemila <awogbemila@google.com>,
- Yisen Zhuang <yisen.zhuang@huawei.com>, Salil Mehta
- <salil.mehta@huawei.com>, Jesse Brandeburg <jesse.brandeburg@intel.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Vladimir Oltean <vladimir.oltean@nxp.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- UNGLinuxDriver@microchip.com, Jon Mason <jdmason@kudzu.us>,
- Simon Horman <simon.horman@corigine.com>,
- Rain River <rain.1986.08.12@gmail.com>, Zhu Yanjun <zyjzyj2000@gmail.com>,
- drivers@pensando.io, Sergey Shtylyov <s.shtylyov@omp.ru>,
- Jiri Pirko <jiri@resnulli.us>, Edward Cree <ecree.xilinx@gmail.com>,
- Martin Habets <habetsm.xilinx@gmail.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Jose Abreu <Jose.Abreu@synopsys.com>, Andy Gospodarek <andy@greyhouse.net>,
- Michal Simek <michal.simek@xilinx.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Arnd Bergmann <arnd@arndb.de>, Jacob Keller <jacob.e.keller@intel.com>,
- Vegard Nossum <vegard.nossum@oracle.com>, Rob Herring <robh@kernel.org>,
- l.stelmach@samsung.com, rafal@milecki.pl,
- Florian Fainelli <f.fainelli@gmail.com>, Edwin Peer
- <edwin.peer@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Chan <michael.chan@broadcom.com>,
- Richard Cochran <richardcochran@gmail.com>,
- Gerhard Engleder <gerhard@engleder-embedded.com>,
- Marcin Wojtas <mw@semihalf.com>, Oleksij Rempel <linux@rempel-privat.de>,
- Gabriel Somlo <gsomlo@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Slark Xiao <slark_xiao@163.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Liming Sun <limings@nvidia.com>, David Thompson <davthompson@nvidia.com>,
- Asmaa Mnebhi <asmaa@nvidia.com>, Lars Povlsen <lars.povlsen@microchip.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>,
- Steen Hegelund <steen.hegelund@microchip.com>,
- Prabhakar Kushwaha <pkushwaha@marvell.com>,
- Omkar Kulkarni <okulkarni@marvell.com>, Shai Malin <smalin@marvell.com>,
- Randy Dunlap <rdunlap@infradead.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Stefan Wahren <stefan.wahren@i2se.com>, Gary Guo <gary@garyguo.net>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- intel-wired-lan@lists.osuosl.org, linux-hyperv@vger.kernel.org,
- oss-drivers@corigine.com, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20220131172450.4905-1-saeed@kernel.org>
-From: Shannon Nelson <snelson@pensando.io>
-In-Reply-To: <20220131172450.4905-1-saeed@kernel.org>
+To: Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ Andre Przywara <andre.przywara@foss.arm.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+ George Hilliard <thirtythreeforty@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ linux-sunxi <linux-sunxi@lists.linux.dev>
+References: <20220131125746.4702fac0@donnerap.cambridge.arm.com>
+ <813A2F53-7592-4DDF-86B6-993BFB1A6819@benettiengineering.com>
+From: Jesse Taube <mr.bossman075@gmail.com>
+In-Reply-To: <813A2F53-7592-4DDF-86B6-993BFB1A6819@benettiengineering.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 1/31/22 9:24 AM, Saeed Mahameed wrote:
-> From: Saeed Mahameed <saeedm@nvidia.com>
->
-> NET_VENDOR_XYZ were defaulted to 'y' for no technical reason.
->
-> Since all drivers belonging to a vendor are supposed to default to 'n',
-> defaulting all vendors to 'n' shouldn't be an issue, and aligns well
-> with the 'no new drivers' by default mentality.
->
-> Signed-off-by: Saeed Mahameed <saeedm@nvidia.com>
->
 
-Is there a particular reason to change this?
-Broken compiles?  Bad drivers?  Over-sized output?
 
-sln
-
+On 1/31/22 08:07, Giulio Benetti wrote:
+> Hi Andre,
+> 
+>> Il giorno 31 gen 2022, alle ore 13:57, Andre Przywara <andre.przywara@foss.arm.com> ha scritto:
+>>
+>> ﻿On Mon, 31 Jan 2022 13:17:52 +0100
+>> Giulio Benetti <giulio.benetti@benettiengineering.com> wrote:
+>>
+>>> Hi All,
+>>>
+>>> I've tried several times on both F1C100s and F1C200s, maybe I'm doing
+>>> something wrong but it doesn't work :-/
+>>>
+>>> I burn sd-card with:
+>>> # sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1k seek=8
+>>>
+>>> I've triple-checked that the file has been written there by dumping the
+>>> sd-card and I see it's written at 0x2000, so 8K offset, like the mangoPI
+>>> image for example. But no uart output.
+>>
+>> I haven't looked in detail what would be needed for the SPL part of the
+>> MMC driver to really work, I just checked that the base addresses are
+>> correct, the pinmux looked alright as well.
+>> The DT nodes are not needed for the SPL, and I don't see other changes
+>> related to MMC in the original series?
+> 
+> Yes that’s true.
+> 
+>> Do you see UART output from the SPL, or nothing at all?
+> 
+> Unfortunately nothing either with SPL
+> 
+>> And you are not using UART0 on the PortF pins, so multiplexed with the
+>> MMC, I guess?
+> 
+> I use PE0 and PE1 Uart0 according to dts.
+> 
+> Have you got such board to test it?
+> Or we can wait for Jesse or George.
+> 
+> I’ve used the git you’ve pointed.
+> 
+> Anyway I think we’re very close to have it working.
+> 
+> At least my work “behind the scenes” will be worth, right Jesse :-)?
+Yes, I'm sorry there wasn't much mention of you on this patch.
+I Just woke up, sorry i couldn't be here earlier, I'll take a look with 
+Giulio.
+> 
+> Best regards
+> —-
+> Giulio Benetti
+> Benetti Engineering sas
+> 
+>>
+>> Cheers,
+>> Andre
+>>
+>>
+>>
+>>>
+>>> Am I doing something wrong?
+>>>
+>>> Best regards
+>>
+> 
