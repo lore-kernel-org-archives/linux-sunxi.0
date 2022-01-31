@@ -1,124 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE35F2CA1
-	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 20:10:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CED1C340E8;
-	Mon, 31 Jan 2022 20:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643659831;
-	bh=db3019ER3yHKwYvfr1vDrkC0pSuWFsBGKycjXxPwonk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b0BjUSE02/Lk9W7l6kNn8GCVBmeFqqRvSdMJB07B0CUhVQyPW1NURhoB+dnhBiU+W
-	 JBtWhDM36yQbPoBdEN96aO+suz6byn7zIJ6Eq6jO2bocu5K/blX9MyRaU/oaLJB92y
-	 FIro4AT9qeG6/0KFZv/ZvSlzM9COMAqqAY9MkSpSUmHGDdcSwzONr1LAsQAXgUAgEo
-	 9wi374x5enP+6A2x50TIBWRdDa34SvB37UqbV2NfGYIcWDP1OykvHH5AlrFFKGZbyU
-	 I7Zfogab/rvVHRDnpTn5D9o0mHdsCIV5+zCngZSy+ddRUPNUUW3TOomCt/K7JOMzTc
-	 ljRqLy0jmlm9w==
-Date: Mon, 31 Jan 2022 12:10:27 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Florian Fainelli <f.fainelli@gmail.com>
-Cc: Saeed Mahameed <saeedm@nvidia.com>, Geert Uytterhoeven
- <geert@linux-m68k.org>, Stephen Hemminger <stephen@networkplumber.org>,
- Saeed Mahameed <saeed@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Mark Einon <mark.einon@gmail.com>, Lino Sanfilippo <LinoSanfilippo@gmx.de>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Shay Agroskin <shayagr@amazon.com>,
- Arthur Kiyanovski <akiyano@amazon.com>, David Arinzon
- <darinzon@amazon.com>, Noam Dagan <ndagan@amazon.com>, Saeed Bishara
- <saeedb@amazon.com>, Chris Snook <chris.snook@gmail.com>, Nicolas Ferre
- <nicolas.ferre@microchip.com>, Claudiu Beznea
- <claudiu.beznea@microchip.com>, Hans Ulli Kroll
- <ulli.kroll@googlemail.com>, Linus Walleij <linus.walleij@linaro.org>,
- Jeroen de Borst <jeroendb@google.com>, Catherine Sullivan
- <csully@google.com>, David Awogbemila <awogbemila@google.com>, Yisen Zhuang
- <yisen.zhuang@huawei.com>, Salil Mehta <salil.mehta@huawei.com>, Jesse
- Brandeburg <jesse.brandeburg@intel.com>, Tony Nguyen
- <anthony.l.nguyen@intel.com>, "K . Y . Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Stephen Hemminger
- <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>, Dexuan Cui
- <decui@microsoft.com>, Vladimir Oltean <vladimir.oltean@nxp.com>, Claudiu
- Manoil <claudiu.manoil@nxp.com>, Alexandre Belloni
- <alexandre.belloni@bootlin.com>, Microchip Linux Driver Support
- <UNGLinuxDriver@microchip.com>, Jon Mason <jdmason@kudzu.us>, Simon Horman
- <simon.horman@corigine.com>, Rain River <rain.1986.08.12@gmail.com>, Zhu
- Yanjun <zyjzyj2000@gmail.com>, Shannon Nelson <snelson@pensando.io>,
- drivers@pensando.io, Sergey Shtylyov <s.shtylyov@omp.ru>, Jiri Pirko
- <jiri@resnulli.us>, Edward Cree <ecree.xilinx@gmail.com>, Martin Habets
- <habetsm.xilinx@gmail.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Jose Abreu
- <Jose.Abreu@synopsys.com>, Andy Gospodarek <andy@greyhouse.net>, Michal
- Simek <michal.simek@xilinx.com>, Arnd Bergmann <arnd@arndb.de>, Jacob
- Keller <jacob.e.keller@intel.com>, Vegard Nossum
- <vegard.nossum@oracle.com>, Rob Herring <robh@kernel.org>,
- l.stelmach@samsung.com, rafal@milecki.pl, Edwin Peer
- <edwin.peer@broadcom.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
- Michael Chan <michael.chan@broadcom.com>, Richard Cochran
- <richardcochran@gmail.com>, Gerhard Engleder
- <gerhard@engleder-embedded.com>, Marcin Wojtas <mw@semihalf.com>, Oleksij
- Rempel <linux@rempel-privat.de>, Gabriel Somlo <gsomlo@gmail.com>, Joel
- Stanley <joel@jms.id.au>, Slark Xiao <slark_xiao@163.com>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, Liming Sun <limings@nvidia.com>, David
- Thompson <davthompson@nvidia.com>, Asmaa Mnebhi <asmaa@nvidia.com>, Lars
- Povlsen <lars.povlsen@microchip.com>, Horatiu Vultur
- <horatiu.vultur@microchip.com>, Steen Hegelund
- <steen.hegelund@microchip.com>, Prabhakar Kushwaha <pkushwaha@marvell.com>,
- Omkar Kulkarni <okulkarni@marvell.com>, Shai Malin <smalin@marvell.com>,
- Randy Dunlap <rdunlap@infradead.org>, Vignesh Raghavendra
- <vigneshr@ti.com>, Stefan Wahren <stefan.wahren@i2se.com>, Gary Guo
- <gary@garyguo.net>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- intel-wired-lan@lists.osuosl.org, linux-hyperv@vger.kernel.org,
- oss-drivers@corigine.com, linux-renesas-soc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH net-next] net: kbuild: Don't default net vendor configs
- to y
-Message-ID: <20220131121027.4fe3e8dc@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <30ed8220-e24d-4b40-c7a6-4b09c84f9a1f@gmail.com>
-References: <20220131172450.4905-1-saeed@kernel.org>
-	<20220131095905.08722670@hermes.local>
-	<CAMuHMdU17cBzivFm9q-VwF9EG5MX75Qct=is=F2h+Kc+VddZ4g@mail.gmail.com>
-	<20220131183540.6ekn3z7tudy5ocdl@sx1>
-	<30ed8220-e24d-4b40-c7a6-4b09c84f9a1f@gmail.com>
+Received: from smtpcmd03117.aruba.it (smtpcmd03117.aruba.it [62.149.158.117])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95F762C82
+	for <linux-sunxi@lists.linux.dev>; Mon, 31 Jan 2022 20:44:28 +0000 (UTC)
+Received: from [192.168.50.220] ([146.241.179.156])
+	by Aruba Outgoing Smtp  with ESMTPSA
+	id EdXFnjmqU0FuyEdXFnZVC2; Mon, 31 Jan 2022 21:44:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=aruba.it; s=a1;
+	t=1643661866; bh=UdyG2CnzjVbzPIXbqDDxYY4YAys0tsdEZeCtrvEgwbE=;
+	h=Date:MIME-Version:Subject:To:From:Content-Type;
+	b=bvM+o6jv6fqlXpjrEM4F2jOz2GFtJocHaPCWHAhhP/5ojeyVq4cxlePJoRmCMSszG
+	 hLl7vv/cwrEDFLnI+tvDkqA/LCZT05aCLqlFG0U42UENX3JR14E/CrKFPnBbBp5Hwz
+	 vKTunW2wk/hKeKPtgA7lEJ4ijmIYgmmZ/3kh115va8Wi4dSkbH9tBDLWA7gnfIN9Wp
+	 25nAfJ2Pmy3QmbnzC48nOZX+gQjHzONqjhz+thCCK+1s2gL3W8ZDKf/1jTYDdVswNs
+	 xN446O11cZHutQYMbZSuiaWiHCHYE8uAvGwcc1BLAdM8/VK7VtIiYm13fVUmSFhDmy
+	 0zg8Zw0ABxKqA==
+Message-ID: <cfc51626-83b1-a235-c23d-a348f7df0d48@benettiengineering.com>
+Date: Mon, 31 Jan 2022 21:44:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: Please test U-Boot Allwinner F1C100s support
+Content-Language: en-US
+To: Jesse Taube <mr.bossman075@gmail.com>,
+ Andre Przywara <andre.przywara@foss.arm.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+ George Hilliard <thirtythreeforty@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>,
+ U-Boot Mailing List <u-boot@lists.denx.de>,
+ linux-sunxi <linux-sunxi@lists.linux.dev>
+References: <20220131125746.4702fac0@donnerap.cambridge.arm.com>
+ <813A2F53-7592-4DDF-86B6-993BFB1A6819@benettiengineering.com>
+ <38e0aba2-78e4-d3fd-1c03-d0382eefde77@gmail.com>
+From: Giulio Benetti <giulio.benetti@benettiengineering.com>
+In-Reply-To: <38e0aba2-78e4-d3fd-1c03-d0382eefde77@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfGpj7F1r7foT94hlNsMOwD6TRDh4hlV0oeIYE/yxk6yi5F+eFxVhddhe8eYE9RqL3jGVcSzsjhOVydKvoML2wasLU/c980LlkVXi5um0qkxYcDcQ627G
+ wUyLODB0XYJeVJfQpGupS6fN3vhRFroE8YJ0w6ceJKAxj1q8xs/0X9TIPr674eToeuH7WpJ/q8cAsqAlstIR5EjV3ADPkBtzByoVzba+tr2sLdd7jELD8Q0y
+ O0sHZUubQGlEQBNIx7RRQto5G3D36My90C3bLnpGvTuSPfcoYUCyBYX1OvdXqqkvnWYD3wky59KIOs3TlAEVHgFM/Rdu78LgtexW550x/YzyJUTYT+A5WB25
+ nDGH39gaRQscIipn9uySG22mG+UuZeNz5leIfAW4OjIYIcFlot01k9gYXeFbHnyVa21NdMOT
 
-On Mon, 31 Jan 2022 10:40:38 -0800 Florian Fainelli wrote:
-> >> And changing the defaults means all defconfigs must be updated first,
-> >> else the user's configs will end up without drivers needed.
-> >>  
-> > 
-> > As I understand correctly, at least for most common net drivers, having 
-> > NET_VENDOR_XYZ=y doesn't actually build anything, we have flags per
-> > module for each vendor and those are defaulted to N.  
+Hi Andre, Jesse, All,
+
+On 31/01/22 19:13, Jesse Taube wrote:
 > 
-> Right, but once you start hiding NET_VENDOR_DRIVER_XYZ under a 
-> NET_VENDOR_XYZ Kconfig symbol dependency, if NET_VENDOR_XYZ is not set 
-> to Y, then you have no way to select NET_VENDOR_DRIVER_XYZ and so your 
-> old defconfig breaks.
-
-To be clear do we actually care about *old* configs or *def* configs?
-
-Breaking defconfigs seems bad, but I don't think we can break
-reasonable oldconfigs at this point?
-
-> >> It might make sense to tune some of the defaults (i.e. change to
-> >> "default y if ARCH_*") for drivers with clear platform dependencies.
-> >>  
-> > 
-> > either set hard default to 'n' or just keep it as is, anything else is just
-> > more confusion.  
 > 
-> Maybe the rule should go like this: any new driver vendor defaults to n, 
-> and existing ones remain set to y, until we deprecate doing that and 
-> switching them all off to n by 5.18?
+> On 1/31/22 08:07, Giulio Benetti wrote:
+>> Hi Andre,
+>>
+>>> Il giorno 31 gen 2022, alle ore 13:57, Andre Przywara <andre.przywara@foss.arm.com> ha scritto:
+>>>
+>>> ﻿On Mon, 31 Jan 2022 13:17:52 +0100
+>>> Giulio Benetti <giulio.benetti@benettiengineering.com> wrote:
+>>>
+>>>> Hi All,
+>>>>
+>>>> I've tried several times on both F1C100s and F1C200s, maybe I'm doing
+>>>> something wrong but it doesn't work :-/
+>>>>
+>>>> I burn sd-card with:
+>>>> # sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1k seek=8
+>>>>
+>>>> I've triple-checked that the file has been written there by dumping the
+>>>> sd-card and I see it's written at 0x2000, so 8K offset, like the mangoPI
+>>>> image for example. But no uart output.
+>>>
+>>> I haven't looked in detail what would be needed for the SPL part of the
+>>> MMC driver to really work, I just checked that the base addresses are
+>>> correct, the pinmux looked alright as well.
+>>> The DT nodes are not needed for the SPL, and I don't see other changes
+>>> related to MMC in the original series?
+>>
+>> Yes that’s true.
+>>
+>>> Do you see UART output from the SPL, or nothing at all?
+>>
+>> Unfortunately nothing either with SPL
+>>
+>>> And you are not using UART0 on the PortF pins, so multiplexed with the
+>>> MMC, I guess?
+>>
+>> I use PE0 and PE1 Uart0 according to dts.
+>>
+>> Have you got such board to test it?
+>> Or we can wait for Jesse or George.
+>>
+>> I’ve used the git you’ve pointed.
+>>
+>> Anyway I think we’re very close to have it working.
+>>
+>> At least my work “behind the scenes” will be worth, right Jesse :-)?
+> Yes, I'm sorry there wasn't much mention of you on this patch.
+> I Just woke up, sorry i couldn't be here earlier, I'll take a look with
+> Giulio.
 
-I'd be afraid that given the work of fixing up defconfigs is
-non-trivial we may end up never switching old drivers. And then we'd
-have a semi-random soup of defaults :(
+I've tested succesfully on both F1C100s and 200s boards!
+https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/tree/f1c100s
+
+I've realized with Jesse that here with me I have 3 USB->Serial 
+converter broken!!! With the 4th it worked and I've checked with scope 
+that was hidden by garbage on my desk :-)
+
+So it works! Sorry for the noise
+
+Kind regards
+-- 
+Giulio Benetti
+Benetti Engineering sas
