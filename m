@@ -1,66 +1,139 @@
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2F82CA6;
-	Tue,  1 Feb 2022 15:44:03 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id x13so16616893vsl.10;
-        Tue, 01 Feb 2022 07:44:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 507372F21
+	for <linux-sunxi@lists.linux.dev>; Tue,  1 Feb 2022 15:46:38 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id b15so15727843plg.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 01 Feb 2022 07:46:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
-        b=XlaBX5xf2kC2PYFh91EO4ufBvcLkfsBOS665OsIpRa9DQkpb7u+LxrdpNGJzxoAnJ0
-         6Zrb97yEFwak4wNM5a0BjH3AdPWqIlAwjxrNKkSzysr8CFAIoYhUPvJm6Qcznt67FGJa
-         7c9Sj9fxgdbh2vhCp424CZvvJ1UrpoZyojJwNagTfy7FdayiBCXf6mVeEEvxUs5vhht/
-         f371R1RqGkTBAQFf/gEHEAhojKs0nS5FarjH5vHJG+n5BYFkMvHQorqXLR+d0iWDZ/HK
-         EHDUCIDj5zcbSEABUPNFWoSmIlD5wghMJe3kzeG7eFpipQf7kXFiZVWg4C44VU3TC3nw
-         cf+A==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=1duiPJ9D66APDOG7Cvkpnw8gTrrTPpxxkkLXVcyp5tw=;
+        b=nqkFhijWUsAOnFQSY7L7+PowKwdvHdK6mYqeIIu5lFEA9EF9QMNkf7Bt/Zx/QDohq6
+         YivAU+vRTU1EuuvUH66yetuUUDOhpWh1a/uCc8loQ3/9Cvk9APRyLAXnx/l59lMt4Dcm
+         V0SmMxn9cjPWWBt/gcpFD8KO1JmU+NYm9TSGXbHj/FS9QNs1E8XtO3wlJeg5rLUG6c9O
+         GBE1BtLn45PDjPgxoVJsunD3YhQnrreRscE0qeYB5YVZoMVQIL5aQ5cxul8S+UQtdHdI
+         7jJRpxUO6bPC+A2/WHNlrA/CsCPLWOie7tOtSrT2dAXkAfpkgXwdtBsiQGOCgN3OK34s
+         gJNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=bIkL3j1SUti+mxRknWXsGzjEHfZ++LfAOrCAj6OvBfk=;
-        b=zGWqDVvgo3fGsbJUB2qbvIbUvH3FmLFGHUe7O4oCMYpBJrFkJCMIFK//PeeEY27dNW
-         FJVH1D5lPoQIz/HYt1J6kvF3pumRsxJkVeDU4C+xGHfUTDHjzdDZ8Uq1yx/0rOlveP4T
-         OqlidV41qr9eNTbit0xjltpYkU8QE+ls6bENMCclSvCx05KpvL/Ar/ZVXM88n0WgBAsY
-         +GroZfSt5PL4L5Ci1iO9pDFt2A7B9n4uPRi28XozFi78gmHfKEqDBDz/U38CEePTzvPV
-         YgTe9grvQVGyD4R9AUGkfYdVM7kI6c1zcD0gfTmAfx1A0Sbc6mrVYsNFvC/PZCbJDXyr
-         C0EA==
-X-Gm-Message-State: AOAM532vhLytiotCRPAVTS3NkTMQHmEYmql1TzuqJLZI0zqU5xd8LK1I
-	GvHOROknFivWqBaI3vJmXBH7IStEIbb3TxGL5j4yUdNuUQuRxbH4ZY2xgQ==
-X-Google-Smtp-Source: ABdhPJwhlWLLV81lekh4LZE/fQYhJPXbW4owMGw7muEEAo0II3hymR3KzIUfuse9+LlQjTToAGFxAtsFrBNFhnqhg+w=
-X-Received: by 2002:a67:ca0d:: with SMTP id z13mr10443702vsk.9.1643730242915;
- Tue, 01 Feb 2022 07:44:02 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=1duiPJ9D66APDOG7Cvkpnw8gTrrTPpxxkkLXVcyp5tw=;
+        b=1QTTPqULyRW8Xqkm6Vkcx4xgUmZhwEFCYuaiSDW6EeqLqUs+lf7esNwqOoEWRfcc7i
+         XVi6GcCVKfu1jiLTzoLYvNFVO3wfZHxlqInMQsjDHkn9SIfohzgmZTvYsugF+cH9U0G0
+         PY3Ly1o7fpI5SJ+OAp1FxajG0P/7zqWSKN8Lyep+LoKHrB1IBWsEJqxX3w5VD9wNJrdb
+         u663eusmivg4S+SRuAGiugnJTz3Y8QUim/POTUcpH3Epkg8TXfmE76S3wg0HBdUWZoAs
+         3Q3y5bqQu5M7h0UDaNTWycCXooIUNJfeI5s9gcCLd3QcHnuiiME4sdo/S9PzPR3eplxC
+         Zueg==
+X-Gm-Message-State: AOAM5307vpyh7NzXx+NBZAd4KwhzYqzVDXt3xnhHdK9f4m4Up82kGSUb
+	gqWSI5vvE23aGMIEdSTvS3I=
+X-Google-Smtp-Source: ABdhPJzsNX0ywpu34jXrUJ51YqKK9UTipV04rCv1O/FWGJmbyHYcax9i3DTkKCaIHErb5dmhU7X9lA==
+X-Received: by 2002:a17:90b:4d05:: with SMTP id mw5mr3003128pjb.34.1643730397808;
+        Tue, 01 Feb 2022 07:46:37 -0800 (PST)
+Received: from hoboy.vegasvil.org ([2601:640:8200:33:e2d5:5eff:fea5:802f])
+        by smtp.gmail.com with ESMTPSA id m21sm23278793pfk.26.2022.02.01.07.46.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Feb 2022 07:46:37 -0800 (PST)
+Date: Tue, 1 Feb 2022 07:46:24 -0800
+From: Richard Cochran <richardcochran@gmail.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Hisashi T Fujinaka <htodd@twofifty.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	David Awogbemila <awogbemila@google.com>,
+	Linus Walleij <linus.walleij@linaro.org>, rafal@milecki.pl,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	Andy Gospodarek <andy@greyhouse.net>,
+	Edwin Peer <edwin.peer@broadcom.com>, Wei Liu <wei.liu@kernel.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-sunxi@lists.linux.dev, Jiri Pirko <jiri@resnulli.us>,
+	l.stelmach@samsung.com, Shay Agroskin <shayagr@amazon.com>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+	Jon Mason <jdmason@kudzu.us>, Shannon Nelson <snelson@pensando.io>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Arthur Kiyanovski <akiyano@amazon.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Stephen Hemminger <sthemmin@microsoft.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Gabriel Somlo <gsomlo@gmail.com>,
+	Rain River <rain.1986.08.12@gmail.com>,
+	Martin Habets <habetsm.xilinx@gmail.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Jose Abreu <Jose.Abreu@synopsys.com>,
+	Shai Malin <smalin@marvell.com>, Maxime Ripard <mripard@kernel.org>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>, drivers@pensando.io,
+	Omkar Kulkarni <okulkarni@marvell.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	David Arinzon <darinzon@amazon.com>,
+	Microchip Linux Driver Support <UNGLinuxDriver@microchip.com>,
+	linux-renesas-soc@vger.kernel.org,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Catherine Sullivan <csully@google.com>,
+	linux-hyperv@vger.kernel.org, oss-drivers@corigine.com,
+	Noam Dagan <ndagan@amazon.com>, Rob Herring <robh@kernel.org>,
+	Steen Hegelund <steen.hegelund@microchip.com>,
+	Dexuan Cui <decui@microsoft.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Joel Stanley <joel@jms.id.au>,
+	Simon Horman <simon.horman@corigine.com>,
+	Asmaa Mnebhi <asmaa@nvidia.com>, Arnd Bergmann <arnd@arndb.de>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Saeed Mahameed <saeed@kernel.org>, Liming Sun <limings@nvidia.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Salil Mehta <salil.mehta@huawei.com>,
+	Sergey Shtylyov <s.shtylyov@omp.ru>,
+	Oleksij Rempel <linux@rempel-privat.de>,
+	Edward Cree <ecree.xilinx@gmail.com>,
+	Saeed Bishara <saeedb@amazon.com>,
+	Mark Einon <mark.einon@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Slark Xiao <slark_xiao@163.com>, Gary Guo <gary@garyguo.net>,
+	Gerhard Engleder <gerhard@engleder-embedded.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+	intel-wired-lan@lists.osuosl.org, Jakub Kicinski <kuba@kernel.org>,
+	Prabhakar Kushwaha <pkushwaha@marvell.com>,
+	Hans Ulli Kroll <ulli.kroll@googlemail.com>,
+	Marcin Wojtas <mw@semihalf.com>,
+	David Thompson <davthompson@nvidia.com>,
+	Lars Povlsen <lars.povlsen@microchip.com>, netdev@vger.kernel.org,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Stephen Hemminger <stephen@networkplumber.org>
+Subject: Re: [Intel-wired-lan] [PATCH net-next] net: kbuild: Don't default
+ net vendor configs to y
+Message-ID: <20220201154624.GA4432@hoboy.vegasvil.org>
+References: <20220131172450.4905-1-saeed@kernel.org>
+ <20220131095905.08722670@hermes.local>
+ <CAMuHMdU17cBzivFm9q-VwF9EG5MX75Qct=is=F2h+Kc+VddZ4g@mail.gmail.com>
+ <20220131183540.6ekn3z7tudy5ocdl@sx1>
+ <30ed8220-e24d-4b40-c7a6-4b09c84f9a1f@gmail.com>
+ <09c97169-5f9a-fc8f-dea5-5423e7bfef34@twofifty.com>
+ <Yfj2GTH3tHraprl0@unreal>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: sanita retan <sanitaretan@gmail.com>
-Date: Tue, 1 Feb 2022 16:43:50 +0100
-Message-ID: <CABLemWhTUqqM=_vEScEc6i=rEAnhtUrQm6-XQOgAxrr3A8p5Qg@mail.gmail.com>
-Subject: subscribe
-To: sanitaretan@gmail.com
-Cc: chrome-platform+subscribe@lists.linux.dev, chrome-platform@lists.linux.dev, 
-	connman+subscribe@lists.linux.dev, connman@lists.linux.dev, 
-	containers+subscribe@lists.linux.dev, containers@lists.linux.dev, 
-	ell+subscribe@lists.linux.dev, ell@lists.linux.dev, 
-	iwd+subscribe@lists.linux.dev, iwd@lists.linux.dev, 
-	ksummit+subscribe@lists.linux.dev, ksummit@lists.linux.dev, 
-	landlock+subscribe@lists.linux.dev, landlock@lists.linux.dev, 
-	linux-coco+subscribe@lists.linux.dev, linux-coco@lists.linux.dev, 
-	linux-staging+subscribe@lists.linux.dev, linux-staging@lists.linux.dev, 
-	linux-sunxi+subscribe@lists.linux.dev, linux-sunxi@lists.linux.dev, 
-	llvm+subscribe@lists.linux.dev, llvm@lists.linux.dev, 
-	mhi+subscribe@lists.linux.dev, mhi@lists.linux.dev, 
-	mptcp+subscribe@lists.linux.dev, mptcp@lists.linux.dev, 
-	ntb+subscribe@lists.linux.dev, ntb@lists.linux.dev, 
-	ntfs3+subscribe@lists.linux.dev, ntfs3@lists.linux.dev, 
-	nvdimm+subscribe@lists.linux.dev, nvdimm@lists.linux.dev, 
-	ofono+subscribe@lists.linux.dev, ofono@lists.linux.dev, 
-	patches+subscribe@lists.linux.dev, patches@lists.linux.dev, 
-	regressions+subscribe@lists.linux.dev, regressions@lists.linux.dev, 
-	linux-somesuch@lists.linux.dev, postmaster@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yfj2GTH3tHraprl0@unreal>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-subscribe
+On Tue, Feb 01, 2022 at 10:58:01AM +0200, Leon Romanovsky wrote:
+> No, kernel configs never were declared as ABI as "regular" users are not
+> supposed to touch it. They use something provided by the distro.
+
++1
