@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4C93FDD
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0693FE0
 	for <linux-sunxi@lists.linux.dev>; Tue,  1 Feb 2022 01:41:44 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F1D0D11FB;
-	Mon, 31 Jan 2022 17:41:37 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E03631476;
+	Mon, 31 Jan 2022 17:41:43 -0800 (PST)
 Received: from localhost.localdomain (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3FD153F73B;
-	Mon, 31 Jan 2022 17:41:36 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2F0823F73B;
+	Mon, 31 Jan 2022 17:41:42 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>,
 	Tom Rini <trini@konsulko.com>,
@@ -18,9 +18,9 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Jesse Taube <mr.bossman075@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 1/5] sunxi: move non-essential code out of s_init()
-Date: Tue,  1 Feb 2022 01:41:12 +0000
-Message-Id: <20220201014116.25864-2-andre.przywara@arm.com>
+Subject: [PATCH v2 4/5] armv8: remove no longer needed lowlevel_init.S
+Date: Tue,  1 Feb 2022 01:41:15 +0000
+Message-Id: <20220201014116.25864-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.14.1
 In-Reply-To: <20220201014116.25864-1-andre.przywara@arm.com>
 References: <20220201014116.25864-1-andre.przywara@arm.com>
@@ -30,90 +30,100 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-So far all Allwinner based boards were doing some not-so-lowlevel-setup
-in lowlevel's s_init() routine.
-This includes the initial clock, timer and pinmux setup, among other
-things. This is clearly out of the "absolute bare minimum to get started"
-scope that lowlevel_init.S suggests for this function.
+When we added Allwinner SoC support to ARMv8, we needed to pull in an
+implementation of lowlevel_init() calling the C function s_init(), as
+sunxi required it as this time.
 
-Since we have an SPL, which is called right after s_init(), move those
-calls to our board_init_f() function. As we overwrite this only for
-the SPL, this has the added benefit of not doing this setup *again*
-shortly afterwards, when running U-Boot proper.
+The last few patches got rid of this bogus requirement, and as sunxi was
+still the only user, we can now remove this lowlevel_init.S from ARMv8
+altogether.
 
-This makes gpio_init() to be called from the SPL only, so pull this code
-into a CONFIG_SPL_BUILD protected part to avoid build warnings.
-
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 Reviewed-by: Samuel Holland <samuel@sholland.org>
 Reviewed-by: Simon Glass <sjg@chromium.org>
 Tested-by: Simon Glass <sjg@chromium.org>
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/mach-sunxi/board.c | 25 ++++++++++++-------------
- 1 file changed, 12 insertions(+), 13 deletions(-)
+ arch/arm/cpu/armv8/Makefile        |  1 -
+ arch/arm/cpu/armv8/lowlevel_init.S | 43 ------------------------------
+ arch/arm/mach-sunxi/board.c        |  4 ---
+ 3 files changed, 48 deletions(-)
+ delete mode 100644 arch/arm/cpu/armv8/lowlevel_init.S
 
+diff --git a/arch/arm/cpu/armv8/Makefile b/arch/arm/cpu/armv8/Makefile
+index d85ddde430a..85fe0475c86 100644
+--- a/arch/arm/cpu/armv8/Makefile
++++ b/arch/arm/cpu/armv8/Makefile
+@@ -42,6 +42,5 @@ obj-$(CONFIG_FSL_LAYERSCAPE) += fsl-layerscape/
+ obj-$(CONFIG_S32V234) += s32v234/
+ obj-$(CONFIG_TARGET_HIKEY) += hisilicon/
+ obj-$(CONFIG_ARMV8_PSCI) += psci.o
+-obj-$(CONFIG_ARCH_SUNXI) += lowlevel_init.o
+ obj-$(CONFIG_TARGET_BCMNS3) += bcmns3/
+ obj-$(CONFIG_XEN) += xen/
+diff --git a/arch/arm/cpu/armv8/lowlevel_init.S b/arch/arm/cpu/armv8/lowlevel_init.S
+deleted file mode 100644
+index f4f0cdce9b3..00000000000
+--- a/arch/arm/cpu/armv8/lowlevel_init.S
++++ /dev/null
+@@ -1,43 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+ */
+-/*
+- * A lowlevel_init function that sets up the stack to call a C function to
+- * perform further init.
+- */
+-
+-#include <asm-offsets.h>
+-#include <config.h>
+-#include <linux/linkage.h>
+-
+-ENTRY(lowlevel_init)
+-	/*
+-	 * Setup a temporary stack. Global data is not available yet.
+-	 */
+-#if defined(CONFIG_SPL_BUILD) && defined(CONFIG_SPL_STACK)
+-	ldr	w0, =CONFIG_SPL_STACK
+-#else
+-	ldr	w0, =CONFIG_SYS_INIT_SP_ADDR
+-#endif
+-	bic	sp, x0, #0xf	/* 16-byte alignment for ABI compliance */
+-
+-	/*
+-	 * Save the old LR(passed in x29) and the current LR to stack
+-	 */
+-	stp	x29, x30, [sp, #-16]!
+-
+-	/*
+-	 * Call the very early init function. This should do only the
+-	 * absolute bare minimum to get started. It should not:
+-	 *
+-	 * - set up DRAM
+-	 * - use global_data
+-	 * - clear BSS
+-	 * - try to start a console
+-	 *
+-	 * For boards with SPL this should be empty since SPL can do all of
+-	 * this init in the SPL board_init_f() function which is called
+-	 * immediately after this.
+-	 */
+-	bl	s_init
+-	ldp	x29, x30, [sp]
+-	ret
+-ENDPROC(lowlevel_init)
 diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
-index 3ef179742c5..c932a293317 100644
+index fab38f50898..3165dffc223 100644
 --- a/arch/arm/mach-sunxi/board.c
 +++ b/arch/arm/mach-sunxi/board.c
-@@ -75,6 +75,7 @@ ulong board_get_usable_ram_top(ulong total_size)
- }
+@@ -184,10 +184,6 @@ static int spl_board_load_image(struct spl_image_info *spl_image,
+ SPL_LOAD_IMAGE_METHOD("FEL", 0, BOOT_DEVICE_BOARD, spl_board_load_image);
  #endif
  
-+#ifdef CONFIG_SPL_BUILD
- static int gpio_init(void)
- {
- 	__maybe_unused uint val;
-@@ -172,7 +173,6 @@ static int gpio_init(void)
- 	return 0;
- }
- 
--#if defined(CONFIG_SPL_BOARD_LOAD_IMAGE) && defined(CONFIG_SPL_BUILD)
- static int spl_board_load_image(struct spl_image_info *spl_image,
- 				struct spl_boot_device *bootdev)
- {
-@@ -227,18 +227,6 @@ void s_init(void)
- 		"mcr p15, 0, r0, c1, c0, 1\n"
- 		::: "r0");
- #endif
--#if defined CONFIG_MACH_SUN6I || defined CONFIG_MACH_SUN8I_H3
--	/* Enable non-secure access to some peripherals */
--	tzpc_init();
--#endif
+-void s_init(void)
+-{
+-}
 -
--	clock_init();
--	timer_init();
--	gpio_init();
--#if !CONFIG_IS_ENABLED(DM_I2C)
--	i2c_init_board();
--#endif
--	eth_init_board();
- }
- 
  #define SUNXI_INVALID_BOOT_SOURCE	-1
-@@ -335,11 +323,22 @@ u32 spl_boot_device(void)
  
- void board_init_f(ulong dummy)
- {
-+#if defined CONFIG_MACH_SUN6I || defined CONFIG_MACH_SUN8I_H3
-+	/* Enable non-secure access to some peripherals */
-+	tzpc_init();
-+#endif
-+
-+	clock_init();
-+	timer_init();
-+	gpio_init();
-+	eth_init_board();
-+
- 	spl_init();
- 	preloader_console_init();
- 
- #if CONFIG_IS_ENABLED(I2C) && CONFIG_IS_ENABLED(SYS_I2C_LEGACY)
- 	/* Needed early by sunxi_board_init if PMU is enabled */
-+	i2c_init_board();
- 	i2c_init(CONFIG_SYS_I2C_SPEED, CONFIG_SYS_I2C_SLAVE);
- #endif
- 	sunxi_board_init();
+ static int sunxi_get_boot_source(void)
 -- 
 2.17.6
 
