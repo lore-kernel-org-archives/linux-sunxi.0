@@ -1,75 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52AC2F21
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Feb 2022 15:19:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB126C340E4;
-	Thu,  3 Feb 2022 15:19:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9B02F28
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Feb 2022 20:32:12 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF328C340F2;
+	Thu,  3 Feb 2022 20:32:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643901597;
-	bh=+oMipdTqeGn3t2g6jeKchCDXYGGczB91ZYbqdBllfk0=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=itPTw0gLEjL3s15URQDHf3SmNEb44BLN8VY72AqnLPJOMUFXvMZ8KxtyYKhwCs0hz
-	 M1IoM9t2k9gjHOz0gWu5RN/riCkIWL9gBa3rVXS8yZnllVmHQmCPTe+9yUt86qDanj
-	 fKNC8I+KvNwELEOeTzJZhF8LB/Bp1cxY0ccAacqwqBfriC1Abc3mlYDPuluJvr/+pA
-	 mKxyhtsxWLBqfNQHbkV9+VrfjakjI134e+CnooSkR7F1GhkZT9sDeljhMR6sp6wnEl
-	 GzKzdCs4bCGMdZyb1SfvY7qoOmR6I1U7EyPDG0/U+rfPYRPhcLuk00v5iIYgIRZbdB
-	 QKR49XsCHj/Cg==
-From: Mark Brown <broonie@kernel.org>
-To: Samuel Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>
-Cc: linux-mmc@vger.kernel.org, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Takashi Iwai <tiwai@suse.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20220203020116.12279-1-samuel@sholland.org>
-References: <20220203020116.12279-1-samuel@sholland.org>
-Subject: Re: [PATCH 0/3] ASoC: sun4i-i2s: Support for Allwinner R329 and D1 SoCs
-Message-Id: <164390159447.786717.831868545725165555.b4-ty@kernel.org>
-Date: Thu, 03 Feb 2022 15:19:54 +0000
+	s=k20201202; t=1643920332;
+	bh=cJz+WCKCtmXCo1AQ+BSDjP3riPuNHgmDjCEGV5+z4VY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=C1Qzc6LbReGkGrWb2Eh4KjwhJIHkd9FNiCDVO3gZq4X/buOz9p4UjDWtoDRKcO5DG
+	 1Zt+nJVcI/5NgBzMJQNsGPfvbcFq6YOeUqzU1bP+/0pNtWkQTCK9tcgESL+mR16LDI
+	 1yudK/9YRNwuJqU1v7azd9HTLsnnjcqoy8VBZjoRd8uLWlZHg049fwsExyVf3FfZUY
+	 ZbYXV75gqsidxrSEEgoERl310R9s/2WYKjNw6FLb4aPyD+Mzi+X2bAiD6tIZT/XAoa
+	 oDAYy+X5ywAysi7UuGt5lHZrYDU+Js31Gb7l6e8Gq2DWMgtnZ2sCJPTrkBdCXAfetS
+	 WPs8A2yhdj8Uw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Jisheng Zhang <jszhang@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Sasha Levin <sashal@kernel.org>,
+	peppe.cavallaro@st.com,
+	alexandre.torgue@foss.st.com,
+	joabreu@synopsys.com,
+	kuba@kernel.org,
+	mcoquelin.stm32@gmail.com,
+	mripard@kernel.org,
+	wens@csie.org,
+	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.16 45/52] net: stmmac: dwmac-sun8i: use return val of readl_poll_timeout()
+Date: Thu,  3 Feb 2022 15:29:39 -0500
+Message-Id: <20220203202947.2304-45-sashal@kernel.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203202947.2304-1-sashal@kernel.org>
+References: <20220203202947.2304-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-On Wed, 2 Feb 2022 20:01:12 -0600, Samuel Holland wrote:
-> This series extends the sun4i-i2s binding and driver to support some
-> newer versions of the hardware. Each instance of the hardwar now has
-> multiple input/output pins, and channels can be muxed between them.
-> Since so far the driver only supports a "default" linear channel map,
-> the driver changes are minimal.
-> 
-> 
-> [...]
+From: Jisheng Zhang <jszhang@kernel.org>
 
-Applied to
+[ Upstream commit 9e0db41e7a0b6f1271cbcfb16dbf5b8641b4e440 ]
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+When readl_poll_timeout() timeout, we'd better directly use its return
+value.
 
-Thanks!
+Before this patch:
+[    2.145528] dwmac-sun8i: probe of 4500000.ethernet failed with error -14
 
-[1/3] ASoC: dt-bindings: sun4i-i2s: Add compatibles for R329 and D1
-      commit: 7f97b2ad948343c3be543d12c2965f74bddc34c7
-[2/3] ASoC: sun4i-i2s: Update registers for more channels
-      commit: c8bbc1de9088fedb5d71db7d185c37db18feb2e1
-[3/3] ASoC: sun4i-i2s: Add support for the R329/D1 variant
-      commit: e2ce580f1fffc009807da73adf7dc86912ab6a19
+After this patch:
+[    2.138520] dwmac-sun8i: probe of 4500000.ethernet failed with error -110
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: David S. Miller <davem@davemloft.net>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index 617d0e4c64958..09644ab0d87a7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -756,7 +756,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+ 
+ 	if (err) {
+ 		dev_err(priv->device, "EMAC reset timeout\n");
+-		return -EFAULT;
++		return err;
+ 	}
+ 	return 0;
+ }
+-- 
+2.34.1
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
