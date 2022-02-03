@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE6CD2C80
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Feb 2022 20:36:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02D32C340E8;
-	Thu,  3 Feb 2022 20:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D812F28
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Feb 2022 20:36:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE474C340E8;
+	Thu,  3 Feb 2022 20:36:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643920591;
-	bh=lP/9XNjr06Zs66IlC10yUo62yXsw8hTcr3FXGl4Gv0I=;
+	s=k20201202; t=1643920610;
+	bh=NWXtWuPcTk1NqFEhAom7jp65/IRafTnTScGEgINFwbY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iQZqN49UBdxGrEJVsrKmsCtTExZdhgmSm8ya8bwq8F0MA66O9d3D89H4QlAen/viM
-	 RcXp8JOpqFzSOEL4vkPbI5+WUJshI2/Ne12ah6YDsLRAv+qg3k/rNYAjqDrMT8Z2NL
-	 xWL3+05+ZrSxCoRnaIhO52JvImm1buJaSQnFPBudV0HpdaUHqikhQIBIQbgyHbsaKj
-	 sczaRQCXIr6In/1rFtXrG/PXNLvGsGAgHCKcVjePpCORXy+U07Ziquus+ts+XbVvQZ
-	 rDmkFhdL103fVUe3ZaNR13quIWagFVJYK+vT1//yt76dxqxrtnCcCiX65DumadlZC+
-	 4pPqcGP05JJww==
+	b=mb0Mg6QXlWGk9D8UAB/Ewi3v8Z5/KAUPnEtcTCKUS9yGi3wNlCHb6KksKt6GmRG/+
+	 jpSdyk1gXRHXVFFds7eIp6HQqfxIMff3jTADURPv6D3MclkKFhOrtaOkVsFksM4VMK
+	 8RsbcbU3ZQFqC7P2qhEdq2snYgARHEV5RXlHDR1344zSRlSY/fpun2fkg2R2dK1Vro
+	 uj6gneb7zuuoR3nKwRivmJxoBLh58+7fQ+WRAYaIelHJXZ6yj9AzoIy+NExehwdF/m
+	 F8jG4jw0i4rHlvESJ6S7wmerKM/YZWa4B80wCbqZ6YabGvHV7kdCjXv7z00goyhJr/
+	 FMfMR0uOB0S5g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -26,19 +26,19 @@ Cc: Jisheng Zhang <jszhang@kernel.org>,
 	alexandre.torgue@foss.st.com,
 	joabreu@synopsys.com,
 	kuba@kernel.org,
+	mcoquelin.stm32@gmail.com,
 	mripard@kernel.org,
 	wens@csie.org,
-	mcoquelin.stm32@gmail.com,
 	netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH AUTOSEL 4.19 10/10] net: stmmac: dwmac-sun8i: use return val of readl_poll_timeout()
-Date: Thu,  3 Feb 2022 15:36:13 -0500
-Message-Id: <20220203203613.4165-10-sashal@kernel.org>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 4.14 9/9] net: stmmac: dwmac-sun8i: use return val of readl_poll_timeout()
+Date: Thu,  3 Feb 2022 15:36:33 -0500
+Message-Id: <20220203203633.4685-9-sashal@kernel.org>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220203203613.4165-1-sashal@kernel.org>
-References: <20220203203613.4165-1-sashal@kernel.org>
+In-Reply-To: <20220203203633.4685-1-sashal@kernel.org>
+References: <20220203203633.4685-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -71,10 +71,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 4382deaeb570d..0137cba2cb54b 100644
+index 8e60315a087c9..1027831e5d814 100644
 --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
 +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -712,7 +712,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+@@ -630,7 +630,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
  
  	if (err) {
  		dev_err(priv->device, "EMAC reset timeout\n");
