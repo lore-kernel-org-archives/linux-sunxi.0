@@ -1,88 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D812F28
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Feb 2022 20:36:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE474C340E8;
-	Thu,  3 Feb 2022 20:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1643920610;
-	bh=NWXtWuPcTk1NqFEhAom7jp65/IRafTnTScGEgINFwbY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mb0Mg6QXlWGk9D8UAB/Ewi3v8Z5/KAUPnEtcTCKUS9yGi3wNlCHb6KksKt6GmRG/+
-	 jpSdyk1gXRHXVFFds7eIp6HQqfxIMff3jTADURPv6D3MclkKFhOrtaOkVsFksM4VMK
-	 8RsbcbU3ZQFqC7P2qhEdq2snYgARHEV5RXlHDR1344zSRlSY/fpun2fkg2R2dK1Vro
-	 uj6gneb7zuuoR3nKwRivmJxoBLh58+7fQ+WRAYaIelHJXZ6yj9AzoIy+NExehwdF/m
-	 F8jG4jw0i4rHlvESJ6S7wmerKM/YZWa4B80wCbqZ6YabGvHV7kdCjXv7z00goyhJr/
-	 FMfMR0uOB0S5g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jisheng Zhang <jszhang@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Sasha Levin <sashal@kernel.org>,
-	peppe.cavallaro@st.com,
-	alexandre.torgue@foss.st.com,
-	joabreu@synopsys.com,
-	kuba@kernel.org,
-	mcoquelin.stm32@gmail.com,
-	mripard@kernel.org,
-	wens@csie.org,
-	netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F932C9C
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Feb 2022 00:28:09 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id s185so6700715oie.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 03 Feb 2022 16:28:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8HtB4xB7o6hXbgLfwRbUeCoDsxhbCbtJSWGozDMovVk=;
+        b=uY5z5aTBkHrcsDost1oD/4x7S5RARYwKSU3vc1RBvAKxGXRzSsJ5DNDgOk8OuFhEw2
+         odjQ0ir4F8W4NW2C9RTNObcDP74ehlpKjYmkc86bQOBnYwmsY+Z94QLKvyY8ZWPVxDDX
+         UgdwXuY7Vox1W6i1Phz3JRDt/fW3zNtx6cr7yCGVtLC84bLIgOdEuK677IvHXvxsgF9P
+         SFtbd2xUdBks994jjXQN7DVH+OQuinmhXGL4Uu0wtyoyRrOuHlDqgI3kFmvJkI+V+NBN
+         yiyNT6zNt0hWKo8khYLps0TedO8LuROrEaotiY5E9Rn/RPi4x8y8plCNvKRxhhTWLSoq
+         BDlw==
+X-Gm-Message-State: AOAM532Xm+neyzBeYIcYgBgeMGX+I9i2GOYNhpDWZaWojL5HnWTlc3LH
+	dSu6hLc1pAm/xmojGRpWFA==
+X-Google-Smtp-Source: ABdhPJw2Dg0v+X6ZepvOu6aani78Em/DxuFa5e5HsctFjHeKIC9FX4la9ddS6qjjU38YaYQT3enVVw==
+X-Received: by 2002:a05:6808:20a2:: with SMTP id s34mr113274oiw.295.1643934489148;
+        Thu, 03 Feb 2022 16:28:09 -0800 (PST)
+Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.googlemail.com with ESMTPSA id v10sm178184oto.53.2022.02.03.16.28.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Feb 2022 16:28:08 -0800 (PST)
+From: Rob Herring <robh@kernel.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.14 9/9] net: stmmac: dwmac-sun8i: use return val of readl_poll_timeout()
-Date: Thu,  3 Feb 2022 15:36:33 -0500
-Message-Id: <20220203203633.4685-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220203203633.4685-1-sashal@kernel.org>
-References: <20220203203633.4685-1-sashal@kernel.org>
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: dts: sun8i-h3: Drop args in 'thermal-sensors'
+Date: Thu,  3 Feb 2022 18:28:01 -0600
+Message-Id: <20220204002802.1214602-1-robh@kernel.org>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 
-From: Jisheng Zhang <jszhang@kernel.org>
+The "allwinner,sun8i-h3-ths" thermal sensor has 0 argument cells, but
+the consumer has an argument cell. It is ignored by the code, but the
+error was found with some upcoming schema validation changes. The schema
+and code both agree that 0 cells is correct.
 
-[ Upstream commit 9e0db41e7a0b6f1271cbcfb16dbf5b8641b4e440 ]
-
-When readl_poll_timeout() timeout, we'd better directly use its return
-value.
-
-Before this patch:
-[    2.145528] dwmac-sun8i: probe of 4500000.ethernet failed with error -14
-
-After this patch:
-[    2.138520] dwmac-sun8i: probe of 4500000.ethernet failed with error -110
-
-Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: David S. Miller <davem@davemloft.net>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 2 +-
+ arch/arm/boot/dts/sun8i-h3.dtsi | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-index 8e60315a087c9..1027831e5d814 100644
---- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
-@@ -630,7 +630,7 @@ static int sun8i_dwmac_reset(struct stmmac_priv *priv)
+diff --git a/arch/arm/boot/dts/sun8i-h3.dtsi b/arch/arm/boot/dts/sun8i-h3.dtsi
+index 845f25235407..eac2349a2380 100644
+--- a/arch/arm/boot/dts/sun8i-h3.dtsi
++++ b/arch/arm/boot/dts/sun8i-h3.dtsi
+@@ -245,7 +245,7 @@ thermal-zones {
+ 		cpu_thermal: cpu-thermal {
+ 			polling-delay-passive = <0>;
+ 			polling-delay = <0>;
+-			thermal-sensors = <&ths 0>;
++			thermal-sensors = <&ths>;
  
- 	if (err) {
- 		dev_err(priv->device, "EMAC reset timeout\n");
--		return -EFAULT;
-+		return err;
- 	}
- 	return 0;
- }
+ 			trips {
+ 				cpu_hot_trip: cpu-hot {
 -- 
-2.34.1
+2.32.0
 
