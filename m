@@ -1,217 +1,136 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFEB22F26;
-	Fri,  4 Feb 2022 09:18:36 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id E1729CEE3C;
-	Fri,  4 Feb 2022 09:10:05 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1BEFF1BF208;
-	Fri,  4 Feb 2022 09:09:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1643965798;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WQNFORm6P/ChtVEc+oIxo/ZWXAzYeY/tidTMnqXEPN8=;
-	b=mMHXCPDh7aQdEazpbAVuOdkBkkQWLu4OHzPPU+dd1t0a3XYdck/CdRoqVO7/Abj0hOPu2i
-	UXuUuk+/gUBBJiO3ADBNws9KX6fMVTk+pypF4EhUf5L7KnFh/BaS0u/GMTtvOX+r52or4h
-	p8aTtzaoKMe7SbHMvI9BerX6GgAsqAuxXO6P2DLLlhOaL6bnodx4RB2U+IhImtgAKFAdbI
-	7dz5M+654GEU9pv5rO+9tt0SGGRcMvcnUaQfulHbEh4V4e0rzAHV0u2hbBYLEW7fUqhinM
-	5V58GuMqd0xU1wmgh99Tel59m6OLH06ZYfsm5RshdciU9duOI3p/kdRmVit+7Q==
-Date: Fri, 4 Feb 2022 10:09:56 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
-Message-ID: <YfztZE8ymJ5RERTq@aptenodytes>
-References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5E62F21
+	for <linux-sunxi@lists.linux.dev>; Fri,  4 Feb 2022 13:07:15 +0000 (UTC)
+Received: by mail-qk1-f178.google.com with SMTP id o10so4694622qkg.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 04 Feb 2022 05:07:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TABvgR1gXslwUnHGE9z5F1pcL066abJ22TmuCZ9qqXM=;
+        b=VMhQjL7Dp6QSyVL7hXittS8iPzs3nKhgDSOoqEoOVZbtFg7YgxaCfX4bde+NQRWS5b
+         uncpWwkqvtytdynMjF+jQy1tZyxpijROJv5Uul7eGUrQV4qaCusyUjvR8Qs1Z0UzP7ws
+         k5XQr4OI84V6bIrWr0WBGQmon/JtKLPXTdgA0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TABvgR1gXslwUnHGE9z5F1pcL066abJ22TmuCZ9qqXM=;
+        b=jkGF4xnsSxS6PdNrvN4g8St4q2hIHGhMa8sET9LUDzX4ns36I8gSIbkcv7pWUSkduE
+         iUaLGy0hzg171I74jiD7f3lP/XWoCC1eysS8bpvgiVFg8u4RgpdNL9SDZw2s1FFMBoN7
+         lihB+F8RvTjk8hLy5yr7NUlqUMg7ZR9E7pwODzh6QdOGz4nSDCr+ZDbCZ0emAGNCniuW
+         gfwQ/gb3jOkYcPnAwn9L7hVR0IJYmL1BDA6gAvHDtqR1U9FIugOEABGlVUSpAHiSBlsf
+         LtWssetqwK3YbI43MifzRlBlQ9SXsbjgQ+tvIKZnJOtTkcCbuKwi40fZLAZZDKQsQFwL
+         arzg==
+X-Gm-Message-State: AOAM530ucfnIy6XyTKgoiERQ9tCWCcbO93SejyP/st783EnbLdZfFmDm
+	2ekewSeQl668e8SWJ3XORmGyYA==
+X-Google-Smtp-Source: ABdhPJz10Y7/mcjXBddk/cneCk+Pu6i9C89RENOKH72X6+BpJggv+kvtWtbdYs6G3iWBr5gKvuCEyg==
+X-Received: by 2002:a05:620a:25d2:: with SMTP id y18mr1408803qko.522.1643980034493;
+        Fri, 04 Feb 2022 05:07:14 -0800 (PST)
+Received: from bill-the-cat (2603-6081-7b01-cbda-2ef0-5dff-fedb-a8ba.res6.spectrum.com. [2603:6081:7b01:cbda:2ef0:5dff:fedb:a8ba])
+        by smtp.gmail.com with ESMTPSA id bm23sm1021464qkb.25.2022.02.04.05.07.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Feb 2022 05:07:13 -0800 (PST)
+Date: Fri, 4 Feb 2022 08:07:11 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jesse Taube <mr.bossman075@gmail.com>,
+	Simon Glass <sjg@chromium.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	Chris Morgan <macroalpha82@gmail.com>,
+	George Hilliard <thirtythreeforty@gmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Re: Pull request: u-boot-sunxi/master for 2022.04 (part 2)
+Message-ID: <20220204130711.GO7515@bill-the-cat>
+References: <20220204013311.3235-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rNkL9ELB/7A37cXF"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uXqDGoDRqNOsF677"
 Content-Disposition: inline
-In-Reply-To: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+In-Reply-To: <20220204013311.3235-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
 
---rNkL9ELB/7A37cXF
-Content-Type: text/plain; charset=utf-8
+--uXqDGoDRqNOsF677
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
+On Fri, Feb 04, 2022 at 01:33:11AM +0000, Andre Przywara wrote:
 
-On Tue 01 Feb 22, 19:33, Jernej Skrabec wrote:
-> Currently, if job is not completed for whatever reason, userspace
-> application can hang on ioctl and thus become unkillable.
+> Hi Tom,
 >=20
-> In order to prevent that, implement watchdog, which will complete job
-> after 2 seconds with error state.
+> this is the promised second part of the sunxi PR for 2022.04, albeit
+> technially outside of the merge window. We were working on this full
+> steam since the beginning of the year, and it deserves to be merged,
+> I think.
+> The main attraction is support for the F1C100s SoC, which sports a
+> venerable ARM926 core. Support for this SoC and the LicheePi Nano board
+> has been in Linux for years, and U-Boot patches were posted mid last
+> year already.
+> The new SoC using ARMv5 also means that the bulk of the new code should
+> not touch any existing boards, although we did some refactorings first,
+> of course, which actually cleans up some existing sunxi code.
 >=20
-> Concept is borrowed from hantro driver.
+> Compile tested for all 160 sunxi boards, and briefly tested on BananaPi M=
+1,
+> OrangePi Zero, Pine64 and Pine-H64. Tested by others on their boards,
+> including F1C100s and F1C200s devices.
 
-Good idea to implement a watchdog here, thanks!
-See comments below.
+So, this failed CI at first because of no MAINTAINERS entry for
+'licheepi_nano' but I've fixed that up.  As a custodian, you can turn on
+CI runs for the sunxi tree by, and I don't have the reference at hand
+sorry, going through the project menu under settings -> ci/cd and
+enabling group runners.  That said:
 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
->  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++++++
->  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
->  5 files changed, 36 insertions(+)
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> The following changes since commit 006fddde01da7e8b3c7cad4a35f3245edc894a=
+b4:
 >=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.c
-> index 4a4b714b0f26..68b3dcdb5df3 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device *pdev)
-> =20
->  	mutex_init(&dev->dev_mutex);
-> =20
-> +	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
-> +
->  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
->  	if (ret) {
->  		dev_err(&pdev->dev, "Failed to register V4L2 device\n");
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
-g/media/sunxi/cedrus/cedrus.h
-> index c345f2984041..3bc094eb497f 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> @@ -24,6 +24,7 @@
-> =20
->  #include <linux/iopoll.h>
->  #include <linux/platform_device.h>
-> +#include <linux/workqueue.h>
-> =20
->  #define CEDRUS_NAME			"cedrus"
-> =20
-> @@ -194,6 +195,8 @@ struct cedrus_dev {
->  	struct reset_control	*rstc;
-> =20
->  	unsigned int		capabilities;
-> +
-> +	struct delayed_work	watchdog_work;
->  };
-> =20
->  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
-aging/media/sunxi/cedrus/cedrus_dec.c
-> index a16c1422558f..9c7200299465 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-> @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
->  		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
-> =20
->  	dev->dec_ops[ctx->current_codec]->trigger(ctx);
-> +
-> +	/* Start the watchdog timer. */
-> +	schedule_delayed_work(&dev->watchdog_work,
-> +			      msecs_to_jiffies(2000));
->  }
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.c
-> index 2d7663726467..a6470a89851e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->  	enum vb2_buffer_state state;
->  	enum cedrus_irq_status status;
-> =20
-> +	/*
-> +	 * If cancel_delayed_work returns false it means watchdog already
-> +	 * executed and finished the job.
-> +	 */
-> +	if (!cancel_delayed_work(&dev->watchdog_work))
-> +		return IRQ_HANDLED;
-> +
->  	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
->  	if (!ctx) {
->  		v4l2_err(&dev->v4l2_dev,
-> @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *data)
->  	return IRQ_HANDLED;
->  }
-> =20
-> +void cedrus_watchdog(struct work_struct *work)
-> +{
-> +	struct cedrus_dev *dev;
-> +	struct cedrus_ctx *ctx;
-> +
-> +	dev =3D container_of(to_delayed_work(work),
-> +			   struct cedrus_dev, watchdog_work);
-> +
-> +	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
-> +	if (!ctx)
-> +		return;
-> +
-> +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
-> +	reset_control_reset(dev->rstc);
-
-I don't think playing with the reset is the right approach here.
-First we don't really know if the reset is shared or not, so this might have
-no effect. Then even if it does, wouldn't this just reset the state of the
-registers to an unconfigured state, making it impossible to decode any
-future frame in the same context?
-
-Honestly I'm not sure what a good process would be to get back on track
-here so I would be tempted to just do nothing an return errors.
-
-That's already better than being stuck.
-
-Paul
-
-> +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx->fh.m2m_ctx,
-> +					 VB2_BUF_STATE_ERROR);
-> +}
-> +
->  int cedrus_hw_suspend(struct device *device)
->  {
->  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.h
-> index 45f641f0bfa2..7c92f00e36da 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
-> @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
->  int cedrus_hw_probe(struct cedrus_dev *dev);
->  void cedrus_hw_remove(struct cedrus_dev *dev);
-> =20
-> +void cedrus_watchdog(struct work_struct *work);
-> +
->  #endif
-> --=20
-> 2.35.1
+>   Merge https://gitlab.denx.de/u-boot/custodians/u-boot-fsl-qoriq (2022-0=
+2-02 09:16:49 -0500)
 >=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to b6ffd58e45043b822844345d4ca9b2cb1e2917b7:
+>=20
+>   configs: sunxi: Add support for Lichee Pi Nano (2022-02-04 00:09:57 +00=
+00)
+
+Applied to u-boot/master, thanks!
 
 --=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Tom
 
---rNkL9ELB/7A37cXF
+--uXqDGoDRqNOsF677
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmH87WQACgkQ3cLmz3+f
-v9FEygf9ELqISAJMpYQfIPsNzffDE6J4ucm8HGIGmNXZJoNWImPwRlT+ogKNw1KI
-qtO+mYw4gk/poTEO0t4GSTmbED0aF+KRiG5aDsn/UIJyF8tEpqnCI58U1TOwWn0a
-qWXhIshB2bh8z89WKMXU4gGpVx6+4AKU8OvGuJi62T1IaZ1SxonbPoJUhU9Abg2Q
-2vFiUa5n8lXsJosuw8c5XK3VJ9PRZdus+ExpwJRcyR8xB4S4KSeOKP0IYn3e4Hso
-59rrYeyb8j1UnDo+EgRg42UdM1/oengWRqMWbXr5DsAZZKycXLnrkolPhV3N7D1z
-Z7Rs3WcTfrSRE4AINainkDBJc+sWVA==
-=Qpj0
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmH9JPgACgkQFHw5/5Y0
+tywcNwv/fb0SvxK77RS/FoPolsXBD9xC33LzuitIZJf5sh81X3F0ETwn0eJxkh4n
+mn2zo0zQ2Hmj+zlE4P+7SbUbHvxQXKjAeMJFHBFC1pp2l1rbbSw0vpP0olP8kEzr
+ZdPB6UUfEBuftfEjODil06lcl/o8fV9U42CkRPAIpATnJSQNlkqaacGZqJrJgvT4
+vYs0VhlUaUyDUwpQOk12zC4Mizv2FNGS+oUXFLAqNp549ba5qZuYB5GkyMQYIl2Y
+Q2nnXwEAWR/CbnwI8+DfjCIYBszG5IefroH0Xmv2/zIZoZE+2jph66N+nJfnkOrd
+Fw9NVTpyrDhH84dhRTo5c3QI07nkm7v1w/pNP/GLvQ4phArIsJfcfd9ocxxv8ZEZ
+NdLLAcVHYon5OSb8WOuH6iriO73Bh1qazr1gVS75t51fZygnmLhwI8ZO1ssSacO/
+B/RXzKKO+Whixc4LtPOq6kF+Ck8ZpY+jWs1oKD2q1WVeFCOb1EBTolKIX2/JHHfW
+SQ4xbo4B
+=+UCw
 -----END PGP SIGNATURE-----
 
---rNkL9ELB/7A37cXF--
+--uXqDGoDRqNOsF677--
