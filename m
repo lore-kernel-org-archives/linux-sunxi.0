@@ -1,104 +1,96 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E67C2F25;
-	Sat,  5 Feb 2022 10:28:59 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 893B73200BD2;
-	Sat,  5 Feb 2022 05:28:58 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Sat, 05 Feb 2022 05:28:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=kDIVNzj7Wmv2um
-	X4p4+USo9n563udVzIVi1lCU9eBZc=; b=hdDALldVe6+S/QPKYThCWr9wp/sddm
-	ozGHp8eHCO+O+3eyOxcuWnVcaHVU0btXIBy5wmMvUuZp1byAzP4MVm0xrplNwyr5
-	ChBJEVr4XEcDAUuaR80u2auxRRbm7n9ozIJJrbatdaeLGuOQOMc9Kkin5z/mEo/b
-	Nhuu2YaBk9MV5V2VrhOXoO0M/YoPMXjWr6YruYGrMWZlGm933yLzl01qWzokmWiL
-	5m9A7SQwVqU1YeaZrU3XOwwT3Zhls6DoiFVW3b22gIzlYkfZu0JKi1WyxLuiIN5r
-	nhWdM+bfNI5Zt0ATUtbVpWvZs6wFKH7ZDQgo9WuEXd/hBCanQC4qAIwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=kDIVNzj7Wmv2umX4p4+USo9n563udVzIVi1lCU9eB
-	Zc=; b=Seku+8XrNnyp/Jl+m462wmfmYKcsMxjPAshO7AGHuhsFz0frJVC3YBT6w
-	SWmO4FKUBharAWxlDG1nVzEoAyHlLcfURlhqRMjfJe7xCp4HkhpxDVGS1Lfg+qx7
-	kGtJz0EXTlPe5909vYZx7pB4356I00ICm/pncsI+YFwQB9celWstwhONrW2s0t/y
-	9Bg4I4eNUTLoieCt9McLkDkCJZybYdKaDOfumHr7H1tH6pACJAfPwH/5ntw4DWZF
-	sXJPH3PPxu1ugdxlbu5ml+1hvw9Ox6Lfd/dsHGb4DW6+CaQ/dqAPOkX/7FtC1euE
-	aklyppyMvZt/V505WlSpBSrh2JDlQ==
-X-ME-Sender: <xms:aVH-Ya8lU-te0HbneRWha2h86S8WIjZ0XWDdvyjrdm5h_trw-zeOiw>
-    <xme:aVH-YathjK3Jteh-eNMxNYbp_i6OgU1EwMWOdhMq9qsUK8cwLcysLEBe_riyeIVFQ
-    aD0EXTQZ-bjKTXWcoM>
-X-ME-Received: <xmr:aVH-YQCQiU9jhIYug_i98FdGdZIxXiVIZx_yWhJlp93czYNyaPWqDQfYuzJhjiYJaPuyF1Ol0YEd1at0vAZ298DYsaA7sQHBCq3c2dw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrhedugddujecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggugfgjsehtqhertddttdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepgfejjeekjedttdethedtfeelteefffduvdevvdfhtdeiudetleejgeelfeef
-    uedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:aVH-YSe81XnDWXCNubtmtEbXYS8ajf5nVZyAg6RRtgk_Y5G2oz1WYg>
-    <xmx:aVH-YfPqQ2kRi3_Nmf3zsJI-nMsz4flxH-2BL5P0qxMcn1jbkzVBbw>
-    <xmx:aVH-Ycn366n9gyzlkRLv_7iNmnC-irmo95TlKSYVRk_5u90OC2FMnw>
-    <xmx:alH-YaesTX34_qQChH6ZwNwT0Uq0xAy6ZDAOgDz8VmS_wOCsY-QCnQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 5 Feb 2022 05:28:56 -0500 (EST)
-Date: Sat, 5 Feb 2022 11:28:53 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>, mchehab@kernel.org,
-	wens@csie.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
-Message-ID: <20220205102853.54wcmxzalb7uj7n6@houat>
-References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
- <YfztZE8ymJ5RERTq@aptenodytes>
- <12946098.uLZWGnKmhe@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE882C9C;
+	Sat,  5 Feb 2022 18:54:50 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 45282240008;
+	Sat,  5 Feb 2022 18:54:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644087288;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zk1bbI/Xt7gJda0Cl2OjSITy4xxHr8HjLDg7r/ilG+I=;
+	b=Pt+tfG/gQjNnTXSXJ6enzW+2j/VmmYhxinr+RoNfI5OHcTJt/N8i2sdo4zbNrIkXdbl9a8
+	4k18+Sfl8S4pjmsLvl0g8xVfhVZ7WyGmXX6Q3jmIi6GAymK3neRTw50mMdaAbHYR1KHDV3
+	5ua8cSTd9d1krK1ekOku2UzBcdmtVuDU64CyZnfwtEKMRopLrKOJYufrJms8EGDOYVg8Y7
+	wU9JlLtmXmzZ0cIDHAHIlGaPosJYcm/c8Ki0gOrxxf9F4Ut9ay0s2jObjw5zwmEakAfA9s
+	/efijnGyTV3JoTDep9L5RRU5PzHbCQ79LDKsJicn3cfyjfEk99aGKn4jP0lieg==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v2 05/66] dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
+Date: Sat,  5 Feb 2022 19:53:28 +0100
+Message-Id: <20220205185429.2278860-6-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <12946098.uLZWGnKmhe@jernej-laptop>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Feb 05, 2022 at 08:40:21AM +0100, Jernej =C5=A0krabec wrote:
-> > > +void cedrus_watchdog(struct work_struct *work)
-> > > +{
-> > > +	struct cedrus_dev *dev;
-> > > +	struct cedrus_ctx *ctx;
-> > > +
-> > > +	dev =3D container_of(to_delayed_work(work),
-> > > +			   struct cedrus_dev, watchdog_work);
-> > > +
-> > > +	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
-> > > +	if (!ctx)
-> > > +		return;
-> > > +
-> > > +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
-> > > +	reset_control_reset(dev->rstc);
-> >=20
-> > I don't think playing with the reset is the right approach here.
-> > First we don't really know if the reset is shared or not, so this might=
- have
-> > no effect.
->=20
-> AFAIK only few reset lines are shared in all Allwinner SoC, never for Ced=
-rus=20
-> and even then, this is considered as HW issue. So, I'm good with using re=
-set=20
-> line. This principle is also taken from Hantro driver.
+The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
+although each instance of the block is meant to be used in one
+direction only. There will typically be one instance for MIPI DSI and
+one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
 
-Also, we got the reset handle through reset_control_get_exclusive, so
-we're guaranteed to be the only user.
+Describe the direction with a new allwinner,direction property.
+For backwards compatibility, the property is optional and tx mode
+should be assumed by default.
 
-Maxime
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+index d0b541a461f3..22636c9fdab8 100644
+--- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
++++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
+@@ -37,6 +37,18 @@ properties:
+   resets:
+     maxItems: 1
+ 
++  allwinner,direction:
++    $ref: '/schemas/types.yaml#/definitions/string'
++    description: |
++      Direction of the D-PHY:
++      - "rx" for receiving (e.g. when used with MIPI CSI-2);
++      - "tx" for transmitting (e.g. when used with MIPI DSI).
++
++    enum:
++      - tx
++      - rx
++    default: tx
++
+ required:
+   - "#phy-cells"
+   - compatible
+-- 
+2.34.1
+
