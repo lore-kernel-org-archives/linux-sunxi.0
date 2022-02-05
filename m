@@ -1,119 +1,102 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A4A2F23;
-	Sat,  5 Feb 2022 20:15:04 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 7BD35580138;
-	Sat,  5 Feb 2022 15:15:03 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Sat, 05 Feb 2022 15:15:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; bh=o+YT8dM65eINM7
-	uU12V7S7CiGbJyTBQ0DTTXbszDH5A=; b=h54tOPJ+R6s9s6BX7rxDpJGJusl6Cn
-	xOA9NZHxingpnUQxIPCuN2Q+1xUvkcfjI1oewBOseZnmGJWMBkKtFewJWWFVJT9G
-	LM3Zs+0br5NdmhiLTbyy+h5fZDRR6zWwePRgWf7Vg7pGkGxqbS9W7uEzi40Ji1uh
-	Hz7XwueelqGrLCVdqDaupJ62V7FpsSUDHrob0iFOKDNkgGpMZznJUL3z7zC3hheo
-	NX3eWnUI7ZwIiDdjnH2Y3DHycxb2Tc7IlYZde2XfyZLBgP1jGhMSFAzSHBaiCuul
-	NBgZNTWHJ7UPnSE3GEslBh7nNGhGav8o83IJOU6PikBr/jF29gts0ckw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=o+YT8dM65eINM7uU12V7S7CiGbJyTBQ0DTTXbszDH
-	5A=; b=F6SKmv1B2f8Q6PEKJhn+l6Mmr4L3KXkfLRGDhxcfzEp8OaBquZH/z3lyV
-	apkOd/Q8fCqwHvnxAksFDOdl0icttpS1MCJ5vnYAo8sIAHJZSiXE5bmrvRlcFD4U
-	lTuA/BMkSnwBi1vYSrl178w2Lw6ddqctacgYcTAMrgvAdWgGKBwqrOkmrHMV208y
-	4yCPPwuWAxQI9S9OX3rnFCo81f0wvfuyJSIxm1wvcYiIwW5QPFwKxxeeR72Bvqa5
-	B5JgIvjO8+35rudcOHLc0KYroeGc0AXNjytBA9zG48XANQjAW3GwwTHg90kqfDzW
-	Ig7l6HKJlFZIsyb/tj2ouHX3CzZUg==
-X-ME-Sender: <xms:xdr-YRuEELIwf6C_80xflXTojQpWZPP3IgLorcryiRsKcCKGYZJ6PQ>
-    <xme:xdr-YaedkiIpdSYlMu7C3msF6F0NlJE3n8aY0E1G4npN5ySFTZDKeuYfXXkja33T9
-    KAWjFRT6Lb1Sb1VYg>
-X-ME-Received: <xmr:xdr-YUyCZZHO9ZVZNHXwigPCP391GD2dt19Y8zU-Wg9mK55XwRjpA9QNA_qxhciZtRuu3Di6rVsekP4RUZNvZeazexkqXhTKhG2KR4i8LohvNeb1f14WUF5m_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrhedugddufeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffefvdfhhefhkeefteeiheeftdevuddvleeileegtedtfeejhfej
-    kedtffdtjeeknecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:xdr-YYMuPGb3RKzPx2sCF7P1sx9DpQlivNqFahdzXwfCohVlFoYh2g>
-    <xmx:xdr-YR9EcVCQoWMzpuGQJKWk1SWfUIwTsxiCcQzD1MMBxatkHu6azA>
-    <xmx:xdr-YYV36DLjVoTDTvXq26BuxeBcAuJDtdKSApyC-z6cAuq_XBB-_A>
-    <xmx:x9r-YYiSTR_JsUoQ0tmyE1mpu4vuyi0XqXo5g-70QG1FqRMHi6isXA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 5 Feb 2022 15:15:00 -0500 (EST)
-Subject: Re: [PATCH v2 02/66] dt-bindings: interconnect: sunxi: Add V3s mbus
- compatible
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
- Yong Deng <yong.deng@magewell.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Helen Koike <helen.koike@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-3-paul.kocialkowski@bootlin.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <5386b1f5-9e75-4ce3-6641-bd7667c85d42@sholland.org>
-Date: Sat, 5 Feb 2022 14:14:59 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E362F25
+	for <linux-sunxi@lists.linux.dev>; Sat,  5 Feb 2022 23:33:51 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id o12so19712472lfg.12
+        for <linux-sunxi@lists.linux.dev>; Sat, 05 Feb 2022 15:33:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hTGxMUD+Y/e2SIuHcf/n5N/bPbvSPfdhfosfyFHnjSM=;
+        b=AQgPUOEAAjsob5q1TYDcbdFYKdASPIsg0LD2bQ9Ww+lq1e8NGppyzWXIZc6oGuO5si
+         5OlTFy1CH3JL0RFpk8mg1tC/FwmkL3AbT4MKU8dMfWOIS5hEcoNwPtobYKy7hdYHYnXf
+         K/R/Oj1bTYZf9WXAfwUt46sbtEjtDCBdlX69AFQzDz31jya8LcyMcvvJ3B4iS1t92cYG
+         lzbRVQltOoBMM8QlAOi+ZgEQE3/B7UhM250O5Px6vc1PkXuuxWXEt9DG8qKAVJvU3end
+         wCrtoOFSKS7gzJAhibl1wtLa7tkgmvjZ79bQtA9xabREftpEZTD+K3L1cvGfjsGSDonq
+         YzAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hTGxMUD+Y/e2SIuHcf/n5N/bPbvSPfdhfosfyFHnjSM=;
+        b=fbTfLBjAQViLmNaGzx5ibNvjKli3+Je5Px0/DHUwoIx7a3XJw9FMX3Q7JIX8t32+av
+         K+A/kPKp6UYWRAI/3W6l2Rbo3ZoZidSOPZ3V2VRUSZhA2yVfRzfdoNcVt1VPaL3guPQN
+         3jQiYyU0Ndoyn6TeZ/eH6K1Ne8sH34gWBbmBq2aF7g2JRyvXQ8Y3MGGR/gqF8e8q6Zj0
+         Fjglw3WlcLyyQ0y8ma+iXKsqrcL1PBBFKnhFQZZnWVtDeNUGx4AifQJnC3lePzlKEY4e
+         Q0VTbBZug3azhXp1KaOwmx2Ye7ozZHt8mQcK3Fl+U2JWOpTJUGZB7UjR0X8lgFyDttbp
+         ytpQ==
+X-Gm-Message-State: AOAM530ZOV4bIKZQRyY72GuYZ4Rzj0wfiX+8ioj+dbhinAd7Y/uVJPUm
+	fxIzLZS/q6EfRXBjXLAYjKg=
+X-Google-Smtp-Source: ABdhPJwUsYwrar5ZAoigpEbg5JFCfrjJ8wLITtvOjwBLyZsNPKwjEXajuiSrFa/SoMQ6m7N/SK3Q4Q==
+X-Received: by 2002:ac2:4c09:: with SMTP id t9mr3715612lfq.406.1644104029408;
+        Sat, 05 Feb 2022 15:33:49 -0800 (PST)
+Received: from localhost (93-80-64-103.broadband.corbina.ru. [93.80.64.103])
+        by smtp.gmail.com with ESMTPSA id m12sm888400lfj.90.2022.02.05.15.33.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Feb 2022 15:33:48 -0800 (PST)
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Mikhail Rudenko <mike.rudenko@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: sun6i-csi: fix colorspace in sun6i_video_try_fmt()
+Date: Sun,  6 Feb 2022 02:33:31 +0300
+Message-Id: <20220205233332.67316-1-mike.rudenko@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220205185429.2278860-3-paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2/5/22 12:53 PM, Paul Kocialkowski wrote:
-> Since the V3s uses the internal mbus, document its compatible.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml  | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-> index 29c9961ee2d8..b67bf9261a6a 100644
-> --- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-> +++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-> @@ -31,6 +31,7 @@ properties:
->        - allwinner,sun5i-a13-mbus
->        - allwinner,sun8i-h3-mbus
->        - allwinner,sun8i-r40-mbus
-> +      - allwinner,sun8i-v3s-mbus
+With gstreamer 1.19.3 all attempts to capture video in YUV formats on
+our Allwinner H3-based custom board with an ov5640 sensor result in
+pipeline crashes with the following messages:
 
-Please enable the expanded binding added in commit 245578ba9f03 ("dt-bindings:
-arm: sunxi: Expand MBUS binding")[1] by adding the new compatible to the "if"
-block lower in the file. That way we can add V3S devfreq support in the future
-without changing that binding.
+	Device '/dev/video0' does not support 2:0:0:0 colorimetry
+	Additional debug info:
+	Device wants 2:0:0:0 colorimetry
 
-Regards,
-Samuel
+Fix this by setting the correct colorspace in sun6i_video_try_fmt().
 
-[1]: https://git.kernel.org/torvalds/c/245578ba9f03
+Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+---
 
->        - allwinner,sun50i-a64-mbus
->  
->    reg:
-> 
+Actually there is a second issue with sun6i_video_try_fmt(): reported
+bytesperline is wrong for planar YUV formats, but I believe it will be
+fixed by [1].
 
+[1] https://lore.kernel.org/linux-media/20220205185429.2278860-40-paul.kocialkowski@bootlin.com/
+
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+index 607a8d39fbe2..682c26536034 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+@@ -368,7 +368,11 @@ static int sun6i_video_try_fmt(struct sun6i_video *video,
+ 	if (pixfmt->field == V4L2_FIELD_ANY)
+ 		pixfmt->field = V4L2_FIELD_NONE;
+
+-	pixfmt->colorspace = V4L2_COLORSPACE_RAW;
++	if (pixfmt->pixelformat == V4L2_PIX_FMT_JPEG)
++		pixfmt->colorspace = V4L2_COLORSPACE_JPEG;
++	else
++		pixfmt->colorspace = V4L2_COLORSPACE_SRGB;
++
+ 	pixfmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+ 	pixfmt->quantization = V4L2_QUANTIZATION_DEFAULT;
+ 	pixfmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+--
+2.35.1
