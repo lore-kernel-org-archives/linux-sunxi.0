@@ -1,144 +1,168 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1FB2F24;
-	Mon,  7 Feb 2022 16:16:08 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85524A50;
-	Mon,  7 Feb 2022 17:16:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644250566;
-	bh=aFkueRgWrJNvd3R2K1xflySlUNscsWztv2uokuEkh9I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nZK1tUgx86ylAnUIWlj2XVGt9I3p8J0h+L4yS9X2FR2ac1TZVfsz+sqmw6q32FLt2
-	 XBqJkltHOP84U3EkM6TflyU7nJTEp9yKRVvxoTkwwTap+mD0HWlOmAPjAMPuXn4L/f
-	 ACf9R+pOSDDzhStzAqw8cmk9fwefENv7D+vHkZjY=
-Date: Mon, 7 Feb 2022 18:16:04 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 63/66] staging: media: Add support for the Allwinner
- A31 ISP
-Message-ID: <YgFFxMd2htKvX0K1@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4E72F27
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 16:36:18 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.west.internal (Postfix) with ESMTP id 9C87B2B0015B;
+	Mon,  7 Feb 2022 11:36:16 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 07 Feb 2022 11:36:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; bh=V8EVNwc5nHynWtDy2ZcZZsjHZn7jq0
+	wud2WmvRiUFsM=; b=WF8LhGW4cnYGmHwbJtXnP0iTA2MujGLHhFHw5pFc7WqkJL
+	Ln/Wl7D9SzVJ9KeeMez8oWFeD+arJ/7w3IiMKUqyJCHI1Qv9qGo+40izdo3cOUoQ
+	sIy1RqZqJItjivQH8yy1crvrqimqbQJqCK2rH1WRz7eIOFn6TKJVb5MytbKb6yy5
+	EJ4j5ai9soxy8PdzaaPe4jdvbXxiOJfPGq8jmwmQQOAjm1RLMJHaLK+hIZO9C40y
+	JhKeSuXokSSO6PnlAHhefK/FG4oMC2Pdr7kha7rj/TTZGQzwO7leVEeQ8WV9vIvU
+	G05xBbc22pzHlNj6tG30a1x0aQhGTKrGpvrFVjzQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=V8EVNw
+	c5nHynWtDy2ZcZZsjHZn7jq0wud2WmvRiUFsM=; b=SNeqJBqShwbxVaQEGvHE4u
+	C9dBFZJ0M46qhEhyCpDj3ToiC/J6jTvI+qzLkl84VXYgkgBBKd+X+9kF51P2vL2F
+	yGQhWotIyRkvqCmiglop5eN5cwX2kQ3qewzzvbFY/EeowPr4DQOjPn8fWyBNrtNn
+	GaQsqXuBGi5iOsSSzJfMgsWyQ6UxwVPBk+Xe/FZx9OacoPpC+GLmivJiWK9LhffZ
+	h0NYu/l14FhQbTMviFdWGq37XA938Dk1NahTuP4oqF60R/mb5wJr2P3cvpjiF6qF
+	HkQAbUTGMRwcX40iQb0XXu71RQCIrX2ABxi5d8I68uhnQnEyMSiSFWQGD+/RASCQ
+	==
+X-ME-Sender: <xms:f0oBYqfM_Iwci5oicGPUUlB3UlA-Khuu7XD002MdbndSkFxjXNaDZg>
+    <xme:f0oBYkNJa-tCPHEK9bZaiI21va4XH4fRaquy2CZoaTbqjweeOpUg3hD-NyqPBvwaE
+    -oLeltitQbM_k4irMM>
+X-ME-Received: <xmr:f0oBYri7pDuQKpxXFavJ-N_9LM1zjf9x0bT_jy6gXnapsQIPIUfra3ed6ED34hjo-a9JpRZSWnqR5n9033XiDxyuiK-qOnc2IFILEX4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+    vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:f0oBYn-pTkim-6lC4kUOPF_MgyZbHUhRS43JOyyuuRk0by5Oly7JpQ>
+    <xmx:f0oBYmsJHhXsZ1t98zB4wlhKPmBR6zXCeOt-1dOcNVk1ZlarIRw2Gg>
+    <xmx:f0oBYuHAyvM6rx-6oNV-ViKN1QP3TEgQCl7G9es0LAEov-AZUdHOYg>
+    <xmx:gEoBYnFSlKgbwuUogqyx0VSXMPth90QhVI27Y7QbBYyX3-Ie3kk_YEWjqEg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Feb 2022 11:36:15 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>,
+	David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <maxime@cerno.tech>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Tim Gover <tim.gover@raspberrypi.com>,
+	Dom Cobley <dom@raspberrypi.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 18/23] drm/sun4i: layer: Remove redundant zpos initialisation
+Date: Mon,  7 Feb 2022 17:35:10 +0100
+Message-Id: <20220207163515.1038648-19-maxime@cerno.tech>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
+References: <20220207163515.1038648-1-maxime@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+The sun4i KMS driver will call drm_plane_create_zpos_property() with an
+init value depending on the plane type.
 
-Thank you for the patch.
+Since the initial value wasn't carried over in the state, the driver had
+to set it again in sun4i_backend_layer_reset().
+However, the helpers have been adjusted to set it properly at reset, so
+this is not needed anymore.
 
-On Sat, Feb 05, 2022 at 07:54:26PM +0100, Paul Kocialkowski wrote:
-> Some Allwinner platforms come with an Image Signal Processor, which
-> supports various features in order to enhance and transform data
-> received by image sensors into good-looking pictures. In most cases,
-> the data is raw bayer, which gets internally converted to RGB and
-> finally YUV, which is what the hardware produces.
-> 
-> This driver supports ISPs that are similar to the A31 ISP, which was
-> the first standalone ISP found in Allwinner platforms. Simpler ISP
-> blocks were found in the A10 and A20, where they are tied to a CSI
-> controller. Newer generations of Allwinner SoCs (starting with the
-> H6, H616, etc) come with a new camera subsystem and revised ISP.
-> Even though these previous and next-generation ISPs are somewhat
-> similar to the A31 ISP, they have enough significant differences to
-> be out of the scope of this driver.
-> 
-> While the ISP supports many features, including 3A and many
-> enhancement blocks, this implementation is limited to the following:
-> - V3s (V3/S3) platform support;
-> - Bayer media bus formats as input;
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/sun4i/sun4i_layer.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-Greyscale formats would also be nice to have, if the hardware can
-support that (it mostly just requires the ability to disable the CFA
-interpolation).
-
-> - Semi-planar YUV (NV12/NV21) as output;
-
-Packed YUV would also be useful if the hardware supports it.
-
-> - Debayering with per-component gain and offset configuration;
-> - 2D noise filtering with configurable coefficients.
-> 
-> Since many features are missing from the associated uAPI, the driver
-> is aimed to integrate staging until all features are properly
-> described.
-> 
-> On the technical side, it uses the v4l2 and media controller APIs,
-> with a video node for capture, a processor subdev and a video node
-> for parameters submission. A specific uAPI structure and associated
-> v4l2 meta format are used to configure parameters of the supported
-> modules.
-> 
-> One particular thing about the hardware is that configuration for
-> module registers needs to be stored in a DMA buffer and gets copied
-> to actual registers by the hardware at the next vsync, when instructed
-> by a flag. This is handled by the "state" mechanism in the driver.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/staging/media/sunxi/Kconfig           |   1 +
->  drivers/staging/media/sunxi/Makefile          |   1 +
->  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  13 +
->  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 572 +++++++++++++
->  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  86 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 751 ++++++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 +++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 599 ++++++++++++++
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  61 ++
->  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
->  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
-
-Could you add a TODO file to list the issues that need to be fixed for
-the driver to move out of staging ? I'll already propose one entry:
-
-- Add support in libcamera
-
-This isn't required to merge the driver in staging as long as ABI
-compatibility doesn't need to be preserved until the driver is moved out
-of staging.
-
->  14 files changed, 3109 insertions(+)
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
->  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-
-[snip]
-
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index 929e95f86b5b..6d43080791a0 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -18,7 +18,6 @@
+ 
+ static void sun4i_backend_layer_reset(struct drm_plane *plane)
+ {
+-	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+ 	struct sun4i_layer_state *state;
+ 
+ 	if (plane->state) {
+@@ -31,10 +30,8 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
+ 	}
+ 
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+-	if (state) {
++	if (state)
+ 		__drm_atomic_helper_plane_reset(plane, &state->state);
+-		plane->state->zpos = layer->id;
+-	}
+ }
+ 
+ static struct drm_plane_state *
+@@ -192,7 +189,8 @@ static const uint64_t sun4i_layer_modifiers[] = {
+ 
+ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 						struct sun4i_backend *backend,
+-						enum drm_plane_type type)
++						enum drm_plane_type type,
++						unsigned int id)
+ {
+ 	const uint64_t *modifiers = sun4i_layer_modifiers;
+ 	const uint32_t *formats = sun4i_layer_formats;
+@@ -204,6 +202,7 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	layer->id = id;
+ 	layer->backend = backend;
+ 
+ 	if (IS_ERR_OR_NULL(backend->frontend)) {
+@@ -226,8 +225,8 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 			     &sun4i_backend_layer_helper_funcs);
+ 
+ 	drm_plane_create_alpha_property(&layer->plane);
+-	drm_plane_create_zpos_property(&layer->plane, 0, 0,
+-				       SUN4I_BACKEND_NUM_LAYERS - 1);
++	drm_plane_create_zpos_property(&layer->plane, layer->id,
++				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
+ 
+ 	return layer;
+ }
+@@ -249,14 +248,13 @@ struct drm_plane **sun4i_layers_init(struct drm_device *drm,
+ 		enum drm_plane_type type = i ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
+ 		struct sun4i_layer *layer;
+ 
+-		layer = sun4i_layer_init_one(drm, backend, type);
++		layer = sun4i_layer_init_one(drm, backend, type, i);
+ 		if (IS_ERR(layer)) {
+ 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
+ 				i ? "overlay" : "primary");
+ 			return ERR_CAST(layer);
+ 		}
+ 
+-		layer->id = i;
+ 		planes[i] = &layer->plane;
+ 	}
+ 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
