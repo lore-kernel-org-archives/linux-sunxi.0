@@ -1,19 +1,19 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7892F24;
-	Mon,  7 Feb 2022 15:51:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1552F24;
+	Mon,  7 Feb 2022 16:03:08 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54D34340;
-	Mon,  7 Feb 2022 16:51:23 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DC3CF340;
+	Mon,  7 Feb 2022 17:03:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644249083;
-	bh=Kg8KkyXqodwxnkoOUnTFgILuDislMphNhCMp4Cyt3k0=;
+	s=mail; t=1644249787;
+	bh=nfHhY7SAAx/jSa8dp1hMDTzjQj/OuY2kGz3jjvPk5xk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d+p/yyLLVWoFHaQMa3PKOYne2f5NsLX/aSXsN5whwh5fbgyeQpYs8XdYey0+Cmdzm
-	 wzUhiqC1tH8lsKZPl6Eninn4/oSoKEz/NKHoSjt3wcCtb6Np67rcbw0PDyekIXy8+L
-	 kBpaesRvFQGudsLOVg3bNSdwSx4HeFms+1kyhIT4=
-Date: Mon, 7 Feb 2022 17:51:21 +0200
+	b=S+CZh0fGXgBerQVwuj4ZfLJQ6bwJ9df1Vzllh4VKcSm+MtCyn0LFsexbZWLsxjcsb
+	 2skIMGdk4g0rNN5bgOMEeHnJUPIe4cLJ3I4iUbUt3S9fuywk0x7fmElGrEqbiPZV8J
+	 3HmpuM9QGZsrLtswnZ8AtdRp5YENQqjto4nHkQHs=
+Date: Mon, 7 Feb 2022 18:03:05 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -29,12 +29,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
+ CSI-2 input port
+Message-ID: <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -43,107 +44,67 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
 
 Hi Paul,
 
 Thank you for the patch.
 
-On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
+On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
+> The A31 CSI controller supports two distinct input interfaces:
+> parallel and an external MIPI CSI-2 bridge. The parallel interface
+> is often connected to a set of hardware pins while the MIPI CSI-2
+> bridge is an internal FIFO-ish link. As a result, these two inputs
+> are distinguished as two different ports.
+> 
+> Note that only one of the two may be present on a controller instance.
+> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+> dedicated to parallel.
+
+Is it that only one of the two is present, or only one of the two is
+connected ? In the latter case I'd make both ports required, but with
+only one of them connected.
+
+> Update the binding with an explicit ports node that holds two distinct
+> port nodes: one for parallel input and one for MIPI CSI-2.
+> 
+> This is backward-compatible with the single-port approach that was
+> previously taken for representing the parallel interface port, which
+> stays enumerated as fwnode port 0.
+> 
+> Note that additional ports may be added in the future, especially to
+> support feeding the CSI controller's output to the ISP.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Acked-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+>  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
+>  1 file changed, 47 insertions(+), 13 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> new file mode 100644
-> index 000000000000..2d87022c43ce
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> @@ -0,0 +1,117 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun6i-a31-isp
-> +      - allwinner,sun8i-v3s-isp
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: DRAM Clock
-
-That's interesting, does the ISP have a dedicated DRAM ?
-
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: ram
-> +
-> +  resets:
-> +    maxItems: 1
-> +
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> index 8b568072a069..3cc61866ea89 100644
+> --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+> @@ -61,6 +61,34 @@ properties:
+>  
+>      additionalProperties: false
+>  
 > +  ports:
 > +    $ref: /schemas/graph.yaml#/properties/ports
 > +
 > +    properties:
 > +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI0 input port
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-
-If no other property than remote-endpoint are allowed, I'd write
-
-          endpoint:
-            $ref: video-interfaces.yaml#
-	    remote-endpoint: true
-            additionalProperties: false
-
-Same below.
-
-> +
-> +        additionalProperties: false
+> +        $ref: "#/properties/port"
+> +        unevaluatedProperties: false
 > +
 > +      port@1:
 > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: CSI1 input port
+> +        description: MIPI CSI-2 bridge input port
 > +
 > +        properties:
 > +          reg:
-> +            const: 0
-
-This should be 1.
-
+> +            const: 1
 > +
 > +          endpoint:
 > +            $ref: video-interfaces.yaml#
@@ -156,55 +117,57 @@ This should be 1.
 > +        - port@0
 > +      - required:
 > +        - port@1
+> +
+>  required:
+>    - compatible
+>    - reg
 
-As ports are an intrinsic property of the ISP, both should be required,
-but they don't have to be connected.
+Shouldn't you specify that either port or ports is required, but not
+both ? I'd also add a comment in the port node to tell it's deprecated,
+and that ports should be used instead.
 
-By the way, how do you select at runtime which CSI-2 RX the ISP gets its
-image stream from ? Is it configured through registers of the ISP ?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> +
-> +    isp: isp@1cb8000 {
-> +        compatible = "allwinner,sun8i-v3s-isp";
-> +        reg = <0x01cb8000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +             <&ccu CLK_CSI1_SCLK>,
-> +             <&ccu CLK_DRAM_CSI>;
-> +        clock-names = "bus", "mod", "ram";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
+> @@ -89,19 +117,25 @@ examples:
+>                        "ram";
+>          resets = <&ccu RST_BUS_CSI>;
+>  
+> -        port {
+> -            /* Parallel bus endpoint */
+> -            csi1_ep: endpoint {
+> -                remote-endpoint = <&adv7611_ep>;
+> -                bus-width = <16>;
+> -
+> -                /*
+> -                 * If hsync-active/vsync-active are missing,
+> -                 * embedded BT.656 sync is used.
+> -                 */
+> -                 hsync-active = <0>; /* Active low */
+> -                 vsync-active = <0>; /* Active low */
+> -                 pclk-sample = <1>;  /* Rising */
 > +        ports {
 > +            #address-cells = <1>;
 > +            #size-cells = <0>;
 > +
 > +            port@0 {
 > +                reg = <0>;
+> +                /* Parallel bus endpoint */
+> +                csi1_ep: endpoint {
+> +                    remote-endpoint = <&adv7611_ep>;
+> +                    bus-width = <16>;
 > +
-> +                isp_in_csi0: endpoint {
-> +                    remote-endpoint = <&csi0_out_isp>;
+> +                    /*
+> +                     * If hsync-active/vsync-active are missing,
+> +                     * embedded BT.656 sync is used.
+> +                     */
+> +                     hsync-active = <0>; /* Active low */
+> +                     vsync-active = <0>; /* Active low */
+> +                     pclk-sample = <1>;  /* Rising */
+
+Wrong indentation.
+
 > +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+>              };
+>          };
+>      };
 
 -- 
 Regards,
