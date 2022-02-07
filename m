@@ -1,112 +1,96 @@
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083A72F25
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 08:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0932F2F25
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 09:00:48 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 1A5DB580150;
-	Mon,  7 Feb 2022 03:56:36 -0500 (EST)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 2345F58017F;
+	Mon,  7 Feb 2022 04:00:48 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 07 Feb 2022 03:56:36 -0500
+  by compute1.internal (MEProxy); Mon, 07 Feb 2022 04:00:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=BEewoVma9HXhmdhrD/v/m7pVTmB9jXt2yFyzuP
-	Re66c=; b=FSi8BimzmGAYlUPJ43h3bUAe+OjPK4WRDVu5DpVPMCXDnojl+YQD4j
-	eC6rWJszOwSqDYxPPADu+NHiWRNJsSqvPXIi+VR9mGHCbzfgOdOAIbhZ7RqYpt5u
-	EKumqhX47+7dADXKTb2SZuJd8JX7g2eR7Gsdt9H9GYrNqph7iRR7AZt6f/M9oSFd
-	iWTHmsdsjkMKfP6arYiI0riaFAGlPP+k5RuvCswaPiAJUBEbobG60yX1aihy7hJC
-	C5l/KY9jgibo1DH6lRm5OLli8nHJNdcPluqMyd+wv8C3Oko1mTdWT8zCNzGnbofW
-	iUxav4kM7S8SXUepJmmB2xis78jDo1WA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BEewoVma9HXhmdhrD
-	/v/m7pVTmB9jXt2yFyzuPRe66c=; b=RMgAJFvB+k0+HLJBsC4gYb7eF+d4+6Kpg
-	MXjZkvrHdRYC9sGSPn3vauHUtiqPb8QnloHpztapfOOQQDlIDTYm3punCJymoYdp
-	mphiZhLU3ciYvQshxpGwnupaGld5A0KtiC1b+vWOoIvpZft8cF934IIAm2QHrZqM
-	N1ofH8MGPpjtkgAuyM6ELzdFeDNsTkZovelUP4qJts4xTi3rLxpXz9m33PVoWMIC
-	hBigMXWGRbYgIpb8wf0szg9ob+a4KGeVBJjFhCJXSFjy69IrJmduTf3Ztzwc6GCh
-	8r/isNF2jGyTgdLeiYsQqmC09WNtqsRiTNgwXkP2cP6UA2wPkTTsQ==
-X-ME-Sender: <xms:w94AYm_1fgUgcVnmmjjXFz1gQdoB32r4hLCo8394u5gEMNFPYV_Ugw>
-    <xme:w94AYmtW2jPp_jN2_9TQRDj76JbYG5v1y9Twh342pnGtR8L9UUN-T9PJpvEWgDuVi
-    2rjPbE1CuFqiFPtakw>
-X-ME-Received: <xmr:w94AYsBFn6l1U-xjzm6WVolKkwOmtP9NwYXK1vWuAqoMP5RyQsvEDYevbtCP8isYT2DU8b66pNoMrcfAWbw28or1YSkeJOLJ4mkR1TY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeggdduvdduucetufdoteggodetrfdotf
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=2BOoXvMYl2mcjW
+	EBrIXuByf9re5XSaROTg95FlpiOQ8=; b=Gq442Dy4ZCrXH4pLR4bqGY1rjHoufE
+	GWOBeQVEelHllCsCrtri8zHZL3z8VLZYSjkAurnz4GowNWL8Y5ytyp7Ap2HdY3Dc
+	ib/k2qKgGnp4tT5b61qUXRryje4bCjN9/TxlwUT7lv2yN7EABNc7djZsa0SIupoW
+	mPMvAvABMEw5LVMhDu2AgMMV9IAlnU+6eLtxa9Bhf41/k0hXXunr8twzLxaR4N82
+	gXGHP1Z1k3FDTYPWcoUZj/XYMspPix7KXdHmjbCyZ5Xz1v6sVxMAM2aZMXSBUct5
+	YLlwmHvW4k2q1xEBdBU93bMAjLZuEcH+pFVp+m3NwU9CHybNhPezq7RQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=2BOoXvMYl2mcjWEBrIXuByf9re5XSaROTg95FlpiO
+	Q8=; b=SEWlVmdvPJAek5xcE3kDbci+n8EiVm/6fJNQWJdz8xVkeqmSfwDjQdnM5
+	vP8jyyZ8css3TqTD0Qez2B+HKghTzRl+6sjBclfQcfG1bpdXCVDZytHtcScTo4cz
+	2DayqRstnKHndUaozzgsY28S6t+Mv2UlF9x2oc1ESq3EaKNjSqDk5EIbDednU2XP
+	7M8TsqywEDvg10tRRKu4Kotv7m55wTrQ1PTcT/NtKHYKGJgpSne9mcv7W61D4QVa
+	OYkUyLXsytrwvrXqFjMcz7SupBMKh4G3wDtPZsCNuRIptpIx2gp6eeQuvk/iZYu0
+	fLyjtGhb/SLJaSn+Yi8dvGrMWvHNg==
+X-ME-Sender: <xms:v98AYhviMxEfoLy6EepMCrjRfDz30xPGI1Gae1V_zVWmiAmDVJq5Iw>
+    <xme:v98AYqejFROSkMQpyczIhnjungeMZtuf77P92LiJdGXFHcARUCJUZ4FDm_sijUPED
+    PNL3pfhTZAuhkn6EvE>
+X-ME-Received: <xmr:v98AYkwQkzgSMCkPluTkVImKK22RMyOjbCIZ34rE1vg2DJi4CgNrO02Q51yZFe6Rs20BM14hYbpAJx-FsFokViQ38QSl-_jVeFkUSeY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeggdduvddvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:w94AYueeXmMqPMV62AN0i_OQl7Ryxnt0B8I6ubSMxP6HcR_rjdSzLQ>
-    <xmx:w94AYrP2RF0sG_lzLC05Q-9rDMk6xHOKd8JB7VK26iUj2rqzXWxlvw>
-    <xmx:w94AYol47NNFaOrQpaQFsh-ESNhFJ7vRdtykfZ41PihetdYR4cqEJA>
-    <xmx:xN4AYvkmvo30Fxi2J8vew-MTWjnx5jNa98swIh5TU0jTmLA249Q2Hw>
+    cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+    ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:v98AYoOkNWqjDW_OXKbytvj1uUvqYre-ZSGnUmd9H9zujt0HnBPwOA>
+    <xmx:v98AYh-CrOni91c3oapjGZoJL01Tyer2TlvzJPltxGeJvLqjSzi_iQ>
+    <xmx:v98AYoXd1dL0MRtWf1YKD6ZxM6zt9-XpkIICq1NhWeCtI1I5dQjEXw>
+    <xmx:wN8AYlXTZosoGIHfTB1HZyrsO8QCavcdZU3rb-YCqfNVZdKFp-e6GA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 03:56:34 -0500 (EST)
-Date: Mon, 7 Feb 2022 09:56:33 +0100
+ 7 Feb 2022 04:00:47 -0500 (EST)
 From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Chen-Yu Tsai <wens@csie.org>,
 	linux-sunxi@lists.linux.dev,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Michael Turquette <mturquette@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	Stephen Boyd <sboyd@kernel.org>,
 	Alexandre Belloni <alexandre.belloni@bootlin.com>,
 	linux-arm-kernel@lists.infradead.org,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>
-Subject: Re: [PATCH v3 3/6] rtc: sun6i: Enable the bus clock when provided
-Message-ID: <20220207085633.q5ubv4v4iv4rg6rv@houat>
-References: <20220203021736.13434-1-samuel@sholland.org>
- <20220203021736.13434-4-samuel@sholland.org>
+	linux-rtc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	Alessandro Zummo <a.zummo@towertech.it>
+Subject: Re: (subset) [PATCH v3 4/6] clk: sunxi-ng: mux: Allow muxes to have keys
+Date: Mon,  7 Feb 2022 10:00:44 +0100
+Message-Id: <164422443570.21572.2174959931752418423.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220203021736.13434-5-samuel@sholland.org>
+References: <20220203021736.13434-1-samuel@sholland.org> <20220203021736.13434-5-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="e6ts3zafdzecbmnf"
-Content-Disposition: inline
-In-Reply-To: <20220203021736.13434-4-samuel@sholland.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Wed, 2 Feb 2022 20:17:34 -0600, Samuel Holland wrote:
+> The muxes in the RTC can only be updated when setting a key field to a
+> specific value. Add a feature flag to denote muxes with this property.
+> 
+> Since so far the key value is always the same, it does not need to be
+> provided separately for each mux.
+> 
+> 
+> [...]
 
---e6ts3zafdzecbmnf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Applied to local tree (sunxi/clk-for-5.18).
 
-On Wed, Feb 02, 2022 at 08:17:33PM -0600, Samuel Holland wrote:
-> H6 and newer variants of the RTC hardware have a bus clock gate in the
-> PRCM CCU. This was not known at the time H6 support was added, so it was
-> not included in the H6 RTC binding, nor in the H6 PRCM CCU driver. Now
-> that this clock gate is documented, it is included in the A100 and D1
-> PRCM CCU drivers. Therefore, the RTC driver needs to have a consumer for
-> the clock gate to prevent Linux from disabling it.
->=20
-> Patch-changes: 3
->  - New patch for compatibility with new CCU drivers
-
-Did that creep in? Shouldn't it be in your changelog?
-
-With that fixed,
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
-
+Thanks!
 Maxime
-
---e6ts3zafdzecbmnf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgDewQAKCRDj7w1vZxhR
-xbs1AP9OCXqNcbxnEr+NVY47L454dgyjujqAGtd5ZEb99XtJ6AD/QgF3NL4AwVd4
-Dq+JeHsetvY+k2GM6U4CtGoO3FXkLAc=
-=/6TF
------END PGP SIGNATURE-----
-
---e6ts3zafdzecbmnf--
