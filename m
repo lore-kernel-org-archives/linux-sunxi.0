@@ -1,160 +1,212 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA762F21
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 10:56:58 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id k6-20020a05600c1c8600b003524656034cso8300355wms.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Feb 2022 02:56:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=references:user-agent:from:to:subject:date:in-reply-to:message-id
-         :mime-version;
-        bh=gCbLAdNfo6DzwKZZhiI2gvYSp0E58X2J6K8BZ7WMiCw=;
-        b=HdVq6PkDWV64cO4Meh1wk8wgo8CdzN+zPTFC2pB2FI0bwgSi81Z/HYG5aXK5pBx5W9
-         CmRKZIAdtvIRSGLTDlE7WkPAMx3+g4v7iK/1sAjHYfFRJIQxN++xO0oQC3iVySbmeEr2
-         liwS39gPsfsrucyJX8zQIoivl9PssDAZCHqaTY/Q4YEotG+CRwK7yiaR7SA6dxoLkTLT
-         XN4QMOE6TX7YM/Kbh9Mi64oJnP8lOtqYENqGa81nj35oCQXlA63fr2aOZkdR8SPGvjWe
-         /QH8n567hcYJd3qk1Xz01BRQxfBCrVSfmkDJxRGb0BFFuatHy6dfNxj6/KD2RZaZSB2P
-         1GTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:references:user-agent:from:to:subject:date
-         :in-reply-to:message-id:mime-version;
-        bh=gCbLAdNfo6DzwKZZhiI2gvYSp0E58X2J6K8BZ7WMiCw=;
-        b=2uyv8lvlG647McuZRHLhuN8vWD46o5v75cwcVS/UdsJYPegP/DDxv92JtGc5Yz3jfp
-         6B5GLjMxFKxmeFHlrrMa/74UnhGM9Qkyswm20nrgbgF2TjReXaYutbmgHenhpZoT7nWs
-         PbUC04MdkpAaYP4xvjKgN+TmVSmF+bqma75BjMgYrm+L+2y/V1Xi/KZ1JOXfhChH0E4O
-         5Z9BTxudXlyKfSsQVvTcMpweLAwse1/jKVOroXkNqLLzEsoRl+cMy/BLmMFl6cbXI08c
-         0H/Ubo4Ol5vkqKDrRh2h7wde6JvAlN5vg5MfWb4qbI8hX6yvGS18nsJ1urMGJ9xyRoxZ
-         07tQ==
-X-Gm-Message-State: AOAM531s5nmi6u2eZ8pYRFSuCNyXn16quvA7TOGcIR1u+1OkrWTpKX6/
-	Bc1Qv+QBkHvg+qeH/3JJZrVGVQ==
-X-Google-Smtp-Source: ABdhPJya4Y4U2ZAbUsCovhbUSLiaQE9fPad2ZHKayIa+Ateyevndqek8qHHFBktc7reIkkgLh7oW+A==
-X-Received: by 2002:a7b:cbd7:: with SMTP id n23mr284984wmi.76.1644231416515;
-        Mon, 07 Feb 2022 02:56:56 -0800 (PST)
-Received: from localhost (82-65-169-74.subs.proxad.net. [82.65.169.74])
-        by smtp.gmail.com with ESMTPSA id u14sm11073998wmq.41.2022.02.07.02.56.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 02:56:56 -0800 (PST)
-References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
-User-agent: mu4e 1.6.10; emacs 27.1
-From: Jerome Brunet <jbrunet@baylibre.com>
-To: Erico Nunes <nunes.erico@gmail.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro
- <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, Kevin Hilman
- <khilman@baylibre.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-amlogic@lists.infradead.org,
- netdev@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come
- up at boot
-Date: Mon, 07 Feb 2022 11:41:36 +0100
-In-reply-to: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
-Message-ID: <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7892F24;
+	Mon,  7 Feb 2022 15:51:32 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54D34340;
+	Mon,  7 Feb 2022 16:51:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1644249083;
+	bh=Kg8KkyXqodwxnkoOUnTFgILuDislMphNhCMp4Cyt3k0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d+p/yyLLVWoFHaQMa3PKOYne2f5NsLX/aSXsN5whwh5fbgyeQpYs8XdYey0+Cmdzm
+	 wzUhiqC1tH8lsKZPl6Eninn4/oSoKEz/NKHoSjt3wcCtb6Np67rcbw0PDyekIXy8+L
+	 kBpaesRvFQGudsLOVg3bNSdwSx4HeFms+1kyhIT4=
+Date: Mon, 7 Feb 2022 17:51:21 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 61/66] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YgE/+UmP4nJVxtRT@pendragon.ideasonboard.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220205185429.2278860-62-paul.kocialkowski@bootlin.com>
 
+Hi Paul,
 
-On Wed 02 Feb 2022 at 21:18, Erico Nunes <nunes.erico@gmail.com> wrote:
+Thank you for the patch.
 
-> Hello,
->
-> I've been tracking down an issue with network interfaces from
-> meson8b-dwmac sometimes not coming up properly at boot.
-> The target systems are AML-S805X-CC boards (Amlogic S805X SoC), I have
-> a group of them as part of a CI test farm that uses nfsroot.
->
-> After hopefully ruling out potential platform/firmware and network
-> issues I managed to bisect this commit in the kernel to make a big
-> difference:
->
->   46f69ded988d2311e3be2e4c3898fc0edd7e6c5a net: stmmac: Use resolved
-> link config in mac_link_up()
->
-> With a kernel before that commit, I am able to submit hundreds of test
-> jobs and the boards always start the network interface properly.
->
-> After that commit, around 30% of the jobs start hitting this:
->
->   [    2.178078] meson8b-dwmac c9410000.ethernet eth0: PHY
-> [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
->   [    2.183505] meson8b-dwmac c9410000.ethernet eth0: Register
-> MEM_TYPE_PAGE_POOL RxQ-0
->   [    2.200784] meson8b-dwmac c9410000.ethernet eth0: No Safety
-> Features support found
->   [    2.202713] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
->   [    2.209825] meson8b-dwmac c9410000.ethernet eth0: configuring for
-> phy/rmii link mode
->   [    3.762108] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
-> 100Mbps/Full - flow control off
->   [    3.783162] Sending DHCP requests ...... timed out!
->   [   93.680402] meson8b-dwmac c9410000.ethernet eth0: Link is Down
->   [   93.685712] IP-Config: Retrying forever (NFS root)...
->   [   93.756540] meson8b-dwmac c9410000.ethernet eth0: PHY
-> [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
->   [   93.763266] meson8b-dwmac c9410000.ethernet eth0: Register
-> MEM_TYPE_PAGE_POOL RxQ-0
->   [   93.779340] meson8b-dwmac c9410000.ethernet eth0: No Safety
-> Features support found
->   [   93.781336] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
->   [   93.788088] meson8b-dwmac c9410000.ethernet eth0: configuring for
-> phy/rmii link mode
->   [   93.807459] random: fast init done
->   [   95.353076] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
-> 100Mbps/Full - flow control off
->
-> This still happens with a kernel from master, currently 5.17-rc2 (less
-> frequently but still often hit by CI test jobs).
-> The jobs still usually get to work after restarting the interface a
-> couple of times, but sometimes it takes 3-4 attempts.
->
-> Here is one example and full dmesg:
-> https://gitlab.freedesktop.org/enunes/mesa/-/jobs/16452399/raw
->
-> Note that DHCP does not seem to be an issue here, besides the fact
-> that the problem only happens since the mentioned commit under the
-> same setup, I did try to set up the boards to use a static ip but then
-> the interfaces just don't communicate at all from boot.
->
-> For test purposes I attempted to revert
-> 46f69ded988d2311e3be2e4c3898fc0edd7e6c5a on top of master but that
-> does not apply trivially anymore, and by trying to revert it manually
-> I haven't been able to get a working interface.
->
-> Any advice on how to further debug or fix this?
+On Sat, Feb 05, 2022 at 07:54:24PM +0100, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..2d87022c43ce
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
 
-Hi Erico,
+That's interesting, does the ISP have a dedicated DRAM ?
 
-Thanks a lot for digging into this topic.
-I'm seeing exactly the same behavior on the g12 based khadas-vim3:
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI0 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
 
-* Boot stalled waiting for DHCP - with an NFS based filesystem
-* Every minute, the network driver gets a reset and try again
+If no other property than remote-endpoint are allowed, I'd write
 
-Sometimes it works on the first attempt, sometimes it takes up to 5
-attempts. Eventually, it reaches the prompt which might be why it went
-unnoticed so far.
+          endpoint:
+            $ref: video-interfaces.yaml#
+	    remote-endpoint: true
+            additionalProperties: false
 
-I think that NFS just makes the problem easier to see.
-On devices with an eMMC based filesystem, I noticed that, sometimes, I
-had unplug/plug the ethernet cable to make it go.
+Same below.
 
-So far, the problem is reported on all the Amlogic SoC generation we
-support. I think a way forward is to ask the the other users of
-stmmac whether they have this problem or not - adding Allwinner and
-Rockchip ML.
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI1 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
 
-Since the commit you have identified is in the generic part of the
-stmmac code, Maybe Jose can help us understand what is going on.
+This should be 1.
 
->
-> Thanks
->
-> Erico
+> +
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    anyOf:
+> +      - required:
+> +        - port@0
+> +      - required:
+> +        - port@1
 
+As ports are an intrinsic property of the ISP, both should be required,
+but they don't have to be connected.
+
+By the way, how do you select at runtime which CSI-2 RX the ISP gets its
+image stream from ? Is it configured through registers of the ISP ?
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+
+-- 
+Regards,
+
+Laurent Pinchart
