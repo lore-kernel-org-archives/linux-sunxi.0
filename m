@@ -1,89 +1,322 @@
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A1D2F25
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 08:46:25 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 6CA2E580161;
-	Mon,  7 Feb 2022 03:46:24 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 07 Feb 2022 03:46:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=06iDWhIMWF+GL+
-	4tV1ry3WHLDvx8sEGX8SCia4bLUlo=; b=SzyNoAzmVIrpysc1eyqHTcsbRZ33lG
-	kZioZV9XgeEStB5uEDLvkVS+XJNc18BEIMh3xfV5UCIlw5NUT1gIH6OTM8OT6t63
-	efaz9q0t4r3rUsAQFySCwe4JDTukdE39OxTMFAkNYebPDKWZZZuCPukDXOfVWXW3
-	voc7zDtotovPQHB6OeTtvT9sNavWKnsZAmeaJc5GHJxgY1CLrLj8u+8twZxo6skE
-	ncIOkGAHt5iAOq5SFszdPkWlHTOS54aNrdp0QWMvOfGkugfPHqFbrCKtFDuq03zp
-	uwoKSnF22vUn2lMMswRKNIhqzF1D8Vgc/+tg4ra2jv2rIw6+cz/S9S5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=06iDWhIMWF+GL+4tV1ry3WHLDvx8sEGX8SCia4bLU
-	lo=; b=Gdy+GNNvCJjjAF8MZ/+bNLQL4iSm/u2ss9Lf0HTkZ1lGBEETWFMTR+KBo
-	JbEFEdbPEoKYhU6zhp6hPgA6NkHVRWSGhNbASWKiAAgqRj3JnjtpFGxR6CgerOZ5
-	2ppQ6LGU7HXcUDCmY8MJ1EFSl8+tn1hyhZGo6q7giSGUEbGDs4tjtnHDpwVZqPjc
-	n3F07jWlqbwXhrY2Cm++fh6dgWhHcbAGxRjPJ4zR8Jably9LaSORMWGcSImuNh7S
-	Y3FK/D6psNQu3j8koi5dsDjphpzqGvPFuDgsCO+l2BNzKxs1ei/c0S5SYYe7ya3/
-	m5C/1A2IDiFa1BgR13kqpf5XD46yg==
-X-ME-Sender: <xms:X9wAYnyoadC6crowfp6rSS1g_dZJJyZj0HJbNH4Fsz_YHqCWaT9u0g>
-    <xme:X9wAYvRAosyTp15LWmaagYVihilD-ACCq49PDWHSfE8Hj5ISZKeCtnWns09h_Ep-j
-    ca5e0qtAIxgWuubaJ0>
-X-ME-Received: <xmr:X9wAYhU4wVdLfn71BD3noSDT2ROADAh_MlBDHFABwQLaQ0RmWAD3_ORgTpeEekafKSObjUHVfrTrCLt60aT7W5cbkSVXpKuNxSocEng>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeggdduudelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpefgjeettdejgffgffdvteeutdehtdehgeehueetkeefgefhtdetjeekledu
-    gedvudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:X9wAYhgr5yOXQMtplYYtze_ycHouRGRlqOM4hfQ7uT8buKsx3m3DVw>
-    <xmx:X9wAYpCtiMCGwFyE1NbyckGN18_nYOxMh0h9jllqSWSAisFh_WD41w>
-    <xmx:X9wAYqLixyckvrMMMAQ-PW9eACQAlrL-zrMFV9unpPM-g_XE05EIaA>
-    <xmx:YNwAYhxau4hnrYfLueK715S0kZ6KONWoSIyJmS1PYmeypzX5iZv_7A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 03:46:23 -0500 (EST)
-Date: Mon, 7 Feb 2022 09:46:20 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 1/6] dt-bindings: rtc: sun6i: Clean up repetition
-Message-ID: <20220207084620.xajb5wx6bbgg4ugh@houat>
-References: <20220203021736.13434-1-samuel@sholland.org>
- <20220203021736.13434-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C105C2F25;
+	Mon,  7 Feb 2022 08:48:22 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 47A0AC6C96;
+	Mon,  7 Feb 2022 08:33:40 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C7779240004;
+	Mon,  7 Feb 2022 08:33:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644222812;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=84zL46lVab32mc8aiSykPGlMX0OG+D4m1dmzME3ih7o=;
+	b=eEI/wnbRqbnC03wKfL84Qy5u+zXH7f2LnN3A1RZ0uApGs6fHduyBnRD6Q5DTxxFJ1ncLvD
+	8O+Zwu2iZ7LPhYjF1PLkN3yowpi7Vc6VxbeQxUHiRf3YFwbsknGNHoyRbuH9bBi3jCHCEq
+	YbIdp24M3k1n59ERtwAno2km1oW5oxR7MACsUSCznlpqvKY12rq3I8tbGrut5zL6fGqZLf
+	pCkl5+hSZrXzOZ8HopVoTCy9/NdRc5Jvzn16mrcEUpB3/V9SE2z1BqCNeWcv4c/URgPQk+
+	1aJCezHlh1NPt7iYMU+Yoa/twd4Yyvq/UMKAC304//NLJYjgp/qX2dIO+hYdKw==
+Date: Mon, 7 Feb 2022 09:33:30 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, mchehab@kernel.org, wens@csie.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: Add watchdog for job completion
+Message-ID: <YgDZWvgA0blNM7qm@aptenodytes>
+References: <20220201183324.493542-1-jernej.skrabec@gmail.com>
+ <YfztZE8ymJ5RERTq@aptenodytes>
+ <12946098.uLZWGnKmhe@jernej-laptop>
+ <3150370.aeNJFYEL58@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="RYiUA+TN+21sHBz2"
+Content-Disposition: inline
+In-Reply-To: <3150370.aeNJFYEL58@jernej-laptop>
+
+
+--RYiUA+TN+21sHBz2
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220203021736.13434-2-samuel@sholland.org>
 
-On Wed, Feb 02, 2022 at 08:17:31PM -0600, Samuel Holland wrote:
-> - Use "enum" for compatibles instead of several "const" alternatives.
-> - Merge the H6 clock-output-names minItems/maxItems constraint into the
->   identical block above.
+Hi,
+
+On Sat 05 Feb 22, 09:41, Jernej =C5=A0krabec wrote:
+> Dne sobota, 05. februar 2022 ob 08:40:21 CET je Jernej =C5=A0krabec napis=
+al(a):
+> > Dne petek, 04. februar 2022 ob 10:09:56 CET je Paul Kocialkowski napisa=
+l(a):
+> > > Hi Jernej,
+> > >=20
+> > > On Tue 01 Feb 22, 19:33, Jernej Skrabec wrote:
+> > > > Currently, if job is not completed for whatever reason, userspace
+> > > > application can hang on ioctl and thus become unkillable.
+> > > >=20
+> > > > In order to prevent that, implement watchdog, which will complete j=
+ob
+> > > > after 2 seconds with error state.
+> > > >=20
+> > > > Concept is borrowed from hantro driver.
+> > >=20
+> > > Good idea to implement a watchdog here, thanks!
+> > > See comments below.
+> > >=20
+> > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  2 ++
+> > > >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  3 +++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  4 +++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 25 +++++++++++++++=
+++++
+> > > >  .../staging/media/sunxi/cedrus/cedrus_hw.h    |  2 ++
+> > > >  5 files changed, 36 insertions(+)
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus.c index
+> > > > 4a4b714b0f26..68b3dcdb5df3 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> > > > @@ -439,6 +439,8 @@ static int cedrus_probe(struct platform_device
+> > > > *pdev)
+> > > >=20
+> > > >  	mutex_init(&dev->dev_mutex);
+> > > >=20
+> > > > +	INIT_DELAYED_WORK(&dev->watchdog_work, cedrus_watchdog);
+> > > > +
+> > > >=20
+> > > >  	ret =3D v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> > > >  	if (ret) {
+> > > >  =09
+> > > >  		dev_err(&pdev->dev, "Failed to register V4L2
+> >=20
+> > device\n");
+> >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus.h index
+> > > > c345f2984041..3bc094eb497f 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> > > > @@ -24,6 +24,7 @@
+> > > >=20
+> > > >  #include <linux/iopoll.h>
+> > > >  #include <linux/platform_device.h>
+> > > >=20
+> > > > +#include <linux/workqueue.h>
+> > > >=20
+> > > >  #define CEDRUS_NAME			"cedrus"
+> > > >=20
+> > > > @@ -194,6 +195,8 @@ struct cedrus_dev {
+> > > >=20
+> > > >  	struct reset_control	*rstc;
+> > > >  =09
+> > > >  	unsigned int		capabilities;
+> > > >=20
+> > > > +
+> > > > +	struct delayed_work	watchdog_work;
+> > > >=20
+> > > >  };
+> > > > =20
+> > > >  extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c index
+> > > > a16c1422558f..9c7200299465 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> > > > @@ -97,4 +97,8 @@ void cedrus_device_run(void *priv)
+> > > >=20
+> > > >  		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+> > > >  =09
+> > > >  	dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> > > >=20
+> > > > +
+> > > > +	/* Start the watchdog timer. */
+> > > > +	schedule_delayed_work(&dev->watchdog_work,
+> > > > +			      msecs_to_jiffies(2000));
+> > > >=20
+> > > >  }
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c index
+> > > > 2d7663726467..a6470a89851e 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+> > > > @@ -118,6 +118,13 @@ static irqreturn_t cedrus_irq(int irq, void *d=
+ata)
+> > > >=20
+> > > >  	enum vb2_buffer_state state;
+> > > >  	enum cedrus_irq_status status;
+> > > >=20
+> > > > +	/*
+> > > > +	 * If cancel_delayed_work returns false it means watchdog already
+> > > > +	 * executed and finished the job.
+> > > > +	 */
+> > > > +	if (!cancel_delayed_work(&dev->watchdog_work))
+> > > > +		return IRQ_HANDLED;
+> > > > +
+> > > >=20
+> > > >  	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> > > >  	if (!ctx) {
+> > > >  =09
+> > > >  		v4l2_err(&dev->v4l2_dev,
+> > > >=20
+> > > > @@ -143,6 +150,24 @@ static irqreturn_t cedrus_irq(int irq, void *d=
+ata)
+> > > >=20
+> > > >  	return IRQ_HANDLED;
+> > > > =20
+> > > >  }
+> > > >=20
+> > > > +void cedrus_watchdog(struct work_struct *work)
+> > > > +{
+> > > > +	struct cedrus_dev *dev;
+> > > > +	struct cedrus_ctx *ctx;
+> > > > +
+> > > > +	dev =3D container_of(to_delayed_work(work),
+> > > > +			   struct cedrus_dev, watchdog_work);
+> > > > +
+> > > > +	ctx =3D v4l2_m2m_get_curr_priv(dev->m2m_dev);
+> > > > +	if (!ctx)
+> > > > +		return;
+> > > > +
+> > > > +	v4l2_err(&dev->v4l2_dev, "frame processing timed out!\n");
+> > > > +	reset_control_reset(dev->rstc);
+> > >=20
+> > > I don't think playing with the reset is the right approach here.
+> > > First we don't really know if the reset is shared or not, so this mig=
+ht
+> > > have no effect.
+> >=20
+> > AFAIK only few reset lines are shared in all Allwinner SoC, never for C=
+edrus
+> > and even then, this is considered as HW issue. So, I'm good with using
+> > reset line. This principle is also taken from Hantro driver.
+> >=20
+> > > Then even if it does, wouldn't this just reset the state of the
+> > > registers to an unconfigured state, making it impossible to decode any
+> > > future frame in the same context?
+> >=20
+> > Being stateless core, all context is held in auxiliary buffers, referen=
+ce
+> > frames and controls, which are not reset with pulsing reset line, so no,
+> > state is not lost. Anyway, if decoding fails, you're generally screwed
+> > until next key frame. You'll have to deal with decoding issues/artefacts
+> > nevertheless.
+
+Ah right, it's true that we fully configure the hardware on each slice
+so indeed, it should be able to bring it back up on the next one.
+
+> > > Honestly I'm not sure what a good process would be to get back on tra=
+ck
+> > > here so I would be tempted to just do nothing an return errors.
+> > >=20
+> > > That's already better than being stuck.
+> >=20
+> > Doing nothing will solve only current job, but HW will still be stuck in
+> > decoding state. I doubt reprogramming registers and triggering new deco=
+ding
+> > will actually do anything.
+> >=20
+> > I'll check BSP lib sources again. Maybe selecting non-existing decoding=
+ mode
+> > would reset the core. That is already suggested as good thing to do in
+> > order to put core in low power mode.
 >=20
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> BSP kernel driver also pulses reset line:
+> https://github.com/orangepi-xunlong/linux-orangepi/blob/orange-pi-4.9-sun=
+50iw9/drivers/media/cedar-ve/cedar_ve.c#L848-L851
+>=20
+> I still think this is the way to go.
 
-Reviewed-by: Maxime Ripard <maxime@cerno.tech>
+Okay so that's probably the right thing to do then, my comment doesn't stan=
+d!
 
-Maxime
+So the change looks good to me at this point:
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+
+Thanks!
+
+Paul
+
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > IMO we have to do something. Doing nothing will probably just lock up t=
+he
+> > core until next reboot or maybe until trying different decoding mode.
+> >=20
+> > Anyway, I have to find another way to cause decoding job to time out.
+> > Currently I'm doing this with IOMMU on H6, but that brings down several
+> > other things, which requires reboot anyway.
+> >=20
+> > Best regards,
+> > Jernej
+> >=20
+> > > Paul
+> > >=20
+> > > > +	v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev, ctx-
+> > >
+> > >fh.m2m_ctx,
+> > >
+> > > > +					 VB2_BUF_STATE_ERROR);
+> > > > +}
+> > > > +
+> > > >=20
+> > > >  int cedrus_hw_suspend(struct device *device)
+> > > >  {
+> > > > =20
+> > > >  	struct cedrus_dev *dev =3D dev_get_drvdata(device);
+> > > >=20
+> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h index
+> > > > 45f641f0bfa2..7c92f00e36da 100644
+> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.h
+> > > > @@ -28,4 +28,6 @@ int cedrus_hw_resume(struct device *device);
+> > > >=20
+> > > >  int cedrus_hw_probe(struct cedrus_dev *dev);
+> > > >  void cedrus_hw_remove(struct cedrus_dev *dev);
+> > > >=20
+> > > > +void cedrus_watchdog(struct work_struct *work);
+> > > > +
+> > > >=20
+> > > >  #endif
+>=20
+>=20
+>=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--RYiUA+TN+21sHBz2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIA2VoACgkQ3cLmz3+f
+v9F7sAf/ZRWcitUz+WNGX+uyDStZx3p+7XWEQ8zHMOGdouvfc4P6t++lfBgvehkA
+kNmD3iCNmR097YkfmDOiDaa04Yqv7nRbzu2i9C3OGBq9WCg/Wvhug+BnkqY3gu+5
+fn86awwghNTRAkkCO0wFfTlBxQ+2jnWUcmamG9xXML73tBnTEqu/9aHGIUuCNk69
+5R0R9XkxPVH4AvKUyBvoicLvlw114qM+h/vn5AaPOW+7TLGpEmxMVvblcuDAA1z7
+eO3tgdmO3VvvJodTPXOncSqSwWz3vZ7i2lujBMFdNmgvhZ8QT0E5wjG/cXxzDUGi
+FySSwwRn0nDn4ZOy2wjQOJUyvkwWDQ==
+=aWX/
+-----END PGP SIGNATURE-----
+
+--RYiUA+TN+21sHBz2--
