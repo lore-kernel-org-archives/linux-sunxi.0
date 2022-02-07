@@ -1,75 +1,106 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B1D2F25
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 21:45:58 +0000 (UTC)
-Received: by mail-oo1-f50.google.com with SMTP id v17-20020a4ac911000000b002eac41bb3f4so15250030ooq.10
-        for <linux-sunxi@lists.linux.dev>; Mon, 07 Feb 2022 13:45:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QOxTpsiItYIgn973R83OB/6cA8BtGbALp2vvEgGAMiM=;
-        b=lZ39RtvTfXaXup/nbHjn1aWUkfhCp3FEeAz+AL0xD/AbnEPN1ooAsw/m/12uA+5wfb
-         C5+1orVFMj8o9vCqYHBC7fkUGMxGNhJVgWFBFy5qb7tMd4HQxRKawdj/eslv2CRzHdcy
-         8EfwGC7WaQFxnMile1MxTsitQ39R8p7hrm94PE/cVmv1vg4HaI9ROGa07VpQ0+Xc7+MK
-         7P7z8/MWswZNJ9JmbNPOt7P/uVTPDA3TbU08RTA1NWe8DvHDNo++b9gg7AZEo2I+2DOj
-         Uhtonec1hQtq0OI1HdHb6IcW6ATyxHTwVZgo2kXWzAbPU0yKg8uXmwL7KXiccjgENvwg
-         966Q==
-X-Gm-Message-State: AOAM5311qfRE1yU9DLsOREJjh4LrqVtsmMsmDoLZLCgA1hdqUd99fz3J
-	TpPCCS/DhzWifVELKhu5NQ==
-X-Google-Smtp-Source: ABdhPJxjjb8hTz7JrQNc/dwzSDalOZbNtl/l3u7RMYurH9/W708famAbJ2Dk4CF7ZuFBAkYyOEv59Q==
-X-Received: by 2002:a05:6870:3896:: with SMTP id y22mr323481oan.171.1644270357696;
-        Mon, 07 Feb 2022 13:45:57 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id i1sm1419831ood.32.2022.02.07.13.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Feb 2022 13:45:56 -0800 (PST)
-Received: (nullmailer pid 978810 invoked by uid 1000);
-	Mon, 07 Feb 2022 21:45:55 -0000
-Date: Mon, 7 Feb 2022 15:45:55 -0600
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, Alessandro Zummo <a.zummo@towertech.it>, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh+dt@kernel.org>, linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v3 2/6] dt-bindings: rtc: sun6i: Add H616, R329, and D1
- support
-Message-ID: <YgGTE/vLUBctPo17@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA272F2C
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 23:54:08 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 5FB362B001F4;
+	Mon,  7 Feb 2022 18:54:06 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 07 Feb 2022 18:54:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; bh=7T1gb9q/dG3+e+
+	HVYc4URRtl0zI51K/MI/cYy1EcerM=; b=SDYv224gBZ5TT66LpyAI9ivK3tYsVZ
+	GBDiKxzdAELBE+LHIad5qxjwoVvgShjRZqvs1T+iE1ug4DfXaHnPXWqu3w3dW6iS
+	VWYhOUl/EqRiKCBjT+8acRD/NDUoFmg5rDbRyxEem25KtRpeEtsIn3OmVvQ1o06O
+	/uqL4Hxvu1eOldEvKivAb8tYgEdUAQSxU1Mkq6qXmntsEwnrRGo26NV31u68KB62
+	pUUkKRlaMcTRtlWJ21rw2p46tK/w0LVXTHjN6vY6X7GLaePGA86U3dyc2+cE58bi
+	p4llC4FgLAdhQXgDDIqSD7J/XMQiPkeJqz7AKEjiOTDKs39DBr95K10g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=7T1gb9q/dG3+e+HVYc4URRtl0zI51K/MI/cYy1Ece
+	rM=; b=dLl3ZpuPFU64fHFzudMdRGhNEh23o8k+blqkqXrk485ZDHglhYjDWyueC
+	5REvXvS1FtUvdEeK4if4sRQffIpOKH7TEaO+zUNr+oqz4k5vHKGcV3VWNNpmM1mx
+	NX5EkDA1FyaHWQTEKowbGpsbqvyhCJM9q55+c3e1dOLBzDS4VXQQM2f0ZrUZ3vnL
+	m4BPwW+hlb7MdHrWwZc6R/Pq7jca+ihKDFWK59yYtCMUr5CdDixJsYXdhTX9L/es
+	yqH0pAQTvLaBul6yAU/SIpiJLEYxfAGmIw6zcqG7DMHNGiLMp1yDaSbNwN/o/Gmz
+	H2HlSD5bqBi3RplwL/SnkD0wD0KUQ==
+X-ME-Sender: <xms:HLEBYg6jw33gP6tAXBkbbBPNm4gGLbfE98ysR-hGoL_Ozu60Rylstw>
+    <xme:HLEBYh4dqQ3adV6Qd1t2gCrgiDnlBoAzzy10EMDTx_34cils8jIJ2dFvr7LpOjpgw
+    OkkCQNwtrwns3djTA>
+X-ME-Received: <xmr:HLEBYvexMpT1Ym7Mbdz_UUlt-gJcQg9yRVtICaIGsb8uWm1ySPLnl9dFPKc6UB_tgm8zQRI_kif1DqEn5HzNmLdboZvH6x0-qMysB0BXYv2pXglTTIPAfvhT_w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeigddugecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
+    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:HLEBYlIcESxYubPnsfJoYBFrpQV7Eca9oPiwAtrBPV0poWN-8a0Tew>
+    <xmx:HLEBYkJ_lpYGg0JrkD8SfUuIEutebjO3VnO7aYSFpLvmu_rCRQzf0w>
+    <xmx:HLEBYmwXKGJNpft6ZS79msn9_tfLg7HwdqRIBM_EBdjbuyZTxtrRXg>
+    <xmx:HbEBYnZPQRdSjNs7ec0qiolHyDVZ8LMFS3OghivBTbNnBGrprWFMS9OcNV8>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 7 Feb 2022 18:54:03 -0500 (EST)
+Subject: Re: (subset) [PATCH v3 5/6] clk: sunxi-ng: Add support for the sun6i
+ RTC clocks
+To: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Stephen Boyd <sboyd@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Michael Turquette <mturquette@baylibre.com>, Rob Herring
+ <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ Alessandro Zummo <a.zummo@towertech.it>
 References: <20220203021736.13434-1-samuel@sholland.org>
- <20220203021736.13434-3-samuel@sholland.org>
+ <20220203021736.13434-6-samuel@sholland.org>
+ <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org>
+Date: Mon, 7 Feb 2022 17:54:02 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220203021736.13434-3-samuel@sholland.org>
+In-Reply-To: <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Wed, 02 Feb 2022 20:17:32 -0600, Samuel Holland wrote:
-> These new RTC variants all have a single alarm, like the R40 variant.
-> 
-> For the new SoCs, start requiring a complete list of input clocks. The
-> H616 has three required clocks. The R329 also has three required clocks
-> (but one is different), plus an optional crystal oscillator input. The
-> D1 RTC is identical to the one in the R329.
-> 
-> And since these new SoCs will have a well-defined output clock order as
-> well, they do not need the clock-output-names property.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v3:
->  - Add/fix several maxItems attributes for clocks and clock-items
-> 
-> Changes in v2:
->  - Properly update the DT binding clocks and clock-names properties.
-> 
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 76 ++++++++++++++++++-
->  include/dt-bindings/clock/sun6i-rtc.h         | 10 +++
->  2 files changed, 83 insertions(+), 3 deletions(-)
->  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
-> 
+Hi Maxime,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On 2/7/22 3:00 AM, Maxime Ripard wrote:
+> On Wed, 2 Feb 2022 20:17:35 -0600, Samuel Holland wrote:
+>> The RTC power domain in sun6i and newer SoCs manages the 16 MHz RC
+>> oscillator (called "IOSC" or "osc16M") and the optional 32 kHz crystal
+>> oscillator (called "LOSC" or "osc32k"). Starting with the H6, this power
+>> domain also handles the 24 MHz DCXO (called variously "HOSC", "dcxo24M",
+>> or "osc24M") as well. The H6 also adds a calibration circuit for IOSC.
+>>
+>> Later SoCs introduce further variations on the design:
+>>  - H616 adds an additional mux for the 32 kHz fanout source.
+>>  - R329 adds an additional mux for the RTC timekeeping clock, a clock
+>>    for the SPI bus between power domains inside the RTC, and removes the
+>>    IOSC calibration functionality.
+>>
+>> [...]
+> 
+> Applied to local tree (sunxi/clk-for-5.18).
+
+Part of the build failures were because this patch depends on patch 3. Is that
+okay, or should I update this patch to be independent?
+
+Regards,
+Samuel
