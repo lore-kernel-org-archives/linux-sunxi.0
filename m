@@ -1,168 +1,75 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4E72F27
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 16:36:18 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 9C87B2B0015B;
-	Mon,  7 Feb 2022 11:36:16 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 07 Feb 2022 11:36:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; bh=V8EVNwc5nHynWtDy2ZcZZsjHZn7jq0
-	wud2WmvRiUFsM=; b=WF8LhGW4cnYGmHwbJtXnP0iTA2MujGLHhFHw5pFc7WqkJL
-	Ln/Wl7D9SzVJ9KeeMez8oWFeD+arJ/7w3IiMKUqyJCHI1Qv9qGo+40izdo3cOUoQ
-	sIy1RqZqJItjivQH8yy1crvrqimqbQJqCK2rH1WRz7eIOFn6TKJVb5MytbKb6yy5
-	EJ4j5ai9soxy8PdzaaPe4jdvbXxiOJfPGq8jmwmQQOAjm1RLMJHaLK+hIZO9C40y
-	JhKeSuXokSSO6PnlAHhefK/FG4oMC2Pdr7kha7rj/TTZGQzwO7leVEeQ8WV9vIvU
-	G05xBbc22pzHlNj6tG30a1x0aQhGTKrGpvrFVjzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=V8EVNw
-	c5nHynWtDy2ZcZZsjHZn7jq0wud2WmvRiUFsM=; b=SNeqJBqShwbxVaQEGvHE4u
-	C9dBFZJ0M46qhEhyCpDj3ToiC/J6jTvI+qzLkl84VXYgkgBBKd+X+9kF51P2vL2F
-	yGQhWotIyRkvqCmiglop5eN5cwX2kQ3qewzzvbFY/EeowPr4DQOjPn8fWyBNrtNn
-	GaQsqXuBGi5iOsSSzJfMgsWyQ6UxwVPBk+Xe/FZx9OacoPpC+GLmivJiWK9LhffZ
-	h0NYu/l14FhQbTMviFdWGq37XA938Dk1NahTuP4oqF60R/mb5wJr2P3cvpjiF6qF
-	HkQAbUTGMRwcX40iQb0XXu71RQCIrX2ABxi5d8I68uhnQnEyMSiSFWQGD+/RASCQ
-	==
-X-ME-Sender: <xms:f0oBYqfM_Iwci5oicGPUUlB3UlA-Khuu7XD002MdbndSkFxjXNaDZg>
-    <xme:f0oBYkNJa-tCPHEK9bZaiI21va4XH4fRaquy2CZoaTbqjweeOpUg3hD-NyqPBvwaE
-    -oLeltitQbM_k4irMM>
-X-ME-Received: <xmr:f0oBYri7pDuQKpxXFavJ-N_9LM1zjf9x0bT_jy6gXnapsQIPIUfra3ed6ED34hjo-a9JpRZSWnqR5n9033XiDxyuiK-qOnc2IFILEX4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheehgdekjecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
-    vdenucevlhhushhtvghrufhiiigvpeefnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:f0oBYn-pTkim-6lC4kUOPF_MgyZbHUhRS43JOyyuuRk0by5Oly7JpQ>
-    <xmx:f0oBYmsJHhXsZ1t98zB4wlhKPmBR6zXCeOt-1dOcNVk1ZlarIRw2Gg>
-    <xmx:f0oBYuHAyvM6rx-6oNV-ViKN1QP3TEgQCl7G9es0LAEov-AZUdHOYg>
-    <xmx:gEoBYnFSlKgbwuUogqyx0VSXMPth90QhVI27Y7QbBYyX3-Ie3kk_YEWjqEg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 11:36:15 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>,
-	David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Tim Gover <tim.gover@raspberrypi.com>,
-	Dom Cobley <dom@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 18/23] drm/sun4i: layer: Remove redundant zpos initialisation
-Date: Mon,  7 Feb 2022 17:35:10 +0100
-Message-Id: <20220207163515.1038648-19-maxime@cerno.tech>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220207163515.1038648-1-maxime@cerno.tech>
-References: <20220207163515.1038648-1-maxime@cerno.tech>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B1D2F25
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 21:45:58 +0000 (UTC)
+Received: by mail-oo1-f50.google.com with SMTP id v17-20020a4ac911000000b002eac41bb3f4so15250030ooq.10
+        for <linux-sunxi@lists.linux.dev>; Mon, 07 Feb 2022 13:45:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=QOxTpsiItYIgn973R83OB/6cA8BtGbALp2vvEgGAMiM=;
+        b=lZ39RtvTfXaXup/nbHjn1aWUkfhCp3FEeAz+AL0xD/AbnEPN1ooAsw/m/12uA+5wfb
+         C5+1orVFMj8o9vCqYHBC7fkUGMxGNhJVgWFBFy5qb7tMd4HQxRKawdj/eslv2CRzHdcy
+         8EfwGC7WaQFxnMile1MxTsitQ39R8p7hrm94PE/cVmv1vg4HaI9ROGa07VpQ0+Xc7+MK
+         7P7z8/MWswZNJ9JmbNPOt7P/uVTPDA3TbU08RTA1NWe8DvHDNo++b9gg7AZEo2I+2DOj
+         Uhtonec1hQtq0OI1HdHb6IcW6ATyxHTwVZgo2kXWzAbPU0yKg8uXmwL7KXiccjgENvwg
+         966Q==
+X-Gm-Message-State: AOAM5311qfRE1yU9DLsOREJjh4LrqVtsmMsmDoLZLCgA1hdqUd99fz3J
+	TpPCCS/DhzWifVELKhu5NQ==
+X-Google-Smtp-Source: ABdhPJxjjb8hTz7JrQNc/dwzSDalOZbNtl/l3u7RMYurH9/W708famAbJ2Dk4CF7ZuFBAkYyOEv59Q==
+X-Received: by 2002:a05:6870:3896:: with SMTP id y22mr323481oan.171.1644270357696;
+        Mon, 07 Feb 2022 13:45:57 -0800 (PST)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
+        by smtp.gmail.com with ESMTPSA id i1sm1419831ood.32.2022.02.07.13.45.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Feb 2022 13:45:56 -0800 (PST)
+Received: (nullmailer pid 978810 invoked by uid 1000);
+	Mon, 07 Feb 2022 21:45:55 -0000
+Date: Mon, 7 Feb 2022 15:45:55 -0600
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev, Alessandro Zummo <a.zummo@towertech.it>, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Michael Turquette <mturquette@baylibre.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, linux-clk@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Rob Herring <robh+dt@kernel.org>, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v3 2/6] dt-bindings: rtc: sun6i: Add H616, R329, and D1
+ support
+Message-ID: <YgGTE/vLUBctPo17@robh.at.kernel.org>
+References: <20220203021736.13434-1-samuel@sholland.org>
+ <20220203021736.13434-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220203021736.13434-3-samuel@sholland.org>
 
-The sun4i KMS driver will call drm_plane_create_zpos_property() with an
-init value depending on the plane type.
+On Wed, 02 Feb 2022 20:17:32 -0600, Samuel Holland wrote:
+> These new RTC variants all have a single alarm, like the R40 variant.
+> 
+> For the new SoCs, start requiring a complete list of input clocks. The
+> H616 has three required clocks. The R329 also has three required clocks
+> (but one is different), plus an optional crystal oscillator input. The
+> D1 RTC is identical to the one in the R329.
+> 
+> And since these new SoCs will have a well-defined output clock order as
+> well, they do not need the clock-output-names property.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v3:
+>  - Add/fix several maxItems attributes for clocks and clock-items
+> 
+> Changes in v2:
+>  - Properly update the DT binding clocks and clock-names properties.
+> 
+>  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml | 76 ++++++++++++++++++-
+>  include/dt-bindings/clock/sun6i-rtc.h         | 10 +++
+>  2 files changed, 83 insertions(+), 3 deletions(-)
+>  create mode 100644 include/dt-bindings/clock/sun6i-rtc.h
+> 
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in sun4i_backend_layer_reset().
-However, the helpers have been adjusted to set it properly at reset, so
-this is not needed anymore.
-
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun4i_layer.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 929e95f86b5b..6d43080791a0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -18,7 +18,6 @@
- 
- static void sun4i_backend_layer_reset(struct drm_plane *plane)
- {
--	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
- 	struct sun4i_layer_state *state;
- 
- 	if (plane->state) {
-@@ -31,10 +30,8 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
- 	}
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
-+	if (state)
- 		__drm_atomic_helper_plane_reset(plane, &state->state);
--		plane->state->zpos = layer->id;
--	}
- }
- 
- static struct drm_plane_state *
-@@ -192,7 +189,8 @@ static const uint64_t sun4i_layer_modifiers[] = {
- 
- static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 						struct sun4i_backend *backend,
--						enum drm_plane_type type)
-+						enum drm_plane_type type,
-+						unsigned int id)
- {
- 	const uint64_t *modifiers = sun4i_layer_modifiers;
- 	const uint32_t *formats = sun4i_layer_formats;
-@@ -204,6 +202,7 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
-+	layer->id = id;
- 	layer->backend = backend;
- 
- 	if (IS_ERR_OR_NULL(backend->frontend)) {
-@@ -226,8 +225,8 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 			     &sun4i_backend_layer_helper_funcs);
- 
- 	drm_plane_create_alpha_property(&layer->plane);
--	drm_plane_create_zpos_property(&layer->plane, 0, 0,
--				       SUN4I_BACKEND_NUM_LAYERS - 1);
-+	drm_plane_create_zpos_property(&layer->plane, layer->id,
-+				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
- 
- 	return layer;
- }
-@@ -249,14 +248,13 @@ struct drm_plane **sun4i_layers_init(struct drm_device *drm,
- 		enum drm_plane_type type = i ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
- 		struct sun4i_layer *layer;
- 
--		layer = sun4i_layer_init_one(drm, backend, type);
-+		layer = sun4i_layer_init_one(drm, backend, type, i);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
- 				i ? "overlay" : "primary");
- 			return ERR_CAST(layer);
- 		}
- 
--		layer->id = i;
- 		planes[i] = &layer->plane;
- 	}
- 
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
