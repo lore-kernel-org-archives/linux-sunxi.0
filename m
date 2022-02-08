@@ -1,106 +1,78 @@
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA272F2C
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Feb 2022 23:54:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id 5FB362B001F4;
-	Mon,  7 Feb 2022 18:54:06 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Mon, 07 Feb 2022 18:54:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; bh=7T1gb9q/dG3+e+
-	HVYc4URRtl0zI51K/MI/cYy1EcerM=; b=SDYv224gBZ5TT66LpyAI9ivK3tYsVZ
-	GBDiKxzdAELBE+LHIad5qxjwoVvgShjRZqvs1T+iE1ug4DfXaHnPXWqu3w3dW6iS
-	VWYhOUl/EqRiKCBjT+8acRD/NDUoFmg5rDbRyxEem25KtRpeEtsIn3OmVvQ1o06O
-	/uqL4Hxvu1eOldEvKivAb8tYgEdUAQSxU1Mkq6qXmntsEwnrRGo26NV31u68KB62
-	pUUkKRlaMcTRtlWJ21rw2p46tK/w0LVXTHjN6vY6X7GLaePGA86U3dyc2+cE58bi
-	p4llC4FgLAdhQXgDDIqSD7J/XMQiPkeJqz7AKEjiOTDKs39DBr95K10g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=7T1gb9q/dG3+e+HVYc4URRtl0zI51K/MI/cYy1Ece
-	rM=; b=dLl3ZpuPFU64fHFzudMdRGhNEh23o8k+blqkqXrk485ZDHglhYjDWyueC
-	5REvXvS1FtUvdEeK4if4sRQffIpOKH7TEaO+zUNr+oqz4k5vHKGcV3VWNNpmM1mx
-	NX5EkDA1FyaHWQTEKowbGpsbqvyhCJM9q55+c3e1dOLBzDS4VXQQM2f0ZrUZ3vnL
-	m4BPwW+hlb7MdHrWwZc6R/Pq7jca+ihKDFWK59yYtCMUr5CdDixJsYXdhTX9L/es
-	yqH0pAQTvLaBul6yAU/SIpiJLEYxfAGmIw6zcqG7DMHNGiLMp1yDaSbNwN/o/Gmz
-	H2HlSD5bqBi3RplwL/SnkD0wD0KUQ==
-X-ME-Sender: <xms:HLEBYg6jw33gP6tAXBkbbBPNm4gGLbfE98ysR-hGoL_Ozu60Rylstw>
-    <xme:HLEBYh4dqQ3adV6Qd1t2gCrgiDnlBoAzzy10EMDTx_34cils8jIJ2dFvr7LpOjpgw
-    OkkCQNwtrwns3djTA>
-X-ME-Received: <xmr:HLEBYvexMpT1Ym7Mbdz_UUlt-gJcQg9yRVtICaIGsb8uWm1ySPLnl9dFPKc6UB_tgm8zQRI_kif1DqEn5HzNmLdboZvH6x0-qMysB0BXYv2pXglTTIPAfvhT_w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrheeigddugecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
-    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:HLEBYlIcESxYubPnsfJoYBFrpQV7Eca9oPiwAtrBPV0poWN-8a0Tew>
-    <xmx:HLEBYkJ_lpYGg0JrkD8SfUuIEutebjO3VnO7aYSFpLvmu_rCRQzf0w>
-    <xmx:HLEBYmwXKGJNpft6ZS79msn9_tfLg7HwdqRIBM_EBdjbuyZTxtrRXg>
-    <xmx:HbEBYnZPQRdSjNs7ec0qiolHyDVZ8LMFS3OghivBTbNnBGrprWFMS9OcNV8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 7 Feb 2022 18:54:03 -0500 (EST)
-Subject: Re: (subset) [PATCH v3 5/6] clk: sunxi-ng: Add support for the sun6i
- RTC clocks
-To: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Stephen Boyd <sboyd@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Michael Turquette <mturquette@baylibre.com>, Rob Herring
- <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- Alessandro Zummo <a.zummo@towertech.it>
-References: <20220203021736.13434-1-samuel@sholland.org>
- <20220203021736.13434-6-samuel@sholland.org>
- <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org>
-Date: Mon, 7 Feb 2022 17:54:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B1C2F23
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Feb 2022 13:56:34 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id f17so20537988edd.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Feb 2022 05:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=1KYUsCDR1iSxVxCml/jhw/hl2p2+gvmglE1tOJdZtqM=;
+        b=o66uVybAfrBRcV0gBzAqSGyDxUnpGYlHK6KCm3kDwxiHu/vRA1m8J/dYohiL3n9Za5
+         MNrgvt72faoBRIFZPnmPPkrpxBvIcVIC0Pe+B/ByL85ExHwZYANJGS49c3khtXizgw1O
+         cO5aFXwKsWjEE2MikbNR20nt5n5TT5KYggztdM2PfQ7yVHPg73GnLtGqPjGitNbMV4xJ
+         z6k9+ba9gGTqK9cBX6+1qtiuEz4kFSooOoikQFPW5XWikQzezt0GGj3RfhUcAzz+NrMv
+         gaiowJoGdJg3jm1tCVIGng+x1X2/JeEmmPvvTqfBESM0r84x7GdJ3rdtt/KeNL+V2IXw
+         JhqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1KYUsCDR1iSxVxCml/jhw/hl2p2+gvmglE1tOJdZtqM=;
+        b=wVVUPPrxcoYBfWEzCbmmFN1x+ySjsw4r0Sw2TNlXzaJDgxF53UQZff+sESdKP1mRMC
+         QS/F/Q6YgVzpO64u95rg64cyptckWtjSCBMevnK8gdSSY0SfOZBzfS6I6gZoqDgMDnnt
+         WtnRCjafHUDXdVXyeVCiuWcqDes/Yy/oMEe2kP+YvYCaPsxlK665wtsQgR7fOVxt7sti
+         0z4g3NH5iTJfWWwkc+v33/1kPTFNpoRGkeBmyvk+Vo+lSkyIQcWQ4wbFIv9OJC6IUMWY
+         LKXN51mcI29IWGVph19RXHQwS/iB523mgN6r1osXj6al/ZvPFeY9RKDutbonzj8nBU+p
+         7HvA==
+X-Gm-Message-State: AOAM530jF989XghiSYAt78x53FoPuGX7XB8+ruNbXwd/QRCFse3Z8RID
+	f/LAAwSFrS2cGipijuvKFtE=
+X-Google-Smtp-Source: ABdhPJz3LX7wIZPAbp6gWO8Drhb3MvhaAYJoOWHVG2tsxZV9Z+BCcBLk/+m7XzGikZs67sbnnktU/w==
+X-Received: by 2002:aa7:c043:: with SMTP id k3mr4546167edo.184.1644328592616;
+        Tue, 08 Feb 2022 05:56:32 -0800 (PST)
+Received: from jernej-laptop.localnet (89-212-178-211.dynamic.t-2.net. [89.212.178.211])
+        by smtp.gmail.com with ESMTPSA id t8sm1620679eji.94.2022.02.08.05.56.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Feb 2022 05:56:32 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel@lists.freedesktop.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH 18/23] drm/sun4i: layer: Remove redundant zpos initialisation
+Date: Tue, 08 Feb 2022 14:56:29 +0100
+Message-ID: <3469895.R56niFO833@jernej-laptop>
+In-Reply-To: <20220207163515.1038648-19-maxime@cerno.tech>
+References: <20220207163515.1038648-1-maxime@cerno.tech> <20220207163515.1038648-19-maxime@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
 Hi Maxime,
 
-On 2/7/22 3:00 AM, Maxime Ripard wrote:
-> On Wed, 2 Feb 2022 20:17:35 -0600, Samuel Holland wrote:
->> The RTC power domain in sun6i and newer SoCs manages the 16 MHz RC
->> oscillator (called "IOSC" or "osc16M") and the optional 32 kHz crystal
->> oscillator (called "LOSC" or "osc32k"). Starting with the H6, this power
->> domain also handles the 24 MHz DCXO (called variously "HOSC", "dcxo24M",
->> or "osc24M") as well. The H6 also adds a calibration circuit for IOSC.
->>
->> Later SoCs introduce further variations on the design:
->>  - H616 adds an additional mux for the 32 kHz fanout source.
->>  - R329 adds an additional mux for the RTC timekeeping clock, a clock
->>    for the SPI bus between power domains inside the RTC, and removes the
->>    IOSC calibration functionality.
->>
->> [...]
+Dne ponedeljek, 07. februar 2022 ob 17:35:10 CET je Maxime Ripard napisal(a):
+> The sun4i KMS driver will call drm_plane_create_zpos_property() with an
+> init value depending on the plane type.
 > 
-> Applied to local tree (sunxi/clk-for-5.18).
+> Since the initial value wasn't carried over in the state, the driver had
+> to set it again in sun4i_backend_layer_reset().
+> However, the helpers have been adjusted to set it properly at reset, so
+> this is not needed anymore.
+> 
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-sunxi@lists.linux.dev
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Part of the build failures were because this patch depends on patch 3. Is that
-okay, or should I update this patch to be independent?
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Regards,
-Samuel
+Best regards,
+Jernej
+
+
