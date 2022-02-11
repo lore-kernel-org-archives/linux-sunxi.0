@@ -1,96 +1,131 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35262F44
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Feb 2022 12:27:22 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9C8551515;
-	Fri, 11 Feb 2022 04:27:22 -0800 (PST)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 20C303F70D;
-	Fri, 11 Feb 2022 04:27:21 -0800 (PST)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Ondrej Jirman <megous@megous.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v10 18/18] arm64: dts: allwinner: h616: X96 Mate: Add USB nodes
-Date: Fri, 11 Feb 2022 12:26:43 +0000
-Message-Id: <20220211122643.1343315-19-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220211122643.1343315-1-andre.przywara@arm.com>
-References: <20220211122643.1343315-1-andre.przywara@arm.com>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com [64.147.123.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54712F43
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Feb 2022 12:43:19 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id 7B1422B0015B;
+	Fri, 11 Feb 2022 07:43:17 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 11 Feb 2022 07:43:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=BDYhciq+AIHw6hjqPa/dRDkYC8xAIm4+0THkok
+	Yzbis=; b=Dq81JwwHX+baPcHzGY+cAveyLXmakpAEpZOt7zAUDj/YbPw3BNVCcQ
+	K+9AIoqsPTHPptBs94tdPRvoXx0eACD4R07TJZzhyISh2lf+haEjeoYFQ3I4fNJb
+	zCt5S0p6PjQffktregoTzcBxPiIxC6CCpr5Wdw+AZEYOiLUmrdd5PxAJmAvCSaEy
+	/xD4wg+c7JX4e+KaAxMm8NPHUzJESCm7m2DcG6OXikCXRnpnxOJmFri7jGTs/2xQ
+	DN90+joi6IFi3gmhfWnKQCFhPGqpHGxQVs2KZdRQDXa4v4NkHfEnwOLAoFM/L4+S
+	ez5n3cdGlg6dn2xP0D2N35+nMdBAPL1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BDYhciq+AIHw6hjqP
+	a/dRDkYC8xAIm4+0THkokYzbis=; b=bg8msYbqy1rWiMbg9LQzm63QMC/nShZkg
+	nhvL+zJNAWfEKxQJLK+iF/4P+za5XKDceBPVBiZEe88QOavxSZzdC0OaVQfgUUZB
+	489MlI22eKDjZPKL1U8yJsSSRFUe96tbTuZu7aHiGZN5T/AE5YBtPDIhMaLQQlul
+	BEPHjFMu1Mg2meJhPU6m6+u5tGZ9xwHIAl0T8sz1iTA4opg2q6so0aS19pozTGY2
+	bostmhHai8uwlk71sVjHyULCuVyFk3TDuZz5b6xOrLWZurCYfL/Z3wKR7JbqjUzu
+	Y5MDvgKHwtKu3M9+sJo+HOIQXWOAHZrzfJP52jvuitPHJn1VTRmFg==
+X-ME-Sender: <xms:41kGYmLc0CdM_etbKl-Vp6vregNpr3wLZEv5HCyuj7a1UH_wWB4tzw>
+    <xme:41kGYuL9OwiaIKWevvj7UdbEGt0CDU94r-W-8_ZpZ6e76-VfPYGKMvKPQXtH6Mq8I
+    YuuMr2kQ431_RzRp8Y>
+X-ME-Received: <xmr:41kGYmt9XGeCQAc2b96iKo9v9ytLNlEy6lPQ6HVJJ_2Ok-qlQipc5LxMsrQHrq5knh21mcRCAYF-t5V5ej1JISWNhPvLh-0nO90oIEs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrieefgdegvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:41kGYrb0lsihBAsCkOmN4V_hVnMKMm81zjzXClgxvmtLq02ohS51fA>
+    <xmx:41kGYtZ5LbDzg320thXD-IjgyJWFv5_Q7_wF_w-a-CjRnhXX6tswAQ>
+    <xmx:41kGYnDAAUX1CP0Z14cgFJyUumFL5l1-byhNs-uoGHjJyKVTHFAC1A>
+    <xmx:5VkGYhTbL4T6LyunZs3qneRlGpTUBFN_bhbEtRqqN_4PJAPZg7Gh_voH428>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 11 Feb 2022 07:43:15 -0500 (EST)
+Date: Fri, 11 Feb 2022 13:43:12 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Michael Turquette <mturquette@baylibre.com>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Alessandro Zummo <a.zummo@towertech.it>
+Subject: Re: (subset) [PATCH v3 5/6] clk: sunxi-ng: Add support for the sun6i
+ RTC clocks
+Message-ID: <20220211124312.kiw6t25nojvkp2rw@houat>
+References: <20220203021736.13434-1-samuel@sholland.org>
+ <20220203021736.13434-6-samuel@sholland.org>
+ <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
+ <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="lqz5abdijtduikp5"
+Content-Disposition: inline
+In-Reply-To: <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org>
 
-The X96 Mate TV box has two USB-A ports, VBUS is always on and connected
-to the DC input.
-Since USB port 0 is connected to an USB-A receptable, we configure it
-as a host port. Using it as a peripheral is dangerous, because VBUS is
-always on.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../dts/allwinner/sun50i-h616-x96-mate.dts    | 25 +++++++++++++++++++
- 1 file changed, 25 insertions(+)
+--lqz5abdijtduikp5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-index aedb3a3dff38..5c3586717c00 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -32,6 +32,14 @@ reg_vcc5v: vcc5v {
- 	};
- };
- 
-+&ehci0 {
-+	status = "okay";
-+};
-+
-+&ehci2 {
-+	status = "okay";
-+};
-+
- &ir {
- 	status = "okay";
- };
-@@ -54,6 +62,14 @@ &mmc2 {
- 	status = "okay";
- };
- 
-+&ohci0 {
-+	status = "okay";
-+};
-+
-+&ohci2 {
-+	status = "okay";
-+};
-+
- &r_rsb {
- 	status = "okay";
- 
-@@ -175,3 +191,12 @@ &uart0 {
- 	pinctrl-0 = <&uart0_ph_pins>;
- 	status = "okay";
- };
-+
-+&usbotg {
-+	dr_mode = "host";	/* USB A type receptable */
-+	status = "okay";
-+};
-+
-+&usbphy {
-+	status = "okay";
-+};
--- 
-2.25.1
+Hi Samuel,
 
+On Mon, Feb 07, 2022 at 05:54:02PM -0600, Samuel Holland wrote:
+> On 2/7/22 3:00 AM, Maxime Ripard wrote:
+> > On Wed, 2 Feb 2022 20:17:35 -0600, Samuel Holland wrote:
+> >> The RTC power domain in sun6i and newer SoCs manages the 16 MHz RC
+> >> oscillator (called "IOSC" or "osc16M") and the optional 32 kHz crystal
+> >> oscillator (called "LOSC" or "osc32k"). Starting with the H6, this pow=
+er
+> >> domain also handles the 24 MHz DCXO (called variously "HOSC", "dcxo24M=
+",
+> >> or "osc24M") as well. The H6 also adds a calibration circuit for IOSC.
+> >>
+> >> Later SoCs introduce further variations on the design:
+> >>  - H616 adds an additional mux for the 32 kHz fanout source.
+> >>  - R329 adds an additional mux for the RTC timekeeping clock, a clock
+> >>    for the SPI bus between power domains inside the RTC, and removes t=
+he
+> >>    IOSC calibration functionality.
+> >>
+> >> [...]
+> >=20
+> > Applied to local tree (sunxi/clk-for-5.18).
+>=20
+> Part of the build failures were because this patch depends on patch 3. Is=
+ that
+> okay, or should I update this patch to be independent?
+
+We don't have anything queued up yet, so I think the easiest would be to
+merge this through the RTC tree. So nothing to do on your side yet, we
+just need Alex to answer :)
+
+Maxime
+
+--lqz5abdijtduikp5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYgZZ4AAKCRDj7w1vZxhR
+xXfFAQD+s0se1c3RmUjRKL5SSsXRiVv9CkvUKcfRH7ptG2jgtAEA775H2YEgm5Ju
+UWHXjcknT+aQXdvvra4xK+YbD/hGBQg=
+=vIOd
+-----END PGP SIGNATURE-----
+
+--lqz5abdijtduikp5--
