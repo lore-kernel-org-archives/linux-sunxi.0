@@ -1,206 +1,96 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAAB7D;
-	Fri, 11 Feb 2022 20:56:34 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44E5793;
-	Fri, 11 Feb 2022 21:56:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1644612992;
-	bh=Mbj/JEWHnhuJ4egVN/7JMgXgTiAVpvT6Yrbb2y5h5y8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FKhdR2CXuHPyjSKKxXMecloiTMPp9yecKPLJ9U0Ct2G2yW16zr4yRusJCEv3SKAba
-	 MOZ1u608xioB0ReRpiLgcC3DrILH+EYESIv59Xy2ixgma8zgNmHOvBEn1obcn0hiJy
-	 tQPjILlJ3SFwbKcsAC8OwZugqaiUeSUHu6MLK3zs=
-Date: Fri, 11 Feb 2022 22:56:28 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v2 07/66] dt-bindings: media: sun6i-a31-csi: Add MIPI
- CSI-2 input port
-Message-ID: <YgbNfKiNkPmvaT1k@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-8-paul.kocialkowski@bootlin.com>
- <YgFCuaf007wd8sJy@pendragon.ideasonboard.com>
- <YgaKXvP3rLOLR9VR@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ADCB7E;
+	Sat, 12 Feb 2022 07:42:47 +0000 (UTC)
+Received: by mail-ej1-f49.google.com with SMTP id p15so27108996ejc.7;
+        Fri, 11 Feb 2022 23:42:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
+        b=J57KOpvuDcRiVi6fAKqtJNgiUyt+KnQ5OMPQqtLdEIlei46C6IQUi83n5m38nQc+Vi
+         VpPe/5ClLJdFX0x6EZiNfd2W0a2vlvf26YHyNPcfHVH2CteBHl9BSkelXeH21NUZkmN/
+         Ce3AtGY+y3wZxFztDmdLnSl/Ncvcm5z1M/6p8ijl5GE3G38CMRGCQJiW0NZQEzgUjbSM
+         oQJmiwGBa/4mUdbhkz+nW8BOFyh+fUa91ww3RC56FgxcfZ7zJNhzWb/Rxaj1HoE9+66c
+         NK/Fnu0JZuL5nBBNZ0Rfsg4DIQJOomjYjiIWW789YwUwoUZOHEpLCvztvdPbVuCq4lA1
+         Gmwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EkWXkKewPoFhmQKCPIXY6OJ14gKmezWp3+CXE5li4HY=;
+        b=tipT8mGpgghK7SPEIYeS34oQ9AaXsGFhjNL0SHYJc50iS/NIIxDsC8WXoAwSv8cnTg
+         ki8pbCmJYBxYE+l2Ytxa42AbKHMlwPOPMy7Dd5cWtO3t8d48YLxXEcJcYkbDFVuNXY/D
+         tVRzNlMPIJOPn2zMMnx7wxsVmJcw3tXQPo0klPLkF7CkxCaQoNojKiP8fLngzPJD4nZ/
+         hOKE8TM/D60pZDzIATVgq++azyTn0emNLDoetB/ZkknMbbboqcPv7umd2AAz55RWV6tz
+         plxvRQDexKw5O8cWfa5LPqCL2+EWi12CDNSgRMtDOQSJiEsxTNcEEhlchkW5TzTlz+7T
+         T+WQ==
+X-Gm-Message-State: AOAM530qhXN2dloah8QmOAPtEyjruvTJ8y57QZknq9Y9fKYwm0EM37j2
+	eipYJD7DG/fSrRvKWc07PoM=
+X-Google-Smtp-Source: ABdhPJySJr/9z9/AK53BzSB0SjeMcNIW1fPYpoxDyi0pm3Rzd+rri0GsDsaXSbzRyZh/X9GaTr17RQ==
+X-Received: by 2002:a17:907:94cb:: with SMTP id dn11mr3974252ejc.81.1644651765489;
+        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id w20sm1383205edd.79.2022.02.11.23.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Feb 2022 23:42:45 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.or,
+	wens@csie.org,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: H265: Fix neighbour info buffer size
+Date: Sat, 12 Feb 2022 08:42:41 +0100
+Message-Id: <20220212074241.43184-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YgaKXvP3rLOLR9VR@aptenodytes>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Feb 11, 2022 at 05:10:06PM +0100, Paul Kocialkowski wrote:
-> Hi Laurent,
-> 
-> Thanks for the review!
-> 
-> On Mon 07 Feb 22, 18:03, Laurent Pinchart wrote:
-> > Hi Paul,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Sat, Feb 05, 2022 at 07:53:30PM +0100, Paul Kocialkowski wrote:
-> > > The A31 CSI controller supports two distinct input interfaces:
-> > > parallel and an external MIPI CSI-2 bridge. The parallel interface
-> > > is often connected to a set of hardware pins while the MIPI CSI-2
-> > > bridge is an internal FIFO-ish link. As a result, these two inputs
-> > > are distinguished as two different ports.
-> > > 
-> > > Note that only one of the two may be present on a controller instance.
-> > > For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> > > dedicated to parallel.
-> > 
-> > Is it that only one of the two is present, or only one of the two is
-> > connected ? In the latter case I'd make both ports required, but with
-> > only one of them connected.
-> 
-> There are situations where the actual pins for parallel (port@0) are missing
-> and the controller is dedicated to its mipi csi-2 bridge (port@1), cases where
-> the two are present and cases where the mipi csi-2 bridge doesn't exist.
-> So all in all it's really legit that only one port may be defined.
+Neighbour info buffer size needs to be 794 kiB in H6. This is actually
+already indirectly mentioned in the comment, but smaller size is used
+nevertheless.
 
-The port could still exist internally in the IP core though. Of course
-that's hard to tell.
+Increase buffer size to cover H6 needs. Since increase is not that big
+in absolute numbers, it doesn't make sense to complicate logic for older
+generations.
 
-> > > Update the binding with an explicit ports node that holds two distinct
-> > > port nodes: one for parallel input and one for MIPI CSI-2.
-> > > 
-> > > This is backward-compatible with the single-port approach that was
-> > > previously taken for representing the parallel interface port, which
-> > > stays enumerated as fwnode port 0.
-> > > 
-> > > Note that additional ports may be added in the future, especially to
-> > > support feeding the CSI controller's output to the ISP.
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > Acked-by: Maxime Ripard <mripard@kernel.org>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-csi.yaml        | 60 +++++++++++++++----
-> > >  1 file changed, 47 insertions(+), 13 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > index 8b568072a069..3cc61866ea89 100644
-> > > --- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-> > > @@ -61,6 +61,34 @@ properties:
-> > >  
-> > >      additionalProperties: false
-> > >  
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: "#/properties/port"
-> > > +        unevaluatedProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: MIPI CSI-2 bridge input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 1
-> > > +
-> > > +          endpoint:
-> > > +            $ref: video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +    anyOf:
-> > > +      - required:
-> > > +        - port@0
-> > > +      - required:
-> > > +        - port@1
-> > > +
-> > >  required:
-> > >    - compatible
-> > >    - reg
-> > 
-> > Shouldn't you specify that either port or ports is required, but not
-> > both ? I'd also add a comment in the port node to tell it's deprecated,
-> > and that ports should be used instead.
-> 
-> Yes I agree on both points. I guess that should be a:
-> 
-> oneOf:
->   - required:
->     - ports
->   - required:
->     - port
-> 
-> (but feel free to correct me).
-> 
-> > > @@ -89,19 +117,25 @@ examples:
-> > >                        "ram";
-> > >          resets = <&ccu RST_BUS_CSI>;
-> > >  
-> > > -        port {
-> > > -            /* Parallel bus endpoint */
-> > > -            csi1_ep: endpoint {
-> > > -                remote-endpoint = <&adv7611_ep>;
-> > > -                bus-width = <16>;
-> > > -
-> > > -                /*
-> > > -                 * If hsync-active/vsync-active are missing,
-> > > -                 * embedded BT.656 sync is used.
-> > > -                 */
-> > > -                 hsync-active = <0>; /* Active low */
-> > > -                 vsync-active = <0>; /* Active low */
-> > > -                 pclk-sample = <1>;  /* Rising */
-> > > +        ports {
-> > > +            #address-cells = <1>;
-> > > +            #size-cells = <0>;
-> > > +
-> > > +            port@0 {
-> > > +                reg = <0>;
-> > > +                /* Parallel bus endpoint */
-> > > +                csi1_ep: endpoint {
-> > > +                    remote-endpoint = <&adv7611_ep>;
-> > > +                    bus-width = <16>;
-> > > +
-> > > +                    /*
-> > > +                     * If hsync-active/vsync-active are missing,
-> > > +                     * embedded BT.656 sync is used.
-> > > +                     */
-> > > +                     hsync-active = <0>; /* Active low */
-> > > +                     vsync-active = <0>; /* Active low */
-> > > +                     pclk-sample = <1>;  /* Rising */
-> > 
-> > Wrong indentation.
-> 
-> The double-space before /* Rising */ or something with the heading indent?
+Bug was discovered using iommu, which reported access error when trying
+to play H265 video.
 
-The heading has one extra space for all three lines, they should be
-aligned to the / of /*, not to the *.
+Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> > > +                };
-> > >              };
-> > >          };
-> > >      };
-
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 8ab2d9c6f048..44f385be9f6c 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -23,7 +23,7 @@
+  * Subsequent BSP implementations seem to double the neighbor info buffer size
+  * for the H6 SoC, which may be related to 10 bit H265 support.
+  */
+-#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(397 * SZ_1K)
++#define CEDRUS_H265_NEIGHBOR_INFO_BUF_SIZE	(794 * SZ_1K)
+ #define CEDRUS_H265_ENTRY_POINTS_BUF_SIZE	(4 * SZ_1K)
+ #define CEDRUS_H265_MV_COL_BUF_UNIT_CTB_SIZE	160
+ 
 -- 
-Regards,
+2.35.1
 
-Laurent Pinchart
