@@ -1,89 +1,118 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2962C9E
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Feb 2022 23:26:33 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4FF7EC7970
-	for <linux-sunxi@lists.linux.dev>; Sat, 12 Feb 2022 23:24:13 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id E819BC0007;
-	Sat, 12 Feb 2022 23:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644708244;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=oFSzZ5yOgdSQAwv0PITlc/tQFNbxlnrDufyb0qNF53Q=;
-	b=T3Nl6zUHyCCqkZ70eVXfYZPR33z37M7lQnQsY+qmZhmbBJnDZ0vkPcvrgeCaDUCrE7XYTG
-	ILeyfuqBi6bYKAeXp/+nAYT3K5KTIk8buMzeNFwPqKGKGGYbtb4y354lm3VK68YPcM9p13
-	GBXHxFZNceYRpbKJBptTKYI+quWgKOkYq3xEOs79KFibZlf/2IxCxTwvRhrawA52lYqw70
-	im16ziLbq8q0e2vjmRtKvYMY6aMLDbypJbYyeDS7ToLhecyaFV97jUE+rQL876R3RI52D9
-	QCqLVoxh7Gfr90O0YJ26z9EbwtX8EIF6afWEBxUKD5ur6J05GKkR6ln6a7XOOw==
-Date: Sun, 13 Feb 2022 00:24:02 +0100
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Michael Turquette <mturquette@baylibre.com>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	Alessandro Zummo <a.zummo@towertech.it>
-Subject: Re: (subset) [PATCH v3 5/6] clk: sunxi-ng: Add support for the sun6i
- RTC clocks
-Message-ID: <YghBkp/sUHdqSn4G@piout.net>
-References: <20220203021736.13434-1-samuel@sholland.org>
- <20220203021736.13434-6-samuel@sholland.org>
- <164422443570.21572.13511859513410998733.b4-ty@cerno.tech>
- <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org>
- <20220211124312.kiw6t25nojvkp2rw@houat>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B494D7D;
+	Sun, 13 Feb 2022 11:33:56 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id q7so22413918wrc.13;
+        Sun, 13 Feb 2022 03:33:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
+        b=OK0IROEtmVHSd6bnjgTZAXeNZrVBxdV791WH8w6dkmD8N9Rc4BOr1zMpPhM0oAZXUu
+         F5+8tdpFeHqnUYZviWCBWzlZ2ikr2llcEWe2hHPNQg6igNlyv09Bv68r6NlXQUNEZpz6
+         YcMc3pe37dtNU0ALFTxUqgVf86I1ffFURsf3MdcQndVytg90HmTZCJb756kytkkqTQtI
+         dcPT6EL5NDuYJd8o9tSAWNY3Li7cEkY/rZW0c0BS0vTv8hfMvTEwzXxpaDF3dnt7JW3f
+         UPvTSd+ff+mcbppFm0AnkM2BufIEg5BbEtHreOY8Qynr2HRYSjgO3THIXWe4xdJDVtF8
+         adUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
+        b=6IHXDUToeid8NAhR2VEmCRh/uxRLpd9ozsA125aKn6uqJ2fs5S5zFN1U73ntzFAgqI
+         CZP76CY3xa4Uf9bNobaeV9SuGIyBe+dE6GACOL05KPUN+1msIhNtbwCxgH/wQA1xXeff
+         TQvAFC3mikpj2d0v4Xz67vPTjTuVDA9O/nQH1B7K1xUiAN8jTY16KoDgtUL9bUX2UKgf
+         gerj75EXK2SCtU/OoP2vFk9BQZe0149TVmp6LD6/QBoQ1GOS3YQXWZAaHFYuSnMX+MKW
+         nHzNLD0fjKmA09AntTJdprVWTR21IIfGOPvgAIrRq+b/lCgwMkSzZJxDEKpPYnOIf02I
+         NUkA==
+X-Gm-Message-State: AOAM531gAYeYRL0dkl4rtO4yxU0C73oCiu6YaNNnD1NT3JQBaB98fzZz
+	R6v0Sp9djmfxqLc0Nc9nVjU=
+X-Google-Smtp-Source: ABdhPJyTwqnXzmlapAqyauG6oyW/56U04p6xjFiix7W8KKn7b5P3uTYi4MmaqWyzQZ3BYqmtZlTA1A==
+X-Received: by 2002:a5d:4fc7:: with SMTP id h7mr7611085wrw.673.1644752034944;
+        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id p27sm9091564wms.39.2022.02.13.03.33.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
+Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
+Date: Sun, 13 Feb 2022 12:33:53 +0100
+Message-ID: <8038233.T7Z3S40VBb@kista>
+In-Reply-To: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
+References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220211124312.kiw6t25nojvkp2rw@houat>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/02/2022 13:43:12+0100, Maxime Ripard wrote:
-> Hi Samuel,
+Hi Benjamin,
+
+CC: Alex, John
+
+Sorry for late response, but I've been very busy last week.
+
+First of all, thank you for doing this! It's about time that HEVC moves 
+forward.
+
+Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
+> The HEVC stateless 'uAPI' was staging and marked explicitly in the
+> V4L2 specification that it will change and is unstable.
 > 
-> On Mon, Feb 07, 2022 at 05:54:02PM -0600, Samuel Holland wrote:
-> > On 2/7/22 3:00 AM, Maxime Ripard wrote:
-> > > On Wed, 2 Feb 2022 20:17:35 -0600, Samuel Holland wrote:
-> > >> The RTC power domain in sun6i and newer SoCs manages the 16 MHz RC
-> > >> oscillator (called "IOSC" or "osc16M") and the optional 32 kHz crystal
-> > >> oscillator (called "LOSC" or "osc32k"). Starting with the H6, this power
-> > >> domain also handles the 24 MHz DCXO (called variously "HOSC", "dcxo24M",
-> > >> or "osc24M") as well. The H6 also adds a calibration circuit for IOSC.
-> > >>
-> > >> Later SoCs introduce further variations on the design:
-> > >>  - H616 adds an additional mux for the 32 kHz fanout source.
-> > >>  - R329 adds an additional mux for the RTC timekeeping clock, a clock
-> > >>    for the SPI bus between power domains inside the RTC, and removes the
-> > >>    IOSC calibration functionality.
-> > >>
-> > >> [...]
-> > > 
-> > > Applied to local tree (sunxi/clk-for-5.18).
-> > 
-> > Part of the build failures were because this patch depends on patch 3. Is that
-> > okay, or should I update this patch to be independent?
+> Note that these control IDs were never exported as a public API,
+> they were only defined in kernel-local headers (hevc-ctrls.h).
 > 
-> We don't have anything queued up yet, so I think the easiest would be to
-> merge this through the RTC tree. So nothing to do on your side yet, we
-> just need Alex to answer :)
+> While moving the controls out of staging they are renamed and
+> control IDs get new numbers.
+> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
+
+accordaly -> accordingly
+
 > 
+> Additional structures fields has been added for RKVDEC driver usage.
 
-I can take the whole series but I think I would need acks from Stephen
+You should do separate patch for that, preceding this one. One patch should 
+only do one thing.
+
+I also suggest that you add additional patch for removing bit_size field in 
+struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
+MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
+it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
+bit size.
+
+> Hantro dedicated control is moving to hantro-media.h
+> Since hevc-ctrls.h content has been dispatched in others file, remove it.
+> 
+> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+
+Note that Cedrus still needs additional information in order to decode some 
+HEVC videos. Missing info is num_entry_point_offsets and list of all 
+entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
+
+I suggest that this is represented in a new control, which would use dynamic 
+array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
+be much bigger in theory, but in reality, it's much smaller (like 4-8 
+entries).
+
+Last but not least, data_bit_offset should be better defined. Currently it 
+points right after last header bit, just like Cedrus needs it. However, there 
+is padding after that, at least 1 bit and 8 bits at most, so slice data always 
+starts from byte aligned address. It probably make sense to rework that field 
+to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
+uses byte aligned address directly. Cedrus would need some kind of workaround 
+and only one that works is this one:
+https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
+
+Best regards,
+Jernej
 
 
--- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
