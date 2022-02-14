@@ -1,12 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0907D;
-	Mon, 14 Feb 2022 10:01:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CF7BC340E9;
-	Mon, 14 Feb 2022 10:01:38 +0000 (UTC)
-Message-ID: <713cee9b-c96c-119a-65be-3c289b361915@xs4all.nl>
-Date: Mon, 14 Feb 2022 11:01:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47EBB7C
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 10:50:00 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id k3-20020a1ca103000000b0037bdea84f9cso10550263wme.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 02:50:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=DXv8SmLAPMNrPJ3mqwP/UuQ6ZTsnkTp239g0OTWzlWA=;
+        b=Mzulk2XClL7m/nGCOdw94t+dgDFGHB4aVksteuofaaRa6xxyPqxvdn7NK6SdQpTIMm
+         84gOQ2nkgwCF9lkU3ebqn9ocLqVhl9nK7Ol91VzuatvgUT3/MILOC8C+5Dge0ll5speM
+         OPvTq4XR4At4lH7P+VkO3WylRaVGmycHr8XnjFvvjFWoYFm2f1BQtXk2q6Pr8qQwOt3c
+         Nc9YMgKNlihGbhiwqPc3Hs7FekGV//l+Px+d3fDULIOGW9seSwIaQSDaiouk5PerQLqc
+         j1auWiU7PiaW3VMZu/4Uh2g4Wcc/fNkhXlYwqYQWnZU1G0FGf7yHWAlqbIYnf4cv1g8a
+         VHFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=DXv8SmLAPMNrPJ3mqwP/UuQ6ZTsnkTp239g0OTWzlWA=;
+        b=0OwYR7blWo5U1FmhUXG+2MiePMRYQPLnth4uXz1Sl3VtByz4gd3xR3/yHWgHPJS+Ls
+         07WcAZi0y2/M12rEuf/MRZ/0NiaV/MNCC3FgmmXk138u72mAHfZBGMdt0Fl4y4zPApje
+         LCMG68ePxY+QNv/qUSFdsH7f9Xjik/notSxzJKMw4Cqu/nZcFc16l2qoO+tY6TjCTj9i
+         jLU5lqYzyOUjDOtld5b6HSoiHNt7yMmonwvlb0Qr7CBGXDC0r2drAyHbT9hHivYtMz2R
+         Z1+iUjC39DSdfp5KIi+dQBN4ZZULb8Dr8kuiDOnskTLEkePHuslHktgpnhSBWdK59mCv
+         EBZg==
+X-Gm-Message-State: AOAM532sKQsXhnwA2TqLcPmsPwX5LvcP1ZW1+IymkK8OX9j+KppPZhu5
+	5LS6lwwUxvXOzMJWERN5Cz5Tkg==
+X-Google-Smtp-Source: ABdhPJzKJsy80xYZ3+bzTwXnv+y+Y5fOp64rrpJitEd3V8DuS1Z1Eai8C0vh/48VKS2HutAE73zE3g==
+X-Received: by 2002:a05:600c:b59:: with SMTP id k25mr10603699wmr.170.1644835798574;
+        Mon, 14 Feb 2022 02:49:58 -0800 (PST)
+Received: from [192.168.86.34] (cpc90716-aztw32-2-0-cust825.18-1.cable.virginm.net. [86.26.103.58])
+        by smtp.googlemail.com with ESMTPSA id h6sm1920631wmq.8.2022.02.14.02.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Feb 2022 02:49:58 -0800 (PST)
+Message-ID: <7a796e98-ef79-e50f-77b8-0b7ae533f06a@linaro.org>
+Date: Mon, 14 Feb 2022 10:49:56 +0000
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -14,97 +46,46 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 1/2] dt-bindings: nvmem: SID: Add compatible for D1
 Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se,
- nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@collabora.com,
- Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
- <8038233.T7Z3S40VBb@kista>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <8038233.T7Z3S40VBb@kista>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+References: <20220203012502.10661-1-samuel@sholland.org>
+From: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+In-Reply-To: <20220203012502.10661-1-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
 
-On 2/13/22 12:33, Jernej Škrabec wrote:
-> Hi Benjamin,
-> 
-> CC: Alex, John
-> 
-> Sorry for late response, but I've been very busy last week.
-> 
-> First of all, thank you for doing this! It's about time that HEVC moves 
-> forward.
-> 
-> Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
->> The HEVC stateless 'uAPI' was staging and marked explicitly in the
->> V4L2 specification that it will change and is unstable.
->>
->> Note that these control IDs were never exported as a public API,
->> they were only defined in kernel-local headers (hevc-ctrls.h).
->>
->> While moving the controls out of staging they are renamed and
->> control IDs get new numbers.
->> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-> 
-> accordaly -> accordingly
-> 
->>
->> Additional structures fields has been added for RKVDEC driver usage.
-> 
-> You should do separate patch for that, preceding this one. One patch should 
-> only do one thing.
-> 
-> I also suggest that you add additional patch for removing bit_size field in 
-> struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
-> MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
-> it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
-> bit size.
-> 
->> Hantro dedicated control is moving to hantro-media.h
->> Since hevc-ctrls.h content has been dispatched in others file, remove it.
->>
->> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> 
-> Note that Cedrus still needs additional information in order to decode some 
-> HEVC videos. Missing info is num_entry_point_offsets and list of all 
-> entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-> 
-> I suggest that this is represented in a new control, which would use dynamic 
-> array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
-> be much bigger in theory, but in reality, it's much smaller (like 4-8 
-> entries).
 
-I've rebased my dynarray tree, so it is up to date again:
-
-https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=dynarray
-
-Regards,
-
-	Hans
-
+On 03/02/2022 01:25, Samuel Holland wrote:
+> D1 has a SID like other Allwinner SoCs, but with a unique eFuse layout.
+> Add a new compatible string for it.
 > 
-> Last but not least, data_bit_offset should be better defined. Currently it 
-> points right after last header bit, just like Cedrus needs it. However, there 
-> is padding after that, at least 1 bit and 8 bits at most, so slice data always 
-> starts from byte aligned address. It probably make sense to rework that field 
-> to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
-> uses byte aligned address directly. Cedrus would need some kind of workaround 
-> and only one that works is this one:
-> https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+
+
+Applied both thanks,
+
+--srini
 > 
-> Best regards,
-> Jernej
+>   .../devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml       | 1 +
+>   1 file changed, 1 insertion(+)
 > 
-> 
+> diff --git a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> index 6687ab720304..e558587ff885 100644
+> --- a/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> +++ b/Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml
+> @@ -20,6 +20,7 @@ properties:
+>         - const: allwinner,sun7i-a20-sid
+>         - const: allwinner,sun8i-a83t-sid
+>         - const: allwinner,sun8i-h3-sid
+> +      - const: allwinner,sun20i-d1-sid
+>         - const: allwinner,sun50i-a64-sid
+>         - items:
+>             - const: allwinner,sun50i-a100-sid
