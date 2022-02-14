@@ -1,118 +1,95 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B494D7D;
-	Sun, 13 Feb 2022 11:33:56 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id q7so22413918wrc.13;
-        Sun, 13 Feb 2022 03:33:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=OK0IROEtmVHSd6bnjgTZAXeNZrVBxdV791WH8w6dkmD8N9Rc4BOr1zMpPhM0oAZXUu
-         F5+8tdpFeHqnUYZviWCBWzlZ2ikr2llcEWe2hHPNQg6igNlyv09Bv68r6NlXQUNEZpz6
-         YcMc3pe37dtNU0ALFTxUqgVf86I1ffFURsf3MdcQndVytg90HmTZCJb756kytkkqTQtI
-         dcPT6EL5NDuYJd8o9tSAWNY3Li7cEkY/rZW0c0BS0vTv8hfMvTEwzXxpaDF3dnt7JW3f
-         UPvTSd+ff+mcbppFm0AnkM2BufIEg5BbEtHreOY8Qynr2HRYSjgO3THIXWe4xdJDVtF8
-         adUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=02vp1JcshzGAmd266InAE4p0SMLcVM41XUbfgVtkk8w=;
-        b=6IHXDUToeid8NAhR2VEmCRh/uxRLpd9ozsA125aKn6uqJ2fs5S5zFN1U73ntzFAgqI
-         CZP76CY3xa4Uf9bNobaeV9SuGIyBe+dE6GACOL05KPUN+1msIhNtbwCxgH/wQA1xXeff
-         TQvAFC3mikpj2d0v4Xz67vPTjTuVDA9O/nQH1B7K1xUiAN8jTY16KoDgtUL9bUX2UKgf
-         gerj75EXK2SCtU/OoP2vFk9BQZe0149TVmp6LD6/QBoQ1GOS3YQXWZAaHFYuSnMX+MKW
-         nHzNLD0fjKmA09AntTJdprVWTR21IIfGOPvgAIrRq+b/lCgwMkSzZJxDEKpPYnOIf02I
-         NUkA==
-X-Gm-Message-State: AOAM531gAYeYRL0dkl4rtO4yxU0C73oCiu6YaNNnD1NT3JQBaB98fzZz
-	R6v0Sp9djmfxqLc0Nc9nVjU=
-X-Google-Smtp-Source: ABdhPJyTwqnXzmlapAqyauG6oyW/56U04p6xjFiix7W8KKn7b5P3uTYi4MmaqWyzQZ3BYqmtZlTA1A==
-X-Received: by 2002:a5d:4fc7:: with SMTP id h7mr7611085wrw.673.1644752034944;
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id p27sm9091564wms.39.2022.02.13.03.33.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Feb 2022 03:33:54 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-Subject: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date: Sun, 13 Feb 2022 12:33:53 +0100
-Message-ID: <8038233.T7Z3S40VBb@kista>
-In-Reply-To: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5247E4
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 06:16:08 +0000 (UTC)
+X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
+X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+	(envelope-from <yong.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+	with ESMTP id 1930234839; Mon, 14 Feb 2022 14:10:58 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 14 Feb 2022 14:10:56 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 14 Feb 2022 14:10:54 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
+	<airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+	<dri-devel@lists.freedesktop.org>
+CC: James Wang <james.qian.wang@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+	<iommu@lists.linux-foundation.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Krzysztof Kozlowski
+	<krzysztof.kozlowski@canonical.com>, <linux-kernel@vger.kernel.org>, Joerg
+ Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Arnd Bergmann
+	<arnd@arndb.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	<linux-mediatek@lists.infradead.org>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>, <linux-arm-kernel@lists.infradead.org>, Stephen
+ Boyd <sboyd@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Hsin-Yi Wang
+	<hsinyi@chromium.org>, Robin Murphy <robin.murphy@arm.com>, Tomasz Figa
+	<tfiga@chromium.org>, <srv_heupstream@mediatek.com>, Rob Clark
+	<robdclark@gmail.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Maxime
+ Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
+	<jernej.skrabec@gmail.com>, <linux-sunxi@lists.linux.dev>
+Subject: [PATCH 12/23] drm/sun4i: Make use of the helper component_compare_of
+Date: Mon, 14 Feb 2022 14:08:08 +0800
+Message-ID: <20220214060819.7334-13-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20220214060819.7334-1-yong.wu@mediatek.com>
+References: <20220214060819.7334-1-yong.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain
+X-MTK: N
 
-Hi Benjamin,
+Use the common compare helper from component.
 
-CC: Alex, John
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev
+Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-Sorry for late response, but I've been very busy last week.
-
-First of all, thank you for doing this! It's about time that HEVC moves 
-forward.
-
-Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard napisal(a):
-> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> V4L2 specification that it will change and is unstable.
-> 
-> Note that these control IDs were never exported as a public API,
-> they were only defined in kernel-local headers (hevc-ctrls.h).
-> 
-> While moving the controls out of staging they are renamed and
-> control IDs get new numbers.
-> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-
-accordaly -> accordingly
-
-> 
-> Additional structures fields has been added for RKVDEC driver usage.
-
-You should do separate patch for that, preceding this one. One patch should 
-only do one thing.
-
-I also suggest that you add additional patch for removing bit_size field in 
-struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed from 
-MPEG2 and H264 structures. Bit size can be deduced from output buffer size and 
-it doesn't hurt if bit size in Cedrus is set to bigger value than actual slice 
-bit size.
-
-> Hantro dedicated control is moving to hantro-media.h
-> Since hevc-ctrls.h content has been dispatched in others file, remove it.
-> 
-> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Note that Cedrus still needs additional information in order to decode some 
-HEVC videos. Missing info is num_entry_point_offsets and list of all 
-entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-
-I suggest that this is represented in a new control, which would use dynamic 
-array feature, written by Hans. While Cedrus supports max. 256 entries, it can 
-be much bigger in theory, but in reality, it's much smaller (like 4-8 
-entries).
-
-Last but not least, data_bit_offset should be better defined. Currently it 
-points right after last header bit, just like Cedrus needs it. However, there 
-is padding after that, at least 1 bit and 8 bits at most, so slice data always 
-starts from byte aligned address. It probably make sense to rework that field 
-to be byte offset, not bit, just like in VA-API. Note that RPi HEVC driver also 
-uses byte aligned address directly. Cedrus would need some kind of workaround 
-and only one that works is this one:
-https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L191-L209
-
-Best regards,
-Jernej
-
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index b630614b3d72..a3e3e51c600d 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -201,15 +201,6 @@ static bool sun4i_drv_node_is_tcon_top(struct device_node *node)
+ 		!!of_match_node(sun8i_tcon_top_of_table, node);
+ }
+ 
+-static int compare_of(struct device *dev, void *data)
+-{
+-	DRM_DEBUG_DRIVER("Comparing of node %pOF with %pOF\n",
+-			 dev->of_node,
+-			 data);
+-
+-	return dev->of_node == data;
+-}
+-
+ /*
+  * The encoder drivers use drm_of_find_possible_crtcs to get upstream
+  * crtcs from the device tree using of_graph. For the results to be
+@@ -329,7 +320,7 @@ static int sun4i_drv_add_endpoints(struct device *dev,
+ 	     of_device_is_available(node))) {
+ 		/* Add current component */
+ 		DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
+-		drm_of_component_match_add(dev, match, compare_of, node);
++		drm_of_component_match_add(dev, match, component_compare_of, node);
+ 		count++;
+ 	}
+ 
+-- 
+2.18.0
 
