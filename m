@@ -1,49 +1,50 @@
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25057FD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E90AE7FC
 	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:24:18 +0000 (UTC)
-Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com [209.85.167.71])
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com [209.85.208.198])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 347B04051D
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:16:53 +0000 (UTC)
+	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 1792640335
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:16:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1644826613;
-	bh=3IKrMG5sgA9nuG1n0JrwWMFi9IjPyF8pWWijGFM2qQk=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=i79I2qa47alM5wkWj2yK0klr14FGqox2CzMSWnj2Lt2l0NlRGUoS7wFRAGkR4HFVN
-	 XVCOHVKhvOfO7U33kG8pHvmmR6xdQzoCtVYiKrFQingC2luIidjo918UqTkgG5Xcqo
-	 /eZB4cy1UkXHSGL/9b6laxvTd1QX5TUauviCdV336gKWT1wdNBlMDcCjYFdJu3vwry
-	 T/cRrE5EGAt6WQHAbHrOLBzEZsoUoDPJ7PinBq7LDbmpzIFoq5GBxQhR3thQ+rcGRu
-	 sNQC6blE9BU4JQfQa0Y9q2qgn7S/pZ8v2c3TJGOvi5JVQ//Xv95aM06jzN0gdS6Bfy
-	 /jfsT9tDDw+Dw==
-Received: by mail-lf1-f71.google.com with SMTP id u24-20020a05651220d800b0043f923edd9eso4965127lfr.18
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 00:16:53 -0800 (PST)
+	s=20210705; t=1644826618;
+	bh=1xNmK//HjGNaIQp8eaYbachy53dRAmEobraHrPxOQCQ=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version;
+	b=VgUpz3G6IocMENdvwALNwgkotcbxG2+sHO0hCMzYRO1xEY+hFVoVv4fvA1c8a96Wq
+	 HmkLTg5R14pdvDzCgNQaeFZaoHsx0cpkorsaiDGSSCm6k+kLsrNERCZ/G6gUhcI9Mi
+	 QZ4EpJLosRW5g3YHr1TueLn0Giu/Av58ozGyemb0j2yhvh6kQ/s9SsyyiGFma5O88b
+	 S9XVtlR+6NmCIZUWF+pdswOlmurWPVf9tODmKxai/ZqPpxqwiW0XE4sfP9ROxoD3In
+	 3iqsSntpyfCCVugOx2yu3WqLXKByuUMtRdVSTUHM6B3owNufy5BBOxwbqpxkTcy00G
+	 7FAL+1DEVQtyg==
+Received: by mail-lj1-f198.google.com with SMTP id s20-20020a2eb8d4000000b00244c0c07f5aso755274ljp.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 00:16:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3IKrMG5sgA9nuG1n0JrwWMFi9IjPyF8pWWijGFM2qQk=;
-        b=jUfrI2u2m1R9L8M0hdxWrb2CGWwTBRFZG+rWJ6xkbs2iMBXC0sCc3lRZ3LIVRduyWr
-         VwaC6pSoZvkMdhBQUPoTqEnwt+BK2vop6STGq2Q3aIrtfbjFWZMzYABeE/ZSx/od/yH3
-         wkpc+2j/NRw1GID437/7mY2lhpJMtH/8/V2E8ZfPLgqWwtEbOc3zjbfWlIcCp69aMtyd
-         8D56ZaFcmFrNMbs5VffQf0dfauXI8AYvnnEoq9TMNEgumcBLI6yM8h1k4fo/pVES9K4p
-         PsPciEN5xS3CG2/ERYgbTCYoyGP/r6MkxWIlYd9/qUO6cn6jz5gcAyLv1HZyf5lzVE7j
-         Qr4w==
-X-Gm-Message-State: AOAM530GlMHXku4RfOwLTxqu1RUHJdFlcE1MCsB30zeENnLX8X+0Xx5x
-	lvtHJKlIL8MYbiZuxghWrHQbDUonVZRgglipmf5QvpKN7+UTMgL0ccS14B+TR39crTp4pgttxWT
-	cUbQXUbQvM1UwJ+KDgGg4UhBp4W+ToSEYmj5HLFCK
-X-Received: by 2002:aa7:c90b:: with SMTP id b11mr13704759edt.378.1644826601902;
-        Mon, 14 Feb 2022 00:16:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwgHjuUJhQbPl50s1KVPp6UQx9W5/7E84exEe5joEuH25s16vRC22QO8sTEVBDCljC9Ui8TEg==
-X-Received: by 2002:aa7:c90b:: with SMTP id b11mr13704730edt.378.1644826601747;
-        Mon, 14 Feb 2022 00:16:41 -0800 (PST)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=1xNmK//HjGNaIQp8eaYbachy53dRAmEobraHrPxOQCQ=;
+        b=lw+gnZE2NrinK1AO4421aH8b2w+xFWZlvE79f0kH2xy/NB9C5oERo2kiV0gNNfxJQZ
+         ntU1kaxFtqDGSQgUjObOapJ8UFNgACwtwkUUp1v1XlbE3GbbNqwORjbI3zwZWDtMxcv8
+         YKMgEIlz+UaL72VVfGQ05LAUodTnIfBLope6d4APd4ynkjCGkCP1mdjUwIx8F+zuwi+S
+         7hwUPYbpD/WUlzvmtR0l2noF9dL7BzsqGqSkmpPUtGL9rf1yIJis50aRO3qLNE7V+K1M
+         K/qO3aG9aWMGS3NVV7qhqdGOYUVCFqYgjHjkmhKTemRRBTy4ur3rZFFSfJ3IuyiQxgb0
+         EMmQ==
+X-Gm-Message-State: AOAM5302ZGLuupG7bwMjRKBrv8gGLuksXd5WNMuyZ//Biu/MZ7QIYyeo
+	Cl38nUFQflaXTqk5kK3swoPekI6B3KgTZ4wjT5MfRe9wQaqfsByGhwVmfYXmUg5Dl3DwTdti3yq
+	D7c8fPJH/hw6L3k0FtyPM803KRGCdfTSRyGRdM4kA
+X-Received: by 2002:a17:906:29d:: with SMTP id 29mr3045160ejf.183.1644826607515;
+        Mon, 14 Feb 2022 00:16:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyFwQjCgryJA08f/ZPqu91gByLS1lXUPn3UYgvNgieSyLAvCFuIrk9GLlp5SVzdDUHhPKf2qw==
+X-Received: by 2002:a17:906:29d:: with SMTP id 29mr3045116ejf.183.1644826607316;
+        Mon, 14 Feb 2022 00:16:47 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id t21sm3363642edd.74.2022.02.14.00.16.40
+        by smtp.gmail.com with ESMTPSA id t21sm3363642edd.74.2022.02.14.00.16.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 00:16:41 -0800 (PST)
+        Mon, 14 Feb 2022 00:16:46 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -81,10 +82,12 @@ To: Thierry Reding <thierry.reding@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 01/15] dt-bindings: pwm: allwinner,sun4i-a10: include generic pwm schema
-Date: Mon, 14 Feb 2022 09:15:51 +0100
-Message-Id: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 05/15] dt-bindings: pwm: mxs: include generic pwm schema
+Date: Mon, 14 Feb 2022 09:15:55 +0100
+Message-Id: <20220214081605.161394-5-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
+References: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -98,75 +101,31 @@ brings pwm-cells requirement.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../bindings/pwm/allwinner,sun4i-a10-pwm.yaml | 53 ++++++++++---------
- 1 file changed, 28 insertions(+), 25 deletions(-)
+ Documentation/devicetree/bindings/pwm/mxs-pwm.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-index 800d511502c4..e93e935564fb 100644
---- a/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/allwinner,sun4i-a10-pwm.yaml
-@@ -52,33 +52,36 @@ properties:
-   resets:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/pwm/mxs-pwm.yaml b/Documentation/devicetree/bindings/pwm/mxs-pwm.yaml
+index 8740e076061e..a34cbc13f691 100644
+--- a/Documentation/devicetree/bindings/pwm/mxs-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/mxs-pwm.yaml
+@@ -10,6 +10,9 @@ maintainers:
+   - Shawn Guo <shawnguo@kernel.org>
+   - Anson Huang <anson.huang@nxp.com>
  
--if:
--  properties:
--    compatible:
--      contains:
--        const: allwinner,sun50i-h6-pwm
--
--then:
--  properties:
--    clocks:
--      maxItems: 2
--
--    clock-names:
--      items:
--        - const: mod
--        - const: bus
--
--  required:
--    - clock-names
--    - resets
--
--else:
--  properties:
--    clocks:
--      maxItems: 1
-+
 +allOf:
 +  - $ref: pwm.yaml#
 +
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: allwinner,sun50i-h6-pwm
-+
-+    then:
-+      properties:
-+        clocks:
-+          maxItems: 2
-+
-+        clock-names:
-+          items:
-+            - const: mod
-+            - const: bus
-+
-+      required:
-+        - clock-names
-+        - resets
-+
-+    else:
-+      properties:
-+        clocks:
-+          maxItems: 1
- 
+ properties:
+   compatible:
+     enum:
+@@ -28,7 +31,6 @@ properties:
  required:
--  - "#pwm-cells"
    - compatible
    - reg
-   - clocks
+-  - "#pwm-cells"
+   - fsl,pwm-number
+ 
+ additionalProperties: false
 -- 
 2.32.0
 
