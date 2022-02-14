@@ -1,95 +1,131 @@
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5247E4
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 06:16:08 +0000 (UTC)
-X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
-X-UUID: cc29d99d1df042f4b8b8e27cdef4c160-20220214
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
-	(envelope-from <yong.wu@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-	with ESMTP id 1930234839; Mon, 14 Feb 2022 14:10:58 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 14 Feb 2022 14:10:56 +0800
-Received: from localhost.localdomain (10.17.3.154) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 14 Feb 2022 14:10:54 +0800
-From: Yong Wu <yong.wu@mediatek.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, David Airlie
-	<airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
-	<dri-devel@lists.freedesktop.org>
-CC: James Wang <james.qian.wang@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
-	<iommu@lists.linux-foundation.org>, Matthias Brugger
-	<matthias.bgg@gmail.com>, Krzysztof Kozlowski
-	<krzysztof.kozlowski@canonical.com>, <linux-kernel@vger.kernel.org>, Joerg
- Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Arnd Bergmann
-	<arnd@arndb.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	<linux-mediatek@lists.infradead.org>, Chun-Kuang Hu
-	<chunkuang.hu@kernel.org>, <linux-arm-kernel@lists.infradead.org>, Stephen
- Boyd <sboyd@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Hsin-Yi Wang
-	<hsinyi@chromium.org>, Robin Murphy <robin.murphy@arm.com>, Tomasz Figa
-	<tfiga@chromium.org>, <srv_heupstream@mediatek.com>, Rob Clark
-	<robdclark@gmail.com>, Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>, Yong Wu <yong.wu@mediatek.com>, Maxime
- Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec
-	<jernej.skrabec@gmail.com>, <linux-sunxi@lists.linux.dev>
-Subject: [PATCH 12/23] drm/sun4i: Make use of the helper component_compare_of
-Date: Mon, 14 Feb 2022 14:08:08 +0800
-Message-ID: <20220214060819.7334-13-yong.wu@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20220214060819.7334-1-yong.wu@mediatek.com>
-References: <20220214060819.7334-1-yong.wu@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88B667A
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:16:59 +0000 (UTC)
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com [209.85.208.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id BAAE5407DE
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:16:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1644826617;
+	bh=05sXSD4PIb8v0ICor9Lwlzw82mhcHvJZHXpVeLkjK/k=;
+	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version;
+	b=O5xMOHCAWiPOFG2RX04WQJTJ/GL65cdOcjJQRC38N5RdnVce71FIkhZ7p48byVDx4
+	 OM4Gob75a86YctQld+xmJzBVWo1idAX2O3YYcDHgtsVYz5LRS/PA5bE2t1v59cm5Bo
+	 wPh1AH0fp6s0FkgIdc1Od5+Au2pJ4Jr8njPQT003QbCvT6kjNzHCxiGDzNw8Qoxura
+	 w0mXX/Ebg+6Ge87umyaIawdZAqJ+aHLoPBGea6J8M1DE74Pxh/bFXWm/Cl6Z1UwwtP
+	 jAwnR1fYu39zNbtp2KunIiUkSIWt2W+blkS8ChckJwVnKaCQIHh1uk0aPa+TW4GHVk
+	 ONlDgbvnd8cZw==
+Received: by mail-lj1-f199.google.com with SMTP id z13-20020a2e884d000000b00244c087df65so754315ljj.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 00:16:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=05sXSD4PIb8v0ICor9Lwlzw82mhcHvJZHXpVeLkjK/k=;
+        b=GalWe+QXFCeqxCWQrjhMrpSyn655OyoRRaXPnrNQ0CDPs+oQoE5bfB5ccAjNwVtSyx
+         TkJjfjSx91bDhtOnyJtVDFGtaCg32Xee2FGxJpGMRmgk0wITq+FqNWtVm9uLtMY9rsGw
+         zfgmw/8l/HhRC4q/pXuuSmK2/QGHJsTP+UEOUMSvwVnc+Dcqfake2EHk+/UQ/+/QN1Gx
+         J15YFkPfVAgCclplajomprQvHnXniTsnz01GrGmgvUM69ETWTtGGNz5GYcohvVS4joy0
+         DNYy7FnTWJRBp1FENNY2qhLkKjnORP53OeREWtQyFRRXOs0F5TB2WggIKy7fiUKKJzDB
+         Aytg==
+X-Gm-Message-State: AOAM533eq9ngrRR75jx8sCHpExMDgJqeBA6l7D8zmQYI95IA1zfSOtjs
+	Ksq8MAogJW/yqY9S0ZyUGu7tz/A2unNRZSd6xhTW+D3c4JxQ7zJvUqvnagJ3Yhc7nuyTSINvDQr
+	/ZhByHo1TDNTmtgkTSSM5CsbqIbk4H3VBCaMQ4yPR
+X-Received: by 2002:a17:907:3f09:: with SMTP id hq9mr10433628ejc.388.1644826606179;
+        Mon, 14 Feb 2022 00:16:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw+ZKNecHLHlMF1p9Zdz7frO6KM7oerLABDg+IKR8oKqn7czs7ZE3TIi9GnMTbsd5cUpiNWFQ==
+X-Received: by 2002:a17:907:3f09:: with SMTP id hq9mr10433614ejc.388.1644826605951;
+        Mon, 14 Feb 2022 00:16:45 -0800 (PST)
+Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id t21sm3363642edd.74.2022.02.14.00.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Feb 2022 00:16:45 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Lee Jones <lee.jones@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Anson Huang <anson.huang@nxp.com>,
+	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
+	Rahul Tanwar <rtanwar@maxlinear.com>,
+	Jeff LaBundy <jeff@labundy.com>,
+	Yash Shah <yash.shah@sifive.com>,
+	Sagar Kadam <sagar.kadam@sifive.com>,
+	Vignesh R <vigneshr@ti.com>,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-pwm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH 04/15] dt-bindings: pwm: iqs620a: include generic pwm schema
+Date: Mon, 14 Feb 2022 09:15:54 +0100
+Message-Id: <20220214081605.161394-4-krzysztof.kozlowski@canonical.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
+References: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Transfer-Encoding: 8bit
 
-Use the common compare helper from component.
+Include generic pwm.yaml schema, which enforces PWM node naming and
+brings pwm-cells requirement.
 
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev
-Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- drivers/gpu/drm/sun4i/sun4i_drv.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index b630614b3d72..a3e3e51c600d 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -201,15 +201,6 @@ static bool sun4i_drv_node_is_tcon_top(struct device_node *node)
- 		!!of_match_node(sun8i_tcon_top_of_table, node);
- }
+diff --git a/Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml b/Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml
+index 1d7c27be50da..0a46af240d83 100644
+--- a/Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/iqs620a-pwm.yaml
+@@ -15,6 +15,9 @@ description: |
+   Documentation/devicetree/bindings/mfd/iqs62x.yaml for further details as
+   well as an example.
  
--static int compare_of(struct device *dev, void *data)
--{
--	DRM_DEBUG_DRIVER("Comparing of node %pOF with %pOF\n",
--			 dev->of_node,
--			 data);
--
--	return dev->of_node == data;
--}
--
- /*
-  * The encoder drivers use drm_of_find_possible_crtcs to get upstream
-  * crtcs from the device tree using of_graph. For the results to be
-@@ -329,7 +320,7 @@ static int sun4i_drv_add_endpoints(struct device *dev,
- 	     of_device_is_available(node))) {
- 		/* Add current component */
- 		DRM_DEBUG_DRIVER("Adding component %pOF\n", node);
--		drm_of_component_match_add(dev, match, compare_of, node);
-+		drm_of_component_match_add(dev, match, component_compare_of, node);
- 		count++;
- 	}
++allOf:
++  - $ref: pwm.yaml#
++
+ properties:
+   compatible:
+     enum:
+@@ -25,7 +28,6 @@ properties:
+ 
+ required:
+   - compatible
+-  - "#pwm-cells"
+ 
+ additionalProperties: false
  
 -- 
-2.18.0
+2.32.0
 
