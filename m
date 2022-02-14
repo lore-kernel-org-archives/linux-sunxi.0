@@ -1,50 +1,50 @@
 Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFED7A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860397FC
 	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:23:14 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com [209.85.208.69])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 46FB2407D9
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 3393A407C3
 	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 08:16:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
 	s=20210705; t=1644826614;
-	bh=DkqOnedmg2q9ShhWATftW6XUUTgR2TrUisQLyEAw/GA=;
+	bh=11HYmRlx8dE2WpuAnKJ9eGJzYR6C7S08K2HSgZ9haWY=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
 	 MIME-Version;
-	b=cxIZq0u3HmjdsAiPqVRsO/aDVPuLRl/+LeiUDRmn48lGJyS+LWSPc1huKPtqHCsyD
-	 1RL9MYmvIE0GLazWTFFcOql4+46B7CEsMpkO3Ljl/jFsVHrPlu6+CksYRuL8Ce0TTM
-	 e/2PcFDUzBfGIsxvmXHB+1GUC7Una9VABbFebmRgyvYieNViPFjtbhqlFzyljzdHeC
-	 ON89LnDH4jRPPlj4c1Iv/txDVSah/xCgfve2yarGDHQojJdk8kdTyCjlX1oA4k2A3r
-	 QJlsQx+G5/DP2itscrpxIl+g+EhPjPbY23SV0uLwgXLDLsi7i6UxYRTXE4R7fSJh+V
-	 JJZ+KOiH6Sm+g==
-Received: by mail-ed1-f72.google.com with SMTP id j10-20020a05640211ca00b004090fd8a936so5148038edw.23
+	b=WZvre+ZYzwd58Bw5kuYwf7PiKLVnARh/6YPLtryxyM9oy82mFO5nzwsix40K9/LsT
+	 RUij05lgpJgdIhhHIuDruFuGRpgfzWMsmhbOLiDy1V/PImRvM0TG6JIk7IEQkimML/
+	 +rI1Ti9CpRx3AABMuB3gf1Gd9bAsIgJhbyY6Keb+lY8tYK3RP1pjAArrEgCqTGFadd
+	 QSZxlyMNtdtwt1hQHiw0ehbqP9TDaAkNeVDF4/UJPYtfCMNvnvGOEXmpPAfQEJ/7Um
+	 NgdWKsxdgeFI5fhh51JtuecZttlIzfxGt1CJjSMHTZqMGfsPSVFqK0CIPFRjm9rnVi
+	 N6mVYBDNn6PWw==
+Received: by mail-ed1-f69.google.com with SMTP id m11-20020a056402430b00b00410678d119eso5338254edc.21
         for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 00:16:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=DkqOnedmg2q9ShhWATftW6XUUTgR2TrUisQLyEAw/GA=;
-        b=I+8f1rW6ZSBrjdIneQzy0CnexrEsdhDZ66ShTpO+rJwJ37PBR1TKFFZRkq/3N1zz2/
-         EvHdz23huOb0JQvy4eQyrd7akpL7kveZncnFts/N6FV/1w7X7npnJj8HXAQjlCbGLJFp
-         wwoLwW0k1YApuXhdBCEHwxTPtMS8cERQrX2kj6oDGWc7jwdtWGB4X8BbeoZ3zOLeyiUu
-         pgjOQJV/UINCAb8S7VQIl/LPtE5sC1fM7KJz/Zgb1tFD1rWsdx2f+uIY/9i+MJTSR4MO
-         38e1SMWoi59nZlQ4YOsEYOkOejphQIyi9sLpvGFXXHn/+GRylp8kNMvfMVTyVX6Yi2mJ
-         08tg==
-X-Gm-Message-State: AOAM533E3k8Ti2sBoZ7vCaEkUiFBMKvQ1YVwhpP2XkPzVuLvKE4Jikgf
-	AcYO7ZLfYvHR8SmxwjPi/xrcgrgljoC1YXSUrJoeJl/+GUX/0j7q1E0ys8M255yiItcDPjyz5oj
-	4I0tUSBhliJEE+KKYWPyOh0VgfTK7tVrImhjlXG5J
-X-Received: by 2002:a17:907:86a0:: with SMTP id qa32mr1461127ejc.23.1644826613999;
-        Mon, 14 Feb 2022 00:16:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDJTIba5Olc1DBbdAqq71XRQ9UAPJIT4SQ1cNLOsvgwe2lpelu0Q6nUssQgmN6E/2sLjNFyg==
-X-Received: by 2002:a17:907:86a0:: with SMTP id qa32mr1461109ejc.23.1644826613791;
-        Mon, 14 Feb 2022 00:16:53 -0800 (PST)
+        bh=11HYmRlx8dE2WpuAnKJ9eGJzYR6C7S08K2HSgZ9haWY=;
+        b=YCL/XjZuqtu8HBwujBwQTX4LtFk2yflqTdocA2b8PzVEZBCbPAm0raGgQuGVxpKh3f
+         oJ6QYn9alwyP/rmwRxUv4usGXXH1SWndmPsVMJ2JvMau+BGTG98ECEXdxHNafUbeLeYW
+         6Udt4kOO9/V2PLKRQgmGkawrHvKDhABSVnXSXb7LKFDGQcAGjvIMf490x/LjVBPdWVju
+         NM5/cC2OpCBUZnPxkTBx/xJZpCOIzPMduhQ2jDTRA6QH0t7CgpiCI0Be0rINNIGVxC9O
+         jy4trJ3DtoeaGclmUaVe5Seu3N3aPg7MAm4laGULgm3IJ+aljLg6UQx+oafhWUZMMVD9
+         if0w==
+X-Gm-Message-State: AOAM532dr+SUXEOxvDJHllprLnxHElh63FLZ8vcpwFmAns5x7RHRQwYS
+	Q0VujgvOwQNIg6LOiDIl2SGIM5H9OcbJdmxJWlbm7iSDEaoVsd9dfYBR2ZfuZad3OU/jO5vsKyg
+	V47oGvtmoqA3E37UO/2R99tVrv/u2ePpn3E/zie/h
+X-Received: by 2002:a17:907:2849:: with SMTP id el9mr10391910ejc.201.1644826603259;
+        Mon, 14 Feb 2022 00:16:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxLuiFn010/+iYNxCh4N8RZLwAdqCGm9AdinTqIbutozbZK/206AXtZbT7nvgxN/IZXfSJlXQ==
+X-Received: by 2002:a17:907:2849:: with SMTP id el9mr10391886ejc.201.1644826603108;
+        Mon, 14 Feb 2022 00:16:43 -0800 (PST)
 Received: from localhost.localdomain (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
-        by smtp.gmail.com with ESMTPSA id t21sm3363642edd.74.2022.02.14.00.16.51
+        by smtp.gmail.com with ESMTPSA id t21sm3363642edd.74.2022.02.14.00.16.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 00:16:53 -0800 (PST)
+        Mon, 14 Feb 2022 00:16:42 -0800 (PST)
 From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
@@ -82,9 +82,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
 	linux-kernel@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
 	linux-riscv@lists.infradead.org
-Subject: [PATCH 09/15] dt-bindings: pwm: toshiba,visconti: include generic pwm schema
-Date: Mon, 14 Feb 2022 09:15:59 +0100
-Message-Id: <20220214081605.161394-9-krzysztof.kozlowski@canonical.com>
+Subject: [PATCH 02/15] dt-bindings: pwm: imx: include generic pwm schema
+Date: Mon, 14 Feb 2022 09:15:52 +0100
+Message-Id: <20220214081605.161394-2-krzysztof.kozlowski@canonical.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
 References: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
@@ -101,31 +101,54 @@ brings pwm-cells requirement.
 
 Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
 ---
- .../devicetree/bindings/pwm/toshiba,pwm-visconti.yaml         | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/pwm/imx-pwm.yaml     | 4 +++-
+ Documentation/devicetree/bindings/pwm/imx-tpm-pwm.yaml | 4 +++-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/pwm/toshiba,pwm-visconti.yaml b/Documentation/devicetree/bindings/pwm/toshiba,pwm-visconti.yaml
-index d350f5edfb67..46622661e5fb 100644
---- a/Documentation/devicetree/bindings/pwm/toshiba,pwm-visconti.yaml
-+++ b/Documentation/devicetree/bindings/pwm/toshiba,pwm-visconti.yaml
-@@ -9,6 +9,9 @@ title: Toshiba Visconti PWM Controller
+diff --git a/Documentation/devicetree/bindings/pwm/imx-pwm.yaml b/Documentation/devicetree/bindings/pwm/imx-pwm.yaml
+index 379d693889f6..b3da4e629341 100644
+--- a/Documentation/devicetree/bindings/pwm/imx-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/imx-pwm.yaml
+@@ -9,6 +9,9 @@ title: Freescale i.MX PWM controller
  maintainers:
-   - Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+   - Philipp Zabel <p.zabel@pengutronix.de>
  
 +allOf:
 +  - $ref: pwm.yaml#
 +
  properties:
-   compatible:
-     items:
-@@ -23,7 +26,6 @@ properties:
+   "#pwm-cells":
+     description: |
+@@ -59,7 +62,6 @@ properties:
+     maxItems: 1
+ 
  required:
+-  - "#pwm-cells"
    - compatible
    - reg
--  - '#pwm-cells'
+   - clocks
+diff --git a/Documentation/devicetree/bindings/pwm/imx-tpm-pwm.yaml b/Documentation/devicetree/bindings/pwm/imx-tpm-pwm.yaml
+index fe9ef42544f1..8bef9dfeba9a 100644
+--- a/Documentation/devicetree/bindings/pwm/imx-tpm-pwm.yaml
++++ b/Documentation/devicetree/bindings/pwm/imx-tpm-pwm.yaml
+@@ -13,6 +13,9 @@ description: |
+   The TPM counter and period counter are shared between multiple
+   channels, so all channels should use same period setting.
  
- additionalProperties: false
++allOf:
++  - $ref: pwm.yaml#
++
+ properties:
+   "#pwm-cells":
+     const: 3
+@@ -34,7 +37,6 @@ properties:
+     maxItems: 1
  
+ required:
+-  - "#pwm-cells"
+   - compatible
+   - reg
+   - clocks
 -- 
 2.32.0
 
