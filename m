@@ -1,212 +1,108 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-relay-internal-0.canonical.com (smtp-relay-internal-0.canonical.com [185.125.188.122])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2F1A3E;
-	Mon, 14 Feb 2022 19:26:39 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id p14so15320929ejf.11;
-        Mon, 14 Feb 2022 11:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=YIAQ1zoMH5dWivilhSnkKSw0ctqFeyghOXilT5ojvzNBk2EnLfoQon/bgeqsc8Km3W
-         6jHN8k5Qeo7Fx15/trIUSKneHxu3rvCGNVAeQq65RusjDPnbBoETVPHcwtFvTIrA9oTL
-         W/1oHNmeG3qOagVgIrpPbpoOncfvapoLBbkUkYCbaV0AjaEoQ2WM90rJFgzIDkubPIXN
-         CY0rrLYo/vUGTjnHCd4JqzoYCfeLnKJHI13nGfqtGcEMuhWlSsv4iatlUtvk4K0c1cD0
-         BGzncRcWz/ZswZJ/H44Qfmhwy+7Vzhh9X9USEhblozjd6Z3Z9SQFikB/rS/bIqZX4gPU
-         N0qw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54007C8A
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 21:03:12 +0000 (UTC)
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 467923F1B6
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 21:03:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+	s=20210705; t=1644872586;
+	bh=2bp2Rosxu6+8ZhH/EAY6coxFH5lGR8Dxl8BwV5vJAno=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type;
+	b=GyBG5qnie5SYEK6t+mzBwe6I+QC3QBsorZzTpJy741H0Px8qrnxVpeA4TzMgJ+l4J
+	 u2KwdmVIOARsCHYbIG4KHaVYON+soBEfR1WROzxUbshV8cCy3ox7XhAKqPxesQuiUo
+	 pmbIOwGoC5I1TrkX68d3osnFbDbRutE1EjumwQhBeAbAV4b4SyjuBKOVpsJEMllP8/
+	 2o5DNKNUbAVb4vMOJVnhiw2aGOLXJuLuCkXst/n741ahbScziWtLnCJQTBG1LCoM7W
+	 KjvKjYYoED4JI0CvxcIdQn2DiZ+4wdnGg20W+j9B98az8ySbF9hmqKduhCj52aEtsD
+	 I4V7EFAc5YZ5g==
+Received: by mail-ed1-f72.google.com with SMTP id j10-20020a05640211ca00b004090fd8a936so6409641edw.23
+        for <linux-sunxi@lists.linux.dev>; Mon, 14 Feb 2022 13:03:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
-        b=HK5u+dvoSPkT6ku0T+W4BPJNe5OGM51HVNBFFxuFZguIOFo7WnvuTN+aG+9tiduUhw
-         9zc5C/3L40Sj2gvdfht73bSdLCnGSpns9svMEPEVSG+m/jf+FneVmZTaLPazd7PiapgQ
-         RpD6LspWVb3huoT5uhwMwUZOweKJm5/KlVR3/0Y0oEbMzRBz479wojiS7FsjJGu7+hPT
-         /Xf6CYiGsX2GWLXe4SlcioqJXtvW7pnWwQfi7XqmNz6Jn6kCsLFuXEjIrN5ix1PNhd9G
-         yWKNsHaYIosK/9cjh/eHK2rlyXrcxjr/IN8cJNNZ4huwPGS3tDUG2qY+cAUjL+2NPE6+
-         nn1w==
-X-Gm-Message-State: AOAM532VSo/VVyG8KdTHwQQy6cZQbl4Sfd+8StTWxSgWFPRSuADvl0LW
-	yqvchmUSkK8/6XbsH45Ouug=
-X-Google-Smtp-Source: ABdhPJwYjRppPFpB8UmNIkcxwOS9n2u16iELvDzGqpJ83lEytB+M9F4emEDKG8XNnA9Ps3JOsWEvHg==
-X-Received: by 2002:a17:907:c15:: with SMTP id ga21mr263554ejc.80.1644866797427;
-        Mon, 14 Feb 2022 11:26:37 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id 17sm2683352eja.57.2022.02.14.11.26.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 11:26:36 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
-Subject: Re: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
-Date: Mon, 14 Feb 2022 20:26:34 +0100
-Message-ID: <2302767.NG923GbCHz@kista>
-In-Reply-To: <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
-References: <20220201123439.353854-1-benjamin.gaignard@collabora.com> <8038233.T7Z3S40VBb@kista> <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=2bp2Rosxu6+8ZhH/EAY6coxFH5lGR8Dxl8BwV5vJAno=;
+        b=kqEaaOk4mI+ueAgi71lwPzaTek0EYVzjPoE7zlefLJAutXTSbB50f4gDg6bzQfbwah
+         PljNPvgBEcCN5OYEw4tkFPBBfEJC2uNIESsY9xGBg/+DQGchwI+ijjtXT9GtJbwlGLmG
+         y5H9yHdJ0PnziZ4KFQbmS3nMC3ioeSp4VaEvmqGyaOs4fy86SpKEyZhRw9qJdToWJMFm
+         napk7Hg1J7nP+f/sIL6eI/PQeD6q/VTnrd4kdfJPNEAOAn3peTtWY572uQ+zaJDPda8f
+         SiouS8w7xxr/JbyVGdWhIZCvVWAfppvh5xeQUYqtP7BxLl0+0qxEHmqohUI3b3nsshLY
+         X3CQ==
+X-Gm-Message-State: AOAM532PBVfZqOnfrcUokSRRj9ehToZ4iv/9PIi6+0v8kbD2awb51jb2
+	nSfQJxvq2HWGr3Et5z5Juv9MtV6sBnHHu8Pt1/p/UvIHpV9JPqJJ0jlaP4VGv7yaVPhelpXvn2X
+	hVdmWI8zW6J0+gIeliH+nTl4zQBrtTFda1V/iJuWv
+X-Received: by 2002:aa7:c3da:: with SMTP id l26mr727084edr.294.1644872586069;
+        Mon, 14 Feb 2022 13:03:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2FJZ3WFrmr3yKtdBu95hKE7kW2/adNT3dVxtT4u/B6q+4CQFvbOXViM594Gt5SL7EJZdGvA==
+X-Received: by 2002:aa7:c3da:: with SMTP id l26mr727056edr.294.1644872585884;
+        Mon, 14 Feb 2022 13:03:05 -0800 (PST)
+Received: from [192.168.0.106] (xdsl-188-155-168-84.adslplus.ch. [188.155.168.84])
+        by smtp.gmail.com with ESMTPSA id j21sm1153464ejj.193.2022.02.14.13.03.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Feb 2022 13:03:05 -0800 (PST)
+Message-ID: <f9cdef5e-a52b-03ba-a069-e0bc16ccd595@canonical.com>
+Date: Mon, 14 Feb 2022 22:03:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH 11/15] dt-bindings: pwm: intel, keembay: do not require
+ pwm-cells
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ bcm-kernel-feedback-list@broadcom.com, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>,
+ Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Anson Huang <anson.huang@nxp.com>,
+ Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
+ Rahul Tanwar <rtanwar@maxlinear.com>, Jeff LaBundy <jeff@labundy.com>,
+ Yash Shah <yash.shah@sifive.com>, Sagar Kadam <sagar.kadam@sifive.com>,
+ Vignesh R <vigneshr@ti.com>,
+ Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-riscv@lists.infradead.org
+References: <20220214081605.161394-1-krzysztof.kozlowski@canonical.com>
+ <20220214081605.161394-11-krzysztof.kozlowski@canonical.com>
+ <20220214182824.gevtqbtv4qrddjqb@pengutronix.de>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+In-Reply-To: <20220214182824.gevtqbtv4qrddjqb@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 14. februar 2022 ob 18:25:01 CET je Benjamin Gaignard=20
-napisal(a):
->=20
-> Le 13/02/2022 =C3=A0 12:33, Jernej =C5=A0krabec a =C3=A9crit :
-> > Hi Benjamin,
-> >
-> > CC: Alex, John
-> >
-> > Sorry for late response, but I've been very busy last week.
-> >
-> > First of all, thank you for doing this! It's about time that HEVC moves
-> > forward.
-> >
-> > Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard=20
-napisal(a):
-> >> The HEVC stateless 'uAPI' was staging and marked explicitly in the
-> >> V4L2 specification that it will change and is unstable.
-> >>
-> >> Note that these control IDs were never exported as a public API,
-> >> they were only defined in kernel-local headers (hevc-ctrls.h).
-> >>
-> >> While moving the controls out of staging they are renamed and
-> >> control IDs get new numbers.
-> >> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
-> > accordaly -> accordingly
-> >
-> >> Additional structures fields has been added for RKVDEC driver usage.
-> > You should do separate patch for that, preceding this one. One patch=20
-should
-> > only do one thing.
->=20
-> I will do that in v2
->=20
-> >
-> > I also suggest that you add additional patch for removing bit_size fiel=
-d in
-> > struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed=
-=20
-from
-> > MPEG2 and H264 structures. Bit size can be deduced from output buffer s=
-ize=20
-and
-> > it doesn't hurt if bit size in Cedrus is set to bigger value than actua=
-l=20
-slice
-> > bit size.
->=20
-> ok
->=20
-> >
-> >> Hantro dedicated control is moving to hantro-media.h
-> >> Since hevc-ctrls.h content has been dispatched in others file, remove =
-it.
-> >>
-> >> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
-> >>
-> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > Note that Cedrus still needs additional information in order to decode=
-=20
-some
-> > HEVC videos. Missing info is num_entry_point_offsets and list of all
-> > entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
-> >
-> > I suggest that this is represented in a new control, which would use=20
-dynamic
-> > array feature, written by Hans. While Cedrus supports max. 256 entries,=
- it=20
-can
-> > be much bigger in theory, but in reality, it's much smaller (like 4-8
-> > entries).
->=20
-> I haven't seen yet any user for these fields but I will create a new cont=
-rol=20
-like
-> #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT	(V4L2_CID_CODEC_STATELESS_BAS=
-E +=20
-407)
->=20
-> struct v4l2_ctrl_hevc_entry_point_offset {
-> 	__u32	entry_point_offset_minus1;
-> };
+On 14/02/2022 19:28, Uwe Kleine-König wrote:
+> Hello Krzysztof,
+> 
+> when I read the subject line I thought the patch intention to be wrong.
+> Maybe make that:
+> 
+> 	dt-bindings: intel,keembay-pwm: Don't require #pwm-cells twice
+> 
+> ?
 
-Yeah, Cedrus is currently the only mainline driver that needs that in order=
- to=20
-fully work. I think John used num_entry_point_offsets in his (out of tree) =
-RPi=20
-HEVC decoding driver too.
+Ah, yes, this sounds better. I'll send a v2.
 
-Wouldn't be easier to just use u32 directly? This is just array of numbers,=
- so=20
-nothing else will be added in that struct...
-
-Anyway, once you add this, I'll quickly update driver to take advantage of =
-it.
-
->=20
-> and add it in the documentation:
-> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT (struct)``
->      Specifies the i-th entry point offset in bytes and is represented by
->      offset_len_minus1 plus 1 bits.
->      This control is a dynamically sized array. The number of entry point
->      offsets is reported by the ``elems`` field.
->      This bitstream parameter is defined according to :ref:`hevc`.
->      They are described in section 7.4.7.1 "General slice segment header
->      semantics" of the specification.
->=20
-> >
-> > Last but not least, data_bit_offset should be better defined. Currently=
- it
-> > points right after last header bit, just like Cedrus needs it. However,=
-=20
-there
-> > is padding after that, at least 1 bit and 8 bits at most, so slice data=
-=20
-always
-> > starts from byte aligned address. It probably make sense to rework that=
-=20
-field
-> > to be byte offset, not bit, just like in VA-API. Note that RPi HEVC dri=
-ver=20
-also
-> > uses byte aligned address directly. Cedrus would need some kind of=20
-workaround
-> > and only one that works is this one:
-> > https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L1=
-91-L209
->=20
-> If Cedrus driver is happy with this definition I will keep it like that.
-> When providing offset in bit is more accurate and any driver can align th=
-e=20
-value
-> if needed, the reverse (byte -> bit) isn't possible.
-
-If I'm not mistaken, HEVC standard actually requires that slice data starts=
- at=20
-byte aligned address, so nothing would be lost for correctness of uAPI.
-
-I already had this discussion with John and IIRC conclusion was to have byt=
-e=20
-aligned value here. John, can you please confirm if my interpretation is=20
-correct?
 
 Best regards,
-Jernej
-
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >
->=20
-
-
+Krzysztof
