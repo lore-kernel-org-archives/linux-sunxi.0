@@ -1,96 +1,212 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF8A6A35;
-	Mon, 14 Feb 2022 19:08:44 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id a8so39482648ejc.8;
-        Mon, 14 Feb 2022 11:08:44 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2F1A3E;
+	Mon, 14 Feb 2022 19:26:39 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id p14so15320929ejf.11;
+        Mon, 14 Feb 2022 11:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
-        b=qhf19N3SLoLekl8nSgEbpHiFYk6ResBtkXfsJl63wafe0VQ0y5uwdcbx4dh7Api/cr
-         pq4kpVN3rz8ufkFRa9PQhw12DgU06aBBMlGjIZ82TXZkn5kbidmhueb3xMvAz8cyvLFK
-         23OCsQ5snWWXIQrfygum5Ml7tz1ev7oa/U9muYVV8pA1ru4b2uJnVoNiHqJAUlw6HTVD
-         4YwuEf7WP8XA/Rm/UEIkIOK+MRnmJTKW4dRGuT49tZEp3Adgnjs0GNTOr22NQe/Yb5r4
-         ZRdbMxoYgxE3NBz9Kcl1JoZpZ2VWWqZLEqmaXpiuwLy5eS4Rlf+vH+mqr6eGRoqwxN34
-         hTIw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
+        b=YIAQ1zoMH5dWivilhSnkKSw0ctqFeyghOXilT5ojvzNBk2EnLfoQon/bgeqsc8Km3W
+         6jHN8k5Qeo7Fx15/trIUSKneHxu3rvCGNVAeQq65RusjDPnbBoETVPHcwtFvTIrA9oTL
+         W/1oHNmeG3qOagVgIrpPbpoOncfvapoLBbkUkYCbaV0AjaEoQ2WM90rJFgzIDkubPIXN
+         CY0rrLYo/vUGTjnHCd4JqzoYCfeLnKJHI13nGfqtGcEMuhWlSsv4iatlUtvk4K0c1cD0
+         BGzncRcWz/ZswZJ/H44Qfmhwy+7Vzhh9X9USEhblozjd6Z3Z9SQFikB/rS/bIqZX4gPU
+         N0qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=99BahZfDqfQoln2rf6Bj3xU3QXecprDtHuHMCBkgrcQ=;
-        b=qdf6htQol0ZYbt2z2pq32Mj9/PojwZTV0PHP10iP858H8P8qBf0K8epAZ5bk8IXobP
-         sflmxWfazDYn7kOtpE1VciG/wVJp0jG6a6oZx4aYXqtnvFTJ7l5lMP9ifoIJ/+b9fogJ
-         RcL8+q2xfEHMdyDXMk6BiH5kTW6tm4yrccMzS7AgPRzaiZUrqa7suDnfO7nTgxzdeuNS
-         aW+iesECX894VRwmwN3p0ljchZ3RZ60Y2mdXXhiGhwrEM6iMjWnZ4Lwd85P5k/UoiGdZ
-         qYNDEpLVlQIbpys+4C8jiC2AqCG1idlF2DYXHQxk/k7lLCp4x/UAbU7mQyxYheepCsbS
-         t4Jw==
-X-Gm-Message-State: AOAM530aQBVkCOlxkZt8fY9xF4juRhJlb4r3sRl/1nJA3fGx8I1XHbPV
-	+2+RLFN3gSSn3KHOOWDBoIw=
-X-Google-Smtp-Source: ABdhPJwiFYCfncVtqTqjdVCBhQycol1aX209bItLXOycZar8UGc4dq3/BcvtHafFwyhS52svnZjIdA==
-X-Received: by 2002:a17:907:16aa:: with SMTP id hc42mr167762ejc.307.1644865723011;
-        Mon, 14 Feb 2022 11:08:43 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id m17sm2316338ejn.118.2022.02.14.11.08.41
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wqUSZ1SFW0NVtpHilGjkTlF5P0e9ASySJ2SjHGW0nSw=;
+        b=HK5u+dvoSPkT6ku0T+W4BPJNe5OGM51HVNBFFxuFZguIOFo7WnvuTN+aG+9tiduUhw
+         9zc5C/3L40Sj2gvdfht73bSdLCnGSpns9svMEPEVSG+m/jf+FneVmZTaLPazd7PiapgQ
+         RpD6LspWVb3huoT5uhwMwUZOweKJm5/KlVR3/0Y0oEbMzRBz479wojiS7FsjJGu7+hPT
+         /Xf6CYiGsX2GWLXe4SlcioqJXtvW7pnWwQfi7XqmNz6Jn6kCsLFuXEjIrN5ix1PNhd9G
+         yWKNsHaYIosK/9cjh/eHK2rlyXrcxjr/IN8cJNNZ4huwPGS3tDUG2qY+cAUjL+2NPE6+
+         nn1w==
+X-Gm-Message-State: AOAM532VSo/VVyG8KdTHwQQy6cZQbl4Sfd+8StTWxSgWFPRSuADvl0LW
+	yqvchmUSkK8/6XbsH45Ouug=
+X-Google-Smtp-Source: ABdhPJwYjRppPFpB8UmNIkcxwOS9n2u16iELvDzGqpJ83lEytB+M9F4emEDKG8XNnA9Ps3JOsWEvHg==
+X-Received: by 2002:a17:907:c15:: with SMTP id ga21mr263554ejc.80.1644866797427;
+        Mon, 14 Feb 2022 11:26:37 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id 17sm2683352eja.57.2022.02.14.11.26.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Feb 2022 11:08:42 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org,
-	wens@csie.org,
-	gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
-Date: Mon, 14 Feb 2022 20:08:39 +0100
-Message-Id: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
+        Mon, 14 Feb 2022 11:26:36 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Alex Bee <knaerzche@gmail.com>, jc@kynesim.co.uk
+Subject: Re: Re: [RFC] media: uapi: Move HEVC stateless controls out of staging
+Date: Mon, 14 Feb 2022 20:26:34 +0100
+Message-ID: <2302767.NG923GbCHz@kista>
+In-Reply-To: <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
+References: <20220201123439.353854-1-benjamin.gaignard@collabora.com> <8038233.T7Z3S40VBb@kista> <903ca214-9576-33aa-8412-7c71c9d8ac09@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-According to BSP library source, H264 neighbour info buffer size needs
-to be 32 kiB for H6. This is similar to H265 decoding, which also needs
-double buffer size in comparison to older Cedrus core generations.
+Dne ponedeljek, 14. februar 2022 ob 18:25:01 CET je Benjamin Gaignard=20
+napisal(a):
+>=20
+> Le 13/02/2022 =C3=A0 12:33, Jernej =C5=A0krabec a =C3=A9crit :
+> > Hi Benjamin,
+> >
+> > CC: Alex, John
+> >
+> > Sorry for late response, but I've been very busy last week.
+> >
+> > First of all, thank you for doing this! It's about time that HEVC moves
+> > forward.
+> >
+> > Dne torek, 01. februar 2022 ob 13:34:39 CET je Benjamin Gaignard=20
+napisal(a):
+> >> The HEVC stateless 'uAPI' was staging and marked explicitly in the
+> >> V4L2 specification that it will change and is unstable.
+> >>
+> >> Note that these control IDs were never exported as a public API,
+> >> they were only defined in kernel-local headers (hevc-ctrls.h).
+> >>
+> >> While moving the controls out of staging they are renamed and
+> >> control IDs get new numbers.
+> >> Drivers (Hantro, Cedrus) and Documentation are updated accordaly.
+> > accordaly -> accordingly
+> >
+> >> Additional structures fields has been added for RKVDEC driver usage.
+> > You should do separate patch for that, preceding this one. One patch=20
+should
+> > only do one thing.
+>=20
+> I will do that in v2
+>=20
+> >
+> > I also suggest that you add additional patch for removing bit_size fiel=
+d in
+> > struct v4l2_ctrl_hevc_slice_params. Similar fields were already removed=
+=20
+from
+> > MPEG2 and H264 structures. Bit size can be deduced from output buffer s=
+ize=20
+and
+> > it doesn't hurt if bit size in Cedrus is set to bigger value than actua=
+l=20
+slice
+> > bit size.
+>=20
+> ok
+>=20
+> >
+> >> Hantro dedicated control is moving to hantro-media.h
+> >> Since hevc-ctrls.h content has been dispatched in others file, remove =
+it.
+> >>
+> >> fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+> >>
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Note that Cedrus still needs additional information in order to decode=
+=20
+some
+> > HEVC videos. Missing info is num_entry_point_offsets and list of all
+> > entry_point_offset_minus1 (obviously, num_entry_point_offsets in size).
+> >
+> > I suggest that this is represented in a new control, which would use=20
+dynamic
+> > array feature, written by Hans. While Cedrus supports max. 256 entries,=
+ it=20
+can
+> > be much bigger in theory, but in reality, it's much smaller (like 4-8
+> > entries).
+>=20
+> I haven't seen yet any user for these fields but I will create a new cont=
+rol=20
+like
+> #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT	(V4L2_CID_CODEC_STATELESS_BAS=
+E +=20
+407)
+>=20
+> struct v4l2_ctrl_hevc_entry_point_offset {
+> 	__u32	entry_point_offset_minus1;
+> };
 
-Increase buffer size to cover H6 needs. Since increase is not that big
-in absolute numbers, it doesn't make sense to complicate logic for older
-generations.
+Yeah, Cedrus is currently the only mainline driver that needs that in order=
+ to=20
+fully work. I think John used num_entry_point_offsets in his (out of tree) =
+RPi=20
+HEVC decoding driver too.
 
-Issue was discovered using iommu and cross checked with BSP library
-source.
+Wouldn't be easier to just use u32 directly? This is just array of numbers,=
+ so=20
+nothing else will be added in that struct...
 
-Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Anyway, once you add this, I'll quickly update driver to take advantage of =
+it.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-index b4173a8926d6..d8fb93035470 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-@@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
- 
- #define CEDRUS_H264_FRAME_NUM		18
- 
--#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
-+#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
- #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
- 
- static void cedrus_h264_write_sram(struct cedrus_dev *dev,
--- 
-2.35.1
+>=20
+> and add it in the documentation:
+> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT (struct)``
+>      Specifies the i-th entry point offset in bytes and is represented by
+>      offset_len_minus1 plus 1 bits.
+>      This control is a dynamically sized array. The number of entry point
+>      offsets is reported by the ``elems`` field.
+>      This bitstream parameter is defined according to :ref:`hevc`.
+>      They are described in section 7.4.7.1 "General slice segment header
+>      semantics" of the specification.
+>=20
+> >
+> > Last but not least, data_bit_offset should be better defined. Currently=
+ it
+> > points right after last header bit, just like Cedrus needs it. However,=
+=20
+there
+> > is padding after that, at least 1 bit and 8 bits at most, so slice data=
+=20
+always
+> > starts from byte aligned address. It probably make sense to rework that=
+=20
+field
+> > to be byte offset, not bit, just like in VA-API. Note that RPi HEVC dri=
+ver=20
+also
+> > uses byte aligned address directly. Cedrus would need some kind of=20
+workaround
+> > and only one that works is this one:
+> > https://github.com/bootlin/libva-v4l2-request/blob/master/src/h265.c#L1=
+91-L209
+>=20
+> If Cedrus driver is happy with this definition I will keep it like that.
+> When providing offset in bit is more accurate and any driver can align th=
+e=20
+value
+> if needed, the reverse (byte -> bit) isn't possible.
+
+If I'm not mistaken, HEVC standard actually requires that slice data starts=
+ at=20
+byte aligned address, so nothing would be lost for correctness of uAPI.
+
+I already had this discussion with John and IIRC conclusion was to have byt=
+e=20
+aligned value here. John, can you please confirm if my interpretation is=20
+correct?
+
+Best regards,
+Jernej
+
+>=20
+> Regards,
+> Benjamin
+>=20
+> >
+> > Best regards,
+> > Jernej
+> >
+> >
+>=20
+
 
