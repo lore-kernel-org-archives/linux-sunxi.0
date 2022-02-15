@@ -1,134 +1,164 @@
-Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A93D1376;
-	Tue, 15 Feb 2022 10:21:20 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 7C24D240006;
-	Tue, 15 Feb 2022 10:21:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1644920479;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LLuRTwKMKPpkSVGsT7HVqc5YDmNB2qRgXNbTQnh8ZQ8=;
-	b=T9eefH1khM1C9SPie7G6ia1yNtnvILoerbDmEcmSUNtl3vgx7ThQlv6pLqBpK7Ogfl4hN9
-	k6a7oSOyFGXRlVFmK8PuXZxsc+eFYyt4NQCVtadhr7Bt1BcRxnI6BKZ/6F37AOIAmS4I+4
-	G/ozpQgijSvt1Xcng0MJcRT0IMO82I12iVxX8++yvAr2wB7rmShDmWB7vBppSFWtKhHDUa
-	a/iBd+1Tgdew3Ho4c5u4NQVwd1HP0tzBTT50uAG13vi/LdntjO7dM8l+P+8NlzEN6ET2SW
-	vLM9FHJDG21EfrmdWDYmTNNVrVB4T26FKOgunJY0V/bSuhn7nfT352LHMNmzZA==
-Date: Tue, 15 Feb 2022 11:21:17 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991BCC80
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 10:50:14 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nJvPE-0000Mj-FZ; Tue, 15 Feb 2022 11:50:00 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nJvP7-00GjUe-Ml; Tue, 15 Feb 2022 11:49:52 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1nJvP6-003Jg7-77; Tue, 15 Feb 2022 11:49:52 +0100
+Date: Tue, 15 Feb 2022 11:49:52 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Cc: Heiko Stuebner <heiko@sntech.de>, linux-pwm@vger.kernel.org,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
+	Sagar Kadam <sagar.kadam@sifive.com>,
+	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
+	Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
+	Vignesh R <vigneshr@ti.com>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
- runtime pm in capture
-Message-ID: <Ygt+nZJrZMNXV4Cl@aptenodytes>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
- <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
- <Ygt4xh2Mq0qStyKs@aptenodytes>
- <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
+	linux-rockchip@lists.infradead.org,
+	Rahul Tanwar <rtanwar@maxlinear.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	NXP Linux Team <linux-imx@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
+	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>
+Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
+Message-ID: <20220215104952.3z7y2t5udwab64kh@pengutronix.de>
+References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
+ <20220215074030.3nugwproxjh3lwhl@pengutronix.de>
+ <CA+Eumj42Hojp1m4deuWnqMOaaNaupTSkzPaNbL_0eyBL-aDi_g@mail.gmail.com>
+ <7df71f8d-cdc3-4b2e-cf0a-7112eff28142@canonical.com>
+ <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="x0S1xJjs6wRADgc6"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6ik55s7cffiwjwpg"
 Content-Disposition: inline
-In-Reply-To: <Ygt6vwydxg9/WuDH@pendragon.ideasonboard.com>
+In-Reply-To: <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
 
 
---x0S1xJjs6wRADgc6
-Content-Type: text/plain; charset=utf-8
+--6ik55s7cffiwjwpg
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
-
-On Tue 15 Feb 22, 12:04, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> On Tue, Feb 15, 2022 at 10:56:22AM +0100, Paul Kocialkowski wrote:
-> > On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
-> > > On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
-> > > > Let's just enable the module when we start using it (at stream on)
-> > > > and benefit from runtime pm instead of enabling it at first open.
-> > > >=20
-> > > > Also reorder the call to v4l2_pipeline_pm_get.
-> > > >=20
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+On Tue, Feb 15, 2022 at 10:41:06AM +0100, Uwe Kleine-K=F6nig wrote:
+> On Tue, Feb 15, 2022 at 09:02:25AM +0100, Krzysztof Kozlowski wrote:
+> > On 15/02/2022 08:59, Krzysztof Kozlowski wrote:
+> > > On Tue, 15 Feb 2022 at 08:40, Uwe Kleine-K=F6nig
+> > > <u.kleine-koenig@pengutronix.de> wrote:
+> > >>
+> > >> Hello,
+> > >>
+> > >> [dropped Anson Huang and Yash Shah from Cc: which were not reachable=
+ for
+> > >> my last mail]
+> > >>
+> > >> On Mon, Feb 14, 2022 at 10:21:39PM +0100, Krzysztof Kozlowski wrote:
+> > >>> Hi,
+> > >>>
+> > >>> Changes since v1:
+> > >>> 1. Add tags.
+> > >>> 2. Adjust subject (Uwe).
+> > >>
+> > >> However you only took a part of my suggestion ...
+> > >>
+> > >>> Krzysztof Kozlowski (15):
+> > >>>   dt-bindings: pwm: allwinner,sun4i-a10: Include generic pwm schema
+> > >>>   dt-bindings: pwm: imx: Include generic pwm schema
+> > >>>   dt-bindings: pwm: intel,lgm: Include generic pwm schema
+> > >>>   dt-bindings: pwm: iqs620a: Include generic pwm schema
+> > >>>   dt-bindings: pwm: mxs: Include generic pwm schema
+> > >>>   dt-bindings: pwm: rockchip: Include generic pwm schema
+> > >>>   dt-bindings: pwm: sifive: Include generic pwm schema
+> > >>>   dt-bindings: pwm: renesas,pwm: Include generic pwm schema
+> > >>>   dt-bindings: pwm: toshiba,visconti: Include generic pwm schema
+> > >>>   dt-bindings: pwm: brcm,bcm7038: Do not require pwm-cells twice
+> > >>>   dt-bindings: pwm: intel,keembay: Do not require pwm-cells twice
+> > >>
+> > >> ... The actual patch has a space after the comma, I like this variant
+> > >> without comma better as this is a compatible string.
 > > >=20
-> > > Nice patch!
-> >=20
-> > Thanks!
-> >=20
-> > > Do you still need v4l2_pipeline_pm_put()? Removing it would be a sepa=
-rate
-> > > patch of course.
-> >=20
-> > My understanding is that this is still useful if there are drivers in t=
-he
-> > pipeline that rely on s_power instead of rpm (a typical case could be an
-> > old sensor driver). So that's why this is kept around, but all other co=
-mponents
-> > of the pipeline (isp/csi/mipi csi-2) are using rpm now.
+> > > I am confused. My patch does not have comma after space. Your reply
+> > > had such in the subject, but not in the proposed new subject you wrote
+> > > in msg, so I left it as is. Without comma. If you still see comma, it
+> > > is something with your mail client.
+> > >=20
+> > > See:
+> > > https://lore.kernel.org/linux-devicetree/20220214212154.8853-12-krzys=
+ztof.kozlowski@canonical.com/T/#u
+> > >=20
+> > > Also reply from Vijayakannan does not have comma:
+> > > https://lore.kernel.org/linux-devicetree/20220214081605.161394-11-krz=
+ysztof.kozlowski@canonical.com/T/#m80af695f2c751341bc971114aefa00ccc929a3ec
 >=20
-> If that's not the case on your test platforms, I think it would be
-> better to drop support for this old API, and convert drivers that still
-> use .s_power() if someone needs to use one on an Allwinner platform.
+> Strange: I have this mail four times in my mailboxes (via
+> linux-arm-kernel, linux-pwm, kernel@pengutronix.de and directly). In the
+> two latter the Subject line is broken in two:
 
-I agree this is the path to follow but it feels like we're not quite there
-yet and a bunch of driver were not converted at this point, including some
-popular ones like ov5640, which I know for sure is used with Allwinner devi=
-ces.
+I was wrong. The ones to kernel@pengutronix.de and the linux-arm-kernel
+one are the ones with the linebreak.
 
-Honestly I'd be happy to get rid of these legacy functions as soon as the
-transition is done, but doing it now would mean breaking a significant numb=
-er
-of use cases (which I'm trying to avoid here despite all the changes).
+Hmm,
 
-I definitely wouldn't be confident making that transition here and it
-probably wouldn't be a good idea to make that a requirement to merge this
-(already quite big) series.
+http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717310.=
+html
+http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717304.=
+html
 
-What do you think?
+has the linebreaks, too. Still I wonder what is different between
+kernel@pengutronix.de and u.kleine-koenig@pengutronix.de.
 
-Paul
+Best regards
+Uwe
 
 --=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
---x0S1xJjs6wRADgc6
+--6ik55s7cffiwjwpg
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmILfp0ACgkQ3cLmz3+f
-v9Gm2Qf/W/ZTXFzamMW7hvV8qcmAZpXwCKekASY4Lpa4JwvvhyI4DtfX2n+AvXQV
-w4y54EHfcIAFtOkEIOsj4zirpI4p4tgA/uvgLyHmEu9CcbzvuwYe9zd/Ozeo/AEG
-OlwSWF+MhD1kawGki9ikCPG5QwDLt/rzeJHUPh0aT5Oxae3NMBSgcCizJVoN2Inh
-4j5Zkj99rX2h2ed0e+TjPsB76WuSJaJVNoyAgD1w3PB7YueruHIkq+s7CTHtaQKj
-KtAoegyMomsRUSp20VUJiPdqouUox5HLU5cvxrh4enbYDqNaZelVFp2/R+wghUVi
-XwIhQQwXYZ2hmsCFJ/pjIAM4JgYblw==
-=tEm8
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmILhU0ACgkQwfwUeK3K
+7Ak2jwf/YTZ2xphcIavG03zlKIE2aHmvTuLH2QJWSh+YE/vZDTs5qA96uHK4qJqE
+X5r25Qqby7C8Tb1gyOYSZJDoaiVnoe2XNyzDJeCG0QZnqYsj7bFKez3mmdKv7c/8
+7K4TeGdcWrOhVv6QFW+v8RrPWx5WkvSJT9PQ0CTgpmknr/9wX0YgO5yEGZcP3IYk
+265zktNZnG3rg+p1qb+qt98fkLQWvy+wtaGH2Sd9kzVM82ukJ0neX0fQxndvOHWW
+SbbXcy+HJWwBbUKiST0AvQCjqeo+O1LR5qn8+sLfNAADN6sjmZW09vX2rxC+DNXs
+G7dnLE2XCT/BaFyxHPQanXfYkZxb3w==
+=Rrce
 -----END PGP SIGNATURE-----
 
---x0S1xJjs6wRADgc6--
+--6ik55s7cffiwjwpg--
