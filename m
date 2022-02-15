@@ -1,161 +1,110 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEBB1376
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 09:41:30 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJuKh-0007uR-49; Tue, 15 Feb 2022 10:41:15 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJuKa-00Gixt-Lc; Tue, 15 Feb 2022 10:41:07 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJuKZ-003J7g-4B; Tue, 15 Feb 2022 10:41:07 +0100
-Date: Tue, 15 Feb 2022 10:41:06 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
-	Sagar Kadam <sagar.kadam@sifive.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org,
-	Vignesh R <vigneshr@ti.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-rockchip@lists.infradead.org,
-	Rahul Tanwar <rtanwar@maxlinear.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	NXP Linux Team <linux-imx@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DC631376;
+	Tue, 15 Feb 2022 09:56:34 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 741E31BF20F;
+	Tue, 15 Feb 2022 09:56:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1644918992;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=K4eFwye/okRxi/68ri8yTsBWvX0g8mH2JLrxCqUzQBc=;
+	b=Pkgq0hGmhZqbfwp1twud8hwRV3Xuarr8FHjsMyWaqUwul9fbk3t4vO12uPMdpnKoqB3lXK
+	HQIbML8TtlXXedlVag+9NJlfaflzKTnv9pqzoZsTdj7Vnz9/ZJKYAJlFgbjKYqIaCA7Q0A
+	a3QcjuVTrAKiDj0s67KrOgfSKnGQP50Vb8qRoJhrmO22RHhav6FQJLFhEy53bVmhts29Lz
+	3sF7W6vwVVzjBAiw5HzgGZ42tvgIx1FCl9vQpEZvnQCQQucXS60ydZZcvDuKTUdP5RdFom
+	E/3L6/QjdSOJYb6Xv7FzfDMR5HejitXXdQKH0Qqao4ClUDYzlCWSNU4ysNQYVQ==
+Date: Tue, 15 Feb 2022 10:56:22 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
-Message-ID: <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
-References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
- <20220215074030.3nugwproxjh3lwhl@pengutronix.de>
- <CA+Eumj42Hojp1m4deuWnqMOaaNaupTSkzPaNbL_0eyBL-aDi_g@mail.gmail.com>
- <7df71f8d-cdc3-4b2e-cf0a-7112eff28142@canonical.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 37/66] media: sun6i-csi: Move power management to
+ runtime pm in capture
+Message-ID: <Ygt4xh2Mq0qStyKs@aptenodytes>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-38-paul.kocialkowski@bootlin.com>
+ <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oa7qtfm672zzictn"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="tOB2i1/qfUMuc0i4"
 Content-Disposition: inline
-In-Reply-To: <7df71f8d-cdc3-4b2e-cf0a-7112eff28142@canonical.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <YgqftcDgfrsZfTdF@paasikivi.fi.intel.com>
 
 
---oa7qtfm672zzictn
-Content-Type: text/plain; charset=iso-8859-1
+--tOB2i1/qfUMuc0i4
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 15, 2022 at 09:02:25AM +0100, Krzysztof Kozlowski wrote:
-> On 15/02/2022 08:59, Krzysztof Kozlowski wrote:
-> > On Tue, 15 Feb 2022 at 08:40, Uwe Kleine-K=F6nig
-> > <u.kleine-koenig@pengutronix.de> wrote:
-> >>
-> >> Hello,
-> >>
-> >> [dropped Anson Huang and Yash Shah from Cc: which were not reachable f=
-or
-> >> my last mail]
-> >>
-> >> On Mon, Feb 14, 2022 at 10:21:39PM +0100, Krzysztof Kozlowski wrote:
-> >>> Hi,
-> >>>
-> >>> Changes since v1:
-> >>> 1. Add tags.
-> >>> 2. Adjust subject (Uwe).
-> >>
-> >> However you only took a part of my suggestion ...
-> >>
-> >>> Krzysztof Kozlowski (15):
-> >>>   dt-bindings: pwm: allwinner,sun4i-a10: Include generic pwm schema
-> >>>   dt-bindings: pwm: imx: Include generic pwm schema
-> >>>   dt-bindings: pwm: intel,lgm: Include generic pwm schema
-> >>>   dt-bindings: pwm: iqs620a: Include generic pwm schema
-> >>>   dt-bindings: pwm: mxs: Include generic pwm schema
-> >>>   dt-bindings: pwm: rockchip: Include generic pwm schema
-> >>>   dt-bindings: pwm: sifive: Include generic pwm schema
-> >>>   dt-bindings: pwm: renesas,pwm: Include generic pwm schema
-> >>>   dt-bindings: pwm: toshiba,visconti: Include generic pwm schema
-> >>>   dt-bindings: pwm: brcm,bcm7038: Do not require pwm-cells twice
-> >>>   dt-bindings: pwm: intel,keembay: Do not require pwm-cells twice
-> >>
-> >> ... The actual patch has a space after the comma, I like this variant
-> >> without comma better as this is a compatible string.
+Hi Sakari,
+
+On Mon 14 Feb 22, 20:30, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Sat, Feb 05, 2022 at 07:54:00PM +0100, Paul Kocialkowski wrote:
+> > Let's just enable the module when we start using it (at stream on)
+> > and benefit from runtime pm instead of enabling it at first open.
 > >=20
-> > I am confused. My patch does not have comma after space. Your reply
-> > had such in the subject, but not in the proposed new subject you wrote
-> > in msg, so I left it as is. Without comma. If you still see comma, it
-> > is something with your mail client.
+> > Also reorder the call to v4l2_pipeline_pm_get.
 > >=20
-> > See:
-> > https://lore.kernel.org/linux-devicetree/20220214212154.8853-12-krzyszt=
-of.kozlowski@canonical.com/T/#u
-> >=20
-> > Also reply from Vijayakannan does not have comma:
-> > https://lore.kernel.org/linux-devicetree/20220214081605.161394-11-krzys=
-ztof.kozlowski@canonical.com/T/#m80af695f2c751341bc971114aefa00ccc929a3ec
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>=20
+> Nice patch!
 
-Strange: I have this mail four times in my mailboxes (via
-linux-arm-kernel, linux-pwm, kernel@pengutronix.de and directly). In the
-two latter the Subject line is broken in two:
+Thanks!
 
-	Subject: [PATCH v2 08/15] dt-bindings: pwm: renesas,
-	 pwm: Include generic pwm schema
+> Do you still need v4l2_pipeline_pm_put()? Removing it would be a separate
+> patch of course.
 
-So this is indeed a problem near my side.
+My understanding is that this is still useful if there are drivers in the
+pipeline that rely on s_power instead of rpm (a typical case could be an
+old sensor driver). So that's why this is kept around, but all other compon=
+ents
+of the pipeline (isp/csi/mipi csi-2) are using rpm now.
 
-> Just one more clarification - you proposed also to remove "pwm:"
-> middle-prefix. Shall I remove it from every patch and use instead full
-> file name?
+Cheers,
 
-I did that to save some vertical space in the Subject line. I don't feel
-strong here.
-
-Best regards
-Uwe
+Paul
 
 --=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
---oa7qtfm672zzictn
+--tOB2i1/qfUMuc0i4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmILdS8ACgkQwfwUeK3K
-7Algegf/dBLzT9R46q44cuy81Jhbw+cPq5TJjsxMzatiOW6z9KMgzITY+3sdf4tR
-wPwWoOZRYJOlQVK2OsQIBh+fF6w6J2rW+ij4RW9FGM6nBkAE4mp4Ac4xqhCovwl6
-e6hv7eF8br7+c4hXNxTa43gX7KS5JorkySK+4v0qE+iNDy0+vD81laV3sILWFaPm
-e9PWjHuuKzHsWK2iVcoQlLCmbhFHcgBwSarOx8ytG9525zLDq0RwZG8mws1Udn18
-SILWaO0/zphzHlX0Fl3VbShlGLhZBHLHI0HdwAjSg8iyj4GhjTUZSxnwXKZw0G/k
-fa+SMHLCyStkxfK/oN1jkKah5Fl4TQ==
-=9Zp/
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmILeMYACgkQ3cLmz3+f
+v9E5sAf/akvNvNPsCxPYxGv+fJr3ZwwX2cWQuFu6Am+wwNsKyXuxoMHRnyG1rANG
+OVaJVCgFR3vPnDKUsTC/grEH/PdeNUHy9DT+gnEnjsIepnMV5/VAG4YBgonHBDoC
+Nk1fMad5oTd+W+kpLqdQ7JEABUhW+TZL9TAv2C24Xg4DupIwH2HDcYCepM83ySy8
+q5Q6Jo8gYGAWzdWJLr5u3Xexgd2W7n4kQ7VBXVNesTQOgvihW8xTFcAft/Sf4Qig
+FHhb+EWRL6Pl9v74gev2rUQMWABOgVFHlcPmHQgrFIHC/u9fHP0auvZzS09i6A0C
+hcYntRVNBMGqmJTHoPZjIucw/JtAgw==
+=CYCh
 -----END PGP SIGNATURE-----
 
---oa7qtfm672zzictn--
+--tOB2i1/qfUMuc0i4--
