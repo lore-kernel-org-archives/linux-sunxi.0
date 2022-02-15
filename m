@@ -1,164 +1,110 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991BCC80
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 10:50:14 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJvPE-0000Mj-FZ; Tue, 15 Feb 2022 11:50:00 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJvP7-00GjUe-Ml; Tue, 15 Feb 2022 11:49:52 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJvP6-003Jg7-77; Tue, 15 Feb 2022 11:49:52 +0100
-Date: Tue, 15 Feb 2022 11:49:52 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, linux-pwm@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
-	Sagar Kadam <sagar.kadam@sifive.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Lee Jones <lee.jones@linaro.org>, linux-riscv@lists.infradead.org,
-	Vignesh R <vigneshr@ti.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Fabio Estevam <festevam@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-rockchip@lists.infradead.org,
-	Rahul Tanwar <rtanwar@maxlinear.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	NXP Linux Team <linux-imx@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C18D138A;
+	Tue, 15 Feb 2022 11:01:14 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6d7b:ae43:289b:7e7c])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D2AEA1F444D0;
+	Tue, 15 Feb 2022 11:01:12 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644922873;
+	bh=j2A4NMSFKaArnsLVO73dDEOpv7p5lUGniQuI/KRT0iU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=MIWd6bRq5QrtPVR9A0Zxw1KYRLSgRl9262dVOZdU3VNsOOY+nq4dMzxoeT2Sw7d4d
+	 Kn/WKgMc9OL4o3RmJTqNlXqn2TufiLROIKh9xkkjNq2oqu5RJBCOoZAesMUG0G7EXM
+	 8NuyZFj19Z+Qb9LNWEH37LE2w9/aBk/WKDtVOmD4Dde0SOhGfi//nyQLMEUP4yuGt/
+	 mW34vWyP7aO8ZhttR1YNZvpbTqtkXABw769Izo2PYeobAi+Pmd8SWXsKDgDu6bveTu
+	 JARwO8EFy4F1Ipwz9SksZtq8FjcKtP6dQvMnU8+OJTo5JfKIk8q0WL57dsjrcNmt6w
+	 No4D6omyiHWIQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	hverkuil-cisco@xs4all.nl,
+	jonas@kwiboo.se,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
-Message-ID: <20220215104952.3z7y2t5udwab64kh@pengutronix.de>
-References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
- <20220215074030.3nugwproxjh3lwhl@pengutronix.de>
- <CA+Eumj42Hojp1m4deuWnqMOaaNaupTSkzPaNbL_0eyBL-aDi_g@mail.gmail.com>
- <7df71f8d-cdc3-4b2e-cf0a-7112eff28142@canonical.com>
- <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	knaerzche@gmail.com,
+	jc@kynesim.co.uk
+Subject: [RFC v2 1/8] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+Date: Tue, 15 Feb 2022 12:00:56 +0100
+Message-Id: <20220215110103.241297-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6ik55s7cffiwjwpg"
-Content-Disposition: inline
-In-Reply-To: <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+Content-Transfer-Encoding: 8bit
 
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
---6ik55s7cffiwjwpg
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add a new flag that indicates that this control is a dynamically sized
+array. Also document this flag.
 
-On Tue, Feb 15, 2022 at 10:41:06AM +0100, Uwe Kleine-K=F6nig wrote:
-> On Tue, Feb 15, 2022 at 09:02:25AM +0100, Krzysztof Kozlowski wrote:
-> > On 15/02/2022 08:59, Krzysztof Kozlowski wrote:
-> > > On Tue, 15 Feb 2022 at 08:40, Uwe Kleine-K=F6nig
-> > > <u.kleine-koenig@pengutronix.de> wrote:
-> > >>
-> > >> Hello,
-> > >>
-> > >> [dropped Anson Huang and Yash Shah from Cc: which were not reachable=
- for
-> > >> my last mail]
-> > >>
-> > >> On Mon, Feb 14, 2022 at 10:21:39PM +0100, Krzysztof Kozlowski wrote:
-> > >>> Hi,
-> > >>>
-> > >>> Changes since v1:
-> > >>> 1. Add tags.
-> > >>> 2. Adjust subject (Uwe).
-> > >>
-> > >> However you only took a part of my suggestion ...
-> > >>
-> > >>> Krzysztof Kozlowski (15):
-> > >>>   dt-bindings: pwm: allwinner,sun4i-a10: Include generic pwm schema
-> > >>>   dt-bindings: pwm: imx: Include generic pwm schema
-> > >>>   dt-bindings: pwm: intel,lgm: Include generic pwm schema
-> > >>>   dt-bindings: pwm: iqs620a: Include generic pwm schema
-> > >>>   dt-bindings: pwm: mxs: Include generic pwm schema
-> > >>>   dt-bindings: pwm: rockchip: Include generic pwm schema
-> > >>>   dt-bindings: pwm: sifive: Include generic pwm schema
-> > >>>   dt-bindings: pwm: renesas,pwm: Include generic pwm schema
-> > >>>   dt-bindings: pwm: toshiba,visconti: Include generic pwm schema
-> > >>>   dt-bindings: pwm: brcm,bcm7038: Do not require pwm-cells twice
-> > >>>   dt-bindings: pwm: intel,keembay: Do not require pwm-cells twice
-> > >>
-> > >> ... The actual patch has a space after the comma, I like this variant
-> > >> without comma better as this is a compatible string.
-> > >=20
-> > > I am confused. My patch does not have comma after space. Your reply
-> > > had such in the subject, but not in the proposed new subject you wrote
-> > > in msg, so I left it as is. Without comma. If you still see comma, it
-> > > is something with your mail client.
-> > >=20
-> > > See:
-> > > https://lore.kernel.org/linux-devicetree/20220214212154.8853-12-krzys=
-ztof.kozlowski@canonical.com/T/#u
-> > >=20
-> > > Also reply from Vijayakannan does not have comma:
-> > > https://lore.kernel.org/linux-devicetree/20220214081605.161394-11-krz=
-ysztof.kozlowski@canonical.com/T/#m80af695f2c751341bc971114aefa00ccc929a3ec
->=20
-> Strange: I have this mail four times in my mailboxes (via
-> linux-arm-kernel, linux-pwm, kernel@pengutronix.de and directly). In the
-> two latter the Subject line is broken in two:
+Currently dynamically sized arrays are limited to one dimensional arrays,
+but that might change in the future if there is a need for it.
 
-I was wrong. The ones to kernel@pengutronix.de and the linux-arm-kernel
-one are the ones with the linebreak.
+The initial use-case of dynamic arrays are stateless codecs. A frame
+can be divided in many slices, so you want to provide an array containing
+slice information for each slice. Typically the number of slices is small,
+but the standard allow for hundreds or thousands of slices. Dynamic arrays
+are a good solution since sizing the array for the worst case would waste
+substantial amounts of memory.
 
-Hmm,
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+ include/uapi/linux/videodev2.h                            | 1 +
+ 2 files changed, 9 insertions(+)
 
-http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717310.=
-html
-http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717304.=
-html
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 88f630252d98..a20dfa2a933b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
+ 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+ 	streaming is in progress since most drivers do not support changing
+ 	the format in that case.
++    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
++      - 0x0800
++      - This control is a dynamically sized 1-dimensional array. It
++        behaves the same as a regular array, except that the number
++	of elements as reported by the ``elems`` field is between 1 and
++	``dims[0]``. So setting the control with a differently sized
++	array will change the ``elems`` field when the control is
++	queried afterwards.
+ 
+ Return Value
+ ============
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index df8b9c486ba1..e27c8eae78c9 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1884,6 +1884,7 @@ struct v4l2_querymenu {
+ #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+ #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
++#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+ 
+ /*  Query flags, to be ORed with the control ID */
+ #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+-- 
+2.32.0
 
-has the linebreaks, too. Still I wonder what is different between
-kernel@pengutronix.de and u.kleine-koenig@pengutronix.de.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6ik55s7cffiwjwpg
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmILhU0ACgkQwfwUeK3K
-7Ak2jwf/YTZ2xphcIavG03zlKIE2aHmvTuLH2QJWSh+YE/vZDTs5qA96uHK4qJqE
-X5r25Qqby7C8Tb1gyOYSZJDoaiVnoe2XNyzDJeCG0QZnqYsj7bFKez3mmdKv7c/8
-7K4TeGdcWrOhVv6QFW+v8RrPWx5WkvSJT9PQ0CTgpmknr/9wX0YgO5yEGZcP3IYk
-265zktNZnG3rg+p1qb+qt98fkLQWvy+wtaGH2Sd9kzVM82ukJ0neX0fQxndvOHWW
-SbbXcy+HJWwBbUKiST0AvQCjqeo+O1LR5qn8+sLfNAADN6sjmZW09vX2rxC+DNXs
-G7dnLE2XCT/BaFyxHPQanXfYkZxb3w==
-=Rrce
------END PGP SIGNATURE-----
-
---6ik55s7cffiwjwpg--
