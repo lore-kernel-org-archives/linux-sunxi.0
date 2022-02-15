@@ -1,181 +1,112 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FE91561
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 12:59:21 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJxQA-0008UY-W5; Tue, 15 Feb 2022 13:59:07 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJxQ2-00Gku7-Gs; Tue, 15 Feb 2022 13:58:57 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nJxQ1-003Kkc-4f; Tue, 15 Feb 2022 13:58:57 +0100
-Date: Tue, 15 Feb 2022 13:58:56 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Heiko Stuebner <heiko@sntech.de>, devicetree@vger.kernel.org,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
-	Sagar Kadam <sagar.kadam@sifive.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org,
-	Vignesh R <vigneshr@ti.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-rockchip@lists.infradead.org,
-	Rahul Tanwar <rtanwar@maxlinear.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	NXP Linux Team <linux-imx@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
-Message-ID: <20220215125856.es2euyoqo6mp4y2t@pengutronix.de>
-References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
- <20220215074030.3nugwproxjh3lwhl@pengutronix.de>
- <CA+Eumj42Hojp1m4deuWnqMOaaNaupTSkzPaNbL_0eyBL-aDi_g@mail.gmail.com>
- <7df71f8d-cdc3-4b2e-cf0a-7112eff28142@canonical.com>
- <20220215094106.k35pmoxt2nk44dsj@pengutronix.de>
- <20220215104952.3z7y2t5udwab64kh@pengutronix.de>
- <d042abb2-e5df-42b9-824a-6fc3b9c6df6c@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E431F1561;
+	Tue, 15 Feb 2022 13:01:26 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:3030:c:4872:44aa:f680:5c21:4d9e])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B8E621F4478F;
+	Tue, 15 Feb 2022 13:01:24 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1644930085;
+	bh=oP5LmZQ2v+ynwHP2YgQ3HzLx8VbZLLfieXayaQwh2AY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y5MoHVAz6qUMJA0Axj1VeVkWWxHnce4wEZF13y6m1OMe0Gu/zvbtcbO+ElYkP88S0
+	 /+inE+Oza/Uq7aOpRyuMaYaIkAJGh2MA245Cpx3I46/BzzzlD6Y9tOO+pQtkZRXHiQ
+	 soWQ9A3CYUTDUHHWi61eRhbL990SjcdDZEjuQuzoN/2ShXmqXkRVHtjS7f8N92qzFH
+	 Nv07t2WrKMjjtIfe4+61ra4DAgj40VMU/ufS/Nv+Z9dWRrsluR6o959YKyDI0/lUYo
+	 vLt8aB65utTeu/ZF2iyiIl4eXO5CHXeuq0tA1MXF7PcGrUHf0RD7l35c0C6Dec1X3/
+	 6A5ThyXzJq33g==
+Date: Tue, 15 Feb 2022 14:01:21 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, hverkuil-cisco@xs4all.nl, jonas@kwiboo.se,
+	nicolas@ndufresne.ca, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk
+Subject: Re: [RFC v2 0/8] Move HEVC stateless controls out of staging
+Message-ID: <20220215130121.4ekixb457ot6zaqi@basti-XPS-13-9310>
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="t6gdx5ppa5aoudwv"
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <d042abb2-e5df-42b9-824a-6fc3b9c6df6c@canonical.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+In-Reply-To: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
 
+Hey Benjamin,
 
---t6gdx5ppa5aoudwv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 15.02.2022 12:00, Benjamin Gaignard wrote:
+>This series aims to make HEVC uapi stable and usable for hardware
+>decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>and 2 out of the tree drivers (rkvdec and RPI).
 
-On Tue, Feb 15, 2022 at 01:41:20PM +0100, Krzysztof Kozlowski wrote:
-> On 15/02/2022 11:49, Uwe Kleine-K=F6nig wrote:
-> > On Tue, Feb 15, 2022 at 10:41:06AM +0100, Uwe Kleine-K=F6nig wrote:
-> >> On Tue, Feb 15, 2022 at 09:02:25AM +0100, Krzysztof Kozlowski wrote:
-> >>> On 15/02/2022 08:59, Krzysztof Kozlowski wrote:
-> >>>> On Tue, 15 Feb 2022 at 08:40, Uwe Kleine-K=F6nig
-> >>>> <u.kleine-koenig@pengutronix.de> wrote:
-> >>>>>
-> >>>>> Hello,
-> >>>>>
-> >>>>> [dropped Anson Huang and Yash Shah from Cc: which were not reachabl=
-e for
-> >>>>> my last mail]
-> >>>>>
-> >>>>> On Mon, Feb 14, 2022 at 10:21:39PM +0100, Krzysztof Kozlowski wrote:
-> >>>>>> Hi,
-> >>>>>>
-> >>>>>> Changes since v1:
-> >>>>>> 1. Add tags.
-> >>>>>> 2. Adjust subject (Uwe).
-> >>>>>
-> >>>>> However you only took a part of my suggestion ...
-> >>>>>
-> >>>>>> Krzysztof Kozlowski (15):
-> >>>>>>   dt-bindings: pwm: allwinner,sun4i-a10: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: imx: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: intel,lgm: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: iqs620a: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: mxs: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: rockchip: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: sifive: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: renesas,pwm: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: toshiba,visconti: Include generic pwm schema
-> >>>>>>   dt-bindings: pwm: brcm,bcm7038: Do not require pwm-cells twice
-> >>>>>>   dt-bindings: pwm: intel,keembay: Do not require pwm-cells twice
-> >>>>>
-> >>>>> ... The actual patch has a space after the comma, I like this varia=
-nt
-> >>>>> without comma better as this is a compatible string.
-> >>>>
-> >>>> I am confused. My patch does not have comma after space. Your reply
-> >>>> had such in the subject, but not in the proposed new subject you wro=
-te
-> >>>> in msg, so I left it as is. Without comma. If you still see comma, it
-> >>>> is something with your mail client.
-> >>>>
-> >>>> See:
-> >>>> https://lore.kernel.org/linux-devicetree/20220214212154.8853-12-krzy=
-sztof.kozlowski@canonical.com/T/#u
-> >>>>
-> >>>> Also reply from Vijayakannan does not have comma:
-> >>>> https://lore.kernel.org/linux-devicetree/20220214081605.161394-11-kr=
-zysztof.kozlowski@canonical.com/T/#m80af695f2c751341bc971114aefa00ccc929a3ec
-> >>
-> >> Strange: I have this mail four times in my mailboxes (via
-> >> linux-arm-kernel, linux-pwm, kernel@pengutronix.de and directly). In t=
-he
-> >> two latter the Subject line is broken in two:
-> >=20
-> > I was wrong. The ones to kernel@pengutronix.de and the linux-arm-kernel
-> > one are the ones with the linebreak.
-> >=20
-> > Hmm,
-> >=20
-> > http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717=
-310.html
-> > http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/717=
-304.html
-> >=20
-> > has the linebreaks, too. Still I wonder what is different between
-> > kernel@pengutronix.de and u.kleine-koenig@pengutronix.de.
->=20
-> Other threads - not only mine - are also affected:
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/71431=
-1.html
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/71431=
-6.html
-> http://lists.infradead.org/pipermail/linux-arm-kernel/2022-February/71436=
-4.html
+Why is rkvdec out-of-tree? It is in the staging directory just like
+hantro and cedrus? Am I missing something here?
 
-In the meantime I'm confident that mailman2 is the culprit.
+Greetings,
+Sebastian
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---t6gdx5ppa5aoudwv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmILo40ACgkQwfwUeK3K
-7AnvIwgAjV+YrVWzVl6/EalqkA0yXEPvLD0BIjc8GppPn0QIHRx5V3D1pFSohQMe
-5/B2Qed1xooVWuf0uGv8px49fkHuRjJmjJGyCqzzqljJK8kHyRtXs9J9+1SM5Grb
-KvVqy2mGU91WjUIFP1wUjOemZ5KQSdbXBRhPpT4rjoOia/t5VBxvosGde1oZnRWc
-lLE2zzwxRLz52uycLpDKCeLKvpohBy5rbd3R5lRvyCH25zIYRbnkGPRhE+Vpv2ec
-bU5gO5jQZss+5auIIrmYcpyjK2eS0nzYA6JW0jDLzC4+UB4RPAKPi2nEhD+LdD44
-d1DHbpi4cOq5fCyjQM93xFg5Xyz1sA==
-=+q5K
------END PGP SIGNATURE-----
-
---t6gdx5ppa5aoudwv--
+>
+>The 3 first patches are from Hans to implement v4l2 dynamic control
+>feature which is need by patch 7 for V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET
+>definition.
+>
+>Patch 4 move the existing uapi to stable, including definitions renaming
+>and CID number change to fit with v4l2 naming.
+>
+>Patches 5 and 7 add fields needed for rkvdec and RPI decoders.
+>
+>Patches 6 is cleaning up the uapi of useless field.
+>Patches 8 change one field description and name to define offset by
+>bytes rather than by bits
+>
+>Benjamin
+>
+>Benjamin Gaignard (5):
+>  media: uapi: Move HEVC stateless controls out of staging
+>  media: uapi: Add fields needed for RKVDEC driver
+>  media: uapi: Remove bit_size field from v4l2_ctrl_hevc_slice_params
+>  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>  media: uapi: Change data_bit_offset definition
+>
+>Hans Verkuil (3):
+>  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>  v4l2-ctrls: add support for dynamically allocated arrays.
+>  vivid: add dynamic array test control
+>
+> .../userspace-api/media/drivers/hantro.rst    |   5 -
+> .../media/v4l/ext-ctrls-codec.rst             |  58 ++--
+> .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> .../media/test-drivers/vivid/vivid-ctrls.c    |  15 ++
+> drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++++++--
+> drivers/media/v4l2-core/v4l2-ctrls-core.c     | 182 ++++++++++---
+> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +--
+> drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> .../staging/media/sunxi/cedrus/cedrus_h265.c  |  13 +-
+> include/linux/hantro-media.h                  |  17 ++
+> include/media/hevc-ctrls.h                    | 250 ------------------
+> include/media/v4l2-ctrls.h                    |  48 +++-
+> include/uapi/linux/v4l2-controls.h            | 224 ++++++++++++++++
+> include/uapi/linux/videodev2.h                |   8 +
+> 19 files changed, 640 insertions(+), 408 deletions(-)
+> create mode 100644 include/linux/hantro-media.h
+> delete mode 100644 include/media/hevc-ctrls.h
+>
+>-- 
+>2.32.0
+>
