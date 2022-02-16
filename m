@@ -1,58 +1,53 @@
-Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 205661FC3
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Feb 2022 04:26:17 +0000 (UTC)
-Received: by mail-oi1-f182.google.com with SMTP id v14so62474oic.6
-        for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 20:26:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C171FC5
+	for <linux-sunxi@lists.linux.dev>; Wed, 16 Feb 2022 04:26:39 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id 189-20020a4a03c6000000b003179d7b30d8so1184011ooi.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 15 Feb 2022 20:26:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=sender:date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=RY42s9XP2vCaExmg8SW1b8959hPeZEJSy7UrnQIOnSA=;
-        b=JvejWtnqzAJkoIgn8NJ8DU5qzp0fHD2Zi41OogWhqIfNYhxNdmwdKUVcs7GRmA4rKY
-         suPtkCqSNRDVwsEBPG6EExFAycr35RIKSwprEwQH1zohlyqqlZxZh6f5Qk0Q4/fG31Ha
-         I4fOstVhX55t+aOotFHxE0RzOeff+hGm3EhogS7Ow6Mltk0li2itQgWm9A7ViB7DTLI3
-         OD29GMkEXGLSpSFsaZjURrEbRaLdo9uNgFOrayZJXuggRtaJSagZB65fyjagbctG1CRW
-         L2qBogykcYAZgfHnoln87uG6FlpU9Ggolw3Mz6t5vntOsJMoAsFLr9OIVJNE6CGvDv8j
-         xZ3g==
+        bh=LT0nFgfu58iECyaHltrzdhXTd+LwZiIDPIbmP9t/t9o=;
+        b=ivR6LRRUrRUqhges/nGaYsw1UOA96T1jPn1qxGbWmBPiz2uW/K2qljiopqaeCrzZPT
+         WSsOHbQ+SOSlLhRIzELZ4OZq2QAsJT9PT43jnwOselJD7nQsOOU8NwVwOMCt3ME66/F7
+         p/3Ho5xc66S811J1YoQTrtpBVUFZU8ervzUD5OEaG5IquwxDJtUYqREJDJvwBM3deNAC
+         y5r665Qyb43YPPP4EEgOzK6/vBseYOmDPm256syo1R5i6brs0GEdcOsG34cO1Y82fmPo
+         n857J+spdkvVmcyAAMq4KdouteiMJvFMQ/w6FcJZ5kOHPl7ucgdENTT5HxNy1A9ElgDH
+         MzzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
          :references:mime-version:content-disposition:in-reply-to;
-        bh=RY42s9XP2vCaExmg8SW1b8959hPeZEJSy7UrnQIOnSA=;
-        b=dK8aAkoieD62DNarawwA8WG9Df2+um6uSxYQSGeU7ibZcA7HgSLGZO5gLouKVGIAir
-         ebqPsU5qscWPLv4M/O0Qz8f7KrEQ9EFuMIvPfUlmtZ11Nv4ZtIf+8WUAK08mnsfzZSNx
-         lY9r4BqK8tsD5PGjnMIzOfCcNt6CYI0l4ou0eSTZXCGVvJ3lli2s7Mgn6XGELtCnS23F
-         ZFT8amBgtmMmSild6EIYNt+1zZ033IiU7j6tipNHshi5Gwi5O+X8cOXDQDIOU0S440nU
-         pfio3RXGVWMu1Is+smv1+Ycf17kAy+53v1Reef4RJIqHa6cwMYPDngZ6K7kFwxz8/9qm
-         kh+g==
-X-Gm-Message-State: AOAM5322Ovi0DRiXHg2AlqOZdDrBo9LsA/ZOYcevDX7ynBghF6UY5G1x
-	DJ1D/aCeqWhZZAbAhdWcj6E=
-X-Google-Smtp-Source: ABdhPJwEhTSlGLzNvGzaceF503qrsfiNuHkumbVADHWU2qQ9wQpGTW305eaFMDGQUWBoYy42lKmghg==
-X-Received: by 2002:a05:6808:f8d:b0:2ce:7461:200f with SMTP id o13-20020a0568080f8d00b002ce7461200fmr458038oiw.285.1644985577184;
-        Tue, 15 Feb 2022 20:26:17 -0800 (PST)
+        bh=LT0nFgfu58iECyaHltrzdhXTd+LwZiIDPIbmP9t/t9o=;
+        b=xDjZxkI561xWy6QWnAbLLqzlWoKQzmm9kKUQhRThXm/HKRMnXtZz9JMN0ts8brmcBa
+         IjGPL56zC8O26wGze4fae/LLVH3SQ5yCG+CHWqALOi9EPvf6hY8esgSGnzv4xgvG1bGS
+         wTntnE2sJdfy36j5RRKpKc1vllPTGpe/9o7VVPOeVnhkc8A0jUzOCfgJTHsc20xxPpJ4
+         IIWQc0A4y9m/QGAgxsybiflHmvFyBneiKaPKwGYiGg146i9l4Z+tzrK8YN2MSkLZY2pQ
+         GnBu5a2fwqqn22Rj/O1RX0EnsQWH+3pB3pstKo0bG6EWyZr7mBDMhqF9N7JQbR2v2D2K
+         B4QA==
+X-Gm-Message-State: AOAM530E+/mF1wNz19kG9JjVMGEb9B7MRgbWVCIU/BMwV/k8ppKsZ/sV
+	sk9HaLVndprnBqzHgdQVCJ0=
+X-Google-Smtp-Source: ABdhPJzyD3GOhI4bv3I4PQ2oQYbNvToBTGMJaqoncptwGkOgDGQeU3ShnblQe7wT9dXLowkD1EX7TA==
+X-Received: by 2002:a05:6870:c21e:b0:d1:4378:7c14 with SMTP id z30-20020a056870c21e00b000d143787c14mr2544337oae.268.1644985598931;
+        Tue, 15 Feb 2022 20:26:38 -0800 (PST)
 Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id b8sm4973952otk.36.2022.02.15.20.26.15
+        by smtp.gmail.com with ESMTPSA id d7sm14264348otf.66.2022.02.15.20.26.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Feb 2022 20:26:16 -0800 (PST)
+        Tue, 15 Feb 2022 20:26:38 -0800 (PST)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 15 Feb 2022 20:26:14 -0800
+Date: Tue, 15 Feb 2022 20:26:37 -0800
 From: Guenter Roeck <linux@roeck-us.net>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	mripard@kernel.org, wens@csie.org, robh+dt@kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Klein <michael@fossekall.de>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2] ARM: dts: sun8i: Adjust power key nodes
-Message-ID: <20220216042614.GA63304@roeck-us.net>
-References: <20211129165510.370717-1-jernej.skrabec@gmail.com>
- <20220215002732.GA3215504@roeck-us.net>
- <4714494.31r3eYUQgx@kista>
- <23df0d53-d530-2363-09c9-5be2b2306a81@roeck-us.net>
- <35ca9258-3129-240c-7a0a-cacfa0a13253@sholland.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] pinctrl: sunxi: Use unique lockdep classes for IRQs
+Message-ID: <20220216042637.GB63304@roeck-us.net>
+References: <20220216040037.22730-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,22 +56,107 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <35ca9258-3129-240c-7a0a-cacfa0a13253@sholland.org>
+In-Reply-To: <20220216040037.22730-1-samuel@sholland.org>
 
-On Tue, Feb 15, 2022 at 10:11:36PM -0600, Samuel Holland wrote:
-[ ... ]
+On Tue, Feb 15, 2022 at 10:00:36PM -0600, Samuel Holland wrote:
+> This driver, like several others, uses a chained IRQ for each GPIO bank,
+> and forwards .irq_set_wake to the GPIO bank's upstream IRQ. As a result,
+> a call to irq_set_irq_wake() needs to lock both the upstream and
+> downstream irq_desc's. Lockdep considers this to be a possible deadlock
+> when the irq_desc's share lockdep classes, which they do by default:
 > 
-> I don't think there is any real issue here. The two irq_desc's being locked are
-> always different, so there is no deadlock. This recursive irq_set_irq_wake seems
-> to be a reasonably common pattern in GPIO drivers, and several of them contain
-> code to silence lockdep. I've sent a patch adding a copy of that to the sunxi
-> driver:
+>  ============================================
+>  WARNING: possible recursive locking detected
+>  5.17.0-rc3-00394-gc849047c2473 #1 Not tainted
+>  --------------------------------------------
+>  init/307 is trying to acquire lock:
+>  c2dfe27c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
 > 
-> https://lore.kernel.org/lkml/20220216040037.22730-1-samuel@sholland.org/
+>  but task is already holding lock:
+>  c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
 > 
-> Please see if it works for you.
+>  other info that might help us debug this:
+>   Possible unsafe locking scenario:
 > 
-Yes, it does. The warning is gone with your patch applied on top of linux-next.
+>         CPU0
+>         ----
+>    lock(&irq_desc_lock_class);
+>    lock(&irq_desc_lock_class);
+> 
+>   *** DEADLOCK ***
+> 
+>   May be due to missing lock nesting notation
+> 
+>  4 locks held by init/307:
+>   #0: c1f29f18 (system_transition_mutex){+.+.}-{3:3}, at: __do_sys_reboot+0x90/0x23c
+>   #1: c20f7760 (&dev->mutex){....}-{3:3}, at: device_shutdown+0xf4/0x224
+>   #2: c2e804d8 (&dev->mutex){....}-{3:3}, at: device_shutdown+0x104/0x224
+>   #3: c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+> 
+>  stack backtrace:
+>  CPU: 0 PID: 307 Comm: init Not tainted 5.17.0-rc3-00394-gc849047c2473 #1
+>  Hardware name: Allwinner sun8i Family
+>   unwind_backtrace from show_stack+0x10/0x14
+>   show_stack from dump_stack_lvl+0x68/0x90
+>   dump_stack_lvl from __lock_acquire+0x1680/0x31a0
+>   __lock_acquire from lock_acquire+0x148/0x3dc
+>   lock_acquire from _raw_spin_lock_irqsave+0x50/0x6c
+>   _raw_spin_lock_irqsave from __irq_get_desc_lock+0x58/0xa0
+>   __irq_get_desc_lock from irq_set_irq_wake+0x2c/0x19c
+>   irq_set_irq_wake from irq_set_irq_wake+0x13c/0x19c
+>     [tail call from sunxi_pinctrl_irq_set_wake]
+>   irq_set_irq_wake from gpio_keys_suspend+0x80/0x1a4
+>   gpio_keys_suspend from gpio_keys_shutdown+0x10/0x2c
+>   gpio_keys_shutdown from device_shutdown+0x180/0x224
+>   device_shutdown from __do_sys_reboot+0x134/0x23c
+>   __do_sys_reboot from ret_fast_syscall+0x0/0x1c
+> 
+> However, this can never deadlock because the upstream and downstream
+> IRQs are never the same (nor do they even involve the same irqchip).
+> 
+> Silence this erroneous lockdep splat by applying what appears to be the
+> usual fix of moving the GPIO IRQs to separate lockdep classes.
+> 
+> Fixes: a59c99d9eaf9 ("pinctrl: sunxi: Forward calls to irq_set_irq_wake")
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Thanks,
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+
 Guenter
+
+> ---
+> 
+>  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> index 80d6750c74a6..9e6ed1175db3 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+> @@ -36,6 +36,13 @@
+>  #include "../core.h"
+>  #include "pinctrl-sunxi.h"
+>  
+> +/*
+> + * These lock classes tell lockdep that GPIO IRQs are in a different
+> + * category than their parents, so it won't report false recursion.
+> + */
+> +static struct lock_class_key sunxi_pinctrl_irq_lock_class;
+> +static struct lock_class_key sunxi_pinctrl_irq_request_class;
+> +
+>  static struct irq_chip sunxi_pinctrl_edge_irq_chip;
+>  static struct irq_chip sunxi_pinctrl_level_irq_chip;
+>  
+> @@ -1555,6 +1562,8 @@ int sunxi_pinctrl_init_with_variant(struct platform_device *pdev,
+>  	for (i = 0; i < (pctl->desc->irq_banks * IRQ_PER_BANK); i++) {
+>  		int irqno = irq_create_mapping(pctl->domain, i);
+>  
+> +		irq_set_lockdep_class(irqno, &sunxi_pinctrl_irq_lock_class,
+> +				      &sunxi_pinctrl_irq_request_class);
+>  		irq_set_chip_and_handler(irqno, &sunxi_pinctrl_edge_irq_chip,
+>  					 handle_edge_irq);
+>  		irq_set_chip_data(irqno, pctl);
+> -- 
+> 2.33.1
+> 
