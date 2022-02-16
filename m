@@ -1,130 +1,121 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BF023D2;
+	Wed, 16 Feb 2022 17:19:15 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:fdd4:c171:8e0a:65c9] (unknown [IPv6:2a01:e0a:120:3210:fdd4:c171:8e0a:65c9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF5C187C
-	for <linux-sunxi@lists.linux.dev>; Wed, 16 Feb 2022 16:24:02 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id e3so4431171wra.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 16 Feb 2022 08:24:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LTt4zeXioXEAgxKFKddjzAm61xpJtbPPtey6Dl+FS3k=;
-        b=ey0ZisKjo0VUrCt+QgQ5aTTg3uYAEHOkAAyA4ZLtfJrcpAvN4jE/WWE5R+2FjGyTOh
-         5WB+dEERzKJ9PP1AB7VnD5GC7LUwmDT6tXCoebohWVYfgR3UrxeJWcX/kn0Ucbx4pr19
-         kdB159p78FAC3id+SKA+RsB5WKJAY1VzqiLonURGM0ueXop6+0oR3Z9OVwULTWieRMht
-         aKpeB7r43tAVDF0fd9ZupN2rCSy7y+c9lrv42nZqWNOou1cU1FlhRon2OcknfJCiFl3m
-         hwf+1m1UeiOibaVpHQzlyWQ9Xl6Sj0tltYg4NROJxTp8yYHo3KxrBNeq8XJyO5K9uQIh
-         tKvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LTt4zeXioXEAgxKFKddjzAm61xpJtbPPtey6Dl+FS3k=;
-        b=oXkXWR3OiN9q7IBtCJo8l7ppzXyuKAaBiUZYOpCB515CqVFGZP6m9h1UciQkaofN/A
-         2CIjVgAKU8oIPn0Qi5JFb7Z95HeZit1GLHlVTzRXHSDgAokpAERGjDtXj0j/daky3SoD
-         /uetDwpe/25abQX2Ux1nCW6mim0GSeDwMRel7tGu5uAg7Xka9ZPQ4zPqm232O+MjpB2m
-         /umKzj5KukiDf7sh3Ik0GzmjCNITvd4DDynX/cDepbCmP/G048HzXlslGSTcx59xumzi
-         koJlqelunn/YqIAUCE+7Ka/XP9mr8x9xiYGww/PcaRHsEJ6vr3RkMzhXFqn9rzQoYDLp
-         S4jg==
-X-Gm-Message-State: AOAM5306+6ykBn3tUH/WxIefIX/WuKHhmQY4y10JPnqAgdOIWS267ihf
-	a4IHjpYz5v6sQFHV6KJ24no=
-X-Google-Smtp-Source: ABdhPJybP1sGjhuU7xFxJ/hdGk6c3ciueolCbzgSKOnfdRNTzSTOlyjrNfEHjVEgXBPH9+awuTPhkQ==
-X-Received: by 2002:a5d:4d0c:0:b0:1e3:364a:c95f with SMTP id z12-20020a5d4d0c000000b001e3364ac95fmr2979281wrt.115.1645028640578;
-        Wed, 16 Feb 2022 08:24:00 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id f25sm18305054wml.16.2022.02.16.08.23.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Feb 2022 08:24:00 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, linux-gpio@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH] pinctrl: sunxi: Use unique lockdep classes for IRQs
-Date: Wed, 16 Feb 2022 17:23:59 +0100
-Message-ID: <2091402.irdbgypaU6@kista>
-In-Reply-To: <20220216040037.22730-1-samuel@sholland.org>
-References: <20220216040037.22730-1-samuel@sholland.org>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C29C41F45037;
+	Wed, 16 Feb 2022 17:19:11 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1645031952;
+	bh=dzkulLdCFvxMIGqB0cCUzdXbRStr5SMvEoD5ovPIHCw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ponvm8a/9gskHDy3/EClyJ6uwXSBDpglsnUBVIr09VOEiwq15KG7KcwaSTGjFHbou
+	 TTa1TCK88youuVYdt6m2AHeAZzuTNXn0qo1QeE3V9Y7i9Z5dBd5nKBbjMVaLkEZHYS
+	 RZMq8CJ71++B28hHKPw6sglKFeJi6JeJMgg+K+tUcatIoG+Or4g4PCXymdHvs07Tin
+	 UsPxO5V7/CtLy1m6aKTkAT6cm5L68gPKpF95UfEF6h/Lb3LJ1nIgpXuICq+k939OH+
+	 qEQ5eNP+WAN22k5Mwqj8CVz2WjgduozZyUjZvKYosNJTG4qL7W1c9aECWC6vFvdecs
+	 SF0SjBEUoM7+A==
+Message-ID: <846370ec-5c9e-e4cb-eccf-0b0c6bdbc847@collabora.com>
+Date: Wed, 16 Feb 2022 18:19:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-Hi Samuel,
-
-Dne sreda, 16. februar 2022 ob 05:00:36 CET je Samuel Holland napisal(a):
-> This driver, like several others, uses a chained IRQ for each GPIO bank,
-> and forwards .irq_set_wake to the GPIO bank's upstream IRQ. As a result,
-> a call to irq_set_irq_wake() needs to lock both the upstream and
-> downstream irq_desc's. Lockdep considers this to be a possible deadlock
-> when the irq_desc's share lockdep classes, which they do by default:
-> 
->  ============================================
->  WARNING: possible recursive locking detected
->  5.17.0-rc3-00394-gc849047c2473 #1 Not tainted
->  --------------------------------------------
->  init/307 is trying to acquire lock:
->  c2dfe27c (&irq_desc_lock_class){-.-.}-{2:2}, at: 
-__irq_get_desc_lock+0x58/0xa0
-> 
->  but task is already holding lock:
->  c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: 
-__irq_get_desc_lock+0x58/0xa0
-> 
->  other info that might help us debug this:
->   Possible unsafe locking scenario:
-> 
->         CPU0
->         ----
->    lock(&irq_desc_lock_class);
->    lock(&irq_desc_lock_class);
-> 
->   *** DEADLOCK ***
-> 
->   May be due to missing lock nesting notation
-> 
->  4 locks held by init/307:
->   #0: c1f29f18 (system_transition_mutex){+.+.}-{3:3}, at: 
-__do_sys_reboot+0x90/0x23c
->   #1: c20f7760 (&dev->mutex){....}-{3:3}, at: device_shutdown+0xf4/0x224
->   #2: c2e804d8 (&dev->mutex){....}-{3:3}, at: device_shutdown+0x104/0x224
->   #3: c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: 
-__irq_get_desc_lock+0x58/0xa0
-> 
->  stack backtrace:
->  CPU: 0 PID: 307 Comm: init Not tainted 5.17.0-rc3-00394-gc849047c2473 #1
->  Hardware name: Allwinner sun8i Family
->   unwind_backtrace from show_stack+0x10/0x14
->   show_stack from dump_stack_lvl+0x68/0x90
->   dump_stack_lvl from __lock_acquire+0x1680/0x31a0
->   __lock_acquire from lock_acquire+0x148/0x3dc
->   lock_acquire from _raw_spin_lock_irqsave+0x50/0x6c
->   _raw_spin_lock_irqsave from __irq_get_desc_lock+0x58/0xa0
->   __irq_get_desc_lock from irq_set_irq_wake+0x2c/0x19c
->   irq_set_irq_wake from irq_set_irq_wake+0x13c/0x19c
->     [tail call from sunxi_pinctrl_irq_set_wake]
->   irq_set_irq_wake from gpio_keys_suspend+0x80/0x1a4
->   gpio_keys_suspend from gpio_keys_shutdown+0x10/0x2c
->   gpio_keys_shutdown from device_shutdown+0x180/0x224
->   device_shutdown from __do_sys_reboot+0x134/0x23c
->   __do_sys_reboot from ret_fast_syscall+0x0/0x1c
-> 
-> However, this can never deadlock because the upstream and downstream
-> IRQs are never the same (nor do they even involve the same irqchip).
-> 
-> Silence this erroneous lockdep splat by applying what appears to be the
-> usual fix of moving the GPIO IRQs to separate lockdep classes.
-> 
-> Fixes: a59c99d9eaf9 ("pinctrl: sunxi: Forward calls to irq_set_irq_wake")
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [RFC v2 7/8] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Content-Language: en-US
+To: John Cox <jc@kynesim.co.uk>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
+ p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ hverkuil-cisco@xs4all.nl, jonas@kwiboo.se, nicolas@ndufresne.ca,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
+References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
+ <20220215110103.241297-8-benjamin.gaignard@collabora.com>
+ <a8lp0h15oaibdu1pqrkhsu8nh32v423tur@4ax.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <a8lp0h15oaibdu1pqrkhsu8nh32v423tur@4ax.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+Le 16/02/2022 à 11:54, John Cox a écrit :
+> On Tue, 15 Feb 2022 12:01:02 +0100, you wrote:
+>
+>> The number of 'entry point offset' could be very variable.
+>> Rather than use a large static array define a v4l2 dynamic array
+>> of integer control.
+>> The number of entry point offsets is reported by the elems field.
+> If we are going to support multiple slice headers in a single control
+> then we are going to need to know how to split these entries between
+> them as I assume that the entry point offset entries for all slice
+> headers would just be catenated here.  You could add extra elements here
+> or generate a completely new control but I think it would be easier to
+> reinstate the num_entry_point_offsets field in the slice_params
+> structure (its a field that userpace has in its hand anyway so its no
+> effort for it to fill in).  num_entry_point_offsets is a field that RPi
+> wants (without needing the entry points themselves) so that would help
+> me.
+
+Would that means num_entry_point_offsets field in slice parameter control
++ one control for the entry points themselves ?
+or the both on slice parameter control (like now) ?
+
+Regards
+Benjamin
+
+>
+> Regards
+>
+> John Cox
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 2:
+>> - Define a new CID for entry point offsets parameters
+>> .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+>> include/uapi/linux/v4l2-controls.h                       | 1 +
+>> 2 files changed, 10 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index c3ae97657fa7..679595e94643 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -3101,6 +3101,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>
+>>      \normalsize
+>>
+>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>> +    Specifies the i-th entry point offset in bytes and is represented by
+>> +    offset_len_minus1 plus 1 bits.
+>> +    This control is a dynamically sized array. The number of entry point
+>> +    offsets is reported by the ``elems`` field.
+>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>> +    They are described in section 7.4.7.1 "General slice segment header
+>> +    semantics" of the specification.
+>> +
+>> ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>      Specifies the HEVC scaling matrix parameters used for the scaling process
+>>      for transform coefficients.
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 27f5d272dc43..700e6cce958c 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -2314,6 +2314,7 @@ struct v4l2_ctrl_vp9_compressed_hdr {
+>> #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 404)
+>> #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 405)
+>> #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 406)
+>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET	(V4L2_CID_CODEC_STATELESS_BASE + 407)
+>>
+>> enum v4l2_stateless_hevc_decode_mode {
+>> 	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
