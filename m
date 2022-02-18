@@ -1,60 +1,79 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1791463C
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Feb 2022 23:38:21 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id m185so5616158iof.10
-        for <linux-sunxi@lists.linux.dev>; Thu, 17 Feb 2022 15:38:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VPqLTBNPDYhEbgZt/YdvKKlTQpPFS9QLFLj/eqQJfu0=;
-        b=v7zp0PubjjC2MRzUmsLSMmmW8TnG6rCe8Z0Za8zmyr9tsFGKSMgE9nCX7lYB+8Filz
-         QVfj9P9Rt3zMY5U7RG1RycYZrFwzv6hvndWWEBngEqUR343s0+MRR6TFEG8FKU6PR51m
-         zb+EAs9Ny+N7QFRVeAu27mP9EGotDP1hL5YBAhE8aMR9cZt+ySCsvjUY8UHkTfIsQFhY
-         3uGj7RngxgvZLrVRoZ+z1Da1h0DNCFmeMaX1Mf5w+yqKHZdIle043d6nK9brxUBHkleU
-         OCaswbbjJ6vQ1c+wpvEO0f4PQfEk6/5lykg7ChgaJbtas62yi2JCjV0rUPvh6rteOuX8
-         xWVA==
-X-Gm-Message-State: AOAM5333ecbGNohsHsVrWC2hsWqCWixm6gEd2spH8LOZvoGmtw8nqW42
-	0udtSoVYC+0QDenUPvqdfA==
-X-Google-Smtp-Source: ABdhPJxnkBwBCsnctqo57J95u71yi9llEbgOjpOUuIN18GpsnSf52LyI6k4cwm2+E3jtbV1xtG/w0g==
-X-Received: by 2002:a02:c953:0:b0:314:3463:f725 with SMTP id u19-20020a02c953000000b003143463f725mr3395005jao.275.1645141101018;
-        Thu, 17 Feb 2022 15:38:21 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.250])
-        by smtp.gmail.com with ESMTPSA id h8sm2542911ile.22.2022.02.17.15.38.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Feb 2022 15:38:20 -0800 (PST)
-Received: (nullmailer pid 3985592 invoked by uid 1000);
-	Thu, 17 Feb 2022 23:38:17 -0000
-Date: Thu, 17 Feb 2022 17:38:17 -0600
-From: Rob Herring <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Ondrej Jirman <megous@megous.com>, Icenowy Zheng <icenowy@aosc.io>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v10 11/18] dt-bindings: usb: Add H616 compatible string
-Message-ID: <Yg7cadPGUwbiOk/K@robh.at.kernel.org>
-References: <20220211122643.1343315-1-andre.przywara@arm.com>
- <20220211122643.1343315-12-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3E460E
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 00:33:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFE5C340E9;
+	Fri, 18 Feb 2022 00:33:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1645144418;
+	bh=e/znNyDINSmervQbv/vjQdjL+iOg2YVcl9VW/Ak7M34=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=MhnvbVUGqtcfi8MC1zO5YLdbZ9LvVI+GP0ULoeKxwQ9yubWwXRLDaovyn4cEXKkdU
+	 b7C3lqMBjLhborfb2ZHKcfC287/fFbhQpPaY+WZpAyX+WM5RE3baErc+FzyvXQyXG8
+	 2HEwl6Wujsj+eauQUcFZ+NQTWSUaH6o0g1sIvgjedKlIABrW1aevxwnu+q+q6s/KlC
+	 5Ao/1ZEF2M/NjahLNQDRs5Dt73RNlNi1n/4UYRg7XYkEtYJK9IVC3bnrcU9XQdupNM
+	 xwbeBZXQN6nw7KyE2LuOefGFgbf4kbKCoIXC7ohkyEyGIbreccfLTUCeihMBDiFh1p
+	 pDdjkgWKDDLgQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220211122643.1343315-12-andre.przywara@arm.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YghBkp/sUHdqSn4G@piout.net>
+References: <20220203021736.13434-1-samuel@sholland.org> <20220203021736.13434-6-samuel@sholland.org> <164422443570.21572.13511859513410998733.b4-ty@cerno.tech> <bb05bc64-2a9e-fe21-5a69-0ea31134e978@sholland.org> <20220211124312.kiw6t25nojvkp2rw@houat> <YghBkp/sUHdqSn4G@piout.net>
+Subject: Re: (subset) [PATCH v3 5/6] clk: sunxi-ng: Add support for the sun6i RTC clocks
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-rtc@vger.kernel.org, linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Alessandro Zummo <a.zummo@towertech.it>
+To: Alexandre Belloni <alexandre.belloni@bootlin.com>, Maxime Ripard <maxime@cerno.tech>
+Date: Thu, 17 Feb 2022 16:33:37 -0800
+User-Agent: alot/0.10
+Message-Id: <20220218003338.DBFE5C340E9@smtp.kernel.org>
 
-On Fri, 11 Feb 2022 12:26:36 +0000, Andre Przywara wrote:
-> The Allwinner H616 contains four fully OHCI/EHCI compatible USB host
-> controllers, so just add their compatible strings to the list of
-> generic OHCI/EHCI controllers.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  Documentation/devicetree/bindings/usb/generic-ehci.yaml | 1 +
->  Documentation/devicetree/bindings/usb/generic-ohci.yaml | 1 +
->  2 files changed, 2 insertions(+)
-> 
+Quoting Alexandre Belloni (2022-02-12 15:24:02)
+> On 11/02/2022 13:43:12+0100, Maxime Ripard wrote:
+> > Hi Samuel,
+> >=20
+> > On Mon, Feb 07, 2022 at 05:54:02PM -0600, Samuel Holland wrote:
+> > > On 2/7/22 3:00 AM, Maxime Ripard wrote:
+> > > > On Wed, 2 Feb 2022 20:17:35 -0600, Samuel Holland wrote:
+> > > >> The RTC power domain in sun6i and newer SoCs manages the 16 MHz RC
+> > > >> oscillator (called "IOSC" or "osc16M") and the optional 32 kHz cry=
+stal
+> > > >> oscillator (called "LOSC" or "osc32k"). Starting with the H6, this=
+ power
+> > > >> domain also handles the 24 MHz DCXO (called variously "HOSC", "dcx=
+o24M",
+> > > >> or "osc24M") as well. The H6 also adds a calibration circuit for I=
+OSC.
+> > > >>
+> > > >> Later SoCs introduce further variations on the design:
+> > > >>  - H616 adds an additional mux for the 32 kHz fanout source.
+> > > >>  - R329 adds an additional mux for the RTC timekeeping clock, a cl=
+ock
+> > > >>    for the SPI bus between power domains inside the RTC, and remov=
+es the
+> > > >>    IOSC calibration functionality.
+> > > >>
+> > > >> [...]
+> > > >=20
+> > > > Applied to local tree (sunxi/clk-for-5.18).
+> > >=20
+> > > Part of the build failures were because this patch depends on patch 3=
+. Is that
+> > > okay, or should I update this patch to be independent?
+> >=20
+> > We don't have anything queued up yet, so I think the easiest would be to
+> > merge this through the RTC tree. So nothing to do on your side yet, we
+> > just need Alex to answer :)
+> >=20
+>=20
+> I can take the whole series but I think I would need acks from Stephen
+>=20
 
-Acked-by: Rob Herring <robh@kernel.org>
+For the clk patches
+
+Acked-by: Stephen Boyd <sboyd@kernel.org>
