@@ -1,164 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E8C48D9;
-	Fri, 18 Feb 2022 12:32:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD057C340E9;
-	Fri, 18 Feb 2022 12:32:15 +0000 (UTC)
-Message-ID: <ac210c17-a269-7360-6f7e-7d794bc8e936@xs4all.nl>
-Date: Fri, 18 Feb 2022 13:32:14 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DAE2919
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 14:54:00 +0000 (UTC)
+Received: by mail-qv1-f41.google.com with SMTP id o5so15189745qvm.3
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 06:54:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
+        b=Fgz90lidrUWx8l9/L+dip/BnxqYGQh6NwgzlB66sPD48dp7ZS+wyGTykM1quRiiwCK
+         Q3ZYwz1Z+E/dKHgKgkNkOw0THEQ70be8BD6HxmlwRbAQlf/Onle4QuK2Q1X2YjYScZb1
+         Rw+h/B+ErAD0GMCl5cJJyNZSzInCV/TPEJh+2OF6EcmPGOAH0+D/XJrnjLwiFuqvI+AT
+         ajOSwwvowFnB2e96OcEIECaDhyGL1UKz4wywrx6dF4/u9aDNUvMTOsfycj5W9XEs5k27
+         +C525sy9IXwMGSiYSUKd2oll0mJXowpW7I1TzH1F+KEDgv9OX9e3VzgU0PktJjfavLI9
+         fS1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
+        b=5MeJBw/wwuDfRN4QHYps0c2HBb/PhfxjqDx0xQVnVb2xQ0oy5nfFpISypnNbliIOd9
+         hDeQmVs1puWC6wu4mJl0VMWCjI4sOmS7ClH5JnY6UA57F054EHQzVsel8zjKmQK+EU5/
+         Bq+dEDHDzz2GgZW3AfekLkBmfa5pAvKxzNOr62v0ozWk5VPlLqo1urJibZ4aWsdaPufN
+         wyVYgTtMpkyVrUS5Oorz0kl1/2K12vEGXjufsSTDp1mqY3QCATB831ItMs6oFWz4NYNi
+         jaWOsUhKhftVCSxqOH6OSRyOi71MdJD+aQCXOPFaSJN9ldEURPJK01U7NZXa7P1vnMhW
+         9C7A==
+X-Gm-Message-State: AOAM530msneT0RVUlWggEc0yQ6FMHcto9ROAiX1HHx93h0Czh8xm3+xn
+	E3K4LnQ8cP/x3ooZ5M90ljMIpg==
+X-Google-Smtp-Source: ABdhPJwhFNB8fLdh0ym9XWrA9EZ9+ejd6mCNse+81XslSzMhPYs9F3LauZqXUMfLhfpDArU2+f7pUA==
+X-Received: by 2002:a05:6214:d03:b0:42c:ce43:9f8b with SMTP id 3-20020a0562140d0300b0042cce439f8bmr5926290qvh.102.1645196039402;
+        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id a188sm876860qkf.27.2022.02.18.06.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
+Message-ID: <419d47d2dfac0b31d48e2ce3b4128c421f808038.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org, 
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, wens@csie.org, gregkh@linuxfoundation.org, 
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 18 Feb 2022 09:53:57 -0500
+In-Reply-To: <20220214190839.707889-1-jernej.skrabec@gmail.com>
+References: <20220214190839.707889-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.1
-Subject: Re: [RFC v2 5/8] media: uapi: Add fields needed for RKVDEC driver
-Content-Language: en-US
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- jonas@kwiboo.se, nicolas@ndufresne.ca
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com,
- jc@kynesim.co.uk
-References: <20220215110103.241297-1-benjamin.gaignard@collabora.com>
- <20220215110103.241297-6-benjamin.gaignard@collabora.com>
- <b41ea0ec-b5c0-4ea5-9866-35a952c6a8b9@xs4all.nl>
- <3973e1f8-665a-c2d1-d493-19f66d307b88@collabora.com>
- <ee02bf52-b738-95f7-a4a8-f7d7f2e029ef@xs4all.nl>
- <db0963ec-9a25-9e1f-7184-64d36fdadf34@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <db0963ec-9a25-9e1f-7184-64d36fdadf34@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 18/02/2022 13:30, Benjamin Gaignard wrote:
+Le lundi 14 février 2022 à 20:08 +0100, Jernej Skrabec a écrit :
+> According to BSP library source, H264 neighbour info buffer size needs
+> to be 32 kiB for H6. This is similar to H265 decoding, which also needs
+> double buffer size in comparison to older Cedrus core generations.
 > 
-> Le 18/02/2022 à 13:22, Hans Verkuil a écrit :
->> On 18/02/2022 13:19, Benjamin Gaignard wrote:
->>> Le 18/02/2022 à 12:32, Hans Verkuil a écrit :
->>>> On 15/02/2022 12:01, Benjamin Gaignard wrote:
->>>>> RKVDEC driver requires additional fields to perform HEVC decoding.
->>>>> Even if the driver isn't mainlined yet WIP patches could be find here:
->>>>> https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
->>>>>
->>>>> This patch only include the change in HEVC uAPI.
->>>>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>    .../userspace-api/media/v4l/ext-ctrls-codec.rst  | 16 ++++++++++++++++
->>>>>    include/uapi/linux/v4l2-controls.h               |  5 +++++
->>>>>    2 files changed, 21 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> index 4f3b3ba8319f..3296ac3b9fca 100644
->>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> @@ -2661,6 +2661,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>        :stub-columns: 0
->>>>>        :widths:       1 1 2
->>>>>    +    * - __u8
->>>>> +      - ``video_parameter_set_id``
->>>>> +      - Identifies the VPS for reference by other syntax elements.
->>>>> +    * - __u8
->>>>> +      - ``seq_parameter_set_id``
->>>>> +      - Provides an identifier for the SPS for reference by other syntax
->>>>> +        elements.
->>>>>        * - __u16
->>>>>          - ``pic_width_in_luma_samples``
->>>>>          -
->>>>> @@ -2800,6 +2807,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>        :stub-columns: 0
->>>>>        :widths:       1 1 2
->>>>>    +    * - __u8
->>>>> +      - ``pic_parameter_set_id``
->>>>> +      - Identifies the PPS for reference by other syntax elements.
->>>>>        * - __u8
->>>>>          - ``num_extra_slice_header_bits``
->>>>>          -
->>>>> @@ -3026,6 +3036,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>        * - __u8
->>>>>          - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>>>>          - The list of L1 reference elements as indices in the DPB.
->>>>> +    * - __u16
->>>>> +      - ``short_term_ref_pic_set_size``
->>>>> +      -
->>>>> +    * - __u16
->>>>> +      - ``long_term_ref_pic_set_size``
->>>>> +      -
->>>>>        * - __u8
->>>>>          - ``padding``
->>>>>          - Applications and drivers must set this to zero.
->>>> Just to confirm: these additional fields are all from the H.265 spec, right?
->>>> They are not rkvdec specific.
->>> They are in H.265 spec section "7.4.3.2.2 Sequence parameter set range extension semantics":
->>> - num_short_term_ref_pic_sets specifies the number of st_ref_pic_set( ) syntax structures included in the SPS. The value
->>> of num_short_term_ref_pic_sets shall be in the range of 0 to 64, inclusive.
->>>
->>> - num_long_term_ref_pics_sps specifies the number of candidate long-term reference pictures that are specified in the
->>> SPS. The value of num_long_term_ref_pics_sps shall be in the range of 0 to 32, inclusive.
->> And what about video/seq/pic_parameter_set_id?
+> Increase buffer size to cover H6 needs. Since increase is not that big
+> in absolute numbers, it doesn't make sense to complicate logic for older
+> generations.
 > 
-> It is the same they come from section "7.4.3.2.1 General sequence parameter set RBSP semantics":
-> - sps_video_parameter_set_id specifies the value of the vps_video_parameter_set_id of the active VPS.
-> - sps_seq_parameter_set_id provides an identifier for the SPS for reference by other syntax elements.
->   The value of
->  sps_seq_parameter_set_id shall be in the range of 0 to 15, inclusive.
-
-Then I'm satisfied :-)
-
-Thanks!
-
-	Hans
-
+> Issue was discovered using iommu and cross checked with BSP library
+> source.
 > 
-> Regards,
-> Benjamin
+> Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->>
->> Regards,
->>
->>     Hans
->>
->>> I mention rkvdec because that it is the only driver to use they (as far I knows)
->>>
->>> Regards,
->>> Benjamin
->>>
->>>> Regards,
->>>>
->>>>      Hans
->>>>
->>>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->>>>> index 0e0ec2c61b80..b1a3dc05f02f 100644
->>>>> --- a/include/uapi/linux/v4l2-controls.h
->>>>> +++ b/include/uapi/linux/v4l2-controls.h
->>>>> @@ -2341,6 +2341,8 @@ enum v4l2_stateless_hevc_start_code {
->>>>>      struct v4l2_ctrl_hevc_sps {
->>>>>        /* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
->>>>> +    __u8    video_parameter_set_id;
->>>>> +    __u8    seq_parameter_set_id;
->>>>>        __u16    pic_width_in_luma_samples;
->>>>>        __u16    pic_height_in_luma_samples;
->>>>>        __u8    bit_depth_luma_minus8;
->>>>> @@ -2393,6 +2395,7 @@ struct v4l2_ctrl_hevc_sps {
->>>>>      struct v4l2_ctrl_hevc_pps {
->>>>>        /* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
->>>>> +    __u8    pic_parameter_set_id;
->>>>>        __u8    num_extra_slice_header_bits;
->>>>>        __u8    num_ref_idx_l0_default_active_minus1;
->>>>>        __u8    num_ref_idx_l1_default_active_minus1;
->>>>> @@ -2487,6 +2490,8 @@ struct v4l2_ctrl_hevc_slice_params {
->>>>>        __u32    slice_segment_addr;
->>>>>        __u8    ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>>>>        __u8    ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>>>> +    __u16    short_term_ref_pic_set_size;
->>>>> +    __u16    long_term_ref_pic_set_size;
->>>>>          /* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
->>>>>        struct v4l2_hevc_pred_weight_table pred_weight_table;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index b4173a8926d6..d8fb93035470 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
+>  
+>  #define CEDRUS_H264_FRAME_NUM		18
+>  
+> -#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
+> +#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
+>  #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
+>  
+>  static void cedrus_h264_write_sram(struct cedrus_dev *dev,
 
