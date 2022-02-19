@@ -1,95 +1,121 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DAE2919
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 14:54:00 +0000 (UTC)
-Received: by mail-qv1-f41.google.com with SMTP id o5so15189745qvm.3
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 06:54:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06124F38
+	for <linux-sunxi@lists.linux.dev>; Sat, 19 Feb 2022 01:13:24 +0000 (UTC)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2d68d519a33so82606987b3.7
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 17:13:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
-        b=Fgz90lidrUWx8l9/L+dip/BnxqYGQh6NwgzlB66sPD48dp7ZS+wyGTykM1quRiiwCK
-         Q3ZYwz1Z+E/dKHgKgkNkOw0THEQ70be8BD6HxmlwRbAQlf/Onle4QuK2Q1X2YjYScZb1
-         Rw+h/B+ErAD0GMCl5cJJyNZSzInCV/TPEJh+2OF6EcmPGOAH0+D/XJrnjLwiFuqvI+AT
-         ajOSwwvowFnB2e96OcEIECaDhyGL1UKz4wywrx6dF4/u9aDNUvMTOsfycj5W9XEs5k27
-         +C525sy9IXwMGSiYSUKd2oll0mJXowpW7I1TzH1F+KEDgv9OX9e3VzgU0PktJjfavLI9
-         fS1g==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KuPVvHcGH6XYHC2N1vXONOOOdChkI1tr3mh5lR/eBf4=;
+        b=wgnQ1QfNOWXTz4uyN+xiZtl15SgO0HNRAwhITVZN3qh+opHwJxxylfyJ4agegmEm7q
+         ypeXRgg8OIq+yFa6wcZMLvJz/DD3FGv/2VuhSsgy/05eAO0sWhyVgkYbqORqp7UlA6ah
+         xaoOSiu3/0lf1CZ7jcGzchRlzJ+Qa13DqeQ8K7Tzb1aKoq6I/DE2W4vmyEn/1CzU2vda
+         i4aRw+CcvOhdQt+5WbglFSba8rVwdWFfa8oY2ZRKQGY0PbOPNB1TPp6GvYIChnGNXtm0
+         fzBXd3A/fv3aZFc6RFQI8jlqNU3HbKVbkU9YbHKpVgRCzf8ZTyi6fbwn4xAJaoAD8c3B
+         iKQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AMxb1/snu2ldA/ubJJEAYt1WVb3/09SyAfGJTEa/UKQ=;
-        b=5MeJBw/wwuDfRN4QHYps0c2HBb/PhfxjqDx0xQVnVb2xQ0oy5nfFpISypnNbliIOd9
-         hDeQmVs1puWC6wu4mJl0VMWCjI4sOmS7ClH5JnY6UA57F054EHQzVsel8zjKmQK+EU5/
-         Bq+dEDHDzz2GgZW3AfekLkBmfa5pAvKxzNOr62v0ozWk5VPlLqo1urJibZ4aWsdaPufN
-         wyVYgTtMpkyVrUS5Oorz0kl1/2K12vEGXjufsSTDp1mqY3QCATB831ItMs6oFWz4NYNi
-         jaWOsUhKhftVCSxqOH6OSRyOi71MdJD+aQCXOPFaSJN9ldEURPJK01U7NZXa7P1vnMhW
-         9C7A==
-X-Gm-Message-State: AOAM530msneT0RVUlWggEc0yQ6FMHcto9ROAiX1HHx93h0Czh8xm3+xn
-	E3K4LnQ8cP/x3ooZ5M90ljMIpg==
-X-Google-Smtp-Source: ABdhPJwhFNB8fLdh0ym9XWrA9EZ9+ejd6mCNse+81XslSzMhPYs9F3LauZqXUMfLhfpDArU2+f7pUA==
-X-Received: by 2002:a05:6214:d03:b0:42c:ce43:9f8b with SMTP id 3-20020a0562140d0300b0042cce439f8bmr5926290qvh.102.1645196039402;
-        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id a188sm876860qkf.27.2022.02.18.06.53.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Feb 2022 06:53:59 -0800 (PST)
-Message-ID: <419d47d2dfac0b31d48e2ce3b4128c421f808038.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: cedrus: h264: Fix neighbour info buffer size
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com
-Cc: mchehab@kernel.org, wens@csie.org, gregkh@linuxfoundation.org, 
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Date: Fri, 18 Feb 2022 09:53:57 -0500
-In-Reply-To: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-References: <20220214190839.707889-1-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KuPVvHcGH6XYHC2N1vXONOOOdChkI1tr3mh5lR/eBf4=;
+        b=a4oGLLTYKxnTf44F4P9ras39cdqysLzxkRnCbBfnwjJFSp6CvlcOCsLvUIw+IoQ1sr
+         1VaZWy+32jVfXdFo7mI+8Y6ZCk+lkMpRk2KQ/rF5ozDBdKSgv3pcbpTFyfOtncrAZ4YM
+         UMwZwPXjzglYji2pYOHvlwseksqdUC6lYY6idxwqutMo0QZiYe50xQZeH9xsYEh3hgHe
+         p6cUpR8DnhwrOSNWkGviKX1GFFmuTac/smas7mdb4IyC+C9ZmItDIIm7oQ3pXVEmqFxw
+         A7OwuwnuLm2beyc/5fKrGc3EL6mNGeinpTTceYLHdZWp1m5FRqQG4PwN2DYTJ0yifnQI
+         RGWw==
+X-Gm-Message-State: AOAM531cqTyNQnshxObO3CgfFgAQBAMvnv875HXPpJTM13LE3xcQagg8
+	mOuAC+Hs2vo5atV9uPAfO/kB+0wEtF95O3z1Yk0V1g==
+X-Google-Smtp-Source: ABdhPJzjyhB275ObWFDUHntgtZfPqGSF0Q4EBsTUNbfD6yhytEp18TB8NqastVWOd/xKaerf5ut9BWf7BQISC3fMQyU=
+X-Received: by 2002:a81:f92:0:b0:2d0:5383:7ca with SMTP id 140-20020a810f92000000b002d0538307camr10383384ywp.268.1645233203766;
+ Fri, 18 Feb 2022 17:13:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220216040037.22730-1-samuel@sholland.org>
+In-Reply-To: <20220216040037.22730-1-samuel@sholland.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 19 Feb 2022 02:13:12 +0100
+Message-ID: <CACRpkdZ1nFAmzRvsvKvZ08fsP_MgsnsiNpD7LdRRXUDWtO_w=Q@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: Use unique lockdep classes for IRQs
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Guenter Roeck <linux@roeck-us.net>
+Content-Type: text/plain; charset="UTF-8"
 
-Le lundi 14 février 2022 à 20:08 +0100, Jernej Skrabec a écrit :
-> According to BSP library source, H264 neighbour info buffer size needs
-> to be 32 kiB for H6. This is similar to H265 decoding, which also needs
-> double buffer size in comparison to older Cedrus core generations.
-> 
-> Increase buffer size to cover H6 needs. Since increase is not that big
-> in absolute numbers, it doesn't make sense to complicate logic for older
-> generations.
-> 
-> Issue was discovered using iommu and cross checked with BSP library
-> source.
-> 
-> Fixes: 6eb9b758e307 ("media: cedrus: Add H264 decoding support")
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On Wed, Feb 16, 2022 at 5:00 AM Samuel Holland <samuel@sholland.org> wrote:
 
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> This driver, like several others, uses a chained IRQ for each GPIO bank,
+> and forwards .irq_set_wake to the GPIO bank's upstream IRQ. As a result,
+> a call to irq_set_irq_wake() needs to lock both the upstream and
+> downstream irq_desc's. Lockdep considers this to be a possible deadlock
+> when the irq_desc's share lockdep classes, which they do by default:
+>
+>  ============================================
+>  WARNING: possible recursive locking detected
+>  5.17.0-rc3-00394-gc849047c2473 #1 Not tainted
+>  --------------------------------------------
+>  init/307 is trying to acquire lock:
+>  c2dfe27c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+>
+>  but task is already holding lock:
+>  c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+>
+>  other info that might help us debug this:
+>   Possible unsafe locking scenario:
+>
+>         CPU0
+>         ----
+>    lock(&irq_desc_lock_class);
+>    lock(&irq_desc_lock_class);
+>
+>   *** DEADLOCK ***
+>
+>   May be due to missing lock nesting notation
+>
+>  4 locks held by init/307:
+>   #0: c1f29f18 (system_transition_mutex){+.+.}-{3:3}, at: __do_sys_reboot+0x90/0x23c
+>   #1: c20f7760 (&dev->mutex){....}-{3:3}, at: device_shutdown+0xf4/0x224
+>   #2: c2e804d8 (&dev->mutex){....}-{3:3}, at: device_shutdown+0x104/0x224
+>   #3: c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
+>
+>  stack backtrace:
+>  CPU: 0 PID: 307 Comm: init Not tainted 5.17.0-rc3-00394-gc849047c2473 #1
+>  Hardware name: Allwinner sun8i Family
+>   unwind_backtrace from show_stack+0x10/0x14
+>   show_stack from dump_stack_lvl+0x68/0x90
+>   dump_stack_lvl from __lock_acquire+0x1680/0x31a0
+>   __lock_acquire from lock_acquire+0x148/0x3dc
+>   lock_acquire from _raw_spin_lock_irqsave+0x50/0x6c
+>   _raw_spin_lock_irqsave from __irq_get_desc_lock+0x58/0xa0
+>   __irq_get_desc_lock from irq_set_irq_wake+0x2c/0x19c
+>   irq_set_irq_wake from irq_set_irq_wake+0x13c/0x19c
+>     [tail call from sunxi_pinctrl_irq_set_wake]
+>   irq_set_irq_wake from gpio_keys_suspend+0x80/0x1a4
+>   gpio_keys_suspend from gpio_keys_shutdown+0x10/0x2c
+>   gpio_keys_shutdown from device_shutdown+0x180/0x224
+>   device_shutdown from __do_sys_reboot+0x134/0x23c
+>   __do_sys_reboot from ret_fast_syscall+0x0/0x1c
+>
+> However, this can never deadlock because the upstream and downstream
+> IRQs are never the same (nor do they even involve the same irqchip).
+>
+> Silence this erroneous lockdep splat by applying what appears to be the
+> usual fix of moving the GPIO IRQs to separate lockdep classes.
+>
+> Fixes: a59c99d9eaf9 ("pinctrl: sunxi: Forward calls to irq_set_irq_wake")
+> Reported-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> index b4173a8926d6..d8fb93035470 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -38,7 +38,7 @@ struct cedrus_h264_sram_ref_pic {
->  
->  #define CEDRUS_H264_FRAME_NUM		18
->  
-> -#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(16 * SZ_1K)
-> +#define CEDRUS_NEIGHBOR_INFO_BUF_SIZE	(32 * SZ_1K)
->  #define CEDRUS_MIN_PIC_INFO_BUF_SIZE       (130 * SZ_1K)
->  
->  static void cedrus_h264_write_sram(struct cedrus_dev *dev,
+Patch applied.
 
+Yours,
+Linus Walleij
