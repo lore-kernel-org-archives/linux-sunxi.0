@@ -1,121 +1,164 @@
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06124F38
-	for <linux-sunxi@lists.linux.dev>; Sat, 19 Feb 2022 01:13:24 +0000 (UTC)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-2d68d519a33so82606987b3.7
-        for <linux-sunxi@lists.linux.dev>; Fri, 18 Feb 2022 17:13:24 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC46181
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Feb 2022 16:51:35 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-2d66f95f1d1so114538367b3.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 20 Feb 2022 08:51:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KuPVvHcGH6XYHC2N1vXONOOOdChkI1tr3mh5lR/eBf4=;
-        b=wgnQ1QfNOWXTz4uyN+xiZtl15SgO0HNRAwhITVZN3qh+opHwJxxylfyJ4agegmEm7q
-         ypeXRgg8OIq+yFa6wcZMLvJz/DD3FGv/2VuhSsgy/05eAO0sWhyVgkYbqORqp7UlA6ah
-         xaoOSiu3/0lf1CZ7jcGzchRlzJ+Qa13DqeQ8K7Tzb1aKoq6I/DE2W4vmyEn/1CzU2vda
-         i4aRw+CcvOhdQt+5WbglFSba8rVwdWFfa8oY2ZRKQGY0PbOPNB1TPp6GvYIChnGNXtm0
-         fzBXd3A/fv3aZFc6RFQI8jlqNU3HbKVbkU9YbHKpVgRCzf8ZTyi6fbwn4xAJaoAD8c3B
-         iKQQ==
+        bh=AgVy9siORY+ob7QoBdZs1K6bcI2a50HTXwEIfbQUi4A=;
+        b=JNws/Dm6eWewJC3wy/5jJvPPbh5C5RuUIXc4DHbd55829goCmebxRTEqAGo/p4XWs/
+         OM+1JaiTrxOBj3SRguD21bdlUtZVJ22SUL/kfP3KsyktGM5izBHmTAyEYdJNi1vhmo5F
+         q6E1sHYAJyiWmRnXYAubzXEGxROe9WDcqDeU1e/QCXzdajhN4B/w2ziIwBZnU9QRGK1K
+         A8nEhCcmjPGY5lfj6xXkvVCPE5UkYGb7fO3qcqrfIjb0RXUGShY51OHtiBFFT/TaHzyh
+         qq4IWvXqlJK8u6S8cWowyVRskoF++gqhc0//hVEpVdYWiNIoSQb7bX/4zDuiByRHJ4md
+         jAQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KuPVvHcGH6XYHC2N1vXONOOOdChkI1tr3mh5lR/eBf4=;
-        b=a4oGLLTYKxnTf44F4P9ras39cdqysLzxkRnCbBfnwjJFSp6CvlcOCsLvUIw+IoQ1sr
-         1VaZWy+32jVfXdFo7mI+8Y6ZCk+lkMpRk2KQ/rF5ozDBdKSgv3pcbpTFyfOtncrAZ4YM
-         UMwZwPXjzglYji2pYOHvlwseksqdUC6lYY6idxwqutMo0QZiYe50xQZeH9xsYEh3hgHe
-         p6cUpR8DnhwrOSNWkGviKX1GFFmuTac/smas7mdb4IyC+C9ZmItDIIm7oQ3pXVEmqFxw
-         A7OwuwnuLm2beyc/5fKrGc3EL6mNGeinpTTceYLHdZWp1m5FRqQG4PwN2DYTJ0yifnQI
-         RGWw==
-X-Gm-Message-State: AOAM531cqTyNQnshxObO3CgfFgAQBAMvnv875HXPpJTM13LE3xcQagg8
-	mOuAC+Hs2vo5atV9uPAfO/kB+0wEtF95O3z1Yk0V1g==
-X-Google-Smtp-Source: ABdhPJzjyhB275ObWFDUHntgtZfPqGSF0Q4EBsTUNbfD6yhytEp18TB8NqastVWOd/xKaerf5ut9BWf7BQISC3fMQyU=
-X-Received: by 2002:a81:f92:0:b0:2d0:5383:7ca with SMTP id 140-20020a810f92000000b002d0538307camr10383384ywp.268.1645233203766;
- Fri, 18 Feb 2022 17:13:23 -0800 (PST)
+        bh=AgVy9siORY+ob7QoBdZs1K6bcI2a50HTXwEIfbQUi4A=;
+        b=njPtm7Sk2whd1DIRlHA+qEPMT87wdWDeo1NQjEBpFMYturRM4XRVdhByRUr/Vyn1Ro
+         Z6eMftBCG+xyO1q/YgOZqIOyAl1S+OE4qvZJT42y6LbtlGCE9AD2hD40pq+4kbU/OAl0
+         zHMvMt5PhOZdwYyNjxEmp1tZS9dBTbaOEIJBA3w98SE9N6KF7aPfZ8AW3GifmEeeLMvm
+         X3DK6qysyF5zJl6eUFUVaLLPY1c3cLyKpEOyJIP8uSRmmK481U25nWlOzMYZ9X/lu1lK
+         VSch51RuMgJM97fZ2Vl0ACYVL/Lla9nWf3Iedtf4oAfAwkVjith8MvYp9hvRNia43G2O
+         rekw==
+X-Gm-Message-State: AOAM5335mRJZHcUSM/5H8OK7LmW9esqQGm5Yu7N8nkwUJlUZ6eLjQ3K3
+	YGjDvP/IsLl/vQeiChcERtPqJWzSUbnYI2WvV3s=
+X-Google-Smtp-Source: ABdhPJz1ScnekKaSBiNuLhuSzAhv3JSuixwaFTdNC5WMfsDewUyk1rTq5BMvGrZX4SDIY+w99TJjE7TVVF16Xd6oQC4=
+X-Received: by 2002:a81:5f8a:0:b0:2d0:ccb1:9c9c with SMTP id
+ t132-20020a815f8a000000b002d0ccb19c9cmr16580146ywb.265.1645375894525; Sun, 20
+ Feb 2022 08:51:34 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220216040037.22730-1-samuel@sholland.org>
-In-Reply-To: <20220216040037.22730-1-samuel@sholland.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 19 Feb 2022 02:13:12 +0100
-Message-ID: <CACRpkdZ1nFAmzRvsvKvZ08fsP_MgsnsiNpD7LdRRXUDWtO_w=Q@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: Use unique lockdep classes for IRQs
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Guenter Roeck <linux@roeck-us.net>
+References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
+ <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
+In-Reply-To: <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
+From: Erico Nunes <nunes.erico@gmail.com>
+Date: Sun, 20 Feb 2022 17:51:23 +0100
+Message-ID: <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
+Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come up
+ at boot
+To: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, 
+	Kevin Hilman <khilman@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, linux-amlogic@lists.infradead.org, 
+	netdev@vger.kernel.org, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 16, 2022 at 5:00 AM Samuel Holland <samuel@sholland.org> wrote:
+On Mon, Feb 7, 2022 at 11:56 AM Jerome Brunet <jbrunet@baylibre.com> wrote:
+>
+>
+> On Wed 02 Feb 2022 at 21:18, Erico Nunes <nunes.erico@gmail.com> wrote:
+>
+> > Hello,
+> >
+> > I've been tracking down an issue with network interfaces from
+> > meson8b-dwmac sometimes not coming up properly at boot.
+> > The target systems are AML-S805X-CC boards (Amlogic S805X SoC), I have
+> > a group of them as part of a CI test farm that uses nfsroot.
+> >
+> > After hopefully ruling out potential platform/firmware and network
+> > issues I managed to bisect this commit in the kernel to make a big
+> > difference:
+> >
+> >   46f69ded988d2311e3be2e4c3898fc0edd7e6c5a net: stmmac: Use resolved
+> > link config in mac_link_up()
+> >
+> > With a kernel before that commit, I am able to submit hundreds of test
+> > jobs and the boards always start the network interface properly.
+> >
+> > After that commit, around 30% of the jobs start hitting this:
+> >
+> >   [    2.178078] meson8b-dwmac c9410000.ethernet eth0: PHY
+> > [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
+> >   [    2.183505] meson8b-dwmac c9410000.ethernet eth0: Register
+> > MEM_TYPE_PAGE_POOL RxQ-0
+> >   [    2.200784] meson8b-dwmac c9410000.ethernet eth0: No Safety
+> > Features support found
+> >   [    2.202713] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
+> >   [    2.209825] meson8b-dwmac c9410000.ethernet eth0: configuring for
+> > phy/rmii link mode
+> >   [    3.762108] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
+> > 100Mbps/Full - flow control off
+> >   [    3.783162] Sending DHCP requests ...... timed out!
+> >   [   93.680402] meson8b-dwmac c9410000.ethernet eth0: Link is Down
+> >   [   93.685712] IP-Config: Retrying forever (NFS root)...
+> >   [   93.756540] meson8b-dwmac c9410000.ethernet eth0: PHY
+> > [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
+> >   [   93.763266] meson8b-dwmac c9410000.ethernet eth0: Register
+> > MEM_TYPE_PAGE_POOL RxQ-0
+> >   [   93.779340] meson8b-dwmac c9410000.ethernet eth0: No Safety
+> > Features support found
+> >   [   93.781336] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
+> >   [   93.788088] meson8b-dwmac c9410000.ethernet eth0: configuring for
+> > phy/rmii link mode
+> >   [   93.807459] random: fast init done
+> >   [   95.353076] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
+> > 100Mbps/Full - flow control off
+> >
+> > This still happens with a kernel from master, currently 5.17-rc2 (less
+> > frequently but still often hit by CI test jobs).
+> > The jobs still usually get to work after restarting the interface a
+> > couple of times, but sometimes it takes 3-4 attempts.
+> >
+> > Here is one example and full dmesg:
+> > https://gitlab.freedesktop.org/enunes/mesa/-/jobs/16452399/raw
+> >
+> > Note that DHCP does not seem to be an issue here, besides the fact
+> > that the problem only happens since the mentioned commit under the
+> > same setup, I did try to set up the boards to use a static ip but then
+> > the interfaces just don't communicate at all from boot.
+> >
+> > For test purposes I attempted to revert
+> > 46f69ded988d2311e3be2e4c3898fc0edd7e6c5a on top of master but that
+> > does not apply trivially anymore, and by trying to revert it manually
+> > I haven't been able to get a working interface.
+> >
+> > Any advice on how to further debug or fix this?
+>
+> Hi Erico,
+>
+> Thanks a lot for digging into this topic.
+> I'm seeing exactly the same behavior on the g12 based khadas-vim3:
+>
+> * Boot stalled waiting for DHCP - with an NFS based filesystem
+> * Every minute, the network driver gets a reset and try again
+>
+> Sometimes it works on the first attempt, sometimes it takes up to 5
+> attempts. Eventually, it reaches the prompt which might be why it went
+> unnoticed so far.
+>
+> I think that NFS just makes the problem easier to see.
+> On devices with an eMMC based filesystem, I noticed that, sometimes, I
+> had unplug/plug the ethernet cable to make it go.
+>
+> So far, the problem is reported on all the Amlogic SoC generation we
+> support. I think a way forward is to ask the the other users of
+> stmmac whether they have this problem or not - adding Allwinner and
+> Rockchip ML.
+>
+> Since the commit you have identified is in the generic part of the
+> stmmac code, Maybe Jose can help us understand what is going on.
 
-> This driver, like several others, uses a chained IRQ for each GPIO bank,
-> and forwards .irq_set_wake to the GPIO bank's upstream IRQ. As a result,
-> a call to irq_set_irq_wake() needs to lock both the upstream and
-> downstream irq_desc's. Lockdep considers this to be a possible deadlock
-> when the irq_desc's share lockdep classes, which they do by default:
->
->  ============================================
->  WARNING: possible recursive locking detected
->  5.17.0-rc3-00394-gc849047c2473 #1 Not tainted
->  --------------------------------------------
->  init/307 is trying to acquire lock:
->  c2dfe27c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
->
->  but task is already holding lock:
->  c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
->
->  other info that might help us debug this:
->   Possible unsafe locking scenario:
->
->         CPU0
->         ----
->    lock(&irq_desc_lock_class);
->    lock(&irq_desc_lock_class);
->
->   *** DEADLOCK ***
->
->   May be due to missing lock nesting notation
->
->  4 locks held by init/307:
->   #0: c1f29f18 (system_transition_mutex){+.+.}-{3:3}, at: __do_sys_reboot+0x90/0x23c
->   #1: c20f7760 (&dev->mutex){....}-{3:3}, at: device_shutdown+0xf4/0x224
->   #2: c2e804d8 (&dev->mutex){....}-{3:3}, at: device_shutdown+0x104/0x224
->   #3: c3c0ac7c (&irq_desc_lock_class){-.-.}-{2:2}, at: __irq_get_desc_lock+0x58/0xa0
->
->  stack backtrace:
->  CPU: 0 PID: 307 Comm: init Not tainted 5.17.0-rc3-00394-gc849047c2473 #1
->  Hardware name: Allwinner sun8i Family
->   unwind_backtrace from show_stack+0x10/0x14
->   show_stack from dump_stack_lvl+0x68/0x90
->   dump_stack_lvl from __lock_acquire+0x1680/0x31a0
->   __lock_acquire from lock_acquire+0x148/0x3dc
->   lock_acquire from _raw_spin_lock_irqsave+0x50/0x6c
->   _raw_spin_lock_irqsave from __irq_get_desc_lock+0x58/0xa0
->   __irq_get_desc_lock from irq_set_irq_wake+0x2c/0x19c
->   irq_set_irq_wake from irq_set_irq_wake+0x13c/0x19c
->     [tail call from sunxi_pinctrl_irq_set_wake]
->   irq_set_irq_wake from gpio_keys_suspend+0x80/0x1a4
->   gpio_keys_suspend from gpio_keys_shutdown+0x10/0x2c
->   gpio_keys_shutdown from device_shutdown+0x180/0x224
->   device_shutdown from __do_sys_reboot+0x134/0x23c
->   __do_sys_reboot from ret_fast_syscall+0x0/0x1c
->
-> However, this can never deadlock because the upstream and downstream
-> IRQs are never the same (nor do they even involve the same irqchip).
->
-> Silence this erroneous lockdep splat by applying what appears to be the
-> usual fix of moving the GPIO IRQs to separate lockdep classes.
->
-> Fixes: a59c99d9eaf9 ("pinctrl: sunxi: Forward calls to irq_set_irq_wake")
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi all,
 
-Patch applied.
+thanks for the feedback so far, good to know that this is not only on
+my board farm.
 
-Yours,
-Linus Walleij
+Any more feedback about this from the people in cc?
+
+Thanks
+
+Erico
