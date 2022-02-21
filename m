@@ -1,53 +1,74 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17D6E5EDC
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Feb 2022 21:07:26 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id p14so27968594ejf.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Feb 2022 13:07:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uOmlFrZp7vrKUK5Y6WvCp/ko6OikJNfPxlEXm5n9vhs=;
-        b=lrFAbfCiFLIXi0LAKP1ZAq+lBoLcQ6stIxid43XCseni3F7GbnDlpbBpaePMPeT9hm
-         E+ONQcfSghrEP1qf+qDGGdzIM41VHTCc7vN9dYcJ8AF52N2kfEsbGATNidU2ZG5Zgklu
-         YXrPye0Nx3hQ32dqyaOjW2XzuHKWW+MQIIflqHYXPs5DAmBSLDpHaC5kGrdOMDxxePhX
-         vww4Xz+fE5Qg6rNZb5DKj3CQOfZPh+YPMw0VFg+QdmIVIbxsDJdcOy1Badjsxydgj01Y
-         4faDeRSEgD5qqNReV3tUNgdaaAJf+jVzcSKY8ZeJjXVKZt4yY78nQaTl4eHo+ALFxGQu
-         jcmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=uOmlFrZp7vrKUK5Y6WvCp/ko6OikJNfPxlEXm5n9vhs=;
-        b=bJ/9vl/1XuRuA3CNLaI/ov07tb9go5Pu+ql+AIO5q9BvlqmYiwNpzHscJEMzd1rCMr
-         bHLKo4BezUYS/eVpBupLva5v7Bz0OR7JO74MpLjhBECCvQCeA1j7ovOEYIBPb10XWkVZ
-         o5f+Sm7uVaDkOZRPCL83tMNauAsJ3R4xNzE0zJDIAfgqBEHZuz5v6WbZFJzSOUad7xgW
-         TVUXFYGjL1UQm5atyCKHcqUPd1WwKo+EosUCfT1CSiBpdPmCieiCegA4ABGjRKIIL/Fr
-         0YKN21pUY7kSzzgVSg0BAk3HpkybzaD9HrxdjS9rw3GqiRrmOrYoIspp8v7in//KxvL1
-         WRMg==
-X-Gm-Message-State: AOAM5307GlvYUdGRAbuIwoSxQKVEFLqCdeYnDgTbNdJ61nQqKuEQanMW
-	MMxdX9YYNflFgBJqLKj5Rhk=
-X-Google-Smtp-Source: ABdhPJyVabZx90O0oSxOrNaoDJGq9IKMVzfV8b/yQIMLwfip+pmFLLRmQZduqDULvxRnK9muJbuKaQ==
-X-Received: by 2002:a17:906:14db:b0:6cd:e55:6605 with SMTP id y27-20020a17090614db00b006cd0e556605mr13571909ejc.31.1645391245320;
-        Sun, 20 Feb 2022 13:07:25 -0800 (PST)
-Received: from localhost.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id y29sm4508705ejk.199.2022.02.20.13.07.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Feb 2022 13:07:24 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org,
-	samuel@sholland.org
-Cc: linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD852568
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 10:00:01 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 4C2A7580263;
+	Mon, 21 Feb 2022 05:00:00 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 21 Feb 2022 05:00:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:sender
+	:subject:subject:to:to; s=fm2; bh=+znYlsTYo3T9d5Ixvozjp/PRDBbb4A
+	hXJw9LtbbgDbI=; b=kLFncAvw+M+JXuOKheuemYtEiaci8pToqcFfoujpvn4vIF
+	yaIUPNMvnyimc/qVZulxA8RcSvGCUuPriPOrksdu8gfxDyqjUHwKki0K6x8KFL4K
+	EQrljq+jkwsGOlLdTHP+t5eiB/Fdq97AssieErL3dejUqo652Al3khNv9l9Q8/lF
+	ZfkiUCijYyVAzHrjYa8kWROvB9NcV+FsONH2uPIP4lGbmgaWWgSPNcR0bFe9RMpU
+	Ds+pg82QFIKm5ovd701gGiu/n+WHxj85wzblVPndvmpgjQDIp/YPS2MHQrF59Eo+
+	tQwTqb5HCciGqbqJB9sthtEkGT3hegkSd4wDLnaw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+znYls
+	TYo3T9d5Ixvozjp/PRDBbb4AhXJw9LtbbgDbI=; b=Y5hnJ2TBIugNOd2Gt+d+UB
+	OQY9Qt/jXnQF0or0ep7j0qkMnmq85/dX5q+9Mr8bFKsqSdwsaOHPCK7FRJl4Z30C
+	uMjFiL57HlQJjy1lsJjyRPzSzNd2T9u9jrnbeIfGJlD61S+FIMRQ4jElSCo9FBrX
+	KUokFG4hD44PhO+IC4sDuUq8p9b+QRtGlE2Mwaj4raht6UvXu880fzhqhjtNVvyH
+	9Xwya+pkgHzfMMEPlDrxFFR+qyQHl0CNxRCBCH0SpnNlbjFjxoMWCt0XGknuZcco
+	lMP1ZIGAInLpkcJaZ1h/lfACR3iSv10VeLNEep8+mym4yFxSFDx+YTWWGFL/Hk1w
+	==
+X-ME-Sender: <xms:n2ITYmZM7HcQ1jxHSPps16Kn52Nq-Bw3zryfrpBeUyWfr8BEIxXWEw>
+    <xme:n2ITYpZHPoar1W5lnsvoiFHoIvdk9dcmTK_3dQVYFOgO24Qp7T4Fpnh_L2eNCvQy2
+    6wRCoujR93WKm_B5zY>
+X-ME-Received: <xmr:n2ITYg-XfSZOUihbpkaC3KfUyzs3YgN6u7EVYyQ1Ejfs-68Si2ffuC7RGYq8B8oSL5-jGSUwsBZ31LCEEcheyHGUSpMksxatwMZJAKw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
+    vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:n2ITYoo36METSUamRnKOYwx2ndZxiMYwRxKnGxKfUtVB7_ObX0HFSQ>
+    <xmx:n2ITYhpmQU14yhB5bzQED_EDc4XUkunK0TvxfwDtrWV7n3Uu5VpawA>
+    <xmx:n2ITYmRxctPYvE-_0hl3Kj3IrwQqoX6SsD07scIuop4Do64dKiJKTA>
+    <xmx:oGITYvgrKhwlgSBMDswTU0AdMSjmMun0Ywc6Tjw0AFaYRW6Rljlkjg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Feb 2022 04:59:59 -0500 (EST)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>,
+	David Airlie <airlied@linux.ie>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Tim Gover <tim.gover@raspberrypi.com>,
+	Dom Cobley <dom@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <maxime@cerno.tech>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] MAINTAINERS: Update Allwinner SoCs maintainers
-Date: Sun, 20 Feb 2022 22:07:14 +0100
-Message-Id: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
+Subject: [PATCH v2 17/22] drm/sun4i: layer: Remove redundant zpos initialisation
+Date: Mon, 21 Feb 2022 10:59:13 +0100
+Message-Id: <20220221095918.18763-18-maxime@cerno.tech>
 X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220221095918.18763-1-maxime@cerno.tech>
+References: <20220221095918.18763-1-maxime@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -56,32 +77,92 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Maxime is stepping down as a maintainer, I'll take more active role and
-Samuel joined the team.
+The sun4i KMS driver will call drm_plane_create_zpos_property() with an
+init value depending on the plane type.
 
-Maxime, thank you for your effort! Samuel, welcome!
+Since the initial value wasn't carried over in the state, the driver had
+to set it again in sun4i_backend_layer_reset().
+However, the helpers have been adjusted to set it properly at reset, so
+this is not needed anymore.
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: Chen-Yu Tsai <wens@csie.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sun4i/sun4i_layer.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aa0f6cbb634e..c41979623f82 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1724,9 +1724,9 @@ S:	Maintained
- F:	drivers/clk/sunxi/
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index 929e95f86b5b..6d43080791a0 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -18,7 +18,6 @@
  
- ARM/Allwinner sunXi SoC support
--M:	Maxime Ripard <mripard@kernel.org>
- M:	Chen-Yu Tsai <wens@csie.org>
--R:	Jernej Skrabec <jernej.skrabec@gmail.com>
-+M:	Jernej Skrabec <jernej.skrabec@gmail.com>
-+M:	Samuel Holland <samuel@sholland.org>
- L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git
+ static void sun4i_backend_layer_reset(struct drm_plane *plane)
+ {
+-	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+ 	struct sun4i_layer_state *state;
+ 
+ 	if (plane->state) {
+@@ -31,10 +30,8 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
+ 	}
+ 
+ 	state = kzalloc(sizeof(*state), GFP_KERNEL);
+-	if (state) {
++	if (state)
+ 		__drm_atomic_helper_plane_reset(plane, &state->state);
+-		plane->state->zpos = layer->id;
+-	}
+ }
+ 
+ static struct drm_plane_state *
+@@ -192,7 +189,8 @@ static const uint64_t sun4i_layer_modifiers[] = {
+ 
+ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 						struct sun4i_backend *backend,
+-						enum drm_plane_type type)
++						enum drm_plane_type type,
++						unsigned int id)
+ {
+ 	const uint64_t *modifiers = sun4i_layer_modifiers;
+ 	const uint32_t *formats = sun4i_layer_formats;
+@@ -204,6 +202,7 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 	if (!layer)
+ 		return ERR_PTR(-ENOMEM);
+ 
++	layer->id = id;
+ 	layer->backend = backend;
+ 
+ 	if (IS_ERR_OR_NULL(backend->frontend)) {
+@@ -226,8 +225,8 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
+ 			     &sun4i_backend_layer_helper_funcs);
+ 
+ 	drm_plane_create_alpha_property(&layer->plane);
+-	drm_plane_create_zpos_property(&layer->plane, 0, 0,
+-				       SUN4I_BACKEND_NUM_LAYERS - 1);
++	drm_plane_create_zpos_property(&layer->plane, layer->id,
++				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
+ 
+ 	return layer;
+ }
+@@ -249,14 +248,13 @@ struct drm_plane **sun4i_layers_init(struct drm_device *drm,
+ 		enum drm_plane_type type = i ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
+ 		struct sun4i_layer *layer;
+ 
+-		layer = sun4i_layer_init_one(drm, backend, type);
++		layer = sun4i_layer_init_one(drm, backend, type, i);
+ 		if (IS_ERR(layer)) {
+ 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
+ 				i ? "overlay" : "primary");
+ 			return ERR_CAST(layer);
+ 		}
+ 
+-		layer->id = i;
+ 		planes[i] = &layer->plane;
+ 	}
+ 
 -- 
 2.35.1
 
