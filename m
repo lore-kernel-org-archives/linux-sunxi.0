@@ -1,74 +1,58 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD852568
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 10:00:01 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 4C2A7580263;
-	Mon, 21 Feb 2022 05:00:00 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 21 Feb 2022 05:00:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; bh=+znYlsTYo3T9d5Ixvozjp/PRDBbb4A
-	hXJw9LtbbgDbI=; b=kLFncAvw+M+JXuOKheuemYtEiaci8pToqcFfoujpvn4vIF
-	yaIUPNMvnyimc/qVZulxA8RcSvGCUuPriPOrksdu8gfxDyqjUHwKki0K6x8KFL4K
-	EQrljq+jkwsGOlLdTHP+t5eiB/Fdq97AssieErL3dejUqo652Al3khNv9l9Q8/lF
-	ZfkiUCijYyVAzHrjYa8kWROvB9NcV+FsONH2uPIP4lGbmgaWWgSPNcR0bFe9RMpU
-	Ds+pg82QFIKm5ovd701gGiu/n+WHxj85wzblVPndvmpgjQDIp/YPS2MHQrF59Eo+
-	tQwTqb5HCciGqbqJB9sthtEkGT3hegkSd4wDLnaw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=+znYls
-	TYo3T9d5Ixvozjp/PRDBbb4AhXJw9LtbbgDbI=; b=Y5hnJ2TBIugNOd2Gt+d+UB
-	OQY9Qt/jXnQF0or0ep7j0qkMnmq85/dX5q+9Mr8bFKsqSdwsaOHPCK7FRJl4Z30C
-	uMjFiL57HlQJjy1lsJjyRPzSzNd2T9u9jrnbeIfGJlD61S+FIMRQ4jElSCo9FBrX
-	KUokFG4hD44PhO+IC4sDuUq8p9b+QRtGlE2Mwaj4raht6UvXu880fzhqhjtNVvyH
-	9Xwya+pkgHzfMMEPlDrxFFR+qyQHl0CNxRCBCH0SpnNlbjFjxoMWCt0XGknuZcco
-	lMP1ZIGAInLpkcJaZ1h/lfACR3iSv10VeLNEep8+mym4yFxSFDx+YTWWGFL/Hk1w
-	==
-X-ME-Sender: <xms:n2ITYmZM7HcQ1jxHSPps16Kn52Nq-Bw3zryfrpBeUyWfr8BEIxXWEw>
-    <xme:n2ITYpZHPoar1W5lnsvoiFHoIvdk9dcmTK_3dQVYFOgO24Qp7T4Fpnh_L2eNCvQy2
-    6wRCoujR93WKm_B5zY>
-X-ME-Received: <xmr:n2ITYg-XfSZOUihbpkaC3KfUyzs3YgN6u7EVYyQ1Ejfs-68Si2ffuC7RGYq8B8oSL5-jGSUwsBZ31LCEEcheyHGUSpMksxatwMZJAKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigddtlecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpedvkeelveefffekjefhffeuleetleefudeifeehuddugffghffhffehveevheeh
-    vdenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:n2ITYoo36METSUamRnKOYwx2ndZxiMYwRxKnGxKfUtVB7_ObX0HFSQ>
-    <xmx:n2ITYhpmQU14yhB5bzQED_EDc4XUkunK0TvxfwDtrWV7n3Uu5VpawA>
-    <xmx:n2ITYmRxctPYvE-_0hl3Kj3IrwQqoX6SsD07scIuop4Do64dKiJKTA>
-    <xmx:oGITYvgrKhwlgSBMDswTU0AdMSjmMun0Ywc6Tjw0AFaYRW6Rljlkjg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 04:59:59 -0500 (EST)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Daniel Vetter <daniel.vetter@intel.com>,
-	David Airlie <airlied@linux.ie>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Tim Gover <tim.gover@raspberrypi.com>,
-	Dom Cobley <dom@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <maxime@cerno.tech>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4002581
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 12:08:42 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id v12so26722302wrv.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 04:08:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CV5c3iXN0ZDroe+O7EtfCuby385XVMnLRIPAVIqOzLQ=;
+        b=VzDjcwpFw8Bt4+sKQemYRvJXOFpFzlJC4o7nPKh7gBfc/1uZq9iZRUm/gUl0kzALwR
+         oxPa9aCTLOW9FaGrfH7w7pLx0iVwTt/GOXHE768JxURnxqtjvX7Niy6SMgOihwz31ziU
+         yiXn6isvXh+AOxd1bBRHl+XyKf89NyMrYj/FJQQ3/QHE0Lh4zHDWNZfayfVIsXYuqIiP
+         rFEyNLRJGwn/TkVQQNt2eayE/f5SPebnOsJSJuaBmkUDnwTfOvuxe2egfKg+x5OrqbLW
+         gPtWHM3dfsl5OfEkaprLcnzVF2zOuCiq9nLyXw6oGM2riIaq7T2S8PLyEtFKNZuRPqDc
+         uwGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CV5c3iXN0ZDroe+O7EtfCuby385XVMnLRIPAVIqOzLQ=;
+        b=ha25RdRvIiT4I/kVtIMzXnYrRmSv3Tm+kujkiHW0fWSbhDb9VLWSoqAGWfUGWrDJX0
+         GtKjzHpuGhKOhffYBaweSIeDkSFc2i3+zLCyfU/Ne0TGpCs01TV9DQOUHnwvoOMWJaV9
+         kKiQv1aK2neRpM8rVDHEN3srvxjerhtqhIVBnipBBsz4evkfVWcGV3BXsHHzD6HyFT+z
+         HTAlSGZMK7T7BTAGjrtz43Ovngfw4g9sj0DEoFA3DuhDX7ZzmKHft4JLcAUmQw/PBR75
+         OzL//TV/WX6Ik18yicyGgvZJP/guGxnaCbmP/8kjNRaz6a+b1BXvNlXSAW12XIPHKVpy
+         En/A==
+X-Gm-Message-State: AOAM533PLynd9BdKkj4pPQVAOWFd7GZONPfrCGuTxu71FaqyLTMKZlZz
+	E1KfZKxySS6a2htmLJbX58+9YQ==
+X-Google-Smtp-Source: ABdhPJyecBtSfKLHEPz8mlqMUDjEEOgcR2GUvvzZ9e+5PQYFO/+gF3qRyJfmk0DgodzGmHicQFGuPw==
+X-Received: by 2002:adf:ee0d:0:b0:1e3:f28:487f with SMTP id y13-20020adfee0d000000b001e30f28487fmr15441462wrn.620.1645445320385;
+        Mon, 21 Feb 2022 04:08:40 -0800 (PST)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id a8sm11821546wra.0.2022.02.21.04.08.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Feb 2022 04:08:39 -0800 (PST)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: herbert@gondor.apana.org.au,
+	jernej.skrabec@gmail.com,
+	linus.walleij@linaro.org,
+	narmstrong@baylibre.com,
+	ulli.kroll@googlemail.com,
+	wens@csie.org
+Cc: linux-amlogic@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2 17/22] drm/sun4i: layer: Remove redundant zpos initialisation
-Date: Mon, 21 Feb 2022 10:59:13 +0100
-Message-Id: <20220221095918.18763-18-maxime@cerno.tech>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220221095918.18763-1-maxime@cerno.tech>
-References: <20220221095918.18763-1-maxime@cerno.tech>
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH 0/5] crypto: completion should be ran with BH disabled
+Date: Mon, 21 Feb 2022 12:08:28 +0000
+Message-Id: <20220221120833.2618733-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,92 +61,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sun4i KMS driver will call drm_plane_create_zpos_property() with an
-init value depending on the plane type.
+Hello
 
-Since the initial value wasn't carried over in the state, the driver had
-to set it again in sun4i_backend_layer_reset().
-However, the helpers have been adjusted to set it properly at reset, so
-this is not needed anymore.
+This is the follow up of https://lore.kernel.org/lkml/Yd1SIHUNdLIvKhzz@Red/
+and https://patchwork.kernel.org/project/linux-crypto/patch/20220127133332.4011509-1-clabbe@baylibre.com/
+This serie fix all drivers which do not call completion with BH disabled
+and add the check in crypto/engine asked by Herbert.
+I have verified that this check does not generate warnings on all other crypto
+hardware I got (omap, ccree, rockchip)
 
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-sunxi@lists.linux.dev
-Cc: Chen-Yu Tsai <wens@csie.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/sun4i/sun4i_layer.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+Regards
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 929e95f86b5b..6d43080791a0 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -18,7 +18,6 @@
- 
- static void sun4i_backend_layer_reset(struct drm_plane *plane)
- {
--	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
- 	struct sun4i_layer_state *state;
- 
- 	if (plane->state) {
-@@ -31,10 +30,8 @@ static void sun4i_backend_layer_reset(struct drm_plane *plane)
- 	}
- 
- 	state = kzalloc(sizeof(*state), GFP_KERNEL);
--	if (state) {
-+	if (state)
- 		__drm_atomic_helper_plane_reset(plane, &state->state);
--		plane->state->zpos = layer->id;
--	}
- }
- 
- static struct drm_plane_state *
-@@ -192,7 +189,8 @@ static const uint64_t sun4i_layer_modifiers[] = {
- 
- static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 						struct sun4i_backend *backend,
--						enum drm_plane_type type)
-+						enum drm_plane_type type,
-+						unsigned int id)
- {
- 	const uint64_t *modifiers = sun4i_layer_modifiers;
- 	const uint32_t *formats = sun4i_layer_formats;
-@@ -204,6 +202,7 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 	if (!layer)
- 		return ERR_PTR(-ENOMEM);
- 
-+	layer->id = id;
- 	layer->backend = backend;
- 
- 	if (IS_ERR_OR_NULL(backend->frontend)) {
-@@ -226,8 +225,8 @@ static struct sun4i_layer *sun4i_layer_init_one(struct drm_device *drm,
- 			     &sun4i_backend_layer_helper_funcs);
- 
- 	drm_plane_create_alpha_property(&layer->plane);
--	drm_plane_create_zpos_property(&layer->plane, 0, 0,
--				       SUN4I_BACKEND_NUM_LAYERS - 1);
-+	drm_plane_create_zpos_property(&layer->plane, layer->id,
-+				       0, SUN4I_BACKEND_NUM_LAYERS - 1);
- 
- 	return layer;
- }
-@@ -249,14 +248,13 @@ struct drm_plane **sun4i_layers_init(struct drm_device *drm,
- 		enum drm_plane_type type = i ? DRM_PLANE_TYPE_OVERLAY : DRM_PLANE_TYPE_PRIMARY;
- 		struct sun4i_layer *layer;
- 
--		layer = sun4i_layer_init_one(drm, backend, type);
-+		layer = sun4i_layer_init_one(drm, backend, type, i);
- 		if (IS_ERR(layer)) {
- 			dev_err(drm->dev, "Couldn't initialize %s plane\n",
- 				i ? "overlay" : "primary");
- 			return ERR_CAST(layer);
- 		}
- 
--		layer->id = i;
- 		planes[i] = &layer->plane;
- 	}
- 
+Corentin Labbe (5):
+  crypto: sun8i-ss: call finalize with bh disabled
+  crypto: sun8i-ce: call finalize with bh disabled
+  crypto: amlogic: call finalize with bh disabled
+  crypto: gemini: call finalize with bh disabled
+  crypto: engine: check if BH is disabled during completion
+
+ crypto/crypto_engine.c                              | 1 +
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 3 +++
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c   | 3 +++
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 3 +++
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c   | 3 +++
+ drivers/crypto/amlogic/amlogic-gxl-cipher.c         | 2 ++
+ drivers/crypto/gemini/sl3516-ce-cipher.c            | 2 ++
+ 7 files changed, 17 insertions(+)
+
 -- 
-2.35.1
+2.34.1
 
