@@ -1,63 +1,100 @@
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com [209.85.222.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D24929A3
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 13:33:24 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id w18so7978625uar.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 05:33:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc;
-        bh=FNR5T6Z01UkWpBHi+H4JVSGpKE3b3kPuS7Yn8CkS96s=;
-        b=kvtaJlgtT5gNg09MnFT4k7zddi1Mo+OmYMCwKyBi/1TszZeoamzqT8OuBKpE0V89OH
-         kxGG5ZPvSxsb+x7rNmApHstWT8Y+qx1irI//HlMNtMmdhbcvqW4nndb/Xwupk6H0vPpm
-         Gr7ob7EDb7SEW7txuPqJhYK8BlbVkLFMewYhLKVrYQW3sqULUnAnpi9OD+1FL9Pa3hBr
-         zDPGrxATTntKV8qTz7ucjfKCOeVb55CHe91xZib3GweD/fvt3VX0SQylgaplK4RqpWEu
-         SZb3YzFawnXK09UeqJdduDXB/Pk1KfmLXPoK9VqtyrOWDTq726xrweobs9jZ1Nv+N1RG
-         SH+A==
-X-Gm-Message-State: AOAM531AB+7SpgtaSpVBqFFdH0j5XbpHR4OqOqPPOWo8kLisKqah17ov
-	+W+zRCcs5JhpN/EKxeLre9fU9Yj6Cxm/GA==
-X-Google-Smtp-Source: ABdhPJzs/RGWMA5TA1IgzPmUg+1HFgijXHchX4B9OO6ad5j94VZyD1bN7TaGOZG3uy+k59yMUTAxRw==
-X-Received: by 2002:a9f:2142:0:b0:305:20b3:3585 with SMTP id 60-20020a9f2142000000b0030520b33585mr7293135uab.27.1645450403070;
-        Mon, 21 Feb 2022 05:33:23 -0800 (PST)
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com. [209.85.217.41])
-        by smtp.gmail.com with ESMTPSA id n131sm3344957vkc.11.2022.02.21.05.33.22
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Feb 2022 05:33:22 -0800 (PST)
-Received: by mail-vs1-f41.google.com with SMTP id g21so17576828vsp.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 05:33:22 -0800 (PST)
-X-Received: by 2002:a05:6102:956:b0:31b:1b52:ed9f with SMTP id
- a22-20020a056102095600b0031b1b52ed9fmr7911944vsi.28.1645450402349; Mon, 21
- Feb 2022 05:33:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DD529A3
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 13:42:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 79E865C01F7;
+	Mon, 21 Feb 2022 08:42:36 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 21 Feb 2022 08:42:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; bh=K7rFrIBYf0uO6TgHksH5pKcSFdzMTJjXHIGSfD
+	UUimM=; b=RkT9rQLepumS98LayolF68+E0XrZsgaE6o7a1LCWUjlgufC/14XoIx
+	xTBs3yxUkysB/a3yoUZ565fNL7y8EmXeiRwGV6zGieRGf0XPjW2hnWUALeGK8aDd
+	M3NG/8pNsgRblbvvettx9V+54FZXpIF79Wn1ER3uX/zxzkndg79ciydbL3S5hZAQ
+	QYxg97ratpPniammPj0Uy2SE4pCnHaZEMgcQmqR/FJxu+4xGU6Vr85Y4G+KTeLMz
+	E2ctDqpdOY7ISSLp71Z/EOxVwP2EEq662x4D9TE/UyhIntZ391jsg/ytOht/ah9b
+	rAT/X5dKcye6QB4iseAUYzI3dib07NYQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=K7rFrIBYf0uO6TgHk
+	sH5pKcSFdzMTJjXHIGSfDUUimM=; b=fw29BePoWU71ySEEv3dnkUtgf0fMrQ3H4
+	bx8DYhd0TemDz7so3znIl+MvRNj18RtluDSKKPRIN66Rr4qsE6uLOxzzHprkzh9f
+	cX5o9BYbFEZe9YP7jkvJXNy6ftF06YWTpNL46mh1N6tuNfdFJq3A8JEsslV4TCow
+	drbfP7bphJoiL5YFeulUIdLYnPfDaecawgCokIf7WB3L17TRaBdTYOmM7StAfrW3
+	tfYFxtxD4X8siyXiQgbe+fZcf6n4V93u1da5T6E+m6SAR390djkXxZzy6GELlJoV
+	RMGMXj5eXZZa0pnfbmgBgn+2X9Ys3aps7W8tGghTxjnUdZFLz9Aeg==
+X-ME-Sender: <xms:zJYTYulXYCg8EIGWJVHYwuveVAJUeXI0NvkcHlwhoMovYJsPJ94Nkw>
+    <xme:zJYTYl3gwiCHsbnqSHcxGfTljNoBKI1nU82uoXR-SrKTfM8Wqj0MxoF5667q2XgYQ
+    vOjBtND0oTtatWseKU>
+X-ME-Received: <xmr:zJYTYsptqXsOkLyXJQ2ImHx4Blsd4Yc0YF-bELFUP9jlCcedDHVWY6hYAVEAlSKzWE_nAbZvzgSv24x18myIAZDHYHfibcJnJayyE0g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+    igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:zJYTYimn4oYKNaS-ii72y-Y4aMzLirr8UyOxM1LRKPef-I7RfCVwQg>
+    <xmx:zJYTYs3Gv_Rf4r_YLHoC-ZBTGsxZTMiJgPmDWPKy5XnvVIcpks90Ag>
+    <xmx:zJYTYptvJg5JSIaffiS9WMkwaUJnota8o8qCjsxxTBq4bYiC31pkOw>
+    <xmx:zJYTYvSS1GBI1Sea8MBi6bWGKjYdu5d1BCIvBNvOT5g38hTjfn89LQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Feb 2022 08:42:35 -0500 (EST)
+Date: Mon, 21 Feb 2022 14:42:34 +0100
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: wens@csie.org, samuel@sholland.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] MAINTAINERS: Update Allwinner SoCs maintainers
+Message-ID: <20220221134234.vt7bleqk7gylxefg@houat>
+References: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="llrydr3wtufzcdbf"
+Content-Disposition: inline
 In-Reply-To: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
-Reply-To: wens@csie.org
-From: Chen-Yu Tsai <wens@csie.org>
-Date: Mon, 21 Feb 2022 21:33:11 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66AZaN5S025z8JxPJJXc_WM=a+YTzPwpyL-v_XP+wa3RQ@mail.gmail.com>
-Message-ID: <CAGb2v66AZaN5S025z8JxPJJXc_WM=a+YTzPwpyL-v_XP+wa3RQ@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Update Allwinner SoCs maintainers
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Feb 21, 2022 at 5:07 AM Jernej Skrabec <jernej.skrabec@gmail.com> wrote:
->
+
+--llrydr3wtufzcdbf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sun, Feb 20, 2022 at 10:07:14PM +0100, Jernej Skrabec wrote:
 > Maxime is stepping down as a maintainer, I'll take more active role and
 > Samuel joined the team.
->
+>=20
 > Maxime, thank you for your effort! Samuel, welcome!
->
+>=20
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+Acked-by: Maxime Ripard <maxime@cerno.tech>
+
+Thanks Samuel for stepping up :)
+
+Maxime
+
+--llrydr3wtufzcdbf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhOWygAKCRDj7w1vZxhR
+xRVbAP0Xh0EhtruTFmUarXJiUw+cl/Wvp7GwJFZIbvflHr086QEA+jP7G+F4aoNa
+UPMfaxLcjQI9QEdllmVV5fLcd+o16gQ=
+=ElNN
+-----END PGP SIGNATURE-----
+
+--llrydr3wtufzcdbf--
