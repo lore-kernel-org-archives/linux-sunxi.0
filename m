@@ -1,100 +1,81 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0DD529A3
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Feb 2022 13:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5E497B
+	for <linux-sunxi@lists.linux.dev>; Tue, 22 Feb 2022 02:17:53 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 79E865C01F7;
-	Mon, 21 Feb 2022 08:42:36 -0500 (EST)
+	by mailout.nyi.internal (Postfix) with ESMTP id 814625C00C6;
+	Mon, 21 Feb 2022 21:17:52 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 21 Feb 2022 08:42:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=K7rFrIBYf0uO6TgHksH5pKcSFdzMTJjXHIGSfD
-	UUimM=; b=RkT9rQLepumS98LayolF68+E0XrZsgaE6o7a1LCWUjlgufC/14XoIx
-	xTBs3yxUkysB/a3yoUZ565fNL7y8EmXeiRwGV6zGieRGf0XPjW2hnWUALeGK8aDd
-	M3NG/8pNsgRblbvvettx9V+54FZXpIF79Wn1ER3uX/zxzkndg79ciydbL3S5hZAQ
-	QYxg97ratpPniammPj0Uy2SE4pCnHaZEMgcQmqR/FJxu+4xGU6Vr85Y4G+KTeLMz
-	E2ctDqpdOY7ISSLp71Z/EOxVwP2EEq662x4D9TE/UyhIntZ391jsg/ytOht/ah9b
-	rAT/X5dKcye6QB4iseAUYzI3dib07NYQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+  by compute4.internal (MEProxy); Mon, 21 Feb 2022 21:17:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=K7rFrIBYf0uO6TgHk
-	sH5pKcSFdzMTJjXHIGSfDUUimM=; b=fw29BePoWU71ySEEv3dnkUtgf0fMrQ3H4
-	bx8DYhd0TemDz7so3znIl+MvRNj18RtluDSKKPRIN66Rr4qsE6uLOxzzHprkzh9f
-	cX5o9BYbFEZe9YP7jkvJXNy6ftF06YWTpNL46mh1N6tuNfdFJq3A8JEsslV4TCow
-	drbfP7bphJoiL5YFeulUIdLYnPfDaecawgCokIf7WB3L17TRaBdTYOmM7StAfrW3
-	tfYFxtxD4X8siyXiQgbe+fZcf6n4V93u1da5T6E+m6SAR390djkXxZzy6GELlJoV
-	RMGMXj5eXZZa0pnfbmgBgn+2X9Ys3aps7W8tGghTxjnUdZFLz9Aeg==
-X-ME-Sender: <xms:zJYTYulXYCg8EIGWJVHYwuveVAJUeXI0NvkcHlwhoMovYJsPJ94Nkw>
-    <xme:zJYTYl3gwiCHsbnqSHcxGfTljNoBKI1nU82uoXR-SrKTfM8Wqj0MxoF5667q2XgYQ
-    vOjBtND0oTtatWseKU>
-X-ME-Received: <xmr:zJYTYsptqXsOkLyXJQ2ImHx4Blsd4Yc0YF-bELFUP9jlCcedDHVWY6hYAVEAlSKzWE_nAbZvzgSv24x18myIAZDHYHfibcJnJayyE0g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeeigdehgecutefuodetggdotefrodftvf
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=IjwyPT5tARkpjx
+	wBtQqRGrMpxTKMg/PwPRx5plN7W/Y=; b=KwNOcmv8LGKUjm0DZ5souwCxasMEna
+	h+d9WaunCvGU7MXJ0qE24DNpEW/Lg13+OIHAyYiues4xjcdkX4pAXIYJ2D01/RFk
+	zk0ipCbx9WWO/HXXyvC5wnh3ddCFZH+YDSW+mj2mv4lAVTvdCUtOuHfSHmnE3zKt
+	k4RLtcmWDpCELEmgmooxwsMVb7dlEDwS3dyAX5VGX/RWgRhX7kU6v5jWibo4J2dx
+	aRBQHayJGN2G9xO5cgBjsTIhpdxs2luk78kQRsaawgnbDiAx8OH/YYmxSs1/Lp8c
+	aBTXNILOOz7KHCOqffYO4y08av2kpcDQAJt4xSqaLb3j/aR/LeI5tnSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=IjwyPT5tARkpjxwBtQqRGrMpxTKMg/PwPRx5plN7W
+	/Y=; b=UMQaOMmbd27zP76a9a31uiBOFqEi3uc03bMJiqjiEDUGoZWClwj2XztlD
+	Wz+bznBMeiIos8/B006GBqEvldMVX144VVqzT78gaAODUXuQA8APas1ovIp681YR
+	NA/W1CvWIOWkEgb9546Xz5d+bErrSlCIfYC+gfG4Wkpyf7G08bpr3DFwbHFCvjoX
+	9h+qqcnZaHPziqUY6/qcpFRhPxa3TARroblnX8YR2iTDbMCJoJHsgNGxLqSjLodI
+	uX4HBWFAq1PRTabox0dmR19ed72lQ2BLkbJADe2cHzPpg8aPDEkDOIgEOhX7aoQ6
+	CBvbRh1A9MPjEwbY05qLrz9tId2Lg==
+X-ME-Sender: <xms:z0cUYrXC-HR_NSmPCB43nsDZAkgyZ6co5KduWW1L-moLhTLdRGV5IA>
+    <xme:z0cUYjmhqwnAV_J8wlViHHuyZojENcq3J4SYyR_3QuR80R1EDtgHec3zv5pTsg3Lu
+    -uvKixBYRIxr_8p8A>
+X-ME-Received: <xmr:z0cUYnYz2Vb8BP34lOFUkvpfWZLr5PjARE-qTguKLuvnM4p5nsGt7I7wXxf1dwGIE4fTwti9YEkqYkaS1c11bw8HICdjo-ENb7SIU3h3rRaK7tXxdknX5zZ1KQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeejgdeggecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
-    udenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
-    igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:zJYTYimn4oYKNaS-ii72y-Y4aMzLirr8UyOxM1LRKPef-I7RfCVwQg>
-    <xmx:zJYTYs3Gv_Rf4r_YLHoC-ZBTGsxZTMiJgPmDWPKy5XnvVIcpks90Ag>
-    <xmx:zJYTYptvJg5JSIaffiS9WMkwaUJnota8o8qCjsxxTBq4bYiC31pkOw>
-    <xmx:zJYTYvSS1GBI1Sea8MBi6bWGKjYdu5d1BCIvBNvOT5g38hTjfn89LQ>
+    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
+    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:z0cUYmVZYiiPMFzfFNxsiU7YHmfIDzd590baNBpAldUjYcS5Y0rskA>
+    <xmx:z0cUYlmSkMm3xEseOqS9ed2QHcSuHKPx_O3-ZAQLwGBNXWMQ4jdEXw>
+    <xmx:z0cUYjfi_E7o4wXoy93a1F-C6SYnUC1RwCekxmP4hoe23n6z7B0_vA>
+    <xmx:0EcUYuAoNQMvQ7ikhPSO48A0stfuOEzT8QvrcJoXlCfALvP-2C_3oQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Feb 2022 08:42:35 -0500 (EST)
-Date: Mon, 21 Feb 2022 14:42:34 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: wens@csie.org, samuel@sholland.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+ 21 Feb 2022 21:17:51 -0500 (EST)
 Subject: Re: [PATCH] MAINTAINERS: Update Allwinner SoCs maintainers
-Message-ID: <20220221134234.vt7bleqk7gylxefg@houat>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ wens@csie.org
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
 References: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <35a019e5-be7d-fc14-5cec-cf89d981a2bf@sholland.org>
+Date: Mon, 21 Feb 2022 20:17:50 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llrydr3wtufzcdbf"
-Content-Disposition: inline
 In-Reply-To: <20220220210714.2484019-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-
---llrydr3wtufzcdbf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Feb 20, 2022 at 10:07:14PM +0100, Jernej Skrabec wrote:
+On 2/20/22 3:07 PM, Jernej Skrabec wrote:
 > Maxime is stepping down as a maintainer, I'll take more active role and
 > Samuel joined the team.
->=20
+> 
 > Maxime, thank you for your effort! Samuel, welcome!
->=20
+> 
 > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
-
-Thanks Samuel for stepping up :)
-
-Maxime
-
---llrydr3wtufzcdbf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhOWygAKCRDj7w1vZxhR
-xRVbAP0Xh0EhtruTFmUarXJiUw+cl/Wvp7GwJFZIbvflHr086QEA+jP7G+F4aoNa
-UPMfaxLcjQI9QEdllmVV5fLcd+o16gQ=
-=ElNN
------END PGP SIGNATURE-----
-
---llrydr3wtufzcdbf--
+Acked-by: Samuel Holland <samuel@sholland.org>
