@@ -1,94 +1,155 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFC77B;
-	Tue, 22 Feb 2022 18:03:33 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id f17so10097143wrh.7;
-        Tue, 22 Feb 2022 10:03:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
-        b=ga5HhF1kzBzWTvKfcvvy2G6pPpg6ZSlIrxkAJbJ6v+ZHmwIpqeVSDShxafKYqADvsD
-         yq8c5Vm8FrreBj0AuOhaGzsvaQHpvpXH09xRLPmTecId0D7mR5b0Q5QfjE6jrErigbjv
-         VVVTT5kSvy5xYfdJGr4uWS6OtpC7cbb5DXOXTCjiDAybnm4+pJTkZvZjCrRdNONlHgEa
-         P+AQ7H9H0+OXErltcVA5VO9AQiJ8YsKgPkoPLwkvqXwMdvToUIr1Idi1wzfR6Yrs5P2N
-         VTp+munJbWJ8b9j+H0C8zrdeOKVysbJVHxCtezfJWdAa9UuZS36msAUUHMT1jz2ov/XA
-         G2Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZA1AEF6WYe53I9xc29Ywox25Ld05hhSuOKpOWRLCD0Q=;
-        b=F3YkQX6QWc60eA7FMBpABHyrBPYhsElKCwNHVEDtza14J63wa+ekx7ItgtOh47jySd
-         rx0v+6mpZw752Cpakhgv9twUhpqAyVTKJGj/DksIHHKm1WigLGp+h3QC1D6swHxZhM8E
-         J9rrsLSZfu2ulqeujZiie0hshgTkbCi+7+VIoFR1FNS4ru4r4AEIQ334DDKH8qf1d3Op
-         HK9x7UszOW3MDRdnNjnsPl3YRPoUiuA25mWtf/JETDaeFsuXSv329Fi2LeDcgIbj9bi3
-         VGS5OgWyOuHzSMlO7JgR4jmv7roAIU+6TQbdGuhewpVeH3SVoapBomBFzrN8Bj5dnMK6
-         GUtg==
-X-Gm-Message-State: AOAM531d0xeMWdyyspxOfxlZq7GRN5RW6+BYeau2wqZJFOt2VzudBPJC
-	4PqzQ3PobKVJp9X5bYGKEik=
-X-Google-Smtp-Source: ABdhPJzNFYx5oAjf3+Rk5ssr7+hioPDrHat9vTUipqzp/XT0YyvI9V4d7cbaImdepV5Gxc87H7QYTw==
-X-Received: by 2002:adf:8122:0:b0:1e7:b111:3b92 with SMTP id 31-20020adf8122000000b001e7b1113b92mr21076844wrm.695.1645553011872;
-        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
-Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id w8sm54251377wre.83.2022.02.22.10.03.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Feb 2022 10:03:31 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de
-Cc: mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	wens@csie.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] media: hantro: sunxi: Fix VP9 steps
-Date: Tue, 22 Feb 2022 19:03:28 +0100
-Message-Id: <20220222180328.2097103-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BA97EC
+	for <linux-sunxi@lists.linux.dev>; Wed, 23 Feb 2022 03:22:11 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 3A5565801C5;
+	Tue, 22 Feb 2022 22:22:10 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Tue, 22 Feb 2022 22:22:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=IkQN2es09BGyMo
+	mk4XSaidbsdDwmtXzWNdN/EUwe0wI=; b=DHVMG4Y3sJhtwmXC+v2SFFiu3PzNvJ
+	euyD5W2HAowEb/+qfpvaL3R2mUE5fcJlKQ4h9E4lPaBqJRt9/VL7EGtI938AP1D3
+	D0zMWN/9Fo6GgV2nR6a7vLxyJl/9rXuzVf/5TSFRkdacbUcxNlAKS1Ejd78gKEsL
+	IwLFioOPZo3c3hLvvRG+FDFnhZNMUFlCLhewUT1RTBHg/GyLNifkbIDEEzPubsRs
+	/2FmcRGjtOOyhGIhtRDPbf1ARjBiKESY5m6GeI+Kh+pXmF7jlzyVpbGq4JB5dcFd
+	7onx0+N9ztWH2U+HG69b8bQlPwE7VLTnvQJYRvAWNEWfUKVyzRnOehHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=IkQN2es09BGyMomk4XSaidbsdDwmtXzWNdN/EUwe0
+	wI=; b=STeopoSb06swZtR1gNJjMp15wrHyXSdTSQqHjxiDaQGdCiPX86bvasLBY
+	egLbZ6wAZ7sCKRNtQzyUbcO6hdtL+dR2uzhA4Au01zTr9ijldOhJV+TqwcO4x2bW
+	Vu0ujjHARsv7oKFoJ7/aQ0d+ZlXIZApbXWA7T+Uxf4qrmbCWbhak2F0Ybgo9XnZ3
+	+VnxZ34K/OmKcqlSmrRrOn/Ph3VY5OEWHkFw4L3uPJ3zXpPi/xAVkPqbOxLyBqga
+	KNmOKZSHf3r8kjdth0uSL0RyeOTgLKGGd7k2DC+GYM5XjMWlyy75NhCs5YlXiXOx
+	a42g1v7Js+aJdOdd6Oy3rsfYLFB5A==
+X-ME-Sender: <xms:YagVYiccQBzetdE6Yr9ysKYe-EaBJO9TNRfbcRrGCFY8PlrerVEPRg>
+    <xme:YagVYsMiga44LamZsGtqfIoY4E00FN-X5QrN8ik1Jk5QcsczqSJkLsih_OUcanSzB
+    4jtKhmrhrGX-s8kow>
+X-ME-Received: <xmr:YagVYjhXW28uqNfRYuxJKPIY2wVzkPsnTc-HtD6qmHii5DLwOOH93NIhv-4FqLOzU8omZgA50FfsGWi05baWhRnHTZBCCm3XwKmFdA4MW9vA3qn5w58so7BkSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeelgdehjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
+    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:YagVYv_ew7ZaINbHJaeC-C5Txqjp35SMFltfTexnNavnwz6CKHBn0Q>
+    <xmx:YagVYuvQFr0yEZDsTWvjOvgHQ_Kb_QjsV6IBZGWPN4Ko7fgErGWMKA>
+    <xmx:YagVYmGy9OXFHczyvOCL4jNVvv3FdbuX6Pz4TorS2ZVayq-IMmC5Rg>
+    <xmx:YqgVYmEfEL8miVxhdqZLNdhbUHosKGrn047kgLeVsugd7HX4xQb0Aw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 22 Feb 2022 22:22:08 -0500 (EST)
+Subject: Re: [PATCH v10 01/18] clk: sunxi-ng: h616-r: Add RTC gate clock
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>,
+ Ondrej Jirman <megous@megous.com>, Icenowy Zheng <icenowy@aosc.io>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
+References: <20220211122643.1343315-1-andre.przywara@arm.com>
+ <20220211122643.1343315-2-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <01e8d2a0-cdeb-ab64-42a7-48376b49c00e@sholland.org>
+Date: Tue, 22 Feb 2022 21:22:07 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220211122643.1343315-2-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-It turns out that postproc on Allwinner H6 needs width and height to be
-multiple of 32.
+On 2/11/22 6:26 AM, Andre Przywara wrote:
+> The H616 features an (undocumented) bus clock gate for accessing the RTC
+> registers. This seems to be enabled at reset (or by the BootROM), but is
+> there anyway.
+> Since the new RTC clock binding for the H616 requires this "bus" clock
+> to be specified in the DT, add this to R_CCU clock driver and expose it
+> on the DT side with a new number.
 
-Fixes: 86790a4fdf4b ("media: hantro: Add support for Allwinner H6")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/staging/media/hantro/sunxi_vpu_hw.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+It would be good to note why you didn't add this clock to H6, even though it
+exists in that hardware.
 
-diff --git a/drivers/staging/media/hantro/sunxi_vpu_hw.c b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-index 90633406c4eb..c0edd5856a0c 100644
---- a/drivers/staging/media/hantro/sunxi_vpu_hw.c
-+++ b/drivers/staging/media/hantro/sunxi_vpu_hw.c
-@@ -29,10 +29,10 @@ static const struct hantro_fmt sunxi_vpu_dec_fmts[] = {
- 		.frmsize = {
- 			.min_width = 48,
- 			.max_width = 3840,
--			.step_width = MB_DIM,
-+			.step_width = 32,
- 			.min_height = 48,
- 			.max_height = 2160,
--			.step_height = MB_DIM,
-+			.step_height = 32,
- 		},
- 	},
- };
--- 
-2.35.1
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 4 ++++
+>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
+>  include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
+>  3 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> index 712e103382d8..26fb092f6df6 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> @@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
+>  		      0x1cc, BIT(0), 0);
+>  static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
+>  		      0x1ec, BIT(0), 0);
+> +static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
+> +		      0x20c, BIT(0), 0);
+
+All of the documentation I have found (manuals, A100 driver, BSP D1 driver)
+points to this clock coming off of R_AHB, not R_APB1.
+
+Regards,
+Samuel
+
+>  
+>  /* Information of IR(RX) mod clock is gathered from BSP source code */
+>  static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
+> @@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
+>  	&r_apb2_i2c_clk.common,
+>  	&r_apb2_rsb_clk.common,
+>  	&r_apb1_ir_clk.common,
+> +	&r_apb1_rtc_clk.common,
+>  	&ir_clk.common,
+>  };
+>  
+> @@ -179,6 +182,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
+>  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
+>  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
+>  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
+> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
+>  		[CLK_IR]		= &ir_clk.common.hw,
+>  	},
+>  	.num	= CLK_NUMBER,
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> index 7e290b840803..10e9b66afc6a 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> @@ -14,6 +14,6 @@
+>  
+>  #define CLK_R_APB2	3
+>  
+> -#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
+> +#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
+>  
+>  #endif /* _CCU_SUN50I_H6_R_H */
+> diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> index 890368d252c4..a96087abc86f 100644
+> --- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> +++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> @@ -22,5 +22,6 @@
+>  #define CLK_W1			12
+>  
+>  #define CLK_R_APB2_RSB		13
+> +#define CLK_R_APB1_RTC		14
+>  
+>  #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
+> 
 
