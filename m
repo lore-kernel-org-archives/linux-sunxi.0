@@ -1,90 +1,98 @@
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77757EC
-	for <linux-sunxi@lists.linux.dev>; Wed, 23 Feb 2022 03:58:11 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id EE53B5801D0;
-	Tue, 22 Feb 2022 22:58:10 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 22 Feb 2022 22:58:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=JMnTWrM6JKgfkr
-	GrFGJeArt2hBYEa8agk9uD7BDHbyI=; b=V/ehg4cp+DYJvWZyUIhLRI9Q0+0Lto
-	5xT1uq5pyG+iBq4DhutDRT2923luPDAUeowdRjykTVpXvRsfHzxmDW5iPYD43M9J
-	CVL6EMsFXz6VESxEYP1VJeDEnA3L9WSCh6K2JeKxdyxXNdZjzSbDvCG8O3UQIMll
-	OxLf3/CZlCzhO5eT91eRiM4fvg4bWX9G1LVg+AFZT7A+VSnruip9RyK2ritOpn36
-	hDHqsjekp0g5E/4fU0o85zplx5AA6Wrur7+zGoIjRqLyFd6O6/Fo2bEBCdGg0ktv
-	W6H2mCJUlGJEZQmv6E1NK4nCiTdfEOos+01/9UaeUyDgMZFeanKiuZvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=JMnTWrM6JKgfkrGrFGJeArt2hBYEa8agk9uD7BDHb
-	yI=; b=QpX+wfTThxe76ooL3wyB3aRq94MnFypg/bIbZQeaVnI9kLnvotdVMuak8
-	Cea3G1/qj4wqctujBqrzx/lwNCiOi+UBpczHZBPSHhuZvVXiXZj6diXla5N8DMtV
-	WSqRLzsqFZshBtP/d/tU6kz9KVzH9wU0m4Hc/du6yY6e9b9yj7+Nnu8qmBfSpFwk
-	6mxh9b2u6jcM/5NBllMugT2cu9kOIsDk90HHFQW+Hni3jgVjUbC8mKi3cRMXWuRa
-	gC1U/WnR1N7ZFMPDWYCkzN8vlyILG5Y/S4LzEg2G7TFX8kGCvd9Mfph/sBUtqpD0
-	tGoclawcq9Q/JCEY6p229Ch5xt55w==
-X-ME-Sender: <xms:0rAVYuj3wjPs4RIwOYYtxiaZ72e8-JAVop-pz4shWArf6_eVBi5UVA>
-    <xme:0rAVYvAZlDajc4AqxQGD5aQnviCQM3x1zLGjmIW-nQyfSvJkbOlj8S6Ha6KlSwUQj
-    v8beZRq6E9fV0zb1Q>
-X-ME-Received: <xmr:0rAVYmED_UzmE5KqXxZsPJotaWyQyEfcXWGazJrnf8Mequu_PboMqYXnldBguYwO6pvzHveE7jeOGIhvyfe0U9_jSoh4o7_V-cOvB6uSyeU5Nl_obleFVP15AA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrkeelgdeigecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfhfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpefgveffteelheffjeeukedvkedviedtheevgeefkeehueeiieeuteeu
-    gfettdeggeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:0rAVYnQCE5ngqyaI4zQBMS50f_0gE3XOnLd0nWSt9r7h-JEwAgdaiA>
-    <xmx:0rAVYrwHgFjSVSPx2NMP7WXaw0f9F0l08SF7k4GnIe5y9B8JW7L_iQ>
-    <xmx:0rAVYl7PrF_HdraK3cQ33534AnR-oJF2NuFJ8qauvVp_iaQ8jvUNFQ>
-    <xmx:0rAVYp51rRlWWFNgTo0BcpMkyyzViwJXqS6lKj4s-p6AwOGGxAeV0A>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 22 Feb 2022 22:58:10 -0500 (EST)
-Subject: Re: [PATCH v10 15/18] phy: sun4i-usb: Add support for the H616 USB
- PHY
-To: Andre Przywara <andre.przywara@arm.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh@kernel.org>, Ondrej Jirman <megous@megous.com>,
- Icenowy Zheng <icenowy@aosc.io>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- linux-phy@lists.infradead.org
-References: <20220211122643.1343315-1-andre.przywara@arm.com>
- <20220211122643.1343315-16-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <e309c65d-7859-d9c8-148d-033bb0d28c8c@sholland.org>
-Date: Tue, 22 Feb 2022 21:58:09 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDBB6ABC
+	for <linux-sunxi@lists.linux.dev>; Thu, 24 Feb 2022 22:52:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DF71C340E9;
+	Thu, 24 Feb 2022 22:52:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1645743148;
+	bh=jFjzAyDU9RAqkrJmgIBbhHnbo0nB32DlkIyW/1JqGxQ=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=lnZddMNLpkU9UeDmJ0ZUbF8PNsPQZLLLx+fgn3ZOe9DrNSGmyTmI0Oj6aOXCS1+aS
+	 QRMlMACgbvRsl88duAg4auKqBoxCO+mzrVTjQ822DthgdMJ76XVRGezN3myqwXk5s3
+	 EDusgAPGNQrBljrdM5ZWUdBLKlUFSBpZoGtYCHeJbL/Na7pivKMnAP9d4YHBoPGq/v
+	 jXwModwqb0qySiVOtL7eP+flXwDj0NCXkOUIZDBlrqh+K5x3Y6aznDx/aXLX1uzqJo
+	 XFn1K03+JcuCbmIrB6luuQndd8GTIpK6NrE3K62ra5HKcwGfst4/4Y4tWoAr75HuBq
+	 Y9xzM0KmHlXyA==
+Date: Thu, 24 Feb 2022 23:52:23 +0100
+From: Jernej Skrabec <jernej@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: mripard@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, wens@csie.org, jernej@kernel.org,
+	samuel@sholland.org
+Subject: [GIT PULL] Allwinner DT changes for 5.18
+Message-ID: <YhgMJ0AqaHopzaW3@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220211122643.1343315-16-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 2/11/22 6:26 AM, Andre Przywara wrote:
-> The USB PHY used in the Allwinner H616 SoC inherits some traits from its
-> various predecessors: it has four full PHYs like the H3, needs some
-> extra bits to be set like the H6, and puts SIDDQ on a different bit like
-> the A100. Plus it needs this weird PHY2 quirk.
-> 
-> Name all those properties in a new config struct and assign a new
-> compatible name to it.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Hi!
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Please pull following changes for next release.
+
+Best regards,
+Jernej
+
+The following changes since commit e783362eb54cd99b2cac8b3a9aeac942e6f6ac07:
+
+  Linux 5.17-rc1 (2022-01-23 10:12:53 +0200)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-5.18-1
+
+for you to fetch changes up to ebdfc289a348fbc7fbc87c37b0cc156f78cc5f57:
+
+  MAINTAINERS: Update Allwinner SoCs maintainers (2022-02-24 19:27:23 +0100)
+
+----------------------------------------------------------------
+Usual round of DT patches for the 5.18 merge window, with:
+- DT fixes
+- ethernet0 alias for Nanopi NEO
+- r_uart node for H3/H5
+- eMMC and bluetooth nodes for Nanopi NEO air
+- updated maintainers for Allwinner SoCs
+- new board: A20-Marsboard
+
+----------------------------------------------------------------
+Baltazár Radics (1):
+      ARM: dts: sun8i: Add ethernet0 alias in Nanopi NEO's device tree
+
+Conley Lee (2):
+      ARM: dts: sun7i: Add A20-Marsboard
+      dt-bindings: arm: sunxi: add haoyu,a20-marsboard
+
+Jernej Skrabec (1):
+      MAINTAINERS: Update Allwinner SoCs maintainers
+
+Mans Rullgard (1):
+      ARM: dts: sunxi: h3/h5: add r_uart node
+
+Mikhail Rudenko (1):
+      ARM: dts: nanopi-neo-air: Add eMMC and bluetooth
+
+Paul Kocialkowski (1):
+      ARM: dts: sun8i: v3s: Move the csi1 block to follow address order
+
+Rob Herring (1):
+      ARM: dts: sun8i-h3: Drop args in 'thermal-sensors'
+
+ Documentation/devicetree/bindings/arm/sunxi.yaml |   5 +
+ MAINTAINERS                                      |   4 +-
+ arch/arm/boot/dts/Makefile                       |   1 +
+ arch/arm/boot/dts/sun7i-a20-haoyu-marsboard.dts  | 182 +++++++++++++++++++++++
+ arch/arm/boot/dts/sun8i-h3-nanopi-neo-air.dts    |  28 ++++
+ arch/arm/boot/dts/sun8i-h3-nanopi-neo.dts        |   4 +
+ arch/arm/boot/dts/sun8i-h3.dtsi                  |   2 +-
+ arch/arm/boot/dts/sun8i-v3s.dtsi                 |  22 +--
+ arch/arm/boot/dts/sunxi-h3-h5.dtsi               |  18 +++
+ 9 files changed, 252 insertions(+), 14 deletions(-)
+ create mode 100644 arch/arm/boot/dts/sun7i-a20-haoyu-marsboard.dts
