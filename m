@@ -1,98 +1,74 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AC9F7B
-	for <linux-sunxi@lists.linux.dev>; Fri, 25 Feb 2022 08:21:11 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 137E45C01C1;
-	Fri, 25 Feb 2022 03:21:11 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 25 Feb 2022 03:21:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; bh=ZaFrC2HxiD2voL0XEad3KDb3smnYmstLZS5qZ8
-	YOuQo=; b=YXFCgz4Ih6NtyR3sPBu2n8qXjgDquykOTPOzfu6k51rNsqKiANfZ3h
-	bvFeU7abQU9iHENq1Q5CtLY/SGF90KbihDO/TQzUt2VEi58nJLewUbOn+WhlcBOt
-	UwQflwqlb/UgD4IuS+QvxneDr45sXqhnD3t8wpLp6QznzOTHpIWqiyOXBV/uqrbK
-	sQJH766qT28NkkGU5NqT4lTparJQ5Iii31gIYVVuokkI9/yz08Cn7CoqcuQSKqH/
-	WdupORwWgEkHps54NjLTBIhnd/gJgmAeBnwU9crHPtopemM2EUwJhjGpgw2IiY8X
-	sqmFKs7hx7RKNsrvxzVOKSYJfEkI+siQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ZaFrC2HxiD2voL0XE
-	ad3KDb3smnYmstLZS5qZ8YOuQo=; b=G9hrAk2JHBfbO741TcyfhE8snxsz6/BhU
-	uvGLeXBKRgU7sPQNn7moW5/cgOuGXlEl+yMJS0qmLX/Xj9WyO58XBANmz6SGR4Cz
-	aYKxEZnuhoQsh9LaUaV4bKzrScg4j0PGuWGDE4ww76JkKbArfjlaxktHDzRyjTmg
-	z+eRLLkT6fq21ovfpxiMJxSnpuGWVGKlgfsOHesRyMIBXdTEWw8qqoElAnjp3mn2
-	6YuKoNjzuR8YBRdwwMaDAscC6JR+43aNSQSQLm1m05OHeHBEx41VDOq2Tp8xPDLI
-	X+sghraQFhKOsKIEd3q0oMq5+N2334QqS931XKvkfQUbkI0cxtRJA==
-X-ME-Sender: <xms:dpEYYhEIlaehYfFquwwtcSnKh7R8LLcBBlHzXRwS5YAociiC2VImng>
-    <xme:dpEYYmXRVbXzIj2DUtkcqhti_tRaG3T3JJVXE5DTjMuvvFchqMoyLQrpbc9_Q1jT7
-    gKGy-fkDtZrs9JxDGE>
-X-ME-Received: <xmr:dpEYYjI-J-bzpe_ievKVW8SqPdvVCY_-T5U3wAVPZnVWTDZuiwwsIVoFT_YO6hK6SU4oTSb7l_khXWqjIAVNxt6U0JDhBLteaFsyAec>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrleefgdduuddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:dpEYYnHTkTeCYZnnYrPqXD5RIxniGonhQc9cedZS4lBJM5vh_3iqyQ>
-    <xmx:dpEYYnVRftPnILzxhtc-9dW1ykRYP1g54xSiwiHD1-vcYgAp3qZ3xg>
-    <xmx:dpEYYiNpuphRgPF8tE5_E2zO5ZkQNjGjxFPgaIdcvTJ_mvs2qWmDYA>
-    <xmx:d5EYYte5BBHyqsq0IFOKT3Zw-Cp_K3FuJB-liafyW4Yf-GEE5juogA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 25 Feb 2022 03:21:10 -0500 (EST)
-Date: Fri, 25 Feb 2022 09:21:07 +0100
-From: Maxime Ripard <maxime@cerno.tech>
-To: arm@kernel.org, soc@kernel.org, Jernej Skrabec <jernej@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	wens@csie.org, samuel@sholland.org
-Subject: Re: [GIT PULL] Allwinner DT changes for 5.18
-Message-ID: <20220225082107.pjeqpg75tkl3wxci@houat>
-References: <YhgMJ0AqaHopzaW3@kista.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214ED7B
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Feb 2022 08:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02C80C340E7;
+	Fri, 25 Feb 2022 08:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1645777359;
+	bh=h4M7TWzHmz7Q4X/YiAL28HmdTihIVjng7o6LYmmkWNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AAEL1AGWbVLcycWd0/6g8QhGPWjYxN/45/iuOlg3/zW78PTzfZK/6D1JU7InhQ31k
+	 nq6ws4/J1G+p4nla6VE31B74uyD96bSW44jLYvoPFMxy0Mnp4WukWRD4qMYsow77WP
+	 mBaxTnK27z/JhELuXVDfPsOS1O7c3ySA2yNE8n2bboODB/K15ghThfuYY2lY00FrKi
+	 jcWJXsR0/tNjeh7Hv3+n/YlUEc7CKM4PkSX/npOKn/pMdzsvvJKNmu+qP2/DuPcT54
+	 H4wNmSTeK43ZQpGeYfDj1JjSF+YbKx2Ly1TaHcDRoWNstzFqE4GBGhgFOvH6sXrRM/
+	 g1WN6GyaZrN9g==
+Date: Fri, 25 Feb 2022 13:52:34 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Cc: Kishon Vijay Abraham I <kishon@ti.com>, linux-phy@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andre Przywara <andre.przywara@arm.com>
+Subject: Re: [PATCH 1/4] dt-bindings: phy: Add compatible for D1 USB PHY
+Message-ID: <YhiRyq7k5jtSKlni@matsya>
+References: <20220203013558.11490-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="by5vcu3wu4uusknp"
-Content-Disposition: inline
-In-Reply-To: <YhgMJ0AqaHopzaW3@kista.localdomain>
-
-
---by5vcu3wu4uusknp
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220203013558.11490-1-samuel@sholland.org>
 
-Hi Arnd, Olof,
+On 02-02-22, 19:35, Samuel Holland wrote:
+> D1 features one OTG port and one host port, like the A64 SoC, so its
+> USB PHY supports the same set of properties. Add the new compatible to
+> the existing binding.
 
-On Thu, Feb 24, 2022 at 11:52:23PM +0100, Jernej Skrabec wrote:
-> Hi!
->=20
-> Please pull following changes for next release.
+Rob?
 
-I'm stepping back, so you should expect the PR from Jernej and Samuel
-=66rom now on.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+> index 078af52b16ed..0fa4b32b097e 100644
+> --- a/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun50i-a64-usb-phy.yaml
+> @@ -15,7 +15,9 @@ properties:
+>      const: 1
+>  
+>    compatible:
+> -    const: allwinner,sun50i-a64-usb-phy
+> +    enum:
+> +      - allwinner,sun20i-d1-usb-phy
+> +      - allwinner,sun50i-a64-usb-phy
+>  
+>    reg:
+>      items:
+> -- 
+> 2.33.1
 
-Maxime
-
---by5vcu3wu4uusknp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYhiRcwAKCRDj7w1vZxhR
-xWzLAQDHjzeEZf57rDWwkIl9KSlcIs9LeVmJ5R4dGluuATtpvgD+JYCKJjr7lkuV
-wYslkpwbKes10LjyTLPPTl04Eng4fQo=
-=n2ff
------END PGP SIGNATURE-----
-
---by5vcu3wu4uusknp--
+-- 
+~Vinod
