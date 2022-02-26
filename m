@@ -1,179 +1,176 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14C13B3C
-	for <linux-sunxi@lists.linux.dev>; Sat, 26 Feb 2022 13:53:19 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id qk11so16182045ejb.2
-        for <linux-sunxi@lists.linux.dev>; Sat, 26 Feb 2022 05:53:19 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683023D70;
+	Sat, 26 Feb 2022 17:59:22 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id n25-20020a05600c3b9900b00380f41e51e6so3593771wms.2;
+        Sat, 26 Feb 2022 09:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=TsaRuVxv1wxficHnGYSa67ZI4zBhTgO9xNnzgVV8QDk=;
-        b=qrp0aDcJ00HkkXmlwjmV2fNPaaqFpM8LSOTnVMf+l/TPbCqYR02/KwpEAse2KdR72W
-         3Yj399GrdX6rVZMHICKfBLtesL3Dx9efa3kmyx28v9ftlhWhV1KYAddUxK4pJM+Ygzom
-         iU1e0HVTxJiGTQwcYz/LxIFH0MmTxZcifC27WT4/4RcuI2ZVZpAYv6wvAh7JdITvlj3z
-         3h2/pAGK4uAqd2YzsB5oh2tG3HGWHBGdqiPrG3QoFI7YMwgtjDdvIjpMsAFHfj66SDID
-         hFRGE6sPHygzZqMEZHcVE4WmdGnEwolRnuWFrVtljrVYrFgdD60Wykj4KBe4SBntzLmD
-         Qu0A==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=OS5rKUhE7WXuiZzAYW7cwzYiV8SBfaes2cbt2tE8S+TsEw1AJJ/EtauXm86t/sGGOk
+         6Gtznw8XzXomN2E/jJX1Ab/F4luPeUHfombr9N4K93wAUclK1Q5xLFFAlq8pEUfN/85P
+         nPPov3wToi44wYltDMShEha7ixTIYA0kQadq5sw8EiEUEo5T+zhVbzoouPd8RuNibsNc
+         vjFiFWeAb1mlzc9ubE77Lg4FPwakw78ykg0kXAEL06cUaWCdknrUlqstev+v2hqB4Zvb
+         eZG3EyajjZ2e4Y+1Akl3IqfS7qbDc7pvcencVFz3EUr+Kn+9K/kb4i0buxEI2YwpKCR9
+         ZWzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=TsaRuVxv1wxficHnGYSa67ZI4zBhTgO9xNnzgVV8QDk=;
-        b=WXm3wFwZLeXOaDa5fjDuiysohTVLftRQh7yBb/+SV1KVqBtNRtx/QO0rbxSE/Xj198
-         HvfIdWz+x8WMb4DIUIzzulTH9qy3htsQf1BCOJmcFEGnmiHmUGNAszkK6amkypXHXSOJ
-         RuWemEeTwMRITnOareif1r53HXjWzzwyQZWdTA+jvj9KNxAAhi8sQc57G7xXKgbxed7g
-         I2TL8Q0ucaHj6ezRt3iForbmhhjyb9DV9o/gl7AVlv7YeAMxV7gIHH93eGqf/unET3Pu
-         YI4cX0sSnIJ9IsDrwlL3dkR+QaBalSC64UW1GvioMTc9Tql86BG1LeyJDwzVkjfupwtW
-         yAQg==
-X-Gm-Message-State: AOAM531ht02yv3V3tB9+m59JxtppDpHDYOB0822GaDD0wEW8t3ud7Rzb
-	yOIww+iDGqrJkPpTL7hNFrU=
-X-Google-Smtp-Source: ABdhPJwiVJfLvdZccLYhEgNecpN6joGfd7tTOf8wfLQwHfy/palwOsd49LQuJ8T2p2KZeXIzPw1hvw==
-X-Received: by 2002:a17:906:4ad9:b0:6cf:93f:f77e with SMTP id u25-20020a1709064ad900b006cf093ff77emr9767882ejt.558.1645883597916;
-        Sat, 26 Feb 2022 05:53:17 -0800 (PST)
-Received: from ?IPV6:2a01:c23:c13e:d400:a0fb:f10a:2c79:ae2c? (dynamic-2a01-0c23-c13e-d400-a0fb-f10a-2c79-ae2c.c23.pool.telefonica.de. [2a01:c23:c13e:d400:a0fb:f10a:2c79:ae2c])
-        by smtp.googlemail.com with ESMTPSA id l18-20020a1709067d5200b006cb0ba8db9esm2305765ejp.14.2022.02.26.05.53.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Feb 2022 05:53:17 -0800 (PST)
-Message-ID: <6b04d864-7642-3f0a-aac0-a3db84e541af@gmail.com>
-Date: Sat, 26 Feb 2022 14:53:11 +0100
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=9V9Jct16AZTz4K2DeDR/xCDxmdE9Vl1rLYHKFySR8Q8=;
+        b=v8+Xg1N3yUdtky1DA+vjrfTDfO19hVue66aqdtWt4Hnf6sT571jsfn3q7pmKv1AMDN
+         N1sfKHyLcf/nrrBHwlIFL+XR51hXxxzVGivU4Is9zz7ZraBUDx7temkBd/2wgEk0rYOa
+         U3VwXhw/84uxuBAHAyUC2PuOyOHink8UAUgHsI48X1+0/gyhN3Qo7N/P0U1JSlHm1odr
+         e6mluewgWytQJKLLro5inyqYxnY2W7rJfuqlKzfD3BtUPKqtPsjZupsKkCHDmMklUXzy
+         uhhVittNMzV2Gty4vyk09anVOgQFquOxnaoF1UwW5kd4CbY/SS101J4O9A5OgB8nOqq0
+         sE7g==
+X-Gm-Message-State: AOAM531xcYYChhhRJ1iA/kAepmtN+3dqSfUb4eBqRHZHbWloefka06Tm
+	Y0pypqqMUAtPbGaGiHe/f9c=
+X-Google-Smtp-Source: ABdhPJyTvdvsVl/KFu4YEwlfjU6HwwCb17kFxKDf8UAE6YUZfvMzy4E+dNh/VU3uZpPV3DhazFtIAw==
+X-Received: by 2002:a05:600c:4281:b0:381:40e5:6cea with SMTP id v1-20020a05600c428100b0038140e56ceamr5143482wmc.151.1645898360547;
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id e15-20020a5d6d0f000000b001ef7dca67fasm3741211wrq.114.2022.02.26.09.59.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Feb 2022 09:59:20 -0800 (PST)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, jc@kynesim.co.uk, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date: Sat, 26 Feb 2022 18:59:18 +0100
+Message-ID: <1884298.PYKUYFuaPT@kista>
+In-Reply-To: <4378293.LvFx2qVVIh@kista>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <20220225164600.1044663-10-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.1
-Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come up
- at boot
-Content-Language: en-US
-To: Erico Nunes <nunes.erico@gmail.com>, Jerome Brunet <jbrunet@baylibre.com>
-Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Jose Abreu <joabreu@synopsys.com>, Kevin Hilman <khilman@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-amlogic@lists.infradead.org,
- netdev@vger.kernel.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- linux-sunxi@lists.linux.dev
-References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
- <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
- <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-In-Reply-To: <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On 20.02.2022 17:51, Erico Nunes wrote:
-> On Mon, Feb 7, 2022 at 11:56 AM Jerome Brunet <jbrunet@baylibre.com> wrote:
->>
->>
->> On Wed 02 Feb 2022 at 21:18, Erico Nunes <nunes.erico@gmail.com> wrote:
->>
->>> Hello,
->>>
->>> I've been tracking down an issue with network interfaces from
->>> meson8b-dwmac sometimes not coming up properly at boot.
->>> The target systems are AML-S805X-CC boards (Amlogic S805X SoC), I have
->>> a group of them as part of a CI test farm that uses nfsroot.
->>>
->>> After hopefully ruling out potential platform/firmware and network
->>> issues I managed to bisect this commit in the kernel to make a big
->>> difference:
->>>
->>>   46f69ded988d2311e3be2e4c3898fc0edd7e6c5a net: stmmac: Use resolved
->>> link config in mac_link_up()
->>>
->>> With a kernel before that commit, I am able to submit hundreds of test
->>> jobs and the boards always start the network interface properly.
->>>
->>> After that commit, around 30% of the jobs start hitting this:
->>>
->>>   [    2.178078] meson8b-dwmac c9410000.ethernet eth0: PHY
->>> [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
->>>   [    2.183505] meson8b-dwmac c9410000.ethernet eth0: Register
->>> MEM_TYPE_PAGE_POOL RxQ-0
->>>   [    2.200784] meson8b-dwmac c9410000.ethernet eth0: No Safety
->>> Features support found
->>>   [    2.202713] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
->>>   [    2.209825] meson8b-dwmac c9410000.ethernet eth0: configuring for
->>> phy/rmii link mode
->>>   [    3.762108] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
->>> 100Mbps/Full - flow control off
->>>   [    3.783162] Sending DHCP requests ...... timed out!
->>>   [   93.680402] meson8b-dwmac c9410000.ethernet eth0: Link is Down
->>>   [   93.685712] IP-Config: Retrying forever (NFS root)...
->>>   [   93.756540] meson8b-dwmac c9410000.ethernet eth0: PHY
->>> [0.e40908ff:08] driver [Meson GXL Internal PHY] (irq=48)
->>>   [   93.763266] meson8b-dwmac c9410000.ethernet eth0: Register
->>> MEM_TYPE_PAGE_POOL RxQ-0
->>>   [   93.779340] meson8b-dwmac c9410000.ethernet eth0: No Safety
->>> Features support found
->>>   [   93.781336] meson8b-dwmac c9410000.ethernet eth0: PTP not supported by HW
->>>   [   93.788088] meson8b-dwmac c9410000.ethernet eth0: configuring for
->>> phy/rmii link mode
->>>   [   93.807459] random: fast init done
->>>   [   95.353076] meson8b-dwmac c9410000.ethernet eth0: Link is Up -
->>> 100Mbps/Full - flow control off
->>>
->>> This still happens with a kernel from master, currently 5.17-rc2 (less
->>> frequently but still often hit by CI test jobs).
->>> The jobs still usually get to work after restarting the interface a
->>> couple of times, but sometimes it takes 3-4 attempts.
->>>
->>> Here is one example and full dmesg:
->>> https://gitlab.freedesktop.org/enunes/mesa/-/jobs/16452399/raw
->>>
->>> Note that DHCP does not seem to be an issue here, besides the fact
->>> that the problem only happens since the mentioned commit under the
->>> same setup, I did try to set up the boards to use a static ip but then
->>> the interfaces just don't communicate at all from boot.
->>>
->>> For test purposes I attempted to revert
->>> 46f69ded988d2311e3be2e4c3898fc0edd7e6c5a on top of master but that
->>> does not apply trivially anymore, and by trying to revert it manually
->>> I haven't been able to get a working interface.
->>>
->>> Any advice on how to further debug or fix this?
->>
->> Hi Erico,
->>
->> Thanks a lot for digging into this topic.
->> I'm seeing exactly the same behavior on the g12 based khadas-vim3:
->>
->> * Boot stalled waiting for DHCP - with an NFS based filesystem
->> * Every minute, the network driver gets a reset and try again
->>
->> Sometimes it works on the first attempt, sometimes it takes up to 5
->> attempts. Eventually, it reaches the prompt which might be why it went
->> unnoticed so far.
->>
->> I think that NFS just makes the problem easier to see.
->> On devices with an eMMC based filesystem, I noticed that, sometimes, I
->> had unplug/plug the ethernet cable to make it go.
->>
->> So far, the problem is reported on all the Amlogic SoC generation we
->> support. I think a way forward is to ask the the other users of
->> stmmac whether they have this problem or not - adding Allwinner and
->> Rockchip ML.
->>
->> Since the commit you have identified is in the generic part of the
->> stmmac code, Maybe Jose can help us understand what is going on.
-> 
-> Hi all,
-> 
-> thanks for the feedback so far, good to know that this is not only on
-> my board farm.
-> 
-> Any more feedback about this from the people in cc?
-> 
-> Thanks
-> 
-> Erico
+Hi!
 
-Just to rule out that the PHY may be involved:
-- Does the issue occur with internal and/or external PHY?
-- Issue still occurs in PHY polling mode? (disable PHY interrupt in dts)
+Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec napisal(=
+a):
+> Hi!
+>=20
+> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard napisal(=
+a):
+> > The number of 'entry point offset' could be very variable.
+> > Rather than use a large static array define a v4l2 dynamic array
+> > of integer control.
+>=20
+> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
+>=20
+> > The number of entry point offsets is reported by the elems field.
+
+I did few more tests and these are my findings:
+1. dynamic array can't be set over size, specified in .dims array
+2. entry point offsets are per slice, so if we make slices dynamic array, t=
+hen=20
+entry points would become two dimensional dynamic array
+3. num_entry_point_offsets must be part of slice control, because it can be=
+=20
+zero, but size of array can't be
+4. fortunately, not setting entry points doesn't impact decoding correctnes=
+s.=20
+This is in line what John told me about them.
+
+Hans, can you comment points 1-3? I might misunderstand point 1.
+
+In short, it seems like we don't really need entry points, even if they are=
+=20
+used in BSP library. In both cases, I got fluster score 119/138 (10-bit=20
+excluded), so we can just drop this patch, although I'm a bit uneasy not=20
+setting entry points...
+
+Best regards,
+Jernej
+
+> >=20
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+> >  include/media/hevc-ctrls.h                               | 1 +
+> >  2 files changed, 10 insertions(+)
+> >=20
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst =
+b/
+> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 44a268a948c0..71f7dc1c1ccd 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> > =20
+> >      \normalsize
+> > =20
+> > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>=20
+> Here you have OFFSETS (plural) ...
+>=20
+> > +    Specifies the i-th entry point offset in bytes and is represented =
+by
+> > +    offset_len_minus1 plus 1 bits.
+>=20
+> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells=
+ how=20
+> much bits need to be read for each element and it's not important for act=
+ual=20
+> decoding.
+>=20
+> > +    This control is a dynamically sized array. The number of entry poi=
+nt
+> > +    offsets is reported by the ``elems`` field.
+> > +    This bitstream parameter is defined according to :ref:`hevc`.
+> > +    They are described in section 7.4.7.1 "General slice segment header
+> > +    semantics" of the specification.
+> > +
+> >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >      Specifies the HEVC scaling matrix parameters used for the scaling=
+=20
+> process
+> >      for transform coefficients.
+> > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > index 3016c1abb1d0..3f8a67924df3 100644
+> > --- a/include/media/hevc-ctrls.h
+> > +++ b/include/media/hevc-ctrls.h
+> > @@ -20,6 +20,7 @@
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +=20
+> 1012)
+> >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +=20
+> 1015)
+> >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE +=20
+1016)
+> > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BAS=
+E +=20
+> 1017)
+>=20
+> ... and here you have OFFSET (singlular). I suggest plural form to be use=
+d=20
+in=20
+> all places, including subject line of this commit.
+>=20
+> Additionally, it would be nice if control is initialized, like so:
+> https://github.com/jernejsk/linux-1/commit/
+> f938e162cd8dd77c9f6f1b248d80144840a37bce
+>=20
+> Best regards,
+> Jernej
+>=20
+> > =20
+> >  /* enum v4l2_ctrl_type type values */
+> >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> > --=20
+> > 2.32.0
+> >=20
+> >=20
+>=20
+>=20
+>=20
+
+
