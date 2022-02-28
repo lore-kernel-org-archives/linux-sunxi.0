@@ -1,114 +1,223 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6074A91;
-	Sun, 27 Feb 2022 17:03:30 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id q17so14355846edd.4;
-        Sun, 27 Feb 2022 09:03:30 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D085398
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 09:47:21 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id r10so14462468wrp.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 01:47:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dANX2Nn44mbCP9zs92/BfwoXKsDqb2azTmCoigDg0oU=;
-        b=LL2RxvR/1/nUpXagZ8ezOOBshFZ6Ut3TWhhpQTqimGrQSwON3CRmV6uP61RIU7jB0i
-         8l+0YrcDznzwP7CtQOiO3ymzZ8OyL92WUsu9fIypR0iyv3/vyeD5LqMoy0zgyp9E9E0W
-         rqZ1KLO/Bf0JwCQ5hbX9suKteBENqBaAAJJwSLvee4oNGb7H4+E3lcOGTyWZnTWrGomu
-         XKJ5eMZvpwx0ztwmT9unP4kejlM3pecyWt4D+qKZWaWog8YSi/kB0e2zPhMKBVSsL4HM
-         6lNkPX9sF7T466aXwy1AT3KikKt6f5046EMj+XIPVdQSkHeLcLeIU5wNx17UZU7cSDJW
-         lPkw==
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
+        b=TLq5hpkPHku3PLxi7HJbuJQsDP5Wa7qmaxuH26hMsQgWK2StXMrHE79lPn12BYrQyn
+         36Ckju9r6Hg7T6NbCnE8YfIgER8Ni5YGmcs9hOo7u4MwKQBxmrAK257ZQkgoawpWdRwJ
+         DlGl1bAHqToyAi3tVc+kngINC02Nv/oewNYInyNN/iFxs5sVEWMcYJeJSidWEPmgMgJW
+         VRhhtweBy8BSnG5qDSak01L4h4ZAhijRKIluKCCOY4NsVuvOIqxQS//H6BAqX97/OOuf
+         AK4MvT1gl3aaMEO01QZM4uV+WrNRAVoZaAcp234fHj7KPR8tQVTl/oUXvpvPoEQvLCNk
+         qD4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dANX2Nn44mbCP9zs92/BfwoXKsDqb2azTmCoigDg0oU=;
-        b=CZpHCO/9Uule+imBjh3w03y+dz5GwkN79UNG5V7oSw+CMLzr7jCML56i7bxIckBrRW
-         ZeY2tNIGEyV5iMT7WOZ9a6cqJDAcjMZ5rmZA06SMSE/fmlKyH775L0De/2haX3J3hunF
-         slhbPFa7oGqdfRFQqdG91vlpxoPcy/r/Xn131yatLCOFXMh1D1YxXWz8ADMmMKTJKit+
-         QsSFCVezRk1J3rsABZfrTOzHCVSwhGRwaakxm23ofekyGzpp++vrK37r90dmcD6lkeJa
-         zxB9YZwlT4iWao1YAHjK3erJCTiP2SERLuqVPaRWkQeT8yRN7xZIW8JLhm0KCBcdLNxb
-         Bc/g==
-X-Gm-Message-State: AOAM533j+3Xgqt4eWCxjMiZWFRgcoemRhxHVor7GOy6VBqXFLy8aHgjb
-	AL83eH7/X+hT76jjx2pIIaw=
-X-Google-Smtp-Source: ABdhPJwUjgrEmeNoJb0yPleFkeU4+PhfGM+FDV7S1txB8mcMnr2ykdbwmpn6pMLVCz48WjNv2ZCKkw==
-X-Received: by 2002:a05:6402:372:b0:40a:bbf4:7973 with SMTP id s18-20020a056402037200b0040abbf47973mr15856901edw.399.1645981408694;
-        Sun, 27 Feb 2022 09:03:28 -0800 (PST)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id gq15-20020a170906e24f00b006cfba1c5433sm3587873ejb.172.2022.02.27.09.03.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Feb 2022 09:03:28 -0800 (PST)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
-Date: Sun, 27 Feb 2022 18:03:26 +0100
-Message-ID: <8898316.CDJkKcVGEf@kista>
-In-Reply-To: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=WOsjPChuIl+kUePfrAPa71neh0lHex3RttBKXvPfdoQ=;
+        b=V3Y/UKUNoKlNVgIOfe/75J6yklDS0M9+8b8Pz7TiDFqFW/q+7s8iaaSAYnbBkUnRdk
+         h7DvhgzYJEr28dUj4XGGeBxQ4etePxq5Tw8H0D5nXXgtsevzePHLleQrZgctuVG8FyVj
+         9bKG92L8exLGLyboxNlAaLnwkGrGUik80tcgGMCNiULNZwfjBW+ZTQIhyt0bql8Kd4kF
+         c2g+EAiN3FNoX8HDLSD8Ycm9bv4PlmFTx09ujAuCq2AldL3fdxuQ8ehI82fbe7BzE+oM
+         3RDfIuCxKRYWdfAnFeX0B5UNw6mKoiswOB5sdGO8FImb5/rNP0U/Vt3gvGgSIbH5a+gH
+         9IzA==
+X-Gm-Message-State: AOAM530Gb4kQ48GX5BvHDwkp0GPVsVB5REluT6lySr1gn6QsS0BfIkF1
+	K71eG6tNo/jZutjQ8P0tfr6O3w==
+X-Google-Smtp-Source: ABdhPJzp3i6tmpmN3z5O/ACtJUvC9C0191qzOsrE2xxczwXXbQmhrl6UAPBNDXyzNtGo0jFeNgtLww==
+X-Received: by 2002:adf:e0ce:0:b0:1ef:706d:d6b9 with SMTP id m14-20020adfe0ce000000b001ef706dd6b9mr11022135wri.71.1646041640166;
+        Mon, 28 Feb 2022 01:47:20 -0800 (PST)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id f21-20020a7bcd15000000b0034efd01ee16sm10388339wmj.42.2022.02.28.01.47.19
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Mon, 28 Feb 2022 01:47:19 -0800 (PST)
+From: John Cox <jc@kynesim.co.uk>
+To: =?utf-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se, nicolas@ndufresne.ca, Benjamin Gaignard <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com
+Subject: Re: [PATCH v3 09/14] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+Date: Mon, 28 Feb 2022 09:47:18 +0000
+Message-ID: <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com> <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista> <7348885.EvYhyI6sBW@kista>
+In-Reply-To: <7348885.EvYhyI6sBW@kista>
+User-Agent: ForteAgent/8.00.32.1272
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Dne nedelja, 27. februar 2022 ob 15:49:18 CET je Jernej Skrabec napisal(a):
-> First two patches add 10-bit formats to UAPI, third extends filtering
-> mechanism, fourth fixes incorrect assumption, fifth moves register
-> configuration code to proper place, sixth and seventh enable 10-bit
-> VP9 decoding on Allwinner H6 and last increases core frequency on
-> Allwinner H6.
+On Sat, 26 Feb 2022 19:17:46 +0100, you wrote:
 
-FYI, additional patch is needed for linear P010 output:
-https://github.com/jernejsk/linux-1/commit/
-28338c00749b821819690c9fd548fd5c311682b5
+>Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej =C5=A0krabec =
+napisal(a):
+>> Hi!
+>>=20
+>> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej =C5=A0krabec =
+napisal(a):
+>> > Hi!
+>> >=20
+>> > Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard=20
+>napisal(a):
+>> > > The number of 'entry point offset' could be very variable.
+>> > > Rather than use a large static array define a v4l2 dynamic array
+>> > > of integer control.
+>> >=20
+>> > I suggest we should be more specific and say U32 =
+(V4L2_CTRL_TYPE_U32).
+>> >=20
+>> > > The number of entry point offsets is reported by the elems field.
+>>=20
+>> I did few more tests and these are my findings:
+>> 1. dynamic array can't be set over size, specified in .dims array
+>> 2. entry point offsets are per slice, so if we make slices dynamic =
+array,=20
+>then=20
+>> entry points would become two dimensional dynamic array
+>> 3. num_entry_point_offsets must be part of slice control, because it =
+can be=20
+>> zero, but size of array can't be
+>
+>Clarification: num_entry_point_offsets is needed in any case, even =
+without entry=20
+>point list.
 
-With that, only native format was not tested.
+I thought that at least one decoder wanted the entry points or have we
+decided that we don't? Whilst they aren't required for decode, what they
+give you, if your h/w supports it, is the ability to decode multiple
+lines of CTBs in parallel (with a 2 CTB offset between lines), so they
+aren't useless.
 
-Regards,
-Jernej
+If we do decided we want the entry point offset control, now or later,
+then num_entry_points in the slice_param allows you to determine which
+offsets apply to which slices without the complexity of a variable array
+of variable arrays.
 
-> 
-> I'm sending this as RFC to get some comments:
-> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
-> 2. is extended filtering mechanism ok?
-> 
-> I would also like if these patches are tested on some more HW.
-> Additionally, can someone test tiled P010?
-> 
-> Please take a look.
-> 
-> Best regards,
-> Jernej
-> 
-> Ezequiel Garcia (1):
->   media: Add P010 tiled format
-> 
-> Jernej Skrabec (7):
->   media: Add P010 format
->   media: hantro: Support format filtering by depth
->   media: hantro: postproc: Fix buffer size calculation
->   media: hantro: postproc: Fix legacy regs configuration
->   media: hantro: Store VP9 bit depth in context
->   media: hantro: sunxi: Enable 10-bit decoding
->   media: hantro: sunxi: Increase frequency
-> 
->  drivers/media/v4l2-core/v4l2-common.c         |  3 ++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 +
->  drivers/staging/media/hantro/hantro.h         |  4 ++
->  drivers/staging/media/hantro/hantro_drv.c     | 23 +++++++++
->  .../staging/media/hantro/hantro_g2_vp9_dec.c  |  8 ---
->  .../staging/media/hantro/hantro_postproc.c    | 34 ++++++++++---
->  drivers/staging/media/hantro/hantro_v4l2.c    | 50 +++++++++++++++++--
->  drivers/staging/media/hantro/hantro_v4l2.h    |  3 ++
->  drivers/staging/media/hantro/sunxi_vpu_hw.c   | 13 ++++-
->  include/uapi/linux/videodev2.h                |  2 +
->  10 files changed, 122 insertions(+), 20 deletions(-)
-> 
-> -- 
-> 2.35.1
-> 
-> 
+But whether or not we end up supporting entry point offsets, the Pi h/w
+requires me to generate 1 table entry for each CTB line and
+num_entry_points is the parameter I need for that, so I really want it
+in the slice_params.
 
+Regards
 
+John Cox
+
+>> 4. fortunately, not setting entry points doesn't impact decoding=20
+>correctness.=20
+>> This is in line what John told me about them.
+>>=20
+>> Hans, can you comment points 1-3? I might misunderstand point 1.
+>>=20
+>> In short, it seems like we don't really need entry points, even if =
+they are=20
+>> used in BSP library. In both cases, I got fluster score 119/138 =
+(10-bit=20
+>> excluded), so we can just drop this patch, although I'm a bit uneasy =
+not=20
+>> setting entry points...
+>>=20
+>> Best regards,
+>> Jernej
+>>=20
+>> > >=20
+>> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> > > ---
+>> > >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 =
++++++++++
+>> > >  include/media/hevc-ctrls.h                               | 1 +
+>> > >  2 files changed, 10 insertions(+)
+>> > >=20
+>> > > diff --git =
+a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+>> > Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > index 44a268a948c0..71f7dc1c1ccd 100644
+>> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> > > @@ -3128,6 +3128,15 @@ enum =
+v4l2_mpeg_video_hevc_size_of_length_field -
+>> > > =20
+>> > >      \normalsize
+>> > > =20
+>> > > +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>> >=20
+>> > Here you have OFFSETS (plural) ...
+>> >=20
+>> > > +    Specifies the i-th entry point offset in bytes and is =
+represented by
+>> > > +    offset_len_minus1 plus 1 bits.
+>> >=20
+>> > You probably mean entry_point_offset_minus1? offset_len_minus1 just =
+tells=20
+>how=20
+>> > much bits need to be read for each element and it's not important =
+for=20
+>actual=20
+>> > decoding.
+>> >=20
+>> > > +    This control is a dynamically sized array. The number of =
+entry=20
+>point
+>> > > +    offsets is reported by the ``elems`` field.
+>> > > +    This bitstream parameter is defined according to :ref:`hevc`.
+>> > > +    They are described in section 7.4.7.1 "General slice segment =
+header
+>> > > +    semantics" of the specification.
+>> > > +
+>> > >  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>> > >      Specifies the HEVC scaling matrix parameters used for the =
+scaling=20
+>> > process
+>> > >      for transform coefficients.
+>> > > diff --git a/include/media/hevc-ctrls.h =
+b/include/media/hevc-ctrls.h
+>> > > index 3016c1abb1d0..3f8a67924df3 100644
+>> > > --- a/include/media/hevc-ctrls.h
+>> > > +++ b/include/media/hevc-ctrls.h
+>> > > @@ -20,6 +20,7 @@
+>> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	=
+(V4L2_CID_CODEC_BASE +=20
+>> > 1012)
+>> > >  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE =
++=20
+>> > 1015)
+>> > >  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE=20
+>+=20
+>> 1016)
+>> > > +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET =
+(V4L2_CID_CODEC_BASE=20
+>+=20
+>> > 1017)
+>> >=20
+>> > ... and here you have OFFSET (singlular). I suggest plural form to =
+be used=20
+>> in=20
+>> > all places, including subject line of this commit.
+>> >=20
+>> > Additionally, it would be nice if control is initialized, like so:
+>> > https://github.com/jernejsk/linux-1/commit/
+>> > f938e162cd8dd77c9f6f1b248d80144840a37bce
+>> >=20
+>> > Best regards,
+>> > Jernej
+>> >=20
+>> > > =20
+>> > >  /* enum v4l2_ctrl_type type values */
+>> > >  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>> > > --=20
+>> > > 2.32.0
+>> > >=20
+>> > >=20
+>> >=20
+>> >=20
+>> >=20
+>>=20
+>>=20
+>>=20
+>
