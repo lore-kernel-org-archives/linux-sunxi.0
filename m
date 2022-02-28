@@ -1,57 +1,48 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7812559D;
+	Mon, 28 Feb 2022 14:08:47 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:82d4:230a:70ff:cde0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3657B
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 12:48:56 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id fc19so12198120qvb.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 04:48:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=+8I/V7LMKeEgdjfech8pVN3rLVcrkyoXC3NkYpHqx50=;
-        b=UzEaMg7JeXuUGaFUzjzNTjWqymgIKqaEVBGX/ytQjyMN6OC9OOJ0/nKWUdYq5uxvI3
-         /dra9cjZKvXzgDUebBGOWC5W7Vex1+dDK2vfDgq6DQqBF0xV3OAaHLTrixCGbjpTrelZ
-         oKZ4YLNuUVKHI8QeYETFk0iXjog6Qe7igxM3RkkXzBUgb0EBNE3mMMQlLlQIEemz/1up
-         y2yUjx+uzFN2xwsKNATwGf4tXX+27dJGIKH1fBmD8Ml/FNURZakDjIMB+01PmrrJ9Nh8
-         VkFceIVqIYMtP9KCjfKcXhhAJeXp9s+7UxbIONneuk+b62r95b0yzSskFZltmHazBbRR
-         26aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=+8I/V7LMKeEgdjfech8pVN3rLVcrkyoXC3NkYpHqx50=;
-        b=QIpcmZLiYvGVK2AQjxp5/4ASLAktSHtqfOxODKFgsO0zzINiMFxrGHFDMYWzd0iYMN
-         pi7umnfyY5UW4ZM7rkW99zZIa2XA+pw37FOYZUVdwGdtR2gjruB2Aw5wYmmdxuNp4u/s
-         XE8C8YigAwwoMI2sL7RH+qj67tVo+cGveM8pR4PeP6wXpPL3iwndqlDI/X3gP/8plw9K
-         zGu3OcJ5eVNJTfEayLYEEbpB6XMsxjBrxLuK7VqcQvtxl+mRdS5vasYVqovFhrSHcLGE
-         FWcd2+6cT2sPWgq0muBopGXTW2bfOTY/qTSqc1hz16wYe1LW+094Eg2mwniu2Gf5D8Op
-         H/aA==
-X-Gm-Message-State: AOAM532IxwHH6BuxArpf+dR07buwNtbU++QHi+WAWmOWCQWbl6zi5JPL
-	v3f38TFfwp/3B0cPuU2MiNkzZg==
-X-Google-Smtp-Source: ABdhPJx3Zx++4poidmZxiaKiNp7huRBp+c07iQ/2xxhDNM88zR5W38PXzrrhlyBTtk2qm0T1kR/z9Q==
-X-Received: by 2002:ac8:59c8:0:b0:2de:5f4:7e84 with SMTP id f8-20020ac859c8000000b002de05f47e84mr16487539qtf.97.1646052535083;
-        Mon, 28 Feb 2022 04:48:55 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id y24-20020a05620a09d800b00648c8ba03c1sm4906437qky.107.2022.02.28.04.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 04:48:54 -0800 (PST)
-Message-ID: <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 2/8] media: Add P010 format
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
- ezequiel@vanguardiasur.com.ar,  p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
-Date: Mon, 28 Feb 2022 07:48:53 -0500
-In-Reply-To: <20220227144926.3006585-3-jernej.skrabec@gmail.com>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-	 <20220227144926.3006585-3-jernej.skrabec@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6EEE31F43A52;
+	Mon, 28 Feb 2022 14:08:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646057326;
+	bh=WTuPMuME//gRX6TZ6aBYg+Ro0UbizW8dVX80/GWcuRs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eiptqc56qthYKXkKPy/Yw6DLYhnKhfT6aD6sovHQepxTrdeLyzHzZ7HWjuGGnEXRW
+	 sodMwMiMv0M5hTz+UcUJ/Tp7cYXnSIZ4vc5aV0V9PKXSDTPW6fNlSdNobF8zPd6k5C
+	 Mbh+/9uIpgjOZaYGCA9zGR79n06XEvqFjOa8beORic71KXz++guWbGsbve5NchFdSX
+	 +djOFdFP1afM0iCzxGXmdWDV3F6EHeWjHhwkZhDlwB1DNdqvGUDaXRGYU9GHwpHtN3
+	 5U434Tk/2PGNSSoNJMozF6BmPPvw0epoY0N+Jg5GNHs/oPCVFtUgnsmdeBg+Qfz8y4
+	 RZA8ZdO6eBtzA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	jonas@kwiboo.se,
+	nicolas@ndufresne.ca
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	knaerzche@gmail.com,
+	jc@kynesim.co.uk,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Date: Mon, 28 Feb 2022 15:08:23 +0100
+Message-Id: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,60 +51,76 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
-> Add P010 format, which is commonly used for 10-bit videos.
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-There is a much more complete patch that was sent previously (with documentation
-and all):
+After the remarks done on version 2, I have completely reworked to patches 
+split so changelogs are meaningless. I have also drop "RFC" from the
+titles.
 
-https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c
 
-regards,
-Nicolas
+At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
 
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 2 ++
->  drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
->  include/uapi/linux/videodev2.h        | 1 +
->  3 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 1db0020e08c0..4ede36546e9c 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -275,6 +275,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
->  		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 1 },
->  		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
->  
-> +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
-> +
->  		/* Tiled YUV formats */
->  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
->  		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 048f326c57b9..a8d999e23e5b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1295,6 +1295,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
->  	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
->  	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
-> +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CbCr 4:2:0"; break;
->  	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
->  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
->  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 772dbadd1a24..211bc11a48cb 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -597,6 +597,7 @@ struct v4l2_pix_format {
->  /* two planes -- one Y, one Cr + Cb interleaved  */
->  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
->  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
-> +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit */
->  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
->  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
->  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+Benjamin
+
+
+Benjamin Gaignard (12):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Add document uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: uapi: Create a dedicated header for Hantro control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../userspace-api/media/drivers/hantro.rst    |   5 -
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   5 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+ include/media/hevc-ctrls.h                    | 250 ------
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/hantro-media.h             |  19 +
+ include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 23 files changed, 1697 insertions(+), 1170 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+ create mode 100644 include/uapi/linux/hantro-media.h
+
+-- 
+2.32.0
 
