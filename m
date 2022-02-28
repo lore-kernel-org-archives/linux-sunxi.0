@@ -1,195 +1,119 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288495398;
-	Mon, 28 Feb 2022 10:24:56 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:82d4:230a:70ff:cde0] (unknown [IPv6:2a01:e0a:120:3210:82d4:230a:70ff:cde0])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id BDB6F1F4381D;
-	Mon, 28 Feb 2022 10:24:53 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1646043894;
-	bh=kA6wk9poQowj7pG8o/AcE0UkJDbBr/dkYvIeNp0XXWg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JhADHZpx2XchL7wRFhLx9u5AdEFzJyh4R4y2hmB/LFpilBHi0RF9NmQCSkY/Z3Fcg
-	 0viETfCyEKPIArjmwBA1drhd9DWUsjnHqdUdd1728mdY551ARSdD0yvKV36gOW1g9x
-	 z4dlhpdZa5dyhfT3QxFgbM9HpaJ8dGkgaVeGAOCP8reZLiphJKiaZfANLEPFMD2dAr
-	 W43+yfakSqTqkNYemMpsvKxZRdIOGqTyK2FozsbDTjGGzWgudE3xSmhut/0ObtQerK
-	 406AutADF3dKoEc16xMoiMQuVIDRILtR00w1hiSXLEsAGo7qxZ9GAhtWghaOLOLE70
-	 MlGDuKiKBqBDg==
-Message-ID: <14bd4748-1b73-c102-e98f-933efa34cd3c@collabora.com>
-Date: Mon, 28 Feb 2022 11:24:51 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B3657B
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 12:48:56 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id fc19so12198120qvb.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 04:48:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=+8I/V7LMKeEgdjfech8pVN3rLVcrkyoXC3NkYpHqx50=;
+        b=UzEaMg7JeXuUGaFUzjzNTjWqymgIKqaEVBGX/ytQjyMN6OC9OOJ0/nKWUdYq5uxvI3
+         /dra9cjZKvXzgDUebBGOWC5W7Vex1+dDK2vfDgq6DQqBF0xV3OAaHLTrixCGbjpTrelZ
+         oKZ4YLNuUVKHI8QeYETFk0iXjog6Qe7igxM3RkkXzBUgb0EBNE3mMMQlLlQIEemz/1up
+         y2yUjx+uzFN2xwsKNATwGf4tXX+27dJGIKH1fBmD8Ml/FNURZakDjIMB+01PmrrJ9Nh8
+         VkFceIVqIYMtP9KCjfKcXhhAJeXp9s+7UxbIONneuk+b62r95b0yzSskFZltmHazBbRR
+         26aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=+8I/V7LMKeEgdjfech8pVN3rLVcrkyoXC3NkYpHqx50=;
+        b=QIpcmZLiYvGVK2AQjxp5/4ASLAktSHtqfOxODKFgsO0zzINiMFxrGHFDMYWzd0iYMN
+         pi7umnfyY5UW4ZM7rkW99zZIa2XA+pw37FOYZUVdwGdtR2gjruB2Aw5wYmmdxuNp4u/s
+         XE8C8YigAwwoMI2sL7RH+qj67tVo+cGveM8pR4PeP6wXpPL3iwndqlDI/X3gP/8plw9K
+         zGu3OcJ5eVNJTfEayLYEEbpB6XMsxjBrxLuK7VqcQvtxl+mRdS5vasYVqovFhrSHcLGE
+         FWcd2+6cT2sPWgq0muBopGXTW2bfOTY/qTSqc1hz16wYe1LW+094Eg2mwniu2Gf5D8Op
+         H/aA==
+X-Gm-Message-State: AOAM532IxwHH6BuxArpf+dR07buwNtbU++QHi+WAWmOWCQWbl6zi5JPL
+	v3f38TFfwp/3B0cPuU2MiNkzZg==
+X-Google-Smtp-Source: ABdhPJx3Zx++4poidmZxiaKiNp7huRBp+c07iQ/2xxhDNM88zR5W38PXzrrhlyBTtk2qm0T1kR/z9Q==
+X-Received: by 2002:ac8:59c8:0:b0:2de:5f4:7e84 with SMTP id f8-20020ac859c8000000b002de05f47e84mr16487539qtf.97.1646052535083;
+        Mon, 28 Feb 2022 04:48:55 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id y24-20020a05620a09d800b00648c8ba03c1sm4906437qky.107.2022.02.28.04.48.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Feb 2022 04:48:54 -0800 (PST)
+Message-ID: <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+Subject: Re: [RFC PATCH 2/8] media: Add P010 format
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ ezequiel@vanguardiasur.com.ar,  p.zabel@pengutronix.de
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+ gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
+ linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
+Date: Mon, 28 Feb 2022 07:48:53 -0500
+In-Reply-To: <20220227144926.3006585-3-jernej.skrabec@gmail.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+	 <20220227144926.3006585-3-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v3 09/14] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
-Content-Language: en-US
-To: John Cox <jc@kynesim.co.uk>, =?UTF-8?Q?Jernej_=c5=a0krabec?=
- <jernej.skrabec@gmail.com>
-Cc: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jonas@kwiboo.se,
- nicolas@ndufresne.ca, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com, knaerzche@gmail.com
-References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
- <4378293.LvFx2qVVIh@kista> <1884298.PYKUYFuaPT@kista>
- <7348885.EvYhyI6sBW@kista> <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <me5p1hpnrarnqqaefoofrtqb898afl0rsn@4ax.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
+> Add P010 format, which is commonly used for 10-bit videos.
 
-Le 28/02/2022 à 10:47, John Cox a écrit :
-> On Sat, 26 Feb 2022 19:17:46 +0100, you wrote:
->
->> Dne sobota, 26. februar 2022 ob 18:59:18 CET je Jernej Škrabec napisal(a):
->>> Hi!
->>>
->>> Dne petek, 25. februar 2022 ob 20:30:20 CET je Jernej Škrabec napisal(a):
->>>> Hi!
->>>>
->>>> Dne petek, 25. februar 2022 ob 17:45:55 CET je Benjamin Gaignard
->> napisal(a):
->>>>> The number of 'entry point offset' could be very variable.
->>>>> Rather than use a large static array define a v4l2 dynamic array
->>>>> of integer control.
->>>> I suggest we should be more specific and say U32 (V4L2_CTRL_TYPE_U32).
->>>>
->>>>> The number of entry point offsets is reported by the elems field.
->>> I did few more tests and these are my findings:
->>> 1. dynamic array can't be set over size, specified in .dims array
->>> 2. entry point offsets are per slice, so if we make slices dynamic array,
->> then
->>> entry points would become two dimensional dynamic array
->>> 3. num_entry_point_offsets must be part of slice control, because it can be
->>> zero, but size of array can't be
->> Clarification: num_entry_point_offsets is needed in any case, even without entry
->> point list.
-> I thought that at least one decoder wanted the entry points or have we
-> decided that we don't? Whilst they aren't required for decode, what they
-> give you, if your h/w supports it, is the ability to decode multiple
-> lines of CTBs in parallel (with a 2 CTB offset between lines), so they
-> aren't useless.
->
-> If we do decided we want the entry point offset control, now or later,
-> then num_entry_points in the slice_param allows you to determine which
-> offsets apply to which slices without the complexity of a variable array
-> of variable arrays.
->
-> But whether or not we end up supporting entry point offsets, the Pi h/w
-> requires me to generate 1 table entry for each CTB line and
-> num_entry_points is the parameter I need for that, so I really want it
-> in the slice_params.
+There is a much more complete patch that was sent previously (with documentation
+and all):
 
-I'm adding a control (dynamic array) and num_entry_points field in slice
-parameters in the next version.
-See here:
-https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commit/6b4efa4dc54de069893f5203d885fea2c1347916
+https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
 
-Regards,
-Benjamin
+regards,
+Nicolas
 
-> Regards
->
-> John Cox
->
->>> 4. fortunately, not setting entry points doesn't impact decoding
->> correctness.
->>> This is in line what John told me about them.
->>>
->>> Hans, can you comment points 1-3? I might misunderstand point 1.
->>>
->>> In short, it seems like we don't really need entry points, even if they are
->>> used in BSP library. In both cases, I got fluster score 119/138 (10-bit
->>> excluded), so we can just drop this patch, although I'm a bit uneasy not
->>> setting entry points...
->>>
->>> Best regards,
->>> Jernej
->>>
->>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>>>> ---
->>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
->>>>>   include/media/hevc-ctrls.h                               | 1 +
->>>>>   2 files changed, 10 insertions(+)
->>>>>
->>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
->>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> index 44a268a948c0..71f7dc1c1ccd 100644
->>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->>>>> @@ -3128,6 +3128,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>>>>   
->>>>>       \normalsize
->>>>>   
->>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->>>> Here you have OFFSETS (plural) ...
->>>>
->>>>> +    Specifies the i-th entry point offset in bytes and is represented by
->>>>> +    offset_len_minus1 plus 1 bits.
->>>> You probably mean entry_point_offset_minus1? offset_len_minus1 just tells
->> how
->>>> much bits need to be read for each element and it's not important for
->> actual
->>>> decoding.
->>>>
->>>>> +    This control is a dynamically sized array. The number of entry
->> point
->>>>> +    offsets is reported by the ``elems`` field.
->>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
->>>>> +    They are described in section 7.4.7.1 "General slice segment header
->>>>> +    semantics" of the specification.
->>>>> +
->>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>>>>       Specifies the HEVC scaling matrix parameters used for the scaling
->>>> process
->>>>>       for transform coefficients.
->>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->>>>> index 3016c1abb1d0..3f8a67924df3 100644
->>>>> --- a/include/media/hevc-ctrls.h
->>>>> +++ b/include/media/hevc-ctrls.h
->>>>> @@ -20,6 +20,7 @@
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE +
->>>> 1012)
->>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE +
->>>> 1015)
->>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE
->> +
->>> 1016)
->>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET (V4L2_CID_CODEC_BASE
->> +
->>>> 1017)
->>>>
->>>> ... and here you have OFFSET (singlular). I suggest plural form to be used
->>> in
->>>> all places, including subject line of this commit.
->>>>
->>>> Additionally, it would be nice if control is initialized, like so:
->>>> https://github.com/jernejsk/linux-1/commit/
->>>> f938e162cd8dd77c9f6f1b248d80144840a37bce
->>>>
->>>> Best regards,
->>>> Jernej
->>>>
->>>>>   
->>>>>   /* enum v4l2_ctrl_type type values */
->>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->>>>> -- 
->>>>> 2.32.0
->>>>>
->>>>>
->>>>
->>>>
->>>
->>>
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 2 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
+>  include/uapi/linux/videodev2.h        | 1 +
+>  3 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 1db0020e08c0..4ede36546e9c 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -275,6 +275,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>  		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 2, .vdiv = 1 },
+>  		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+>  
+> +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> +
+>  		/* Tiled YUV formats */
+>  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+>  		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .hdiv = 2, .vdiv = 2 },
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 048f326c57b9..a8d999e23e5b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1295,6 +1295,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 (M420)"; break;
+>  	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
+>  	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
+> +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CbCr 4:2:0"; break;
+>  	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
+>  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+>  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 772dbadd1a24..211bc11a48cb 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -597,6 +597,7 @@ struct v4l2_pix_format {
+>  /* two planes -- one Y, one Cr + Cb interleaved  */
+>  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+>  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
+> +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit */
+>  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+>  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+>  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+
