@@ -1,59 +1,56 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206867A
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 17:02:07 +0000 (UTC)
-Received: by mail-qv1-f49.google.com with SMTP id d3so13560052qvb.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 09:02:07 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261D87A
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 18:14:43 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id n14so16773556wrq.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Feb 2022 10:14:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Y9cZVaut3aLdlKX+slS0PsytKlmPKaShOXQetxBEnLs=;
-        b=RWahVHidsmUKk3zmU4u+GXNAQsPIO4fG+FWWtFLwh/nIJSVim2DRTMT+dtX8WkXnNw
-         IhLL4C1HcJ9ZDzbcAYB1aCCOT3FAMdOlWQIR3BBfX/MfsCGxMk4tisEiRuqi6TuyNCSf
-         fBYFIesGaDPEnn1TYpMJJTswWKjm+RtORcQOwTZFeT3QdpqpLHMeudiuIWfQsTYU0437
-         Pi1+oFeFvCH2Diy8u1i22uQajV/YXRjXV3bwVdIFb+oScDEvFIPnjxKdB4/90MLk1imj
-         iHRrkReVr4m6Z/SLB/qIhO18kTkqzsJx7zFvyvWA3udBE+sywy8GuIo2uGsBc3yBFJ0w
-         4lMA==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laSnQJpbry/7HDfeFASKUPW4HYc9KBwUxVn9S4td0qc=;
+        b=c0WRI4mazSMxTdg2exnk+Q3pEXI74oiHYivOcAxyKozC7Y4/wrofRWWnCvtaPZhGxR
+         IhujeWQfFo00DEXYokFGtCEV1Nn/dkAzptGSD5IEwXwkYfvy1qfoB3e94L+04fLU12+3
+         pcpQ7uF/jzshj84kJryjM8O1p3msTMRKDo8oU509HnrI67clNXOfUUBLIc4+upY8iJaR
+         lijHIn+cImvx6w0OH/8X7tgsuHtgADaACEwj7KzCQe1+ShF5wzUkQf1V0VpMSUNCbwen
+         iJRaVoijltE0Hg7tQ28uZOYG9wwLUfhgUw87xdeEs/IH4v0p+SOczJhRr0p1Uu2joV3V
+         27AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Y9cZVaut3aLdlKX+slS0PsytKlmPKaShOXQetxBEnLs=;
-        b=OS/Kww+pvDU0Tye+Iu6MRPaaGtxUgCyQtUMg5JVKFtg4iWya3zxt5cYiiQwWuJzdgL
-         BzZFvp4wdy/TobQ1iLsq3bb3HBkhkxewVBiWbX4M1jYbdE5nORu9wt1dKdiE76duKRPe
-         ALIl8ssjy3ZZNVUQNKJdu6v3zuzgCaDKLgOKFM2PENr1NL5RZhV/vGcA/HMKXZ4l3VnR
-         v+o41gWupJpBsiOXU+praxtN4w17J1+Z4IK4ZCBXGb/aYrTXCHN1tevIOejONbHyigc0
-         VRCwDuoGDmDN8nDXXiv487RbjmpOULsT0bGmSD3xXpTYtc1Z4xyK7vVwylTu7+YlWgLc
-         BRsg==
-X-Gm-Message-State: AOAM532x+0+EojZs1jWw/L9v5WSwqDt0cShOv3SlaChDkqz3daaTzSpq
-	3psRbvovh5U823K1JEbQbALpJg==
-X-Google-Smtp-Source: ABdhPJwnakSt4EAfE7IsVjU7wlxEV+JgWuYIQRAupe57mnq3QS7Jav+/osBrc1CyPEkT1Hqcy4qtRw==
-X-Received: by 2002:ad4:5605:0:b0:432:e77e:8023 with SMTP id ca5-20020ad45605000000b00432e77e8023mr7904254qvb.8.1646067726011;
-        Mon, 28 Feb 2022 09:02:06 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 20-20020ac84e94000000b002de8f564305sm7506949qtp.1.2022.02.28.09.02.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laSnQJpbry/7HDfeFASKUPW4HYc9KBwUxVn9S4td0qc=;
+        b=1KjajDH+nnKpvcv4H+X+5LH6LBwV/4eDkibYJrynMCltjPILjVJS83o/v/4DuXIib7
+         xP6uqrjsmnPVxt/ERGkjYNkt+kLwGCzVQaxOH7FGXchLZkRSsiHLmOl0leV8LOtx99ft
+         t79LiZ5Ajb9XNJJz3xRgSCJZCBSuIAmZq8OGvnvIKNJoQ3u+65dWQlb10dBm42unx6kU
+         xu3d+3Byx6toWNKAytjqKo/cOhuFxpg8fC3wvOOLlkKnJpTDjQyL3uqX7RbvVZYv5ham
+         vozb8gL4BiOhthKYPfBg1ItHk2Y+g2U5vxDJ1nGP+rtjTM/dP+IWndzUn9ZiSLj8zNs5
+         20LA==
+X-Gm-Message-State: AOAM532yPT1Qqrc+ZFgPet8MpuGBqGGvywjF5iQM5Daoa0l0oCFAinXu
+	7N7vrKdTz34wgbZelOCIBDg=
+X-Google-Smtp-Source: ABdhPJyhltbPdhysi/wISTmoSAx5kNxmU7sMGyLPJmQFUN5FgbPAW2+eU+jUkbBOfunmlYPPW6hcbw==
+X-Received: by 2002:a5d:648f:0:b0:1e9:5445:4b13 with SMTP id o15-20020a5d648f000000b001e954454b13mr16540343wri.127.1646072082307;
+        Mon, 28 Feb 2022 10:14:42 -0800 (PST)
+Received: from kista.localdomain (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id z2-20020a056000110200b001e7140ddb44sm10780677wrw.49.2022.02.28.10.14.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Feb 2022 09:02:05 -0800 (PST)
-Message-ID: <73f460d843cee2781c9d08cdc421f0fd64f9ccc7.camel@ndufresne.ca>
-Subject: Re: Re: [RFC PATCH 2/8] media: Add P010 format
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
-Date: Mon, 28 Feb 2022 12:02:04 -0500
-In-Reply-To: <5696849.MhkbZ0Pkbq@kista>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-	 <20220227144926.3006585-3-jernej.skrabec@gmail.com>
-	 <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
-	 <5696849.MhkbZ0Pkbq@kista>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.42.3 (3.42.3-1.fc35) 
+        Mon, 28 Feb 2022 10:14:41 -0800 (PST)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: samuel@sholland.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: mixer: Fix P010 and P210 format numbers
+Date: Mon, 28 Feb 2022 19:14:36 +0100
+Message-Id: <20220228181436.1424550-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,106 +59,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Le lundi 28 février 2022 à 17:32 +0100, Jernej Škrabec a écrit :
-> Dne ponedeljek, 28. februar 2022 ob 13:48:53 CET je Nicolas Dufresne 
-> napisal(a):
-> > Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
-> > > Add P010 format, which is commonly used for 10-bit videos.
-> > 
-> > There is a much more complete patch that was sent previously (with 
-> documentation
-> > and all):
-> > 
-> > https://patchwork.kernel.org/project/linux-rockchip/patch/
-> 20210618131526.566762-5-benjamin.gaignard@collabora.com/
-> 
-> Great, I'll take it for next revision. Although I'm not sure what "much more 
-> complete" means. Only additional thing is documentation.
+It turns out that DE3 manual has inverted YUV and YVU format numbers for
+P010 and P210. Invert them.
 
-When adding uAPI, doc is really important, so having the format documented means
-the other patch is "much more" ready to be merged.
+This was tested by playing video decoded to P010 and additionally
+confirmed by looking at BSP driver source.
 
-cheers,
-Nicolas
+Fixes: 169ca4b38932 ("drm/sun4i: Add separate DE3 VI layer formats")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> 
-> Best regards,
-> Jernej
-> 
-> > 
-> > regards,
-> > Nicolas
-> > 
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 2 ++
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c  | 1 +
-> > >  include/uapi/linux/videodev2.h        | 1 +
-> > >  3 files changed, 4 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-
-> core/v4l2-common.c
-> > > index 1db0020e08c0..4ede36546e9c 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -275,6 +275,8 @@ const struct v4l2_format_info *v4l2_format_info(u32 
-> format)
-> > >  		{ .format = V4L2_PIX_FMT_YUV422P, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, 
-> .hdiv = 2, .vdiv = 1 },
-> > >  		{ .format = V4L2_PIX_FMT_GREY,    .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 1, .bpp = { 1, 0, 0, 0 }, 
-> .hdiv = 1, .vdiv = 1 },
-> > >  
-> > > +		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > > +
-> > >  		/* Tiled YUV formats */
-> > >  		{ .format = V4L2_PIX_FMT_NV12_4L4, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > >  		{ .format = V4L2_PIX_FMT_P010_4L4, .pixel_enc = 
-> V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, 
-> .hdiv = 2, .vdiv = 2 },
-> > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-
-> core/v4l2-ioctl.c
-> > > index 048f326c57b9..a8d999e23e5b 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > @@ -1295,6 +1295,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc 
-> *fmt)
-> > >  	case V4L2_PIX_FMT_M420:		descr = "YUV 4:2:0 
-> (M420)"; break;
-> > >  	case V4L2_PIX_FMT_NV12:		descr = "Y/CbCr 4:2:0"; break;
-> > >  	case V4L2_PIX_FMT_NV21:		descr = "Y/CrCb 4:2:0"; break;
-> > > +	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CbCr 4:2:0"; 
-> break;
-> > >  	case V4L2_PIX_FMT_NV16:		descr = "Y/CbCr 4:2:2"; break;
-> > >  	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
-> > >  	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
-> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/
-> videodev2.h
-> > > index 772dbadd1a24..211bc11a48cb 100644
-> > > --- a/include/uapi/linux/videodev2.h
-> > > +++ b/include/uapi/linux/videodev2.h
-> > > @@ -597,6 +597,7 @@ struct v4l2_pix_format {
-> > >  /* two planes -- one Y, one Cr + Cb interleaved  */
-> > >  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 
-> 4:2:0  */
-> > >  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 
-> 4:2:0  */
-> > > +#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 
-> 4:2:0 10-bit */
-> > >  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 
-> 4:2:2  */
-> > >  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 
-> 4:2:2  */
-> > >  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 
-> 4:4:4  */
-> > 
-> > 
-> 
-> 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index 145833a9d82d..5b3fbee18671 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -111,10 +111,10 @@
+ /* format 13 is semi-planar YUV411 VUVU */
+ #define SUN8I_MIXER_FBFMT_YUV411	14
+ /* format 15 doesn't exist */
+-/* format 16 is P010 YVU */
+-#define SUN8I_MIXER_FBFMT_P010_YUV	17
+-/* format 18 is P210 YVU */
+-#define SUN8I_MIXER_FBFMT_P210_YUV	19
++#define SUN8I_MIXER_FBFMT_P010_YUV	16
++/* format 17 is P010 YVU */
++#define SUN8I_MIXER_FBFMT_P210_YUV	18
++/* format 19 is P210 YVU */
+ /* format 20 is packed YVU444 10-bit */
+ /* format 21 is packed YUV444 10-bit */
+ 
+-- 
+2.35.1
 
