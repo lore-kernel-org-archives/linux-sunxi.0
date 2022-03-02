@@ -1,161 +1,119 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0FC6136
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:41 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9D73EC299B
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0C06136
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 22:08:01 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id EF1961C0009;
-	Wed,  2 Mar 2022 21:11:11 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 7BAE2E0003;
+	Wed,  2 Mar 2022 22:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646255473;
+	t=1646258874;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LUbNmgb63x3cIGTdu5P3uOsUdM3KE6j4EYbbzrT4oek=;
-	b=HNkImmM0F9jHusXvAg9Ba0BoeYJOmyXuqZ2GzWGs2vcwLlAH9Pj2feUrwTLHdHICqSVm6q
-	xkDtly0t6oYeUT2qfEiq0YQdqKkAIQLYCtgWlrQuDsJVj3Ut9vkfBVvrIjhtKzxkBGn/2b
-	H0nlI5Fz+YsQ53/vYTZoxGBCo+HUSvJxXq5LTbNbcQh3wlBIlNLxUhYCjyH47kw+PBh3GC
-	L59YJJ+sOMmjjIN4URJNbh4+N7JPt1yHw5Rc1HbdYeok+9hJ+S/h/tGHEG4wPqJtzFLjWS
-	sRTX28A2GXMPYIlN361r2ggD7StVnBu2wgydUJgZY9NAs31hL98c2QmOrf/Bmw==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lS1QSNcGHjM0XgM4B7WgVQryBpLLi9DEmZbSo/cMOS4=;
+	b=Ote3cmIhGhk7KJS0xw+Cs7bF1JY7KqFtTRznRFMQ/c46qky2tYY2cIXY9hVGQhEJmqX9OP
+	U4xAt/K0wnm3Pqa/OMt74VIPtie+FSN1/BBxcmCT/JeieyOhACx7AGDMbqF6ZfQypTKlXI
+	usISbdehawZc35+D+zq3QOh4KdWaqG3kgnMaMiJ2L0nUcsUrVZHdZKAW7ZeI7sOxN+3a+C
+	sxMDAANwX3dg/bf9wWVAXGLuBGBHoOrQBtGnVP/9elpzmk+BxWqR0ZmDFNYA1Rj1sWExcm
+	fgILP9116WRqikXUK4tGgq0dRl6u13mSs6phGZvEXLo++mmFwxZXCYauUUJsgg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: devicetree@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
+	linux-phy@lists.infradead.org
+Cc: Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v3 5/8] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
-Date: Wed,  2 Mar 2022 22:10:57 +0100
-Message-Id: <20220302211100.65264-6-paul.kocialkowski@bootlin.com>
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v3 0/9] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / MIPI CSI-2 Support
+Date: Wed,  2 Mar 2022 23:07:30 +0100
+Message-Id: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
-controller. The controller uses a separate D-PHY, which is the same
-that is otherwise used for MIPI DSI, but used in Rx mode.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
-not have access to any parallel interface pins.
+This part only concerns the MIPI CSI-2 controllers support changes.
 
-Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
-support the MIPI CSI-2 interface.
+Changes since all-in-one v2:
+- Use the newly-introduced media/mipi-csi2.h header instead of local
+  definitions;
+- Introduce a use a mutex for format access serialization;
+- Make both port@0 and port@1 as well as ports required in the binding;
+- Made one of the two CSI input ports required;
 
-Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
-even when no sensor is connected. This will result in a probe failure
-for the controller as long as no sensor is connected but this is fine
-since no other interface is available.
+Paul Kocialkowski (9):
+  dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
+  phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI
+    CSI-2
+  dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+  dt-bindings: media: Add Allwinner A31 MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A31 MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
+  dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A83T MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
 
-The interconnects property is used to inherit the proper DMA offset.
+ .../media/allwinner,sun6i-a31-csi.yaml        |  66 +-
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 147 ++++
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 +++
+ .../phy/allwinner,sun6i-a31-mipi-dphy.yaml    |  12 +
+ MAINTAINERS                                   |  16 +
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ drivers/media/platform/sunxi/Makefile         |   2 +
+ .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  12 +
+ .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 766 ++++++++++++++++
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |  53 ++
+ .../sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h     |  76 ++
+ .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  11 +
+ .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  72 ++
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 +
+ .../sun8i_a83t_mipi_csi2.c                    | 833 ++++++++++++++++++
+ .../sun8i_a83t_mipi_csi2.h                    |  56 ++
+ .../sun8i_a83t_mipi_csi2_reg.h                | 151 ++++
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 166 +++-
+ 20 files changed, 2609 insertions(+), 17 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2_reg.h
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-v3s.dtsi | 71 ++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
-
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index a966b6a9acf5..a9405e011f3e 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -619,6 +619,77 @@ gic: interrupt-controller@1c81000 {
- 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		};
- 
-+		csi0: camera@1cb0000 {
-+			compatible = "allwinner,sun8i-v3s-csi";
-+			reg = <0x01cb0000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>,
-+				 <&ccu CLK_DRAM_CSI>;
-+			clock-names = "bus", "mod", "ram";
-+			resets = <&ccu RST_BUS_CSI>;
-+			interconnects = <&mbus 5>;
-+			interconnect-names = "dma-mem";
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					csi0_in_mipi_csi2: endpoint {
-+						remote-endpoint = <&mipi_csi2_out_csi0>;
-+					};
-+				};
-+			};
-+		};
-+
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-v3s-mipi-csi2",
-+				     "allwinner,sun6i-a31-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
-+
-+			phys = <&dphy>;
-+			phy-names = "dphy";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				mipi_csi2_in: port@0 {
-+					reg = <0>;
-+				};
-+
-+				mipi_csi2_out: port@1 {
-+					reg = <1>;
-+
-+					mipi_csi2_out_csi0: endpoint {
-+						remote-endpoint = <&csi0_in_mipi_csi2>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dphy: d-phy@1cb2000 {
-+			compatible = "allwinner,sun6i-a31-mipi-dphy";
-+			reg = <0x01cb2000 0x1000>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_MIPI_CSI>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			allwinner,direction = "rx";
-+			status = "disabled";
-+			#phy-cells = <0>;
-+		};
-+
- 		csi1: camera@1cb4000 {
- 			compatible = "allwinner,sun8i-v3s-csi";
- 			reg = <0x01cb4000 0x3000>;
 -- 
 2.35.1
 
