@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068B6613C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F816613D
 	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:38 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 19460C2FA2
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:17 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4B24FC2756
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:16 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id DF4011C0003;
-	Wed,  2 Mar 2022 21:11:07 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 917C11C0007;
+	Wed,  2 Mar 2022 21:11:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646255469;
+	t=1646255467;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CaPBI6oj+tku7/ik5exvwUDsmJ89xJ3PdADdJfgOg+8=;
-	b=RzXDTg8BcTdeN/Ag0cUV5eOOl1m4/x+63yV0mA/8ueeHIx2QMjxNlzN3mZg7874FkbJk+p
-	iSQhTXheSYWNXien/GnawFdZ3VkpJvMozARWH9wNh4gk7PkYyWP1OoaTS0b7XMyvBqAvmG
-	JCR5qFQESzyzdVxTZaNeNJFP4gsXJe35f1TiqaO7OKAEH7VY67g7PC8c+cNPnr4QBFjnXn
-	8bYSpHQw4qLd02K87bmhVUywKzmdQG6Faku6x+MtbQP+zSnyBSk1bBLaBdp3wTea3ZLvyd
-	EbyZf7IrqlyBwDeBM0Rbhm2bTXv1FN+zVFYgOAvAk49kf30QVI+U9NHFgDJKlg==
+	bh=awXHKYLutlWI1DCRzb/ig8zBY3AfY1mc3nmGyuIUbQY=;
+	b=KC5jb/0eHDiE+UiESbAJKbofE4wMxj2wpGyLvefgPb4frgv9R644ZgOXbt7iLeqooqnazd
+	+nUlxI4bCo5QWhCw7lWkjIHhNFbUWMw4IP/6Dp6mjLe6Fz/38poJtxPE13HgUys8w9hYyc
+	mE5XebOAoPcIjmzGv7phwh9Xzc6gq9x0Rrl6hlBZIlxOIlXWnOTNOLZ6r8QZrhp1kKq/sM
+	UCiau4lIXmoqQ8BEGimmZf+KZxMajFXvUakP9SxcUVjLQ7SmoVrimo6sEfl76q/t+r6dGk
+	Ek4tSAs8dXnCEPcW5Mlo3qJ02BjFQvLVjIB5vWZQWvMtPHavTxSua1jZY9A61g==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v3 2/8] dt-bindings: interconnect: sunxi: Add V3s mbus compatible
-Date: Wed,  2 Mar 2022 22:10:54 +0100
-Message-Id: <20220302211100.65264-3-paul.kocialkowski@bootlin.com>
+Subject: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as optional
+Date: Wed,  2 Mar 2022 22:10:53 +0100
+Message-Id: <20220302211100.65264-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
@@ -52,37 +52,46 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since the V3s uses the internal mbus for DMA with multimedia devices,
-document its compatible in accordance with the extended mbus binding.
+In order to set their correct DMA address offset, some devices rely on
+the device-tree interconnects property which identifies an
+interconnect node that provides a dma-ranges property that can be used
+to set said offset.
 
-This will enable adding support for the V3s in the full-fledged
-devfreq driver eventually.
+Since that logic is all handled by the generic openfirmware and driver
+code, the device-tree description could be enough to properly set
+the offset.
+
+However the interconnects property is currently not marked as
+optional, which implies that a driver for the corresponding node
+must be loaded as a requirement. When no such driver exists, this
+results in an endless EPROBE_DEFER which gets propagated to the
+calling driver. This ends up in the driver never loading.
+
+Marking the interconnects property as optional makes it possible
+to load the driver in that situation, since the EPROBE_DEFER return
+code will no longer be propagated to the driver.
+
+There might however be undesirable consequences with this change,
+which I do not fully grasp at this point.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/of/property.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-index 8eee312c2e6f..e7f3f798491a 100644
---- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-@@ -31,6 +31,7 @@ properties:
-       - allwinner,sun5i-a13-mbus
-       - allwinner,sun8i-h3-mbus
-       - allwinner,sun8i-r40-mbus
-+      - allwinner,sun8i-v3s-mbus
-       - allwinner,sun50i-a64-mbus
-       - allwinner,sun50i-h5-mbus
+diff --git a/drivers/of/property.c b/drivers/of/property.c
+index 8e90071de6ed..ef7c56b510e8 100644
+--- a/drivers/of/property.c
++++ b/drivers/of/property.c
+@@ -1365,7 +1365,7 @@ static struct device_node *parse_interrupts(struct device_node *np,
  
-@@ -88,6 +89,7 @@ if:
-           - allwinner,sun8i-h3-mbus
-           - allwinner,sun50i-a64-mbus
-           - allwinner,sun50i-h5-mbus
-+          - allwinner,sun8i-v3s-mbus
- 
- then:
-   properties:
+ static const struct supplier_bindings of_supplier_bindings[] = {
+ 	{ .parse_prop = parse_clocks, },
+-	{ .parse_prop = parse_interconnects, },
++	{ .parse_prop = parse_interconnects, .optional = true,},
+ 	{ .parse_prop = parse_iommus, .optional = true, },
+ 	{ .parse_prop = parse_iommu_maps, .optional = true, },
+ 	{ .parse_prop = parse_mboxes, },
 -- 
 2.35.1
 
