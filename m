@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F816613D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 117AD613E
 	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:38 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 4B24FC2756
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:16 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id CCD45C3269
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:17 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 917C11C0007;
-	Wed,  2 Mar 2022 21:11:06 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 3E6E21C0002;
+	Wed,  2 Mar 2022 21:11:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646255467;
+	t=1646255470;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=awXHKYLutlWI1DCRzb/ig8zBY3AfY1mc3nmGyuIUbQY=;
-	b=KC5jb/0eHDiE+UiESbAJKbofE4wMxj2wpGyLvefgPb4frgv9R644ZgOXbt7iLeqooqnazd
-	+nUlxI4bCo5QWhCw7lWkjIHhNFbUWMw4IP/6Dp6mjLe6Fz/38poJtxPE13HgUys8w9hYyc
-	mE5XebOAoPcIjmzGv7phwh9Xzc6gq9x0Rrl6hlBZIlxOIlXWnOTNOLZ6r8QZrhp1kKq/sM
-	UCiau4lIXmoqQ8BEGimmZf+KZxMajFXvUakP9SxcUVjLQ7SmoVrimo6sEfl76q/t+r6dGk
-	Ek4tSAs8dXnCEPcW5Mlo3qJ02BjFQvLVjIB5vWZQWvMtPHavTxSua1jZY9A61g==
+	bh=9E9ElsT8ujr2+MBXOLESCuF1hdN+tBFsEX48iQO/NGk=;
+	b=mmRTwo1Sn9gFJDUUx+33czdTbJJrjCVYCYaBnSEzKpb7dx6ELqfRzIH0RPXPaPzwj+TbXs
+	SiQtkw3LTwaW6pFruyRQSkIqFXDH85/0Oh3hCDwi8pCdu13BtZntpLCqmExamkwvvPKu/d
+	VigJRIUBTPj3UgACMjXh6Qm9AYvCxmxvp1hrhOjBfkf3z3RnzTEEh/F6PAS5RTW14U2hJ9
+	PF3deDxdv8X+KGEx5mBixw8L0DQT7l4wIFEijms2+gWnY9aMlEaRAaONMTYDMT8kO/GBeP
+	W6xwPMXybgOeg3VmDKUA9EZBlhWL42TF8UnBr9avwQDcaovcDh8weq2RtIXybw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as optional
-Date: Wed,  2 Mar 2022 22:10:53 +0100
-Message-Id: <20220302211100.65264-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 3/8] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+Date: Wed,  2 Mar 2022 22:10:55 +0100
+Message-Id: <20220302211100.65264-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
@@ -52,46 +52,56 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In order to set their correct DMA address offset, some devices rely on
-the device-tree interconnects property which identifies an
-interconnect node that provides a dma-ranges property that can be used
-to set said offset.
-
-Since that logic is all handled by the generic openfirmware and driver
-code, the device-tree description could be enough to properly set
-the offset.
-
-However the interconnects property is currently not marked as
-optional, which implies that a driver for the corresponding node
-must be loaded as a requirement. When no such driver exists, this
-results in an endless EPROBE_DEFER which gets propagated to the
-calling driver. This ends up in the driver never loading.
-
-Marking the interconnects property as optional makes it possible
-to load the driver in that situation, since the EPROBE_DEFER return
-code will no longer be propagated to the driver.
-
-There might however be undesirable consequences with this change,
-which I do not fully grasp at this point.
+In order to declare a mbus node for the v3s, expose its associated
+clocks to the public header.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- drivers/of/property.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h      | 4 ----
+ include/dt-bindings/clock/sun8i-v3s-ccu.h | 4 ++--
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/of/property.c b/drivers/of/property.c
-index 8e90071de6ed..ef7c56b510e8 100644
---- a/drivers/of/property.c
-+++ b/drivers/of/property.c
-@@ -1365,7 +1365,7 @@ static struct device_node *parse_interrupts(struct device_node *np,
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+index 108eeeedcbf7..8ed4eff86ca1 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.h
+@@ -39,14 +39,10 @@
  
- static const struct supplier_bindings of_supplier_bindings[] = {
- 	{ .parse_prop = parse_clocks, },
--	{ .parse_prop = parse_interconnects, },
-+	{ .parse_prop = parse_interconnects, .optional = true,},
- 	{ .parse_prop = parse_iommus, .optional = true, },
- 	{ .parse_prop = parse_iommu_maps, .optional = true, },
- 	{ .parse_prop = parse_mboxes, },
+ /* The first bunch of module clocks are exported */
+ 
+-#define CLK_DRAM		58
+-
+ /* All the DRAM gates are exported */
+ 
+ /* Some more module clocks are exported */
+ 
+-#define CLK_MBUS		72
+-
+ /* And the GPU module clock is exported */
+ 
+ #define CLK_PLL_DDR1		74
+diff --git a/include/dt-bindings/clock/sun8i-v3s-ccu.h b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+index 014ac6123d17..4231f23bc53b 100644
+--- a/include/dt-bindings/clock/sun8i-v3s-ccu.h
++++ b/include/dt-bindings/clock/sun8i-v3s-ccu.h
+@@ -87,7 +87,7 @@
+ #define CLK_SPI0		55
+ #define CLK_USB_PHY0		56
+ #define CLK_USB_OHCI0		57
+-
++#define CLK_DRAM		58
+ #define CLK_DRAM_VE		59
+ #define CLK_DRAM_CSI		60
+ #define CLK_DRAM_EHCI		61
+@@ -101,7 +101,7 @@
+ #define CLK_VE			69
+ #define CLK_AC_DIG		70
+ #define CLK_AVS			71
+-
++#define CLK_MBUS		72
+ #define CLK_MIPI_CSI		73
+ 
+ /* Clocks not available on V3s */
 -- 
 2.35.1
 
