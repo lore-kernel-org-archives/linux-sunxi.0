@@ -1,23 +1,23 @@
 Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654D86147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529DE6136
 	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 22:08:06 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3C6B5E000A;
-	Wed,  2 Mar 2022 22:08:03 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 048A2E0008;
+	Wed,  2 Mar 2022 22:07:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646258884;
+	t=1646258879;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=/+aVhZj0sLvcrwBr8R8fIBYF+XENUOvnQRzzM3rX3eA=;
-	b=IzY8dUidaL/qs2yTXu9sysuyMSIQB+AM8phpfHk4lp/y3AQ2jKCxrz0A62MV4Q5B9/ZWvL
-	iupDJSVBZT7WwytFsVRL7cEwjx1JUeY2v7tApaDNlfyrzUcphD4xc1u5CiqM4SOhq81wHW
-	MzmAgAo7av6NM8Bsf2v8QF8Kl0sihbZeSmgdtKGmknaGDfyGmhTzvy8GJzc9mxXFMEedii
-	4oWH3TLdgI6qvS99U3JiWlzhS2YVavzA5ZlkJr0/DOH7z+nw+hZV0guX2Uwf83M7fKIKHf
-	XuR2SYMFKcD7MRAYnXKDCATliWc2zOQjIaSjtrkduJq+UAazgZoaGwoABLrykA==
+	bh=1G9o6rlZM0iE6Vt7vqNy4e9zAd/LcxnVqs6sPFVzYMk=;
+	b=CpnbQoPXj33Rf75e8YEIBLumENOy3OEL/6VhnaWZNS9hFXSt/Y1ACrx3RLatC2wjsdWEIt
+	uEoNO9vgWO2M18fpJmkz4ZAJL2awcY3u5YrAuiYvuaadLYe+hSLYCGO7EHsVxkKI3qYuj0
+	dG6mwXDsX/X3p5omLlT4aiUtmqcyKOTSTmjg0HqVauzvwdt3N4ys/CvLUzmPJ85a0wYzTa
+	ltu/HEdSlbeff63Bx6V1aj+rFElUwol0wUueIudI3rXfQQVtVGVz2rBxb22l7dMuiEeZlP
+	dBk7IaOcmfku6GdPWO0nbiz10IL3AT7siKfif3t+ZTn9JAfrGc8qEqSplpTdvQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -38,10 +38,11 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Kishon Vijay Abraham I <kishon@ti.com>,
 	Vinod Koul <vkoul@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v3 6/9] MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
-Date: Wed,  2 Mar 2022 23:07:36 +0100
-Message-Id: <20220302220739.144303-7-paul.kocialkowski@bootlin.com>
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v3 3/9] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+Date: Wed,  2 Mar 2022 23:07:33 +0100
+Message-Id: <20220302220739.144303-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
 References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
@@ -53,33 +54,124 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add myself as maintainer of the Allwinner A31 MIPI CSI-2 bridge media
-driver.
+The A31 CSI controller supports two distinct input interfaces:
+parallel and an external MIPI CSI-2 bridge. The parallel interface
+is often connected to a set of hardware pins while the MIPI CSI-2
+bridge is an internal FIFO-ish link. As a result, these two inputs
+are distinguished as two different ports.
+
+Note that only one of the two may be present on a controller instance.
+For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+dedicated to parallel.
+
+Update the binding with an explicit ports node that holds two distinct
+port nodes: one for parallel input and one for MIPI CSI-2.
+
+This is backward-compatible with the single-port approach that was
+previously taken for representing the parallel interface port, which
+stays enumerated as fwnode port 0.
+
+Note that additional ports may be added in the future, especially to
+support feeding the CSI controller's output to the ISP.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../media/allwinner,sun6i-a31-csi.yaml        | 66 +++++++++++++++----
+ 1 file changed, 53 insertions(+), 13 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 36a1f209b0ff..de575061362e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -752,6 +752,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
- F:	drivers/media/platform/sunxi/sun4i-csi/
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+index 8b568072a069..f40609332696 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+@@ -61,6 +61,34 @@ properties:
  
-+ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-+F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
+     additionalProperties: false
+ 
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
 +
- ALLWINNER CPUFREQ DRIVER
- M:	Yangtao Li <tiny.windzz@gmail.com>
- L:	linux-pm@vger.kernel.org
++    properties:
++      port@0:
++        $ref: "#/properties/port"
++        unevaluatedProperties: false
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: MIPI CSI-2 bridge input port
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++        additionalProperties: false
++
++    anyOf:
++      - required:
++        - port@0
++      - required:
++        - port@1
++
+ required:
+   - compatible
+   - reg
+@@ -69,6 +97,12 @@ required:
+   - clock-names
+   - resets
+ 
++oneOf:
++  - required:
++    - ports
++  - required:
++    - port
++
+ additionalProperties: false
+ 
+ examples:
+@@ -89,19 +123,25 @@ examples:
+                       "ram";
+         resets = <&ccu RST_BUS_CSI>;
+ 
+-        port {
+-            /* Parallel bus endpoint */
+-            csi1_ep: endpoint {
+-                remote-endpoint = <&adv7611_ep>;
+-                bus-width = <16>;
+-
+-                /*
+-                 * If hsync-active/vsync-active are missing,
+-                 * embedded BT.656 sync is used.
+-                 */
+-                 hsync-active = <0>; /* Active low */
+-                 vsync-active = <0>; /* Active low */
+-                 pclk-sample = <1>;  /* Rising */
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                /* Parallel bus endpoint */
++                csi1_ep: endpoint {
++                    remote-endpoint = <&adv7611_ep>;
++                    bus-width = <16>;
++
++                    /*
++                     * If hsync-active/vsync-active are missing,
++                     * embedded BT.656 sync is used.
++                     */
++                    hsync-active = <0>; /* Active low */
++                    vsync-active = <0>; /* Active low */
++                    pclk-sample = <1>;  /* Rising */
++                };
+             };
+         };
+     };
 -- 
 2.35.1
 
