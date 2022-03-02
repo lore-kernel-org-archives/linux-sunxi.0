@@ -1,106 +1,126 @@
-Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB43A2104
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 19:10:27 +0000 (UTC)
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com [209.85.208.72])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 767793F5FA
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 19:04:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-	s=20210705; t=1646247892;
-	bh=o/gq2zH0XhC0PaitqVD/LagQpkqLCpBFDwRKMGbmd0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
-	 In-Reply-To:Content-Type;
-	b=hWIUcS/AfngoFiKmXFu1I2V5+h/ZbJXYeLdl4xdKo2iIaUnrN3uTNNtNhGUlMlr11
-	 ckx39iesJ8yPi0LdtDRUMyKibEP3RwdgbjeipqPHbw1rX7DhdDe9LZuYujqFFw31+w
-	 jVPzLyhxzwm3qMDnvlfNbVYBYgEgnaczdGmDj/nZzW+SEUg4cQrPCn8buP7IXkm8BV
-	 xS0Fm4nvUBaGUHDZ9KpWISrcu3KAE911Jz2RI1nCglkw0g4knmDSNj1TK2fPXYaRqC
-	 8YXOA06k+5WzAcqg+0MDiyHsyTxaftwLJXXtgk6KI13b+yz/UlN35Xmht/cpig8jcg
-	 W44ruXlwMOAAA==
-Received: by mail-ed1-f72.google.com with SMTP id z24-20020a50cd18000000b00414d5314c35so1492799edi.21
-        for <linux-sunxi@lists.linux.dev>; Wed, 02 Mar 2022 11:04:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:references:cc:from:in-reply-to
-         :content-transfer-encoding;
-        bh=o/gq2zH0XhC0PaitqVD/LagQpkqLCpBFDwRKMGbmd0w=;
-        b=TVDcWksqLTDzW0/eY3zF9ImpwMuhm4j7/hC54onhZCzhEXVjoUomSQV3rB846IT79d
-         x7WCb01DJJrtBx2McFrQR3KJDzVaZ5l8x29YB9KBPNv+1xTrWP7cX9U+bhWSEF47xVk9
-         GdMkXhAA6kLKp4ci4Fmg5c4QKjbPkcZz17Cijtlj4XGXRyfcALTE4GDJPh89teTK/Fku
-         NjGAqyuX1ICzTcwGLQ6KkF4GZ7GdI402s9PYsleGI2UZpLZ0+9HKSgmgu/QEKNW6YS3H
-         pPrjiyGKkLipdd8GagqXN+VWnT3bnKBGRDhpn9b0h48FLZQlsZ2bvXwzbiTLKt2HO/AR
-         +L4Q==
-X-Gm-Message-State: AOAM533FjmNCKRoNyM8xl7kMeLZdoOdVaVUVqAydBp9CxajddHjd6DLv
-	FckawGxUxZfaO3nAMSIkJYcFdGdpCHO0I411rGXhJYH9HKN/xtCG5z2UIm1xTVJ4nMHOoL96wYc
-	hY4SIqGCTehaV46y1nraQbfoeDBusyCUiegblWneB
-X-Received: by 2002:a05:6402:26cb:b0:3fa:3817:1f78 with SMTP id x11-20020a05640226cb00b003fa38171f78mr30654860edd.219.1646247889895;
-        Wed, 02 Mar 2022 11:04:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5ud+uzIs5hvG4Gs8CgEyL9Hzob7WkoDzIJWUkIA9MRmpeL5TH6uATTuuggM0eZzWdPfuGEw==
-X-Received: by 2002:a05:6402:26cb:b0:3fa:3817:1f78 with SMTP id x11-20020a05640226cb00b003fa38171f78mr30654817edd.219.1646247889629;
-        Wed, 02 Mar 2022 11:04:49 -0800 (PST)
-Received: from [192.168.0.137] (xdsl-188-155-181-108.adslplus.ch. [188.155.181.108])
-        by smtp.gmail.com with ESMTPSA id t14-20020a170906608e00b006d1455acc62sm6630349ejj.74.2022.03.02.11.04.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Mar 2022 11:04:46 -0800 (PST)
-Message-ID: <211b3d35-1d8d-b71c-996a-b185324815f7@canonical.com>
-Date: Wed, 2 Mar 2022 20:04:45 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683196136
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:16 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4C2881C0004;
+	Wed,  2 Mar 2022 21:11:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1646255474;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T9RsY3uL4J3j0QOwi8eKlTAS0yrmwlj/haQTgokIQXQ=;
+	b=FVtXaR59dk3Dpj0gSPFUJzD4LNvPpvFO2l8uVCUH0+AJBf0JfPfOilYl50dKbTCKnGnId+
+	Or3yqwH7cEuxisdTB04xyx+L227Hlu8o7F1zCYT8zlJy2js2rOUpe9bzlEEbiPBNA+3BjS
+	H+z3yZW9Og4fFNbExBz57LUSLs46ddmD0HYJqMEu2mlbnm/xnF8x5EafBP29rriwR4bRcB
+	0bdsd3ZyVsLiG1WaMX56HQHxAstZpKG1n3rNkNGM/J1CeDow3q9+edbAdGGI2dRKG8+q3j
+	bcSDpnR3K/hYxFu+FcKMBdiYjwOHJfkT5BnjdWl3zciVgSYqfG6yAwcINhIxpg==
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Frank Rowand <frowand.list@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 6/8] ARM: dts: sun8i: v3s: Add support for the ISP
+Date: Wed,  2 Mar 2022 22:10:58 +0100
+Message-Id: <20220302211100.65264-7-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
+References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
-Content-Language: en-US
-To: Thierry Reding <thierry.reding@gmail.com>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>
-References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Florian Fainelli <f.fainelli@gmail.com>,
- bcm-kernel-feedback-list@broadcom.com, Heiko Stuebner <heiko@sntech.de>,
- Palmer Dabbelt <palmer@dabbelt.com>, Shawn Guo <shawnguo@kernel.org>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Yash Shah <yash.shah@sifive.com>,
- Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
- Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
- Vignesh R <vigneshr@ti.com>,
- Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
- Anson Huang <anson.huang@nxp.com>, Rahul Tanwar <rtanwar@maxlinear.com>,
- Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Jeff LaBundy <jeff@labundy.com>, Sagar Kadam <sagar.kadam@sifive.com>,
- linux-pwm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-riscv@lists.infradead.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-rockchip@lists.infradead.org
-From: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-In-Reply-To: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/02/2022 22:21, Krzysztof Kozlowski wrote:
-> Hi,
-> 
-> Changes since v1:
-> 1. Add tags.
-> 2. Adjust subject (Uwe).
-> 
+The V3s (and related platforms) come with an instance of the A31 ISP.
+Even though it is very close to the A31 ISP, it is not exactly
+register-compatible and a dedicated compatible only is used as a
+result.
 
-Hi Thierry, Uwe and Lee,
+Just like most other blocks of the camera pipeline, the ISP uses
+the common CSI bus, module and ram clock as well as reset.
 
-Any comments here? Rob acked all these, so these are clear to go via PWM
-tree.
+A port connection to the ISP is added to CSI0 for convenience since
+CSI0 serves for MIPI CSI-2 interface support, which is likely to
+receive raw data that will need to be processed by the ISP to produce
+a final image.
 
+The interconnects property is used to inherit the proper DMA offset.
 
-Best regards,
-Krzysztof
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 35 ++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index a9405e011f3e..3d56a9471199 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -643,6 +643,14 @@ csi0_in_mipi_csi2: endpoint {
+ 						remote-endpoint = <&mipi_csi2_out_csi0>;
+ 					};
+ 				};
++
++				port@2 {
++					reg = <2>;
++
++					csi0_out_isp: endpoint {
++						remote-endpoint = <&isp_in_csi0>;
++					};
++				};
+ 			};
+ 		};
+ 
+@@ -701,5 +709,32 @@ csi1: camera@1cb4000 {
+ 			resets = <&ccu RST_BUS_CSI>;
+ 			status = "disabled";
+ 		};
++
++		isp: isp@1cb8000 {
++			compatible = "allwinner,sun8i-v3s-isp";
++			reg = <0x01cb8000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI1_SCLK>,
++				 <&ccu CLK_DRAM_CSI>;
++			clock-names = "bus", "mod", "ram";
++			resets = <&ccu RST_BUS_CSI>;
++			interconnects = <&mbus 5>;
++			interconnect-names = "dma-mem";
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@0 {
++					reg = <0>;
++
++					isp_in_csi0: endpoint {
++						remote-endpoint = <&csi0_out_isp>;
++					};
++				};
++			};
++		};
+ 	};
+ };
+-- 
+2.35.1
+
