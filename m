@@ -1,23 +1,25 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FAD6136
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7C16136
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:38 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C1A30C107D
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 21:11:13 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 026D41C000B;
-	Wed,  2 Mar 2022 21:11:15 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id A9C3C1C0005;
+	Wed,  2 Mar 2022 21:11:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646255477;
+	t=1646255466;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dkNjQnETPaxd5iuqZJEg5SWaIfkr3ZP63u+W+qEtiX0=;
-	b=KLGkIwlsmaL1HfIt/KrwQ8WCvlfN1r4KkGXGDfpyFJTUQ2Rx/cEypSGDdf5jo9CbmPzYrk
-	y0OYVazaPPBVt7x03ZGXYH3Y7V7wJD8MJSP9MAY7uSER/M/nCXy9ilOhj6URz+KDnxuC5U
-	D0JhMYo3QfIvC5IRm6jhm2ig4OfwXi8+muukp0iinAZWEw6mNJ70NEnXWO+LntfAH9qBMp
-	PB6dTmUw69HNw2QtYm/kvtI/rKG+tDi93O+am7fBFKNxXaXRdc05lffSPKY7foIXpPV0xS
-	2zTVI3/lYG4A9Xtp9To1fX/Aaw0Ssgkkx0eWqiLnHBzAwLmFskgJrO+f1Wegjg==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=itH78pPfoQ6UhbplnnBJkFGPYw1yUjwOppLHajcMFfQ=;
+	b=PJBpm/gO8KB6e00LHTjZVoEHKJ+1osZ7S0kwRXAIu76EhaL/iTe+znrsAFPAFNfoJ4GsWS
+	YAWn6j3R7skPVF9q+XsGWx3gvsLhkSU6N3fBFDy1Xu0E5Sm4dAJhA1SZkNwBcK5XcarmMG
+	AiesJ0JuyNuIzV8Xd8OpoSGP1aeK5xKiz7fRCQL8hZEIBBzYEZCkKj+PGBmbtiwjzTtwPa
+	1TgpIPYROFbTIeXQayFwp0gd1wlGcsEq7U9my883onJcJKpyhZKvZdXsd/lT+8N1JuuRRt
+	ZPZ8gyAM5x5BoDycZGeePmBKf294e4y5ZAd0zUSe0frTEsZljFu440C0sYRxeg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -34,14 +36,11 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	=?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= <kevin.lhopital@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH NOT FOR MERGE v3 8/8] ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
-Date: Wed,  2 Mar 2022 22:11:00 +0100
-Message-Id: <20220302211100.65264-9-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 0/8] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / Platform Support
+Date: Wed,  2 Mar 2022 22:10:52 +0100
+Message-Id: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,167 +50,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-The Bananapi M3 supports a camera module which includes an OV8865 sensor
-connected via the parallel CSI interface and an OV8865 sensor connected
-via MIPI CSI-2.
+This part only concerns Allwinner platform support changes.
+Note that the device-tree bindings for the MIPI CSI-2 controller
+and ISP are still under review in their dedicated series, so these
+patches should probably not be merged yet, although feedback about
+them is welcome.
 
-The I2C2 bus is shared by the two sensors as well as the (active-low)
-reset signal, but each sensor has it own shutdown line.
+Changes since all-in-one v2:
+- Corrected mbus index used for the interconnects;
+- Used extended mbus binding and exported the DRAM clock for that;
+- Reworked the description of the core openfirmware change to give
+  more insight about the situation.
 
-Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts | 102 +++++++++++++++++++
- 1 file changed, 102 insertions(+)
+Kévin L'hôpital (1):
+  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
 
-diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-index 5a7e1bd5f825..80fd99cf24b2 100644
---- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-+++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
-@@ -85,6 +85,30 @@ led-1 {
- 		};
- 	};
- 
-+	reg_ov8865_avdd: ov8865-avdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-avdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dovdd: ov8865-dovdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dovdd";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		vin-supply = <&reg_dldo4>;
-+	};
-+
-+	reg_ov8865_dvdd: ov8865-dvdd {
-+		compatible = "regulator-fixed";
-+		regulator-name = "ov8865-dvdd";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		vin-supply = <&reg_eldo1>;
-+	};
-+
- 	reg_usb1_vbus: reg-usb1-vbus {
- 		compatible = "regulator-fixed";
- 		regulator-name = "usb1-vbus";
-@@ -115,6 +139,23 @@ &cpu100 {
- 	cpu-supply = <&reg_dcdc3>;
- };
- 
-+&csi {
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csi_in_mipi_csi2: endpoint {
-+				remote-endpoint = <&mipi_csi2_out_csi>;
-+			};
-+		};
-+	};
-+};
-+
- &de {
- 	status = "okay";
- };
-@@ -147,6 +188,36 @@ hdmi_out_con: endpoint {
- 	};
- };
- 
-+&i2c2 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c2_pe_pins>;
-+	status = "okay";
-+
-+	ov8865: camera@36 {
-+		compatible = "ovti,ov8865";
-+		reg = <0x36>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&csi_mclk_pin>;
-+		clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clocks = <&ccu CLK_CSI_MCLK>;
-+		assigned-clock-rates = <24000000>;
-+		avdd-supply = <&reg_ov8865_avdd>;
-+		dovdd-supply = <&reg_ov8865_dovdd>;
-+		dvdd-supply = <&reg_ov8865_dvdd>;
-+		powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-+		reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-+
-+		port {
-+			ov8865_out_mipi_csi2: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <360000000>;
-+
-+				remote-endpoint = <&mipi_csi2_in_ov8865>;
-+			};
-+		};
-+	};
-+};
-+
- &mdio {
- 	rgmii_phy: ethernet-phy@1 {
- 		compatible = "ethernet-phy-ieee802.3-c22";
-@@ -154,6 +225,24 @@ rgmii_phy: ethernet-phy@1 {
- 	};
- };
- 
-+&mipi_csi2 {
-+	status = "okay";
-+};
-+
-+&mipi_csi2_in {
-+	mipi_csi2_in_ov8865: endpoint {
-+		data-lanes = <1 2 3 4>;
-+
-+		remote-endpoint = <&ov8865_out_mipi_csi2>;
-+	};
-+};
-+
-+&mipi_csi2_out {
-+	mipi_csi2_out_csi: endpoint {
-+		remote-endpoint = <&csi_in_mipi_csi2>;
-+	};
-+};
-+
- &mmc0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&mmc0_pins>;
-@@ -327,11 +416,24 @@ &reg_dldo3 {
- 	regulator-name = "vcc-pd";
- };
- 
-+&reg_dldo4 {
-+	regulator-always-on;
-+	regulator-min-microvolt = <2800000>;
-+	regulator-max-microvolt = <2800000>;
-+	regulator-name = "avdd-csi";
-+};
-+
- &reg_drivevbus {
- 	regulator-name = "usb0-vbus";
- 	status = "okay";
- };
- 
-+&reg_eldo1 {
-+	regulator-min-microvolt = <1200000>;
-+	regulator-max-microvolt = <1200000>;
-+	regulator-name = "dvdd-csi-r";
-+};
-+
- &reg_fldo1 {
- 	regulator-min-microvolt = <1080000>;
- 	regulator-max-microvolt = <1320000>;
+Paul Kocialkowski (7):
+  of: Mark interconnects property supplier as optional
+  dt-bindings: interconnect: sunxi: Add V3s mbus compatible
+  clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to the public header
+  ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+  ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+  ARM: dts: sun8i: v3s: Add support for the ISP
+  ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+
+ .../arm/sunxi/allwinner,sun4i-a10-mbus.yaml   |   2 +
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  | 102 +++++++++++++++
+ arch/arm/boot/dts/sun8i-a83t.dtsi             |  26 ++++
+ arch/arm/boot/dts/sun8i-v3s.dtsi              | 121 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.h          |   4 -
+ drivers/of/property.c                         |   2 +-
+ include/dt-bindings/clock/sun8i-v3s-ccu.h     |   4 +-
+ 7 files changed, 254 insertions(+), 7 deletions(-)
+
 -- 
 2.35.1
 
