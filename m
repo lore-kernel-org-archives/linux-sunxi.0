@@ -1,214 +1,214 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B357C33D1;
-	Wed,  2 Mar 2022 13:33:52 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2BCE9FF;
-	Wed,  2 Mar 2022 14:33:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1646228030;
-	bh=RDOP6CHuRPV47uUz35zmTXfqgF44gD4Z+83Jzns/7Ac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MKlZ8NBfN7gO6YWA73a7YQ+0JidqlTFuRBXjTH25bMyF1XbyVJEnWe10Nv2IFKEAz
-	 aoYX4VHy+GDwkWEQgk6LqwLAcPiQki8BEZHMl38Qj/EoUjGafaKXvikudfGJWdKBQf
-	 9EWArd/2Oh32WcA+kIU1e4TVO547U9AlGA4ni1GA=
-Date: Wed, 2 Mar 2022 15:33:37 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Helen Koike <helen.koike@collabora.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 63/66] staging: media: Add support for the Allwinner
- A31 ISP
-Message-ID: <Yh9yMYTJly5oDroa@pendragon.ideasonboard.com>
-References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
- <20220205185429.2278860-64-paul.kocialkowski@bootlin.com>
- <YgFFxMd2htKvX0K1@pendragon.ideasonboard.com>
- <Yh5CuyEJ+WhIAzYm@aptenodytes>
- <Yh8wD8lF2Hs+cxD7@pendragon.ideasonboard.com>
- <Yh9v2Tez3x6rwhB3@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E6B7A
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 14:44:16 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id j17so3217622wrc.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 02 Mar 2022 06:44:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=references:user-agent:from:to:cc:subject:date:in-reply-to
+         :message-id:mime-version;
+        bh=FhWPuxj/YTUyK847np3IX93yxzJZHcz7qh4GO+7rXKE=;
+        b=msaaAUtYJ4UsgZwG4sJuMhyxBIBNud3N4C+lLFW9viMe+uajCi99kjRwYykX652Lgw
+         2eSEg9m/6Thl27dD6VUUYSkPVLH54de9va8DFzmM9uKdE+jGdik4V2AxcDjPRt35rRUb
+         7J3Ip4w45tgm3bkTpAY7608rIwWUzCfwOUDbvo8OP6HrGh/eBXxu/g3NlRXUgyWTxnQ7
+         SXtOpCdZrCfmkFdQpTOTWYHxPU8VHAyLZCM2k/SlgAbVKODxOX79JXrG3AnR/uhBKHpc
+         vvGCPOC4bPdxA++OUaECwgdBTpG96LjSfeI9NY5M7AswjyV9Ccp8e5lshz5zSEGZ/P7J
+         oAEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+         :in-reply-to:message-id:mime-version;
+        bh=FhWPuxj/YTUyK847np3IX93yxzJZHcz7qh4GO+7rXKE=;
+        b=5vROwh7nTONFa60M22EMgrx2dbnDgLAxcM6wBG8mLJdaE28ID03NSlGrKQevwl4HZm
+         cVV2tfi5nCDFxzlWM45wJBMjBVqgvePdKk+n09g1oNzg7HVnWZBhTdKuxTdddCx3Jw+G
+         uBFAeFqml+ZKEcBGYbnzvuIj7EDUb2I5gQghk1iC8joaYtvdBkbMc5tINSCdjuja3/ll
+         2WkUd00tumdy3OaIXxfoopf6FrJakut7x5LIdAbYI4KELvsSdKWn7wFkzfMyTl7eGi0c
+         J2KGJ9x3V8RjcE54hfs1efHqznR3p4pBUB3jdCfyZ2Hr8+HNAyyky/Mhb6yoraRAtON1
+         JaQg==
+X-Gm-Message-State: AOAM530SSaZh/tQXA6vsOYdOr3+hmh/HKgzpPbiqHDNtSz9mQtAZ2l1r
+	XPvOyFh+6nuTB5W4bYlGSdFNWA==
+X-Google-Smtp-Source: ABdhPJzpL4aEUuKagqpQ7KI1a1VSvKWc65xZONt1iWiFcNA6nLEK1U7HWta5oDI+FEGGzZdYSfZ2hw==
+X-Received: by 2002:a5d:5889:0:b0:1ef:d7e1:c6c with SMTP id n9-20020a5d5889000000b001efd7e10c6cmr10337751wrf.569.1646232254953;
+        Wed, 02 Mar 2022 06:44:14 -0800 (PST)
+Received: from localhost (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id t9-20020a05600c198900b0037c0342cb62sm7842262wmq.4.2022.03.02.06.44.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Mar 2022 06:44:14 -0800 (PST)
+References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
+ <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
+ <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
+ <6b04d864-7642-3f0a-aac0-a3db84e541af@gmail.com>
+ <CAK4VdL0gpz_55aYo6pt+8h14FHxaBmo5kNookzua9+0w+E4JcA@mail.gmail.com>
+ <1e828df4-7c5d-01af-cc49-3ef9de2cf6de@gmail.com>
+User-agent: mu4e 1.6.10; emacs 27.1
+From: Jerome Brunet <jbrunet@baylibre.com>
+To: Heiner Kallweit <hkallweit1@gmail.com>, Erico Nunes
+ <nunes.erico@gmail.com>, Martin Blumenstingl
+ <martin.blumenstingl@googlemail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro
+ <peppe.cavallaro@st.com>, Jose Abreu <joabreu@synopsys.com>, Kevin Hilman
+ <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ linux-amlogic@lists.infradead.org, netdev@vger.kernel.org, "open
+ list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come
+ up at boot
+Date: Wed, 02 Mar 2022 14:39:47 +0100
+In-reply-to: <1e828df4-7c5d-01af-cc49-3ef9de2cf6de@gmail.com>
+Message-ID: <1j8rts76te.fsf@starbuckisacylon.baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Yh9v2Tez3x6rwhB3@aptenodytes>
+Content-Type: text/plain
 
-Hi Paul,
 
-On Wed, Mar 02, 2022 at 02:23:37PM +0100, Paul Kocialkowski wrote:
-> On Wed 02 Mar 22, 10:51, Laurent Pinchart wrote:
-> > On Tue, Mar 01, 2022 at 04:58:51PM +0100, Paul Kocialkowski wrote:
-> > > On Mon 07 Feb 22, 18:16, Laurent Pinchart wrote:
-> > > > On Sat, Feb 05, 2022 at 07:54:26PM +0100, Paul Kocialkowski wrote:
-> > > > > Some Allwinner platforms come with an Image Signal Processor, which
-> > > > > supports various features in order to enhance and transform data
-> > > > > received by image sensors into good-looking pictures. In most cases,
-> > > > > the data is raw bayer, which gets internally converted to RGB and
-> > > > > finally YUV, which is what the hardware produces.
-> > > > > 
-> > > > > This driver supports ISPs that are similar to the A31 ISP, which was
-> > > > > the first standalone ISP found in Allwinner platforms. Simpler ISP
-> > > > > blocks were found in the A10 and A20, where they are tied to a CSI
-> > > > > controller. Newer generations of Allwinner SoCs (starting with the
-> > > > > H6, H616, etc) come with a new camera subsystem and revised ISP.
-> > > > > Even though these previous and next-generation ISPs are somewhat
-> > > > > similar to the A31 ISP, they have enough significant differences to
-> > > > > be out of the scope of this driver.
-> > > > > 
-> > > > > While the ISP supports many features, including 3A and many
-> > > > > enhancement blocks, this implementation is limited to the following:
-> > > > > - V3s (V3/S3) platform support;
-> > > > > - Bayer media bus formats as input;
-> > > > 
-> > > > Greyscale formats would also be nice to have, if the hardware can
-> > > > support that (it mostly just requires the ability to disable the CFA
-> > > > interpolation).
-> > > 
-> > > As far as I know there's no support for grayscale, only bayer formats
-> > > and YUV.
-> > > 
-> > > > > - Semi-planar YUV (NV12/NV21) as output;
-> > > > 
-> > > > Packed YUV would also be useful if the hardware supports it.
-> > > 
-> > > Same here, it only supports planar and semi-planar YUV as output.
-> > > 
-> > > > > - Debayering with per-component gain and offset configuration;
-> > > > > - 2D noise filtering with configurable coefficients.
-> > > > > 
-> > > > > Since many features are missing from the associated uAPI, the driver
-> > > > > is aimed to integrate staging until all features are properly
-> > > > > described.
-> > > > > 
-> > > > > On the technical side, it uses the v4l2 and media controller APIs,
-> > > > > with a video node for capture, a processor subdev and a video node
-> > > > > for parameters submission. A specific uAPI structure and associated
-> > > > > v4l2 meta format are used to configure parameters of the supported
-> > > > > modules.
-> > > > > 
-> > > > > One particular thing about the hardware is that configuration for
-> > > > > module registers needs to be stored in a DMA buffer and gets copied
-> > > > > to actual registers by the hardware at the next vsync, when instructed
-> > > > > by a flag. This is handled by the "state" mechanism in the driver.
-> > > > > 
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > ---
-> > > > >  drivers/staging/media/sunxi/Kconfig           |   1 +
-> > > > >  drivers/staging/media/sunxi/Makefile          |   1 +
-> > > > >  drivers/staging/media/sunxi/sun6i-isp/Kconfig |  13 +
-> > > > >  .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
-> > > > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 572 +++++++++++++
-> > > > >  .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  86 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 751 ++++++++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 573 +++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 599 ++++++++++++++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  61 ++
-> > > > >  .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
-> > > > >  .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
-> > > > 
-> > > > Could you add a TODO file to list the issues that need to be fixed for
-> > > > the driver to move out of staging ? I'll already propose one entry:
-> > > > 
-> > > > - Add support in libcamera
-> > > 
-> > > Maybe it would be good to narrow down what level of support you have in mind
-> > > here. Just adding basic support fort the pipeline is probably doable, but
-> > > developing complex 3A algorithms would require very significant effort and
-> > > it would be a shame that this prevents the driver from leaving staging.
-> > > 
-> > > I think another obvious task would be to have a complete uAPI that reflects
-> > > all modules that are part of the ISP.
-> > > 
-> > > What do you think?
-> > 
-> > The reason why I'd like to see libcamera support for the ISP driver is
-> > to ensure that the kernel API is adequate for real use cases. The API
-> > can be split in three parts:
-> > 
-> > - Pipeline configuration (this includes the media controller topology,
-> >   link setting, subdev pad format/selection rectangle configuration,
-> >   ...)
-> > - ISP parameters
-> > - ISP statistics
-> > 
-> > A pipeline handler implementation will cover the first parts. The second
-> > and third parts need to be tested too, but we don't need to implement
-> > every single feature. A very simple algorithm that demonstrates
-> > statistics can be captured and ISP parameters can be set should be
-> > enough to test and exercise the API in real scenarios. We're working on
-> > making basic AE and AWB algorithm implementations generic (or at least
-> > creating generic building blocks that can easily be assembled to create
-> > those algorithms, as the ISP statistics and parameters are specific to
-> > the ISP and thus require some ISP-specific code), so that should become
-> > a fairly easy task soon. I expect most of the work to go in the pipeline
-> > handler.
-> > 
-> > Does this sound fair to you ?
-> 
-> Yes I understand that these aspects need to be tested too, but I feel like
-> having an implementation with a feedback look (even rudimentary and using
-> some generic helpers) would be quite a stretch.
+On Wed 02 Mar 2022 at 12:01, Heiner Kallweit <hkallweit1@gmail.com> wrote:
 
-Don't be scared, it's not that difficult :-) A very basic feedback loop
-is easier to implement than the code that configures the pipeline and
-tracks buffers.
+> On 02.03.2022 11:33, Erico Nunes wrote:
+>> On Sat, Feb 26, 2022 at 2:53 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+>>> Just to rule out that the PHY may be involved:
+>>> - Does the issue occur with internal and/or external PHY?
+>> 
+>> My target boards have the internal phy only. It is not possible for me
+>> at the moment to test it with an external phy.
+>> 
+>>> - Issue still occurs in PHY polling mode? (disable PHY interrupt in dts)
+>> 
+>> Thanks for suggesting this. I did tests with this and it seems to be a
+>> workaround.
+>> With phy interrupt on recent kernels (around v5.17-rc3) I'm able to
+>> reproduce the issue relatively easily over a batch of a hundred jobs.
+>> With my tests with the phy in polling mode, I have not been able to
+>> reproduce so far, even with several hundred jobs.
+>> 
+> It's my understanding that in the problem case the "aneg complete"
+> interrupt fires, but no data flows.
+> This might indicate a timing issue. According to the meson PHY driver
+> (I don't have the datasheet) the PHY doesn't have a "link up" interrupt
+> source, just the mentioned "aneg complete".
+>
+> Below I send an experimental patch that delays the link up processing
+> a little and eliminates not needed interrupt sources.
+> Could you please test it with PHY interrupts enabled?
+>
+>
+> By the way, to all:
+> I found that interrupt mode is broken in fixed (aneg disabled) mode,
+> because link-up isn't signaled. Experiments showed that irq source
+> bit 7 can be used to fix this, but this bit isn't documented in the
+> driver.
+>
+>> For completeness I also tested 46f69ded988d (from my initial analysis)
+>> and setting the phy to polling mode there does not make a difference,
+>> issue still reproduces. So it may have been a different bug. Though I
+>> guess at this point we can disregard that and focus on the current
+>> kernel.
+>> 
+>> I tried adding a few debugs and delays to the interrupt code path in
+>> drivers/net/phy/meson-gxl.c but nothing gave me useful info so far.
+>> 
+>> Do you have more advice on how to proceed from here?
+>> 
+>> Thanks
+>> 
+>> Erico
+>
+> Heiner
 
-> It would probably be sufficient to have some demo code that can receive stats
-> and set parameters, but without necessarily any connection between the two.
-> As such it's also my feeling that a standalone demo program could be easier
-> to manage for that purpose than libcamera support.
-> 
-> So how about making the requirement that a (free software) userspace
-> implementration must demonstrate ability to read relevant statistics
-> from the ISP and (independently) control parameters that affect the output?
+Hi,
 
-It's easy to create a test tool to demonstrate that the driver works
-fine, when the purpose of the test tool is to exercise the driver API in
-the way intended by the driver author. What such a test tool fails to
-demonstrate is the fitness of the API for real uses cases. This is why
-KMS requires userspace APIs to be exercised in a real display stack
-(X.org, Weston, Android hwcomposer, ...) and not just in a test tool.
-We're following the same rationale here.
+I also did some tests on my side as well. Mostly with v5.10.93 ATM
+It is true that I can recall seeing this issue only on boards using the
+internal PHY (g12 and gxl board for me - I don't have meson8b boards)
 
-> > > > This isn't required to merge the driver in staging as long as ABI
-> > > > compatibility doesn't need to be preserved until the driver is moved out
-> > > > of staging.
-> > > >
-> > > > >  14 files changed, 3109 insertions(+)
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
-> > > > >  create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
-> > > > 
-> > > > [snip]
+I tried on the u200 (g12 based). Being the ref design it has both
+the internal and external interfaces and I can choose.
 
--- 
-Regards,
+To my surprise, I could not reproduce the issue on it with the internal
+PHY ... until I noticed that eMMC was initialising more or less at the
+same time as the network.
 
-Laurent Pinchart
+I disabled the eMMC, out of curiosity, and the issue was back.
+Like Heiner, I suspect a timing issue - at this stage, I can't tell if it
+is PHY related though.
+
+I also tried with the external phy, could not reproduce. Unfortunately,
+as we can see from the first test on the u200, not reproducing is not
+really a proof and it difficult to conclude.
+
+Like Erico, I tried bisecting but I ended up on a BT merge ... Clearly
+inconclusive :(
+
+Disabling the IRQ is an interesting test but, on my side, I have mixed
+results (on the libretech-cc this time):
+
+* I first tried quickly while bisecting, on commit
+  5.6.0-rc3-01434-g8d4ccd7770e7:
+  - With IRQ => NOK
+  - POLL => NOK
+
+Seeing Erico's report, I thought maybe I mixed things up so I tried again,
+doubled checked IRQ were disabled ... still broken. There was another
+commit I reproduce it without IRQ but I lost it.
+
+* I also tried on v5.10.93:
+  - With IRQ => NOK
+  - POLL => OK ... (well, I got bored before the issue showed up)
+
+It seems that switching to polling, in some case, changes the timings
+just enough to hide the issue ... but not always. Unless I forgot to
+consider something else ?? Ideas ?
+
+If I understand the proposed patch correctly, it is mostly about the phy
+IRQ. Since I reproduce without the IRQ, I suppose it is not the
+problem we where looking for (might still be a problem worth fixing -
+the phy is not "rock-solid" when it comes to aneg - I already tried
+stabilising it a few years ago)
+
+TBH, It bothers me that I reproduced w/o the IRQ. The idea makes
+sense :/
+
+>
+>
+> diff --git a/drivers/net/phy/meson-gxl.c b/drivers/net/phy/meson-gxl.c
+> index 7e7904fee..0acb3a99a 100644
+> --- a/drivers/net/phy/meson-gxl.c
+> +++ b/drivers/net/phy/meson-gxl.c
+> @@ -7,6 +7,7 @@
+>   * Author: Neil Armstrong <narmstrong@baylibre.com>
+>   */
+>  #include <linux/kernel.h>
+> +#include <linux/delay.h>
+>  #include <linux/module.h>
+>  #include <linux/mii.h>
+>  #include <linux/ethtool.h>
+> @@ -209,12 +210,7 @@ static int meson_gxl_config_intr(struct phy_device *phydev)
+>  		if (ret)
+>  			return ret;
+>  
+> -		val = INTSRC_ANEG_PR
+> -			| INTSRC_PARALLEL_FAULT
+> -			| INTSRC_ANEG_LP_ACK
+> -			| INTSRC_LINK_DOWN
+> -			| INTSRC_REMOTE_FAULT
+> -			| INTSRC_ANEG_COMPLETE;
+> +		val = INTSRC_LINK_DOWN | INTSRC_ANEG_COMPLETE;
+>  		ret = phy_write(phydev, INTSRC_MASK, val);
+>  	} else {
+>  		val = 0;
+> @@ -240,6 +236,9 @@ static irqreturn_t meson_gxl_handle_interrupt(struct phy_device *phydev)
+>  	if (irq_status == 0)
+>  		return IRQ_NONE;
+>  
+> +	if (irq_status & INTSRC_ANEG_COMPLETE)
+> +		msleep(100);
+> +
+>  	phy_trigger_machine(phydev);
+>  
+>  	return IRQ_HANDLED;
+
