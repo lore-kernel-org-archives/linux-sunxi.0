@@ -1,85 +1,63 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529006136
-	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 22:08:11 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 34057E000E;
-	Wed,  2 Mar 2022 22:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646258889;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BBqPZZqPY9lU8X5Wjn7tKR9Ob2xGkc1rtG7l6mI1mps=;
-	b=OnW6YeCcBytSObB4yBq52lv2w/gBp2a7JMOdxNPfW9tbRP2unuNlDhmmoCB5v7H17HfLUT
-	aCFtNumO8BuAv77Ukcbhhqezs7hM0Qesmx4vCFMX6DBTZHbpor/7zk/1rsWwUowsU4gKSb
-	8UKikF4fLyfc+TPcmww/jN6nMQLQy4oAFatb/I7+Z+CBdptvUCzMdvudH5qcmIQheXiy0L
-	8CYtspdiiDYqgQOV9koxS6VErciAhSLlbnnryucojIPdJdpMB+st/1kkGywWI+B3khv4Kz
-	dugkXx3qQARsnYLLbPb2asrvu1Rg5z4+FvTCxLruMO60GRy168BeNZ/ZKLu94A==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v3 9/9] MAINTAINERS: Add entry for the Allwinner A83T MIPI CSI-2 bridge
-Date: Wed,  2 Mar 2022 23:07:39 +0100
-Message-Id: <20220302220739.144303-10-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
-References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0246153
+	for <linux-sunxi@lists.linux.dev>; Wed,  2 Mar 2022 23:31:51 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.92 #5 (Debian))
+	id 1nPXvM-0006CD-2F; Thu, 03 Mar 2022 09:58:25 +1100
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Thu, 03 Mar 2022 10:58:24 +1200
+Date: Thu, 3 Mar 2022 10:58:23 +1200
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: jernej.skrabec@gmail.com, linus.walleij@linaro.org,
+	narmstrong@baylibre.com, ulli.kroll@googlemail.com, wens@csie.org,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/5] crypto: completion should be ran with BH disabled
+Message-ID: <Yh/2j+hxUs/+1BXB@gondor.apana.org.au>
+References: <20220221120833.2618733-1-clabbe@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220221120833.2618733-1-clabbe@baylibre.com>
 
-Add myself as maintainer of the Allwinner A83T MIPI CSI-2 bridge media
-driver.
+On Mon, Feb 21, 2022 at 12:08:28PM +0000, Corentin Labbe wrote:
+> Hello
+> 
+> This is the follow up of https://lore.kernel.org/lkml/Yd1SIHUNdLIvKhzz@Red/
+> and https://patchwork.kernel.org/project/linux-crypto/patch/20220127133332.4011509-1-clabbe@baylibre.com/
+> This serie fix all drivers which do not call completion with BH disabled
+> and add the check in crypto/engine asked by Herbert.
+> I have verified that this check does not generate warnings on all other crypto
+> hardware I got (omap, ccree, rockchip)
+> 
+> Regards
+> 
+> Corentin Labbe (5):
+>   crypto: sun8i-ss: call finalize with bh disabled
+>   crypto: sun8i-ce: call finalize with bh disabled
+>   crypto: amlogic: call finalize with bh disabled
+>   crypto: gemini: call finalize with bh disabled
+>   crypto: engine: check if BH is disabled during completion
+> 
+>  crypto/crypto_engine.c                              | 1 +
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 3 +++
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c   | 3 +++
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 3 +++
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c   | 3 +++
+>  drivers/crypto/amlogic/amlogic-gxl-cipher.c         | 2 ++
+>  drivers/crypto/gemini/sl3516-ce-cipher.c            | 2 ++
+>  7 files changed, 17 insertions(+)
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index de575061362e..ed1758d194a5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -760,6 +760,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
- F:	drivers/media/platform/sunxi/sun6i-mipi-csi2/
- 
-+ALLWINNER A83T MIPI CSI-2 BRIDGE DRIVER
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-+F:	drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/
-+
- ALLWINNER CPUFREQ DRIVER
- M:	Yangtao Li <tiny.windzz@gmail.com>
- L:	linux-pm@vger.kernel.org
+All applied.  Thanks.
 -- 
-2.35.1
-
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
