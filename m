@@ -1,22 +1,22 @@
 Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with SMTP id E306433C7
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Mar 2022 11:29:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with SMTP id AAAD833C7
+	for <linux-sunxi@lists.linux.dev>; Thu,  3 Mar 2022 11:32:37 +0000 (UTC)
 Received: from localhost (unknown [192.168.98.254])
-	by app1 (Coremail) with SMTP id C4KowAB36FDLpCBiuLw6AA--.16098S2;
-	Thu, 03 Mar 2022 19:21:48 +0800 (CST)
-Date: Thu, 3 Mar 2022 19:21:47 +0800
+	by app1 (Coremail) with SMTP id C4KowABn2VFHpyBilsE6AA--.21846S2;
+	Thu, 03 Mar 2022 19:32:23 +0800 (CST)
+Date: Thu, 3 Mar 2022 19:32:23 +0800
 From: fuyao <fuyao1697@cyg.com>
-To: Rob@scg, Herring@scg, robh+dt@kernel.org, Maxime@scg, Ripard@scg,
-	mripard@kernel.org, Chen-Yu@scg, Tsai@scg, wens@csie.org,
-	Jernej@scg, Skrabec@scg, jernej.skrabec@gmail.com,
+To: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
 Cc: =?utf-8?B?6bqm5YGl5qif?= <maijianzhang@allwinnertech.com>
 Subject: [PATCH] sunxi:dts: remove r40 can node
-Message-ID: <YiCky/6luAPcmiEB@scg>
-Mail-Followup-To: Rob@scg, Herring@scg, robh+dt@kernel.org, Maxime@scg,
-	Ripard@scg, mripard@kernel.org, Chen-Yu@scg, Tsai@scg,
-	wens@csie.org, Jernej@scg, Skrabec@scg, jernej.skrabec@gmail.com,
+Message-ID: <YiCnR5v9fYoXXy39@scg>
+Mail-Followup-To: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	=?utf-8?B?6bqm5YGl5qif?= <maijianzhang@allwinnertech.com>
@@ -29,23 +29,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Organization: work_work_work
-X-CM-TRANSID:C4KowAB36FDLpCBiuLw6AA--.16098S2
+X-CM-TRANSID:C4KowABn2VFHpyBilsE6AA--.21846S2
 X-Coremail-Antispam: 1UD129KBjvdXoW7GF18CFWUuw4xWF4fGFyDZFb_yoW3KFb_Ka
 	4fGa15WFWrArZ8trn5Jw43Jw18Zw48C3s3X34IqF4UJanIvws5XF4DJa93Xw15WrW2gFZY
-	yay5XF98tw1Y9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbs8YjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	yay5XF98tw1Y9jkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbIxYjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
 	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
 	8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
 	87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2vYz4IE04k24V
 	AvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xf
 	McIj6x8ErcxFaVAv8VW8GwAv7VCY1x0262k0Y48FwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r
-	1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVCm-wCF04k2
-	0xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48MxC20s026xCaFVCjc4AY6r1j6r4UMI
-	8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AK
-	xVW8ZVWrXwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI
-	8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280
-	aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43
-	ZEXa7IUeeVbPUUUUU==
+	1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r4a6rW5MxkIecxEwVCm-wCF04k20xvY
+	0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r48MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I
+	0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWU
+	tVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcV
+	CY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAF
+	wI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+	7IU53GYJUUUUU==
 X-CM-SenderInfo: 5ix1t0irwzlqxf1jhudrp/
 
 it does not have can in r40/a40i/t3.so delete it.
