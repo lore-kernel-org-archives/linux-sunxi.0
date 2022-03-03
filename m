@@ -1,125 +1,212 @@
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5813E7C
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Mar 2022 06:42:03 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nPf9i-0000cS-G5; Thu, 03 Mar 2022 07:41:42 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nPf9a-002MQZ-Jb; Thu, 03 Mar 2022 07:41:33 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1nPf9Z-006eej-4Z; Thu, 03 Mar 2022 07:41:33 +0100
-Date: Thu, 3 Mar 2022 07:41:30 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Lee Jones <lee.jones@linaro.org>, Heiko Stuebner <heiko@sntech.de>,
-	devicetree@vger.kernel.org,
-	Vijayakannan Ayyathurai <vijayakannan.ayyathurai@intel.com>,
-	Sagar Kadam <sagar.kadam@sifive.com>,
-	Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-	Fabio Estevam <festevam@gmail.com>, linux-riscv@lists.infradead.org,
-	Vignesh R <vigneshr@ti.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Rahul Tanwar <rtanwar@maxlinear.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-	bcm-kernel-feedback-list@broadcom.com,
-	NXP Linux Team <linux-imx@nxp.com>, Jeff LaBundy <jeff@labundy.com>,
-	linux-sunxi@lists.linux.dev, linux-pwm@vger.kernel.org,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>
-Subject: Re: [PATCH v2 00/15] pwm: dt-bindings: Include generic pwm schema
-Message-ID: <20220303064130.lzvptbq3hpny74ke@pengutronix.de>
-References: <20220214212154.8853-1-krzysztof.kozlowski@canonical.com>
- <211b3d35-1d8d-b71c-996a-b185324815f7@canonical.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F9307A;
+	Thu,  3 Mar 2022 10:13:16 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b] (unknown [IPv6:2a01:e0a:120:3210:1c92:7dc6:3047:5f3b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6B95E1F45504;
+	Thu,  3 Mar 2022 10:13:07 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1646302388;
+	bh=yXrU5uknXeIgDXfseugJ6jxwHEV2jK9Ih9G3VFEr2FI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bWVRkTP+uWNzEJtWGLu3XPF5ZJ41K4BK716WAmi9uspUwCdUgaKt95YXbMBnW98MU
+	 J2LX0BlIcoNK1sY++GggCAo3KB6t0uJnsJgaGgYhuBz/eWFSRp72KEsfDrZFANmn+C
+	 FRS0h3UQYVLoAH4kHCGScI4okAIF83f04Q4n7GPpk8B9O45tHWHpZbusNvfz1biaO5
+	 IlGT8HAzjTKo4zYFJ2plbyrgssJasOleChDM3LIN/BcYjb/m7KtujJwhXr3SjIIwsf
+	 szCA0uEecK4Tp4xi397nVytkO5epxm5Ctjf0oSQHX0YeguERx4dO8LhotQniwDnfsB
+	 9AyLg6dpI80mg==
+Message-ID: <678c1f01-c6cd-d1be-bd0b-277a808b006a@collabora.com>
+Date: Thu, 3 Mar 2022 11:13:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="szkcsdi5ha36tvvv"
-Content-Disposition: inline
-In-Reply-To: <211b3d35-1d8d-b71c-996a-b185324815f7@canonical.com>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-sunxi@lists.linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+Subject: Re: [PATCH v3 00/14] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220225164600.1044663-1-benjamin.gaignard@collabora.com>
+ <CAHCN7x+AUy4JsqfdyZFqg4ScR1OgoLvqF91za0AZ278NSBJj4A@mail.gmail.com>
+ <b832271d-cecd-a373-48ff-ba5ce736e47d@collabora.com>
+ <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7xJ3K2bLEc8dcTM+x-E0brDW-t4yrUdkUe0jCfuzH8v9pA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
---szkcsdi5ha36tvvv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Le 03/03/2022 à 02:23, Adam Ford a écrit :
+> On Mon, Feb 28, 2022 at 4:13 AM Benjamin Gaignard
+> <benjamin.gaignard@collabora.com> wrote:
+>>
+>> Le 26/02/2022 à 23:25, Adam Ford a écrit :
+>>> On Fri, Feb 25, 2022 at 4:41 PM Benjamin Gaignard
+>>> <benjamin.gaignard@collabora.com> wrote:
+>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>
+>>>> After the remarks done on version 2, I have completely reworked to patches
+>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>> titles.
+>>>>
+>>>> In this v3 I do all the changes (new controls, documentation, etc..)
+>>>> in the staging directory before moving the HEVC uAPI to stable
+>>>> steps by steps (unlike the big one patch in v2).
+>>>>
+>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>> I have push a branch here:
+>> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/HEVC_UAPI_V4
+>>
+>> it is the incoming version 4 of this series + patches to enable G2 on my IMX8MQ
+> Benjamin,
+>
+> I checked this repo out, and built it along with pulling the latest
+> versions of G-streamer and fluster.
+> When I check for v4l2 compatibility, I get the following:
+>
+>      GStreamer-H.264-V4L2-Gst1.0: GStreamer H.264 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.264-V4L2SL-Gst1.0: GStreamer H.264 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-AV1-V4L2SL-Gst1.0: GStreamer AV1 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+> GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2-Gst1.0: GStreamer VP8 V4L2 decoder for GStreamer 1.0... ❌
+>      GStreamer-VP8-V4L2SL-Gst1.0: GStreamer VP8 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>      GStreamer-VP9-V4L2SL-Gst1.0: GStreamer VP9 V4L2SL decoder for
+> GStreamer 1.0... ✔️
+>
+> I see H,264, VP8 and VP9, but I would have also expected
+> GStreamer-H.265-V4L2SL-Gst1.0 to return with a check box.
+>
+> When I checked to see if both decoders were being enumerated, I found they were.
+> [gst-main] root@localhost:~/gstreamer/fluster# dmesg |grep -i hantro
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.044243] hantro_vpu: module is from the staging directory, the
+> quality is unknown, you have been warned.
+> [   16.095661] hantro-vpu 38300000.video-codec: registered
+> nxp,imx8mq-vpu-g1-dec as /dev/video0
+> [   16.096782] hantro-vpu 38310000.video-codec: registered
+> nxp,imx8mq-vpu-g2-dec as /dev/video1
+>
+> Did I do something wrong, or did I miss something?
 
-Hello,
+Hi Adam,
 
-(dropped Anson Huang and Yash Shah from Cc, their addresses bounced last
-time I used them.)
+I guess it could be a misalignment between v4l2 kernel headers
+and GStreamer v4l2 headers.
+I have push a new version of the GST merge request which is aligned with
+HEVC uAPI v4 proposal.
 
-On Wed, Mar 02, 2022 at 08:04:45PM +0100, Krzysztof Kozlowski wrote:
-> On 14/02/2022 22:21, Krzysztof Kozlowski wrote:
-> > Hi,
-> >=20
-> > Changes since v1:
-> > 1. Add tags.
-> > 2. Adjust subject (Uwe).
-> >=20
->=20
-> Hi Thierry, Uwe and Lee,
->=20
-> Any comments here? Rob acked all these, so these are clear to go via PWM
-> tree.
+When you inspect v4l2codecs gst plugin (gst-inspect-1.0 v4l2codecs) do
+you see v4l2slh265dec plugin ?
+I have fluster happy with it:
+./fluster.py list -c
 
-They are fine from my side:
 
-Acked-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
+H265
+     ...
+     GStreamer-H.265-V4L2-Gst1.0: GStreamer H.265 V4L2 decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for GStreamer 1.0... ✔️
+     GStreamer-H.265-VA-Gst1.0: GStreamer H.265 VA decoder for GStreamer 1.0... ❌
+     GStreamer-H.265-VAAPI-Gst1.0: GStreamer H.265 VAAPI decoder for GStreamer 1.0... ❌
+     JCT-VT-H.265: JCT-VT H.265/HEVC reference decoder... ❌
 
-It's Thierry who is reponsible to pick these up and it seems he marked
-the series as accepted:
-	https://patchwork.ozlabs.org/project/linux-pwm/list/?series=3D286150&state=
-=3D*
+I hope that will help you,
 
-So I would expect that it turns up in next after Thierry is done with
-his testing.
+Regards,
+Benjamin
 
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---szkcsdi5ha36tvvv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmIgYxYACgkQwfwUeK3K
-7AlLnwf/RtAHP6ySxnXSdGI6h/ICx3Q7FjK5zy2WDgciveSQhO92SP1TrQR8Ll0H
-CN5ftiC6uc/PqFXfnzno/ZKrQ+yhwuL3GNWl/tK070bXLkZS9rtZoo62p2DxK6/U
-V9GQpUSATRqU19pMkuje+qfbL5o5gTzehAAtQq/aQLEUqn0R46gk4DnYVuFK9ezV
-KLe6HD8NoNbclEkJwJ6NKZKgwxIck0g3HFqTwHD7PEHb1i1R1teL4M3lacIflRMB
-dNw2LCVgIFw/Su/sZWL/sj2vilOrKUQD+R+O4vOzxqEO7TrSOZgHitAHOWs2uBI6
-NeJ60SyXxmDSYCmuEiZVL1Fax6Dldg==
-=/r9+
------END PGP SIGNATURE-----
-
---szkcsdi5ha36tvvv--
+>
+> adam
+>
+>> Regards,
+>> Benjamin
+>>
+>>> Benjamin,
+>>>
+>>> I have an imx8mm and imx8mq that I can test. Do you happen to have a
+>>> repo that I can clone to test this?  The imx8m stuff is spread around
+>>> between the media tree and the imx tree since it hasn't been fully
+>>> merged yet.
+>>>
+>>> thanks,
+>>>
+>>> adam
+>>>
+>>>> Benjamin
+>>>>
+>>>> Benjamin Gaignard (11):
+>>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>       prefix
+>>>>     media: uapi: HEVC: Add document uAPI structure
+>>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>>>>       dynamic array
+>>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSET control
+>>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>>     media: controls: Log HEVC stateless control in .std_log
+>>>>     media: uapi: Create a dedicated header for Hantro control
+>>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>     media: uapi: move HEVC stateless controls out of staging
+>>>>
+>>>> Hans Verkuil (3):
+>>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>     vivid: add dynamic array test control
+>>>>
+>>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 831 ++++++++++++++++++
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 ----------------
+>>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  32 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>>    include/uapi/linux/v4l2-controls.h            | 436 +++++++++
+>>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>>    22 files changed, 1686 insertions(+), 1169 deletions(-)
+>>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>>
+>>>> --
+>>>> 2.32.0
+>>>>
