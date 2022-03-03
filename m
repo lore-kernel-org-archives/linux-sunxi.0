@@ -1,100 +1,161 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C7066A3
-	for <linux-sunxi@lists.linux.dev>; Thu,  3 Mar 2022 13:44:43 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id 12so4796445oix.12
-        for <linux-sunxi@lists.linux.dev>; Thu, 03 Mar 2022 05:44:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=v44qDax9KEdYLRCIw5soHVCzl51dh0SIKoJV0wM0I0I=;
-        b=p8z+//sZXcx08mBpvY2Pf+e4lb2kaAw20qxaJxAqFf/WRBJmjWwaCipMQH+06BJ8KQ
-         RpEPBbyZtfza5/ScF3N3w3tkrGf45i5kuvhJ3wY4w9IFlQsO5ijyTY3+Q8vGU/ApHZfF
-         tplX/rgaX74ni5lyjEB15+rxpwAgri8oNlpt/eb7/l2qslob1pOBg3puM5q/oG7FtlJa
-         ZDfxnnrYrtia1vAoC3iFT2b1JGKGREGqS+kxtbl+3ODzb+WFSAV89zqkcoNrwoMkc18R
-         3sNQ88qlcF+1IuP09LL1yQn9/KyFcal8fV1FIsgDqV2LprNdcGaqyVvNappyMs91AS8o
-         TmIA==
-X-Gm-Message-State: AOAM533QKd2uwrzfv5nMNejEmXXE5nqpjMS1TGopZN4AW6NhHpoRmWWF
-	HQjLkn3qtqO6CFzHFdEUZg==
-X-Google-Smtp-Source: ABdhPJzn31TBcNmGDsK1JV7b+U+3AzzWAVgACRgHF4lqaMW3Q7MxwOp88OaXLDAQFSwz+6Z4Nw7nKA==
-X-Received: by 2002:aca:502:0:b0:2cd:c24:278f with SMTP id 2-20020aca0502000000b002cd0c24278fmr4457068oif.150.1646315081264;
-        Thu, 03 Mar 2022 05:44:41 -0800 (PST)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net. [66.90.148.213])
-        by smtp.gmail.com with ESMTPSA id z25-20020a056808065900b002d97bda386esm980555oih.51.2022.03.03.05.44.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Mar 2022 05:44:40 -0800 (PST)
-Received: (nullmailer pid 1495431 invoked by uid 1000);
-	Thu, 03 Mar 2022 13:44:38 -0000
-From: Rob Herring <robh@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDE54297;
+	Thu,  3 Mar 2022 22:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1646347443; x=1677883443;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LGs61FMx3IeFD9eB7+GKLp/0tGX59gvBzS7laALfEFU=;
+  b=Qoj4Czbzm0i46ZcgET7urXNO2jxDQ1y44FLZ5RIf8zOoHPzlnG7+fL/1
+   CqBVIQbpx4jgkWOy/dVNxInBRTCl7R9kYAs2XO7yPKhW2wJQH14pDnqru
+   x4QUt1TLfwHDw5ImLlZgVj98IRvbh5vsvrd3N+0cPwf2kN+ehpcNQOpcZ
+   zfbPtv8DQmeG3EkM9QrhckjnJvS/OjoC8MJNJRDF/w6UNO/QR9lpRG00c
+   o0Q92NV1sfOWha+brR2ABNUS+/9pi8i8GNEtqppQETZoba21edU09Q0im
+   2eiR+Xq8KzpEuq6LQxTUfMFs/PduZVETykDkfNHB7vafqE42+0bB4RIIH
+   g==;
+X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="340267241"
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
+   d="scan'208";a="340267241"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:44:02 -0800
+X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
+   d="scan'208";a="642299153"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:43:57 -0800
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 33DDE20150;
+	Fri,  4 Mar 2022 00:43:55 +0200 (EET)
+Date: Fri, 4 Mar 2022 00:43:55 +0200
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, Yong Deng <yong.deng@magewell.com>, Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Hans Verkuil <hans.verkuil@cisco.com>, Kishon Vijay Abraham I <kishon@ti.com>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-In-Reply-To: <20220302220739.144303-4-paul.kocialkowski@bootlin.com>
-References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com> <20220302220739.144303-4-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v3 3/9] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
-Date: Thu, 03 Mar 2022 07:44:38 -0600
-Message-Id: <1646315078.961128.1495430.nullmailer@robh.at.kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Helen Koike <helen.koike@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
+ port management
+Message-ID: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
+References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
+ <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
+ <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
+ <Yh+GZv9/rKQ2WbI2@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Yh+GZv9/rKQ2WbI2@aptenodytes>
 
-On Wed, 02 Mar 2022 23:07:33 +0100, Paul Kocialkowski wrote:
-> The A31 CSI controller supports two distinct input interfaces:
-> parallel and an external MIPI CSI-2 bridge. The parallel interface
-> is often connected to a set of hardware pins while the MIPI CSI-2
-> bridge is an internal FIFO-ish link. As a result, these two inputs
-> are distinguished as two different ports.
+Hi Paul,
+
+On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
+> > > +static int
+> > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
+> > > +				struct v4l2_subdev *remote_subdev,
+> > > +				struct v4l2_async_subdev *async_subdev)
+> > > +{
+> > > +	struct sun6i_csi_device *csi_dev =
+> > > +		container_of(notifier, struct sun6i_csi_device,
+> > > +			     bridge.notifier);
+> > > +	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
+> > > +	struct sun6i_csi_bridge_source *source = NULL;
+> > > +	struct fwnode_handle *fwnode = dev_fwnode(csi_dev->dev);
+> > > +	struct fwnode_handle *handle = NULL;
+> > > +	bool enabled;
+> > > +	int ret;
+> > > +
+> > > +	while ((handle = fwnode_graph_get_next_endpoint(fwnode, handle))) {
+> > 
+> > I'd instead store the information you need here in struct sun6i_csi_bridge.
+> > You could remove the loop here.
 > 
-> Note that only one of the two may be present on a controller instance.
-> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-> dedicated to parallel.
+> Is there a different method for matching a remote subdev to a local port?
+> The rationale here is that I need the handle for fwnode_graph_parse_endpoint
+> but cannot get that handle from the remote subdev's fwnode pointer directly.
+
+You generally shouldn't try to match fwnodes here as the V4L2 async
+framework has already done that job. This information can be found behind
+the async_subdev pointer.
+
+See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
+
 > 
-> Update the binding with an explicit ports node that holds two distinct
-> port nodes: one for parallel input and one for MIPI CSI-2.
+> > > +		struct fwnode_endpoint endpoint = { 0 };
+> > > +		struct fwnode_handle *remote_fwnode;
+> > > +
+> > > +		remote_fwnode = fwnode_graph_get_remote_port_parent(handle);
+> > > +		if (!remote_fwnode)
+> > > +			continue;
+> > > +
+> > > +		if (remote_fwnode != remote_subdev->fwnode)
+> > > +			goto next;
+> > > +
+> > > +		ret = fwnode_graph_parse_endpoint(handle, &endpoint);
+> > > +		if (ret < 0)
+> > > +			goto next;
+> > > +
+> > > +		switch (endpoint.port) {
+> > > +		case SUN6I_CSI_PORT_PARALLEL:
+> > > +			source = &bridge->source_parallel;
+> > > +			enabled = true;
+> > > +			break;
+> > > +		default:
+> > > +			break;
+> > > +		}
+> > > +
+> > > +next:
+> > > +		fwnode_handle_put(remote_fwnode);
+> > > +	}
+> > > +
+> > > +	if (!source)
+> > > +		return -EINVAL;
+> > > +
+> > > +	source->subdev = remote_subdev;
+> > > +
+> > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
+> > > +				     remote_subdev, enabled);
+> > > +}
+> > > +
+> > > +static int
+> > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
+> > > +{
+> > > +	struct sun6i_csi_device *csi_dev =
+> > > +		container_of(notifier, struct sun6i_csi_device,
+> > > +			     bridge.notifier);
+> > > +
+> > > +	return sun6i_csi_v4l2_complete(csi_dev);
+> > 
+> > You could call v4l2_device_register_subdev_nodes() here.
 > 
-> This is backward-compatible with the single-port approach that was
-> previously taken for representing the parallel interface port, which
-> stays enumerated as fwnode port 0.
+> That's definitely what sun6i_csi_v4l2_complete does (the diff is probably not
+> very clear). Note that the wrapper is extended later on to register the capture
+> video device for the no-isp path.
+
+I could be missing something... Do you need to call
+sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
+it'd be probably better to just move the code here.
+
 > 
-> Note that additional ports may be added in the future, especially to
-> support feeding the CSI controller's output to the ISP.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Acked-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  .../media/allwinner,sun6i-a31-csi.yaml        | 66 +++++++++++++++----
->  1 file changed, 53 insertions(+), 13 deletions(-)
-> 
+> Maybe the capture registration could be kept in sun6i_csi_probe for the non-isp
+> path and then the wrapper wouldn't be needed. I don't mind either way.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+-- 
+Kind regards,
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:88:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:90:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:102:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml:104:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.example.dt.yaml: csi@1cb4000: ports:port@0: 'reg' does not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1600105
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Sakari Ailus
