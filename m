@@ -1,36 +1,28 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDE54297;
-	Thu,  3 Mar 2022 22:44:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1646347443; x=1677883443;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LGs61FMx3IeFD9eB7+GKLp/0tGX59gvBzS7laALfEFU=;
-  b=Qoj4Czbzm0i46ZcgET7urXNO2jxDQ1y44FLZ5RIf8zOoHPzlnG7+fL/1
-   CqBVIQbpx4jgkWOy/dVNxInBRTCl7R9kYAs2XO7yPKhW2wJQH14pDnqru
-   x4QUt1TLfwHDw5ImLlZgVj98IRvbh5vsvrd3N+0cPwf2kN+ehpcNQOpcZ
-   zfbPtv8DQmeG3EkM9QrhckjnJvS/OjoC8MJNJRDF/w6UNO/QR9lpRG00c
-   o0Q92NV1sfOWha+brR2ABNUS+/9pi8i8GNEtqppQETZoba21edU09Q0im
-   2eiR+Xq8KzpEuq6LQxTUfMFs/PduZVETykDkfNHB7vafqE42+0bB4RIIH
-   g==;
-X-IronPort-AV: E=McAfee;i="6200,9189,10275"; a="340267241"
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
-   d="scan'208";a="340267241"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:44:02 -0800
-X-IronPort-AV: E=Sophos;i="5.90,153,1643702400"; 
-   d="scan'208";a="642299153"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2022 14:43:57 -0800
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 33DDE20150;
-	Fri,  4 Mar 2022 00:43:55 +0200 (EET)
-Date: Fri, 4 Mar 2022 00:43:55 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E7EA33;
+	Fri,  4 Mar 2022 09:12:11 +0000 (UTC)
+Received: from relay8-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::228])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 36006C9A05;
+	Fri,  4 Mar 2022 09:00:26 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 3EEEC1BF213;
+	Fri,  4 Mar 2022 09:00:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1646384418;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MoznkUIec7VAQY3ImNmY3IHeuYJ/S05cBMHdD+Wm4Nc=;
+	b=F9tvU0ozNsPeQ9lftznClBeZfJB6PRNXxUPQuKwyUpT+KlQKi1Nt6H6ki+H9T74PtC15GX
+	mEICPAhXiahTCeW0RAjDqf9QHMqxP63CmickbbG9Wiyp9qId8qFcZGrK6aWmhmVw7/aGt2
+	yLlqqcQDFBjV1yRkmHN+eaunAwYFhRpPb7msRMR/CGFHaJhhUappIX1EW+O1P7k1yliwnB
+	M5V5bFFMXlCKDVfIyrkqNeKa0olTvBeJQCCkrxzrIJUMmqwnsXU1BEtxyIGQsumhssIw9L
+	Zlau+iKBkap+qVKAuIzvu4o1YBw/r/7qV5t3A4pr5bmRcw1uqeMrjAN3qNgwTQ==
+Date: Fri, 4 Mar 2022 10:00:12 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
@@ -47,115 +39,166 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 Subject: Re: [PATCH v2 30/66] media: sun6i-csi: Add bridge v4l2 subdev with
  port management
-Message-ID: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
+Message-ID: <YiHVHM53GUQ1jxco@aptenodytes>
 References: <20220205185429.2278860-1-paul.kocialkowski@bootlin.com>
  <20220205185429.2278860-31-paul.kocialkowski@bootlin.com>
  <YgqbqVRinNxQ8+WV@paasikivi.fi.intel.com>
  <Yh+GZv9/rKQ2WbI2@aptenodytes>
+ <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="dwUOJP15b315kF0b"
 Content-Disposition: inline
-In-Reply-To: <Yh+GZv9/rKQ2WbI2@aptenodytes>
+In-Reply-To: <YiFEq1liAnBy0fkq@paasikivi.fi.intel.com>
 
-Hi Paul,
 
-On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
-> > > +static int
-> > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
-> > > +				struct v4l2_subdev *remote_subdev,
-> > > +				struct v4l2_async_subdev *async_subdev)
-> > > +{
-> > > +	struct sun6i_csi_device *csi_dev =
-> > > +		container_of(notifier, struct sun6i_csi_device,
-> > > +			     bridge.notifier);
-> > > +	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
-> > > +	struct sun6i_csi_bridge_source *source = NULL;
-> > > +	struct fwnode_handle *fwnode = dev_fwnode(csi_dev->dev);
-> > > +	struct fwnode_handle *handle = NULL;
-> > > +	bool enabled;
-> > > +	int ret;
-> > > +
-> > > +	while ((handle = fwnode_graph_get_next_endpoint(fwnode, handle))) {
-> > 
-> > I'd instead store the information you need here in struct sun6i_csi_bridge.
-> > You could remove the loop here.
-> 
-> Is there a different method for matching a remote subdev to a local port?
-> The rationale here is that I need the handle for fwnode_graph_parse_endpoint
-> but cannot get that handle from the remote subdev's fwnode pointer directly.
+--dwUOJP15b315kF0b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-You generally shouldn't try to match fwnodes here as the V4L2 async
-framework has already done that job. This information can be found behind
-the async_subdev pointer.
+Hi Sakari,
 
-See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
+On Fri 04 Mar 22, 00:43, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Wed, Mar 02, 2022 at 03:59:50PM +0100, Paul Kocialkowski wrote:
+> > > > +static int
+> > > > +sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifi=
+er,
+> > > > +				struct v4l2_subdev *remote_subdev,
+> > > > +				struct v4l2_async_subdev *async_subdev)
+> > > > +{
+> > > > +	struct sun6i_csi_device *csi_dev =3D
+> > > > +		container_of(notifier, struct sun6i_csi_device,
+> > > > +			     bridge.notifier);
+> > > > +	struct sun6i_csi_bridge *bridge =3D &csi_dev->bridge;
+> > > > +	struct sun6i_csi_bridge_source *source =3D NULL;
+> > > > +	struct fwnode_handle *fwnode =3D dev_fwnode(csi_dev->dev);
+> > > > +	struct fwnode_handle *handle =3D NULL;
+> > > > +	bool enabled;
+> > > > +	int ret;
+> > > > +
+> > > > +	while ((handle =3D fwnode_graph_get_next_endpoint(fwnode, handle)=
+)) {
+> > >=20
+> > > I'd instead store the information you need here in struct sun6i_csi_b=
+ridge.
+> > > You could remove the loop here.
+> >=20
+> > Is there a different method for matching a remote subdev to a local por=
+t?
+> > The rationale here is that I need the handle for fwnode_graph_parse_end=
+point
+> > but cannot get that handle from the remote subdev's fwnode pointer dire=
+ctly.
+>=20
+> You generally shouldn't try to match fwnodes here as the V4L2 async
+> framework has already done that job. This information can be found behind
+> the async_subdev pointer.
+>=20
+> See e.g. drivers/media/pci/intel/ipu3/ipu3-cio2-main.c for an example.
 
-> 
-> > > +		struct fwnode_endpoint endpoint = { 0 };
-> > > +		struct fwnode_handle *remote_fwnode;
-> > > +
-> > > +		remote_fwnode = fwnode_graph_get_remote_port_parent(handle);
-> > > +		if (!remote_fwnode)
-> > > +			continue;
-> > > +
-> > > +		if (remote_fwnode != remote_subdev->fwnode)
-> > > +			goto next;
-> > > +
-> > > +		ret = fwnode_graph_parse_endpoint(handle, &endpoint);
-> > > +		if (ret < 0)
-> > > +			goto next;
-> > > +
-> > > +		switch (endpoint.port) {
-> > > +		case SUN6I_CSI_PORT_PARALLEL:
-> > > +			source = &bridge->source_parallel;
-> > > +			enabled = true;
-> > > +			break;
-> > > +		default:
-> > > +			break;
-> > > +		}
-> > > +
-> > > +next:
-> > > +		fwnode_handle_put(remote_fwnode);
-> > > +	}
-> > > +
-> > > +	if (!source)
-> > > +		return -EINVAL;
-> > > +
-> > > +	source->subdev = remote_subdev;
-> > > +
-> > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
-> > > +				     remote_subdev, enabled);
-> > > +}
-> > > +
-> > > +static int
-> > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
-> > > +{
-> > > +	struct sun6i_csi_device *csi_dev =
-> > > +		container_of(notifier, struct sun6i_csi_device,
-> > > +			     bridge.notifier);
-> > > +
-> > > +	return sun6i_csi_v4l2_complete(csi_dev);
-> > 
-> > You could call v4l2_device_register_subdev_nodes() here.
-> 
-> That's definitely what sun6i_csi_v4l2_complete does (the diff is probably not
-> very clear). Note that the wrapper is extended later on to register the capture
-> video device for the no-isp path.
+Thanks for the feedback, I'll look into that.
 
-I could be missing something... Do you need to call
-sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
-it'd be probably better to just move the code here.
+> >=20
+> > > > +		struct fwnode_endpoint endpoint =3D { 0 };
+> > > > +		struct fwnode_handle *remote_fwnode;
+> > > > +
+> > > > +		remote_fwnode =3D fwnode_graph_get_remote_port_parent(handle);
+> > > > +		if (!remote_fwnode)
+> > > > +			continue;
+> > > > +
+> > > > +		if (remote_fwnode !=3D remote_subdev->fwnode)
+> > > > +			goto next;
+> > > > +
+> > > > +		ret =3D fwnode_graph_parse_endpoint(handle, &endpoint);
+> > > > +		if (ret < 0)
+> > > > +			goto next;
+> > > > +
+> > > > +		switch (endpoint.port) {
+> > > > +		case SUN6I_CSI_PORT_PARALLEL:
+> > > > +			source =3D &bridge->source_parallel;
+> > > > +			enabled =3D true;
+> > > > +			break;
+> > > > +		default:
+> > > > +			break;
+> > > > +		}
+> > > > +
+> > > > +next:
+> > > > +		fwnode_handle_put(remote_fwnode);
+> > > > +	}
+> > > > +
+> > > > +	if (!source)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	source->subdev =3D remote_subdev;
+> > > > +
+> > > > +	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
+> > > > +				     remote_subdev, enabled);
+> > > > +}
+> > > > +
+> > > > +static int
+> > > > +sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *not=
+ifier)
+> > > > +{
+> > > > +	struct sun6i_csi_device *csi_dev =3D
+> > > > +		container_of(notifier, struct sun6i_csi_device,
+> > > > +			     bridge.notifier);
+> > > > +
+> > > > +	return sun6i_csi_v4l2_complete(csi_dev);
+> > >=20
+> > > You could call v4l2_device_register_subdev_nodes() here.
+> >=20
+> > That's definitely what sun6i_csi_v4l2_complete does (the diff is probab=
+ly not
+> > very clear). Note that the wrapper is extended later on to register the=
+ capture
+> > video device for the no-isp path.
+>=20
+> I could be missing something... Do you need to call
+> sun6i_csi_v4l2_complete() in multiple places or not? If not, then I think
+> it'd be probably better to just move the code here.
 
-> 
-> Maybe the capture registration could be kept in sun6i_csi_probe for the non-isp
-> path and then the wrapper wouldn't be needed. I don't mind either way.
+No this is only called here so I guess we can avoid it entirely.
 
--- 
-Kind regards,
+Thanks,
 
-Sakari Ailus
+Paul
+
+> >=20
+> > Maybe the capture registration could be kept in sun6i_csi_probe for the=
+ non-isp
+> > path and then the wrapper wouldn't be needed. I don't mind either way.
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--dwUOJP15b315kF0b
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIh1RwACgkQ3cLmz3+f
+v9Ha5Qf+Lz13XAEQwduMjvaJ3V4PK+23t0taf6Fv0+Peh5fnTfFagFYbMtBdFsbo
+q/6i5Zt3JaRdXe+5SixAINP00cflNxpxuAN+MRbjP4wfaRBxNRGqhIGjXWzJYLZe
+jn4lX8W49l8iafyCstJ5jhccMEn/LSo1mO3pAyjc3pMXK+6HabgMe5UEETWvm5n3
+XX1j/KBu1PtgQUNKbBxKGpGVmlmBjMEfM+DIx19h70AeeG7OW4wUq37IJ5i6AiuX
+Q7da7pWZMzdesWbjon3l5X5rPbfimGXqNLJYUa86zFBrk/nO+10HhU1udx4du5AW
+4e/50RP2kNoRQ9bvpvarQtS8gN0BGg==
+=Nf6c
+-----END PGP SIGNATURE-----
+
+--dwUOJP15b315kF0b--
