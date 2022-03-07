@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 104BF3B51
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Mar 2022 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2032B3B51
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Mar 2022 14:34:43 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 999D5ED1;
-	Mon,  7 Mar 2022 06:34:40 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB98CED1;
+	Mon,  7 Mar 2022 06:34:42 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D2A863F66F;
-	Mon,  7 Mar 2022 06:34:38 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id CD7A53F66F;
+	Mon,  7 Mar 2022 06:34:40 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -20,10 +20,12 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	George Hilliard <thirtythreeforty@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 06/14] ARM: dts: suniv: F1C100: fix timer node
-Date: Mon,  7 Mar 2022 14:34:13 +0000
-Message-Id: <20220307143421.1106209-7-andre.przywara@arm.com>
+	linux-sunxi@lists.linux.dev,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	linux-mmc@vger.kernel.org
+Subject: [PATCH 07/14] dt-bindings: mmc: sunxi: add Allwinner F1c100s compatible
+Date: Mon,  7 Mar 2022 14:34:14 +0000
+Message-Id: <20220307143421.1106209-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307143421.1106209-1-andre.przywara@arm.com>
 References: <20220307143421.1106209-1-andre.przywara@arm.com>
@@ -35,29 +37,39 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner F1C100s has three timer instances, each with their own
-interrupt line.
+From: Jesse Taube <mr.bossman075@gmail.com>
 
-Add the missing two interrupts to the DT node, to match the DT binding.
+The Allwinner F1C100 series contains two MMC controller blocks. From
+comparing the data sheets, they seem to be compatible with the one used
+in the Allwinner A20: the register layout is the same, and they use the
+same separate sample and output clocks design.
+The only difference is the missing reset line in the A20 version, but
+both the binding and the Linux driver make this optional, so it's still
+a fit.
 
+Add the new SoC specific name and require it to be paired with the A20
+fallback name, as this is all the driver needs to care about.
+
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml       | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 43d342eaf661..57f8932ef898 100644
---- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -105,7 +105,7 @@ uart0_pe_pins: uart0-pe-pins {
- 		timer@1c20c00 {
- 			compatible = "allwinner,suniv-f1c100s-timer";
- 			reg = <0x01c20c00 0x90>;
--			interrupts = <13>;
-+			interrupts = <13>, <14>, <15>;
- 			clocks = <&osc24M>;
- 		};
+diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
+index 4f62ad6ce50c..76137132500d 100644
+--- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
++++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
+@@ -55,6 +55,9 @@ properties:
+       - items:
+           - const: allwinner,sun50i-h616-mmc
+           - const: allwinner,sun50i-a100-mmc
++      - items:
++          - const: allwinner,suniv-f1c100s-mmc
++          - const: allwinner,sun7i-a20-mmc
  
+   reg:
+     maxItems: 1
 -- 
 2.25.1
 
