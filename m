@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D1D228E0
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92723B51
 	for <linux-sunxi@lists.linux.dev>; Mon,  7 Mar 2022 14:34:38 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B23BA113E;
-	Mon,  7 Mar 2022 06:34:32 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0A5F1477;
+	Mon,  7 Mar 2022 06:34:38 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9C0C23F66F;
-	Mon,  7 Mar 2022 06:34:30 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D8A503F66F;
+	Mon,  7 Mar 2022 06:34:36 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -20,13 +20,10 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	George Hilliard <thirtythreeforty@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-watchdog@vger.kernel.org
-Subject: [PATCH 02/14] ARM: dts: suniv: F1C100: fix watchdog compatible
-Date: Mon,  7 Mar 2022 14:34:09 +0000
-Message-Id: <20220307143421.1106209-3-andre.przywara@arm.com>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 05/14] ARM: dts: suniv: F1C100: fix CPU node
+Date: Mon,  7 Mar 2022 14:34:12 +0000
+Message-Id: <20220307143421.1106209-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307143421.1106209-1-andre.przywara@arm.com>
 References: <20220307143421.1106209-1-andre.przywara@arm.com>
@@ -38,42 +35,35 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The F1C100 series of SoCs actually have their watchdog IP being
-compatible with the newer Allwinner generation, not the older one.
+The /cpu node in the f1c100s.dtsi is not spec compliant, it's missing
+the reg property, and the corresponding address and size cells
+properties.
 
-The currently described sun4i-a10-wdt actually does not work, neither
-the watchdog functionality (just never fires), nor the reset part
-(reboot hangs).
+Add them to make the bindings check pass.
 
-Replace the compatible string with the one used by the newer generation.
-Verified to work with both the watchdog and reboot functionality on a
-LicheePi Nano.
-
-Also add the missing interrupt line and clock source, to make it binding
-compliant.
-
-Fixes: 4ba16d17efdd ("ARM: dts: suniv: add initial DTSI file for F1C100s")
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/boot/dts/suniv-f1c100s.dtsi | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-index 6100d3b75f61..def830101448 100644
+index 922efd5e9457..43d342eaf661 100644
 --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
 +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
-@@ -104,8 +104,10 @@ timer@1c20c00 {
+@@ -29,9 +29,13 @@ osc32k: clk-32k {
+ 	};
  
- 		wdt: watchdog@1c20ca0 {
- 			compatible = "allwinner,suniv-f1c100s-wdt",
--				     "allwinner,sun4i-a10-wdt";
-+				     "allwinner,sun6i-a31-wdt";
- 			reg = <0x01c20ca0 0x20>;
-+			interrupts = <16>;
-+			clocks = <&osc32k>;
+ 	cpus {
++		#address-cells = <1>;
++		#size-cells = <0>;
++
+ 		cpu {
+ 			compatible = "arm,arm926ej-s";
+ 			device_type = "cpu";
++			reg = <0x0>;
  		};
+ 	};
  
- 		uart0: serial@1c25000 {
 -- 
 2.25.1
 
