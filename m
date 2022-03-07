@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81FD83B51
-	for <linux-sunxi@lists.linux.dev>; Mon,  7 Mar 2022 14:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A75B83B51
+	for <linux-sunxi@lists.linux.dev>; Mon,  7 Mar 2022 14:34:49 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39E9FED1;
-	Mon,  7 Mar 2022 06:34:47 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6A5BAED1;
+	Mon,  7 Mar 2022 06:34:49 -0800 (PST)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C28F3F66F;
-	Mon,  7 Mar 2022 06:34:45 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C4053F800;
+	Mon,  7 Mar 2022 06:34:47 -0800 (PST)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -21,11 +21,11 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [PATCH 09/14] ARM: dts: suniv: licheepi-nano: add microSD card
-Date: Mon,  7 Mar 2022 14:34:16 +0000
-Message-Id: <20220307143421.1106209-10-andre.przywara@arm.com>
+	Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org
+Subject: [PATCH 10/14] dt-bindings: spi: sunxi: document F1C100 controllers
+Date: Mon,  7 Mar 2022 14:34:17 +0000
+Message-Id: <20220307143421.1106209-11-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220307143421.1106209-1-andre.przywara@arm.com>
 References: <20220307143421.1106209-1-andre.przywara@arm.com>
@@ -37,54 +37,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jesse Taube <mr.bossman075@gmail.com>
+The Allwinner F1C100 series contains two SPI controllers, which are
+compatible to the IP block used in the Allwinner H3 as well.
+The only difference in the integration is the missing mod clock in the
+F1C100, but that does not affect the SPI controller binding, as we can
+still supply the correct clock (AHB parent) easily.
 
-Enable MMC0 and supply the board setting to enable the microSD card slot
-on the LicheePi Nano board.
-Apart from the always missing write protect switch on microSD slots,
-the card-detect pin is not connected to anything, so we use the
-broken-cd property.
-
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-[Andre: add alias and vmmc supply]
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml         | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-index a1154e6c7cb5..8fa79a1d1d2d 100644
---- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -11,12 +11,28 @@ / {
- 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+index 908248260afa..ca4c95345a49 100644
+--- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
++++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+@@ -26,6 +26,7 @@ properties:
+               - allwinner,sun8i-r40-spi
+               - allwinner,sun50i-h6-spi
+               - allwinner,sun50i-h616-spi
++              - allwinner,suniv-f1c100s-spi
+           - const: allwinner,sun8i-h3-spi
  
- 	aliases {
-+		mmc0 = &mmc0;
- 		serial0 = &uart0;
- 	};
- 
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	status = "okay";
-+	vmmc-supply = <&reg_vcc3v3>;
- };
- 
- &uart0 {
+   reg:
 -- 
 2.25.1
 
