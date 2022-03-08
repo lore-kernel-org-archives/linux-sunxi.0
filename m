@@ -1,74 +1,83 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8DF4C88
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 21:38:07 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 1B9C9C1E79
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 21:28:41 +0000 (UTC)
-Received: (Authenticated sender: alexandre.belloni@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C6423FF808;
-	Tue,  8 Mar 2022 21:28:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1646774913;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZTarAopzLDOuafPpTwK5kvhF2KZ8Y6/kloPhqGXDzLM=;
-	b=NxbKMJ/EFDVUGnkxlbV4VtWvuKGXiMPODYCFL4g6R3DHH0ivm4hZVqSBOwO4Zn3Mh5lAhF
-	4JqKhMOr8YjRX1HeWzZ1FZNWZf8nr7rsFntoCqP/GCfCyrbL0sTYlBYEn6SOKYsCdTRgIb
-	mGMHy28sWOsU9X9dByORprKNJvNJQUc05syXNgDSskG1TIb9k/BBwM0B5UfsnP3Z04kEft
-	SI5s1CsPM8BNn+jIvBb31KMvIgGEugNgri6uFlHnmpKOjJKi8dg2BKZuFE5TqJ6qxsm8a6
-	ZikDRT9X/cPyoaul1cSdSJarZh/A8ZCzdo6gklTv28mKWxxVM2TGe+l+mNXY1A==
-From: Alexandre Belloni <alexandre.belloni@bootlin.com>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	linux-sunxi@lists.linux.dev,
-	linux-rtc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Rob Herring <robh@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Ondrej Jirman <megous@megous.com>,
-	Icenowy Zheng <icenowy@aosc.io>
-Subject: Re: (subset) [PATCH v10 05/18] rtc: sun6i: Add support for broken-down alarm registers
-Date: Tue,  8 Mar 2022 22:28:28 +0100
-Message-Id: <164677489899.102692.3167315727676905171.b4-ty@bootlin.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220211122643.1343315-6-andre.przywara@arm.com>
-References: <20220211122643.1343315-1-andre.przywara@arm.com> <20220211122643.1343315-6-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9456446
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 23:45:01 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id x5so719030edd.11
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Mar 2022 15:45:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=R5rD06Jb33tlpsYg+zacl9gOGE39RgYTcZ3AUmAKk+k=;
+        b=kT0CoUpD6C3Xk+Syyc3g2EyRA6X+44nx9fnethcGlcRmfLBQpCmyre7xE3rkEC/Y1t
+         STrq8nxvUWIMlu5tRsYNT16i802tLm/s3IyJRYk1bI2Pji3IVN7bLx7hyyfvCgTJitIy
+         0+vQ8zJSa9Kbj2C1GGvbWbLCvbf1mMaHoiZlr/iSm9Xp3F1GJw1SB3m1Z2Al1R00X5Ne
+         ibT8bT+jzYCECm9PLVzl145bqj7V9/GAo3/T9kdCmR/N4ksOT/UM/LVxLZa4iXVRb38J
+         7a9ZtfrtSSJZ4ORPlySmANv/5Ig1MxehiFh0UVmL1aJv5jZtyFSLRccKYl490TDoCnWl
+         cCmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=R5rD06Jb33tlpsYg+zacl9gOGE39RgYTcZ3AUmAKk+k=;
+        b=3Q58lmpaEkR7ONjX40xh/03vLFHYx7pLZs2OaYopsQouV7FQeUboo3bXWrJgwIJ86b
+         MdSc+++8IuUSTQkHMu+Ir8R9AIz71zium1E53EXSjAa6u7SiqqFqljMGbMC63bu9py5q
+         Q1oAad4mntte8WJy4gcY6/9SKrTbW1wKo555Z+43xxaQyhhG3TTlCwZmB50FhOX9uA5y
+         IUXs/yCPhjq61caW/4GuDC6eL1bPMRTDApwPRm+1TDJw9krQvuVBKF4WJWjtNxPwCLzn
+         euaD6yLQB3hsxitOGekZJlwPD+98YaAD63TQq6xgQUXipEgfBRX0P4uIASy2D8v2y2W6
+         sXfA==
+X-Gm-Message-State: AOAM531nllERRdqaMF8bfSzcURIVv43FQ1ACVa6hLplDbwfZWVOs/c5N
+	dIZFYKPgBCZqNpn+CEQsaTJw5A==
+X-Google-Smtp-Source: ABdhPJwAa5h+FPbQ9EbtrO+8twaLOcIwcj6An3X7zE034ZrmYDx1nBgzQc3Ssz/Np+zl4LlJ6UlLlg==
+X-Received: by 2002:a05:6402:354f:b0:416:8fba:8348 with SMTP id f15-20020a056402354f00b004168fba8348mr968136edd.73.1646783099315;
+        Tue, 08 Mar 2022 15:44:59 -0800 (PST)
+Received: from [192.168.0.103] ([37.252.93.155])
+        by smtp.googlemail.com with ESMTPSA id fq6-20020a1709069d8600b006db088ca6d0sm74709ejc.126.2022.03.08.15.44.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Mar 2022 15:44:58 -0800 (PST)
+Message-ID: <bc846d95-5571-cfd1-c848-1ae9240f50a4@wirenboard.com>
+Date: Wed, 9 Mar 2022 02:44:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.5.0
+To: fuyao1697@cyg.com
+Cc: devicetree@vger.kernel.org, jernej.skrabec@gmail.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, maijianzhang@allwinnertech.com,
+ mripard@kernel.org, robh+dt@kernel.org, wens@csie.org
+References: <YiCnR5v9fYoXXy39@scg>
+Subject: Re: [PATCH] sunxi:dts: remove r40 can node
+Content-Language: en-GB
+From: Evgeny Boger <boger@wirenboard.com>
+In-Reply-To: <YiCnR5v9fYoXXy39@scg>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Fri, 11 Feb 2022 12:26:30 +0000, Andre Przywara wrote:
-> Newer versions of the Allwinner RTC, for instance as found in the H616
-> SoC, not only store the current day as a linear number, but also change
-> the way the alarm is handled: There are now two registers, that
-> explicitly store the wakeup time, in the same format as the current
-> time.
-> 
-> Add support for that variant by writing the requested wakeup time
-> directly into the registers, instead of programming the seconds left, as
-> the old SoCs required.
-> 
-> [...]
+Hi,
 
-Applied, thanks!
+as I explained in the original commit message, CAN is definitely there 
+and is working perfectly at least on A40i.
+I know it was removed from the user manual, but I personally verified 
+that it is working.
 
-[05/18] rtc: sun6i: Add support for broken-down alarm registers
-        commit: fd6e4315d0dac5c919f6c80db42120793abb8706
+Maybe you can tell why CAN should be removed besides not being described 
+in the manual? Are there some hardware or maybe license issues?
 
-Best regards,
--- 
-Alexandre Belloni <alexandre.belloni@bootlin.com>
+Thanks!
+
+--
+  Best wishes,
+  Evgeny Boger
+  CTO @ wirenboard.com
+
+
+
+
+
