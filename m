@@ -1,41 +1,41 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACCD74A8F
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 16:09:53 +0000 (UTC)
-Received: by mail-oo1-f41.google.com with SMTP id y27-20020a4a9c1b000000b0032129651bb0so1858936ooj.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Mar 2022 08:09:53 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C5EF4A8F
+	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 16:10:26 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id t8-20020a0568301e2800b005b235a56f2dso4761989otr.9
+        for <linux-sunxi@lists.linux.dev>; Tue, 08 Mar 2022 08:10:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=gksQ+ySfVzX/BzWqaFxCpK+7H0a13SWGbxXt2Z5JHuI=;
-        b=bUvy/U0EWCccIHn2Lc+Oi/Gz7I1bE+E0GP/R1PKUdG2pDMyIup77KPZYBk3rdC8Qlp
-         Thlnprh6FKBLDOEA5VJZ8Wl36LrgAsBL5w5/8i/QK+LdHaKhDtU0+HCk8dzCg7SV5Krr
-         owOiLovfmJ+jp9vzLhYsWQKDB8ui0fdFnHhUGKC89DhqnjQPzU6lcaJx05gE/iLyOtdb
-         R4s3XD1AyBuxMkgb5jvURkiOREoHgPS+zrmu9Nzzw+b78qEf3YE9VzNlDuLYaKbWWZGZ
-         iN59daQUoHZPQfPfpc/l08xXHYAvbXyS/vQgDuyeiveSzC53/jT/d8nwEF4iyRN9552z
-         AmYA==
-X-Gm-Message-State: AOAM533+SVOKmY20fiNeLCscMggWh1o/3eTZYoV5HGED2lHK6XeEipd3
-	aVOWuztF09p0xhKTgZZl2w==
-X-Google-Smtp-Source: ABdhPJzLHug0HYSICR5UmoCceM/A96yu7TBizOs7JaMiLXdJSNLB8LT3kVLLyPOnkEYOaS36hCMFTg==
-X-Received: by 2002:a05:6870:c588:b0:da:3d88:de58 with SMTP id ba8-20020a056870c58800b000da3d88de58mr2890938oab.32.1646755792766;
-        Tue, 08 Mar 2022 08:09:52 -0800 (PST)
+        bh=KyPMfupEleyChJaoF32kD8RM8iDdBNnSag4/WPn+wSg=;
+        b=QRgJSNA+bnUfi7AwhuAL8GOSNjqmWMw+Em4xgsnXdIR92WH2Ym9GB/gZeoPhZ3VuRE
+         1EJWw+xZy3vBAjfvMNsvtW1dn/k02ogLZNAgyeBkj/BF3weQljpCHvy7AorCcF3QDbIg
+         o+zk0rZcqDEjG87RAAPy38d8ILhjP9DMgRFvXvU/xQcRKYExsAyJEhdPSxbCpIDo6pmd
+         BE9wo3Jxn3xr/T09LZhjRgbPSoym5z+x5zOQHA4roOSVccQzeAlIGD7VLHDODKejG1y9
+         kzshmnXLZTYLYIUPXptRcoajAGo3aRmIbg3mbefzD65zbjDex1pYvOZoKjC0x6IQlD6w
+         OR5w==
+X-Gm-Message-State: AOAM533ndXLpngAPeP6bfA40l1LBhk640z/sixRWTvSpcLFaPFw/xBfs
+	MTRlXGBCkvyzLsXVa3Dsag==
+X-Google-Smtp-Source: ABdhPJyXTiJ+e/GeI6w1oVwRWDTza1x93/zx+7ZIjP9/OFj7HfNrCrfoNhNES3iqqkqU+ttk3AmrXg==
+X-Received: by 2002:a9d:20ca:0:b0:5ad:3241:47f0 with SMTP id x68-20020a9d20ca000000b005ad324147f0mr8737395ota.269.1646755825679;
+        Tue, 08 Mar 2022 08:10:25 -0800 (PST)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id 60-20020a9d0642000000b005b22a82458csm4268370otn.55.2022.03.08.08.09.51
+        by smtp.gmail.com with ESMTPSA id f10-20020a4a8f4a000000b00320e5ecfecdsm2957842ool.46.2022.03.08.08.10.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Mar 2022 08:09:51 -0800 (PST)
-Received: (nullmailer pid 849717 invoked by uid 1000);
-	Tue, 08 Mar 2022 16:09:50 -0000
-Date: Tue, 8 Mar 2022 10:09:50 -0600
+        Tue, 08 Mar 2022 08:10:24 -0800 (PST)
+Received: (nullmailer pid 850672 invoked by uid 1000);
+	Tue, 08 Mar 2022 16:10:23 -0000
+Date: Tue, 8 Mar 2022 10:10:23 -0600
 From: Rob Herring <robh@kernel.org>
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, George Hilliard <thirtythreeforty@gmail.com>, Rob Herring <robh+dt@kernel.org>, Jesse Taube <mr.bossman075@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Mesih Kilinc <mesihkilinc@gmail.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: Re: [PATCH 03/14] dt-bindings: arm: sunxi: document LicheePi Nano
- name
-Message-ID: <Yid/zlFb2fqNsKEQ@robh.at.kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, Giulio Benetti <giulio.benetti@benettiengineering.com>, Ulf Hansson <ulf.hansson@linaro.org>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Icenowy Zheng <icenowy@aosc.io>, linux-arm-kernel@lists.infradead.org, Jesse Taube <mr.bossman075@gmail.com>, linux-mmc@vger.kernel.org, George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org, Mesih Kilinc <mesihkilinc@gmail.com>
+Subject: Re: [PATCH 07/14] dt-bindings: mmc: sunxi: add Allwinner F1c100s
+ compatible
+Message-ID: <Yid/7wGcnK6kFu3H@robh.at.kernel.org>
 References: <20220307143421.1106209-1-andre.przywara@arm.com>
- <20220307143421.1106209-4-andre.przywara@arm.com>
+ <20220307143421.1106209-8-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -44,19 +44,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220307143421.1106209-4-andre.przywara@arm.com>
+In-Reply-To: <20220307143421.1106209-8-andre.przywara@arm.com>
 
-On Mon, 07 Mar 2022 14:34:10 +0000, Andre Przywara wrote:
-> The top level LicheePi Nano compatible name was never documented in the
-> bindings, so add the currently used string.
+On Mon, 07 Mar 2022 14:34:14 +0000, Andre Przywara wrote:
+> From: Jesse Taube <mr.bossman075@gmail.com>
 > 
-> It looks like the manufacturer might be "sipeed" as well, but I will go
-> with the "licheepi" string that is in the actual .dts for years now.
+> The Allwinner F1C100 series contains two MMC controller blocks. From
+> comparing the data sheets, they seem to be compatible with the one used
+> in the Allwinner A20: the register layout is the same, and they use the
+> same separate sample and output clocks design.
+> The only difference is the missing reset line in the A20 version, but
+> both the binding and the Linux driver make this optional, so it's still
+> a fit.
 > 
+> Add the new SoC specific name and require it to be paired with the A20
+> fallback name, as this is all the driver needs to care about.
+> 
+> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 5 +++++
->  1 file changed, 5 insertions(+)
+>  .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml       | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 
 Acked-by: Rob Herring <robh@kernel.org>
