@@ -1,152 +1,116 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gateway33.websitewelcome.com (gateway33.websitewelcome.com [192.185.145.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1E45127
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 20:42:12 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id r67-20020a1c4446000000b00389d73ceb43so680707wma.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 09 Mar 2022 12:42:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:content-language:to:cc
-         :references:from:subject:in-reply-to:content-transfer-encoding;
-        bh=aSOCxd0O0AlSABEw2+WmMslTuNXzOT8psYUKdCBZjow=;
-        b=iDcQWsrBUQBbOYpkdV/CKJL8qJq5WWMmLaX1Qzg+fJOoD2jytPJDY7x1Az2iaD1WIP
-         UOXtgCvsRC8f4nVQFEO6lUFkEWq2gsgVHQ5q9RSXlcJUNj8cxEVoXBKDLazyevhQYLZq
-         ce/g6buwwH7nstsQOJkuU1tk3Zl7BaLGCIEovkxHTpISFK+W4DowavUXX6bqokYAykWu
-         lEDwcAOkIn22scFP/WqhKCep3FLwxOW75H5aQHsWeKbFXSvYXbg0eBK4K2/sZYn4uwi5
-         h10BTo9eBedCvGMAJE4YgRvhm2efV+HnZXG+gCXZEVHiYYG1USxmldmohtySVC+pX+1F
-         yYqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent
-         :content-language:to:cc:references:from:subject:in-reply-to
-         :content-transfer-encoding;
-        bh=aSOCxd0O0AlSABEw2+WmMslTuNXzOT8psYUKdCBZjow=;
-        b=NMyIH6VpB5NwRalwW56WUbwrVDvsvf3Zq+jwWHc6zqtiQbItD39S7O0kvCkPLFk7B/
-         nNt6+a67eyTrq6N/QJHh/YmzP1q7sjO2GQBA2WIgTZ3a3hNzNQyfFBpoOFcngFS7JpA/
-         w7Wx7OVrAOkb9DcfARXrcjW6CE70WiEk4f/ZFi5Q9ckXfmjR4QW9CmLoLNRomyweanR4
-         Tl+7OzmgppkF7AU4hkMuEQs2t5kwVsgy+bFQwYAz3b17V2vVTKJZic94vWoi54XOOvtO
-         ZoGol6eDkixsetc59E/ra/E+6+89UcVRY6TqYzaEEL1OfKtCRIEVlBIQ3dVEhX1SonJf
-         uFQg==
-X-Gm-Message-State: AOAM530TTzvoqDpAKKz5MNeUHXDp3et7NfffI4FIbS8Vy3Np0KSd/5fS
-	J/gisnk4ttQ8RsLJ1z123Ck=
-X-Google-Smtp-Source: ABdhPJyOGhORUyM5EXeW2PmVMEuYS8h2EGD1SJyFy4GGHmjvmuDHXyH+wyKl36U7mJjN9GdoJ0W6CA==
-X-Received: by 2002:a7b:c114:0:b0:381:f7ee:e263 with SMTP id w20-20020a7bc114000000b00381f7eee263mr9091536wmi.30.1646858530342;
-        Wed, 09 Mar 2022 12:42:10 -0800 (PST)
-Received: from ?IPV6:2a01:c22:7793:600:9d6a:7788:3389:da6c? (dynamic-2a01-0c22-7793-0600-9d6a-7788-3389-da6c.c22.pool.telefonica.de. [2a01:c22:7793:600:9d6a:7788:3389:da6c])
-        by smtp.googlemail.com with ESMTPSA id j15-20020a05600c410f00b00389d35f7624sm2351990wmi.0.2022.03.09.12.42.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Mar 2022 12:42:09 -0800 (PST)
-Message-ID: <44006194-eab1-7ae2-3cc8-41c210efd0b1@gmail.com>
-Date: Wed, 9 Mar 2022 21:42:05 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C3517C0
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 23:24:27 +0000 (UTC)
+Received: from cm14.websitewelcome.com (cm14.websitewelcome.com [100.42.49.7])
+	by gateway33.websitewelcome.com (Postfix) with ESMTP id 552EC30FD6
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 17:03:47 -0600 (CST)
+Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with SMTP
+	id S5LPn4MiyHnotS5LPnRpu5; Wed, 09 Mar 2022 17:03:47 -0600
+X-Authority-Reason: nr=8
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=YES7NizivrMmp+DCNWfLveM3VyxLU3dLyruJlPIenrs=; b=l2Myd8MkFJOHCb44HpN40rPaU7
+	oMZr7HRZUI9YCYhjYYuFAdAZLvQ6lX0eQSKa3uDdW7dpMsSzmQAgDVEmNE3ekHMkiF8NzSKfw59G8
+	pSO1zABRwX+ki5ysLAaBQ2qhmlO++RczUZFiG10goYeaP2+OoCL5V2ZnvKQWlgprscGUkhi0b6/Pt
+	huuJFtcMGmLGTrCX7Yqop6UMYKEdfKkwYDtsFksu5OrkahynxMdqGHHBKtbNOJ9NEYFN1U35fxJl0
+	EiRBAEmUH7fcqwwbL1+HA/4CaJVj270JUAJAZTnvecBIaA2iSLLDhoKlA2l5cg41CtWfh/e9v879H
+	WRZGipGg==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57402 helo=localhost)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <linux@roeck-us.net>)
+	id 1nS5LO-000CNo-2I; Wed, 09 Mar 2022 23:03:46 +0000
+Date: Wed, 9 Mar 2022 15:03:44 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Mesih Kilinc <mesihkilinc@gmail.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jesse Taube <mr.bossman075@gmail.com>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	George Hilliard <thirtythreeforty@gmail.com>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 02/14] ARM: dts: suniv: F1C100: fix watchdog compatible
+Message-ID: <20220309230344.GA3801454@roeck-us.net>
+References: <20220307143421.1106209-1-andre.przywara@arm.com>
+ <20220307143421.1106209-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.6.2
-Content-Language: en-US
-To: Jerome Brunet <jbrunet@baylibre.com>, Erico Nunes <nunes.erico@gmail.com>
-Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Giuseppe Cavallaro <peppe.cavallaro@st.com>,
- Jose Abreu <joabreu@synopsys.com>, Kevin Hilman <khilman@baylibre.com>,
- Neil Armstrong <narmstrong@baylibre.com>, linux-amlogic@lists.infradead.org,
- netdev@vger.kernel.org,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- linux-sunxi@lists.linux.dev
-References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
- <1jczjzt05k.fsf@starbuckisacylon.baylibre.com>
- <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
- <6b04d864-7642-3f0a-aac0-a3db84e541af@gmail.com>
- <CAK4VdL0gpz_55aYo6pt+8h14FHxaBmo5kNookzua9+0w+E4JcA@mail.gmail.com>
- <1e828df4-7c5d-01af-cc49-3ef9de2cf6de@gmail.com>
- <1j8rts76te.fsf@starbuckisacylon.baylibre.com>
- <a4d3fef1-d410-c029-cdff-4d90f578e2da@gmail.com>
- <CAK4VdL08sdZV7o7Bw=cutdmoCEi1NYB-yisstLqRuH7QcHOHvA@mail.gmail.com>
- <435b2a9d-c3c6-a162-331f-9f47f69be5ac@gmail.com>
- <CAK4VdL28nWstiS09MYq5nbtiL+aMbNc=Hzv5F0-VMuNKmX9R+Q@mail.gmail.com>
- <1j5yonnp1a.fsf@starbuckisacylon.baylibre.com>
-From: Heiner Kallweit <hkallweit1@gmail.com>
-Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come up
- at boot
-In-Reply-To: <1j5yonnp1a.fsf@starbuckisacylon.baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220307143421.1106209-3-andre.przywara@arm.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - lists.linux.dev
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1nS5LO-000CNo-2I
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57402
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 19
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
 
-On 09.03.2022 15:57, Jerome Brunet wrote:
+On Mon, Mar 07, 2022 at 02:34:09PM +0000, Andre Przywara wrote:
+> The F1C100 series of SoCs actually have their watchdog IP being
+> compatible with the newer Allwinner generation, not the older one.
 > 
-> On Wed 09 Mar 2022 at 15:45, Erico Nunes <nunes.erico@gmail.com> wrote:
+> The currently described sun4i-a10-wdt actually does not work, neither
+> the watchdog functionality (just never fires), nor the reset part
+> (reboot hangs).
 > 
->> On Sun, Mar 6, 2022 at 1:56 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
->>> You could try the following (quick and dirty) test patch that fully mimics
->>> the vendor driver as found here:
->>> https://github.com/khadas/linux/blob/buildroot-aml-4.9/drivers/amlogic/ethernet/phy/amlogic.c
->>>
->>> First apply
->>> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=a502a8f04097e038c3daa16c5202a9538116d563
->>> This patch is in the net tree currently and should show up in linux-next
->>> beginning of the week.
->>>
->>> On top please apply the following (it includes the test patch your working with).
->>
->> I triggered test jobs with this configuration (latest mainline +
->> a502a8f0409 + test patch for vendor driver behaviour), and the results
->> are pretty much the same as with the previous test patch from this
->> thread only.
->> That is, I never got the issue with non-functional link up anymore,
->> but I get the (rare) issue with link not going up.
->> The reproducibility is still extremely low, in the >1% range.
+> Replace the compatible string with the one used by the newer generation.
+> Verified to work with both the watchdog and reboot functionality on a
+> LicheePi Nano.
 > 
-> Low reproducibility means the problem is still there, or at least not
-> understood completly.
+> Also add the missing interrupt line and clock source, to make it binding
+> compliant.
 > 
-> I understand the benefit from the user standpoint.
-> 
-> Heiner if you are going to continue from the test patch you sent,
-> I would welcome some explanation with each of the changes.
-> 
-The latest test patch was purely for checking whether we see any
-difference in behavior between vendor driver and the mainlined
-version. It's in no way meant to be applied to mainline.
+> Fixes: 4ba16d17efdd ("ARM: dts: suniv: add initial DTSI file for F1C100s")
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-> We know very little about this IP and I'm not very confortable with
-> tweaking/aligning with AML sdk "blindly" on a driver that has otherwise
-> been working well so far.
+Acked-by: Guenter Roeck <linux@roeck-us.net>
+
+> ---
+>  arch/arm/boot/dts/suniv-f1c100s.dtsi | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-
-This touches one thing I wanted to ask anyway: Supposedly Amlogic
-didn't develop an own Ethernet PHY, and if they licensed an existing
-IP then it should be similar to some other existing PHY (that may
-have a driver in phylib).
-
-Then what I'll do is submit the following small change that brought
-the error rate significantly down according to Erico's tests.
-
--       phy_trigger_machine(phydev);
-+       if (irq_status & INTSRC_ANEG_COMPLETE)
-+               phy_queue_state_machine(phydev, msecs_to_jiffies(100));
-+       else
-+               phy_trigger_machine(phydev);
-
-
-> Thx
-> 
->>
->> So at this point, I'm not sure how much more effort to invest into
->> this. Given the rate is very low and the fallback is it will just
->> reset the link and proceed to work, I think the situation would
->> already be much better with the solution from that test patch being
->> merged. If you propose that as a patch separately, I'm happy to test
->> the final submitted patch again and provide feedback there. Or if
->> there is another solution to try, I can try with that too.
->>
->> Thanks
->>
->>
->> Erico
-> 
-
-Heiner
+> diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> index 6100d3b75f61..def830101448 100644
+> --- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> +++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+> @@ -104,8 +104,10 @@ timer@1c20c00 {
+>  
+>  		wdt: watchdog@1c20ca0 {
+>  			compatible = "allwinner,suniv-f1c100s-wdt",
+> -				     "allwinner,sun4i-a10-wdt";
+> +				     "allwinner,sun6i-a31-wdt";
+>  			reg = <0x01c20ca0 0x20>;
+> +			interrupts = <16>;
+> +			clocks = <&osc32k>;
+>  		};
+>  
+>  		uart0: serial@1c25000 {
