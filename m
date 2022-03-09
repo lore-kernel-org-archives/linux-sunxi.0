@@ -1,83 +1,95 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9456446
-	for <linux-sunxi@lists.linux.dev>; Tue,  8 Mar 2022 23:45:01 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id x5so719030edd.11
-        for <linux-sunxi@lists.linux.dev>; Tue, 08 Mar 2022 15:45:00 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDD57B
+	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 14:45:43 +0000 (UTC)
+Received: by mail-yb1-f178.google.com with SMTP id z30so4860257ybi.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 09 Mar 2022 06:45:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=R5rD06Jb33tlpsYg+zacl9gOGE39RgYTcZ3AUmAKk+k=;
-        b=kT0CoUpD6C3Xk+Syyc3g2EyRA6X+44nx9fnethcGlcRmfLBQpCmyre7xE3rkEC/Y1t
-         STrq8nxvUWIMlu5tRsYNT16i802tLm/s3IyJRYk1bI2Pji3IVN7bLx7hyyfvCgTJitIy
-         0+vQ8zJSa9Kbj2C1GGvbWbLCvbf1mMaHoiZlr/iSm9Xp3F1GJw1SB3m1Z2Al1R00X5Ne
-         ibT8bT+jzYCECm9PLVzl145bqj7V9/GAo3/T9kdCmR/N4ksOT/UM/LVxLZa4iXVRb38J
-         7a9ZtfrtSSJZ4ORPlySmANv/5Ig1MxehiFh0UVmL1aJv5jZtyFSLRccKYl490TDoCnWl
-         cCmg==
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DDxwxI7sXDfb+b36liCBjMX3NW7CAhbvcM5a4UCs5v4=;
+        b=i7W91ZT+engSvxyFtitwW4zJoC2KJUH7GAoAeYnyBpSwStQEEQ/Bt2ZPndrmmXFsaO
+         SsLBfPJbwfzEbp/wz46GBMErlD2L2WZEIImm7VsCRGt1X07GsDEyM1coyhR8i6mnOUu4
+         9wso3n2Bs4AjvFg0MP2q34vrvW1lLTiXpwegmpTr3Mp9LEawsZSMB+Ks1eJWqJLQRDWS
+         XyYIB3ObyHBjVVcM2iujZ5q7d0vXuDd7kbHHFsl0PJy4R3LYLrpZOsflS+3lJrOE1Yf4
+         XF3nQi6sxWKYxDM72bwcjYM0g6t+haBgmTB1M136HKO8++mbKENP5zHOBuvsy3Scw6uU
+         rOBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=R5rD06Jb33tlpsYg+zacl9gOGE39RgYTcZ3AUmAKk+k=;
-        b=3Q58lmpaEkR7ONjX40xh/03vLFHYx7pLZs2OaYopsQouV7FQeUboo3bXWrJgwIJ86b
-         MdSc+++8IuUSTQkHMu+Ir8R9AIz71zium1E53EXSjAa6u7SiqqFqljMGbMC63bu9py5q
-         Q1oAad4mntte8WJy4gcY6/9SKrTbW1wKo555Z+43xxaQyhhG3TTlCwZmB50FhOX9uA5y
-         IUXs/yCPhjq61caW/4GuDC6eL1bPMRTDApwPRm+1TDJw9krQvuVBKF4WJWjtNxPwCLzn
-         euaD6yLQB3hsxitOGekZJlwPD+98YaAD63TQq6xgQUXipEgfBRX0P4uIASy2D8v2y2W6
-         sXfA==
-X-Gm-Message-State: AOAM531nllERRdqaMF8bfSzcURIVv43FQ1ACVa6hLplDbwfZWVOs/c5N
-	dIZFYKPgBCZqNpn+CEQsaTJw5A==
-X-Google-Smtp-Source: ABdhPJwAa5h+FPbQ9EbtrO+8twaLOcIwcj6An3X7zE034ZrmYDx1nBgzQc3Ssz/Np+zl4LlJ6UlLlg==
-X-Received: by 2002:a05:6402:354f:b0:416:8fba:8348 with SMTP id f15-20020a056402354f00b004168fba8348mr968136edd.73.1646783099315;
-        Tue, 08 Mar 2022 15:44:59 -0800 (PST)
-Received: from [192.168.0.103] ([37.252.93.155])
-        by smtp.googlemail.com with ESMTPSA id fq6-20020a1709069d8600b006db088ca6d0sm74709ejc.126.2022.03.08.15.44.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Mar 2022 15:44:58 -0800 (PST)
-Message-ID: <bc846d95-5571-cfd1-c848-1ae9240f50a4@wirenboard.com>
-Date: Wed, 9 Mar 2022 02:44:56 +0300
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DDxwxI7sXDfb+b36liCBjMX3NW7CAhbvcM5a4UCs5v4=;
+        b=Pc6KwFAbVIIBUgEQFmNQcbi4kURn416cSFckqq/W0Fj/AbcKKTST+UmeAkIisHKyl+
+         WLn7NGMqQ5sumVZHPm368L1etFkNkUVELVXU7s4KH+0CPw43HQ4TIYpaXpXqhampzMDh
+         A0pcwBHSWW8r/yjwi+M09CMBwVrGlnb4xsc6T3M79ZwHo8jnbvXGaUXtoiWrxJLZeBoI
+         +ke2FNl0unEOnFiv1+a93JMG+R9JzyA9KbWghX3STiXjbKs2B7vWDFaw4JX52YBoRxLa
+         GPmr4/xZkaswU1Yg1MNrfBJrrMEW/IXWPqEelbsQyF38H5YNauWIrj0bM88Y42Rhlfjm
+         17Aw==
+X-Gm-Message-State: AOAM5306sKuNG3etaw4pnM+xgQhwNNUoMQNQxhd35HPn0OnDdFlFfSpP
+	v8UlhEUJ2fEEoOg/qa91A8EquIlJCiT84M1FKwI=
+X-Google-Smtp-Source: ABdhPJyJ4ZlBOxxqgJg5t84MuLjlLqtsmqVAaSTchLmm8kQRhAwvtLzf/tmkTFVdgMHjStEAfGt8JYiqQwzL0WNk4qg=
+X-Received: by 2002:a05:6902:603:b0:625:989:c675 with SMTP id
+ d3-20020a056902060300b006250989c675mr16523687ybt.470.1646837142397; Wed, 09
+ Mar 2022 06:45:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-To: fuyao1697@cyg.com
-Cc: devicetree@vger.kernel.org, jernej.skrabec@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, maijianzhang@allwinnertech.com,
- mripard@kernel.org, robh+dt@kernel.org, wens@csie.org
-References: <YiCnR5v9fYoXXy39@scg>
-Subject: Re: [PATCH] sunxi:dts: remove r40 can node
-Content-Language: en-GB
-From: Evgeny Boger <boger@wirenboard.com>
-In-Reply-To: <YiCnR5v9fYoXXy39@scg>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <CAK4VdL3-BEBzgVXTMejrAmDjOorvoGDBZ14UFrDrKxVEMD2Zjg@mail.gmail.com>
+ <1jczjzt05k.fsf@starbuckisacylon.baylibre.com> <CAK4VdL2=1ibpzMRJ97m02AiGD7_sN++F3SCKn6MyKRZX_nhm=g@mail.gmail.com>
+ <6b04d864-7642-3f0a-aac0-a3db84e541af@gmail.com> <CAK4VdL0gpz_55aYo6pt+8h14FHxaBmo5kNookzua9+0w+E4JcA@mail.gmail.com>
+ <1e828df4-7c5d-01af-cc49-3ef9de2cf6de@gmail.com> <1j8rts76te.fsf@starbuckisacylon.baylibre.com>
+ <a4d3fef1-d410-c029-cdff-4d90f578e2da@gmail.com> <CAK4VdL08sdZV7o7Bw=cutdmoCEi1NYB-yisstLqRuH7QcHOHvA@mail.gmail.com>
+ <435b2a9d-c3c6-a162-331f-9f47f69be5ac@gmail.com>
+In-Reply-To: <435b2a9d-c3c6-a162-331f-9f47f69be5ac@gmail.com>
+From: Erico Nunes <nunes.erico@gmail.com>
+Date: Wed, 9 Mar 2022 15:45:31 +0100
+Message-ID: <CAK4VdL28nWstiS09MYq5nbtiL+aMbNc=Hzv5F0-VMuNKmX9R+Q@mail.gmail.com>
+Subject: Re: net: stmmac: dwmac-meson8b: interface sometimes does not come up
+ at boot
+To: Heiner Kallweit <hkallweit1@gmail.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
+	Jose Abreu <joabreu@synopsys.com>, Kevin Hilman <khilman@baylibre.com>, 
+	Neil Armstrong <narmstrong@baylibre.com>, linux-amlogic@lists.infradead.org, 
+	netdev@vger.kernel.org, 
+	"open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Sun, Mar 6, 2022 at 1:56 PM Heiner Kallweit <hkallweit1@gmail.com> wrote:
+> You could try the following (quick and dirty) test patch that fully mimics
+> the vendor driver as found here:
+> https://github.com/khadas/linux/blob/buildroot-aml-4.9/drivers/amlogic/ethernet/phy/amlogic.c
+>
+> First apply
+> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net.git/commit/?id=a502a8f04097e038c3daa16c5202a9538116d563
+> This patch is in the net tree currently and should show up in linux-next
+> beginning of the week.
+>
+> On top please apply the following (it includes the test patch your working with).
 
-as I explained in the original commit message, CAN is definitely there 
-and is working perfectly at least on A40i.
-I know it was removed from the user manual, but I personally verified 
-that it is working.
+I triggered test jobs with this configuration (latest mainline +
+a502a8f0409 + test patch for vendor driver behaviour), and the results
+are pretty much the same as with the previous test patch from this
+thread only.
+That is, I never got the issue with non-functional link up anymore,
+but I get the (rare) issue with link not going up.
+The reproducibility is still extremely low, in the >1% range.
 
-Maybe you can tell why CAN should be removed besides not being described 
-in the manual? Are there some hardware or maybe license issues?
+So at this point, I'm not sure how much more effort to invest into
+this. Given the rate is very low and the fallback is it will just
+reset the link and proceed to work, I think the situation would
+already be much better with the solution from that test patch being
+merged. If you propose that as a patch separately, I'm happy to test
+the final submitted patch again and provide feedback there. Or if
+there is another solution to try, I can try with that too.
 
-Thanks!
-
---
-  Best wishes,
-  Evgeny Boger
-  CTO @ wirenboard.com
-
-
+Thanks
 
 
-
+Erico
