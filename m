@@ -1,89 +1,99 @@
-Received: from gateway24.websitewelcome.com (gateway24.websitewelcome.com [192.185.51.122])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16AB317C0
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 23:26:19 +0000 (UTC)
-Received: from cm13.websitewelcome.com (cm13.websitewelcome.com [100.42.49.6])
-	by gateway24.websitewelcome.com (Postfix) with ESMTP id BB3014CAB5
-	for <linux-sunxi@lists.linux.dev>; Wed,  9 Mar 2022 17:02:53 -0600 (CST)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with SMTP
-	id S5KXnlfvyb6UBS5KXnLKhV; Wed, 09 Mar 2022 17:02:53 -0600
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/E4QRft2wGBO0a9Wvaf6Y1EmpcR+nckbhrH9ovhYHHQ=; b=CkXCCVHB29d3LEjOS2UK9U2yLM
-	plV4p1UzLLEOMDV28uYKD6qtQiGpAe3IAef4N+qOSqSSYn7ESVMEj4tGI9uD5u+PkMlhqIPLIHwXG
-	WUqGX7GeTuFG47SIjWGWJmeVqaSyBe/Xh+KkcRri5qVKO9pAr8jQrUz0iUPeM68ij/4PTNZyvvANx
-	sXsJ7TDpvLSzc5urnBVaLAe+qnNzkynNcgUTyqTcD48pSn7OLdHZwhXcS3BtVfQdDDd+68KuEwI4J
-	1zI9u5Sw3sPicAGGFOJz6iJkbLq941wK6RiV/ONqCVi4oOsOlng0Zaerr4BU0wlZLRoBIL57Z1aVp
-	qmaZ8lpw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57400 helo=localhost)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@roeck-us.net>)
-	id 1nS5KW-000Boi-Ci; Wed, 09 Mar 2022 23:02:52 +0000
-Date: Wed, 9 Mar 2022 15:02:51 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Mesih Kilinc <mesihkilinc@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Jesse Taube <mr.bossman075@gmail.com>,
-	Giulio Benetti <giulio.benetti@benettiengineering.com>,
-	George Hilliard <thirtythreeforty@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-watchdog@vger.kernel.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA51E7A
+	for <linux-sunxi@lists.linux.dev>; Thu, 10 Mar 2022 00:46:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 56ABD3200A6A;
+	Wed,  9 Mar 2022 19:46:49 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 09 Mar 2022 19:46:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=qMB067cjzKW0O+
+	0cerGYMqbUb9WGf9tnnpdSgxJ6Iuc=; b=sCNxXDgHCFLSYJ/1eFeMj6bZIiWNwl
+	dRukwkAEM8cDpQph80Ic/1h/Mg2Bd26QgA2LB+olvFfRBDEkJ3XGw/drAJzvD59M
+	xRw/RspdCFYPylBPqbYP6JWC4VZWl+iqh0iHZ/ExY3CRTRYhK/9BABg0gS8f4Va0
+	SsrPtyM+re1TSDOyPCgnGfPEJLH3X4FxwlY8ov7OHrGLDHbD31fXlV0ZIb82MnBR
+	/LC2ZroXGNA3HQWU3CTKsYiMxZJQNfaAWcRHPdTtTm3rpYQJGEJC7UP70IMK+xrh
+	C+1hFjs7dl2IXaT/2qUExOMjfCM8H4g+tCECMIYFfhAXAiWfm32vr2VA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=qMB067cjzKW0O+0cerGYMqbUb9WGf9tnnpdSgxJ6I
+	uc=; b=HCJRd39Hi39pqlsoNzEjEL9sAMfY34B8TpvC9/H6kORkjNrKNFAvO4USh
+	XcHjYRbRQDY/8HURpBOZDRCV0vV51kpwoJAiBROZP4CxzuPHYCinRefYjqck2LPK
+	Vm/kF6cjoUEHiBKK0fKhX0SvOu0wdZPWGQAHnC+V5jjji0/HWYSc8SWZTJyeCvkz
+	dDElsdjRPVd4/o8un3o5aG3bg8JOFrvE/sZ/0rSTNVvknc7caf54YfZbeCmcXY1F
+	9JoN7wu0DeRMVUbQFjpFJm1Zjb36ee6s7IxiGtu3iBBPYKaI5jZ99PFoEEOZ0MeN
+	8keW17lATFeFwyNbmWLXcm148Fs0g==
+X-ME-Sender: <xms:d0opYiQIiTSYXj62HHFu2uiStbvxuYcmknR1Xz0UZquLzgFSoIoANw>
+    <xme:d0opYnzrznzL0Zf9gR2YYni23dDyLberQGKFU00sfiY2ywMf7A_URWkNGgf5te3UP
+    e_4VN6m45DDw9xp9A>
+X-ME-Received: <xmr:d0opYv0DXKGtaPRbHcGTQpVBI_EBt5Io6fUbpxUmwHNPG7pK34A04BzxSJ4pswhD6-VWJRaql0SvmxbjNb7AB7M9WfQyjbtEfXMM9cc_QZljGQeucH7BxVz7YA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudduledgvdegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:d0opYuBs4rccbORgiqZb5kwPa8aqymj4X1xEgrad5PMgI7APACt5ZQ>
+    <xmx:d0opYrhf_ZPlAMNpJZZLQBathZ-2KmyugyvClvMexI7AqlgGBc5zkA>
+    <xmx:d0opYqqtZ_WmP-xKV2aPb6M5G5gtqv089_Da3NFKGaeE4RKcFHLgFA>
+    <xmx:eEopYr4tfSP1gOZ6hj3pikuZ-DoJ2RbaGaa84m1gmBL6foAS04vIUg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 9 Mar 2022 19:46:47 -0500 (EST)
 Subject: Re: [PATCH 01/14] dt-bindings: watchdog: sunxi: fix F1C100s
  compatible
-Message-ID: <20220309230251.GA3801394@roeck-us.net>
+To: Andre Przywara <andre.przywara@arm.com>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>,
+ Icenowy Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>,
+ Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
+ <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
 References: <20220307143421.1106209-1-andre.przywara@arm.com>
  <20220307143421.1106209-2-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <661806b7-d63f-a7cf-9192-f67c4cd79f29@sholland.org>
+Date: Wed, 9 Mar 2022 18:46:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 In-Reply-To: <20220307143421.1106209-2-andre.przywara@arm.com>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nS5KW-000Boi-Ci
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57400
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 3
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 07, 2022 at 02:34:08PM +0000, Andre Przywara wrote:
+Hi Andre,
+
+On 3/7/22 8:34 AM, Andre Przywara wrote:
 > The F1C100 series actually features a newer generation watchdog IP, so
 > the compatible string was wrong.
-> 
+
+The F1C100s watchdog seems to be unique in that it uses LOSC/osc32k as its only
+clock source instead of HOSC/osc24M. The current binding requires that the first
+clock is "hosc", so it seems that the binding needs to be relaxed to allow for
+this case.
+
+As long as there's only one clock source available, we don't really care where
+it comes from. They are both divided to be approximately 32 kHz. So I don't
+think this difference prevents using A31 as a fallback compatible.
+
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
 > ---
 >  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -98,6 +108,15 @@ Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 >            - const: allwinner,suniv-f1c100s-wdt
 > -          - const: allwinner,sun4i-a10-wdt
 > +          - const: allwinner,sun6i-a31-wdt
+
+This can be combined with the enum of other compatibles that fall back to
+allwinner,sun6i-a31-wdt (earlier in the file).
+
+Regards,
+Samuel
+
 >        - const: allwinner,sun20i-d1-wdt
 >        - items:
 >            - const: allwinner,sun20i-d1-wdt-reset
+> 
+
