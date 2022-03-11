@@ -1,89 +1,98 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B5E97E
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 02:20:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id A99785C01D7;
-	Thu, 10 Mar 2022 21:20:07 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 10 Mar 2022 21:20:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=VaT3pxot9g5Z0z
-	nqn/4P4m9tGg8Kgve6dIgEH+GSsDY=; b=c1JBDvpgFPlaeZTszV7UGRyh8S2NjC
-	6sEMyBHPKesGgJjUjU61rYHnAWwYBSRhIWpvcKaBJsB8Ed9f/vDoQ0Mfcwn6ii5A
-	MMPQ2MC18yRADliZ1/8Z2qIC0/o/73sZcobS96HTy8CZqtjTrYvgu0RmhYLpzGcH
-	81oCzC84ESje5ySiiEpId2g1zChMQo5AtVEkmvzQiIRRihi5TMYrCHllEh+hj/cF
-	5foiVKPL1mN4xA+vrPWxHXiEvJN/qbwV9K/oYnZj3bwH966JYypP3yVO0nIB5/1u
-	jwSSXVyUT9I6yWguap8gvFZMgx8lPOttuhHoAdnhXEDSZ04smbiD9Vdw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=VaT3pxot9g5Z0znqn/4P4m9tGg8Kgve6dIgEH+GSs
-	DY=; b=Z3niQzn0nDkRgp+6zy4wb0trcNr4NLEYJU3rldoy0Zr3PMOaw8GneciQs
-	mG8VNqCXi1TiP9LC2evCnVY4nCrYGcdRBP5lTIvYsGAaCmtr14nkM8rP9rjuvS1N
-	0LEG4jH+rq/n7rpCQzoRZ+vaQXZ02HW3XJg1S1+N8ZZkMfzK0UO3J2CzpgPWxWH9
-	R9DV1PxJfI4U73UWbDXget2EqhB/XVFCKigQOZV3zWHXIKqTKMHpo+ciQwx+n2D8
-	U8Ll4wr2hjhkWaJLarOlLQNyEjesfzX6ZFkTOEwIzgg7boBUENOpkKpbDbRgxqT4
-	p1+X5cQaMqhTspqqN1Xbk8JzLWG8Q==
-X-ME-Sender: <xms:17EqYpiP4iwS9UPBvddr7vWnAEtN4EZ8Ysh14sPr0vQNu-oSXNnU8A>
-    <xme:17EqYuDPjyFdWRebyaVeriQBkqBoSP2g7tUjxPduG8FaqWCGmJ1cWpbOdfMLrAYc5
-    OxLIViNdhQLrWubxg>
-X-ME-Received: <xmr:17EqYpEa31hi9are-bzUTIWXgMKhK5p8uHrUmYo4K6JiJFdqopk9d4MUOm49Ssb_zvbf7VfbuJCPZKT-gkYW_XiT7nbbxKgBGTRzewnNYzPjc4yWmqve4r_DhA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddruddvuddggeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:17EqYuQBbMm-L6xdLC1dUXZ7ARDnkaPyOj84iFQ6qRQ4z4ZtbPePUA>
-    <xmx:17EqYmxqI3-G6XEuvlDR9wY47p3ko2bwg47e2FUPZHjG7aAE5wFlxQ>
-    <xmx:17EqYk70JzhrqVxn3zA8SdAiZdP8qzh-hyULriknL_Fl1tvecKnTCQ>
-    <xmx:17EqYqhMsJJm5Co2_7TQzt7WoKELl2wqokXDKGjikTQlteGPW-tl-Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Mar 2022 21:20:04 -0500 (EST)
-Subject: Re: [PATCH 12/14] ARM: dts: suniv: licheepi-nano: add SPI flash
-To: Andre Przywara <andre.przywara@arm.com>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>,
- Icenowy Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-References: <20220307143421.1106209-1-andre.przywara@arm.com>
- <20220307143421.1106209-13-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <4fc0ea6a-f08d-3032-fc8b-373b80edc5cb@sholland.org>
-Date: Thu, 10 Mar 2022 20:20:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BC77E
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 03:14:46 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id mr24-20020a17090b239800b001bf0a375440so9927440pjb.4
+        for <linux-sunxi@lists.linux.dev>; Thu, 10 Mar 2022 19:14:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k2icY+6tCwcqgzMbjLM+IMtOMr7cxOX9RXwF/4WbIuE=;
+        b=J3JwssbcL91tpuNT7fB9AVcoTviOQtRwAaCe9iUYL5OxfAk9+y02r+gp7oXfhuwg81
+         2qZbPheJlEQPpBKKhVsq8mte8hVVChgRP0B6I7mKXu1DYlneO/v/zulCcuhzuQCWcckc
+         L3Bx/6f6c2L1qtCazJhLaxvtkk6cBBtphYkOw6XvT14qWlJUwqhXUkaDewhc+9626ynK
+         lx2AAuA8aAAciwgkWY4L6PcPkcbaKiX5vnnOH+egphv+Bd/F6euavBUticf6UU2NKLmC
+         8b1Mfn5s4sJiuqEGBGI53M5/NTBZ3SHpiiQ1n8bkfqWxmKLWrjwKjYa1Fg9Wx18YfOOr
+         vg0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=k2icY+6tCwcqgzMbjLM+IMtOMr7cxOX9RXwF/4WbIuE=;
+        b=o1D0i4yK9J2WnnUhFiJF7qWvd0ZAU3Oy3ugNFnfvXRdC/mndWZZJIZ7qqJ/23CnpOV
+         BwpGdpNNUJuVsJkth8cg+wPFAkefz1FFReB6E4CdjSwcLlSy0XkpmsRqHpQIjVv/buFC
+         gErv3JDztU3JgZQRaRT84U00w3KUL/NUXYaOFms1mN7S+0PMM2xQBUaRscWVxHLCzVEU
+         LI2Se1ctvQ8Nu8zZRye9oMxquntcRgzLWC1aeItLfMpxDwa4LR02Nr8qGTnXOSA7AseB
+         41GXWY3wvcQyY87a/SYHHodBNFY9nbMGrcRdnDZ1/uG2Z2VGk3GjUVebNNdogbryzH55
+         XVrA==
+X-Gm-Message-State: AOAM5304FuFg7t/iwjatg6klO5lcx2M4YuPPVo3zHYstvOAwz2tJ/Jul
+	B2QQ7m4M3kaEIEP5qUpk3cD3fQ==
+X-Google-Smtp-Source: ABdhPJy4fvYld+2wi2QVybUrJQ6b31jsGkwcRrlP9HfNyDkH0uCBxKsrzbz1rkxbCv0nElwZJQHYdA==
+X-Received: by 2002:a17:902:e94f:b0:14f:1636:c8a8 with SMTP id b15-20020a170902e94f00b0014f1636c8a8mr8257065pll.130.1646968485668;
+        Thu, 10 Mar 2022 19:14:45 -0800 (PST)
+Received: from localhost ([12.3.194.138])
+        by smtp.gmail.com with ESMTPSA id g18-20020a056a000b9200b004f783f5e890sm2149999pfj.156.2022.03.10.19.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Mar 2022 19:14:44 -0800 (PST)
+Date: Thu, 10 Mar 2022 19:14:44 -0800 (PST)
+X-Google-Original-Date: Thu, 10 Mar 2022 15:52:57 PST (-0800)
+Subject:     Re: [PATCH 07/15] dt-bindings: pwm: sifive: include generic pwm schema
+In-Reply-To: <20220214081605.161394-7-krzysztof.kozlowski@canonical.com>
+CC: thierry.reding@gmail.com, u.kleine-koenig@pengutronix.de, lee.jones@linaro.org,
+  robh+dt@kernel.org, krzysztof.kozlowski@canonical.com, mripard@kernel.org, wens@csie.org,
+  jernej.skrabec@gmail.com, f.fainelli@gmail.com, bcm-kernel-feedback-list@broadcom.com,
+  shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+  linux-imx@nxp.com, heiko@sntech.de, Paul Walmsley <paul.walmsley@sifive.com>,
+  nobuhiro1.iwamatsu@toshiba.co.jp, p.zabel@pengutronix.de, anson.huang@nxp.com, vijayakannan.ayyathurai@intel.com,
+  rtanwar@maxlinear.com, jeff@labundy.com, yash.shah@sifive.com, sagar.kadam@sifive.com,
+  vigneshr@ti.com, yoshihiro.shimoda.uh@renesas.com, laurent.pinchart+renesas@ideasonboard.com,
+  linux-pwm@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+  linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+  linux-riscv@lists.infradead.org
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: krzysztof.kozlowski@canonical.com
+Message-ID: <mhng-7a872d06-a00d-49eb-bf67-68ad634e9985@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <20220307143421.1106209-13-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 3/7/22 8:34 AM, Andre Przywara wrote:
-> Most LicheePi Nano boards come with soldered SPI flash, so enable SPI0
-> in the .dts and describe the flash chip. There is evidence of different
-> flash chips used, also of boards with no flash chip soldered, but the
-> Winbond 16MiB model is the most common, so use that for the compatible
-> string.  The actual flash chip model will be auto-detected at runtime
-> anyway.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+On Mon, 14 Feb 2022 00:15:57 PST (-0800), krzysztof.kozlowski@canonical.com wrote:
+> Include generic pwm.yaml schema, which enforces PWM node naming and
+> brings pwm-cells requirement.
+>
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+> ---
+>  Documentation/devicetree/bindings/pwm/pwm-sifive.yaml | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml b/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> index 84e66913d042..676b2160bada 100644
+> --- a/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> +++ b/Documentation/devicetree/bindings/pwm/pwm-sifive.yaml
+> @@ -22,6 +22,9 @@ description:
+>
+>    https://github.com/sifive/sifive-blocks/tree/master/src/main/scala/devices/pwm
+>
+> +allOf:
+> +  - $ref: pwm.yaml#
+> +
+>  properties:
+>    compatible:
+>      items:
+> @@ -55,7 +58,6 @@ required:
+>    - compatible
+>    - reg
+>    - clocks
+> -  - "#pwm-cells"
+>    - interrupts
+>
+>  additionalProperties: false
 
-Acked-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Palmer Dabbelt <palmer@rivosinc.com>
