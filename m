@@ -1,23 +1,23 @@
 Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B1533EB
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 14:36:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274CD33EB
+	for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 14:36:47 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 632AE24000C;
-	Fri, 11 Mar 2022 14:36:43 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id F3FA924000B;
+	Fri, 11 Mar 2022 14:36:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647009404;
+	t=1647009406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LXpRJF0PicFoimO3k7dmVxuvDLPPZZvvYdE5xGjlQ9w=;
-	b=VGYA9Mnqf2UIs8uZLn5qZu9xImvvjKvDQ5dOrl/NvyJ+K8Le4aB5zec4iCB1zxDvDkmaGd
-	mrOeaTrQTBpBxMayaxEplhHpp8LyQCQVOa0Fvfor4JRdnIi3a5t9BybKw/hwCz/iTMmEqb
-	5OZxXL2A1vVSBpFSLtkqHR2/7oKWXOA8tAmrpAQIzLjmRW20YbmYTAWTjNz05LyLKsWySx
-	a8GTo4DLgjtdTl1ZV0QOpcIzgGjW0M3IpOAVYGe2Fl2lEsyBDdKmqVMKrMIXiqR7VfNAtz
-	ta/bxuzYhTTZ/I2/r35TMPmYLoKU2o5xIEC2FPhtes5aNsvOBP5cqZ2qjulR0A==
+	bh=/bMGZvUt/JePqe8VlEu0KjPrl5T3acogQy4sy4Jv7Pk=;
+	b=S0RcmxYe36RaOp5pAeZIyeJ3EZAlPXqkVDFQbUGzY4a8rIoxXPY94bIRXmuv8xnpMnW92F
+	3FsbsA7wX4kTa0nEFPHMGUepGGKCRoZZVgElMQlvCsymFPjZkPx/ABe/qJqMCQC1jH9IFY
+	sAwaVpFbg/CFDZmAJLrNqw75Bixp6a93mPJa6aMKDjzLBXMz8IgLBqq+ryOEBXtXr0Fh06
+	kN8fVB6Z5OqCiDRLUoAwB7+Bvdk3HzuXmMggjLtG3TD395aWqJaCtaAsFwuNbxW3x/jM/j
+	ELRhE3wiVLfN2r5qBxzXZLXC32CpIluz1r7o6z28QFF886d0wOjd5zIyWVIviw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v3 37/46] media: sun6i-csi: Unset bridge source on capture streamon fail
-Date: Fri, 11 Mar 2022 15:35:23 +0100
-Message-Id: <20220311143532.265091-38-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v3 38/46] media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+Date: Fri, 11 Mar 2022 15:35:24 +0100
+Message-Id: <20220311143532.265091-39-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
 References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
@@ -46,30 +46,43 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In cases where the media pipeline start fails but our bridge
-has already registered a source, the source remains set and
-the bridge code is not called.
-
-Clean it in capture streamon error handler to avoid the issue.
+Now that the driver is properly split between bridge and capture,
+rename the video device to highlight its role and be in line with
+the bridge entity naming.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c | 3 ++-
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index 4315e197d53f..6033acaa9564 100644
+index 6033acaa9564..85ea7812e991 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -628,6 +628,8 @@ static int sun6i_csi_capture_start_streaming(struct vb2_queue *queue,
- error_state:
- 	sun6i_csi_capture_state_cleanup(csi_dev, false);
+@@ -1020,7 +1020,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
  
-+	csi_dev->bridge.source = NULL;
+ 	/* Video Device */
+ 
+-	strscpy(video_dev->name, SUN6I_CSI_NAME, sizeof(video_dev->name));
++	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
++		sizeof(video_dev->name));
+ 	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+ 	video_dev->vfl_dir = VFL_DIR_RX;
+ 	video_dev->release = video_device_release_empty;
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+index a61db3bc72e5..59c57bcefeec 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+@@ -11,6 +11,8 @@
+ #include <media/v4l2-dev.h>
+ #include <media/videobuf2-core.h>
+ 
++#define SUN6I_CSI_CAPTURE_NAME	"sun6i-csi-capture"
 +
- 	return ret;
- }
- 
+ #define SUN6I_CSI_CAPTURE_WIDTH_MIN	32
+ #define SUN6I_CSI_CAPTURE_WIDTH_MAX	4800
+ #define SUN6I_CSI_CAPTURE_HEIGHT_MIN	32
 -- 
 2.35.1
 
