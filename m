@@ -1,103 +1,157 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACCB33E9
-	for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 15:42:17 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id w7so15693031lfd.6
-        for <linux-sunxi@lists.linux.dev>; Fri, 11 Mar 2022 07:42:17 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E922F50
+	for <linux-sunxi@lists.linux.dev>; Sat, 12 Mar 2022 10:08:43 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id m11-20020a17090a7f8b00b001beef6143a8so10289788pjl.4
+        for <linux-sunxi@lists.linux.dev>; Sat, 12 Mar 2022 02:08:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YEdqLPEI2AXx+itJdHGX41gc8vi6n5cOXM43vTubJaU=;
-        b=YmtDSruBKV4oOpGvsN08lxa7fwgYlY4XC/CEpQ4NDqF1WhQKz/D7opPlzGD1d35lK0
-         41DbzsjiyMUBvP3s1b/l9TedySpokIoyjMa//GicR3u/vOsLzSn1mpuzRKrNSnSzVjJP
-         EdWORRwfVYD/WT1ToNr9ckPVpY0Q6HQ5FvtGYz4QWpjmTDmFn+LT39EXLmbZivSCAd/9
-         gwzkM2YX5H8kax/jsADAeX8LRc9uv+p5Dq1+9EI9iJ/T1w3H8ig0X2hGbiOxC0ZKIGDl
-         LOQMe6zqpHYLxO4tIEFLYMoqc/QDGOJsxbgXZY3VyVJvn4AM+KR9EUS+G51g8Chp/vbp
-         gTlw==
+        bh=XBkUs4cDEh7cGme8nvi6DRoD473BuT/65cMNIANA6kg=;
+        b=qqrFxDtNPmebmRhEKI/0NjR3h2txIrNZsbHIQyirapsMejHKtBJuUXpC4CuzUQzy+j
+         7MBEHl7XyYnB/ef82iHhANzR+4q20BBxcogXCUYB0LsFC2JqEeoLpAOuJkSbCc7cu28A
+         clAv2F2t2CE4+vkhZhB2HqFJT32fps1QI2s3zke/fEA4NnOQpHXhxyTrQkzQz40eghSK
+         WXbOSfPutXZvev9BDgaJeOCbWG1zRmJc/ipd7eoJDrG0TSjsJ1uZqeGSArOyvOvXWJ6a
+         bW333jvmpEJR0qMgLuTAXaqDnWSblgwpmeuc/diJcDQ6PfmJs13o33t1EYAUToYr1Ujj
+         7y+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YEdqLPEI2AXx+itJdHGX41gc8vi6n5cOXM43vTubJaU=;
-        b=fLuV0VXePP3itl2kjgnu+h73KFsvQT4EyUwBIhZa67hrpiiwax2G3eqMyEtKhTSLEv
-         Tc0b86VEi1QaZz2ZaqMJybi/y5t3r9Ulc0hRT8G9vyj/uNgE0Pzfms0Q9D3Qq70jmZQr
-         h2QB3SYx4lxU/JGUYDQ0FaAlas0AMb9FQYwlYWL0L/qVc/myflGo+lSwWmdx25fW+urW
-         ARKMvb9dYbVKUOfpORJCvA64B04s4+MIyS8GQEFWkmlmLAV3q6Zw7XnhPkU3XynIA1P5
-         uSBUoHDPz1iu61wXlVLIyvEvMk4uFJEnWi9sjVtsRJJV7EHyfG+tlKfEzf01fXwuUnLS
-         Kn/A==
-X-Gm-Message-State: AOAM533P7Uo2H31tUWD8O5+F//B2Lmluk8a9r3TtTzhOyF/fiaS+Jy2v
-	iByoKt0FeAwNYfJZp2tgU7u7MIPo9uJxSAPFBnNk4w==
-X-Google-Smtp-Source: ABdhPJxvSkQW1ExcoHOJfIPOxdpXlTzooEuOowmiFyfyqfj1CMd2uuW4o9aFa/ViLsaVrUCXzwMkyUzRlvlQ2xtX/Qs=
-X-Received: by 2002:a05:6512:308e:b0:448:3826:6d68 with SMTP id
- z14-20020a056512308e00b0044838266d68mr6105279lfd.184.1647013335908; Fri, 11
- Mar 2022 07:42:15 -0800 (PST)
+        bh=XBkUs4cDEh7cGme8nvi6DRoD473BuT/65cMNIANA6kg=;
+        b=FUVMa2iHq9NA5pBqoEvvOSvk0NsyYlLHZKkwfAMXkr5ntzODI91V2D8J+LotT6XGLB
+         ofhNBJIkGThLcsIDGy1pGkdnErDsU5Bs+CL1gbH6TuVFn9KVM8vnjYY0D+vPLp6W02Wc
+         u1bgJGK5Jpr17EoE8l4JMcbVeIsLvRHHysZOaaSWsytP3Ke2xHibR6NGKHGY3sq9ybxZ
+         Utp7MCnNCpuvarV5iHUzMkUsyRkT9YrN+E6/0DinaXvNaeu4dwWtGiBkkwSffiu7FpEw
+         kUKEJdSuIjOAFfxD6pQOpMHnLiSvl5Bm5G6ADJZQeX3x04nH8D8kENNlsaI6Jbsh9cto
+         Sybw==
+X-Gm-Message-State: AOAM533lsDYFQ/FnuxK+Ujh0CFgRCZnjaFbZjLXj60bvRe9P+IRdBoQv
+	0iqXZqb+szathOwKxqxRWamXbfi0RQ+/T9tf4X60zA==
+X-Google-Smtp-Source: ABdhPJygr/AMMTAACupNOM2mgpqdZHpcr+uF0kJe3Q4pIdneeG8n+Deg6+8AbstBqDC3C6sQYMJcE3tkSaDCqZi08a8=
+X-Received: by 2002:a17:90b:906:b0:1be:e765:882 with SMTP id
+ bo6-20020a17090b090600b001bee7650882mr15235648pjb.152.1647079723285; Sat, 12
+ Mar 2022 02:08:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220307143421.1106209-1-andre.przywara@arm.com> <20220307143421.1106209-8-andre.przywara@arm.com>
-In-Reply-To: <20220307143421.1106209-8-andre.przywara@arm.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 11 Mar 2022 16:41:39 +0100
-Message-ID: <CAPDyKFrNGMd7MRAuM+4oHB9pBjA569Hbzz0BJOxcNk_2KOYwVg@mail.gmail.com>
-Subject: Re: [PATCH 07/14] dt-bindings: mmc: sunxi: add Allwinner F1c100s compatible
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, 
-	Icenowy Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>, 
-	Giulio Benetti <giulio.benetti@benettiengineering.com>, 
-	George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-mmc@vger.kernel.org
+References: <cover.1647006877.git.mchehab@kernel.org> <b1803d005b2f671d238fc8579882a493c173d1ef.1647006877.git.mchehab@kernel.org>
+In-Reply-To: <b1803d005b2f671d238fc8579882a493c173d1ef.1647006877.git.mchehab@kernel.org>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Sat, 12 Mar 2022 11:08:32 +0100
+Message-ID: <CAG3jFyvxb5Q+bYu4=SReSku9=LrGD2h_O10W40+0+XsHk1XLJQ@mail.gmail.com>
+Subject: Re: [PATCH v2 38/38] drivers: media: platform: move some manufacturer entries
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+	Andy Gross <agross@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Dmitry Osipenko <digetx@gmail.com>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, 
+	Ming Qian <ming.qian@nxp.com>, linux-arm-kernel@lists.infradead.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 7 Mar 2022 at 15:34, Andre Przywara <andre.przywara@arm.com> wrote:
+On Fri, 11 Mar 2022 at 15:10, Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
 >
-> From: Jesse Taube <mr.bossman075@gmail.com>
+> As there are 4 manufacturer's directories with multiple sources
+> (qcom, rockchip, sti and sunxi), move the sources from
+> platform/Kconfig to their specific Konfig files.
 >
-> The Allwinner F1C100 series contains two MMC controller blocks. From
-> comparing the data sheets, they seem to be compatible with the one used
-> in the Allwinner A20: the register layout is the same, and they use the
-> same separate sample and output clocks design.
-> The only difference is the missing reset line in the A20 version, but
-> both the binding and the Linux driver make this optional, so it's still
-> a fit.
->
-> Add the new SoC specific name and require it to be paired with the A20
-> fallback name, as this is all the driver needs to care about.
->
-> Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-
-Applied for next, thanks!
-
-Kind regards
-Uffe
-
-
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
 > ---
->  .../devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml       | 3 +++
->  1 file changed, 3 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-> index 4f62ad6ce50c..76137132500d 100644
-> --- a/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-> +++ b/Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml
-> @@ -55,6 +55,9 @@ properties:
->        - items:
->            - const: allwinner,sun50i-h616-mmc
->            - const: allwinner,sun50i-a100-mmc
-> +      - items:
-> +          - const: allwinner,suniv-f1c100s-mmc
-> +          - const: allwinner,sun7i-a20-mmc
+> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
+> See [PATCH v2 00/38] at: https://lore.kernel.org/all/cover.1647006877.git.mchehab@kernel.org/
 >
->    reg:
->      maxItems: 1
+>  drivers/media/platform/Kconfig          | 13 +++----------
+>  drivers/media/platform/qcom/Kconfig     |  3 +++
+>  drivers/media/platform/rockchip/Kconfig |  3 +++
+>  drivers/media/platform/sti/Kconfig      |  5 +++++
+>  drivers/media/platform/sunxi/Kconfig    |  2 ++
+>  5 files changed, 16 insertions(+), 10 deletions(-)
+>  create mode 100644 drivers/media/platform/qcom/Kconfig
+>  create mode 100644 drivers/media/platform/rockchip/Kconfig
+>  create mode 100644 drivers/media/platform/sti/Kconfig
+>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index 527e9f08008b..a3ad25c6a56c 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -85,23 +85,16 @@ source "drivers/media/platform/mtk-vpu/Kconfig"
+>  source "drivers/media/platform/nxp/Kconfig"
+>  source "drivers/media/platform/omap3isp/Kconfig"
+>  source "drivers/media/platform/omap/Kconfig"
+> -source "drivers/media/platform/qcom/camss/Kconfig"
+> -source "drivers/media/platform/qcom/venus/Kconfig"
+> +source "drivers/media/platform/qcom/Kconfig"
+>  source "drivers/media/platform/renesas/Kconfig"
+> -source "drivers/media/platform/rockchip/rga/Kconfig"
+> -source "drivers/media/platform/rockchip/rkisp1/Kconfig"
+> +source "drivers/media/platform/rockchip/Kconfig"
+>  source "drivers/media/platform/s3c-camif/Kconfig"
+>  source "drivers/media/platform/s5p-g2d/Kconfig"
+>  source "drivers/media/platform/s5p-jpeg/Kconfig"
+>  source "drivers/media/platform/s5p-mfc/Kconfig"
+> -source "drivers/media/platform/sti/bdisp/Kconfig"
+> -source "drivers/media/platform/sti/c8sectpfe/Kconfig"
+> -source "drivers/media/platform/sti/delta/Kconfig"
+> -source "drivers/media/platform/sti/hva/Kconfig"
+> +source "drivers/media/platform/sti/Kconfig"
+>  source "drivers/media/platform/stm32/Kconfig"
+>  source "drivers/media/platform/sunxi/Kconfig"
+> -source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
+> -source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
+>  source "drivers/media/platform/tegra/vde/Kconfig"
+>  source "drivers/media/platform/ti-vpe/Kconfig"
+>  source "drivers/media/platform/via/Kconfig"
+> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
+> new file mode 100644
+> index 000000000000..aa2428f641d3
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/Kconfig
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +source "drivers/media/platform/qcom/camss/Kconfig"
+> +source "drivers/media/platform/qcom/venus/Kconfig"
+> diff --git a/drivers/media/platform/rockchip/Kconfig b/drivers/media/platform/rockchip/Kconfig
+> new file mode 100644
+> index 000000000000..c7ba06388780
+> --- /dev/null
+> +++ b/drivers/media/platform/rockchip/Kconfig
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +source "drivers/media/platform/rockchip/rga/Kconfig"
+> +source "drivers/media/platform/rockchip/rkisp1/Kconfig"
+> diff --git a/drivers/media/platform/sti/Kconfig b/drivers/media/platform/sti/Kconfig
+> new file mode 100644
+> index 000000000000..9fb5e78a92cf
+> --- /dev/null
+> +++ b/drivers/media/platform/sti/Kconfig
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +source "drivers/media/platform/sti/bdisp/Kconfig"
+> +source "drivers/media/platform/sti/c8sectpfe/Kconfig"
+> +source "drivers/media/platform/sti/delta/Kconfig"
+> +source "drivers/media/platform/sti/hva/Kconfig"
+> diff --git a/drivers/media/platform/sunxi/Kconfig b/drivers/media/platform/sunxi/Kconfig
+> index 7151cc249afa..a10032215b08 100644
+> --- a/drivers/media/platform/sunxi/Kconfig
+> +++ b/drivers/media/platform/sunxi/Kconfig
+> @@ -2,3 +2,5 @@
+>
+>  source "drivers/media/platform/sunxi/sun4i-csi/Kconfig"
+>  source "drivers/media/platform/sunxi/sun6i-csi/Kconfig"
+> +source "drivers/media/platform/sunxi/sun8i-di/Kconfig"
+> +source "drivers/media/platform/sunxi/sun8i-rotate/Kconfig"
 > --
-> 2.25.1
+> 2.35.1
 >
+
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
