@@ -1,83 +1,109 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D57F7A
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 17:22:24 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id c20so20902206edr.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 10:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=GaBMEcrePt+w27MCrGFS0ZRIBB+TLDUM++NKsoUse28=;
-        b=F/GbgPgJJas+sWwxDfEdIEAV9MWpQmQZ6gGHvDgtsLI4ueojnctMqU+Ro0y6CE2jQ7
-         7HfL0iW/kaYCw+0kfIOftIbVIwr6QG6MYwB9MVnen+D5b9abOs9torl8wGRAu7pdQm/i
-         +FsSIKv3ftoqqo98xW4SbXxB3S9BeXWDR57rNoVIjO2wEh/n6XaeI5g7mVip+Z524Cyi
-         KrhWaUk0jLHNnh1HFg16Z87GrqIRn95tDPK0/8M6r/fC5vRSO8jGGlWGxeU4oTOxuv1I
-         I6yIkpSjzQalprgeeLcAnrb06WXcdkH68KPhC48XBm+zYHKs2a2WbqNEVl2b/II74CWe
-         r6sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=GaBMEcrePt+w27MCrGFS0ZRIBB+TLDUM++NKsoUse28=;
-        b=swHuhTq/gPJIo9hVL//NxY5iybQsCowaqFL5sEAaGkzVcnN/Erz2f1C+7Q8z+WVIr7
-         DCCCZEphBWik65ZYU/dlyTtlvvhelg+BtvWO7txOb4RyYWl99LloouglfxdbBxmqav4D
-         vwTKK8sis0Its7lKbZa/crYj7/cjUE26hNXutljlQI32IIlYbaCHikTnS+brIrlxKfmz
-         c1e1dtQOtHjGUA6QPq5k3IHU0+qsY8eLkTYgHhnQYcrf2WCvFF0ObmMK+OBki6h5oGoP
-         azVP84AKUJoT8BWerqyf9ZdljvIeA4U2KOzYFWg5e324xh+zLBeZAzwxXOfCZF4a6Nej
-         Ch7g==
-X-Gm-Message-State: AOAM533+qX3/F60WZO9/fmLD3hfFldBjDlKBo9kjWeurZDgxXU0DN8qU
-	OpgmJ6ITv8a3RLzVvhSsdII=
-X-Google-Smtp-Source: ABdhPJyE14lC5sdDZko7CQASEf8TpHDb+WCoI++ZZovUsci3NcAk1M2ARl/8wru+mO0QLzE8MgfoCQ==
-X-Received: by 2002:aa7:dd17:0:b0:416:320:5e56 with SMTP id i23-20020aa7dd17000000b0041603205e56mr21902178edv.240.1647278542246;
-        Mon, 14 Mar 2022 10:22:22 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id q15-20020a1709060e4f00b006cdf4535cf2sm7037886eji.67.2022.03.14.10.22.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Mar 2022 10:22:21 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Cai Huoqing <caihuoqing@baidu.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Dinghao Liu <dinghao.liu@zju.edu.cn>, Dmitry Osipenko <digetx@gmail.com>, 
-	Eugen Hristev <eugen.hristev@microchip.com>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Jia-Ju Bai <baijiaju1990@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, 
-	Mikhail Rudenko <mike.rudenko@gmail.com>, Ming Qian <ming.qian@nxp.com>, 
-	Ondrej Jirman <megous@megous.com>, Robert Foss <robert.foss@linaro.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Yong Deng <yong.deng@magewell.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 47/67] media: platform: rename sunxi/ to allwinner/
-Date: Mon, 14 Mar 2022 18:22:20 +0100
-Message-ID: <2816975.e9J7NaK4W3@kista>
-In-Reply-To: <85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
-References: <cover.1647274406.git.mchehab@kernel.org> <85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CF57A
+	for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 17:40:03 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE4C8D6E;
+	Mon, 14 Mar 2022 10:39:56 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A2BB3F66F;
+	Mon, 14 Mar 2022 10:39:54 -0700 (PDT)
+Date: Mon, 14 Mar 2022 17:39:16 +0000
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mesih
+ Kilinc <mesihkilinc@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Jesse
+ Taube <mr.bossman075@gmail.com>, Giulio Benetti
+ <giulio.benetti@benettiengineering.com>, George Hilliard
+ <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Wim Van
+ Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
+ linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 01/14] dt-bindings: watchdog: sunxi: fix F1C100s
+ compatible
+Message-ID: <20220314173839.2a7b593a@slackpad.lan>
+In-Reply-To: <661806b7-d63f-a7cf-9192-f67c4cd79f29@sholland.org>
+References: <20220307143421.1106209-1-andre.przywara@arm.com>
+	<20220307143421.1106209-2-andre.przywara@arm.com>
+	<661806b7-d63f-a7cf-9192-f67c4cd79f29@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dne ponedeljek, 14. marec 2022 ob 17:34:42 CET je Mauro Carvalho Chehab 
-napisal(a):
-> As the end goal is to have platform drivers split by vendor,
-> rename sunxi/ to allwinner/.
+On Wed, 9 Mar 2022 18:46:46 -0600
+Samuel Holland <samuel@sholland.org> wrote:
+
+> Hi Andre,
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> On 3/7/22 8:34 AM, Andre Przywara wrote:
+> > The F1C100 series actually features a newer generation watchdog IP, so
+> > the compatible string was wrong.  
+> 
+> The F1C100s watchdog seems to be unique in that it uses LOSC/osc32k as its only
+> clock source instead of HOSC/osc24M. The current binding requires that the first
+> clock is "hosc", so it seems that the binding needs to be relaxed to allow for
+> this case.
+> 
+> As long as there's only one clock source available, we don't really care where
+> it comes from. They are both divided to be approximately 32 kHz. So I don't
+> think this difference prevents using A31 as a fallback compatible.
 
-I would rather not do that. Everything related to Allwinner is called sunxi, 
-albeit there are a few outliers. This is similar to Amlogic/meson situation.
+Right, these were roughly my findings as well, but I should have
+written them down, at least in the commit message.
 
-Best regards,
-Jernej
+So shall the binding be explicit:
+1) Most SoCs required exactly one clock, the 24 MHz HOSC.
+2) The F1C100s requires exactly one clock, the 32KHz LOSC.
+3) R329/D1 require two clocks with clock-names?
 
+Or do you want to collapse 1) and 2) into one relaxed case? Still not
+entirely sure what "LOSC / 32 KHz" means for the F1C100 (32768 or 32000
+Hz), or where it really comes from, but it does not seem to matter.
+
+FreeBSD, Xen and U-Boot don't care about clocks at all, and Linux
+always uses the first clock and just enables it, so we should be good
+either way.
+
+> 
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > index 43afa24513b9..d90655418d0e 100644
+> > --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> > @@ -29,7 +29,7 @@ properties:
+> >            - const: allwinner,sun6i-a31-wdt
+> >        - items:
+> >            - const: allwinner,suniv-f1c100s-wdt
+> > -          - const: allwinner,sun4i-a10-wdt
+> > +          - const: allwinner,sun6i-a31-wdt  
+> 
+> This can be combined with the enum of other compatibles that fall back to
+> allwinner,sun6i-a31-wdt (earlier in the file).
+
+Oh, right, I missed that.
+
+Cheers,
+Andre
+
+> 
+> Regards,
+> Samuel
+> 
+> >        - const: allwinner,sun20i-d1-wdt
+> >        - items:
+> >            - const: allwinner,sun20i-d1-wdt-reset
+> >   
+> 
+> 
 
