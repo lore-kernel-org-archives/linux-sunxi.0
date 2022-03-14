@@ -1,243 +1,107 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094237E
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 08:01:16 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id e24so22418944wrc.10
-        for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 01:01:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBE91855;
+	Mon, 14 Mar 2022 11:55:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=ZbQvHoyGIYzvUki2Rr3koBlbf8HphwGvoPoiGFCWjVI=;
-        b=Px/AIFSkS5xiQntL+czEDZNooaKyKwCT5+5oX3Dxiuaq0p2Muil6CAGE/yKjTcSPRk
-         zDe4uh38/LLZAeLwbHMGwjTg12kmpC6yeWSofKA0umP5cCfX9/OYY82Bw345RNYb0ncn
-         orCm5F+5ZfCmlxK+d1VXp7nIMCWzluoafQnmDOcfqWejvaYNcsBVEphbI2O0YMhV2/Sw
-         btjwvk4hgGfi1Ebtg7vyteqdSKhr8lp3tlnQhW8mViZOmcTxC9P84ODdx/3FeHEOfW8P
-         6h58+Jo9NlVZHRXuw0qPEJXdJKCF5VgLcohK/rtJkyKSW2QSe8R2Hvd+nhg3g9Uwmmee
-         CRRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:organization:in-reply-to
-         :content-transfer-encoding;
-        bh=ZbQvHoyGIYzvUki2Rr3koBlbf8HphwGvoPoiGFCWjVI=;
-        b=zmVELTKz5Qbv6qVlaTHHOk7pyFM8Z/i8PEQr+zmTE+QDbKAQUX5nabqAJaVb3xtWkd
-         wuoVvXRLKywjqLlDMWuiqVKfBRbZeq8pTGeCMn1QuDVL5ZsmLpJp7Ajz9hh3BkMQFcrt
-         BlxLBaXUk8HSpDDDcIBsVHFUUSsRGbiytKbSbdRDJlwi5yd54RE116aF0eCootZl0cj7
-         M6KCGAn/g8XNFPjk4c+SHydN2Elx5nj5UWH2WGYZhCk5FRPjDpkvh4zP01qukZaAvHPa
-         UzbW/bWZx80VQEwRrZzs7Cod0Xp8Ba6XrzIx2jeug+P8rjyw+GOSf2Mnkd0BBfBQkSh3
-         cPZw==
-X-Gm-Message-State: AOAM531B4qXk6CP1cry5pVp1CS3HrsNSWtIqHjMl7erBahZlluvaJ4Ax
-	GCz+JU7qO8fmdMfxO/utS55LgA==
-X-Google-Smtp-Source: ABdhPJztePfcEZyw3gKDCW6el7zVf+skc/7D+PKs0YU6FDvddmqBB//lsO2gITU97Xj5EZ5qC+/51g==
-X-Received: by 2002:adf:fb4e:0:b0:1e3:3e66:d5f6 with SMTP id c14-20020adffb4e000000b001e33e66d5f6mr16194756wrs.615.1647244875196;
-        Mon, 14 Mar 2022 01:01:15 -0700 (PDT)
-Received: from ?IPV6:2001:861:44c0:66c0:67f0:57f7:2185:6d18? ([2001:861:44c0:66c0:67f0:57f7:2185:6d18])
-        by smtp.gmail.com with ESMTPSA id v188-20020a1cacc5000000b00384b71a50d5sm14188253wme.24.2022.03.14.01.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Mar 2022 01:01:14 -0700 (PDT)
-Message-ID: <18f984ff-36c8-dbe5-6dd0-404c4fe9deab@baylibre.com>
-Date: Mon, 14 Mar 2022 09:01:19 +0100
+  d=inria.fr; s=dc;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=41PUcU9tzULCiIgb8Uibh/5DuRgn44vcqHlit9be1ys=;
+  b=da5ZDADTYjfUb4CkZvv1ifI5i+2sUHWvJw+dkr6l96rFI9+3qCoi3gnv
+   q0ycGdD5ccrm59796HzJuglqTi/Zn7sM07eq2eqJ7FQY8P7GtUxL24J6z
+   5W/zcd3/E6fo/TuVnTzoYm6lik0f+KcMTza69NkDCls6kpW1/h8PdxP5f
+   k=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="5.90,180,1643670000"; 
+   d="scan'208";a="25997332"
+Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2022 12:53:59 +0100
+From: Julia Lawall <Julia.Lawall@inria.fr>
+To: linux-can@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-spi@vger.kernel.org,
+	target-devel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-leds@vger.kernel.org,
+	Shayne Chen <shayne.chen@mediatek.com>,
+	Sean Wang <sean.wang@mediatek.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-rdma@vger.kernel.org,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	linux-s390@vger.kernel.org,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	linux-power@fi.rohmeurope.com,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	linux-perf-users@vger.kernel.org
+Subject: [PATCH 00/30] fix typos in comments
+Date: Mon, 14 Mar 2022 12:53:24 +0100
+Message-Id: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.5.0
-Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: alsa-devel@alsa-project.org, bcm-kernel-feedback-list@broadcom.com,
- linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-rpi-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-usb@vger.kernel.org, mjpeg-users@lists.sourceforge.net,
- openbmc@lists.ozlabs.org
-References: <cover.1647242578.git.mchehab@kernel.org>
- <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 14/03/2022 08:55, Mauro Carvalho Chehab wrote:
-> media Kconfig has two entries associated to V4L API:
-> VIDEO_DEV and VIDEO_V4L2.
-> 
-> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
-> VIDEO_DEV were meant to:
-> 	1) enable Video4Linux and make its Kconfig options to appear;
-> 	2) it makes the Kernel build the V4L core.
-> 
-> while VIDEO_V4L2 where used to distinguish between drivers that
-> implement the newer API and drivers that implemented the former one.
-> 
-> With time, such meaning changed, specially after the removal of
-> all V4L version 1 drivers.
-> 
-> At the current implementation, VIDEO_DEV only does (1): it enables
-> the media options related to V4L, that now has:
-> 
-> 	menu "Video4Linux options"
-> 		visible if VIDEO_DEV
-> 
-> 	source "drivers/media/v4l2-core/Kconfig"
-> 	endmenu
-> 
-> but it doesn't affect anymore the V4L core drivers.
-> 
-> The rationale is that the V4L2 core has a "soft" dependency
-> at the I2C bus, and now requires to select a number of other
-> Kconfig options:
-> 
-> 	config VIDEO_V4L2
-> 		tristate
-> 		depends on (I2C || I2C=n) && VIDEO_DEV
-> 		select RATIONAL
-> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
-> 		default (I2C || I2C=n) && VIDEO_DEV
-> 
-> In the past, merging them would be tricky, but it seems that it is now
-> possible to merge those symbols, in order to simplify V4L dependencies.
-> 
-> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
-> configurations.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
-> 
-> To avoid mailbombing on a large number of people, only mailing lists were C/C on the cover.
-> See [PATCH 00/64] at: https://lore.kernel.org/all/cover.1647242578.git.mchehab@kernel.org/
-> 
->   drivers/input/rmi4/Kconfig                    |   2 +-
->   drivers/input/touchscreen/Kconfig             |   4 +-
->   drivers/media/Kconfig                         |   3 +
->   drivers/media/common/saa7146/Kconfig          |   2 +-
->   drivers/media/dvb-core/Kconfig                |   2 +-
->   drivers/media/dvb-frontends/Kconfig           |   4 +-
->   drivers/media/i2c/Kconfig                     | 250 +++++++++---------
->   drivers/media/i2c/ccs/Kconfig                 |   2 +-
->   drivers/media/i2c/cx25840/Kconfig             |   2 +-
->   drivers/media/i2c/et8ek8/Kconfig              |   2 +-
->   drivers/media/i2c/m5mols/Kconfig              |   2 +-
->   drivers/media/pci/Kconfig                     |   2 +-
->   drivers/media/pci/bt8xx/Kconfig               |   2 +-
->   drivers/media/pci/cobalt/Kconfig              |   2 +-
->   drivers/media/pci/cx18/Kconfig                |   2 +-
->   drivers/media/pci/dt3155/Kconfig              |   2 +-
->   drivers/media/pci/intel/ipu3/Kconfig          |   2 +-
->   drivers/media/pci/ivtv/Kconfig                |   2 +-
->   drivers/media/pci/meye/Kconfig                |   2 +-
->   drivers/media/pci/saa7146/Kconfig             |   6 +-
->   drivers/media/pci/sta2x11/Kconfig             |   2 +-
->   drivers/media/pci/tw5864/Kconfig              |   2 +-
->   drivers/media/pci/tw68/Kconfig                |   2 +-
->   drivers/media/pci/tw686x/Kconfig              |   2 +-
->   drivers/media/platform/Kconfig                |   6 +-
->   drivers/media/platform/allegro-dvt/Kconfig    |   2 +-
->   .../platform/allwinner/sun4i-csi/Kconfig      |   2 +-
->   .../platform/allwinner/sun6i-csi/Kconfig      |   2 +-
->   .../media/platform/allwinner/sun8i-di/Kconfig |   2 +-
->   .../platform/allwinner/sun8i-rotate/Kconfig   |   2 +-
->   .../media/platform/amlogic/meson-ge2d/Kconfig |   2 +-
->   drivers/media/platform/aspeed/Kconfig         |   2 +-
->   drivers/media/platform/atmel/Kconfig          |   8 +-
->   drivers/media/platform/cadence/Kconfig        |   4 +-
->   drivers/media/platform/chips-media/Kconfig    |   2 +-
->   drivers/media/platform/intel/Kconfig          |   2 +-
->   drivers/media/platform/marvell/Kconfig        |   4 +-
->   .../media/platform/mediatek/mtk-jpeg/Kconfig  |   2 +-
->   .../media/platform/mediatek/mtk-mdp/Kconfig   |   2 +-
->   .../platform/mediatek/mtk-vcodec/Kconfig      |   2 +-
->   .../media/platform/mediatek/mtk-vpu/Kconfig   |   2 +-
->   .../media/platform/nvidia/tegra-vde/Kconfig   |   2 +-
->   drivers/media/platform/nxp/Kconfig            |   6 +-
->   drivers/media/platform/nxp/amphion/Kconfig    |   2 +-
->   drivers/media/platform/nxp/imx-jpeg/Kconfig   |   2 +-
->   drivers/media/platform/qcom/camss/Kconfig     |   2 +-
->   drivers/media/platform/qcom/venus/Kconfig     |   2 +-
->   drivers/media/platform/renesas/Kconfig        |  30 +--
->   .../media/platform/renesas/rcar-vin/Kconfig   |   4 +-
->   drivers/media/platform/rockchip/rga/Kconfig   |   2 +-
->   .../media/platform/rockchip/rkisp1/Kconfig    |   2 +-
->   .../media/platform/samsung/exynos-gsc/Kconfig |   2 +-
->   .../media/platform/samsung/exynos4-is/Kconfig |   2 +-
->   .../media/platform/samsung/s3c-camif/Kconfig  |   2 +-
->   .../media/platform/samsung/s5p-g2d/Kconfig    |   2 +-
->   .../media/platform/samsung/s5p-jpeg/Kconfig   |   2 +-
->   .../media/platform/samsung/s5p-mfc/Kconfig    |   2 +-
->   drivers/media/platform/sti/bdisp/Kconfig      |   2 +-
->   drivers/media/platform/sti/delta/Kconfig      |   2 +-
->   drivers/media/platform/sti/hva/Kconfig        |   2 +-
->   drivers/media/platform/sti/stm32/Kconfig      |   4 +-
->   drivers/media/platform/ti/am437x/Kconfig      |   2 +-
->   drivers/media/platform/ti/davinci/Kconfig     |  12 +-
->   drivers/media/platform/ti/omap/Kconfig        |   2 +-
->   drivers/media/platform/ti/omap3isp/Kconfig    |   2 +-
->   drivers/media/platform/ti/vpe/Kconfig         |   4 +-
->   drivers/media/platform/via/Kconfig            |   2 +-
->   drivers/media/platform/xilinx/Kconfig         |   2 +-
->   drivers/media/radio/Kconfig                   |  54 ++--
->   drivers/media/radio/si470x/Kconfig            |   2 +-
->   drivers/media/radio/wl128x/Kconfig            |   2 +-
->   drivers/media/spi/Kconfig                     |   4 +-
->   drivers/media/test-drivers/Kconfig            |   2 +-
->   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
->   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
->   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
->   drivers/media/tuners/Kconfig                  |   6 +-
->   drivers/media/tuners/e4000.c                  |   6 +-
->   drivers/media/tuners/fc2580.c                 |   6 +-
->   drivers/media/usb/airspy/Kconfig              |   2 +-
->   drivers/media/usb/au0828/Kconfig              |   6 +-
->   drivers/media/usb/cpia2/Kconfig               |   2 +-
->   drivers/media/usb/dvb-usb-v2/Kconfig          |   8 +-
->   drivers/media/usb/dvb-usb/Kconfig             |   4 +-
->   drivers/media/usb/gspca/Kconfig               |  96 +++----
->   drivers/media/usb/gspca/gl860/Kconfig         |   2 +-
->   drivers/media/usb/gspca/m5602/Kconfig         |   2 +-
->   drivers/media/usb/hackrf/Kconfig              |   2 +-
->   drivers/media/usb/hdpvr/Kconfig               |   2 +-
->   drivers/media/usb/msi2500/Kconfig             |   2 +-
->   drivers/media/usb/pvrusb2/Kconfig             |   2 +-
->   drivers/media/usb/pwc/Kconfig                 |   2 +-
->   drivers/media/usb/s2255/Kconfig               |   2 +-
->   drivers/media/usb/stkwebcam/Kconfig           |   2 +-
->   drivers/media/usb/usbtv/Kconfig               |   2 +-
->   drivers/media/usb/uvc/Kconfig                 |   2 +-
->   drivers/media/usb/zr364xx/Kconfig             |   2 +-
->   drivers/media/v4l2-core/Kconfig               |  12 +-
->   drivers/media/v4l2-core/Makefile              |   2 +-
->   drivers/staging/media/atomisp/Kconfig         |   2 +-
->   drivers/staging/media/atomisp/i2c/Kconfig     |  14 +-
->   drivers/staging/media/hantro/Kconfig          |   2 +-
->   drivers/staging/media/imx/Kconfig             |   2 +-
->   drivers/staging/media/ipu3/Kconfig            |   2 +-
->   drivers/staging/media/max96712/Kconfig        |   2 +-
->   drivers/staging/media/meson/vdec/Kconfig      |   2 +-
->   drivers/staging/media/omap4iss/Kconfig        |   2 +-
->   drivers/staging/media/rkvdec/Kconfig          |   2 +-
->   drivers/staging/media/sunxi/cedrus/Kconfig    |   2 +-
->   drivers/staging/media/tegra-video/Kconfig     |   2 +-
->   drivers/staging/media/zoran/Kconfig           |   2 +-
->   drivers/staging/most/video/Kconfig            |   2 +-
->   .../vc04_services/bcm2835-camera/Kconfig      |   2 +-
->   drivers/usb/gadget/Kconfig                    |   2 +-
->   drivers/usb/gadget/legacy/Kconfig             |   2 +-
->   sound/pci/Kconfig                             |   4 +-
->   116 files changed, 371 insertions(+), 376 deletions(-)
+Various spelling mistakes in comments.
+Detected with the help of Coccinelle.
 
+---
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com> # for meson-vdec & meson-ge2d
+ drivers/base/devres.c                               |    4 ++--
+ drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
+ drivers/clk/ti/clkctrl.c                            |    2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
+ drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
+ drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
+ drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
+ drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
+ drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
+ drivers/leds/leds-pca963x.c                         |    2 +-
+ drivers/media/i2c/ov5695.c                          |    2 +-
+ drivers/mfd/rohm-bd9576.c                           |    2 +-
+ drivers/mtd/ubi/block.c                             |    2 +-
+ drivers/net/can/usb/ucan.c                          |    4 ++--
+ drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
+ drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
+ drivers/net/wireless/cisco/airo.c                   |    2 +-
+ drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
+ drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
+ drivers/platform/x86/uv_sysfs.c                     |    2 +-
+ drivers/s390/crypto/pkey_api.c                      |    2 +-
+ drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
+ drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
+ drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
+ drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
+ drivers/spi/spi-sun4i.c                             |    2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
+ drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
+ fs/kernfs/file.c                                    |    2 +-
+ kernel/events/core.c                                |    2 +-
+ 30 files changed, 39 insertions(+), 39 deletions(-)
