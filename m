@@ -1,109 +1,118 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CF57A
-	for <linux-sunxi@lists.linux.dev>; Mon, 14 Mar 2022 17:40:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BE4C8D6E;
-	Mon, 14 Mar 2022 10:39:56 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6A2BB3F66F;
-	Mon, 14 Mar 2022 10:39:54 -0700 (PDT)
-Date: Mon, 14 Mar 2022 17:39:16 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mesih
- Kilinc <mesihkilinc@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Jesse
- Taube <mr.bossman075@gmail.com>, Giulio Benetti
- <giulio.benetti@benettiengineering.com>, George Hilliard
- <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Wim Van
- Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>,
- linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 01/14] dt-bindings: watchdog: sunxi: fix F1C100s
- compatible
-Message-ID: <20220314173839.2a7b593a@slackpad.lan>
-In-Reply-To: <661806b7-d63f-a7cf-9192-f67c4cd79f29@sholland.org>
-References: <20220307143421.1106209-1-andre.przywara@arm.com>
-	<20220307143421.1106209-2-andre.przywara@arm.com>
-	<661806b7-d63f-a7cf-9192-f67c4cd79f29@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-slackware-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A82F20;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 395EAC340EE;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1647289811;
+	bh=5slkzW/wYFCAJdfNlCFTBba0nZcr16X7BRShsWGs8e4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=leggAOjDGLqu5Y16iRzmCapGpn9MgtEwT4CrU4eyl+t2E31oSfK39qKDLg3AehmbU
+	 40wH8plobcUAZegoJFqfw9/xkqsBBPmZP9vZVSFOcI/Xp23ZGUf+pgmWTjQguJdafL
+	 aR+7p6LxqiE9iThzqyS8jQ9G6EB+4tZZi+yCfGQiapJJIo9jcBYm9fR9I2LX08BkN2
+	 bFDWmepy5ZVI6q23q7h6GXJ7SL0Svf5wH1oJCuTgacReCjqPgety1pGCFxOBEiOwa4
+	 z9SA1gQwBNf2EwKLfJ+KdExejyFckwalTlOP/U5FXz63cZ94Vo7u6CrKogKN+nyC4B
+	 +CVXdED/jOy7Q==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 0DC0AE6D3DE;
+	Mon, 14 Mar 2022 20:30:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 00/30] fix typos in comments
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <164728981105.21494.10764025984714254687.git-patchwork-notify@kernel.org>
+Date: Mon, 14 Mar 2022 20:30:11 +0000
+References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: linux-can@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-spi@vger.kernel.org,
+ target-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-mtd@lists.infradead.org, linux-usb@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ platform-driver-x86@vger.kernel.org, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-scsi@vger.kernel.org, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, linux-leds@vger.kernel.org,
+ shayne.chen@mediatek.com, sean.wang@mediatek.com,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-omap@vger.kernel.org, linux-clk@vger.kernel.org, rafael@kernel.org,
+ linux-rdma@vger.kernel.org, borntraeger@linux.ibm.com, svens@linux.ibm.com,
+ linux-s390@vger.kernel.org, matti.vaittinen@fi.rohmeurope.com,
+ linux-power@fi.rohmeurope.com, mark.rutland@arm.com,
+ alexander.shishkin@linux.intel.com, jolsa@kernel.org, namhyung@kernel.org,
+ linux-perf-users@vger.kernel.org
 
-On Wed, 9 Mar 2022 18:46:46 -0600
-Samuel Holland <samuel@sholland.org> wrote:
+Hello:
 
-> Hi Andre,
+This series was applied to netdev/net-next.git (master)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Mon, 14 Mar 2022 12:53:24 +0100 you wrote:
+> Various spelling mistakes in comments.
+> Detected with the help of Coccinelle.
 > 
-> On 3/7/22 8:34 AM, Andre Przywara wrote:
-> > The F1C100 series actually features a newer generation watchdog IP, so
-> > the compatible string was wrong.  
+> ---
 > 
-> The F1C100s watchdog seems to be unique in that it uses LOSC/osc32k as its only
-> clock source instead of HOSC/osc24M. The current binding requires that the first
-> clock is "hosc", so it seems that the binding needs to be relaxed to allow for
-> this case.
-> 
-> As long as there's only one clock source available, we don't really care where
-> it comes from. They are both divided to be approximately 32 kHz. So I don't
-> think this difference prevents using A31 as a fallback compatible.
+>  drivers/base/devres.c                               |    4 ++--
+>  drivers/clk/qcom/gcc-sm6125.c                       |    2 +-
+>  drivers/clk/ti/clkctrl.c                            |    2 +-
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c              |    4 ++--
+>  drivers/gpu/drm/amd/display/dc/bios/command_table.c |    6 +++---
+>  drivers/gpu/drm/amd/pm/amdgpu_pm.c                  |    2 +-
+>  drivers/gpu/drm/bridge/analogix/analogix_dp_core.c  |    4 ++--
+>  drivers/gpu/drm/sti/sti_gdp.c                       |    2 +-
+>  drivers/infiniband/hw/qib/qib_iba7220.c             |    4 ++--
+>  drivers/leds/leds-pca963x.c                         |    2 +-
+>  drivers/media/i2c/ov5695.c                          |    2 +-
+>  drivers/mfd/rohm-bd9576.c                           |    2 +-
+>  drivers/mtd/ubi/block.c                             |    2 +-
+>  drivers/net/can/usb/ucan.c                          |    4 ++--
+>  drivers/net/ethernet/packetengines/yellowfin.c      |    2 +-
+>  drivers/net/wireless/ath/ath6kl/htc_mbox.c          |    2 +-
+>  drivers/net/wireless/cisco/airo.c                   |    2 +-
+>  drivers/net/wireless/mediatek/mt76/mt7915/init.c    |    2 +-
+>  drivers/net/wireless/realtek/rtlwifi/rtl8821ae/dm.c |    6 +++---
+>  drivers/platform/x86/uv_sysfs.c                     |    2 +-
+>  drivers/s390/crypto/pkey_api.c                      |    2 +-
+>  drivers/scsi/aic7xxx/aicasm/aicasm.c                |    2 +-
+>  drivers/scsi/elx/libefc_sli/sli4.c                  |    2 +-
+>  drivers/scsi/lpfc/lpfc_mbox.c                       |    2 +-
+>  drivers/scsi/qla2xxx/qla_gs.c                       |    2 +-
+>  drivers/spi/spi-sun4i.c                             |    2 +-
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c           |    2 +-
+>  drivers/usb/gadget/udc/snps_udc_core.c              |    2 +-
+>  fs/kernfs/file.c                                    |    2 +-
+>  kernel/events/core.c                                |    2 +-
+>  30 files changed, 39 insertions(+), 39 deletions(-)
 
-Right, these were roughly my findings as well, but I should have
-written them down, at least in the commit message.
+Here is the summary with links:
+  - [03/30] ath6kl: fix typos in comments
+    (no matching commit)
+  - [10/30] mt76: mt7915: fix typos in comments
+    (no matching commit)
+  - [12/30] drivers: net: packetengines: fix typos in comments
+    https://git.kernel.org/netdev/net-next/c/ebc0b8b5374e
+  - [19/30] rtlwifi: rtl8821ae: fix typos in comments
+    (no matching commit)
+  - [20/30] airo: fix typos in comments
+    (no matching commit)
+  - [27/30] can: ucan: fix typos in comments
+    (no matching commit)
 
-So shall the binding be explicit:
-1) Most SoCs required exactly one clock, the 24 MHz HOSC.
-2) The F1C100s requires exactly one clock, the 32KHz LOSC.
-3) R329/D1 require two clocks with clock-names?
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Or do you want to collapse 1) and 2) into one relaxed case? Still not
-entirely sure what "LOSC / 32 KHz" means for the F1C100 (32768 or 32000
-Hz), or where it really comes from, but it does not seem to matter.
-
-FreeBSD, Xen and U-Boot don't care about clocks at all, and Linux
-always uses the first clock and just enables it, so we should be good
-either way.
-
-> 
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml   | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> > index 43afa24513b9..d90655418d0e 100644
-> > --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> > +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> > @@ -29,7 +29,7 @@ properties:
-> >            - const: allwinner,sun6i-a31-wdt
-> >        - items:
-> >            - const: allwinner,suniv-f1c100s-wdt
-> > -          - const: allwinner,sun4i-a10-wdt
-> > +          - const: allwinner,sun6i-a31-wdt  
-> 
-> This can be combined with the enum of other compatibles that fall back to
-> allwinner,sun6i-a31-wdt (earlier in the file).
-
-Oh, right, I missed that.
-
-Cheers,
-Andre
-
-> 
-> Regards,
-> Samuel
-> 
-> >        - const: allwinner,sun20i-d1-wdt
-> >        - items:
-> >            - const: allwinner,sun20i-d1-wdt-reset
-> >   
-> 
-> 
 
