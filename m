@@ -1,64 +1,153 @@
-Received: from smtp-out.xnet.cz (smtp-out.xnet.cz [178.217.244.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7931B75
-	for <linux-sunxi@lists.linux.dev>; Tue, 15 Mar 2022 08:02:11 +0000 (UTC)
-Received: from meh.true.cz (meh.true.cz [108.61.167.218])
-	(Authenticated sender: petr@true.cz)
-	by smtp-out.xnet.cz (Postfix) with ESMTPSA id AF527183A2;
-	Tue, 15 Mar 2022 09:02:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=true.cz; s=xnet;
-	t=1647331329; bh=Owgjpt9llFly8+dfQ/MyEmdugi3jXELC/2QOvA1Yplw=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=RksBD10DTBfymcyc0tskKWTanzG6CEDK8a+QhF0EhUkiSh1bldkhga8ViEOgnnthc
-	 Nzs9BB4sVW25Df5/L+nrQkSAZmyvD4oum9Ej+IRCYrePc/YELButYksL9ODTppiKaK
-	 8XvCrce2WNdoX7QtlftDvNI5rvlq2FWV8G7QIlYg=
-Received: 
-	by meh.true.cz (OpenSMTPD) with SMTP id 36d5bdad;
-	Tue, 15 Mar 2022 09:01:44 +0100 (CET)
-Date: Tue, 15 Mar 2022 09:02:06 +0100
-From: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
-To: Corentin Labbe <clabbe.montjoie@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Bastien =?utf-8?Q?Roucari=C3=A8s?= <rouca@debian.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>, stable@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Revert "ARM: dts: sun7i: A20-olinuxino-lime2: Fix
- ethernet phy-mode"
-Message-ID: <20220315080206.GA12404@meh.true.cz>
-Reply-To: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
-References: <20220308125531.27305-1-ynezz@true.cz>
- <20220315072846.GA9129@meh.true.cz>
- <YjBCImqGsbIZ3IF4@Red>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17601B75
+	for <linux-sunxi@lists.linux.dev>; Tue, 15 Mar 2022 08:27:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6449EC340E8;
+	Tue, 15 Mar 2022 08:27:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1647332866;
+	bh=PzaSS6OJhjKG8MRjLmHkIO4J1pFecT5G3HQMXrvWXnA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DOyVbRt97sAMMgd6Znohcz4a+IAm1dZrKjPIezbNGUUKt94/f2aIastNcy1e0xq4W
+	 cuT6WhU3QvONJZe58I186sZiLAkHxE/xdAGX0tuwIrkMpwFObSPxAD+bZmO4XIorfU
+	 WyEPxPgX6/yUY5smIhhgrDJfrnm38wUneSIKojIDkh+V3pUsY8eu8EDIC5BHAs3NFe
+	 PVgwSJHOCf/qrLlI+YPEyIMrG2R0/EirX/2Xx5gmOPuMlk60nBULpEaxQKznaoO03B
+	 QhoH8tboq0FC4dy+qID/xBHIbblLWSXijN9wOeNzQ5CueQe3YjK+B0PDf2mdV4lGHb
+	 sjwX8X0sSGjrg==
+Date: Tue, 15 Mar 2022 09:27:36 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Niklas
+ =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund+renesas@ragnatech.se>, Cai
+ Huoqing <caihuoqing@baidu.com>, Chen-Yu Tsai <wens@csie.org>, Dinghao Liu
+ <dinghao.liu@zju.edu.cn>, Dmitry Osipenko <digetx@gmail.com>, Eugen Hristev
+ <eugen.hristev@microchip.com>, Ezequiel Garcia
+ <ezequiel@vanguardiasur.com.ar>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Jacopo Mondi <jacopo@jmondi.org>, Jia-Ju Bai <baijiaju1990@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>, Maxime Ripard
+ <mripard@kernel.org>, Mikhail Rudenko <mike.rudenko@gmail.com>, Ming Qian
+ <ming.qian@nxp.com>, Ondrej Jirman <megous@megous.com>, Robert Foss
+ <robert.foss@linaro.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tomi
+ Valkeinen <tomi.valkeinen@ideasonboard.com>, Yong Deng
+ <yong.deng@magewell.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 47/67] media: platform: rename sunxi/ to allwinner/
+Message-ID: <20220315092736.7e805c81@coco.lan>
+In-Reply-To: <YjA4IRD//lb8SKgs@pendragon.ideasonboard.com>
+References: <cover.1647274406.git.mchehab@kernel.org>
+	<85266b480902079391d4206b8aa276ff131a730f.1647274407.git.mchehab@kernel.org>
+	<2816975.e9J7NaK4W3@kista>
+	<20220315064005.10ecdab2@coco.lan>
+	<YjA4IRD//lb8SKgs@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YjBCImqGsbIZ3IF4@Red>
-X-PGP-Key: https://gist.githubusercontent.com/ynezz/477f6d7a1623a591b0806699f9fc8a27/raw/a0878b8ed17e56f36ebf9e06a6b888a2cd66281b/pgp-key.pub
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Corentin Labbe <clabbe.montjoie@gmail.com> [2022-03-15 08:37:06]:
+Em Tue, 15 Mar 2022 08:54:25 +0200
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Hi,
+> Hi Mauro,
+>=20
+> On Tue, Mar 15, 2022 at 06:40:05AM +0100, Mauro Carvalho Chehab wrote:
+> > Em Mon, 14 Mar 2022 18:22:20 +0100 Jernej =C5=A0krabec escreveu:
+> >  =20
+> > > Dne ponedeljek, 14. marec 2022 ob 17:34:42 CET je Mauro Carvalho Cheh=
+ab=20
+> > > napisal(a): =20
+> > > > As the end goal is to have platform drivers split by vendor,
+> > > > rename sunxi/ to allwinner/.
+> > > >=20
+> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>   =20
+> > >=20
+> > > I would rather not do that. Everything related to Allwinner is called=
+ sunxi,=20
+> > > albeit there are a few outliers. This is similar to Amlogic/meson sit=
+uation. =20
+> >=20
+> > The rationale of having one directory per manufacturer is that, if driv=
+ers
+> > for newer platforms with different names from the same manufacturers ar=
+e=20
+> > added, those will still fit under allwinner/ and amlogic/.
+> >=20
+> > The Kconfig names for sunxi and meson didn't change, nor the driver's n=
+ame.=20
+> > Also, the directories under allwinner preserve sun<x>i name on them:
+> >=20
+> > 	drivers/media/platform/allwinner/
+> > 	=E2=94=9C=E2=94=80=E2=94=80 sun4i-csi
+> > 	=E2=94=9C=E2=94=80=E2=94=80 sun6i-csi
+> > 	=E2=94=9C=E2=94=80=E2=94=80 sun8i-di
+> > 	=E2=94=94=E2=94=80=E2=94=80 sun8i-rotate
+> >=20
+> > and so the directory under amlogic/:
+> >=20
+> > 	drivers/media/platform/amlogic/
+> > 	=E2=94=94=E2=94=80=E2=94=80 meson-ge2d
+> >=20
+> > Now, if Allinner decides to release a new platforms named after another=
+ star,
+> > let's say, "Vega" and "Rigel", it would be just a matter of adding=20
+> > "vega/" and "rigel/" directories under allwinner. No need to touch
+> > media/platform/Kconfig and media/platform/Makefile. Everything will hap=
+pen
+> > on much more smaller vendor-specific Kconfig/Makefile. =20
+>=20
+> But the day Allwinner changes its name to Noloser, we'll have a similar
+> problem.=20
 
-> If your patch is applied, older revisions will stop working, right ?
+Not really. It will still be a single directory per vendor (whatever
+name it is).
 
-correct, in the same way new revisions stopped working when that wrong fix was
-applied.
+> Thnk about Freescale vs. NXP, or Altera bought by Intel.
 
-> What about adding a new dtb like sun7i-a20-olinuxino-lime2-revk.dts ?
+Yeah, when some drivers move from one vendor to another one that
+already exists there, we should probably move the directories, in
+order to keep things well organized.
 
-From my POV proper fix for earlier HW revisions G/G1/G2 is introduction of
-sun7i-a20-olinuxino-lime2-revG.dts with a proper `phy-mode` for RTL8211E PHY.
+The worse case scenario is really if, let's say, TI decides to sell their
+omap architecture to NXP, keeping the rest. On such case, the best would
+be to move platform/ti/omap* to the directory of its newer owner.
 
-Cheers,
+That's said, when things like that happen, there are usually a change
+at MAINTAINERS, as e-mails, mailing lists and contact people will
+likely change. So, this will very likely generate patches anyway.
 
-Petr
+> No
+> naming scheme is totally future-proof. If the accepted standard through
+> the kernel is to use sunxi to refer to Allwinner SoCs, I don't think
+> it's a bit idea to go with that.
+
+I'm not too concerned about the name here, but rather about the
+process. Needing to do reorg like this is painful, as it causes=20
+all pending work to fail merging against upstream, requiring rebases.
+So, we should avoid needing to re-do it by trying our best to avoid
+the need of another global change like that in the future.
+
+By organizing entries per vendor, while we may need to do puntual
+per-vendor adjustments when they rename and change IP with other
+vendors, the global platform Kconfig/Make will contain a single entry
+per vendor. I can't foresee any need to change this in the future,
+if we take care of keeping the entries there properly sorted.
+
+With regards to naming the per-vendor directory, while I do prefer to have
+the  directories named after the vendor, and not after a vendor's nick=20
+name, It should also be ok to use a vendor's nick name, provided that=20
+such name is meant to be used by all their current and future IP.
+
+Not sure if "sunxi" is actually a vendor's nick name. It sounds
+much likely that it is, instead, a brand name that covers their=20
+current media-related SoC.=20
+
+Can someone from the vendor shed a light on it?
+
+Thanks,
+Mauro
