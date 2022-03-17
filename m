@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A758A48B6
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0441D4378
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:24:26 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62C631650;
-	Thu, 17 Mar 2022 09:24:23 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id ABF291655;
+	Thu, 17 Mar 2022 09:24:25 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C0523F7B4;
-	Thu, 17 Mar 2022 09:24:21 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9AA303F7B4;
+	Thu, 17 Mar 2022 09:24:23 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -21,11 +21,12 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	linux-mmc@vger.kernel.org
-Subject: [PATCH v2 09/12] ARM: dts: suniv: licheepi-nano: add microSD card
-Date: Thu, 17 Mar 2022 16:23:46 +0000
-Message-Id: <20220317162349.739636-10-andre.przywara@arm.com>
+	Mark Brown <broonie@kernel.org>,
+	linux-spi@vger.kernel.org,
+	Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 10/12] dt-bindings: spi: sunxi: document F1C100 controllers
+Date: Thu, 17 Mar 2022 16:23:47 +0000
+Message-Id: <20220317162349.739636-11-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317162349.739636-1-andre.przywara@arm.com>
 References: <20220317162349.739636-1-andre.przywara@arm.com>
@@ -37,56 +38,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jesse Taube <mr.bossman075@gmail.com>
+The Allwinner F1C100 series contains two SPI controllers, which are
+compatible to the IP block used in the Allwinner H3 as well.
+The only difference in the integration is the missing mod clock in the
+F1C100, but that does not affect the SPI controller binding, as we can
+still supply the correct clock (AHB parent) easily.
 
-Enable MMC0 and supply the board setting to enable the microSD card slot
-on the LicheePi Nano board.
-Apart from the always missing write protect switch on microSD slots,
-the card-detect pin is not connected to anything, so we use the
-broken-cd property.
-
-Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
-[Andre: add alias and vmmc supply]
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 Acked-by: Samuel Holland <samuel@sholland.org>
-Tested-by: Samuel Holland <samuel@sholland.org>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- .../arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml         | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-index a1154e6c7cb5..8fa79a1d1d2d 100644
---- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -11,12 +11,28 @@ / {
- 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+index 908248260afa..ca4c95345a49 100644
+--- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
++++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
+@@ -26,6 +26,7 @@ properties:
+               - allwinner,sun8i-r40-spi
+               - allwinner,sun50i-h6-spi
+               - allwinner,sun50i-h616-spi
++              - allwinner,suniv-f1c100s-spi
+           - const: allwinner,sun8i-h3-spi
  
- 	aliases {
-+		mmc0 = &mmc0;
- 		serial0 = &uart0;
- 	};
- 
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
-+
-+	reg_vcc3v3: vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	status = "okay";
-+	vmmc-supply = <&reg_vcc3v3>;
- };
- 
- &uart0 {
+   reg:
 -- 
 2.25.1
 
