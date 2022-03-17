@@ -1,41 +1,41 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740464A9F
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 20:56:24 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id 7-20020a05600c228700b00385fd860f49so3843506wmf.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 13:56:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51CC4AA2
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 20:56:23 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r10so9048708wrp.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 13:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Mh4jiSkDLwsXXr3eCwHVBQsjqiQzNM7iBR5uhA4LEdU=;
-        b=RyxOa44Cou11d6dAd7IrT8ym2ReKWPZNo6u1lUp6B2x0DpQ+KyQKAy00ug4t+FTHcw
-         HDuSg2+o+nlr1siY+vAl0J5TKQyEZOOZSL3NXEU55Q8WhwYe8Q1Qvbty7sd8Pn8rv0jP
-         oJHND4hRhiqmqq3V/JHrL/28TNGuOatmW0GeSbJlL2Djq/rywmr8ZmxhlF72Tje2VOxG
-         WsTqIfkCPnTDAQoPcLsmmBzMyxFZ2b5zuG5BTwALWFpfa0duWD4r/Crq9sVDJHZkETU4
-         2RuBNUeGVcqnKx3QU9rBNiNLwpFqY4G6p8P5VCl+LfUwd4JflSN7Hn5LNp5XVuW7JpB8
-         xFgA==
+        bh=ARb8UCft8wZTG3ENft6+SNbd5rt3s4u0qjOlFXlgvZc=;
+        b=fx0R5guHUivEEvei6J61jyHaKeaykiPDMCfMXGBdGkCAGkibpHiJYuUdu9XAZkHrlf
+         IiyFbit8PXncJR/wuTmgwVJo8mE81YoMuzaorlyjKoAhJJgWZ/gkLJlucqjR7QZ1OBLg
+         JlSJ2x6IhJOa5LdIB5Bny0aO7uIlkM/kUA64DJhQKBjmDGMfM9VXlog4z2u63++0dM3B
+         M+vS7zQu3xFK/LMqfQs+GpOExcdZ03S0VL0q7S9qARF4FeaCIoxhshPjzYXsoAQsk18r
+         qnBpY2KRW8pQAMqZESQF/SChZ36aYcrKfcQlT6coNChveGUSxUniAA26cXWfnZE6HtBI
+         EQbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Mh4jiSkDLwsXXr3eCwHVBQsjqiQzNM7iBR5uhA4LEdU=;
-        b=nd4s5Z8r0evVFBlPnBDguWOST1ziTZOV6GjXKsyTlu8JmXA/eXRywl3ueXfOHwT4kx
-         1zIPsxH1LyyLpxg44q2wYUmsBNSuiy/y+2vwsTk2UnLijjpX8dTXeTJyrA8/sEoNDKVB
-         IeD5K7ghPU6OOkkIpvNuRFqicTRLz3C9PU/agH087CO0/aElpYcLgdPyYkVvlU9O0AWh
-         2ccCUepfOhkEdKCbVI1JSio3b1rbE40C4xDd++xosP0t+2YooSGLjCi7A3YxZ/R5MWTz
-         oQtGsgpk3QVjY65t/tZJx/eWPQNmLjyQGuSbXD33qs5tV4zEPFzCU0UBCsxujjKowjBx
-         I5+w==
-X-Gm-Message-State: AOAM53350U6HfAAD5/aTIzCG/jPTQigf1IIHpeoGssTfBxuZxllQJi4w
-	+5BeML811KrjA9xc7Hm4hEYsHKjvfnM4vw==
-X-Google-Smtp-Source: ABdhPJw5dlriYcc9uqGoP84adGYCZXOx9OG+Nxl7pjmm3Tmgd0DJ60WWmg/crDMndcSeFXcIAa1YkQ==
-X-Received: by 2002:a05:600c:1990:b0:389:d72d:ca77 with SMTP id t16-20020a05600c199000b00389d72dca77mr5605859wmq.1.1647550582838;
+        bh=ARb8UCft8wZTG3ENft6+SNbd5rt3s4u0qjOlFXlgvZc=;
+        b=fRn/iVdNqIZzBqjOEXCIqWC3AU9jGzbeGDATBj6QHzuTbfwuTLfy4sExYLENWgonXd
+         BpeJvQXz0NqR7SPoPczp7vXqEJph4lCmrtN5Q4aJCmtGcnqA2shrKPQZ5CxM9s38ZGY2
+         9IoBUyYnFm2jK0+4DQKmk78i44HkR1vfm74K6/HcVSYLo6O57IjhEQ4Z1Ga6A/bx2tks
+         D4jpKZAroIEwlMgsoHFRHWpMNRTR2CqGfo08MC3Lwm84YKNEPUj5XyQf97E2dLZeJ0uJ
+         Uv4k4RPCdMHWSP03DBgdtVpjg2SAVN7GmTYQqnsrUmEerD7dTSvsYE4oLMK6TL3PqGg5
+         irtg==
+X-Gm-Message-State: AOAM532IWGve8EXfjo8gOsqb+I2WtBNhCh3qeW2I4vSEDF8SwyhBGb6/
+	/tOw58Fjuhf92OlK48+LRxySrg==
+X-Google-Smtp-Source: ABdhPJzbUp4EbFbf+Tpf9PDFDkshIPOWAAe5Rd58ioAXv+xp81K3T4R4aP6JdcFC5/rRv7m2jw7J/Q==
+X-Received: by 2002:a05:6000:1842:b0:203:d799:b19b with SMTP id c2-20020a056000184200b00203d799b19bmr5560083wri.416.1647550582171;
         Thu, 17 Mar 2022 13:56:22 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id r4-20020a05600c35c400b00389f368cf1esm3695424wmq.40.2022.03.17.13.56.22
+        by smtp.googlemail.com with ESMTPSA id r4-20020a05600c35c400b00389f368cf1esm3695424wmq.40.2022.03.17.13.56.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 13:56:22 -0700 (PDT)
+        Thu, 17 Mar 2022 13:56:21 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: herbert@gondor.apana.org.au,
 	jernej.skrabec@gmail.com,
@@ -46,9 +46,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 16/19] crypto: sun8i-ce: Add function for handling hash padding
-Date: Thu, 17 Mar 2022 20:56:02 +0000
-Message-Id: <20220317205605.3924836-17-clabbe@baylibre.com>
+Subject: [PATCH 15/19] crypto: sun8i-ss: do not fallback if cryptlen is less than sg length
+Date: Thu, 17 Mar 2022 20:56:01 +0000
+Message-Id: <20220317205605.3924836-16-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317205605.3924836-1-clabbe@baylibre.com>
 References: <20220317205605.3924836-1-clabbe@baylibre.com>
@@ -60,145 +60,72 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move all padding work to a dedicated function.
+The sg length could be more than remaining data on it.
+So check the length requirement against the minimum between those two
+values.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 95 +++++++++++++------
- 1 file changed, 65 insertions(+), 30 deletions(-)
+ .../allwinner/sun8i-ss/sun8i-ss-cipher.c      | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-index 859b7522faaa..820651f0387f 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
-@@ -248,6 +248,64 @@ int sun8i_ce_hash_digest(struct ahash_request *areq)
- 	return crypto_transfer_hash_request_to_engine(engine, areq);
- }
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index 7f1940c6cc41..5bb950182026 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -28,6 +28,7 @@ static bool sun8i_ss_need_fallback(struct skcipher_request *areq)
+ 	struct scatterlist *in_sg = areq->src;
+ 	struct scatterlist *out_sg = areq->dst;
+ 	struct scatterlist *sg;
++	unsigned int todo, len;
  
-+static u64 hash_pad(u32 *buf, unsigned int bufsize, u64 padi, u64 byte_count, bool le, int bs)
-+{
-+	u64 fill, min_fill, j, k;
-+	__be64 *bebits;
-+	__le64 *lebits;
-+
-+	j = padi;
-+	buf[j++] = cpu_to_le32(0x80);
-+
-+	if (bs == 64) {
-+		fill = 64 - (byte_count % 64);
-+		min_fill = 2 * sizeof(u32) + sizeof(u32);
-+	} else {
-+		fill = 128 - (byte_count % 128);
-+		min_fill = 4 * sizeof(u32) + sizeof(u32);
-+	}
-+
-+	if (fill < min_fill)
-+		fill += bs;
-+
-+	k = j;
-+	j += (fill - min_fill) / sizeof(u32);
-+	if (j * 4 > bufsize) {
-+		pr_err("%s OVERFLOW %llu\n", __func__, j);
-+		return 0;
-+	}
-+	for (; k < j; k++)
-+		buf[k] = 0;
-+
-+	if (le) {
-+		/* MD5 */
-+		lebits = (__le64 *)&buf[j];
-+		*lebits = cpu_to_le64(byte_count << 3);
-+		j += 2;
-+	} else {
-+		if (bs == 64) {
-+			/* sha1 sha224 sha256 */
-+			bebits = (__be64 *)&buf[j];
-+			*bebits = cpu_to_be64(byte_count << 3);
-+			j += 2;
-+		} else {
-+			/* sha384 sha512*/
-+			bebits = (__be64 *)&buf[j];
-+			*bebits = cpu_to_be64(byte_count >> 61);
-+			j += 2;
-+			bebits = (__be64 *)&buf[j];
-+			*bebits = cpu_to_be64(byte_count << 3);
-+			j += 2;
-+		}
-+	}
-+	if (j * 4 > bufsize) {
-+		pr_err("%s OVERFLOW %llu\n", __func__, j);
-+		return 0;
-+	}
-+
-+	return j;
-+}
-+
- int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
- {
- 	struct ahash_request *areq = container_of(breq, struct ahash_request, base);
-@@ -266,10 +324,6 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
- 	__le32 *bf;
- 	void *buf = NULL;
- 	int j, i, todo;
--	int nbw = 0;
--	u64 fill, min_fill;
--	__be64 *bebits;
--	__le64 *lebits;
- 	void *result = NULL;
- 	u64 bs;
- 	int digestsize;
-@@ -348,44 +402,25 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
- 
- 	byte_count = areq->nbytes;
- 	j = 0;
--	bf[j++] = cpu_to_le32(0x80);
--
--	if (bs == 64) {
--		fill = 64 - (byte_count % 64);
--		min_fill = 2 * sizeof(u32) + (nbw ? 0 : sizeof(u32));
--	} else {
--		fill = 128 - (byte_count % 128);
--		min_fill = 4 * sizeof(u32) + (nbw ? 0 : sizeof(u32));
--	}
--
--	if (fill < min_fill)
--		fill += bs;
--
--	j += (fill - min_fill) / sizeof(u32);
- 
- 	switch (algt->ce_algo_id) {
- 	case CE_ID_HASH_MD5:
--		lebits = (__le64 *)&bf[j];
--		*lebits = cpu_to_le64(byte_count << 3);
--		j += 2;
-+		j = hash_pad(bf, 2 * bs, j, byte_count, true, bs);
- 		break;
- 	case CE_ID_HASH_SHA1:
- 	case CE_ID_HASH_SHA224:
- 	case CE_ID_HASH_SHA256:
--		bebits = (__be64 *)&bf[j];
--		*bebits = cpu_to_be64(byte_count << 3);
--		j += 2;
-+		j = hash_pad(bf, 2 * bs, j, byte_count, false, bs);
- 		break;
- 	case CE_ID_HASH_SHA384:
- 	case CE_ID_HASH_SHA512:
--		bebits = (__be64 *)&bf[j];
--		*bebits = cpu_to_be64(byte_count >> 61);
--		j += 2;
--		bebits = (__be64 *)&bf[j];
--		*bebits = cpu_to_be64(byte_count << 3);
--		j += 2;
-+		j = hash_pad(bf, 2 * bs, j, byte_count, false, bs);
- 		break;
+ 	if (areq->cryptlen == 0 || areq->cryptlen % 16) {
+ 		algt->stat_fb_len++;
+@@ -40,13 +41,11 @@ static bool sun8i_ss_need_fallback(struct skcipher_request *areq)
+ 		return true;
  	}
-+	if (!j) {
-+		err = -EINVAL;
-+		goto theend;
-+	}
  
- 	addr_pad = dma_map_single(ce->dev, buf, j * 4, DMA_TO_DEVICE);
- 	cet->t_src[i].addr = cpu_to_le32(addr_pad);
++	len = areq->cryptlen;
+ 	sg = areq->src;
+ 	while (sg) {
+-		if ((sg->length % 16) != 0) {
+-			algt->stat_fb_sglen++;
+-			return true;
+-		}
+-		if ((sg_dma_len(sg) % 16) != 0) {
++		todo = min(len, sg->length);
++		if ((todo % 16) != 0) {
+ 			algt->stat_fb_sglen++;
+ 			return true;
+ 		}
+@@ -54,15 +53,14 @@ static bool sun8i_ss_need_fallback(struct skcipher_request *areq)
+ 			algt->stat_fb_align++;
+ 			return true;
+ 		}
++		len -= todo;
+ 		sg = sg_next(sg);
+ 	}
++	len = areq->cryptlen;
+ 	sg = areq->dst;
+ 	while (sg) {
+-		if ((sg->length % 16) != 0) {
+-			algt->stat_fb_sglen++;
+-			return true;
+-		}
+-		if ((sg_dma_len(sg) % 16) != 0) {
++		todo = min(len, sg->length);
++		if ((todo % 16) != 0) {
+ 			algt->stat_fb_sglen++;
+ 			return true;
+ 		}
+@@ -70,6 +68,7 @@ static bool sun8i_ss_need_fallback(struct skcipher_request *areq)
+ 			algt->stat_fb_align++;
+ 			return true;
+ 		}
++		len -= todo;
+ 		sg = sg_next(sg);
+ 	}
+ 
 -- 
 2.34.1
 
