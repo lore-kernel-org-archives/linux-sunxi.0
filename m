@@ -1,279 +1,76 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF7F2F31
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:32:52 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 251EDD22A0
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:21:19 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 01AC0E000E;
-	Thu, 17 Mar 2022 16:21:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647534070;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p+cYBkfFFvELqWc9QhQrIx+yztmy6I4JHGArTu/5pHI=;
-	b=DTjpkPO+Rd8PPKRBmDgIFf8CocPlPj+9wu7TQwKkH/W0cTGtcxwD+qkLdZ4vVrrK5894tJ
-	qjWmm6zNPvtp7WuOoZYPoAABdrfPmfdjfZP5alH9VGaORL5zNcW1tO/qyUMSX6N9AfWvHb
-	9FtpA38vZpWNVGuIAL8VAY/jdqsLRy9GRiOiezU+eavHdCHz2CqFaHFQfKAU0Qa3D5f8Xl
-	ef2mEmAUL09Sfh6bPrDXj7UogiwjaJWP1CmTH1wXKu32D4wRi1/kLzHE7rWzx9Dm32lTYK
-	W0DPmtj0k73bDzoXYiEafY2Qh/JG7P24sh+DGhwDqUxrQlAK6mlG4BGScugF8A==
-Date: Thu, 17 Mar 2022 17:21:07 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D01E32F30
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 18:30:52 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C6A5D1682;
+	Thu, 17 Mar 2022 11:30:51 -0700 (PDT)
+Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 45DEA3F7F5;
+	Thu, 17 Mar 2022 11:30:50 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Russell King <linux@armlinux.org.uk>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>
+Cc: soc@kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v3 7/9] dt-bindings: media: Add Allwinner A83T MIPI CSI-2
- bindings documentation
-Message-ID: <YjNf827KuySLowK1@aptenodytes>
-References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
- <20220302220739.144303-8-paul.kocialkowski@bootlin.com>
- <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/5] ARM: configs: fix multi_v5_defconfig
+Date: Thu, 17 Mar 2022 18:30:38 +0000
+Message-Id: <20220317183043.948432-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="iiX+RlDO9qayM+ej"
-Content-Disposition: inline
-In-Reply-To: <YjHlisNfdobeAta7@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
 
+This series is a revamp of two patches contained in some Allwinner
+F1C100 DT update (patch 13 and 14 in [1]). Back then I was just syncing
+the result of "make savedefconfig" over to multi_v5_defconfig, but this
+revealed there were problems in the defconfig which warrant closer
+inspection.
 
---iiX+RlDO9qayM+ej
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series fixes the multi_v5_defconfig in a way that "make
+savedefconfig" and multi_v5_defconfig come out identical, but also the
+options we mention in the defconfig are actually honoured. Currently
+some options are not enabled, because we lost dependencies over the past
+two years or so.
 
-Hi Sakari,
+The commit messages contain the details about what happened to each
+option. Patches 1 and 4 are just cleanups, without .config or
+savedefconfig changes, but patch 2 and 3 change the active options.
+Patch 5 enables the Allwinner platform in the multi_v5_defconfig, so
+that the LicheePi Nano boots to the prompt.
 
-On Wed 16 Mar 22, 15:26, Sakari Ailus wrote:
-> Hi Paul,
->=20
-> Thanks for the patch.
+This series relies on [2], that fixes Kconfig dependencies for one of
+the options we enable.
 
-And thanks for the review!
+Please have a look!
 
-> On Wed, Mar 02, 2022 at 11:07:37PM +0100, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the Allwinner A83T
-> > MIPI CSI-2 controller.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> > ---
-> >  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 138 ++++++++++++++++++
-> >  1 file changed, 138 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un8i-a83t-mipi-csi2.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a8=
-3t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i=
--a83t-mipi-csi2.yaml
-> > new file mode 100644
-> > index 000000000000..75121b402435
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi=
--csi2.yaml
-> > @@ -0,0 +1,138 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi=
-2.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: allwinner,sun8i-a83t-mipi-csi2
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +      - description: MIPI-specific Clock
-> > +      - description: Misc CSI Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +      - const: mipi
-> > +      - const: misc
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: Input port, connect to a MIPI CSI-2 sensor
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 0
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              clock-lanes:
-> > +                maxItems: 1
->=20
-> Does the hardware support lane reordering? If not, the property should be
-> omitted here.
+Cheers,
+Andre
 
-I'm not sure what this relates to. Is it about inverting the clock lane with
-a data lane? I'm a bit confused about logical vs physical lane in the conte=
-xt
-of MIPI CSI-2.
+[1] https://lore.kernel.org/all/20220307143421.1106209-1-andre.przywara@arm.com/
+[2] https://lore.kernel.org/dri-devel/20220315084559.23510-1-tzimmermann@suse.de/raw
 
-The controller has dedicated pins for the clock and data lanes and supports
-filtering packets based on virtual channel or data type.
+Andre Przywara (5):
+  ARM: configs: multi_v5_defconfig: remove deleted platforms
+  ARM: configs: multi_v5_defconfig: re-enable
+    CONFIG_V4L_PLATFORM_DRIVERS
+  ARM: configs: multi_v5_defconfig: re-enable DRM_PANEL and FB_xxx
+  ARM: configs: clean up multi_v5_defconfig
+  ARM: configs: multi_v5: Enable Allwinner F1C100
 
-Are the clock-lanes and data-lanes only relevant for reordering?
-IIRC they are also necessary to get the lanes count in the driver.
+ arch/arm/configs/multi_v5_defconfig | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-> I can also remove the three lines here while applying the patches.
+-- 
+2.25.1
 
-I think this series will need another iteration anyway, so let's wait.
-
-Paul
-
-> > +
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                maxItems: 4
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +
-> > +        additionalProperties: false
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        description: Output port, connect to a CSI controller
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
-> > +    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
-> > +
-> > +    mipi_csi2: csi@1cb1000 {
-> > +        compatible =3D "allwinner,sun8i-a83t-mipi-csi2";
-> > +        reg =3D <0x01cb1000 0x1000>;
-> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> > +        clocks =3D <&ccu CLK_BUS_CSI>,
-> > +                 <&ccu CLK_CSI_SCLK>,
-> > +                 <&ccu CLK_MIPI_CSI>,
-> > +                 <&ccu CLK_CSI_MISC>;
-> > +        clock-names =3D "bus", "mod", "mipi", "misc";
-> > +        resets =3D <&ccu RST_BUS_CSI>;
-> > +
-> > +        ports {
-> > +            #address-cells =3D <1>;
-> > +            #size-cells =3D <0>;
-> > +
-> > +            mipi_csi2_in: port@0 {
-> > +                reg =3D <0>;
-> > +
-> > +                mipi_csi2_in_ov8865: endpoint {
-> > +                    data-lanes =3D <1 2 3 4>;
-> > +
-> > +                    remote-endpoint =3D <&ov8865_out_mipi_csi2>;
-> > +                };
-> > +            };
-> > +
-> > +            mipi_csi2_out: port@1 {
-> > +                reg =3D <1>;
-> > +
-> > +                mipi_csi2_out_csi: endpoint {
-> > +                    remote-endpoint =3D <&csi_in_mipi_csi2>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---iiX+RlDO9qayM+ej
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIzX/MACgkQ3cLmz3+f
-v9E+pQf+IeGzh1lXPZrMZDTECUlOPK5l/zgJtpRtE5Gd7qzKbZm59v2L4YYnaBzC
-uT+MIgMHxJtyX90UobiXOilMW/yxilQFh/i00T4HMXEZ+VFxY6wVVUZt0/yZM33n
-U3EqJqMWT/cb14jgNFBi9jEX7Y08cRih1u8JZxnDBDnq/1KZL/csvquJ2Ljwczw0
-cMOQ+1L8liSsQiq7AlorcZLuFSLttMlbIZg+E2u9FNSBKcoF1iUpsDhSggXEVvs9
-rVxpT+YhxM6hNls7XR3LyeE7KdAfdcub5JFhUiq7oTJxQK+K6/0IWv8qBrq35k3u
-qcCt2yH9UO9dmAyhBky+qbS06yaJjA==
-=IJLv
------END PGP SIGNATURE-----
-
---iiX+RlDO9qayM+ej--
