@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3C1E4378
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D9B548BB
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:24:15 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B26B31570;
-	Thu, 17 Mar 2022 09:24:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13ECF1596;
+	Thu, 17 Mar 2022 09:24:15 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A0E333F7B4;
-	Thu, 17 Mar 2022 09:24:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 525963F7B4;
+	Thu, 17 Mar 2022 09:24:13 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Maxime Ripard <mripard@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -20,13 +20,10 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	George Hilliard <thirtythreeforty@gmail.com>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	linux-watchdog@vger.kernel.org
-Subject: [PATCH v2 02/12] dt-bindings: watchdog: sunxi: clarify clock support
-Date: Thu, 17 Mar 2022 16:23:39 +0000
-Message-Id: <20220317162349.739636-3-andre.przywara@arm.com>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 05/12] ARM: dts: suniv: F1C100: add clock and reset macros
+Date: Thu, 17 Mar 2022 16:23:42 +0000
+Message-Id: <20220317162349.739636-6-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317162349.739636-1-andre.przywara@arm.com>
 References: <20220317162349.739636-1-andre.przywara@arm.com>
@@ -38,73 +35,74 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Most Allwinner SoCs have just one input clock to drive the watchdog
-peripheral. So far this is the 24 MHz "HOSC" oscillator, divided down
-internally to 32 KHz.
-The F1C100 series watchdog however uses the unchanged 32 KHz "LOSC" as
-its only clock input, which has the same effect, but let's the binding
-description mismatch.
+From: Jesse Taube <mr.bossman075@gmail.com>
 
-Change the binding description to name the clocks more loosely, so both
-the LOSC and divided HOSC match the description. As the fixed clock names
-now make less sense, drop them from SoCs supporting just one clock
-input, they were not used by any DT anyway.
+Include clock and reset macros and replace magic numbers.
 
-For the newer SoCs, supporting a choice of two input clocks, we keep
-both the description and clock-names requirement.
-
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Samuel Holland <samuel@sholland.org>
 ---
- .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 20 ++++++++-----------
- 1 file changed, 8 insertions(+), 12 deletions(-)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-index 7a26cde0afdd..cbcf19f51411 100644
---- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-+++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-@@ -39,14 +39,8 @@ properties:
-   clocks:
-     minItems: 1
-     items:
--      - description: High-frequency oscillator input, divided internally
--      - description: Low-frequency oscillator input, only found on some variants
--
--  clock-names:
--    minItems: 1
--    items:
--      - const: hosc
--      - const: losc
-+      - description: 32 KHz input clock
-+      - description: secondary clock source
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index def830101448..922efd5e9457 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -4,6 +4,9 @@
+  * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
+  */
  
-   interrupts:
-     maxItems: 1
-@@ -71,9 +65,14 @@ then:
-   properties:
-     clocks:
-       minItems: 2
-+      items:
-+        - description: High-frequency oscillator input, divided internally
-+        - description: Low-frequency oscillator input
++#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
++#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
++
+ / {
+ 	#address-cells = <1>;
+ 	#size-cells = <1>;
+@@ -82,7 +85,7 @@ pio: pinctrl@1c20800 {
+ 			compatible = "allwinner,suniv-f1c100s-pinctrl";
+ 			reg = <0x01c20800 0x400>;
+ 			interrupts = <38>, <39>, <40>;
+-			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
++			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
+ 			clock-names = "apb", "hosc", "losc";
+ 			gpio-controller;
+ 			interrupt-controller;
+@@ -116,8 +119,8 @@ uart0: serial@1c25000 {
+ 			interrupts = <1>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 38>;
+-			resets = <&ccu 24>;
++			clocks = <&ccu CLK_BUS_UART0>;
++			resets = <&ccu RST_BUS_UART0>;
+ 			status = "disabled";
+ 		};
  
-     clock-names:
--      minItems: 2
-+      items:
-+        - const: hosc
-+        - const: losc
+@@ -127,8 +130,8 @@ uart1: serial@1c25400 {
+ 			interrupts = <2>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 39>;
+-			resets = <&ccu 25>;
++			clocks = <&ccu CLK_BUS_UART1>;
++			resets = <&ccu RST_BUS_UART1>;
+ 			status = "disabled";
+ 		};
  
-   required:
-     - clock-names
-@@ -83,9 +82,6 @@ else:
-     clocks:
-       maxItems: 1
- 
--    clock-names:
--      maxItems: 1
--
- unevaluatedProperties: false
- 
- examples:
+@@ -138,8 +141,8 @@ uart2: serial@1c25800 {
+ 			interrupts = <3>;
+ 			reg-shift = <2>;
+ 			reg-io-width = <4>;
+-			clocks = <&ccu 40>;
+-			resets = <&ccu 26>;
++			clocks = <&ccu CLK_BUS_UART2>;
++			resets = <&ccu RST_BUS_UART2>;
+ 			status = "disabled";
+ 		};
+ 	};
 -- 
 2.25.1
 
