@@ -1,88 +1,212 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F3624378
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:24:30 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 149C01684;
-	Thu, 17 Mar 2022 09:24:30 -0700 (PDT)
-Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1D97E3F7B4;
-	Thu, 17 Mar 2022 09:24:28 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCEA4378
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 16:25:40 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 022D71C000F;
+	Thu, 17 Mar 2022 16:25:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1647534333;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ALLei3Iid7g2f1Vlipcd3o4ARbpYuWc1mA/FuF55Vc8=;
+	b=k9f2Sl/YQbbeQF2+xpKVWjRLn+R21VdIU6zkCahjTpxNn0SWaJien4auiqVQBavL9Qm+E7
+	eprs5GO1ca5uE+oIgeltqYtcB83uVuDX8DtdW+WQY4cXY7plXWp9owt+qOlx/AbKnkNUWj
+	1ocrN2PvfVeGSjNYZoPphiLcKjwcp9cTI+QfuW56iHcjvde17Ph83Hw6JngXQjMkXUPG+4
+	T+TZbml6cUtyYqEEYExF6T98cRR/bmNV+UZ8qy3moYP7czZzwQ0uBMhVlMzVzCOmJh4th4
+	2KGYIaiIilZoAOtv/Of545k1tyQm/1SE7x+DLL6G1LfbmJ3/iL21LoML05pu5Q==
+Date: Thu, 17 Mar 2022 17:25:29 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Mesih Kilinc <mesihkilinc@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Jesse Taube <mr.bossman075@gmail.com>,
-	Giulio Benetti <giulio.benetti@benettiengineering.com>,
-	George Hilliard <thirtythreeforty@gmail.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Mark Brown <broonie@kernel.org>,
-	linux-spi@vger.kernel.org
-Subject: [PATCH v2 12/12] ARM: dts: suniv: licheepi-nano: add SPI flash
-Date: Thu, 17 Mar 2022 16:23:49 +0000
-Message-Id: <20220317162349.739636-13-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220317162349.739636-1-andre.przywara@arm.com>
-References: <20220317162349.739636-1-andre.przywara@arm.com>
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 5/9] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <YjNg+T+J1YkOm9LE@aptenodytes>
+References: <20220302220739.144303-1-paul.kocialkowski@bootlin.com>
+ <20220302220739.144303-6-paul.kocialkowski@bootlin.com>
+ <YjHluwVnbPyHo1kp@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="bi/43uRme1u2xO1q"
+Content-Disposition: inline
+In-Reply-To: <YjHluwVnbPyHo1kp@paasikivi.fi.intel.com>
 
-Most LicheePi Nano boards come with soldered SPI flash, so enable SPI0
-in the .dts and describe the flash chip. There is evidence of different
-flash chips used, also of boards with no flash chip soldered, but the
-Winbond 16MiB model is the most common, so use that for the compatible
-string.  The actual flash chip model will be auto-detected at runtime
-anyway.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Acked-by: Samuel Holland <samuel@sholland.org>
----
- arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+--bi/43uRme1u2xO1q
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-index 8fa79a1d1d2d..04e59b8381cb 100644
---- a/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -13,6 +13,7 @@ / {
- 	aliases {
- 		mmc0 = &mmc0;
- 		serial0 = &uart0;
-+		spi0 = &spi0;
- 	};
- 
- 	chosen {
-@@ -35,6 +36,20 @@ &mmc0 {
- 	vmmc-supply = <&reg_vcc3v3>;
- };
- 
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "winbond,w25q128", "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pe_pins>;
--- 
-2.25.1
+Hi Sakari,
 
+On Wed 16 Mar 22, 15:27, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> Thanks for the set.
+>=20
+> On Wed, Mar 02, 2022 at 11:07:35PM +0100, Paul Kocialkowski wrote:
+> ...
+> > +static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+> > +{
+> > +	struct sun6i_mipi_csi2_device *csi2_dev =3D v4l2_get_subdevdata(subde=
+v);
+> > +	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
+> > +	union phy_configure_opts dphy_opts =3D { 0 };
+> > +	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dph=
+y;
+> > +	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_for=
+mat;
+> > +	const struct sun6i_mipi_csi2_format *format;
+> > +	struct phy *dphy =3D csi2_dev->dphy;
+> > +	struct device *dev =3D csi2_dev->dev;
+> > +	struct v4l2_ctrl *ctrl;
+> > +	unsigned int lanes_count =3D
+> > +		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> > +	unsigned long pixel_rate;
+> > +	/* Initialize to 0 to use both in disable label (ret !=3D 0) and off.=
+ */
+> > +	int ret =3D 0;
+> > +
+> > +	if (!source_subdev)
+> > +		return -ENODEV;
+> > +
+> > +	if (!on) {
+> > +		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> > +		goto disable;
+> > +	}
+> > +
+> > +	/* Runtime PM */
+> > +
+> > +	ret =3D pm_runtime_resume_and_get(dev);
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	/* Sensor Pixel Rate */
+> > +
+> > +	ctrl =3D v4l2_ctrl_find(source_subdev->ctrl_handler, V4L2_CID_PIXEL_R=
+ATE);
+> > +	if (!ctrl) {
+> > +		dev_err(dev, "missing sensor pixel rate\n");
+> > +		ret =3D -ENODEV;
+> > +		goto error_pm;
+> > +	}
+> > +
+> > +	pixel_rate =3D (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
+> > +	if (!pixel_rate) {
+> > +		dev_err(dev, "missing (zero) sensor pixel rate\n");
+> > +		ret =3D -ENODEV;
+> > +		goto error_pm;
+> > +	}
+> > +
+> > +	/* D-PHY */
+> > +
+> > +	if (!lanes_count) {
+>=20
+> I first thought this check could be moved to the beginning, but it's also
+> redundant. v4l2_fwnode_endpoint_parse() will check the configuration is
+> valid, i.e. the number of lanes is not zero.
+
+Good to know, thanks!
+
+> But should you add checks to make sure the hardware supports what has been
+> configured? I'd do that right after parsing the endpoint.
+
+I guess you mean checking that we don't get more than 4 lanes?
+And maybe something related to lane ordering too?
+
+> And you only seem to be using the number of data lanes, nothing more. So
+> I'd store that, instead of the entire parsed v4l2_fwnode_endpoint.
+
+That's correct, why not.
+
+> The same applies to patch 8.
+>=20
+> I think these could be done on top of this set after it is merged. Up to
+> you.
+
+I'll go for another iteration.
+
+Thanks!
+
+Paul
+
+> ...
+>=20
+> > +static int
+> > +sun6i_mipi_csi2_bridge_source_setup(struct sun6i_mipi_csi2_device *csi=
+2_dev)
+> > +{
+> > +	struct v4l2_async_notifier *notifier =3D &csi2_dev->bridge.notifier;
+> > +	struct v4l2_fwnode_endpoint *endpoint =3D &csi2_dev->bridge.endpoint;
+> > +	struct v4l2_async_subdev *subdev_async;
+> > +	struct fwnode_handle *handle;
+> > +	struct device *dev =3D csi2_dev->dev;
+> > +	int ret;
+> > +
+> > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
+> > +						 FWNODE_GRAPH_ENDPOINT_NEXT);
+> > +	if (!handle)
+> > +		return -ENODEV;
+> > +
+> > +	endpoint->bus_type =3D V4L2_MBUS_CSI2_DPHY;
+> > +
+> > +	ret =3D v4l2_fwnode_endpoint_parse(handle, endpoint);
+> > +	if (ret)
+> > +		goto complete;
+> > +
+> > +	subdev_async =3D v4l2_async_nf_add_fwnode_remote(notifier, handle,
+> > +		struct v4l2_async_subdev);
+> > +	if (IS_ERR(subdev_async))
+> > +		ret =3D PTR_ERR(subdev_async);
+> > +
+> > +complete:
+> > +	fwnode_handle_put(handle);
+> > +
+> > +	return ret;
+> > +}
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--bi/43uRme1u2xO1q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmIzYPkACgkQ3cLmz3+f
+v9FKsQf/REx8HWGAsHL4EqjK6NNY4P9j3krw6UROSlwsH6bZY5rQyi+CvqZgK3/P
+yD7lqlJLu0Ejaifq6TFv/2G5trwxpR9CMdUS4XDGLKMNpQwFQihPIKN9GeZaB9GJ
+xEWMgbnwMd+j7ip9XOPtQNNLMmEiuGEJe1cNgWNOlY6srAvLgJ9oe6ceUhEJoGWa
+OZhAZ7ZUYNY0QAxZ343P3W9cIvGEOJEDGXEz29BUlNH3XKvzFyw6esG7CI606aE0
+HoNlm/6r3uPwvjcmTu8TmX/bAFInySEN+KED2AQEFJfNnX3OQSLgwz+nM857wva7
+0iXY8fnh8ItjVpkNOGg8hZ066dzSCg==
+=1gfj
+-----END PGP SIGNATURE-----
+
+--bi/43uRme1u2xO1q--
