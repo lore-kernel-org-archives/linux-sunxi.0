@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31FA348DE
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 18:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91BD2F30
+	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 18:30:55 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89EE01688;
-	Thu, 17 Mar 2022 11:30:53 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4CA36168F;
+	Thu, 17 Mar 2022 11:30:55 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.196.172])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 097613F7F5;
-	Thu, 17 Mar 2022 11:30:51 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C0B313F7F5;
+	Thu, 17 Mar 2022 11:30:53 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Russell King <linux@armlinux.org.uk>,
 	Arnd Bergmann <arnd@arndb.de>,
@@ -19,9 +19,9 @@ Cc: soc@kernel.org,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/5] ARM: configs: multi_v5_defconfig: remove deleted platforms
-Date: Thu, 17 Mar 2022 18:30:39 +0000
-Message-Id: <20220317183043.948432-2-andre.przywara@arm.com>
+Subject: [PATCH 2/5] ARM: configs: multi_v5_defconfig: re-enable CONFIG_V4L_PLATFORM_DRIVERS
+Date: Thu, 17 Mar 2022 18:30:40 +0000
+Message-Id: <20220317183043.948432-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220317183043.948432-1-andre.przywara@arm.com>
 References: <20220317183043.948432-1-andre.przywara@arm.com>
@@ -33,56 +33,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Some ARMv5 platforms got removed from the kernel over time, so we don't
-need their symbols in the multi_v5_defconfig anymore:
+Commit 06b93644f4d1 ("media: Kconfig: add an option to filter in/out
+platform drivers") introduced CONFIG_MEDIA_PLATFORM_SUPPORT, to allow
+more fine grained control over the inclusion of certain Kconfig files.
+multi_v5_defconfig was selecting some drivers described in
+drivers/media/platform/Kconfig, which now wasn't included anymore.
 
-- ARCH_U300 got removed with commit ce1380c9f4bc ("ARM: remove u300
-  platform"), so CONFIG_ARCH_U300 is not around anymore.
-- ARCH_U300 was the only platform selecting ARCH_AMBA, which I2C_NOMADIK
-  depends on. So we won't need this symbol anymore, and can't select it
-  anyway.
-- i.MX27 got converted to DT in 879c0e5e0ac7 ("ARM: imx: Remove i.MX27
-  board files"). Remove the now obsolete board file version symbols.
+Explicitly set the new symbol in multi_v5_defconfig to bring those
+drivers back.
+This enables some new V4L2 and VIDEOBUF2 features, but as modules only.
 
-No change in the generated .config or savedefconfig.
-
+Fixes: 06b93644f4d1 ("media: Kconfig: add an option to filter in/out platform drivers")
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/configs/multi_v5_defconfig | 7 -------
- 1 file changed, 7 deletions(-)
+ arch/arm/configs/multi_v5_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/arch/arm/configs/multi_v5_defconfig b/arch/arm/configs/multi_v5_defconfig
-index fe8d760256a4..5d754aad0272 100644
+index 5d754aad0272..dfbca8a683e2 100644
 --- a/arch/arm/configs/multi_v5_defconfig
 +++ b/arch/arm/configs/multi_v5_defconfig
-@@ -24,11 +24,6 @@ CONFIG_MACH_DM355_LEOPARD=y
- CONFIG_MACH_MITYOMAPL138=y
- CONFIG_MACH_OMAPL138_HAWKBOARD=y
- CONFIG_ARCH_MXC=y
--CONFIG_MACH_MX21ADS=y
--CONFIG_MACH_MX27ADS=y
--CONFIG_MACH_MX27_3DS=y
--CONFIG_MACH_IMX27_VISSTRIM_M10=y
--CONFIG_MACH_PCA100=y
- CONFIG_SOC_IMX25=y
- CONFIG_SOC_IMX27=y
- CONFIG_ARCH_MVEBU=y
-@@ -57,7 +52,6 @@ CONFIG_MACH_WNR854T=y
- CONFIG_MACH_RD88F5181L_GE=y
- CONFIG_MACH_RD88F5181L_FXO=y
- CONFIG_MACH_RD88F6183AP_GE=y
--CONFIG_ARCH_U300=y
- CONFIG_AEABI=y
- CONFIG_HIGHMEM=y
- CONFIG_ZBOOT_ROM_TEXT=0x0
-@@ -159,7 +153,6 @@ CONFIG_I2C_ASPEED=m
- CONFIG_I2C_AT91=y
- CONFIG_I2C_IMX=y
- CONFIG_I2C_MV64XXX=y
--CONFIG_I2C_NOMADIK=y
- CONFIG_SPI=y
- CONFIG_SPI_ATMEL=y
- CONFIG_SPI_IMX=y
+@@ -181,6 +181,7 @@ CONFIG_REGULATOR=y
+ CONFIG_REGULATOR_FIXED_VOLTAGE=y
+ CONFIG_MEDIA_SUPPORT=y
+ CONFIG_MEDIA_CAMERA_SUPPORT=y
++CONFIG_MEDIA_PLATFORM_SUPPORT=y
+ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_VIDEO_ASPEED=m
+ CONFIG_VIDEO_ATMEL_ISI=m
 -- 
 2.25.1
 
