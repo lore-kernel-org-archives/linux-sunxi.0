@@ -1,297 +1,185 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA3B4C7E
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Mar 2022 16:23:16 +0000 (UTC)
-Received: from relay10.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::230])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 02D94D4ACB
-	for <linux-sunxi@lists.linux.dev>; Fri, 18 Mar 2022 16:16:06 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2A464240005;
-	Fri, 18 Mar 2022 16:15:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1647620159;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FXSqpef77HUERWOVCcYwkbaMTy0zpi5sfmvLF2hmexg=;
-	b=bB+RAgxsE7MZ9tw5p9vxxgeLU5/I0+d3Rj41bd4imlfBGvaJhC/p7tJsnAdb9CsNSUalFS
-	pNeJX4baWgIG06ySy6AC/ID+xsE0VcZ0nifK/sJnKxls6dYN3rlcrCIlKCznGu7kEKDlda
-	pF5D/tlaPTdm0SmomEqX6u5qMWZXx35s98F0e8fpqUfaLjCItuDNHZ2jbBHX8KIKI4LnXb
-	3OABMe43K3lHabnpOSN8kkC39XjSL/7rne+U+tbze8VvMsJ6KpDnz2Mew5t8SUeQb3LFgJ
-	jDJKmsGRZi5byIbetl22JFAax1STBMMyavhtmkortyYeyBhsgGxyv8ap0XidrQ==
-Date: Fri, 18 Mar 2022 17:15:56 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 07/46] media: sun6i-csi: Use runtime pm for clocks and
- reset
-Message-ID: <YjSwPOUxQ4KwPfUe@aptenodytes>
-References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
- <20220311143532.265091-8-paul.kocialkowski@bootlin.com>
- <14579642.tv2OnDr8pf@kista>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8705139
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Mar 2022 20:59:10 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id h63so10629207iof.12
+        for <linux-sunxi@lists.linux.dev>; Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=R3B03hXdzmRL4FMHavxss76+tb9Q0Hy78NbdGoHIgmWRsuIfciGr2JWywHMf/Kpkhf
+         QniqntLtfhiE8E3Wo0oxTFcS1KWerJtG5tNgnrk3j2xUiX43wMMg+/mjp1wKd5A4aRIu
+         ErIGjgvdava6sQlmLmDCO8Qr2P9RfzXvczFjE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=oNAPpR+5qx5bHO8wJ1SIgWig3LUKuwuqLo641jvFAak=;
+        b=SCVpBYNVGwVap9MG1eSwcNc1opjz9i8ZdTy3FQjDvBdTPvvBGLsV9sHowFa6IZeKEK
+         MHQLephILTwED+vYhsrjIAffdcNe9l1iJs6CyZGsyDw7pXl8EqDqkqmhuyVGBtSuMdTC
+         VLVw5Yk9hR+Sd5MtHumkl+aDsypADsetZy+rY7ANWqrOuwZ4b7+hb+xq8mUAHTD4mG2V
+         ENyxbWr6/pfEfieTeNk7ZdgHax4AWicWf/x1ixDf1kWoHsNv7jpRJ7ZyYCl+fuvUa0OK
+         LIYZe5GSPkL5VyjT+m2/utRPzMPTz9VKvII9H+cervpYYsshgLwwVSqADpzoAeQ6R6ZX
+         2MQA==
+X-Gm-Message-State: AOAM530my+BRZnnmKnhiiqG2v8f1R0OtE3X1pRxJu1PscZb8eJaR0BBy
+	AXLYHj4uqYqE3U3ITq0SdrqlAg==
+X-Google-Smtp-Source: ABdhPJw+g6qtXnLujFKVRv55AGvVhZcbGPndogV4eznqetPdpLwXYueCN6beIFsP8OoV/l235xaSaw==
+X-Received: by 2002:a5d:9542:0:b0:648:f92b:7bc6 with SMTP id a2-20020a5d9542000000b00648f92b7bc6mr5223132ios.73.1647637149068;
+        Fri, 18 Mar 2022 13:59:09 -0700 (PDT)
+Received: from [192.168.1.128] ([71.205.29.0])
+        by smtp.gmail.com with ESMTPSA id d14-20020a056602328e00b006494aa126c2sm3528385ioz.11.2022.03.18.13.59.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Mar 2022 13:59:08 -0700 (PDT)
+Subject: Re: [PATCH 64/64] media: Kconfig: cleanup VIDEO_DEV dependencies
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Fabio Estevam <festevam@gmail.com>, Felipe Balbi <balbi@kernel.org>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Heiko Stuebner <heiko@sntech.de>,
+ Heungjun Kim <riverful.kim@samsung.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>, Hyun Kwon
+ <hyun.kwon@xilinx.com>, Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Jaroslav Kysela <perex@perex.cz>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Jeff LaBundy <jeff@labundy.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jerome Brunet <jbrunet@baylibre.com>, Joe Hung <joe_hung@ilitek.com>,
+ Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Kevin Hilman <khilman@baylibre.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>, Marek Vasut <marex@denx.de>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Martina Krasteva <martinax.krasteva@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Michael Grzeschik <m.grzeschik@pengutronix.de>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Michal Simek <michal.simek@xilinx.com>, Mike Isely <isely@pobox.com>,
+ Ming Qian <ming.qian@nxp.com>, Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Olivier Lorin <o.lorin@laposte.net>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Pavel Machek <pavel@ucw.cz>, Pengutronix Kernel Team
+ <kernel@pengutronix.de>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Randy Dunlap <rdunlap@infradead.org>, Ray Jui <rjui@broadcom.com>,
+ Rick Chang <rick.chang@mediatek.com>, Robert Foss <robert.foss@linaro.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Scott Branden
+ <sbranden@broadcom.com>, Sean Young <sean@mess.org>,
+ Shawn Guo <shawnguo@kernel.org>, Shawn Tu <shawnx.tu@intel.com>,
+ Shijie Qin <shijie.qin@nxp.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Takashi Iwai <tiwai@suse.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>, Todor Tomov <todor.too@gmail.com>,
+ Vincent Knecht <vincent.knecht@mailoo.org>,
+ Yong Deng <yong.deng@magewell.com>, Yong Zhi <yong.zhi@intel.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, alsa-devel@alsa-project.org,
+ bcm-kernel-feedback-list@broadcom.com, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-aspeed@lists.ozlabs.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-renesas-soc@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-rpi-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-usb@vger.kernel.org,
+ mjpeg-users@lists.sourceforge.net, openbmc@lists.ozlabs.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <cover.1647242578.git.mchehab@kernel.org>
+ <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+From: Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <9e02d88a-3344-8d91-c652-72cb989506de@linuxfoundation.org>
+Date: Fri, 18 Mar 2022 14:59:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="UWT2FLc5RubuMPHI"
-Content-Disposition: inline
-In-Reply-To: <14579642.tv2OnDr8pf@kista>
+In-Reply-To: <decd26e90adc5c16470e4f738810f22fe6478b27.1647242579.git.mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+
+On 3/14/22 1:55 AM, Mauro Carvalho Chehab wrote:
+> media Kconfig has two entries associated to V4L API:
+> VIDEO_DEV and VIDEO_V4L2.
+> 
+> On Kernel 2.6.x, there were two V4L APIs, each one with its own flag.
+> VIDEO_DEV were meant to:
+> 	1) enable Video4Linux and make its Kconfig options to appear;
+> 	2) it makes the Kernel build the V4L core.
+> 
+> while VIDEO_V4L2 where used to distinguish between drivers that
+> implement the newer API and drivers that implemented the former one.
+> 
+> With time, such meaning changed, specially after the removal of
+> all V4L version 1 drivers.
+> 
+> At the current implementation, VIDEO_DEV only does (1): it enables
+> the media options related to V4L, that now has:
+> 
+> 	menu "Video4Linux options"
+> 		visible if VIDEO_DEV
+> 
+> 	source "drivers/media/v4l2-core/Kconfig"
+> 	endmenu
+> 
+> but it doesn't affect anymore the V4L core drivers.
+> 
+> The rationale is that the V4L2 core has a "soft" dependency
+> at the I2C bus, and now requires to select a number of other
+> Kconfig options:
+> 
+> 	config VIDEO_V4L2
+> 		tristate
+> 		depends on (I2C || I2C=n) && VIDEO_DEV
+> 		select RATIONAL
+> 		select VIDEOBUF2_V4L2 if VIDEOBUF2_CORE
+> 		default (I2C || I2C=n) && VIDEO_DEV
+> 
+> In the past, merging them would be tricky, but it seems that it is now
+> possible to merge those symbols, in order to simplify V4L dependencies.
+> 
+> Let's keep VIDEO_DEV, as this one is used on some make *defconfig
+> configurations.
+> 
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+> 
+
+>   drivers/media/test-drivers/vicodec/Kconfig    |   2 +-
+>   drivers/media/test-drivers/vimc/Kconfig       |   2 +-
+>   drivers/media/test-drivers/vivid/Kconfig      |   2 +-
+>
+
+For vimc change: (trimmed the recipient list to send response)
+
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
+
+thanks,
+-- Shuah
 
 
---UWT2FLc5RubuMPHI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
-
-On Tue 15 Mar 22, 20:46, Jernej =C5=A0krabec wrote:
-> Dne petek, 11. marec 2022 ob 15:34:53 CET je Paul Kocialkowski napisal(a):
-> > Wrap the clock and reset preparation into runtime pm functions
-> > for better organization of the code. Also fix the clock and
-> > reset enable order to first deassert reset, as recommended in
-> > Allwinner litterature.
-> >=20
-> > Make the driver depend on PM while at it since runtime pm is
-> > mandatory for the driver to work.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 94 ++++++++++++++-----
-> >  2 files changed, 70 insertions(+), 26 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/m=
-edia/
-> platform/sunxi/sun6i-csi/Kconfig
-> > index 586e3fb3a80d..fd03e48f0c8a 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-> > @@ -1,7 +1,7 @@
-> >  # SPDX-License-Identifier: GPL-2.0-only
-> >  config VIDEO_SUN6I_CSI
-> >  	tristate "Allwinner V3s Camera Sensor Interface driver"
-> > -	depends on VIDEO_V4L2 && COMMON_CLK  && HAS_DMA
-> > +	depends on PM && VIDEO_V4L2 && COMMON_CLK  && HAS_DMA
-> >  	depends on ARCH_SUNXI || COMPILE_TEST
-> >  	select MEDIA_CONTROLLER
-> >  	select VIDEO_V4L2_SUBDEV_API
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
-rs/
-> media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > index 4a0d08e0ac25..7f045a9551a7 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > @@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device=
-=20
-> *csi_dev, bool enable)
-> > =20
-> >  	if (!enable) {
-> >  		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN,=20
-> 0);
-> > +		pm_runtime_put(dev);
-> > =20
-> > -		clk_disable_unprepare(csi_dev->clk_ram);
-> > -		clk_disable_unprepare(csi_dev->clk_mod);
-> > -		reset_control_assert(csi_dev->reset);
-> >  		return 0;
-> >  	}
-> > =20
-> > -	ret =3D clk_prepare_enable(csi_dev->clk_mod);
-> > -	if (ret) {
-> > -		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
-> > +	ret =3D pm_runtime_resume_and_get(dev);
-> > +	if (ret < 0)
-> >  		return ret;
-> > -	}
-> > -
-> > -	ret =3D clk_prepare_enable(csi_dev->clk_ram);
-> > -	if (ret) {
-> > -		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err=20
-> %d\n", ret);
-> > -		goto clk_mod_disable;
-> > -	}
-> > -
-> > -	ret =3D reset_control_deassert(csi_dev->reset);
-> > -	if (ret) {
-> > -		dev_err(csi_dev->dev, "reset err %d\n", ret);
-> > -		goto clk_ram_disable;
-> > -	}
-> > =20
-> >  	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN,=20
-> CSI_EN_CSI_EN);
-> > =20
-> >  	return 0;
-> > -
-> > -clk_ram_disable:
-> > -	clk_disable_unprepare(csi_dev->clk_ram);
-> > -clk_mod_disable:
-> > -	clk_disable_unprepare(csi_dev->clk_mod);
-> > -	return ret;
-> >  }
-> > =20
-> >  static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device=
-=20
-> *csi_dev,
-> > @@ -800,6 +778,65 @@ static irqreturn_t sun6i_csi_isr(int irq, void=20
-> *private)
-> >  	return IRQ_HANDLED;
-> >  }
-> > =20
-> > +static int sun6i_csi_suspend(struct device *dev)
-> > +{
-> > +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
-> > +
-> > +	reset_control_assert(csi_dev->reset);
-> > +	clk_disable_unprepare(csi_dev->clk_ram);
-> > +	clk_disable_unprepare(csi_dev->clk_mod);
-> > +	clk_disable_unprepare(csi_dev->clk_bus);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int sun6i_csi_resume(struct device *dev)
-> > +{
-> > +	struct sun6i_csi_device *csi_dev =3D dev_get_drvdata(dev);
-> > +	int ret;
-> > +
-> > +	ret =3D reset_control_deassert(csi_dev->reset);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to deassert reset\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	ret =3D clk_prepare_enable(csi_dev->clk_bus);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to enable bus clock\n");
-> > +		goto error_reset;
-> > +	}
-> > +
-> > +	ret =3D clk_prepare_enable(csi_dev->clk_mod);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to enable module clock\n");
-> > +		goto error_clk_bus;
-> > +	}
-> > +
-> > +	ret =3D clk_prepare_enable(csi_dev->clk_ram);
-> > +	if (ret) {
-> > +		dev_err(dev, "failed to enable ram clock\n");
-> > +		goto error_clk_mod;
-> > +	}
-> > +
-> > +	return 0;
-> > +
-> > +error_clk_mod:
-> > +	clk_disable_unprepare(csi_dev->clk_mod);
-> > +
-> > +error_clk_bus:
-> > +	clk_disable_unprepare(csi_dev->clk_bus);
-> > +
-> > +error_reset:
-> > +	reset_control_assert(csi_dev->reset);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static const struct dev_pm_ops sun6i_csi_pm_ops =3D {
-> > +	SET_RUNTIME_PM_OPS(sun6i_csi_suspend, sun6i_csi_resume, NULL)
->=20
-> Since driver depends on PM, using SET_RUNTIME_PM_OPS macro doesn't make s=
-ense.
-
-Can you ellaborate why? It's really not obvious why the macro should only be
-used when PM is optional. I see that it facilitates that, but I really don't
-see any issue using it with PM required too. Is it a common practice?
-
-> > +};
-> > +
-> >  static const struct regmap_config sun6i_csi_regmap_config =3D {
-> >  	.reg_bits       =3D 32,
-> >  	.reg_stride     =3D 4,
-> > @@ -886,6 +923,11 @@ static int sun6i_csi_resources_setup(struct=20
-> sun6i_csi_device *csi_dev,
-> >  		goto error_clk_rate_exclusive;
-> >  	}
-> > =20
-> > +	/* Runtime PM */
-> > +
-> > +	pm_runtime_enable(dev);
-> > +	pm_runtime_set_suspended(dev);
->=20
-> pm_runtime_set_suspended() description says: "It is not valid to call thi=
-s=20
-> function for devices with runtime PM enabled."
-
-Okay I need to revisit this, I think I misunderstood a bunch of things here.
-
-Thanks,
-
-Paul
-
-> Best regards,
-> Jernej
->=20
-> > +
-> >  	return 0;
-> > =20
-> >  error_clk_rate_exclusive:
-> > @@ -896,6 +938,7 @@ static int sun6i_csi_resources_setup(struct=20
-> sun6i_csi_device *csi_dev,
-> > =20
-> >  static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_d=
-ev)
-> >  {
-> > +	pm_runtime_disable(csi_dev->dev);
-> >  	clk_rate_exclusive_put(csi_dev->clk_mod);
-> >  }
-> > =20
-> > @@ -978,6 +1021,7 @@ static struct platform_driver sun6i_csi_platform_d=
-river=20
-> =3D {
-> >  	.driver	=3D {
-> >  		.name		=3D SUN6I_CSI_NAME,
-> >  		.of_match_table	=3D=20
-> of_match_ptr(sun6i_csi_of_match),
-> > +		.pm		=3D &sun6i_csi_pm_ops,
-> >  	},
-> >  };
-> > =20
-> > --=20
-> > 2.35.1
-> >=20
-> >=20
->=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---UWT2FLc5RubuMPHI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmI0sDwACgkQ3cLmz3+f
-v9HpJgf9Gjba+M2/GQt8sesqSzzJJNQ6FvuPQqSztzoKxup0ram3CyaEDHOklnmS
-EOnTH2XMYjQTqN0uyrGYTRLGuRKgtJyjOhoO5ehM/EX0DsT063Ja6WpfQt1pzPTE
-VMG6CadAdPwwVoIr559/tIYnGY4TZRikHfEzLOLczuYZL9yOHzgutZs5Zd1fV63+
-Z07YBrYKHzBsIM/TPaOfjYP24Cr1p/bf7ISTLlfbbLeQexKkrA7G30XwFw/RH2le
-RttJlpU6mnt068MRXncmR42LuoXuLB98A4puT5XLWBBfh/FK23DFxUXy1aiTlrr4
-rUbvi7oqf2QfHca292ZkXfEuLTJvHQ==
-=c9x9
------END PGP SIGNATURE-----
-
---UWT2FLc5RubuMPHI--
