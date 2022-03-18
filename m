@@ -1,124 +1,164 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895DB4AA2
-	for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 20:56:26 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id 7-20020a05600c228700b00385fd860f49so3843538wmf.0
-        for <linux-sunxi@lists.linux.dev>; Thu, 17 Mar 2022 13:56:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yMC+ddjQPLnvzb+n1/4Ts9zoTDjixdfTxcHcLgl33UM=;
-        b=0CIZRGHtGC+7ZNfshBRNIorBMTFaTzUItSMm9flIfgEQtyei5aamXvRFhIFv0f/dnz
-         WFmo/OQhZMS5KR1CpDHcNjF6PQ7UUV+zU017QfARGo0uJyGybflPrJWGheh3aZf1TL6g
-         uh54FBaGPk8Buw9te2MtQLs0I5nZ4dJiMYXx0hMgEW5TczsGQMvzz2VVF328NZjj2iUA
-         hQ+76kulz9SbmNUTIuhV3KPzBqna5kpmnxtNhDjlnT3Ez1urC300tcjycDIKM8ydbSHc
-         ypjHqm4EwMdHHmMxR5fq7Eg1fb9FnjEBcMpATCNijtX+fpCIj4DIsdvWw6THNEetzQ8I
-         wHtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yMC+ddjQPLnvzb+n1/4Ts9zoTDjixdfTxcHcLgl33UM=;
-        b=ZXa0MMYOr6XLln9voXF2470tlZIYhrDMoAt1JfOZp1+M+3jP6aIzIvg0gT7ix29G/K
-         3zdf3JfHUBlknzvI53ek8fUrNHtjD3dDd9Vbj80yAyRP19+m3gAKPkNmdvs00rhYdgGc
-         dczY5iZNCK6HqnEhFPedythvS537ZDmaO9lXsOg5IEQ/g/r+TBWmmEJ0mZSCzcasWp6O
-         FZnFhJS6WOT9hsNSJ4hrCX/J3DhKtIYCOl86W9TlPGZHXDrd+lFNdqH1ZGH6ZkSmBAOx
-         gjaVgBuBzFG5Peys7CCba8mA49kkGUyCAp1R/Vg9spCW6abkUPL1Q0s4M9Hb93Myi6ia
-         oo2g==
-X-Gm-Message-State: AOAM5310+d2AsA7K2jD6yv7/YoS7wu2tpaAdWQ687aeGIo65FZGXSRLz
-	v22x/S3awZNBkiKJ//wUv8GcMQ==
-X-Google-Smtp-Source: ABdhPJxhBy+ga+OR2knzwzfaH3Ag55V5bJUEjozloT1VOBQ8RI9oyfw3GvZMpsj4lLpVuQGNPlsfWg==
-X-Received: by 2002:a1c:2544:0:b0:381:18a:a46d with SMTP id l65-20020a1c2544000000b00381018aa46dmr5644185wml.26.1647550584874;
-        Thu, 17 Mar 2022 13:56:24 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id r4-20020a05600c35c400b00389f368cf1esm3695424wmq.40.2022.03.17.13.56.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Mar 2022 13:56:24 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: herbert@gondor.apana.org.au,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	wens@csie.org
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 19/19] crypto: sun8i-ce: do not fallback if cryptlen is less than sg length
-Date: Thu, 17 Mar 2022 20:56:05 +0000
-Message-Id: <20220317205605.3924836-20-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220317205605.3924836-1-clabbe@baylibre.com>
-References: <20220317205605.3924836-1-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71F5B2F2D
+	for <linux-sunxi@lists.linux.dev>; Fri, 18 Mar 2022 08:49:09 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id BEAB7E000F;
+	Fri, 18 Mar 2022 08:49:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1647593347;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+bAdKA3T8fJldt3bCutW94XcxG9KeQUgHALYsG5O6TU=;
+	b=J2tzoyCplqZnwfh5iT0yGbxyzZ4hKWazmRtP0vBd5WrBzslQy+Dz8PTvY5rkJeAhvZFtkx
+	zqjqeqWA/gq+LKAJTIetLiGCTVURg29P1UqocB+FR4DgXcYZZJXGRnGAq/wB2EMb1CA363
+	8Jaij9mhCFhI+LIszpmzbhRXPuFvBXPdPSZSOs6pUik4gopQBdyZI51TdhbCa96sKfrwAo
+	1Ndv/NaU+1Mlq3IB9G+v3ohL9DemGHyhBedEXyhcxROhGSwpx2z2v6MdgbPo2qc1/DGEsN
+	BIa+nP7a/rJFf2E/Ms+cU5Zn+KQk4ff4Ybfc7L0E6YBs+gI3VrhAG/LdqrYyQA==
+Date: Fri, 18 Mar 2022 09:49:04 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 03/46] media: sun6i-csi: Grab bus clock instead of
+ passing it to regmap
+Message-ID: <YjRHgGgYfYODAmoi@aptenodytes>
+References: <20220311143532.265091-1-paul.kocialkowski@bootlin.com>
+ <20220311143532.265091-4-paul.kocialkowski@bootlin.com>
+ <2361247.jE0xQCEvom@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gHLgdwLJSCzaTAAW"
+Content-Disposition: inline
+In-Reply-To: <2361247.jE0xQCEvom@kista>
 
-The sg length could be more than remaining data on it.
-So check the length requirement against the minimum between those two
-values.
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+--gHLgdwLJSCzaTAAW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-index 315a62e424d6..74b4e910a38d 100644
---- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-+++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
-@@ -27,6 +27,7 @@ static int sun8i_ce_cipher_need_fallback(struct skcipher_request *areq)
- 	struct scatterlist *sg;
- 	struct skcipher_alg *alg = crypto_skcipher_alg(tfm);
- 	struct sun8i_ce_alg_template *algt;
-+	unsigned int todo, len;
- 
- 	algt = container_of(alg, struct sun8i_ce_alg_template, alg.skcipher);
- 
-@@ -51,28 +52,35 @@ static int sun8i_ce_cipher_need_fallback(struct skcipher_request *areq)
- 		return true;
- 	}
- 
-+	len = areq->cryptlen;
- 	sg = areq->src;
- 	while (sg) {
- 		if (!IS_ALIGNED(sg->offset, sizeof(u32))) {
- 			algt->stat_fb_srcali++;
- 			return true;
- 		}
--		if (sg->length % 4) {
-+		todo = min(len, sg->length);
-+		if (todo % 4) {
- 			algt->stat_fb_srclen++;
- 			return true;
- 		}
-+		len -= todo;
- 		sg = sg_next(sg);
- 	}
-+
-+	len = areq->cryptlen;
- 	sg = areq->dst;
- 	while (sg) {
- 		if (!IS_ALIGNED(sg->offset, sizeof(u32))) {
- 			algt->stat_fb_dstali++;
- 			return true;
- 		}
--		if (sg->length % 4) {
-+		todo = min(len, sg->length);
-+		if (todo % 4) {
- 			algt->stat_fb_dstlen++;
- 			return true;
- 		}
-+		len -= todo;
- 		sg = sg_next(sg);
- 	}
- 	return false;
--- 
-2.34.1
+Hi Jernej,
 
+On Tue 15 Mar 22, 20:22, Jernej =C5=A0krabec wrote:
+> Hi Paul!
+>=20
+> Dne petek, 11. marec 2022 ob 15:34:49 CET je Paul Kocialkowski napisal(a):
+> > Since the bus clock alone is not enough to get access to the registers,
+> > don't pass it to regmap and manage it instead just like the other
+> > clocks.
+> >=20
+>=20
+> Let me ask it in another way, is bus clock needed only for register acces=
+s? If=20
+> yes, it makes sense to keep it enabled only during register access.
+
+Ah right, I lost sight that what regmap will do is to enable/disable the
+clock around register access. I understand there might be an advantage
+in terms of power consumption here.
+
+I haven't checked specifically, but since it was used like that before
+it's probably fine.
+
+Out of curiosity: is there any noticeable latency added by the process?
+
+Cheers,
+
+Paul
+
+> Best regards,
+> Jernej
+>=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 10 ++++++++--
+> >  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h |  1 +
+> >  2 files changed, 9 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
+rs/
+> media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > index 5fbaa1e99412..dc79f3c14336 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > @@ -827,13 +827,19 @@ static int sun6i_csi_resource_request(struct=20
+> sun6i_csi_device *csi_dev,
+> >  	if (IS_ERR(io_base))
+> >  		return PTR_ERR(io_base);
+> > =20
+> > -	csi_dev->regmap =3D devm_regmap_init_mmio_clk(&pdev->dev, "bus",=20
+> io_base,
+> > -						   =20
+> &sun6i_csi_regmap_config);
+> > +	csi_dev->regmap =3D devm_regmap_init_mmio(&pdev->dev, io_base,
+> > +					=09
+> &sun6i_csi_regmap_config);
+> >  	if (IS_ERR(csi_dev->regmap)) {
+> >  		dev_err(&pdev->dev, "Failed to init register map\n");
+> >  		return PTR_ERR(csi_dev->regmap);
+> >  	}
+> > =20
+> > +	csi_dev->clk_bus =3D devm_clk_get(&pdev->dev, "bus");
+> > +	if (IS_ERR(csi_dev->clk_bus)) {
+> > +		dev_err(&pdev->dev, "Unable to acquire bus clock\n");
+> > +		return PTR_ERR(csi_dev->clk_bus);
+> > +	}
+> > +
+> >  	csi_dev->clk_mod =3D devm_clk_get(&pdev->dev, "mod");
+> >  	if (IS_ERR(csi_dev->clk_mod)) {
+> >  		dev_err(&pdev->dev, "Unable to acquire csi clock\n");
+> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drive=
+rs/
+> media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > index e4e7ac6c869f..356661b413f8 100644
+> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> > @@ -51,6 +51,7 @@ struct sun6i_csi_device {
+> >  	struct sun6i_video		video;
+> > =20
+> >  	struct regmap			*regmap;
+> > +	struct clk			*clk_bus;
+> >  	struct clk			*clk_mod;
+> >  	struct clk			*clk_ram;
+> >  	struct reset_control		*reset;
+> > --=20
+> > 2.35.1
+> >=20
+> >=20
+>=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--gHLgdwLJSCzaTAAW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmI0R4AACgkQ3cLmz3+f
+v9HeVQf8CKT1qm0Afb3D5ftaWSjBnvSaPjI1zrK0d267DdUOAMWvOOJp+8dLNx+b
+7y2dlj+4zVD8nIcixvmVJ5hR2APgzgz/lgiUnYBQa9EmU2fFufSbEx3ugT2+rkGr
+fOVtDhbGob1l3Es0HNTYFWOSTOu9uUsudlEGr+WazSJzTy6KD4wkc+osin8uGfMs
+7FVkADgg0MQn4svLRLpnL6/GJtFSh2jkiaHquket6AwoztJgOOMmETmUDq+Y1dWc
+rDOSI9emIa3I5lmO2/vkFOS/rTR1G4J2gkPqw3jOyW0lV+GrJ9O0cOQRQoRBwcjF
+9r3tjFy6ReRRxfFVHKFe9Jko7mftCg==
+=txhr
+-----END PGP SIGNATURE-----
+
+--gHLgdwLJSCzaTAAW--
