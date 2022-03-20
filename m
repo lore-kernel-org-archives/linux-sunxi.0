@@ -1,96 +1,59 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C52F7A;
-	Sat, 19 Mar 2022 03:57:46 +0000 (UTC)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 22J2ro58012531;
-	Sat, 19 Mar 2022 03:57:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2021-07-09;
- bh=dOCvppNUKgOlcA89bNUdrq8FTQRYfsjfsvR3rEo7hmg=;
- b=rB4F0btdvmuQ8qSVzB0TI/MVdj6L1wLlPT1srOv4birzBP2VsA5D9mxqDnty9FGI031e
- OhuXiDi8PP/hnk9+43pScgnlvc1Msx3IXhpur+XlVll5oz+03KUF4YG2ZJeO5ctAVyuc
- ABInatOkvEpdjQe0XOBM3Vw23gTi3RCDw1NbsqI8/p8gXop58M1CrcTLpLi34DxilkOw
- aIKWvxzBLmxogO1BmHkA0n6pbxmOlCrA4EQcUelFgQP2O0W9a5LqlQOoSqpIeuQaOZbZ
- 7pKjNVt7qrQPqi5lf6wtbxwtbMHhpxhomcEA8IcEfMLaUK5a8MKBz0qkUbZ41JgSbvMB dA== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com with ESMTP id 3ew6ss016q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 19 Mar 2022 03:57:15 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 22J3uvsm007045;
-	Sat, 19 Mar 2022 03:57:14 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshp1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Sat, 19 Mar 2022 03:57:14 +0000
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 22J3v5Qm007126;
-	Sat, 19 Mar 2022 03:57:13 GMT
-Received: from ca-mkp.mkp.ca.oracle.com (ca-mkp.ca.oracle.com [10.156.108.201])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3ew5kyshmn-6;
-	Sat, 19 Mar 2022 03:57:13 +0000
-From: "Martin K. Petersen" <martin.petersen@oracle.com>
-To: Julia Lawall <Julia.Lawall@inria.fr>, linux-can@vger.kernel.org
-Cc: "Martin K . Petersen" <martin.petersen@oracle.com>,
-        Sean Wang <sean.wang@mediatek.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>, linux-rdma@vger.kernel.org,
-        Jonas Karlman <jonas@kwiboo.se>, linux-s390@vger.kernel.org,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        linux-clk@vger.kernel.org, linux-spi@vger.kernel.org,
-        Shayne Chen <shayne.chen@mediatek.com>, netdev@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Jiri Olsa <jolsa@kernel.org>, kernel-janitors@vger.kernel.org,
-        Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-        linux-staging@lists.linux.dev, Namhyung Kim <namhyung@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-perf-users@vger.kernel.org, linux-wireless@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, linux-sunxi@lists.linux.dev,
-        Sven Schnelle <svens@linux.ibm.com>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-power@fi.rohmeurope.com,
-        linux-mtd@lists.infradead.org, target-devel@vger.kernel.org,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        linux-mediatek@lists.infradead.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>
-Subject: Re: [PATCH 00/30] fix typos in comments
-Date: Fri, 18 Mar 2022 23:56:56 -0400
-Message-Id: <164766213032.31329.14855996441316567317.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220314115354.144023-1-Julia.Lawall@inria.fr>
-References: <20220314115354.144023-1-Julia.Lawall@inria.fr>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C5D258A
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 19:06:52 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id 85so10379635qkm.9
+        for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 12:06:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Lx1eZkma7iJzkfFGXDnVMbMm204ox+IUdPJ3sWGBz5k=;
+        b=acLUNmjtYRi3RgB+d6itWyZ/MUxy9AhcNnVX6fIn2WjhEZtwzDXbFxuwSpMEy4LXq9
+         DhLk4EUOJW1KXsrW+oOcF4T0XOd/daNbXZkBsmu28x9IdbltV07CCuzACgJEG31kHVtL
+         oIZCMDA1umCAdcrujJjqfdGcseHRrZi0lmpuxu2X0vOTMV6e7qecwa3WZfyWCBnQCjH1
+         oE2EJ1GzzJhEplXuQJf2QGOfiiifl1azsOMstNutBXWvfDaHSt6Mojlr9kp0vfCWXE+v
+         dc8OMaUdwLivfpf2rUsSSV8HVJM3FiqOsPi5Zlqi59RKiee9KHR5o771W8WL1wvzIxMP
+         wBog==
+X-Gm-Message-State: AOAM530z+Fg0GH+u9F3fW9waBcM4TzcHPoJNLQuGw+HT3rHWF6VwRzKc
+	QqZUrRmrcpVOx96ZJwr5Dg==
+X-Google-Smtp-Source: ABdhPJzE8K1tfzEVyGgvcJEw/3JVMuvQuaGobkEXXxHttkinxifw7Ro8zMIelZkmYsuVP/hBKBZM8g==
+X-Received: by 2002:a05:620a:1251:b0:67d:7739:7ff3 with SMTP id a17-20020a05620a125100b0067d77397ff3mr11034351qkl.199.1647803211441;
+        Sun, 20 Mar 2022 12:06:51 -0700 (PDT)
+Received: from robh.at.kernel.org ([2607:fb90:c6d:21ec:c4f5:bb3:5269:3b0e])
+        by smtp.gmail.com with ESMTPSA id o206-20020a37a5d7000000b0067d42fd49c3sm6868251qke.4.2022.03.20.12.06.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Mar 2022 12:06:49 -0700 (PDT)
+Received: (nullmailer pid 3227299 invoked by uid 1000);
+	Sun, 20 Mar 2022 19:06:46 -0000
+Date: Sun, 20 Mar 2022 15:06:46 -0400
+From: Rob Herring <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: linux-arm-kernel@lists.infradead.org, Wim Van Sebroeck <wim@linux-watchdog.org>, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <icenowy@aosc.io>, linux-sunxi@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, George Hilliard <thirtythreeforty@gmail.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, devicetree@vger.kernel.org, Jesse Taube <mr.bossman075@gmail.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>
+Subject: Re: [PATCH v2 01/12] dt-bindings: watchdog: sunxi: fix F1C100s
+ compatible
+Message-ID: <Yjd7RkwFk4SbZds6@robh.at.kernel.org>
+References: <20220317162349.739636-1-andre.przywara@arm.com>
+ <20220317162349.739636-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
-X-Proofpoint-GUID: ryygBDbx4ESlJehbCVsBuy2qL-PPuldd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317162349.739636-2-andre.przywara@arm.com>
 
-On Mon, 14 Mar 2022 12:53:24 +0100, Julia Lawall wrote:
-
-> Various spelling mistakes in comments.
-> Detected with the help of Coccinelle.
+On Thu, 17 Mar 2022 16:23:38 +0000, Andre Przywara wrote:
+> The F1C100 series actually features a newer generation watchdog IP, so
+> the compatible string was wrong.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 > 
 
-Applied to 5.18/scsi-queue, thanks!
-
-[02/30] scsi: lpfc: fix typos in comments
-        https://git.kernel.org/mkp/scsi/c/9a866e6aaf4e
-[17/30] scsi: elx: libefc_sli: fix typos in comments
-        https://git.kernel.org/mkp/scsi/c/8037185d1ad8
-[24/30] scsi: qla2xxx: fix typos in comments
-        https://git.kernel.org/mkp/scsi/c/5419e0f15622
-[25/30] treewide: fix typos in comments
-        https://git.kernel.org/mkp/scsi/c/9d05790f5187
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Acked-by: Rob Herring <robh@kernel.org>
