@@ -1,59 +1,70 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay10.mail.gandi.net (relay10.mail.gandi.net [217.70.178.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C5D258A
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 19:06:52 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id 85so10379635qkm.9
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 12:06:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Lx1eZkma7iJzkfFGXDnVMbMm204ox+IUdPJ3sWGBz5k=;
-        b=acLUNmjtYRi3RgB+d6itWyZ/MUxy9AhcNnVX6fIn2WjhEZtwzDXbFxuwSpMEy4LXq9
-         DhLk4EUOJW1KXsrW+oOcF4T0XOd/daNbXZkBsmu28x9IdbltV07CCuzACgJEG31kHVtL
-         oIZCMDA1umCAdcrujJjqfdGcseHRrZi0lmpuxu2X0vOTMV6e7qecwa3WZfyWCBnQCjH1
-         oE2EJ1GzzJhEplXuQJf2QGOfiiifl1azsOMstNutBXWvfDaHSt6Mojlr9kp0vfCWXE+v
-         dc8OMaUdwLivfpf2rUsSSV8HVJM3FiqOsPi5Zlqi59RKiee9KHR5o771W8WL1wvzIxMP
-         wBog==
-X-Gm-Message-State: AOAM530z+Fg0GH+u9F3fW9waBcM4TzcHPoJNLQuGw+HT3rHWF6VwRzKc
-	QqZUrRmrcpVOx96ZJwr5Dg==
-X-Google-Smtp-Source: ABdhPJzE8K1tfzEVyGgvcJEw/3JVMuvQuaGobkEXXxHttkinxifw7Ro8zMIelZkmYsuVP/hBKBZM8g==
-X-Received: by 2002:a05:620a:1251:b0:67d:7739:7ff3 with SMTP id a17-20020a05620a125100b0067d77397ff3mr11034351qkl.199.1647803211441;
-        Sun, 20 Mar 2022 12:06:51 -0700 (PDT)
-Received: from robh.at.kernel.org ([2607:fb90:c6d:21ec:c4f5:bb3:5269:3b0e])
-        by smtp.gmail.com with ESMTPSA id o206-20020a37a5d7000000b0067d42fd49c3sm6868251qke.4.2022.03.20.12.06.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Mar 2022 12:06:49 -0700 (PDT)
-Received: (nullmailer pid 3227299 invoked by uid 1000);
-	Sun, 20 Mar 2022 19:06:46 -0000
-Date: Sun, 20 Mar 2022 15:06:46 -0400
-From: Rob Herring <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, Wim Van Sebroeck <wim@linux-watchdog.org>, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <icenowy@aosc.io>, linux-sunxi@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, George Hilliard <thirtythreeforty@gmail.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, devicetree@vger.kernel.org, Jesse Taube <mr.bossman075@gmail.com>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>
-Subject: Re: [PATCH v2 01/12] dt-bindings: watchdog: sunxi: fix F1C100s
- compatible
-Message-ID: <Yjd7RkwFk4SbZds6@robh.at.kernel.org>
-References: <20220317162349.739636-1-andre.przywara@arm.com>
- <20220317162349.739636-2-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5365E20E4
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 21:09:17 +0000 (UTC)
+Received: (Authenticated sender: alexandre.belloni@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id CB401240005;
+	Sun, 20 Mar 2022 21:09:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1647810549;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eoUvjXcWxsCS2k8VppywzQry5S7nHcH0mW8C42GzOcs=;
+	b=Kv7mnn6+qhPoe4nYAA3HU8KH96O+5yNpew8NlJqW72ofsz2ognKKCzpo6Ro6Qmuh0o6/Aj
+	H4MDHrQTsDpJkXRpoVCIk2lp8hdLr9hgtulZKUNXmaZSGN69vlAfQNW1YX3dp4XAcHNNDa
+	RxiykDC3B/+fAfxAf2cA3R3rB8nJDSKPFHKjlVaX80wJOW9I6LPmhdiWYncCdRD9bLhw67
+	nnnWmK0oE9guT/rcqjPVCAA8uH0k9ULd+eYSJkTPPKOUFcY0eSQnRwAFDNPtwvm0wJrl4n
+	axkoZzjlqM+jistlPqfPumFuC+R63Dc1qnYE6ztCeP6BqNFYwqqFl53dFD2xYA==
+From: Alexandre Belloni <alexandre.belloni@bootlin.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	kernel test robot <lkp@intel.com>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] clk: sunxi-ng: sun6i-rtc: include clk/sunxi-ng.h
+Date: Sun, 20 Mar 2022 22:09:04 +0100
+Message-Id: <20220320210905.6606-1-alexandre.belloni@bootlin.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317162349.739636-2-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, 17 Mar 2022 16:23:38 +0000, Andre Przywara wrote:
-> The F1C100 series actually features a newer generation watchdog IP, so
-> the compatible string was wrong.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
+This solves:
+>> drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:334:5: warning: no previous prototype for 'sun6i_rtc_ccu_probe' [-Wmissing-prototypes]
+     334 | int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
+         |     ^~~~~~~~~~~~~~~~~~~
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 712fda22efd5..8a10bade7e0d 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -9,6 +9,8 @@
+ #include <linux/module.h>
+ #include <linux/of_device.h>
+ 
++#include <linux/clk/sunxi-ng.h>
++
+ #include "ccu_common.h"
+ 
+ #include "ccu_div.h"
+-- 
+2.35.1
+
