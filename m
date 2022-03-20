@@ -1,93 +1,87 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-out.xnet.cz (smtp-out.xnet.cz [178.217.244.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FF1D20E4
-	for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 21:10:36 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id p9so18341937wra.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 14:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SnrtPlmOffeZj6T7GE+tanB2uK1Y6oGCWk5gspUCR0Q=;
-        b=dgDD7JBM5aF973Pd+bCKYP7HarHcawC9pIaR0mu/mSl7zG7daUDk3Ai8g+EdRhnhtG
-         VGMUW5/JrtAtJ9QOXbM796A0wnAd2HdQ36ezr32V3Rmz+CeCof1/iOXUT3rToMJK/Gw/
-         zJfjoh+cQ+jgJAX+DcGqJTx29ahYIB7vZin9eof4ufDYkpLOHmNMpYE9P7TMFgvI5EGD
-         D5ghqND03oNtKXoeEvYS3igEYKK/dOQj67ybvZzY1YdA7I//3JuRG/WCnAiv/chCGibt
-         tdzasKtdOPuNC3aTRvPQTt4qRK57U3jo3Wgw81T6QxydahCV0mGI28XP/QwEojzZcNP1
-         3UhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SnrtPlmOffeZj6T7GE+tanB2uK1Y6oGCWk5gspUCR0Q=;
-        b=V5oks0drEEMd1HHBU36qs0UxsBo7fvHfPyt2XZt8RLOZ24Wx5Fwvr3GXqELi+TpUqL
-         Rovhj5AodKMokxYqS3MwNnzG0eSF1FEJcxake9OBYwAMtZh0kaUw0LjPiKsReBwAP6Yn
-         PwsoNFV6GYqACJJT1zM1SLz/3AAJVuOuqMWqurvutBJJd+D7bMQcppP98Zhk6BDH6v/D
-         HG+LFYqHNFyQyfdhXppN0LnyJC2SHcj6kFdiyuFiG4hJbcx2r/V9mKO63vlyKDczAyn8
-         ZGWNLjAHkCaJhqytLMjqUiF+mu/rCIe8XJKEeGkFgIPd0Ald49lJlQMtV+fpg2xHEaiE
-         TAVg==
-X-Gm-Message-State: AOAM531xqq2Z5BxZ9wXyzkJD8QlZ8WhdbpVmTGCTUV+CLlK8CRTm3zKc
-	vwASSbF0+v6o7Nm6j+guF9M=
-X-Google-Smtp-Source: ABdhPJwiU+n1q6r5/cPaRlWWrMm2PghCqUJO1nCR4tiXAbP510ymFnq2c37jzDiAJb/5AXhuZnU7Ow==
-X-Received: by 2002:a05:6000:1e09:b0:204:44a:7837 with SMTP id bj9-20020a0560001e0900b00204044a7837mr5438144wrb.6.1647810634467;
-        Sun, 20 Mar 2022 14:10:34 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id u8-20020a5d4348000000b00203dbfa4ff2sm11613911wrr.34.2022.03.20.14.10.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Mar 2022 14:10:34 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>, kernel test robot <lkp@intel.com>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] clk: sunxi-ng: sun6i-rtc: include clk/sunxi-ng.h
-Date: Sun, 20 Mar 2022 22:10:32 +0100
-Message-ID: <2620573.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20220320210905.6606-1-alexandre.belloni@bootlin.com>
-References: <20220320210905.6606-1-alexandre.belloni@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA00320E4
+	for <linux-sunxi@lists.linux.dev>; Sun, 20 Mar 2022 22:10:42 +0000 (UTC)
+Received: from meh.true.cz (meh.true.cz [108.61.167.218])
+	(Authenticated sender: petr@true.cz)
+	by smtp-out.xnet.cz (Postfix) with ESMTPSA id B12CE3334;
+	Sun, 20 Mar 2022 23:10:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=true.cz; s=xnet;
+	t=1647814234; bh=2AMFer/rFPCmjU48W8GTZLINgPduqpekH9m1R3F7NGQ=;
+	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
+	b=HILxYXGJKOiMyC6ndZ8ZXjquUc/0Ofi6fpWXLZK0bxCPQFTxW/q88V4YaStcLjhPZ
+	 wmvR2ry6r5Aj3OVY7kbECBv18Ou4Yn0mjePFi1DHhktiV7ScrPXYdJSp4qpROHH3U6
+	 Pc21E9Uk168ZDYWcle16HgYryIPsqQtsbFhfJUWY=
+Received: 
+	by meh.true.cz (OpenSMTPD) with SMTP id 1e165c9a;
+	Sun, 20 Mar 2022 23:10:09 +0100 (CET)
+Date: Sun, 20 Mar 2022 23:10:31 +0100
+From: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
+	Simon Glass <sjg@chromium.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Jesse Taube <mr.bossman075@gmail.com>, u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: A20-OLinuXino-LIME2 network regression [Was: [PATCH v2 1/5] sunxi:
+ move non-essential code out of s_init()]
+Message-ID: <20220320221031.GA20535@meh.true.cz>
+Reply-To: Petr =?utf-8?Q?=C5=A0tetiar?= <ynezz@true.cz>
+References: <20220201014116.25864-1-andre.przywara@arm.com>
+ <20220201014116.25864-2-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220201014116.25864-2-andre.przywara@arm.com>
+X-PGP-Key: https://gist.githubusercontent.com/ynezz/477f6d7a1623a591b0806699f9fc8a27/raw/a0878b8ed17e56f36ebf9e06a6b888a2cd66281b/pgp-key.pub
 
-Dne nedelja, 20. marec 2022 ob 22:09:04 CET je Alexandre Belloni napisal(a):
-> This solves:
-> >> drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:334:5: warning: no previous
-> >> prototype for 'sun6i_rtc_ccu_probe' [-Wmissing-prototypes]
->      334 | int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
-> 
->          |     ^~~~~~~~~~~~~~~~~~~
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Andre Przywara <andre.przywara@arm.com> [2022-02-01 01:41:12]:
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Andre,
 
-Best regards,
-Jernej
+> Since we have an SPL, which is called right after s_init(), move those
+> calls to our board_init_f() function. As we overwrite this only for
+> the SPL, this has the added benefit of not doing this setup *again*
+> shortly afterwards, when running U-Boot proper.
 
-> ---
->  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c index 712fda22efd5..8a10bade7e0d
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> @@ -9,6 +9,8 @@
->  #include <linux/module.h>
->  #include <linux/of_device.h>
-> 
-> +#include <linux/clk/sunxi-ng.h>
-> +
->  #include "ccu_common.h"
-> 
->  #include "ccu_div.h"
+something didn't went as expected, since this commit has broken ethernet on my
+A20-OLinuXino-LIME2:
+
+ U-Boot SPL 2022.04-rc4-00052-g2a243d9bd62f (Mar 20 2022 - 22:57:07 +0100)
+ DRAM: 1024 MiB
+ CPU: 912000000Hz, AXI/AHB/APB: 3/2/2
+ Trying to boot from FEL
 
 
+ U-Boot 2022.04-rc4-00052-g2a243d9bd62f (Mar 20 2022 - 22:57:07 +0100) Allwinner Technology
 
+ CPU:   Allwinner A20 (SUN7I)
+ Model: Olimex A20-OLinuXino-LIME2-eMMC
+ DRAM:  1 GiB
+ Core:  38 devices, 19 uclasses, devicetree: separate
+ WDT:   Not starting watchdog@1c20c90
+ MMC:   mmc@1c0f000: 0, mmc@1c11000: 1
+ Loading Environment from FAT... Unable to read "uboot.env" from mmc0:1...
+ Unknown monitor
+ Unknown monitor
+ In:    serial
+ Out:   serial
+ Err:   serial
+ Allwinner mUSB OTG (Peripheral)
+ Net:   Could not get PHY for ethernet@1c50000: addr 1
 
+Reverting this commit fixes it:
+
+ Net:   eth0: ethernet@1c50000, eth1: usb_ether
+
+Cheers,
+
+Petr
