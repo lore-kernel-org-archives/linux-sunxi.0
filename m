@@ -1,96 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96B9233D1
-	for <linux-sunxi@lists.linux.dev>; Mon, 21 Mar 2022 11:40:53 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1228C1042;
-	Mon, 21 Mar 2022 04:40:47 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 81A8A3F66F;
-	Mon, 21 Mar 2022 04:40:45 -0700 (PDT)
-Date: Mon, 21 Mar 2022 11:39:58 +0000
-From: Andre Przywara <andre.przywara@arm.com>
-To: Petr =?UTF-8?B?xaB0ZXRpYXI=?= <ynezz@true.cz>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Tom Rini <trini@konsulko.com>,
- Simon Glass <sjg@chromium.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Icenowy
- Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>,
- u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: A20-OLinuXino-LIME2 network regression [Was: [PATCH v2 1/5]
- sunxi: move non-essential code out of s_init()]
-Message-ID: <20220321113958.7e32066d@slackpad.lan>
-In-Reply-To: <20220320221031.GA20535@meh.true.cz>
-References: <20220201014116.25864-1-andre.przywara@arm.com>
-	<20220201014116.25864-2-andre.przywara@arm.com>
-	<20220320221031.GA20535@meh.true.cz>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70733D1
+	for <linux-sunxi@lists.linux.dev>; Mon, 21 Mar 2022 11:51:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=k1; bh=4S4Px63e2+0FVo0SEWjX4AYw/Zi
+	RThDbqzQpdXY0uk8=; b=oAESevOu8MJwUG4o1adMH4KtpWH/2eoSmcbwjO+TA6a
+	lGEZ8rUQjQZl1MfxvSzBiy3fAd0gwqzMWEeOtzhQbUH+mntJ6x+4KhSO6kL0y7/R
+	vDJOP8mgSH4whimqnpvNWnAMtcn0K6Zt+5CKKMjWEzEhQbvxiJEy/7Rgh8TG52l4
+	=
+Received: (qmail 860167 invoked from network); 21 Mar 2022 12:51:05 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Mar 2022 12:51:05 +0100
+X-UD-Smtp-Session: l3s3148p1@EjOBHLnaAKcgAQnoAFxnAN8BywfgXJ9V
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-mmc@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	ath10k@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	brcm80211-dev-list.pdl@broadcom.com,
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-wireless@vger.kernel.org,
+	netdev@vger.kernel.org,
+	SHA-cyfmac-dev-list@infineon.com
+Subject: [RFC PATCH 00/10] mmc: improve API to make clear {h|s}w_reset is for cards
+Date: Mon, 21 Mar 2022 12:50:46 +0100
+Message-Id: <20220321115059.21803-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, 20 Mar 2022 23:10:31 +0100
-Petr =C5=A0tetiar <ynezz@true.cz> wrote:
+As discussed in 2020 [1], Ulf and I agreed that it would be easier to
+understand the {h|s}w_reset mechanisms if it was clear that they are for
+cards. This RFC series implements that by adding 'card' to the function
+names and changing the parameter to mmc_card where apropriate. Note that
+I only changed the MMC core. The SDHCI driver still uses hw_reset in its
+ops, I leave it to the SDHCI maintainers if they want to change that.
+Also, I didn't convert CAP_HW_RESET to CAP_CARD_HW_RESET yet although it
+should be done IMHO. However, we need an agreement on that first.
+Finally, I also did not check if all the host drivers are really doing a
+card reset or a controller reset. I tried but it was often not obvious
+what is actually happening in these functions without proper manuals.
 
-Hi Petr,
+I tested it with my Renesas boards, so far no regressions. Buildbots are
+currently checking the series. For this RFC, I sent this as one series
+so people can get an overview and comment on that. For a proper release,
+I think patches 1-5 should be one series, and 7-10 probably. Patch 6
+could then be applied once patches 2-4 hit the net tree. That's my
+proposal.
 
-> Andre Przywara <andre.przywara@arm.com> [2022-02-01 01:41:12]:
->=20
-> > Since we have an SPL, which is called right after s_init(), move those
-> > calls to our board_init_f() function. As we overwrite this only for
-> > the SPL, this has the added benefit of not doing this setup *again*
-> > shortly afterwards, when running U-Boot proper. =20
->=20
-> something didn't went as expected, since this commit has broken ethernet =
-on my
-> A20-OLinuXino-LIME2:
+This series is based on mmc/next as of yesterday. A branch is here:
 
-Thanks for the report, much appreciated! And yes, there is a
-regression, I figured this myself already the other week. I sent
-https://lore.kernel.org/u-boot/20220316005443.16260-1-andre.przywara@arm.co=
-m/
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/mmc/reset-api
 
-Can you check whether this fixes it for you? Then reply with a
-Tested-by:? I will then send the PR in the next days, so that 2022.04
-should be fine.
+Looking forward to comments. Happy hacking,
 
-Thanks!
-Andre
+   Wolfram
 
->=20
->  U-Boot SPL 2022.04-rc4-00052-g2a243d9bd62f (Mar 20 2022 - 22:57:07 +0100)
->  DRAM: 1024 MiB
->  CPU: 912000000Hz, AXI/AHB/APB: 3/2/2
->  Trying to boot from FEL
->=20
->=20
->  U-Boot 2022.04-rc4-00052-g2a243d9bd62f (Mar 20 2022 - 22:57:07 +0100) Al=
-lwinner Technology
->=20
->  CPU:   Allwinner A20 (SUN7I)
->  Model: Olimex A20-OLinuXino-LIME2-eMMC
->  DRAM:  1 GiB
->  Core:  38 devices, 19 uclasses, devicetree: separate
->  WDT:   Not starting watchdog@1c20c90
->  MMC:   mmc@1c0f000: 0, mmc@1c11000: 1
->  Loading Environment from FAT... Unable to read "uboot.env" from mmc0:1...
->  Unknown monitor
->  Unknown monitor
->  In:    serial
->  Out:   serial
->  Err:   serial
->  Allwinner mUSB OTG (Peripheral)
->  Net:   Could not get PHY for ethernet@1c50000: addr 1
->=20
-> Reverting this commit fixes it:
->=20
->  Net:   eth0: ethernet@1c50000, eth1: usb_ether
->=20
-> Cheers,
->=20
-> Petr
+[1] https://lore.kernel.org/all/20200916090121.2350-1-wsa+renesas@sang-engineering.com/
+
+Wolfram Sang (10):
+  mmc: core: improve API to make clear mmc_hw_reset is for cards
+  ath10k: sdio: update to new MMC API for resetting cards
+  brcmfmac: sdio: update to new MMC API for resetting cards
+  mwifiex: sdio: update to new MMC API for resetting cards
+  wlcore: sdio: update to new MMC API for resetting cards
+  mmc: core: remove fallback for mmc_hw_reset()
+  mmc: core: improve API to make clear that mmc_sw_reset is for cards
+  mmc: core: improve API to make clear hw_reset from bus_ops is for
+    cards
+  mmc: core: improve API to make clear sw_reset from bus_ops is for
+    cards
+  mmc: improve API to make clear hw_reset callback is for cards
+
+ drivers/mmc/core/block.c                      |  2 +-
+ drivers/mmc/core/core.c                       | 31 ++++++++++---------
+ drivers/mmc/core/core.h                       |  4 +--
+ drivers/mmc/core/mmc.c                        | 10 +++---
+ drivers/mmc/core/mmc_test.c                   |  3 +-
+ drivers/mmc/core/sd.c                         |  8 ++---
+ drivers/mmc/core/sdio.c                       | 12 ++++---
+ drivers/mmc/host/bcm2835.c                    |  2 +-
+ drivers/mmc/host/dw_mmc.c                     |  2 +-
+ drivers/mmc/host/meson-mx-sdhc-mmc.c          |  2 +-
+ drivers/mmc/host/mtk-sd.c                     |  2 +-
+ drivers/mmc/host/sdhci.c                      |  2 +-
+ drivers/mmc/host/sunxi-mmc.c                  |  2 +-
+ drivers/mmc/host/uniphier-sd.c                |  2 +-
+ drivers/net/wireless/ath/ath10k/sdio.c        |  2 +-
+ .../broadcom/brcm80211/brcmfmac/sdio.c        |  2 +-
+ drivers/net/wireless/marvell/mwifiex/sdio.c   |  2 +-
+ drivers/net/wireless/ti/wlcore/sdio.c         |  2 +-
+ include/linux/mmc/core.h                      |  4 +--
+ include/linux/mmc/host.h                      |  2 +-
+ 20 files changed, 51 insertions(+), 47 deletions(-)
+
+-- 
+2.30.2
 
