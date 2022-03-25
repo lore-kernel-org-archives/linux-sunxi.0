@@ -1,83 +1,71 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E7AE1FA1
-	for <linux-sunxi@lists.linux.dev>; Thu, 24 Mar 2022 14:42:40 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id r64so2851822wmr.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 24 Mar 2022 07:42:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RUuYp2gzZTfveRrYj1nKJKJ6GLr04No5LqGCeqkgp50=;
-        b=G9HidbaMnDHtTrEAhAkiDwkyMIMMc6Wqcu/xpKqMNAqZgScFmSCAILoCtXpISK+Hhy
-         uB+8YBCUwdxf1Gocu8dCsTLDhaqkZGMeh6nNJ3sUFCCJImFnDwOyBw6dRyGd8Rm8I3OK
-         4rKkIdOoe9qcnCYK25u26XittRZwpnKn4rAlusYwV9HlRFHoau53kWOf/+m6xWfwxB/h
-         zQ54w0wxyEcRcwkFJuJ+1mJTTVlkBlhHn7TzrxHuLg+m4FtaPlh57mFRtuAS7w7hH6M9
-         cbq8IvAUXGMjZvK+w4GvQp66umUGHCpUGcbSgAPAW4awO2p2dX6wGm5kdQWdDSl4axza
-         EZmA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF6A28E0
+	for <linux-sunxi@lists.linux.dev>; Fri, 25 Mar 2022 21:10:32 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id t21so4618123oie.11
+        for <linux-sunxi@lists.linux.dev>; Fri, 25 Mar 2022 14:10:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=RUuYp2gzZTfveRrYj1nKJKJ6GLr04No5LqGCeqkgp50=;
-        b=oeq3uaKkJNyQGdGWyENpJqkQ+oJnX1DQqiJ8YqwqEYUNdypZNGfpxtvTj7qQ0TLyY/
-         8Rx94ZBlmYdIGpHvFJvKIqJ0/eNvsn2cU1ZAGvZviPjRfhgGK6tHEa4N48YqxvqGCFd8
-         9ydHt25gmKBP62vWlzzgfS2PR6BmnNtbv3CvAN447DX22z4sMUd6j6gQPQUrqh13Y/Uv
-         A7Ua5IOpPKiE96Y7cHxsuXchYkhW/SyDtUIFJixFynsEAiPU7KWrLIN+49LFJGPNw0vS
-         w+CvXqRbw2maouLSjF/sy6cyD2pPeHjLekMyDyUD7v5ARHX8BDd2gGZkHcEjyMg1dOnJ
-         sMiA==
-X-Gm-Message-State: AOAM532MHvC0BL5RALgB9gNrRLcfUlb9u+bnpRxnCmyt75UYo+NbcYLM
-	2vcqn59frta4pjEsW5WT1rOHzA==
-X-Google-Smtp-Source: ABdhPJw3kEFmgdFvOYqPEE/cnML2UreW9i+I5UewFAmsjCiGfAtVJ0zEiql/LajWmccl86QQnyLLPQ==
-X-Received: by 2002:a05:600c:4608:b0:38c:6ba3:1c9f with SMTP id m8-20020a05600c460800b0038c6ba31c9fmr14542211wmo.39.1648132958693;
-        Thu, 24 Mar 2022 07:42:38 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id r15-20020a5d6c6f000000b002040552e88esm3273175wrz.29.2022.03.24.07.42.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=2TNPm4s2d/avyYNyKgm5CxLZb9xC2asaX7pXzx+AArg=;
+        b=BRDQKgjViBo8541EogBWvDdhrDbOJSlMhcoB1p+I0BplV01FVOj6WDPavEViuFcg1q
+         mSFcNmfbjZUQVELPcagqXZ/3q+A/snPDrFBbqIrB15JYysBPjSnlCaEE6109/kh9nQ2j
+         0k1/DZgZWeJMHeX4NPfcUClJIk9Sl9pnyNOuyveW/fMy1khNJLTNZkvuGi/lIoB6vPCE
+         Ofw99aJI0Hnp/q3lvpX7I88AWXYtRe098m06axeflRR1PzbBwpmdT2d3omzT6LlYuE32
+         3oOkg4O7CMqKCFXWlcd7tfINeJgbiv8CzegcIR9+iDqcyG93ERtbRuVObc47Xq4ebV2S
+         AGeg==
+X-Gm-Message-State: AOAM532TSRzhd5rzCfBXFDeELFeBTJW4XiqVOvYJFk45Ercc/JMJ7ywi
+	3a+qvEQl4Ro6Je5D4VWQLw==
+X-Google-Smtp-Source: ABdhPJzcixabbXOwrUOVtS0coroIVjXvK0Wc/6jAmqmd0HOfLzrGJXCVH1qVrBh5a/RGQrQbiaYViw==
+X-Received: by 2002:aca:1712:0:b0:2ec:e1a4:1ad1 with SMTP id j18-20020aca1712000000b002ece1a41ad1mr11155141oii.78.1648242632075;
+        Fri, 25 Mar 2022 14:10:32 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id m13-20020a9d7acd000000b005cda59325e6sm3069602otn.60.2022.03.25.14.10.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Mar 2022 07:42:38 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: davem@davemloft.net,
-	herbert@gondor.apana.org.au,
-	jernej.skrabec@gmail.com,
-	krzk+dt@kernel.org,
-	robh+dt@kernel.org,
-	samuel@sholland.org,
-	wens@csie.org
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH] dt-bindings: crypto: sun8i-ce: remove extra line
-Date: Thu, 24 Mar 2022 14:42:33 +0000
-Message-Id: <20220324144233.1119495-1-clabbe@baylibre.com>
-X-Mailer: git-send-email 2.25.1
+        Fri, 25 Mar 2022 14:10:31 -0700 (PDT)
+Received: (nullmailer pid 459339 invoked by uid 1000);
+	Fri, 25 Mar 2022 21:10:30 -0000
+Date: Fri, 25 Mar 2022 16:10:30 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Giulio Benetti <giulio.benetti@benettiengineering.com>, devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Mesih Kilinc <mesihkilinc@gmail.com>, Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, George Hilliard <thirtythreeforty@gmail.com>, Jesse Taube <mr.bossman075@gmail.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <icenowy@aosc.io>
+Subject: Re: [PATCH v2 02/12] dt-bindings: watchdog: sunxi: clarify clock
+ support
+Message-ID: <Yj4vxqRSKR+rcBLO@robh.at.kernel.org>
+References: <20220317162349.739636-1-andre.przywara@arm.com>
+ <20220317162349.739636-3-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220317162349.739636-3-andre.przywara@arm.com>
 
-yamllint complains about this extra line.
+On Thu, 17 Mar 2022 16:23:39 +0000, Andre Przywara wrote:
+> Most Allwinner SoCs have just one input clock to drive the watchdog
+> peripheral. So far this is the 24 MHz "HOSC" oscillator, divided down
+> internally to 32 KHz.
+> The F1C100 series watchdog however uses the unchanged 32 KHz "LOSC" as
+> its only clock input, which has the same effect, but let's the binding
+> description mismatch.
+> 
+> Change the binding description to name the clocks more loosely, so both
+> the LOSC and divided HOSC match the description. As the fixed clock names
+> now make less sense, drop them from SoCs supporting just one clock
+> input, they were not used by any DT anyway.
+> 
+> For the newer SoCs, supporting a choice of two input clocks, we keep
+> both the description and clock-names requirement.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> ---
+>  .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 20 ++++++++-----------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+> 
 
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-index 00648f9d9278..026a9f9e1aeb 100644
---- a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-+++ b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
-@@ -82,4 +82,3 @@ examples:
-       clock-names = "bus", "mod";
-       resets = <&ccu RST_BUS_CE>;
-     };
--
--- 
-2.34.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
