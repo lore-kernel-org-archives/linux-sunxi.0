@@ -1,54 +1,54 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB6F7C
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 04:20:24 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id A2B095C019B;
-	Mon, 28 Mar 2022 00:20:23 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE327C
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 04:20:31 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 097325C013A;
+	Mon, 28 Mar 2022 00:20:31 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 28 Mar 2022 00:20:23 -0400
+  by compute5.internal (MEProxy); Mon, 28 Mar 2022 00:20:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=fP1j9Qg+r22YhM
-	4fk/jwjYBecMIvk/Iffut9uXlaw/Y=; b=deWgfx+tPcQtZlf1a2TvGAlXBHDJ/c
-	LNeJQB3Urt5ezLMfjQFpB68H6TiqHtjD58bCEc0n5zwisz5JF8JtyTu2Z80MMI7t
-	4hKS/ckmFyujgaFXt1ET8+Pl6VPFvDqAWmdjab1OLYYlSe//qZheQUTT9lpe8giM
-	+mp5vEOz14iEKtwApvz0pEu5+gNKeUL8BGn4KvOh2rpqIP8r/4VY7YvPDMimTmEE
-	IOmB4kruTrsZpSORkl15NQO0Z0DSxwzYRMSvG4+vqxjVveamV4RhYNWL9FWJ0B2i
-	Hzy8l2Bv7+0bXq/epUpiaNvW1Qrgt4r7+Nb8lMcb1lrGLtkYis7nSeXw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=pUVEwGHg7/VUbK
+	GNwlU5CQaObDrf/xSBHe9/ix+JHUQ=; b=BA7wown1WoRRx34hS7mn5MXPqOgCzA
+	vULnN5tq+e88S/lgyUvrY3/JybAKd+23i4U2vmq4cYUUp4cWi1U2KZw6zeGVZ9ip
+	xltyJN6tf+v9Cw/8wfvnLztCLGIi1oDOVyr5yJzDFIHPP1w0nf8QTcnPpP4f3GTA
+	vT1iI3raT6CoChXx2nedCEQWI/K4Em8tPK7dL4Y/WAyTIUdlg3gpEDMm1ud0G84d
+	J7QEqwvBtpTsswEDZSjN4uNf+bSIYAe4Was99AvziW1N12WaiOX0Ouk8SXTwUGd5
+	48QymV+ZRhjwfje0xtNHu5Fdgo7SrkJJlgSyulB3glFeQwi/jpW4gnrQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=fP1j9Qg+r22YhM4fk/jwjYBecMIvk/Iffut9uXlaw
-	/Y=; b=YvIiHrsm115nBCEbjVKx/qH4PHo2AbpcaLu7xjSTvfwyWOLappB0vACi6
-	2WPVCaX6aFbRoQNX4M0xrDVyJ1yvHZMlgPbJyuWM2sXaex49ZbVIjCvCjOYkkhAA
-	3dJCgaIZMpyezDgEpMo9+lDexM9jSW0+GGkPZwBuRKsaB9itxFMJJik2ppMpGGPH
-	/jVboPBJBAIRwWs+ofb2UhaKk6bY3tOTWDem5GCELl9al0TfaYKPPCGCXGh5kVq2
-	b2xVbP7N1K2b3CT2Kymjrp+L7dilxUMVc2r4/5LtzDpwM2vkHRleO49I1+NfoKtb
-	NuT5KKGXsJ0psUJfRTMtVZlSAZW6Q==
-X-ME-Sender: <xms:hzdBYnlYPu8641ykdBGVKymiE7Dk30eBv513Vo7CnnWPjE2idK1ODA>
-    <xme:hzdBYq19iqZg7BFDXqiiYFlTCSHLlnhvL0ky5PNAwSMXSluzNfL0JzyuzGukStASr
-    SXo38btdk_4QM-PzQ>
-X-ME-Received: <xmr:hzdBYtpIvS4fvxK07fFlZ-6FEacn5Kc86TycD_nGz2GvX2PmUpk51KSm9OkHt4076RuImB9o3ftRXWbOazM8NYE8lJlZImsXJvOC5zBIXN5keLrc_pPZ-Tthzw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehiedgkeefucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm3; bh=pUVEwGHg7/VUbKGNwlU5CQaObDrf/xSBHe9/ix+JH
+	UQ=; b=c38/FxSJl6KfLIEL5KvZDEk3+ZEtiBZePLPQ/euGhY/Vs9LewGTvzbtZG
+	KKTpM7EvrYAP4vg8e3Utex/wzlQHrYAVfRI+YHTYDM1dJtejMoP9cT5mkufQN8W6
+	IW8vphiwLBC7xljmere+HP4Y4gZSPrBlcG+YYVtJdplr3fNwKxElCm3EOaLndxKs
+	Fvi8Ey1oAGUUNQ/4WCqIqfi/EmhPx8nUIAjVt9GLrCwtCInLOOHtGBUCHj3N+knD
+	rVvK2M70MBXmLaNP5GTTF81n6kou44SGqtQy8jk63EOD99vK0WE1uSYU4Sdp0vuT
+	3SVVlVKhZ1QrtQwS7I0DIi2ZD+LPw==
+X-ME-Sender: <xms:jjdBYjUc29HzGn1iNGnh3jp8wc3x48fw_e8ERnk9HVRd0KfM_pR-Gw>
+    <xme:jjdBYrm8dHRQdIDW4H_LEwTisdiEtLh5MyUGvSaMBVA5-Shttwa2NJlS11uhRXAo3
+    NZwci_EwahkpNYVCQ>
+X-ME-Received: <xmr:jjdBYvboLtckI69dN1eY3Hs9E-OYkltj116M7DQFfc189faWmgNrt-mOfxeTdBdIvciODbBie6SlZ17d0LlLdlUfCJHf-4a8niatvCzpkIsO3nWtHsweOW9_rg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehiedgkedvucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
     ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:hzdBYvlM52_1_BDTRH8dhT2FAJtqOIONzygANrD_kpf6gZbLsYTEVg>
-    <xmx:hzdBYl1Ac5SmfFGqV7GqCqdAx0RbABILy6hJ7V0MlMuyp72IjJBwQw>
-    <xmx:hzdBYuuRiD2jKZr8qK_v4Tq0TUAPTz0iJ_vXSuBNxjEUhqDfwbbXVA>
-    <xmx:hzdBYmv14i078R_ZCFRXxFDOoOKir9bwPAS6OnTzgScVmnHq_KMkTQ>
+X-ME-Proxy: <xmx:jjdBYuWg8R8Md5GBmT_6dH8J8joYGN2wdF6I5NR4Tp1KeE49IgPytQ>
+    <xmx:jjdBYtkDz9UYfSrlDGwbfi7uO0F03qVRKeWx7td0ByayLn0RAizuFw>
+    <xmx:jjdBYrc1jEHc6GD2F9whYds080MNHDWQ7rRkHgTUxffg44BzHG3c4g>
+    <xmx:jzdBYvngiA-m9rp2jWDZ6zLN2T3lrXPuMg2IteDfgMFHbiDKgDdpyQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Mar 2022 00:20:22 -0400 (EDT)
-Subject: Re: [PATCH v2 06/12] ARM: dts: suniv: F1C100: fix CPU node
+ 28 Mar 2022 00:20:30 -0400 (EDT)
+Subject: Re: [PATCH v2 11/12] ARM: dts: suniv: F1C100: add SPI support
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
@@ -56,12 +56,13 @@ Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jesse Taube <mr.bossman075@gmail.com>,
  Giulio Benetti <giulio.benetti@benettiengineering.com>,
  George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
 References: <20220317162349.739636-1-andre.przywara@arm.com>
- <20220317162349.739636-7-andre.przywara@arm.com>
+ <20220317162349.739636-12-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <2d01754a-5d3b-bdb3-d447-65267207bed9@sholland.org>
-Date: Sun, 27 Mar 2022 23:20:22 -0500
+Message-ID: <1800f538-ba38-f1ff-ff70-59d96de0dfe8@sholland.org>
+Date: Sun, 27 Mar 2022 23:20:29 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -70,17 +71,24 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220317162349.739636-7-andre.przywara@arm.com>
+In-Reply-To: <20220317162349.739636-12-andre.przywara@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 On 3/17/22 11:23 AM, Andre Przywara wrote:
-> The /cpu node in the f1c100s.dtsi is not spec compliant, it's missing
-> the reg property, and the corresponding address and size cells
-> properties.
+> The F1C100 series contains two SPI controllers, and many boards use SPI0
+> for a SPI flash, as the BROM is able to boot from that.
 > 
-> Add them to make the bindings check pass.
+> Describe the two controllers in the SoC .dtsi, and also add the PortC
+> pins for SPI0, since this is where BROM looks at when trying to boot
+> from the commonly used SPI flash.
+> 
+> The SPI controller seems to be the same as in the H3 chips, but it lacks
+> a separate mod clock. The manual says it's connected to AHB directly.
+> We don't export that AHB clock directly, but can use the AHB *gate* clock
+> as a clock source, since the SPI driver is not supposed to change the AHB
+> frequency anyway.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
