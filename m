@@ -1,74 +1,82 @@
-Received: from cantor.telenet-ops.be (cantor.telenet-ops.be [195.130.132.48])
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD3E17F9
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 08:06:13 +0000 (UTC)
-Received: from xavier.telenet-ops.be (xavier.telenet-ops.be [IPv6:2a02:1800:120:4::f00:14])
-	by cantor.telenet-ops.be (Postfix) with ESMTPS id 4KRlRK3MBsz55hL5
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 09:57:33 +0200 (CEST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed40:e89f:bbc:3ef3:db3f])
-	by xavier.telenet-ops.be with bizsmtp
-	id Bjx82700v1mfJzQ01jx8mS; Mon, 28 Mar 2022 09:57:26 +0200
-Received: from geert (helo=localhost)
-	by ramsan.of.borg with local-esmtp (Exim 4.93)
-	(envelope-from <geert@linux-m68k.org>)
-	id 1nYkFQ-0074P3-Bn; Mon, 28 Mar 2022 09:57:08 +0200
-Date: Mon, 28 Mar 2022 09:57:08 +0200 (CEST)
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-X-X-Sender: geert@ramsan.of.borg
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D607C;
+	Mon, 28 Mar 2022 08:30:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; q=dns/txt; s=axis-central1; t=1648456211;
+  x=1679992211;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6lodqU722XqqMCnjzMd3/cpwy1KHIQLMRjx1NSCdEKA=;
+  b=XAmZvhXBenZfQv/0ZlWrqduYQsJ6FgkBouxBW6IQH3ep0wt8o/75MpOQ
+   zo1B+OAV4l/N4DaV6umlMRMkga7MKrA0V6U/WQC6DtYg2EFW0AZti7Mad
+   OeKj6x9k/vLbR2x6VP8WdAu7EnS2XvMrUujvPpb3HMg4YW7aZrgVYY6lP
+   koxkwJzigbhbOLG88flhTDJyzy0iCiNLTNK+Y46FQ9CZstF1aKhEoeCDH
+   8oy72hGHFeHRomhgx6VSjMB5RNw2ntMCBw9B3+yQkScqRaxFo/chA1M6T
+   KwbEDu3LDMhAxoGAp4XOv3Uo0BHaG1ahEqJnCWQyc5XYMvYU+LDTMdVoa
+   g==;
+Date: Mon, 28 Mar 2022 10:28:58 +0200
+From: Jesper Nilsson <jesper.nilsson@axis.com>
 To: Ansuel Smith <ansuelsmth@gmail.com>
-cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-    linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
-    linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org, 
-    linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, 
-    linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com, 
-    linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, 
-    chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-    linux-samsung-soc@vger.kernel.org, 
-    linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, 
-    linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, 
-    linux-tegra@vger.kernel.org, linux-oxnas@groups.io, 
-    linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, 
-    linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-Subject: Re: [PATCH RFC 1/1] ARM/arm64: categorize dts in arm dir and fix
+CC: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-actions@lists.infradead.org"
+	<linux-actions@lists.infradead.org>, "linux-sunxi@lists.linux.dev"
+	<linux-sunxi@lists.linux.dev>, "linux-omap@vger.kernel.org"
+	<linux-omap@vger.kernel.org>, "linux-amlogic@lists.infradead.org"
+	<linux-amlogic@lists.infradead.org>, linux-arm-kernel
+	<linux-arm-kernel@axis.com>, "linux-aspeed@lists.ozlabs.org"
+	<linux-aspeed@lists.ozlabs.org>, "linux-rpi-kernel@lists.infradead.org"
+	<linux-rpi-kernel@lists.infradead.org>, "chrome-platform@lists.linux.dev"
+	<chrome-platform@lists.linux.dev>, "linux-renesas-soc@vger.kernel.org"
+	<linux-renesas-soc@vger.kernel.org>, "linux-samsung-soc@vger.kernel.org"
+	<linux-samsung-soc@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com"
+	<linux-stm32@st-md-mailman.stormreply.com>, "kernel@dh-electronics.com"
+	<kernel@dh-electronics.com>, "linux-mediatek@lists.infradead.org"
+	<linux-mediatek@lists.infradead.org>, "openbmc@lists.ozlabs.org"
+	<openbmc@lists.ozlabs.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-oxnas@groups.io"
+	<linux-oxnas@groups.io>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "linux-unisoc@lists.infradead.org"
+	<linux-unisoc@lists.infradead.org>, "linux-rockchip@lists.infradead.org"
+	<linux-rockchip@lists.infradead.org>, "linux-realtek-soc@lists.infradead.org"
+	<linux-realtek-soc@lists.infradead.org>
+Subject: Re: [RFC PATCH 1/1] ARM/arm64: categorize dts in arm dir and fix
  dependency in arm64
-In-Reply-To: <20220328000915.15041-2-ansuelsmth@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2203280956080.1685195@ramsan.of.borg>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <20220328000915.15041-2-ansuelsmth@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Message-ID: <20220328082858.GJ7371@axis.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <20220328000915.15041-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20220328000915.15041-2-ansuelsmth@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
- 	Hi Ansuel,
+Hi Ansuel,
 
-On Mon, 28 Mar 2022, Ansuel Smith wrote:
+On Mon, Mar 28, 2022 at 02:09:15AM +0200, Ansuel Smith wrote:
 > - Categorize every dts in arm directory in subdirectory
 > - Fix Makefile to address for the arm subdirectory
 > - Fix any arm64 dependency
->
-> Signed-off-by: Ansuel Smith <ansuelsmth@gmail.com>
+> [...]
+>  arch/arm/boot/dts/axix/Makefile               |    3 +
+>  .../boot/dts/{ => axix}/artpec6-devboard.dts  |    0
+>  arch/arm/boot/dts/{ => axix}/artpec6.dtsi     |    0
 
-Thanks for your patch!
+All ARTPEC platforms should be in a directory called "axis".
+Otherwise LGTM.
 
-> --- /dev/null
-> +++ b/arch/arm/boot/dts/renasas/Makefile
+Thanks!
 
-s/renasas/renesas/
-
-The actual split for the Renesas parts LGTM.
-
-Gr{oetje,eeting}s,
-
- 						Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
- 							    -- Linus Torvalds
+/^JN - Jesper Nilsson
+-- 
+               Jesper Nilsson -- jesper.nilsson@axis.com
