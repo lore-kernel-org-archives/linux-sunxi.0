@@ -1,49 +1,49 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EEF161
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 16:57:35 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id bg10so29978526ejb.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 09:57:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD45437E;
+	Mon, 28 Mar 2022 17:09:14 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id qa43so30011438ejc.12;
+        Mon, 28 Mar 2022 10:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wBY8GOjTBGWVEL0GTMWI6P1arfhZD9nF3EMgpiHJ8pg=;
-        b=TrhfV81sE8oJYSmCYeOpiNX4rwzFlNa0YYzLP08JEAl6V9ZLFZAITEpA+veBQrtYXd
-         nTIjE75VTCdIqCw6ACstHID8jmEUgPezsa2Ye+Q8W1m3xfHTfeACSgW68kRyL0MmayFL
-         y6fCbN7XOb4+BqlfFW+POMeDwCKcSLdInFNbxW1/RObEC7S48YVIEaaj7mIRVg9cBG15
-         2beqkvhDpR66XCMne9A7AkOOyftPDo8lqXCdH3KL4usS/GBmP0v4FgXC0I0ohOZ3So6t
-         JRh1x+o00LD4zh72QK1QlcGKLfNkewdqNuktuGZnEQEyx0ijfjAX/mqSuMPxI5K9/NIS
-         EQlw==
+        bh=oz/GhbrsSoiiuJbFSvXUMfpNUWNZ2X3Kmt6C0b9MtEY=;
+        b=XLFg6dCmzHI6UVEuH8BLYtKKM4uvH1ZozdUxJhyd9zDVCSiCtUzw6R4eiOcIvKdtp+
+         OKddStrGMKY8ErWM/NqQq/kTWdaunQJTqePkGKtU1344Wj+/F/i30ItvbA4IFnBLSQwF
+         V54eQVV+UGCyhBuPy2yjZg2dmrMr+eoLRbjvlMQ1nkV1S+tR/6RAYXCgx+dCLXCwTgOu
+         w6GK9j/qC32+SQY+8OroKJsE2UtR34akAYW9D+sOA0gZhXFh1I3RJnD6fFQuFmo/0BU/
+         PRSsL+VvNUjbki90jg38CzUeCr2IKa7ibdhMwchZvJ3LJYdvrreSSh3J/0os/8ijeegd
+         s8YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wBY8GOjTBGWVEL0GTMWI6P1arfhZD9nF3EMgpiHJ8pg=;
-        b=5DnnhYbYpKyBnv4myrMLOorSV7048QDnEaGdcLCxciwqgi3WCM7WIQsLf9UIGSQcRT
-         s6WxKSJl8gdsHUNnXgq9ihVyfGY1DXz3i/3Wbu0Ew73PAkEG2J35sghM3aHc9xE0eyA+
-         ZfTlSCNV4fkV7Dp2eEyRVO3kEEr/XCLwE/d65nu+cSN5FTmBzoiyJLTZeJl+dn6NS0aq
-         DD7SDqEsamfhNybFh0r0bAGCUvG1cbHnTVg2u2vyRXQxLNskr5nCUGhaUaGwEfE/OIFt
-         EmHoU/esk/IDRApYWdYHOU2x3ijidkwIrtWPCubr9LYHJlA9glBct5/XWmvFfzVw/vrm
-         iY0g==
-X-Gm-Message-State: AOAM530RcTWXnsKl/Wg2F8gh0wKakzirBxg73+cDiFdelTrNtWE5eznP
-	SIbkNI68+AZ6izKMjWfMxqg=
-X-Google-Smtp-Source: ABdhPJwbZdbg18gH4uRako7Q+MjVs4nlqqVBcAfzLaiEeJvaLPgfUTObm+Sv22eUIX11zO3Tys/+HQ==
-X-Received: by 2002:a17:907:2a53:b0:6ce:e4fe:3f92 with SMTP id fe19-20020a1709072a5300b006cee4fe3f92mr28685432ejc.389.1648486649986;
-        Mon, 28 Mar 2022 09:57:29 -0700 (PDT)
+        bh=oz/GhbrsSoiiuJbFSvXUMfpNUWNZ2X3Kmt6C0b9MtEY=;
+        b=cS1Qger1omawOh3BF+I56h6bx302H77HFv0Fq6MOGKze5DdnV/JsYi9ima+Z4ZUs5P
+         7uSs8OZzhamvq2lyDKFZXtfslBRRcAULz41Z9IluR1BI2GmqoQk8Y8ADYT7vT5W7TkWr
+         REfpT+a4i9AA6SQZH08xx0bQELbqWbNrA0pjYTj/fSzsZiiq+f0v8UyqK+u5YpLr+4Ut
+         M1zRMRx9qEhXVKBpfb5VU+eX75bLrFfHrhnfZrMrJeIPx9WnahjefENGcANsT+CzFuZx
+         nRYVh/SkwXjaK8EWjYfJJTkcRvalLLcJg+gzr7oxg2PsnmVycosx7SkrwkxELpNI2L8I
+         1xXA==
+X-Gm-Message-State: AOAM531VQFeSM44XBgtRhM77nSf7BRAAoY5/YQDrx0AvpsOdpl/Sg47B
+	fyEG9Ok4I+0WZfy+8tieqf8=
+X-Google-Smtp-Source: ABdhPJxn3BJyJKNC9/61CZcKeOhAnR0kP6RUMvDsLZPNcLzptiHSJT5FmZKkFiS6yu0S2vwJNZhpcA==
+X-Received: by 2002:a17:907:7ba3:b0:6df:b07c:ee35 with SMTP id ne35-20020a1709077ba300b006dfb07cee35mr28691222ejc.588.1648487353124;
+        Mon, 28 Mar 2022 10:09:13 -0700 (PDT)
 Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id p12-20020a17090635cc00b006e055c9c91esm6038305ejb.101.2022.03.28.09.57.28
+        by smtp.gmail.com with ESMTPSA id o17-20020a056402439100b0041938757232sm7321011edc.17.2022.03.28.10.09.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Mar 2022 09:57:29 -0700 (PDT)
+        Mon, 28 Mar 2022 10:09:12 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Wan Jiabing <wanjiabing@vivo.com>
-Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
-Subject: Re: [PATCH] clk: sunxi-ng: fix not NULL terminated coccicheck error
-Date: Mon, 28 Mar 2022 18:57:28 +0200
-Message-ID: <2621623.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20220328073931.36544-1-wanjiabing@vivo.com>
-References: <20220328073931.36544-1-wanjiabing@vivo.com>
+To: linux-media@vger.kernel.org, Sebastian Fricke <sebastian.fricke@collabora.com>
+Cc: acourbot@chromium.org, tfiga@chromium.org, hverkuil-cisco@xs4all.nl, Sebastian Fricke <sebastian.fricke@collabora.com>, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, "moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH v3 2/2] staging: media: cedrus: Rename H265 to HEVC
+Date: Mon, 28 Mar 2022 19:09:11 +0200
+Message-ID: <4697363.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20220327084308.9053-3-sebastian.fricke@collabora.com>
+References: <20220327084308.9053-1-sebastian.fricke@collabora.com> <20220327084308.9053-3-sebastian.fricke@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,37 +53,45 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 28. marec 2022 ob 09:39:31 CEST je Wan Jiabing napisal(a):
-> Fix the following coccicheck error:
-> ./drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:348:1-2: sun6i_rtc_ccu_match is
-> not NULL terminated at line 348
+Hi Sebastian!
+
+Dne nedelja, 27. marec 2022 ob 10:43:10 CEST je Sebastian Fricke napisal(a):
+> Rename all instances where the identifier H265 is used with HEVC.
+> The codec has multiple identifiers H.265 (ITU-T), MPEG-H Part 2 (ISO),
+> but the actual name of the codec is HEVC (High Efficiency Video Coding).
+> Also nearly all other related drivers use the term HEVC instead of H265.
 > 
-> Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
-> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+This patch is not constructive. I admit, it's unfortunate it's not using same 
+name as other drivers, but anyone dealing with HEVC will know H265 is synonym 
+for it. This patch doesn't improve anything and actually makes any fix harder 
+to backport, if something cames up. According to diffstat, this rewrites more 
+than 50% of cedrus_h265.c, including renaming the file. Additionally, it's easy 
+to miss something to rename and we could play this game in the future too, for 
+no real benefit.
 
-Best regards,
+So NAK.
+
+Best regard,
 Jernej
 
-> ---
->  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c index 8a10bade7e0d..ffb72d9a9c36
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> @@ -346,6 +346,7 @@ static const struct of_device_id sun6i_rtc_ccu_match[] =
-> { .compatible	= "allwinner,sun50i-r329-rtc",
->  		.data		= &sun50i_r329_rtc_ccu_data,
->  	},
-> +	{},
->  };
-> 
->  int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
+P.S. Please wait at least few days before resending patches, even if you find 
+something. After all, RFC patches are meant to get some response, it's not 
+expected they will be perfect.
 
+> ---
+>  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  30 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  14 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  .../cedrus/{cedrus_h265.c => cedrus_hevc.c}   | 438 +++++++++---------
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +-
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 394 ++++++++--------
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |   4 +-
+>  8 files changed, 448 insertions(+), 448 deletions(-)
+>  rename drivers/staging/media/sunxi/cedrus/{cedrus_h265.c => cedrus_hevc.c}
+> (53%)
 
 
 
