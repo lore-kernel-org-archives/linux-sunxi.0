@@ -1,95 +1,139 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01on2101.outbound.protection.outlook.com [40.107.117.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE327C
-	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 04:20:31 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 097325C013A;
-	Mon, 28 Mar 2022 00:20:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 28 Mar 2022 00:20:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; bh=pUVEwGHg7/VUbK
-	GNwlU5CQaObDrf/xSBHe9/ix+JHUQ=; b=BA7wown1WoRRx34hS7mn5MXPqOgCzA
-	vULnN5tq+e88S/lgyUvrY3/JybAKd+23i4U2vmq4cYUUp4cWi1U2KZw6zeGVZ9ip
-	xltyJN6tf+v9Cw/8wfvnLztCLGIi1oDOVyr5yJzDFIHPP1w0nf8QTcnPpP4f3GTA
-	vT1iI3raT6CoChXx2nedCEQWI/K4Em8tPK7dL4Y/WAyTIUdlg3gpEDMm1ud0G84d
-	J7QEqwvBtpTsswEDZSjN4uNf+bSIYAe4Was99AvziW1N12WaiOX0Ouk8SXTwUGd5
-	48QymV+ZRhjwfje0xtNHu5Fdgo7SrkJJlgSyulB3glFeQwi/jpW4gnrQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; bh=pUVEwGHg7/VUbKGNwlU5CQaObDrf/xSBHe9/ix+JH
-	UQ=; b=c38/FxSJl6KfLIEL5KvZDEk3+ZEtiBZePLPQ/euGhY/Vs9LewGTvzbtZG
-	KKTpM7EvrYAP4vg8e3Utex/wzlQHrYAVfRI+YHTYDM1dJtejMoP9cT5mkufQN8W6
-	IW8vphiwLBC7xljmere+HP4Y4gZSPrBlcG+YYVtJdplr3fNwKxElCm3EOaLndxKs
-	Fvi8Ey1oAGUUNQ/4WCqIqfi/EmhPx8nUIAjVt9GLrCwtCInLOOHtGBUCHj3N+knD
-	rVvK2M70MBXmLaNP5GTTF81n6kou44SGqtQy8jk63EOD99vK0WE1uSYU4Sdp0vuT
-	3SVVlVKhZ1QrtQwS7I0DIi2ZD+LPw==
-X-ME-Sender: <xms:jjdBYjUc29HzGn1iNGnh3jp8wc3x48fw_e8ERnk9HVRd0KfM_pR-Gw>
-    <xme:jjdBYrm8dHRQdIDW4H_LEwTisdiEtLh5MyUGvSaMBVA5-Shttwa2NJlS11uhRXAo3
-    NZwci_EwahkpNYVCQ>
-X-ME-Received: <xmr:jjdBYvboLtckI69dN1eY3Hs9E-OYkltj116M7DQFfc189faWmgNrt-mOfxeTdBdIvciODbBie6SlZ17d0LlLdlUfCJHf-4a8niatvCzpkIsO3nWtHsweOW9_rg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudehiedgkedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
-    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:jjdBYuWg8R8Md5GBmT_6dH8J8joYGN2wdF6I5NR4Tp1KeE49IgPytQ>
-    <xmx:jjdBYtkDz9UYfSrlDGwbfi7uO0F03qVRKeWx7td0ByayLn0RAizuFw>
-    <xmx:jjdBYrc1jEHc6GD2F9whYds080MNHDWQ7rRkHgTUxffg44BzHG3c4g>
-    <xmx:jzdBYvngiA-m9rp2jWDZ6zLN2T3lrXPuMg2IteDfgMFHbiDKgDdpyQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 28 Mar 2022 00:20:30 -0400 (EDT)
-Subject: Re: [PATCH v2 11/12] ARM: dts: suniv: F1C100: add SPI support
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Mesih Kilinc <mesihkilinc@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
- Jesse Taube <mr.bossman075@gmail.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org
-References: <20220317162349.739636-1-andre.przywara@arm.com>
- <20220317162349.739636-12-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <1800f538-ba38-f1ff-ff70-59d96de0dfe8@sholland.org>
-Date: Sun, 27 Mar 2022 23:20:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA6217E9
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 07:39:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d48UX0rC3bbK3ym8aK0WVuim9KH19JsQhfXrSyYq/2e4FEyO2a4KfaoozPkqvA7S5czZdb+CqyJdM1CSkejIBgeI9higvwb8CAT9k5ZgY7XdJH2RKWOSk7PGnz84Nx7Li3VoozbY2qJZc1MHKr+p4VbDsKSzmtX22m6FnnUz2JhCPuyGMFfsjfAgns1TyLWnCvcBmbJ8cnhMNVQ/SbDM5zQkz+6y8OvP+9pNckHu6iVfx+UyNQIZWN/v2mEV/hnEDP2a+zFI6YZnNPKMOqlNYR9JjMFENk9sSs7j4wcXHb2Yod96k9DSYZLIa2ME6RxTyPe00thl7k8p5baeGEnYvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yF3PIG3tKyoANPJokcNO+T+/IpYLNXtTX2IzlOtc1RE=;
+ b=eu526xX/SbXZcKd5eyYZZXjlmMcsbcuJYJ2Jqpc8R8g0hxjZC5dKlNDrD4tksCzHn/6uXmiQxqb4czi84ag9A6GpwTfalfyZCpXRU3SBQtGIfIVIQkjyQZmHk4A2GxEXSs8ULoc1PBDK6nSso/Elsx8uicTOQtv5gXui+wfmBUE0KY8gv8mN0QemvrN175XmbsBO/LDxpW3oNFKjyjQDkJbKb+rdfJs7vVmcx4efp0FofWmih3cTJjfv9GYb46bd8jqZhDqmg12uOqfy7W9Xo0kzQGwF2+7ZcvQ+lVGH5rx8g5ISB88GuLhejPIDcVRbxbIsd8NWa+CrFzdJ+pXnlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com;
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yF3PIG3tKyoANPJokcNO+T+/IpYLNXtTX2IzlOtc1RE=;
+ b=RJmL3DTlNZHatasjveoypWioEzTSCwDH3E0FRKATg6AbrhDh45JeGSYTmVFO8qOtMlD8IQOm1qhXF/NfgO9+kDyckTLfXKFBxedHZ91qXDquc3ryB2zIhOLI2LRJ2wY+J+Srg9YGqcLV8DElp/40cYsiDCj9C0LmLg+bOJLUCaY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com (2603:1096:4:78::19) by
+ SI2PR06MB4427.apcprd06.prod.outlook.com (2603:1096:4:15d::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.5102.18; Mon, 28 Mar 2022 07:39:44 +0000
+Received: from SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732]) by SG2PR06MB3367.apcprd06.prod.outlook.com
+ ([fe80::9d3f:ff3b:1948:d732%4]) with mapi id 15.20.5102.022; Mon, 28 Mar 2022
+ 07:39:44 +0000
+From: Wan Jiabing <wanjiabing@vivo.com>
+To: Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: kael_w@yeah.net,
+	Wan Jiabing <wanjiabing@vivo.com>
+Subject: [PATCH] clk: sunxi-ng: fix not NULL terminated coccicheck error
+Date: Mon, 28 Mar 2022 15:39:31 +0800
+Message-Id: <20220328073931.36544-1-wanjiabing@vivo.com>
+X-Mailer: git-send-email 2.35.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: HK2PR0302CA0018.apcprd03.prod.outlook.com
+ (2603:1096:202::28) To SG2PR06MB3367.apcprd06.prod.outlook.com
+ (2603:1096:4:78::19)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220317162349.739636-12-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8d9569b2-ccec-4c98-5013-08da108e1fe9
+X-MS-TrafficTypeDiagnostic: SI2PR06MB4427:EE_
+X-Microsoft-Antispam-PRVS:
+	<SI2PR06MB44275E168101441F5BB57C74AB1D9@SI2PR06MB4427.apcprd06.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	PCm2Pg9iwGMIoa7p8BPLAJbiV+j3gG59bY9QI8QJ5Nq/g5uwo47Z6PKRcbkh8FkEFoGitvBLE1imC3c/XMHNp4FVfnIHahPCwOR3qieezG1Xo9UZfGxKEhU6ZUQKIms49r33cvfeeQ5mHLwy3g3/zsrI0MHEXCENXe3363idC9wXIg4ycA0GL2BofbG6IlT5woykdhjAML7zq+cg9CGYrGrOXy0lrn56PRTIuiXDBMQCnBRaSg/qx+4YSZeMTkK2MUen6AkwYCxqU1KfYf+YcyfDzExkpMDuLY56aqG+0kMDd5EXOTSBKKPdkxF6VLRTpyIfh/nw56K1MgTqqIogyJ7Tq4TgvIB5ijVjxNLXL5k/eo5sS/oDS4RaINUhwP+VoTqgiUaJNF0LiCaIzb1e7Einl4TDLn7JL7bYR9SpI+jWuObwxIVYHzbPGH0L+JzFHdPlY8Vsu4Z9Wo16lVi32+99lN+9Wlya9nfkuNbj9aMJ73y7Btqb6X7udxppTNXOIsBrf4hHPxnxl23Y/T09pxmwWGBY0c/98c24ywstLjyeHIIdSzFsg4/lf2w7la70/R1h5Tyzgx5MprFX384+yGNF/GNm6nUrFDWGyxR0549wW+yprv1ApeD/RUVf+S3/RyyOK53D7S6mDtsd+wzEVr1NLmFzHwlHN4Q/xV0nmk9tnARHqCDsFlbOcWDKlCCeMreqeMvw6j+FvuI7JaUDdyEXgXL03GM3TDjJFyJHszY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SG2PR06MB3367.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(5660300002)(38350700002)(38100700002)(86362001)(6512007)(52116002)(508600001)(36756003)(2906002)(107886003)(316002)(6486002)(921005)(8676002)(1076003)(110136005)(186003)(4744005)(83380400001)(66946007)(7416002)(4326008)(26005)(6666004)(2616005)(66476007)(66556008)(6506007)(8936002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?dtZHwFGUIH/X8EG+HZsJSqXmF7WOR2KJUgqkSL3NjlSia/U5klQQWiLNH2wa?=
+ =?us-ascii?Q?w8SyNq29sM92/ftCHQIutWQLxoL/J/RMP9CIx69UYooMWCnh/974IIXNduzt?=
+ =?us-ascii?Q?0ivN7QsrR8/2rsbXDigWJxh3buN/SVsA4OeSwNrFJrOT/Z3iDFf3MzF5alO5?=
+ =?us-ascii?Q?aaz90u35gLc9o+00vRVYIBEM05qaCb6lZYcK+Tlt+Yzz0AxcNwnnV/O49M7s?=
+ =?us-ascii?Q?h4XSc6qE/8X1zI7QMfCRVNe46MISdh2Fka5pR9HzmmwPPWaOBEg1zigGNhBz?=
+ =?us-ascii?Q?X8+nq/wwH2pAY/0fJaUMSu6PkfAKmkjXK0xWVr6D+xzIAZMPlQgpdmePdwzh?=
+ =?us-ascii?Q?tG8Nm5NhBjxjz5kZcM0f0OJXPC/Z8FAyQW3w0nFnNwUh1+vUUEsMZu+Wp08B?=
+ =?us-ascii?Q?Wo1v+y+idWW+VXYJhw9WHEg2FwxlFYY2dXzBmLfsKtEYNTUuVzfaYBo1bh9G?=
+ =?us-ascii?Q?77HVANFv4wEhTGU+L2LEiT1yTSEPfSEnzT/iiSujTE+3Mb2xq06ZiLzIs7gX?=
+ =?us-ascii?Q?2qDp0sBC4iiLFLFJSYLfcIjAMUmxJbskzAJleYMsmSyNmpb7oNt+FNMoofoE?=
+ =?us-ascii?Q?oj/SKA+xL6O6bMHy2K8NfZf3kd3aChe3QuZ8kxboATQVA36V1OzvQIooysOq?=
+ =?us-ascii?Q?3M/wyg1XgKO40fc5XaqWW/jFU+1adC879rp6+Be5Hs06aKVk80OM3i5/PksW?=
+ =?us-ascii?Q?0hDHmpM2xtYoiyOFYtDlwvO+l6gz2spziF/mLvXP4jk8j7AJKJODUfTglRiz?=
+ =?us-ascii?Q?jf/elbiLtqninacZA0/x7OsMAA66vjPN3PhDHDBU2vwsVdbuBgahbSN4pyQc?=
+ =?us-ascii?Q?KR0/v3dHkhik9eg8S8SZGZuqfnxQpapXP5xX1cX+dmeWjK1/Hh5jK/9b2Lxe?=
+ =?us-ascii?Q?7/gdKNas/glEc3SvNvscg+iV/1OXipU6pmDDi8lCV+pj7qk1gotjdRuwbtur?=
+ =?us-ascii?Q?b76LK7nGGF6mHKEkF9KLMOyAfm/Q/wmk/QSsyPkpK8sun2JmsI86mtmLHA4h?=
+ =?us-ascii?Q?1K1dGsQjYHwNrf3cQ4a14XVW1zR4t76h5nOFmpzHKW6/7qCKgPEuwSKrag4D?=
+ =?us-ascii?Q?ocz4cQMfW19sFRFKftvzlx6rFg3UYHEui3zc8eYGG2Bn08EHNOoKcmMHZKnJ?=
+ =?us-ascii?Q?pCJk6JPEddLGmXkmmn3DB5jn+13DaIjzxdOjZZSxVf+0n+lFZ0sNWvGQVdvd?=
+ =?us-ascii?Q?KJxwYf5vTVjZUkvPYzHRqvELOACfGjnrkwuaMMFm/xG9IsQ73FbRtHeA2rRY?=
+ =?us-ascii?Q?2uZqs7rRRB5BgPZZYqOdy9z9AmoUVpS5xvwJWdohGKtjKIVprcDJpgAvzPPe?=
+ =?us-ascii?Q?oc6It+OXEjvECy13/9xn2cbv+tlRvJ2jPpyUyaoFnYNgM1ueHY8YDmm1XDz+?=
+ =?us-ascii?Q?ljOxkaUkUtfxOeitXkkCxSH+SvE4onPQ123uKkLEYtkW7tVx+sjgmi1jWwdX?=
+ =?us-ascii?Q?lShlbUuxNkm+8PuxLFw4C6D+0ZsFBBnpe05hhrUTs035Cn/34B0MKeOREPdj?=
+ =?us-ascii?Q?KBPN/B8hXdBd6xG4MWYctVO7+ccYGqf4pRSmxey/ai9YTO0ZG01BNGn4dZcZ?=
+ =?us-ascii?Q?k6flj9eI3PThizSNhvF0UHi/Ed4flfWIAF5Nu8y9RGPsJ/HU/ntQ7Jq4M94b?=
+ =?us-ascii?Q?u7+evZzl39IfP31aFGP+ZrlE4oEoegaDb0FwArB5sP2jSji7xYMoyKf7iH19?=
+ =?us-ascii?Q?MYP1+tsrdIUypz9U549enyW7QbNPvj3nOBpE7B+bXRJAZyeXqVe0ABH9TrIp?=
+ =?us-ascii?Q?csWeLQTpUA=3D=3D?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d9569b2-ccec-4c98-5013-08da108e1fe9
+X-MS-Exchange-CrossTenant-AuthSource: SG2PR06MB3367.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2022 07:39:43.7505
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fhdCGlQtUlGjjJbMfMo21RzRoW8SmyXwpd48/U4AxKBTCGRsM6E15phQXvGZ2b5InvwG8pNa5r15/+ZgoxHdJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB4427
 
-On 3/17/22 11:23 AM, Andre Przywara wrote:
-> The F1C100 series contains two SPI controllers, and many boards use SPI0
-> for a SPI flash, as the BROM is able to boot from that.
-> 
-> Describe the two controllers in the SoC .dtsi, and also add the PortC
-> pins for SPI0, since this is where BROM looks at when trying to boot
-> from the commonly used SPI flash.
-> 
-> The SPI controller seems to be the same as in the H3 chips, but it lacks
-> a separate mod clock. The manual says it's connected to AHB directly.
-> We don't export that AHB clock directly, but can use the AHB *gate* clock
-> as a clock source, since the SPI driver is not supposed to change the AHB
-> frequency anyway.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Fix the following coccicheck error:
+./drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:348:1-2: sun6i_rtc_ccu_match is
+not NULL terminated at line 348
 
-Acked-by: Samuel Holland <samuel@sholland.org>
+Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
+Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 8a10bade7e0d..ffb72d9a9c36 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -346,6 +346,7 @@ static const struct of_device_id sun6i_rtc_ccu_match[] = {
+ 		.compatible	= "allwinner,sun50i-r329-rtc",
+ 		.data		= &sun50i_r329_rtc_ccu_data,
+ 	},
++	{},
+ };
+ 
+ int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
+-- 
+2.35.1
+
