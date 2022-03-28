@@ -1,111 +1,89 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F664366;
-	Mon, 28 Mar 2022 14:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EEF161
+	for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 16:57:35 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id bg10so29978526ejb.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 28 Mar 2022 09:57:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476077; x=1680012077;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=VaqwPhIAZMiCAzmDNrI7SdWa+IUS+mL0d3qNstUEY67SLWMyLE0U4Pub
-   PapEn4XCe8QVHXAmgjoO9F9aXLgVXYCdkRs33oClErXvFSslphLZ//Zfr
-   7Ykl/LFOuUThn9UtiaKRZjjvnRjCTh1Y2gseHjrsxSGpKeOacECgZFyaT
-   eKMgGHxZCYVBV3Ds8QCiRjZ6kXBuRAesmUz2KDRlP+cipiCHtsgKRp3XZ
-   gajLTBUbcDxwMm6YIjx0RODsLnAkACkYGw4Yb9iqyjKxysx37geBoekXh
-   LB8ZuYv/pFgaBDbW05SD2lsg5YgU/5qu4gW3eD5ZASdpgVTLYhb16KaWw
-   w==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935295"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-  by mx1-pgp.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-  by tq-pgp-pr1.tq-net.de (PGP Universal service);
-  Mon, 28 Mar 2022 16:00:05 +0200
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Mon, 28 Mar 2022 16:00:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1648476005; x=1680012005;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ayM215iKfS3RVxHHf6+6kiEWl9gC2cMSZOj/C1/hktk=;
-  b=WuV252Nu+GZzN74VzCmlspBKd0dca8X2+xSzsUDOC+VBkSdAcRJKkpz9
-   V6ZhUvtyzJXo40EU/KoKsnsMA+udDgpFrmJjA0OOrI8Du6AE/IqQXvbD0
-   l7/oi3cIclt6kdqSsBk62dD3jTXzpYH4IITmDIWCq1j5VlQdR/7ht0rkB
-   UzXa+gf9sB2fMmE9Y4BJg30hxvVMBs2s+cV3pKJsYN741b+m12/z4LAVK
-   Ghd0BfGmPSMkfRYy9LlDPSTztxPRWJXf02LYJ3AALa7lqL+bNoPBea5QD
-   q3OLZ+wYdDSKr/JtyC5EC84xkLnc6lGkLWsLSzPCKdl/McKEhN7OLwWQj
-   g==;
-X-IronPort-AV: E=Sophos;i="5.90,217,1643670000"; 
-   d="scan'208";a="22935294"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 28 Mar 2022 16:00:05 +0200
-Received: from steina-w.localnet (unknown [10.123.49.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 20160280065;
-	Mon, 28 Mar 2022 16:00:04 +0200 (CEST)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Jonathan =?ISO-8859-1?Q?Neusch=E4fer?= <j.neuschaefer@gmx.net>
-Cc: Ansuel Smith <ansuelsmth@gmail.com>, linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org, linux-rpi-kernel@lists.infradead.org, chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com, linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org, linux-tegra@vger.kernel.org, linux-oxnas@groups.io, linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-realtek-soc@lists.infradead.org
-Subject: Re: (EXT) Re: [RFC PATCH 0/1] Categorize ARM dts directory
-Date: Mon, 28 Mar 2022 16:00:02 +0200
-Message-ID: <2100132.irdbgypaU6@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <YkG2RPrtPaBNXb7a@latitude>
-References: <20220328000915.15041-1-ansuelsmth@gmail.com> <YkG2RPrtPaBNXb7a@latitude>
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=wBY8GOjTBGWVEL0GTMWI6P1arfhZD9nF3EMgpiHJ8pg=;
+        b=TrhfV81sE8oJYSmCYeOpiNX4rwzFlNa0YYzLP08JEAl6V9ZLFZAITEpA+veBQrtYXd
+         nTIjE75VTCdIqCw6ACstHID8jmEUgPezsa2Ye+Q8W1m3xfHTfeACSgW68kRyL0MmayFL
+         y6fCbN7XOb4+BqlfFW+POMeDwCKcSLdInFNbxW1/RObEC7S48YVIEaaj7mIRVg9cBG15
+         2beqkvhDpR66XCMne9A7AkOOyftPDo8lqXCdH3KL4usS/GBmP0v4FgXC0I0ohOZ3So6t
+         JRh1x+o00LD4zh72QK1QlcGKLfNkewdqNuktuGZnEQEyx0ijfjAX/mqSuMPxI5K9/NIS
+         EQlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=wBY8GOjTBGWVEL0GTMWI6P1arfhZD9nF3EMgpiHJ8pg=;
+        b=5DnnhYbYpKyBnv4myrMLOorSV7048QDnEaGdcLCxciwqgi3WCM7WIQsLf9UIGSQcRT
+         s6WxKSJl8gdsHUNnXgq9ihVyfGY1DXz3i/3Wbu0Ew73PAkEG2J35sghM3aHc9xE0eyA+
+         ZfTlSCNV4fkV7Dp2eEyRVO3kEEr/XCLwE/d65nu+cSN5FTmBzoiyJLTZeJl+dn6NS0aq
+         DD7SDqEsamfhNybFh0r0bAGCUvG1cbHnTVg2u2vyRXQxLNskr5nCUGhaUaGwEfE/OIFt
+         EmHoU/esk/IDRApYWdYHOU2x3ijidkwIrtWPCubr9LYHJlA9glBct5/XWmvFfzVw/vrm
+         iY0g==
+X-Gm-Message-State: AOAM530RcTWXnsKl/Wg2F8gh0wKakzirBxg73+cDiFdelTrNtWE5eznP
+	SIbkNI68+AZ6izKMjWfMxqg=
+X-Google-Smtp-Source: ABdhPJwbZdbg18gH4uRako7Q+MjVs4nlqqVBcAfzLaiEeJvaLPgfUTObm+Sv22eUIX11zO3Tys/+HQ==
+X-Received: by 2002:a17:907:2a53:b0:6ce:e4fe:3f92 with SMTP id fe19-20020a1709072a5300b006cee4fe3f92mr28685432ejc.389.1648486649986;
+        Mon, 28 Mar 2022 09:57:29 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id p12-20020a17090635cc00b006e055c9c91esm6038305ejb.101.2022.03.28.09.57.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Mar 2022 09:57:29 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Wan Jiabing <wanjiabing@vivo.com>
+Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
+Subject: Re: [PATCH] clk: sunxi-ng: fix not NULL terminated coccicheck error
+Date: Mon, 28 Mar 2022 18:57:28 +0200
+Message-ID: <2621623.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20220328073931.36544-1-wanjiabing@vivo.com>
+References: <20220328073931.36544-1-wanjiabing@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Am Montag, 28. M=E4rz 2022, 15:21:08 CEST schrieb Jonathan Neusch=E4fer:
-> * PGP Signed by an unknown key
->=20
-> On Mon, Mar 28, 2022 at 02:09:14AM +0200, Ansuel Smith wrote:
-> > Hi,
-> > as the title say, the intention of this ""series"" is to finally
-> > categorize
-> > the ARM dts directory in subdirectory for each oem.
->=20
-> [...]
->=20
-> > [1] https://gist.github.com/Ansuel/47c49925ee7ef4b1dd035afc74679ab5
-> > [2] https://gist.github.com/Ansuel/19f61f1e583c49407ce35c10e770fbe0
->=20
-> Nice idea, thank you!
->=20
-> A few notes on categorization below.
-> [...]
-> >  create mode 100644 arch/arm/boot/dts/freescale/Makefile
->=20
-> Freescale has been part of NXP for a while, so it might make sense to
-> merge the freescale and nxp directories. I can't speak for
-> NXP-the-company, so that's just my view as a bystander.
+Dne ponedeljek, 28. marec 2022 ob 09:39:31 CEST je Wan Jiabing napisal(a):
+> Fix the following coccicheck error:
+> ./drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:348:1-2: sun6i_rtc_ccu_match is
+> not NULL terminated at line 348
+> 
+> Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
+> Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
 
-Please don't mix the names for arm and arm64. It's very confusing if the=20
-vendor directory is named differently for each architecture.
-
->[...]
-> >  create mode 120000 arch/arm/boot/dts/nxp/armv7-m.dtsi
->=20
-> armv7-m.dtsi is a bit confusing, because it contains a few devices at
-> fixed addresses, so it looks vendor-specific at a first glance into the
-> file. However, if it is actually as vendor-neutral as the name implies,
-> I think it should live dts/ directly, rather than in vendor
-> subdirectories.
-
-This seems to be some generic devices common for all ARMv7M CPUs used in=20
-Cortex-M CPUs. It's also used by some stm32 .dtsi.
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Alexander
+Jernej
+
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c index 8a10bade7e0d..ffb72d9a9c36
+> 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> @@ -346,6 +346,7 @@ static const struct of_device_id sun6i_rtc_ccu_match[] =
+> { .compatible	= "allwinner,sun50i-r329-rtc",
+>  		.data		= &sun50i_r329_rtc_ccu_data,
+>  	},
+> +	{},
+>  };
+> 
+>  int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
+
 
 
 
