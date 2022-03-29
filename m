@@ -1,106 +1,75 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C80720FF;
-	Tue, 29 Mar 2022 06:54:05 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a02:3030:a:f397:f6bc:b726:2678:839f])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 80A071F43635;
-	Tue, 29 Mar 2022 07:54:01 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1648536841;
-	bh=Xpx3U6mOBehpoSrK6i7CEVapGWneCtBaLxoygKFuPgQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R8DeTYomlc8xvrJf5lRwFd3JMajS7q073SDqjJ3Ir5/FH7Qw8LBfo7D8pZnilMedk
-	 cSprB1oPwlrAragYBSwrGOl/+JSq9FHRDRTgI3j4UGZvyJ3TwOm5X3AJ/bEwlPYUDO
-	 nDJ9x4snyFGwYtTrsvuKgAroOswMq91hGUEuF0SR8FnbJKSrZ6QbZYuOAzoZigF9AO
-	 AwSOEj0u7vD12Y6BcyIdaVntGtDJTUyDSDfcahAtqubsX8XJzUe3vdxl2BXohL8hPd
-	 CtcWQH1AqwLv45/5FAM8qlUMRcaxn4h1peBJMPDTSRU5mJWipvyo+LnIkPeTfctZXq
-	 W74ghBkXXPfoQ==
-Date: Tue, 29 Mar 2022 08:53:57 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-media@vger.kernel.org, acourbot@chromium.org, tfiga@chromium.org,
-	hverkuil-cisco@xs4all.nl, Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [RFC PATCH v3 2/2] staging: media: cedrus: Rename H265 to HEVC
-Message-ID: <20220329065357.h3tx3nm5osmmgxfs@basti-XPS-13-9310>
-References: <20220327084308.9053-1-sebastian.fricke@collabora.com>
- <20220327084308.9053-3-sebastian.fricke@collabora.com>
- <4697363.GXAFRqVoOG@jernej-laptop>
+Received: from muru.com (muru.com [72.249.23.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE68220FF;
+	Tue, 29 Mar 2022 08:00:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by muru.com (Postfix) with ESMTPS id 727F580F9;
+	Tue, 29 Mar 2022 07:51:24 +0000 (UTC)
+Date: Tue, 29 Mar 2022 10:53:27 +0300
+From: Tony Lindgren <tony@atomide.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: Ansuel Smith <ansuelsmth@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	DTML <devicetree@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-actions@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-omap@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@axis.com, linux-aspeed@lists.ozlabs.org,
+	linux-rpi-kernel@lists.infradead.org,
+	chrome-platform@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com, kernel@dh-electronics.com,
+	linux-mediatek@lists.infradead.org, openbmc@lists.ozlabs.org,
+	linux-tegra@vger.kernel.org, linux-oxnas@groups.io,
+	linux-arm-msm@vger.kernel.org, linux-unisoc@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-realtek-soc@lists.infradead.org
+Subject: Re: [RFC PATCH 0/1] Categorize ARM dts directory
+Message-ID: <YkK691VG6ON/6Ysn@atomide.com>
+References: <20220328000915.15041-1-ansuelsmth@gmail.com>
+ <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4697363.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <CAFr9PXkgrRe-=E=GhNnZ4w1x_FMb97-_RmX6ND1vEd74_TbZSw@mail.gmail.com>
 
-Hey Jernej,
+Hi,
 
-On 28.03.2022 19:09, Jernej Škrabec wrote:
->Hi Sebastian!
->
->Dne nedelja, 27. marec 2022 ob 10:43:10 CEST je Sebastian Fricke napisal(a):
->> Rename all instances where the identifier H265 is used with HEVC.
->> The codec has multiple identifiers H.265 (ITU-T), MPEG-H Part 2 (ISO),
->> but the actual name of the codec is HEVC (High Efficiency Video Coding).
->> Also nearly all other related drivers use the term HEVC instead of H265.
->>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->
->This patch is not constructive. I admit, it's unfortunate it's not using same
->name as other drivers, but anyone dealing with HEVC will know H265 is synonym
->for it. This patch doesn't improve anything and actually makes any fix harder
->to backport, if something cames up. According to diffstat, this rewrites more
->than 50% of cedrus_h265.c, including renaming the file. Additionally, it's easy
->to miss something to rename and we could play this game in the future too, for
->no real benefit.
->
->So NAK.
+* Daniel Palmer <daniel@0x0f.com> [220328 08:53]:
+> Hi Ansuel
+> 
+> On Mon, 28 Mar 2022 at 09:09, Ansuel Smith <ansuelsmth@gmail.com> wrote:
+> >
+> > Hi,
+> > as the title say, the intention of this ""series"" is to finally categorize
+> > the ARM dts directory in subdirectory for each oem.
+> 
+> While I agree with this change and think it's for the good (browsing
+> the ARM dts directory at the moment is frustrating..) I think
+> buildroot and others need to be told about this as it'll potentially
+> break their kernel build scripting for ARM and probably messes up the
+> configs they have for existing boards.
 
-Alright, thank you for presenting your view on that topic. I'll drop this patch.
+Yeah.. And ideally this would be done in smaller steps as these will
+conflict with all the other pending patches.
 
->
->Best regard,
->Jernej
->
->P.S. Please wait at least few days before resending patches, even if you find
->something. After all, RFC patches are meant to get some response, it's not
->expected they will be perfect.
+For example, I have a pile of pending omap clock clean-up dts patches
+posted and tested waiting for v5.19-rc1 to apply. I'd rather not start
+redoing or fixing up the patches with sed :)
 
-Thanks for the tip, I'll be honest, I was bascically just ashamed that I
-missed those variables even after extensive grepping that I thought I
-better fix this up quickly instead of dumping trash on the mailing list.
+What I'd like to have see is that at some point when suitable we move
+one machine at a time with a script if possible.. Maybe the dtb files
+generated would need to remain in the current directory until all of
+the machine dts files are moved? That should help with the build
+scripting too probably :)
 
-Greetings,
-Sebastian
+In general I like the idea though and I think we should do it.
 
->
->> ---
->>  drivers/staging/media/sunxi/cedrus/Makefile   |   2 +-
->>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  30 +-
->>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  14 +-
->>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->>  .../cedrus/{cedrus_h265.c => cedrus_hevc.c}   | 438 +++++++++---------
->>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   4 +-
->>  .../staging/media/sunxi/cedrus/cedrus_regs.h  | 394 ++++++++--------
->>  .../staging/media/sunxi/cedrus/cedrus_video.c |   4 +-
->>  8 files changed, 448 insertions(+), 448 deletions(-)
->>  rename drivers/staging/media/sunxi/cedrus/{cedrus_h265.c => cedrus_hevc.c}
->> (53%)
->
->
->
+Regards,
+
+Tony
