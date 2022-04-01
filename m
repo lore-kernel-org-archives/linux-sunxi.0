@@ -1,117 +1,169 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01olkn2023.outbound.protection.outlook.com [40.92.98.23])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE601367
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Apr 2022 13:10:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGvYxjvrXYYOHJxny5YTEDttCpcmjXI4rBl5x4FhWIYPnF4qpJ7/iA91bR+WtyT7rTXdzNQAi4yRRfNzGLif7NZINVA7hdCK30DzaDtIba9oGhp8l9KPS7DvfMhGbyIG6wWzqM9w1lfNRDy1Xfyuia7Gx7YID9krXCxRi/PhhuGlTXC09HLX+IRXOl5RABrIOfhpcBq6wAaQqBi3hqo3OF9325ZorGQf+lasa38B2TGXQcr6wc71/om0voGEjcGQGzInvqyXvJ5CoWfhRsg8mSYAwEKkVSAdKKLZVTVf9CiCJIkaI14IjUn5PuofqSx/mfS7cx9o8TFjYFgNOCeZjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xuImLI+D5Nvp9Fup78PHdF/vVUfCV1E6dGaVAWN+xko=;
- b=OsFT0GkXBg90tfm2tu/Gm7Qn1NJrpqxrUeySAO4WJDj7BHU3NpMNb0mH1v1u+wD1JJyFYHtGkjDphc5YkUJvElRFkkASQFiKrKIJSMQszgSoLjf9oX6Bzsz0DDzX0aL4AKrBlJjVfO6ITknIGzLjXYTWOBfvcozUDiDiGFKN3Yy05QABS8koFmhOxnFjZQznIq/tAShmhhNiePgHLxR1e9maq961DbvT7Z0Ea8H20/CQxK0VR3Dw3lRZ+apr+XnZ5e2yts8aGnKvwV5r82ohLBE5EHQn2IWtcVdJpSQg/barn8/ROPkt8kjyTSuurHwKiT3ow0eMMUokhX2CsnkDzA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xuImLI+D5Nvp9Fup78PHdF/vVUfCV1E6dGaVAWN+xko=;
- b=mzrZswtZ+DYuBQouBeZ6WnTH54JIPnZTvVUNq3ODZAvf5sxIZhjqC1nAwlclLy3S7voJMGwhJiGKHAGB2p5VbYjFc5aEq53z3TcenIpThZd5p+zXaOO6LAy/aZX9eIPkDJ1eRcAygUYRxTD6SCtwP9Oz7jMIMoGHTTOrajx2/4OXjxCxlSWTa7EXM399KN+vTRPsOpHwfxF7krUnEPukAE6FrRCuPFFbRzrYon1H/aACbG4E4exVBv2OoRhX5yz4QWxdFiyKhZe4YQ49zFe3p/AmJLUIqkTlTRvBEfzeYWVWtYUHsn17ddp6wVeqaP9W1ndvFRxc5r/FU8sW8c25Tg==
-Received: from OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM (2603:1096:604:cb::10)
- by TYBP286MB0111.JPNP286.PROD.OUTLOOK.COM (2603:1096:404:8026::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.28; Fri, 1 Apr
- 2022 13:10:09 +0000
-Received: from OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM
- ([fe80::9561:8d97:d8de:60d0]) by OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM
- ([fe80::9561:8d97:d8de:60d0%6]) with mapi id 15.20.5123.028; Fri, 1 Apr 2022
- 13:10:09 +0000
-Date: Fri, 1 Apr 2022 21:10:03 +0800
-From: Zhang Ning <zhangn1985@outlook.com>
-To: linux-sunxi@lists.linux.dev
-Subject: USB lost issue in OrangePi PC has gone, no code change.
-Message-ID:
- <OS0P286MB0641963BB779FEA4212582D1CDE09@OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-TMN: [Zh/yCiWjWz1zQwW3+MVPNGf7DSMaYDrn5kTvhl5vK53QlmlK4LcJDCi/0A2Qxqfb]
-X-ClientProxiedBy: HK2PR04CA0074.apcprd04.prod.outlook.com
- (2603:1096:202:15::18) To OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:cb::10)
-X-Microsoft-Original-Message-ID: <Ykb4OCNmanU+fbEP@orangepipc>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3C1367;
+	Fri,  1 Apr 2022 13:18:52 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b] (unknown [IPv6:2a01:e0a:120:3210:a2c0:2ef3:44e0:633b])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3CCF01F47939;
+	Fri,  1 Apr 2022 14:18:44 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1648819124;
+	bh=7v8TCx/Kj5ELlw8I2aKq0GItt14ep/CbDiUKjFQ0BWQ=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=aCoSe9GFvS8N20ultU35dtAW/lMJ7mDvjo8RapHP11UgfAZp0UvxLjkmGNKBitqa3
+	 5sjS3FdjzVB98Aj49v85+rJRGzPYSTSCsVHabj8/MeU7NMtfnivd1YQ8nNHoWhZwOJ
+	 OQIm1XDVc2k0+Sp5CQ6RMMt/2xunaAKKLKnKD6n1x09Y0Tzm7ckfTS86aJ4zML9UMi
+	 I+x7UDkRRFvv1GPuJk3EYwfZpwQ1R9gth/F9SmK0S9KDkJ3KNfUcPTm9AKs4Fqd0Cn
+	 UBRnNZ5Y6a1Sjh5hb7R+bHTcnuErJwwjBWJ5NVp/2T+rp443Lo6+cFVwd2C/soOd8J
+	 1HjPJMB8LWofQ==
+Message-ID: <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+Date: Fri, 1 Apr 2022 15:18:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8c42ef4a-fba8-498f-3104-08da13e0f2f3
-X-MS-TrafficTypeDiagnostic: TYBP286MB0111:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	sN75IIxCveYRAcXRAx8bDgXKwo9Vm+pMP1/8vTpOIRBc3s93i1WpIFJOUbJw2oQ/LdOxAjVonmsf/Bf9gW1JqHZa3VhucmnQCWmLIQdwGfjZ/c6tSIkAhaddSMgSbaW6vwBYciAKM3sNa7bQob2JtRDKQV4FqL2ZZnuGLYxs0xOmpUDBvcj53N9eWkDnblSPVqY8UTW4RQtYHRgYLWV6M8wtGTEG1VFC4QU2l9jOpL+BoY4uPYy1PvNvL8DLK13G40FzejnGF4tVpBdcTIDocXodxt6XIEJKiPWp7OoLPVR/cEhE9SVoDq9i9rz9Gz+e6j7PaBsW1vKTXfFcIubbF1dOkNB5enuAdYkzNpU3WsWTd86vBHGoJG9uZAtsx+2YFvKBEhtZJwHzY0O3LJr4liesOBYThUZVm6HO+6JFdTw071n+i0mD/dPKF4CQR217LfLahGj3+wtX1Z8fhJwYIP6S4+zd1E6q/SDHpees2FGcz7aLoZF9M7uPooqldyYD7IAyoD6D9WOZatOjrqxfpJh+4bBLl1qPrIRgWq11FId+xpC1ApJqo5eLxDhhkYVqEz2sKfQb0sLYDH6OcQ1m+g==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MW5oMEFmTml2K0hBUkN5dmtkWFhuajc3Y2NEVExrMXhtZTFrbWU4dFhvYkZV?=
- =?utf-8?B?TDBKbDdROXRuMDFtUVVteTZWUUQ2M21qZTlhVy80U2E4TFlXS3dhMG5tMUlR?=
- =?utf-8?B?UXNLWGJYVFNUOU5LZ0pqNDEwb1ZSb2h2aXlUN0xTbkZtaTd5cnRGR1ZPTndX?=
- =?utf-8?B?M1RwSmdQNElNdGpoblVKQTVBMklXcGYxbmJnYVh5NkZNaW8yYnQ2YjlNSlBj?=
- =?utf-8?B?L2pGQ21Dc2RlQmVTWnUyeVN6MlR1NFJmTVFTa2dqenR0Q2VBZWk4ZFV2T2hq?=
- =?utf-8?B?U2ZVNjkwS2dDRW5KL0JxK3U0QTlJZ1RKLzNGS29uZEFOdzJYT0lhenliZElO?=
- =?utf-8?B?QmUvU1pUdTNJRUNrTWhwbG9oQlZhNmtPZFJ0Y0NvSWVTQVZXNFozVER3UGlN?=
- =?utf-8?B?WlhhdHhPQzUrd3ZEMGI4RjYvUUhvb0RrVW1vNHR4MzRSUFg3Qkc1WWkvSEtK?=
- =?utf-8?B?YWtEVys0TE5IeFR6YUpSVHJ6SWxTTEJoVWdZT043TWNBL01hZ1duZzU3TUNv?=
- =?utf-8?B?WFoycVM5OXhDS0UvOXJaVWtPQ2JnN2ExRDRQVGFLMnBSSGxyM2pFbUJ3dy9z?=
- =?utf-8?B?YTRxYVpQZHFpMGNHdWdUS1V5SzE0R3d3bEdKdStzQjEzdTJobDRZMGU2ZUN1?=
- =?utf-8?B?YS90clZEazRFaGd1YzZqNlJoSy9LYXJITk9Qd2ZaQzJCM3Y1Y0R3SmJ0N1lY?=
- =?utf-8?B?c3BWY2F5ZUUrQ2pSVmdOUUQ2Y0oveEx6bnZjbVNBcFk3bmVDSG5XYkFNSHAw?=
- =?utf-8?B?MFpIZTZIclhkMk42VUsyZVlxVVhHMm00UHRQdFNwVk94M2dGY1UxYk5sa0U0?=
- =?utf-8?B?Vi9ycDBubFdydEFLVENwVGE4bFhDeUp6RW5DTkc1ZnJoSFhJKzd2RjJlRWp5?=
- =?utf-8?B?T29pckJlNGp0cG9yYmkwMVZuYmpsVmU0T2gveGxWVnM3ZmUxVDNWcTY4ZFdt?=
- =?utf-8?B?RjlpS3FBOVg4ZkZZSzhLc3lUYTlZMkkwb1BwL3lnY1ZTUDNhQ1pqYU5CQTlo?=
- =?utf-8?B?QjVzSHZKd0ZIMS9xNm1OQjFnZDVBMHZrR1BUenF4bVZIZnhBVnE2dmxhMS95?=
- =?utf-8?B?UUJscGlRcmloazQxVFpHOXJRcXNjc1RESytqU2R4czFtajZ4YXdjVXdMTXZt?=
- =?utf-8?B?OTVQZkVwUGl3ZXJMRTZwUUZGenQvclpPbEFuM2RJamZpd3NlVEozd1lyZW13?=
- =?utf-8?B?akJEeHpWSFdMK1dsdERaSXpGQjJDcFVsakRxcTFlMzRVVUlTR3ZPZExYNHg5?=
- =?utf-8?B?RVo2Vm9sWEhxRjE5cE8xSm8xZGJNM09rR0s1bGI1dFpnZExCM0pma0M3czEx?=
- =?utf-8?B?VnBKb3BFOVlrY01nNHBOQ2MxYVFXcEVFZTB5UHFvakZiaThkMCtPbVc5eWNU?=
- =?utf-8?B?Z3ZXMUxBWTdFSVZHV0pJQ3RhS2xVZDBiTHN3WVVUK2RwS2FQdm5LME5PamVX?=
- =?utf-8?B?RnpEbTgxUERDUFk3bVVXRGlSVGJTdXJ1OTNHaEQ0MlNnTGZybTBLZ0o1SEJo?=
- =?utf-8?B?d2FjeEVzSUV2VExGbmIwMCtBb3F4MGd5K2VXMGRBQTYwVUhUelBzYVYwQ0Jq?=
- =?utf-8?B?NkdhYVB1U1c0OVU1dFJvZFNsSkJXTzN5b0c3OExPclRIY3c3TjBsS01rUS96?=
- =?utf-8?B?NWlWSHhQMVFJUnFOMExHQTM1VVU4K1k5SitIWGhYU01VbnhPZ2tod2RhQTZL?=
- =?utf-8?B?aFNCaSs4YjN5VTluNGFKQ0lEeXl4L1lreW8wRUh4Y2ZMMWIrTGN4bUhQL0tT?=
- =?utf-8?B?bklsZ1hPRjF1UGZBS1hFLzZqY050SEc1aC8xZGpOWHhxaGprQ2tkb05WSUdB?=
- =?utf-8?B?K1FkcytLSHlHcHNZSjVGRjBFOXNueWQ2TVBaZ1dxZ09YZHYwRFFPNVN3SEhH?=
- =?utf-8?B?dFVJZHViMzBNcUV6TWhjdC9YUTBnVzkyS09lbmREUWo4a0lBL1pqcW1OVW1C?=
- =?utf-8?B?UGx0cUtmZUhiWGIvWndVU1d0Sk1Ra2psY3lSd1RMVlY0c3B3MXpndjg1RUNh?=
- =?utf-8?Q?zWoH/AdGSc5zwqC4HlEKW7hHaGZSVU=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c42ef4a-fba8-498f-3104-08da13e0f2f3
-X-MS-Exchange-CrossTenant-AuthSource: OS0P286MB0641.JPNP286.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2022 13:10:09.7378
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYBP286MB0111
-
-Hi, all
-
-I reported USB driver can't use after upgrade to 5.16.
-
-this issue is gone these days.
-
-when I update my kernel to v5.17.1, the issue still happens.
-
-but after I do 2 things,
-1, switch musb to host mode
-2, enable credus video decoder.
-
-the issue is gone.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Content-Language: en-US
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+ <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+ <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+In-Reply-To: <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
+Le 31/03/2022 à 08:53, Benjamin Gaignard a écrit :
+>
+> Le 30/03/2022 à 20:52, Adam Ford a écrit :
+>> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+>> <benjamin.gaignard@collabora.com> wrote:
+>>>
+>>> Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
+>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>
+>>>> After the remarks done on version 2, I have completely reworked to 
+>>>> patches
+>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>> titles.
+>>>>
+>>>> Version 4:
+>>>> - Add num_entry_point_offsets field in  struct 
+>>>> v4l2_ctrl_hevc_slice_params
+>>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+>>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>>> - Fix space/tab issue in kernel-doc
+>>>> - Add patch to change data_bit_offset definition
+>>>> - Fix hantro-media SPDX license
+>>>> - put controls under stateless section in v4l2-ctrls-defs.c
+>>>>
+>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>>> Dear reviewers,
+>>>
+>>> This series is waiting for your feedback,
+>> I tried several times with the suggested repos for both the kernel and
+>> g-streamer without success getting Fluster to pass any tests on the
+>> imx8mq.  I can try again but I likely won't get to it until this
+>> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+>
+> Thanks a lot for that.
+>
+> Benjamin
+
+Adam,
+
+You may need to check if h265parse and v4l2slh265dec are available on your board.
+
+fluster check if v4l2slh265dec is working fine with this command line:
+
+gst-launch-1.0 appsrc num-buffers=0 ! h265parse ! v4l2slh265dec ! fakesink
+
+so if one of them is missing it won't work.
+
+Regards,
+Benjamin
+
+>
+>>
+>> adam
+>>> Thanks,
+>>> Benjamin
+>>>
+>>>> Benjamin
+>>>>
+>>>>
+>>>> Benjamin Gaignard (12):
+>>>>     media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>     media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>       prefix
+>>>>     media: uapi: HEVC: Add document uAPI structure
+>>>>     media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS 
+>>>> as a
+>>>>       dynamic array
+>>>>     media: uapi: Move parsed HEVC pixel format out of staging
+>>>>     media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS 
+>>>> control
+>>>>     media: uapi: Move the HEVC stateless control type out of staging
+>>>>     media: controls: Log HEVC stateless control in .std_log
+>>>>     media: uapi: Create a dedicated header for Hantro control
+>>>>     media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>     media: uapi: Change data_bit_offset definition
+>>>>     media: uapi: move HEVC stateless controls out of staging
+>>>>
+>>>> Hans Verkuil (3):
+>>>>     videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>     v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>     vivid: add dynamic array test control
+>>>>
+>>>>    .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>    .../media/v4l/ext-ctrls-codec-stateless.rst   | 833 
+>>>> ++++++++++++++++++
+>>>>    .../media/v4l/ext-ctrls-codec.rst             | 780 
+>>>> ----------------
+>>>>    .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>    .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>    .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>    .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>    .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>    drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>    drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>    drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>    drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>    .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+>>>>    include/media/hevc-ctrls.h                    | 250 ------
+>>>>    include/media/v4l2-ctrls.h                    |  48 +-
+>>>>    include/uapi/linux/hantro-media.h             |  19 +
+>>>>    include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+>>>>    include/uapi/linux/videodev2.h                |  13 +
+>>>>    23 files changed, 1697 insertions(+), 1170 deletions(-)
+>>>>    delete mode 100644 include/media/hevc-ctrls.h
+>>>>    create mode 100644 include/uapi/linux/hantro-media.h
+>>>>
