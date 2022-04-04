@@ -1,150 +1,241 @@
-Received: from gateway20.websitewelcome.com (gateway20.websitewelcome.com [192.185.62.46])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8022F21
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Apr 2022 14:04:56 +0000 (UTC)
-Received: from cm12.websitewelcome.com (cm12.websitewelcome.com [100.42.49.8])
-	by gateway20.websitewelcome.com (Postfix) with ESMTP id A835940106017
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Apr 2022 09:04:55 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with SMTP
-	id bNKBnuqaE9AGSbNKBnYJtS; Mon, 04 Apr 2022 09:04:55 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=K/Iz8lz+bBMhFV3lQqHqSsiYiXnliRuQPADXVtgEoLk=; b=Az7iEK9SepQCmQLdh9PJHZ8qT2
-	ADqqtIX1aD1syu0+xbaRLyozn9T4zbgyk1jrkb+cShj2lJHzQPyHxiihrNbehEDCnvIhyrRqtnFxX
-	xWAtD6XQC62QRoPHd54xSDRU0766Y3ruH7hJcyYxl4fxggFbs1INF+kenRJkjCc+gx2w7HjH1Ss8A
-	l8L9G0mjD5CIsRPZ82rSuwmXOiuzqCpqOoJolR7/SFezTzDzgmR2yqcjKXwDfQAF70wlHYk0GMBXz
-	qDA8If4pNOEPBvSmbh8xPiZg70pdThsN4x+t/DnYkweRLOh9gYhYG09Tm7u/vhbZ4JqZPkKVwDecG
-	XYaBNAzg==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57852 helo=localhost)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <linux@roeck-us.net>)
-	id 1nbNKA-000pyr-Mz; Mon, 04 Apr 2022 14:04:54 +0000
-Date: Mon, 4 Apr 2022 07:04:53 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Mesih Kilinc <mesihkilinc@gmail.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	Jesse Taube <mr.bossman075@gmail.com>,
-	Giulio Benetti <giulio.benetti@benettiengineering.com>,
-	George Hilliard <thirtythreeforty@gmail.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH v2 02/12] dt-bindings: watchdog: sunxi: clarify clock
- support
-Message-ID: <20220404140453.GA3286578@roeck-us.net>
-References: <20220317162349.739636-1-andre.przywara@arm.com>
- <20220317162349.739636-3-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8F67A;
+	Mon,  4 Apr 2022 15:56:25 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9] (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 737D41F446F5;
+	Mon,  4 Apr 2022 16:56:23 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649087784;
+	bh=YNzulQvPzMkTPKW6+sBYalEERp4n6hm6cJBHIrwP8Yw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PSyWQgS3BCq8gGP3AxX2U3Czeu2YLQKuWdUOWfBE6a5PP0n9cQWrHv/DngsGTt4U/
+	 pKfsV6GaBLQPL/zjikQE6FNgYzIQyjN7i+6LJgXxvlKYJqlCAPty0Dhacix++HeaDI
+	 Aw31e9Uly0rUUwWeeAoQ0WXgkOLLnHZDNGRIun7e8tlrBDdPgWQ8CP6gaKNkzqep+O
+	 liPJoIxCRUS+KzlXK4VsfoCfXax06+4MLv5nFbjgTx2AFGHcN4MViJGlqTW2PZFDKy
+	 ygGZegv7vVxfao2Yc+EzToMU7A3ZYBWJ7bB7+vo8FcziWTyKjpFMur7gFjQuGi2iXz
+	 XOpwWbMGNQf0Q==
+Message-ID: <163202bd-ea51-e80a-1481-568fae25b045@collabora.com>
+Date: Mon, 4 Apr 2022 17:56:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220317162349.739636-3-andre.przywara@arm.com>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nbNKA-000pyr-Mz
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57852
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 3
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To: Adam Ford <aford173@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>,
+ "jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev,
+ kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com>
+ <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+ <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com>
+ <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+ <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
+ <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 17, 2022 at 04:23:39PM +0000, Andre Przywara wrote:
-> Most Allwinner SoCs have just one input clock to drive the watchdog
-> peripheral. So far this is the 24 MHz "HOSC" oscillator, divided down
-> internally to 32 KHz.
-> The F1C100 series watchdog however uses the unchanged 32 KHz "LOSC" as
-> its only clock input, which has the same effect, but let's the binding
-> description mismatch.
-> 
-> Change the binding description to name the clocks more loosely, so both
-> the LOSC and divided HOSC match the description. As the fixed clock names
-> now make less sense, drop them from SoCs supporting just one clock
-> input, they were not used by any DT anyway.
-> 
-> For the newer SoCs, supporting a choice of two input clocks, we keep
-> both the description and clock-names requirement.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
 
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
+Le 02/04/2022 à 18:59, Adam Ford a écrit :
+> On Sat, Apr 2, 2022 at 11:22 AM Adam Ford <aford173@gmail.com> wrote:
+>> On Fri, Apr 1, 2022 at 8:18 AM Benjamin Gaignard
+>> <benjamin.gaignard@collabora.com> wrote:
+>>>
+>>> Le 31/03/2022 à 08:53, Benjamin Gaignard a écrit :
+>>>> Le 30/03/2022 à 20:52, Adam Ford a écrit :
+>>>>> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+>>>>> <benjamin.gaignard@collabora.com> wrote:
+>>>>>> Le 28/02/2022 à 15:08, Benjamin Gaignard a écrit :
+>>>>>>> This series aims to make HEVC uapi stable and usable for hardware
+>>>>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>>>>>>> and 2 out of the tree drivers (rkvdec and RPI).
+>>>>>>>
+>>>>>>> After the remarks done on version 2, I have completely reworked to
+>>>>>>> patches
+>>>>>>> split so changelogs are meaningless. I have also drop "RFC" from the
+>>>>>>> titles.
+>>>>>>>
+>>>>>>> Version 4:
+>>>>>>> - Add num_entry_point_offsets field in  struct
+>>>>>>> v4l2_ctrl_hevc_slice_params
+>>>>>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+>>>>>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>>>>>> - Fix space/tab issue in kernel-doc
+>>>>>>> - Add patch to change data_bit_offset definition
+>>>>>>> - Fix hantro-media SPDX license
+>>>>>>> - put controls under stateless section in v4l2-ctrls-defs.c
+>>>>>>>
+>>>>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>>>>>> Dear reviewers,
+>>>>>>
+>>>>>> This series is waiting for your feedback,
+>>>>> I tried several times with the suggested repos for both the kernel and
+>>>>> g-streamer without success getting Fluster to pass any tests on the
+>>>>> imx8mq.  I can try again but I likely won't get to it until this
+>>>>> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+>>>> Thanks a lot for that.
+>>>>
+>>>> Benjamin
+>>> Adam,
+>>>
+>>> You may need to check if h265parse and v4l2slh265dec are available on your board.
+>> I ran gst-inspect to see what showed up with 265 in the name.
+>>
+>> # gst-inspect-1.0 |grep 265
+>> libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+>> rtp:  rtph265depay: RTP H265 depayloader
+>> rtp:  rtph265pay: RTP H265 payloader
+>> typefindfunctions: video/x-h265: h265, x265, 265
+>> v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+>> videoparsersbad:  h265parse: H.265 parser
+>>
+>> It appears I have both h265parse and v4l2slh265dec.
+>>
+>>> fluster check if v4l2slh265dec is working fine with this command line:
+>>>
+>>> gst-launch-1.0 appsrc num-buffers=0 ! h265parse ! v4l2slh265dec ! fakesink
+>>>
+>>> so if one of them is missing it won't work.
+>> gst-launch-1.0 appsrc num-buffers=0 ! h265parse ! v4l2slh265dec ! fakesink
+>> Setting pipeline to PAUSED ...
+>> 0:00:00.098389938   526 0xaaaaf9d86ac0 ERROR     v4l2codecs-decoder
+>> gstv4l2decoder.c:725:gst_v4l2_decoder_get_controls:<v4l2decoder2>
+>> VIDIOC_G_EXT_CTRLS failed: Invalid argument
+>> ERROR: from element
+>> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Driver did not
+>> report framing and start code method.
+>> Additional debug info:
+>> ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codech265dec.c(155):
+>> gst_v4l2_codec_h265_dec_open ():
+>> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+>> gst_v4l2_decoder_get_controls() failed: Invalid argument
+>> ERROR: pipeline doesn't want to preroll.
+>> ERROR: from element
+>> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Could not
+>> initialize supporting library.
+>> Additional debug info:
+>> ../subprojects/gst-plugins-base/gst-libs/gst/video/gstvideodecoder.c(2909):
+>> gst_video_decoder_change_state ():
+>> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+>> Failed to open decoder
+>> ERROR: pipeline doesn't want to preroll.
+>> Failed to set pipeline to PAUSED.
+>> Setting pipeline to NULL ...
+>> Freeing pipeline ...
+>>
+>> Does this mean I have a wrong version of the kernel and/or incomplete patches?
+> I double checked the branches.
+>
+> Kernel:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream.git
+> branch:  origin/HEVC_UAPI_V4
+>
+> Gstreamer:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer.git
+> branch:  origin/benjamin.gaignard1/gstreamer-HEVC_aligned_with_kernel_5.15
+>
+>
+> I am still not able to run h.265/HEVC tests.
 
-> ---
->  .../watchdog/allwinner,sun4i-a10-wdt.yaml     | 20 ++++++++-----------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> index 7a26cde0afdd..cbcf19f51411 100644
-> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
-> @@ -39,14 +39,8 @@ properties:
->    clocks:
->      minItems: 1
->      items:
-> -      - description: High-frequency oscillator input, divided internally
-> -      - description: Low-frequency oscillator input, only found on some variants
-> -
-> -  clock-names:
-> -    minItems: 1
-> -    items:
-> -      - const: hosc
-> -      - const: losc
-> +      - description: 32 KHz input clock
-> +      - description: secondary clock source
->  
->    interrupts:
->      maxItems: 1
-> @@ -71,9 +65,14 @@ then:
->    properties:
->      clocks:
->        minItems: 2
-> +      items:
-> +        - description: High-frequency oscillator input, divided internally
-> +        - description: Low-frequency oscillator input
->  
->      clock-names:
-> -      minItems: 2
-> +      items:
-> +        - const: hosc
-> +        - const: losc
->  
->    required:
->      - clock-names
-> @@ -83,9 +82,6 @@ else:
->      clocks:
->        maxItems: 1
->  
-> -    clock-names:
-> -      maxItems: 1
-> -
->  unevaluatedProperties: false
->  
->  examples:
+Hello Adam,
+
+I have updated the following branches with the versions I have used today:
+
+Kernel:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream.git
+branch: origin/HEVC_UAPI_V5 only one change in documentation vs version 4 but rebased in v5.18-rc1
+
+Gstreamer:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer.git
+branch:  origin/benjamin.gaignard1/gstreamer-HEVC_aligned_with_kernel_5.15 updated on the latest GST main branch
+
+I hope this will work fine this time.
+
+Benjamin
+
+>
+> adam
+>> adam
+>>> Regards,
+>>> Benjamin
+>>>
+>>>>> adam
+>>>>>> Thanks,
+>>>>>> Benjamin
+>>>>>>
+>>>>>>> Benjamin
+>>>>>>>
+>>>>>>>
+>>>>>>> Benjamin Gaignard (12):
+>>>>>>>      media: uapi: HEVC: Add missing fields in HEVC controls
+>>>>>>>      media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>>>>>>>        prefix
+>>>>>>>      media: uapi: HEVC: Add document uAPI structure
+>>>>>>>      media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS
+>>>>>>> as a
+>>>>>>>        dynamic array
+>>>>>>>      media: uapi: Move parsed HEVC pixel format out of staging
+>>>>>>>      media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>>>>>>> control
+>>>>>>>      media: uapi: Move the HEVC stateless control type out of staging
+>>>>>>>      media: controls: Log HEVC stateless control in .std_log
+>>>>>>>      media: uapi: Create a dedicated header for Hantro control
+>>>>>>>      media: uapi: HEVC: fix padding in v4l2 control structures
+>>>>>>>      media: uapi: Change data_bit_offset definition
+>>>>>>>      media: uapi: move HEVC stateless controls out of staging
+>>>>>>>
+>>>>>>> Hans Verkuil (3):
+>>>>>>>      videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>>>>>>>      v4l2-ctrls: add support for dynamically allocated arrays.
+>>>>>>>      vivid: add dynamic array test control
+>>>>>>>
+>>>>>>>     .../userspace-api/media/drivers/hantro.rst    |   5 -
+>>>>>>>     .../media/v4l/ext-ctrls-codec-stateless.rst   | 833
+>>>>>>> ++++++++++++++++++
+>>>>>>>     .../media/v4l/ext-ctrls-codec.rst             | 780
+>>>>>>> ----------------
+>>>>>>>     .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>>>>>>>     .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>>>>>>>     .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>>>>>>>     .../media/videodev2.h.rst.exceptions          |   5 +
+>>>>>>>     .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+>>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+>>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+>>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>>>>>>>     drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+>>>>>>>     drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+>>>>>>>     drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+>>>>>>>     .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>>>>>>>     .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+>>>>>>>     include/media/hevc-ctrls.h                    | 250 ------
+>>>>>>>     include/media/v4l2-ctrls.h                    |  48 +-
+>>>>>>>     include/uapi/linux/hantro-media.h             |  19 +
+>>>>>>>     include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+>>>>>>>     include/uapi/linux/videodev2.h                |  13 +
+>>>>>>>     23 files changed, 1697 insertions(+), 1170 deletions(-)
+>>>>>>>     delete mode 100644 include/media/hevc-ctrls.h
+>>>>>>>     create mode 100644 include/uapi/linux/hantro-media.h
+>>>>>>>
