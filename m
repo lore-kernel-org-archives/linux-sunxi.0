@@ -1,120 +1,84 @@
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C767C;
+	Mon,  4 Apr 2022 09:02:32 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9] (unknown [IPv6:2a01:e0a:120:3210:52e1:bbc1:ca8:7fa9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA4E7A
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Apr 2022 00:25:02 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id e189so8579855oia.8
-        for <linux-sunxi@lists.linux.dev>; Sun, 03 Apr 2022 17:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1G2fhWHXOGUibX5yg94QDD822pn32q0wbjaup8hf5s4=;
-        b=aLHLHrHcfTvZFQ2F5TbC+6hZWBAhBotkewKH/LbsHTuceDjZOzeR50cv03+s+fBFd3
-         8K/70HPL75wiTqDmf/8c+xMQC/mw5pf0P6Kf4P27zwfLxs9lzipCxbRT43cNT10uJ3Ss
-         7FTO595x4WxwuhkK2j1PgvdxVr1e8LKwOVBr/rNROIbJP0LVFI43X7WdrZDcetVxi9Ov
-         gEvj4N7DYpNtrRhZmG2PWwL+cwqqZKsErYqAhPQlZEdNVO901BmclC85mDR0LdCmwKuS
-         NpszSNwMkDbd1D5CAxxyPcQwuxeq3A9l7R3Pf1+pxTG65tfCJuPb1TxJOSBdO4tp/u09
-         HuRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1G2fhWHXOGUibX5yg94QDD822pn32q0wbjaup8hf5s4=;
-        b=XvIwWPXpahgf7ly1F/RWnujRAOi/joHQlOjUJBkkTJiVA4UqP+atdVt2F/NXyin8Un
-         3KVvI9ww1jSba5TsJM3UaSgvLJRuzTwlLvUsZvq84gt5li8UQhexu0xBbkQ6A0CI4p2D
-         14M4en1KNlqhmydUVwqNHK2pNWDv/xrCaza1PDN7GcHmVw87rBwwAoduAZHaTiMzDs4b
-         +3loI5KkFj4c5BT73coRFtrEKART1gUoY27+dqNA1MRWi79LA7usq4c2KjNNWE8YL2JK
-         MRyGLLqBUqsPS7DzvAeCaST+pax0gF3QXjKc/JNHWR1G16a7SkpKwC7tUTQ0WLqyy7PQ
-         QdrQ==
-X-Gm-Message-State: AOAM533FuQAZ7zE0o5xXrAEwmLzyXd7EqfAJLAkomNgK2dOAZGF+j7lM
-	9q+8zcO+NyEzLd4HYOoBLEU/JD7BWzIwyw==
-X-Google-Smtp-Source: ABdhPJxWaiImogjvxj3LL5WNbNyYGXaY8CHBqh5rfxUrNTI1rxj34lIu0EqgyDqI9lO9zzb5YhWbcQ==
-X-Received: by 2002:a05:6808:1819:b0:2d9:beb5:7fa8 with SMTP id bh25-20020a056808181900b002d9beb57fa8mr9184282oib.68.1649031901583;
-        Sun, 03 Apr 2022 17:25:01 -0700 (PDT)
-Received: from eze-laptop ([2803:9800:98c2:8470:9f4:8e2a:88e5:ec01])
-        by smtp.gmail.com with ESMTPSA id q16-20020a9d4b10000000b005b22b93d468sm3926610otf.74.2022.04.03.17.24.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Apr 2022 17:25:00 -0700 (PDT)
-Date: Sun, 3 Apr 2022 21:24:53 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: p.zabel@pengutronix.de, mchehab@kernel.org, nicolas@ndufresne.ca,
-	hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org,
-	samuel@sholland.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH 5/8] media: hantro: postproc: Fix legacy regs
- configuration
-Message-ID: <Yko61YA2DpHi7/4B@eze-laptop>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
- <20220227144926.3006585-6-jernej.skrabec@gmail.com>
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B7F841F459F5;
+	Mon,  4 Apr 2022 10:02:24 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649062945;
+	bh=Fq1cNgcG71vKarNXb1KWa+6C35UQPBCHFFeK77y16GU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hVG0HSDA8rE5xmxrpe4VsIiBt3wsvYi6+asdDW1r+DdHlUycVaXdd3/kjxQkbEG1e
+	 RQx8L6oOTNzvOcDD4TNaH03l7VDseaM0l8ceVPki+QpOBXuyClPIg5ac/Q/pSRWVV0
+	 ZK9JGt8sKkRmo09xfGYostker5HfHvm6SuS7re2kEjKxqbDc/WV+X7nvplqSiKDL7j
+	 2hjZ1EZ7dWCsWX/dGFuBZmr6Y6QkkmrWx6qO5jxeCjY/746yANDLjSX0Mi04ar1ZO/
+	 N/KWL1f6OQERJdteXsAUNOM22dgkGMRz4k7Ivmuqo43Ehs9YuAI5hZ/1IpTw+BGE98
+	 SIUWJDIqvfC+Q==
+Message-ID: <fa40b40d-b599-ec03-b596-57be7017d2c7@collabora.com>
+Date: Mon, 4 Apr 2022 11:02:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220227144926.3006585-6-jernej.skrabec@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [RFC PATCH 2/8] media: Add P010 format
+Content-Language: en-US
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Greg KH
+ <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ linux-media <linux-media@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
+ <20220227144926.3006585-3-jernej.skrabec@gmail.com>
+ <1b2ce01fb04f29cca58d40bd81d9f4cc46dcebf8.camel@ndufresne.ca>
+ <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <CAAEAJfCA1ef5+KZHU4ZTJvuqdCAEUkvpDY9HTy1fp3M+0QxqPg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Feb 27, 2022 at 03:49:23PM +0100, Jernej Skrabec wrote:
-> Some postproc legacy registers were set in VP9 code. Move them to
-> postproc and fix their value.
-> 
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Le 04/04/2022 à 02:04, Ezequiel Garcia a écrit :
+> Hi Nicolas, Benjamin,
+>
+> On Mon, Feb 28, 2022 at 9:48 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
+>> Le dimanche 27 février 2022 à 15:49 +0100, Jernej Skrabec a écrit :
+>>> Add P010 format, which is commonly used for 10-bit videos.
+>> There is a much more complete patch that was sent previously (with documentation
+>> and all):
+>>
+>> https://patchwork.kernel.org/project/linux-rockchip/patch/20210618131526.566762-5-benjamin.gaignard@collabora.com/
+>>
+> I believe "media: Add P010 video format" should be good to go, I think
+> we could merge it.
+>
+> I can't find it on my gmail inbox, for some reason.. can you guys
+> please repost it,
+> and/or reply to with a gently ping for Hans (and please Cc me on this mail) ?
 
-> ---
->  drivers/staging/media/hantro/hantro_g2_vp9_dec.c |  8 --------
->  drivers/staging/media/hantro/hantro_postproc.c   | 10 ++++++++++
->  2 files changed, 10 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> index 91c21b634fab..c9cb11fd95af 100644
-> --- a/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> +++ b/drivers/staging/media/hantro/hantro_g2_vp9_dec.c
-> @@ -515,16 +515,8 @@ static void
->  config_bit_depth(struct hantro_ctx *ctx, const struct v4l2_ctrl_vp9_frame *dec_params)
->  {
->  	if (ctx->dev->variant->legacy_regs) {
-> -		u8 pp_shift = 0;
-> -
->  		hantro_reg_write(ctx->dev, &g2_bit_depth_y, dec_params->bit_depth);
->  		hantro_reg_write(ctx->dev, &g2_bit_depth_c, dec_params->bit_depth);
-> -		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, dec_params->bit_depth);
-> -
-> -		if (dec_params->bit_depth > 8)
-> -			pp_shift = 16 - dec_params->bit_depth;
-> -
-> -		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
->  		hantro_reg_write(ctx->dev, &g2_pix_shift, 0);
->  	} else {
->  		hantro_reg_write(ctx->dev, &g2_bit_depth_y_minus8, dec_params->bit_depth - 8);
-> diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
-> index 1a76628d5754..11ae663f11b7 100644
-> --- a/drivers/staging/media/hantro/hantro_postproc.c
-> +++ b/drivers/staging/media/hantro/hantro_postproc.c
-> @@ -113,6 +113,16 @@ static void hantro_postproc_g2_enable(struct hantro_ctx *ctx)
->  
->  	hantro_write_addr(vpu, G2_RS_OUT_LUMA_ADDR, dst_dma);
->  	hantro_write_addr(vpu, G2_RS_OUT_CHROMA_ADDR, dst_dma + chroma_offset);
-> +	if (ctx->dev->variant->legacy_regs) {
-> +		int out_depth = hantro_get_formath_depth(ctx->dst_fmt.pixelformat);
-> +		u8 pp_shift = 0;
-> +
-> +		if (out_depth > 8)
-> +			pp_shift = 16 - out_depth;
-> +
-> +		hantro_reg_write(ctx->dev, &g2_rs_out_bit_depth, out_depth);
-> +		hantro_reg_write(ctx->dev, &g2_pp_pix_shift, pp_shift);
-> +	}
->  	hantro_reg_write(vpu, &g2_out_rs_e, 1);
->  }
->  
-> -- 
-> 2.35.1
-> 
+I have rebased it on v5-18-rc1 tag and send it.
+You should have it in your mailbox now.
+
+Regards,
+Benjamin
+
+>
+> Thanks!
+> Ezequiel
