@@ -1,274 +1,292 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA0017C8;
-	Tue,  5 Apr 2022 18:41:26 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id c42so8542238edf.3;
-        Tue, 05 Apr 2022 11:41:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80163216;
+	Tue,  5 Apr 2022 21:28:03 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id k23so391076ejd.3;
+        Tue, 05 Apr 2022 14:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=m8+gZUwdiEE5qvl2VnmW6rVS2LU3YP93jBijbUtmgIU=;
-        b=XYbsuW/9J3w3AJ5TIXJONDZppci86m75YL2FDgn0BaMCRRL3EXnp4ebuaOd1zQIy0u
-         XLnuET7H+rFD/Ge1BZsJmxmLwTUc/fEkgd9s71790cxoRZRMM9rqpIbga772wTCLoc2W
-         QlfVKF9CjwpkoJ7CvrAUQdS1nyxawahdgwr1MOw4b6QC7D83s62JBwP+7IdTAjZ1KyD9
-         I4zOGbI8xhi7aHYcAeKU3T7PRfBICAw0yN2UUOMNk5Cvdd17gHRT/NAa82rOWg+AUVh9
-         GxoGY0GayTi7hetZuDPDQcxFwi45JPJUAMgSiHDW2ERr9LYChHTYTzbDFGEwF2u9iZBF
-         s0PQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QlDxXr7qsVlevBCgPaPaGUtMY85JeNuNYMnJxWhO6Kg=;
+        b=FAJ7hZL+5FQxYFdYH6BCaejZrzHlFAqukMjiAPqykkwU5uvKiz/BWnWpTpYMetqBlI
+         z+Y78dcWx1asfCd1OC5uSOfiFNWhQubeYP3cGjs8hdciXxQ5TPYr+7oSDyQ1zvG77hH8
+         0uKdphG5SAguRh5aa6CFJnVdKpPFH0RsU37vVZwJjqchFUj585FxFz1HoQ7jGblX1Pno
+         OzZuGAr2yNF/jlw9crZk3YOs+VaLl+9tnP+FDolpl/wmVfBWtAaHcc+QJaRayPDFOhRH
+         yJnzymJ7ZfZ4YwL9mU6HshOVdVJAG2quuE9aQGyh/44Hessy5+N1JoGIKllQ5p3cjJG4
+         ZyAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=m8+gZUwdiEE5qvl2VnmW6rVS2LU3YP93jBijbUtmgIU=;
-        b=qLuJeIX0Zx+Q0EwI4BYJX44a6fojaO0hnfdtqvkdwCLBVsOansvNqMtrDB/8+7pxb5
-         BXkxTZgrXpr/6oDkPnp+6Uqrip2GuFpk8PyiNgKQkLcJGU1tMmv+PzuosSY8kmAi4C7J
-         JjIub47BBRgC8Kyb36Trci0Gj21ErmhZKHhtlR0zHQEhZEAZ5VA9RrvUC426cbq8zpg4
-         5chNruDvhSAcve93it5pGBPCl9HC9pVdFTl5H8Gfiay+oB7fZ+zN7hJzwJX17XIggiZA
-         UnRU4ZXKPsPSvENMx0e+54+MRfaawaG9n/VB98IXYtUR8EvZ4ZGjQAce8azXjbpAdCYf
-         HxOA==
-X-Gm-Message-State: AOAM532savtpkUjtu30+X12Yz+Lsp5Iw0HjTAWxIjaqt+w/p9QPRqaG9
-	/heMQ+6IAYHl+NvCaXaQKcI=
-X-Google-Smtp-Source: ABdhPJz/BDSth3cyv5w1yUkWvK/7raS2HQuG5NyF9YhgGRBDVIEl5pHryGirWcHzIO89O4eDdGT19g==
-X-Received: by 2002:a05:6402:b3a:b0:41c:dcf9:ca65 with SMTP id bo26-20020a0564020b3a00b0041cdcf9ca65mr4980860edb.208.1649184084319;
-        Tue, 05 Apr 2022 11:41:24 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id o21-20020a170906289500b006d144662b24sm5730375ejd.152.2022.04.05.11.41.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Apr 2022 11:41:24 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH 3/8] media: hantro: Support format filtering by depth
-Date: Tue, 05 Apr 2022 20:41:22 +0200
-Message-ID: <4699374.GXAFRqVoOG@jernej-laptop>
-In-Reply-To: <7972feba-221c-9960-68d0-ee15ad2a4f1a@collabora.com>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <20220227144926.3006585-4-jernej.skrabec@gmail.com> <7972feba-221c-9960-68d0-ee15ad2a4f1a@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QlDxXr7qsVlevBCgPaPaGUtMY85JeNuNYMnJxWhO6Kg=;
+        b=cFwTZDRDduwDf4vNldvQxph/ESp5GSa5YAeR5dcPWd6XHZFvZnh+a4XN6JcWdjH8z8
+         RY8ab2c3OZVOvN/kVthlLKNRdszcWgsB4xMQiB43AxbbOU6Y4D3zS7w5PqLcV2IwZimc
+         iGgHpjLuh6SxjJNojNse8Rj3D8spoE7sI/etPbFh6H4dwx2Nzzr92Osi0ippePU62Q2Q
+         e+PEoB7ccBlh37uJk+/+Oi93c6bkiUHGgCpMiUj92uRD05EJRBOwVuMHUTgzKA4bdUiP
+         o6U5GsbF+KyiMd1oww3XgLm+xBQjg8b4x6fYZNtxgfa3rhBvatY6a9Y6yaFEFpLc4yFg
+         BJcw==
+X-Gm-Message-State: AOAM530XIyB5BPtx63aP8AKUoobLjtxQqKXP/Nt4HMYLM8L9ZkoPttfh
+	aEjDee9wTxZfErlqiNSpABhsjqknJnr3C7lEHKo=
+X-Google-Smtp-Source: ABdhPJxMAiMHAo7gxGQjhDVqgxoN9IJqUoqxr+QETFXFvEoUjpplB6Sk4sIBJu/bBKnMcvffBXDgxa9Rk/wC9BFkXCk=
+X-Received: by 2002:a17:906:7714:b0:6ba:8a6a:b464 with SMTP id
+ q20-20020a170906771400b006ba8a6ab464mr5326559ejm.613.1649194081749; Tue, 05
+ Apr 2022 14:28:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+ <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
+ <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
+ <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
+ <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com> <163202bd-ea51-e80a-1481-568fae25b045@collabora.com>
+In-Reply-To: <163202bd-ea51-e80a-1481-568fae25b045@collabora.com>
+From: Adam Ford <aford173@gmail.com>
+Date: Tue, 5 Apr 2022 16:27:50 -0500
+Message-ID: <CAHCN7x+AwNauiyaVL=NGARkmxWOL9uLS5-AO4TjkvLGNQ=3r+Q@mail.gmail.com>
+Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
+	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
+	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Nicolas Dufresne <nicolas@ndufresne.ca>, linux-media <linux-media@vger.kernel.org>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
+	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Dne torek, 05. april 2022 ob 18:09:03 CEST je Benjamin Gaignard napisal(a):
-> Le 27/02/2022 =E0 15:49, Jernej Skrabec a =E9crit :
-> > In preparation for supporting 10-bit formats, add mechanism which will
-> > filter formats based on pixel depth.
-> >=20
-> > Hantro G2 supports only one decoding format natively and that is based
-> > on bit depth of current video frame. Additionally, it makes no sense to
-> > upconvert bitness, so filter those out too.
-> >=20
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> >=20
-> >   drivers/staging/media/hantro/hantro.h      |  4 ++
-> >   drivers/staging/media/hantro/hantro_v4l2.c | 48 ++++++++++++++++++++--
-> >   drivers/staging/media/hantro/hantro_v4l2.h |  1 +
-> >   3 files changed, 50 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro.h
-> > b/drivers/staging/media/hantro/hantro.h index 06d0f3597694..c6525ee8d89a
-> > 100644
-> > --- a/drivers/staging/media/hantro/hantro.h
-> > +++ b/drivers/staging/media/hantro/hantro.h
-> > @@ -227,6 +227,7 @@ struct hantro_dev {
-> >=20
-> >    *
-> >    * @ctrl_handler:	Control handler used to register controls.
-> >    * @jpeg_quality:	User-specified JPEG compression quality.
-> >=20
-> > + * @bit_depth:		Bit depth of current frame
-> >=20
-> >    *
-> >    * @codec_ops:		Set of operations related to codec mode.
-> >    * @postproc:		Post-processing context.
-> >=20
-> > @@ -252,6 +253,7 @@ struct hantro_ctx {
-> >=20
-> >   	struct v4l2_ctrl_handler ctrl_handler;
-> >   	int jpeg_quality;
-> >=20
-> > +	int bit_depth;
-> >=20
-> >   	const struct hantro_codec_ops *codec_ops;
-> >   	struct hantro_postproc_ctx postproc;
-> >=20
-> > @@ -278,6 +280,7 @@ struct hantro_ctx {
-> >=20
-> >    * @enc_fmt:	Format identifier for encoder registers.
-> >    * @frmsize:	Supported range of frame sizes (only for bitstream
-> >    formats).
-> >    * @postprocessed: Indicates if this format needs the post-processor.
-> >=20
-> > + * @match_depth: Indicates if format bit depth must match video bit de=
-pth
-> >=20
-> >    */
-> >  =20
-> >   struct hantro_fmt {
-> >  =20
-> >   	char *name;
-> >=20
-> > @@ -288,6 +291,7 @@ struct hantro_fmt {
-> >=20
-> >   	enum hantro_enc_fmt enc_fmt;
-> >   	struct v4l2_frmsize_stepwise frmsize;
-> >   	bool postprocessed;
-> >=20
-> > +	bool match_depth;
-> >=20
-> >   };
-> >  =20
-> >   struct hantro_reg {
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.c
-> > b/drivers/staging/media/hantro/hantro_v4l2.c index
-> > e595905b3bd7..1214fa2f64ae 100644
-> > --- a/drivers/staging/media/hantro/hantro_v4l2.c
-> > +++ b/drivers/staging/media/hantro/hantro_v4l2.c
-> > @@ -64,6 +64,42 @@ hantro_get_postproc_formats(const struct hantro_ctx
-> > *ctx,>=20
-> >   	return ctx->dev->variant->postproc_fmts;
-> >  =20
-> >   }
-> >=20
-> > +int hantro_get_formath_depth(u32 fourcc)
->=20
-> Just a typo here:
->=20
-> s/hantro_get_formath_depth -> hantro_get_format_depth
+On Mon, Apr 4, 2022 at 10:56 AM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 02/04/2022 =C3=A0 18:59, Adam Ford a =C3=A9crit :
+> > On Sat, Apr 2, 2022 at 11:22 AM Adam Ford <aford173@gmail.com> wrote:
+> >> On Fri, Apr 1, 2022 at 8:18 AM Benjamin Gaignard
+> >> <benjamin.gaignard@collabora.com> wrote:
+> >>>
+> >>> Le 31/03/2022 =C3=A0 08:53, Benjamin Gaignard a =C3=A9crit :
+> >>>> Le 30/03/2022 =C3=A0 20:52, Adam Ford a =C3=A9crit :
+> >>>>> On Wed, Mar 30, 2022 at 2:53 AM Benjamin Gaignard
+> >>>>> <benjamin.gaignard@collabora.com> wrote:
+> >>>>>> Le 28/02/2022 =C3=A0 15:08, Benjamin Gaignard a =C3=A9crit :
+> >>>>>>> This series aims to make HEVC uapi stable and usable for hardware
+> >>>>>>> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Han=
+tro)
+> >>>>>>> and 2 out of the tree drivers (rkvdec and RPI).
+> >>>>>>>
+> >>>>>>> After the remarks done on version 2, I have completely reworked t=
+o
+> >>>>>>> patches
+> >>>>>>> split so changelogs are meaningless. I have also drop "RFC" from =
+the
+> >>>>>>> titles.
+> >>>>>>>
+> >>>>>>> Version 4:
+> >>>>>>> - Add num_entry_point_offsets field in  struct
+> >>>>>>> v4l2_ctrl_hevc_slice_params
+> >>>>>>> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> >>>>>>> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> >>>>>>> - Fix space/tab issue in kernel-doc
+> >>>>>>> - Add patch to change data_bit_offset definition
+> >>>>>>> - Fix hantro-media SPDX license
+> >>>>>>> - put controls under stateless section in v4l2-ctrls-defs.c
+> >>>>>>>
+> >>>>>>> At the end fluster tests results on IMX8MQ is 77/147 for HEVC cod=
+ec.
+> >>>>>> Dear reviewers,
+> >>>>>>
+> >>>>>> This series is waiting for your feedback,
+> >>>>> I tried several times with the suggested repos for both the kernel =
+and
+> >>>>> g-streamer without success getting Fluster to pass any tests on the
+> >>>>> imx8mq.  I can try again but I likely won't get to it until this
+> >>>>> weekend.  If I can get it working, I'll test both the 8mq and 8mm.
+> >>>> Thanks a lot for that.
+> >>>>
+> >>>> Benjamin
+> >>> Adam,
+> >>>
+> >>> You may need to check if h265parse and v4l2slh265dec are available on=
+ your board.
+> >> I ran gst-inspect to see what showed up with 265 in the name.
+> >>
+> >> # gst-inspect-1.0 |grep 265
+> >> libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+> >> rtp:  rtph265depay: RTP H265 depayloader
+> >> rtp:  rtph265pay: RTP H265 payloader
+> >> typefindfunctions: video/x-h265: h265, x265, 265
+> >> v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+> >> videoparsersbad:  h265parse: H.265 parser
+> >>
+> >> It appears I have both h265parse and v4l2slh265dec.
+> >>
+> >>> fluster check if v4l2slh265dec is working fine with this command line=
+:
+> >>>
+> >>> gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! f=
+akesink
+> >>>
+> >>> so if one of them is missing it won't work.
+> >> gst-launch-1.0 appsrc num-buffers=3D0 ! h265parse ! v4l2slh265dec ! fa=
+kesink
+> >> Setting pipeline to PAUSED ...
+> >> 0:00:00.098389938   526 0xaaaaf9d86ac0 ERROR     v4l2codecs-decoder
+> >> gstv4l2decoder.c:725:gst_v4l2_decoder_get_controls:<v4l2decoder2>
+> >> VIDIOC_G_EXT_CTRLS failed: Invalid argument
+> >> ERROR: from element
+> >> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Driver did not
+> >> report framing and start code method.
+> >> Additional debug info:
+> >> ../subprojects/gst-plugins-bad/sys/v4l2codecs/gstv4l2codech265dec.c(15=
+5):
+> >> gst_v4l2_codec_h265_dec_open ():
+> >> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+> >> gst_v4l2_decoder_get_controls() failed: Invalid argument
+> >> ERROR: pipeline doesn't want to preroll.
+> >> ERROR: from element
+> >> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0: Could not
+> >> initialize supporting library.
+> >> Additional debug info:
+> >> ../subprojects/gst-plugins-base/gst-libs/gst/video/gstvideodecoder.c(2=
+909):
+> >> gst_video_decoder_change_state ():
+> >> /GstPipeline:pipeline0/v4l2slh265dec:v4l2slh265dec0:
+> >> Failed to open decoder
+> >> ERROR: pipeline doesn't want to preroll.
+> >> Failed to set pipeline to PAUSED.
+> >> Setting pipeline to NULL ...
+> >> Freeing pipeline ...
+> >>
+> >> Does this mean I have a wrong version of the kernel and/or incomplete =
+patches?
+> > I double checked the branches.
+> >
+> > Kernel:
+> > https://gitlab.collabora.com/benjamin.gaignard/for-upstream.git
+> > branch:  origin/HEVC_UAPI_V4
+> >
+> > Gstreamer:
+> > https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer.git
+> > branch:  origin/benjamin.gaignard1/gstreamer-HEVC_aligned_with_kernel_5=
+.15
+> >
+> >
+> > I am still not able to run h.265/HEVC tests.
+>
+> Hello Adam,
+>
+> I have updated the following branches with the versions I have used today=
+:
+>
+> Kernel:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream.git
+> branch: origin/HEVC_UAPI_V5 only one change in documentation vs version 4=
+ but rebased in v5.18-rc1
+>
+> Gstreamer:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer.git
+> branch:  origin/benjamin.gaignard1/gstreamer-HEVC_aligned_with_kernel_5.1=
+5 updated on the latest GST main branch
+>
+> I hope this will work fine this time.
 
-Good catch! I'll fix it in new series.
+I wish I had better news for you:
 
-Best regards,
-Jernej
+dmesg shows the hantro driver is being loaded:
 
->=20
-> regards
+[   38.612243] hantro-vpu 38300000.video-codec: registered
+nxp,imx8mq-vpu-g1-dec as /dev/video0
+[   38.612618] hantro-vpu 38310000.video-codec: registered
+nxp,imx8mq-vpu-g2-dec as /dev/video1
+
+# gst-inspect-1.0 |grep 265
+libav:  avdec_h265: libav HEVC (High Efficiency Video Coding) decoder
+rtp:  rtph265depay: RTP H265 depayloader
+rtp:  rtph265pay: RTP H265 payloader
+typefindfunctions: video/x-h265: h265, x265, 265
+v4l2codecs:  v4l2slh265dec: V4L2 Stateless H.265 Video Decoder
+videoparsersbad:  h265parse: H.265 parser
+
+Fluster reports:
+GStreamer-H.265-V4L2SL-Gst1.0: GStreamer H.265 V4L2SL decoder for
+GStreamer 1.0... =E2=9D=8C
+
+adam
+>
 > Benjamin
->=20
-> > +{
-> > +	switch (fourcc) {
-> > +	case V4L2_PIX_FMT_P010:
-> > +	case V4L2_PIX_FMT_P010_4L4:
-> > +		return 10;
-> > +	default:
-> > +		return 8;
-> > +	}
-> > +}
-> > +
-> > +static bool
-> > +hantro_check_depth_match(const struct hantro_ctx *ctx,
-> > +			 const struct hantro_fmt *fmt)
-> > +{
-> > +	int fmt_depth, ctx_depth =3D 8;
-> > +
-> > +	if (!fmt->match_depth && !fmt->postprocessed)
-> > +		return true;
-> > +
-> > +	/* 0 means default depth, which is 8 */
-> > +	if (ctx->bit_depth)
-> > +		ctx_depth =3D ctx->bit_depth;
-> > +
-> > +	fmt_depth =3D hantro_get_formath_depth(fmt->fourcc);
-> > +
-> > +	/*
-> > +	 * Allow only downconversion for postproc formats for now.
-> > +	 * It may be possible to relax that on some HW.
-> > +	 */
-> > +	if (!fmt->match_depth)
-> > +		return fmt_depth <=3D ctx_depth;
-> > +
-> > +	return fmt_depth =3D=3D ctx_depth;
-> > +}
-> > +
-> >=20
-> >   static const struct hantro_fmt *
-> >   hantro_find_format(const struct hantro_ctx *ctx, u32 fourcc)
-> >   {
-> >=20
-> > @@ -91,7 +127,8 @@ hantro_get_default_fmt(const struct hantro_ctx *ctx,
-> > bool bitstream)>=20
-> >   	formats =3D hantro_get_formats(ctx, &num_fmts);
-> >   	for (i =3D 0; i < num_fmts; i++) {
-> >   =09
-> >   		if (bitstream =3D=3D (formats[i].codec_mode !=3D
-> >=20
-> > -				  HANTRO_MODE_NONE))
-> > +				  HANTRO_MODE_NONE) &&
-> > +		    hantro_check_depth_match(ctx, &formats[i]))
-> >=20
-> >   			return &formats[i];
-> >   =09
-> >   	}
-> >   	return NULL;
-> >=20
-> > @@ -163,11 +200,13 @@ static int vidioc_enum_fmt(struct file *file, void
-> > *priv,>=20
-> >   	formats =3D hantro_get_formats(ctx, &num_fmts);
-> >   	for (i =3D 0; i < num_fmts; i++) {
-> >   =09
-> >   		bool mode_none =3D formats[i].codec_mode =3D=3D=20
-HANTRO_MODE_NONE;
-> >=20
-> > +		fmt =3D &formats[i];
-> >=20
-> >   		if (skip_mode_none =3D=3D mode_none)
-> >   	=09
-> >   			continue;
-> >=20
-> > +		if (!hantro_check_depth_match(ctx, fmt))
-> > +			continue;
-> >=20
-> >   		if (j =3D=3D f->index) {
-> >=20
-> > -			fmt =3D &formats[i];
-> >=20
-> >   			f->pixelformat =3D fmt->fourcc;
-> >   			return 0;
-> >   	=09
-> >   		}
-> >=20
-> > @@ -183,8 +222,11 @@ static int vidioc_enum_fmt(struct file *file, void
-> > *priv,>=20
-> >   		return -EINVAL;
-> >   =09
-> >   	formats =3D hantro_get_postproc_formats(ctx, &num_fmts);
-> >   	for (i =3D 0; i < num_fmts; i++) {
-> >=20
-> > +		fmt =3D &formats[i];
-> > +
-> > +		if (!hantro_check_depth_match(ctx, fmt))
-> > +			continue;
-> >=20
-> >   		if (j =3D=3D f->index) {
-> >=20
-> > -			fmt =3D &formats[i];
-> >=20
-> >   			f->pixelformat =3D fmt->fourcc;
-> >   			return 0;
-> >   	=09
-> >   		}
-> >=20
-> > diff --git a/drivers/staging/media/hantro/hantro_v4l2.h
-> > b/drivers/staging/media/hantro/hantro_v4l2.h index
-> > 18bc682c8556..f4a5905ed518 100644
-> > --- a/drivers/staging/media/hantro/hantro_v4l2.h
-> > +++ b/drivers/staging/media/hantro/hantro_v4l2.h
-> > @@ -22,5 +22,6 @@ extern const struct v4l2_ioctl_ops hantro_ioctl_ops;
-> >=20
-> >   extern const struct vb2_ops hantro_queue_ops;
-> >  =20
-> >   void hantro_reset_fmts(struct hantro_ctx *ctx);
-> >=20
-> > +int hantro_get_formath_depth(u32 fourcc);
-> >=20
-> >   #endif /* HANTRO_V4L2_H_ */
-
-
-
-
+>
+> >
+> > adam
+> >> adam
+> >>> Regards,
+> >>> Benjamin
+> >>>
+> >>>>> adam
+> >>>>>> Thanks,
+> >>>>>> Benjamin
+> >>>>>>
+> >>>>>>> Benjamin
+> >>>>>>>
+> >>>>>>>
+> >>>>>>> Benjamin Gaignard (12):
+> >>>>>>>      media: uapi: HEVC: Add missing fields in HEVC controls
+> >>>>>>>      media: uapi: HEVC: Rename HEVC stateless controls with STATE=
+LESS
+> >>>>>>>        prefix
+> >>>>>>>      media: uapi: HEVC: Add document uAPI structure
+> >>>>>>>      media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARA=
+MS
+> >>>>>>> as a
+> >>>>>>>        dynamic array
+> >>>>>>>      media: uapi: Move parsed HEVC pixel format out of staging
+> >>>>>>>      media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> >>>>>>> control
+> >>>>>>>      media: uapi: Move the HEVC stateless control type out of sta=
+ging
+> >>>>>>>      media: controls: Log HEVC stateless control in .std_log
+> >>>>>>>      media: uapi: Create a dedicated header for Hantro control
+> >>>>>>>      media: uapi: HEVC: fix padding in v4l2 control structures
+> >>>>>>>      media: uapi: Change data_bit_offset definition
+> >>>>>>>      media: uapi: move HEVC stateless controls out of staging
+> >>>>>>>
+> >>>>>>> Hans Verkuil (3):
+> >>>>>>>      videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+> >>>>>>>      v4l2-ctrls: add support for dynamically allocated arrays.
+> >>>>>>>      vivid: add dynamic array test control
+> >>>>>>>
+> >>>>>>>     .../userspace-api/media/drivers/hantro.rst    |   5 -
+> >>>>>>>     .../media/v4l/ext-ctrls-codec-stateless.rst   | 833
+> >>>>>>> ++++++++++++++++++
+> >>>>>>>     .../media/v4l/ext-ctrls-codec.rst             | 780
+> >>>>>>> ----------------
+> >>>>>>>     .../media/v4l/pixfmt-compressed.rst           |   7 +-
+> >>>>>>>     .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+> >>>>>>>     .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> >>>>>>>     .../media/videodev2.h.rst.exceptions          |   5 +
+> >>>>>>>     .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+> >>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 ++-
+> >>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-core.c     | 198 ++++-
+> >>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  37 +-
+> >>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> >>>>>>>     drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> >>>>>>>     drivers/staging/media/hantro/hantro_drv.c     |  27 +-
+> >>>>>>>     drivers/staging/media/hantro/hantro_hevc.c    |   8 +-
+> >>>>>>>     drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> >>>>>>>     .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> >>>>>>>     .../staging/media/sunxi/cedrus/cedrus_h265.c  |   2 +-
+> >>>>>>>     include/media/hevc-ctrls.h                    | 250 ------
+> >>>>>>>     include/media/v4l2-ctrls.h                    |  48 +-
+> >>>>>>>     include/uapi/linux/hantro-media.h             |  19 +
+> >>>>>>>     include/uapi/linux/v4l2-controls.h            | 439 +++++++++
+> >>>>>>>     include/uapi/linux/videodev2.h                |  13 +
+> >>>>>>>     23 files changed, 1697 insertions(+), 1170 deletions(-)
+> >>>>>>>     delete mode 100644 include/media/hevc-ctrls.h
+> >>>>>>>     create mode 100644 include/uapi/linux/hantro-media.h
+> >>>>>>>
