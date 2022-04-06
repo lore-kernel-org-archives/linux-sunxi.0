@@ -1,173 +1,152 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911CE33C7
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Apr 2022 17:50:05 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id t19so5676423qtc.4
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 Apr 2022 10:50:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918EB3226
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Apr 2022 20:33:11 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id bh17so6632395ejb.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 06 Apr 2022 13:33:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :content-transfer-encoding:user-agent:mime-version;
-        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
-        b=oE77XjhZJdBZs73vBmWDSWOcpU+0g2TAF7dqKJsm0FrsMjk1RH5VR1BlQ5zyc+Ew0E
-         YAyZ7/3GSXX52HLi4w0ZLcWVx8WEfp2H70UxOLZhb4x9Tw8uCMDrbM5d5FHn6SM8+gwO
-         oJK9Mz7nWH9ol3Rrrfkwe3OikbspOO3ypvUVHlstZXQHmen/ZBRY15meUrtAA7c3OsiH
-         QTmrE/4Q7sxCk3fFXjAd0HZnALSONcplj2n9nhPVNVpiCO2IvqkTQM6QBRqJh5D4ZlDw
-         eJ5RkVM+Vz9/V7oOKSfMoNmKqTRPPtOn7EnIojoHf3XYwhNUGCPXlmEsvVhrbnUTWod8
-         nu/g==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0m7PH0Q/gMJwYH81Lv70Om6dm0wczrWyXZh2Bgkw4MU=;
+        b=VtVnsMq/7tOn4wxjKQyZphqJwDqkLg3eyg+CmcUaVuhdgqBaJlvulJx4F6QUiolHtt
+         J7JF3YdeQa4N7qECZXJ/HWaFMH8jrFROHWaOmUhV49PE8M+UvsFE7qhDFyfKZk1Vqaom
+         31gZ5BUHb1bbu8uG1sjc7phhrT0RcaqCvXk/WX3ONZPKCWLokS6dQKJT+Fp4fyXDF91s
+         y2BASd4oSEeZsHlNO8Zkv+E/yf/MgmAuqOv6b2qi/4jpvo7/ZohltHDTWO2NjD12CZ11
+         gr6+MZEcmgFxCWoMN2HVF85S3FBONoqgY4yrf1rlpVYBTDKjxIPkTHFala66NUsMfHJT
+         mFtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:content-transfer-encoding:user-agent:mime-version;
-        bh=nbgYNk5Esw76+oSTzku5Iq0RBseYj50R251OC+s1Zko=;
-        b=6FL1OktUx/QKggvOa4XCOGX6+hD68rnjOHxmgNFQwmEsNQpKolLP4KsnMbeiALzP8R
-         +qg5XEJ3BJzF4srE/oT115wo4Wa7pH9VviPbwhinOgpw76ntnnMLRc3lZP2wqvpJC5vt
-         put1OgyaCE6gteyoCbwKsBqoL1XFcZ8oIrgbq2qsUSyMpce8jByA1emVrqUgOmngZptt
-         5TXmtRxgsnSgrz7+MT8R2cHz7m5aYKLRE4PHNfLb7PPVsmsU3gYO9DBDsXToCB0Fejc9
-         fbZmNYvGroRSerQiXjXh38V0mSDjssSVVFHSj1IU07LSDLrCGZHXZm0v+mKVhCrAiQYR
-         vwAw==
-X-Gm-Message-State: AOAM532bliq9YlN505fwoRx+qBRMTjVY3OqKgZNycO8ovq6ncPaBVZbY
-	mkRwwBJWgkWkDFTG6HLa81UNUg==
-X-Google-Smtp-Source: ABdhPJylSRQCASHDcc/QNJp7o7BwkgXxThlNUItggDkKtsHMdcE9vZQxW5pxT61gwxRLUSzl83zB0g==
-X-Received: by 2002:ac8:5a8f:0:b0:2e1:df21:d86f with SMTP id c15-20020ac85a8f000000b002e1df21d86fmr8769717qtc.450.1649267404445;
-        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id 78-20020a370551000000b0067e3a58c090sm10057930qkf.82.2022.04.06.10.50.03
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0m7PH0Q/gMJwYH81Lv70Om6dm0wczrWyXZh2Bgkw4MU=;
+        b=NJYLW3BF+h7E1gSQvLEGdsKhRD7sq/Vq3f7rG/wyiqjuMOMT4BBs0HJRrRyddrqfQ9
+         uD2YZEG2iYtd0iIifHKmw/rCOrrxqRnz4wnzmWrxDSFC9TYQgb4lEZ+kcm/fpOVLCdUn
+         ifPQIsGrZINYM3saQS5fQ/1U4tAfn+oFRQu2YOO16wL0x0gENaTWdizkUvxRKOs2azBp
+         A21i+7UgiF46EfL0mu6YdMqMnIzyFTtbHjh0kcXK5P79Asv1uaEduE9xV1ld6e0lrmFj
+         yQ/h0lX8A/ftJ1VRJcHBDv6HpQLGWvBJNYCr2UrJTsigzjsWsiYS/xMUuwPj9Ll85hUd
+         klTQ==
+X-Gm-Message-State: AOAM533a0N0tcUHjWL/s/7fpnvuGGOARzH9yUOJ2R5Iy7TRDTbLSdFTD
+	p6kly0w8gzE20jTCamiVwm8=
+X-Google-Smtp-Source: ABdhPJydL4RHESm5WcY2efQtxbg5hGnAp5RmaI/u/zSAPu4ZUNZU6gI6Gep1+rf/SDpIBmOqfHMwgA==
+X-Received: by 2002:a17:907:6d8f:b0:6e0:1512:913b with SMTP id sb15-20020a1709076d8f00b006e01512913bmr10320317ejc.491.1649277189683;
+        Wed, 06 Apr 2022 13:33:09 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id sa26-20020a1709076d1a00b006e6b23c8dafsm5290796ejc.164.2022.04.06.13.33.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 10:50:04 -0700 (PDT)
-Message-ID: <fd9917c2bdb41f361a1ecac2dfa8d85473c9f0f2.camel@ndufresne.ca>
-Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, Benjamin Gaignard
-	 <benjamin.gaignard@collabora.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
- gregkh@linuxfoundation.org,  wens@csie.org, samuel@sholland.org,
- linux-media@vger.kernel.org,  linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,  linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
-Date: Wed, 06 Apr 2022 13:50:02 -0400
-In-Reply-To: <2820101.e9J7NaK4W3@jernej-laptop>
-References: <20220227144926.3006585-1-jernej.skrabec@gmail.com>
-	 <4386971.LvFx2qVVIh@jernej-laptop>
-	 <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
-	 <2820101.e9J7NaK4W3@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+        Wed, 06 Apr 2022 13:33:09 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/12] ARM: suniv: dts: update Allwinner F1C100
+Date: Wed, 06 Apr 2022 22:33:07 +0200
+Message-ID: <2623195.mvXUDI8C0e@kista>
+In-Reply-To: <20220317162349.739636-1-andre.przywara@arm.com>
+References: <20220317162349.739636-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Le mercredi 06 avril 2022 =C3=A0 19:21 +0200, Jernej =C5=A0krabec a =C3=A9c=
-rit=C2=A0:
-> Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a=
-):
-> > Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
-> > > Hi Benjamin!
-> > >=20
-> > > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
-> napisal(a):
-> > > > Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
-> > > > > First two patches add 10-bit formats to UAPI, third extends filte=
-ring
-> > > > > mechanism, fourth fixes incorrect assumption, fifth moves registe=
-r
-> > > > > configuration code to proper place, sixth and seventh enable 10-b=
-it
-> > > > > VP9 decoding on Allwinner H6 and last increases core frequency on
-> > > > > Allwinner H6.
-> > > > >=20
-> > > > > I'm sending this as RFC to get some comments:
-> > > > > 1. format definitions - are fourcc's ok? are comments/description=
-s ok?
-> > > > > 2. is extended filtering mechanism ok?
-> > > > >=20
-> > > > > I would also like if these patches are tested on some more HW.
-> > > > > Additionally, can someone test tiled P010?
-> > > > >=20
-> > > > > Please take a look.
-> > > >=20
-> > > > Hi Jernej,
-> > > >=20
-> > > > I have create a branch to test this series with VP9 and HEVC:
-> > > > https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/=
-10bit_
-> > > > imx 8m Feel free to pick what I may need in it.
-> > > >=20
-> > > > That doesn't improve fluster scores, I think more dev are still nee=
-ded in
-> > > > GST before getting something fully functional.
-> > > > Anyway I able to select P010 pixel format if the input is a 10bit
-> > > > bitstream.>=20
-> > > What kind of improvements do you expect? Actually, this series is des=
-igned
-> > > to change nothing for platforms, where 10-bit format is not added int=
-o
-> > > the list of supported formats. I think reasons are quite obvious. Fir=
-st,
-> > > not every device may support 10-bit output. Second, as you might alre=
-ady
-> > > figured it out, registers in this series are set only for legacy core=
-s. I
-> > > have no idea, what needs to be done for newer ones, since I don't hav=
-e
-> > > them. Anyway, I tested this with fluster and only one additional test
-> > > passes, because it is the only one for 10-bit YUV420.
-> >=20
-> > In this series you will find that I have added the registers for the ne=
-w
-> > cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
+Dne =C4=8Detrtek, 17. marec 2022 ob 17:23:37 CEST je Andre Przywara napisal=
+(a):
+> Hi,
 >=20
-> Your changes seems reasonable, but at this point I wouldn't bother with=
-=20
-> fluster. Instead, try to test with one specific bitstream or even a sampl=
-e video=20
-> file. I just tested with one random 10-bit VP9 video that I found when wo=
-rking=20
-> on this series. That way you avoid any corner cases which sometimes plaqu=
-e=20
-> fluster testing (reference bitstreams smaller than min. supported size).=
-=20
-> Anyway, re-check vendor lib if there is any other place to adjust somethi=
-ng=20
-> for 10-bit.
+> an update to the F1C100 DT update series. I dropped the defconfig
+> patches for now, there is more to them than it seems, and they warrant a
+> separate series and discussion. Also I dropped the MMC binding patch
+> (v1 07/14), since Ulf already applied that.
+> Other than that this tries to clarify the watchdog clock situation in a
+> new patch (02/12), and fixes some smaller issues, as pointed out by
+> Samuel (many thanks for that!).
+>=20
+> ----------
+>=20
+> The Allwinner F1C100 SoC didn't see much love since its initial merge in
+> 2018: the originally submitted .dts files were very basic, and didn't
+> cover such simple peripherals as MMC and SPI.
+> On top of that the watchdog compatible string was wrong, leading to a
+> non-functional watchdog and reset functionality.
+>=20
+> This series aims to fix that, after the series MMC and SPI work, and
+> make dtbs_check comes back clean.
+> This was tested with mounting a filesystem on /dev/mmcblk0 on a
+> LicheePi Nano, also with accessing the SPI flash through /dev/mtdblock
+> and mtd_debug. Reboot and watchdog now also work.
+>=20
+> Mainline U-Boot recently gained F1C100 support, and those DT updates are
+> needed there as well to get full MMC and SPI access.
+>=20
+> The series is structured as follows:
+> - Patches 01/12 and 03/12 fix the watchdog, which allows to properly
+>   reboot the system.
+> - Patches 04-07 fix some shortcomings of the existing DT files, to make
+>   them DT binding compliant.
+> - Patches 08-09 are Jesse's recent MMC patches, with the comments from
+>   the last version addressed [1].
+> - Patches 10-12 add SPI support, to enable access to the SPI flash on
+>   the LicheePi Nano board.
 
-Just so we don't forget, there is a handful of 10bit tests that Daniel Alme=
-ida
-omitted when he added tests to fluster (though only 1 is 420). I will try a=
-nd
-fix that later on. There is otherwise 5G worth of 10bit tests available. In
-fluster we decided to go for the same subset libvpx uses, otherwise no one =
-would
-ever want to download these tests.
+Applied to sunxi/dt-for-5.19, thanks!
 
-https://storage.googleapis.com/downloads.webmproject.org/vp9/decoder-test-s=
-treams/Profile_2_10bit.
+Best regards,
+Jernej
 
-About the "min supported", G2 VP9 scores is 157/303 here (in comparision rk=
-vdec
-is 225, and MTK VCODEC 275). At this failure level this has no longer anyth=
-ing
-to do with the size of the render. There is likely couple of bugs hidden in=
- the
-driver for the corner cases tested by the suite. Also, to illustrate that t=
-he
-size isn't the only variable in the failures, we have a vp90-2-02-size-
-64x34.webm that pass (the driver pretends that 64x64 is the minimum). I did=
-n't
-look at G2 output very closely, but on RKVDEC, in similar failures we have
-perfect keyframe, and a single corrupted tile on the following decode. My b=
-elief
-is that there is bugs in the drivers to be found and fixed. In absence of v=
-endor
-support, or working reference it will be difficult / near impossible to fix=
-, but
-I'm documenting this so we stop thinking this is just "not supported".
+>=20
+> Cheers,
+> Andre
+>=20
+> Changelog v1 ... v2:
+> - drop multi_v5_defconfig patches (v1 13/14 and 14/14)
+> - drop MMC bindings patch (v1 07/14): already applied
+> - dt-binding: move watchdog compatible string among the others
+> - dt-binding: new patch to clarify watchdog clock source
+> - dtsi: add missing @0 to cpu node
+> - add Acks and R-b's
+> - dtsi: fix ordering of SPI nodes (plus typo in commit message)
+>=20
+> Changelog for the MMC patches [1]:
+> - bindings doc: extend commit message
+> - .dtsi: extend commit message, re-order mmc0_pins node, add
+>   drive-strength
+> - .dts: extend commit message, add alias, regulator and disable-wp
+>=20
+> [1] https://lore.kernel.org/linux-arm-kernel/20220130220325.1983918-1-Mr.=
+Bossman075@gmail.com/
+> [2] https://lore.kernel.org/linux-usb/20200331170219.267732-1-thirtythree=
+forty@gmail.com/
+>=20
+> Andre Przywara (9):
+>   dt-bindings: watchdog: sunxi: fix F1C100s compatible
+>   dt-bindings: watchdog: sunxi: clarify clock support
+>   ARM: dts: suniv: F1C100: fix watchdog compatible
+>   dt-bindings: arm: sunxi: document LicheePi Nano name
+>   ARM: dts: suniv: F1C100: fix CPU node
+>   ARM: dts: suniv: F1C100: fix timer node
+>   dt-bindings: spi: sunxi: document F1C100 controllers
+>   ARM: dts: suniv: F1C100: add SPI support
+>   ARM: dts: suniv: licheepi-nano: add SPI flash
+>=20
+> Jesse Taube (3):
+>   ARM: dts: suniv: F1C100: add clock and reset macros
+>   ARM: dts: suniv: F1C100: add MMC controllers
+>   ARM: dts: suniv: licheepi-nano: add microSD card
+>=20
+>  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
+>  .../bindings/spi/allwinner,sun6i-a31-spi.yaml |   1 +
+>  .../watchdog/allwinner,sun4i-a10-wdt.yaml     |  24 ++--
+>  .../boot/dts/suniv-f1c100s-licheepi-nano.dts  |  31 ++++++
+>  arch/arm/boot/dts/suniv-f1c100s.dtsi          | 104 ++++++++++++++++--
+>  5 files changed, 140 insertions(+), 25 deletions(-)
+>=20
+> --=20
+> 2.25.1
+>=20
+>=20
 
-cheers,
-Nicolas
+
