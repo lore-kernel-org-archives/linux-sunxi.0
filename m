@@ -1,120 +1,128 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F202C33D7;
-	Wed,  6 Apr 2022 13:34:55 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id bq8so4274720ejb.10;
-        Wed, 06 Apr 2022 06:34:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06ED2FAE;
+	Wed,  6 Apr 2022 17:21:03 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id b24so3439285edu.10;
+        Wed, 06 Apr 2022 10:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yoT8S//D770vY3WgW13o5h7gy26zZL3xUZVY0D1xI6I=;
-        b=OKY/Oe2bpatMWaw7vBgaG0P60ZrBk2oUeIRtq6TjKIsKtgU33Bi98lS9vRxfBOVs12
-         sBgypLxIrid8xr32V6QtCPgDBenafkPoly7NKF1tkA8amXEgxdCZKHcQh+ww6J+shesQ
-         3ufPIoLM2G7cdngFuZdX5hlWxVJXEwkqCa6FImka3W4SALriS0RlRcFFeKJBsdQGy+4C
-         MGBk9SBOzbekOm1IxDpGeSxvwARzlPVTsLbgK+xbdiNHkddo/GDrsO5CNYcslprWntAt
-         Vqa4ysQ+jZ2gG7C2CKmWZ0LrPrnMZsMdHAr2Jsb4rW1BaT6BIV8nGziTKPXGIoLWZAm5
-         1Bdw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
+        b=P8w9ucNqgOCkMD9cfh5/9Sy+LhNLNVxHGvjSiEWpTv/tYtCA4FCvREBL+YIGfXOxzY
+         4SFHJnrbfJLEM8r6ouWRoqIEuHMY/CooGAHqfac4DSpWWicNAOIw8wuck+DtxI37wVEw
+         BaJkkUmrdPoPinQOCn9/dQ4ZdbtiaZbOPVMMW4fTbxC0P53Ew4F6UEFCYiMRd8Juy96/
+         d2qwJV6kmc3YTcVNty4BQmYiVVh7Q1wyGOweD4ZFrWSYLXTrGwyGUk4zhQ+7BNL4IYRj
+         lT8R10BtopHMNIqAfK2+tmZSRpknsj+6osDd/bevh9ecLeWegNHM33fqaX/lzQEo0Mud
+         NMig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yoT8S//D770vY3WgW13o5h7gy26zZL3xUZVY0D1xI6I=;
-        b=BVEFsuv3cpGdG2jfYtFq4LJjm2YiuKoy0ca7i+dJQYh5E1VBl4IfCaUfH26ZnYLliP
-         0L+/WSOjngoxbTwjZ7o8jhp9KtYW9MavZeiAiKdOTk52QSdydymAX7w0Twx20Wg3LOjt
-         1ozuEzQTXKBiEQPdsmV+J6/AxTdbdmAHSZjTmnXBnmHZCa8fS+oOjXwfdc6csrboQhJQ
-         tS02wnoT4feQBnBuxouOZ8BYSlucktbb6q6CnqJQlfdTiZzvjqp0Sb4/pO7TMYJf/uVY
-         qO2Q51SxKOYjyxT11/pt8MFBeMpId5pyr0NFMk9hUaBHhmMvMedqbh428+OtbT2kVOlI
-         ER4A==
-X-Gm-Message-State: AOAM530pawI0K9IQYp3yWYGAUV8sLRGY+FF5UIywMALnTLrEsFOmknk5
-	J8U0woCiT/wSp6lY4HjDIUiNz5AJeJJQl0p3a0A=
-X-Google-Smtp-Source: ABdhPJx5i2eoEp7I2rY0229o1dYOKIKuh1vnzQC48AwjR8p6JjH3s9hUSj0yFqtcgLd4+fE8BGA4QYWpey/PVg6NVxs=
-X-Received: by 2002:a17:907:7704:b0:6cf:48ac:b4a8 with SMTP id
- kw4-20020a170907770400b006cf48acb4a8mr8213309ejc.305.1649252094031; Wed, 06
- Apr 2022 06:34:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5y49F6FFIHNJFXwX0mwDpkqnylVMigszjtIkPhpuii8=;
+        b=Xv3Dfk1xjJaYHuSLCOHpDO8461SImgq/x0up/gBItdnG9hdAEakhe0jeBZWmuMbncN
+         Dsrqf0OzMsiXaguWAHOmjYol8LLNF03dRbIzbBP7qGyVFcbfxnR0WVeCVM7TikWNZGj9
+         SsTSRazpDzUAu1gEHJYDtzHSGqEYaSF1WArWSqtRyJ91Xdj/N5JUeYEqQaZ5fwYkDD5/
+         SpcOyvK+w+ZFqNXSeEMHRoG0XPWtPss3UxnLw1ayZBBmRrOw1AnjQ2+Tp6hB5uROnvdF
+         n9Wm6d6ZVdhdCCyvwHXY1e9xBknySuvFiSqfiZiyHvyJqXO+LmP97fzd6LJE7R8SgNSz
+         9Ljw==
+X-Gm-Message-State: AOAM5332b2TgEqvQ8QHQYZlFVTTQAa2WGRSYfNd6qs8F6OmV6OOUKMbb
+	yGyU7L6wjm7F5yMKJyJf+60=
+X-Google-Smtp-Source: ABdhPJw7SwZmk8KMDZN9kawMnoJ2pOLoCUSGiI/T+DYa+t+vvAVLi5zMiKJaRx9H4xaslCQrGhPLEA==
+X-Received: by 2002:a50:da8b:0:b0:415:a122:d7ad with SMTP id q11-20020a50da8b000000b00415a122d7admr9951784edj.123.1649265661983;
+        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
+Received: from jernej-laptop.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id dd6-20020a1709069b8600b006df08710d00sm6947802ejc.85.2022.04.06.10.21.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Apr 2022 10:21:01 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, nicolas@ndufresne.ca, hverkuil-cisco@xs4all.nl, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH 0/8] media: hantro: Add 10-bit support
+Date: Wed, 06 Apr 2022 19:21:00 +0200
+Message-ID: <2820101.e9J7NaK4W3@jernej-laptop>
+In-Reply-To: <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
+References: <20220227144926.3006585-1-jernej.skrabec@gmail.com> <4386971.LvFx2qVVIh@jernej-laptop> <bf938b83-2b57-95b3-4bcb-f967bbb46413@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
- <eefa63b3-2a4d-4470-9a4e-517087ebcfaf@collabora.com> <CAHCN7xL2uZTMy30FGfDkDK4Lym6wvfr_MTv7QwtchrkTXMQiuw@mail.gmail.com>
- <79a9c925-d930-ad23-dc53-9ebc16d1328a@collabora.com> <3f778844-f655-74a7-0a00-05caa84eca35@collabora.com>
- <CAHCN7xLy2381AFLWhLxk5YuRV7C=OwLX=XPXONX8sbkg-SqMjA@mail.gmail.com>
- <CAHCN7xJWQa-uXb0-+CSvAr1JhFmQYt80Q=uGvaY8uyptNcfbgw@mail.gmail.com>
- <163202bd-ea51-e80a-1481-568fae25b045@collabora.com> <CAHCN7x+AwNauiyaVL=NGARkmxWOL9uLS5-AO4TjkvLGNQ=3r+Q@mail.gmail.com>
- <bb462ee8-7bf9-5574-7cc2-098cc66e5ef0@collabora.com> <CAHCN7x+DTjeP7zQJYPyqzdz=hXWjz6Br0v1sWh4n1J3TJPb+9g@mail.gmail.com>
- <8d23c99a-4ad0-e65a-0134-12f5d119e8bb@collabora.com> <CAHCN7x+YuXFrMe6dYo_VhkG7ey1jcPTpOMCM1=qoTivZO9U2Rw@mail.gmail.com>
- <f495aa2b-81f7-a3cd-a6dd-cc5ae5f0a81f@collabora.com> <439e5c67e66dfff8f44f63787e2cdb8379f87446.camel@ndufresne.ca>
- <a1069c94-4c3c-ee4d-738a-752bb1d12dac@collabora.com>
-In-Reply-To: <a1069c94-4c3c-ee4d-738a-752bb1d12dac@collabora.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Wed, 6 Apr 2022 08:34:42 -0500
-Message-ID: <CAHCN7x+hvYjoZFA6uaTXq-XfLMck-ht7Z-VzzvGpkh7H7BBbEQ@mail.gmail.com>
-Subject: Re: [PATCH v4 00/15] Move HEVC stateless controls out of staging
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, Chen-Yu Tsai <wens@csie.org>, 
-	"jernej.skrabec" <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	linux-media <linux-media@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	arm-soc <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	kernel <kernel@collabora.com>, knaerzche@gmail.com, jc@kynesim.co.uk
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 6, 2022 at 8:05 AM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 06/04/2022 =C3=A0 15:02, Nicolas Dufresne a =C3=A9crit :
-> > Le mercredi 06 avril 2022 =C3=A0 14:50 +0200, Benjamin Gaignard a =C3=
-=A9crit :
-> >>> default=3D1 value=3D1
-> >>> 1: Frame-Based
-> >>>                    hevc_start_code 0x00a40a96 (menu)   : min=3D1 max=
-=3D1
-> >>> default=3D1 value=3D1
-> >>> 1: Annex B Start Code
-> >> It is the same so that suggest the issue is coming from GStreamer plug=
-in.
-> > Can you report the GStreamer commit hash you have building on ? Also pl=
-ease
-> > validate the creation date of the plugin (libgstv4l2codecs.so) against =
-your
-> > source update date. Reminder that GStreamer is now mono-repo (just in c=
-ase).
-> >
-> > https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC=
-_aligned_with_kernel_5.15
-> > Hash: 54b7c1f98084c85d103446cc3f2edce42ad53b0f
-> >
-> > Benjamin, can you confirm you have no local changes and this is the has=
-h you are
-> > building from ?
->
-> Yes that is the hash I'm using without local changes
+Dne sreda, 06. april 2022 ob 08:54:07 CEST je Benjamin Gaignard napisal(a):
+> Le 05/04/2022 =C3=A0 20:40, Jernej =C5=A0krabec a =C3=A9crit :
+> > Hi Benjamin!
+> >=20
+> > Dne torek, 05. april 2022 ob 18:07:41 CEST je Benjamin Gaignard=20
+napisal(a):
+> >> Le 27/02/2022 =C3=A0 15:49, Jernej Skrabec a =C3=A9crit :
+> >>> First two patches add 10-bit formats to UAPI, third extends filtering
+> >>> mechanism, fourth fixes incorrect assumption, fifth moves register
+> >>> configuration code to proper place, sixth and seventh enable 10-bit
+> >>> VP9 decoding on Allwinner H6 and last increases core frequency on
+> >>> Allwinner H6.
+> >>>=20
+> >>> I'm sending this as RFC to get some comments:
+> >>> 1. format definitions - are fourcc's ok? are comments/descriptions ok?
+> >>> 2. is extended filtering mechanism ok?
+> >>>=20
+> >>> I would also like if these patches are tested on some more HW.
+> >>> Additionally, can someone test tiled P010?
+> >>>=20
+> >>> Please take a look.
+> >>=20
+> >> Hi Jernej,
+> >>=20
+> >> I have create a branch to test this series with VP9 and HEVC:
+> >> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/10b=
+it_
+> >> imx 8m Feel free to pick what I may need in it.
+> >>=20
+> >> That doesn't improve fluster scores, I think more dev are still needed=
+ in
+> >> GST before getting something fully functional.
+> >> Anyway I able to select P010 pixel format if the input is a 10bit
+> >> bitstream.>=20
+> > What kind of improvements do you expect? Actually, this series is desig=
+ned
+> > to change nothing for platforms, where 10-bit format is not added into
+> > the list of supported formats. I think reasons are quite obvious. First,
+> > not every device may support 10-bit output. Second, as you might already
+> > figured it out, registers in this series are set only for legacy cores.=
+ I
+> > have no idea, what needs to be done for newer ones, since I don't have
+> > them. Anyway, I tested this with fluster and only one additional test
+> > passes, because it is the only one for 10-bit YUV420.
+>=20
+> In this series you will find that I have added the registers for the new
+> cores, fix hevc to be able to use 10-bit, and enable that in IMX8M.
 
-I was on (gstreamer-HEVC_aligned_with_kernel_5.15) with a hash of
-4b78eaa48c0c924afd57f85c47396b77497e69f8
+Your changes seems reasonable, but at this point I wouldn't bother with=20
+fluster. Instead, try to test with one specific bitstream or even a sample =
+video=20
+file. I just tested with one random 10-bit VP9 video that I found when work=
+ing=20
+on this series. That way you avoid any corner cases which sometimes plaque=
+=20
+fluster testing (reference bitstreams smaller than min. supported size).=20
+Anyway, re-check vendor lib if there is any other place to adjust something=
+=20
+for 10-bit.
 
-Benjamin's hash wasn't listed before, but I did a git pull, and now it is.
+Best regards,
+Jernej
 
-I've checked out that hash, and I am rebuilding it now. I'll report my
-findings when it's done.  It's building on the imx8mq, so it may take
-some time.
-
-adam
-
->
+>=20
+> Regards,
 > Benjamin
->
-> >
-> > regards,
-> > Nicolas
-> >
+>=20
+> > Best regards,
+> > Jernej
+
+
+
+
