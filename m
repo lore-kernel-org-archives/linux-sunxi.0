@@ -1,152 +1,139 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918EB3226
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Apr 2022 20:33:11 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id bh17so6632395ejb.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 Apr 2022 13:33:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55DDF3226
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Apr 2022 20:36:26 +0000 (UTC)
+Received: by mail-qv1-f47.google.com with SMTP id i15so3285048qvh.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 06 Apr 2022 13:36:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0m7PH0Q/gMJwYH81Lv70Om6dm0wczrWyXZh2Bgkw4MU=;
-        b=VtVnsMq/7tOn4wxjKQyZphqJwDqkLg3eyg+CmcUaVuhdgqBaJlvulJx4F6QUiolHtt
-         J7JF3YdeQa4N7qECZXJ/HWaFMH8jrFROHWaOmUhV49PE8M+UvsFE7qhDFyfKZk1Vqaom
-         31gZ5BUHb1bbu8uG1sjc7phhrT0RcaqCvXk/WX3ONZPKCWLokS6dQKJT+Fp4fyXDF91s
-         y2BASd4oSEeZsHlNO8Zkv+E/yf/MgmAuqOv6b2qi/4jpvo7/ZohltHDTWO2NjD12CZ11
-         gr6+MZEcmgFxCWoMN2HVF85S3FBONoqgY4yrf1rlpVYBTDKjxIPkTHFala66NUsMfHJT
-         mFtA==
+        d=ndufresne-ca.20210112.gappssmtp.com; s=20210112;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=wIJ8NfE+AUWtM7lH+STs2g9OB2TaiQtjIGgsEZBrh+stbAhC7caz0JwPUkoIZGBlrs
+         LB1DrPwrXYi0rIY7X35P/zoqWV7fHvjo7aRUMs4TyMz6S/vFUghNVJsR3/tEqYaWbeIS
+         SpSzxsCOvUNm/1PF0AI/mVEvKzQZuddwJpTN/xCCPEwtKXsE8pXWY9SDXnRGt7hd+v5d
+         7aVh+a6lRIdvCCaTyTO3bvNDQa8edsj39IO4UFF22UDLrQkDlAZSf+4U3HgEfZo+IVo2
+         A/ZuTqF9mp4LAlL/TjngKMj4c7waWzoSFDpDwXInm8b9twE/3nTPedXH8SU6BjtHTO0m
+         X7tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0m7PH0Q/gMJwYH81Lv70Om6dm0wczrWyXZh2Bgkw4MU=;
-        b=NJYLW3BF+h7E1gSQvLEGdsKhRD7sq/Vq3f7rG/wyiqjuMOMT4BBs0HJRrRyddrqfQ9
-         uD2YZEG2iYtd0iIifHKmw/rCOrrxqRnz4wnzmWrxDSFC9TYQgb4lEZ+kcm/fpOVLCdUn
-         ifPQIsGrZINYM3saQS5fQ/1U4tAfn+oFRQu2YOO16wL0x0gENaTWdizkUvxRKOs2azBp
-         A21i+7UgiF46EfL0mu6YdMqMnIzyFTtbHjh0kcXK5P79Asv1uaEduE9xV1ld6e0lrmFj
-         yQ/h0lX8A/ftJ1VRJcHBDv6HpQLGWvBJNYCr2UrJTsigzjsWsiYS/xMUuwPj9Ll85hUd
-         klTQ==
-X-Gm-Message-State: AOAM533a0N0tcUHjWL/s/7fpnvuGGOARzH9yUOJ2R5Iy7TRDTbLSdFTD
-	p6kly0w8gzE20jTCamiVwm8=
-X-Google-Smtp-Source: ABdhPJydL4RHESm5WcY2efQtxbg5hGnAp5RmaI/u/zSAPu4ZUNZU6gI6Gep1+rf/SDpIBmOqfHMwgA==
-X-Received: by 2002:a17:907:6d8f:b0:6e0:1512:913b with SMTP id sb15-20020a1709076d8f00b006e01512913bmr10320317ejc.491.1649277189683;
-        Wed, 06 Apr 2022 13:33:09 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id sa26-20020a1709076d1a00b006e6b23c8dafsm5290796ejc.164.2022.04.06.13.33.08
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:content-transfer-encoding:user-agent:mime-version;
+        bh=iVD51S2fZB/T43/yzpgAein+LxkO4Y3OqFseZyJMNZY=;
+        b=jIRIeJSoAFBEqs3Gs5aC7i1ATepx4msvO62pgxRx2bK0p3HSk5uL3ugEj0UKwJlFMt
+         Pkc7JK42CEauXZ1gk0ODNC7Ww9nICvtYdnFZV8yvKMHejrX715/f4Ebsjt0t97Q3gTf5
+         mq4vQGWggS3DXcWVnUc+iIZuDf+6wDB9ObIX6TlPzYdCTRqZXKTrrg/lKT7QfrL1xz/P
+         gdtMGd9EaF1RZgFEE4jqKbn+9jcH8G9h/tvqrwMxlOCn3ejL7eY1AXvlhy87LxTE8J+W
+         1bcnSKpJOn6BX5hSGuyQjjIOrNYi8J5rP59k5/9AvZGuDxXr2MvSQDHVxxa0tGENiMnh
+         2l0g==
+X-Gm-Message-State: AOAM5302Ymeyipm8svZ1dP5e0QXju6/pFtVEhgPBypJb0zFrEA06hKjk
+	UTsng6z1AylaDRgp1ZyaVhc9gg==
+X-Google-Smtp-Source: ABdhPJyoTFpHdhAeiRuppAcSOH9NzY3ELjSpzTBbQkgV2JktrDoVuHlUfQFgR+UzclY5mKXxVmknUQ==
+X-Received: by 2002:a05:6214:508a:b0:440:f824:3d55 with SMTP id kk10-20020a056214508a00b00440f8243d55mr9112081qvb.26.1649277385279;
+        Wed, 06 Apr 2022 13:36:25 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id e15-20020a05622a110f00b002e1ed105652sm12804883qty.2.2022.04.06.13.36.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 13:33:09 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>
-Cc: Rob Herring <robh+dt@kernel.org>, Mesih Kilinc <mesihkilinc@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, Jesse Taube <mr.bossman075@gmail.com>, Giulio Benetti <giulio.benetti@benettiengineering.com>, George Hilliard <thirtythreeforty@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 00/12] ARM: suniv: dts: update Allwinner F1C100
-Date: Wed, 06 Apr 2022 22:33:07 +0200
-Message-ID: <2623195.mvXUDI8C0e@kista>
-In-Reply-To: <20220317162349.739636-1-andre.przywara@arm.com>
-References: <20220317162349.739636-1-andre.przywara@arm.com>
+        Wed, 06 Apr 2022 13:36:24 -0700 (PDT)
+Message-ID: <ace60e1553ca73997f454ccea12c4540cddd3dc8.camel@ndufresne.ca>
+Subject: Re: [PATCH v4 14/15] media: uapi: Change data_bit_offset definition
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, 
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ jonas@kwiboo.se
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, kernel@collabora.com, knaerzche@gmail.com, 
+	jc@kynesim.co.uk
+Date: Wed, 06 Apr 2022 16:36:17 -0400
+In-Reply-To: <20220228140838.622021-15-benjamin.gaignard@collabora.com>
+References: <20220228140838.622021-1-benjamin.gaignard@collabora.com>
+	 <20220228140838.622021-15-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 17. marec 2022 ob 17:23:37 CEST je Andre Przywara napisal=
-(a):
-> Hi,
+Le lundi 28 f=C3=A9vrier 2022 =C3=A0 15:08 +0100, Benjamin Gaignard a =C3=
+=A9crit=C2=A0:
+> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
+> specification describes that a slice header always end byte aligned,
+> therefore we only need to provide the data offset in byte.
 >=20
-> an update to the F1C100 DT update series. I dropped the defconfig
-> patches for now, there is more to them than it seems, and they warrant a
-> separate series and discussion. Also I dropped the MMC binding patch
-> (v1 07/14), since Ulf already applied that.
-> Other than that this tries to clarify the watchdog clock situation in a
-> new patch (02/12), and fixes some smaller issues, as pointed out by
-> Samuel (many thanks for that!).
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+>  include/media/hevc-ctrls.h                                | 4 ++--
+>  3 files changed, 5 insertions(+), 5 deletions(-)
 >=20
-> ----------
->=20
-> The Allwinner F1C100 SoC didn't see much love since its initial merge in
-> 2018: the originally submitted .dts files were very basic, and didn't
-> cover such simple peripherals as MMC and SPI.
-> On top of that the watchdog compatible string was wrong, leading to a
-> non-functional watchdog and reset functionality.
->=20
-> This series aims to fix that, after the series MMC and SPI work, and
-> make dtbs_check comes back clean.
-> This was tested with mounting a filesystem on /dev/mmcblk0 on a
-> LicheePi Nano, also with accessing the SPI flash through /dev/mtdblock
-> and mtd_debug. Reboot and watchdog now also work.
->=20
-> Mainline U-Boot recently gained F1C100 support, and those DT updates are
-> needed there as well to get full MMC and SPI access.
->=20
-> The series is structured as follows:
-> - Patches 01/12 and 03/12 fix the watchdog, which allows to properly
->   reboot the system.
-> - Patches 04-07 fix some shortcomings of the existing DT files, to make
->   them DT binding compliant.
-> - Patches 08-09 are Jesse's recent MMC patches, with the comments from
->   the last version addressed [1].
-> - Patches 10-12 add SPI support, to enable access to the SPI flash on
->   the LicheePi Nano board.
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
+Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 1aa2a7399e76..c8602c1e706e 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2986,8 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``bit_size``
+>        - Size (in bits) of the current slice data.
+>      * - __u32
+> -      - ``data_bit_offset``
+> -      - Offset (in bits) to the video data in the current slice data.
+> +      - ``data_byte_offset``
+> +      - Offset (in bytes) to the video data in the current slice data.
+>      * - __u32
+>        - ``num_entry_point_offsets``
+>        - Specifies the number of entry point offset syntax elements in th=
+e slice header.
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 8ab2d9c6f048..3e43b7cc2f57 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  	/* Initialize bitstream access. */
+>  	cedrus_write(dev, VE_DEC_H265_TRIGGER, VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> =20
+> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset / 8);
 
-Applied to sunxi/dt-for-5.19, thanks!
+Did you mean the following instead ?
 
-Best regards,
-Jernej
++	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
 
->=20
-> Cheers,
-> Andre
->=20
-> Changelog v1 ... v2:
-> - drop multi_v5_defconfig patches (v1 13/14 and 14/14)
-> - drop MMC bindings patch (v1 07/14): already applied
-> - dt-binding: move watchdog compatible string among the others
-> - dt-binding: new patch to clarify watchdog clock source
-> - dtsi: add missing @0 to cpu node
-> - add Acks and R-b's
-> - dtsi: fix ordering of SPI nodes (plus typo in commit message)
->=20
-> Changelog for the MMC patches [1]:
-> - bindings doc: extend commit message
-> - .dtsi: extend commit message, re-order mmc0_pins node, add
->   drive-strength
-> - .dts: extend commit message, add alias, regulator and disable-wp
->=20
-> [1] https://lore.kernel.org/linux-arm-kernel/20220130220325.1983918-1-Mr.=
-Bossman075@gmail.com/
-> [2] https://lore.kernel.org/linux-usb/20200331170219.267732-1-thirtythree=
-forty@gmail.com/
->=20
-> Andre Przywara (9):
->   dt-bindings: watchdog: sunxi: fix F1C100s compatible
->   dt-bindings: watchdog: sunxi: clarify clock support
->   ARM: dts: suniv: F1C100: fix watchdog compatible
->   dt-bindings: arm: sunxi: document LicheePi Nano name
->   ARM: dts: suniv: F1C100: fix CPU node
->   ARM: dts: suniv: F1C100: fix timer node
->   dt-bindings: spi: sunxi: document F1C100 controllers
->   ARM: dts: suniv: F1C100: add SPI support
->   ARM: dts: suniv: licheepi-nano: add SPI flash
->=20
-> Jesse Taube (3):
->   ARM: dts: suniv: F1C100: add clock and reset macros
->   ARM: dts: suniv: F1C100: add MMC controllers
->   ARM: dts: suniv: licheepi-nano: add microSD card
->=20
->  .../devicetree/bindings/arm/sunxi.yaml        |   5 +
->  .../bindings/spi/allwinner,sun6i-a31-spi.yaml |   1 +
->  .../watchdog/allwinner,sun4i-a10-wdt.yaml     |  24 ++--
->  .../boot/dts/suniv-f1c100s-licheepi-nano.dts  |  31 ++++++
->  arch/arm/boot/dts/suniv-f1c100s.dtsi          | 104 ++++++++++++++++--
->  5 files changed, 140 insertions(+), 25 deletions(-)
->=20
-> --=20
-> 2.25.1
->=20
->=20
-
+> =20
+>  	/* Bitstream parameters. */
+> =20
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index c50205083573..51bdf38ea0c3 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -296,7 +296,7 @@ struct v4l2_hevc_pred_weight_table {
+>   * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+> - * @data_bit_offset: offset (in bits) to the video data in the current s=
+lice data
+> + * @data_byte_offset: offset (in bytes) to the video data in the current=
+ slice data
+>   * @num_entry_point_offsets: specifies the number of entry point offset =
+syntax
+>   *			     elements in the slice header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> @@ -340,7 +340,7 @@ struct v4l2_hevc_pred_weight_table {
+>   */
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+> -	__u32	data_bit_offset;
+> +	__u32	data_byte_offset;
+>  	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
 
