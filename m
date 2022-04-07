@@ -1,103 +1,121 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A783226
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Apr 2022 20:46:26 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id dr20so6672851ejc.6
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 Apr 2022 13:46:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=r3pN8iVk9eTtSjL65Ae9eDGs0McwPoBu0Laz3ZR/1MA=;
-        b=IHXz1wUkKCmRJ1GjOREIJcNyfWmglOtNLI958+1ELRwj1TMr+UqeAJl+j6zvajmfyJ
-         kDSjsLE4dAisAOmn2SF7dZAEC0yfBhK3TmN+ui24XsLhR11WuMsOEDyaFvCo5cAOiJTt
-         lvf79qjM1j95pWgykfX14/CKOd7bnp135vKElX7oHmgelwQqHzdooSp4XH7D7igvJrdd
-         Nov/Imj6QXxhg0uxnsislCyMWeKMnai9IqGOgtGy4STH+EJCOBXVV+iwU6REb+MGTm6C
-         1SLY0948h5eAIXv9gtOHMq+G0WFLMiR9x3uW8h9SAppR8XnDQa14xYC3HDEjdNrsMdcl
-         vEGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=r3pN8iVk9eTtSjL65Ae9eDGs0McwPoBu0Laz3ZR/1MA=;
-        b=baBti5okltlSLY2V/fsvz6bIEeTmA9JvfQuAoTrA5NO2JGDho65WZawkkKIFRrVScM
-         M+23nPyKP/pNmiwC/NLboszKpm+17V9TL5Dn1QgKND9ntibdaRfoDnIKZICnBMUQ8CNK
-         mFjGuMW7XweBQJ9aO9vOhcfqb+Nz/OoOEFIqNXc2FA5Do+6aDEsHhsHHVaXQj9yDqP++
-         nBYeTViW8p8+4lP9J1V1qpUKvK4ur1E7lASH89B2VfczA+kcjip0nXd1mANJi5T2mCCy
-         82S99AgBv+p5JUJOCHRIM5oTR1mCR8D2Meq/UGQMUkE3q81GfN9rZn7hJv9YmT+9dsMo
-         XHCA==
-X-Gm-Message-State: AOAM533mG7icRuxyMBbd0aThq8pC319WKF42RUKbtw/Fx25u4Am7p9nV
-	3kv0ksNfNED2IRfwPkM9Rq8xYU7eM81IZA==
-X-Google-Smtp-Source: ABdhPJzOs3gO5TtSASWFaPiSWsHGEoBTpf1ZqwG+HSVkjfw89HKEpezUIlS1qPi5CVyHvUd+Z9sTQA==
-X-Received: by 2002:a17:907:7d8d:b0:6df:f3a6:b0d9 with SMTP id oz13-20020a1709077d8d00b006dff3a6b0d9mr10371596ejc.13.1649277984635;
-        Wed, 06 Apr 2022 13:46:24 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id a22-20020a50ff16000000b00410d029ea5csm8286808edu.96.2022.04.06.13.46.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Apr 2022 13:46:24 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Wan Jiabing <wanjiabing@vivo.com>
-Cc: kael_w@yeah.net, Wan Jiabing <wanjiabing@vivo.com>
-Subject: Re: Re: [PATCH] clk: sunxi-ng: fix not NULL terminated coccicheck error
-Date: Wed, 06 Apr 2022 22:46:23 +0200
-Message-ID: <5554257.DvuYhMxLoT@kista>
-In-Reply-To: <2621623.mvXUDI8C0e@jernej-laptop>
-References: <20220328073931.36544-1-wanjiabing@vivo.com> <2621623.mvXUDI8C0e@jernej-laptop>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0616E181
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Apr 2022 01:10:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E708C385BC;
+	Thu,  7 Apr 2022 01:10:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1649293854;
+	bh=adLbLelwA0eTEMAxwIejJevJ/N5XHRVQmd9kn8IfuU0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=LUEh62kLR9cvfqWiq+LT6FL9GenB5z53kI3/tKxRHFicUUPT5fGdI6yxO1j+VQXi4
+	 hodTsfe5CgNTdSu87Xjr6bMufm/HBOpWtPW+zfG+oZhRyLdeY2sA0c5IAcYS5/7WXm
+	 uCOz41I4lyEubGGnfRK1g+4Rwii84YDp3A6j2AZo6A6ZrYaUzG3djtSliscunX+ioS
+	 HrWXkmbsN59QHS0Ff9iK5F+GrlMrJ0mrXChZ4bfdySU8Wm7EQhdGW0dRjzcwSoG3SY
+	 jhzFjzp2N8suLkUGronHbM5+3ehymYgyxkFotLpmEykibpK8/7ikt91gjW1clA/9AW
+	 40yLg+qf3Spog==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Sasha Levin <sashal@kernel.org>,
+	a.zummo@towertech.it,
+	wens@csie.org,
+	samuel@sholland.org,
+	linux-rtc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.17 13/31] rtc: sun6i: Fix time overflow handling
+Date: Wed,  6 Apr 2022 21:10:11 -0400
+Message-Id: <20220407011029.113321-13-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220407011029.113321-1-sashal@kernel.org>
+References: <20220407011029.113321-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 28. marec 2022 ob 18:57:28 CEST je Jernej =C5=A0krabec napi=
-sal(a):
-> Dne ponedeljek, 28. marec 2022 ob 09:39:31 CEST je Wan Jiabing napisal(a):
-> > Fix the following coccicheck error:
-> > ./drivers/clk/sunxi-ng/ccu-sun6i-rtc.c:348:1-2: sun6i_rtc_ccu_match is
-> > not NULL terminated at line 348
-> >=20
-> > Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC=20
-clocks")
-> > Signed-off-by: Wan Jiabing <wanjiabing@vivo.com>
->=20
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+From: Andre Przywara <andre.przywara@arm.com>
 
-Applied to sunxi/fixes-for-5.18, thanks!
+[ Upstream commit 9f6cd82eca7e91a0d0311242a87c6aa3c2737968 ]
 
-Best regards,
-Jernej
+Using "unsigned long" for UNIX timestamps is never a good idea, and
+comparing the value of such a variable against U32_MAX does not do
+anything useful on 32-bit systems.
 
->=20
-> Best regards,
-> Jernej
->=20
-> > ---
-> >  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> > b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c index 8a10bade7e0d..ffb72d9a9c36
-> > 100644
-> > --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> > +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> > @@ -346,6 +346,7 @@ static const struct of_device_id sun6i_rtc_ccu_matc=
-h[]=20
-=3D
-> > { .compatible	=3D "allwinner,sun50i-r329-rtc",
-> >  		.data		=3D &sun50i_r329_rtc_ccu_data,
-> >  	},
-> > +	{},
-> >  };
-> >=20
-> >  int sun6i_rtc_ccu_probe(struct device *dev, void __iomem *reg)
->=20
->=20
->=20
->=20
->=20
+Use the proper time64_t type when dealing with timestamps, and avoid
+cutting down the time range unnecessarily. This also fixes the flawed
+check for the alarm time being too far into the future.
 
+The check for this condition is actually somewhat theoretical, as the
+RTC counts till 2033 only anyways, and 2^32 seconds from now is not
+before the year 2157 - at which point I hope nobody will be using this
+hardware anymore.
+
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Link: https://lore.kernel.org/r/20220211122643.1343315-4-andre.przywara@arm.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/rtc/rtc-sun6i.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 711832c758ae..bcc0c2ce4b4e 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -138,7 +138,7 @@ struct sun6i_rtc_dev {
+ 	const struct sun6i_rtc_clk_data *data;
+ 	void __iomem *base;
+ 	int irq;
+-	unsigned long alarm;
++	time64_t alarm;
+ 
+ 	struct clk_hw hw;
+ 	struct clk_hw *int_osc;
+@@ -510,10 +510,8 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 	struct sun6i_rtc_dev *chip = dev_get_drvdata(dev);
+ 	struct rtc_time *alrm_tm = &wkalrm->time;
+ 	struct rtc_time tm_now;
+-	unsigned long time_now = 0;
+-	unsigned long time_set = 0;
+-	unsigned long time_gap = 0;
+-	int ret = 0;
++	time64_t time_now, time_set;
++	int ret;
+ 
+ 	ret = sun6i_rtc_gettime(dev, &tm_now);
+ 	if (ret < 0) {
+@@ -528,9 +526,7 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 		return -EINVAL;
+ 	}
+ 
+-	time_gap = time_set - time_now;
+-
+-	if (time_gap > U32_MAX) {
++	if ((time_set - time_now) > U32_MAX) {
+ 		dev_err(dev, "Date too far in the future\n");
+ 		return -EINVAL;
+ 	}
+@@ -539,7 +535,7 @@ static int sun6i_rtc_setalarm(struct device *dev, struct rtc_wkalrm *wkalrm)
+ 	writel(0, chip->base + SUN6I_ALRM_COUNTER);
+ 	usleep_range(100, 300);
+ 
+-	writel(time_gap, chip->base + SUN6I_ALRM_COUNTER);
++	writel(time_set - time_now, chip->base + SUN6I_ALRM_COUNTER);
+ 	chip->alarm = time_set;
+ 
+ 	sun6i_rtc_setaie(wkalrm->enabled, chip);
+-- 
+2.35.1
 
