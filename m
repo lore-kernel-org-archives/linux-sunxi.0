@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0616E181
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Apr 2022 01:10:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E708C385BC;
-	Thu,  7 Apr 2022 01:10:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A388620E0
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Apr 2022 01:12:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005E1C385A6;
+	Thu,  7 Apr 2022 01:12:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1649293854;
+	s=k20201202; t=1649293926;
 	bh=adLbLelwA0eTEMAxwIejJevJ/N5XHRVQmd9kn8IfuU0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LUEh62kLR9cvfqWiq+LT6FL9GenB5z53kI3/tKxRHFicUUPT5fGdI6yxO1j+VQXi4
-	 hodTsfe5CgNTdSu87Xjr6bMufm/HBOpWtPW+zfG+oZhRyLdeY2sA0c5IAcYS5/7WXm
-	 uCOz41I4lyEubGGnfRK1g+4Rwii84YDp3A6j2AZo6A6ZrYaUzG3djtSliscunX+ioS
-	 HrWXkmbsN59QHS0Ff9iK5F+GrlMrJ0mrXChZ4bfdySU8Wm7EQhdGW0dRjzcwSoG3SY
-	 jhzFjzp2N8suLkUGronHbM5+3ehymYgyxkFotLpmEykibpK8/7ikt91gjW1clA/9AW
-	 40yLg+qf3Spog==
+	b=WvMSrizTIpPuOtX/ik0gp1Rfkv0/TlkQu2AABS5UTZySKS+unXRIkTL3ytzqAD06p
+	 6Ko+TyvxIDGX3nKipI5L3bIr7PjEcUiGGlgw8ydSLlgsJ0ZP19HpcB4/rM6cM3j3P2
+	 pOD6WVAdH/NfKcDMj4jlFRP9MuOnJcqTXcL29+YTZON6sxrtXJiEkq9tDnLLEsZ9+b
+	 eaVdFHkt3RHsxIe23SyNY/SR8xKf9mw4E+kFcRhEGzXgCpgyYT4UJ4YuyldtH+3Fpj
+	 opja7SR0fm2l/cTQ+abLUJUUv4QCONo5GNMJSm9Xk94EWLBSlUIRaehO1WT6yzxsjp
+	 YPlwFo4JaA3DQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -28,12 +28,12 @@ Cc: Andre Przywara <andre.przywara@arm.com>,
 	linux-rtc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 13/31] rtc: sun6i: Fix time overflow handling
-Date: Wed,  6 Apr 2022 21:10:11 -0400
-Message-Id: <20220407011029.113321-13-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.16 13/30] rtc: sun6i: Fix time overflow handling
+Date: Wed,  6 Apr 2022 21:11:23 -0400
+Message-Id: <20220407011140.113856-13-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011029.113321-1-sashal@kernel.org>
-References: <20220407011029.113321-1-sashal@kernel.org>
+In-Reply-To: <20220407011140.113856-1-sashal@kernel.org>
+References: <20220407011140.113856-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
