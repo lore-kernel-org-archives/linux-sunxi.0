@@ -1,114 +1,191 @@
-Received: from confino.investici.org (confino.investici.org [93.190.126.19])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200482563
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Apr 2022 16:01:30 +0000 (UTC)
-Received: from mx1.investici.org (unknown [127.0.0.1])
-	by confino.investici.org (Postfix) with ESMTP id 4KZ5VW3F8Pz119V;
-	Thu,  7 Apr 2022 15:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inventati.org;
-	s=stigmate; t=1649346739;
-	bh=YY96/+Dgd8fDn9ZCYrRnAua7OzxXAs/qOe2O/oagfE0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=hB6yJ5dsD/HXR6OLOdl2z7fB8tBJwqAD4YRsMwnvfaXOTDNCiwSGbmsD0PrUHfkik
-	 GU5Xaw1cazoAm8R0Nd5+/s/s9/SweR2DW4lfifAv9DE8Y2CyOEZgg3HoKJp5k9zRjA
-	 ewoDJHelVgz9LiM1K+DbriZhS+KYeKO6dAqGUtrI=
-Received: from [93.190.126.19] (mx1.investici.org [93.190.126.19]) (Authenticated sender: rinni@inventati.org) by localhost (Postfix) with ESMTPSA id 4KZ5VW0Kj1z117n;
-	Thu,  7 Apr 2022 15:52:19 +0000 (UTC)
-From: Philip Rinn <rinni@inventati.org>
-To: robh+dt@kernel.org,
-	krzk+dt@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Philip Rinn <rinni@inventati.org>
-Subject: [PATCH v4] arm64: dts: allwinner: a64: olinuxino: Enable audio
-Date: Thu,  7 Apr 2022 17:51:45 +0200
-Message-Id: <20220407155145.10891-1-rinni@inventati.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <4fc41278-c46c-6486-a336-f2a329bd6bd0@sholland.org>
-References: <4fc41278-c46c-6486-a336-f2a329bd6bd0@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6977E2563;
+	Thu,  7 Apr 2022 20:51:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: nicolas)
+	with ESMTPSA id 6195D1F469E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649364713;
+	bh=1WyhI7w7hvBC4/MGgp6yvbiqYKCunaua4C6u084yhxk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=i73f2IDYCYXh4VKi+jXZc24CDasIcoKXC/tFHwMbuCtnRFSOpEmZIusrnIoNs4IbN
+	 q9/KtXho3KMDZzDboGIKrGbqLn6wd3SndJVKU9Db3YMQktwCPngQkjzN3mfTe1AwXh
+	 TvyAMVxULHQehDBJLckcjxo8S5bgVyk1rmtOLIUyeIyq2GSQSDiqUWIIVHyfd8fqRy
+	 9I95n/3O9bWs3qLlt0WCSZ8incqLwNA9GyPFZ56fa9mC0DmpMbuCOqEmEB+C6GiNeK
+	 XAHEHDLEN4z79mcIOAs9chEDWGSjw4BcPPNGuUp7RE59hMZf9hPDdNTZ8PBjBIi591
+	 8/axGwungbLmw==
+Message-ID: <b137de92ea0a6ecc3aa8ff39f6a1fc96b071b3e4.camel@collabora.com>
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+  gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	sebastian.fricke@collabora.com
+Date: Thu, 07 Apr 2022 16:51:41 -0400
+In-Reply-To: <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+	 <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Enable the audio hardware on the Olimex A64-OLinuXino board family.
-Tested on the A64-OLinuXino-2Ge8G-IND variant.
+Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> HEVC specifications say that:
+> "PicOrderCntVal is derived as follows:
+> PicOrderCntVal =3D PicOrderCntMsb + slice_pic_order_cnt_lsb
+> The value of PicOrderCntVal shall be in the range of =E2=88=92231 to 231 =
+=E2=88=92 1, inclusive."
 
-Signed-off-by: Philip Rinn <rinni@inventati.org>
----
+Did you mean 2^31 ?
 
-Changes in v2: added missing &sound {...} part
-Changes in v3: removed HDMI audio part as requested by Jernej Škrabec
-Changes in v4: right microphone jack is also biased on MBIAS
+>=20
+> To match with these definitions change __u16 pic_order_cnt[2]
+> into __s32 pic_order_cnt_val.
+>=20
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 5:
+> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>  drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>  drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>  drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>  include/media/hevc-ctrls.h                        | 2 +-
+>  5 files changed, 8 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/=
+staging/media/hantro/hantro_g2_hevc_dec.c
+> index c524af41baf5..6f3c774aa3d9 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>  	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>  	 */
+>  	for (i =3D 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SI=
+ZE(cur_poc); i++) {
+> -		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_order_=
+cnt[0];
+> +		char poc_diff =3D decode_params->pic_order_cnt_val - dpb[i].pic_order_=
+cnt_val;
+> =20
+>  		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>  	}
+> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>  	dpb_longterm_e =3D 0;
+>  	for (i =3D 0; i < decode_params->num_active_dpb_entries &&
+>  	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+> -		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+> +		luma_addr =3D hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>  		if (!luma_addr)
+>  			return -ENOMEM;
+> =20
+> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging=
+/media/hantro/hantro_hevc.c
+> index b6ec86d03d91..fadd40768579 100644
+> --- a/drivers/staging/media/hantro/hantro_hevc.c
+> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx=
+)
+>  }
+> =20
+>  dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+> -				   int poc)
+> +				   s32 poc)
+>  {
+>  	struct hantro_hevc_dec_hw_ctx *hevc_dec =3D &ctx->hevc_dec;
+>  	int i;
+> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/m=
+edia/hantro/hantro_hw.h
+> index ed018e293ba0..a648c529662b 100644
+> --- a/drivers/staging/media/hantro/hantro_hw.h
+> +++ b/drivers/staging/media/hantro/hantro_hw.h
+> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>  	struct hantro_aux_buf tile_bsd;
+>  	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>  	struct hantro_aux_buf scaling_lists;
+> -	int ref_bufs_poc[NUM_REF_PICTURES];
+> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
 
- arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts    | 30 +++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Was this strictly needed ? Isn't int always same as s32 ?
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-index ec7e2c0e82c1..6f2674bb1b7f 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-olinuxino.dts
-@@ -58,6 +58,15 @@ wifi_pwrseq: wifi_pwrseq {
- 	};
- };
- 
-+&codec {
-+	status = "okay";
-+};
-+
-+&codec_analog {
-+	cpvdd-supply = <&reg_eldo1>;
-+	status = "okay";
-+};
-+
- &cpu0 {
- 	cpu-supply = <&reg_dcdc2>;
- };
-@@ -74,6 +83,10 @@ &cpu3 {
- 	cpu-supply = <&reg_dcdc2>;
- };
- 
-+&dai {
-+	status = "okay";
-+};
-+
- &de {
- 	status = "okay";
- };
-@@ -328,6 +341,23 @@ &simplefb_hdmi {
- 	vcc-hdmi-supply = <&reg_dldo1>;
- };
- 
-+&sound {
-+	simple-audio-card,aux-devs = <&codec_analog>;
-+	simple-audio-card,widgets = "Microphone", "Microphone Jack Left",
-+		    "Microphone", "Microphone Jack Right",
-+		    "Headphone", "Headphone Jack";
-+	simple-audio-card,routing = "Left DAC", "DACL",
-+		    "Right DAC", "DACR",
-+		    "Headphone Jack", "HP",
-+		    "ADCL", "Left ADC",
-+		    "ADCR", "Right ADC",
-+		    "Microphone Jack Left", "MBIAS",
-+		    "MIC1", "Microphone Jack Left",
-+		    "Microphone Jack Right", "MBIAS",
-+		    "MIC2", "Microphone Jack Right";
-+	status = "okay";
-+};
-+
- &uart0 {
- 	pinctrl-names = "default";
- 	pinctrl-0 = <&uart0_pb_pins>;
--- 
-2.34.1
+>  	u32 ref_bufs_used;
+>  	struct hantro_hevc_dec_ctrls ctrls;
+>  	unsigned int num_tile_cols_allocated;
+> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>  void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>  int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>  int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>  int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t =
+addr);
+>  void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>  size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_h265.c
+> index 44f385be9f6c..d04521ffd920 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct c=
+edrus_ctx *ctx,
+>  	for (i =3D 0; i < num_active_dpb_entries; i++) {
+>  		int buffer_index =3D vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>  		u32 pic_order_cnt[2] =3D {
+> -			dpb[i].pic_order_cnt[0],
+> -			dpb[i].pic_order_cnt[1]
+> +			dpb[i].pic_order_cnt_val & 0xffff,
+> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+
+This is confusing, it gives the impression that pic_order_cnt_val contains =
+TOP
+and BOTTOM field pic_order_cnt, which isn't the case. This is just the full=
+ pic
+order count value for this reference.
+
+This is confusing me, most HEVC decoder don't really know about fields. The=
+y
+will instead happily produce half height frames, and we should support this=
+ in
+the form of ALTERNATE or SEQ interlacing output.
+
+While it seems like Allwinner HW maybe support interleaved output, there I =
+would
+not find any userland that would implement this, hence proving that it work=
+s.
+Overall, interlaced HEVC (a very niche use case) should be studied, and we
+should ensure that alternate/seq interlacing is possible, since a lot of HW=
+ will
+only offer this.
+
+>  		};
+> =20
+>  		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index b3540167df9e..2812778b41f4 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>  	__u64	timestamp;
+>  	__u8	flags;
+>  	__u8	field_pic;
+> -	__u16	pic_order_cnt[2];
+> +	__s32	pic_order_cnt_val;
+>  	__u8	padding[2];
+>  };
+> =20
 
