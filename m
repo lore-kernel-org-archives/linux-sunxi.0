@@ -1,116 +1,119 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47CE429AE;
-	Fri,  8 Apr 2022 18:53:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: nicolas)
-	with ESMTPSA id 4BC421F473B1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1649444012;
-	bh=r1uTA7u5ZuBHwJEYWmnZvWNMO0Xo6FFVj0EubH+YtL8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=EJS6kkAybGAyLEkOzvKZh2fHTuNEdkEE+Ex+3qrvSsAZhQ97MVT27SOT+RkuBLMUX
-	 znygWl9zx1gXJbSdl5xK/rU+TJ/xbcP+hAg7lq2v6UucrPUJfYVUJ0R5llQcz93WC8
-	 T3zPcxkuvtXod9cWJ6SmV4a7DGlg3mywiIxuAaJ5YwlUUVxYvbmm0NDtPg2FEeKAdt
-	 Mie+pssSYeft3zi7Bb26OBcaX0BNxV1U13dyROoqPeiEwLXnpuW4abIxkatu/T4/L7
-	 285bmIhO01AeomMxQFI3bG9F4cjVY29kBwdwmJsiWgHa8DRh7DXlcmgfVcm0+Y5kmF
-	 LLchSBfC5EMSg==
-Message-ID: <3179e400d52704d11dd150bf4270dab4c1064cad.camel@collabora.com>
-Subject: Re: [PATCH v5 09/17] media: uapi: HEVC: Define
- V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
-  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-  gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	sebastian.fricke@collabora.com
-Date: Fri, 08 Apr 2022 14:53:20 -0400
-In-Reply-To: <20220407152940.738159-10-benjamin.gaignard@collabora.com>
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
-	 <20220407152940.738159-10-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.0 (3.44.0-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDFAEA1
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Apr 2022 03:51:27 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8E2C05C0106;
+	Sat,  9 Apr 2022 23:51:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sat, 09 Apr 2022 23:51:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; bh=8sKdFzvVcyArwZ
+	LwNXQ9FVQwAuWZZ47XwzYvxhpdEOU=; b=M4xRkZ1ufqtOPmkzI+qxvjaTUSmO55
+	xb+TWWFxJvaoXbrcmI10sC/BdmUHP2ZM9F/FsquL3adPQGd6envcSld0QLbpTGC9
+	VWYx/ebFwTLnGObIGlqZZ/+/DDDjyVnSn73xXwf+IGBG3TRYbQiBllo/qc7u876k
+	txNB166AJwtALPxA3rtVH7wgu5I/cPx2y7ydQNa3W1dkjsW4u3di8ik17Ekj2Qr1
+	7qYqdPv2jQ1kP1FLOriCptYaUdjKUh1+7bC60VrA4n6s0MPu0LeIJChYn2nAlxUF
+	v3lRlYZ7m2XaO8YQRVy/bjHBc6S6XPMc0joREYTOeaB9EjTpOxO9tztw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; bh=8sKdFzvVcyArwZLwNXQ9FVQwAuWZZ47XwzYvxhpdE
+	OU=; b=NPrxSewyPeQXPaBJ80LKeLCeyDsy8YCnK9McUvx+QVkI3qdH9xYj2i+PP
+	iRH5e5rweEpYBfDI8E4RyE+chsvnZsLWKNn06t7SdRY1j8YE66cuIPl9IeKuNc89
+	B7ukQNAcpajTkrAjJH2Eaep5/EcJqTHRqWiMR57nwnDzh1gmH+aA1ZiOQOwlXr5q
+	QmiJtZCB7ZYz6ojX1ohWXrMNhQiSoQ8EYKV7/0xXds5cdeeMih1PC40qJES7XANP
+	vyp6baBhA0XB5Iz6KfhS3MB2dgET3Ic6E/9nkPsD5cCtOWvOhM8Q8l28VldfCg+X
+	k+2cP42Wm5j/mZlXUpqyPoJ3KAyHg==
+X-ME-Sender: <xms:PVRSYts-sa4Vgz9XcSI976mTy-fiOT-jTCyGIdTholnzwWrRwWvKsQ>
+    <xme:PVRSYmehysPnFEZDT-pzzT6P-X8hv9u9dbEvK0y_h6fjn7tfjL8rtjhu3_fhjG2qy
+    QzVy2PuAdte2n3Kow>
+X-ME-Received: <xmr:PVRSYgybnX7tcEtV0HDFhSHRAQbLTBc6mkcGUjoWszijxWcTsKbRPyjGJeUPaGTNK-gqQTssD4Pnkphjzgbs734lRd2TNYu9Ukz-RZ8fgZA_EUBte_WB5vIqvw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekfedgjeefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:PVRSYkM4Wx425nqZnCRtHwHwht0ErbyOhgcpcHj1DUjBDibX13LJxw>
+    <xmx:PVRSYt_qahXRKW4l6V2WDD77MHxA0lny1IB-lcex8famOTZQ1XSefg>
+    <xmx:PVRSYkX3BJb0A0645O_ByJNGhqbSqEKirnczHUed2NHOwtsXu2NS3A>
+    <xmx:PlRSYrcbksWjPPZTNtLvq_it9UZFS_zA20USbrs_Bu6NM8u7umMjxg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 9 Apr 2022 23:51:25 -0400 (EDT)
+Subject: Re: [PATCH v3 2/8] dt-bindings: interconnect: sunxi: Add V3s mbus
+ compatible
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
+ <20220302211100.65264-3-paul.kocialkowski@bootlin.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <5a3ce1aa-2d67-ed2c-cbfc-3fcccc93f40a@sholland.org>
+Date: Sat, 9 Apr 2022 22:51:24 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <20220302211100.65264-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Le jeudi 07 avril 2022 =C3=A0 17:29 +0200, Benjamin Gaignard a =C3=A9crit=
-=C2=A0:
-> Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
-> a dynamic array control type.
-> Some drivers may be able to receive multiple slices in one control
-> to improve decoding performance.
->=20
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+On 3/2/22 3:10 PM, Paul Kocialkowski wrote:
+> Since the V3s uses the internal mbus for DMA with multimedia devices,
+> document its compatible in accordance with the extended mbus binding.
+> 
+> This will enable adding support for the V3s in the full-fledged
+> devfreq driver eventually.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
->  include/media/hevc-ctrls.h                                | 3 +++
->  2 files changed, 5 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 7fcc6c2bac4c..1aaf3b84b584 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2964,6 +2964,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      These bitstream parameters are defined according to :ref:`hevc`.
->      They are described in section 7.4.7 "General slice segment header
->      semantics" of the specification.
-> +    This control is a dynamically sized 1-dimensional array,
-> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
-> =20
->  .. c:type:: v4l2_ctrl_hevc_slice_params
-> =20
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index 96a9b71d1def..28049e1a8a07 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -314,6 +314,9 @@ struct v4l2_hevc_pred_weight_table {
->  /**
->   * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
->   *
-> + * This control is a dynamically sized 1-dimensional array,
-> + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
-> + *
+>  .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+> index 8eee312c2e6f..e7f3f798491a 100644
+> --- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+> +++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+> @@ -31,6 +31,7 @@ properties:
+>        - allwinner,sun5i-a13-mbus
+>        - allwinner,sun8i-h3-mbus
+>        - allwinner,sun8i-r40-mbus
+> +      - allwinner,sun8i-v3s-mbus
+>        - allwinner,sun50i-a64-mbus
+>        - allwinner,sun50i-h5-mbus
+>  
+> @@ -88,6 +89,7 @@ if:
+>            - allwinner,sun8i-h3-mbus
+>            - allwinner,sun50i-a64-mbus
+>            - allwinner,sun50i-h5-mbus
+> +          - allwinner,sun8i-v3s-mbus
 
-I'm not sure about this comment, but I'm sure you forgot:
+This should be sorted, though it can be fixed when applying the patch. With that:
 
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
---- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-@@ -1505,6 +1505,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-v4l2_ctrl_type *type,
-                break;
-        case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
-                *type =3D V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
-+               *flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-                break;
-        case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
-                *type =3D V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
-
-Also, in AV1 we have V4L2_AV1_MAX_TILE_COUNT, which can be used in cfg.dims=
-,
-something the driver will actually set. We could have
-
-#define V4L2_HEVC_MAX_TILE_COUNT 600
-
-And drives can set:
-
-   .dims =3D { V4L2_HEVC_MAX_TILE_COUNT },
-
-In the control config.
-
->   * @bit_size: size (in bits) of the current slice data
->   * @data_bit_offset: offset (in bits) to the video data in the current s=
-lice data
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>  
+>  then:
+>    properties:
+> 
 
