@@ -1,192 +1,98 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC311840
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 12:04:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649678644; x=1681214644;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=o3dD+/n6JyhaejWNWTKICDnSKZHjfajSAJG8ZEeyBzY=;
-  b=dj/LML8pkhmT45dRNi1sW/jvk5xuWgTLsBkxdja1J8OxdGunOKRPMEsu
-   LQeOufkeohZUIMZ9NVfJEK1nVQ75DvIUZ3B2n90CjmCNpulIk2chEoYuC
-   +JU0WKw8yPbp21Gl5fPUTzvL4Pv3WUVU0wM79gI5DipDTevVVKpKVEBdf
-   X2cNWpQM70hbtzloV+BekDCItbuH9tkKw7eeroqF07VfEuF463r1NuXnH
-   UryHmlUN94cf+J5loWs+jY4cVIyJ5uaAWhzMoNGWS5+R2fk6+FK+HF2tx
-   hCmyJu8BiHIWzVTZVjCQvYN4O/NyBZI9ATImkOZd9Tmr7VSeSyyKR7Wv/
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10313"; a="348535940"
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="348535940"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 05:04:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,251,1643702400"; 
-   d="scan'208";a="699347471"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 11 Apr 2022 05:03:58 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1ndslx-0001pL-T7;
-	Mon, 11 Apr 2022 12:03:57 +0000
-Date: Mon, 11 Apr 2022 20:03:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel@sholland.org>, Vinod Koul <vkoul@kernel.org>,
-	dmaengine@vger.kernel.org
-Cc: kbuild-all@lists.01.org, Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] dmaengine: sun6i: Add support for 34-bit physical
- addresses
-Message-ID: <202204111937.ZQ1e600D-lkp@intel.com>
-References: <20220411044633.39014-4-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73457B
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 15:25:01 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 123-20020a1c1981000000b0038b3616a71aso10271902wmz.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 08:25:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RzsEqdN9GWBZCp9gbidm1vb5G8aw4lFe2X8gpnY6F9U=;
+        b=JQrYEIFBxiKgk+B/U4eSm8qQmxNxlhQQJSFEVnH4IiJtIEp3Iyxq5LhWBdVbC9LXNE
+         fjx+B0j5+rGkH6hhrv3Vhu2BCOPj7AWkXgjJ8+uaYU2cbY/BVn09qPoZtz4r7WmtCgRc
+         6jAhjsJke1LITOa0Vfldz77wZj1VlbRfWgN7pe8I6kxAzvSOYjNJJc4Nw7MG9YNr4aUG
+         SGm8GZ0/H9xwhSw4bjPRJ9LCkvogFt2nujW+EA73cCJFafK8gHwzuZw+mRbDJ1aVEqlI
+         0njk9NS0L8d1rnRwHRpEArL4g96GYrOCP53MSQAnvE3aRkjnwc2JjwMeLuM8fqhl4EFJ
+         Kb9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RzsEqdN9GWBZCp9gbidm1vb5G8aw4lFe2X8gpnY6F9U=;
+        b=jwSZ2Qd+3cZQ19lKMCBozoiSmi3UMZMS5g6W4d/bGnNwoHzUxjmYVm2K0jjEQ0PG6s
+         aTFsoIUhIUgfRBhE4Y5VuprFhEqUCBP6Onpk5U4ZA7NtQ1F5yGcnUgF3sDgk2kwbehHa
+         DyB9ic/Tpp/iF7WmKsl/rjLbZepPBFACiZpAhmLMKn8tfsLmKJW9tItCLTnQlI5PqovS
+         eMB3gwGNPEBEK8HhKCcGqw39ccRF8Pg0w3z/tjgJqWX9iDzMnRNV7RHNZXYJfGso5tx5
+         zKCbR+VlvpCFjfPkcRKbiRmbquHk03OKhl0nf26f79rFrOfQj+1h+K7DApfO1X3Ecgbd
+         s4qA==
+X-Gm-Message-State: AOAM531ubj1wOKEb7VHolVpuswCFtd731+2IdWhlrH634UbCGIAEKWf5
+	COVVtJfX1V11cVYRypAGtAk=
+X-Google-Smtp-Source: ABdhPJwEBfXcqXbo6nKoX7IGK2b48hhx00NtVYuq45Z9JeLIYxRw6WPyZdqv7NpnPbruES0SS+KWOQ==
+X-Received: by 2002:a1c:f607:0:b0:381:1db:d767 with SMTP id w7-20020a1cf607000000b0038101dbd767mr28969100wmc.165.1649690700192;
+        Mon, 11 Apr 2022 08:25:00 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id a7-20020adffb87000000b00207982c7f4dsm9126970wrr.67.2022.04.11.08.24.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Apr 2022 08:24:59 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Samuel Holland <samuel@sholland.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical
+Date: Mon, 11 Apr 2022 17:24:58 +0200
+Message-ID: <2233461.ElGaqSPkdT@kista>
+In-Reply-To: <20220411050100.40964-1-samuel@sholland.org>
+References: <20220411050100.40964-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411044633.39014-4-samuel@sholland.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Samuel,
+Dne ponedeljek, 11. april 2022 ob 07:00:59 CEST je Samuel Holland napisal(a):
+> Because some newer hardware variants have multiple possible parents for
+> the RTC's timekeeping clock, this driver models it as a "rtc-32k" clock.
+> However, it does not add any consumer for this clock. This causes the
+> common clock framework to disable it, preventing RTC time access.
+> 
+> Since the RTC's timekeeping clock should always be enabled, regardless
+> of which drivers are loaded, let's mark this clock as critical instead
+> of adding a consumer in the RTC driver.
+> 
+> Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-I love your patch! Perhaps something to improve:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on sunxi/sunxi/for-next v5.18-rc2 next-20220411]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+Best regards,
+Jernej
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/dmaengine-sun6i-Allwinner-D1-support/20220411-124826
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-config: nios2-randconfig-r011-20220410 (https://download.01.org/0day-ci/archive/20220411/202204111937.ZQ1e600D-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/2e9c7977b871d504bca4e9ee88d3b322a21f3fb7
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Samuel-Holland/dmaengine-sun6i-Allwinner-D1-support/20220411-124826
-        git checkout 2e9c7977b871d504bca4e9ee88d3b322a21f3fb7
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=nios2 SHELL=/bin/bash drivers/dma/
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/dmaengine.h:8,
-                    from drivers/dma/sun6i-dma.c:12:
-   drivers/dma/sun6i-dma.c: In function 'sun6i_dma_dump_chan_regs':
-   drivers/dma/sun6i-dma.c:259:34: warning: format '%lx' expects argument of type 'long unsigned int', but argument 5 has type 'int' [-Wformat=]
-     259 |         dev_dbg(sdev->slave.dev, "Chan %d reg: 0x%lx\n"
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:129:41: note: in definition of macro 'dev_printk'
-     129 |                 _dev_printk(level, dev, fmt, ##__VA_ARGS__);            \
-         |                                         ^~~
-   include/linux/dev_printk.h:158:37: note: in expansion of macro 'dev_fmt'
-     158 |         dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                     ^~~~~~~
-   drivers/dma/sun6i-dma.c:259:9: note: in expansion of macro 'dev_dbg'
-     259 |         dev_dbg(sdev->slave.dev, "Chan %d reg: 0x%lx\n"
-         |         ^~~~~~~
-   drivers/dma/sun6i-dma.c:259:52: note: format string is defined here
-     259 |         dev_dbg(sdev->slave.dev, "Chan %d reg: 0x%lx\n"
-         |                                                  ~~^
-         |                                                    |
-         |                                                    long unsigned int
-         |                                                  %x
-   drivers/dma/sun6i-dma.c: In function 'sun6i_dma_prep_dma_memcpy':
->> drivers/dma/sun6i-dma.c:99:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-      99 | #define SET_SRC_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 16)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:674:32: note: in expansion of macro 'SET_SRC_HIGH_ADDR'
-     674 |                 v_lli->para |= SET_SRC_HIGH_ADDR(src) |
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c:100:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-     100 | #define SET_DST_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 18)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:675:32: note: in expansion of macro 'SET_DST_HIGH_ADDR'
-     675 |                                SET_DST_HIGH_ADDR(dest);
-         |                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c: In function 'sun6i_dma_prep_slave_sg':
->> drivers/dma/sun6i-dma.c:99:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-      99 | #define SET_SRC_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 16)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:737:48: note: in expansion of macro 'SET_SRC_HIGH_ADDR'
-     737 |                                 v_lli->para |= SET_SRC_HIGH_ADDR(sg_dma_address(sg)) |
-         |                                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c:100:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-     100 | #define SET_DST_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 18)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:738:48: note: in expansion of macro 'SET_DST_HIGH_ADDR'
-     738 |                                                SET_DST_HIGH_ADDR(sconfig->dst_addr);
-         |                                                ^~~~~~~~~~~~~~~~~
->> drivers/dma/sun6i-dma.c:99:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-      99 | #define SET_SRC_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 16)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:753:48: note: in expansion of macro 'SET_SRC_HIGH_ADDR'
-     753 |                                 v_lli->para |= SET_SRC_HIGH_ADDR(sconfig->src_addr) |
-         |                                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c:100:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-     100 | #define SET_DST_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 18)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:754:48: note: in expansion of macro 'SET_DST_HIGH_ADDR'
-     754 |                                                SET_DST_HIGH_ADDR(sg_dma_address(sg));
-         |                                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c: In function 'sun6i_dma_prep_dma_cyclic':
->> drivers/dma/sun6i-dma.c:99:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-      99 | #define SET_SRC_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 16)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:826:48: note: in expansion of macro 'SET_SRC_HIGH_ADDR'
-     826 |                                 v_lli->para |= SET_SRC_HIGH_ADDR(buf_addr + period_len * i) |
-         |                                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c:100:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-     100 | #define SET_DST_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 18)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:827:48: note: in expansion of macro 'SET_DST_HIGH_ADDR'
-     827 |                                                SET_DST_HIGH_ADDR(sconfig->dst_addr);
-         |                                                ^~~~~~~~~~~~~~~~~
->> drivers/dma/sun6i-dma.c:99:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-      99 | #define SET_SRC_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 16)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:835:48: note: in expansion of macro 'SET_SRC_HIGH_ADDR'
-     835 |                                 v_lli->para |= SET_SRC_HIGH_ADDR(sconfig->src_addr) |
-         |                                                ^~~~~~~~~~~~~~~~~
-   drivers/dma/sun6i-dma.c:100:48: warning: right shift count >= width of type [-Wshift-count-overflow]
-     100 | #define SET_DST_HIGH_ADDR(x)            ((((x) >> 32) & 0x3U) << 18)
-         |                                                ^~
-   drivers/dma/sun6i-dma.c:836:48: note: in expansion of macro 'SET_DST_HIGH_ADDR'
-     836 |                                                SET_DST_HIGH_ADDR(buf_addr + period_len * i);
-         |                                                ^~~~~~~~~~~~~~~~~
+> ---
+> 
+>  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-
+sun6i-rtc.c
+> index 8a10bade7e0d..3d9c9ce5a3db 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> @@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
+>  	.ops		= &ccu_mux_ops,
+>  	.parent_hws	= rtc_32k_parents,
+>  	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated 
+during probe */
+> +	.flags		= CLK_IS_CRITICAL,
+>  };
+>  
+>  static struct ccu_mux rtc_32k_clk = {
+> -- 
+> 2.35.1
+> 
+> 
 
 
-vim +99 drivers/dma/sun6i-dma.c
-
-    92	
-    93	/*
-    94	 * LLI address mangling
-    95	 *
-    96	 * The LLI link physical address is also mangled, but we avoid dealing
-    97	 * with that by allocating LLIs from the DMA32 zone.
-    98	 */
-  > 99	#define SET_SRC_HIGH_ADDR(x)		((((x) >> 32) & 0x3U) << 16)
-   100	#define SET_DST_HIGH_ADDR(x)		((((x) >> 32) & 0x3U) << 18)
-   101	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
