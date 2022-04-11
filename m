@@ -1,49 +1,49 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 780A07B
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 15:51:52 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id r64so10183858wmr.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 08:51:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE5D7B
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 15:54:29 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id h16so10215019wmd.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 08:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YS8EHgwmMuCqhyig1rAaWaRxXw3QqtoY27L8Jll0TfY=;
-        b=As31xpNOOXW4cOL7/qqPuWMExguKMbXyka+Vh9C9W/8PbSFivYI75aVr2GVZmJcjgr
-         kV8l4qy2Tg7yf0ZL0HMf5UlajwgEf/6IO/yB2BV/rekMrDTVP6T54LENY+PjKv515hDK
-         ZulGZCIDUpMCpb47TlwyOwE+tf8P1n0XEh5rwPXgJlJVevhJ/jqjrXGRRzT3fvG8b2KJ
-         fYzEnlx7I+/Lhth6iiZHjNNVJEmdTdiiMSUZ0YhWi1SfgfKAuAC/pvQ0gPD0kQRLB5k4
-         WGwwSqF83vJ73SX0VyHlRTH15XOHjv+7fdr0/gn9Z0trOGwQ9wpZUIlh8rozIZsSrxgX
-         wqRw==
+        bh=nmuYtqAwEElb8nxVd+fxQ89gGHmXquxvJjVsYoqHv2Y=;
+        b=keocVt8ryOJFNtu5Az/dug++DkTAI4OLWaFHkX4cvSsY1xV/Wskbcl5ImhbUzHtCaE
+         4OMIC3t4sUW/61SlvymjUxxHekkkGk8zMK66fM3+/Ff7PxoGkiTMizk0GgsSIZLo/faB
+         kLIO1o1ZFqcHSMwQjOHxjyHcqO6AYi7MqD6XDvPzTCtq0xAgBohx+LNW4dE7cbKZg7js
+         WdIJ2O1rpMwswpbjOOCj2iLMgUeClP+tOnqgOJc6YJeAyfnjPl7nyIpmEYi7YQvceh2V
+         q8elVAXixGrrTSNmOmBdmnykQ14lXvMlgHWhHaASaJrj6SOf2cOsJHVG1CQKSGJ1JfCK
+         IUJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YS8EHgwmMuCqhyig1rAaWaRxXw3QqtoY27L8Jll0TfY=;
-        b=k5o12m/bCzlKJpvV3NkFQ6zFZs4LLLw6JknyppTNeGBhxLCkd3fgwGLYX9bbFVu/b4
-         mNle6tcwjzMAdIi1XG7/XIempOeTOrXpKNFuYVk6Fgk1t0Twf27+UTxv9P9r/tA04qxI
-         e1sHdDO/evsNEC7I+JaWn+9Qj9XeLsecG5WbBFYwzlcQfC+RRB1X/edGSQz9OSrZohLK
-         LW9Q5ZP9475wg5jLE37A+lM/wHJTSIN89dJv8QAStBykTulXO5bJm3dqv2cXwJGnBaWJ
-         h4iN1tz1eh/qTjU3LeWRUd0KUAp3DE/ec9inWad49Kx1jRjwP/CkfhbIiYXM/5Ueuktr
-         YOWQ==
-X-Gm-Message-State: AOAM5328wlJjAcoSW1cC0ivd9AdvAhKJqgkV2cm2tU1Ym29q8XIJeB1U
-	DIJpq2AmWgDQCC0qEfk2qzVkCfXjy+r1xA==
-X-Google-Smtp-Source: ABdhPJxvtJQJT9jI/s9bYQuO90GNiVMlLPs03qEqheRFSe8rV0SXjb9P9bAhHpKdX5WiBso6FB1JZw==
-X-Received: by 2002:a7b:cb05:0:b0:38c:7910:d935 with SMTP id u5-20020a7bcb05000000b0038c7910d935mr29586332wmj.170.1649692310794;
-        Mon, 11 Apr 2022 08:51:50 -0700 (PDT)
+        bh=nmuYtqAwEElb8nxVd+fxQ89gGHmXquxvJjVsYoqHv2Y=;
+        b=sRgvE7kjX61aXxR1i0JFwRjHf55xJwJ5vYxcoK8xCFvB299MQrdu8nDVf7EMSiG9rk
+         fx0y3tKKa7bYR6MfWE0aHxkxRLCzR7pDY2qz8QcESmIb2j2/NaBVh6nqiyl0W/CDWW2D
+         g69hje+7qYDSSLdibOK5BELjqXclmoACf02TMq8Zd3+YfbP4xKRloKK7VLOv1BM/vpzc
+         D86tmd+3Y6TPXtMe1tkCdgGrSDLtWaDo3KnOAgkLdpwJAFaCjNf8KKM2YWAZe3dLgTVs
+         7vZvIMvIQFIzIJyYbMSP3GCQjpIGM3KrWoeWHi9cwyuO+PzeeQQMtwHMeyO2lbOkE1qt
+         GmOA==
+X-Gm-Message-State: AOAM533scIC5LxLyPO/vt0u3i3NkXGS1khmsef1suQp3RBZ97oFThM06
+	30KnGdImdVeWTRDOKotyl10=
+X-Google-Smtp-Source: ABdhPJwKMQkKpncM2rJZD2K2/Z9LaMxbxU3HY7D5aMcEWRGUB8rsH5POeRJ5rWtiP9HOlGX7T5u88w==
+X-Received: by 2002:a05:600c:4ecc:b0:38e:354d:909 with SMTP id g12-20020a05600c4ecc00b0038e354d0909mr30666672wmq.33.1649692467942;
+        Mon, 11 Apr 2022 08:54:27 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id u1-20020a056000038100b00207a578e9d4sm4140041wrf.89.2022.04.11.08.51.49
+        by smtp.gmail.com with ESMTPSA id b1-20020a05600018a100b00207ab2305d5sm1569272wri.16.2022.04.11.08.54.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Apr 2022 08:51:50 -0700 (PDT)
+        Mon, 11 Apr 2022 08:54:27 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>
 Cc: Samuel Holland <samuel@sholland.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 07/10] drm/sun4i: Add support for D1 mixers
-Date: Mon, 11 Apr 2022 17:51:49 +0200
-Message-ID: <1721354.VLH7GnMWUR@kista>
-In-Reply-To: <20220411043423.37333-8-samuel@sholland.org>
-References: <20220411043423.37333-1-samuel@sholland.org> <20220411043423.37333-8-samuel@sholland.org>
+Subject: Re: [PATCH 10/10] drm/sun4i: Add compatible for D1 display engine
+Date: Mon, 11 Apr 2022 17:54:26 +0200
+Message-ID: <1908291.usQuhbGJ8B@kista>
+In-Reply-To: <20220411043423.37333-11-samuel@sholland.org>
+References: <20220411043423.37333-1-samuel@sholland.org> <20220411043423.37333-11-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,10 +53,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 11. april 2022 ob 06:34:19 CEST je Samuel Holland napisal(a):
-> D1 has a display engine with the usual pair of mixers, albeit with
-> relatively few layers. In fact, D1 appears to be the first SoC to have
-> a mixer without any UI layers. Add support for these new variants.
+Dne ponedeljek, 11. april 2022 ob 06:34:22 CEST je Samuel Holland napisal(a):
+> Now that the various blocks in the D1 display engine pipeline are
+> supported, we can enable the overall engine.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
@@ -67,56 +66,23 @@ Jernej
 
 > ---
 > 
->  drivers/gpu/drm/sun4i/sun8i_mixer.c | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
+>  drivers/gpu/drm/sun4i/sun4i_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/
-sun8i_mixer.c
-> index f5e8aeaa3cdf..49c0d17c6f0a 100644
-> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> @@ -585,6 +585,24 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg 
-= {
->  	.mod_rate = 150000000,
->  };
->  
-> +static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg = {
-> +	.ccsc		= 2,
-> +	.mod_rate	= 297000000,
-> +	.scaler_mask	= 0x3,
-> +	.scanline_yuv	= 2048,
-> +	.ui_num		= 1,
-> +	.vi_num		= 1,
-> +};
-> +
-> +static const struct sun8i_mixer_cfg sun20i_d1_mixer1_cfg = {
-> +	.ccsc		= 1,
-> +	.mod_rate	= 297000000,
-> +	.scaler_mask	= 0x1,
-> +	.scanline_yuv	= 1024,
-> +	.ui_num		= 0,
-> +	.vi_num		= 1,
-> +};
-> +
->  static const struct sun8i_mixer_cfg sun50i_a64_mixer0_cfg = {
->  	.ccsc		= 0,
->  	.mod_rate	= 297000000,
-> @@ -638,6 +656,14 @@ static const struct of_device_id sun8i_mixer_of_table[] 
-= {
->  		.compatible = "allwinner,sun8i-v3s-de2-mixer",
->  		.data = &sun8i_v3s_mixer_cfg,
->  	},
-> +	{
-> +		.compatible = "allwinner,sun20i-d1-de2-mixer-0",
-> +		.data = &sun20i_d1_mixer0_cfg,
-> +	},
-> +	{
-> +		.compatible = "allwinner,sun20i-d1-de2-mixer-1",
-> +		.data = &sun20i_d1_mixer1_cfg,
-> +	},
->  	{
->  		.compatible = "allwinner,sun50i-a64-de2-mixer-0",
->  		.data = &sun50i_a64_mixer0_cfg,
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/
+sun4i_drv.c
+> index 6a9ba8a77c77..275f7e4a03ae 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> @@ -418,6 +418,7 @@ static const struct of_device_id sun4i_drv_of_table[] = 
+{
+>  	{ .compatible = "allwinner,sun8i-r40-display-engine" },
+>  	{ .compatible = "allwinner,sun8i-v3s-display-engine" },
+>  	{ .compatible = "allwinner,sun9i-a80-display-engine" },
+> +	{ .compatible = "allwinner,sun20i-d1-display-engine" },
+>  	{ .compatible = "allwinner,sun50i-a64-display-engine" },
+>  	{ .compatible = "allwinner,sun50i-h6-display-engine" },
+>  	{ }
 > -- 
 > 2.35.1
 > 
