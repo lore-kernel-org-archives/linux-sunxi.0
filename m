@@ -1,70 +1,115 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0815E137A
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Apr 2022 18:23:19 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id bg10so26734261ejb.4
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Apr 2022 11:23:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dTlWD/+DNG8ntKC7giRASd1M2RQMGgWr/+DdcAwn+Oo=;
-        b=fTMuFY8NJsqQxEy1jImsyfghQ41FlphmGwdVAypDvJrGJG2TOyyBp3sU9/lk4Kc9Wa
-         xFgHQAGmcPPsFV6W11Q81eQ4wpQPF1dLb4D7RQmZjOYkAruuMeO3XDoWUxqp+nEuJvQh
-         KMz/x6PEMXjlOF+/ZlB5sDl+tvPVvflC8yZfWH0bqxAAKfGY94w8ltirJIz+QbcF2VJU
-         E+7Vxuws97vPnDn+UXE2RsRm4PGBAThfQ/b4xbSqTnw20vKKn83Le92BW5Xm9jX5QB5g
-         kN+66pwcJb2dlKsTN5NrTRH51kqBUenTm8K/8CmiCeY7tOZ4WQnqgF0/P3Ohs8c9i/3x
-         +9fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dTlWD/+DNG8ntKC7giRASd1M2RQMGgWr/+DdcAwn+Oo=;
-        b=Q8jgZ15nxc0Vt+B/bgLecCsf3pIY7Q+at0zth9wRbbTwkGZlT9YIeOg8lexedi2/Uu
-         lM5PnlnW/LCO2WmmqzsEn9FVcHr15uv3kAiE9JCSkShMPrebbvgc9lsM72XHz6ESZjmM
-         DytQVRogsRQ8dbbSCuuK1a4amgWTEOABXBDiVUj0jyy5JmLt5mMayIlqWbMqzJfn5OBY
-         F6evBUdmfadgExdQ74lB/jlucGk3j3bwYU0GOpLyYcixrt6mgjmKx/KIcYqelhaChDA6
-         al5o5WtGJN19FNWJrpTL2ETvO9lHROUSp9LU7tKLQqNgKJsF04pmDwYi4fnz237WcQtR
-         D5Ng==
-X-Gm-Message-State: AOAM531yFrNxgInVIO6k6Oggv6zDrZS6vr7ZUXofCmEgovvIVWE19lFH
-	lINm5UZoaKitLr5rYTg+55U=
-X-Google-Smtp-Source: ABdhPJyWiHyfZYk23/sjFDvNph0NWHcmJxJcH7zcPzkJBZmYJp2g9edrzfKJENEPKt00hjEItaEJIw==
-X-Received: by 2002:a17:906:9743:b0:6d8:632a:a42d with SMTP id o3-20020a170906974300b006d8632aa42dmr27490055ejy.157.1649614998151;
-        Sun, 10 Apr 2022 11:23:18 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id e22-20020a170906505600b006da7d71f25csm11054135ejk.41.2022.04.10.11.23.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Apr 2022 11:23:17 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Philip Rinn <rinni@inventati.org>, wens@csie.org, Samuel Holland <samuel@sholland.org>
-Cc: robh+dt@kernel.org, krzk+dt@kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH v4] arm64: dts: allwinner: a64: olinuxino: Enable audio
-Date: Sun, 10 Apr 2022 20:23:16 +0200
-Message-ID: <4727823.31r3eYUQgx@kista>
-In-Reply-To: <40976a35-2241-a2f0-c9be-dd32c1b51814@sholland.org>
-References: <4fc41278-c46c-6486-a336-f2a329bd6bd0@sholland.org> <20220407155145.10891-1-rinni@inventati.org> <40976a35-2241-a2f0-c9be-dd32c1b51814@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A66F10ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 04:34:28 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id E7D4D3200D78;
+	Mon, 11 Apr 2022 00:34:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Mon, 11 Apr 2022 00:34:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1649651666; x=1649738066; bh=UADj43RFHZwY34uGNWFBbRbPs
+	ti5GL31jj1csV2jv00=; b=d9sIXm3fZjepfsUk1yqvaRFb2lrDthNzo/KLQoROC
+	6o5jt28hQBuvSMy76jkX+CMUOj0iLNAaSZhC4eL5jarzZ2/xaAe+QcN1l1dnY2Z+
+	ZygA/KEdHYZ9Y/lGrFxud+aQAxGYjiEXtmVvu4/p+YykyOi9MZfodx9HX/vSvldg
+	ttPuQ+mNOIO0xCzncr5NcUuiksAvs1SNceQpFsuTZ1DbotOAbQ+Mml4ko0RjEb6j
+	JCYnix5fJIiKmUwDG4T2gQdQuve4RKUQ6N74jfL6OnGeGlQ+gP4Dtpt9/BPxFTa8
+	BxHSENmfaWg7qZK6bxiI5VYFQi9foUogDAofopK1PCwQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1649651666; x=1649738066; bh=U
+	ADj43RFHZwY34uGNWFBbRbPsti5GL31jj1csV2jv00=; b=YYz7e9VAgM1dCGVTV
+	/uK6eUgwClFPFYcNmNkwRyn7gKopKOYIAcZTFtS/tGm7uI4Nh+1Fy3Y+0RoD1qDq
+	dRhTs3ja8m8jutojKg+GLZPUtfdhIsv35IVcWn8vSbjDGmw119+gSe7SOqexonQn
+	zLcAsE8vSBNXfj4nQV1uZlIXB1TnnidSKcCzSNnSh4+IpSaf5vGmJNRBH7xoc53I
+	5R5/b2p5xvRnEWJsteszHCj1B0LeuaUVLNmuCvu9WWaUcA+1tX8P8XuCcbpSdzH2
+	26KSkkYKGigk9UTcbBe0uXV5rHmEcK15LnUzeXoetgmk/4SaBiFk8MVvqkw8wH6I
+	8rUMQ==
+X-ME-Sender: <xms:0a9TYv-p6Q5nuleDPFcP87OHhxG2kU9zyfAs8LPWhEjD4OZS8FUXTQ>
+    <xme:0a9TYruXQmmlRW4rKYGRqO-hFy-mWInFpsWpp_hK6aw58jwQtR94jaMTYW3AFQ7Is
+    SzL8LBqMZ9wQGIYPw>
+X-ME-Received: <xmr:0a9TYtD0cKdslGAxW1FwNE8Bv-SZsr7aaEmKUaJl4_IHp1-bB1JYbibt0G4HHqFuS2snWPgbtQR36bP2L8KZdNuahAgflwXvnnHzl-rDAeYGnkzkFzfpf074dOW4wwIg5atnmA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:0a9TYreIrhsxN46nReyzw4kSGGcCxNwQ7RKO5eK8fzGiDXg6r4z7_w>
+    <xmx:0a9TYkNkHI9965TaJKmaUG9kmGG7VwOfxO3ijqEkhusPmAtaKN33NA>
+    <xmx:0a9TYtl-1XkY6jNrt8ECdRTW2Tv2FpLcshbeNEJKMHUj4U6529nPtQ>
+    <xmx:0q9TYtn5HLMATeVFiRfwfR27Ml3yplO4ZtHnYUk8p9Ojiw_5enLb1w>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Apr 2022 00:34:24 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 00/10] drm/sun4i: Allwinner D1 Display Engine 2.0 Support
+Date: Sun, 10 Apr 2022 23:34:12 -0500
+Message-Id: <20220411043423.37333-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne petek, 08. april 2022 ob 00:06:01 CEST je Samuel Holland napisal(a):
-> On 4/7/22 10:51 AM, Philip Rinn wrote:
-> > Enable the audio hardware on the Olimex A64-OLinuXino board family.
-> > Tested on the A64-OLinuXino-2Ge8G-IND variant.
-> > 
-> > Signed-off-by: Philip Rinn <rinni@inventati.org>
-> 
-> Acked-by: Samuel Holland <samuel@sholland.org>
+This series adds binding and driver support for Display Engine 2.0
+variant found in the Allwinner D1.
 
-Applied to sunxi/dt-for-5.19. Thanks!
+So far it has only been tested with HDMI. I will be sending the HDMI
+support series separately, because the hardware comes with a brand new
+custom HDMI PHY, which requires some refactoring to support cleanly.
 
-Best regards,
-Jernej
 
+Samuel Holland (10):
+  dt-bindings: display: Separate clock item lists by compatible
+  dt-bindings: display: Add D1 display engine compatibles
+  drm/sun4i: Remove obsolete references to PHYS_OFFSET
+  drm/sun4i: Allow building the driver on RISC-V
+  drm/sun4i: csc: Add support for the new MMIO layout
+  drm/sun4i: Allow VI layers to be primary planes
+  drm/sun4i: Add support for D1 mixers
+  drm/sun4i: Add support for D1 TCON TOP
+  drm/sun4i: Add support for D1 TCONs
+  drm/sun4i: Add compatible for D1 display engine
+
+ .../allwinner,sun4i-a10-display-engine.yaml   |   1 +
+ .../display/allwinner,sun4i-a10-tcon.yaml     |   2 +
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |   2 +
+ .../display/allwinner,sun8i-r40-tcon-top.yaml | 145 ++++++++++++------
+ drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
+ drivers/gpu/drm/sun4i/sun4i_frontend.c        |   3 -
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |   8 +
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |   3 +-
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |   1 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           |  26 ++++
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |   6 +-
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c        |  15 +-
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |  36 ++++-
+ 14 files changed, 196 insertions(+), 55 deletions(-)
+
+-- 
+2.35.1
 
