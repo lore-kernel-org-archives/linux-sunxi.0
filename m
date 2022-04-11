@@ -1,74 +1,69 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 370E510ED
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 04:46:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id D65D93200EE0;
-	Mon, 11 Apr 2022 00:46:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 11 Apr 2022 00:46:48 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9E910ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 05:01:03 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 090853201DA0;
+	Mon, 11 Apr 2022 01:01:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 11 Apr 2022 01:01:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1649652407; x=1649738807; bh=ZP
-	5rt6ptJXp+J3FSVn6SSTBlioBq49HeROquJ1oQ8ZE=; b=VVLaE0wwY3jVr6pHAn
-	86xiTa+pLBsFpdprReDzrD0528rKtGwt40LTZyCo8+oQM12q2GMS/J4IrpiQZD3P
-	qBaZnTC2eAzYewxlTMlQvEo+6lletQ/ZWymFrUi3gSf7UIA3AMDbO44MyfxMt2Kv
-	D5c7etiujMEd5APGnpah+EcKp8y/vnN13JGKpoNJuniXmdA7oc+kvCXX/Hgol4RX
-	kFD8AmXg5s9q262Cs3IafHInidFSlAfDNSUIRJpmYR2q4krxjyQmXEXrBUhjmhVX
-	hDJeJhMZHBCpL1P80/m/myVVYlP5OCnGHHoqenaLeDboCswEmr2yNflkjEDfRK+b
-	sdKw==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1649653261; x=1649739661; bh=3FHnb4Cp18Y2LEkoS1WKw6+37
+	m2cFQoTwhF2MLKmC/w=; b=YQglM7b1OaG6yKb7vCNnryOcqE4cTBWx6iwlmHuDB
+	qCm1/CfTZH8tVCt6bBV4RAWOo9daFIJkg/6MbJobk1+v1vyAwmIRPUbJTptHzNvO
+	ihXTTvAlGltHyfvb9cnR4xNgxT9X9m8WyhAdiiHc132QqOHIOm7zFUoEEGo9RF1n
+	2p8RnfLjY0kFkP5NBSBO7LyVEpHpXxCE4HGHik9Den3zyVSKg0LY3CGpyyJv4gj+
+	RpJKHpzXm0x/ZCQcxw+nctOv3cZpeFpa5nwEOCBCDKQ1SuKPfLmD8aPQpY55KmeG
+	rcxqIsMf9wexUN6lET9Mz24Jcav2EQmmub72lc6cZiEZw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1649652407; x=1649738807; bh=ZP5rt6ptJXp+J3FSVn6SSTBlioBq49HeROq
-	uJ1oQ8ZE=; b=BkJyetYmAuD9u99LUzTowTwkBc6ZfabIBBcFxMDlGWfljctFEWR
-	i/bbIH+RCXJTscvjvdyLfRwBB6wHlV7SNNzaDZdzL/bUnnd0LQGHPa9TwOqQtXww
-	t/Z/jIG/Ja4/kUzxISGhUIb/HvpKWtiSG6KP3bRIPJ0D8kp38KwhzvnOU8sr6G/J
-	n2CvUHQfz0u+7Z+thT2rbjrqDwti/wen4EcJ5O37IiJD8DPnx2RmPDVDvP9W6ab9
-	qocNRt18CoLI1AzwN8GHFx6ShQHbm9nSrenrl4nz0RCWU+wrYXbiCnPIAkVp5Q0B
-	1FZAHb0LpymIGjvXVIIG3SJ79rl0jdCLQgg==
-X-ME-Sender: <xms:t7JTYhJEGiKL4d-gmY7AqoVflLGrxA6l88TNNJUfUKvoipWRQnSnAQ>
-    <xme:t7JTYtJD5cL2g0jspK4cvf8sdL2tLMYsWDLp5UVJUNUXrHnNbsWLlG5ZzOZmeqnjH
-    sy_TTi2EwD_L6LqfQ>
-X-ME-Received: <xmr:t7JTYpvkhI8AAkMcXVjgnwQyCCuBhIyi4GaT6GTWFlsKwvvwJjHYTnDHV9OTeMpvGTusJCVmefsvjvQdXN21ulxlYazcH_0zHTx3CLwbfJxe8h1y49aB0nEGCEA7H4ZudV-NMA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkeduucetufdoteggodetrfdotf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1649653261; x=1649739661; bh=3
+	FHnb4Cp18Y2LEkoS1WKw6+37m2cFQoTwhF2MLKmC/w=; b=bnzl9FDRGFlxJ9fCC
+	CPx36tV1Qm6cl9vXlZ4sqrUqZpYKaEjn9Q1mguLUm5isG5DXAx2NOSd0HL0jGU9x
+	/qjHv7Q5vFLc8/iVaNvsDsgMWA3hj+GD0SMNj3Dfhdn9TGWhV/6+dnY4wvEVPTjx
+	mhOexhhBd/fqpR75MsBA7PlItZcJCeGtJq3LCkLaLL6JUZueWzjYi91yAjPYOm80
+	fsmWf2nJFQshQvDRSGy+FP1ADB5S4gmVSsrNu0vsK9v+oQaGxWYwARatK+1ExG4P
+	GxjiulwepTnmbSHiK07g3guWYlBvlMwQVsutBSQvHpj+spy2kHZJKIj/rAG6N3f2
+	HftpQ==
+X-ME-Sender: <xms:DbZTYrTZxqHBi12UjGcn0DxqPCHp1b_1B-AiuNkvkCgvG_SuVbWzMQ>
+    <xme:DbZTYsyFKJs5MzPI5yCn4uHRfBkzYHJQ4shNbMQEvcZB8IZES0l67OAdk-Njw4N0O
+    vuTHGSjkCgdtSQ4AA>
+X-ME-Received: <xmr:DbZTYg2Y5q8kOfZOFcam_ZABdcDps87WHIVsZCtgFgCF9uI87DOm0UeNIFl3AJ-Foe9_-kZzZuL9kANZKjcU8GLh2tbLh-Y6KmkGBwHuNqCAeOYRQGGCxYvPzruk_qKIfNKKgQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
-    gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:t7JTYiYEwO6SEhHTtzD1DJuPxnHPGrzymmkANYjhMTtPNGGyb7vpyA>
-    <xmx:t7JTYoasxy4LwrqRheXUDcjUtRHjwsjAci9W-Ky8rO7qs3d6BfHHsQ>
-    <xmx:t7JTYmB1cxAr785eEedPbF_sWM1DbDskrfVMUmlHT1jjpj8Gg5UvoA>
-    <xmx:t7JTYiCgUYJXSUpBKfTtugSS5pSp7VFpPb_f1qNftBf7Y74UOxWc2Q>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:DbZTYrDXqcjk8JATPB836J7RVkbL85HOYcdtMW-5oNQVQOIYt_PJOQ>
+    <xmx:DbZTYki6nLrQipo1VDNW2L3z_FcNSivDbexyHZJUK3ss3XwtCRumyw>
+    <xmx:DbZTYvqcXu97qR6Z2PnI_R7A2EVgqrXG5_evXmUGtyEIXBqiDZ54nw>
+    <xmx:DbZTYnNEpB-jgaQez46rBiXST_MzTOwfkH2ksu0kQKyCLfI4V_pBcw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 00:46:46 -0400 (EDT)
+ 11 Apr 2022 01:01:00 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Vinod Koul <vkoul@kernel.org>,
-	dmaengine@vger.kernel.org
-Cc: Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v2 4/4] dmaengine: sun6i: Add support for the D1 variant
-Date: Sun, 10 Apr 2022 23:46:32 -0500
-Message-Id: <20220411044633.39014-5-samuel@sholland.org>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical
+Date: Mon, 11 Apr 2022 00:00:59 -0500
+Message-Id: <20220411050100.40964-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220411044633.39014-1-samuel@sholland.org>
-References: <20220411044633.39014-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,46 +72,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-So far it appears to match the configuration of the A100 variant.
+Because some newer hardware variants have multiple possible parents for
+the RTC's timekeeping clock, this driver models it as a "rtc-32k" clock.
+However, it does not add any consumer for this clock. This causes the
+common clock framework to disable it, preventing RTC time access.
 
-Since D1 is a RISC-V chip, it does not meet any of the existing
-dependencies for this driver, so relax the dependency somewhat.
+Since the RTC's timekeeping clock should always be enabled, regardless
+of which drivers are loaded, let's mark this clock as critical instead
+of adding a consumer in the RTC driver.
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
-(no changes since v1)
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
- drivers/dma/Kconfig     | 2 +-
- drivers/dma/sun6i-dma.c | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma/Kconfig b/drivers/dma/Kconfig
-index d5de3f77d3aa..b6845303cf7e 100644
---- a/drivers/dma/Kconfig
-+++ b/drivers/dma/Kconfig
-@@ -163,7 +163,7 @@ config DMA_SUN4I
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 8a10bade7e0d..3d9c9ce5a3db 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
+ 	.ops		= &ccu_mux_ops,
+ 	.parent_hws	= rtc_32k_parents,
+ 	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated during probe */
++	.flags		= CLK_IS_CRITICAL,
+ };
  
- config DMA_SUN6I
- 	tristate "Allwinner A31 SoCs DMA support"
--	depends on MACH_SUN6I || MACH_SUN8I || (ARM64 && ARCH_SUNXI) || COMPILE_TEST
-+	depends on ARCH_SUNXI || COMPILE_TEST
- 	depends on RESET_CONTROLLER
- 	select DMA_ENGINE
- 	select DMA_VIRTUAL_CHANNELS
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index bd5958185ed1..1b95e93c14ee 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -1277,6 +1277,7 @@ static const struct of_device_id sun6i_dma_match[] = {
- 	{ .compatible = "allwinner,sun8i-a83t-dma", .data = &sun8i_a83t_dma_cfg },
- 	{ .compatible = "allwinner,sun8i-h3-dma", .data = &sun8i_h3_dma_cfg },
- 	{ .compatible = "allwinner,sun8i-v3s-dma", .data = &sun8i_v3s_dma_cfg },
-+	{ .compatible = "allwinner,sun20i-d1-dma", .data = &sun50i_a100_dma_cfg },
- 	{ .compatible = "allwinner,sun50i-a64-dma", .data = &sun50i_a64_dma_cfg },
- 	{ .compatible = "allwinner,sun50i-a100-dma", .data = &sun50i_a100_dma_cfg },
- 	{ .compatible = "allwinner,sun50i-h6-dma", .data = &sun50i_h6_dma_cfg },
+ static struct ccu_mux rtc_32k_clk = {
 -- 
 2.35.1
 
