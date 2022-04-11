@@ -1,105 +1,80 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9E910ED
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 05:01:03 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 090853201DA0;
-	Mon, 11 Apr 2022 01:01:01 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 11 Apr 2022 01:01:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1649653261; x=1649739661; bh=3FHnb4Cp18Y2LEkoS1WKw6+37
-	m2cFQoTwhF2MLKmC/w=; b=YQglM7b1OaG6yKb7vCNnryOcqE4cTBWx6iwlmHuDB
-	qCm1/CfTZH8tVCt6bBV4RAWOo9daFIJkg/6MbJobk1+v1vyAwmIRPUbJTptHzNvO
-	ihXTTvAlGltHyfvb9cnR4xNgxT9X9m8WyhAdiiHc132QqOHIOm7zFUoEEGo9RF1n
-	2p8RnfLjY0kFkP5NBSBO7LyVEpHpXxCE4HGHik9Den3zyVSKg0LY3CGpyyJv4gj+
-	RpJKHpzXm0x/ZCQcxw+nctOv3cZpeFpa5nwEOCBCDKQ1SuKPfLmD8aPQpY55KmeG
-	rcxqIsMf9wexUN6lET9Mz24Jcav2EQmmub72lc6cZiEZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
-	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1649653261; x=1649739661; bh=3
-	FHnb4Cp18Y2LEkoS1WKw6+37m2cFQoTwhF2MLKmC/w=; b=bnzl9FDRGFlxJ9fCC
-	CPx36tV1Qm6cl9vXlZ4sqrUqZpYKaEjn9Q1mguLUm5isG5DXAx2NOSd0HL0jGU9x
-	/qjHv7Q5vFLc8/iVaNvsDsgMWA3hj+GD0SMNj3Dfhdn9TGWhV/6+dnY4wvEVPTjx
-	mhOexhhBd/fqpR75MsBA7PlItZcJCeGtJq3LCkLaLL6JUZueWzjYi91yAjPYOm80
-	fsmWf2nJFQshQvDRSGy+FP1ADB5S4gmVSsrNu0vsK9v+oQaGxWYwARatK+1ExG4P
-	GxjiulwepTnmbSHiK07g3guWYlBvlMwQVsutBSQvHpj+spy2kHZJKIj/rAG6N3f2
-	HftpQ==
-X-ME-Sender: <xms:DbZTYrTZxqHBi12UjGcn0DxqPCHp1b_1B-AiuNkvkCgvG_SuVbWzMQ>
-    <xme:DbZTYsyFKJs5MzPI5yCn4uHRfBkzYHJQ4shNbMQEvcZB8IZES0l67OAdk-Njw4N0O
-    vuTHGSjkCgdtSQ4AA>
-X-ME-Received: <xmr:DbZTYg2Y5q8kOfZOFcam_ZABdcDps87WHIVsZCtgFgCF9uI87DOm0UeNIFl3AJ-Foe9_-kZzZuL9kANZKjcU8GLh2tbLh-Y6KmkGBwHuNqCAeOYRQGGCxYvPzruk_qKIfNKKgQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekhedgkeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
-    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:DbZTYrDXqcjk8JATPB836J7RVkbL85HOYcdtMW-5oNQVQOIYt_PJOQ>
-    <xmx:DbZTYki6nLrQipo1VDNW2L3z_FcNSivDbexyHZJUK3ss3XwtCRumyw>
-    <xmx:DbZTYvqcXu97qR6Z2PnI_R7A2EVgqrXG5_evXmUGtyEIXBqiDZ54nw>
-    <xmx:DbZTYnNEpB-jgaQez46rBiXST_MzTOwfkH2ksu0kQKyCLfI4V_pBcw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 01:01:00 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical
-Date: Mon, 11 Apr 2022 00:00:59 -0500
-Message-Id: <20220411050100.40964-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 270D110ED
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 06:29:48 +0000 (UTC)
+Received: by mail-ej1-f43.google.com with SMTP id l7so23275872ejn.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Apr 2022 23:29:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=0yUNK3ZCKYDcOn5ZrB3/FxJrrtfEl7Fw4Ni9+59C8dU=;
+        b=jjzMGMubAeZ1lFmTxBh6mg17L9CLxZ6L/8g7R9OSx4TYbz/WOdXtuowKx72IFtfsqu
+         QzoJr3HWFtca8HIdbDFbdTZXW82MRdZMT2Ar6jcdDHsAnJGMC89ngSfFGQuCYwpDE14S
+         Ug6W90bCGgUXsKgnl7hZnmTtNIW8V6ndulmmzFdJt7rPureVDtky2zIP/53RouKx+KBx
+         6OtU8iOho9QoqPGcRqBrB7pmeU25YiRt5DMgy5Nea6yaNPRCUn1rUqGCMvt6qK9hPjh3
+         zx7MTwE56Sj806SWtRi5tsNGl9f73YQGm9ftjcgtWKXlyQ9Z4B8cJtBr1bvPk8UiAFBB
+         HhsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=0yUNK3ZCKYDcOn5ZrB3/FxJrrtfEl7Fw4Ni9+59C8dU=;
+        b=JEdKs0s+ISIdIWjS9//AXPL4rWCyPT1F9jM98hpyKl9bZq6EIY8dilz/hhTpZKy67R
+         CDxTWVyh1B9KNZXMkmv7XYYfG6e8Y/LHp6dAxabYU5rWQIb7ypn9mt+zkqUxCICeXQos
+         3tmwWqsRAiPMPYGlKwJ3CoOB6i4HVEhy9/v5B7qBaRxKOGG65ozPD4nRn333yVH4tJkC
+         Ow0rouB2U6ZHhjSzT2bEgxkDup4lx0GsTsf7m1sCUnJYYgc0fNmMEyATaAF5DGcrVoI+
+         kv6ynabBdJWxsr6m9Gw0gYSelJzNKjoPim2VrwH719krxYYnRM9dIg8+FgGhHRUuV3PC
+         qTVg==
+X-Gm-Message-State: AOAM5331cIvIy2tXGT3n6iUbxcdseeljiC2fTqH6mpO0p1a5n/uiXmXt
+	pWL3V3ylusrkoCb3TeEnZMHenQ==
+X-Google-Smtp-Source: ABdhPJwwVLHMPhdrjMNvxkSMXTsMCzYn4URc8/tDzb9b69Ns+YnUQjJlGNFB2RHrq+LZwSrM92Us2g==
+X-Received: by 2002:a17:907:b98:b0:6e8:9335:1fca with SMTP id ey24-20020a1709070b9800b006e893351fcamr2990034ejc.123.1649658586482;
+        Sun, 10 Apr 2022 23:29:46 -0700 (PDT)
+Received: from [192.168.0.191] (xdsl-188-155-201-27.adslplus.ch. [188.155.201.27])
+        by smtp.gmail.com with ESMTPSA id o3-20020a170906774300b006e79ea98369sm9276137ejn.151.2022.04.10.23.29.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 Apr 2022 23:29:45 -0700 (PDT)
+Message-ID: <1f688a08-1e3f-363a-1442-4c6dd9251f11@linaro.org>
+Date: Mon, 11 Apr 2022 08:29:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH] dt-bindings: clock: Add compatible for D1 DE2 clocks
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Rob Herring
+ <robh+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220411044002.37579-1-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220411044002.37579-1-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Because some newer hardware variants have multiple possible parents for
-the RTC's timekeeping clock, this driver models it as a "rtc-32k" clock.
-However, it does not add any consumer for this clock. This causes the
-common clock framework to disable it, preventing RTC time access.
+On 11/04/2022 06:40, Samuel Holland wrote:
+> Allwinner D1 contains a display engine 2.0. Its clock controller
+> matches the layout of the H5 DE2 clocks (2 mixers, no rotation engine,
+> and separate resets), so use that compatible as a fallback.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
 
-Since the RTC's timekeeping clock should always be enabled, regardless
-of which drivers are loaded, let's mark this clock as critical instead
-of adding a consumer in the RTC driver.
 
-Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index 8a10bade7e0d..3d9c9ce5a3db 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
- 	.ops		= &ccu_mux_ops,
- 	.parent_hws	= rtc_32k_parents,
- 	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated during probe */
-+	.flags		= CLK_IS_CRITICAL,
- };
- 
- static struct ccu_mux rtc_32k_clk = {
--- 
-2.35.1
-
+Best regards,
+Krzysztof
