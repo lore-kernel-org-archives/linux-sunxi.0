@@ -1,161 +1,199 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9B63D82
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 21:09:01 +0000 (UTC)
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-d6ca46da48so18682fac.12
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 14:09:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cJkmHfdBxf221GLO6Rp2mXWctk7aSf4CdfI04IRAEBI=;
-        b=LzmqurT9xmVYyuKriqWuZyLrPkz69q40l+JDV3Khru9re0DgI0XTWFB5CcVQJYcnIu
-         COkYqAgLX7zSBPptsoM4T21f7qc94dIXXJGFrF/aH8chOkiksL0e4+bB6vGd+4FmzVEj
-         vivieOcCn/S8VomcwEu0HsERTCkIjS8E9IiKYMWLyxSYvKU+XBS3YH64EgMtTvYhhLqC
-         X9PXrWR+kWymIY7ijydg2s8GWDuwUL4XwI2wyCNN2nHQ05fSDYZr8FEsQf4vFjKiKjNG
-         ArzpQEHxYixbJBzxZxKfpJ17ucIY8K7ytglzn966//DkcM5P9ZMdj1LIYn2FD/euCBSd
-         tvvg==
-X-Gm-Message-State: AOAM532cF6x4A33TyWpqJcKK4BynQlnxfGrD7OgIImN+PlIm+XGBcmUq
-	5Sq0UKZc2sSv6sIC+l/vUQ==
-X-Google-Smtp-Source: ABdhPJxzHVBv05OKxWV0sTv8Hm3nF460ieQSkUefeU8+7dcceq2HdX1Y1OEyRNmYiktpO+V5nGy4WA==
-X-Received: by 2002:a05:6870:4290:b0:e2:b4c9:ea5a with SMTP id y16-20020a056870429000b000e2b4c9ea5amr2900806oah.173.1649797740517;
-        Tue, 12 Apr 2022 14:09:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056830138100b005cf2f29d89csm13533691otq.77.2022.04.12.14.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Apr 2022 14:09:00 -0700 (PDT)
-Received: (nullmailer pid 946357 invoked by uid 1000);
-	Tue, 12 Apr 2022 21:08:59 -0000
-Date: Tue, 12 Apr 2022 16:08:59 -0500
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 02/14] dt-bindings: display: Add D1 display engine
- compatibles
-Message-ID: <YlXqa5YH7ckHCf1m@robh.at.kernel.org>
-References: <20220412042807.47519-1-samuel@sholland.org>
- <20220412042807.47519-3-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33DD23AC
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 23:34:43 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id B39695C01B6;
+	Tue, 12 Apr 2022 19:34:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 12 Apr 2022 19:34:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1649806482; x=
+	1649892882; bh=QN2NQNsZfvFG2wo53SzY7h+0Bmcu+2M8n+ZKjAkfluo=; b=s
+	YO3mdiqI5d2aP0InJSt+zDFq9jkFBfL4qdov3QmDAIzXd9Ku/cO1cC6cYT5VS0/t
+	wMn3VYlv1HUBK/YxyeODOKPFVc2U5vwcTThviHS9zzqSHZjDJct8nYBcDeOqBHo4
+	RYgx+TVk5vVBOPSroCnfPHC9TGpvFtF0VqLrD4pY0u3ILvZNDubnlyI6JTS+7ky8
+	FlGSxRK87skKcwA5nKnQyrBZMSWxJVSlVk9zs7eEz8QK/ziD6uTkeFCsoTkAcPB9
+	NXb4KkU3mWaCUXzsKUDBtDZNgcilYiIlNmu3M1nbrEQPiiqBx8Il0+SS8NFjN6v6
+	Rh1XyhpKY+2Wu+kdJkNEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1649806482; x=1649892882; bh=QN2NQNsZfvFG2
+	wo53SzY7h+0Bmcu+2M8n+ZKjAkfluo=; b=jhgfc8UPS3l2HYaz10gZ81RLfKvvT
+	T3jeHTnm3NW6cnVQpPkARc8bapLOD/PWGz7JcSR8PKnHAdzDnqvlUXdgKphMRnby
+	oH/9N8JPdOxvxOOtTx3jkKkFgGFrHo4/MeMwnddG5hOSN4paaFNevOSFMm1W5Z0R
+	mynVu93GUPhRozYAPMX6pGd0W0tSQTPwZBeSYTQuAPzJS1/+QmP5TKQt2ThV6+f4
+	XeQMKIgZHJWrxuS7aa4rP2hEOpJ9OCGa/3ufKXF00dAxo4lRULFyoAieYBvPm2t7
+	/MEnGI7wujdX5FCg3jhFglfMqPkksY9QraobhA8iqj86gNUgOQ2nGMveg==
+X-ME-Sender: <xms:kQxWYvGptXzuUo2Ca3AwNuZskaZASP2yGhn_AlHGnPX5gr5trvujhA>
+    <xme:kQxWYsX9KUAm5VSvt5IZPVd4_SqFDUsSa1Si99MAZJaUDnVyaOlnBh_OYCx7oaD9Y
+    n1ZP_F99sydlYkcdw>
+X-ME-Received: <xmr:kQxWYhJj3MrlW17_1nh8wU4rj7M-cPUyCE7Vcx8KIoLVEauoUa8z_ZW7kN82WSQyvmDw7oaYLwDK5IxL0BBybB4NF_Glx0fcH1aJ0ugSoqcrgt237YySV12Oug>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekledgvdehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfevffetleehffejueekvdekvdeitdehveegfeekheeuieeiueet
+    uefgtedtgeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:kQxWYtHGU5bFOJLsDIGhChTe6jJU-PMiBTFCNW5Um1IdZie8OWmbDg>
+    <xmx:kQxWYlUxOwkxLB7BKJ-ilxWX2HclY8FItGzvjPl-5tu0_U73fZBo7g>
+    <xmx:kQxWYoP7yM23qiCJd2c1n3Z6x8x4A2drHhlK3AkxfaPbOuSaRDINzA>
+    <xmx:kgxWYho0khb_5Rivlu6O89JI2rlNux89XLGtSsAsLiMpT0vFteEMNA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Apr 2022 19:34:41 -0400 (EDT)
+Subject: Re: [PATCH 3/6] drm/sun4i: sun8i-hdmi-phy: Used device-managed
+ clocks/resets
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Philipp Zabel <p.zabel@pengutronix.de>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220412043512.49364-1-samuel@sholland.org>
+ <20220412043512.49364-4-samuel@sholland.org>
+ <20220412132325.bq2c3g2fskckfgpz@houat>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <4b3b2515-d180-fee4-6095-c2e197a3f195@sholland.org>
+Date: Tue, 12 Apr 2022 18:34:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220412042807.47519-3-samuel@sholland.org>
+In-Reply-To: <20220412132325.bq2c3g2fskckfgpz@houat>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 11, 2022 at 11:27:54PM -0500, Samuel Holland wrote:
-> Allwinner D1 contains a display engine 2.0. It features two mixers, a
-> TCON TOP (with DSI and HDMI), one TCON LCD, and one TCON TV.
+On 4/12/22 8:23 AM, Maxime Ripard wrote:
+> Hi,
 > 
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
+> On Mon, Apr 11, 2022 at 11:35:08PM -0500, Samuel Holland wrote:
+>> Now that the HDMI PHY is using a platform driver, it can use device-
+>> managed resources. Use these, as well as the dev_err_probe helper, to
+>> simplify the probe function and get rid of the remove function.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 100 ++++++++-----------------
+>>  1 file changed, 30 insertions(+), 70 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+>> index 1effa30bfe62..1351e633d485 100644
+>> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+>> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+>> @@ -673,10 +673,8 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node)
+>>  static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+>>  {
+>>  	struct device *dev = &pdev->dev;
+>> -	struct device_node *node = dev->of_node;
+>>  	struct sun8i_hdmi_phy *phy;
+>>  	void __iomem *regs;
+>> -	int ret;
+>>  
+>>  	phy = devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+>>  	if (!phy)
+>> @@ -686,88 +684,50 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+>>  	phy->dev = dev;
+>>  
+>>  	regs = devm_platform_ioremap_resource(pdev, 0);
+>> -	if (IS_ERR(regs)) {
+>> -		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
+>> -		return PTR_ERR(regs);
+>> -	}
+>> +	if (IS_ERR(regs))
+>> +		return dev_err_probe(dev, PTR_ERR(regs),
+>> +				     "Couldn't map the HDMI PHY registers\n");
+>>  
+>>  	phy->regs = devm_regmap_init_mmio(dev, regs,
+>>  					  &sun8i_hdmi_phy_regmap_config);
+>> -	if (IS_ERR(phy->regs)) {
+>> -		dev_err(dev, "Couldn't create the HDMI PHY regmap\n");
+>> -		return PTR_ERR(phy->regs);
+>> -	}
+>> +	if (IS_ERR(phy->regs))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->regs),
+>> +				     "Couldn't create the HDMI PHY regmap\n");
+>>  
+>> -	phy->clk_bus = of_clk_get_by_name(node, "bus");
+>> -	if (IS_ERR(phy->clk_bus)) {
+>> -		dev_err(dev, "Could not get bus clock\n");
+>> -		return PTR_ERR(phy->clk_bus);
+>> -	}
+>> -
+>> -	phy->clk_mod = of_clk_get_by_name(node, "mod");
+>> -	if (IS_ERR(phy->clk_mod)) {
+>> -		dev_err(dev, "Could not get mod clock\n");
+>> -		ret = PTR_ERR(phy->clk_mod);
+>> -		goto err_put_clk_bus;
+>> -	}
+>> +	phy->clk_bus = devm_clk_get(dev, "bus");
+>> +	if (IS_ERR(phy->clk_bus))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->clk_bus),
+>> +				     "Could not get bus clock\n");
+>>  
+>> -	if (phy->variant->has_phy_clk) {
+>> -		phy->clk_pll0 = of_clk_get_by_name(node, "pll-0");
+>> -		if (IS_ERR(phy->clk_pll0)) {
+>> -			dev_err(dev, "Could not get pll-0 clock\n");
+>> -			ret = PTR_ERR(phy->clk_pll0);
+>> -			goto err_put_clk_mod;
+>> -		}
+>> -
+>> -		if (phy->variant->has_second_pll) {
+>> -			phy->clk_pll1 = of_clk_get_by_name(node, "pll-1");
+>> -			if (IS_ERR(phy->clk_pll1)) {
+>> -				dev_err(dev, "Could not get pll-1 clock\n");
+>> -				ret = PTR_ERR(phy->clk_pll1);
+>> -				goto err_put_clk_pll0;
+>> -			}
+>> -		}
+>> -	}
+>> +	phy->clk_mod = devm_clk_get(dev, "mod");
+>> +	if (IS_ERR(phy->clk_mod))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->clk_mod),
+>> +				     "Could not get mod clock\n");
+>>  
+>> -	phy->rst_phy = of_reset_control_get_shared(node, "phy");
+>> -	if (IS_ERR(phy->rst_phy)) {
+>> -		dev_err(dev, "Could not get phy reset control\n");
+>> -		ret = PTR_ERR(phy->rst_phy);
+>> -		goto err_put_clk_pll1;
+>> -	}
+>> +	if (phy->variant->has_phy_clk)
+>> +		phy->clk_pll0 = devm_clk_get(dev, "pll-0");
+>> +	if (IS_ERR(phy->clk_pll0))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll0),
+>> +				     "Could not get pll-0 clock\n");
+>> +
+>> +	if (phy->variant->has_second_pll)
+>> +		phy->clk_pll1 = devm_clk_get(dev, "pll-1");
+>> +	if (IS_ERR(phy->clk_pll1))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll1),
+>> +				     "Could not get pll-1 clock\n");
+>> +
+>> +	phy->rst_phy = devm_reset_control_get_shared(dev, "phy");
+>> +	if (IS_ERR(phy->rst_phy))
+>> +		return dev_err_probe(dev, PTR_ERR(phy->rst_phy),
+>> +				     "Could not get phy reset control\n");
 > 
-> (no changes since v1)
-> 
->  .../allwinner,sun4i-a10-display-engine.yaml   |  1 +
->  .../display/allwinner,sun4i-a10-tcon.yaml     |  2 ++
->  .../allwinner,sun8i-a83t-de2-mixer.yaml       |  2 ++
->  .../display/allwinner,sun8i-r40-tcon-top.yaml | 34 +++++++++++++++++++
->  4 files changed, 39 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-> index d4412aea7b73..c388ae5da1e4 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-> @@ -62,6 +62,7 @@ properties:
->        - allwinner,sun8i-r40-display-engine
->        - allwinner,sun8i-v3s-display-engine
->        - allwinner,sun9i-a80-display-engine
-> +      - allwinner,sun20i-d1-display-engine
->        - allwinner,sun50i-a64-display-engine
->        - allwinner,sun50i-h6-display-engine
->  
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> index 3a7d5d731712..4a92a4c7dcd7 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
-> @@ -33,6 +33,8 @@ properties:
->        - const: allwinner,sun8i-v3s-tcon
->        - const: allwinner,sun9i-a80-tcon-lcd
->        - const: allwinner,sun9i-a80-tcon-tv
-> +      - const: allwinner,sun20i-d1-tcon-lcd
-> +      - const: allwinner,sun20i-d1-tcon-tv
->  
->        - items:
->            - enum:
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> index 4f91eec26de9..cb243bc58ef7 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-de2-mixer.yaml
-> @@ -19,6 +19,8 @@ properties:
->        - allwinner,sun8i-r40-de2-mixer-0
->        - allwinner,sun8i-r40-de2-mixer-1
->        - allwinner,sun8i-v3s-de2-mixer
-> +      - allwinner,sun20i-d1-de2-mixer-0
-> +      - allwinner,sun20i-d1-de2-mixer-1
->        - allwinner,sun50i-a64-de2-mixer-0
->        - allwinner,sun50i-a64-de2-mixer-1
->        - allwinner,sun50i-h6-de3-mixer-0
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-> index 784b267635fb..cc32e2faed91 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-r40-tcon-top.yaml
-> @@ -41,6 +41,7 @@ properties:
->    compatible:
->      enum:
->        - allwinner,sun8i-r40-tcon-top
-> +      - allwinner,sun20i-d1-tcon-top
->        - allwinner,sun50i-h6-tcon-top
->  
->    reg:
-> @@ -154,6 +155,39 @@ allOf:
->              - port@2
->              - port@3
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: allwinner,sun20i-d1-tcon-top
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 4
-> +          maxItems: 4
+> I find the old construct clearer with the imbricated blocks.
 
-You shouldn't need minItems and maxItems here and the next 2 cases.
+I'm not sure what you mean here. Are you suggesting braces around the
+dev_err_probe statements? Or do you want me to put the error handling for
+variant-specific resources inside the variant checks? Please clarify.
 
-> +          items:
-> +            - description: The TCON TOP interface clock
-> +            - description: The TCON TOP TV0 clock
-> +            - description: The TCON TOP TVE0 clock
-> +            - description: The TCON TOP MIPI DSI clock
-> +
-> +        clock-names:
-> +          minItems: 4
-> +          maxItems: 4
-> +          items:
-> +            - const: bus
-> +            - const: tcon-tv0
-> +            - const: tve0
-> +            - const: dsi
-> +
-> +        clock-output-names:
-> +          minItems: 2
-> +          maxItems: 2
-> +          items:
-> +            - description: TCON TV0 output clock name
-> +            - description: DSI output clock name
-> +
->    - if:
->        properties:
->          compatible:
-> -- 
-> 2.35.1
-> 
-> 
+Regards,
+Samuel
