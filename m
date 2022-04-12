@@ -1,120 +1,132 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6107B
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 02:56:35 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 876B83201134;
-	Mon, 11 Apr 2022 22:56:34 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0C77B
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 04:28:11 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id B9F023201F24;
+	Tue, 12 Apr 2022 00:28:09 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 11 Apr 2022 22:56:35 -0400
+  by compute4.internal (MEProxy); Tue, 12 Apr 2022 00:28:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1649732194; x=
-	1649818594; bh=GEVsmM8mHkm2qG9DTDJgBu3H8Y9rP3KCaLB0pTjkV5s=; b=G
-	vqYuC1RwjHaEKN20jPrg/yicidZ2nqNoJ2CRITPHmY8knRo/a5PW1Vy4vqkM3pwT
-	5VDLFmJe3UFS9YexgXgpQh86JUP4Z/0Yny4uZS2sES2N369XBtiqju2ferrZeM1B
-	EVgxPioUk3DEYHXigkKmoNWDs6DEFsD4KH+73n7O1jZrDuHPb44lynRpfeSXAHax
-	PUixnA2yP1Fx0xqY3HsudNMdKJhlKYw2QWAf4XltHPgOwX7Xw1X3eFKeEyDfEySO
-	VCztEDKxjBxg4jwkfQnlcQG0zgmkLKyJD5f6/hz6318UMmHSjxUTvnnw2hEd69SX
-	/ImufdQIXHcxh3QwzPF3g==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1649737689; x=1649824089; bh=mTmKnvQTGsBoRsAAqdQBjpSXL
+	YdyxkIborYacXcxMFs=; b=LHFutkbugEbkHURUMOmuhONbA29IkXpRXBTHFcpiX
+	xUFoAQx3/FaLOqUrWM5QEKh9fI6azDbrIctgcbCFu/X1GQc7vTZT9EYRYPzvwk9T
+	cV5v+sUqb5yQS5ahNlpcyN6dV76AzfctKQeZFH11bKkMCVFx+GuRnFBZ50yV/5ct
+	VQudJ95Jnv0Ie73rwUbs4H8Gnnt/5O70ROGh/EI1ksGUPfYPoT6eGGRZT0pJwRp5
+	wz6q3GShN/KtH1VMLY4Woq0/JXmpBiWpnzUg5peOst9ZpPX0tGzJqdEOp7MHiika
+	DgVcusH2JOfojpZ60DcYOog616DhZcRChdxEwcj5kDceA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1649732194; x=1649818594; bh=GEVsmM8mHkm2q
-	G9DTDJgBu3H8Y9rP3KCaLB0pTjkV5s=; b=RHbmbrRjpYdes/hY+qNpyMtTGA7Vt
-	v2o9jaYz/ghQV6r/b4JabiNX+DQvyNWpIplpm9DsWnG1rL0YacZ/FII8Im4+9TQ5
-	BkZFmDys9Z6d5gtgEumkx68/TZm6SNXJv/LaJ39wrbgE91AVMJeP06ruZzgce1jh
-	Bh2EnPTB2mGhwOqWnaDOgo1STWlEB3YQZ4lZ8AK7A8srL8rQ8OdceAbdN5f/zcSK
-	qc7z6vrhpxvsEf+WBn6Rw4mHcHzo0FQ+Vs/qWEcUGhVYysGYe7EhAehi9TbWaMP6
-	FhmBO0cGcpg1TMr8dom4wAPI6hnA4Wmb79ZHcAvjmKRTOAQndkFTuCNIg==
-X-ME-Sender: <xms:YepUYg6C6oiPRMxmgjjI9LV9IbU33EiZ1mglFefbQN4WmAhMKqy8Cg>
-    <xme:YepUYh4QkE1fWKFstK5Ua-ye-x2udMZOn9KRNzoNmsiPMSmb24DnCyoAET15gBE9J
-    tIJ86wWpx7Ivv6emg>
-X-ME-Received: <xmr:YepUYvco2kvij6BP1YI2gzxmwuw4qePQhGGUawxvLTRjl-WKn-P1AAw4GsfrR1k2DZHOZeutCH4N0TZJB5aIyT3FApUy2Feft4T_CirlkG7lFA0iphTQGeeUHg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgieefucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1649737689; x=1649824089; bh=m
+	TmKnvQTGsBoRsAAqdQBjpSXLYdyxkIborYacXcxMFs=; b=Snn3V0pHT7h6YxgYV
+	LRwrPvhPs0ihNYeg4MQ/o9dsL216zkxvQsxLow+cdoDF5GqDG9FItyHbjO7alnlt
+	QDJ6pn4iZb8m2oDPCOz4WnXtZ0WUyTm7iQERZI2aOUQqQ8dPsPZsNC2fUdTiaATb
+	69FgmLT3DEchwX49Ki3n7HzbjYvCY5owq5SS7KXq6XcSLFLYNF38spv7C6F3xZ/o
+	eVJUp23mMgor22G6Tvj6Z7jDiln4VxV7tQfO5oQYZ8xPwZsxRg3YmCcxY1HieaiV
+	G4H67qKsS3W7OtJZmM++yydmBsDR5/RtU34bdahfxXnYPBEFS4X8CSj1uL3Qm33H
+	0XySA==
+X-ME-Sender: <xms:2P9UYpWOEW3LNea-znOyAiR84mF8UHEPlOP2_XHArO7m_2eVlKqoog>
+    <xme:2P9UYpmv5SW-OvELVMXj0VMl3zfoBXIwD-RZGSmc4vRECdCqeZK53lDnxF7GtlNPI
+    skMHbXTk4K6AcmPAw>
+X-ME-Received: <xmr:2P9UYlaS-wTB8B3ck42cTNEnTH3--wnYxCWRe_v_oTx9m3L0RmS02dgIHOXX16hufAmaBnmL4neH8kZGwMydLMVwPWaIQZ3lGzS-kM_m8nsimOAJ6NAue5k_l07OLboT7UV0tQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgkeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepgfelkeduveejtdejhfeiledvhfeggeeiieeklefhfeefffffffeg
-    udetteelieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:YepUYlLHSIcWA_HfEcGpcgURZgVRR5Jquw3pvxmwwBAK81VncHqRKg>
-    <xmx:YepUYkJO7BQTpjaeGpZlDZDnr6zO9VMyHr9RtT_k3tlGfqwkIovYHA>
-    <xmx:YepUYmw6qxhWvT_NAC1uJnjAZ-_Y7zefUor75-DkmBLEaBlXWjxyzA>
-    <xmx:YupUYhD16u6z1peFxWat0RxNgFZVyHG8fe8B4pjvTgWzoB_gN1q2kA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 11 Apr 2022 22:56:32 -0400 (EDT)
-Subject: Re: [PATCH 03/10] drm/sun4i: Remove obsolete references to
- PHYS_OFFSET
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220411043423.37333-1-samuel@sholland.org>
- <20220411043423.37333-4-samuel@sholland.org> <3167527.44csPzL39Z@kista>
+    cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
+    vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:2P9UYsX-weSqasTUk-8knNQlixibOm2BYp3zVTDW0dD07-5q2wIL_Q>
+    <xmx:2P9UYjk8XqFcgnNoG2S8UcuncNjEuM0_zEc6ECVVQgz6D5a13QKmPw>
+    <xmx:2P9UYpd2rdJsFd60pzUA3MaVHWQ5-mseoh0Mfs-DNhq_Yg11m-M8Vg>
+    <xmx:2f9UYhdd-nPBrA2s0X8KDjWYzy9H8IB0U4IcC06Dias0Y6ACWWN-Lg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Apr 2022 00:28:08 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <04d64c79-8379-7fad-2554-c8b88d733ec0@sholland.org>
-Date: Mon, 11 Apr 2022 21:56:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 00/14] drm/sun4i: Allwinner D1 Display Engine 2.0 Support
+Date: Mon, 11 Apr 2022 23:27:52 -0500
+Message-Id: <20220412042807.47519-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3167527.44csPzL39Z@kista>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 4/11/22 10:37 AM, Jernej Škrabec wrote:
-> Dne ponedeljek, 11. april 2022 ob 06:34:15 CEST je Samuel Holland napisal(a):
->> commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
->> central place") added a platform device notifier that sets the DMA
->> offset for all of the display engine frontend and backend devices.
->>
->> The code applying the offset to DMA buffer physical addresses was then
->> removed from the backend driver in commit 756668ba682e ("drm/sun4i:
->> backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
->> was left in the frontend driver.
->>
->> As a result, the offset was applied twice in the frontend driver. This
->> likely went unnoticed because it only affects specific configurations
->> (scaling or certain pixel formats) where the frontend is used, on boards
->> with both one of these older SoCs and more than 1 GB of DRAM.
->>
->> In addition, the references to PHYS_OFFSET prevent compiling the driver
->> on architectures where PHYS_OFFSET is not defined.
->>
->> Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central 
-> place")
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> 
-> Good catch! Actually, people complained about non-working display on 
-> Cubietruck IIRC, which has 2 GB of RAM.
-> 
-> Did you test this on HW?
+This series adds binding and driver support for Display Engine 2.0
+variant found in the Allwinner D1.
 
-The only DE1 board I have is an A33 tablet with 512 MB of DRAM. So while I
-boot-tested the patch, I am not able to verify if it has any real effect.
+So far it has only been tested with HDMI. I will be sending the HDMI
+support series separately, because the hardware comes with a brand new
+custom HDMI PHY, which requires some refactoring to support cleanly.
 
-The reason for sending this is that folks ran in to compilation errors on
-RISC-V. And I was surprised to still see references to PHYS_OFFSET, since
-sunxi_mbus.c includes the frontend compatibles.
+This series was tested on A33, D1 and H3.
 
-Regards,
-Samuel
+Changes in v2:
+ - New patch: I/O helper portability
+ - Use Jernej's patches for mixer mode setting.
+ - Use an enumeration for the ccsc value.
 
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> 
-> Best regards,
-> Jernej
+Jernej Skrabec (3):
+  sun4i/drm: engine: Add mode_set callback
+  sun4i/drm: backend: use mode_set engine callback
+  sun4i/drm: sun8i: use mode_set engine callback
+
+Samuel Holland (11):
+  dt-bindings: display: Separate clock item lists by compatible
+  dt-bindings: display: Add D1 display engine compatibles
+  drm/sun4i: Remove obsolete references to PHYS_OFFSET
+  drm/sun4i: hdmi: Use more portable I/O helpers
+  drm/sun4i: Allow building the driver on RISC-V
+  drm/sun4i: Allow VI layers to be primary planes
+  drm/sun4i: csc: Add support for the new MMIO layout
+  drm/sun4i: Add support for D1 mixers
+  drm/sun4i: Add support for D1 TCON TOP
+  drm/sun4i: Add support for D1 TCONs
+  drm/sun4i: Add compatible for D1 display engine
+
+ .../allwinner,sun4i-a10-display-engine.yaml   |   1 +
+ .../display/allwinner,sun4i-a10-tcon.yaml     |   2 +
+ .../allwinner,sun8i-a83t-de2-mixer.yaml       |   2 +
+ .../display/allwinner,sun8i-r40-tcon-top.yaml | 145 ++++++++++++------
+ drivers/gpu/drm/sun4i/Kconfig                 |   2 +-
+ drivers/gpu/drm/sun4i/sun4i_backend.c         |  40 ++---
+ drivers/gpu/drm/sun4i/sun4i_crtc.c            |   1 +
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   1 +
+ drivers/gpu/drm/sun4i/sun4i_frontend.c        |   3 -
+ drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c        |   4 +-
+ drivers/gpu/drm/sun4i/sun4i_tcon.c            |   8 +
+ drivers/gpu/drm/sun4i/sun8i_csc.c             |   7 +-
+ drivers/gpu/drm/sun4i/sun8i_csc.h             |   1 +
+ drivers/gpu/drm/sun4i/sun8i_mixer.c           |  74 +++++++--
+ drivers/gpu/drm/sun4i/sun8i_mixer.h           |  14 +-
+ drivers/gpu/drm/sun4i/sun8i_tcon_top.c        |  15 +-
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c        |  30 ----
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c        |   6 +-
+ drivers/gpu/drm/sun4i/sunxi_engine.h          |  27 ++++
+ 19 files changed, 263 insertions(+), 120 deletions(-)
+
+-- 
+2.35.1
+
