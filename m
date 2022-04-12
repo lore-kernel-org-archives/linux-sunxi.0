@@ -1,158 +1,213 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE94F7B;
-	Tue, 12 Apr 2022 10:00:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649757653; x=1681293653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7tP6Hmh57tdYk/XI1EXwttwZcLinGHP54ZjZICaf18M=;
-  b=fZPDUNDrSwU2Y/m29Wr290TDIphF7UtGWFrDBGTnr0Oj0aSREZqCZSFR
-   WwJeMXeE8gA+8/9ZvdScFmLonJt32VRuRS4KV9jlAu113s8Cje5el4U2t
-   8eE5iJD6IsPsJ7Klf4TPc1LK8+/CwrHXSuMb0EopkJ1qm/BujOBdnSVxn
-   lbpWVNNA3XQqeqUqxpUiCzol8aSV7f98ZQ1sXAWPXRkBvskD47UbeFFwI
-   Dw8hZo0q28OcOWtKby9gsxJTb+JGQvwzOgfKIEnCfxQcGSaKzletNztSc
-   GqPPrW+dhcrcnnU417quMFSsl/aS62Vy7WQe1VOFUMaOQWPuZ3SHZWHJ1
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="244218785"
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; 
-   d="scan'208";a="244218785"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2022 03:00:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,253,1643702400"; 
-   d="scan'208";a="525976363"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 12 Apr 2022 03:00:47 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1neDKJ-0002jQ-1f;
-	Tue, 12 Apr 2022 10:00:47 +0000
-Date: Tue, 12 Apr 2022 18:00:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D875F1FBA
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 13:23:30 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 816853200D53;
+	Tue, 12 Apr 2022 09:23:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 12 Apr 2022 09:23:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1649769809; x=1649856209; bh=SCBBhq7C9q
+	0Z6mR7hQqmWZHCx1ZocRttm3x1QobmTTg=; b=QA+HwR/CwtCKhYGOcy9Z1ZwoEP
+	inlBN2ws97HMBG/hMwgNWmPRguDSmiKr0/BZNLpGZUA8q5ZZCuIQ07806K+Nu8wK
+	sFbKZrqUeDstfgwZTC+R4v6zdbx4vlk3ZLRrp50BiJbTKDZcN+5R4ZVMkMytFjC1
+	j0aRg9WwXSzK6BUX5BBSlPccQb7upozo37NR6jADtIuiCrT/MDR8rq3sRjYQ81Da
+	jVt9cJTzhOhyjoIaKbmAA6hWnYpIjqYvhyN5SNZ8ZY5Q18bozkYlKQpzAjAMOutM
+	b6lWyAhYUXat95dTmFq0KxIGGxhb/UYp2ngsxEe2SxxR14VDQS6omEEcYDTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1649769809; x=
+	1649856209; bh=SCBBhq7C9q0Z6mR7hQqmWZHCx1ZocRttm3x1QobmTTg=; b=e
+	XPnv5AadguhgwzimhsdMBgjPMrSYdpp+TnjGKJ4FJw+68TnBXeDKp1wbAPQhwJrg
+	K/C7vrPZq2y6WiPh1geWoz8vSpJGyL1qFCezZ9ULBCyrnE3juylOkeuPXZkueFLi
+	SBbUrb3o4BxGDlAMsGG+RB5pwzrqpXOTNgt8cMkhVT/BAiZMAJwkbQP+fEE6Qz59
+	ZqrKt1mbCiKLFOqx153EnIupjOT+iU+yK1ThDi7GJ5WAJr3P7aJ+OFXaRvBRf+ED
+	qceJbixeumR4D7sPffWhD2bcwhTi2OGVv0Da1w0dKLouFLZ3uymsTE5NvD99FxoU
+	O9UiIrisktUT7HPhd0DNA==
+X-ME-Sender: <xms:T31VYjxvmgYuCr3LCP8dbUYvbIy12F6BOyo9oB-EnrCzzjaSsAYRSg>
+    <xme:T31VYrRg92peaIZ7uheflRnWYbEHTtGfHQjXyaM_ivlHOW7RNd6Pg-NHUb8OeMTQu
+    _v3p7PVidw281g4Ya4>
+X-ME-Received: <xmr:T31VYtU8hgF9-XI-3K1rx2WT7SHTotivfOEnsFyC2KDn6HfNnFXmlJ1ri1qayx5-v-n2vhR9BBAEyTkGYnD0Q8YjNQ-APRaioXS1HZ8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekkedgiedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:T31VYtiwDlD-FHeWW_X7sJVeK5cH0-h8wzxzt1fl3TPdzROvFMu8Jw>
+    <xmx:T31VYlAgh9wQZI8_87yrpoaPOvI-qXfIXviGKhuy2UTDtWpIKY5kOQ>
+    <xmx:T31VYmI-N_eCzYBWNcuua5_5sJlp7KWQs8Vq1rTNGIYMxTwvvA9CvQ>
+    <xmx:UX1VYp0EwhfrWJuYbbmgn1LBahUqSxO5llrF7oJ1VJ8tFQx_KLGdSA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Apr 2022 09:23:27 -0400 (EDT)
+Date: Tue, 12 Apr 2022 15:23:25 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 04/10] drm/sun4i: Allow building the driver on RISC-V
-Message-ID: <202204121758.QeUxJKUh-lkp@intel.com>
-References: <20220411043423.37333-5-samuel@sholland.org>
+Subject: Re: [PATCH 3/6] drm/sun4i: sun8i-hdmi-phy: Used device-managed
+ clocks/resets
+Message-ID: <20220412132325.bq2c3g2fskckfgpz@houat>
+References: <20220412043512.49364-1-samuel@sholland.org>
+ <20220412043512.49364-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="542vfuzlbowtb4mg"
+Content-Disposition: inline
+In-Reply-To: <20220412043512.49364-4-samuel@sholland.org>
+
+
+--542vfuzlbowtb4mg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220411043423.37333-5-samuel@sholland.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: quoted-printable
 
-Hi Samuel,
+Hi,
 
-I love your patch! Yet something to improve:
+On Mon, Apr 11, 2022 at 11:35:08PM -0500, Samuel Holland wrote:
+> Now that the HDMI PHY is using a platform driver, it can use device-
+> managed resources. Use these, as well as the dev_err_probe helper, to
+> simplify the probe function and get rid of the remove function.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>=20
+>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 100 ++++++++-----------------
+>  1 file changed, 30 insertions(+), 70 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun=
+4i/sun8i_hdmi_phy.c
+> index 1effa30bfe62..1351e633d485 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+> @@ -673,10 +673,8 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, s=
+truct device_node *node)
+>  static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev =3D &pdev->dev;
+> -	struct device_node *node =3D dev->of_node;
+>  	struct sun8i_hdmi_phy *phy;
+>  	void __iomem *regs;
+> -	int ret;
+> =20
+>  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
+>  	if (!phy)
+> @@ -686,88 +684,50 @@ static int sun8i_hdmi_phy_probe(struct platform_dev=
+ice *pdev)
+>  	phy->dev =3D dev;
+> =20
+>  	regs =3D devm_platform_ioremap_resource(pdev, 0);
+> -	if (IS_ERR(regs)) {
+> -		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
+> -		return PTR_ERR(regs);
+> -	}
+> +	if (IS_ERR(regs))
+> +		return dev_err_probe(dev, PTR_ERR(regs),
+> +				     "Couldn't map the HDMI PHY registers\n");
+> =20
+>  	phy->regs =3D devm_regmap_init_mmio(dev, regs,
+>  					  &sun8i_hdmi_phy_regmap_config);
+> -	if (IS_ERR(phy->regs)) {
+> -		dev_err(dev, "Couldn't create the HDMI PHY regmap\n");
+> -		return PTR_ERR(phy->regs);
+> -	}
+> +	if (IS_ERR(phy->regs))
+> +		return dev_err_probe(dev, PTR_ERR(phy->regs),
+> +				     "Couldn't create the HDMI PHY regmap\n");
+> =20
+> -	phy->clk_bus =3D of_clk_get_by_name(node, "bus");
+> -	if (IS_ERR(phy->clk_bus)) {
+> -		dev_err(dev, "Could not get bus clock\n");
+> -		return PTR_ERR(phy->clk_bus);
+> -	}
+> -
+> -	phy->clk_mod =3D of_clk_get_by_name(node, "mod");
+> -	if (IS_ERR(phy->clk_mod)) {
+> -		dev_err(dev, "Could not get mod clock\n");
+> -		ret =3D PTR_ERR(phy->clk_mod);
+> -		goto err_put_clk_bus;
+> -	}
+> +	phy->clk_bus =3D devm_clk_get(dev, "bus");
+> +	if (IS_ERR(phy->clk_bus))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_bus),
+> +				     "Could not get bus clock\n");
+> =20
+> -	if (phy->variant->has_phy_clk) {
+> -		phy->clk_pll0 =3D of_clk_get_by_name(node, "pll-0");
+> -		if (IS_ERR(phy->clk_pll0)) {
+> -			dev_err(dev, "Could not get pll-0 clock\n");
+> -			ret =3D PTR_ERR(phy->clk_pll0);
+> -			goto err_put_clk_mod;
+> -		}
+> -
+> -		if (phy->variant->has_second_pll) {
+> -			phy->clk_pll1 =3D of_clk_get_by_name(node, "pll-1");
+> -			if (IS_ERR(phy->clk_pll1)) {
+> -				dev_err(dev, "Could not get pll-1 clock\n");
+> -				ret =3D PTR_ERR(phy->clk_pll1);
+> -				goto err_put_clk_pll0;
+> -			}
+> -		}
+> -	}
+> +	phy->clk_mod =3D devm_clk_get(dev, "mod");
+> +	if (IS_ERR(phy->clk_mod))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_mod),
+> +				     "Could not get mod clock\n");
+> =20
+> -	phy->rst_phy =3D of_reset_control_get_shared(node, "phy");
+> -	if (IS_ERR(phy->rst_phy)) {
+> -		dev_err(dev, "Could not get phy reset control\n");
+> -		ret =3D PTR_ERR(phy->rst_phy);
+> -		goto err_put_clk_pll1;
+> -	}
+> +	if (phy->variant->has_phy_clk)
+> +		phy->clk_pll0 =3D devm_clk_get(dev, "pll-0");
+> +	if (IS_ERR(phy->clk_pll0))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll0),
+> +				     "Could not get pll-0 clock\n");
+> +
+> +	if (phy->variant->has_second_pll)
+> +		phy->clk_pll1 =3D devm_clk_get(dev, "pll-1");
+> +	if (IS_ERR(phy->clk_pll1))
+> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll1),
+> +				     "Could not get pll-1 clock\n");
+> +
+> +	phy->rst_phy =3D devm_reset_control_get_shared(dev, "phy");
+> +	if (IS_ERR(phy->rst_phy))
+> +		return dev_err_probe(dev, PTR_ERR(phy->rst_phy),
+> +				     "Could not get phy reset control\n");
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on drm/drm-next linus/master v5.18-rc2 next-20220412]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+I find the old construct clearer with the imbricated blocks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20220412/202204121758.QeUxJKUh-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project c6e83f560f06cdfe8aa47b248d8bdc58f947274b)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
-        git checkout 829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+Otherwise, the rest of the series looks fine, thanks!
+Maxime
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+--542vfuzlbowtb4mg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-All errors (new ones prefixed by >>):
+-----BEGIN PGP SIGNATURE-----
 
->> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:59:3: error: implicit declaration of function 'readsb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-                   ^
-   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:59:3: note: did you mean 'readb'?
-   arch/hexagon/include/asm/io.h:83:18: note: 'readb' declared here
-   static inline u8 readb(const volatile void __iomem *addr)
-                    ^
->> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:61:3: error: implicit declaration of function 'writesb' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-                   ^
-   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:61:3: note: did you mean 'writeb'?
-   arch/hexagon/include/asm/io.h:122:20: note: 'writeb' declared here
-   static inline void writeb(u8 data, volatile void __iomem *addr)
-                      ^
-   2 errors generated.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYlV9TQAKCRDj7w1vZxhR
+xXz3AQCLd+iM9nW9TMjH67uErKUxeCFePEosuu47NlHJp2MjHQD/dC1dKOtp1lTu
+FRHk3m7R4Cr2sMERznd+wOMkOdpzjQk=
+=f6v7
+-----END PGP SIGNATURE-----
 
-
-vim +/readsb +59 drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-
-f0a3dd33ba685b Jonathan Liu 2017-07-02  24  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  25  static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, int len, bool read)
-f0a3dd33ba685b Jonathan Liu 2017-07-02  26  {
-f0a3dd33ba685b Jonathan Liu 2017-07-02  27  	/*
-f0a3dd33ba685b Jonathan Liu 2017-07-02  28  	 * 1 byte takes 9 clock cycles (8 bits + 1 ACK) = 90 us for 100 kHz
-f0a3dd33ba685b Jonathan Liu 2017-07-02  29  	 * clock. As clock rate is fixed, just round it up to 100 us.
-f0a3dd33ba685b Jonathan Liu 2017-07-02  30  	 */
-f0a3dd33ba685b Jonathan Liu 2017-07-02  31  	const unsigned long byte_time_ns = 100;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  32  	const u32 mask = SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK |
-f0a3dd33ba685b Jonathan Liu 2017-07-02  33  			 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST |
-f0a3dd33ba685b Jonathan Liu 2017-07-02  34  			 SUN4I_HDMI_DDC_INT_STATUS_TRANSFER_COMPLETE;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  35  	u32 reg;
-939d749ad6649c Chen-Yu Tsai 2017-10-10  36  	/*
-939d749ad6649c Chen-Yu Tsai 2017-10-10  37  	 * If threshold is inclusive, then the FIFO may only have
-939d749ad6649c Chen-Yu Tsai 2017-10-10  38  	 * RX_THRESHOLD number of bytes, instead of RX_THRESHOLD + 1.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  39  	 */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  40  	int read_len = RX_THRESHOLD +
-939d749ad6649c Chen-Yu Tsai 2017-10-10  41  		(hdmi->variant->ddc_fifo_thres_incl ? 0 : 1);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  42  
-939d749ad6649c Chen-Yu Tsai 2017-10-10  43  	/*
-939d749ad6649c Chen-Yu Tsai 2017-10-10  44  	 * Limit transfer length by FIFO threshold or FIFO size.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  45  	 * For TX the threshold is for an empty FIFO.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  46  	 */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  47  	len = min_t(int, len, read ? read_len : SUN4I_HDMI_DDC_FIFO_SIZE);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  48  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  49  	/* Wait until error, FIFO request bit set or transfer complete */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  50  	if (regmap_field_read_poll_timeout(hdmi->field_ddc_int_status, reg,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  51  					   reg & mask, len * byte_time_ns,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  52  					   100000))
-f0a3dd33ba685b Jonathan Liu 2017-07-02  53  		return -ETIMEDOUT;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  54  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  55  	if (reg & SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK)
-f0a3dd33ba685b Jonathan Liu 2017-07-02  56  		return -EIO;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  57  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  58  	if (read)
-939d749ad6649c Chen-Yu Tsai 2017-10-10 @59  		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  60  	else
-939d749ad6649c Chen-Yu Tsai 2017-10-10 @61  		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  62  
-939d749ad6649c Chen-Yu Tsai 2017-10-10  63  	/* Clear FIFO request bit by forcing a write to that bit */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  64  	regmap_field_force_write(hdmi->field_ddc_int_status,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  65  				 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  66  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  67  	return len;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  68  }
-f0a3dd33ba685b Jonathan Liu 2017-07-02  69  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--542vfuzlbowtb4mg--
