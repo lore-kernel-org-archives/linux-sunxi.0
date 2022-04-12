@@ -1,153 +1,120 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07DC71FA0
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Apr 2022 21:15:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1649711759; x=1681247759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5x2VQ9HU/v0yZ3qoFFue9KWN+qZAjMg8ZLZUP+AvOiA=;
-  b=AxyJ+li+3alQx3RWpTgCsRdH8B8tGfQCn4HfsNE1YGMKWPuiuD8/rhGG
-   TqcvaKdN7EKSpeqY4xAY1Xbprx8tGgsQ/LKIIEW1LpFkPrFBFrCxUXmGK
-   eWfvzee/sCkldH12Mwqm5hsAVmXXobImZG4Z98h3stCK4mwj6Fmo51NfS
-   7fNBpCRK1VBuyv2yZzJ+4INcFFnRBX9MpLbRU8hlhohW8NYizY5iFqMaj
-   pZJe+KtPdDft67eZ3ZD9bqx4o89h/PgGF5zSfBgQZqp/gz0sUBeHD+viE
-   TX342d2CAFduCVoiToXYR1ectXbECo9h37FI4DmRENB7cUbbY5q9jvbMD
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10314"; a="244101291"
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
-   d="scan'208";a="244101291"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2022 14:15:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.90,252,1643702400"; 
-   d="scan'208";a="854082902"
-Received: from lkp-server02.sh.intel.com (HELO d3fc50ef50de) ([10.239.97.151])
-  by fmsmga005.fm.intel.com with ESMTP; 11 Apr 2022 14:15:54 -0700
-Received: from kbuild by d3fc50ef50de with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1ne1O5-0002DR-Th;
-	Mon, 11 Apr 2022 21:15:53 +0000
-Date: Tue, 12 Apr 2022 05:15:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: kbuild-all@lists.01.org, Samuel Holland <samuel@sholland.org>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 04/10] drm/sun4i: Allow building the driver on RISC-V
-Message-ID: <202204120528.TRFC7Ywj-lkp@intel.com>
-References: <20220411043423.37333-5-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A6107B
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Apr 2022 02:56:35 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 876B83201134;
+	Mon, 11 Apr 2022 22:56:34 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 11 Apr 2022 22:56:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1649732194; x=
+	1649818594; bh=GEVsmM8mHkm2qG9DTDJgBu3H8Y9rP3KCaLB0pTjkV5s=; b=G
+	vqYuC1RwjHaEKN20jPrg/yicidZ2nqNoJ2CRITPHmY8knRo/a5PW1Vy4vqkM3pwT
+	5VDLFmJe3UFS9YexgXgpQh86JUP4Z/0Yny4uZS2sES2N369XBtiqju2ferrZeM1B
+	EVgxPioUk3DEYHXigkKmoNWDs6DEFsD4KH+73n7O1jZrDuHPb44lynRpfeSXAHax
+	PUixnA2yP1Fx0xqY3HsudNMdKJhlKYw2QWAf4XltHPgOwX7Xw1X3eFKeEyDfEySO
+	VCztEDKxjBxg4jwkfQnlcQG0zgmkLKyJD5f6/hz6318UMmHSjxUTvnnw2hEd69SX
+	/ImufdQIXHcxh3QwzPF3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm3; t=1649732194; x=1649818594; bh=GEVsmM8mHkm2q
+	G9DTDJgBu3H8Y9rP3KCaLB0pTjkV5s=; b=RHbmbrRjpYdes/hY+qNpyMtTGA7Vt
+	v2o9jaYz/ghQV6r/b4JabiNX+DQvyNWpIplpm9DsWnG1rL0YacZ/FII8Im4+9TQ5
+	BkZFmDys9Z6d5gtgEumkx68/TZm6SNXJv/LaJ39wrbgE91AVMJeP06ruZzgce1jh
+	Bh2EnPTB2mGhwOqWnaDOgo1STWlEB3YQZ4lZ8AK7A8srL8rQ8OdceAbdN5f/zcSK
+	qc7z6vrhpxvsEf+WBn6Rw4mHcHzo0FQ+Vs/qWEcUGhVYysGYe7EhAehi9TbWaMP6
+	FhmBO0cGcpg1TMr8dom4wAPI6hnA4Wmb79ZHcAvjmKRTOAQndkFTuCNIg==
+X-ME-Sender: <xms:YepUYg6C6oiPRMxmgjjI9LV9IbU33EiZ1mglFefbQN4WmAhMKqy8Cg>
+    <xme:YepUYh4QkE1fWKFstK5Ua-ye-x2udMZOn9KRNzoNmsiPMSmb24DnCyoAET15gBE9J
+    tIJ86wWpx7Ivv6emg>
+X-ME-Received: <xmr:YepUYvco2kvij6BP1YI2gzxmwuw4qePQhGGUawxvLTRjl-WKn-P1AAw4GsfrR1k2DZHOZeutCH4N0TZJB5aIyT3FApUy2Feft4T_CirlkG7lFA0iphTQGeeUHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudekjedgieefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepgfelkeduveejtdejhfeiledvhfeggeeiieeklefhfeefffffffeg
+    udetteelieejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:YepUYlLHSIcWA_HfEcGpcgURZgVRR5Jquw3pvxmwwBAK81VncHqRKg>
+    <xmx:YepUYkJO7BQTpjaeGpZlDZDnr6zO9VMyHr9RtT_k3tlGfqwkIovYHA>
+    <xmx:YepUYmw6qxhWvT_NAC1uJnjAZ-_Y7zefUor75-DkmBLEaBlXWjxyzA>
+    <xmx:YupUYhD16u6z1peFxWat0RxNgFZVyHG8fe8B4pjvTgWzoB_gN1q2kA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 11 Apr 2022 22:56:32 -0400 (EDT)
+Subject: Re: [PATCH 03/10] drm/sun4i: Remove obsolete references to
+ PHYS_OFFSET
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220411043423.37333-1-samuel@sholland.org>
+ <20220411043423.37333-4-samuel@sholland.org> <3167527.44csPzL39Z@kista>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <04d64c79-8379-7fad-2554-c8b88d733ec0@sholland.org>
+Date: Mon, 11 Apr 2022 21:56:31 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220411043423.37333-5-samuel@sholland.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <3167527.44csPzL39Z@kista>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Hi Samuel,
+On 4/11/22 10:37 AM, Jernej Škrabec wrote:
+> Dne ponedeljek, 11. april 2022 ob 06:34:15 CEST je Samuel Holland napisal(a):
+>> commit b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a
+>> central place") added a platform device notifier that sets the DMA
+>> offset for all of the display engine frontend and backend devices.
+>>
+>> The code applying the offset to DMA buffer physical addresses was then
+>> removed from the backend driver in commit 756668ba682e ("drm/sun4i:
+>> backend: Remove the MBUS quirks"), but the code subtracting PHYS_OFFSET
+>> was left in the frontend driver.
+>>
+>> As a result, the offset was applied twice in the frontend driver. This
+>> likely went unnoticed because it only affects specific configurations
+>> (scaling or certain pixel formats) where the frontend is used, on boards
+>> with both one of these older SoCs and more than 1 GB of DRAM.
+>>
+>> In addition, the references to PHYS_OFFSET prevent compiling the driver
+>> on architectures where PHYS_OFFSET is not defined.
+>>
+>> Fixes: b4bdc4fbf8d0 ("soc: sunxi: Deal with the MBUS DMA offsets in a central 
+> place")
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> 
+> Good catch! Actually, people complained about non-working display on 
+> Cubietruck IIRC, which has 2 GB of RAM.
+> 
+> Did you test this on HW?
 
-I love your patch! Yet something to improve:
+The only DE1 board I have is an A33 tablet with 512 MB of DRAM. So while I
+boot-tested the patch, I am not able to verify if it has any real effect.
 
-[auto build test ERROR on sunxi/sunxi/for-next]
-[also build test ERROR on drm/drm-next linus/master v5.18-rc2 next-20220411]
-[cannot apply to mripard/sunxi/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+The reason for sending this is that folks ran in to compilation errors on
+RISC-V. And I was surprised to still see references to PHYS_OFFSET, since
+sunxi_mbus.c includes the frontend compatibles.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20220412/202204120528.TRFC7Ywj-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 11.2.0
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Samuel-Holland/drm-sun4i-Allwinner-D1-Display-Engine-2-0-Support/20220411-123701
-        git checkout 829dac8ee2cbb6d1b7bda1c513cc2ad1939fca53
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.2.0 make.cross O=build_dir ARCH=alpha SHELL=/bin/bash
+Regards,
+Samuel
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c: In function 'fifo_transfer':
->> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:59:17: error: implicit declaration of function 'readsb'; did you mean 'readb'? [-Werror=implicit-function-declaration]
-      59 |                 readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-         |                 ^~~~~~
-         |                 readb
->> drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c:61:17: error: implicit declaration of function 'writesb'; did you mean 'writeb'? [-Werror=implicit-function-declaration]
-      61 |                 writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-         |                 ^~~~~~~
-         |                 writeb
-   cc1: some warnings being treated as errors
-
-
-vim +59 drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
-
-f0a3dd33ba685b Jonathan Liu 2017-07-02  24  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  25  static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, int len, bool read)
-f0a3dd33ba685b Jonathan Liu 2017-07-02  26  {
-f0a3dd33ba685b Jonathan Liu 2017-07-02  27  	/*
-f0a3dd33ba685b Jonathan Liu 2017-07-02  28  	 * 1 byte takes 9 clock cycles (8 bits + 1 ACK) = 90 us for 100 kHz
-f0a3dd33ba685b Jonathan Liu 2017-07-02  29  	 * clock. As clock rate is fixed, just round it up to 100 us.
-f0a3dd33ba685b Jonathan Liu 2017-07-02  30  	 */
-f0a3dd33ba685b Jonathan Liu 2017-07-02  31  	const unsigned long byte_time_ns = 100;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  32  	const u32 mask = SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK |
-f0a3dd33ba685b Jonathan Liu 2017-07-02  33  			 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST |
-f0a3dd33ba685b Jonathan Liu 2017-07-02  34  			 SUN4I_HDMI_DDC_INT_STATUS_TRANSFER_COMPLETE;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  35  	u32 reg;
-939d749ad6649c Chen-Yu Tsai 2017-10-10  36  	/*
-939d749ad6649c Chen-Yu Tsai 2017-10-10  37  	 * If threshold is inclusive, then the FIFO may only have
-939d749ad6649c Chen-Yu Tsai 2017-10-10  38  	 * RX_THRESHOLD number of bytes, instead of RX_THRESHOLD + 1.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  39  	 */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  40  	int read_len = RX_THRESHOLD +
-939d749ad6649c Chen-Yu Tsai 2017-10-10  41  		(hdmi->variant->ddc_fifo_thres_incl ? 0 : 1);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  42  
-939d749ad6649c Chen-Yu Tsai 2017-10-10  43  	/*
-939d749ad6649c Chen-Yu Tsai 2017-10-10  44  	 * Limit transfer length by FIFO threshold or FIFO size.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  45  	 * For TX the threshold is for an empty FIFO.
-939d749ad6649c Chen-Yu Tsai 2017-10-10  46  	 */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  47  	len = min_t(int, len, read ? read_len : SUN4I_HDMI_DDC_FIFO_SIZE);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  48  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  49  	/* Wait until error, FIFO request bit set or transfer complete */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  50  	if (regmap_field_read_poll_timeout(hdmi->field_ddc_int_status, reg,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  51  					   reg & mask, len * byte_time_ns,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  52  					   100000))
-f0a3dd33ba685b Jonathan Liu 2017-07-02  53  		return -ETIMEDOUT;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  54  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  55  	if (reg & SUN4I_HDMI_DDC_INT_STATUS_ERROR_MASK)
-f0a3dd33ba685b Jonathan Liu 2017-07-02  56  		return -EIO;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  57  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  58  	if (read)
-939d749ad6649c Chen-Yu Tsai 2017-10-10 @59  		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  60  	else
-939d749ad6649c Chen-Yu Tsai 2017-10-10 @61  		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, len);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  62  
-939d749ad6649c Chen-Yu Tsai 2017-10-10  63  	/* Clear FIFO request bit by forcing a write to that bit */
-939d749ad6649c Chen-Yu Tsai 2017-10-10  64  	regmap_field_force_write(hdmi->field_ddc_int_status,
-939d749ad6649c Chen-Yu Tsai 2017-10-10  65  				 SUN4I_HDMI_DDC_INT_STATUS_FIFO_REQUEST);
-f0a3dd33ba685b Jonathan Liu 2017-07-02  66  
-f0a3dd33ba685b Jonathan Liu 2017-07-02  67  	return len;
-f0a3dd33ba685b Jonathan Liu 2017-07-02  68  }
-f0a3dd33ba685b Jonathan Liu 2017-07-02  69  
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Best regards,
+> Jernej
