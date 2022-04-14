@@ -1,76 +1,57 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C57F7A
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Apr 2022 00:23:57 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 417705C02EE;
-	Wed, 13 Apr 2022 20:23:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 13 Apr 2022 20:23:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1649895836; x=1649982236; bh=sm
-	LbHwGYtdmSDiKEj6LIJXKXjSMVo9Cyx4CzsqmRG0s=; b=kVU7oOEndcoeC/wDNm
-	WIG/OFvtDRkrJgXrlDD5gXDjHyQrsgmbMR/lpl5pvOwp+5pDnVf+xMIeAkvNesWC
-	Lo/gUVyS1SHoWT4EbbENN3anlwolpci1F5EzpCnTQJFYuk3u0rUrr/73qdHCChOk
-	JM6oKIP4JZ9Ez2PLe76sJ78Wg6I3iJPujTfv/dbAzcuvjMX3Jy7b7rvaeouZ+u0c
-	iyfDjfXTxOpFITa86oUWKwXkDJzvaY31nCDIWNDmbFZGpd8gJokDvltKy+O9AIWO
-	c1bDLLcVXBZWbntMwGBNocCCsf2V53n955SwaC0YxJSVW73uS6F0wR6x0HHbdIr6
-	whzA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1649895836; x=1649982236; bh=smLbHwGYtdmSDiKEj6LIJXKXjSMVo9Cyx4C
-	zsqmRG0s=; b=rmD1yK6cd4LWEVBuWox9ngsZHkdSQWVFAXL2oaHNOYu0i8DE+0l
-	+Cu51dE8lNsPimZ5w7reuORkr8m3nWrwke86WuAgb0qlbOZVQ1iNvMXH9FH/NHdh
-	EOtjdHSkbiYTj1RJoooC1z494h6+M/6XlTjOktW6AK1ph9XlZhQLDXs0LkEPBGwG
-	bNCprVgUgyxZTYRWx66l5Lwl+RFAmITGdAFwyZdKU8lQxixhq8pBEWOSp+4Za1oB
-	xMyuX8aKw0r/LvjUR3hAsiXXTxn7m6aDIC8S637/sEwzlGYeFTNCf8GwCxgMFNFh
-	YA6Xlj5824Be1pI44rSqR3TF9bkZdQieA5w==
-X-ME-Sender: <xms:nGlXYlNoYk8ekHvip2zcMCil9vz4QpEkCYSIyd0EMb_xBh_t8BYmNA>
-    <xme:nGlXYn8ZG6UlyeaIDETDaqSuV-cvkUuiRkn8o5nR3Z3hTj5MwQXgwRuhp27H0rT3j
-    YY9TGBUL7XIMoi4jw>
-X-ME-Received: <xmr:nGlXYkRN5j_73x3cNeO2qfRTgFqOwEnmgSet7webjBX9APVPQAR4AvvE4eXor-jhtCE_WU6F6a35B0OSheOu4GLCS6w1YAI8_O_1no6SoaEiSZhcRSrvF8xMF1QIEB1KJSU-vw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgfeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeduhfejfedvhffgfeehtefghfeiiefgfeehgfdvvdevfeegjeehjedv
-    gfejheeuieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:nGlXYhtqDZblmr2p7G6eMrCubgAp6wZH6Nhgvk8UsgLXfl7GFk7Ggw>
-    <xmx:nGlXYtczMmjFFvqQecxrp-y3UDsHIaWL4uFhlmvmmMzYkYGtjcoFOg>
-    <xmx:nGlXYt3YDTWCut6bLWoMJ4TGmhGkBWd0sUI32_OlacRxmPuZvcvhRA>
-    <xmx:nGlXYg8Z8-svXgySNVU_kIBs_pK9pJz7ZeIGKDGFALFKnTvSpDrMnQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Apr 2022 20:23:55 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Rob Herring <robh@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805C615A6
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Apr 2022 05:00:43 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id md20-20020a17090b23d400b001cb70ef790dso8242674pjb.5
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Apr 2022 22:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LAGD0p08t0pfhx7/okB2lBa8nRyuf90wrMSmnkmWG7I=;
+        b=nAKm086Zb3y2MriDpFVxXGPZT6ciSeXKBUL3Uh6/K6h3S8y8QnuOq1tT/RltTNk/U/
+         LPHEQ5wkpy0up4RRcad40bcnnnWTREy3kCMo/jC8cOfD9qrqEwh35LukDT9A6Ud3iWNx
+         GU7c2lG3+Py0kyboHn2xQl6KTuoubMtPfQKW4afmzrj+xGOweiUXERyzQwoe3pmzey+F
+         RpOVrpW/WEXzpR6eL0HQ0rOqJPWJydPqe6RidtygRSgZgdKeeyyhbl18efByVGAaBi3B
+         FvZacG/MmaE2DmAM809m1tZdY7xajoVxRXjz7DzNZYIdy1eRTiohJAsVBmMRGJqk44qr
+         +Vgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LAGD0p08t0pfhx7/okB2lBa8nRyuf90wrMSmnkmWG7I=;
+        b=kQUJxhBS8ZrQ38BxhoO6a9p9ha1VM+9UGw49hDtcK4fA25Siw330w1hgPf/cD4/FwB
+         x3bUcnUuiPHp9vVphMYWkiXQK3mG7Y3hWZ1eUFgF5FnYqTNczXSsHJ+xGgJu7qarjJa4
+         3DD6hSJ2NFcOE39fmlxSTrg8MF+qsXBzCp5ZmMQJvY3OC2zgQ3bhGC/dTIZcWYVa+8ed
+         KrR763UzXJXB8v0UNyJ/yTmI73mibEigvxRK7k44n7m7uojyQNCijZQLBAiAXgleBJaE
+         nUul6N1y+XMzyiVUjTghS00E6lO9b8muPFLavIcgsroV4c/EMdsEHa0ROPDegMxlP1SJ
+         YXzg==
+X-Gm-Message-State: AOAM5305ZD6JpbPflajMBzivtilGXK3EAN9gFHZe8oeQMoQXdvtDCsF2
+	sgZlmYHd7/ccv7uT7KGeUoB1Lqm8TlKPMUMc
+X-Google-Smtp-Source: ABdhPJyPZlkvJPxDQp/eENGiurD7t8WJdTPv+ova1KZ+G97lr7ts7vd8m6ADdTz+hV1UFyqB/RnsPw==
+X-Received: by 2002:a17:902:d507:b0:158:920c:2761 with SMTP id b7-20020a170902d50700b00158920c2761mr9750208plg.52.1649912442952;
+        Wed, 13 Apr 2022 22:00:42 -0700 (PDT)
+Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
+        by smtp.gmail.com with ESMTPSA id y16-20020a17090a6c9000b001cc3a8b4fd6sm4688616pjj.7.2022.04.13.22.00.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Apr 2022 22:00:42 -0700 (PDT)
+From: Xiaobing Luo <luoxiaobing0926@gmail.com>
+To: tiny.windzz@gmail.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-pm@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 3/3] Input: sun4i-lradc-keys: Add support for R329 and D1
-Date: Wed, 13 Apr 2022 19:23:48 -0500
-Message-Id: <20220414002349.24332-3-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220414002349.24332-1-samuel@sholland.org>
-References: <20220414002349.24332-1-samuel@sholland.org>
+	Xiaobing Luo <luoxiaobing0926@gmail.com>
+Subject: [PATCH] fix memory leak in sun50i_cpufreq_nvmem_probe
+Date: Thu, 14 Apr 2022 04:59:17 +0000
+Message-Id: <20220414045917.3223700-1-luoxiaobing0926@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -79,45 +60,52 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This LRADC variant uses the same 3/4*AVCC reference voltage as the A83T
-variant. The R329 and D1 LRADCs appear to be identical, so D1 support is
-accomplished through having the R329 LRADC as a fallback compatible.
+if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
+unreferenced object 0xffff000010742a00 (size 128):
+  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
+    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
+    [<000000007d6082a0>] platform_probe+0x98/0x11c
+    [<00000000c990f549>] really_probe+0x234/0x5a0
+    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
+    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
+    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
+    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
+    [<00000000df4f14f6>] __device_attach+0x174/0x29c
+    [<00000000782002fb>] device_initial_probe+0x20/0x30
+    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
+    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
+    [<000000004b9264e3>] platform_device_add+0x198/0x390
+    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
+    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
+    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+
+Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
 ---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Changes in v2:
- - Set the new flag for the R329 variant.
-
- drivers/input/keyboard/sun4i-lradc-keys.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-index 5630334a6c09..8f9bfb05244d 100644
---- a/drivers/input/keyboard/sun4i-lradc-keys.c
-+++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-@@ -78,6 +78,12 @@ static const struct lradc_variant r_lradc_variant_a83t = {
- 	.divisor_denominator = 4
- };
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 2deed8d8773f..75e1bf3a08f7 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
  
-+static const struct lradc_variant lradc_variant_r329 = {
-+	.divisor_numerator = 3,
-+	.divisor_denominator = 4,
-+	.has_clock_reset = true,
-+};
-+
- struct sun4i_lradc_keymap {
- 	u32 voltage;
- 	u32 keycode;
-@@ -323,6 +329,8 @@ static const struct of_device_id sun4i_lradc_of_match[] = {
- 		.data = &lradc_variant_a10 },
- 	{ .compatible = "allwinner,sun8i-a83t-r-lradc",
- 		.data = &r_lradc_variant_a83t },
-+	{ .compatible = "allwinner,sun50i-r329-lradc",
-+		.data = &lradc_variant_r329 },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
+ 	ret = sun50i_cpufreq_get_efuse(&speed);
+-	if (ret)
++	if (ret) {
++		kfree(opp_tables);
+ 		return ret;
++	}
+ 
+ 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+ 
 -- 
-2.35.1
+2.25.1
 
