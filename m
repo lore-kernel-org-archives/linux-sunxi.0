@@ -1,111 +1,166 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C523615A5;
+	Thu, 14 Apr 2022 08:02:20 +0000 (UTC)
+Received: from [IPV6:2a01:e0a:120:3210:aefc:13d9:b947:5c76] (unknown [IPv6:2a01:e0a:120:3210:aefc:13d9:b947:5c76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805C615A6
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Apr 2022 05:00:43 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id md20-20020a17090b23d400b001cb70ef790dso8242674pjb.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Apr 2022 22:00:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LAGD0p08t0pfhx7/okB2lBa8nRyuf90wrMSmnkmWG7I=;
-        b=nAKm086Zb3y2MriDpFVxXGPZT6ciSeXKBUL3Uh6/K6h3S8y8QnuOq1tT/RltTNk/U/
-         LPHEQ5wkpy0up4RRcad40bcnnnWTREy3kCMo/jC8cOfD9qrqEwh35LukDT9A6Ud3iWNx
-         GU7c2lG3+Py0kyboHn2xQl6KTuoubMtPfQKW4afmzrj+xGOweiUXERyzQwoe3pmzey+F
-         RpOVrpW/WEXzpR6eL0HQ0rOqJPWJydPqe6RidtygRSgZgdKeeyyhbl18efByVGAaBi3B
-         FvZacG/MmaE2DmAM809m1tZdY7xajoVxRXjz7DzNZYIdy1eRTiohJAsVBmMRGJqk44qr
-         +Vgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=LAGD0p08t0pfhx7/okB2lBa8nRyuf90wrMSmnkmWG7I=;
-        b=kQUJxhBS8ZrQ38BxhoO6a9p9ha1VM+9UGw49hDtcK4fA25Siw330w1hgPf/cD4/FwB
-         x3bUcnUuiPHp9vVphMYWkiXQK3mG7Y3hWZ1eUFgF5FnYqTNczXSsHJ+xGgJu7qarjJa4
-         3DD6hSJ2NFcOE39fmlxSTrg8MF+qsXBzCp5ZmMQJvY3OC2zgQ3bhGC/dTIZcWYVa+8ed
-         KrR763UzXJXB8v0UNyJ/yTmI73mibEigvxRK7k44n7m7uojyQNCijZQLBAiAXgleBJaE
-         nUul6N1y+XMzyiVUjTghS00E6lO9b8muPFLavIcgsroV4c/EMdsEHa0ROPDegMxlP1SJ
-         YXzg==
-X-Gm-Message-State: AOAM5305ZD6JpbPflajMBzivtilGXK3EAN9gFHZe8oeQMoQXdvtDCsF2
-	sgZlmYHd7/ccv7uT7KGeUoB1Lqm8TlKPMUMc
-X-Google-Smtp-Source: ABdhPJyPZlkvJPxDQp/eENGiurD7t8WJdTPv+ova1KZ+G97lr7ts7vd8m6ADdTz+hV1UFyqB/RnsPw==
-X-Received: by 2002:a17:902:d507:b0:158:920c:2761 with SMTP id b7-20020a170902d50700b00158920c2761mr9750208plg.52.1649912442952;
-        Wed, 13 Apr 2022 22:00:42 -0700 (PDT)
-Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
-        by smtp.gmail.com with ESMTPSA id y16-20020a17090a6c9000b001cc3a8b4fd6sm4688616pjj.7.2022.04.13.22.00.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Apr 2022 22:00:42 -0700 (PDT)
-From: Xiaobing Luo <luoxiaobing0926@gmail.com>
-To: tiny.windzz@gmail.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: [PATCH] fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Thu, 14 Apr 2022 04:59:17 +0000
-Message-Id: <20220414045917.3223700-1-luoxiaobing0926@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	(Authenticated sender: benjamin.gaignard)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3BEE71F4769C;
+	Thu, 14 Apr 2022 09:02:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1649923332;
+	bh=RFbpJ1I3WcLfiaLAFsi5mngxuqlpAEWsg+scuunDdh0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=h8EFezQvks1gbQPoLnNC7+mQWwxiIL7tgJAYg1wM4DO6W3p04jUnqdzJHFuP+2Eok
+	 HBMA0Hrhu/0zDNIhPqpZHVxSXgsI19s+v5Dr94Pnmcy5fd5cqL0J2tq9arjY8o5MN8
+	 1zvdytWoIzP6jfGapogPmuJr8PCtUWUL+zUpISopHYK3HXtnrXGufbdHKk0iFNxoJl
+	 QjZxU0Wi1fANKP8G2MVXrqcZANK8NQBD+vVXHPrggQgpphrjJdUKyt1nYV3PcHgWen
+	 D2Lz5+8e5L0mM/eAUmux1YRVefz473o6bgfemDRqlY+nTDEKEoiN7stgTC/cAyw/dJ
+	 2HMUq7UZmE29A==
+Message-ID: <7a32fd89-a90f-d921-1f0b-e0eaeb9db71e@collabora.com>
+Date: Thu, 14 Apr 2022 10:02:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ sebastian.fricke@collabora.com
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+ <20220407152940.738159-7-benjamin.gaignard@collabora.com>
+ <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <34f586efdd6401b509cf11fba75039d5494c4eff.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
 
-unreferenced object 0xffff000010742a00 (size 128):
-  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
-    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
-    [<000000007d6082a0>] platform_probe+0x98/0x11c
-    [<00000000c990f549>] really_probe+0x234/0x5a0
-    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
-    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
-    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
-    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
-    [<00000000df4f14f6>] __device_attach+0x174/0x29c
-    [<00000000782002fb>] device_initial_probe+0x20/0x30
-    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
-    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
-    [<000000004b9264e3>] platform_device_add+0x198/0x390
-    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
-    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
-    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+Le 08/04/2022 à 18:33, Nicolas Dufresne a écrit :
+> Le jeudi 07 avril 2022 à 17:29 +0200, Benjamin Gaignard a écrit :
+>> HEVC specifications say that:
+>> "PicOrderCntVal is derived as follows:
+>> PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
+>> The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
+>>
+>> To match with these definitions change __u16 pic_order_cnt[2]
+>> into __s32 pic_order_cnt_val.
+> You forgot to update the slice_params->slice_pic_order_count.
 
-Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Thanks it will be in v6
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 2deed8d8773f..75e1bf3a08f7 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	ret = sun50i_cpufreq_get_efuse(&speed);
--	if (ret)
-+	if (ret) {
-+		kfree(opp_tables);
- 		return ret;
-+	}
- 
- 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
- 
--- 
-2.25.1
+Benjamin
 
+>
+> Nicolas
+>
+>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>> ---
+>> version 5:
+>> - change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+>>   drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+>>   drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+>>   drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+>>   include/media/hevc-ctrls.h                        | 2 +-
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> index c524af41baf5..6f3c774aa3d9 100644
+>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>> @@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+>>   	 */
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
+>> -		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
+>> +		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
+>>   
+>>   		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+>>   	}
+>> @@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+>>   	dpb_longterm_e = 0;
+>>   	for (i = 0; i < decode_params->num_active_dpb_entries &&
+>>   	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+>> -		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+>> +		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+>>   		if (!luma_addr)
+>>   			return -ENOMEM;
+>>   
+>> diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>> index b6ec86d03d91..fadd40768579 100644
+>> --- a/drivers/staging/media/hantro/hantro_hevc.c
+>> +++ b/drivers/staging/media/hantro/hantro_hevc.c
+>> @@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+>>   }
+>>   
+>>   dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>> -				   int poc)
+>> +				   s32 poc)
+>>   {
+>>   	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+>>   	int i;
+>> diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>> index ed018e293ba0..a648c529662b 100644
+>> --- a/drivers/staging/media/hantro/hantro_hw.h
+>> +++ b/drivers/staging/media/hantro/hantro_hw.h
+>> @@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+>>   	struct hantro_aux_buf tile_bsd;
+>>   	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+>>   	struct hantro_aux_buf scaling_lists;
+>> -	int ref_bufs_poc[NUM_REF_PICTURES];
+>> +	s32 ref_bufs_poc[NUM_REF_PICTURES];
+>>   	u32 ref_bufs_used;
+>>   	struct hantro_hevc_dec_ctrls ctrls;
+>>   	unsigned int num_tile_cols_allocated;
+>> @@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+>>   void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+>>   int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+>>   int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>> -dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>> +dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+>>   int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+>>   void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+>>   size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> index 44f385be9f6c..d04521ffd920 100644
+>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>> @@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+>>   	for (i = 0; i < num_active_dpb_entries; i++) {
+>>   		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+>>   		u32 pic_order_cnt[2] = {
+>> -			dpb[i].pic_order_cnt[0],
+>> -			dpb[i].pic_order_cnt[1]
+>> +			dpb[i].pic_order_cnt_val & 0xffff,
+>> +			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+>>   		};
+>>   
+>>   		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>> index b3540167df9e..2812778b41f4 100644
+>> --- a/include/media/hevc-ctrls.h
+>> +++ b/include/media/hevc-ctrls.h
+>> @@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+>>   	__u64	timestamp;
+>>   	__u8	flags;
+>>   	__u8	field_pic;
+>> -	__u16	pic_order_cnt[2];
+>> +	__s32	pic_order_cnt_val;
+>>   	__u8	padding[2];
+>>   };
+>>   
