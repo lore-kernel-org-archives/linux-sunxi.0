@@ -1,40 +1,40 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576093203
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Apr 2022 23:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BACF7A
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Apr 2022 00:09:48 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5F1F55C01AF;
-	Wed, 13 Apr 2022 19:17:35 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 8B86E5C020A;
+	Wed, 13 Apr 2022 20:09:47 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Wed, 13 Apr 2022 19:17:35 -0400
+  by compute3.internal (MEProxy); Wed, 13 Apr 2022 20:09:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1649891855; x=1649978255; bh=tSItXHrLBGUs0XQQKjEhwuPtZ
-	neu6+UIkfbjKrNGmVg=; b=vJa5eSRn1eWA9g9V/7EuRF+K+uCmBh4GtXhDoMRXd
-	P39S0dSPX+fnwvGsWxlRbmV8alijOSmIGYeZ2IbzJThnnz4wHNoufY5dK6N4rfE7
-	TrxxCTl24HSzUu2Hsc7zmVO5YEUaYfEiN7RiXMLfp9kU9HAFHNccVohuCSh3BDjC
-	i0/AZKwtOmpT8aMCWRWGsQZbeH/5LtXH/xq6sIOxBvkB0ex9ErUMpUEAYrTYUSoD
-	YWj6RZ7+Uy1H7r1Li1/UBtmNyuz0zHhBxsrCUNh5QdqlHQibQzzvsta52aQeF5eG
-	DxjIEJ0f94vsqG2U0oJHRler3VkUis//TlgBQET6qGhHw==
+	 s=fm2; t=1649894987; x=1649981387; bh=EOJgXwczx3Vjm6TzLyaxLENE2
+	ryJMOOvfK5s3AOiSPY=; b=JXvcQwatb7sNB8VTI1v7K7C4Aa8LvMyGJZr0eKAaG
+	5m0NbE72ybXA0slhi/1dz6HZX3hNokgIxRAPtjsL3zxll0gOpigZxvz5j0vrQKnO
+	LnyJfaw+y+ADddC3WDG/5+qbZ0MfvlCvdpnujXqOipfVPxDnt3oqQqXW8XueqmC0
+	IDtkBIbqXmTfGRB2fDEBixp3pU5+9KNztrS3b6/0V2K+4eGuNOcKeLUgpPZwIqft
+	qzDUPJky9V6nBQRf7AmoW9m+qWmxDtMNPusxjBPGw/9lcRUEp/hbvez0/SIpE0Tu
+	AjxGuj/FWkZ14GpzAhZMRV7ZRls2A6CH2Oaf9DJy4YUyA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
 	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1649891855; x=1649978255; bh=t
-	SItXHrLBGUs0XQQKjEhwuPtZneu6+UIkfbjKrNGmVg=; b=kEeM1zYFMo+TuNHId
-	ZD2DuLK7heKqI6EpgMSY8/EYZMw+ncUPywOi/ZWcpgmDK3zPHGAvy0RIWdvni8ef
-	TjNQ9vjlW9ZcLkwbxwxEJ8SA5L7RBk07K4D0QdhXZOWcoS2eSIJdTwJY//HeASGp
-	paciplQWXR51UrMmLesiqgpXiGhCLeUg7qf8GmcgKgbb82VZAmYw6VafX0dGro4p
-	nn2VxAUxnecVHyAJNKBU7tUN2hoGNdAs3a0kfLJjXeHvcb1NmQWL4XTxxxgsmgu5
-	vpAHaAuq6eNxEiKTrCWx8k99moogtVuB35Rbqpx4IpmGl0gfBIF5LKlbN1wIfV4z
-	0Z49A==
-X-ME-Sender: <xms:DlpXYqtk_m3XQYofEduY_QFiACCgbvuS8EofE1ac1XjQAJZ52dwGWw>
-    <xme:DlpXYveaXMOd0DQjWPxjI4bRi8HqiNE7I_o1i51TwuYir-cTQ4fs76R0zi9CyPGoZ
-    FloUEL1JaN7k1Tb_Q>
-X-ME-Received: <xmr:DlpXYlw9vGYUPfZ1tJIzH2cuoNsMxufAgpZlim_L33Z0VV0xh-0_yJfWpkcTTBUrRsseNr_2EZHPCHu3nU3w6RZLLpTD6BUhuY6cx1lIotZGN8_zhz5f7q9bNLusOkEEd7roiA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgvdduucetufdoteggodetrfdotf
+	:x-me-sender:x-sasl-enc; s=fm1; t=1649894987; x=1649981387; bh=E
+	OJgXwczx3Vjm6TzLyaxLENE2ryJMOOvfK5s3AOiSPY=; b=e7EXW59Df3iBiANyk
+	OQmUnZ8UEeHtqnsN9UBdjvQbSPwVYZjpky9YbIkLr1+FYmtPbm1w9TvSxJEofM4f
+	Uq6OfL+eRJvuzIIXeUx/aWTgO7DaZxUVlyhnJhKnNESCWNkBXJ/K/NLOuWBem/OP
+	Uupqq+ml+lFHH3riGkvymEhqaj9tc0/KKhr0hFkpjKtQ4zbUSg319lqJLdgCcXHl
+	mqiOoqFHLYNO/ezIJVRYEhBlJpLFagdjgiBL7PELD8COgQkoNZVASZB+3pF+6uwa
+	Ml9GPxSGESnod1rsYyEZU6kvP2uqQQSID7H6oc2d9zAcilCzJvdUY4XqozIxI5hQ
+	kmPYA==
+X-ME-Sender: <xms:SWZXYjqsJQRME26XZdKplHgNSPjoABGmCKLhYZtJOiGMpe1jqoJSHA>
+    <xme:SWZXYtqMNPa3Th_CkLCGlAAEhICGS0qxm7kLr7T1gssTPQ7017z9zVzAl4LhKhDl_
+    RtN5csF4hdFCD2RZA>
+X-ME-Received: <xmr:SWZXYgMtROeWTgCI1BEdPV8jkITAxcL96omh7QI4QdpStPC9AMK7CfF7M0fgbVY03S3N8eijWfJlFt9BGEuGMJAaQmu2u_bSdz2eakE6lkF1XsE7eFPAhIXo9fG1g2lk0Xa8YQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgfeefucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
@@ -42,25 +42,26 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudelvddgvdduucetufdoteggod
     htthgvrhhnpeeiteekhfehuddugfeltddufeejjeefgeevheekueffhffhjeekheeiffdt
     vedtveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:DlpXYlM0-npvWJrT4SqgFD9WrRN5Dq7NVmZZajtGD_fZJ5q794B2fA>
-    <xmx:DlpXYq-dUpqK3Ff7XFSSPSq7yckssJMfEOYjM63hbVlfqasfcLfc4A>
-    <xmx:DlpXYtX5Eo97c9Uzbp5TmiSbsIMued8wjG3bixd7R5dZ2ue7CwFXDA>
-    <xmx:D1pXYvPQDh5qD2GYcO-t679xKKtOcvk6AaJgcafLqazUEIPcB73i0A>
+X-ME-Proxy: <xmx:SWZXYm5IHxa4Ff82jsI8C7AviOP37U98R-PORU6GlhfI7rFXO9AWdQ>
+    <xmx:SWZXYi5vEOxs6yFcWGxWTT4DPlVzBVuHU-w6SB-cJtSUAYC6efvFeg>
+    <xmx:SWZXYuhGMSpgCdk4qw4PoTUFnGvP-NIf5oQNm-zlicbF_t7V48ueAw>
+    <xmx:S2ZXYktctP2op4tCR2gNuqYE-rxE_Kjo4bTOtcM_DYuI8BQueX2KEw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Apr 2022 19:17:34 -0400 (EDT)
+ 13 Apr 2022 20:09:45 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
+To: Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Ondrej Jirman <megous@megous.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Alessandro Zummo <a.zummo@towertech.it>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc: Samuel Holland <samuel@sholland.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	linux-arm-kernel@lists.infradead.org,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] rtc: sun6i: Add NVMEM provider
-Date: Wed, 13 Apr 2022 18:17:30 -0500
-Message-Id: <20220413231731.56709-1-samuel@sholland.org>
+Subject: [PATCH resend v4] Input: sun4i-lradc-keys -  Add wakup support
+Date: Wed, 13 Apr 2022 19:09:44 -0500
+Message-Id: <20220414000944.43388-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -70,85 +71,90 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sun6i RTC provides 32 bytes of general-purpose data registers.
-They can be used to save data in the always-on RTC power domain.
-The registers are writable via 32-bit MMIO accesses only.
+From: Ondrej Jirman <megous@megous.com>
 
-Expose them with a NVMEM provider so they can be used by other drivers.
+Allow the driver to wake the system on key press if the "wakeup-source"
+property is provided in the device tree. Using the LRADC as a wakeup
+source requires keeping the AVCC domain active during sleep. Since this
+has a nontrivial impact on power consumption (sometimes doubling it),
+disable the LRADC wakeup source by default.
 
+Signed-off-by: Ondrej Jirman <megous@megous.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/rtc/rtc-sun6i.c | 42 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+Changes in v4:
+  - Only mark device as wakeup capable if setting the wakeirq succeeds
+  - An entirely different, but equivalent, DT binding patch was merged,
+    so there is only one patch left
 
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 5b3e4da63406..755aeb82a285 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -71,6 +71,10 @@
- #define SUN6I_LOSC_OUT_GATING			0x0060
- #define SUN6I_LOSC_OUT_GATING_EN_OFFSET		0
+Changes in v3:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
+
+Changes in v2:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
+
+ drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+index 4a796bed48ac..781f9b053115 100644
+--- a/drivers/input/keyboard/sun4i-lradc-keys.c
++++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+@@ -22,6 +22,8 @@
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_wakeirq.h>
++#include <linux/pm_wakeup.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
  
-+/* General-purpose data */
-+#define SUN6I_GP_DATA				0x0100
-+#define SUN6I_GP_DATA_SIZE			0x20
-+
- /*
-  * Get date values
-  */
-@@ -662,6 +666,39 @@ static const struct rtc_class_ops sun6i_rtc_ops = {
- 	.alarm_irq_enable	= sun6i_rtc_alarm_irq_enable
- };
+@@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ {
+ 	struct sun4i_lradc_data *lradc;
+ 	struct device *dev = &pdev->dev;
+-	int i;
+-	int error;
++	int error, i, irq;
  
-+static int sun6i_rtc_nvmem_read(void *priv, unsigned int offset, void *_val, size_t bytes)
-+{
-+	struct sun6i_rtc_dev *chip = priv;
-+	u32 *val = _val;
-+	int i;
-+
-+	for (i = 0; i < bytes / 4; ++i)
-+		val[i] = readl(chip->base + SUN6I_GP_DATA + offset + 4 * i);
-+
-+	return 0;
-+}
-+
-+static int sun6i_rtc_nvmem_write(void *priv, unsigned int offset, void *_val, size_t bytes)
-+{
-+	struct sun6i_rtc_dev *chip = priv;
-+	u32 *val = _val;
-+	int i;
-+
-+	for (i = 0; i < bytes / 4; ++i)
-+		writel(val[i], chip->base + SUN6I_GP_DATA + offset + 4 * i);
-+
-+	return 0;
-+}
-+
-+static struct nvmem_config sun6i_rtc_nvmem_cfg = {
-+	.type		= NVMEM_TYPE_BATTERY_BACKED,
-+	.reg_read	= sun6i_rtc_nvmem_read,
-+	.reg_write	= sun6i_rtc_nvmem_write,
-+	.size		= SUN6I_GP_DATA_SIZE,
-+	.word_size	= 4,
-+	.stride		= 4,
-+};
-+
- #ifdef CONFIG_PM_SLEEP
- /* Enable IRQ wake on suspend, to wake up from RTC. */
- static int sun6i_rtc_suspend(struct device *dev)
-@@ -795,6 +832,11 @@ static int sun6i_rtc_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
+ 	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
+ 	if (!lradc)
+@@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lradc->base))
+ 		return PTR_ERR(lradc->base);
  
-+	sun6i_rtc_nvmem_cfg.priv = chip;
-+	ret = devm_rtc_nvmem_register(chip->rtc, &sun6i_rtc_nvmem_cfg);
-+	if (ret)
-+		return ret;
+-	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
+-				 sun4i_lradc_irq, 0,
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
 +
- 	dev_info(&pdev->dev, "RTC enabled\n");
++	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
+ 				 "sun4i-a10-lradc-keys", lradc);
+ 	if (error)
+ 		return error;
+@@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
  
++	if (device_property_read_bool(dev, "wakeup-source")) {
++		error = dev_pm_set_wake_irq(dev, irq);
++		if (error)
++			dev_warn(dev, "Failed to set wake IRQ\n");
++		else
++			device_set_wakeup_capable(dev, true);
++	}
++
  	return 0;
+ }
+ 
 -- 
 2.35.1
 
