@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 262BC33C0
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:46:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1141B33C0
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:46:38 +0000 (UTC)
 Received: from relay1-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::221])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 8FA1CC84C8
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:22:02 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9427ED0BA5
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:22:06 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 07D7A240007;
-	Fri, 15 Apr 2022 15:21:52 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id EBAC624000C;
+	Fri, 15 Apr 2022 15:21:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650036114;
+	t=1650036118;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=VsUxuduSUSmT5cVDhch3xSuWAwRsl9IrVPZo+IvctwA=;
-	b=jeJ9wnGKPLZD9sEkT//XK2wPy5CnxYAhOtEEf/QB1cVtYyhQmB809YT54bF+h77Luy9+0L
-	WCySsqrjMw0pzXl2KgwEgb9pVhSPZdn1bnBMjjOMIukqnyeZImUT+eLT0kdj0pUMovvwTX
-	JEzvhXGPhgzgx5TqVGHHazRFtEHQNU84xc0BAH8Wnr/SrcdmuthgqNYR60P3hT16U9sVrG
-	WGZjBPqsJPRNfjp8ui/BF3k3AVizbfjKG1j1ZBywxDN8ml56eRunvbimffVEBPSnsr6HEp
-	8ux5jaxaFIMNTiQVvUV5HthUiibQBkxi21m0BmfDk5D+KnMHc/NmQOxqYnV7Ag==
+	bh=gwujoudO+mxD7JUpVLmNFyezlsG725sqpIX2zlDa2Ao=;
+	b=KhEwIruN4e1q0+CKrmMHh3a7S/WgvFJeDk7ZEDZkjl7E63mUI9CBtcAHjuNiQTZDd52BCe
+	iKzUZTj9rgqAzvllaI5GtHWJPo/X61XecZd/5ZmadGiG13u5mfUF0ZfL1f0lnXDwGrvRTs
+	KHnDVAyweQoC9WlpL51sYEjs7FgWeFJsgI+dSmU+C1AegQCN4aEOMFSbaKo7S5PNfOwC4t
+	un/1EooaqRrQx+r5HTsRxnBsR44Twv+jjH6QqVgt5mmCyfODybZgwoxyP01mxXcDFUH6uu
+	v0B30JbGhSoQ2zrrcBz86jzTEOh0lxU/GaWEL315gRZnuvG7Gm3Wa+k/htnmgQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -43,9 +43,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v4 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
-Date: Fri, 15 Apr 2022 17:21:31 +0200
-Message-Id: <20220415152138.635525-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 3/8] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+Date: Fri, 15 Apr 2022 17:21:33 +0200
+Message-Id: <20220415152138.635525-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.2
 In-Reply-To: <20220415152138.635525-1-paul.kocialkowski@bootlin.com>
 References: <20220415152138.635525-1-paul.kocialkowski@bootlin.com>
@@ -57,44 +57,137 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The Allwinner A31 MIPI D-PHY block supports both tx and rx directions,
-although each instance of the block is meant to be used in one
-direction only. There will typically be one instance for MIPI DSI and
-one for MIPI CSI-2 (it seems unlikely to ever see a shared instance).
+The A31 CSI controller supports two distinct input interfaces:
+parallel and an external MIPI CSI-2 bridge. The parallel interface
+is often connected to a set of hardware pins while the MIPI CSI-2
+bridge is an internal FIFO-ish link. As a result, these two inputs
+are distinguished as two different ports.
 
-Describe the direction with a new allwinner,direction property.
-For backwards compatibility, the property is optional and tx mode
-should be assumed by default.
+Note that only one of the two may be present on a controller instance.
+For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+dedicated to parallel.
+
+Update the binding with an explicit ports node that holds two distinct
+port nodes: one for parallel input and one for MIPI CSI-2.
+
+This is backward-compatible with the single-port approach that was
+previously taken for representing the parallel interface port, which
+stays enumerated as fwnode port 0.
+
+Note that additional ports may be added in the future, especially to
+support feeding the CSI controller's output to the ISP.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml  | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ .../media/allwinner,sun6i-a31-csi.yaml        | 72 +++++++++++++++----
+ 1 file changed, 58 insertions(+), 14 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-index d0b541a461f3..22636c9fdab8 100644
---- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-@@ -37,6 +37,18 @@ properties:
-   resets:
-     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+index 8b568072a069..53aa6dbe8e2c 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+@@ -42,6 +42,7 @@ properties:
  
-+  allwinner,direction:
-+    $ref: '/schemas/types.yaml#/definitions/string'
-+    description: |
-+      Direction of the D-PHY:
-+      - "rx" for receiving (e.g. when used with MIPI CSI-2);
-+      - "tx" for transmitting (e.g. when used with MIPI DSI).
+   port:
+     $ref: /schemas/graph.yaml#/$defs/port-base
++    description: Parallel input port, connect to a parallel sensor
+ 
+     properties:
+       endpoint:
+@@ -59,7 +60,38 @@ properties:
+         required:
+           - bus-width
+ 
+-    additionalProperties: false
++    unevaluatedProperties: false
 +
-+    enum:
-+      - tx
-+      - rx
-+    default: tx
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
 +
++    properties:
++      port@0:
++        $ref: "#/properties/port"
++
++        properties:
++          reg:
++            const: 0
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: MIPI CSI-2 bridge input port
++
++        properties:
++          reg:
++            const: 1
++
++          endpoint:
++            $ref: /schemas/graph.yaml#/$defs/endpoint-base
++            unevaluatedProperties: false
++
++        additionalProperties: false
++
++    anyOf:
++      - required:
++          - port@0
++      - required:
++          - port@1
+ 
  required:
-   - "#phy-cells"
    - compatible
+@@ -69,6 +101,12 @@ required:
+   - clock-names
+   - resets
+ 
++oneOf:
++  - required:
++      - ports
++  - required:
++      - port
++
+ additionalProperties: false
+ 
+ examples:
+@@ -89,19 +127,25 @@ examples:
+                       "ram";
+         resets = <&ccu RST_BUS_CSI>;
+ 
+-        port {
+-            /* Parallel bus endpoint */
+-            csi1_ep: endpoint {
+-                remote-endpoint = <&adv7611_ep>;
+-                bus-width = <16>;
+-
+-                /*
+-                 * If hsync-active/vsync-active are missing,
+-                 * embedded BT.656 sync is used.
+-                 */
+-                 hsync-active = <0>; /* Active low */
+-                 vsync-active = <0>; /* Active low */
+-                 pclk-sample = <1>;  /* Rising */
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                /* Parallel bus endpoint */
++                csi1_ep: endpoint {
++                    remote-endpoint = <&adv7611_ep>;
++                    bus-width = <16>;
++
++                    /*
++                     * If hsync-active/vsync-active are missing,
++                     * embedded BT.656 sync is used.
++                     */
++                    hsync-active = <0>; /* Active low */
++                    vsync-active = <0>; /* Active low */
++                    pclk-sample = <1>;  /* Rising */
++                };
+             };
+         };
+     };
 -- 
 2.35.2
 
