@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1E233C0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F20C33C1
 	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:38:52 +0000 (UTC)
 Received: from relay4-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::224])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id B6A91CB14B
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:28:27 +0000 (UTC)
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id AE634CB1AD
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:28:30 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 50290E0009;
-	Fri, 15 Apr 2022 15:28:19 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id DFC26E0007;
+	Fri, 15 Apr 2022 15:28:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650036500;
+	t=1650036502;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CEm5+pGRNel/0Old7UzJMKf1s19Es9J+Jjzr7jKNOZ0=;
-	b=X2CQrLsOEU929UKZI3UjKfC+rGr76kJN1MWbcUik/HnoE3rzeJljFY6o96WZHpshvPTuek
-	zZh61Sh5Q6xCG12k59ZCc6Gyl1B7yDYIwL4Qqx5kR5htr7ZuGw7YB7Rp4AfA9rEei9VOhM
-	sUJ2+NIiZbeZ5FkXuqTUGfq76H3+7OaIsJe0zzU0sAxbJtolKlPloTIaQ7MiWU+Ilij+20
-	jctsp3eW3BS7L1H+8nPQWY78gNtF2sxYV5fbU3URP+bYqRsWOE3I6HXHA9kg0g+lvNAC+t
-	MBC+bYfGOMNA30+ED+SkXvX5oUbbmYEbiRGVaujNMoIEgrhDmPGKKXVk318Vlw==
+	bh=Kf/LiFt2w5n6LAhs+x9ONo9acw4Kl67ZgsV7GIopoh0=;
+	b=lYjWu6z50aWKbrA4wnh9x9n/aSsl/xKGq0SDfXJ42sa2IagcfqxcmXSX/hrlG+fwOaavNP
+	CUlhoyHx9uDCC9ak3Uen8detp6Q80w3su4we0xlZ5XQZPmsBEe/Lg5G4IXqShYOI54pyW9
+	wc/ogreMqWBFAluDl91WwIl04ckD9yNzwV/Rv0w7SRtmGJ5kAFiakbhuiK8InfrdhrIZfY
+	JIVNr0VME2nhjPneJfputiHwZCcmZ0xo0QosyEGZUPruOkru1aBjiEXdlcRPBIqJtrFJ64
+	Gqb59iUBF62FS0bzp5MKFHvYvHjahgbYJC9zlO8l2N3PloPpdpswwjW4VZqLgg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -36,9 +36,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Maxime Ripard <maxime@cerno.tech>
-Subject: [PATCH v4 01/45] media: sun6i-csi: Define and use driver name and (reworked) description
-Date: Fri, 15 Apr 2022 17:27:27 +0200
-Message-Id: <20220415152811.636419-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 03/45] media: sun6i-csi: Tidy up platform code
+Date: Fri, 15 Apr 2022 17:27:29 +0200
+Message-Id: <20220415152811.636419-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.2
 In-Reply-To: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
 References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
@@ -50,91 +50,231 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add proper defines for driver name and description instead of
-MODULE_NAME and hardcoding (cosmetics).
-
-Also rework the description while at it to mention the hardware
-generation that the driver supports and remove the video capture
-mentions since it applies to the whole media device.
+Various renames, variables lowering and other cosmetic changes in the
+platform-support code. No functional change intended.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Reviewed-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 14 ++++++--------
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h |  3 +++
- 2 files changed, 9 insertions(+), 8 deletions(-)
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 98 ++++++++++---------
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  4 +-
+ 2 files changed, 56 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index fc96921b0583..43dcd8117d3f 100644
+index 5fbaa1e99412..becd8d17f8eb 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -27,8 +27,6 @@
- #include "sun6i_csi.h"
- #include "sun6i_csi_reg.h"
+@@ -153,25 +153,25 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
+ 	if (!enable) {
+ 		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
  
--#define MODULE_NAME	"sun6i-csi"
--
- struct sun6i_csi_dev {
- 	struct sun6i_csi		csi;
- 	struct device			*dev;
-@@ -730,7 +728,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
- 	int ret;
- 
- 	csi->media_dev.dev = csi->dev;
--	strscpy(csi->media_dev.model, "Allwinner Video Capture Device",
-+	strscpy(csi->media_dev.model, SUN6I_CSI_DESCRIPTION,
- 		sizeof(csi->media_dev.model));
- 	csi->media_dev.hw_revision = 0;
- 	snprintf(csi->media_dev.bus_info, sizeof(csi->media_dev.bus_info),
-@@ -755,7 +753,7 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi *csi)
- 		goto free_ctrl;
+-		clk_disable_unprepare(csi_dev->clk_ram);
++		clk_disable_unprepare(csi_dev->clock_ram);
+ 		if (of_device_is_compatible(dev->of_node,
+ 					    "allwinner,sun50i-a64-csi"))
+-			clk_rate_exclusive_put(csi_dev->clk_mod);
+-		clk_disable_unprepare(csi_dev->clk_mod);
++			clk_rate_exclusive_put(csi_dev->clock_mod);
++		clk_disable_unprepare(csi_dev->clock_mod);
+ 		reset_control_assert(csi_dev->reset);
+ 		return 0;
  	}
  
--	ret = sun6i_video_init(&csi->video, csi, "sun6i-csi");
-+	ret = sun6i_video_init(&csi->video, csi, SUN6I_CSI_NAME);
- 	if (ret)
- 		goto unreg_v4l2;
+-	ret = clk_prepare_enable(csi_dev->clk_mod);
++	ret = clk_prepare_enable(csi_dev->clock_mod);
+ 	if (ret) {
+ 		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
+ 		return ret;
+ 	}
  
-@@ -870,8 +868,8 @@ static int sun6i_csi_resource_request(struct sun6i_csi_dev *sdev,
+ 	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+-		clk_set_rate_exclusive(csi_dev->clk_mod, 300000000);
++		clk_set_rate_exclusive(csi_dev->clock_mod, 300000000);
+ 
+-	ret = clk_prepare_enable(csi_dev->clk_ram);
++	ret = clk_prepare_enable(csi_dev->clock_ram);
+ 	if (ret) {
+ 		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
+ 		goto clk_mod_disable;
+@@ -188,11 +188,11 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
+ 	return 0;
+ 
+ clk_ram_disable:
+-	clk_disable_unprepare(csi_dev->clk_ram);
++	clk_disable_unprepare(csi_dev->clock_ram);
+ clk_mod_disable:
+ 	if (of_device_is_compatible(dev->of_node, "allwinner,sun50i-a64-csi"))
+-		clk_rate_exclusive_put(csi_dev->clk_mod);
+-	clk_disable_unprepare(csi_dev->clk_mod);
++		clk_rate_exclusive_put(csi_dev->clock_mod);
++	clk_disable_unprepare(csi_dev->clock_mod);
+ 	return ret;
+ }
+ 
+@@ -776,12 +776,11 @@ static int sun6i_csi_v4l2_init(struct sun6i_csi_device *csi_dev)
+ 	return ret;
+ }
+ 
+-/* -----------------------------------------------------------------------------
+- * Resources and IRQ
+- */
+-static irqreturn_t sun6i_csi_isr(int irq, void *dev_id)
++/* Platform */
++
++static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
+ {
+-	struct sun6i_csi_device *csi_dev = (struct sun6i_csi_device *)dev_id;
++	struct sun6i_csi_device *csi_dev = private;
+ 	struct regmap *regmap = csi_dev->regmap;
+ 	u32 status;
+ 
+@@ -816,73 +815,82 @@ static const struct regmap_config sun6i_csi_regmap_config = {
+ 	.max_register	= 0x9c,
+ };
+ 
+-static int sun6i_csi_resource_request(struct sun6i_csi_device *csi_dev,
+-				      struct platform_device *pdev)
++static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
++				     struct platform_device *platform_dev)
+ {
++	struct device *dev = csi_dev->dev;
+ 	void __iomem *io_base;
+ 	int ret;
+ 	int irq;
+ 
+-	io_base = devm_platform_ioremap_resource(pdev, 0);
++	/* Registers */
++
++	io_base = devm_platform_ioremap_resource(platform_dev, 0);
+ 	if (IS_ERR(io_base))
+ 		return PTR_ERR(io_base);
+ 
+-	csi_dev->regmap = devm_regmap_init_mmio_clk(&pdev->dev, "bus", io_base,
++	csi_dev->regmap = devm_regmap_init_mmio_clk(dev, "bus", io_base,
+ 						    &sun6i_csi_regmap_config);
+ 	if (IS_ERR(csi_dev->regmap)) {
+-		dev_err(&pdev->dev, "Failed to init register map\n");
++		dev_err(dev, "failed to init register map\n");
+ 		return PTR_ERR(csi_dev->regmap);
+ 	}
+ 
+-	csi_dev->clk_mod = devm_clk_get(&pdev->dev, "mod");
+-	if (IS_ERR(csi_dev->clk_mod)) {
+-		dev_err(&pdev->dev, "Unable to acquire csi clock\n");
+-		return PTR_ERR(csi_dev->clk_mod);
++	/* Clocks */
++
++	csi_dev->clock_mod = devm_clk_get(dev, "mod");
++	if (IS_ERR(csi_dev->clock_mod)) {
++		dev_err(dev, "failed to acquire module clock\n");
++		return PTR_ERR(csi_dev->clock_mod);
+ 	}
+ 
+-	csi_dev->clk_ram = devm_clk_get(&pdev->dev, "ram");
+-	if (IS_ERR(csi_dev->clk_ram)) {
+-		dev_err(&pdev->dev, "Unable to acquire dram-csi clock\n");
+-		return PTR_ERR(csi_dev->clk_ram);
++	csi_dev->clock_ram = devm_clk_get(dev, "ram");
++	if (IS_ERR(csi_dev->clock_ram)) {
++		dev_err(dev, "failed to acquire ram clock\n");
++		return PTR_ERR(csi_dev->clock_ram);
+ 	}
+ 
+-	csi_dev->reset = devm_reset_control_get_shared(&pdev->dev, NULL);
++	/* Reset */
++
++	csi_dev->reset = devm_reset_control_get_shared(dev, NULL);
+ 	if (IS_ERR(csi_dev->reset)) {
+-		dev_err(&pdev->dev, "Cannot get reset controller\n");
++		dev_err(dev, "failed to acquire reset\n");
+ 		return PTR_ERR(csi_dev->reset);
+ 	}
+ 
+-	irq = platform_get_irq(pdev, 0);
++	/* Interrupt */
++
++	irq = platform_get_irq(platform_dev, 0);
  	if (irq < 0)
  		return -ENXIO;
  
--	ret = devm_request_irq(&pdev->dev, irq, sun6i_csi_isr, 0, MODULE_NAME,
--			       sdev);
-+	ret = devm_request_irq(&pdev->dev, irq, sun6i_csi_isr, 0,
-+			       SUN6I_CSI_NAME, sdev);
+-	ret = devm_request_irq(&pdev->dev, irq, sun6i_csi_isr, 0,
+-			       SUN6I_CSI_NAME, csi_dev);
++	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, 0, SUN6I_CSI_NAME,
++			       csi_dev);
  	if (ret) {
- 		dev_err(&pdev->dev, "Cannot request csi IRQ\n");
+-		dev_err(&pdev->dev, "Cannot request csi IRQ\n");
++		dev_err(dev, "failed to request interrupt\n");
  		return ret;
-@@ -924,12 +922,12 @@ static struct platform_driver sun6i_csi_platform_driver = {
- 	.probe = sun6i_csi_probe,
- 	.remove = sun6i_csi_remove,
- 	.driver = {
--		.name = MODULE_NAME,
-+		.name = SUN6I_CSI_NAME,
- 		.of_match_table = of_match_ptr(sun6i_csi_of_match),
+ 	}
+ 
+ 	return 0;
+ }
+ 
+-static int sun6i_csi_probe(struct platform_device *pdev)
++static int sun6i_csi_probe(struct platform_device *platform_dev)
+ {
+ 	struct sun6i_csi_device *csi_dev;
++	struct device *dev = &platform_dev->dev;
+ 	int ret;
+ 
+-	csi_dev = devm_kzalloc(&pdev->dev, sizeof(*csi_dev), GFP_KERNEL);
++	csi_dev = devm_kzalloc(dev, sizeof(*csi_dev), GFP_KERNEL);
+ 	if (!csi_dev)
+ 		return -ENOMEM;
+ 
+-	csi_dev->dev = &pdev->dev;
++	csi_dev->dev = &platform_dev->dev;
++	platform_set_drvdata(platform_dev, csi_dev);
+ 
+-	ret = sun6i_csi_resource_request(csi_dev, pdev);
++	ret = sun6i_csi_resources_setup(csi_dev, platform_dev);
+ 	if (ret)
+ 		return ret;
+ 
+-	platform_set_drvdata(pdev, csi_dev);
+-
+ 	return sun6i_csi_v4l2_init(csi_dev);
+ }
+ 
+@@ -903,16 +911,18 @@ static const struct of_device_id sun6i_csi_of_match[] = {
+ 	{ .compatible = "allwinner,sun50i-a64-csi", },
+ 	{},
+ };
++
+ MODULE_DEVICE_TABLE(of, sun6i_csi_of_match);
+ 
+ static struct platform_driver sun6i_csi_platform_driver = {
+-	.probe = sun6i_csi_probe,
+-	.remove = sun6i_csi_remove,
+-	.driver = {
+-		.name = SUN6I_CSI_NAME,
+-		.of_match_table = of_match_ptr(sun6i_csi_of_match),
++	.probe	= sun6i_csi_probe,
++	.remove	= sun6i_csi_remove,
++	.driver	= {
++		.name		= SUN6I_CSI_NAME,
++		.of_match_table	= of_match_ptr(sun6i_csi_of_match),
  	},
  };
++
  module_platform_driver(sun6i_csi_platform_driver);
  
--MODULE_DESCRIPTION("Allwinner V3s Camera Sensor Interface driver");
-+MODULE_DESCRIPTION("Allwinner A31 Camera Sensor Interface driver");
- MODULE_AUTHOR("Yong Deng <yong.deng@magewell.com>");
- MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Allwinner A31 Camera Sensor Interface driver");
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index 3a38d107ae3f..e04f3c3fa27b 100644
+index e4e7ac6c869f..945d0cb5ab39 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -14,6 +14,9 @@
+@@ -51,8 +51,8 @@ struct sun6i_csi_device {
+ 	struct sun6i_video		video;
  
- #include "sun6i_video.h"
+ 	struct regmap			*regmap;
+-	struct clk			*clk_mod;
+-	struct clk			*clk_ram;
++	struct clk			*clock_mod;
++	struct clk			*clock_ram;
+ 	struct reset_control		*reset;
  
-+#define SUN6I_CSI_NAME		"sun6i-csi"
-+#define SUN6I_CSI_DESCRIPTION	"Allwinner A31 CSI Device"
-+
- struct sun6i_csi;
- 
- /**
+ 	int				planar_offset[3];
 -- 
 2.35.2
 
