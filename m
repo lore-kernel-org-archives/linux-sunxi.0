@@ -1,213 +1,130 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7950233C4
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:38:56 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id ACB4BCB21B
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:28:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC7133C0
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:45:44 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::221])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id B8464C5651
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 15:22:00 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 46D7FE000C;
-	Fri, 15 Apr 2022 15:28:25 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id BCF89240004;
+	Fri, 15 Apr 2022 15:21:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1650036506;
+	t=1650036112;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PxT7HZrQYzk3vV90fOmSjZ6R1dXpanCdMetMbem4pcM=;
-	b=NSVOCdnjSPimfhMPMKA4ry0VlWecxDYKM6GU/ChAfwAuqvzAY4BSJH/UUSM7e5711gjTSj
-	KL/LCLnKc9uyw09Qvg76p+NkOk03JvZ863j5N72kmAHkQ3izCmo3s1oq27KLg5eLf9VmAJ
-	0tlrWx5HmvgOWdkCgKa+R93EhPDfyMhU0Y2Wh8rjBOwc4sP9H7Y22kO3cFyjMs0663+NLY
-	52VMprlrv5Q8QasT+P2umkNAHyYBPP7wjEasRBAcQhC/py8YT5AfJpC/vKSJxCK4fy44MG
-	QFiRjX08TzHi49R/fIwUoC8mbQPsiIQ7riz9vqki8qqg1PUT26kfZZzjsWeDSA==
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AbEiNfshC8XkhzcTbadTaZQ7SjJznCWXhRPzsy2QMbY=;
+	b=Ho2lSAybIB63tmiRXAczfB1YInTtWjXWxUZMp1IGRQ52W93iqFgRvu/RgHtEz2IFSWbInY
+	+7Zu0wD90ng2xI+CgnrktH5DkVR+t23+R6+/ya7q2SaP5qgfeDBNAY4t2abg7pZLCz0XNh
+	hLr1ejwPosID6zpAwgVY1+HuZUBYNINzVcp+FWolvNbu1+Zv0AlmdOUbwn0QU+lT9vo67c
+	HSbcdZPjT9Qbp+fptK4iyWZVBQF4SUACjD4paW9GoV7DwYDdVFgkFQxzx693qWbzd6QRML
+	ct+eIsQijjvGhRoZd4Bv/bTGKwwI0mXBFHRVL4j87VM4dNcX8Cnj1Zj4p08TWw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org
 Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v4 06/45] media: sun6i-csi: Use runtime pm for clocks and reset
-Date: Fri, 15 Apr 2022 17:27:32 +0200
-Message-Id: <20220415152811.636419-7-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 0/8] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / MIPI CSI-2 Support
+Date: Fri, 15 Apr 2022 17:21:30 +0200
+Message-Id: <20220415152138.635525-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.35.2
-In-Reply-To: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Wrap the clock and reset preparation into runtime pm functions
-for better organization of the code. Also fix the clock and
-reset enable order to first deassert reset, as recommended in
-Allwinner litterature.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-Make the driver depend on PM while at it since runtime pm is
-mandatory for the driver to work.
+This part only concerns the MIPI CSI-2 controllers support changes.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- .../media/platform/sunxi/sun6i-csi/Kconfig    |  2 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 84 +++++++++++++------
- 2 files changed, 60 insertions(+), 26 deletions(-)
+Changes since v3:
+- Updated Kconfig to follow the latest media-wide changes;
+- Switched to clock-managed regmap mmio;
+- Various cosmetic cleanups;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Removed clock-lanes property in device-tree schema since lane reordering
+  is not possible;
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/Kconfig b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-index 0345901617d4..965fbd937841 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-+++ b/drivers/media/platform/sunxi/sun6i-csi/Kconfig
-@@ -2,7 +2,7 @@
- config VIDEO_SUN6I_CSI
- 	tristate "Allwinner V3s Camera Sensor Interface driver"
- 	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK  && HAS_DMA
-+	depends on VIDEO_DEV && COMMON_CLK  && HAS_DMA && PM
- 	depends on ARCH_SUNXI || COMPILE_TEST
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 46d92b925cc8..dcc9e7a125e2 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -152,40 +152,18 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
- 
- 	if (!enable) {
- 		regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, 0);
-+		pm_runtime_put(dev);
- 
--		clk_disable_unprepare(csi_dev->clock_ram);
--		clk_disable_unprepare(csi_dev->clock_mod);
--		reset_control_assert(csi_dev->reset);
- 		return 0;
- 	}
- 
--	ret = clk_prepare_enable(csi_dev->clock_mod);
--	if (ret) {
--		dev_err(csi_dev->dev, "Enable csi clk err %d\n", ret);
-+	ret = pm_runtime_resume_and_get(dev);
-+	if (ret < 0)
- 		return ret;
--	}
--
--	ret = clk_prepare_enable(csi_dev->clock_ram);
--	if (ret) {
--		dev_err(csi_dev->dev, "Enable clk_dram_csi clk err %d\n", ret);
--		goto clk_mod_disable;
--	}
--
--	ret = reset_control_deassert(csi_dev->reset);
--	if (ret) {
--		dev_err(csi_dev->dev, "reset err %d\n", ret);
--		goto clk_ram_disable;
--	}
- 
- 	regmap_update_bits(regmap, CSI_EN_REG, CSI_EN_CSI_EN, CSI_EN_CSI_EN);
- 
- 	return 0;
--
--clk_ram_disable:
--	clk_disable_unprepare(csi_dev->clock_ram);
--clk_mod_disable:
--	clk_disable_unprepare(csi_dev->clock_mod);
--	return ret;
- }
- 
- static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device *csi_dev,
-@@ -800,6 +778,56 @@ static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
- 	return IRQ_HANDLED;
- }
- 
-+static int sun6i_csi_suspend(struct device *dev)
-+{
-+	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
-+
-+	reset_control_assert(csi_dev->reset);
-+	clk_disable_unprepare(csi_dev->clock_ram);
-+	clk_disable_unprepare(csi_dev->clock_mod);
-+
-+	return 0;
-+}
-+
-+static int sun6i_csi_resume(struct device *dev)
-+{
-+	struct sun6i_csi_device *csi_dev = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = reset_control_deassert(csi_dev->reset);
-+	if (ret) {
-+		dev_err(dev, "failed to deassert reset\n");
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(csi_dev->clock_mod);
-+	if (ret) {
-+		dev_err(dev, "failed to enable module clock\n");
-+		goto error_reset;
-+	}
-+
-+	ret = clk_prepare_enable(csi_dev->clock_ram);
-+	if (ret) {
-+		dev_err(dev, "failed to enable ram clock\n");
-+		goto error_clock_mod;
-+	}
-+
-+	return 0;
-+
-+error_clock_mod:
-+	clk_disable_unprepare(csi_dev->clock_mod);
-+
-+error_reset:
-+	reset_control_assert(csi_dev->reset);
-+
-+	return ret;
-+}
-+
-+static const struct dev_pm_ops sun6i_csi_pm_ops = {
-+	.runtime_suspend	= sun6i_csi_suspend,
-+	.runtime_resume		= sun6i_csi_resume,
-+};
-+
- static const struct regmap_config sun6i_csi_regmap_config = {
- 	.reg_bits       = 32,
- 	.reg_stride     = 4,
-@@ -879,6 +907,10 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
- 		goto error_clock_rate_exclusive;
- 	}
- 
-+	/* Runtime PM */
-+
-+	pm_runtime_enable(dev);
-+
- 	return 0;
- 
- error_clock_rate_exclusive:
-@@ -889,6 +921,7 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
- 
- static void sun6i_csi_resources_cleanup(struct sun6i_csi_device *csi_dev)
- {
-+	pm_runtime_disable(csi_dev->dev);
- 	clk_rate_exclusive_put(csi_dev->clock_mod);
- }
- 
-@@ -971,6 +1004,7 @@ static struct platform_driver sun6i_csi_platform_driver = {
- 	.driver	= {
- 		.name		= SUN6I_CSI_NAME,
- 		.of_match_table	= of_match_ptr(sun6i_csi_of_match),
-+		.pm		= &sun6i_csi_pm_ops,
- 	},
- };
- 
+Changes since all-in-one v2:
+- Use the newly-introduced media/mipi-csi2.h header instead of local
+  definitions;
+- Introduce a use a mutex for format access serialization;
+- Make both port@0 and port@1 as well as ports required in the binding;
+- Made one of the two CSI input ports required;
+
+Paul Kocialkowski (8):
+  dt-bindings: sun6i-a31-mipi-dphy: Add optional direction property
+  phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI
+    CSI-2
+  dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
+  dt-bindings: media: Add Allwinner A31 MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A31 MIPI CSI-2 controller
+  MAINTAINERS: Add entry for the Allwinner A31 MIPI CSI-2 bridge driver
+  dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings
+    documentation
+  media: sunxi: Add support for the A83T MIPI CSI-2 controller
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |  72 +-
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 147 ++++
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 135 +++
+ .../phy/allwinner,sun6i-a31-mipi-dphy.yaml    |  12 +
+ MAINTAINERS                                   |   8 +
+ drivers/media/platform/sunxi/Kconfig          |   2 +
+ drivers/media/platform/sunxi/Makefile         |   2 +
+ .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  14 +
+ .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 749 ++++++++++++++++
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   |  52 ++
+ .../sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h     |  76 ++
+ .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  12 +
+ .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  72 ++
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 +
+ .../sun8i_a83t_mipi_csi2.c                    | 815 ++++++++++++++++++
+ .../sun8i_a83t_mipi_csi2.h                    |  55 ++
+ .../sun8i_a83t_mipi_csi2_reg.h                | 151 ++++
+ drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 166 +++-
+ 20 files changed, 2569 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2_reg.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+ create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2_reg.h
+
 -- 
 2.35.2
 
