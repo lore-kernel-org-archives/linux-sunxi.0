@@ -1,49 +1,49 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8639B7B
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 18:26:00 +0000 (UTC)
-Received: by mail-ed1-f41.google.com with SMTP id v4so10721705edl.7
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 11:26:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6C77B
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 18:26:46 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id 11so5715625edw.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 11:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EekcWh/8jCGWV16H36tPED8Vs01NSjkm2Nwu29iMlQc=;
-        b=ZXOOeILU2iPR1feimi6V7lfNKIdQ6DEwd0qedeJg5N935VMEBrXkFKmMv3e9updNwU
-         B+xOC5oZopptgtFBST4TlNwmusBLtrLGTkAKtW8wlBofkYysbc1oXsps6IKcikfwkBSZ
-         yka79q5Pl1JP/mREb6ThVUn1koZUnesaiD8giZm87TaKd0EV/oanulADBzDZteMDB7Sg
-         feA7/p8brR9Iaok+1OQha6IyyLfoWoxsaB/4KtrNliTVFFbX0tc657Al6B1ndRNnymeR
-         Fsljmhlu1vD0OfxJldirIjnkOBvk7zqEgYVH/xqbcL5qnHVhkCbY1Q5z+XAxrl7wW5ia
-         HBQg==
+        bh=IiEEMcnc8dyMVnBJRf8MBjYNQSDHZ+TAbtPueaX++m0=;
+        b=XlyJgGlEKw1+nZmDqLlTFmkpRbE3WY6xFRWI29Ehk3YkJS42+sroJQPzN2D6UZAaTO
+         Dk4PkGS/yk/DjxDprFA5+I+AMs7pCnfcCdg1AtYAQL3yuiVxetD0tq3x3aTBurzQlVuM
+         93h0RU+gr6RmWzxcz2zEQ9QNYBLtjSJcCTzEQnir3MVaCwvybVDECwX6eUKEQn6VVfvC
+         LTMbMkf/CGKNdftyt7Si0DkDsrmapJcb3SdCvCNBjeS4bsRhav+7UX1Dh0m+qJPhKRiU
+         rJZW47By9XhQxEMklWuVQyoIT9vvNKK+i2xU0Pr4Bb2v/+ddexNSwJwK9M7dSo29Qiq8
+         zslw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EekcWh/8jCGWV16H36tPED8Vs01NSjkm2Nwu29iMlQc=;
-        b=EJYzfTSrXAtXKAXt3UmW51gzn3kJxliX8qhMr9gEGWfvj6Wuy9oUhwloI2FhpIXSmD
-         VQ57l4euW98CECUhXyv+xqUrOsxUv/LjLupStXyMJFYz2tPLGa3OVTQKzU4DcvIYyADV
-         wtngh1eYILro/gd9l9WWyQST+gsoQFwMqtpNzFVQTixn3z4NkNqXbn4UYEa8hvoIXql6
-         L1z2Lph9nm/Cgt/6gn1qX8j9EW2RHNsCgwnyl2VoMksLSh3QJOgubOw3QPlZQq1NmLTL
-         bNakParfIb/uvMDmux2l0ilS6+6HYFpB1c1POGWZ4oGbKrRIHBNIAXdHHwRPyuv7JxLa
-         F3lA==
-X-Gm-Message-State: AOAM530pjPU9WdBgzMyhbdhkAUv34JeVRMMBtNFJyDRFMySexzZvVghY
-	CxMq8sJnmOtWCz/3Ps9DjUs=
-X-Google-Smtp-Source: ABdhPJxIdg4fiXZtkYpKyW0QIjHYQbDMo//4iIDaz8jJTH+0GC+XmAiZXM8XzR/NQazxg8LoAHtaKQ==
-X-Received: by 2002:a05:6402:2318:b0:413:7645:fa51 with SMTP id l24-20020a056402231800b004137645fa51mr459041eda.201.1650047158910;
-        Fri, 15 Apr 2022 11:25:58 -0700 (PDT)
+        bh=IiEEMcnc8dyMVnBJRf8MBjYNQSDHZ+TAbtPueaX++m0=;
+        b=yY+TyITxI5tqadf3wFhqoEPqe62vz/GQiOePQhiL2b0WCvV2XfHR4JPkWszJRJPLtB
+         eU9RrhwmwxeejpUfaNC/bUvgM/zYq7rkGWgd4EbGbWkDQEJ20eA4tOn8Yzb/Ofu62xIs
+         mwVmzsgGt8MgLENuJ6xprpuiHOjL3ssanRczJ6xr1/+3S8vYMvmQXIulWOXME5jpcAVu
+         8F9HEQHEdChUO5j0SjyhGVR2nSvRV1ophL7Yl/dw/5fbs7W79RsJf4M6ZugXqYGsFfAF
+         yVsVIHBUkxUAh9iAsr0/7asVQEESzAP2nNQOL2rNQvzlcC5FM3KaxhpASZSAfmRkkjyX
+         TRVA==
+X-Gm-Message-State: AOAM531yZJUupnW2JuF32gBKy6SLqdczXgBv+UolSG6zgax/5Xm+RSeX
+	pSNxDmn1AHNMOp4pRjLDG/Y=
+X-Google-Smtp-Source: ABdhPJzE85rlxtGMZSL07NJOiy1Xzm62tnxA5MAw9j5i4vVTV49Kks/7gyXFAgjcN+z8CCTqudY4UA==
+X-Received: by 2002:a05:6402:84e:b0:422:b76c:bef8 with SMTP id b14-20020a056402084e00b00422b76cbef8mr497096edz.238.1650047204478;
+        Fri, 15 Apr 2022 11:26:44 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id m25-20020a170906161900b006d43be5b95fsm1922911ejd.118.2022.04.15.11.25.58
+        by smtp.gmail.com with ESMTPSA id z2-20020a1709063a0200b006e05b7ce3efsm1910625eje.107.2022.04.15.11.26.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 11:25:58 -0700 (PDT)
+        Fri, 15 Apr 2022 11:26:44 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: tiny.windzz@gmail.com, rafael@kernel.org, viresh.kumar@linaro.org, wens@csie.org, samuel@sholland.org, Xiaobing Luo <luoxiaobing0926@gmail.com>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: Re: [PATCH] fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Fri, 15 Apr 2022 20:25:57 +0200
-Message-ID: <3167910.44csPzL39Z@jernej-laptop>
-In-Reply-To: <20220414045917.3223700-1-luoxiaobing0926@gmail.com>
-References: <20220414045917.3223700-1-luoxiaobing0926@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
+Date: Fri, 15 Apr 2022 20:26:43 +0200
+Message-ID: <10062096.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <20220413231731.56709-1-samuel@sholland.org>
+References: <20220413231731.56709-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,66 +53,95 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Hi!
-
-[resend]
-
-=46irst, please update patch subject according to commit rules.
-
-Dne =C4=8Detrtek, 14. april 2022 ob 06:59:17 CEST je Xiaobing Luo napisal(a=
-):
-> if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
+Dne =C4=8Detrtek, 14. april 2022 ob 01:17:30 CEST je Samuel Holland napisal=
+(a):
+> The sun6i RTC provides 32 bytes of general-purpose data registers.
+> They can be used to save data in the always-on RTC power domain.
+> The registers are writable via 32-bit MMIO accesses only.
 >=20
-> unreferenced object 0xffff000010742a00 (size 128):
->   comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000b4dfebaa>] __kmalloc+0x338/0x474
->     [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
->     [<000000007d6082a0>] platform_probe+0x98/0x11c
->     [<00000000c990f549>] really_probe+0x234/0x5a0
->     [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
->     [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
->     [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
->     [<000000006720e418>] bus_for_each_drv+0xf8/0x160
->     [<00000000df4f14f6>] __device_attach+0x174/0x29c
->     [<00000000782002fb>] device_initial_probe+0x20/0x30
->     [<00000000c2681b06>] bus_probe_device+0xfc/0x110
->     [<00000000964cf3bd>] device_add+0x5f0/0xcd0
->     [<000000004b9264e3>] platform_device_add+0x198/0x390
->     [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
->     [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
->     [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+> Expose them with a NVMEM provider so they can be used by other drivers.
 >=20
-> Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Please add Fixes: tag.
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> b/drivers/cpufreq/sun50i-cpufreq-nvmem.c index 2deed8d8773f..75e1bf3a08f7
-> 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct
-> platform_device *pdev) return -ENOMEM;
+>  drivers/rtc/rtc-sun6i.c | 42 +++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 42 insertions(+)
 >=20
->  	ret =3D sun50i_cpufreq_get_efuse(&speed);
-> -	if (ret)
-> +	if (ret) {
-> +		kfree(opp_tables);
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index 5b3e4da63406..755aeb82a285 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -71,6 +71,10 @@
+>  #define SUN6I_LOSC_OUT_GATING			0x0060
+>  #define SUN6I_LOSC_OUT_GATING_EN_OFFSET		0
+>=20
+> +/* General-purpose data */
+> +#define SUN6I_GP_DATA				0x0100
+> +#define SUN6I_GP_DATA_SIZE			0x20
+> +
+>  /*
+>   * Get date values
+>   */
+> @@ -662,6 +666,39 @@ static const struct rtc_class_ops sun6i_rtc_ops =3D {
+>  	.alarm_irq_enable	=3D sun6i_rtc_alarm_irq_enable
+>  };
+>=20
+> +static int sun6i_rtc_nvmem_read(void *priv, unsigned int offset, void
+> *_val, size_t bytes) +{
+> +	struct sun6i_rtc_dev *chip =3D priv;
+> +	u32 *val =3D _val;
+> +	int i;
+> +
+> +	for (i =3D 0; i < bytes / 4; ++i)
+> +		val[i] =3D readl(chip->base + SUN6I_GP_DATA + offset + 4 *=20
+i);
+> +
+> +	return 0;
+> +}
+> +
+> +static int sun6i_rtc_nvmem_write(void *priv, unsigned int offset, void
+> *_val, size_t bytes) +{
+> +	struct sun6i_rtc_dev *chip =3D priv;
+> +	u32 *val =3D _val;
+> +	int i;
+> +
+> +	for (i =3D 0; i < bytes / 4; ++i)
+> +		writel(val[i], chip->base + SUN6I_GP_DATA + offset + 4 *=20
+i);
+> +
+> +	return 0;
+> +}
+> +
+> +static struct nvmem_config sun6i_rtc_nvmem_cfg =3D {
+> +	.type		=3D NVMEM_TYPE_BATTERY_BACKED,
+> +	.reg_read	=3D sun6i_rtc_nvmem_read,
+> +	.reg_write	=3D sun6i_rtc_nvmem_write,
+> +	.size		=3D SUN6I_GP_DATA_SIZE,
+> +	.word_size	=3D 4,
+> +	.stride		=3D 4,
+> +};
+> +
+>  #ifdef CONFIG_PM_SLEEP
+>  /* Enable IRQ wake on suspend, to wake up from RTC. */
+>  static int sun6i_rtc_suspend(struct device *dev)
+> @@ -795,6 +832,11 @@ static int sun6i_rtc_probe(struct platform_device
+> *pdev) if (ret)
 >  		return ret;
-> +	}
 >=20
->  	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+> +	sun6i_rtc_nvmem_cfg.priv =3D chip;
+> +	ret =3D devm_rtc_nvmem_register(chip->rtc, &sun6i_rtc_nvmem_cfg);
+> +	if (ret)
+> +		return ret;
+> +
+>  	dev_info(&pdev->dev, "RTC enabled\n");
+>=20
+>  	return 0;
 
 
 
