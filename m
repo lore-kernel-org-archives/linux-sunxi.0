@@ -1,148 +1,225 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6C77B
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 18:26:46 +0000 (UTC)
-Received: by mail-ed1-f52.google.com with SMTP id 11so5715625edw.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 15 Apr 2022 11:26:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=IiEEMcnc8dyMVnBJRf8MBjYNQSDHZ+TAbtPueaX++m0=;
-        b=XlyJgGlEKw1+nZmDqLlTFmkpRbE3WY6xFRWI29Ehk3YkJS42+sroJQPzN2D6UZAaTO
-         Dk4PkGS/yk/DjxDprFA5+I+AMs7pCnfcCdg1AtYAQL3yuiVxetD0tq3x3aTBurzQlVuM
-         93h0RU+gr6RmWzxcz2zEQ9QNYBLtjSJcCTzEQnir3MVaCwvybVDECwX6eUKEQn6VVfvC
-         LTMbMkf/CGKNdftyt7Si0DkDsrmapJcb3SdCvCNBjeS4bsRhav+7UX1Dh0m+qJPhKRiU
-         rJZW47By9XhQxEMklWuVQyoIT9vvNKK+i2xU0Pr4Bb2v/+ddexNSwJwK9M7dSo29Qiq8
-         zslw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=IiEEMcnc8dyMVnBJRf8MBjYNQSDHZ+TAbtPueaX++m0=;
-        b=yY+TyITxI5tqadf3wFhqoEPqe62vz/GQiOePQhiL2b0WCvV2XfHR4JPkWszJRJPLtB
-         eU9RrhwmwxeejpUfaNC/bUvgM/zYq7rkGWgd4EbGbWkDQEJ20eA4tOn8Yzb/Ofu62xIs
-         mwVmzsgGt8MgLENuJ6xprpuiHOjL3ssanRczJ6xr1/+3S8vYMvmQXIulWOXME5jpcAVu
-         8F9HEQHEdChUO5j0SjyhGVR2nSvRV1ophL7Yl/dw/5fbs7W79RsJf4M6ZugXqYGsFfAF
-         yVsVIHBUkxUAh9iAsr0/7asVQEESzAP2nNQOL2rNQvzlcC5FM3KaxhpASZSAfmRkkjyX
-         TRVA==
-X-Gm-Message-State: AOAM531yZJUupnW2JuF32gBKy6SLqdczXgBv+UolSG6zgax/5Xm+RSeX
-	pSNxDmn1AHNMOp4pRjLDG/Y=
-X-Google-Smtp-Source: ABdhPJzE85rlxtGMZSL07NJOiy1Xzm62tnxA5MAw9j5i4vVTV49Kks/7gyXFAgjcN+z8CCTqudY4UA==
-X-Received: by 2002:a05:6402:84e:b0:422:b76c:bef8 with SMTP id b14-20020a056402084e00b00422b76cbef8mr497096edz.238.1650047204478;
-        Fri, 15 Apr 2022 11:26:44 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id z2-20020a1709063a0200b006e05b7ce3efsm1910625eje.107.2022.04.15.11.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Apr 2022 11:26:44 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] rtc: sun6i: Add NVMEM provider
-Date: Fri, 15 Apr 2022 20:26:43 +0200
-Message-ID: <10062096.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <20220413231731.56709-1-samuel@sholland.org>
-References: <20220413231731.56709-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C5417C9;
+	Sat, 16 Apr 2022 01:59:20 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 91AF53202184;
+	Fri, 15 Apr 2022 21:59:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 15 Apr 2022 21:59:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650074358; x=
+	1650160758; bh=DsIZSVRAwE42Gn8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=v
+	ofQvzTSJzQ9MkUg0exyz/hODYtwDf1fGYIm3zRStBhNtrkRlgowagO+bOWO8cUzh
+	q23DqehxcTwcrRlb4RfTk3fZO7kOhZWcRyzVf3KmVDHn3eRXjFIaBV9WLcCWbq2a
+	RU3rEmvtfGNhsbbC2LlpCuOzV2RXVIDhLCJXJ87rCIxE4KuofTPeNiJrHYVNhDsR
+	2bn378XD2Mn48LTLZMYMIc2snNQ6XeI8eIiLsvTSf09OdL67+q1WmtqZgxqA4AUn
+	QpzkdfOdaXX3ccjSqaUyqKyCfE/yDYKNctOEUoTXgr+hgnpcAXUWXNN93gZ57NZf
+	5SMLiqXmGRi2gSn/lDJyQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1650074358; x=1650160758; bh=DsIZSVRAwE42G
+	n8ZixFtjn0uMkrlMndqIZ6G0Y5AI/4=; b=bYVuTgUYBsQTNnlxU5US0jyiPBbXZ
+	mFG6lTqRrEr42liDgqrarHGFmcWTM3tAAE/8WhCz2EsgxzGoMFti1oHtWF64G3Ss
+	yrDzkMM5P3QgAeixj3hzJwfqda2x2KBtcTqjHRXxOzLIj8Y0Avio6yaJblorrK0Z
+	hS/JXCOtbLwu2ERmhWfDJagU3nMqUNctjRzGax38Shhk1yu43esCLMHYAUBzeU3w
+	2sBADRZJGDwuLDdo73dbxjpSJQLN50TL4hHfUHTc9qYXy9TWSmCPRWBpIfneQdDr
+	MMTNowdfCXZTHpc7mqr6nHzjPEYLK+trxeIGkIZ0mO66rmNll7p5zWeZA==
+X-ME-Sender: <xms:9SJaYvpc2lX9S77Y_psFb_TnC2je-Wlk1MQe_tfJyC7_IPLiPFALYw>
+    <xme:9SJaYppO8Ie-u9jC4_2nnMypdN9K32jQZk4WBnZ0E0IH8--zOEoMENqikEnDB2ExS
+    H3woy9YAY-C6rcb0A>
+X-ME-Received: <xmr:9SJaYsMrSMF-8DAbhBq7N3BcxdY-2JM88babmgpCyWtpYOf-95uQhD94IyAVSY4zj2dlSqUK7kvvis1sjTHoWyxJLelH2YcLHTFhp7WwN3AcM7PE78Az6XCE-A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvvddrudeliedggeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepffeigfelvdfgtdetleduveevgfdutdeiuddtveetvdfhffejlefh
+    heetjeetvdelnecuffhomhgrihhnpeguvghvihgtvghtrhgvvgdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhh
+    ohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:9SJaYi5As9kW734rNq9qWZhgGxtOhnvlUmZL_v-yrLAXRFHVFcrGMQ>
+    <xmx:9SJaYu5rpwcaHozDnmeQ0KRPrMDDeBN-VLpR3VTrQ_RUfKcJ04HUJA>
+    <xmx:9SJaYqhkjxHh8wMLMpeP9SJtZstFEHq2IJ6gblbyz0Gtug3ilQuXeA>
+    <xmx:9iJaYhqU14ncJuMjdwFgtppOKgNv_VuguB75Be41zWPEUje1WYVizg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 15 Apr 2022 21:59:16 -0400 (EDT)
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings
+ documentation
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hans.verkuil@cisco.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
+Date: Fri, 15 Apr 2022 20:59:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Dne =C4=8Detrtek, 14. april 2022 ob 01:17:30 CEST je Samuel Holland napisal=
-(a):
-> The sun6i RTC provides 32 bytes of general-purpose data registers.
-> They can be used to save data in the always-on RTC power domain.
-> The registers are writable via 32-bit MMIO accesses only.
->=20
-> Expose them with a NVMEM provider so they can be used by other drivers.
->=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
+On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->=20
->  drivers/rtc/rtc-sun6i.c | 42 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
->=20
-> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-> index 5b3e4da63406..755aeb82a285 100644
-> --- a/drivers/rtc/rtc-sun6i.c
-> +++ b/drivers/rtc/rtc-sun6i.c
-> @@ -71,6 +71,10 @@
->  #define SUN6I_LOSC_OUT_GATING			0x0060
->  #define SUN6I_LOSC_OUT_GATING_EN_OFFSET		0
->=20
-> +/* General-purpose data */
-> +#define SUN6I_GP_DATA				0x0100
-> +#define SUN6I_GP_DATA_SIZE			0x20
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..ffca216b841f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,117 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  /*
->   * Get date values
->   */
-> @@ -662,6 +666,39 @@ static const struct rtc_class_ops sun6i_rtc_ops =3D {
->  	.alarm_irq_enable	=3D sun6i_rtc_alarm_irq_enable
->  };
->=20
-> +static int sun6i_rtc_nvmem_read(void *priv, unsigned int offset, void
-> *_val, size_t bytes) +{
-> +	struct sun6i_rtc_dev *chip =3D priv;
-> +	u32 *val =3D _val;
-> +	int i;
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
 > +
-> +	for (i =3D 0; i < bytes / 4; ++i)
-> +		val[i] =3D readl(chip->base + SUN6I_GP_DATA + offset + 4 *=20
-i);
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > +
-> +	return 0;
-> +}
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
 > +
-> +static int sun6i_rtc_nvmem_write(void *priv, unsigned int offset, void
-> *_val, size_t bytes) +{
-> +	struct sun6i_rtc_dev *chip =3D priv;
-> +	u32 *val =3D _val;
-> +	int i;
+> +  reg:
+> +    maxItems: 1
 > +
-> +	for (i =3D 0; i < bytes / 4; ++i)
-> +		writel(val[i], chip->base + SUN6I_GP_DATA + offset + 4 *=20
-i);
+> +  interrupts:
+> +    maxItems: 1
 > +
-> +	return 0;
-> +}
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
 > +
-> +static struct nvmem_config sun6i_rtc_nvmem_cfg =3D {
-> +	.type		=3D NVMEM_TYPE_BATTERY_BACKED,
-> +	.reg_read	=3D sun6i_rtc_nvmem_read,
-> +	.reg_write	=3D sun6i_rtc_nvmem_write,
-> +	.size		=3D SUN6I_GP_DATA_SIZE,
-> +	.word_size	=3D 4,
-> +	.stride		=3D 4,
-> +};
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
 > +
->  #ifdef CONFIG_PM_SLEEP
->  /* Enable IRQ wake on suspend, to wake up from RTC. */
->  static int sun6i_rtc_suspend(struct device *dev)
-> @@ -795,6 +832,11 @@ static int sun6i_rtc_probe(struct platform_device
-> *pdev) if (ret)
->  		return ret;
->=20
-> +	sun6i_rtc_nvmem_cfg.priv =3D chip;
-> +	ret =3D devm_rtc_nvmem_register(chip->rtc, &sun6i_rtc_nvmem_cfg);
-> +	if (ret)
-> +		return ret;
+> +  resets:
+> +    maxItems: 1
 > +
->  	dev_info(&pdev->dev, "RTC enabled\n");
->=20
->  	return 0;
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI0 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description: CSI1 input port
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
 
+Should be "const: 1".
 
+Otherwise,
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
+> +
+> +          endpoint:
+> +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> +            unevaluatedProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +    anyOf:
+> +      - required:
+> +        - port@0
+> +      - required:
+> +        - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> 
 
