@@ -1,115 +1,78 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5967A
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Apr 2022 12:24:41 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id a16-20020a17090a6d9000b001c7d6c1bb13so10258184pjk.4
-        for <linux-sunxi@lists.linux.dev>; Sat, 16 Apr 2022 05:24:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xk5zVuuJ8xmtKfBiO5ZV8a9xxkoS24x3Xj7thwpYakY=;
-        b=NqiL3CKJCnmj+Fem5ki2WeUSl0LGJpGX5T5QRhTBQE+FE7BO4f/EeYIjVLrSu1kALB
-         2MmNIIOQRmMJvV/OJe9k7lisZC4f97WieN7DVq3B0HJRsIYYBqJSxs/hBYv399Y5rp5O
-         euOFV0FGzROQeRE+cO+1PxnbUud3DCGe80O6lFqyG/QMRXAOG7dpt8Pf4AduVvHL1wFe
-         Wbswp9ReXE0tRh5LLFN8HEHGjAjphVVg1ELj6ztarHrrz4vyPDC4EioxwgBWi3F6NQZC
-         bzYCJxypDNiXzo5nNQbDzvOqVMEjt9DuCzi2D3Pld4v215lK++F/THKwOIexdmaG4TdR
-         wPCA==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B32533C0;
+	Sat, 16 Apr 2022 22:17:41 +0000 (UTC)
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-df02f7e2c9so11014420fac.10;
+        Sat, 16 Apr 2022 15:17:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xk5zVuuJ8xmtKfBiO5ZV8a9xxkoS24x3Xj7thwpYakY=;
-        b=ZB1cda5hhFz8IS7LNepDUxdkAxHZqkE7SffxlJVVDZUF6wpsQ6k3dE20rSrHa/xAH5
-         yGdpMjQJtti+1KfdAqTnojqNYX68gDLLk0EvN2pB91wgdPI80ubx6AHH9NbF/QCdZvbB
-         uJsPrTuIY2CoouIbmL7JaANR8kD9Vjk2xnTO/JVrUk+jpEGrMoKrqv5lPxuJ3BMPMehZ
-         76R7MuzWAsAF4tpGJz1MOtCpV6mmB+VNetoeDVWM4n6SRjqBmVFTblHAxkM5lmm1sv7m
-         BQfQB7nKdAw3wp00dKSxKQ0lP97NvMJAve7CT+fllPrLho+dGD5SLngu6z+L25pt7wOL
-         8w1g==
-X-Gm-Message-State: AOAM530jzRozxxQeUmWV0vXvNSdOkpJiSWsa9RbFv0PbNdXrkVITMHyi
-	y22TvXH9DfjWVSQPUewm7iI=
-X-Google-Smtp-Source: ABdhPJzb8wQZMpjwcODbT4FxvBXcTEA8y4nG0aAzfAFtUo74X+ZmkRHuphuXMHHEl6yFr1ZpLnVYQg==
-X-Received: by 2002:a17:902:7049:b0:156:285a:2d64 with SMTP id h9-20020a170902704900b00156285a2d64mr3351572plt.63.1650111881132;
-        Sat, 16 Apr 2022 05:24:41 -0700 (PDT)
-Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
-        by smtp.gmail.com with ESMTPSA id s3-20020a056a00194300b004f6da3a1a3bsm6849947pfk.8.2022.04.16.05.24.39
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=7dPcFs565C9c1WFXikvbzN8qlHn8qJL0dUAk+7Q/+p0=;
+        b=I+3wwI14h4kzrKZM3h94d0NZ5lePwzG0xIRJbwdHEOsR3nQoRHNPtvI6XYnbQKVDb/
+         Zf9U15Sug+iPqZWco6Nt7P0MnyB6RK/ARF02EV+7FIAI4OfJLDUp7kCPDqY727Y7rkLS
+         1q8leWCvOOtb4qr0fq8RDaIhmn6XbLszHYieoxikTu5BkDCO26/Rt0Iw3TV4TBMnv0tj
+         /XM8StTSH6nTKuuzxiZ1jDBiYmZEwynRr4BMXC5V69Guh0oibkK0or12TAPIWDENMVJO
+         JcoHlVaRelv0s6AvkeCVwHH0cQL/fuil/Z43+apVpmwrBPFQhytni7TVlI7ZF4Q7c7ul
+         FyRA==
+X-Gm-Message-State: AOAM533G17wnjqDidvphrXZq6aJO1sRIJrc7hKtt/VNd21FekIiFltXx
+	MqSjLuqC7VnD1UAMq95jMg==
+X-Google-Smtp-Source: ABdhPJzcOBOFLYRBnjRkFKYm36bRA1+9aCycXC6AAhf5bxP7oOLONMn2t+h7bqsghdRFSNm7zPU0jg==
+X-Received: by 2002:a05:6871:58c:b0:e3:25e9:6792 with SMTP id u12-20020a056871058c00b000e325e96792mr3791936oan.147.1650147460477;
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id os2-20020a0568707d0200b000e42ef7cff2sm2727982oab.43.2022.04.16.15.17.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 05:24:40 -0700 (PDT)
-From: Xiaobing Luo <luoxiaobing0926@gmail.com>
-To: tiny.windzz@gmail.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	mripard@kernel.org
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: [PATCH] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Sat, 16 Apr 2022 12:21:30 +0000
-Message-Id: <20220416122130.4050728-1-luoxiaobing0926@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
+Received: (nullmailer pid 3544946 invoked by uid 1000);
+	Sat, 16 Apr 2022 22:17:39 -0000
+From: Rob Herring <robh@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Rob Herring <robh+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hans.verkuil@cisco.com>
+In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com> <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+Date: Sat, 16 Apr 2022 17:17:39 -0500
+Message-Id: <1650147459.143664.3544945.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
---------------------------------------------
-unreferenced object 0xffff000010742a00 (size 128):
-  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
-    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
-    [<000000007d6082a0>] platform_probe+0x98/0x11c
-    [<00000000c990f549>] really_probe+0x234/0x5a0
-    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
-    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
-    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
-    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
-    [<00000000df4f14f6>] __device_attach+0x174/0x29c
-    [<00000000782002fb>] device_initial_probe+0x20/0x30
-    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
-    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
-    [<000000004b9264e3>] platform_device_add+0x198/0x390
-    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
-    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
-    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
---------------------------------------------
+On Fri, 15 Apr 2022 17:37:05 +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+>  1 file changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> 
 
-if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
-Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:73:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:75:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 2deed8d8773f..75e1bf3a08f7 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	ret = sun50i_cpufreq_get_efuse(&speed);
--	if (ret)
-+	if (ret) {
-+		kfree(opp_tables);
- 		return ret;
-+	}
- 
- 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
- 
--- 
-2.25.1
+dtschema/dtc warnings/errors:
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
