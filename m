@@ -1,78 +1,94 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B32533C0;
-	Sat, 16 Apr 2022 22:17:41 +0000 (UTC)
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-df02f7e2c9so11014420fac.10;
-        Sat, 16 Apr 2022 15:17:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66346801
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Apr 2022 11:05:44 +0000 (UTC)
+Received: by mail-qv1-f48.google.com with SMTP id b17so10676268qvp.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Apr 2022 04:05:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HPUttj4kngshxe6tgSoij7Hk/MCoacGhY2Ysb5anUQU=;
+        b=bNVqIeTJhXUKv7SROKyONwvaOF9eOB5ackpIHf/JM7ejwo+s0rpddHWyN0u7BmQL5N
+         2tKUMTi6+A35MkpR3Ir1U/b1rlm68VVdZqxMgNSlPIpli6518tPzs5OaFGplP0PkHpy8
+         V56uxiBvT4lQcdWcGr9yJTSyI4UfDrqSciiDdU+JJecJiFivOZ1bXJotVGaCvxstYouv
+         /i9Vw9ybQBwSnxcyZYXKwMrUihc4W4wiSI0U9XRVVJssfxjzmn83BS1PI6fTUZk8aGec
+         T0HW60dvfyqU4tJjA81/xUt+bZK0ZeldtejTSQ34/avyaaM6/Wr7f/RYBomiAxTz4nsp
+         UfnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=7dPcFs565C9c1WFXikvbzN8qlHn8qJL0dUAk+7Q/+p0=;
-        b=I+3wwI14h4kzrKZM3h94d0NZ5lePwzG0xIRJbwdHEOsR3nQoRHNPtvI6XYnbQKVDb/
-         Zf9U15Sug+iPqZWco6Nt7P0MnyB6RK/ARF02EV+7FIAI4OfJLDUp7kCPDqY727Y7rkLS
-         1q8leWCvOOtb4qr0fq8RDaIhmn6XbLszHYieoxikTu5BkDCO26/Rt0Iw3TV4TBMnv0tj
-         /XM8StTSH6nTKuuzxiZ1jDBiYmZEwynRr4BMXC5V69Guh0oibkK0or12TAPIWDENMVJO
-         JcoHlVaRelv0s6AvkeCVwHH0cQL/fuil/Z43+apVpmwrBPFQhytni7TVlI7ZF4Q7c7ul
-         FyRA==
-X-Gm-Message-State: AOAM533G17wnjqDidvphrXZq6aJO1sRIJrc7hKtt/VNd21FekIiFltXx
-	MqSjLuqC7VnD1UAMq95jMg==
-X-Google-Smtp-Source: ABdhPJzcOBOFLYRBnjRkFKYm36bRA1+9aCycXC6AAhf5bxP7oOLONMn2t+h7bqsghdRFSNm7zPU0jg==
-X-Received: by 2002:a05:6871:58c:b0:e3:25e9:6792 with SMTP id u12-20020a056871058c00b000e325e96792mr3791936oan.147.1650147460477;
-        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id os2-20020a0568707d0200b000e42ef7cff2sm2727982oab.43.2022.04.16.15.17.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HPUttj4kngshxe6tgSoij7Hk/MCoacGhY2Ysb5anUQU=;
+        b=ev8mH6k50YcsaniL/luMDpnJ2HAGX0n4NoIj/gBuBkKholY4cEdRHlKkNosLtMIn2w
+         g51Tr37CoGi1D7Z6Tu2bKUtFRDSov8GHMH0INClRdmtesqK72oMtZbVwahMNwWv1Im0D
+         11+g1F4MKqm4IVs4RDkfklW8ETb/53uuBTVoolbDU7qikpVP52qKItA19cMe4n/5yze7
+         BWkgTS9OsFdgHAOUPLO7z5VVjch+OVjwWi07xSNYow9cxopmzpns1SfAvaNelEMYUDHR
+         DKjUsbseSUsoyzCoEfquzuP++eMUSOAPlgEpBhgtigJ13Ts0mkhBU+7U6IU2IcbFew0B
+         deZA==
+X-Gm-Message-State: AOAM532XZmYMytjkAeDMStwAd/6tNh7Po+GlMV9EJ09RZ6ioAAVH8Sur
+	YwUoSUmhXZuQGUVELdNSbhU=
+X-Google-Smtp-Source: ABdhPJwoxQ1cwLQXeEj76PhEnDL5f/1HxC5Ox2h9pUYvdXrJ/M841zaE58ZGLXSpluZ2nA4PKgI8PQ==
+X-Received: by 2002:a05:6214:3006:b0:443:cf1e:58d7 with SMTP id ke6-20020a056214300600b00443cf1e58d7mr7517072qvb.53.1650279943356;
+        Mon, 18 Apr 2022 04:05:43 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id a76-20020ae9e84f000000b0069e80daa17asm2952482qkg.113.2022.04.18.04.05.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Apr 2022 15:17:40 -0700 (PDT)
-Received: (nullmailer pid 3544946 invoked by uid 1000);
-	Sat, 16 Apr 2022 22:17:39 -0000
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, Maxime Ripard <mripard@kernel.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Rob Herring <robh+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hans.verkuil@cisco.com>
-In-Reply-To: <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com> <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
-Date: Sat, 16 Apr 2022 17:17:39 -0500
-Message-Id: <1650147459.143664.3544945.nullmailer@robh.at.kernel.org>
+        Mon, 18 Apr 2022 04:05:43 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: clabbe.montjoie@gmail.com
+Cc: herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] crypto: sun8i-ss: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
+Date: Mon, 18 Apr 2022 11:05:37 +0000
+Message-Id: <20220418110537.2559328-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 15 Apr 2022 17:37:05 +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> 
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Using pm_runtime_resume_and_get is more appropriate
+for simplifing code
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:73:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:75:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-dtschema/dtc warnings/errors:
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+index 246a6782674c..dd677e9ed06f 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
+@@ -112,11 +112,9 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
+ 		goto err_iv;
+ 	}
+ 
+-	err = pm_runtime_get_sync(ss->dev);
+-	if (err < 0) {
+-		pm_runtime_put_noidle(ss->dev);
++	err = pm_runtime_resume_and_get(ss->dev);
++	if (err < 0)
+ 		goto err_pm;
+-	}
+ 	err = 0;
+ 
+ 	mutex_lock(&ss->mlock);
+-- 
+2.25.1
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
 
