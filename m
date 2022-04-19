@@ -1,94 +1,238 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66346801
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Apr 2022 11:05:44 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id b17so10676268qvp.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Apr 2022 04:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HPUttj4kngshxe6tgSoij7Hk/MCoacGhY2Ysb5anUQU=;
-        b=bNVqIeTJhXUKv7SROKyONwvaOF9eOB5ackpIHf/JM7ejwo+s0rpddHWyN0u7BmQL5N
-         2tKUMTi6+A35MkpR3Ir1U/b1rlm68VVdZqxMgNSlPIpli6518tPzs5OaFGplP0PkHpy8
-         V56uxiBvT4lQcdWcGr9yJTSyI4UfDrqSciiDdU+JJecJiFivOZ1bXJotVGaCvxstYouv
-         /i9Vw9ybQBwSnxcyZYXKwMrUihc4W4wiSI0U9XRVVJssfxjzmn83BS1PI6fTUZk8aGec
-         T0HW60dvfyqU4tJjA81/xUt+bZK0ZeldtejTSQ34/avyaaM6/Wr7f/RYBomiAxTz4nsp
-         UfnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HPUttj4kngshxe6tgSoij7Hk/MCoacGhY2Ysb5anUQU=;
-        b=ev8mH6k50YcsaniL/luMDpnJ2HAGX0n4NoIj/gBuBkKholY4cEdRHlKkNosLtMIn2w
-         g51Tr37CoGi1D7Z6Tu2bKUtFRDSov8GHMH0INClRdmtesqK72oMtZbVwahMNwWv1Im0D
-         11+g1F4MKqm4IVs4RDkfklW8ETb/53uuBTVoolbDU7qikpVP52qKItA19cMe4n/5yze7
-         BWkgTS9OsFdgHAOUPLO7z5VVjch+OVjwWi07xSNYow9cxopmzpns1SfAvaNelEMYUDHR
-         DKjUsbseSUsoyzCoEfquzuP++eMUSOAPlgEpBhgtigJ13Ts0mkhBU+7U6IU2IcbFew0B
-         deZA==
-X-Gm-Message-State: AOAM532XZmYMytjkAeDMStwAd/6tNh7Po+GlMV9EJ09RZ6ioAAVH8Sur
-	YwUoSUmhXZuQGUVELdNSbhU=
-X-Google-Smtp-Source: ABdhPJwoxQ1cwLQXeEj76PhEnDL5f/1HxC5Ox2h9pUYvdXrJ/M841zaE58ZGLXSpluZ2nA4PKgI8PQ==
-X-Received: by 2002:a05:6214:3006:b0:443:cf1e:58d7 with SMTP id ke6-20020a056214300600b00443cf1e58d7mr7517072qvb.53.1650279943356;
-        Mon, 18 Apr 2022 04:05:43 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id a76-20020ae9e84f000000b0069e80daa17asm2952482qkg.113.2022.04.18.04.05.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Apr 2022 04:05:43 -0700 (PDT)
-From: cgel.zte@gmail.com
-X-Google-Original-From: chi.minghao@zte.com.cn
-To: clabbe.montjoie@gmail.com
-Cc: herbert@gondor.apana.org.au,
-	davem@davemloft.net,
-	linux-crypto@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH] crypto: sun8i-ss: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
-Date: Mon, 18 Apr 2022 11:05:37 +0000
-Message-Id: <20220418110537.2559328-1-chi.minghao@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65E8DECA;
+	Tue, 19 Apr 2022 09:49:02 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id B6087CE2C5;
+	Tue, 19 Apr 2022 09:46:01 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 4D35360007;
+	Tue, 19 Apr 2022 09:45:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1650361553;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wa+NcZUIxotnJCsbAXPXeRRPesDDul7PaS9PN5tlpXU=;
+	b=F+mu/1+dxtNQUTIo4OGwkL6alHXrO50riI/Oa7w+r9ei3Y70KJdjp/CVl4S5axsfz6oaV0
+	ynmmG2B8a4uKIUGZeT7r1ub3VXVTy+5dZKG1UWPUtegyL8LwuLgz6+q/LLhw0f2BApF6LN
+	KWcmiTezPV3ATNExhbwvB6khEi2Fwl12bC0BoTTc52vrsikOH19lg080rMSPPlmLFtIeNv
+	YZK1w+pxcUJH6TodoSiHrIPCV78MQa4KXzVf0Y+i8AifyhsOw6f6FQuYoDYPfBEmySRW0V
+	wOt1M2BH2kq0faBRdHz+R6MV3WSVCopN9dUBGeLlK3Tpn9c8kVGoOc3PORStVw==
+Date: Tue, 19 Apr 2022 11:45:50 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <Yl6Ezm6D7KKbE1Oa@aptenodytes>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
+ <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-From: Minghao Chi <chi.minghao@zte.com.cn>
-
-Using pm_runtime_resume_and_get is more appropriate
-for simplifing code
-
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
----
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-index 246a6782674c..dd677e9ed06f 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-prng.c
-@@ -112,11 +112,9 @@ int sun8i_ss_prng_generate(struct crypto_rng *tfm, const u8 *src,
- 		goto err_iv;
- 	}
- 
--	err = pm_runtime_get_sync(ss->dev);
--	if (err < 0) {
--		pm_runtime_put_noidle(ss->dev);
-+	err = pm_runtime_resume_and_get(ss->dev);
-+	if (err < 0)
- 		goto err_pm;
--	}
- 	err = 0;
- 
- 	mutex_lock(&ss->mlock);
--- 
-2.25.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="rhS7v+RYfLqvo3sx"
+Content-Disposition: inline
+In-Reply-To: <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
 
 
+--rhS7v+RYfLqvo3sx
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Samuel,
+
+On Fri 15 Apr 22, 20:59, Samuel Holland wrote:
+> On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
+> >  1 file changed, 117 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..ffca216b841f
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
+aml
+> > @@ -0,0 +1,117 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI0 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > +        description: CSI1 input port
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+>=20
+> Should be "const: 1".
+>=20
+> Otherwise,
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+Good catch and thanks for the review!
+
+Cheers,
+
+Paul
+
+> > +
+> > +          endpoint:
+> > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+> > +            unevaluatedProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +        - port@0
+> > +      - required:
+> > +        - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > +
+> > +    isp: isp@1cb8000 {
+> > +        compatible =3D "allwinner,sun8i-v3s-isp";
+> > +        reg =3D <0x01cb8000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +             <&ccu CLK_CSI1_SCLK>,
+> > +             <&ccu CLK_DRAM_CSI>;
+> > +        clock-names =3D "bus", "mod", "ram";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                isp_in_csi0: endpoint {
+> > +                    remote-endpoint =3D <&csi0_out_isp>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> >=20
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--rhS7v+RYfLqvo3sx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJehMkACgkQ3cLmz3+f
+v9GvPQf/Qh1TCRnOPD7vlG9p1n3g9h0nqX7tVg2axaXzj+bxHt+FbuOtgno4p5D5
+aUPfynnm5Ai3SmfvhfakngamqxbmBOX8kChdsAnebLBXZKUfN5MX3mBzhlLHFuz2
+EaDLP9uvvb7AGRwL4F16TQJ061IVIoA6Kcs4luBumWjQkVFdMUolyDglyMo3DLCC
+1yVTyejh23bamGUiFw2WmRUGNV/PBS7BiuBEW9XUloLS7jK/ZZZ40RU4BOA8JSkj
+HcJ0ekfcrj+ELpRbb63DTYA4VyYcG7OKa9SyaTk4RZN2gb58Rel4ha/Bl0j+p5lc
+JFYpm+cfsCLcT84m++Edz86ee856qw==
+=XHnk
+-----END PGP SIGNATURE-----
+
+--rhS7v+RYfLqvo3sx--
