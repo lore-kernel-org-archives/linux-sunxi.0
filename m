@@ -1,145 +1,95 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB957A;
-	Tue, 19 Apr 2022 13:48:31 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id r85so12954187oie.7;
-        Tue, 19 Apr 2022 06:48:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C841410ED
+	for <linux-sunxi@lists.linux.dev>; Wed, 20 Apr 2022 03:02:26 +0000 (UTC)
+Received: by mail-qk1-f175.google.com with SMTP id e128so357407qkd.7
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Apr 2022 20:02:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KavF0KS5KLJOY2dExE8lwinSJ4LN/Ebtbb6yL/bzNzQ=;
+        b=HUVQ9hYwgHZNg5WnRMOni56Ap1MZ70xEe/27UfralAfuzxuhGwVEV7sWnzKU7PE4VI
+         mnKA/Syzu4UHEK8i3A3VZhFq4N884cadqvoFjq9hasIXcxROpbhLDufXszewlNUNUprm
+         SC2zMIdzeDG70E8tfF8MaTn9yYZ+ux+BVsWNxDqT/iWCu961dXsxBo8lhVnJVGd+LblU
+         T6NZM6wNYsriaZFLgU0RhtFvlK0We6tBHyraDAUTUpXFAIzwmBOy+3j6uB9PUncT1aYG
+         pq1v1yQmpd/dhl8kM2xtD7kbhDfM/EB6D63MeBdhvRcguPoJqzVO0LTfo5DlVs2IP3ZV
+         y4GA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nsUApVIo+2QUrjaVycUT3ee7pF9FJXtnBR7YLOJOzQ0=;
-        b=obG9ie0+68wAe9LqIDmv63LbGF2QxiUr1kWdHrsxkCYzUYRYZUWj0C7fDW+Jl9stVv
-         r9VNne12gsvG2pgdDLW2WH4fd0/uFWqOFiFs0zK/7PdUbrC6upvjp8O3M7cpMjiXl9+c
-         WF/9ho5iUyWaYUcOcwKvyA4L1g1RdZSMTDWTTfInHIhqZqTXtyx1ePim8eK9U2qG+yRM
-         sBbJbCs2TgDDkuek3N0BFqbmDBO35n/C4A/8O8Xz3m5+m3TqRbi8Q1r6U9qjx2wAtAg9
-         FU3tOxtdhC5wb/rr1hHxdzvLJCKJl5n4GsjbNyV7dfgFtcJ/Cvsi+XlTyvU38V5462Y1
-         TFOA==
-X-Gm-Message-State: AOAM533NQp32TB+r6QCBT+iiEFp0ajnoGnpGLMkzU88gQ7VJQc3lxPPv
-	xcHgL27sJrZxF8GYRMtYeg==
-X-Google-Smtp-Source: ABdhPJwAGdbwdONC730t1SrxFQ9322c21cU+FAlo9bI1B0TpQpxVtg6Tt3SHk1LjWJNA3b+E3DTVOQ==
-X-Received: by 2002:a05:6808:9ae:b0:2d9:a01a:4bf4 with SMTP id e14-20020a05680809ae00b002d9a01a4bf4mr7418713oig.283.1650376110729;
-        Tue, 19 Apr 2022 06:48:30 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id q1-20020a056820028100b00335f00b5b9bsm5315376ood.15.2022.04.19.06.48.29
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KavF0KS5KLJOY2dExE8lwinSJ4LN/Ebtbb6yL/bzNzQ=;
+        b=Vl69Qd3X/8p/bjbLU02sNZlIr7XMLwen5BwbpX75jx8vr9XPbVwryP6zltZ7S+pC9+
+         wz3hwpkPn1MKedAoGL3RWT9RxX5XynJAgIlBzW/ZdbjP3/UuRaZO6i5udqTDiCNJ7LyJ
+         BfGcpAhhAr+diKyNjUBNOHL+ol2DJzPaprNTxwIWpHm5Oo6vAEKUHWihr2F42PfKqi13
+         j6Gk2LQr/3Fpq8qwNNml08tNBgTZP0MZVEVGkQHaXISlNsLL5fQdsRxyFVgUoOnBQEtP
+         wip44rtGwtiqgVrgXuhqhhLBihwGVPyZdnFVtX7grdjv7+KB0DfNEw1pdwl5WZr6/lmu
+         PFaw==
+X-Gm-Message-State: AOAM530LoFM38/+3twkLVlPWnzM7NbSDApbvYSsy6zkmrMw/4+BUBSH/
+	Ink/MW6p0vvX98K7on5zTbE=
+X-Google-Smtp-Source: ABdhPJze4x0EooB6fj4coS6yKRAfPwsXGsHPWMbc2mEf9a1fZVmbOKI/UVTTi1Cheg3zVUKCLBbzEw==
+X-Received: by 2002:a37:88c2:0:b0:69b:f243:b5c7 with SMTP id k185-20020a3788c2000000b0069bf243b5c7mr11102150qkd.758.1650423745722;
+        Tue, 19 Apr 2022 20:02:25 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id q139-20020a37a791000000b0069e88513517sm947132qke.91.2022.04.19.20.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Apr 2022 06:48:30 -0700 (PDT)
-Received: (nullmailer pid 2438759 invoked by uid 1000);
-	Tue, 19 Apr 2022 13:48:29 -0000
-Date: Tue, 19 Apr 2022 08:48:29 -0500
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Samuel Holland <samuel@sholland.org>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, Hans Verkuil <hans.verkuil@cisco.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 1/4] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <Yl69rY2/Fwfhc520@robh.at.kernel.org>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-2-paul.kocialkowski@bootlin.com>
- <19aa74b7-0096-87c5-ef2c-9a135ad5505a@sholland.org>
- <Yl6Ezm6D7KKbE1Oa@aptenodytes>
+        Tue, 19 Apr 2022 20:02:24 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: chi.minghao@zte.com.cn
+To: clabbe.montjoie@gmail.com
+Cc: herbert@gondor.apana.org.au,
+	davem@davemloft.net,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH] crypto: sun8i-ce: using pm_runtime_resume_and_get instead of pm_runtime_get_sync
+Date: Wed, 20 Apr 2022 03:02:18 +0000
+Message-Id: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Yl6Ezm6D7KKbE1Oa@aptenodytes>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 19, 2022 at 11:45:50AM +0200, Paul Kocialkowski wrote:
-> Hi Samuel,
-> 
-> On Fri 15 Apr 22, 20:59, Samuel Holland wrote:
-> > On 4/15/22 10:37 AM, Paul Kocialkowski wrote:
-> > > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > > Signal Processor (ISP).
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-isp.yaml        | 117 ++++++++++++++++++
-> > >  1 file changed, 117 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > new file mode 100644
-> > > index 000000000000..ffca216b841f
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > @@ -0,0 +1,117 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> > > +
-> > > +maintainers:
-> > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - allwinner,sun6i-a31-isp
-> > > +      - allwinner,sun8i-v3s-isp
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Bus Clock
-> > > +      - description: Module Clock
-> > > +      - description: DRAM Clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: bus
-> > > +      - const: mod
-> > > +      - const: ram
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI0 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +
-> > > +          endpoint:
-> > > +            $ref: /schemas/graph.yaml#/$defs/endpoint-base
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +        additionalProperties: false
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        description: CSI1 input port
-> > > +
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > 
-> > Should be "const: 1".
-> > 
-> > Otherwise,
-> > Reviewed-by: Samuel Holland <samuel@sholland.org>
-> 
-> Good catch and thanks for the review!
+From: Minghao Chi <chi.minghao@zte.com.cn>
 
-Yes, but you should use '/schemas/graph.yaml#/properties/port' ref 
-instead and drop 'properties'.
+Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
+pm_runtime_put_noidle. This change is just to simplify the code, no
+actual functional changes.
 
-Rob
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+---
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
+index b3a9bbfb8831..b3cc43ea6c8a 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c
+@@ -108,11 +108,9 @@ int sun8i_ce_prng_generate(struct crypto_rng *tfm, const u8 *src,
+ 		goto err_dst;
+ 	}
+ 
+-	err = pm_runtime_get_sync(ce->dev);
+-	if (err < 0) {
+-		pm_runtime_put_noidle(ce->dev);
++	err = pm_runtime_resume_and_get(ce->dev);
++	if (err < 0)
+ 		goto err_pm;
+-	}
+ 
+ 	mutex_lock(&ce->rnglock);
+ 	chan = &ce->chanlist[flow];
+-- 
+2.25.1
+
+
