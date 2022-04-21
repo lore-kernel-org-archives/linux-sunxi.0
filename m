@@ -1,27 +1,30 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A107A
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 13:31:01 +0000 (UTC)
-Received: from dggpemm500024.china.huawei.com (unknown [172.30.72.53])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Kkdh25HYzzdZLW;
-	Thu, 21 Apr 2022 21:30:10 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500024.china.huawei.com (7.185.36.203) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Thu, 21 Apr 2022 21:30:57 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 21 Apr
- 2022 21:30:56 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-clk@vger.kernel.org>
-CC: <wens@csie.org>, <maxime@cerno.tech>
-Subject: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
-Date: Thu, 21 Apr 2022 21:43:08 +0800
-Message-ID: <20220421134308.2885094-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from smtp.smtpout.orange.fr (smtp03.smtpout.orange.fr [80.12.242.125])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13A641FC0
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 14:43:32 +0000 (UTC)
+Received: from pop-os.home ([86.243.180.246])
+	by smtp.orange.fr with ESMTPA
+	id hXuQn30c3AyM1hXuRnZAqN; Thu, 21 Apr 2022 16:35:53 +0200
+X-ME-Helo: pop-os.home
+X-ME-Auth: YWZlNiIxYWMyZDliZWIzOTcwYTEyYzlhMmU3ZiQ1M2U2MzfzZDfyZTMxZTBkMTYyNDBjNDJlZmQ3ZQ==
+X-ME-Date: Thu, 21 Apr 2022 16:35:53 +0200
+X-ME-IP: 86.243.180.246
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Mark Brown <broonie@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Olof Johansson <olof@lixom.net>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] bus: sunxi-rsb: Fix the return value of sunxi_rsb_device_create()
+Date: Thu, 21 Apr 2022 16:35:49 +0200
+Message-Id: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -29,34 +32,35 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
 
-It will cause null-ptr-deref if platform_get_resource() returns NULL,
-we need check the return value.
+This code is really spurious.
+It always returns an ERR_PTR, even when err is known to be 0 and calls
+put_device() after a successful device_register() call.
 
-Fixes: 7a6fca879f59 ("clk: sunxi: Add driver for A80 MMC config clocks/resets")
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+It is likely that the return statement in the normal path is missing.
+Add 'return rdev;' to fix it.
+
+Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced Serial Bus")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/clk/sunxi/clk-sun9i-mmc.c | 2 ++
+This patch is completely speculative and compile tested only.
+---
+ drivers/bus/sunxi-rsb.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/clk/sunxi/clk-sun9i-mmc.c b/drivers/clk/sunxi/clk-sun9i-mmc.c
-index 542b31d6e96d..636bcf2439ef 100644
---- a/drivers/clk/sunxi/clk-sun9i-mmc.c
-+++ b/drivers/clk/sunxi/clk-sun9i-mmc.c
-@@ -109,6 +109,8 @@ static int sun9i_a80_mmc_config_clk_probe(struct platform_device *pdev)
- 	spin_lock_init(&data->lock);
+diff --git a/drivers/bus/sunxi-rsb.c b/drivers/bus/sunxi-rsb.c
+index 4566e730ef2b..60b082fe2ed0 100644
+--- a/drivers/bus/sunxi-rsb.c
++++ b/drivers/bus/sunxi-rsb.c
+@@ -227,6 +227,8 @@ static struct sunxi_rsb_device *sunxi_rsb_device_create(struct sunxi_rsb *rsb,
  
- 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!r)
-+		return -EINVAL;
- 	/* one clock/reset pair per word */
- 	count = DIV_ROUND_UP((resource_size(r)), SUN9I_MMC_WIDTH);
- 	data->membase = devm_ioremap_resource(&pdev->dev, r);
+ 	dev_dbg(&rdev->dev, "device %s registered\n", dev_name(&rdev->dev));
+ 
++	return rdev;
++
+ err_device_add:
+ 	put_device(&rdev->dev);
+ 
 -- 
-2.25.1
+2.32.0
 
