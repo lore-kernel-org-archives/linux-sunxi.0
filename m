@@ -1,41 +1,41 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10E911FCD
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 17:07:33 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id v12so791565wrv.10
-        for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 10:07:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45171FD0
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 17:07:40 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id bg25so2881330wmb.4
+        for <linux-sunxi@lists.linux.dev>; Thu, 21 Apr 2022 10:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mOsXpLWi9QLA5ykkzo2aKVd+yr4+GMP+CHJv0QHqFPU=;
-        b=PhOXgh0Q5LE7m9gF9czIrKZRq55dBYQfo6JFtQeE9ijzQGIxBM1V5QZtkJjgUAPcva
-         mijV+yVjCD1Y5vzy+S/9QeUO9MiLfeuJRoGQ20nYs5NNhxoMqORFTDdKMo8HmDzrMzo9
-         q8voQxoIddhVNAF6gBbxgGFWo3cmsBYPJCeEq5oSHPHkD51e69O6TQt3OmbCXV13dl3x
-         1nmhxU/KIU992jK2iLSLd01VSlI71j+KQOLtbEiSIGTgDUEOSG4tqwDOFLyrLtkcvG5s
-         D3ssv0r5pDlrF6bXeXPICXsORkR4XZl7J1mLagy+RZiY5nXL4U+gkRy6RvMQllEHIZV5
-         tHiQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=+Fvcbf2Jm5l/vRCSGsuIt2faeX/qaz6+Vl1oafOAcKQ=;
+        b=NMfSYNOPYP5wVJpdUDLQMLA9kSTWWoJS6DdQqc6sbuqGuz75ibsvUdGuuvwEplCgPM
+         iFS7sQm+KrsRrQ38IV7thWl9D7GoM/s45vg7Zs8NMR9NQuZrj5peb1saZeX5NghZ2mJH
+         /WU5rs+mq9WiOHP5cA8jNkFqzKfub6miD+dB9JoFLMW8yHVc/ISmwCJH6wJXAIvYYaTm
+         Q+amkXrv5Xr7c4mq4s/2BELAdO73Dc5Wovph1WiFw7x/92IPLZfRmPh0U44iJLQr4YZZ
+         JSJs+Urv3gKaQY6SgTcepc4t9aUZ430cSQwlRjfBW1dx6rHKeJ8DjUvRgZfbT6cGEx1F
+         yWtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mOsXpLWi9QLA5ykkzo2aKVd+yr4+GMP+CHJv0QHqFPU=;
-        b=x1XmmPAIgefNG+hVTCBFOCitM4S17NIxL7y72FIlbd1irVJVThKNmdGKjxAeQI7m4C
-         ow1HemK7Kc2D0zp26xslSvOrWdoDbrmUJsqn3jovF9M8QOAMJskSIq20Dd07rtTlP8DI
-         /vYSYbSl0lHYVfUeTKEGojCcvuL2mpjUCIgDHIpfZPJHCzEjN5LW4izQ1gnaa6ChIA2+
-         XY/sZHOC6IuIEWL0Q/Z6RHqrE222s6j8AQnX0n9XRjxkoTqBmC1dwDQZVQ27SvM38Son
-         yIPOGr2dWjyJhQOIBEIwhTSXNCow4sIp2RkEkQXT6NZsnHN7fcxFhhf51aGaNIhT5G9+
-         Ldnw==
-X-Gm-Message-State: AOAM53172DARMOy8AR9M2O2nDmU8Vc4acww3KL7G2LZA7mR0jDL82SUX
-	wisxBgVV/zcOgXDck15j6wE=
-X-Google-Smtp-Source: ABdhPJwmkd8rSG5wIeasQSmzXw1Hxgzf6My3j9pRLVWS50GQVQrvimreO3rNSOKpZuUsPU9r5kjkvw==
-X-Received: by 2002:a5d:45c5:0:b0:20a:be8f:aca6 with SMTP id b5-20020a5d45c5000000b0020abe8faca6mr513028wrs.493.1650560852175;
-        Thu, 21 Apr 2022 10:07:32 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=+Fvcbf2Jm5l/vRCSGsuIt2faeX/qaz6+Vl1oafOAcKQ=;
+        b=4juER+avyX93YRzFtIAduweRUNzuPkPrDFlC25cog4oSmz0K3gBoYh/kfm1OGExzyv
+         nOR8YKm4UnB5tl7bogIKXkktwY+L57u3GRPhy0JdH3QUFDNTCuB5DjHv7VtP/TAQKA/L
+         p7ri9oLrLekTyrCf/kYlC7uZl9jiYBAzkWxRD2pqQGUHpTnWUSxt4MKWyL2C/sMvGqhn
+         qWEyqRBuRlHMrq1HgQWjm/XkMqS2FV0EU7VTLM/pPI1/T8oY9iFj2kvp/PobWztp1KY+
+         Hq2DwZpO/dVHxgAnZb/GGuILZ7OF+afQ/v6I2rqYfvBRnw6juffiWJZs5LNNN3tG/CPe
+         UqIw==
+X-Gm-Message-State: AOAM530b8Sl6OfWqcqbR/KHhAf+HPdSMlY2FpqH/lKsHNyKhk4Xti/4E
+	ky6kPzdQlKUB0+uJk87U7lo=
+X-Google-Smtp-Source: ABdhPJwR0kknMZpvf1LjdEueL/t7nBEI/Q5b0+MyD3XtVoquZJFTZctKAaW4elf7wJkbs+MyuxguFQ==
+X-Received: by 2002:a1c:35c1:0:b0:38e:c4f6:1931 with SMTP id c184-20020a1c35c1000000b0038ec4f61931mr280617wma.161.1650560859146;
+        Thu, 21 Apr 2022 10:07:39 -0700 (PDT)
 Received: from localhost.localdomain ([94.73.37.128])
-        by smtp.gmail.com with ESMTPSA id i11-20020a5d584b000000b0020a8d859e5fsm2963849wrf.10.2022.04.21.10.07.30
+        by smtp.gmail.com with ESMTPSA id i11-20020a5d584b000000b0020a8d859e5fsm2963849wrf.10.2022.04.21.10.07.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Apr 2022 10:07:31 -0700 (PDT)
+        Thu, 21 Apr 2022 10:07:38 -0700 (PDT)
 From: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
 To: inki.dae@samsung.com
 Cc: jy0922.shim@samsung.com,
@@ -63,10 +63,12 @@ Cc: jy0922.shim@samsung.com,
 	linux-sunxi@lists.linux.dev,
 	laurent.pinchart@ideasonboard.com,
 	=?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>
-Subject: [PATCH 0/5] Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
-Date: Thu, 21 Apr 2022 19:07:20 +0200
-Message-Id: <20220421170725.903361-1-jose.exposito89@gmail.com>
+Subject: [PATCH 1/5] drm/exynos: hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
+Date: Thu, 21 Apr 2022 19:07:21 +0200
+Message-Id: <20220421170725.903361-2-jose.exposito89@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220421170725.903361-1-jose.exposito89@gmail.com>
+References: <20220421170725.903361-1-jose.exposito89@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -76,39 +78,89 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi everyone,
+Once EDID is parsed, the monitor HDMI support information is available
+through drm_display_info.is_hdmi.
 
-After implementing a similar change in the VC4 driver [1], as suggested
-by Laurent in the ToDo list [2], I noticed that a similar pattern is
-used in the Exynos, Rockchip, STI and sun4i drivers.
+This driver calls drm_detect_hdmi_monitor() to receive the same
+information and stores its own cached value, which is less efficient.
 
-This patchset replaces drm_detect_hdmi_monitor() with is_hdmi in the
-mentioned drivers.
+Avoid calling drm_detect_hdmi_monitor() and use drm_display_info.is_hdmi
+instead and also remove hdmi_context.dvi_mode as it is no longer
+necessary.
 
-Best wishes,
-José Expósito
+Signed-off-by: José Expósito <jose.exposito89@gmail.com>
+---
+ drivers/gpu/drm/exynos/exynos_hdmi.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-[1] https://lore.kernel.org/dri-devel/20220420114500.187664-1-jose.exposito89@gmail.com/T/
-[2] https://docs.kernel.org/gpu/todo.html#replace-drm-detect-hdmi-monitor-with-drm-display-info-is-hdmi
-
-José Expósito (5):
-  drm/exynos: hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
-  drm/rockchip: inno_hdmi: Replace drm_detect_hdmi_monitor() with
-    is_hdmi
-  drm/rockchip: rk3066_hdmi: Replace drm_detect_hdmi_monitor() with
-    is_hdmi
-  drm/sti/sti_hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
-  drm/sun4i: hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
-
- drivers/gpu/drm/exynos/exynos_hdmi.c   | 15 +++++++++------
- drivers/gpu/drm/rockchip/inno_hdmi.c   |  8 ++++----
- drivers/gpu/drm/rockchip/rk3066_hdmi.c |  6 +++---
- drivers/gpu/drm/sti/sti_hdmi.c         |  7 ++++---
- drivers/gpu/drm/sti/sti_hdmi.h         |  2 --
- drivers/gpu/drm/sun4i/sun4i_hdmi.h     |  1 -
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c |  6 +++---
- 7 files changed, 23 insertions(+), 22 deletions(-)
-
+diff --git a/drivers/gpu/drm/exynos/exynos_hdmi.c b/drivers/gpu/drm/exynos/exynos_hdmi.c
+index 7655142a4651..a6743ae87728 100644
+--- a/drivers/gpu/drm/exynos/exynos_hdmi.c
++++ b/drivers/gpu/drm/exynos/exynos_hdmi.c
+@@ -119,7 +119,6 @@ struct hdmi_context {
+ 	struct device			*dev;
+ 	struct drm_device		*drm_dev;
+ 	struct drm_connector		connector;
+-	bool				dvi_mode;
+ 	struct delayed_work		hotplug_work;
+ 	struct cec_notifier		*notifier;
+ 	const struct hdmi_driver_data	*drv_data;
+@@ -811,11 +810,12 @@ static int hdmi_audio_infoframe_apply(struct hdmi_context *hdata)
+ static void hdmi_reg_infoframes(struct hdmi_context *hdata)
+ {
+ 	struct drm_display_mode *m = &hdata->encoder.crtc->state->mode;
++	struct drm_display_info *display = &hdata->connector.display_info;
+ 	union hdmi_infoframe frm;
+ 	u8 buf[25];
+ 	int ret;
+ 
+-	if (hdata->dvi_mode) {
++	if (!display->is_hdmi) {
+ 		hdmi_reg_writeb(hdata, HDMI_AVI_CON,
+ 				HDMI_AVI_CON_DO_NOT_TRANSMIT);
+ 		hdmi_reg_writeb(hdata, HDMI_VSI_CON,
+@@ -893,9 +893,9 @@ static int hdmi_get_modes(struct drm_connector *connector)
+ 	if (!edid)
+ 		return -ENODEV;
+ 
+-	hdata->dvi_mode = !drm_detect_hdmi_monitor(edid);
+ 	DRM_DEV_DEBUG_KMS(hdata->dev, "%s : width[%d] x height[%d]\n",
+-			  (hdata->dvi_mode ? "dvi monitor" : "hdmi monitor"),
++			  (connector->display_info.is_hdmi ? "hdmi monitor" :
++							     "dvi monitor"),
+ 			  edid->width_cm, edid->height_cm);
+ 
+ 	drm_connector_update_edid_property(connector, edid);
+@@ -1118,9 +1118,10 @@ static void hdmi_audio_config(struct hdmi_context *hdata)
+ 
+ static void hdmi_audio_control(struct hdmi_context *hdata)
+ {
++	struct drm_display_info *display = &hdata->connector.display_info;
+ 	bool enable = !hdata->audio.mute;
+ 
+-	if (hdata->dvi_mode)
++	if (!display->is_hdmi)
+ 		return;
+ 
+ 	hdmi_reg_writeb(hdata, HDMI_AUI_CON, enable ?
+@@ -1143,6 +1144,8 @@ static void hdmi_start(struct hdmi_context *hdata, bool start)
+ 
+ static void hdmi_conf_init(struct hdmi_context *hdata)
+ {
++	struct drm_display_info *display = &hdata->connector.display_info;
++
+ 	/* disable HPD interrupts from HDMI IP block, use GPIO instead */
+ 	hdmi_reg_writemask(hdata, HDMI_INTC_CON, 0, HDMI_INTC_EN_GLOBAL |
+ 		HDMI_INTC_EN_HPD_PLUG | HDMI_INTC_EN_HPD_UNPLUG);
+@@ -1155,7 +1158,7 @@ static void hdmi_conf_init(struct hdmi_context *hdata)
+ 	/* disable bluescreen */
+ 	hdmi_reg_writemask(hdata, HDMI_CON_0, 0, HDMI_BLUE_SCR_EN);
+ 
+-	if (hdata->dvi_mode) {
++	if (!display->is_hdmi) {
+ 		hdmi_reg_writemask(hdata, HDMI_MODE_SEL,
+ 				HDMI_MODE_DVI_EN, HDMI_MODE_MASK);
+ 		hdmi_reg_writeb(hdata, HDMI_CON_2,
 -- 
 2.25.1
 
