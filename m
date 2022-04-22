@@ -1,41 +1,41 @@
 Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB367A
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:09:46 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
-	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id B702321132
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:09:45 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.154])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id A9DD2267CE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 224247A
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:18:27 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 2DB9021131
 	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:09:36 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id A9B822000D;
-	Fri, 22 Apr 2022 14:09:28 +0000 (UTC)
+Received: from relay3.mymailcheap.com (relay3.mymailcheap.com [217.182.66.161])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 465A7206D5
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:09:27 +0000 (UTC)
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com [91.134.140.82])
+	by relay3.mymailcheap.com (Postfix) with ESMTPS id 21E793F15F;
+	Fri, 22 Apr 2022 16:09:19 +0200 (CEST)
 Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id E9A782A389;
-	Fri, 22 Apr 2022 14:09:27 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id liAEvKaL7d5P; Fri, 22 Apr 2022 14:09:27 +0000 (UTC)
+	by filter2.mymailcheap.com (Postfix) with ESMTP id 0D7382A515;
+	Fri, 22 Apr 2022 14:09:19 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+	by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Yr8TcHWihmKf; Fri, 22 Apr 2022 14:09:17 +0000 (UTC)
 Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Fri, 22 Apr 2022 14:09:27 +0000 (UTC)
+	by filter2.mymailcheap.com (Postfix) with ESMTPS;
+	Fri, 22 Apr 2022 14:09:17 +0000 (UTC)
 Received: from petra.. (unknown [113.67.11.105])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 646C240645;
-	Fri, 22 Apr 2022 14:09:21 +0000 (UTC)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id B494640645;
+	Fri, 22 Apr 2022 14:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1650636566; bh=EGPX2hZjigm45jxdQRkqHwlnDLdYXc0XAIoGchu2uro=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=K6JeP14+TpDyNgY+szUNQrXCQ+6kYyUJP467nyPIDfBSr9u86jY3FHh+g8mk0E34a
-	 tLIyyVh1C6lwSvIv3RmrWtKPy9tMPx+sGLIOIsJJUuJspo0WlY4aq5kLr1KmDqNfhb
-	 /ss22DZead45B34VP8aOd7yIOXsg0jfHzbBcbEdQ=
+	t=1650636557; bh=Y29WsT3fkq/qFvF6IalSVLgRdoaWb5L858TyF5FxPxo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Mz0eweHGXXE1Lf5SR7SWXolgpjAD0pBar7hynnu9fIafVNqAq5Iy3fsOYYBqY6+Sz
+	 mvgYQSeqmtL1HOTHfbl52bBmanshmTLxRKAtEn1DDHln20GwSc894UHt0GyZtNaYwd
+	 OW8wHKTAdq00uqWJ6gvLu2YwnN06Dgg78ca/tZgQ=
 From: Icenowy Zheng <icenowy@aosc.io>
 To: Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
@@ -49,12 +49,10 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 01/12] dt-bindings: pinctrl: document Allwinner R329 PIO and R-PIO
-Date: Fri, 22 Apr 2022 22:08:51 +0800
-Message-Id: <20220422140902.1058101-2-icenowy@aosc.io>
+Subject: [PATCH 00/12] Initial support for Allwinner R329
+Date: Fri, 22 Apr 2022 22:08:50 +0800
+Message-Id: <20220422140902.1058101-1-icenowy@aosc.io>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422140902.1058101-1-icenowy@aosc.io>
-References: <20220422140902.1058101-1-icenowy@aosc.io>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -63,45 +61,68 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner R329 have two pin controllers similar to previous Allwinner
-SoCs, PIO and R-PIO.
+Allwinner R329 is a SoC targeting smart audio devices, with integrated
+128M or 256M DRAM.
 
-Add compatible strings for them.
+This patchset adds initial support for it, including pinctrl, rtc
+(for rtc ccu), clocks and mmc. These makes a system booting.
 
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
- .../bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml         | 4 ++++
- 1 file changed, 4 insertions(+)
+The demo board for this support is Sipeed MaixSense (based on Sipeed
+MIIA SoM).
 
-diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
-index bfce850c2035..3fa7891381e7 100644
---- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
-+++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
-@@ -55,6 +55,8 @@ properties:
-       - allwinner,sun50i-h6-r-pinctrl
-       - allwinner,sun50i-h616-pinctrl
-       - allwinner,sun50i-h616-r-pinctrl
-+      - allwinner,sun50i-r329-pinctrl
-+      - allwinner,sun50i-r329-r-pinctrl
-       - allwinner,suniv-f1c100s-pinctrl
-       - nextthing,gr8-pinctrl
- 
-@@ -190,6 +192,7 @@ allOf:
-             - allwinner,sun6i-a31-pinctrl
-             - allwinner,sun6i-a31s-pinctrl
-             - allwinner,sun50i-h6-pinctrl
-+            - allwinner,sun50i-r329-pinctrl
- 
-     then:
-       properties:
-@@ -205,6 +208,7 @@ allOf:
-             - allwinner,sun8i-a83t-pinctrl
-             - allwinner,sun50i-a64-pinctrl
-             - allwinner,sun50i-h5-pinctrl
-+            - allwinner,sun50i-r329-r-pinctrl
-             - allwinner,suniv-f1c100s-pinctrl
- 
-     then:
+Icenowy Zheng (12):
+  dt-bindings: pinctrl: document Allwinner R329 PIO and R-PIO
+  pinctrl: sunxi: add support for R329 CPUX pin controller
+  pinctrl: sunxi: add support for R329 R-PIO pin controller
+  rtc: sun6i: add support for R329 RTC
+  dt-bindings: clock: sunxi-ng: add bindings for R329 CCUs
+  clk: sunxi=ng: add support for R329 CCUs
+  dt-bindings: mmc: sunxi-mmc: add R329 MMC compatible string
+  mmc: sunxi: add support for R329 MMC controllers
+  dt-bindings: arm: sunxi: add compatible strings for Sipeed MaixSense
+  arm64: allwinner: dts: add DTSI file for R329 SoC
+  arm64: allwinner: dts: r329: add DTSI file for Sipeed Maix IIA
+  arm64: allwinner: dts: r329: add support for Sipeed MaixSense
+
+ .../devicetree/bindings/arm/sunxi.yaml        |   6 +
+ .../clock/allwinner,sun4i-a10-ccu.yaml        |  62 +-
+ .../bindings/mmc/allwinner,sun4i-a10-mmc.yaml |   1 +
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |   4 +
+ arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+ .../dts/allwinner/sun50i-r329-maix-iia.dtsi   |  34 +
+ .../dts/allwinner/sun50i-r329-maixsense.dts   |  37 ++
+ .../arm64/boot/dts/allwinner/sun50i-r329.dtsi | 275 ++++++++
+ drivers/clk/sunxi-ng/Kconfig                  |  10 +
+ drivers/clk/sunxi-ng/Makefile                 |   4 +
+ drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c      | 401 ++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h      |  25 +
+ drivers/clk/sunxi-ng/ccu-sun50i-r329.c        | 587 ++++++++++++++++++
+ drivers/clk/sunxi-ng/ccu-sun50i-r329.h        |  32 +
+ drivers/mmc/host/sunxi-mmc.c                  |  10 +
+ drivers/pinctrl/sunxi/Kconfig                 |  10 +
+ drivers/pinctrl/sunxi/Makefile                |   2 +
+ drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c | 292 +++++++++
+ drivers/pinctrl/sunxi/pinctrl-sun50i-r329.c   | 410 ++++++++++++
+ drivers/rtc/rtc-sun6i.c                       |   2 +
+ include/dt-bindings/clock/sun50i-r329-ccu.h   |  73 +++
+ include/dt-bindings/clock/sun50i-r329-r-ccu.h |  45 ++
+ include/dt-bindings/reset/sun50i-r329-ccu.h   |  45 ++
+ include/dt-bindings/reset/sun50i-r329-r-ccu.h |  24 +
+ 24 files changed, 2384 insertions(+), 8 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329-maix-iia.dtsi
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329.dtsi
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329-r.h
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.c
+ create mode 100644 drivers/clk/sunxi-ng/ccu-sun50i-r329.h
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun50i-r329-r.c
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun50i-r329.c
+ create mode 100644 include/dt-bindings/clock/sun50i-r329-ccu.h
+ create mode 100644 include/dt-bindings/clock/sun50i-r329-r-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun50i-r329-ccu.h
+ create mode 100644 include/dt-bindings/reset/sun50i-r329-r-ccu.h
+
 -- 
 2.35.1
 
