@@ -1,51 +1,50 @@
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFDA28E4
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 18:45:02 +0000 (UTC)
-Received: by mail-qv1-f42.google.com with SMTP id kj29so2090368qvb.8
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 11:45:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BA828E4
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 18:49:57 +0000 (UTC)
+Received: by mail-qk1-f169.google.com with SMTP id j6so6446664qkp.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 11:49:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DpzKp6GQylN2DVn3Q8F44AaoMz54tuxDB2xUboNmmNk=;
-        b=pzvr3/UvSftncfosMfmgiWOYhMYbYHuIZTCgY5hDDTvmyy0dEedr9JVfuEeVSTpSm5
-         Wod5E9A0cF7e6X5SdVy8UQacTpGtFKdz/js8K/09qJ95ej2UAw2PGlDkrsu+YG2dXUGA
-         p/jEJQdqi+LBuQNomKnUI+S9NQyVkZ2ZnEbNnNiPIsX8T4w6VzABtzJx/TXysyHMCVQ+
-         ScUWgjAh3cPwFtBgN8jKf/CoS7zoCpT0JVr0YNB0YwEC8YxElSpInoxiPR7dP6Gy9x+x
-         Z2XHiikQMiTNKC8bErgRGi2i/cEQhRjtXly2a1DC44EwlTnp4zUihn+XzrUyE57MfFZT
-         LYeg==
+        bh=tQ40q30UltGPLcxI7Io5PMB3YYsh2rTffdRN3EHyu6c=;
+        b=RdHamgujXU7B88WXCri1aYVijHI83k3VkPNNzKtG/MLExSd3tIZhvESxewq0tXjykm
+         ZbLf3MYd+E+jl55CDkujFwCtgTIQGeesQfrYn/H+8XX3KHlq6UOqVWd5HD568lvBJS6t
+         92kcI88/9o48d6YdJHOnjZ/6OtWJqI/i2kqcLu9frpMNsVT+urshO4xfvMbWCcvhOGT+
+         ZGB+ld9FNj2oviMGVglawZScNhMQGkyXBEL2Bv9lIuhrEf31/qdwSWjNbmpQW1L9ZCLF
+         WO18jlmA5OWphmosTS1G/HzZqOBTYQSv3GAcU9nwVqg+Zg0DGaHDdCxGIvrcaxb3d8Ex
+         vYfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DpzKp6GQylN2DVn3Q8F44AaoMz54tuxDB2xUboNmmNk=;
-        b=i7TeQXdOm1s5h/JCnXBGj7Q+/14YoMNCSMGgqK2gb2qPRW1I096BqpArYo2Xq4YpAl
-         MSqE16PjDFKN0cDuTXkFb6sDc5HDmS5INRlOWWJRvcxXXcwYX74ry1Owat806uUTh8k+
-         knDIoSaTTzd4iRj6c3T9vUK6B2rtTbas2VeXFQ3KTOMZi+2tDLVa6S0PGpeI8PIxAFNr
-         7Yjckm0cTvS0vVZJlYVEh7ZGsx+usnuCcbwFggU1OSM2AuAMKOLnYpF2aRNA+L9N0n3O
-         1MigxygITMCa21dRPbCQQ28NjfD3oH30wbwgJmu++mU3jJrjWe5GBXXi58M08rKcJ0Lw
-         XaEw==
-X-Gm-Message-State: AOAM530gCc7dCawh6E2YfaUFSk6Ro1s/FRF1Nz+s6B0VEOU1KUhNpgvm
-	n5beKCpfRORrgOW4q0W0RTuIF/0VQVfBLVNckYA=
-X-Google-Smtp-Source: ABdhPJyDTdfYVPmGi9JCDZSwQ3dGVcvDeC8/OPyjPu7IjhwDECkrHzuq3quIB48TTMhTBLoEclHmpE49GOqp3rGJBbM=
-X-Received: by 2002:ad4:5943:0:b0:446:5c3e:2c2a with SMTP id
- eo3-20020ad45943000000b004465c3e2c2amr4554955qvb.75.1650653101635; Fri, 22
- Apr 2022 11:45:01 -0700 (PDT)
+        bh=tQ40q30UltGPLcxI7Io5PMB3YYsh2rTffdRN3EHyu6c=;
+        b=MHtJGUIbKBtzYh3EZkgVRnjNdDWGOGh4x1pSNquIlWrZ4comjDMZSMZadt+nojawF/
+         KY8NQOwgm7GCtq4jRyP1y5gBzrL8Ka8lvrZbGxrqWu5wDG67H4L6tnj2dGO1y2IPo9XQ
+         mNdmhFw9eBpknfg5s/rbVODbTzwzYtSgBKiRHFRlAQOu4xNaLmB3Um/IeTu66BR1pT5r
+         z8D3C+zptu4pLfTC8DW85Ocdwq3VGeNCkFXWsKmyy3ysBameW5j40zYm3HN5FjNEAQkm
+         I4VYETGpiaHHtnFIz2GcsDOK7MuJ6jRDo/uxN7Zjm610j7E8WxPKv2LP2bLubDq8zmzD
+         HxwA==
+X-Gm-Message-State: AOAM533dhaIRX2WdNO9ohTrRSJhnW5VRdwi9P7+czfma5BBazjGM1Yed
+	X7AgBZJnup8Dye3EJ8tmQ+TOD4oD8bYwGXsOmI4=
+X-Google-Smtp-Source: ABdhPJyrbF6gvV7/wmLrqZkZPzMLNWIkWAv1BEqTuRLLFd+eovymNNvGQWzPxUcW2ESAhhinTTllnLRYQlRa6HY7eho=
+X-Received: by 2002:a37:89c7:0:b0:69a:121b:9256 with SMTP id
+ l190-20020a3789c7000000b0069a121b9256mr3714602qkd.218.1650653396872; Fri, 22
+ Apr 2022 11:49:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <BYAPR20MB24721F9954252BECBEF486ACBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-In-Reply-To: <BYAPR20MB24721F9954252BECBEF486ACBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+References: <20220422161156.1075227-1-icenowy@outlook.com> <BYAPR20MB24720C488FD2BB42038D9825BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+In-Reply-To: <BYAPR20MB24720C488FD2BB42038D9825BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Fri, 22 Apr 2022 11:44:35 -0700
-Message-ID: <CA+E=qVfMm=8aQOM_HW_3EeqqLi-Fgn1Ex3h6kor89FQ0KfTvRw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] dt-bindings: thermal: sun8i-thermal: add binding for
- R329 THS
+Date: Fri, 22 Apr 2022 11:49:30 -0700
+Message-ID: <CA+E=qVfhEhe325M+s784BYw4Ctvv=eGWxGAJBMwPptHXs_vKFA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] thermal: sun8i: add R329 THS
 To: icenowy@outlook.com
 Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J . Wysocki" <rafael@kernel.org>, 
 	Daniel Lezcano <daniel.lezcano@linaro.org>, Amit Kucheria <amitk@kernel.org>, 
@@ -60,52 +59,64 @@ On Fri, Apr 22, 2022 at 9:12 AM <icenowy@outlook.com> wrote:
 >
 > From: Icenowy Zheng <icenowy@aosc.io>
 >
-> R329 has a thermal sensor controller that has only one sensor, and the
-> structure of it is like the H6 one.
+> The thermal sensor controller on R329 is similar to the one on H6, but
+> with only one sensor. Calibration method is still unknown because no
+> calibration is implemented in BSP kernel, neither is it documented in
+> the user manual.
 >
-> Add device tree binding for it.
+> Add its support to sun8i-thermal driver. Calibrating it is now
+> prevented.
 >
 > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > ---
->  .../devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml  | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/thermal/sun8i_thermal.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 >
-> diff --git a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> index 6e0b110153b0..87b4103e0a5f 100644
-> --- a/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> +++ b/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml
-> @@ -20,6 +20,7 @@ properties:
->        - allwinner,sun50i-a100-ths
->        - allwinner,sun50i-h5-ths
->        - allwinner,sun50i-h6-ths
-> +      - allwinner,sun50i-r329-ths
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+> index d9cd23cbb671..3a2f381005b4 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -312,7 +312,8 @@ static int sun8i_ths_calibrate(struct ths_device *tmdev)
+>                 goto out;
+>         }
 >
->    clocks:
->      minItems: 1
-> @@ -63,6 +64,7 @@ allOf:
->              enum:
->                - allwinner,sun50i-a100-ths
->                - allwinner,sun50i-h6-ths
-> +              - allwinner,sun50i-r329-ths
+> -       tmdev->chip->calibrate(tmdev, caldata, callen);
+> +       if (tmdev->chip->calibrate)
+> +               tmdev->chip->calibrate(tmdev, caldata, callen);
+
+I think it's a bit late to check it here since you already read nvmem
+cell if you got here. I'd suggest moving the check to
+sun8i_ths_resource_init(), i.e. call sun8i_ths_calibrate()
+conditionally depending on whether calibrate callback is present.
+
+>         kfree(caldata);
+>  out:
+> @@ -628,6 +629,17 @@ static const struct ths_thermal_chip sun50i_h6_ths = {
+>         .calc_temp = sun8i_ths_calc_temp,
+>  };
 >
->      then:
->        properties:
-> @@ -85,6 +87,7 @@ allOf:
->          compatible:
->            contains:
->              const: allwinner,sun8i-h3-ths
-> +            const: allwinner,sun8i-r329-ths
->
->      then:
->        properties:
-
-There's also a check at line #99 that requires clock, clock-names and
-resets properties for thermal sensors in other Allwinner SoCs. Are
-these not required for r329?
-
-Also are you planning to add a node for thermal sensor to r329 dtsi?
-
-
+> +static const struct ths_thermal_chip sun50i_r329_ths = {
+> +       .sensor_num = 1,
+> +       .has_bus_clk_reset = true,
+> +       .offset = 188744,
+> +       .scale = 672,
+> +       .temp_data_base = SUN50I_H6_THS_TEMP_DATA,
+> +       .init = sun50i_h6_thermal_init,
+> +       .irq_ack = sun50i_h6_irq_ack,
+> +       .calc_temp = sun8i_ths_calc_temp,
+> +};
+> +
+>  static const struct of_device_id of_ths_match[] = {
+>         { .compatible = "allwinner,sun8i-a83t-ths", .data = &sun8i_a83t_ths },
+>         { .compatible = "allwinner,sun8i-h3-ths", .data = &sun8i_h3_ths },
+> @@ -636,6 +648,7 @@ static const struct of_device_id of_ths_match[] = {
+>         { .compatible = "allwinner,sun50i-a100-ths", .data = &sun50i_a100_ths },
+>         { .compatible = "allwinner,sun50i-h5-ths", .data = &sun50i_h5_ths },
+>         { .compatible = "allwinner,sun50i-h6-ths", .data = &sun50i_h6_ths },
+> +       { .compatible = "allwinner,sun50i-r329-ths", .data = &sun50i_r329_ths },
+>         { /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, of_ths_match);
 > --
 > 2.35.1
 >
