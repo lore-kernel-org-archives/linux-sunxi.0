@@ -1,58 +1,52 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2105.outbound.protection.outlook.com [40.92.18.105])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12olkn2046.outbound.protection.outlook.com [40.92.21.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16872901
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 15:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DBE72901
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 16:02:46 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=U3mPCAcYAUBDc2YKR+tQ21mixuCGB3sBySkLcCAdQBRjmooamvqLZO0YvZ9r7yFO4IHL6+aD5rF+dBE3C5IzLRaw5sD8Z4W6QKiFCPdko/l4QVGWmV4VSKGp9zeBCBOe3Tkk0o6/avyA+8RqMhgOFFO0kJ7MEqX8lgg6sVNeuAci20/+uShNzfl27tD1d9Arzdgg7Jl7Lf2Y+MK5aete/cfJmZo6PQ1AB5e0U9m6i3BQ1ZqUOKm90PFc5xcrb6bMqN/odoZf0N4MBvh5kaLhUtGJyl2zdnq1LzM/Rz0RN75JBJA/+UGvLGdY02jHmKg7YpTXVorbuKCMUC0eBfvGAA==
+ b=c0+Yp8Ny9YVpxVnasjO3MgUG/f/ZJMhmQPNYp9o9YLbbK46qQ3wna6xhoH+A3QHbLSuxEIkcyfpTUeVkIaC3W9iwaEZbQ4D15M4yRTMn/9NgDJf4+E7fwA5rma4LH0yPkunXbxoos1dq3WzrV3tWEDYuR+NAuaUa0w3aGigYjSzYOk+0+FBS3BiGbnupIbKB9eaIRx0mcA3kLGksA5LR+K+91djy/ygOl24gdO2h2L6ytQ8eZMrc962YVTW0GOkG4QJgdq3QNt+y0msP2Pl/NZNOJBgcClXBSkbi9RvhvkYDJaM4QYjBuS3aMWkjwtjaLj8kxl6A3xCev56HzeFA6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/nkuKY6fOKGmnQLLGSq3ReQr9gJ5aTylkHMaLhGwyY=;
- b=ECysYfKRHMUOG0HuOgg7S2gaAJt9w2pbG736dToFnVyTBvGLo7vm35ZJO60j+CBKDwF6JFfZWYY6kr1LnCQbwxbENLUSrWKeQ+8ETHVeqJBmED3Gi+raLpji6wAvpM/UHWkFEeipyc/16F+o35GCK1o9uElMk/faIp4x3vOvyAxNH3C0tHYUEwt3yDlvZ5xKFc+10AZk6CCt+/fgsQ5vVxog53Itn5dmTCD1rWrdzkwTrjBD3xouL3IRCpxJ6xUkHCA6i18JTpyCY4fU61mGV+BrpRr6Wve5Dzru/JjZyVEEMvSnI+mY/ruc4eV8VnMxKylYyWD3d7xoKcJhAU4urg==
+ bh=+lHADMAL0NkfusQGDXcw7p3Nxi7opqnAU8qpxK++s+M=;
+ b=JrxvymA52Q/y/y9juqDLKgzqYRVdn/KRCDoTqaXr/toIvrRFu3iLQf5GsdwOqlfdFlSDzjAMkVymo8YDsxTYbgZaU3EnhV1kzLZcjr+Nc27PwWrH7R7jM8NuSaRgiFt4/+RccBjRbKhQE9qpo31e86WTUpuXHjO6d9eLpFY28BIzf307nWpGx21k8seNN3ab+YZu0YWOf2y0gf8U+CwpaglKEsuEqLRognlPF/pnthgsSGrUAfnmrxyP5k4QVzPU/uRzOOtqa97G2VkeWxPoM9OzJ7SNWvGmsRsDfVM7pwBflZsi0hz6OJ10jsWpdtr1nRj7a82bxFdhZdWUrZ6+8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/nkuKY6fOKGmnQLLGSq3ReQr9gJ5aTylkHMaLhGwyY=;
- b=sY7TDSZ9aJ7ZkjsN0b0AT/3qwO2BUIiAfH7mUrD+rssH52m2DgowFZVTI5wk9pkeOUaxjpc6TFNB1NzZs+MGHiUgAyhuhdS7Z8HaPbjPaq5LWekysAGjs2rs5obWwNB4v3gYdZsXmv7lq6Ji+rXp1kHQqv78vDVs27waz5Ln0+o+dV127z+WQhuAgFR7tQKO3nbcKJFvOL/KfiGGTAcovc7qA1h24Gzq0y7hAyVmPOpeSUG6QwFDxkbxB1OR5BICRf0+s8N00/H2uEMO437rCHWVldVomSmmYYoaPA1nOtZ6YEqPPNZivxhskxLpEjGRHmELKaN9fvOSwrjB/cjl1Q==
+ bh=+lHADMAL0NkfusQGDXcw7p3Nxi7opqnAU8qpxK++s+M=;
+ b=j+NdJsEk4JcPP+Ftc+mlSx1gyQ4Jmv6PCvqiN1nKNpkk+GhfwJinGRHRlAarI7X853UPfSyXYBQBWZ/kOARGDw7LdNjezbZa3Ph9H6R7O5WagjMLcD16gOwhEIA8q6HTV1zlc7bZFuZ1tHiMrdCGXAN6wW9o3lOax4YedqEMQGRZfpjsFnJMSGCD2rNWOdVaJFZlKBbGN/TN0Ls5/N0+AkNTaYmw4AODDOkzteW7WEaTFWbKkiUiDMb1fcNi9i5kuQeLG+Zmhu8k8PbBSxLi1gx4iVHoihor8TAlFUd9VqPNO6vHmeQmSgSmA3O5AeafXxel8XC5E0/J9+Efwhf5TA==
 Received: from BYAPR20MB2472.namprd20.prod.outlook.com (2603:10b6:a03:155::16)
- by CY4PR2001MB0917.namprd20.prod.outlook.com (2603:10b6:903:d6::11) with
+ by CY4PR2001MB1685.namprd20.prod.outlook.com (2603:10b6:910:68::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Fri, 22 Apr
- 2022 15:57:25 +0000
+ 2022 16:02:44 +0000
 Received: from BYAPR20MB2472.namprd20.prod.outlook.com
  ([fe80::3480:160a:eb92:d6e3]) by BYAPR20MB2472.namprd20.prod.outlook.com
  ([fe80::3480:160a:eb92:d6e3%6]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
- 15:57:25 +0000
+ 16:02:44 +0000
 From: icenowy@outlook.com
-To: Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: linux-spi@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+To: Marcel Holtmann <marcel@holtmann.org>,
+	Johan Hedberg <johan.hedberg@gmail.com>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+Cc: linux-bluetooth@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
 	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 4/4] spi: sun6i: add support for R329 SPI controllers
-Date: Fri, 22 Apr 2022 23:56:39 +0800
+Subject: [PATCH 0/3] btrtl: try to use OF machine compatible as config postfix
+Date: Sat, 23 Apr 2022 00:02:28 +0800
 Message-ID:
- <BYAPR20MB2472717D5AC20E7702329996BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+ <BYAPR20MB2472590CD7F6385C0E002763BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422155639.1071645-1-icenowy@outlook.com>
-References: <20220422155639.1071645-1-icenowy@outlook.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [MGFqH9QJANVe0BzP0KPvht+S9gJKbyRg]
-X-ClientProxiedBy: HK0PR01CA0059.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::23) To BYAPR20MB2472.namprd20.prod.outlook.com
+X-TMN: [S9Mp5eyF3vDnUHmlK9ml8yArgbO9NKlj]
+X-ClientProxiedBy: HK2PR04CA0070.apcprd04.prod.outlook.com
+ (2603:1096:202:15::14) To BYAPR20MB2472.namprd20.prod.outlook.com
  (2603:10b6:a03:155::16)
 X-Microsoft-Original-Message-ID:
- <20220422155639.1071645-5-icenowy@outlook.com>
+ <20220422160231.1072810-1-icenowy@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,91 +55,69 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: bfea3a30-45df-4fad-b1bf-08da2478cb0b
-X-MS-TrafficTypeDiagnostic: CY4PR2001MB0917:EE_
+X-MS-Office365-Filtering-Correlation-Id: b947124e-01ef-45ba-3a7d-08da2479890f
+X-MS-TrafficTypeDiagnostic: CY4PR2001MB1685:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	3Md5mcrh3B8WOSwFTddObXMg27FbduhwK8YlquuBIhVoJCOwRFegAwd6fSkOZv9j8rLHdq5DAMcL5ILerLMeyQmAntm1S3XvJp/rbZytNs8552Zx9OjpH97iQ5cwiApuno7t6Iztv9TgKqzUT04e/vG95ySXu+3L8KXzST6G+qgGfipAd0isnZ2uDXFwg4Ecw9Vu0GV9D19GOLY3ClGAYF6G1RX/B8d8vmFvIc6NgIzbqrEhAC8x+5S7rTdQ4lC3Oq7NtVaT9DjBFMtYQKIVNjCg9isF24cy5DFm8zTxp0j7eySE+3yXzgI7PisFtdTvkA+SeIoTvB5AGcmZTlz/xg6u8guNENHfw23E49RwNrOPBNmhgZm2N2fIi/U3QiMWAFLHegtGha3bdCCnG4PNagcUetOtThiJ6uC1dSSkQa3J0fRsYUh3hdQ/AwwQCY+8zxT0A039XpvNezIgc0ckSH9c0YvwVXAOFrlyKlERN5sxv5oGlXxQaRis0TI55IkRuYEupLpSZv4igUt3PSL1R1Qf4dtXvN7VC3AbPZ072zZ1YiXG8/QuJ17N3gUIR++FVahG4BZLC2cECtXQ2MB6xQ==
+	D+pswPgHCa2AdIhOON7T4/mpAuMbJmtmIvsbh70hurqiCmTKXyvxiHz07VhWSoM6ctIiYY+2JCQczsnryxe3YeqCaLrlHRL06iySXJjsf+JaMsL98QP/sHUF31bkO8dH4ZAwFTz0uw64GcuNMsJ8a+idgiCYomPvgZ9Tv5Jqo/j3mi6tVQ0DByIOxXdS9q6rg7yRUxLAFzaVMn1/YIvWf3n0OMj6GjmWxu553G//Xrf5KSjuCll9zu9MA1w5vj/lE4yntDG+x4AxdKEksrleDW/M66uLhbahD/5yzB7rxgzmLGxOPRf7bnq15TdzA1NXJB+CoFdpU1hXrKgtJUdSElv9Q7DCs6iw0Fe0/wXGRcc0VMPB4ebjc8Hk4WCmR87DI37c8kAPFX+MpXxodyhWHDfzA6Fw2KiDihTbVfpC7iWz9oZyYGkbxHY9jPNwgxHL6xkhvd87ZR6ZocmGkLZ2Ji1ybPXeSiaeswHXq8CPvIoeYaWrMuKu4Pu+X2dG+P4m8jJpuaPKWTs6QfM9y3jwmNzf+Q60pSkG5+zJQ2c+egSyaphwMFHK1MG5WmmNMzOlb8gGj1LbG1VfOf3LdsCDHw==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?XVN7wxGmEM+/QD/C6r1JWjXvcLHF9LPH+j4Eax4bZC2FHpsoJ4/WMdkVeton?=
- =?us-ascii?Q?mGsdYlf0D8DjYm/XUH2v9VpBY18oybi4f5JVGtPB6YPCrcY/p4EYEOi0Ctjg?=
- =?us-ascii?Q?SiTleVCAaPXgnTMLC8Ti1GicPrLmhqdDgK2gELl+XBOgT7WjyuQuoLIuN1Mu?=
- =?us-ascii?Q?fuj8M5l6uU9IXQyD92SO/10NJXA00jBmN6/fJuT/4NSX61mfNBKfrnl8UXXE?=
- =?us-ascii?Q?M8+Ssu7vgK6wZPn8BYFbtGpLScJAe65+b9yyXVABW6S/DOoQk5SxKIoNbs3H?=
- =?us-ascii?Q?FV2mqV55eFt8gUyhdLZgIXWi5OZQtVkkp2AvHMlCEc/S9gCF00h3LiaYBH4F?=
- =?us-ascii?Q?aQz1c691f6/cFF4xKpDNjqFjd7VE6rKAsmu1nnyjGEy8V8IJM9H4fYlCFGUd?=
- =?us-ascii?Q?8yEXRx22WnzRUne9CDY8pAevCPKuRYXWoVnMGbbD4H9NUAkR/KA2HBer/kH/?=
- =?us-ascii?Q?RlmZJZd+rGNUsZbYYQmRDcXypuCsZ8+DZvNJxEgbJwODU5UdfyhE710v8f5b?=
- =?us-ascii?Q?3HM4jYRsis+KNm4r8fUMxMNISVoMY1MqD2PrySBlKyGv+Aa7jA2RDdDoCgvE?=
- =?us-ascii?Q?anplB/Rz3NVkmAzqmLYq+TaSLX+2fvlOQ7dJnH0YLukgKsC/qyS/9pcGh9A0?=
- =?us-ascii?Q?rseZ46+eyzh6fNRoP5hORSrTYoZFEI6wcfkFcQ/6yvvEH/8KjEQo5mFJ6DB5?=
- =?us-ascii?Q?PIkvNqY8ncuPUcVJpmZZc9LaHOAnRPBfjKUKNcDAjox7BOudRUtevjnPfntG?=
- =?us-ascii?Q?v+WpkcePwuBJ6T44tgLEQiR68CsxdJiUD6iSeBVAmcUYgNTZs4z64QY3nxxk?=
- =?us-ascii?Q?SIX68rNRZz5KbYRN8ezfwSks+6dOc9pOhoGy4cVrZ6rcpQA1pZfg0NrUxj9s?=
- =?us-ascii?Q?Xv/FBTpZ1W559W064rASk5iLcUZqM3pohJYYgBYism8j+YtkxppcCQNY9bFX?=
- =?us-ascii?Q?E5TOtcu8dW4BT1u4Lmfhgl4m5Yr9JiRmKD85lOhGnzxc+hlN66w0J7WIKWyI?=
- =?us-ascii?Q?VFiAcitQBtLY4DOdPBEDUkS7Sw1vcec1S6mISuvmXBidzNd9qyUbHOIxRR+c?=
- =?us-ascii?Q?cEWi/SFLGWjt+juIlYPKd9P9ieK59r+p7akRV4ZiR5YCIUwXbqHQpDkO+TK5?=
- =?us-ascii?Q?eL/5bmGLfCtlYcL1jhQ2RnFTY5Ji7C2jAi1yqMuxDXNlg++O0BiB7dgmyDHz?=
- =?us-ascii?Q?KGzo2RyIXQWODuvZ1xzXR1f/aCydO1UmpZ/YswsSKdA/B4NzXRni+xYOL+af?=
- =?us-ascii?Q?5B5oK1A8VQsjjyYbJ0mz5oA9clG9O3Ys1rRODLxXrvUjTYC1pjpoKkMuEN2X?=
- =?us-ascii?Q?FM+7xYkgoAiATewS5PjQG7EdMvTWSPsUsKdSwunO+Nuu62ZWDl9nMeRa/pCc?=
- =?us-ascii?Q?21znSVxT6TT7BOhTwymgfiSBcQyzYx6vkJOF8UHbTb9MosmtnI/hE0wbb7A/?=
- =?us-ascii?Q?MKjlLxhwQDg=3D?=
+	=?us-ascii?Q?FrsArwEygSz8sIYG2HCz4QOEbqvB/Hq9xYG09z6nuUNWMSD31E095oZDTgKt?=
+ =?us-ascii?Q?WaKmBRKbn5EcHbsoV/emZHoj+44/tgQ0Q7HjYkENGP/8t0/Zo30DTVw/PtDq?=
+ =?us-ascii?Q?kzYNyq/QcRt209SsK4ebnXo027D3tMQKupub6mzgn4eea7ONKgLzw0q4yLay?=
+ =?us-ascii?Q?6rZuXqHTcG1WdeEfTwjNf/ndn05vZz74v5LEduLqEScKDNgP9cbtKKlUyTNT?=
+ =?us-ascii?Q?DzhSQ/B/Akv7w7Ny5h+sMFTlEz1e5iubUYE9oJGL7qCg04bBC1sdcC0+hS5U?=
+ =?us-ascii?Q?2Sy+DVGSBaBOHYXg48Q0ODrTvQnlni5XZp02JMC8BYEctWIASOQf1H1tmVrb?=
+ =?us-ascii?Q?eB6ugKxJjZ+/UnxYvbLcM+wwSGziCGSJMc4iRIbMFzNSH2h6cHZ8TpPqNitf?=
+ =?us-ascii?Q?Kgj5AhDz0IvqPmGD1gFI4v9MlGxKcDPXNd8CyTDmFE+kw5wXqAhTeabNaSfa?=
+ =?us-ascii?Q?8Vcgiptr4XSmdcf7AfUcL5qyHnAz0yP2uyFbuj5EKqVwrrpY0L8hmMaoij2h?=
+ =?us-ascii?Q?ycgyUjnDpgUiN8C6zOptAXeZMNFmSY2u9faKHxyyBVtJntg5BP2mT2yRWzu1?=
+ =?us-ascii?Q?9Up5SmrlPk3hFdhBDbRHKf6AQJemxiLuzkseAQn3LSijXwaYQr7NBsLXHC08?=
+ =?us-ascii?Q?djXLYnU9mbCPL1iK8Orrj7/dOST+/uk5o1Lb2PqzJAYLU5pLh+lNAO6zK6jk?=
+ =?us-ascii?Q?WhjdhYqesPUzHP1nboxfRgvuLwXk8YSeGwocPKS+O1dQrvYurT9awTvjyKPl?=
+ =?us-ascii?Q?HKJc/Dz7bFvLaRIHCT/HwU8bRqLyqTLUxT25hy92D4cAYmaiExBPcQdASCtE?=
+ =?us-ascii?Q?C23JRfOLtNSEo12B+o19o5Oq4fIEdt3IU+/+twPKnKkvX3TzoD7wu0fdINIo?=
+ =?us-ascii?Q?5mGe4HTLG3d9IdUFa+pFzLPkNTDEXG5ZiuX1uCAVRMB6qd9uaXOBrTwxRVFt?=
+ =?us-ascii?Q?/h2YoyIdLlXyvKtZ4hX6GQZDgRTb7/2WTClujl7obgtnraCm267wlcdnjJdL?=
+ =?us-ascii?Q?YZSDf1u07w+N2cEWBYuA0KTsTLAbtx5fv7i7S1J38291Zm1iqvVD6er6LIqW?=
+ =?us-ascii?Q?aStqeV7SMdm8iEE4je524qqUlPioOo/RjAmTK7rFm7ODIVSshL9qHONqDHL9?=
+ =?us-ascii?Q?w6j/7/2D0eZE1tBmNdAYOLgtxtXZ4l79mWe4aoROtb7XMLcBtGicUkwWuzQY?=
+ =?us-ascii?Q?FNEY0qDD9okAOatbe+O6Ty9wOnVqohJkVjpdAyS0bw4vurcgtO4PaaqnSoR6?=
+ =?us-ascii?Q?YCL/YUkFG5n2JDdib7ZW67EkmhIhRyI/gVZ+m7V1ymCuBsMGdgncmQeRtMxr?=
+ =?us-ascii?Q?t/DiOF4SPcDCZjom+4e1/cwnq/7KXNGaQFxerEhDoTLl+B70Mj9PyJBQkVH0?=
+ =?us-ascii?Q?OjWx3WgBPUTRq6LM4+eEFDtyGYViepQktzWFKgzdbg8yown3UZ9JQnHAZO+X?=
+ =?us-ascii?Q?Jbaf7s1hvJ4=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfea3a30-45df-4fad-b1bf-08da2478cb0b
+X-MS-Exchange-CrossTenant-Network-Message-Id: b947124e-01ef-45ba-3a7d-08da2479890f
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR20MB2472.namprd20.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 15:57:25.1625
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 16:02:44.2184
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR2001MB0917
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR2001MB1685
 
 From: Icenowy Zheng <icenowy@aosc.io>
 
-R329 has two SPI controllers. One of it is quite similar to previous
-ones, but with internal clock divider removed; the other added MIPI DBI
-Type-C offload based on the first one.
+Currently for OF machines there's no way to specify a machine-specific
+btrtl config file.
 
-Add basical support for these controllers. As we're not going to
-support the DBI functionality now, just implement the two kinds of
-controllers as the same.
+Try to use OF machine compatible string as config postfix, in a similar
+manner with brcmfmac driver (which needs machine-specific config files
+too).
 
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
- drivers/spi/spi-sun6i.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Icenowy Zheng (3):
+  Bluetooth: btrtl: try config w/o postfix if postfixed one failed to
+    load
+  Bluetooth: btrtl: use board DT compatible string as config postfix
+  Bluetooth: btrtl: allow longer config file name
 
-diff --git a/drivers/spi/spi-sun6i.c b/drivers/spi/spi-sun6i.c
-index fc81afc3a963..c4bd8ea31b43 100644
---- a/drivers/spi/spi-sun6i.c
-+++ b/drivers/spi/spi-sun6i.c
-@@ -716,9 +716,21 @@ static const struct sun6i_spi_cfg sun8i_h3_spi_cfg = {
- 	.has_clk_ctl	= true,
- };
- 
-+static const struct sun6i_spi_cfg sun50i_r329_spi_cfg = {
-+	.fifo_depth	= SUN8I_FIFO_DEPTH,
-+};
-+
- static const struct of_device_id sun6i_spi_match[] = {
- 	{ .compatible = "allwinner,sun6i-a31-spi", .data = &sun6i_a31_spi_cfg },
- 	{ .compatible = "allwinner,sun8i-h3-spi",  .data = &sun8i_h3_spi_cfg },
-+	{
-+		.compatible = "allwinner,sun50i-r329-spi",
-+		.data = &sun50i_r329_spi_cfg
-+	},
-+	{
-+		.compatible = "allwinner,sun50i-r329-spi-dbi",
-+		.data = &sun50i_r329_spi_cfg
-+	},
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sun6i_spi_match);
+ drivers/bluetooth/btrtl.c  |  8 +++++++-
+ drivers/bluetooth/hci_h5.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
+
 -- 
 2.35.1
 
