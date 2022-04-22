@@ -1,47 +1,84 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1C57A
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 21:10:55 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-e604f712ecso9885144fac.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:10:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=TRqLMDnSfOMMJvwbNg5ERReNlJdUDaY3MArVueheMwI=;
-        b=1F0g1Jyoq0rfslwu8st9A4RUm0+kE6qcv52jo0iv80/0ZrfNq8uEELuMasYX8s5v6k
-         hV72arKKh6hmmPFI1qJAkuoMyrICqKp9xNKKtgpd+7tSxeUXiAPRz6NIChRql3SZjxkS
-         b3S3fMJcbP7hSTf25t8kERikNwa8/BpjhqMsiBdAOQHhiDhtzr8QUfJ4NtCLTxz9ML5z
-         ZkRjeVM5ljsoEbFwn7XAQL/J9BBWGGKkdv+nUJ60HNmZrrnlBUwQwikfJf3DOQek1RYy
-         18j/H4/xU70Xf/Yywuw4CMpy9jontPHKXMtmr6LwZP0IcNc8jhKr6qzH/vsoOQrTraP7
-         WEQA==
-X-Gm-Message-State: AOAM5326U+Xt//beDkgHnnl1HVoAy/Wuy4gERteQUhWS0NYGDTy8Kj9i
-	0DH4M4+eMQeA2kCGZSLOvw==
-X-Google-Smtp-Source: ABdhPJwCauAsquMdMwIxtueLYrwWVUnabgWI6OXGiVbx2Y27f+yF57TQi+4z5TpOQRa/HCe7vuQsXw==
-X-Received: by 2002:a05:6870:79a:b0:e9:109a:1391 with SMTP id en26-20020a056870079a00b000e9109a1391mr800216oab.105.1650661855024;
-        Fri, 22 Apr 2022 14:10:55 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bf26-20020a056808191a00b00324f4d15aa1sm667603oib.12.2022.04.22.14.10.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 14:10:54 -0700 (PDT)
-Received: (nullmailer pid 2784286 invoked by uid 1000);
-	Fri, 22 Apr 2022 21:10:47 -0000
-From: Rob Herring <robh@kernel.org>
-To: icenowy@outlook.com
-Cc: Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-input@vger.kernel.org, Icenowy Zheng <icenowy@sipeed.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org
-In-Reply-To:  <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-References:  <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: add R329 LRADC binding
-Date: Fri, 22 Apr 2022 16:10:47 -0500
-Message-Id: <1650661847.262817.2784285.nullmailer@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F12A2F3B
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 23:28:47 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 9ABDC3201F33;
+	Fri, 22 Apr 2022 19:28:45 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 22 Apr 2022 19:28:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650670125; x=
+	1650756525; bh=sVFvJn0waws0huqXtaOE4/eUsYmyydlP/Izjgm4OF6M=; b=W
+	5XZ+obawGydKuH0oHzBtc1dAFeoxo1MCpIqwqHehtoQIj48YxhpNKmwhgdyZceQt
+	ZOkw6S81EwZIfgj/UunDlCIRQFB4m8R8BN2pcyOUgqv6ezQBFc/QD9RX/08TyVK7
+	+uyG4XMF/oNjoD3S+51pr1EKbL65W69Abq7bTQV4GxQ5bdZ5SwkAOXXb4LnSaEuQ
+	4I2bsGE4RYtL79CRX34taP9iWziTTjhxiegpAGd+QrTqs5H3Q/r8QGf0UCd5VjsL
+	M8diNyijzmghjrVnHDS9s/Zy+RBtVhWKhA99tu02hylsRrX7xusBJPs6y7HYZu+s
+	CTC2xbJ+aNUqNlcKUeW3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1650670125; x=1650756525; bh=sVFvJn0waws0h
+	uqXtaOE4/eUsYmyydlP/Izjgm4OF6M=; b=Jbn/oL+i+KTVsMVOikDmAgBU8ss6w
+	FwFgomqno2UoS+C6GfjzjASPff79cUauu3grf94e6j2mfWII+U0qm917wruQv2nA
+	jMkN+lIi3kqUmvEY2uLVALnXo84fhgc1G8JGiHGF4Teb+N+I/92/8Ns6ztXiTBvy
+	wOOUNNC7GUDiznOaFvAsdmVkU/IgXjO4f73oFXZ5wE0NhaNdmOYqBlStWy9RtLQ1
+	cTXCWsFDzwb3t3dBd25hC19XolTi11dwfOBHl4IE09/XpVIMKOe2BEioguJm+IaT
+	4HKBlNVhjdEOCpKLkazcfiUlxy9HYWaxQ6h6uaWwMdJkdRVdzOVJfpJOw==
+X-ME-Sender: <xms:LDpjYg71Io2H-Z-EPR3w9_oA3M7zQ2TBqkeTpx2971jCCg5BqLMOmg>
+    <xme:LDpjYh4H69RhzYXu8ruuNLTZAezCbFFJExY0rSzUIYnLoEtu7eNHXCe17e0PjmcMi
+    lhyJKjFa-TIOa-qog>
+X-ME-Received: <xmr:LDpjYvdTf1u95CfSTFRMcWaXdxXOpibrkEmBbdBw6IBFbiVFqUv25GkPzOmNUMiPzuG0uKA9mOgCy-O_deAuWGIsn0eSYZqE0bP64VxBwm0vnT2BQKIyLeDFyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdehgddvfecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepleetjeffvdegheektdekveeuueetffetffehudefueejvddufedu
+    teeiieejveelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:LDpjYlIWPjmpMWg9F_1pCq3mPYjGwUPTQzba_yKZLSZXuN2nHFtQCw>
+    <xmx:LDpjYkLxWBM7VKkmktTvlmJ8PiEzWRgl5KK44kEshuYKPO3uZtVavg>
+    <xmx:LDpjYmyhXktio00qmHo6EzAJ-QgyBROk2ze5cGnSc61flOET_sGTrQ>
+    <xmx:LTpjYiznz8PFVA2Y_-68t0NX5lK8KotoXHic2wmFD_xZlJcz3IVl8g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 22 Apr 2022 19:28:43 -0400 (EDT)
+Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: add R329 LRADC
+ binding
+To: Icenowy Zheng <icenowy@aosc.io>, Hans de Goede <hdegoede@redhat.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-input@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@sipeed.com>
+References: <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <db2c4d90-0097-442a-68df-3dd77f7a4d0b@sholland.org>
+Date: Fri, 22 Apr 2022 18:28:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+In-Reply-To: <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Sat, 23 Apr 2022 00:07:43 +0800, icenowy@outlook.com wrote:
+Hi Icenowy,
+
+On 4/22/22 11:07 AM, icenowy@outlook.com wrote:
 > From: Icenowy Zheng <icenowy@sipeed.com>
 > 
 > R329 has similar LRADC with previous Allwinner SoCs, but with bus clock
@@ -50,34 +87,12 @@ On Sat, 23 Apr 2022 00:07:43 +0800, icenowy@outlook.com wrote:
 > Add binding for it.
 > 
 > Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
-> ---
->  .../input/allwinner,sun4i-a10-lradc-keys.yaml | 21 +++++++++++++++++++
->  1 file changed, 21 insertions(+)
-> 
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I sent this binding/driver update (also with D1 support) last week:
 
-yamllint warnings/errors:
+https://lore.kernel.org/lkml/20220414002349.24332-1-samuel@sholland.org/T/
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml: then:properties:required: ['clocks', 'resets'] is not of type 'object', 'boolean'
-	from schema $id: http://json-schema.org/draft-07/schema#
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml: ignoring, error in schema: then: properties: required
-Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.example.dtb:0:0: /example-0/lradc@1c22800: failed to match any schema with compatible: ['allwinner,sun4i-a10-lradc-keys']
+Please see if it works for you.
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Regards,
+Samuel
