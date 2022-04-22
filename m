@@ -1,109 +1,70 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6D47A
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 21:10:52 +0000 (UTC)
-Received: by mail-oi1-f171.google.com with SMTP id a10so10395193oif.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:10:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1C57A
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 21:10:55 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-e604f712ecso9885144fac.9
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 14:10:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
          :message-id;
-        bh=J6rqRfMieshNlsEnUPYfVWhJgAntYIwqBg8y4VOu9MM=;
-        b=4j6KWvIiyuJr/brUQNdCmFk+Oe8uoYdPfA7a8yrtsEcTYjXZ5L1xHKbYx3dgrmfpi5
-         L32gVPbhHIP7Vf7atbQJrBTknz9HKHqSa7o4UR2my9PbqzfuPNhYmOfMfsMi0/hAsU9Z
-         MT+MZ5ICWLaENfInrjydQ4xwvWVHqVUzf1hKX39Rd5WtdNWCphtawuMxOo+RYkoolgNb
-         oFGdazWQvMdVFbKmqFl9ktO+g32aHtAj36kiEsxV6tCE1xBGGpmL9TY4E8ErGIUkUWAg
-         GvOBbUjLS3InHyYHZvAriHZDd6d/fgAulHQDtgyNj1wl5rMEeXS1B0lMtlgr6kDlH8Nd
-         z+nA==
-X-Gm-Message-State: AOAM531n2kCtwZeqUAC9Hpa7jLltkssy3tyluq9iLdObV/lK0+jUQyb1
-	lG1VQZXF06Q7HL99JOd57A==
-X-Google-Smtp-Source: ABdhPJw3FMFldMU2qxgLgJpZScY+EUzAC+IZqNRhFvnPBjaTLofwsJMPu2/vSLA8NxsTdHjlGDDTYA==
-X-Received: by 2002:a05:6808:10c6:b0:2f9:a7fb:823b with SMTP id s6-20020a05680810c600b002f9a7fb823bmr7798368ois.249.1650661851222;
-        Fri, 22 Apr 2022 14:10:51 -0700 (PDT)
+        bh=TRqLMDnSfOMMJvwbNg5ERReNlJdUDaY3MArVueheMwI=;
+        b=1F0g1Jyoq0rfslwu8st9A4RUm0+kE6qcv52jo0iv80/0ZrfNq8uEELuMasYX8s5v6k
+         hV72arKKh6hmmPFI1qJAkuoMyrICqKp9xNKKtgpd+7tSxeUXiAPRz6NIChRql3SZjxkS
+         b3S3fMJcbP7hSTf25t8kERikNwa8/BpjhqMsiBdAOQHhiDhtzr8QUfJ4NtCLTxz9ML5z
+         ZkRjeVM5ljsoEbFwn7XAQL/J9BBWGGKkdv+nUJ60HNmZrrnlBUwQwikfJf3DOQek1RYy
+         18j/H4/xU70Xf/Yywuw4CMpy9jontPHKXMtmr6LwZP0IcNc8jhKr6qzH/vsoOQrTraP7
+         WEQA==
+X-Gm-Message-State: AOAM5326U+Xt//beDkgHnnl1HVoAy/Wuy4gERteQUhWS0NYGDTy8Kj9i
+	0DH4M4+eMQeA2kCGZSLOvw==
+X-Google-Smtp-Source: ABdhPJwCauAsquMdMwIxtueLYrwWVUnabgWI6OXGiVbx2Y27f+yF57TQi+4z5TpOQRa/HCe7vuQsXw==
+X-Received: by 2002:a05:6870:79a:b0:e9:109a:1391 with SMTP id en26-20020a056870079a00b000e9109a1391mr800216oab.105.1650661855024;
+        Fri, 22 Apr 2022 14:10:55 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x21-20020a4a6215000000b0033993dc1d65sm1230760ooc.8.2022.04.22.14.10.50
+        by smtp.gmail.com with ESMTPSA id bf26-20020a056808191a00b00324f4d15aa1sm667603oib.12.2022.04.22.14.10.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Apr 2022 14:10:50 -0700 (PDT)
-Received: (nullmailer pid 2784288 invoked by uid 1000);
+        Fri, 22 Apr 2022 14:10:54 -0700 (PDT)
+Received: (nullmailer pid 2784286 invoked by uid 1000);
 	Fri, 22 Apr 2022 21:10:47 -0000
 From: Rob Herring <robh@kernel.org>
 To: icenowy@outlook.com
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, linux-kernel@vger.kernel.org, Amit Kucheria <amitk@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, Yangtao Li <tiny.windzz@gmail.com>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Vasily Khoruzhick <anarsoul@gmail.com>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, linux-pm@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>, Jernej Skrabec <jernej.skrabec@gmail.com>, Zhang Rui <rui.zhang@intel.com>
-In-Reply-To:  <BYAPR20MB24721F9954252BECBEF486ACBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-References:  <BYAPR20MB24721F9954252BECBEF486ACBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-Subject: Re: [PATCH 1/2] dt-bindings: thermal: sun8i-thermal: add binding for R329 THS
+Cc: Maxime Ripard <mripard@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-input@vger.kernel.org, Icenowy Zheng <icenowy@sipeed.com>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh+dt@kernel.org>, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org
+In-Reply-To:  <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+References:  <BYAPR20MB2472D625C876D97E95CB6078BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+Subject: Re: [PATCH 1/2] dt-bindings: input: sun4i-lradc-keys: add R329 LRADC binding
 Date: Fri, 22 Apr 2022 16:10:47 -0500
-Message-Id: <1650661847.274095.2784287.nullmailer@robh.at.kernel.org>
+Message-Id: <1650661847.262817.2784285.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 
-On Sat, 23 Apr 2022 00:11:55 +0800, icenowy@outlook.com wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
+On Sat, 23 Apr 2022 00:07:43 +0800, icenowy@outlook.com wrote:
+> From: Icenowy Zheng <icenowy@sipeed.com>
 > 
-> R329 has a thermal sensor controller that has only one sensor, and the
-> structure of it is like the H6 one.
+> R329 has similar LRADC with previous Allwinner SoCs, but with bus clock
+> and reset.
 > 
-> Add device tree binding for it.
+> Add binding for it.
 > 
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
+> Signed-off-by: Icenowy Zheng <icenowy@sipeed.com>
 > ---
->  .../devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml  | 3 +++
->  1 file changed, 3 insertions(+)
+>  .../input/allwinner,sun4i-a10-lradc-keys.yaml | 21 +++++++++++++++++++
+>  1 file changed, 21 insertions(+)
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
 on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
 yamllint warnings/errors:
-./Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml:90:13: [error] duplication of key "const" in mapping (key-duplicates)
 
 dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.example.dts'
-Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml: found duplicate key "const" with value "allwinner,sun8i-r329-ths" (original value: "allwinner,sun8i-h3-ths")
-make[1]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
-    testtree = dtschema.load(filename, line_number=line_number)
-  File "/usr/local/lib/python3.10/dist-packages/dtschema/lib.py", line 912, in load
-    return yaml.load(f.read())
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 121, in get_single_data
-    return self.construct_document(node)
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 131, in construct_document
-    for _dummy in generator:
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 674, in construct_yaml_map
-    value = self.construct_mapping(node)
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 445, in construct_mapping
-    return BaseConstructor.construct_mapping(self, node, deep=deep)
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 263, in construct_mapping
-    if self.check_mapping_key(node, key_node, mapping, key, value):
-  File "/usr/local/lib/python3.10/dist-packages/ruamel/yaml/constructor.py", line 294, in check_mapping_key
-    raise DuplicateKeyError(*args)
-ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
-  in "<unicode string>", line 89, column 13
-found duplicate key "const" with value "allwinner,sun8i-r329-ths" (original value: "allwinner,sun8i-h3-ths")
-  in "<unicode string>", line 90, column 13
-
-To suppress this check see:
-    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
-
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-doc-validate", line 74, in <module>
-    ret = check_doc(f)
-  File "/usr/local/bin/dt-doc-validate", line 30, in check_doc
-    print(filename + ":", exc.path[-1], exc.message, file=sys.stderr)
-AttributeError: 'DuplicateKeyError' object has no attribute 'path'
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/thermal/allwinner,sun8i-a83t-ths.yaml: ignoring, error parsing file
-make: *** [Makefile:1401: dt_binding_check] Error 2
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml: then:properties:required: ['clocks', 'resets'] is not of type 'object', 'boolean'
+	from schema $id: http://json-schema.org/draft-07/schema#
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml: ignoring, error in schema: then: properties: required
+Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.example.dtb:0:0: /example-0/lradc@1c22800: failed to match any schema with compatible: ['allwinner,sun4i-a10-lradc-keys']
 
 doc reference errors (make refcheckdocs):
 
