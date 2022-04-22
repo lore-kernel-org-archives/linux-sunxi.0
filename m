@@ -1,59 +1,56 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12olkn2056.outbound.protection.outlook.com [40.92.22.56])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11olkn2093.outbound.protection.outlook.com [40.92.18.93])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41282901
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 15:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7592901
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Apr 2022 15:56:58 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X/RPXY4cZvQxP8fLExszzZZ1B/pq5BSQZFZ0d6aXXm34ty7AcpJofT84egDNCqoLsN51UKPgyiYUbR4lT+9LOJyd7/5CLOTMQKuT1emk8pJNQpygOQv8BJRTew1wjsoMk8JctD/6Re66bwStMAqFFb997aSm/npAPl4Nmkc4pwImXg7InKBq47eXvTWzP/gGV+ArO9eGW7TXacaMaYVGSMisYaSFKPiAwOubHDXEV9nv+fqkbp3LZtmlwoWDTJ9F8Ilgk9zsiOsje8lYtp9thHmko6uOjWIyx2nrW3AYTv22SPGCJhO7XXmtbNPgncipDcmFdlz30pInfDr01C3jZA==
+ b=VwaQDXjdfW/TXCVREHMJleNslYRWkXBCc93jqHvobgHRlQ2EcTDxOV7minzOYZU42vt51tTCZtDfcfYw/UUD2IeP1zJpqS+Dm0K7X5zxU4aNwAuq0nmkZ3QoIQ4+5cD+P3PLP0PtbzIU/z/XlRvH50Ar1b0IJ9+PXqE+/QcwnNyJNCVHelGLi8iPUGwAbj00VZwsyiZaHUEpvKzVXzBnQ775/kG2Wph2sCVoG5p4ye24QIX4liUeRqN/GjeakyJLUG90XZCBBeHVAjlkAO3rcg7ddXd1CI1jExkGzym17WrV8japOVmAuJ5RPhLqSrnpuyDyC/MwZbjzQ3G3KldH/w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t+bTY2ZVoe/uYb7D+uWnrBT52CTLm5pFsPRHeuvrRSc=;
- b=itczoN2K0+2YW2Xy6mS0/TSiEp4aQby0UKEXlIa8cjwKTurA5O4aaPhtmEdnZXSW3PLD8R14YK3u5ffc/Pgl9+qKqaRMsQKr57S7ZLmzLCyubx0d3nv4QHZm8yU/q82ZHtpmnDGrTTUnyUnlDsilOkI+ZWJueF0meu4cWLiW8B28Igt+0zf6lNvhV0J1HuYRZ63Acpj0EgHPXzugwr/R5QW6E95Qg1sPUbClLsecI/ewd5wdaDUU8DdZMCoV4OiozIy7yD0U8FhnD9IzHMRwQziHwTDJ7AV84BjUj8G6r/pHt58UlRiO5up/lh86GAJOYmdK5pGNfFl40gW6vXRAEg==
+ bh=aSOvOVo4owsPTCe7z/6UpT+MQ9CHNqBsLlT+gV0Zy5s=;
+ b=dQNk8K0mjGfDHXC+UTGwukHsQ5S6FduzVRUe4sTfuEBRh5M900m40NE5Ev3Z+LhigvyhKp4dITx/EvrV10oJ4jIaZ7ga2tjBWvDfJfVP0T86kugjqcZmhNvAxIVhZxnTn1w564nx0t9Ffg9tZXBAfH9WYRBeaOo3ePJBC5D9HcBLVuyLmk9lxg/J4gRmP/XOnnH7BpUl8rHZpoBx34HFeh6XMYM7mQzSTOeoJBsgiVo/rJXj3OBwg7cKBlpg6y12b0fr3eq9GyljZMFf66VSD8ueJaU7OTsZGYoS8DYJTlPSWatvay120uMHgWsc95VJmcu1I5+rYONtBiC9yOmrKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t+bTY2ZVoe/uYb7D+uWnrBT52CTLm5pFsPRHeuvrRSc=;
- b=fQ6NeQeYLR5H4Vgb/ubCAV/ErinZkvsQ8HjsuCMgNoUaIcJsb/WGaAYWCTSsH7mcEoJmC/qlqhTzdPxNLFx/EcUbMlm1yqQy541RG4ueylznKQR79/GJQXYdQISvx89GA4j3crR/J97pQOyY+Yulbw5nyU2so6BNCKnpCJen+Z/Dtu2dhVZfxcCI81/eHmhVnxFFPDPvWtHDUobWvWh4ijF2u8iZABonr0OX5bxMTa6VR/i8czxkMOMDmyL9KN8t4geKQ24gzcIIIWa5S1+VW1AzKQPMxzwNeJa3CZA3EoxM3vDCzxvQxJUHXq0qeypXFWnAOCjnIkZC9FdhT3EAsw==
+ bh=aSOvOVo4owsPTCe7z/6UpT+MQ9CHNqBsLlT+gV0Zy5s=;
+ b=lFdDhvazA5DZ9Uny99tyIYmA5ywI3Fux/YZQ7TLr76SsMGWbU27hKr30OdkZ0kJHzydj9wro5CF3SLYyS+Y29tirZXbRXYPF7/F6iZ3GXyo+XOa77js34alj5yk7E3lV952Sr4GOMwLoBr8r2l1DI4b8N3GMUZNgdoGi5uCgp4iTY851pWAmtM0ux0Yj3e+UTxd9UmfcTNlvyLoErcHWDXmMlO48lnZ6x3v9KN52XGTgKlYayWZFhZYzzLwQYKZKq5aW2PG9QTeokNgXrUo1brW1KqD+xdJqOdSgoqbzySwMhQVA+NgfR6c8MBbalq4lFxNu67Aookhq90IapqknEg==
 Received: from BYAPR20MB2472.namprd20.prod.outlook.com (2603:10b6:a03:155::16)
- by DM5PR2001MB1836.namprd20.prod.outlook.com (2603:10b6:4:17::22) with
+ by CY4PR2001MB0917.namprd20.prod.outlook.com (2603:10b6:903:d6::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Fri, 22 Apr
- 2022 15:43:35 +0000
+ 2022 15:56:56 +0000
 Received: from BYAPR20MB2472.namprd20.prod.outlook.com
  ([fe80::3480:160a:eb92:d6e3]) by BYAPR20MB2472.namprd20.prod.outlook.com
  ([fe80::3480:160a:eb92:d6e3%6]) with mapi id 15.20.5186.015; Fri, 22 Apr 2022
- 15:43:35 +0000
+ 15:56:56 +0000
 From: icenowy@outlook.com
-To: Rob Herring <robh+dt@kernel.org>,
+To: Mark Brown <broonie@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org,
+	Maxime Ripard <mripard@kernel.org>
+Cc: linux-spi@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 12/12] arm64: allwinner: dts: r329: add support for Sipeed MaixSense
-Date: Fri, 22 Apr 2022 23:41:15 +0800
+Subject: [PATCH 0/4] Allwinner R329 SPI support
+Date: Fri, 22 Apr 2022 23:56:35 +0800
 Message-ID:
- <BYAPR20MB247223406A5E8E97C9CEB3BBBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+ <BYAPR20MB2472A0C29FAA2782487BD1E8BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220422140902.1058101-1-icenowy@aosc.io>
-References: <20220422140902.1058101-1-icenowy@aosc.io>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-TMN: [aelFEiau9+SgNya5lSH1eLWQorp9uU4l]
-X-ClientProxiedBy: HK0PR03CA0116.apcprd03.prod.outlook.com
- (2603:1096:203:b0::32) To BYAPR20MB2472.namprd20.prod.outlook.com
+X-TMN: [gAaQJSZX2fxmAp1fh/5i678WGTo0aEVE]
+X-ClientProxiedBy: HK0PR01CA0059.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::23) To BYAPR20MB2472.namprd20.prod.outlook.com
  (2603:10b6:a03:155::16)
 X-Microsoft-Original-Message-ID:
- <20220422154115.1068642-10-icenowy@outlook.com>
+ <20220422155639.1071645-1-icenowy@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -62,115 +59,65 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b48b6c1d-f524-4925-ad14-08da2476dcdf
-X-MS-TrafficTypeDiagnostic: DM5PR2001MB1836:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5de612f3-2986-462a-b397-08da2478ba24
+X-MS-TrafficTypeDiagnostic: CY4PR2001MB0917:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	GAaI8+cj1+02jsPbmH9NhjFPBwRdFMV9IDolRftLrJX/QENyzqH8XHA4lgbAdHRGozD5epUSAY5RNnapuKNJMp0o9k0EuQJ5aM6sXDHIJDFwrc0YfvkkLsTtMUuyXWnb6LzYvryJfLMeBWtAmdCkg7paMLfz5AgVVI2wK+3MOgEJbwgmGeAAJw/EoYlYIRDlrbvBjrp0fziNQg+njghZwHfR4/M9WHPv5I9KusgIaLZNKYqEpXvPynTaLvxsS7ug915fIifvDtxEsNvVzs2TJU55tBAxls0as7Uy/q4qa/2RkEE+ftnpvxFDij7tCfruo6mHCu1166gxL9Mw6ShtEIN8uWK/5kFoa2PtnhGrbRpC7QnKbq7e5hAuM4aJxF2KlKZByfiDJ3NSH4M13wiBphOj/4pcpTwthJVtXqERrX/FBr1M1wezJU5g/kN7PzCAwdNBs8fWj7wCKZ2QYsLoyCq1c/Y2ClqGNWpRF14pKwJ8ToEKP/FqbB1I0uCdXgOEtv+3sAUlaLAupbl2pDUQ96z7vjkmR2Y4IW9qvD63xgzSsDYweeAUJ6WDSD0E7lmVOyi5mxiRSO8MR4C6HJwMmQ==
+	Gz0y/445Jq+EcEgoHtthQLiJLnhJ9i6JRQ3CHuxMOKtP7FTzyLRdfmRDF7K7cRo/n/UtejHHzSIdemVIRaXFmAlOlJDbkVHBz/v5U9X030Q9pOsDraVeeu95CEfRis3p4T7WwVEWdrRpecR8qloP8SUQk+FezI6OmRtx/1ucPnxOCMkGe01mTKLJZdgNuSsMK7iRg6LFoslkKS1L0F/v7QZFawwmuXdoS1B4SFtRKSwmrxLgKoVP6BUWrgDL+BjfBuN2S90ogslTlUx8DGN9DQ1Y1wker8XDUqs+kFVkakT6e2XjnWZ1G1bGGTk7/4KM4ZdcQYK8Iwv1023famdLr6zW6l0npcl9dWniUqvUFMSh3OBvWQyivPyZhhHNu8Ce/Zjy2M2Ix0UCPzCtLfnn1d8ezRXHf3AFEUprj1cElyGWagvWIiuhuXvdye4tjDOf3cFTaalwApliVALAZ7yKyZjXWQNFA2L+Tf0yU9vao6RhoYrW63iFd/VCQ27tYnHapPUhVvYpVF53bJHnvqkFmBxkWFOPQc0Zn9zsbMUyxpO9gF/o1Qs82vEPYowJiGhCLblXRhjz5mRWsKv3RmgCCQ==
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?kMMbtJ6dsQTBd3j7Z6gaaG5HUhffU+zYHNToyYCavladsYUdsmWrMe5RGixT?=
- =?us-ascii?Q?a0AYK2cw1PVpzjNPEguJ+ocoBFWmGgMJsdKcopQm6G2bYlMsY7QNoqnhTvdT?=
- =?us-ascii?Q?AwdyHztv67waCym+BS6GMEV0zDbqsCkJWWCs4lwX8NG5KGMx/1oMbXqutWEo?=
- =?us-ascii?Q?cY7iPny0Dlrhm3VmVEtjWTCS/ClzeKqGBoIU3nVeBunGGzfIus1QYBHUJ4ce?=
- =?us-ascii?Q?GodsQniKWMeVRG271JnzRl2xSKgdp8vwRiG7ABbJjsfwN92dwVyz/WaNkcpy?=
- =?us-ascii?Q?dzVHXcLOCQ3TmnvXhdmhidUaD5VJ2V6NzfPBVySyY8oIAmz63qv2JCHosH1z?=
- =?us-ascii?Q?ZW3CXmHQpZNqhgoGirvb4pvHaHQXicjZv2gIWprvihYYj6HwvUSfRxma/57n?=
- =?us-ascii?Q?CnmGuJimvuNFJfHzzJLKE0XJcfdPvvy8IcMKRSP2UhYVAmO7JQPBMK2AFQ0j?=
- =?us-ascii?Q?lI6H0LEgVJ0B5hl2BIie6PLoQjd6JrRw6RTD2pfob8YDBc3daEhlGRQdGfUy?=
- =?us-ascii?Q?k+A2o4sl+SiAQZE4lnjpefcFA8NAIVLQuVsgD2KtPTZIQkbbHyg+j5MQTOiy?=
- =?us-ascii?Q?basG7IaNwW58deOfVOe79Uv4bfOWCgKwtrZAObIWTyBTuCJfC0P/2vAPs3cv?=
- =?us-ascii?Q?3wqcsVRy2famyhiDB3KWklJYVKxaCjGU1eOy+5Dw9AHwEKAfDO2pktjra9WO?=
- =?us-ascii?Q?Ixg4agYXwvsIOvHhhXBQDtlAbXl/BLsSiGVbO49cAGWnipEHovB+CsTAaBQ3?=
- =?us-ascii?Q?tq89o/6AC/X5x0OOM0aUteiSmP0PfN001Da0vuhGeX5Tgb9dPQGuZDKxbh4f?=
- =?us-ascii?Q?X6I/QhlpthBHd5WKKpjFU4TkMnbTR4nDYQfSNraJFCTDxSj+LjMrNNimzExg?=
- =?us-ascii?Q?lBkq5Mn1qxlNXBJxR/JZQD+GRrlLsUgQnav9U15Urj7+Ag6S0kmI33HIA/Jh?=
- =?us-ascii?Q?ENDO02AsCBij6R8qvUAI6vxXAsTa3rzHG7mYsfKhoLoxAPUWRfukw8O1RDX3?=
- =?us-ascii?Q?+n6FInBRmg0nmDBnS/GulD7p3q8jj7QWWM00MobH1MCI5lFoap6gpG1fKx6Q?=
- =?us-ascii?Q?3BAgrhFPUYyycODyy96j1+49DrRvEN9lvXjdOYwurVLCBA5gE6GeEbtHgmBY?=
- =?us-ascii?Q?YKEiMisN42NnfPMAw6SCal1BfO5xKvWndu4RgCGZaMtce5CwxbVG73Zn1JXJ?=
- =?us-ascii?Q?GMkZGO1aAeHVW5L7a1ir4oJncgLMJZjMcoj+9o6FuR4u6UIicW/iQOxqk5Sg?=
- =?us-ascii?Q?HaIU+GvmyI2AxLFPwCybk7sgQ79pnHuyDKoOI5GpXBPCAj3135Lghsvg3Otu?=
- =?us-ascii?Q?UCnjDQD/4KPgjGAiEXxeHe3WJLRtVPq3/VYfY3w0sJn5J0ihBmaHCFnWw1Qa?=
- =?us-ascii?Q?xqYwqBgV/xIBEO0LaJbtcNnGTEd44H+KmzBaoJ7A1W6mU0Mz3N0syYlAqXmK?=
- =?us-ascii?Q?gUfORZ/NGh8=3D?=
+	=?us-ascii?Q?0CIyfk3nTGAGkPeWzFdlecINvrc6863Goa5ngK4kbL7gvtL7k2eIEOia0UF8?=
+ =?us-ascii?Q?LFIeHkIXhsfC5eQO1AOg6RLpBuH0BL3rr/u7juyvoF2JVowkBEvOiPQ68C/a?=
+ =?us-ascii?Q?S2BrseFuhIwYMrX83WZlXaNHfcaT62rp+RcZUUaLtEFBtKJh+t+ZpnLbnGGr?=
+ =?us-ascii?Q?BqhECXASEC/5+y+WHhj+uqdAuGknoXWBhhSpZ53eDZQSaR8pLR952xEkcuRY?=
+ =?us-ascii?Q?fRM46g5ZZzjHaOoqgPzIA67b6ya88xeGFeiOPclLr5854LHKYgChAaZ/LDd5?=
+ =?us-ascii?Q?ppKr8+nJXP60gn/AC7uKtzCTtXAjJUmBzppA4fcwqQyh0ukwFtMYDCBvoivn?=
+ =?us-ascii?Q?9XK1hWEIofhbNu1xoXmLlrJV0f/C76Kars4rtuHRV+yHhjM9iohQTCv+TUlM?=
+ =?us-ascii?Q?vgkz2bP05914Q/s7pCmmxKxrO5ZH4j1nYtaLkBrK8CADPDG7qpXM/S6MQrGZ?=
+ =?us-ascii?Q?LaR6DfDWjPBY85vClgAFfdq+t45xxvOpn5zH369qNyg8uxyqJO0RlMZkoxX2?=
+ =?us-ascii?Q?1pqqIwZucXdflK3WD/ylCSwSejNaDZLdlsIfxo0UY+OEmAetA5chdQzKLOLU?=
+ =?us-ascii?Q?gEmF+DKVRTg+4skwcnufgJlm1pZeDRTszEukfdVlB+196izm06AFSkNXjU7L?=
+ =?us-ascii?Q?fJJl1DyVac46vplvVKXYCUquHqsNsHPsLORJgFZ3l1rjnTa1yczNojkqoSaY?=
+ =?us-ascii?Q?mgBLhY6mjaFaNEVoRVIcEFCCo3yAx28JZiqstzINkMlSDjZqxPIJKnyBtM3L?=
+ =?us-ascii?Q?UodS3j7SR8ZTZlDHiA6TqbcSNgx0SojyoMQ4UT5sugCbQh37waJzeq2i0JN8?=
+ =?us-ascii?Q?ltFR0lcziJAxsZBchAiK1Y72fZg7n+Guul7iWzroUfkZQv4g7FDJt4NCHQar?=
+ =?us-ascii?Q?4A0ujUZaJY//nWas6OTE0nZXzeZJBWRXP01FxXvuGPvVIBysUXh/HLH3LJtx?=
+ =?us-ascii?Q?tJLErvGnGB2p111mbq5G/RdOyoZLl3QL1Tmeged0nvIVqYDR1MPBRhuPqxOZ?=
+ =?us-ascii?Q?xLBw3og5WfGiSPbmgoPbjlAwbvE5UgEvXECvjPqd7j3dbMtR0pwOMDG4+Q67?=
+ =?us-ascii?Q?LO0eK3kEDjDuVfNgnuxQPlcyy1uhQmE5/5NXf59mJktN3XXoJNk2tJeoXp5u?=
+ =?us-ascii?Q?bAhQ44fwKB/Xn6+tT8XZ4yWaBwkd90Sga+2We8eyZ4k8/FqwTMUF9W3yGzyh?=
+ =?us-ascii?Q?GGD10S1+70dTHLSu7hou/Ls8njKP7usYHv7YdNMMEoRE82mxhbMHu3aMAAJO?=
+ =?us-ascii?Q?o0EiDw/lrDcEiKO+3nRdHFZJgtcAAxn9mUnKVzcog1jTCuMrReIb2CC/xaBu?=
+ =?us-ascii?Q?Y+uQsc7JJuMTSkRSoVzDkckGb9psm/2kKdU8pO0mFaNyRq2JTxgm1T/Iv5kc?=
+ =?us-ascii?Q?kVR2Z6pcvOr2sFQMbHSH153NTnOpQWTW7iFTh1e+bHm+w0HskrgRrOLlZ9XI?=
+ =?us-ascii?Q?WB4yt5qG4t0=3D?=
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b48b6c1d-f524-4925-ad14-08da2476dcdf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5de612f3-2986-462a-b397-08da2478ba24
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR20MB2472.namprd20.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 15:43:35.8764
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2022 15:56:56.9145
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR2001MB1836
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR2001MB0917
 
 From: Icenowy Zheng <icenowy@aosc.io>
 
-Sipeed MaixSense is a R329 devkit based on Maix IIA SoM.
+This patchset introduces support for Allwinner R329 SPI controllers,
+which removed in-controller clock divider.
 
-Add support for it.
+Icenowy Zheng (4):
+  dt-bindings: spi: sun6i: add DT bindings for Allwinner R329 SPI
+  spi: sun6i: change OF match data to a struct
+  spi: sun6i: add quirk for in-controller clock divider
+  spi: sun6i: add support for R329 SPI controllers
 
-Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
----
- arch/arm64/boot/dts/allwinner/Makefile        |  1 +
- .../dts/allwinner/sun50i-r329-maixsense.dts   | 37 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts
+ .../bindings/spi/allwinner,sun6i-a31-spi.yaml |   2 +
+ drivers/spi/spi-sun6i.c                       | 112 +++++++++++-------
+ 2 files changed, 74 insertions(+), 40 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 8fa5c060a4fe..81fe954ba2ef 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -38,3 +38,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-r329-maixsense.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts b/arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts
-new file mode 100644
-index 000000000000..1876b9d0b080
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-r329-maixsense.dts
-@@ -0,0 +1,37 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+// Copyright (c) 2021 Sipeed
-+
-+/dts-v1/;
-+
-+#include "sun50i-r329-maix-iia.dtsi"
-+
-+/ {
-+	model = "Sipeed MaixSense";
-+	compatible = "sipeed,maixsense", "sipeed,maix-iia",
-+		     "allwinner,sun50i-r329";
-+
-+	aliases {
-+		serial0 = &uart0;
-+		mmc0 = &mmc0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+};
-+
-+&mmc0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&mmc0_pf_pins>;
-+
-+	vmmc-supply = <&reg_vcc3v3>;
-+	bus-width = <4>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>; /* PF6 */
-+	status = "okay";
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_pb_pins>;
-+	status = "okay";
-+};
 -- 
 2.35.1
 
