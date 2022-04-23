@@ -1,82 +1,115 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DD17A
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 10:50:36 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id r187-20020a1c44c4000000b0038ccb70e239so9525150wma.3
-        for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 03:50:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07B17C2
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 15:14:55 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id z21so2072599pgj.1
+        for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 08:14:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=SCwRS2IZSctZE0rauI3WxmX9NRINEUqAAu3EKI6iWX8=;
-        b=e/0d3hetA2x+tfxMeCxEPmJy5Cm4E94IJ8Ou5Us6keC9FpRQBjvm1HjxMJxoQGOosU
-         d5JZ/MEq4iRD5Bk5MgBfiFJoSj/wpWpFHOkEABSAsal1PKGUhcqshJLRH1JeZ9W6696Y
-         +ZhL0qyKoFDwhFebGpNKPBR6LkE/Zfd1vD9kzi6MnifctCj6RFUycJ063VPI48yNHy7D
-         HxR+gBUvBWyiv2reIzaheMC7FEIBrzBtHOMt8R0enul2h5i+5Dy/xZy83EDLd6HwTDmj
-         bjPgmDiBYUFFITot1ob5d0TodQaSTWTMy+y+ZPs68WwrBLvktWxuKGjfU9AorQ780aRP
-         qUYA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HaWZYkIToDpIcggCzzIREPknCIirh1Q5Ng9bwQqh7rg=;
+        b=Ha1ewV9/ZKH5gNBLigDYDJc8kBXDt5R6ECJk+Zy/i92ysyhtW8u0UPvUblw4r3AeJH
+         rDP7i+VKWYNkfzwTLJkO8aP7kpWtjEpQfeVNssBHu8Y0yU0rcDjS9K+vIHAB1JHD7MrI
+         HxIZ4ah46XdbA/0FoiPVbgQeILP15MmRpbkkWmxcnpodqBAmbVnjoJLR6Mb2RGUTS5UG
+         E7Fad/T/YPKbJ5qzENOMnpSaTeLQMs37WW1M3/s5uzk13on9gyqv9oOaTwVpuHQ7LGqk
+         Qr1dV40XjrHOhjJDkr93mgEjXcurO5bYS03bCZP0a3HUx6PcKL3/X7fcL4Lj5zekaXGT
+         Fw2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=SCwRS2IZSctZE0rauI3WxmX9NRINEUqAAu3EKI6iWX8=;
-        b=myDlZyfMdcQ2XQm1GQwtKlUzNu69lVXP4L/Viiwr2P/0c8rggAeFzVVexvaAW8iNh6
-         nNsLMJhH2fauROB9ubM3UkJ7ZrGfyeGfWeEI5DBPfA3LFHRQAyo7WU6fjKQcYktZVd1w
-         VmbYCODruxwYcipIMHfmEsQlZogO5ePO8Zyhpj5TtNHOy3o9g2AdhnnaxWwWKBxxJQ0r
-         xBPY3Yh7q9XusDJkBQFwvwG/kL8WcDXU8awGR6SY1/JemLlf082rO6d+bKs8/0wWMhiC
-         43f+XfUvi2ZTGqOJlJ9NH/G3zx7hPAupylP9lbgUE9gktXqhAehOgHI9eFtHP9QoU0na
-         QJdA==
-X-Gm-Message-State: AOAM531hz0YFmvgkmWHuG4f01HUZYc1GxmPmoJoLsTQ3N/aBNlM2WYHk
-	xitXg/jxsogFfweCZPEJBSU=
-X-Google-Smtp-Source: ABdhPJwu4IKR06vKshXnmlBQEP5JWyFFpahFDrio3RAgTCbcTJuLwvGu1XPbRWXl3XBCKFf0lbsFvQ==
-X-Received: by 2002:a05:600c:3541:b0:38f:5f3:3f4c with SMTP id i1-20020a05600c354100b0038f05f33f4cmr18110508wmq.158.1650711034419;
-        Sat, 23 Apr 2022 03:50:34 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id t18-20020a05600c199200b0039291537cfesm6682792wmq.21.2022.04.23.03.50.33
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HaWZYkIToDpIcggCzzIREPknCIirh1Q5Ng9bwQqh7rg=;
+        b=TEs3HUTKom6VvFceG3murAlRuw4Mz8dowCrrVo3TnrDP6qQb8v7gkxp3YDtXvGZy+G
+         X4zwoR4jAq30L18uN7TftIQFI5Vsnp8P0JD+V26+fEkXbsGbj9ZiPWtHcYB5gLhiApBy
+         kpzCB6gqkjV2P+Dvf3FsCf4a68kr/ZedI2spyOuAVTJPBpzHbGsS/kT6CGecYp8mrkIq
+         cnwKc6+iQtbCdiSJHXaARJUK7t4PcyM038+TWYf4hJH944P3yaOF9wTYGxIRl0bmKbqT
+         7HedU/4RbccrRAfjzTCZuZTouMO5wsXaJx9Vd9o39ehL2ShONRRuAkwf+Wypo2FAv3D8
+         Fnew==
+X-Gm-Message-State: AOAM533EXhf0U4xukXzOnCJZOq6PpWyF+uFwopG3jw0YwRuATmEq8YFl
+	AZOooE1DPUJ6qaXRe4to1avCWd8AAFuLi1LV
+X-Google-Smtp-Source: ABdhPJz2ht11c+e4unTJ3LxGk1NAUDGSSEJtoxC5QD3dzyRSKhzbBCNyqHAFlQgLmXhaU9xciXNGqA==
+X-Received: by 2002:a63:f749:0:b0:3aa:361c:8827 with SMTP id f9-20020a63f749000000b003aa361c8827mr8382156pgk.361.1650726895185;
+        Sat, 23 Apr 2022 08:14:55 -0700 (PDT)
+Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
+        by smtp.gmail.com with ESMTPSA id s50-20020a056a001c7200b0050acf7cadc5sm6114680pfw.112.2022.04.23.08.14.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Apr 2022 03:50:34 -0700 (PDT)
-Date: Sat, 23 Apr 2022 12:50:31 +0200
-From: Corentin Labbe <clabbe.montjoie@gmail.com>
-To: cgel.zte@gmail.com
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] crypto: sun8i-ce: using pm_runtime_resume_and_get
- instead of pm_runtime_get_sync
-Message-ID: <YmPZ91MQEVTn+DrY@Red>
-References: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
+        Sat, 23 Apr 2022 08:14:54 -0700 (PDT)
+From: Xiaobing Luo <luoxiaobing0926@gmail.com>
+To: tiny.windzz@gmail.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org
+Cc: linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaobing Luo <luoxiaobing0926@gmail.com>
+Subject: [PATCH v2] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
+Date: Sat, 23 Apr 2022 15:12:04 +0000
+Message-Id: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
+X-Mailer: git-send-email 2.36.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
 
-Le Wed, Apr 20, 2022 at 03:02:18AM +0000, cgel.zte@gmail.com a écrit :
-> From: Minghao Chi <chi.minghao@zte.com.cn>
-> 
-> Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
-> pm_runtime_put_noidle. This change is just to simplify the code, no
-> actual functional changes.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
+--------------------------------------------
+unreferenced object 0xffff000010742a00 (size 128):
+  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
+    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
+    [<000000007d6082a0>] platform_probe+0x98/0x11c
+    [<00000000c990f549>] really_probe+0x234/0x5a0
+    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
+    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
+    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
+    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
+    [<00000000df4f14f6>] __device_attach+0x174/0x29c
+    [<00000000782002fb>] device_initial_probe+0x20/0x30
+    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
+    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
+    [<000000004b9264e3>] platform_device_add+0x198/0x390
+    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
+    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
+    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+--------------------------------------------
 
-Thanks for your patch
+if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
+Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
 
-Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
-Acked-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Regards
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 2deed8d8773f..75e1bf3a08f7 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	ret = sun50i_cpufreq_get_efuse(&speed);
+-	if (ret)
++	if (ret) {
++		kfree(opp_tables);
+ 		return ret;
++	}
+ 
+ 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+ 
+-- 
+2.36.0
+
