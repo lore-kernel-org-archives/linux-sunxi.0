@@ -1,41 +1,41 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362733201
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 19:39:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 0E0A85C012A;
-	Sat, 23 Apr 2022 15:39:48 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AF4A3201
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 19:45:08 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id A59735C013A;
+	Sat, 23 Apr 2022 15:45:07 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Sat, 23 Apr 2022 15:39:48 -0400
+  by compute1.internal (MEProxy); Sat, 23 Apr 2022 15:45:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650742788; x=
-	1650829188; bh=4vxkg9IMcjJOiy5SDNt57YSz4yw72vztdXiM5e6IuG0=; b=m
-	WW5s+GJ2P/jN9MpkkXewZp7eWSXacHGDjssEC2/odUmWdlt729h+WhBqU8bGS7ph
-	Dy1BCPAMV2tVLFvMpMBns3Q8iJ/92kF00MneTt29MsaH3irBUWBxoDYQ1DqoQA2/
-	Wj6qRAWfwbm2waEEL5zxNH4WUd2cMsBGKq4PkrrV+T5et8P3pNGwznxt8ktTO4D1
-	QfD21duOF5/2y6YDeXOSoxJsqkzTDD0XSFmQWiBUW71ppzBE7MBM3ZNGg7dBGaqj
-	pUxDZIVvJ2F7dFCIx4UOFDqTdFrSSb8vwPcX+sZBG4rjw6ew6NFuN74Y2Lg9xmMr
-	mCL7cHjvC5aMlg+VgPfOw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650743107; x=
+	1650829507; bh=h1ToIWPq6OSSwLnJ0g8sY57Xw3btjZPjZHe3fJxISP0=; b=q
+	jK62bDYmKLKKt7KIUq6xRKJoE9LOG6WmubRZJw6MAXLxh0+w3zCbfVsCN3BJEP4O
+	DP4Ynb1murUnVqduMpPcpfywxEomaHp3YoKKy2GK9P0CZWW0FCuo9+ikOMnC7Ruh
+	m4JUVTbVikFl2YjVMP6WKilRp4u/nSNuUDETgZ1nUi5RvqTh5qUdqQ2/4msX+FZE
+	AotYMdHyAunPRRIPCLi3WyJvIm75bCQY+UgIj4qrQ4ISd/cQNr+gs1EVda7H10xx
+	Q2Apl+gfgJm1JCaAD5F0RHv4EbiE+KYqrm7yqBzyfts0zmqV0FTQxhVwuQg+5Ayp
+	CAG1iwHnR8KxLQ6bVy24A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650742788; x=1650829188; bh=4vxkg9IMcjJOi
-	y5SDNt57YSz4yw72vztdXiM5e6IuG0=; b=qQeKvyYULGbtEWTw3HfUsv/ZzQ2jx
-	pjALMwl5eJB9yQpLAu8aF4vnYZbH1AxqjU5SI8GRXUhZ2IBbiGcZZdFl9XhqeD+V
-	B+o1fNZ+n1p2vUZnMwK3GNcUkB77eSrr7enLUhBkw7yWgHgfuc0IEwCxxgIN6oR5
-	bG/uWhL+6J2l9dt2iTygUQhXspIqvqJrkxzVQBhPmZXHtlUM2BH338z2OlBBG5r8
-	IK3dyx3XRHU+YBITnBXYPImieBnFkYz1ht+Gdy6WolNvFapeL4agHUIXm30GLSVZ
-	Zjmd/ycdlbFHDAwoVwlKHzHpPqt00uins+WuHhUXbUhbbjqpUaMSQmKSQ==
-X-ME-Sender: <xms:A1ZkYkYBFPWYKymvM_-E4_MqR2O_LDPQKZ_Is2mLm_yA-tnwhT531g>
-    <xme:A1ZkYvaKJ3tj4sKrEMo9QDjrquwuNT7Ym9eMBUy5ufvmUcDuBPc99M5V9GNMx29Ww
-    SpYGCiH-yPFCezWAw>
-X-ME-Received: <xmr:A1ZkYu-G11xV6RcYuZ0nfi5UcY8ccKZ3E1ZkgvXMSDyyXh7lFTZ-Pg7bdxrXFLkEIURtinm4Dmg8ybgdPHLs0OrF0xKXtUvd6Os5vdeWAeBLY3IJ9zZ27_1eqw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeigddugedtucetufdoteggodetrfdotf
+	:x-sasl-enc; s=fm1; t=1650743107; x=1650829507; bh=h1ToIWPq6OSSw
+	LnJ0g8sY57Xw3btjZPjZHe3fJxISP0=; b=wJiL1f87DzHpR5NY7Vmu0j2wSacSG
+	vg30qER4x3PQEpEjXZ5WtXA+PVm1kjxHWyfMBSWj3U6jj9ZjOLFvoFWtYLe6e52D
+	CwKAezzvsJvbEtAomXvIWJg7c3hQm8UiMYk4EDDbkdDlkIoZkj361LwyNP0fI3s/
+	gCjF/fXsgg2OjK2xWjQyGBOMzHaz+7sdXTVpT2dTUREa5DH/NPDCBT/1nOevNgCa
+	H5GAMbtS/SqCMPkGqx7SW7IxNGOJ8oqHB+8MhwfmQxIUfl6wPfat46HkH1yEehN6
+	YBxJqs5d64vVsuK9XCzTrZyR3/yzVXWKrfv0dTLxjytjZfwD5/cVXT4eg==
+X-ME-Sender: <xms:QldkYq0yGPeCcj2zuuAfsqrrwf5mCgn_S6X6qJWDrmjxLPHJQAqL1g>
+    <xme:QldkYtEdR_j79gElvu6_BbJp-NWaDZQMhn10FMUerF80yNUhLszFN2-eJMc-hGDdJ
+    EgwOexab4muuhW57A>
+X-ME-Received: <xmr:QldkYi7QHU2bDKXYJ-N6rWbTffII6DPN-LOxkKw1Yo6acQZMpA-dLDr0_dDbqTEu9aCZzKJyXQ-Fz5OLs0sRE_UMy8RAIasOYZ7v-a3DKJHrrRcn4hfKc2o_fg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeigddugeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
@@ -43,24 +43,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeigddugedtucetufdoteggod
     ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
     tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:A1ZkYuqZNhZt2-WZy92ZKdG9DU4EcTHphUjGjBh9oE8QOp0IanXn8Q>
-    <xmx:A1ZkYvqIg4-OTCTD590GyqjfqHAk11kRi667Cct3QNZQ7KMCzBkNiQ>
-    <xmx:A1ZkYsSKcNvxUg-HfgZT71jSPQMnEj9RVUkvmoJ6WGRxwzCKlgLqOg>
-    <xmx:BFZkYi0JLqzuFTcYAgEcjf4CoR3PTEVewFILDOTzkCS4sQbTu4Ni6g>
+X-ME-Proxy: <xmx:QldkYr1jBrKeelkkuwOD-r59eBSOqsHEa8Bvr0B-JBTihudOGKXTUw>
+    <xmx:QldkYtEJ1J50S5nTvvBEhpJHPmGM2gVaP4JzkK4_PTfQJuxA4M2lpg>
+    <xmx:QldkYk-QrOwx2TXK33_pf7Hz5IH8pONIjT_fLx5-GN01Ken5JSrNJQ>
+    <xmx:Q1dkYmMYMmdHBvGc6_3Xwuj-4Pe3Yj9mNgs81i3_JowvdbhuMGXtfw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Apr 2022 15:39:46 -0400 (EDT)
-Subject: Re: [PATCH] bus: sunxi-rsb: Fix the return value of
- sunxi_rsb_device_create()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr>
+ 23 Apr 2022 15:45:06 -0400 (EDT)
+Subject: Re: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling
+ platform_get_resource()
+To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-clk@vger.kernel.org
+Cc: wens@csie.org, maxime@cerno.tech
+References: <20220421134308.2885094-1-yangyingliang@huawei.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <ff0ae741-efc4-ba6f-d869-4cb8fb7149ad@sholland.org>
-Date: Sat, 23 Apr 2022 14:39:45 -0500
+Message-ID: <9ebabc53-72de-bbec-895c-fa3760ed5374@sholland.org>
+Date: Sat, 23 Apr 2022 14:45:05 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -69,23 +67,16 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20220421134308.2885094-1-yangyingliang@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/21/22 9:35 AM, Christophe JAILLET wrote:
-> This code is really spurious.
-> It always returns an ERR_PTR, even when err is known to be 0 and calls
-> put_device() after a successful device_register() call.
+On 4/21/22 8:43 AM, Yang Yingliang wrote:
+> It will cause null-ptr-deref if platform_get_resource() returns NULL,
+> we need check the return value.
 > 
-> It is likely that the return statement in the normal path is missing.
-> Add 'return rdev;' to fix it.
-
-Thanks for the patch. This definitely looks to be the case.
-
-> Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced Serial Bus")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> Fixes: 7a6fca879f59 ("clk: sunxi: Add driver for A80 MMC config clocks/resets")
+> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 
 Reviewed-by: Samuel Holland <samuel@sholland.org>
-Tested-by: Samuel Holland <samuel@sholland.org>
