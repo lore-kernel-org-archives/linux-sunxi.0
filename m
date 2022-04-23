@@ -1,58 +1,82 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net [23.83.212.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE07B17C2
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 15:14:55 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id z21so2072599pgj.1
-        for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 08:14:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HaWZYkIToDpIcggCzzIREPknCIirh1Q5Ng9bwQqh7rg=;
-        b=Ha1ewV9/ZKH5gNBLigDYDJc8kBXDt5R6ECJk+Zy/i92ysyhtW8u0UPvUblw4r3AeJH
-         rDP7i+VKWYNkfzwTLJkO8aP7kpWtjEpQfeVNssBHu8Y0yU0rcDjS9K+vIHAB1JHD7MrI
-         HxIZ4ah46XdbA/0FoiPVbgQeILP15MmRpbkkWmxcnpodqBAmbVnjoJLR6Mb2RGUTS5UG
-         E7Fad/T/YPKbJ5qzENOMnpSaTeLQMs37WW1M3/s5uzk13on9gyqv9oOaTwVpuHQ7LGqk
-         Qr1dV40XjrHOhjJDkr93mgEjXcurO5bYS03bCZP0a3HUx6PcKL3/X7fcL4Lj5zekaXGT
-         Fw2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=HaWZYkIToDpIcggCzzIREPknCIirh1Q5Ng9bwQqh7rg=;
-        b=TEs3HUTKom6VvFceG3murAlRuw4Mz8dowCrrVo3TnrDP6qQb8v7gkxp3YDtXvGZy+G
-         X4zwoR4jAq30L18uN7TftIQFI5Vsnp8P0JD+V26+fEkXbsGbj9ZiPWtHcYB5gLhiApBy
-         kpzCB6gqkjV2P+Dvf3FsCf4a68kr/ZedI2spyOuAVTJPBpzHbGsS/kT6CGecYp8mrkIq
-         cnwKc6+iQtbCdiSJHXaARJUK7t4PcyM038+TWYf4hJH944P3yaOF9wTYGxIRl0bmKbqT
-         7HedU/4RbccrRAfjzTCZuZTouMO5wsXaJx9Vd9o39ehL2ShONRRuAkwf+Wypo2FAv3D8
-         Fnew==
-X-Gm-Message-State: AOAM533EXhf0U4xukXzOnCJZOq6PpWyF+uFwopG3jw0YwRuATmEq8YFl
-	AZOooE1DPUJ6qaXRe4to1avCWd8AAFuLi1LV
-X-Google-Smtp-Source: ABdhPJz2ht11c+e4unTJ3LxGk1NAUDGSSEJtoxC5QD3dzyRSKhzbBCNyqHAFlQgLmXhaU9xciXNGqA==
-X-Received: by 2002:a63:f749:0:b0:3aa:361c:8827 with SMTP id f9-20020a63f749000000b003aa361c8827mr8382156pgk.361.1650726895185;
-        Sat, 23 Apr 2022 08:14:55 -0700 (PDT)
-Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
-        by smtp.gmail.com with ESMTPSA id s50-20020a056a001c7200b0050acf7cadc5sm6114680pfw.112.2022.04.23.08.14.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Apr 2022 08:14:54 -0700 (PDT)
-From: Xiaobing Luo <luoxiaobing0926@gmail.com>
-To: tiny.windzz@gmail.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F5E7A;
+	Sat, 23 Apr 2022 18:01:27 +0000 (UTC)
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id D8D5D4C1393;
+	Sat, 23 Apr 2022 18:01:20 +0000 (UTC)
+Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
+	(Authenticated sender: dreamhost)
+	by relay.mailchannels.net (Postfix) with ESMTPA id E5C7D4C1946;
+	Sat, 23 Apr 2022 18:01:19 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650736880; a=rsa-sha256;
+	cv=none;
+	b=2Vn3Fv5LQvJatxPAsAUmGnexYL1e90YCHTdRYna/QttD7ELNsKKoTkkx1Sz+MLCqZzm7JL
+	ggmSvJytl1CDAQ3ndJbVDlUwfxyiRnBBH/6PB6njICpwEsvD/q0Upk2s0RdxtgBQDjdceG
+	+yTU2TJNCe79aed12fpQfe4yeqzrGV7nvZq9gAcL5pLDRRKhj7OmRTUe3QYVlh8/MB3x5N
+	HtpILjvmG17vfW+q9ON8hmp/OLclHmX3hHyO2DOnpE+5Qq6lPB3DeAxLKXpEfdTUHxvtgq
+	NL8jeuYWhO//9Mj7joNje0J5J8vnPb2XHNQfXsjkWE8wj9O4lw6oJijb3bz6zA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1650736880;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
+	b=zCKlGEJVZwBDfwiegd5lZ+8TSBqBxSTSBMj3jGtoosNvOcN76HBs8j0DuV1SJjpcNGzVj0
+	yFYzVadYGmJqdKvxj7ZiM/d09mmpBvGCvjN0bOa8c7/HrYmMcmpNkSZibk+iKTg/hyZ8g3
+	jvFvLriwlS8BPQj1x3JQIzVfyIUQJ1bODIl5oOJo4pzbGIXXHpHzQ8jsV9+GiopkaKZ6jT
+	Oi/F0IWJJDYLJKlOjoDybROapPt3nVsXD2oGCFsstZOaAWRt6DlK54qnLItsdc6hnx5Ox+
+	VIRVeduPYVvuWcnAokOJNHvnYoJkuLKf4d1salI1Q2Dk6Jj8MVEHxzpSgZHbbQ==
+ARC-Authentication-Results: i=1;
+	rspamd-67b64f579b-chnfp;
+	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
+X-MailChannels-Auth-Id: dreamhost
+X-Stretch-Lettuce: 06d9101737a68436_1650736880630_4253762475
+X-MC-Loop-Signature: 1650736880630:2496170403
+X-MC-Ingress-Time: 1650736880629
+Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
+ [64.90.62.162])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.107.255.136 (trex/6.7.1);
+	Sat, 23 Apr 2022 18:01:20 +0000
+Received: from localhost.localdomain (unknown [69.12.38.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ian@linux.cowan.aero)
+	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klzby4Xmmz2g;
+	Sat, 23 Apr 2022 11:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
+	s=dreamhost; t=1650736879;
+	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
+	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
+	b=Cc6tk2+gGqjEY00FnyCgRAA8RzjzMOIn0bczudgrJ1uTRLFK4i7g3XPO7e1ugbUNz
+	 MQqgPaA97C4x7SmlTCInBr1rou834doMyHFxfefhAX6aqvW04DplrclrvjP36dny+S
+	 AGve9Zk3hLzm2KWfRsb2I8CrRtwEitNP+byPwHVfkl7OFtOcI5No+fI7eX42obYZic
+	 0X9zvSCTvY2RGmwxEbtadffrad1sL+6KNdyoReekPo3khrfujV+l5pzMwmwOkZCYQB
+	 i/TjLelD9vgqsRQ6RF6qqcRf+w+sgH4k1DO7PrFWVKgG5UnNvp17BZQRSSM3zCKC0S
+	 BFQL31UtldOZQ==
+From: Ian Cowan <ian@linux.cowan.aero>
+To: mripard@kernel.org
+Cc: paul.kocialkowski@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
 	wens@csie.org,
 	jernej.skrabec@gmail.com,
 	samuel@sholland.org,
-	mripard@kernel.org
-Cc: linux-pm@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: [PATCH v2] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Sat, 23 Apr 2022 15:12:04 +0000
-Message-Id: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
-X-Mailer: git-send-email 2.36.0
+	ian@linux.cowan.aero
+Subject: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
+Date: Sat, 23 Apr 2022 14:01:11 -0400
+Message-Id: <20220423180111.91602-1-ian@linux.cowan.aero>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,55 +85,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
---------------------------------------------
-unreferenced object 0xffff000010742a00 (size 128):
-  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
-    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
-    [<000000007d6082a0>] platform_probe+0x98/0x11c
-    [<00000000c990f549>] really_probe+0x234/0x5a0
-    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
-    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
-    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
-    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
-    [<00000000df4f14f6>] __device_attach+0x174/0x29c
-    [<00000000782002fb>] device_initial_probe+0x20/0x30
-    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
-    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
-    [<000000004b9264e3>] platform_device_add+0x198/0x390
-    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
-    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
-    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
---------------------------------------------
+Refactor the cedrus_open() function so that there is only one exit to
+the function instead of 2. This prevents a future change from preventing
+the mutex from being unlocked after a successful exit.
 
-if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
-Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
-
-Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
 ---
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 2deed8d8773f..75e1bf3a08f7 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 		return -ENOMEM;
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 68b3dcdb5df3..5236d9e4f4e8 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
  
- 	ret = sun50i_cpufreq_get_efuse(&speed);
--	if (ret)
-+	if (ret) {
-+		kfree(opp_tables);
- 		return ret;
-+	}
+ 	v4l2_fh_add(&ctx->fh);
  
- 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+-	mutex_unlock(&dev->dev_mutex);
+-
+-	return 0;
++	ret = 0;
++	goto succ_unlock;
  
+ err_ctrls:
+ 	v4l2_ctrl_handler_free(&ctx->hdl);
+ err_free:
+ 	kfree(ctx);
++succ_unlock:
+ 	mutex_unlock(&dev->dev_mutex);
+ 
+ 	return ret;
 -- 
-2.36.0
+2.35.1
 
