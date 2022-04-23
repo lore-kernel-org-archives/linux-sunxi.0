@@ -1,121 +1,91 @@
-Received: from dog.elm.relay.mailchannels.net (dog.elm.relay.mailchannels.net [23.83.212.48])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F5E7A;
-	Sat, 23 Apr 2022 18:01:27 +0000 (UTC)
-Received: from relay.mailchannels.net (localhost [127.0.0.1])
-	by relay.mailchannels.net (Postfix) with ESMTP id D8D5D4C1393;
-	Sat, 23 Apr 2022 18:01:20 +0000 (UTC)
-Received: from pdx1-sub0-mail-a217.dreamhost.com (unknown [127.0.0.6])
-	(Authenticated sender: dreamhost)
-	by relay.mailchannels.net (Postfix) with ESMTPA id E5C7D4C1946;
-	Sat, 23 Apr 2022 18:01:19 +0000 (UTC)
-ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1650736880; a=rsa-sha256;
-	cv=none;
-	b=2Vn3Fv5LQvJatxPAsAUmGnexYL1e90YCHTdRYna/QttD7ELNsKKoTkkx1Sz+MLCqZzm7JL
-	ggmSvJytl1CDAQ3ndJbVDlUwfxyiRnBBH/6PB6njICpwEsvD/q0Upk2s0RdxtgBQDjdceG
-	+yTU2TJNCe79aed12fpQfe4yeqzrGV7nvZq9gAcL5pLDRRKhj7OmRTUe3QYVlh8/MB3x5N
-	HtpILjvmG17vfW+q9ON8hmp/OLclHmX3hHyO2DOnpE+5Qq6lPB3DeAxLKXpEfdTUHxvtgq
-	NL8jeuYWhO//9Mj7joNje0J5J8vnPb2XHNQfXsjkWE8wj9O4lw6oJijb3bz6zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mailchannels.net;
-	s=arc-2022; t=1650736880;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
-	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
-	b=zCKlGEJVZwBDfwiegd5lZ+8TSBqBxSTSBMj3jGtoosNvOcN76HBs8j0DuV1SJjpcNGzVj0
-	yFYzVadYGmJqdKvxj7ZiM/d09mmpBvGCvjN0bOa8c7/HrYmMcmpNkSZibk+iKTg/hyZ8g3
-	jvFvLriwlS8BPQj1x3JQIzVfyIUQJ1bODIl5oOJo4pzbGIXXHpHzQ8jsV9+GiopkaKZ6jT
-	Oi/F0IWJJDYLJKlOjoDybROapPt3nVsXD2oGCFsstZOaAWRt6DlK54qnLItsdc6hnx5Ox+
-	VIRVeduPYVvuWcnAokOJNHvnYoJkuLKf4d1salI1Q2Dk6Jj8MVEHxzpSgZHbbQ==
-ARC-Authentication-Results: i=1;
-	rspamd-67b64f579b-chnfp;
-	auth=pass smtp.auth=dreamhost smtp.mailfrom=ian@linux.cowan.aero
-X-MC-Relay: Neutral
-X-MailChannels-SenderId: dreamhost|x-authsender|ian@linux.cowan.aero
-X-MailChannels-Auth-Id: dreamhost
-X-Stretch-Lettuce: 06d9101737a68436_1650736880630_4253762475
-X-MC-Loop-Signature: 1650736880630:2496170403
-X-MC-Ingress-Time: 1650736880629
-Received: from pdx1-sub0-mail-a217.dreamhost.com (pop.dreamhost.com
- [64.90.62.162])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
-	by 100.107.255.136 (trex/6.7.1);
-	Sat, 23 Apr 2022 18:01:20 +0000
-Received: from localhost.localdomain (unknown [69.12.38.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: ian@linux.cowan.aero)
-	by pdx1-sub0-mail-a217.dreamhost.com (Postfix) with ESMTPSA id 4Klzby4Xmmz2g;
-	Sat, 23 Apr 2022 11:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.cowan.aero;
-	s=dreamhost; t=1650736879;
-	bh=KROeqUDGOquU8fmdmA9JdIiToKeZSZx+X3UvjGo7Oe4=;
-	h=From:To:Cc:Subject:Date:Content-Transfer-Encoding;
-	b=Cc6tk2+gGqjEY00FnyCgRAA8RzjzMOIn0bczudgrJ1uTRLFK4i7g3XPO7e1ugbUNz
-	 MQqgPaA97C4x7SmlTCInBr1rou834doMyHFxfefhAX6aqvW04DplrclrvjP36dny+S
-	 AGve9Zk3hLzm2KWfRsb2I8CrRtwEitNP+byPwHVfkl7OFtOcI5No+fI7eX42obYZic
-	 0X9zvSCTvY2RGmwxEbtadffrad1sL+6KNdyoReekPo3khrfujV+l5pzMwmwOkZCYQB
-	 i/TjLelD9vgqsRQ6RF6qqcRf+w+sgH4k1DO7PrFWVKgG5UnNvp17BZQRSSM3zCKC0S
-	 BFQL31UtldOZQ==
-From: Ian Cowan <ian@linux.cowan.aero>
-To: mripard@kernel.org
-Cc: paul.kocialkowski@bootlin.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	ian@linux.cowan.aero
-Subject: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
-Date: Sat, 23 Apr 2022 14:01:11 -0400
-Message-Id: <20220423180111.91602-1-ian@linux.cowan.aero>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 362733201
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 19:39:49 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0E0A85C012A;
+	Sat, 23 Apr 2022 15:39:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 23 Apr 2022 15:39:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650742788; x=
+	1650829188; bh=4vxkg9IMcjJOiy5SDNt57YSz4yw72vztdXiM5e6IuG0=; b=m
+	WW5s+GJ2P/jN9MpkkXewZp7eWSXacHGDjssEC2/odUmWdlt729h+WhBqU8bGS7ph
+	Dy1BCPAMV2tVLFvMpMBns3Q8iJ/92kF00MneTt29MsaH3irBUWBxoDYQ1DqoQA2/
+	Wj6qRAWfwbm2waEEL5zxNH4WUd2cMsBGKq4PkrrV+T5et8P3pNGwznxt8ktTO4D1
+	QfD21duOF5/2y6YDeXOSoxJsqkzTDD0XSFmQWiBUW71ppzBE7MBM3ZNGg7dBGaqj
+	pUxDZIVvJ2F7dFCIx4UOFDqTdFrSSb8vwPcX+sZBG4rjw6ew6NFuN74Y2Lg9xmMr
+	mCL7cHjvC5aMlg+VgPfOw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1650742788; x=1650829188; bh=4vxkg9IMcjJOi
+	y5SDNt57YSz4yw72vztdXiM5e6IuG0=; b=qQeKvyYULGbtEWTw3HfUsv/ZzQ2jx
+	pjALMwl5eJB9yQpLAu8aF4vnYZbH1AxqjU5SI8GRXUhZ2IBbiGcZZdFl9XhqeD+V
+	B+o1fNZ+n1p2vUZnMwK3GNcUkB77eSrr7enLUhBkw7yWgHgfuc0IEwCxxgIN6oR5
+	bG/uWhL+6J2l9dt2iTygUQhXspIqvqJrkxzVQBhPmZXHtlUM2BH338z2OlBBG5r8
+	IK3dyx3XRHU+YBITnBXYPImieBnFkYz1ht+Gdy6WolNvFapeL4agHUIXm30GLSVZ
+	Zjmd/ycdlbFHDAwoVwlKHzHpPqt00uins+WuHhUXbUhbbjqpUaMSQmKSQ==
+X-ME-Sender: <xms:A1ZkYkYBFPWYKymvM_-E4_MqR2O_LDPQKZ_Is2mLm_yA-tnwhT531g>
+    <xme:A1ZkYvaKJ3tj4sKrEMo9QDjrquwuNT7Ym9eMBUy5ufvmUcDuBPc99M5V9GNMx29Ww
+    SpYGCiH-yPFCezWAw>
+X-ME-Received: <xmr:A1ZkYu-G11xV6RcYuZ0nfi5UcY8ccKZ3E1ZkgvXMSDyyXh7lFTZ-Pg7bdxrXFLkEIURtinm4Dmg8ybgdPHLs0OrF0xKXtUvd6Os5vdeWAeBLY3IJ9zZ27_1eqw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdeigddugedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:A1ZkYuqZNhZt2-WZy92ZKdG9DU4EcTHphUjGjBh9oE8QOp0IanXn8Q>
+    <xmx:A1ZkYvqIg4-OTCTD590GyqjfqHAk11kRi667Cct3QNZQ7KMCzBkNiQ>
+    <xmx:A1ZkYsSKcNvxUg-HfgZT71jSPQMnEj9RVUkvmoJ6WGRxwzCKlgLqOg>
+    <xmx:BFZkYi0JLqzuFTcYAgEcjf4CoR3PTEVewFILDOTzkCS4sQbTu4Ni6g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 23 Apr 2022 15:39:46 -0400 (EDT)
+Subject: Re: [PATCH] bus: sunxi-rsb: Fix the return value of
+ sunxi_rsb_device_create()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <ff0ae741-efc4-ba6f-d869-4cb8fb7149ad@sholland.org>
+Date: Sat, 23 Apr 2022 14:39:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Refactor the cedrus_open() function so that there is only one exit to
-the function instead of 2. This prevents a future change from preventing
-the mutex from being unlocked after a successful exit.
+On 4/21/22 9:35 AM, Christophe JAILLET wrote:
+> This code is really spurious.
+> It always returns an ERR_PTR, even when err is known to be 0 and calls
+> put_device() after a successful device_register() call.
+> 
+> It is likely that the return statement in the normal path is missing.
+> Add 'return rdev;' to fix it.
 
-Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
----
- drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks for the patch. This definitely looks to be the case.
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 68b3dcdb5df3..5236d9e4f4e8 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
- 
- 	v4l2_fh_add(&ctx->fh);
- 
--	mutex_unlock(&dev->dev_mutex);
--
--	return 0;
-+	ret = 0;
-+	goto succ_unlock;
- 
- err_ctrls:
- 	v4l2_ctrl_handler_free(&ctx->hdl);
- err_free:
- 	kfree(ctx);
-+succ_unlock:
- 	mutex_unlock(&dev->dev_mutex);
- 
- 	return ret;
--- 
-2.35.1
+> Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced Serial Bus")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
