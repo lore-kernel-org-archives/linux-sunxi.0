@@ -1,108 +1,82 @@
-Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.66.162])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718047C
-	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 07:00:13 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay2.mymailcheap.com (Postfix) with ESMTPS id 58954401F1;
-	Sat, 23 Apr 2022 09:00:09 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id A55982A2AE;
-	Sat, 23 Apr 2022 07:00:08 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id p7e-EU69GfG7; Sat, 23 Apr 2022 07:00:04 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Sat, 23 Apr 2022 07:00:04 +0000 (UTC)
-Received: from [172.16.34.145] (unknown [113.67.11.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 9A4894006D;
-	Sat, 23 Apr 2022 06:59:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1650697203; bh=yPdg0QI5aY/XsFreabP5oAUyZK4YyiVmnZuX8ctGVDY=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=KP3UzXALBaQEBT5MkDngOnOF0pdVpdWMjz0TSJaLBe0jHy7WmUKOKvT8Z1yf32D3Y
-	 +nGhA2rB16qn/P8gWQv82Dvr7pjy1CJq3wBAPSO2y22bPJBKZ+Y9mXRCpUHoKRiPyc
-	 zkyaeu/RqdVZuSfqEBuFJFlnuSMRbTFptf2yoqDQ=
-Message-ID: <39659fd3a9c75c8ad1653c2ef34049b94595170b.camel@aosc.io>
-Subject: Re: [PATCH 1/4] dt-bindings: spi: sun6i: add DT bindings for
- Allwinner R329 SPI
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Samuel Holland <samuel@sholland.org>, Mark Brown <broonie@kernel.org>, 
-	Chen-Yu Tsai
-	 <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard
-	 <mripard@kernel.org>
-Cc: linux-spi@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-In-Reply-To: <9ae7d1ee-4e2d-f3c1-f55f-e96b0e449b63@sholland.org>
-References: <20220422155639.1071645-1-icenowy@outlook.com>
-	 <BYAPR20MB2472E8B10BFEF75E7950BBC0BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-	 <9ae7d1ee-4e2d-f3c1-f55f-e96b0e449b63@sholland.org>
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20DD17A
+	for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 10:50:36 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id r187-20020a1c44c4000000b0038ccb70e239so9525150wma.3
+        for <linux-sunxi@lists.linux.dev>; Sat, 23 Apr 2022 03:50:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=SCwRS2IZSctZE0rauI3WxmX9NRINEUqAAu3EKI6iWX8=;
+        b=e/0d3hetA2x+tfxMeCxEPmJy5Cm4E94IJ8Ou5Us6keC9FpRQBjvm1HjxMJxoQGOosU
+         d5JZ/MEq4iRD5Bk5MgBfiFJoSj/wpWpFHOkEABSAsal1PKGUhcqshJLRH1JeZ9W6696Y
+         +ZhL0qyKoFDwhFebGpNKPBR6LkE/Zfd1vD9kzi6MnifctCj6RFUycJ063VPI48yNHy7D
+         HxR+gBUvBWyiv2reIzaheMC7FEIBrzBtHOMt8R0enul2h5i+5Dy/xZy83EDLd6HwTDmj
+         bjPgmDiBYUFFITot1ob5d0TodQaSTWTMy+y+ZPs68WwrBLvktWxuKGjfU9AorQ780aRP
+         qUYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SCwRS2IZSctZE0rauI3WxmX9NRINEUqAAu3EKI6iWX8=;
+        b=myDlZyfMdcQ2XQm1GQwtKlUzNu69lVXP4L/Viiwr2P/0c8rggAeFzVVexvaAW8iNh6
+         nNsLMJhH2fauROB9ubM3UkJ7ZrGfyeGfWeEI5DBPfA3LFHRQAyo7WU6fjKQcYktZVd1w
+         VmbYCODruxwYcipIMHfmEsQlZogO5ePO8Zyhpj5TtNHOy3o9g2AdhnnaxWwWKBxxJQ0r
+         xBPY3Yh7q9XusDJkBQFwvwG/kL8WcDXU8awGR6SY1/JemLlf082rO6d+bKs8/0wWMhiC
+         43f+XfUvi2ZTGqOJlJ9NH/G3zx7hPAupylP9lbgUE9gktXqhAehOgHI9eFtHP9QoU0na
+         QJdA==
+X-Gm-Message-State: AOAM531hz0YFmvgkmWHuG4f01HUZYc1GxmPmoJoLsTQ3N/aBNlM2WYHk
+	xitXg/jxsogFfweCZPEJBSU=
+X-Google-Smtp-Source: ABdhPJwu4IKR06vKshXnmlBQEP5JWyFFpahFDrio3RAgTCbcTJuLwvGu1XPbRWXl3XBCKFf0lbsFvQ==
+X-Received: by 2002:a05:600c:3541:b0:38f:5f3:3f4c with SMTP id i1-20020a05600c354100b0038f05f33f4cmr18110508wmq.158.1650711034419;
+        Sat, 23 Apr 2022 03:50:34 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id t18-20020a05600c199200b0039291537cfesm6682792wmq.21.2022.04.23.03.50.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Apr 2022 03:50:34 -0700 (PDT)
+Date: Sat, 23 Apr 2022 12:50:31 +0200
+From: Corentin Labbe <clabbe.montjoie@gmail.com>
+To: cgel.zte@gmail.com
+Cc: herbert@gondor.apana.org.au, davem@davemloft.net,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: Re: [PATCH] crypto: sun8i-ce: using pm_runtime_resume_and_get
+ instead of pm_runtime_get_sync
+Message-ID: <YmPZ91MQEVTn+DrY@Red>
+References: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sat, 23 Apr 2022 08:10:31 +0800
-User-Agent: Evolution 3.40.4 
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
 
-在 2022-04-22星期五的 18:49 -0500，Samuel Holland写道：
-> On 4/22/22 10:56 AM, icenowy@outlook.com wrote:
-> > From: Icenowy Zheng <icenowy@aosc.io>
-> > 
-> > Allwinner R329 SPI has two controllers, and the second one has
-> > helper
-> > functions for MIPI-DBI Type C.
-> > 
-> > Add compatible strings for these controllers
-> > 
-> > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> > ---
-> >  .../devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml        |
-> > 2 ++
-> >  1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-
-> > a31-spi.yaml
-> > b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-
-> > spi.yaml
-> > index ca4c95345a49..6354635241fc 100644
-> > --- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-
-> > spi.yaml
-> > +++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-
-> > spi.yaml
-> > @@ -21,6 +21,8 @@ properties:
-> >      oneOf:
-> >        - const: allwinner,sun6i-a31-spi
-> >        - const: allwinner,sun8i-h3-spi
-> > +      - const: allwinner,sun50i-r329-spi
-> > +      - const: allwinner,sun50i-r329-spi-dbi
+Le Wed, Apr 20, 2022 at 03:02:18AM +0000, cgel.zte@gmail.com a �crit :
+> From: Minghao Chi <chi.minghao@zte.com.cn>
 > 
-> As far as I'm aware, the SPI portion of the DBI controller is
-> register-compatible with the regular SPI controller. So I would
-> expect using
-> that as a fallback compatible for the DBI variant.
-
-This sounds reasonable.
-
+> Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
+> pm_runtime_put_noidle. This change is just to simplify the code, no
+> actual functional changes.
 > 
-> Regards,
-> Samuel
-> 
-> >        - items:
-> >            - enum:
-> >                - allwinner,sun8i-r40-spi
-> > 
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
+> ---
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
 
+Thanks for your patch
 
+Tested-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+Acked-by: Corentin Labbe <clabbe.montjoie@gmail.com>
+
+Regards
