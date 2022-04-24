@@ -1,68 +1,69 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB26160
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 00:18:49 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 889C65C0148;
-	Sat, 23 Apr 2022 20:18:48 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39BE7A
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:12:41 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id EAD735C00C4;
+	Sat, 23 Apr 2022 22:12:40 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sat, 23 Apr 2022 20:18:48 -0400
+  by compute5.internal (MEProxy); Sat, 23 Apr 2022 22:12:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650759528; x=
-	1650845928; bh=5Mw28BcCAs1ec03+wJe1J27sj9VeRk1IJNDibW8ks4M=; b=D
-	qrgUrVg8rDZAwBEFfTipDZmPVH2BkMwnwTGgaU0bgzFGN0B/AiK1gHbC8NV12+4l
-	HiSu0hyw+Rr3CJHUerVWAtMkeGyxYPheG80kjzb8QsqGvn5Wd3dbmrYv0xKoVyCG
-	aCjXuwmXmOPkkkOdysL0+t9VqA3ZHXiU0CziF3FihobniTJ/pKOhDbH1WeU3bYNl
-	X9/OWV5jX1N6IHjOKIx1tAOy1VxgHrnYaY8pBTSuHUAlaBjOqmYRWvu3scixxvEB
-	6bj4EARM+qigHAJHhuwuNRjpjHeBuyvQm5NHwf6g3Jqxh1RzvQSwo9H6mbF2wm77
-	uzAlpwSWvrZhRIbSFmZmA==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650766360; x=
+	1650852760; bh=d5V+nt7E5ITm5vT0iO+QXQjdBcEjDfwSXY/0u6QYCgI=; b=w
+	zb6oI7dx/gVnlSw6FJo9WJ3J04XhpPBExty31LO0MJJRuEZix+yPFwkJYNyyQxFN
+	RZsOOxyqhgpcIOjdtow5W8LwiWJGdP/0CRxi4+BDKPmq40eesSOjayNV04hDz/a4
+	DMLJZI2G0Dqic6iAWECIbuj5iHDAuRjef0A1TBEZkDeYBV4TZ2lHRFX0JZunGOsG
+	ABs8z0vLnaQ8fSVYYtEdEQR4ZmubpiwWkow2mgxhqw0Ie/ZdgPz8EV6fbEzcaOVa
+	Dvq4ssuKY+R6HVLYePiEqSAwvO4QQ0f2i//+hT43foItN6HpETvYhE+q8LiMHWyL
+	Aa+c7WnYIythQ/PeK489w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650759528; x=1650845928; bh=5Mw28BcCAs1ec
-	03+wJe1J27sj9VeRk1IJNDibW8ks4M=; b=sLMW7aaT5ZA2/WtxELiANJZFgI74b
-	ddeOGyM17eejT5VCxN1IPTqSdq/b9Nw9hVxdS5G+LBA9MX+1woBiyX1mIemIf1vL
-	xjNeYMZQdLJlFB/U/L2JqwbLNdpbpdDbrwQC/P89c002Y+Qf0eYEbnH8+mub+Go4
-	DIYX28bOn1RBBbogRN+ilRaZjbhPUyoX5aiw68s9pz6zHEYR/ECLqW+CoYiZlGA/
-	l58MEuopJep2xIKTzJpaF+wE6x/QWHSRyVpA0sUTo/K3VGDC/tl9WdUITtqbO8xV
-	IfjjCQTCXZEMNbRbe2scoi5TJ+LesmdLX7KVYCR6r879gOkkQmIZlhqVQ==
-X-ME-Sender: <xms:Z5dkYisdCik2oVwunQCjV5z78XW4vsSsxoNEyMCSdIl6W72pp-uo8A>
-    <xme:Z5dkYncpHQV81SUSeBT-Tj9319D0wcyQZGgTLd37hX9sFbq0FbKEKXAUhvPe8xlbc
-    D1N5N5jKs9uG2kTng>
-X-ME-Received: <xmr:Z5dkYtzpv8MjNyZIcsZLf9Etq4704evXUf93L1aSCu3U0bW-5ux27ksRjekwxk_5boAzh7AShXfyNzvgL997Us85JDoQCG77A9Tgc9mA2ytGrKFeB0aqBnXLHQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdefgecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; t=1650766360; x=1650852760; bh=d5V+nt7E5ITm5
+	vT0iO+QXQjdBcEjDfwSXY/0u6QYCgI=; b=Rm7ka/b9oCpcyqN6/gikFclufp50p
+	GAIZqtnhUC1jG9JM6U5lKZU+sDwhD6v1y9Ig6YBrzxCi5P7gdTcaRoRTH1egVdsj
+	FtsySReTuhJOv4zHw6POzqZ2clik5oKFzGNL5hVeqkDtRvpxcxKo88BU2BLjl74N
+	qSIxiumTpV9i/h6YJU4ILpRtwQy/UIAVct0kQ60co8wMx6yi36rTLGZ49pwgF93c
+	XcCcuQOoJvOS/4HVy/oC3WOAFntJa8VhSTvxpBMJi38VUl+p2XX+qYXNiyc17xRW
+	0CXMCMmFT+0h7kOJfjXXqFdzyTmJ8tFN98KI2afZ6h1leZLvZnMCp+dFw==
+X-ME-Sender: <xms:GLJkYo2c8O2Ce10V7VEQXgbEeP6ssH27j_Wry-c2qOJOc4--TxUHVg>
+    <xme:GLJkYjFyC1zz0aAuG__LJvE6AHAkTZZvks2Wo0JS4IMWhQer1DL1VQ7QlcEJs_JtS
+    Aihx_Qp6wb-BJVnug>
+X-ME-Received: <xmr:GLJkYg79AzSJeOKyecAMpsjQzh6iGy3hWIe50n9UNJpoqv6RAUi-Enc_zQrLBWJGxDR-PKr-rGVY3EkRXQ3NDNnuU15gz0wuzRCCjS4aCZHIsTlsz4Kw_QLgFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdehkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
-    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:aJdkYtOmhWiLYJD2AzU_sPEaSIfH3ZGwwFCef3YKNpFhIcfrtqyoTQ>
-    <xmx:aJdkYi9ekZVwNluQGrCKwdQQ8NYfopfOyN4LxoW2_DzbKMzhLqrobg>
-    <xmx:aJdkYlXwvV9ALzJsoN17uOmjkfv6B43Jg7KciEqksITqlWoespNgZg>
-    <xmx:aJdkYj3aV_ptBOQH3WPVi6GE_KXc5qY6fuv_9yAgPzrP7A6cL64Z0w>
+    ftrfgrthhtvghrnhepleetjeffvdegheektdekveeuueetffetffehudefueejvddufedu
+    teeiieejveelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
+    nhgurdhorhhg
+X-ME-Proxy: <xmx:GLJkYh2_2GylcTYYYs881XF-pxngd-LqDxQkuNT3Awjgng_vl8r1kA>
+    <xmx:GLJkYrEx_aQom2nmu97nUi0j7DCs8HbB8PaiMXUe8Pe4vvkjkE20yA>
+    <xmx:GLJkYq_KhYjc5Fj2h8jF1wwbzxaBNeN0jcp457InwgMwf7rR3qXK2A>
+    <xmx:GLJkYj-SR1OWPk-NbtUY1NxrSD0io_5KoCVTJlM-Vgdx-gnf0qT8cg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Apr 2022 20:18:46 -0400 (EDT)
-Subject: Re: [PATCH 05/12] dt-bindings: clock: sunxi-ng: add bindings for R329
- CCUs
-To: Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
+ 23 Apr 2022 22:12:39 -0400 (EDT)
+Subject: Re: [PATCH 06/12] clk: sunxi=ng: add support for R329 CCUs
+To: Icenowy Zheng <icenowy@aosc.io>
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>
 References: <20220422140902.1058101-1-icenowy@aosc.io>
- <BYAPR20MB2472A5F7269F56C2C6BB3104BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+ <BYAPR20MB2472930AAFFBDC0ACB9A7487BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <0cb56abd-9f4a-24ec-7b6e-71ac56ee53db@sholland.org>
-Date: Sat, 23 Apr 2022 19:18:45 -0500
+Message-ID: <c858b944-d72f-4e59-6a1a-329b5b8949c4@sholland.org>
+Date: Sat, 23 Apr 2022 21:12:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -71,7 +72,7 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR20MB2472A5F7269F56C2C6BB3104BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+In-Reply-To: <BYAPR20MB2472930AAFFBDC0ACB9A7487BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -79,336 +80,26 @@ Content-Transfer-Encoding: 7bit
 On 4/22/22 10:41 AM, icenowy@outlook.com wrote:
 > From: Icenowy Zheng <icenowy@aosc.io>
 > 
-> R329 has a CPUX CCU and a R-CCU, with all PLLs in R-CCU.
+> Allwinner R329 has two CCUs, one in CPUX and another in PRCM.
 > 
-> Add bindings for them, with R-CCU only taking 3 oscillators as input and
-> main CCU taking oscillators + PLLs as input.
+> Add support for them.
 > 
 > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> ---
->  .../clock/allwinner,sun4i-a10-ccu.yaml        | 62 ++++++++++++++--
->  include/dt-bindings/clock/sun50i-r329-ccu.h   | 73 +++++++++++++++++++
->  include/dt-bindings/clock/sun50i-r329-r-ccu.h | 45 ++++++++++++
->  include/dt-bindings/reset/sun50i-r329-ccu.h   | 45 ++++++++++++
->  include/dt-bindings/reset/sun50i-r329-r-ccu.h | 24 ++++++
->  5 files changed, 241 insertions(+), 8 deletions(-)
->  create mode 100644 include/dt-bindings/clock/sun50i-r329-ccu.h
->  create mode 100644 include/dt-bindings/clock/sun50i-r329-r-ccu.h
->  create mode 100644 include/dt-bindings/reset/sun50i-r329-ccu.h
->  create mode 100644 include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> 
-> diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-> index 15ed64d35261..c7a429e55483 100644
-> --- a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-> +++ b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-ccu.yaml
-> @@ -45,6 +45,8 @@ properties:
->        - allwinner,sun50i-h6-r-ccu
->        - allwinner,sun50i-h616-ccu
->        - allwinner,sun50i-h616-r-ccu
-> +      - allwinner,sun50i-r329-ccu
-> +      - allwinner,sun50i-r329-r-ccu
->        - allwinner,suniv-f1c100s-ccu
->        - nextthing,gr8-ccu
->  
-> @@ -106,6 +108,7 @@ else:
->            - allwinner,sun50i-a100-ccu
->            - allwinner,sun50i-h6-ccu
->            - allwinner,sun50i-h616-ccu
-> +          - allwinner,sun50i-r329-r-ccu
->  
->    then:
->      properties:
-> @@ -118,14 +121,57 @@ else:
->          maxItems: 3
->  
->    else:
-> -    properties:
-> -      clocks:
-> -        minItems: 2
-> -        maxItems: 2
-> -
-> -      clock-names:
-> -        minItems: 2
-> -        maxItems: 2
-> +    if:
-> +      properties:
-> +        compatible:
-> +          const: allwinner,sun50i-r329-ccu
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 13
-> +          maxItems: 13
 
-The conditional part of the binding can only be more restrictive than the main
-binding. So you need to increase maxItems above.
+There is a typo in your commit title. = should be -.
 
-Also, I believe minItems/maxItems in this section is not needed when specifying
-a list of items.
+Thanks for updating the driver to use .fw_name and be loadable as a module. All
+of those changes look good.
 
-> +          items:
-> +            - description: High Frequency Oscillator (usually at 24MHz)
-> +            - description: Low Frequency Oscillator (usually at 32kHz)
-> +            - description: Internal Oscillator
-> +            - description: CPUX PLL
-> +            - description: Peripherals PLL
-> +            - description: Peripherals PLL (2x)
-> +            - description: Peripherals PLL derivated 800MHz clock
-> +            - description: Audio PLL 0
-> +            - description: Audio PLL 0 (/2)
-> +            - description: Audio PLL 0 (/5)
-> +            - description: Audio PLL 1
-> +            - description: Audio PLL 1 (2x)
-> +            - description: Audio PLL 1 (4x)
-> +
-> +        clock-names:
-> +          minItems: 13
-> +          maxItems: 13
-> +          items:
-> +            - const: hosc
-> +            - const: losc
-> +            - const: iosc
-> +            - const: pll-cpux
-> +            - const: pll-periph
-> +            - const: pll-periph-2x
-> +            - const: pll-periph-800m
-> +            - const: pll-audio0
-> +            - const: pll-audio0-div2
-> +            - const: pll-audio0-div5
-> +            - const: pll-audio1
-> +            - const: pll-audio1-2x
-> +            - const: pll-audio1-4x
-> +
-> +    else:
-> +      properties:
-> +        clocks:
-> +          minItems: 2
-> +          maxItems: 2
-> +
-> +        clock-names:
-> +          minItems: 2
-> +          maxItems: 2
->  
->  additionalProperties: false
->  
-> diff --git a/include/dt-bindings/clock/sun50i-r329-ccu.h b/include/dt-bindings/clock/sun50i-r329-ccu.h
-> new file mode 100644
-> index 000000000000..116f8d13a9b3
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun50i-r329-ccu.h
-> @@ -0,0 +1,73 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN50I_R329_CCU_H_
-> +#define _DT_BINDINGS_CLK_SUN50I_R329_CCU_H_
-> +
-> +#define CLK_CPUX		1
-> +
-> +#define CLK_APB1		5
-> +
-> +#define CLK_CE			7
-> +#define CLK_BUS_CE		8
-> +#define CLK_AIPU		9
-> +#define CLK_BUS_AIPU		10
-> +#define CLK_BUS_DMA		11
-> +#define CLK_BUS_MSGBOX		12
-> +#define CLK_BUS_SPINLOCK	13
-> +#define CLK_BUS_HSTIMER		14
-> +#define CLK_AVS			15
-> +#define CLK_BUS_DBG		16
-> +#define CLK_BUS_PWM		17
-> +
-> +#define CLK_MBUS_DMA		19
-> +#define CLK_MBUS_CE		20
-> +#define CLK_MBUS_R_DMA		21
-> +#define CLK_MBUS_NAND		22
-> +#define CLK_MBUS_AIPU		23
-> +
-> +#define CLK_NAND0		25
-> +#define CLK_NAND1		26
-> +#define CLK_BUS_NAND		27
-> +#define CLK_MMC0		28
-> +#define CLK_MMC1		29
-> +#define CLK_BUS_MMC0		30
-> +#define CLK_BUS_MMC1		31
-> +#define CLK_BUS_UART0		32
-> +#define CLK_BUS_UART1		33
-> +#define CLK_BUS_UART2		34
-> +#define CLK_BUS_UART3		35
-> +#define CLK_BUS_I2C0		36
-> +#define CLK_BUS_I2C1		37
-> +#define CLK_BUS_SCR		38
-> +#define CLK_SPI0		39
-> +#define CLK_SPI1		40
-> +#define CLK_BUS_SPI0		41
-> +#define CLK_BUS_SPI1		42
-> +#define CLK_EMAC_25M_DIV	43
-> +#define CLK_EMAC_25M		44
-> +#define CLK_BUS_EMAC		45
-> +#define CLK_IR_RX		46
-> +#define CLK_BUS_IR_RX		47
-> +#define CLK_IR_TX		48
-> +#define CLK_BUS_IR_TX		49
-> +#define CLK_I2S0		50
-> +#define CLK_I2S1		51
-> +#define CLK_BUS_I2S0		52
-> +#define CLK_BUS_I2S1		53
-> +#define CLK_SPDIF		54
-> +#define CLK_BUS_SPDIF		55
-> +#define CLK_USB_OHCI0		56
-> +#define CLK_USB_PHY0		57
-> +#define CLK_USB_OHCI1		58
-> +#define CLK_USB_PHY1		59
-> +#define CLK_BUS_OHCI0		60
-> +#define CLK_BUS_OHCI1		61
-> +#define CLK_BUS_EHCI0		62
-> +#define CLK_BUS_OTG		63
-> +#define CLK_LEDC		64
-> +#define CLK_BUS_LEDC		65
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN50I_R329_CCU_H_ */
-> diff --git a/include/dt-bindings/clock/sun50i-r329-r-ccu.h b/include/dt-bindings/clock/sun50i-r329-r-ccu.h
-> new file mode 100644
-> index 000000000000..c327d1a1b602
-> --- /dev/null
-> +++ b/include/dt-bindings/clock/sun50i-r329-r-ccu.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_
-> +#define _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_
-> +
-> +#define CLK_PLL_CPUX		0
-> +#define CLK_PLL_PERIPH_2X	2
-> +#define CLK_PLL_PERIPH_800M	3
-> +#define CLK_PLL_PERIPH		4
-> +#define CLK_PLL_AUDIO0		5
-> +#define CLK_PLL_AUDIO0_DIV2	6
-> +#define CLK_PLL_AUDIO0_DIV5	7
-> +#define CLK_PLL_AUDIO1_4X	8
-> +#define CLK_PLL_AUDIO1_2X	9
-> +#define CLK_PLL_AUDIO1		10
-> +
-> +#define CLK_R_AHB		11
-> +#define CLK_R_APB1		12
-> +
-> +#define CLK_R_BUS_GPADC		14
+There are still some missing clocks here compared to the BSP, and a couple of
+other minor issues. Please see my earlier review:
 
-These are a bit backward. For example, this is the bus clock for the R_GPADC
-peripheral. So I would recommend s/R_BUS/BUS_R/ here and for the resets. At
-least that's what I did for D1.
+https://lore.kernel.org/linux-sunxi/99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org/
+
+So far it's been consistent that any settable bits in the CCU registers actually
+do something. So I would expect all of those bits to have an index reserved in
+the binding, even if we do not model them. I want to avoid having to go back and
+add gates to the binding out-of-order later, like we are doing for H6.
 
 Regards,
 Samuel
-
-> +#define CLK_R_BUS_THS		15
-> +#define CLK_R_BUS_DMA		16
-> +#define CLK_R_PWM		17
-> +#define CLK_R_BUS_PWM		18
-> +#define CLK_R_CODEC_ADC		19
-> +#define CLK_R_CODEC_DAC		20
-> +#define CLK_R_BUS_CODEC		21
-> +#define CLK_R_DMIC		22
-> +#define CLK_R_BUS_DMIC		23
-> +#define CLK_R_BUS_LRADC		24
-> +#define CLK_R_I2S		25
-> +#define CLK_R_I2S_ASRC		26
-> +#define CLK_R_BUS_I2S		27
-> +#define CLK_R_BUS_UART		28
-> +#define CLK_R_BUS_I2C		29
-> +#define CLK_R_IR		30
-> +#define CLK_R_BUS_IR		31
-> +#define CLK_R_BUS_MSGBOX	32
-> +#define CLK_R_BUS_SPINLOCK	33
-> +#define CLK_R_BUS_RTC		34
-> +
-> +#endif /* _DT_BINDINGS_CLK_SUN50I_R329_R_CCU_H_ */
-> diff --git a/include/dt-bindings/reset/sun50i-r329-ccu.h b/include/dt-bindings/reset/sun50i-r329-ccu.h
-> new file mode 100644
-> index 000000000000..bb704a82443f
-> --- /dev/null
-> +++ b/include/dt-bindings/reset/sun50i-r329-ccu.h
-> @@ -0,0 +1,45 @@
-> +/* SPDX-License-Identifier: (GPL-2.0+ or MIT) */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_RST_SUN50I_R329_CCU_H_
-> +#define _DT_BINDINGS_RST_SUN50I_R329_CCU_H_
-> +
-> +#define RST_MBUS		0
-> +#define RST_BUS_CE		1
-> +#define RST_BUS_AIPU		2
-> +#define RST_BUS_DMA		3
-> +#define RST_BUS_MSGBOX		4
-> +#define RST_BUS_SPINLOCK	5
-> +#define RST_BUS_HSTIMER		6
-> +#define RST_BUS_DBG		7
-> +#define RST_BUS_PWM		8
-> +#define RST_BUS_DRAM		9
-> +#define RST_BUS_NAND		10
-> +#define RST_BUS_MMC0		11
-> +#define RST_BUS_MMC1		12
-> +#define RST_BUS_UART0		13
-> +#define RST_BUS_UART1		14
-> +#define RST_BUS_UART2		15
-> +#define RST_BUS_UART3		16
-> +#define RST_BUS_I2C0		17
-> +#define RST_BUS_I2C1		18
-> +#define RST_BUS_SCR		19
-> +#define RST_BUS_SPI0		20
-> +#define RST_BUS_SPI1		21
-> +#define RST_BUS_EMAC		22
-> +#define RST_BUS_IR_RX		23
-> +#define RST_BUS_IR_TX		24
-> +#define RST_BUS_I2S0		25
-> +#define RST_BUS_I2S1		26
-> +#define RST_BUS_SPDIF		27
-> +#define RST_USB_PHY0		28
-> +#define RST_USB_PHY1		29
-> +#define RST_BUS_OHCI0		30
-> +#define RST_BUS_OHCI1		31
-> +#define RST_BUS_EHCI0		32
-> +#define RST_BUS_OTG		33
-> +#define RST_BUS_LEDC		34
-> +
-> +#endif /* _DT_BINDINGS_RST_SUN50I_R329_CCU_H_ */
-> diff --git a/include/dt-bindings/reset/sun50i-r329-r-ccu.h b/include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> new file mode 100644
-> index 000000000000..40644f2f21c6
-> --- /dev/null
-> +++ b/include/dt-bindings/reset/sun50i-r329-r-ccu.h
-> @@ -0,0 +1,24 @@
-> +/* SPDX-License-Identifier: (GPL-2.0+ or MIT) */
-> +/*
-> + * Copyright (c) 2021 Sipeed
-> + */
-> +
-> +#ifndef _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_
-> +#define _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_
-> +
-> +#define RST_R_BUS_GPADC		0
-> +#define RST_R_BUS_THS		1
-> +#define RST_R_BUS_DMA		2
-> +#define RST_R_BUS_PWM		3
-> +#define RST_R_BUS_CODEC		4
-> +#define RST_R_BUS_DMIC		5
-> +#define RST_R_BUS_LRADC		6
-> +#define RST_R_BUS_I2S		7
-> +#define RST_R_BUS_UART		8
-> +#define RST_R_BUS_I2C		9
-> +#define RST_R_BUS_IR		10
-> +#define RST_R_BUS_MSGBOX	11
-> +#define RST_R_BUS_SPINLOCK	12
-> +#define RST_R_BUS_RTC		13
-> +
-> +#endif /* _DT_BINDINGS_RST_SUN50I_R329_R_CCU_H_ */
-> 
-
