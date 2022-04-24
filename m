@@ -1,41 +1,41 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF50D7C
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:36:57 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id D7A075C00DE;
-	Sat, 23 Apr 2022 22:36:56 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496AF7C
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:46:02 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 375BB5C00BA;
+	Sat, 23 Apr 2022 22:46:01 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sat, 23 Apr 2022 22:36:56 -0400
+  by compute4.internal (MEProxy); Sat, 23 Apr 2022 22:46:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650767816; x=
-	1650854216; bh=zZVrArUX7/OaFFH/wPngT85tNgxOKdzgV6wTwRqKWk4=; b=m
-	wEaNTBnpp9NKrBE4dST+9bkdRqYHAMfsQ0FVn9Kl1cZMXeZ5fotkfayou6yaByhH
-	xT8eusS/A8+A4XheeJFRP54KzwkuXPyBRyMjSBbHGy0gj8tJU3vBYpV3fRwMf47l
-	UnymMquQk562AHhGyOJYnXLVqlbyuayHKdzLKnhuqg7DSwxCpdyA2ozCKQRAx0vr
-	3RO7/IgHq/XyWFvd5ZtFwxjeKwqn9RK4hGSqW19XBHuK9vg9gW2WsvDNiZ0oJSIj
-	d8SXRXoxzPJOFrIZyH8AZUpdzSBIGATVCysYSzrz4cEMrLUpqc9cTXeVZZwpIgO5
-	xDiv+Md9CF3rLxtdnrCUQ==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650768361; x=
+	1650854761; bh=8Q+ZFt8iLKfw6+gfcY5JTvb5tFIFfrs8cTxnzQhZJ9s=; b=c
+	gybfw8PKzGPaM5ziDhBstmzJgZD9tE6ddGyMu7qOKe2RvB4Cv5bjTUKdCIB/khBN
+	jHBUS/MLaiAS1GSlzDdpwmVZ3Mawe/ufGJCJObgoDyCOeXLqfqxAvqj2XHPlSE+B
+	K3tSvJkeHXMVj+SKPRPOC8i0nXkcwIsTh1b+bvK49Xw5f9MYd5Fm39lzoccdjwqR
+	ZapBY92I9ofh7CsBZ56NabWbWUXPhjV9KeNzDwqit0L0dxM6kosZJ5Z153lpaMoY
+	kL+J8puHGexO6qdiz8kXuvqMStl/XOLt2079x46nNfUlqmGP1D8Qlf+CVU3uS+AR
+	/pDQ8aRYvSV+KQIFy7UmA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650767816; x=1650854216; bh=zZVrArUX7/OaF
-	FH/wPngT85tNgxOKdzgV6wTwRqKWk4=; b=Lamj/qzwZkXd6cq59iJfc4jl7ySkR
-	coGNhuAw33P5BfD0Nxe4LqT8CfBawMGd/at3nyGsbt0YdX48VLUjNUpkhI3IBG5Q
-	eoj1VrOUTYX6npIvQCmem2ydq8olh+RKbEG7lMsJGr65CQ1QuanEGN0d1XJni+9V
-	rN4amNWdxvQOdmxDE2PsWjjxd2PBw1lF23r9gB7qOzRi5Z6rXuG4L2wsO8ahW1Wl
-	kLkBbHCuR1cAJ5uupnGBPnmov7dUQwg4V3qNdIEPXPMyO2W3Gl12HER35hc7AAma
-	fsTSYWnoadeRdKw5ilDmN2j0qIvHdwe1aesDE/4n4xA5OBBkBP6zb+3Tg==
-X-ME-Sender: <xms:yLdkYpbCcdhONFRHWbpNC-rJ6_DMl8wOP0waQFSgSoxpsYQM9udUQw>
-    <xme:yLdkYga6gBuzMsilUpBSMjHvRUIvV6-kjzsaBJSBACVaq9d73EyYHziBR6ZzdctVe
-    w1vJB7aQ-nQ3kHdNQ>
-X-ME-Received: <xmr:yLdkYr_w2AX8Nm3gwgSM-Jo1CI__sYM8_YZrVpSfDQWT4O1mBPfyeA8PwJb2emp4MNA1cx1dkNOc0xKUi7K-7As8J38sECJErkSHpjKpuPuE8P4uIyipC991Bw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeifecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; t=1650768361; x=1650854761; bh=8Q+ZFt8iLKfw6
+	+gfcY5JTvb5tFIFfrs8cTxnzQhZJ9s=; b=pg2o/IZLhelFZ7d1s17VVUHpfzBFU
+	+PYgd5T/PxajgWhYPghjoX5VSEDL2aR86SOSQXSbKD2HiZc5IsGtX8ZdD3aAXx5p
+	QHvXqrRqG4suPJmkUNsXF2fZHnc7gD7miiJm33Dkm/ip8Id3Y19M7MtY36+2jUgt
+	bUPBul5fafOBbIMYEVTcrNJ3htZaez1JP4yXqFs5zZXJ5S9+MSH5K7kUmYMiUiLp
+	vG9f9dQSLyH7ZASnK2rwKDgNrAUkEuuxYrVgDeuDyLyuew0x2hOdzkeL+pgg0Pbu
+	Q2PHoVOAS1DpSUkSYfnbpASPQ88vvKR8tENPrhl/U1U/BYMq4fjGNHlDA==
+X-ME-Sender: <xms:6LlkYnt_RD6hthab-1AVaVwL3kYdw7fedR9k9_EGegDpgh5ymQLE7Q>
+    <xme:6LlkYoflDIUy216Iu2Lo3YKrLjzjuITi6DdJnyUsWyIAmD2cXtXj8wtfRMlv65Pdn
+    sPuvJr6b93930ItZw>
+X-ME-Received: <xmr:6LlkYqxcid5qNP8FoJvkBEADdyE6sjNLrLH18MZfPGmhhlGg2756sz2wqUXN89Up6a8ziF1p18nvwS9fgEZhyiTvmKEgjLUHy2WIi9RwN48Hx6EWXn5NSslAAw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeigecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
@@ -43,26 +43,22 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeifecutefuodetggdote
     ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
     heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:yLdkYnqHoTzXs1efdYQSauSxeT-PRfbK9NFepSNMsfyXvp1pCjsvkw>
-    <xmx:yLdkYkoPOt3V_vN_JT4V1jy1JnPHRIJ1hdzTnYO8bLP6uWfvS3RtJA>
-    <xmx:yLdkYtSakyAOWgB6Awy6ba6huH7_cTo2DxBxZPMsk4S6-excRi7V1g>
-    <xmx:yLdkYhgIy93qsDugQWer7kPF1bt6Fow7Mu6XIPmrrRfjozW83lN30w>
+X-ME-Proxy: <xmx:6blkYmNpMgV_CaUcws0HrxLCFwgpgDCVraQIvkEwnAvphAzKhWA6qw>
+    <xmx:6blkYn-Vrb5Y3IyXxqO_mlZcqR-uw_auyQVFblYUB787TDC7GYmpNw>
+    <xmx:6blkYmVdM5jkbMto-qQgFkd3puQJDEcIIhmMy7A9TRUbn4XsMRgpCA>
+    <xmx:6blkYuaokLQhtCUKmeuIT-kjCUlPPqQ49iCmMXaaCR3dAPjqYCIkqA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Apr 2022 22:36:56 -0400 (EDT)
-Subject: Re: [PATCH 10/12] arm64: allwinner: dts: add DTSI file for R329 SoC
-To: Icenowy Zheng <icenowy@aosc.io>
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>
-References: <20220422140902.1058101-1-icenowy@aosc.io>
- <BYAPR20MB247209BA9B07425FADC82A84BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+ 23 Apr 2022 22:46:00 -0400 (EDT)
+Subject: Re: [PATCH v2] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
+To: Xiaobing Luo <luoxiaobing0926@gmail.com>, tiny.windzz@gmail.com,
+ rafael@kernel.org, viresh.kumar@linaro.org, wens@csie.org,
+ jernej.skrabec@gmail.com, mripard@kernel.org
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <9351b4f6-dc60-4a57-2265-f17724f89e9e@sholland.org>
-Date: Sat, 23 Apr 2022 21:36:55 -0500
+Message-ID: <4ee2421f-79a8-7f4d-f7ef-33f0ccf49337@sholland.org>
+Date: Sat, 23 Apr 2022 21:46:00 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -71,20 +67,67 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR20MB247209BA9B07425FADC82A84BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+In-Reply-To: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/22/22 10:41 AM, icenowy@outlook.com wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
+On 4/23/22 10:12 AM, Xiaobing Luo wrote:
+> --------------------------------------------
+> unreferenced object 0xffff000010742a00 (size 128):
+>   comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
+>   hex dump (first 32 bytes):
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+>   backtrace:
+>     [<00000000b4dfebaa>] __kmalloc+0x338/0x474
+>     [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
+>     [<000000007d6082a0>] platform_probe+0x98/0x11c
+>     [<00000000c990f549>] really_probe+0x234/0x5a0
+>     [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
+>     [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
+>     [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
+>     [<000000006720e418>] bus_for_each_drv+0xf8/0x160
+>     [<00000000df4f14f6>] __device_attach+0x174/0x29c
+>     [<00000000782002fb>] device_initial_probe+0x20/0x30
+>     [<00000000c2681b06>] bus_probe_device+0xfc/0x110
+>     [<00000000964cf3bd>] device_add+0x5f0/0xcd0
+>     [<000000004b9264e3>] platform_device_add+0x198/0x390
+>     [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
+>     [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
+>     [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+> --------------------------------------------
 > 
-> Allwinner R329 is a new SoC focused on smart audio devices.
+> if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
+> Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
 > 
-> Add a DTSI file for it.
+> Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
 
-Please make sure your devicetree passes `make dtbs_check`. There are some errors
-regarding the watchdog, CCU, and pinctrl.
+Two minor style issues: there should be a space after "cpufreq:" in the commit
+subject. And the blank line should come before the "Fixes:" tag, not after.
+Otherwise:
 
-Regards,
-Samuel
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+
+> ---
+>  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> index 2deed8d8773f..75e1bf3a08f7 100644
+> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+> @@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+>  		return -ENOMEM;
+>  
+>  	ret = sun50i_cpufreq_get_efuse(&speed);
+> -	if (ret)
+> +	if (ret) {
+> +		kfree(opp_tables);
+>  		return ret;
+> +	}
+>  
+>  	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+>  
+> 
+
