@@ -1,74 +1,70 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC392F2F
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 16:27:02 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id F2AD55C00D0;
-	Sun, 24 Apr 2022 12:27:01 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218FD7A
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 17:28:02 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0EBBC5C00FD;
+	Sun, 24 Apr 2022 13:28:01 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sun, 24 Apr 2022 12:27:01 -0400
+  by compute4.internal (MEProxy); Sun, 24 Apr 2022 13:28:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1650817621; x=1650904021; bh=uC
-	Q2R2fyjy+uTBpLAiBmpciTr9WrThWXS0olngIbwR0=; b=ij6TFogyjPCTd4plzX
-	fkpJG8mtbhVNOQIItFHc0QOCPt61FCO0S2yXlFwHKW0GInr+ltoFvcMVJZRsjkQo
-	mqXfU+81ApWAN+HtFND1LmnQgpJMVRR7eC7/HOEMzQuFtFqDD/S9QaKWF1QXJgla
-	ulLiaW1QXB4s0OvXLkAo4E2xGKf7nEO6HBdpWzo6CU/sesst1wlX8YCU1Bi67OHl
-	1CiOmiWOfDPB64hbSqsEgBKXu95MFmFS9ia1nty7YTYYLJhSc4o5ZKt1kZ9+qFVe
-	2tA+KdfgKVDZPRLptsAnOjkrZG6WjDsQ7oLLchDS1cTryG1m8nAkMl80yQvih4gZ
-	w9zA==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1650821281; x=1650907681; bh=tYQpR+3L6sMfcoMlRTkL4+IjF
+	VYToJqJPQNAaXV+C1Q=; b=brfaepI2esfiUJBHZKFwDTUodFSi+zRQjh1QVJCLU
+	ZPRodzqrEHqqemZbwc9zuUV95g6bZbiB3lm0pTMtmaap8wOoxbDCreYSd0pLwEqI
+	yzvOGlF4VbtnNCpHLD7w2ewMdjxyng5798TWml5KFk7Dk5KdW82o98jRDieTzLXJ
+	xDVdJOwuQlDbnuLPnGPS/Os4xce/gIlXWzg4u0xszhjaUe9qnPH0CZp7/532RTRR
+	Yes+f/8yCdu97dx2LaQxawHVs0EnnAy6yopTRD/TEuMp6No5AuL3ZmKQeCzFpPSk
+	uO0kqP3h9f/L5qxgBu4A2+KGP86LV90rTARM8LeltdEEw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1650817621; x=1650904021; bh=uCQ2R2fyjy+uTBpLAiBmpciTr9WrThWXS0o
-	lngIbwR0=; b=pvGuu6uYTlgC8AerhkYb5tHBgdw/KN5Bd84WIw5PMP1EOSDE+rF
-	d4ZhRjuin817P9z2QkrDYuPjWskd03ktnXRO5jcWM3IicP/fMyctdeD2zGsly6Pd
-	ky8I9OVL0KbyQ8a2aeI/86acoqs1W4R1/37f2XjPBCwgKPT9T/Pq4H1ZQgRTaL7T
-	YFbcwoGDque4RMKQMV6Lfdux3WZmle2x9DgiC3hL3g1GdhzMAU/lrtROqyHPqy2+
-	mivzBGee6cu0CZzJ2sHKcATYg6dhA1meeAXFAEhJrJ+HClpUrVigcbdwZOLhAf8s
-	X1pcJ9tOPUDfDEGh1YAX+gWw0UFWU1qvfuw==
-X-ME-Sender: <xms:VXplYhEdd2ZlpgvBxLiY_E0WvpHQjgxVk8BrPm9FlQWC88zWp9n_XA>
-    <xme:VXplYmXCdnZCTh8Z1JQcrFMtFd4Z02O8MH9vJKaCXJU88b7dqZOoEhK3Rx3RmOft9
-    osOIwseA8KB44fihw>
-X-ME-Received: <xmr:VXplYjLbs-X77ca3p1hHrqQPOhXzM2nkR_9ypXPhC1GwM31hE0Xuu-zCmtBe8z4RAUDj6DRzU6QmjmACqPjDTdOsMxYJjZf0nf79s-C8m--y3upCZL7inTfrbrHW-PFIRiPGKw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutdefucetufdoteggodetrfdotf
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1650821281; x=1650907681; bh=t
+	YQpR+3L6sMfcoMlRTkL4+IjFVYToJqJPQNAaXV+C1Q=; b=vf/kQnjIeQuKHIr92
+	2oNqCWJ9ADX0mzA2m9c02JHismymbPlsJY7/PwKtGAm4Lmzhea7iFVhWT+SaS4rO
+	0g/kTR/7NykwQxM1YYHtkst/MeQWItLZWPFvBBdqVce6U8qx/vy0td0x/XUyJCq0
+	y7m+PU+gQn+6dCgFine9DbtccvDpM0mjriWznr55tAAx+lnXY2UOL4nQKAKfTssp
+	OerJaYs7uCrDyEX/7XcMMtWetguCATeepAI2TSjVIru1qcVdUmhmnpiwKC5lGYNo
+	Uc6FYWexXnYmw4s110kRS7nGXpLbxtkWkU7abwF51JVlTIeXGRMeyg1wMuJedhNW
+	TrGsg==
+X-ME-Sender: <xms:oIhlYvvUYPI4nvl2pjZNU1JBbnzOfk-sgRFNX3uAf5JaLGfaLpk32g>
+    <xme:oIhlYgdN7nuF1HXZrcu9MM4MH0KT_AnaNMvHA_fyHXm5M2MSk08Kn63cKob2HQSe8
+    Pd3wezjRS4szrZ3Nw>
+X-ME-Received: <xmr:oIhlYixuf-kBWft_wqNTcUZAWAq6AuYF890lGce8cb31NhnizOC7OM0vRGOA05Y1-N0ZDSc3zgUiUgqcqBJU6xZx7-lECXEW-s7u6WKkRCrmcGMNv6o9pbXzyqJVtVIVG6DHtA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgdduudeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:VXplYnGsfhef7Aj0otzWUycsql50_eCy0JBEuhPQRK8U6i5Ez0bq7A>
-    <xmx:VXplYnW2TAJKpf1sV_Zr8v_DObGmeViE2UFgsTpwQ7lw01du5LW9rg>
-    <xmx:VXplYiNqWRGGdLCmms64r4OqX78AiZe_XOjFLvxs_r2gya90b26aCQ>
-    <xmx:VXplYqNL-pDjO6fSNjtnMnc9gIzgI9kuVDpHfiBpvBwKwWHjPtp5Ag>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:oIhlYuPcsOVxaCGxAw9RoTq5KtRSLLt9R8JTtx87m21Ftoe8kq6guQ>
+    <xmx:oIhlYv_CSWpzXKU4WGGILxrl2jGVbzd9de4dSHpjIOhc-K5pKf1SUw>
+    <xmx:oIhlYuW8k-zgRBWcmKqSOl3L2ePZnjjjcyhmTRs99T0BBe7piPMaAQ>
+    <xmx:oYhlYg0TMxyhBWvUjjmu-k_fm60qolVIg4vCl4mhbqIRMIu34KU1cg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 12:27:01 -0400 (EDT)
+ 24 Apr 2022 13:28:00 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>
+To: Vinod Koul <vkoul@kernel.org>,
+	dmaengine@vger.kernel.org
 Cc: Samuel Holland <samuel@sholland.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@linux.ie>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v3 14/14] drm/sun4i: Add compatible for D1 display engine
-Date: Sun, 24 Apr 2022 11:26:32 -0500
-Message-Id: <20220424162633.12369-15-samuel@sholland.org>
+Subject: [PATCH v3 0/4] dmaengine: sun6i: Allwinner D1 support
+Date: Sun, 24 Apr 2022 12:27:54 -0500
+Message-Id: <20220424172759.33383-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220424162633.12369-1-samuel@sholland.org>
-References: <20220424162633.12369-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,30 +73,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that the various blocks in the D1 display engine pipeline are
-supported, we can enable the overall engine.
+D1 is a new RISC-V SoC that uses mostly the same peripherals as
+existing ARM-based sunxi SoCs. This series adds dmaengine support for
+D1, after fixing an issue where the driver depended on architecture-
+specific behavior (patch 2) and resolving a TODO item (patch 3).
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Changes in v3:
+ - Fix format warnings
+ - Fix shift warnings for 32-bit dma_addr_t and 32-bit phys_addr_t
+ - Make explicit that v_lli->src/dst only hold the low 32 bits
 
-(no changes since v1)
+Changes in v2:
+ - Fix `checkpatch.pl --strict` style issues (missing spaces)
 
- drivers/gpu/drm/sun4i/sun4i_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Samuel Holland (4):
+  dt-bindings: dma: sun50i-a64: Add compatible for D1
+  dmaengine: sun6i: Do not use virt_to_phys
+  dmaengine: sun6i: Add support for 34-bit physical addresses
+  dmaengine: sun6i: Add support for the D1 variant
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 6a9ba8a77c77..275f7e4a03ae 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -418,6 +418,7 @@ static const struct of_device_id sun4i_drv_of_table[] = {
- 	{ .compatible = "allwinner,sun8i-r40-display-engine" },
- 	{ .compatible = "allwinner,sun8i-v3s-display-engine" },
- 	{ .compatible = "allwinner,sun9i-a80-display-engine" },
-+	{ .compatible = "allwinner,sun20i-d1-display-engine" },
- 	{ .compatible = "allwinner,sun50i-a64-display-engine" },
- 	{ .compatible = "allwinner,sun50i-h6-display-engine" },
- 	{ }
+ .../dma/allwinner,sun50i-a64-dma.yaml         |  9 +-
+ drivers/dma/Kconfig                           |  2 +-
+ drivers/dma/sun6i-dma.c                       | 92 ++++++++++++-------
+ 3 files changed, 65 insertions(+), 38 deletions(-)
+
 -- 
 2.35.1
 
