@@ -1,70 +1,67 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D9037A
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:22:54 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 527FF5C010C;
-	Sat, 23 Apr 2022 22:22:53 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452F07A
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:27:46 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 53DD45C00E8;
+	Sat, 23 Apr 2022 22:27:45 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Sat, 23 Apr 2022 22:22:53 -0400
+  by compute4.internal (MEProxy); Sat, 23 Apr 2022 22:27:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650766973; x=
-	1650853373; bh=PPftZXdMI30AOEnfsqf4X1GwVyCk4Q3eGu+uCbhCufg=; b=J
-	qwgBhQ41ibr9/35GGRe5QriVmvB8efwPbMdnvHP52vmDWukaPaSWP5ShFrARCUd2
-	RjAYzHsQj9ki7ysaO2hnq47J7QvO6zmHLz9ZZUjV0/uyZ+wN/NgvT25U8agIwx6Z
-	f0gDaMHl39g9wXZWUSe5HWYQsOrChNp3pvvSrEh4FhAyyZedjeWBKIS1jl1RM55R
-	OZyNobpz6ytF5DXA82LRr+L7zGXlpvqJFUrloi2I9dQtog1msZpj4FkQBr5SYeB6
-	EA+Uuzlfi/SBjlDo2YtOFbLvPIvitcC2Hop5wb3oPJtWhsoqF6dZMPhNTNII2rv8
-	gUZ/VWkexw7a7RD6VjZaw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650767265; x=
+	1650853665; bh=5aHnylZhBrIbPeHjOBkVxfTHbhAukjfHst0cFkOu57k=; b=u
+	jE+1YolNokydrNd0C1U/GmGsRVaANV/H6vkM8dUz64h0BmoRdYlJ3M+UEt4ispal
+	TpHYd4als3XGG0cGM8amlSTOzXm/kG6lxydg5a2sqSX6ClmEaBTq4UgzQHBJY0MS
+	DrMSppSFDuZi+4QD8eZVzpPdFpGVAqEGcJbBGTQoVG0stqOY8gqnbAVrSZR3ukoo
+	C5jecbWTjTXM4BKoV8JKIwLjx7zd0H0ba51qNdvs6Dv1hPsaE+M9dUnkdgKk/HFC
+	FxOvi46mCpVolSITd/OUrKXDZEQCAr2LZ9lAQOIaZJ7t/f1x0z5ibq6bdcNzRXGc
+	ehxgLDvgG659SeB/TLrQQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650766973; x=1650853373; bh=PPftZXdMI30AO
-	Enfsqf4X1GwVyCk4Q3eGu+uCbhCufg=; b=bd6YDh+JgMM/glAQC/PnOxSLWb1KV
-	8yg9wU7dcFpGx9/BF61XVeBWDQ5m2axTk2daqpQwY1m9jKrKlPsdZ+7bEpFFIKXt
-	v75e8sHj1mIDqUu3ShqvrkTUzXzdpjdh5x/f7CUhm6OZ1HMPFrSvlC8QuslqDA4O
-	rhVTxCLVt2YqrQVBT8uncGl55BqsnfZwcpb9GEfkhXwe5KkFF9jy89PlJY8DE1bo
-	+ZXMSV+qOfOOVTo2UVl5a1CE9nCbwjhzfR9VDeYZ2x67Cq+p264w077z667o2L5d
-	YLeND8VOyOyOi+vO44ZJK/RSoXbSvQ1hhsBLQi0A3CGDDck5ckD+gSNgg==
-X-ME-Sender: <xms:fbRkYvkGYrKAhXbuhOgBoC6c3wzehuDxU_V9f2a8-uqiJRzkyb5FBQ>
-    <xme:fbRkYi3Kgqm6Y3ulC9ioApwXc2X-28-1mN0WaUIbhGHPBjcve9lFQmNKQNtn2XyAm
-    Bfm2nKz6PjG2aAgEA>
-X-ME-Received: <xmr:fbRkYlrbMA2EB5MWBGxMq52Zt2a-JSeA_1rHmySJGtD8_CHzxCZ8FeRoaKZ4R8agXtLCE9pmJ3G2zsaeBZn6omYBh9jiTv8YqTWeHDggIWcgMKKoDgDdqZ20ZQ>
+	:x-sasl-enc; s=fm1; t=1650767265; x=1650853665; bh=5aHnylZhBrIbP
+	eHjOBkVxfTHbhAukjfHst0cFkOu57k=; b=ks72ZrlBVF7wPaLgoznPZzso4dUSy
+	fjJwyimyA3yOGVQfz2oyRGmLJBLErO9X9mR2braEpx1gCBQmDpjRs1EK97QtDW+H
+	BoQ/z17GMLLF+MmypF3LO7GyClV8BhnoXpaD87NUa8xzew35y1Hu/yXaQDK1oLJd
+	zvYFFtTWdTp271uKPhkAZNG23gMvScmU4ahKbF//h98iTu+YEHFnESlsicgllzp6
+	DL3inBzcJ0OR2ofuU2iOYNxTVQVRx+KSevP/KogXqmV74alz1TD7RLn/MKF251h1
+	9BkOCbDoNCN7keuWUyqoqVQieORZyDl34OVZa4aMxDD96ZQzJ5McuAATA==
+X-ME-Sender: <xms:obVkYuVchIntTHbFBoRMEFWAdDBSXc87rQHIxKDi3EF_jWhYwuQNdQ>
+    <xme:obVkYqln4_lzr5R1V1RX1npEAkzUNb8yA5H6rTUqDR_Nx1b7qGyGtsMDarZAYwIuv
+    moZE9x_Ox2yjdi8mA>
+X-ME-Received: <xmr:obVkYiZRIcqq2sr9M6kPRmPuOoJ5hYsz_pKjXGE2vy6dW4o5t9xfj7AyL9mEJn2z5GERm2NrZ-v3mGXP6OsYE8cQnF76A6Rnndp6ssF0vvshYJVi2rQAt-hbyA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeitdcutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
     vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepleetjeffvdegheektdekveeuueetffetffehudefueejvddufedu
-    teeiieejveelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghruf
-    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgr
-    nhgurdhorhhg
-X-ME-Proxy: <xmx:fbRkYnmtuwo-9gMAHM6wl2g7vDUY6d6Ye3zhz7yk4ezBrhhEnZ5H2g>
-    <xmx:fbRkYt1Wk0VICeegoR8tmgYeomD_o-stdMjESDBO2VmW6zYLRoqd6Q>
-    <xmx:fbRkYmsmaTrpTBV_bx-Wrp_nhOjXTiYuVwPEU7CmunEaw-mpRDewMA>
-    <xmx:fbRkYmtaoZ2So5tRxO4I3LgvQWIhaVyJpt1tkh8_Kv8C4usavo-AaQ>
+    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
+    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:obVkYlUdAwcioVSIfGuGx_-RyszklQzEBByX2k-xodZeZ5qoI6Er9A>
+    <xmx:obVkYomfTcUzEGKj2bBd_-bZvPYW_ljAj3EgQZgku08k4Xlksp-ssw>
+    <xmx:obVkYqeflCAfmOxaM6Gd6PBWLl--pq7ryX6xVjqxucPLECLFgEnhFw>
+    <xmx:obVkYhcmb-6V-tJYYaqbFU7x3duThdTTeBSXNwVIXMJrcWW2UiFRfw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Apr 2022 22:22:51 -0400 (EDT)
-Subject: Re: [PATCH 07/12] dt-bindings: mmc: sunxi-mmc: add R329 MMC
- compatible string
-To: Icenowy Zheng <icenowy@aosc.io>, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Andre Przywara <andre.przywara@arm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Icenowy Zheng <icenowy@aosc.io>
+ 23 Apr 2022 22:27:44 -0400 (EDT)
+Subject: Re: [PATCH 08/12] mmc: sunxi: add support for R329 MMC controllers
+To: Icenowy Zheng <icenowy@aosc.io>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andre Przywara <andre.przywara@arm.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Icenowy Zheng <icenowy@aosc.io>
 References: <20220422140902.1058101-1-icenowy@aosc.io>
- <BYAPR20MB2472B6F7D9AFD3BA6338A79ABCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+ <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <1a0e766c-d867-bdb9-423b-14063ae65a02@sholland.org>
-Date: Sat, 23 Apr 2022 21:22:50 -0500
+Message-ID: <df585ee2-e365-b974-3f2b-27c113a76b1b@sholland.org>
+Date: Sat, 23 Apr 2022 21:27:43 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -73,7 +70,7 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR20MB2472B6F7D9AFD3BA6338A79ABCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+In-Reply-To: <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -81,21 +78,52 @@ Content-Transfer-Encoding: 7bit
 On 4/22/22 10:41 AM, icenowy@outlook.com wrote:
 > From: Icenowy Zheng <icenowy@aosc.io>
 > 
-> R329 SoC has two MMC controllers similar to ones in the previous
-> Allwinner SoCs. However, as R329 has no eMMC controller, the two MMC
-> controllers look like a mixture of previous SoCs' ordinary MMC
-> controller and eMMC controller.
+> The two MMC controllers in Allwinner R329 have a mixed feature set
+> comparing to the previous SoCs' ordinary MMC and eMMC controllers.
 > 
-> Add a compatible string for R329 MMC controllers.
+> Add support for them.
 > 
 > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
 Acked-by: Samuel Holland <samuel@sholland.org>
 
-You can also pick up Rob and Maxime's acks from the previous submission[1]
-(which was identical).
+> ---
+>  drivers/mmc/host/sunxi-mmc.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index 0e8fbf4957d8..06934eef8be5 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -1207,6 +1207,15 @@ static const struct sunxi_mmc_cfg sun50i_a100_emmc_cfg = {
+>  	.needs_new_timings = true,
+>  };
+>  
+> +static const struct sunxi_mmc_cfg sun50i_r329_cfg = {
+> +	.idma_des_size_bits = 13,
+> +	.idma_des_shift = 2,
+> +	.clk_delays = NULL,
+> +	.can_calibrate = true,
+> +	.mask_data0 = true,
+> +	.needs_new_timings = true,
+> +};
+> +
+
+This is the same as D1, so you could reuse or replace that configuration constant.
 
 Regards,
 Samuel
 
-[1]: https://lore.kernel.org/linux-sunxi/20210802062212.73220-13-icenowy@sipeed.com/
+>  static const struct of_device_id sunxi_mmc_of_match[] = {
+>  	{ .compatible = "allwinner,sun4i-a10-mmc", .data = &sun4i_a10_cfg },
+>  	{ .compatible = "allwinner,sun5i-a13-mmc", .data = &sun5i_a13_cfg },
+> @@ -1218,6 +1227,7 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
+>  	{ .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
+>  	{ .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
+>  	{ .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
+> +	{ .compatible = "allwinner,sun50i-r329-mmc", .data = &sun50i_r329_cfg },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
+> 
+
