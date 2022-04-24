@@ -1,41 +1,41 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496AF7C
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:46:02 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 375BB5C00BA;
-	Sat, 23 Apr 2022 22:46:01 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCEF17C
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 02:56:23 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id D4A205C00C1;
+	Sat, 23 Apr 2022 22:56:22 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sat, 23 Apr 2022 22:46:01 -0400
+  by compute3.internal (MEProxy); Sat, 23 Apr 2022 22:56:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650768361; x=
-	1650854761; bh=8Q+ZFt8iLKfw6+gfcY5JTvb5tFIFfrs8cTxnzQhZJ9s=; b=c
-	gybfw8PKzGPaM5ziDhBstmzJgZD9tE6ddGyMu7qOKe2RvB4Cv5bjTUKdCIB/khBN
-	jHBUS/MLaiAS1GSlzDdpwmVZ3Mawe/ufGJCJObgoDyCOeXLqfqxAvqj2XHPlSE+B
-	K3tSvJkeHXMVj+SKPRPOC8i0nXkcwIsTh1b+bvK49Xw5f9MYd5Fm39lzoccdjwqR
-	ZapBY92I9ofh7CsBZ56NabWbWUXPhjV9KeNzDwqit0L0dxM6kosZJ5Z153lpaMoY
-	kL+J8puHGexO6qdiz8kXuvqMStl/XOLt2079x46nNfUlqmGP1D8Qlf+CVU3uS+AR
-	/pDQ8aRYvSV+KQIFy7UmA==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650768982; x=
+	1650855382; bh=JqFpsiVGIAqRWQSDW7yIX+O4lSdHSNm0rrFZT6Ixwzk=; b=p
+	RJfM1mqWlNLsKFQNrKZqM7o54ZD21QXdlLkkXzN8F/Jdy+EK+caONMh/iPKtZI/H
+	bWWjCPjLmY7+nTI2VigDYGqwYlPtYFuY8ZBKMIFaTzS+LDQZuJr/Q9KrVpGiQgIq
+	KTiF9fzQr+COwuKnzx7XbsS7QtjBEcHbnCREqK1pIeN4wc70wI8qEpL7jKNdVFwP
+	fMIiswpmDk8U9rPW6bMP8cHWWT4wp2JvnWp5ucA1lJV8M9GN4pVuCfNgRvyjwhT4
+	2lZA0E/IfJNXsGFVLmW/GmXRetDMvaMbvXnGnOzP/deEbm2er1s98bUt4N2y2q5e
+	feUfCA9Oiymk88cjeWUpg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650768361; x=1650854761; bh=8Q+ZFt8iLKfw6
-	+gfcY5JTvb5tFIFfrs8cTxnzQhZJ9s=; b=pg2o/IZLhelFZ7d1s17VVUHpfzBFU
-	+PYgd5T/PxajgWhYPghjoX5VSEDL2aR86SOSQXSbKD2HiZc5IsGtX8ZdD3aAXx5p
-	QHvXqrRqG4suPJmkUNsXF2fZHnc7gD7miiJm33Dkm/ip8Id3Y19M7MtY36+2jUgt
-	bUPBul5fafOBbIMYEVTcrNJ3htZaez1JP4yXqFs5zZXJ5S9+MSH5K7kUmYMiUiLp
-	vG9f9dQSLyH7ZASnK2rwKDgNrAUkEuuxYrVgDeuDyLyuew0x2hOdzkeL+pgg0Pbu
-	Q2PHoVOAS1DpSUkSYfnbpASPQ88vvKR8tENPrhl/U1U/BYMq4fjGNHlDA==
-X-ME-Sender: <xms:6LlkYnt_RD6hthab-1AVaVwL3kYdw7fedR9k9_EGegDpgh5ymQLE7Q>
-    <xme:6LlkYoflDIUy216Iu2Lo3YKrLjzjuITi6DdJnyUsWyIAmD2cXtXj8wtfRMlv65Pdn
-    sPuvJr6b93930ItZw>
-X-ME-Received: <xmr:6LlkYqxcid5qNP8FoJvkBEADdyE6sjNLrLH18MZfPGmhhlGg2756sz2wqUXN89Up6a8ziF1p18nvwS9fgEZhyiTvmKEgjLUHy2WIi9RwN48Hx6EWXn5NSslAAw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeigecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; t=1650768982; x=1650855382; bh=JqFpsiVGIAqRW
+	QSDW7yIX+O4lSdHSNm0rrFZT6Ixwzk=; b=tpAELAynGfIgkJqtYlb7wgHMu/p/n
+	hQba1lB1iDhyUbWskeNLnXiyJDd+pF4m+JecrkKFMw+4FqsmWUe4sDqwEE93AYyD
+	vPlZ/5khcZ3Xn8xDLEDJRqxrRZMrEk6VGzvKU1utwVkIs0btXWUj41+o06jbDnnZ
+	blQwb9A1Kd2LcrVCkiBEIGqTpyWFpWl2x4Xzr8qKEfXLbv/N/NEQbTb/Qmzc6LIX
+	YKMFkeLyH54mBmLZyZy8DnlPaws4ZOdsVxHTP6a/e0Afo0kHgopV1vCc0OXY1kNP
+	fvMwa7BYIfSCgQ3sRMWZMr8VeX1HvRGlAm/FwOIlBmqa7XQQUGTbXdb/w==
+X-ME-Sender: <xms:VrxkYpoXwALJlBiv3qNQ5FLgSRk65baDhKt1l-H-j9LCVzFBQLlgNg>
+    <xme:VrxkYrqE7FZ8NWCTRANvJFNMVmkCEmbBlLT36Xlk-BzZ81BpCQ01h0FT5B2H1lLVZ
+    7asB1Znx2jEeWp1Ng>
+X-ME-Received: <xmr:VrxkYmP3yyCtiK0RMln5Y2NhyzoSPRsx6Pifw7mDzU3sqFw7s7tturFMz4ivQEkEB8dDBnjMHaaxOnjX7a47mMT6pepYekU50phGrRPDBUtkx_Iv6GoWaO0xHQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeijecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
@@ -43,22 +43,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdejgdeigecutefuodetggdote
     ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
     heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:6blkYmNpMgV_CaUcws0HrxLCFwgpgDCVraQIvkEwnAvphAzKhWA6qw>
-    <xmx:6blkYn-Vrb5Y3IyXxqO_mlZcqR-uw_auyQVFblYUB787TDC7GYmpNw>
-    <xmx:6blkYmVdM5jkbMto-qQgFkd3puQJDEcIIhmMy7A9TRUbn4XsMRgpCA>
-    <xmx:6blkYuaokLQhtCUKmeuIT-kjCUlPPqQ49iCmMXaaCR3dAPjqYCIkqA>
+X-ME-Proxy: <xmx:VrxkYk6zQmW2nkNjCSSmGR3GUcfeYmU75yShgqHgY5pf1L_CmpBf5A>
+    <xmx:VrxkYo4wqjbUyV_r_itjCezwuIcxDz-mxy2JyMFQTPAzeD2UNHbpIw>
+    <xmx:VrxkYsjc5JXCiBAZGCib4cRdYLYKTSrZ8MFagKfjvYi1f25Mxj0hpQ>
+    <xmx:VrxkYj05tZ25tY2sYmG4RlBktrHTpfsOCc3zSBlwgyq7TvBOCPB8XQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 23 Apr 2022 22:46:00 -0400 (EDT)
-Subject: Re: [PATCH v2] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
-To: Xiaobing Luo <luoxiaobing0926@gmail.com>, tiny.windzz@gmail.com,
- rafael@kernel.org, viresh.kumar@linaro.org, wens@csie.org,
- jernej.skrabec@gmail.com, mripard@kernel.org
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
+ 23 Apr 2022 22:56:22 -0400 (EDT)
+Subject: Re: [PATCH] arm64: dts: allwinner: teres-i: Add GPIO port regulators
+To: Harald Geyer <harald@ccbib.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ Torsten Duwe <duwe@suse.de>
+References: <20220415165605.28560-1-harald@ccbib.org>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <4ee2421f-79a8-7f4d-f7ef-33f0ccf49337@sholland.org>
-Date: Sat, 23 Apr 2022 21:46:00 -0500
+Message-ID: <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
+Date: Sat, 23 Apr 2022 21:56:21 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -67,67 +66,46 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
+In-Reply-To: <20220415165605.28560-1-harald@ccbib.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/23/22 10:12 AM, Xiaobing Luo wrote:
-> --------------------------------------------
-> unreferenced object 0xffff000010742a00 (size 128):
->   comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000b4dfebaa>] __kmalloc+0x338/0x474
->     [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
->     [<000000007d6082a0>] platform_probe+0x98/0x11c
->     [<00000000c990f549>] really_probe+0x234/0x5a0
->     [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
->     [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
->     [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
->     [<000000006720e418>] bus_for_each_drv+0xf8/0x160
->     [<00000000df4f14f6>] __device_attach+0x174/0x29c
->     [<00000000782002fb>] device_initial_probe+0x20/0x30
->     [<00000000c2681b06>] bus_probe_device+0xfc/0x110
->     [<00000000964cf3bd>] device_add+0x5f0/0xcd0
->     [<000000004b9264e3>] platform_device_add+0x198/0x390
->     [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
->     [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
->     [<000000000377cc7c>] do_one_initcall+0xe4/0x570
-> --------------------------------------------
+On 4/15/22 11:56 AM, Harald Geyer wrote:
+> Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
 > 
-> if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
-> Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
+> Usually supplies are linked via the 'regulator-name' property of
+> regulator nodes. However when regulators are shared we need to
+> declare the additional links in the pinctrl node.
 > 
-> Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+> Signed-off-by: Harald Geyer <harald@ccbib.org>
 
-Two minor style issues: there should be a space after "cpufreq:" in the commit
-subject. And the blank line should come before the "Fixes:" tag, not after.
-Otherwise:
+I'm curious if this solved an issue for you, or if this is just for accuracy.
+Both of these regulators have the regulator-always-on property, so they should
+have been enabled already. If it's the latter reason, why not add the other
+ports? Regardless:
 
 Reviewed-by: Samuel Holland <samuel@sholland.org>
 
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> index 2deed8d8773f..75e1bf3a08f7 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
->  		return -ENOMEM;
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> index aff0660b899c..cc316ef2e2d6 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> @@ -197,6 +197,11 @@ &ohci1 {
+>  	status = "okay";
+>  };
 >  
->  	ret = sun50i_cpufreq_get_efuse(&speed);
-> -	if (ret)
-> +	if (ret) {
-> +		kfree(opp_tables);
->  		return ret;
-> +	}
->  
->  	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
->  
+> +&pio {
+> +	vcc-pc-supply = <&reg_dcdc1>;
+> +	vcc-pg-supply = <&reg_aldo2>;
+> +};
+> +
+>  &pwm {
+>  	status = "okay";
+>  };
 > 
 
