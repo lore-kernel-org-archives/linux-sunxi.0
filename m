@@ -1,40 +1,67 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E19F17D1
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 06:00:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1650780010; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=G89X2QBmE4EgM05XnfpsouYFoZIwMCV4C80WgFtSCHEqtJ1USTKQNGd75ZfgyKFfA/VR+4LaG2l90nRU4ptZDPGbIquuaCq/gh0yYuzFtkuQyQCQ8Xpz8j5aPQkm0PUpx0kmj00glUINx4wBOK4zo/NXy2Psfri2kL3itnB1IHA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1650780010; h=Content-Transfer-Encoding:Cc:Date:From:MIME-Version:Message-ID:Subject:To; 
-	bh=pq60l/Yh375tVKL8zIdox/f7EvRbMx2DWdqcnGIxLow=; 
-	b=my5c5RvIj2i2qc6kQ8YLW6odsXvMl+pdBiN+aPMZdcg21ecrA9g5Mnac3ZSAWWd+wF6k6kWEgyPnKPp0wVtLbAXfQJLzODPIg9HKk7f2yERMXQ+6Xm7s1d9QfxFTXSAnCMxzBwJK2YACb/qXYJ1ZRl2SolMk3MgNQLv0qE3MLgM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1650780010;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=pq60l/Yh375tVKL8zIdox/f7EvRbMx2DWdqcnGIxLow=;
-	b=JpEonNAv7xyTDgfxMVHzMV1Qf9VYuiUBA09QEAYdS5WfHIpAKRMHGKWVaHvYHRKO
-	0FZo3Cter02dJQMXBir09R/RCF4bDvYK5a1wcfEpKZ1y0zaZdCotmkgIbqB3unYXgxT
-	EEC+lp18e3PfzcsLeHx+q1kzin2W8zWCaEHGYKNc=
-Received: from petra.. (64.225.114.122 [64.225.114.122]) by mx.zohomail.com
-	with SMTPS id 1650780009289608.5266651606395; Sat, 23 Apr 2022 23:00:09 -0700 (PDT)
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D509F2F2F
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 16:13:30 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id E74225C00F3;
+	Sun, 24 Apr 2022 12:13:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Sun, 24 Apr 2022 12:13:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1650816809; x=1650903209; bh=Amtp5NNZNgrfLBOwmjY+ypTL6
+	6su3Et14GjUFZ6fFmM=; b=iw26k8bKvmbiyhRpTibDeE7Q89TNWqm4ukmNpaYFH
+	mzluwqo3E+HtMw2P+jg1Jj1V4oVCGpjRUwk8tb07rK1PuFu6z/+goP9E+SmvO5zJ
+	y5YcbSosmrBbc3PKmXVfQmRt1aF99jUNQkd14PsP1Ef02hMBXE6Vfn/Z2Mc69UZ0
+	sEsr5VGDiPk/RngZIVE/v0nRE7qlGY+EzaS6d770WZMG6kpq+r9193zx1zR5gP8P
+	fxPfww+wJubisCIaJ/z0AwhFwAnUIT+x1K7PxOrpkPW678gi2b+Dd1VAC2jlmqOA
+	afRYL1Z/Y8A63qzN5I13Gr9sXGRnw16SIdBCAmSqrK3oA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:from:from:in-reply-to:message-id:mime-version:reply-to:sender
+	:subject:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1650816809; x=1650903209; bh=A
+	mtp5NNZNgrfLBOwmjY+ypTL66su3Et14GjUFZ6fFmM=; b=bUsNk+qTj5SFxcCWj
+	f48+i0I8OwVshv5J7TEgFfjWPFwwolR0cr9uqkR2ghim/E51FpUoVkpzTrxy0Uig
+	jW4tyAyei1N+voect8PshOIAMj1nmvntdAjSSKY+KT3KjKn6e9xs8XtL7QWcF2fN
+	ZN0v3ycbMVsyqzhc0xbVY3/dSXgWC9IBQgf6pMfLIUYHAt1Fua2NhqtdV9US8zPy
+	EdcBBd7KFxVmBlGOC9olBONWRySikAUZBpu1PNr29Ij3Qy/FWDcpqyvHu5h7pmvf
+	gLbZme/err7uiVohyj5M5jwCFtlFxold0HfkZPAvUvjMeU5Pekj5DZSx3+Ey7x12
+	9dOsA==
+X-ME-Sender: <xms:KXdlYtkYARM1dtbO4yrwXL8kOBTJY4IOz3aZ9yGueZ2ifAXaNM7K3Q>
+    <xme:KXdlYo2mzHHTOACGHv3Zt-dbuERvLUg9aOw4CxxInL7nryf8U99uz6ZBLi0SC44tK
+    dQpvPqMF0itibIYUQ>
+X-ME-Received: <xmr:KXdlYjrwIRk6cDxCi-qc4JDd4w35yflkOwIXy_Niy1DBygrsvS-ezqS_MKyRoZG1VZZ98YRp_hMKpXrZOzrl9DdpfvreYU0ANcLoYUog2fqcLCj7m9Jz646fWnCq045UL5kWlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrtdelgddutddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:KXdlYtnQojeq1PVkRkrdj8Hu0boxiWu9Q0KFKEG0n_6gEZ4mPa8ESw>
+    <xmx:KXdlYr2mRerp2gs2FHexJrHncwG5kPJunAtrDzWuzdzfHl8NgXwl6w>
+    <xmx:KXdlYstomHBIJ_IMiwU3H96nOLC9VFivwAMRdPsWg6b7k-_CvJXV6A>
+    <xmx:KXdlYkJbdXdM0bBMwGpKFFMYKFm_tdpLn-7sqQgDUbspwYa2bYXzgw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 24 Apr 2022 12:13:28 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Ondrej Jirman <x@xff.cz>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Cc: linux-clk@vger.kernel.org,
+	Samuel Holland <samuel@sholland.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
+	linux-input@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Icenowy Zheng <uwu@icenowy.me>
-Subject: [PATCH] clk: sunxi-ng: ccu-sun6i-rtc: set rtc-32k to critical
-Date: Sun, 24 Apr 2022 13:59:59 +0800
-Message-Id: <20220424055959.109286-1-uwu@icenowy.me>
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v5] Input: sun4i-lradc-keys - Add wakeup support
+Date: Sun, 24 Apr 2022 11:13:27 -0500
+Message-Id: <20220424161328.61103-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -43,30 +70,95 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-RTC itself is the one and only consumer of rtc-32k clock. As the rtc
-should be always running, set rtc-32k clock to critical, to prevent it
-from being gated by the kernel.
+From: Ondrej Jirman <x@xff.cz>
 
-Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
-Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+Allow the driver to wake the system on key press if the "wakeup-source"
+property is provided in the device tree. Using the LRADC as a wakeup
+source requires keeping the AVCC domain active during sleep. Since this
+has a nontrivial impact on power consumption (sometimes doubling it),
+disable the LRADC wakeup source by default.
+
+Signed-off-by: Ondrej Jirman <x@xff.cz>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index 8a10bade7e0d..3d9c9ce5a3db 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
- 	.ops		= &ccu_mux_ops,
- 	.parent_hws	= rtc_32k_parents,
- 	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated during probe */
-+	.flags		= CLK_IS_CRITICAL,
- };
+Changes in v5:
+  - Fix typo in commit subject
+  - Update Ondrej's e-mail address per his request
+
+Changes in v4:
+  - Only mark device as wakeup capable if setting the wakeirq succeeds
+  - An entirely different, but equivalent, DT binding patch was merged,
+    so there is only one patch left
+
+Changes in v3:
+  - Dropped unnecessary pr_err in platform_get_irq() error path
+  - Dropped patch 3 (DT update) as it was merged
+  - Added Acked-by/Reviewed-by tags
+
+Changes in v2:
+  - Add requisite DT binding change
+  - Only add wakeup capability if "wakeup-source" is present
+  - Warn but do not error out if setting the wake IRQ fails
+  - Add "wakeup-source" property to PinePhone device tree
+
+ drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
+index 4a796bed48ac..781f9b053115 100644
+--- a/drivers/input/keyboard/sun4i-lradc-keys.c
++++ b/drivers/input/keyboard/sun4i-lradc-keys.c
+@@ -22,6 +22,8 @@
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_wakeirq.h>
++#include <linux/pm_wakeup.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
  
- static struct ccu_mux rtc_32k_clk = {
+@@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ {
+ 	struct sun4i_lradc_data *lradc;
+ 	struct device *dev = &pdev->dev;
+-	int i;
+-	int error;
++	int error, i, irq;
+ 
+ 	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
+ 	if (!lradc)
+@@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (IS_ERR(lradc->base))
+ 		return PTR_ERR(lradc->base);
+ 
+-	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
+-				 sun4i_lradc_irq, 0,
++	irq = platform_get_irq(pdev, 0);
++	if (irq < 0)
++		return irq;
++
++	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
+ 				 "sun4i-a10-lradc-keys", lradc);
+ 	if (error)
+ 		return error;
+@@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
+ 	if (error)
+ 		return error;
+ 
++	if (device_property_read_bool(dev, "wakeup-source")) {
++		error = dev_pm_set_wake_irq(dev, irq);
++		if (error)
++			dev_warn(dev, "Failed to set wake IRQ\n");
++		else
++			device_set_wakeup_capable(dev, true);
++	}
++
+ 	return 0;
+ }
+ 
 -- 
 2.35.1
 
