@@ -1,49 +1,49 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26B657C
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 19:50:24 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id k23so25946689ejd.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 12:50:23 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D75633D1
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 19:55:20 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id i27so25903683ejd.9
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 12:55:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SmTw1a3cXWEdJuo5jLxVYG9+0t7TfLjj7xZjD5d7KU0=;
-        b=Tkc1geR52mL1eHBIeDO0XVOmiFXCFA7T1H8DVGwEIkRIYCaCN6MyH7vi4P0I8JMQ+C
-         PJrW0GUKHl/2oG9RUb3dA43QvIqyGjpmGjmHRpae9C7rtOyeLHdKz0MqewJfWv24Bw5/
-         Ns7nxDT6jbS72Rc8Pm01s8gUi4ZQfe8uJ9Xv5aD1BQNMQTMQOIGDHh6T2VkjR0l9lDN+
-         6LRp8pQyLCJpeCO+ogwS0tSEv3wRvaVCHqdqzPRBKOjqoDm8q+ziamR+o5NJ5mbOy484
-         0Jwa/4wMVh09PkhmPeK3aEtLsdhbA6N8SKDZRj5XzS0jTJXFRsKPcdJ6p9eyNXA1WePv
-         ep3g==
+        bh=jnZc7DP16ZcOaHpZ/GNMFf37KvUcvRnbmi+EyiBH2ZE=;
+        b=AcnpSf+5qxUgF0srl66FGmfTo7OdTmIAm/XziK6pVlV5y+Ze8LSEtuXW01aQzj32eD
+         UhvkN+CUxB0D3gTzfZU5NC0QWTw1BPK7YYpaU6MzOU/HsH+8Q08WP7KHA5mIa7oZBEwE
+         wAXKdW9/pDIDzu/uB8msTCKmtU8eteJ1GqlEBa1lSC1CYvQgFj3AiA+B5ttspv5NeG5+
+         aIbecn5OirPqnhzLhgyFahyxe4soSmeTe+KIlqfaE0aAlRk9Mm9V3Ay9AtE5BhubNBLb
+         +zPQgLpKF2iXZPpAq80rAdwJyn5049gSdgXFXx41HPG3B+FeEvCHhfCuQfP9Mtfj1qZF
+         HJqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SmTw1a3cXWEdJuo5jLxVYG9+0t7TfLjj7xZjD5d7KU0=;
-        b=yZvFhWyjyR4LyTIWp+zp+aSXy/QZeuBYZ+X2GIb5qeOKIsSJbwFG4qy9VbafAC6U4u
-         +xbQNZ5T52CQJywZLNJNxDHDob4r11ytcXrgxuWGMRpRWZH+yBjHCuPcW2ZoXQ16lgJ6
-         YmosNyYLDRtrVUuF2X6IhAO06fAm8SUSnSm6cgPkQtjuDyFb3rnG6h02uYGDEgRWFDbg
-         trl3coV2XQvAUIUNfSU35P11wKnQ+Vie5vflLJNi8FzxKgJneRFG8ipgEf4fYV8LoYBg
-         6iS86hUAWGcI+D/sN4L26zKgewkCf+zsXc5NLXFUmXL7PTnB6pprBp7eHuADUpZMiMWy
-         JUXw==
-X-Gm-Message-State: AOAM530T++W5VgIVQxtfHwtrTx++QteDjwAWjfqg6z83Ofv2sxvf1tma
-	op4TswONaZQdkWPSMS4J5V1NIa8P00I=
-X-Google-Smtp-Source: ABdhPJxVCzu1SCuRlkHLi9y47tFtrClwhJDDPTTX72ySghCaAsZoYOIsD5osaGclr1SKLFVzpUCMqA==
-X-Received: by 2002:a17:906:4783:b0:6d0:9b6e:b5a5 with SMTP id cw3-20020a170906478300b006d09b6eb5a5mr13608722ejc.526.1650829822433;
-        Sun, 24 Apr 2022 12:50:22 -0700 (PDT)
+        bh=jnZc7DP16ZcOaHpZ/GNMFf37KvUcvRnbmi+EyiBH2ZE=;
+        b=s5QcTedEe5GWj0jM2Soemt1xIJUnZsn8Qyr6UiToNqzb9VIMPVKXJ3/uwsnEx5RDzV
+         QUJixwL4yHwFr5/EIn/AQ7Ocuk7R8EnRJlVVXTpioxseMui5j2S2U627kd3uWVV1pSde
+         oaa+esy6kiF0BsNM+OaAZ3+mJWqe/29T/D3VWE2FsPIIb8z4J3NkEFYj0cdOTYrmOOCW
+         3fGkNsjIE4F9ZhS9MCxqORXRahOpZ/hIa9RkSNcmPFuQIu5Gd7dMmpBFQdGcuz2my2fy
+         CXgZMkVDF42t2cDB3gZ78zneRNolCD5LdKCjMIE8FBunuqTNlGUbrysRP0af7vZEmyfn
+         xFFQ==
+X-Gm-Message-State: AOAM532jVzs/597ICuN6+56Uw6fpn8J6D96tu5FUU2+bKGc0zBV4p/oz
+	pm3Smaau1AIY5np5hvCog5I=
+X-Google-Smtp-Source: ABdhPJzN3eVFBus3yS50upLR1PqeRSF6bppisLjUxreAllvxq33VJBsVI+bSpN1WSBIgUo8tDD0BvQ==
+X-Received: by 2002:a17:906:5006:b0:6ce:3762:c72e with SMTP id s6-20020a170906500600b006ce3762c72emr13049979ejj.30.1650830118484;
+        Sun, 24 Apr 2022 12:55:18 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id q6-20020a17090622c600b006f3876cd90csm1068241eja.198.2022.04.24.12.50.21
+        by smtp.gmail.com with ESMTPSA id ak18-20020a170906889200b006f39a445b93sm148849ejc.141.2022.04.24.12.55.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 12:50:21 -0700 (PDT)
+        Sun, 24 Apr 2022 12:55:18 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, kernel test robot <lkp@intel.com>, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] irqchip/sun6i-r: Use NULL for chip_data
-Date: Sun, 24 Apr 2022 21:50:20 +0200
-Message-ID: <2626773.mvXUDI8C0e@kista>
-In-Reply-To: <20220424173952.36591-1-samuel@sholland.org>
-References: <20220424173952.36591-1-samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>
+Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
+Subject: Re: [PATCH] clk: sunxi-ng: ccu-sun6i-rtc: set rtc-32k to critical
+Date: Sun, 24 Apr 2022 21:55:17 +0200
+Message-ID: <5560593.DvuYhMxLoT@kista>
+In-Reply-To: <20220424055959.109286-1-uwu@icenowy.me>
+References: <20220424055959.109286-1-uwu@icenowy.me>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,52 +53,41 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 24. april 2022 ob 19:39:51 CEST je Samuel Holland napisal(a):
-> sparse complains about using an integer as a NULL pointer.
+Dne nedelja, 24. april 2022 ob 07:59:59 CEST je Icenowy Zheng napisal(a):
+> RTC itself is the one and only consumer of rtc-32k clock. As the rtc
+> should be always running, set rtc-32k clock to critical, to prevent it
+> from being gated by the kernel.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+This one was already submitted here:
+https://lore.kernel.org/linux-sunxi/20220411050100.40964-1-samuel@sholland.org/
 
 Best regards,
 Jernej
 
 > ---
+>  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->  drivers/irqchip/irq-sun6i-r.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/irqchip/irq-sun6i-r.c b/drivers/irqchip/irq-sun6i-r.c
-> index 4cd3e533740b..a01e44049415 100644
-> --- a/drivers/irqchip/irq-sun6i-r.c
-> +++ b/drivers/irqchip/irq-sun6i-r.c
-> @@ -249,11 +249,13 @@ static int sun6i_r_intc_domain_alloc(struct irq_domain 
-*domain,
->  	for (i = 0; i < nr_irqs; ++i, ++hwirq, ++virq) {
->  		if (hwirq == nmi_hwirq) {
->  			irq_domain_set_hwirq_and_chip(domain, virq, 
-hwirq,
-> -						      
-&sun6i_r_intc_nmi_chip, 0);
-> +						      
-&sun6i_r_intc_nmi_chip,
-> +						      NULL);
->  			irq_set_handler(virq, 
-handle_fasteoi_ack_irq);
->  		} else {
->  			irq_domain_set_hwirq_and_chip(domain, virq, 
-hwirq,
-> -						      
-&sun6i_r_intc_wakeup_chip, 0);
-> +						      
-&sun6i_r_intc_wakeup_chip,
-> +						      NULL);
->  		}
->  	}
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-
+sun6i-rtc.c
+> index 8a10bade7e0d..3d9c9ce5a3db 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+> @@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
+>  	.ops		= &ccu_mux_ops,
+>  	.parent_hws	= rtc_32k_parents,
+>  	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated 
+during probe */
+> +	.flags		= CLK_IS_CRITICAL,
+>  };
 >  
+>  static struct ccu_mux rtc_32k_clk = {
 > -- 
 > 2.35.1
+> 
 > 
 > 
 
