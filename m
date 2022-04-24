@@ -1,49 +1,49 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D75633D1
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 19:55:20 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id i27so25903683ejd.9
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 12:55:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BEA17C
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 19:59:47 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id i27so25916314ejd.9
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 12:59:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jnZc7DP16ZcOaHpZ/GNMFf37KvUcvRnbmi+EyiBH2ZE=;
-        b=AcnpSf+5qxUgF0srl66FGmfTo7OdTmIAm/XziK6pVlV5y+Ze8LSEtuXW01aQzj32eD
-         UhvkN+CUxB0D3gTzfZU5NC0QWTw1BPK7YYpaU6MzOU/HsH+8Q08WP7KHA5mIa7oZBEwE
-         wAXKdW9/pDIDzu/uB8msTCKmtU8eteJ1GqlEBa1lSC1CYvQgFj3AiA+B5ttspv5NeG5+
-         aIbecn5OirPqnhzLhgyFahyxe4soSmeTe+KIlqfaE0aAlRk9Mm9V3Ay9AtE5BhubNBLb
-         +zPQgLpKF2iXZPpAq80rAdwJyn5049gSdgXFXx41HPG3B+FeEvCHhfCuQfP9Mtfj1qZF
-         HJqQ==
+        bh=bV7abALvJSLkm1kXyFRmPXQZ2gIon9h1Q/8YJtaLQt4=;
+        b=lcAdQ6A+UaHD3xIrVIAm0/cpdlS52ljmY/RnUwRNx33hyNO15ij8+ZKeJ2lQ7pWkiy
+         WDv1tK/A+g45C0CQaHsQvsYH8wBVOJ1k3Y7H/TSR/QyGyRXxKUPM5Tz0XuWUkHWunE5Y
+         lBrOLHdwkS+hWXMRCmbZtV0woML4a7TscSAY0bS53ftl6TNrHE5qQvITz+a6uc7o5xnf
+         C6O/kY1mU1P1UzIf9ev5uMDpE7GV2hUhpqiwpc+vovpuQ8ALgvweJRrF9W9/D7QzM33w
+         nKILE+YGn8kTLiu8t+VdRp/35f9xuzkIdZ7evu4/5yJ0rs99yigb2Q4SzMy2bdTxwOj8
+         sraw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jnZc7DP16ZcOaHpZ/GNMFf37KvUcvRnbmi+EyiBH2ZE=;
-        b=s5QcTedEe5GWj0jM2Soemt1xIJUnZsn8Qyr6UiToNqzb9VIMPVKXJ3/uwsnEx5RDzV
-         QUJixwL4yHwFr5/EIn/AQ7Ocuk7R8EnRJlVVXTpioxseMui5j2S2U627kd3uWVV1pSde
-         oaa+esy6kiF0BsNM+OaAZ3+mJWqe/29T/D3VWE2FsPIIb8z4J3NkEFYj0cdOTYrmOOCW
-         3fGkNsjIE4F9ZhS9MCxqORXRahOpZ/hIa9RkSNcmPFuQIu5Gd7dMmpBFQdGcuz2my2fy
-         CXgZMkVDF42t2cDB3gZ78zneRNolCD5LdKCjMIE8FBunuqTNlGUbrysRP0af7vZEmyfn
-         xFFQ==
-X-Gm-Message-State: AOAM532jVzs/597ICuN6+56Uw6fpn8J6D96tu5FUU2+bKGc0zBV4p/oz
-	pm3Smaau1AIY5np5hvCog5I=
-X-Google-Smtp-Source: ABdhPJzN3eVFBus3yS50upLR1PqeRSF6bppisLjUxreAllvxq33VJBsVI+bSpN1WSBIgUo8tDD0BvQ==
-X-Received: by 2002:a17:906:5006:b0:6ce:3762:c72e with SMTP id s6-20020a170906500600b006ce3762c72emr13049979ejj.30.1650830118484;
-        Sun, 24 Apr 2022 12:55:18 -0700 (PDT)
+        bh=bV7abALvJSLkm1kXyFRmPXQZ2gIon9h1Q/8YJtaLQt4=;
+        b=KCc2SzNgtRMCjtsGe2b7iEegRgThKzLq1aKho7RU5wdvBlQnGitOL8RT8iP52bVIFb
+         jHymDTIqupNkGILRW6+uiWf+vm9uUyQTe6Gra2pC/R/4X3hWlrFw2gR0oU+V2zna1isV
+         G8bIwYsVQQaKYuJWfJbisA76MnZHDNGzlLL3wPOmKwMEsU+Zj9nl90/D6d04zVwV3RMG
+         06pJs6/3Eb5cxYhkk8K9U4BDKVbyWkpSHA8fC4juzjr2spv2bhmKm96/gOYniKWavmoz
+         TYZJGCJmUGyHbTMVecTr9alLfi/ngqGMJPc32dtZrTrP4LpLM/mzlUXViWs5BUWMwaMm
+         Y4Zg==
+X-Gm-Message-State: AOAM532fxr3f9BQAQUjIpryaCYRbvc6NjBZmzdvqx9xxRmeMYGCh3BQ2
+	ToxLz/XBQFsvqFFeD+eTjp8=
+X-Google-Smtp-Source: ABdhPJy+WUlHCxfjVulhRV24z4zq5PYWrKRNgfG26I/7xRNckO6yB1RPxAIu2B7iY6TbPQGLZ9u00A==
+X-Received: by 2002:a17:907:7f28:b0:6f0:29eb:85ba with SMTP id qf40-20020a1709077f2800b006f029eb85bamr13971555ejc.15.1650830386246;
+        Sun, 24 Apr 2022 12:59:46 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id ak18-20020a170906889200b006f39a445b93sm148849ejc.141.2022.04.24.12.55.17
+        by smtp.gmail.com with ESMTPSA id m5-20020a17090607c500b006f1bf5f545asm2837299ejc.26.2022.04.24.12.59.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 12:55:18 -0700 (PDT)
+        Sun, 24 Apr 2022 12:59:45 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Icenowy Zheng <uwu@icenowy.me>
-Cc: linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Icenowy Zheng <uwu@icenowy.me>
-Subject: Re: [PATCH] clk: sunxi-ng: ccu-sun6i-rtc: set rtc-32k to critical
-Date: Sun, 24 Apr 2022 21:55:17 +0200
-Message-ID: <5560593.DvuYhMxLoT@kista>
-In-Reply-To: <20220424055959.109286-1-uwu@icenowy.me>
-References: <20220424055959.109286-1-uwu@icenowy.me>
+To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3 04/14] drm/sun4i: hdmi: Use more portable I/O helpers
+Date: Sun, 24 Apr 2022 21:59:44 +0200
+Message-ID: <4732416.31r3eYUQgx@kista>
+In-Reply-To: <20220424162633.12369-5-samuel@sholland.org>
+References: <20220424162633.12369-1-samuel@sholland.org> <20220424162633.12369-5-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,41 +53,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne nedelja, 24. april 2022 ob 07:59:59 CEST je Icenowy Zheng napisal(a):
-> RTC itself is the one and only consumer of rtc-32k clock. As the rtc
-> should be always running, set rtc-32k clock to critical, to prevent it
-> from being gated by the kernel.
+Dne nedelja, 24. april 2022 ob 18:26:22 CEST je Samuel Holland napisal(a):
+> readsb/writesb are unavailable on some architectures. In preparation for
+> removing the Kconfig architecture dependency, switch to the equivalent
+> but more portable ioread/write8_rep helpers.
 > 
-> Fixes: d91612d7f01a ("clk: sunxi-ng: Add support for the sun6i RTC clocks")
-> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-This one was already submitted here:
-https://lore.kernel.org/linux-sunxi/20220411050100.40964-1-samuel@sholland.org/
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
-Jernej
+Jernej Skrabec
 
 > ---
->  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 1 +
->  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-
-sun6i-rtc.c
-> index 8a10bade7e0d..3d9c9ce5a3db 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-> @@ -241,6 +241,7 @@ static struct clk_init_data rtc_32k_init_data = {
->  	.ops		= &ccu_mux_ops,
->  	.parent_hws	= rtc_32k_parents,
->  	.num_parents	= ARRAY_SIZE(rtc_32k_parents), /* updated 
-during probe */
-> +	.flags		= CLK_IS_CRITICAL,
->  };
+> (no changes since v2)
+> 
+> Changes in v2:
+>  - New patch: I/O helper portability
+> 
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/
+sun4i_hdmi_i2c.c
+> index b66fa27fe6ea..c7d7e9fff91c 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+> @@ -56,9 +56,9 @@ static int fifo_transfer(struct sun4i_hdmi *hdmi, u8 *buf, 
+int len, bool read)
+>  		return -EIO;
 >  
->  static struct ccu_mux rtc_32k_clk = {
+>  	if (read)
+> -		readsb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, 
+len);
+> +		ioread8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, 
+buf, len);
+>  	else
+> -		writesb(hdmi->base + hdmi->variant->ddc_fifo_reg, buf, 
+len);
+> +		iowrite8_rep(hdmi->base + hdmi->variant->ddc_fifo_reg, 
+buf, len);
+>  
+>  	/* Clear FIFO request bit by forcing a write to that bit */
+>  	regmap_field_force_write(hdmi->field_ddc_int_status,
 > -- 
 > 2.35.1
-> 
 > 
 > 
 
