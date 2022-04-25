@@ -1,169 +1,81 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC5CF7E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 10:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1650883220;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3Y91YY01N7UrHQaQhke//8ISQGGOkcgPe3+Pz+wp220=;
-	b=a91AdZ5R3mmFPVXYfDS8+B482x8zf7thMir50II1Qvws0HLCro1GD58zN0ChrxI+a31eQM
-	SOP6AzNudTsAWndmii5UT+tSx45fVmFKJLfvhrb+UqiNeMnxZ4Lid2O3cyiR3cvwOWkFAe
-	xnGwbmqIm8XVMhWO7vWCd1nNXmkGwVs=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-202-21E5gGe2Mj2NGH3-DYF2JQ-1; Mon, 25 Apr 2022 06:40:19 -0400
-X-MC-Unique: 21E5gGe2Mj2NGH3-DYF2JQ-1
-Received: by mail-ed1-f70.google.com with SMTP id co27-20020a0564020c1b00b00425ab566200so5610134edb.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 03:40:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3Y91YY01N7UrHQaQhke//8ISQGGOkcgPe3+Pz+wp220=;
-        b=oYWhYLFp2bmCgMbUrl7/6zbsN/txdvb6nE2HP8MFPxnQWtmGhRSiSc+q2mb7yk3wSa
-         KU7DjdxW+fNy6BK9ejxPDwT0XlDgGDI/vR2FJOkkOA3EAkRzb3MRf3iH5GAn6nopbWda
-         JZNaI2VNrRtgH/BJzUQHh8RRHHnkUSVSD7auG7dUcJWMamLPt+Pud6bNvW7QTYwxn7pP
-         dVh+Hzk3Lytc51SJtH5g2VP/47Q7kBBVmOi2Sdzha16n3t/zEunORcicVr1KImtX+Z2r
-         uEUvc1l297FBwEpNrdTNWWfL7hqwpZbugRMmve2YvFht/xCg7sL1zpR29M250xg2Cw7l
-         GPqA==
-X-Gm-Message-State: AOAM53241wy0bUNoLv+doxfEnpqNXH5Fy//EuzMZv1DVfaUH834nCj8a
-	WMbB/o9TfqdOdaNnn4A75lpnScvGoVTGZTccDyfgTyo7nmxXZC4E7HyoWr4MSchSx29hcJ9OAcL
-	UFNRkpEZJqo3mpe6/rzpQ+1Q=
-X-Received: by 2002:a17:907:c243:b0:6f3:953d:6e2 with SMTP id tj3-20020a170907c24300b006f3953d06e2mr4143264ejc.506.1650883217952;
-        Mon, 25 Apr 2022 03:40:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUrVv8ZCepa/U3q4uft3AB87DDPX1VjjBR7uWVrYkmmUi98hEXzpSCu5QtPh8Y6mSgOFXzlg==
-X-Received: by 2002:a17:907:c243:b0:6f3:953d:6e2 with SMTP id tj3-20020a170907c24300b006f3953d06e2mr4143246ejc.506.1650883217736;
-        Mon, 25 Apr 2022 03:40:17 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id q11-20020a170906144b00b006cf61dfb03esm3481489ejc.62.2022.04.25.03.40.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 03:40:16 -0700 (PDT)
-Message-ID: <dcc1b028-7e53-cb94-9a66-41890393f2ed@redhat.com>
-Date: Mon, 25 Apr 2022 12:40:15 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288947E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:03:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D0371FB;
+	Mon, 25 Apr 2022 04:03:38 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECFB83F73B;
+	Mon, 25 Apr 2022 04:03:36 -0700 (PDT)
+Date: Mon, 25 Apr 2022 12:03:34 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org, Chen-Yu
+ Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime
+ Ripard <maxime@cerno.tech>, Yangtao Li <frank@allwinnertech.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] mmc: sunxi-mmc: Fix DMA descriptors allocated above 32
+ bits
+Message-ID: <20220425120334.62f60978@donnerap.cambridge.arm.com>
+In-Reply-To: <20220424231751.32053-1-samuel@sholland.org>
+References: <20220424231751.32053-1-samuel@sholland.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] mmc: sunxi-mmc: Correct the maximum segment size
-To: Samuel Holland <samuel@sholland.org>, Ulf Hansson
- <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
- Chris Ball <chris@printf.net>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220424230640.31735-1-samuel@sholland.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20220424230640.31735-1-samuel@sholland.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+
+On Sun, 24 Apr 2022 18:17:50 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
 Hi Samuel,
 
-On 4/25/22 01:06, Samuel Holland wrote:
-> According to the DMA descriptor documentation, the lowest two bits of
-> the size field are ignored, so the size must be rounded up to a multiple
-> of 4 bytes. Furthermore, 0 is not a valid buffer size; setting the size
-> to 0 will cause that DMA descriptor to be ignored.
+thanks for sending this.
+
+> Newer variants of the MMC controller support a 34-bit physical address
+> space by using word addresses instead of byte addresses. However, the
+> code truncates the DMA descriptor address to 32 bits before applying the
+> shift. This breaks DMA for descriptors allocated above the 32-bit limit.
 > 
-> Together, these restrictions limit the maximum DMA segment size to 4
-> less than the power-of-two width of the size field.
-
-I assume that you were seeing some problems where things where not working
-which caused you to investigate this; and that this patch fixes those
-problems?   If yes then it would be good to also mention the problems +
-investigative process in the commit message.
-
-I'm no longer involved in sunxi development, but still I wonder if the
-substraction of 4 from the max_seg_size is really necessary? This seems
-to be based on the notion that as you say "0 is not a valid buffer size"
-where as the code so far has been operating under the assumption that
-putting 0 in sunxi_idma_des.buf_size means maximum buf-size.
-
-I'm pretty sure that 0 meaning maximum buf-size is correct for at least
-the older chips where idma_des_size_bits equals 13, which means that
-only 2 4K pages fit in a single desc, so we almost certainly have been
-hitting this code path ?
-
-Although: drivers/mmc/host/dw_mmc.c which seems to be for similar
-hw suggests that on designs where idma_des_size_bits == 13 only
-4k can be used, which sorta matches what you are doing here except
-that you limit things to 8k - 4 instead of to just 4k.
-
-Anyways I was just wondering about all this...
-
-Regards,
-
-Hans
-
-
-
-> 
-> Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found on Allwinner sunxi SoCs")
+> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 > 
->  drivers/mmc/host/sunxi-mmc.c | 14 ++++++++------
->  1 file changed, 8 insertions(+), 6 deletions(-)
+>  drivers/mmc/host/sunxi-mmc.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index c62afd212692..4bd5f37b1036 100644
+> index c62afd212692..46f9e2923d86 100644
 > --- a/drivers/mmc/host/sunxi-mmc.c
 > +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -214,6 +214,9 @@
->  #define SDXC_IDMAC_DES0_CES	BIT(30) /* card error summary */
->  #define SDXC_IDMAC_DES0_OWN	BIT(31) /* 1-idma owns it, 0-host owns it */
->  
-> +/* Buffer size must be a multiple of 4 bytes. */
-> +#define SDXC_IDMAC_SIZE_ALIGN	4
-> +
->  #define SDXC_CLK_400K		0
->  #define SDXC_CLK_25M		1
->  #define SDXC_CLK_50M		2
-> @@ -361,17 +364,15 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
->  {
->  	struct sunxi_idma_des *pdes = (struct sunxi_idma_des *)host->sg_cpu;
->  	dma_addr_t next_desc = host->sg_dma;
-> -	int i, max_len = (1 << host->cfg->idma_des_size_bits);
-> +	int i;
->  
->  	for (i = 0; i < data->sg_len; i++) {
->  		pdes[i].config = cpu_to_le32(SDXC_IDMAC_DES0_CH |
->  					     SDXC_IDMAC_DES0_OWN |
->  					     SDXC_IDMAC_DES0_DIC);
->  
-> -		if (data->sg[i].length == max_len)
-> -			pdes[i].buf_size = 0; /* 0 == max_len */
-> -		else
-> -			pdes[i].buf_size = cpu_to_le32(data->sg[i].length);
-> +		pdes[i].buf_size = cpu_to_le32(ALIGN(data->sg[i].length,
-> +						     SDXC_IDMAC_SIZE_ALIGN));
->  
->  		next_desc += sizeof(struct sunxi_idma_des);
+> @@ -377,8 +377,9 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
 >  		pdes[i].buf_addr_ptr1 =
-> @@ -1420,7 +1421,8 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
->  	mmc->max_blk_count	= 8192;
->  	mmc->max_blk_size	= 4096;
->  	mmc->max_segs		= PAGE_SIZE / sizeof(struct sunxi_idma_des);
-> -	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits);
-> +	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits) -
-> +				  SDXC_IDMAC_SIZE_ALIGN;
->  	mmc->max_req_size	= mmc->max_seg_size * mmc->max_segs;
->  	/* 400kHz ~ 52MHz */
->  	mmc->f_min		=   400000;
+>  			cpu_to_le32(sg_dma_address(&data->sg[i]) >>
+>  				    host->cfg->idma_des_shift);
+> -		pdes[i].buf_addr_ptr2 = cpu_to_le32((u32)next_desc >>
+> -						    host->cfg->idma_des_shift);
+> +		pdes[i].buf_addr_ptr2 =
+> +			cpu_to_le32(next_desc >>
+> +				    host->cfg->idma_des_shift);
+
+I had mentioned this problem on the original patch before[1] and had
+this fixed in my re-submission[2], so it looks good to me:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+[1]https://lore.kernel.org/linux-arm-kernel/65401815-cb2e-58ec-7653-f09d6a25804c@arm.com/
+[2]https://lore.kernel.org/linux-arm-kernel/20210118020848.11721-3-andre.przywara@arm.com/
+
+>  	}
+>  
+>  	pdes[0].config |= cpu_to_le32(SDXC_IDMAC_DES0_FD);
 
