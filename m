@@ -1,111 +1,115 @@
-Received: from mail.cosmopool.net (h1.radempa.de [176.9.142.194])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470E17E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:10:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.cosmopool.net (Postfix) with ESMTP id 3A2B790168A;
-	Mon, 25 Apr 2022 13:01:56 +0200 (CEST)
-Received: from mail.cosmopool.net ([127.0.0.1])
-	by localhost (mail.b.radempa.de [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 672odDHYvjf8; Mon, 25 Apr 2022 13:01:55 +0200 (CEST)
-Received: from webmail.cosmopool.net (localhost [127.0.0.1])
-	by mail.cosmopool.net (Postfix) with ESMTPSA id 4634F9004FE;
-	Mon, 25 Apr 2022 13:01:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ccbib.org; s=201902;
-	t=1650884515; bh=xZhRc9yY05nLmAbLSXvLWBHxam/xcmOns6t5R8P3spg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=a7lU1MxVpyhPBWR4LzcrQbrs6SaYQnyoMOKgAxYp9SkAdpxeI+V46M7f4R9dP4EgX
-	 F3i/xtNN6xl08FJSz4UG3vMONy5IZu7s4MqZRXlT3auy+tP8CS4dIPUNp/hIwax0oJ
-	 D5EsVejqvCzQYqbBF1TpS0KyTsJ/7vuWfJQYGRbY=
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D587E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:30:33 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id b12so11545881plg.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 04:30:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jq3lZaJRWmUC1+/YH0KaBe1qk/+UKzuPPxjecR22D8I=;
+        b=FoikZIM5R9luRPxIlH8rApfm/qpfKWJbs1ksYjkd4SJBe3V7l6HI0fF1ZWVFSGCxJ7
+         ndio9iXLaNi7fKs5F/5KAULIbINTFEznMBMLZ8gYetFUOQ7ajvbAeCtjFzvp/q4uOnsB
+         R26i3dJfeRkfqktQWFGVNsM9Opm9s8xd8ZDnk5jcxIkXouauxKutvc0bDNAi8zuUhPsE
+         mTGXQu29XlCN9Ehfw7Prztx3JeO4GQ44LWZzH5stAgHImRd5/On3vpCHtdYjz95pSdS4
+         fbZvEFCgGHKpEbbFdFDJaHMkw+TtFu43dgkcUYROO+86i9QVwRvi9x5r4pG7FyUFmbfe
+         ApIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jq3lZaJRWmUC1+/YH0KaBe1qk/+UKzuPPxjecR22D8I=;
+        b=cf4Te1Z07rrlJW2sPp+Zty4xXqkFREODHOC7/QcFY7xuf5uSWbv/jSKWyoAAg4zZPc
+         jg2fP1E+l4OsBTEnAytnA8idF5Kmu1f8ftqMbjj190IfsfSLJRU5BPyI1lCiwxnaQAqM
+         +m3BSK4tpdy6ADsQKFSc28N91EbbU9rl3XdzFzX9ZjOIil2BH3Ym7Xgkyy+CH3BjQ6Xz
+         a6mX+ckmQa58Z4YLJ8klD6qzGESON1oSyohyWPd4vR+85gaM1k364cB8Kerxf8XtaHgB
+         5WExu1heEQ1+Jyb2ngYoW4bx6qmxDkl4uIXSlerbLNva+7eSaqFYsWICiRfznagYjsEC
+         cNwg==
+X-Gm-Message-State: AOAM530L3O4desS3jlRvXjbS3Sfs7YdjqxYDAvQWYmmrIri8NYL4kv4e
+	EAZu/nVWtZTkyt7IxO6Zeok=
+X-Google-Smtp-Source: ABdhPJzOBPsNT1iiha9Pn7HKouA6c3xrQ/DXkWrAOftr5V7RJf9IPtWYLNYqi8A9p0/ZbHO348dWhw==
+X-Received: by 2002:a17:902:b406:b0:14f:bb35:95ab with SMTP id x6-20020a170902b40600b0014fbb3595abmr17610765plr.140.1650886232444;
+        Mon, 25 Apr 2022 04:30:32 -0700 (PDT)
+Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
+        by smtp.gmail.com with ESMTPSA id i11-20020a654d0b000000b0039d82c3e68csm9819072pgt.55.2022.04.25.04.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 04:30:31 -0700 (PDT)
+From: Xiaobing Luo <luoxiaobing0926@gmail.com>
+To: tiny.windzz@gmail.com,
+	rafael@kernel.org,
+	viresh.kumar@linaro.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	mripard@kernel.org
+Cc: linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Xiaobing Luo <luoxiaobing0926@gmail.com>
+Subject: [PATCH v3] cpufreq: fix memory leak in sun50i_cpufreq_nvmem_probe
+Date: Mon, 25 Apr 2022 11:30:09 +0000
+Message-Id: <20220425113009.2182485-1-luoxiaobing0926@gmail.com>
+X-Mailer: git-send-email 2.36.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Mon, 25 Apr 2022 12:01:54 +0100
-From: Harald Geyer <harald@ccbib.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- <linux-sunxi@lists.linux.dev>, <devicetree@vger.kernel.org>, Torsten Duwe
- <duwe@suse.de>
-Subject: Re: [PATCH] arm64: dts: allwinner: teres-i: Add GPIO port regulators
-In-Reply-To: <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
-References: <20220415165605.28560-1-harald@ccbib.org>
- <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
-Message-ID: <462969fd722eec45aa5f142de48b7fbd@ccbib.org>
-X-Sender: harald@ccbib.org
-User-Agent: RoundCube Webmail/0.7.2
+Content-Transfer-Encoding: 8bit
 
-On 24.04.2022 03:56, Samuel Holland wrote:
-> On 4/15/22 11:56 AM, Harald Geyer wrote:
->> Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
->>
->> Usually supplies are linked via the 'regulator-name' property of
->> regulator nodes. However when regulators are shared we need to
->> declare the additional links in the pinctrl node.
->>
->> Signed-off-by: Harald Geyer <harald@ccbib.org>
->
-> I'm curious if this solved an issue for you, or if this is just for 
-> accuracy.
-> Both of these regulators have the regulator-always-on property, so
-> they should have been enabled already.
+--------------------------------------------
+unreferenced object 0xffff000010742a00 (size 128):
+  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
+    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
+    [<000000007d6082a0>] platform_probe+0x98/0x11c
+    [<00000000c990f549>] really_probe+0x234/0x5a0
+    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
+    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
+    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
+    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
+    [<00000000df4f14f6>] __device_attach+0x174/0x29c
+    [<00000000782002fb>] device_initial_probe+0x20/0x30
+    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
+    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
+    [<000000004b9264e3>] platform_device_add+0x198/0x390
+    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
+    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
+    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+--------------------------------------------
 
-You are right, there shouldn't be any change in functionality. It is 
-mostly
-for extra correctness. However the pincontrol driver started spewing 
-lot's
-of warnings about missing regulator nodes a few versions back. The 
-visible
-effect of this change is to silence those warnings. Also make the DTS 
-more
-future proof in case the driver is made even more picky in the future.
+if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
 
-> If it's the latter reason, why not add the other
-> ports? Regardless:
+Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
+Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-PD, PE and PL have dedicated regulators, that can be matched via the
-'regulator-name' property. I didn't want to specify the same 
-information
-in two places.
-
-For the PF supply, I couldn't find any connection information in the
-board schematic. I could have added a dummy regulator. But since there 
-is
-only one warning about pf-supply during driver initialization and not 
-the
-dozens of warnings I see about PC and PG, I figured, I'd rather not add
-information of dubious use or qualiy.
-
-best regards,
-Harald
-
-
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
->
->> ---
->>  arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts | 5 +++++
->>  1 file changed, 5 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts 
->> b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
->> index aff0660b899c..cc316ef2e2d6 100644
->> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
->> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
->> @@ -197,6 +197,11 @@ &ohci1 {
->>  	status = "okay";
->>  };
->>
->> +&pio {
->> +	vcc-pc-supply = <&reg_dcdc1>;
->> +	vcc-pg-supply = <&reg_aldo2>;
->> +};
->> +
->>  &pwm {
->>  	status = "okay";
->>  };
->>
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 2deed8d8773f..75e1bf3a08f7 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	ret = sun50i_cpufreq_get_efuse(&speed);
+-	if (ret)
++	if (ret) {
++		kfree(opp_tables);
+ 		return ret;
++	}
+ 
+ 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+ 
+-- 
+2.36.0
 
