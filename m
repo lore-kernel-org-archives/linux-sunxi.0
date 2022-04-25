@@ -1,201 +1,79 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B107E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 00:05:05 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 5C5625C0106;
-	Sun, 24 Apr 2022 20:05:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Sun, 24 Apr 2022 20:05:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650845104; x=
-	1650931504; bh=hrQ+5ooneUvzjewgwp5sKBI4+dt7nM1LNckL2JHcpz0=; b=t
-	zGUYKl6BZNt9vedo2LFR4PFEtH4lznHKYYLM+kdDaIJT5iF/6Qsc541LERgYaTVX
-	gqIV5cxP0IQAy0Ao81YDa40zQ5Dkzs0QTIm0prALrXr4lV47O3lDo2GcthSkDSTc
-	Ovf/16G89dIPclhcTa7wWEueeEYbI5EsqUYKnPT/Q2D5dnQFT/HlKDOURZ2it4Fk
-	82pegeLw6iz9Y+TtzbH9P5HLa8A0vSvnlvkWJp9qyCJoD1adV8uzao6wbxxfEiKh
-	OxDoIyAUQSCfaiByGyjNcsXp0AKID4mDIpJo+sAc8McETCkHlnUXucMkw0Vjw6lY
-	9ipISOxkzdmF7D6XEQxlg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1650845104; x=1650931504; bh=hrQ+5ooneUvzj
-	ewgwp5sKBI4+dt7nM1LNckL2JHcpz0=; b=VcXvoCSuCl6gOhu81suq3ZBDLgbVq
-	uqqBReq/Kh+/M+9Mj3Yz7NP9YXUcTuGdE302zqKVVDMlw3Fpw23jtipop7Rm9UiH
-	yHa2M9RYN2bl848SKKg7EgCbk7AxOmaSmtNMzJz8d8U5r01RyondGF4wBBhX98DV
-	nIIReJIDhSsO4TsQz83UtNxKPqjLtrHnIwy0ehTNPsZgwrC8nKAK2oGgFP5U+DMI
-	8XGeoNftCI0b0UD2FO5L9VMVMUnaIzn6HKUuEJdFyz5qtspgmZFXR+HTDnwtuOEx
-	qW9baQbMpaAp49FZi23yeGb+4SLILuzo71PO89Wkv8gI63p2R9R7LSIGA==
-X-ME-Sender: <xms:r-VlYpSXUZxo21bFgQWa5LveUpRW9phC-dtbvG9wUC5YEwiO7gTlbg>
-    <xme:r-VlYiyeUjl_o0PLtT5aIaF7cBMeCIi6RBQENINI3tNt2YbLh0Xws9_qIQyrqCoJ-
-    2qirZ72RfYMkwlhpA>
-X-ME-Received: <xmr:r-VlYu04OZILUpo37pdmMiGn1IOHmF7o0O99sjQLOQoEkl9HXqslQcp2IydEZvlBhbOsFlF7fNa43X4m_jE-qz2KYaqCoRnmQN4o_3ifhsoCCTNNCN_hO55WfQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtgdeftdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
-    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:r-VlYhCX4fAKvZCbe5AgWgeASNS3zQHwBKd8ibCVJXREcFRRrB1KiA>
-    <xmx:r-VlYih2yZxKTF-S7iw3csQxtG7J1C_PdY384EgnSAvkPpluchvJbg>
-    <xmx:r-VlYlrbtd91p7p17A_2miCySwQpJHqHIguqpN1po7F-Pl8sgdj7eQ>
-    <xmx:sOVlYpp4QZxaszvpGEa9a5ncRlRHqgFA5HVHcF6i8_FKD6QNuxAYGg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 24 Apr 2022 20:05:02 -0400 (EDT)
-Subject: Re: [PATCH v10 01/18] clk: sunxi-ng: h616-r: Add RTC gate clock
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>,
- Ondrej Jirman <megous@megous.com>, Icenowy Zheng <icenowy@aosc.io>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
-References: <20220211122643.1343315-1-andre.przywara@arm.com>
- <20220211122643.1343315-2-andre.przywara@arm.com>
- <01e8d2a0-cdeb-ab64-42a7-48376b49c00e@sholland.org>
- <20220425003557.696c9de8@slackpad.lan>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <67675179-d25a-9154-b307-7168f87095db@sholland.org>
-Date: Sun, 24 Apr 2022 19:05:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61497A
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 03:39:05 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id h5so12325085pgc.7
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 20:39:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=vfSyP/DWZUBUQz8x7MGMvd9tqfyWW3U2ltzQHY64VAo=;
+        b=PhEAS7QdJd8hmzgyi1QjL86rAvq8jAyiJ/1Rapt+CkGJCdz3DV6A0S5PSMnNyo/IlT
+         VEFAng1vjIuM1BbQkg+/neEd8xVTRO3Dyt7PDf2gVXkBvRhKHMTtPO0FYbbgpembPmWp
+         WffOO2KaSMYQYdf8B/Ybw92ngpzVu0cZrkowXC5ORcBv6DbQucm5udtHEMAwiMT5O/p4
+         o9Ph9nBxBngyHRqt6coOWQNKqz7AfzJ1SUjLMQAQfo7kOSxuwwrU8Bpw627mH2xY0JLF
+         CI+1vSdCxRC6fq0xlsA6/zeftC3zNHrzS/PZYzARJ8PZfkQiHNFA+NWX8psu2czzQDkD
+         83yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=vfSyP/DWZUBUQz8x7MGMvd9tqfyWW3U2ltzQHY64VAo=;
+        b=oL9FR8zcf+q78bVnWOolqq415QinI+CDlxwKnyWE8Z2rMgWOgkaOxEBMzzQzQLqVVn
+         6lUwMesHGpoGF2jLPHgmHprYoWOmylA7dfRP/K+UDRaFoN0Y/5zH7LuPyIkkxfqDd+GO
+         CyS/GN9G3zK6G9B4CjIW4FKrQ8/HtjA89xBgbSFMQgGhvFaXT//ZeYO7pA0eTjgzrztq
+         ubadSIf2UqEpi5WTMwBvcu2dsS3G4yOMS7fnCh8Sg7RmXZAFTerPYUo380jImaVpKpgq
+         6Wp4sEc5CYViSTPwKVU6FRuWuNuMHuO1LWvC+Yn9UiiUO0CLOToPja4vj5QKK8xjaSuv
+         +zcg==
+X-Gm-Message-State: AOAM5307GsiBD10kOG3/lEk8iLbDIbcLUiuYysImhdYJscK922/NhSoN
+	+QfKOO2G1zJwXb/7K2ITP0Q=
+X-Google-Smtp-Source: ABdhPJzuqC7DYeTKdy1ppqG31rl4wgw95qlhLeIflCHPgBK/tqK2poFm+7gzSgShCx9E7+yorPtfNw==
+X-Received: by 2002:aa7:9255:0:b0:505:a44b:275c with SMTP id 21-20020aa79255000000b00505a44b275cmr17046511pfp.40.1650857945202;
+        Sun, 24 Apr 2022 20:39:05 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
+        by smtp.gmail.com with ESMTPSA id d7-20020a62f807000000b0050d32c878f4sm3352589pfh.114.2022.04.24.20.39.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 24 Apr 2022 20:39:04 -0700 (PDT)
+Date: Sun, 24 Apr 2022 20:39:01 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Maxime Ripard <maxime@cerno.tech>,
+	Rob Herring <robh@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] dt-bindings: input: sun4i-lradc-keys: Add R329
+ and D1 compatibles
+Message-ID: <YmYX1c6iPNb8NtTe@google.com>
+References: <20220414002349.24332-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220425003557.696c9de8@slackpad.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220414002349.24332-1-samuel@sholland.org>
 
-Hi Andre,
-
-On 4/24/22 6:36 PM, Andre Przywara wrote:
-> On Tue, 22 Feb 2022 21:22:07 -0600
-> Samuel Holland <samuel@sholland.org> wrote:
+On Wed, Apr 13, 2022 at 07:23:46PM -0500, Samuel Holland wrote:
+> The R329 and D1 SoCs each contain an LRADC with a programming interface
+> compatible to earlier LRADCs. However, the LRADC now has its own clock
+> gate and reset line, instead of being always active.
 > 
-> Hi Samuel,
+> To support this, add clock/reset properties to the binding, and require
+> them for the variant in the new SoCs.
 > 
->> On 2/11/22 6:26 AM, Andre Przywara wrote:
->>> The H616 features an (undocumented) bus clock gate for accessing the RTC
->>> registers. This seems to be enabled at reset (or by the BootROM), but is
->>> there anyway.
->>> Since the new RTC clock binding for the H616 requires this "bus" clock
->>> to be specified in the DT, add this to R_CCU clock driver and expose it
->>> on the DT side with a new number.  
->>
->> It would be good to note why you didn't add this clock to H6, even though it
->> exists in that hardware.
-> 
-> What explanation do you prefer here? The main reason I expose this is
-> because of the H616 binding, so this is not required for the H6.
-> Plus is would break compatibility with older kernels, which is not so
-> much an issue for the H616.
-> Do you want to expose the clock on the H6 side as well, and mark it
-> as CLK_IS_CRITICAL there? I guess otherwise it would get turned off.
-> Or were you just after some kind of rationale as above, for the
-> commit log records?
+> Acked-by: Maxime Ripard <maxime@cerno.tech>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Today I found out that this commit breaks booting on H6 because the clock is not
-added there. clk_hw_onecell_data::hws is a flexible array member, so
-incrementing CLK_NUMBER doesn't actually make the array larger. That means .num
-gets interpreted as .hws[CLK_R_APB1_RTC], and that ends with a NULL dereference.
+Applied, thank you.
 
-The easiest solution seems to be adding the clock on H6 as well. I think
-CLK_IGNORE_UNUSED is sufficient, but CLK_IS_CRITICAL would work as well.
-
-The rationale I'm looking for is something along the lines of "the H6 binding
-prevents us from referencing this clock from the devicetree, and the way the
-driver is written prevents us from changing the binding."
-
->>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>> ---
->>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 4 ++++
->>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
->>>  include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
->>>  3 files changed, 6 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
->>> index 712e103382d8..26fb092f6df6 100644
->>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
->>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
->>> @@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
->>>  		      0x1cc, BIT(0), 0);
->>>  static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
->>>  		      0x1ec, BIT(0), 0);
->>> +static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
->>> +		      0x20c, BIT(0), 0);  
->>
->> All of the documentation I have found (manuals, A100 driver, BSP D1 driver)
->> points to this clock coming off of R_AHB, not R_APB1.
-> 
-> Really, can you provide some pointer? In the H616 manual I see
-> AHBS->AHB2APB->APBS1BUS->RTC, next to the other R_ peripherals. Also
-> typically *register access* is done via APB busses, not AHB.
-> Is any of those documentation sources actually reliable? And
-> regardless, the AHB vs. APB parenthood is mostly academic, isn't it?
-
-You are right. I'm looking at the "RTC Application Diagram". For both H6 and
-H616, the diagram and the caption have register access via APB1. A100/R329/D1
-have register access via AHBS (and this matches the CCU bus tree diagram). So it
-looks like this was changed for A100.
-
-Regards,
-Samuel
-
->>>  
->>>  /* Information of IR(RX) mod clock is gathered from BSP source code */
->>>  static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
->>> @@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
->>>  	&r_apb2_i2c_clk.common,
->>>  	&r_apb2_rsb_clk.common,
->>>  	&r_apb1_ir_clk.common,
->>> +	&r_apb1_rtc_clk.common,
->>>  	&ir_clk.common,
->>>  };
->>>  
->>> @@ -179,6 +182,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
->>>  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
->>>  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
->>>  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
->>> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
->>>  		[CLK_IR]		= &ir_clk.common.hw,
->>>  	},
->>>  	.num	= CLK_NUMBER,
->>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
->>> index 7e290b840803..10e9b66afc6a 100644
->>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
->>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
->>> @@ -14,6 +14,6 @@
->>>  
->>>  #define CLK_R_APB2	3
->>>  
->>> -#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
->>> +#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
->>>  
->>>  #endif /* _CCU_SUN50I_H6_R_H */
->>> diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
->>> index 890368d252c4..a96087abc86f 100644
->>> --- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
->>> +++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
->>> @@ -22,5 +22,6 @@
->>>  #define CLK_W1			12
->>>  
->>>  #define CLK_R_APB2_RSB		13
->>> +#define CLK_R_APB1_RTC		14
->>>  
->>>  #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
->>>   
->>
->>
-> 
-
+-- 
+Dmitry
