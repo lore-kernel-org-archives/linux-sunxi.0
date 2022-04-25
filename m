@@ -1,195 +1,165 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B26557C
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 14:00:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1650895240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N9u2nqt1fAgYEoKl131YI31Ovqdnkz65FuwgpqzDfxQ=;
-	b=HwTE0uKC+uPE0pbnzhFeQSZEA7Zsd0ChA5S4EcddwbaGFXxe0PhwEYc43g8yYwPv4cRB4/
-	830xkMgwRAqjceFtUlE0M1bYjIDOdCY5a34UT2k89UJFu8E/qjTe/c0oTz8phmP6ObvW1Y
-	lo/Llc00SiWGXwTYyIX8C9cVBGFvMdk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-y1cZbm-FOymtCe_kkqdr0w-1; Mon, 25 Apr 2022 10:00:31 -0400
-X-MC-Unique: y1cZbm-FOymtCe_kkqdr0w-1
-Received: by mail-ed1-f71.google.com with SMTP id l14-20020aa7cace000000b003f7f8e1cbbdso8446243edt.20
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 07:00:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=N9u2nqt1fAgYEoKl131YI31Ovqdnkz65FuwgpqzDfxQ=;
-        b=k5T3OCWfBSUass8zLjt1Z0l8M+aVLvGw+TywangYYOskgXDng2mRYwWz/Wms3+505q
-         PQ0GiTI4lYjEcI4j6F8VkGk3NB45T0onMYjtDGmM1BgS5Z7ZFS24iz1NhGpMsyS+RfXC
-         40aDOm9OR3zFzTZ5D6OqJUjBgSA6ZYc4UF/8UhInXdvfzXWpkL8NZSGMdQj9xBglbDb0
-         x50A8UuQdj9Wi/Zg1OkSkRli0cJcykMxogvHJ0+azIRkKcEoeG/Z4pIr7yAXr8M9SC3X
-         jHwrtmn2dWTS6spoKmGq2o1ql++BY5uaT76Y3MjKpP5+Hn27URmDTtX+BBD7xW3WfVVy
-         ZW9Q==
-X-Gm-Message-State: AOAM530xK6017hnv07Q/gNxxjbE7kiJ7YHQILKFK9lG+aL4V75V7WXd0
-	hdMqnju2bOEh3DeL5uA1jiWNGlkicgEDyGJwP8MdGWWJU6vLt6OpOiUbKxsntOV/4XpbJcrkd+J
-	1KNMDhtv5I7rNStskcQ6lXkA=
-X-Received: by 2002:a05:6402:2689:b0:422:15c4:e17e with SMTP id w9-20020a056402268900b0042215c4e17emr19469786edd.33.1650895230348;
-        Mon, 25 Apr 2022 07:00:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx0qu9w9vjCP20szbQtRmFzELzT/qvzG9iDj/X//vDCrHXo1NIhXjB+U9HZPw7Lp6Dq2qoQfA==
-X-Received: by 2002:a05:6402:2689:b0:422:15c4:e17e with SMTP id w9-20020a056402268900b0042215c4e17emr19469762edd.33.1650895230131;
-        Mon, 25 Apr 2022 07:00:30 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c1e:bf00:d69d:5353:dba5:ee81? (2001-1c00-0c1e-bf00-d69d-5353-dba5-ee81.cable.dynamic.v6.ziggo.nl. [2001:1c00:c1e:bf00:d69d:5353:dba5:ee81])
-        by smtp.gmail.com with ESMTPSA id u12-20020aa7d54c000000b00423e004bf9asm4651103edr.86.2022.04.25.07.00.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Apr 2022 07:00:29 -0700 (PDT)
-Message-ID: <7e8cfa5f-2779-f95a-edcf-d9097e18af52@redhat.com>
-Date: Mon, 25 Apr 2022 16:00:27 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA4F2562;
+	Mon, 25 Apr 2022 15:17:01 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a02:3030:e:60d7:2277:ba57:a2c0:3])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 114AF1F431C4;
+	Mon, 25 Apr 2022 16:16:59 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1650899819;
+	bh=UmvIinIkuSWeMLIsxuIACv1w2HkCY+hYynbPsEzqCY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VrWg80IjgoqHrYPMdAIK4XgC7ycga10CVgMzJSwUh6/MpAlc7ThUdiaTXJHmypMcs
+	 b3HRPJfCvhSVl+Ys8lOD/D8kxYV6nooBiZrscn1TC1J5mH/gikDYaHruqMPoSbNLs1
+	 sU2DBsc5RVJdSw/98MRJfCYvTqz3pXhtBXYHK4OZYg2bCbLHIgjfbbZFpmI7QCyyRI
+	 aVr4eIz5CHYFfYtvLiMNZo4gBsPPv0g7lTA3VHV2Slc9fCwAZ5aq8foJxORMaIJ/yp
+	 rF9kwHq4HYbOnABwHmNRLBNemitd8/rBqYhJfFH7HKdOyGNzJ7TXL7kTL7kAoE6DUC
+	 Aktb2kdzr77WA==
+Date: Mon, 25 Apr 2022 17:16:56 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+	mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v5 06/17] media: uapi: HEVC: Change pic_order_cnt
+ definition in v4l2_hevc_dpb_entry
+Message-ID: <20220425151656.pphta4u6qa5kymoa@basti-XPS-13-9310>
+References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
+ <20220407152940.738159-7-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH] mmc: sunxi-mmc: Correct the maximum segment size
-To: Samuel Holland <samuel@sholland.org>, Ulf Hansson
- <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
- Chris Ball <chris@printf.net>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220424230640.31735-1-samuel@sholland.org>
- <dcc1b028-7e53-cb94-9a66-41890393f2ed@redhat.com>
- <31a12028-8593-c558-0f21-044d69f97e6f@sholland.org>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <31a12028-8593-c558-0f21-044d69f97e6f@sholland.org>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220407152940.738159-7-benjamin.gaignard@collabora.com>
 
-Hi,
+Hey Benjamin,
 
-On 4/25/22 15:40, Samuel Holland wrote:
-> On 4/25/22 5:40 AM, Hans de Goede wrote:
->> Hi Samuel,
->>
->> On 4/25/22 01:06, Samuel Holland wrote:
->>> According to the DMA descriptor documentation, the lowest two bits of
->>> the size field are ignored, so the size must be rounded up to a multiple
->>> of 4 bytes. Furthermore, 0 is not a valid buffer size; setting the size
->>> to 0 will cause that DMA descriptor to be ignored.
->>>
->>> Together, these restrictions limit the maximum DMA segment size to 4
->>> less than the power-of-two width of the size field.
->>
->> I assume that you were seeing some problems where things where not working
->> which caused you to investigate this; and that this patch fixes those
->> problems?   If yes then it would be good to also mention the problems +
->> investigative process in the commit message.
-> 
-> No, this is just based on reading the manual. I was investigating some problems
-> when I originally wrote this patch, but they turned out to be unrelated, and
-> reverting this patch doesn't cause any obvious regression.
+On 07.04.2022 17:29, Benjamin Gaignard wrote:
+>HEVC specifications say that:
 
-I see, I'm not sure if we should proceed with this patch then,
-since at least on the older boards with 13 idma_des_size_bits
-the current code is likely correct given all the testing it has
-seen.
+s/HEVC specifications say that:/
+   The HEVC specification describes the following:/
 
->> I'm no longer involved in sunxi development, but still I wonder if the
->> subtraction of 4 from the max_seg_size is really necessary? This seems
->> to be based on the notion that as you say "0 is not a valid buffer size"
->> where as the code so far has been operating under the assumption that
->> putting 0 in sunxi_idma_des.buf_size means maximum buf-size.
->>
->> I'm pretty sure that 0 meaning maximum buf-size is correct for at least
->> the older chips where idma_des_size_bits equals 13, which means that
->> only 2 4K pages fit in a single desc, so we almost certainly have been
->> hitting this code path ?
->>
->> Although: drivers/mmc/host/dw_mmc.c which seems to be for similar
->> hw suggests that on designs where idma_des_size_bits == 13 only
->> 4k can be used, which sorta matches what you are doing here except
->> that you limit things to 8k - 4 instead of to just 4k.
->>
->> Anyways I was just wondering about all this...
-> 
-> It probably deserves someone testing this specific scenario, so we can either
-> verify the fix is needed, or add a comment explaining that the documentation is
-> wrong.
+Greetings,
+Sebastian
 
-I agree that this should be verified before merging this patch. As for the
-documentation, which documentation are you referring too ? At least for the
-older sunxi SoCs which I'm familiar with the MMC controller bits were not
-documented at all.
-
-Regards,
-
-Hans
-
-
-
->>>
->>> Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found on Allwinner sunxi SoCs")
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>> ---
->>>
->>>  drivers/mmc/host/sunxi-mmc.c | 14 ++++++++------
->>>  1 file changed, 8 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
->>> index c62afd212692..4bd5f37b1036 100644
->>> --- a/drivers/mmc/host/sunxi-mmc.c
->>> +++ b/drivers/mmc/host/sunxi-mmc.c
->>> @@ -214,6 +214,9 @@
->>>  #define SDXC_IDMAC_DES0_CES	BIT(30) /* card error summary */
->>>  #define SDXC_IDMAC_DES0_OWN	BIT(31) /* 1-idma owns it, 0-host owns it */
->>>  
->>> +/* Buffer size must be a multiple of 4 bytes. */
->>> +#define SDXC_IDMAC_SIZE_ALIGN	4
->>> +
->>>  #define SDXC_CLK_400K		0
->>>  #define SDXC_CLK_25M		1
->>>  #define SDXC_CLK_50M		2
->>> @@ -361,17 +364,15 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
->>>  {
->>>  	struct sunxi_idma_des *pdes = (struct sunxi_idma_des *)host->sg_cpu;
->>>  	dma_addr_t next_desc = host->sg_dma;
->>> -	int i, max_len = (1 << host->cfg->idma_des_size_bits);
->>> +	int i;
->>>  
->>>  	for (i = 0; i < data->sg_len; i++) {
->>>  		pdes[i].config = cpu_to_le32(SDXC_IDMAC_DES0_CH |
->>>  					     SDXC_IDMAC_DES0_OWN |
->>>  					     SDXC_IDMAC_DES0_DIC);
->>>  
->>> -		if (data->sg[i].length == max_len)
->>> -			pdes[i].buf_size = 0; /* 0 == max_len */
->>> -		else
->>> -			pdes[i].buf_size = cpu_to_le32(data->sg[i].length);
->>> +		pdes[i].buf_size = cpu_to_le32(ALIGN(data->sg[i].length,
->>> +						     SDXC_IDMAC_SIZE_ALIGN));
->>>  
->>>  		next_desc += sizeof(struct sunxi_idma_des);
->>>  		pdes[i].buf_addr_ptr1 =
->>> @@ -1420,7 +1421,8 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
->>>  	mmc->max_blk_count	= 8192;
->>>  	mmc->max_blk_size	= 4096;
->>>  	mmc->max_segs		= PAGE_SIZE / sizeof(struct sunxi_idma_des);
->>> -	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits);
->>> +	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits) -
->>> +				  SDXC_IDMAC_SIZE_ALIGN;
->>>  	mmc->max_req_size	= mmc->max_seg_size * mmc->max_segs;
->>>  	/* 400kHz ~ 52MHz */
->>>  	mmc->f_min		=   400000;
->>
-> 
-
+>"PicOrderCntVal is derived as follows:
+>PicOrderCntVal = PicOrderCntMsb + slice_pic_order_cnt_lsb
+>The value of PicOrderCntVal shall be in the range of −231 to 231 − 1, inclusive."
+>
+>To match with these definitions change __u16 pic_order_cnt[2]
+>into __s32 pic_order_cnt_val.
+>
+>Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>---
+>version 5:
+>- change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val
+> drivers/staging/media/hantro/hantro_g2_hevc_dec.c | 4 ++--
+> drivers/staging/media/hantro/hantro_hevc.c        | 2 +-
+> drivers/staging/media/hantro/hantro_hw.h          | 4 ++--
+> drivers/staging/media/sunxi/cedrus/cedrus_h265.c  | 4 ++--
+> include/media/hevc-ctrls.h                        | 2 +-
+> 5 files changed, 8 insertions(+), 8 deletions(-)
+>
+>diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>index c524af41baf5..6f3c774aa3d9 100644
+>--- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>+++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>@@ -386,7 +386,7 @@ static int set_ref(struct hantro_ctx *ctx)
+> 	 * pic_order_cnt[0] and ignore pic_order_cnt[1] used in field-coding.
+> 	 */
+> 	for (i = 0; i < decode_params->num_active_dpb_entries && i < ARRAY_SIZE(cur_poc); i++) {
+>-		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt[0];
+>+		char poc_diff = decode_params->pic_order_cnt_val - dpb[i].pic_order_cnt_val;
+>
+> 		hantro_reg_write(vpu, &cur_poc[i], poc_diff);
+> 	}
+>@@ -413,7 +413,7 @@ static int set_ref(struct hantro_ctx *ctx)
+> 	dpb_longterm_e = 0;
+> 	for (i = 0; i < decode_params->num_active_dpb_entries &&
+> 	     i < (V4L2_HEVC_DPB_ENTRIES_NUM_MAX - 1); i++) {
+>-		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt[0]);
+>+		luma_addr = hantro_hevc_get_ref_buf(ctx, dpb[i].pic_order_cnt_val);
+> 		if (!luma_addr)
+> 			return -ENOMEM;
+>
+>diff --git a/drivers/staging/media/hantro/hantro_hevc.c b/drivers/staging/media/hantro/hantro_hevc.c
+>index b6ec86d03d91..fadd40768579 100644
+>--- a/drivers/staging/media/hantro/hantro_hevc.c
+>+++ b/drivers/staging/media/hantro/hantro_hevc.c
+>@@ -54,7 +54,7 @@ static void hantro_hevc_ref_init(struct hantro_ctx *ctx)
+> }
+>
+> dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx,
+>-				   int poc)
+>+				   s32 poc)
+> {
+> 	struct hantro_hevc_dec_hw_ctx *hevc_dec = &ctx->hevc_dec;
+> 	int i;
+>diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+>index ed018e293ba0..a648c529662b 100644
+>--- a/drivers/staging/media/hantro/hantro_hw.h
+>+++ b/drivers/staging/media/hantro/hantro_hw.h
+>@@ -131,7 +131,7 @@ struct hantro_hevc_dec_hw_ctx {
+> 	struct hantro_aux_buf tile_bsd;
+> 	struct hantro_aux_buf ref_bufs[NUM_REF_PICTURES];
+> 	struct hantro_aux_buf scaling_lists;
+>-	int ref_bufs_poc[NUM_REF_PICTURES];
+>+	s32 ref_bufs_poc[NUM_REF_PICTURES];
+> 	u32 ref_bufs_used;
+> 	struct hantro_hevc_dec_ctrls ctrls;
+> 	unsigned int num_tile_cols_allocated;
+>@@ -337,7 +337,7 @@ int hantro_hevc_dec_init(struct hantro_ctx *ctx);
+> void hantro_hevc_dec_exit(struct hantro_ctx *ctx);
+> int hantro_g2_hevc_dec_run(struct hantro_ctx *ctx);
+> int hantro_hevc_dec_prepare_run(struct hantro_ctx *ctx);
+>-dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, int poc);
+>+dma_addr_t hantro_hevc_get_ref_buf(struct hantro_ctx *ctx, s32 poc);
+> int hantro_hevc_add_ref_buf(struct hantro_ctx *ctx, int poc, dma_addr_t addr);
+> void hantro_hevc_ref_remove_unused(struct hantro_ctx *ctx);
+> size_t hantro_hevc_chroma_offset(const struct v4l2_ctrl_hevc_sps *sps);
+>diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>index 44f385be9f6c..d04521ffd920 100644
+>--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>+++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>@@ -143,8 +143,8 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+> 	for (i = 0; i < num_active_dpb_entries; i++) {
+> 		int buffer_index = vb2_find_timestamp(vq, dpb[i].timestamp, 0);
+> 		u32 pic_order_cnt[2] = {
+>-			dpb[i].pic_order_cnt[0],
+>-			dpb[i].pic_order_cnt[1]
+>+			dpb[i].pic_order_cnt_val & 0xffff,
+>+			(dpb[i].pic_order_cnt_val >> 16) & 0xffff
+> 		};
+>
+> 		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+>diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>index b3540167df9e..2812778b41f4 100644
+>--- a/include/media/hevc-ctrls.h
+>+++ b/include/media/hevc-ctrls.h
+>@@ -138,7 +138,7 @@ struct v4l2_hevc_dpb_entry {
+> 	__u64	timestamp;
+> 	__u8	flags;
+> 	__u8	field_pic;
+>-	__u16	pic_order_cnt[2];
+>+	__s32	pic_order_cnt_val;
+> 	__u8	padding[2];
+> };
+>
+>-- 
+>2.32.0
+>
