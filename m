@@ -1,49 +1,49 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C772562
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 15:39:42 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id g20so18920109edw.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 08:39:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844882562;
+	Mon, 25 Apr 2022 15:52:53 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id p4so3348861edx.0;
+        Mon, 25 Apr 2022 08:52:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=T01Vsboe7BIJvmOZnpFBnqjbW+9iDm8fcl2QrWQykBc=;
-        b=kPM/SNHsAbBB6TPmDqMIcF3+pw23OqniiDoKpyCh8WM3av7/TyIAZaj6mkSAGUIcjv
-         wFg+zJ5PJZ+OWSTcT08+l6llF1V5IgIUQ9t9PmYB8P1utoqI0nFy9Sdd2k3AgNv1l1FZ
-         QMAzyQq1xVzv7dZo/YM6MGJvSX6DHz7za/D8I82l0lzgoEB/wX1qUpMZ5UpQ7sSIAkay
-         eN5yzepL0YRYBfLDwIPqUdkAGkJswqyaldV+jhNmHzLZbiOEdgabkRZ5U26w8TJcEOHl
-         KWg4YZcX1tRWUsPoJozBH5dm9g0k5T0XGeJWULpmf/oYCe3yRJQ/UT3aBDA/kFoxJykM
-         xorg==
+        bh=9Oa5NtzGoFrsnzBgz2IkcumAm6ed+VSYE7BO1a3Ir24=;
+        b=EigDBthRvJnsJo+9WGyQqWjg7PowmmzypMiC8CAR7LXfVN0PErUQdRx1RjTfiw4gyH
+         Ee/9Tz8scBrSxmd2kS0fEhDXXWDoDEXtwtrlfZHv6FCexExa+hC+Y28nXmIh1BH4NQiZ
+         38rCs5GLxbskzJ2hxkt/Idpb8OIRHdqQiNUcHNyGr09IzFxDdD6ZjtDzxbNGVScxWxA8
+         gbqfgrntqMiIo1NzquxXzc6b6pQii5YbFQG3SACzOxfdYDrb1dgpTgZu8qP8qYVrJxcD
+         XCqcowMpwzVkbsgRfIg8Ygnkkbq/iRf0jNQpNVZ5yWMp9ezfC1mrJWjd9sikNFP5kGHr
+         ILFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=T01Vsboe7BIJvmOZnpFBnqjbW+9iDm8fcl2QrWQykBc=;
-        b=4qhGMsRh7JrqHtSn77C4hgALTKaPSIx6B3LnYLsvt4G8r0BL19sOVFIUvH1vOxU8Ow
-         F5oHb2EeZDKnnrJprdCgNAqY6P/fQwfIAB8fIjTY1FrCMIMMFg5+8SgTTRKb0ly/5Z7a
-         8FRaNOrcwcChkjRDFSodAkkpld9ynXy/wueV1V0NtI6f95xmzGeIjGJOc5w2fZJuUGTy
-         faEcOz0PDFIJ5YXUjKkmUNsXPUf3oW2Ji4VVOIpYvnA3+/C8BCfqn6RbFYwNRClc8vqy
-         KcVpUS/vthBYMJ4/BIJjSCKT9JliI9jVuoS796dK2HaQY9N3LTiTLWwpkbHrARPgJknr
-         2SsQ==
-X-Gm-Message-State: AOAM533lEPo6Iv3HQDuRnPOa/AxsNx3Q2lj+KFRc6HjTkW8wkj16bQMc
-	GzwIeElZmJ5iNgszOoxTy0I=
-X-Google-Smtp-Source: ABdhPJzIyVAdyqYhswiICra1oKeo5UKFm4s/D+QpyQPj+7Teup4JNUsf36N9FoOwox9FncoffG3lOQ==
-X-Received: by 2002:a05:6402:909:b0:416:6f3c:5c1d with SMTP id g9-20020a056402090900b004166f3c5c1dmr19408479edz.108.1650901181156;
-        Mon, 25 Apr 2022 08:39:41 -0700 (PDT)
+        bh=9Oa5NtzGoFrsnzBgz2IkcumAm6ed+VSYE7BO1a3Ir24=;
+        b=U+lT3ahzMUBtNRuGk8woVC0HPLpn4QoLuTIl3bk5Dg9mpfZKJfySaU/FSQ6je5voKC
+         ymvGe/+89dqYJ+bv+Efcs2yjY3k9q2KOxBqgzSA4lnRp3i1OiyPxYGM6OAy6ENxoMD3W
+         IJ1iRTmUprbXqczjF8yY1evbbxviiwmpkUpKT/X4Qxm7Y4K0YHUwOYYNa52NPOAIc3RY
+         3jLTu3zACPSpD0lljIO+0NzoH6bmgNvogIrGUq3uI3rgFdoRp09i+5KzSLIyWhLhwn7T
+         ChCAI4Bk8vPrC0sRqjvzJyadJNR/0XSjxzA9oRGV/Vb7HlQKgn98POmq9I6Bg7QPmBSC
+         3aiw==
+X-Gm-Message-State: AOAM530fFO+Kuzd5ueZ2RUNdBtwkc/VBEwrip5DzY5qUhSGOqPH6Gu8k
+	Z/6xYE5gfZOFuZD6JR+byrg=
+X-Google-Smtp-Source: ABdhPJzY0KqwmNprJw4wgl5ETDVJprVLMo9vqPy+8A0f/235e2cgQsITwXEEgGimRqQZseTw0/tsbg==
+X-Received: by 2002:a05:6402:5189:b0:425:d7ca:caa4 with SMTP id q9-20020a056402518900b00425d7cacaa4mr10535349edd.177.1650901971712;
+        Mon, 25 Apr 2022 08:52:51 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id g6-20020a056402090600b0041d8c2f9e61sm4826215edz.31.2022.04.25.08.39.40
+        by smtp.gmail.com with ESMTPSA id d6-20020a170906304600b006ef5da1b1besm3739347ejd.221.2022.04.25.08.52.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 08:39:40 -0700 (PDT)
+        Mon, 25 Apr 2022 08:52:51 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: tiny.windzz@gmail.com, rafael@kernel.org, viresh.kumar@linaro.org, wens@csie.org, samuel@sholland.org, mripard@kernel.org, Xiaobing Luo <luoxiaobing0926@gmail.com>
-Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: Re: [PATCH v3] cpufreq: fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Mon, 25 Apr 2022 17:39:39 +0200
-Message-ID: <3099618.5fSG56mABF@kista>
-In-Reply-To: <20220425113009.2182485-1-luoxiaobing0926@gmail.com>
-References: <20220425113009.2182485-1-luoxiaobing0926@gmail.com>
+To: mripard@kernel.org, Ian Cowan <ian@linux.cowan.aero>
+Cc: paul.kocialkowski@bootlin.com, mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org, samuel@sholland.org, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, ian@linux.cowan.aero
+Subject: Re: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
+Date: Mon, 25 Apr 2022 17:52:50 +0200
+Message-ID: <22617338.6Emhk5qWAg@kista>
+In-Reply-To: <20220423180111.91602-1-ian@linux.cowan.aero>
+References: <20220423180111.91602-1-ian@linux.cowan.aero>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,66 +53,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne ponedeljek, 25. april 2022 ob 13:30:09 CEST je Xiaobing Luo napisal(a):
-> --------------------------------------------
-> unreferenced object 0xffff000010742a00 (size 128):
->   comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
->   hex dump (first 32 bytes):
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->   backtrace:
->     [<00000000b4dfebaa>] __kmalloc+0x338/0x474
->     [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
->     [<000000007d6082a0>] platform_probe+0x98/0x11c
->     [<00000000c990f549>] really_probe+0x234/0x5a0
->     [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
->     [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
->     [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
->     [<000000006720e418>] bus_for_each_drv+0xf8/0x160
->     [<00000000df4f14f6>] __device_attach+0x174/0x29c
->     [<00000000782002fb>] device_initial_probe+0x20/0x30
->     [<00000000c2681b06>] bus_probe_device+0xfc/0x110
->     [<00000000964cf3bd>] device_add+0x5f0/0xcd0
->     [<000000004b9264e3>] platform_device_add+0x198/0x390
->     [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
->     [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
->     [<000000000377cc7c>] do_one_initcall+0xe4/0x570
-> --------------------------------------------
-> 
-> if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
-> 
-> Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
-> Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
+Hi Ian,
 
-This patch was already applied (v2).
+Dne sobota, 23. april 2022 ob 20:01:11 CEST je Ian Cowan napisal(a):
+> Refactor the cedrus_open() function so that there is only one exit to
+> the function instead of 2. This prevents a future change from preventing
+> the mutex from being unlocked after a successful exit.
+> 
+> Signed-off-by: Ian Cowan <ian@linux.cowan.aero>
+
+If this patch would be part of series and "future" would mean next patch, I 
+would be ok with that. However, in current form I don't see any benefit in 
+changing it. Doing another hop lessens readability IMO. Let us worry about the 
+future when/if it comes.
 
 Best regards,
 Jernej
 
 > ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/staging/media/sunxi/cedrus/cedrus.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-
-cpufreq-nvmem.c
-> index 2deed8d8773f..75e1bf3a08f7 100644
-> --- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> +++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-> @@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct 
-platform_device *pdev)
->  		return -ENOMEM;
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/
+media/sunxi/cedrus/cedrus.c
+> index 68b3dcdb5df3..5236d9e4f4e8 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+> @@ -348,14 +348,14 @@ static int cedrus_open(struct file *file)
 >  
->  	ret = sun50i_cpufreq_get_efuse(&speed);
-> -	if (ret)
-> +	if (ret) {
-> +		kfree(opp_tables);
->  		return ret;
-> +	}
+>  	v4l2_fh_add(&ctx->fh);
 >  
->  	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
+> -	mutex_unlock(&dev->dev_mutex);
+> -
+> -	return 0;
+> +	ret = 0;
+> +	goto succ_unlock;
 >  
+>  err_ctrls:
+>  	v4l2_ctrl_handler_free(&ctx->hdl);
+>  err_free:
+>  	kfree(ctx);
+> +succ_unlock:
+>  	mutex_unlock(&dev->dev_mutex);
+>  
+>  	return ret;
 > -- 
-> 2.36.0
+> 2.35.1
 > 
 > 
 
