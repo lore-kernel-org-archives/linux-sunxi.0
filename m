@@ -1,81 +1,111 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288947E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:03:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4D0371FB;
-	Mon, 25 Apr 2022 04:03:38 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECFB83F73B;
-	Mon, 25 Apr 2022 04:03:36 -0700 (PDT)
-Date: Mon, 25 Apr 2022 12:03:34 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org, Chen-Yu
- Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime
- Ripard <maxime@cerno.tech>, Yangtao Li <frank@allwinnertech.com>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix DMA descriptors allocated above 32
- bits
-Message-ID: <20220425120334.62f60978@donnerap.cambridge.arm.com>
-In-Reply-To: <20220424231751.32053-1-samuel@sholland.org>
-References: <20220424231751.32053-1-samuel@sholland.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail.cosmopool.net (h1.radempa.de [176.9.142.194])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470E17E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:10:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.cosmopool.net (Postfix) with ESMTP id 3A2B790168A;
+	Mon, 25 Apr 2022 13:01:56 +0200 (CEST)
+Received: from mail.cosmopool.net ([127.0.0.1])
+	by localhost (mail.b.radempa.de [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 672odDHYvjf8; Mon, 25 Apr 2022 13:01:55 +0200 (CEST)
+Received: from webmail.cosmopool.net (localhost [127.0.0.1])
+	by mail.cosmopool.net (Postfix) with ESMTPSA id 4634F9004FE;
+	Mon, 25 Apr 2022 13:01:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ccbib.org; s=201902;
+	t=1650884515; bh=xZhRc9yY05nLmAbLSXvLWBHxam/xcmOns6t5R8P3spg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=a7lU1MxVpyhPBWR4LzcrQbrs6SaYQnyoMOKgAxYp9SkAdpxeI+V46M7f4R9dP4EgX
+	 F3i/xtNN6xl08FJSz4UG3vMONy5IZu7s4MqZRXlT3auy+tP8CS4dIPUNp/hIwax0oJ
+	 D5EsVejqvCzQYqbBF1TpS0KyTsJ/7vuWfJQYGRbY=
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date: Mon, 25 Apr 2022 12:01:54 +0100
+From: Harald Geyer <harald@ccbib.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ <linux-sunxi@lists.linux.dev>, <devicetree@vger.kernel.org>, Torsten Duwe
+ <duwe@suse.de>
+Subject: Re: [PATCH] arm64: dts: allwinner: teres-i: Add GPIO port regulators
+In-Reply-To: <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
+References: <20220415165605.28560-1-harald@ccbib.org>
+ <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
+Message-ID: <462969fd722eec45aa5f142de48b7fbd@ccbib.org>
+X-Sender: harald@ccbib.org
+User-Agent: RoundCube Webmail/0.7.2
 
-On Sun, 24 Apr 2022 18:17:50 -0500
-Samuel Holland <samuel@sholland.org> wrote:
+On 24.04.2022 03:56, Samuel Holland wrote:
+> On 4/15/22 11:56 AM, Harald Geyer wrote:
+>> Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
+>>
+>> Usually supplies are linked via the 'regulator-name' property of
+>> regulator nodes. However when regulators are shared we need to
+>> declare the additional links in the pinctrl node.
+>>
+>> Signed-off-by: Harald Geyer <harald@ccbib.org>
+>
+> I'm curious if this solved an issue for you, or if this is just for 
+> accuracy.
+> Both of these regulators have the regulator-always-on property, so
+> they should have been enabled already.
 
-Hi Samuel,
+You are right, there shouldn't be any change in functionality. It is 
+mostly
+for extra correctness. However the pincontrol driver started spewing 
+lot's
+of warnings about missing regulator nodes a few versions back. The 
+visible
+effect of this change is to silence those warnings. Also make the DTS 
+more
+future proof in case the driver is made even more picky in the future.
 
-thanks for sending this.
+> If it's the latter reason, why not add the other
+> ports? Regardless:
 
-> Newer variants of the MMC controller support a 34-bit physical address
-> space by using word addresses instead of byte addresses. However, the
-> code truncates the DMA descriptor address to 32 bits before applying the
-> shift. This breaks DMA for descriptors allocated above the 32-bit limit.
-> 
-> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
->  drivers/mmc/host/sunxi-mmc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index c62afd212692..46f9e2923d86 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -377,8 +377,9 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
->  		pdes[i].buf_addr_ptr1 =
->  			cpu_to_le32(sg_dma_address(&data->sg[i]) >>
->  				    host->cfg->idma_des_shift);
-> -		pdes[i].buf_addr_ptr2 = cpu_to_le32((u32)next_desc >>
-> -						    host->cfg->idma_des_shift);
-> +		pdes[i].buf_addr_ptr2 =
-> +			cpu_to_le32(next_desc >>
-> +				    host->cfg->idma_des_shift);
+PD, PE and PL have dedicated regulators, that can be matched via the
+'regulator-name' property. I didn't want to specify the same 
+information
+in two places.
 
-I had mentioned this problem on the original patch before[1] and had
-this fixed in my re-submission[2], so it looks good to me:
+For the PF supply, I couldn't find any connection information in the
+board schematic. I could have added a dummy regulator. But since there 
+is
+only one warning about pf-supply during driver initialization and not 
+the
+dozens of warnings I see about PC and PG, I figured, I'd rather not add
+information of dubious use or qualiy.
 
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+best regards,
+Harald
 
-Cheers,
-Andre
 
-[1]https://lore.kernel.org/linux-arm-kernel/65401815-cb2e-58ec-7653-f09d6a25804c@arm.com/
-[2]https://lore.kernel.org/linux-arm-kernel/20210118020848.11721-3-andre.przywara@arm.com/
-
->  	}
->  
->  	pdes[0].config |= cpu_to_le32(SDXC_IDMAC_DES0_FD);
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
+>
+>> ---
+>>  arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts 
+>> b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+>> index aff0660b899c..cc316ef2e2d6 100644
+>> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+>> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+>> @@ -197,6 +197,11 @@ &ohci1 {
+>>  	status = "okay";
+>>  };
+>>
+>> +&pio {
+>> +	vcc-pc-supply = <&reg_dcdc1>;
+>> +	vcc-pg-supply = <&reg_aldo2>;
+>> +};
+>> +
+>>  &pwm {
+>>  	status = "okay";
+>>  };
+>>
 
