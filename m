@@ -1,52 +1,53 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFA37A
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 03:59:27 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id j8so24172371pll.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 20:59:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D89CA7E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 05:06:07 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id u7so9086627plg.13
+        for <linux-sunxi@lists.linux.dev>; Sun, 24 Apr 2022 22:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=560ZyjDjMjw/eukwNXu0xmzkhr36IsOK1UcMliQ6ixc=;
-        b=prb9unJJzjMB0mP9+M1FA3lUC7YakIWgMe7cz6wtisEGlAZ4W/UuGfIR/krAV0qFCo
-         efB88t2a18IQSEgzl2Fq0IF31F5wCiRqsBJ3v4zGnqN1ZCxucEFdqjR+l58YQw+VmFw9
-         fdqVgbyQIhBYe6/oQSpS3qVFtMnQpBXouJbZJ/77qHalJUupcRNzhG7HsocUZY0Dntem
-         g+EdHc+F64NmfgCc9cPHHrc/SO8U45jmIOPqzYx5/kCAKIl3o1a4sWM0GtMEcT5P6bXc
-         lIHe/c3u1YeWpxNhYikhEsnG5wHSiqAVTArFzjH4RYEHQ+MBh4xWWIe30D7o4L85I6sR
-         QdPg==
+         :content-disposition:in-reply-to:user-agent;
+        bh=gNvaAoMPbdbdyvNqhaTtDMGsJUQFjlXi46W57sai814=;
+        b=NKY5xGBqWdv1qptYi67G9s1QIJ57Ku3frhJzM74pZxsLSWQd3yGijZwqvpsfapeTSv
+         ciClB3KxoTrc1xQ+TglZAorvsC5xzJmyKKSXlKKHCDdqdirRKannkSUmPr9zZywT+Bz4
+         ToUJxiflwolHfGYbJiGmq6FDTq2Xxcb7eDK1qR0daTZVhI2aCIztxoAJHyoEtr158TQO
+         +WU1o2FQ3VPVx1ngQsmc0FgbIEYGWk4Hfv9u109YdchiW4PGtaPXUDEXSLjo3cbT+cp6
+         uJrsyjjetqBcXf1KxiqOadLPtU6M+ubji3ZOGb9QMjnJs45xc06rZKn5bhHuT1sW7y4s
+         kL7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=560ZyjDjMjw/eukwNXu0xmzkhr36IsOK1UcMliQ6ixc=;
-        b=YcukC3vVxHVEntyzegSPsynsgVitVaFEvXv/GhFmWBOMogCbPXGgzKypHoiPMvk6Md
-         mKCaC5mqQ1JX/2bstaxT7aN+zcnBRdmDycWy7YdWD2pYjyUMfII2qsnW7oabhWb5Qx8P
-         kRTAucppAmtsH4s1bg979Bx9SJOxd8raqQ1nrSbpzfa65m+Hq88GCuC/mKB5d/LC1SCh
-         EJaVQlYScZ6en9v7cC1jWuJeZDWaDEiRDdrjWDwrTLSQnzaxqmEgCy64GiD0l0NVew8F
-         iQnkeGMq62V8Q1q7tWDz9tGtM1HXkgsh/HAwzBPWaFBdoBf03eN2xL3vYqzW36iw6pfS
-         gjaA==
-X-Gm-Message-State: AOAM532g7CBwjtbbx9nZqk3KuNAF6uslS0kqJohB7eWfWAU+Ten9Rssu
-	LaHiolk9g9+sdFgRJZZBw9A=
-X-Google-Smtp-Source: ABdhPJxymPMSMsVhlIAj5Ciak9kOFIqoLkksDgND3qhOb2ScEzBn83mdGxCMXvRU32+KSGX0rgDmNw==
-X-Received: by 2002:a17:902:7009:b0:158:3bcf:b774 with SMTP id y9-20020a170902700900b001583bcfb774mr15946121plk.103.1650859167020;
-        Sun, 24 Apr 2022 20:59:27 -0700 (PDT)
-Received: from google.com ([2620:15c:202:201:282a:d50e:e0fc:c145])
-        by smtp.gmail.com with ESMTPSA id c2-20020aa781c2000000b0050a7ff01d2bsm9431985pfn.30.2022.04.24.20.59.25
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=gNvaAoMPbdbdyvNqhaTtDMGsJUQFjlXi46W57sai814=;
+        b=Rb7w8TU/VVLOMyU5ilQxJOgcvp8I2Ajuo7zi0m7JYM0+QU+xJwTf7hf4GXldp/i783
+         W2hGXD49Uif0QM6oZxTOFqiN5h0Gjs+5qjhM+udaEMlhxOBVLiuik6PysRtL4pdcNSUE
+         N1Q3A7VAyBSy+7nYHLpOtnbQCIW96Xr81I3n4YYQzMAur2FqBHN69Mn98uRhARA5z70y
+         kG6ZXD+EAw0TQbd64kwd07lRYxTR/hKRFvHiskClaOT+zW5XQoLvu316rpViHIyCAvRc
+         4qftqV7eD5veoSqJTtbOnBuOV/RMcuGOztIZ3scquutftExhzFb8GJE4Mjl63m+3F5nS
+         2IBw==
+X-Gm-Message-State: AOAM533f88kYzUUt7DiZseTp51VO8CKLCU3/7tr+xfoZQLZmdgoaQwBc
+	LJ6WOu8Z0mysuJBsd1fE4lNB3Q==
+X-Google-Smtp-Source: ABdhPJyk6HWS+uLuAV1Fn7IQFtK1dt2aoEgyN3lkCaQS7r5QtxgXFkshOgNrfrKAaTBDliwuWIE75g==
+X-Received: by 2002:a17:902:8698:b0:158:99d4:6256 with SMTP id g24-20020a170902869800b0015899d46256mr16749805plo.104.1650863167283;
+        Sun, 24 Apr 2022 22:06:07 -0700 (PDT)
+Received: from localhost ([122.171.250.232])
+        by smtp.gmail.com with ESMTPSA id l2-20020a056a0016c200b004f7e3181a41sm10159399pfc.98.2022.04.24.22.06.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Apr 2022 20:59:25 -0700 (PDT)
-Date: Sun, 24 Apr 2022 20:59:23 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+        Sun, 24 Apr 2022 22:06:06 -0700 (PDT)
+Date: Mon, 25 Apr 2022 10:36:04 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Hans de Goede <hdegoede@redhat.com>, Ondrej Jirman <x@xff.cz>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v5] Input: sun4i-lradc-keys - Add wakeup support
-Message-ID: <YmYcm3usaDNCi30s@google.com>
-References: <20220424161328.61103-1-samuel@sholland.org>
+Cc: Xiaobing Luo <luoxiaobing0926@gmail.com>, tiny.windzz@gmail.com,
+	rafael@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	mripard@kernel.org, linux-pm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] cpufreq:fix memory leak in sun50i_cpufreq_nvmem_probe
+Message-ID: <20220425050604.fv4f3s74jmvx6rlp@vireshk-i7>
+References: <20220423151204.2102314-1-luoxiaobing0926@gmail.com>
+ <4ee2421f-79a8-7f4d-f7ef-33f0ccf49337@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -55,93 +56,48 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220424161328.61103-1-samuel@sholland.org>
+In-Reply-To: <4ee2421f-79a8-7f4d-f7ef-33f0ccf49337@sholland.org>
+User-Agent: NeoMutt/20180716-391-311a52
 
-On Sun, Apr 24, 2022 at 11:13:27AM -0500, Samuel Holland wrote:
-> From: Ondrej Jirman <x@xff.cz>
+On 23-04-22, 21:46, Samuel Holland wrote:
+> On 4/23/22 10:12 AM, Xiaobing Luo wrote:
+> > --------------------------------------------
+> > unreferenced object 0xffff000010742a00 (size 128):
+> >   comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
+> >   hex dump (first 32 bytes):
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+> >   backtrace:
+> >     [<00000000b4dfebaa>] __kmalloc+0x338/0x474
+> >     [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
+> >     [<000000007d6082a0>] platform_probe+0x98/0x11c
+> >     [<00000000c990f549>] really_probe+0x234/0x5a0
+> >     [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
+> >     [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
+> >     [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
+> >     [<000000006720e418>] bus_for_each_drv+0xf8/0x160
+> >     [<00000000df4f14f6>] __device_attach+0x174/0x29c
+> >     [<00000000782002fb>] device_initial_probe+0x20/0x30
+> >     [<00000000c2681b06>] bus_probe_device+0xfc/0x110
+> >     [<00000000964cf3bd>] device_add+0x5f0/0xcd0
+> >     [<000000004b9264e3>] platform_device_add+0x198/0x390
+> >     [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
+> >     [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
+> >     [<000000000377cc7c>] do_one_initcall+0xe4/0x570
+> > --------------------------------------------
+> > 
+> > if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
+> > Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
+> > 
+> > Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
 > 
-> Allow the driver to wake the system on key press if the "wakeup-source"
-> property is provided in the device tree. Using the LRADC as a wakeup
-> source requires keeping the AVCC domain active during sleep. Since this
-> has a nontrivial impact on power consumption (sometimes doubling it),
-> disable the LRADC wakeup source by default.
+> Two minor style issues: there should be a space after "cpufreq:" in the commit
+> subject. And the blank line should come before the "Fixes:" tag, not after.
+> Otherwise:
 > 
-> Signed-off-by: Ondrej Jirman <x@xff.cz>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
-> Changes in v5:
->   - Fix typo in commit subject
->   - Update Ondrej's e-mail address per his request
-> 
-> Changes in v4:
->   - Only mark device as wakeup capable if setting the wakeirq succeeds
->   - An entirely different, but equivalent, DT binding patch was merged,
->     so there is only one patch left
-> 
-> Changes in v3:
->   - Dropped unnecessary pr_err in platform_get_irq() error path
->   - Dropped patch 3 (DT update) as it was merged
->   - Added Acked-by/Reviewed-by tags
-> 
-> Changes in v2:
->   - Add requisite DT binding change
->   - Only add wakeup capability if "wakeup-source" is present
->   - Warn but do not error out if setting the wake IRQ fails
->   - Add "wakeup-source" property to PinePhone device tree
-> 
->  drivers/input/keyboard/sun4i-lradc-keys.c | 20 ++++++++++++++++----
->  1 file changed, 16 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/input/keyboard/sun4i-lradc-keys.c b/drivers/input/keyboard/sun4i-lradc-keys.c
-> index 4a796bed48ac..781f9b053115 100644
-> --- a/drivers/input/keyboard/sun4i-lradc-keys.c
-> +++ b/drivers/input/keyboard/sun4i-lradc-keys.c
-> @@ -22,6 +22,8 @@
->  #include <linux/module.h>
->  #include <linux/of_platform.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_wakeirq.h>
-> +#include <linux/pm_wakeup.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/slab.h>
->  
-> @@ -226,8 +228,7 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  {
->  	struct sun4i_lradc_data *lradc;
->  	struct device *dev = &pdev->dev;
-> -	int i;
-> -	int error;
-> +	int error, i, irq;
->  
->  	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), GFP_KERNEL);
->  	if (!lradc)
-> @@ -272,8 +273,11 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  	if (IS_ERR(lradc->base))
->  		return PTR_ERR(lradc->base);
->  
-> -	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
-> -				 sun4i_lradc_irq, 0,
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	error = devm_request_irq(dev, irq, sun4i_lradc_irq, 0,
->  				 "sun4i-a10-lradc-keys", lradc);
->  	if (error)
->  		return error;
-> @@ -282,6 +286,14 @@ static int sun4i_lradc_probe(struct platform_device *pdev)
->  	if (error)
->  		return error;
->  
-> +	if (device_property_read_bool(dev, "wakeup-source")) {
-> +		error = dev_pm_set_wake_irq(dev, irq);
-> +		if (error)
-> +			dev_warn(dev, "Failed to set wake IRQ\n");
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
 
-I extended the warning message with irq number and error code and
-applied, thank you.
+Applied, thanks.
 
 -- 
-Dmitry
+viresh
