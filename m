@@ -1,49 +1,49 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA717E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 17:31:24 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id gh6so6954683ejb.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 10:31:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAEE7E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 17:53:24 +0000 (UTC)
+Received: by mail-ej1-f46.google.com with SMTP id g6so8296331ejw.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 10:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Lx7n01ak613wao/PeGm56R/NraVbxP43cN5ZMlrScAY=;
-        b=AWomtSHBSdpy50i/AiQTF1zEO67p6sM2bAacCXCIrE1EI3drNnFByVmoCM0R/JmKoO
-         9gRqHx/Jriy3h41XZP3C0mqTsYL8gZMgJtK5YGBcBAM13cfn2MrAbHZu+63WnkD3pA0M
-         DlNSX4/BDpYDhYNLxlybbm4UpTRPqmYx6mc07No5+cFKexLhyMCE/gp0T9Y5ncFf9UlH
-         4t+iuhsW2AwBCXq8A0RuQ0hp4vsOhB/eDpAaHSKVH5lGxCZa6y2yaOCbBcLTm58dwi5j
-         2mokqtKMGMcjlCu7ZnzTM9o/NOIptNtADfUmrdCmKHoADrK3HZRdkAov3SEu1yD6nH7F
-         2pNg==
+        bh=cnF2m4xWmZU4mmTA2zlwzl8U0HY1WmVOSdpsqMfFRDc=;
+        b=p6SLmrfQUx8YcxlTOmJAR84PN2KLXoayR3X3avOVC2jJ0BKBczgjaxo4/ZioSw5rJC
+         XcWA77v9eo9E872XR3TTclpykB2zLNieZY9uA8gUhumW/WauL5W11CoQe/3UNS/Cd7Gf
+         LC2BS37K69LetCrBqbA07l2xsWu0DUHYJlvqVSDPW4Wm53YNUf7GiSNdYxcihCQAL9SH
+         OtAKyhz/H4ElgMoQekvE3ApZ76ZwVdINRyOGG1MrXgFdiHNe3F18kUQB+H00FlslBwID
+         R0L2q2jBozTD/r4egbzs7jJU2AhazHMJ5Olhn1Ds4sf0wl2O2+mKWb7jiMG/o4RMlCix
+         X5ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Lx7n01ak613wao/PeGm56R/NraVbxP43cN5ZMlrScAY=;
-        b=U7F7VA3fHPSnA3UhcCBf5MTyk57l6AGwl1NRVaABOk88VmStFhIrrSBYV/8ThDuPty
-         NAj+Gj7okL5R6y4RZYXnD24nerEg/g7VvgIuvj+B7J+swdtwBSUQ4sYRIAuRRhQ50lXk
-         K4sT5Kg/bfriVwH3pU9niZZ9K+/K8vZtf82TT5O9fd5gHHZnPiwMM9uG4PeYfE72BVlo
-         wSDVyi83k97X2OPLX5dNfyau6/7P5p50EgWK/h3My5RuRXNKeuhf1qGh3Q5xNMNUOa+W
-         Q35SgVDpNQE+7M7iJNR1yo09D0wvru1V2hY7YGE5UIPNcuZBgbkHcXt+Zpf0IN1TAHmb
-         3z4Q==
-X-Gm-Message-State: AOAM533F/ZziQwZOVuLlUqFSx1NbhEWifqp26ADh/nYpN3YSk96plxOL
-	+6Z3pB1L4i6o9/1vO1wmpEU=
-X-Google-Smtp-Source: ABdhPJxvwSr3XtyRkaaNJxbkUJVkHfpHdLP+s0Vc1yhmamJDJWKzG5omORC7vSs528rfOCd348xwnw==
-X-Received: by 2002:a17:907:6289:b0:6e0:eb0c:8ee7 with SMTP id nd9-20020a170907628900b006e0eb0c8ee7mr16442680ejc.245.1650907883149;
-        Mon, 25 Apr 2022 10:31:23 -0700 (PDT)
+        bh=cnF2m4xWmZU4mmTA2zlwzl8U0HY1WmVOSdpsqMfFRDc=;
+        b=RdBhIMk8WsOaGNvFYvB0Cf0mTEtDNRe0lAkVNFq647OWPGjDesq12H6KPL69opW3Bv
+         Yk2Z4pgCSv360EhkFg6Fz9mJ7nL3DUjGSYgbe/KEd5lW9SW/Br8aGYMczYKz2zqYsc0C
+         6Y09iv7/eq5NPFlxWhFOyd4825urTe1q3zT7Y7qlUX8OmXCt4i8GfcMjQeSKCz71Ugp7
+         /Cd2cnXoUZFpXmDVkKqFDrBjaTlUzXYC5oIzXGSygiRBJ46kNolXpGIdkaQpJ7ah0N8/
+         K0MPfCsqU8Q4zrt+Tsnm3+iM3wTf0WTSn6NXlmG3D7FlEjsZ4scJFwiANKQWhLpzWYSK
+         BuQg==
+X-Gm-Message-State: AOAM532RVZcKhqRaMG5LOpGTvCQXeWlj0LTlCdxEpG2WzNPSyNIxiYSc
+	Jzl8wp1qmvjRRnLaqqwop4k=
+X-Google-Smtp-Source: ABdhPJzWj22q1Zgr6ZMUTNPCd7QA9rkf7OLHscY5eDZc4kof7XQpeQG3Hs6FXiWTaMlCqelcYMasQQ==
+X-Received: by 2002:a17:907:2d8e:b0:6f0:fac:4423 with SMTP id gt14-20020a1709072d8e00b006f00fac4423mr16262553ejc.310.1650909202965;
+        Mon, 25 Apr 2022 10:53:22 -0700 (PDT)
 Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id r19-20020a17090638d300b006d6e4fc047bsm3884297ejd.11.2022.04.25.10.31.22
+        by smtp.gmail.com with ESMTPSA id bm6-20020a170906c04600b006e89a5f5b8fsm3875338ejb.153.2022.04.25.10.53.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 10:31:22 -0700 (PDT)
+        Mon, 25 Apr 2022 10:53:22 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Chen-Yu Tsai <wens@csie.org>, Mark Brown <broonie@kernel.org>, Maxime Ripard <mripard@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, Samuel Holland <samuel@sholland.org>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH] bus: sunxi-rsb: Fix the return value of sunxi_rsb_device_create()
-Date: Mon, 25 Apr 2022 19:31:21 +0200
-Message-ID: <2699804.BEx9A2HvPv@kista>
-In-Reply-To: <ff0ae741-efc4-ba6f-d869-4cb8fb7149ad@sholland.org>
-References: <ef2b9576350bba4c8e05e669e9535e9e2a415763.1650551719.git.christophe.jaillet@wanadoo.fr> <ff0ae741-efc4-ba6f-d869-4cb8fb7149ad@sholland.org>
+To: mturquette@baylibre.com, sboyd@kernel.org, Jernej Skrabec <jernej@kernel.org>
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [GIT PULL] Allwinner clock fixes for 4.18
+Date: Mon, 25 Apr 2022 19:53:21 +0200
+Message-ID: <1741873.TLkxdtWsSY@kista>
+In-Reply-To: <YmXPemmFqfcj4p/p@kista.localdomain>
+References: <YmXPemmFqfcj4p/p@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,28 +53,49 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 23. april 2022 ob 21:39:45 CEST je Samuel Holland napisal(a):
-> On 4/21/22 9:35 AM, Christophe JAILLET wrote:
-> > This code is really spurious.
-> > It always returns an ERR_PTR, even when err is known to be 0 and calls
-> > put_device() after a successful device_register() call.
-> > 
-> > It is likely that the return statement in the normal path is missing.
-> > Add 'return rdev;' to fix it.
+Dne ponedeljek, 25. april 2022 ob 00:30:18 CEST je Jernej Skrabec napisal(a):
+> Hi!
 > 
-> Thanks for the patch. This definitely looks to be the case.
-> 
-> > Fixes: d787dcdb9c8f ("bus: sunxi-rsb: Add driver for Allwinner Reduced 
-Serial Bus")
-> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> 
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
-> Tested-by: Samuel Holland <samuel@sholland.org>
-> 
+> Please pull following changes for current release.
 
-Applied to sunxi/fixes-for-5.18, thanks!
+Disregards this, I missed one more fix.
 
-Best regards,
+Regards,
 Jernej
+
+> 
+> Best regards,
+> Jernej
+> 
+> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+> 
+>   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/
+sunxi-clk-fixes-for-5.18-1
+> 
+> for you to fetch changes up to b4f3d5f06e29b7020f19cc788b2c2de750e888a1:
+> 
+>   clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical (2022-04-24 23:22:46 
++0200)
+> 
+> ----------------------------------------------------------------
+> Two clock fixes:
+> - missing sentinel in device id array
+> - missing critical flag for rtc-32k clock
+> 
+> ----------------------------------------------------------------
+> Samuel Holland (1):
+>       clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical
+> 
+> Wan Jiabing (1):
+>       clk: sunxi-ng: fix not NULL terminated coccicheck error
+> 
+>  drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> 
 
 
