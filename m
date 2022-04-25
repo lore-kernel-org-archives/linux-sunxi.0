@@ -1,115 +1,184 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D587E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 11:30:33 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id b12so11545881plg.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 04:30:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jq3lZaJRWmUC1+/YH0KaBe1qk/+UKzuPPxjecR22D8I=;
-        b=FoikZIM5R9luRPxIlH8rApfm/qpfKWJbs1ksYjkd4SJBe3V7l6HI0fF1ZWVFSGCxJ7
-         ndio9iXLaNi7fKs5F/5KAULIbINTFEznMBMLZ8gYetFUOQ7ajvbAeCtjFzvp/q4uOnsB
-         R26i3dJfeRkfqktQWFGVNsM9Opm9s8xd8ZDnk5jcxIkXouauxKutvc0bDNAi8zuUhPsE
-         mTGXQu29XlCN9Ehfw7Prztx3JeO4GQ44LWZzH5stAgHImRd5/On3vpCHtdYjz95pSdS4
-         fbZvEFCgGHKpEbbFdFDJaHMkw+TtFu43dgkcUYROO+86i9QVwRvi9x5r4pG7FyUFmbfe
-         ApIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jq3lZaJRWmUC1+/YH0KaBe1qk/+UKzuPPxjecR22D8I=;
-        b=cf4Te1Z07rrlJW2sPp+Zty4xXqkFREODHOC7/QcFY7xuf5uSWbv/jSKWyoAAg4zZPc
-         jg2fP1E+l4OsBTEnAytnA8idF5Kmu1f8ftqMbjj190IfsfSLJRU5BPyI1lCiwxnaQAqM
-         +m3BSK4tpdy6ADsQKFSc28N91EbbU9rl3XdzFzX9ZjOIil2BH3Ym7Xgkyy+CH3BjQ6Xz
-         a6mX+ckmQa58Z4YLJ8klD6qzGESON1oSyohyWPd4vR+85gaM1k364cB8Kerxf8XtaHgB
-         5WExu1heEQ1+Jyb2ngYoW4bx6qmxDkl4uIXSlerbLNva+7eSaqFYsWICiRfznagYjsEC
-         cNwg==
-X-Gm-Message-State: AOAM530L3O4desS3jlRvXjbS3Sfs7YdjqxYDAvQWYmmrIri8NYL4kv4e
-	EAZu/nVWtZTkyt7IxO6Zeok=
-X-Google-Smtp-Source: ABdhPJzOBPsNT1iiha9Pn7HKouA6c3xrQ/DXkWrAOftr5V7RJf9IPtWYLNYqi8A9p0/ZbHO348dWhw==
-X-Received: by 2002:a17:902:b406:b0:14f:bb35:95ab with SMTP id x6-20020a170902b40600b0014fbb3595abmr17610765plr.140.1650886232444;
-        Mon, 25 Apr 2022 04:30:32 -0700 (PDT)
-Received: from ip-172-31-12-67.us-west-1.compute.internal (ec2-54-241-4-221.us-west-1.compute.amazonaws.com. [54.241.4.221])
-        by smtp.gmail.com with ESMTPSA id i11-20020a654d0b000000b0039d82c3e68csm9819072pgt.55.2022.04.25.04.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 04:30:31 -0700 (PDT)
-From: Xiaobing Luo <luoxiaobing0926@gmail.com>
-To: tiny.windzz@gmail.com,
-	rafael@kernel.org,
-	viresh.kumar@linaro.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	mripard@kernel.org
-Cc: linux-pm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Xiaobing Luo <luoxiaobing0926@gmail.com>
-Subject: [PATCH v3] cpufreq: fix memory leak in sun50i_cpufreq_nvmem_probe
-Date: Mon, 25 Apr 2022 11:30:09 +0000
-Message-Id: <20220425113009.2182485-1-luoxiaobing0926@gmail.com>
-X-Mailer: git-send-email 2.36.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 590DD7C
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 13:40:50 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 2ADF25C0193;
+	Mon, 25 Apr 2022 09:40:49 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Mon, 25 Apr 2022 09:40:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1650894049; x=
+	1650980449; bh=2nn2zqCEpHBXhjVLysWsPIDVph3o6ucuHdfZc6bQZOA=; b=U
+	5uXUoEihluXC0I2wYVBW2QH/01k5ZcB58KsO9Ta2TQfOqh8qDJfZvCAvKUq4Xdbr
+	mhRQENUXqsT2biDI46VQ5Iz0OTBq63xoFUa70FsnKl/Fk4gI8qhwhOFy5fcgufLv
+	IbKo19jpF2BzTqKnSdU6idK2SMEyFL9STfyZZHY3/gTzOe+yReoYMXRF1jYiH/RG
+	qDWMTBMf5wT6HiKqIY1d0nES84oIvFN0B3/31InKYZB2d8kF3oJQf2oePriFPFVY
+	+h9nT3y+xZNrW1Gi3rFjnWiSgTpS74mPm9x6p0Ti001x09Onv3497PJV/erWwGz8
+	Tn7S44gdN1NAJvQs5sVQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1650894049; x=1650980449; bh=2nn2zqCEpHBXh
+	jVLysWsPIDVph3o6ucuHdfZc6bQZOA=; b=l6rrplDG3ZzlR3ohQ0f5YvlRX30fU
+	xa47F4+1TDWKudtTnP/kevd+q9UuMBwZ3R27x/GvmGFYUqBmcijXf/gWDX4v4P5g
+	OGr5VcQevoTv0L8XC4mS6wjSX9VX7QUJlEowgvQadLfKdKm1zT6jMRf9SFxrN/nO
+	fR8wFh/PqDWDKt9wG5XoU+O08AQQyziqA+wCItFGbRyxwmf+TA8VNzNdYjnydREE
+	KQxvymWb8nwctsEM1uVXviB2o3slsdAeqBQ2DP54AZZ6XTE7liCt5uEnKWhJB5VA
+	6ix9gVe0DA6Fdj+xGDL+Eiwm9AGw65Q1tnoCooANi3E4O4GpWFNs6W0Mw==
+X-ME-Sender: <xms:4KRmYrsBEyli04JEkheQcS8JKqGIaErI0zrWqdZzDV24bMiXA5zYfg>
+    <xme:4KRmYsfa_5r2vnmp2EYaRrHRdndpxooh4TlO8_hbJn_BqToZY2E06sPfXUQlm7KzE
+    hx6zlf5llzKKq5eVQ>
+X-ME-Received: <xmr:4KRmYuxIUxafzbh7j1-Se95uFE7DCMaEbpwyDVImN96vU3qC20Rcupygc5eh6D-Jiq8w56wF0falLw_sJZhrlspZQOzfFAtRtQNDv7sljBOwFOxk9wZcWsKvig>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddugdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
+    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:4KRmYqOAbXv_2O2IZzhdJAlf8Q4heBTdY9ZleQi4oVAn5DjvnIQxmA>
+    <xmx:4KRmYr_7uRt3Oy0hEnrnFJftUAaJiqGaW9NSHdTu0_T8S-jbO9RIHg>
+    <xmx:4KRmYqVmWB3JW7V8t6jwSls_cbGxGiDdzmlFVBK9AMhC0Tcv-FFqVA>
+    <xmx:4aRmYs37IsFYIFCv3hOS6dQwLLJb2ig1qGo2OZvmS2KmOtPrC3OeTg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Apr 2022 09:40:47 -0400 (EDT)
+Subject: Re: [PATCH] mmc: sunxi-mmc: Correct the maximum segment size
+To: Hans de Goede <hdegoede@redhat.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, linux-mmc@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>, Chen-Yu Tsai <wens@csie.org>,
+ Chris Ball <chris@printf.net>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <maxime@cerno.tech>, Mike Turquette <mturquette@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220424230640.31735-1-samuel@sholland.org>
+ <dcc1b028-7e53-cb94-9a66-41890393f2ed@redhat.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <31a12028-8593-c558-0f21-044d69f97e6f@sholland.org>
+Date: Mon, 25 Apr 2022 08:40:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <dcc1b028-7e53-cb94-9a66-41890393f2ed@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---------------------------------------------
-unreferenced object 0xffff000010742a00 (size 128):
-  comm "swapper/0", pid 1, jiffies 4294902015 (age 1187.652s)
-  hex dump (first 32 bytes):
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<00000000b4dfebaa>] __kmalloc+0x338/0x474
-    [<00000000d6e716db>] sun50i_cpufreq_nvmem_probe+0xc4/0x36c
-    [<000000007d6082a0>] platform_probe+0x98/0x11c
-    [<00000000c990f549>] really_probe+0x234/0x5a0
-    [<000000002d9fecc6>] __driver_probe_device+0x194/0x224
-    [<00000000cf0b94fa>] driver_probe_device+0x64/0x13c
-    [<00000000f238e4cf>] __device_attach_driver+0xf8/0x180
-    [<000000006720e418>] bus_for_each_drv+0xf8/0x160
-    [<00000000df4f14f6>] __device_attach+0x174/0x29c
-    [<00000000782002fb>] device_initial_probe+0x20/0x30
-    [<00000000c2681b06>] bus_probe_device+0xfc/0x110
-    [<00000000964cf3bd>] device_add+0x5f0/0xcd0
-    [<000000004b9264e3>] platform_device_add+0x198/0x390
-    [<00000000fa82a9d0>] platform_device_register_full+0x178/0x210
-    [<000000009a5daf13>] sun50i_cpufreq_init+0xf8/0x168
-    [<000000000377cc7c>] do_one_initcall+0xe4/0x570
---------------------------------------------
+On 4/25/22 5:40 AM, Hans de Goede wrote:
+> Hi Samuel,
+> 
+> On 4/25/22 01:06, Samuel Holland wrote:
+>> According to the DMA descriptor documentation, the lowest two bits of
+>> the size field are ignored, so the size must be rounded up to a multiple
+>> of 4 bytes. Furthermore, 0 is not a valid buffer size; setting the size
+>> to 0 will cause that DMA descriptor to be ignored.
+>>
+>> Together, these restrictions limit the maximum DMA segment size to 4
+>> less than the power-of-two width of the size field.
+> 
+> I assume that you were seeing some problems where things where not working
+> which caused you to investigate this; and that this patch fixes those
+> problems?   If yes then it would be good to also mention the problems +
+> investigative process in the commit message.
 
-if sun50i_cpufreq_get_efuse failed, then opp_tables leak.
+No, this is just based on reading the manual. I was investigating some problems
+when I originally wrote this patch, but they turned out to be unrelated, and
+reverting this patch doesn't cause any obvious regression.
 
-Fixes: f328584f7bff ("cpufreq: Add sun50i nvmem based CPU scaling driver")
-Signed-off-by: Xiaobing Luo <luoxiaobing0926@gmail.com>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> I'm no longer involved in sunxi development, but still I wonder if the
+> subtraction of 4 from the max_seg_size is really necessary? This seems
+> to be based on the notion that as you say "0 is not a valid buffer size"
+> where as the code so far has been operating under the assumption that
+> putting 0 in sunxi_idma_des.buf_size means maximum buf-size.
+> 
+> I'm pretty sure that 0 meaning maximum buf-size is correct for at least
+> the older chips where idma_des_size_bits equals 13, which means that
+> only 2 4K pages fit in a single desc, so we almost certainly have been
+> hitting this code path ?
+> 
+> Although: drivers/mmc/host/dw_mmc.c which seems to be for similar
+> hw suggests that on designs where idma_des_size_bits == 13 only
+> 4k can be used, which sorta matches what you are doing here except
+> that you limit things to 8k - 4 instead of to just 4k.
+> 
+> Anyways I was just wondering about all this...
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 2deed8d8773f..75e1bf3a08f7 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -98,8 +98,10 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	ret = sun50i_cpufreq_get_efuse(&speed);
--	if (ret)
-+	if (ret) {
-+		kfree(opp_tables);
- 		return ret;
-+	}
- 
- 	snprintf(name, MAX_NAME_LEN, "speed%d", speed);
- 
--- 
-2.36.0
+It probably deserves someone testing this specific scenario, so we can either
+verify the fix is needed, or add a comment explaining that the documentation is
+wrong.
+
+Regards,
+Samuel
+
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+>>
+>> Fixes: 3cbcb16095f9 ("mmc: sunxi: Add driver for SD/MMC hosts found on Allwinner sunxi SoCs")
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/mmc/host/sunxi-mmc.c | 14 ++++++++------
+>>  1 file changed, 8 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+>> index c62afd212692..4bd5f37b1036 100644
+>> --- a/drivers/mmc/host/sunxi-mmc.c
+>> +++ b/drivers/mmc/host/sunxi-mmc.c
+>> @@ -214,6 +214,9 @@
+>>  #define SDXC_IDMAC_DES0_CES	BIT(30) /* card error summary */
+>>  #define SDXC_IDMAC_DES0_OWN	BIT(31) /* 1-idma owns it, 0-host owns it */
+>>  
+>> +/* Buffer size must be a multiple of 4 bytes. */
+>> +#define SDXC_IDMAC_SIZE_ALIGN	4
+>> +
+>>  #define SDXC_CLK_400K		0
+>>  #define SDXC_CLK_25M		1
+>>  #define SDXC_CLK_50M		2
+>> @@ -361,17 +364,15 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
+>>  {
+>>  	struct sunxi_idma_des *pdes = (struct sunxi_idma_des *)host->sg_cpu;
+>>  	dma_addr_t next_desc = host->sg_dma;
+>> -	int i, max_len = (1 << host->cfg->idma_des_size_bits);
+>> +	int i;
+>>  
+>>  	for (i = 0; i < data->sg_len; i++) {
+>>  		pdes[i].config = cpu_to_le32(SDXC_IDMAC_DES0_CH |
+>>  					     SDXC_IDMAC_DES0_OWN |
+>>  					     SDXC_IDMAC_DES0_DIC);
+>>  
+>> -		if (data->sg[i].length == max_len)
+>> -			pdes[i].buf_size = 0; /* 0 == max_len */
+>> -		else
+>> -			pdes[i].buf_size = cpu_to_le32(data->sg[i].length);
+>> +		pdes[i].buf_size = cpu_to_le32(ALIGN(data->sg[i].length,
+>> +						     SDXC_IDMAC_SIZE_ALIGN));
+>>  
+>>  		next_desc += sizeof(struct sunxi_idma_des);
+>>  		pdes[i].buf_addr_ptr1 =
+>> @@ -1420,7 +1421,8 @@ static int sunxi_mmc_probe(struct platform_device *pdev)
+>>  	mmc->max_blk_count	= 8192;
+>>  	mmc->max_blk_size	= 4096;
+>>  	mmc->max_segs		= PAGE_SIZE / sizeof(struct sunxi_idma_des);
+>> -	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits);
+>> +	mmc->max_seg_size	= (1 << host->cfg->idma_des_size_bits) -
+>> +				  SDXC_IDMAC_SIZE_ALIGN;
+>>  	mmc->max_req_size	= mmc->max_seg_size * mmc->max_segs;
+>>  	/* 400kHz ~ 52MHz */
+>>  	mmc->f_min		=   400000;
+> 
 
