@@ -1,200 +1,154 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DE02585;
-	Mon, 25 Apr 2022 16:17:06 +0000 (UTC)
-Received: from [IPV6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f] (unknown [IPv6:2a01:e0a:120:3210:ad99:4ace:ca31:d49f])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 08BEC1F43619;
-	Mon, 25 Apr 2022 17:17:03 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1650903423;
-	bh=ZpTwJbZZr/H9CBIUyh/kt4kicHgBjDQHTZ78dC5HfK8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=odGIJtNP+8Zz/7Wax6JrQlecZqRXdMDyXDjds01M8hauYBjD3EXyIaJavSWYYnMR2
-	 iLWpZUaT4vvysowt5EAInE88aOX6O3vBt4E9aUbkbxjZT2E29WWHu7B55yBHeZFyyx
-	 c0AOrlQ53vAfBTi9QPVml5IM+O5Oft5kf39mEANqqwJ5kHva5xIWH/ug6c+MhRUM/0
-	 mSyBlIkYRXUVksE7PR6/JS8cxS2dP+i+QIoKHWtxHKlj1J/Ko+8tsoqEGid5ukCNx+
-	 iDjCKFIbiIHMw8f7R2PWogez/UmGUn/Tvhjz69jqzrQe0TJ75/0fmgnNiqHwf0CeUH
-	 GtwY59Xvr2RWg==
-Message-ID: <d1ba4e57-2f13-ab3b-f79a-dc812cd4c2bf@collabora.com>
-Date: Mon, 25 Apr 2022 18:16:59 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1582562
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 16:28:38 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id u15so30608169ejf.11
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 09:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=fRiwDBZnDgmjoXk+v3UqbFIX2wID46vTLycQO6kZ6oA=;
+        b=cTbfvcIbnv0ABYCzXpNUBwEqcUngBeCwy9AYM1j1KGT2gkBiwdrOWu6C60pDwjoXsZ
+         FmlAcNg535t7wyRbaK6t1cI5muf6UfkUoFBDoj8pGWoTtjuo0JHHmMSb4TFokN8gFQJ2
+         kRoMkddtujSBJou63vsZkgAkQskVlmAmBfNl32fpybDbMn6y9cQE09nCPlIVIIjPufIT
+         lfVAcLu6QaVIWo665M7lGXprk8UAjLBaVJfq7dBaEuiPPVdRHsFIht8P4C1/9jLzY9xb
+         mqcTGC80E6bzymhBsMyPNMVEognWCLpQchQN1HMloIBHfVWI3kYw/83ympeJnd2VefTB
+         nSww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=fRiwDBZnDgmjoXk+v3UqbFIX2wID46vTLycQO6kZ6oA=;
+        b=kyZk3iqRSnkbMS1SsQluD5NhtPrpCBldVltbMFpppC6d4Aoa17XTs9lSwqeDkgiS27
+         O5IEziZ5o0l9pPRoFrp2P8YOLO/+cfF38ZL9rwLbjOdZUB/xUli33ZTq0sovX8N7mhn6
+         kNH0dTLreXU1E/u1oNuvUIzf06X4gBbwVrtTusJ1kTMSV4C8Id02/G7QAVfB8kzdOWkY
+         ZSncmCRprN3vx1JEPZUMiNn74Gly2yOnYiaaQIs0qS0h9L2u1LQHm4B0hoOi0L1wRKh+
+         3+D9KTAWrdKHGaUgdyZt3e0IvqcpYttocYQziE1EVYC8O9NOb3yH++KSUAXlnsyVkTjw
+         xy1g==
+X-Gm-Message-State: AOAM533n7nq/RhYSxw4uS/KpDBn12M81tGFoDM4FI6iCYWaMGRJiwgJE
+	a2938hADpFALlNdym9MMhzQ=
+X-Google-Smtp-Source: ABdhPJw9zVOXiVJnD/AtfXS3TGJfucx3UzOyQ7W1eZ1UG6Ro9jkq+Zrb/8bCxXkbiSMT6I6DnUimjw==
+X-Received: by 2002:a17:907:7b98:b0:6f0:349:4a66 with SMTP id ne24-20020a1709077b9800b006f003494a66mr17489009ejc.223.1650904117023;
+        Mon, 25 Apr 2022 09:28:37 -0700 (PDT)
+Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
+        by smtp.gmail.com with ESMTPSA id x4-20020a50f184000000b00425d7cb883fsm2874948edl.67.2022.04.25.09.28.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Apr 2022 09:28:36 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Samuel Holland <samuel@sholland.org>, Harald Geyer <harald@ccbib.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Torsten Duwe <duwe@suse.de>
+Subject: Re: Re: [PATCH] arm64: dts: allwinner: teres-i: Add GPIO port regulators
+Date: Mon, 25 Apr 2022 18:28:35 +0200
+Message-ID: <5259899.Sb9uPGUboI@kista>
+In-Reply-To: <462969fd722eec45aa5f142de48b7fbd@ccbib.org>
+References: <20220415165605.28560-1-harald@ccbib.org> <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org> <462969fd722eec45aa5f142de48b7fbd@ccbib.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH v5 04/17] media: uapi: HEVC: Add missing fields in HEVC
- controls
-Content-Language: en-US
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar,
- p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
- samuel@sholland.org, nicolas.dufresne@collabora.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20220407152940.738159-1-benjamin.gaignard@collabora.com>
- <20220407152940.738159-5-benjamin.gaignard@collabora.com>
- <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20220425135449.oapsrqqyq34s2ii3@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Hi Harald!
+
+Dne ponedeljek, 25. april 2022 ob 13:01:54 CEST je Harald Geyer napisal(a):
+> On 24.04.2022 03:56, Samuel Holland wrote:
+> > On 4/15/22 11:56 AM, Harald Geyer wrote:
+> >> Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
+> >>
+> >> Usually supplies are linked via the 'regulator-name' property of
+> >> regulator nodes. However when regulators are shared we need to
+> >> declare the additional links in the pinctrl node.
+> >>
+> >> Signed-off-by: Harald Geyer <harald@ccbib.org>
+> >
+> > I'm curious if this solved an issue for you, or if this is just for 
+> > accuracy.
+> > Both of these regulators have the regulator-always-on property, so
+> > they should have been enabled already.
+> 
+> You are right, there shouldn't be any change in functionality. It is 
+> mostly
+> for extra correctness. However the pincontrol driver started spewing 
+> lot's
+> of warnings about missing regulator nodes a few versions back. The 
+> visible
+> effect of this change is to silence those warnings. Also make the DTS 
+> more
+> future proof in case the driver is made even more picky in the future.
+> 
+> > If it's the latter reason, why not add the other
+> > ports? Regardless:
+> 
+> PD, PE and PL have dedicated regulators, that can be matched via the
+> 'regulator-name' property. I didn't want to specify the same 
+> information
+> in two places.
+
+"regulator-name" is only a label, while phandle is actual regulator reference 
+that can be used by the driver. While DT files reside in Linux kernel source, 
+they are used by other OSes and bootloaders, so you can't really assume what 
+is good or not just by judging based on Linux behaviour. So please add PD and 
+PL regulators too.
+
+> 
+> For the PF supply, I couldn't find any connection information in the
+> board schematic. I could have added a dummy regulator. But since there 
+> is
+> only one warning about pf-supply during driver initialization and not 
+> the
+> dozens of warnings I see about PC and PG, I figured, I'd rather not add
+> information of dubious use or qualiy.
+
+You mean PE right? There is no PF supply on A64. Anyway, if it's not on 
+schematic, it can be assumed unconnected and thus you shouldn't define that 
+property. Messages like "using dummy regulator" are fine in such cases .
+
+There is no issue of "dubious quality" if schematic is clear. Also don't worry 
+about usefulness. DT files are hardware description files. They should reflect 
+hardware configuration, no matter how useful information seems.
+
+FYI, information in this case is useful to the driver. If you check sunxi 
+pinctrl driver, you can see that port bias is set according to regulator 
+voltage.
+
+Best regards,
+Jernej
+
+> 
+> best regards,
+> Harald
+> 
+> 
+> > Reviewed-by: Samuel Holland <samuel@sholland.org>
+> >
+> >> ---
+> >>  arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts | 5 +++++
+> >>  1 file changed, 5 insertions(+)
+> >>
+> >> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts 
+> >> b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> >> index aff0660b899c..cc316ef2e2d6 100644
+> >> --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> >> +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+> >> @@ -197,6 +197,11 @@ &ohci1 {
+> >>  	status = "okay";
+> >>  };
+> >>
+> >> +&pio {
+> >> +	vcc-pc-supply = <&reg_dcdc1>;
+> >> +	vcc-pg-supply = <&reg_aldo2>;
+> >> +};
+> >> +
+> >>  &pwm {
+> >>  	status = "okay";
+> >>  };
+> >>
+> 
+> 
 
 
-Le 25/04/2022 à 15:54, Sebastian Fricke a écrit :
-> On 07.04.2022 17:29, Benjamin Gaignard wrote:
->> Complete the HEVC controls with missing fields from H.265 
->> specifications.
->> Even if these fields aren't used by the current mainlined drivers
->> they will be need for (at least) rkvdec driver.
->
-> s/be need/be required/
-> or
-> s/be need/be needed/
->
-> s/rkvdec/the rkvdec/
->
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->> .../media/v4l/ext-ctrls-codec.rst             | 19 +++++++++++++++++++
->> include/media/hevc-ctrls.h                    |  6 +++++-
->> 2 files changed, 24 insertions(+), 1 deletion(-)
->>
->> diff --git 
->> a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst 
->> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 4cd7c541fc30..dbb08603217b 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -2661,6 +2661,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``video_parameter_set_id``
->> +      - Specifies the value of the vps_video_parameter_set_id of the 
->> active VPS
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->> +    * - __u8
->> +      - ``seq_parameter_set_id``
->> +      - Provides an identifier for the SPS for reference by other 
->> syntax elements
->> +        as descibed in section "7.4.3.2.1 General sequence parameter 
->> set RBSP semantics"
->> +        of H.265 specifications.
->>     * - __u16
->>       - ``pic_width_in_luma_samples``
->>       -
->> @@ -2800,6 +2810,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     :stub-columns: 0
->>     :widths:       1 1 2
->>
->> +    * - __u8
->> +      - ``pic_parameter_set_id``
->> +      - Identifies the PPS for reference by other syntax elements.
->>     * - __u8
->>       - ``num_extra_slice_header_bits``
->>       -
->> @@ -3026,6 +3039,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>     * - __u8
->>       - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
->>       - The list of L1 reference elements as indices in the DPB.
->> +    * - __u16
->> +      - ``short_term_ref_pic_set_size``
->> +      - Specifies the size of short-term reference pictures set 
->> included in the SPS.
->
-> s/size of/size of the/
->
-> Section 7.4.8 depicts that the st_ref_pic_set syntax
-> structure can be part of the SPS or the slice header.
->
-> I think we should mention that we talk about the size of the 
-> st_ref_pic_set
-> syntax structure from section 7.4.8 of the specification.
->> +    * - __u16
->> +      - ``long_term_ref_pic_set_size``
->> +      - Specifies the size of long-term reference pictures set 
->> include in the SPS.
->
-> s/size of/size of the/
->
-> Can we make this a bit more helpful? The specification doesn't contain
-> a similar structure to `st_ref_pic_set` for long term pictures. So, as a
-> programmer this leaves me guessing:
-> - Which syntax structure's size are we talking about?
-> - Does this correlate to any of the existing sections of the
-> specification?
-> Because in the end, I feel like this documentation should be able to
-> help a programmer to provide the correct data for the uABI.
-
-I will reword it like that:
-
-   * - __u16
-     - ``short_term_ref_pic_set_size``
-     - Specifies the size, in bits, of the short-term reference pictures set, described as st_ref_pic_set()
-       in the specification, included in the slice header (section 7.3.6.1).
-
-  * - __u16
-    - ``long_term_ref_pic_set_size``
-    - Specifies the size, in bits, of the long-term reference pictures set include in the slice header.
-      It is the number of bits in the conditional block if( long_term_ref_pics_present_flag ) {...}
-      in section 7.3.6.1 of the specification.
-
-Benjamin
-
-
->
-> Greetings,
-> Sebastian
->
->>     * - __u8
->>       - ``padding``
->>       - Applications and drivers must set this to zero.
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index 01ccda48d8c5..a329e086a89a 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
->> /* The controls are not stable at the moment and will likely be 
->> reworked. */
->> struct v4l2_ctrl_hevc_sps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
->> +    __u8    video_parameter_set_id;
->> +    __u8    seq_parameter_set_id;
->>     __u16    pic_width_in_luma_samples;
->>     __u16    pic_height_in_luma_samples;
->>     __u8    bit_depth_luma_minus8;
->> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
->>
->> struct v4l2_ctrl_hevc_pps {
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
->> +    __u8    pic_parameter_set_id;
->>     __u8    num_extra_slice_header_bits;
->>     __u8    num_ref_idx_l0_default_active_minus1;
->>     __u8    num_ref_idx_l1_default_active_minus1;
->> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
->>     __u32    slice_segment_addr;
->>     __u8    ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->>     __u8    ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
->> -
->> +    __u16    short_term_ref_pic_set_size;
->> +    __u16    long_term_ref_pic_set_size;
->>     __u8    padding;
->>
->>     /* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction 
->> parameter */
->> -- 
->> 2.32.0
->>
