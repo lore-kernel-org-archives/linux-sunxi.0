@@ -1,74 +1,68 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188F17E
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 17:59:41 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id y3so10780270ejo.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 10:59:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=TtgZ9hhhM4u37jsTuLZNpiEojGjDtunmh77jaqRuyTQ=;
-        b=Z4guqvZ1DmvBpFabB1XWYbAjbioMhUlKBS9dG6i3rc6ljtSqq1aV39L5YsbAbrMIqU
-         dVigS191k+K5O711V4uWIdpI6CB/75y22CLZml6p4Hfv0TKF1Ga8tsaXt7fVglHSgtr7
-         dM6gVArOUOlZk6VDrG9RL3cmF/AcVTflft/tnR4Mrr7uBPOGL8zBF+S9yIlWy04nR9hE
-         2EymrYGUwA+2DYX3iegcO1njjYDVm7to9pnz5eq7jMaYxadCux9aKQnVi6PgTmjvLYvr
-         I/9sEt39ou7PEEjajbQtGkEyDAppODxySeUDq5l2B5mflpUp62/5T78j2ha4CXy4wHiD
-         GrVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=TtgZ9hhhM4u37jsTuLZNpiEojGjDtunmh77jaqRuyTQ=;
-        b=gQ2rlmDRLotuImI6ns5dR2gZanvle6eDtvC2Em4f3KRtBu/szJrAXM0tpgGA5pAXXl
-         kvjZSuvPyNYmwrCzYV4Lly7arigLEjIx7AvqskuI8j4G40qtOjkQrtIydKw6gJdH+oKo
-         pGmRG3GHVYWRxyna+dQZCvZvnpRWTo+epN2GQCBskAGT97iQWkJGzoqio50LZ125IoW4
-         BgydJDzbDsQ3CWA5ba9bSM20l7CVZ0H6awK0Kj7zavTvVQPiDxQFBk7pa9LxrmXxmAo9
-         PYvk0vax5dYepURHVcGMNAIdsTtrckP2Iq7RQXM5lmiuaOr22yktEqjm/hELApLi15rr
-         P4mQ==
-X-Gm-Message-State: AOAM5312qUVDVD/L5EVCo9w/Gm1IvxvsEzIhmRST75Inwj9I6YxmZWVU
-	OQckm8khAImnoet3fk7/I5dBDmlkjJwWvQ==
-X-Google-Smtp-Source: ABdhPJzYYWBWzPgmXZIuANGBFazqlekbk38HKp1EanXlXkro9F+u0aIvfoRGlTvJnkHEgdkYjebayw==
-X-Received: by 2002:a17:907:3e1d:b0:6d7:1031:7e0 with SMTP id hp29-20020a1709073e1d00b006d7103107e0mr17169875ejc.580.1650909579477;
-        Mon, 25 Apr 2022 10:59:39 -0700 (PDT)
-Received: from kista.localnet (cpe-86-58-32-107.static.triera.net. [86.58.32.107])
-        by smtp.gmail.com with ESMTPSA id u18-20020a17090626d200b006efdd9b95c8sm3867949ejc.47.2022.04.25.10.59.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Apr 2022 10:59:39 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, Samuel Holland <samuel@sholland.org>
-Cc: wens@csie.org, maxime@cerno.tech
-Subject: Re: Re: [PATCH] clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
-Date: Mon, 25 Apr 2022 19:59:37 +0200
-Message-ID: <2976854.CbtlEUcBR6@kista>
-In-Reply-To: <9ebabc53-72de-bbec-895c-fa3760ed5374@sholland.org>
-References: <20220421134308.2885094-1-yangyingliang@huawei.com> <9ebabc53-72de-bbec-895c-fa3760ed5374@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17F7A7E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Apr 2022 18:02:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72054C385A7;
+	Mon, 25 Apr 2022 18:02:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1650909745;
+	bh=wB6QZNYJ+oigdgmtL/ndlegdP8U81yYisNMbo36102Y=;
+	h=Date:From:To:Cc:Subject:From;
+	b=iaINlQhOetMw4ZQcRcyRzKjDu6PnAjZVThe3WnxFpHshtLNbYkOs31HD3B7trPAY7
+	 4IPu4ID9sYoEjVwM6u14Hcat0R38AUTYQbRkd+oMa3u0Tq1z4pPtnkKYQOiC+T4NTw
+	 OGwGvL2uifMo1RGkMepLv+oYs6XQf5jXkKn+UZ2VBLa1mb3WXoVWNh2VJhzYnVJwrE
+	 MB6I/cGDF5nRuiqqNZ0RfCSvkyzf8+8PIK+FmaNtKa9UWQhBbAX7kV+qRPgxunUDxF
+	 WNFCZ8BoUqLqoUwKOuJxQr+1F4+JcPbPKq8/lb3YbL9FFIP5SL+RjDKbOE/Ywh3ulA
+	 vfz1fvegGAkoA==
+Date: Mon, 25 Apr 2022 20:02:21 +0200
+From: Jernej Skrabec <jernej@kernel.org>
+To: mturquette@baylibre.com, sboyd@kernel.org
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner clock fixes for 4.18, take 2
+Message-ID: <YmbiLbQmqIUec0fM@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dne sobota, 23. april 2022 ob 21:45:05 CEST je Samuel Holland napisal(a):
-> On 4/21/22 8:43 AM, Yang Yingliang wrote:
-> > It will cause null-ptr-deref if platform_get_resource() returns NULL,
-> > we need check the return value.
-> > 
-> > Fixes: 7a6fca879f59 ("clk: sunxi: Add driver for A80 MMC config clocks/
-resets")
-> > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> 
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
-> 
-> 
+Hi!
 
-Applied to sunxi/clk-fixes-for-5.18, thanks!
+Please pull following changes for current release.
 
 Best regards,
 Jernej
 
+The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
 
+  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-clk-fixes-for-5.18-2
+
+for you to fetch changes up to f58ca215cda1975f77b2b762903684a3c101bec9:
+
+  clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource() (2022-04-25 19:50:53 +0200)
+
+----------------------------------------------------------------
+Add missing sentinel, check return value and mark rtc-32k as critical
+
+----------------------------------------------------------------
+Samuel Holland (1):
+      clk: sunxi-ng: sun6i-rtc: Mark rtc-32k as critical
+
+Wan Jiabing (1):
+      clk: sunxi-ng: fix not NULL terminated coccicheck error
+
+Yang Yingliang (1):
+      clk: sunxi: sun9i-mmc: check return value after calling platform_get_resource()
+
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 2 ++
+ drivers/clk/sunxi/clk-sun9i-mmc.c    | 2 ++
+ 2 files changed, 4 insertions(+)
