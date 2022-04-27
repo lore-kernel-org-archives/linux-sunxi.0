@@ -1,49 +1,49 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC6133E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:47:30 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id gh6so5542984ejb.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:47:30 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6925033E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:50:57 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id b24so3139596edu.10
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:50:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=LONo22GFE8+qb+RTFT1FYUQE4k/LGm5GxuD++oCjNCo=;
-        b=oVQ5t51PpqRAKOMWTnUjjYB06RAXdeQijIcB3h4gxPdrJg919IHzOauTtrCaKnUB7p
-         jrj+4kHdkxThd9OtNJgoJjy4qllr60TxUP6f2E8aVsBjZv7/LXEyKM2TdQ+m9i9ABzHN
-         ta2jM7RaQ/rIby5LSeUxG03DlsalsdUlvbcOitNiJ6cJ8Bx+XXxMFfxEwAx1tF5h0m8j
-         0BT7Azw8ss+JqOhBijJrAvTAmwr9xhjfxbEyTqrebMJv8xjrkQbgUin+aWphFPGDAj5C
-         60w1oj59WmxZ2l8g/h66lzVQZnaKmNUWql4qtC/zAts+sHjQ4sUZFhyfd97SNJQNyqgO
-         K13Q==
+        bh=33j4YNSNaU5u59fgSber6SgSZ1FYBjfWnCsj8i53xiY=;
+        b=paqZNLRh816sci8wvt4ZMNGemC8tLQEZQbrY9GK0GF+9tda40M4Hbqk6a0iBrMeUWR
+         pFZw8B9zMxIKU4oUgr8+nrR6asJ3HHqlfrm/haG45dyuWn4dCJtZo9iXZTnfySlgXT3t
+         hfWQrG+tpXivhbySzfp7k6Rk5PR2rVcj6riFEWVUFsFoTt/5h7OvNo2+YpjEVTZ2xbUC
+         c10ykpZtbfcdncFg30IrZLX8FfLSEHT6hnStz8jts0Luz3Lxkcny6oyP0KExznklnIZU
+         VYhJCy5QIq7gG+pKuyC/cj25vXJGb4q9Sa9LyBnXyRWxTevQJuTPOWyWGT0vXxA0M61N
+         uP7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=LONo22GFE8+qb+RTFT1FYUQE4k/LGm5GxuD++oCjNCo=;
-        b=0bE8lzuGwGt6nmImkk5JGFeS3ZeGknNULLMuatrXGI7efPlTb2qbuoVeUEPH6Td4v4
-         1Z/Bji/qGcFgBuywIZ/X+rcCfgDOvCqY4digh/7IcqJcNToP/gNsdNddIDSGggkgAyn7
-         TbRqB7hIaxpWYZRHq/05TZlxI5Nt7SaAGA0hFHKwVr+bF30G5YJ4vk/kgMsFi5NvySUi
-         Ie/gSI3bIZOfRwX+HqH8AFemrxFY7hC8LbeYzkHuKSuwqr+6o5jI/BpxhEe7Mq02LdhM
-         QCHrBzM9qSeL6OtFUPSzbY2wgUoKcQmDTg0YyLAxLdw83/mJrMWGb2y1a7bcA3q6n/RW
-         ATXQ==
-X-Gm-Message-State: AOAM533PWv/W5vr/tUfM2lEz+S6zBYxEKpldUIBiQC6VtEMvYrD/gzs2
-	dfVWTRRbLWxfA6i1DD04+EXfxv2JRh7fGg==
-X-Google-Smtp-Source: ABdhPJzJatD17YnXsrf0yTeXgTJ1voZs9XJLvJEFIxSvdL3rgPSW4gimCHVTuvtYjbFSC2UjbCAuhQ==
-X-Received: by 2002:a17:907:968f:b0:6db:a3c5:ae3e with SMTP id hd15-20020a170907968f00b006dba3c5ae3emr29230108ejc.770.1651088848727;
-        Wed, 27 Apr 2022 12:47:28 -0700 (PDT)
+        bh=33j4YNSNaU5u59fgSber6SgSZ1FYBjfWnCsj8i53xiY=;
+        b=w8I9e8SRdagYT7CX4VDoklqE9hnJmagu8jnwFt32v/g0Vr0+ET39dsfTpeoiJrbEmT
+         yLMHX8Fa2o9mD79LWTX/z9OYE6d9mKwb12chUBneqPrvylpCFlzVILuRADF5W6ke9ltx
+         YiGBfpH3F+z3xgInb8bwC6/og3gRkuWQCQmb3SvJziXT+05bfWU43thCNQIs2RpzyZBW
+         3s+Gs5wHJfpwGjMLJc7aCVuQc3LlJ9B2hnAlN4vyTWgFhWMnm4/q+ew1uuQnaTWHUk5b
+         ArAbS6OhMf+tp24ev439hTz4UdHAizhYwqnux7/krfxMPxvzWnokRIwrbziO+jnRvpcN
+         tzAQ==
+X-Gm-Message-State: AOAM532pe9/jeaAIwdhT1zlDZaKYiVNehzutDZlNKjkOF4MD4gYmY6KX
+	h1CIZT6GtFpQXD7Luwx7W5c=
+X-Google-Smtp-Source: ABdhPJw1YgYtwx9aqlQwyWIGlVQaBzLeEYF1CEFQZPIzcHlqxRakh1b8DdGiXc19hCSJewwbYeHPOA==
+X-Received: by 2002:a05:6402:5286:b0:425:f0fb:5d23 with SMTP id en6-20020a056402528600b00425f0fb5d23mr15599225edb.243.1651089055670;
+        Wed, 27 Apr 2022 12:50:55 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id s25-20020aa7d799000000b0042617ba6397sm96065edq.33.2022.04.27.12.47.27
+        by smtp.gmail.com with ESMTPSA id j12-20020aa7de8c000000b0042617ba63b2sm104085edv.60.2022.04.27.12.50.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:47:28 -0700 (PDT)
+        Wed, 27 Apr 2022 12:50:55 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 35/45] media: sun6i-csi: Get bridge subdev directly in capture stream ops
-Date: Wed, 27 Apr 2022 21:47:27 +0200
-Message-ID: <2128504.NgBsaNRSFp@jernej-laptop>
-In-Reply-To: <20220415152811.636419-36-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-36-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 37/45] media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
+Date: Wed, 27 Apr 2022 21:50:54 +0200
+Message-ID: <14612220.tv2OnDr8pf@jernej-laptop>
+In-Reply-To: <20220415152811.636419-38-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-38-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,10 +53,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 15. april 2022 ob 17:28:01 CEST je Paul Kocialkowski napisal(a):
-> The remote subdev connected to the capture video device is always
-> our bridge, so get the bridge subdev directly instead of using a
-> dedicated helper (which is removed by this commit).
+Dne petek, 15. april 2022 ob 17:28:03 CEST je Paul Kocialkowski napisal(a):
+> Now that the driver is properly split between bridge and capture,
+> rename the video device to highlight its role and be in line with
+> the bridge entity naming.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -66,75 +66,41 @@ Best regards,
 Jernej
 
 > ---
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 30 ++-----------------
->  1 file changed, 3 insertions(+), 27 deletions(-)
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c | 3 ++-
+>  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h | 2 ++
+>  2 files changed, 4 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> b3452ed825ad..b92f8aa55a92 100644
+> a6619d083308..c3b1e1411da4 100644
 > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -42,22 +42,6 @@ void sun6i_csi_capture_format(struct sun6i_csi_device
-> *csi_dev, *field = csi_dev->capture.format.fmt.pix.field;
->  }
+> @@ -1027,7 +1027,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device
+> *csi_dev)
 > 
-> -static struct v4l2_subdev *
-> -sun6i_csi_capture_remote_subdev(struct sun6i_csi_capture *capture, u32
-> *pad) -{
-> -	struct media_pad *remote;
-> -
-> -	remote = media_entity_remote_pad(&capture->pad);
-> -
-> -	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-> -		return NULL;
-> -
-> -	if (pad)
-> -		*pad = remote->index;
-> -
-> -	return media_entity_to_v4l2_subdev(remote->entity);
-> -}
-> -
->  /* Format */
+>  	/* Video Device */
 > 
->  static const struct sun6i_csi_capture_format sun6i_csi_capture_formats[] =
-> { @@ -822,8 +806,8 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, struct sun6i_csi_capture *capture = &csi_dev->capture;
->  	struct sun6i_csi_capture_state *state = &capture->state;
->  	struct video_device *video_dev = &capture->video_dev;
-> +	struct v4l2_subdev *subdev = &csi_dev->bridge.subdev;
->  	struct device *dev = csi_dev->dev;
-> -	struct v4l2_subdev *subdev;
->  	int ret;
+> -	strscpy(video_dev->name, SUN6I_CSI_NAME, sizeof(video_dev->name));
+> +	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
+> +		sizeof(video_dev->name));
+>  	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | 
+V4L2_CAP_STREAMING;
+>  	video_dev->vfl_dir = VFL_DIR_RX;
+>  	video_dev->release = video_device_release_empty;
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
+> a61db3bc72e5..59c57bcefeec 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> @@ -11,6 +11,8 @@
+>  #include <media/v4l2-dev.h>
+>  #include <media/videobuf2-core.h>
 > 
->  	state->sequence = 0;
-> @@ -832,12 +816,6 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, if (ret < 0)
->  		goto error_state;
-> 
-> -	subdev = sun6i_csi_capture_remote_subdev(capture, NULL);
-> -	if (!subdev) {
-> -		ret = -EINVAL;
-> -		goto error_media_pipeline;
-> -	}
-> -
->  	/* PM */
-> 
->  	ret = pm_runtime_resume_and_get(dev);
-> @@ -886,12 +864,10 @@ static void sun6i_csi_capture_stop_streaming(struct
-> vb2_queue *queue) {
->  	struct sun6i_csi_device *csi_dev = vb2_get_drv_priv(queue);
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
-> +	struct v4l2_subdev *subdev = &csi_dev->bridge.subdev;
->  	struct device *dev = csi_dev->dev;
-> -	struct v4l2_subdev *subdev;
-> 
-> -	subdev = sun6i_csi_capture_remote_subdev(capture, NULL);
-> -	if (subdev)
-> -		v4l2_subdev_call(subdev, video, s_stream, 0);
-> +	v4l2_subdev_call(subdev, video, s_stream, 0);
-> 
->  	sun6i_csi_capture_disable(csi_dev);
->  	sun6i_csi_capture_irq_disable(csi_dev);
+> +#define SUN6I_CSI_CAPTURE_NAME	"sun6i-csi-capture"
+> +
+>  #define SUN6I_CSI_CAPTURE_WIDTH_MIN	32
+>  #define SUN6I_CSI_CAPTURE_WIDTH_MAX	4800
+>  #define SUN6I_CSI_CAPTURE_HEIGHT_MIN	32
 
 
 
