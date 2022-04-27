@@ -1,186 +1,136 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F9907E
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Apr 2022 14:26:05 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7DC4723A;
-	Tue, 26 Apr 2022 07:25:59 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 973173F73B;
-	Tue, 26 Apr 2022 07:25:58 -0700 (PDT)
-Date: Tue, 26 Apr 2022 15:25:56 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Chris Morgan <macroalpha82@gmail.com>
-Subject: Re: [PATCH] sunxi: fix initial environment loading without MMC
-Message-ID: <20220426152556.4a3ba3fb@donnerap.cambridge.arm.com>
-In-Reply-To: <bed703d6-1820-8df4-747a-6114877dedee@sholland.org>
-References: <20220421003448.4517-1-andre.przywara@arm.com>
-	<bed703d6-1820-8df4-747a-6114877dedee@sholland.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4413D60
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 17:35:10 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id DDB34320083A;
+	Wed, 27 Apr 2022 13:35:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 27 Apr 2022 13:35:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651080908; x=
+	1651167308; bh=t1FY6u46eLL6+Sd8qTZkwZAkzR/S6at6dPU4PPYvYJY=; b=w
+	rPATU8FaMr8NQ5OtpfewkUqiHgWUUUf/d+Zs6jVGXz9OGEqCqqTRIkcvClK6y3tb
+	6kj3s2xNXGqfHSqAzAUEsO87UAZhu8mm8CQ7L1Q5tYBmCiU2VOATbvAmJAgZUmoD
+	y2iZJ2SC7mPuxEzMpg6A3WlyUAff/vcg/e+HM2KS/OwcRARFi53MUR3oRrChFZ6K
+	lijX0ksekDdzFG7srwSS9iNm1KZ2JYB4LqcWAJAIB5SFZfyBu+DYSrq2yFRUwhKJ
+	5L9n3FAqMZKzbePQ3tKD69/XNXA6Vgkfc7WnEhPl5pxd8uwZc/biz5wXe/oy80ii
+	NlBvNSDFFzeCDm6PJ+knw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1651080908; x=1651167308; bh=t1FY6u46eLL6+
+	Sd8qTZkwZAkzR/S6at6dPU4PPYvYJY=; b=CVCrHCgsIa7PEasgE1JKsb+HJudlU
+	9Rh6cm7veYP1KN3bYhcc9MeZNJMmgjhSOqJq8Zl22iY3A7xgxKG379MNLQJk4iMG
+	Mo0mNeJZlwaGs7A+LGpPi+mHlpHMKD3nCYthf+EA7N6sFgu5rczOdI1UG+gRFwT7
+	InqV8Vn3MCeG/WbOl++NH3tX+DGkfEvYpFZ6Am6C1/uxjh2N988+yDc2sT37gf+9
+	KqT3DLRdzbJtikd1Dq3VaCqh/On5SpaKSKH6czVjL2BgKo+gZD+LUm9Bc6LtgQCL
+	AMvDJ+Fq979xiryAETyelpMqyswnsFwu3HFVYIBRAKAjCa8bj8qavfjZQ==
+X-ME-Sender: <xms:y35pYgPFIA7PcGqvAemF6SCigE2GxUmIMiHVh-fuUSTboer-IPrkKQ>
+    <xme:y35pYm-wrvV5UhPtrFVgKlEv3lMmn9bG7C3_JOori_g4ayAk7Ot5ILGIlAo82q0_L
+    tVyXN3sQdg8jcwWCw>
+X-ME-Received: <xmr:y35pYnQxmW0vb8k_d-LKav5knpzi1wWFEQZGhpx8M1GmzMvqG9KeePsZke2mPEqrVvT18pCzGbI6gC7ZKogA8niImTia0ra5w6gQ-L4o3wlyQcCEAI9L9Neijw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgdduuddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:y35pYouye8D2HLYaQ4HXNT-Zq-2lbcJ4lyGhXSP4HwGxQ4JuHFijLQ>
+    <xmx:y35pYoere3UJ9WG9O64C7c5VqmTZHc-DQJSwCZJ6oJgkhZt_5pH-PQ>
+    <xmx:y35pYs3uHdUVbSVQlFd8jB-oz5Zr_5XYEuogJOKXozC3L2tZPhvhEg>
+    <xmx:zH5pYn4m43sn_eEeyE817o9HEELUKc0_PvBlJ5C42Pb5u-WuEULCrw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 Apr 2022 13:35:07 -0400 (EDT)
+Subject: Re: [PATCH] arm64: dts: allwinner: teres-i: Add GPIO port regulators
+To: Harald Geyer <harald@ccbib.org>
+Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, Torsten Duwe <duwe@suse.de>
+References: <20220415165605.28560-1-harald@ccbib.org>
+ <336f8b96-6eee-16a5-e896-e90c4020f740@sholland.org>
+ <462969fd722eec45aa5f142de48b7fbd@ccbib.org> <5259899.Sb9uPGUboI@kista>
+ <71e61e41-712f-3f5d-74d6-46b01d672e7b@sholland.org>
+ <ff40845f16a7d316fd128b3045b10092@ccbib.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <b21aab1f-e48e-5044-b963-02f3a4b3d9da@sholland.org>
+Date: Wed, 27 Apr 2022 12:35:06 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <ff40845f16a7d316fd128b3045b10092@ccbib.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Sat, 23 Apr 2022 16:01:00 -0500
-Samuel Holland <samuel@sholland.org> wrote:
-
-Hi Samuel,
-
-thanks for having a look and the comments.
-
-> On 4/20/22 7:34 PM, Andre Przywara wrote:
-> > Commit e42dad4168fe ("sunxi: use boot source for determining environment
-> > location") changed our implementation of env_get_location() and enabled
-> > it for every board, even those without MMC support (like the C.H.I.P.
-> > boards). However the default fallback location of ENVL_FAT does not cope
-> > very well without MMC support compiled in, so the board hangs when trying
-> > to initially load the environment.
-> > 
-> > Change the default fallback location to be ENVL_FAT only when the FAT
-> > environment support is enabled, and use ENVL_NOWHERE and ENVL_UBI as
-> > alternative fallbacks, when those sources are enabled.
-> > 
-> > This fixes U-Boot loading on the C.H.I.P. boards.
-> > 
-> > Fixes: e42dad4168fe ("sunxi: use boot source for determining environment location")
-> > Reported-by: Chris Morgan <macroalpha82@gmail.com>
-> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > ---
-> >  board/sunxi/board.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> > index 89324159d55..befb6076ca6 100644
-> > --- a/board/sunxi/board.c
-> > +++ b/board/sunxi/board.c
-> > @@ -132,7 +132,14 @@ void i2c_init_board(void)
-> >   */
-> >  enum env_location env_get_location(enum env_operation op, int prio)
-> >  {
-> > -	enum env_location boot_loc = ENVL_FAT;
-> > +	enum env_location boot_loc;
-> > +
-> > +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
-> > +		boot_loc = ENVL_NOWHERE;
-> > +	else if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
-> > +		boot_loc = ENVL_FAT;
-> > +	else if (IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
-> > +		boot_loc = ENVL_UBI;
+On 4/26/22 9:21 AM, Harald Geyer wrote:
+>>>> PD, PE and PL have dedicated regulators, that can be matched via the 
+>>>> 'regulator-name' property. I didn't want to specify the same 
+>>>> information in two places.
+>>>
+>>> "regulator-name" is only a label, while phandle is actual regulator reference
+>>> that can be used by the driver.
 > 
-> This could leave boot_loc uninitialized. And there is still an unconditional use
-> of ENVL_FAT in the BOOT_DEVICE_MMCx case.
-
-Yeah, it's a mess, and there doesn't seem to be a one-fits-all fallback
-value. Returning ENVL_UNKNOWN when prio is 0 definitely hangs, as does
-returning some source without having the corresponding driver compiled in,
-so getting this right *and* nice-looking is a bit tricky.
-
-> >  	gd->env_load_prio = prio;
+> That is clearly not the whole story, as the driver find's the supply
+> for the PD bank just fine. And this even isn't an always-on regulator.
 > 
-> I don't think the hook is supposed to change this variable.
+> See the attached dmesg logs.
 
-Yeah, don't remember why I initially put that in, I must have copied that
-from somewhere. All I remember is that this code is touchy (as the bug
-report leading to that patch shows), and there are quite some corner cases
-to test.
+You are right, the Linux function regulator_dev_lookup() falls back to matching
+by regulator name if no property exists in the devicetree. But again this is a
+Linux-ism that we would rather not rely on.
 
-> I'm still a bit confused on the fallback logic you have in place. Splitting it
-> up into three blocks doesn't help. If the goal is to load the environment from
-> the boot device, while preferring filesystems over raw block devices, I propose
-> the following:
+>>>> For the PF supply, I couldn't find any connection information in the 
+>>>> board schematic. I could have added a dummy regulator. But since there 
+>>>> is only one warning about pf-supply during driver initialization and
+>>>> not the dozens of warnings I see about PC and PG, I figured, I'd rather
+>>>> not add information of dubious use or qualiy.
+>>>
+>>> You mean PE right? There is no PF supply on A64.
+> 
+> I meant PF, but you are right, that this doesn't have a supply on A64
+> at all. However the driver doesn't seem to know this: It emits a
+> warning about missing PF supply at startup.
+> 
+>>> Anyway, if it's not on schematic, it can be assumed unconnected and thus
+>>> you shouldn't define that property. Messages like "using dummy regulator"
+>>> are fine in such cases .
+>>
+>> All of the ports without a separate VCC-Px input are powered by
+>> VCC-IO, which in this case is supplied from DCDC1.
+> 
+> So should I add "vcc-pf-supply = <&reg_dcdc1>;" even though the chip
+> actually doesn't support a dedicated vcc-pf-supply or should I just
+> ignore this?
 
-Admittedly this gets messier, I mainly wanted to fix the regression
-quickly, since it already broke the release for the CHIP boards.
-I will have a closer look at your suggestion and check for those corner
-cases, but will probably go with that instead of piling up more cruft on
-my previous code ;-)
+Yes, you should add this property. The supplies are a bit more abstract than you
+are expecting. Each of these pin banks (unless it is totally unused) has to get
+power from _somewhere_, and that "somewhere" is the supply that should be
+referenced.
 
-Thanks,
-Andre
+There is no need for the supply to be a dedicated pin, or for the supply name to
+match any pin or regulator name. For example, the LRADC needs a reference
+voltage for its comparator, so it has a "vref-supply" property. But there is no
+"VREF" pin. The LRADC's reference voltage is one of several things internally
+connected to the SoC's "AVCC" pin.
 
-> 
-> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index 427113534b..27508bd306 100644
-> --- a/board/sunxi/board.c
-> +++ b/board/sunxi/board.c
-> @@ -129,26 +129,38 @@
->   * Try to use the environment from the boot source first.
->   * For MMC, this means a FAT partition on the boot device (SD or eMMC).
->   * If the raw MMC environment is also enabled, this is tried next.
-> - * SPI flash falls back to FAT (on SD card).
->   */
->  enum env_location env_get_location(enum env_operation op, int prio)
->  {
-> -	enum env_location boot_loc = ENVL_FAT;
-> +	if (prio > 1)
-> +		return ENVL_UNKNOWN;
-> 
-> -	gd->env_load_prio = prio;
-> +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
-> +		return ENVL_NOWHERE;
-> 
->  	switch (sunxi_get_boot_device()) {
->  	case BOOT_DEVICE_MMC1:
->  	case BOOT_DEVICE_MMC2:
-> -		boot_loc = ENVL_FAT;
-> +		if (prio == 0) {
-> +			if (IS_ENABLED(CONFIG_ENV_IS_IN_EXT4))
-> +				return ENVL_EXT4;
-> +			if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
-> +				return ENVL_FAT;
-> +		}
-> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
-> +			return ENVL_MMC;
->  		break;
->  	case BOOT_DEVICE_NAND:
-> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
-> +			return ENVL_UBI;
->  		if (IS_ENABLED(CONFIG_ENV_IS_IN_NAND))
-> -			boot_loc = ENVL_NAND;
-> +			return ENVL_NAND;
->  		break;
->  	case BOOT_DEVICE_SPI:
-> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
-> +			return ENVL_UBI;
->  		if (IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
-> -			boot_loc = ENVL_SPI_FLASH;
-> +			return ENVL_SPI_FLASH;
->  		break;
->  	case BOOT_DEVICE_BOARD:
->  		break;
-> @@ -156,23 +168,6 @@
->  		break;
->  	}
-> 
-> -	/* Always try to access the environment on the boot device first. */
-> -	if (prio == 0)
-> -		return boot_loc;
-> -
-> -	if (prio == 1) {
-> -		switch (boot_loc) {
-> -		case ENVL_SPI_FLASH:
-> -			return ENVL_FAT;
-> -		case ENVL_FAT:
-> -			if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
-> -				return ENVL_MMC;
-> -			break;
-> -		default:
-> -			break;
-> -		}
-> -	}
-> -
->  	return ENVL_UNKNOWN;
->  }
-> 
-> 
-> Regards,
-> Samuel
+So here, vcc-pf-supply just means abstractly "the voltage supply for Port F".
 
+The fact that sometimes there also happens to be a pin named VCC-Px is the
+result of not coming up with a second name for something that has a perfectly
+good name already.
+
+Regards,
+Samuel
