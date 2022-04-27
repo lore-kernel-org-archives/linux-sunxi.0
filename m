@@ -1,49 +1,49 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1EC233E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:02:33 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id l18so5234846ejc.7
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:02:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C9833E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:16:20 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id k27so3070270edk.4
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=nRsrSZUdccGt8LRLTvc1f3066sqUlL3H8wQB+8CbAZM=;
-        b=oI3+Pk0O84Q7xhxIXyeolKjcngLs7+jcTCJHTa0ksRxWgXNWFSMxJIA0UmAccbtqA7
-         F2VjRBWqGNDcNP6jbMzBuINw/oc5sK1/EZD9x1kC7GrfCVGrjq3GRqjGpC8SvSy2rbEM
-         dDpK7HnogLvq+qPCx7mybM5IaoBXavO9uXmytlp58AjkbukUaUMsjzCY4cPJMx8Fnxyl
-         8jKcrvHJ/Lo+rfLgfgv7+6WP0qIWBEypKOlvY0DPPkLtPtF0ccjRFRtm2/3B0vRmw21B
-         MF2BTA3bGpyVP6Zsh03jPM1HwD3XSDSJ+81lVtKJ8mQS/s4bILCpChYQd7migae76qFV
-         iDyA==
+        bh=hLJNnGvrtFAOmeWj5ZA0YmApkwdPTHpKx7WHp64IaXc=;
+        b=BoaCeMQf2eJz88iZi8aPpusPSKfMdOwUxqV+E7OG7lHaoEa8LCQRN73oHJYeY4aSB2
+         VGeJHCUzQVNLlNLTt+8QM9NlL4GOlzEZP8HH265LD/MVHCmGrcZNii5fb+RWwVKeJZG9
+         CxyfyJZLMZ92m2h7eTIYr2aJBqp0X3RR+b95kGQks5dIQaFw3ClbFFUbQcJBcxPDJkgK
+         0MFA2S2N3hNwUK0wqQfIFowWTMZL+aJ0qMonkt5RFCrywZASeZ5WEAVLZpAYBlAGg/c8
+         Kmiy4YI211AbCaRxK6fx1V4vP9MqC+Z8sz0RFHfoilS0JWq58Nv5IubOlF53A9cTT2dD
+         ccDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=nRsrSZUdccGt8LRLTvc1f3066sqUlL3H8wQB+8CbAZM=;
-        b=1vcW/DjphRbiLW3mhehDxQL2bQM7Qrk/4Vis1jmqHuN/5KH6MaquIpHXhhRRmZwGWJ
-         QFn/2ob4R/Go/s0ggLygwQN9tv7qMAhX0x2UIBjsWQJt4O6CoXhJGQCv8/pyEfikgg4t
-         VtwryVCKiW1lt3b1yKfVH38olMQULXezLT0fjAJ9hkZSa+QeGI2/90tlo1eFQZQCiQu/
-         D8s5r0PQpq6Xyb9c6/NP1aOcu9f1QKGVCQi6X72eXmyd6dgh9PSn6Nk88atd/+6PwIkB
-         yxBa5WPNEN6HL6WxTVldUmw+O01UDCUVUb1GsRI9juIz2CBorPp0HmsSsZJ2goAuVtr9
-         qD0Q==
-X-Gm-Message-State: AOAM530sRAZkmZmfJnHb8OUgrZqf8UZxdVXA+9lBhMpJ6bFHan3N+1/N
-	0tqZSCkEiQ9Uo/lZ5ca51mU=
-X-Google-Smtp-Source: ABdhPJy0Mjet+HjxsoEJgp/AwTr+A8CehTApQ33EoGLfYGLxo9jXmuRR5VCj1fk2EiLPzrIUAMNxYQ==
-X-Received: by 2002:a17:906:b50:b0:6f3:ce99:3c39 with SMTP id v16-20020a1709060b5000b006f3ce993c39mr3446298ejg.52.1651086152184;
-        Wed, 27 Apr 2022 12:02:32 -0700 (PDT)
+        bh=hLJNnGvrtFAOmeWj5ZA0YmApkwdPTHpKx7WHp64IaXc=;
+        b=xxmB/t6XPpvxWi1lylbMYQiTSYrRtV9OQwHSacRIhi/acsFzKHb4gX29aYPlwVND4Y
+         KGYGJzCA5IuIgsDnG39SpBZtq0q+B0SHqgqEgb7kz5i3V9YLlPrg2TvP+2PjfNYIWQBR
+         f0mKCWY5s2vRJgB6qygRCW3YH3eMvYZeL+z34Jbx2KT5zpGoLfImIrLHwv5TYaMoQW4X
+         0/TjIASrUa7SQcfdQumLKCfpw3kLP7lRP3WqI+dHHH/fxASYWzTF5l8eR/k1vmX/GLVg
+         JcRBz9LSe/LXQG2GW3KboZUgJLw9xUxtaVIQwuTmnGj2edMYR3lezT27E8T7B9Ugmvrc
+         UDpg==
+X-Gm-Message-State: AOAM531zIr0U9bZyXR7LVFqjt3Tru0B4SF+iz5gbMMIy9EFy1MsXY0X1
+	+vx8wp1tGhtnMdPGEQmqRSw=
+X-Google-Smtp-Source: ABdhPJxqRqhCCImvZlg7ccRWir1+Asr7VdaNmzUyAraKohzOQR2qiTN2ZHRF78lYLEWMpStyZQGOPQ==
+X-Received: by 2002:aa7:c70f:0:b0:425:f70d:b34 with SMTP id i15-20020aa7c70f000000b00425f70d0b34mr13637098edq.306.1651086978704;
+        Wed, 27 Apr 2022 12:16:18 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id d11-20020a1709067f0b00b006f395247b5esm4652604ejr.84.2022.04.27.12.02.31
+        by smtp.gmail.com with ESMTPSA id r2-20020aa7c142000000b0042617ba63c5sm58674edp.79.2022.04.27.12.16.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:02:31 -0700 (PDT)
+        Wed, 27 Apr 2022 12:16:18 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 42/45] media: sun6i-csi: Request a shared interrupt
-Date: Wed, 27 Apr 2022 21:02:30 +0200
-Message-ID: <2179026.iZASKD2KPV@jernej-laptop>
-In-Reply-To: <20220415152811.636419-43-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-43-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 21/45] media: sun6i-csi: Implement address configuration without indirection
+Date: Wed, 27 Apr 2022 21:16:17 +0200
+Message-ID: <21443501.EfDdHjke4D@jernej-laptop>
+In-Reply-To: <20220415152811.636419-22-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-22-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,9 +53,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 15. april 2022 ob 17:28:08 CEST je Paul Kocialkowski napisal(a):
-> Request our interrupt shared since it is typically shared with the isp
-> block. The interrupt routine looks good to go for shared irq.
+Dne petek, 15. april 2022 ob 17:27:47 CEST je Paul Kocialkowski napisal(a):
+> Instead of calculating the planar_offset at one point and using it
+> later in a dedicated function, reimplement address configuration
+> with v4l2 format info in the buffer_configure function.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -65,26 +66,187 @@ Best regards,
 Jernej
 
 > ---
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 27 ----------------
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      | 10 ------
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 32 ++++++++++++++++++-
+>  3 files changed, 31 insertions(+), 38 deletions(-)
 > 
 > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> 3963a88a2e0b..a88deb8ba1e7 100644
+> c7b53e8099d3..98133c1dbf68 100644
 > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -264,8 +264,8 @@ static int sun6i_csi_resources_setup(struct
-> sun6i_csi_device *csi_dev, goto error_clock_rate_exclusive;
+> @@ -463,7 +463,6 @@ static void sun6i_csi_set_window(struct sun6i_csi_device
+> *csi_dev) struct sun6i_csi_config *config = &csi_dev->config;
+>  	u32 bytesperline_y;
+>  	u32 bytesperline_c;
+> -	int *planar_offset = csi_dev->planar_offset;
+>  	u32 width = config->width;
+>  	u32 height = config->height;
+>  	u32 hor_len = width;
+> @@ -488,7 +487,6 @@ static void sun6i_csi_set_window(struct sun6i_csi_device
+> *csi_dev) SUN6I_CSI_CH_VSIZE_LEN(height) |
+>  		     SUN6I_CSI_CH_VSIZE_START(0));
+> 
+> -	planar_offset[0] = 0;
+>  	switch (config->pixelformat) {
+>  	case V4L2_PIX_FMT_NV12_16L16:
+>  	case V4L2_PIX_FMT_NV12:
+> @@ -497,23 +495,15 @@ static void sun6i_csi_set_window(struct
+> sun6i_csi_device *csi_dev) case V4L2_PIX_FMT_NV61:
+>  		bytesperline_y = width;
+>  		bytesperline_c = width;
+> -		planar_offset[1] = bytesperline_y * height;
+> -		planar_offset[2] = -1;
+>  		break;
+>  	case V4L2_PIX_FMT_YUV420:
+>  	case V4L2_PIX_FMT_YVU420:
+>  		bytesperline_y = width;
+>  		bytesperline_c = width / 2;
+> -		planar_offset[1] = bytesperline_y * height;
+> -		planar_offset[2] = planar_offset[1] +
+> -				bytesperline_c * height / 2;
+>  		break;
+>  	case V4L2_PIX_FMT_YUV422P:
+>  		bytesperline_y = width;
+>  		bytesperline_c = width / 2;
+> -		planar_offset[1] = bytesperline_y * height;
+> -		planar_offset[2] = planar_offset[1] +
+> -				bytesperline_c * height;
+>  		break;
+>  	default: /* raw */
+>  		dev_dbg(csi_dev->dev,
+> @@ -522,8 +512,6 @@ static void sun6i_csi_set_window(struct sun6i_csi_device
+> *csi_dev) bytesperline_y = (sun6i_csi_get_bpp(config->pixelformat) *
+>  				  config->width) / 8;
+>  		bytesperline_c = 0;
+> -		planar_offset[1] = -1;
+> -		planar_offset[2] = -1;
+>  		break;
 >  	}
 > 
-> -	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, 0, 
-SUN6I_CSI_NAME,
-> -			       csi_dev);
-> +	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, IRQF_SHARED,
-> +			       SUN6I_CSI_NAME, csi_dev);
->  	if (ret) {
->  		dev_err(dev, "failed to request interrupt\n");
->  		goto error_clock_rate_exclusive;
+> @@ -547,21 +535,6 @@ int sun6i_csi_update_config(struct sun6i_csi_device
+> *csi_dev, return 0;
+>  }
+> 
+> -void sun6i_csi_update_buf_addr(struct sun6i_csi_device *csi_dev,
+> -			       dma_addr_t addr)
+> -{
+> -	regmap_write(csi_dev->regmap, SUN6I_CSI_CH_FIFO0_ADDR_REG,
+> -		     SUN6I_CSI_ADDR_VALUE(addr + csi_dev-
+>planar_offset[0]));
+> -	if (csi_dev->planar_offset[1] != -1)
+> -		regmap_write(csi_dev->regmap, 
+SUN6I_CSI_CH_FIFO1_ADDR_REG,
+> -			     SUN6I_CSI_ADDR_VALUE(addr +
+> -						  csi_dev-
+>planar_offset[1]));
+> -	if (csi_dev->planar_offset[2] != -1)
+> -		regmap_write(csi_dev->regmap, 
+SUN6I_CSI_CH_FIFO2_ADDR_REG,
+> -			     SUN6I_CSI_ADDR_VALUE(addr +
+> -						  csi_dev-
+>planar_offset[2]));
+> -}
+> -
+>  void sun6i_csi_set_stream(struct sun6i_csi_device *csi_dev, bool enable)
+>  {
+>  	struct regmap *regmap = csi_dev->regmap;
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
+> f02656dbfd84..44fc4d486877 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> @@ -62,8 +62,6 @@ struct sun6i_csi_device {
+>  	struct clk			*clock_mod;
+>  	struct clk			*clock_ram;
+>  	struct reset_control		*reset;
+> -
+> -	int				planar_offset[3];
+>  };
+> 
+>  struct sun6i_csi_variant {
+> @@ -94,14 +92,6 @@ int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev,
+> bool enable); int sun6i_csi_update_config(struct sun6i_csi_device *csi_dev,
+>  			    struct sun6i_csi_config *config);
+> 
+> -/**
+> - * sun6i_csi_update_buf_addr() - update the csi frame buffer address
+> - * @csi:	pointer to the csi
+> - * @addr:	frame buffer's physical address
+> - */
+> -void sun6i_csi_update_buf_addr(struct sun6i_csi_device *csi_dev,
+> -			       dma_addr_t addr);
+> -
+>  /**
+>   * sun6i_csi_set_stream() - start/stop csi streaming
+>   * @csi:	pointer to the csi
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
+> acbd0ea62fd5..7788cbab7810 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -6,6 +6,7 @@
+>   */
+> 
+>  #include <linux/of.h>
+> +#include <linux/regmap.h>
+> 
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> @@ -16,6 +17,7 @@
+> 
+>  #include "sun6i_csi.h"
+>  #include "sun6i_csi_capture.h"
+> +#include "sun6i_csi_reg.h"
+> 
+>  /* This is got from BSP sources. */
+>  #define MIN_WIDTH	(32)
+> @@ -109,13 +111,41 @@ static void
+>  sun6i_csi_capture_buffer_configure(struct sun6i_csi_device *csi_dev,
+>  				   struct sun6i_csi_buffer 
+*csi_buffer)
+>  {
+> +	struct regmap *regmap = csi_dev->regmap;
+> +	const struct v4l2_format_info *info;
+>  	struct vb2_buffer *vb2_buffer;
+> +	unsigned int width, height;
+>  	dma_addr_t address;
+> +	u32 pixelformat;
+> 
+>  	vb2_buffer = &csi_buffer->v4l2_buffer.vb2_buf;
+>  	address = vb2_dma_contig_plane_dma_addr(vb2_buffer, 0);
+> 
+> -	sun6i_csi_update_buf_addr(csi_dev, address);
+> +	regmap_write(regmap, SUN6I_CSI_CH_FIFO0_ADDR_REG,
+> +		     SUN6I_CSI_ADDR_VALUE(address));
+> +
+> +	sun6i_csi_capture_dimensions(csi_dev, &width, &height);
+> +	sun6i_csi_capture_format(csi_dev, &pixelformat, NULL);
+> +
+> +	info = v4l2_format_info(pixelformat);
+> +	/* Unsupported formats are single-plane, so we can stop here. */
+> +	if (!info)
+> +		return;
+> +
+> +	if (info->comp_planes > 1) {
+> +		address += info->bpp[0] * width * height;
+> +
+> +		regmap_write(regmap, SUN6I_CSI_CH_FIFO1_ADDR_REG,
+> +			     SUN6I_CSI_ADDR_VALUE(address));
+> +	}
+> +
+> +	if (info->comp_planes > 2) {
+> +		address += info->bpp[1] * DIV_ROUND_UP(width, info-
+>hdiv) *
+> +			   DIV_ROUND_UP(height, info->vdiv);
+> +
+> +		regmap_write(regmap, SUN6I_CSI_CH_FIFO2_ADDR_REG,
+> +			     SUN6I_CSI_ADDR_VALUE(address));
+> +	}
+>  }
+> 
+>  static void sun6i_csi_capture_configure(struct sun6i_csi_device *csi_dev)
 
 
 
