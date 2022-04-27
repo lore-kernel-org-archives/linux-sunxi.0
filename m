@@ -1,186 +1,71 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D851833E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:24:57 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65936ED1;
-	Wed, 27 Apr 2022 12:24:51 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C6973F5A1;
-	Wed, 27 Apr 2022 12:24:49 -0700 (PDT)
-Date: Wed, 27 Apr 2022 20:24:31 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>, Ondrej
- Jirman <megous@megous.com>, Icenowy Zheng <icenowy@aosc.io>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
- Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v10 01/18] clk: sunxi-ng: h616-r: Add RTC gate clock
-Message-ID: <20220427202248.42263b39@slackpad.lan>
-In-Reply-To: <67675179-d25a-9154-b307-7168f87095db@sholland.org>
-References: <20220211122643.1343315-1-andre.przywara@arm.com>
-	<20220211122643.1343315-2-andre.przywara@arm.com>
-	<01e8d2a0-cdeb-ab64-42a7-48376b49c00e@sholland.org>
-	<20220425003557.696c9de8@slackpad.lan>
-	<67675179-d25a-9154-b307-7168f87095db@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DF2E33E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:25:07 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id m20so5314831ejj.10
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=buJ+jfJhRXPQlaWZ59Jo560LZoPvnSVUNx60uZMSOHo=;
+        b=JG4PSgWjutOAQp2rj3JZBRZFqpJvIty0sfKwfjNVfjpMXCVhnBWB1JcTs68If+hHW9
+         firSR4VdhGgO/ehcbq3dXPJ4RTF89TwPXvLUK30mBybxi18h1L8tlZMrSEt05y5EO3Y7
+         UdMYH6ea3ff6ZVvyuGcoavf24bfW8egImkL/3zA6JeL267CYL+oNYHRq47UVr+8XFhYm
+         jiVqhKaiEyEJ47ptmHNBT+jv/ta2QNXJEPxUsE9eKCHiVzjgmX+R+eMTz6lZ+P9YaduF
+         F9zeRJ2wH3iLFc59u+NINe/MxaPe5qQLhpi3hZVt2gmYSKFRc+Dm0gmaoiMZcY8dCjGy
+         Sc8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=buJ+jfJhRXPQlaWZ59Jo560LZoPvnSVUNx60uZMSOHo=;
+        b=juUpnfWj3d03dODxqNMDZ3mO2L9/NwagKkctVunNAe42oWTql8QRvXGsCVljlR/FFM
+         VrG1M7bDB2dmTZ2iQiKMINAqxnSlzcKJlNpiH3oPW+WKODyBwrM4UQAuXpx8TFXH+yyV
+         pVqwx/Z3i0t+yqmUWUlYtYauN86I5rxJxmt6TV/iLMHFQg0Bz3Rs4UIK8ZzrotxO04aS
+         OJwfGbTR/+eb7nqnTJvSOQHfpUte3XLu3/WCU1nICxy14SIgj9Vy8DpFAzk6oG+Dx61f
+         Ng5yvPZ/iNeNS2rMG1EK/G5r8GFH++zVgPSaXnnWh7jDuJxAapvG/tavfSG8xQFYaGef
+         B7WA==
+X-Gm-Message-State: AOAM532V1eik/Hp/hr9yYoCj1afQtpbHGwIzL5BJ+Y56WF5teFcIpOi4
+	GTD5gW26FP3xxZA6nLHx8Qw=
+X-Google-Smtp-Source: ABdhPJwe5F7BYMvqJm8UMirY3IaMe1ry6Su/8cXc2pHmRhgjZ+7fLOCgd4sgDPOK+90vEllB+cIAsg==
+X-Received: by 2002:a17:906:4985:b0:6ef:b344:2a56 with SMTP id p5-20020a170906498500b006efb3442a56mr28761989eju.625.1651087506360;
+        Wed, 27 Apr 2022 12:25:06 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id hf3-20020a1709072c4300b006f392c2bf71sm4700495ejc.175.2022.04.27.12.25.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Apr 2022 12:25:05 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 24/45] media: sun6i-csi: Move register configuration to capture
+Date: Wed, 27 Apr 2022 21:25:04 +0200
+Message-ID: <5713918.MhkbZ0Pkbq@jernej-laptop>
+In-Reply-To: <20220415152811.636419-25-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-25-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Sun, 24 Apr 2022 19:05:02 -0500
-Samuel Holland <samuel@sholland.org> wrote:
-
-> Hi Andre,
+Dne petek, 15. april 2022 ob 17:27:50 CEST je Paul Kocialkowski napisal(a):
+> Continue moving things over to capture in tidy helpers.
+> Also take the occasion to remove the config struct, which is
+> unwelcome redundancy and use the capture helpers instead.
 > 
-> On 4/24/22 6:36 PM, Andre Przywara wrote:
-> > On Tue, 22 Feb 2022 21:22:07 -0600
-> > Samuel Holland <samuel@sholland.org> wrote:
-> > 
-> > Hi Samuel,
-> >   
-> >> On 2/11/22 6:26 AM, Andre Przywara wrote:  
-> >>> The H616 features an (undocumented) bus clock gate for accessing the RTC
-> >>> registers. This seems to be enabled at reset (or by the BootROM), but is
-> >>> there anyway.
-> >>> Since the new RTC clock binding for the H616 requires this "bus" clock
-> >>> to be specified in the DT, add this to R_CCU clock driver and expose it
-> >>> on the DT side with a new number.    
-> >>
-> >> It would be good to note why you didn't add this clock to H6, even though it
-> >> exists in that hardware.  
-> > 
-> > What explanation do you prefer here? The main reason I expose this is
-> > because of the H616 binding, so this is not required for the H6.
-> > Plus is would break compatibility with older kernels, which is not so
-> > much an issue for the H616.
-> > Do you want to expose the clock on the H6 side as well, and mark it
-> > as CLK_IS_CRITICAL there? I guess otherwise it would get turned off.
-> > Or were you just after some kind of rationale as above, for the
-> > commit log records?  
+> The code is only adapted to reflect the removal of the config
+> structure. No functional change intended.
 > 
-> Today I found out that this commit breaks booting on H6 because the clock is not
-> added there. clk_hw_onecell_data::hws is a flexible array member, so
-> incrementing CLK_NUMBER doesn't actually make the array larger. That means .num
-> gets interpreted as .hws[CLK_R_APB1_RTC], and that ends with a NULL dereference.
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Ouch, sorry for that, and thanks for the report. But that's a fragile
-feature of the sunxi clock driver in general, isn't it? I wonder if we
-should always end those arrays with:
-	[CLK_NUMBER]		= NULL,
-to be on the safe side. This would increase the flexible array
-be one element, but that doesn't really harm, since .num limits
-the traversal.
-Otherwise we would always rely on the last clock to be always
-explicitly listed, while we are fine with clocks in the middle missing.
-Or in this case we could also say:
-	[CLK_R_APB1_RTC]	= NULL,
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-But I guess since this particular clock is actually there in the H6, you
-prefer it to be listed properly?
+Best regards,
+Jernej
 
-> The easiest solution seems to be adding the clock on H6 as well. I think
-> CLK_IGNORE_UNUSED is sufficient, but CLK_IS_CRITICAL would work as well.
-
-CLK_IGNORE_UNUSED sounds better to me, in this case.
-
-I will try and test this on an H6 as well, this time ;-)
-
-Thanks,
-Andre
-
-> 
-> The rationale I'm looking for is something along the lines of "the H6 binding
-> prevents us from referencing this clock from the devicetree, and the way the
-> driver is written prevents us from changing the binding."
-> 
-> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >>> ---
-> >>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 4 ++++
-> >>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
-> >>>  include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
-> >>>  3 files changed, 6 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> >>> index 712e103382d8..26fb092f6df6 100644
-> >>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> >>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> >>> @@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
-> >>>  		      0x1cc, BIT(0), 0);
-> >>>  static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
-> >>>  		      0x1ec, BIT(0), 0);
-> >>> +static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
-> >>> +		      0x20c, BIT(0), 0);    
-> >>
-> >> All of the documentation I have found (manuals, A100 driver, BSP D1 driver)
-> >> points to this clock coming off of R_AHB, not R_APB1.  
-> > 
-> > Really, can you provide some pointer? In the H616 manual I see
-> > AHBS->AHB2APB->APBS1BUS->RTC, next to the other R_ peripherals. Also
-> > typically *register access* is done via APB busses, not AHB.
-> > Is any of those documentation sources actually reliable? And
-> > regardless, the AHB vs. APB parenthood is mostly academic, isn't it?  
-> 
-> You are right. I'm looking at the "RTC Application Diagram". For both H6 and
-> H616, the diagram and the caption have register access via APB1. A100/R329/D1
-> have register access via AHBS (and this matches the CCU bus tree diagram). So it
-> looks like this was changed for A100.
-> 
-> Regards,
-> Samuel
-> 
-> >>>  
-> >>>  /* Information of IR(RX) mod clock is gathered from BSP source code */
-> >>>  static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
-> >>> @@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
-> >>>  	&r_apb2_i2c_clk.common,
-> >>>  	&r_apb2_rsb_clk.common,
-> >>>  	&r_apb1_ir_clk.common,
-> >>> +	&r_apb1_rtc_clk.common,
-> >>>  	&ir_clk.common,
-> >>>  };
-> >>>  
-> >>> @@ -179,6 +182,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
-> >>>  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
-> >>>  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
-> >>>  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
-> >>> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
-> >>>  		[CLK_IR]		= &ir_clk.common.hw,
-> >>>  	},
-> >>>  	.num	= CLK_NUMBER,
-> >>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> >>> index 7e290b840803..10e9b66afc6a 100644
-> >>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> >>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> >>> @@ -14,6 +14,6 @@
-> >>>  
-> >>>  #define CLK_R_APB2	3
-> >>>  
-> >>> -#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
-> >>> +#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
-> >>>  
-> >>>  #endif /* _CCU_SUN50I_H6_R_H */
-> >>> diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> >>> index 890368d252c4..a96087abc86f 100644
-> >>> --- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> >>> +++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> >>> @@ -22,5 +22,6 @@
-> >>>  #define CLK_W1			12
-> >>>  
-> >>>  #define CLK_R_APB2_RSB		13
-> >>> +#define CLK_R_APB1_RTC		14
-> >>>  
-> >>>  #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
-> >>>     
-> >>
-> >>  
-> >   
-> 
 
