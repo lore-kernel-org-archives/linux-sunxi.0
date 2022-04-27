@@ -1,267 +1,186 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF3333E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:21:38 +0000 (UTC)
-Received: by mail-ej1-f41.google.com with SMTP id j6so5283125ejc.13
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:21:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=1pzX66OsBnNRuIBQz0pI37xgHgmuvAdxapWLaoZpVz4=;
-        b=mgI9NDd1ieXNF7QNWidr4aWzwJOOgDmiS6oC+dq25mEOwPWmmZfMbfbUaVEgrqDNJN
-         BhUOGjj82d4P4XgLSxaj6zUuNnCsUMsyySl2TcsSPp7CL3MPoPDzS8zgeMhLjwL4H5r9
-         xXrwoZVGE0EehHDynM903T+NnNhhly8qvlFtU5HPC2Le8F3v0sr424xNeqYldFuv/lx+
-         Wr/DHZnIQlYPDY5eHbnBSaaadyF0D/k2z3Z3erWbvfroUXuHwVlvL5HR/QFDovcBaudN
-         CoR7QUSt+xwG/BMK3Hr4kXTGJofkMkQa2UsifqaXddCuUBkLxnSi8oE8zPuQ32aTxhSi
-         mJog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=1pzX66OsBnNRuIBQz0pI37xgHgmuvAdxapWLaoZpVz4=;
-        b=Mj594c8r7p+b8UWgZITmXy9Mp8Ksy7/jxm7ifef+Vsl+8WNaChhbhr9NgS4zifkaQk
-         liZ+7YQ7gv5o6AKqBUvcIngjHsySMia6OLPItPw2s9g1MfPhqDcKmyVGkg3erMdxT38o
-         sSemww2Q/YDipYKuE4iefez38BVwr751vzq+C1ZUfeD8veZOi6fn4zMZnpl1+UywVPm+
-         nodHWW7k5Xr9w9KrlgQLOJfiWGRSR7/rJFRfSqd0t3gaf1JByhw3QxMBGgfOmNEX09k5
-         nTKLxqPRmK7/YlDov6eGCIFHllWCs4+VLr+2cYhWdCR2L/mpIx7ojpy+yEFbXFaeUR2j
-         zAWQ==
-X-Gm-Message-State: AOAM532RW3xfdBtAf2SQQ/GxrhNQddSMSvMwufJo1vo/uhcHd8UdrL9o
-	2yJACg62VNceOPk0A2Rf5/P9p3Hi/cz1yQ==
-X-Google-Smtp-Source: ABdhPJzXuvdaKSn1F0VRSzYT8LkBKGAMTiCWNvGj1LRVVyZfUiXEcy605iJSgEc+AlBZ5+UGN7zxuQ==
-X-Received: by 2002:a17:906:d20c:b0:6f3:9901:bc08 with SMTP id w12-20020a170906d20c00b006f39901bc08mr15875211ejz.351.1651087296332;
-        Wed, 27 Apr 2022 12:21:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id y5-20020a056402170500b0042617ba63d3sm65241edu.93.2022.04.27.12.21.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:21:35 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 23/45] media: sun6i-csi: Move power management to runtime pm in capture
-Date: Wed, 27 Apr 2022 21:21:34 +0200
-Message-ID: <8925609.CDJkKcVGEf@jernej-laptop>
-In-Reply-To: <20220415152811.636419-24-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-24-paul.kocialkowski@bootlin.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D851833E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:24:57 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 65936ED1;
+	Wed, 27 Apr 2022 12:24:51 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6C6973F5A1;
+	Wed, 27 Apr 2022 12:24:49 -0700 (PDT)
+Date: Wed, 27 Apr 2022 20:24:31 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh@kernel.org>, Ondrej
+ Jirman <megous@megous.com>, Icenowy Zheng <icenowy@aosc.io>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v10 01/18] clk: sunxi-ng: h616-r: Add RTC gate clock
+Message-ID: <20220427202248.42263b39@slackpad.lan>
+In-Reply-To: <67675179-d25a-9154-b307-7168f87095db@sholland.org>
+References: <20220211122643.1343315-1-andre.przywara@arm.com>
+	<20220211122643.1343315-2-andre.przywara@arm.com>
+	<01e8d2a0-cdeb-ab64-42a7-48376b49c00e@sholland.org>
+	<20220425003557.696c9de8@slackpad.lan>
+	<67675179-d25a-9154-b307-7168f87095db@sholland.org>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dne petek, 15. april 2022 ob 17:27:49 CEST je Paul Kocialkowski napisal(a):
-> Let's just enable the module when we start using it (at stream on)
-> and benefit from runtime pm instead of enabling it at first open.
-> 
-> Also reorder the call to v4l2_pipeline_pm_get.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+On Sun, 24 Apr 2022 19:05:02 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Hi Andre,
+> 
+> On 4/24/22 6:36 PM, Andre Przywara wrote:
+> > On Tue, 22 Feb 2022 21:22:07 -0600
+> > Samuel Holland <samuel@sholland.org> wrote:
+> > 
+> > Hi Samuel,
+> >   
+> >> On 2/11/22 6:26 AM, Andre Przywara wrote:  
+> >>> The H616 features an (undocumented) bus clock gate for accessing the RTC
+> >>> registers. This seems to be enabled at reset (or by the BootROM), but is
+> >>> there anyway.
+> >>> Since the new RTC clock binding for the H616 requires this "bus" clock
+> >>> to be specified in the DT, add this to R_CCU clock driver and expose it
+> >>> on the DT side with a new number.    
+> >>
+> >> It would be good to note why you didn't add this clock to H6, even though it
+> >> exists in that hardware.  
+> > 
+> > What explanation do you prefer here? The main reason I expose this is
+> > because of the H616 binding, so this is not required for the H6.
+> > Plus is would break compatibility with older kernels, which is not so
+> > much an issue for the H616.
+> > Do you want to expose the clock on the H6 side as well, and mark it
+> > as CLK_IS_CRITICAL there? I guess otherwise it would get turned off.
+> > Or were you just after some kind of rationale as above, for the
+> > commit log records?  
+> 
+> Today I found out that this commit breaks booting on H6 because the clock is not
+> added there. clk_hw_onecell_data::hws is a flexible array member, so
+> incrementing CLK_NUMBER doesn't actually make the array larger. That means .num
+> gets interpreted as .hws[CLK_R_APB1_RTC], and that ends with a NULL dereference.
 
-Best regards,
-Jernej
+Ouch, sorry for that, and thanks for the report. But that's a fragile
+feature of the sunxi clock driver in general, isn't it? I wonder if we
+should always end those arrays with:
+	[CLK_NUMBER]		= NULL,
+to be on the safe side. This would increase the flexible array
+be one element, but that doesn't really harm, since .num limits
+the traversal.
+Otherwise we would always rely on the last clock to be always
+explicitly listed, while we are fine with clocks in the middle missing.
+Or in this case we could also say:
+	[CLK_R_APB1_RTC]	= NULL,
 
-> ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 24 -----------
->  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  7 ----
->  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 41 ++++++++++---------
->  3 files changed, 22 insertions(+), 50 deletions(-)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> 29892e8c2b9d..7801f5abe47e 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -148,30 +148,6 @@ bool sun6i_csi_is_format_supported(struct
-> sun6i_csi_device *csi_dev, return false;
->  }
-> 
-> -int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable)
-> -{
-> -	struct device *dev = csi_dev->dev;
-> -	struct regmap *regmap = csi_dev->regmap;
-> -	int ret;
-> -
-> -	if (!enable) {
-> -		regmap_update_bits(regmap, SUN6I_CSI_EN_REG,
-> -				   SUN6I_CSI_EN_CSI_EN, 0);
-> -		pm_runtime_put(dev);
-> -
-> -		return 0;
-> -	}
-> -
-> -	ret = pm_runtime_resume_and_get(dev);
-> -	if (ret < 0)
-> -		return ret;
-> -
-> -	regmap_update_bits(regmap, SUN6I_CSI_EN_REG, SUN6I_CSI_EN_CSI_EN,
-> -			   SUN6I_CSI_EN_CSI_EN);
-> -
-> -	return 0;
-> -}
-> -
->  static enum csi_input_fmt get_csi_input_format(struct sun6i_csi_device
-> *csi_dev, u32 mbus_code, u32 pixformat)
->  {
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
-> 155527961280..3a4f2b45d267 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> @@ -77,13 +77,6 @@ struct sun6i_csi_variant {
->  bool sun6i_csi_is_format_supported(struct sun6i_csi_device *csi_dev,
->  				   u32 pixformat, u32 mbus_code);
-> 
-> -/**
-> - * sun6i_csi_set_power() - power on/off the csi
-> - * @csi:	pointer to the csi
-> - * @enable:	on/off
-> - */
-> -int sun6i_csi_set_power(struct sun6i_csi_device *csi_dev, bool enable);
-> -
->  /**
->   * sun6i_csi_update_config() - update the csi register settings
->   * @csi:	pointer to the csi
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> 72fcc60d2695..3e5c4f7df48d 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -6,6 +6,7 @@
->   */
-> 
->  #include <linux/of.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/regmap.h>
-> 
->  #include <media/v4l2-device.h>
-> @@ -141,6 +142,9 @@ static void sun6i_csi_capture_enable(struct
-> sun6i_csi_device *csi_dev) {
->  	struct regmap *regmap = csi_dev->regmap;
-> 
-> +	regmap_update_bits(regmap, SUN6I_CSI_EN_REG, SUN6I_CSI_EN_CSI_EN,
-> +			   SUN6I_CSI_EN_CSI_EN);
-> +
->  	regmap_update_bits(regmap, SUN6I_CSI_CAP_REG, 
-SUN6I_CSI_CAP_VCAP_ON,
->  			   SUN6I_CSI_CAP_VCAP_ON);
->  }
-> @@ -150,6 +154,7 @@ static void sun6i_csi_capture_disable(struct
-> sun6i_csi_device *csi_dev) struct regmap *regmap = csi_dev->regmap;
-> 
->  	regmap_update_bits(regmap, SUN6I_CSI_CAP_REG, 
-SUN6I_CSI_CAP_VCAP_ON, 0);
-> +	regmap_update_bits(regmap, SUN6I_CSI_EN_REG, SUN6I_CSI_EN_CSI_EN, 
-0);
->  }
-> 
->  static void
-> @@ -382,6 +387,7 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, struct sun6i_csi_capture *capture = &csi_dev->capture;
->  	struct sun6i_csi_capture_state *state = &capture->state;
->  	struct video_device *video_dev = &capture->video_dev;
-> +	struct device *dev = csi_dev->dev;
->  	struct v4l2_subdev *subdev;
->  	int ret;
-> 
-> @@ -402,6 +408,12 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, goto error_media_pipeline;
->  	}
-> 
-> +	/* PM */
-> +
-> +	ret = pm_runtime_resume_and_get(dev);
-> +	if (ret < 0)
-> +		goto error_media_pipeline;
-> +
->  	/* Clear */
-> 
->  	sun6i_csi_capture_irq_clear(csi_dev);
-> @@ -429,6 +441,8 @@ static int sun6i_csi_capture_start_streaming(struct
-> vb2_queue *queue, sun6i_csi_capture_disable(csi_dev);
->  	sun6i_csi_capture_irq_disable(csi_dev);
-> 
-> +	pm_runtime_put(dev);
-> +
->  error_media_pipeline:
->  	media_pipeline_stop(&video_dev->entity);
-> 
-> @@ -442,6 +456,7 @@ static void sun6i_csi_capture_stop_streaming(struct
-> vb2_queue *queue) {
->  	struct sun6i_csi_device *csi_dev = vb2_get_drv_priv(queue);
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
-> +	struct device *dev = csi_dev->dev;
->  	struct v4l2_subdev *subdev;
-> 
->  	subdev = sun6i_csi_capture_remote_subdev(capture, NULL);
-> @@ -451,6 +466,8 @@ static void sun6i_csi_capture_stop_streaming(struct
-> vb2_queue *queue) sun6i_csi_capture_disable(csi_dev);
->  	sun6i_csi_capture_irq_disable(csi_dev);
-> 
-> +	pm_runtime_put(dev);
-> +
->  	media_pipeline_stop(&capture->video_dev.entity);
-> 
->  	sun6i_csi_capture_state_cleanup(csi_dev, true);
-> @@ -639,27 +656,20 @@ static int sun6i_csi_capture_open(struct file *file)
->  	if (mutex_lock_interruptible(&capture->lock))
->  		return -ERESTARTSYS;
-> 
-> -	ret = v4l2_fh_open(file);
-> +	ret = v4l2_pipeline_pm_get(&capture->video_dev.entity);
->  	if (ret < 0)
->  		goto error_lock;
-> 
-> -	ret = v4l2_pipeline_pm_get(&capture->video_dev.entity);
-> +	ret = v4l2_fh_open(file);
->  	if (ret < 0)
-> -		goto error_v4l2_fh;
-> -
-> -	/* Power on at first open. */
-> -	if (v4l2_fh_is_singular_file(file)) {
-> -		ret = sun6i_csi_set_power(csi_dev, true);
-> -		if (ret < 0)
-> -			goto error_v4l2_fh;
-> -	}
-> +		goto error_pipeline;
-> 
->  	mutex_unlock(&capture->lock);
-> 
->  	return 0;
-> 
-> -error_v4l2_fh:
-> -	v4l2_fh_release(file);
-> +error_pipeline:
-> +	v4l2_pipeline_pm_put(&capture->video_dev.entity);
-> 
->  error_lock:
->  	mutex_unlock(&capture->lock);
-> @@ -671,19 +681,12 @@ static int sun6i_csi_capture_close(struct file *file)
->  {
->  	struct sun6i_csi_device *csi_dev = video_drvdata(file);
->  	struct sun6i_csi_capture *capture = &csi_dev->capture;
-> -	bool last_close;
-> 
->  	mutex_lock(&capture->lock);
-> 
-> -	last_close = v4l2_fh_is_singular_file(file);
-> -
->  	_vb2_fop_release(file, NULL);
->  	v4l2_pipeline_pm_put(&capture->video_dev.entity);
-> 
-> -	/* Power off at last close. */
-> -	if (last_close)
-> -		sun6i_csi_set_power(csi_dev, false);
-> -
->  	mutex_unlock(&capture->lock);
-> 
->  	return 0;
+But I guess since this particular clock is actually there in the H6, you
+prefer it to be listed properly?
 
+> The easiest solution seems to be adding the clock on H6 as well. I think
+> CLK_IGNORE_UNUSED is sufficient, but CLK_IS_CRITICAL would work as well.
 
+CLK_IGNORE_UNUSED sounds better to me, in this case.
 
+I will try and test this on an H6 as well, this time ;-)
+
+Thanks,
+Andre
+
+> 
+> The rationale I'm looking for is something along the lines of "the H6 binding
+> prevents us from referencing this clock from the devicetree, and the way the
+> driver is written prevents us from changing the binding."
+> 
+> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> >>> ---
+> >>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 4 ++++
+> >>>  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
+> >>>  include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
+> >>>  3 files changed, 6 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> >>> index 712e103382d8..26fb092f6df6 100644
+> >>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> >>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+> >>> @@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
+> >>>  		      0x1cc, BIT(0), 0);
+> >>>  static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
+> >>>  		      0x1ec, BIT(0), 0);
+> >>> +static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
+> >>> +		      0x20c, BIT(0), 0);    
+> >>
+> >> All of the documentation I have found (manuals, A100 driver, BSP D1 driver)
+> >> points to this clock coming off of R_AHB, not R_APB1.  
+> > 
+> > Really, can you provide some pointer? In the H616 manual I see
+> > AHBS->AHB2APB->APBS1BUS->RTC, next to the other R_ peripherals. Also
+> > typically *register access* is done via APB busses, not AHB.
+> > Is any of those documentation sources actually reliable? And
+> > regardless, the AHB vs. APB parenthood is mostly academic, isn't it?  
+> 
+> You are right. I'm looking at the "RTC Application Diagram". For both H6 and
+> H616, the diagram and the caption have register access via APB1. A100/R329/D1
+> have register access via AHBS (and this matches the CCU bus tree diagram). So it
+> looks like this was changed for A100.
+> 
+> Regards,
+> Samuel
+> 
+> >>>  
+> >>>  /* Information of IR(RX) mod clock is gathered from BSP source code */
+> >>>  static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
+> >>> @@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
+> >>>  	&r_apb2_i2c_clk.common,
+> >>>  	&r_apb2_rsb_clk.common,
+> >>>  	&r_apb1_ir_clk.common,
+> >>> +	&r_apb1_rtc_clk.common,
+> >>>  	&ir_clk.common,
+> >>>  };
+> >>>  
+> >>> @@ -179,6 +182,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
+> >>>  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
+> >>>  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
+> >>>  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
+> >>> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
+> >>>  		[CLK_IR]		= &ir_clk.common.hw,
+> >>>  	},
+> >>>  	.num	= CLK_NUMBER,
+> >>> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> >>> index 7e290b840803..10e9b66afc6a 100644
+> >>> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> >>> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
+> >>> @@ -14,6 +14,6 @@
+> >>>  
+> >>>  #define CLK_R_APB2	3
+> >>>  
+> >>> -#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
+> >>> +#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
+> >>>  
+> >>>  #endif /* _CCU_SUN50I_H6_R_H */
+> >>> diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> >>> index 890368d252c4..a96087abc86f 100644
+> >>> --- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> >>> +++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
+> >>> @@ -22,5 +22,6 @@
+> >>>  #define CLK_W1			12
+> >>>  
+> >>>  #define CLK_R_APB2_RSB		13
+> >>> +#define CLK_R_APB1_RTC		14
+> >>>  
+> >>>  #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
+> >>>     
+> >>
+> >>  
+> >   
+> 
 
