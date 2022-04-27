@@ -1,49 +1,49 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1BF33E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 20:07:53 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id be20so3182685edb.12
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 13:07:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E42633E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 20:23:31 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id l18so5607103ejc.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 13:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zThgqL3mT8hxiS3UiF6CFV5UO8qR1fAU3lOSx4ZRa4U=;
-        b=VzQPtjPP6w9IcioQK5qHyL21ZDt/OYHqXeYEGBfOcParwj3oZvXHU0JiusvMj244Fl
-         upkYSFaQWuqtoHqfYsWBDYkDaDS8R+ctQ1eMQKJcQRQPJRML0Sjfg1SnNXjqT9Tl+LkB
-         zD/irUC/mGb8zZ9C8xwaL8VAyTJcOQyAH9DMJoBMeVZmoFfhJvGH6SkRglOsztBAKDsn
-         gMscJsEVSP47otuIcxkYShs11xo8r4g1KpP5FXckVHyWY49NIep+oushWvok9YJLv1r5
-         wKApvBrV9oeQOGBI6k6eNHh9OYgHlKBqe367yp89BuA5qUQtd78Wh10bVYqQTu7seKrU
-         LUBQ==
+        bh=W89anPYfMdDk6SKBUuMsZDx+r/l08/tGETd+v7mRUqk=;
+        b=RLiRVvd4z6YocTXkRyHN2msqo8XbS8dl8/8e3Td0LEcdt+Kr+asYbv9iyJeT2/c2jW
+         d7BvLcDfKpkRio+PT5uPYeLzZGoqVqT+Y08TYoy43v98MF5SPdOFRNvklXb26F3HvmuU
+         +W3PrnXrosAnw706veB78H1/F9yrVvC5MmadDZIqo2RGe9/06bB9K7VvzHbagKLX2DLl
+         KWKgE4QiFCtaUCnOAeHl/ncB1WoYbQ/PdiwRHsloJVfBIMyTILBMt9cShqcs4d3+9ci8
+         Maukujz023b4y8dW3oHPvyx0DZ/QXPhZYAo4lE5pQKNjdq9z0KKGx0cj2D2keR5d2F3m
+         Vf4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zThgqL3mT8hxiS3UiF6CFV5UO8qR1fAU3lOSx4ZRa4U=;
-        b=3DXsyMhHj1QoJlZbYIiUySPodXfLZp3yIaO/36LHMtKFguv0tOXyOHkgiEuIxm+BAj
-         GGlATGVc6j4Skn3KKj06kPoWBi0JXGYzxLx7P7WpwUU5ROTGoo2lWb1+Ev81FXLrUrwy
-         XwFZpcW4YgONE8PDGCGQ1tn2CCpolulTtt91wSP5U49xYxS169nb2/xsY67kRciEkXoL
-         l+GlDrf+boHCHZjF2joVut8qRAXU1O/RrD9XDSZyV9ULjMmPF9qUg0TgY4TVOlR7MAMT
-         ovIFPptdQ9ttiwBBGfOhCMEBHvc11UHx9/qkHsn9jc4sNaCwG3VHuYsD6NlJAW2sV3s0
-         hHYQ==
-X-Gm-Message-State: AOAM532ejvTQl23oKUjh+KGAQhr6UQeN5tPk9Hw0foGtNHc/HNLLjH+1
-	+G8pDRlK5kN2gp0KNiI24IOKNqCzNAKoxQ==
-X-Google-Smtp-Source: ABdhPJwasJfbMDLCq0WwkpHW1Zc9qH+2UmE2nB9BqPAJImgDHBOfLB6sXDGWLWb1kuuH4WmAVOX1hg==
-X-Received: by 2002:a50:d79a:0:b0:425:e577:c71a with SMTP id w26-20020a50d79a000000b00425e577c71amr18937203edi.188.1651090071555;
-        Wed, 27 Apr 2022 13:07:51 -0700 (PDT)
+        bh=W89anPYfMdDk6SKBUuMsZDx+r/l08/tGETd+v7mRUqk=;
+        b=CQIzEqAw0Dy9Q46k1jre7QU9EPADCtW//zfIIxoinSQ9EXWYcU9caWx/WVGQKGIu4C
+         FljOHSTtt/XdJuHRCr9AJJS3N+HRdpWfvwUDEviu6xi/vfneW5Mu57l+nja02KNt2nRr
+         7OyN652njq0Ly1Tl8KTDUEeeznfpTe4miOpc6MYQ967NUhE841yEEPpf6sxGK4KPoD1v
+         H42q6HIedm+IjyhYpylQCd7C3pXJbhv8/8f09M9MvR16LyhCsPqOsVZPKV7ao/PSOpU9
+         w1pi3UwUAUGSPElU0rVUtLI/GOPsIQxvrMcRBAUfB5d+caQTfQj+acUM1uixM3NehomJ
+         B+mw==
+X-Gm-Message-State: AOAM533Ji0+I3H0A22zRSaxsxoHpLvuvQTQpj1nc2bHsOH2zHIPOD+hi
+	zwKx4QhF1acvQ1TvpmApm9U=
+X-Google-Smtp-Source: ABdhPJz7mBGWnSZkXEhR9df/uMKeOa9GfoaDI6HXXXZ8sLrPVEFWQtTusoUEV/Fw/ijQrdoISkMjRA==
+X-Received: by 2002:a17:907:94cd:b0:6f3:ce51:af98 with SMTP id dn13-20020a17090794cd00b006f3ce51af98mr3654272ejc.510.1651091009810;
+        Wed, 27 Apr 2022 13:23:29 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id h6-20020a17090634c600b006f3a3bcb69dsm3967986ejb.29.2022.04.27.13.07.50
+        by smtp.gmail.com with ESMTPSA id bo9-20020a0564020b2900b0042617ba63a5sm147953edb.47.2022.04.27.13.23.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 13:07:51 -0700 (PDT)
+        Wed, 27 Apr 2022 13:23:29 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 43/45] media: sun6i-csi: Detect the availability of the ISP
-Date: Wed, 27 Apr 2022 22:07:49 +0200
-Message-ID: <2029179.KlZ2vcFHjT@jernej-laptop>
-In-Reply-To: <20220415152811.636419-44-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-44-paul.kocialkowski@bootlin.com>
+To: Ruslan Zalata <rz@fabmicro.ru>
+Cc: linux@roeck-us.net, linux-hwmon@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] ARM: Add hwmon driver for LRADC found on Allwinner A13/A20 SoCs
+Date: Wed, 27 Apr 2022 22:23:28 +0200
+Message-ID: <6425291.4vTCxPXJkl@jernej-laptop>
+In-Reply-To: <202204272007.23RK74Ds021079@devbox.fabmicro.ru>
+References: <202204272007.23RK74Ds021079@devbox.fabmicro.ru>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,98 +53,374 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 15. april 2022 ob 17:28:09 CEST je Paul Kocialkowski napisal(a):
-> Add a helper to detect whether the ISP is available and connected
-> and store the indication in a driver-wide variable.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++++
->  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
->  2 files changed, 36 insertions(+)
-> 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> a88deb8ba1e7..f185cbd113c7 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -25,6 +25,35 @@
->  #include "sun6i_csi_capture.h"
->  #include "sun6i_csi_reg.h"
-> 
-> +/* ISP */
-> +
-> +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
-> +{
-> +	struct device *dev = csi_dev->dev;
-> +	struct fwnode_handle *handle = NULL;
-> +
-> +	/* ISP is not available if disabled in kernel config. */
-> +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
+Hi Ruslan!
 
-Where is this symbol defined?
+Dne sreda, 27. april 2022 ob 21:25:12 CEST je Ruslan Zalata napisal(a):
+> Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+> low rate (6 bit) ADC that is often used for extra keys. There's a driver
+> for that already implementing standard input device, but it has these
+> limitations: 1) it cannot be used for general ADC data equisition, and
+> 2) it uses only one LRADC channel of two available.
+> 
+> This driver provides basic hwmon interface to both channels of LRADC on
+> such Allwinner SoCs.
+> 
+> Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>
+
+Before even going to check actual driver, please read https://www.kernel.org/
+doc/html/latest/process/submitting-patches.html in detail.
+
+Just few basic things to fix first:
+1. subject doesn't conform to rules
+2. send patch to maintainers and mailing lists (use scripts/get_maintainer.pl)
+3. code has style issues (multiple empty lines). Run scripts/checkpatch.pl --
+strict on your patch before submission and fix all reported issues.
+4. you sent same patch two times. If it's same, it should be marked with 
+RESEND, if not, it should be versioned (V2, V3, etc.) with short changelog 
+after --- line (as explained in above link)
+5. it's customary to add new entry in MAINTAINERS when adding new driver
 
 Best regards,
 Jernej
 
-> +		return 0;
+> ---
+>  drivers/hwmon/Kconfig             |  13 ++
+>  drivers/hwmon/Makefile            |   1 +
+>  drivers/hwmon/sun4i-lradc-hwmon.c | 278 ++++++++++++++++++++++++++++++
+>  3 files changed, 292 insertions(+)
+>  create mode 100644 drivers/hwmon/sun4i-lradc-hwmon.c
+> 
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 68a8a27ab3b..b7732a9e992 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -521,6 +521,19 @@ config I8K
+>  	  Say Y if you intend to run userspace programs that use this 
+interface.
+>  	  Say N otherwise.
+> 
+> +config SENSORS_SUN4I_LRADC
+> +	tristate "Allwinner A13/A20 LRADC hwmon"
+> +	depends on ARCH_SUNXI && (!KEYBOARD_SUN4I_LRADC)
+> +	help
+> +	  Say y here to support the LRADC found in Allwinner A13/A20 SoCs.
+> +	  Both channels are supported.
 > +
-> +	/*
-> +	 * ISP is not available if not connected via fwnode graph.
-> +	 * This weill also check that the remote parent node is available.
-> +	 */
-> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> +						 
-SUN6I_CSI_PORT_ISP, 0,
-> +						 
-FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!handle)
-> +		return 0;
+> +	  This driver can also be built as module. If so, the module
+> +	  will be called sun4i-lradc-hwmon.
 > +
-> +	fwnode_handle_put(handle);
+> +	  This option is not compatible with KEYBOARD_SUN4I_LRADC, one
+> +	  of these should be used at a time.
 > +
-> +	dev_info(dev, "ISP link is available\n");
-> +	csi_dev->isp_available = true;
+>  config SENSORS_DA9052_ADC
+>  	tristate "Dialog DA9052/DA9053 ADC"
+>  	depends on PMIC_DA9052
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index 8a03289e2aa..43bed6fff27 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -30,6 +30,7 @@ obj-$(CONFIG_SENSORS_AD7314)	+= ad7314.o
+>  obj-$(CONFIG_SENSORS_AD7414)	+= ad7414.o
+>  obj-$(CONFIG_SENSORS_AD7418)	+= ad7418.o
+>  obj-$(CONFIG_SENSORS_ADC128D818) += adc128d818.o
+> +obj-$(CONFIG_SENSORS_SUN4I_LRADC) += sun4i-lradc-hwmon.o
+>  obj-$(CONFIG_SENSORS_ADCXX)	+= adcxx.o
+>  obj-$(CONFIG_SENSORS_ADM1021)	+= adm1021.o
+>  obj-$(CONFIG_SENSORS_ADM1025)	+= adm1025.o
+> diff --git a/drivers/hwmon/sun4i-lradc-hwmon.c
+> b/drivers/hwmon/sun4i-lradc-hwmon.c new file mode 100644
+> index 00000000000..1947b716dbf
+> --- /dev/null
+> +++ b/drivers/hwmon/sun4i-lradc-hwmon.c
+> @@ -0,0 +1,278 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Allwinner sun4i (A13/A20) LRADC hwmon driver
+> + *
+> + * Copyright (C) 2022 Fabmicro, LLC., Tyumen, Russia.
+> + * Copyright (C) 2022 Ruslan Zalata <rz@fabmicro.ru>
+> + */
+> +
+> +#include <linux/err.h>
+> +#include <linux/init.h>
+> +#include <linux/input.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/hwmon-sysfs.h>
+> +
+> +#define LRADC_CTRL		0x00
+> +#define LRADC_INTC		0x04
+> +#define LRADC_INTS		0x08
+> +#define LRADC_DATA0		0x0c
+> +#define LRADC_DATA1		0x10
+> +
+> +/* LRADC_CTRL bits */
+> +#define FIRST_CONVERT_DLY(x)	((x) << 24) /* 8 bits */
+> +#define CHAN_SELECT(x)		((x) << 22) /* 2 bits */
+> +#define CONTINUE_TIME_SEL(x)	((x) << 16) /* 4 bits */
+> +#define KEY_MODE_SEL(x)		((x) << 12) /* 2 bits */
+> +#define LEVELA_B_CNT(x)		((x) << 8)  /* 4 bits */
+> +#define HOLD_KEY_EN(x)		((x) << 7)
+> +#define HOLD_EN(x)		((x) << 6)
+> +#define LEVELB_VOL(x)		((x) << 4)  /* 2 bits */
+> +#define SAMPLE_RATE(x)		((x) << 2)  /* 2 bits */
+> +#define ENABLE(x)		((x) << 0)
+> +
+> +/* LRADC_INTC and LRADC_INTS bits */
+> +#define CHAN1_KEYUP_IRQ		BIT(12)
+> +#define CHAN1_ALRDY_HOLD_IRQ	BIT(11)
+> +#define CHAN1_HOLD_IRQ		BIT(10)
+> +#define	CHAN1_KEYDOWN_IRQ	BIT(9)
+> +#define CHAN1_DATA_IRQ		BIT(8)
+> +#define CHAN0_KEYUP_IRQ		BIT(4)
+> +#define CHAN0_ALRDY_HOLD_IRQ	BIT(3)
+> +#define CHAN0_HOLD_IRQ		BIT(2)
+> +#define	CHAN0_KEYDOWN_IRQ	BIT(1)
+> +#define CHAN0_DATA_IRQ		BIT(0)
+> +
+> +
+> +struct lradc_variant {
+> +	u32 bits;
+> +	u32 resolution;
+> +	u32 vref;
+> +};
+> +
+> +struct lradc_variant variant_sun4i_a10_lradc = {
+> +	.bits = 0x3f,
+> +	.resolution = 63,
+> +	.vref = 2000000,
+> +};
+> +
+> +struct lradc_variant variant_sun8i_a83t_r_lradc = {
+> +	.bits = 0x3f,
+> +	.resolution = 63,
+> +	.vref = 2000000,
+> +};
+> +
+> +static const struct of_device_id sun4i_lradc_of_match[];
+> +
+> +
+> +struct sun4i_lradc_data {
+> +	struct device *dev;
+> +	struct device *hwmon_dev;
+> +	void __iomem *base;
+> +	const struct lradc_variant *variant;
+> +	u32 in[2];
+> +	u32 in_mvolts[2];
+> +};
+> +
+> +
+> +static ssize_t lradc_in_mvolts_show(struct device *dev,
+> +			struct device_attribute *attr, char *buf)
+> +{
+> +	struct sun4i_lradc_data *data = dev_get_drvdata(dev);
+> +	int nr = to_sensor_dev_attr_2(attr)->nr;
+> +
+> +	if (IS_ERR(data))
+> +		return PTR_ERR(data);
+> +
+> +	return sprintf(buf, "%d\n", data->in_mvolts[nr]);
+> +}
+> +
+> +static ssize_t lradc_in_show(struct device *dev,
+> +		struct device_attribute *attr, char *buf)
+> +{
+> +	struct sun4i_lradc_data *data = dev_get_drvdata(dev);
+> +	int nr = to_sensor_dev_attr_2(attr)->nr;
+> +
+> +	if (IS_ERR(data))
+> +		return PTR_ERR(data);
+> +
+> +	return sprintf(buf, "%d\n", data->in[nr]);
+> +}
+> +
+> +
+> +static umode_t lradc_is_visible(struct kobject *kobj,
+> +		struct attribute *attr, int index)
+> +{
+> +	return attr->mode;
+> +}
+> +
+> +
+> +
+> +static SENSOR_DEVICE_ATTR_2_RO(in0_input, lradc_in, 0, 0);
+> +static SENSOR_DEVICE_ATTR_2_RO(in0_input_mvolts, lradc_in_mvolts, 0, 1);
+> +
+> +static SENSOR_DEVICE_ATTR_2_RO(in1_input, lradc_in, 1, 0);
+> +static SENSOR_DEVICE_ATTR_2_RO(in1_input_mvolts, lradc_in_mvolts, 1, 1);
+> +
+> +static struct attribute *lradc_attrs[] = {
+> +	&sensor_dev_attr_in0_input.dev_attr.attr,
+> +	&sensor_dev_attr_in0_input_mvolts.dev_attr.attr,
+> +	&sensor_dev_attr_in1_input.dev_attr.attr,
+> +	&sensor_dev_attr_in1_input_mvolts.dev_attr.attr,
+> +	NULL
+> +};
+> +
+> +static const struct attribute_group lradc_group = {
+> +	.attrs = lradc_attrs,
+> +	.is_visible = lradc_is_visible,
+> +};
+> +__ATTRIBUTE_GROUPS(lradc);
+> +
+> +
+> +static irqreturn_t sun4i_lradc_irq(int irq, void *dev_id)
+> +{
+> +	struct sun4i_lradc_data *lradc = dev_id;
+> +	u32 ints;
+> +
+> +	ints  = readl(lradc->base + LRADC_INTS);
+> +
+> +	if (ints & CHAN0_DATA_IRQ) {
+> +		lradc->in[0] = readl(lradc->base + LRADC_DATA0) &
+> +			lradc->variant->bits;
+> +		lradc->in_mvolts[0] = lradc->in[0] * lradc->variant-
+>vref /
+> +			lradc->variant->resolution / 1000;
+> +	}
+> +
+> +	if (ints & CHAN1_DATA_IRQ) {
+> +		lradc->in[1] = readl(lradc->base + LRADC_DATA1) &
+> +			lradc->variant->bits;
+> +		lradc->in_mvolts[1] = lradc->in[1] * lradc->variant-
+>vref /
+> +			lradc->variant->resolution / 1000;
+> +	}
+> +
+> +	writel(ints, lradc->base + LRADC_INTS);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int sun4i_lradc_open(struct device *dev)
+> +{
+> +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+> +
+> +	writel(FIRST_CONVERT_DLY(2) | CHAN_SELECT(3) | LEVELA_B_CNT(1) |
+> +		HOLD_EN(1) | KEY_MODE_SEL(2) | SAMPLE_RATE(3) | 
+ENABLE(1),
+> +		lradc->base + LRADC_CTRL);
+> +
+> +	writel(CHAN0_DATA_IRQ | CHAN1_DATA_IRQ, lradc->base + LRADC_INTC);
 > +
 > +	return 0;
 > +}
 > +
->  /* Media */
-> 
->  static const struct media_device_ops sun6i_csi_media_ops = {
-> @@ -306,6 +335,10 @@ static int sun6i_csi_probe(struct platform_device
-> *platform_dev) if (ret)
->  		return ret;
-> 
-> +	ret = sun6i_csi_isp_detect(csi_dev);
-> +	if (ret)
-> +		goto error_resources;
+> +static void sun4i_lradc_close(struct device *dev)
+> +{
+> +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
 > +
->  	ret = sun6i_csi_v4l2_setup(csi_dev);
->  	if (ret)
->  		goto error_resources;
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
-> 6aa83dd11684..9b105c341047 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> @@ -22,6 +22,7 @@
->  enum sun6i_csi_port {
->  	SUN6I_CSI_PORT_PARALLEL		= 0,
->  	SUN6I_CSI_PORT_MIPI_CSI2	= 1,
-> +	SUN6I_CSI_PORT_ISP		= 2,
->  };
-> 
->  struct sun6i_csi_buffer {
-> @@ -46,6 +47,8 @@ struct sun6i_csi_device {
->  	struct clk			*clock_mod;
->  	struct clk			*clock_ram;
->  	struct reset_control		*reset;
+> +	writel(FIRST_CONVERT_DLY(2) | LEVELA_B_CNT(1) | HOLD_EN(1) |
+> +		SAMPLE_RATE(2), lradc->base + LRADC_CTRL);
+> +	writel(0, lradc->base + LRADC_INTC);
+> +}
 > +
-> +	bool				isp_available;
->  };
-> 
->  struct sun6i_csi_variant {
+> +static int sun4i_lradc_resume(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +
+> +	return sun4i_lradc_open(dev);
+> +}
+> +
+> +static int sun4i_lradc_suspend(struct platform_device *pdev, pm_message_t
+> state) +{
+> +	struct device *dev = &pdev->dev;
+> +
+> +	sun4i_lradc_close(dev);
+> +	return 0;
+> +}
+> +
+> +static int sun4i_lradc_remove(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +
+> +	sun4i_lradc_close(dev);
+> +	return 0;
+> +}
+> +
+> +static int sun4i_lradc_probe(struct platform_device *pdev)
+> +{
+> +	struct sun4i_lradc_data *lradc;
+> +	struct device *dev = &pdev->dev;
+> +	int error;
+> +
+> +	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), 
+GFP_KERNEL);
+> +	if (!lradc)
+> +		return -ENOMEM;
+> +
+> +	dev_set_drvdata(dev, lradc);
+> +
+> +	lradc->variant = of_device_get_match_data(&pdev->dev);
+> +	if (!lradc->variant) {
+> +		dev_err(&pdev->dev, "Missing '%s' or '%s' variant\n",
+> +			sun4i_lradc_of_match[0].compatible,
+> +			sun4i_lradc_of_match[1].compatible);
+> +		return -EINVAL;
+> +	}
+> +
+> +	lradc->dev = dev;
+> +	lradc->hwmon_dev = devm_hwmon_device_register_with_groups(dev, 
+"lradc",
+> +							
+lradc, lradc_groups);
+> +	if (IS_ERR(lradc->hwmon_dev)) {
+> +		error = PTR_ERR(lradc->hwmon_dev);
+> +		return error;
+> +	}
+> +
+> +	lradc->base = devm_ioremap_resource(dev,
+> +			platform_get_resource(pdev, IORESOURCE_MEM, 
+0));
+> +	if (IS_ERR(lradc->base))
+> +		return PTR_ERR(lradc->base);
+> +
+> +	error = devm_request_irq(dev, platform_get_irq(pdev, 0),
+> +			sun4i_lradc_irq, 0, "sun4i-lradc-hwmon", 
+lradc);
+> +	if (error)
+> +		return error;
+> +
+> +	error = sun4i_lradc_open(dev);
+> +	if (error)
+> +		return error;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct of_device_id sun4i_lradc_of_match[] = {
+> +	{ .compatible = "allwinner,sun4i-a10-lradc-keys", .data =
+> &variant_sun4i_a10_lradc}, +	{ .compatible =
+> "allwinner,sun8i-a83t-r-lradc", .data = &variant_sun8i_a83t_r_lradc}, +	
+{
+> /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
+> +
+> +static struct platform_driver sun4i_lradc_driver = {
+> +	.driver = {
+> +		.name	= "sun4i-lradc-hwmon",
+> +		.of_match_table = of_match_ptr(sun4i_lradc_of_match),
+> +	},
+> +	.probe	= sun4i_lradc_probe,
+> +	.remove	= sun4i_lradc_remove,
+> +	.resume	= sun4i_lradc_resume,
+> +	.suspend = sun4i_lradc_suspend,
+> +};
+> +
+> +module_platform_driver(sun4i_lradc_driver);
+> +
+> +
+> +
+> +
+> +MODULE_DESCRIPTION("Allwinner A13/A20 LRADC hwmon driver");
+> +MODULE_AUTHOR("Ruslan Zalata <rz@fabmicro.ru>");
+> +MODULE_LICENSE("GPL");
 
 
 
