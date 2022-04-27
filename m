@@ -1,49 +1,49 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4EE33E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:31:31 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id e23so3096946eda.11
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:31:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D8F33E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:32:13 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id g23so3085281edy.13
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=YwHyL6ksRYdO/2uEjrSuWuUYLvVDwQeQJw6R1edzvdY=;
-        b=Rtny20XLbY0YZ4pWTjV5LtXtgx3tz2WAej0C2YvQ3g2epmFzzuK8G2i1K077YcC6Xf
-         NbygAj2z+FKJ+/RfdcjlKIkB/aWTTbiPt9GnkmEvQ9VRG/Zyni5WRfPAaTlsn59GaAI6
-         Qgd6MqRNTOulcwrO7A9zGmpBTYQ2q/adNwV36hEmJelitOYspM1bfNZ/qtNp4k13Ssre
-         A1hkZo6oXVmMUL8T0/1UGJuET8L4Qq+LuamlXp7tLrVdgh5nBq3u4LdKl6DIs8uFQqA6
-         5MvU7x0WzKwa10v+yjzd0NPGiSWoMRrd/VjEBRoAY9ez4kNyCiE1vywrkjn4ydjjOwRh
-         yZSg==
+        bh=JhnYrw0AR5Z7jkNOIRMJJDs+xZns0y5ZouI6A7Yq2m4=;
+        b=it+qMq+p7Ih5sV2oP8h90O+A66YmhvIlQ5DX8ZHmeUw3CUBBx//p0vDiJGey9z0uIh
+         bx6H014af/WfMFeUW/y49vhZWL+bAMkkDwbttSQAa5L4W+jZ2Ye5Yph9Nw+bvdm04F3M
+         LCuKkt5dXpk1/oEug5xk5qAVCXw18q4iCnv6UBp3Pe8OWXV35Q6TzSd+FFyGmcZgVDsy
+         vA6guExkKI5BaVDgivRgeO+tiyrCSgn0D5Cplnj/9TUeuqFaGzANrhiasI0H9NrOI/Fu
+         TPDoBoEQqAwkonqOkv8Nm2ndoIzYcxK43vaXzk0aQDttrNI1yFrNdHAuK4zAs/0E+mV2
+         HvCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=YwHyL6ksRYdO/2uEjrSuWuUYLvVDwQeQJw6R1edzvdY=;
-        b=meE19SaBNi95c4wpK3JXZ8wlr5jUUgiaop4BYIxKpai6jE8fz2drkF2rdyervc+nlC
-         DBpLFEVCnt3TDeD8M7kaeYWor8A1tWPQY0dUY37qXIlp8LlUoN6Kdb08/iMDyYUKvlIk
-         R7D4GmtvM7sEufwuYB50wPIouCVcETFuZQ+VGihSKDbVe1CGussHPyQxFfOPDBgxzGJm
-         bBuHx2vSuhVsXunbuFNat7BP0kmXpKN14Uos4NR1nmc/zpnCKn5hgIMEZZPk4ifC7JG5
-         6gAavsTrYHNMFpz4YIJRupfoTOB4sJx8jqrFjbUoldgeteVJSWsB1762txC3zCkQQnTw
-         R/hw==
-X-Gm-Message-State: AOAM5319PqWAYieqnNkbzD9Dj5wNcO0KzpLIR5H7NMZL+jBNo5EwtR/y
-	Ub39ITWwJEuMszWpjbE/R70=
-X-Google-Smtp-Source: ABdhPJzA8hxplPWZv1L31HMwQ0f6r/SfVhojQ17MEXK8bJmGhirYYDI7nFkLtNMDGBeGQ1XoIRUDmw==
-X-Received: by 2002:aa7:da43:0:b0:425:cd4c:e43f with SMTP id w3-20020aa7da43000000b00425cd4ce43fmr25259694eds.106.1651087890321;
-        Wed, 27 Apr 2022 12:31:30 -0700 (PDT)
+        bh=JhnYrw0AR5Z7jkNOIRMJJDs+xZns0y5ZouI6A7Yq2m4=;
+        b=sSoIl3pynYcElbBuVh5PsyJIMsYU9SW1tjjHW5Fv1qgfcsBYLqqvTGyE0nqRejObOh
+         s+hCGUjHTN+6B+5gUDQ3RmuMgCw4keMTAEZ9afg8/2XUJMXmYo39/FBWWfBVSZVdVwvT
+         3yPYLbxGZnqQdA6uiUjwbvdhriSMw2IVrcIzNvvQTuxc0nwKhxhhkOKcZBM5e4ftfD0A
+         8CALZeEahsCj91OhJFaXcS+2vazIn/FaEKo4l1UwuNMNs+Dqp5r3p1NU8m59ee9EQ+9/
+         lqe8PLGCdh0CKWK31T+TPP87+XzmsUiP0+A+cVbwg6vNAuSjgCFN5gOqJGH/07TvtIEs
+         wizA==
+X-Gm-Message-State: AOAM533CaEUOjAvnzdJ6CnLtVxq+F9Rssee7VrBim11+oc3xGSr/Mm06
+	6gY5tUFhB97dosFgfad9ZCk=
+X-Google-Smtp-Source: ABdhPJxMYyDg9X/787fWvrzZZ7v36nyynk8yGgYPu7j2miTQJHngFnPm9HXf6WWh9F3WgCeAdKpCzg==
+X-Received: by 2002:a05:6402:51d2:b0:424:536:94dd with SMTP id r18-20020a05640251d200b00424053694ddmr32374846edd.191.1651087932349;
+        Wed, 27 Apr 2022 12:32:12 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id i19-20020a1709061cd300b006f38920dbeesm5175492ejh.134.2022.04.27.12.31.29
+        by smtp.gmail.com with ESMTPSA id s12-20020a1709062ecc00b006e8558c9a5csm7212048eji.94.2022.04.27.12.32.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:31:29 -0700 (PDT)
+        Wed, 27 Apr 2022 12:32:12 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 27/45] media: sun6i-csi: Add bridge dimensions and format helpers
-Date: Wed, 27 Apr 2022 21:31:28 +0200
-Message-ID: <2506257.Lt9SDvczpP@jernej-laptop>
-In-Reply-To: <20220415152811.636419-28-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-28-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 28/45] media: sun6i-csi: Get mbus code from bridge instead of storing it
+Date: Wed, 27 Apr 2022 21:32:10 +0200
+Message-ID: <2106792.Mh6RI2rZIc@jernej-laptop>
+In-Reply-To: <20220415152811.636419-29-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-29-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,8 +53,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 15. april 2022 ob 17:27:53 CEST je Paul Kocialkowski napisal(a):
-> Introduce new helpers to ease getting information about the bridge.
+Dne petek, 15. april 2022 ob 17:27:54 CEST je Paul Kocialkowski napisal(a):
+> Another instance of removing a duplicated variable and using common
+> helpers instead.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -64,63 +65,94 @@ Best regards,
 Jernej
 
 > ---
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 20 +++++++++++++++++++
->  .../sunxi/sun6i-csi/sun6i_csi_bridge.h        |  7 +++++++
->  2 files changed, 27 insertions(+)
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c        | 18 +++++-------------
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h        |  1 -
+>  2 files changed, 5 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c index
-> bba825db8322..0c1e159537a7 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-> @@ -12,6 +12,26 @@
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
+> c4e803a38851..e2070353f93f 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> @@ -17,6 +17,7 @@
+>  #include <media/videobuf2-v4l2.h>
+> 
 >  #include "sun6i_csi.h"
->  #include "sun6i_csi_bridge.h"
+> +#include "sun6i_csi_bridge.h"
+>  #include "sun6i_csi_capture.h"
+>  #include "sun6i_csi_reg.h"
 > 
-> +/* Helpers */
-> +
-> +void sun6i_csi_bridge_dimensions(struct sun6i_csi_device *csi_dev,
-> +				 unsigned int *width, unsigned int 
-*height)
-> +{
-> +	if (width)
-> +		*width = csi_dev->bridge.mbus_format.width;
-> +	if (height)
-> +		*height = csi_dev->bridge.mbus_format.height;
-> +}
-> +
-> +void sun6i_csi_bridge_format(struct sun6i_csi_device *csi_dev,
-> +			     u32 *mbus_code, u32 *field)
-> +{
-> +	if (mbus_code)
-> +		*mbus_code = csi_dev->bridge.mbus_format.code;
-> +	if (field)
-> +		*field = csi_dev->bridge.mbus_format.field;
-> +}
-> +
->  /* Format */
+> @@ -455,20 +456,20 @@ sun6i_csi_capture_configure_interface(struct
+> sun6i_csi_device *csi_dev)
 > 
->  static const u32 sun6i_csi_bridge_mbus_codes[] = {
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h index
-> f9bf87bf3667..5e6448aa522f 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.h
-> @@ -41,6 +41,13 @@ struct sun6i_csi_bridge {
->  	struct sun6i_csi_bridge_source	source_parallel;
+>  static void sun6i_csi_capture_configure_format(struct sun6i_csi_device
+> *csi_dev) {
+> -	struct sun6i_csi_capture *capture = &csi_dev->capture;
+> -	u32 pixelformat, field;
+> +	u32 mbus_code, pixelformat, field;
+>  	u32 cfg = 0;
+>  	u32 val;
+> 
+>  	sun6i_csi_capture_format(csi_dev, &pixelformat, &field);
+> +	sun6i_csi_bridge_format(csi_dev, &mbus_code, NULL);
+> 
+> -	val = get_csi_input_format(csi_dev, capture->mbus_code, 
+pixelformat);
+> +	val = get_csi_input_format(csi_dev, mbus_code, pixelformat);
+>  	cfg |= SUN6I_CSI_CH_CFG_INPUT_FMT(val);
+> 
+>  	val = get_csi_output_format(csi_dev, pixelformat, field);
+>  	cfg |= SUN6I_CSI_CH_CFG_OUTPUT_FMT(val);
+> 
+> -	val = get_csi_input_seq(csi_dev, capture->mbus_code, pixelformat);
+> +	val = get_csi_input_seq(csi_dev, mbus_code, pixelformat);
+>  	cfg |= SUN6I_CSI_CH_CFG_INPUT_YUV_SEQ(val);
+> 
+>  	if (field == V4L2_FIELD_TOP)
+> @@ -739,11 +740,6 @@ static int sun6i_csi_capture_start_streaming(struct
+> vb2_queue *queue, if (ret < 0)
+>  		goto error_state;
+> 
+> -	if (capture->mbus_code == 0) {
+> -		ret = -EINVAL;
+> -		goto error_media_pipeline;
+> -	}
+> -
+>  	subdev = sun6i_csi_capture_remote_subdev(capture, NULL);
+>  	if (!subdev) {
+>  		ret = -EINVAL;
+> @@ -1076,8 +1072,6 @@ static int sun6i_csi_capture_link_validate(struct
+> media_link *link) struct v4l2_subdev_format source_fmt;
+>  	int ret;
+> 
+> -	capture->mbus_code = 0;
+> -
+>  	if (!media_entity_remote_pad(link->sink->entity->pads)) {
+>  		dev_info(csi_dev->dev, "capture node %s pad not 
+connected\n",
+>  			 vdev->name);
+> @@ -1109,8 +1103,6 @@ static int sun6i_csi_capture_link_validate(struct
+> media_link *link) return -EPIPE;
+>  	}
+> 
+> -	capture->mbus_code = source_fmt.format.code;
+> -
+>  	return 0;
+>  }
+> 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
+> 02bdf45f7ca5..3b9759e1563d 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
+> @@ -39,7 +39,6 @@ struct sun6i_csi_capture {
+>  	struct media_pad		pad;
+> 
+>  	struct v4l2_format		format;
+> -	u32				mbus_code;
 >  };
 > 
-> +/* Helpers */
-> +
-> +void sun6i_csi_bridge_dimensions(struct sun6i_csi_device *csi_dev,
-> +				 unsigned int *width, unsigned int 
-*height);
-> +void sun6i_csi_bridge_format(struct sun6i_csi_device *csi_dev,
-> +			     u32 *mbus_code, u32 *field);
-> +
->  /* Bridge */
-> 
->  int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev);
+>  void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
 
 
 
