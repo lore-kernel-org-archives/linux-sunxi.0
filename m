@@ -1,49 +1,49 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6925033E5
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:50:57 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id b24so3139596edu.10
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:50:57 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815C233E5
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 19:52:25 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id k27so3167028edk.4
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 12:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=33j4YNSNaU5u59fgSber6SgSZ1FYBjfWnCsj8i53xiY=;
-        b=paqZNLRh816sci8wvt4ZMNGemC8tLQEZQbrY9GK0GF+9tda40M4Hbqk6a0iBrMeUWR
-         pFZw8B9zMxIKU4oUgr8+nrR6asJ3HHqlfrm/haG45dyuWn4dCJtZo9iXZTnfySlgXT3t
-         hfWQrG+tpXivhbySzfp7k6Rk5PR2rVcj6riFEWVUFsFoTt/5h7OvNo2+YpjEVTZ2xbUC
-         c10ykpZtbfcdncFg30IrZLX8FfLSEHT6hnStz8jts0Luz3Lxkcny6oyP0KExznklnIZU
-         VYhJCy5QIq7gG+pKuyC/cj25vXJGb4q9Sa9LyBnXyRWxTevQJuTPOWyWGT0vXxA0M61N
-         uP7w==
+        bh=raaDFFrcCGJx4BjUQiZ33LAZA2tAaSchP/oiKff0LFo=;
+        b=mBfMA5ennm0eqStm8gsXmriVXxW6bwZMEHA7hyl/NXaLZq1WK5m6yJkjvDJODSsxgq
+         pAfAMaLp1EVQyB9s4QmfA4WcL79NSsg+kdKMCckB4WvVAWMluH31XfCSajIiUw5P9y1D
+         bDE+cmB5MA7PWHjCC/vbgnMqENdyPcd88QG3mWhsp/Gwb0w/8W36uDJhyqsp1AbYDUVV
+         Lw9710jnygGjOB1+uCUa2if6kpJzV7uyef6n7RMU5JthrIk6iEWNm3Hil0ugbV8iLFZR
+         STci1lTS/fkTwbh3jidkcT3B0EHvS7s0dqPZfRCe3b8zda+ZeXR68VF2gyVjWpU5c03u
+         q4Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=33j4YNSNaU5u59fgSber6SgSZ1FYBjfWnCsj8i53xiY=;
-        b=w8I9e8SRdagYT7CX4VDoklqE9hnJmagu8jnwFt32v/g0Vr0+ET39dsfTpeoiJrbEmT
-         yLMHX8Fa2o9mD79LWTX/z9OYE6d9mKwb12chUBneqPrvylpCFlzVILuRADF5W6ke9ltx
-         YiGBfpH3F+z3xgInb8bwC6/og3gRkuWQCQmb3SvJziXT+05bfWU43thCNQIs2RpzyZBW
-         3s+Gs5wHJfpwGjMLJc7aCVuQc3LlJ9B2hnAlN4vyTWgFhWMnm4/q+ew1uuQnaTWHUk5b
-         ArAbS6OhMf+tp24ev439hTz4UdHAizhYwqnux7/krfxMPxvzWnokRIwrbziO+jnRvpcN
-         tzAQ==
-X-Gm-Message-State: AOAM532pe9/jeaAIwdhT1zlDZaKYiVNehzutDZlNKjkOF4MD4gYmY6KX
-	h1CIZT6GtFpQXD7Luwx7W5c=
-X-Google-Smtp-Source: ABdhPJw1YgYtwx9aqlQwyWIGlVQaBzLeEYF1CEFQZPIzcHlqxRakh1b8DdGiXc19hCSJewwbYeHPOA==
-X-Received: by 2002:a05:6402:5286:b0:425:f0fb:5d23 with SMTP id en6-20020a056402528600b00425f0fb5d23mr15599225edb.243.1651089055670;
-        Wed, 27 Apr 2022 12:50:55 -0700 (PDT)
+        bh=raaDFFrcCGJx4BjUQiZ33LAZA2tAaSchP/oiKff0LFo=;
+        b=xIyHGymRZtEqZipU6pbIWKlg/hXKy3KZAiD/Nem3sqsw1ULziu6AdYrYn4wd6jizG2
+         /KYkoB0aDMC6oHS1gmqAA6Pt2bD1t7ML4c/65rfzaAoLuFzIUgrYfJR+i2G3DAxMSqGa
+         rnu5ib1aFW31Kedym8khsIkDT4EjGii2P9EC6+78dOMXvuHcFL1esoz4fYfPlOY9L3V5
+         GWrVMsf8ID415LsQI3Ab3WpLQCvKvn+lxe/CV0Ngq5LZceUDmbMKcnJ/ceKtA7ibpfO3
+         xCsHC6WWKAzgKjktLErpyQVivCEklIVFyHgb0PfW7JM6FzQgEeLD753LR5wSuM9o3z81
+         kJGg==
+X-Gm-Message-State: AOAM5306pBUQMMnmOP52qNX6wiNzzp9Zj/KJkccYWpaji5olRgK+lWjm
+	0BMlbE7ic7rsQZla02WqZiI=
+X-Google-Smtp-Source: ABdhPJyaHhiQPHbBDsazEv+z+wxrmRg4LeZEEozM4E20LE6khcKaC6GdZk4/CDLHVNc/o6EsUE9iBw==
+X-Received: by 2002:a05:6402:d2:b0:413:2e50:d6fd with SMTP id i18-20020a05640200d200b004132e50d6fdmr32263726edu.171.1651089143874;
+        Wed, 27 Apr 2022 12:52:23 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id j12-20020aa7de8c000000b0042617ba63b2sm104085edv.60.2022.04.27.12.50.54
+        by smtp.gmail.com with ESMTPSA id r2-20020aa7c142000000b0042617ba63c5sm109134edp.79.2022.04.27.12.52.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 12:50:55 -0700 (PDT)
+        Wed, 27 Apr 2022 12:52:23 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc: Yong Deng <yong.deng@magewell.com>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Maxime Ripard <mripard@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 37/45] media: sun6i-csi: Rename the capture video device to sun6i-csi-capture
-Date: Wed, 27 Apr 2022 21:50:54 +0200
-Message-ID: <14612220.tv2OnDr8pf@jernej-laptop>
-In-Reply-To: <20220415152811.636419-38-paul.kocialkowski@bootlin.com>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-38-paul.kocialkowski@bootlin.com>
+Subject: Re: [PATCH v4 38/45] media: sun6i-csi: Cleanup headers and includes, update copyright lines
+Date: Wed, 27 Apr 2022 21:52:22 +0200
+Message-ID: <2576615.BddDVKsqQX@jernej-laptop>
+In-Reply-To: <20220415152811.636419-39-paul.kocialkowski@bootlin.com>
+References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com> <20220415152811.636419-39-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,10 +53,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 15. april 2022 ob 17:28:03 CEST je Paul Kocialkowski napisal(a):
-> Now that the driver is properly split between bridge and capture,
-> rename the video device to highlight its role and be in line with
-> the bridge entity naming.
+Dne petek, 15. april 2022 ob 17:28:04 CEST je Paul Kocialkowski napisal(a):
+> Cleanup includes, update copyright lines and some cosmetic changes.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
@@ -66,41 +64,204 @@ Best regards,
 Jernej
 
 > ---
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c | 3 ++-
->  drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h | 2 ++
->  2 files changed, 4 insertions(+), 1 deletion(-)
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 16 ++++++--------
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      | 10 ++++-----
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  4 ++--
+>  .../sunxi/sun6i-csi/sun6i_csi_capture.h       | 22 ++++++++++++++-----
+>  .../platform/sunxi/sun6i-csi/sun6i_csi_reg.h  |  9 ++++----
+>  5 files changed, 35 insertions(+), 26 deletions(-)
 > 
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
+> 0ae10a11373c..43b6557b3207 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> @@ -1,18 +1,14 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+>   * Copyright (c) 2011-2018 Magewell Electronics Co., Ltd. (Nanjing)
+> - * All rights reserved.
+>   * Author: Yong Deng <yong.deng@magewell.com>
+> + * Copyright 2021-2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
+> 
+>  #include <linux/clk.h>
+> -#include <linux/delay.h>
+> -#include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> -#include <linux/fs.h>
+>  #include <linux/interrupt.h>
+> -#include <linux/io.h>
+> -#include <linux/ioctl.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/of_device.h>
+> @@ -20,12 +16,13 @@
+>  #include <linux/pm_runtime.h>
+>  #include <linux/regmap.h>
+>  #include <linux/reset.h>
+> -#include <linux/sched.h>
+> -#include <linux/sizes.h>
+> -#include <linux/slab.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+>  #include <media/v4l2-mc.h>
+> 
+>  #include "sun6i_csi.h"
+> +#include "sun6i_csi_bridge.h"
+> +#include "sun6i_csi_capture.h"
+>  #include "sun6i_csi_reg.h"
+> 
+>  /* Media */
+> @@ -390,4 +387,5 @@ module_platform_driver(sun6i_csi_platform_driver);
+> 
+>  MODULE_DESCRIPTION("Allwinner A31 Camera Sensor Interface driver");
+>  MODULE_AUTHOR("Yong Deng <yong.deng@magewell.com>");
+> +MODULE_AUTHOR("Paul Kocialkowski <paul.kocialkowski@bootlin.com>");
+>  MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
+> 68611c147996..1aeaef84abba 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+> @@ -1,16 +1,16 @@
+>  /* SPDX-License-Identifier: GPL-2.0+ */
+>  /*
+>   * Copyright (c) 2011-2018 Magewell Electronics Co., Ltd. (Nanjing)
+> - * All rights reserved.
+>   * Author: Yong Deng <yong.deng@magewell.com>
+> + * Copyright 2021-2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
+> 
+> -#ifndef __SUN6I_CSI_H__
+> -#define __SUN6I_CSI_H__
+> +#ifndef _SUN6I_CSI_H_
+> +#define _SUN6I_CSI_H_
+> 
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+> -#include <media/v4l2-fwnode.h>
+>  #include <media/videobuf2-v4l2.h>
+> 
+>  #include "sun6i_csi_bridge.h"
+> @@ -51,4 +51,4 @@ struct sun6i_csi_variant {
+>  	unsigned long	clock_mod_rate;
+>  };
+> 
+> -#endif /* __SUN6I_CSI_H__ */
+> +#endif
 > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c index
-> a6619d083308..c3b1e1411da4 100644
+> c3b1e1411da4..f1581b877819 100644
 > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
 > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-> @@ -1027,7 +1027,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device
-> *csi_dev)
+> @@ -1,13 +1,13 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+>  /*
+>   * Copyright (c) 2011-2018 Magewell Electronics Co., Ltd. (Nanjing)
+> - * All rights reserved.
+>   * Author: Yong Deng <yong.deng@magewell.com>
+> + * Copyright 2021-2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
 > 
->  	/* Video Device */
-> 
-> -	strscpy(video_dev->name, SUN6I_CSI_NAME, sizeof(video_dev->name));
-> +	strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
-> +		sizeof(video_dev->name));
->  	video_dev->device_caps = V4L2_CAP_VIDEO_CAPTURE | 
-V4L2_CAP_STREAMING;
->  	video_dev->vfl_dir = VFL_DIR_RX;
->  	video_dev->release = video_device_release_empty;
+>  #include <linux/of.h>
+>  #include <linux/regmap.h>
+> -
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-ioctl.h>
 > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
 > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h index
-> a61db3bc72e5..59c57bcefeec 100644
+> 59c57bcefeec..ceceb030aef6 100644
 > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
 > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-> @@ -11,6 +11,8 @@
->  #include <media/v4l2-dev.h>
->  #include <media/videobuf2-core.h>
+> @@ -1,15 +1,15 @@
+>  /* SPDX-License-Identifier: GPL-2.0+ */
+>  /*
+>   * Copyright (c) 2011-2018 Magewell Electronics Co., Ltd. (Nanjing)
+> - * All rights reserved.
+>   * Author: Yong Deng <yong.deng@magewell.com>
+> + * Copyright 2021-2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
 > 
-> +#define SUN6I_CSI_CAPTURE_NAME	"sun6i-csi-capture"
+> -#ifndef __SUN6I_CAPTURE_H__
+> -#define __SUN6I_CAPTURE_H__
+> +#ifndef _SUN6I_CAPTURE_H_
+> +#define _SUN6I_CAPTURE_H_
+> 
+> -#include <media/v4l2-dev.h>
+> -#include <media/videobuf2-core.h>
+> +#include <media/v4l2-device.h>
+> 
+>  #define SUN6I_CSI_CAPTURE_NAME	"sun6i-csi-capture"
+> 
+> @@ -57,21 +57,31 @@ struct sun6i_csi_capture {
+>  	struct v4l2_format		format;
+>  };
+> 
+> +/* Helpers */
 > +
->  #define SUN6I_CSI_CAPTURE_WIDTH_MIN	32
->  #define SUN6I_CSI_CAPTURE_WIDTH_MAX	4800
->  #define SUN6I_CSI_CAPTURE_HEIGHT_MIN	32
+>  void sun6i_csi_capture_dimensions(struct sun6i_csi_device *csi_dev,
+>  				  unsigned int *width, unsigned 
+int *height);
+>  void sun6i_csi_capture_format(struct sun6i_csi_device *csi_dev,
+>  			      u32 *pixelformat, u32 *field);
+> 
+> +/* Format */
+> +
+>  const
+>  struct sun6i_csi_capture_format *sun6i_csi_capture_format_find(u32
+> pixelformat);
+> 
+> +/* Capture */
+> +
+>  void sun6i_csi_capture_configure(struct sun6i_csi_device *csi_dev);
+>  void sun6i_csi_capture_state_update(struct sun6i_csi_device *csi_dev);
+> 
+> +/* State */
+> +
+>  void sun6i_csi_capture_sync(struct sun6i_csi_device *csi_dev);
+>  void sun6i_csi_capture_frame_done(struct sun6i_csi_device *csi_dev);
+> 
+> +/* Capture */
+> +
+>  int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev);
+>  void sun6i_csi_capture_cleanup(struct sun6i_csi_device *csi_dev);
+> 
+> -#endif /* __SUN6I_CAPTURE_H__ */
+> +#endif
+> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_reg.h
+> b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_reg.h index
+> 1e4a07f26d1d..e01c5b9c2d60 100644
+> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_reg.h
+> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_reg.h
+> @@ -1,12 +1,13 @@
+>  /* SPDX-License-Identifier: GPL-2.0+ */
+>  /*
+>   * Copyright (c) 2011-2018 Magewell Electronics Co., Ltd. (Nanjing)
+> - * All rights reserved.
+>   * Author: Yong Deng <yong.deng@magewell.com>
+> + * Copyright 2021-2022 Bootlin
+> + * Author: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>   */
+> 
+> -#ifndef __SUN6I_CSI_REG_H__
+> -#define __SUN6I_CSI_REG_H__
+> +#ifndef _SUN6I_CSI_REG_H_
+> +#define _SUN6I_CSI_REG_H_
+> 
+>  #include <linux/kernel.h>
+> 
+> @@ -180,4 +181,4 @@
+>  #define SUN6I_CSI_CH_FIFO_STAT_REG		0x98
+>  #define SUN6I_CSI_CH_PCLK_STAT_REG		0x9c
+> 
+> -#endif /* __SUN6I_CSI_REG_H__ */
+> +#endif
 
 
 
