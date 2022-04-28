@@ -1,147 +1,64 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2FEEA6
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 08:11:36 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 4B3DE3200033;
-	Thu, 28 Apr 2022 04:11:34 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Thu, 28 Apr 2022 04:11:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1651133493; x=1651219893; bh=zhx4d/dBHT
-	pW4W1OKZ4iXHkQAtUQxcXTyp97K6x+HYQ=; b=pFbjr0eXgD79GamR8HiFg2cHKF
-	2fl1+6DilEH6u6u7qHnebZo7pX2UBZ9S168D4JI8ryxEpqR2Eha8w66XTsj6D8h/
-	wrkCC07e1ULAH34JKLtFodWK+VvJIGZ91R/uc3a1uETArsX+92219SeKbKvGDUep
-	8dG5iJhRyqpdI6/Rk0X3dOksQ6POqKQYnmvfsi0qUUhGaQ4im46c/fZwYiKlgY5R
-	1WasH7xwGmRFkrXwUTpKJotZZWrQzMEyAPLQnBl1SStvOQ7Ywvbz1+fajHICHUwS
-	cWbw1wrBcWA3uhar7Sgm0mgM7mfoncb+0a6QGDnra3ii7+S8YRHFJW/qFhHw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651133493; x=
-	1651219893; bh=zhx4d/dBHTpW4W1OKZ4iXHkQAtUQxcXTyp97K6x+HYQ=; b=S
-	MmOK5aAjnb3bCezwArQMGfxK81ncC8TnKiVwG7b0f+UZ9ehGY0XNOfVDDOblrpYN
-	Vr9UaIA/jnpv9WEuC1N6Ido7agp2Dwmls9vVsGItfvGvkx/t8oWaQk5hB5zKc8Ld
-	LU+Y1QweFE81HfHHma70jt242Ee1Oq4Vlbmsq7CLmj9bAiqgMYkDRAtn4U1EMHuS
-	D/IsZtPSn4dJob5+5LP4BFHA69LdQTHNJsXzlYfPKzdVxZqO8JTjNLAh9wtDu36g
-	SydKU2teXFmKD6jScXdlTX2h27JCHP2pkqdSJiEd6Zw+ki8OY+l4jzEQnwSj+gQ9
-	TL94D9bVhvhzOqZnsmaKQ==
-X-ME-Sender: <xms:NExqYjPLn9DwDeLX-NJnaKti-1gFsIO5F7q2QRitV-QMeiIDV7OreQ>
-    <xme:NExqYt9ykznOJ-NoYH6EoLpdWKecUdc_FchCeK8FvHT3Pi4-nPbyBLIY6_90ljLxs
-    mpLQ3WQgPxI2Z6d_EM>
-X-ME-Received: <xmr:NExqYiSb8Dsg118nHfE118MqPXWXsLjKjqZv6HOuHsjUYcZNweESdw9dGjdy9anUmNPf-aFwzXqBbK3Lz3Y4yS4WrwJTA88dmCo02DM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejucetufdoteggodetrfdotffvucfrrh
-    hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
-    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
-    epfffhvfevuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepofgrgihimhgvucft
-    ihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrh
-    hnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfevteefffen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigih
-    hmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:NUxqYnvS5zKHWAd0HvS84_T4Gwt7tzsmtBWPnF7hhSCTTjGfeoAVmA>
-    <xmx:NUxqYrfkduOkZfuA0L1lvSUdrRLot7Dxloxozo6k6dGtcO1YMspNWg>
-    <xmx:NUxqYj1otrb7pIG00XlnQCu9UBnH-OMf1zw56zPu212BNoIBzxoMQg>
-    <xmx:NUxqYsUSTIJ9QeSKm1i4W5vRFWL3rNUxlLlzU3AEGcD5u0YRtcNiIg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Apr 2022 04:11:32 -0400 (EDT)
-Date: Thu, 28 Apr 2022 10:11:30 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 43/45] media: sun6i-csi: Detect the availability of
- the ISP
-Message-ID: <20220428081130.6deusqgnrsgqdp3e@houat>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
- <20220415152811.636419-44-paul.kocialkowski@bootlin.com>
- <2029179.KlZ2vcFHjT@jernej-laptop>
- <YmpIjPe8pw+yvGyL@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06608EC2
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 09:45:28 +0000 (UTC)
+Received: from dggpemm500022.china.huawei.com (unknown [172.30.72.54])
+	by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4KprLJ6QSPz1JBVm;
+	Thu, 28 Apr 2022 17:44:24 +0800 (CST)
+Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
+ dggpemm500022.china.huawei.com (7.185.36.162) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Thu, 28 Apr 2022 17:45:20 +0800
+Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
+ (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 28 Apr
+ 2022 17:45:19 +0800
+From: Yang Yingliang <yangyingliang@huawei.com>
+To: <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>
+CC: <clabbe.montjoie@gmail.com>, <andrew@lunn.ch>, <davem@davemloft.net>,
+	<kuba@kernel.org>
+Subject: [PATCH] net: stmmac: dwmac-sun8i: add missing of_node_put() in sun8i_dwmac_register_mdio_mux()
+Date: Thu, 28 Apr 2022 17:57:16 +0800
+Message-ID: <20220428095716.540452-1-yangyingliang@huawei.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vi7rcbrvgeo53dt4"
-Content-Disposition: inline
-In-Reply-To: <YmpIjPe8pw+yvGyL@aptenodytes>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.103.91]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500007.china.huawei.com (7.185.36.183)
+X-CFilter-Loop: Reflected
 
+The node pointer returned by of_get_child_by_name() with refcount incremented,
+so add of_node_put() after using it.
 
---vi7rcbrvgeo53dt4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
+---
+ drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-On Thu, Apr 28, 2022 at 09:55:56AM +0200, Paul Kocialkowski wrote:
-> Hi Jernej,
->=20
-> Thanks a lot for all your reviews!
->=20
-> On Wed 27 Apr 22, 22:07, Jernej =C5=A0krabec wrote:
-> > Dne petek, 15. april 2022 ob 17:28:09 CEST je Paul Kocialkowski napisal=
-(a):
-> > > Add a helper to detect whether the ISP is available and connected
-> > > and store the indication in a driver-wide variable.
-> > >=20
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++=
-++
-> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
-> > >  2 files changed, 36 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> > > a88deb8ba1e7..f185cbd113c7 100644
-> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > @@ -25,6 +25,35 @@
-> > >  #include "sun6i_csi_capture.h"
-> > >  #include "sun6i_csi_reg.h"
-> > >=20
-> > > +/* ISP */
-> > > +
-> > > +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
-> > > +{
-> > > +	struct device *dev =3D csi_dev->dev;
-> > > +	struct fwnode_handle *handle =3D NULL;
-> > > +
-> > > +	/* ISP is not available if disabled in kernel config. */
-> > > +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
-> >=20
-> > Where is this symbol defined?
->=20
-> That is defined through Kconfig's auto-generated header, from the associa=
-ted
-> option for the ISP driver. It is defined in the ISP support series so this
-> will effectively always be false for now.
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index f86cc83003f2..f834472599f7 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -907,6 +907,7 @@ static int sun8i_dwmac_register_mdio_mux(struct stmmac_priv *priv)
+ 
+ 	ret = mdio_mux_init(priv->device, mdio_mux, mdio_mux_syscon_switch_fn,
+ 			    &gmac->mux_handle, priv, priv->mii);
++	of_node_put(mdio_mux);
+ 	return ret;
+ }
+ 
+-- 
+2.25.1
 
-Can the ISP be compiled as a module, but the CSI driver built-in? If so,
-that would create a dependency from the kernel image to a module, which
-won't compile.
-
-Maxime
-
---vi7rcbrvgeo53dt4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYmpMMgAKCRDj7w1vZxhR
-xR9JAQCzUJ3nSywMzMfmZf2THjuGSWtHrnB1gUI5bzeoJHD/bgD9E0zo+xuSxJ1g
-MWMoFbBta8oAjxNxO6BGTkd2mhGgTg4=
-=MHSM
------END PGP SIGNATURE-----
-
---vi7rcbrvgeo53dt4--
