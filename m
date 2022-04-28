@@ -1,49 +1,49 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B53827B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:35:02 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id p4so4282982edx.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:35:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2EA7B
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:35:27 +0000 (UTC)
+Received: by mail-ej1-f47.google.com with SMTP id gh6so7414033ejb.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Q+eUJv9+G15IKxU6f/ds8z9ndhSiLJLYEEsP0KxbxHA=;
-        b=ED+2Y6JfSdVUXkpMQIz27N8z4Q5f+APo0eGC7FPjO7L/C6/GDpmhoE4COt0l5gA7ge
-         rH7ORahf3k4ZeKalAOKZmYX3t33EqRRDeOYe8Td09u4y7mGAtK+/BYl3i8Hyp6Qwx5HZ
-         y7UN625BX4v8/r5BE/7EgXFTPS7T+FGcqiMARQHZcLrMtrIg3tG4UAbvbIJFWmgYFEAA
-         AnR/gKZ78siMitch/BVJwDdJMd8e+ftMv/ojheDlyfufWsvfgPYZI49MIOdFVEZsg6FQ
-         14VQSJ67DmT2bUWmAG95Yhl2tRx6nTeHMMA7n+3gT0Kk76W6QNFG2psxZZVM760BLUjs
-         II2A==
+        bh=n6GB1/WywBgvh+64+Tjj1z6mIuDmSgmvtpDpu9gTFhI=;
+        b=Sk9QjBASR1ZDnIiWemIfYQHAyckj3WwUQ0Dk1x8vUbtZKw+Ps2RXC6ddu1yuaUfDpB
+         gMi/A8uQw0hEu+F47+bjMp3t0QSCs67/abhdlEHByg/jPyQayH7pn4Niiz8YRh5dR/se
+         xln6tUHCH2ERr0czmm5bEvYM2ukGDy9YomaBo1EqTSTx4xoNVJ08d1wBBXiam8xKQTnx
+         m2eyYfCopyih6EYsIGG1jf7cGgoW/UdVQ6fuA03CTOCzsi1Xz/KgZtBjOu5G13Jw3OOq
+         KE1LJORJpVZYpyh+W5+KQw59PhV/1nUPGPeM7fCd356wan6bL63d95Hnn1EfATYDBxWT
+         v/mQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Q+eUJv9+G15IKxU6f/ds8z9ndhSiLJLYEEsP0KxbxHA=;
-        b=Ro+VwrmYXFxNDSFAn5YP9KRs3EWOPfkXlcweCCR6XUlAcCUYYHq8Zyg+cNTldN9lld
-         +mBeqlzDpPCK835DgNJWuV1n2xpnSkUGzzzn2ZA9pAfugASVsj7mWdEpJb/NB4TOh2ue
-         UEbGfhDOEKCjXjYRbdON/wlUxaNWIGPWsnpIsyHt3rWXIug9n9Q1jfrQZFcFQoncYX8L
-         Jq+5gpMU0bS6uF2y1ufEGHIByD4UTVz5G2bjPdQFl06vNwsE2/lhQK6O8vJLfBHccpR4
-         0gyfY3XQLKz+E8eCM8GT2mf1bsWRey12JFxFLuaQSM/iN/NjGuTpSF0LBA0cHQoT7GRF
-         NayQ==
-X-Gm-Message-State: AOAM532m5J4wYiWItmLKyuSxEUGKVUD29R56rGgMLXQ/go6KQ/PpNaQi
-	oK+nvTwonCS+sw9mixGeWGs=
-X-Google-Smtp-Source: ABdhPJwRmhqGmKmdzX4KIXgkDoCMGASyY4aGra++WokhDjLD8F+KBZu9SF1mTqE2Q+aZ9CJOKTHcUQ==
-X-Received: by 2002:a05:6402:5106:b0:425:f733:8d9b with SMTP id m6-20020a056402510600b00425f7338d9bmr15264075edd.326.1651124101019;
-        Wed, 27 Apr 2022 22:35:01 -0700 (PDT)
+        bh=n6GB1/WywBgvh+64+Tjj1z6mIuDmSgmvtpDpu9gTFhI=;
+        b=DXUv5t/4oHh+02ELDGlhD7iOqylRzEhgLG+UE6Xex9ckJ6f/3KZ8ckuE5s25kgFhk6
+         D5xGqhgFrM4mbU1hncbVr3QKUXiH4endywTCd+A8H94jPn0gqxkVjxXdq/DpNNmLqTPU
+         2R4LdSlZe38G+aKbnjfGjuziakvhD/2LztPdf/oZl0yOlJ33vIg13DnpC4R3HnVbjU16
+         7V/ksx5ZpB8ucxWlNd29242yfB1QSZUkE4AA4qBsgyYJ/1Nld9iq1aHWBGsJzDkn4WL/
+         K0b4S5Ye19o89w7TXxZ5+GDBVBDFyOCQQ2qHCuteuxvi2mClYFTX/u2Ly9uAr0drIP3I
+         k33w==
+X-Gm-Message-State: AOAM533a5dAf3R5ss6r3o4PBgjUXHM4JELPm+nhwXKWBgs7ofTB5799R
+	VBAdoOH+Ne6qiEyTC+ZPHPhrAUPrxzjnhw==
+X-Google-Smtp-Source: ABdhPJxOTXVpvT//Cj+0qyGctmcgG8tu4Sgrf5+zvtxXeIcbwKP79h4Ibc/zhuPFP2T8AkYgQw4Smw==
+X-Received: by 2002:a17:907:72cd:b0:6f3:a068:a2ce with SMTP id du13-20020a17090772cd00b006f3a068a2cemr16041538ejc.563.1651124126336;
+        Wed, 27 Apr 2022 22:35:26 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id s2-20020a1709066c8200b006e4e1b1f875sm7884833ejr.199.2022.04.27.22.34.59
+        by smtp.gmail.com with ESMTPSA id b6-20020aa7cd06000000b0042617ba63a9sm886885edw.51.2022.04.27.22.35.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 22:35:00 -0700 (PDT)
+        Wed, 27 Apr 2022 22:35:25 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org, Samuel Holland <samuel@sholland.org>
 Cc: Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/5] iommu/sun50i: Add support for the D1 variant
-Date: Thu, 28 Apr 2022 07:34:59 +0200
-Message-ID: <2752686.88bMQJbFj6@jernej-laptop>
-In-Reply-To: <20220428010401.11323-5-samuel@sholland.org>
-References: <20220428010401.11323-1-samuel@sholland.org> <20220428010401.11323-5-samuel@sholland.org>
+Subject: Re: [PATCH 5/5] iommu/sun50i: Ensure the IOMMU can be used for DMA
+Date: Thu, 28 Apr 2022 07:35:24 +0200
+Message-ID: <1762951.8hzESeGDPO@jernej-laptop>
+In-Reply-To: <20220428010401.11323-6-samuel@sholland.org>
+References: <20220428010401.11323-1-samuel@sholland.org> <20220428010401.11323-6-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,11 +53,11 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 28. april 2022 ob 03:03:59 CEST je Samuel Holland napisal=
+Dne =C4=8Detrtek, 28. april 2022 ob 03:04:00 CEST je Samuel Holland napisal=
 (a):
-> D1 contains an IOMMU similar to the one in the H6 SoC, but the D1
-> variant has no external reset signal. It also has some register
-> definition changes, but none that affect the current driver.
+> So far, the driver has relied on arch/arm64/Kconfig to select IOMMU_DMA.
+> Unsurprisingly, this does not work on RISC-V, so the driver must select
+> IOMMU_DMA itself.
 >=20
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
@@ -68,31 +68,20 @@ Jernej
 
 > ---
 >=20
->  drivers/iommu/sun50i-iommu.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>  drivers/iommu/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-> index b9e644b93637..1fb707e37fb3 100644
-> --- a/drivers/iommu/sun50i-iommu.c
-> +++ b/drivers/iommu/sun50i-iommu.c
-> @@ -999,11 +999,15 @@ static int sun50i_iommu_probe(struct platform_device
-> *pdev) return ret;
->  }
->=20
-> +static const struct sun50i_iommu_variant sun20i_d1_iommu =3D {
-> +};
-> +
->  static const struct sun50i_iommu_variant sun50i_h6_iommu =3D {
->  	.has_reset =3D true,
->  };
->=20
->  static const struct of_device_id sun50i_iommu_dt[] =3D {
-> +	{ .compatible =3D "allwinner,sun20i-d1-iommu", .data =3D=20
-&sun20i_d1_iommu },
->  	{ .compatible =3D "allwinner,sun50i-h6-iommu", .data =3D=20
-&sun50i_h6_iommu },
->  	{ /* sentinel */ },
->  };
+> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> index c79a0df090c0..70a0bfa6d907 100644
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -223,6 +223,7 @@ config SUN50I_IOMMU
+>  	depends on ARCH_SUNXI || COMPILE_TEST
+>  	select ARM_DMA_USE_IOMMU
+>  	select IOMMU_API
+> +	select IOMMU_DMA
+>  	help
+>  	  Support for the IOMMU introduced in the Allwinner H6 SoCs.
 
 
 
