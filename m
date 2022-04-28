@@ -1,119 +1,94 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D37B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:45:36 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id a1so4257845edt.3
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:45:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A156EA6
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 07:19:27 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id gh6so7813690ejb.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 00:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bu1Am+mfc3RBLLJSWrxdM96hFXnw6XnAcu5xdCKTnQI=;
-        b=U8hjzI4Jj09EF12s/5KD7XD/HAE5Z7zNZb7gWS9RHKNUrA2CWF+gTT/vZIv/5/mhc8
-         4CJxJzlpSuKkDLHXEFMJRhg5iJCgsDrfAdB73ODHYREydYyubRYogza60y9tDwkqlHBy
-         SAktsXiJBe+UBiaDkVc07s13Q/ReWDb0YAepyD0q6JPZc/mM+DuZhxVMk6wAXXFpXeIU
-         GHGAyDXMSXzV/NlvvE/4Lk43zpBEXxm/LGkQVW16movp2IxXsMjwLSHD5rRbgP640tbP
-         f0jsF/V5y+V4YOhKhPSv2HTyEacDMCqakP2v9tx9Obee8bSz44ZVXJf/94aed8paCPST
-         5pxA==
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=hAwV6IwbsKz6TK9I885ngU6STlgFg8jvqLzasreFMNs=;
+        b=WWwtGR1t+tANDRVUo2TR9pMIModlr36I6OZLqGl0IETtQs0/rjC/uYLMlRDkNsP/eV
+         2LXgsWIHL4XoHJpA14V2wkclfUNarpzbFHOEz5wVWsgrP4nikVJrpJCNjE8mKDsGTFLw
+         uK2Raf8hS5WSmUAFPOeazZauXSjK7IF23+ltIA782RBeUZ3fAXByLWdr9VCPokU8LL0b
+         XWv6Q4h0jEO0vu8zL62L2mTknqmb9UlvmCWNrshhxplOVVfLIttvt+RvTujsEVk+ZSQ2
+         u1GIGtOx5ShFMR94uP8k6dKaqrvTsFRmr1ufo8PNJf6HZTqRkEFSLXKsDhE2TfcRIDSL
+         muYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bu1Am+mfc3RBLLJSWrxdM96hFXnw6XnAcu5xdCKTnQI=;
-        b=wPTsCBYd/HlNVFWEIND2S15Gwg0FIxN0HcCBq4O7E2jfUEuv8ReSKiRu5lp4fXywvK
-         gEwc0yeMbbzIHW8WrmJ86iA2dt7hybJe32v8oKgV209wV2sDH8XVSWxZ7Cf/IrQC1xFz
-         xsdPuwiCBHTZWDvsiO06abWYk1mM4ShjMQIaHeNwVOTovePTnjRzP1PVmLP9WXXeL7Lr
-         S4fcn9AXAJjOznCqrW07ZXOchtVoasqvCEQdHABw7Q2bVwaIl2J4GJlpyIo7KXbocBR7
-         POLwwjv8js8wPpQNLoTNWFtWL69DJS3J6+W8R/30l27vWmq9QNT7fXU9eZawrMJCW2MX
-         kGsA==
-X-Gm-Message-State: AOAM531KEXiigyRnJEd9eLGo8406eFQbuM4X7pV+9PH16r8ML20fezt1
-	Rp92abir6TCNXme0NB/CIrM=
-X-Google-Smtp-Source: ABdhPJxIesueP7mEJQ7cfZ1GF83jwnUH9gcTViGICL1YvhcSy1woJt6erlqveaurraCCU9ukUVTVCw==
-X-Received: by 2002:a50:d79a:0:b0:425:e577:c71a with SMTP id w26-20020a50d79a000000b00425e577c71amr20815339edi.188.1651124734847;
-        Wed, 27 Apr 2022 22:45:34 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id z14-20020a170906944e00b006f38c33b6e3sm5970246ejx.68.2022.04.27.22.45.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 22:45:34 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org, Samuel Holland <samuel@sholland.org>
-Cc: Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/5] iommu/sun50i: Allwinner D1 support
-Date: Thu, 28 Apr 2022 07:45:33 +0200
-Message-ID: <1849776.IobQ9Gjlxr@jernej-laptop>
-In-Reply-To: <20220428010401.11323-1-samuel@sholland.org>
-References: <20220428010401.11323-1-samuel@sholland.org>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=hAwV6IwbsKz6TK9I885ngU6STlgFg8jvqLzasreFMNs=;
+        b=4VX3v8e0Kt2VKMXEAGuWatS9GqqgidL+sma/C+vRp1FXQLjnFK3rher/x/k2jSDsn5
+         z0Fg/I2YWoRVHM50k5bj/2jbXLw+k2H6GWDmRjs+mz2nKJbY+NJyHA01PvGMJTnRTg35
+         1FFNDdG9VNMTueaSrQv92e4yFe3DyulRWDcGie5RRHM8nRyzj2Dvut3YriyacjVAoWyz
+         HR+foF9sy5ChtvtMU2O9ge+I5KPcJ0tqp1Y1AzMnTa6dbkTaH5I7Y8xH4W0COUzCEIki
+         78mA57JeoW3vfUxsahvTKCl0u8uIsnhlOiqbezRqNT35y0vYQaCTNo4srImDdXW9iYbD
+         UMbw==
+X-Gm-Message-State: AOAM531onFZoxZOel/PZVS7gIvskrnmxmbhyEB6qv8eiEo2PM/2Q6/6j
+	PbJlAsPyezY+CI2AN1bvjkxaEg==
+X-Google-Smtp-Source: ABdhPJzKq+YlOiDMLykatXEFb35oBzrQM8EqzSpwuebdQwET0rBneBiC/nW+dHlQKkRccdp/GtUgfg==
+X-Received: by 2002:a17:907:1623:b0:6e8:8678:640d with SMTP id hb35-20020a170907162300b006e88678640dmr30461002ejc.189.1651130366356;
+        Thu, 28 Apr 2022 00:19:26 -0700 (PDT)
+Received: from [192.168.0.160] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
+        by smtp.gmail.com with ESMTPSA id l2-20020a1709060cc200b006d3d91e88c7sm7892815ejh.214.2022.04.28.00.19.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 Apr 2022 00:19:25 -0700 (PDT)
+Message-ID: <9dab1216-83fd-fd05-abe2-57371e365027@linaro.org>
+Date: Thu, 28 Apr 2022 09:19:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.7.0
+Subject: Re: [PATCH 1/5] dt-bindings: iommu: sun50i: Add compatible for
+ Allwinner D1
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org
+Cc: Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>,
+ linux-riscv@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220428010401.11323-1-samuel@sholland.org>
+ <20220428010401.11323-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220428010401.11323-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Samuel!
+On 28/04/2022 03:03, Samuel Holland wrote:
 
-Dne =C4=8Detrtek, 28. april 2022 ob 03:03:55 CEST je Samuel Holland napisal=
-(a):
-> D1 is a RISC-V SoC from Allwinner's sunxi family. This series adds IOMMU
-> binding and driver support.
->=20
-> One piece is still missing to use the IOMMU for DMA allocations: a call
-> to iommu_setup_dma_ops(). On ARM64 this is handled by the architecture's
-> code. RISC-V does not currently select ARCH_HAS_SETUP_DMA_OPS, but it
-> will once Zicbom support[1] is merged.
->=20
-> [1]: https://lore.kernel.org/lkml/20220307224620.1933061-2-heiko@sntech.d=
-e/
->=20
-> So I cannot follow virtio-iommu.c and call iommu_setup_dma_ops() when
-> ARCH_HAS_SETUP_DMA_OPS=3Dn. However, if I apply the following patch on top
-> of Heiko's non-coherent DMA series, the display engine successfully uses
-> the IOMMU to allocate its framebuffer:
+Thank you for your patch. There is something to discuss/improve.
 
-Did you test this on any other device than display pipeline? It should be=20
-supported by Cedrus too, right? I think there are still some corner cases t=
-o=20
-fix on Cedrus before IOMMU fully works.
+> +
+> +if:
+> +  properties:
+> +    compatible:
+> +      contains:
+> +        enum:
+> +          - allwinner,sun50i-h6-iommu
+> +
+> +then:
+> +  required:
+> +    - resets
+
+else:
+  properties:
+    resets: false
+
+>  
+
 
 Best regards,
-Jernej
-
->=20
-> --- a/arch/riscv/mm/dma-noncoherent.c
-> +++ b/arch/riscv/mm/dma-noncoherent.c
-> @@ -6,6 +6,7 @@
->   */
->=20
->  #include <linux/dma-direct.h>
-> +#include <linux/dma-iommu.h>
->  #include <linux/dma-map-ops.h>
->  #include <linux/mm.h>
->=20
-> @@ -53,4 +54,7 @@
->  {
->  	/* If a specific device is dma-coherent, set it here */
->  	dev->dma_coherent =3D coherent;
-> +
-> +	if (iommu)
-> +		iommu_setup_dma_ops(dev, dma_base, dma_base + size - 1);
->  }
->=20
->=20
-> Samuel Holland (5):
->   dt-bindings: iommu: sun50i: Add compatible for Allwinner D1
->   iommu/sun50i: Support variants without an external reset
->   iommu/sun50i: Ensure bypass is disabled
->   iommu/sun50i: Add support for the D1 variant
->   iommu/sun50i: Ensure the IOMMU can be used for DMA
->=20
->  .../iommu/allwinner,sun50i-h6-iommu.yaml      | 16 +++++++++++--
->  drivers/iommu/Kconfig                         |  1 +
->  drivers/iommu/sun50i-iommu.c                  | 24 +++++++++++++++++--
->  3 files changed, 37 insertions(+), 4 deletions(-)
-
-
-
-
+Krzysztof
