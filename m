@@ -1,49 +1,49 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75527B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:43:28 +0000 (UTC)
-Received: by mail-ej1-f54.google.com with SMTP id dk23so7345390ejb.8
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:43:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 938D37B
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:45:36 +0000 (UTC)
+Received: by mail-ed1-f42.google.com with SMTP id a1so4257845edt.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:45:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=s07a0DsY9s52QkJmiJ36LrahFkWV2t9AjkvfZr/kSYU=;
-        b=AoSWjN4/5ia3sJysWSlpJKDFdG/NXjaAcfPIzWtpSV7VXYWAH+TaL+n47Sj1nuCQPi
-         J56q+vUiECCLwu3kys9q/Jv1pOUc4MpmGNGfLPbRGLnRnQlsR6GqQZzTdDvhd/Qawh92
-         /7oYX4g5gnXixje6OV1O6PG2hG6BTfY8TDrf+zL6dHFRjBtRiDNo5fmZgSzurmzXkvWU
-         6bV3KbvuIPI5CN1bqS2frjrHr0uwIWKYxkXFhDlOkezxthjM5PGtwoolbM86cIje0lKr
-         vTVdQTiCDjE8/E/f1AI0sSkqNPpeBQsbiI2JxkXRLOf+TlWZzylSoDuwScGjfY10IK+2
-         M4EQ==
+        bh=bu1Am+mfc3RBLLJSWrxdM96hFXnw6XnAcu5xdCKTnQI=;
+        b=U8hjzI4Jj09EF12s/5KD7XD/HAE5Z7zNZb7gWS9RHKNUrA2CWF+gTT/vZIv/5/mhc8
+         4CJxJzlpSuKkDLHXEFMJRhg5iJCgsDrfAdB73ODHYREydYyubRYogza60y9tDwkqlHBy
+         SAktsXiJBe+UBiaDkVc07s13Q/ReWDb0YAepyD0q6JPZc/mM+DuZhxVMk6wAXXFpXeIU
+         GHGAyDXMSXzV/NlvvE/4Lk43zpBEXxm/LGkQVW16movp2IxXsMjwLSHD5rRbgP640tbP
+         f0jsF/V5y+V4YOhKhPSv2HTyEacDMCqakP2v9tx9Obee8bSz44ZVXJf/94aed8paCPST
+         5pxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=s07a0DsY9s52QkJmiJ36LrahFkWV2t9AjkvfZr/kSYU=;
-        b=F8gdm8uhTOPeNl1RZFxOMaVpZ1+Vp+fgMgIAfr8HpttdU+bmGIqhqi/8dwp/hGP6qx
-         4fakocxUn6cpXUAWvrrwb88s9vLm4/OUgGf5oBFW+fTIkR5TXVL0AYn+g3iPFOGU7KX9
-         GH1z5Poe+3OmwGJW4YwK3uJTQHU4zIX6Z8O6kWwQ0Wh5UxzilAZGzalruLbEHsW5fQCN
-         aMdDohT71zV0LV4Btn2GTlR4MngbbY27PH68nij55jj2j58kkJli5QRNYWcwNT5DhC33
-         26Co4xcWzcDft4juJDGb3bmLEQeyLLx72UZQlbvynlPlwAcP9K7DYrzbTBiy4oZ6HAp0
-         Iq4g==
-X-Gm-Message-State: AOAM531jJv4wGaPrHT18ZjohBu8fm/NbbUsThoLgGO71mIRM2FTfx3zU
-	dVAWWdL5lkGa68HIpWx7qME=
-X-Google-Smtp-Source: ABdhPJzWJjNdXgo+WbHDrSQuq/2nYg4TWpvGFaOwbQshU+cXykP4HIK3zWEPoWCTdp5k14/cBAAWdw==
-X-Received: by 2002:a17:906:1841:b0:6e8:872d:8999 with SMTP id w1-20020a170906184100b006e8872d8999mr29426739eje.492.1651124607032;
-        Wed, 27 Apr 2022 22:43:27 -0700 (PDT)
+        bh=bu1Am+mfc3RBLLJSWrxdM96hFXnw6XnAcu5xdCKTnQI=;
+        b=wPTsCBYd/HlNVFWEIND2S15Gwg0FIxN0HcCBq4O7E2jfUEuv8ReSKiRu5lp4fXywvK
+         gEwc0yeMbbzIHW8WrmJ86iA2dt7hybJe32v8oKgV209wV2sDH8XVSWxZ7Cf/IrQC1xFz
+         xsdPuwiCBHTZWDvsiO06abWYk1mM4ShjMQIaHeNwVOTovePTnjRzP1PVmLP9WXXeL7Lr
+         S4fcn9AXAJjOznCqrW07ZXOchtVoasqvCEQdHABw7Q2bVwaIl2J4GJlpyIo7KXbocBR7
+         POLwwjv8js8wPpQNLoTNWFtWL69DJS3J6+W8R/30l27vWmq9QNT7fXU9eZawrMJCW2MX
+         kGsA==
+X-Gm-Message-State: AOAM531KEXiigyRnJEd9eLGo8406eFQbuM4X7pV+9PH16r8ML20fezt1
+	Rp92abir6TCNXme0NB/CIrM=
+X-Google-Smtp-Source: ABdhPJxIesueP7mEJQ7cfZ1GF83jwnUH9gcTViGICL1YvhcSy1woJt6erlqveaurraCCU9ukUVTVCw==
+X-Received: by 2002:a50:d79a:0:b0:425:e577:c71a with SMTP id w26-20020a50d79a000000b00425e577c71amr20815339edi.188.1651124734847;
+        Wed, 27 Apr 2022 22:45:34 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id s25-20020a170906285900b006f3c813f51fsm2227173ejc.128.2022.04.27.22.43.25
+        by smtp.gmail.com with ESMTPSA id z14-20020a170906944e00b006f38c33b6e3sm5970246ejx.68.2022.04.27.22.45.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 22:43:26 -0700 (PDT)
+        Wed, 27 Apr 2022 22:45:34 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org, Samuel Holland <samuel@sholland.org>
 Cc: Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/5] iommu/sun50i: Ensure bypass is disabled
-Date: Thu, 28 Apr 2022 07:43:25 +0200
-Message-ID: <1922960.8hb0ThOEGa@jernej-laptop>
-In-Reply-To: <20220428010401.11323-4-samuel@sholland.org>
-References: <20220428010401.11323-1-samuel@sholland.org> <20220428010401.11323-4-samuel@sholland.org>
+Subject: Re: [PATCH 0/5] iommu/sun50i: Allwinner D1 support
+Date: Thu, 28 Apr 2022 07:45:33 +0200
+Message-ID: <1849776.IobQ9Gjlxr@jernej-laptop>
+In-Reply-To: <20220428010401.11323-1-samuel@sholland.org>
+References: <20220428010401.11323-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,46 +53,66 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 28. april 2022 ob 03:03:58 CEST je Samuel Holland napisal=
-(a):
-> The H6 variant of the hardware disables bypass by default. The D1
-> variant of the hardware enables bypass for all masters by default.
->=20
-> Since the driver expects bypass to be disabled, ensure that is the case.
->=20
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi Samuel!
 
-Actually, it would be better to set bypass to 0xff and in=20
-sun50i_iommu_attach_device() clear bypass bit for that particular device. A=
-s=20
-you might notice, index in phandle is currently not used. This would also h=
-elp=20
-expose bugs, like missing second iommu channel for Cedrus on H6, but that's=
-=20
-easy to fix.
+Dne =C4=8Detrtek, 28. april 2022 ob 03:03:55 CEST je Samuel Holland napisal=
+(a):
+> D1 is a RISC-V SoC from Allwinner's sunxi family. This series adds IOMMU
+> binding and driver support.
+>=20
+> One piece is still missing to use the IOMMU for DMA allocations: a call
+> to iommu_setup_dma_ops(). On ARM64 this is handled by the architecture's
+> code. RISC-V does not currently select ARCH_HAS_SETUP_DMA_OPS, but it
+> will once Zicbom support[1] is merged.
+>=20
+> [1]: https://lore.kernel.org/lkml/20220307224620.1933061-2-heiko@sntech.d=
+e/
+>=20
+> So I cannot follow virtio-iommu.c and call iommu_setup_dma_ops() when
+> ARCH_HAS_SETUP_DMA_OPS=3Dn. However, if I apply the following patch on top
+> of Heiko's non-coherent DMA series, the display engine successfully uses
+> the IOMMU to allocate its framebuffer:
+
+Did you test this on any other device than display pipeline? It should be=20
+supported by Cedrus too, right? I think there are still some corner cases t=
+o=20
+fix on Cedrus before IOMMU fully works.
 
 Best regards,
 Jernej
 
-> ---
 >=20
->  drivers/iommu/sun50i-iommu.c | 2 ++
->  1 file changed, 2 insertions(+)
+> --- a/arch/riscv/mm/dma-noncoherent.c
+> +++ b/arch/riscv/mm/dma-noncoherent.c
+> @@ -6,6 +6,7 @@
+>   */
 >=20
-> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
-> index ec07b60016d3..b9e644b93637 100644
-> --- a/drivers/iommu/sun50i-iommu.c
-> +++ b/drivers/iommu/sun50i-iommu.c
-> @@ -374,6 +374,8 @@ static int sun50i_iommu_enable(struct sun50i_iommu
-> *iommu)
+>  #include <linux/dma-direct.h>
+> +#include <linux/dma-iommu.h>
+>  #include <linux/dma-map-ops.h>
+>  #include <linux/mm.h>
 >=20
->  	spin_lock_irqsave(&iommu->iommu_lock, flags);
->=20
-> +	iommu_write(iommu, IOMMU_BYPASS_REG, 0);
+> @@ -53,4 +54,7 @@
+>  {
+>  	/* If a specific device is dma-coherent, set it here */
+>  	dev->dma_coherent =3D coherent;
 > +
->  	iommu_write(iommu, IOMMU_TTB_REG, sun50i_domain->dt_dma);
->  	iommu_write(iommu, IOMMU_TLB_PREFETCH_REG,
->  		    IOMMU_TLB_PREFETCH_MASTER_ENABLE(0) |
+> +	if (iommu)
+> +		iommu_setup_dma_ops(dev, dma_base, dma_base + size - 1);
+>  }
+>=20
+>=20
+> Samuel Holland (5):
+>   dt-bindings: iommu: sun50i: Add compatible for Allwinner D1
+>   iommu/sun50i: Support variants without an external reset
+>   iommu/sun50i: Ensure bypass is disabled
+>   iommu/sun50i: Add support for the D1 variant
+>   iommu/sun50i: Ensure the IOMMU can be used for DMA
+>=20
+>  .../iommu/allwinner,sun50i-h6-iommu.yaml      | 16 +++++++++++--
+>  drivers/iommu/Kconfig                         |  1 +
+>  drivers/iommu/sun50i-iommu.c                  | 24 +++++++++++++++++--
+>  3 files changed, 37 insertions(+), 4 deletions(-)
 
 
 
