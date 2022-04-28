@@ -1,43 +1,38 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B777B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 11:49:30 +0000 (UTC)
-Received: from relay10.mail.gandi.net (unknown [217.70.178.230])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 2A5D8C68DD
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 11:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 388CB7B;
+	Thu, 28 Apr 2022 11:56:57 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id EFF5024000B;
-	Thu, 28 Apr 2022 11:39:35 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id CCC2760013;
+	Thu, 28 Apr 2022 11:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1651145977;
+	t=1651147016;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=25x1RGE8SyMvMHJazJNDrpPtoAk8a2d3p44nhmT6xQ0=;
-	b=cn+cXnVVN/rkBpwmnRHQRTVI/PYaFjB6R1kR8IT+XJkgp/ieF96FzC/x9i61OPzWFYbTBd
-	HKvHcSoGOeHWUaRH1yyoYAJQ6XLheqnXiLcah6zM9iPwX+n7LOajcTVwLVb5U8iuoOc5Hh
-	R2YlEmFWkl8R9peqSysVXTgr6Wwn+NaB+6ngn7eHgjfCtLOvc/VErBdig44xwxpUtTa/Og
-	R0dKrvDku2ZrB10kuU2mQ8xcQ0qyJTOhAb6/EQ/Y1F4ODXRRxi2FtzK+kdpd0Ayyrg27qz
-	gv3mWGTym/+EGW4RzUbfZp410BVj2djeIXWh4WdFwTqAUGg44ukGVfMhhx3HSQ==
-Date: Thu, 28 Apr 2022 13:39:30 +0200
+	bh=+kqXswugkVGOFt41Krx7tQpUugV0n6joxlQ9XVQuB0Q=;
+	b=Fq3Bt+Ci0xehqSuJ8c4Y2n0tntzUcIy4uISssoFKE3gVIVGz24SRm8YajWiw56CEid62UO
+	bzcCDEibxZfLI6JORx8JgBK78pdymi0UvXomDrtLSSLTawuQOQy4GFRVZOAJFhq4/3IqGq
+	2MYAzLKD6HLGa+9Jt+c2V00sUm+vXY/tCBHqmUeEIgF5paLxsa4op4XmJaA4vNSpduBqm4
+	tsODikDhsvqZBAxV8MxYUJ0q1CleG8naewtqWIIeQepk6XHhoaQnOXkeyy6K4lIaO/MqyE
+	8gd6XI2JU7yYvXpT9fEk8mJyJ/MtMRMjsCNlJmzHTqY6ahOv4NnOPuRfQ6i0ng==
+Date: Thu, 28 Apr 2022 13:56:49 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 43/45] media: sun6i-csi: Detect the availability of
- the ISP
-Message-ID: <Ymp88rULPlsKqjXU@aptenodytes>
-References: <20220415152811.636419-1-paul.kocialkowski@bootlin.com>
- <2029179.KlZ2vcFHjT@jernej-laptop>
- <YmpIjPe8pw+yvGyL@aptenodytes>
- <5794263.alqRGMn8q6@jernej-laptop>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Ian Cowan <ian@linux.cowan.aero>, mripard@kernel.org,
+	mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] staging: sunxi: cedrus: centralize cedrus_open exit
+Message-ID: <YmqBAZwdiE6GuarU@aptenodytes>
+References: <20220423180111.91602-1-ian@linux.cowan.aero>
+ <20220425092048.GL2462@kadam>
+ <YmZp+qgSLpT5PP2u@aptenodytes>
+ <20220425100057.GB2090@kadam>
+ <Ymehl27gmW41a3FY@aptenodytes>
+ <20220428102608.GU2462@kadam>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -45,190 +40,97 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="1TLKJ1OwjGkmpqF0"
+	protocol="application/pgp-signature"; boundary="llYjTutXsM3Kb7Ne"
 Content-Disposition: inline
-In-Reply-To: <5794263.alqRGMn8q6@jernej-laptop>
+In-Reply-To: <20220428102608.GU2462@kadam>
 
 
---1TLKJ1OwjGkmpqF0
+--llYjTutXsM3Kb7Ne
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
+Hi Dan,
 
-On Thu 28 Apr 22, 10:09, Jernej =C5=A0krabec wrote:
-> Dne =C4=8Detrtek, 28. april 2022 ob 09:55:56 CEST je Paul Kocialkowski na=
-pisal(a):
-> > Hi Jernej,
+On Thu 28 Apr 22, 13:26, Dan Carpenter wrote:
+> On Tue, Apr 26, 2022 at 09:39:03AM +0200, Paul Kocialkowski wrote:
 > >=20
-> > Thanks a lot for all your reviews!
+> > > Do-everything gotos are the most bug prone style of error handling.
+> > > Imagine the function is trying to do three things.  It fails part way
+> > > through.  Now you're trying to undo the second thing which was never
+> > > done.  Just moments ago I was just looking at one of these do-everyth=
+ing
+> > > bugs where it was using uninitialized memory.
 > >=20
-> > On Wed 27 Apr 22, 22:07, Jernej =C5=A0krabec wrote:
-> > > Dne petek, 15. april 2022 ob 17:28:09 CEST je Paul Kocialkowski=20
-> napisal(a):
-> > > > Add a helper to detect whether the ISP is available and connected
-> > > > and store the indication in a driver-wide variable.
-> > > >=20
-> > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > ---
-> > > >=20
-> > > >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++=
-++++
-> > > >  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
-> > > >  2 files changed, 36 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c index
-> > > > a88deb8ba1e7..f185cbd113c7 100644
-> > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > > > @@ -25,6 +25,35 @@
-> > > >=20
-> > > >  #include "sun6i_csi_capture.h"
-> > > >  #include "sun6i_csi_reg.h"
-> > > >=20
-> > > > +/* ISP */
-> > > > +
-> > > > +static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
-> > > > +{
-> > > > +	struct device *dev =3D csi_dev->dev;
-> > > > +	struct fwnode_handle *handle =3D NULL;
-> > > > +
-> > > > +	/* ISP is not available if disabled in kernel config. */
-> > > > +	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
-> > >=20
-> > > Where is this symbol defined?
+> > So by that you mean having just one label for all error handling instead
+> > of labels for each undo step?
 > >=20
-> > That is defined through Kconfig's auto-generated header, from the assoc=
-iated
-> > option for the ISP driver. It is defined in the ISP support series so t=
-his
-> > will effectively always be false for now.
 >=20
-> Well, then, that driver should be merged before this patch. While I under=
-stand=20
-> that it's likely that ISP driver with such name will eventually materiali=
-ze in=20
-> kernel, I don't want to rely on things that are not set in stone, e.g. al=
-ready=20
-> merged.
+> Yes.  Don't do that.  If you try to free everything, half the stuff is
+> not allocated so you will undo things which have not been done and it
+> leads to a bug.
+>
+> > I've also seen conditionals used in error labels to undo stuff.
+> >=20
+>=20
+> I don't understand what you're describing?
 
-Okay that would make sense, the patches adding ISP support in sun6i-csi cou=
-ld
-be moved to the series adding support for the ISP.
+Typically that would look like:
+
+void *foo =3D NULL;
+void *bar =3D NULL;
+
+foo =3D alloc(...);
+if (!foo)
+	goto single_error;
+
+bar =3D alloc(...);
+if (!bar)
+	goto single_error;
+
+=2E..
+
+single_error:
+	if (bar)
+		free(bar);
+
+	if (foo)
+		free(foo);
+
+> > Would you recommend duplicating error cleanup in each error condition?
+> > It feels like another set of issue on its own, besides the obvious down=
+side
+> > of duplication.
+>=20
+> Let me write a blog about it:
+>=20
+> https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+Good writeup, thanks! The part about unwinding loops especially, I've always
+wondered about the right way to go about it.
 
 Cheers,
 
-Paul
-
-> Best regards,
-> Jernej
->=20
-> >=20
-> > > Best regards,
-> > > Jernej
-> > >=20
-> > > > +		return 0;
-> > > > +
-> > > > +	/*
-> > > > +	 * ISP is not available if not connected via fwnode graph.
-> > > > +	 * This weill also check that the remote parent node is available.
-> > > > +	 */
-> > > > +	handle =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-> > > > +
-> > >=20
-> > > SUN6I_CSI_PORT_ISP, 0,
-> > >=20
-> > > > +
-> > >=20
-> > > FWNODE_GRAPH_ENDPOINT_NEXT);
-> > >=20
-> > > > +	if (!handle)
-> > > > +		return 0;
-> > > > +
-> > > > +	fwnode_handle_put(handle);
-> > > > +
-> > > > +	dev_info(dev, "ISP link is available\n");
-> > > > +	csi_dev->isp_available =3D true;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > >=20
-> > > >  /* Media */
-> > > > =20
-> > > >  static const struct media_device_ops sun6i_csi_media_ops =3D {
-> > > >=20
-> > > > @@ -306,6 +335,10 @@ static int sun6i_csi_probe(struct platform_dev=
-ice
-> > > > *platform_dev) if (ret)
-> > > >=20
-> > > >  		return ret;
-> > > >=20
-> > > > +	ret =3D sun6i_csi_isp_detect(csi_dev);
-> > > > +	if (ret)
-> > > > +		goto error_resources;
-> > > > +
-> > > >=20
-> > > >  	ret =3D sun6i_csi_v4l2_setup(csi_dev);
-> > > >  	if (ret)
-> > > >  =09
-> > > >  		goto error_resources;
-> > > >=20
-> > > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > > b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h index
-> > > > 6aa83dd11684..9b105c341047 100644
-> > > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-> > > > @@ -22,6 +22,7 @@
-> > > >=20
-> > > >  enum sun6i_csi_port {
-> > > > =20
-> > > >  	SUN6I_CSI_PORT_PARALLEL		=3D 0,
-> > > >  	SUN6I_CSI_PORT_MIPI_CSI2	=3D 1,
-> > > >=20
-> > > > +	SUN6I_CSI_PORT_ISP		=3D 2,
-> > > >=20
-> > > >  };
-> > > > =20
-> > > >  struct sun6i_csi_buffer {
-> > > >=20
-> > > > @@ -46,6 +47,8 @@ struct sun6i_csi_device {
-> > > >=20
-> > > >  	struct clk			*clock_mod;
-> > > >  	struct clk			*clock_ram;
-> > > >  	struct reset_control		*reset;
-> > > >=20
-> > > > +
-> > > > +	bool				isp_available;
-> > > >=20
-> > > >  };
-> > > > =20
-> > > >  struct sun6i_csi_variant {
->=20
->=20
->=20
->=20
+Paul=20
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---1TLKJ1OwjGkmpqF0
+--llYjTutXsM3Kb7Ne
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqfPIACgkQ3cLmz3+f
-v9Fbdwf+Ngj8nUBk4am1Ubl2z/EaUy6WIGLfEptSSInVoFHFFKZq+nmFIActVTqT
-M7zkI9vuMretENrWuBvAvdnTNeZkTZ9jEDOl4CWfBxbNRRYodxa9vdGOHdpDAX0b
-/Gfa6jsbx2Qga8nfx/JACVLOO/IzF8KB/i7k9+9ZL63iVC1QlcCj32Okm25uHnWx
-sxX48Is4cwPNQLbEeTofEVsR5er945usaVlySznc3iHgAuZr+Wyb0tAKPPtrvNn0
-gN/O/k3wXOFWP6RyBMuAstwXlQcQiOsSrb0MpkAfP/zdebL2a+YaGoVDhHuZL8rY
-mxZNmv0kBQX9BcZ2t/svntcJl5UZtA==
-=rIIX
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqgQEACgkQ3cLmz3+f
+v9H8zgf/USKoNw7Qr8vIWY2/+HjO33Pop6QIuHHsAlwlS/ThzGh7qy0+ZldEXwEt
+Phh7ZRqCl9Y38R7uF2W3dRzOGdq10Ra4wUQUM/zX/TGeSCneOoljbtMoXvaHiZSc
+ui9HWxYRLC9QAGU0cDvU4peogw+qbWFG9jqWfxTfxuj6SRK/Lo/Gsd+KHa3rHt+7
+sS0k0oarxxVrg5bJaBOrL/yO1THV+e/0buB4zvCUFuGyQ1SBzEyGG8jCg5kw0tCp
+gouOJjLf1t/oGPRLNvVq6WywSEMFkR4T96zXuMkn5aB8HaoLndbaSYkC0gXnOTiy
+30hHyTS8W5/fOFGguzpbD3XKUqwTUw==
+=jQV4
 -----END PGP SIGNATURE-----
 
---1TLKJ1OwjGkmpqF0--
+--llYjTutXsM3Kb7Ne--
