@@ -1,173 +1,420 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF97F7B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 12:26:51 +0000 (UTC)
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 23SB1k2q015535;
-	Thu, 28 Apr 2022 12:26:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
- b=APJaIzRMvYuKpkI5UJHyDhDT2LEhCu1+YSlGm/MlWOuaZFZ99Zg6uEcXcX3kaFN1EPwn
- 5gHeM5wcnO+n/wsEWXB4Qc54N0HR0LmXLwOtRYvWNJNeo/xLrN4wazu0aRrZ4k68Hc3U
- FJkCAys2d8OD9k3FZI4pNgNBI+T1qRVezfXhbkmUOKPVI4UjgeT0uX3KvmEU29phh7Ud
- SHVIKqFMuscti6YNMqeV551sO2XBJKodA5l5oRGeQlOAYwCyfMPvUOqYVbnAW1dAq9aC
- Zlh5uWsSfjQdq5/PzaRVcHmuPw7v7amGNiKatI0axVbgBcnmtDTUzJhuSV7YG59H2hqB Eg== 
-Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3fmb9aus6k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 28 Apr 2022 12:26:38 +0000
-Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23SCANwj020419;
-	Thu, 28 Apr 2022 12:26:36 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2107.outbound.protection.outlook.com [104.47.55.107])
-	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3fm7w6hpj1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 28 Apr 2022 12:26:36 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nDNmxwwGf4oewM0PYCD1psBYZwlosgRdchll/u1FVHIzuFCLV/SP/kBLlY/TFLORcVqeZOvHQqlsZGeV4qFvmN/u/vm4BnKSo5aEeNbHFY1VMXfYcFM0l2Cd09I1Ej+CldKblykP0CMYocJdGQnL7Bz+0oLjVmlRT2Xjogx6x4a0t7AeFZdDAMxCU2fwe4yeZ/fM4qCW5DDiEjUDAWA66P/P57OFMYw8eJ21a2DmyQXjGaMRl8SzNJ8pfpVN+pBMJRI0pgo3ETle9ZTTCqG/p7keYpT1bzfGBJGxv4GeL2aaDpL85v2lwDUQXsy2153Qvo4H0j/pCHWS9l58hYvt6w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
- b=Ogl6gzzEfyYYDqDuO0+O/AfypYn8AGJTjB1To5OarZ4NmXzOhHP4gumTB3HmY+HgXvUZAcz5YOrXvNe+ehEmRoIAHmV/EPd6s6snv6ioiTeK5pT3JxDkgv128cf6chkdx4KnVXQe4hluBge4QsrWq2ha0qhs6E69+qzG6w2JtEsEWwivM7HNxcOZpplN8m1JMV9cNzAw3qOE8eJ4EQIWjE2JjVD8SIoxALjQ/8yTjzjAy/pH6v5fKghoV0pasK9WUBUAliXWB2UTlpkyHnENTPS8OwhsRhoHbqJPu9Z24UnZj10zdqa5rD5fgRbjiF+QCZQlS5EtA2BePfTFJIAhkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1hvGKSvzYzszlPQmMSg4O4pQKOYaD/9ul/dAoxiyltQ=;
- b=CChoQG88CF1E4SY+nfa5ac61LehKUZE6y6WyOinw1eZH1rA4wtzP1tTIb1aUGZg8o95eXIn6530QC2MRvSTq4gAktcdh0jny4fk924TvrBp3YZYMJ8ru6bKHkuUpdECY3hE2CMtPPXTAUJzOw1/7S+vhAqIaH1jwyrdLnTyDNqI=
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by SN4PR10MB5800.namprd10.prod.outlook.com
- (2603:10b6:806:20f::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5186.15; Thu, 28 Apr
- 2022 12:26:34 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::b5d5:7b39:ca2d:1b87%5]) with mapi id 15.20.5164.025; Thu, 28 Apr 2022
- 12:26:34 +0000
-Date: Thu, 28 Apr 2022 15:26:23 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org,
-        linux-sunxi@lists.linux.dev, kernel-janitors@vger.kernel.org
-Subject: [PATCH] drm/sun4i: dsi: delete unnecessary IS_ERR() checks
-Message-ID: <YmqH71MtoGn2AXUg@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-ClientProxiedBy: ZR0P278CA0041.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1d::10) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB73A55;
+	Thu, 28 Apr 2022 14:31:16 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 6ED08CCFE2;
+	Thu, 28 Apr 2022 14:30:27 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id A8075C0003;
+	Thu, 28 Apr 2022 14:30:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1651156219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2Glxz9IVdj5j7vTuvkmx5NfY8R84xnkUlqB5qF6D//Q=;
+	b=d4saSo0HxfntzYasdLoAwCnmifUjSPCX59t3p45uxJtbxaZMC2C4OLJFKzSeek2gTPsFYA
+	BmSnnwX9oumGzoZUWYycJ59yyBbMDegBHS6rNY/fD0tYiLUCetpkiMuhR4cqeU2zAQVjQz
+	zdo4Z2dKY2KLkmTuU+8oH9Nzmi+e3c+XcCnQU5V87ikQPvfsNj7noucT+6bj4Poah3REgW
+	6q7t+XDHKqg5EyNefxZs8zMPYRc7BxUoCaMSg6fh0Zv1OJUe1HQ048ZnVqdgV7w5lUWVtF
+	ihlUQIgmrs1HBN07dm5I5JQbw/4A30FJS/yWq09mKLWC9ljMKH20GNOVazS9PQ==
+Date: Thu, 28 Apr 2022 16:30:11 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <Ymqk89e+mn/1kLLx@aptenodytes>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
+ <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 680f1a99-de5e-4410-b0c7-08da291254fa
-X-MS-TrafficTypeDiagnostic: SN4PR10MB5800:EE_
-X-Microsoft-Antispam-PRVS: 
-	<SN4PR10MB5800660F5A96B21ACD5C72528EFD9@SN4PR10MB5800.namprd10.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	4P6Yj7BFJphN5uDDGqRvHtACX+Ox3lrkGX2tVPwIxP2skOeLK3r6R1Jj+6EH1DE9brM66fYwbtecYu5D1Q+k5aGk7UYDKC/A7Vn5KLvMLWWCevNmrMH18JVLVWoMpJFrd1JV2LVaW52QyIc1hmcgekCZdxyXmNfUXi7WzfmFzYakRezEokyt3Q7sCv5oJkwJqKRMQCMxi926GZzjHo1Rp+gCuSaASBgh8RfcqOWI1+AfwKFg241SHMwe5FZL1G+E2umytCPygOvyruFhLAzX7NS0bYXMvtbN+4NzDSJNP1a7N79KGk3unMx6knjOuDyK0S9kYa6H2wjzBL9V64Z6mSWXP3ovXMxRWK+dV2UGPMyV3nnvM+nNRD2Moi20Nsjs5MNqdEkGwScv7EOZU5CiUxcWXujT5qB9Ng324S+uKNUGdQLiNu9NX0i1d1fgt8PERXT4RRO482sV890VGQm6LTmcbGOBQN8/AKRlT8OfObLaP7e6aVBo8mVp2OEGhS2eSbh/pYRZaWDVmhuup/lEWdeHYLaT0cCKnRu1YnminN3dRI4RVTld5WeGK2lJfMNyj8ftX8v7k4xiHwAPdM9Kj8ECRg/n7Vmv/kjp4c6D9l+OlxDOqPkKCP8uxOuO0MVmbYdcxVRZbxlEAalTkY6k8rqKSB90uPaqcbmGr/u69t/vXMb8z1oLWYlg5jfaFBd0ZRqPrnwU0nw1KhpdfWk9tA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(83380400001)(33716001)(6916009)(54906003)(8936002)(4326008)(316002)(186003)(66946007)(8676002)(66556008)(66476007)(26005)(6486002)(52116002)(44832011)(38350700002)(38100700002)(508600001)(2906002)(86362001)(6512007)(9686003)(6506007)(5660300002)(6666004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5vFcU5q7u5/KaScfmzC+tKHNVrVgFqShgOAdSdzU5CgnAMXYdk3d245zC+1L?=
- =?us-ascii?Q?p7eVOlnUf1O6dDmBWGickizibaFqG2XxB4nkAraNMFiXdUxt+d+Sy4/11ufK?=
- =?us-ascii?Q?7gqQb7gT1LtaGEBQ3bonKGxKepYP6tgHQVwvrglPJNGh7I5NqitBAV5pvuxT?=
- =?us-ascii?Q?1F1v/SsfmD7ZBhsEXeo3QyZIMQZSiZ1XYFj4PkPa7MdI/+ItXVf02Ky0RiWZ?=
- =?us-ascii?Q?6wE2V08U9oIZprOL69EEYBs5tU1M1qqQbzOyBDwHQLuVtQvqdWuy5eMBWwQQ?=
- =?us-ascii?Q?VmEeqq4hAQaN8Wv224AO0H3VIB8Ov7LC52KNxNeWV/aVv1oqjVmoIZks7NZw?=
- =?us-ascii?Q?YHStRifonboQav7K7tm7FDcXjca3a/JjZFnXBMv4x4mqUA659FdKKgDjgLJg?=
- =?us-ascii?Q?nR9xOe3s0nAu/Kgn2L80GITECsLmYJPRd6qD0lBD87NW6dVRrVIETe54Bp/I?=
- =?us-ascii?Q?drbgdhrFqDkQbnMeF9IOndcMxYPD0ijTNiLRJeyz0X39evMTAqFugXAZaHbb?=
- =?us-ascii?Q?JK0AcTqetD6SLp6VQC8etAa3dAOwBMUNLxo54PdT87lZV1TW6+H+HAzPq6rh?=
- =?us-ascii?Q?r5GIADpoBmBli+9ycH+dU8ueLMTwnfZaRHcVt4IuClQ5CrVZVGV648yak1WT?=
- =?us-ascii?Q?ro2vyGAX3r5lqgw9TvqSUj1ZyLjSzKN7ZzfhMn4YVHjNsCS5iTktgTiS8JZw?=
- =?us-ascii?Q?oNMDg9kf933hdpoNmN/OFd+KFUoyX0EM0mmGlqi/ybdXIr8nCAYTj+Pagyom?=
- =?us-ascii?Q?efys1Y8IXT5xI+fk+6QJvs/IKQO/q6zNZ9ftDIBNCKgnGdNYa9FTRz+2eGaT?=
- =?us-ascii?Q?gAACBsaThp0rCkG23bIa3G1UcPAJCvcQZ4dg0/B3MrTRxle4HdTS7ptC/2X/?=
- =?us-ascii?Q?tA/MiC+b+QtIY40ZHWkILPm5tCgUs8BDgA26pz1upDLmogRTc3uUfmRYTKF7?=
- =?us-ascii?Q?W08X0qmOJPOvtj/26BURyDdS3dL3lupeU9JcV7J7WCGnUp0+xAd0L0d3vUCG?=
- =?us-ascii?Q?cBRJLzRj8U9JN7jXoYdiTTHgl42wh4jZPGlXsiUNSAY73jUEgcT047CUA3hw?=
- =?us-ascii?Q?+ueMVCpDFH13BvRF/KY0ZZF0GElUqjdfPV+YQeAnNfZzhd9/2AB2pnEhIVKL?=
- =?us-ascii?Q?g0aiYgNLoWdN23DXJsjqVQx28UAxCH/LjCMIoc/pA6zd+xNyZHo+Mr/gsiwZ?=
- =?us-ascii?Q?jOxPEsBViJOSxH13jzcmTkQYK7oXd5OtHhhYQxuBZD4VfJFvY7+demq0T0lZ?=
- =?us-ascii?Q?BVm18MbsyQillrtQQBUT9Y/4QCM5iqsMSd0u/T3lbM4cVZ5uofWWkuAa+QGS?=
- =?us-ascii?Q?VRGVh5msT9byEVLd6Cktk+XIYJ4Kd7D3UzUIKWpipkM2QxOt/JtN7eXnTyXK?=
- =?us-ascii?Q?3VLHiO1369XD+HDxMf3U4riqfxTp9YIio/WdVh1IoVpK8nbJokippe6lbS+Y?=
- =?us-ascii?Q?ox1UjjjAo0Jgs44guHii8+e8o8uXcF+TWX0jrlpzaq2C7gwkv8gaICpLCKoU?=
- =?us-ascii?Q?g/CVTb+xljtOzOnJZjwGs3JXjCQ2Hik7Npdpw7f3UOEzyGWmh1H3ZJXWgZkB?=
- =?us-ascii?Q?9WILRI4/x8KuInyRKa2zz7doq2gRP5QVfJkIjRa+Zgr0nT3objoC7jj0EIZ6?=
- =?us-ascii?Q?4/VEagqxBmiNZ6gOdQnhP5/cd4bIj8waMqG1EnlFg2mb2Tn2GTJL5rFKXuZD?=
- =?us-ascii?Q?Y39JMgf4d70i3GsbrDQyFUNjXjS7BlmWKBb7NV4JsrGZyrl2hotty4876Mc2?=
- =?us-ascii?Q?8g0nbAxAmjARhlSWHKFsrr4+g3yAiOQ=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 680f1a99-de5e-4410-b0c7-08da291254fa
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2022 12:26:34.0868
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sAZkDT29rG01I9sOqUDmNs9ZJLCvI9tHW4/Hs5FH/UbbSx9XK4UF9+GugDWhUrLvQ3cMONI8G6RXZh+DyYbS1xf/6NXfmhSxeQIkTsmpNTQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN4PR10MB5800
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.858
- definitions=2022-04-28_01:2022-04-28,2022-04-28 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxlogscore=999
- malwarescore=0 mlxscore=0 phishscore=0 bulkscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2202240000 definitions=main-2204280076
-X-Proofpoint-ORIG-GUID: 7Tt377KX9KIUe1DC4xRixdziz07vARtP
-X-Proofpoint-GUID: 7Tt377KX9KIUe1DC4xRixdziz07vARtP
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="oDJ9GP/VwhMGHB5u"
+Content-Disposition: inline
+In-Reply-To: <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
 
-The "dsi->bus_clk" pointer cannot be an error pointer at this point.
-The check is confusing and unnecessary.  Delete it.
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+--oDJ9GP/VwhMGHB5u
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index 527c7b2474da..b4dfa166eccd 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -1193,8 +1193,8 @@ static int sun6i_dsi_probe(struct platform_device *pdev)
- err_unprotect_clk:
- 	clk_rate_exclusive_put(dsi->mod_clk);
- err_attach_clk:
--	if (!IS_ERR(dsi->bus_clk))
--		regmap_mmio_detach_clk(dsi->regs);
-+	regmap_mmio_detach_clk(dsi->regs);
-+
- 	return ret;
- }
- 
-@@ -1207,8 +1207,7 @@ static int sun6i_dsi_remove(struct platform_device *pdev)
- 	mipi_dsi_host_unregister(&dsi->host);
- 	clk_rate_exclusive_put(dsi->mod_clk);
- 
--	if (!IS_ERR(dsi->bus_clk))
--		regmap_mmio_detach_clk(dsi->regs);
-+	regmap_mmio_detach_clk(dsi->regs);
- 
- 	return 0;
- }
--- 
-2.35.1
+Hi Sakari,
 
+On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> Thanks for the set.
+>=20
+> A few comments below.
+
+Thanks a lot for your review!
+
+[...]
+
+> >  .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+>=20
+> This should be called TODO (without .txt).
+
+Understood!
+
+> I understand this is an online ISP. How do you schedule the video buffer
+> queues? Say, what happens if it's time to set up buffers for a frame and
+> there's a buffer queued in the parameter queue but not in the image data
+> queue? Or the other way around?
+
+The ISP works in a quite atypical way, with a DMA buffer that is used to
+hold upcoming parameters (including buffer addresses) and a bit in a "direc=
+t"
+register to schedule the update of the parameters at next vsync.
+
+The update (setting the bit) is triggered whenever new parameters are
+submitted via the params video device or whenever there's a capture buffer
+available in the capture video device.
+
+So you don't particularly need to have one parameter buffer matching a capt=
+ure
+buffer, the two can be updated independently. Of course, a capture buffer w=
+ill
+only be returned after another buffer becomes active.
+
+I hope this answers your concern!
+
+[...]
+
+> > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
+> > +	int ret;
+> > +
+> > +	/* Sizes are hardcoded for now but actually depend on the platform. */
+>=20
+> Would it be cleaner to have them defined in a platform-specific way, e.g.
+> in a struct you obtain using device_get_match_data()?
+
+Absolutely! I didn't do it at this stage since only one platform is support=
+ed
+but we could just as well introduce a variant structure already for the tab=
+le
+sizes.
+
+> > +
+> > +	tables->load.size =3D 0x1000;
+> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->load);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	tables->save.size =3D 0x1000;
+> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->save);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	tables->lut.size =3D 0xe00;
+> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->lut);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	tables->drc.size =3D 0x600;
+> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->drc);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	tables->stats.size =3D 0x2100;
+> > +	ret =3D sun6i_isp_table_setup(isp_dev, &tables->stats);
+>=20
+> You can return already here.
+
+Sure.
+
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void sun6i_isp_tables_cleanup(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
+> > +
+> > +	sun6i_isp_table_cleanup(isp_dev, &tables->stats);
+> > +	sun6i_isp_table_cleanup(isp_dev, &tables->drc);
+> > +	sun6i_isp_table_cleanup(isp_dev, &tables->lut);
+> > +	sun6i_isp_table_cleanup(isp_dev, &tables->save);
+> > +	sun6i_isp_table_cleanup(isp_dev, &tables->load);
+> > +}
+> > +
+> > +/* Media */
+> > +
+> > +static const struct media_device_ops sun6i_isp_media_ops =3D {
+> > +	.link_notify =3D v4l2_pipeline_link_notify,
+> > +};
+> > +
+> > +/* V4L2 */
+> > +
+> > +static int sun6i_isp_v4l2_setup(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	struct sun6i_isp_v4l2 *v4l2 =3D &isp_dev->v4l2;
+> > +	struct v4l2_device *v4l2_dev =3D &v4l2->v4l2_dev;
+> > +	struct media_device *media_dev =3D &v4l2->media_dev;
+> > +	struct device *dev =3D isp_dev->dev;
+> > +	int ret;
+> > +
+> > +	/* Media Device */
+> > +
+> > +	strscpy(media_dev->model, SUN6I_ISP_DESCRIPTION,
+> > +		sizeof(media_dev->model));
+> > +	snprintf(media_dev->bus_info, sizeof(media_dev->bus_info),
+> > +		 "platform:%s", dev_name(dev));
+>=20
+> This is no longer needed, see commit b0e38610f40a0f89e34939d2c7420590d67d=
+86a3
+
+Thanks!
+
+> > +	media_dev->ops =3D &sun6i_isp_media_ops;
+> > +	media_dev->hw_revision =3D 0;
+> > +	media_dev->dev =3D dev;
+> > +
+> > +	media_device_init(media_dev);
+> > +
+> > +	ret =3D media_device_register(media_dev);
+> > +	if (ret) {
+> > +		dev_err(dev, "failed to register media device\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	/* V4L2 Control Handler */
+> > +
+> > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
+>=20
+> I suppose you intend to add controls later on?
+
+I might be wrong but I thought this was necessary to expose sensor controls
+registered by subdevs that end up attached to this v4l2 device.
+
+I doubt the drivers itself will expose controls otherwise.
+
+[...]
+
+> > +	isp_dev->clock_ram =3D devm_clk_get(dev, "ram");
+> > +	if (IS_ERR(isp_dev->clock_ram)) {
+> > +		dev_err(dev, "failed to acquire ram clock\n");
+> > +		return PTR_ERR(isp_dev->clock_ram);
+> > +	}
+> > +
+> > +	ret =3D clk_set_rate_exclusive(isp_dev->clock_mod, 297000000);
+>=20
+> Is this also specific to the model?
+
+There is less certainty that another platform that will use this driver
+will need another rate, but I think it would look better to have it in the
+variant anyway.
+
+[...]
+
+> > +static int sun6i_isp_capture_open(struct file *file)
+> > +{
+> > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
+> > +	struct video_device *video_dev =3D &isp_dev->capture.video_dev;
+> > +	struct mutex *lock =3D &isp_dev->capture.lock;
+> > +	int ret;
+> > +
+> > +	if (mutex_lock_interruptible(lock))
+> > +		return -ERESTARTSYS;
+> > +
+> > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
+>=20
+> Do you need this?
+>=20
+> Drivers should primarily depend on runtime PM, this is only needed for
+> compatibility reasons. Instead I'd like to see sensor drivers being moved
+> to runtime PM.
+
+Yes it's still needed to support sensor drivers that don't use rpm yet.
+
+[...]
+
+> > +int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	struct sun6i_isp_capture *capture =3D &isp_dev->capture;
+> > +	struct sun6i_isp_capture_state *state =3D &capture->state;
+> > +	struct v4l2_device *v4l2_dev =3D &isp_dev->v4l2.v4l2_dev;
+> > +	struct v4l2_subdev *proc_subdev =3D &isp_dev->proc.subdev;
+> > +	struct video_device *video_dev =3D &capture->video_dev;
+> > +	struct vb2_queue *queue =3D &capture->queue;
+> > +	struct media_pad *pad =3D &capture->pad;
+> > +	struct v4l2_format *format =3D &capture->format;
+> > +	struct v4l2_pix_format *pix_format =3D &format->fmt.pix;
+> > +	int ret;
+> > +
+> > +	/* State */
+> > +
+> > +	INIT_LIST_HEAD(&state->queue);
+> > +	spin_lock_init(&state->lock);
+> > +
+> > +	/* Media Entity */
+> > +
+> > +	video_dev->entity.ops =3D &sun6i_isp_capture_entity_ops;
+> > +
+> > +	/* Media Pads */
+> > +
+> > +	pad->flags =3D MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
+> > +
+> > +	ret =3D media_entity_pads_init(&video_dev->entity, 1, pad);
+> > +	if (ret)
+> > +		goto error_mutex;
+>=20
+> return ret;
+
+Good catch, thanks!
+
+[...]
+
+> > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
+> > +	if (ret) {
+> > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
+> > +			 ret);
+> > +		goto error_media_entity;
+> > +	}
+> > +
+> > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->name,
+> > +		  video_device_node_name(video_dev));
+>=20
+> This isn't really driver specific. I'd drop it.
+
+I agree but I see that many drivers are doing it and the information can
+actually be quite useful at times.
+
+> > +
+> > +	/* Media Pad Link */
+> > +
+> > +	ret =3D media_create_pad_link(&proc_subdev->entity,
+> > +				    SUN6I_ISP_PROC_PAD_SOURCE,
+> > +				    &video_dev->entity, 0,
+> > +				    MEDIA_LNK_FL_ENABLED |
+> > +				    MEDIA_LNK_FL_IMMUTABLE);
+> > +	if (ret < 0) {
+> > +		v4l2_err(v4l2_dev, "failed to create %s:%u -> %s:%u link\n",
+> > +			 proc_subdev->entity.name, SUN6I_ISP_PROC_PAD_SOURCE,
+> > +			 video_dev->entity.name, 0);
+>=20
+> This error message printing would be better to be added to
+> media_create_pad_link().
+
+Yeah that makes sense.
+
+[...]
+
+> > +void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
+> > +{
+> > +	struct sun6i_isp_params_state *state =3D &isp_dev->params.state;
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&state->lock, flags);
+> > +
+> > +	sun6i_isp_params_configure_base(isp_dev);
+> > +
+> > +	/* Default config is only applied at the very first stream start. */
+> > +	if (state->configured)
+> > +		goto complete;
+> > +
+> > +	 sun6i_isp_params_configure_modules(isp_dev,
+>=20
+> Indentation. Doesn't checkpatch.pl complain?
+
+It doesn't, even with --strict, but that's definitely an issue there.
+
+[...]
+
+> > +static int sun6i_isp_params_querycap(struct file *file, void *private,
+> > +				     struct v4l2_capability *capability)
+> > +{
+> > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
+> > +	struct video_device *video_dev =3D &isp_dev->params.video_dev;
+> > +
+> > +	strscpy(capability->driver, SUN6I_ISP_NAME, sizeof(capability->driver=
+));
+> > +	strscpy(capability->card, video_dev->name, sizeof(capability->card));
+> > +	snprintf(capability->bus_info, sizeof(capability->bus_info),
+> > +		 "platform:%s", dev_name(isp_dev->dev));
+>=20
+> This is no longer needed with commit
+> 2a792fd5cf669d379d82354a99998d9ae9ff7d14 .
+
+Thanks.
+
+[...]
+
+> > +static const struct v4l2_subdev_pad_ops sun6i_isp_proc_pad_ops =3D {
+> > +	.init_cfg	=3D sun6i_isp_proc_init_cfg,
+> > +	.enum_mbus_code	=3D sun6i_isp_proc_enum_mbus_code,
+> > +	.get_fmt	=3D sun6i_isp_proc_get_fmt,
+> > +	.set_fmt	=3D sun6i_isp_proc_set_fmt,
+> > +};
+> > +
+> > +const struct v4l2_subdev_ops sun6i_isp_proc_subdev_ops =3D {
+>=20
+> This can be static, can't it?
+
+Oops, yes and it should be. Same applies to sun6i-csi-bridge actually.
+
+[...]
+
+> > +struct sun6i_isp_params_config_bdnf {
+> > +	__u8	in_dis_min; // 8
+> > +	__u8	in_dis_max; // 10
+>=20
+> Are these default values or something else? Better documentation was in t=
+he
+> TODO.txt file already.
+
+Yes that's the default register values, but these comments are and overlook=
+ on
+my side and should be removed.
+
+Thanks!
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--oDJ9GP/VwhMGHB5u
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmJqpPMACgkQ3cLmz3+f
+v9HXvQgAn6cRhpKDno79TUNMn+J81Zq+1c5WzbdWbv19cDQ/IqRhnZuPZbKqtZ5I
+VKianyU2Waaf3F7EoCkfIunWmCUiZtOobpv0/05HIXuibtBM6PyQw8pYnW35llD8
+Uf0Cgfb+ogiyTbsTlw4mbtcPSjBqQp/B+cwyxyHDfDmDj9Djm9oXsb1b5agDnG0z
+NXOnNHqNNn1SDG+Q7/0C28EPwT5N8zaaMBK49ORUdA3E2GFwod0LhCGIMnFHGpjw
+MW5cpZKhRBgdGjkAbG7YVcrTW17C3Uzemqoe8zn/7g6p44TZNqruaQ7ZW7KY/8mW
+ZVyXC7w7lTrTnpmy1V1rrOBlHKwwFQ==
+=OasI
+-----END PGP SIGNATURE-----
+
+--oDJ9GP/VwhMGHB5u--
