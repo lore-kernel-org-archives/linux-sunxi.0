@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5177F1845
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 23:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19952184E
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 23:09:52 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 691371474;
-	Thu, 28 Apr 2022 16:09:45 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B054C11FB;
+	Thu, 28 Apr 2022 16:09:51 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 56E863F5A1;
-	Thu, 28 Apr 2022 16:09:43 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 086B63F5A1;
+	Thu, 28 Apr 2022 16:09:49 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
@@ -17,13 +17,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stephen Boyd <sboyd@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	linux-clk@vger.kernel.org
-Subject: [PATCH v11 1/6] clk: sunxi-ng: h6-r: Add RTC gate clock
-Date: Fri, 29 Apr 2022 00:09:28 +0100
-Message-Id: <20220428230933.15262-2-andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v11 4/6] dt-bindings: arm: sunxi: Add two H616 board compatible strings
+Date: Fri, 29 Apr 2022 00:09:31 +0100
+Message-Id: <20220428230933.15262-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220428230933.15262-1-andre.przywara@arm.com>
 References: <20220428230933.15262-1-andre.przywara@arm.com>
@@ -35,82 +32,57 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The H6 and H616 feature an (undocumented) bus clock gate for accessing
-the RTC registers. This seems to be enabled at reset (or by the BootROM),
-so we got away without it so far, but exists regardless.
-Since the new RTC clock binding for the H616 requires this "bus" clock
-to be specified in the DT, add this to R_CCU clock driver and expose it
-on the DT side with a new number.
-We do this for both the H6 and H616, but mark it as IGNORE_UNUSED, as we
-cannot reference it in any H6 DTs.
+This adds the two board compatible strings of two boards with the
+Allwinner H616 SoC. One is a development board from OrangePi, the other
+some TV box from some formerly unused vendor. Add that vendor to the
+vendor list on the way.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Acked-by: Rob Herring <robh@kernel.org>
 ---
- drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 5 +++++
- drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
- include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/arm/sunxi.yaml       | 10 ++++++++++
+ Documentation/devicetree/bindings/vendor-prefixes.yaml |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-index 712e103382d8..88509339031e 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-@@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
- 		      0x1cc, BIT(0), 0);
- static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
- 		      0x1ec, BIT(0), 0);
-+static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
-+		      0x20c, BIT(0), CLK_IGNORE_UNUSED);
+diff --git a/Documentation/devicetree/bindings/arm/sunxi.yaml b/Documentation/devicetree/bindings/arm/sunxi.yaml
+index 086c68771d2b..539af752dd27 100644
+--- a/Documentation/devicetree/bindings/arm/sunxi.yaml
++++ b/Documentation/devicetree/bindings/arm/sunxi.yaml
+@@ -858,6 +858,11 @@ properties:
+           - const: yones-toptech,bs1078-v2
+           - const: allwinner,sun6i-a31s
  
- /* Information of IR(RX) mod clock is gathered from BSP source code */
- static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
-@@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
- 	&r_apb2_i2c_clk.common,
- 	&r_apb2_rsb_clk.common,
- 	&r_apb1_ir_clk.common,
-+	&r_apb1_rtc_clk.common,
- 	&ir_clk.common,
- };
++      - description: X96 Mate TV box
++        items:
++          - const: hechuang,x96-mate
++          - const: allwinner,sun50i-h616
++
+       - description: Xunlong OrangePi
+         items:
+           - const: xunlong,orangepi
+@@ -958,4 +963,9 @@ properties:
+           - const: xunlong,orangepi-zero-plus2-h3
+           - const: allwinner,sun8i-h3
  
-@@ -163,6 +166,7 @@ static struct clk_hw_onecell_data sun50i_h6_r_hw_clks = {
- 		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
- 		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
- 		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
-+		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
- 		[CLK_R_APB1_W1]		= &r_apb1_w1_clk.common.hw,
- 		[CLK_IR]		= &ir_clk.common.hw,
- 		[CLK_W1]		= &w1_clk.common.hw,
-@@ -179,6 +183,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
- 		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
- 		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
- 		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
-+		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
- 		[CLK_IR]		= &ir_clk.common.hw,
- 	},
- 	.num	= CLK_NUMBER,
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-index 7e290b840803..10e9b66afc6a 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-@@ -14,6 +14,6 @@
- 
- #define CLK_R_APB2	3
- 
--#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
-+#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
- 
- #endif /* _CCU_SUN50I_H6_R_H */
-diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-index 890368d252c4..a96087abc86f 100644
---- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-+++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-@@ -22,5 +22,6 @@
- #define CLK_W1			12
- 
- #define CLK_R_APB2_RSB		13
-+#define CLK_R_APB1_RTC		14
- 
- #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
++      - description: Xunlong OrangePi Zero 2
++        items:
++          - const: xunlong,orangepi-zero2
++          - const: allwinner,sun50i-h616
++
+ additionalProperties: true
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 01430973ecec..eb50ff3487a7 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -503,6 +503,8 @@ patternProperties:
+     description: Haoyu Microelectronic Co. Ltd.
+   "^hardkernel,.*":
+     description: Hardkernel Co., Ltd
++  "^hechuang,.*":
++    description: Shenzhen Hechuang Intelligent Co.
+   "^hideep,.*":
+     description: HiDeep Inc.
+   "^himax,.*":
 -- 
 2.35.3
 
