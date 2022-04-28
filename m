@@ -1,49 +1,49 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F2EA7B
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:35:27 +0000 (UTC)
-Received: by mail-ej1-f47.google.com with SMTP id gh6so7414033ejb.0
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:35:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A75527B
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 05:43:28 +0000 (UTC)
+Received: by mail-ej1-f54.google.com with SMTP id dk23so7345390ejb.8
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Apr 2022 22:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=n6GB1/WywBgvh+64+Tjj1z6mIuDmSgmvtpDpu9gTFhI=;
-        b=Sk9QjBASR1ZDnIiWemIfYQHAyckj3WwUQ0Dk1x8vUbtZKw+Ps2RXC6ddu1yuaUfDpB
-         gMi/A8uQw0hEu+F47+bjMp3t0QSCs67/abhdlEHByg/jPyQayH7pn4Niiz8YRh5dR/se
-         xln6tUHCH2ERr0czmm5bEvYM2ukGDy9YomaBo1EqTSTx4xoNVJ08d1wBBXiam8xKQTnx
-         m2eyYfCopyih6EYsIGG1jf7cGgoW/UdVQ6fuA03CTOCzsi1Xz/KgZtBjOu5G13Jw3OOq
-         KE1LJORJpVZYpyh+W5+KQw59PhV/1nUPGPeM7fCd356wan6bL63d95Hnn1EfATYDBxWT
-         v/mQ==
+        bh=s07a0DsY9s52QkJmiJ36LrahFkWV2t9AjkvfZr/kSYU=;
+        b=AoSWjN4/5ia3sJysWSlpJKDFdG/NXjaAcfPIzWtpSV7VXYWAH+TaL+n47Sj1nuCQPi
+         J56q+vUiECCLwu3kys9q/Jv1pOUc4MpmGNGfLPbRGLnRnQlsR6GqQZzTdDvhd/Qawh92
+         /7oYX4g5gnXixje6OV1O6PG2hG6BTfY8TDrf+zL6dHFRjBtRiDNo5fmZgSzurmzXkvWU
+         6bV3KbvuIPI5CN1bqS2frjrHr0uwIWKYxkXFhDlOkezxthjM5PGtwoolbM86cIje0lKr
+         vTVdQTiCDjE8/E/f1AI0sSkqNPpeBQsbiI2JxkXRLOf+TlWZzylSoDuwScGjfY10IK+2
+         M4EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=n6GB1/WywBgvh+64+Tjj1z6mIuDmSgmvtpDpu9gTFhI=;
-        b=DXUv5t/4oHh+02ELDGlhD7iOqylRzEhgLG+UE6Xex9ckJ6f/3KZ8ckuE5s25kgFhk6
-         D5xGqhgFrM4mbU1hncbVr3QKUXiH4endywTCd+A8H94jPn0gqxkVjxXdq/DpNNmLqTPU
-         2R4LdSlZe38G+aKbnjfGjuziakvhD/2LztPdf/oZl0yOlJ33vIg13DnpC4R3HnVbjU16
-         7V/ksx5ZpB8ucxWlNd29242yfB1QSZUkE4AA4qBsgyYJ/1Nld9iq1aHWBGsJzDkn4WL/
-         K0b4S5Ye19o89w7TXxZ5+GDBVBDFyOCQQ2qHCuteuxvi2mClYFTX/u2Ly9uAr0drIP3I
-         k33w==
-X-Gm-Message-State: AOAM533a5dAf3R5ss6r3o4PBgjUXHM4JELPm+nhwXKWBgs7ofTB5799R
-	VBAdoOH+Ne6qiEyTC+ZPHPhrAUPrxzjnhw==
-X-Google-Smtp-Source: ABdhPJxOTXVpvT//Cj+0qyGctmcgG8tu4Sgrf5+zvtxXeIcbwKP79h4Ibc/zhuPFP2T8AkYgQw4Smw==
-X-Received: by 2002:a17:907:72cd:b0:6f3:a068:a2ce with SMTP id du13-20020a17090772cd00b006f3a068a2cemr16041538ejc.563.1651124126336;
-        Wed, 27 Apr 2022 22:35:26 -0700 (PDT)
+        bh=s07a0DsY9s52QkJmiJ36LrahFkWV2t9AjkvfZr/kSYU=;
+        b=F8gdm8uhTOPeNl1RZFxOMaVpZ1+Vp+fgMgIAfr8HpttdU+bmGIqhqi/8dwp/hGP6qx
+         4fakocxUn6cpXUAWvrrwb88s9vLm4/OUgGf5oBFW+fTIkR5TXVL0AYn+g3iPFOGU7KX9
+         GH1z5Poe+3OmwGJW4YwK3uJTQHU4zIX6Z8O6kWwQ0Wh5UxzilAZGzalruLbEHsW5fQCN
+         aMdDohT71zV0LV4Btn2GTlR4MngbbY27PH68nij55jj2j58kkJli5QRNYWcwNT5DhC33
+         26Co4xcWzcDft4juJDGb3bmLEQeyLLx72UZQlbvynlPlwAcP9K7DYrzbTBiy4oZ6HAp0
+         Iq4g==
+X-Gm-Message-State: AOAM531jJv4wGaPrHT18ZjohBu8fm/NbbUsThoLgGO71mIRM2FTfx3zU
+	dVAWWdL5lkGa68HIpWx7qME=
+X-Google-Smtp-Source: ABdhPJzWJjNdXgo+WbHDrSQuq/2nYg4TWpvGFaOwbQshU+cXykP4HIK3zWEPoWCTdp5k14/cBAAWdw==
+X-Received: by 2002:a17:906:1841:b0:6e8:872d:8999 with SMTP id w1-20020a170906184100b006e8872d8999mr29426739eje.492.1651124607032;
+        Wed, 27 Apr 2022 22:43:27 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id b6-20020aa7cd06000000b0042617ba63a9sm886885edw.51.2022.04.27.22.35.25
+        by smtp.gmail.com with ESMTPSA id s25-20020a170906285900b006f3c813f51fsm2227173ejc.128.2022.04.27.22.43.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Apr 2022 22:35:25 -0700 (PDT)
+        Wed, 27 Apr 2022 22:43:26 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To: Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, iommu@lists.linux-foundation.org, Samuel Holland <samuel@sholland.org>
 Cc: Heiko Stuebner <heiko@sntech.de>, Palmer Dabbelt <palmer@dabbelt.com>, linux-riscv@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 5/5] iommu/sun50i: Ensure the IOMMU can be used for DMA
-Date: Thu, 28 Apr 2022 07:35:24 +0200
-Message-ID: <1762951.8hzESeGDPO@jernej-laptop>
-In-Reply-To: <20220428010401.11323-6-samuel@sholland.org>
-References: <20220428010401.11323-1-samuel@sholland.org> <20220428010401.11323-6-samuel@sholland.org>
+Subject: Re: [PATCH 3/5] iommu/sun50i: Ensure bypass is disabled
+Date: Thu, 28 Apr 2022 07:43:25 +0200
+Message-ID: <1922960.8hb0ThOEGa@jernej-laptop>
+In-Reply-To: <20220428010401.11323-4-samuel@sholland.org>
+References: <20220428010401.11323-1-samuel@sholland.org> <20220428010401.11323-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,35 +53,46 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 28. april 2022 ob 03:04:00 CEST je Samuel Holland napisal=
+Dne =C4=8Detrtek, 28. april 2022 ob 03:03:58 CEST je Samuel Holland napisal=
 (a):
-> So far, the driver has relied on arch/arm64/Kconfig to select IOMMU_DMA.
-> Unsurprisingly, this does not work on RISC-V, so the driver must select
-> IOMMU_DMA itself.
+> The H6 variant of the hardware disables bypass by default. The D1
+> variant of the hardware enables bypass for all masters by default.
+>=20
+> Since the driver expects bypass to be disabled, ensure that is the case.
 >=20
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Actually, it would be better to set bypass to 0xff and in=20
+sun50i_iommu_attach_device() clear bypass bit for that particular device. A=
+s=20
+you might notice, index in phandle is currently not used. This would also h=
+elp=20
+expose bugs, like missing second iommu channel for Cedrus on H6, but that's=
+=20
+easy to fix.
 
 Best regards,
 Jernej
 
 > ---
 >=20
->  drivers/iommu/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/iommu/sun50i-iommu.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >=20
-> diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> index c79a0df090c0..70a0bfa6d907 100644
-> --- a/drivers/iommu/Kconfig
-> +++ b/drivers/iommu/Kconfig
-> @@ -223,6 +223,7 @@ config SUN50I_IOMMU
->  	depends on ARCH_SUNXI || COMPILE_TEST
->  	select ARM_DMA_USE_IOMMU
->  	select IOMMU_API
-> +	select IOMMU_DMA
->  	help
->  	  Support for the IOMMU introduced in the Allwinner H6 SoCs.
+> diff --git a/drivers/iommu/sun50i-iommu.c b/drivers/iommu/sun50i-iommu.c
+> index ec07b60016d3..b9e644b93637 100644
+> --- a/drivers/iommu/sun50i-iommu.c
+> +++ b/drivers/iommu/sun50i-iommu.c
+> @@ -374,6 +374,8 @@ static int sun50i_iommu_enable(struct sun50i_iommu
+> *iommu)
+>=20
+>  	spin_lock_irqsave(&iommu->iommu_lock, flags);
+>=20
+> +	iommu_write(iommu, IOMMU_BYPASS_REG, 0);
+> +
+>  	iommu_write(iommu, IOMMU_TTB_REG, sun50i_domain->dt_dma);
+>  	iommu_write(iommu, IOMMU_TLB_PREFETCH_REG,
+>  		    IOMMU_TLB_PREFETCH_MASTER_ENABLE(0) |
 
 
 
