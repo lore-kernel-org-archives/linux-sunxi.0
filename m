@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B671843
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 23:09:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F70D1845
+	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 23:09:55 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FE8E1474;
-	Thu, 28 Apr 2022 16:09:53 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B475D1477;
+	Thu, 28 Apr 2022 16:09:47 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EB1F03F5A1;
-	Thu, 28 Apr 2022 16:09:51 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A37B13F5A1;
+	Thu, 28 Apr 2022 16:09:45 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
@@ -17,10 +17,13 @@ Cc: Rob Herring <robh@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v11 5/6] arm64: dts: allwinner: h616: Add OrangePi Zero 2 board support
-Date: Fri, 29 Apr 2022 00:09:32 +0100
-Message-Id: <20220428230933.15262-6-andre.przywara@arm.com>
+	linux-kernel@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-clk@vger.kernel.org
+Subject: [PATCH v11 2/6] clk: sunxi-ng: h616: Add PLL derived 32KHz clock
+Date: Fri, 29 Apr 2022 00:09:29 +0100
+Message-Id: <20220428230933.15262-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220428230933.15262-1-andre.przywara@arm.com>
 References: <20220428230933.15262-1-andre.przywara@arm.com>
@@ -32,248 +35,75 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The OrangePi Zero 2 is a development board with the new H616 SoC. It
-comes with the following features:
-  - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-  - 512MiB/1GiB DDR3 DRAM
-  - AXP305 PMIC
-  - Raspberry-Pi-1 compatible GPIO header
-  - extra 13 pin expansion header, exposing pins for 2x USB 2.0 ports
-  - 1 USB 2.0 host port
-  - 1 USB 2.0 type C port (power supply + OTG)
-  - MicroSD slot
-  - on-board 2MiB bootable SPI NOR flash
-  - 1Gbps Ethernet port (via RTL8211F PHY)
-  - micro-HDMI port
-  - unsupported Allwinner WiFi/BT chip
-
-For more details see: https://linux-sunxi.org/Orange_Pi_Zero_2
+The RTC section of the H616 manual mentions in a half-sentence the
+existence of a clock "32K divided by PLL_PERI(2X)". This is used as
+one of the possible inputs for the mux that selects the clock for the
+32 KHz fanout pad. On the H616 this is routed to pin PG10, and some
+boards use that clock output to compensate for a missing 32KHz crystal.
+On the OrangePi Zero2 this is for instance connected to the LPO pin of
+the WiFi/BT chip.
+The new RTC clock binding requires this clock to be named as one input
+clock, so we need to expose this to the DT. In contrast to the D1 SoC
+there does not seem to be a gate for this clock, so just use a fixed
+divider clock, using a newly assigned clock number.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 ---
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../allwinner/sun50i-h616-orangepi-zero2.dts  | 203 ++++++++++++++++++
- 2 files changed, 204 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.c      | 8 ++++++++
+ drivers/clk/sunxi-ng/ccu-sun50i-h616.h      | 2 +-
+ include/dt-bindings/clock/sun50i-h616-ccu.h | 1 +
+ 3 files changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index 8fa5c060a4fe..df2214e6d946 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -38,3 +38,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-new file mode 100644
-index 000000000000..ca07cae698ce
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
-@@ -0,0 +1,203 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ * Copyright (C) 2020 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+#include <dt-bindings/leds/common.h>
-+
-+/ {
-+	model = "OrangePi Zero2";
-+	compatible = "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
-+
-+	aliases {
-+		ethernet0 = &emac0;
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	leds {
-+		compatible = "gpio-leds";
-+
-+		led-0 {
-+			function = LED_FUNCTION_POWER;
-+			color = <LED_COLOR_ID_RED>;
-+			gpios = <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12 */
-+			default-state = "on";
-+		};
-+
-+		led-1 {
-+			function = LED_FUNCTION_STATUS;
-+			color = <LED_COLOR_ID_GREEN>;
-+			gpios = <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13 */
-+		};
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the USB-C socket */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+index 49a2474cf314..21e918582aa5 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.c
+@@ -704,6 +704,13 @@ static CLK_FIXED_FACTOR_HWS(pll_periph0_2x_clk, "pll-periph0-2x",
+ 			    pll_periph0_parents,
+ 			    1, 2, 0);
+ 
++static const struct clk_hw *pll_periph0_2x_hws[] = {
++	&pll_periph0_2x_clk.hw
 +};
 +
-+&emac0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii";
-+	phy-handle = <&ext_rgmii_phy>;
-+	phy-supply = <&reg_dcdce>;
-+	allwinner,rx-delay-ps = <3100>;
-+	allwinner,tx-delay-ps = <700>;
-+	status = "okay";
-+};
++static CLK_FIXED_FACTOR_HWS(pll_system_32k_clk, "pll-system-32k",
++			    pll_periph0_2x_hws, 36621, 1, 0);
 +
-+&mdio0 {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+	};
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dcdce>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&r_rsb {
-+	status = "okay";
-+
-+	axp305: pmic@745 {
-+		compatible = "x-powers,axp305", "x-powers,axp805",
-+			     "x-powers,axp806";
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+		reg = <0x745>;
-+
-+		x-powers,self-working-mode;
-+		vina-supply = <&reg_vcc5v>;
-+		vinb-supply = <&reg_vcc5v>;
-+		vinc-supply = <&reg_vcc5v>;
-+		vind-supply = <&reg_vcc5v>;
-+		vine-supply = <&reg_vcc5v>;
-+		aldoin-supply = <&reg_vcc5v>;
-+		bldoin-supply = <&reg_vcc5v>;
-+		cldoin-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-sys";
-+			};
-+
-+			reg_aldo2: aldo2 {	/* 3.3V on headers */
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext";
-+			};
-+
-+			reg_aldo3: aldo3 {	/* 3.3V on headers */
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext2";
-+			};
-+
-+			reg_bldo1: bldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			bldo2 {
-+				/* unused */
-+			};
-+
-+			bldo3 {
-+				/* unused */
-+			};
-+
-+			bldo4 {
-+				/* unused */
-+			};
-+
-+			cldo1 {
-+				/* reserved */
-+			};
-+
-+			cldo2 {
-+				/* unused */
-+			};
-+
-+			cldo3 {
-+				/* unused */
-+			};
-+
-+			reg_dcdca: dcdca {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdcc: dcdcc {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdcd: dcdcd {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1500000>;
-+				regulator-max-microvolt = <1500000>;
-+				regulator-name = "vdd-dram";
-+			};
-+
-+			reg_dcdce: dcdce {
-+				regulator-boot-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-eth-mmc";
-+			};
-+
-+			sw {
-+				/* unused */
-+			};
-+		};
-+	};
-+};
-+
-+&spi0  {
-+	status = "okay";
-+
-+	flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
+ static const struct clk_hw *pll_periph1_parents[] = {
+ 	&pll_periph1_clk.common.hw
+ };
+@@ -852,6 +859,7 @@ static struct clk_hw_onecell_data sun50i_h616_hw_clks = {
+ 		[CLK_PLL_DDR1]		= &pll_ddr1_clk.common.hw,
+ 		[CLK_PLL_PERIPH0]	= &pll_periph0_clk.common.hw,
+ 		[CLK_PLL_PERIPH0_2X]	= &pll_periph0_2x_clk.hw,
++		[CLK_PLL_SYSTEM_32K]	= &pll_system_32k_clk.hw,
+ 		[CLK_PLL_PERIPH1]	= &pll_periph1_clk.common.hw,
+ 		[CLK_PLL_PERIPH1_2X]	= &pll_periph1_2x_clk.hw,
+ 		[CLK_PLL_GPU]		= &pll_gpu_clk.common.hw,
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+index dd671b413f22..fdd2f4d5103f 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h616.h
+@@ -51,6 +51,6 @@
+ 
+ #define CLK_BUS_DRAM		56
+ 
+-#define CLK_NUMBER		(CLK_BUS_HDCP + 1)
++#define CLK_NUMBER		(CLK_PLL_SYSTEM_32K + 1)
+ 
+ #endif /* _CCU_SUN50I_H616_H_ */
+diff --git a/include/dt-bindings/clock/sun50i-h616-ccu.h b/include/dt-bindings/clock/sun50i-h616-ccu.h
+index 4fc08b0df2f3..1191aca53ac6 100644
+--- a/include/dt-bindings/clock/sun50i-h616-ccu.h
++++ b/include/dt-bindings/clock/sun50i-h616-ccu.h
+@@ -111,5 +111,6 @@
+ #define CLK_BUS_TVE0		125
+ #define CLK_HDCP		126
+ #define CLK_BUS_HDCP		127
++#define CLK_PLL_SYSTEM_32K	128
+ 
+ #endif /* _DT_BINDINGS_CLK_SUN50I_H616_H_ */
 -- 
 2.35.3
 
