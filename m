@@ -1,49 +1,132 @@
-Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C248F10E8
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 Apr 2022 06:27:09 +0000 (UTC)
-Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
-	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
-	id 1nkJVR-00893g-Gg; Fri, 29 Apr 2022 15:49:31 +1000
-Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 29 Apr 2022 13:49:29 +0800
-Date: Fri, 29 Apr 2022 13:49:29 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: cgel.zte@gmail.com
-Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
-	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Minghao Chi <chi.minghao@zte.com.cn>,
-	Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH] crypto: sun8i-ce: using pm_runtime_resume_and_get
- instead of pm_runtime_get_sync
-Message-ID: <Ymt8aa/J75F6ouU3@gondor.apana.org.au>
-References: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342E47B
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Apr 2022 13:43:18 +0000 (UTC)
+Received: from fraeml743-chm.china.huawei.com (unknown [172.18.147.201])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4KqY4j5gxhz67NKJ;
+	Fri, 29 Apr 2022 21:20:05 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml743-chm.china.huawei.com (10.206.15.224) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.24; Fri, 29 Apr 2022 15:24:14 +0200
+Received: from localhost (10.81.206.67) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 29 Apr
+ 2022 14:24:13 +0100
+Date: Fri, 29 Apr 2022 14:24:12 +0100
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Guenter Roeck <linux@roeck-us.net>
+CC: Ruslan Zalata <rz@fabmicro.ru>, Jean Delvare <jdelvare@suse.com>, "Chen-Yu
+ Tsai" <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, "Samuel
+ Holland" <samuel@sholland.org>, <linux-kernel@vger.kernel.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+Message-ID: <20220429142412.00001e43@Huawei.com>
+In-Reply-To: <f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+	<f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; i686-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220420030218.2575565-1-chi.minghao@zte.com.cn>
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.206.67]
+X-ClientProxiedBy: lhreml720-chm.china.huawei.com (10.201.108.71) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 
-On Wed, Apr 20, 2022 at 03:02:18AM +0000, cgel.zte@gmail.com wrote:
-> From: Minghao Chi <chi.minghao@zte.com.cn>
-> 
-> Using pm_runtime_resume_and_get() to replace pm_runtime_get_sync and
-> pm_runtime_put_noidle. This change is just to simplify the code, no
-> actual functional changes.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-prng.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+On Thu, 28 Apr 2022 14:30:06 -0700
+Guenter Roeck <linux@roeck-us.net> wrote:
 
-Patch applied.  Thanks.
--- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+> On 4/28/22 14:09, Ruslan Zalata wrote:
+> > Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+> > low rate (6 bit) ADC that is often used for extra keys. There's a driver
+> > for that already implementing standard input device, but it has these
+> > limitations: 1) it cannot be used for general ADC data equisition, and  
+> 
+> acquisition
+> 
+> > 2) it uses only one LRADC channel of two available.
+> > 
+> > This driver provides basic hwmon interface to both channels of LRADC on
+> > such Allwinner SoCs.
+> > 
+> > Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>  
+> 
+> Ok, next phase of review.
+> 
+
+One thing noticed whilst randomly glancing at this patch.
+
+
+> > +#ifdef CONFIG_PM
+> > +static int sun4i_lradc_resume(struct device *dev)
+> > +{
+> > +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+> > +
+> > +	return sun4i_lradc_start(lradc);
+> > +}
+> > +
+> > +static int sun4i_lradc_suspend(struct device *dev)
+> > +{
+> > +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+> > +
+> > +	sun4i_lradc_stop(lradc);
+> > +	return 0;
+> > +}
+> > +
+> > +#define SUN4I_LRADC_DEV_PM_OPS	(&sun4i_lradc_dev_pm_ops)
+> > +#else
+> > +#define SUN4I_LRADC_DEV_PM_OPS	NULL
+> > +#endif /* CONFIG_PM */
+> > +
+> > +static const struct dev_pm_ops sun4i_lradc_dev_pm_ops = {
+
+We have much better infrastructure for this these days.
+
+Take a look at DEFINE_SIMPLE_DEV_PM_OPS()
+and pm_sleep_ptr()
+
+Those two in combination will let you get rid of all the ifdef stuff
+here by letting the compiler remove the unused code automatically.
+
+> > +	.suspend = sun4i_lradc_suspend,
+> > +	.resume = sun4i_lradc_resume,
+> > +};
+> > +
+> > +static const struct of_device_id sun4i_lradc_of_match[] = {
+> > +	{ .compatible = "allwinner,sun4i-a10-lradc-keys", .data = &variant_sun4i_a10_lradc},
+> > +	{ /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
+> > +
+> > +static struct platform_driver sun4i_lradc_driver = {
+> > +	.driver = {
+> > +		.name	= "sun4i-lradc-hwmon",
+> > +		.of_match_table = of_match_ptr(sun4i_lradc_of_match),
+> > +		.pm = SUN4I_LRADC_DEV_PM_OPS,
+> > +	},
+> > +	.probe	= sun4i_lradc_probe,
+> > +};
+> > +
+> > +module_platform_driver(sun4i_lradc_driver);
+> > +
+> > +MODULE_DESCRIPTION("Allwinner A13/A20 LRADC hwmon driver");
+> > +MODULE_AUTHOR("Ruslan Zalata <rz@fabmicro.ru>");
+> > +MODULE_LICENSE("GPL");
+> > +No empty line at end, please  
+> 
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+
