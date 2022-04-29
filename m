@@ -1,255 +1,488 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE24E1843
-	for <linux-sunxi@lists.linux.dev>; Thu, 28 Apr 2022 23:09:55 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8D21511FB;
-	Thu, 28 Apr 2022 16:09:55 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id D94663F5A1;
-	Thu, 28 Apr 2022 16:09:53 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Icenowy Zheng <icenowy@aosc.io>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v11 6/6] arm64: dts: allwinner: h616: Add X96 Mate TV box support
-Date: Fri, 29 Apr 2022 00:09:33 +0100
-Message-Id: <20220428230933.15262-7-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20220428230933.15262-1-andre.przywara@arm.com>
-References: <20220428230933.15262-1-andre.przywara@arm.com>
+Received: from skyrocket.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA27610E8
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Apr 2022 00:29:09 +0000 (UTC)
+Received: from mail.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
+	by skyrocket.fabmicro.ru (8.14.9/8.14.9) with ESMTP id 23T0SfdW045826;
+	Fri, 29 Apr 2022 00:28:41 GMT
+	(envelope-from rz@fabmicro.ru)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Fri, 29 Apr 2022 05:28:41 +0500
+From: Ruslan Zalata <rz@fabmicro.ru>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej
+ Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+In-Reply-To: <f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+ <f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+User-Agent: Roundcube Webmail/1.4.3
+Message-ID: <e0b57c7587dded38a92411994f353b3d@fabmicro.ru>
+X-Sender: rz@fabmicro.ru
+Organization: Fabmicro, LLC.
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	skyrocket.fabmicro.ru
 
-The X96 Mate is an Allwinner H616 based TV box, featuring:
-  - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
-  - 2GiB/4GiB RAM (fully usable!)
-  - 16/32/64GiB eMMC
-  - 100Mbps Ethernet (via embedded AC200 EPHY, not yet supported)
-  - Unsupported Allwinner WiFi chip
-  - 2 x USB 2.0 host ports
-  - HDMI port
-  - IR receiver
-  - 5V/2A DC power supply via barrel plug
+Thank you Guenter for your valuable time.
 
-For more information see: https://linux-sunxi.org/X96_Mate
+I have added update_interval option (it's in ms units, right?) and fixed 
+all other issues you pointed to. Will test it on real hardware and send 
+third version of the patch for review.
 
-Add a basic devicetree for it, with SD card and eMMC working, as
-well as serial and the essential peripherals, like the AXP PMIC.
+Regarding IRQ. Alternatively the driver would need to sit and poll 
+conversion ready bit in a loop which might cause a much worse load on 
+system, is not it ? Anyway, the real problem with this piece of hardware 
+is that there's no "conversion ready bit" provided, the only way to know 
+data ready status is to receive an interrupt.
 
-This DT is somewhat minimal, and should work on many other similar TV
-boxes with the Allwinner H616 chip.
+I think it still needs a semaphore/seqlock to synchronize conversions 
+and reads. I.e. two consequent reads should not return same old value. 
+Although it's not an issue in my case, but could be a problem for 
+others.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm64/boot/dts/allwinner/Makefile        |   1 +
- .../dts/allwinner/sun50i-h616-x96-mate.dts    | 177 ++++++++++++++++++
- 2 files changed, 178 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
+Regards,
+Ruslan.
 
-diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/dts/allwinner/Makefile
-index df2214e6d946..6a96494a2e0a 100644
---- a/arch/arm64/boot/dts/allwinner/Makefile
-+++ b/arch/arm64/boot/dts/allwinner/Makefile
-@@ -39,3 +39,4 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-pine-h64-model-b.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h6-tanix-tx6-mini.dtb
- dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-orangepi-zero2.dtb
-+dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h616-x96-mate.dtb
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-new file mode 100644
-index 000000000000..aedb3a3dff38
---- /dev/null
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-x96-mate.dts
-@@ -0,0 +1,177 @@
-+// SPDX-License-Identifier: (GPL-2.0+ or MIT)
-+/*
-+ * Copyright (C) 2021 Arm Ltd.
-+ */
-+
-+/dts-v1/;
-+
-+#include "sun50i-h616.dtsi"
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/interrupt-controller/arm-gic.h>
-+
-+/ {
-+	model = "X96 Mate";
-+	compatible = "hechuang,x96-mate", "allwinner,sun50i-h616";
-+
-+	aliases {
-+		serial0 = &uart0;
-+	};
-+
-+	chosen {
-+		stdout-path = "serial0:115200n8";
-+	};
-+
-+	reg_vcc5v: vcc5v {
-+		/* board wide 5V supply directly from the DC input */
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc-5v";
-+		regulator-min-microvolt = <5000000>;
-+		regulator-max-microvolt = <5000000>;
-+		regulator-always-on;
-+	};
-+};
-+
-+&ir {
-+	status = "okay";
-+};
-+
-+&mmc0 {
-+	vmmc-supply = <&reg_dcdce>;
-+	cd-gpios = <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
-+	bus-width = <4>;
-+	status = "okay";
-+};
-+
-+&mmc2 {
-+	vmmc-supply = <&reg_dcdce>;
-+	vqmmc-supply = <&reg_bldo1>;
-+	bus-width = <8>;
-+	non-removable;
-+	cap-mmc-hw-reset;
-+	mmc-ddr-1_8v;
-+	mmc-hs200-1_8v;
-+	status = "okay";
-+};
-+
-+&r_rsb {
-+	status = "okay";
-+
-+	axp305: pmic@745 {
-+		compatible = "x-powers,axp305", "x-powers,axp805",
-+			     "x-powers,axp806";
-+		interrupt-controller;
-+		#interrupt-cells = <1>;
-+		reg = <0x745>;
-+
-+		x-powers,self-working-mode;
-+		vina-supply = <&reg_vcc5v>;
-+		vinb-supply = <&reg_vcc5v>;
-+		vinc-supply = <&reg_vcc5v>;
-+		vind-supply = <&reg_vcc5v>;
-+		vine-supply = <&reg_vcc5v>;
-+		aldoin-supply = <&reg_vcc5v>;
-+		bldoin-supply = <&reg_vcc5v>;
-+		cldoin-supply = <&reg_vcc5v>;
-+
-+		regulators {
-+			reg_aldo1: aldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-sys";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_aldo2: aldo2 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext";
-+				status = "disabled";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_aldo3: aldo3 {
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc3v3-ext2";
-+				status = "disabled";
-+			};
-+
-+			reg_bldo1: bldo1 {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8";
-+			};
-+
-+			/* Enabled by the Android BSP */
-+			reg_bldo2: bldo2 {
-+				regulator-min-microvolt = <1800000>;
-+				regulator-max-microvolt = <1800000>;
-+				regulator-name = "vcc1v8-2";
-+				status = "disabled";
-+			};
-+
-+			bldo3 {
-+				/* unused */
-+			};
-+
-+			bldo4 {
-+				/* unused */
-+			};
-+
-+			cldo1 {
-+				regulator-min-microvolt = <2500000>;
-+				regulator-max-microvolt = <2500000>;
-+				regulator-name = "vcc2v5";
-+			};
-+
-+			cldo2 {
-+				/* unused */
-+			};
-+
-+			cldo3 {
-+				/* unused */
-+			};
-+
-+			reg_dcdca: dcdca {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-cpu";
-+			};
-+
-+			reg_dcdcc: dcdcc {
-+				regulator-always-on;
-+				regulator-min-microvolt = <810000>;
-+				regulator-max-microvolt = <1080000>;
-+				regulator-name = "vdd-gpu-sys";
-+			};
-+
-+			reg_dcdcd: dcdcd {
-+				regulator-always-on;
-+				regulator-min-microvolt = <1360000>;
-+				regulator-max-microvolt = <1360000>;
-+				regulator-name = "vdd-dram";
-+			};
-+
-+			reg_dcdce: dcdce {
-+				regulator-boot-on;
-+				regulator-min-microvolt = <3300000>;
-+				regulator-max-microvolt = <3300000>;
-+				regulator-name = "vcc-eth-mmc";
-+			};
-+
-+			sw {
-+				/* unused */
-+			};
-+		};
-+	};
-+};
-+
-+&uart0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&uart0_ph_pins>;
-+	status = "okay";
-+};
--- 
-2.35.3
+Fabmicro, LLC.
 
+On 2022-04-29 02:30, Guenter Roeck wrote:
+> On 4/28/22 14:09, Ruslan Zalata wrote:
+>> Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+>> low rate (6 bit) ADC that is often used for extra keys. There's a 
+>> driver
+>> for that already implementing standard input device, but it has these
+>> limitations: 1) it cannot be used for general ADC data equisition, and
+> 
+> acquisition
+> 
+>> 2) it uses only one LRADC channel of two available.
+>> 
+>> This driver provides basic hwmon interface to both channels of LRADC 
+>> on
+>> such Allwinner SoCs.
+>> 
+>> Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>
+> 
+> Ok, next phase of review.
+> 
+> 
+>> ---
+>>   MAINTAINERS                       |   6 +
+>>   drivers/hwmon/Kconfig             |  13 ++
+>>   drivers/hwmon/Makefile            |   1 +
+>>   drivers/hwmon/sun4i-lradc-hwmon.c | 280 
+>> ++++++++++++++++++++++++++++++
+> 
+> Needs documentation in Documentation/hwmon/sun4i-lradc-hwmon.rst,
+> and don't forget to add it to Documentation/hwmon/index.rst.
+> 
+>>   4 files changed, 300 insertions(+)
+>>   create mode 100644 drivers/hwmon/sun4i-lradc-hwmon.c
+>> 
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 5e8c2f61176..d9c71e94133 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -18861,6 +18861,12 @@ S:	Maintained
+>>   
+>> F:	Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+>>   F:	drivers/input/keyboard/sun4i-lradc-keys.c
+>>   +SUN4I LOW RES ADC HWMON DRIVER
+>> +M:	Ruslan Zalata <rz@fabmicro.ru>
+>> +L:	linux-hwmon@vger.kernel.org
+>> +S:	Maintained
+>> +F:	drivers/hwmon/sun4i-lradc-hwmon.c
+>> +
+>>   SUNDANCE NETWORK DRIVER
+>>   M:	Denis Kirjanov <kda@linux-powerpc.org>
+>>   L:	netdev@vger.kernel.org
+>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>> index 68a8a27ab3b..86776488a81 100644
+>> --- a/drivers/hwmon/Kconfig
+>> +++ b/drivers/hwmon/Kconfig
+>> @@ -1691,6 +1691,19 @@ config SENSORS_SIS5595
+>>   	  This driver can also be built as a module. If so, the module
+>>   	  will be called sis5595.
+>>   +config SENSORS_SUN4I_LRADC
+>> +	tristate "Allwinner A13/A20 LRADC hwmon"
+>> +	depends on ARCH_SUNXI && !KEYBOARD_SUN4I_LRADC
+>> +	help
+>> +	  Say y here to support the LRADC found in Allwinner A13/A20 SoCs.
+>> +	  Both channels are supported.
+>> +
+>> +	  This driver can also be built as module. If so, the module
+>> +	  will be called sun4i-lradc-hwmon.
+>> +
+>> +	  This option is not compatible with KEYBOARD_SUN4I_LRADC, one
+> 
+> only one of these
+> 
+>> +	  of these must be used at a time.
+>> +
+>>   config SENSORS_SY7636A
+>>   	tristate "Silergy SY7636A"
+>>   	help
+>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>> index 8a03289e2aa..3e5dc902acf 100644
+>> --- a/drivers/hwmon/Makefile
+>> +++ b/drivers/hwmon/Makefile
+>> @@ -187,6 +187,7 @@ obj-$(CONFIG_SENSORS_SMSC47M1)	+= smsc47m1.o
+>>   obj-$(CONFIG_SENSORS_SMSC47M192)+= smsc47m192.o
+>>   obj-$(CONFIG_SENSORS_SPARX5)	+= sparx5-temp.o
+>>   obj-$(CONFIG_SENSORS_STTS751)	+= stts751.o
+>> +obj-$(CONFIG_SENSORS_SUN4I_LRADC) += sun4i-lradc-hwmon.o
+>>   obj-$(CONFIG_SENSORS_SY7636A)	+= sy7636a-hwmon.o
+>>   obj-$(CONFIG_SENSORS_AMC6821)	+= amc6821.o
+>>   obj-$(CONFIG_SENSORS_TC74)	+= tc74.o
+>> diff --git a/drivers/hwmon/sun4i-lradc-hwmon.c 
+>> b/drivers/hwmon/sun4i-lradc-hwmon.c
+>> new file mode 100644
+>> index 00000000000..8d5268b037b
+>> --- /dev/null
+>> +++ b/drivers/hwmon/sun4i-lradc-hwmon.c
+>> @@ -0,0 +1,280 @@
+>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>> +/*
+>> + * Allwinner sun4i (A13/A20) LRADC hwmon driver
+>> + *
+>> + * Copyright (C) 2022 Fabmicro, LLC., Tyumen, Russia.
+>> + * Copyright (C) 2022 Ruslan Zalata <rz@fabmicro.ru>
+>> + */
+>> +
+>> +#include <linux/err.h>
+>> +#include <linux/init.h>
+>> +#include <linux/input.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of_platform.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/slab.h>
+>> +#include <linux/hwmon.h>
+>> +#include <linux/hwmon-sysfs.h>
+> 
+> Should not be needed.
+> 
+>> +
+>> +#define LRADC_CTRL	0x00
+>> +#define LRADC_INTC	0x04
+>> +#define LRADC_INTS	0x08
+>> +#define LRADC_DATA0	0x0c
+>> +#define LRADC_DATA1	0x10
+>> +
+>> +/* LRADC_CTRL bits */
+>> +#define FIRST_CONVERT_DLY(x)	((x) << 24) /* 8 bits */
+>> +#define CHAN_SELECT(x)		((x) << 22) /* 2 bits */
+>> +#define CONTINUE_TIME_SEL(x)	((x) << 16) /* 4 bits */
+>> +#define KEY_MODE_SEL(x)		((x) << 12) /* 2 bits */
+>> +#define LEVELA_B_CNT(x)		((x) << 8)  /* 4 bits */
+>> +#define HOLD_KEY_EN(x)		((x) << 7)
+>> +#define HOLD_EN(x)		((x) << 6)
+>> +#define LEVELB_VOL(x)		((x) << 4)  /* 2 bits */
+>> +#define SAMPLE_RATE(x)		((x) << 2)  /* 2 bits */
+>> +#define ENABLE(x)		((x) << 0)
+>> +
+>> +/* LRADC_INTC and LRADC_INTS bits */
+>> +#define CHAN1_KEYUP_IRQ		BIT(12)
+>> +#define CHAN1_ALRDY_HOLD_IRQ	BIT(11)
+>> +#define CHAN1_HOLD_IRQ		BIT(10)
+>> +#define CHAN1_KEYDOWN_IRQ	BIT(9)
+>> +#define CHAN1_DATA_IRQ		BIT(8)
+>> +#define CHAN0_KEYUP_IRQ		BIT(4)
+>> +#define CHAN0_ALRDY_HOLD_IRQ	BIT(3)
+>> +#define CHAN0_HOLD_IRQ		BIT(2)
+>> +#define CHAN0_KEYDOWN_IRQ	BIT(1)
+>> +#define CHAN0_DATA_IRQ		BIT(0)
+>> +
+>> +struct lradc_variant {
+>> +	u32 bits;
+>> +	u32 resolution;
+>> +	u32 vref;
+>> +};
+>> +
+>> +struct sun4i_lradc_data {
+>> +	struct device *dev;
+>> +	void __iomem *base;
+>> +	const struct lradc_variant *variant;
+>> +	struct mutex update_lock; /* atomic read and data updates */
+>> +	u32 in[2];
+>> +};
+>> +
+>> +struct lradc_variant variant_sun4i_a10_lradc = {
+>> +	.bits = 0x3f,
+>> +	.resolution = 63,
+>> +	.vref = 2000000, /* Vref = 2.0V from SoC datasheet */
+>> +};
+>> +
+>> +static int sun4i_lradc_read(struct device *dev, enum 
+>> hwmon_sensor_types type,
+>> +			    u32 attr, int channel, long *val)
+>> +{
+>> +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+>> +	int in;
+>> +
+>> +	if (IS_ERR(lradc))
+>> +		return PTR_ERR(lradc);
+> 
+> That won't happen. Unnecessary check.
+> 
+>> +
+>> +	mutex_lock(&lradc->update_lock);
+>> +	in = lradc->in[channel];
+> 
+> 
+> Pointless. Just use
+> 
+>> +	mutex_unlock(&lradc->update_lock);
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_in_input:
+>> +		*val = in;
+> 
+> 		*val = lradc->in[channel];
+> 
+> here. The operation is atomic.
+> 
+>> +		break;
+>> +
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +	return 0;
+>> +}
+>> +
+>> +umode_t sun4i_lradc_is_visible(const void *data, enum 
+>> hwmon_sensor_types type,
+>> +			       u32 attr, int channel)
+>> +{
+>> +	return 0444;
+>> +}
+>> +
+>> +static const u32 sun4i_lradc_chip_config[] = {
+>> +	HWMON_I_INPUT,
+> 
+> This is wrong. Chip wide attributes are named HWMON_C_XXX.
+> This generated a reset_history attribute which isn't really
+> supported or handled. Chip attributes should only be specified
+> if actually used. Drop this.
+> 
+>> +	0
+>> +};
+>> +
+>> +static const struct hwmon_channel_info sun4i_lradc_chip = {
+>> +	.type = hwmon_chip,
+>> +	.config = sun4i_lradc_chip_config,
+>> +};
+>> +
+>> +static const u32 sun4i_lradc_input_config[] = {
+>> +	HWMON_I_INPUT,
+>> +	HWMON_I_INPUT,
+>> +	0
+>> +};
+>> +
+>> +static const struct hwmon_channel_info sun4i_lradc_input = {
+>> +	.type = hwmon_in,
+>> +	.config = sun4i_lradc_input_config,
+>> +};
+>> + > +static const struct hwmon_channel_info *sun4i_lradc_info[] = {
+>> +	&sun4i_lradc_chip,
+>> +	&sun4i_lradc_input,
+>> +	NULL
+>> +};
+>> +
+> Use the HWMON_CHANNEL_INFO macro instead.
+> 
+>> +static const struct hwmon_ops sun4i_lradc_hwmon_ops = {
+>> +	.is_visible = sun4i_lradc_is_visible,
+>> +	.read = sun4i_lradc_read,
+>> +};
+>> +
+>> +static const struct hwmon_chip_info sun4i_lradc_chip_info = {
+>> +	.ops = &sun4i_lradc_hwmon_ops,
+>> +	.info = sun4i_lradc_info,
+>> +};
+>> +
+>> +static irqreturn_t sun4i_lradc_irq(int irq, void *dev_id)
+>> +{
+>> +	struct sun4i_lradc_data *lradc = dev_id;
+>> +	u32 ints = readl(lradc->base + LRADC_INTS);
+>> +
+>> +	mutex_lock(&lradc->update_lock);
+>> +
+>> +	if (ints & CHAN0_DATA_IRQ)
+>> +		lradc->in[0] = (readl(lradc->base + LRADC_DATA0) & 
+>> lradc->variant->bits) *
+>> +			lradc->variant->vref / lradc->variant->resolution / 1000; /* to mV 
+>> */
+>> +
+>> +	if (ints & CHAN1_DATA_IRQ)
+>> +		lradc->in[1] = (readl(lradc->base + LRADC_DATA1) & 
+>> lradc->variant->bits) *
+>> +			lradc->variant->vref / lradc->variant->resolution / 1000; /* to mV 
+>> */
+>> +
+>> +	mutex_unlock(&lradc->update_lock);
+>> +
+>> +	writel(ints, lradc->base + LRADC_INTS);
+>> +
+>> +	return IRQ_HANDLED;
+>> +}
+>> +
+> 
+> You don't explain why the interrupt handler is needed. It is 
+> undesirable
+> to do this for hwnon devices because it results in extra load on the 
+> system.
+> The ADC should be read only when needed and not continuously. If that 
+> is not
+> possible for some reason it needs to be explained in detail.
+> 
+>> +static int sun4i_lradc_start(struct sun4i_lradc_data *lradc)
+>> +{
+>> +	writel(FIRST_CONVERT_DLY(2) | CHAN_SELECT(3) | LEVELA_B_CNT(1) |
+>> +		HOLD_EN(1) | KEY_MODE_SEL(2) | SAMPLE_RATE(3) | ENABLE(1),
+>> +		lradc->base + LRADC_CTRL);
+>> +
+> 
+> If the update rate is configurable, it might make sense to support
+> the update_interval attribute.
+> 
+>> +	writel(CHAN0_DATA_IRQ | CHAN1_DATA_IRQ, lradc->base + LRADC_INTC);
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void sun4i_lradc_stop(void *data)
+>> +{
+>> +	struct sun4i_lradc_data *lradc = (struct sun4i_lradc_data *)data;
+>> +
+>> +	writel(FIRST_CONVERT_DLY(2) | LEVELA_B_CNT(1) | HOLD_EN(1) |
+>> +		SAMPLE_RATE(2), lradc->base + LRADC_CTRL);
+>> +	writel(0, lradc->base + LRADC_INTC);
+>> +}
+>> +
+>> +static int sun4i_lradc_probe(struct platform_device *pdev)
+>> +{
+>> +	struct sun4i_lradc_data *lradc;
+>> +	struct device *dev = &pdev->dev;
+>> +	struct device *hwmon_dev;
+>> +	struct resource *res;
+>> +	int hwmon_irq, error;
+>> +
+>> +	lradc = devm_kzalloc(dev, sizeof(struct sun4i_lradc_data), 
+>> GFP_KERNEL);
+>> +	if (!lradc)
+>> +		return -ENOMEM;
+>> +
+>> +	dev_set_drvdata(dev, lradc);
+>> +
+>> +	lradc->variant = of_device_get_match_data(&pdev->dev);
+>> +	if (!lradc->variant)
+>> +		return -EINVAL;
+>> +
+>> +	lradc->dev = dev;
+>> +
+> 
+> I don't immediately see where this is used.
+> 
+>> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>> +	if (IS_ERR(res))
+>> +		return PTR_ERR(res);
+>> +
+>> +	lradc->base = devm_ioremap_resource(dev, res);
+>> +	if (IS_ERR(lradc->base))
+>> +		return PTR_ERR(lradc->base);
+>> +
+>> +	hwmon_irq = platform_get_irq(pdev, 0);
+>> +	if (hwmon_irq < 0)
+>> +		return hwmon_irq;
+>> +
+>> +	error = devm_request_irq(dev, hwmon_irq, sun4i_lradc_irq, 0, 
+>> "sun4i-lradc-hwmon", lradc);
+>> +	if (error) {
+>> +		dev_err(dev, "sun4i-lradc-hwmon IRQ failed err=%d\n", error);
+>> +		return error;
+>> +	}
+>> +
+>> +	hwmon_dev = devm_hwmon_device_register_with_info(dev, "lradc-hwmon", 
+>> lradc,
+>> +							 &sun4i_lradc_chip_info, NULL);
+>> +
+>> +	if (IS_ERR(hwmon_dev)) {
+>> +		error = PTR_ERR(hwmon_dev);
+>> +		return error;
+>> +	}
+>> +
+>> +	error = devm_add_action_or_reset(dev, sun4i_lradc_stop, lradc);
+>> +	if (error)
+>> +		return error;
+>> +
+>> +	error = sun4i_lradc_start(lradc);
+>> +
+>> +	return error;
+>> +}
+>> +
+>> +#ifdef CONFIG_PM
+>> +static int sun4i_lradc_resume(struct device *dev)
+>> +{
+>> +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+>> +
+>> +	return sun4i_lradc_start(lradc);
+>> +}
+>> +
+>> +static int sun4i_lradc_suspend(struct device *dev)
+>> +{
+>> +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+>> +
+>> +	sun4i_lradc_stop(lradc);
+>> +	return 0;
+>> +}
+>> +
+>> +#define SUN4I_LRADC_DEV_PM_OPS	(&sun4i_lradc_dev_pm_ops)
+>> +#else
+>> +#define SUN4I_LRADC_DEV_PM_OPS	NULL
+>> +#endif /* CONFIG_PM */
+>> +
+>> +static const struct dev_pm_ops sun4i_lradc_dev_pm_ops = {
+>> +	.suspend = sun4i_lradc_suspend,
+>> +	.resume = sun4i_lradc_resume,
+>> +};
+>> +
+>> +static const struct of_device_id sun4i_lradc_of_match[] = {
+>> +	{ .compatible = "allwinner,sun4i-a10-lradc-keys", .data = 
+>> &variant_sun4i_a10_lradc},
+>> +	{ /* sentinel */ }
+>> +};
+>> +MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
+>> +
+>> +static struct platform_driver sun4i_lradc_driver = {
+>> +	.driver = {
+>> +		.name	= "sun4i-lradc-hwmon",
+>> +		.of_match_table = of_match_ptr(sun4i_lradc_of_match),
+>> +		.pm = SUN4I_LRADC_DEV_PM_OPS,
+>> +	},
+>> +	.probe	= sun4i_lradc_probe,
+>> +};
+>> +
+>> +module_platform_driver(sun4i_lradc_driver);
+>> +
+>> +MODULE_DESCRIPTION("Allwinner A13/A20 LRADC hwmon driver");
+>> +MODULE_AUTHOR("Ruslan Zalata <rz@fabmicro.ru>");
+>> +MODULE_LICENSE("GPL");
+>> +No empty line at end, please
