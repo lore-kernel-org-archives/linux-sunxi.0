@@ -1,67 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.multiname.org (h2.multiname.org [176.9.137.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCD0B1852
-	for <linux-sunxi@lists.linux.dev>; Sat, 30 Apr 2022 02:40:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 856F5C385AF;
-	Sat, 30 Apr 2022 02:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1651286412;
-	bh=gJ66qBEwi6fImRHOzmZNTdLhzaPPZUa4anUgFG2RYFM=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=qjRGdWUb2rVvisgnKlfUR8hwrLknIuM2HlB/jq5kkMqlo4jH7M2SQ86qXwvxRBxDp
-	 cT6aJRFCezr7IuWaW5NhqO9GLf85a5vwKjQFZnh73KGQu5SRqQcnjw+ydeCyJK1Iaa
-	 TBVeYEOGK/B0ZiO4wLz15EwzkGGvB8vIdzdHrCBgWpkjJz80B7ZLOJjd+qI9JuLNJb
-	 4A5CmZGxEx0+7fQFRQsffMU9mJdJKqEbDLENWQKPaeK5r6h0R2IVjL8jDiSdK+7Kpu
-	 g2SJThl9mCvCa+IIGhWyMhDhiR86JdgxjMgJp0yglmx2YZ1XhDWp41pazUBpcRGnbv
-	 8ex6IqJ2d9ayQ==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 5FBCBF03847;
-	Sat, 30 Apr 2022 02:40:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C7971FD4
+	for <linux-sunxi@lists.linux.dev>; Sat, 30 Apr 2022 19:20:25 +0000 (UTC)
+Received: from huygens.ccbib.org (unknown [10.0.10.112])
+	by mail.multiname.org (Postfix) with SMTP id 4KrJpW2cSqzKtyYG;
+	Sat, 30 Apr 2022 19:10:27 +0000 (UTC)
+Received: by huygens.ccbib.org (sSMTP sendmail emulation); Sat, 30 Apr 2022 19:10:27 +0000
+From: Harald Geyer <harald@ccbib.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	Torsten Duwe <duwe@suse.de>,
+	Harald Geyer <harald@ccbib.org>
+Subject: [PATCHv2] arm64: dts: allwinner: teres-i: Add GPIO port regulators
+Date: Sat, 30 Apr 2022 19:10:09 +0000
+Message-Id: <20220430191009.73946-1-harald@ccbib.org>
+X-Mailer: git-send-email 2.11.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] net: stmmac: dwmac-sun8i: add missing of_node_put() in
- sun8i_dwmac_register_mdio_mux()
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <165128641238.32243.12546342277289932199.git-patchwork-notify@kernel.org>
-Date: Sat, 30 Apr 2022 02:40:12 +0000
-References: <20220428095716.540452-1-yangyingliang@huawei.com>
-In-Reply-To: <20220428095716.540452-1-yangyingliang@huawei.com>
-To: Yang Yingliang <yangyingliang@huawei.com>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, clabbe.montjoie@gmail.com,
- andrew@lunn.ch, davem@davemloft.net, kuba@kernel.org
 
-Hello:
+Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
 
-This patch was applied to netdev/net.git (master)
-by Jakub Kicinski <kuba@kernel.org>:
+Signed-off-by: Harald Geyer <harald@ccbib.org>
+---
+Changes since v1:
+ * Add supplies for PD and PE even though they are matched from
+   'regulator-name' properties, as this is a Linuxism.
+ * Add generic IO voltage as supply for PF as this is an implicit
+   (chip internal) dependency.
 
-On Thu, 28 Apr 2022 17:57:16 +0800 you wrote:
-> The node pointer returned by of_get_child_by_name() with refcount incremented,
-> so add of_node_put() after using it.
-> 
-> Fixes: 634db83b8265 ("net: stmmac: dwmac-sun8i: Handle integrated/external MDIOs")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
-> 
-> [...]
+ arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Here is the summary with links:
-  - net: stmmac: dwmac-sun8i: add missing of_node_put() in sun8i_dwmac_register_mdio_mux()
-    https://git.kernel.org/netdev/net/c/1a15267b7be7
-
-You are awesome, thank you!
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+index aff0660b899c..1128030e4c25 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-teres-i.dts
+@@ -197,6 +197,14 @@ &ohci1 {
+ 	status = "okay";
+ };
+ 
++&pio {
++	vcc-pc-supply = <&reg_dcdc1>;
++	vcc-pd-supply = <&reg_dldo2>;
++	vcc-pe-supply = <&reg_aldo1>;
++	vcc-pf-supply = <&reg_dcdc1>;  /* No dedicated supply-pin for this */
++	vcc-pg-supply = <&reg_aldo2>;
++};
++
+ &pwm {
+ 	status = "okay";
+ };
 -- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+2.35.2
 
