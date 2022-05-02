@@ -1,166 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E917D3
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 10:50:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1651488600;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3TKyHWDgC93OfXdwv3f/QQ+fWpsgCb5Bjp407TIVwrw=;
-	b=cdLzVOFFoPpZE+Sb0GTgKDLunO7tB8irD46NpGAcuAMg6g5WxkrkY6xDpmxsfrHt30b1ke
-	I+4kEMmBi4450waiI8R8dlVoZLVeXdW3siRYi3comqRYUl8kze7qqy8clEp+GhqVJ9uSBS
-	/yUaarP6X8ir7yhQKtK6jsOP6lKM4qE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-163-1jhZ1cmbPje16ItXzIrLRA-1; Mon, 02 May 2022 06:49:56 -0400
-X-MC-Unique: 1jhZ1cmbPje16ItXzIrLRA-1
-Received: by mail-wr1-f69.google.com with SMTP id k29-20020adfb35d000000b0020adc94662dso5156683wrd.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 May 2022 03:49:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=3TKyHWDgC93OfXdwv3f/QQ+fWpsgCb5Bjp407TIVwrw=;
-        b=VyIc/wQ18dN8bT/6PbZNv+45ip2u/0fH2DQ6VYSL2+6zYy6M//2BaypJ912zlhn6+C
-         mWCbfyASNaMgeg+kX4228XGINsIXkap3eLQ6rZEDFO1RdElUFdrdBqBnQCpVoDx35FcP
-         vhumjd+cle+CihR5m2ED5QcpSgvi/eU8Irb0MCKsM0qJGRTYRWo4oeH2o/EgMqpzngS4
-         5To4k2fjs2mOOVulq9DRUGvqrI5N7cHkvAcyCx6LAA3RnU7pYR4JKkdkhGb6GZ6HMdXb
-         L0bcMk3QOprxhS055oqSEfUFiRTrPetH5gqhD3LoiAE4CQbAdnScBC1DQCRWFwkMtJB+
-         nY8w==
-X-Gm-Message-State: AOAM5335uwWRKuPolYtZSNHBNR+HC5aeqptdzrc3cCHqvXd+zbBYOrBQ
-	tVFF7xL7xSYk331e8AaIuADQ+XuZ0hhY1vQ4vTKfP/bMY9oDT1x7Q+wNAptOwjocu60UoXjVMn9
-	1OSb5aVOWoPPAex46iUWg2tw=
-X-Received: by 2002:a5d:5051:0:b0:20a:e005:cca3 with SMTP id h17-20020a5d5051000000b0020ae005cca3mr8676749wrt.560.1651488595401;
-        Mon, 02 May 2022 03:49:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJznK7MTrWwTm+wtuLbm1AtWbuZrM/hnsYDFHNU2iLGSqHpPTjz/i73gvAXGyZ+XCXckc/fOrQ==
-X-Received: by 2002:a5d:5051:0:b0:20a:e005:cca3 with SMTP id h17-20020a5d5051000000b0020ae005cca3mr8676723wrt.560.1651488595161;
-        Mon, 02 May 2022 03:49:55 -0700 (PDT)
-Received: from [192.168.1.129] ([92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id w7-20020adf8bc7000000b0020c5253d8f9sm6707583wra.69.2022.05.02.03.49.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 May 2022 03:49:54 -0700 (PDT)
-Message-ID: <1d2a03f7-d4f6-66ac-6e2e-adbd2eaf7d90@redhat.com>
-Date: Mon, 2 May 2022 12:49:50 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D312D17D3
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 11:00:15 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 7E4465C00D3;
+	Mon,  2 May 2022 07:00:14 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Mon, 02 May 2022 07:00:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1651489214; x=1651575614; bh=ItYICrTgTo
+	hpwpBDhrRzrv8Mk71TJQUctJQK+kNCaEg=; b=LYscJNJ6Guke04cT64YEDVdjPk
+	ZMKEn58Y41ffSfK8puh+bLL8Il/6dVJCwe4qSMJUNXWfMqBNmftpGAynZlUzbSQr
+	aED+fki4Eq7DLKNWXZb6F0qa3RwbxEn+/eO11NZQglhXj14J7eDz+6lPWx5wEx2P
+	No6/xGxh2vzIYk5eOlF4t8FWICQwJ3oyaYmqRy2a4745Ef3XdRUcRfe8UAOaHnht
+	gKajLcDMaCbFe8bopUKxsWkB+QTdov7Ym4McXAZLAS13P13UMbwQOyJUY0wsVvs4
+	p0yVsFzj9negvdfW9yMcI2XEt2VNY+w09LXuCxDTlTvIE58pF1tMxu+tFg2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651489214; x=
+	1651575614; bh=ItYICrTgTohpwpBDhrRzrv8Mk71TJQUctJQK+kNCaEg=; b=f
+	NJxWMgo52DAUSvr5ppVD+jC98ovCq/y/mMenmbrdp1EDOWqHv4+xjHNd9jMw+aoA
+	7vDzbEfF0CJMBMc398il+QjxgJFmtskl12ypCYCMldCTPlTExBPk/uQGCs29N61N
+	CRC9XF90FvFRnHCLN5uqoIqsPEZ8hf/PQf7XkFuolTHaVksroukqiM4O6NbEWBXH
+	r7u+9Ujfwui2a/QraPDLfb5wuXQyLACkhhWvdVkWXBrLscWzhObwOeHPRw0hBT+x
+	b6+56x+V39044xAn9XmHlEOivbXdjY0qSg35eN1DrKzTgUEOZZTHhehertKdRkKP
+	ftdQgGe+2vQWGjy7JQlHg==
+X-ME-Sender: <xms:vLlvYjR4YVGLpJu6ZquLlIf-XQi967msLSX4px2vi9WFcvV4L0qbFw>
+    <xme:vLlvYkwCZWhz55WPjTh2TH0oX6gARsWO8YljXKjUhIPZ5faiD4cl4dc5WlcY-GAB4
+    yJ82HJHpuzM41R_5Nc>
+X-ME-Received: <xmr:vLlvYo2agjDSHTbynvHVJWXHrMG4QpDLvI2mCLCVnqfJrazd8TdCK_DoiM9OeIERiU1EarzL-4UJqwoqVSYFCQsCoz1j_-hBECBxhME>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgdeffecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
+    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:vLlvYjDoVQPSrU9DIM4GPu6EZp8Su4e_o5YCQvDZYIk5IbG89SV_3w>
+    <xmx:vLlvYsjAsoL1FPfpWcxksuDQ_nbt-7XVgR4cjSCe0Lk7KzFoHP-WYA>
+    <xmx:vLlvYnphluj0VrpjS-ZULyjgnx7wOwCnYRFqORRRVDj7j1lAdWeDAg>
+    <xmx:vrlvYlVA8XUyTDMdzKQLvVQxzRNDBJ9b2eK4lsOf65Eg0WVZsT9pVQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 2 May 2022 07:00:12 -0400 (EDT)
+Date: Mon, 2 May 2022 13:00:10 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Ruslan Zalata <rz@fabmicro.ru>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+Message-ID: <20220502110010.q7vvdkdpaiz5acjl@houat>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.0
-Subject: Re: [PATCH 0/3] drm: Allow simpledrm to setup its emulated FB as
- firmware provided
-To: Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Emma Anholt <emma@anholt.net>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- David Airlie <airlied@linux.ie>, spice-devel@lists.freedesktop.org,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Gurchetan Singh <gurchetansingh@chromium.org>,
- Paul Cercueil <paul@crapouillou.net>, Nirmoy Das <nirmoy.das@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Shawn Guo <shawnguo@kernel.org>,
- linux-stm32@st-md-mailman.stormreply.com,
- Jerome Brunet <jbrunet@baylibre.com>, Marek Vasut <marex@denx.de>,
- Hao Fang <fanghao11@huawei.com>, linux-aspeed@lists.ozlabs.org,
- Samuel Holland <samuel@sholland.org>, Kevin Hilman <khilman@baylibre.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Alexey Brodkin <abrodkin@synopsys.com>,
- Michal Simek <michal.simek@xilinx.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Xinliang Liu <xinliang.liu@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Joel Stanley <joel@jms.id.au>, Dave Airlie <airlied@redhat.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- virtualization@lists.linux-foundation.org, NXP Linux Team
- <linux-imx@nxp.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen Feng <puck.chen@hisilicon.com>, Sascha Hauer <s.hauer@pengutronix.de>,
- Alison Wang <alison.wang@nxp.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, linux-mips@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, Hans de Goede <hdegoede@redhat.com>,
- linux-mediatek@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Alain Volmat <alain.volmat@foss.st.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-amlogic@lists.infradead.org,
- Mario Limonciello <mario.limonciello@amd.com>, Evan Quan
- <evan.quan@amd.com>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Yong Wu <yong.wu@mediatek.com>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, amd-gfx@lists.freedesktop.org,
- Tomi Valkeinen <tomba@kernel.org>, Hyun Kwon <hyun.kwon@xilinx.com>,
- Boris Brezillon <bbrezillon@kernel.org>, Andrew Jeffery <andrew@aj.id.au>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Yannick Fertre <yannick.fertre@foss.st.com>, "Pan, Xinhui"
- <Xinhui.Pan@amd.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- linux-renesas-soc@vger.kernel.org, Solomon Chiu <solomon.chiu@amd.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Philippe Cornu <philippe.cornu@foss.st.com>,
- Alex Deucher <alexander.deucher@amd.com>, Tian Tao <tiantao6@hisilicon.com>,
- Jyri Sarha <jyri.sarha@iki.fi>, =?UTF-8?Q?Christian_K=c3=b6nig?=
- <christian.koenig@amd.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20220502084830.285639-1-javierm@redhat.com>
- <c120e1c4-ac5c-afd5-8dd1-b4b51e0dcca9@suse.de>
-From: Javier Martinez Canillas <javierm@redhat.com>
-In-Reply-To: <c120e1c4-ac5c-afd5-8dd1-b4b51e0dcca9@suse.de>
-Authentication-Results: relay.mimecast.com;
-	auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=javierm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jlw5hd26lnyezkda"
+Content-Disposition: inline
+In-Reply-To: <20220428210906.29527-1-rz@fabmicro.ru>
 
-Hello Thomas,
 
-On 5/2/22 12:35, Thomas Zimmermann wrote:
-> Hi Javier
-> 
-> Am 02.05.22 um 10:48 schrieb Javier Martinez Canillas:
->> Hello,
->>
->> This series contain patches suggested by Thomas Zimmermannas a feedback for
+--jlw5hd26lnyezkda
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Ups, I missed a space here. I meant to write "Zimmermann as a feedback..."
+Hi,
 
->> "[RFC PATCH v4 00/11] Fix some race between sysfb device registration and
->> drivers probe" [0].
->>
->> Since other changes in [0] were more controversial, I decided to just split
->> this part in a new patch-set and revisit the rest of the patches later.
->>
->> Patch #1 is just a cleanup since when working on this noticed that some DRM
->> drivers were passing as preferred bits per pixel to drm_fbdev_generic_setup()
->> the value that is the default anyways.
->>
->> Patch #2 renames the 'preferred_bpp' drm_fbdev_generic_setup() parameter to
->> 'options', and make this a multi field parameter so that it can be extended
->> later to pass other options as well.
->>
->> Patch #3 finally adds the new DRM_FB_FW option and makes simpledrm to use it
->> so that the registered framebuffer device is also marked as firmware provided.
-> 
-> For the whole patchset:
-> 
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Thanks a lot!
-> 
+On Thu, Apr 28, 2022 at 09:09:03PM +0000, Ruslan Zalata wrote:
+> Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+> low rate (6 bit) ADC that is often used for extra keys. There's a driver
+> for that already implementing standard input device, but it has these
+> limitations: 1) it cannot be used for general ADC data equisition, and
+> 2) it uses only one LRADC channel of two available.
+>=20
+> This driver provides basic hwmon interface to both channels of LRADC on
+> such Allwinner SoCs.
+>=20
+> Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>
+> ---
+>  MAINTAINERS                       |   6 +
+>  drivers/hwmon/Kconfig             |  13 ++
+>  drivers/hwmon/Makefile            |   1 +
+>  drivers/hwmon/sun4i-lradc-hwmon.c | 280 ++++++++++++++++++++++++++++++
+>  4 files changed, 300 insertions(+)
+>  create mode 100644 drivers/hwmon/sun4i-lradc-hwmon.c
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5e8c2f61176..d9c71e94133 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -18861,6 +18861,12 @@ S:	Maintained
+>  F:	Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-key=
+s.yaml
+>  F:	drivers/input/keyboard/sun4i-lradc-keys.c
+> =20
+> +SUN4I LOW RES ADC HWMON DRIVER
+> +M:	Ruslan Zalata <rz@fabmicro.ru>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	drivers/hwmon/sun4i-lradc-hwmon.c
+> +
+>  SUNDANCE NETWORK DRIVER
+>  M:	Denis Kirjanov <kda@linux-powerpc.org>
+>  L:	netdev@vger.kernel.org
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 68a8a27ab3b..86776488a81 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1691,6 +1691,19 @@ config SENSORS_SIS5595
+>  	  This driver can also be built as a module. If so, the module
+>  	  will be called sis5595.
+> =20
+> +config SENSORS_SUN4I_LRADC
+> +	tristate "Allwinner A13/A20 LRADC hwmon"
+> +	depends on ARCH_SUNXI && !KEYBOARD_SUN4I_LRADC
+> +	help
+> +	  Say y here to support the LRADC found in Allwinner A13/A20 SoCs.
+> +	  Both channels are supported.
+> +
+> +	  This driver can also be built as module. If so, the module
+> +	  will be called sun4i-lradc-hwmon.
+> +
+> +	  This option is not compatible with KEYBOARD_SUN4I_LRADC, one
+> +	  of these must be used at a time.
 
-Thanks for the prompt review!
+How do you plan on enforcing that?
 
--- 
-Best regards,
+I guess a better path forward would be to either register an hwmon
+device in the original driver, or convert that driver to iio and use
+iio-hwmon.
 
-Javier Martinez Canillas
-Linux Engineering
-Red Hat
+Maxime
 
+--jlw5hd26lnyezkda
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYm+5ugAKCRDj7w1vZxhR
+xWLTAQCboX/1BSKFvZS12C8iuG73rMmjtoEPp7an4m1k3cxlmQEA1j3nBoQoAViK
+ntBC9sXc867rFYwx0NGyOqdWhao8Ywk=
+=5vhh
+-----END PGP SIGNATURE-----
+
+--jlw5hd26lnyezkda--
