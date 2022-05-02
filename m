@@ -1,89 +1,139 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from skyrocket.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A992F29
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 23:19:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 131DB5C0126;
-	Mon,  2 May 2022 19:19:07 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 02 May 2022 19:19:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651533547; x=
-	1651619947; bh=j+w4aZi5v5IBjtXn+OMWv0KN8l+vQ1Kj+B0xEUZBiK8=; b=H
-	itbHzXqmfiWvSynlZxlj0DIZ/NEHYt9FBybnw/+WlRpgwyCZbkw4E6Z0KM9EcvOT
-	qbJeg9Cu6vilgWoGW5KftLkJ1w9i86yvRnxQiXrMtLKlGZ+eZ3HEnm8ppBTy9qBi
-	m5ca4id8xbnH+LPZvF0+cLkENhaeAe6jFVrduj4c2/ZI+of50oUk2dvod/bxXtHw
-	O6SVsUgePAVKNyiLvBpv0ZKsGYP+JuL7dYGLVgvM1oEZlP/Wqr3DQ86zQoXMTlV0
-	oERuc9RGL7t9HqPlqgLeqf3NVb/k6RJYEmeovBRayITFaoM/8wiwrhe/fLBlfLvM
-	86ugkO7joGfsiCSwS3HeA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1651533547; x=1651619947; bh=j+w4aZi5v5IBj
-	tXn+OMWv0KN8l+vQ1Kj+B0xEUZBiK8=; b=TN4OzxbbpXalCHfBcmQd0D32OoQ2w
-	HN9y87W2p87hYdlfgP3vC3NzvsqVSEoZtmlkHJzAkhF5AfF9E11hvOH5oc746Mfc
-	ekoEBUNWSMSgXeTowuBBiHa/vJQSP49FMZvFhpJU+oIiCAycYPSPJTjB8m/5FuFQ
-	5EczwvA4w8TIbweRPPsRrYpA5bDh9+tUaP3EFDeI11Acc9SZtwsEc+a301FbPeHD
-	vt66o7I3skMuNtSuDm1xiPmMaUOCtFvhDnsR0EZy1l1Fyo+l49FEN8x+bofLxsep
-	vyz7iV0B+uSGLdza7ZuI6vqWSoNt8qenrwY5S/5cVvxWlH8xIu/wVOCig==
-X-ME-Sender: <xms:6mZwYiQofXTrtnAUbMbj-gdUN9sZP9ccSDQHfjrCEtqdChjzW6y3sw>
-    <xme:6mZwYnyLgIyoJQiMFv1ecsqtHsFErKaZX6Sd62lfDJ_u4jc7mlQimfYvzKjKwrcSg
-    AAdwCwskqdPAiy0Fg>
-X-ME-Received: <xmr:6mZwYv0jvWUS7sDELg-sey-Xz9TeHNNu9DRVg4j9rjEYFpT_-rTFCMJ3SF8fiffhIBsqCQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigddulecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
-    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:6mZwYuAM_ReHiloaktzP0m0PzxlrTvyb7SemvqWRBYoNzQa1M9DHZQ>
-    <xmx:6mZwYrh_E-v80WmKrOWvQ_Jv4r6RI3AVfqbK3n1rl7qAPrSh1dqgdA>
-    <xmx:6mZwYqpNk2ryWM1WVNhE76SDl1GRij8ATSEN03s4KvebR0QSkp1dNg>
-    <xmx:62ZwYr5NHWgMgEtgsCxNwmjrlf5ldKw0UuU_U7YlyDkMLxT-S38DYA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 May 2022 19:19:05 -0400 (EDT)
-Subject: Re: [PATCH 2/7] mailbox: sun6i: Unexport unused
- sun6i_msgbox_peek_data
-To: Hector Martin <marcan@marcan.st>
-Cc: Anup Patel <anup.patel@broadcom.com>, Vinod Koul <vkoul@kernel.org>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Mun Yew Tham <mun.yew.tham@intel.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Michal Simek <michal.simek@xilinx.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Jassi Brar <jassisinghbrar@gmail.com>
-References: <20220502090225.26478-1-marcan@marcan.st>
- <20220502090225.26478-3-marcan@marcan.st>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <c567f22d-db52-d2c5-b8cb-7b0cb93ff35c@sholland.org>
-Date: Mon, 2 May 2022 18:18:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFD552F29
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 23:21:05 +0000 (UTC)
+Received: from mail.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
+	by skyrocket.fabmicro.ru (8.14.9/8.14.9) with ESMTP id 242NK3ij032574;
+	Mon, 2 May 2022 23:20:03 GMT
+	(envelope-from rz@fabmicro.ru)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220502090225.26478-3-marcan@marcan.st>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Date: Tue, 03 May 2022 04:20:03 +0500
+From: Ruslan Zalata <rz@fabmicro.ru>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+In-Reply-To: <20220429142412.00001e43@Huawei.com>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+ <f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+ <20220429142412.00001e43@Huawei.com>
+User-Agent: Roundcube Webmail/1.4.3
+Message-ID: <d3d69373480f95ec7976055b7bb988a4@fabmicro.ru>
+X-Sender: rz@fabmicro.ru
+Organization: Fabmicro, LLC.
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	skyrocket.fabmicro.ru
 
-On 5/2/22 4:02 AM, Hector Martin wrote:
-> This op was ambiguously specified, and the way it was interpreted for
-> this implementation is not useful. It has no users, so remove it. The
-> function is used internally by the driver, so just remove it from the
-> ops structure.
+Hi Jonathan,
+
+Thank you for pointing to DEFINE_SIMPLE_DEV_PM_OPS macros, will use it.
+
+---
+Regards,
+Ruslan.
+
+Fabmicro, LLC.
+
+On 2022-04-29 18:24, Jonathan Cameron wrote:
+> On Thu, 28 Apr 2022 14:30:06 -0700
+> Guenter Roeck <linux@roeck-us.net> wrote:
 > 
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-
-Acked-by: Samuel Holland <samuel@sholland.org>
+>> On 4/28/22 14:09, Ruslan Zalata wrote:
+>> > Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+>> > low rate (6 bit) ADC that is often used for extra keys. There's a driver
+>> > for that already implementing standard input device, but it has these
+>> > limitations: 1) it cannot be used for general ADC data equisition, and
+>> 
+>> acquisition
+>> 
+>> > 2) it uses only one LRADC channel of two available.
+>> >
+>> > This driver provides basic hwmon interface to both channels of LRADC on
+>> > such Allwinner SoCs.
+>> >
+>> > Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>
+>> 
+>> Ok, next phase of review.
+>> 
+> 
+> One thing noticed whilst randomly glancing at this patch.
+> 
+> 
+>> > +#ifdef CONFIG_PM
+>> > +static int sun4i_lradc_resume(struct device *dev)
+>> > +{
+>> > +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+>> > +
+>> > +	return sun4i_lradc_start(lradc);
+>> > +}
+>> > +
+>> > +static int sun4i_lradc_suspend(struct device *dev)
+>> > +{
+>> > +	struct sun4i_lradc_data *lradc = dev_get_drvdata(dev);
+>> > +
+>> > +	sun4i_lradc_stop(lradc);
+>> > +	return 0;
+>> > +}
+>> > +
+>> > +#define SUN4I_LRADC_DEV_PM_OPS	(&sun4i_lradc_dev_pm_ops)
+>> > +#else
+>> > +#define SUN4I_LRADC_DEV_PM_OPS	NULL
+>> > +#endif /* CONFIG_PM */
+>> > +
+>> > +static const struct dev_pm_ops sun4i_lradc_dev_pm_ops = {
+> 
+> We have much better infrastructure for this these days.
+> 
+> Take a look at DEFINE_SIMPLE_DEV_PM_OPS()
+> and pm_sleep_ptr()
+> 
+> Those two in combination will let you get rid of all the ifdef stuff
+> here by letting the compiler remove the unused code automatically.
+> 
+>> > +	.suspend = sun4i_lradc_suspend,
+>> > +	.resume = sun4i_lradc_resume,
+>> > +};
+>> > +
+>> > +static const struct of_device_id sun4i_lradc_of_match[] = {
+>> > +	{ .compatible = "allwinner,sun4i-a10-lradc-keys", .data = &variant_sun4i_a10_lradc},
+>> > +	{ /* sentinel */ }
+>> > +};
+>> > +MODULE_DEVICE_TABLE(of, sun4i_lradc_of_match);
+>> > +
+>> > +static struct platform_driver sun4i_lradc_driver = {
+>> > +	.driver = {
+>> > +		.name	= "sun4i-lradc-hwmon",
+>> > +		.of_match_table = of_match_ptr(sun4i_lradc_of_match),
+>> > +		.pm = SUN4I_LRADC_DEV_PM_OPS,
+>> > +	},
+>> > +	.probe	= sun4i_lradc_probe,
+>> > +};
+>> > +
+>> > +module_platform_driver(sun4i_lradc_driver);
+>> > +
+>> > +MODULE_DESCRIPTION("Allwinner A13/A20 LRADC hwmon driver");
+>> > +MODULE_AUTHOR("Ruslan Zalata <rz@fabmicro.ru>");
+>> > +MODULE_LICENSE("GPL");
+>> > +No empty line at end, please
+>> 
+>> 
+>> _______________________________________________
+>> linux-arm-kernel mailing list
+>> linux-arm-kernel@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
