@@ -1,41 +1,41 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA323204
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 20:19:53 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id n126-20020a1c2784000000b0038e8af3e788so203433wmn.1
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 May 2022 13:19:52 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD2E3210
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 20:19:54 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 129so8853825wmz.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 May 2022 13:19:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ijgUOsTW0s4AimXboKSLya/yd0H2TC88bTv30krid0k=;
-        b=OMt6oz/Q9zXzb/TLNBc1XCNB6y1D2Z5nhI2EkVjLXPfKgNvIu5yHgxtQqSVYexk49s
-         5LH/nDaVXXpe68xtkRD7K6KAazWXgzcu3mdSIUc0lm6vCWeTPlwHfELRjXXs2UV95oor
-         TJ3EH4X7mTzKBOnCeyU4lHiZCRbf+j2KA6BEXDgTl/95UXMXVVEbVSX9IruUEmgGjgCM
-         yHuoDigYYHBdUN4P7R3EQmxMMLr48Iidop+9w09ybchoVfLUWKJLxCNYH7R+0GLIYYhc
-         +2jcgRdWlsGgLI1adQdHLpA3RDBq+DRsHT3ZyGxiHvGW9eotA+NKrR9I0B7UVA6cCilh
-         4p1Q==
+        bh=t1rWH8EkKjzUi0sXb9Nmfb9EEjMe/oHCHN553F8hg/c=;
+        b=geTCmE966V0DrhuP8tTXMustJYvfUWc3czrOC+YV/4Ssk0f1y8xCaqSnOhkZ3Yh69Z
+         e1fKIN45m5P517yxphjZ1YQap0K3pc4cr6YXMXJw9j+KAJ9v96LHOW378FQwwZKyl2/4
+         kp2A3bAPYE8D5Jd4m6Z5aoyuSE4nMsaL7g95ZHJO8qnbUlRaYf/E4RacHV+m4l1rcRcw
+         bQ7AMc/f41wp7FEhAsbck6gIhaF/cSZN1omsgVkXe80EpyiAn8FrIoOe5t+4guGeaFRt
+         BAYAXltjxVVVZi20abbw+0sdwzd5bRUbCKzkx8SuNDPkZvYoMVx0cbhqsHB8XXs3itj8
+         5qdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ijgUOsTW0s4AimXboKSLya/yd0H2TC88bTv30krid0k=;
-        b=6oCY2m5fME6m7KZipJaZY5Oxw7x5S8PCDi4K7yHd1SbJAftBo2nHwP0l1Oh0ly+8YW
-         CABRoXmi74a/mffP48LOEJk5cq2xQsQ4VjXcPRiSP+EMcLTi1cJeovU7Dbte6W8Xz1wb
-         XO1bFk0Cahb9sMl+P14GslrvK5tpKhRAbT3mmvxwuvII/F/bqFrLK4gohH4VEOGQR2be
-         P1xzHThvrLQvlnECpJmfZzDEqVQ3WwqeBUcaXS+QJ0Rtp27AOuyABsfSY0ErF9QDUivM
-         nRx3J+jNDnO1fPZH9P8A2ooKbEAXyzkjeDDr9E/LgcXsQ7xWNhqHSkKSd5+PFRVKMFSX
-         3/iQ==
-X-Gm-Message-State: AOAM531VJIEdyfIe9K7buEmUZz6BCqvvTWl+wS0A+PQ3LIbOHJHdxKbY
-	G01+V5jYZiSLvxsLfWMbTfH+gw==
-X-Google-Smtp-Source: ABdhPJxbJjvtJgIr2BWspoH0aQt3fQ7ddxqD2av4BznbG6r6q2cF3FcC3Eazvk+CmLW3vu1yaSVE0w==
-X-Received: by 2002:a05:600c:4fd6:b0:394:3e64:2081 with SMTP id o22-20020a05600c4fd600b003943e642081mr548232wmq.153.1651522791421;
-        Mon, 02 May 2022 13:19:51 -0700 (PDT)
+        bh=t1rWH8EkKjzUi0sXb9Nmfb9EEjMe/oHCHN553F8hg/c=;
+        b=1kL0HxcIvWQsdezCkQXTU1B4UVFI0mHHXdeypzA2qBWipudzb7AbMmNfom7T9a9W9b
+         XyQDfAahceCE3ANT4fPQgMWQn+ZywkB7ExzD1tEz92Iuqirwr03wu9ObV7013BWEdOZU
+         p6fuvissJ3wVDdHVGPP07OqsyoJoMX/JJN4UVAUWI1jyQ9H4RurcNaSEQ5zl1IPpvjrn
+         qEG07+3Mt+kfHBbDFXELLK2qjoUUpLv0MY8Sb/9wKbC9TfaTysFgKoxXQuSiocGmK/x/
+         OryH3QLkkbTHtqw7tK5aBElzZSM8+12cLeVNg9bFVswt8YprMTuH5theF3Ydc2qo7Cou
+         GRgA==
+X-Gm-Message-State: AOAM533jMIXjqqA/n07PRxXdJdjrxCcuAzPbBPi24ZnDbE1SgyJ/0PA5
+	eJ1w/5u2k7x0kBCXIcAwQVxOpg==
+X-Google-Smtp-Source: ABdhPJwK6U8fhYmWssHvBV6f3I3j+KBkxOhVy/4UJ2KDacD8HYPRTMRA0THUVJWZyJaVnck4yboDXQ==
+X-Received: by 2002:a7b:c74f:0:b0:394:1ce3:cc42 with SMTP id w15-20020a7bc74f000000b003941ce3cc42mr546136wmk.153.1651522792494;
+        Mon, 02 May 2022 13:19:52 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id l2-20020adfb102000000b0020c547f75easm7238183wra.101.2022.05.02.13.19.50
+        by smtp.googlemail.com with ESMTPSA id l2-20020adfb102000000b0020c547f75easm7238183wra.101.2022.05.02.13.19.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 13:19:51 -0700 (PDT)
+        Mon, 02 May 2022 13:19:52 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: herbert@gondor.apana.org.au,
 	jernej.skrabec@gmail.com,
@@ -46,9 +46,9 @@ Cc: linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v2 11/19] crypto: sun8i-ss: handle requests if last block is not modulo 64
-Date: Mon,  2 May 2022 20:19:21 +0000
-Message-Id: <20220502201929.843194-12-clabbe@baylibre.com>
+Subject: [PATCH v2 12/19] crypto: sun8i-ss: rework debugging
+Date: Mon,  2 May 2022 20:19:22 +0000
+Message-Id: <20220502201929.843194-13-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220502201929.843194-1-clabbe@baylibre.com>
 References: <20220502201929.843194-1-clabbe@baylibre.com>
@@ -60,127 +60,229 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current sun8i-ss handle only requests with all SG length being
-modulo 64.
-But the last SG could be always handled by copying it on the pad buffer.
+The "Fallback for xxx" message is annoying, remove it and store the
+information in the debugfs.
+In the same time, reports more fallback statistics.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c |  2 +-
- .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 35 ++++++++++++++-----
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h  |  2 ++
- 3 files changed, 29 insertions(+), 10 deletions(-)
+ .../allwinner/sun8i-ss/sun8i-ss-cipher.c      | 41 ++++++++++++++-----
+ .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c | 21 ++++++++++
+ .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 36 ++++++++++++----
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h  |  7 +++-
+ 4 files changed, 83 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-index 786b6f5cf300..8d31fd4968f3 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-@@ -487,7 +487,7 @@ static int allocate_flows(struct sun8i_ss_dev *ss)
- 		}
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index c4cb1ab1eeaa..7f1940c6cc41 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -22,35 +22,54 @@
  
- 		/* the padding could be up to two block. */
--		ss->flows[i].pad = devm_kmalloc(ss->dev, SHA256_BLOCK_SIZE * 2,
-+		ss->flows[i].pad = devm_kmalloc(ss->dev, MAX_PAD_SIZE,
- 						GFP_KERNEL | GFP_DMA);
- 		if (!ss->flows[i].pad)
- 			goto error_engine;
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-index 53e5bfb99c93..1b44c1a115d6 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-@@ -14,6 +14,7 @@
- #include <linux/pm_runtime.h>
- #include <linux/scatterlist.h>
- #include <crypto/internal/hash.h>
-+#include <crypto/scatterwalk.h>
- #include <crypto/sha1.h>
- #include <crypto/sha2.h>
- #include <crypto/md5.h>
-@@ -262,6 +263,9 @@ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
+ static bool sun8i_ss_need_fallback(struct skcipher_request *areq)
+ {
++	struct crypto_skcipher *tfm = crypto_skcipher_reqtfm(areq);
++	struct skcipher_alg *alg = crypto_skcipher_alg(tfm);
++	struct sun8i_ss_alg_template *algt = container_of(alg, struct sun8i_ss_alg_template, alg.skcipher);
+ 	struct scatterlist *in_sg = areq->src;
+ 	struct scatterlist *out_sg = areq->dst;
+ 	struct scatterlist *sg;
  
- 	if (areq->nbytes == 0)
+-	if (areq->cryptlen == 0 || areq->cryptlen % 16)
++	if (areq->cryptlen == 0 || areq->cryptlen % 16) {
++		algt->stat_fb_len++;
  		return true;
-+	if (areq->nbytes >= MAX_PAD_SIZE - 64)
-+		return true;
-+
- 	/* we need to reserve one SG for the padding one */
- 	if (sg_nents(areq->src) > MAX_SG - 1)
- 		return true;
-@@ -270,10 +274,13 @@ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
- 		/* SS can operate hash only on full block size
- 		 * since SS support only MD5,sha1,sha224 and sha256, blocksize
- 		 * is always 64
--		 * TODO: handle request if last SG is not len%64
--		 * but this will need to copy data on a new SG of size=64
- 		 */
--		if (sg->length % 64 || !IS_ALIGNED(sg->offset, sizeof(u32)))
-+		/* Only the last block could be bounced to the pad buffer */
-+		if (sg->length % 64 && sg_next(sg))
-+			return true;
-+		if (!IS_ALIGNED(sg->offset, sizeof(u32)))
-+			return true;
-+		if (sg->length % 4)
- 			return true;
- 		sg = sg_next(sg);
- 	}
-@@ -361,6 +368,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
- 		goto theend;
- 	}
++	}
  
-+	j = 0;
- 	len = areq->nbytes;
+ 	if (sg_nents_for_len(areq->src, areq->cryptlen) > 8 ||
+-		sg_nents_for_len(areq->dst, areq->cryptlen) > 8)
++		sg_nents_for_len(areq->dst, areq->cryptlen) > 8) {
++		algt->stat_fb_sgnum++;
+ 		return true;
++	}
+ 
  	sg = areq->src;
- 	i = 0;
-@@ -369,12 +377,19 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
- 			sg = sg_next(sg);
- 			continue;
- 		}
--		rctx->t_src[i].addr = sg_dma_address(sg);
- 		todo = min(len, sg_dma_len(sg));
--		rctx->t_src[i].len = todo / 4;
--		len -= todo;
--		rctx->t_dst[i].addr = addr_res;
--		rctx->t_dst[i].len = digestsize / 4;
-+		/* only the last SG could be with a size not modulo64 */
-+		if (todo % 64 == 0) {
-+			rctx->t_src[i].addr = sg_dma_address(sg);
-+			rctx->t_src[i].len = todo / 4;
-+			rctx->t_dst[i].addr = addr_res;
-+			rctx->t_dst[i].len = digestsize / 4;
-+			len -= todo;
-+		} else {
-+			scatterwalk_map_and_copy(bf, sg, 0, todo, 0);
-+			j += todo / 4;
-+			len -= todo;
+ 	while (sg) {
+-		if ((sg->length % 16) != 0)
++		if ((sg->length % 16) != 0) {
++			algt->stat_fb_sglen++;
+ 			return true;
+-		if ((sg_dma_len(sg) % 16) != 0)
++		}
++		if ((sg_dma_len(sg) % 16) != 0) {
++			algt->stat_fb_sglen++;
+ 			return true;
+-		if (!IS_ALIGNED(sg->offset, 16))
++		}
++		if (!IS_ALIGNED(sg->offset, 16)) {
++			algt->stat_fb_align++;
+ 			return true;
 +		}
  		sg = sg_next(sg);
- 		i++;
  	}
-@@ -384,8 +399,10 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
- 		goto theend;
+ 	sg = areq->dst;
+ 	while (sg) {
+-		if ((sg->length % 16) != 0)
++		if ((sg->length % 16) != 0) {
++			algt->stat_fb_sglen++;
+ 			return true;
+-		if ((sg_dma_len(sg) % 16) != 0)
++		}
++		if ((sg_dma_len(sg) % 16) != 0) {
++			algt->stat_fb_sglen++;
+ 			return true;
+-		if (!IS_ALIGNED(sg->offset, 16))
++		}
++		if (!IS_ALIGNED(sg->offset, 16)) {
++			algt->stat_fb_align++;
+ 			return true;
++		}
+ 		sg = sg_next(sg);
  	}
  
-+	if (j > 0)
-+		i--;
+@@ -385,9 +404,9 @@ int sun8i_ss_cipher_init(struct crypto_tfm *tfm)
+ 			 crypto_skcipher_reqsize(op->fallback_tfm);
+ 
+ 
+-	dev_info(op->ss->dev, "Fallback for %s is %s\n",
+-		 crypto_tfm_alg_driver_name(&sktfm->base),
+-		 crypto_tfm_alg_driver_name(crypto_skcipher_tfm(op->fallback_tfm)));
++	memcpy(algt->fbname,
++	       crypto_tfm_alg_driver_name(crypto_skcipher_tfm(op->fallback_tfm)),
++	       CRYPTO_MAX_ALG_NAME);
+ 
+ 	op->enginectx.op.do_one_request = sun8i_ss_handle_cipher_request;
+ 	op->enginectx.op.prepare_request = NULL;
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+index 8d31fd4968f3..f09de5737e8b 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+@@ -430,6 +430,17 @@ static int sun8i_ss_debugfs_show(struct seq_file *seq, void *v)
+ 				   ss_algs[i].alg.skcipher.base.cra_driver_name,
+ 				   ss_algs[i].alg.skcipher.base.cra_name,
+ 				   ss_algs[i].stat_req, ss_algs[i].stat_fb);
 +
- 	byte_count = areq->nbytes;
--	j = 0;
- 	bf[j++] = cpu_to_le32(0x80);
++			seq_printf(seq, "\tLast fallback is: %s\n",
++				   ss_algs[i].fbname);
++			seq_printf(seq, "\tFallback due to length: %lu\n",
++				   ss_algs[i].stat_fb_len);
++			seq_printf(seq, "\tFallback due to SG length: %lu\n",
++				   ss_algs[i].stat_fb_sglen);
++			seq_printf(seq, "\tFallback due to alignment: %lu\n",
++				   ss_algs[i].stat_fb_align);
++			seq_printf(seq, "\tFallback due to SG numbers: %lu\n",
++				   ss_algs[i].stat_fb_sgnum);
+ 			break;
+ 		case CRYPTO_ALG_TYPE_RNG:
+ 			seq_printf(seq, "%s %s reqs=%lu tsize=%lu\n",
+@@ -442,6 +453,16 @@ static int sun8i_ss_debugfs_show(struct seq_file *seq, void *v)
+ 				   ss_algs[i].alg.hash.halg.base.cra_driver_name,
+ 				   ss_algs[i].alg.hash.halg.base.cra_name,
+ 				   ss_algs[i].stat_req, ss_algs[i].stat_fb);
++			seq_printf(seq, "\tLast fallback is: %s\n",
++				   ss_algs[i].fbname);
++			seq_printf(seq, "\tFallback due to length: %lu\n",
++				   ss_algs[i].stat_fb_len);
++			seq_printf(seq, "\tFallback due to SG length: %lu\n",
++				   ss_algs[i].stat_fb_sglen);
++			seq_printf(seq, "\tFallback due to alignment: %lu\n",
++				   ss_algs[i].stat_fb_align);
++			seq_printf(seq, "\tFallback due to SG numbers: %lu\n",
++				   ss_algs[i].stat_fb_sgnum);
+ 			break;
+ 		}
+ 	}
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index 1b44c1a115d6..cb510ec21ec4 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -51,9 +51,8 @@ int sun8i_ss_hash_crainit(struct crypto_tfm *tfm)
+ 				 sizeof(struct sun8i_ss_hash_reqctx) +
+ 				 crypto_ahash_reqsize(op->fallback_tfm));
  
- 	fill = 64 - (byte_count % 64);
+-	dev_info(op->ss->dev, "Fallback for %s is %s\n",
+-		 crypto_tfm_alg_driver_name(tfm),
+-		 crypto_tfm_alg_driver_name(&op->fallback_tfm->base));
++	memcpy(algt->fbname, crypto_tfm_alg_driver_name(&op->fallback_tfm->base), CRYPTO_MAX_ALG_NAME);
++
+ 	err = pm_runtime_get_sync(op->ss->dev);
+ 	if (err < 0)
+ 		goto error_pm;
+@@ -259,16 +258,29 @@ static int sun8i_ss_run_hash_task(struct sun8i_ss_dev *ss,
+ 
+ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
+ {
++	struct crypto_ahash *tfm = crypto_ahash_reqtfm(areq);
++	struct ahash_alg *alg = __crypto_ahash_alg(tfm->base.__crt_alg);
++	struct sun8i_ss_alg_template *algt;
+ 	struct scatterlist *sg;
+ 
+-	if (areq->nbytes == 0)
++	algt = container_of(alg, struct sun8i_ss_alg_template, alg.hash);
++
++	if (areq->nbytes == 0) {
++		algt->stat_fb_len++;
+ 		return true;
+-	if (areq->nbytes >= MAX_PAD_SIZE - 64)
++	}
++
++	if (areq->nbytes >= MAX_PAD_SIZE - 64) {
++		algt->stat_fb_len++;
+ 		return true;
++	}
+ 
+ 	/* we need to reserve one SG for the padding one */
+-	if (sg_nents(areq->src) > MAX_SG - 1)
++	if (sg_nents(areq->src) > MAX_SG - 1) {
++		algt->stat_fb_sgnum++;
+ 		return true;
++	}
++
+ 	sg = areq->src;
+ 	while (sg) {
+ 		/* SS can operate hash only on full block size
+@@ -276,12 +288,18 @@ static bool sun8i_ss_hash_need_fallback(struct ahash_request *areq)
+ 		 * is always 64
+ 		 */
+ 		/* Only the last block could be bounced to the pad buffer */
+-		if (sg->length % 64 && sg_next(sg))
++		if (sg->length % 64 && sg_next(sg)) {
++			algt->stat_fb_sglen++;
+ 			return true;
+-		if (!IS_ALIGNED(sg->offset, sizeof(u32)))
++		}
++		if (!IS_ALIGNED(sg->offset, sizeof(u32))) {
++			algt->stat_fb_align++;
+ 			return true;
+-		if (sg->length % 4)
++		}
++		if (sg->length % 4) {
++			algt->stat_fb_sglen++;
+ 			return true;
++		}
+ 		sg = sg_next(sg);
+ 	}
+ 	return false;
 diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
-index eb82ee5345ae..2e3524654aca 100644
+index 2e3524654aca..b56038de333b 100644
 --- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
 +++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h
-@@ -82,6 +82,8 @@
- #define PRNG_DATA_SIZE (160 / 8)
- #define PRNG_SEED_SIZE DIV_ROUND_UP(175, 8)
+@@ -279,11 +279,14 @@ struct sun8i_ss_alg_template {
+ 		struct rng_alg rng;
+ 		struct ahash_alg hash;
+ 	} alg;
+-#ifdef CONFIG_CRYPTO_DEV_SUN8I_SS_DEBUG
+ 	unsigned long stat_req;
+ 	unsigned long stat_fb;
+ 	unsigned long stat_bytes;
+-#endif
++	unsigned long stat_fb_len;
++	unsigned long stat_fb_sglen;
++	unsigned long stat_fb_align;
++	unsigned long stat_fb_sgnum;
++	char fbname[CRYPTO_MAX_ALG_NAME];
+ };
  
-+#define MAX_PAD_SIZE 4096
-+
- /*
-  * struct ss_clock - Describe clocks used by sun8i-ss
-  * @name:       Name of clock needed by this variant
+ int sun8i_ss_enqueue(struct crypto_async_request *areq, u32 type);
 -- 
 2.35.1
 
