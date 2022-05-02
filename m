@@ -1,93 +1,135 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from skyrocket.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F804322B
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 23:36:14 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 9BA985C011B;
-	Mon,  2 May 2022 19:36:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 02 May 2022 19:36:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651534573; x=
-	1651620973; bh=oSO4IG1e2PvfQf3XV7EPd0FAQcRG5NB9lh6PhBhOWU0=; b=j
-	R4NzYUu6ZyxnW0ChBkVSV2F7DEd4Q7PwsuEVl3RsmVO1INnfrlNK58S9YZHYZFgu
-	3Cc+dn52ukaqbE53pkFyS1b1vUgurIMTtwpEZlEsCKZsEQCkb8VClKp/tmQo9DuN
-	92CS7Zt1ecinlzAfuhSgUqlJxzKp0N4CZvswVlggkUEISo4LNLAViB8XMlPYhnN5
-	i67h8D/M0Y10E+gDvEnFUAT9h18pE26ZBcoOpWcY4JwkjMhc56TwMPMij2CWUWTH
-	S4kgwtAdS5ZEl1WK4+9swTBJofjXG5klGnN5Uf9OJRb6D++eHdc25heX+GXGjNhY
-	ysh7LD3gy1GpiJleWVYRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1651534573; x=1651620973; bh=oSO4IG1e2PvfQ
-	f3XV7EPd0FAQcRG5NB9lh6PhBhOWU0=; b=qCSFNl3h+wYIrr6VTq86raeDUzGro
-	d8jzb7tTd0AQ+WyYE5nPuDaFZs3dQ+K6FXfr5aWNv/wQB5g3aaDy4rB7IcgLu3i9
-	g5S0BiotrIWtc3Xko08M1Xqg9gNn88/fcqyWPi0d3wZY7ogscKqQlteFAM0g05y4
-	sNiue4K94B64xBWCKjGBCpf2ujeJXX2g79W3aBeEjX3XP7fFy16e9/hIYQxFvYdk
-	3OVIbpafWmKCxFn3J0m6eYdSHZ1YdzF1tL4nJtZvcg/E6PaeuapNmu1jnET+p3v3
-	FUAs6HaOf305Vzv8XUJ9doiJ/JZ1vXO6lTwz4xidutDJMbGRQ821LbIyQ==
-X-ME-Sender: <xms:7WpwYlyE23xcU5kBR_BXw36htvimcJCiLIRSjzwAs6TsMqhCTmXflg>
-    <xme:7WpwYlQfKHdwtS3HMUnnXmdNy96f09lChyLNtDDseVFruuGrMByuZbezkHYio_0nS
-    e6kRZxqGL5eQfUT7Q>
-X-ME-Received: <xmr:7WpwYvUmC3nM0pteWW4jEgL7EniO0m1EfGinvzXI3sUduGzywIu0XvL_x0400n92xMRwaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigddvvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecunecujfgurhepuffvfhevhffkffgfgggjtgfgsehtje
-    ertddtfeejnecuhfhrohhmpefurghmuhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhes
-    shhhohhllhgrnhgurdhorhhgqeenucggtffrrghtthgvrhhnpedvtdetjeekkefhieduhe
-    dvjeehjeelgeeiudeiudeitdehjeevuedtteeigffggfenucevlhhushhtvghrufhiiigv
-    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurd
-    horhhg
-X-ME-Proxy: <xmx:7WpwYnggfzPG1poNLI-jM0wr2Aw-YMpJloqC3BKQU1yI5lVZ-hRsTQ>
-    <xmx:7WpwYnBnMF9ZnopT6rl0uZXaV5wtCzwQsAr7nYhSAZW_HR8f-InUZA>
-    <xmx:7WpwYgJHsQAoYAH7LJcM1JzBxbo5wB_52cxGVwuWq0iyio14Y_uz-w>
-    <xmx:7WpwYqpNWHxuOoxklO5HmFV2Oa-8cR4tyA_mgmPp02rrMrpQvMvVcw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 May 2022 19:36:13 -0400 (EDT)
-Subject: Re: question: How to toggle gpio when init_early
-To: qianfan <qianfanguijin@163.com>
-References: <2ecb71b6-6df1-6728-3d30-a401e181b326@163.com>
-Cc: linux-sunxi@lists.linux.dev
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <1915b311-05f5-f650-262a-24cbb5ff69e0@sholland.org>
-Date: Mon, 2 May 2022 18:36:11 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D85C322C
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 23:47:25 +0000 (UTC)
+Received: from mail.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
+	by skyrocket.fabmicro.ru (8.14.9/8.14.9) with ESMTP id 242Nl6QG033711;
+	Mon, 2 May 2022 23:47:06 GMT
+	(envelope-from rz@fabmicro.ru)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <2ecb71b6-6df1-6728-3d30-a401e181b326@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Date: Tue, 03 May 2022 04:47:06 +0500
+From: Ruslan Zalata <rz@fabmicro.ru>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Jean Delvare <jdelvare@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej
+ Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+In-Reply-To: <59e91f45-7263-eb41-4b47-db217af54910@roeck-us.net>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+ <f79a8edf-36d4-02af-da8f-32b4e491bd47@roeck-us.net>
+ <e0b57c7587dded38a92411994f353b3d@fabmicro.ru>
+ <e4d1a6c8-1afd-671e-76bf-b5bde9dc282f@roeck-us.net>
+ <59e91f45-7263-eb41-4b47-db217af54910@roeck-us.net>
+User-Agent: Roundcube Webmail/1.4.3
+Message-ID: <f315a4ddb51cdfd8596103836acbe7dd@fabmicro.ru>
+X-Sender: rz@fabmicro.ru
+Organization: Fabmicro, LLC.
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+	skyrocket.fabmicro.ru
 
-On 4/28/22 11:30 PM, qianfan wrote:
-> Hi everyone:
-> 
-> I want toggle a gpio when machine_desc->init_early, but failed.
-> 
-> The gpio is pd24, and I searched the datasheet of r40, the address of PD_DAT
-> register
-> is 0x01c20800 + 3 * 0x24 + 0x10. So I modify this register by __raw_readl and
-> __raw_writel.
-> The system can't startup when I adding those code.
-> 
-> Seems the physical address can't touch due to mmu.
-> Can I get some advice?
+Hi Guenter,
 
-You need to call ioremap() to get a virtual address for the MMIO region. But you
-really should be using the GPIO API and not raw MMIO. And you really should be
-using devicetree and not touching the machine description. For example, if this
-is for a GPIO-connected watchdog or LED or regulator, Linux already has
-devicetree drivers for these.
+I'm sorry to disappoint you, but continuous mode for LRADC works only 
+for key presses (significant voltage change), it does not work for raw 
+data. Here's an excerpt from the manual that supports my discovery 
+(punctuation and grammar preserved):
 
+> The LRADC have three mode, Normal Mode、Single Mode and Continue Mode. 
+> Normal mode is that the LRADC will
+> report the result data of each convert all the time when the key is 
+> down. Single Mode is that the LRADC
+> will only report the first convert result data when the key is down. 
+> Continue Mode is that the LRADC will
+> report one of 8*(N+1) (N is program can set) sample convert result data 
+> when key is down.
+
+In other words, all three modes require key down event (voltage change) 
+and IRQ is the only way to get continuous raw data updates from LRADC. 
+I've experimented quite a lot with this for past few days, there are no 
+changes to values in ADC data regs except in DATA IRQ mode.
+
+Regarding variant structure. Vref is not the only difference between 
+different implementations of LRADC in different Allwinner SoCs. For 
+example, A83T has only one channel LRADC instead of two channels in 
+A10/A13/A20. Some other SoCs may have even more differences. I 
+introduced hwmon_chip_info structure into variant to encapsulate such 
+differences in one place. Patch version 3 will follow. Thank you.
+
+---
 Regards,
-Samuel
+Ruslan.
+
+Fabmicro, LLC.
+
+On 2022-04-29 11:03, Guenter Roeck wrote:
+> On 4/28/22 22:32, Guenter Roeck wrote:
+>> On 4/28/22 17:28, Ruslan Zalata wrote:
+>>> Thank you Guenter for your valuable time.
+>>> 
+>>> I have added update_interval option (it's in ms units, right?) and 
+>>> fixed all other issues you pointed to. Will test it on real hardware 
+>>> and send third version of the patch for review.
+>>> 
+>>> Regarding IRQ. Alternatively the driver would need to sit and poll 
+>>> conversion ready bit in a loop which might cause a much worse load on 
+>>> system, is not it ? Anyway, the real problem with this piece of 
+>>> hardware is that there's no "conversion ready bit" provided, the only 
+>>> way to know data ready status is to receive an interrupt.
+>>> 
+>> 
+>> Not necessarily. The data does not have to be "current", after all,
+>> if the hardware is able to continuously convert. If not, the question
+>> is how long a conversion takes. If it doesn't take too long, it would
+>> be better to initiate a conversion and then wait for the completion.
+>> 
+>>> I think it still needs a semaphore/seqlock to synchronize conversions 
+>>> and reads. I.e. two consequent reads should not return same old 
+>>> value. Although it's not an issue in my case, but could be a problem 
+>>> for others.
+>>> 
+>> Why ? That happens for almost all hwmon devices. They will all report
+>> the most recent conversion value. Some of them can take seconds
+>> to complete a new conversion, so the reported value is always "old"
+>> for a given defition of old (ie any time smaller than a conversion
+>> interval).
+>> 
+>> Sigh. Looks like I'll have to dig up the documentation and read about
+>> the ADC myself.
+>> 
+> 
+> I did, for both A13 and A20. The ADC supports continuous mode. That
+> means it can be configured accordingly, and reading the ADC value
+> just returns the most recent conversion value. There is absolutely
+> no need to keep reading the conversion values using interrupts.
+> 
+> Also,
+> 
+> +struct lradc_variant {
+> +	u32 bits;
+> +	u32 resolution;
+> +	u32 vref;
+> +};
+> 
+> is unnecessary because the values are the same for both supported 
+> chips.
+> That means that defines can and should be used. Yes, I can see that
+> A83T uses a different voltage, but even that doesn't need a structure -
+> the voltage can be set in struct sun4i_lradc_data if/when needed,
+> and the resolution and number of bits is still the same.
+> 
+> Guenter
