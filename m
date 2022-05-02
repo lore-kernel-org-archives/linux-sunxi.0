@@ -1,57 +1,114 @@
 Received: from mail.marcansoft.com (marcansoft.com [212.63.210.85])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7D917C1
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 09:06:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5D317C1
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 09:09:24 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: marcan@marcan.st)
-	by mail.marcansoft.com (Postfix) with ESMTPSA id D629B425F5;
-	Mon,  2 May 2022 09:05:58 +0000 (UTC)
-Message-ID: <8d60761d-178f-2da1-ffac-34a33d6c4669@marcan.st>
-Date: Mon, 2 May 2022 18:05:56 +0900
+	(Authenticated sender: hector@marcansoft.com)
+	by mail.marcansoft.com (Postfix) with ESMTPSA id 218CE419C2;
+	Mon,  2 May 2022 09:02:32 +0000 (UTC)
+From: Hector Martin <marcan@marcan.st>
+To: 
+Cc: Hector Martin <marcan@marcan.st>,
+	Anup Patel <anup.patel@broadcom.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Sven Peter <sven@svenpeter.dev>,
+	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+	Mun Yew Tham <mun.yew.tham@intel.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Michal Simek <michal.simek@xilinx.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 1/7] mailbox: zynq: Remove unused zynqmp_ipi_peek_data
+Date: Mon,  2 May 2022 18:02:19 +0900
+Message-Id: <20220502090225.26478-2-marcan@marcan.st>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220502090225.26478-1-marcan@marcan.st>
+References: <20220502090225.26478-1-marcan@marcan.st>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Subject: Re: [PATCH 0/7] mailbox: apple: peek_data cleanup and implementation
-Content-Language: es-ES
-Cc: Anup Patel <anup.patel@broadcom.com>, Vinod Koul <vkoul@kernel.org>,
- Sven Peter <sven@svenpeter.dev>, Alyssa Rosenzweig <alyssa@rosenzweig.io>,
- Mun Yew Tham <mun.yew.tham@intel.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Michal Simek
- <michal.simek@xilinx.com>, Arnd Bergmann <arnd@arndb.de>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20220502090225.26478-1-marcan@marcan.st>
-To: Jassi Brar <jassisinghbrar@gmail.com>
-From: Hector Martin <marcan@marcan.st>
-In-Reply-To: <20220502090225.26478-1-marcan@marcan.st>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/05/2022 18.02, Hector Martin wrote:
-> Cc: Anup Patel <anup.patel@broadcom.com>
-> Cc: Vinod Koul <vkoul@kernel.org> (maintainer:DMA GENERIC OFFLOAD ENGINE SUBSYSTEM)
-> Cc: Sven Peter <sven@svenpeter.dev> (maintainer:ARM/APPLE MACHINE SUPPORT)
-> Cc: Alyssa Rosenzweig <alyssa@rosenzweig.io> (reviewer:ARM/APPLE MACHINE SUPPORT)
-> To: Jassi Brar <jassisinghbrar@gmail.com> (maintainer:MAILBOX API)
+This op was ambiguously specified, and the way it was interpreted for
+this implementation is not useful. It has no users, so remove it.
 
-Sigh, why do I always screw up git send-emails...
+Signed-off-by: Hector Martin <marcan@marcan.st>
+---
+ drivers/mailbox/zynqmp-ipi-mailbox.c | 41 ----------------------------
+ 1 file changed, 41 deletions(-)
 
-Jassi: this was supposed to be for you, but I had a spurious newline in
-the cover file and that dropped the to: (but not the cc:s). Let me know
-if you need the whole thing resent if you didn't get it via lists. My
-apologies.
-
+diff --git a/drivers/mailbox/zynqmp-ipi-mailbox.c b/drivers/mailbox/zynqmp-ipi-mailbox.c
+index 31a0fa914274..7c3ef7c8078e 100644
+--- a/drivers/mailbox/zynqmp-ipi-mailbox.c
++++ b/drivers/mailbox/zynqmp-ipi-mailbox.c
+@@ -177,46 +177,6 @@ static irqreturn_t zynqmp_ipi_interrupt(int irq, void *data)
+ 	return IRQ_NONE;
+ }
+ 
+-/**
+- * zynqmp_ipi_peek_data - Peek to see if there are any rx messages.
+- *
+- * @chan: Channel Pointer
+- *
+- * Return: 'true' if there is pending rx data, 'false' if there is none.
+- */
+-static bool zynqmp_ipi_peek_data(struct mbox_chan *chan)
+-{
+-	struct device *dev = chan->mbox->dev;
+-	struct zynqmp_ipi_mbox *ipi_mbox = dev_get_drvdata(dev);
+-	struct zynqmp_ipi_mchan *mchan = chan->con_priv;
+-	int ret;
+-	u64 arg0;
+-	struct arm_smccc_res res;
+-
+-	if (WARN_ON(!ipi_mbox)) {
+-		dev_err(dev, "no platform drv data??\n");
+-		return false;
+-	}
+-
+-	arg0 = SMC_IPI_MAILBOX_STATUS_ENQUIRY;
+-	zynqmp_ipi_fw_call(ipi_mbox, arg0, 0, &res);
+-	ret = (int)(res.a0 & 0xFFFFFFFF);
+-
+-	if (mchan->chan_type == IPI_MB_CHNL_TX) {
+-		/* TX channel, check if the message has been acked
+-		 * by the remote, if yes, response is available.
+-		 */
+-		if (ret < 0 || ret & IPI_MB_STATUS_SEND_PENDING)
+-			return false;
+-		else
+-			return true;
+-	} else if (ret > 0 && ret & IPI_MB_STATUS_RECV_PENDING) {
+-		/* RX channel, check if there is message arrived. */
+-		return true;
+-	}
+-	return false;
+-}
+-
+ /**
+  * zynqmp_ipi_last_tx_done - See if the last tx message is sent
+  *
+@@ -387,7 +347,6 @@ static void zynqmp_ipi_shutdown(struct mbox_chan *chan)
+ static const struct mbox_chan_ops zynqmp_ipi_chan_ops = {
+ 	.startup = zynqmp_ipi_startup,
+ 	.shutdown = zynqmp_ipi_shutdown,
+-	.peek_data = zynqmp_ipi_peek_data,
+ 	.last_tx_done = zynqmp_ipi_last_tx_done,
+ 	.send_data = zynqmp_ipi_send_data,
+ };
 -- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
+2.35.1
+
