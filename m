@@ -1,63 +1,72 @@
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DC53212
-	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 21:35:34 +0000 (UTC)
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-e93ff05b23so15532936fac.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 02 May 2022 14:35:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NT3TCOHAgj+vdyt2sEgp7l3FsjbmObj02EKHyM2g53k=;
-        b=y6Bk5UHyEx1r98XI7wqpM6/LRWxWw1b+TxB9J0xp/7UlkBblDV6CMYTToI7UqVY280
-         gDHL7LNfxKn0Zzfxn82CxrRVIehhVrn2yXGHK6TblhXi7CAsERZxEJcvt93wQLQXa2TV
-         GQG6wjGTZ3t4zoPoLliowz3G0GYHvyPnQDIzt5AkQDvDMISg4zGEYifRxUdGqy8iZlKL
-         UC1YOBBkb20431hiUbi6OjxtS2eq1WrWuNXMBsyL2QU7QtkM4s+2IeSK2GDMFNq5q0xm
-         Wb+Pl3sttrLG7/q5HsSgPAHeQ0c6UWxOymI+exhUWSSwoHbHkEcvpQOcx+rmzk6XM38+
-         DPsQ==
-X-Gm-Message-State: AOAM532afVwmPo2IjDVjLNtP/WK2AcvlySPsISfONif88wioy9cYmrdu
-	y70+rvzV1qo1x8rbhqmYyQ==
-X-Google-Smtp-Source: ABdhPJylq3vUy3dAJvMPmpgnVj4BH7chXBbaFIQei9aSlly/yv1cZ/9zNHEEasLZ4ywd53cUfQWseQ==
-X-Received: by 2002:a05:6870:648d:b0:ec:b32d:3e1b with SMTP id cz13-20020a056870648d00b000ecb32d3e1bmr509121oab.283.1651527333236;
-        Mon, 02 May 2022 14:35:33 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id w5-20020a9d70c5000000b0060603221268sm3260916otj.56.2022.05.02.14.35.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 May 2022 14:35:32 -0700 (PDT)
-Received: (nullmailer pid 1799513 invoked by uid 1000);
-	Mon, 02 May 2022 21:35:31 -0000
-Date: Mon, 2 May 2022 16:35:31 -0500
-From: Rob Herring <robh@kernel.org>
-To: icenowy@outlook.com
-Cc: linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Andre Przywara <andre.przywara@arm.com>, Linus Walleij <linus.walleij@linaro.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Icenowy Zheng <icenowy@aosc.io>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 09/12] dt-bindings: arm: sunxi: add compatible strings
- for Sipeed MaixSense
-Message-ID: <YnBOoxkKdKLwErxY@robh.at.kernel.org>
-References: <20220422140902.1058101-1-icenowy@aosc.io>
- <BYAPR20MB24723FAF3BE29BB7CD8341CCBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97D53212
+	for <linux-sunxi@lists.linux.dev>; Mon,  2 May 2022 22:24:29 +0000 (UTC)
+Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=phil.lan)
+	by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <heiko@sntech.de>)
+	id 1nleSe-0005bu-O7; Tue, 03 May 2022 00:24:08 +0200
+From: Heiko Stuebner <heiko@sntech.de>
+To: =?UTF-8?q?Jos=C3=A9=20Exp=C3=B3sito?= <jose.exposito89@gmail.com>,
+	inki.dae@samsung.com
+Cc: Heiko Stuebner <heiko@sntech.de>,
+	linux-kernel@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com,
+	dri-devel@lists.freedesktop.org,
+	samuel@sholland.org,
+	krzk@kernel.org,
+	wens@csie.org,
+	hjc@rock-chips.com,
+	airlied@linux.ie,
+	sw0312.kim@samsung.com,
+	alain.volmat@foss.st.com,
+	daniel@ffwll.ch,
+	lgirdwood@gmail.com,
+	linux-samsung-soc@vger.kernel.org,
+	jernej.skrabec@gmail.com,
+	linux-rockchip@lists.infradead.org,
+	jy0922.shim@samsung.com,
+	alim.akhtar@samsung.com,
+	linux-sunxi@lists.linux.dev,
+	broonie@kernel.org,
+	p.zabel@pengutronix.de,
+	linux-arm-kernel@lists.infradead.org,
+	kyungmin.park@samsung.com,
+	mripard@kernel.org
+Subject: Re: (subset) [PATCH 0/5] Replace drm_detect_hdmi_monitor() with drm_display_info.is_hdmi
+Date: Tue,  3 May 2022 00:24:02 +0200
+Message-Id: <165153020899.255051.7449667943189045907.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220421170725.903361-1-jose.exposito89@gmail.com>
+References: <20220421170725.903361-1-jose.exposito89@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR20MB24723FAF3BE29BB7CD8341CCBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 22 Apr 2022 23:41:12 +0800, icenowy@outlook.com wrote:
-> From: Icenowy Zheng <icenowy@aosc.io>
+On Thu, 21 Apr 2022 19:07:20 +0200, José Expósito wrote:
+> After implementing a similar change in the VC4 driver [1], as suggested
+> by Laurent in the ToDo list [2], I noticed that a similar pattern is
+> used in the Exynos, Rockchip, STI and sun4i drivers.
 > 
-> Sipeed MaixSense is an Allwinner R329 development kit based on Maix IIA
-> SoM.
+> This patchset replaces drm_detect_hdmi_monitor() with is_hdmi in the
+> mentioned drivers.
 > 
-> Add compatible strings for it.
-> 
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> ---
->  Documentation/devicetree/bindings/arm/sunxi.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
+> [...]
 
-Acked-by: Rob Herring <robh@kernel.org>
+Applied, thanks!
+
+[2/5] drm/rockchip: inno_hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
+      commit: d449222dd533ca83a3a2f88aafe06fdd8d589280
+[3/5] drm/rockchip: rk3066_hdmi: Replace drm_detect_hdmi_monitor() with is_hdmi
+      commit: d2eabdb64474c2101953859601794f1ea08ec1d9
+
+Best regards,
+-- 
+Heiko Stuebner <heiko@sntech.de>
