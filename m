@@ -1,59 +1,65 @@
-Received: from skyrocket.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
+Received: from mail.megasoftsol.com (mail.megasoftsol.com [43.231.250.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B507F
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 08:51:06 +0000 (UTC)
-Received: from mail.fabmicro.ru (skyrocket.fabmicro.ru [217.116.57.130])
-	by skyrocket.fabmicro.ru (8.14.9/8.14.9) with ESMTP id 2438od2O057796;
-	Tue, 3 May 2022 08:50:39 GMT
-	(envelope-from rz@fabmicro.ru)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4943204
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 15:01:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.megasoftsol.com (Postfix) with ESMTP id 999ED90DA9E
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 20:17:07 +0530 (IST)
+Received: from mail.megasoftsol.com ([127.0.0.1])
+	by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id fHmQLGn4JKbB for <linux-sunxi@lists.linux.dev>;
+	Tue,  3 May 2022 20:17:07 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.megasoftsol.com (Postfix) with ESMTP id 1511890DA57
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 20:17:07 +0530 (IST)
+X-Virus-Scanned: amavisd-new at megasoftsol.com
+Received: from mail.megasoftsol.com ([127.0.0.1])
+	by localhost (mail.megasoftsol.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id mGwAHSPgG-tY for <linux-sunxi@lists.linux.dev>;
+	Tue,  3 May 2022 20:17:06 +0530 (IST)
+Received: from asda.co.uk (unknown [20.97.211.134])
+	(Authenticated sender: admin)
+	by mail.megasoftsol.com (Postfix) with ESMTPSA id 46A1D90D726
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 20:17:06 +0530 (IST)
+Reply-To: sales@asdaa.uk
+From: ASDA Stores Limited <Hanes.Thomas23877@asda.co.uk>
+To: linux-sunxi@lists.linux.dev
+Subject: 2nd Quater puchase request
+Date: 03 May 2022 14:49:34 +0000
+Message-ID: <20220503092157.447BD022EF042772@asda.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 03 May 2022 13:50:39 +0500
-From: Ruslan Zalata <rz@fabmicro.ru>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
- Allwinner A13/A20 SoC
-In-Reply-To: <20220502110010.q7vvdkdpaiz5acjl@houat>
-References: <20220428210906.29527-1-rz@fabmicro.ru>
- <20220502110010.q7vvdkdpaiz5acjl@houat>
-User-Agent: Roundcube Webmail/1.4.3
-Message-ID: <6009fbef45a8b77caa4fc137093a1e23@fabmicro.ru>
-X-Sender: rz@fabmicro.ru
-Organization: Fabmicro, LLC.
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=0.0 required=5.0 tests=SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
-	skyrocket.fabmicro.ru
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Maxime,
+Dear linux-sunxi
 
-> I guess a better path forward would be to either register an hwmon
-> device in the original driver, or convert that driver to iio and use
-> iio-hwmon.
-
-My first idea was to add hwmon to sun4i-lradc-keys.c driver. But soon as 
-I began hacking the driver I quickly realized that it would be a mess 
-since keyboard and hwmon belong to two different subsystems. Besides we 
-would need to invent a way to control which way the driver works (new 
-bindings?). So I decided that a new independent small driver would be a 
-better solution.
-
----
-Regards,
-Ruslan.
-
-Fabmicro, LLC.
+We are interested in having some of your hot selling product in=20
+our stores and outlets spread all over United Kingdom, Northern=20
+Island and Africa. ASDA Stores Limited is one of the highest-
+ranking Wholesale & Retail outlets in the United Kingdom. 
+=20=20
+We shall furnish our detailed company profile in our next=20
+correspondent. However, it would be appreciated if you can send=20
+us your catalog through email to learn more about your company's=20
+products and wholesale quote. It is hopeful that we can start a=20
+viable long-lasting business relationship (partnership) with you.=20=20
+  
+=20=20
+Your prompt response would be delightfully appreciated. 
+=20=20
+Best Wishes=20
+  
+=20=20
+Hanes S. Thomas=20
+Procurement Office.=20
+ASDA Stores Limited=20
+Tel:  + 44 - 7451271650=20
+WhatsApp: + 44 =E2=80=93 7441440360=20
+Website: www.asda.co.uk
