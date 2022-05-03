@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2877533C9
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7643833C9
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:12 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0799212FC;
-	Tue,  3 May 2022 14:21:10 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BD4F12FC;
+	Tue,  3 May 2022 14:21:12 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E8513FA53;
-	Tue,  3 May 2022 14:21:08 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 52D233FA53;
+	Tue,  3 May 2022 14:21:10 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jesse Taube <mr.bossman075@gmail.com>,
@@ -18,9 +18,9 @@ Cc: Jesse Taube <mr.bossman075@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-sunxi@lists.linux.dev,
 	u-boot@lists.denx.de
-Subject: [PATCH 6/7] Revert "sunxi: f1c100s: Drop SYSRESET to enable reset functionality"
-Date: Tue,  3 May 2022 22:20:39 +0100
-Message-Id: <20220503212040.27884-7-andre.przywara@arm.com>
+Subject: [PATCH 7/7] sunxi: licheepi_nano: enable SPI flash
+Date: Tue,  3 May 2022 22:20:40 +0100
+Message-Id: <20220503212040.27884-8-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220503212040.27884-1-andre.przywara@arm.com>
 References: <20220503212040.27884-1-andre.przywara@arm.com>
@@ -32,31 +32,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original Allwinner F1C100 .dtsi imported from the Linux kernel tree
-used the wrong compatible string for the watchdog timer, so the Allwinner
-DM reset driver was not working properly. We worked around this by
-disabling the SYSRESET driver, so the hardcoded SPL reset driver took
-over.
-Now the issue was fixed in the DTs in mainline Linux, and we synced the
-fixed .dtsi file into U-Boot, so drop the hack and use the normal U-Boot
-proper reset infrastructure.
-
-This reverts commit cfcf1952c11e6ffcbbf88eb63c49edca2acf1d5e.
+Many LicheePi Nano boards come with SPI flash soldered, which already
+works for booting the SPL and loading U-Boot proper.
+With the updated DTB, we can now also use the SPI flash from U-Boot
+proper, so enable the bits in the defconfig, to allow loading binaries
+from SPI flash.
+There seem to be board revisions with a Winbond SPI chip, but also
+others with an XTX chip, so include support for both: the actual chip
+used will be autodetected.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- configs/licheepi_nano_defconfig | 1 -
- 1 file changed, 1 deletion(-)
+ configs/licheepi_nano_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/configs/licheepi_nano_defconfig b/configs/licheepi_nano_defconfig
-index 67b7b85c491..9fd1dcc9958 100644
+index 9fd1dcc9958..dfdc7d46855 100644
 --- a/configs/licheepi_nano_defconfig
 +++ b/configs/licheepi_nano_defconfig
-@@ -10,4 +10,3 @@ CONFIG_DRAM_CLK=156
+@@ -10,3 +10,6 @@ CONFIG_DRAM_CLK=156
  CONFIG_DRAM_ZQ=0
  # CONFIG_VIDEO_SUNXI is not set
  CONFIG_SPL_SPI_SUNXI=y
--# CONFIG_SYSRESET is not set
++CONFIG_SPI_FLASH_WINBOND=y
++CONFIG_SPI_FLASH_XTX=y
++CONFIG_SPI=y
 -- 
 2.35.3
 
