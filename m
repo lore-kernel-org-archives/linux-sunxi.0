@@ -1,134 +1,129 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434FB322E
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 16:14:51 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 7EB60320094C;
-	Tue,  3 May 2022 12:14:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Tue, 03 May 2022 12:14:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1651594488; x=1651680888; bh=eE6eGyd0dl
-	PvEc94UVUT/f7gT2Hb5vI5mPIwodd+6xY=; b=MHJ7F2iS0dRh6TQQrhw80qfulK
-	aCyBP4HU+m3J5VECiyqYDVzjxopYt33olDf4huoqTjyotocx0DCV0xWL3wbXq16P
-	mUxelYPlq+FpxMW0k5FexTdSutoacfEqiShu13p8rK88gwhiNASlNbn/6wQZqJAQ
-	36ixkM0rxj1lnLcd9qSojHBQIXtOTFDWowLTaRRZ+mDaP086pouGSSVCJyipULJm
-	U/xW4IfF2jeP2aGfbS3s32uyom9j5MaQlfpgftM/v4FumFvqZLo5kv82RKJG0GGU
-	2xhIbcr7Ryd4tR+nBJUv58ma0dQau3Hgs6RMDdySpkHllfqj++OdcPYjNBgA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651594488; x=
-	1651680888; bh=eE6eGyd0dlPvEc94UVUT/f7gT2Hb5vI5mPIwodd+6xY=; b=o
-	RwkM7FSUhkbCGGCrwqSynOQJsGCqU5G51BiDRUD6uBoo53i0Bmzv2zCB5xEbdH/U
-	OZAH0akcjpp0tydSg0WLa9DfkxYBkeT7tkLYarxYO0VbPv4qdoTpLrBqO7Uoo+Az
-	1Pb664/UQF060KPTEjU66YI7Ilf4mewUi3hZGsyNIsqM3MLR64ZDxYFZfTnh4HKF
-	4kuv8ZuXhuPV+Wi1SOUkCSaY7Y5wC2VF9vsWukbBTJdiu7dUDAM0WkGvUPLIJJc1
-	HYKRLknmI2uLyICp/KRtMtlFT/PqmeyDBxz78alKEFQdJ4KipF6WuzkVGz0W2828
-	eKNu2u2QRRVjSxofedOIA==
-X-ME-Sender: <xms:-FRxYuyWVZehrcvrb9cR0hhjcLq3-bj_OlfH9jWMMwp_pzjJsdr_NQ>
-    <xme:-FRxYqRmj2aALivmWhsom-bDosv8ccQsnUaHbF9RJ9slYG7OK9kZkgd3hEO6DlGvx
-    VCLAULoMvURO3MYzqQ>
-X-ME-Received: <xmr:-FRxYgVk1k9Kn9fmhRmC__Sc3Clfn1BjrznXpYmRzdFUn2L2jm87uO1I9DzxSTFccpXFz_ATXS60giV2VEIVi7iEROaIVXG5QNIGzOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdejgdelkecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheehfffh
-    vedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
-    grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:-FRxYkiApGu4RvKI6SvOMNYmv2WQC6KS-n5wv0rs_KI8kezSh72CkQ>
-    <xmx:-FRxYgAT7461MCUbdBcY4ByDQ2O5KpFteBv8BWnKqC6wQlI_LgjYjA>
-    <xmx:-FRxYlKzw6sjuQC53yBNWFGO_9iJqK1MM-trIk-ZK_j4JWaCFqjtwg>
-    <xmx:-FRxYgtDetsZCD8M60OmlUh-_NpvnzPHCOqVRzapvqMhkgFsjQuDsA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 3 May 2022 12:14:48 -0400 (EDT)
-Date: Tue, 3 May 2022 18:14:46 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Ruslan Zalata <rz@fabmicro.ru>
-Cc: Guenter Roeck <linux@roeck-us.net>, Icenowy Zheng <icenowy@aosc.io>,
-	Jean Delvare <jdelvare@suse.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
- Allwinner A13/A20 SoC
-Message-ID: <20220503161446.tl3qoqqnkzq2f3hn@houat>
-References: <20220428210906.29527-1-rz@fabmicro.ru>
- <20220502110010.q7vvdkdpaiz5acjl@houat>
- <7433B295-D896-4BF8-87DF-87EB89D7A550@aosc.io>
- <20220502112112.3ne7zy4b6gggxzoo@houat>
- <4aabfd63-18e2-65c5-d1c2-d7600afc1c40@roeck-us.net>
- <97e3af18e947492b1ac968c058ba509f@fabmicro.ru>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1A07F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 17:02:59 +0000 (UTC)
+Received: by mail-ed1-f44.google.com with SMTP id be20so20556856edb.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 03 May 2022 10:02:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=0ebsl3t9Q4A5ZhggZdMt0K6huVQ4nPLjVF1HT4eHwHY=;
+        b=HaGnyx7pBoke+0aSLZ+0Cl9i2Z3rtc277xsE07lgnGx2lIPgKNR+/cHf1BHMJd+tWY
+         xLxDVjfXM0LpLkK6W47aSnLqvt4qcngT1GxJ9qnMFGWSSL68ZSpCJur0Qp+flnz9TG9V
+         8iSPz7fXNdaty2uNHB4TWoNsqJrz0v03bb5rxLo5UKkUbCeepA8IK+d4f511ABt2QcWd
+         ZpC42ODRQgilCYofK3JnmcBW/XdrLxgbLavwJlZDJe38uRpGjKQRfb1xNvaHi8pmKFwS
+         8RYFI+ibpzWIAh8L22MX0fUODrvS/rlJYgws3AcC0d8zDmBJEhPw91evXIyGqHtd9B1w
+         9Xiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=0ebsl3t9Q4A5ZhggZdMt0K6huVQ4nPLjVF1HT4eHwHY=;
+        b=nixOjYThsvGlHkQifism/tH8bd/10FuZbiDIvth02MQOz4Vq0a8hbq6OazBitwNGm+
+         S29qHSSQz5tFqZ3H089XMQzL/Tth02R8R5quVu8exvn02FfHz9GKHedDOKFwuazd6KwJ
+         ja3shb8Tx6DPKBoPWo6WfeI5RzWMJ5T4IP2X5Vuya11tLEgHRBFz+nXSj+KW5zOQLlw0
+         SgMTaxlPolZ8p43lCsK/GtNqeAcZSAEqA00TrEUWXM66i96319tcE58GALDD1j6CeWcK
+         e2q6va/4Te9gRvoZzFO9vYDAklDyKq+PwHIsDbdxjc6I0gIQFyoV01FbnmK39WLCblt2
+         0qzw==
+X-Gm-Message-State: AOAM5312ESc/eRA90cfuq8sm1YrxGd4tG+LULs5H9lgCg0KGKuj/dMIc
+	y+d0GIFs0ZtcT9I+LYHwNtE=
+X-Google-Smtp-Source: ABdhPJwhqGbymFuBTyPLL+yyc+nnpILMy/ni7d7XOhYbnZCBoZ0oS8dRxaoc/0h9PTlfn8SevSJmlw==
+X-Received: by 2002:a05:6402:1941:b0:413:2822:9c8 with SMTP id f1-20020a056402194100b00413282209c8mr18716302edz.13.1651597377548;
+        Tue, 03 May 2022 10:02:57 -0700 (PDT)
+Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id q8-20020aa7cc08000000b0042617ba637esm8000905edt.8.2022.05.03.10.02.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 May 2022 10:02:56 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-kernel@vger.kernel.org, Javier Martinez Canillas <javierm@redhat.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Javier Martinez Canillas <javierm@redhat.com>, amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org, linux-mediatek@lists.infradead.org, linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, spice-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v3 2/3] drm/fb-helper: Rename preferred_bpp drm_fbdev_generic_setup() parameter
+Date: Tue, 03 May 2022 19:02:54 +0200
+Message-ID: <2626921.mvXUDI8C0e@kista>
+In-Reply-To: <20220503071540.471667-3-javierm@redhat.com>
+References: <20220503071540.471667-1-javierm@redhat.com> <20220503071540.471667-3-javierm@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="q53czbjv7t5deybk"
-Content-Disposition: inline
-In-Reply-To: <97e3af18e947492b1ac968c058ba509f@fabmicro.ru>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+
+Dne torek, 03. maj 2022 ob 09:15:39 CEST je Javier Martinez Canillas 
+napisal(a):
+> By default the bits per pixel for the emulated framebuffer device is set
+> to dev->mode_config.preferred_depth, but some devices need another value.
+> 
+> Since this second parameter is only used by a few drivers, and to allow
+> drivers to use it for passing other configurations when registering the
+> fbdev, rename @preferred_bpp to @options and make it a multi-field param.
+> 
+> The DRM_FB_OPTION() and DRM_FB_GET_OPTION() macros are provided to drivers
+> for computing options bitfield values and getting the values respectively
+> 
+> For now, only the DRM_FB_BPP option exists but other options can be added.
+> 
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Signed-off-by: Javier Martinez Canillas <javierm@redhat.com>
+> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> 
+> Changes in v3:
+> - Drop the preferred_bpp local variable (Laurent Pinchart).
+> - Add a const qualifier to options parameter (Laurent Pinchart).
+> 
+> Changes in v2:
+> - Rename DRM_FB_SET_OPTION() to DRM_FB_OPTION() and make more clear in
+>   the kernel-doc what this macro does (Laurent Pinchart).
+> - Fix some kernel-doc issues I didn't notice in v1.
+> - Add Reviewed-by tags from Thomas and Laurent.
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  6 +++--
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  2 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  2 +-
+>  drivers/gpu/drm/aspeed/aspeed_gfx_drv.c       |  2 +-
+>  drivers/gpu/drm/ast/ast_drv.c                 |  2 +-
+>  drivers/gpu/drm/atmel-hlcdc/atmel_hlcdc_dc.c  |  2 +-
+>  drivers/gpu/drm/drm_drv.c                     |  2 +-
+>  drivers/gpu/drm/drm_fb_helper.c               | 26 ++++++++++++-------
+>  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c     |  2 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  2 +-
+>  drivers/gpu/drm/imx/dcss/dcss-kms.c           |  2 +-
+>  drivers/gpu/drm/imx/imx-drm-core.c            |  2 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  2 +-
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  2 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  2 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  2 +-
+>  drivers/gpu/drm/mxsfb/mxsfb_drv.c             |  2 +-
+>  drivers/gpu/drm/pl111/pl111_drv.c             |  2 +-
+>  drivers/gpu/drm/qxl/qxl_drv.c                 |  2 +-
+>  drivers/gpu/drm/rcar-du/rcar_du_drv.c         |  2 +-
+>  drivers/gpu/drm/sti/sti_drv.c                 |  2 +-
+>  drivers/gpu/drm/stm/drv.c                     |  2 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  2 +-
+
+For sun4i:
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Best regard,
+Jernej
+
+>  drivers/gpu/drm/tidss/tidss_drv.c             |  2 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  2 +-
+>  drivers/gpu/drm/tiny/arcpgu.c                 |  2 +-
+>  drivers/gpu/drm/tiny/bochs.c                  |  2 +-
+>  drivers/gpu/drm/tve200/tve200_drv.c           |  2 +-
+>  drivers/gpu/drm/vboxvideo/vbox_drv.c          |  2 +-
+>  drivers/gpu/drm/vc4/vc4_drv.c                 |  2 +-
+>  drivers/gpu/drm/virtio/virtgpu_drv.c          |  2 +-
+>  drivers/gpu/drm/xlnx/zynqmp_dpsub.c           |  2 +-
+>  include/drm/drm_fb_helper.h                   | 14 +++++++++-
+>  33 files changed, 64 insertions(+), 42 deletions(-)
 
 
---q53czbjv7t5deybk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 03, 2022 at 08:26:18PM +0500, Ruslan Zalata wrote:
-> LRADC does generate continuous interrupts as long as input voltage is bel=
-ow
-> LevelB threshold. The max possible LevelB is 0x3C which in case of A20 SoC
-> is close to 1.90V and that's what my driver sets LevelB to. Perhaps this
-> needs to be documented more thoroughly.
->=20
-> It is possible to implement this same driver for IIO subsystem, but I wou=
-ld
-> prefer to keep it in hwmon along with many other simple ADC drivers used =
-for
-> temp and battery status monitoring.
-
-If you can get it work reliably enough, I think IIO+iio-hwmon is still
-the way to go
-
-The main issue here is that drivers that are decided at compile time are
-kind of a pain as soon as you try to install a generic distro.
-
-At the hardware level, I'd assume you would either use the LRADC as an
-actual ADC, or use it to drive buttons, right?
-
-So, you would have to change the device tree accordingly anyway, to
-either list buttons and their associated voltages or use it to probe
-whatever signal to have there.
-
-So I don't think a new device tree binding is such a deal breaker since
-you have to describe it differently anyway.
-
-Since that would be a completely different use-case, the IIO driver
-doesn't have to support input right away, it can be done later if
-needed.
-
-And you could have the two drivers compiled at the same time.
-
-Maxime
-
---q53czbjv7t5deybk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnFU9gAKCRDj7w1vZxhR
-xWCtAP48uwYuvDG3xl2RWzF5C2D3hGwJp2/yzgWFxZrWWCibeAD/Wsgdx1c84HUJ
-tIvyginSC9xJNYtGNE897hcLT6NaGgg=
-=TR7u
------END PGP SIGNATURE-----
-
---q53czbjv7t5deybk--
