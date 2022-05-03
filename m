@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6D1D33ED
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 740DC33C9
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:06 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3803E1516;
-	Tue,  3 May 2022 14:21:04 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2907712FC;
+	Tue,  3 May 2022 14:21:06 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7BAC13FA53;
-	Tue,  3 May 2022 14:21:02 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6F2A73FA53;
+	Tue,  3 May 2022 14:21:04 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jesse Taube <mr.bossman075@gmail.com>,
@@ -18,9 +18,9 @@ Cc: Jesse Taube <mr.bossman075@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-sunxi@lists.linux.dev,
 	u-boot@lists.denx.de
-Subject: [PATCH 3/7] spi: sunxi: improve SPI clock calculation
-Date: Tue,  3 May 2022 22:20:36 +0100
-Message-Id: <20220503212040.27884-4-andre.przywara@arm.com>
+Subject: [PATCH 4/7] spi: sunxi: Add support for F1C100s SPI controller
+Date: Tue,  3 May 2022 22:20:37 +0100
+Message-Id: <20220503212040.27884-5-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220503212040.27884-1-andre.przywara@arm.com>
 References: <20220503212040.27884-1-andre.przywara@arm.com>
@@ -32,64 +32,56 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The current SPI clock divider calculation has two problems:
-- We use a normal round-down division, which results in a divider
-  typically being too small, resulting in a too high frequency on the bus.
-- The calculation for the power-of-two divider is very inaccurate, and
-  again rounds down, which might lead to wild bus frequencies.
+The SPI controllers in the Allwinner F1Cx00 series of SoCs are
+compatible to the H3 IP. The only difference in the integration is
+the missing mod clock in the F1C100, instead the SPI clock is directly
+derived from the AHB clock.
+We *should* be able to model this through the DT, but the addition of
+get_rate() requires quite some refactoring, so it's not really worth in
+this simple case: We programmed both the PLL_PERIPH to 600 MHz and the
+PLL/AHB divider to 3 in the SPL, so we know the SPI base clock is 200
+MHz. Since we used a hard coded fixed clock rate of 24 MHz for all the
+other SoCs so far, we can as well do the same for the F1C100.
 
-This wasn't a real problem so far, since most chips can handle slightly
-higher bus frequencies just fine. Also the actual speed was mostly lost
-anyway, due to release_bus() reseting the device. And the power-of-2
-calculation was probably never used, because it only applies to
-frequencies below 47 KHz.
-However this will become a problem for the F1C100s support, due to its
-much higher base frequency.
+Define the SPI input clock and maximum frequency differently when
+compiling for the F1C100 SoC.
+Also adjust the power-of-2 divider programming, because that uses a
+"minus one" encoding, compared to the other SoCs.
 
-Calculate a safe divider correctly (using round-up), and re-use that
-value when calculating the power-of-2 value. We also separate the
-maximum frequency and the input clock on the way, since they will be
-different for the F1C100s.
+This allows to enable SPI flash support for the F1C100 boards.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/spi/spi-sunxi.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/spi/spi-sunxi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
-index d6b2dd09514..d1e8692ede2 100644
+index d1e8692ede2..2f33337725e 100644
 --- a/drivers/spi/spi-sunxi.c
 +++ b/drivers/spi/spi-sunxi.c
-@@ -72,7 +72,9 @@ DECLARE_GLOBAL_DATA_PTR;
+@@ -72,9 +72,15 @@ DECLARE_GLOBAL_DATA_PTR;
  #define SUN4I_XMIT_CNT(cnt)		((cnt) & SUN4I_MAX_XFER_SIZE)
  #define SUN4I_FIFO_STA_RF_CNT_BITS	0
  
--#define SUN4I_SPI_MAX_RATE		24000000
-+/* the SPI mod clock, defaulting to be 1/1 of the HOSC@24MHz */
-+#define SUNXI_INPUT_CLOCK		24000000	/* 24 MHz */
-+#define SUN4I_SPI_MAX_RATE		SUNXI_INPUT_CLOCK
++#ifdef CONFIG_MACH_SUNIV
++/* the AHB clock, which we programmed to be 1/3 of PLL_PERIPH@600MHz */
++#define SUNXI_INPUT_CLOCK		200000000	/* 200 MHz */
++#define SUN4I_SPI_MAX_RATE		(SUNXI_INPUT_CLOCK / 2)
++#else
+ /* the SPI mod clock, defaulting to be 1/1 of the HOSC@24MHz */
+ #define SUNXI_INPUT_CLOCK		24000000	/* 24 MHz */
+ #define SUN4I_SPI_MAX_RATE		SUNXI_INPUT_CLOCK
++#endif
  #define SUN4I_SPI_MIN_RATE		3000
  #define SUN4I_SPI_DEFAULT_RATE		1000000
  #define SUN4I_SPI_TIMEOUT_US		1000000
-@@ -242,17 +244,18 @@ static void sun4i_spi_set_speed_mode(struct udevice *dev)
- 	 * frequency, fall back to CDR1.
- 	 */
- 
--	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
-+	div = DIV_ROUND_UP(SUNXI_INPUT_CLOCK, priv->freq);
- 	reg = readl(SPI_REG(priv, SPI_CCR));
- 
--	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-+	if ((div / 2) <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-+		div /= 2;
- 		if (div > 0)
- 			div--;
- 
- 		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
+@@ -256,6 +262,9 @@ static void sun4i_spi_set_speed_mode(struct udevice *dev)
  		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
  	} else {
--		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
-+		div = fls(div - 1);
+ 		div = fls(div - 1);
++		/* The F1C100s encodes the divider as 2^(n+1) */
++		if (CONFIG_IS_ENABLED(CONFIG_MACH_SUNIV))
++			div--;
  		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
  		reg |= SUN4I_CLK_CTL_CDR1(div);
  	}
