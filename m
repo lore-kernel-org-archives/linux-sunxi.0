@@ -1,12 +1,12 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F4033C9
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 816D033EE
 	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:08 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 183AC1516;
-	Tue,  3 May 2022 14:21:08 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 459EA143D;
+	Tue,  3 May 2022 14:21:02 -0700 (PDT)
 Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5F6BE3FA53;
-	Tue,  3 May 2022 14:21:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8B66B3FA53;
+	Tue,  3 May 2022 14:21:00 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jesse Taube <mr.bossman075@gmail.com>,
@@ -18,9 +18,9 @@ Cc: Jesse Taube <mr.bossman075@gmail.com>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-sunxi@lists.linux.dev,
 	u-boot@lists.denx.de
-Subject: [PATCH 5/7] sunxi: F1C100s: update DT files from Linux
-Date: Tue,  3 May 2022 22:20:38 +0100
-Message-Id: <20220503212040.27884-6-andre.przywara@arm.com>
+Subject: [PATCH 2/7] spi: sunxi: refactor SPI speed/mode programming
+Date: Tue,  3 May 2022 22:20:35 +0100
+Message-Id: <20220503212040.27884-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20220503212040.27884-1-andre.przywara@arm.com>
 References: <20220503212040.27884-1-andre.przywara@arm.com>
@@ -32,255 +32,170 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The initial U-Boot F1C100s port was based on the mainline kernel DT
-files, which were quite basic and were missing the essential MMC and
-SPI peripherals. While we could work around this in the SPL by
-hardcoding the required information, this left U-Boot proper without SD
-card or SPI flash support, so actual loading would require FEL boot.
+As George rightfully pointed out [1], the spi-sunxi driver programs the
+speed and mode settings only when the respective functions are called,
+but this gets lost over a call to release_bus(). That asserts the
+reset line, thus forces each SPI register back to its default value.
+Adding to that, trying to program SPI_CCR and SPI_TCR might be pointless
+in the first place, when the reset line is still asserted (before
+claim_bus()), so those setting won't apply most of the time. In reality
+I see two nested claim_bus() calls for the first use, so settings between
+the two would work (for instance for the initial "sf probe"). However
+later on the speed setting is not programmed into the hardware anymore.
 
-Now the missing DT bits have been submitted and accepted in the kernel
-tree, so lets sync back those files into U-Boot to enable MMC and
-SPI, plus benefit from some fixes.
+So far we get away with that default frequency, because that is a rather
+tame 24 MHz, which most SPI flash chips can handle just fine.
 
-This is a verbatim copy of the .dts and .dtsi file from
-linux-sunxi/dt-for-5.19[1], which have been part of linux-next for a
-while as well.
+Move the actual register programming into a separate function, and use
+.set_speed and .set_mode just to set the variables in our priv structure.
+Then we only call this new function in claim_bus(), when we are sure
+that register accesses actually work and are preserved.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/log/?h=sunxi/dt-for-5.19
+[1] https://lore.kernel.org/u-boot/20210725231636.879913-17-me@yifangu.com/
 
-Link: https://lore.kernel.org/linux-arm-kernel/20220317162349.739636-1-andre.przywara@arm.com/
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Reported-by: George Hilliard <thirtythreeforty@gmail.com>
 ---
- arch/arm/dts/suniv-f1c100s-licheepi-nano.dts |  31 ++++++
- arch/arm/dts/suniv-f1c100s.dtsi              | 104 +++++++++++++++++--
- 2 files changed, 125 insertions(+), 10 deletions(-)
+ drivers/spi/spi-sunxi.c | 95 ++++++++++++++++++++++-------------------
+ 1 file changed, 52 insertions(+), 43 deletions(-)
 
-diff --git a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-index a1154e6c7cb..04e59b8381c 100644
---- a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-+++ b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-@@ -11,12 +11,43 @@
- 	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
+index b6cd7ddafad..d6b2dd09514 100644
+--- a/drivers/spi/spi-sunxi.c
++++ b/drivers/spi/spi-sunxi.c
+@@ -221,6 +221,56 @@ err_ahb:
+ 	return ret;
+ }
  
- 	aliases {
-+		mmc0 = &mmc0;
- 		serial0 = &uart0;
-+		spi0 = &spi0;
- 	};
++static void sun4i_spi_set_speed_mode(struct udevice *dev)
++{
++	struct sun4i_spi_priv *priv = dev_get_priv(dev);
++	unsigned int div;
++	u32 reg;
++
++	/*
++	 * Setup clock divider.
++	 *
++	 * We have two choices there. Either we can use the clock
++	 * divide rate 1, which is calculated thanks to this formula:
++	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
++	 * Or we can use CDR2, which is calculated with the formula:
++	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
++	 * Whether we use the former or the latter is set through the
++	 * DRS bit.
++	 *
++	 * First try CDR2, and if we can't reach the expected
++	 * frequency, fall back to CDR1.
++	 */
++
++	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
++	reg = readl(SPI_REG(priv, SPI_CCR));
++
++	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
++		if (div > 0)
++			div--;
++
++		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
++		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
++	} else {
++		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
++		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
++		reg |= SUN4I_CLK_CTL_CDR1(div);
++	}
++
++	writel(reg, SPI_REG(priv, SPI_CCR));
++
++	reg = readl(SPI_REG(priv, SPI_TCR));
++	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
++
++	if (priv->mode & SPI_CPOL)
++		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
++
++	if (priv->mode & SPI_CPHA)
++		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
++
++	writel(reg, SPI_REG(priv, SPI_TCR));
++}
++
+ static int sun4i_spi_claim_bus(struct udevice *dev)
+ {
+ 	struct sun4i_spi_priv *priv = dev_get_priv(dev->parent);
+@@ -240,6 +290,8 @@ static int sun4i_spi_claim_bus(struct udevice *dev)
+ 	setbits_le32(SPI_REG(priv, SPI_TCR), SPI_BIT(priv, SPI_TCR_CS_MANUAL) |
+ 		     SPI_BIT(priv, SPI_TCR_CS_ACTIVE_LOW));
  
- 	chosen {
- 		stdout-path = "serial0:115200n8";
- 	};
++	sun4i_spi_set_speed_mode(dev->parent);
 +
-+	reg_vcc3v3: vcc3v3 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vcc3v3";
-+		regulator-min-microvolt = <3300000>;
-+		regulator-max-microvolt = <3300000>;
-+	};
-+};
-+
-+&mmc0 {
-+	broken-cd;
-+	bus-width = <4>;
-+	disable-wp;
-+	status = "okay";
-+	vmmc-supply = <&reg_vcc3v3>;
-+};
-+
-+&spi0 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&spi0_pc_pins>;
-+	status = "okay";
-+
-+	flash@0 {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		compatible = "winbond,w25q128", "jedec,spi-nor";
-+		reg = <0>;
-+		spi-max-frequency = <40000000>;
-+	};
- };
+ 	return 0;
+ }
  
- &uart0 {
-diff --git a/arch/arm/dts/suniv-f1c100s.dtsi b/arch/arm/dts/suniv-f1c100s.dtsi
-index 6100d3b75f6..0edc1724407 100644
---- a/arch/arm/dts/suniv-f1c100s.dtsi
-+++ b/arch/arm/dts/suniv-f1c100s.dtsi
-@@ -4,6 +4,9 @@
-  * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
-  */
+@@ -329,46 +381,14 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
+ {
+ 	struct sun4i_spi_plat *plat = dev_get_plat(dev);
+ 	struct sun4i_spi_priv *priv = dev_get_priv(dev);
+-	unsigned int div;
+-	u32 reg;
  
-+#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
-+#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
-+
- / {
- 	#address-cells = <1>;
- 	#size-cells = <1>;
-@@ -26,9 +29,13 @@
- 	};
+ 	if (speed > plat->max_hz)
+ 		speed = plat->max_hz;
  
- 	cpus {
--		cpu {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		cpu@0 {
- 			compatible = "arm,arm926ej-s";
- 			device_type = "cpu";
-+			reg = <0x0>;
- 		};
- 	};
+ 	if (speed < SUN4I_SPI_MIN_RATE)
+ 		speed = SUN4I_SPI_MIN_RATE;
+-	/*
+-	 * Setup clock divider.
+-	 *
+-	 * We have two choices there. Either we can use the clock
+-	 * divide rate 1, which is calculated thanks to this formula:
+-	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
+-	 * Or we can use CDR2, which is calculated with the formula:
+-	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
+-	 * Whether we use the former or the latter is set through the
+-	 * DRS bit.
+-	 *
+-	 * First try CDR2, and if we can't reach the expected
+-	 * frequency, fall back to CDR1.
+-	 */
+-
+-	div = SUN4I_SPI_MAX_RATE / (2 * speed);
+-	reg = readl(SPI_REG(priv, SPI_CCR));
+-
+-	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
+-		if (div > 0)
+-			div--;
+-
+-		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
+-		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
+-	} else {
+-		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(speed);
+-		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
+-		reg |= SUN4I_CLK_CTL_CDR1(div);
+-	}
  
-@@ -62,6 +69,70 @@
- 			};
- 		};
+ 	priv->freq = speed;
+-	writel(reg, SPI_REG(priv, SPI_CCR));
  
-+		spi0: spi@1c05000 {
-+			compatible = "allwinner,suniv-f1c100s-spi",
-+				     "allwinner,sun8i-h3-spi";
-+			reg = <0x01c05000 0x1000>;
-+			interrupts = <10>;
-+			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_BUS_SPI0>;
-+			clock-names = "ahb", "mod";
-+			resets = <&ccu RST_BUS_SPI0>;
-+			status = "disabled";
-+			num-cs = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		spi1: spi@1c06000 {
-+			compatible = "allwinner,suniv-f1c100s-spi",
-+				     "allwinner,sun8i-h3-spi";
-+			reg = <0x01c06000 0x1000>;
-+			interrupts = <11>;
-+			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_BUS_SPI1>;
-+			clock-names = "ahb", "mod";
-+			resets = <&ccu RST_BUS_SPI1>;
-+			status = "disabled";
-+			num-cs = <1>;
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		mmc0: mmc@1c0f000 {
-+			compatible = "allwinner,suniv-f1c100s-mmc",
-+				     "allwinner,sun7i-a20-mmc";
-+			reg = <0x01c0f000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MMC0>,
-+				 <&ccu CLK_MMC0>,
-+				 <&ccu CLK_MMC0_OUTPUT>,
-+				 <&ccu CLK_MMC0_SAMPLE>;
-+			clock-names = "ahb", "mmc", "output", "sample";
-+			resets = <&ccu RST_BUS_MMC0>;
-+			reset-names = "ahb";
-+			interrupts = <23>;
-+			pinctrl-names = "default";
-+			pinctrl-0 = <&mmc0_pins>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
-+		mmc1: mmc@1c10000 {
-+			compatible = "allwinner,suniv-f1c100s-mmc",
-+				     "allwinner,sun7i-a20-mmc";
-+			reg = <0x01c10000 0x1000>;
-+			clocks = <&ccu CLK_BUS_MMC1>,
-+				 <&ccu CLK_MMC1>,
-+				 <&ccu CLK_MMC1_OUTPUT>,
-+				 <&ccu CLK_MMC1_SAMPLE>;
-+			clock-names = "ahb", "mmc", "output", "sample";
-+			resets = <&ccu RST_BUS_MMC1>;
-+			reset-names = "ahb";
-+			interrupts = <24>;
-+			status = "disabled";
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+		};
-+
- 		ccu: clock@1c20000 {
- 			compatible = "allwinner,suniv-f1c100s-ccu";
- 			reg = <0x01c20000 0x400>;
-@@ -82,13 +153,24 @@
- 			compatible = "allwinner,suniv-f1c100s-pinctrl";
- 			reg = <0x01c20800 0x400>;
- 			interrupts = <38>, <39>, <40>;
--			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
-+			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
- 			clock-names = "apb", "hosc", "losc";
- 			gpio-controller;
- 			interrupt-controller;
- 			#interrupt-cells = <3>;
- 			#gpio-cells = <3>;
+ 	return 0;
+ }
+@@ -376,19 +396,8 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
+ static int sun4i_spi_set_mode(struct udevice *dev, uint mode)
+ {
+ 	struct sun4i_spi_priv *priv = dev_get_priv(dev);
+-	u32 reg;
+-
+-	reg = readl(SPI_REG(priv, SPI_TCR));
+-	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
+-
+-	if (mode & SPI_CPOL)
+-		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
+-
+-	if (mode & SPI_CPHA)
+-		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
  
-+			mmc0_pins: mmc0-pins {
-+				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
-+				function = "mmc0";
-+				drive-strength = <30>;
-+			};
-+
-+			spi0_pc_pins: spi0-pc-pins {
-+				pins = "PC0", "PC1", "PC2", "PC3";
-+				function = "spi0";
-+			};
-+
- 			uart0_pe_pins: uart0-pe-pins {
- 				pins = "PE0", "PE1";
- 				function = "uart0";
-@@ -98,14 +180,16 @@
- 		timer@1c20c00 {
- 			compatible = "allwinner,suniv-f1c100s-timer";
- 			reg = <0x01c20c00 0x90>;
--			interrupts = <13>;
-+			interrupts = <13>, <14>, <15>;
- 			clocks = <&osc24M>;
- 		};
+ 	priv->mode = mode;
+-	writel(reg, SPI_REG(priv, SPI_TCR));
  
- 		wdt: watchdog@1c20ca0 {
- 			compatible = "allwinner,suniv-f1c100s-wdt",
--				     "allwinner,sun4i-a10-wdt";
-+				     "allwinner,sun6i-a31-wdt";
- 			reg = <0x01c20ca0 0x20>;
-+			interrupts = <16>;
-+			clocks = <&osc32k>;
- 		};
- 
- 		uart0: serial@1c25000 {
-@@ -114,8 +198,8 @@
- 			interrupts = <1>;
- 			reg-shift = <2>;
- 			reg-io-width = <4>;
--			clocks = <&ccu 38>;
--			resets = <&ccu 24>;
-+			clocks = <&ccu CLK_BUS_UART0>;
-+			resets = <&ccu RST_BUS_UART0>;
- 			status = "disabled";
- 		};
- 
-@@ -125,8 +209,8 @@
- 			interrupts = <2>;
- 			reg-shift = <2>;
- 			reg-io-width = <4>;
--			clocks = <&ccu 39>;
--			resets = <&ccu 25>;
-+			clocks = <&ccu CLK_BUS_UART1>;
-+			resets = <&ccu RST_BUS_UART1>;
- 			status = "disabled";
- 		};
- 
-@@ -136,8 +220,8 @@
- 			interrupts = <3>;
- 			reg-shift = <2>;
- 			reg-io-width = <4>;
--			clocks = <&ccu 40>;
--			resets = <&ccu 26>;
-+			clocks = <&ccu CLK_BUS_UART2>;
-+			resets = <&ccu RST_BUS_UART2>;
- 			status = "disabled";
- 		};
- 	};
+ 	return 0;
+ }
 -- 
 2.35.3
 
