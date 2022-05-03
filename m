@@ -1,80 +1,158 @@
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EA37F
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 02:01:30 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 895B132009A9;
-	Mon,  2 May 2022 22:01:29 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 02 May 2022 22:01:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651543289; x=
-	1651629689; bh=yjxP6Q0jgbCd7Myxdtqjvlzx2TRr1TszmNbYWxxKkpU=; b=q
-	TkezOlALHJg3LHD8QvqyLBOjqYQEkrCFDbvdyTk9+qtLF6ISvblU5wq4CWgKFX35
-	c4fTb1jrTuTxxuGXfRnLXDCLcUjGWSJJuHjVlF2jiPw4wx/ihddLkHK/Hc/X/GBq
-	X+TCyCSg1nb3QcOO8z69Hh7JPpHm4lvkoLiZvilFhq56/NyDQ7zlZiXtdu6SWKKC
-	S38NeN8+WpClcbZaVhPSbmHsre9rt5blyZMsMaqZO1/+miG3ePQOx9DlSv+Xjy1v
-	Zt7O6JSdXYW/x5TmI84IZAF64b4cryr4hF+n7NcMeWI4YxPQZdAn6a0+m0BsR6eP
-	PQtzY7NTrDHls2lDe+NSw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1651543289; x=1651629689; bh=yjxP6Q0jgbCd7
-	Myxdtqjvlzx2TRr1TszmNbYWxxKkpU=; b=ymhNiSQesxl1S9F1CE1vQgpg76QZZ
-	Ct6hrVZCYuWc3VSf6KGGJ29V0FfiLs3s5oVeoBHGXBrz12mKlc2UuQnrK8Y7+8eJ
-	7r03ylRtdHDynV/HkoFC8LUBFEP4hgUA4jIisRsQFyiSPCEwIECe5ah8RGKb7IgF
-	T9r5qjdghYcLnTEB1uD25nIJBuNjpNnUwBs5W5jEL9bnHO2wabtcFykXgPcWgQms
-	0B5ep+Y9wNh6x3mKrjUSpXTzNYtp/zPu44YgA92zzRDKDA17d/l4jp70xw0AS8eN
-	kCxyNs49dAoiqEaVMNNh3v57Ihr6TVBHAUf32ARczgWB3v3njeIxYDB4g==
-X-ME-Sender: <xms:-IxwYmeDAspTsKkfchF5_7h6SWBacwqw2_z7-ubELPZA13HP1AUd8w>
-    <xme:-IxwYgOZCgIi0baSy9cpr5RsY3-EvMHFOOAejgwF7iJQmnWI4ahyYCNPThSHCy4_7
-    tQcNfDSortwU0f36w>
-X-ME-Received: <xmr:-IxwYngwIAQ9vu3j4MJx5eKFU7-L-SELxHB8ROU_EaaZ9aCW4ackVegO9G_bpMZF3uB8cw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigdehvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
-    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:-IxwYj_fw7BINwgJUCGkkq4NnVSG_9lSL4DREE4J5SNh_QuCTNAFBQ>
-    <xmx:-IxwYitsUOpGPwHqXgP83vGR7eeONxw5LMIGfzlJZ155YOwS1dJlVA>
-    <xmx:-IxwYqFM94ccdNpBQkQS3TyiKZxXeu8MyZNIbrkFa_K9d14x7U-rfg>
-    <xmx:-YxwYkI2zaNCNBLuG5_ZNbpRfKH0bz-iifcaf7J7_w5Wcq1YBZIWsQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 May 2022 22:01:28 -0400 (EDT)
-Subject: Re: [PATCHv2] arm64: dts: allwinner: teres-i: Add GPIO port
- regulators
-To: Harald Geyer <harald@ccbib.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- Torsten Duwe <duwe@suse.de>
-References: <20220430191009.73946-1-harald@ccbib.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <ff554e7a-b408-74b0-e4dc-94f244e0b56c@sholland.org>
-Date: Mon, 2 May 2022 21:01:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA987F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 02:02:41 +0000 (UTC)
+Received: by mail-oo1-f49.google.com with SMTP id m3-20020a4ac683000000b0035f13dde9ccso117420ooq.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 02 May 2022 19:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=sender:message-id:date:mime-version:user-agent:content-language:to
+         :cc:references:from:subject:in-reply-to:content-transfer-encoding;
+        bh=GKaIcGp0RhRVxVeOdR17/W0HUq1CPb0cE7q5ZqqYxaM=;
+        b=hkKItu6aecIhk/NoClNIjIXfNHvcfpFH3nuqsFRGYrP3YdsirumZ2LzJ9PNh7NVIGZ
+         VOoIIumKjYVnqK4QXH2epsyXRaDaciIfoH3u/+6O/IkrjlvtLowF5cV8G+7az/aDjXBc
+         v2pXcxkJjDUBdgM9V6HSQRZPiBZK0damBwQTohOvHM1k0pKMATy5/B+bpT4NjnGcz8+i
+         BinW7941XVl1w9G+BMfWoWwrUWINPDYO5KfEn1IFsQMQaXGRyL4vl/PjunXgT7Dru+0L
+         KmBFKsdN5OJ+encck6pPFGutZuvGmDhxFmdVd3B/WpCDIjoQISSRJKmvRmxZ20GJ9Cx/
+         4Hsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:sender:message-id:date:mime-version:user-agent
+         :content-language:to:cc:references:from:subject:in-reply-to
+         :content-transfer-encoding;
+        bh=GKaIcGp0RhRVxVeOdR17/W0HUq1CPb0cE7q5ZqqYxaM=;
+        b=IHkoMKGdlsLZc9A/FZjNS267BeXs1I9Z31QUuwwohvVEb7wzEY2Rilgncf6HRao25g
+         s/+UWyI/10fRjR5IWh0iq8Up2FjxAgePrKMMfLMVii6MNRwe8ZMHUjB07mn788jNs2FR
+         LKHaL+H0/mMCXV+5fauG3B4VQEjDOr0c7vui72mRukhjciKviDMMsVvX0T7i491nv117
+         nAEVeYfEu9aj8xYFoEKDAMzTXEbvfGCFKg5y2gIwelPb6Lr/CJIZVLTcs8vE8np6j2Fx
+         nl3xlfiM0S2RHW6Z4X8hA6wm/Bsy+hSpC4zvev8DTzh1l73qK8ny3oaJ5bjR5oNhOh4t
+         BHMA==
+X-Gm-Message-State: AOAM531NMxZSviChRPUN48+BKcg+hjSVS6NFUQglfdQqq2ITvEjr/BbJ
+	ZF4VbQpuPDlAOZRpF5sb7Ds=
+X-Google-Smtp-Source: ABdhPJxaK6/fEsYQoxwG2euqp3NppH7nBXY7mGfszjaFfrhxufHTKgE1HNVh1sbsvF4hLjdsisEEmA==
+X-Received: by 2002:a4a:2cd3:0:b0:35e:99e3:a497 with SMTP id o202-20020a4a2cd3000000b0035e99e3a497mr5071598ooo.86.1651543360153;
+        Mon, 02 May 2022 19:02:40 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id 95-20020a9d0668000000b0060626a8e5a4sm1090211otn.74.2022.05.02.19.02.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 02 May 2022 19:02:39 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <4aabfd63-18e2-65c5-d1c2-d7600afc1c40@roeck-us.net>
+Date: Mon, 2 May 2022 19:02:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220430191009.73946-1-harald@ccbib.org>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+To: Maxime Ripard <maxime@cerno.tech>, Icenowy Zheng <icenowy@aosc.io>
+Cc: Ruslan Zalata <rz@fabmicro.ru>, Jean Delvare <jdelvare@suse.com>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+ <20220502110010.q7vvdkdpaiz5acjl@houat>
+ <7433B295-D896-4BF8-87DF-87EB89D7A550@aosc.io>
+ <20220502112112.3ne7zy4b6gggxzoo@houat>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+In-Reply-To: <20220502112112.3ne7zy4b6gggxzoo@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 4/30/22 2:10 PM, Harald Geyer wrote:
-> Allwinner A64 SoC has separate supplies for PC, PD, PE, PG and PL.
+On 5/2/22 04:21, Maxime Ripard wrote:
+> On Mon, May 02, 2022 at 07:15:01PM +0800, Icenowy Zheng wrote:
+>>
+>>
+>> 于 2022年5月2日 GMT+08:00 下午7:00:10, Maxime Ripard <maxime@cerno.tech> 写到:
+>>> Hi,
+>>>
+>>> On Thu, Apr 28, 2022 at 09:09:03PM +0000, Ruslan Zalata wrote:
+>>>> Some Allwinner SoCs like A13, A20 or T2 are equipped with two-channel
+>>>> low rate (6 bit) ADC that is often used for extra keys. There's a driver
+>>>> for that already implementing standard input device, but it has these
+>>>> limitations: 1) it cannot be used for general ADC data equisition, and
+>>>> 2) it uses only one LRADC channel of two available.
+>>>>
+>>>> This driver provides basic hwmon interface to both channels of LRADC on
+>>>> such Allwinner SoCs.
+>>>>
+>>>> Signed-off-by: Ruslan Zalata <rz@fabmicro.ru>
+>>>> ---
+>>>>   MAINTAINERS                       |   6 +
+>>>>   drivers/hwmon/Kconfig             |  13 ++
+>>>>   drivers/hwmon/Makefile            |   1 +
+>>>>   drivers/hwmon/sun4i-lradc-hwmon.c | 280 ++++++++++++++++++++++++++++++
+>>>>   4 files changed, 300 insertions(+)
+>>>>   create mode 100644 drivers/hwmon/sun4i-lradc-hwmon.c
+>>>>
+>>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>>> index 5e8c2f61176..d9c71e94133 100644
+>>>> --- a/MAINTAINERS
+>>>> +++ b/MAINTAINERS
+>>>> @@ -18861,6 +18861,12 @@ S:	Maintained
+>>>>   F:	Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+>>>>   F:	drivers/input/keyboard/sun4i-lradc-keys.c
+>>>>   
+>>>> +SUN4I LOW RES ADC HWMON DRIVER
+>>>> +M:	Ruslan Zalata <rz@fabmicro.ru>
+>>>> +L:	linux-hwmon@vger.kernel.org
+>>>> +S:	Maintained
+>>>> +F:	drivers/hwmon/sun4i-lradc-hwmon.c
+>>>> +
+>>>>   SUNDANCE NETWORK DRIVER
+>>>>   M:	Denis Kirjanov <kda@linux-powerpc.org>
+>>>>   L:	netdev@vger.kernel.org
+>>>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>>>> index 68a8a27ab3b..86776488a81 100644
+>>>> --- a/drivers/hwmon/Kconfig
+>>>> +++ b/drivers/hwmon/Kconfig
+>>>> @@ -1691,6 +1691,19 @@ config SENSORS_SIS5595
+>>>>   	  This driver can also be built as a module. If so, the module
+>>>>   	  will be called sis5595.
+>>>>   
+>>>> +config SENSORS_SUN4I_LRADC
+>>>> +	tristate "Allwinner A13/A20 LRADC hwmon"
+>>>> +	depends on ARCH_SUNXI && !KEYBOARD_SUN4I_LRADC
+>>>> +	help
+>>>> +	  Say y here to support the LRADC found in Allwinner A13/A20 SoCs.
+>>>> +	  Both channels are supported.
+>>>> +
+>>>> +	  This driver can also be built as module. If so, the module
+>>>> +	  will be called sun4i-lradc-hwmon.
+>>>> +
+>>>> +	  This option is not compatible with KEYBOARD_SUN4I_LRADC, one
+>>>> +	  of these must be used at a time.
+>>>
+>>> How do you plan on enforcing that?
+>>>
+>>> I guess a better path forward would be to either register an hwmon
+>>> device in the original driver, or convert that driver to iio and use
+>>> iio-hwmon.
+>>
+>> I think this driver should be use IIO, and then try to probe an IIO input
+>> if possible.
 > 
-> Signed-off-by: Harald Geyer <harald@ccbib.org>
+> It's been a while, but if I remember well we couldn't use IIO for that
+> driver because it's not generating interrupts all the time but only when
+> it goes over a given threshold:
+> 
+> https://lore.kernel.org/all/52C5E9F1.9010700@redhat.com/
+> 
+> I'm not sure if it's still relevant, so we might just need to add an
+> hwmon driver to the existing driver
+> 
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+So now we have conflicting claims that the hwmon driver would need
+to implement continuous interrupts because the chip otherwise doesn't
+continuously measure ADC input, and that implementing an IIO driver
+isn't possible or doesn't make sense because the chip would not support
+generating continuous interrupts. Which one is it ? Am I missing something ?
+
+Guenter
