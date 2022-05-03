@@ -1,118 +1,80 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C801933CA
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 20:00:47 +0000 (UTC)
-Received: by mail-ej1-f46.google.com with SMTP id bv19so35442688ejb.6
-        for <linux-sunxi@lists.linux.dev>; Tue, 03 May 2022 13:00:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uxaT5a9mxFo9vHNrfWPQOIvrWpFwZ29kzFdHY5abTLk=;
-        b=SudvmlcWADSJQkKpoHHqF0lk+miCNeKd36HwnL4xED11ceBjqenq4OyQD8FJDOEqda
-         piJ3iYeVFonfKEFWO8oI7GvHW4+KhKI+AgzGJD44ArTrmuNV6jiyzKw1n+WVlz3DmdFK
-         3db6plX+sCWyJffcuwUzfEKxBZWtdwKtd8NgI/OeDqNmxli/usCnWEdloXZBPeJJHD9Z
-         CsyUabIpRY5DQvfzEVjxrpL7dJh1Tguk+xFr3V2hHS4tqGShmljvUiIAJXRObJo1lW6H
-         txq8sDJei57ibuqbrE03/ru9Mel3b1He3kMyuvUw/rSWJA94uGl9Yzrp+rTRMZs6eKDx
-         bz+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uxaT5a9mxFo9vHNrfWPQOIvrWpFwZ29kzFdHY5abTLk=;
-        b=HzEXGEoBPzPiZZ1RTfRKSL2evOfedH0k+DLB2kP0miqvdAFP/gGBIPC42gf35k3KgD
-         HVDmSY2EU4z/lx5oMWblAlgvFF4COctG9hDLnxiMjDyTkLLGoVkY8JTjINHObmPuwW9P
-         jGN7WoV+WBUWpmeO+Ktz6GPDRoAoG1KBL7hSPi8AeIu+D8eFAm+WQLmgj8q31EnWCCof
-         KfuW8QGX1xAzIuhvNcvSpuxKM3lvc2AA6aV5GRaaQDw3yZNq7fNxbDNcV4htGxxTGhyS
-         9TG2Ny5tM2nRNGwQz/P/ulRR/akW2dkM0tBQttGsRRsvYHo+QH/xCucaWTKOgkXvLD7n
-         45Sw==
-X-Gm-Message-State: AOAM530Rf0Axn+qjuzV1bRAsC2kU5uN6uJDBxPs7N7CnAlPWMgpUjs6v
-	2AYYhYk6IGQlggenn7ktGyQ=
-X-Google-Smtp-Source: ABdhPJzfrMrzIlChURZtsBvey/f1dntHqFDytb5e+YSbS0KU0oan+7WxNSX9HDWcYqkPKf3yjCYFOg==
-X-Received: by 2002:a17:906:99c4:b0:6f4:56d2:4bbd with SMTP id s4-20020a17090699c400b006f456d24bbdmr10109597ejn.754.1651608046101;
-        Tue, 03 May 2022 13:00:46 -0700 (PDT)
-Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id hz12-20020a1709072cec00b006f3ef214dcbsm4945057ejc.49.2022.05.03.13.00.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 May 2022 13:00:45 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Chukun Pan <amadeus@jmu.edu.cn>
-Cc: Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Chukun Pan <amadeus@jmu.edu.cn>
-Subject: Re: Re: [PATCH] arm64: dts: allwinner: define USB3 Ethernet on NanoPi R1S H5
-Date: Tue, 03 May 2022 22:00:44 +0200
-Message-ID: <1818121.CQOukoFCf9@kista>
-In-Reply-To: <4393725.LvFx2qVVIh@kista>
-References: <20220502144009.44575-1-amadeus@jmu.edu.cn> <4393725.LvFx2qVVIh@kista>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8116633C9
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 21:21:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 651F412FC;
+	Tue,  3 May 2022 14:20:58 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A92613FA53;
+	Tue,  3 May 2022 14:20:56 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Jesse Taube <mr.bossman075@gmail.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Yifan Gu <me@yifangu.com>,
+	Giulio Benetti <giulio.benetti@benettiengineering.com>,
+	George Hilliard <thirtythreeforty@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	linux-sunxi@lists.linux.dev,
+	u-boot@lists.denx.de
+Subject: [PATCH 0/7] sunxi: F1C100s: enable MMC and SPI in U-Boot proper
+Date: Tue,  3 May 2022 22:20:33 +0100
+Message-Id: <20220503212040.27884-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 03. maj 2022 ob 19:54:34 CEST je Jernej =C5=A0krabec napisal(a):
-> Dne ponedeljek, 02. maj 2022 ob 16:40:09 CEST je Chukun Pan napisal(a):
-> > The NanoPi R1S H5 has a Realtek RTL8153B USB 3.0 Ethernet chip
-> > connected to the USB 2.0 port of the Allwinner H5 SoC.
-> >=20
-> > Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts =
-b/
-> arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> > index 55b369534a08..dd655a491549 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> > @@ -21,7 +21,8 @@ / {
-> > =20
-> >  	aliases {
-> >  		ethernet0 =3D &emac;
-> > -		ethernet1 =3D &rtl8189etv;
-> > +		ethernet1 =3D &rtl8153;
-> > +		ethernet2 =3D &rtl8189etv;
+So far the U-Boot proper support for the Allwinner F1C100 family of SoCs
+was really limited: we could realistically only deal with FEL booting,
+as there was no storage or network device acessible from U-Boot proper.
 
-Additionally, it's not a good idea to change order of ethernet nodes. It ca=
-n=20
-affect mac address assigning procedure in bootloader.
+This series enables the MMC and SPI controller, to be able to actually
+load something from the device. This is made possible by the updates
+to the devicetree in Linux, which now describes those devices.
 
-Best regards,
-Jernej
+The first patch is taken from George's/Yifan's older series, and adds
+DM_CLK support for the F1C100s. The DM_PINCTRL support was already added
+with the DM conversion a few weeks back.
+Patches 2-4 fix the SPI driver clock setup, and add support for the
+differing SPI clock on the F1C100.
+Patch 5 updates the devicetree files, freshly synced from linux-next.
+Patch 6 reverts a hack we introduced back then to fix the reset
+functionality, with the DT update this is now no longer needed.
+The final patch adds SPI flash support to the Licheepi Nano defconfig,
+as these boards mostly ship with SPI flash soldered.
 
-> >  		serial0 =3D &uart0;
-> >  	};
-> > =20
-> > @@ -116,6 +117,11 @@ &cpu0 {
-> > =20
-> >  &ehci1 {
-> >  	status =3D "okay";
->=20
-> You need to add #address-cells and #size-cells properties, otherwise "mak=
-e=20
-> dtbs_check W=3D1" generates warnings.
->=20
-> Best regards,
-> Jernej
->=20
-> > +
-> > +	rtl8153: device@1 {
-> > +		compatible =3D "usbbda,8153";
-> > +		reg =3D <1>;
-> > +	};
-> >  };
-> > =20
-> >  &ehci2 {
-> > --=20
-> > 2.25.1
-> >=20
-> >=20
->=20
->=20
->=20
+Please have a look and test!
 
+Cheers,
+Andre
+
+Andre Przywara (6):
+  spi: sunxi: refactor SPI speed/mode programming
+  spi: sunxi: improve SPI clock calculation
+  spi: sunxi: Add support for F1C100s SPI controller
+  sunxi: F1C100s: update DT files from Linux
+  Revert "sunxi: f1c100s: Drop SYSRESET to enable reset functionality"
+  sunxi: licheepi_nano: enable SPI flash
+
+George Hilliard (1):
+  clk: sunxi: implement clock driver for suniv f1c100s
+
+ arch/arm/dts/suniv-f1c100s-licheepi-nano.dts |  31 ++++++
+ arch/arm/dts/suniv-f1c100s.dtsi              | 104 ++++++++++++++++--
+ configs/licheepi_nano_defconfig              |   4 +-
+ drivers/clk/sunxi/Kconfig                    |   7 ++
+ drivers/clk/sunxi/Makefile                   |   1 +
+ drivers/clk/sunxi/clk_f1c100s.c              |  74 +++++++++++++
+ drivers/spi/spi-sunxi.c                      | 109 +++++++++++--------
+ 7 files changed, 275 insertions(+), 55 deletions(-)
+ create mode 100644 drivers/clk/sunxi/clk_f1c100s.c
+
+-- 
+2.35.3
 
