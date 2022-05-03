@@ -1,41 +1,41 @@
 Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com [64.147.123.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDF97F
-	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 02:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF92A7F
+	for <linux-sunxi@lists.linux.dev>; Tue,  3 May 2022 02:24:20 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 1393E32009A6;
-	Mon,  2 May 2022 22:07:15 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id 34D2832009C5;
+	Mon,  2 May 2022 22:24:19 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 02 May 2022 22:07:17 -0400
+  by compute2.internal (MEProxy); Mon, 02 May 2022 22:24:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651543635; x=
-	1651630035; bh=xUeFWxsF5CLekYiemda/iXJE5D5dmgNKZ4AF9FvZhgI=; b=E
-	YJtIdNUHjcaX7VD3d737fYk7Uf0xE11EuATUuVFFJ5qG4c/VAvH8edQEtc/SHmKf
-	MFje+wEREmXz5jWzpSf7XD3Y/wkdJ6EWCvR5vgeB/+OAys0n7yRtYIg/M86JEVXb
-	I+t/smKJX5u2dFC/tw3BUkxu1Wn/MQZ+1BSF9YxEzOr4xIcg6a9ByQmcz31Km5l5
-	cTXcsdWUBnlxwt55upZgvPEe5R+LuL8hzoOki1cg0Q0LiI/4BDAXklXl+h2efHK6
-	KcTnrriGtiTirch6/cKh9n0TbYyRzjrcEf+sqI8GJfoniLp7J2bZsSdvr4hSsmp7
-	gC1cOUQW5Hl96f/Wti4og==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1651544658; x=
+	1651631058; bh=tycuARXVqUe2TLl3K12T3UUhqG6qp0PN6otB8sEoyhA=; b=D
+	49zDk7dIyBK+x4sws1KEYwiKpw/4HXuug9Xbah4BT0ByUAfUgMMVXBt7QD1h/nVa
+	CFVBHruG7YaQ2ksZ9EjEvN+OOBfRU8Muv341f8vLrlelPok4AjVQ/u1+TeL/uPR6
+	c80ZnhkZDYDwFpYw6ubzrQzWLkVGS4aR24tMK8SHRyfU2aUglvw3ZGZukXY0gTNI
+	kcPlAa8EGjuSqtCq6UWhJlrDmGRYHtyMnmgwfuryy9sxskthx7q6/0cJIA4VrRHj
+	y8sYSZDnm8dfSfxRTLYCf8f0jntRIT2EDP2VgNgq5sHE0GfiU1iZbHK3d4g21S16
+	Tjd1T8/IYhJSkVjXf5puw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1651543635; x=1651630035; bh=xUeFWxsF5CLek
-	Yiemda/iXJE5D5dmgNKZ4AF9FvZhgI=; b=N+LfR9m3tsUk8K2rL2GNIh0qSWW4D
-	i2RFLHJ9Ar6EA6cd3xFjs2ZEoqNY8TndJzoum+BM2TJKB+Rq1amHVWNq8NjBw7sX
-	dPp8vTX+5q1iY0OTjqCcSGsCgjYrG+kwOsUV2usHn0qbf/ZYTSi0xmLZmxsAwqeI
-	tiBfudrlGV5w8JFjRVqcFB9nmcSsV9yIpDrXFyyoWxyliMwpUDR82Bd2oH120XeW
-	4atfr6iTUAniCWCohaHjtHqrA6NYEbYyD4qGqIHa7v42PtH82H7J+QaxiVd/+37K
-	Nsv1QDc5wmM+m2Q6gGNFu4lWOEqccKmIpx54sFPNhUsTUFxnVXwVb+SEQ==
-X-ME-Sender: <xms:U45wYoq5kocPCBnMpAf08BwvABmceqh7C23Bm2eVAz_Lk-HLSd5Udw>
-    <xme:U45wYuoXWYvHWne89jJG8pcXNMQiZCBRvUm6TW7BsseN6xaSmlgrt7QTxkRvx81rq
-    YA3RjUUDAWx304mEw>
-X-ME-Received: <xmr:U45wYtPCg0-9Zwrh5JvEZkimzRl-hrwYnYkLEv_jEggmh8eOfnNy4IfBFOi8M3cPb-015w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigdehgecutefuodetggdotefrodftvf
+	:x-sasl-enc; s=fm1; t=1651544658; x=1651631058; bh=tycuARXVqUe2T
+	Ll3K12T3UUhqG6qp0PN6otB8sEoyhA=; b=NXSC46eEWmuy1pd3froyQpdN6Q6rp
+	Q5w1qPsj/JKWqzAx3RhKbYl6M+zny22QyWIEk6E7OHU1/QWv1bOm1gaDOka2u75/
+	TdHKLk/eNOejdsBPap4Vm8ywNN1a/gq/MTZH86+HdEMXKQd7W6IpzYpBst9CNJpb
+	/fdynwgdkyS/d4Zs/lJ19E5fzoKX5/Ymn1AUeD2oTP5kcF+jkN6S+mG/K/FIMfVv
+	5leN9D9xvL/IcBv+Q8IWcNQ+YuqcPDvaaT3L8wJWUvZf/SRZACgZhTE4//2CoTxm
+	clnKzsqpBFgH4xbGX8aq+3KjbP6lnCefdzsXvGyKtuoEkFPMDAlRAMv5A==
+X-ME-Sender: <xms:UZJwYngTLd7sOuIQlodPZi5jlQhJNxEKVNt3oWpx4jVNcJhpon2z9w>
+    <xme:UZJwYkA2RWPlmhLMdeir5WmUken0YHCPviw2xOQnxNhEjxmjz3dujajZmjl2TcTDe
+    N7yfuNkPzvIMM7tCQ>
+X-ME-Received: <xmr:UZJwYnHxle1ONnfFfbdNdeQV-b23FVJHlXW23R8DZsd1JY3CHTq_30FfZlJtPQweWV62Kw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigdehlecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
@@ -43,26 +43,24 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeigdehgecutefuodetggdote
     ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
     heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:U45wYv7xihWsWib2z3IrMhV3LfULXb3BnB-s2i2gl6vcK71V9KZ2Mw>
-    <xmx:U45wYn4B_5dU-K559YWtMyTsWaWATVn2hwaCxRTJyJPtlVY6WAzbRw>
-    <xmx:U45wYvhy-feLxdoNLuDpbgIkV9rJN0-KLJ-DMsdaMVJ71G33bDEVFA>
-    <xmx:U45wYrgzMkA2MYR1UT2-SR5Yt5HWBTJITtQjUxmef7bAbpTL1egXxw>
+X-ME-Proxy: <xmx:UZJwYkS_0rb1-qcpoAfzbbSA0q_gO7LrSViJW0PIi2nNqM3fWSAGlQ>
+    <xmx:UZJwYkxMhrYqWn22UEMO8cLugxRjLX28q9Wyuu3svYwg0pStxNnIUg>
+    <xmx:UZJwYq5gsR7NFX0IYRNM3q2-BlCnM5FzH7cu3gYZKH52zmtY2eHxvg>
+    <xmx:UpJwYjkY2H1GS6IjGvyyHNNsl8Ed3tZHqGQTfbUrgpJLGffQyZsOJQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 May 2022 22:07:14 -0400 (EDT)
-Subject: Re: [PATCH v11 1/6] clk: sunxi-ng: h6-r: Add RTC gate clock
-To: Andre Przywara <andre.przywara@arm.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>
-Cc: Rob Herring <robh@kernel.org>,
+ 2 May 2022 22:24:16 -0400 (EDT)
+Subject: Re: [PATCH] arm64: dts: allwinner: h6: Enable CPU opp tables for
+ OrangePi One Plus
+To: Chukun Pan <amadeus@jmu.edu.cn>, Maxime Ripard <maxime@cerno.tech>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Icenowy Zheng <icenowy@aosc.io>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, linux-clk@vger.kernel.org
-References: <20220428230933.15262-1-andre.przywara@arm.com>
- <20220428230933.15262-2-andre.przywara@arm.com>
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220502150101.45200-1-amadeus@jmu.edu.cn>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <875fc3d6-fb45-903c-e52e-4abf43b46db2@sholland.org>
-Date: Mon, 2 May 2022 21:06:59 -0500
+Message-ID: <16b5d02f-5fa0-3094-1fc2-5b8322f047b0@sholland.org>
+Date: Mon, 2 May 2022 21:24:07 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -71,95 +69,83 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220428230933.15262-2-andre.przywara@arm.com>
+In-Reply-To: <20220502150101.45200-1-amadeus@jmu.edu.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 4/28/22 6:09 PM, Andre Przywara wrote:
-> The H6 and H616 feature an (undocumented) bus clock gate for accessing
-> the RTC registers. This seems to be enabled at reset (or by the BootROM),
-> so we got away without it so far, but exists regardless.
-> Since the new RTC clock binding for the H616 requires this "bus" clock
-> to be specified in the DT, add this to R_CCU clock driver and expose it
-> on the DT side with a new number.
-> We do this for both the H6 and H616, but mark it as IGNORE_UNUSED, as we
-> cannot reference it in any H6 DTs.
+On 5/2/22 10:01 AM, Chukun Pan wrote:
+> Enable CPU opp tables for OrangePi One Plus.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> This needs to change the CPU regulator max voltage to fit
+> the OPP table.
+> 
+> Also add the ramp-delay information to avoid any out of spec
+> running as the regulator is slower at reaching the voltage
+> requested compare to the PLL reaching the frequency.
+> 
+> There is no such information for AXP805 but similar PMIC (AXP813)
+> has a DVM (Dynamic Voltage scaling Management) ramp rate equal
+> to 2500uV/us.
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+The AXP805 datasheet has this information in the description for REG 1A. DVM is
+disabled by default, and when it is enabled, the default ramp rate is 10
+mV/15.625 us == 640 uV/us.
 
-One tiny nit below, if you resend.
+Did you notice any instability without this delay?
 
+> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
 > ---
->  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c      | 5 +++++
->  drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h      | 2 +-
->  include/dt-bindings/clock/sun50i-h6-r-ccu.h | 1 +
->  3 files changed, 7 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> index 712e103382d8..88509339031e 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-> @@ -98,6 +98,8 @@ static SUNXI_CCU_GATE(r_apb1_ir_clk,	"r-apb1-ir",	"r-apb1",
->  		      0x1cc, BIT(0), 0);
->  static SUNXI_CCU_GATE(r_apb1_w1_clk,	"r-apb1-w1",	"r-apb1",
->  		      0x1ec, BIT(0), 0);
-> +static SUNXI_CCU_GATE(r_apb1_rtc_clk,	"r-apb1-rtc",	"r-apb1",
-> +		      0x20c, BIT(0), CLK_IGNORE_UNUSED);
+> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> index 92745128fcfe..d7b82ef6be55 100644
+> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+> @@ -5,6 +5,7 @@
+>  /dts-v1/;
 >  
->  /* Information of IR(RX) mod clock is gathered from BSP source code */
->  static const char * const r_mod0_default_parents[] = { "osc32k", "osc24M" };
-> @@ -147,6 +149,7 @@ static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
->  	&r_apb2_i2c_clk.common,
->  	&r_apb2_rsb_clk.common,
->  	&r_apb1_ir_clk.common,
-> +	&r_apb1_rtc_clk.common,
->  	&ir_clk.common,
+>  #include "sun50i-h6.dtsi"
+> +#include "sun50i-h6-cpu-opp.dtsi"
+>  
+>  #include <dt-bindings/gpio/gpio.h>
+>  
+> @@ -64,6 +65,10 @@ reg_vcc5v: vcc5v {
+>  	};
 >  };
 >  
-> @@ -163,6 +166,7 @@ static struct clk_hw_onecell_data sun50i_h6_r_hw_clks = {
->  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
->  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
->  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
-> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
->  		[CLK_R_APB1_W1]		= &r_apb1_w1_clk.common.hw,
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdca>;
+> +};
+> +
+>  &de {
+>  	status = "okay";
+>  };
+> @@ -208,7 +213,8 @@ reg_cldo3: cldo3 {
+>  			reg_dcdca: dcdca {
+>  				regulator-always-on;
+>  				regulator-min-microvolt = <810000>;
+> -				regulator-max-microvolt = <1080000>;
+> +				regulator-max-microvolt = <1160000>;
+> +				regulator-ramp-delay = <2500>;
+>  				regulator-name = "vdd-cpu";
+>  			};
+>  
+> @@ -216,6 +222,7 @@ reg_dcdcc: dcdcc {
+>  				regulator-enable-ramp-delay = <32000>;
+>  				regulator-min-microvolt = <810000>;
+>  				regulator-max-microvolt = <1080000>;
+> +				regulator-ramp-delay = <2500>;
 
-The new clock should go after CLK_R_APB1_W1 to match the ordering above.
+This change is not related to CPU frequency scaling, so it belongs in a separate
+patch (if it is needed).
 
->  		[CLK_IR]		= &ir_clk.common.hw,
->  		[CLK_W1]		= &w1_clk.common.hw,
-> @@ -179,6 +183,7 @@ static struct clk_hw_onecell_data sun50i_h616_r_hw_clks = {
->  		[CLK_R_APB2_I2C]	= &r_apb2_i2c_clk.common.hw,
->  		[CLK_R_APB2_RSB]	= &r_apb2_rsb_clk.common.hw,
->  		[CLK_R_APB1_IR]		= &r_apb1_ir_clk.common.hw,
-> +		[CLK_R_APB1_RTC]	= &r_apb1_rtc_clk.common.hw,
->  		[CLK_IR]		= &ir_clk.common.hw,
->  	},
->  	.num	= CLK_NUMBER,
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> index 7e290b840803..10e9b66afc6a 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.h
-> @@ -14,6 +14,6 @@
+Regards,
+Samuel
+
+>  				regulator-name = "vdd-gpu";
+>  			};
 >  
->  #define CLK_R_APB2	3
->  
-> -#define CLK_NUMBER	(CLK_R_APB2_RSB + 1)
-> +#define CLK_NUMBER	(CLK_R_APB1_RTC + 1)
->  
->  #endif /* _CCU_SUN50I_H6_R_H */
-> diff --git a/include/dt-bindings/clock/sun50i-h6-r-ccu.h b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> index 890368d252c4..a96087abc86f 100644
-> --- a/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> +++ b/include/dt-bindings/clock/sun50i-h6-r-ccu.h
-> @@ -22,5 +22,6 @@
->  #define CLK_W1			12
->  
->  #define CLK_R_APB2_RSB		13
-> +#define CLK_R_APB1_RTC		14
->  
->  #endif /* _DT_BINDINGS_CLK_SUN50I_H6_R_CCU_H_ */
 > 
 
