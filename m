@@ -1,95 +1,85 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A702118
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 10:37:52 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id h29so1606948lfj.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 May 2022 03:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=R+UK7a5jf0KZOl/DUtb1w9sbFadlObhTOJmpHWQdrpc=;
-        b=hm2ua1HVcCJqnnAGwF5xo/rNEYAQhftBcLO3n4wSKHPKVExz4/ps2iF279WPGoLBOi
-         U2RMBXyKqSHTq/iMqYJuaihXJyHGxfXMUoI6gK1wxi8kI9vXEbnR8PGYbZzf2WhO09kp
-         k1h6Mz1WWZ6WZMtwi1Pf49wB1iKajJLIfzVcFWl5oc7BQN0JtmTELvuFDiiGwWtTnfeO
-         lMp1bNf08nelacSsBTyAup8ZqotOBF7uKfj/MXiOACYrrxKJdGm3Hq2qfYRWBVX1uCmJ
-         hiq3henLKfsJ9oxmGhuJ1Ld7u/gIFo3aBnCDxUuS7EQ66IUB+PXHY3Bylibvxsm03sZF
-         tCAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=R+UK7a5jf0KZOl/DUtb1w9sbFadlObhTOJmpHWQdrpc=;
-        b=vw6jMI6+AeiIGZUoGnrHi6QjZcEDZVJe+aJEL22Bs5ldc04WQt+bnUcEftuZNuTSs4
-         mL4cxq/5fTCyo2+JLxCNs2RnwOYfnJeDcZ0fDWditvJe6ItcJAPSXiS4/AhimCkQdxfH
-         yfyQ89+H9GS4Ss99WI485YXJzlADoO4XS79znzeAGsl8NPksPuKKj//+mqx48qbfUkwF
-         0T+op7nolLROWRLNSKwFoJwEGYeujoxCTTV3DZiTR7K7Ja6ixkxwpLV9PLcIdeEpXVuS
-         Dfn4RIM7tFTXaeNkZ8mqRc9R1NSjPbPzKONBzyaQqtG59zXjW+s5ZHklIgBukUKieMBT
-         Zbsw==
-X-Gm-Message-State: AOAM533fPilkpdKg43uXDXfzMKcI/+nKtI9uMgTlIBzVpU7eK0AK+ojt
-	vruc6vp5EB39lrMmXDh5mX/gvDFhgAOKi/sUqRnlmg==
-X-Google-Smtp-Source: ABdhPJwkwNV4rISj+UH7j2rCs0ZZC2RzQF+RxkG2Q4oc4buD17InzEKJpaRYTpbP38qZFRwCTAMNg/Ni/18erN3K+dw=
-X-Received: by 2002:a05:6512:301:b0:471:ecd0:ea24 with SMTP id
- t1-20020a056512030100b00471ecd0ea24mr13515183lfp.71.1651660670573; Wed, 04
- May 2022 03:37:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3072566
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 11:59:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1651665576;
+	bh=qGHD1viJbziYFStGKq39fNCCso+OQcti79hBaKlzEuc=;
+	h=From:To:Cc:Subject:Date;
+	b=AbahLkADFXJ1IKNHg9WdGxcadGrmd/Kew5XuNrTKQe2+IPDwGzoMbDOxECdBP/4GO
+	 J1f+qDMdsTcL1Gtzxro88VbU+wDfetAlxbbPiF66rcykiHHgM2MtLCVQHuaeF9SiIL
+	 dOmfjUH/K4WBrd0ytniNQbAC4zoJIGJ/NlIP4SmY=
+Received: from huazheng-ThinkPad-X230 ([123.118.173.243])
+	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
+	id EE221EC3; Wed, 04 May 2022 19:59:34 +0800
+X-QQ-mid: xmsmtpt1651665574tr0gbru5w
+Message-ID: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
+X-QQ-XMAILINFO: NnA3IMNPwBd+IxCjkbKaQkuHTVOHIcl4UXLtypL6wLupqxkQn/xCCUJTFpojHt
+	 +ufGNVQJsNA7nuS6+2mdk141ConobYSWk3Kj9jgsOPkw8C450NnG45Kz4fc40vTFaZL4zH91fMxF
+	 eCKJpiL88i8X7uTz0J+qFiuEdxI6L2aDmttqeMARhWd3vkWWO5z6H/oIX7O0kyc2R84bL+LTjCyZ
+	 pf9vP1SJjI1qA+1v54r0yjK2pPf9UvhDpa3JZ4lbseor47qT7iUx52hG6TqFhvQVWPXK5AV9XFTu
+	 sa7c16xQAs3BrtamykTsw9et6g/Le64bE05hdTNCN4pjWkXI5CvZvSCoi9IpnA/l7oj70R3s5sI8
+	 YTdW6/b8beGrpLFnYsjYE9ALrXGP5H1A7IALzt4/VgpXBYacNSOgHiX5EoG5VCsxgeiqkBP9haj9
+	 Cn+XNYKQZe4amdBBmjfVxfRpNhI+qSLp+s6H+rJJSQBEDJYt0Yaj20yJtnLy4ZG9g0Pa1OhddWgs
+	 KRLbqolshIqWc0+BV0va6pLdDBBQxtFnZ/BKQO4O2P6vMTTgJmyUh7Hsb+0N2gMfUwS9ympfvE1S
+	 A7yalFc97kpnGeSq0OkgbZiOQL1eTa1cwl4WdvQ7lVN6jPXtCBse5VvjIlFmC4mU97eQyXkk3rt8
+	 oHj6ENeKG+x90rsimXzWeHdqkeJDrmC9nK3PLlvlXto1NcjRGC/3J9GjRmxW2BufZeCDbqiZi75K
+	 j8/Jd7uQUk2UHKpExiT2thmXBkfanGawjZe7hwMBkMIGTxnvnNk169jg6jS2Cg1rlDE0gZ8eFN9E
+	 8qd/rv9fdazyDmNlkdmAy+LqDvlQGMY6YPR/3Eup1K3MWAhX6h9ZAmnHfLQ/yHRNsVgbsTkLd1SF
+	 wYgShtP7fibkTwPKtpajmEMnzE1ATY0tc/ri5aXhhyPpgHblJk8mLkLFEjD6O6yf0diIIeA6fB27
+	 84Fr2i6FvRSkgMbh85XNAezEvFfokMfGzIJFuM7XfOb4ppJaVftbzhUiVryEXl
+From: IotaHydrae <writeforever@foxmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-gpio@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: IotaHydrae <writeforever@foxmail.com>
+Subject: [PATCH] arm: sunxi: fix f1c100s pinctrl function.
+Date: Wed,  4 May 2022 19:59:04 +0800
+X-OQ-MSGID: <20220504115904.2553938-1-writeforever@foxmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220424231751.32053-1-samuel@sholland.org>
-In-Reply-To: <20220424231751.32053-1-samuel@sholland.org>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 4 May 2022 12:37:14 +0200
-Message-ID: <CAPDyKFp8JRkMJxPP8g_83o4hqxu8FUARaT8fU0zPR7Yn26cYsQ@mail.gmail.com>
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix DMA descriptors allocated above 32 bits
-To: Samuel Holland <samuel@sholland.org>
-Cc: linux-mmc@vger.kernel.org, Andre Przywara <andre.przywara@arm.com>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Maxime Ripard <maxime@cerno.tech>, Yangtao Li <frank@allwinnertech.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 25 Apr 2022 at 01:17, Samuel Holland <samuel@sholland.org> wrote:
->
-> Newer variants of the MMC controller support a 34-bit physical address
-> space by using word addresses instead of byte addresses. However, the
-> code truncates the DMA descriptor address to 32 bits before applying the
-> shift. This breaks DMA for descriptors allocated above the 32-bit limit.
->
-> Fixes: 3536b82e5853 ("mmc: sunxi: add support for A100 mmc controller")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+1. change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
 
-Applied for fixes and by adding a stable tag, thanks!
+When the pin PD13 and PD14 is setting up to uart2 function in dts,
+there's an error occurred:
+1c20800.pinctrl: unsupported function uart2 on pin PD14
 
-Kind regards
-Uffe
+Because 'uart2' is not any one multiplexing option of PD14,
+and pinctrl don't know how to configure it.
 
+So change the pin PD14 lvds1 function to uart2.
 
-> ---
->
->  drivers/mmc/host/sunxi-mmc.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index c62afd212692..46f9e2923d86 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -377,8 +377,9 @@ static void sunxi_mmc_init_idma_des(struct sunxi_mmc_host *host,
->                 pdes[i].buf_addr_ptr1 =
->                         cpu_to_le32(sg_dma_address(&data->sg[i]) >>
->                                     host->cfg->idma_des_shift);
-> -               pdes[i].buf_addr_ptr2 = cpu_to_le32((u32)next_desc >>
-> -                                                   host->cfg->idma_des_shift);
-> +               pdes[i].buf_addr_ptr2 =
-> +                       cpu_to_le32(next_desc >>
-> +                                   host->cfg->idma_des_shift);
->         }
->
->         pdes[0].config |= cpu_to_le32(SDXC_IDMAC_DES0_FD);
-> --
-> 2.35.1
->
+Signed-off-by: IotaHydrae <writeforever@foxmail.com>
+---
+ drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+index 2801ca706273..68a5b627fb9b 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
++++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+@@ -204,7 +204,7 @@ static const struct sunxi_desc_pin suniv_f1c100s_pins[] = {
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+ 		  SUNXI_FUNCTION(0x2, "lcd"),		/* D20 */
+-		  SUNXI_FUNCTION(0x3, "lvds1"),		/* RX */
++		  SUNXI_FUNCTION(0x3, "uart2"),		/* RX */
+ 		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 14)),
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+-- 
+2.32.0
+
