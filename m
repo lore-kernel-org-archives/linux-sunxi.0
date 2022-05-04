@@ -1,85 +1,83 @@
-Received: from out203-205-221-190.mail.qq.com (out203-205-221-190.mail.qq.com [203.205.221.190])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A3072566
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 11:59:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1651665576;
-	bh=qGHD1viJbziYFStGKq39fNCCso+OQcti79hBaKlzEuc=;
-	h=From:To:Cc:Subject:Date;
-	b=AbahLkADFXJ1IKNHg9WdGxcadGrmd/Kew5XuNrTKQe2+IPDwGzoMbDOxECdBP/4GO
-	 J1f+qDMdsTcL1Gtzxro88VbU+wDfetAlxbbPiF66rcykiHHgM2MtLCVQHuaeF9SiIL
-	 dOmfjUH/K4WBrd0ytniNQbAC4zoJIGJ/NlIP4SmY=
-Received: from huazheng-ThinkPad-X230 ([123.118.173.243])
-	by newxmesmtplogicsvrsza8.qq.com (NewEsmtp) with SMTP
-	id EE221EC3; Wed, 04 May 2022 19:59:34 +0800
-X-QQ-mid: xmsmtpt1651665574tr0gbru5w
-Message-ID: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
-X-QQ-XMAILINFO: NnA3IMNPwBd+IxCjkbKaQkuHTVOHIcl4UXLtypL6wLupqxkQn/xCCUJTFpojHt
-	 +ufGNVQJsNA7nuS6+2mdk141ConobYSWk3Kj9jgsOPkw8C450NnG45Kz4fc40vTFaZL4zH91fMxF
-	 eCKJpiL88i8X7uTz0J+qFiuEdxI6L2aDmttqeMARhWd3vkWWO5z6H/oIX7O0kyc2R84bL+LTjCyZ
-	 pf9vP1SJjI1qA+1v54r0yjK2pPf9UvhDpa3JZ4lbseor47qT7iUx52hG6TqFhvQVWPXK5AV9XFTu
-	 sa7c16xQAs3BrtamykTsw9et6g/Le64bE05hdTNCN4pjWkXI5CvZvSCoi9IpnA/l7oj70R3s5sI8
-	 YTdW6/b8beGrpLFnYsjYE9ALrXGP5H1A7IALzt4/VgpXBYacNSOgHiX5EoG5VCsxgeiqkBP9haj9
-	 Cn+XNYKQZe4amdBBmjfVxfRpNhI+qSLp+s6H+rJJSQBEDJYt0Yaj20yJtnLy4ZG9g0Pa1OhddWgs
-	 KRLbqolshIqWc0+BV0va6pLdDBBQxtFnZ/BKQO4O2P6vMTTgJmyUh7Hsb+0N2gMfUwS9ympfvE1S
-	 A7yalFc97kpnGeSq0OkgbZiOQL1eTa1cwl4WdvQ7lVN6jPXtCBse5VvjIlFmC4mU97eQyXkk3rt8
-	 oHj6ENeKG+x90rsimXzWeHdqkeJDrmC9nK3PLlvlXto1NcjRGC/3J9GjRmxW2BufZeCDbqiZi75K
-	 j8/Jd7uQUk2UHKpExiT2thmXBkfanGawjZe7hwMBkMIGTxnvnNk169jg6jS2Cg1rlDE0gZ8eFN9E
-	 8qd/rv9fdazyDmNlkdmAy+LqDvlQGMY6YPR/3Eup1K3MWAhX6h9ZAmnHfLQ/yHRNsVgbsTkLd1SF
-	 wYgShtP7fibkTwPKtpajmEMnzE1ATY0tc/ri5aXhhyPpgHblJk8mLkLFEjD6O6yf0diIIeA6fB27
-	 84Fr2i6FvRSkgMbh85XNAezEvFfokMfGzIJFuM7XfOb4ppJaVftbzhUiVryEXl
-From: IotaHydrae <writeforever@foxmail.com>
-To: Linus Walleij <linus.walleij@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: IotaHydrae <writeforever@foxmail.com>
-Subject: [PATCH] arm: sunxi: fix f1c100s pinctrl function.
-Date: Wed,  4 May 2022 19:59:04 +0800
-X-OQ-MSGID: <20220504115904.2553938-1-writeforever@foxmail.com>
-X-Mailer: git-send-email 2.32.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7B027F
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 12:55:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 301B31042;
+	Wed,  4 May 2022 05:55:21 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E705A3FA49;
+	Wed,  4 May 2022 05:55:19 -0700 (PDT)
+Date: Wed, 4 May 2022 13:55:16 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: IotaHydrae <writeforever@foxmail.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, linux-gpio@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] arm: sunxi: fix f1c100s pinctrl function.
+Message-ID: <20220504135516.36072ece@donnerap.cambridge.arm.com>
+In-Reply-To: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
+References: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-1. change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
+On Wed,  4 May 2022 19:59:04 +0800
+IotaHydrae <writeforever@foxmail.com> wrote:
 
-When the pin PD13 and PD14 is setting up to uart2 function in dts,
-there's an error occurred:
-1c20800.pinctrl: unsupported function uart2 on pin PD14
+Hi,
 
-Because 'uart2' is not any one multiplexing option of PD14,
-and pinctrl don't know how to configure it.
+thanks for the patch!
 
-So change the pin PD14 lvds1 function to uart2.
+I think the subject should start with: "pinctrl: sunxi:", also please
+mention the UART in there.
 
-Signed-off-by: IotaHydrae <writeforever@foxmail.com>
----
- drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 1. change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
+> 
+> When the pin PD13 and PD14 is setting up to uart2 function in dts,
+> there's an error occurred:
+> 1c20800.pinctrl: unsupported function uart2 on pin PD14
+> 
+> Because 'uart2' is not any one multiplexing option of PD14,
+> and pinctrl don't know how to configure it.
+> 
+> So change the pin PD14 lvds1 function to uart2.
+> 
+> Signed-off-by: IotaHydrae <writeforever@foxmail.com>
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-index 2801ca706273..68a5b627fb9b 100644
---- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-@@ -204,7 +204,7 @@ static const struct sunxi_desc_pin suniv_f1c100s_pins[] = {
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
- 		  SUNXI_FUNCTION(0x2, "lcd"),		/* D20 */
--		  SUNXI_FUNCTION(0x3, "lvds1"),		/* RX */
-+		  SUNXI_FUNCTION(0x3, "uart2"),		/* RX */
- 		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 14)),
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
--- 
-2.32.0
+Compared against the manual, looks correct:
+
+Reviewed-by: Andre Przywara <andre.przywara@arm.com>
+
+Cheers,
+Andre
+
+P.S. I used to opportunity to check all other functions as well, apart
+from one error in the comments they were correct. Will send a patch.
+
+> ---
+>  drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+> index 2801ca706273..68a5b627fb9b 100644
+> --- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+> +++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
+> @@ -204,7 +204,7 @@ static const struct sunxi_desc_pin suniv_f1c100s_pins[] = {
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
+>  		  SUNXI_FUNCTION(0x1, "gpio_out"),
+>  		  SUNXI_FUNCTION(0x2, "lcd"),		/* D20 */
+> -		  SUNXI_FUNCTION(0x3, "lvds1"),		/* RX */
+> +		  SUNXI_FUNCTION(0x3, "uart2"),		/* RX */
+>  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 14)),
+>  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
+>  		  SUNXI_FUNCTION(0x0, "gpio_in"),
 
