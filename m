@@ -1,108 +1,189 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD907F
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 13:54:35 +0000 (UTC)
-Received: by mail-lj1-f181.google.com with SMTP id t25so1753007ljd.6
-        for <linux-sunxi@lists.linux.dev>; Wed, 04 May 2022 06:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=P6qBDyeH+xgHUpsPjtNSn4a+2fKviODgV+T0tGLuQ9A=;
-        b=mCRJ1b3PXw/ulWo14ia9eEiZPHjm61FsyhyDgEVG4vvTVfpmqIAwbaoEFGAQ2zHE+h
-         /9Sgv/8RW9fG0f0wO+mhs5Kik2TWTth5zKhfbzY5aa1ZRk0dkwkfO12awx9Z9TiwEimE
-         7nySmI8yrqkVTl/r2L0h5OP1hYh2zITPxg1SA053LIkij5JTydHaB2+2b9sNdmllCrPZ
-         GmYHC51j0U9cedgfK80PyEKmJZMUxuUfAFl51+XcL/eJCNyQfAJ8W9j9KQOkx8VBIywq
-         VFdNV+wXI4J0MFVOlecSC3YT0HzbATVkhVdwWv0ZUHUMZFdE7YGNeJiO6RDaVBYMi4g2
-         S1PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=P6qBDyeH+xgHUpsPjtNSn4a+2fKviODgV+T0tGLuQ9A=;
-        b=BfhDoxorRACfiLyWMt/Hut8l8DwukQGkiUQyBH2xh1wrZtNu+ZfuWylEyt4gJRgy3Y
-         gVL19giVfn+09r6FOdRPkmXbHnoJm7Qt8WXaWwJ4zdZtUuyaUKcp7exCaiyrdC+su83Y
-         lqqJf6x8GVIfJi6nUHpDAiexbRahVwFgMtSkdrVSqu59/yIQI4ZO89CvZ0vg4h5Uj7Mo
-         m7OhLb1R0z2k0mvtmpJ3o2nfEUF+cVaBAuyVosLFnwUXobds+L+IcZGmxAfSxUcrnrNa
-         TdZFILHh44RihVk8Sna0DNKmTN8PEb6sAAuLORq0Fr6U8qjtgLZkqgtyhqbc3MNlInqj
-         IWbg==
-X-Gm-Message-State: AOAM530HPc6SHXVPmsPyOIUA6SYwF41ID/JORZxVh39t8yKLdEmh3u0M
-	zqhLXEua7JweJjrvjPxXaGzQOCChKUmxBOUeNx1XBw==
-X-Google-Smtp-Source: ABdhPJxKhCPqCSviNHhQ8pe+/xyLvakb0eNhls2zQBTccZ5aI+9uMHMHOEZZc1iIBMBsL9xfWv5ofeR+hFcZrlCFMCI=
-X-Received: by 2002:a05:651c:a12:b0:250:5abe:4ec4 with SMTP id
- k18-20020a05651c0a1200b002505abe4ec4mr7890315ljq.4.1651672473916; Wed, 04 May
- 2022 06:54:33 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE367F
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 14:12:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 75386320027A;
+	Wed,  4 May 2022 10:12:10 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 04 May 2022 10:12:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1651673529; x=1651759929; bh=xUUhuAdWl5
+	ztZDGXsYgh3f41yA2CkH+/W2wG9PAr7kU=; b=wiHx1q5liF64+jC1h+QiniPKBL
+	t2dX9X2+maVEUh+r7S37r7+EpzQ3ujUGzSre70LRHxqZ3Aw2KbBV7D0wB5qe3zmR
+	UOf3/8GRHvCjpvP1LpjtfAOnmqGSkPqTCBIdbkPQCRZ5paJ3EVwhV7zFfnFhdJ4Z
+	XG1hdve7+c+YHoB1IqJsSeOL59ce4fYQzIsYQurD9eXiGFTp7hgYT76QjZmVGNtJ
+	Jpermg9Be8ZZC1ZzCkCSC6PdPIs0JIaBHgdQi2hUrlhavkLb2UuRyM+JStqAy090
+	SSs1K8l576D+f7UxxX8Kj8XRLc9JMRS58RZgb+JwgjA7H/v84slLSAG+hSHA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1651673529; x=
+	1651759929; bh=xUUhuAdWl5ztZDGXsYgh3f41yA2CkH+/W2wG9PAr7kU=; b=b
+	4CD9mu/DX2GZhwPHXlDAlHSWDPiq6U3YCdxPREQzj+Ixonm9DnW2V0ACn9aRsX/X
+	XWtX2hxcwjKlbxlhpTduqH5ZXlUfC+MYdJUYkqXVg2XRPn6q+iGR7HqXb17lFH70
+	QyVdoAqIpD26RtMbGuRMehgjazoBPqNGwY05JcNikkfPbm5Y87JvnQdnJyPIfqRu
+	MgiD3TnWJm80yUopP1UNgiXiuneP7tvaGevSLreozrOz6HMZtPk9pLLYcz3peBqX
+	H8UM1Wc+NozWSh1tqbRwLkGjU5LqQFdiUDpkf1J4FtMnXwlSiJnQWXHhITNTei0a
+	whWCUxlxd/aAhRmfsfA2g==
+X-ME-Sender: <xms:uIlyYunEAHSjVfHJkOdq7LSA4pIQ7k0Sjjd95wq69EgYOK4wErA9ew>
+    <xme:uIlyYl1J__EqRGeJ7VddqJaBim9zcXGqszhSXOt2yYO-8Ci2pONhpfGX5ny8utHgJ
+    _4g89uHyoc48I2eiLM>
+X-ME-Received: <xmr:uIlyYsoiuKTxN47W4nAhz4bqlSG4hKBtEvV9vWrJEHQ3o8CihAtLjszjUjvpzgWIdXf2zwTiGigs8uuVyWmDT1Ex-DAN80XPHzDqHLw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdelgdejvdcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepffekleevgeejieeigeeftddtgfejheekvedvudetgfduudfffeffueekfeeh
+    ueegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdplhhinhhugihfohhunhgurdhorh
+    hgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgr
+    gihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:uIlyYim4wxT3MBp7xYXWU7dJt_ELeHilF_g8l1e7VpJPOyrc7D8P2A>
+    <xmx:uIlyYs0D2j4msU21Z9dqwLT8lyMLQjmHEAn1w4IPQoQSTDnrdXszIw>
+    <xmx:uIlyYptoIGoGVEAFQSMaUwVx-P7DaA8koWYxwBZsoGxdBRrRnX9UvQ>
+    <xmx:uYlyYiw1y7yGZeoAFBKDd1COur6orF-Ov15gxE9xDrcW4GqRgPWfNQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 May 2022 10:12:07 -0400 (EDT)
+Date: Wed, 4 May 2022 16:12:04 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Ruslan Zalata <rz@fabmicro.ru>
+Cc: Guenter Roeck <linux@roeck-us.net>, Icenowy Zheng <icenowy@aosc.io>,
+	Jean Delvare <jdelvare@suse.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] hwmon: (sun4i-lradc) Add driver for LRADC found on
+ Allwinner A13/A20 SoC
+Message-ID: <20220504141204.iqjwa62ije2pedal@houat>
+References: <20220428210906.29527-1-rz@fabmicro.ru>
+ <20220502110010.q7vvdkdpaiz5acjl@houat>
+ <7433B295-D896-4BF8-87DF-87EB89D7A550@aosc.io>
+ <20220502112112.3ne7zy4b6gggxzoo@houat>
+ <4aabfd63-18e2-65c5-d1c2-d7600afc1c40@roeck-us.net>
+ <97e3af18e947492b1ac968c058ba509f@fabmicro.ru>
+ <20220503161446.tl3qoqqnkzq2f3hn@houat>
+ <18ded45dcd670edcc9eb9811e7c7c034@fabmicro.ru>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220422140902.1058101-1-icenowy@aosc.io> <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-In-Reply-To: <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Wed, 4 May 2022 15:53:57 +0200
-Message-ID: <CAPDyKFoE5oqGL9VqArskbZRa0u5F2AUYSaPmvcJCujZz4_pDTg@mail.gmail.com>
-Subject: Re: [PATCH 08/12] mmc: sunxi: add support for R329 MMC controllers
-To: icenowy@outlook.com
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Andre Przywara <andre.przywara@arm.com>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Icenowy Zheng <icenowy@aosc.io>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="66mbevpbgads7k7l"
+Content-Disposition: inline
+In-Reply-To: <18ded45dcd670edcc9eb9811e7c7c034@fabmicro.ru>
 
-On Fri, 22 Apr 2022 at 17:42, <icenowy@outlook.com> wrote:
->
-> From: Icenowy Zheng <icenowy@aosc.io>
->
-> The two MMC controllers in Allwinner R329 have a mixed feature set
-> comparing to the previous SoCs' ordinary MMC and eMMC controllers.
->
-> Add support for them.
->
-> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
-Please repost this (and the DT patch) to linux-mmc, so I can pick them
-up from the patch-tracker.
+--66mbevpbgads7k7l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kind regards
-Uffe
+On Wed, May 04, 2022 at 02:37:32AM +0500, Ruslan Zalata wrote:
+> Hi Maxime,
+>=20
+> > At the hardware level, I'd assume you would either use the LRADC as an
+> > actual ADC, or use it to drive buttons, right?
+>=20
+> Yes, exactly.
+>=20
+> > So I don't think a new device tree binding is such a deal breaker since
+> > you have to describe it differently anyway.
+>=20
+> ...
+>=20
+> > Since that would be a completely different use-case, the IIO driver
+> > doesn't have to support input right away, it can be done later if
+> > needed.
+> >=20
+> > And you could have the two drivers compiled at the same time.
+>=20
+> As I got you right, you propose do add new bindings, say
+> "allwinner,sun4i-a10-lradc-hwmon" and "allwinner,sun8i-a83t-lradc-hwmon" =
+for
+> new driver, which will allow two drivers (hwmon and keyboard) be compiled
+> and loaded at same time, only that one listed in DT will be instantiated.
 
-> ---
->  drivers/mmc/host/sunxi-mmc.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+Compatibles are meant to describe the hardware and remain OS-agnostic,
+while hwmon is linux-specific so we should probably drop the hwmon from
+the compatible. But otherwise, yes.
+
+> If two are listed at same time, one of the calls to devm_request_irq()
+> will return with an error preventing second driver to be probed (some
+> error message would be necessary to let user know what's going on). If
+> this is ok, I will implement it.
+>=20
+> I think moving this driver to IIO framework is overkill. We use LRADC to
+> monitor battery temp and state (voltage) and that's what HWMON was made f=
+or.
+> It's simple, easy and elegant.
+
+Yeah, that's that *you* use it for. If someone wants to use it for some
+other use, what's going to happen? Will we create a third driver for the
+exact same controller? That's not reasonable.
+
+> IIO, on the other hand, is for data acquisition and is much more
+> complex beast. Can we stay with HWMON, please ? :)
+
+But it's generic, and you can plug hwmon on top of it. So you don't lose
+any feature, but it also doesn't prevent any one else to use it for some
+slightly different usecase either.
+
+> I looked through the code for a number of iio/adc drivers and I could see
+> that all of them initiate ADC conversion inside read(), then wait for
+> completion and return single sample. For me this very flawed approach
+> because a) much more overhead/load on the system,
+
+To monitor a battery? What kind of polling interval do you expect on this?
+
+> b) initiating conversion may (and will) take more time than a single
+> consequent conversion,
+
+Ditto, I'd expect to have a request in the order of seconds for a
+battery, so the setup time will be negligible.
+
+> c) samples will be read in irregular periods of time, hence acquired
+> data will not be consistent for any further processing (like FFT). So,
+> this whole IIO framework is no way better than HWMON, yet more
+> complex. At least for ADCs. :-)
 >
-> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
-> index 0e8fbf4957d8..06934eef8be5 100644
-> --- a/drivers/mmc/host/sunxi-mmc.c
-> +++ b/drivers/mmc/host/sunxi-mmc.c
-> @@ -1207,6 +1207,15 @@ static const struct sunxi_mmc_cfg sun50i_a100_emmc_cfg = {
->         .needs_new_timings = true,
->  };
->
-> +static const struct sunxi_mmc_cfg sun50i_r329_cfg = {
-> +       .idma_des_size_bits = 13,
-> +       .idma_des_shift = 2,
-> +       .clk_delays = NULL,
-> +       .can_calibrate = true,
-> +       .mask_data0 = true,
-> +       .needs_new_timings = true,
-> +};
-> +
->  static const struct of_device_id sunxi_mmc_of_match[] = {
->         { .compatible = "allwinner,sun4i-a10-mmc", .data = &sun4i_a10_cfg },
->         { .compatible = "allwinner,sun5i-a13-mmc", .data = &sun5i_a13_cfg },
-> @@ -1218,6 +1227,7 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
->         { .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
->         { .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
->         { .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
-> +       { .compatible = "allwinner,sun50i-r329-mmc", .data = &sun50i_r329_cfg },
->         { /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
-> --
-> 2.35.1
->
+> A better approach for an IIO/ADC driver would be to implement some
+> serialization mechanism to let reads go in sync with updates (IRQs), with
+> buffering, guaranteeing no same sample is read twice and no sample is los=
+t.
+> The read() would return next available sample from buffer with nearly zero
+> overhead or sleep till data is available.
+
+Like this:
+https://www.kernel.org/doc/html/latest/driver-api/iio/buffers.html ?
+
+> And the best way is to extend IIO framework to support ring buffers
+> mechanism like the one proposed by Analog Devices, but that's a way
+> different story. Link: https://events.static.linuxfound.org/sites/events/=
+files/slides/iio_high_speed.pdf
+
+Those suggestions were to handle more than a ~100 kilosamples per
+seconds order of magnitude. How many samples per seconds do you expect
+to get out from this ADC?
+
+Maxime
+
+--66mbevpbgads7k7l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYnKJtAAKCRDj7w1vZxhR
+xdtKAQD8ETOpp5uHBoLQ0BmZsA0blycwGb6XqOpbIuD8ExWyPgD/cak7iCKVEfxm
+6SJtMB+QLLQYe4LICLR1en4ssJd5nQQ=
+=RTTX
+-----END PGP SIGNATURE-----
+
+--66mbevpbgads7k7l--
