@@ -1,83 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7B027F
-	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 12:55:21 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 301B31042;
-	Wed,  4 May 2022 05:55:21 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E705A3FA49;
-	Wed,  4 May 2022 05:55:19 -0700 (PDT)
-Date: Wed, 4 May 2022 13:55:16 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: IotaHydrae <writeforever@foxmail.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] arm: sunxi: fix f1c100s pinctrl function.
-Message-ID: <20220504135516.36072ece@donnerap.cambridge.arm.com>
-In-Reply-To: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
-References: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD907F
+	for <linux-sunxi@lists.linux.dev>; Wed,  4 May 2022 13:54:35 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id t25so1753007ljd.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 04 May 2022 06:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=P6qBDyeH+xgHUpsPjtNSn4a+2fKviODgV+T0tGLuQ9A=;
+        b=mCRJ1b3PXw/ulWo14ia9eEiZPHjm61FsyhyDgEVG4vvTVfpmqIAwbaoEFGAQ2zHE+h
+         /9Sgv/8RW9fG0f0wO+mhs5Kik2TWTth5zKhfbzY5aa1ZRk0dkwkfO12awx9Z9TiwEimE
+         7nySmI8yrqkVTl/r2L0h5OP1hYh2zITPxg1SA053LIkij5JTydHaB2+2b9sNdmllCrPZ
+         GmYHC51j0U9cedgfK80PyEKmJZMUxuUfAFl51+XcL/eJCNyQfAJ8W9j9KQOkx8VBIywq
+         VFdNV+wXI4J0MFVOlecSC3YT0HzbATVkhVdwWv0ZUHUMZFdE7YGNeJiO6RDaVBYMi4g2
+         S1PA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=P6qBDyeH+xgHUpsPjtNSn4a+2fKviODgV+T0tGLuQ9A=;
+        b=BfhDoxorRACfiLyWMt/Hut8l8DwukQGkiUQyBH2xh1wrZtNu+ZfuWylEyt4gJRgy3Y
+         gVL19giVfn+09r6FOdRPkmXbHnoJm7Qt8WXaWwJ4zdZtUuyaUKcp7exCaiyrdC+su83Y
+         lqqJf6x8GVIfJi6nUHpDAiexbRahVwFgMtSkdrVSqu59/yIQI4ZO89CvZ0vg4h5Uj7Mo
+         m7OhLb1R0z2k0mvtmpJ3o2nfEUF+cVaBAuyVosLFnwUXobds+L+IcZGmxAfSxUcrnrNa
+         TdZFILHh44RihVk8Sna0DNKmTN8PEb6sAAuLORq0Fr6U8qjtgLZkqgtyhqbc3MNlInqj
+         IWbg==
+X-Gm-Message-State: AOAM530HPc6SHXVPmsPyOIUA6SYwF41ID/JORZxVh39t8yKLdEmh3u0M
+	zqhLXEua7JweJjrvjPxXaGzQOCChKUmxBOUeNx1XBw==
+X-Google-Smtp-Source: ABdhPJxKhCPqCSviNHhQ8pe+/xyLvakb0eNhls2zQBTccZ5aI+9uMHMHOEZZc1iIBMBsL9xfWv5ofeR+hFcZrlCFMCI=
+X-Received: by 2002:a05:651c:a12:b0:250:5abe:4ec4 with SMTP id
+ k18-20020a05651c0a1200b002505abe4ec4mr7890315ljq.4.1651672473916; Wed, 04 May
+ 2022 06:54:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20220422140902.1058101-1-icenowy@aosc.io> <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+In-Reply-To: <BYAPR20MB2472BAA6CFEA5BD4B18D7D4EBCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Wed, 4 May 2022 15:53:57 +0200
+Message-ID: <CAPDyKFoE5oqGL9VqArskbZRa0u5F2AUYSaPmvcJCujZz4_pDTg@mail.gmail.com>
+Subject: Re: [PATCH 08/12] mmc: sunxi: add support for R329 MMC controllers
+To: icenowy@outlook.com
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Andre Przywara <andre.przywara@arm.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Icenowy Zheng <icenowy@aosc.io>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed,  4 May 2022 19:59:04 +0800
-IotaHydrae <writeforever@foxmail.com> wrote:
+On Fri, 22 Apr 2022 at 17:42, <icenowy@outlook.com> wrote:
+>
+> From: Icenowy Zheng <icenowy@aosc.io>
+>
+> The two MMC controllers in Allwinner R329 have a mixed feature set
+> comparing to the previous SoCs' ordinary MMC and eMMC controllers.
+>
+> Add support for them.
+>
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 
-Hi,
+Please repost this (and the DT patch) to linux-mmc, so I can pick them
+up from the patch-tracker.
 
-thanks for the patch!
-
-I think the subject should start with: "pinctrl: sunxi:", also please
-mention the UART in there.
-
-> 1. change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
-> 
-> When the pin PD13 and PD14 is setting up to uart2 function in dts,
-> there's an error occurred:
-> 1c20800.pinctrl: unsupported function uart2 on pin PD14
-> 
-> Because 'uart2' is not any one multiplexing option of PD14,
-> and pinctrl don't know how to configure it.
-> 
-> So change the pin PD14 lvds1 function to uart2.
-> 
-> Signed-off-by: IotaHydrae <writeforever@foxmail.com>
-
-Compared against the manual, looks correct:
-
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-
-Cheers,
-Andre
-
-P.S. I used to opportunity to check all other functions as well, apart
-from one error in the comments they were correct. Will send a patch.
+Kind regards
+Uffe
 
 > ---
->  drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-> index 2801ca706273..68a5b627fb9b 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-> @@ -204,7 +204,7 @@ static const struct sunxi_desc_pin suniv_f1c100s_pins[] = {
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
->  		  SUNXI_FUNCTION(0x1, "gpio_out"),
->  		  SUNXI_FUNCTION(0x2, "lcd"),		/* D20 */
-> -		  SUNXI_FUNCTION(0x3, "lvds1"),		/* RX */
-> +		  SUNXI_FUNCTION(0x3, "uart2"),		/* RX */
->  		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 14)),
->  	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
->  		  SUNXI_FUNCTION(0x0, "gpio_in"),
-
+>  drivers/mmc/host/sunxi-mmc.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/drivers/mmc/host/sunxi-mmc.c b/drivers/mmc/host/sunxi-mmc.c
+> index 0e8fbf4957d8..06934eef8be5 100644
+> --- a/drivers/mmc/host/sunxi-mmc.c
+> +++ b/drivers/mmc/host/sunxi-mmc.c
+> @@ -1207,6 +1207,15 @@ static const struct sunxi_mmc_cfg sun50i_a100_emmc_cfg = {
+>         .needs_new_timings = true,
+>  };
+>
+> +static const struct sunxi_mmc_cfg sun50i_r329_cfg = {
+> +       .idma_des_size_bits = 13,
+> +       .idma_des_shift = 2,
+> +       .clk_delays = NULL,
+> +       .can_calibrate = true,
+> +       .mask_data0 = true,
+> +       .needs_new_timings = true,
+> +};
+> +
+>  static const struct of_device_id sunxi_mmc_of_match[] = {
+>         { .compatible = "allwinner,sun4i-a10-mmc", .data = &sun4i_a10_cfg },
+>         { .compatible = "allwinner,sun5i-a13-mmc", .data = &sun5i_a13_cfg },
+> @@ -1218,6 +1227,7 @@ static const struct of_device_id sunxi_mmc_of_match[] = {
+>         { .compatible = "allwinner,sun50i-a64-emmc", .data = &sun50i_a64_emmc_cfg },
+>         { .compatible = "allwinner,sun50i-a100-mmc", .data = &sun50i_a100_cfg },
+>         { .compatible = "allwinner,sun50i-a100-emmc", .data = &sun50i_a100_emmc_cfg },
+> +       { .compatible = "allwinner,sun50i-r329-mmc", .data = &sun50i_r329_cfg },
+>         { /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, sunxi_mmc_of_match);
+> --
+> 2.35.1
+>
