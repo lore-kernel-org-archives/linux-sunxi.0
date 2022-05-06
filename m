@@ -1,320 +1,72 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2F0623
-	for <linux-sunxi@lists.linux.dev>; Thu,  5 May 2022 11:26:22 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id t16so2879377qtr.9
-        for <linux-sunxi@lists.linux.dev>; Thu, 05 May 2022 04:26:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=FTU5HLteqe3L0roG7lFU7TqZ/VgnNypV/4zfWeR4cnw=;
-        b=KeeZzJrRWN37l6xyxAJl/o5f1jUBJqpFSDN8sioPaBgo89oxztZIrZExZ3mzibtL4W
-         MHGseLbk3DjBJT6fXOWH1veKfecvRoK52jnvx2Svt1we314S3ShxhGmQyzJfpB0ipRxA
-         H2wjWTVUGtw05gAlOPCLnzPJJutRwjLnCZiRUVjYhS7/qXnEasyz7F/Yo2RuGNpW4lJ8
-         mlJfl/qZtRYuGJvSYHh6uyT+mLeVolOw+6IfNO/WzfF96znn2lyFuw1/DvXJuSrNN/Vt
-         X4Iykm533XXt6pmJKO4OBWiQF/vlhBrBkPacgGQK/zHXbKQTFrVY+anzRkFQvd+ICEUB
-         PytQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=FTU5HLteqe3L0roG7lFU7TqZ/VgnNypV/4zfWeR4cnw=;
-        b=J2A4n1FnnK2AxIvcmrk7tPmkbp5hy5TK/SrN7j33UYcVlF/3f2H9Zipt+GPxDh0M3D
-         5Dxqn/lF8psPPykOl4WrxBFngVu0Xb2DHR3X5l3rCL4GyP3Rp2Kg/FxdvvIwPbigyJGr
-         LK+Yyvdn0QQPtyQihDTQbnx1s3I0xtV2Re9Q5UkEvZC7aSv2sI1K2SmLKmnz5lc8ayBv
-         nyqm+HHYg+MD0Ut4J9ODmwFJi/EtdNSTIr0SI3F4nWiI/R0n8d/1bFaNv3/JIX1sFOJ9
-         6lnYNnbL/oaQoXVLKGUPeWboxgWlfkFhfjkLTKwI4ZEJyrS7rdqBPIru7PBDKhJeAzCJ
-         cOMQ==
-X-Gm-Message-State: AOAM532Q8Hsna6yQn2RxvdE8c4y8CzVQSE8YAcp8H6d+vNC+S3zRMP4G
-	SsMKvg/s+awh8uraKvmBkYo=
-X-Google-Smtp-Source: ABdhPJwVWZpuocKk2kBFQcIsXo4cxBU5vpiXQYvnA/rXaK+ULG/loQJ/MMPfI2jpkp49N5/kdLzqrw==
-X-Received: by 2002:ac8:7d91:0:b0:2f3:b85b:326d with SMTP id c17-20020ac87d91000000b002f3b85b326dmr5731790qtd.194.1651749981182;
-        Thu, 05 May 2022 04:26:21 -0700 (PDT)
-Received: from [10.4.10.4] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
-        by smtp.gmail.com with ESMTPSA id u1-20020ac87501000000b002f39b99f698sm691337qtq.50.2022.05.05.04.26.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 May 2022 04:26:20 -0700 (PDT)
-Message-ID: <f5ed8b09-fa83-5dee-fd57-34796a52022f@gmail.com>
-Date: Thu, 5 May 2022 07:26:19 -0400
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72C65363
+	for <linux-sunxi@lists.linux.dev>; Fri,  6 May 2022 00:33:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 935A614BF;
+	Thu,  5 May 2022 17:33:21 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2720F3FA31;
+	Thu,  5 May 2022 17:33:20 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Lukasz Majewski <lukma@denx.de>,
+	Sean Anderson <seanga2@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 0/2] sunxi: clk: fix unhandled clocks warnings
+Date: Fri,  6 May 2022 01:32:59 +0100
+Message-Id: <20220506003301.13194-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.4.0
-Subject: Re: [PATCH 5/7] sunxi: F1C100s: update DT files from Linux
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Yifan Gu <me@yifangu.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- George Hilliard <thirtythreeforty@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- u-boot@lists.denx.de
-References: <20220503212040.27884-1-andre.przywara@arm.com>
- <20220503212040.27884-6-andre.przywara@arm.com>
-From: Jesse Taube <mr.bossman075@gmail.com>
-In-Reply-To: <20220503212040.27884-6-andre.przywara@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The introduction of the DM pinctrl driver saw many clocks, referenced in
+the respective pinctrl DT nodes, being enabled by the DM clock driver.
 
+We didn't model all them correctly, so there are now some warnings on
+the console when booting:
+=========
+sunxi_set_gate: (CLK#58) unhandled
+=========
 
-On 5/3/22 17:20, Andre Przywara wrote:
-> The initial U-Boot F1C100s port was based on the mainline kernel DT
-> files, which were quite basic and were missing the essential MMC and
-> SPI peripherals. While we could work around this in the SPL by
-> hardcoding the required information, this left U-Boot proper without SD
-> card or SPI flash support, so actual loading would require FEL boot.
-> 
-> Now the missing DT bits have been submitted and accepted in the kernel
-> tree, so lets sync back those files into U-Boot to enable MMC and
-> SPI, plus benefit from some fixes.
-> 
-> This is a verbatim copy of the .dts and .dtsi file from
-> linux-sunxi/dt-for-5.19[1], which have been part of linux-next for a
-> while as well.
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/log/?h=sunxi/dt-for-5.19
-> 
-> Link: https://lore.kernel.org/linux-arm-kernel/20220317162349.739636-1-andre.przywara@arm.com/
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->   arch/arm/dts/suniv-f1c100s-licheepi-nano.dts |  31 ++++++
->   arch/arm/dts/suniv-f1c100s.dtsi              | 104 +++++++++++++++++--
->   2 files changed, 125 insertions(+), 10 deletions(-)
-> 
-> diff --git a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> index a1154e6c7cb..04e59b8381c 100644
-> --- a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> +++ b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> @@ -11,12 +11,43 @@
->   	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
->   
->   	aliases {
-> +		mmc0 = &mmc0;
->   		serial0 = &uart0;
-> +		spi0 = &spi0;
->   	};
->   
->   	chosen {
->   		stdout-path = "serial0:115200n8";
->   	};
-> +
-> +	reg_vcc3v3: vcc3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	status = "okay";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +};
-> +
-> +&spi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pc_pins>;
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "winbond,w25q128", "jedec,spi-nor";
-> +		reg = <0>;
-> +		spi-max-frequency = <40000000>;
-> +	};
->   };
->   
->   &uart0 {
-> diff --git a/arch/arm/dts/suniv-f1c100s.dtsi b/arch/arm/dts/suniv-f1c100s.dtsi
-> index 6100d3b75f6..0edc1724407 100644
-> --- a/arch/arm/dts/suniv-f1c100s.dtsi
-> +++ b/arch/arm/dts/suniv-f1c100s.dtsi
-> @@ -4,6 +4,9 @@
->    * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
->    */
->   
-> +#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
-> +#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
-> +
->   / {
->   	#address-cells = <1>;
->   	#size-cells = <1>;
-> @@ -26,9 +29,13 @@
->   	};
->   
->   	cpus {
-> -		cpu {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		cpu@0 {
->   			compatible = "arm,arm926ej-s";
->   			device_type = "cpu";
-> +			reg = <0x0>;
->   		};
->   	};
->   
-> @@ -62,6 +69,70 @@
->   			};
->   		};
->   
-> +		spi0: spi@1c05000 {
-> +			compatible = "allwinner,suniv-f1c100s-spi",
-> +				     "allwinner,sun8i-h3-spi";
-> +			reg = <0x01c05000 0x1000>;
-> +			interrupts = <10>;
-> +			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_BUS_SPI0>;
-> +			clock-names = "ahb", "mod";
-> +			resets = <&ccu RST_BUS_SPI0>;
-> +			status = "disabled";
-> +			num-cs = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		spi1: spi@1c06000 {
-> +			compatible = "allwinner,suniv-f1c100s-spi",
-> +				     "allwinner,sun8i-h3-spi";
-> +			reg = <0x01c06000 0x1000>;
-> +			interrupts = <11>;
-> +			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_BUS_SPI1>;
-> +			clock-names = "ahb", "mod";
-> +			resets = <&ccu RST_BUS_SPI1>;
-> +			status = "disabled";
-> +			num-cs = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		mmc0: mmc@1c0f000 {
-> +			compatible = "allwinner,suniv-f1c100s-mmc",
-> +				     "allwinner,sun7i-a20-mmc";
-> +			reg = <0x01c0f000 0x1000>;
-> +			clocks = <&ccu CLK_BUS_MMC0>,
-> +				 <&ccu CLK_MMC0>,
-> +				 <&ccu CLK_MMC0_OUTPUT>,
-> +				 <&ccu CLK_MMC0_SAMPLE>;
-> +			clock-names = "ahb", "mmc", "output", "sample";
-> +			resets = <&ccu RST_BUS_MMC0>;
-> +			reset-names = "ahb";
-> +			interrupts = <23>;
-> +			pinctrl-names = "default";
-> +			pinctrl-0 = <&mmc0_pins>;
-> +			status = "disabled";
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
-> +		mmc1: mmc@1c10000 {
-> +			compatible = "allwinner,suniv-f1c100s-mmc",
-> +				     "allwinner,sun7i-a20-mmc";
-> +			reg = <0x01c10000 0x1000>;
-> +			clocks = <&ccu CLK_BUS_MMC1>,
-> +				 <&ccu CLK_MMC1>,
-> +				 <&ccu CLK_MMC1_OUTPUT>,
-> +				 <&ccu CLK_MMC1_SAMPLE>;
-> +			clock-names = "ahb", "mmc", "output", "sample";
-> +			resets = <&ccu RST_BUS_MMC1>;
-> +			reset-names = "ahb";
-> +			interrupts = <24>;
-> +			status = "disabled";
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
-> +
->   		ccu: clock@1c20000 {
->   			compatible = "allwinner,suniv-f1c100s-ccu";
->   			reg = <0x01c20000 0x400>;
-> @@ -82,13 +153,24 @@
->   			compatible = "allwinner,suniv-f1c100s-pinctrl";
->   			reg = <0x01c20800 0x400>;
->   			interrupts = <38>, <39>, <40>;
-> -			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
-> +			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
->   			clock-names = "apb", "hosc", "losc";
->   			gpio-controller;
->   			interrupt-controller;
->   			#interrupt-cells = <3>;
->   			#gpio-cells = <3>;
->   
-> +			mmc0_pins: mmc0-pins {
-> +				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
-> +				function = "mmc0";
-> +				drive-strength = <30>;
-> +			};
-> +
-> +			spi0_pc_pins: spi0-pc-pins {
-> +				pins = "PC0", "PC1", "PC2", "PC3";
-> +				function = "spi0";
-> +			};
-> +
->   			uart0_pe_pins: uart0-pe-pins {
->   				pins = "PE0", "PE1";
->   				function = "uart0";
-> @@ -98,14 +180,16 @@
->   		timer@1c20c00 {
->   			compatible = "allwinner,suniv-f1c100s-timer";
->   			reg = <0x01c20c00 0x90>;
-> -			interrupts = <13>;
-> +			interrupts = <13>, <14>, <15>;
->   			clocks = <&osc24M>;
->   		};
->   
->   		wdt: watchdog@1c20ca0 {
->   			compatible = "allwinner,suniv-f1c100s-wdt",
-> -				     "allwinner,sun4i-a10-wdt";
-> +				     "allwinner,sun6i-a31-wdt";
->   			reg = <0x01c20ca0 0x20>;
-> +			interrupts = <16>;
-> +			clocks = <&osc32k>;
->   		};
->   
->   		uart0: serial@1c25000 {
-> @@ -114,8 +198,8 @@
->   			interrupts = <1>;
->   			reg-shift = <2>;
->   			reg-io-width = <4>;
-> -			clocks = <&ccu 38>;
-> -			resets = <&ccu 24>;
-> +			clocks = <&ccu CLK_BUS_UART0>;
-> +			resets = <&ccu RST_BUS_UART0>;
->   			status = "disabled";
->   		};
->   
-> @@ -125,8 +209,8 @@
->   			interrupts = <2>;
->   			reg-shift = <2>;
->   			reg-io-width = <4>;
-> -			clocks = <&ccu 39>;
-> -			resets = <&ccu 25>;
-> +			clocks = <&ccu CLK_BUS_UART1>;
-> +			resets = <&ccu RST_BUS_UART1>;
->   			status = "disabled";
->   		};
->   
-> @@ -136,8 +220,8 @@
->   			interrupts = <3>;
->   			reg-shift = <2>;
->   			reg-io-width = <4>;
-> -			clocks = <&ccu 40>;
-> -			resets = <&ccu 26>;
-> +			clocks = <&ccu CLK_BUS_UART2>;
-> +			resets = <&ccu RST_BUS_UART2>;
->   			status = "disabled";
->   		};
->   	};
+This series fixes them. The first patch just describes some missing gate
+clocks, mostly for the pin controller directly.
+The second patch introduces a GATE_DUMMY macro, that allows to just
+ignore some other clocks, and to suppress the warnings.
 
-Acked-by: Jesse Taube <Mr.Bossman075@gmail.com>
+Please have a look and test!
+
+Cheers,
+Andre
+
+Andre Przywara (2):
+  clk: sunxi: add PIO bus gate clocks
+  clk: sunxi: add and use dummy gate clocks
+
+ drivers/clk/sunxi/clk_a10.c   | 2 ++
+ drivers/clk/sunxi/clk_a10s.c  | 2 ++
+ drivers/clk/sunxi/clk_a23.c   | 2 ++
+ drivers/clk/sunxi/clk_a31.c   | 2 ++
+ drivers/clk/sunxi/clk_a64.c   | 4 ++++
+ drivers/clk/sunxi/clk_a80.c   | 2 ++
+ drivers/clk/sunxi/clk_a83t.c  | 2 ++
+ drivers/clk/sunxi/clk_h3.c    | 4 ++++
+ drivers/clk/sunxi/clk_h6.c    | 4 ++++
+ drivers/clk/sunxi/clk_h616.c  | 4 ++++
+ drivers/clk/sunxi/clk_h6_r.c  | 2 ++
+ drivers/clk/sunxi/clk_r40.c   | 2 ++
+ drivers/clk/sunxi/clk_sunxi.c | 3 +++
+ drivers/clk/sunxi/clk_v3s.c   | 2 ++
+ include/clk/sunxi.h           | 5 +++++
+ 15 files changed, 42 insertions(+)
+
+-- 
+2.35.3
+
