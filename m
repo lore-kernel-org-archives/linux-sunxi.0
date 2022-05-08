@@ -1,58 +1,56 @@
-Received: from mail-m176230.qiye.163.com (mail-m176230.qiye.163.com [59.111.176.230])
+Received: from mail-m17638.qiye.163.com (mail-m17638.qiye.163.com [59.111.176.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164FD1384
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 13:29:03 +0000 (UTC)
-Received: from jmu.edu.cn (localhost [127.0.0.1])
-	by mail-m176230.qiye.163.com (Hmail) with ESMTP id 773DE8600F3;
-	Sun,  8 May 2022 21:29:01 +0800 (CST)
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-Message-ID: <ANAAfQDrFEUw2aEo5XZZDqq2.1.1652016541476.Hmail.201821123082@jmu.edu.cn>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gYXJtNjQ6IGR0czogYWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBPcmFuZ2VQaSBPbmUgUGx1cw==?=
-X-Priority: 3
-X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
-X-Originating-IP: 218.85.118.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A67184D
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 15:25:36 +0000 (UTC)
+Received: from localhost.localdomain (unknown [IPV6:2001:250:6801:5501:163d:f2ff:fecb:5632])
+	by mail-m17638.qiye.163.com (Hmail) with ESMTPA id 5C89C1C0243;
+	Sun,  8 May 2022 23:25:27 +0800 (CST)
+From: Chukun Pan <amadeus@jmu.edu.cn>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chukun Pan <amadeus@jmu.edu.cn>
+Subject: Re: Re: [PATCH] arm64: dts: allwinner: define USB3 Ethernet on NanoPi R1S H5
+Date: Sun,  8 May 2022 23:25:05 +0800
+Message-Id: <20220508152505.7762-1-amadeus@jmu.edu.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <4393725.LvFx2qVVIh@kista>
+References: <4393725.LvFx2qVVIh@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Received: from 201821123082@jmu.edu.cn( [218.85.118.195) ] by ajax-webmail ( [127.0.0.1] ) ; Sun, 8 May 2022 21:29:01 +0800 (GMT+08:00)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-Date: Sun, 8 May 2022 21:29:01 +0800 (GMT+08:00)
+Content-Transfer-Encoding: 8bit
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUNNQkhWTU8dTh5LHh9DGB
-	1PVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo1OjodKj8JPT4uDEkaPhROIyEh
-	PwoKSVVKVUpNTklLSk1OT0pMQ0hVMxYaEhdVGhYaHx4OCDsRFg5VHh8OVRgVRVlXWRILWUFZSUpD
-	VUNOVUpKQ1VKQk5ZV1kIAVlBSE9ISTcG
-X-HM-Tid: 0a80a3d935e7d9a8kuws1809e65676a
+	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUJOQkNWS0JITEsdH08aQh
+	oaVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OTY6DQw5UT04KgwZGkICOT86
+	EAMaCjpVSlVKTU5JS0lITklMTE5LVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUlL
+	S0pBSU5LQU1DS0pBTk5LSkFKTUgfQR1JHR1BHR4YGUFOTUhJWVdZCAFZQUpMSE03Bg++
+X-HM-Tid: 0a80a4468858d993kuws5c89c1c0243
 
-PlRoZSBBWFA4MDUgZGF0YXNoZWV0IGhhcyB0aGlzIGluZm9ybWF0aW9uIGluIHRoZSBkZXNjcmlw
-dGlvbiBmb3IgUkVHIDFBLgo+RFZNIGlzIGRpc2FibGVkIGJ5IGRlZmF1bHQsIGFuZCB3aGVuIGl0
-IGlzIGVuYWJsZWQsIHRoZSBkZWZhdWx0IHJhbXAgcmF0ZQo+aXMgMTBtVi8xNS42MjUgdXMgPT0g
-NjQwIHVWL3VzLgo+Cj5EaWQgeW91IG5vdGljZSBhbnkgaW5zdGFiaWxpdHkgd2l0aG91dCB0aGlz
-IGRlbGF5PwoKQWN0dWFsbHkgSSB3cml0ZSB0aGlzIGJhc2VkIG9uIHRoZSBjb21taXQgaHR0cHM6
-Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2NvbW1pdC9lYmFlMzNjCigiYXJtNjQ6IGR0czog
-YWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBPcmFuZ2UgUGkgMyIpIGFu
-ZCBodHRwczovL2dpdGh1Yi5jb20vCnRvcnZhbGRzL2xpbnV4L2NvbW1pdC9mZTc5ZWE1ICgiYXJt
-NjQ6IGR0czogYWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBQaW5lCkg2
-NCIpLCBzbyBJIHRoaW5rIGl0J3MgbmVjZXNzYXJ5IHRvIGFkZCB0aGlzIGRlbGF5LgoKPj4gQEAg
-LTIxNiw2ICsyMjIsNyBAQCByZWdfZGNkY2M6IGRjZGNjIHsKPj4gIAkJCQlyZWd1bGF0b3ItZW5h
-YmxlLXJhbXAtZGVsYXkgPSA8MzIwMDA+Owo+PiAgCQkJCXJlZ3VsYXRvci1taW4tbWljcm92b2x0
-ID0gPDgxMDAwMD47Cj4+ICAJCQkJcmVndWxhdG9yLW1heC1taWNyb3ZvbHQgPSA8MTA4MDAwMD47
-Cj4+ICsJCQkJcmVndWxhdG9yLXJhbXAtZGVsYXkgPSA8MjUwMD47Cj4KPlRoaXMgY2hhbmdlIGlz
-IG5vdCByZWxhdGVkIHRvIENQVSBmcmVxdWVuY3kgc2NhbGluZywgc28gaXQgYmVsb25ncyBpbiBh
-IHNlcGFyYXRlCj5wYXRjaCAoaWYgaXQgaXMgbmVlZGVkKS4KClRoZSB0d28gY29tbWl0cyBtZW50
-aW9uZWQgYWJvdmUgYWxzbyBhZGQgdGhpcyBkZWxheSB0byBkY2RjYyByZWd1bGF0b3IuCklmIHRo
-ZXJlIGlzIGEgbmVlZCBmb3IgYSBzZXBhcmF0ZSBwYXRjaCwgSSB3aWxsIHNlbmQgdGhlc2Ugc2Vw
-YXJhdGVseS4KClRoYW5rcywKQ2h1a3VuCg0KDQo=
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
+> > @@ -21,7 +21,8 @@ / {
+> >  
+> >  	aliases {
+> >  		ethernet0 = &emac;
+> > -		ethernet1 = &rtl8189etv;
+> > +		ethernet1 = &rtl8153;
+> > +		ethernet2 = &rtl8189etv;
+
+> Additionally, it's not a good idea to change order of ethernet nodes. It can 
+> affect mac address assigning procedure in bootloader.
+
+There is no eth1addr in uboot, so this doesn't affect the mac address.
+The network order in the kernel is eth0(emac) / eth1(rtl8153) / wlan0,
+so I think it would be better to change it this way.
+
+Thanks,
+Chukun
+
