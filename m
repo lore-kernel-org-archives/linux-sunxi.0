@@ -1,95 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16011878
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 20:52:54 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BB14C385AC;
-	Sun,  8 May 2022 20:52:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652043174;
-	bh=zX630/IQ4n8rFF9LhVxWtWKtnLHgrQEsh7cp3IaBvOE=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=sy/mne9QeBVaI8wGU1QtfXhuVQZOYHrvQFVtaCVOhBkKI+PxtiB6ztvIIUdJtrEp0
-	 jGDN3Y6jOx7qGiWiP4MAqmofqBEPb/m4Y+urHi2p/gr6eeQFLEEYdYNB2lSMwmXwyN
-	 S59kmIY9Qo4e3XUB3gIp3+LzwpAJJxOwXoTVU5L3JVQD5tilbzhXd3ekT5lv1Mz2aJ
-	 e4MnMpCgZ/5QItahktSDUfdUvpZKn5ul4alxw8N1w5iNwpuapDkU5qSsaSQVNL7dXE
-	 jmI88uywcA6UhWCrXxiShmOb8dneiuKHhg/kdqzmNyFzX/663tbYOZq16bVkY6OQ+A
-	 voqRqiJBmmTsA==
-Date: Sun, 8 May 2022 22:52:50 +0200
-From: Jernej Skrabec <jernej@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner DT changes for 5.19, take 2
-Message-ID: <Yngton59OacOR2ht@kista.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A1610F8
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 20:59:50 +0000 (UTC)
+Received: by mail-ej1-f44.google.com with SMTP id kq17so23384851ejb.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 08 May 2022 13:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=5jAqj/OJEjy+6GJVxTT9oYNk8MhLxODI4SDyZ1kXl+8=;
+        b=SiG6BXJa3Hmxnqnyf+EPE0jG29vNhWL1ZkWQFhbnPw5KBXPrAfeo6HACtZsiHj8AiK
+         Exckinl6QKzyB1jdDgAGB/BCNg7PMlOQhBX5RxPwK+DoXM3y3ShWeUqhDWIEzoM6zugZ
+         rS9C4JFiAxjQRWmaO4enV3DNFhTeu5YzspghGnD1xo9pmIsNXGOILoMmPvhs2P1MujrM
+         TY2G3Lr7H2LdgpZv4P811O0ubTlj+jXXqCnJyVlmwkSQ+PVDslDv+mLMLQhOVkQ9TpsG
+         syK3rKIFgn1E/cgHnZJryz/E34NLy2CcJg+2qfqO2zr1LXcKl9fy+supAzUZfEdjH2IJ
+         NDWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=5jAqj/OJEjy+6GJVxTT9oYNk8MhLxODI4SDyZ1kXl+8=;
+        b=JDQdG4k4B+lQJY9ypXblQUHpg6isa7J0LF2dXpDWTytG+HLUF45iF4nwDKTruvNwmc
+         YCbUPNlG90Bv4OKu6+PHk24yLXgoMV/a/qWcQpiV4+evoewzrkg86uQw/6Wa23UuX5G9
+         pWpNP/7FfWW1tuQCxR/W4El+GablM2XQRjJBu7KKdV5MRXqhY6ui3yCkiOZhZza7dm1h
+         JN2mR3XLT4J0lvuAGlSZE0KJCmXMxPLnA3qNOWtWYxQhqc2Q70qx2xXKLbgxKGKA1NqA
+         x98r8yMQBp8YdvGJu9iJBTVEvFkoT6otJfDtg5tjqiXcBYUD+nJqdIX7jwHODB2JJLaJ
+         LmwQ==
+X-Gm-Message-State: AOAM531txGgWHQn/3r5Q2HmAk1hVGNpuVw3H77O1MKNooCPm8FOXr7h+
+	rQedbzrLNGzL4G7S38zubYI=
+X-Google-Smtp-Source: ABdhPJxXZn1Sidq7bQhKq3jSUOV0AUtIgx/F+6rnYKFC08z1ZqPpV6ceuyjMR526F3qMEMaLxpJZLg==
+X-Received: by 2002:a17:907:7e85:b0:6f4:78f1:75b5 with SMTP id qb5-20020a1709077e8500b006f478f175b5mr12088585ejc.54.1652043588983;
+        Sun, 08 May 2022 13:59:48 -0700 (PDT)
+Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id h6-20020a1709062dc600b006f3ef214df5sm4398243eji.91.2022.05.08.13.59.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 May 2022 13:59:48 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Dang Huynh <danct12@riseup.net>, Dang Huynh <danct12@riseup.net>
+Cc: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] ARM: dts: sunxi: nanopi: Remove input-name property
+Date: Sun, 08 May 2022 22:59:47 +0200
+Message-ID: <2111060.Icojqenx9y@kista>
+In-Reply-To: <3427349.iIbC2pHGDl@kista>
+References: <20220425064231.243482-1-danct12@riseup.net> <3427349.iIbC2pHGDl@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi!
+Dne ponedeljek, 25. april 2022 ob 17:38:58 CEST je Jernej =C5=A0krabec napi=
+sal(a):
+> Dne ponedeljek, 25. april 2022 ob 08:42:32 CEST je Dang Huynh napisal(a):
+> > This property doesn't seem to exist in the documentation nor
+> > in source code, but for some reason it is defined in a bunch
+> > of device trees.
+> >=20
+> > Signed-off-by: Dang Huynh <danct12@riseup.net>
+>=20
+> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Please pull following DT changes for 5.19.
+Applied, thanks!
 
 Best regards,
 Jernej
 
-The following changes since commit 3123109284176b1532874591f7c81f3837bbdc17:
+>=20
+> Best regards,
+> Jernej
+>=20
+> > ---
+> > This patch is a split of this treewide patch [1] to ease the=20
+> > maintainers.=20
+> >=20
+> > [1]: https://patchwork.kernel.org/patch/12633497/
+> >=20
+> >  arch/arm/boot/dts/sun8i-h3-nanopi.dtsi | 1 -
+> >  1 file changed, 1 deletion(-)
+> >=20
+> > diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi b/arch/arm/boot/dts/
+> sun8i-h3-nanopi.dtsi
+> > index fc45d5aaa67f..a9f749f49beb 100644
+> > --- a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+> > +++ b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+> > @@ -75,7 +75,6 @@ led-1 {
+> > =20
+> >  	r_gpio_keys {
+> >  		compatible =3D "gpio-keys";
+> > -		input-name =3D "k1";
+> > =20
+> >  		k1 {
+> >  			label =3D "k1";
+> > --=20
+> > 2.36.0
+> >=20
+> >=20
+>=20
+>=20
+>=20
 
-  Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
 
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-dt-for-5.19-2
-
-for you to fetch changes up to 092b3ace58d9049bcd0381c32f2cd69302e199bc:
-
-  ARM: dts: sunxi: nanopi: Remove input-name property (2022-05-08 22:47:35 +0200)
-
-----------------------------------------------------------------
-- F1C100 improvements (SPI, MMC, timer, cpu, watchdog)
-- SPI flash node for licheepi-nano
-- enabled analogue audio on olinuxino-a64
-- GPIO port regulators on teres-i
-- remove undocumented property from nanopi
-
-----------------------------------------------------------------
-Andre Przywara (9):
-      dt-bindings: watchdog: sunxi: fix F1C100s compatible
-      dt-bindings: watchdog: sunxi: clarify clock support
-      ARM: dts: suniv: F1C100: fix watchdog compatible
-      dt-bindings: arm: sunxi: document LicheePi Nano name
-      ARM: dts: suniv: F1C100: fix CPU node
-      ARM: dts: suniv: F1C100: fix timer node
-      dt-bindings: spi: sunxi: document F1C100 controllers
-      ARM: dts: suniv: F1C100: add SPI support
-      ARM: dts: suniv: licheepi-nano: add SPI flash
-
-Dang Huynh (1):
-      ARM: dts: sunxi: nanopi: Remove input-name property
-
-Harald Geyer (1):
-      arm64: dts: allwinner: teres-i: Add GPIO port regulators
-
-Jesse Taube (3):
-      ARM: dts: suniv: F1C100: add clock and reset macros
-      ARM: dts: suniv: F1C100: add MMC controllers
-      ARM: dts: suniv: licheepi-nano: add microSD card
-
-Philip Rinn (1):
-      arm64: dts: allwinner: a64: olinuxino: Enable audio
-
- Documentation/devicetree/bindings/arm/sunxi.yaml   |   5 +
- .../bindings/spi/allwinner,sun6i-a31-spi.yaml      |   1 +
- .../bindings/watchdog/allwinner,sun4i-a10-wdt.yaml |  24 ++---
- arch/arm/boot/dts/sun8i-h3-nanopi.dtsi             |   1 -
- arch/arm/boot/dts/suniv-f1c100s-licheepi-nano.dts  |  31 ++++++
- arch/arm/boot/dts/suniv-f1c100s.dtsi               | 104 +++++++++++++++++++--
- .../boot/dts/allwinner/sun50i-a64-olinuxino.dts    |  30 ++++++
- .../boot/dts/allwinner/sun50i-a64-teres-i.dts      |   8 ++
- 8 files changed, 178 insertions(+), 26 deletions(-)
