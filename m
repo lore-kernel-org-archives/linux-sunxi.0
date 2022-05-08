@@ -1,56 +1,52 @@
-Received: from mail-m17638.qiye.163.com (mail-m17638.qiye.163.com [59.111.176.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7A67184D
-	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 15:25:36 +0000 (UTC)
-Received: from localhost.localdomain (unknown [IPV6:2001:250:6801:5501:163d:f2ff:fecb:5632])
-	by mail-m17638.qiye.163.com (Hmail) with ESMTPA id 5C89C1C0243;
-	Sun,  8 May 2022 23:25:27 +0800 (CST)
-From: Chukun Pan <amadeus@jmu.edu.cn>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chukun Pan <amadeus@jmu.edu.cn>
-Subject: Re: Re: [PATCH] arm64: dts: allwinner: define USB3 Ethernet on NanoPi R1S H5
-Date: Sun,  8 May 2022 23:25:05 +0800
-Message-Id: <20220508152505.7762-1-amadeus@jmu.edu.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <4393725.LvFx2qVVIh@kista>
-References: <4393725.LvFx2qVVIh@kista>
+Received: from fx.arvanta.net (static-213-198-238-194.adsl.eunet.rs [213.198.238.194])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056D81859
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 17:44:04 +0000 (UTC)
+Received: from m1 (unknown [10.5.1.15])
+	by fx.arvanta.net (Postfix) with ESMTP id D245E2B2FB;
+	Sun,  8 May 2022 19:38:29 +0200 (CEST)
+Date: Sun, 8 May 2022 19:38:30 +0200
+From: Milan =?utf-8?Q?P=2E_Stani=C4=87?= <mps@arvanta.net>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Philip Rinn <rinni@inventati.org>, wens@csie.org,
+	Samuel Holland <samuel@sholland.org>, robh+dt@kernel.org,
+	krzk+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] arm64: dts: allwinner: a64: olinuxino: Enable audio
+Message-ID: <YngAFrGeivZpJ5dK@m1>
+References: <4fc41278-c46c-6486-a336-f2a329bd6bd0@sholland.org>
+ <20220407155145.10891-1-rinni@inventati.org>
+ <40976a35-2241-a2f0-c9be-dd32c1b51814@sholland.org>
+ <4727823.31r3eYUQgx@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
-	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUJOQkNWS0JITEsdH08aQh
-	oaVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OTY6DQw5UT04KgwZGkICOT86
-	EAMaCjpVSlVKTU5JS0lITklMTE5LVTMWGhIXVRoWGh8eDgg7ERYOVR4fDlUYFUVZV1kSC1lBWUlL
-	S0pBSU5LQU1DS0pBTk5LSkFKTUgfQR1JHR1BHR4YGUFOTUhJWVdZCAFZQUpMSE03Bg++
-X-HM-Tid: 0a80a4468858d993kuws5c89c1c0243
+In-Reply-To: <4727823.31r3eYUQgx@kista>
 
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts
-> > @@ -21,7 +21,8 @@ / {
-> >  
-> >  	aliases {
-> >  		ethernet0 = &emac;
-> > -		ethernet1 = &rtl8189etv;
-> > +		ethernet1 = &rtl8153;
-> > +		ethernet2 = &rtl8189etv;
+On Sun, 2022-04-10 at 20:23, Jernej Škrabec wrote:
+> Dne petek, 08. april 2022 ob 00:06:01 CEST je Samuel Holland napisal(a):
+> > On 4/7/22 10:51 AM, Philip Rinn wrote:
+> > > Enable the audio hardware on the Olimex A64-OLinuXino board family.
+> > > Tested on the A64-OLinuXino-2Ge8G-IND variant.
+> > > 
+> > > Signed-off-by: Philip Rinn <rinni@inventati.org>
+> > 
+> > Acked-by: Samuel Holland <samuel@sholland.org>
+> 
+> Applied to sunxi/dt-for-5.19. Thanks!
 
-> Additionally, it's not a good idea to change order of ethernet nodes. It can 
-> affect mac address assigning procedure in bootloader.
+About week ago I made nearly same patch but Jernej pointed me to this
+one. I applied this patch and it works like one I made.
 
-There is no eth1addr in uboot, so this doesn't affect the mac address.
-The network order in the kernel is eth0(emac) / eth1(rtl8153) / wlan0,
-so I think it would be better to change it this way.
+Audio output works fine, but recording doesn't work at all in my tests.
+I can hear myself from microphone on headphones quite fine but 'arecord'
+records only some kind of white noise. Tried all alsamixer widget
+combinations but didn't managed to record anything.
 
-Thanks,
-Chukun
-
+Kind regards
