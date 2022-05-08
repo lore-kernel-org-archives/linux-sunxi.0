@@ -1,49 +1,58 @@
-Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCCA07E
-	for <linux-sunxi@lists.linux.dev>; Sat,  7 May 2022 08:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:From:Subject; bh=gk6HT
-	qYMKEhxvLn1BYr+MWBYUaZp2FEI8jEUok2zYeQ=; b=psZqR2mPDbA+h55dNR49B
-	XgVIkOEUcjkRx46a9Sairy5F3Bsm2bM3cb/BfzB5QVQ5yEHzA7vDuXrAmna+VZHr
-	bdS225/oRr9rqMeoUAf+GnlEjw2RmCEXIw/ZKhvLzHjSUmrrkRFpAqrQUawvuEdS
-	cTDWMDrDotxCqBcdjO7QK4=
-Received: from [192.168.3.102] (unknown [218.201.129.19])
-	by smtp7 (Coremail) with SMTP id C8CowAAXgroOKXZijIlBBQ--.61203S2;
-	Sat, 07 May 2022 16:08:46 +0800 (CST)
-Message-ID: <771e3584-6a9f-af81-a70c-313c729c6a54@163.com>
-Date: Sat, 7 May 2022 16:08:45 +0800
+Received: from mail-m176230.qiye.163.com (mail-m176230.qiye.163.com [59.111.176.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164FD1384
+	for <linux-sunxi@lists.linux.dev>; Sun,  8 May 2022 13:29:03 +0000 (UTC)
+Received: from jmu.edu.cn (localhost [127.0.0.1])
+	by mail-m176230.qiye.163.com (Hmail) with ESMTP id 773DE8600F3;
+	Sun,  8 May 2022 21:29:01 +0800 (CST)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+Message-ID: <ANAAfQDrFEUw2aEo5XZZDqq2.1.1652016541476.Hmail.201821123082@jmu.edu.cn>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: =?UTF-8?B?UmU6UmU6IFtQQVRDSF0gYXJtNjQ6IGR0czogYWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBPcmFuZ2VQaSBPbmUgUGx1cw==?=
+X-Priority: 3
+X-Mailer: HMail Webmail Server V2.0 Copyright (c) 2016-163.com
+X-Originating-IP: 218.85.118.195
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-To: linux-sunxi@lists.linux.dev
-Content-Language: en-US
-From: qianfan <qianfanguijin@163.com>
-Subject: R40 dead when offline cpu
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:C8CowAAXgroOKXZijIlBBQ--.61203S2
-X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUcTa0DUUUU
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbCqRr57V0DfQl5xAAAsw
+Received: from 201821123082@jmu.edu.cn( [218.85.118.195) ] by ajax-webmail ( [127.0.0.1] ) ; Sun, 8 May 2022 21:29:01 +0800 (GMT+08:00)
+From: Chukun Pan <amadeus@jmu.edu.cn>
+Date: Sun, 8 May 2022 21:29:01 +0800 (GMT+08:00)
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZCBgUCR5ZQVlLVUtZV1
+	kWDxoPAgseWUFZKDYvK1lXWShZQUhPN1dZLVlBSVdZDwkaFQgSH1lBWUNNQkhWTU8dTh5LHh9DGB
+	1PVRMBExYaEhckFA4PWVdZFhoPEhUdFFlBWU9LSFVKSktISkNVS1kG
+X-HM-Sender-Digest: e1kMHhlZQQ8JDh5XWRIfHhUPWUFZRzo1OjodKj8JPT4uDEkaPhROIyEh
+	PwoKSVVKVUpNTklLSk1OT0pMQ0hVMxYaEhdVGhYaHx4OCDsRFg5VHh8OVRgVRVlXWRILWUFZSUpD
+	VUNOVUpKQ1VKQk5ZV1kIAVlBSE9ISTcG
+X-HM-Tid: 0a80a3d935e7d9a8kuws1809e65676a
 
-Hi:
-
-I have a custom allwinner R40 board running linux v5.15.
-The system is dead when I try offline cpu1. Noting is printed on serial 
-console.
-
-# cd /sys/devices/system/cpu/cpu1/
-# ls
-cpu_capacity  of_node       power         topology
-hotplug       online        subsystem     uevent
-# echo 0 > online
-
-Can I know is the bug already fixed?
-Thanks
-
+PlRoZSBBWFA4MDUgZGF0YXNoZWV0IGhhcyB0aGlzIGluZm9ybWF0aW9uIGluIHRoZSBkZXNjcmlw
+dGlvbiBmb3IgUkVHIDFBLgo+RFZNIGlzIGRpc2FibGVkIGJ5IGRlZmF1bHQsIGFuZCB3aGVuIGl0
+IGlzIGVuYWJsZWQsIHRoZSBkZWZhdWx0IHJhbXAgcmF0ZQo+aXMgMTBtVi8xNS42MjUgdXMgPT0g
+NjQwIHVWL3VzLgo+Cj5EaWQgeW91IG5vdGljZSBhbnkgaW5zdGFiaWxpdHkgd2l0aG91dCB0aGlz
+IGRlbGF5PwoKQWN0dWFsbHkgSSB3cml0ZSB0aGlzIGJhc2VkIG9uIHRoZSBjb21taXQgaHR0cHM6
+Ly9naXRodWIuY29tL3RvcnZhbGRzL2xpbnV4L2NvbW1pdC9lYmFlMzNjCigiYXJtNjQ6IGR0czog
+YWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBPcmFuZ2UgUGkgMyIpIGFu
+ZCBodHRwczovL2dpdGh1Yi5jb20vCnRvcnZhbGRzL2xpbnV4L2NvbW1pdC9mZTc5ZWE1ICgiYXJt
+NjQ6IGR0czogYWxsd2lubmVyOiBoNjogRW5hYmxlIENQVSBvcHAgdGFibGVzIGZvciBQaW5lCkg2
+NCIpLCBzbyBJIHRoaW5rIGl0J3MgbmVjZXNzYXJ5IHRvIGFkZCB0aGlzIGRlbGF5LgoKPj4gQEAg
+LTIxNiw2ICsyMjIsNyBAQCByZWdfZGNkY2M6IGRjZGNjIHsKPj4gIAkJCQlyZWd1bGF0b3ItZW5h
+YmxlLXJhbXAtZGVsYXkgPSA8MzIwMDA+Owo+PiAgCQkJCXJlZ3VsYXRvci1taW4tbWljcm92b2x0
+ID0gPDgxMDAwMD47Cj4+ICAJCQkJcmVndWxhdG9yLW1heC1taWNyb3ZvbHQgPSA8MTA4MDAwMD47
+Cj4+ICsJCQkJcmVndWxhdG9yLXJhbXAtZGVsYXkgPSA8MjUwMD47Cj4KPlRoaXMgY2hhbmdlIGlz
+IG5vdCByZWxhdGVkIHRvIENQVSBmcmVxdWVuY3kgc2NhbGluZywgc28gaXQgYmVsb25ncyBpbiBh
+IHNlcGFyYXRlCj5wYXRjaCAoaWYgaXQgaXMgbmVlZGVkKS4KClRoZSB0d28gY29tbWl0cyBtZW50
+aW9uZWQgYWJvdmUgYWxzbyBhZGQgdGhpcyBkZWxheSB0byBkY2RjYyByZWd1bGF0b3IuCklmIHRo
+ZXJlIGlzIGEgbmVlZCBmb3IgYSBzZXBhcmF0ZSBwYXRjaCwgSSB3aWxsIHNlbmQgdGhlc2Ugc2Vw
+YXJhdGVseS4KClRoYW5rcywKQ2h1a3VuCg0KDQo=
