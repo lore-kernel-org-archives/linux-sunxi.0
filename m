@@ -1,41 +1,41 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1221858
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 07:49:08 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id v12so18146705wrv.10
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 00:49:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8F71865
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 07:49:09 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id p189so7861597wmp.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 00:49:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0WOritaX7TiJ2UopsHt1F9UHI9/f6Pz6lo2giHHHHfc=;
-        b=vLRuZyi6JG45t+95C6Zta3+FYr+M/sDzl2IdgVFDJRasR/zCxX43dHJf6IvPLSvtqr
-         tklZR3oTHy0zplc10ONoKpKCKy119QBEUcXrz1Oo6US9ejSe0sxQ6Vs+zLtR6kmLeO3i
-         vHXOUL9q9mUqXk+bL2tcVuMHUhrZPP1KYRc3NROkD5kFaia7iEggoHtDUbiq9gSA8Y+J
-         iap1VxxsVh2yRdaMG9hDRwZp/j7XRdaA9/AqTBLQ7QaM9NNAG8CzYhhoBTng+EwPHqU/
-         tyeDLWFLZmElgocGQtR1jrB4ySjno+zMB+m2U/GkDTCt1t2NIE1e2YCxprZnmzodlgTM
-         w1tw==
+        bh=VgEKyO0L0uA3SGFAWkGQhNMbC7clsq3EFnRg59TyA70=;
+        b=bBiGh/AhGl38/MpaSnWoH0kWx8noJq58musIpZ/g2oeqIKpuW2Su1Y4ZgNGVc2+Dz6
+         eXZiC83MRh77Kw3wvrYE2FR9xnbKOu9zRJEiqGkQIGyxLFuKlF9LDz5gXlubAdjw1rDy
+         WwH53vZ1MkSY48ocvhfyQEHnOx3fjcof2u4WLTKJmBcsRR3KDpvkUKuhW7s9VWTNwXfv
+         RveFcmrPMlo9oDIBI6fj7bhQ8q8DTI/LJBkvk9rJAWZ6ecAiiJWhEHZfOE9jTwbD8Mde
+         Lah4Ki9hI1OHi/rRtcH5nwvxEwepu0M84Wkgdz7Ei73qHvAm68iq93wkbgAhbBr5uQ4V
+         9BVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0WOritaX7TiJ2UopsHt1F9UHI9/f6Pz6lo2giHHHHfc=;
-        b=sbo8+8DWR2or4+FsJjbmPpgYhuB/AKokfUcNIerpU1A5c0PerWiPkQ70QrW88N0m7g
-         UGEtMgKe/SBWMclzrDvJxp2HLYlDdDtB1tQ7yH1BapnVw85/PQUvbjoc29Q4PdM5HiWG
-         WosPQr9kPWMbeGf/JLkLPJppXJKgtS22G7IkfJWpzLzBePG0my5Ekj8pX+aS1g1WFfB+
-         G6RnEv8LFDKEU7EgGY9Mvggm5W/RMgS8gkmHUSR1VRD/xGCLabwK/HoymvIc0oM0RV/X
-         k1Nht2eq6p2A3/MWI3VTe21kv3et7yqOW6AE3UHN5tmFMGk5kyJJBjcPBnTCQF94HI8S
-         mxwQ==
-X-Gm-Message-State: AOAM530QJCqm9mz8LpRj5ef7Lb+dyCdYVPtiLYQndYhYt1iC3dT22OkV
-	SBqVfFvk6FqgQ5K+bCg4DE1rrA==
-X-Google-Smtp-Source: ABdhPJzGdqYQa5SLHwgOMU9gEnMe0J8cSx5N3gasbEOGt8sIW3sW/mNltLBQn2gM6MAQ/S5AV3AtcQ==
-X-Received: by 2002:a5d:42c8:0:b0:20a:d91f:87b5 with SMTP id t8-20020a5d42c8000000b0020ad91f87b5mr12678734wrr.301.1652082546379;
-        Mon, 09 May 2022 00:49:06 -0700 (PDT)
+        bh=VgEKyO0L0uA3SGFAWkGQhNMbC7clsq3EFnRg59TyA70=;
+        b=Z4QKdCvZVgagfGsJyIbqCJpcqP3Krjd1DRVbP981DW8WyfWARinVxLDJ2Ic+MprqJA
+         KTfzaCtmXfIKPx1+xi+xbGIafnMjJAgfwwsQ7YFSUjVZ5msiFQB1mDfXd3Jn/PEVwaPK
+         Zr1rSBlZq6YI0mQIYSsyrMuXVaBFhLekoZe9jTqJLRxP12kT5rOHWFHJ8Osv4c3grlGY
+         ASnuQ1wggptqViJCRyx7fTfm1LyKPcVA6uEiHtnuAkKvILf80GQzCXTLZA2FYfqI+dow
+         K58F7VYUg+bvzEWBBDsSWgnkEsA6PXhymJGJja58PGSnXK6BEop0WAegmWajB6zlRuX1
+         yAlw==
+X-Gm-Message-State: AOAM532eQbXjlcwXJx9gOd13lhcUYflJ+e30xmjUb8j8rK/Yj8rkmUes
+	v/xl121nhtMpir+7e0wrP0EsDQ==
+X-Google-Smtp-Source: ABdhPJwiYLJm2AFKSikbo89a1SKZiOmfCAFxQ5X7TJwAoWGnUQJ66VAG9OF9Sr3O4w9WN8Znulrgyg==
+X-Received: by 2002:a7b:c202:0:b0:394:1e7d:af44 with SMTP id x2-20020a7bc202000000b003941e7daf44mr14700879wmi.139.1652082547691;
+        Mon, 09 May 2022 00:49:07 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id bw22-20020a0560001f9600b0020c5253d8d8sm11784768wrb.36.2022.05.09.00.49.05
+        by smtp.googlemail.com with ESMTPSA id bw22-20020a0560001f9600b0020c5253d8d8sm11784768wrb.36.2022.05.09.00.49.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 00:49:05 -0700 (PDT)
+        Mon, 09 May 2022 00:49:07 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: alexandre.torgue@foss.st.com,
 	andrew@lunn.ch,
@@ -61,9 +61,9 @@ Cc: netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH 1/6] phy: handle optional regulator for PHY
-Date: Mon,  9 May 2022 07:48:52 +0000
-Message-Id: <20220509074857.195302-2-clabbe@baylibre.com>
+Subject: [PATCH 2/6] net: stmmac: dwmac-sun8i: remove regulator
+Date: Mon,  9 May 2022 07:48:53 +0000
+Message-Id: <20220509074857.195302-3-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220509074857.195302-1-clabbe@baylibre.com>
 References: <20220509074857.195302-1-clabbe@baylibre.com>
@@ -75,140 +75,100 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add handling of optional regulators for PHY.
-Regulators need to be enabled before PHY scanning, so MDIO bus
-initiate this task.
+Now regulator is handled by phy core, there is no need to handle it in
+stmmac driver.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/net/mdio/fwnode_mdio.c | 32 ++++++++++++++++++++++++++++++++
- drivers/net/phy/phy_device.c   | 20 ++++++++++++++++++++
- include/linux/phy.h            |  3 +++
- 3 files changed, 55 insertions(+)
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 37 +------------------
+ 1 file changed, 2 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
-index 1c1584fca632..c377cadc14c3 100644
---- a/drivers/net/mdio/fwnode_mdio.c
-+++ b/drivers/net/mdio/fwnode_mdio.c
-@@ -10,6 +10,7 @@
- #include <linux/fwnode_mdio.h>
- #include <linux/of.h>
+diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+index f834472599f7..17888813c707 100644
+--- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
++++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+@@ -17,7 +17,6 @@
  #include <linux/phy.h>
-+#include <linux/regulator/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/regulator/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/stmmac.h>
  
- MODULE_AUTHOR("Calvin Johnson <calvin.johnson@oss.nxp.com>");
- MODULE_LICENSE("GPL");
-@@ -95,6 +96,8 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 	bool is_c45 = false;
- 	u32 phy_id;
- 	int rc;
-+	struct regulator *regulator_phy;
-+	struct regulator *regulator_phy_io;
+@@ -59,7 +58,6 @@ struct emac_variant {
  
- 	mii_ts = fwnode_find_mii_timestamper(child);
- 	if (IS_ERR(mii_ts))
-@@ -104,6 +107,32 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 					  "ethernet-phy-ieee802.3-c45");
- 	if (rc >= 0)
- 		is_c45 = true;
-+	regulator_phy_io = devm_regulator_get_optional(&bus->dev, "phy-io");
-+	if (IS_ERR(regulator_phy_io)) {
-+		rc = PTR_ERR(regulator_phy_io);
-+		if (rc == -ENODEV)
-+			regulator_phy_io = NULL;
-+		else
-+			return rc;
-+	}
-+	regulator_phy = devm_regulator_get_optional(&bus->dev, "phy");
-+	if (IS_ERR(regulator_phy)) {
-+		rc = PTR_ERR(regulator_phy);
-+		if (rc == -ENODEV)
-+			regulator_phy = NULL;
-+		else
-+			return rc;
-+	}
-+	if (regulator_phy_io) {
-+		rc = regulator_enable(regulator_phy_io);
-+		if (rc)
-+			return rc;
-+	}
-+	if (regulator_phy) {
-+		rc = regulator_enable(regulator_phy);
-+		if (rc)
-+			return rc;
-+	}
+ /* struct sunxi_priv_data - hold all sunxi private data
+  * @ephy_clk:	reference to the optional EPHY clock for the internal PHY
+- * @regulator:	reference to the optional regulator
+  * @rst_ephy:	reference to the optional EPHY reset for the internal PHY
+  * @variant:	reference to the current board variant
+  * @regmap:	regmap for using the syscon
+@@ -69,7 +67,6 @@ struct emac_variant {
+  */
+ struct sunxi_priv_data {
+ 	struct clk *ephy_clk;
+-	struct regulator *regulator;
+ 	struct reset_control *rst_ephy;
+ 	const struct emac_variant *variant;
+ 	struct regmap_field *regmap_field;
+@@ -568,29 +565,11 @@ static int sun8i_dwmac_init(struct platform_device *pdev, void *priv)
+ {
+ 	struct net_device *ndev = platform_get_drvdata(pdev);
+ 	struct sunxi_priv_data *gmac = priv;
+-	int ret;
  
- 	if (is_c45 || fwnode_get_phy_id(child, &phy_id))
- 		phy = get_phy_device(bus, addr, is_c45);
-@@ -114,6 +143,9 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
- 		return PTR_ERR(phy);
+-	if (gmac->regulator) {
+-		ret = regulator_enable(gmac->regulator);
+-		if (ret) {
+-			dev_err(&pdev->dev, "Fail to enable regulator\n");
+-			return ret;
+-		}
+-	}
+-
+-	if (gmac->use_internal_phy) {
+-		ret = sun8i_dwmac_power_internal_phy(netdev_priv(ndev));
+-		if (ret)
+-			goto err_disable_regulator;
+-	}
++	if (gmac->use_internal_phy)
++		return sun8i_dwmac_power_internal_phy(netdev_priv(ndev));
+ 
+ 	return 0;
+-
+-err_disable_regulator:
+-	if (gmac->regulator)
+-		regulator_disable(gmac->regulator);
+-
+-	return ret;
+ }
+ 
+ static void sun8i_dwmac_core_init(struct mac_device_info *hw,
+@@ -1034,9 +1013,6 @@ static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
+ 
+ 	if (gmac->variant->soc_has_internal_phy)
+ 		sun8i_dwmac_unpower_internal_phy(gmac);
+-
+-	if (gmac->regulator)
+-		regulator_disable(gmac->regulator);
+ }
+ 
+ static void sun8i_dwmac_set_mac_loopback(void __iomem *ioaddr, bool enable)
+@@ -1157,15 +1133,6 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+ 		return -EINVAL;
  	}
  
-+	phy->regulator_phy = regulator_phy;
-+	phy->regulator_phy_io = regulator_phy_io;
-+
- 	if (is_acpi_node(child)) {
- 		phy->irq = bus->irq[addr];
- 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 431a8719c635..ce64df596580 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -27,6 +27,7 @@
- #include <linux/phy.h>
- #include <linux/phy_led_triggers.h>
- #include <linux/property.h>
-+#include <linux/regulator/consumer.h>
- #include <linux/sfp.h>
- #include <linux/skbuff.h>
- #include <linux/slab.h>
-@@ -1785,6 +1786,11 @@ int phy_suspend(struct phy_device *phydev)
- 	if (!ret)
- 		phydev->suspended = true;
- 
-+	if (phydev->regulator_phy)
-+		regulator_disable(phydev->regulator_phy);
-+	if (phydev->regulator_phy_io)
-+		regulator_disable(phydev->regulator_phy_io);
-+
- 	return ret;
- }
- EXPORT_SYMBOL(phy_suspend);
-@@ -1811,6 +1817,20 @@ int phy_resume(struct phy_device *phydev)
- {
- 	int ret;
- 
-+	if (phydev->regulator_phy_io) {
-+		ret = regulator_enable(phydev->regulator_phy_io);
-+		if (ret)
-+			return ret;
-+	}
-+	if (phydev->regulator_phy) {
-+		ret = regulator_enable(phydev->regulator_phy);
-+		if (ret) {
-+			if (phydev->regulator_phy_io)
-+				regulator_disable(phydev->regulator_phy_io);
-+			return ret;
-+		}
-+	}
-+
- 	mutex_lock(&phydev->lock);
- 	ret = __phy_resume(phydev);
- 	mutex_unlock(&phydev->lock);
-diff --git a/include/linux/phy.h b/include/linux/phy.h
-index 2d12054932ba..c29f45668d94 100644
---- a/include/linux/phy.h
-+++ b/include/linux/phy.h
-@@ -704,6 +704,9 @@ struct phy_device {
- 	void (*phy_link_change)(struct phy_device *phydev, bool up);
- 	void (*adjust_link)(struct net_device *dev);
- 
-+	struct regulator *regulator_phy;
-+	struct regulator *regulator_phy_io;
-+
- #if IS_ENABLED(CONFIG_MACSEC)
- 	/* MACsec management functions */
- 	const struct macsec_ops *macsec_ops;
+-	/* Optional regulator for PHY */
+-	gmac->regulator = devm_regulator_get_optional(dev, "phy");
+-	if (IS_ERR(gmac->regulator)) {
+-		if (PTR_ERR(gmac->regulator) == -EPROBE_DEFER)
+-			return -EPROBE_DEFER;
+-		dev_info(dev, "No regulator found\n");
+-		gmac->regulator = NULL;
+-	}
+-
+ 	/* The "GMAC clock control" register might be located in the
+ 	 * CCU address range (on the R40), or the system control address
+ 	 * range (on most other sun8i and later SoCs).
 -- 
 2.35.1
 
