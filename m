@@ -1,78 +1,146 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F09F7E
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 13:27:35 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id c11so19438607wrn.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 06:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=QFVN/hz05R4qwSXg2D2znBc/cojLhJAL9Em25eSEyUs=;
-        b=6xRVzIssKst/rqxxPREtWICDSxF4w5ikEyLXgYtiyHfwoFR62qzHqhy8MmdXwbFsiH
-         EN1s7NRkVK630kW4S0DZ8IJ4ek3A4DIcX+O5sQVk13Q5lSzHcx+ZBJ6N+nE+qVOEutxO
-         YhmV0NqHQZ6GKsIJ5dcqIY3iRnJ92q4763GClOxJYQgCR2IVAZSWhvlNBcYgqyEf2mdg
-         sL+s9a0M0uDwEKlJN/ZRwI8qqGgM6Pnv9w9kBxO7UHjmLq2VG1/cwAQFjwhwWOk6DmS3
-         WXcsuMHOTqvaPxA2qMLhJfzMUCLGkMXpGJWTgG01bCjZr8SOd9rBJH3+ZJfZg+FsqZvJ
-         mKpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=QFVN/hz05R4qwSXg2D2znBc/cojLhJAL9Em25eSEyUs=;
-        b=4rDiGsgCCDSKnQyzkZT7XIfh68xOqtZwsskisPchz6cZqF3aPrDArs6P2RjkOMJ87G
-         Nk45I4lX/5AuTDziejfdZfpis0+h9guwo5D48bJ+OaiWKQFDMNpvsVkAZCRiv7CWW0kT
-         p5/uCyuzRFZy20CbZN09SeeDUzG2jiJ75LYbnPJBWSVjgeM7T+Ug99NGYgBpmRfcPgFr
-         5K1nW6sNS/zhBSupqh8AlG/kB5TNVETrtvrzSuGovPhFTtWPUxAnvPMrNTWbhv5CUGv4
-         scCvzgYqpolbDNxxPtWwL+8KJfnTbJ9QIfbhnKjqqpUcihRzVmbQXrYR0M2/+c6z74Z9
-         vC4g==
-X-Gm-Message-State: AOAM533kb28+kWnHc1NI4qrmNXec3lxzIL8Fsxjl7czTjGveYP45VUZP
-	0g7cdp6NmVXO6+2nEcTVOfftRA==
-X-Google-Smtp-Source: ABdhPJy2ss8Dz2yhDwsiVDbK2gmSF+OzAXLxhmvGcDLqB4SyyXjhEvJqTERDh5KjiXjGgI2r7WmGYw==
-X-Received: by 2002:a05:6000:1f03:b0:20c:4d9e:7400 with SMTP id bv3-20020a0560001f0300b0020c4d9e7400mr13919108wrb.257.1652102853452;
-        Mon, 09 May 2022 06:27:33 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id n7-20020a05600c500700b003942a244ee1sm12434830wmr.38.2022.05.09.06.27.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 06:27:33 -0700 (PDT)
-Date: Mon, 9 May 2022 15:27:30 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: alexandre.torgue@foss.st.com, broonie@kernel.org,
-	calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	joabreu@synopsys.com, krzysztof.kozlowski+dt@linaro.org,
-	kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk,
-	pabeni@redhat.com, peppe.cavallaro@st.com, robh+dt@kernel.org,
-	samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/6] arm64: add ethernet to orange pi 3
-Message-ID: <YnkWwrKk4zjPnZLg@Red>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64AB11FAA
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 14:09:14 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8BE2A1480;
+	Mon,  9 May 2022 07:09:13 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 945423F73D;
+	Mon,  9 May 2022 07:09:10 -0700 (PDT)
+Date: Mon, 9 May 2022 15:09:07 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: alexandre.torgue@foss.st.com, andrew@lunn.ch, broonie@kernel.org,
+ calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
+ hkallweit1@gmail.com, jernej.skrabec@gmail.com, joabreu@synopsys.com,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
+ linux@armlinux.org.uk, pabeni@redhat.com, peppe.cavallaro@st.com,
+ robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/6] net: stmmac: dwmac-sun8i: remove regulator
+Message-ID: <20220509150907.6cf9c4d1@donnerap.cambridge.arm.com>
+In-Reply-To: <20220509074857.195302-3-clabbe@baylibre.com>
 References: <20220509074857.195302-1-clabbe@baylibre.com>
- <YnkG9yV+Fbf7WtCh@lunn.ch>
+	<20220509074857.195302-3-clabbe@baylibre.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YnkG9yV+Fbf7WtCh@lunn.ch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Le Mon, May 09, 2022 at 02:20:07PM +0200, Andrew Lunn a écrit :
-> On Mon, May 09, 2022 at 07:48:51AM +0000, Corentin Labbe wrote:
-> > Hello
-> > 
-> > 2 sunxi board still does not have ethernet working, orangepi 1+ and
-> > orangepi 3.
-> > This is due to the fact thoses boards have a PHY which need 2 regulators.
-> 
-> Why PHY make/module is it which is causing problems?
-> 
+On Mon,  9 May 2022 07:48:53 +0000
+Corentin Labbe <clabbe@baylibre.com> wrote:
 
-The problem was stmmac support only one regulator for PHY.
+Hi,
+
+> Now regulator is handled by phy core, there is no need to handle it in
+> stmmac driver.
+
+I don't think you can do that, since we definitely need to maintain
+compatibility with *older* DTs.
+Is there a real need for this patch, or is it just a cleanup?
+I mean we should be able to keep both approaches in, and the respective
+board and DT version selects which it is using.
+
+Cheers,
+Andre
+
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
+>  .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 37 +------------------
+>  1 file changed, 2 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> index f834472599f7..17888813c707 100644
+> --- a/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> +++ b/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.c
+> @@ -17,7 +17,6 @@
+>  #include <linux/phy.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> -#include <linux/regulator/consumer.h>
+>  #include <linux/regmap.h>
+>  #include <linux/stmmac.h>
+>  
+> @@ -59,7 +58,6 @@ struct emac_variant {
+>  
+>  /* struct sunxi_priv_data - hold all sunxi private data
+>   * @ephy_clk:	reference to the optional EPHY clock for the internal PHY
+> - * @regulator:	reference to the optional regulator
+>   * @rst_ephy:	reference to the optional EPHY reset for the internal PHY
+>   * @variant:	reference to the current board variant
+>   * @regmap:	regmap for using the syscon
+> @@ -69,7 +67,6 @@ struct emac_variant {
+>   */
+>  struct sunxi_priv_data {
+>  	struct clk *ephy_clk;
+> -	struct regulator *regulator;
+>  	struct reset_control *rst_ephy;
+>  	const struct emac_variant *variant;
+>  	struct regmap_field *regmap_field;
+> @@ -568,29 +565,11 @@ static int sun8i_dwmac_init(struct platform_device *pdev, void *priv)
+>  {
+>  	struct net_device *ndev = platform_get_drvdata(pdev);
+>  	struct sunxi_priv_data *gmac = priv;
+> -	int ret;
+>  
+> -	if (gmac->regulator) {
+> -		ret = regulator_enable(gmac->regulator);
+> -		if (ret) {
+> -			dev_err(&pdev->dev, "Fail to enable regulator\n");
+> -			return ret;
+> -		}
+> -	}
+> -
+> -	if (gmac->use_internal_phy) {
+> -		ret = sun8i_dwmac_power_internal_phy(netdev_priv(ndev));
+> -		if (ret)
+> -			goto err_disable_regulator;
+> -	}
+> +	if (gmac->use_internal_phy)
+> +		return sun8i_dwmac_power_internal_phy(netdev_priv(ndev));
+>  
+>  	return 0;
+> -
+> -err_disable_regulator:
+> -	if (gmac->regulator)
+> -		regulator_disable(gmac->regulator);
+> -
+> -	return ret;
+>  }
+>  
+>  static void sun8i_dwmac_core_init(struct mac_device_info *hw,
+> @@ -1034,9 +1013,6 @@ static void sun8i_dwmac_exit(struct platform_device *pdev, void *priv)
+>  
+>  	if (gmac->variant->soc_has_internal_phy)
+>  		sun8i_dwmac_unpower_internal_phy(gmac);
+> -
+> -	if (gmac->regulator)
+> -		regulator_disable(gmac->regulator);
+>  }
+>  
+>  static void sun8i_dwmac_set_mac_loopback(void __iomem *ioaddr, bool enable)
+> @@ -1157,15 +1133,6 @@ static int sun8i_dwmac_probe(struct platform_device *pdev)
+>  		return -EINVAL;
+>  	}
+>  
+> -	/* Optional regulator for PHY */
+> -	gmac->regulator = devm_regulator_get_optional(dev, "phy");
+> -	if (IS_ERR(gmac->regulator)) {
+> -		if (PTR_ERR(gmac->regulator) == -EPROBE_DEFER)
+> -			return -EPROBE_DEFER;
+> -		dev_info(dev, "No regulator found\n");
+> -		gmac->regulator = NULL;
+> -	}
+> -
+>  	/* The "GMAC clock control" register might be located in the
+>  	 * CCU address range (on the R40), or the system control address
+>  	 * range (on most other sun8i and later SoCs).
+
