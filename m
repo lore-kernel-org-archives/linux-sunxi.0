@@ -1,22 +1,45 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC6817E
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 12:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=MVzmwksZEc5xV3HD02y8j5y1x9GRvHeT5B5x20Hc+0I=; b=hOtZV+3Jreg66zFUzHNsrUzalN
-	p6D+X363nLkmBv7oaSZq1VDVIPZ/T1IDPbuqkuQc5Gv1C0L7P/alcPhlD+Y2O7jWBzYqgdyS7vTN+
-	9B+My78PJSGo3Y4689YybuQK6ubPPuU+h3sHlz2bYm+DX5KPC1HIUPWIz8bhR39do6OQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1no2Mx-001wIt-3n; Mon, 09 May 2022 14:20:07 +0200
-Date: Mon, 9 May 2022 14:20:07 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Corentin Labbe <clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5697E
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 13:26:53 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id 129so8381126wmz.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 06:26:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=dmJRRWnhcLRlkBeCf6ELmWo3mitMr5vF1s1MIEAWhkY=;
+        b=FBEP0LRmMpH17N7Hbm10/SPehn12jstyd+SVGPW/nQaH/kNcc0UgxF/UxMSJSwNFKd
+         0h8QK8B6X30Boig/cF/YFEX+fhrdVkzBqiHdg/puhONGuRYJmMCy5gKj9w2B4xs8+MdB
+         +XHQRt0GSX29olfSiXYZ2ZfP3S6Nv053NPMiAggKDE4ZhLVhL0K89uBrXAG0u/mDaiNx
+         xlrb0M47Nn5sSClSGIv6+VUuqKrNrfJq6OxmdbgRm30gDA/khTLNdTWJ7MNCL7jx3jNL
+         nWuroYJZ1S4p4kdCT6n8CuKJGH7yLZly1nGI6AFJZTpS6mHnNCD9EpbxTMxbo5xOsQQl
+         2O6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=dmJRRWnhcLRlkBeCf6ELmWo3mitMr5vF1s1MIEAWhkY=;
+        b=iYlMGjOar9lArIHeQzCTrAos3bLLIdqhDtMwyyrNS7/PoRumaqUk54pvw50NA8xahn
+         J6+iQt9ByCL8IVgdSDRy7bmGrnAOQH14EB7+CHebtA33RmsUnQgCNdK57q0bMb3MnroR
+         E4kZeesHA4aO1b5PmDGRFXtnNb7JIVT0POsfV5P7hSlofU/vUkz9o6GwNszSsZnjnmZI
+         sRJFJKiCFoqpiI9PV6JtfP3BuNal0gtfh5A9g2DJj3ZNlNobCF5SemDhcyNIua9w/KNR
+         /pCkoLu34uhcA38ZQUI9wEKU+JsZUD6yfFR/XFnzInheHq+bHXTSG7l5LEEeSnV28LTJ
+         CeLQ==
+X-Gm-Message-State: AOAM533t/C52eKOcq90hLRegMbaEO+AMLc7LvM54VVeJRTPgHnhGUmSC
+	VCzTKgejOI2rWZHIOqcVKP83UA==
+X-Google-Smtp-Source: ABdhPJxWE9LTJU3muMWgTGpDfT+XKa3yskyOpAPa0F0blBouUa/OJ2NmR4glOPu8x9cBP8Z/EgDiZQ==
+X-Received: by 2002:a1c:770b:0:b0:394:3fae:ab79 with SMTP id t11-20020a1c770b000000b003943faeab79mr15885832wmi.200.1652102811399;
+        Mon, 09 May 2022 06:26:51 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id n16-20020a05600c3b9000b00394699f803dsm13097894wms.46.2022.05.09.06.26.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 May 2022 06:26:50 -0700 (PDT)
+Date: Mon, 9 May 2022 15:26:47 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: alexandre.torgue@foss.st.com, broonie@kernel.org,
 	calvin.johnson@oss.nxp.com, davem@davemloft.net,
 	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
@@ -26,26 +49,61 @@ Cc: alexandre.torgue@foss.st.com, broonie@kernel.org,
 	samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/6] arm64: add ethernet to orange pi 3
-Message-ID: <YnkG9yV+Fbf7WtCh@lunn.ch>
+Subject: Re: [PATCH 3/6] dt-bindings: net: Add documentation for phy-supply
+Message-ID: <YnkWl+xYCX8r9DE7@Red>
 References: <20220509074857.195302-1-clabbe@baylibre.com>
+ <20220509074857.195302-4-clabbe@baylibre.com>
+ <YnkGV8DyTlCuT92R@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20220509074857.195302-1-clabbe@baylibre.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YnkGV8DyTlCuT92R@lunn.ch>
 
-On Mon, May 09, 2022 at 07:48:51AM +0000, Corentin Labbe wrote:
-> Hello
+Le Mon, May 09, 2022 at 02:17:27PM +0200, Andrew Lunn a écrit :
+> On Mon, May 09, 2022 at 07:48:54AM +0000, Corentin Labbe wrote:
+> > Add entries for the 2 new phy-supply and phy-io-supply.
+> > 
+> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> > ---
+> >  .../devicetree/bindings/net/ethernet-phy.yaml          | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > index ed1415a4381f..2a6b45ddf010 100644
+> > --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> > @@ -153,6 +153,16 @@ properties:
+> >        used. The absence of this property indicates the muxers
+> >        should be configured so that the external PHY is used.
+> >  
+> > +  phy-supply:
+> > +    description:
+> > +      Phandle to a regulator that provides power to the PHY. This
+> > +      regulator will be managed during the PHY power on/off sequence.
+> > +
+> > +  phy-io-supply:
+> > +    description:
+> > +      Phandle to a regulator that provides power to the PHY. This
+> > +      regulator will be managed during the PHY power on/off sequence.
 > 
-> 2 sunxi board still does not have ethernet working, orangepi 1+ and
-> orangepi 3.
-> This is due to the fact thoses boards have a PHY which need 2 regulators.
+> If you need two differently named regulators, you need to make it clear
+> how they differ. My _guess_ would be, you only need the io variant in
+> order to talk to the PHY registers. However, to talk to a link
+> partner, you need the other one enabled as well. Which means handling
+> that regulator probably should be in the PHY driver, so it is enabled
+> only when the interface is configured up.
+> 
 
-Why PHY make/module is it which is causing problems?
+If I enable only the IO one, stmmac fail to reset, so both are needed to be up.
+I tried also to keep the "phy" one handled by stmmac (by removing patch 2), this lead to the PHY to not be found by MDIO scan.
+Proably because stmmac enable the "phy" before the "phy-io".
 
-    Andrew
+For the difference between the 2, according to my basic read (I am bad a it) of the shematic
+https://linux-sunxi.org/images/5/50/OrangePi_3_Schematics_v1.5.pdf
+phy-io(ephy-vdd25) seems to (at least) power MDIO bus.
