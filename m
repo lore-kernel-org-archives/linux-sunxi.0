@@ -1,88 +1,155 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354ED7E
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 05:04:35 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4A8765C012B;
-	Mon,  9 May 2022 01:04:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 09 May 2022 01:04:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1652072674; x=
-	1652159074; bh=0WvXEQu3SpaXdbPUETaOEpR9UR9h7rz8UI6MWXaMQ2c=; b=e
-	hdtJmOxVMVeoIZ29gcF/bFkryp/i/g2vM1oEZIRYyKo8ERXa1EX1GnZbWrlWjmjR
-	DjjjxVniaBCAwDsxGtec7Vw646ANTTWqbU08xPrDe+78GS6LIVM6CQqjfk4pwZFm
-	uA26q49OYIhFVjlSIQtRHZnt6SUt/ZYumsWc10fQktQBDSmqmpBk+uaKMkVPOX6S
-	r7FF62k3AeAzsyCNT8Gx6AW6sEPnzt57VDV3eGtApIRAdqR65G30gSXzLHAy6iQ2
-	cpUyd4rjm/jHnpYA1X8EkpINIBKA10AVadLEPPhHKeaFTvk4mPOMW/O2d3kxWUYY
-	eiQOBI4az+lghTz4ARMJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1652072674; x=1652159074; bh=0WvXEQu3SpaXd
-	bPUETaOEpR9UR9h7rz8UI6MWXaMQ2c=; b=VCHbMohwFVt323q3mnhG2mBwjE8KX
-	j8NmfeqW7VCMvdFNuWcDOBtnKUvzZOcAkZZ7F1V+jkg3O+VaacGc3uLiFE2jXIiV
-	LTTJbUck0s9tQlyGarA+Yv4hgleMlbkLl4hI1Q3hWuWefLY8BSyc3+e1tVgdLBTc
-	w6SlEgWjWqp2gE073Yu6S+DHOppbcuzQA56E1OP6HmIRGXVluWTUjRqp2H87OtAx
-	OFlFXt+xY2jv4FyTDcPKH7stKOOKkCqu6YXEXa6AlTGXMEocx1gGcF2I92lpcRb1
-	Xs+JFIPlEQZi1BH5XFu1AWJc9HGfzTQalV1bPQCNRKQwd+x+xcW7m0jFg==
-X-ME-Sender: <xms:4qB4YuuTgYCji1IdtKSyubTUbb_4ARLE-qquaD0aHibS7WNJ3xlQGQ>
-    <xme:4qB4Yjc5q5AL5Khb7h6ijyWCpc6nsNFqX3dl_LXiQQa8F5Kt6OxQLR-N-7X0I-H9s
-    o8U0sbxNLayZhqjiQ>
-X-ME-Received: <xmr:4qB4YpweY9a0Vhm5u68gi3ehKo2ss5YN23iTMq--YXBuQq0rvd0yNBmHuMALs3xwj-Z2aZr5rloEmQRSdhJ_2DJGb7CO-bhzbePMmTfl3_7tjQxIg-FZiifNIQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrfeekgdelvdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
-    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:4qB4YpOcZxr3slUaFvnyQ-SRZ59LI3oqmWzjVAhPY56ypA2d5qTWqA>
-    <xmx:4qB4Yu-AkWJ3PTfMN_mJkB-kYWHjH1-ZWZbgDCGiqaV3aDQY-t0-0A>
-    <xmx:4qB4YhU8BVHAfjXBen8CxysWYP8XHl7ceZcAjsbPOHpQoWHpBtHN2Q>
-    <xmx:4qB4YlYvr1HjN_0_YWOzej_DsbBV0VFbDc4SrPlG2VGU75cefS3Arw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 9 May 2022 01:04:33 -0400 (EDT)
-Subject: Re: [PATCH] sunxi: board: Fix UART PortF pinmux setup
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, u-boot@lists.denx.de,
- linux-sunxi@lists.linux.dev
-References: <20220506003703.13287-1-andre.przywara@arm.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <b5ab2ae3-c42c-3ffb-4d96-d8238b074a9a@sholland.org>
-Date: Mon, 9 May 2022 00:04:33 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE49146AD
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 07:49:06 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id 125-20020a1c1983000000b003941f354c62so7757380wmz.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 00:49:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PZ2W3KNFaY25uwPYOAUBqo//QhydCTG90+jdDVlc4xA=;
+        b=SsCIPp2ySQpY3254xzJt4ErJObYSQGSZEWU6X7IY0SFlD1Kh8uODF6gzKe/ygx7J/o
+         QSN9M64o4SLkt1XmMTnzD1rheiktoy3zResGYIC/18S5uNdX/HLiMfVmuwfHS0UmH2J1
+         56zMKZiNaUulXDHuZyqd/XlGQ5KOyC6WJCZRnW+PstcyfuttFGZzrUkPS7LIpC1QjC14
+         GCU/gunXAFEWBYE6EEq1137icpShNdb4bflJwng7mR12JSqqhaEq0LNkz5Z+RvSgjeRY
+         fbR26UOPA3yDsXPBzJ9H7UbMJw0Pe4IrvJ3380Baz+N09dkYijZcf6k1lQ10EfHHhtLw
+         TXCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=PZ2W3KNFaY25uwPYOAUBqo//QhydCTG90+jdDVlc4xA=;
+        b=TnPdmUNL8j17A/Pl6zfQ7C6S1GcOZEToaobAWHc/U+owwjOvoCdPK3oOKAg/LQUbNG
+         nEZwP5ax0IlFJhnYVLx4oJ+3pyat5Oz6ycRztwk2B/jyhzecnEO8N533G89DtIYs8OQx
+         ApCsfWIK4cDTxD/ugEGlyUnSR3VeCuITxzGq2qciVIZU2+4IFT7GSZTKLL2qt2zkGDXJ
+         oBGUS0c57nfYFdbCneUJqMFLnZITCzjLIB1TQlcdMDVsoaCmLnI7Ui0KdIwRABE+AG6r
+         qNzDFA4WO8laxkiP4ru4zZm2aUGKCW72wYxue5NlBm9ODIkkcjta8vqs6Nc+8+KLGmzT
+         MI5A==
+X-Gm-Message-State: AOAM533mwys/6UGPvNpt3Ad5B1yGqS6LOwmKLlCVv9IWWWzoYXSuEmBs
+	4yqXJnmsRLl58Gs5Y8FKxvWzmg==
+X-Google-Smtp-Source: ABdhPJxYTas8Q7heHVKK5/emA1Py+N5pnUGGlYHfJx5IL39sb779Z2eLroXzNCY64Rbv4EnQKVnVAA==
+X-Received: by 2002:a1c:35c1:0:b0:38e:c4f6:1931 with SMTP id c184-20020a1c35c1000000b0038ec4f61931mr14583358wma.161.1652082545111;
+        Mon, 09 May 2022 00:49:05 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id bw22-20020a0560001f9600b0020c5253d8d8sm11784768wrb.36.2022.05.09.00.49.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 May 2022 00:49:04 -0700 (PDT)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: alexandre.torgue@foss.st.com,
+	andrew@lunn.ch,
+	broonie@kernel.org,
+	calvin.johnson@oss.nxp.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hkallweit1@gmail.com,
+	jernej.skrabec@gmail.com,
+	joabreu@synopsys.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	kuba@kernel.org,
+	lgirdwood@gmail.com,
+	linux@armlinux.org.uk,
+	pabeni@redhat.com,
+	peppe.cavallaro@st.com,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	wens@csie.org
+Cc: netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH 0/6] arm64: add ethernet to orange pi 3
+Date: Mon,  9 May 2022 07:48:51 +0000
+Message-Id: <20220509074857.195302-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220506003703.13287-1-andre.przywara@arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 5/5/22 7:37 PM, Andre Przywara wrote:
-> When CONFIG_UART0_PORT_F is defined, we try to configure two PortF pins
-> (usually used for the SD card) as UART0. Some SoCs use the mux value of
-> 3 for this, while others use 4.
-> 
-> The combination of Kconfig symbols we currently use was not quite right:
-> we mis-configure the A31, A64, H6 and H616.
-> 
-> Going through the list in the pinctrl driver, there are only a few older
-> SoCs that use a value of 4, so revert the #ifdef clause, and name those
-> explicitly, instead of the other way around.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Hello
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+2 sunxi board still does not have ethernet working, orangepi 1+ and
+orangepi 3.
+This is due to the fact thoses boards have a PHY which need 2 regulators.
+
+A first attempt was made to support them was made by adding support in
+stmmac driver:
+https://lore.kernel.org/lkml/20190820145343.29108-6-megous@megous.com/
+Proposal rejected, since regulators need to be handled by the PHY core.
+
+This serie try to handle this.
+
+This serie was tested on whole range of board and PHY architecture:
+- internal PHY
+  * sun8i-h3-orangepi-pc
+- external PHY
+  * sun50i-h6-pine-h64
+  * sun8i-r40-bananapi-m2-ultra
+  * sun8i-a83t-bananapi-m3
+  * sun50i-a64-bananapi-m64
+  * sun50i-h6-orangepi-3
+  * sun50i-h5-nanopi-neo-plus2
+
+The resume/suspend of PHY was tested.
+
+Regards
+
+Corentin Labbe (5):
+  phy: handle optional regulator for PHY
+  net: stmmac: dwmac-sun8i: remove regulator
+  dt-bindings: net: Add documentation for phy-supply
+  ARM: dts: sunxi: move phy regulator in PHY node
+  arm64: dts: allwinner: move phy regulator in PHY node
+
+Ondřej Jirman (1):
+  arm64: dts: allwinner: orange-pi-3: Enable ethernet
+
+ .../devicetree/bindings/net/ethernet-phy.yaml | 10 +++++
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  |  2 +-
+ .../boot/dts/sun8i-a83t-cubietruck-plus.dts   |  2 +-
+ arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts |  2 +-
+ arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts      |  2 +-
+ arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts  |  2 +-
+ .../arm/boot/dts/sun8i-h3-orangepi-plus2e.dts |  2 +-
+ arch/arm/boot/dts/sun8i-h3-zeropi.dts         |  2 +-
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  2 +-
+ arch/arm/boot/dts/sun8i-r40-oka40i-c.dts      |  2 +-
+ .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  2 +-
+ arch/arm/boot/dts/sun9i-a80-cubieboard4.dts   |  2 +-
+ arch/arm/boot/dts/sun9i-a80-optimus.dts       |  2 +-
+ arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi |  2 +-
+ .../dts/allwinner/sun50i-a64-bananapi-m64.dts |  2 +-
+ .../dts/allwinner/sun50i-a64-nanopi-a64.dts   |  2 +-
+ .../sun50i-a64-oceanic-5205-5inmfd.dts        |  2 +-
+ .../dts/allwinner/sun50i-a64-olinuxino.dts    |  2 +-
+ .../dts/allwinner/sun50i-a64-orangepi-win.dts |  2 +-
+ .../boot/dts/allwinner/sun50i-a64-pine64.dts  |  2 +-
+ .../allwinner/sun50i-a64-sopine-baseboard.dts |  2 +-
+ .../sun50i-h5-libretech-all-h5-cc.dts         |  2 +-
+ .../allwinner/sun50i-h5-nanopi-neo-plus2.dts  |  2 +-
+ .../dts/allwinner/sun50i-h5-nanopi-neo2.dts   |  2 +-
+ .../dts/allwinner/sun50i-h5-nanopi-r1s-h5.dts |  2 +-
+ .../dts/allwinner/sun50i-h5-orangepi-pc2.dts  |  2 +-
+ .../allwinner/sun50i-h5-orangepi-prime.dts    |  2 +-
+ .../sun50i-h5-orangepi-zero-plus.dts          |  2 +-
+ .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  2 +-
+ .../dts/allwinner/sun50i-h6-orangepi-3.dts    | 38 +++++++++++++++++++
+ .../allwinner/sun50i-h6-pine-h64-model-b.dts  |  8 ++--
+ .../boot/dts/allwinner/sun50i-h6-pine-h64.dts |  2 +-
+ .../net/ethernet/stmicro/stmmac/dwmac-sun8i.c | 37 +-----------------
+ drivers/net/mdio/fwnode_mdio.c                | 32 ++++++++++++++++
+ drivers/net/phy/phy_device.c                  | 20 ++++++++++
+ include/linux/phy.h                           |  3 ++
+ 36 files changed, 138 insertions(+), 68 deletions(-)
+
+-- 
+2.35.1
+
