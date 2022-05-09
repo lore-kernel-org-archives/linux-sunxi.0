@@ -1,85 +1,66 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11B191FA0
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 15:06:27 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id 125-20020a1c1983000000b003941f354c62so8458274wmz.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 08:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Vtuult+HXOI7ZtF/5BeS7qYq/jPa50ON+a9bpjtA634=;
-        b=pgM6nmm4hymS4A6ysjr+inu879QqK9kEaxseJfecvNfSf4ksYX99cBKbLO7yZcX74J
-         pCs2urfaw5fX7fzbhoP08fziLPQBtjnpysD0YFKqjJLmEX9+7bqcu9nA6PIgu0tGaV10
-         MqFL/WtRVB3uzsGeNxl+6a3yI0dSnhg7Oa4OtMrf5386cfuk1W04xtIWEQxJcc4Nli1h
-         tgE80prFkmOwQHvwiE6ZYBIDTV5eyRbtOevjK/XSqcyhk2ubQITMCub4UPYXjfcyrxjx
-         WvPWpKu/L3AHeuJENWieIn8T8f3z2sufVz4K1ETqWwVeNrgW2Vfw1OP6c1o3NNlkEpQ8
-         IORA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Vtuult+HXOI7ZtF/5BeS7qYq/jPa50ON+a9bpjtA634=;
-        b=Nh+eoVmYVjJHnkweUy1gOloWurmEs8zG8ErPnFXJLumMfNW+9JL8oeqtQu90/oW2YJ
-         pkXLC3Z4Q9SQYceiPJALeMYnQlaXJEUR84NeWa62Ahi5GNBHPzdV0rC6hyHVTK/0dFNt
-         pLpLqMyEq7t66F6px91gFoTUyzOW62BbFID/1Xf1bsivVQERX5iuMEp/YKrhD3Z1FWFh
-         ACvKgkDbjwGE7Jh451RBb/5fUqYhgp4Pj1a5MqG+G8F+JOEcYR957pxVO1TVE3sWS+YQ
-         WnRpGyKMOCeg6OAH0v72d4WvJvoG5qAprcP6ft4fcIefuJR7wNmPkh1Ju1kjZ7/1svDR
-         uBMQ==
-X-Gm-Message-State: AOAM532hJDD7Ebo/7LIajyaVugGNum6tWu4/UON/ekI+6goHBPBuOtw8
-	w28NGOsAnVM5/AHrI0ZESzA=
-X-Google-Smtp-Source: ABdhPJzd2YKTa7mT7VfKRjs9oRnYPy836QDekr6iO5gL5PTiA2RYsK898fSfq3OMC/h7EM4qRoeb2g==
-X-Received: by 2002:a1c:f415:0:b0:37f:ab4d:1df2 with SMTP id z21-20020a1cf415000000b0037fab4d1df2mr22572130wma.75.1652108786180;
-        Mon, 09 May 2022 08:06:26 -0700 (PDT)
-Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id y14-20020adfe6ce000000b0020c5253d8bbsm11230631wrm.7.2022.05.09.08.06.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 08:06:25 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>, Jernej Skrabec <jernej@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Linux ARM <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [GIT PULL] Allwinner DT changes for 5.19
-Date: Mon, 09 May 2022 17:06:25 +0200
-Message-ID: <2368089.jE0xQCEvom@kista>
-In-Reply-To: <CAK8P3a3ePzJbh3p9edaDfZhZoYc=0-GvFCs3+2oLGjSoAhgvhw@mail.gmail.com>
-References: <YnVUmSLE1MZFkApt@kista.localdomain> <1789096.atdPhlSkOF@kista> <CAK8P3a3ePzJbh3p9edaDfZhZoYc=0-GvFCs3+2oLGjSoAhgvhw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29551FA0
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 15:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=Vs4pKWIO8ghtfzDiPPWpzVvLUDOdEY+WjcGzBGinpww=; b=Zj
+	38KWpyFIE1rldm9h43e0xD67487kEzzUvJu0jiAurIiK1eG/aBCAn5lYK2s3MmYe+kg8YScajaJ9d
+	biCy4/Wer9aj72+q4NfUzqCR0Y2rcb5zs5RXgTSaenYKATy2gkQn1UB6VWPFo2+WBglXwXaepcfU7
+	xDNBwG2sgOxEw0A=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1no5AK-001xhf-8m; Mon, 09 May 2022 17:19:16 +0200
+Date: Mon, 9 May 2022 17:19:16 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: LABBE Corentin <clabbe@baylibre.com>
+Cc: alexandre.torgue@foss.st.com, broonie@kernel.org,
+	calvin.johnson@oss.nxp.com, davem@davemloft.net,
+	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+	joabreu@synopsys.com, krzysztof.kozlowski+dt@linaro.org,
+	kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk,
+	pabeni@redhat.com, peppe.cavallaro@st.com, robh+dt@kernel.org,
+	samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/6] arm64: add ethernet to orange pi 3
+Message-ID: <Ynkw9EekNj5Ih5gc@lunn.ch>
+References: <20220509074857.195302-1-clabbe@baylibre.com>
+ <YnkG9yV+Fbf7WtCh@lunn.ch>
+ <YnkWwrKk4zjPnZLg@Red>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YnkWwrKk4zjPnZLg@Red>
 
-Dne ponedeljek, 09. maj 2022 ob 16:21:29 CEST je Arnd Bergmann napisal(a):
-> On Sun, May 8, 2022 at 10:52 PM Jernej =C5=A0krabec <jernej.skrabec@gmail=
-=2Ecom>=20
-wrote:
-> >
-> > Dne petek, 06. maj 2022 ob 19:02:17 CEST je Jernej Skrabec napisal(a):
-> > > Hi!
-> > >
-> > > Please pull following DT changes for 5.19.
-> >
-> > I missed one patch, please disregard.
->=20
-> I had already merged this one, merging the new branch on top, while editi=
-ng
-> the merge log to not mention the duplicate commits. You can always follow=
- up
-> with additional changes based on a branch that is already merged like thi=
-s=20
-one.
+On Mon, May 09, 2022 at 03:27:30PM +0200, LABBE Corentin wrote:
+> Le Mon, May 09, 2022 at 02:20:07PM +0200, Andrew Lunn a écrit :
+> > On Mon, May 09, 2022 at 07:48:51AM +0000, Corentin Labbe wrote:
+> > > Hello
+> > > 
+> > > 2 sunxi board still does not have ethernet working, orangepi 1+ and
+> > > orangepi 3.
+> > > This is due to the fact thoses boards have a PHY which need 2 regulators.
+> > 
+> > Why PHY make/module is it which is causing problems?
+> > 
+> 
+> The problem was stmmac support only one regulator for PHY.
 
-Ok, thanks! I'll follow up with new PR next time.
+I'm trying to understand the differences between the two different
+regulators. If you tell me what the PHY is, i might be able to find
+the data sheet, and then understand why two regulators are needed and
+if one needs to be controlled by the PHY driver, not the MDIO bus
+driver.
 
-Best regards,
-Jernej
-
->=20
->         Arnd
->=20
-
-
+	Andrew
