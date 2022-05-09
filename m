@@ -1,86 +1,156 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582437B
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 09:31:33 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id x12so11545012pgj.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 09 May 2022 02:31:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=JpCRaDNZYevpLkY4KOz+K7YSl/uzka5d9oakp3W77tc=;
-        b=HCmVcQ84A1B0mzXMIys8FhK9PENXHAKemAfPPPxoXKFdSh1QQXAzaPKVIqUEZLBs3/
-         H3pOb5uEAcuA5+F3hsUEogfhE/lRjNABeErSGu86+1ArNxEujpz8rVgWRX6v8tqEHwvx
-         0Xqpg/6Ry0GYJyosH55MLUfXrVeFOeBbGMK0uDInQXOaKGgdh2bcfZdABop9RngLLwa+
-         byDloH8cGSO4Dgs0GAKgT2GGWD3uNvjIr77nTWojR1RPoerG/QTxBZopGJZ/enkgNXjI
-         JKPl1sWprQahCNAmvlKDtaIJKpENBTMrQIA16/z2HPN40vin7eLoO7VkkbrQPSCVNvLk
-         7pew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=JpCRaDNZYevpLkY4KOz+K7YSl/uzka5d9oakp3W77tc=;
-        b=haFu+beeCc3XvW8AI2lRsihfUfLS/DrFqXfbqphFf8NKRkcRnwg7rqHpWbgxcURcLm
-         CuEZqtXrWAdiCXiLNx8kliHot4tq4rrOk6mp4trO4pC02WL1ky6BAkn/5+mqG78f86ai
-         E8LGzHKtINjn9LMc12inrNI7BU1Z3d1zNX3vgTlNHXHo2q3opnBrnXzAAdK1wMgBOlgV
-         YoGUR655VuI13BQXtDDBMI/mLUHLRzM1hgWKIRrLuv3UzV7OYp9j9iOYmM8UxRpWvhEC
-         QUux1+s7adEHYAw2vDVKhXAYc2pnqkJSZgIs7aHhHxBX/l+eWbX3//Ezu6VhwLKVTAFV
-         Yr3Q==
-X-Gm-Message-State: AOAM5317b3w/Vj6dQ9ymi0uZ1BbY3lQz0iItj13FWA2LCtp83QF33xJn
-	esXVm0eE5Vk9VMCB5M00+UHg0rHQqotU0Q==
-X-Google-Smtp-Source: ABdhPJxdD04mCtOjOZoG59KlHgaCvKklPPxlk10wG2ZHb2KCQ4qNWZv9oKioDl7bTyyCDTPNP632lQ==
-X-Received: by 2002:a63:ad0c:0:b0:374:50b4:c955 with SMTP id g12-20020a63ad0c000000b0037450b4c955mr12237883pgf.530.1652088692871;
-        Mon, 09 May 2022 02:31:32 -0700 (PDT)
-Received: from localhost ([122.162.234.2])
-        by smtp.gmail.com with ESMTPSA id n28-20020a056a000d5c00b0050dc7628148sm8110335pfv.34.2022.05.09.02.31.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 May 2022 02:31:32 -0700 (PDT)
-Date: Mon, 9 May 2022 15:01:30 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: qianfanguijin@163.com, linux-sunxi@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v1] drivers: cpufreq: sun8i-r40: Add cpufreq support
-Message-ID: <20220509093130.jegqpe6m7xtbouqa@vireshk-i7>
-References: <20220509084853.17068-1-qianfanguijin@163.com>
- <20220509091125.tps3zwaq276jlgh3@vireshk-i7>
- <20220509092306.22ttfunrislztbvh@houat>
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02AB746B2
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 10:36:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=s7/Z/
+	JP2jcj2hU+IhLOKmOVbWLxEJfZj+K8d3T4w45E=; b=H4OJacPz0q6BZY9Pxy7/H
+	cObdAISPqHrqrN8sSvX6rHCXSrpasJ5qXmcZLQU9tLh4LXv22f9JnDhKzgNCT5Ng
+	B+i3PCGubtm9qHtT1dK7F3hyKKd/a7Eveznbu6MPlOlNLPpC58BjGgCv61EVgWBZ
+	JmgXQSB77StcQxHBS74EOE=
+Received: from [192.168.3.102] (unknown [218.201.129.19])
+	by smtp9 (Coremail) with SMTP id DcCowABnZ7Xh6nhiim5uBw--.3315S2;
+	Mon, 09 May 2022 18:20:18 +0800 (CST)
+Message-ID: <932f3d62-21d2-dc3c-ff0f-f77477f4e8e9@163.com>
+Date: Mon, 9 May 2022 18:20:18 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220509092306.22ttfunrislztbvh@houat>
-User-Agent: NeoMutt/20180716-391-311a52
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v1] drivers: cpufreq: sun8i-r40: Add cpufreq support
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+References: <20220509084853.17068-1-qianfanguijin@163.com>
+ <20220509092740.qmpizwxappy77ggc@houat>
+From: qianfan <qianfanguijin@163.com>
+In-Reply-To: <20220509092740.qmpizwxappy77ggc@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:DcCowABnZ7Xh6nhiim5uBw--.3315S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxXF4kury3JFW5ur4DAFykGrg_yoWrAFyfpr
+	1Utr1UGr48Jr1UJr17tr15Jr1UJr1DZF1UJr15Gr1UJr1UAF1UJr1UJr1UJr4UJr1DJr1U
+	Jr1UJryUtryDJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6lk3UUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXAL77VXl2vWd-wAAs1
 
-On 09-05-22, 11:23, Maxime Ripard wrote:
-> Hi,
-> 
-> On Mon, May 09, 2022 at 02:41:25PM +0530, Viresh Kumar wrote:
-> > On 09-05-22, 16:48, qianfanguijin@163.com wrote:
-> > > From: qianfan Zhao <qianfanguijin@163.com>
-> > > 
-> > > OPP table value is get from allwinner lichee 3.10 kernel.
-> > > 
-> > > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
-> > > ---
-> > >  arch/arm/boot/dts/sun8i-r40.dtsi     | 47 ++++++++++++++++++++++++++++
-> > >  drivers/cpufreq/cpufreq-dt-platdev.c |  1 +
-> > >  2 files changed, 48 insertions(+)
-> > 
-> > Applied. Thanks.
-> 
-> Shouldn't you wait for the maintainers feedback for the DT bits at least?
 
-I should have, will drop it.
 
--- 
-viresh
+在 2022/5/9 17:27, Maxime Ripard 写道:
+> On Mon, May 09, 2022 at 04:48:53PM +0800, qianfanguijin@163.com wrote:
+>> From: qianfan Zhao <qianfanguijin@163.com>
+>>
+>> OPP table value is get from allwinner lichee 3.10 kernel.
+>>
+>> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+>> ---
+>>   arch/arm/boot/dts/sun8i-r40.dtsi     | 47 ++++++++++++++++++++++++++++
+>>   drivers/cpufreq/cpufreq-dt-platdev.c |  1 +
+>>   2 files changed, 48 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+>> index 291f4784e86c..90de119095fa 100644
+>> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
+>> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+>> @@ -54,6 +54,41 @@ / {
+>>   	#size-cells = <1>;
+>>   	interrupt-parent = <&gic>;
+>>   
+>> +	cpu0_opp_table: opp_table0 {
+>> +		compatible = "operating-points-v2";
+>> +		opp-shared;
+>> +
+>> +		opp-720000000 {
+>> +			opp-hz = /bits/ 64 <720000000>;
+>> +			opp-microvolt = <1000000 1000000 1300000>;
+>> +			clock-latency-ns = <2000000>;
+>> +		};
+>> +
+>> +		opp-912000000 {
+>> +			opp-hz = /bits/ 64 <912000000>;
+>> +			opp-microvolt = <1100000 1100000 1300000>;
+>> +			clock-latency-ns = <2000000>;
+>> +		};
+>> +
+>> +		opp-1008000000 {
+>> +			opp-hz = /bits/ 64 <1008000000>;
+>> +			opp-microvolt = <1160000 1160000 1300000>;
+>> +			clock-latency-ns = <2000000>;
+>> +		};
+>> +
+>> +		opp-1104000000 {
+>> +			opp-hz = /bits/ 64 <1104000000>;
+>> +			opp-microvolt = <1240000 1240000 1300000>;
+>> +			clock-latency-ns = <2000000>;
+>> +		};
+>> +
+>> +		opp-1200000000 {
+>> +			opp-hz = /bits/ 64 <1200000000>;
+>> +			opp-microvolt = <1300000 1300000 1300000>;
+>> +			clock-latency-ns = <2000000>;
+>> +		};
+>> +	};
+>> +
+> How were these OPPs tested? If you didn't, please test with
+> https://github.com/ssvb/cpuburn-arm/blob/master/cpufreq-ljt-stress-test
+Thanks for yours guide. Next it the log:
+root@ubuntu:~/cpuburn-arm-master# ./cpufreq-ljt-stress-test
+Creating './whitenoise-1920x1080.jpg' ... done
+CPU stress test, which is doing JPEG decoding by libjpeg-turbo
+at different cpufreq operating points.
+
+Testing CPU 0
+  1200 MHz ............................................................ OK
+  1104 MHz ............................................................ OK
+  1008 MHz ............................................................ OK
+   912 MHz ............................................................ OK
+   720 MHz ............................................................ OK
+
+Testing CPU 1
+  1200 MHz ............................................................ OK
+  1104 MHz ............................................................ OK
+  1008 MHz ............................................................ OK
+   912 MHz ............................................................ OK
+   720 MHz ............................................................ OK
+
+Testing CPU 2
+  1200 MHz ............................................................ OK
+  1104 MHz ............................................................ OK
+  1008 MHz ............................................................ OK
+   912 MHz ............................................................ OK
+   720 MHz ............................................................ OK
+
+Testing CPU 3
+  1200 MHz ............................................................ OK
+  1104 MHz ............................................................ OK
+  1008 MHz ............................................................ OK
+   912 MHz ............................................................ OK
+   720 MHz ............................................................ OK
+
+Overall result : PASSED
+>
+> And report the results
+>
+> Also, U-Boot sets the 1008MHz OPP by default, and the voltage to match.
+> How is this going to play out on device tree where the CPU regulators
+> aren't set?
+I tested this patch on my custom board now, and cpu is powered by dcdc2.
+So I add cpu-supply in dts on my custom board:
+
+&cpu0 {
+     cpu-supply = <&reg_dcdc2>;
+};
+
+I think I can add cpu-supply to the others.
+>
+> Maxime
+
