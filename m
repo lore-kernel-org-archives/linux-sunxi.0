@@ -1,156 +1,332 @@
-Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02AB746B2
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 10:36:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=s7/Z/
-	JP2jcj2hU+IhLOKmOVbWLxEJfZj+K8d3T4w45E=; b=H4OJacPz0q6BZY9Pxy7/H
-	cObdAISPqHrqrN8sSvX6rHCXSrpasJ5qXmcZLQU9tLh4LXv22f9JnDhKzgNCT5Ng
-	B+i3PCGubtm9qHtT1dK7F3hyKKd/a7Eveznbu6MPlOlNLPpC58BjGgCv61EVgWBZ
-	JmgXQSB77StcQxHBS74EOE=
-Received: from [192.168.3.102] (unknown [218.201.129.19])
-	by smtp9 (Coremail) with SMTP id DcCowABnZ7Xh6nhiim5uBw--.3315S2;
-	Mon, 09 May 2022 18:20:18 +0800 (CST)
-Message-ID: <932f3d62-21d2-dc3c-ff0f-f77477f4e8e9@163.com>
-Date: Mon, 9 May 2022 18:20:18 +0800
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30D31865
+	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 10:55:39 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 23B421480;
+	Mon,  9 May 2022 03:55:39 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 35BCB3F66F;
+	Mon,  9 May 2022 03:55:36 -0700 (PDT)
+Date: Mon, 9 May 2022 11:55:33 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: alexandre.torgue@foss.st.com, andrew@lunn.ch, broonie@kernel.org,
+ calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
+ hkallweit1@gmail.com, jernej.skrabec@gmail.com, joabreu@synopsys.com,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
+ linux@armlinux.org.uk, pabeni@redhat.com, peppe.cavallaro@st.com,
+ robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+ netdev@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 4/6] ARM: dts: sunxi: move phy regulator in PHY node
+Message-ID: <20220509115533.1493db30@donnerap.cambridge.arm.com>
+In-Reply-To: <20220509074857.195302-5-clabbe@baylibre.com>
+References: <20220509074857.195302-1-clabbe@baylibre.com>
+	<20220509074857.195302-5-clabbe@baylibre.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v1] drivers: cpufreq: sun8i-r40: Add cpufreq support
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20220509084853.17068-1-qianfanguijin@163.com>
- <20220509092740.qmpizwxappy77ggc@houat>
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <20220509092740.qmpizwxappy77ggc@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:DcCowABnZ7Xh6nhiim5uBw--.3315S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxXF4kury3JFW5ur4DAFykGrg_yoWrAFyfpr
-	1Utr1UGr48Jr1UJr17tr15Jr1UJr1DZF1UJr15Gr1UJr1UAF1UJr1UJr1UJr4UJr1DJr1U
-	Jr1UJryUtryDJw7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U6lk3UUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXAL77VXl2vWd-wAAs1
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon,  9 May 2022 07:48:55 +0000
+Corentin Labbe <clabbe@baylibre.com> wrote:
 
+Hi!
 
-在 2022/5/9 17:27, Maxime Ripard 写道:
-> On Mon, May 09, 2022 at 04:48:53PM +0800, qianfanguijin@163.com wrote:
->> From: qianfan Zhao <qianfanguijin@163.com>
->>
->> OPP table value is get from allwinner lichee 3.10 kernel.
->>
->> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->> ---
->>   arch/arm/boot/dts/sun8i-r40.dtsi     | 47 ++++++++++++++++++++++++++++
->>   drivers/cpufreq/cpufreq-dt-platdev.c |  1 +
->>   2 files changed, 48 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
->> index 291f4784e86c..90de119095fa 100644
->> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
->> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
->> @@ -54,6 +54,41 @@ / {
->>   	#size-cells = <1>;
->>   	interrupt-parent = <&gic>;
->>   
->> +	cpu0_opp_table: opp_table0 {
->> +		compatible = "operating-points-v2";
->> +		opp-shared;
->> +
->> +		opp-720000000 {
->> +			opp-hz = /bits/ 64 <720000000>;
->> +			opp-microvolt = <1000000 1000000 1300000>;
->> +			clock-latency-ns = <2000000>;
->> +		};
->> +
->> +		opp-912000000 {
->> +			opp-hz = /bits/ 64 <912000000>;
->> +			opp-microvolt = <1100000 1100000 1300000>;
->> +			clock-latency-ns = <2000000>;
->> +		};
->> +
->> +		opp-1008000000 {
->> +			opp-hz = /bits/ 64 <1008000000>;
->> +			opp-microvolt = <1160000 1160000 1300000>;
->> +			clock-latency-ns = <2000000>;
->> +		};
->> +
->> +		opp-1104000000 {
->> +			opp-hz = /bits/ 64 <1104000000>;
->> +			opp-microvolt = <1240000 1240000 1300000>;
->> +			clock-latency-ns = <2000000>;
->> +		};
->> +
->> +		opp-1200000000 {
->> +			opp-hz = /bits/ 64 <1200000000>;
->> +			opp-microvolt = <1300000 1300000 1300000>;
->> +			clock-latency-ns = <2000000>;
->> +		};
->> +	};
->> +
-> How were these OPPs tested? If you didn't, please test with
-> https://github.com/ssvb/cpuburn-arm/blob/master/cpufreq-ljt-stress-test
-Thanks for yours guide. Next it the log:
-root@ubuntu:~/cpuburn-arm-master# ./cpufreq-ljt-stress-test
-Creating './whitenoise-1920x1080.jpg' ... done
-CPU stress test, which is doing JPEG decoding by libjpeg-turbo
-at different cpufreq operating points.
+> Now that PHY core can handle regulators, move regulator handle in PHY
+> node.
 
-Testing CPU 0
-  1200 MHz ............................................................ OK
-  1104 MHz ............................................................ OK
-  1008 MHz ............................................................ OK
-   912 MHz ............................................................ OK
-   720 MHz ............................................................ OK
+Other than this is somewhat more "correct", is it really needed for those
+boards? Because it breaks compatibility with older kernels, so when we
+update the DTs in U-Boot, we run into problems (again).
 
-Testing CPU 1
-  1200 MHz ............................................................ OK
-  1104 MHz ............................................................ OK
-  1008 MHz ............................................................ OK
-   912 MHz ............................................................ OK
-   720 MHz ............................................................ OK
+IIUC this series is about the OPi3 & friends, which didn't work with older
+kernels anyway, so can we just skip this patch (and 5/6), to just enable
+the boards that didn't work before?
 
-Testing CPU 2
-  1200 MHz ............................................................ OK
-  1104 MHz ............................................................ OK
-  1008 MHz ............................................................ OK
-   912 MHz ............................................................ OK
-   720 MHz ............................................................ OK
+Cheers,
+Andre
 
-Testing CPU 3
-  1200 MHz ............................................................ OK
-  1104 MHz ............................................................ OK
-  1008 MHz ............................................................ OK
-   912 MHz ............................................................ OK
-   720 MHz ............................................................ OK
-
-Overall result : PASSED
->
-> And report the results
->
-> Also, U-Boot sets the 1008MHz OPP by default, and the voltage to match.
-> How is this going to play out on device tree where the CPU regulators
-> aren't set?
-I tested this patch on my custom board now, and cpu is powered by dcdc2.
-So I add cpu-supply in dts on my custom board:
-
-&cpu0 {
-     cpu-supply = <&reg_dcdc2>;
-};
-
-I think I can add cpu-supply to the others.
->
-> Maxime
+> 
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
+>  arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts      | 2 +-
+>  arch/arm/boot/dts/sun8i-a83t-cubietruck-plus.dts  | 2 +-
+>  arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts     | 2 +-
+>  arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts          | 2 +-
+>  arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts      | 2 +-
+>  arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts    | 2 +-
+>  arch/arm/boot/dts/sun8i-h3-zeropi.dts             | 2 +-
+>  arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 2 +-
+>  arch/arm/boot/dts/sun8i-r40-oka40i-c.dts          | 2 +-
+>  arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 2 +-
+>  arch/arm/boot/dts/sun9i-a80-cubieboard4.dts       | 2 +-
+>  arch/arm/boot/dts/sun9i-a80-optimus.dts           | 2 +-
+>  arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi     | 2 +-
+>  13 files changed, 13 insertions(+), 13 deletions(-)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> index 5a7e1bd5f825..b450be0a45ed 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts
+> @@ -129,7 +129,6 @@ &ehci0 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_sw>;
+>  	phy-handle = <&rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  	allwinner,rx-delay-ps = <700>;
+> @@ -151,6 +150,7 @@ &mdio {
+>  	rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_sw>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-a83t-cubietruck-plus.dts b/arch/arm/boot/dts/sun8i-a83t-cubietruck-plus.dts
+> index 870993393fc2..fe70b350cdbb 100644
+> --- a/arch/arm/boot/dts/sun8i-a83t-cubietruck-plus.dts
+> +++ b/arch/arm/boot/dts/sun8i-a83t-cubietruck-plus.dts
+> @@ -181,7 +181,6 @@ &ehci1 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_dldo4>;
+>  	phy-handle = <&rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  	status = "okay";
+> @@ -201,6 +200,7 @@ &mdio {
+>  	rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_dldo4>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts
+> index a2f2ef2b0092..c393612f44c6 100644
+> --- a/arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts
+> +++ b/arch/arm/boot/dts/sun8i-h3-nanopi-m1-plus.dts
+> @@ -103,7 +103,6 @@ &ehci2 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii";
+>  
+> @@ -114,6 +113,7 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <7>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts
+> index 26e2e6172e0d..70bde396856b 100644
+> --- a/arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts
+> +++ b/arch/arm/boot/dts/sun8i-h3-nanopi-r1.dts
+> @@ -80,7 +80,6 @@ &ehci2 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  	status = "okay";
+> @@ -90,6 +89,7 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@7 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <7>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts
+> index d05fa679dcd3..c6dcf1af3298 100644
+> --- a/arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts
+> +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-plus.dts
+> @@ -83,7 +83,6 @@ &ehci3 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  
+> @@ -94,6 +93,7 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <0>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts
+> index b6ca45d18e51..61eb8c003186 100644
+> --- a/arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts
+> +++ b/arch/arm/boot/dts/sun8i-h3-orangepi-plus2e.dts
+> @@ -65,7 +65,6 @@ reg_gmac_3v3: gmac-3v3 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  	status = "okay";
+> @@ -75,5 +74,6 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/sun8i-h3-zeropi.dts b/arch/arm/boot/dts/sun8i-h3-zeropi.dts
+> index 7d3e7323b661..54174ef18823 100644
+> --- a/arch/arm/boot/dts/sun8i-h3-zeropi.dts
+> +++ b/arch/arm/boot/dts/sun8i-h3-zeropi.dts
+> @@ -65,13 +65,13 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@7 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <7>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+>  
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> index a6a1087a0c9b..b1f269bbd479 100644
+> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> @@ -130,7 +130,6 @@ &gmac {
+>  	pinctrl-0 = <&gmac_rgmii_pins>;
+>  	phy-handle = <&phy1>;
+>  	phy-mode = "rgmii-id";
+> -	phy-supply = <&reg_dc1sw>;
+>  	status = "okay";
+>  };
+>  
+> @@ -138,6 +137,7 @@ &gmac_mdio {
+>  	phy1: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_dc1sw>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-r40-oka40i-c.dts b/arch/arm/boot/dts/sun8i-r40-oka40i-c.dts
+> index 0bd1336206b8..c43476b426df 100644
+> --- a/arch/arm/boot/dts/sun8i-r40-oka40i-c.dts
+> +++ b/arch/arm/boot/dts/sun8i-r40-oka40i-c.dts
+> @@ -93,7 +93,6 @@ &gmac {
+>  	pinctrl-0 = <&gmac_rgmii_pins>;
+>  	phy-handle = <&phy1>;
+>  	phy-mode = "rgmii-id";
+> -	phy-supply = <&reg_dcdc1>;
+>  	status = "okay";
+>  };
+>  
+> @@ -101,6 +100,7 @@ &gmac_mdio {
+>  	phy1: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_dcdc1>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> index 47954551f573..050a649d7bda 100644
+> --- a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> +++ b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> @@ -121,7 +121,6 @@ &gmac {
+>  	pinctrl-0 = <&gmac_rgmii_pins>;
+>  	phy-handle = <&phy1>;
+>  	phy-mode = "rgmii-id";
+> -	phy-supply = <&reg_dc1sw>;
+>  	status = "okay";
+>  };
+>  
+> @@ -129,6 +128,7 @@ &gmac_mdio {
+>  	phy1: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_dc1sw>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sun9i-a80-cubieboard4.dts b/arch/arm/boot/dts/sun9i-a80-cubieboard4.dts
+> index c8ca8cb7f5c9..ab9bf4bf7343 100644
+> --- a/arch/arm/boot/dts/sun9i-a80-cubieboard4.dts
+> +++ b/arch/arm/boot/dts/sun9i-a80-cubieboard4.dts
+> @@ -130,7 +130,6 @@ &gmac {
+>  	pinctrl-0 = <&gmac_rgmii_pins>;
+>  	phy-handle = <&phy1>;
+>  	phy-mode = "rgmii-id";
+> -	phy-supply = <&reg_cldo1>;
+>  	status = "okay";
+>  };
+>  
+> @@ -142,6 +141,7 @@ &i2c3 {
+>  
+>  &mdio {
+>  	phy1: ethernet-phy@1 {
+> +		phy-supply = <&reg_cldo1>;
+>  		reg = <1>;
+>  	};
+>  };
+> diff --git a/arch/arm/boot/dts/sun9i-a80-optimus.dts b/arch/arm/boot/dts/sun9i-a80-optimus.dts
+> index 5c3580d712e4..48219b8049b1 100644
+> --- a/arch/arm/boot/dts/sun9i-a80-optimus.dts
+> +++ b/arch/arm/boot/dts/sun9i-a80-optimus.dts
+> @@ -125,13 +125,13 @@ &gmac {
+>  	pinctrl-0 = <&gmac_rgmii_pins>;
+>  	phy-handle = <&phy1>;
+>  	phy-mode = "rgmii-id";
+> -	phy-supply = <&reg_cldo1>;
+>  	status = "okay";
+>  };
+>  
+>  &mdio {
+>  	phy1: ethernet-phy@1 {
+>  		reg = <1>;
+> +		phy-supply = <&reg_cldo1>;
+>  	};
+>  };
+>  
+> diff --git a/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi b/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
+> index d03f5853ef7b..65f0a3c2af3f 100644
+> --- a/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
+> +++ b/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
+> @@ -125,7 +125,6 @@ &ehci2 {
+>  &emac {
+>  	pinctrl-names = "default";
+>  	pinctrl-0 = <&emac_rgmii_pins>;
+> -	phy-supply = <&reg_gmac_3v3>;
+>  	phy-handle = <&ext_rgmii_phy>;
+>  	phy-mode = "rgmii-id";
+>  
+> @@ -136,6 +135,7 @@ &external_mdio {
+>  	ext_rgmii_phy: ethernet-phy@1 {
+>  		compatible = "ethernet-phy-ieee802.3-c22";
+>  		reg = <1>;
+> +		phy-supply = <&reg_gmac_3v3>;
+>  	};
+>  };
+>  
 
