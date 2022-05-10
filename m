@@ -1,96 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086891FC0
-	for <linux-sunxi@lists.linux.dev>; Mon,  9 May 2022 16:56:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 307B2C385B1;
-	Mon,  9 May 2022 16:56:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652115402;
-	bh=ma7KAt89IfR03ZZVvYgYcIHD1fN0+zc6+GsP1F0gGzM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BCDBv2RszqfGdCRpA+zNo6nDPlRAGB4Um5Q05dhrDATW6+VY9oikBbL1zqEEv1Jn7
-	 S+EIpoJvQVYeXmM8tFhEkKKx2Py1/Sj8lsjxi4v1FYlb9XfOeyCfDdkEsj8rcYdLCX
-	 Yjc1DwuItizN4NHPa5fH4f/H/I5rpkFNVCTLa2JS4re+x+jFUqTvmRIBDYZaOUZxKx
-	 I2VD9a3K+OINYZeowh3qGTK0kabNNRpINVXSGQCJRCzX7YWFJF6SZ0Drs/GNHxIzVf
-	 CYgE+QW/LGYPdDnCLrrc2Xo+l7I7IpZe1gZEE3hoyHKAMeyoG8EitIDQ1xDzGK/onX
-	 21/6jYDVL1WKA==
-Date: Mon, 9 May 2022 17:56:34 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: LABBE Corentin <clabbe@baylibre.com>, alexandre.torgue@foss.st.com,
-	calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	joabreu@synopsys.com, krzysztof.kozlowski+dt@linaro.org,
-	kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk,
-	pabeni@redhat.com, peppe.cavallaro@st.com, robh+dt@kernel.org,
-	samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/6] dt-bindings: net: Add documentation for phy-supply
-Message-ID: <YnlHwpiow9Flgzas@sirena.org.uk>
-References: <20220509074857.195302-1-clabbe@baylibre.com>
- <20220509074857.195302-4-clabbe@baylibre.com>
- <YnkGV8DyTlCuT92R@lunn.ch>
- <YnkWl+xYCX8r9DE7@Red>
- <Ynk7L07VH/RFVzl6@lunn.ch>
- <Ynk9ccoVh32Deg45@sirena.org.uk>
- <YnlDbbegQ1IbbaHy@lunn.ch>
+Received: from m12-15.163.com (m12-15.163.com [220.181.12.15])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E34A1FA0
+	for <linux-sunxi@lists.linux.dev>; Tue, 10 May 2022 00:52:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=WqmJd
+	515m1PJTK0nq4GDI1QjAybjj0z9nr72C7+YdFk=; b=qEMnIt5En+Lp2rUDeRV1N
+	uD+cCktAsYhJe+phFhsY3IRQCT/nKbr8daGR05VDy4Cl8CLAWNZF8DXZ4M9cGLIT
+	q76QsILybAawv1BQ/CquxKzzbjeB8ZopTtrRWC+jBNj/9pnbusas0sG7WCXKZ8IX
+	dcATHn+rPjzauh/lqdoU9Q=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+	by smtp11 (Coremail) with SMTP id D8CowABntf58s3liulW+Bg--.40118S2;
+	Tue, 10 May 2022 08:36:13 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v2] drivers: cpufreq: sun8i-r40: Add cpufreq support
+Date: Tue, 10 May 2022 08:36:11 +0800
+Message-Id: <20220510003611.1812-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8w1oAQG8zH7Npult"
-Content-Disposition: inline
-In-Reply-To: <YnlDbbegQ1IbbaHy@lunn.ch>
-X-Cookie: Boycott meat -- suck your thumb.
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:D8CowABntf58s3liulW+Bg--.40118S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxWF47WF4UWrWfuF43GFg_yoWrtry5pr
+	17CFWkGrs3Wr1Yqw12qrW8tF18Caykuay5tF1UC34fJr1kXFyDXryftr9akrZ8Xr13X3yS
+	vrnYqr92vw4DXaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zN9aPUUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXB387VXl2wCLHQAAst
 
+From: qianfan Zhao <qianfanguijin@163.com>
 
---8w1oAQG8zH7Npult
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+OPP table value is get from allwinner lichee 3.10 kernel.
+And completed 'cpu-supply' on sun8i based board.
 
-On Mon, May 09, 2022 at 06:38:05PM +0200, Andrew Lunn wrote:
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  4 ++
+ arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  4 ++
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 47 +++++++++++++++++++
+ arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  4 ++
+ .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  4 ++
+ drivers/cpufreq/cpufreq-dt-platdev.c          |  1 +
+ 6 files changed, 64 insertions(+)
 
-> So we have a collection of regulators, varying in numbers between
-> different PHYs, with different vendor names and purposes. In general,
-> they all should be turned on. Yet we want them named so it is clear
-> what is going on.
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index a6a1087a0c9b..4f30018ec4a2 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -113,6 +113,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+diff --git a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+index 265e0fa57a32..b872b51a346d 100644
+--- a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+@@ -6,6 +6,10 @@
+ 
+ #include "sun8i-r40.dtsi"
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &i2c0 {
+ 	status = "okay";
+ 
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 291f4784e86c..90de119095fa 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -54,6 +54,41 @@ / {
+ 	#size-cells = <1>;
+ 	interrupt-parent = <&gic>;
+ 
++	cpu0_opp_table: opp_table0 {
++		compatible = "operating-points-v2";
++		opp-shared;
++
++		opp-720000000 {
++			opp-hz = /bits/ 64 <720000000>;
++			opp-microvolt = <1000000 1000000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-912000000 {
++			opp-hz = /bits/ 64 <912000000>;
++			opp-microvolt = <1100000 1100000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1008000000 {
++			opp-hz = /bits/ 64 <1008000000>;
++			opp-microvolt = <1160000 1160000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1104000000 {
++			opp-hz = /bits/ 64 <1104000000>;
++			opp-microvolt = <1240000 1240000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1200000000 {
++			opp-hz = /bits/ 64 <1200000000>;
++			opp-microvolt = <1300000 1300000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++	};
++
+ 	clocks {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+@@ -84,24 +119,36 @@ cpu0: cpu@0 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <0>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu1: cpu@1 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <1>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <2>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu3: cpu@3 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <3>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+index 6931aaab2382..0eb1990742ff 100644
+--- a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
++++ b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+@@ -88,6 +88,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+diff --git a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+index 47954551f573..fdf8bd12faaa 100644
+--- a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
++++ b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+@@ -107,6 +107,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-dt-platdev.c
+index ca1d103ec449..971a99219d4d 100644
+--- a/drivers/cpufreq/cpufreq-dt-platdev.c
++++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+@@ -26,6 +26,7 @@ static const struct of_device_id allowlist[] __initconst = {
+ 	{ .compatible = "allwinner,sun8i-a23", },
+ 	{ .compatible = "allwinner,sun8i-a83t", },
+ 	{ .compatible = "allwinner,sun8i-h3", },
++	{ .compatible = "allwinner,sun8i-r40", },
+ 
+ 	{ .compatible = "apm,xgene-shadowcat", },
+ 
+-- 
+2.25.1
 
-> Is there a generic solution here so that the phylib core can somehow
-> enumerate them and turn them on, without actually knowing what they
-> are called because they have vendor specific names in order to be
-> clear what they are?
-
-> There must be a solution to this, phylib cannot be the first subsystem
-> to have this requirement, so if you could point to an example, that
-> would be great.
-
-No, it's not really come up much before - generally things with
-regulator control that have generic drivers tend not to be sophisticated
-enough to have more than one supply, or to be on an enumerable bus where
-the power is part of the bus specification so have the power specified
-as part of the bus.  You'd need to extend the regulator bindings to
-support parallel array of phandles and array of names properties like
-clocks have as an option like you were asking for, which would doubtless
-be fun for validation but is probably the thing here.
-
---8w1oAQG8zH7Npult
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ5R8IACgkQJNaLcl1U
-h9DsBgf/dLCjimiHfZ3BVIqJ24wTWXFg5dJk+Jp65LrpXJ6qSG86NuEHpNdoLTbZ
-9y2PhDrkyF9y28KpLHo26UuISE9N74k2L/ZNzJrsqCVTc933fJ+JaViuvhx+LsdY
-ZXlZG27WBycLjVGqW3BVqiN1h8xFIJZ+4I/LYr832cUHnPrQu+JpoJpvsMjrge3+
-iSm3dqO1KZEGCaw8lK4MlGRS8ZoPBUA1lc4h2yvU8zpJc0OfIq5LU0p0DlggMlLE
-ag0ct9nkNKD96unqDxXIYscDNf/9Kv2UjXR4M18yNnmLDZr4bDuiQAB+L+2jKzbR
-dyOk2GxUf6FtgeOrdPmWMPuAn4+YWw==
-=EKEu
------END PGP SIGNATURE-----
-
---8w1oAQG8zH7Npult--
