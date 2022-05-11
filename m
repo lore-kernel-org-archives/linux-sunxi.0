@@ -1,149 +1,253 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BFE3207
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 20:02:17 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id z19so3810753edx.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 13:02:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4B3C3207
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 20:13:27 +0000 (UTC)
+Received: by mail-ed1-f45.google.com with SMTP id s11so50589edy.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 13:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Kjm5oS3T2QJVIaXZ5HMZbY1xpEdNpJDDRAUvlhwNL3U=;
-        b=fWLBtbzzyS2l1AlhhPCQYPbP0/60RK4VuD7QGsdqBsun6IeBZ6VTM5h24bDkrGOSlr
-         lJrBNXdfN4rJXa0yKhXjdEDaWxrDgdI+4G6soL2J+jOZwz5Lt4asExh7ji6syOUh5fWD
-         P0ir99Ci4OoyAGJJMxErxke1NVt3tUuzD3aebDWaj+AvgZ/K3vWFcd/hx9riGmx5F9B9
-         ufNribfsGhluK6DJsCdb6FE9NZ0Er3WFJ24uFmDoZspty1JQS0h8vT3l8gfltWEbh43v
-         hQfndi/TW5GFxdS1q0BmyH7oXU7DR++pXUHbOd2HGgYgqLMfgYdph9MCybFMPiD5Oys/
-         YMhw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Nm89gfLqtSP3TfQoaVyZOT3oxzHwcL28ZW4W5CS/9qo=;
+        b=DCSfEwi/ZFlNlmvv+UkFcfWq90jcjs1SXyu3yKp6oYQ5GnnJms08VToWJ9z6a1DlJT
+         eY5mhTZTW5Ix4ptglCA9GFwi7iHce6jKIdyKVI4roVhkxrotKQFZo58LE6A9NNre/mwy
+         CE3qnm2pGTwy8TUiNBHNYJrNh+Ax2DfRr0Biy1pOdWKENSxJSPWDM/zgNPj+o0hqX+G9
+         WB1mDJOfNkTKAnLhFnRhVOmxowH+gmZ7jKLQWLs/8VRStrhUS9C8ssJVTJd+Do5jPxQ9
+         n13K2eTY75Q/7E5q7eLZVTqWqum9VTXoPs07dSH2mxTuiAfWILjN+/zhZZhzemrrUSMy
+         oAjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Kjm5oS3T2QJVIaXZ5HMZbY1xpEdNpJDDRAUvlhwNL3U=;
-        b=ihdKzfwpplsj69m/daMTUO7E6GXxMWqutcvtphzGM7SF+5GiHoXhRGog8iJJs2Mzse
-         6hee9zGoDZ+DvUzJAElXVhKlgJrxHw9kZQHShRuu1c9eZvklKpxoubSVzZynaKhfphqv
-         8u2m1T54gspeWjb1t8VHvyIsuHi6JzE26+QzFRel42CJN+bwXi265G8WqnmQpxVImWmV
-         U1tHCpOeuZA9ofrONLgnhns9YlA2s7DulRvXBz0qzXO+Q1CGhLugi0op9FQitoKbZj8k
-         aSkzE3Hdqi/nsd/KipTVncocbKKj9mxgmP/rY1mJ4kr6FT3DDIGK6hnfSICyJck03GFq
-         W0Cw==
-X-Gm-Message-State: AOAM5339lUiNey9ebUos6bCw5as3ff/XTd1UH4PyiFnrvMLvOKGkme4c
-	MVvRih9J2apFAkLmTb45pEg=
-X-Google-Smtp-Source: ABdhPJwuzCry90j1P+q2DVpYYiCsCxEejAfdbC7nAd7VZk2GginTD4rVQkbU+m7YqZcYCq5h35e5fg==
-X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id eb14-20020a0564020d0e00b004133d99f2d6mr31504260edb.189.1652299335444;
-        Wed, 11 May 2022 13:02:15 -0700 (PDT)
-Received: from kista.localdomain (cpe1-3-76.cable.triera.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id s8-20020a170906060800b006f3ef214e0esm1347602ejb.116.2022.05.11.13.02.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Nm89gfLqtSP3TfQoaVyZOT3oxzHwcL28ZW4W5CS/9qo=;
+        b=Bq4a5L7yVVihmtbbwgePoWvwMJluE5BT1R2ie/7eGE8xd6s2gk+E4nbCwq0oduEnky
+         btvb6pONN9eU7CYg6IlDb8i2Sex6hlpAc3B3yHWBWbDo/1v6qi5OoMvfl19CTn0anKkF
+         v8sDVIP8OZDcuXudaSjrhN/25tlSJzvJ7JkFozfZStfllM9cB0Hs+KqyJZIbqEDeJ2+/
+         NUvDsQD6EAc2gYZFkCFB1CiY5H/XqdpAQiQJFc2UyYencq4bYutZhhwCrU6/NFZPt1Xs
+         I7VfrrJe5kNHEwfEXRuFlZ7Gn73BnTxkUFiiFU1Y3OM6u3FDmVDXnCuiEtqzE06LiN21
+         3JzQ==
+X-Gm-Message-State: AOAM531GZ36/lcUEiqK3dZyp3ech3W6JXQPX+KnhkZ/DXN//sIgrY2Gr
+	qmQ2HaWtBqML0nTJ2lTARqpUSnsEkayLuw==
+X-Google-Smtp-Source: ABdhPJxwFRdLfiMvDB5YKZpJTQp0z3Ohhe7yXCCx50Ljz5hzv9ZJovC6a5xfyy8LPah7sHr4dZbKAw==
+X-Received: by 2002:a05:6402:17c1:b0:428:8016:d98d with SMTP id s1-20020a05640217c100b004288016d98dmr24417591edy.5.1652300006185;
+        Wed, 11 May 2022 13:13:26 -0700 (PDT)
+Received: from kista.localnet (cpe1-3-76.cable.triera.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id oz35-20020a1709077da300b006f3ef214e1csm1359454ejc.130.2022.05.11.13.13.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 13:02:14 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mturquette@baylibre.com,
-	sboyd@kernel.org,
-	a.zummo@towertech.it,
-	alexandre.belloni@bootlin.com
-Cc: wens@csie.org,
-	samuel@sholland.org,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-rtc@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] Revert "clk: sunxi-ng: sun6i-rtc: Add support for H6"
-Date: Wed, 11 May 2022 22:02:06 +0200
-Message-Id: <20220511200206.2458274-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Wed, 11 May 2022 13:13:25 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-sunxi@lists.linux.dev, qianfanguijin@163.com
+Cc: Rob Herring <robh+dt@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, qianfan Zhao <qianfanguijin@163.com>
+Subject: Re: [PATCH v2] drivers: cpufreq: sun8i-r40: Add cpufreq support
+Date: Wed, 11 May 2022 22:13:24 +0200
+Message-ID: <1902551.yKVeVyVuyW@kista>
+In-Reply-To: <20220510003611.1812-1-qianfanguijin@163.com>
+References: <20220510003611.1812-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This reverts commit 1738890a3165ccd0da98ebd3e2d5f9b230d5afa8.
+Dne torek, 10. maj 2022 ob 02:36:11 CEST je qianfanguijin@163.com napisal(a):
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> OPP table value is get from allwinner lichee 3.10 kernel.
+> And completed 'cpu-supply' on sun8i based board.
+> 
+> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+> ---
+>  .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  4 ++
+>  arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  4 ++
+>  arch/arm/boot/dts/sun8i-r40.dtsi              | 47 +++++++++++++++++++
+>  arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  4 ++
+>  .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  4 ++
+>  drivers/cpufreq/cpufreq-dt-platdev.c          |  1 +
 
-Commit 1738890a3165 ("clk: sunxi-ng: sun6i-rtc: Add support for H6")
-breaks HDMI output on Tanix TX6 mini board. Exact reason isn't known,
-but because that commit doesn't actually improve anything, let's just
-revert it.
+This patch needs to be split in two:
+1. driver change
+2. DT changes
 
-Cc: stable@vger.kernel.org
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 15 ---------------
- drivers/rtc/rtc-sun6i.c              | 17 +++++++++++++++++
- 2 files changed, 17 insertions(+), 15 deletions(-)
+And please add change log here for next submission.
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-index 2f3ddc908ebd..d65398497d5f 100644
---- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
-@@ -298,10 +298,6 @@ static const struct sunxi_ccu_desc sun6i_rtc_ccu_desc = {
- 	.hw_clks	= &sun6i_rtc_ccu_hw_clks,
- };
- 
--static const struct clk_parent_data sun50i_h6_osc32k_fanout_parents[] = {
--	{ .hw = &osc32k_clk.common.hw },
--};
--
- static const struct clk_parent_data sun50i_h616_osc32k_fanout_parents[] = {
- 	{ .hw = &osc32k_clk.common.hw },
- 	{ .fw_name = "pll-32k" },
-@@ -314,13 +310,6 @@ static const struct clk_parent_data sun50i_r329_osc32k_fanout_parents[] = {
- 	{ .hw = &osc24M_32k_clk.common.hw }
- };
- 
--static const struct sun6i_rtc_match_data sun50i_h6_rtc_ccu_data = {
--	.have_ext_osc32k	= true,
--	.have_iosc_calibration	= true,
--	.osc32k_fanout_parents	= sun50i_h6_osc32k_fanout_parents,
--	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_h6_osc32k_fanout_parents),
--};
--
- static const struct sun6i_rtc_match_data sun50i_h616_rtc_ccu_data = {
- 	.have_iosc_calibration	= true,
- 	.rtc_32k_single_parent	= true,
-@@ -335,10 +324,6 @@ static const struct sun6i_rtc_match_data sun50i_r329_rtc_ccu_data = {
- };
- 
- static const struct of_device_id sun6i_rtc_ccu_match[] = {
--	{
--		.compatible	= "allwinner,sun50i-h6-rtc",
--		.data		= &sun50i_h6_rtc_ccu_data,
--	},
- 	{
- 		.compatible	= "allwinner,sun50i-h616-rtc",
- 		.data		= &sun50i_h616_rtc_ccu_data,
-diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
-index 5b3e4da63406..5252ce4cbda4 100644
---- a/drivers/rtc/rtc-sun6i.c
-+++ b/drivers/rtc/rtc-sun6i.c
-@@ -370,6 +370,23 @@ CLK_OF_DECLARE_DRIVER(sun8i_h3_rtc_clk, "allwinner,sun8i-h3-rtc",
- CLK_OF_DECLARE_DRIVER(sun50i_h5_rtc_clk, "allwinner,sun50i-h5-rtc",
- 		      sun8i_h3_rtc_clk_init);
- 
-+static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
-+	.rc_osc_rate = 16000000,
-+	.fixed_prescaler = 32,
-+	.has_prescaler = 1,
-+	.has_out_clk = 1,
-+	.export_iosc = 1,
-+	.has_losc_en = 1,
-+	.has_auto_swt = 1,
-+};
-+
-+static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
-+{
-+	sun6i_rtc_clk_init(node, &sun50i_h6_rtc_data);
-+}
-+CLK_OF_DECLARE_DRIVER(sun50i_h6_rtc_clk, "allwinner,sun50i-h6-rtc",
-+		      sun50i_h6_rtc_clk_init);
-+
- /*
-  * The R40 user manual is self-conflicting on whether the prescaler is
-  * fixed or configurable. The clock diagram shows it as fixed, but there
--- 
-2.36.1
+>  6 files changed, 64 insertions(+)
+> 
+> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/
+boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> index a6a1087a0c9b..4f30018ec4a2 100644
+> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> @@ -113,6 +113,10 @@ &ahci {
+>  	status = "okay";
+>  };
+>  
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdc2>;
+> +};
+> +
+>  &de {
+>  	status = "okay";
+>  };
+> diff --git a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/
+sun8i-r40-feta40i.dtsi
+> index 265e0fa57a32..b872b51a346d 100644
+> --- a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+> @@ -6,6 +6,10 @@
+>  
+>  #include "sun8i-r40.dtsi"
+>  
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdc2>;
+> +};
+> +
+>  &i2c0 {
+>  	status = "okay";
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-
+r40.dtsi
+> index 291f4784e86c..90de119095fa 100644
+> --- a/arch/arm/boot/dts/sun8i-r40.dtsi
+> +++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+> @@ -54,6 +54,41 @@ / {
+>  	#size-cells = <1>;
+>  	interrupt-parent = <&gic>;
+>  
+> +	cpu0_opp_table: opp_table0 {
+> +		compatible = "operating-points-v2";
+> +		opp-shared;
+> +
+> +		opp-720000000 {
+> +			opp-hz = /bits/ 64 <720000000>;
+> +			opp-microvolt = <1000000 1000000 1300000>;
+> +			clock-latency-ns = <2000000>;
+> +		};
+> +
+> +		opp-912000000 {
+> +			opp-hz = /bits/ 64 <912000000>;
+> +			opp-microvolt = <1100000 1100000 1300000>;
+> +			clock-latency-ns = <2000000>;
+> +		};
+> +
+> +		opp-1008000000 {
+> +			opp-hz = /bits/ 64 <1008000000>;
+> +			opp-microvolt = <1160000 1160000 1300000>;
+> +			clock-latency-ns = <2000000>;
+> +		};
+> +
+> +		opp-1104000000 {
+> +			opp-hz = /bits/ 64 <1104000000>;
+> +			opp-microvolt = <1240000 1240000 1300000>;
+> +			clock-latency-ns = <2000000>;
+> +		};
+> +
+> +		opp-1200000000 {
+> +			opp-hz = /bits/ 64 <1200000000>;
+> +			opp-microvolt = <1300000 1300000 1300000>;
+> +			clock-latency-ns = <2000000>;
+> +		};
+> +	};
+> +
+>  	clocks {
+>  		#address-cells = <1>;
+>  		#size-cells = <1>;
+> @@ -84,24 +119,36 @@ cpu0: cpu@0 {
+>  			compatible = "arm,cortex-a7";
+>  			device_type = "cpu";
+>  			reg = <0>;
+> +			clocks = <&ccu CLK_CPU>;
+> +			clock-names = "cpu";
+> +			operating-points-v2 = <&cpu0_opp_table>;
+>  		};
+>  
+>  		cpu1: cpu@1 {
+>  			compatible = "arm,cortex-a7";
+>  			device_type = "cpu";
+>  			reg = <1>;
+> +			clocks = <&ccu CLK_CPU>;
+> +			clock-names = "cpu";
+> +			operating-points-v2 = <&cpu0_opp_table>;
+>  		};
+>  
+>  		cpu2: cpu@2 {
+>  			compatible = "arm,cortex-a7";
+>  			device_type = "cpu";
+>  			reg = <2>;
+> +			clocks = <&ccu CLK_CPU>;
+> +			clock-names = "cpu";
+> +			operating-points-v2 = <&cpu0_opp_table>;
+>  		};
+>  
+>  		cpu3: cpu@3 {
+>  			compatible = "arm,cortex-a7";
+>  			device_type = "cpu";
+>  			reg = <3>;
+> +			clocks = <&ccu CLK_CPU>;
+> +			clock-names = "cpu";
+> +			operating-points-v2 = <&cpu0_opp_table>;
+>  		};
+>  	};
+>  
+> diff --git a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts b/arch/arm/boot/dts/
+sun8i-t3-cqa3t-bv3.dts
+> index 6931aaab2382..0eb1990742ff 100644
+> --- a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+> +++ b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+> @@ -88,6 +88,10 @@ &ahci {
+>  	status = "okay";
+>  };
+>  
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdc2>;
+> +};
+> +
+>  &de {
+>  	status = "okay";
+>  };
+> diff --git a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts b/arch/arm/
+boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> index 47954551f573..fdf8bd12faaa 100644
+> --- a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> +++ b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+> @@ -107,6 +107,10 @@ &ahci {
+>  	status = "okay";
+>  };
+>  
+> +&cpu0 {
+> +	cpu-supply = <&reg_dcdc2>;
+> +};
+> +
+>  &de {
+>  	status = "okay";
+>  };
+> diff --git a/drivers/cpufreq/cpufreq-dt-platdev.c b/drivers/cpufreq/cpufreq-
+dt-platdev.c
+> index ca1d103ec449..971a99219d4d 100644
+> --- a/drivers/cpufreq/cpufreq-dt-platdev.c
+> +++ b/drivers/cpufreq/cpufreq-dt-platdev.c
+> @@ -26,6 +26,7 @@ static const struct of_device_id allowlist[] __initconst = 
+{
+>  	{ .compatible = "allwinner,sun8i-a23", },
+>  	{ .compatible = "allwinner,sun8i-a83t", },
+>  	{ .compatible = "allwinner,sun8i-h3", },
+> +	{ .compatible = "allwinner,sun8i-r40", },
+
+Why on allow list? Comment says operatings-point-v2 should be on block list, 
+just like H6.
+
+Best regards,
+Jernej
+
+>  
+>  	{ .compatible = "apm,xgene-shadowcat", },
+>  
+> -- 
+> 2.25.1
+> 
+> 
+
 
