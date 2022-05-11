@@ -1,91 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1097528F9
-	for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 12:51:07 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1872C3410F;
-	Wed, 11 May 2022 12:51:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652273467;
-	bh=ilKGaxGKhxB0YYV/ztEYYWw7I0QBzPzqY3ODK4muYDQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q4gUwAz+TH/cL8ISyjeXIkdK5QhVVTrbZhwP/mcQHEF8uQUMG1CT/4TaLj/mk1jmZ
-	 MTmMaVV6JV4wZjSHrTSmg58dRcpgkiy6C1bBnCjVq4AwD1bVw8aqagwfKy8Z57eABM
-	 0MCX5J8aisIjZqpvG3rz/9JyAqSGEvT4Yug5afofW85kCj8L8aeshDNhL4EcB6YW1W
-	 GoUCoVwGzB9WkTfHivGVVxtkaxyVoXiiHX3b2vdOTA6DSuQBL1gPd6meQDvZ/d7yJX
-	 bhKqwYFeNAv1RXKdFWMLGHN9P6J83yu92ngvN1VcOa0+4D2q58gcks2P1RSwt2BZcD
-	 YifGv0I9oBVuA==
-Date: Wed, 11 May 2022 13:50:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, alexandre.torgue@foss.st.com,
-	calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	joabreu@synopsys.com, krzysztof.kozlowski+dt@linaro.org,
-	kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk,
-	pabeni@redhat.com, peppe.cavallaro@st.com, robh+dt@kernel.org,
-	samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/6] dt-bindings: net: Add documentation for phy-supply
-Message-ID: <YnuxM3StiTuLMBux@sirena.org.uk>
-References: <20220509074857.195302-1-clabbe@baylibre.com>
- <20220509074857.195302-4-clabbe@baylibre.com>
- <YnkGV8DyTlCuT92R@lunn.ch>
- <YnkWl+xYCX8r9DE7@Red>
- <Ynk7L07VH/RFVzl6@lunn.ch>
- <Ynk9ccoVh32Deg45@sirena.org.uk>
- <YnlDbbegQ1IbbaHy@lunn.ch>
- <YnlHwpiow9Flgzas@sirena.org.uk>
- <YnttssHyCf8PJJev@Red>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BFE3207
+	for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 20:02:17 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id z19so3810753edx.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 13:02:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kjm5oS3T2QJVIaXZ5HMZbY1xpEdNpJDDRAUvlhwNL3U=;
+        b=fWLBtbzzyS2l1AlhhPCQYPbP0/60RK4VuD7QGsdqBsun6IeBZ6VTM5h24bDkrGOSlr
+         lJrBNXdfN4rJXa0yKhXjdEDaWxrDgdI+4G6soL2J+jOZwz5Lt4asExh7ji6syOUh5fWD
+         P0ir99Ci4OoyAGJJMxErxke1NVt3tUuzD3aebDWaj+AvgZ/K3vWFcd/hx9riGmx5F9B9
+         ufNribfsGhluK6DJsCdb6FE9NZ0Er3WFJ24uFmDoZspty1JQS0h8vT3l8gfltWEbh43v
+         hQfndi/TW5GFxdS1q0BmyH7oXU7DR++pXUHbOd2HGgYgqLMfgYdph9MCybFMPiD5Oys/
+         YMhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kjm5oS3T2QJVIaXZ5HMZbY1xpEdNpJDDRAUvlhwNL3U=;
+        b=ihdKzfwpplsj69m/daMTUO7E6GXxMWqutcvtphzGM7SF+5GiHoXhRGog8iJJs2Mzse
+         6hee9zGoDZ+DvUzJAElXVhKlgJrxHw9kZQHShRuu1c9eZvklKpxoubSVzZynaKhfphqv
+         8u2m1T54gspeWjb1t8VHvyIsuHi6JzE26+QzFRel42CJN+bwXi265G8WqnmQpxVImWmV
+         U1tHCpOeuZA9ofrONLgnhns9YlA2s7DulRvXBz0qzXO+Q1CGhLugi0op9FQitoKbZj8k
+         aSkzE3Hdqi/nsd/KipTVncocbKKj9mxgmP/rY1mJ4kr6FT3DDIGK6hnfSICyJck03GFq
+         W0Cw==
+X-Gm-Message-State: AOAM5339lUiNey9ebUos6bCw5as3ff/XTd1UH4PyiFnrvMLvOKGkme4c
+	MVvRih9J2apFAkLmTb45pEg=
+X-Google-Smtp-Source: ABdhPJwuzCry90j1P+q2DVpYYiCsCxEejAfdbC7nAd7VZk2GginTD4rVQkbU+m7YqZcYCq5h35e5fg==
+X-Received: by 2002:a05:6402:d0e:b0:413:3d99:f2d6 with SMTP id eb14-20020a0564020d0e00b004133d99f2d6mr31504260edb.189.1652299335444;
+        Wed, 11 May 2022 13:02:15 -0700 (PDT)
+Received: from kista.localdomain (cpe1-3-76.cable.triera.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id s8-20020a170906060800b006f3ef214e0esm1347602ejb.116.2022.05.11.13.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 May 2022 13:02:14 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mturquette@baylibre.com,
+	sboyd@kernel.org,
+	a.zummo@towertech.it,
+	alexandre.belloni@bootlin.com
+Cc: wens@csie.org,
+	samuel@sholland.org,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-rtc@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] Revert "clk: sunxi-ng: sun6i-rtc: Add support for H6"
+Date: Wed, 11 May 2022 22:02:06 +0200
+Message-Id: <20220511200206.2458274-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sbRn3mnJQka7KUAO"
-Content-Disposition: inline
-In-Reply-To: <YnttssHyCf8PJJev@Red>
-X-Cookie: Look ere ye leap.
+Content-Transfer-Encoding: 8bit
 
+This reverts commit 1738890a3165ccd0da98ebd3e2d5f9b230d5afa8.
 
---sbRn3mnJQka7KUAO
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Commit 1738890a3165 ("clk: sunxi-ng: sun6i-rtc: Add support for H6")
+breaks HDMI output on Tanix TX6 mini board. Exact reason isn't known,
+but because that commit doesn't actually improve anything, let's just
+revert it.
 
-On Wed, May 11, 2022 at 10:02:58AM +0200, LABBE Corentin wrote:
-> Le Mon, May 09, 2022 at 05:56:34PM +0100, Mark Brown a =E9crit :
+Cc: stable@vger.kernel.org
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/clk/sunxi-ng/ccu-sun6i-rtc.c | 15 ---------------
+ drivers/rtc/rtc-sun6i.c              | 17 +++++++++++++++++
+ 2 files changed, 17 insertions(+), 15 deletions(-)
 
-> > as part of the bus.  You'd need to extend the regulator bindings to
-> > support parallel array of phandles and array of names properties like
-> > clocks have as an option like you were asking for, which would doubtless
-> > be fun for validation but is probably the thing here.
+diff --git a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+index 2f3ddc908ebd..d65398497d5f 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
++++ b/drivers/clk/sunxi-ng/ccu-sun6i-rtc.c
+@@ -298,10 +298,6 @@ static const struct sunxi_ccu_desc sun6i_rtc_ccu_desc = {
+ 	.hw_clks	= &sun6i_rtc_ccu_hw_clks,
+ };
+ 
+-static const struct clk_parent_data sun50i_h6_osc32k_fanout_parents[] = {
+-	{ .hw = &osc32k_clk.common.hw },
+-};
+-
+ static const struct clk_parent_data sun50i_h616_osc32k_fanout_parents[] = {
+ 	{ .hw = &osc32k_clk.common.hw },
+ 	{ .fw_name = "pll-32k" },
+@@ -314,13 +310,6 @@ static const struct clk_parent_data sun50i_r329_osc32k_fanout_parents[] = {
+ 	{ .hw = &osc24M_32k_clk.common.hw }
+ };
+ 
+-static const struct sun6i_rtc_match_data sun50i_h6_rtc_ccu_data = {
+-	.have_ext_osc32k	= true,
+-	.have_iosc_calibration	= true,
+-	.osc32k_fanout_parents	= sun50i_h6_osc32k_fanout_parents,
+-	.osc32k_fanout_nparents	= ARRAY_SIZE(sun50i_h6_osc32k_fanout_parents),
+-};
+-
+ static const struct sun6i_rtc_match_data sun50i_h616_rtc_ccu_data = {
+ 	.have_iosc_calibration	= true,
+ 	.rtc_32k_single_parent	= true,
+@@ -335,10 +324,6 @@ static const struct sun6i_rtc_match_data sun50i_r329_rtc_ccu_data = {
+ };
+ 
+ static const struct of_device_id sun6i_rtc_ccu_match[] = {
+-	{
+-		.compatible	= "allwinner,sun50i-h6-rtc",
+-		.data		= &sun50i_h6_rtc_ccu_data,
+-	},
+ 	{
+ 		.compatible	= "allwinner,sun50i-h616-rtc",
+ 		.data		= &sun50i_h616_rtc_ccu_data,
+diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+index 5b3e4da63406..5252ce4cbda4 100644
+--- a/drivers/rtc/rtc-sun6i.c
++++ b/drivers/rtc/rtc-sun6i.c
+@@ -370,6 +370,23 @@ CLK_OF_DECLARE_DRIVER(sun8i_h3_rtc_clk, "allwinner,sun8i-h3-rtc",
+ CLK_OF_DECLARE_DRIVER(sun50i_h5_rtc_clk, "allwinner,sun50i-h5-rtc",
+ 		      sun8i_h3_rtc_clk_init);
+ 
++static const struct sun6i_rtc_clk_data sun50i_h6_rtc_data = {
++	.rc_osc_rate = 16000000,
++	.fixed_prescaler = 32,
++	.has_prescaler = 1,
++	.has_out_clk = 1,
++	.export_iosc = 1,
++	.has_losc_en = 1,
++	.has_auto_swt = 1,
++};
++
++static void __init sun50i_h6_rtc_clk_init(struct device_node *node)
++{
++	sun6i_rtc_clk_init(node, &sun50i_h6_rtc_data);
++}
++CLK_OF_DECLARE_DRIVER(sun50i_h6_rtc_clk, "allwinner,sun50i-h6-rtc",
++		      sun50i_h6_rtc_clk_init);
++
+ /*
+  * The R40 user manual is self-conflicting on whether the prescaler is
+  * fixed or configurable. The clock diagram shows it as fixed, but there
+-- 
+2.36.1
 
-> Does you mean something like this:
-
-=2E..
-
-> And then for our case, a regulator_get_bulk will be needed.
-> Does I well understood what you mean ?
-
-Yes.
-
---sbRn3mnJQka7KUAO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmJ7sTIACgkQJNaLcl1U
-h9CLDAf/WwjQBtzQ6Tt2Pi241jQ9Fv3CvwrQ+/Xb1dJ1V/872V1Ymq99YP0tS7CZ
-LM1m2NWTzuDilJpzAfvyQX5QKp1OnRhT3qgz9Aer6r5zLJmTIByrlCMFlbrn6Q7V
-OkjdV+G0cPYJQdezzzG4OKC24aGBvP/l7eKp1ZBe4sidLGLU6O6d5Hs4WUjgbMXQ
-WGfqSNOR3Cyu+2qA/eDxt+sI8FWdu1zgNWifjYmhbuAgIuOW+fYOJS8atZtZFDQk
-fFTABew0eD/hrBORWPLRpd0BOELQss8jC+TE8l8E83vG1Crl9BAhXoCMDRNk9+2g
-X6a9mbgqEG0AaM1Ct57gLDsTU0mMKg==
-=Nt6t
------END PGP SIGNATURE-----
-
---sbRn3mnJQka7KUAO--
