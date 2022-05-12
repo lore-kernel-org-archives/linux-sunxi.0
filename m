@@ -1,67 +1,143 @@
-Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0541517D2
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 06:23:05 +0000 (UTC)
+Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDEC917EB
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 07:19:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=rhTME
-	NYSOsfI37FnghuXHxFoK+Ars+jOQTa9yaXuOxs=; b=eiqZCGRM9VBFw9tZNbSX8
-	JOIN4cqZ2ifVSM1VYGY+nbxBerFd0SXYdWsmnimlAfIXl4ksZJZcweuSM1P8jTsT
-	bNUmRYgjys0dQjrJoJhlbTq4XK5FkXkScKOD9ubt2doiAlR57+2aUobiFYAqmgmb
-	Xcm+Dtw5tAVLaNEQcVqgMI=
-Received: from [192.168.3.102] (unknown [218.201.129.19])
-	by smtp7 (Coremail) with SMTP id C8CowACXlHmpp3xit+KCCA--.5483S2;
-	Thu, 12 May 2022 14:22:34 +0800 (CST)
-Message-ID: <4e5a263d-462b-b17a-d4c2-2b8b02faa589@163.com>
-Date: Thu, 12 May 2022 14:22:33 +0800
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=NROcH
+	46QTP7r22AZhwCyQpzWGpCpKihEyG7MRmlO5rI=; b=owRHhQwYs+ntE37SNQhOY
+	+PcIEtmES+TZEn10QnTeKALl3p8DvYgdxv46uT2PXHfRt9URENyapa8wKyPADzz/
+	c5AoKHeHkZdTN1pthyp4HLYW99T/nLCwHaMdqi/++lBtO5vj13yAGj2/Z1DodT+7
+	l2rcHz8nW/7sfZCoK+tBYY=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+	by smtp13 (Coremail) with SMTP id EcCowACHoI3ptHxiu+ySCA--.8205S2;
+	Thu, 12 May 2022 15:19:06 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v3 1/2] ARM: dts: sun8i-r40: add opp table for cpu
+Date: Thu, 12 May 2022 15:18:57 +0800
+Message-Id: <20220512071858.10805-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v2] drivers: cpufreq: sun8i-r40: Add cpufreq support
-Content-Language: en-US
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- "Rafael J . Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20220510003611.1812-1-qianfanguijin@163.com>
- <1902551.yKVeVyVuyW@kista> <01c2c11f-71fd-b735-b935-109865d62de5@163.com>
- <20220512045838.tvixosxbey5ksp6j@vireshk-i7>
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <20220512045838.tvixosxbey5ksp6j@vireshk-i7>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:C8CowACXlHmpp3xit+KCCA--.5483S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWrKF4DCw4xJFykuF43Cr1UAwb_yoW3CFc_Gr
-	Z8Zry0y392qF1rtayfKrn7G39rGa9rCrWUAryrJFs3t3yFva45XayDCa1qqa4UKw409F9r
-	Xw1Yyr4UWFZ09jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjiFxUUUUUU==
+X-CM-TRANSID:EcCowACHoI3ptHxiu+ySCA--.8205S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uw47XryfXF4UZw4fGw1ftFb_yoW8tFW5pr
+	4UKayYkF4fWr129wnIqr18tFyrCa9Y9F45Jr9rC3y8t34FqryDtr9rtry3K3yDXr47X3yS
+	qr4aqryUKw1DA3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR0JmUUUUUU=
 X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGgr+7VaEBicASAAAs4
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGhP+7VaEBigVVQABsn
 
+From: qianfan Zhao <qianfanguijin@163.com>
 
+OPP table value is get from allwinner lichee linux-3.10 kernel driver
 
-在 2022/5/12 12:58, Viresh Kumar 写道:
-> On 12-05-22, 12:34, qianfan wrote:
->> Actually I'm not make sure the difference, seems both of them can work.
->> Most of allwinner device_id is added in allowlist, so I did this.
-> For OPP V1 the cpufreq device isn't created by default and hence the allowlist
-> allows us to know the devices for which the device shall be created.
->
-> For OPP V2, we have the compatible string available and with help of that we
-> create a device without need of any entry to any list. The blocklist however
-> allows us to skip creating the device for some platforms, which don't want it.
->
-> As your case is opp-v2 and you want the device, you aren't required to add entry
-> anywhere.
-I read the source code again and understand the behaivors.
-And I will it from allowlist.
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+Changes in v3:
+- remove "allwinner-r40" compatible from allowlist.
+- split dts in two part.
 
-Thanks
->
+ arch/arm/boot/dts/sun8i-r40.dtsi | 47 ++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 291f4784e86c..90de119095fa 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -54,6 +54,41 @@ / {
+ 	#size-cells = <1>;
+ 	interrupt-parent = <&gic>;
+ 
++	cpu0_opp_table: opp_table0 {
++		compatible = "operating-points-v2";
++		opp-shared;
++
++		opp-720000000 {
++			opp-hz = /bits/ 64 <720000000>;
++			opp-microvolt = <1000000 1000000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-912000000 {
++			opp-hz = /bits/ 64 <912000000>;
++			opp-microvolt = <1100000 1100000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1008000000 {
++			opp-hz = /bits/ 64 <1008000000>;
++			opp-microvolt = <1160000 1160000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1104000000 {
++			opp-hz = /bits/ 64 <1104000000>;
++			opp-microvolt = <1240000 1240000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1200000000 {
++			opp-hz = /bits/ 64 <1200000000>;
++			opp-microvolt = <1300000 1300000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++	};
++
+ 	clocks {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+@@ -84,24 +119,36 @@ cpu0: cpu@0 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <0>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu1: cpu@1 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <1>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu2: cpu@2 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <2>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 
+ 		cpu3: cpu@3 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <3>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
++			operating-points-v2 = <&cpu0_opp_table>;
+ 		};
+ 	};
+ 
+-- 
+2.25.1
 
