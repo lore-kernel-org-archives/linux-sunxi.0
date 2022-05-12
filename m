@@ -1,79 +1,67 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68EA217D2
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 04:58:42 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id 137so3587678pgb.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 11 May 2022 21:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ErqlXMxsgK7yCFG6lNBZLZgbpPk48RSq5t5z+i3RrBY=;
-        b=I4HSGvVZpiJju4H5OMsPtbA9DtO2CjqO3h2k5csWGcyqeF8BYuFBqauOvVXGzfpyQR
-         wUEwkFzQuJ4hJ8AucFlc8BXxlDLZ9PI08MzJ90z/qYWVRp37p1PgMElypW5Ja8uE6eD2
-         G2DA5GKpAntnvoUiwb1jDKaOPVwjKGIiSinGZ1RBUF8sNRPLen4KhhAa9tL7KE+rub0t
-         rtlVg8f5+3AKxWZudYt8xKNMg9GTIwMqWFnD8EkCuWg2O2nSfQeRxECNDSHbKRGf6yHw
-         vRjQePoqwsncI/OKKErD4V8LyxpUHNQPuVL56493v0nqdhuatkKr1QIrlx92/ctFMXy5
-         kxEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ErqlXMxsgK7yCFG6lNBZLZgbpPk48RSq5t5z+i3RrBY=;
-        b=zQy5olNNnJlWsGiZgcba+vK3TdxiQr7nTs7dleGP/kSOKmy8+PZl8A9gWYyemG+5NL
-         jjyx8omw9/Zm4LDYooEFoDzU2Sfbxos4//uZ3fxS649aqNXLs7wbQN03LMrZsvqI80JH
-         SCKDiZJNcQQyrFchbe08hIXwsphL9f4/lp86AYLrbgP9AqFz+rqF2LyMbCB5UMR+f7Pv
-         rFinKkQLwKdla4U2OUhSFwpGRKOumcxrDoAaJUWkJVc1AenV/ZXQwlBH3MQ5jQpFRMN8
-         zVeWtlUedRfYeBaE1iQZsLqluMMYOVRUs6UBj3PhEiOz7I4ZNkgFFOg9r49vOCa+bENs
-         FysQ==
-X-Gm-Message-State: AOAM532Dc981ifN0M1TudgeG1X1UAiCaQSOjPig9Biq7+luXcGYYowFE
-	B4C/g1HJf4nlY7tCHlYoB2S+Fg==
-X-Google-Smtp-Source: ABdhPJxSWG6Ni3heLb0dW/eT5ONTwV8LPdGJoxslPRH7AXjlht+Ss33xUfIjA6l/N0Sz/GmoxMk5Kg==
-X-Received: by 2002:a63:91c2:0:b0:3c6:24ac:9246 with SMTP id l185-20020a6391c2000000b003c624ac9246mr23842185pge.298.1652331521807;
-        Wed, 11 May 2022 21:58:41 -0700 (PDT)
-Received: from localhost ([122.162.234.2])
-        by smtp.gmail.com with ESMTPSA id o23-20020a17090a5b1700b001d94c194a67sm830528pji.18.2022.05.11.21.58.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 May 2022 21:58:40 -0700 (PDT)
-Date: Thu, 12 May 2022 10:28:38 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: qianfan <qianfanguijin@163.com>
-Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2] drivers: cpufreq: sun8i-r40: Add cpufreq support
-Message-ID: <20220512045838.tvixosxbey5ksp6j@vireshk-i7>
-References: <20220510003611.1812-1-qianfanguijin@163.com>
- <1902551.yKVeVyVuyW@kista>
- <01c2c11f-71fd-b735-b935-109865d62de5@163.com>
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0541517D2
+	for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 06:23:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=rhTME
+	NYSOsfI37FnghuXHxFoK+Ars+jOQTa9yaXuOxs=; b=eiqZCGRM9VBFw9tZNbSX8
+	JOIN4cqZ2ifVSM1VYGY+nbxBerFd0SXYdWsmnimlAfIXl4ksZJZcweuSM1P8jTsT
+	bNUmRYgjys0dQjrJoJhlbTq4XK5FkXkScKOD9ubt2doiAlR57+2aUobiFYAqmgmb
+	Xcm+Dtw5tAVLaNEQcVqgMI=
+Received: from [192.168.3.102] (unknown [218.201.129.19])
+	by smtp7 (Coremail) with SMTP id C8CowACXlHmpp3xit+KCCA--.5483S2;
+	Thu, 12 May 2022 14:22:34 +0800 (CST)
+Message-ID: <4e5a263d-462b-b17a-d4c2-2b8b02faa589@163.com>
+Date: Thu, 12 May 2022 14:22:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <01c2c11f-71fd-b735-b935-109865d62de5@163.com>
-User-Agent: NeoMutt/20180716-391-311a52
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v2] drivers: cpufreq: sun8i-r40: Add cpufreq support
+Content-Language: en-US
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+References: <20220510003611.1812-1-qianfanguijin@163.com>
+ <1902551.yKVeVyVuyW@kista> <01c2c11f-71fd-b735-b935-109865d62de5@163.com>
+ <20220512045838.tvixosxbey5ksp6j@vireshk-i7>
+From: qianfan <qianfanguijin@163.com>
+In-Reply-To: <20220512045838.tvixosxbey5ksp6j@vireshk-i7>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:C8CowACXlHmpp3xit+KCCA--.5483S2
+X-Coremail-Antispam: 1Uf129KBjvdXoWrKF4DCw4xJFykuF43Cr1UAwb_yoW3CFc_Gr
+	Z8Zry0y392qF1rtayfKrn7G39rGa9rCrWUAryrJFs3t3yFva45XayDCa1qqa4UKw409F9r
+	Xw1Yyr4UWFZ09jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjiFxUUUUUU==
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGgr+7VaEBicASAAAs4
 
-On 12-05-22, 12:34, qianfan wrote:
-> Actually I'm not make sure the difference, seems both of them can work.
-> Most of allwinner device_id is added in allowlist, so I did this.
 
-For OPP V1 the cpufreq device isn't created by default and hence the allowlist
-allows us to know the devices for which the device shall be created.
 
-For OPP V2, we have the compatible string available and with help of that we
-create a device without need of any entry to any list. The blocklist however
-allows us to skip creating the device for some platforms, which don't want it.
+在 2022/5/12 12:58, Viresh Kumar 写道:
+> On 12-05-22, 12:34, qianfan wrote:
+>> Actually I'm not make sure the difference, seems both of them can work.
+>> Most of allwinner device_id is added in allowlist, so I did this.
+> For OPP V1 the cpufreq device isn't created by default and hence the allowlist
+> allows us to know the devices for which the device shall be created.
+>
+> For OPP V2, we have the compatible string available and with help of that we
+> create a device without need of any entry to any list. The blocklist however
+> allows us to skip creating the device for some platforms, which don't want it.
+>
+> As your case is opp-v2 and you want the device, you aren't required to add entry
+> anywhere.
+I read the source code again and understand the behaivors.
+And I will it from allowlist.
 
-As your case is opp-v2 and you want the device, you aren't required to add entry
-anywhere.
+Thanks
+>
 
--- 
-viresh
