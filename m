@@ -1,74 +1,65 @@
 Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81624256E
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 23:05:51 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2fb965b34easo104749737b3.1
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 16:05:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94DE256E
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 23:07:54 +0000 (UTC)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2f7ca2ce255so104328807b3.7
+        for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 16:07:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=20vdP+atjEjZhs5yJgS5YKDTDHHJ9Ifpl/sT0aKWLY4=;
-        b=m+j5i6KqT3vzPFbJFYRsLAjZL1f88dlKxieE3PyBGCRC5fENmJJq5KL2nwLE+r4Usw
-         KFU7MTr/YV0/GCVcSi6w+xvuXb4gnpZ6SXGuf1Ppm5u5OJlH4kX9wKcf6IAB3YynBhim
-         7OuzeTVgvAzbEH9fewdjbBloKzSJ4LgUH4CBq6p3wmNP5GBm7Vt8rmfgdME13K0FXdv/
-         oYbDGxVyEdZB4BhihJn3sDaggnAt6GJrbMySkcjanP2zYDs/y5+SAoTWiq2lwZZI8RzF
-         YQXvOQi8vTjCWZiERQclgs63hI+tBqKjlZQ1xnnIyIe53ADFoMbIielktYi+PZjOPOn4
-         9ZEA==
+        bh=F7uNyZJ7+TaNFG3LYzAbirMUD+cjGo4bEKu9OQaTJA8=;
+        b=msCzsb/XZaRHLnQR6GjwcKV7ZJ3DYbEc7CYntbliyw6VjYYY7ixw7AiFHlZc+Izklx
+         pNNAMlyE+5PV13PbB7jKYFvxB9r8kxvMWHC7IoQkThlDpqFVfk+LPgrWw0FBBkM/t99C
+         KU7eNn1q9NSsBiTOHDn3f9dxpcfd3Ri3OjeQuWvRrfUGvWjCUxq7X7rA7vZfF1S2XcO1
+         bllctmzwXS+eXeeFXfvmj3iAb98agIlf6kdbiudB+qDcRPYXk+eVZPM92yi/KzDdhNUz
+         sZ5w3ACTEtFfU85v08p7uXQEJTm63XmgwBP+zuQqOLqQmO2fVssF3A088F299XI4Y3Ob
+         jlqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=20vdP+atjEjZhs5yJgS5YKDTDHHJ9Ifpl/sT0aKWLY4=;
-        b=lPiZZJHysULfJw5zXTI8vc/mDqdDjSKWBlyqta68oT2LiqPoEYRwaOtFQiQ5NUj1Cx
-         VlWm8i1KmdxKW6kvWTYGa6kihaPtxu88vDaCLtX5jdWRXtMkFRcvI/G4et/hSPEE7aQu
-         zRYAKJazebbnnDCOoSVN8SHow+qb/BLYXcl9sDsS2PT5fqUmZrxEQGtgykMb0olByxeW
-         IXgXpBRp9fpp2bGS9e1p2HgTgWbtNF6WYg6KfRAo0nQ0t48YSu29NsewtK9gjWD1FDJt
-         iVyFFnsAob9+UY4V2Fo6gIttFzIzoDRe1mfnJ1bHepLZkJV3BBqBW3p8HEldy8mwexLM
-         tIBA==
-X-Gm-Message-State: AOAM530zkHPioYmMSs3pSW0kY7gXeP0Fc/U5X8sQ0mPwJIPIp+5FV0y7
-	+7F6rc8up+kBJepwaycGXLWwvAT2GEqzsll69zIE+Q==
-X-Google-Smtp-Source: ABdhPJwg1gn4vyXSCAsXn7nzUnuz1q4FEzRjyuG4DMDgINbyOAJx6cpdY0REFXSha0pTwtIuBOdhvRVhGfAgD/v8v0k=
-X-Received: by 2002:a0d:e612:0:b0:2fb:103f:4067 with SMTP id
- p18-20020a0de612000000b002fb103f4067mr8515792ywe.151.1652483150531; Fri, 13
- May 2022 16:05:50 -0700 (PDT)
+        bh=F7uNyZJ7+TaNFG3LYzAbirMUD+cjGo4bEKu9OQaTJA8=;
+        b=C5vU7ZczV7gGlpQdSKYIly47ltkgYyK5l/oTKIkWSPQzRnVPT4s3LpgVpH3TXnxcHf
+         iPme8L4D5XK7xGFK0UgNRZW4kmNqEaIQ2dpEWIt1ApYag7lCZLo+nCNzjFFjxj7gkQ54
+         tKpn74H66YOG3P5+uNAOxInUii4Yi07ihEjPIAbU6BuL5VZHGHSbkqS/UnK5bITXzF5J
+         Yqfmt21m3SxzakFm/P6Fvzun9/cOQN2rNmxOwihJTS+gyBpcAtHiHesLNAz5VBFDWWgs
+         FVJ2MqSm3qXtrqUeTorTkVStFd/VV8EbBHm6W3Vkcu4j0TnqhcO0/0nMHXn36RTSvTDY
+         OUaw==
+X-Gm-Message-State: AOAM531F/EcltchKmdnMljsypr8HTxkFBsgNmeT/NmZM1skEqJBGQrYV
+	SER5reFL14ZEl2N/JFY9mzAXNPZB+2VZumj/1exCZw==
+X-Google-Smtp-Source: ABdhPJzJXhLBhVXucPYDWCcm2l1jbUwOBPd9BYGwOe67dxsApMiUe8q6RhiHgCi8xsJpw1EECBr0rLgKTXHMAPnkv0s=
+X-Received: by 2002:a81:2154:0:b0:2f4:d79e:35dc with SMTP id
+ h81-20020a812154000000b002f4d79e35dcmr8773559ywh.126.1652483273949; Fri, 13
+ May 2022 16:07:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
-In-Reply-To: <tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com>
+References: <20220504170736.2669595-1-andre.przywara@arm.com>
+In-Reply-To: <20220504170736.2669595-1-andre.przywara@arm.com>
 From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 14 May 2022 01:05:39 +0200
-Message-ID: <CACRpkda2AEVf__6neYPOddnjL1=Www=HoHvyNzcBvjua7GeVQg@mail.gmail.com>
-Subject: Re: [PATCH] arm: sunxi: fix f1c100s pinctrl function.
-To: IotaHydrae <writeforever@foxmail.com>
+Date: Sat, 14 May 2022 01:07:42 +0200
+Message-ID: <CACRpkdZiJqGK5NRCSWMuFBFRHOrCWyqGmuBQZ9jyvxbcsjZsgA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: f1c100s: Fix signal name comment for PA2
+ SPI pin
+To: Andre Przywara <andre.przywara@arm.com>
 Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
+	Samuel Holland <samuel@sholland.org>, writeforever@foxmail.com, linux-gpio@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 4, 2022 at 1:59 PM IotaHydrae <writeforever@foxmail.com> wrote:
+On Wed, May 4, 2022 at 7:07 PM Andre Przywara <andre.przywara@arm.com> wrote:
 
-> 1. change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
+> The manual describes function 0x6 of pin PA2 as "SPI1_CLK", so change
+> the comment to reflect that.
 >
-> When the pin PD13 and PD14 is setting up to uart2 function in dts,
-> there's an error occurred:
-> 1c20800.pinctrl: unsupported function uart2 on pin PD14
->
-> Because 'uart2' is not any one multiplexing option of PD14,
-> and pinctrl don't know how to configure it.
->
-> So change the pin PD14 lvds1 function to uart2.
->
-> Signed-off-by: IotaHydrae <writeforever@foxmail.com>
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Thanks, fixed up the subject as indicated by Andre
-and applied.
+Patch applied, thanks Andre!
 
 Yours,
 Linus Walleij
