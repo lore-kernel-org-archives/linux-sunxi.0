@@ -1,79 +1,139 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E6A17EB
-	for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 07:29:22 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id cq17-20020a17090af99100b001dc0386cd8fso4110113pjb.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 12 May 2022 00:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=P5HUXEPOvBMLE8fEsuwCBiB+Q1qgQLDGbaTHhCwoMe8=;
-        b=o5Z5fV0XV36DZH9ayGrfnl8qVxiWuzspeT5gnxwUrHidCaa+tEthe7DF0xG8IhHRnH
-         jbDAxfFA+vFhlKs8TliSi7SNZQNw2cTItQSYVMabTBsOE6/aN6wtu6u+mpUqn1RUfgFS
-         979KmVpZazbdbBvOVinimrA1IoyyO+lowJnL5WpIoDN5cmF9z5vmc7Jz2eFRtDEzfp1t
-         L6pxr8VVt02arwTG33X8AwuJImwvj+620Bi8T9JcN48MEr0bxM6TEj/nyvTI7cyJECCb
-         HGuduVAUgYq1F7DQagX3YRgMoRXkXQdgYIQV7Tk+BeX4HJfnPiCxdaRg2lMuW7zN3U8C
-         Sl5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=P5HUXEPOvBMLE8fEsuwCBiB+Q1qgQLDGbaTHhCwoMe8=;
-        b=567fDoPTtgF4sP0ecHALKJK29PZhpSeBGF4hkv78Lg/KAZiDK5KaECN38GjH0xeuqM
-         oz3b5A7VB924uscVcssegZdTKUzFYJqJRLNJNH0FuYmWsbH5Q4wPtVZ84D8+4PFxVaUR
-         mlqVy7KtbL05idf9M1AZZ5M3KOAzI60P70RtcdkjvN+nYFaSx0YK8vAV0qvBZw7oxycv
-         Ok7+B8M6DDaTY2J/mN+7VrNw6PNyY0MmjDJcbjfKO/PWA9H+k6gMOiC6kKhHBjVS22t3
-         W/xjpWGAGI8g2a8V9ZqEq1obOPjT4tKw2syO173Cj03KCqXOk4z5Q6ZEoz5z+wKoQ1kV
-         I6Bw==
-X-Gm-Message-State: AOAM533hkS6hoPMn8cYb2MYuMU34zvu54bF1wSE97yWg1EuqK1kjZHSc
-	kpfUHjmRqUJuLQmXCnbizK3+0g==
-X-Google-Smtp-Source: ABdhPJypLn7YyngE6rmboJLB85iyymD1k6g9lMwHwVnR3EpfOxbp8POTUSTQMDHng1V/ia/kWWRoKA==
-X-Received: by 2002:a17:902:b189:b0:15f:3f5e:b61 with SMTP id s9-20020a170902b18900b0015f3f5e0b61mr3417397plr.49.1652340562190;
-        Thu, 12 May 2022 00:29:22 -0700 (PDT)
-Received: from localhost ([122.162.234.2])
-        by smtp.gmail.com with ESMTPSA id w6-20020a170902d3c600b0015e8d4eb2b0sm3139958plb.250.2022.05.12.00.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 May 2022 00:29:21 -0700 (PDT)
-Date: Thu, 12 May 2022 12:59:19 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D806B2100
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 07:38:52 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id AA0715C0262;
+	Fri, 13 May 2022 03:38:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Fri, 13 May 2022 03:38:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1652427531; x=1652513931; bh=KRAvyTFS43
+	NeTMqUA+krLdjjMY0SMM08oC6POjRC5tw=; b=H7MRj1BdzojzgarfxGnFmUE9EJ
+	5GPYHMvfs5ELhY4gxaYlae4gFn58ONndv6Lwcl9wMa04DpAUA0dpfRnMHnM0bKGb
+	YG4btr2ewrrM2ktAE3QqsZKi1l7aPRv77Mfa+iVhy4snG41DV0mPOKbiWl85s4C9
+	ClK+gR2aFc1QYN5+RM9G7PceuZuhx5Luw81WWG1kH0nH4w3Xd6lfhy33v48C5Ueb
+	vAAwWhzAzuUNz4Buejh7/S/0Wuxd65VQYXnm49Ljo11SAM1K5DOIgzifIiIdDc+t
+	1tdubXSlgJh+lYWmL8IaO1+ZPMaKA1Koq3/1LWjjlFBH5UMhdxjunuj7NoWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652427531; x=
+	1652513931; bh=KRAvyTFS43NeTMqUA+krLdjjMY0SMM08oC6POjRC5tw=; b=z
+	Zk22c954gzlfH/u3ebLq8E6alYN6onbXCZZGApZVuSr9K0YmgJ/sR4RlkpN6Jkjp
+	TC3VRapOhTomdAiuIMUnNI8f92uwxoYHrqufojwQxKC6n9T92TqhZmCftvWBoeb6
+	C9M/PtD9i62fZxyIcXo/LdQwszXBJwQmTvIrMOmXWDwaC5CPB56k7zknP+A0zFW/
+	z/HrcclFwOlJx7N31AmZ1aBBW8EQywDtbb6VJBwWv7UZDIE90+Fi2WH3luHaxmyC
+	Ap/pHxgMczFZDT4Q4cg+TVbiYKCiI9nop3eo3/l+Ggp55gYrCXoFWwByHIklrgAE
+	PmLAZeLvPna+r9soNvMSA==
+X-ME-Sender: <xms:Cgt-Yv5bqAO52TAaGlqIzAbr7UU0h_qOduojqL8DtnkQv47f7UdLGQ>
+    <xme:Cgt-Yk57cytgvkYWESMirvK-XMZ99xSLstGMXAU1ycXhAcAWgRDusaqMmDCQeYg7L
+    vHy18eIgP5-8ZyPVs8>
+X-ME-Received: <xmr:Cgt-YmfsO4jX5PMSg4w7J6PDHKR3XRx_cLirfdJ1DH6kCZwJdjrOJeu22K_wheXfYryZjY8h9_osb91jMd7QXZbV4-PjxuOMaDeLvRU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeekgdduvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:Cgt-YgKev10iIx9fPlZhrDLC50Gi-j_QCgSfsdQzO2pG1jtSfVcLXQ>
+    <xmx:Cgt-YjLXp7RS8wel7-bYKqRjaDl8yJ1RAbOf4WIn9O2-gTu6JkmxRg>
+    <xmx:Cgt-YpwozPXysW0DgrUjRhmHrNqLWX6j3TTAwm98hitsK2sOoXYVMA>
+    <xmx:Cwt-YkVD4MLVTKIHfjJNAQvzI9dtzjLxPgTic8GXy55IdFS-WDtmDQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 May 2022 03:38:50 -0400 (EDT)
+Date: Fri, 13 May 2022 09:38:49 +0200
+From: Maxime Ripard <maxime@cerno.tech>
 To: qianfanguijin@163.com
 Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] ARM: dts: sun8i-r40: add opp table for cpu
-Message-ID: <20220512072919.hkggxbqmovebdych@vireshk-i7>
+	Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
+ sun8i-r40 based board
+Message-ID: <20220513073849.cu4jzykefat2sepg@houat>
 References: <20220512071858.10805-1-qianfanguijin@163.com>
+ <20220512071858.10805-2-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="zxcrkptjti3zcqyl"
+Content-Disposition: inline
+In-Reply-To: <20220512071858.10805-2-qianfanguijin@163.com>
+
+
+--zxcrkptjti3zcqyl
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220512071858.10805-1-qianfanguijin@163.com>
-User-Agent: NeoMutt/20180716-391-311a52
+Content-Transfer-Encoding: quoted-printable
 
-On 12-05-22, 15:18, qianfanguijin@163.com wrote:
+Hi,
+
+On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
 > From: qianfan Zhao <qianfanguijin@163.com>
-> 
-> OPP table value is get from allwinner lichee linux-3.10 kernel driver
-> 
+>=20
+> sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
+> board.
+>=20
 > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
 > ---
-> Changes in v3:
-> - remove "allwinner-r40" compatible from allowlist.
-> - split dts in two part.
-> 
->  arch/arm/boot/dts/sun8i-r40.dtsi | 47 ++++++++++++++++++++++++++++++++
->  1 file changed, 47 insertions(+)
+>  arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
+>  arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
+>  arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
+>  arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
+>  4 files changed, 16 insertions(+)
+>=20
+> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm=
+/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> index a6a1087a0c9b..4f30018ec4a2 100644
+> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> @@ -113,6 +113,10 @@ &ahci {
+>  	status =3D "okay";
+>  };
+> =20
+> +&cpu0 {
+> +	cpu-supply =3D <&reg_dcdc2>;
+> +};
+> +
 
-Both the patches can go via SoC tree now. I will not pick them. Thanks.
+This will break bisection on those boards. Indeed, you added the OPPs on
+the first patch, and if you only apply that patch, the boards in the
+second patch will be missing their CPU regulator. The kernel will then
+ramp up the frequency to the highest OPP, but will not change the
+voltage, resulting in a crash.
 
--- 
-viresh
+There's a similar issue for all the boards that don't have a regulator
+in the first place.
+
+The way we worked around this for the other SoCs is to have a DTSI with
+the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
+and only include that DTSI on boards that have a CPU regulator hooked in.
+
+Maxime
+
+--zxcrkptjti3zcqyl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYn4LCQAKCRDj7w1vZxhR
+xUebAP9qYzZ/IfkEzAu15CJHZ6js7mUi6RdbUoNXxKfPggg5ogD+Ni0yIfCamB1z
+NywiFR5KnVB6qmwQCleCMfl/hditBQs=
+=5Se1
+-----END PGP SIGNATURE-----
+
+--zxcrkptjti3zcqyl--
