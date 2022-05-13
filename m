@@ -1,96 +1,159 @@
-Received: from m12-18.163.com (m12-18.163.com [220.181.12.18])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91EC22100
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 08:04:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=I1PW+
-	UgrxtpOrGKAmIK6mKmMXNBZW3K0uImlgxDg5uk=; b=LomQvD4CK/f2fzw6gLHeW
-	9p3/uY6i69F9rBDSzSdN0wmUuQC5KcOIG+B8yEJtJnxOblL4sgXEghC7MLiUzA2F
-	CaIdcukEgvSzMC0bin2E1nzvRZ2cJFhonh51eyS5wC3KqjjKQ6HVvBxFZraZCjey
-	8QXsvnC3KnjlkrCrYxbGso=
-Received: from [192.168.3.102] (unknown [218.201.129.19])
-	by smtp14 (Coremail) with SMTP id EsCowABnVAViDX5iXlrTCA--.56204S2;
-	Fri, 13 May 2022 15:48:50 +0800 (CST)
-Message-ID: <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
-Date: Fri, 13 May 2022 15:48:50 +0800
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AB012100
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 08:15:59 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id E421B5C00E4;
+	Fri, 13 May 2022 04:15:58 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Fri, 13 May 2022 04:15:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1652429758; x=1652516158; bh=iY9shFm2Us
+	jfmpTTWu209xlXSoo1/kSVXTPhcXMt7H8=; b=uin/nZOFrMN1r3HNuWHmdoGaY3
+	c7FRaFuahQzKICW7+sXgp7uFRCf6nfBbRUC6qoTalXEwERQDkdkm7pagYWNswuw7
+	LNxbo+qZaPwNQWQBe4UD/pa0/5IoQLjJGGqHzdPFS//WrmNObBk5kg4UD8dlWr/s
+	CUslx4dgQvclORi4IeQlr3Tm4oc0WaWGVdI2slV/+YF8x6V1eENUEKYA3bRz57tj
+	TfcECEiFUusehtJwjbUxQEZ4QysRJ8QwJKFP7rykSE9QTWUHG3BQnSQp0xzthQHa
+	HIPmKNxHqkJW23T41yni9Mj06EuRNv+7Z9Kp/JMulYcVeI3Hl95cp7JyPpGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652429758; x=
+	1652516158; bh=iY9shFm2UsjfmpTTWu209xlXSoo1/kSVXTPhcXMt7H8=; b=O
+	txrF9ODGUXG/fJtjc68Vnrim6/M1IT/RwWsCEySKTH8NljzFVFci1v7iph3xmYtx
+	c7sKXNXwSd++avrklkfvgHcZNGjdwzsi6UcGVq/5CEfgB/2mY4mX9q/2FUv1HWU8
+	Pb+GixFh6C3nstMt8eaYFh3ffM3V2T4jLxtW35M8XlDPYU7qPsgYWl9RDaLIJROa
+	CbYlWFlaw8/ZrrQla1EfOUZExY2A4KQrAqq3W4JsJWCDvYA84nBncpI4P8SG6J4D
+	lHFE5GszS0h4kpy+BqfeY3yggQ3BSfZ+fVOTe+Z+WUjIckkNr+CRhkAj990Z6rVW
+	VmsskET9xHuMYMrQYk3IQ==
+X-ME-Sender: <xms:vhN-YnzcTbiG27OA1P756RmfHM36QMyh2GbPglNVLKRCLCEHu2uq0A>
+    <xme:vhN-YvRkhH9BwLlPOx8QRN7jf92VpTobhpxfQWGAqOcBSJtwVHK1MT-rDutm82D40
+    iZNGMiTEMA8MgLv7vU>
+X-ME-Received: <xmr:vhN-YhWMYt7HzFou5fAtMcaZpPf5vdSCxQSEMqfVhuNH40O3fQ5LAhsP1aa20IbPC-ykUDQY-3BD8K9qeErac540TeJirNVivc5-jpc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeelgddtudcutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeegieevvedvgffffedtveeuhfehudevjeeifeegjeevuefhteeklefgveet
+    feffnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+    grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:vhN-YhjvD9iHhT3MCWCWXIOgSYkkmG4VszRZ6srvl6FsfPPn-lFEeQ>
+    <xmx:vhN-YpAh_MXz6ykwmHJo5lKK4dmGhEE0K2HORfkronBnAyiL3aAI0w>
+    <xmx:vhN-YqJGKCQSQn1CNJ2aj9yeVbcZ2iGt7sNu-lIazufNsEwnqS85Iw>
+    <xmx:vhN-YtsF32_EoAfbvgYEHEPNRszMbjIu0XZBBYwB-cSTa1mWk1UzRA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 13 May 2022 04:15:58 -0400 (EDT)
+Date: Fri, 13 May 2022 10:15:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: qianfan <qianfanguijin@163.com>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
+ sun8i-r40 based board
+Message-ID: <20220513081556.knd3tf6pangfblh3@houat>
+References: <20220512071858.10805-1-qianfanguijin@163.com>
+ <20220512071858.10805-2-qianfanguijin@163.com>
+ <20220513073849.cu4jzykefat2sepg@houat>
+ <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
- sun8i-r40 based board
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20220512071858.10805-1-qianfanguijin@163.com>
- <20220512071858.10805-2-qianfanguijin@163.com>
- <20220513073849.cu4jzykefat2sepg@houat>
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <20220513073849.cu4jzykefat2sepg@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:EsCowABnVAViDX5iXlrTCA--.56204S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJr1DZF13AF45KrykXr4Utwb_yoW8Cr4rp3
-	yxuF4DCrs7WF1rKry2grWUJry7AFyrWr4jqF15Gw1rJrn8XF9rtrn3KwnakrZ8Xr4fGw40
-	vrW8ur97Ww4DZa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGQ6XUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbB2AIA7WBHKY57KgAAsm
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ocbjtkvxhxhj7iii"
+Content-Disposition: inline
+In-Reply-To: <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
 
 
+--ocbjtkvxhxhj7iii
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-在 2022/5/13 15:38, Maxime Ripard 写道:
-> Hi,
+On Fri, May 13, 2022 at 03:48:50PM +0800, qianfan wrote:
+>=20
+>=20
+> =E5=9C=A8 2022/5/13 15:38, Maxime Ripard =E5=86=99=E9=81=93:
+> > Hi,
+> >=20
+> > On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
+> > > From: qianfan Zhao <qianfanguijin@163.com>
+> > >=20
+> > > sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
+> > > board.
+> > >=20
+> > > Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+> > > ---
+> > >   arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
+> > >   arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
+> > >   arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
+> > >   arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
+> > >   4 files changed, 16 insertions(+)
+> > >=20
+> > > diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch=
+/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> > > index a6a1087a0c9b..4f30018ec4a2 100644
+> > > --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> > > +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+> > > @@ -113,6 +113,10 @@ &ahci {
+> > >   	status =3D "okay";
+> > >   };
+> > > +&cpu0 {
+> > > +	cpu-supply =3D <&reg_dcdc2>;
+> > > +};
+> > > +
+> > This will break bisection on those boards. Indeed, you added the OPPs on
+> > the first patch, and if you only apply that patch, the boards in the
+> > second patch will be missing their CPU regulator. The kernel will then
+> > ramp up the frequency to the highest OPP, but will not change the
+> > voltage, resulting in a crash.
 >
-> On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
->> From: qianfan Zhao <qianfanguijin@163.com>
->>
->> sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
->> board.
->>
->> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->> ---
->>   arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
->>   arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
->>   arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
->>   arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
->>   4 files changed, 16 insertions(+)
->>
->> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->> index a6a1087a0c9b..4f30018ec4a2 100644
->> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->> @@ -113,6 +113,10 @@ &ahci {
->>   	status = "okay";
->>   };
->>   
->> +&cpu0 {
->> +	cpu-supply = <&reg_dcdc2>;
->> +};
->> +
-> This will break bisection on those boards. Indeed, you added the OPPs on
-> the first patch, and if you only apply that patch, the boards in the
-> second patch will be missing their CPU regulator. The kernel will then
-> ramp up the frequency to the highest OPP, but will not change the
-> voltage, resulting in a crash.
-This is a good point and I will merge those two patch.
->
-> There's a similar issue for all the boards that don't have a regulator
-> in the first place.
->
-> The way we worked around this for the other SoCs is to have a DTSI with
-> the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
-> and only include that DTSI on boards that have a CPU regulator hooked in.
-Is this really necessary? It seems like every board based on sun8i-r40
-have a cpu regulator.
->
-> Maxime
+> This is a good point and I will merge those two patch.
 
+That's not what I meant to say. Those two patches are great separated.
+You can invert them though.
+
+> > There's a similar issue for all the boards that don't have a regulator
+> > in the first place.
+> >=20
+> > The way we worked around this for the other SoCs is to have a DTSI with
+> > the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
+> > and only include that DTSI on boards that have a CPU regulator hooked i=
+n.
+>
+> Is this really necessary? It seems like every board based on sun8i-r40
+> have a cpu regulator.
+
+This probably won't be the case whenever someone starts a new design,
+and then they'll face random crashes for no apparent reason, and waste a
+lot of time in the process.
+
+Whereas the alternative is that you would be missing some OPPs,
+something that is fairly easy to figure out.
+
+Maxime
+
+--ocbjtkvxhxhj7iii
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYn4TvAAKCRDj7w1vZxhR
+xXVzAQCYS/y6GVik1wq99/10xFtsQVwNbQDTafNgKQRW8bpSxwD+Ohmf/aYmi5JZ
+QfgJA4DF5q5bvX0nina8Y7KiVSMVSQ0=
+=x+9H
+-----END PGP SIGNATURE-----
+
+--ocbjtkvxhxhj7iii--
