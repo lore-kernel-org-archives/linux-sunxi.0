@@ -1,139 +1,96 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D806B2100
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 07:38:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id AA0715C0262;
-	Fri, 13 May 2022 03:38:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 13 May 2022 03:38:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1652427531; x=1652513931; bh=KRAvyTFS43
-	NeTMqUA+krLdjjMY0SMM08oC6POjRC5tw=; b=H7MRj1BdzojzgarfxGnFmUE9EJ
-	5GPYHMvfs5ELhY4gxaYlae4gFn58ONndv6Lwcl9wMa04DpAUA0dpfRnMHnM0bKGb
-	YG4btr2ewrrM2ktAE3QqsZKi1l7aPRv77Mfa+iVhy4snG41DV0mPOKbiWl85s4C9
-	ClK+gR2aFc1QYN5+RM9G7PceuZuhx5Luw81WWG1kH0nH4w3Xd6lfhy33v48C5Ueb
-	vAAwWhzAzuUNz4Buejh7/S/0Wuxd65VQYXnm49Ljo11SAM1K5DOIgzifIiIdDc+t
-	1tdubXSlgJh+lYWmL8IaO1+ZPMaKA1Koq3/1LWjjlFBH5UMhdxjunuj7NoWg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1652427531; x=
-	1652513931; bh=KRAvyTFS43NeTMqUA+krLdjjMY0SMM08oC6POjRC5tw=; b=z
-	Zk22c954gzlfH/u3ebLq8E6alYN6onbXCZZGApZVuSr9K0YmgJ/sR4RlkpN6Jkjp
-	TC3VRapOhTomdAiuIMUnNI8f92uwxoYHrqufojwQxKC6n9T92TqhZmCftvWBoeb6
-	C9M/PtD9i62fZxyIcXo/LdQwszXBJwQmTvIrMOmXWDwaC5CPB56k7zknP+A0zFW/
-	z/HrcclFwOlJx7N31AmZ1aBBW8EQywDtbb6VJBwWv7UZDIE90+Fi2WH3luHaxmyC
-	Ap/pHxgMczFZDT4Q4cg+TVbiYKCiI9nop3eo3/l+Ggp55gYrCXoFWwByHIklrgAE
-	PmLAZeLvPna+r9soNvMSA==
-X-ME-Sender: <xms:Cgt-Yv5bqAO52TAaGlqIzAbr7UU0h_qOduojqL8DtnkQv47f7UdLGQ>
-    <xme:Cgt-Yk57cytgvkYWESMirvK-XMZ99xSLstGMXAU1ycXhAcAWgRDusaqMmDCQeYg7L
-    vHy18eIgP5-8ZyPVs8>
-X-ME-Received: <xmr:Cgt-YmfsO4jX5PMSg4w7J6PDHKR3XRx_cLirfdJ1DH6kCZwJdjrOJeu22K_wheXfYryZjY8h9_osb91jMd7QXZbV4-PjxuOMaDeLvRU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrgeekgdduvddtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Cgt-YgKev10iIx9fPlZhrDLC50Gi-j_QCgSfsdQzO2pG1jtSfVcLXQ>
-    <xmx:Cgt-YjLXp7RS8wel7-bYKqRjaDl8yJ1RAbOf4WIn9O2-gTu6JkmxRg>
-    <xmx:Cgt-YpwozPXysW0DgrUjRhmHrNqLWX6j3TTAwm98hitsK2sOoXYVMA>
-    <xmx:Cwt-YkVD4MLVTKIHfjJNAQvzI9dtzjLxPgTic8GXy55IdFS-WDtmDQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 13 May 2022 03:38:50 -0400 (EDT)
-Date: Fri, 13 May 2022 09:38:49 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: qianfanguijin@163.com
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
- sun8i-r40 based board
-Message-ID: <20220513073849.cu4jzykefat2sepg@houat>
-References: <20220512071858.10805-1-qianfanguijin@163.com>
- <20220512071858.10805-2-qianfanguijin@163.com>
+Received: from m12-18.163.com (m12-18.163.com [220.181.12.18])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91EC22100
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 08:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=I1PW+
+	UgrxtpOrGKAmIK6mKmMXNBZW3K0uImlgxDg5uk=; b=LomQvD4CK/f2fzw6gLHeW
+	9p3/uY6i69F9rBDSzSdN0wmUuQC5KcOIG+B8yEJtJnxOblL4sgXEghC7MLiUzA2F
+	CaIdcukEgvSzMC0bin2E1nzvRZ2cJFhonh51eyS5wC3KqjjKQ6HVvBxFZraZCjey
+	8QXsvnC3KnjlkrCrYxbGso=
+Received: from [192.168.3.102] (unknown [218.201.129.19])
+	by smtp14 (Coremail) with SMTP id EsCowABnVAViDX5iXlrTCA--.56204S2;
+	Fri, 13 May 2022 15:48:50 +0800 (CST)
+Message-ID: <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
+Date: Fri, 13 May 2022 15:48:50 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zxcrkptjti3zcqyl"
-Content-Disposition: inline
-In-Reply-To: <20220512071858.10805-2-qianfanguijin@163.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
+ sun8i-r40 based board
+Content-Language: en-US
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-pm@vger.kernel.org
+References: <20220512071858.10805-1-qianfanguijin@163.com>
+ <20220512071858.10805-2-qianfanguijin@163.com>
+ <20220513073849.cu4jzykefat2sepg@houat>
+From: qianfan <qianfanguijin@163.com>
+In-Reply-To: <20220513073849.cu4jzykefat2sepg@houat>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:EsCowABnVAViDX5iXlrTCA--.56204S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr1DZF13AF45KrykXr4Utwb_yoW8Cr4rp3
+	yxuF4DCrs7WF1rKry2grWUJry7AFyrWr4jqF15Gw1rJrn8XF9rtrn3KwnakrZ8Xr4fGw40
+	vrW8ur97Ww4DZa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UGQ6XUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbB2AIA7WBHKY57KgAAsm
 
 
---zxcrkptjti3zcqyl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+在 2022/5/13 15:38, Maxime Ripard 写道:
+> Hi,
+>
+> On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
+>> From: qianfan Zhao <qianfanguijin@163.com>
+>>
+>> sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
+>> board.
+>>
+>> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+>> ---
+>>   arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
+>>   arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
+>>   arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
+>>   arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
+>>   4 files changed, 16 insertions(+)
+>>
+>> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+>> index a6a1087a0c9b..4f30018ec4a2 100644
+>> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+>> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+>> @@ -113,6 +113,10 @@ &ahci {
+>>   	status = "okay";
+>>   };
+>>   
+>> +&cpu0 {
+>> +	cpu-supply = <&reg_dcdc2>;
+>> +};
+>> +
+> This will break bisection on those boards. Indeed, you added the OPPs on
+> the first patch, and if you only apply that patch, the boards in the
+> second patch will be missing their CPU regulator. The kernel will then
+> ramp up the frequency to the highest OPP, but will not change the
+> voltage, resulting in a crash.
+This is a good point and I will merge those two patch.
+>
+> There's a similar issue for all the boards that don't have a regulator
+> in the first place.
+>
+> The way we worked around this for the other SoCs is to have a DTSI with
+> the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
+> and only include that DTSI on boards that have a CPU regulator hooked in.
+Is this really necessary? It seems like every board based on sun8i-r40
+have a cpu regulator.
+>
+> Maxime
 
-On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
-> From: qianfan Zhao <qianfanguijin@163.com>
->=20
-> sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
-> board.
->=20
-> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
-> ---
->  arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
->  arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
->  arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
->  arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
->  4 files changed, 16 insertions(+)
->=20
-> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm=
-/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
-> index a6a1087a0c9b..4f30018ec4a2 100644
-> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
-> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
-> @@ -113,6 +113,10 @@ &ahci {
->  	status =3D "okay";
->  };
-> =20
-> +&cpu0 {
-> +	cpu-supply =3D <&reg_dcdc2>;
-> +};
-> +
-
-This will break bisection on those boards. Indeed, you added the OPPs on
-the first patch, and if you only apply that patch, the boards in the
-second patch will be missing their CPU regulator. The kernel will then
-ramp up the frequency to the highest OPP, but will not change the
-voltage, resulting in a crash.
-
-There's a similar issue for all the boards that don't have a regulator
-in the first place.
-
-The way we worked around this for the other SoCs is to have a DTSI with
-the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
-and only include that DTSI on boards that have a CPU regulator hooked in.
-
-Maxime
-
---zxcrkptjti3zcqyl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYn4LCQAKCRDj7w1vZxhR
-xUebAP9qYzZ/IfkEzAu15CJHZ6js7mUi6RdbUoNXxKfPggg5ogD+Ni0yIfCamB1z
-NywiFR5KnVB6qmwQCleCMfl/hditBQs=
-=5Se1
------END PGP SIGNATURE-----
-
---zxcrkptjti3zcqyl--
