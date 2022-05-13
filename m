@@ -1,112 +1,76 @@
-Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AD952100
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 08:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=1wq4x
-	+GCdYKq7VSZUcMOO2GqRgSu1qPIqNZNKgKe78o=; b=aGsvRiKodBfXXrQubvrmS
-	eNaI5SHRoxDxCWaYRIFOL0XFsdCTJuktUokDSniA34TYvI8srQh30tyJ9TWbM8jI
-	lxOuOLA8XtgwGgdS0M1LYm33GJSaddvaBUQLXrNYbyp9MyMZGTjSwqlVHSNuJWFu
-	A5KmFokyy5XONgBDiMi4is=
-Received: from [192.168.3.102] (unknown [218.201.129.19])
-	by smtp7 (Coremail) with SMTP id C8CowAA3GrB4FX5i05E+CQ--.22485S2;
-	Fri, 13 May 2022 16:23:21 +0800 (CST)
-Message-ID: <666ead08-af1e-81f5-6fe1-e5e3370e6d6f@163.com>
-Date: Fri, 13 May 2022 16:23:20 +0800
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F48210B
+	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 09:57:03 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1npRgu-00DHDO-S3; Fri, 13 May 2022 19:34:34 +1000
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 13 May 2022 17:34:33 +0800
+Date: Fri, 13 May 2022 17:34:33 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Corentin Labbe <clabbe@baylibre.com>
+Cc: jernej.skrabec@gmail.com, samuel@sholland.org, wens@csie.org,
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 00/19] crypto: allwinner: lots of fixes
+Message-ID: <Yn4mKfJKPI18KHrS@gondor.apana.org.au>
+References: <20220502201929.843194-1-clabbe@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
- sun8i-r40 based board
-Content-Language: en-US
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- "Rafael J . Wysocki" <rafael@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20220512071858.10805-1-qianfanguijin@163.com>
- <20220512071858.10805-2-qianfanguijin@163.com>
- <20220513073849.cu4jzykefat2sepg@houat>
- <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
- <20220513081556.knd3tf6pangfblh3@houat>
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <20220513081556.knd3tf6pangfblh3@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:C8CowAA3GrB4FX5i05E+CQ--.22485S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWF1ktF47Kw4DXw1DCw4kJFb_yoW5GFyDp3
-	y7uF4DCF4kGFyrtry2gFWUJrySy34rWr4UXFn8Kw1rJrn8XF9rtrs5K3WFkFZ8Wr4fGw40
-	vrWUWrn7Wws8Za7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UpWlPUUUUU=
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGh0A7VaEBkJFWgABsi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220502201929.843194-1-clabbe@baylibre.com>
 
+On Mon, May 02, 2022 at 08:19:10PM +0000, Corentin Labbe wrote:
+> Hello
+> 
+> This series is all fixes which I found on allwinner crypto drivers.
+> 
+> Regards
+> 
+> Change since v1:
+> - fixed endianess of hash_pad() paramaters
+> 
+> Corentin Labbe (19):
+>   crypto: sun8i-ce: Fix minor style issue
+>   crypto: sun8i-ce: do not allocate memory when handling requests
+>   crypto: sun4i-ss: do not allocate backup IV on requests
+>   crypto: sun8i-ss: rework handling of IV
+>   crypto: sun8i-ss: handle zero sized sg
+>   crypto: sun8i-ss: remove redundant test
+>   crypto: sun8i-ss: test error before assigning
+>   crypto: sun8i-ss: use sg_nents_for_len
+>   crypto: sun8i-ss: do not allocate memory when handling hash requests
+>   crypto: sun8i-ss: do not zeroize all pad
+>   crypto: sun8i-ss: handle requests if last block is not modulo 64
+>   crypto: sun8i-ss: rework debugging
+>   crypto: sun8i-ss: Add function for handling hash padding
+>   crypto: sun8i-ss: add hmac(sha1)
+>   crypto: sun8i-ss: do not fallback if cryptlen is less than sg length
+>   crypto: sun8i-ce: Add function for handling hash padding
+>   crypto: sun8i-ce: use sg_nents_for_len
+>   crypto: sun8i-ce: rework debugging
+>   crypto: sun8i-ce: do not fallback if cryptlen is less than sg length
+> 
+>  .../allwinner/sun4i-ss/sun4i-ss-cipher.c      |  22 +-
+>  drivers/crypto/allwinner/sun4i-ss/sun4i-ss.h  |   1 +
+>  .../allwinner/sun8i-ce/sun8i-ce-cipher.c      | 102 +++--
+>  .../crypto/allwinner/sun8i-ce/sun8i-ce-core.c |  54 ++-
+>  .../crypto/allwinner/sun8i-ce/sun8i-ce-hash.c | 130 ++++--
+>  drivers/crypto/allwinner/sun8i-ce/sun8i-ce.h  |  19 +-
+>  .../allwinner/sun8i-ss/sun8i-ss-cipher.c      | 180 +++++---
+>  .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c |  92 ++++-
+>  .../crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 385 +++++++++++++++---
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss.h  |  33 +-
+>  10 files changed, 767 insertions(+), 251 deletions(-)
 
-
-在 2022/5/13 16:15, Maxime Ripard 写道:
-> On Fri, May 13, 2022 at 03:48:50PM +0800, qianfan wrote:
->>
->> 在 2022/5/13 15:38, Maxime Ripard 写道:
->>> Hi,
->>>
->>> On Thu, May 12, 2022 at 03:18:58PM +0800, qianfanguijin@163.com wrote:
->>>> From: qianfan Zhao <qianfanguijin@163.com>
->>>>
->>>> sun8i-r40 actived cpufreq feature now, let's add "cpu-supply" node on
->>>> board.
->>>>
->>>> Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
->>>> ---
->>>>    arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
->>>>    arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
->>>>    arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
->>>>    arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
->>>>    4 files changed, 16 insertions(+)
->>>>
->>>> diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->>>> index a6a1087a0c9b..4f30018ec4a2 100644
->>>> --- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->>>> +++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
->>>> @@ -113,6 +113,10 @@ &ahci {
->>>>    	status = "okay";
->>>>    };
->>>> +&cpu0 {
->>>> +	cpu-supply = <&reg_dcdc2>;
->>>> +};
->>>> +
->>> This will break bisection on those boards. Indeed, you added the OPPs on
->>> the first patch, and if you only apply that patch, the boards in the
->>> second patch will be missing their CPU regulator. The kernel will then
->>> ramp up the frequency to the highest OPP, but will not change the
->>> voltage, resulting in a crash.
->> This is a good point and I will merge those two patch.
-> That's not what I meant to say. Those two patches are great separated.
-> You can invert them though.
-haha, invert them, so interesting. good idea.
->
->>> There's a similar issue for all the boards that don't have a regulator
->>> in the first place.
->>>
->>> The way we worked around this for the other SoCs is to have a DTSI with
->>> the OPPs with a frequency higher than what U-Boot boots with (1008MHz?),
->>> and only include that DTSI on boards that have a CPU regulator hooked in.
->> Is this really necessary? It seems like every board based on sun8i-r40
->> have a cpu regulator.
-> This probably won't be the case whenever someone starts a new design,
-> and then they'll face random crashes for no apparent reason, and waste a
-> lot of time in the process.
->
-> Whereas the alternative is that you would be missing some OPPs,
-> something that is fairly easy to figure out.
-How about remove the OPPs which greate that 1.08G in sun8i-r40.dtsi,
-If some boards want to run at a higher frequency, can add them byself
-in the board's file.
->
-> Maxime
-
+All applied.  Thanks.
+-- 
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
