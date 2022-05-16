@@ -1,71 +1,111 @@
-Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51855A32
-	for <linux-sunxi@lists.linux.dev>; Mon, 16 May 2022 02:16:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=e8hR3
-	bhFJ25k1+0lwJ2r27cDbS9JSZXAViwx9EEkoCo=; b=MRmp/elM5x/rdLRi8ceBP
-	Md6NgxvrQo9ByRu/Fs+Bp5UpTI4O6YffUrKcwoK32iSB3I+6dGct7KOxOKbsFW9P
-	JCgXg0BVYriZDtNlreOaogPlRBGDWsxJxr46VXDVRxpxPZXARNIBFRWGey/Cf5QJ
-	l+fsNMRvdlWByBBerSMSQM=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
-	by smtp8 (Coremail) with SMTP id DMCowACHYyG1s4Fi8FLcCg--.16808S2;
-	Mon, 16 May 2022 10:15:17 +0800 (CST)
-From: qianfanguijin@163.com
-To: linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A957A
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 May 2022 07:53:32 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id B95C63200977;
+	Mon, 16 May 2022 03:53:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Mon, 16 May 2022 03:53:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1652687610; x=
+	1652774010; bh=3pNP4lkw2arx3DEO7xosFHza4XodA+DQ9cP0mdORw0E=; b=C
+	BY8RdDlTi9S5yAqghIBhAvsJ9Z9JFnZ15BnqDgi3fXaCsVVE8zAQcrPqYSEqVPUr
+	McRqjpR3HMHvzfmYwlaV9knOFEi6n3unw/xN7cvKOiUoOTfpoSV8162qLqMiPm6b
+	vJ9QzlSpUWdWVoMZmA8oyRJ7xDlyw3RnZ27ZasILubYkkmImgdk7FPymC1kWHQdS
+	0x3+CcekhI3VnxEg0rwC+ug9oqPfjLmaleCiVEVGu+h3I4SyoHgsFZ2UyQhB1jM+
+	Lwh5bpToWDOfni9t8XYnRGWJjIWP8Pkace6LWg54c+L+VeE3tkXnukdjAdFyi3CQ
+	GnadUJeA6VRBemwOvknOg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; t=1652687610; x=1652774010; bh=3pNP4lkw2arx3
+	DEO7xosFHza4XodA+DQ9cP0mdORw0E=; b=AoVri4LT+R1c9JiAgs8nFEvz2EMnz
+	pW3sOudgVIzUPEDYAIVj3ak1WInoKUHfjp9QcvNsGV4ozJSPpkEMRFm/PeC9pR8C
+	cqICI/Y9H+LCo/Ev0wY1XQfEhYApEkScBGYoW3nI75gSCS2lxu3r8jYuCZDx7EFy
+	iP4GSNxaiPFj81RAfCgwx2szlCRjMQ+hU7q0QtbWOCIcRLTd93Mf9RiylFvQAC2o
+	uUK9rolMTv1rBJT7JyYKpmWyYFpzxTmHWC3E8w6Z8Xi7omhWssNmq7NyEnuujKgZ
+	DuZ28CKPS81mghPMpc0nBXHFiAdR5/7l1Dw2jmbDn6IC9AIK/y0Imsqgg==
+X-ME-Sender: <xms:-QKCYhPOhCiLS1TKae5X53vLPuM3XPCzDyAcTMXqNMu4cszIRAHZPA>
+    <xme:-QKCYj_sKk3UQpp3LSXTl7QTsXlcAvLGqDEtd6jMfk_u4jAxe0PBdQxruBAQXMQR8
+    vxOFvI2c4amf7z8PVk>
+X-ME-Received: <xmr:-QKCYgSJ-86RwrBARaKK4nZ893pmBsUl5YlbDihst-7CBMMfhASX4aDxbXqc6_zlSWGVmhxDnhKuCCe4kDmsPcDm7obyDXb0FdV5clM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrheeggdduvdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggugfgjsehtqhertddttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnheptefgleeggfegkeekgffgleduieduffejffegveevkeejudektdduueet
+    feetfefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:-QKCYttaxirpg-hdWnyu-dyUWzq4YVacRDIhbht6JN_YlsQovPcDZA>
+    <xmx:-QKCYpc1PVQApPVPXR-xj9FnSw-SvyshlI3IwUWhBckDxDmiLmFx2w>
+    <xmx:-QKCYp0XULYlGOnJUub9T3OIGlorP2VqRz0nf-znCN_nSW4qwFSR-w>
+    <xmx:-gKCYl7oY9G4refKfxe6WqEOsFFKSkat5VQ2oeC82DI8LrXWx9AEKA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 16 May 2022 03:53:28 -0400 (EDT)
+Date: Mon, 16 May 2022 09:53:26 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: qianfan <qianfanguijin@163.com>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v4 0/2] ARM: sun8i-r40: Add cpufreq support
-Date: Mon, 16 May 2022 10:15:14 +0800
-Message-Id: <20220516021516.23216-1-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
+	Viresh Kumar <viresh.kumar@linaro.org>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for
+ sun8i-r40 based board
+Message-ID: <20220516075326.hccburhu743t7p6r@houat>
+References: <20220512071858.10805-1-qianfanguijin@163.com>
+ <20220512071858.10805-2-qianfanguijin@163.com>
+ <20220513073849.cu4jzykefat2sepg@houat>
+ <1352b9d7-5219-af09-948b-6462def39ea5@163.com>
+ <20220513081556.knd3tf6pangfblh3@houat>
+ <666ead08-af1e-81f5-6fe1-e5e3370e6d6f@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:DMCowACHYyG1s4Fi8FLcCg--.16808S2
-X-Coremail-Antispam: 1Uf129KBjvdXoWruF4furW3Zr18Gw1UuF43Awb_yoWxKFbEq3
-	WSgFW8Ja95ZFyDtFZ5Jr4UXryxZr45GryDJay0yFyUJw1Yyrs8JFyDtayDW34rGFy3KFs8
-	tw4UJF1rW34avjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRmJm7UUUUUU==
-X-Originating-IP: [218.201.129.19]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBcD7VXl25DG-QAAsl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <666ead08-af1e-81f5-6fe1-e5e3370e6d6f@163.com>
 
-From: qianfan Zhao <qianfanguijin@163.com>
+On Fri, May 13, 2022 at 04:23:20PM +0800, qianfan wrote:
+> > > > There's a similar issue for all the boards that don't have a regula=
+tor
+> > > > in the first place.
+> > > >=20
+> > > > The way we worked around this for the other SoCs is to have a DTSI =
+with
+> > > > the OPPs with a frequency higher than what U-Boot boots with (1008M=
+Hz?),
+> > > > and only include that DTSI on boards that have a CPU regulator hook=
+ed in.
+> > > Is this really necessary? It seems like every board based on sun8i-r40
+> > > have a cpu regulator.
+> > This probably won't be the case whenever someone starts a new design,
+> > and then they'll face random crashes for no apparent reason, and waste a
+> > lot of time in the process.
+> >=20
+> > Whereas the alternative is that you would be missing some OPPs,
+> > something that is fairly easy to figure out.
+>
+> How about remove the OPPs which greate that 1.08G in sun8i-r40.dtsi,
+> If some boards want to run at a higher frequency, can add them byself
+> in the board's file.
 
-Change history:
-===============
+You did all the work to support and test them already. It's a bit of a
+waste to do that and not include it.
 
-v4(2022-05-16):
-- Invert two patches.
-- Drop the cpufreqs that exceeds 1G in opp tables.
+Just do a DTSI like we did for the A64 for example.
 
-v3:
-- remove "allwinner-r40" compatible from allowlist.
-- split dts in two part.
-
-qianfan Zhao (2):
-  ARM: dts: sun8i-r40: Add "cpu-supply" node for sun8i-r40 based board
-  ARM: dts: sun8i-r40: add opp table for cpu
-
- .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  4 ++
- arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  4 ++
- arch/arm/boot/dts/sun8i-r40.dtsi              | 42 +++++++++++++++++++
- arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  4 ++
- .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  4 ++
- 5 files changed, 58 insertions(+)
-
---
-2.25.1
-
+Maxime
