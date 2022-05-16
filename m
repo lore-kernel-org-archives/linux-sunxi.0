@@ -1,65 +1,121 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E94DE256E
-	for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 23:07:54 +0000 (UTC)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-2f7ca2ce255so104328807b3.7
-        for <linux-sunxi@lists.linux.dev>; Fri, 13 May 2022 16:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F7uNyZJ7+TaNFG3LYzAbirMUD+cjGo4bEKu9OQaTJA8=;
-        b=msCzsb/XZaRHLnQR6GjwcKV7ZJ3DYbEc7CYntbliyw6VjYYY7ixw7AiFHlZc+Izklx
-         pNNAMlyE+5PV13PbB7jKYFvxB9r8kxvMWHC7IoQkThlDpqFVfk+LPgrWw0FBBkM/t99C
-         KU7eNn1q9NSsBiTOHDn3f9dxpcfd3Ri3OjeQuWvRrfUGvWjCUxq7X7rA7vZfF1S2XcO1
-         bllctmzwXS+eXeeFXfvmj3iAb98agIlf6kdbiudB+qDcRPYXk+eVZPM92yi/KzDdhNUz
-         sZ5w3ACTEtFfU85v08p7uXQEJTm63XmgwBP+zuQqOLqQmO2fVssF3A088F299XI4Y3Ob
-         jlqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F7uNyZJ7+TaNFG3LYzAbirMUD+cjGo4bEKu9OQaTJA8=;
-        b=C5vU7ZczV7gGlpQdSKYIly47ltkgYyK5l/oTKIkWSPQzRnVPT4s3LpgVpH3TXnxcHf
-         iPme8L4D5XK7xGFK0UgNRZW4kmNqEaIQ2dpEWIt1ApYag7lCZLo+nCNzjFFjxj7gkQ54
-         tKpn74H66YOG3P5+uNAOxInUii4Yi07ihEjPIAbU6BuL5VZHGHSbkqS/UnK5bITXzF5J
-         Yqfmt21m3SxzakFm/P6Fvzun9/cOQN2rNmxOwihJTS+gyBpcAtHiHesLNAz5VBFDWWgs
-         FVJ2MqSm3qXtrqUeTorTkVStFd/VV8EbBHm6W3Vkcu4j0TnqhcO0/0nMHXn36RTSvTDY
-         OUaw==
-X-Gm-Message-State: AOAM531F/EcltchKmdnMljsypr8HTxkFBsgNmeT/NmZM1skEqJBGQrYV
-	SER5reFL14ZEl2N/JFY9mzAXNPZB+2VZumj/1exCZw==
-X-Google-Smtp-Source: ABdhPJzJXhLBhVXucPYDWCcm2l1jbUwOBPd9BYGwOe67dxsApMiUe8q6RhiHgCi8xsJpw1EECBr0rLgKTXHMAPnkv0s=
-X-Received: by 2002:a81:2154:0:b0:2f4:d79e:35dc with SMTP id
- h81-20020a812154000000b002f4d79e35dcmr8773559ywh.126.1652483273949; Fri, 13
- May 2022 16:07:53 -0700 (PDT)
+Received: from m12-12.163.com (m12-12.163.com [220.181.12.12])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02FEAA2A
+	for <linux-sunxi@lists.linux.dev>; Mon, 16 May 2022 02:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=Sv4p5
+	7RP4vVkhn/nojtlVRpzvQRuq8AhJ6Z3TmpD4+w=; b=DixGDm7tQmMzTs++J/TPL
+	guBtID1qAdKHJnid89mab8CpSZoDSzaEqwAHgjSw2hH3XXOCWBG5Qjfnbi0SbFu0
+	7EvHTZwt/nlSfb97jdxMnrSadNTFhzcsEMkq6l/FbBZXUbsqDvvwnNCT2WJEWM6q
+	ruNJYToCaFOxAk+RJ788S0=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.19])
+	by smtp8 (Coremail) with SMTP id DMCowACHYyG1s4Fi8FLcCg--.16808S3;
+	Mon, 16 May 2022 10:15:19 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v4 1/2] ARM: dts: sun8i-r40: Add "cpu-supply" node for sun8i-r40 based board
+Date: Mon, 16 May 2022 10:15:15 +0800
+Message-Id: <20220516021516.23216-2-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220516021516.23216-1-qianfanguijin@163.com>
+References: <20220516021516.23216-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220504170736.2669595-1-andre.przywara@arm.com>
-In-Reply-To: <20220504170736.2669595-1-andre.przywara@arm.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Sat, 14 May 2022 01:07:42 +0200
-Message-ID: <CACRpkdZiJqGK5NRCSWMuFBFRHOrCWyqGmuBQZ9jyvxbcsjZsgA@mail.gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: f1c100s: Fix signal name comment for PA2
- SPI pin
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, writeforever@foxmail.com, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:DMCowACHYyG1s4Fi8FLcCg--.16808S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw4UuryxWFW3uw4UGw4fuFg_yoW8ur4xpw
+	17CrZ7Gwn3WF15t347WrWDGr1UCFykW3yYvF15C34fJrsrXaykXryftwnakrZ8Xr4fJ3y0
+	93s5Xr97Xw4DX3JanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziQVyfUUUUU=
+X-Originating-IP: [218.201.129.19]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQhsD7VaECVtOSAAAsx
 
-On Wed, May 4, 2022 at 7:07 PM Andre Przywara <andre.przywara@arm.com> wrote:
+From: qianfan Zhao <qianfanguijin@163.com>
 
-> The manual describes function 0x6 of pin PA2 as "SPI1_CLK", so change
-> the comment to reflect that.
->
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+The CPU of sun8i-r40 is powered by PMIC, let's add "cpu-supply" node.
 
-Patch applied, thanks Andre!
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts | 4 ++++
+ arch/arm/boot/dts/sun8i-r40-feta40i.dtsi          | 4 ++++
+ arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts          | 4 ++++
+ arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts | 4 ++++
+ 4 files changed, 16 insertions(+)
 
-Yours,
-Linus Walleij
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index a6a1087a0c9b..4f30018ec4a2 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -113,6 +113,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+diff --git a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+index 265e0fa57a32..b872b51a346d 100644
+--- a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+@@ -6,6 +6,10 @@
+ 
+ #include "sun8i-r40.dtsi"
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &i2c0 {
+ 	status = "okay";
+ 
+diff --git a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+index 6931aaab2382..0eb1990742ff 100644
+--- a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
++++ b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+@@ -88,6 +88,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+diff --git a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+index 47954551f573..fdf8bd12faaa 100644
+--- a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
++++ b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+@@ -107,6 +107,10 @@ &ahci {
+ 	status = "okay";
+ };
+ 
++&cpu0 {
++	cpu-supply = <&reg_dcdc2>;
++};
++
+ &de {
+ 	status = "okay";
+ };
+-- 
+2.25.1
+
