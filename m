@@ -1,15 +1,15 @@
 Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201A77A
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E6710EF
 	for <linux-sunxi@lists.linux.dev>; Tue, 17 May 2022 01:37:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=7G8Kb
-	AmludJDMdA3ZiXqK+V/H8kA2kjapKKgVRW8jhc=; b=lJE2W15X5D1aKIQlx7UNx
-	ZMWlyYARWJYJf05qA7uRMDHbZAb1E10n6frNPPXux7L/4eR6aDVjmYNUbvSghR7z
-	6m2q3ghPxQCyAstAw9lAIcLGjuUPv/FTlgABl6WnKDZHdLvNlUi8NZ0KInuv+hHp
-	WqUV+Ux6n0SHQNSjDcqqGo=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=lTBhx
+	p2EfVojczwDke4E/Onuf36SXf/m+vxj1MMdS2Y=; b=K6NlZ9QpriWOehObiwcCW
+	pE3iFoBEuRVoIUNkpmAnABQTWS8xwo6jXXfDwuQ5jbHAhPGifkxC5uTlGvPQuGiy
+	kUsAAnQ9eT0171ARPVgOufstlCt9tFJLy0bZgjlR45aNrDd9IDvSeFkNoFonE878
+	KrJ3CCaBcKTwmrhIejxA8A=
 Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
-	by smtp9 (Coremail) with SMTP id DcCowAB3USwR_IJiF3ohDQ--.61255S2;
-	Tue, 17 May 2022 09:36:18 +0800 (CST)
+	by smtp9 (Coremail) with SMTP id DcCowAB3USwR_IJiF3ohDQ--.61255S4;
+	Tue, 17 May 2022 09:36:19 +0800 (CST)
 From: qianfanguijin@163.com
 To: linux-sunxi@lists.linux.dev
 Cc: Rob Herring <robh+dt@kernel.org>,
@@ -23,113 +23,185 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-pm@vger.kernel.org,
 	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v5 0/3] ARM: sun8i-r40: CPU improve
-Date: Tue, 17 May 2022 09:36:04 +0800
-Message-Id: <20220517013607.2252-1-qianfanguijin@163.com>
+Subject: [PATCH v5 2/3] ARM: dts: sun8i-r40: add opp table for cpu
+Date: Tue, 17 May 2022 09:36:06 +0800
+Message-Id: <20220517013607.2252-3-qianfanguijin@163.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220517013607.2252-1-qianfanguijin@163.com>
+References: <20220517013607.2252-1-qianfanguijin@163.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:DcCowAB3USwR_IJiF3ohDQ--.61255S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAFykZw13Xr4rAryUuw1kuFg_yoWrJFWfpr
-	1UJr1UGr4UJr1UJr17tr1rJr1UJr1UJr1UJr15Jr1UJr1UJF1UJr1UJr15Jr4UGrn8Ar1U
-	tr1UJryUG34DJrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zNfOxUUUUUU=
+X-CM-TRANSID:DcCowAB3USwR_IJiF3ohDQ--.61255S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxGrWxXF1UKw4xur17Xry5urg_yoWrZFy8pw
+	17Zr4kGrs7Wr1Yq342gry8KF18uFWv9F4Yyry5C348Jrn7X34DJr97tr9akrWDXr43X3yI
+	9Fs5Xr9rtw1DZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07Ubo7tUUUUU=
 X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBME7VXl26j8kwAAsK
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiQhQE7VaECXNrTAAAsw
 
 From: qianfan Zhao <qianfanguijin@163.com>
 
-Change history:
-===============
-v5(2022-05-17):
-- Move opp tables to sun8i-r40-cpu-opp.dtsi
-- cpufreq supports 720M, 912M, 1G, 1.1G, 1.2G
-- Add cooling supports
+OPP table value is get from allwinner lichee linux-3.10 kernel driver
 
-v4(2022-05-16):
-- Invert two patches.
-- Drop the cpufreqs that exceeds 1G in opp tables.
-
-v3:
-- remove "allwinner-r40" compatible from allowlist.
-- split dts in two part.
-
-Test:
-=====
-
-cpufreq was tested by tools: https://github.com/ssvb/cpuburn-arm
-
-1. cpufreq-ljt-stress-test
-
-- root@ubuntu:~/cpuburn-arm-master# ./cpufreq-ljt-stress-test 
-- CPU stress test, which is doing JPEG decoding by libjpeg-turbo
-- at different cpufreq operating points.
-- 
-- Testing CPU 0
--  1200 MHz ............................................................ OK
--  1104 MHz ............................................................ OK
--  1008 MHz ............................................................ OK
--   912 MHz ............................................................ OK
--   720 MHz ............................................................ OK
-- 
-- Testing CPU 1
--  1200 MHz ............................................................ OK
--  1104 MHz ............................................................ OK
--  1008 MHz ............................................................ OK
--   912 MHz ............................................................ OK
--   720 MHz ............................................................ OK
-- 
-- Testing CPU 2
--  1200 MHz ............................................................ OK
--  1104 MHz ............................................................ OK
--  1008 MHz ............................................................ OK
--   912 MHz ............................................................ OK
--   720 MHz ............................................................ OK
-- 
-- Testing CPU 3
--  1200 MHz ............................................................ OK
--  1104 MHz ............................................................ OK
--  1008 MHz ............................................................ OK
--   912 MHz ............................................................ OK
--   720 MHz ............................................................ OK
-
-Overall result : PASSED
-
-2. cpu freq slow down when cpuburn-a7.out running
-
-- temperature: 79213, online: 0-3, freq: 1200000
-- temperature: 79213, online: 0-3, freq: 1200000
-- temperature: 80230, online: 0-3, freq: 1104000
-- temperature: 78874, online: 0-3, freq: 1200000
-- temperature: 80004, online: 0-3, freq: 1104000
-- temperature: 79213, online: 0-3, freq: 1200000
-- temperature: 78196, online: 0-3, freq: 1200000
-- temperature: 79891, online: 0-3, freq: 1200000
-- temperature: 78422, online: 0-3, freq: 1200000
-- temperature: 80343, online: 0-3, freq: 1104000
-- temperature: 80343, online: 0-3, freq: 1104000
-
-
-qianfan Zhao (3):
-  ARM: dts: sun8i-r40: Add "cpu-supply" node for sun8i-r40 based board
-  ARM: dts: sun8i-r40: add opp table for cpu
-  ARM: dts: sun8i-r40: Add thermal trip points/cooling maps
-
- .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  5 ++
+Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+---
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  1 +
  arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi      | 52 +++++++++++++++++++
- arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  5 ++
- arch/arm/boot/dts/sun8i-r40.dtsi              | 36 +++++++++++++
- arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  5 ++
- .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  5 ++
- 6 files changed, 108 insertions(+)
+ arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  1 +
+ arch/arm/boot/dts/sun8i-r40.dtsi              |  8 +++
+ arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  1 +
+ .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  1 +
+ 6 files changed, 64 insertions(+)
  create mode 100644 arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi
 
+diff --git a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+index 4f30018ec4a2..28197bbcb1d5 100644
+--- a/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
++++ b/arch/arm/boot/dts/sun8i-r40-bananapi-m2-ultra.dts
+@@ -43,6 +43,7 @@
+ 
+ /dts-v1/;
+ #include "sun8i-r40.dtsi"
++#include "sun8i-r40-cpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
+diff --git a/arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi b/arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi
+new file mode 100644
+index 000000000000..4faa22d3bac8
+--- /dev/null
++++ b/arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi
+@@ -0,0 +1,52 @@
++/{
++	cpu0_opp_table: opp_table0 {
++		compatible = "operating-points-v2";
++		opp-shared;
++
++		opp-720000000 {
++			opp-hz = /bits/ 64 <720000000>;
++			opp-microvolt = <1000000 1000000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-912000000 {
++			opp-hz = /bits/ 64 <912000000>;
++			opp-microvolt = <1100000 1100000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1008000000 {
++			opp-hz = /bits/ 64 <1008000000>;
++			opp-microvolt = <1160000 1160000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1104000000 {
++			opp-hz = /bits/ 64 <1104000000>;
++			opp-microvolt = <1240000 1240000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++
++		opp-1200000000 {
++			opp-hz = /bits/ 64 <1200000000>;
++			opp-microvolt = <1300000 1300000 1300000>;
++			clock-latency-ns = <2000000>;
++		};
++	};
++};
++
++&cpu0 {
++	operating-points-v2 = <&cpu0_opp_table>;
++};
++
++&cpu1 {
++	operating-points-v2 = <&cpu0_opp_table>;
++};
++
++&cpu2 {
++	operating-points-v2 = <&cpu0_opp_table>;
++};
++
++&cpu3 {
++	operating-points-v2 = <&cpu0_opp_table>;
++};
+diff --git a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+index b872b51a346d..9f39b5a2bb35 100644
+--- a/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40-feta40i.dtsi
+@@ -5,6 +5,7 @@
+ //  Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
+ 
+ #include "sun8i-r40.dtsi"
++#include "sun8i-r40-cpu-opp.dtsi"
+ 
+ &cpu0 {
+ 	cpu-supply = <&reg_dcdc2>;
+diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
+index 291f4784e86c..ae2a5ebd9924 100644
+--- a/arch/arm/boot/dts/sun8i-r40.dtsi
++++ b/arch/arm/boot/dts/sun8i-r40.dtsi
+@@ -84,24 +84,32 @@ cpu0: cpu@0 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <0>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
+ 		};
+ 
+ 		cpu1: cpu@1 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <1>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
+ 		};
+ 
+ 		cpu2: cpu@2 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <2>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
+ 		};
+ 
+ 		cpu3: cpu@3 {
+ 			compatible = "arm,cortex-a7";
+ 			device_type = "cpu";
+ 			reg = <3>;
++			clocks = <&ccu CLK_CPU>;
++			clock-names = "cpu";
+ 		};
+ 	};
+ 
+diff --git a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+index 0eb1990742ff..9f472521f4a4 100644
+--- a/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
++++ b/arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts
+@@ -45,6 +45,7 @@
+ 
+ /dts-v1/;
+ #include "sun8i-r40.dtsi"
++#include "sun8i-r40-cpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
+diff --git a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+index fdf8bd12faaa..434871040aca 100644
+--- a/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
++++ b/arch/arm/boot/dts/sun8i-v40-bananapi-m2-berry.dts
+@@ -42,6 +42,7 @@
+ 
+ /dts-v1/;
+ #include "sun8i-r40.dtsi"
++#include "sun8i-r40-cpu-opp.dtsi"
+ 
+ #include <dt-bindings/gpio/gpio.h>
+ 
 -- 
 2.25.1
 
