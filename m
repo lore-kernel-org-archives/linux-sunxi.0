@@ -1,130 +1,61 @@
-Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6CE57A
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 May 2022 01:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=k0ctV
-	enGMMCdu3p7b3myrdeaZuuz8j0YlMGMike2E58=; b=FkmEWkafRVvthQnx/j2sK
-	/7z7EOTH1BAtpoONhF8/ExSjcVQY/mdPTfcxWiXdwTGaVPA2TXD2rCJxbb7vIFV2
-	b9V6oW9WIU/pXuMubfKzsnRlkYmZKLerWC1VkRmBrpRL5b5/aIa73E7kqPIo4asF
-	5gbfMc+M596rkBjId5e0hU=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
-	by smtp9 (Coremail) with SMTP id DcCowAB3USwR_IJiF3ohDQ--.61255S5;
-	Tue, 17 May 2022 09:36:20 +0800 (CST)
-From: qianfanguijin@163.com
-To: linux-sunxi@lists.linux.dev
-Cc: Rob Herring <robh+dt@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v5 3/3] ARM: dts: sun8i-r40: Add thermal trip points/cooling maps
-Date: Tue, 17 May 2022 09:36:07 +0800
-Message-Id: <20220517013607.2252-4-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220517013607.2252-1-qianfanguijin@163.com>
-References: <20220517013607.2252-1-qianfanguijin@163.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABDB7F
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 May 2022 06:58:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF40C385B8;
+	Tue, 17 May 2022 06:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652770725;
+	bh=gKm7H4AV02a9TaJgozMTYe78+Ol2ViZO/6gqSbE0COo=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=qExlCGM9RFvLaGl5H+DgLsVFakLnAZknvRvEB07FA7PkM/rXsnJv1KkAyxAZI+wa+
+	 cTvs3e8tahm5J24syEoQlfJke+XzjMVzQ2p7eeZihw/lzCYff8UZOODD4Lu5ifQcIn
+	 jby2YUDJg6Hbf5X4WeVsngtY0MVVMPkAk2yHo0KB1/6eOscKspdbFJ6zq1KF1a9Hf9
+	 2kJwttKMu3T2q5umqYOpFEB38xG28FPPaUHAi9dZvT7UZvG/IcsdUlCzQixE5/0hIo
+	 y2wbB1sZOOivmYbL3iWfw7n6tiGJTZQxLrarwutWjdcSoOAp/wCRFfdyn0L3Eb7xN6
+	 O/0i35xOfl46Q==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:DcCowAB3USwR_IJiF3ohDQ--.61255S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Aw4UArW7Wr4fJFW5Jw1kZrb_yoW8CF4xpF
-	1xCw4FqF1jgr1Sq3Wa9r4DXas8Ca4vkF48Krs7WFykAr98XFZrtry2yw1ftFyDGF1rAw40
-	9w4Yvr1xG3Z8A37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U9Aw3UUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiGhUE7VaEBpyRLgAAsR
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YnVLMm7t/NbwnDad@kista.localdomain>
+References: <YnVLMm7t/NbwnDad@kista.localdomain>
+Subject: Re: [GIT PULL] Allwinner clock changes for 5.19
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
+Date: Mon, 16 May 2022 23:58:43 -0700
+User-Agent: alot/0.10
+Message-Id: <20220517065845.9DF40C385B8@smtp.kernel.org>
 
-From: qianfan Zhao <qianfanguijin@163.com>
+Quoting Jernej Skrabec (2022-05-06 09:22:10)
+> Hi!
+>=20
+> Please pull following clock changes for 5.19.
+>=20
+> Best regards,
+> Jernej
+>=20
+> The following changes since commit 3123109284176b1532874591f7c81f3837bbdc=
+17:
+>=20
+>   Linux 5.18-rc1 (2022-04-03 14:08:21 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-for-5.19-1
+>=20
+> for you to fetch changes up to 31ab5169803ebc009e01d1ee4501ca9faf347161:
+>=20
+>   clk: sunxi-ng: h616: Add PLL derived 32KHz clock (2022-05-06 18:03:52 +=
+0200)
+>=20
+> ----------------------------------------------------------------
 
-For the trip points, I used values from the BSP code.
-
-The critical trip point value is 30°C above the maximum recommended
-ambient temperature (85°C) for the SoC from the datasheet, so there's
-some headroom even at such a high ambient temperature.
-
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
----
- arch/arm/boot/dts/sun8i-r40.dtsi | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
-
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index ae2a5ebd9924..b43f3f72a915 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -86,6 +86,7 @@ cpu0: cpu@0 {
- 			reg = <0>;
- 			clocks = <&ccu CLK_CPU>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu1: cpu@1 {
-@@ -94,6 +95,7 @@ cpu1: cpu@1 {
- 			reg = <1>;
- 			clocks = <&ccu CLK_CPU>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu2: cpu@2 {
-@@ -102,6 +104,7 @@ cpu2: cpu@2 {
- 			reg = <2>;
- 			clocks = <&ccu CLK_CPU>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 
- 		cpu3: cpu@3 {
-@@ -110,6 +113,7 @@ cpu3: cpu@3 {
- 			reg = <3>;
- 			clocks = <&ccu CLK_CPU>;
- 			clock-names = "cpu";
-+			#cooling-cells = <2>;
- 		};
- 	};
- 
-@@ -125,6 +129,30 @@ cpu_thermal: cpu0-thermal {
- 			polling-delay-passive = <0>;
- 			polling-delay = <0>;
- 			thermal-sensors = <&ths 0>;
-+
-+			trips {
-+				cpu_hot_trip: cpu-hot {
-+					temperature = <80000>;
-+					hysteresis = <2000>;
-+					type = "passive";
-+				};
-+
-+				cpu_very_hot_trip: cpu-very-hot {
-+					temperature = <115000>;
-+					hysteresis = <0>;
-+					type = "critical";
-+				};
-+			};
-+
-+			cooling-maps {
-+				cpu-hot-limit {
-+					trip = <&cpu_hot_trip>;
-+					cooling-device = <&cpu0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu1 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu2 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>,
-+							 <&cpu3 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-+				};
-+			};
- 		};
- 
- 		gpu_thermal: gpu-thermal {
--- 
-2.25.1
-
+Thanks. Pulled into clk-next
