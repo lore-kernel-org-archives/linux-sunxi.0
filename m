@@ -1,91 +1,135 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D4F7A
-	for <linux-sunxi@lists.linux.dev>; Tue, 17 May 2022 00:47:07 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id e189so20652213oia.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 16 May 2022 17:47:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iJgSIj5Vbgqm2lP3FwW0wvqzkGV+5Vch0R+WtavPeG0=;
-        b=w1gIUc+drpv99/cozd3KKXOqVPszngYlcwnHbU3u8QMTSQiH63xkJyfJAx5eUOWVKO
-         msOOwBUdT0KpGXhP70YznpWjlvZyxnwWlS0Iq9t0Csu24csYBkMpigAQumhlxDIIGfLR
-         hVxVX0AjsmQjsNl5w78f/9veV2a//yoqtg6wFPC7b0vyHlzN1XMIMbkzlRQGiUzu1yql
-         UADxKRvmQ/Bc+nXXYDnhocYcjPnXKl4ufMb4WfFs6M1CPeV/SfPGIVOjldqIjzmaAuGa
-         MJV/ZhHDDCGx7m3FLFj1DZZDfbJAYQ4VGMpI3ltDmoWYqkS1buITOb8CVCwZEvexuTm4
-         OsYg==
-X-Gm-Message-State: AOAM533jgLqNtzT7mQry6y1uzMLc5AXsddPMJsNQMtWu7QOZi6PFe6Qv
-	xI93rGEJ7fK837oER7LzBg==
-X-Google-Smtp-Source: ABdhPJzxUe7lRWwSsk4LYTIlf0trAXfo6l1O3t5y3u2IE0dc+3FfnlSJCRjFtF4GffGFbK7487ochw==
-X-Received: by 2002:a05:6808:1585:b0:326:6477:64b2 with SMTP id t5-20020a056808158500b00326647764b2mr9172703oiw.173.1652748426873;
-        Mon, 16 May 2022 17:47:06 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id g9-20020a05683030a900b0060603221248sm4499696ots.24.2022.05.16.17.47.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 May 2022 17:47:06 -0700 (PDT)
-Received: (nullmailer pid 3682863 invoked by uid 1000);
-	Tue, 17 May 2022 00:47:04 -0000
-Date: Mon, 16 May 2022 19:47:04 -0500
-From: Rob Herring <robh@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Mark Brown <broonie@kernel.org>, LABBE Corentin <clabbe@baylibre.com>, alexandre.torgue@foss.st.com, calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com, joabreu@synopsys.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com, peppe.cavallaro@st.com, samuel@sholland.org, wens@csie.org, netdev@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/6] dt-bindings: net: Add documentation for phy-supply
-Message-ID: <20220517004704.GA3654797-robh@kernel.org>
-References: <20220509074857.195302-1-clabbe@baylibre.com>
- <20220509074857.195302-4-clabbe@baylibre.com>
- <YnkGV8DyTlCuT92R@lunn.ch>
- <YnkWl+xYCX8r9DE7@Red>
- <Ynk7L07VH/RFVzl6@lunn.ch>
- <Ynk9ccoVh32Deg45@sirena.org.uk>
- <YnlDbbegQ1IbbaHy@lunn.ch>
+Received: from m12-13.163.com (m12-13.163.com [220.181.12.13])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 201A77A
+	for <linux-sunxi@lists.linux.dev>; Tue, 17 May 2022 01:37:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=7G8Kb
+	AmludJDMdA3ZiXqK+V/H8kA2kjapKKgVRW8jhc=; b=lJE2W15X5D1aKIQlx7UNx
+	ZMWlyYARWJYJf05qA7uRMDHbZAb1E10n6frNPPXux7L/4eR6aDVjmYNUbvSghR7z
+	6m2q3ghPxQCyAstAw9lAIcLGjuUPv/FTlgABl6WnKDZHdLvNlUi8NZ0KInuv+hHp
+	WqUV+Ux6n0SHQNSjDcqqGo=
+Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
+	by smtp9 (Coremail) with SMTP id DcCowAB3USwR_IJiF3ohDQ--.61255S2;
+	Tue, 17 May 2022 09:36:18 +0800 (CST)
+From: qianfanguijin@163.com
+To: linux-sunxi@lists.linux.dev
+Cc: Rob Herring <robh+dt@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	qianfan Zhao <qianfanguijin@163.com>
+Subject: [PATCH v5 0/3] ARM: sun8i-r40: CPU improve
+Date: Tue, 17 May 2022 09:36:04 +0800
+Message-Id: <20220517013607.2252-1-qianfanguijin@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YnlDbbegQ1IbbaHy@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:DcCowAB3USwR_IJiF3ohDQ--.61255S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFykZw13Xr4rAryUuw1kuFg_yoWrJFWfpr
+	1UJr1UGr4UJr1UJr17tr1rJr1UJr1UJr1UJr15Jr1UJr1UJF1UJr1UJr15Jr4UGrn8Ar1U
+	tr1UJryUG34DJrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zNfOxUUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBME7VXl26j8kwAAsK
 
-On Mon, May 09, 2022 at 06:38:05PM +0200, Andrew Lunn wrote:
-> > No, that's not a thing - the supplies are individual, named properties
-> > and even if there were a list we'd still want them to be named so it's
-> > clear what's going on.
-> 
-> So we have a collection of regulators, varying in numbers between
-> different PHYs, with different vendor names and purposes. In general,
-> they all should be turned on. Yet we want them named so it is clear
-> what is going on.
+From: qianfan Zhao <qianfanguijin@163.com>
 
-In what order do we turn the supplies on? How much time in between each 
-one? Does an external clock need to be running before or after (and how 
-long after). Oh, and what about resets and the order and timing of them 
-relative to everything else?
+Change history:
+===============
+v5(2022-05-17):
+- Move opp tables to sun8i-r40-cpu-opp.dtsi
+- cpufreq supports 720M, 912M, 1G, 1.1G, 1.2G
+- Add cooling supports
 
-This always happens in the same order. First, it's just one resource 
-like a regulator or reset. Then one more. Then another device with some 
-timing constraints. If we wanted a generic solution in DT, it would need 
-to be able to describe any power sequencing waveform. But we don't have 
-that because we don't want it. 
+v4(2022-05-16):
+- Invert two patches.
+- Drop the cpufreqs that exceeds 1G in opp tables.
 
-> Is there a generic solution here so that the phylib core can somehow
-> enumerate them and turn them on, without actually knowing what they
-> are called because they have vendor specific names in order to be
-> clear what they are?
+v3:
+- remove "allwinner-r40" compatible from allowlist.
+- split dts in two part.
 
-Other devices have specific compatibles so that the device can be 
-identified and powered up. Once again, MDIO should not be special here.
+Test:
+=====
 
-> There must be a solution to this, phylib cannot be the first subsystem
-> to have this requirement, so if you could point to an example, that
-> would be great.
+cpufreq was tested by tools: https://github.com/ssvb/cpuburn-arm
 
-Well, no one seems to want to make non-discoverable devices on 
-'discoverable' buses work. Still an issue for PCI and USB. I thought 
-MDIO had a solution here to probe any devices in the DT even if not 
-discovered.
+1. cpufreq-ljt-stress-test
 
-Rob
+- root@ubuntu:~/cpuburn-arm-master# ./cpufreq-ljt-stress-test 
+- CPU stress test, which is doing JPEG decoding by libjpeg-turbo
+- at different cpufreq operating points.
+- 
+- Testing CPU 0
+-  1200 MHz ............................................................ OK
+-  1104 MHz ............................................................ OK
+-  1008 MHz ............................................................ OK
+-   912 MHz ............................................................ OK
+-   720 MHz ............................................................ OK
+- 
+- Testing CPU 1
+-  1200 MHz ............................................................ OK
+-  1104 MHz ............................................................ OK
+-  1008 MHz ............................................................ OK
+-   912 MHz ............................................................ OK
+-   720 MHz ............................................................ OK
+- 
+- Testing CPU 2
+-  1200 MHz ............................................................ OK
+-  1104 MHz ............................................................ OK
+-  1008 MHz ............................................................ OK
+-   912 MHz ............................................................ OK
+-   720 MHz ............................................................ OK
+- 
+- Testing CPU 3
+-  1200 MHz ............................................................ OK
+-  1104 MHz ............................................................ OK
+-  1008 MHz ............................................................ OK
+-   912 MHz ............................................................ OK
+-   720 MHz ............................................................ OK
+
+Overall result : PASSED
+
+2. cpu freq slow down when cpuburn-a7.out running
+
+- temperature: 79213, online: 0-3, freq: 1200000
+- temperature: 79213, online: 0-3, freq: 1200000
+- temperature: 80230, online: 0-3, freq: 1104000
+- temperature: 78874, online: 0-3, freq: 1200000
+- temperature: 80004, online: 0-3, freq: 1104000
+- temperature: 79213, online: 0-3, freq: 1200000
+- temperature: 78196, online: 0-3, freq: 1200000
+- temperature: 79891, online: 0-3, freq: 1200000
+- temperature: 78422, online: 0-3, freq: 1200000
+- temperature: 80343, online: 0-3, freq: 1104000
+- temperature: 80343, online: 0-3, freq: 1104000
+
+
+qianfan Zhao (3):
+  ARM: dts: sun8i-r40: Add "cpu-supply" node for sun8i-r40 based board
+  ARM: dts: sun8i-r40: add opp table for cpu
+  ARM: dts: sun8i-r40: Add thermal trip points/cooling maps
+
+ .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  |  5 ++
+ arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi      | 52 +++++++++++++++++++
+ arch/arm/boot/dts/sun8i-r40-feta40i.dtsi      |  5 ++
+ arch/arm/boot/dts/sun8i-r40.dtsi              | 36 +++++++++++++
+ arch/arm/boot/dts/sun8i-t3-cqa3t-bv3.dts      |  5 ++
+ .../boot/dts/sun8i-v40-bananapi-m2-berry.dts  |  5 ++
+ 6 files changed, 108 insertions(+)
+ create mode 100644 arch/arm/boot/dts/sun8i-r40-cpu-opp.dtsi
+
+-- 
+2.25.1
+
