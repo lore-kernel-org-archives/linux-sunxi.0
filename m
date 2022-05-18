@@ -1,34 +1,48 @@
-Received: from m12-17.163.com (m12-17.163.com [220.181.12.17])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6383846B2
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 10:17:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=4TQRH
-	C3LKR1FplyucHsj4yZYXJRNePwajQzUjdPa1gM=; b=QEgLea40nMEtaxQqLxBYc
-	/N/1IACe8D8otPSpu2mFnk/A4p266kkM6lDnErLV0XljnnOx4NUg21sPzDaT80tD
-	SWPMcBde1cWdkSu/YWsts/WUmOdP0SdnkNwvIrMqMr2xO7+5oC6p42rqXaPyeW1T
-	tl7b0H6Cteqt5hWcgIbsh4=
-Received: from DESKTOP-B1R4FVG.localdomain (unknown [218.201.129.20])
-	by smtp13 (Coremail) with SMTP id EcCowACXG6mlx4RimzKrDA--.63720S3;
-	Wed, 18 May 2022 18:17:10 +0800 (CST)
-From: qianfanguijin@163.com
-To: linux-sunxi@lists.linux.dev
-Cc: Andre Przywara <andre.przywara@arm.com>,
-	Evgeny Boger <boger@wirenboard.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782CD7A;
+	Wed, 18 May 2022 13:21:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id D52411F450A3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1652880076;
+	bh=QwUtZ0MlTuyD+kVFho3tPCQtHU2Givu7vatYONjked0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PTQ+51j+Sfhs+k6XBL27swuBTeZdnYk2vb6hvfwVBIjsO04Fk+wu+LwCabRDYcYo2
+	 G362puEVZI21RLHZWwF5UnF/bF/tLvqok86cDY2ernlFdVm2+7CcYAQBZyxr0CnBV0
+	 xUmFV75fVWju0y/kipSfLWAD/4S4gV3nHcR9YEyBRnfBmyvhZlWa8ZC4/qk+xGh38N
+	 cRJjEQgo3rmBjna2bSFY+BJl8vx63oeHFswQ8sjbrzmllBrwwy4D3cERuSsyIlNARR
+	 OgWHSGN8pqfKmdE+SSPwo16FdpMtZdzzLQo74Rx9iU6zVCHV4z7YxDwKe9B1BQio1t
+	 Qphsm5/psb2lQ==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	heiko@sntech.de,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: kernel@pengutronix.de,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	qianfan Zhao <qianfanguijin@163.com>
-Subject: [PATCH v4 1/2] ARM: dts: sun8i-r40: Add USB0_OTG/HOST support
-Date: Wed, 18 May 2022 18:17:05 +0800
-Message-Id: <20220518101706.26869-2-qianfanguijin@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220518101706.26869-1-qianfanguijin@163.com>
-References: <20220518101706.26869-1-qianfanguijin@163.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v4] media: Add P010 video format
+Date: Wed, 18 May 2022 15:21:05 +0200
+Message-Id: <20220518132105.629797-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -36,76 +50,140 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:EcCowACXG6mlx4RimzKrDA--.63720S3
-X-Coremail-Antispam: 1Uf129KBjvJXoW7AFy3Zr17try8Gr1kXr17Awb_yoW8Zr1Upa
-	4j9rZ3t3yrWr1Sq3W3KFs5Jrn5J348Crs7Krn2y348Jrn2ga1qgFWxtF1SkFZ7Ww4UAw4a
-	qFn3Gry3W3WDZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRa2N_UUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXAYF7VXl28m+uAAAsW
 
-From: qianfan Zhao <qianfanguijin@163.com>
+P010 is a YUV format with 16-bits per pixel with interleaved UV.
 
-The USB0 port of R40 is divided into two controllers, one is H3
-compatibled MUSB device, another is OHCI/EHCI.
-
-Signed-off-by: qianfan Zhao <qianfanguijin@163.com>
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- arch/arm/boot/dts/sun8i-r40.dtsi | 34 ++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+version 4:
+- Fix 10-bits per components wording.
 
-diff --git a/arch/arm/boot/dts/sun8i-r40.dtsi b/arch/arm/boot/dts/sun8i-r40.dtsi
-index 212e19183484..ae48474fdefa 100644
---- a/arch/arm/boot/dts/sun8i-r40.dtsi
-+++ b/arch/arm/boot/dts/sun8i-r40.dtsi
-@@ -401,6 +401,21 @@ mmc3: mmc@1c12000 {
- 			#size-cells = <0>;
- 		};
+version 3:
+- remove LE suffix
+- rebased on media_tree_master branch
+
+ .../media/v4l/pixfmt-yuv-planar.rst           | 54 +++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c         |  1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+ include/uapi/linux/videodev2.h                |  1 +
+ 4 files changed, 57 insertions(+)
+
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 8dff5906639b..a900ff66911a 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -109,6 +109,13 @@ All components are stored with the same number of bits per component.
+       - Cb, Cr
+       - No
+       - 16x16 tiles
++    * - V4L2_PIX_FMT_P010
++      - 'P010'
++      - 10
++      - 4:2:0
++      - Cb, Cr
++      - Yes
++      - Linear
+     * - V4L2_PIX_FMT_NV16
+       - 'NV16'
+       - 8
+@@ -171,6 +178,7 @@ horizontally.
+ .. _V4L2-PIX-FMT-NV21:
+ .. _V4L2-PIX-FMT-NV12M:
+ .. _V4L2-PIX-FMT-NV21M:
++.. _V4L2-PIX-FMT-P010:
  
-+		usb_otg: usb@1c13000 {
-+			compatible = "allwinner,sun8i-r40-musb",
-+				     "allwinner,sun8i-h3-musb";
-+			reg = <0x01c13000 0x0400>;
-+			clocks = <&ccu CLK_BUS_OTG>;
-+			resets = <&ccu RST_BUS_OTG>;
-+			interrupts = <GIC_SPI 38 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-names = "mc";
-+			phys = <&usbphy 0>;
-+			phy-names = "usb";
-+			extcon = <&usbphy 0>;
-+			dr_mode = "otg";
-+			status = "disabled";
-+		};
-+
- 		usbphy: phy@1c13400 {
- 			compatible = "allwinner,sun8i-r40-usb-phy";
- 			reg = <0x01c13400 0x14>,
-@@ -427,6 +442,25 @@ usbphy: phy@1c13400 {
- 			#phy-cells = <1>;
- 		};
+ NV12, NV21, NV12M and NV21M
+ ---------------------------
+@@ -519,6 +527,52 @@ number of lines as the luma plane.
+       - Cb\ :sub:`33`
+       - Cr\ :sub:`33`
  
-+		ehci0: usb@1c14000 {
-+			compatible = "allwinner,sun8i-r40-ehci", "generic-ehci";
-+			reg = <0x01c14000 0x100>;
-+			interrupts = <GIC_SPI 39 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>;
-+			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-+			status = "disabled";
-+		};
++.. _V4L2_PIX_FMT_P010:
 +
-+		ohci0: usb@1c14400 {
-+			compatible = "allwinner,sun8i-r40-ohci", "generic-ohci";
-+			reg = <0x01c14400 0x100>;
-+			interrupts = <GIC_SPI 40 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_EHCI0>, <&ccu CLK_BUS_OHCI0>,
-+				 <&ccu CLK_USB_OHCI0>;
-+			resets = <&ccu RST_BUS_EHCI0>, <&ccu RST_BUS_OHCI0>;
-+			status = "disabled";
-+		};
++P010
++----
 +
- 		crypto: crypto@1c15000 {
- 			compatible = "allwinner,sun8i-r40-crypto";
- 			reg = <0x01c15000 0x1000>;
++Like NV12 with 10 bits per component, expanded to 16 bits.
++Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian order.
++
++.. flat-table:: Sample 4x4 P010 Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 8:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start + 16:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start + 24:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * - start + 32:
++      - Cb\ :sub:`00`
++      - Cr\ :sub:`00`
++      - Cb\ :sub:`01`
++      - Cr\ :sub:`01`
++    * - start + 40:
++      - Cb\ :sub:`10`
++      - Cr\ :sub:`10`
++      - Cb\ :sub:`11`
++      - Cr\ :sub:`11`
++
++.. raw:: latex
++
++    \endgroup
+ 
+ Fully Planar YUV Formats
+ ========================
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index df34b2a283bc..1e38ad8906a2 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+ 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
+ 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
++		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
+ 
+ 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+ 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index e2636539c9db..536aaeb4df82 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1305,6 +1305,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
+ 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
+ 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
++	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
+ 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 6d465dc443b7..311f106bbdf5 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -601,6 +601,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+ #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+ #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
++#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 16  Y/CbCr 4:2:0 16-bit per pixel */
+ 
+ /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
+ #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
 -- 
-2.25.1
+2.32.0
 
