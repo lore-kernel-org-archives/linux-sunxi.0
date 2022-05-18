@@ -1,41 +1,41 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935C41FCE
-	for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 20:09:50 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id k30so4166323wrd.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 13:09:50 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C98A423AA
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 20:09:52 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id h14so4176490wrc.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 13:09:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=SriQP5QFvjv+22faclUlTpDEJWTfd/KIKG1YNKb9hlI=;
-        b=J4LewnuHwL3OxcTIVsMV6xN29ahSYB41PufuCCLLZzBavi8wqCUKbAi0RjpMnBEpa5
-         noxOj3l/Q0xa0pfPtdvf18gKW9Zb/EZaRa/SOxIXnyxjw+nuiJb5QP5Q6GQR5P1GglVi
-         JFHu9Ng85tUZ/O9Sni3weCi6mg7weoktZDBqFRtWbtamXTRTq3qS6/kmEPrzaItPPhXM
-         KyOlMGsf+AphBrM5hvPo9sL4hpneCx/gYzeyF2xGgBAX7rF84qgKn4c3qUhmUOWjcsDg
-         tHhCmxt7XboKoK+gHTmUYvQd0fnpwDrMxVY+s2J+1UdWz6fGjXwJ8f6y7QumTnTlUZ3R
-         AZTg==
+        bh=OAGkT1M5jMR9soataqZ/aDlCf+slpduEKHamzxDek+k=;
+        b=nWSEVQAcxxJIiQkZxG8xgSo5vu5I9ZUHiImr8EADEL8kSkFbfVM8Z+pM6spbJA7xIS
+         x2EBkxIl74cC6FLEssPgc6edf8Kk1rhUVcEReBqLBiYH601c150gPmU22b3TeXotis0S
+         6cJ1RtsIKomQ414rySZaGUyuVcbJcHgmi3M/ScbiW0g+tnr3uixJjSARK+khNPx0Wu20
+         Da19MgE010SDvuxpfHelPqh9BNATH8CsxheYNWGZyFBmqLo5hAUbGzsbTfEHHRc2xjNg
+         InDxaIl+0rtY3n4ABjaBp9sji3I8l4Y0Fcw0mfILYcoSgry7sN6ziRIUQntFfiJ/YKmO
+         OQrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=SriQP5QFvjv+22faclUlTpDEJWTfd/KIKG1YNKb9hlI=;
-        b=6wdWxXddX8DWk8n5TGVRK1J7bPWlMcSlucQQpPv3ARZZu6HIDP2PfWIAtwn08fi1Zg
-         epb3eZGM6M/pmyZEjg7zwq4wZ/1wFk18n7njp/Z2NuOOZ5EZqmVfwASavBSFxfqYicZ5
-         HSwD5Yg9gBK4s4XNWVTD9kCofaYwO2xOE0cRy/DNOQDPQhOlGqdz2SMGD1XcwyQZRH0U
-         Ty5RaQIPwPak+MosrRvKwSZFHyKFYePAvk1BTHi6TSa5zYDDZFWEWUVilB0Qg7TEJl9Z
-         0J5aqVv8x1SdL0Oxw84Km0Yl6IujhbpwlJTD0FLrYCuDEkI6t81VLLO9JHPGGz6xPX2R
-         Cmxw==
-X-Gm-Message-State: AOAM531doFbkjp2S9eXbYUp5dmEojc7tjmuwrj5b4FqtSjA3OSurp9SJ
-	HG/RHk7YpaCiA7RZnuC40w3ycQ==
-X-Google-Smtp-Source: ABdhPJzppEln44MKcc9NY2qMbwnqkJ2Uq4IVab5lsOYJZ/r22l4fVuEatjuvyjoXfolPItUTNK1ZoA==
-X-Received: by 2002:a05:6000:186f:b0:20c:5f3d:44a4 with SMTP id d15-20020a056000186f00b0020c5f3d44a4mr1126253wri.152.1652904588901;
-        Wed, 18 May 2022 13:09:48 -0700 (PDT)
+        bh=OAGkT1M5jMR9soataqZ/aDlCf+slpduEKHamzxDek+k=;
+        b=UikxpUmaqAVwEPhe+LqoZmINlFPsGs0B8yXKxqnMuxY1lGZYczolh9nkze/F+rjYqG
+         XjIis6RRpG08tuYx6FRiJczDU7Mo0dKe0gKtqTByDP6m0EZqQCkdH8Chw547BipWwNaP
+         YVze6ua1EeqDRppdb/QwErgBhjfkcSEoK3rsiR/lvxJ3A8aubOBs1SGUK77x3D5dBDOH
+         SN+dpz+/F7Sd7AYeyrYXgQS233jJoRUXMN6HD2s1gmYivfs7t+Vkv64cAruVcROGxgkz
+         4v/XMkroHsuPwX3m6NQ1Tja0zBdzefMdBmawodPb750cCLQ0Tb8DMhFDOnqPndzVbRd6
+         FVrQ==
+X-Gm-Message-State: AOAM531UrCyxlh3ASYvbHndwLt2a/4j2/LGh7fdsSG+CFu/6kHqC3mmd
+	NNk0BIB0TLcrFHhR9cnqdLMBmg==
+X-Google-Smtp-Source: ABdhPJx7027jt1OtEzgemX8nNGTw2DPHXeDkAAtNb+diLtz+l8F2qMFU1DeU5NN/nWByXPmhBkliSw==
+X-Received: by 2002:a5d:4741:0:b0:20d:2a5:6b2d with SMTP id o1-20020a5d4741000000b0020d02a56b2dmr1161260wrs.100.1652904591171;
+        Wed, 18 May 2022 13:09:51 -0700 (PDT)
 Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id o23-20020a05600c511700b0039456c00ba7sm6859281wms.1.2022.05.18.13.09.47
+        by smtp.googlemail.com with ESMTPSA id o23-20020a05600c511700b0039456c00ba7sm6859281wms.1.2022.05.18.13.09.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 May 2022 13:09:48 -0700 (PDT)
+        Wed, 18 May 2022 13:09:50 -0700 (PDT)
 From: Corentin Labbe <clabbe@baylibre.com>
 To: andrew@lunn.ch,
 	broonie@kernel.org,
@@ -58,9 +58,9 @@ Cc: devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	netdev@vger.kernel.org,
 	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v2 2/5] regulator: Add regulator_bulk_get_all
-Date: Wed, 18 May 2022 20:09:36 +0000
-Message-Id: <20220518200939.689308-3-clabbe@baylibre.com>
+Subject: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional regulators
+Date: Wed, 18 May 2022 20:09:38 +0000
+Message-Id: <20220518200939.689308-5-clabbe@baylibre.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220518200939.689308-1-clabbe@baylibre.com>
 References: <20220518200939.689308-1-clabbe@baylibre.com>
@@ -72,88 +72,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-It work exactly like regulator_bulk_get() but instead of working on a
-provided list of names, it get names from a regulators list.
+Add entries for the new optional regulators.
 
 Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
 ---
- drivers/regulator/core.c           | 49 ++++++++++++++++++++++++++++++
- include/linux/regulator/consumer.h |  2 ++
- 2 files changed, 51 insertions(+)
+ Documentation/devicetree/bindings/net/ethernet-phy.yaml | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 09578c3595de..719ce9a0db1b 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -4849,6 +4849,55 @@ static void regulator_bulk_enable_async(void *data, async_cookie_t cookie)
- 	bulk->ret = regulator_enable(bulk->consumer);
- }
+diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+index ed1415a4381f..bd59e5cc0a55 100644
+--- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
++++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+@@ -153,6 +153,15 @@ properties:
+       used. The absence of this property indicates the muxers
+       should be configured so that the external PHY is used.
  
-+/**
-+ * regulator_bulk_get_all - get multiple regulator consumers
-+ *
-+ * @dev:           Device to supply
-+ * @consumers:     Configuration of consumers; clients are stored here.
-+ *
-+ * @return number of regulators on success, an errno on failure.
-+ *
-+ * This helper function allows drivers to get several regulator
-+ * consumers in one operation.  If any of the regulators cannot be
-+ * acquired then any regulators that were allocated will be freed
-+ * before returning to the caller.
-+ */
-+int regulator_bulk_get_all(struct device *dev, struct device_node *np,
-+			   struct regulator_bulk_data **consumers)
-+{
-+	int num_consumers;
-+	int i, ret;
-+	struct regulator *tmp;
-+	const char *p;
++  regulators:
++    description:
++       List of phandle to regulators needed for the PHY
 +
-+	num_consumers = of_property_count_elems_of_size(np, "regulators",
-+							sizeof(phandle));
-+	if (num_consumers <= 0)
-+		return num_consumers;
++  regulator-names:
++    description:
++      List of regulator name strings sorted in the same order as the
++      regulators property.
 +
-+	ret = of_property_count_strings(np, "regulator-names");
-+	if (ret != num_consumers) {
-+		dev_err(dev, "regulators and regulator-names does not have the same size\n");
-+		return -EINVAL;
-+	}
-+	*consumers = kmalloc_array(num_consumers, sizeof(struct regulator_bulk_data), GFP_KERNEL);
-+	if (!*consumers)
-+		return -ENOMEM;
-+	for (i = 0; i < num_consumers; i++) {
-+		ret = of_property_read_string_helper(np, "regulator-names", &p, 1, i);
-+		if (ret <= 0)
-+			goto error;
-+		tmp = regulator_get(dev, p);
-+		(*consumers)[i].consumer = tmp;
-+	}
-+	return num_consumers;
-+error:
-+	while (--i >= 0)
-+		regulator_put(consumers[i]->consumer);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(regulator_bulk_get_all);
-+
- /**
-  * regulator_bulk_enable - enable multiple regulator consumers
-  *
-diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
-index bbf6590a6dec..b9b1d1cbdd07 100644
---- a/include/linux/regulator/consumer.h
-+++ b/include/linux/regulator/consumer.h
-@@ -238,6 +238,8 @@ int regulator_disable_deferred(struct regulator *regulator, int ms);
+   resets:
+     maxItems: 1
  
- int __must_check regulator_bulk_get(struct device *dev, int num_consumers,
- 				    struct regulator_bulk_data *consumers);
-+int __must_check regulator_bulk_get_all(struct device *dev, struct device_node *np,
-+					struct regulator_bulk_data **consumers);
- int __must_check devm_regulator_bulk_get(struct device *dev, int num_consumers,
- 					 struct regulator_bulk_data *consumers);
- int __must_check regulator_bulk_enable(int num_consumers,
 -- 
 2.35.1
 
