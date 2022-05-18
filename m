@@ -1,189 +1,172 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 782CD7A;
-	Wed, 18 May 2022 13:21:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: benjamin.gaignard)
-	with ESMTPSA id D52411F450A3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1652880076;
-	bh=QwUtZ0MlTuyD+kVFho3tPCQtHU2Givu7vatYONjked0=;
-	h=From:To:Cc:Subject:Date:From;
-	b=PTQ+51j+Sfhs+k6XBL27swuBTeZdnYk2vb6hvfwVBIjsO04Fk+wu+LwCabRDYcYo2
-	 G362puEVZI21RLHZWwF5UnF/bF/tLvqok86cDY2ernlFdVm2+7CcYAQBZyxr0CnBV0
-	 xUmFV75fVWju0y/kipSfLWAD/4S4gV3nHcR9YEyBRnfBmyvhZlWa8ZC4/qk+xGh38N
-	 cRJjEQgo3rmBjna2bSFY+BJl8vx63oeHFswQ8sjbrzmllBrwwy4D3cERuSsyIlNARR
-	 OgWHSGN8pqfKmdE+SSPwo16FdpMtZdzzLQo74Rx9iU6zVCHV4z7YxDwKe9B1BQio1t
-	 Qphsm5/psb2lQ==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	heiko@sntech.de,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: kernel@pengutronix.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v4] media: Add P010 video format
-Date: Wed, 18 May 2022 15:21:05 +0200
-Message-Id: <20220518132105.629797-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBF8F7E
+	for <linux-sunxi@lists.linux.dev>; Wed, 18 May 2022 17:34:17 +0000 (UTC)
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24IH9eto028355;
+	Wed, 18 May 2022 17:34:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=R/3w+ni85q5LHFghof79I4XBzVDJrVyZ4K02mhL0eXM=;
+ b=FvpFYeZhivptOSn8jguFXqJQMBhOfneUPD+EjBNetNR28JvNOOzmIET2VgH7l//dKnjB
+ x6/4lyhkM0JbP++1/FTfNY8T0G6Yt3ioPq3nDhICa3/bsfmrtjV+SPO0duq749xzvIZx
+ gUHi9G49b+saUPMnuc4rhkeZghtabI+kJgKXTK4DdzjgpxROW4ZjPnkI1sFlQlt820p8
+ erhx9j2iosK9ZQ1WpvSOQJoxEjFGL+dgRH6DI1QRyOf+EdQd9pke3Y1P73sTREq9PE/5
+ 3xqc+ShaXKFjhzsTFsGUOLxHSCJeDZjiXG/o194M9epyWbrgs5/oTiFnBDmxuTAOtly/ rA== 
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3g22uc9sbg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 May 2022 17:34:10 +0000
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 24IHQ3mb008300;
+	Wed, 18 May 2022 17:34:07 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2168.outbound.protection.outlook.com [104.47.56.168])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com with ESMTP id 3g22v4gh41-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 18 May 2022 17:34:07 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BaPbc6TrZj8t44+PWYCnk6sjdzN6iHVvDt2EQdRHmCG94doNC2iblw6IBLzfniMlo4invegd/rZoVY61qP7NvlzJ8n3vzKOqid9mElZqYX7fdiznEr4Ey6pE+ErURAnVSG5qGJsZW1rv2KydWpDuX1v/tb5iOfR1S0Ij0HoaJGwCh6JPtnf63M6AMgWGas09SyIZDDxBYaKJb1gndb2ILhBL/Fp2iimpx7NjhASsr6XCsNGSPQXW88sVi664exhZWA38GTEpOoI8HPnKAlWmPN5P9uuZNVkxfs//nQ/1G+VU/Upnkt+rCSBBOT373eu1KGD4VbM3dqzLE7pNvwuBcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=R/3w+ni85q5LHFghof79I4XBzVDJrVyZ4K02mhL0eXM=;
+ b=UxKPb2CCJUrqdMJUA84Rp4WjXghIsQKVMFztPW5jFRgEj2zg66vqtVC6p13bsq22ZhGt1NRiU6k5NzLfzmSWacdXr6aFHW3GnL05BsK4FKE9n6lfMttI0vhj0uifkISFop9IIzpry3MQ0Kx7NDzVkCGUJRCDHZRPBnQ7VsngUy5o9IlWNZF3sOccobGZ6dwOX+0XBs5cGRVBXh/wB/zx0fY8Y1CKj2SoiPzRVYysDwnDqOhWS4XFHZnwIMzrApDDG8Cw+onnp5gIpORGOU2ZGdqc6AphmTNk5LLMDXTa8rtrCV4eEJfH3vfr7/TL7RXfP0HDhBN3gcd7IqlC6g3wCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=R/3w+ni85q5LHFghof79I4XBzVDJrVyZ4K02mhL0eXM=;
+ b=alm2N9p5jzkZE0ecYVBzxVECtr5NEKdd4GbEfUF1b8xf16yoCxgUfGiiDY9VATdzbX6xci+kyZA8kUw8/8A4qGAq2cyNwJGZXBxtPgmN6jLZ47Rme0re6pgiJ7riO6IvbuvI3Squ121NzCcezvbNdNEi3B39ft8wg/x16Mzk0GQ=
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by CY4PR10MB1927.namprd10.prod.outlook.com
+ (2603:10b6:903:122::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5250.14; Wed, 18 May
+ 2022 17:34:05 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::86f:81ba:9951:5a7e%2]) with mapi id 15.20.5273.014; Wed, 18 May 2022
+ 17:34:05 +0000
+Date: Wed, 18 May 2022 20:33:54 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Corentin Labbe <clabbe.montjoie@gmail.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Samuel Holland <samuel@sholland.org>, linux-crypto@vger.kernel.org,
+        linux-sunxi@lists.linux.dev, kernel-janitors@vger.kernel.org
+Subject: [PATCH] crypto: sun8i-ss - Fix error codes for dma_mapping_error()
+Message-ID: <YoUuAsJndw7aLn+S@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-ClientProxiedBy: ZRAP278CA0016.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::26) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 606474a8-3964-44ab-daa7-08da38f49b00
+X-MS-TrafficTypeDiagnostic: CY4PR10MB1927:EE_
+X-Microsoft-Antispam-PRVS: 
+	<CY4PR10MB1927ED07606846C07554CC968ED19@CY4PR10MB1927.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	75GI3Q4CjPYzaTVW4C7g6sw9EZ6MZhO7h8BufKO5sQRd4hW0mUz9Vl4Vmj3wdVUI8enJt1SXe8kv/0H1EyiMVxNHOMIr0pwCsDI9p9HizxxG/QgbkHBPmDfUY8CO4wvLxCD2TSgBX7rkwkDLJTsS9CDITu5He/MiTtiICqYeVO2yUM+FFWVQj+t40DK1BLHFAxev/8rF8xRwEKvNAEgJAbWGONYrG6+qDnPX5fYgmoGWPB57YQmcgfLC3orK7nQHvr3sWxFT/N4hRCY/4JeXA0UhfujSDT40PDwWh8BLZjfHYBAOogXX+clnjg7KK1CrFevIgGYcqtC8Uk/FcO/DFFzYTb1oxvS57qSxDgRcV7ah8+XigGQsdhH2bzGXPdBvFqcfhsk3dXO/IZMc3ocIKY/JZG261EOvw3mQ5h0Qsk4p6NkNaQ0gf4nu+XhxKUE3XRSc2Ujgnxl8mgHHNXexg5ZhdVAXRXO5wRNhOgjINCA747/RCCuG1u7C5qQIGbJyZWfqBEFmDIqn5/dNDTP50ziAO/XC3SYRPy5Jmte1SHM5ih2IbOrLZWQDivZyv//aZStWtnZaJ2u0VygdEQPFDiw1Ov3qFGH3LAyDfp0pnWbbFJsWc39wRLLiKsWhhl6h9UxnzWH892z+pl1zzkekuoc3ETkbzk7Je42fccKM9LQMOc64zy/u6YHDBOUKNpsMhGAK7zQN/BlYfA5eJPA9B2Y+sCtXocya+JRWKIGbCRKQ+LRfQfgugqd3WfNAnxF+
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR1001MB2365.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(7916004)(366004)(6486002)(52116002)(86362001)(44832011)(2906002)(508600001)(4326008)(186003)(6666004)(66946007)(6512007)(66476007)(38350700002)(316002)(83380400001)(6916009)(66556008)(6506007)(8676002)(54906003)(9686003)(5660300002)(38100700002)(8936002)(33716001)(26005)(32563001)(67856001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?drVtAOG5va9cTJyOZjQng6/zU8r0YvFrlq/QIyU3d/M2uYePlFXxVpvyFNc/?=
+ =?us-ascii?Q?GmX+YNwQtQSoDVp4jBV4qf0H6nmu4wJ9iekzF02FWbtpD58z56wA7LurMZnG?=
+ =?us-ascii?Q?xl51154SaVLRrMx83vi74JK4uTAr9agbwpmUs5IK6yHWFA+YbpMoFQz5SiJd?=
+ =?us-ascii?Q?J90wkTpzhIGCqAc8O3JKrUNsiMKpDwK9icqskIktxc97Rbp57i/5uiPmMLmz?=
+ =?us-ascii?Q?TgAVZPXFDYEuExtxlaZr4r2oChsq/RJ1pesW795WVjX5MzX92AnRzj5+SQA7?=
+ =?us-ascii?Q?85B00aA9ovCG3QF9lzdAEKAZhSSg+fWc/OUvsVd39rBCdkFIPbR+en1e2igB?=
+ =?us-ascii?Q?X9MGHcH9RFE30PWraQvckxoflsUZQwAx6hnt+y2KkvNmGhQyJgI+X7PlZM7/?=
+ =?us-ascii?Q?0z7ogac2/YKFMfRiAk0Duyrtno10/W6Ak5pglYwWYu8BSmNAkDMYU2yiFKlJ?=
+ =?us-ascii?Q?L8FoDWXELvnJJx2yAokKr66mqlSFLlMOD74d0VGRdiEjUtty8AxlMArY4orW?=
+ =?us-ascii?Q?rYV2yRW0v4ZqbEINTn10S66sLCzv0suSlKzokZ5l5jW9J8YxDI4KKqvpsfdH?=
+ =?us-ascii?Q?yVeSR0wBfJVabBkHh9bC1iTf6WCLAkH0/4uoybdW6WUfJqMtAjJI+zM5XqnV?=
+ =?us-ascii?Q?G9nVUvpgmg2xsxE/NSHgbgvsi0NJIsBx9AG4AWfAJ7RbXoxLj5QPmbY6+FtR?=
+ =?us-ascii?Q?AYBeMGXPj5YEB3DpzM6smi/m7O+yhRi7mkBgzdbpp7oM4KUONFpoNEJK/JaL?=
+ =?us-ascii?Q?YGVoJ2AEj/Y/NHpIYTLwq9dDc9qVw8GttHVR8EDMJXOTTrww4StFPVjZuDc+?=
+ =?us-ascii?Q?aGMluVKlYGVKg6hDTtl+oePAaOpQVncl8WhMVuqe9jfW81FzigBUQj45rKOD?=
+ =?us-ascii?Q?X6ZnfbYd0AY4atofC7lGFkANJijxZOVf/Wtk3QGPldJudx006ZVaZYji3JHn?=
+ =?us-ascii?Q?xAVDx2BxBltVbZH7G1PU4zEG6t3Mj5wngsthfjh26fNdA4Tkem7tD3eAjJy4?=
+ =?us-ascii?Q?yJCogANIhBFWYYFyUxp9sZL518pHXxsYBSH97rrm1GLGnr8XT53eZsUdYco/?=
+ =?us-ascii?Q?n/SkQCAhXXDLYLI4MFIHpB7wsHyO+EutuKtVBNKOh1MVxOfnK0ddU2eER4fF?=
+ =?us-ascii?Q?kgS2yueI/BfXsdATlR3KH56YkBCYDEnafxkbrW67G4uPMEbgsh+KZIV0nLGW?=
+ =?us-ascii?Q?lT+HpZFZgw/QDxXL2qOrFVvpMUfYI0Fg7sl611DTCch7o8zIS210WjkWbb5A?=
+ =?us-ascii?Q?zf6BkNNuqcsQdkTIvfR5MglEDx+umJrc4I5c5IbK2Hbct7Yz4PhWany4+lsz?=
+ =?us-ascii?Q?6ytQfCFRXC4lqcB2y/Yu5Bi+EbQ1Q1aElbnlOPLWUKnjupMqvS7fm3V4f4s+?=
+ =?us-ascii?Q?DdQn+SgGRg6gq+f6F1crQ7qOTA5WuzG0MZI8DsyGZJUl8t8zPYf7nIVRAT8J?=
+ =?us-ascii?Q?Z4d0tXNCtFallew1CStlW4HOwSoAJUXkX5mKqp1SzxtimLBHZ+wswKgxNvc0?=
+ =?us-ascii?Q?FG7dQ3zMPUW4D7uTRf+D8zZWpnt34fA/Xtyu9NWDYhH4fIWkFYhWqx3MT/6d?=
+ =?us-ascii?Q?N0WAGqeOcKzB91fHZUif/oIIyUc95f2g0QtKoz+83Vj28jTAUPl63fN5Ppa+?=
+ =?us-ascii?Q?yr+4D1nL/BRqtZOw7hZiwQRulNIjOAWIQn7DJXpNMbcH3h0CqvHTk9EKC4d3?=
+ =?us-ascii?Q?gAVSJPsphFoKIa7fCwoNOjJ4QBlaiQrxe8RXTGU5kuUgdGVz0h6UlTvGy6SC?=
+ =?us-ascii?Q?4AdMSLEeUCNQgQB0QGhlVe8kHf3ZJxY=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 606474a8-3964-44ab-daa7-08da38f49b00
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2022 17:34:05.3015
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: k/l/47LR9mhIh7EW5K1hqVE+WzkKBY0Onx+GLiTF9U7zlmlD6xZBykEo/fa+UhJ56WN/9+BDfUPua0cQNVXfQNAT3MtkQPBwD97zsnPMZ6I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR10MB1927
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.486,18.0.874
+ definitions=2022-05-18_06:2022-05-17,2022-05-18 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 spamscore=0
+ bulkscore=0 malwarescore=0 adultscore=0 suspectscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2205180104
+X-Proofpoint-GUID: nNkzaciqEsbBejLAJvU6bVesmYQLTRXY
+X-Proofpoint-ORIG-GUID: nNkzaciqEsbBejLAJvU6bVesmYQLTRXY
 
-P010 is a YUV format with 16-bits per pixel with interleaved UV.
+If there is a dma_mapping_error() then return negative error codes.
+Currently this code returns success.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Fixes: 801b7d572c0a ("crypto: sun8i-ss - add hmac(sha1)")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
-version 4:
-- Fix 10-bits per components wording.
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-version 3:
-- remove LE suffix
-- rebased on media_tree_master branch
-
- .../media/v4l/pixfmt-yuv-planar.rst           | 54 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 57 insertions(+)
-
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index 8dff5906639b..a900ff66911a 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -109,6 +109,13 @@ All components are stored with the same number of bits per component.
-       - Cb, Cr
-       - No
-       - 16x16 tiles
-+    * - V4L2_PIX_FMT_P010
-+      - 'P010'
-+      - 10
-+      - 4:2:0
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-     * - V4L2_PIX_FMT_NV16
-       - 'NV16'
-       - 8
-@@ -171,6 +178,7 @@ horizontally.
- .. _V4L2-PIX-FMT-NV21:
- .. _V4L2-PIX-FMT-NV12M:
- .. _V4L2-PIX-FMT-NV21M:
-+.. _V4L2-PIX-FMT-P010:
- 
- NV12, NV21, NV12M and NV21M
- ---------------------------
-@@ -519,6 +527,52 @@ number of lines as the luma plane.
-       - Cb\ :sub:`33`
-       - Cr\ :sub:`33`
- 
-+.. _V4L2_PIX_FMT_P010:
-+
-+P010
-+----
-+
-+Like NV12 with 10 bits per component, expanded to 16 bits.
-+Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian order.
-+
-+.. flat-table:: Sample 4x4 P010 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 8:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 16:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 24:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 32:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 40:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+.. raw:: latex
-+
-+    \endgroup
- 
- Fully Planar YUV Formats
- ========================
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index df34b2a283bc..1e38ad8906a2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
- 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index e2636539c9db..536aaeb4df82 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1305,6 +1305,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
- 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
- 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-+	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
- 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc443b7..311f106bbdf5 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -601,6 +601,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 16  Y/CbCr 4:2:0 16-bit per pixel */
- 
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index ac417a6b39e5..845019bd9591 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -586,7 +586,8 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 			rctx->t_dst[k + 1].len = rctx->t_dst[k].len;
+ 		}
+ 		addr_xpad = dma_map_single(ss->dev, tfmctx->ipad, bs, DMA_TO_DEVICE);
+-		if (dma_mapping_error(ss->dev, addr_xpad)) {
++		err = dma_mapping_error(ss->dev, addr_xpad);
++		if (err) {
+ 			dev_err(ss->dev, "Fail to create DMA mapping of ipad\n");
+ 			goto err_dma_xpad;
+ 		}
+@@ -612,7 +613,8 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 			goto err_dma_result;
+ 		}
+ 		addr_xpad = dma_map_single(ss->dev, tfmctx->opad, bs, DMA_TO_DEVICE);
+-		if (dma_mapping_error(ss->dev, addr_xpad)) {
++		err = dma_mapping_error(ss->dev, addr_xpad);
++		if (err) {
+ 			dev_err(ss->dev, "Fail to create DMA mapping of opad\n");
+ 			goto err_dma_xpad;
+ 		}
 -- 
-2.32.0
+2.35.1
 
