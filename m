@@ -1,112 +1,126 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D89320F
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 20:18:02 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id y66so1734152oia.1
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 13:18:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06FA2F48
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 20:55:01 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id q130so7596027ljb.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 13:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:to:cc:references:subject
+         :content-language:from:in-reply-to:content-transfer-encoding;
+        bh=ykepN6VoLxDb519/zdl3hvscRGddEy2w8xlt6V9kG3g=;
+        b=dMve2Rz5oX6qOdwprOe+DoCzTq+YEQgYj9e3Sh1Z7OES+6dVVGzh4jbb1En18wQf53
+         BRuJEShG3rUzrDiN0HAe++6iYSFPX18sMPZOvOOe514v+5sUFDVWbpKXg5MCtJayT8RT
+         Df1IFuZ8IS14Cfe+ACIGnu3YSIoy9KnnNa3ZnoEhn74qPGXqYmyGShnSBPrJt1Fe3jIN
+         JIw84UwlxBWYR5H8fmXUl1nOqYHVxJ2M+ch/sIESxn7sWsCvU+1hVsE4Jn8CrdDEcr9+
+         YGO4Xd8u+Zg1w/u6ng06m2B0oZHMhxgSiDkIuB7XXFJ1ZBYrESyxHHF2KMuMj8GhNJiv
+         OHNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=cpK/mxaaT61izHttPyCO54/paPZjEWsIdeOzJUvSPcc=;
-        b=LJWMIH2pjKEJL2e6+L3aJJdpC7Dqy64nHL8gL4WMXBzd0R/CWzrv3/s39xP9jn1RY2
-         aQWq0Aul29OmPpMaz6K96fd/Vhb0lRx3LDly4Lq6KDU2DSxHIk93A3OgQL6c9in8Rpbj
-         bkim/XGUMlEpg1GZWi7OYWqHfnixUxcWT6TnRTmAal4TI123RGoYCLIaN7Sn1ORug61X
-         jrKK4Ss1bYOxSWn8opTXNGZ4riFIUbMmezuCEJdBxUo0adM594S3VYRkYzE+cIxnpaRs
-         xM2RsQMRlWLD8fBlsgctKDnVfZlOKiVcfFU6JXuJrS2qSQ3HP6vUg5REHHq+SytVY8JC
-         gsHQ==
-X-Gm-Message-State: AOAM530Cso8dnZZsAyLpPTp6V4WWIkQNFpbtjWoeoldmKbyj8Azh7p4o
-	93z2Y4eH9Gp0vprKBcGIkg==
-X-Google-Smtp-Source: ABdhPJy2uy9qx4ESthKjZkWWf/xwQRdL3or4oVwIkBE3FEdvEGXq0yBS6KMNDhB9omyT6IZBbAg1Tw==
-X-Received: by 2002:a05:6808:1b13:b0:326:8545:bc60 with SMTP id bx19-20020a0568081b1300b003268545bc60mr3747171oib.286.1652991481217;
-        Thu, 19 May 2022 13:18:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id l63-20020aca3e42000000b00326e6ac9f79sm106147oia.46.2022.05.19.13.17.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 May 2022 13:18:00 -0700 (PDT)
-Received: (nullmailer pid 2122452 invoked by uid 1000);
-	Thu, 19 May 2022 20:17:59 -0000
-Date: Thu, 19 May 2022 15:17:59 -0500
-From: Rob Herring <robh@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown <broonie@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com, samuel@sholland.org, wens@csie.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
- regulators
-Message-ID: <20220519201759.GC2071376-robh@kernel.org>
-References: <20220518200939.689308-1-clabbe@baylibre.com>
- <20220518200939.689308-5-clabbe@baylibre.com>
- <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
- <YoYqmAB3P7fNOSVG@sirena.org.uk>
- <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
- <YoYw2lKbgCiDXP0A@lunn.ch>
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
+         :references:subject:content-language:from:in-reply-to
+         :content-transfer-encoding;
+        bh=ykepN6VoLxDb519/zdl3hvscRGddEy2w8xlt6V9kG3g=;
+        b=eyu7ScEuLZONQlxIrIkg6OwRsXDhRNdm8rNgN62Y6ogjjWenllGJ2+OGV0bkjBbPZw
+         nnSBSiLYU5fL75sWBzyCIXfFgoz12hVe1OIGx7IcxPZMdc+Bvnh7uj0R8r6IyPiYvPcn
+         uNAFrXL8Q0b9mbfEiyRFZ3xu27s71a62D4G6kKa0NmKAEKmUNJ0HX4MHrGS8PRGtM1R8
+         2ohsgi9TU6Xkpf63CHrkzYOWAcjTXJwGcJRsYj6sYmCHUQPkpzPlXQ6aj/OjHs7MKpy/
+         HX9aiARQs2FtygJsYIJ9G3QZ56sbLuoVnogWXN0nsJfAxptXcObiuI5IiAs/UnuRiqHR
+         Re+g==
+X-Gm-Message-State: AOAM530pLWEROLmNeBo8PhWsrfdyG/8bNin0oyLEGqdP+kWEt5w0xqcF
+	QVCNsy4nAdYpMsIAVUn6ATF+TA==
+X-Google-Smtp-Source: ABdhPJxDVsDoZQ3rFb716+iXoB+BWGYPfwVUdvxncdPn1zWF/QEbWLsi0SxLUsOS7u5CqmXAXGPpDQ==
+X-Received: by 2002:a05:651c:2124:b0:250:5b55:8147 with SMTP id a36-20020a05651c212400b002505b558147mr3612417ljq.439.1652993699699;
+        Thu, 19 May 2022 13:54:59 -0700 (PDT)
+Received: from [192.168.1.21] ([78.109.71.116])
+        by smtp.googlemail.com with ESMTPSA id x14-20020a2e7c0e000000b00253d654b2desm37550ljc.91.2022.05.19.13.54.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 13:54:58 -0700 (PDT)
+Message-ID: <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
+Date: Thu, 19 May 2022 23:54:57 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YoYw2lKbgCiDXP0A@lunn.ch>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+To: qianfanguijin@163.com
+Cc: andre.przywara@arm.com, boger@wirenboard.com, devicetree@vger.kernel.org,
+ jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org,
+ wens@csie.org
+References: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
+Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
+Content-Language: en-GB
+From: Evgeny Boger <boger@wirenboard.com>
+In-Reply-To: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 19, 2022 at 01:58:18PM +0200, Andrew Lunn wrote:
-> On Thu, May 19, 2022 at 01:33:21PM +0200, Krzysztof Kozlowski wrote:
-> > On 19/05/2022 13:31, Mark Brown wrote:
-> > > On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
-> > >> On 18/05/2022 22:09, Corentin Labbe wrote:
-> > > 
-> > >>> +  regulators:
-> > >>> +    description:
-> > >>> +       List of phandle to regulators needed for the PHY
-> > > 
-> > >> I don't understand that... is your PHY defining the regulators or using
-> > >> supplies? If it needs a regulator (as a supply), you need to document
-> > >> supplies, using existing bindings.
-> > > 
-> > > They're trying to have a generic driver which works with any random PHY
-> > > so the binding has no idea what supplies it might need.
-> > 
-> > OK, that makes sense, but then question is why not using existing
-> > naming, so "supplies" and "supply-names"?
-> 
-> I'm not saying it is not possible, but in general, the names are not
-> interesting. All that is needed is that they are all on, or
-> potentially all off to save power on shutdown. We don't care how many
-> there are, or what order they are enabled.
-> 
-> Ethernet PHY can have multiple supplies. For example there can be two
-> digital voltages and one analogue. Most designs just hard wire them
-> always on. It would not be unreasonable to have one GPIO which
-> controls all three. Or there could be one GPIO for the two digital
-> supplies, and one for the analogue. Or potentially, three GPIOs.
+Hi qianfan,
 
-Again, it's not just supplies...
+As Allwinner A40i user, let me first thank you for your effort for 
+making better upstream support for R40!
 
-> 
-> Given all the different ways the board could be designed, i doubt any
-> driver is going to want to control its supplies in an way other than
-> all on, or all off. 802.3 clause 22 defines a standardized way to put
-> a PHY into a low power mode. Using that one bit is much simpler than
-> trying to figure out how a board is wired.
-> 
-> However, the API/binding should be generic, usable for other use
-> cases. 
+However, I would strongly suggest *not* to add USB support to one more 
+Allwinner SoC in this particular way.
+The problem is, this approach consists of a number of carefully crafted 
+hacks in device tree to make current drivers work on Allwinner hardware 
+without modification to the drivers.
 
-The binding should not be generic as I explained here and many times 
-before...
+a few examples:
 
-> Nobody has needed an API like this before, but it is not to say
-> it might have other uses in the future. So maybe "supplies" and
-> "supply-names" is useful, but we still need a way to enumerate them as
-> a list without caring how many there are, or what their names are.
+1) please notice how ohci0 and ehci0 nodes do not contain reference to 
+usb phy. It is done intentionally, otherwise EHCI will reset musb mode.
+Of course omitting phy reference here is also completely breaking power 
+cycling in case of usb error and otherwise messes with a power management.
 
-There's 2 standard patterns for how producer/consumer bindings work 
-There's how gpio and regulators are done and then there's the
-foo/foo-names style. Regulators when with the former and we're not going 
-to do both.
+2) one must always enable ohci, ehci and usb_otg nodes at the same time. 
+If one forgets to enable ohci/ehci nodes while enabling usb_otg node, 
+the system will silently fail to work as USB host.
 
-You can still do what you want by retrieving all properties ending with 
-'-supply'. Not as easy to implement, but works for existing users.
+3) For host-only mode we still have to enable usb_otg node despite no 
+role switching is needed. That's because phy reference is missing in 
+ehci/ohci, so the ehci/ohci driver won't enable the PHY.
+Also I might be wrong, but I think phy won't be routed to ehci/ohci 
+controllers is this case.
 
-Rob
+4) musb host controller is initialized and present to hardware though 
+never actually used
+
+To summarize, not only the resulting device tree is not describing the 
+hardware properly, it is creating device tree configuration which will 
+be very hard to support in future, once proper driver support is in place.
+
+
+At Wiren Board kernel tree we tried to untangle this issue [1-6]. 
+Unfortunately I didn't have time to prepare it for kernel submission 
+yet, but I think I better submit it as RFC to get a feedback from you 
+and others.
+
+
+[1] 
+https://github.com/wirenboard/linux/commit/359abbbd86ddff4d3c61179c882c286de32bb089
+[2] 
+https://github.com/wirenboard/linux/commit/6327f9d7972c21b229fb83457fdde643b31553f9
+[3] 
+https://github.com/wirenboard/linux/commit/f01f4c66758bde460a4d8c5b54ecee3b585c0232
+[4] 
+https://github.com/wirenboard/linux/commit/c27598ad601e5a46f624b73412a531d6f1f63d37
+[5] 
+https://github.com/wirenboard/linux/commit/5796d6eebb86b32a3751b2038b63af46f94954b3
+[6] 
+https://github.com/wirenboard/linux/commit/0928a675d875f9c2849fd3a9888f718bbb673bda
+
+
+-- 
+Kind regards,
+Evgeny Boger
+CTO @ Wiren Board
++49 3046690053
+https://wirenboard.com/
+
