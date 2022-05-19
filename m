@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35A928EE
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46DDE28EE
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:25 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J66mW4012194;
-	Thu, 19 May 2022 10:43:32 -0500
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J66mW9012194;
+	Thu, 19 May 2022 10:43:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=ZaKUpotIvoQjdFwP7QMhM/HkrShRS0CkfsVa54u1syg=;
- b=YN6ej9i/DaUwKi4WVG4klAJ0DdYoE0b40D8lRgZJMZc2zTEq2FwNM0+SSGGSeY78MXrs
- xZYuob90IvQK5lULl8v8UGVckZ7Wbqw0h/+8XoTFp5Nw2LMZ6orPZXXDMovQvzU0qeVQ
- EPOaxx/Os2qccEm1P/DFcRrQpWQTI7mVIjOR5/hrFSXQFhbFwHjv3JGf4gelj5QMkDC6
- 6jFze3jVZv4dalMqOsyYTg7D1tlE5N84WGkPCXftFgdArtLslD6hJYckZdcOsz9e6nx4
- Z5uIXpLgZj7w4haQRz3pJxb+gZ7m7ekVdW8LArtMcau4vowehKMH1Z3xBgyLq/aXxcsJ /w== 
+ bh=oEINbWb2IxeY2RdC4wWiiFuBvEO49KQSsP6GuhyAPsg=;
+ b=VpFZM3X5t4sckrWWxn1j/7Y4jz62xza07LRK+wJ9zneaderwOGlKft9f9vfJ7DAgfejZ
+ e8zyMYacoTg7UoLG8PrbKyCHpV8+J7lJYWqc84TdWIaVBmnbw6zB+tVB6TsVPuZjbmuB
+ piRv3O9FUfdIBnbFARpNVWmYKljyRUFyhhXPWYqCiCANUl0sKCdoYAaeU1rKCKFHjmUq
+ ALCuSJAguGxN+oetSDxa5LAQdjySrITukREjybNxRy/puKdvkKg92x2Cj54t6QOqCgJX
+ gC6XHeCverSg/McTHO2n0irUBjBrZedbb1ZPC6B5XULUGq4A9E1kZqRr1k00F2ibdTXz Kw== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upf5dn-7
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upf5dn-12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 May 2022 10:43:31 -0500
+	Thu, 19 May 2022 10:43:36 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 16:43:20 +0100
+ 2022 16:43:21 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Thu, 19 May 2022 16:43:20 +0100
+ Transport; Thu, 19 May 2022 16:43:21 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 1636F11D1;
-	Thu, 19 May 2022 15:43:20 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2D83911D3;
+	Thu, 19 May 2022 15:43:21 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -44,9 +44,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
         <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 24/56] ASoC: test-component: Update to use set_fmt_new callback
-Date: Thu, 19 May 2022 16:42:46 +0100
-Message-ID: <20220519154318.2153729-25-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 39/56] ASoC: jz4740-i2s: Rename set_fmt_new back to set_fmt
+Date: Thu, 19 May 2022 16:43:01 +0100
+Message-ID: <20220519154318.2153729-40-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
 References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
@@ -58,86 +58,32 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: q0UNWcUb84d3WFxs6NgPjsPFwNx8_Vjq
-X-Proofpoint-ORIG-GUID: q0UNWcUb84d3WFxs6NgPjsPFwNx8_Vjq
+X-Proofpoint-GUID: eyB7FE0vjJCUcYuj-x5uG6IBc74XLl5T
+X-Proofpoint-ORIG-GUID: eyB7FE0vjJCUcYuj-x5uG6IBc74XLl5T
 X-Proofpoint-Spam-Reason: safe
 
-As part of updating the core to directly tell drivers if they are clock
-provider or consumer update this CPU side driver to use the new direct
+Now the core has been migrated across to the new direct clock
+specification we can move the drivers back to the normal set_fmt
 callback.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/generic/test-component.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ sound/soc/jz4740/jz4740-i2s.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-index 5da4725d9e16c..3a992a6eba9bb 100644
---- a/sound/soc/generic/test-component.c
-+++ b/sound/soc/generic/test-component.c
-@@ -66,7 +66,7 @@ static int test_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	unsigned int format = fmt & SND_SOC_DAIFMT_FORMAT_MASK;
- 	unsigned int clock  = fmt & SND_SOC_DAIFMT_CLOCK_MASK;
- 	unsigned int inv    = fmt & SND_SOC_DAIFMT_INV_MASK;
--	unsigned int master = fmt & SND_SOC_DAIFMT_MASTER_MASK;
-+	unsigned int master = fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK;
- 	char *str;
+diff --git a/sound/soc/jz4740/jz4740-i2s.c b/sound/soc/jz4740/jz4740-i2s.c
+index 2c9dee2417783..446c5e0615649 100644
+--- a/sound/soc/jz4740/jz4740-i2s.c
++++ b/sound/soc/jz4740/jz4740-i2s.c
+@@ -433,7 +433,7 @@ static const struct snd_soc_dai_ops jz4740_i2s_dai_ops = {
+ 	.shutdown = jz4740_i2s_shutdown,
+ 	.trigger = jz4740_i2s_trigger,
+ 	.hw_params = jz4740_i2s_hw_params,
+-	.set_fmt_new = jz4740_i2s_set_fmt,
++	.set_fmt = jz4740_i2s_set_fmt,
+ 	.set_sysclk = jz4740_i2s_set_sysclk,
+ };
  
- 	dev_info(dai->dev, "name   : %s", dai->name);
-@@ -105,16 +105,16 @@ static int test_dai_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 
- 	str = "unknown";
- 	switch (master) {
--	case SND_SOC_DAIFMT_CBP_CFP:
-+	case SND_SOC_DAIFMT_BP_FP:
- 		str = "clk provider, frame provider";
- 		break;
--	case SND_SOC_DAIFMT_CBC_CFP:
-+	case SND_SOC_DAIFMT_BC_FP:
- 		str = "clk consumer, frame provider";
- 		break;
--	case SND_SOC_DAIFMT_CBP_CFC:
-+	case SND_SOC_DAIFMT_BP_FC:
- 		str = "clk provider, frame consumer";
- 		break;
--	case SND_SOC_DAIFMT_CBC_CFC:
-+	case SND_SOC_DAIFMT_BC_FC:
- 		str = "clk consumer, frame consumer";
- 		break;
- 	}
-@@ -192,10 +192,10 @@ static int test_dai_bespoke_trigger(struct snd_pcm_substream *substream,
- static u64 test_dai_formats =
- 	/*
- 	 * Select below from Sound Card, not auto
--	 *	SND_SOC_POSSIBLE_DAIFMT_CBP_CFP
--	 *	SND_SOC_POSSIBLE_DAIFMT_CBC_CFP
--	 *	SND_SOC_POSSIBLE_DAIFMT_CBP_CFC
--	 *	SND_SOC_POSSIBLE_DAIFMT_CBC_CFC
-+	 *	SND_SOC_POSSIBLE_DAIFMT_BP_FP
-+	 *	SND_SOC_POSSIBLE_DAIFMT_BC_FP
-+	 *	SND_SOC_POSSIBLE_DAIFMT_BP_FC
-+	 *	SND_SOC_POSSIBLE_DAIFMT_BC_FC
- 	 */
- 	SND_SOC_POSSIBLE_DAIFMT_I2S	|
- 	SND_SOC_POSSIBLE_DAIFMT_RIGHT_J	|
-@@ -210,7 +210,7 @@ static u64 test_dai_formats =
- 	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
- 
- static const struct snd_soc_dai_ops test_ops = {
--	.set_fmt		= test_dai_set_fmt,
-+	.set_fmt_new		= test_dai_set_fmt,
- 	.startup		= test_dai_startup,
- 	.shutdown		= test_dai_shutdown,
- 	.auto_selectable_formats	= &test_dai_formats,
-@@ -221,7 +221,7 @@ static const struct snd_soc_dai_ops test_verbose_ops = {
- 	.set_sysclk		= test_dai_set_sysclk,
- 	.set_pll		= test_dai_set_pll,
- 	.set_clkdiv		= test_dai_set_clkdiv,
--	.set_fmt		= test_dai_set_fmt,
-+	.set_fmt_new		= test_dai_set_fmt,
- 	.mute_stream		= test_dai_mute_stream,
- 	.startup		= test_dai_startup,
- 	.shutdown		= test_dai_shutdown,
 -- 
 2.30.2
 
