@@ -1,233 +1,112 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC93C1FAA
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 18:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1652985841; x=1684521841;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=R6wPRFuxi1lyRSKNjtJtOfNrBIGNiVRk0AM8VBBZpvQ=;
-  b=L47uAz7Qb9QlpwvPMT1cts35oWm2oeyqhMjDtK1ijx1Q6d76e2L0p8Kh
-   0FnmrseTTG31lHvp1sS3VB+6OoUdsJru59PW6IXTnQhWadnvzNWUfLbVd
-   sUCfXFQ69xTWz1AOeIwef4JSZhtr4f2To3rot0bep8dqAVIOF8uAC5LqB
-   uZ3LwO9F7U36KLuMmmqGn3C6sV5RMD9ctm45Gap2uju005gMvhfb3t6qv
-   7g7Hz2NC3cLSB5I6wUkVD4bdrehdGl4OIoIN4EI74EoJsMHc21D7TF3cx
-   xC4Miai6fA7IFwSDKf1BjDGw1X9+mk/e66wvjBcD5H85zmsjSE/Pdyxkl
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10352"; a="254374772"
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="254374772"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 11:44:01 -0700
-X-IronPort-AV: E=Sophos;i="5.91,237,1647327600"; 
-   d="scan'208";a="639936525"
-Received: from vrgokulr-mobl1.amr.corp.intel.com (HELO [10.251.4.170]) ([10.251.4.170])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2022 11:43:56 -0700
-Message-ID: <935f76f2-c4cf-d66f-e1e1-8acf5a643f92@linux.intel.com>
-Date: Thu, 19 May 2022 13:43:55 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D89320F
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 20:18:02 +0000 (UTC)
+Received: by mail-oi1-f172.google.com with SMTP id y66so1734152oia.1
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 13:18:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cpK/mxaaT61izHttPyCO54/paPZjEWsIdeOzJUvSPcc=;
+        b=LJWMIH2pjKEJL2e6+L3aJJdpC7Dqy64nHL8gL4WMXBzd0R/CWzrv3/s39xP9jn1RY2
+         aQWq0Aul29OmPpMaz6K96fd/Vhb0lRx3LDly4Lq6KDU2DSxHIk93A3OgQL6c9in8Rpbj
+         bkim/XGUMlEpg1GZWi7OYWqHfnixUxcWT6TnRTmAal4TI123RGoYCLIaN7Sn1ORug61X
+         jrKK4Ss1bYOxSWn8opTXNGZ4riFIUbMmezuCEJdBxUo0adM594S3VYRkYzE+cIxnpaRs
+         xM2RsQMRlWLD8fBlsgctKDnVfZlOKiVcfFU6JXuJrS2qSQ3HP6vUg5REHHq+SytVY8JC
+         gsHQ==
+X-Gm-Message-State: AOAM530Cso8dnZZsAyLpPTp6V4WWIkQNFpbtjWoeoldmKbyj8Azh7p4o
+	93z2Y4eH9Gp0vprKBcGIkg==
+X-Google-Smtp-Source: ABdhPJy2uy9qx4ESthKjZkWWf/xwQRdL3or4oVwIkBE3FEdvEGXq0yBS6KMNDhB9omyT6IZBbAg1Tw==
+X-Received: by 2002:a05:6808:1b13:b0:326:8545:bc60 with SMTP id bx19-20020a0568081b1300b003268545bc60mr3747171oib.286.1652991481217;
+        Thu, 19 May 2022 13:18:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id l63-20020aca3e42000000b00326e6ac9f79sm106147oia.46.2022.05.19.13.17.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 May 2022 13:18:00 -0700 (PDT)
+Received: (nullmailer pid 2122452 invoked by uid 1000);
+	Thu, 19 May 2022 20:17:59 -0000
+Date: Thu, 19 May 2022 15:17:59 -0500
+From: Rob Herring <robh@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Mark Brown <broonie@kernel.org>, Corentin Labbe <clabbe@baylibre.com>, calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com, samuel@sholland.org, wens@csie.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
+ regulators
+Message-ID: <20220519201759.GC2071376-robh@kernel.org>
+References: <20220518200939.689308-1-clabbe@baylibre.com>
+ <20220518200939.689308-5-clabbe@baylibre.com>
+ <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+ <YoYqmAB3P7fNOSVG@sirena.org.uk>
+ <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
+ <YoYw2lKbgCiDXP0A@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Firefox/91.0 Thunderbird/91.5.0
-Subject: Re: [PATCH 00/56] Specify clock provider directly to CPU DAIs
-Content-Language: en-US
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: lgirdwood@gmail.com, kuninori.morimoto.gx@renesas.com,
- nicolas.ferre@microchip.com, nsaenz@kernel.org, shawnguo@kernel.org,
- linux-imx@nxp.com, cezary.rojewski@intel.com, linux-mips@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- daniel@zonque.org, srinivas.kandagatla@linaro.org,
- linux-rockchip@lists.infradead.org, krzk@kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-xtensa@linux-xtensa.org, peter.ujfalusi@gmail.com,
- jarkko.nikula@bitmer.com, heiko@sntech.de, jbrunet@baylibre.com,
- kernel@pengutronix.de, alsa-devel@alsa-project.org,
- patches@opensource.cirrus.com
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
-From: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YoYw2lKbgCiDXP0A@lunn.ch>
 
-
-
-On 5/19/22 10:42, Charles Keepax wrote:
-> Currently the set_fmt callback always passes clock provider/consumer
-> with respect to the CODEC. This made sense when the framework was
-> directly broken down into platforms and CODECs. However, as things
-> are now broken down into components which can be connected as either
-> the CPU or CODEC side of a DAI link it simplifies things if each
-> side of the link is just told if it is provider or consumer of the
-> clocks. Making this change allows us to remove one of the last parts
-> of the ASoC core that needs to know if a driver is a CODEC driver,
-> where it flips the clock format specifier if a CODEC driver is used on
-> the CPU side of a DAI link, as well as just being conceptually more
-> consistent with componentisation.
+On Thu, May 19, 2022 at 01:58:18PM +0200, Andrew Lunn wrote:
+> On Thu, May 19, 2022 at 01:33:21PM +0200, Krzysztof Kozlowski wrote:
+> > On 19/05/2022 13:31, Mark Brown wrote:
+> > > On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
+> > >> On 18/05/2022 22:09, Corentin Labbe wrote:
+> > > 
+> > >>> +  regulators:
+> > >>> +    description:
+> > >>> +       List of phandle to regulators needed for the PHY
+> > > 
+> > >> I don't understand that... is your PHY defining the regulators or using
+> > >> supplies? If it needs a regulator (as a supply), you need to document
+> > >> supplies, using existing bindings.
+> > > 
+> > > They're trying to have a generic driver which works with any random PHY
+> > > so the binding has no idea what supplies it might need.
+> > 
+> > OK, that makes sense, but then question is why not using existing
+> > naming, so "supplies" and "supply-names"?
 > 
-> The basic idea of this patch chain is to change the set_fmt callback
-> from specifying if the CODEC is provider/consumer into directly
-> specifying if the component is provider/consumer. To do this we add
-> some new defines, and then to preserve bisectability, the migration is
-> done by adding a new callback, converting over all existing CPU side
-> drivers, converting the core, and then finally reverting back to the
-> old callback.
+> I'm not saying it is not possible, but in general, the names are not
+> interesting. All that is needed is that they are all on, or
+> potentially all off to save power on shutdown. We don't care how many
+> there are, or what order they are enabled.
 > 
-> Converting the platform drivers makes sense as the existing defines
-> are from the perspective of the CODEC and there are more CODEC drivers
-> than platform drivers.
-> 
-> Obviously a fair amount of this patch chain I was only able to build
-> test, so any testing that can be done would be greatly appreciated.
+> Ethernet PHY can have multiple supplies. For example there can be two
+> digital voltages and one analogue. Most designs just hard wire them
+> always on. It would not be unreasonable to have one GPIO which
+> controls all three. Or there could be one GPIO for the two digital
+> supplies, and one for the analogue. Or potentially, three GPIOs.
 
-All good for the SOF CI (small subset tested for Intel platforms).
-
-https://github.com/thesofproject/linux/pull/3660
+Again, it's not just supplies...
 
 > 
-> Thanks,
-> Charles
+> Given all the different ways the board could be designed, i doubt any
+> driver is going to want to control its supplies in an way other than
+> all on, or all off. 802.3 clause 22 defines a standardized way to put
+> a PHY into a low power mode. Using that one bit is much simpler than
+> trying to figure out how a board is wired.
 > 
-> Charles Keepax (56):
->   ASoC: core: Add set_fmt_new callback that directly specifies provider
->   ASoC: amd: vangogh: Update to use set_fmt_new callback
->   ASoC: atmel: Update to use set_fmt_new callback
->   ASoC: au1x: Update to use set_fmt_new callback
->   ASoC: bcm: Update to use set_fmt_new callback
->   ASoC: ep93xx: Update to use set_fmt_new callback
->   ASoC: dwc: Update to use set_fmt_new callback
->   ASoC: fsl: Update to use set_fmt_new callback
->   ASoC: hisilicon: Update to use set_fmt_new callback
->   ASoC: img: Update to use set_fmt_new callback
->   ASoC: Intel: Update to use set_fmt_new callback
->   ASoC: js4740-i2s: Update to use set_fmt_new callback
->   ASoC: mediatek: Update to use set_fmt_new callback
->   ASoC: meson: Update to use set_fmt_new callback
->   ASoC: mxs-saif: Update to use set_fmt_new callback
->   ASoC: pxa: Update to use set_fmt_new callback
->   ASoC: qcom: Update to use set_fmt_new callback
->   ASoC: rockchip: Update to use set_fmt_new callback
->   ASoC: samsung: Update to use set_fmt_new callback
->   ASoC: sh: Update to use set_fmt_new callback
->   ASoC: stm: Update to use set_fmt_new callback
->   ASoC: sunxi: Update to use set_fmt_new callback
->   ASoC: tegra: Update to use set_fmt_new callback
->   ASoC: test-component: Update to use set_fmt_new callback
->   ASoC: ti: Update to use set_fmt_new callback
->   ASoC: ux500: Update to use set_fmt_new callback
->   ASoC: xtensa: Update to use set_fmt_new callback
->   ASoC: core: Always send the CPU DAI a direct clock specifier
->   ASoC: amd: vangogh: Rename set_fmt_new back to set_fmt
->   ASoC: atmel: Rename set_fmt_new back to set_fmt
->   ASoC: au1x: Rename set_fmt_new back to set_fmt
->   ASoC: bcm: Rename set_fmt_new back to set_fmt
->   ASoC: ep93xx: Rename set_fmt_new back to set_fmt
->   ASoC: dwc: Rename set_fmt_new back to set_fmt
->   ASoC: fsl: Rename set_fmt_new back to set_fmt
->   ASoC: hisilicon: Rename set_fmt_new back to set_fmt
->   ASoC: img: Rename set_fmt_new back to set_fmt
->   ASoC: Intel: Rename set_fmt_new back to set_fmt
->   ASoC: jz4740-i2s: Rename set_fmt_new back to set_fmt
->   ASoC: mediatek: Rename set_fmt_new back to set_fmt
->   ASoC: meson: Rename set_fmt_new back to set_fmt
->   ASoC: mxs-saif: Rename set_fmt_new back to set_fmt
->   ASoC: pxa: Rename set_fmt_new back to set_fmt
->   ASoC: qcom: Rename set_fmt_new back to set_fmt
->   ASoC: rockchip: Rename set_fmt_new back to set_fmt
->   ASoC: samsung: Rename set_fmt_new back to set_fmt
->   ASoC: sh: Rename set_fmt_new back to set_fmt
->   ASoC: stm: Rename set_fmt_new back to set_fmt
->   ASoC: sunxi: Rename set_fmt_new back to set_fmt
->   ASoC: tegra: Rename set_fmt_new back to set_fmt
->   ASoC: test-component: Rename set_fmt_new back to set_fmt
->   ASoC: ti: Rename set_fmt_new back to set_fmt
->   ASoC: ux500: Rename set_fmt_new back to set_fmt
->   ASoC: xtensa: Rename set_fmt_new back to set_fmt
->   ASoC: soc-dai: Remove set_fmt_new callback
->   ASoC: simple-card-utils: Move snd_soc_component_is_codec to be local
-> 
->  include/sound/soc-component.h                |  5 ---
->  include/sound/soc-dai.h                      |  6 ++++
->  sound/soc/amd/vangogh/acp5x-i2s.c            |  4 +--
->  sound/soc/atmel/atmel-i2s.c                  |  4 +--
->  sound/soc/atmel/atmel_ssc_dai.c              | 18 +++++-----
->  sound/soc/atmel/mchp-i2s-mcc.c               |  8 ++---
->  sound/soc/atmel/mchp-pdmc.c                  |  4 +--
->  sound/soc/au1x/i2sc.c                        |  2 +-
->  sound/soc/au1x/psc-i2s.c                     |  4 +--
->  sound/soc/bcm/bcm2835-i2s.c                  | 20 +++++------
->  sound/soc/bcm/cygnus-ssp.c                   |  4 +--
->  sound/soc/cirrus/ep93xx-i2s.c                |  4 +--
->  sound/soc/dwc/dwc-i2s.c                      |  8 ++---
->  sound/soc/fsl/fsl_audmix.c                   |  6 ++--
->  sound/soc/fsl/fsl_esai.c                     |  8 ++---
->  sound/soc/fsl/fsl_mqs.c                      |  2 +-
->  sound/soc/fsl/fsl_sai.c                      |  8 ++---
->  sound/soc/fsl/fsl_ssi.c                      | 22 ++++++------
->  sound/soc/fsl/imx-audmix.c                   |  4 +--
->  sound/soc/fsl/imx-card.c                     |  2 +-
->  sound/soc/generic/simple-card-utils.c        |  7 +++-
->  sound/soc/generic/test-component.c           | 18 +++++-----
->  sound/soc/hisilicon/hi6210-i2s.c             | 18 +++++-----
->  sound/soc/img/img-i2s-in.c                   |  4 +--
->  sound/soc/img/img-i2s-out.c                  |  6 ++--
->  sound/soc/intel/atom/sst-atom-controls.c     |  4 +--
->  sound/soc/intel/boards/bytcht_cx2072x.c      |  2 +-
->  sound/soc/intel/boards/bytcht_da7213.c       |  2 +-
->  sound/soc/intel/boards/bytcht_es8316.c       |  2 +-
->  sound/soc/intel/boards/bytcht_nocodec.c      |  2 +-
->  sound/soc/intel/boards/bytcr_rt5640.c        |  2 +-
->  sound/soc/intel/boards/bytcr_rt5651.c        |  2 +-
->  sound/soc/intel/boards/bytcr_wm5102.c        |  2 +-
->  sound/soc/intel/boards/cht_bsw_max98090_ti.c |  3 +-
->  sound/soc/intel/boards/cht_bsw_rt5645.c      |  6 ++--
->  sound/soc/intel/boards/cht_bsw_rt5672.c      |  2 +-
->  sound/soc/intel/keembay/kmb_platform.c       |  4 +--
->  sound/soc/jz4740/jz4740-i2s.c                | 10 +++---
->  sound/soc/mediatek/mt8195/mt8195-dai-etdm.c  |  6 ++--
->  sound/soc/mediatek/mt8195/mt8195-dai-pcm.c   |  6 ++--
->  sound/soc/meson/aiu-encoder-i2s.c            |  2 +-
->  sound/soc/meson/axg-tdm-interface.c          | 14 ++++----
->  sound/soc/mxs/mxs-saif.c                     |  4 +--
->  sound/soc/pxa/magician.c                     |  8 ++---
->  sound/soc/pxa/mmp-sspa.c                     |  6 ++--
->  sound/soc/pxa/pxa-ssp.c                      | 22 ++++++------
->  sound/soc/pxa/pxa2xx-i2s.c                   |  6 ++--
->  sound/soc/qcom/apq8016_sbc.c                 |  2 +-
->  sound/soc/qcom/qdsp6/audioreach.c            |  4 +--
->  sound/soc/qcom/qdsp6/q6afe.c                 |  6 ++--
->  sound/soc/qcom/sc7180.c                      |  2 +-
->  sound/soc/qcom/sdm845.c                      |  6 ++--
->  sound/soc/qcom/sm8250.c                      |  4 +--
->  sound/soc/rockchip/rockchip_i2s.c            |  6 ++--
->  sound/soc/rockchip/rockchip_i2s_tdm.c        |  6 ++--
->  sound/soc/samsung/i2s.c                      |  6 ++--
->  sound/soc/samsung/pcm.c                      |  4 +--
->  sound/soc/samsung/s3c-i2s-v2.c               |  6 ++--
->  sound/soc/samsung/s3c24xx-i2s.c              |  6 ++--
->  sound/soc/sh/fsi.c                           |  6 ++--
->  sound/soc/sh/rcar/core.c                     |  4 +--
->  sound/soc/sh/rz-ssi.c                        |  2 +-
->  sound/soc/sh/ssi.c                           | 10 +++---
->  sound/soc/soc-core.c                         | 14 ++------
->  sound/soc/soc-dai.c                          |  3 +-
->  sound/soc/stm/stm32_i2s.c                    |  8 ++---
->  sound/soc/stm/stm32_sai_sub.c                |  8 ++---
->  sound/soc/sunxi/sun4i-i2s.c                  | 18 +++++-----
->  sound/soc/sunxi/sun8i-codec.c                |  6 ++--
->  sound/soc/tegra/tegra20_i2s.c                |  6 ++--
->  sound/soc/tegra/tegra210_i2s.c               |  6 ++--
->  sound/soc/tegra/tegra30_i2s.c                |  6 ++--
->  sound/soc/ti/davinci-i2s.c                   | 32 ++++++++---------
->  sound/soc/ti/davinci-mcasp.c                 | 10 +++---
->  sound/soc/ti/omap-mcbsp.c                    | 12 +++----
->  sound/soc/ux500/ux500_msp_dai.c              | 36 ++++++++++----------
->  sound/soc/xtensa/xtfpga-i2s.c                |  4 +--
->  77 files changed, 279 insertions(+), 283 deletions(-)
-> 
+> However, the API/binding should be generic, usable for other use
+> cases. 
+
+The binding should not be generic as I explained here and many times 
+before...
+
+> Nobody has needed an API like this before, but it is not to say
+> it might have other uses in the future. So maybe "supplies" and
+> "supply-names" is useful, but we still need a way to enumerate them as
+> a list without caring how many there are, or what their names are.
+
+There's 2 standard patterns for how producer/consumer bindings work 
+There's how gpio and regulators are done and then there's the
+foo/foo-names style. Regulators when with the former and we're not going 
+to do both.
+
+You can still do what you want by retrieving all properties ending with 
+'-supply'. Not as easy to implement, but works for existing users.
+
+Rob
