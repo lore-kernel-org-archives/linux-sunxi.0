@@ -1,126 +1,198 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06FA2F48
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 20:55:01 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id q130so7596027ljb.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 13:55:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wirenboard-com.20210112.gappssmtp.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:to:cc:references:subject
-         :content-language:from:in-reply-to:content-transfer-encoding;
-        bh=ykepN6VoLxDb519/zdl3hvscRGddEy2w8xlt6V9kG3g=;
-        b=dMve2Rz5oX6qOdwprOe+DoCzTq+YEQgYj9e3Sh1Z7OES+6dVVGzh4jbb1En18wQf53
-         BRuJEShG3rUzrDiN0HAe++6iYSFPX18sMPZOvOOe514v+5sUFDVWbpKXg5MCtJayT8RT
-         Df1IFuZ8IS14Cfe+ACIGnu3YSIoy9KnnNa3ZnoEhn74qPGXqYmyGShnSBPrJt1Fe3jIN
-         JIw84UwlxBWYR5H8fmXUl1nOqYHVxJ2M+ch/sIESxn7sWsCvU+1hVsE4Jn8CrdDEcr9+
-         YGO4Xd8u+Zg1w/u6ng06m2B0oZHMhxgSiDkIuB7XXFJ1ZBYrESyxHHF2KMuMj8GhNJiv
-         OHNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:to:cc
-         :references:subject:content-language:from:in-reply-to
-         :content-transfer-encoding;
-        bh=ykepN6VoLxDb519/zdl3hvscRGddEy2w8xlt6V9kG3g=;
-        b=eyu7ScEuLZONQlxIrIkg6OwRsXDhRNdm8rNgN62Y6ogjjWenllGJ2+OGV0bkjBbPZw
-         nnSBSiLYU5fL75sWBzyCIXfFgoz12hVe1OIGx7IcxPZMdc+Bvnh7uj0R8r6IyPiYvPcn
-         uNAFrXL8Q0b9mbfEiyRFZ3xu27s71a62D4G6kKa0NmKAEKmUNJ0HX4MHrGS8PRGtM1R8
-         2ohsgi9TU6Xkpf63CHrkzYOWAcjTXJwGcJRsYj6sYmCHUQPkpzPlXQ6aj/OjHs7MKpy/
-         HX9aiARQs2FtygJsYIJ9G3QZ56sbLuoVnogWXN0nsJfAxptXcObiuI5IiAs/UnuRiqHR
-         Re+g==
-X-Gm-Message-State: AOAM530pLWEROLmNeBo8PhWsrfdyG/8bNin0oyLEGqdP+kWEt5w0xqcF
-	QVCNsy4nAdYpMsIAVUn6ATF+TA==
-X-Google-Smtp-Source: ABdhPJxDVsDoZQ3rFb716+iXoB+BWGYPfwVUdvxncdPn1zWF/QEbWLsi0SxLUsOS7u5CqmXAXGPpDQ==
-X-Received: by 2002:a05:651c:2124:b0:250:5b55:8147 with SMTP id a36-20020a05651c212400b002505b558147mr3612417ljq.439.1652993699699;
-        Thu, 19 May 2022 13:54:59 -0700 (PDT)
-Received: from [192.168.1.21] ([78.109.71.116])
-        by smtp.googlemail.com with ESMTPSA id x14-20020a2e7c0e000000b00253d654b2desm37550ljc.91.2022.05.19.13.54.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 13:54:58 -0700 (PDT)
-Message-ID: <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
-Date: Thu, 19 May 2022 23:54:57 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A03533C3
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 23:40:16 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 568E05C023E;
+	Thu, 19 May 2022 19:40:15 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 19 May 2022 19:40:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1653003615; x=
+	1653090015; bh=iqHByxP/PP0RV5Kp27EEtrVjbBff5eU8E6iDfYSzvlo=; b=v
+	WvrghW/tnB2wQQZ7H1BtAjOy1RhwPLZpgzo98sCQvJhYWwor/HzjJNsV/LVOFbsE
+	YSiG6I57bor0I2nDEC6ZNocpWKkv71xzTjDYt6ZfZ8NcTOw4uLTbONYN6bKYH0PY
+	ZXLXErKuqY/OVSt1aiUR4bNuR2iEWFiDRXePo8UJrjuv+NMyWc7SgXvTTXZClSjS
+	xX/9GfMLAZ8ZS2t+SmXFzd5bG9/XZqH4LhunRvn1mAKETHqh9PDqXC25nNdQWczb
+	Ozc+ESgOxLy8gZ1sJC+Wq7Am0HXvT/m2QJQsf+liwgR8ULL+hRLTOVRO4mvNvxjd
+	KHsL6W3LPExCEUM/TygiQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653003615; x=
+	1653090015; bh=iqHByxP/PP0RV5Kp27EEtrVjbBff5eU8E6iDfYSzvlo=; b=k
+	pRbno/Gt6gUXFzSSorr0j6sxajaPEN+rwHFd8+jcnA6Sce0eyMe1DAfgUIuR5rln
+	yyI3d7qfzMsS8JltiVQrFJi7K/ZoDyKheaneInXoIGCdVSulwqOTjJorhLCu2Gw7
+	IoRXmbGJ3trZhAv+ZBVHrxN0gMC5BalsJ/SKUO/9f+9Ut6HKvwFdvvQ8z8xsuHUk
+	fxcCGXOOf/BbfqT8Y8VSjsuEJ6GBj8XDHJJ8IRfvpiEixjiRTsOTlez4NEgoU/2g
+	W4aJu6F/kQHejyjCH6arZw/g+aNM+9HBFIdRKkeEFQw/69yhZyT9EcMBkfbZV9md
+	9NuahsBfHX2ficK+iYbDQ==
+X-ME-Sender: <xms:XdWGYgUGUf75UPVgls83XPWiF6A-tBj4e3s97Kb34YKu5oXO3A13_Q>
+    <xme:XdWGYkkqej7Sw873SF-tPbdbpAwSLvqaubcCTMpPfIOnD1JzRCeaEf8RmHncNciRB
+    jroNjyXsoqZ4PKpkg>
+X-ME-Received: <xmr:XdWGYkbvrZwpUnOM1O4-_2tYjgJTQpjZPqXkpDEw0EpgcjUMjLmwhmRAdevmUe4wB8Y-f3nIrmriP-19jvjm7O0yy8ouh7KCEVebaavF9pBHI4yR_-4r_4bKXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedriedvgddviecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfhiedt
+    heduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:XdWGYvUwc4jVKeqPla_0-WQCIkx0RnvqDhfHPs1ZzAd8QctkVgY8fQ>
+    <xmx:XdWGYqm6J2stCQX-STAMuroIUM4y_rHHyhG_yTajyWgKhMRCq9JK7Q>
+    <xmx:XdWGYkfsUHQ4XlJCEJ_vR0OyzJAV_JKQMFS6xef23lbxi7aCuM1zAg>
+    <xmx:X9WGYo3IuYUdLigJsZOLgqfeufUYTAN7skI0dQ2vQGpXXTD2m7p_Gw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 May 2022 19:40:12 -0400 (EDT)
+Subject: Re: [PATCH 22/56] ASoC: sunxi: Update to use set_fmt_new callback
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: lgirdwood@gmail.com, kuninori.morimoto.gx@renesas.com,
+ nicolas.ferre@microchip.com, nsaenz@kernel.org, shawnguo@kernel.org,
+ linux-imx@nxp.com, cezary.rojewski@intel.com,
+ pierre-louis.bossart@linux.intel.com, linux-mips@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
+ daniel@zonque.org, srinivas.kandagatla@linaro.org,
+ linux-rockchip@lists.infradead.org, krzk@kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-xtensa@linux-xtensa.org, peter.ujfalusi@gmail.com,
+ jarkko.nikula@bitmer.com, heiko@sntech.de, jbrunet@baylibre.com,
+ kernel@pengutronix.de, alsa-devel@alsa-project.org,
+ patches@opensource.cirrus.com
+References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+ <20220519154318.2153729-23-ckeepax@opensource.cirrus.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <948d5418-44ca-2e60-0c1c-0b16f315feba@sholland.org>
+Date: Thu, 19 May 2022 18:40:11 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-To: qianfanguijin@163.com
-Cc: andre.przywara@arm.com, boger@wirenboard.com, devicetree@vger.kernel.org,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org,
- wens@csie.org
-References: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
-Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
-Content-Language: en-GB
-From: Evgeny Boger <boger@wirenboard.com>
-In-Reply-To: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+In-Reply-To: <20220519154318.2153729-23-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi qianfan,
+On 5/19/22 10:42 AM, Charles Keepax wrote:
+> As part of updating the core to directly tell drivers if they are clock
+> provider or consumer update these CPU side drivers to use the new direct
+> callback.
+> 
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+> ---
+>  sound/soc/sunxi/sun4i-i2s.c   | 20 ++++++++++----------
+>  sound/soc/sunxi/sun8i-codec.c |  8 ++++----
+>  2 files changed, 14 insertions(+), 14 deletions(-)
+> 
+> diff --git a/sound/soc/sunxi/sun4i-i2s.c b/sound/soc/sunxi/sun4i-i2s.c
+> index 7047f71629ab3..872838d3e0a94 100644
+> --- a/sound/soc/sunxi/sun4i-i2s.c
+> +++ b/sound/soc/sunxi/sun4i-i2s.c
+> @@ -702,13 +702,13 @@ static int sun4i_i2s_set_soc_fmt(const struct sun4i_i2s *i2s,
+>  			   SUN4I_I2S_FMT0_FMT_MASK, val);
+>  
+>  	/* DAI clock master masks */
+> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+> -	case SND_SOC_DAIFMT_CBS_CFS:
+> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+> +	case SND_SOC_DAIFMT_BP_FP:
+>  		/* BCLK and LRCLK master */
+>  		val = SUN4I_I2S_CTRL_MODE_MASTER;
+>  		break;
+>  
+> -	case SND_SOC_DAIFMT_CBM_CFM:
+> +	case SND_SOC_DAIFMT_BC_FC:
+>  		/* BCLK and LRCLK slave */
+>  		val = SUN4I_I2S_CTRL_MODE_SLAVE;
+>  		break;
+> @@ -802,13 +802,13 @@ static int sun8i_i2s_set_soc_fmt(const struct sun4i_i2s *i2s,
+>  			   SUN8I_I2S_TX_CHAN_OFFSET(offset));
+>  
+>  	/* DAI clock master masks */
+> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+> -	case SND_SOC_DAIFMT_CBS_CFS:
+> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+> +	case SND_SOC_DAIFMT_BP_FP:
+>  		/* BCLK and LRCLK master */
+>  		val = SUN8I_I2S_CTRL_BCLK_OUT |	SUN8I_I2S_CTRL_LRCK_OUT;
+>  		break;
+>  
+> -	case SND_SOC_DAIFMT_CBM_CFM:
+> +	case SND_SOC_DAIFMT_BC_FC:
+>  		/* BCLK and LRCLK slave */
+>  		val = 0;
+>  		break;
+> @@ -909,13 +909,13 @@ static int sun50i_h6_i2s_set_soc_fmt(const struct sun4i_i2s *i2s,
+>  			   SUN50I_H6_I2S_TX_CHAN_SEL_OFFSET(offset));
+>  
+>  	/* DAI clock master masks */
+> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+> -	case SND_SOC_DAIFMT_CBS_CFS:
+> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+> +	case SND_SOC_DAIFMT_BP_FP:
+>  		/* BCLK and LRCLK master */
+>  		val = SUN8I_I2S_CTRL_BCLK_OUT |	SUN8I_I2S_CTRL_LRCK_OUT;
+>  		break;
+>  
+> -	case SND_SOC_DAIFMT_CBM_CFM:
+> +	case SND_SOC_DAIFMT_BC_FC:
+>  		/* BCLK and LRCLK slave */
+>  		val = 0;
+>  		break;
+> @@ -1081,7 +1081,7 @@ static int sun4i_i2s_set_tdm_slot(struct snd_soc_dai *dai,
+>  
+>  static const struct snd_soc_dai_ops sun4i_i2s_dai_ops = {
+>  	.hw_params	= sun4i_i2s_hw_params,
+> -	.set_fmt	= sun4i_i2s_set_fmt,
+> +	.set_fmt_new	= sun4i_i2s_set_fmt,
+>  	.set_sysclk	= sun4i_i2s_set_sysclk,
+>  	.set_tdm_slot	= sun4i_i2s_set_tdm_slot,
+>  	.trigger	= sun4i_i2s_trigger,
+> diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
+> index 0bea2162f68d9..6e9ef948d6621 100644
+> --- a/sound/soc/sunxi/sun8i-codec.c
+> +++ b/sound/soc/sunxi/sun8i-codec.c
+> @@ -286,11 +286,11 @@ static int sun8i_codec_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+>  	u32 dsp_format, format, invert, value;
+>  
+>  	/* clock masters */
+> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
+> -	case SND_SOC_DAIFMT_CBS_CFS: /* Codec slave, DAI master */
+> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+> +	case SND_SOC_DAIFMT_BP_FP: /* Codec slave, DAI master */
 
-As Allwinner A40i user, let me first thank you for your effort for 
-making better upstream support for R40!
+This is a codec driver, and it is only ever used on the codec end of a link, so
+I would not expect it to be changed.
 
-However, I would strongly suggest *not* to add USB support to one more 
-Allwinner SoC in this particular way.
-The problem is, this approach consists of a number of carefully crafted 
-hacks in device tree to make current drivers work on Allwinner hardware 
-without modification to the drivers.
+Regards,
+Samuel
 
-a few examples:
-
-1) please notice how ohci0 and ehci0 nodes do not contain reference to 
-usb phy. It is done intentionally, otherwise EHCI will reset musb mode.
-Of course omitting phy reference here is also completely breaking power 
-cycling in case of usb error and otherwise messes with a power management.
-
-2) one must always enable ohci, ehci and usb_otg nodes at the same time. 
-If one forgets to enable ohci/ehci nodes while enabling usb_otg node, 
-the system will silently fail to work as USB host.
-
-3) For host-only mode we still have to enable usb_otg node despite no 
-role switching is needed. That's because phy reference is missing in 
-ehci/ohci, so the ehci/ohci driver won't enable the PHY.
-Also I might be wrong, but I think phy won't be routed to ehci/ohci 
-controllers is this case.
-
-4) musb host controller is initialized and present to hardware though 
-never actually used
-
-To summarize, not only the resulting device tree is not describing the 
-hardware properly, it is creating device tree configuration which will 
-be very hard to support in future, once proper driver support is in place.
-
-
-At Wiren Board kernel tree we tried to untangle this issue [1-6]. 
-Unfortunately I didn't have time to prepare it for kernel submission 
-yet, but I think I better submit it as RFC to get a feedback from you 
-and others.
-
-
-[1] 
-https://github.com/wirenboard/linux/commit/359abbbd86ddff4d3c61179c882c286de32bb089
-[2] 
-https://github.com/wirenboard/linux/commit/6327f9d7972c21b229fb83457fdde643b31553f9
-[3] 
-https://github.com/wirenboard/linux/commit/f01f4c66758bde460a4d8c5b54ecee3b585c0232
-[4] 
-https://github.com/wirenboard/linux/commit/c27598ad601e5a46f624b73412a531d6f1f63d37
-[5] 
-https://github.com/wirenboard/linux/commit/5796d6eebb86b32a3751b2038b63af46f94954b3
-[6] 
-https://github.com/wirenboard/linux/commit/0928a675d875f9c2849fd3a9888f718bbb673bda
-
-
--- 
-Kind regards,
-Evgeny Boger
-CTO @ Wiren Board
-+49 3046690053
-https://wirenboard.com/
+>  		value = 0x1;
+>  		break;
+> -	case SND_SOC_DAIFMT_CBM_CFM: /* Codec Master, DAI slave */
+> +	case SND_SOC_DAIFMT_BC_FC: /* Codec Master, DAI slave */
+>  		value = 0x0;
+>  		break;
+>  	default:
+> @@ -630,7 +630,7 @@ static int sun8i_codec_hw_free(struct snd_pcm_substream *substream,
+>  }
+>  
+>  static const struct snd_soc_dai_ops sun8i_codec_dai_ops = {
+> -	.set_fmt	= sun8i_codec_set_fmt,
+> +	.set_fmt_new	= sun8i_codec_set_fmt,
+>  	.set_tdm_slot	= sun8i_codec_set_tdm_slot,
+>  	.startup	= sun8i_codec_startup,
+>  	.hw_params	= sun8i_codec_hw_params,
+> 
 
