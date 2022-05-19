@@ -1,197 +1,108 @@
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915B37A;
-	Thu, 19 May 2022 07:11:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: benjamin.gaignard)
-	with ESMTPSA id 4369D1F4565F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1652944313;
-	bh=OEcTyTvXeWneBi8GvH9jsIAxafQtn5PH2MYUYrWug2Q=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Cxf3+0ccgabzfMua9Rv0yMGRSD7g3lbSqVGAssBI1p7bDyreKENNItr8zEO6dLo3V
-	 LKJhyaYazYAn3fP5CsUfXQJUaAWXICsIXDNbl1MkFBUm2/6xKxeOhvuF9VhRpI2XS7
-	 6OH/qUZ58KQsrBl4ksLnyaHLaQx/iY6hfZzSKD8odBDjgzmod0tcFQRznLumOBS7TX
-	 AU4HSX+IYWvHKHyh7FbakEz8nYDdhYR7hl+V8vTxJgybLr5URV0waQ3kbU20aofR5D
-	 MvwHYJR/n9wEpSZYxIxKWkXmVRSre8/ofc9Kx51n3PqJ/ztC96mQgbV7PdK2V70Abx
-	 tzHDE0XM9iV0Q==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	festevam@gmail.com,
-	linux-imx@nxp.com,
-	heiko@sntech.de,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org
-Cc: kernel@pengutronix.de,
-	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v6] media: Add P010 video format
-Date: Thu, 19 May 2022 09:11:46 +0200
-Message-Id: <20220519071146.76119-1-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9DD23CB
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 09:55:31 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id l13so1525624lfp.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 02:55:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=8iF3UaHJz/R8aM+s3URNlw0NT0xF2iDl2EcZdkvvV7A=;
+        b=J5wsDWlXmp/UzvINznrAJAUAdPcIzVa7wDjgy9N+NieAwbj0HWAlRVWRMXoUPG9zoM
+         Xb1FmAVgosK0gmu+DYtRFaGr0quMZU1bXpckGQQm9DdtpEvTyxkBqUPDlIwExhkjXOcN
+         1XvkI5lrs4prNpHZRlnq8lgYTNR/qs66Jd2JaNeizc+/z+PhQ9JClNIT5rsQuWGcKOZE
+         hGyYhpj1EwWR9xKp0Z4OuG0A7Oe2pJtCrzHe8zvUDcD9IpW2pVOkeOl70Lx+rGNk9/Ce
+         SUE7rnhhXwIuYQf+qmdLwEnrDZrtk4xEPm4EbfEMPUyVdvsnB6cerUlhz6Y3lZqs+5jh
+         ujtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=8iF3UaHJz/R8aM+s3URNlw0NT0xF2iDl2EcZdkvvV7A=;
+        b=VR25Urq8vkc3slIH7e4MY1KIY4kBjY45YH6IdVy3MXmFgxXRQeTcYjVm5NwgjSxQWS
+         i/xAak3F2VOn+mMdBjazDKIKUEwWDldDVx7bb0lI4DcVnzqSPpaM3MsaKkgzFLxW1BFa
+         BTACO8pFGvM/rXAL5z2B4yOFSHDjDYPMW+2jcBnBk6uB2PzbBRkf26N8BouDmm7AXGVr
+         KoZovz+L+QwbKIjkTx0ltl7bfCRr+mP3a/12zGyQWIP74CfLCpXrGfVNLiJ6y4wll/Ft
+         li1T/ceyE1q7/CPApM97NCPgRitBtITGpkrZbW21Q8A44KzysnDwBlnOht+ZDl0H6JYS
+         hRVA==
+X-Gm-Message-State: AOAM533Y56LUGAkeopKDlrk1bZLztKub80knpackYBlG+EOVdwHVGSXX
+	E5K6VARjPW49rYs2PKkqZUn16g==
+X-Google-Smtp-Source: ABdhPJwakRuYm2xbt6qvpG2AHFU6Zu0vMbIHjSqxKArsiDl1n3n0t47ceOw05iSjNDeb+xPurQc/xQ==
+X-Received: by 2002:a05:6512:401d:b0:473:c7e2:f3ca with SMTP id br29-20020a056512401d00b00473c7e2f3camr2800141lfb.153.1652954130006;
+        Thu, 19 May 2022 02:55:30 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id u1-20020ac24c21000000b0047255d2118csm232098lfq.187.2022.05.19.02.55.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 02:55:29 -0700 (PDT)
+Message-ID: <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+Date: Thu, 19 May 2022 11:55:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
+ regulators
+Content-Language: en-US
+To: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch, broonie@kernel.org,
+ calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
+ hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
+ linux@armlinux.org.uk, pabeni@redhat.com, robh+dt@kernel.org,
+ samuel@sholland.org, wens@csie.org
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ netdev@vger.kernel.org
+References: <20220518200939.689308-1-clabbe@baylibre.com>
+ <20220518200939.689308-5-clabbe@baylibre.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220518200939.689308-5-clabbe@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-P010 is a YUV format with 10-bits per component with interleaved UV.
+On 18/05/2022 22:09, Corentin Labbe wrote:
+> Add entries for the new optional regulators.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
-version 6:
-- Replace 'pixel' per 'component' in commit message and fourcc
-  description
+Please explain why do you need it.
 
-version 5:
-- Fix commit message
-- Fix fourcc comment
+> 
+> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> ---
+>  Documentation/devicetree/bindings/net/ethernet-phy.yaml | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> index ed1415a4381f..bd59e5cc0a55 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
+> @@ -153,6 +153,15 @@ properties:
+>        used. The absence of this property indicates the muxers
+>        should be configured so that the external PHY is used.
+>  
+> +  regulators:
+> +    description:
+> +       List of phandle to regulators needed for the PHY
 
-version 4:
-- Fix 10-bits per components wording.
+I don't understand that... is your PHY defining the regulators or using
+supplies? If it needs a regulator (as a supply), you need to document
+supplies, using existing bindings.
 
-version 3:
-- remove LE suffix
-- rebased on media_tree_master branch
+> +
+> +  regulator-names:
+> +    description:
+> +      List of regulator name strings sorted in the same order as the
+> +      regulators property.
+> +
+>    resets:
+>      maxItems: 1
+>  
 
- .../media/v4l/pixfmt-yuv-planar.rst           | 54 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c         |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 57 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-index 8dff5906639b..a900ff66911a 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -109,6 +109,13 @@ All components are stored with the same number of bits per component.
-       - Cb, Cr
-       - No
-       - 16x16 tiles
-+    * - V4L2_PIX_FMT_P010
-+      - 'P010'
-+      - 10
-+      - 4:2:0
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-     * - V4L2_PIX_FMT_NV16
-       - 'NV16'
-       - 8
-@@ -171,6 +178,7 @@ horizontally.
- .. _V4L2-PIX-FMT-NV21:
- .. _V4L2-PIX-FMT-NV12M:
- .. _V4L2-PIX-FMT-NV21M:
-+.. _V4L2-PIX-FMT-P010:
- 
- NV12, NV21, NV12M and NV21M
- ---------------------------
-@@ -519,6 +527,52 @@ number of lines as the luma plane.
-       - Cb\ :sub:`33`
-       - Cr\ :sub:`33`
- 
-+.. _V4L2_PIX_FMT_P010:
-+
-+P010
-+----
-+
-+Like NV12 with 10 bits per component, expanded to 16 bits.
-+Data in the 10 high bits, zeros in the 6 low bits, arranged in little endian order.
-+
-+.. flat-table:: Sample 4x4 P010 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 8:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 16:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 24:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 32:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 40:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+.. raw:: latex
-+
-+    \endgroup
- 
- Fully Planar YUV Formats
- ========================
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index df34b2a283bc..1e38ad8906a2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -266,6 +266,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .hdiv = 1, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .hdiv = 2, .vdiv = 1 },
- 
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
- 		{ .format = V4L2_PIX_FMT_YVU410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .hdiv = 4, .vdiv = 4 },
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index e2636539c9db..536aaeb4df82 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1305,6 +1305,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_PIX_FMT_NV61:		descr = "Y/CrCb 4:2:2"; break;
- 	case V4L2_PIX_FMT_NV24:		descr = "Y/CbCr 4:4:4"; break;
- 	case V4L2_PIX_FMT_NV42:		descr = "Y/CrCb 4:4:4"; break;
-+	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/CrCb 4:2:0"; break;
- 	case V4L2_PIX_FMT_NV12_4L4:	descr = "Y/CbCr 4:2:0 (4x4 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_16L16:	descr = "Y/CbCr 4:2:0 (16x16 Linear)"; break;
- 	case V4L2_PIX_FMT_NV12_32L32:   descr = "Y/CbCr 4:2:0 (32x32 Linear)"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 6d465dc443b7..77bc9e85b8f8 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -601,6 +601,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit per component */
- 
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
--- 
-2.32.0
-
+Best regards,
+Krzysztof
