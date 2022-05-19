@@ -1,128 +1,99 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E828328EE
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:49 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J66mVw012194;
-	Thu, 19 May 2022 10:43:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=S48Ysw1sAwGfbwtANji4TCZT3HSOohZVPd1AftkYm/o=;
- b=GOv4Ue/1IhM+zcg4JE0HVTAXzlJFqX9F7UWnxj44iOSwZPCw1VWksiDLcVoIn4LESV9E
- Q5cEX9xV11sLqorJxT+f4UN7svhh5CciPPB4UeJg5bdCyYjtAiBi4Zzr4qZm4E9aZlYI
- iBzGSIuqT2fO7pfSPfrG6b9OriYbdY40mnw8N4JI8jsY792OKu8nHuZ97CHTRs6C+qtv
- L/K6f7ZQvTYFkEnQCnnI0M9+YOk3P+MkPmBq03PT1Zhg4Zr+D/pFXFQUH0XtKcfuF+W1
- 4CAtZDWPuD8I/MTQ5OHEKyDXybCaMs02F6PUEpKjxDp6TeDFcn7i9EGqpUgqIn7w/Wvb ag== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upf5dn-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 May 2022 10:43:27 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 16:43:19 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Thu, 19 May 2022 16:43:19 +0100
-Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 10B0C476;
-	Thu, 19 May 2022 15:43:19 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
-        <nicolas.ferre@microchip.com>, <nsaenz@kernel.org>,
-        <shawnguo@kernel.org>, <linux-imx@nxp.com>,
-        <cezary.rojewski@intel.com>, <pierre-louis.bossart@linux.intel.com>,
-        <linux-mips@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <linux-amlogic@lists.infradead.org>, <daniel@zonque.org>,
-        <srinivas.kandagatla@linaro.org>, <linux-rockchip@lists.infradead.org>,
-        <krzk@kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <linux-omap@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
-        <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
-        <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 10/56] ASoC: img: Update to use set_fmt_new callback
-Date: Thu, 19 May 2022 16:42:32 +0100
-Message-ID: <20220519154318.2153729-11-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425A028EE
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:49:17 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8D1DC34100;
+	Thu, 19 May 2022 15:49:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652975356;
+	bh=wRDcSZWRg8F5GYZDzBv0ctTZeIUjFAPm7X9uhNSHFwo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E8aho+U1muOFpeLWM0FXTi1BWNJEHPMiiyTsSAWPRXoUVn1W9kxdpb8bXWeIqCP0I
+	 RgySRFIxpxZGCW+dFeItge4EvYalvRZEg0Cgh0g3od/B0mM9C5I5gHZxlp3zS17szb
+	 c5bkgEdd4USnWPTmdrMaQUniW6zDIP6hlmCflaZ35MN1XW370dVNykwsOXVvWL22FT
+	 LPl+JL6xj6Fyb+tKDiJN1n9dKwO/T5SCnvCYdekG5eGwwI2FfmR4WyoLQnjiwCQX7B
+	 d5cy4ncvffbet63U7dI+bWul3B8lva2Z7pt5x6u6iRvg0XRh4RMHtCp5trBWkacZsd
+	 VkXTDxeVKlNHw==
+Date: Thu, 19 May 2022 16:49:09 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Corentin Labbe <clabbe@baylibre.com>, calvin.johnson@oss.nxp.com,
+	davem@davemloft.net, edumazet@google.com, hkallweit1@gmail.com,
+	jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
+	kuba@kernel.org, lgirdwood@gmail.com, linux@armlinux.org.uk,
+	pabeni@redhat.com, robh+dt@kernel.org, samuel@sholland.org,
+	wens@csie.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
+ regulators
+Message-ID: <YoZm9eabWy/FNKu1@sirena.org.uk>
+References: <20220518200939.689308-1-clabbe@baylibre.com>
+ <20220518200939.689308-5-clabbe@baylibre.com>
+ <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+ <YoYqmAB3P7fNOSVG@sirena.org.uk>
+ <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
+ <YoYw2lKbgCiDXP0A@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: XKQwV7PruBWAzZkNf5DmSKyjTPU2fDpf
-X-Proofpoint-ORIG-GUID: XKQwV7PruBWAzZkNf5DmSKyjTPU2fDpf
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jOI5UhwGK68KoNhN"
+Content-Disposition: inline
+In-Reply-To: <YoYw2lKbgCiDXP0A@lunn.ch>
+X-Cookie: Some restrictions may apply.
 
-As part of updating the core to directly tell drivers if they are clock
-provider or consumer update these CPU side drivers to use the new direct
-callback.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/img/img-i2s-in.c  | 6 +++---
- sound/soc/img/img-i2s-out.c | 8 ++++----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+--jOI5UhwGK68KoNhN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/img/img-i2s-in.c b/sound/soc/img/img-i2s-in.c
-index 09d23b11621c4..79e733bc0ae69 100644
---- a/sound/soc/img/img-i2s-in.c
-+++ b/sound/soc/img/img-i2s-in.c
-@@ -333,8 +333,8 @@ static int img_i2s_in_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 		return -EINVAL;
- 	}
- 
--	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
--	case SND_SOC_DAIFMT_CBM_CFM:
-+	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-+	case SND_SOC_DAIFMT_BC_FC:
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -373,7 +373,7 @@ static int img_i2s_in_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- static const struct snd_soc_dai_ops img_i2s_in_dai_ops = {
- 	.trigger = img_i2s_in_trigger,
- 	.hw_params = img_i2s_in_hw_params,
--	.set_fmt = img_i2s_in_set_fmt
-+	.set_fmt_new = img_i2s_in_set_fmt
- };
- 
- static int img_i2s_in_dai_probe(struct snd_soc_dai *dai)
-diff --git a/sound/soc/img/img-i2s-out.c b/sound/soc/img/img-i2s-out.c
-index 28f48ca1508a6..d92539603d6cb 100644
---- a/sound/soc/img/img-i2s-out.c
-+++ b/sound/soc/img/img-i2s-out.c
-@@ -302,10 +302,10 @@ static int img_i2s_out_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 	if (force_clk_active)
- 		control_set |= IMG_I2S_OUT_CTL_CLK_EN_MASK;
- 
--	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
--	case SND_SOC_DAIFMT_CBM_CFM:
-+	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-+	case SND_SOC_DAIFMT_BC_FC:
- 		break;
--	case SND_SOC_DAIFMT_CBS_CFS:
-+	case SND_SOC_DAIFMT_BP_FP:
- 		control_set |= IMG_I2S_OUT_CTL_MASTER_MASK;
- 		break;
- 	default:
-@@ -381,7 +381,7 @@ static int img_i2s_out_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- static const struct snd_soc_dai_ops img_i2s_out_dai_ops = {
- 	.trigger = img_i2s_out_trigger,
- 	.hw_params = img_i2s_out_hw_params,
--	.set_fmt = img_i2s_out_set_fmt
-+	.set_fmt_new = img_i2s_out_set_fmt
- };
- 
- static int img_i2s_out_dai_probe(struct snd_soc_dai *dai)
--- 
-2.30.2
+On Thu, May 19, 2022 at 01:58:18PM +0200, Andrew Lunn wrote:
+> On Thu, May 19, 2022 at 01:33:21PM +0200, Krzysztof Kozlowski wrote:
+> > On 19/05/2022 13:31, Mark Brown wrote:
+> > > On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
+> > >> On 18/05/2022 22:09, Corentin Labbe wrote:
 
+> > >>> +  regulators:
+> > >>> +    description:
+> > >>> +       List of phandle to regulators needed for the PHY
+
+> > >> I don't understand that... is your PHY defining the regulators or using
+> > >> supplies? If it needs a regulator (as a supply), you need to document
+> > >> supplies, using existing bindings.
+
+> > > They're trying to have a generic driver which works with any random PHY
+> > > so the binding has no idea what supplies it might need.
+
+> > OK, that makes sense, but then question is why not using existing
+> > naming, so "supplies" and "supply-names"?
+
+> I'm not saying it is not possible, but in general, the names are not
+> interesting. All that is needed is that they are all on, or
+> potentially all off to save power on shutdown. We don't care how many
+> there are, or what order they are enabled.
+
+I think Krzysztof is referring to the name of the property rather than
+the contents of the -names property there.
+
+--jOI5UhwGK68KoNhN
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKGZvQACgkQJNaLcl1U
+h9BKbAf+IovUQ3DSAoKJdf32JsgeB+o/vNXD8MscsyZm5JvIVj5BOLWLb1emeGJP
+Yp3omFPSMOvlsZtrBEx7Fk4MO/Rt0zWemfEcHAfnPI2yPp0LVZLBEqStTWeQQHab
+DdrMZrX6CDbQojP0q4eYGt24OF/dMIYThDp7XU4GDH4Sy7KXD5SpYGuR5Pe9F2Uy
+KZ/25LSM7z8oKUaMHCx21nUm1bHXbuBiP46PKEX4aiSJ1f+S5WhdlC4PI0ZnUMis
+iC00xj4guPTArs7K9DX8y4AwrjlMOogR5Nqwkl5c8xiZQs2lsMI/HfnctaUdiIe9
+qBKP7Eyse3kVuq04h+CQHDUYTCrBIQ==
+=ZhuD
+-----END PGP SIGNATURE-----
+
+--jOI5UhwGK68KoNhN--
