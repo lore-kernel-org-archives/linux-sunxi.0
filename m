@@ -1,89 +1,98 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7577923D6
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 12:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=g1oTV/kiNlqtvr56G3igwM2BGyOYTI/eWu/vmBAuTXk=; b=E5LplxY+FEFhpWVX4xxIC2piq9
-	oWx/pDouOHP7HZjRouoMkAsc7fkJ9bNIhJK8lINHPPCj2eC0bM6GLKrF3/d1tx0w+9r+o+ZJO1ags
-	nEPL7PEpmQDfAynliZIiL+KgEo8sUz2T+lJeuyTqhr6t3xOBT0PtZik2vezYNWsZUzu0=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1nrenK-003TeY-Hz; Thu, 19 May 2022 13:58:18 +0200
-Date: Thu, 19 May 2022 13:58:18 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Mark Brown <broonie@kernel.org>, Corentin Labbe <clabbe@baylibre.com>,
-	calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
- regulators
-Message-ID: <YoYw2lKbgCiDXP0A@lunn.ch>
-References: <20220518200939.689308-1-clabbe@baylibre.com>
- <20220518200939.689308-5-clabbe@baylibre.com>
- <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
- <YoYqmAB3P7fNOSVG@sirena.org.uk>
- <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9B228EE
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:05 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J66mWD012194;
+	Thu, 19 May 2022 10:43:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=PODMain02222019;
+ bh=/Z3NisKONRDDwqsbgNrvbzNcgTdEM5sI3xBhMGMGjc8=;
+ b=DCbl4a8NYS32iFOfURAGbmg1mgJ5vW3GgEgD7SJ20cso0BKNajDZt/iiQ49vySgD40lS
+ BTcMduqUoaiD/uu4v1u122MnmLX+qgu3rjJtV4DVyNeySDkY14dWw2tQwpWjXW9EXEuD
+ URB1mFLwfF+j+zmlYl+RL8XPyJW4jHCG22C9xwYrzb/n/0nmS2XkYxthKmZXTPcqty6f
+ PP6XojfJ+z7yzAI/NOPDZn4XWu3exFsMS64YNyBSGrv3F4KoW8J3eDUi1Y0gsTAhqnPM
+ J4175Z3xJCuUCkUruFwLi/9m1/IfZ2+gKZh1/m/55WDLRhaqwlYdf3YmBiXgQ2TWnX00 Ig== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upf5dn-16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 19 May 2022 10:43:39 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
+ 2022 16:43:22 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Thu, 19 May 2022 16:43:22 +0100
+Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 021C311D1;
+	Thu, 19 May 2022 15:43:22 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
+        <nicolas.ferre@microchip.com>, <nsaenz@kernel.org>,
+        <shawnguo@kernel.org>, <linux-imx@nxp.com>,
+        <cezary.rojewski@intel.com>, <pierre-louis.bossart@linux.intel.com>,
+        <linux-mips@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>, <daniel@zonque.org>,
+        <srinivas.kandagatla@linaro.org>, <linux-rockchip@lists.infradead.org>,
+        <krzk@kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
+        <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
+        <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
+Subject: [PATCH 51/56] ASoC: test-component: Rename set_fmt_new back to set_fmt
+Date: Thu, 19 May 2022 16:43:13 +0100
+Message-ID: <20220519154318.2153729-52-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: mF-rk-cpVUBWDbr5fNugLebouucnJEVa
+X-Proofpoint-ORIG-GUID: mF-rk-cpVUBWDbr5fNugLebouucnJEVa
+X-Proofpoint-Spam-Reason: safe
 
-On Thu, May 19, 2022 at 01:33:21PM +0200, Krzysztof Kozlowski wrote:
-> On 19/05/2022 13:31, Mark Brown wrote:
-> > On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
-> >> On 18/05/2022 22:09, Corentin Labbe wrote:
-> > 
-> >>> +  regulators:
-> >>> +    description:
-> >>> +       List of phandle to regulators needed for the PHY
-> > 
-> >> I don't understand that... is your PHY defining the regulators or using
-> >> supplies? If it needs a regulator (as a supply), you need to document
-> >> supplies, using existing bindings.
-> > 
-> > They're trying to have a generic driver which works with any random PHY
-> > so the binding has no idea what supplies it might need.
-> 
-> OK, that makes sense, but then question is why not using existing
-> naming, so "supplies" and "supply-names"?
+Now the core has been migrated across to the new direct clock
+specification we can move the drivers back to the normal set_fmt
+callback.
 
-I'm not saying it is not possible, but in general, the names are not
-interesting. All that is needed is that they are all on, or
-potentially all off to save power on shutdown. We don't care how many
-there are, or what order they are enabled.
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/generic/test-component.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Ethernet PHY can have multiple supplies. For example there can be two
-digital voltages and one analogue. Most designs just hard wire them
-always on. It would not be unreasonable to have one GPIO which
-controls all three. Or there could be one GPIO for the two digital
-supplies, and one for the analogue. Or potentially, three GPIOs.
+diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
+index 3a992a6eba9bb..d28712fabe3f6 100644
+--- a/sound/soc/generic/test-component.c
++++ b/sound/soc/generic/test-component.c
+@@ -210,7 +210,7 @@ static u64 test_dai_formats =
+ 	SND_SOC_POSSIBLE_DAIFMT_IB_IF;
+ 
+ static const struct snd_soc_dai_ops test_ops = {
+-	.set_fmt_new		= test_dai_set_fmt,
++	.set_fmt		= test_dai_set_fmt,
+ 	.startup		= test_dai_startup,
+ 	.shutdown		= test_dai_shutdown,
+ 	.auto_selectable_formats	= &test_dai_formats,
+@@ -221,7 +221,7 @@ static const struct snd_soc_dai_ops test_verbose_ops = {
+ 	.set_sysclk		= test_dai_set_sysclk,
+ 	.set_pll		= test_dai_set_pll,
+ 	.set_clkdiv		= test_dai_set_clkdiv,
+-	.set_fmt_new		= test_dai_set_fmt,
++	.set_fmt		= test_dai_set_fmt,
+ 	.mute_stream		= test_dai_mute_stream,
+ 	.startup		= test_dai_startup,
+ 	.shutdown		= test_dai_shutdown,
+-- 
+2.30.2
 
-Given all the different ways the board could be designed, i doubt any
-driver is going to want to control its supplies in an way other than
-all on, or all off. 802.3 clause 22 defines a standardized way to put
-a PHY into a low power mode. Using that one bit is much simpler than
-trying to figure out how a board is wired.
-
-However, the API/binding should be generic, usable for other use
-cases. Nobody has needed an API like this before, but it is not to say
-it might have other uses in the future. So maybe "supplies" and
-"supply-names" is useful, but we still need a way to enumerate them as
-a list without caring how many there are, or what their names are.
-
-  Andrew
