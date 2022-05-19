@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9C22902
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6883128FC
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:09 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J6k127002261;
-	Thu, 19 May 2022 10:43:40 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J6k120002261;
+	Thu, 19 May 2022 10:43:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=O1k08BLLSrWLN8bDTTYO6I9etCPuXwIsP0TRdmjUUh8=;
- b=lnkQKKHHuHjFy2bWDCn0K8JZyA+GsPfpvFgZ8fqdM3BOiG35hdgPqaNpjQdsSrkj7Yf6
- lLQfqfot2Htp2f4p2B5VtLD7M31mLzMxKDe0gK3iWoZA/8zc2ES0NKcd/kZ+d4CGyhp0
- vbglizWFVHzMOLJ8ncPuvYJGW6mS0fkaRV7tbgzqEpAZEyrPvld/OPJju8LzLbO6DQEU
- P+EpLEuGVy8l14E3a7Fdh8Z4Kq4hPmOGRNUmJSwU7O72KAe7t+YBxeA5nCo3d8JDsVKM
- ttTS+KvBrQlEwv5NLq3EpoiNmjPkXY4/jN9gB1hOvjQQJegSUx9dCkbYs1V/iU8U2/Wq Fg== 
+ bh=sgL2xg6TaNd+/5JoAmY0AUQ0vHobsMKqJuz5Q8HdSS4=;
+ b=V3utnJSYxYmNxNv5GMCpEyW2ln80WG/6cXjrHq5HTBgC64jwhbMmyoF3ABQUXo1Z8B/a
+ 0y9DN42LlWF5MsQIO509ev0ASM0BVImMOWTZNktAjHhdlg8/6JjTVIRybLYwFQoxwGxb
+ eaLKEb7zWKHWDu5cRT+VsXIa+oMaflQoPyIFIusf12mC97rf4SwATQnOgIBm0hdCbcvG
+ 4XUqXhuSIDe9t8d/KQg+EBT/+92koGuhbYNRmJ6ygRHAz8xNmnewdqAIAgf+HKKrMtga
+ hE2y922a+4NQ0q/JHW4E8F4I3PI/lvkbkadj+HBKpqriiQxjLlq+esN/ou07kGIooAh7 vg== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3g29u37mcf-10
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3g29u37mcf-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 May 2022 10:43:39 -0500
+	Thu, 19 May 2022 10:43:36 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 16:43:21 +0100
+ 2022 16:43:20 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Thu, 19 May 2022 16:43:21 +0100
+ Transport; Thu, 19 May 2022 16:43:20 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 10C0511DA;
-	Thu, 19 May 2022 15:43:21 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 93C0211D1;
+	Thu, 19 May 2022 15:43:20 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -44,9 +44,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
         <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 37/56] ASoC: img: Rename set_fmt_new back to set_fmt
-Date: Thu, 19 May 2022 16:42:59 +0100
-Message-ID: <20220519154318.2153729-38-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 31/56] ASoC: au1x: Rename set_fmt_new back to set_fmt
+Date: Thu, 19 May 2022 16:42:53 +0100
+Message-ID: <20220519154318.2153729-32-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
 References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: zERY7-qXw1jE8CwXTYUsZQAsiyaYzUHL
-X-Proofpoint-ORIG-GUID: zERY7-qXw1jE8CwXTYUsZQAsiyaYzUHL
+X-Proofpoint-GUID: Te0uaEUVbmXS6hEITlOZ7Syi5bshPtB3
+X-Proofpoint-ORIG-GUID: Te0uaEUVbmXS6hEITlOZ7Syi5bshPtB3
 X-Proofpoint-Spam-Reason: safe
 
 Now the core has been migrated across to the new direct clock
@@ -68,36 +68,36 @@ callback.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/img/img-i2s-in.c  | 2 +-
- sound/soc/img/img-i2s-out.c | 2 +-
+ sound/soc/au1x/i2sc.c    | 2 +-
+ sound/soc/au1x/psc-i2s.c | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/img/img-i2s-in.c b/sound/soc/img/img-i2s-in.c
-index 79e733bc0ae69..97cab6d95b169 100644
---- a/sound/soc/img/img-i2s-in.c
-+++ b/sound/soc/img/img-i2s-in.c
-@@ -373,7 +373,7 @@ static int img_i2s_in_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- static const struct snd_soc_dai_ops img_i2s_in_dai_ops = {
- 	.trigger = img_i2s_in_trigger,
- 	.hw_params = img_i2s_in_hw_params,
--	.set_fmt_new = img_i2s_in_set_fmt
-+	.set_fmt = img_i2s_in_set_fmt
+diff --git a/sound/soc/au1x/i2sc.c b/sound/soc/au1x/i2sc.c
+index 72f16b7fda3e9..45bb7851e75d7 100644
+--- a/sound/soc/au1x/i2sc.c
++++ b/sound/soc/au1x/i2sc.c
+@@ -206,7 +206,7 @@ static const struct snd_soc_dai_ops au1xi2s_dai_ops = {
+ 	.startup	= au1xi2s_startup,
+ 	.trigger	= au1xi2s_trigger,
+ 	.hw_params	= au1xi2s_hw_params,
+-	.set_fmt_new	= au1xi2s_set_fmt,
++	.set_fmt	= au1xi2s_set_fmt,
  };
  
- static int img_i2s_in_dai_probe(struct snd_soc_dai *dai)
-diff --git a/sound/soc/img/img-i2s-out.c b/sound/soc/img/img-i2s-out.c
-index d92539603d6cb..9ec6fc528e2b4 100644
---- a/sound/soc/img/img-i2s-out.c
-+++ b/sound/soc/img/img-i2s-out.c
-@@ -381,7 +381,7 @@ static int img_i2s_out_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- static const struct snd_soc_dai_ops img_i2s_out_dai_ops = {
- 	.trigger = img_i2s_out_trigger,
- 	.hw_params = img_i2s_out_hw_params,
--	.set_fmt_new = img_i2s_out_set_fmt
-+	.set_fmt = img_i2s_out_set_fmt
+ static struct snd_soc_dai_driver au1xi2s_dai_driver = {
+diff --git a/sound/soc/au1x/psc-i2s.c b/sound/soc/au1x/psc-i2s.c
+index d82c1353f2f09..530a072d74274 100644
+--- a/sound/soc/au1x/psc-i2s.c
++++ b/sound/soc/au1x/psc-i2s.c
+@@ -266,7 +266,7 @@ static const struct snd_soc_dai_ops au1xpsc_i2s_dai_ops = {
+ 	.startup	= au1xpsc_i2s_startup,
+ 	.trigger	= au1xpsc_i2s_trigger,
+ 	.hw_params	= au1xpsc_i2s_hw_params,
+-	.set_fmt_new	= au1xpsc_i2s_set_fmt,
++	.set_fmt	= au1xpsc_i2s_set_fmt,
  };
  
- static int img_i2s_out_dai_probe(struct snd_soc_dai *dai)
+ static const struct snd_soc_dai_driver au1xpsc_i2s_dai_template = {
 -- 
 2.30.2
 
