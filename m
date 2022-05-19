@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29AF62902
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367602904
 	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:28 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J6k122002261;
-	Thu, 19 May 2022 10:43:37 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J6k12D002261;
+	Thu, 19 May 2022 10:43:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=hhhdDytXwyq/2wQL6ouDd0l2imZhUv86FKrd+RhIEOM=;
- b=IY+dZad0v5waNf6cw45HaFxE+WWzgqyhg7GjkKbqQXIOwb8H8JqVqImStzrmNprqLRVv
- 3WdBe+eyh6gaUpyIbGSqmlZqvWjc26+xQ4nRh8iv3wpajkG4Dupk2yooJWbzA8u0ugVU
- 7Yw5zmghE9Q8Hek36hkrvI5x+e8uhbUm2Ogs703SWPiE5ifQj9YDtrOkkW5aNXJl2JO5
- R044Iw7FPaFWz9UMjVDxotxCXz0q3zxqFeh5jAqonDuSCozfIcF+pgI1KoqPHI3yyxt/
- D9KvWWI0o+5+XJd+2Q5nXMUMGo3f795ly4fgp1ZgyQpgz/aKCduVoByRW3PViZGgt33S jg== 
+ bh=6mTjIZUWoZpEGVJmhxV/vdP+YUiKF5Itks5Sv+ThYC8=;
+ b=ba3Ptcr5qGrujJvnAPfZEW8yVCxSexAxWM6s8hEBk4yu3Tmrk6ZQ4O6BhhCQPsWIfmk3
+ sTUPe9dxSB52g3vN/tYDc0xmBYaf9mqg2UqYsDLD141PdOG0MFIVAAGTizwkI1SfOd9O
+ IInIndLbRmzLhbrFEy3W0on6O0OLRB/H6eZu7Fr4tN2oMi+invX1dxegpFDRnSGUPGIl
+ FzzagUXfKN8eyhC2jSj+KtkgwOJMVdmtTYojqGLr2xiaed0mDaGXMyMSUI4ZKQ86JYuP
+ A6Ow1vPRpOcJ/r5iddaf4e5Dn+NeQCQGQv2Q7Ar+LjdmOw8HHT/pDQAinV9ZX1oBw2fa Ew== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3g29u37mcf-8
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3g29u37mcf-13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 19 May 2022 10:43:37 -0500
+	Thu, 19 May 2022 10:43:42 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 16:43:20 +0100
+ 2022 16:43:21 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Thu, 19 May 2022 16:43:20 +0100
+ Transport; Thu, 19 May 2022 16:43:21 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B923E11DA;
-	Thu, 19 May 2022 15:43:20 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 8D77A11D1;
+	Thu, 19 May 2022 15:43:21 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -44,9 +44,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
         <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 33/56] ASoC: ep93xx: Rename set_fmt_new back to set_fmt
-Date: Thu, 19 May 2022 16:42:55 +0100
-Message-ID: <20220519154318.2153729-34-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 44/56] ASoC: qcom: Rename set_fmt_new back to set_fmt
+Date: Thu, 19 May 2022 16:43:06 +0100
+Message-ID: <20220519154318.2153729-45-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
 References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
@@ -58,8 +58,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: eigh1Lk0El9WcmDf-3oKXztbc3yf72e8
-X-Proofpoint-ORIG-GUID: eigh1Lk0El9WcmDf-3oKXztbc3yf72e8
+X-Proofpoint-GUID: zRllUCbOAc3RO7F-jelcP60LQStRuNv3
+X-Proofpoint-ORIG-GUID: zRllUCbOAc3RO7F-jelcP60LQStRuNv3
 X-Proofpoint-Spam-Reason: safe
 
 Now the core has been migrated across to the new direct clock
@@ -68,22 +68,36 @@ callback.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/cirrus/ep93xx-i2s.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sound/soc/qcom/qdsp6/q6afe-dai.c        | 2 +-
+ sound/soc/qcom/qdsp6/q6apm-lpass-dais.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/sound/soc/cirrus/ep93xx-i2s.c b/sound/soc/cirrus/ep93xx-i2s.c
-index 2c8b1c76b834c..47959794353a7 100644
---- a/sound/soc/cirrus/ep93xx-i2s.c
-+++ b/sound/soc/cirrus/ep93xx-i2s.c
-@@ -398,7 +398,7 @@ static const struct snd_soc_dai_ops ep93xx_i2s_dai_ops = {
- 	.shutdown	= ep93xx_i2s_shutdown,
- 	.hw_params	= ep93xx_i2s_hw_params,
- 	.set_sysclk	= ep93xx_i2s_set_sysclk,
--	.set_fmt_new	= ep93xx_i2s_set_dai_fmt,
-+	.set_fmt	= ep93xx_i2s_set_dai_fmt,
+diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
+index 8f8794cffc1c5..8bb7452b8f18c 100644
+--- a/sound/soc/qcom/qdsp6/q6afe-dai.c
++++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+@@ -648,7 +648,7 @@ static const struct snd_soc_dai_ops q6hdmi_ops = {
+ static const struct snd_soc_dai_ops q6i2s_ops = {
+ 	.prepare	= q6afe_dai_prepare,
+ 	.hw_params	= q6i2s_hw_params,
+-	.set_fmt_new	= q6i2s_set_fmt,
++	.set_fmt	= q6i2s_set_fmt,
+ 	.shutdown	= q6afe_dai_shutdown,
+ 	.set_sysclk	= q6afe_mi2s_set_sysclk,
+ };
+diff --git a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+index 82ee52051f831..ce9e5646d8f3a 100644
+--- a/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
++++ b/sound/soc/qcom/qdsp6/q6apm-lpass-dais.c
+@@ -207,7 +207,7 @@ static const struct snd_soc_dai_ops q6i2s_ops = {
+ 	.shutdown	= q6apm_lpass_dai_shutdown,
+ 	.set_channel_map  = q6dma_set_channel_map,
+ 	.hw_params        = q6dma_hw_params,
+-	.set_fmt_new	= q6i2s_set_fmt,
++	.set_fmt	= q6i2s_set_fmt,
  };
  
- #define EP93XX_I2S_FORMATS (SNDRV_PCM_FMTBIT_S32_LE)
+ static const struct snd_soc_component_driver q6apm_lpass_dai_component = {
 -- 
 2.30.2
 
