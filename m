@@ -1,82 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784F323D6
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 11:31:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D567C385AA;
-	Thu, 19 May 2022 11:31:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1652959904;
-	bh=MijcGSLlheaLd8D+OipECjVGW6bJpehfwvqYpqrbT5U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nFy4viiPjcDzOyA4en0kxaDlS2Dq2wIRp7CRp/P7o+WvGOl8Txis0CbJ3mKWagoLn
-	 Ke9ERT6kEWYoLSssJjxWAXOQeVoyUkpXe8L4TVGpi1C/4udiP7LgpsMXpAxQckgClJ
-	 9dF+RY1CsNq8TSdVhGZJrIekvenH3gKWCsfFmxbXz13uJrGjwOejrSF0xSqXjl8TNp
-	 /cMO03eO7ykymKxM5wf35O7LpK1CwSdUZBKW5sSdJlZLSbSvUoHUOXwVQIER6cjnH4
-	 3hdFT7u9eVOpjTwHn4XMm6hdD0taT4gkMHu9Nwz1kxF5eGxxVjG4v/PdI68JJXDZlk
-	 zyIZeADYy+LaQ==
-Date: Thu, 19 May 2022 12:31:36 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch,
-	calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
- regulators
-Message-ID: <YoYqmAB3P7fNOSVG@sirena.org.uk>
-References: <20220518200939.689308-1-clabbe@baylibre.com>
- <20220518200939.689308-5-clabbe@baylibre.com>
- <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A1723D6
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 11:33:25 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id bq30so8616383lfb.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 04:33:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=oZEhROINlJWM7vdViG2IE8Bwfk0C1vKAbaV7Oeo94UQ=;
+        b=EGYii0kO3qs08FhyjVI9Y2ePF+IohLbIeqqa7oK57S3FHkA5RVZPqNblDLIW75kFcH
+         6oX9s2gDFeGn/Roq1TarZsxyRUt40VFfb5c7GuE3GAwRVG6wR8/7g+uoxQtyoal+s1Bb
+         DURdbTlR841WX2Cbo1oPkbROxz3gHWrGzyDokChBKsDSyyNLlTTlKnxN/3AY28EWxs81
+         7LfNbBhSuRzanMHZYwj8TfSLIbfXB9SULTllFtS5cdp1cEyf+zg05PoipkxYaZYsOqld
+         9XXXp7qDW7uDXI0zwLWNUMJpf5xEn0ESsqk27e/JgyB/aRM43jaj70OtEgW7UJkTnhV5
+         lftQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=oZEhROINlJWM7vdViG2IE8Bwfk0C1vKAbaV7Oeo94UQ=;
+        b=VLBANNOjdkG9xt9H+aRNaK3jsxZZYb6qxrAHKsYDDQRLFn7bxPW7nBMIjqOXdtV51u
+         OQKuja09VYYcIXROPgBN1Zcpww2OqLDfuQF6O22V49318bRUPib5BvvdVSGifVfJmqni
+         WPX+N8SNWGwTMXqKmmBI+Xh6i1D+9wW1Nf9z6zIY9gQCEE2bVLPx0juSCgetwNMy0pFT
+         eOg8UsjXqqYmoesdPiytDgKAo0PilGUJK1CAjAsQUootfyIx3FymUS2cZAbnDcHkTZNj
+         lW5R3RCUHayA/hlOmmGhtKos2EtrsiWqjmsUN4dxuK+SLmptL1rOIn3PElpj+mj57UD1
+         PF8g==
+X-Gm-Message-State: AOAM533i4lqVtfZnpT/muqbtEddT+aCdybfCmprdNrBBldGdHNLlL1mL
+	NifhNZJIqExfPd3MdhxvBntj6A==
+X-Google-Smtp-Source: ABdhPJyUim5e9pHHMifbYzMw77E1dUklze9AipVmBtmLAVQKy142zJwXyX5rENYYXJsuBfOx5tzKxw==
+X-Received: by 2002:a05:6512:2215:b0:473:c124:434b with SMTP id h21-20020a056512221500b00473c124434bmr3049278lfu.24.1652960003454;
+        Thu, 19 May 2022 04:33:23 -0700 (PDT)
+Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
+        by smtp.gmail.com with ESMTPSA id 189-20020a2e09c6000000b00253b5bb829esm556593ljj.98.2022.05.19.04.33.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 May 2022 04:33:22 -0700 (PDT)
+Message-ID: <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org>
+Date: Thu, 19 May 2022 13:33:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ISK1ldOBVTRUZTdj"
-Content-Disposition: inline
-In-Reply-To: <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
-X-Cookie: Some restrictions may apply.
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
+ regulators
+Content-Language: en-US
+To: Mark Brown <broonie@kernel.org>
+Cc: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch,
+ calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
+ hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+ krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
+ linux@armlinux.org.uk, pabeni@redhat.com, robh+dt@kernel.org,
+ samuel@sholland.org, wens@csie.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
+References: <20220518200939.689308-1-clabbe@baylibre.com>
+ <20220518200939.689308-5-clabbe@baylibre.com>
+ <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+ <YoYqmAB3P7fNOSVG@sirena.org.uk>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <YoYqmAB3P7fNOSVG@sirena.org.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 19/05/2022 13:31, Mark Brown wrote:
+> On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
+>> On 18/05/2022 22:09, Corentin Labbe wrote:
+> 
+>>> +  regulators:
+>>> +    description:
+>>> +       List of phandle to regulators needed for the PHY
+> 
+>> I don't understand that... is your PHY defining the regulators or using
+>> supplies? If it needs a regulator (as a supply), you need to document
+>> supplies, using existing bindings.
+> 
+> They're trying to have a generic driver which works with any random PHY
+> so the binding has no idea what supplies it might need.
 
---ISK1ldOBVTRUZTdj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+OK, that makes sense, but then question is why not using existing
+naming, so "supplies" and "supply-names"?
 
-On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
-> On 18/05/2022 22:09, Corentin Labbe wrote:
-
-> > +  regulators:
-> > +    description:
-> > +       List of phandle to regulators needed for the PHY
-
-> I don't understand that... is your PHY defining the regulators or using
-> supplies? If it needs a regulator (as a supply), you need to document
-> supplies, using existing bindings.
-
-They're trying to have a generic driver which works with any random PHY
-so the binding has no idea what supplies it might need.
-
---ISK1ldOBVTRUZTdj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKGKpcACgkQJNaLcl1U
-h9DYYAf9FUmpPRq5eJJuxSFhwB4pEIaskdfqRYeGXIebZCYZvHB80Fuk3SuFiizq
-1MzfOCPFNucujqgezUWvvA+5LhpT88DmdvsEjyKGGgf1cJrPYH0Goi5Zcw17QKGX
-BoKPnTZPlTKbPjp9+fV2X6ljzVOCIESTAcRWwzZpZ9CQNwXDrptLO72g47Esefo2
-hXJ3WB4XYxEh9LJDiuThKfGCrrVTzosumYBj++rxw09P7v5e5+Yza3kTI3tw5YGz
-do1dQaJi7OOTJk5MXI66mX785B39emZleorpkgK3MJY4hHCwgzWfpa0RSZiB8y5B
-cULnxFfjt3GBgGoW2WgMrXU47y8BbQ==
-=H3Kx
------END PGP SIGNATURE-----
-
---ISK1ldOBVTRUZTdj--
+Best regards,
+Krzysztof
