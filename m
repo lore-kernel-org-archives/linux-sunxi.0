@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 302B628FD
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EDF28EE
 	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 15:44:08 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J66mWF012194;
-	Thu, 19 May 2022 10:43:42 -0500
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24J6k12B002261;
+	Thu, 19 May 2022 10:43:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=oil1ZKHs2gIMho1AoeBK9FgMU7gcVZ4wK4kjgOzdSgU=;
- b=VQjZoP93a0c8d+W/ugsjRxH9Fh1c1s3oEgc2mW54Kkr56QBRJ88v6LW8A8/rSjGStAsO
- Nf1wuE4VqmHUd+/RjkSpFuiZ0cMmWa3CdoAK0RCYsILdmBymnKNchfv1FYGaApL7R4fj
- kPxLk4H6KmvxU/TsS1AKvB1RzEZDzrpsOhNLC+OtRHWFmJnim4Yl0ypQBX2NYM2tFmwh
- SlabDEdIZwWaFx6REBIak6ICHrHTatIr57nUQyEjgxgcyiy0INoclm90w5blGBoZOg/a
- io4sDZ82+vQyPAxpgqierRNnmO+F8kkxvNZAAIKN0iQyMoEssAq1im2hGfWe9JzGdOXB PQ== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upf5dn-18
+ bh=TIWyZghTEZ//MO2jvbjUZPrmAJ1ieo/aXBoLcASAC1w=;
+ b=WXh+X2sBUTuu1EFWjtVqsdMrMDBdTC0ym9haGIwCO+ZMLVfUx8/SKLsGToIUYs31WTyE
+ DOU7DaMZSBWLy5uxyi8D6n5sXfUEwOFor4O6Q71aRqSJkCm8/ug0UOrgsk6LlOnY2eAX
+ dahGd5rw7s39Q+k4HiuyUhuFv4znDF2258537Yh87jJafevKisgPqYTMLBx6tF7o95Z1
+ JVqe/ENOFIS5ERGxgf5KlqPQoOMo9k9QNUTTDM12CQTGF72WhxtJCBx7myscccLfqIkP
+ D90LiewLtzARtk3lRxI0RJS7NrHWhTX5i08HJOVo0VEnkFUlijoXOpoxH6Oohw6pNlsw RA== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3g29u37mcf-12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 19 May 2022 10:43:41 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 19 May
- 2022 16:43:22 +0100
+ 2022 16:43:21 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
- Transport; Thu, 19 May 2022 16:43:22 +0100
+ Transport; Thu, 19 May 2022 16:43:21 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6025911DA;
-	Thu, 19 May 2022 15:43:22 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7A3D411DA;
+	Thu, 19 May 2022 15:43:21 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -44,9 +44,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
         <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
-Subject: [PATCH 56/56] ASoC: simple-card-utils: Move snd_soc_component_is_codec to be local
-Date: Thu, 19 May 2022 16:43:18 +0100
-Message-ID: <20220519154318.2153729-57-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 43/56] ASoC: pxa: Rename set_fmt_new back to set_fmt
+Date: Thu, 19 May 2022 16:43:05 +0100
+Message-ID: <20220519154318.2153729-44-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
 References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
@@ -58,80 +58,59 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: g2VJ5uiOojlv2ZUJ1ZRM-SzjnwXJaEpV
-X-Proofpoint-ORIG-GUID: g2VJ5uiOojlv2ZUJ1ZRM-SzjnwXJaEpV
+X-Proofpoint-GUID: 36sXbaeY6GpSg0BsX0_utVT-CPuXi-n7
+X-Proofpoint-ORIG-GUID: 36sXbaeY6GpSg0BsX0_utVT-CPuXi-n7
 X-Proofpoint-Spam-Reason: safe
 
-The helper function snd_soc_component_is_codec is based off the
-presence of the non_legacy_dai_naming flag. This isn't super robust
-as CPU side components may also specify this flag, and indeed the
-kernel already contains a couple that do. After componentisation there
-isn't really a totally robust solution to identifying what is a CODEC
-driver, without introducing a flag specifically for that purpose, and
-really the desirable direction to move in is that the distinction
-doesn't matter.
-
-This patch does two things to try to mitigate these problems. Firstly,
-now that all the other users of the helper function have been removed,
-it makes the helper function local to the driver rather, than being
-part of the core. This should help to discourage any new code from
-being created that depends on the CODEC driver distinction. Secondly,
-it updates the helper function itself to use the endianness flag
-rather than the non_legacy_dai_naming flag. The endianness flag is
-definitely invalid on a CPU side component, so it a more reliable
-indicator that the device is definitely a CODEC. The vast majority of
-buses require the CODEC to set the endianness flag, so the number of
-corner cases should be fairly minimal. It is worth noting that CODECs
-sending audio over SPI, or built into the CPU CODECs are potential
-corner cases, however the hope is that in most cases those types of
-devices do not consitute a simple audio card.
+Now the core has been migrated across to the new direct clock
+specification we can move the drivers back to the normal set_fmt
+callback.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/soc-component.h         | 5 -----
- sound/soc/generic/simple-card-utils.c | 7 ++++++-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ sound/soc/pxa/mmp-sspa.c   | 2 +-
+ sound/soc/pxa/pxa-ssp.c    | 2 +-
+ sound/soc/pxa/pxa2xx-i2s.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 5a764c3099d3e..5c4cfa70b018c 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -348,11 +348,6 @@ static inline int snd_soc_component_cache_sync(
- 	return regcache_sync(component->regmap);
- }
+diff --git a/sound/soc/pxa/mmp-sspa.c b/sound/soc/pxa/mmp-sspa.c
+index b746e52aaf85f..382e9d8608a3f 100644
+--- a/sound/soc/pxa/mmp-sspa.c
++++ b/sound/soc/pxa/mmp-sspa.c
+@@ -346,7 +346,7 @@ static const struct snd_soc_dai_ops mmp_sspa_dai_ops = {
+ 	.hw_params	= mmp_sspa_hw_params,
+ 	.set_sysclk	= mmp_sspa_set_dai_sysclk,
+ 	.set_pll	= mmp_sspa_set_dai_pll,
+-	.set_fmt_new	= mmp_sspa_set_dai_fmt,
++	.set_fmt	= mmp_sspa_set_dai_fmt,
+ };
  
--static inline int snd_soc_component_is_codec(struct snd_soc_component *component)
--{
--	return component->driver->non_legacy_dai_naming;
--}
--
- void snd_soc_component_set_aux(struct snd_soc_component *component,
- 			       struct snd_soc_aux_dev *aux);
- int snd_soc_component_init(struct snd_soc_component *component);
-diff --git a/sound/soc/generic/simple-card-utils.c b/sound/soc/generic/simple-card-utils.c
-index 539d7f081bd79..50a9827089335 100644
---- a/sound/soc/generic/simple-card-utils.c
-+++ b/sound/soc/generic/simple-card-utils.c
-@@ -513,6 +513,11 @@ static int asoc_simple_init_dai(struct snd_soc_dai *dai,
- 	return 0;
- }
- 
-+static inline int asoc_simple_component_is_codec(struct snd_soc_component *component)
-+{
-+	return component->driver->endianness;
-+}
-+
- static int asoc_simple_init_dai_link_params(struct snd_soc_pcm_runtime *rtd,
- 					    struct simple_dai_props *dai_props)
- {
-@@ -524,7 +529,7 @@ static int asoc_simple_init_dai_link_params(struct snd_soc_pcm_runtime *rtd,
- 
- 	/* Only Codecs */
- 	for_each_rtd_components(rtd, i, component) {
--		if (!snd_soc_component_is_codec(component))
-+		if (!asoc_simple_component_is_codec(component))
- 			return 0;
- 	}
+ static struct snd_soc_dai_driver mmp_sspa_dai = {
+diff --git a/sound/soc/pxa/pxa-ssp.c b/sound/soc/pxa/pxa-ssp.c
+index 52124be1778eb..0f504a9f4983d 100644
+--- a/sound/soc/pxa/pxa-ssp.c
++++ b/sound/soc/pxa/pxa-ssp.c
+@@ -824,7 +824,7 @@ static const struct snd_soc_dai_ops pxa_ssp_dai_ops = {
+ 	.trigger	= pxa_ssp_trigger,
+ 	.hw_params	= pxa_ssp_hw_params,
+ 	.set_sysclk	= pxa_ssp_set_dai_sysclk,
+-	.set_fmt_new	= pxa_ssp_set_dai_fmt,
++	.set_fmt	= pxa_ssp_set_dai_fmt,
+ 	.set_tdm_slot	= pxa_ssp_set_dai_tdm_slot,
+ 	.set_tristate	= pxa_ssp_set_dai_tristate,
+ };
+diff --git a/sound/soc/pxa/pxa2xx-i2s.c b/sound/soc/pxa/pxa2xx-i2s.c
+index 09a0d033df6a2..7b586b7d46da3 100644
+--- a/sound/soc/pxa/pxa2xx-i2s.c
++++ b/sound/soc/pxa/pxa2xx-i2s.c
+@@ -335,7 +335,7 @@ static const struct snd_soc_dai_ops pxa_i2s_dai_ops = {
+ 	.shutdown	= pxa2xx_i2s_shutdown,
+ 	.trigger	= pxa2xx_i2s_trigger,
+ 	.hw_params	= pxa2xx_i2s_hw_params,
+-	.set_fmt_new	= pxa2xx_i2s_set_dai_fmt,
++	.set_fmt	= pxa2xx_i2s_set_dai_fmt,
+ 	.set_sysclk	= pxa2xx_i2s_set_dai_sysclk,
+ };
  
 -- 
 2.30.2
