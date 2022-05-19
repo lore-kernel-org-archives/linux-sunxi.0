@@ -1,108 +1,131 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9DD23CB
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 09:55:31 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id l13so1525624lfp.11
-        for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 02:55:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=8iF3UaHJz/R8aM+s3URNlw0NT0xF2iDl2EcZdkvvV7A=;
-        b=J5wsDWlXmp/UzvINznrAJAUAdPcIzVa7wDjgy9N+NieAwbj0HWAlRVWRMXoUPG9zoM
-         Xb1FmAVgosK0gmu+DYtRFaGr0quMZU1bXpckGQQm9DdtpEvTyxkBqUPDlIwExhkjXOcN
-         1XvkI5lrs4prNpHZRlnq8lgYTNR/qs66Jd2JaNeizc+/z+PhQ9JClNIT5rsQuWGcKOZE
-         hGyYhpj1EwWR9xKp0Z4OuG0A7Oe2pJtCrzHe8zvUDcD9IpW2pVOkeOl70Lx+rGNk9/Ce
-         SUE7rnhhXwIuYQf+qmdLwEnrDZrtk4xEPm4EbfEMPUyVdvsnB6cerUlhz6Y3lZqs+5jh
-         ujtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=8iF3UaHJz/R8aM+s3URNlw0NT0xF2iDl2EcZdkvvV7A=;
-        b=VR25Urq8vkc3slIH7e4MY1KIY4kBjY45YH6IdVy3MXmFgxXRQeTcYjVm5NwgjSxQWS
-         i/xAak3F2VOn+mMdBjazDKIKUEwWDldDVx7bb0lI4DcVnzqSPpaM3MsaKkgzFLxW1BFa
-         BTACO8pFGvM/rXAL5z2B4yOFSHDjDYPMW+2jcBnBk6uB2PzbBRkf26N8BouDmm7AXGVr
-         KoZovz+L+QwbKIjkTx0ltl7bfCRr+mP3a/12zGyQWIP74CfLCpXrGfVNLiJ6y4wll/Ft
-         li1T/ceyE1q7/CPApM97NCPgRitBtITGpkrZbW21Q8A44KzysnDwBlnOht+ZDl0H6JYS
-         hRVA==
-X-Gm-Message-State: AOAM533Y56LUGAkeopKDlrk1bZLztKub80knpackYBlG+EOVdwHVGSXX
-	E5K6VARjPW49rYs2PKkqZUn16g==
-X-Google-Smtp-Source: ABdhPJwakRuYm2xbt6qvpG2AHFU6Zu0vMbIHjSqxKArsiDl1n3n0t47ceOw05iSjNDeb+xPurQc/xQ==
-X-Received: by 2002:a05:6512:401d:b0:473:c7e2:f3ca with SMTP id br29-20020a056512401d00b00473c7e2f3camr2800141lfb.153.1652954130006;
-        Thu, 19 May 2022 02:55:30 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id u1-20020ac24c21000000b0047255d2118csm232098lfq.187.2022.05.19.02.55.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 May 2022 02:55:29 -0700 (PDT)
-Message-ID: <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
-Date: Thu, 19 May 2022 11:55:28 +0200
+Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E0323CB
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 10:21:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=FZ3hy
+	egvo2S44gZY7fZKV/hVLJK/8ShMe+XuaT4PYxc=; b=dxl60OA1T6jte5C/lcC2p
+	G/JraAB2FkY3J+YMjw76lediE6XrGrQUz+X5TwvvviQm5qFJV+7zkiMje1iNUS99
+	5yO0O+0qch0kPhXkFgedPGrNcQsb+JcVAL4wPx3mI5tG5xkdtjBHCVfKI8bYIjps
+	glABlVo6Mna6eQwC9OO4pc=
+Received: from [192.168.3.103] (unknown [218.201.129.20])
+	by smtp12 (Coremail) with SMTP id EMCowABHHpAxFoZiI0+HAQ--.1426S2;
+	Thu, 19 May 2022 18:04:35 +0800 (CST)
+Message-ID: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
+Date: Thu, 19 May 2022 18:04:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
- regulators
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
 Content-Language: en-US
-To: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch, broonie@kernel.org,
- calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
- hkallweit1@gmail.com, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
- linux@armlinux.org.uk, pabeni@redhat.com, robh+dt@kernel.org,
- samuel@sholland.org, wens@csie.org
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- netdev@vger.kernel.org
-References: <20220518200939.689308-1-clabbe@baylibre.com>
- <20220518200939.689308-5-clabbe@baylibre.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220518200939.689308-5-clabbe@baylibre.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 18/05/2022 22:09, Corentin Labbe wrote:
-> Add entries for the new optional regulators.
-
-Please explain why do you need it.
-
-> 
-> Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
-> ---
->  Documentation/devicetree/bindings/net/ethernet-phy.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/net/ethernet-phy.yaml b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> index ed1415a4381f..bd59e5cc0a55 100644
-> --- a/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> +++ b/Documentation/devicetree/bindings/net/ethernet-phy.yaml
-> @@ -153,6 +153,15 @@ properties:
->        used. The absence of this property indicates the muxers
->        should be configured so that the external PHY is used.
->  
-> +  regulators:
-> +    description:
-> +       List of phandle to regulators needed for the PHY
-
-I don't understand that... is your PHY defining the regulators or using
-supplies? If it needs a regulator (as a supply), you need to document
-supplies, using existing bindings.
-
-> +
-> +  regulator-names:
-> +    description:
-> +      List of regulator name strings sorted in the same order as the
-> +      regulators property.
-> +
->    resets:
->      maxItems: 1
->  
+To: linux-sunxi@lists.linux.dev
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Evgeny Boger <boger@wirenboard.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220518101706.26869-1-qianfanguijin@163.com>
+From: qianfan <qianfanguijin@163.com>
+In-Reply-To: <20220518101706.26869-1-qianfanguijin@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:EMCowABHHpAxFoZiI0+HAQ--.1426S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCw1UGr45urW7uF48Gw1DAwb_yoW5urWDpF
+	W7XrZ3Gw1kt343AFW3WFWUXa1fA3yrZ3yUJrn3tFy8Ar43ur4DA3ZrKrZ8KasrWr17Zw47
+	Kwn5Jrn7Krn0gF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jONVkUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBMG7VXl29+6cQAAsb
 
 
-Best regards,
-Krzysztof
+
+在 2022/5/18 18:17, qianfanguijin@163.com 写道:
+> From: qianfan Zhao <qianfanguijin@163.com>
+>
+> History:
+> =======
+>
+> v4(2022-05-18):
+> - Enable both musb and OHCI/EHCI support
+>
+> Tests:
+> ======
+>
+> All test cases were tested on bananapi-m2-ultra.
+>
+> 1. USB DEVICE(ping test)
+>
+> Enable usb gadget rndis network, ping m2u on ubuntu host:
+>
+> ➜  ~ ping 192.168.200.2
+> PING 192.168.200.2 (192.168.200.2) 56(84) bytes of data.
+> 64 bytes from 192.168.200.2: icmp_seq=1 ttl=64 time=0.544 ms
+> 64 bytes from 192.168.200.2: icmp_seq=2 ttl=64 time=0.269 ms
+> 64 bytes from 192.168.200.2: icmp_seq=3 ttl=64 time=0.300 ms
+> 64 bytes from 192.168.200.2: icmp_seq=4 ttl=64 time=0.295 ms
+> 64 bytes from 192.168.200.2: icmp_seq=5 ttl=64 time=0.283 ms
+> 64 bytes from 192.168.200.2: icmp_seq=6 ttl=64 time=0.226 ms
+> 64 bytes from 192.168.200.2: icmp_seq=7 ttl=64 time=0.246 ms
+> 64 bytes from 192.168.200.2: icmp_seq=8 ttl=64 time=0.204 ms
+> 64 bytes from 192.168.200.2: icmp_seq=9 ttl=64 time=0.302 ms
+> 64 bytes from 192.168.200.2: icmp_seq=10 ttl=64 time=0.249 ms
+> 64 bytes from 192.168.200.2: icmp_seq=11 ttl=64 time=0.459 ms
+> 64 bytes from 192.168.200.2: icmp_seq=12 ttl=64 time=0.232 ms
+> 64 bytes from 192.168.200.2: icmp_seq=13 ttl=64 time=0.275 ms
+> 64 bytes from 192.168.200.2: icmp_seq=14 ttl=64 time=0.243 ms
+>
+> 2. USB HOST(OHCI)
+>
+> Connect an usb serial port on OTG port, nex t is the kernel log:
+>
+> [   27.824137] usb 2-1: new full-speed USB device number 2 using ohci-platform
+> [   28.865504] cdc_acm 2-1:1.0: ttyACM0: USB ACM device
+> [   29.565509] cdc_acm 2-1:1.2: ttyACM1: USB ACM device
+>
+> 3. USB HOST(EHCI)
+>
+> Connect an usb storage on OTG port, next is the kernel log:
+>
+> [   17.754147] usb 1-1: new high-speed USB device number 2 using ehci-platform
+> [   17.955995] usb-storage 1-1:1.0: USB Mass Storage device detected
+> [   18.024497] scsi host1: usb-storage 1-1:1.0
+> [   19.035091] scsi 1:0:0:0: Direct-Access     General  USB Flash Disk   1.0  PQ: 0 ANSI: 2
+> [   19.049717] sd 1:0:0:0: [sda] 7831552 512-byte logical blocks: (4.01 GB/3.73 GiB)
+> [   19.060873] sd 1:0:0:0: [sda] Write Protect is off
+> [   19.071018] sd 1:0:0:0: [sda] No Caching mode page found
+> [   19.076437] sd 1:0:0:0: [sda] Assuming drive cache: write through
+> [   19.093566]  sda: sda1
+> [   19.103492] sd 1:0:0:0: [sda] Attached SCSI removable disk
+>
+> issues:
+> =======
+>
+> The system power often turned off when I plugged an usb device into the OTG port.
+> It's not clear why.
+It is not caused by software.
+
+According to the schematic of M2U, there is a 100uF capacitor on the 
+USBVBUS,
+but noting on ACIN. The board is powered by ACIN when I test usb otg,
+plugged an usb storage into the otg port, USB0 enter host mode and will
+enable the USBVBUS power supply through N_VBUSEN. At this time due to the
+limits of ACIN, the input voltage dropped and AXP enter shutdown protection
+state.
+
+This problem was sloved when I mounted a large capacitor on ACIN.
+Both usb device and host stack can work fine now.
+>
+> qianfan Zhao (2):
+>    ARM: dts: sun8i-r40: Add USB0_OTG/HOST support
+>    ARM: dts: bananapi-m2-ultra: Enable USB0_OTG and HOST support
+>
+>   .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 39 +++++++++++++++++++
+>   arch/arm/boot/dts/sun8i-r40.dtsi              | 34 ++++++++++++++++
+>   2 files changed, 73 insertions(+)
+>
+
