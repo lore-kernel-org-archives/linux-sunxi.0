@@ -1,131 +1,82 @@
-Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E0323CB
-	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 10:21:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=FZ3hy
-	egvo2S44gZY7fZKV/hVLJK/8ShMe+XuaT4PYxc=; b=dxl60OA1T6jte5C/lcC2p
-	G/JraAB2FkY3J+YMjw76lediE6XrGrQUz+X5TwvvviQm5qFJV+7zkiMje1iNUS99
-	5yO0O+0qch0kPhXkFgedPGrNcQsb+JcVAL4wPx3mI5tG5xkdtjBHCVfKI8bYIjps
-	glABlVo6Mna6eQwC9OO4pc=
-Received: from [192.168.3.103] (unknown [218.201.129.20])
-	by smtp12 (Coremail) with SMTP id EMCowABHHpAxFoZiI0+HAQ--.1426S2;
-	Thu, 19 May 2022 18:04:35 +0800 (CST)
-Message-ID: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
-Date: Thu, 19 May 2022 18:04:33 +0800
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784F323D6
+	for <linux-sunxi@lists.linux.dev>; Thu, 19 May 2022 11:31:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D567C385AA;
+	Thu, 19 May 2022 11:31:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1652959904;
+	bh=MijcGSLlheaLd8D+OipECjVGW6bJpehfwvqYpqrbT5U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nFy4viiPjcDzOyA4en0kxaDlS2Dq2wIRp7CRp/P7o+WvGOl8Txis0CbJ3mKWagoLn
+	 Ke9ERT6kEWYoLSssJjxWAXOQeVoyUkpXe8L4TVGpi1C/4udiP7LgpsMXpAxQckgClJ
+	 9dF+RY1CsNq8TSdVhGZJrIekvenH3gKWCsfFmxbXz13uJrGjwOejrSF0xSqXjl8TNp
+	 /cMO03eO7ykymKxM5wf35O7LpK1CwSdUZBKW5sSdJlZLSbSvUoHUOXwVQIER6cjnH4
+	 3hdFT7u9eVOpjTwHn4XMm6hdD0taT4gkMHu9Nwz1kxF5eGxxVjG4v/PdI68JJXDZlk
+	 zyIZeADYy+LaQ==
+Date: Thu, 19 May 2022 12:31:36 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch,
+	calvin.johnson@oss.nxp.com, davem@davemloft.net,
+	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
+	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
+	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
+ regulators
+Message-ID: <YoYqmAB3P7fNOSVG@sirena.org.uk>
+References: <20220518200939.689308-1-clabbe@baylibre.com>
+ <20220518200939.689308-5-clabbe@baylibre.com>
+ <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.0
-Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
-Content-Language: en-US
-To: linux-sunxi@lists.linux.dev
-Cc: Andre Przywara <andre.przywara@arm.com>,
- Evgeny Boger <boger@wirenboard.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20220518101706.26869-1-qianfanguijin@163.com>
-From: qianfan <qianfanguijin@163.com>
-In-Reply-To: <20220518101706.26869-1-qianfanguijin@163.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:EMCowABHHpAxFoZiI0+HAQ--.1426S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxCw1UGr45urW7uF48Gw1DAwb_yoW5urWDpF
-	W7XrZ3Gw1kt343AFW3WFWUXa1fA3yrZ3yUJrn3tFy8Ar43ur4DA3ZrKrZ8KasrWr17Zw47
-	Kwn5Jrn7Krn0gF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jONVkUUUUU=
-X-Originating-IP: [218.201.129.20]
-X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXBMG7VXl29+6cQAAsb
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ISK1ldOBVTRUZTdj"
+Content-Disposition: inline
+In-Reply-To: <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
+X-Cookie: Some restrictions may apply.
 
 
+--ISK1ldOBVTRUZTdj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-在 2022/5/18 18:17, qianfanguijin@163.com 写道:
-> From: qianfan Zhao <qianfanguijin@163.com>
->
-> History:
-> =======
->
-> v4(2022-05-18):
-> - Enable both musb and OHCI/EHCI support
->
-> Tests:
-> ======
->
-> All test cases were tested on bananapi-m2-ultra.
->
-> 1. USB DEVICE(ping test)
->
-> Enable usb gadget rndis network, ping m2u on ubuntu host:
->
-> ➜  ~ ping 192.168.200.2
-> PING 192.168.200.2 (192.168.200.2) 56(84) bytes of data.
-> 64 bytes from 192.168.200.2: icmp_seq=1 ttl=64 time=0.544 ms
-> 64 bytes from 192.168.200.2: icmp_seq=2 ttl=64 time=0.269 ms
-> 64 bytes from 192.168.200.2: icmp_seq=3 ttl=64 time=0.300 ms
-> 64 bytes from 192.168.200.2: icmp_seq=4 ttl=64 time=0.295 ms
-> 64 bytes from 192.168.200.2: icmp_seq=5 ttl=64 time=0.283 ms
-> 64 bytes from 192.168.200.2: icmp_seq=6 ttl=64 time=0.226 ms
-> 64 bytes from 192.168.200.2: icmp_seq=7 ttl=64 time=0.246 ms
-> 64 bytes from 192.168.200.2: icmp_seq=8 ttl=64 time=0.204 ms
-> 64 bytes from 192.168.200.2: icmp_seq=9 ttl=64 time=0.302 ms
-> 64 bytes from 192.168.200.2: icmp_seq=10 ttl=64 time=0.249 ms
-> 64 bytes from 192.168.200.2: icmp_seq=11 ttl=64 time=0.459 ms
-> 64 bytes from 192.168.200.2: icmp_seq=12 ttl=64 time=0.232 ms
-> 64 bytes from 192.168.200.2: icmp_seq=13 ttl=64 time=0.275 ms
-> 64 bytes from 192.168.200.2: icmp_seq=14 ttl=64 time=0.243 ms
->
-> 2. USB HOST(OHCI)
->
-> Connect an usb serial port on OTG port, nex t is the kernel log:
->
-> [   27.824137] usb 2-1: new full-speed USB device number 2 using ohci-platform
-> [   28.865504] cdc_acm 2-1:1.0: ttyACM0: USB ACM device
-> [   29.565509] cdc_acm 2-1:1.2: ttyACM1: USB ACM device
->
-> 3. USB HOST(EHCI)
->
-> Connect an usb storage on OTG port, next is the kernel log:
->
-> [   17.754147] usb 1-1: new high-speed USB device number 2 using ehci-platform
-> [   17.955995] usb-storage 1-1:1.0: USB Mass Storage device detected
-> [   18.024497] scsi host1: usb-storage 1-1:1.0
-> [   19.035091] scsi 1:0:0:0: Direct-Access     General  USB Flash Disk   1.0  PQ: 0 ANSI: 2
-> [   19.049717] sd 1:0:0:0: [sda] 7831552 512-byte logical blocks: (4.01 GB/3.73 GiB)
-> [   19.060873] sd 1:0:0:0: [sda] Write Protect is off
-> [   19.071018] sd 1:0:0:0: [sda] No Caching mode page found
-> [   19.076437] sd 1:0:0:0: [sda] Assuming drive cache: write through
-> [   19.093566]  sda: sda1
-> [   19.103492] sd 1:0:0:0: [sda] Attached SCSI removable disk
->
-> issues:
-> =======
->
-> The system power often turned off when I plugged an usb device into the OTG port.
-> It's not clear why.
-It is not caused by software.
+On Thu, May 19, 2022 at 11:55:28AM +0200, Krzysztof Kozlowski wrote:
+> On 18/05/2022 22:09, Corentin Labbe wrote:
 
-According to the schematic of M2U, there is a 100uF capacitor on the 
-USBVBUS,
-but noting on ACIN. The board is powered by ACIN when I test usb otg,
-plugged an usb storage into the otg port, USB0 enter host mode and will
-enable the USBVBUS power supply through N_VBUSEN. At this time due to the
-limits of ACIN, the input voltage dropped and AXP enter shutdown protection
-state.
+> > +  regulators:
+> > +    description:
+> > +       List of phandle to regulators needed for the PHY
 
-This problem was sloved when I mounted a large capacitor on ACIN.
-Both usb device and host stack can work fine now.
->
-> qianfan Zhao (2):
->    ARM: dts: sun8i-r40: Add USB0_OTG/HOST support
->    ARM: dts: bananapi-m2-ultra: Enable USB0_OTG and HOST support
->
->   .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 39 +++++++++++++++++++
->   arch/arm/boot/dts/sun8i-r40.dtsi              | 34 ++++++++++++++++
->   2 files changed, 73 insertions(+)
->
+> I don't understand that... is your PHY defining the regulators or using
+> supplies? If it needs a regulator (as a supply), you need to document
+> supplies, using existing bindings.
 
+They're trying to have a generic driver which works with any random PHY
+so the binding has no idea what supplies it might need.
+
+--ISK1ldOBVTRUZTdj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKGKpcACgkQJNaLcl1U
+h9DYYAf9FUmpPRq5eJJuxSFhwB4pEIaskdfqRYeGXIebZCYZvHB80Fuk3SuFiizq
+1MzfOCPFNucujqgezUWvvA+5LhpT88DmdvsEjyKGGgf1cJrPYH0Goi5Zcw17QKGX
+BoKPnTZPlTKbPjp9+fV2X6ljzVOCIESTAcRWwzZpZ9CQNwXDrptLO72g47Esefo2
+hXJ3WB4XYxEh9LJDiuThKfGCrrVTzosumYBj++rxw09P7v5e5+Yza3kTI3tw5YGz
+do1dQaJi7OOTJk5MXI66mX785B39emZleorpkgK3MJY4hHCwgzWfpa0RSZiB8y5B
+cULnxFfjt3GBgGoW2WgMrXU47y8BbQ==
+=H3Kx
+-----END PGP SIGNATURE-----
+
+--ISK1ldOBVTRUZTdj--
