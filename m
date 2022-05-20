@@ -1,84 +1,128 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9B217C3
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 May 2022 10:19:15 +0000 (UTC)
-Received: by mail-lj1-f176.google.com with SMTP id u7so8429592ljd.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 May 2022 03:19:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=qC4Olf3TBGA3MotPYbQLIM34p+fB/nDlozQzZDrBQBk=;
-        b=TRs4rMcCAVRW9/+gyu2GMjvXZyCPcqFpOTYZ7FzW5y6x5LKb+wP8FpcAt0/ZMVUCih
-         ZDif5/ECPUi9qdeS5wmkjHR/hxJFlOmRzDvyttaeChD2/TElvKqvRxVUNACRbBWvFunr
-         OxKMY2BJapKXlCAozP+UhfirIr8tSfSSttaBF5fyhZRyyktW0bhAiepbW0x8SIH7ZDuU
-         tJp8EyFs8cupA5bFJdcRDF88ZqyT44XkPaqapkL7hkQ+SghTNeb4OxK7K4gWohd47fuA
-         4uELozEYuW7ssvi338yBHgQIiM/JY/2btQfzXBM1tLWOH8C0UjWxlZDV4eXFQH84smeH
-         d31w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=qC4Olf3TBGA3MotPYbQLIM34p+fB/nDlozQzZDrBQBk=;
-        b=yjSkK08pyyxGYzu6VR3yb8qlo3bpetZ5i2YF88pRshFB2bbK/bb0VdSNn79kvRjsa7
-         rZSPdSNLzqkZdA98THjzR+o4Qcv9f2YdhoQyeIT/A+Sv4d1srGs1+R1EKPc/F5NgeD8T
-         rC24FJHRDEUJvtXwuEeT0TKCcYOlazDkjUj+Yjhnth+UC1irTdtOKk5XiX9QwzJn/wh+
-         bUN3rx1r/SUL4Fbw7sE2xryUOdEGvq4PA/JvKoyiDPXClqNTyIOszM6IEdNR4omIXihY
-         vUTUpaVjwkdEziqdiTbYaSPazLz6d3OmusWUGfqWW8fwT+dgeVhX0ip4hdxWwsaH5B15
-         xu6g==
-X-Gm-Message-State: AOAM531Ycs66V3LS3Lgz9tia8gVj1f9F28G//Okvyng53GdnwxZt0Kda
-	sPsq2+spBiNeZCDHjCxtN4+iOw==
-X-Google-Smtp-Source: ABdhPJz5R0gOM+LR5VrdWtX2EWAzFoI4W3cbw6McoMSSQnAw/WK6yf40qF0stxViEQS8Atvn2d+6/A==
-X-Received: by 2002:a2e:884b:0:b0:253:d431:45f0 with SMTP id z11-20020a2e884b000000b00253d43145f0mr4587867ljj.70.1653041954080;
-        Fri, 20 May 2022 03:19:14 -0700 (PDT)
-Received: from [192.168.0.17] (78-11-189-27.static.ip.netia.com.pl. [78.11.189.27])
-        by smtp.gmail.com with ESMTPSA id b4-20020a056512024400b00477a6c86f17sm610621lfo.8.2022.05.20.03.19.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 May 2022 03:19:13 -0700 (PDT)
-Message-ID: <56a6dc27-35ef-68a9-e990-7d989450ba89@linaro.org>
-Date: Fri, 20 May 2022 12:19:11 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C23A17C3
+	for <linux-sunxi@lists.linux.dev>; Fri, 20 May 2022 10:25:13 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 24K5UCxB026795;
+	Fri, 20 May 2022 05:24:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=WSOvhMBIg+CnexC+Y8X+ZG7BYMkoKeetiZYSiJmE0cw=;
+ b=E3MDFwXsbJRiBaE4OT2ai+JBwbYdqbCNDnTM5WTrjlOXZlrikeuJ1tiL+m5bGqsZo03j
+ hZNgysmRG2QNG9jfqt9CJyU1HKdQikMi9FpVUiaR7mHeBwbTedb07Mex56RR9EocUbFP
+ vjQtPAGfK1wk5RM/9IUs9D/tVUYW0yOqIgk1qYoeQRhBJEla3nFqJiatKvzERFcXHqSI
+ Q+/Hno0xMo5/BjF4Kn3iHQ0QMOXFJX9/9GuLbAmIRVv9J84ewdgkmDjMuNAiVSG2dbUO
+ otHvJplf8L8ZVHcLm7hZgWu0kIHYmP+5RyytltwUsoK/TaAybqvdQMM8AE7gkhiA4klo dQ== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3g28upg6de-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 20 May 2022 05:24:48 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Fri, 20 May
+ 2022 11:24:47 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.24 via Frontend
+ Transport; Fri, 20 May 2022 11:24:47 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 20F84458;
+	Fri, 20 May 2022 10:24:47 +0000 (UTC)
+Date: Fri, 20 May 2022 10:24:47 +0000
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+CC: <broonie@kernel.org>, <lgirdwood@gmail.com>, <nicolas.ferre@microchip.com>,
+        <nsaenz@kernel.org>, <shawnguo@kernel.org>, <linux-imx@nxp.com>,
+        <cezary.rojewski@intel.com>, <pierre-louis.bossart@linux.intel.com>,
+        <linux-mips@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+        <linux-amlogic@lists.infradead.org>, <daniel@zonque.org>,
+        <srinivas.kandagatla@linaro.org>, <linux-rockchip@lists.infradead.org>,
+        <krzk@kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
+        <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
+        <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 56/56] ASoC: simple-card-utils: Move
+ snd_soc_component_is_codec to be local
+Message-ID: <20220520102447.GL38351@ediswmail.ad.cirrus.com>
+References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+ <20220519154318.2153729-57-ckeepax@opensource.cirrus.com>
+ <87czg98193.wl-kuninori.morimoto.gx@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v2 4/5] dt-bindings: net: Add documentation for optional
- regulators
-Content-Language: en-US
-To: LABBE Corentin <clabbe@baylibre.com>
-Cc: Mark Brown <broonie@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- calvin.johnson@oss.nxp.com, davem@davemloft.net, edumazet@google.com,
- hkallweit1@gmail.com, jernej.skrabec@gmail.com,
- krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org, lgirdwood@gmail.com,
- linux@armlinux.org.uk, pabeni@redhat.com, robh+dt@kernel.org,
- samuel@sholland.org, wens@csie.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, netdev@vger.kernel.org
-References: <20220518200939.689308-1-clabbe@baylibre.com>
- <20220518200939.689308-5-clabbe@baylibre.com>
- <95f3f0a4-17e6-ec5f-6f2f-23a5a4993a44@linaro.org>
- <YoYqmAB3P7fNOSVG@sirena.org.uk>
- <c74b0524-60c6-c3af-e35f-13521ba2b02e@linaro.org> <YoYw2lKbgCiDXP0A@lunn.ch>
- <YoZm9eabWy/FNKu1@sirena.org.uk>
- <0518eef1-75a6-fbfe-96d8-bb1fc4e5178a@linaro.org> <YodOO6PfsjelCa1x@Red>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <YodOO6PfsjelCa1x@Red>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <87czg98193.wl-kuninori.morimoto.gx@renesas.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: EewLKkNvojqM2gQAbwrh9EQ5fKjwiv7u
+X-Proofpoint-ORIG-GUID: EewLKkNvojqM2gQAbwrh9EQ5fKjwiv7u
+X-Proofpoint-Spam-Reason: safe
 
-On 20/05/2022 10:15, LABBE Corentin wrote:
+On Fri, May 20, 2022 at 01:02:33AM +0000, Kuninori Morimoto wrote:
 > 
-> I agree that supplies and supply-names are better.
-> But in another answer Rob is against it, so if I understand well, we are stuck to use individual xxx-supply.
-> I will try to create a new regulator_get_bulk_all() which scan all properties matching xxx-supply
+> Hi
+> 
+> This is not related to this patch, but...
+> 
+> > -static inline int snd_soc_component_is_codec(struct snd_soc_component *component)
+> > -{
+> > -	return component->driver->non_legacy_dai_naming;
+> > -}
+> (snip)
+> > +static inline int asoc_simple_component_is_codec(struct snd_soc_component *component)
+> > +{
+> > +	return component->driver->endianness;
+> > +}
+> 
+> I have added "endianness" "non_legacy_dai_naming" to component
+> when convert old "Codec style" into current "Component style".
+> All codec needs to have these 2.
+> 
+> 	69941bab7c7aeaa7bf7e84397e294c17f0b7c6df
+> 	("ASoC: snd_soc_component_driver has non_legacy_dai_naming")
+> 
+> 	273d778ef38a8861f880e9df5799029dc82bd55d
+> 	("ASoC: snd_soc_component_driver has endianness")
+> 
+> The reason why I didn't use "codec" was that try to keep
+> original style as much as possible.
+> But it seems this is good time to use "codec" for it ?
+> I think the code will be more understandable.
+> 
+> -	.endianness
+> -	.non_legacy_dai_naming
+> +	.is_codec
 
-Yep.
+Yeah I considered this but it didn't really feel like the right
+way to go to me. Firstly, at this stage we almost certainly need
+to keep the endianness and non_legacy_dai_naming flags, there are
+corner cases when endianness probably shouldn't be applied to CODECs
+(as noted in my endianness series), and there are platform drivers
+that use non_legacy_dai_naming.
 
+We could add an is_codec flag along side the other two. But it
+means a whole extra flag and means the the core is still requiring
+a concept of what is a CODEC driver, which really we want to get
+rid of as part of componentisation.
 
-Best regards,
-Krzysztof
+My thinking was that, whilst making this function local to the
+driver isn't perfect, simple card will be used with simple CODECs
+that are likely to exist on a standard audio bus, and thus have
+endianness and the newer graph cards don't require specific
+identification of what is a CODEC driver. So it probably works as
+a solution for now.
+
+> 
+> Thank you for your help !!
+
+Absolutely no problem, thank you for all the work you have done
+on this over the years.
+
+Thanks,
+Charles
