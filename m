@@ -1,140 +1,267 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D5C7A
-	for <linux-sunxi@lists.linux.dev>; Fri, 20 May 2022 13:39:07 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id eg11so10806948edb.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 20 May 2022 06:39:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=/vZ5EIynCj28UhpMo2WaUDTGXgrMDD6ssuzpbKQFTrE=;
-        b=dbdCdy787bi5RG1nfo93JEf7fRSGqgvdGgWbhi5+jiM2gZq411FflPdY9L2o3Sz097
-         XA9SzdoyvFOw4oNvCmxQtifumEL2ucGkRJdht2gKQbj9YVfuffNrO+QPvuuZxjrqoS0F
-         NfU67GWBYzEpstGDy844RVUmfAl7HNRGvf/LwT4rnlN6DngXc2ZKIaPbBdhEQ53EpZ4s
-         ITsYoJPxw+STd6rZ1MhtfXgofir7SDd7Ohuuh33FWGAKbBMX+xkiGJYwBkluf7rb/Tbk
-         3LkMR2KGcBuBeRhqmlx3nsng24xG35IMWoTed7v6OpPZiYpWbvZKUFT3MZVg1KYI/Bnh
-         bK1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=/vZ5EIynCj28UhpMo2WaUDTGXgrMDD6ssuzpbKQFTrE=;
-        b=0IuXm3zQZoYBgADHYzlJPvuz1dyeJ4hkzO4DolqyOGpFhXmaIdvQLDlTLqIsW4hSwu
-         Q/crFrHwGSnlsBnafvr9drYNCaaBY6V8xjV2UEdYzJRHqrHSRvINYEP8Orza7x1rBYab
-         J7AVfCvdcVp7zwLEp+9gZDjal6Ge4lXzw6yPbCWLCwPUIrLLUE84BQy25kM5zh301cwn
-         diSRC+1CQXgfT/TLjHlvBtPgAMqBqXv/hy1/YOw1fR8S5F3GUE6lyy03Asf/vuJCZexS
-         k03MlOylLBj7wfVK7qEMqoP8sJayKd3RpS17RNhVqT+Zp5O0NFQWqSWAIumaTJkD+b5J
-         NIVw==
-X-Gm-Message-State: AOAM531F7ysgqrh6l2/Au1JB+nZ+YKZhtyg/arpLyyH675P0YADP2bzt
-	PQQAxcp91JohHcTxtSrbZVk=
-X-Google-Smtp-Source: ABdhPJzB4dDO6rQGcvP8GfFmFaDFqb3hZ0xhEwmOtYMgE32gUNPAUosh+C78GjzIs6waR9fAZFTMtw==
-X-Received: by 2002:a05:6402:3488:b0:427:b4ec:991b with SMTP id v8-20020a056402348800b00427b4ec991bmr10869813edc.319.1653053945963;
-        Fri, 20 May 2022 06:39:05 -0700 (PDT)
-Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch. [84.72.105.84])
-        by smtp.gmail.com with ESMTPSA id b2-20020aa7df82000000b0042abfe32ac8sm4225152edy.30.2022.05.20.06.39.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 May 2022 06:39:05 -0700 (PDT)
-From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-To: broonie@kernel.org, Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: lgirdwood@gmail.com, kuninori.morimoto.gx@renesas.com, nicolas.ferre@microchip.com, nsaenz@kernel.org, shawnguo@kernel.org, linux-imx@nxp.com, cezary.rojewski@intel.com, pierre-louis.bossart@linux.intel.com, linux-mips@vger.kernel.org, linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org, daniel@zonque.org, srinivas.kandagatla@linaro.org, linux-rockchip@lists.infradead.org, krzk@kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, linux-omap@vger.kernel.org, linux-xtensa@linux-xtensa.org, peter.ujfalusi@gmail.com, jarkko.nikula@bitmer.com, heiko@sntech.de, jbrunet@baylibre.com, kernel@pengutronix.de, alsa-devel@alsa-project.org, patches@opensource.cirrus.com
-Subject: Re: [PATCH 18/56] ASoC: rockchip: Update to use set_fmt_new callback
-Date: Fri, 20 May 2022 15:39:03 +0200
-Message-ID: <4375965.enAZpblka2@archbook>
-In-Reply-To: <20220519154318.2153729-19-ckeepax@opensource.cirrus.com>
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com> <20220519154318.2153729-19-ckeepax@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B507E;
+	Fri, 20 May 2022 15:01:50 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::222])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id 231F6C14BA;
+	Fri, 20 May 2022 14:57:48 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 417914000F;
+	Fri, 20 May 2022 14:57:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1653058659;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pejjagd04uhGPBvwZNzDzgti8YXBTsaNP9vyEjKnY7U=;
+	b=R8lUCqKdq6VkpW+RkJQqRfPxOtgyJmB7MgNyodMsLkrlpUMLgjXJMWh1XK77oaZagjKEW3
+	fkMRmlBi2mx8JovhnmEme+9fbyxNvN1gTkwWpVjzxq5tfgk8hy96lBfN0EmosDEuFnhwMa
+	X+bcS9mOVAZYt9bSaFZPdBdQJjrzXpAk8xOiCMI0ZjtB9gSks84DJvxwTUPRsVaZiDiuo+
+	S4hU42KH18PCDdxKVQnR+VsfpyXJtez1Znh+8Cjmi0MPL1TvuuGRq4zkRRvIeBdRIfRACK
+	0SlFu1D+rrHSxujdVNkvfLXbi0c+xIg7NtB+9Qz+NwkHMmEsruV97ljBWXnnCg==
+Date: Fri, 20 May 2022 16:57:35 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
+ ISP
+Message-ID: <YoesXywA4yzBDSwU@aptenodytes>
+References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
+ <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
+ <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
+ <Ymqk89e+mn/1kLLx@aptenodytes>
+ <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-
-On Donnerstag, 19. Mai 2022 17:42:40 CEST Charles Keepax wrote:
-> As part of updating the core to directly tell drivers if they are clock
-> provider or consumer update these CPU side drivers to use the new direct
-> callback.
-> 
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
-> ---
->  sound/soc/rockchip/rockchip_i2s.c     | 8 ++++----
->  sound/soc/rockchip/rockchip_i2s_tdm.c | 8 ++++----
->  2 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/sound/soc/rockchip/rockchip_i2s.c b/sound/soc/rockchip/rockchip_i2s.c
-> index 4ce5d25793875..0a66c7df323dc 100644
-> --- a/sound/soc/rockchip/rockchip_i2s.c
-> +++ b/sound/soc/rockchip/rockchip_i2s.c
-> @@ -199,13 +199,13 @@ static int rockchip_i2s_set_fmt(struct snd_soc_dai *cpu_dai,
->  
->  	pm_runtime_get_sync(cpu_dai->dev);
->  	mask = I2S_CKR_MSS_MASK;
-> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
-> -	case SND_SOC_DAIFMT_CBS_CFS:
-> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-> +	case SND_SOC_DAIFMT_BP_FP:
->  		/* Set source clock in Master mode */
->  		val = I2S_CKR_MSS_MASTER;
->  		i2s->is_master_mode = true;
->  		break;
-> -	case SND_SOC_DAIFMT_CBM_CFM:
-> +	case SND_SOC_DAIFMT_BC_FC:
->  		val = I2S_CKR_MSS_SLAVE;
->  		i2s->is_master_mode = false;
->  		break;
-> @@ -486,7 +486,7 @@ static const struct snd_soc_dai_ops rockchip_i2s_dai_ops = {
->  	.hw_params = rockchip_i2s_hw_params,
->  	.set_bclk_ratio	= rockchip_i2s_set_bclk_ratio,
->  	.set_sysclk = rockchip_i2s_set_sysclk,
-> -	.set_fmt = rockchip_i2s_set_fmt,
-> +	.set_fmt_new = rockchip_i2s_set_fmt,
->  	.trigger = rockchip_i2s_trigger,
->  };
->  
-> diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
-> index 98700e75b82a1..c90afccdae362 100644
-> --- a/sound/soc/rockchip/rockchip_i2s_tdm.c
-> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
-> @@ -411,12 +411,12 @@ static int rockchip_i2s_tdm_set_fmt(struct snd_soc_dai *cpu_dai,
->  	}
->  
->  	mask = I2S_CKR_MSS_MASK;
-> -	switch (fmt & SND_SOC_DAIFMT_MASTER_MASK) {
-> -	case SND_SOC_DAIFMT_CBC_CFC:
-> +	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
-> +	case SND_SOC_DAIFMT_BP_FP:
->  		val = I2S_CKR_MSS_MASTER;
->  		i2s_tdm->is_master_mode = true;
->  		break;
-> -	case SND_SOC_DAIFMT_CBP_CFP:
-> +	case SND_SOC_DAIFMT_BC_FC:
->  		val = I2S_CKR_MSS_SLAVE;
->  		i2s_tdm->is_master_mode = false;
->  		break;
-> @@ -1113,7 +1113,7 @@ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
->  	.hw_params = rockchip_i2s_tdm_hw_params,
->  	.set_bclk_ratio	= rockchip_i2s_tdm_set_bclk_ratio,
->  	.set_sysclk = rockchip_i2s_tdm_set_sysclk,
-> -	.set_fmt = rockchip_i2s_tdm_set_fmt,
-> +	.set_fmt_new = rockchip_i2s_tdm_set_fmt,
->  	.set_tdm_slot = rockchip_dai_tdm_slot,
->  	.trigger = rockchip_i2s_tdm_trigger,
->  };
-> 
-
-Please run ./scripts/get_maintainer.pl against the individual patches so
-that I'm included in the recipients of the e-mail as well.
-
-Anyway, for the i2s-tdm parts:
-
-Tested-by: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
-
-Tested on a RK3566 connected to an RK817 codec.
-
-Regards,
-Nicolas Frattaroli
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="FAoW3tsaHuiF93BU"
+Content-Disposition: inline
+In-Reply-To: <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
 
 
+--FAoW3tsaHuiF93BU
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Sakari,
+
+On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
+> > Hi Sakari,
+> >=20
+> > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
+> > > Hi Paul,
+> > >=20
+> > > Thanks for the set.
+> > >=20
+> > > A few comments below.
+> >=20
+> > Thanks a lot for your review!
+>=20
+> You're welcome!
+>=20
+> ...
+>=20
+> > > I understand this is an online ISP. How do you schedule the video buf=
+fer
+> > > queues? Say, what happens if it's time to set up buffers for a frame =
+and
+> > > there's a buffer queued in the parameter queue but not in the image d=
+ata
+> > > queue? Or the other way around?
+> >=20
+> > The ISP works in a quite atypical way, with a DMA buffer that is used to
+> > hold upcoming parameters (including buffer addresses) and a bit in a "d=
+irect"
+> > register to schedule the update of the parameters at next vsync.
+> >=20
+> > The update (setting the bit) is triggered whenever new parameters are
+> > submitted via the params video device or whenever there's a capture buf=
+fer
+> > available in the capture video device.
+> >=20
+> > So you don't particularly need to have one parameter buffer matching a =
+capture
+> > buffer, the two can be updated independently. Of course, a capture buff=
+er will
+> > only be returned after another buffer becomes active.
+>=20
+> This also means it's not possible to associate a capture buffer to a
+> parameter buffer by other means than timing --- which is unreliable. The
+> request API would allow that but it's not free of issues either.
+
+Yes the request API seems like a good fit for this. Note that the returned
+sequence number in dequeued buffers for the capture and meta video devices
+should match though, so userspace still has a way to know which captured bu=
+ffer
+used parameters from which meta params buffer.
+
+> Alternatively, I think in this case you could always require the capture
+> buffer and grab a parameter buffer when it's available. As ISPs are
+> generally requiring device specific control software, this shouldn't be a
+> problem really.
+
+I think this is pretty much what happens already.
+
+> I wonder what Laurent thinks.
+>=20
+> >=20
+> > I hope this answers your concern!
+> >=20
+> > [...]
+> >=20
+> > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
+> > > > +{
+> > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
+> > > > +	int ret;
+> > > > +
+> > > > +	/* Sizes are hardcoded for now but actually depend on the platfor=
+m. */
+> > >=20
+> > > Would it be cleaner to have them defined in a platform-specific way, =
+e.g.
+> > > in a struct you obtain using device_get_match_data()?
+> >=20
+> > Absolutely! I didn't do it at this stage since only one platform is sup=
+ported
+> > but we could just as well introduce a variant structure already for the=
+ table
+> > sizes.
+>=20
+> I think that would be nice already, especially if you know these are going
+> to be different. Otherwise macros could be an option.
+
+Understood!
+
+> ...
+>=20
+> > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
+> > >=20
+> > > I suppose you intend to add controls later on?
+> >=20
+> > I might be wrong but I thought this was necessary to expose sensor cont=
+rols
+> > registered by subdevs that end up attached to this v4l2 device.
+> >=20
+> > I doubt the drivers itself will expose controls otherwise.
+>=20
+> Now that this is an MC-enabled driver, the subdev controls should be
+> accessed through the subdev nodes only. Adding them to the video device's
+> control handler is quite hackish and not guaranteed to even work (as e.g.
+> multiple subdevs can have the same control).
+
+Yes I was wondering what would happen in that case. I'll drop the ctrls
+handling in the next iteration then.
+
+Paul
+
+> ...
+>=20
+> > > > +{
+> > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
+> > > > +	struct video_device *video_dev =3D &isp_dev->capture.video_dev;
+> > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
+> > > > +	int ret;
+> > > > +
+> > > > +	if (mutex_lock_interruptible(lock))
+> > > > +		return -ERESTARTSYS;
+> > > > +
+> > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
+> > >=20
+> > > Do you need this?
+> > >=20
+> > > Drivers should primarily depend on runtime PM, this is only needed for
+> > > compatibility reasons. Instead I'd like to see sensor drivers being m=
+oved
+> > > to runtime PM.
+> >=20
+> > Yes it's still needed to support sensor drivers that don't use rpm yet.
+>=20
+> To that I suggested adding runtime PM support for the affected sensors.
+> This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does not
+> call s_power() on sensor subdevs.
+>=20
+> ...
+>=20
+> > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
+> > > > +	if (ret) {
+> > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
+> > > > +			 ret);
+> > > > +		goto error_media_entity;
+> > > > +	}
+> > > > +
+> > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->na=
+me,
+> > > > +		  video_device_node_name(video_dev));
+> > >=20
+> > > This isn't really driver specific. I'd drop it.
+> >=20
+> > I agree but I see that many drivers are doing it and the information can
+> > actually be quite useful at times.
+>=20
+> You can get that information using media-ctl -e 'entity name'.
+>=20
+> I guess this could be also added to video_register_device() on debug leve=
+l.
+>=20
+> > > > +struct sun6i_isp_params_config_bdnf {
+> > > > +	__u8	in_dis_min; // 8
+> > > > +	__u8	in_dis_max; // 10
+> > >=20
+> > > Are these default values or something else? Better documentation was =
+in the
+> > > TODO.txt file already.
+> >=20
+> > Yes that's the default register values, but these comments are and over=
+look on
+> > my side and should be removed.
+>=20
+> I'm fine leaving these here. Just wondering. Up to you.
+>=20
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--FAoW3tsaHuiF93BU
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKHrF8ACgkQ3cLmz3+f
+v9HhUggAlMjbtLYEq3V4Mz0xX1XuzbkyKEzMNadNg6z6gQ4YaVnXpvpyFH4M35Zq
+aK+9CBzhgAy7OPfzxZ7SLijO27vEApEjQsxF79cI+VAb6TsTxcdT0wvYW3DyPVV7
+CM8qYR6k7r1TrbPP2S2tpm2e0o2vgMAg3YIYvs183GelA3KO+XAAlKiNf/hxvcPX
+jZ9x2twYZxuw5SdKU+HwVwKJqGxF6cbJ82VSuO6vBp3McxB+GP6C5lXR360UJNcN
+TDxgvMYYqruqriEcxQubPYwV6ndB6l1LZDo0PJMi9FmdYL4T2K0oc5J0IqpiKu/a
+Ax3F0ID+oBjpErydkMbGHXrEN/aLug==
+=+4MT
+-----END PGP SIGNATURE-----
+
+--FAoW3tsaHuiF93BU--
