@@ -1,135 +1,83 @@
-Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D8317D0
-	for <linux-sunxi@lists.linux.dev>; Sat, 21 May 2022 14:30:39 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1653143370; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YmQVY556BiB5ox5y8PXNUjNRS9ozj0KmNZjYG6fzzLqWPKOljAcAZUugMmn4fFcsMs/AZqSKWdDeRKd0h/xokD9wMmPeUhEUxeGQL6TEWgW50DvxPK5v0f3nzdbiNx8OtQCCozZ5kcWh+KMwnvMNVHo8uICWQEAHvPEPd42zwaw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1653143370; h=Content-Type:Content-Transfer-Encoding:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=1uplxa2t3JmqaYVHdP2jpDOm9CDjpZeLGLqC5pe6p6U=; 
-	b=APLirMOzbpNRybXIsKwmw1CqKXq5aCeN30dkdlJsHl5XVyMIdjsClOOHzkHIt7DJxvMyJNf1YUQeps7sliMM1UPn5zGcK2oyMDctSK9kxWrr30t1IkZRlOx5RYQ3avVfvIglGwLz1mndcf0ByTt7LQbaAhY/6ZyjdmIZ1rTqB7o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=lchen.firstlove@zohomail.com;
-	dmarc=pass header.from=<lchen.firstlove@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653143370;
-	s=zm2022; d=zohomail.com; i=lchen.firstlove@zohomail.com;
-	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To:Cc;
-	bh=1uplxa2t3JmqaYVHdP2jpDOm9CDjpZeLGLqC5pe6p6U=;
-	b=DgOMEtCpUZ2ARhoTMr2uAQ8hXFJgspYlzQSLE9n2DmG9yOgzMrWV548fuOrUdKkV
-	G1chSwAMCVkx4pMC/dzWyXVZ6RmqaPXop1y04YXCFwgoJDfMQ/Ko4PYJmS3cILwrBRm
-	+m4TKssaUEsfhUHZG/Wg+jOTxaPehmVjcpk5I7k0=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1653143369973677.7315354282247; Sat, 21 May 2022 07:29:29 -0700 (PDT)
-Received: from  [45.12.140.94] by mail.zoho.com
-	with HTTP;Sat, 21 May 2022 07:29:29 -0700 (PDT)
-Date: Sat, 21 May 2022 07:29:29 -0700
-From: Li Chen <lchen.firstlove@zohomail.com>
-To: "Mark Brown" <broonie@kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"linux-gpio" <linux-gpio@vger.kernel.org>,
-	"Linus Walleij" <linus.walleij@linaro.org>,
-	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>,
-	"Patrice Chotard" <patrice.chotard@foss.st.com>,
-	"linux-sunxi" <linux-sunxi@lists.linux.dev>,
-	"Liam Girdwood" <lgirdwood@gmail.com>,
-	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
-	"Chen-Yu Tsai" <wens@csie.org>,
-	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
-	"Samuel Holland" <samuel@sholland.org>,
-	"Philipp Zabel" <p.zabel@pengutronix.de>
-Message-ID: <180e705f8de.1012cdc8c45890.1645144071309904245@zohomail.com>
-In-Reply-To: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
-References: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
-Subject: [PATCH 4/4] pinctrl: st: Switch to use regmap_field_test_bits
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4962F2F5E
+	for <linux-sunxi@lists.linux.dev>; Sat, 21 May 2022 15:23:01 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id e28so14424239wra.10
+        for <linux-sunxi@lists.linux.dev>; Sat, 21 May 2022 08:23:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=JvR8EfMneLH17KDR7mkxGH6ytw5t2KWJ1oGbwHLRP+I=;
+        b=BE7C1sg9dwzS9wigMsHqlYA7qZQXESfP/NvFZo+4WS6FP3c/O0C/8Ysg6l3Xl5JHlb
+         H0n9t9ts/9kvykGHTILqJFh8Y5wMUns6Jx0LKO3ccTQitCPAFC7jrpHOc53TrCdEvrEl
+         1Qdf4B3/wr6rCHn6hF7TA4OiD9UJZfsshwT1JMXrNpM/MfIe72xSyPCtIfuRlU/uPqHJ
+         GMEsIFoPEVfqsZ0nXmdk/5frWRkyUKOLMzfl+8b+y8z18S27vVxMg/uXEbNdT7cwHuw8
+         XWzYUW8/Uszu/HSs+t2SpLO8RiYRpE3CgjNwrXjvSTQVkKKGFK09W5Dg6qcVBF/wO0Qr
+         cVog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=JvR8EfMneLH17KDR7mkxGH6ytw5t2KWJ1oGbwHLRP+I=;
+        b=6C3f440MIRo+UISTlNyZGCSNiLdUHDx2SOqtUOQdSVzT2qebjePNq99PeSuFGekJJx
+         bhkizTKIVzmf1ZWOkFTlEw3mkhqzG9iNDS4Wwe0L2vgv+MrILRCLtM6El7q7PNPI3Jsm
+         bjSw71VG3jmoHOFRIAbKvjNNNP7GngOUD01TJTOZ7UZGclbDaTgiiDKlThq4hJqVYjjO
+         wJku63SaY29Hymm75W+feMHWLVMK9mqX61YgK0vb5XhfEctkBVNjkLepKzeA3rx7pd2c
+         SDRbC1BFI1UtbooIlqx+v2kQtWOD3KCGlmZXx3r7s95vFz5W+FynwConnd1JwQMvuPNY
+         taaQ==
+X-Gm-Message-State: AOAM531OyZACRWVu4mF2uFhfrgoi8IQSaEyUnwYPANnKCehCevcSdIDS
+	Hx8Xq7xWYh9pMaP9hk7TLSASnZuPuwoAow30eKA=
+X-Google-Smtp-Source: ABdhPJy2otIU6LY2zRIkW7mIAELe35y0IXHfO2ziBmZjskvQSLFDXG9FhwC+MgwvPK6BWB/YN5t8Bs47fz7TL91u8xg=
+X-Received: by 2002:a5d:4892:0:b0:20c:d4eb:1886 with SMTP id
+ g18-20020a5d4892000000b0020cd4eb1886mr13053812wrq.96.1653146579366; Sat, 21
+ May 2022 08:22:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20220521111145.81697-36-Julia.Lawall@inria.fr>
+In-Reply-To: <20220521111145.81697-36-Julia.Lawall@inria.fr>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Sat, 21 May 2022 08:22:32 -0700
+Message-ID: <CA+E=qVc-_NbBhybRs8aAU324_GMYAokmZT3mQZN796x6u090oQ@mail.gmail.com>
+Subject: Re: [PATCH] thermal: sun8i: fix typo in comment
+To: Julia Lawall <Julia.Lawall@inria.fr>
+Cc: kernel-janitors@vger.kernel.org, Yangtao Li <tiny.windzz@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@linaro.org>, 
+	Amit Kucheria <amitk@kernel.org>, Zhang Rui <rui.zhang@intel.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Linux PM <linux-pm@vger.kernel.org>, arm-linux <linux-arm-kernel@lists.infradead.org>, 
+	linux-sunxi@lists.linux.dev, linux-kernel <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr080112267cf364621b3b792c124082760000e7e088bdddfac7607cfb9ed75c25ebb0ae36151ee2127976:zu08011227a6949e549385956098fdd8970000b0614889ccf8be8f90fa47d8a8e113acf06e6c8b3d7d8d0400:rf0801122c15ba42b8235095a91707cffe0000a891b0ca85c325025b4f94f07a70129da6fe31daec4a1e77eb2e73b78d41:ZohoMail
 
-From: Li Chen <lchen@ambarella.com>
+On Sat, May 21, 2022 at 4:11 AM Julia Lawall <Julia.Lawall@inria.fr> wrote:
+>
+> Spelling mistake (triple letters) in comment.
+> Detected with the help of Coccinelle.
+>
+> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
-Appropriately change calls to regmap_field_read() with
-regmap_field_test_bits() for improved readability.
+Acked-by: Vasily Khoruzhick <anarsoul@gmail.com>
 
-Signed-off-by: Li Chen <lchen@ambarella.com>
----
- drivers/pinctrl/pinctrl-st.c | 23 +++++++++--------------
- 1 file changed, 9 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/pinctrl/pinctrl-st.c b/drivers/pinctrl/pinctrl-st.c
-index 0fea71fd9a00..971b54bb478a 100644
---- a/drivers/pinctrl/pinctrl-st.c
-+++ b/drivers/pinctrl/pinctrl-st.c
-@@ -573,23 +573,18 @@ static void st_pinconf_set_retime_dedicated(struct st_pinctrl *info,
- static void st_pinconf_get_direction(struct st_pio_control *pc,
- 	int pin, unsigned long *config)
- {
--	unsigned int oe_value, pu_value, od_value;
--
- 	if (pc->oe) {
--		regmap_field_read(pc->oe, &oe_value);
--		if (oe_value & BIT(pin))
-+		if (regmap_field_test_bits(pc->oe, BIT(pin)))
- 			ST_PINCONF_PACK_OE(*config);
- 	}
- 
- 	if (pc->pu) {
--		regmap_field_read(pc->pu, &pu_value);
--		if (pu_value & BIT(pin))
-+		if (regmap_field_test_bits(pc->pu, BIT(pin)))
- 			ST_PINCONF_PACK_PU(*config);
- 	}
- 
- 	if (pc->od) {
--		regmap_field_read(pc->od, &od_value);
--		if (od_value & BIT(pin))
-+		if (regmap_field_test_bits(pc->od, &od_value, BIT(pin)))
- 			ST_PINCONF_PACK_OD(*config);
- 	}
- }
-@@ -599,22 +594,22 @@ static int st_pinconf_get_retime_packed(struct st_pinctrl *info,
- {
- 	const struct st_pctl_data *data = info->data;
- 	struct st_retime_packed *rt_p = &pc->rt.rt_p;
--	unsigned int delay_bits, delay, delay0, delay1, val;
-+	unsigned int delay_bits, delay, delay0, delay1;
- 	int output = ST_PINCONF_UNPACK_OE(*config);
- 
--	if (!regmap_field_read(rt_p->retime, &val) && (val & BIT(pin)))
-+	if (!regmap_field_test_bits(rt_p->retime, BIT(pin)))
- 		ST_PINCONF_PACK_RT(*config);
- 
--	if (!regmap_field_read(rt_p->clk1notclk0, &val) && (val & BIT(pin)))
-+	if (!regmap_field_test_bits(rt_p->clk1notclk0, BIT(pin)))
- 		ST_PINCONF_PACK_RT_CLK(*config, 1);
- 
--	if (!regmap_field_read(rt_p->clknotdata, &val) && (val & BIT(pin)))
-+	if (!regmap_field_test_bits(rt_p->clknotdata, BIT(pin)))
- 		ST_PINCONF_PACK_RT_CLKNOTDATA(*config);
- 
--	if (!regmap_field_read(rt_p->double_edge, &val) && (val & BIT(pin)))
-+	if (!regmap_field_test_bits(rt_p->double_edge, BIT(pin)))
- 		ST_PINCONF_PACK_RT_DOUBLE_EDGE(*config);
- 
--	if (!regmap_field_read(rt_p->invertclk, &val) && (val & BIT(pin)))
-+	if (!regmap_field_test_bits(rt_p->invertclk, BIT(pin)))
- 		ST_PINCONF_PACK_RT_INVERTCLK(*config);
- 
- 	regmap_field_read(rt_p->delay_0, &delay0);
--- 
-2.36.1
-
-
+> ---
+>  drivers/thermal/sun8i_thermal.c |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+> index d9cd23cbb671..212c87e63a66 100644
+> --- a/drivers/thermal/sun8i_thermal.c
+> +++ b/drivers/thermal/sun8i_thermal.c
+> @@ -237,7 +237,7 @@ static int sun50i_h6_ths_calibrate(struct ths_device *tmdev,
+>          * The calibration data on the H6 is the ambient temperature and
+>          * sensor values that are filled during the factory test stage.
+>          *
+> -        * The unit of stored FT temperature is 0.1 degreee celusis.
+> +        * The unit of stored FT temperature is 0.1 degree celsius.
+>          *
+>          * We need to calculate a delta between measured and caluclated
+>          * register values and this will become a calibration offset.
+>
