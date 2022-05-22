@@ -1,49 +1,49 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAE42103
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 07:37:16 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id gi33so14343794ejc.3
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 00:37:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95730180
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 08:37:00 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id n10so22960600ejk.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 01:37:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OdhdDP/uxlcANINOeHwQJ1MfvJN8y/K+wdplfOLCUbg=;
-        b=Q7vTZzoeodbfmkaLaMjIU/yoC1tkECqU3K6iKZ4VlVbZVdYZymn4X8AizZmULhwZZW
-         HKh4Bq4IpzdMFY8uupDPGDVXPIc+okstubtxys/zfpxcQytXclhiT0DQ5lNaAviPpoGi
-         G2HhydMwmWaX/5N2cvyefWrUjHYjdQw0u0LdTibjGwH2ZKjOwgkopi3lokgOa4XJ6gxf
-         6IVL19F9sSqP/068BF/oY7XJeoT6aCCthhjNCmqJDgodHVJqDS36f1rlGs0mjR0GY4G2
-         B2KtbUrSNltXro6jngVpNd56rSWb7gqC+rQXfJgG99jAT2YxrUdbONXd4nwIL77GTf70
-         zALQ==
+        bh=XsyKoH6LpiATp9ZAhLZkNq7NYsEkUYnS/BXvVMGV97s=;
+        b=DHyfeM0n6/4AUuRDrpljFlQiHJe89GVpKBXu1F/YuNkXjtX0Tph8oTgAsXn0Hey+Lz
+         4sOLibIqVwrVFHAqoQB1Em3Y3WuQrEUrooA76cowDapb4LDuPuCVF8TkVwjYce2vjWvx
+         fZiJ41OfgBJdNPwqQItsQOSfLySkv/2pyC8YNosDTHuH76H1p7P8uwS+wCvDspkkofPS
+         QsNojRCjHc4wQCOLvX0nECtJodmkOBeoYaCuceLox5ChxkIwjyrHC1d2qnT/EM3JT8LT
+         XbwQQHwF6yKEV/Q68B6rXTWuT3s+HoGpfXear4L98Wl4r0cAEBJ4yQIxvl8TtAc7rcgp
+         h/Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OdhdDP/uxlcANINOeHwQJ1MfvJN8y/K+wdplfOLCUbg=;
-        b=RXuIyQsAu/9zPhP3FhlcbIwZ5GdbqnxvElc74aYrM6x6yhKI4VhewVG5EC5HQ2AoNt
-         wIgS0jA57Cfxa8XTmj4gceQM+2O1qFNAc42tuPoU6EoS2Yd7Q3rpfqtZLu0FjYRlKufA
-         fap9Rrzsrz8fq9uFvz95UjztXy/nA+hv6f7tfuUwOjNJOVMtLKqrrJ6VnXs02TDN/hes
-         CMy2gmrPxRyfHS3O8I7xTSiT2ZOXDI9uOtnOtf2TznFGoorbZCOf1VLuy9rrI8sOKbc5
-         QNdeD6/+F5s0q9KL4wIFE2LDKMyvMkLLIubk+MS4Uw0vlTOao/8ZWdLMDWZhb61J9/6h
-         KEdQ==
-X-Gm-Message-State: AOAM5323xW8aXv877VfojVVjg2E5MrP46EjttBlvePNClszfC1gdgpMg
-	3/tz7ZFeCxat0xtJin2CiKc=
-X-Google-Smtp-Source: ABdhPJxQBeuln8XMeRYo4K+y9ER4XF9UILSt1sR+YydK3j1021j2KKwVo/wXR5MBMrpqHT1JvAHAqg==
-X-Received: by 2002:a17:907:2d10:b0:6fe:debf:bfc7 with SMTP id gs16-20020a1709072d1000b006fedebfbfc7mr304155ejc.502.1653205034817;
-        Sun, 22 May 2022 00:37:14 -0700 (PDT)
+        bh=XsyKoH6LpiATp9ZAhLZkNq7NYsEkUYnS/BXvVMGV97s=;
+        b=1fqdptuIpF02+VJ+1sBZYYGyTyRiAUe0wvSd6R3LiME5N3eQWdc+S1m9q7Euyd6lS4
+         eZ/iY0ufJHzJ+SEffMm9wTKygaLmQDT1XjkjqlrRs+gMt6jfMdp7/yHR/9EJPz8w5Zsn
+         /MFp5Sw0scaL2KYfUr3HiWoNW677KMayOF0QHBjm8+o7z3Kn6T1fc4JVr3WgvWYTX8g1
+         Wv+LmmtW2ivlHdbcMfjPPvW7nLuJVYFzknLB00KQMbRo7uis4aJW8bnXmvZQ9Fl9lptL
+         qWirnKpxZKnPx4EbuuN8Syq5Ntm4C1nbdTEtI3UyZg8Cr5ZIl123EMreWfoHNOBIyWmO
+         MuHw==
+X-Gm-Message-State: AOAM531czHaUv7sxLSW7uSOCqJcBvzdVzUM8xNqkbAaUa1Hlfqi07U4g
+	D+F9gVb0v1JqviUqQgOm/3k=
+X-Google-Smtp-Source: ABdhPJz3CV8JYQCceCSBFGfodUqj22X+yRGu7v0vIulurX3hct86iUuziZZ3MaglfgkfvwnoDuuySw==
+X-Received: by 2002:a17:907:908b:b0:6fe:8c1f:3e47 with SMTP id ge11-20020a170907908b00b006fe8c1f3e47mr15474294ejb.594.1653208618613;
+        Sun, 22 May 2022 01:36:58 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id k16-20020a1709067ad000b006fed8dfcf78sm238483ejo.225.2022.05.22.00.37.13
+        by smtp.gmail.com with ESMTPSA id mm24-20020a170906cc5800b006fe9ba21333sm3517525ejb.113.2022.05.22.01.36.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 May 2022 00:37:14 -0700 (PDT)
+        Sun, 22 May 2022 01:36:58 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: LKML <linux-kernel@vger.kernel.org>, Thomas Gleixner <tglx@linutronix.de>
-Cc: linux-spdx@vger.kernel.org, Daniel Lezcano <daniel.lezcano@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>, linux-sunxi@lists.linux.dev
-Subject: Re: [patch 10/10] clocksource/drivers/timer-sun5i: Convert to SPDX identifier
-Date: Sun, 22 May 2022 09:37:13 +0200
-Message-ID: <4737788.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20220510171254.970933294@linutronix.de>
-References: <20220510171003.952873904@linutronix.de> <20220510171254.970933294@linutronix.de>
+To: mripard@kernel.org, wens@csie.org, Genfu Pan <benlypan@gmail.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Genfu Pan <benlypan@gmail.com>
+Subject: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
+Date: Sun, 22 May 2022 10:36:57 +0200
+Message-ID: <3173956.44csPzL39Z@jernej-laptop>
+In-Reply-To: <20220521133443.1114749-1-benlypan@gmail.com>
+References: <20220521133443.1114749-1-benlypan@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,46 +53,167 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 10. maj 2022 ob 19:24:51 CEST je Thomas Gleixner napisal(a):
-> The license information clearly states GPL version 2 only. The extra text
-> which excludes warranties is an excerpt of the corresponding GPLv2 clause
-> 11.
-> 
-> So the SPDX identifier covers it completely.
-> 
-> Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-> Cc: Chen-Yu Tsai <wens@csie.org>
-> Cc: Samuel Holland <samuel@sholland.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: linux-sunxi@lists.linux.dev
+Hi!
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Dne sobota, 21. maj 2022 ob 15:34:43 CEST je Genfu Pan napisal(a):
+> Accrording the SDK from Allwinner, the scanline value of yuv and rgb for
+> V3s are both 1024.
+
+s/scanline value/scanline length/
+
+Which SDK? All SDKs that I have or found on internet don't mention YUV nor RGB 
+scanline limit. That doesn't mean there is none, I'm just unable to verify 
+your claim. Did you test this by yourself? Also, please make YUV scanline 
+change separate patch with fixes tag.
+
+> The is also the same for mixer 1 of D1. Currently the
+> scanline value of rgb is hardcoded to 2048 for all SOCs.
+> 
+> Change the scanline_yuv property of V3s to 1024. > Add the scanline_rgb
+> property to the mixer config and replace the hardcoded value with it before
+> scaling.
+
+I guess RGB scanline patch would also need fixes tag, since it fixes existing 
+bug.
+
+> 
+> Signed-off-by: Genfu Pan <benlypan@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 13 ++++++++++++-
+>  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 +
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  3 +--
+>  3 files changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 875a1156c..e64e08207 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -567,6 +567,7 @@ static const struct sun8i_mixer_cfg
+> sun8i_a83t_mixer0_cfg = { .ccsc		= CCSC_MIXER0_LAYOUT,
+>  	.scaler_mask	= 0xf,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 3,
+>  	.vi_num		= 1,
+>  };
+> @@ -575,6 +576,7 @@ static const struct sun8i_mixer_cfg
+> sun8i_a83t_mixer1_cfg = { .ccsc		= CCSC_MIXER1_LAYOUT,
+>  	.scaler_mask	= 0x3,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 1,
+>  	.vi_num		= 1,
+>  };
+> @@ -584,6 +586,7 @@ static const struct sun8i_mixer_cfg sun8i_h3_mixer0_cfg
+> = { .mod_rate	= 432000000,
+>  	.scaler_mask	= 0xf,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 3,
+>  	.vi_num		= 1,
+>  };
+> @@ -593,6 +596,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer0_cfg
+> = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0xf,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 3,
+>  	.vi_num		= 1,
+>  };
+> @@ -602,6 +606,7 @@ static const struct sun8i_mixer_cfg sun8i_r40_mixer1_cfg
+> = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0x3,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 1,
+>  	.vi_num		= 1,
+>  };
+> @@ -610,7 +615,8 @@ static const struct sun8i_mixer_cfg sun8i_v3s_mixer_cfg
+> = { .vi_num = 2,
+>  	.ui_num = 1,
+>  	.scaler_mask = 0x3,
+> -	.scanline_yuv = 2048,
+> +	.scanline_yuv = 1024,
+> +	.scanline_rgb = 1024,
+>  	.ccsc = CCSC_MIXER0_LAYOUT,
+>  	.mod_rate = 150000000,
+>  };
+> @@ -620,6 +626,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer0_cfg
+> = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0x3,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 1,
+>  	.vi_num		= 1,
+>  };
+> @@ -629,6 +636,7 @@ static const struct sun8i_mixer_cfg sun20i_d1_mixer1_cfg
+> = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0x1,
+>  	.scanline_yuv	= 1024,
+> +	.scanline_rgb	= 1024,
+>  	.ui_num		= 0,
+>  	.vi_num		= 1,
+>  };
+> @@ -638,6 +646,7 @@ static const struct sun8i_mixer_cfg
+> sun50i_a64_mixer0_cfg = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0xf,
+>  	.scanline_yuv	= 4096,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 3,
+>  	.vi_num		= 1,
+>  };
+> @@ -647,6 +656,7 @@ static const struct sun8i_mixer_cfg
+> sun50i_a64_mixer1_cfg = { .mod_rate	= 297000000,
+>  	.scaler_mask	= 0x3,
+>  	.scanline_yuv	= 2048,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 1,
+>  	.vi_num		= 1,
+>  };
+> @@ -657,6 +667,7 @@ static const struct sun8i_mixer_cfg sun50i_h6_mixer0_cfg
+> = { .mod_rate	= 600000000,
+>  	.scaler_mask	= 0xf,
+>  	.scanline_yuv	= 4096,
+> +	.scanline_rgb	= 2048,
+>  	.ui_num		= 3,
+>  	.vi_num		= 1,
+>  };
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> b/drivers/gpu/drm/sun4i/sun8i_mixer.h index 85c94884f..c01b3e9d6 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> @@ -172,6 +172,7 @@ struct sun8i_mixer_cfg {
+>  	unsigned long	mod_rate;
+>  	unsigned int	is_de3 : 1;
+>  	unsigned int	scanline_yuv;
+> +	unsigned int	scanline_rgb;
+
+This quirk needs to be documented above in the comment.
 
 Best regards,
 Jernej
 
-> ---
->  drivers/clocksource/timer-sun5i.c |    5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
+>  };
 > 
-> --- a/drivers/clocksource/timer-sun5i.c
-> +++ b/drivers/clocksource/timer-sun5i.c
-> @@ -1,13 +1,10 @@
-> +// SPDX-License-Identifier: GPL-2.0
->  /*
->   * Allwinner SoCs hstimer driver.
->   *
->   * Copyright (C) 2013 Maxime Ripard
->   *
->   * Maxime Ripard <maxime.ripard@free-electrons.com>
-> - *
-> - * This file is licensed under the terms of the GNU General Public
-> - * License version 2.  This program is licensed "as is" without any
-> - * warranty of any kind, whether express or implied.
->   */
+>  struct sun8i_mixer {
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index f7d0b082d..30e6bde92 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -188,8 +188,7 @@ static int sun8i_vi_layer_update_coord(struct
+> sun8i_mixer *mixer, int channel, src_h = vn;
+>  		}
 > 
->  #include <linux/clk.h>
+> -		/* it seems that every RGB scaler has buffer for 2048 
+pixels */
+> -		scanline = subsampled ? mixer->cfg->scanline_yuv : 
+2048;
+> +		scanline = subsampled ? mixer->cfg->scanline_yuv :
+> mixer->cfg->scanline_rgb;
+> 
+>  		if (src_w > scanline) {
+>  			DRM_DEBUG_DRIVER("Using horizontal coarse 
+scaling\n");
 
 
 
