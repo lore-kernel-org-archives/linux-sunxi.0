@@ -1,217 +1,91 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C67E7C;
-	Sun, 22 May 2022 17:42:32 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (unknown [86.8.200.222])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 483AE45F;
-	Sun, 22 May 2022 19:34:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1653240852;
-	bh=7MpQyQtc2TVtgxChF+m8fe8kdSmQrvHBDgzor7SU3ZM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b76UBaw56+3iTwuNMjpS/go4euO+izOU1tmFouq9rysNYQ9Zltpuf0/gJGefURTnc
-	 bHx15JyuHsc5CFaBVT7a2qcha1xufhVJFmqnpbxxNOqAAc1veniaDJql3+Czh/HqFs
-	 g+ky4DRRl1oPH+McPckf21DmeFO4P8OLNpMZdwI8=
-Date: Sun, 22 May 2022 20:34:04 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
- <Ymqk89e+mn/1kLLx@aptenodytes>
- <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
- <YoesXywA4yzBDSwU@aptenodytes>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D23A433D4
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 21:27:04 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7CB22113E;
+	Sun, 22 May 2022 14:26:58 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D58A3F66F;
+	Sun, 22 May 2022 14:26:57 -0700 (PDT)
+Date: Sun, 22 May 2022 22:26:30 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Andrei Lalaev <andrey.lalaev@gmail.com>
+Cc: wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+ devicetree@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] arm: dts: sunxi: h3/h5: add gpio-ranges for pio and
+ r_pio
+Message-ID: <20220522222630.7faab948@slackpad.lan>
+In-Reply-To: <20220522172018.238564-1-andrey.lalaev@gmail.com>
+References: <20220522172018.238564-1-andrey.lalaev@gmail.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YoesXywA4yzBDSwU@aptenodytes>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
+On Sun, 22 May 2022 20:20:19 +0300
+Andrei Lalaev <andrey.lalaev@gmail.com> wrote:
 
-On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
-> On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
-> > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> > > > Hi Paul,
-> > > > 
-> > > > Thanks for the set.
-> > > > 
-> > > > A few comments below.
-> > > 
-> > > Thanks a lot for your review!
-> > 
-> > You're welcome!
-> > 
-> > ...
-> > 
-> > > > I understand this is an online ISP. How do you schedule the video buffer
-> > > > queues? Say, what happens if it's time to set up buffers for a frame and
-> > > > there's a buffer queued in the parameter queue but not in the image data
-> > > > queue? Or the other way around?
-> > > 
-> > > The ISP works in a quite atypical way, with a DMA buffer that is used to
-> > > hold upcoming parameters (including buffer addresses) and a bit in a "direct"
-> > > register to schedule the update of the parameters at next vsync.
-> > > 
-> > > The update (setting the bit) is triggered whenever new parameters are
-> > > submitted via the params video device or whenever there's a capture buffer
-> > > available in the capture video device.
-> > > 
-> > > So you don't particularly need to have one parameter buffer matching a capture
-> > > buffer, the two can be updated independently. Of course, a capture buffer will
-> > > only be returned after another buffer becomes active.
-> > 
-> > This also means it's not possible to associate a capture buffer to a
-> > parameter buffer by other means than timing --- which is unreliable. The
-> > request API would allow that but it's not free of issues either.
+> Without this property the next node can't be hogged:
+> &r_pio {
+> 	test_hog {
+> 		gpio-hog;
+> 		gpios = <0 6 GPIO_ACTIVE_HIGH>;
+> 		output-high;
+> 	};
+> };
+> And the appropriate error message:
+> "requesting hog GPIO test_hog (chip 1f02c00.pinctrl, offset 6) failed, -517"
 > 
-> Yes the request API seems like a good fit for this. Note that the returned
-> sequence number in dequeued buffers for the capture and meta video devices
-> should match though, so userspace still has a way to know which captured buffer
-> used parameters from which meta params buffer.
+> This problem occurs because the "pinctrl-sunxi" calls
+> "gpiochip_add_data" that parses "gpio-ranges"
+> (using "of_gpiochip_add_pin_range") and registers hogs
+> (using "of_gpiochip_scan_gpios").
+> So when the gpiolib tries to register hogs it can't find any ranges and
+> fails.
 > 
-> > Alternatively, I think in this case you could always require the capture
-> > buffer and grab a parameter buffer when it's available. As ISPs are
-> > generally requiring device specific control software, this shouldn't be a
-> > problem really.
+> Signed-off-by: Andrei Lalaev <andrey.lalaev@gmail.com>
+> ---
+>  arch/arm/boot/dts/sunxi-h3-h5.dtsi | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> I think this is pretty much what happens already.
-> 
-> > I wonder what Laurent thinks.
+> diff --git a/arch/arm/boot/dts/sunxi-h3-h5.dtsi b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> index d7e9f977f986..4193bf962b7d 100644
+> --- a/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> +++ b/arch/arm/boot/dts/sunxi-h3-h5.dtsi
+> @@ -404,6 +404,9 @@ pio: pinctrl@1c20800 {
+>  			#gpio-cells = <3>;
+>  			interrupt-controller;
+>  			#interrupt-cells = <3>;
+> +			gpio-ranges = <&pio 0 0 22>, <&pio 64 64 17>,
+> +				      <&pio 96 96 18>, <&pio 128 128 16>,
+> +				      <&pio 160 160 7>, <&pio 192 192 14>;
 
-If parameters buffers are optional, I think the request API should be
-used, otherwise we won't be able to ensure per-frame control. The
-alternative is to make the parameter buffer mandatory for every frame,
-even if no parameters have changed. Or maybe that's the case already ?
+But this is somewhat redundant information, because the pinctrl driver
+knows about those values, as they are derived from the big struct
+sunxi_desc_pin definition.
+So wouldn't it be smarter to put a call to
+gpiochip_add_pingroup_range() somewhere into the sunxi pinctrl driver,
+so that it would automatically work for all SoCs?
 
-> > > I hope this answers your concern!
-> > > 
-> > > [...]
-> > > 
-> > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp_dev)
-> > > > > +{
-> > > > > +	struct sun6i_isp_tables *tables = &isp_dev->tables;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	/* Sizes are hardcoded for now but actually depend on the platform. */
-> > > > 
-> > > > Would it be cleaner to have them defined in a platform-specific way, e.g.
-> > > > in a struct you obtain using device_get_match_data()?
-> > > 
-> > > Absolutely! I didn't do it at this stage since only one platform is supported
-> > > but we could just as well introduce a variant structure already for the table
-> > > sizes.
-> > 
-> > I think that would be nice already, especially if you know these are going
-> > to be different. Otherwise macros could be an option.
-> 
-> Understood!
-> 
-> > ...
-> > 
-> > > > > +	ret = v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
-> > > > 
-> > > > I suppose you intend to add controls later on?
-> > > 
-> > > I might be wrong but I thought this was necessary to expose sensor controls
-> > > registered by subdevs that end up attached to this v4l2 device.
-> > > 
-> > > I doubt the drivers itself will expose controls otherwise.
-> > 
-> > Now that this is an MC-enabled driver, the subdev controls should be
-> > accessed through the subdev nodes only. Adding them to the video device's
-> > control handler is quite hackish and not guaranteed to even work (as e.g.
-> > multiple subdevs can have the same control).
-> 
-> Yes I was wondering what would happen in that case. I'll drop the ctrls
-> handling in the next iteration then.
-> 
-> Paul
-> 
-> > ...
-> > 
-> > > > > +{
-> > > > > +	struct sun6i_isp_device *isp_dev = video_drvdata(file);
-> > > > > +	struct video_device *video_dev = &isp_dev->capture.video_dev;
-> > > > > +	struct mutex *lock = &isp_dev->capture.lock;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	if (mutex_lock_interruptible(lock))
-> > > > > +		return -ERESTARTSYS;
-> > > > > +
-> > > > > +	ret = v4l2_pipeline_pm_get(&video_dev->entity);
-> > > > 
-> > > > Do you need this?
-> > > > 
-> > > > Drivers should primarily depend on runtime PM, this is only needed for
-> > > > compatibility reasons. Instead I'd like to see sensor drivers being moved
-> > > > to runtime PM.
-> > > 
-> > > Yes it's still needed to support sensor drivers that don't use rpm yet.
-> > 
-> > To that I suggested adding runtime PM support for the affected sensors.
-> > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does not
-> > call s_power() on sensor subdevs.
-> > 
-> > ...
-> > 
-> > > > > +	ret = video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
-> > > > > +	if (ret) {
-> > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
-> > > > > +			 ret);
-> > > > > +		goto error_media_entity;
-> > > > > +	}
-> > > > > +
-> > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev->name,
-> > > > > +		  video_device_node_name(video_dev));
-> > > > 
-> > > > This isn't really driver specific. I'd drop it.
-> > > 
-> > > I agree but I see that many drivers are doing it and the information can
-> > > actually be quite useful at times.
-> > 
-> > You can get that information using media-ctl -e 'entity name'.
-> > 
-> > I guess this could be also added to video_register_device() on debug level.
-> > 
-> > > > > +struct sun6i_isp_params_config_bdnf {
-> > > > > +	__u8	in_dis_min; // 8
-> > > > > +	__u8	in_dis_max; // 10
-> > > > 
-> > > > Are these default values or something else? Better documentation was in the
-> > > > TODO.txt file already.
-> > > 
-> > > Yes that's the default register values, but these comments are and overlook on
-> > > my side and should be removed.
-> > 
-> > I'm fine leaving these here. Just wondering. Up to you.
+Cheers,
+Andre
 
--- 
-Regards,
+>  
+>  			csi_pins: csi-pins {
+>  				pins = "PE0", "PE2", "PE3", "PE4", "PE5",
+> @@ -937,6 +940,7 @@ r_pio: pinctrl@1f02c00 {
+>  			#gpio-cells = <3>;
+>  			interrupt-controller;
+>  			#interrupt-cells = <3>;
+> +			gpio-ranges = <&r_pio 0 352 12>;
+>  
+>  			r_ir_rx_pin: r-ir-rx-pin {
+>  				pins = "PL11";
 
-Laurent Pinchart
