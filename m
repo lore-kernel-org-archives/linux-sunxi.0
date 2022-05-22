@@ -1,93 +1,134 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D15211F
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 10:53:09 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id v11so11328562pff.6
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 03:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:references:mime-version:message-id
-         :content-transfer-encoding;
-        bh=bSbLSYLiEVp5Ck75TvixzyuLOTYB4+YAC/RLwIpjiSE=;
-        b=oOmOzcOCSEk/WVR9gogBlVXlbC+V8Yhj+SWAhCXFbfy9LncFZjitmN4O+IcmRrjmsV
-         2vOeMMJa3X7fb6G+0nUKOZQx43MAsPKyLqZfLl0aw3JjRcGdI2IPXGH5aEuLFIjwYlkE
-         CJfPRxaTz4H+ld7jH40fhBkfE9k3uC1DE9KEZx61sAbPvj8XMerqLMcIPxpKu0+lEv9h
-         jgXyaHSUMfa+CCaO1anbRFgBLMjxYhCXvgMslS897C7DqW3AkOZLImftxZfcMtpd7+Qi
-         zNqqT86NHh1TS5Oqiaoht2Hrn6U4aJ1EqHjKaT2Vxja+HnEv2iTT9nme8+ah8jyQGOvq
-         uqAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:references:mime-version
-         :message-id:content-transfer-encoding;
-        bh=bSbLSYLiEVp5Ck75TvixzyuLOTYB4+YAC/RLwIpjiSE=;
-        b=R4VebhoMiepGX2IMNlM9f6UXhlw9RD9ThUK+wmyWv3TNOJTIr2FYFYN70TDMMYm9Db
-         lucKfkxlZGV+HRilvd7EhtAKWTOn/DYfc1PUjK5G8Ay2Ri9HyiBRuDqiDBru2cOWcZMf
-         gAfsZ0Yhi6I7+BnlTGS/Tg89RgCp876xQ5PLon3cFnlqFDE+I1LiwA6kbIbG8pwU6nWW
-         KsJ8E1XrkRNCoDxdMzmeFcT0hKp02PA0qdbMUkeJK1/zNqZaPU+lWIVS5ia4tWSJfJc7
-         YUR0GKby8SfkrGoDsy2h4Mu9eOvCt2ljq/AAfUgRA/5yX/Py1awqh8Kx+56hH1OBr3bL
-         LkZA==
-X-Gm-Message-State: AOAM531LSC+kWE4tbQ59PgeoomQWZA9v3MPjM412ty7EOOYTCpPOpKDq
-	xR24NWJMdeeTXLKYD8tgPNI=
-X-Google-Smtp-Source: ABdhPJzuGobPl0n/IDwG0R6zGw+enGaFKapO6cpkrcksA2pK/rcVkCHeFnnQEze9bx97oxKIyAQWRQ==
-X-Received: by 2002:a63:3d87:0:b0:3f6:1c54:b315 with SMTP id k129-20020a633d87000000b003f61c54b315mr16471834pga.432.1653216789034;
-        Sun, 22 May 2022 03:53:09 -0700 (PDT)
-Received: from DESKTOP-PUVK7A5 ([144.24.65.202])
-        by smtp.gmail.com with ESMTPSA id v23-20020a1709028d9700b0016160b3331bsm973618plo.305.2022.05.22.03.53.05
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 22 May 2022 03:53:08 -0700 (PDT)
-Date: Sun, 22 May 2022 18:53:14 +0800
-From: "benlypan@gmail.com" <benlypan@gmail.com>
-To: jernej.skrabec <jernej.skrabec@gmail.com>, 
-	mripard <mripard@kernel.org>, 
-	wens <wens@csie.org>
-Cc: airlied <airlied@linux.ie>, 
-	daniel <daniel@ffwll.ch>, 
-	samuel <samuel@sholland.org>, 
-	dri-devel <dri-devel@lists.freedesktop.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
-	linux-sunxi <linux-sunxi@lists.linux.dev>, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
-References: <20220521133443.1114749-1-benlypan@gmail.com>, 
-	<3173956.44csPzL39Z@jernej-laptop>
-X-Priority: 3
-X-GUID: 44554B07-4D1B-4258-8E6F-B7B805B582F0
-X-Has-Attach: no
-X-Mailer: Foxmail 7.2.20.259[cn]
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5AC2F28
+	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 16:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653235472; x=1684771472;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sM/fEM1Cz4Fu5jERVYNMoQaN0mOPoZxzUJZYlTqChOc=;
+  b=bBn6JQd/+i/ski7ISsjzLo79HJn/3KyPbBdYjFkkZoF5RugYVmhUyuKA
+   HlgddoY7+saz3fwoaIPwhR3+QWwxEpyVvBmY+TZm9+pE7hYca8XuMCIWQ
+   em6fIA1PJk6om4KJ6mNmU2Mn1onBPj46L5yyjU1mkM+fFbgNb6DT2rnqW
+   ljpi+rB5RPtOZ4YkW+kuhiBeTxVPDok8sllLXSmXTerti6ALMDCOBF/jz
+   xTolvgw5l7Bwzq3dam0SUkyF9u57+U9+m5JiA7AaxIVepi3VK6WKenUI4
+   0HqZtsHCYKXlolYcJYu6GsCzJqYItTYSYC/jbd7My097GnKGt8ljmeWQ0
+   A==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="271834471"
+X-IronPort-AV: E=Sophos;i="5.91,244,1647327600"; 
+   d="scan'208";a="271834471"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2022 09:04:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,244,1647327600"; 
+   d="scan'208";a="558265341"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 22 May 2022 09:04:26 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nso49-0000Ru-WA;
+	Sun, 22 May 2022 16:04:25 +0000
+Date: Mon, 23 May 2022 00:03:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Chen <lchen.firstlove@zohomail.com>, Mark Brown <broonie@kernel.org>,
+	linux-kernel <linux-kernel@vger.kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-gpio <linux-gpio@vger.kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	linux-sunxi <linux-sunxi@lists.linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Cc: kbuild-all@lists.01.org
+Subject: Re: [PATCH 4/4] pinctrl: st: Switch to use regmap_field_test_bits
+Message-ID: <202205222359.yQ35dVuB-lkp@intel.com>
+References: <180e705f8de.1012cdc8c45890.1645144071309904245@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-ID: <202205221853133067396@gmail.com>
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <180e705f8de.1012cdc8c45890.1645144071309904245@zohomail.com>
 
-SGkgSmVybmVqIQoKPiBXaGljaCBTREs/IEFsbCBTREtzIHRoYXQgSSBoYXZlIG9yIGZvdW5kIG9u
-IGludGVybmV0IGRvbid0IG1lbnRpb24gWVVWIG5vciBSR0IKPiBzY2FubGluZSBsaW1pdC4gVGhh
-dCBkb2Vzbid0IG1lYW4gdGhlcmUgaXMgbm9uZSwgSSdtIGp1c3QgdW5hYmxlIHRvIHZlcmlmeQo+
-IHlvdXIgY2xhaW0uIERpZCB5b3UgdGVzdCB0aGlzIGJ5IHlvdXJzZWxmPyBBbHNvLCBwbGVhc2Ug
-bWFrZSBZVVYgc2NhbmxpbmUKPiBjaGFuZ2Ugc2VwYXJhdGUgcGF0Y2ggd2l0aCBmaXhlcyB0YWcu
-CgpIZXJlIGlzIHRoZSBjb2RlIGFib3V0IHNjYW5saW5lIGNvbmZpZyBmb3IgVjNzOgpodHRwczov
-L2dpdGh1Yi5jb20vVGluYS1MaW51eC90aW5hLXYzcy1saW51eC00LjkvYmxvYi9tYXN0ZXIvZHJp
-dmVycy92aWRlby9mYmRldi9zdW54aS9kaXNwMi9kaXNwL2RlL2xvd2xldmVsX3N1bjhpdzgvZGVf
-ZmVhdC5jI0w1NQpodHRwczovL2dpdGh1Yi5jb20vVGluYS1MaW51eC90aW5hLXYzcy1saW51eC00
-LjkvYmxvYi9tYXN0ZXIvZHJpdmVycy92aWRlby9mYmRldi9zdW54aS9kaXNwMi9kaXNwL2RlL2xv
-d2xldmVsX3N1bjhpdzgvZGVfcnRteC5jI0wxMjEyCgpBbmQgaGVyZSBpcyBmb3IgRDE6Cmh0dHBz
-Oi8vZ2l0bGFiLmNvbS93ZWlkb25nc2hhbi90aW5hLWQxLWgvLS9ibG9iL21haW4vbGljaGVlL2xp
-bnV4LTUuNC9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3N1bnhpL2Rpc3AyL2Rpc3AvZGUvbG93bGV2ZWxf
-djJ4L2RlX2ZlYXQuYyNMMTgyCmh0dHBzOi8vZ2l0bGFiLmNvbS93ZWlkb25nc2hhbi90aW5hLWQx
-LWgvLS9ibG9iL21haW4vbGljaGVlL2xpbnV4LTUuNC9kcml2ZXJzL3ZpZGVvL2ZiZGV2L3N1bnhp
-L2Rpc3AyL2Rpc3AvZGUvbG93bGV2ZWxfdjJ4L2RlX3J0bXguYyNMMTU4OAoKSSB3YXMgdGVzdGVk
-IGl0IG9uIFYzcy4gV2l0aG91dCB0aGlzIHBhdGNoLCB0aGUgcGxhbmUgd2lsbCBub3QgZGlzcGxh
-eQpjb3JyZWN0bHkgaWYgc3JjX3cgbGFyZ2UgdGhhbiAxMDI0LCBmb3IgYm90aCBZVVYgYW5kIFJH
-Qi4gSSBkb24ndCBoYXZlIGEKZGV2aWNlIHdpdGggRDEsIHNvIEQxIGlzIG5vdCB0ZXN0ZWQuIEJ1
-dCBhY2NvcmRpbmcgdG8gdGhlIFNESyBjb2RlIG9mIEQxLAp0aGUgc2NhbmxpbmUgdmFsdWUgb2Yg
-bWl4ZXIxIGlzIDEwMjQuCgpJJ20gbmV3IHRvIHN1Ym1pdHRpbmcgcGF0Y2hlcywgU28gbWF5IEkg
-YXNrIGEgcXVlc3Rpb24/IElmIHRoZXJlIGlzIG5vCnByb2JsZW0gd2l0aCB0aGlzIHBhdGNoLCB3
-aGF0IEkgbmVlZCB0byBkbyBpcyB0byBzZW5kIG5ldyBwYXRjaGVzIGFzIHlvdQpzdWdnZXN0ZWQ/
-CgpCZXN0IHJlZ2FyZHMsCkdlbmZ1IFBhbgoK
+Hi Li,
 
+Thank you for the patch! Yet something to improve:
+
+[auto build test ERROR on broonie-regmap/for-next]
+[also build test ERROR on linusw-pinctrl/devel broonie-sound/for-next v5.18-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Chen/Add-regmap_field-helpers-for-simple-bit-operations/20220521-224352
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20220522/202205222359.yQ35dVuB-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/73189e14ed111777ac60a95ae3008337c69589da
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Li-Chen/Add-regmap_field-helpers-for-simple-bit-operations/20220521-224352
+        git checkout 73189e14ed111777ac60a95ae3008337c69589da
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=arm SHELL=/bin/bash drivers/
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+All errors (new ones prefixed by >>):
+
+   drivers/pinctrl/pinctrl-st.c: In function 'st_pinconf_get_direction':
+>> drivers/pinctrl/pinctrl-st.c:587:53: error: 'od_value' undeclared (first use in this function); did you mean 'si_value'?
+     587 |                 if (regmap_field_test_bits(pc->od, &od_value, BIT(pin)))
+         |                                                     ^~~~~~~~
+         |                                                     si_value
+   drivers/pinctrl/pinctrl-st.c:587:53: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/pinctrl/pinctrl-st.c:587:21: error: too many arguments to function 'regmap_field_test_bits'
+     587 |                 if (regmap_field_test_bits(pc->od, &od_value, BIT(pin)))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/pinctrl/pinctrl-st.c:18:
+   include/linux/regmap.h:1353:5: note: declared here
+    1353 | int regmap_field_test_bits(struct regmap_field *field, unsigned int bits);
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +587 drivers/pinctrl/pinctrl-st.c
+
+   572	
+   573	static void st_pinconf_get_direction(struct st_pio_control *pc,
+   574		int pin, unsigned long *config)
+   575	{
+   576		if (pc->oe) {
+   577			if (regmap_field_test_bits(pc->oe, BIT(pin)))
+   578				ST_PINCONF_PACK_OE(*config);
+   579		}
+   580	
+   581		if (pc->pu) {
+   582			if (regmap_field_test_bits(pc->pu, BIT(pin)))
+   583				ST_PINCONF_PACK_PU(*config);
+   584		}
+   585	
+   586		if (pc->od) {
+ > 587			if (regmap_field_test_bits(pc->od, &od_value, BIT(pin)))
+   588				ST_PINCONF_PACK_OD(*config);
+   589		}
+   590	}
+   591	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
