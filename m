@@ -1,170 +1,79 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DF938D
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 05:28:19 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id p10so1009264wrg.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 22:28:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DE336C
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 05:56:26 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id p22so23679359lfo.10
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 22:56:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=kwRG8kJghq1J9woEQ8/8+NXh3AtgpEI2TuVWVjMfZMk=;
-        b=0HpAzyrF8+FK9s9Lv6r8HnmS4n2VHb3e9NI+PYcrMI8MijK0B5XoHtXRkv0pI5tmky
-         DTvP09m+Llj+BF8ipr7By+iseFMo7gGLtq7vYu96ZGeSz8zR0CmdFjxa2rF61Q3PyTwY
-         5fEIB+1cjJNCHPS/dqw3StWXVMUIT3lUwunNjpKiEUWCJwQHOQjt+RFSK+miW6Z4zbXs
-         MWvJvH5fNK1m37DX7lV/wbjEtMDmkUVmoLJADDbcCKXYidinq0Ke37o8BrAO6EZyFLdC
-         sFfsslVnXtIGNMmhcoHGHRzHo5UgF4kTZ2ol6Bar+kuhYmFZ4qSF3OhS2bQXw91eRaVo
-         C3Og==
+        bh=BFQdLCX9WdP+yPd6nXHchy94xL4JXfYcSIxVHAlxh84=;
+        b=cxqLRYOWzbhPAgB+pbNrmf+T4+MObrKALcCm26bOPhgPgBEB87xma2YVhQILwOjNCS
+         /ExZL673nUmrgljLxB4G0/VG89H+Wh4wXmdKh1Q+5WAO9oYnw8WU/P+XV4JONtPz5QZu
+         hrq3TrswKagBGyYW3wN2uLM17sVrh1oPl3PGeBp7wTD1YEzyh7JXtAoWMd7w13v5lUWZ
+         6s1OsGJDuYwK/sWU/D/3KsO4qRqxE0Ogzj08qO54oUdgyBYW6PI/HPelzcyAaSX9/+Up
+         79Mzbl23Dojxxw0kH6NbNhAO5jksS1j8C27KEgq0dfBzsb0UTI+s0tav1fC7dkcHO4Sr
+         1GkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kwRG8kJghq1J9woEQ8/8+NXh3AtgpEI2TuVWVjMfZMk=;
-        b=nuq66yaj5VDwVS34IcLA+Dh9uTIGtvr4HMKkG1JQ8699g0961pF4dYY+v1GwcJfl9v
-         RJvSyJKFK6W6TYE0h0Lb5FSyzgvMoDBcL6hpMivviFVi07CS/rY4v9xLooTmq9ctyB9j
-         fI75kLzl67MRBff9uinU1YzbnNWYcdnQO3iorSnvFqeekLksWZ7VQH7Y7Qllk5JQMsf6
-         CUrUl/zaC9lbeWeHvN+DOyNVKFzLlBqMo1L7WOpAL+KhmWfh10H+CBH16BsFRpEpYplK
-         f6sD98Ddfrd9sJuRRXSyKXD9m/ZwHsJniR0m7RHlt3bnJhVgaZsZDwduSU7Qd09Nu5sl
-         itPQ==
-X-Gm-Message-State: AOAM531Dj2qcGT+gc7Oo2jSc42YAwGpmK4jep5KLgkD0ef85+wBhHhV+
-	5q4xllhBiG/YoRpZrC8uPtqSrw==
-X-Google-Smtp-Source: ABdhPJy4dOiHRi8RxJS1vDYeuYztM8ZLIeJ4Hy3+HL2NtCowcnxhvWlaJf6kQexvMGXqL2AAqtP4hw==
-X-Received: by 2002:a5d:4bd2:0:b0:20f:cb39:c035 with SMTP id l18-20020a5d4bd2000000b0020fcb39c035mr6890506wrt.709.1653283698116;
-        Sun, 22 May 2022 22:28:18 -0700 (PDT)
-Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.googlemail.com with ESMTPSA id h2-20020a1ccc02000000b0039466988f6csm7802414wmb.31.2022.05.22.22.28.17
+        bh=BFQdLCX9WdP+yPd6nXHchy94xL4JXfYcSIxVHAlxh84=;
+        b=xulwNTe66/gjR3xJKhIxQkgQc8uLmS1+RG2i5M90bIYqM2aZwV0fF7ACa8y5NEcKhC
+         x/uUiJdlY4rKXL8OfZarzJ8zzNP2ovjpEZpEWSl8EFg0EQWUWNEadh5/VolyTIouU2xR
+         wAxZB6ReIL9d11P/qHUMlaONV/meHaF1nph7kJ7dOve7km5zbcKQ/3afUsT+HAGyr2Pd
+         jV2YcemEfBIOIBfDAL/6tndDZbYZ/PtLdhZiHkwcjLR7gjCiHRp2niN16XwACZ1fruOp
+         XsJluWZQ4F51S1s6lUOS6/RfPy/JxzsS4vLUOkSZmM+CeY/h07bGGwtcvg2qzFhdPvZi
+         vJrg==
+X-Gm-Message-State: AOAM533vv2/4VUBb8hmEl87YwWNMUQkzDbv/Px9G75wTH/xkOITUf0zM
+	neyAfAhJ61ru6Tf9Gqv6U18=
+X-Google-Smtp-Source: ABdhPJzBK+NJFtfLlsJcuiiN3PScqDzAymMZnFlk7yikNWwj/vltqjnSfVU7rHQXqRsXEvJHXS7BUA==
+X-Received: by 2002:a05:6512:1112:b0:473:a15b:fdf3 with SMTP id l18-20020a056512111200b00473a15bfdf3mr15130168lfg.155.1653285384501;
+        Sun, 22 May 2022 22:56:24 -0700 (PDT)
+Received: from ThinkPad-T490.localdomain ([85.143.205.202])
+        by smtp.gmail.com with ESMTPSA id v17-20020ac258f1000000b004785060bad6sm1418993lfo.201.2022.05.22.22.56.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 May 2022 22:28:17 -0700 (PDT)
-From: Corentin Labbe <clabbe@baylibre.com>
-To: andrew@lunn.ch,
-	broonie@kernel.org,
-	calvin.johnson@oss.nxp.com,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hkallweit1@gmail.com,
+        Sun, 22 May 2022 22:56:24 -0700 (PDT)
+From: Andrei Lalaev <andrey.lalaev@gmail.com>
+To: andre.przywara@arm.com
+Cc: wens@csie.org,
 	jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
-	linux@armlinux.org.uk,
-	pabeni@redhat.com,
-	robh+dt@kernel.org,
 	samuel@sholland.org,
-	wens@csie.org
-Cc: devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	devicetree@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org,
-	=?UTF-8?q?Ond=C5=99ej=20Jirman?= <megi@xff.cz>,
-	Corentin Labbe <clabbe@baylibre.com>
-Subject: [PATCH v3 3/3] arm64: dts: allwinner: orange-pi-3: Enable ethernet
-Date: Mon, 23 May 2022 05:28:07 +0000
-Message-Id: <20220523052807.4044800-4-clabbe@baylibre.com>
+	Andrei Lalaev <andrey.lalaev@gmail.com>
+Subject: arm: dts: sunxi: h3/h5: add gpio-ranges for pio and r_pio
+Date: Mon, 23 May 2022 08:55:18 +0300
+Message-Id: <20220523055516.270056-1-andrey.lalaev@gmail.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220523052807.4044800-1-clabbe@baylibre.com>
-References: <20220523052807.4044800-1-clabbe@baylibre.com>
+In-Reply-To: <20220522222630.7faab948@slackpad.lan>
+References: <20220522222630.7faab948@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Ondřej Jirman <megi@xff.cz>
+On Sun, 22 May 2022 22:26:30 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Orange Pi 3 has two regulators that power the Realtek RTL8211E
-PHY. According to the datasheet, both regulators need to be enabled
-at the same time, or that "phy-io" should be enabled slightly earlier
-than "phy" regulator.
+> But this is somewhat redundant information, because the pinctrl driver
+> knows about those values, as they are derived from the big struct
+> sunxi_desc_pin definition.
+> So wouldn't it be smarter to put a call to
+> gpiochip_add_pingroup_range() somewhere into the sunxi pinctrl driver,
+> so that it would automatically work for all SoCs?
 
-RTL8211E/RTL8211EG datasheet says:
+Sorry, I forgot about the other SoCs. I completely agree with you now.
+I will try to fix it in another way.
 
-  Note 4: 2.5V (or 1.8/1.5V) RGMII power should be risen simultaneously
-  or slightly earlier than 3.3V power. Rising 2.5V (or 1.8/1.5V) power
-  later than 3.3V power may lead to errors.
+Thank you, Andre!
 
-The timing is set in DT via startup-delay-us.
-
-Signed-off-by: Ondrej Jirman <megi@xff.cz>
-Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
----
- .../dts/allwinner/sun50i-h6-orangepi-3.dts    | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-index c45d7b7fb39a..2760a0bf76d5 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi-3.dts
-@@ -13,6 +13,7 @@ / {
- 	compatible = "xunlong,orangepi-3", "allwinner,sun50i-h6";
- 
- 	aliases {
-+		ethernet0 = &emac;
- 		serial0 = &uart0;
- 		serial1 = &uart1;
- 	};
-@@ -55,6 +56,15 @@ led-1 {
- 		};
- 	};
- 
-+	reg_gmac_2v5: gmac-2v5 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "gmac-2v5";
-+		regulator-min-microvolt = <2500000>;
-+		regulator-max-microvolt = <2500000>;
-+		enable-active-high;
-+		gpio = <&pio 3 6 GPIO_ACTIVE_HIGH>; /* PD6 */
-+	};
-+
- 	reg_vcc5v: vcc5v {
- 		/* board wide 5V supply directly from the DC jack */
- 		compatible = "regulator-fixed";
-@@ -113,6 +123,33 @@ &ehci3 {
- 	status = "okay";
- };
- 
-+&emac {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&ext_rgmii_pins>;
-+	phy-mode = "rgmii-id";
-+	phy-handle = <&ext_rgmii_phy>;
-+	status = "okay";
-+};
-+
-+&mdio {
-+	ext_rgmii_phy: ethernet-phy@1 {
-+		compatible = "ethernet-phy-ieee802.3-c22";
-+		reg = <1>;
-+		/*
-+		 * The board uses 2.5V RGMII signalling. Power sequence to enable
-+		 * the phy is to enable GMAC-2V5 and GMAC-3V (aldo2) power rails
-+		 * at the same time and to wait 100ms. The driver enables phy-io
-+		 * first. Delay is achieved with enable-ramp-delay on reg_aldo2.
-+		 */
-+		phy-io-supply = <&reg_gmac_2v5>;
-+		ephy-supply = <&reg_aldo2>;
-+
-+		reset-gpios = <&pio 3 14 GPIO_ACTIVE_LOW>; /* PD14 */
-+		reset-assert-us = <15000>;
-+		reset-deassert-us = <40000>;
-+	};
-+};
-+
- &gpu {
- 	mali-supply = <&reg_dcdcc>;
- 	status = "okay";
-@@ -211,6 +248,7 @@ reg_aldo2: aldo2 {
- 				regulator-min-microvolt = <3300000>;
- 				regulator-max-microvolt = <3300000>;
- 				regulator-name = "vcc33-audio-tv-ephy-mac";
-+				regulator-enable-ramp-delay = <100000>;
- 			};
- 
- 			/* ALDO3 is shorted to CLDO1 */
--- 
-2.35.1
-
+Best regards,
+Andrei Lalaev
