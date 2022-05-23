@@ -1,135 +1,82 @@
-Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DBD637
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:19:18 +0000 (UTC)
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
-	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 380E120158
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:10:37 +0000 (UTC)
-Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [149.56.97.132])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id D1DFE267CF
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:10:27 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay1.mymailcheap.com (Postfix) with ESMTPS id 8D02A3F203;
-	Mon, 23 May 2022 13:10:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id 81A6F2A384;
-	Mon, 23 May 2022 13:10:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id xRHO4Msw78f3; Mon, 23 May 2022 13:10:19 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Mon, 23 May 2022 13:10:19 +0000 (UTC)
-Received: from edelgard.icenowy.me (unknown [59.41.161.142])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0A57A4010C;
-	Mon, 23 May 2022 13:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1653311418; bh=tCctaG9lD2zZr9aAnMweZ8VtB5FmvJDDCVIR2dwhiCs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=tRLM43pIC2yfKKJHo3qlEzTagk6+uyxU63u5TDAZSqr8UH0/qUAC6YkzqLh4l3Vbl
-	 OPF42qDhNsnkbu02SqvDqdxFTzKSlvyvGcxO64mHyt2vhuwu9uebOiqfC+Jtknf3M9
-	 jSZP+HgNm5aa3QPBl25NebIs2VAsIB0njuwI+o3s=
-Message-ID: <265770e7055837fee26a7a66ce1fcbc7989eaf99.camel@aosc.io>
-Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Evgeny Boger <boger@wirenboard.com>, qianfanguijin@163.com
-Cc: andre.przywara@arm.com, devicetree@vger.kernel.org, 
-	jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org, 
-	wens@csie.org
-Date: Mon, 23 May 2022 21:10:09 +0800
-In-Reply-To: <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
-References: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
-	 <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7BF637
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:20:02 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1653311945; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=JeCbVuXy0u8G8Pa3wAqvVFfnYGYKmoKKpIYio+ur6pJKsyuautEUAyn5E+tUD26JMO6oA9NCIUDSYVT3R9zPeiJ47BqKVusvcNj+VI83EfsnVVZTZrPc+HbpRHLMJVsMbvQM4lxsNh1hOeGE6bzYzqFd4l0bFaUTkJYqTqg2/lo=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1653311945; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=Y5xsWt3tLYwb1E1F4wk9G1AMYoLyASq9njoU/+tcTAM=; 
+	b=WXo4rCLC6/rtHvKTwVGIbM0rq1hZjkVg3NTmZZuNTmvxuNH0HXjuxRvoDT2FEpiVVB8p6tGnJWxANZlfAfdKHo2JICo59Wk5pRtFStzz1IBzrAhDxI4XXPB2daJhWwDF7pf/LzEe7fCWPGQjpwf96PS1EQI2ShMlHF1lbBT3DbE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=lchen.firstlove@zohomail.com;
+	dmarc=pass header.from=<lchen.firstlove@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653311945;
+	s=zm2022; d=zohomail.com; i=lchen.firstlove@zohomail.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
+	bh=Y5xsWt3tLYwb1E1F4wk9G1AMYoLyASq9njoU/+tcTAM=;
+	b=U/k6SNF3Q7Vq7SjwZZ4OEOqHHchD7guEe4cZQoUmMm1Yn+etLMUIPAZnUzogn7fr
+	95L1VNRfEWiVmaWD0ULUQE5WnzjZEaVYjmhzF1Uo91E8n+Q8ZeDt37YXJRf8esl/FI+
+	c4bll+NrlR3jD59giQjB7lditQ4hFt8U08AzdOs8=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1653311941409685.4155842465059; Mon, 23 May 2022 06:19:01 -0700 (PDT)
+Received: from  [178.128.49.8] by mail.zoho.com
+	with HTTP;Mon, 23 May 2022 06:19:01 -0700 (PDT)
+Date: Mon, 23 May 2022 06:19:01 -0700
+From: Li Chen <lchen.firstlove@zohomail.com>
+To: "Mark Brown" <broonie@kernel.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"linux-gpio" <linux-gpio@vger.kernel.org>,
+	"Linus Walleij" <linus.walleij@linaro.org>,
+	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>,
+	"Patrice Chotard" <patrice.chotard@foss.st.com>,
+	"linux-sunxi" <linux-sunxi@lists.linux.dev>,
+	"Liam Girdwood" <lgirdwood@gmail.com>,
+	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+	"Chen-Yu Tsai" <wens@csie.org>,
+	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	"Samuel Holland" <samuel@sholland.org>,
+	"Philipp Zabel" <p.zabel@pengutronix.de>
+Message-ID: <180f1122b08.e6446e1066781.7509618678223081484@zohomail.com>
+In-Reply-To: <YotygqDAkAXRRo9d@sirena.org.uk>
+References: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
+ <180eeb93909.12110e2de60158.391061173597432851@zohomail.com> <YotygqDAkAXRRo9d@sirena.org.uk>
+Subject: Re: [PATCH v2 0/4] Add regmap_field helpers for simple bit
+ operations
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr08011226609f90866ffc175af022d0ab0000919cb4bbb101339a78166a92ad03d5e2e779eeecb8924159:zu08011227b3e435ea850177f73ae9ee41000050bfadb467b41bb49e225f013460c1833a5ef6e83a7c1fb2bc:rf0801122c01457621e0db0818ca91fc5c00006b539b79163fdcdee7cbcfdfd0e8cc2261fadfed13e4da4e20361c09864b:ZohoMail
 
-在 2022-05-19星期四的 23:54 +0300，Evgeny Boger写道：
-> Hi qianfan,
-> 
-> As Allwinner A40i user, let me first thank you for your effort for 
-> making better upstream support for R40!
-> 
-> However, I would strongly suggest *not* to add USB support to one
-> more 
-> Allwinner SoC in this particular way.
-> The problem is, this approach consists of a number of carefully
-> crafted 
-> hacks in device tree to make current drivers work on Allwinner
-> hardware 
-> without modification to the drivers.
-> 
-> a few examples:
-> 
-> 1) please notice how ohci0 and ehci0 nodes do not contain reference
-> to 
-> usb phy. It is done intentionally, otherwise EHCI will reset musb
-> mode.
-> Of course omitting phy reference here is also completely breaking
-> power 
-> cycling in case of usb error and otherwise messes with a power
-> management.
-> 
-> 2) one must always enable ohci, ehci and usb_otg nodes at the same
-> time. 
-> If one forgets to enable ohci/ehci nodes while enabling usb_otg node,
-> the system will silently fail to work as USB host.
-> 
-> 3) For host-only mode we still have to enable usb_otg node despite no
-> role switching is needed. That's because phy reference is missing in 
-> ehci/ohci, so the ehci/ohci driver won't enable the PHY.
-> Also I might be wrong, but I think phy won't be routed to ehci/ohci 
-> controllers is this case.
-> 
-> 4) musb host controller is initialized and present to hardware though
-> never actually used
-> 
-> To summarize, not only the resulting device tree is not describing
-> the 
-> hardware properly, it is creating device tree configuration which
-> will 
-> be very hard to support in future, once proper driver support is in
-> place.
-> 
-> 
-> At Wiren Board kernel tree we tried to untangle this issue [1-6]. 
-> Unfortunately I didn't have time to prepare it for kernel submission 
-> yet, but I think I better submit it as RFC to get a feedback from you
-> and others.
+Hi Mark
 
-Please cc me in the following patches because it's me who makes the
-whole dual route thing hacky.
+ ---- On Mon, 23 May 2022 04:39:46 -0700 Mark Brown <broonie@kernel.org> wrote ----
+ > On Sun, May 22, 2022 at 07:22:37PM -0700, Li Chen wrote:
+ > > From: Li Chen <lchen@ambarella.com>
+ > > 
+ > > This series proposes to add simple bit operations for setting, clearing
+ > > and testing specific bits with regmap_field.
+ > 
+ > Please don't send new patches in reply to old patches or serieses, this
+ > makes it harder for both people and tools to understand what is going
+ > on - it can bury things in mailboxes and make it difficult to keep track
+ > of what current patches are, both for the new patches and the old ones.
+ > 
 
-> 
-> 
-> [1] 
-> https://github.com/wirenboard/linux/commit/359abbbd86ddff4d3c61179c882c286de32bb089
-> [2] 
-> https://github.com/wirenboard/linux/commit/6327f9d7972c21b229fb83457fdde643b31553f9
-> [3] 
-> https://github.com/wirenboard/linux/commit/f01f4c66758bde460a4d8c5b54ecee3b585c0232
-> [4] 
-> https://github.com/wirenboard/linux/commit/c27598ad601e5a46f624b73412a531d6f1f63d37
-> [5] 
-> https://github.com/wirenboard/linux/commit/5796d6eebb86b32a3751b2038b63af46f94954b3
-> [6] 
-> https://github.com/wirenboard/linux/commit/0928a675d875f9c2849fd3a9888f718bbb673bda
-> 
-> 
+Thanks for letting me know, I won't do this again.
 
-
+Regards,
+Li
