@@ -1,191 +1,142 @@
-Received: from sender4-pp-o93.zoho.com (sender4-pp-o93.zoho.com [136.143.188.93])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0961936D
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 03:33:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1653276660; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HRgHsyoEU1dReyNbZfWn4dnfvxjJ03506oh9r3NNQWusOAnmj+9fS+o6qSH4Op+gTlKbF1gTI9rotxzV1bRUy6ks7lbNnM58TP813qlGvgouFrnQ07XnEO7LKisl1HptAc0bPi6dgAlzO7Ip7zS5EJLXQ3Efi6SzNvhfBfh36Ks=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1653276660; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=iOuKNttKba44VCrdDFasYVWLGm+FaDpWr1wgK72EB+U=; 
-	b=WgciRNzQUpL2LcCSADQCDGUK/azAe0PW+hTg+C+kuGGJr6RnI7O3OX/9rwBhegC4OqxATYIkY2bcaTPnnlDO7T+fC0YG95KYXcU/Nyo6xhmfAGqBys2/FvP3/WLYF4wTMbk/fV4mRY+C48j0hP77xnydMGIas/AcGqgnolgUFD4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=zohomail.com;
-	spf=pass  smtp.mailfrom=lchen.firstlove@zohomail.com;
-	dmarc=pass header.from=<lchen.firstlove@zohomail.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653276660;
-	s=zm2022; d=zohomail.com; i=lchen.firstlove@zohomail.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To;
-	bh=iOuKNttKba44VCrdDFasYVWLGm+FaDpWr1wgK72EB+U=;
-	b=XJEvJgyLQPDSfzdGxxalNe7XEZON9Qer5QLFjMJo/r6YQKgkgF3ifESjYbw7OK7S
-	5ezVHobQ1QNmDUcVZyGQwBAir5toyvygS5zHJ+VXn471A72zavlw7nA+3zHGoRiykh/
-	087fwRtFK1RuiH5mwrZ8kywP8mGwxwGadHVpUTHY=
-Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1653276659933600.0289800555119; Sun, 22 May 2022 20:30:59 -0700 (PDT)
-Received: from  [45.12.140.94] by mail.zoho.com
-	with HTTP;Sun, 22 May 2022 20:30:59 -0700 (PDT)
-Date: Sun, 22 May 2022 20:30:59 -0700
-From: Li Chen <lchen.firstlove@zohomail.com>
-To: "Samuel Holland" <samuel@sholland.org>
-Cc: "Mark Brown" <broonie@kernel.org>,
-	"linux-kernel" <linux-kernel@vger.kernel.org>,
-	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	"linux-gpio" <linux-gpio@vger.kernel.org>,
-	"Linus Walleij" <linus.walleij@linaro.org>,
-	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>,
-	"Patrice Chotard" <patrice.chotard@foss.st.com>,
-	"linux-sunxi" <linux-sunxi@lists.linux.dev>,
-	"Liam Girdwood" <lgirdwood@gmail.com>,
-	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
-	"Chen-Yu Tsai" <wens@csie.org>,
-	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
-	"Philipp Zabel" <p.zabel@pengutronix.de>
-Message-ID: <180eef7d0c4.d42849e060770.1995440542302495013@zohomail.com>
-In-Reply-To: <e96cb553-1ac7-dbd7-3086-b623511471c5@sholland.org>
-References: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
- <180eeb93909.12110e2de60158.391061173597432851@zohomail.com>
- <180eeba3811.f7218bc260169.7323954027713751119@zohomail.com> <e96cb553-1ac7-dbd7-3086-b623511471c5@sholland.org>
-Subject: Re: [PATCH v2 1/4] regmap: provide regmap_field helpers for simple
- bit operations
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEC036C
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 05:28:16 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id t6so19639792wra.4
+        for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 22:28:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9uMuLZ+WHHh5WrmFB7JGvdrkZLB4YOBUOPeV4QL7yzg=;
+        b=Y7kqAoylA+C6m4MPwSA1YrcUGwM5+kRVXDhOpG5OUxWIJDFnBKuVppwLcraDZBlmau
+         LjKXI0nLbe+RKNA6nAJhuLYnXMdAUKpGtIdVzyeDMvWhkYW27wCNe/Us8RWXHLHT4eFH
+         M9So1Iom6hJn88cvubjLP9h1BZHr/wC5YhtxB69uMa3sl7yewtvD584E7joMhnPQJZwe
+         mhH+j7YGGYZYGJtI9SYQoZxp30voOt8m6e3cXBydM/B54I9+bkzkHXmefoySwmYiFb4O
+         UM8f1/QWB8VRoNLefi0UUGG2cdezs+gIpD/jgnWVy6RceLWCpffPXSl93rCbm+tjDWrq
+         LeZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9uMuLZ+WHHh5WrmFB7JGvdrkZLB4YOBUOPeV4QL7yzg=;
+        b=VQ323U69YrdE5gndR09ZSxC4+Uj+KdiqYjh9L+WNsaQNxcM4zffRq6GYT8ks8u4o6M
+         XUOdCM6W1rWgpgkkiVZnS/tneGXmhrvD+UJQoixqBZrwFVHRPZWMNiIp66hWxE/E9Y1U
+         3kIuo6i8196dgPpoyW5t42LryRkw6wTQOrj8s70+8+TJdatpJjSllQ269ZTezHy/B0Z7
+         S3eFgUJlKEU8HJCIFnK/jUASRoHlw9hTFpJAsRPJqU1xUM42uODlzOnBNs4GVZ+t41lZ
+         BFGwcXTMaxMMx5lzHiVN0wtNZpzDCGfwSzj5TcraCQpkXHPLxej0O/ITV/qjgHOibe/+
+         AyKA==
+X-Gm-Message-State: AOAM532RZyIL6vT4enNFya3Ae8KRk6ENEN2WM5s7EZZypDPDQGi3ZccK
+	6euATbDGC22YIQan/6RuFty7CQ==
+X-Google-Smtp-Source: ABdhPJwqOjOWSF8b13h1bIXClf8iN5Rml8F4bhr0+MrnoZAuILGzkXIwWfoK9xvvCG7fE0z6uPVXbw==
+X-Received: by 2002:adf:dd8a:0:b0:20d:ff7:ce01 with SMTP id x10-20020adfdd8a000000b0020d0ff7ce01mr17371264wrl.242.1653283694762;
+        Sun, 22 May 2022 22:28:14 -0700 (PDT)
+Received: from localhost.localdomain (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.googlemail.com with ESMTPSA id h2-20020a1ccc02000000b0039466988f6csm7802414wmb.31.2022.05.22.22.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 22 May 2022 22:28:14 -0700 (PDT)
+From: Corentin Labbe <clabbe@baylibre.com>
+To: andrew@lunn.ch,
+	broonie@kernel.org,
+	calvin.johnson@oss.nxp.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	hkallweit1@gmail.com,
+	jernej.skrabec@gmail.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	kuba@kernel.org,
+	lgirdwood@gmail.com,
+	linux@armlinux.org.uk,
+	pabeni@redhat.com,
+	robh+dt@kernel.org,
+	samuel@sholland.org,
+	wens@csie.org
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	netdev@vger.kernel.org,
+	Corentin Labbe <clabbe@baylibre.com>
+Subject: [PATCH v3 0/3] arm64: add ethernet to orange pi 3
+Date: Mon, 23 May 2022 05:28:04 +0000
+Message-Id: <20220523052807.4044800-1-clabbe@baylibre.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-Feedback-ID: rr08011226236ae7c8a4d2e2d0f61154fe0000e83e5c4313bebdb6f116261b31963974c76f6d1e80eb8fd5:zu0801122778073d0592069c92442816d300004d472a322eed3fe9ffedac5a34ff8964dbe612d4572482e1f2:rf0801122b498d8bc789dff53c5fb4fe7e0000e449ecb1215f453ef4f9820d6d5fdf3a24ab25c96ebd6ead125832aa76:ZohoMail
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Samuel,
+Hello
 
- ---- On Sun, 22 May 2022 20:09:55 -0700 Samuel Holland <samuel@sholland.org> wrote ----
- > Hi,
- > 
- > On 5/22/22 9:23 PM, Li Chen wrote:
- > > From: Li Chen <lchen@ambarella.com>
- > > 
- > > We have set/clear/test operations for regmap, but not for regmap_field yet.
- > > So let's introduce regmap_field helpers too.
- > > 
- > > In many instances regmap_field_update_bits() is used for simple bit setting
- > > and clearing. In these cases the last argument is redundant and we can
- > > hide it with a static inline function.
- > > 
- > > This adds three new helpers for simple bit operations: set_bits,
- > > clear_bits and test_bits (the last one defined as a regular function).
- > > 
- > > Signed-off-by: Li Chen <lchen@ambarella.com>
- > > ---
- > >  drivers/base/regmap/regmap.c | 22 +++++++++++++++++++++
- > >  include/linux/regmap.h       | 37 ++++++++++++++++++++++++++++++++++++
- > >  2 files changed, 59 insertions(+)
- > > 
- > > diff --git a/drivers/base/regmap/regmap.c b/drivers/base/regmap/regmap.c
- > > index 5e12f7cb5147..a37d6041b7bd 100644
- > > --- a/drivers/base/regmap/regmap.c
- > > +++ b/drivers/base/regmap/regmap.c
- > > @@ -2208,6 +2208,28 @@ int regmap_field_update_bits_base(struct regmap_field *field,
- > >  }
- > >  EXPORT_SYMBOL_GPL(regmap_field_update_bits_base);
- > >  
- > > +/**
- > > + * regmap_field_test_bits() - Check if all specified bits are set in a
- > > + *                            register field.
- > > + *
- > > + * @field: Register field to operate on
- > > + * @bits: Bits to test
- > > + *
- > > + * Returns -1 if the underlying regmap_field_read() fails, 0 if at least one of the
- > > + * tested bits is not set and 1 if all tested bits are set.
- > > + */
- > > +int regmap_field_test_bits(struct regmap_field *field, unsigned int bits)
- > > +{
- > > +    unsigned int val, ret;
- > > +
- > > +    ret = regmap_field_read(field, &val);
- > > +    if (ret)
- > > +        return ret;
- > > +
- > > +    return (val & bits) == bits;
- > > +}
- > > +EXPORT_SYMBOL_GPL(regmap_field_test_bits);
- > > +
- > >  /**
- > >   * regmap_fields_update_bits_base() - Perform a read/modify/write cycle a
- > >   *                                    register field with port ID
- > > diff --git a/include/linux/regmap.h b/include/linux/regmap.h
- > > index de81a94d7b30..10b410734d9e 100644
- > > --- a/include/linux/regmap.h
- > > +++ b/include/linux/regmap.h
- > > @@ -1324,6 +1324,22 @@ static inline int regmap_field_update_bits(struct regmap_field *field,
- > >                           NULL, false, false);
- > >  }
- > >  
- > > +static inline int regmap_field_set_bits(struct regmap_field *field,
- > > +                    unsigned int bits)
- > > +{
- > > +    return regmap_field_update_bits_base(field, bits, 0, NULL, false,
- > > +                         false);
- > > +}
- > > +
- > > +static inline int regmap_field_clear_bits(struct regmap_field *field,
- > > +                      unsigned int bits)
- > > +{
- > > +    return regmap_field_update_bits_base(field, bits, bits, NULL, false,
- > > +                         false);
- > 
- > The contents of these two functions are swapped when compared to their names.
+2 sunxi board still does not have ethernet working, orangepi 1+ and
+orangepi 3.
+This is due to the fact thoses boards have a PHY which need 2 regulators.
 
-Thanks for spotting this out!
-Fixed in v3.
+A first attempt by Ondřej Jirman was made to support them was made by adding support in
+stmmac driver:
+https://lore.kernel.org/lkml/20190820145343.29108-6-megous@megous.com/
+Proposal rejected, since regulators need to be handled by the PHY core.
 
-Regards,
-Li
- > 
- > Regards,
- > Samuel
- > 
- > > +}
- > > +
- > > +int regmap_field_test_bits(struct regmap_field *field, unsigned int bits);
- > > +
- > >  static inline int
- > >  regmap_field_force_update_bits(struct regmap_field *field,
- > >                     unsigned int mask, unsigned int val)
- > > @@ -1757,6 +1773,27 @@ regmap_field_force_update_bits(struct regmap_field *field,
- > >      return -EINVAL;
- > >  }
- > >  
- > > +static inline int regmap_field_set_bits(struct regmap_field *field,
- > > +                    unsigned int bits)
- > > +{
- > > +    WARN_ONCE(1, "regmap API is disabled");
- > > +    return -EINVAL;
- > > +}
- > > +
- > > +static inline int regmap_field_clear_bits(struct regmap_field *field,
- > > +                      unsigned int bits)
- > > +{
- > > +    WARN_ONCE(1, "regmap API is disabled");
- > > +    return -EINVAL;
- > > +}
- > > +
- > > +static inline int regmap_field_test_bits(struct regmap_field *field,
- > > +                     unsigned int bits)
- > > +{
- > > +    WARN_ONCE(1, "regmap API is disabled");
- > > +    return -EINVAL;
- > > +}
- > > +
- > >  static inline int regmap_fields_write(struct regmap_field *field,
- > >                        unsigned int id, unsigned int val)
- > >  {
- > > 
- > 
- > 
+My first tentative was to just add handling of phy and phy-io in
+phy-core:
+https://lore.kernel.org/netdev/20220509074857.195302-7-clabbe@baylibre.com/T/
+But having hard-coded phy names was rejected.
+
+Second tentative tryed the same path than clocks and clock-names for
+regulators.
+https://lore.kernel.org/netdev/0518eef1-75a6-fbfe-96d8-bb1fc4e5178a@linaro.org/t/
+But using this was rejected by DT maintainers.
+
+So v3 use a new regulator_bulk_get_all() which grab all supplies
+properties in a DT node.
+But this way could have some problem, a netdev driver could handle
+already its PHY (like dwmac-sun8i already do) and so both phy-core and
+the netdev will use both.
+It is why phy-supply was renamed in ephy-supply in patch #3.
+
+This serie was tested on whole range of board and PHY architecture:
+- internal PHY
+  * sun8i-h3-orangepi-pc
+- external PHY
+  * sun50i-h6-pine-h64
+  * sun8i-r40-bananapi-m2-ultra
+  * sun8i-a83t-bananapi-m3
+  * sun50i-a64-bananapi-m64
+  * sun50i-h6-orangepi-3
+  * sun50i-h5-nanopi-neo-plus2
+
+The resume/suspend of PHY was tested.
+
+Regards
+
+changes since v1:
+- Add regulator_bulk_get_all for ease handling of PHY regulators
+- Removed all convertion patchs to keep DT compatibility.
+
+Changes since v2:
+- removed use of regulator-names and regulators list.
+
+Corentin Labbe (2):
+  regulator: Add regulator_bulk_get_all
+  phy: handle optional regulator for PHY
+
+Ondřej Jirman (1):
+  arm64: dts: allwinner: orange-pi-3: Enable ethernet
+
+ .../dts/allwinner/sun50i-h6-orangepi-3.dts    | 38 ++++++++
+ drivers/net/mdio/Kconfig                      |  1 +
+ drivers/net/mdio/fwnode_mdio.c                | 36 +++++++-
+ drivers/net/phy/phy_device.c                  | 10 ++
+ drivers/regulator/core.c                      | 92 +++++++++++++++++++
+ include/linux/phy.h                           |  3 +
+ include/linux/regulator/consumer.h            |  2 +
+ 7 files changed, 178 insertions(+), 4 deletions(-)
+
+-- 
+2.35.1
+
