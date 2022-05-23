@@ -1,36 +1,36 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75CEF629;
-	Mon, 23 May 2022 09:14:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44081629;
+	Mon, 23 May 2022 09:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653297297; x=1684833297;
+  t=1653299699; x=1684835699;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rSp8OAS9Z+rAmZ/IeViGc7ucpC+E1jdk1BjrMYZI1Yo=;
-  b=WEO30zEuaBbPt8pwN7beuFrHROhcIUQYUS8GBVHnbfFFJB9C36DhK2B+
-   afqCv0Jo1IcUvKkYtNCkVvlI265gpUGNE+g/IpoQ/iLwMTMQDlOvCJDsh
-   AIAGvlgPaW1vuGa2lbWhiLt93loedZvpU3iTH8nwJpCQ1IVkEK5VhXRCU
-   Za0dgfxld037mff2ccseLzVOvTHqDkReh22DtJrk4+tX7Q9p2Gwrwyius
-   rIKbx08Ado3VKStMfdqKEcKMzR3uazM44RxxZTLQ6YbCAUuspWwFIHUaM
-   ajOpPPU1i/fHEZLVsFfVJMZWKPejkwYvBkhmNCIWRCLpHUjkC6QhNQ58n
+  bh=eqM+jPOTUeunb8PUCCDFxOTPR27hmR70Sc5kkvXLcJ0=;
+  b=gpDTgDE92GkLiMfwanmSa9hPAh02jA8ahtgapBjyr1DcX9GLLBR+MvJF
+   2gCeW70NbJlidB4n7Bkc75tEuwwAa4vhnqVxjiX7LCfRGxqbM9T4gtx3f
+   h+Unribf8Xcy1mEC1PGNNIPXbpMjI/cefD6/TbhdHmPC8voNQeZnTBsu/
+   1S+8il4ITQb3PNZXbOa+IJgy/vjhJlJn9KwqrtQqwrhrANaoyjGPhZuIf
+   +SkBpu/tqTO+n1ZEucdwOt/KzVaZrg7i4w6MEfZCFwItRQ2A9txTERYlH
+   6sald8HuM4WjpxOs2OgDa0jOJOK+bI0VdrRstv2mqlFKXRqP3gzhwcUgH
    w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="270730360"
+X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="253673252"
 X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
-   d="scan'208";a="270730360"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 02:14:56 -0700
+   d="scan'208";a="253673252"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 02:54:58 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
-   d="scan'208";a="558557154"
+   d="scan'208";a="629291059"
 Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 23 May 2022 02:14:50 -0700
+  by fmsmga008.fm.intel.com with ESMTP; 23 May 2022 02:54:53 -0700
 Received: from kbuild by db63a1be7222 with local (Exim 4.95)
 	(envelope-from <lkp@intel.com>)
-	id 1nt49K-00011I-1K;
-	Mon, 23 May 2022 09:14:50 +0000
-Date: Mon, 23 May 2022 17:13:55 +0800
+	id 1nt4m4-00013A-G3;
+	Mon, 23 May 2022 09:54:52 +0000
+Date: Mon, 23 May 2022 17:54:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch,
 	broonie@kernel.org, calvin.johnson@oss.nxp.com, davem@davemloft.net,
@@ -42,9 +42,9 @@ Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
 	netdev@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH v3 2/3] phy: handle optional regulator for PHY
-Message-ID: <202205231735.QGDB1Mcy-lkp@intel.com>
-References: <20220523052807.4044800-3-clabbe@baylibre.com>
+Subject: Re: [PATCH v3 1/3] regulator: Add regulator_bulk_get_all
+Message-ID: <202205231748.IZoXf2Sf-lkp@intel.com>
+References: <20220523052807.4044800-2-clabbe@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,70 +53,128 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220523052807.4044800-3-clabbe@baylibre.com>
+In-Reply-To: <20220523052807.4044800-2-clabbe@baylibre.com>
 
 Hi Corentin,
 
-I love your patch! Perhaps something to improve:
+I love your patch! Yet something to improve:
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on sunxi/sunxi/for-next linus/master v5.18 next-20220520]
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on sunxi/sunxi/for-next linus/master v5.18 next-20220520]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Corentin-Labbe/arm64-add-ethernet-to-orange-pi-3/20220523-133344
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-config: mips-cu1830-neo_defconfig (https://download.01.org/0day-ci/archive/20220523/202205231735.QGDB1Mcy-lkp@intel.com/config)
+config: i386-randconfig-a012-20220523 (https://download.01.org/0day-ci/archive/20220523/202205231748.IZoXf2Sf-lkp@intel.com/config)
 compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 768a1ca5eccb678947f4155e38a5f5744dcefb56)
 reproduce (this is a W=1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
-        # https://github.com/intel-lab-lkp/linux/commit/7ae2ab7d1efe8091f6b7ea048a7ac495afba9e46
+        # https://github.com/intel-lab-lkp/linux/commit/179be86f748a2cce87423bb16f4f967c97bf5d9b
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Corentin-Labbe/arm64-add-ethernet-to-orange-pi-3/20220523-133344
-        git checkout 7ae2ab7d1efe8091f6b7ea048a7ac495afba9e46
+        git checkout 179be86f748a2cce87423bb16f4f967c97bf5d9b
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash drivers/net/mdio/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/mdio/of_mdio.c:13:
->> include/linux/fwnode_mdio.h:20:5: warning: no previous prototype for function 'fwnode_mdiobus_phy_device_register' [-Wmissing-prototypes]
-   int fwnode_mdiobus_phy_device_register(struct mii_bus *mdio,
-       ^
-   include/linux/fwnode_mdio.h:20:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int fwnode_mdiobus_phy_device_register(struct mii_bus *mdio,
-   ^
-   static 
-   1 warning generated.
+>> drivers/regulator/core.c:4870:2: error: call to undeclared function 'for_each_property_of_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+           for_each_property_of_node(np, prop) {
+           ^
+>> drivers/regulator/core.c:4870:37: error: expected ';' after expression
+           for_each_property_of_node(np, prop) {
+                                              ^
+                                              ;
+>> drivers/regulator/core.c:4873:4: error: 'continue' statement not in loop statement
+                           continue;
+                           ^
+   drivers/regulator/core.c:4876:4: error: 'continue' statement not in loop statement
+                           continue;
+                           ^
+   drivers/regulator/core.c:4887:4: error: 'continue' statement not in loop statement
+                           continue;
+                           ^
+   5 errors generated.
 
 
-vim +/fwnode_mdiobus_phy_device_register +20 include/linux/fwnode_mdio.h
+vim +/for_each_property_of_node +4870 drivers/regulator/core.c
 
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  10  
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  11  #if IS_ENABLED(CONFIG_FWNODE_MDIO)
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  12  int fwnode_mdiobus_phy_device_register(struct mii_bus *mdio,
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  13  				       struct phy_device *phy,
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  14  				       struct fwnode_handle *child, u32 addr);
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  15  
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  16  int fwnode_mdiobus_register_phy(struct mii_bus *bus,
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  17  				struct fwnode_handle *child, u32 addr);
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  18  
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  19  #else /* CONFIG_FWNODE_MDIO */
-bc1bee3b87ee48b Calvin Johnson 2021-06-11 @20  int fwnode_mdiobus_phy_device_register(struct mii_bus *mdio,
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  21  				       struct phy_device *phy,
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  22  				       struct fwnode_handle *child, u32 addr)
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  23  {
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  24  	return -EINVAL;
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  25  }
-bc1bee3b87ee48b Calvin Johnson 2021-06-11  26  
+  4839	
+  4840	/*
+  4841	 * regulator_bulk_get_all - get multiple regulator consumers
+  4842	 *
+  4843	 * @dev:	Device to supply
+  4844	 * @np:		device node to search for consumers
+  4845	 * @consumers:  Configuration of consumers; clients are stored here.
+  4846	 *
+  4847	 * @return number of regulators on success, an errno on failure.
+  4848	 *
+  4849	 * This helper function allows drivers to get several regulator
+  4850	 * consumers in one operation.  If any of the regulators cannot be
+  4851	 * acquired then any regulators that were allocated will be freed
+  4852	 * before returning to the caller.
+  4853	 */
+  4854	int regulator_bulk_get_all(struct device *dev, struct device_node *np,
+  4855				   struct regulator_bulk_data **consumers)
+  4856	{
+  4857		int num_consumers = 0;
+  4858		struct regulator *tmp;
+  4859		struct property *prop;
+  4860		int i, n = 0, ret;
+  4861		char name[64];
+  4862	
+  4863		*consumers = NULL;
+  4864	
+  4865	/*
+  4866	 * first pass: get numbers of xxx-supply
+  4867	 * second pass: fill consumers
+  4868	 * */
+  4869	restart:
+> 4870		for_each_property_of_node(np, prop) {
+  4871			i = is_supply_name(prop->name);
+  4872			if (i == 0)
+> 4873				continue;
+  4874			if (!*consumers) {
+  4875				num_consumers++;
+  4876				continue;
+  4877			} else {
+  4878				memcpy(name, prop->name, i);
+  4879				name[i] = '\0';
+  4880				tmp = regulator_get(dev, name);
+  4881				if (!tmp) {
+  4882					ret = -EINVAL;
+  4883					goto error;
+  4884				}
+  4885				(*consumers)[n].consumer = tmp;
+  4886				n++;
+  4887				continue;
+  4888			}
+  4889		}
+  4890		if (*consumers)
+  4891			return num_consumers;
+  4892		if (num_consumers == 0)
+  4893			return 0;
+  4894		*consumers = kmalloc_array(num_consumers,
+  4895					   sizeof(struct regulator_bulk_data),
+  4896					   GFP_KERNEL);
+  4897		if (!*consumers)
+  4898			return -ENOMEM;
+  4899		goto restart;
+  4900	
+  4901	error:
+  4902		while (--n >= 0)
+  4903			regulator_put(consumers[n]->consumer);
+  4904		return ret;
+  4905	}
+  4906	EXPORT_SYMBOL_GPL(regulator_bulk_get_all);
+  4907	
 
 -- 
 0-DAY CI Kernel Test Service
