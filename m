@@ -1,304 +1,139 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [149.56.97.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B196637;
-	Mon, 23 May 2022 12:54:34 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::225])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 5B851CB0FD;
-	Mon, 23 May 2022 12:52:08 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 335121C0004;
-	Mon, 23 May 2022 12:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653310320;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=U+H5xu8nCjdPDFB+rNE/Nv2sAZrPCxc01fLrAUYE1eE=;
-	b=OHjPq6PNsRRavWiImrmtBl5h8WOWbZbQ2kehnB7qEoTtWw47+3pwOl5kMlB+tXm/J4wGRv
-	bZ+YCtkRlq+zIhBsnfhcfcieywN68jOpLfntklbqH651Lm1e56yMYVuEV3IA/uKVomqiS9
-	Mv7d4WfJtTbnsT9Mvy0M3mHLJlxasC0WezQ9riLw1XyLIK5cd4kRY682AX78iTkiB2PXm7
-	f/N5mTQPniOhR6SoS5KuaD7b5Tokf9yznWLvBaH3B6yDmcXAFsyVPRaPOgr4y5O96FQVYt
-	0ceQCUoBTL2ZaRlxtx0PfPzk2fIiGuDdWAQ+dYILBy19/kVw95TrVpUZRbKjjQ==
-Date: Mon, 23 May 2022 14:51:55 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YouDa3mE9+SkKJg/@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
- <Ymqk89e+mn/1kLLx@aptenodytes>
- <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
- <YoesXywA4yzBDSwU@aptenodytes>
- <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D864637
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:11:39 +0000 (UTC)
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
+	by relay1.mymailcheap.com (Postfix) with ESMTPS id B600B40003;
+	Mon, 23 May 2022 13:11:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by filter1.mymailcheap.com (Postfix) with ESMTP id ACF512A384;
+	Mon, 23 May 2022 13:11:38 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 61LqDDjP-nmA; Mon, 23 May 2022 13:11:37 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by filter1.mymailcheap.com (Postfix) with ESMTPS;
+	Mon, 23 May 2022 13:11:37 +0000 (UTC)
+Received: from edelgard.icenowy.me (unknown [59.41.161.142])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 3F1A64042B;
+	Mon, 23 May 2022 13:11:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1653311497; bh=ZutgL7LOgqqHUCKuYJdshLLeyN4NpumMkRbXwFtmIWc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=yjUX9FRtcElJQqRI5wkYcvgURnlwV4EdggER7NXIYqk8SKGq0ot/i89qWil3fL0R7
+	 7Z8tWHd6ZjO5WC0ikmZaVBuEEQTGEo4H54EvJtil4v8Cw/zGo8DBYbuXsMP9xBxa6x
+	 IJPGTXykbmMb3D96TPfo3I1KfW805+3cjUSxDeiM=
+Message-ID: <a50307f826e8e5f4218bd2bfde23add8a26af0dc.camel@aosc.io>
+Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
+From: Icenowy Zheng <icenowy@aosc.io>
+To: qianfanguijin@163.com, linux-sunxi@lists.linux.dev
+Cc: Andre Przywara <andre.przywara@arm.com>, Evgeny Boger
+ <boger@wirenboard.com>,  Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai
+ <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Mon, 23 May 2022 21:11:29 +0800
+In-Reply-To: <20220518101706.26869-1-qianfanguijin@163.com>
+References: <20220518101706.26869-1-qianfanguijin@163.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="SXPMYzqIrx+IMC+b"
-Content-Disposition: inline
-In-Reply-To: <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+
+在 2022-05-18星期三的 18:17 +0800，qianfanguijin@163.com写道：
+> From: qianfan Zhao <qianfanguijin@163.com>
+> 
+> History:
+> =======
+> 
+> v4(2022-05-18):
+> - Enable both musb and OHCI/EHCI support
+> 
+> Tests:
+> ======
+> 
+> All test cases were tested on bananapi-m2-ultra.
+> 
+> 1. USB DEVICE(ping test)
+> 
+> Enable usb gadget rndis network, ping m2u on ubuntu host:
+
+Interestingly musb previous totally fail when I initially work on R40.
+Maybe some phy-sun4i-usb patches fixed it by accident?
+
+> 
+> ➜  ~ ping 192.168.200.2
+> PING 192.168.200.2 (192.168.200.2) 56(84) bytes of data.
+> 64 bytes from 192.168.200.2: icmp_seq=1 ttl=64 time=0.544 ms
+> 64 bytes from 192.168.200.2: icmp_seq=2 ttl=64 time=0.269 ms
+> 64 bytes from 192.168.200.2: icmp_seq=3 ttl=64 time=0.300 ms
+> 64 bytes from 192.168.200.2: icmp_seq=4 ttl=64 time=0.295 ms
+> 64 bytes from 192.168.200.2: icmp_seq=5 ttl=64 time=0.283 ms
+> 64 bytes from 192.168.200.2: icmp_seq=6 ttl=64 time=0.226 ms
+> 64 bytes from 192.168.200.2: icmp_seq=7 ttl=64 time=0.246 ms
+> 64 bytes from 192.168.200.2: icmp_seq=8 ttl=64 time=0.204 ms
+> 64 bytes from 192.168.200.2: icmp_seq=9 ttl=64 time=0.302 ms
+> 64 bytes from 192.168.200.2: icmp_seq=10 ttl=64 time=0.249 ms
+> 64 bytes from 192.168.200.2: icmp_seq=11 ttl=64 time=0.459 ms
+> 64 bytes from 192.168.200.2: icmp_seq=12 ttl=64 time=0.232 ms
+> 64 bytes from 192.168.200.2: icmp_seq=13 ttl=64 time=0.275 ms
+> 64 bytes from 192.168.200.2: icmp_seq=14 ttl=64 time=0.243 ms
+> 
+> 2. USB HOST(OHCI)
+> 
+> Connect an usb serial port on OTG port, nex t is the kernel log:
+> 
+> [   27.824137] usb 2-1: new full-speed USB device number 2 using
+> ohci-platform
+> [   28.865504] cdc_acm 2-1:1.0: ttyACM0: USB ACM device
+> [   29.565509] cdc_acm 2-1:1.2: ttyACM1: USB ACM device
+> 
+> 3. USB HOST(EHCI)
+> 
+> Connect an usb storage on OTG port, next is the kernel log:
+> 
+> [   17.754147] usb 1-1: new high-speed USB device number 2 using
+> ehci-platform
+> [   17.955995] usb-storage 1-1:1.0: USB Mass Storage device detected
+> [   18.024497] scsi host1: usb-storage 1-1:1.0
+> [   19.035091] scsi 1:0:0:0: Direct-Access     General  USB Flash
+> Disk   1.0  PQ: 0 ANSI: 2
+> [   19.049717] sd 1:0:0:0: [sda] 7831552 512-byte logical blocks:
+> (4.01 GB/3.73 GiB)
+> [   19.060873] sd 1:0:0:0: [sda] Write Protect is off
+> [   19.071018] sd 1:0:0:0: [sda] No Caching mode page found
+> [   19.076437] sd 1:0:0:0: [sda] Assuming drive cache: write through
+> [   19.093566]  sda: sda1
+> [   19.103492] sd 1:0:0:0: [sda] Attached SCSI removable disk
+> 
+> issues:
+> =======
+> 
+> The system power often turned off when I plugged an usb device into
+> the OTG port.
+> It's not clear why.
+> 
+> qianfan Zhao (2):
+>   ARM: dts: sun8i-r40: Add USB0_OTG/HOST support
+>   ARM: dts: bananapi-m2-ultra: Enable USB0_OTG and HOST support
+> 
+>  .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 39
+> +++++++++++++++++++
+>  arch/arm/boot/dts/sun8i-r40.dtsi              | 34 ++++++++++++++++
+>  2 files changed, 73 insertions(+)
+> 
 
 
---SXPMYzqIrx+IMC+b
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi Laurent,
-
-On Sun 22 May 22, 20:34, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
-> > On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
-> > > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
-> > > > Hi Sakari,
-> > > >=20
-> > > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> > > > > Hi Paul,
-> > > > >=20
-> > > > > Thanks for the set.
-> > > > >=20
-> > > > > A few comments below.
-> > > >=20
-> > > > Thanks a lot for your review!
-> > >=20
-> > > You're welcome!
-> > >=20
-> > > ...
-> > >=20
-> > > > > I understand this is an online ISP. How do you schedule the video=
- buffer
-> > > > > queues? Say, what happens if it's time to set up buffers for a fr=
-ame and
-> > > > > there's a buffer queued in the parameter queue but not in the ima=
-ge data
-> > > > > queue? Or the other way around?
-> > > >=20
-> > > > The ISP works in a quite atypical way, with a DMA buffer that is us=
-ed to
-> > > > hold upcoming parameters (including buffer addresses) and a bit in =
-a "direct"
-> > > > register to schedule the update of the parameters at next vsync.
-> > > >=20
-> > > > The update (setting the bit) is triggered whenever new parameters a=
-re
-> > > > submitted via the params video device or whenever there's a capture=
- buffer
-> > > > available in the capture video device.
-> > > >=20
-> > > > So you don't particularly need to have one parameter buffer matchin=
-g a capture
-> > > > buffer, the two can be updated independently. Of course, a capture =
-buffer will
-> > > > only be returned after another buffer becomes active.
-> > >=20
-> > > This also means it's not possible to associate a capture buffer to a
-> > > parameter buffer by other means than timing --- which is unreliable. =
-The
-> > > request API would allow that but it's not free of issues either.
-> >=20
-> > Yes the request API seems like a good fit for this. Note that the retur=
-ned
-> > sequence number in dequeued buffers for the capture and meta video devi=
-ces
-> > should match though, so userspace still has a way to know which capture=
-d buffer
-> > used parameters from which meta params buffer.
-> >=20
-> > > Alternatively, I think in this case you could always require the capt=
-ure
-> > > buffer and grab a parameter buffer when it's available. As ISPs are
-> > > generally requiring device specific control software, this shouldn't =
-be a
-> > > problem really.
-> >=20
-> > I think this is pretty much what happens already.
-> >=20
-> > > I wonder what Laurent thinks.
->=20
-> If parameters buffers are optional, I think the request API should be
-> used, otherwise we won't be able to ensure per-frame control. The
-> alternative is to make the parameter buffer mandatory for every frame,
-> even if no parameters have changed. Or maybe that's the case already ?
-
-Currently the parameters are not mandatory (there is a default state set
-by the driver) and queued parameter buffers are applied in the order they
-are submitted.
-
-The request API would make per-frame control possible, but I don't think
-there is a point in making it mandatory. It seems that the situation is very
-similar to what already exists with the rkisp1 driver.
-
-Cheers,
-
-Paul
-
-> > > > I hope this answers your concern!
-> > > >=20
-> > > > [...]
-> > > >=20
-> > > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device *isp=
-_dev)
-> > > > > > +{
-> > > > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	/* Sizes are hardcoded for now but actually depend on the pla=
-tform. */
-> > > > >=20
-> > > > > Would it be cleaner to have them defined in a platform-specific w=
-ay, e.g.
-> > > > > in a struct you obtain using device_get_match_data()?
-> > > >=20
-> > > > Absolutely! I didn't do it at this stage since only one platform is=
- supported
-> > > > but we could just as well introduce a variant structure already for=
- the table
-> > > > sizes.
-> > >=20
-> > > I think that would be nice already, especially if you know these are =
-going
-> > > to be different. Otherwise macros could be an option.
-> >=20
-> > Understood!
-> >=20
-> > > ...
-> > >=20
-> > > > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
-> > > > >=20
-> > > > > I suppose you intend to add controls later on?
-> > > >=20
-> > > > I might be wrong but I thought this was necessary to expose sensor =
-controls
-> > > > registered by subdevs that end up attached to this v4l2 device.
-> > > >=20
-> > > > I doubt the drivers itself will expose controls otherwise.
-> > >=20
-> > > Now that this is an MC-enabled driver, the subdev controls should be
-> > > accessed through the subdev nodes only. Adding them to the video devi=
-ce's
-> > > control handler is quite hackish and not guaranteed to even work (as =
-e.g.
-> > > multiple subdevs can have the same control).
-> >=20
-> > Yes I was wondering what would happen in that case. I'll drop the ctrls
-> > handling in the next iteration then.
-> >=20
-> > Paul
-> >=20
-> > > ...
-> > >=20
-> > > > > > +{
-> > > > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > > > > > +	struct video_device *video_dev =3D &isp_dev->capture.video_de=
-v;
-> > > > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	if (mutex_lock_interruptible(lock))
-> > > > > > +		return -ERESTARTSYS;
-> > > > > > +
-> > > > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
-> > > > >=20
-> > > > > Do you need this?
-> > > > >=20
-> > > > > Drivers should primarily depend on runtime PM, this is only neede=
-d for
-> > > > > compatibility reasons. Instead I'd like to see sensor drivers bei=
-ng moved
-> > > > > to runtime PM.
-> > > >=20
-> > > > Yes it's still needed to support sensor drivers that don't use rpm =
-yet.
-> > >=20
-> > > To that I suggested adding runtime PM support for the affected sensor=
-s.
-> > > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver does n=
-ot
-> > > call s_power() on sensor subdevs.
-> > >=20
-> > > ...
-> > >=20
-> > > > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, -1);
-> > > > > > +	if (ret) {
-> > > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\n",
-> > > > > > +			 ret);
-> > > > > > +		goto error_media_entity;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video_dev=
-->name,
-> > > > > > +		  video_device_node_name(video_dev));
-> > > > >=20
-> > > > > This isn't really driver specific. I'd drop it.
-> > > >=20
-> > > > I agree but I see that many drivers are doing it and the informatio=
-n can
-> > > > actually be quite useful at times.
-> > >=20
-> > > You can get that information using media-ctl -e 'entity name'.
-> > >=20
-> > > I guess this could be also added to video_register_device() on debug =
-level.
-> > >=20
-> > > > > > +struct sun6i_isp_params_config_bdnf {
-> > > > > > +	__u8	in_dis_min; // 8
-> > > > > > +	__u8	in_dis_max; // 10
-> > > > >=20
-> > > > > Are these default values or something else? Better documentation =
-was in the
-> > > > > TODO.txt file already.
-> > > >=20
-> > > > Yes that's the default register values, but these comments are and =
-overlook on
-> > > > my side and should be removed.
-> > >=20
-> > > I'm fine leaving these here. Just wondering. Up to you.
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---SXPMYzqIrx+IMC+b
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKLg2sACgkQ3cLmz3+f
-v9HkdAf/c8WwJ1tDC3vE468r7moIH1vWtbKyBlLkj1iB/T6YtO4tadBef69WudfQ
-mEmB43e4AeciElrjs/y0s0lTvbSatpK2BRUg82vQwm7PKUvgefaNkliZsU2WSOeT
-5hbkDNUX1ckQeZxVbpqO7zleFAa+uupHBmzM9c5/mE6g2mYOB9PSyNvNiZSBJUb7
-eM3IilYNswo+nWdcXWR3KYAgePBArQAEyE9IBmQSPrXeBJVj0Hqsti0Z9ANJjOcx
-ZHa0d9TY6SOb/oRw7gPQGj796ZcfYhXrTCStEPYOh304OXSA790Vvd0O6wgPTio9
-8UxE4fCbngH6y23ie+BH3Kl25imuWw==
-=ZrB9
------END PGP SIGNATURE-----
-
---SXPMYzqIrx+IMC+b--
