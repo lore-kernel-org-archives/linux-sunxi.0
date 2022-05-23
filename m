@@ -1,164 +1,86 @@
-Received: from JPN01-OS0-obe.outbound.protection.outlook.com (mail-os0jpn01on2111.outbound.protection.outlook.com [40.107.113.111])
+Received: from sender4-pp-o94.zoho.com (sender4-pp-o94.zoho.com [136.143.188.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEBE3D66
-	for <linux-sunxi@lists.linux.dev>; Sun, 22 May 2022 23:26:22 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iLTaWden5/JzR+9N2YQR1xIOcKaZ9DgNqRe7w2jPeO+N2NOb/N+s24DOkvYqK+dUyBXP5465PpKy07aFSdwcTlThCroh8/VVx1JOvzK9nnlCnIA2uztvClcXjVURean8CUgE3yIWOwPq8ZV0HzFwxOg/cmj1j3VHLSO3gDiuKT5/HPA998mzD8rqW3AhksDo0df9SZHoA6Cuq3qsd5g6hogZoGx/2xYaPRsanhlO9xMdgRT1G4hNq5JIIzw19tgPOXNVTOxA403d4ceiNRmYW7QfD/rc32ZDCMLwWw5SEzV82Gs2wt2pnEeRBrbML/ohMPJBmhfuTd7jy8wIX3MorQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Mfkbh7VD/OXUtCIUM1z9Wp8Ezx9Pm3IQNN3ZSESLMrM=;
- b=VMKj+WWc2TmsZMQe7yVBf/nCeZ9wShjMzCgR1NVz2YDx+vh2yUy6LofW7qfenmUFLXfC+t4zMV1t6ip8Kwlp41Rp7VBRJsr0dqy92ZgI/KpGBr4YhrxxUlTn3joskfZHKGwcTLQe2Y8SWC894at/avuVSWsJYTHOi8lwIoDwSqy3Qv6sg62nj7Q1sTNZ7TqImKGs4N2f2cVoqHfn8oldzJcV7eHvMF+GRc6NgvFyIRtM9VDiCm2EmEC6JyscwY3EKPJ9VtnqVYAESzXPGhdsV3QzEgUe31iOPdcS1GzAvxCb+xSj/06pj8caR7XnbFMUYd4QjBMuazAsvceusauwRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
- dkim=pass header.d=renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mfkbh7VD/OXUtCIUM1z9Wp8Ezx9Pm3IQNN3ZSESLMrM=;
- b=MYwpg/ShrW4rRZrPccr9ODIRkua8uWJ31OhNObN4vGXEjnv7J3DbPOBSj+mPvxtuNRz7V497J6193G8cRH1fsCveaMn9SpmAMMDqZxzMmw4wbegNmpIScnS/VadzxeSnf6+oi8HQ/HWO9FSADjpkVO8ENqy9/ZDck2bWdgputYg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=renesas.com;
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com (2603:1096:604:194::10)
- by OSBPR01MB2135.jpnprd01.prod.outlook.com (2603:1096:603:23::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5273.18; Sun, 22 May
- 2022 23:26:19 +0000
-Received: from OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::f4d9:ee3d:e07b:171a]) by OS3PR01MB8426.jpnprd01.prod.outlook.com
- ([fe80::f4d9:ee3d:e07b:171a%8]) with mapi id 15.20.5273.022; Sun, 22 May 2022
- 23:26:18 +0000
-Message-ID: <87o7zpno8b.wl-kuninori.morimoto.gx@renesas.com>
-From: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: <broonie@kernel.org>,
-	<lgirdwood@gmail.com>,
-	<nicolas.ferre@microchip.com>,
-	<nsaenz@kernel.org>,
-	<shawnguo@kernel.org>,
-	<linux-imx@nxp.com>,
-	<cezary.rojewski@intel.com>,
-	<pierre-louis.bossart@linux.intel.com>,
-	<linux-mips@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>,
-	<linux-amlogic@lists.infradead.org>,
-	<daniel@zonque.org>,
-	<srinivas.kandagatla@linaro.org>,
-	<linux-rockchip@lists.infradead.org>,
-	<krzk@kernel.org>,
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	<linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>,
-	<linux-omap@vger.kernel.org>,
-	<linux-xtensa@linux-xtensa.org>,
-	<peter.ujfalusi@gmail.com>,
-	<jarkko.nikula@bitmer.com>,
-	<heiko@sntech.de>,
-	<jbrunet@baylibre.com>,
-	<kernel@pengutronix.de>,
-	<alsa-devel@alsa-project.org>,
-	<patches@opensource.cirrus.com>
-Subject: Re: [PATCH 56/56] ASoC: simple-card-utils: Move snd_soc_component_is_codec to be local
-In-Reply-To: <20220520102447.GL38351@ediswmail.ad.cirrus.com>
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
-	<20220519154318.2153729-57-ckeepax@opensource.cirrus.com>
-	<87czg98193.wl-kuninori.morimoto.gx@renesas.com>
-	<20220520102447.GL38351@ediswmail.ad.cirrus.com>
-User-Agent: Wanderlust/2.15.9 Emacs/26.3 Mule/6.0
-Content-Type: text/plain; charset=US-ASCII
-Date: Sun, 22 May 2022 23:26:17 +0000
-X-ClientProxiedBy: TYCPR01CA0118.jpnprd01.prod.outlook.com
- (2603:1096:405:4::34) To OS3PR01MB8426.jpnprd01.prod.outlook.com
- (2603:1096:604:194::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7078636E
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 02:23:21 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1653272559; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=iZSGIfnqE+bHAhHjujSRSO64D3YMEopKfjoLrPBx/j+pVorx4d891upzoNcpEnu/3xBxC2HtyoaFckMKe4pRLyb4Vh4ksnB3NfZBEGazgaFB3jH8bOscdV2ZeJlPm7kVlt86+Tpbt3By3rpoyr9fofm/t7ZJ9l9WG1JV6SMIja8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1653272559; h=Content-Type:Content-Transfer-Encoding:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=/bikDoNadTZ6sMn+hHaOJW6uJ31maMd/Si31cdfcYis=; 
+	b=mtNsFq2m9oASdzOCE4xAc8wVe9hzu6Dah2I8GNSooPeT6r89fI4FAmsLZseQzCWgbG15ICJc8bcH1ZGhjgAtMg4brjlngWGV8W2Lgbta5Ifmkz/USBHqa385FpSi+9SoN1blvMH1jqSdp1HYFy/zpMqxffCRxmU8yeOsBrxiQ1s=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=zohomail.com;
+	spf=pass  smtp.mailfrom=lchen.firstlove@zohomail.com;
+	dmarc=pass header.from=<lchen.firstlove@zohomail.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1653272559;
+	s=zm2022; d=zohomail.com; i=lchen.firstlove@zohomail.com;
+	h=Date:Date:From:From:To:To:Message-ID:In-Reply-To:References:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Feedback-ID:Message-Id:Reply-To:Cc;
+	bh=/bikDoNadTZ6sMn+hHaOJW6uJ31maMd/Si31cdfcYis=;
+	b=E6xmZ+EqL0V0hv93+SPFeB7j+QXdg23pFjfOgdtgg0shs5+TPxhUQhzx/BMocvLb
+	N/wJBwinggrtDGcO2RjphCYE/nUb1AR7qG+iXBiO/yZvKEW2CTTLvn/wlg7cWYo20UZ
+	mL4j+AjMDOkQzmvvnBpr9l9/KJkk9mOvf1kmCSyA=
+Received: from mail.zoho.com by mx.zohomail.com
+	with SMTP id 1653272557856227.86815470753436; Sun, 22 May 2022 19:22:37 -0700 (PDT)
+Received: from  [45.12.140.94] by mail.zoho.com
+	with HTTP;Sun, 22 May 2022 19:22:37 -0700 (PDT)
+Date: Sun, 22 May 2022 19:22:37 -0700
+From: Li Chen <lchen.firstlove@zohomail.com>
+To: "Mark Brown" <broonie@kernel.org>,
+	"linux-kernel" <linux-kernel@vger.kernel.org>,
+	"Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	"linux-gpio" <linux-gpio@vger.kernel.org>,
+	"Linus Walleij" <linus.walleij@linaro.org>,
+	"linux-arm-kernel" <linux-arm-kernel@lists.infradead.org>,
+	"Patrice Chotard" <patrice.chotard@foss.st.com>,
+	"linux-sunxi" <linux-sunxi@lists.linux.dev>,
+	"Liam Girdwood" <lgirdwood@gmail.com>,
+	"Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+	"Chen-Yu Tsai" <wens@csie.org>,
+	"Jernej Skrabec" <jernej.skrabec@gmail.com>,
+	"Samuel Holland" <samuel@sholland.org>,
+	"Philipp Zabel" <p.zabel@pengutronix.de>
+Message-ID: <180eeb93909.12110e2de60158.391061173597432851@zohomail.com>
+In-Reply-To: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
+References: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
+Subject: [PATCH v2 0/4] Add regmap_field helpers for simple bit operations
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 57841910-a5ca-4c34-2f6f-08da3c4a78e6
-X-MS-TrafficTypeDiagnostic: OSBPR01MB2135:EE_
-X-Microsoft-Antispam-PRVS:
-	<OSBPR01MB2135DABC178B5EB90C0849D6D4D59@OSBPR01MB2135.jpnprd01.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	/XnFRfnB1iKz6kUjhJAvTrQk1dW8jMWZhLScwW7um5SSE0WYE3UXfpBucI+w8HBtq+OUujpgBMrkmxd/XN8B/CJSKSMHc3WK4RYS9Bb5aCXhULGVv5LDadBgfhMTT2FiEfinsAfC2W0BXweENpIDUGUPz8VIkagGgObZDCOU8pUKNAEocyIuGp+rBiN+grE2tPIgrsz91DQnGfDURTEILXJeQJKpbeBA2iLz7Dypkh9u0jpUOL+Q83OK3pA/mnsQ6j2LD9QVFgKpsfPWszU6N/xtOJnLv/v8F9bhi11b9x17OYeW/m01ZEeTbZeoM6irQyCESmspA481abQdfBbbmElctECqIEROeyT+fa40GoSgwDJ2XRPwo46WmOxOocTk3g1bzYojqE8DKI309cauiGGAacEvxaCALmaP9nqzzeHhGQj7HS2Bir8s3/fp04KdSPhV459lMNEKinK+pfYgseBdRSnVeBf1Dd6ZUbVJc+hvILmnxK2ycGOycTNtThQc1eXirHg70GW3tkPnvlkAAeD0O+jFPSQLOiqy913JALUv1BfmyNwpg8jCxK/UOPWE70TdmMzI1VwVzHL7nwUzRfQ+CK1/Z28HdWriejLG66nSX4qQcDcdUPVfoMtQW1Lsx2xcljycKWg+F/i8vh4hMeYrvzOyNZ0FfgpIQuNvXNnLX7Vi3tKMy2zCASj8GSg1
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OS3PR01MB8426.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(6512007)(2616005)(186003)(6486002)(508600001)(8936002)(2906002)(86362001)(36756003)(52116002)(26005)(6506007)(38350700002)(38100700002)(4744005)(316002)(7416002)(5660300002)(66946007)(8676002)(54906003)(4326008)(66476007)(66556008)(6916009);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?bHVvLKJD1+8MLk9HC6CzPk3F0IllS09LMNecicKCZb1BxEb+ZwmpSnTdTaHV?=
- =?us-ascii?Q?SlCkpRhJ5hJUWFnLi15AFXAFaDHjRKUB0BZgrhxnrpXke1ZxfZgd17HQuHqo?=
- =?us-ascii?Q?FCQVF8SwveS2n1d36LzKcBV0IZmEs8IfDOdB6/Hdu3Zu70mB18exZfiPM8gH?=
- =?us-ascii?Q?GyGkM5zSlQ1WEHqNLj9cC5QF2XxIRJ7Myyp7F0CqbQYLkMrvbdTBZn62cM/F?=
- =?us-ascii?Q?WWvjLIiucbyHtHb7j+Q04jNAXHqncDNFGVIo7/KOINvk8E2pPQY6Ca1y9vow?=
- =?us-ascii?Q?RpUwFPJQr81krG85bBq7uE1iJn+MJKi22q+G+iqZKJlVtNQ0JUI8sIJC6TYf?=
- =?us-ascii?Q?FioGIo3QCClvZIAbOh7kCG2gGHrGsiwj5K2TUiHctAH0GNJhnC6aTR+v7DMc?=
- =?us-ascii?Q?NGgd2RnZsGnK8USIMs1O91x0uz2WWMHeMFDGZuN63wNQZmrOT9PmyDnGwon+?=
- =?us-ascii?Q?qUvnztgK/MIEoo5oFZaEYlT+JrumCOdbwZuO+a134UW5itk54Scy2AT6QhBq?=
- =?us-ascii?Q?al3aUCq6Q3bLIWn51/j6WJQtNU2VdDgkQdZAgJIyi+uUE1dlZctfJQlVA9An?=
- =?us-ascii?Q?j0Z82uo2ZJ9OmyZKnQ14obMzxm/V9UEe+65BGZvJ3tchQmmZnxxTQj5YPzYg?=
- =?us-ascii?Q?RoWMvX42ojR+10V58+wRfEYs5y+JfasNothygxv2oegigS4COVK33r7mo3xe?=
- =?us-ascii?Q?loRfzWGISFriDts+ni2cIaPylUr3NZ7ht46as81t/xspZF0acnlokeKRz+2S?=
- =?us-ascii?Q?PJ5yxRKG0akWooJOWcXBPl4lTDjq7XhzFZqVkfsqgiCIRhj9h9anL/jC0AG9?=
- =?us-ascii?Q?UmX29ZLgaLNm/zfjXCav2ms2ALY5QmNseHFltvr6l7a60w4gLrPUw8QXvbEf?=
- =?us-ascii?Q?QEVCuS5Csc/r2tkvYuZOfpoDCct/yFI1Xhqxsmqasq/OY9FBinxYLZ1tqzsg?=
- =?us-ascii?Q?c2gtp8l8VBOxU2wrgCx4PkYeg5JEi9AUwV5TrZlrhTOLn2LSZSMIV4J+WAqJ?=
- =?us-ascii?Q?jwGwv6q+XKSpJu75qgdkN/j9jYXAPWP0uCmGRjzY2mJJT+RpDJ0x1UQwXiCx?=
- =?us-ascii?Q?pUnNH4u1VfBxqtby++G4/zLKVLgL7Va93Ytk+FVxy2ieA0QkUGeO2rXIrQxR?=
- =?us-ascii?Q?I7GfO5PtHEFmJZlEP8a9ERA5SXQsW02R2GoQuST8ypcPHMFjCdwfUMMXQJsI?=
- =?us-ascii?Q?MRP2gXJFmAtMMkbVxFWoRWBGU6fhKR1Q0apUYdxIuI2QwxepHvQRduCJgP4B?=
- =?us-ascii?Q?7+XNWMU6qFPpoXrM7E+liwRQB1PYxkVhpLS8kOOWfYVaTzHLn2BPY3eXprfz?=
- =?us-ascii?Q?0rT8fRG+1EahoGSpkERDuCYuzvSO9FmakY63fJmWxVJndNFfGIXsm+TCtxpj?=
- =?us-ascii?Q?cqxlTBwNIDrBUaYz9sgyIp60q+8yLBYfyyy8Q9T0fGXa6BSnKQm0kipFRHv8?=
- =?us-ascii?Q?F2PkVMd5hlZ4wJbFAxPwU1YckAVYdERiTRxAWxgGxjhstH92CIqhnfYfIijQ?=
- =?us-ascii?Q?Cwe2Oans0g40o3rkBtr2I2wZwtaujMnDEG1j2Dzg+syeuP0wCAjvwYiSSD0w?=
- =?us-ascii?Q?OR6ZYYqF4qsoZ+hp9sslH2X0cEHV+Liz/argPe2ijIn/TwI3mqTR0sugaAu2?=
- =?us-ascii?Q?YRU/oir4E2MkfgV+4j0NG/Xxx58OQsDbS7Y29prsK5KfErhJq7j0FPNfaT/b?=
- =?us-ascii?Q?9r5Ky4n/t6RcuVCbTOSDfo69//s8UVFai6uPOyM9Zaf8JNeZ5VSYqhTKRH9/?=
- =?us-ascii?Q?ldn0FkpzzXAu5wOkp4vq5l0Ka9+AJzmqfBVIwrHIauKrGV18+1lX?=
-X-OriginatorOrg: renesas.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57841910-a5ca-4c34-2f6f-08da3c4a78e6
-X-MS-Exchange-CrossTenant-AuthSource: OS3PR01MB8426.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2022 23:26:18.1818
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hlNj65R1lxLQAFo8gcM3bkjtX5l/pK2ioU5PbOL+8bwIGeez3ke/GWpr0NYKlNBKq8HvJdODG1IsuYT1jQNJma0qdaTweBQ8KOsAyox6ycYRRaYZUlODCva2890LfEIw
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSBPR01MB2135
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+Feedback-ID: rr0801122679ddfae04c50b5b33a6dca3600004477de8be21dc9306b7d1a0f2b80457038f61e60c8282682:zu08011227d64192b8e6f9589b71d11c610000c79bf4f25f6fa4ca04288fd5a467da0b9525b5b9612b2ba4de:rf0801122c8ab4b92b865059789a955cd900009791a4b0c70d2d1d6a9c8ab15d12e8f8f7024cd3f1bb54c7d5c6c55947f8:ZohoMail
+
+From: Li Chen <lchen@ambarella.com>
+
+This series proposes to add simple bit operations for setting, clearing
+and testing specific bits with regmap_field.
+
+Li Chen (4):
+  regmap: provide regmap_field helpers for simple bit operations
+  ASoC: sunxi: Use {regmap/regmap_field}_{set/clear}_bits helpers
+  pinctrl: bcm: Use regmap_field_{set/clear}_bits helpers
+  pinctrl: st: Switch to use regmap_field_test_bits
+
+Changelogs:
+v2: fix regmap_field_test_bits compile error in drivers/pinctrl/pinctrl-st.c
+
+ drivers/base/regmap/regmap.c          | 22 ++++++++
+ drivers/pinctrl/bcm/pinctrl-bcm6358.c |  2 +-
+ drivers/pinctrl/pinctrl-st.c          | 23 ++++----
+ include/linux/regmap.h                | 37 +++++++++++++
+ sound/soc/sunxi/sun4i-codec.c         | 78 +++++++++++----------------
+ 5 files changed, 99 insertions(+), 63 deletions(-)
+
+-- 
+2.36.1
 
 
-Hi
-
-> > -	.endianness
-> > -	.non_legacy_dai_naming
-> > +	.is_codec
-> 
-> Yeah I considered this but it didn't really feel like the right
-> way to go to me. Firstly, at this stage we almost certainly need
-> to keep the endianness and non_legacy_dai_naming flags, there are
-> corner cases when endianness probably shouldn't be applied to CODECs
-> (as noted in my endianness series), and there are platform drivers
-> that use non_legacy_dai_naming.
-
-Oops, yes indeed :)
-Thank you for pointing it.
-
-> We could add an is_codec flag along side the other two. But it
-> means a whole extra flag and means the the core is still requiring
-> a concept of what is a CODEC driver, which really we want to get
-> rid of as part of componentisation.
-
-Hmm... yes, indeed.
-
-Thank you for your help !!
-
-Best regards
----
-Kuninori Morimoto
