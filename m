@@ -1,80 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F67637
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:17:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B130CC34100;
-	Mon, 23 May 2022 13:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653311841;
-	bh=7a4f/8QsblZThmyj+if9nUBQfdMZAwyozd8I6W8Kq40=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RbKDsydcvp0mc6eXKIzB00ki88V7g6i048hhWHWND/Oe4ZX17j9xOkS7db3nr2g4Z
-	 EVB1sBT1kA3nlglPqC+ZoKZ0WBc+8VpMxJppsxOZvfH/p/L9N4eTCwkDhNp1DR9vjO
-	 QCI5exa55LXT7UBBV7cm7Ip5qT53gFQa6D2Gz/ANkoPAu+RcropRvVYWXrBa5pkmst
-	 bhvK4lAbX9ZeG5p51MBv0PVBboqtXn1jNpRv8ppOX47/5/NjVf14eFHJC+SGgB/3es
-	 ZsjKYJ9YjchTJdR6rnKsftK1aIM0euZMihP/YXK2N2PohJw61H/yE6xpo+DSOJTdrj
-	 P/609FmRmNMOg==
-Date: Mon, 23 May 2022 14:17:14 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Corentin Labbe <clabbe@baylibre.com>
-Cc: andrew@lunn.ch, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] regulator: Add regulator_bulk_get_all
-Message-ID: <YouJWnMQJWzLU9QR@sirena.org.uk>
-References: <20220523052807.4044800-1-clabbe@baylibre.com>
- <20220523052807.4044800-2-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DBD637
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:19:18 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 380E120158
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:10:37 +0000 (UTC)
+Received: from relay1.mymailcheap.com (relay1.mymailcheap.com [149.56.97.132])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id D1DFE267CF
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 13:10:27 +0000 (UTC)
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
+	by relay1.mymailcheap.com (Postfix) with ESMTPS id 8D02A3F203;
+	Mon, 23 May 2022 13:10:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by filter1.mymailcheap.com (Postfix) with ESMTP id 81A6F2A384;
+	Mon, 23 May 2022 13:10:20 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id xRHO4Msw78f3; Mon, 23 May 2022 13:10:19 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by filter1.mymailcheap.com (Postfix) with ESMTPS;
+	Mon, 23 May 2022 13:10:19 +0000 (UTC)
+Received: from edelgard.icenowy.me (unknown [59.41.161.142])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 0A57A4010C;
+	Mon, 23 May 2022 13:10:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1653311418; bh=tCctaG9lD2zZr9aAnMweZ8VtB5FmvJDDCVIR2dwhiCs=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=tRLM43pIC2yfKKJHo3qlEzTagk6+uyxU63u5TDAZSqr8UH0/qUAC6YkzqLh4l3Vbl
+	 OPF42qDhNsnkbu02SqvDqdxFTzKSlvyvGcxO64mHyt2vhuwu9uebOiqfC+Jtknf3M9
+	 jSZP+HgNm5aa3QPBl25NebIs2VAsIB0njuwI+o3s=
+Message-ID: <265770e7055837fee26a7a66ce1fcbc7989eaf99.camel@aosc.io>
+Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Evgeny Boger <boger@wirenboard.com>, qianfanguijin@163.com
+Cc: andre.przywara@arm.com, devicetree@vger.kernel.org, 
+	jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, robh+dt@kernel.org, samuel@sholland.org, 
+	wens@csie.org
+Date: Mon, 23 May 2022 21:10:09 +0800
+In-Reply-To: <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
+References: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
+	 <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="IaE4B5GdbTL8QUGo"
-Content-Disposition: inline
-In-Reply-To: <20220523052807.4044800-2-clabbe@baylibre.com>
-X-Cookie: Sales tax applies.
+Content-Transfer-Encoding: 8bit
+
+在 2022-05-19星期四的 23:54 +0300，Evgeny Boger写道：
+> Hi qianfan,
+> 
+> As Allwinner A40i user, let me first thank you for your effort for 
+> making better upstream support for R40!
+> 
+> However, I would strongly suggest *not* to add USB support to one
+> more 
+> Allwinner SoC in this particular way.
+> The problem is, this approach consists of a number of carefully
+> crafted 
+> hacks in device tree to make current drivers work on Allwinner
+> hardware 
+> without modification to the drivers.
+> 
+> a few examples:
+> 
+> 1) please notice how ohci0 and ehci0 nodes do not contain reference
+> to 
+> usb phy. It is done intentionally, otherwise EHCI will reset musb
+> mode.
+> Of course omitting phy reference here is also completely breaking
+> power 
+> cycling in case of usb error and otherwise messes with a power
+> management.
+> 
+> 2) one must always enable ohci, ehci and usb_otg nodes at the same
+> time. 
+> If one forgets to enable ohci/ehci nodes while enabling usb_otg node,
+> the system will silently fail to work as USB host.
+> 
+> 3) For host-only mode we still have to enable usb_otg node despite no
+> role switching is needed. That's because phy reference is missing in 
+> ehci/ohci, so the ehci/ohci driver won't enable the PHY.
+> Also I might be wrong, but I think phy won't be routed to ehci/ohci 
+> controllers is this case.
+> 
+> 4) musb host controller is initialized and present to hardware though
+> never actually used
+> 
+> To summarize, not only the resulting device tree is not describing
+> the 
+> hardware properly, it is creating device tree configuration which
+> will 
+> be very hard to support in future, once proper driver support is in
+> place.
+> 
+> 
+> At Wiren Board kernel tree we tried to untangle this issue [1-6]. 
+> Unfortunately I didn't have time to prepare it for kernel submission 
+> yet, but I think I better submit it as RFC to get a feedback from you
+> and others.
+
+Please cc me in the following patches because it's me who makes the
+whole dual route thing hacky.
+
+> 
+> 
+> [1] 
+> https://github.com/wirenboard/linux/commit/359abbbd86ddff4d3c61179c882c286de32bb089
+> [2] 
+> https://github.com/wirenboard/linux/commit/6327f9d7972c21b229fb83457fdde643b31553f9
+> [3] 
+> https://github.com/wirenboard/linux/commit/f01f4c66758bde460a4d8c5b54ecee3b585c0232
+> [4] 
+> https://github.com/wirenboard/linux/commit/c27598ad601e5a46f624b73412a531d6f1f63d37
+> [5] 
+> https://github.com/wirenboard/linux/commit/5796d6eebb86b32a3751b2038b63af46f94954b3
+> [6] 
+> https://github.com/wirenboard/linux/commit/0928a675d875f9c2849fd3a9888f718bbb673bda
+> 
+> 
 
 
---IaE4B5GdbTL8QUGo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Mon, May 23, 2022 at 05:28:05AM +0000, Corentin Labbe wrote:
-
-> +	*consumers = NULL;
-> +
-> +/*
-> + * first pass: get numbers of xxx-supply
-> + * second pass: fill consumers
-> + * */
-> +restart:
-
-Please fix the identation of this comment so it looks less like an
-error.  TBH I'm not sure it isn't easier to just use krealloc() and have
-one loop here, or just write two separate loops given how little is
-shared.
-
---IaE4B5GdbTL8QUGo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKLiVkACgkQJNaLcl1U
-h9BwMwf+MijZTV5zm6UVWDR+lDg3thlPKizYFdm0ORirfhyPz1mOojb8dZVKFqfo
-EqyWBvVdP3rvimtQslIs1E3hG0ppjzv918+He7B4lvABrpEx6IBtXWMv9qQKNTz/
-/KLitIR9hZ9axRV4e600OXhw2Yg2ut8MbBesfPiCqGDirBt4bk8ghhMbYhnIgii6
-vuDPmr2YhTNRcuYyiVCVO3McrmWnJDSE9h2YUr0wsdtc1FuKJjwQPMSNAs2PvUsm
-K/AiRfovshtkzll2TCZukYkFObFRYCf/xbYnXG0IyfRWoXzJKspimwQF94SHMuK9
-DPMxLud0JF0QLM7X/MD08Njpb/4h7A==
-=r53l
------END PGP SIGNATURE-----
-
---IaE4B5GdbTL8QUGo--
