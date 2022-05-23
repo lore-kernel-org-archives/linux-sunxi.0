@@ -1,251 +1,72 @@
-Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.248.207])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B235362
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 16:32:57 +0000 (UTC)
-Received: from relay4.mymailcheap.com (relay4.mymailcheap.com [137.74.80.155])
-	by relay5.mymailcheap.com (Postfix) with ESMTPS id EEF2A267CE
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 16:32:54 +0000 (UTC)
-Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
-	by relay4.mymailcheap.com (Postfix) with ESMTPS id 0C9B920057;
-	Mon, 23 May 2022 16:32:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by filter1.mymailcheap.com (Postfix) with ESMTP id 63ECC2A3ED;
-	Mon, 23 May 2022 16:32:46 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
-Received: from filter1.mymailcheap.com ([127.0.0.1])
-	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id ovGxMFm9Hgml; Mon, 23 May 2022 16:32:45 +0000 (UTC)
-Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by filter1.mymailcheap.com (Postfix) with ESMTPS;
-	Mon, 23 May 2022 16:32:45 +0000 (UTC)
-Received: from 127.0.0.1 (unknown [64.225.114.122])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail20.mymailcheap.com (Postfix) with ESMTPSA id AE38240052;
-	Mon, 23 May 2022 16:32:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
-	t=1653323564; bh=eMM2/LtD774HPGpt7c9+GCfHLaVlFZojZGyfHiFMXgc=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
-	b=rQP6QQMdXVt8a+M59gi/CGqj054PzWViKiKB+E2UK3QpNOb5azsnBVccs5pV9bTAF
-	 EpLSLfeC3gM9CDU4RfvEE/0aIbSiMsfbA8odAmCq3TXiFFD3XVlvpWvibWtkSjQggZ
-	 IVHrN8yGSMXC/j5+ViIn0Qh+QHJvJihInO2Wi1uE=
-Message-ID: <70b43ac2910ce9b3e3776d31eda7a791fbae5454.camel@aosc.io>
-Subject: Re: [PATCH] drm/sun4i: mixer: fix scanline for V3s and D1
-From: Icenowy Zheng <icenowy@aosc.io>
-To: Jernej =?gb2312?Q?=810=947krabec?= <jernej.skrabec@gmail.com>, 
-	mripard@kernel.org, wens@csie.org, Genfu Pan <benlypan@gmail.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-In-Reply-To: <3173956.44csPzL39Z@jernej-laptop>
-References: <20220521133443.1114749-1-benlypan@gmail.com>
-	 <3173956.44csPzL39Z@jernej-laptop>
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D0A3236
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 19:19:45 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id j10so3777541lfe.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 12:19:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=6a0BAY6jmrXBJdXOo2MY++BwfoYw3NjDDRYpdznvaYg=;
+        b=nu1x1jGkAR5URkfiIOmvwdTmONPXh76JLQei8+UG0jqC4Yv7dboYonH+KeKuF3KJay
+         5V9hnQVY6NG5KaxGNGURDUF0RWn5+nbafZ3LpVJh1W6UI6qfKj6dqs70mJjx0Wtqysis
+         Lj1WlFVXIerAxvBxiNl2Wf7mhDJiFb49c80JYykae2CCHlY/EnZPwlI3UXCRyK+9aNCb
+         3KKvNWpOWPynNce88lM2wLJ6MAfZ7TkQM7HH6VfJQbQfYJopFPwVMcc3inH6+GOg4zrd
+         UgvDXBBoze5FgWDJkegY0KzbyG0LKNUmYY8ZN6yoYj/czAFDioEfeZgyBiNqB/APWqo3
+         iV2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=6a0BAY6jmrXBJdXOo2MY++BwfoYw3NjDDRYpdznvaYg=;
+        b=mqdmP8vBPaYjSiGHYu/KbdbSFQbcE3IudCr7qSvHgHbOnhs2fFqO3KxBoIXxCRryNI
+         NFKcn1C+lUq9Kl99kp5Bmr5nTqHgYt0aMX7w/H9tGQyLP6e3cNZ22mQ6ZdhQJMhik4zr
+         8NEZytj1tMHHjYGgIc1O/AHco22np3Qwri5eiPNvsfExuuE/RomGak+Xgc1hM9sNy4aL
+         4dIu5DLsjAghdC2LHz8qFp+owPwQ4INWHzWtkBzHHZQOE5M3Sa0taQNlFEGESilIJK4f
+         XzP9MVUSbv3MY9VdeYJOOalBqt21hhWwSzX8HOidaPb8N1/S6nBkEtJCBItEF7XpT3Mb
+         KPDg==
+X-Gm-Message-State: AOAM530iKkeUGJp+585R1iyTL8Fda0JDlcjysuTeRIg9TWvk6QQPaQ8T
+	mUmxPkB9XCo79FCXxbXrTiY=
+X-Google-Smtp-Source: ABdhPJyHTcfhCQ/LJ41sPtLWtehnfAg8keKD9wL+9Td1qGSEJjP1u4wNcmbq9S+/RsdqBctR7MCwkQ==
+X-Received: by 2002:a05:6512:3d10:b0:478:6508:45b4 with SMTP id d16-20020a0565123d1000b00478650845b4mr7751989lfv.334.1653333583816;
+        Mon, 23 May 2022 12:19:43 -0700 (PDT)
+Received: from localhost.localdomain (ppp91-122-164-134.pppoe.avangarddsl.ru. [91.122.164.134])
+        by smtp.gmail.com with ESMTPSA id g7-20020a056512118700b0047255d21104sm2069531lfr.51.2022.05.23.12.19.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 May 2022 12:19:43 -0700 (PDT)
+From: Andrei Lalaev <andrey.lalaev@gmail.com>
+To: andre.przywara@arm.com
+Cc: wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	devicetree@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Andrei Lalaev <andrey.lalaev@gmail.com>
+Subject: arm: dts: sunxi: h3/h5: add gpio-ranges for pio and r_pio
+Date: Mon, 23 May 2022 22:19:15 +0300
+Message-Id: <20220523191913.285283-1-andrey.lalaev@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220522222630.7faab948@slackpad.lan>
+References: <20220522222630.7faab948@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 23 May 2022 21:14:45 +0800
-User-Agent: Evolution 3.40.4 
 Content-Transfer-Encoding: 8bit
 
-在 2022-05-22星期日的 10:36 +0200，Jernej Škrabec写道：
-> Hi!
-> 
-> Dne sobota, 21. maj 2022 ob 15:34:43 CEST je Genfu Pan napisal(a):
-> > Accrording the SDK from Allwinner, the scanline value of yuv and
-> > rgb for
-> > V3s are both 1024.
-> 
-> s/scanline value/scanline length/
-> 
-> Which SDK? All SDKs that I have or found on internet don't mention
-> YUV nor RGB 
-> scanline limit. That doesn't mean there is none, I'm just unable to
-> verify 
-> your claim. Did you test this by yourself? Also, please make YUV
-> scanline 
-> change separate patch with fixes tag.
+Andre, I checked the gpiolib API and didn't find any function I can
+use to register gpio-hogs specified in DTS.
+But I found the similar patch to the qcom driver. Could you please check it?
+https://patchwork.kernel.org/project/linux-arm-kernel/patch/20180412190138.12372-1-chunkeey@gmail.com/
 
-BTW I think chip manuals all say that the chip supports NxN resolution
-in DE2 chapter, e.g. the V3 datasheet says DE2 "Output size up to
-1024x1024".
+What do you think about it? Is it a good idea to impelement
+the same changes in "sunxi-pinctrl" driver?
 
-However there's no information about D1's second mixer.
-
-> 
-> > The is also the same for mixer 1 of D1. Currently the
-> > scanline value of rgb is hardcoded to 2048 for all SOCs.
-> > 
-> > Change the scanline_yuv property of V3s to 1024. > Add the
-> > scanline_rgb
-> > property to the mixer config and replace the hardcoded value with
-> > it before
-> > scaling.
-> 
-> I guess RGB scanline patch would also need fixes tag, since it fixes
-> existing 
-> bug.
-> 
-> > 
-> > Signed-off-by: Genfu Pan <benlypan@gmail.com>
-> > ---
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 13 ++++++++++++-
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  1 +
-> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  3 +--
-> >  3 files changed, 14 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 875a1156c..e64e08207
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > @@ -567,6 +567,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_a83t_mixer0_cfg = { .ccsc         = CCSC_MIXER0_LAYOUT,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -575,6 +576,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_a83t_mixer1_cfg = { .ccsc         = CCSC_MIXER1_LAYOUT,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -584,6 +586,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_h3_mixer0_cfg
-> > = { .mod_rate   = 432000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -593,6 +596,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_r40_mixer0_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -602,6 +606,7 @@ static const struct sun8i_mixer_cfg
-> > sun8i_r40_mixer1_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -610,7 +615,8 @@ static const struct sun8i_mixer_cfg
-> > sun8i_v3s_mixer_cfg
-> > = { .vi_num = 2,
-> >         .ui_num = 1,
-> >         .scaler_mask = 0x3,
-> > -       .scanline_yuv = 2048,
-> > +       .scanline_yuv = 1024,
-> > +       .scanline_rgb = 1024,
-> >         .ccsc = CCSC_MIXER0_LAYOUT,
-> >         .mod_rate = 150000000,
-> >  };
-> > @@ -620,6 +626,7 @@ static const struct sun8i_mixer_cfg
-> > sun20i_d1_mixer0_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -629,6 +636,7 @@ static const struct sun8i_mixer_cfg
-> > sun20i_d1_mixer1_cfg
-> > = { .mod_rate   = 297000000,
-> >         .scaler_mask    = 0x1,
-> >         .scanline_yuv   = 1024,
-> > +       .scanline_rgb   = 1024,
-> >         .ui_num         = 0,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -638,6 +646,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_a64_mixer0_cfg = { .mod_rate     = 297000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 4096,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -647,6 +656,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_a64_mixer1_cfg = { .mod_rate     = 297000000,
-> >         .scaler_mask    = 0x3,
-> >         .scanline_yuv   = 2048,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 1,
-> >         .vi_num         = 1,
-> >  };
-> > @@ -657,6 +667,7 @@ static const struct sun8i_mixer_cfg
-> > sun50i_h6_mixer0_cfg
-> > = { .mod_rate   = 600000000,
-> >         .scaler_mask    = 0xf,
-> >         .scanline_yuv   = 4096,
-> > +       .scanline_rgb   = 2048,
-> >         .ui_num         = 3,
-> >         .vi_num         = 1,
-> >  };
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.h index 85c94884f..c01b3e9d6
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > @@ -172,6 +172,7 @@ struct sun8i_mixer_cfg {
-> >         unsigned long   mod_rate;
-> >         unsigned int    is_de3 : 1;
-> >         unsigned int    scanline_yuv;
-> > +       unsigned int    scanline_rgb;
-> 
-> This quirk needs to be documented above in the comment.
-> 
-> Best regards,
-> Jernej
-> 
-> >  };
-> > 
-> >  struct sun8i_mixer {
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index f7d0b082d..30e6bde92
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > @@ -188,8 +188,7 @@ static int sun8i_vi_layer_update_coord(struct
-> > sun8i_mixer *mixer, int channel, src_h = vn;
-> >                 }
-> > 
-> > -               /* it seems that every RGB scaler has buffer for
-> > 2048 
-> pixels */
-> > -               scanline = subsampled ? mixer->cfg->scanline_yuv : 
-> 2048;
-> > +               scanline = subsampled ? mixer->cfg->scanline_yuv :
-> > mixer->cfg->scanline_rgb;
-> > 
-> >                 if (src_w > scanline) {
-> >                         DRM_DEBUG_DRIVER("Using horizontal coarse 
-> scaling\n");
-> 
-> 
-> 
-> 
-> 
-
-
+Best regards,
+Andrei Lalaev
