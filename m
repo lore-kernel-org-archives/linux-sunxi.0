@@ -1,181 +1,83 @@
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67988629;
-	Mon, 23 May 2022 10:04:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653300299; x=1684836299;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ggL90ToVu7qh9RF4iy+2ZjsDqdtGnMx14duWRCjmabI=;
-  b=eg2c45XEARSUDygpZHi3cpp28QACJtDWGaAQGdP9D1MuLDyyQ5N1zWY6
-   OLczJCbwnY6pXjesErMekh5jN6qFOR61jf3EuULCfTAPMrAvn0IDiHWoh
-   NSgKrnw7sjyJy1+5Q0c4SGSbvZ6n1/tMh+Wp7i/oDhc4JpTtNsXbZsTfh
-   WUQfHLDuj1rrjC/PUN8NG0gqVv71SLVcseiN8Phc7WQSN9sId2wfbMVYL
-   KDSj3FONQODu1EKY1w8FcdjA6jG9PW3XRpXq9QGxszIrmTnyxJUWN4ZTV
-   Nr3DCNUgT/nhfSvMbk4kn4Fhc7hk+bs0BtmLsY0xefXci0tA0/LQbPtOX
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10355"; a="260773613"
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
-   d="scan'208";a="260773613"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 May 2022 03:04:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,246,1647327600"; 
-   d="scan'208";a="675791641"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 23 May 2022 03:04:53 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nt4vk-00013a-WC;
-	Mon, 23 May 2022 10:04:53 +0000
-Date: Mon, 23 May 2022 18:04:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Corentin Labbe <clabbe@baylibre.com>, andrew@lunn.ch,
-	broonie@kernel.org, calvin.johnson@oss.nxp.com, davem@davemloft.net,
-	edumazet@google.com, hkallweit1@gmail.com, jernej.skrabec@gmail.com,
-	krzysztof.kozlowski+dt@linaro.org, kuba@kernel.org,
-	lgirdwood@gmail.com, linux@armlinux.org.uk, pabeni@redhat.com,
-	robh+dt@kernel.org, samuel@sholland.org, wens@csie.org
-Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
-	netdev@vger.kernel.org, Corentin Labbe <clabbe@baylibre.com>
-Subject: Re: [PATCH v3 1/3] regulator: Add regulator_bulk_get_all
-Message-ID: <202205231709.3Wo0pW9z-lkp@intel.com>
-References: <20220523052807.4044800-2-clabbe@baylibre.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E1C7C
+	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 11:39:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AB16C385A9;
+	Mon, 23 May 2022 11:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1653305993;
+	bh=OC1izSFKp6WFdxo7syUD+g/hsAbJtBJQWFtDt3ICR70=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tyZt64kzOKZP6xetGUFTckdxsa62eMafXrgVAbDd//0jkqffQdTCZMoOkEHg6EI9m
+	 pLMh8yGUazKznWaEBqRwVD/I8TRxIV5W2R6G9F8NTitjr5klse8+M5rUDRgi/EjeY6
+	 AoBxu5RHQn/rNybEWNcRFjSI2KEu/SkXXyKkqV/stZm+iew5EJM4bf4lIPcOfCrCAr
+	 OhHF476tob9ywX43CovxJhDAaiJ2VomR6Wq9J3gA0o/r+MLcn9s4w7WyqO3AFpFIGn
+	 J1I5P2qxULTfPTL3gssVrOnznMvD9pM3Mx6O6lO5fQ+goiFfnBrWrFjSzFhf1GybYY
+	 lGOTAtSdySwsg==
+Date: Mon, 23 May 2022 12:39:46 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Li Chen <lchen.firstlove@zohomail.com>
+Cc: linux-kernel <linux-kernel@vger.kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	linux-gpio <linux-gpio@vger.kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	linux-sunxi <linux-sunxi@lists.linux.dev>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: Re: [PATCH v2 0/4] Add regmap_field helpers for simple bit operations
+Message-ID: <YotygqDAkAXRRo9d@sirena.org.uk>
+References: <180e702a15f.e737e37e45859.3135149506136486394@zohomail.com>
+ <180eeb93909.12110e2de60158.391061173597432851@zohomail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="YPlGNYyWzcAMDZRd"
+Content-Disposition: inline
+In-Reply-To: <180eeb93909.12110e2de60158.391061173597432851@zohomail.com>
+X-Cookie: Sales tax applies.
+
+
+--YPlGNYyWzcAMDZRd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220523052807.4044800-2-clabbe@baylibre.com>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Corentin,
+On Sun, May 22, 2022 at 07:22:37PM -0700, Li Chen wrote:
+> From: Li Chen <lchen@ambarella.com>
+>=20
+> This series proposes to add simple bit operations for setting, clearing
+> and testing specific bits with regmap_field.
 
-I love your patch! Yet something to improve:
+Please don't send new patches in reply to old patches or serieses, this
+makes it harder for both people and tools to understand what is going
+on - it can bury things in mailboxes and make it difficult to keep track
+of what current patches are, both for the new patches and the old ones.
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on sunxi/sunxi/for-next linus/master v5.18 next-20220520]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+--YPlGNYyWzcAMDZRd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Corentin-Labbe/arm64-add-ethernet-to-orange-pi-3/20220523-133344
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-config: hexagon-buildonly-randconfig-r002-20220522 (https://download.01.org/0day-ci/archive/20220523/202205231709.3Wo0pW9z-lkp@intel.com/config)
-compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 768a1ca5eccb678947f4155e38a5f5744dcefb56)
-reproduce (this is a W=1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/intel-lab-lkp/linux/commit/179be86f748a2cce87423bb16f4f967c97bf5d9b
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Corentin-Labbe/arm64-add-ethernet-to-orange-pi-3/20220523-133344
-        git checkout 179be86f748a2cce87423bb16f4f967c97bf5d9b
-        # save the config file
-        mkdir build_dir && cp config build_dir/.config
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/
+-----BEGIN PGP SIGNATURE-----
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKLcoIACgkQJNaLcl1U
+h9CGAwf6Aqcrn3Y6tb7EafFfurQwr3Crsu8tQbSSTQLVF1sEFNE103GaQAMmGrOV
+/gS9YF2ov9GtVEf8S6GQL/kysxuDAx+9Y1bXsi0FSGksQoXsMiZ8uP74w+1vOf1n
+cCrfT1LyFNFSX9K1dGsTa7PBKTVaSfn+gvpLciODmd/kLZ3r74PanNXwrOJ6d7su
+PzsawtBIRto9stB5SYK976MqqPUGrhIazLZP75ovU8Zv5UdYg/Qgb9aMaVKiAVAW
+6XRa/On++FFX3Ob8jcvfjp8krmplQJ43QvVW1ICd9cT4xAnjMKmYz1w241llIfg3
+cxd6zy8OxcjQlcZXn3XVXkwHnAwU4A==
+=mmNk
+-----END PGP SIGNATURE-----
 
-All errors (new ones prefixed by >>):
-
->> drivers/regulator/core.c:4870:2: error: call to undeclared function 'for_each_property_of_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-           for_each_property_of_node(np, prop) {
-           ^
->> drivers/regulator/core.c:4870:37: error: expected ';' after expression
-           for_each_property_of_node(np, prop) {
-                                              ^
-                                              ;
->> drivers/regulator/core.c:4873:4: error: 'continue' statement not in loop statement
-                           continue;
-                           ^
-   drivers/regulator/core.c:4876:4: error: 'continue' statement not in loop statement
-                           continue;
-                           ^
-   drivers/regulator/core.c:4887:4: error: 'continue' statement not in loop statement
-                           continue;
-                           ^
-   5 errors generated.
-
-
-vim +/for_each_property_of_node +4870 drivers/regulator/core.c
-
-  4839	
-  4840	/*
-  4841	 * regulator_bulk_get_all - get multiple regulator consumers
-  4842	 *
-  4843	 * @dev:	Device to supply
-  4844	 * @np:		device node to search for consumers
-  4845	 * @consumers:  Configuration of consumers; clients are stored here.
-  4846	 *
-  4847	 * @return number of regulators on success, an errno on failure.
-  4848	 *
-  4849	 * This helper function allows drivers to get several regulator
-  4850	 * consumers in one operation.  If any of the regulators cannot be
-  4851	 * acquired then any regulators that were allocated will be freed
-  4852	 * before returning to the caller.
-  4853	 */
-  4854	int regulator_bulk_get_all(struct device *dev, struct device_node *np,
-  4855				   struct regulator_bulk_data **consumers)
-  4856	{
-  4857		int num_consumers = 0;
-  4858		struct regulator *tmp;
-  4859		struct property *prop;
-  4860		int i, n = 0, ret;
-  4861		char name[64];
-  4862	
-  4863		*consumers = NULL;
-  4864	
-  4865	/*
-  4866	 * first pass: get numbers of xxx-supply
-  4867	 * second pass: fill consumers
-  4868	 * */
-  4869	restart:
-> 4870		for_each_property_of_node(np, prop) {
-  4871			i = is_supply_name(prop->name);
-  4872			if (i == 0)
-> 4873				continue;
-  4874			if (!*consumers) {
-  4875				num_consumers++;
-  4876				continue;
-  4877			} else {
-  4878				memcpy(name, prop->name, i);
-  4879				name[i] = '\0';
-  4880				tmp = regulator_get(dev, name);
-  4881				if (!tmp) {
-  4882					ret = -EINVAL;
-  4883					goto error;
-  4884				}
-  4885				(*consumers)[n].consumer = tmp;
-  4886				n++;
-  4887				continue;
-  4888			}
-  4889		}
-  4890		if (*consumers)
-  4891			return num_consumers;
-  4892		if (num_consumers == 0)
-  4893			return 0;
-  4894		*consumers = kmalloc_array(num_consumers,
-  4895					   sizeof(struct regulator_bulk_data),
-  4896					   GFP_KERNEL);
-  4897		if (!*consumers)
-  4898			return -ENOMEM;
-  4899		goto restart;
-  4900	
-  4901	error:
-  4902		while (--n >= 0)
-  4903			regulator_put(consumers[n]->consumer);
-  4904		return ret;
-  4905	}
-  4906	EXPORT_SYMBOL_GPL(regulator_bulk_get_all);
-  4907	
-
--- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+--YPlGNYyWzcAMDZRd--
