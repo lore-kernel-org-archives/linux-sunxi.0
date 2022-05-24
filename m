@@ -1,72 +1,130 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8D0A3236
-	for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 19:19:45 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id j10so3777541lfe.12
-        for <linux-sunxi@lists.linux.dev>; Mon, 23 May 2022 12:19:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6a0BAY6jmrXBJdXOo2MY++BwfoYw3NjDDRYpdznvaYg=;
-        b=nu1x1jGkAR5URkfiIOmvwdTmONPXh76JLQei8+UG0jqC4Yv7dboYonH+KeKuF3KJay
-         5V9hnQVY6NG5KaxGNGURDUF0RWn5+nbafZ3LpVJh1W6UI6qfKj6dqs70mJjx0Wtqysis
-         Lj1WlFVXIerAxvBxiNl2Wf7mhDJiFb49c80JYykae2CCHlY/EnZPwlI3UXCRyK+9aNCb
-         3KKvNWpOWPynNce88lM2wLJ6MAfZ7TkQM7HH6VfJQbQfYJopFPwVMcc3inH6+GOg4zrd
-         UgvDXBBoze5FgWDJkegY0KzbyG0LKNUmYY8ZN6yoYj/czAFDioEfeZgyBiNqB/APWqo3
-         iV2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6a0BAY6jmrXBJdXOo2MY++BwfoYw3NjDDRYpdznvaYg=;
-        b=mqdmP8vBPaYjSiGHYu/KbdbSFQbcE3IudCr7qSvHgHbOnhs2fFqO3KxBoIXxCRryNI
-         NFKcn1C+lUq9Kl99kp5Bmr5nTqHgYt0aMX7w/H9tGQyLP6e3cNZ22mQ6ZdhQJMhik4zr
-         8NEZytj1tMHHjYGgIc1O/AHco22np3Qwri5eiPNvsfExuuE/RomGak+Xgc1hM9sNy4aL
-         4dIu5DLsjAghdC2LHz8qFp+owPwQ4INWHzWtkBzHHZQOE5M3Sa0taQNlFEGESilIJK4f
-         XzP9MVUSbv3MY9VdeYJOOalBqt21hhWwSzX8HOidaPb8N1/S6nBkEtJCBItEF7XpT3Mb
-         KPDg==
-X-Gm-Message-State: AOAM530iKkeUGJp+585R1iyTL8Fda0JDlcjysuTeRIg9TWvk6QQPaQ8T
-	mUmxPkB9XCo79FCXxbXrTiY=
-X-Google-Smtp-Source: ABdhPJyHTcfhCQ/LJ41sPtLWtehnfAg8keKD9wL+9Td1qGSEJjP1u4wNcmbq9S+/RsdqBctR7MCwkQ==
-X-Received: by 2002:a05:6512:3d10:b0:478:6508:45b4 with SMTP id d16-20020a0565123d1000b00478650845b4mr7751989lfv.334.1653333583816;
-        Mon, 23 May 2022 12:19:43 -0700 (PDT)
-Received: from localhost.localdomain (ppp91-122-164-134.pppoe.avangarddsl.ru. [91.122.164.134])
-        by smtp.gmail.com with ESMTPSA id g7-20020a056512118700b0047255d21104sm2069531lfr.51.2022.05.23.12.19.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 May 2022 12:19:43 -0700 (PDT)
-From: Andrei Lalaev <andrey.lalaev@gmail.com>
-To: andre.przywara@arm.com
-Cc: wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	Andrei Lalaev <andrey.lalaev@gmail.com>
-Subject: arm: dts: sunxi: h3/h5: add gpio-ranges for pio and r_pio
-Date: Mon, 23 May 2022 22:19:15 +0300
-Message-Id: <20220523191913.285283-1-andrey.lalaev@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220522222630.7faab948@slackpad.lan>
-References: <20220522222630.7faab948@slackpad.lan>
+Received: from m12-16.163.com (m12-16.163.com [220.181.12.16])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CE607F4
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 09:16:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:From; bh=6bHKB
+	N/3QBi7HzN/vwEopZXo21vzzru1+xafDO7zm/8=; b=L7Q/+yfYROd3FnDLltavy
+	zVXjGu/4+M1TvU/HFo0Kxipslob/GjEvc4qu9bv5toD1N8hbvys54EP1BwB9yGfu
+	6cmneO10AQFXUby3pKbx9+JQkp+CxEUeejCv0FEfUtqJFupl/EzUJLs7jvx/4la0
+	2UE0pmtRUcWcw6aMN2qKas=
+Received: from [192.168.3.102] (unknown [218.201.129.20])
+	by smtp12 (Coremail) with SMTP id EMCowABnTDU8ooxiXDX+BA--.128S2;
+	Tue, 24 May 2022 17:15:43 +0800 (CST)
+Message-ID: <12833b83-59a9-a808-4d62-60658df8d628@163.com>
+Date: Tue, 24 May 2022 17:15:40 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.0
+Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
+Content-Language: en-US
+To: Icenowy Zheng <icenowy@aosc.io>, linux-sunxi@lists.linux.dev
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Evgeny Boger <boger@wirenboard.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20220518101706.26869-1-qianfanguijin@163.com>
+ <a50307f826e8e5f4218bd2bfde23add8a26af0dc.camel@aosc.io>
+From: qianfan <qianfanguijin@163.com>
+In-Reply-To: <a50307f826e8e5f4218bd2bfde23add8a26af0dc.camel@aosc.io>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:EMCowABnTDU8ooxiXDX+BA--.128S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCw43GFy5WFW7trWfWw4kJFb_yoW5Cw1kpF
+	W7XFZ7Gw1ktw1Syay3ua4UW3y3Z3yrXayjyFn3tFy8Ar13ur1DAanrKr95KasxWr13Zw47
+	Kwn5Jwn3Kr1YgF7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jONVkUUUUU=
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/xtbBzh8L7WI0UkpUyQAAsk
 
-Andre, I checked the gpiolib API and didn't find any function I can
-use to register gpio-hogs specified in DTS.
-But I found the similar patch to the qcom driver. Could you please check it?
-https://patchwork.kernel.org/project/linux-arm-kernel/patch/20180412190138.12372-1-chunkeey@gmail.com/
 
-What do you think about it? Is it a good idea to impelement
-the same changes in "sunxi-pinctrl" driver?
 
-Best regards,
-Andrei Lalaev
+在 2022/5/23 21:11, Icenowy Zheng 写道:
+> 在 2022-05-18星期三的 18:17 +0800，qianfanguijin@163.com写道：
+>> From: qianfan Zhao <qianfanguijin@163.com>
+>>
+>> History:
+>> =======
+>>
+>> v4(2022-05-18):
+>> - Enable both musb and OHCI/EHCI support
+>>
+>> Tests:
+>> ======
+>>
+>> All test cases were tested on bananapi-m2-ultra.
+>>
+>> 1. USB DEVICE(ping test)
+>>
+>> Enable usb gadget rndis network, ping m2u on ubuntu host:
+> Interestingly musb previous totally fail when I initially work on R40.
+> Maybe some phy-sun4i-usb patches fixed it by accident?
+Hi, could you please try this patch again?
+>
+>> ➜  ~ ping 192.168.200.2
+>> PING 192.168.200.2 (192.168.200.2) 56(84) bytes of data.
+>> 64 bytes from 192.168.200.2: icmp_seq=1 ttl=64 time=0.544 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=2 ttl=64 time=0.269 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=3 ttl=64 time=0.300 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=4 ttl=64 time=0.295 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=5 ttl=64 time=0.283 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=6 ttl=64 time=0.226 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=7 ttl=64 time=0.246 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=8 ttl=64 time=0.204 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=9 ttl=64 time=0.302 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=10 ttl=64 time=0.249 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=11 ttl=64 time=0.459 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=12 ttl=64 time=0.232 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=13 ttl=64 time=0.275 ms
+>> 64 bytes from 192.168.200.2: icmp_seq=14 ttl=64 time=0.243 ms
+>>
+>> 2. USB HOST(OHCI)
+>>
+>> Connect an usb serial port on OTG port, nex t is the kernel log:
+>>
+>> [   27.824137] usb 2-1: new full-speed USB device number 2 using
+>> ohci-platform
+>> [   28.865504] cdc_acm 2-1:1.0: ttyACM0: USB ACM device
+>> [   29.565509] cdc_acm 2-1:1.2: ttyACM1: USB ACM device
+>>
+>> 3. USB HOST(EHCI)
+>>
+>> Connect an usb storage on OTG port, next is the kernel log:
+>>
+>> [   17.754147] usb 1-1: new high-speed USB device number 2 using
+>> ehci-platform
+>> [   17.955995] usb-storage 1-1:1.0: USB Mass Storage device detected
+>> [   18.024497] scsi host1: usb-storage 1-1:1.0
+>> [   19.035091] scsi 1:0:0:0: Direct-Access     General  USB Flash
+>> Disk   1.0  PQ: 0 ANSI: 2
+>> [   19.049717] sd 1:0:0:0: [sda] 7831552 512-byte logical blocks:
+>> (4.01 GB/3.73 GiB)
+>> [   19.060873] sd 1:0:0:0: [sda] Write Protect is off
+>> [   19.071018] sd 1:0:0:0: [sda] No Caching mode page found
+>> [   19.076437] sd 1:0:0:0: [sda] Assuming drive cache: write through
+>> [   19.093566]  sda: sda1
+>> [   19.103492] sd 1:0:0:0: [sda] Attached SCSI removable disk
+>>
+>> issues:
+>> =======
+>>
+>> The system power often turned off when I plugged an usb device into
+>> the OTG port.
+>> It's not clear why.
+>>
+>> qianfan Zhao (2):
+>>    ARM: dts: sun8i-r40: Add USB0_OTG/HOST support
+>>    ARM: dts: bananapi-m2-ultra: Enable USB0_OTG and HOST support
+>>
+>>   .../boot/dts/sun8i-r40-bananapi-m2-ultra.dts  | 39
+>> +++++++++++++++++++
+>>   arch/arm/boot/dts/sun8i-r40.dtsi              | 34 ++++++++++++++++
+>>   2 files changed, 73 insertions(+)
+>>
+
