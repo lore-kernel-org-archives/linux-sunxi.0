@@ -1,13 +1,13 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E48E2566
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:16:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B1DA21
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:16:53 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E172EED1;
-	Tue, 24 May 2022 09:16:47 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B817323A;
+	Tue, 24 May 2022 09:16:52 -0700 (PDT)
 Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 927003F66F;
-	Tue, 24 May 2022 09:16:46 -0700 (PDT)
-Date: Tue, 24 May 2022 17:11:13 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63BE63F66F;
+	Tue, 24 May 2022 09:16:51 -0700 (PDT)
+Date: Tue, 24 May 2022 17:10:26 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Jesse Taube <mr.bossman075@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
@@ -16,11 +16,12 @@ Cc: Jesse Taube <mr.bossman075@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
  <thirtythreeforty@gmail.com>, Samuel Holland <samuel@sholland.org>, Jernej
  Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
  u-boot@lists.denx.de
-Subject: Re: [PATCH 5/7] sunxi: F1C100s: update DT files from Linux
-Message-ID: <20220524171113.08596965@donnerap.cambridge.arm.com>
-In-Reply-To: <20220503212040.27884-6-andre.przywara@arm.com>
+Subject: Re: [PATCH 1/7] clk: sunxi: implement clock driver for suniv
+ f1c100s
+Message-ID: <20220524171026.313bfbed@donnerap.cambridge.arm.com>
+In-Reply-To: <20220503212040.27884-2-andre.przywara@arm.com>
 References: <20220503212040.27884-1-andre.przywara@arm.com>
-	<20220503212040.27884-6-andre.przywara@arm.com>
+	<20220503212040.27884-2-andre.przywara@arm.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -32,262 +33,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue,  3 May 2022 22:20:38 +0100
+On Tue,  3 May 2022 22:20:34 +0100
 Andre Przywara <andre.przywara@arm.com> wrote:
 
-> The initial U-Boot F1C100s port was based on the mainline kernel DT
-> files, which were quite basic and were missing the essential MMC and
-> SPI peripherals. While we could work around this in the SPL by
-> hardcoding the required information, this left U-Boot proper without SD
-> card or SPI flash support, so actual loading would require FEL boot.
+> From: George Hilliard <thirtythreeforty@gmail.com>
 > 
-> Now the missing DT bits have been submitted and accepted in the kernel
-> tree, so lets sync back those files into U-Boot to enable MMC and
-> SPI, plus benefit from some fixes.
+> The f1c100s has a clock tree similar to those of other sunxi parts.
+> Add support for it.
 > 
-> This is a verbatim copy of the .dts and .dtsi file from
-> linux-sunxi/dt-for-5.19[1], which have been part of linux-next for a
-> while as well.
+> Signed-off-by: George Hilliard <thirtythreeforty@gmail.com>
+> Signed-off-by: Yifan Gu <me@yifangu.com>
+> Acked-by: Sean Anderson <seanga2@gmail.com>
+> [Andre: add PIO and I2C]
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Applied to sunxi/master.
 
 Thanks,
 Andre
 
-> 
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git/log/?h=sunxi/dt-for-5.19
-> 
-> Link: https://lore.kernel.org/linux-arm-kernel/20220317162349.739636-1-andre.przywara@arm.com/
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 > ---
->  arch/arm/dts/suniv-f1c100s-licheepi-nano.dts |  31 ++++++
->  arch/arm/dts/suniv-f1c100s.dtsi              | 104 +++++++++++++++++--
->  2 files changed, 125 insertions(+), 10 deletions(-)
+>  drivers/clk/sunxi/Kconfig       |  7 ++++
+>  drivers/clk/sunxi/Makefile      |  1 +
+>  drivers/clk/sunxi/clk_f1c100s.c | 74 +++++++++++++++++++++++++++++++++
+>  3 files changed, 82 insertions(+)
+>  create mode 100644 drivers/clk/sunxi/clk_f1c100s.c
 > 
-> diff --git a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> index a1154e6c7cb..04e59b8381c 100644
-> --- a/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> +++ b/arch/arm/dts/suniv-f1c100s-licheepi-nano.dts
-> @@ -11,12 +11,43 @@
->  	compatible = "licheepi,licheepi-nano", "allwinner,suniv-f1c100s";
+> diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
+> index f19908113e1..bf11fad6eef 100644
+> --- a/drivers/clk/sunxi/Kconfig
+> +++ b/drivers/clk/sunxi/Kconfig
+> @@ -10,6 +10,13 @@ config CLK_SUNXI
 >  
->  	aliases {
-> +		mmc0 = &mmc0;
->  		serial0 = &uart0;
-> +		spi0 = &spi0;
->  	};
+>  if CLK_SUNXI
 >  
->  	chosen {
->  		stdout-path = "serial0:115200n8";
->  	};
+> +config CLK_SUNIV_F1C100S
+> +	bool "Clock driver for Allwinner F1C100s"
+> +	default MACH_SUNIV
+> +	help
+> +	  This enables common clock driver support for platforms based
+> +	  on Allwinner F1C100s SoC.
 > +
-> +	reg_vcc3v3: vcc3v3 {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "vcc3v3";
-> +		regulator-min-microvolt = <3300000>;
-> +		regulator-max-microvolt = <3300000>;
-> +	};
-> +};
-> +
-> +&mmc0 {
-> +	broken-cd;
-> +	bus-width = <4>;
-> +	disable-wp;
-> +	status = "okay";
-> +	vmmc-supply = <&reg_vcc3v3>;
-> +};
-> +
-> +&spi0 {
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&spi0_pc_pins>;
-> +	status = "okay";
-> +
-> +	flash@0 {
-> +		#address-cells = <1>;
-> +		#size-cells = <1>;
-> +		compatible = "winbond,w25q128", "jedec,spi-nor";
-> +		reg = <0>;
-> +		spi-max-frequency = <40000000>;
-> +	};
->  };
+>  config CLK_SUN4I_A10
+>  	bool "Clock driver for Allwinner A10/A20"
+>  	default MACH_SUN4I || MACH_SUN7I
+> diff --git a/drivers/clk/sunxi/Makefile b/drivers/clk/sunxi/Makefile
+> index 48a48a2f000..895da02ebea 100644
+> --- a/drivers/clk/sunxi/Makefile
+> +++ b/drivers/clk/sunxi/Makefile
+> @@ -8,6 +8,7 @@ obj-$(CONFIG_CLK_SUNXI) += clk_sunxi.o
 >  
->  &uart0 {
-> diff --git a/arch/arm/dts/suniv-f1c100s.dtsi b/arch/arm/dts/suniv-f1c100s.dtsi
-> index 6100d3b75f6..0edc1724407 100644
-> --- a/arch/arm/dts/suniv-f1c100s.dtsi
-> +++ b/arch/arm/dts/suniv-f1c100s.dtsi
-> @@ -4,6 +4,9 @@
->   * Copyright 2018 Mesih Kilinc <mesihkilinc@gmail.com>
->   */
+>  obj-$(CONFIG_CLK_SUNXI) += clk_sun6i_rtc.o
 >  
+> +obj-$(CONFIG_CLK_SUNIV_F1C100S) += clk_f1c100s.o
+>  obj-$(CONFIG_CLK_SUN4I_A10) += clk_a10.o
+>  obj-$(CONFIG_CLK_SUN5I_A10S) += clk_a10s.o
+>  obj-$(CONFIG_CLK_SUN6I_A31) += clk_a31.o
+> diff --git a/drivers/clk/sunxi/clk_f1c100s.c b/drivers/clk/sunxi/clk_f1c100s.c
+> new file mode 100644
+> index 00000000000..72cf8a6e5c0
+> --- /dev/null
+> +++ b/drivers/clk/sunxi/clk_f1c100s.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: (GPL-2.0+)
+> +/*
+> + * Copyright (C) 2019 George Hilliard <thirtythreeforty@gmail.com>.
+> + */
+> +
+> +#include <common.h>
+> +#include <clk-uclass.h>
+> +#include <dm.h>
+> +#include <errno.h>
+> +#include <clk/sunxi.h>
 > +#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
 > +#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
 > +
->  / {
->  	#address-cells = <1>;
->  	#size-cells = <1>;
-> @@ -26,9 +29,13 @@
->  	};
->  
->  	cpus {
-> -		cpu {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
+> +static struct ccu_clk_gate f1c100s_gates[] = {
+> +	[CLK_BUS_MMC0]		= GATE(0x060, BIT(8)),
+> +	[CLK_BUS_MMC1]		= GATE(0x060, BIT(9)),
+> +	[CLK_BUS_SPI0]		= GATE(0x060, BIT(20)),
+> +	[CLK_BUS_SPI1]		= GATE(0x060, BIT(21)),
+> +	[CLK_BUS_OTG]		= GATE(0x060, BIT(24)),
 > +
-> +		cpu@0 {
->  			compatible = "arm,arm926ej-s";
->  			device_type = "cpu";
-> +			reg = <0x0>;
->  		};
->  	};
->  
-> @@ -62,6 +69,70 @@
->  			};
->  		};
->  
-> +		spi0: spi@1c05000 {
-> +			compatible = "allwinner,suniv-f1c100s-spi",
-> +				     "allwinner,sun8i-h3-spi";
-> +			reg = <0x01c05000 0x1000>;
-> +			interrupts = <10>;
-> +			clocks = <&ccu CLK_BUS_SPI0>, <&ccu CLK_BUS_SPI0>;
-> +			clock-names = "ahb", "mod";
-> +			resets = <&ccu RST_BUS_SPI0>;
-> +			status = "disabled";
-> +			num-cs = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
+> +	[CLK_BUS_I2C0]		= GATE(0x068, BIT(16)),
+> +	[CLK_BUS_I2C1]		= GATE(0x068, BIT(17)),
+> +	[CLK_BUS_I2C2]		= GATE(0x068, BIT(18)),
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(19)),
 > +
-> +		spi1: spi@1c06000 {
-> +			compatible = "allwinner,suniv-f1c100s-spi",
-> +				     "allwinner,sun8i-h3-spi";
-> +			reg = <0x01c06000 0x1000>;
-> +			interrupts = <11>;
-> +			clocks = <&ccu CLK_BUS_SPI1>, <&ccu CLK_BUS_SPI1>;
-> +			clock-names = "ahb", "mod";
-> +			resets = <&ccu RST_BUS_SPI1>;
-> +			status = "disabled";
-> +			num-cs = <1>;
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
+> +	[CLK_BUS_UART0]		= GATE(0x06c, BIT(20)),
+> +	[CLK_BUS_UART1]		= GATE(0x06c, BIT(21)),
+> +	[CLK_BUS_UART2]		= GATE(0x06c, BIT(22)),
 > +
-> +		mmc0: mmc@1c0f000 {
-> +			compatible = "allwinner,suniv-f1c100s-mmc",
-> +				     "allwinner,sun7i-a20-mmc";
-> +			reg = <0x01c0f000 0x1000>;
-> +			clocks = <&ccu CLK_BUS_MMC0>,
-> +				 <&ccu CLK_MMC0>,
-> +				 <&ccu CLK_MMC0_OUTPUT>,
-> +				 <&ccu CLK_MMC0_SAMPLE>;
-> +			clock-names = "ahb", "mmc", "output", "sample";
-> +			resets = <&ccu RST_BUS_MMC0>;
-> +			reset-names = "ahb";
-> +			interrupts = <23>;
-> +			pinctrl-names = "default";
-> +			pinctrl-0 = <&mmc0_pins>;
-> +			status = "disabled";
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
+> +	[CLK_USB_PHY0]          = GATE(0x0cc, BIT(1)),
+> +};
 > +
-> +		mmc1: mmc@1c10000 {
-> +			compatible = "allwinner,suniv-f1c100s-mmc",
-> +				     "allwinner,sun7i-a20-mmc";
-> +			reg = <0x01c10000 0x1000>;
-> +			clocks = <&ccu CLK_BUS_MMC1>,
-> +				 <&ccu CLK_MMC1>,
-> +				 <&ccu CLK_MMC1_OUTPUT>,
-> +				 <&ccu CLK_MMC1_SAMPLE>;
-> +			clock-names = "ahb", "mmc", "output", "sample";
-> +			resets = <&ccu RST_BUS_MMC1>;
-> +			reset-names = "ahb";
-> +			interrupts = <24>;
-> +			status = "disabled";
-> +			#address-cells = <1>;
-> +			#size-cells = <0>;
-> +		};
+> +static struct ccu_reset f1c100s_resets[] = {
+> +	[RST_USB_PHY0]		= RESET(0x0cc, BIT(0)),
 > +
->  		ccu: clock@1c20000 {
->  			compatible = "allwinner,suniv-f1c100s-ccu";
->  			reg = <0x01c20000 0x400>;
-> @@ -82,13 +153,24 @@
->  			compatible = "allwinner,suniv-f1c100s-pinctrl";
->  			reg = <0x01c20800 0x400>;
->  			interrupts = <38>, <39>, <40>;
-> -			clocks = <&ccu 37>, <&osc24M>, <&osc32k>;
-> +			clocks = <&ccu CLK_BUS_PIO>, <&osc24M>, <&osc32k>;
->  			clock-names = "apb", "hosc", "losc";
->  			gpio-controller;
->  			interrupt-controller;
->  			#interrupt-cells = <3>;
->  			#gpio-cells = <3>;
->  
-> +			mmc0_pins: mmc0-pins {
-> +				pins = "PF0", "PF1", "PF2", "PF3", "PF4", "PF5";
-> +				function = "mmc0";
-> +				drive-strength = <30>;
-> +			};
+> +	[RST_BUS_MMC0]		= RESET(0x2c0, BIT(8)),
+> +	[RST_BUS_MMC1]		= RESET(0x2c0, BIT(9)),
+> +	[RST_BUS_SPI0]		= RESET(0x2c0, BIT(20)),
+> +	[RST_BUS_SPI1]		= RESET(0x2c0, BIT(21)),
+> +	[RST_BUS_OTG]		= RESET(0x2c0, BIT(24)),
 > +
-> +			spi0_pc_pins: spi0-pc-pins {
-> +				pins = "PC0", "PC1", "PC2", "PC3";
-> +				function = "spi0";
-> +			};
+> +	[RST_BUS_I2C0]		= RESET(0x2d0, BIT(16)),
+> +	[RST_BUS_I2C1]		= RESET(0x2d0, BIT(17)),
+> +	[RST_BUS_I2C2]		= RESET(0x2d0, BIT(18)),
+> +	[RST_BUS_UART0]		= RESET(0x2d0, BIT(20)),
+> +	[RST_BUS_UART1]		= RESET(0x2d0, BIT(21)),
+> +	[RST_BUS_UART2]		= RESET(0x2d0, BIT(22)),
+> +};
 > +
->  			uart0_pe_pins: uart0-pe-pins {
->  				pins = "PE0", "PE1";
->  				function = "uart0";
-> @@ -98,14 +180,16 @@
->  		timer@1c20c00 {
->  			compatible = "allwinner,suniv-f1c100s-timer";
->  			reg = <0x01c20c00 0x90>;
-> -			interrupts = <13>;
-> +			interrupts = <13>, <14>, <15>;
->  			clocks = <&osc24M>;
->  		};
->  
->  		wdt: watchdog@1c20ca0 {
->  			compatible = "allwinner,suniv-f1c100s-wdt",
-> -				     "allwinner,sun4i-a10-wdt";
-> +				     "allwinner,sun6i-a31-wdt";
->  			reg = <0x01c20ca0 0x20>;
-> +			interrupts = <16>;
-> +			clocks = <&osc32k>;
->  		};
->  
->  		uart0: serial@1c25000 {
-> @@ -114,8 +198,8 @@
->  			interrupts = <1>;
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
-> -			clocks = <&ccu 38>;
-> -			resets = <&ccu 24>;
-> +			clocks = <&ccu CLK_BUS_UART0>;
-> +			resets = <&ccu RST_BUS_UART0>;
->  			status = "disabled";
->  		};
->  
-> @@ -125,8 +209,8 @@
->  			interrupts = <2>;
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
-> -			clocks = <&ccu 39>;
-> -			resets = <&ccu 25>;
-> +			clocks = <&ccu CLK_BUS_UART1>;
-> +			resets = <&ccu RST_BUS_UART1>;
->  			status = "disabled";
->  		};
->  
-> @@ -136,8 +220,8 @@
->  			interrupts = <3>;
->  			reg-shift = <2>;
->  			reg-io-width = <4>;
-> -			clocks = <&ccu 40>;
-> -			resets = <&ccu 26>;
-> +			clocks = <&ccu CLK_BUS_UART2>;
-> +			resets = <&ccu RST_BUS_UART2>;
->  			status = "disabled";
->  		};
->  	};
+> +static const struct ccu_desc f1c100s_ccu_desc = {
+> +	.gates = f1c100s_gates,
+> +	.resets = f1c100s_resets,
+> +};
+> +
+> +static int f1c100s_clk_bind(struct udevice *dev)
+> +{
+> +	return sunxi_reset_bind(dev, ARRAY_SIZE(f1c100s_resets));
+> +}
+> +
+> +static const struct udevice_id f1c100s_clk_ids[] = {
+> +	{ .compatible = "allwinner,suniv-f1c100s-ccu",
+> +	  .data = (ulong)&f1c100s_ccu_desc },
+> +	{ }
+> +};
+> +
+> +U_BOOT_DRIVER(clk_suniv_f1c100s) = {
+> +	.name		= "suniv_f1c100s_ccu",
+> +	.id		= UCLASS_CLK,
+> +	.of_match	= f1c100s_clk_ids,
+> +	.priv_auto	= sizeof(struct ccu_priv),
+> +	.ops		= &sunxi_clk_ops,
+> +	.probe		= sunxi_clk_probe,
+> +	.bind		= f1c100s_clk_bind,
+> +};
 
