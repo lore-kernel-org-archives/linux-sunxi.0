@@ -1,142 +1,368 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B3E2561
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:17:02 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64CB91042;
-	Tue, 24 May 2022 09:17:02 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 451513F66F;
-	Tue, 24 May 2022 09:17:01 -0700 (PDT)
-Date: Tue, 24 May 2022 17:13:34 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Lukasz Majewski <lukma@denx.de>, Sean Anderson
- <seanga2@gmail.com>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] clk: sunxi: add and use dummy gate clocks
-Message-ID: <20220524171334.0ff8da29@donnerap.cambridge.arm.com>
-In-Reply-To: <20220506003301.13194-3-andre.przywara@arm.com>
-References: <20220506003301.13194-1-andre.przywara@arm.com>
-	<20220506003301.13194-3-andre.przywara@arm.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68CA62561
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:21:18 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id f9so36480067ejc.0
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 09:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=Cb91IyEAr0B5p/ob7IK1Ar4noLymKdOsr8SJytxtMJA=;
+        b=jzaDMCylIHYl9KbN3+pd1vKSi6LvEYnakIsh+mSV8RE0MXAeso82EpRMvk5kp3Im7i
+         V+yBAFiJej31TdJCV83hY43Y/KDY4n7iq914FW5R4ZtTf3nsT4K2ZJurognr2qfz77mK
+         ztGuetJCPEWEk09e+4xfybrkj6imIkR55AAYGKanlZveWO4Mb5gBozyGs6dRPhm4TR5c
+         XtlbQB+Ed24N9482mjRtSXr0vtqcS1/2HSOu+0779Vdu36HMenYwwyYGrDY3BzZ1i+bk
+         wIHK5yaZrvm6STDuq/jDpzJ9Bb0XednDlCwz5jX7FSXkGCtefGMqFtqoMrV/Z2ZANbrk
+         Hlww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Cb91IyEAr0B5p/ob7IK1Ar4noLymKdOsr8SJytxtMJA=;
+        b=d+fFC8AWBzWRdrCIu2Oteg6Z5O3oy3hStCMKF9Ni/Gqfwfpj6RravK2T0srmJOz157
+         b8DFUU/qS5k9Au9GsuAM5y5Rhb7SbmWHfkq+shl4R4VPOstreAiivcB29UEg+k/2v907
+         73T497KTLmrW79uHZeK+cP67vPBm+IgiJdK5X4KrlBuk7PyiH4YPCDcZyzqdfMfdr2OW
+         GqSKW1WxYxgmn1xBVo/pnVEkabc5U9qcZ0XqxNYviPk5NznkbfzLG84bMXWp7vSlLUPM
+         qILNbVu8b3bLrrKzwhRqpHm2LPjDgxMok1bMHo5Zbv2b3rIxHvDWGXtsij08zw6XueRg
+         bK3g==
+X-Gm-Message-State: AOAM533atMHFcDnGr5kXnaosFoQ/5j+NUD9KdlMZ+Xem3+6tr+iMIOHp
+	gf4pHgW1X/KT8oGCOzqPSxI=
+X-Google-Smtp-Source: ABdhPJx8A+b//0x2b4fG5OtqL9vifmcAevWuPfpSs3ilLxwDLKDbolhxliTD7r71dRH6UYINmssHtQ==
+X-Received: by 2002:a17:907:c0d:b0:6fe:b448:61e3 with SMTP id ga13-20020a1709070c0d00b006feb44861e3mr17780920ejc.673.1653409276594;
+        Tue, 24 May 2022 09:21:16 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id c25-20020aa7d619000000b0042a5a39ba7esm9669414edr.25.2022.05.24.09.21.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 09:21:16 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, wens@csie.org, airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz, Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: Re: Re: [PATCH] drm/sun4i: Fix blend registers corruption for DE2.0/DE3.0
+Date: Tue, 24 May 2022 17:36:16 +0200
+Message-ID: <2629819.mvXUDI8C0e@kista>
+In-Reply-To: <CAGphcd=wTPnTqNxP+TQ8YCDsT=7EUVssAKDpG2J_G=R-7N=YKQ@mail.gmail.com>
+References: <20220524135249.49993-1-roman.o.stratiienko@globallogic.com> <CAGphcd=wTPnTqNxP+TQ8YCDsT=7EUVssAKDpG2J_G=R-7N=YKQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri,  6 May 2022 01:33:01 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+Dne torek, 24. maj 2022 ob 17:31:13 CEST je Roman Stratiienko napisal(a):
+> NAK for this. Further testing showed such an approach is not reliable
+> due to .atomic_update() callback called only in case planes have some
+> changes.
 
-> Some devices enumerate various clocks in their DT, and many drivers
-> just blanketly try to enable all of them. This creates problems
-> since we only model a few gate clocks, and the clock driver outputs
-> a warning when a clock is not described:
-> =========
-> sunxi_set_gate: (CLK#3) unhandled
-> =========
-> 
-> Some clocks don't have an enable bit, or are already enabled in a
-> different way, so we might want to just ignore them.
-> 
-> Add a CCU_CLK_F_DUMMY_GATE flag that indicates that case, and define
-> a GATE_DUMMY macro that can be used in the clock description array.
-> Define a few clocks, used by some pinctrl devices, that way to suppress
-> the runtime warnings.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+Additionally, I think it would be better to fix underlaying zpos issue firs=
+t=20
+(attempted many times) and then worry about blending.
 
-Applied to sunxi/master.
+Best regards,
+Jernej
 
-Thanks,
-Andre
+>=20
+> =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 16:52, Roman Stra=
+tiienko <r.stratiienko@gmail.com>:
+> >
+> > Corruption happens when plane zpos is updated
+> >
+> > Example scenario:
+> >
+> > Initial frame blender state:
+> >     PLANE_ZPOS =3D {0, 1, 2, 3}
+> >     BLD_ROUTE  =3D {0, 1, 2, 0}
+> >     BLD_EN     =3D {1, 1, 1, 0}
+> >
+> > New frame commit (Only ZPOS has been changed):
+> >
+> >     PLANE_ZPOS =3D {0->2, 1->0, 2->1, 3}
+> >
+> > Expected results after plane state update:
+> >                 Z0 Z1 Z2 Z3
+> >     BLD_ROUTE =3D {1, 2, 0, 0}
+> >     BLD_EN    =3D {1, 1, 1, 0}
+> >
+> > What is currently happening:
+> >
+> > 1. sun8i_vi_layer_enable(enabled=3Dtrue, zpos=3D2, old_zpos=3D0):
+> >     BLD_ROUTE =3D {1->0, 1, 2->0, 0}
+> >     BLD_EN    =3D {1->0, 1, 1->1, 0}
+> >
+> > 2. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D0, old_zpos=3D1):
+> >     BLD_ROUTE =3D {0->1, 1->0, 0, 0}
+> >     BLD_EN    =3D {0->1, 1->0, 1, 0}
+> >
+> > 3. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D1, old_zpos=3D2):
+> >     BLD_ROUTE =3D {1, 0->2, 0->0, 0}
+> >     BLD_EN    =3D {1, 0->2, 1->0, 0}
+> >
+> > After updating of all the planes we are ending up with BLD_EN[2]=3D0,
+> > which makes this channel disabled.
+> >
+> > To fix this issue, clear BLEND registers before updating the planes
+> > and do not clear the old state while processing every plane.
+> >
+> > Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 16 +++++++++++++++
+> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 28 ++++----------------------
+> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 ++++----------------------
+> >  3 files changed, 24 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4=
+i/
+sun8i_mixer.c
+> > index f5e8aeaa3cdf..004377a000fc 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> > @@ -248,6 +248,21 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32=20
+*hw_format)
+> >         return -EINVAL;
+> >  }
+> >
+> > +static void sun8i_atomic_begin(struct sunxi_engine *engine,
+> > +                              struct drm_crtc_state *old_state)
+> > +{
+> > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engine);
+> > +       u32 bld_base =3D sun8i_blender_base(mixer);
+> > +
+> > +       regmap_write(engine->regs,
+> > +                    SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > +                    0);
+> > +
+> > +       regmap_write(engine->regs,
+> > +                    SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > +                    0);
+> > +}
+> > +
+> >  static void sun8i_mixer_commit(struct sunxi_engine *engine)
+> >  {
+> >         DRM_DEBUG_DRIVER("Committing changes\n");
+> > @@ -299,6 +314,7 @@ static struct drm_plane **sun8i_layers_init(struct=
+=20
+drm_device *drm,
+> >  }
+> >
+> >  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
+> > +       .atomic_begin   =3D sun8i_atomic_begin,
+> >         .commit         =3D sun8i_mixer_commit,
+> >         .layers_init    =3D sun8i_layers_init,
+> >  };
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/
+sun4i/sun8i_ui_layer.c
+> > index 7845c2a53a7f..b294a882626a 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > @@ -24,8 +24,7 @@
+> >  #include "sun8i_ui_scaler.h"
+> >
+> >  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int chann=
+el,
+> > -                                 int overlay, bool enable, unsigned in=
+t=20
+zpos,
+> > -                                 unsigned int old_zpos)
+> > +                                 int overlay, bool enable, unsigned in=
+t=20
+zpos)
+> >  {
+> >         u32 val, bld_base, ch_base;
+> >
+> > @@ -44,18 +43,6 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer=
+=20
+*mixer, int channel,
+> >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base,=20
+overlay),
+> >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
+> >
+> > -       if (!enable || zpos !=3D old_zpos) {
+> > -               regmap_update_bits(mixer->engine.regs,
+> > -                                  SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > -                                 =20
+SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > -                                  0);
+> > -
+> > -               regmap_update_bits(mixer->engine.regs,
+> > -                                  SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > -                                 =20
+SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > -                                  0);
+> > -       }
+> > -
+> >         if (enable) {
+> >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> >
+> > @@ -291,31 +278,24 @@ static int sun8i_ui_layer_atomic_check(struct=20
+drm_plane *plane,
+> >  static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+> >                                           struct drm_atomic_state *stat=
+e)
+> >  {
+> > -       struct drm_plane_state *old_state =3D=20
+drm_atomic_get_old_plane_state(state,
+> > -                                                                      =
+   =20
+plane);
+> >         struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(plane);
+> > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> >         struct sun8i_mixer *mixer =3D layer->mixer;
+> >
+> > -       sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,=20
+false, 0,
+> > -                             old_zpos);
+> > +       sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,=20
+false, 0);
+> >  }
+> >
+> >  static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+> >                                          struct drm_atomic_state *state)
+> >  {
+> > -       struct drm_plane_state *old_state =3D=20
+drm_atomic_get_old_plane_state(state,
+> > -                                                                      =
+   =20
+plane);
+> >         struct drm_plane_state *new_state =3D=20
+drm_atomic_get_new_plane_state(state,
+> >                                                                        =
+   =20
+plane);
+> >         struct sun8i_ui_layer *layer =3D plane_to_sun8i_ui_layer(plane);
+> >         unsigned int zpos =3D new_state->normalized_zpos;
+> > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> >         struct sun8i_mixer *mixer =3D layer->mixer;
+> >
+> >         if (!new_state->visible) {
+> >                 sun8i_ui_layer_enable(mixer, layer->channel,
+> > -                                     layer->overlay, false, 0, old_zpo=
+s);
+> > +                                     layer->overlay, false, 0);
+> >                 return;
+> >         }
+> >
+> > @@ -328,7 +308,7 @@ static void sun8i_ui_layer_atomic_update(struct=20
+drm_plane *plane,
+> >         sun8i_ui_layer_update_buffer(mixer, layer->channel,
+> >                                      layer->overlay, plane);
+> >         sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
+> > -                             true, zpos, old_zpos);
+> > +                             true, zpos);
+> >  }
+> >
+> >  static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs=
+ =3D=20
+{
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/
+sun4i/sun8i_vi_layer.c
+> > index bb7c43036dfa..4653244b2fd8 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > @@ -18,8 +18,7 @@
+> >  #include "sun8i_vi_scaler.h"
+> >
+> >  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int chann=
+el,
+> > -                                 int overlay, bool enable, unsigned in=
+t=20
+zpos,
+> > -                                 unsigned int old_zpos)
+> > +                                 int overlay, bool enable, unsigned in=
+t=20
+zpos)
+> >  {
+> >         u32 val, bld_base, ch_base;
+> >
+> > @@ -38,18 +37,6 @@ static void sun8i_vi_layer_enable(struct sun8i_mixer=
+=20
+*mixer, int channel,
+> >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base,=20
+overlay),
+> >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val);
+> >
+> > -       if (!enable || zpos !=3D old_zpos) {
+> > -               regmap_update_bits(mixer->engine.regs,
+> > -                                  SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+> > -                                 =20
+SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+> > -                                  0);
+> > -
+> > -               regmap_update_bits(mixer->engine.regs,
+> > -                                  SUN8I_MIXER_BLEND_ROUTE(bld_base),
+> > -                                 =20
+SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+> > -                                  0);
+> > -       }
+> > -
+> >         if (enable) {
+> >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+> >
+> > @@ -395,31 +382,24 @@ static int sun8i_vi_layer_atomic_check(struct=20
+drm_plane *plane,
+> >  static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+> >                                           struct drm_atomic_state *stat=
+e)
+> >  {
+> > -       struct drm_plane_state *old_state =3D=20
+drm_atomic_get_old_plane_state(state,
+> > -                                                                      =
+   =20
+plane);
+> >         struct sun8i_vi_layer *layer =3D plane_to_sun8i_vi_layer(plane);
+> > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> >         struct sun8i_mixer *mixer =3D layer->mixer;
+> >
+> > -       sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,=20
+false, 0,
+> > -                             old_zpos);
+> > +       sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,=20
+false, 0);
+> >  }
+> >
+> >  static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+> >                                          struct drm_atomic_state *state)
+> >  {
+> > -       struct drm_plane_state *old_state =3D=20
+drm_atomic_get_old_plane_state(state,
+> > -                                                                      =
+   =20
+plane);
+> >         struct drm_plane_state *new_state =3D=20
+drm_atomic_get_new_plane_state(state,
+> >                                                                        =
+   =20
+plane);
+> >         struct sun8i_vi_layer *layer =3D plane_to_sun8i_vi_layer(plane);
+> >         unsigned int zpos =3D new_state->normalized_zpos;
+> > -       unsigned int old_zpos =3D old_state->normalized_zpos;
+> >         struct sun8i_mixer *mixer =3D layer->mixer;
+> >
+> >         if (!new_state->visible) {
+> >                 sun8i_vi_layer_enable(mixer, layer->channel,
+> > -                                     layer->overlay, false, 0, old_zpo=
+s);
+> > +                                     layer->overlay, false, 0);
+> >                 return;
+> >         }
+> >
+> > @@ -432,7 +412,7 @@ static void sun8i_vi_layer_atomic_update(struct=20
+drm_plane *plane,
+> >         sun8i_vi_layer_update_buffer(mixer, layer->channel,
+> >                                      layer->overlay, plane);
+> >         sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
+> > -                             true, zpos, old_zpos);
+> > +                             true, zpos);
+> >  }
+> >
+> >  static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs=
+ =3D=20
+{
+> > --
+> > 2.30.2
+> >
+>=20
 
-> ---
->  drivers/clk/sunxi/clk_h6.c    | 2 ++
->  drivers/clk/sunxi/clk_h616.c  | 2 ++
->  drivers/clk/sunxi/clk_h6_r.c  | 2 ++
->  drivers/clk/sunxi/clk_sunxi.c | 3 +++
->  include/clk/sunxi.h           | 5 +++++
->  5 files changed, 14 insertions(+)
-> 
-> diff --git a/drivers/clk/sunxi/clk_h6.c b/drivers/clk/sunxi/clk_h6.c
-> index f4e26cbcd45..b3202342932 100644
-> --- a/drivers/clk/sunxi/clk_h6.c
-> +++ b/drivers/clk/sunxi/clk_h6.c
-> @@ -16,6 +16,8 @@
->  static struct ccu_clk_gate h6_gates[] = {
->  	[CLK_PLL_PERIPH0]	= GATE(0x020, BIT(31)),
->  
-> +	[CLK_APB1]		= GATE_DUMMY,
-> +
->  	[CLK_BUS_MMC0]		= GATE(0x84c, BIT(0)),
->  	[CLK_BUS_MMC1]		= GATE(0x84c, BIT(1)),
->  	[CLK_BUS_MMC2]		= GATE(0x84c, BIT(2)),
-> diff --git a/drivers/clk/sunxi/clk_h616.c b/drivers/clk/sunxi/clk_h616.c
-> index 65ab44643da..80099727def 100644
-> --- a/drivers/clk/sunxi/clk_h616.c
-> +++ b/drivers/clk/sunxi/clk_h616.c
-> @@ -15,6 +15,8 @@
->  static struct ccu_clk_gate h616_gates[] = {
->  	[CLK_PLL_PERIPH0]	= GATE(0x020, BIT(31) | BIT(27)),
->  
-> +	[CLK_APB1]		= GATE_DUMMY,
-> +
->  	[CLK_BUS_MMC0]		= GATE(0x84c, BIT(0)),
->  	[CLK_BUS_MMC1]		= GATE(0x84c, BIT(1)),
->  	[CLK_BUS_MMC2]		= GATE(0x84c, BIT(2)),
-> diff --git a/drivers/clk/sunxi/clk_h6_r.c b/drivers/clk/sunxi/clk_h6_r.c
-> index 2e0bbaa903b..c592886a258 100644
-> --- a/drivers/clk/sunxi/clk_h6_r.c
-> +++ b/drivers/clk/sunxi/clk_h6_r.c
-> @@ -11,6 +11,8 @@
->  #include <linux/bitops.h>
->  
->  static struct ccu_clk_gate h6_r_gates[] = {
-> +	[CLK_R_APB1]		= GATE_DUMMY,
-> +
->  	[CLK_R_APB1_TIMER]	= GATE(0x11c, BIT(0)),
->  	[CLK_R_APB1_TWD]	= GATE(0x12c, BIT(0)),
->  	[CLK_R_APB1_PWM]	= GATE(0x13c, BIT(0)),
-> diff --git a/drivers/clk/sunxi/clk_sunxi.c b/drivers/clk/sunxi/clk_sunxi.c
-> index 9673b58a492..9a21367a5d0 100644
-> --- a/drivers/clk/sunxi/clk_sunxi.c
-> +++ b/drivers/clk/sunxi/clk_sunxi.c
-> @@ -27,6 +27,9 @@ static int sunxi_set_gate(struct clk *clk, bool on)
->  	const struct ccu_clk_gate *gate = priv_to_gate(priv, clk->id);
->  	u32 reg;
->  
-> +	if ((gate->flags & CCU_CLK_F_DUMMY_GATE))
-> +		return 0;
-> +
->  	if (!(gate->flags & CCU_CLK_F_IS_VALID)) {
->  		printf("%s: (CLK#%ld) unhandled\n", __func__, clk->id);
->  		return 0;
-> diff --git a/include/clk/sunxi.h b/include/clk/sunxi.h
-> index a2239b990b8..c4a9dee5ebf 100644
-> --- a/include/clk/sunxi.h
-> +++ b/include/clk/sunxi.h
-> @@ -18,6 +18,7 @@
->  enum ccu_flags {
->  	CCU_CLK_F_IS_VALID		= BIT(0),
->  	CCU_RST_F_IS_VALID		= BIT(1),
-> +	CCU_CLK_F_DUMMY_GATE		= BIT(2),
->  };
->  
->  /**
-> @@ -38,6 +39,10 @@ struct ccu_clk_gate {
->  	.flags = CCU_CLK_F_IS_VALID,		\
->  }
->  
-> +#define GATE_DUMMY {				\
-> +	.flags = CCU_CLK_F_DUMMY_GATE,		\
-> +}
-> +
->  /**
->   * struct ccu_reset - ccu reset
->   * @off:	reset offset
 
