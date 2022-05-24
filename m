@@ -1,84 +1,244 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57598A21
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:01:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCED8C34116;
-	Tue, 24 May 2022 16:01:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653408065;
-	bh=+8/rSL0dktqyZfvWABToCYxgk0Wct5z+yxpZFfy6gak=;
-	h=From:To:Cc:Subject:Date:From;
-	b=QgDQbHQ/wXB1z7xvhmrgK5avhksMYuyJUyR8c/YolT+M56Jl2BQzU2tcZRQHaEbi8
-	 IjLOFmtfqQ+GBYG9fWoABoSy0wlJhb6OPJ1E9ZpejLxeHdhlyATfbpwy1yTGbqZ4GE
-	 lk+zyS8UfcQ4a13yGU/P31pq0JgSc3czURT4GCwTdRqKk/KoZTaZLgCZfu3myTxL7I
-	 9SjBou4MtiqgsX+nciToaO2BsJontW4FP8fz6blQ8Q92f6+CvKEGrm132tjxm+kEr1
-	 6x1Ni0BejF/VlzC3oQjp658eRsdAvUDzx+r3QtiXiMD1iBbwYU8Ub6u7TWl0qboHkO
-	 LTWNW+E176MEw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: IotaHydrae <writeforever@foxmail.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Sasha Levin <sashal@kernel.org>,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	linux-gpio@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 1/5] pinctrl: sunxi: fix f1c100s uart2 function
-Date: Tue, 24 May 2022 12:00:57 -0400
-Message-Id: <20220524160102.827227-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3473FA21
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:16:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1368A23A;
+	Tue, 24 May 2022 09:16:40 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DC5743F66F;
+	Tue, 24 May 2022 09:16:38 -0700 (PDT)
+Date: Tue, 24 May 2022 17:12:55 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Lukasz Majewski <lukma@denx.de>, Sean Anderson
+ <seanga2@gmail.com>, u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] clk: sunxi: add PIO bus gate clocks
+Message-ID: <20220524171255.094306e7@donnerap.cambridge.arm.com>
+In-Reply-To: <20220506003301.13194-2-andre.przywara@arm.com>
+References: <20220506003301.13194-1-andre.przywara@arm.com>
+	<20220506003301.13194-2-andre.przywara@arm.com>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: IotaHydrae <writeforever@foxmail.com>
+On Fri,  6 May 2022 01:33:00 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-[ Upstream commit fa8785e5931367e2b43f2c507f26bcf3e281c0ca ]
+> The introduction of the DM pinctrl driver made its probe function enable
+> all clocks enumerated in the DT. This includes the "CLK_BUS_PIO" (and
+> variations) gate clock, but also CLK_PLL_PERIPH0. So far we didn't
+> describe those clocks in our clock driver.
+> As we enable them already in the SPL, the devices happen to work, but
+> the clock driver still complains about not finding those clocks:
+> =========
+> sunxi_set_gate: (CLK#58) unhandled
+> =========
+> 
+> Add the one-liners that are needed to announce the gate bit for those
+> clocks, to silence that message on the console.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
-Change suniv f1c100s pinctrl,PD14 multiplexing function lvds1 to uart2
+Applied to sunxi/master.
 
-When the pin PD13 and PD14 is setting up to uart2 function in dts,
-there's an error occurred:
-1c20800.pinctrl: unsupported function uart2 on pin PD14
+Thanks,
+Andre
 
-Because 'uart2' is not any one multiplexing option of PD14,
-and pinctrl don't know how to configure it.
-
-So change the pin PD14 lvds1 function to uart2.
-
-Signed-off-by: IotaHydrae <writeforever@foxmail.com>
-Reviewed-by: Andre Przywara <andre.przywara@arm.com>
-Link: https://lore.kernel.org/r/tencent_70C1308DDA794C81CAEF389049055BACEC09@qq.com
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-index 2801ca706273..68a5b627fb9b 100644
---- a/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-suniv-f1c100s.c
-@@ -204,7 +204,7 @@ static const struct sunxi_desc_pin suniv_f1c100s_pins[] = {
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
- 		  SUNXI_FUNCTION(0x2, "lcd"),		/* D20 */
--		  SUNXI_FUNCTION(0x3, "lvds1"),		/* RX */
-+		  SUNXI_FUNCTION(0x3, "uart2"),		/* RX */
- 		  SUNXI_FUNCTION_IRQ_BANK(0x6, 0, 14)),
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 15),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
--- 
-2.35.1
+> ---
+>  drivers/clk/sunxi/clk_a10.c  | 2 ++
+>  drivers/clk/sunxi/clk_a10s.c | 2 ++
+>  drivers/clk/sunxi/clk_a23.c  | 2 ++
+>  drivers/clk/sunxi/clk_a31.c  | 2 ++
+>  drivers/clk/sunxi/clk_a64.c  | 4 ++++
+>  drivers/clk/sunxi/clk_a80.c  | 2 ++
+>  drivers/clk/sunxi/clk_a83t.c | 2 ++
+>  drivers/clk/sunxi/clk_h3.c   | 4 ++++
+>  drivers/clk/sunxi/clk_h6.c   | 2 ++
+>  drivers/clk/sunxi/clk_h616.c | 2 ++
+>  drivers/clk/sunxi/clk_r40.c  | 2 ++
+>  drivers/clk/sunxi/clk_v3s.c  | 2 ++
+>  12 files changed, 28 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi/clk_a10.c b/drivers/clk/sunxi/clk_a10.c
+> index 90b929d3d32..db92848aafd 100644
+> --- a/drivers/clk/sunxi/clk_a10.c
+> +++ b/drivers/clk/sunxi/clk_a10.c
+> @@ -31,6 +31,8 @@ static struct ccu_clk_gate a10_gates[] = {
+>  
+>  	[CLK_AHB_GMAC]		= GATE(0x064, BIT(17)),
+>  
+> +	[CLK_APB0_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_APB1_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_APB1_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_APB1_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a10s.c b/drivers/clk/sunxi/clk_a10s.c
+> index addf4f4d5cd..0c6564ef3b6 100644
+> --- a/drivers/clk/sunxi/clk_a10s.c
+> +++ b/drivers/clk/sunxi/clk_a10s.c
+> @@ -25,6 +25,8 @@ static struct ccu_clk_gate a10s_gates[] = {
+>  	[CLK_AHB_SPI1]		= GATE(0x060, BIT(21)),
+>  	[CLK_AHB_SPI2]		= GATE(0x060, BIT(22)),
+>  
+> +	[CLK_APB0_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_APB1_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_APB1_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_APB1_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a23.c b/drivers/clk/sunxi/clk_a23.c
+> index c45d2c35298..0280fb51e2d 100644
+> --- a/drivers/clk/sunxi/clk_a23.c
+> +++ b/drivers/clk/sunxi/clk_a23.c
+> @@ -23,6 +23,8 @@ static struct ccu_clk_gate a23_gates[] = {
+>  	[CLK_BUS_EHCI]		= GATE(0x060, BIT(26)),
+>  	[CLK_BUS_OHCI]		= GATE(0x060, BIT(29)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a31.c b/drivers/clk/sunxi/clk_a31.c
+> index 251fc3b705e..26d25f32408 100644
+> --- a/drivers/clk/sunxi/clk_a31.c
+> +++ b/drivers/clk/sunxi/clk_a31.c
+> @@ -30,6 +30,8 @@ static struct ccu_clk_gate a31_gates[] = {
+>  	[CLK_AHB1_OHCI1]	= GATE(0x060, BIT(30)),
+>  	[CLK_AHB1_OHCI2]	= GATE(0x060, BIT(31)),
+>  
+> +	[CLK_APB1_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_APB2_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_APB2_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_APB2_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a64.c b/drivers/clk/sunxi/clk_a64.c
+> index 1004a795033..cbb9168edb9 100644
+> --- a/drivers/clk/sunxi/clk_a64.c
+> +++ b/drivers/clk/sunxi/clk_a64.c
+> @@ -14,6 +14,8 @@
+>  #include <linux/bitops.h>
+>  
+>  static const struct ccu_clk_gate a64_gates[] = {
+> +	[CLK_PLL_PERIPH0]	= GATE(0x028, BIT(31)),
+> +
+>  	[CLK_BUS_MMC0]		= GATE(0x060, BIT(8)),
+>  	[CLK_BUS_MMC1]		= GATE(0x060, BIT(9)),
+>  	[CLK_BUS_MMC2]		= GATE(0x060, BIT(10)),
+> @@ -26,6 +28,8 @@ static const struct ccu_clk_gate a64_gates[] = {
+>  	[CLK_BUS_OHCI0]		= GATE(0x060, BIT(28)),
+>  	[CLK_BUS_OHCI1]		= GATE(0x060, BIT(29)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a80.c b/drivers/clk/sunxi/clk_a80.c
+> index 8a0834d83a3..1ee1f99a8f4 100644
+> --- a/drivers/clk/sunxi/clk_a80.c
+> +++ b/drivers/clk/sunxi/clk_a80.c
+> @@ -25,6 +25,8 @@ static const struct ccu_clk_gate a80_gates[] = {
+>  	[CLK_BUS_SPI2]		= GATE(0x580, BIT(22)),
+>  	[CLK_BUS_SPI3]		= GATE(0x580, BIT(23)),
+>  
+> +	[CLK_BUS_PIO]           = GATE(0x590, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x594, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x594, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x594, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_a83t.c b/drivers/clk/sunxi/clk_a83t.c
+> index 8c6043f51e2..4b57434cfaa 100644
+> --- a/drivers/clk/sunxi/clk_a83t.c
+> +++ b/drivers/clk/sunxi/clk_a83t.c
+> @@ -25,6 +25,8 @@ static struct ccu_clk_gate a83t_gates[] = {
+>  	[CLK_BUS_EHCI1]		= GATE(0x060, BIT(27)),
+>  	[CLK_BUS_OHCI0]		= GATE(0x060, BIT(29)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_h3.c b/drivers/clk/sunxi/clk_h3.c
+> index 59afba53eef..08a830bd188 100644
+> --- a/drivers/clk/sunxi/clk_h3.c
+> +++ b/drivers/clk/sunxi/clk_h3.c
+> @@ -14,6 +14,8 @@
+>  #include <linux/bitops.h>
+>  
+>  static struct ccu_clk_gate h3_gates[] = {
+> +	[CLK_PLL_PERIPH0]	= GATE(0x028, BIT(31)),
+> +
+>  	[CLK_BUS_MMC0]		= GATE(0x060, BIT(8)),
+>  	[CLK_BUS_MMC1]		= GATE(0x060, BIT(9)),
+>  	[CLK_BUS_MMC2]		= GATE(0x060, BIT(10)),
+> @@ -30,6 +32,8 @@ static struct ccu_clk_gate h3_gates[] = {
+>  	[CLK_BUS_OHCI2]		= GATE(0x060, BIT(30)),
+>  	[CLK_BUS_OHCI3]		= GATE(0x060, BIT(31)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_h6.c b/drivers/clk/sunxi/clk_h6.c
+> index 4a53788352c..f4e26cbcd45 100644
+> --- a/drivers/clk/sunxi/clk_h6.c
+> +++ b/drivers/clk/sunxi/clk_h6.c
+> @@ -14,6 +14,8 @@
+>  #include <linux/bitops.h>
+>  
+>  static struct ccu_clk_gate h6_gates[] = {
+> +	[CLK_PLL_PERIPH0]	= GATE(0x020, BIT(31)),
+> +
+>  	[CLK_BUS_MMC0]		= GATE(0x84c, BIT(0)),
+>  	[CLK_BUS_MMC1]		= GATE(0x84c, BIT(1)),
+>  	[CLK_BUS_MMC2]		= GATE(0x84c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_h616.c b/drivers/clk/sunxi/clk_h616.c
+> index af97d3bb9f7..65ab44643da 100644
+> --- a/drivers/clk/sunxi/clk_h616.c
+> +++ b/drivers/clk/sunxi/clk_h616.c
+> @@ -13,6 +13,8 @@
+>  #include <linux/bitops.h>
+>  
+>  static struct ccu_clk_gate h616_gates[] = {
+> +	[CLK_PLL_PERIPH0]	= GATE(0x020, BIT(31) | BIT(27)),
+> +
+>  	[CLK_BUS_MMC0]		= GATE(0x84c, BIT(0)),
+>  	[CLK_BUS_MMC1]		= GATE(0x84c, BIT(1)),
+>  	[CLK_BUS_MMC2]		= GATE(0x84c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_r40.c b/drivers/clk/sunxi/clk_r40.c
+> index 4d5b69a9765..45633a2a524 100644
+> --- a/drivers/clk/sunxi/clk_r40.c
+> +++ b/drivers/clk/sunxi/clk_r40.c
+> @@ -32,6 +32,8 @@ static struct ccu_clk_gate r40_gates[] = {
+>  
+>  	[CLK_BUS_GMAC]		= GATE(0x064, BIT(17)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_I2C2]		= GATE(0x06c, BIT(2)),
+> diff --git a/drivers/clk/sunxi/clk_v3s.c b/drivers/clk/sunxi/clk_v3s.c
+> index cce5c658ca0..67d215cbba8 100644
+> --- a/drivers/clk/sunxi/clk_v3s.c
+> +++ b/drivers/clk/sunxi/clk_v3s.c
+> @@ -20,6 +20,8 @@ static struct ccu_clk_gate v3s_gates[] = {
+>  	[CLK_BUS_SPI0]		= GATE(0x060, BIT(20)),
+>  	[CLK_BUS_OTG]		= GATE(0x060, BIT(24)),
+>  
+> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(5)),
+> +
+>  	[CLK_BUS_I2C0]		= GATE(0x06c, BIT(0)),
+>  	[CLK_BUS_I2C1]		= GATE(0x06c, BIT(1)),
+>  	[CLK_BUS_UART0]		= GATE(0x06c, BIT(16)),
 
