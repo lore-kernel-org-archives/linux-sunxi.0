@@ -1,329 +1,298 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA34B810;
-	Tue, 24 May 2022 12:37:42 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 960BF40018;
-	Tue, 24 May 2022 12:37:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653395854;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6TmRvXMBXKzvHnQeIS3dP+SHVdrOjsDZ1s/a3SWwHws=;
-	b=TlhQ9+91r4lJZTfdlIaV8PxM5C2m21D8wmvVhnZZ2GFWlzYESUcYoKKZyS33NyYRu7yHP8
-	Ey0PCjcFYeBUQak/3Lm2ltpuVoS3uwbHR5wyc+6xY1Omdssy8cxbSewgU5QlZwbkQ63hps
-	VcwXSaHoFKbwoE+MQs5cYGZsH0PKQGSftrlu3Tz5IPAyn+6vvXjlv+BV3Hi5EkJIYklWcH
-	ou1rD6ELM2X0tIlgNCzjW1aLJoLi+czfQ1fdKnJWG3gTENGCWwH7kLUIkJgCVvqC0Zykar
-	OSpMkoldOFwFMtRHtR6PfBpxXivEqezaykvbX9lI1lQRpl7j04uWCb//jtYCuw==
-Date: Tue, 24 May 2022 14:37:30 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v3 3/4] staging: media: Add support for the Allwinner A31
- ISP
-Message-ID: <YozRiiN7LM0dzbjq@aptenodytes>
-References: <20220415153708.637804-1-paul.kocialkowski@bootlin.com>
- <20220415153708.637804-4-paul.kocialkowski@bootlin.com>
- <YmqFQSRBsqs4ghNQ@valkosipuli.retiisi.eu>
- <Ymqk89e+mn/1kLLx@aptenodytes>
- <YmsCJicyzf+Bz98y@valkosipuli.retiisi.eu>
- <YoesXywA4yzBDSwU@aptenodytes>
- <Yop0DGOo1ky2dfnv@pendragon.ideasonboard.com>
- <YouDa3mE9+SkKJg/@aptenodytes>
- <YouLusf4sWK9W2J7@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC7A810
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 13:52:57 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id z15so1983072wrg.11
+        for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 06:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BYC1tIsAjiq1cBKpe9O8OQgijyZp38kdmJuYTBXJuLg=;
+        b=D0c5KaQWwqZx7KqTeU12Kg8rmuImfcrejKebtAJx08mLaBjPZqMogK/3Z+j4WjBMhe
+         Y8OXJLwEyBxcm/bnd+eyk9CuuTwP5gsdlg+7XemeoLCBmQO5+N9Ns+ytfbSWhFUIUSZH
+         BID28EumYJ/UOXlxYuKGN6VcyNm5mrtQ5LDFAAccyF/f8yWAtfS5VaP+27umL9+bnFE/
+         NQwlS/HYIEzfAPkjFGVs/1h2cAs5EoPDHFaweAogrR4FFavpURDq5iJPiMTdcyBrq8bW
+         jcREIayYSMBsapnVrJtEqc42Dvl+FlVHP0JJAnWgVUzKo4i266f8joFFK9/RAztxSZcO
+         owTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BYC1tIsAjiq1cBKpe9O8OQgijyZp38kdmJuYTBXJuLg=;
+        b=uSXLInpdIssBdk199PBR7QUhmcTOeoBTo/UqSMi8vTpDUmOXbAnUhiALAZFT3EGZ37
+         3uhi+Zn9dcStK6p7sG7max3n6RjRY+y7OG2kTzCqmG/dpD27BPcI67lPmr2E042pmLSo
+         jGMO5RWkLkTbAgjUE8x8MAZfZysV9bhSUAOlOwDtE0T4YMBs3P3NmsbTNAKf1vEMmBRs
+         pCQSt77gcUZbO9QfumrUwRr5bzgZwKg20zTLfa73Zx6YfA976jx3CAjla1MQjQGY93LJ
+         ZJnTam34WPZQaO3ZkTiTP8y+RqRsYnCwF3hIN2FH1OkjhQFhIfITsz2KdEcDCApSOj+R
+         tYAg==
+X-Gm-Message-State: AOAM531IeYKAf6v+wBfUyA7+0msl/dOveX4bH81EnYtK9HIx2hqrmSPU
+	bQ5+7yzUGGWGwt4Mqor46HU=
+X-Google-Smtp-Source: ABdhPJx3GOqmRRS4uwNy8z0N/+6oBX6gnvCmSAvLiOsTq+RHHfFHKYw85t+5mILf159laLfP29jJ3Q==
+X-Received: by 2002:adf:e849:0:b0:20d:129c:6a2d with SMTP id d9-20020adfe849000000b0020d129c6a2dmr22650587wrn.533.1653400375642;
+        Tue, 24 May 2022 06:52:55 -0700 (PDT)
+Received: from orangepi3.mydomain.example ([195.234.74.2])
+        by smtp.gmail.com with ESMTPSA id w24-20020a7bc758000000b0039747cf8354sm2325870wmk.39.2022.05.24.06.52.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 May 2022 06:52:55 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+X-Google-Original-From: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+To: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	megi@xff.cz
+Cc: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+Subject: [PATCH] drm/sun4i: Fix blend registers corruption for DE2.0/DE3.0
+Date: Tue, 24 May 2022 13:52:49 +0000
+Message-Id: <20220524135249.49993-1-roman.o.stratiienko@globallogic.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="JFVjsol0NsyPDSxX"
-Content-Disposition: inline
-In-Reply-To: <YouLusf4sWK9W2J7@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
+Corruption happens when plane zpos is updated
 
---JFVjsol0NsyPDSxX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Example scenario:
 
-Hi Laurent,
+Initial frame blender state:
+    PLANE_ZPOS = {0, 1, 2, 3}
+    BLD_ROUTE  = {0, 1, 2, 0}
+    BLD_EN     = {1, 1, 1, 0}
 
-On Mon 23 May 22, 16:27, Laurent Pinchart wrote:
-> Hi Paul,
->=20
-> On Mon, May 23, 2022 at 02:51:55PM +0200, Paul Kocialkowski wrote:
-> > On Sun 22 May 22, 20:34, Laurent Pinchart wrote:
-> > > On Fri, May 20, 2022 at 04:57:35PM +0200, Paul Kocialkowski wrote:
-> > > > On Fri 29 Apr 22, 00:07, Sakari Ailus wrote:
-> > > > > On Thu, Apr 28, 2022 at 04:30:11PM +0200, Paul Kocialkowski wrote:
-> > > > > > Hi Sakari,
-> > > > > >=20
-> > > > > > On Thu 28 Apr 22, 15:14, Sakari Ailus wrote:
-> > > > > > > Hi Paul,
-> > > > > > >=20
-> > > > > > > Thanks for the set.
-> > > > > > >=20
-> > > > > > > A few comments below.
-> > > > > >=20
-> > > > > > Thanks a lot for your review!
-> > > > >=20
-> > > > > You're welcome!
-> > > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > I understand this is an online ISP. How do you schedule the v=
-ideo buffer
-> > > > > > > queues? Say, what happens if it's time to set up buffers for =
-a frame and
-> > > > > > > there's a buffer queued in the parameter queue but not in the=
- image data
-> > > > > > > queue? Or the other way around?
-> > > > > >=20
-> > > > > > The ISP works in a quite atypical way, with a DMA buffer that i=
-s used to
-> > > > > > hold upcoming parameters (including buffer addresses) and a bit=
- in a "direct"
-> > > > > > register to schedule the update of the parameters at next vsync.
-> > > > > >=20
-> > > > > > The update (setting the bit) is triggered whenever new paramete=
-rs are
-> > > > > > submitted via the params video device or whenever there's a cap=
-ture buffer
-> > > > > > available in the capture video device.
-> > > > > >=20
-> > > > > > So you don't particularly need to have one parameter buffer mat=
-ching a capture
-> > > > > > buffer, the two can be updated independently. Of course, a capt=
-ure buffer will
-> > > > > > only be returned after another buffer becomes active.
-> > > > >=20
-> > > > > This also means it's not possible to associate a capture buffer t=
-o a
-> > > > > parameter buffer by other means than timing --- which is unreliab=
-le. The
-> > > > > request API would allow that but it's not free of issues either.
-> > > >=20
-> > > > Yes the request API seems like a good fit for this. Note that the r=
-eturned
-> > > > sequence number in dequeued buffers for the capture and meta video =
-devices
-> > > > should match though, so userspace still has a way to know which cap=
-tured buffer
-> > > > used parameters from which meta params buffer.
-> > > >=20
-> > > > > Alternatively, I think in this case you could always require the =
-capture
-> > > > > buffer and grab a parameter buffer when it's available. As ISPs a=
-re
-> > > > > generally requiring device specific control software, this should=
-n't be a
-> > > > > problem really.
-> > > >=20
-> > > > I think this is pretty much what happens already.
-> > > >=20
-> > > > > I wonder what Laurent thinks.
-> > >=20
-> > > If parameters buffers are optional, I think the request API should be
-> > > used, otherwise we won't be able to ensure per-frame control. The
-> > > alternative is to make the parameter buffer mandatory for every frame,
-> > > even if no parameters have changed. Or maybe that's the case already ?
-> >=20
-> > Currently the parameters are not mandatory (there is a default state set
-> > by the driver) and queued parameter buffers are applied in the order th=
-ey
-> > are submitted.
-> >=20
-> > The request API would make per-frame control possible, but I don't think
-> > there is a point in making it mandatory. It seems that the situation is=
- very
-> > similar to what already exists with the rkisp1 driver.
->=20
-> You mentioned that the parameter buffers contain buffer addresses, is
-> that the DMA address of the image buffers (input and output) ? If so,
-> how does that work, does the kernel patch the parameters buffer provided
-> by userspace to fill the DMA addresses in placeholders ?
+New frame commit (Only ZPOS has been changed):
 
-Ah there might be a misunderstanding here: the hardware has a notion of
-"parameters buffer" which a DMA buffer that holds the next values of most of
-the registers (including the DMA adresses of dst buffers).
+    PLANE_ZPOS = {0->2, 1->0, 2->1, 3}
 
-However the parameters buffers for configuring the ISP are uAPI structures
-which are distinct from the registers of the hardware. It's these structures
-that are provided to the driver via a dedicated meta-output video device,
-by userspace. Of course the values from the uAPI parameters buffers also en=
-d up
-in the hardware parameters.
+Expected results after plane state update:
+                Z0 Z1 Z2 Z3
+    BLD_ROUTE = {1, 2, 0, 0}
+    BLD_EN    = {1, 1, 1, 0}
 
-I hope this clarifies things a bit!
+What is currently happening:
 
-Paul
+1. sun8i_vi_layer_enable(enabled=true, zpos=2, old_zpos=0):
+    BLD_ROUTE = {1->0, 1, 2->0, 0}
+    BLD_EN    = {1->0, 1, 1->1, 0}
 
-> > > > > > I hope this answers your concern!
-> > > > > >=20
-> > > > > > [...]
-> > > > > >=20
-> > > > > > > > +static int sun6i_isp_tables_setup(struct sun6i_isp_device =
-*isp_dev)
-> > > > > > > > +{
-> > > > > > > > +	struct sun6i_isp_tables *tables =3D &isp_dev->tables;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	/* Sizes are hardcoded for now but actually depend on the=
- platform. */
-> > > > > > >=20
-> > > > > > > Would it be cleaner to have them defined in a platform-specif=
-ic way, e.g.
-> > > > > > > in a struct you obtain using device_get_match_data()?
-> > > > > >=20
-> > > > > > Absolutely! I didn't do it at this stage since only one platfor=
-m is supported
-> > > > > > but we could just as well introduce a variant structure already=
- for the table
-> > > > > > sizes.
-> > > > >=20
-> > > > > I think that would be nice already, especially if you know these =
-are going
-> > > > > to be different. Otherwise macros could be an option.
-> > > >=20
-> > > > Understood!
-> > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +	ret =3D v4l2_ctrl_handler_init(&v4l2->ctrl_handler, 0);
-> > > > > > >=20
-> > > > > > > I suppose you intend to add controls later on?
-> > > > > >=20
-> > > > > > I might be wrong but I thought this was necessary to expose sen=
-sor controls
-> > > > > > registered by subdevs that end up attached to this v4l2 device.
-> > > > > >=20
-> > > > > > I doubt the drivers itself will expose controls otherwise.
-> > > > >=20
-> > > > > Now that this is an MC-enabled driver, the subdev controls should=
- be
-> > > > > accessed through the subdev nodes only. Adding them to the video =
-device's
-> > > > > control handler is quite hackish and not guaranteed to even work =
-(as e.g.
-> > > > > multiple subdevs can have the same control).
-> > > >=20
-> > > > Yes I was wondering what would happen in that case. I'll drop the c=
-trls
-> > > > handling in the next iteration then.
-> > > >=20
-> > > > Paul
-> > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +{
-> > > > > > > > +	struct sun6i_isp_device *isp_dev =3D video_drvdata(file);
-> > > > > > > > +	struct video_device *video_dev =3D &isp_dev->capture.vide=
-o_dev;
-> > > > > > > > +	struct mutex *lock =3D &isp_dev->capture.lock;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	if (mutex_lock_interruptible(lock))
-> > > > > > > > +		return -ERESTARTSYS;
-> > > > > > > > +
-> > > > > > > > +	ret =3D v4l2_pipeline_pm_get(&video_dev->entity);
-> > > > > > >=20
-> > > > > > > Do you need this?
-> > > > > > >=20
-> > > > > > > Drivers should primarily depend on runtime PM, this is only n=
-eeded for
-> > > > > > > compatibility reasons. Instead I'd like to see sensor drivers=
- being moved
-> > > > > > > to runtime PM.
-> > > > > >=20
-> > > > > > Yes it's still needed to support sensor drivers that don't use =
-rpm yet.
-> > > > >=20
-> > > > > To that I suggested adding runtime PM support for the affected se=
-nsors.
-> > > > > This doesn't seem to get done otherwise. E.g. ipu3-cio2 driver do=
-es not
-> > > > > call s_power() on sensor subdevs.
-> > > > >=20
-> > > > > ...
-> > > > >=20
-> > > > > > > > +	ret =3D video_register_device(video_dev, VFL_TYPE_VIDEO, =
--1);
-> > > > > > > > +	if (ret) {
-> > > > > > > > +		v4l2_err(v4l2_dev, "failed to register video device: %d\=
-n",
-> > > > > > > > +			 ret);
-> > > > > > > > +		goto error_media_entity;
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	v4l2_info(v4l2_dev, "device %s registered as %s\n", video=
-_dev->name,
-> > > > > > > > +		  video_device_node_name(video_dev));
-> > > > > > >=20
-> > > > > > > This isn't really driver specific. I'd drop it.
-> > > > > >=20
-> > > > > > I agree but I see that many drivers are doing it and the inform=
-ation can
-> > > > > > actually be quite useful at times.
-> > > > >=20
-> > > > > You can get that information using media-ctl -e 'entity name'.
-> > > > >=20
-> > > > > I guess this could be also added to video_register_device() on de=
-bug level.
-> > > > >=20
-> > > > > > > > +struct sun6i_isp_params_config_bdnf {
-> > > > > > > > +	__u8	in_dis_min; // 8
-> > > > > > > > +	__u8	in_dis_max; // 10
-> > > > > > >=20
-> > > > > > > Are these default values or something else? Better documentat=
-ion was in the
-> > > > > > > TODO.txt file already.
-> > > > > >=20
-> > > > > > Yes that's the default register values, but these comments are =
-and overlook on
-> > > > > > my side and should be removed.
-> > > > >=20
-> > > > > I'm fine leaving these here. Just wondering. Up to you.
->=20
-> --=20
-> Regards,
->=20
-> Laurent Pinchart
+2. sun8i_ui_layer_enable(enabled=true, zpos=0, old_zpos=1):
+    BLD_ROUTE = {0->1, 1->0, 0, 0}
+    BLD_EN    = {0->1, 1->0, 1, 0}
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+3. sun8i_ui_layer_enable(enabled=true, zpos=1, old_zpos=2):
+    BLD_ROUTE = {1, 0->2, 0->0, 0}
+    BLD_EN    = {1, 0->2, 1->0, 0}
 
---JFVjsol0NsyPDSxX
-Content-Type: application/pgp-signature; name="signature.asc"
+After updating of all the planes we are ending up with BLD_EN[2]=0,
+which makes this channel disabled.
 
------BEGIN PGP SIGNATURE-----
+To fix this issue, clear BLEND registers before updating the planes
+and do not clear the old state while processing every plane.
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmKM0YoACgkQ3cLmz3+f
-v9G+Ogf7B1TmIO1K4sACLe/AMewXZ771xdAEhH55RqAjbRvriNNH7aF05wYXLa9D
-3B1gi7maOrrFR5Fn2VzMcZk9tGAIb80tt4AkbcQ0Acv3UgiZ0raEYWjH9mv5zJLv
-5kJ6SgXpSt0k3JP1u5E8/r+YjFnfGKP5yaEr2AYIhYx3rqANCUbXzaQ834jPogUE
-bxQAAGS1R8MOQTSIKMt+V4TmrcoTG3l31IAtW8bX+3T+/KbLVJE78TAF/I2j9H5w
-LMrOwVe+nlPbnWIwJtjciXTPXig+Do6YOU5SFgOkRFuFyIJzCx1PXZuqFJIR9uFY
-t5j8F2P7EA/nvoAc98QhXVGrDdj6vg==
-=osVl
------END PGP SIGNATURE-----
+Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+---
+ drivers/gpu/drm/sun4i/sun8i_mixer.c    | 16 +++++++++++++++
+ drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 28 ++++----------------------
+ drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 ++++----------------------
+ 3 files changed, 24 insertions(+), 48 deletions(-)
 
---JFVjsol0NsyPDSxX--
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index f5e8aeaa3cdf..004377a000fc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -248,6 +248,21 @@ int sun8i_mixer_drm_format_to_hw(u32 format, u32 *hw_format)
+ 	return -EINVAL;
+ }
+ 
++static void sun8i_atomic_begin(struct sunxi_engine *engine,
++			       struct drm_crtc_state *old_state)
++{
++	struct sun8i_mixer *mixer = engine_to_sun8i_mixer(engine);
++	u32 bld_base = sun8i_blender_base(mixer);
++
++	regmap_write(engine->regs,
++		     SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
++		     0);
++
++	regmap_write(engine->regs,
++		     SUN8I_MIXER_BLEND_ROUTE(bld_base),
++		     0);
++}
++
+ static void sun8i_mixer_commit(struct sunxi_engine *engine)
+ {
+ 	DRM_DEBUG_DRIVER("Committing changes\n");
+@@ -299,6 +314,7 @@ static struct drm_plane **sun8i_layers_init(struct drm_device *drm,
+ }
+ 
+ static const struct sunxi_engine_ops sun8i_engine_ops = {
++	.atomic_begin	= sun8i_atomic_begin,
+ 	.commit		= sun8i_mixer_commit,
+ 	.layers_init	= sun8i_layers_init,
+ };
+diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+index 7845c2a53a7f..b294a882626a 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+@@ -24,8 +24,7 @@
+ #include "sun8i_ui_scaler.h"
+ 
+ static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
++				  int overlay, bool enable, unsigned int zpos)
+ {
+ 	u32 val, bld_base, ch_base;
+ 
+@@ -44,18 +43,6 @@ static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int channel,
+ 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base, overlay),
+ 			   SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val);
+ 
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+ 	if (enable) {
+ 		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+ 
+@@ -291,31 +278,24 @@ static int sun8i_ui_layer_atomic_check(struct drm_plane *plane,
+ static void sun8i_ui_layer_atomic_disable(struct drm_plane *plane,
+ 					  struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
++	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay, false, 0);
+ }
+ 
+ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct sun8i_ui_layer *layer = plane_to_sun8i_ui_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+ 	if (!new_state->visible) {
+ 		sun8i_ui_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++				      layer->overlay, false, 0);
+ 		return;
+ 	}
+ 
+@@ -328,7 +308,7 @@ static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_ui_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+ 	sun8i_ui_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
++			      true, zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_ui_layer_helper_funcs = {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+index bb7c43036dfa..4653244b2fd8 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+@@ -18,8 +18,7 @@
+ #include "sun8i_vi_scaler.h"
+ 
+ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+-				  int overlay, bool enable, unsigned int zpos,
+-				  unsigned int old_zpos)
++				  int overlay, bool enable, unsigned int zpos)
+ {
+ 	u32 val, bld_base, ch_base;
+ 
+@@ -38,18 +37,6 @@ static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base, overlay),
+ 			   SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val);
+ 
+-	if (!enable || zpos != old_zpos) {
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
+-				   SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
+-				   0);
+-
+-		regmap_update_bits(mixer->engine.regs,
+-				   SUN8I_MIXER_BLEND_ROUTE(bld_base),
+-				   SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
+-				   0);
+-	}
+-
+ 	if (enable) {
+ 		val = SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
+ 
+@@ -395,31 +382,24 @@ static int sun8i_vi_layer_atomic_check(struct drm_plane *plane,
+ static void sun8i_vi_layer_atomic_disable(struct drm_plane *plane,
+ 					  struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+-	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0,
+-			      old_zpos);
++	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay, false, 0);
+ }
+ 
+ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 					 struct drm_atomic_state *state)
+ {
+-	struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
+-									   plane);
+ 	struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
+ 									   plane);
+ 	struct sun8i_vi_layer *layer = plane_to_sun8i_vi_layer(plane);
+ 	unsigned int zpos = new_state->normalized_zpos;
+-	unsigned int old_zpos = old_state->normalized_zpos;
+ 	struct sun8i_mixer *mixer = layer->mixer;
+ 
+ 	if (!new_state->visible) {
+ 		sun8i_vi_layer_enable(mixer, layer->channel,
+-				      layer->overlay, false, 0, old_zpos);
++				      layer->overlay, false, 0);
+ 		return;
+ 	}
+ 
+@@ -432,7 +412,7 @@ static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+ 	sun8i_vi_layer_update_buffer(mixer, layer->channel,
+ 				     layer->overlay, plane);
+ 	sun8i_vi_layer_enable(mixer, layer->channel, layer->overlay,
+-			      true, zpos, old_zpos);
++			      true, zpos);
+ }
+ 
+ static const struct drm_plane_helper_funcs sun8i_vi_layer_helper_funcs = {
+-- 
+2.30.2
+
