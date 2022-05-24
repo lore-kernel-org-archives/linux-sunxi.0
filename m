@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51A36A21
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:00:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B219BC34115;
-	Tue, 24 May 2022 16:00:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57598A21
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:01:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCED8C34116;
+	Tue, 24 May 2022 16:01:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653408039;
+	s=k20201202; t=1653408065;
 	bh=+8/rSL0dktqyZfvWABToCYxgk0Wct5z+yxpZFfy6gak=;
 	h=From:To:Cc:Subject:Date:From;
-	b=BqxUHNAoWYAoRxC/+FRm9UBwYUD7R3Si3XKKQ41sh06M4L3Tu7VqDupaSrf1ttt0h
-	 FZawlEUUjezWAzLay50Ee9g03U083hNJVT41oLwAE234zmScUc0etmElV2ieUg/pwD
-	 9G1i6SpTlKZGKJSdKn7Xr8c4uvsiZDc7FT58XrT+Rwg0ZlZ4bSQpKd3gAlrsQTmSlN
-	 w7g7Ae7zTt3fABNcnLp/V+oTu9VQbdEZk46dPp8NCZmUj70Z88RhLJbgti+KPKf3Je
-	 gGPyLqVp4uLYIj7SzKxPbyviJIu7bUc3lmNPD1Lvw9t2//BwV6WT8K/HZ1uGyy5+0b
-	 YQ4XjApqkIvXA==
+	b=QgDQbHQ/wXB1z7xvhmrgK5avhksMYuyJUyR8c/YolT+M56Jl2BQzU2tcZRQHaEbi8
+	 IjLOFmtfqQ+GBYG9fWoABoSy0wlJhb6OPJ1E9ZpejLxeHdhlyATfbpwy1yTGbqZ4GE
+	 lk+zyS8UfcQ4a13yGU/P31pq0JgSc3czURT4GCwTdRqKk/KoZTaZLgCZfu3myTxL7I
+	 9SjBou4MtiqgsX+nciToaO2BsJontW4FP8fz6blQ8Q92f6+CvKEGrm132tjxm+kEr1
+	 6x1Ni0BejF/VlzC3oQjp658eRsdAvUDzx+r3QtiXiMD1iBbwYU8Ub6u7TWl0qboHkO
+	 LTWNW+E176MEw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -28,9 +28,9 @@ Cc: IotaHydrae <writeforever@foxmail.com>,
 	linux-gpio@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.10 1/8] pinctrl: sunxi: fix f1c100s uart2 function
-Date: Tue, 24 May 2022 12:00:28 -0400
-Message-Id: <20220524160035.827109-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 1/5] pinctrl: sunxi: fix f1c100s uart2 function
+Date: Tue, 24 May 2022 12:00:57 -0400
+Message-Id: <20220524160102.827227-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
