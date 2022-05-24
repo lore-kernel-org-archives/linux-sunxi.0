@@ -1,27 +1,22 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B1DA21
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:16:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B8B2561
+	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 16:16:59 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B817323A;
-	Tue, 24 May 2022 09:16:52 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 471A01042;
+	Tue, 24 May 2022 09:16:58 -0700 (PDT)
 Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63BE63F66F;
-	Tue, 24 May 2022 09:16:51 -0700 (PDT)
-Date: Tue, 24 May 2022 17:10:26 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FFAA3F66F;
+	Tue, 24 May 2022 09:16:57 -0700 (PDT)
+Date: Tue, 24 May 2022 17:14:00 +0100
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Jesse Taube <mr.bossman075@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
- Yifan Gu <me@yifangu.com>, Giulio Benetti
- <giulio.benetti@benettiengineering.com>, George Hilliard
- <thirtythreeforty@gmail.com>, Samuel Holland <samuel@sholland.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- u-boot@lists.denx.de
-Subject: Re: [PATCH 1/7] clk: sunxi: implement clock driver for suniv
- f1c100s
-Message-ID: <20220524171026.313bfbed@donnerap.cambridge.arm.com>
-In-Reply-To: <20220503212040.27884-2-andre.przywara@arm.com>
-References: <20220503212040.27884-1-andre.przywara@arm.com>
-	<20220503212040.27884-2-andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] sunxi: board: Fix UART PortF pinmux setup
+Message-ID: <20220524171400.0770d5c2@donnerap.cambridge.arm.com>
+In-Reply-To: <20220506003703.13287-1-andre.przywara@arm.com>
+References: <20220506003703.13287-1-andre.przywara@arm.com>
 Organization: ARM
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
@@ -33,18 +28,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue,  3 May 2022 22:20:34 +0100
+On Fri,  6 May 2022 01:37:03 +0100
 Andre Przywara <andre.przywara@arm.com> wrote:
 
-> From: George Hilliard <thirtythreeforty@gmail.com>
+> When CONFIG_UART0_PORT_F is defined, we try to configure two PortF pins
+> (usually used for the SD card) as UART0. Some SoCs use the mux value of
+> 3 for this, while others use 4.
 > 
-> The f1c100s has a clock tree similar to those of other sunxi parts.
-> Add support for it.
+> The combination of Kconfig symbols we currently use was not quite right:
+> we mis-configure the A31, A64, H6 and H616.
 > 
-> Signed-off-by: George Hilliard <thirtythreeforty@gmail.com>
-> Signed-off-by: Yifan Gu <me@yifangu.com>
-> Acked-by: Sean Anderson <seanga2@gmail.com>
-> [Andre: add PIO and I2C]
+> Going through the list in the pinctrl driver, there are only a few older
+> SoCs that use a value of 4, so revert the #ifdef clause, and name those
+> explicitly, instead of the other way around.
+> 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
 Applied to sunxi/master.
@@ -53,120 +50,34 @@ Thanks,
 Andre
 
 > ---
->  drivers/clk/sunxi/Kconfig       |  7 ++++
->  drivers/clk/sunxi/Makefile      |  1 +
->  drivers/clk/sunxi/clk_f1c100s.c | 74 +++++++++++++++++++++++++++++++++
->  3 files changed, 82 insertions(+)
->  create mode 100644 drivers/clk/sunxi/clk_f1c100s.c
+>  arch/arm/mach-sunxi/board.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
-> index f19908113e1..bf11fad6eef 100644
-> --- a/drivers/clk/sunxi/Kconfig
-> +++ b/drivers/clk/sunxi/Kconfig
-> @@ -10,6 +10,13 @@ config CLK_SUNXI
->  
->  if CLK_SUNXI
->  
-> +config CLK_SUNIV_F1C100S
-> +	bool "Clock driver for Allwinner F1C100s"
-> +	default MACH_SUNIV
-> +	help
-> +	  This enables common clock driver support for platforms based
-> +	  on Allwinner F1C100s SoC.
-> +
->  config CLK_SUN4I_A10
->  	bool "Clock driver for Allwinner A10/A20"
->  	default MACH_SUN4I || MACH_SUN7I
-> diff --git a/drivers/clk/sunxi/Makefile b/drivers/clk/sunxi/Makefile
-> index 48a48a2f000..895da02ebea 100644
-> --- a/drivers/clk/sunxi/Makefile
-> +++ b/drivers/clk/sunxi/Makefile
-> @@ -8,6 +8,7 @@ obj-$(CONFIG_CLK_SUNXI) += clk_sunxi.o
->  
->  obj-$(CONFIG_CLK_SUNXI) += clk_sun6i_rtc.o
->  
-> +obj-$(CONFIG_CLK_SUNIV_F1C100S) += clk_f1c100s.o
->  obj-$(CONFIG_CLK_SUN4I_A10) += clk_a10.o
->  obj-$(CONFIG_CLK_SUN5I_A10S) += clk_a10s.o
->  obj-$(CONFIG_CLK_SUN6I_A31) += clk_a31.o
-> diff --git a/drivers/clk/sunxi/clk_f1c100s.c b/drivers/clk/sunxi/clk_f1c100s.c
-> new file mode 100644
-> index 00000000000..72cf8a6e5c0
-> --- /dev/null
-> +++ b/drivers/clk/sunxi/clk_f1c100s.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: (GPL-2.0+)
-> +/*
-> + * Copyright (C) 2019 George Hilliard <thirtythreeforty@gmail.com>.
-> + */
-> +
-> +#include <common.h>
-> +#include <clk-uclass.h>
-> +#include <dm.h>
-> +#include <errno.h>
-> +#include <clk/sunxi.h>
-> +#include <dt-bindings/clock/suniv-ccu-f1c100s.h>
-> +#include <dt-bindings/reset/suniv-ccu-f1c100s.h>
-> +
-> +static struct ccu_clk_gate f1c100s_gates[] = {
-> +	[CLK_BUS_MMC0]		= GATE(0x060, BIT(8)),
-> +	[CLK_BUS_MMC1]		= GATE(0x060, BIT(9)),
-> +	[CLK_BUS_SPI0]		= GATE(0x060, BIT(20)),
-> +	[CLK_BUS_SPI1]		= GATE(0x060, BIT(21)),
-> +	[CLK_BUS_OTG]		= GATE(0x060, BIT(24)),
-> +
-> +	[CLK_BUS_I2C0]		= GATE(0x068, BIT(16)),
-> +	[CLK_BUS_I2C1]		= GATE(0x068, BIT(17)),
-> +	[CLK_BUS_I2C2]		= GATE(0x068, BIT(18)),
-> +	[CLK_BUS_PIO]		= GATE(0x068, BIT(19)),
-> +
-> +	[CLK_BUS_UART0]		= GATE(0x06c, BIT(20)),
-> +	[CLK_BUS_UART1]		= GATE(0x06c, BIT(21)),
-> +	[CLK_BUS_UART2]		= GATE(0x06c, BIT(22)),
-> +
-> +	[CLK_USB_PHY0]          = GATE(0x0cc, BIT(1)),
-> +};
-> +
-> +static struct ccu_reset f1c100s_resets[] = {
-> +	[RST_USB_PHY0]		= RESET(0x0cc, BIT(0)),
-> +
-> +	[RST_BUS_MMC0]		= RESET(0x2c0, BIT(8)),
-> +	[RST_BUS_MMC1]		= RESET(0x2c0, BIT(9)),
-> +	[RST_BUS_SPI0]		= RESET(0x2c0, BIT(20)),
-> +	[RST_BUS_SPI1]		= RESET(0x2c0, BIT(21)),
-> +	[RST_BUS_OTG]		= RESET(0x2c0, BIT(24)),
-> +
-> +	[RST_BUS_I2C0]		= RESET(0x2d0, BIT(16)),
-> +	[RST_BUS_I2C1]		= RESET(0x2d0, BIT(17)),
-> +	[RST_BUS_I2C2]		= RESET(0x2d0, BIT(18)),
-> +	[RST_BUS_UART0]		= RESET(0x2d0, BIT(20)),
-> +	[RST_BUS_UART1]		= RESET(0x2d0, BIT(21)),
-> +	[RST_BUS_UART2]		= RESET(0x2d0, BIT(22)),
-> +};
-> +
-> +static const struct ccu_desc f1c100s_ccu_desc = {
-> +	.gates = f1c100s_gates,
-> +	.resets = f1c100s_resets,
-> +};
-> +
-> +static int f1c100s_clk_bind(struct udevice *dev)
-> +{
-> +	return sunxi_reset_bind(dev, ARRAY_SIZE(f1c100s_resets));
-> +}
-> +
-> +static const struct udevice_id f1c100s_clk_ids[] = {
-> +	{ .compatible = "allwinner,suniv-f1c100s-ccu",
-> +	  .data = (ulong)&f1c100s_ccu_desc },
-> +	{ }
-> +};
-> +
-> +U_BOOT_DRIVER(clk_suniv_f1c100s) = {
-> +	.name		= "suniv_f1c100s_ccu",
-> +	.id		= UCLASS_CLK,
-> +	.of_match	= f1c100s_clk_ids,
-> +	.priv_auto	= sizeof(struct ccu_priv),
-> +	.ops		= &sunxi_clk_ops,
-> +	.probe		= sunxi_clk_probe,
-> +	.bind		= f1c100s_clk_bind,
-> +};
+> diff --git a/arch/arm/mach-sunxi/board.c b/arch/arm/mach-sunxi/board.c
+> index 173e946465d..8f7c894286d 100644
+> --- a/arch/arm/mach-sunxi/board.c
+> +++ b/arch/arm/mach-sunxi/board.c
+> @@ -87,15 +87,16 @@ static int gpio_init(void)
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPB(22), SUNXI_GPIO_INPUT);
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPB(23), SUNXI_GPIO_INPUT);
+>  #endif
+> -#if (defined(CONFIG_MACH_SUN8I) && !defined(CONFIG_MACH_SUN8I_R40)) || \
+> -    defined(CONFIG_MACH_SUNIV)
+> -	sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUN8I_GPF_UART0);
+> -	sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUN8I_GPF_UART0);
+> -#else
+> +#if defined(CONFIG_MACH_SUN4I) || defined(CONFIG_MACH_SUN5I) || \
+> +    defined(CONFIG_MACH_SUN7I) || defined(CONFIG_MACH_SUN8I_R40) || \
+> +    defined(CONFIG_MACH_SUN9I)
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUNXI_GPF_UART0);
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUNXI_GPF_UART0);
+> +#else
+> +	sunxi_gpio_set_cfgpin(SUNXI_GPF(2), SUN8I_GPF_UART0);
+> +	sunxi_gpio_set_cfgpin(SUNXI_GPF(4), SUN8I_GPF_UART0);
+>  #endif
+> -	sunxi_gpio_set_pull(SUNXI_GPF(4), 1);
+> +	sunxi_gpio_set_pull(SUNXI_GPF(4), SUNXI_GPIO_PULL_UP);
+>  #elif CONFIG_CONS_INDEX == 1 && defined(CONFIG_MACH_SUNIV)
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPE(0), SUNIV_GPE_UART0);
+>  	sunxi_gpio_set_cfgpin(SUNXI_GPE(1), SUNIV_GPE_UART0);
 
