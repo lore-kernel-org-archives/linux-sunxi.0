@@ -1,23 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F5C1388
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5417138C
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:03:22 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id C38441C000B;
-	Wed, 25 May 2022 19:03:18 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 350421C0006;
+	Wed, 25 May 2022 19:03:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505400;
+	t=1653505394;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=zkDskoR8wjdnIKSCS4YkqYtISclu+O++Ibqt8W0S4WE=;
-	b=MlJzvQAMWmxUG3lWNKubraSdG38jDCJl3i9nL5cNUPpey5qe/CFwFSuVB97vhARBFnsy2S
-	Eg22AkQ9n5KdrvukhGKhfAxmSOdkMkgHNd0U6qOwfaX66G7oG3Eszkuz9ufL9vVgPr1mjS
-	Q97l/tk0+ojGyAX/7tNTsCb/1EYFtB4EhMWaVg2AXhkkCOxgygbRFhJcaAhAdEJYrafOZV
-	qyrrHNHpwZOEPxxu0yThy7rMuWWwKfN/X4DSxqKbQDxZzqiMHSN/Ej64pQ4lr+oAnC4312
-	JhQn/9UrTaGjqKHv5VFFhhVfKfyQSRVC3KMB8JgTepHcAHOBD/bpt0nvkWneCw==
+	bh=jwwOnNlgOp1CkmU0rILdDqwp+3qrOH3tFvw/VUdv4no=;
+	b=TB58zfftJpiyA/uuPCNqPy0Jff5JQKMTSaeN/YihIkGNBQtay1GN5b6LEP7RhScUg0ZkL5
+	+EnE4cjf9lesVv2IY+J0sDifDwKGsrWk8J84fc12jJ2m26eyvj/QtKDohVP37+i77s+B5N
+	xBT8mV5ojqQTWtFR8OjblCaiTLb5+VMVlkbePqMsBsd8x159zgBlWuWY/pLu6vPify88VT
+	5Yz7nvxeMwDa34m3zrmWNLZ1T6Wu8ulCGsRkrihFmis3LKx5yC+tKMuuR0GEmkCq6gUJ0y
+	k4Npc4Fi69vJh+El+Y7ldtxrfUbT8DoZcTkpYIlGVOqTYpe/s68cwTStucw09Q==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -40,9 +40,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 5/6] dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings documentation
-Date: Wed, 25 May 2022 21:02:59 +0200
-Message-Id: <20220525190300.696269-6-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 2/6] dt-bindings: media: Add Allwinner A31 MIPI CSI-2 bindings documentation
+Date: Wed, 25 May 2022 21:02:56 +0200
+Message-Id: <20220525190300.696269-3-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525190300.696269-1-paul.kocialkowski@bootlin.com>
 References: <20220525190300.696269-1-paul.kocialkowski@bootlin.com>
@@ -54,36 +54,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This introduces YAML bindings documentation for the Allwinner A83T
-MIPI CSI-2 controller.
+This introduces YAML bindings documentation for the Allwinner A31 MIPI
+CSI-2 controller.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 125 ++++++++++++++++++
- 1 file changed, 125 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+ .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 137 ++++++++++++++++++
+ 1 file changed, 137 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
 new file mode 100644
-index 000000000000..5b27482b5687
+index 000000000000..09725ca955f6
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-@@ -0,0 +1,125 @@
++++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+@@ -0,0 +1,137 @@
 +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 +%YAML 1.2
 +---
-+$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
++$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
++title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
 +
 +maintainers:
 +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 +
 +properties:
 +  compatible:
-+    const: allwinner,sun8i-a83t-mipi-csi2
++    oneOf:
++      - const: allwinner,sun6i-a31-mipi-csi2
++      - items:
++          - const: allwinner,sun8i-v3s-mipi-csi2
++          - const: allwinner,sun6i-a31-mipi-csi2
 +
 +  reg:
 +    maxItems: 1
@@ -95,15 +100,19 @@ index 000000000000..5b27482b5687
 +    items:
 +      - description: Bus Clock
 +      - description: Module Clock
-+      - description: MIPI-specific Clock
-+      - description: Misc CSI Clock
 +
 +  clock-names:
 +    items:
 +      - const: bus
 +      - const: mod
-+      - const: mipi
-+      - const: misc
++
++  phys:
++    maxItems: 1
++    description: MIPI D-PHY
++
++  phy-names:
++    items:
++      - const: dphy
 +
 +  resets:
 +    maxItems: 1
@@ -148,6 +157,8 @@ index 000000000000..5b27482b5687
 +  - interrupts
 +  - clocks
 +  - clock-names
++  - phys
++  - phy-names
 +  - resets
 +  - ports
 +
@@ -156,19 +167,21 @@ index 000000000000..5b27482b5687
 +examples:
 +  - |
 +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
-+    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
++    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
++    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
 +
 +    mipi_csi2: csi@1cb1000 {
-+        compatible = "allwinner,sun8i-a83t-mipi-csi2";
++        compatible = "allwinner,sun8i-v3s-mipi-csi2",
++                     "allwinner,sun6i-a31-mipi-csi2";
 +        reg = <0x01cb1000 0x1000>;
-+        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
 +        clocks = <&ccu CLK_BUS_CSI>,
-+                 <&ccu CLK_CSI_SCLK>,
-+                 <&ccu CLK_MIPI_CSI>,
-+                 <&ccu CLK_CSI_MISC>;
-+        clock-names = "bus", "mod", "mipi", "misc";
++                 <&ccu CLK_CSI1_SCLK>;
++        clock-names = "bus", "mod";
 +        resets = <&ccu RST_BUS_CSI>;
++
++        phys = <&dphy>;
++        phy-names = "dphy";
 +
 +        ports {
 +            #address-cells = <1>;
@@ -177,18 +190,18 @@ index 000000000000..5b27482b5687
 +            mipi_csi2_in: port@0 {
 +                reg = <0>;
 +
-+                mipi_csi2_in_ov8865: endpoint {
++                mipi_csi2_in_ov5648: endpoint {
 +                    data-lanes = <1 2 3 4>;
 +
-+                    remote-endpoint = <&ov8865_out_mipi_csi2>;
++                    remote-endpoint = <&ov5648_out_mipi_csi2>;
 +                };
 +            };
 +
 +            mipi_csi2_out: port@1 {
 +                reg = <1>;
 +
-+                mipi_csi2_out_csi: endpoint {
-+                    remote-endpoint = <&csi_in_mipi_csi2>;
++                mipi_csi2_out_csi0: endpoint {
++                    remote-endpoint = <&csi0_in_mipi_csi2>;
 +                };
 +            };
 +        };
