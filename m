@@ -1,452 +1,302 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B5A7C
-	for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 19:14:05 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id f21so23625460ejh.11
-        for <linux-sunxi@lists.linux.dev>; Tue, 24 May 2022 12:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ZUNbIM3O9IVgMuURLoH1enWN67UzqQk+sae4XN4TllE=;
-        b=i5W5Hr3TnPWdLCB0yyT/B6rlkC5BY9u1hPBetlVyy3/9wyZlcUkPyuq/uZSfouPrmj
-         7zxfYmw6VMvMW77zOYDZ/46ckoGLiX0+vMRvUhyuch4GzskvhC87e5ogtTmLSPEC6o0I
-         21TVLo5M+A2PIcQZZyZMpG2Femy4fhFEH8E3dmUZJkyGmdk6XnDbkiBDd73wKI6lPC70
-         X5iU8RSEqhnVQ+0JAI94/8SuDk0KklDE+92ihtHb8Vwd6ccdyf411ykhpqCg7eyeYHaD
-         xVUJQ2aQK850GVmNVJdJFsx+fJwqqXLNIf6NWV+VVI7JGjsaeBDbp7b4gtICECuv4fY1
-         PCgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZUNbIM3O9IVgMuURLoH1enWN67UzqQk+sae4XN4TllE=;
-        b=dVG0Cg1h37Qsjv7HEvT2Y3JpGE5npqT6H9TVi1bxvGuBZFdNblk7wHZ4IlW/Nlb72+
-         DXwouT6i1m+bPJkcBCLEQoN6OUpYRB0eff5klhrvRHV+LKNqnGVgYDliihO8wNbez4sG
-         mjPTgPAbaQEmX8ggHvLrAY5Hgedd7yJVJy29uS1vP4qEYb5FQJo3PV2OO5+cSOH5b7GB
-         HOUqG1prwpuQxPMnQRjWai46375bxQwnQV6ZpZZClriQGuSMIWdZumeVToDu+k19cuXt
-         IwvAD9EWsiRmqxyOMNXNZGb36wV6C6xu/FOnV5u4yo6MXo89wGiN0mhN/P4xPINxGtcN
-         Nmrw==
-X-Gm-Message-State: AOAM530spweivNUpFPUbh0SesUxcqnhMLMnj7MECnt1suUPffyHTI0uB
-	oVG7J5iS6iXB0vvtPvDYVr8=
-X-Google-Smtp-Source: ABdhPJy55BARM8sTDIdGNAvfeVy4m0ARiKvAodu9th+WWcY2lPc3PErfQprwXDlrx7DmiVmvM8dwug==
-X-Received: by 2002:a17:906:d552:b0:6f5:942e:bc5f with SMTP id cr18-20020a170906d55200b006f5942ebc5fmr25761129ejc.110.1653419644250;
-        Tue, 24 May 2022 12:14:04 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id r17-20020a056402019100b0042abf2affebsm9767860edv.67.2022.05.24.12.14.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 May 2022 12:14:03 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: mripard@kernel.org, wens@csie.org, airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz
-Subject: Re: Re: Re: [PATCH] drm/sun4i: Fix blend registers corruption for DE2.0/DE3.0
-Date: Tue, 24 May 2022 21:14:02 +0200
-Message-ID: <3174733.44csPzL39Z@kista>
-In-Reply-To: <CAGphcdnbAS64yUomkaAMWqStO6mO3nLq2qrOU-W99htH0_Fz-g@mail.gmail.com>
-References: <20220524135249.49993-1-roman.o.stratiienko@globallogic.com> <CAGphcdn=7r1p217m0DczgYZeGV+STe9PAAAuMjb0qXq2cteEwg@mail.gmail.com> <CAGphcdnbAS64yUomkaAMWqStO6mO3nLq2qrOU-W99htH0_Fz-g@mail.gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B056B802
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 00:30:45 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C03D31FB;
+	Tue, 24 May 2022 17:30:44 -0700 (PDT)
+Received: from slackpad.fritz.box (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 71E0B3F66F;
+	Tue, 24 May 2022 17:30:43 -0700 (PDT)
+From: Andre Przywara <andre.przywara@arm.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	u-boot@lists.denx.de,
+	linux-sunxi@lists.linux.dev
+Subject: Pull request: u-boot-sunxi/master fixes for v2022.07
+Date: Wed, 25 May 2022 01:30:21 +0100
+Message-Id: <20220525003021.31871-1-andre.przywara@arm.com>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 24. maj 2022 ob 19:14:35 CEST je Roman Stratiienko napisal(a):
-> By the way, not related to this issue:
->=20
-> I cherry-picked
-> https://patchwork.kernel.org/project/dri-devel/patch/20220424162633.12369=
-=2D9-samuel@sholland.org/
-> and got a blank FB console on OPI3.
-> Can you check it please?
+Hi Tom,
 
-Reply to that patch and we'll talk.
+please pull the master branch from u-boot-sunxi, containing fixes and
+updates for 2022.07.
+The bulk of it is (finally!) some DT sync from the kernel. We refrained
+from syncing one incompatible change, as this would spoil booting Linux
+kernels before v5.13 with U-Boot's DT (via UEFI, for instance).
+I test booted Linux v5.18 and v5.4 with that new DT on some boards, and
+the headless peripherals (MMC, USB, Ethernet) seemed to work.
+The rest are fixes:
+- silencing missing clock warnings due to the new pinctrl driver
+- fixing "UART0 on PortF", allowing UART access through the SD card pins
+- add an F1C100s clock driver, to enable MMC support (SPI comes later)
+- some cleanups for CONS_INDEX_n in Kconfig
 
-Best regards,
-Jernej
+Tested on BananaPi-M1, Pine64-LTS, Pine-H64, X96-Mate (H616) and
+OrangePi-Zero.
 
->=20
-> Regards,
-> Roman
->=20
->=20
->=20
-> =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 20:10, Roman Stra=
-tiienko <r.stratiienko@gmail.com>:
-> >
-> > Please draft a test for the zpos issue you're mentioning.
-> >
-> > It's very easy to do with kmsxx using python wrapper.
-> >
-> > Or explain steps to reproduce here, I will write it by myself.
-> >
-> > Thanks.
-> > Regards
-> > Roman
-> >
-> > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 19:21, Jernej =
-=C5=A0krabec <jernej.skrabec@gmail.com>:
-> > >
-> > > Dne torek, 24. maj 2022 ob 17:31:13 CEST je Roman Stratiienko=20
-napisal(a):
-> > > > NAK for this. Further testing showed such an approach is not reliab=
-le
-> > > > due to .atomic_update() callback called only in case planes have so=
-me
-> > > > changes.
-> > >
-> > > Additionally, I think it would be better to fix underlaying zpos issu=
-e=20
-first
-> > > (attempted many times) and then worry about blending.
-> > >
-> > > Best regards,
-> > > Jernej
-> > >
-> > > >
-> > > > =D0=B2=D1=82, 24 =D0=BC=D0=B0=D1=8F 2022 =D0=B3. =D0=B2 16:52, Roma=
-n Stratiienko=20
-<r.stratiienko@gmail.com>:
-> > > > >
-> > > > > Corruption happens when plane zpos is updated
-> > > > >
-> > > > > Example scenario:
-> > > > >
-> > > > > Initial frame blender state:
-> > > > >     PLANE_ZPOS =3D {0, 1, 2, 3}
-> > > > >     BLD_ROUTE  =3D {0, 1, 2, 0}
-> > > > >     BLD_EN     =3D {1, 1, 1, 0}
-> > > > >
-> > > > > New frame commit (Only ZPOS has been changed):
-> > > > >
-> > > > >     PLANE_ZPOS =3D {0->2, 1->0, 2->1, 3}
-> > > > >
-> > > > > Expected results after plane state update:
-> > > > >                 Z0 Z1 Z2 Z3
-> > > > >     BLD_ROUTE =3D {1, 2, 0, 0}
-> > > > >     BLD_EN    =3D {1, 1, 1, 0}
-> > > > >
-> > > > > What is currently happening:
-> > > > >
-> > > > > 1. sun8i_vi_layer_enable(enabled=3Dtrue, zpos=3D2, old_zpos=3D0):
-> > > > >     BLD_ROUTE =3D {1->0, 1, 2->0, 0}
-> > > > >     BLD_EN    =3D {1->0, 1, 1->1, 0}
-> > > > >
-> > > > > 2. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D0, old_zpos=3D1):
-> > > > >     BLD_ROUTE =3D {0->1, 1->0, 0, 0}
-> > > > >     BLD_EN    =3D {0->1, 1->0, 1, 0}
-> > > > >
-> > > > > 3. sun8i_ui_layer_enable(enabled=3Dtrue, zpos=3D1, old_zpos=3D2):
-> > > > >     BLD_ROUTE =3D {1, 0->2, 0->0, 0}
-> > > > >     BLD_EN    =3D {1, 0->2, 1->0, 0}
-> > > > >
-> > > > > After updating of all the planes we are ending up with BLD_EN[2]=
-=3D0,
-> > > > > which makes this channel disabled.
-> > > > >
-> > > > > To fix this issue, clear BLEND registers before updating the plan=
-es
-> > > > > and do not clear the old state while processing every plane.
-> > > > >
-> > > > > Signed-off-by: Roman Stratiienko=20
-<roman.o.stratiienko@globallogic.com>
-> > > > > ---
-> > > > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 16 +++++++++++++++
-> > > > >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 28 +++
-+----------------------
-> > > > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 28 +++
-+----------------------
-> > > > >  3 files changed, 24 insertions(+), 48 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/dr=
-m/
-sun4i/
-> > > sun8i_mixer.c
-> > > > > index f5e8aeaa3cdf..004377a000fc 100644
-> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > > > @@ -248,6 +248,21 @@ int sun8i_mixer_drm_format_to_hw(u32 format,=
-=20
-u32
-> > > *hw_format)
-> > > > >         return -EINVAL;
-> > > > >  }
-> > > > >
-> > > > > +static void sun8i_atomic_begin(struct sunxi_engine *engine,
-> > > > > +                              struct drm_crtc_state *old_state)
-> > > > > +{
-> > > > > +       struct sun8i_mixer *mixer =3D engine_to_sun8i_mixer(engin=
-e);
-> > > > > +       u32 bld_base =3D sun8i_blender_base(mixer);
-> > > > > +
-> > > > > +       regmap_write(engine->regs,
-> > > > > +                    SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> > > > > +                    0);
-> > > > > +
-> > > > > +       regmap_write(engine->regs,
-> > > > > +                    SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> > > > > +                    0);
-> > > > > +}
-> > > > > +
-> > > > >  static void sun8i_mixer_commit(struct sunxi_engine *engine)
-> > > > >  {
-> > > > >         DRM_DEBUG_DRIVER("Committing changes\n");
-> > > > > @@ -299,6 +314,7 @@ static struct drm_plane=20
-**sun8i_layers_init(struct
-> > > drm_device *drm,
-> > > > >  }
-> > > > >
-> > > > >  static const struct sunxi_engine_ops sun8i_engine_ops =3D {
-> > > > > +       .atomic_begin   =3D sun8i_atomic_begin,
-> > > > >         .commit         =3D sun8i_mixer_commit,
-> > > > >         .layers_init    =3D sun8i_layers_init,
-> > > > >  };
-> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c b/drivers/gpu/
-drm/
-> > > sun4i/sun8i_ui_layer.c
-> > > > > index 7845c2a53a7f..b294a882626a 100644
-> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
-> > > > > @@ -24,8 +24,7 @@
-> > > > >  #include "sun8i_ui_scaler.h"
-> > > > >
-> > > > >  static void sun8i_ui_layer_enable(struct sun8i_mixer *mixer, int=
-=20
-channel,
-> > > > > -                                 int overlay, bool enable, unsig=
-ned=20
-int
-> > > zpos,
-> > > > > -                                 unsigned int old_zpos)
-> > > > > +                                 int overlay, bool enable, unsig=
-ned=20
-int
-> > > zpos)
-> > > > >  {
-> > > > >         u32 val, bld_base, ch_base;
-> > > > >
-> > > > > @@ -44,18 +43,6 @@ static void sun8i_ui_layer_enable(struct=20
-sun8i_mixer
-> > > *mixer, int channel,
-> > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base,
-> > > overlay),
-> > > > >                            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_EN, val=
-);
-> > > > >
-> > > > > -       if (!enable || zpos !=3D old_zpos) {
-> > > > > -               regmap_update_bits(mixer->engine.regs,
-> > > > > -                                 =20
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> > > > > -
-> > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
-> > > > > -                                  0);
-> > > > > -
-> > > > > -               regmap_update_bits(mixer->engine.regs,
-> > > > > -                                 =20
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> > > > > -
-> > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
-> > > > > -                                  0);
-> > > > > -       }
-> > > > > -
-> > > > >         if (enable) {
-> > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> > > > >
-> > > > > @@ -291,31 +278,24 @@ static int sun8i_ui_layer_atomic_check(stru=
-ct
-> > > drm_plane *plane,
-> > > > >  static void sun8i_ui_layer_atomic_disable(struct drm_plane *plan=
-e,
-> > > > >                                           struct drm_atomic_state=
-=20
-*state)
-> > > > >  {
-> > > > > -       struct drm_plane_state *old_state =3D
-> > > drm_atomic_get_old_plane_state(state,
-> > > > > -
-> > > plane);
-> > > > >         struct sun8i_ui_layer *layer =3D=20
-plane_to_sun8i_ui_layer(plane);
-> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
-> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
-> > > > >
-> > > > > -       sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > false, 0,
-> > > > > -                             old_zpos);
-> > > > > +       sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > false, 0);
-> > > > >  }
-> > > > >
-> > > > >  static void sun8i_ui_layer_atomic_update(struct drm_plane *plane,
-> > > > >                                          struct drm_atomic_state=
-=20
-*state)
-> > > > >  {
-> > > > > -       struct drm_plane_state *old_state =3D
-> > > drm_atomic_get_old_plane_state(state,
-> > > > > -
-> > > plane);
-> > > > >         struct drm_plane_state *new_state =3D
-> > > drm_atomic_get_new_plane_state(state,
-> > > > >
-> > > plane);
-> > > > >         struct sun8i_ui_layer *layer =3D=20
-plane_to_sun8i_ui_layer(plane);
-> > > > >         unsigned int zpos =3D new_state->normalized_zpos;
-> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
-> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
-> > > > >
-> > > > >         if (!new_state->visible) {
-> > > > >                 sun8i_ui_layer_enable(mixer, layer->channel,
-> > > > > -                                     layer->overlay, false, 0,=20
-old_zpos);
-> > > > > +                                     layer->overlay, false, 0);
-> > > > >                 return;
-> > > > >         }
-> > > > >
-> > > > > @@ -328,7 +308,7 @@ static void sun8i_ui_layer_atomic_update(stru=
-ct
-> > > drm_plane *plane,
-> > > > >         sun8i_ui_layer_update_buffer(mixer, layer->channel,
-> > > > >                                      layer->overlay, plane);
-> > > > >         sun8i_ui_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > > > -                             true, zpos, old_zpos);
-> > > > > +                             true, zpos);
-> > > > >  }
-> > > > >
-> > > > >  static const struct drm_plane_helper_funcs=20
-sun8i_ui_layer_helper_funcs =3D
-> > > {
-> > > > > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/
-drm/
-> > > sun4i/sun8i_vi_layer.c
-> > > > > index bb7c43036dfa..4653244b2fd8 100644
-> > > > > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > > > > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-> > > > > @@ -18,8 +18,7 @@
-> > > > >  #include "sun8i_vi_scaler.h"
-> > > > >
-> > > > >  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int=
-=20
-channel,
-> > > > > -                                 int overlay, bool enable, unsig=
-ned=20
-int
-> > > zpos,
-> > > > > -                                 unsigned int old_zpos)
-> > > > > +                                 int overlay, bool enable, unsig=
-ned=20
-int
-> > > zpos)
-> > > > >  {
-> > > > >         u32 val, bld_base, ch_base;
-> > > > >
-> > > > > @@ -38,18 +37,6 @@ static void sun8i_vi_layer_enable(struct=20
-sun8i_mixer
-> > > *mixer, int channel,
-> > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base,
-> > > overlay),
-> > > > >                            SUN8I_MIXER_CHAN_VI_LAYER_ATTR_EN, val=
-);
-> > > > >
-> > > > > -       if (!enable || zpos !=3D old_zpos) {
-> > > > > -               regmap_update_bits(mixer->engine.regs,
-> > > > > -                                 =20
-SUN8I_MIXER_BLEND_PIPE_CTL(bld_base),
-> > > > > -
-> > > SUN8I_MIXER_BLEND_PIPE_CTL_EN(old_zpos),
-> > > > > -                                  0);
-> > > > > -
-> > > > > -               regmap_update_bits(mixer->engine.regs,
-> > > > > -                                 =20
-SUN8I_MIXER_BLEND_ROUTE(bld_base),
-> > > > > -
-> > > SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(old_zpos),
-> > > > > -                                  0);
-> > > > > -       }
-> > > > > -
-> > > > >         if (enable) {
-> > > > >                 val =3D SUN8I_MIXER_BLEND_PIPE_CTL_EN(zpos);
-> > > > >
-> > > > > @@ -395,31 +382,24 @@ static int sun8i_vi_layer_atomic_check(stru=
-ct
-> > > drm_plane *plane,
-> > > > >  static void sun8i_vi_layer_atomic_disable(struct drm_plane *plan=
-e,
-> > > > >                                           struct drm_atomic_state=
-=20
-*state)
-> > > > >  {
-> > > > > -       struct drm_plane_state *old_state =3D
-> > > drm_atomic_get_old_plane_state(state,
-> > > > > -
-> > > plane);
-> > > > >         struct sun8i_vi_layer *layer =3D=20
-plane_to_sun8i_vi_layer(plane);
-> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
-> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
-> > > > >
-> > > > > -       sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > false, 0,
-> > > > > -                             old_zpos);
-> > > > > +       sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > false, 0);
-> > > > >  }
-> > > > >
-> > > > >  static void sun8i_vi_layer_atomic_update(struct drm_plane *plane,
-> > > > >                                          struct drm_atomic_state=
-=20
-*state)
-> > > > >  {
-> > > > > -       struct drm_plane_state *old_state =3D
-> > > drm_atomic_get_old_plane_state(state,
-> > > > > -
-> > > plane);
-> > > > >         struct drm_plane_state *new_state =3D
-> > > drm_atomic_get_new_plane_state(state,
-> > > > >
-> > > plane);
-> > > > >         struct sun8i_vi_layer *layer =3D=20
-plane_to_sun8i_vi_layer(plane);
-> > > > >         unsigned int zpos =3D new_state->normalized_zpos;
-> > > > > -       unsigned int old_zpos =3D old_state->normalized_zpos;
-> > > > >         struct sun8i_mixer *mixer =3D layer->mixer;
-> > > > >
-> > > > >         if (!new_state->visible) {
-> > > > >                 sun8i_vi_layer_enable(mixer, layer->channel,
-> > > > > -                                     layer->overlay, false, 0,=20
-old_zpos);
-> > > > > +                                     layer->overlay, false, 0);
-> > > > >                 return;
-> > > > >         }
-> > > > >
-> > > > > @@ -432,7 +412,7 @@ static void sun8i_vi_layer_atomic_update(stru=
-ct
-> > > drm_plane *plane,
-> > > > >         sun8i_vi_layer_update_buffer(mixer, layer->channel,
-> > > > >                                      layer->overlay, plane);
-> > > > >         sun8i_vi_layer_enable(mixer, layer->channel, layer->overl=
-ay,
-> > > > > -                             true, zpos, old_zpos);
-> > > > > +                             true, zpos);
-> > > > >  }
-> > > > >
-> > > > >  static const struct drm_plane_helper_funcs=20
-sun8i_vi_layer_helper_funcs =3D
-> > > {
-> > > > > --
-> > > > > 2.30.2
-> > > > >
-> > > >
-> > >
-> > >
->=20
+Thanks,
+Andre
 
+===============
+The following changes since commit 6f00b97d7e5760d92566317dde6c4b9224790827:
 
+  Merge https://source.denx.de/u-boot/custodians/u-boot-usb (2022-05-20 22:07:56 -0400)
+
+are available in the Git repository at:
+
+  https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+
+for you to fetch changes up to 7495051219b64ec0e8fac8930586dc10666530da:
+
+  serial: Remove obsolete CONS_INDEX_n Kconfig options (2022-05-24 01:46:06 +0100)
+
+----------------------------------------------------------------
+Andre Przywara (5):
+      sunxi: F1C100s: update DT files from Linux
+      Revert "sunxi: f1c100s: Drop SYSRESET to enable reset functionality"
+      clk: sunxi: add PIO bus gate clocks
+      clk: sunxi: add and use dummy gate clocks
+      sunxi: board: Fix UART PortF pinmux setup
+
+George Hilliard (1):
+      clk: sunxi: implement clock driver for suniv f1c100s
+
+Samuel Holland (17):
+      dt-bindings: sunxi: Update clock/reset binding headers
+      ARM: dts: sunxi: Remove unused devicetree headers
+      ARM: dts: sun7i: Sync from Linux v5.18-rc1
+      ARM: dts: sun4i: Sync from Linux v5.18-rc1
+      ARM: dts: sunxi: A13/A31/A23/A33: Sync from Linux v5.18-rc1
+      ARM: dts: sun9i: Sync from Linux v5.18-rc1
+      ARM: dts: sun8i: A83T: Sync from Linux v5.18-rc1
+      ARM: dts: sunxi: H2+/H3/H5: Sync from Linux v5.18-rc1
+      ARM: dts: sun8i: V3/V3s/S3: Sync from Linux v5.18-rc1
+      ARM: dts: sun8i: R40/T3: Sync from Linux v5.18-rc1
+      ARM: dts: sun50i: A64: Sync from Linux v5.18-rc1
+      ARM: dts: sun50i: H6: Sync from Linux v5.18-rc1
+      sunxi: Skip MMC0 init when its pinmux conflicts with UART0
+      mmc: sunxi: Remove unnecessary pinmux option dependency
+      clk: sunxi: h6_r: Correct the driver name
+      sunxi: Remove obsolete Kconfig selections
+      serial: Remove obsolete CONS_INDEX_n Kconfig options
+
+ arch/arm/dts/Makefile                              |  22 +-
+ arch/arm/dts/axp22x.dtsi                           |  11 +-
+ arch/arm/dts/axp803.dtsi                           |  10 +-
+ arch/arm/dts/axp81x.dtsi                           |  15 +-
+ arch/arm/dts/sun4i-a10-inet97fv2.dts               |  22 +-
+ arch/arm/dts/sun50i-a64-cpu-opp.dtsi               |   2 +-
+ arch/arm/dts/sun50i-a64-orangepi-win.dts           |   2 +-
+ arch/arm/dts/sun50i-a64-pinebook.dts               |   1 +
+ arch/arm/dts/sun50i-a64-pinephone.dtsi             |  27 ++
+ arch/arm/dts/sun50i-a64-pinetab.dts                |  29 +-
+ arch/arm/dts/sun50i-a64-teres-i.dts                |   4 +-
+ arch/arm/dts/sun50i-a64.dtsi                       |  93 ++++--
+ arch/arm/dts/sun50i-h5-cpu-opp.dtsi                |   2 +-
+ arch/arm/dts/sun50i-h5-nanopi-r1s-h5.dts           |   9 +-
+ arch/arm/dts/sun50i-h5.dtsi                        |   6 +-
+ arch/arm/dts/sun50i-h6-beelink-gs1.dts             |  38 +--
+ arch/arm/dts/sun50i-h6-cpu-opp.dtsi                |   2 +-
+ arch/arm/dts/sun50i-h6-orangepi-3.dts              |  14 +-
+ arch/arm/dts/sun50i-h6-orangepi.dtsi               |  22 +-
+ arch/arm/dts/sun50i-h6-pine-h64-model-b.dts        |  51 ++++
+ arch/arm/dts/sun50i-h6-tanix-tx6-mini.dts          |  15 +
+ arch/arm/dts/sun50i-h6-tanix-tx6.dts               | 115 +------
+ arch/arm/dts/sun50i-h6-tanix.dtsi                  | 189 ++++++++++++
+ arch/arm/dts/sun50i-h6.dtsi                        |  26 +-
+ arch/arm/dts/sun5i-a10s-auxtek-t003.dts            |  16 +-
+ arch/arm/dts/sun5i-a10s-auxtek-t004.dts            |  35 +--
+ arch/arm/dts/sun5i-a10s-mk802.dts                  |  31 +-
+ arch/arm/dts/sun5i-a10s-olinuxino-micro.dts        |  68 +----
+ arch/arm/dts/sun5i-a10s-r7-tv-dongle.dts           |  22 +-
+ arch/arm/dts/sun5i-a10s-wobo-i5.dts                |  34 +--
+ arch/arm/dts/sun5i-a10s.dtsi                       |  30 +-
+ arch/arm/dts/sun5i-a13-ampe-a76.dts                |   2 +-
+ arch/arm/dts/sun5i-a13-empire-electronix-d709.dts  |  41 +--
+ arch/arm/dts/sun5i-a13-hsg-h702.dts                |  37 +--
+ arch/arm/dts/sun5i-a13-inet-86vs.dts               |   2 +-
+ ...i-q8-common.dtsi => sun5i-a13-licheepi-one.dts} | 146 +++++----
+ arch/arm/dts/sun5i-a13-olinuxino-micro.dts         |  50 +---
+ arch/arm/dts/sun5i-a13-olinuxino.dts               |  56 +---
+ arch/arm/dts/sun5i-a13-pocketbook-touch-lux-3.dts  | 258 ++++++++++++++++
+ arch/arm/dts/sun5i-a13-q8-tablet.dts               |  18 +-
+ arch/arm/dts/sun5i-a13-utoo-p66.dts                |  26 +-
+ arch/arm/dts/sun5i-a13.dtsi                        |  23 +-
+ arch/arm/dts/sun5i-gr8-chip-pro.dts                |  38 +--
+ arch/arm/dts/sun5i-gr8-evb.dts                     | 333 +++++++++++++++++++++
+ arch/arm/dts/sun5i-gr8.dtsi                        |  12 +-
+ arch/arm/dts/sun5i-r8-chip.dts                     |  52 +---
+ arch/arm/dts/sun5i-reference-design-tablet.dtsi    |  57 +---
+ arch/arm/dts/sun5i.dtsi                            | 209 ++++++++-----
+ arch/arm/dts/sun6i-a31-app4-evb1.dts               |  10 +-
+ arch/arm/dts/sun6i-a31-colombus.dts                |  57 +---
+ arch/arm/dts/sun6i-a31-hummingbird.dts             |  75 ++---
+ arch/arm/dts/sun6i-a31-i7.dts                      |  47 +--
+ arch/arm/dts/sun6i-a31-m9.dts                      |  46 +--
+ arch/arm/dts/sun6i-a31-mele-a1000g-quad.dts        |  46 +--
+ arch/arm/dts/sun6i-a31-mixtile-loftq.dts           |   6 +-
+ arch/arm/dts/sun6i-a31.dtsi                        | 218 ++++++++------
+ arch/arm/dts/sun6i-a31s-colorfly-e708-q1.dts       |   2 +-
+ arch/arm/dts/sun6i-a31s-cs908.dts                  |  17 +-
+ arch/arm/dts/sun6i-a31s-inet-q972.dts              |   8 +-
+ arch/arm/dts/sun6i-a31s-primo81.dts                |  32 +-
+ arch/arm/dts/sun6i-a31s-sina31s-core.dtsi          |   4 +-
+ arch/arm/dts/sun6i-a31s-sina31s.dts                |  39 +--
+ arch/arm/dts/sun6i-a31s-sinovoip-bpi-m2.dts        | 144 +++++----
+ .../arm/dts/sun6i-a31s-yones-toptech-bs1078-v2.dts |  22 +-
+ arch/arm/dts/sun6i-reference-design-tablet.dtsi    |  22 +-
+ arch/arm/dts/sun7i-a20-bananapi-m1-plus.dts        |  16 +-
+ arch/arm/dts/sun7i-a20-bananapi.dts                |  41 ++-
+ arch/arm/dts/sun7i-a20-bananapro.dts               |  16 +-
+ arch/arm/dts/sun7i-a20-cubieboard2.dts             |  28 +-
+ arch/arm/dts/sun7i-a20-cubietruck.dts              |  20 +-
+ arch/arm/dts/sun7i-a20-haoyu-marsboard.dts         | 182 +++++++++++
+ arch/arm/dts/sun7i-a20-hummingbird.dts             |  21 +-
+ arch/arm/dts/sun7i-a20-i12-tvbox.dts               |  16 +-
+ arch/arm/dts/sun7i-a20-icnova-swac.dts             |  15 +-
+ arch/arm/dts/sun7i-a20-itead-ibox.dts              |   8 +-
+ arch/arm/dts/sun7i-a20-lamobo-r1.dts               |  16 +-
+ arch/arm/dts/sun7i-a20-linutronix-testbox-v2.dts   |  47 +++
+ arch/arm/dts/sun7i-a20-m3.dts                      |  14 +-
+ arch/arm/dts/sun7i-a20-m5.dts                      |   2 +
+ arch/arm/dts/sun7i-a20-olimex-som-evb.dts          |  14 +-
+ arch/arm/dts/sun7i-a20-olimex-som204-evb.dts       |  30 +-
+ arch/arm/dts/sun7i-a20-olinuxino-lime-emmc.dts     |  32 ++
+ arch/arm/dts/sun7i-a20-olinuxino-lime.dts          |  32 +-
+ arch/arm/dts/sun7i-a20-olinuxino-lime2.dts         |  46 +--
+ arch/arm/dts/sun7i-a20-olinuxino-micro.dts         |  32 +-
+ arch/arm/dts/sun7i-a20-orangepi-mini.dts           |  28 +-
+ arch/arm/dts/sun7i-a20-orangepi.dts                |  26 +-
+ arch/arm/dts/sun7i-a20-pcduino3-nano.dts           |  32 +-
+ arch/arm/dts/sun7i-a20-pcduino3.dts                |  28 +-
+ arch/arm/dts/sun7i-a20-wexler-tab7200.dts          |  13 +-
+ arch/arm/dts/sun7i-a20-wits-pro-a20-dkt.dts        |  24 +-
+ arch/arm/dts/sun7i-a20.dtsi                        | 254 ++++++++++++++--
+ arch/arm/dts/sun8i-a23-a33.dtsi                    | 308 +++++++++++++++----
+ arch/arm/dts/sun8i-a23-evb.dts                     |  20 +-
+ arch/arm/dts/sun8i-a23-gt90h-v4.dts                |   2 +-
+ ...-q8-common.dtsi => sun8i-a23-ippo-q8h-v1.2.dts} |  54 ++--
+ arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts             |  73 +++++
+ arch/arm/dts/sun8i-a23-polaroid-mid2407pxe03.dts   |  15 +-
+ arch/arm/dts/sun8i-a23-polaroid-mid2809pxe04.dts   |  15 +-
+ arch/arm/dts/sun8i-a23-q8-tablet.dts               |  10 +
+ arch/arm/dts/sun8i-a23.dtsi                        |  26 +-
+ ...lassic-edition.dts => sun8i-a33-et-q8-v1.6.dts} |  32 +-
+ arch/arm/dts/sun8i-a33-ga10h-v1.1.dts              |   4 +-
+ arch/arm/dts/sun8i-a33-inet-d978-rev2.dts          |  14 +-
+ arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts           |  57 ++++
+ arch/arm/dts/sun8i-a33-olinuxino.dts               |  12 +-
+ arch/arm/dts/sun8i-a33-q8-tablet.dts               |   7 +
+ arch/arm/dts/sun8i-a33-sinlinx-sina33.dts          |  34 +--
+ arch/arm/dts/sun8i-a33.dtsi                        | 270 ++++++-----------
+ arch/arm/dts/sun8i-a83t-allwinner-h8homlet-v2.dts  |  12 +
+ arch/arm/dts/sun8i-a83t-bananapi-m3.dts            |  55 +++-
+ arch/arm/dts/sun8i-a83t-cubietruck-plus.dts        |  77 ++++-
+ arch/arm/dts/sun8i-a83t-tbs-a711.dts               | 101 ++++++-
+ arch/arm/dts/sun8i-a83t.dtsi                       | 311 ++++++++++++++++---
+ arch/arm/dts/sun8i-h2-plus-bananapi-m2-zero.dts    |  28 +-
+ arch/arm/dts/sun8i-h3-beelink-x2.dts               |  27 +-
+ arch/arm/dts/sun8i-h3-nanopi-neo-air.dts           |  28 ++
+ arch/arm/dts/sun8i-h3-nanopi-r1.dts                | 169 +++++++++++
+ arch/arm/dts/sun8i-h3-nanopi.dtsi                  |   1 +
+ arch/arm/dts/sun8i-h3-orangepi-2.dts               |   3 +-
+ arch/arm/dts/sun8i-h3-orangepi-pc.dts              |   3 +-
+ arch/arm/dts/sun8i-h3.dtsi                         |  10 +-
+ arch/arm/dts/sun8i-q8-common.dtsi                  |  31 +-
+ arch/arm/dts/sun8i-r16-bananapi-m2m.dts            |  55 ++--
+ arch/arm/dts/sun8i-r16-nintendo-nes-classic.dts    |  54 ++++
+ .../dts/sun8i-r16-nintendo-super-nes-classic.dts   |  11 +
+ arch/arm/dts/sun8i-r16-parrot.dts                  |  62 +---
+ arch/arm/dts/sun8i-r40-feta40i.dtsi                | 106 +++++++
+ arch/arm/dts/sun8i-r40-oka40i-c.dts                | 203 +++++++++++++
+ arch/arm/dts/sun8i-r40.dtsi                        | 118 +++++++-
+ arch/arm/dts/sun8i-reference-design-tablet.dtsi    |  33 +-
+ arch/arm/dts/sun8i-s3-elimo-impetus.dtsi           |  44 +++
+ arch/arm/dts/sun8i-s3-elimo-initium.dts            |  29 ++
+ arch/arm/dts/sun8i-s3-pinecube.dts                 |  13 +-
+ arch/arm/dts/sun8i-t3-cqa3t-bv3.dts                | 226 ++++++++++++++
+ arch/arm/dts/sun8i-v3-sl631-imx179.dts             |  12 +
+ arch/arm/dts/sun8i-v3-sl631.dtsi                   | 138 +++++++++
+ arch/arm/dts/sun8i-v3.dtsi                         |  36 +++
+ arch/arm/dts/sun8i-v3s-licheepi-zero-dock.dts      |  17 +-
+ arch/arm/dts/sun8i-v3s.dtsi                        |  93 +++++-
+ arch/arm/dts/sun9i-a80-cubieboard4.dts             |  67 +++--
+ arch/arm/dts/sun9i-a80-optimus.dts                 |  50 +++-
+ arch/arm/dts/sun9i-a80.dtsi                        | 195 +++++++-----
+ arch/arm/dts/suniv-f1c100s-licheepi-nano.dts       |  31 ++
+ arch/arm/dts/suniv-f1c100s.dtsi                    | 104 ++++++-
+ arch/arm/dts/sunxi-bananapi-m2-plus-v1.2.dtsi      |  18 +-
+ arch/arm/dts/sunxi-bananapi-m2-plus.dtsi           |   4 +-
+ arch/arm/dts/sunxi-common-regulators.dtsi          |  39 ---
+ arch/arm/dts/sunxi-h3-h5.dtsi                      |  42 ++-
+ arch/arm/dts/sunxi-libretech-all-h3-cc.dtsi        |  13 +
+ arch/arm/dts/sunxi-libretech-all-h3-it.dtsi        |   2 +-
+ arch/arm/dts/sunxi-reference-design-tablet.dtsi    |  11 +-
+ arch/arm/mach-sunxi/Kconfig                        |   5 +-
+ arch/arm/mach-sunxi/board.c                        |  13 +-
+ board/sunxi/board.c                                |  22 +-
+ configs/Nintendo_NES_Classic_Edition_defconfig     |   2 +-
+ configs/licheepi_nano_defconfig                    |   1 -
+ drivers/clk/sunxi/Kconfig                          |   7 +
+ drivers/clk/sunxi/Makefile                         |   1 +
+ drivers/clk/sunxi/clk_a10.c                        |   2 +
+ drivers/clk/sunxi/clk_a10s.c                       |   2 +
+ drivers/clk/sunxi/clk_a23.c                        |   2 +
+ drivers/clk/sunxi/clk_a31.c                        |   2 +
+ drivers/clk/sunxi/clk_a64.c                        |   4 +
+ drivers/clk/sunxi/clk_a80.c                        |   2 +
+ drivers/clk/sunxi/clk_a83t.c                       |   2 +
+ drivers/clk/sunxi/clk_f1c100s.c                    |  74 +++++
+ drivers/clk/sunxi/clk_h3.c                         |   4 +
+ drivers/clk/sunxi/clk_h6.c                         |   4 +
+ drivers/clk/sunxi/clk_h616.c                       |   4 +
+ drivers/clk/sunxi/clk_h6_r.c                       |   6 +-
+ drivers/clk/sunxi/clk_r40.c                        |   2 +
+ drivers/clk/sunxi/clk_sunxi.c                      |   3 +
+ drivers/clk/sunxi/clk_v3s.c                        |   2 +
+ drivers/mmc/Kconfig                                |   2 +-
+ drivers/serial/Kconfig                             |  26 --
+ include/clk/sunxi.h                                |   5 +
+ include/dt-bindings/clock/sun50i-a64-ccu.h         |   2 +-
+ include/dt-bindings/clock/sun5i-ccu.h              |  13 +-
+ include/dt-bindings/clock/sun6i-a31-ccu.h          |   2 +
+ include/dt-bindings/clock/sun8i-a23-a33-ccu.h      |   2 +
+ include/dt-bindings/clock/sun8i-h3-ccu.h           |   2 +-
+ include/dt-bindings/clock/sun8i-v3s-ccu.h          |   4 +
+ include/dt-bindings/reset/sun5i-ccu.h              |  11 +-
+ include/dt-bindings/reset/sun8i-v3s-ccu.h          |   3 +
+ 185 files changed, 5516 insertions(+), 2508 deletions(-)
+ create mode 100644 arch/arm/dts/sun50i-h6-pine-h64-model-b.dts
+ create mode 100644 arch/arm/dts/sun50i-h6-tanix-tx6-mini.dts
+ create mode 100644 arch/arm/dts/sun50i-h6-tanix.dtsi
+ rename arch/arm/dts/{sun5i-q8-common.dtsi => sun5i-a13-licheepi-one.dts} (62%)
+ create mode 100644 arch/arm/dts/sun5i-a13-pocketbook-touch-lux-3.dts
+ create mode 100644 arch/arm/dts/sun5i-gr8-evb.dts
+ create mode 100644 arch/arm/dts/sun7i-a20-haoyu-marsboard.dts
+ create mode 100644 arch/arm/dts/sun7i-a20-linutronix-testbox-v2.dts
+ create mode 100644 arch/arm/dts/sun7i-a20-olinuxino-lime-emmc.dts
+ rename arch/arm/dts/{sunxi-q8-common.dtsi => sun8i-a23-ippo-q8h-v1.2.dts} (75%)
+ create mode 100644 arch/arm/dts/sun8i-a23-ippo-q8h-v5.dts
+ rename arch/arm/dts/{sun8i-r16-nintendo-nes-classic-edition.dts => sun8i-a33-et-q8-v1.6.dts} (81%)
+ create mode 100644 arch/arm/dts/sun8i-a33-ippo-q8h-v1.2.dts
+ create mode 100644 arch/arm/dts/sun8i-h3-nanopi-r1.dts
+ create mode 100644 arch/arm/dts/sun8i-r16-nintendo-nes-classic.dts
+ create mode 100644 arch/arm/dts/sun8i-r16-nintendo-super-nes-classic.dts
+ create mode 100644 arch/arm/dts/sun8i-r40-feta40i.dtsi
+ create mode 100644 arch/arm/dts/sun8i-r40-oka40i-c.dts
+ create mode 100644 arch/arm/dts/sun8i-s3-elimo-impetus.dtsi
+ create mode 100644 arch/arm/dts/sun8i-s3-elimo-initium.dts
+ create mode 100644 arch/arm/dts/sun8i-t3-cqa3t-bv3.dts
+ create mode 100644 arch/arm/dts/sun8i-v3-sl631-imx179.dts
+ create mode 100644 arch/arm/dts/sun8i-v3-sl631.dtsi
+ create mode 100644 drivers/clk/sunxi/clk_f1c100s.c
