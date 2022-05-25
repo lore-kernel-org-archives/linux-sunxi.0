@@ -1,49 +1,48 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1FE138B
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:10:43 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 9C920C1101
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 18:59:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A195138C;
+	Wed, 25 May 2022 19:10:43 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id E2C08FF80C;
-	Wed, 25 May 2022 18:59:14 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 73F41FF805;
+	Wed, 25 May 2022 19:10:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505156;
+	t=1653505841;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=tyoFbHyMlf9QP64F8lmGQgG1G8LzEKtg22NnJh8XErw=;
-	b=FWe78jrlL8/w4Q8VtVhA7YUXxEXnKrEkDz8oDn9z9nMVs3pLy/wFf+byf+CskHaauNg1Yl
-	6K1j5HveF9/lFCkBXB3l3c+qcAjX7KsbBFokoMZv0FgCRZvk5/iSyCxMK+TDxMgzgBBr+t
-	QWFH3IAgKE4V/3tPsNINNiWpk0f70zNDZ9/OfFUiq3VrY4eUAZ+J2KlnzrGB8dIWYh6s7e
-	sbmeluAJFVmM8h3Yre4XJwmTYLfmZiaXiAXzcb0vLhJIgLwyYEkBrlBVc51dkeKyaG+BuK
-	PJKT+7VgsZ1X+2oN3vT1PHbZEpcS/W5sJbZFruAAG55xQBMZx5x9eJ/wknFysg==
+	bh=fD3BO/j67l9HqtMkYAqdXitbbV2fhX6yvbmEUse4WKw=;
+	b=oJXIxMrwuARH7NhkRxPm5HBcVr/w9NjpEcQNSvu6zq4c3aCjc9/v+ZZIHmkcUmzGAfivlG
+	8AFFOvGGKI3ZBLxw2XYVxTHT9vcMDOrAKSwl/X+PbOjFcLNkpMddpUysTtOazUP9zLno1d
+	LIcyP4gExKWouXGBkGjrzyhdsyRX/JjKvs3JjCM1dfuG1qxB2vvzmQil41tZ/uHn/NTczb
+	9IxMLWXGrc9YdstoVWaVCZHQiBn0x3pjrMpOFeYY+j4h3dVAWrSuuArStQT0R5KTbeFYVz
+	8ULPZ/YF5fsyhXZhPDNNGl0B0Vw12BvhawC4eXsrr0PaEHzc2nN/24JtG+pvLA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: devicetree@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v4 5/7] ARM: dts: sun8i: v3s: Add support for the ISP
-Date: Wed, 25 May 2022 20:58:51 +0200
-Message-Id: <20220525185853.695931-6-paul.kocialkowski@bootlin.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v4 5/6] media: sun6i-csi: Detect the availability of the ISP
+Date: Wed, 25 May 2022 21:10:25 +0200
+Message-Id: <20220525191026.696636-6-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
-References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
+References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,78 +51,87 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The V3s (and related platforms) come with an instance of the A31 ISP.
-Even though it is very close to the A31 ISP, it is not exactly
-register-compatible and a dedicated compatible only is used as a
-result.
-
-Just like most other blocks of the camera pipeline, the ISP uses
-the common CSI bus, module and ram clock as well as reset.
-
-A port connection to the ISP is added to CSI0 for convenience since
-CSI0 serves for MIPI CSI-2 interface support, which is likely to
-receive raw data that will need to be processed by the ISP to produce
-a final image.
-
-The interconnects property is used to inherit the proper DMA offset.
+Add a helper to detect whether the ISP is available and connected
+and store the indication in a driver-wide variable.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 35 ++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 33 +++++++++++++++++++
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  3 ++
+ 2 files changed, 36 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index a9405e011f3e..3d56a9471199 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -643,6 +643,14 @@ csi0_in_mipi_csi2: endpoint {
- 						remote-endpoint = <&mipi_csi2_out_csi0>;
- 					};
- 				};
-+
-+				port@2 {
-+					reg = <2>;
-+
-+					csi0_out_isp: endpoint {
-+						remote-endpoint = <&isp_in_csi0>;
-+					};
-+				};
- 			};
- 		};
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+index 00521f966cee..b16166cba2ef 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+@@ -24,6 +24,35 @@
+ #include "sun6i_csi_capture.h"
+ #include "sun6i_csi_reg.h"
  
-@@ -701,5 +709,32 @@ csi1: camera@1cb4000 {
- 			resets = <&ccu RST_BUS_CSI>;
- 			status = "disabled";
- 		};
++/* ISP */
 +
-+		isp: isp@1cb8000 {
-+			compatible = "allwinner,sun8i-v3s-isp";
-+			reg = <0x01cb8000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>,
-+				 <&ccu CLK_DRAM_CSI>;
-+			clock-names = "bus", "mod", "ram";
-+			resets = <&ccu RST_BUS_CSI>;
-+			interconnects = <&mbus 5>;
-+			interconnect-names = "dma-mem";
-+			status = "disabled";
++static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
++{
++	struct device *dev = csi_dev->dev;
++	struct fwnode_handle *handle = NULL;
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++	/* ISP is not available if disabled in kernel config. */
++	if (!IS_ENABLED(CONFIG_VIDEO_SUN6I_ISP))
++		return 0;
 +
-+				port@0 {
-+					reg = <0>;
++	/*
++	 * ISP is not available if not connected via fwnode graph.
++	 * This weill also check that the remote parent node is available.
++	 */
++	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
++						 SUN6I_CSI_PORT_ISP, 0,
++						 FWNODE_GRAPH_ENDPOINT_NEXT);
++	if (!handle)
++		return 0;
 +
-+					isp_in_csi0: endpoint {
-+						remote-endpoint = <&csi0_out_isp>;
-+					};
-+				};
-+			};
-+		};
- 	};
++	fwnode_handle_put(handle);
++
++	dev_info(dev, "ISP link is available\n");
++	csi_dev->isp_available = true;
++
++	return 0;
++}
++
+ /* Media */
+ 
+ static const struct media_device_ops sun6i_csi_media_ops = {
+@@ -290,6 +319,10 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = sun6i_csi_isp_detect(csi_dev);
++	if (ret)
++		goto error_resources;
++
+ 	ret = sun6i_csi_v4l2_setup(csi_dev);
+ 	if (ret)
+ 		goto error_resources;
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+index e611bdd6e9b2..8e232cd91ebe 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
+@@ -21,6 +21,7 @@
+ enum sun6i_csi_port {
+ 	SUN6I_CSI_PORT_PARALLEL		= 0,
+ 	SUN6I_CSI_PORT_MIPI_CSI2	= 1,
++	SUN6I_CSI_PORT_ISP		= 2,
  };
+ 
+ struct sun6i_csi_buffer {
+@@ -44,6 +45,8 @@ struct sun6i_csi_device {
+ 	struct clk			*clock_mod;
+ 	struct clk			*clock_ram;
+ 	struct reset_control		*reset;
++
++	bool				isp_available;
+ };
+ 
+ struct sun6i_csi_variant {
 -- 
 2.36.1
 
