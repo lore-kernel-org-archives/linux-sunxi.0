@@ -1,23 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438781386
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:07:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C3F7C
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:07:20 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8185A1C001A;
-	Wed, 25 May 2022 19:07:16 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id A55911C0008;
+	Wed, 25 May 2022 19:07:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505637;
+	t=1653505638;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GJzc+egyaota32Bq66r0a6Or3NAIG2Lu4YLN9dzNw1o=;
-	b=daJHIyDAv0yOeM0OoeagiCIc9AV6hKEzk37RLYI+S0k45sVDz6ApU51ODrMW+OMLUpIBp3
-	bDMYgTSJEQO7NzOAB46pZSQOs3FmradtbgsrX9RX7gKK4DoGrXrSV6euxgrpQja6QSv7Rp
-	rnF4U2ddMiyIwBikvB+sTlqJpRegbcKnYeuqwal0EWn1F1Xc83aLOiCQ9X5QhhBdyhj2d1
-	79vOkx8CFL/p8oOYPOSGN2woigVb7qVPZilIvMfJAHGc3yLwpto4ImKveaPLhpsPLu3Oel
-	ElpEa/Vj4phZf9t04ILyiiBCvbYTXzSrQFLoKO3YKbn37/+BU+tlSbep0Mrgpg==
+	bh=uDkUjTjqhHI3NerTWBUE4+y5JKxofLdZ2JtbZ9qu4JM=;
+	b=Yzvr8idJWgSOlI+pr2jR9U0KsHJvr7OBgEglG5KyFfY3C290oIVNyYL4RtCreXDQXPan9W
+	AYjyfiYe8y5+GRZ+m09ZOmEInt9H+R81SLgwizsY3rNtwbWfl+2E6DZPzJr4nl/aQbvdgP
+	altIMuQ12M5EKp0SK/yAMYXDHGg+8M6tmD2pCci5XChm8YcNqQkw0MAa0Oo3a1A+GvjRKB
+	AtZcXhOKZ/HkZ73YExGJNIFWV2jeB2/odLZ2NAAGcLItHcZq92n6m6fmJYuE/loPfHjdsn
+	+kxFw5GFDSjIcRu6PoCcve5uDvmWvGU0sDxqlvqfMKdKI3OvDWoLNT0ZUXMmDg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v5 43/44] media: sun6i-csi: Request a shared interrupt
-Date: Wed, 25 May 2022 21:06:16 +0200
-Message-Id: <20220525190617.696344-44-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 44/44] MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
+Date: Wed, 25 May 2022 21:06:17 +0200
+Message-Id: <20220525190617.696344-45-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
 References: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
@@ -46,30 +46,54 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Request our interrupt shared since it is typically shared with the isp
-block. The interrupt routine looks good to go for shared irq.
+Given the substantial rework of the driver that I carried out and the
+knowledge acquired about the hardware along the way, make myself a
+maintainer of the sun6i-csi driver.
+
+Also rename and move the entry while at it since the driver is not
+specific to the V3s.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ MAINTAINERS | 17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index 46c5f98702e1..00521f966cee 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -248,8 +248,8 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
- 		goto error_clock_rate_exclusive;
- 	}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 484f47690ea2..d18e671f2516 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -762,6 +762,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+ F:	drivers/media/platform/sunxi/sun4i-csi/
  
--	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, 0, SUN6I_CSI_NAME,
--			       csi_dev);
-+	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, IRQF_SHARED,
-+			       SUN6I_CSI_NAME, csi_dev);
- 	if (ret) {
- 		dev_err(dev, "failed to request interrupt\n");
- 		goto error_clock_rate_exclusive;
++ALLWINNER A31 CSI DRIVER
++M:	Yong Deng <yong.deng@magewell.com>
++M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
++F:	drivers/media/platform/sunxi/sun6i-csi/
++
+ ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ L:	linux-media@vger.kernel.org
+@@ -5234,14 +5243,6 @@ M:	Jaya Kumar <jayakumar.alsa@gmail.com>
+ S:	Maintained
+ F:	sound/pci/cs5535audio/
+ 
+-CSI DRIVERS FOR ALLWINNER V3s
+-M:	Yong Deng <yong.deng@magewell.com>
+-L:	linux-media@vger.kernel.org
+-S:	Maintained
+-T:	git git://linuxtv.org/media_tree.git
+-F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+-F:	drivers/media/platform/sunxi/sun6i-csi/
+-
+ CW1200 WLAN driver
+ M:	Solomon Peachy <pizza@shaftnet.org>
+ S:	Maintained
 -- 
 2.36.1
 
