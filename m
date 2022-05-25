@@ -1,26 +1,26 @@
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7A71388
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:10:02 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id B0C82C9808
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 18:59:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A407C
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:10:26 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
+	by mslow1.mail.gandi.net (Postfix) with ESMTP id C5278C3AE9
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 18:59:20 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1A5D7FF802;
-	Wed, 25 May 2022 18:59:09 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id B0BDAFF80B;
+	Wed, 25 May 2022 18:59:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505150;
+	t=1653505153;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0e36VTBrl4h01+yvpFDAiMt4gILBhIMX51AW/jYf/nw=;
-	b=CpnH5UNKCQWR+UjMr3xo5f3EdyDfyliqArTluXMHjt78+DsdMwZZJthgi0CeXG16a4NARO
-	ad0O9YgNh4ztfaAlp2HqiNGIdZKsvSwGXjEOfyg2Ie8LvPk+f69kN7Vw4IzofpsKiH2Xvu
-	YO9bZ+DEfC6ZzqzcZ2lRPGd1TwybMewVZdhmTNtHxMa0u1EVl/1ufpLE2s3F+ywNbGqi7I
-	aOcdaprz6/nsCyj1Ia6xiSobnw/ONgQYoxRhfMbk1Pv9yS1PwxdnUFQ/O//RKE+aL4ctiG
-	fWl/o8fu9MYBFoEGcryYL2LY7nK/L8NHvKhecwzas2Fbh1LHYAXyCXBP6YwJIQ==
+	bh=Y45YtidmQ+MGwFX9Of6So7nMJAYvcNWkssWZU76OyKw=;
+	b=bYgeZPmYxeNbz40vp3OFZcf1uCIfbcub49GkRpU1/xkdDcjyLu+jyu5flYd8itsfKQjWTo
+	+9Ux7QyVOka3k3qB4LPTREccj4p2HbP1bVZu7vK1USsSraPvqTxCPmvjkQJftcZPkLrXWj
+	pbAtkj+p3OTKxpP+oVz1klChbMWBXRUZUfqzkl/BjNZCafjM8jqABd7P32GYoYq9fqu6Gj
+	SbJl8N3vYz2H0oiQx1DBNHrlnRDtCmE5NKLig5q6MGAd/Qj1tblRqauX1N1KMhS7KCvvkl
+	0iF5imsfwSVOBq3C4aSo7AHLgXrGI+jhl9zG48wAyM7+Ym7mZzBGhthnVyat7Q==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
@@ -38,9 +38,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v4 1/7] dt-bindings: interconnect: sunxi: Add V3s mbus compatible
-Date: Wed, 25 May 2022 20:58:47 +0200
-Message-Id: <20220525185853.695931-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v4 3/7] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
+Date: Wed, 25 May 2022 20:58:49 +0200
+Message-Id: <20220525185853.695931-4-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
 References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
@@ -52,38 +52,41 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since the V3s uses the internal mbus for DMA with multimedia devices,
-document its compatible in accordance with the extended mbus binding.
-
-This will enable adding support for the V3s in the full-fledged
-devfreq driver eventually.
+The V3s uses the mbus interconnect to provide DRAM access for a
+number of blocks. The SoC can only map 2 GiB of DRAM, which is
+reflected in the dma-ranges property.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
 ---
- .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-index 8eee312c2e6f..c079d01e41d7 100644
---- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-+++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
-@@ -31,6 +31,7 @@ properties:
-       - allwinner,sun5i-a13-mbus
-       - allwinner,sun8i-h3-mbus
-       - allwinner,sun8i-r40-mbus
-+      - allwinner,sun8i-v3s-mbus
-       - allwinner,sun50i-a64-mbus
-       - allwinner,sun50i-h5-mbus
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index 084323d5c61c..a966b6a9acf5 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -577,6 +577,21 @@ int_mii_phy: ethernet-phy@1 {
+ 			};
+ 		};
  
-@@ -86,6 +87,7 @@ if:
-       contains:
-         enum:
-           - allwinner,sun8i-h3-mbus
-+          - allwinner,sun8i-v3s-mbus
-           - allwinner,sun50i-a64-mbus
-           - allwinner,sun50i-h5-mbus
- 
++		mbus: dram-controller@1c62000 {
++			compatible = "allwinner,sun8i-v3s-mbus";
++			reg = <0x01c62000 0x1000>,
++			      <0x01c63000 0x1000>;
++			reg-names = "mbus", "dram";
++			clocks = <&ccu CLK_MBUS>,
++				 <&ccu CLK_DRAM>,
++				 <&ccu CLK_BUS_DRAM>;
++			clock-names = "mbus", "dram", "bus";
++			#address-cells = <1>;
++			#size-cells = <1>;
++			dma-ranges = <0x00000000 0x40000000 0x80000000>;
++			#interconnect-cells = <1>;
++		};
++
+ 		spi0: spi@1c68000 {
+ 			compatible = "allwinner,sun8i-h3-spi";
+ 			reg = <0x01c68000 0x1000>;
 -- 
 2.36.1
 
