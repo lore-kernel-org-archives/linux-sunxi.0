@@ -1,23 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435601386
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F5C1388
 	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:03:21 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 3AEE91C0004;
-	Wed, 25 May 2022 19:03:11 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id C38441C000B;
+	Wed, 25 May 2022 19:03:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505393;
+	t=1653505400;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4t3379FTskHbLx+fYtlSnTd3vN6xvfnRyYBm2dlv+iM=;
-	b=Oa4ZxChG9gk39k4q+HIo1k4hkPhdL8G5Z152WMYxp6hJMi7hNr+SQ/Cnim1PlcpSm+V45D
-	votigMXUUQipWYF7vOMWJ+dPSn/79qcQ9qHE2kmXH80QRQzaPDowu4o8OzhPBFXoszD5G9
-	7InpFHJF3/RoSBQGtAvna0+B69JKpqpDYGuGXjKBEDY7XZ5XzY556IbwqR0gjBqsiXnzPa
-	z6/F6c4HITEmVszTTOEERQqC19dArnJxOdHiPXNSjkN4USVkZ82aKxa38C6AEMUFfFrVMe
-	2QKyiWe2XQ+yzhGltBYtDRCb7ZP0GaNHaUdWC6XGiNgqJxaVESDnOWYnSwEgkA==
+	bh=zkDskoR8wjdnIKSCS4YkqYtISclu+O++Ibqt8W0S4WE=;
+	b=MlJzvQAMWmxUG3lWNKubraSdG38jDCJl3i9nL5cNUPpey5qe/CFwFSuVB97vhARBFnsy2S
+	Eg22AkQ9n5KdrvukhGKhfAxmSOdkMkgHNd0U6qOwfaX66G7oG3Eszkuz9ufL9vVgPr1mjS
+	Q97l/tk0+ojGyAX/7tNTsCb/1EYFtB4EhMWaVg2AXhkkCOxgygbRFhJcaAhAdEJYrafOZV
+	qyrrHNHpwZOEPxxu0yThy7rMuWWwKfN/X4DSxqKbQDxZzqiMHSN/Ej64pQ4lr+oAnC4312
+	JhQn/9UrTaGjqKHv5VFFhhVfKfyQSRVC3KMB8JgTepHcAHOBD/bpt0nvkWneCw==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -40,9 +40,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Rob Herring <robh@kernel.org>
-Subject: [PATCH v5 1/6] dt-bindings: media: sun6i-a31-csi: Add MIPI CSI-2 input port
-Date: Wed, 25 May 2022 21:02:55 +0200
-Message-Id: <20220525190300.696269-2-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 5/6] dt-bindings: media: Add Allwinner A83T MIPI CSI-2 bindings documentation
+Date: Wed, 25 May 2022 21:02:59 +0200
+Message-Id: <20220525190300.696269-6-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525190300.696269-1-paul.kocialkowski@bootlin.com>
 References: <20220525190300.696269-1-paul.kocialkowski@bootlin.com>
@@ -54,123 +54,147 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The A31 CSI controller supports two distinct input interfaces:
-parallel and an external MIPI CSI-2 bridge. The parallel interface
-is often connected to a set of hardware pins while the MIPI CSI-2
-bridge is an internal FIFO-ish link. As a result, these two inputs
-are distinguished as two different ports.
-
-Note that only one of the two may be present on a controller instance.
-For example, the V3s has one controller dedicated to MIPI-CSI2 and one
-dedicated to parallel.
-
-Update the binding with an explicit ports node that holds two distinct
-port nodes: one for parallel input and one for MIPI CSI-2.
-
-This is backward-compatible with the single-port approach that was
-previously taken for representing the parallel interface port, which
-stays enumerated as fwnode port 0.
-
-Note that additional ports may be added in the future, especially to
-support feeding the CSI controller's output to the ISP.
+This introduces YAML bindings documentation for the Allwinner A83T
+MIPI CSI-2 controller.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Reviewed-by: Rob Herring <robh@kernel.org>
-Acked-by: Maxime Ripard <mripard@kernel.org>
 ---
- .../media/allwinner,sun6i-a31-csi.yaml        | 58 ++++++++++++++-----
- 1 file changed, 44 insertions(+), 14 deletions(-)
+ .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 125 ++++++++++++++++++
+ 1 file changed, 125 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
 
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-index 8b568072a069..8551c4a711dc 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-@@ -42,6 +42,7 @@ properties:
- 
-   port:
-     $ref: /schemas/graph.yaml#/$defs/port-base
-+    description: Parallel input port, connect to a parallel sensor
- 
-     properties:
-       endpoint:
-@@ -59,7 +60,24 @@ properties:
-         required:
-           - bus-width
- 
--    additionalProperties: false
-+    unevaluatedProperties: false
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+new file mode 100644
+index 000000000000..5b27482b5687
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+@@ -0,0 +1,125 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
++
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++
++properties:
++  compatible:
++    const: allwinner,sun8i-a83t-mipi-csi2
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: Bus Clock
++      - description: Module Clock
++      - description: MIPI-specific Clock
++      - description: Misc CSI Clock
++
++  clock-names:
++    items:
++      - const: bus
++      - const: mod
++      - const: mipi
++      - const: misc
++
++  resets:
++    maxItems: 1
 +
 +  ports:
 +    $ref: /schemas/graph.yaml#/properties/ports
 +
 +    properties:
 +      port@0:
-+        $ref: "#/properties/port"
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        description: Input port, connect to a MIPI CSI-2 sensor
++
++        properties:
++          reg:
++            const: 0
++
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              data-lanes:
++                minItems: 1
++                maxItems: 4
++
++            required:
++              - data-lanes
++
++        unevaluatedProperties: false
 +
 +      port@1:
 +        $ref: /schemas/graph.yaml#/properties/port
-+        description: MIPI CSI-2 bridge input port
++        description: Output port, connect to a CSI controller
 +
-+    anyOf:
-+      - required:
-+          - port@0
-+      - required:
-+          - port@1
- 
- required:
-   - compatible
-@@ -69,6 +87,12 @@ required:
-   - clock-names
-   - resets
- 
-+oneOf:
-+  - required:
-+      - ports
-+  - required:
-+      - port
++    required:
++      - port@0
++      - port@1
 +
- additionalProperties: false
- 
- examples:
-@@ -89,19 +113,25 @@ examples:
-                       "ram";
-         resets = <&ccu RST_BUS_CSI>;
- 
--        port {
--            /* Parallel bus endpoint */
--            csi1_ep: endpoint {
--                remote-endpoint = <&adv7611_ep>;
--                bus-width = <16>;
--
--                /*
--                 * If hsync-active/vsync-active are missing,
--                 * embedded BT.656 sync is used.
--                 */
--                 hsync-active = <0>; /* Active low */
--                 vsync-active = <0>; /* Active low */
--                 pclk-sample = <1>;  /* Rising */
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - resets
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
++    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
++
++    mipi_csi2: csi@1cb1000 {
++        compatible = "allwinner,sun8i-a83t-mipi-csi2";
++        reg = <0x01cb1000 0x1000>;
++        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++        clocks = <&ccu CLK_BUS_CSI>,
++                 <&ccu CLK_CSI_SCLK>,
++                 <&ccu CLK_MIPI_CSI>,
++                 <&ccu CLK_CSI_MISC>;
++        clock-names = "bus", "mod", "mipi", "misc";
++        resets = <&ccu RST_BUS_CSI>;
++
 +        ports {
 +            #address-cells = <1>;
 +            #size-cells = <0>;
 +
-+            port@0 {
++            mipi_csi2_in: port@0 {
 +                reg = <0>;
-+                /* Parallel bus endpoint */
-+                csi1_ep: endpoint {
-+                    remote-endpoint = <&adv7611_ep>;
-+                    bus-width = <16>;
 +
-+                    /*
-+                     * If hsync-active/vsync-active are missing,
-+                     * embedded BT.656 sync is used.
-+                     */
-+                    hsync-active = <0>; /* Active low */
-+                    vsync-active = <0>; /* Active low */
-+                    pclk-sample = <1>;  /* Rising */
++                mipi_csi2_in_ov8865: endpoint {
++                    data-lanes = <1 2 3 4>;
++
++                    remote-endpoint = <&ov8865_out_mipi_csi2>;
 +                };
-             };
-         };
-     };
++            };
++
++            mipi_csi2_out: port@1 {
++                reg = <1>;
++
++                mipi_csi2_out_csi: endpoint {
++                    remote-endpoint = <&csi_in_mipi_csi2>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.36.1
 
