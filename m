@@ -1,49 +1,48 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27788138C
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:10:40 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id C7B77C1877
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 18:59:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039BC138D;
+	Wed, 25 May 2022 19:10:41 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 2AB0FFF80D;
-	Wed, 25 May 2022 18:59:13 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 1B152FF802;
+	Wed, 25 May 2022 19:10:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505154;
+	t=1653505840;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=wcB8XbmtJH2/+Yi8wXbvB2+O44uFWVjrqjQQH76kP/4=;
-	b=DmDlkXQjSxvvVNd8JoertHtW89K/bdAQoeDeKydt3eeRT+Q6F8oVtPtuJZGRQkxEy8n74X
-	VPQ3YezduCPnIu6Jp/dIGu404IAt4ZPe3fUvI6vEt/ialC7oI2SFUkldkTh6QVEWWVNy8M
-	J4htkv+Uy/R/ggC1p7j77l953mKrzyk25z8JaTtPNQngzPvoaGwwC78jxvCUKC9ZLLWu3n
-	xHzdFDMccHu6Gocuqv6/YI79BP3cLCUoi4fpuno6jxGltFr4C76vmy1hgvFYd2p9CNIors
-	jZAcKFgd7HY7pH6OqixghFbcoloZdm0BaIoUGhxXwSR4Ub740jNsh781WrHfSA==
+	bh=taQKtDiBFXoMw1o5YMVceTmmfMDzx4WZqdksAL3a6pc=;
+	b=dTo4nstYS7AXtxFsftPNig8tIbJRGyKt9VxmiK661ISNlOaMX9elwhJkm4fcMIKkGLRn5e
+	Psp8p2YnWLwvEqC9dxTwl9ggNMhECAz73VuDpKYKGqJMaus2YvjCt0wHZu7eATl7jg9bQy
+	k5mc0cWkXBKjeQOAL1vxwrqV+w8OvInYBiVosTM9KnvFzzuipibrRt2dbTyDYcTZIwZpD3
+	vBTjDdOlqSsZq7nvgCxII2NE/MqJ4tf/zDux9/G48wHVTsDYWcvAENmf4iy2kQzqHUEYz6
+	vEQmRUBt6DxK1ehWmXzhTQRIhjaYeQajMhXRljyUhPSdxKAk8DSL32UaQifbMQ==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: devicetree@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v4 4/7] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
-Date: Wed, 25 May 2022 20:58:50 +0200
-Message-Id: <20220525185853.695931-5-paul.kocialkowski@bootlin.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v4 4/6] MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+Date: Wed, 25 May 2022 21:10:24 +0200
+Message-Id: <20220525191026.696636-5-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
-References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
+References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,110 +51,33 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
-controller. The controller uses a separate D-PHY, which is the same
-that is otherwise used for MIPI DSI, but used in Rx mode.
-
-On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
-not have access to any parallel interface pins.
-
-Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
-support the MIPI CSI-2 interface.
-
-Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
-even when no sensor is connected. This will result in a probe failure
-for the controller as long as no sensor is connected but this is fine
-since no other interface is available.
-
-The interconnects property is used to inherit the proper DMA offset.
+Add myself as maintainer of the Allwinner A31 ISP media driver.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
- arch/arm/boot/dts/sun8i-v3s.dtsi | 71 ++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ MAINTAINERS | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index a966b6a9acf5..a9405e011f3e 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -619,6 +619,77 @@ gic: interrupt-controller@1c81000 {
- 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
- 		};
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d18e671f2516..73d579aa7c62 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -771,6 +771,15 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
+ F:	drivers/media/platform/sunxi/sun6i-csi/
  
-+		csi0: camera@1cb0000 {
-+			compatible = "allwinner,sun8i-v3s-csi";
-+			reg = <0x01cb0000 0x1000>;
-+			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>,
-+				 <&ccu CLK_DRAM_CSI>;
-+			clock-names = "bus", "mod", "ram";
-+			resets = <&ccu RST_BUS_CSI>;
-+			interconnects = <&mbus 5>;
-+			interconnect-names = "dma-mem";
-+			status = "disabled";
++ALLWINNER A31 ISP DRIVER
++M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
++F:	drivers/staging/media/sunxi/sun6i-isp/
++F:	drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
 +
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@1 {
-+					reg = <1>;
-+
-+					csi0_in_mipi_csi2: endpoint {
-+						remote-endpoint = <&mipi_csi2_out_csi0>;
-+					};
-+				};
-+			};
-+		};
-+
-+		mipi_csi2: csi@1cb1000 {
-+			compatible = "allwinner,sun8i-v3s-mipi-csi2",
-+				     "allwinner,sun6i-a31-mipi-csi2";
-+			reg = <0x01cb1000 0x1000>;
-+			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_CSI1_SCLK>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			status = "disabled";
-+
-+			phys = <&dphy>;
-+			phy-names = "dphy";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				mipi_csi2_in: port@0 {
-+					reg = <0>;
-+				};
-+
-+				mipi_csi2_out: port@1 {
-+					reg = <1>;
-+
-+					mipi_csi2_out_csi0: endpoint {
-+						remote-endpoint = <&csi0_in_mipi_csi2>;
-+					};
-+				};
-+			};
-+		};
-+
-+		dphy: d-phy@1cb2000 {
-+			compatible = "allwinner,sun6i-a31-mipi-dphy";
-+			reg = <0x01cb2000 0x1000>;
-+			clocks = <&ccu CLK_BUS_CSI>,
-+				 <&ccu CLK_MIPI_CSI>;
-+			clock-names = "bus", "mod";
-+			resets = <&ccu RST_BUS_CSI>;
-+			allwinner,direction = "rx";
-+			status = "disabled";
-+			#phy-cells = <0>;
-+		};
-+
- 		csi1: camera@1cb4000 {
- 			compatible = "allwinner,sun8i-v3s-csi";
- 			reg = <0x01cb4000 0x3000>;
+ ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
+ M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ L:	linux-media@vger.kernel.org
 -- 
 2.36.1
 
