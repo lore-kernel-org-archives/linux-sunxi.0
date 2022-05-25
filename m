@@ -1,23 +1,23 @@
 Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E330E7C
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438781386
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:07:19 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 53E6C1C0019;
-	Wed, 25 May 2022 19:07:15 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8185A1C001A;
+	Wed, 25 May 2022 19:07:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505636;
+	t=1653505637;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=caV9nRuGoEA6+0iGltaXNYvrIvAMcvIE8iyAgygIsdg=;
-	b=f21hMsp+Fpb2Od2HAJo/ZykPlu9QAq0UhZ6catUZx7yIp/pPGHMD9/azdNMGDc5//sCOuj
-	ia3kpORcSYt6b1mv1axVsq8qJOfrjpdXQ3iyGxwWZ89ljNlibRPFGCIQJxmNzVl8pJ7noR
-	Az5bUN58X51RxoO8c9lp4f7IDA2TznVK6xb5Di2S/FEr9RybjivJIeakG404JsFyN9UJjy
-	d5YJSY8jkPqJuU2p0NfXzwtL8B2A2x0rOaCf0goiuSjHpq4FZZfqOprjtwGFEgPK/Ofp+1
-	m7YlUTUcLo7exrjef6MdH0/UhXRSMUgvmHFIjFwmooDSLdG6e/d2KtKzZPhrnQ==
+	bh=GJzc+egyaota32Bq66r0a6Or3NAIG2Lu4YLN9dzNw1o=;
+	b=daJHIyDAv0yOeM0OoeagiCIc9AV6hKEzk37RLYI+S0k45sVDz6ApU51ODrMW+OMLUpIBp3
+	bDMYgTSJEQO7NzOAB46pZSQOs3FmradtbgsrX9RX7gKK4DoGrXrSV6euxgrpQja6QSv7Rp
+	rnF4U2ddMiyIwBikvB+sTlqJpRegbcKnYeuqwal0EWn1F1Xc83aLOiCQ9X5QhhBdyhj2d1
+	79vOkx8CFL/p8oOYPOSGN2woigVb7qVPZilIvMfJAHGc3yLwpto4ImKveaPLhpsPLu3Oel
+	ElpEa/Vj4phZf9t04ILyiiBCvbYTXzSrQFLoKO3YKbn37/+BU+tlSbep0Mrgpg==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
@@ -32,9 +32,9 @@ Cc: Yong Deng <yong.deng@magewell.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v5 42/44] media: sun6i-csi: Add extra checks to the interrupt routine
-Date: Wed, 25 May 2022 21:06:15 +0200
-Message-Id: <20220525190617.696344-43-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v5 43/44] media: sun6i-csi: Request a shared interrupt
+Date: Wed, 25 May 2022 21:06:16 +0200
+Message-Id: <20220525190617.696344-44-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
 In-Reply-To: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
 References: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
@@ -46,47 +46,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check against the enabled bits and make sure capture is running before
-serving an interrupt, to add extra safety in the process.
+Request our interrupt shared since it is typically shared with the isp
+block. The interrupt routine looks good to go for shared irq.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index eaf62cab0b64..46c5f98702e1 100644
+index 46c5f98702e1..00521f966cee 100644
 --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
 +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -89,13 +89,17 @@ static void sun6i_csi_v4l2_cleanup(struct sun6i_csi_device *csi_dev)
- static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
- {
- 	struct sun6i_csi_device *csi_dev = private;
-+	bool capture_streaming = csi_dev->capture.state.streaming;
- 	struct regmap *regmap = csi_dev->regmap;
--	u32 status;
-+	u32 status = 0, enable = 0;
+@@ -248,8 +248,8 @@ static int sun6i_csi_resources_setup(struct sun6i_csi_device *csi_dev,
+ 		goto error_clock_rate_exclusive;
+ 	}
  
- 	regmap_read(regmap, SUN6I_CSI_CH_INT_STA_REG, &status);
-+	regmap_read(regmap, SUN6I_CSI_CH_INT_EN_REG, &enable);
- 
--	if (!(status & 0xFF))
-+	if (!status)
- 		return IRQ_NONE;
-+	else if (!(status & enable) || !capture_streaming)
-+		goto complete;
- 
- 	if ((status & SUN6I_CSI_CH_INT_STA_FIFO0_OF) ||
- 	    (status & SUN6I_CSI_CH_INT_STA_FIFO1_OF) ||
-@@ -116,6 +120,7 @@ static irqreturn_t sun6i_csi_interrupt(int irq, void *private)
- 	if (status & SUN6I_CSI_CH_INT_STA_VS)
- 		sun6i_csi_capture_sync(csi_dev);
- 
-+complete:
- 	regmap_write(regmap, SUN6I_CSI_CH_INT_STA_REG, status);
- 
- 	return IRQ_HANDLED;
+-	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, 0, SUN6I_CSI_NAME,
+-			       csi_dev);
++	ret = devm_request_irq(dev, irq, sun6i_csi_interrupt, IRQF_SHARED,
++			       SUN6I_CSI_NAME, csi_dev);
+ 	if (ret) {
+ 		dev_err(dev, "failed to request interrupt\n");
+ 		goto error_clock_rate_exclusive;
 -- 
 2.36.1
 
