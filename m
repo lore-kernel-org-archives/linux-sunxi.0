@@ -1,49 +1,45 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A407C
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:10:26 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [IPv6:2001:4b98:dc4:8::229])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id C5278C3AE9
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 18:59:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E607C;
+	Wed, 25 May 2022 19:10:36 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id B0BDAFF80B;
-	Wed, 25 May 2022 18:59:11 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id C89B2FF803;
+	Wed, 25 May 2022 19:10:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505153;
+	t=1653505834;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y45YtidmQ+MGwFX9Of6So7nMJAYvcNWkssWZU76OyKw=;
-	b=bYgeZPmYxeNbz40vp3OFZcf1uCIfbcub49GkRpU1/xkdDcjyLu+jyu5flYd8itsfKQjWTo
-	+9Ux7QyVOka3k3qB4LPTREccj4p2HbP1bVZu7vK1USsSraPvqTxCPmvjkQJftcZPkLrXWj
-	pbAtkj+p3OTKxpP+oVz1klChbMWBXRUZUfqzkl/BjNZCafjM8jqABd7P32GYoYq9fqu6Gj
-	SbJl8N3vYz2H0oiQx1DBNHrlnRDtCmE5NKLig5q6MGAd/Qj1tblRqauX1N1KMhS7KCvvkl
-	0iF5imsfwSVOBq3C4aSo7AHLgXrGI+jhl9zG48wAyM7+Ym7mZzBGhthnVyat7Q==
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=PQC9Sc/fmXfMeEKGF0+n+R+Yzuj2PvCgKGsrOFaydtQ=;
+	b=IwX7fmlUhtoU7Ifnvlx4QQCCVBLa1+/kyhtH7CMgLbaGscHfD/L6WFKTcLhPRkgIvfCbP2
+	OaRM5bbNhyWdQrPubFbhm/SA9tEe2PIU5FDMhwuZakBXRNm5cbRUe/a1ZIZM5sbtPFeo7G
+	ilAkgEjXP0BMC1TF3mlfF2xfo0FB+K/dsBccw+x8AAE4fGcwoFdfip4QSDKPsvJi2TZBqP
+	cMrYGS/tuCOB4J39//WoNxjkP/8W1DzRFeGv0U1QwyKExh3pPRCNTlKsEq4WitdpnEeoeG
+	bdn0qA5QmBAtIdI8Od1D905mmNK0JBD6OMwSJD7vsArtWujNHlTeQQGBjIw8cA==
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: devicetree@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh+dt@kernel.org>,
+	linux-staging@lists.linux.dev
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v4 3/7] ARM: dts: sun8i: v3s: Add mbus node to represent the interconnect
-Date: Wed, 25 May 2022 20:58:49 +0200
-Message-Id: <20220525185853.695931-4-paul.kocialkowski@bootlin.com>
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v4 0/6] Allwinner A31/A83T MIPI CSI-2 and A31 ISP / ISP Driver
+Date: Wed, 25 May 2022 21:10:20 +0200
+Message-Id: <20220525191026.696636-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
-References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -52,41 +48,84 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The V3s uses the mbus interconnect to provide DRAM access for a
-number of blocks. The SoC can only map 2 GiB of DRAM, which is
-reflected in the dma-ranges property.
+This new version is an offspring from the big "Allwinner A31/A83T
+MIPI CSI-2 Support and A31 ISP Support" series, which was split into
+individual series for better clarity and handling.
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- arch/arm/boot/dts/sun8i-v3s.dtsi | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+This part only concerns the introduction of the new ISP driver.
 
-diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
-index 084323d5c61c..a966b6a9acf5 100644
---- a/arch/arm/boot/dts/sun8i-v3s.dtsi
-+++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
-@@ -577,6 +577,21 @@ int_mii_phy: ethernet-phy@1 {
- 			};
- 		};
- 
-+		mbus: dram-controller@1c62000 {
-+			compatible = "allwinner,sun8i-v3s-mbus";
-+			reg = <0x01c62000 0x1000>,
-+			      <0x01c63000 0x1000>;
-+			reg-names = "mbus", "dram";
-+			clocks = <&ccu CLK_MBUS>,
-+				 <&ccu CLK_DRAM>,
-+				 <&ccu CLK_BUS_DRAM>;
-+			clock-names = "mbus", "dram", "bus";
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+			dma-ranges = <0x00000000 0x40000000 0x80000000>;
-+			#interconnect-cells = <1>;
-+		};
-+
- 		spi0: spi@1c68000 {
- 			compatible = "allwinner,sun8i-h3-spi";
- 			reg = <0x01c68000 0x1000>;
+Changes since v3:
+- Removed the v4l2 controls handler from the driver;
+- Added variant structure for table sizes;
+- Removed the info message about video device registration;
+- Removed comments in uAPI header;
+- Used '/schemas/graph.yaml#/properties/port' whenever possible in bindings;
+- Added CSI patches dependent on the ISP driver;
+- Rebased on the latest media tree;
+
+
+Changes since all-in-one v2:
+- Updated Kconfig to follow the latest media-wide changes;
+- Reworked async subdev handling with a dedicated structure holding the
+  corresponding source to avoid matching in the driver;
+- Switched to clock-managed regmap mmio;
+- Used helper to get a single enabled link for an entity's pad, to replace
+  source selection at link_validate time and select the remote source at
+  stream on time instead;
+- Added mutex for mbus format serialization;
+- Used endpoint-base instead of video-interface for "internal" endpoints
+  in device-tree schema;
+- Added TODO with unstaging requirements;
+- Various cosmetic cleanups;
+- Updated copyright years;
+
+Paul Kocialkowski (6):
+  dt-bindings: media: Add Allwinner A31 ISP bindings documentation
+  dt-bindings: media: sun6i-a31-csi: Add ISP output port
+  staging: media: Add support for the Allwinner A31 ISP
+  MAINTAINERS: Add entry for the Allwinner A31 ISP driver
+  media: sun6i-csi: Detect the availability of the ISP
+  media: sun6i-csi: Add support for hooking to the isp devices
+
+ .../media/allwinner,sun6i-a31-csi.yaml        |   4 +
+ .../media/allwinner,sun6i-a31-isp.yaml        |  97 +++
+ MAINTAINERS                                   |   9 +
+ .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  74 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  10 +
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  32 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  19 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.h       |   1 +
+ drivers/staging/media/sunxi/Kconfig           |   1 +
+ drivers/staging/media/sunxi/Makefile          |   1 +
+ drivers/staging/media/sunxi/sun6i-isp/Kconfig |  15 +
+ .../staging/media/sunxi/sun6i-isp/Makefile    |   4 +
+ .../staging/media/sunxi/sun6i-isp/TODO.txt    |   6 +
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.c | 555 +++++++++++++
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp.h |  90 +++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c | 742 ++++++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.h |  78 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  | 566 +++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |  52 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 578 ++++++++++++++
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |  66 ++
+ .../media/sunxi/sun6i-isp/sun6i_isp_reg.h     | 275 +++++++
+ .../sunxi/sun6i-isp/uapi/sun6i-isp-config.h   |  43 +
+ 23 files changed, 3305 insertions(+), 13 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Kconfig
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/Makefile
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/TODO.txt
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_reg.h
+ create mode 100644 drivers/staging/media/sunxi/sun6i-isp/uapi/sun6i-isp-config.h
+
 -- 
 2.36.1
 
