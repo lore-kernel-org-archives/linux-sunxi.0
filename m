@@ -1,43 +1,53 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C3F7C
-	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:07:20 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id A55911C0008;
-	Wed, 25 May 2022 19:07:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1653505638;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uDkUjTjqhHI3NerTWBUE4+y5JKxofLdZ2JtbZ9qu4JM=;
-	b=Yzvr8idJWgSOlI+pr2jR9U0KsHJvr7OBgEglG5KyFfY3C290oIVNyYL4RtCreXDQXPan9W
-	AYjyfiYe8y5+GRZ+m09ZOmEInt9H+R81SLgwizsY3rNtwbWfl+2E6DZPzJr4nl/aQbvdgP
-	altIMuQ12M5EKp0SK/yAMYXDHGg+8M6tmD2pCci5XChm8YcNqQkw0MAa0Oo3a1A+GvjRKB
-	AtZcXhOKZ/HkZ73YExGJNIFWV2jeB2/odLZ2NAAGcLItHcZq92n6m6fmJYuE/loPfHjdsn
-	+kxFw5GFDSjIcRu6PoCcve5uDvmWvGU0sDxqlvqfMKdKI3OvDWoLNT0ZUXMmDg==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Cc: Yong Deng <yong.deng@magewell.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v5 44/44] MAINTAINERS: Add myself as sun6i-csi maintainer and rename/move entry
-Date: Wed, 25 May 2022 21:06:17 +0200
-Message-Id: <20220525190617.696344-45-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
-References: <20220525190617.696344-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3F17C
+	for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 19:08:06 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id p22so37449718lfo.10
+        for <linux-sunxi@lists.linux.dev>; Wed, 25 May 2022 12:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KU9+qwhHB1Ar5tyxTZPIqMZrcyxNkwuy0eiQFgt4/6o=;
+        b=bAluZQ2GRhXKyS4fhjaoe9noG35MJw0O7C1jBNwDmVpe7bwhwvhHAtH9e108qV3tXp
+         YoH4v/NOwfj7GpdBpOhqQmYlHY2le4VIAT2P1A/+iRelQRvtb5Z0LpVty4SNAoW5mDam
+         9IS9MBHN2jiy6Dlyh6jPNrscTMUk/H0S+xbQnAfLwV908dm4VFJJBnbkgLhDEW1tYc3Q
+         dohxBDXqj7xXlrlVg1a+e/aQVX9wZcE7IBcJbOdF7GycEbj55TNy1srlwtauEzQ/GWqO
+         rDycNreKCKmj98UUwnS6IjdT5HBf/kIEeSlqboVWsWMDQWdKimhAdL31wi8CtKmCVSz0
+         9dyQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=KU9+qwhHB1Ar5tyxTZPIqMZrcyxNkwuy0eiQFgt4/6o=;
+        b=bz1i+8sLmD+Cf7yaV8X9SYkn1OZnUH3pcZZ5kUHfBvn69mC7m/obe7BavZfFzetARX
+         Yisxlmcxc3HCRq4GFRZlX8g8xGqBCpC9X79F3k2Cv5XZ+/NsGzcUnDeTQYR76pQW3XC/
+         bDBBm/FCg68yvW6eY3o4yL5NE5YY0L3C0d1tU41RAJkoRF2TqY5G3tq0oIWbMKaooHl/
+         t3O43iEXawQbwrYmeEgxEklVBPt7xaPkwqn1EBAmIzXS68RCrMaZ4EgkQYf3GFzeEOhw
+         iWFDjltqVR1XC6HZBy2lS3iYthwA5i5p1XgTgyJr0NHqqAEx9x+u249cFLCpcCTns7GJ
+         6pOQ==
+X-Gm-Message-State: AOAM533enei0CkBAAkRk6FILf56Bp3wFBHebV41O2YcILVljiv+oV65B
+	M6YFiEXMz8c4VbFGJzKB8Sg=
+X-Google-Smtp-Source: ABdhPJw6EjIkKOzP9HxhzTYGrvznFY1KvX5eYDo6K7ZL7L2sldypEM757VkkM+G3pOcsSphhpx9nVw==
+X-Received: by 2002:a05:6512:b07:b0:473:c26a:7095 with SMTP id w7-20020a0565120b0700b00473c26a7095mr24299905lfu.603.1653505683994;
+        Wed, 25 May 2022 12:08:03 -0700 (PDT)
+Received: from localhost.localdomain (ppp78-37-196-203.pppoe.avangarddsl.ru. [78.37.196.203])
+        by smtp.gmail.com with ESMTPSA id t26-20020ac243ba000000b0047255d211a0sm3248144lfl.207.2022.05.25.12.08.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 May 2022 12:08:03 -0700 (PDT)
+From: Andrei Lalaev <andrey.lalaev@gmail.com>
+To: linus.walleij@linaro.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-gpio@vger.kernel.org
+Cc: linux-sunxi@lists.linux.dev,
+	Andrei Lalaev <andrey.lalaev@gmail.com>
+Subject: [PATCH] pinctrl: sunxi: sunxi_pconf_set: use correct offset
+Date: Wed, 25 May 2022 22:04:25 +0300
+Message-Id: <20220525190423.410609-1-andrey.lalaev@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -46,54 +56,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Given the substantial rework of the driver that I carried out and the
-knowledge acquired about the hardware along the way, make myself a
-maintainer of the sun6i-csi driver.
+Some Allwinner SoCs have 2 pinctrls (PIO and R_PIO).
+Previous implementation used absolute pin numbering and it was incorrect
+for R_PIO pinctrl.
+It's necessary to take into account the base pin number.
 
-Also rename and move the entry while at it since the driver is not
-specific to the V3s.
-
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Fixes: 90be64e27621 ("pinctrl: sunxi: implement pin_config_set")
+Signed-off-by: Andrei Lalaev <andrey.lalaev@gmail.com>
 ---
- MAINTAINERS | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 484f47690ea2..d18e671f2516 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -762,6 +762,15 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
- F:	drivers/media/platform/sunxi/sun4i-csi/
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+index d9327d7d56ee..dd928402af99 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+@@ -544,6 +544,8 @@ static int sunxi_pconf_set(struct pinctrl_dev *pctldev, unsigned pin,
+ 	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
+ 	int i;
  
-+ALLWINNER A31 CSI DRIVER
-+M:	Yong Deng <yong.deng@magewell.com>
-+M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
-+F:	drivers/media/platform/sunxi/sun6i-csi/
++	pin -= pctl->desc->pin_base;
 +
- ALLWINNER A31 MIPI CSI-2 BRIDGE DRIVER
- M:	Paul Kocialkowski <paul.kocialkowski@bootlin.com>
- L:	linux-media@vger.kernel.org
-@@ -5234,14 +5243,6 @@ M:	Jaya Kumar <jayakumar.alsa@gmail.com>
- S:	Maintained
- F:	sound/pci/cs5535audio/
- 
--CSI DRIVERS FOR ALLWINNER V3s
--M:	Yong Deng <yong.deng@magewell.com>
--L:	linux-media@vger.kernel.org
--S:	Maintained
--T:	git git://linuxtv.org/media_tree.git
--F:	Documentation/devicetree/bindings/media/allwinner,sun6i-a31-csi.yaml
--F:	drivers/media/platform/sunxi/sun6i-csi/
--
- CW1200 WLAN driver
- M:	Solomon Peachy <pizza@shaftnet.org>
- S:	Maintained
+ 	for (i = 0; i < num_configs; i++) {
+ 		enum pin_config_param param;
+ 		unsigned long flags;
 -- 
-2.36.1
+2.25.1
 
