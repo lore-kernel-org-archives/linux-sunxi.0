@@ -1,78 +1,123 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E94210EA;
-	Thu, 26 May 2022 01:46:46 +0000 (UTC)
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-f2cd424b9cso653072fac.7;
-        Wed, 25 May 2022 18:46:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
-         :message-id;
-        bh=6furrOjrDUV85XtAuBJ6m/tHv7Cr2IP2D70aDr3j5Hs=;
-        b=4/1bIVxUYnz/gpkXFvZWP3bGy/nE3JrSb1p2r9ptMHyzFF0B6wdsk98QeicQR0oK8h
-         +YS9lOvWKQo2zrvLZYWAvFBz/I9BMUTKHT6BUV4h9vB5I1tkiqRRDvyHPwM/pqjTdkh/
-         UwKF3Qdqqx7F8tMGVqXM0naJOpp2FctJmLqczoToCaINHd0vJjr/bWlJ6yuJdBibRcqR
-         ljZGWLmDKk3B7Kvw9DcjCmu8oKHQ8tveaupFzQV2uHqkKha0bMIsSRFjv7bFwsQHHwLR
-         PemksWjhradzV+QTCXIZeFvE7fSIOqZr+COu0+hd5aFtlUy6FA451HBTHt8+bhjshfhg
-         xGvA==
-X-Gm-Message-State: AOAM533hSVTMfekujNtVoxhw5qv9lYa0YtC/Ey/oKzRIzSYJCeqn2AaF
-	u/pcGVHYw524QNhG/qnyNA==
-X-Google-Smtp-Source: ABdhPJw0MqIKEAYGSj8vFkwsSBLltgN0uJecV7/4E3iNGQwDikRJ1m1S3Ib8YDRu6U6xOvZfW4rMOA==
-X-Received: by 2002:a05:6870:b609:b0:f2:74e7:9bf1 with SMTP id cm9-20020a056870b60900b000f274e79bf1mr4887oab.141.1653529605213;
-        Wed, 25 May 2022 18:46:45 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id y5-20020a4ad645000000b0040e5ff4a737sm141390oos.26.2022.05.25.18.46.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 18:46:44 -0700 (PDT)
-Received: (nullmailer pid 2880899 invoked by uid 1000);
-	Thu, 26 May 2022 01:46:43 -0000
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-arm-kernel@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>
-In-Reply-To: <20220525191026.696636-2-paul.kocialkowski@bootlin.com>
-References: <20220525191026.696636-1-paul.kocialkowski@bootlin.com> <20220525191026.696636-2-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v4 1/6] dt-bindings: media: Add Allwinner A31 ISP bindings documentation
-Date: Wed, 25 May 2022 20:46:43 -0500
-Message-Id: <1653529603.421651.2880898.nullmailer@robh.at.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C0310EC
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 02:50:00 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 142A15C01B1;
+	Wed, 25 May 2022 22:49:59 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Wed, 25 May 2022 22:49:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1653533399; x=1653619799; bh=5VTPfSq+6dr6vtXo0jyg38don
+	JGkVsKzqsztDQHGzjw=; b=Mrr/SFuQZ1XxWgnPo9PO7kyvhM1r1PzO7m93WoOxo
+	b/2PDwPMf75B4DDEgRfdb1NSo5A1B24XTyK3/Am2cTj/tNwdTw/2Drf1hGLWiO5l
+	THRrQaEgIfDDdeDbLmYKzKb5D/55uHd1Q6o0SEOav6WaHj6dA+PpEUcMJlmSRTfg
+	hzkT6pptor/KlqJZ+LH+Nnmqe5XHxxpw/PjMfxnaX5Gzvs+hy/L1RthQ8+66K31z
+	GI4Dst3B4Snqa00UIFa82rkmjNuPNcvqtT5g+WjvjKnfrRv1ZOyzeDtVYUSwDfVV
+	gaxhKhq2NYCJlcQLmHdZOSFxlkqLt6weM1kKJRXqN/Gmg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1653533399; x=1653619799; bh=5VTPfSq+6dr6vtXo0jyg38donJGkVsKzqsz
+	tDQHGzjw=; b=Ps3CyIlDFtDkw37yt1d3zk/LMy4u53bbvg+wstLu2pTumVSAEs3
+	0HerXNLmGXAIMmKaAvrPHQ1F31DgyKDrBQuMc0hSY496VuMPAG114cKq8sHrDzge
+	UIzIknqdKDpIcICs2TgDR2VKAXvA9vHGAYrrc+vQhbJHi5iKT1VFCD7T+oN/PaCB
+	ia5+OvXdJ8/8TRK4xGey5ZYvKSudbw2YU/w7tAXfL0n4svrr5MbAowCYivp3sw48
+	FaWHXyANDe76nqvrosdxp5vHyI8Kkd3wESO+vs1FfBqpaA28yPHfaCSnND+xfLQo
+	y/uVjRi7hj7Dwuo80o5o4zJTgA6auuiEzwg==
+X-ME-Sender: <xms:1uqOYhexe3opPnjvgeZR6cFjAH0B06BSPlZaKThCm9PR-ErvmmhzGA>
+    <xme:1uqOYvMs78L3hwf1wkjcphpOeUO3b78aWNEHgf3rB0LXNEnVXcyyg6mfq4WsoTeV9
+    4maBxJaMCZFZosAog>
+X-ME-Received: <xmr:1uqOYqjNnAOwhdAaWT4P-WGvoA1hcYj1z-SCLoVY_8OLMZq0TrD_-l8OOGH_OS5NLT7kKq_zDpV0z4_6nDqHTLadSNgUmbkd5o4vzN7pfy3YluqFDtZybbs3mR7kvXVld7n6qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjeeigdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:1uqOYq_sS_beVBUrf94di_0cdKoia-JUeCXzQOqO79uPleNtjqfKAA>
+    <xmx:1uqOYtvEkETeyvM4u-iInCFZUAqq5-b_0HWOrmJP9U_VtjTLXb_VFg>
+    <xmx:1uqOYpEvSyd6vdJwJIubcML12grvRusN22oNHQgZqSy3y3sFKnIgsw>
+    <xmx:1-qOYjBwOowl52MuTwVUpTbH4ePZWLpg6kBs1kKV902zBSFB4mWkNg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 May 2022 22:49:57 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Vishnu Patekar <vishnupatekar0510@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] pinctrl: sunxi: a83t: Fix NAND function name for some pins
+Date: Wed, 25 May 2022 21:49:56 -0500
+Message-Id: <20220526024956.49500-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 25 May 2022 21:10:21 +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the Allwinner A31 Image
-> Signal Processor (ISP).
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
->  1 file changed, 97 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> 
+The other NAND pins on Port C use the "nand0" function name.
+"nand0" also matches all of the other Allwinner SoCs.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Fixes: 4730f33f0d82 ("pinctrl: sunxi: add allwinner A83T PIO controller support")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:53:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-./Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml:55:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
+index 4ada80317a3b..b5c1a8f363f3 100644
+--- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
++++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
+@@ -158,26 +158,26 @@ static const struct sunxi_desc_pin sun8i_a83t_pins[] = {
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 14),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "nand"),		/* DQ6 */
++		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQ6 */
+ 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* D6 */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 15),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "nand"),		/* DQ7 */
++		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQ7 */
+ 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* D7 */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 16),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "nand"),		/* DQS */
++		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQS */
+ 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* RST */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 17),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "nand")),		/* CE2 */
++		  SUNXI_FUNCTION(0x2, "nand0")),	/* CE2 */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 18),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+ 		  SUNXI_FUNCTION(0x1, "gpio_out"),
+-		  SUNXI_FUNCTION(0x2, "nand")),		/* CE3 */
++		  SUNXI_FUNCTION(0x2, "nand0")),	/* CE3 */
+ 	/* Hole */
+ 	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 2),
+ 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+-- 
+2.35.1
 
