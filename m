@@ -1,107 +1,207 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758AE1368
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 10:17:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1653560224; x=1685096224;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/06/+LdbOWOmFUaiCyNfRy9awv3wYK5GdEyH2WSXjYw=;
-  b=LTCpkSzEBi1H/FBUbrKQf+IprxdbAkgMJWJBX8zeHgGs205SJwAaI01t
-   moxVexSe0ZVrszg5wf7z8SrNq8fN1OJNBVLEHql5WdxN7v0zFqqRSKJRI
-   p1IYS40DsP/S1f8zAlBCuxOgyQRHcI2y7Y6lJ7Y7QNsjrK/fc2/myJtn1
-   ARLk52qbjWvz4Cq6Wtd0e5foNqbrvSsFJazm61d5dpgAZh/pKLuUDHwVM
-   6iT/bL24fg4hkeKgWGNDUo8/odVI3BJkEL9w1UFlrLqYIrpF1mUNq+zSV
-   9snA1w/Zm5k/otNc3ut80N+RG/zOO1RaZm73Ivzvnfy3kTlA9ZIglw7Ol
-   g==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="299445754"
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
-   d="scan'208";a="299445754"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2022 03:17:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
-   d="scan'208";a="677402458"
-Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
-  by fmsmga002.fm.intel.com with ESMTP; 26 May 2022 03:16:58 -0700
-Received: from kbuild by db63a1be7222 with local (Exim 4.95)
-	(envelope-from <lkp@intel.com>)
-	id 1nuAY5-0003mO-1G;
-	Thu, 26 May 2022 10:16:57 +0000
-Date: Thu, 26 May 2022 18:16:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	kbuild-all@lists.01.org, Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE487C
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 11:43:24 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id f18so1265571plg.0
+        for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 04:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kq02GySVi94nZ9Mc+L7RCzpSrSe7oKjAYDJQaI+i1/M=;
+        b=jozl4ktxfx3kr41Xwo8mDlqT0z+gvOtnOWlJyYgee9yUgxgyfuOYUr1lx4RnOCQ6/1
+         EBChnizEhkGg98Qpb9CpWmqjZ9uwiJaLdKFSO74efjp/2WlLeF/PdqTf24D+LPN1P8LG
+         ut0mRRmlv8336aUyZvx8kApwOfcK8sDhtM7WuIfl2MBmS6ZuL17nr1XnMweom7zSFLQr
+         SU1LW9cXuv0oj342u5+FBEYK8zvWP3Ncp6alE6PlZBLutNfav0Wkn2mPAAiG73k05zRM
+         KXagAGOXvyhZJWcXTLNF9MpM0OMfwxpf1lgKnc+SiFLpACDo558o3HfUfDT5kBkmCL4j
+         kpBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Kq02GySVi94nZ9Mc+L7RCzpSrSe7oKjAYDJQaI+i1/M=;
+        b=AsTtErnqZY11UUtc7vzFsToeatUGgWZThcER/tdY1XzW/6wB5PTb8brtpv16WvxyKy
+         g7MpO09sMtPktRYKgSQQ+TiawpeMs53k5BIQP9om0yQQ/wF0cQF6ixjkO2QgrGItqP93
+         MHRwtTP6NNg70cFrCsoXG6NFtnaDjKGmNo4e1WjIO++PEYvoplKMkal3JhSqN3cO4yQN
+         ZYPtOR0B9ARZryHVy0mQp/5lwbHpvv4KWk3Lk50X60SEHHJxcDPc00R7nKId9SlDJu6K
+         zHdG0FfEeLfJL5f4I+XLoZt+dFscdOU/oj+OTUoeo3SlZsBTbHoAq1kkvgw3y1TUToZJ
+         LSSg==
+X-Gm-Message-State: AOAM533zUk4pSepI5MpGh+h0BwyABGjhyyq+hZyV30ibg2oaQ8DdhxW5
+	Cjo2P3oijH9dc11M2yXrhbDA7A==
+X-Google-Smtp-Source: ABdhPJxfALbrt1KmDbthK4aKVj2I9eMN8ID458hdF4feL14JAdfjm2AEeZoz0NS/AVyWmIjpPI7ETg==
+X-Received: by 2002:a17:902:7781:b0:161:c85a:8fff with SMTP id o1-20020a170902778100b00161c85a8fffmr37569596pll.97.1653565404194;
+        Thu, 26 May 2022 04:43:24 -0700 (PDT)
+Received: from localhost ([122.162.234.2])
+        by smtp.gmail.com with ESMTPSA id a16-20020aa78650000000b0050dc7628137sm1320375pfo.17.2022.05.26.04.43.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 May 2022 04:43:23 -0700 (PDT)
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+	Andy Gross <agross@kernel.org>,
+	Bjorn Andersson <bjorn.andersson@linaro.org>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ilia Lin <ilia.lin@kernel.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Mark Brown <broonie@kernel.org>,
+	MyungJoo Ham <myungjoo.ham@samsung.com>,
+	Nishanth Menon <nm@ti.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Qiang Yu <yuq825@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Rob Clark <robdclark@gmail.com>,
+	Rob Herring <robh@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Kishon Vijay Abraham I <kishon@ti.com>,
-	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v5 3/6] media: sunxi: Add support for the A31 MIPI CSI-2
- controller
-Message-ID: <202205261808.Ob6yfFnu-lkp@intel.com>
-References: <20220525190300.696269-4-paul.kocialkowski@bootlin.com>
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Sean Paul <sean@poorly.run>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Viresh Kumar <vireshk@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Yangtao Li <tiny.windzz@gmail.com>
+Cc: linux-pm@vger.kernel.org,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Rafael Wysocki <rjw@rjwysocki.net>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	lima@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mmc@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-spi@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org
+Subject: [PATCH 00/31] OPP: Add new configuration interface: dev_pm_opp_set_config()
+Date: Thu, 26 May 2022 17:11:59 +0530
+Message-Id: <cover.1653564321.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220525190300.696269-4-paul.kocialkowski@bootlin.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Paul,
+Hello,
 
-I love your patch! Perhaps something to improve:
+We have too many configuration specific APIs currently, six of them already,
+like dev_pm_opp_set_regulators(). This makes it complex/messy for both the OPP
+core and its users to manage. There is also code redundancy in these API, in the
+way they add/manage the OPP table specific stuff.
 
-[auto build test WARNING on sunxi/sunxi/for-next]
-[also build test WARNING on media-tree/master clk/clk-next soc/for-next linus/master v5.18 next-20220525]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+This patch series is an attempt to simplify these interfaces by adding a single
+interface, dev_pm_opp_set_config(), which replaces all the existing ones. This
+also migrates the users to the new API.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-MIPI-CSI-2-Support/20220526-030637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
-config: (https://download.01.org/0day-ci/archive/20220526/202205261808.Ob6yfFnu-lkp@intel.com/config)
-reproduce:
-        # https://github.com/intel-lab-lkp/linux/commit/497abc0e446f164e23be70628dbd44be8b5c789f
-        git remote add linux-review https://github.com/intel-lab-lkp/linux
-        git fetch --no-tags linux-review Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-MIPI-CSI-2-Support/20220526-030637
-        git checkout 497abc0e446f164e23be70628dbd44be8b5c789f
-        # 1. reproduce by kismet
-           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
-           kismet --linux-ksrc=linux --selectees CONFIG_PHY_SUN6I_MIPI_DPHY --selectors CONFIG_VIDEO_SUN6I_MIPI_CSI2 -a=arm64
-        # 2. reproduce by make
-           # save the config file to linux source tree
-           cd linux
-           make ARCH=arm64 olddefconfig
+The first two patches help get the API in place, followed by patches to migrate
+the end users. Once all the users are migrated, the last few patches remove the
+now unused interfaces.
 
-If you fix the issue, kindly add following tag where applicable
-Reported-by: kernel test robot <lkp@intel.com>
+I have lightly tested this on Hikey960 for now and also getting help from
+various build/boot bots, gitlab and lkp, to get these tested. It would be
+helpful if someone with access to the affected platforms can give it a try.
 
+This is pushed here:
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY when selected by VIDEO_SUN6I_MIPI_CSI2
-   
-   WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
-     Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
-     Selected by [y]:
-     - VIDEO_SUN6I_MIPI_CSI2 [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && VIDEO_DEV [=y] && (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && PM [=y] && COMMON_CLK [=y]
+git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/config
+
+The entire patchset shall get merged via the OPP tree in 5.20-rc1, please do not
+merge individual patches.
+
+Thanks.
+
+--
+Viresh
+
+Viresh Kumar (31):
+  OPP: Track if clock name is configured by platform
+  OPP: Add dev_pm_opp_set_config() and friends
+  cpufreq: dt: Migrate to dev_pm_opp_set_config()
+  cpufreq: imx: Migrate to dev_pm_opp_set_config()
+  cpufreq: qcom-nvmem: Migrate to dev_pm_opp_set_config()
+  cpufreq: sti: Migrate to dev_pm_opp_set_config()
+  cpufreq: sun50i: Migrate to dev_pm_opp_set_config()
+  cpufreq: tegra20: Migrate to dev_pm_opp_set_config()
+  cpufreq: ti: Migrate to dev_pm_opp_set_config()
+  devfreq: exynos: Migrate to dev_pm_opp_set_config()
+  devfreq: sun8i: Migrate to dev_pm_opp_set_config()
+  devfreq: tegra30: Migrate to dev_pm_opp_set_config()
+  drm/lima: Migrate to dev_pm_opp_set_config()
+  drm/msm: Migrate to dev_pm_opp_set_config()
+  drm/panfrost: Migrate to dev_pm_opp_set_config()
+  drm/tegra: Migrate to dev_pm_opp_set_config()
+  media: venus: Migrate to dev_pm_opp_set_config()
+  media: tegra: Migrate to dev_pm_opp_set_config()
+  mmc: sdhci-msm: Migrate to dev_pm_opp_set_config()
+  OPP: ti: Migrate to dev_pm_opp_set_config()
+  soc/tegra: Remove the call to devm_pm_opp_set_clkname()
+  soc/tegra: Migrate to dev_pm_opp_set_config()
+  spi: qcom: Migrate to dev_pm_opp_set_config()
+  serial: qcom: Migrate to dev_pm_opp_set_config()
+  OPP: Remove dev_pm_opp_set_regulators() and friends
+  OPP: Remove dev_pm_opp_set_supported_hw() and friends
+  OPP: Remove dev_pm_opp_set_clkname() and friends
+  OPP: Remove dev_pm_opp_register_set_opp_helper() and friends
+  OPP: Remove dev_pm_opp_attach_genpd() and friends
+  OPP: Remove dev_pm_opp_set_prop_name() and friends
+  OPP: Rearrange dev_pm_opp_set_config() and friends
+
+ drivers/cpufreq/cpufreq-dt.c                  |  14 +-
+ drivers/cpufreq/imx-cpufreq-dt.c              |  12 +-
+ drivers/cpufreq/qcom-cpufreq-nvmem.c          | 107 +---
+ drivers/cpufreq/sti-cpufreq.c                 |  22 +-
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c        |  11 +-
+ drivers/cpufreq/tegra20-cpufreq.c             |  12 +-
+ drivers/cpufreq/ti-cpufreq.c                  |  38 +-
+ drivers/devfreq/exynos-bus.c                  |  14 +-
+ drivers/devfreq/sun8i-a33-mbus.c              |   7 +-
+ drivers/devfreq/tegra30-devfreq.c             |   8 +-
+ drivers/gpu/drm/lima/lima_devfreq.c           |  11 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   8 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  10 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   5 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c              |   5 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   5 +-
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c   |   9 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |   6 +-
+ .../media/platform/qcom/venus/pm_helpers.c    |  16 +-
+ drivers/memory/tegra/tegra124-emc.c           |  14 +-
+ drivers/mmc/host/sdhci-msm.c                  |   5 +-
+ drivers/opp/core.c                            | 540 +++++++-----------
+ drivers/opp/opp.h                             |   2 +
+ drivers/opp/ti-opp-supply.c                   |   6 +-
+ drivers/soc/tegra/common.c                    |  14 +-
+ drivers/soc/tegra/pmc.c                       |   8 +-
+ drivers/spi/spi-geni-qcom.c                   |   5 +-
+ drivers/spi/spi-qcom-qspi.c                   |   5 +-
+ drivers/tty/serial/qcom_geni_serial.c         |   5 +-
+ include/linux/pm_opp.h                        | 118 ++--
+ 30 files changed, 444 insertions(+), 598 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://01.org/lkp
+2.31.1.272.g89b43f80a514
+
