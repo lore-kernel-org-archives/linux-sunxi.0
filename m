@@ -1,123 +1,107 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C0310EC
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 02:50:00 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 142A15C01B1;
-	Wed, 25 May 2022 22:49:59 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 25 May 2022 22:49:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1653533399; x=1653619799; bh=5VTPfSq+6dr6vtXo0jyg38don
-	JGkVsKzqsztDQHGzjw=; b=Mrr/SFuQZ1XxWgnPo9PO7kyvhM1r1PzO7m93WoOxo
-	b/2PDwPMf75B4DDEgRfdb1NSo5A1B24XTyK3/Am2cTj/tNwdTw/2Drf1hGLWiO5l
-	THRrQaEgIfDDdeDbLmYKzKb5D/55uHd1Q6o0SEOav6WaHj6dA+PpEUcMJlmSRTfg
-	hzkT6pptor/KlqJZ+LH+Nnmqe5XHxxpw/PjMfxnaX5Gzvs+hy/L1RthQ8+66K31z
-	GI4Dst3B4Snqa00UIFa82rkmjNuPNcvqtT5g+WjvjKnfrRv1ZOyzeDtVYUSwDfVV
-	gaxhKhq2NYCJlcQLmHdZOSFxlkqLt6weM1kKJRXqN/Gmg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1653533399; x=1653619799; bh=5VTPfSq+6dr6vtXo0jyg38donJGkVsKzqsz
-	tDQHGzjw=; b=Ps3CyIlDFtDkw37yt1d3zk/LMy4u53bbvg+wstLu2pTumVSAEs3
-	0HerXNLmGXAIMmKaAvrPHQ1F31DgyKDrBQuMc0hSY496VuMPAG114cKq8sHrDzge
-	UIzIknqdKDpIcICs2TgDR2VKAXvA9vHGAYrrc+vQhbJHi5iKT1VFCD7T+oN/PaCB
-	ia5+OvXdJ8/8TRK4xGey5ZYvKSudbw2YU/w7tAXfL0n4svrr5MbAowCYivp3sw48
-	FaWHXyANDe76nqvrosdxp5vHyI8Kkd3wESO+vs1FfBqpaA28yPHfaCSnND+xfLQo
-	y/uVjRi7hj7Dwuo80o5o4zJTgA6auuiEzwg==
-X-ME-Sender: <xms:1uqOYhexe3opPnjvgeZR6cFjAH0B06BSPlZaKThCm9PR-ErvmmhzGA>
-    <xme:1uqOYvMs78L3hwf1wkjcphpOeUO3b78aWNEHgf3rB0LXNEnVXcyyg6mfq4WsoTeV9
-    4maBxJaMCZFZosAog>
-X-ME-Received: <xmr:1uqOYqjNnAOwhdAaWT4P-WGvoA1hcYj1z-SCLoVY_8OLMZq0TrD_-l8OOGH_OS5NLT7kKq_zDpV0z4_6nDqHTLadSNgUmbkd5o4vzN7pfy3YluqFDtZybbs3mR7kvXVld7n6qw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrjeeigdeifecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
-    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
-    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
-    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:1uqOYq_sS_beVBUrf94di_0cdKoia-JUeCXzQOqO79uPleNtjqfKAA>
-    <xmx:1uqOYtvEkETeyvM4u-iInCFZUAqq5-b_0HWOrmJP9U_VtjTLXb_VFg>
-    <xmx:1uqOYpEvSyd6vdJwJIubcML12grvRusN22oNHQgZqSy3y3sFKnIgsw>
-    <xmx:1-qOYjBwOowl52MuTwVUpTbH4ePZWLpg6kBs1kKV902zBSFB4mWkNg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 May 2022 22:49:57 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Vishnu Patekar <vishnupatekar0510@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-gpio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] pinctrl: sunxi: a83t: Fix NAND function name for some pins
-Date: Wed, 25 May 2022 21:49:56 -0500
-Message-Id: <20220526024956.49500-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758AE1368
+	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 10:17:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1653560224; x=1685096224;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/06/+LdbOWOmFUaiCyNfRy9awv3wYK5GdEyH2WSXjYw=;
+  b=LTCpkSzEBi1H/FBUbrKQf+IprxdbAkgMJWJBX8zeHgGs205SJwAaI01t
+   moxVexSe0ZVrszg5wf7z8SrNq8fN1OJNBVLEHql5WdxN7v0zFqqRSKJRI
+   p1IYS40DsP/S1f8zAlBCuxOgyQRHcI2y7Y6lJ7Y7QNsjrK/fc2/myJtn1
+   ARLk52qbjWvz4Cq6Wtd0e5foNqbrvSsFJazm61d5dpgAZh/pKLuUDHwVM
+   6iT/bL24fg4hkeKgWGNDUo8/odVI3BJkEL9w1UFlrLqYIrpF1mUNq+zSV
+   9snA1w/Zm5k/otNc3ut80N+RG/zOO1RaZm73Ivzvnfy3kTlA9ZIglw7Ol
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10358"; a="299445754"
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="299445754"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2022 03:17:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.91,252,1647327600"; 
+   d="scan'208";a="677402458"
+Received: from lkp-server01.sh.intel.com (HELO db63a1be7222) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 26 May 2022 03:16:58 -0700
+Received: from kbuild by db63a1be7222 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1nuAY5-0003mO-1G;
+	Thu, 26 May 2022 10:16:57 +0000
+Date: Thu, 26 May 2022 18:16:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	kbuild-all@lists.01.org, Yong Deng <yong.deng@magewell.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Kishon Vijay Abraham I <kishon@ti.com>,
+	Vinod Koul <vkoul@kernel.org>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v5 3/6] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <202205261808.Ob6yfFnu-lkp@intel.com>
+References: <20220525190300.696269-4-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525190300.696269-4-paul.kocialkowski@bootlin.com>
 
-The other NAND pins on Port C use the "nand0" function name.
-"nand0" also matches all of the other Allwinner SoCs.
+Hi Paul,
 
-Fixes: 4730f33f0d82 ("pinctrl: sunxi: add allwinner A83T PIO controller support")
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+I love your patch! Perhaps something to improve:
 
- drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+[auto build test WARNING on sunxi/sunxi/for-next]
+[also build test WARNING on media-tree/master clk/clk-next soc/for-next linus/master v5.18 next-20220525]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-diff --git a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
-index 4ada80317a3b..b5c1a8f363f3 100644
---- a/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
-+++ b/drivers/pinctrl/sunxi/pinctrl-sun8i-a83t.c
-@@ -158,26 +158,26 @@ static const struct sunxi_desc_pin sun8i_a83t_pins[] = {
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 14),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
--		  SUNXI_FUNCTION(0x2, "nand"),		/* DQ6 */
-+		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQ6 */
- 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* D6 */
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 15),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
--		  SUNXI_FUNCTION(0x2, "nand"),		/* DQ7 */
-+		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQ7 */
- 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* D7 */
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 16),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
--		  SUNXI_FUNCTION(0x2, "nand"),		/* DQS */
-+		  SUNXI_FUNCTION(0x2, "nand0"),		/* DQS */
- 		  SUNXI_FUNCTION(0x3, "mmc2")),		/* RST */
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 17),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
--		  SUNXI_FUNCTION(0x2, "nand")),		/* CE2 */
-+		  SUNXI_FUNCTION(0x2, "nand0")),	/* CE2 */
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(C, 18),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
- 		  SUNXI_FUNCTION(0x1, "gpio_out"),
--		  SUNXI_FUNCTION(0x2, "nand")),		/* CE3 */
-+		  SUNXI_FUNCTION(0x2, "nand0")),	/* CE3 */
- 	/* Hole */
- 	SUNXI_PIN(SUNXI_PINCTRL_PIN(D, 2),
- 		  SUNXI_FUNCTION(0x0, "gpio_in"),
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-MIPI-CSI-2-Support/20220526-030637
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git sunxi/for-next
+config: (https://download.01.org/0day-ci/archive/20220526/202205261808.Ob6yfFnu-lkp@intel.com/config)
+reproduce:
+        # https://github.com/intel-lab-lkp/linux/commit/497abc0e446f164e23be70628dbd44be8b5c789f
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Paul-Kocialkowski/Allwinner-A31-A83T-MIPI-CSI-2-and-A31-ISP-MIPI-CSI-2-Support/20220526-030637
+        git checkout 497abc0e446f164e23be70628dbd44be8b5c789f
+        # 1. reproduce by kismet
+           # install kmax per https://github.com/paulgazz/kmax/blob/master/README.md
+           kismet --linux-ksrc=linux --selectees CONFIG_PHY_SUN6I_MIPI_DPHY --selectors CONFIG_VIDEO_SUN6I_MIPI_CSI2 -a=arm64
+        # 2. reproduce by make
+           # save the config file to linux source tree
+           cd linux
+           make ARCH=arm64 olddefconfig
+
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
+
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY when selected by VIDEO_SUN6I_MIPI_CSI2
+   
+   WARNING: unmet direct dependencies detected for PHY_SUN6I_MIPI_DPHY
+     Depends on [n]: (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && HAS_IOMEM [=y] && COMMON_CLK [=y] && RESET_CONTROLLER [=n]
+     Selected by [y]:
+     - VIDEO_SUN6I_MIPI_CSI2 [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && VIDEO_DEV [=y] && (ARCH_SUNXI [=n] || COMPILE_TEST [=y]) && PM [=y] && COMMON_CLK [=y]
+
 -- 
-2.35.1
-
+0-DAY CI Kernel Test Service
+https://01.org/lkp
