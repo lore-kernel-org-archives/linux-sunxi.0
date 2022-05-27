@@ -1,105 +1,108 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F921852
-	for <linux-sunxi@lists.linux.dev>; Fri, 27 May 2022 08:36:00 +0000 (UTC)
-Date: Fri, 27 May 2022 08:35:51 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1653640552;
-	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j9UwhItOW1f+bm6uyCNG1GIXZP9/17Q39hpRNlbSwlI=;
-	b=Hl4Do7ONhgq5qcHfnjNvoZwrf1ceNbXVBS9B5ZtxSOH8XdJkrq9wL0eROaAWBgcBkcLBI5
-	wTws2nzX69lNLv1TasDcW9wgL7GVrwUnO7AsLWwKIB4YrLOXw+tSUyN2NPyvZ77Eraqk6f
-	sMZlDKV6knvlsarR7RTbZgzjAJNT1Xk2zyvFaQdSoy2QLNL5eK2TOjKANjuywgSlmmf8s7
-	KX0Q/fBNn08DYs8iZqQhbCuQ5DY0AMpHkXigap6qV/R8zbwpNI3hRkqmRJ5sDl4rJp/FUw
-	8uMgGA4ZFmzlTFtxRslH0FHepIRHdy9DZL5j8J+UQwh3kWRJsqlUsv9ActTUFQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1653640552;
-	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=j9UwhItOW1f+bm6uyCNG1GIXZP9/17Q39hpRNlbSwlI=;
-	b=rITc2mfakyOxlaJGNiVc9zlIQ1eOnOn5P2rRibgD5FImLc5IsToYFQmHSpoKAibW7+brMR
-	nHJsJ5KijlB4OUCw==
-From: "tip-bot2 for Thomas Gleixner" <tip-bot2@linutronix.de>
-Sender: tip-bot2@linutronix.de
-Reply-to: linux-kernel@vger.kernel.org
-To: linux-tip-commits@vger.kernel.org
-Subject: [tip: timers/core] clocksource/drivers/timer-sun4i: Convert to SPDX
- identifier
-Cc: Thomas Gleixner <tglx@linutronix.de>,
- Daniel Lezcano <daniel.lezcano@linaro.org>, "Chen-Yu Tsai" <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev,
- x86@kernel.org, linux-kernel@vger.kernel.org
-In-Reply-To: <20220510171254.908144392@linutronix.de>
-References: <20220510171254.908144392@linutronix.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE1C1FA6;
+	Fri, 27 May 2022 14:31:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: benjamin.gaignard)
+	with ESMTPSA id 027051F462A3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1653661910;
+	bh=v/Qj9dkCpC1sNaB07KNbLhoqv0M/1payaJLdzsZJWFE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=hSpzQTUD7GbDWhQ6P3w12aJJD7KjeJqgWVor4wHAMScUfmdnxTJZRp7EJnM2qo1nF
+	 wblXUcXOst5PNXkDovVWjntaxNFS22DhHU1G0BTGqnz/uWJ6hN5VhUCT7nEGaKkaTi
+	 X4SxlIW+LCyiDbpzdDQITZmMDTpk5makhhCfTv0Z9D4ZNdYy1eaiV1N/ilsyrI99LU
+	 1ify4NevfXs571caels53uzg/tcd1oQe81kgXY9QjwSnQrjk72S00q6qsQDzjyRof2
+	 +7Gs88cAukuBuCw1r2n4CY6pOBx3Jzyim03l+50KIZygOSMESZjzZxQlX2dlfdAOSm
+	 IY1tM2llGsvRA==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH v6 01/17] videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+Date: Fri, 27 May 2022 16:31:18 +0200
+Message-Id: <20220527143134.3360174-2-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <165364055121.4207.9026465604431403890.tip-bot2@tip-bot2>
-Robot-ID: <tip-bot2@linutronix.de>
-Robot-Unsubscribe:
- Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Precedence: bulk
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-The following commit has been merged into the timers/core branch of tip:
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Commit-ID:     60bff9f8ef4bdd1eb24769deb66084dcfd3888d2
-Gitweb:        https://git.kernel.org/tip/60bff9f8ef4bdd1eb24769deb66084dcfd3888d2
-Author:        Thomas Gleixner <tglx@linutronix.de>
-AuthorDate:    Tue, 10 May 2022 19:24:49 +02:00
-Committer:     Daniel Lezcano <daniel.lezcano@linaro.org>
-CommitterDate: Wed, 18 May 2022 11:08:59 +02:00
+Add a new flag that indicates that this control is a dynamically sized
+array. Also document this flag.
 
-clocksource/drivers/timer-sun4i: Convert to SPDX identifier
+Currently dynamically sized arrays are limited to one dimensional arrays,
+but that might change in the future if there is a need for it.
 
-The license information clearly states GPL version 2 only. The extra text
-which excludes warranties is an excerpt of the corresponding GPLv2 clause
-11.
+The initial use-case of dynamic arrays are stateless codecs. A frame
+can be divided in many slices, so you want to provide an array containing
+slice information for each slice. Typically the number of slices is small,
+but the standard allow for hundreds or thousands of slices. Dynamic arrays
+are a good solution since sizing the array for the worst case would waste
+substantial amounts of memory.
 
-So the SPDX identifier covers it completely.
-
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>
-Cc: linux-sunxi@lists.linux.dev
-Link: https://lore.kernel.org/r/20220510171254.908144392@linutronix.de
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/clocksource/timer-sun4i.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ .../userspace-api/media/v4l/vidioc-queryctrl.rst          | 8 ++++++++
+ include/uapi/linux/videodev2.h                            | 1 +
+ 2 files changed, 9 insertions(+)
 
-diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
-index 0ba8155..bb6ea6c 100644
---- a/drivers/clocksource/timer-sun4i.c
-+++ b/drivers/clocksource/timer-sun4i.c
-@@ -1,3 +1,4 @@
-+// SPDX-License-Identifier: GPL-2.0
- /*
-  * Allwinner A1X SoCs timer handling.
-  *
-@@ -8,10 +9,6 @@
-  * Based on code from
-  * Allwinner Technology Co., Ltd. <www.allwinnertech.com>
-  * Benn Huang <benn@allwinnertech.com>
-- *
-- * This file is licensed under the terms of the GNU General Public
-- * License version 2.  This program is licensed "as is" without any
-- * warranty of any kind, whether express or implied.
-  */
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+index 88f630252d98..a20dfa2a933b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+@@ -625,6 +625,14 @@ See also the examples in :ref:`control`.
+ 	``V4L2_CTRL_FLAG_GRABBED`` flag when buffers are allocated or
+ 	streaming is in progress since most drivers do not support changing
+ 	the format in that case.
++    * - ``V4L2_CTRL_FLAG_DYNAMIC_ARRAY``
++      - 0x0800
++      - This control is a dynamically sized 1-dimensional array. It
++        behaves the same as a regular array, except that the number
++	of elements as reported by the ``elems`` field is between 1 and
++	``dims[0]``. So setting the control with a differently sized
++	array will change the ``elems`` field when the control is
++	queried afterwards.
  
- #include <linux/clk.h>
+ Return Value
+ ============
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 5311ac4fde35..9018aa984db3 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1890,6 +1890,7 @@ struct v4l2_querymenu {
+ #define V4L2_CTRL_FLAG_HAS_PAYLOAD	0x0100
+ #define V4L2_CTRL_FLAG_EXECUTE_ON_WRITE	0x0200
+ #define V4L2_CTRL_FLAG_MODIFY_LAYOUT	0x0400
++#define V4L2_CTRL_FLAG_DYNAMIC_ARRAY	0x0800
+ 
+ /*  Query flags, to be ORed with the control ID */
+ #define V4L2_CTRL_FLAG_NEXT_CTRL	0x80000000
+-- 
+2.32.0
+
