@@ -1,96 +1,103 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C3991875
-	for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 20:52:38 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id m20so5094498ejj.10
-        for <linux-sunxi@lists.linux.dev>; Thu, 26 May 2022 13:52:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zjJ5UCoJeEEihDN4cVR/wdYe+l5GkBSpbVBb3aSL4no=;
-        b=fmCZGiSEap2Sdg2Jlb5iXaZ7JVSkwbh+dArG/YZsXXY674HMsPQBqz7nF3kI/a1vi2
-         h1KsAfji5yU3wvX8nswk6Y+k+0jsVf9GH4Tv9zLclptTrrAe/bOGy8qQMrfPompfJcxx
-         OHgOf2qjCrCXP1lCTzZEqW9quldpOgto7x6K1UHu8F1TF/e6g2lj5BP4Q8cWqBPK7I6D
-         mWlL7Y9AHd6TB3xoyjpY0fm3kk6S/P0pKPFg6ni9PMposl3RUYbhwcyMKqzOez3eJI7r
-         fc6RebtGxyjarWJTFMQGT540zTK7JQyofIVuDc4/m7O2hS43b1mg3/dvE/cdNQftPMJF
-         3LGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zjJ5UCoJeEEihDN4cVR/wdYe+l5GkBSpbVBb3aSL4no=;
-        b=ir5+o1zrLxHRnq9kTHQj/GJyZH2OT/sIsGVefL+k6YjptuVRLQf4sxRvDWRh/Ivq/+
-         rlZtx8xgrrnOyLyuQoK5UfIA2UWzP5paRPmxa0IUze88WuQ1hiO/5Y+J/ZssmDdeu3+k
-         dJ2rSSUUPUixg1aIzRWuIJJvNip6hRu5OUfrekWHqi9YlZPhpW/6wgyEd1qIcIdJVDOT
-         aHvJURwQiprytDITmZ7pmQiSAYnrjpdh9IVyo8z1Xv9LjpC+ZX9B5iUIB8TVNqgFuaB2
-         dkZp+laGcyucFk+x+o+sgdn50qttiJTGLMQcWDHTUHjS+5DdQx/OLWV0b6f5crN6yPw5
-         IHiw==
-X-Gm-Message-State: AOAM531cvfOT/DutUGZnsd/BDoHBvA3JPlu+DHOStTBA8Qi7oYgnfEWg
-	NuzMLLAPZHmPdDvaU3Yrd5o=
-X-Google-Smtp-Source: ABdhPJzyP6vXYbvseTprmcbD7yTLmiYVknJtdA3ZxP10dTaYa5/p1h3eSUCZzGxfr18pM+7PjFtGjQ==
-X-Received: by 2002:a17:906:d7ba:b0:6fe:a119:c4ac with SMTP id pk26-20020a170906d7ba00b006fea119c4acmr32307672ejb.129.1653598356730;
-        Thu, 26 May 2022 13:52:36 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id i10-20020a1709064eca00b006fe0abb00f0sm823522ejv.209.2022.05.26.13.52.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 May 2022 13:52:36 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linus.walleij@linaro.org, wens@csie.org, samuel@sholland.org, linux-gpio@vger.kernel.org, Andrei Lalaev <andrey.lalaev@gmail.com>
-Cc: linux-sunxi@lists.linux.dev, Andrei Lalaev <andrey.lalaev@gmail.com>
-Subject: Re: [PATCH] pinctrl: sunxi: sunxi_pconf_set: use correct offset
-Date: Thu, 26 May 2022 22:52:35 +0200
-Message-ID: <8939552.CDJkKcVGEf@kista>
-In-Reply-To: <20220525190423.410609-1-andrey.lalaev@gmail.com>
-References: <20220525190423.410609-1-andrey.lalaev@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ED01383
+	for <linux-sunxi@lists.linux.dev>; Fri, 27 May 2022 08:35:58 +0000 (UTC)
+Date: Fri, 27 May 2022 08:35:50 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1653640551;
+	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/EjFF6RRE/Z1leHb0eMj2/Gfozearxphd5noQffGS1U=;
+	b=oBZVvdXE/GsCI0EkcMxpPW0Z9uC9V2fx68NpEuBUAksb3LdIY1Bslsk2ZcC0vAI5kuPrLe
+	1ioLCk5c3WpC8e2wVDVhXHl4sP+8DEFAAN8Bd+cVzhqliGsrH1rVth7ntG3iUwj4mukt2R
+	J4IPAd5h2B3/wFzr7WL7FvbJEQsuxX0nGplYsjlCgWEwVg5relU7xB0xwWME7QARXI4er+
+	xuELC6Dik9izup18c/R2vfhKjMUuSboE95F1/9WRA8o8aV2pRbYxm9N5QqJ67t5RgwUfwb
+	PIwY9Ekosvka/Z1BCD+vrjA//uLLvpvBabzbLyFeOTF9/DVlRkvUkrFs7HXI1Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1653640551;
+	h=from:from:sender:sender:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/EjFF6RRE/Z1leHb0eMj2/Gfozearxphd5noQffGS1U=;
+	b=/XW3hEZ0UD4OYdjh5bcK5E9GLMPPGR0XHcd9tMgFNfxPg5hZRjj6Dktwb5UXGNnR1ccuc9
+	ybBlFHIKz8vXomCA==
+From: "tip-bot2 for Thomas Gleixner" <tip-bot2@linutronix.de>
+Sender: tip-bot2@linutronix.de
+Reply-to: linux-kernel@vger.kernel.org
+To: linux-tip-commits@vger.kernel.org
+Subject: [tip: timers/core] clocksource/drivers/timer-sun5i: Convert to SPDX
+ identifier
+Cc: Thomas Gleixner <tglx@linutronix.de>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>, "Chen-Yu Tsai" <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ linux-sunxi@lists.linux.dev, x86@kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20220510171254.970933294@linutronix.de>
+References: <20220510171254.970933294@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Message-ID: <165364055016.4207.2627599431889547499.tip-bot2@tip-bot2>
+Robot-ID: <tip-bot2@linutronix.de>
+Robot-Unsubscribe:
+ Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
+Precedence: bulk
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Hi!
+The following commit has been merged into the timers/core branch of tip:
 
-Dne sreda, 25. maj 2022 ob 21:04:25 CEST je Andrei Lalaev napisal(a):
-> Some Allwinner SoCs have 2 pinctrls (PIO and R_PIO).
-> Previous implementation used absolute pin numbering and it was incorrect
-> for R_PIO pinctrl.
-> It's necessary to take into account the base pin number.
+Commit-ID:     a74dfa434f98a4fedf3ae2cd8dbeae1e08c1765f
+Gitweb:        https://git.kernel.org/tip/a74dfa434f98a4fedf3ae2cd8dbeae1e08c1765f
+Author:        Thomas Gleixner <tglx@linutronix.de>
+AuthorDate:    Tue, 10 May 2022 19:24:51 +02:00
+Committer:     Daniel Lezcano <daniel.lezcano@linaro.org>
+CommitterDate: Wed, 18 May 2022 11:08:59 +02:00
 
-You didn't explain how issue manifests. How did you find it?
+clocksource/drivers/timer-sun5i: Convert to SPDX identifier
 
-Best regards,
-Jernej
+The license information clearly states GPL version 2 only. The extra text
+which excludes warranties is an excerpt of the corresponding GPLv2 clause
+11.
 
-> 
-> Fixes: 90be64e27621 ("pinctrl: sunxi: implement pin_config_set")
-> Signed-off-by: Andrei Lalaev <andrey.lalaev@gmail.com>
-> ---
->  drivers/pinctrl/sunxi/pinctrl-sunxi.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/
-pinctrl-sunxi.c
-> index d9327d7d56ee..dd928402af99 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -544,6 +544,8 @@ static int sunxi_pconf_set(struct pinctrl_dev *pctldev, 
-unsigned pin,
->  	struct sunxi_pinctrl *pctl = pinctrl_dev_get_drvdata(pctldev);
->  	int i;
->  
-> +	pin -= pctl->desc->pin_base;
-> +
->  	for (i = 0; i < num_configs; i++) {
->  		enum pin_config_param param;
->  		unsigned long flags;
-> -- 
-> 2.25.1
-> 
-> 
+So the SPDX identifier covers it completely.
 
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-sunxi@lists.linux.dev
+Link: https://lore.kernel.org/r/20220510171254.970933294@linutronix.de
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linaro.org>
+---
+ drivers/clocksource/timer-sun5i.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/drivers/clocksource/timer-sun5i.c b/drivers/clocksource/timer-sun5i.c
+index 552c525..85900f7 100644
+--- a/drivers/clocksource/timer-sun5i.c
++++ b/drivers/clocksource/timer-sun5i.c
+@@ -1,13 +1,10 @@
++// SPDX-License-Identifier: GPL-2.0
+ /*
+  * Allwinner SoCs hstimer driver.
+  *
+  * Copyright (C) 2013 Maxime Ripard
+  *
+  * Maxime Ripard <maxime.ripard@free-electrons.com>
+- *
+- * This file is licensed under the terms of the GNU General Public
+- * License version 2.  This program is licensed "as is" without any
+- * warranty of any kind, whether express or implied.
+  */
+ 
+ #include <linux/clk.h>
