@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5B82F38
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:40:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E03C3411C;
-	Mon, 30 May 2022 13:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5192F38
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:45:05 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43738C3411C;
+	Mon, 30 May 2022 13:45:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653918028;
+	s=k20201202; t=1653918305;
 	bh=I7LxCGqGRJzIqYh0gYUNNAZ2n4cqGO4jUUu8TCEeoIw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NMePOAabdFN6DnmCSCiKVO1ThFP5kF6STCD/v9dDk8W9fyAfESiVoQ3UKH82gY6cg
-	 0jLgqt8tzpNMRL9BTxzi7ArD2SxYFBjy9Ma8m93eujIbZnQ37ilcKcik2OYJNao2WV
-	 9Nn6SUWz8U79A09mMao+Y2oC9VXRm2Kr3UZg5AIUHhsh+PeymJTHltJENlKwtMbqUk
-	 Rg+Q/0DlfPjgR3L5IT2FxK1X8hxg8Og0aEth8c2X6hlqj7tM1JoYNN1NnKgJge8Y/r
-	 u3Fm3iCpWp73naLixRZvK3DoBHIPikhDyflYZoU7Vev7PgZEM+r1Hi+rx6Lq+s/Egu
-	 9+tq7W03MnI0w==
+	b=fUXwGzJ3nbi6r6lkSFyUlBAxgD1oIENVwNXFPRH+N9hLr9Tq7PcyaRgmgMUFS/Ytn
+	 EtCGAfIKTEZ7/nIoTo/CCYyQBfjLnk40fLgxVahGRNLNlgKcpFCmymTQHpskDfoxN+
+	 bBSnCMVBuDvhlKtz3mBO0P74/VW0eFjhxdGdtzNS8Qfy9gIfP6vej+KDpN3QGF3OGP
+	 IEEx8CCep0qrrIXPmFakWljsOmbz/PyZpVDDMCpDlzxvoZi4WwDBa44OgzXp3GqgAd
+	 zDhe+IkSizyJXx6RfiK/Y/gflyU32l/x39ZutJC9nXgCLHSFqTYikx/0fuAD2y4eDX
+	 ZheXHAYJUCHQA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.15 038/109] drm/sun4i: Add support for D1 TCONs
-Date: Mon, 30 May 2022 09:37:14 -0400
-Message-Id: <20220530133825.1933431-38-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 27/76] drm/sun4i: Add support for D1 TCONs
+Date: Mon, 30 May 2022 09:43:17 -0400
+Message-Id: <20220530134406.1934928-27-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
-References: <20220530133825.1933431-1-sashal@kernel.org>
+In-Reply-To: <20220530134406.1934928-1-sashal@kernel.org>
+References: <20220530134406.1934928-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
