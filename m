@@ -1,99 +1,210 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391FE2F38
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:47:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95B34C385B8;
-	Mon, 30 May 2022 13:47:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653918472;
-	bh=Lk+qwOUG5tyMc0NNzqaOUNC1fExdrzPaXeYudF92OEc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ca1qr/xKn7MIWo1KCiSvRe1UTFFo37YNFCFhvLX2xIY5zsYT2X0xlI1FqoqeO6+dd
-	 SNjUMFfFeecWc750W1LLFb6ecvHH1OBf7sauQdKjKQvSzgkEb67MeW6xeiFU1wchzo
-	 CmpnK8LS6GpWBvOx26Ig7Xt9TnHFfvqB6IOV8hd6Zn5t4Ef4rdZVxuC0Lozw9n55gF
-	 pXxQWWxV30Cf1feELlO71kGBoYD9ETNkKFnudYa78/2c+sfR5ErW7IqCQnpgZnHhQL
-	 2B22MbbVwBUtFjUdihUsMjS57cdq2/tNmtox+isUlgYdUkLMoZamheLe+1b274CPL2
-	 ZrLUr6eN12E5g==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Samuel Holland <samuel@sholland.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Sasha Levin <sashal@kernel.org>,
-	mripard@kernel.org,
-	wens@csie.org,
-	airlied@linux.ie,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.4 20/55] drm/sun4i: Add support for D1 TCONs
-Date: Mon, 30 May 2022 09:46:26 -0400
-Message-Id: <20220530134701.1935933-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530134701.1935933-1-sashal@kernel.org>
-References: <20220530134701.1935933-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2352F38;
+	Mon, 30 May 2022 13:50:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E60E8C3411C;
+	Mon, 30 May 2022 13:49:59 +0000 (UTC)
+Message-ID: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
+Date: Mon, 30 May 2022 15:49:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.8.1
+Subject: Re: [PATCH v6 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Content-Language: en-US
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
+ nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+ <20220527143134.3360174-12-benjamin.gaignard@collabora.com>
+ <2102641.irdbgypaU6@kista> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
+In-Reply-To: <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Samuel Holland <samuel@sholland.org>
+On 30/05/2022 11:18, Hans Verkuil wrote:
+> On 29/05/2022 08:40, Jernej Škrabec wrote:
+>> Hi!
+>>
+>> This series looks very good and I plan to test it shortly on Cedrus, but I 
+>> have one major concern below.
+>>
+>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(a):
+>>> The number of 'entry point offset' can be very variable.
+>>> Instead of using a large static array define a v4l2 dynamic array
+>>> of U32 (V4L2_CTRL_TYPE_U32).
+>>> The number of entry point offsets is reported by the elems field
+>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+>>> field.
+>>
+>> Slice control by itself is variable length array, so you would actually need 
+>> 2D variable array for entry points which is not supported. However, easy 
+>> workaround for that is to flatten 2D array to 1D and either have another slice 
+>> control field which would tell first entry point index for convenience or let 
+>> driver calculate it by adding up all num_entry_point_offsets of previous 
+>> slices.
+>>
+>> Hans, what do you think?
+> 
+> If I would support 2D variable array sizes, wouldn't that be more elegant?
+> 
+> The current implementation doesn't support that, but as the commit log for
+> patch 1/17 says:
+> 
+> "Currently dynamically sized arrays are limited to one dimensional arrays,
+> but that might change in the future if there is a need for it."
+> 
+> Let me know if you agree, and I'll try to implement this. It's been a while
+> since I last looked at this, so I'm not sure how much work it is, but it is
+> probably worth a shot.
 
-[ Upstream commit b9b52d2f4aafa2bd637ace0f24615bdad8e49f01 ]
+Digging more into this made me realize that this doesn't actually help for this
+particular case.
 
-D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
-While there are some register changes, the part of the TCON TV supported
-by the driver matches the R40 quirks, so that quirks structure can be
-reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
-LCD needs a new quirks structure.
+I would lean towards your second suggestion of adding up all num_entry_point_offsets
+of previous slices.
 
-D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
-from a single TCON. However, it comes with a brand new LVDS PHY. Since
-this PHY has not been tested, leave out LVDS driver support for now.
+Regards,
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220424162633.12369-14-samuel@sholland.org
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_tcon.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+	Hans
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index eb3b2350687f..9687f2b9652d 100644
---- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1509,6 +1509,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
- 	.needs_edp_reset = true,
- };
- 
-+static const struct sun4i_tcon_quirks sun20i_d1_lcd_quirks = {
-+	.has_channel_0		= true,
-+	.dclk_min_div		= 1,
-+	.set_mux		= sun8i_r40_tcon_tv_set_mux,
-+};
-+
- /* sun4i_drv uses this list to check if a device node is a TCON */
- const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
-@@ -1526,6 +1532,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
- 	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
- 	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
- 	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
-+	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
-+	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
--- 
-2.35.1
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>> Note, it seems that H265 decoding on Cedrus still works without entry points, 
+>> so this problem can be solved later. I'm not sure what we lose with that but 
+>> it was suggested that this could influence speed or error resilience or both. 
+>> However, I think we're close to solve it, so I'd like to do that now.
+>>
+>> Best regards,
+>> Jernej
+>>
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+>>>  include/media/hevc-ctrls.h                            |  5 ++++-
+>>>  3 files changed, 20 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
+>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> index 0796b1563daa..05228e280f66 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>      * - __u32
+>>>        - ``data_bit_offset``
+>>>        - Offset (in bits) to the video data in the current slice data.
+>>> +    * - __u32
+>>> +      - ``num_entry_point_offsets``
+>>> +      - Specifies the number of entry point offset syntax elements in the 
+>> slice header.
+>>>      * - __u8
+>>>        - ``nal_unit_type``
+>>>        - Specifies the coding type of the slice (B, P or I).
+>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>  
+>>>      \normalsize
+>>>  
+>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>>> +    Specifies entry point offsets in bytes.
+>>> +    This control is a dynamically sized array. The number of entry point
+>>> +    offsets is reported by the ``elems`` field.
+>>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>>> +    They are described in section 7.4.7.1 "General slice segment header
+>>> +    semantics" of the specification.
+>>> +
+>>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>>      Specifies the HEVC scaling matrix parameters used for the scaling 
+>> process
+>>>      for transform coefficients.
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-
+>> core/v4l2-ctrls-defs.c
+>>> index d594efbcbb93..e22921e7ea61 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
+>> "HEVC Decode Parameters";
+>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
+>> "HEVC Decode Mode";
+>>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
+>> "HEVC Start Code";
+>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
+>> "HEVC Entry Point Offsets";
+>>>  
+>>>  	/* Colorimetry controls */
+>>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
+>> */
+>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum 
+>> v4l2_ctrl_type *type,
+>>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>>>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>>>  		break;
+>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+>>> +		*type = V4L2_CTRL_TYPE_U32;
+>>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>>> +		break;
+>>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>>  		break;
+>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>> index a3c829ef531a..1319cb99ae3f 100644
+>>> --- a/include/media/hevc-ctrls.h
+>>> +++ b/include/media/hevc-ctrls.h
+>>> @@ -20,6 +20,7 @@
+>>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
+>> + 1012)
+>>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 
+>> 1017)
+>>>  
+>>>  /* enum v4l2_ctrl_type type values */
+>>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
+>>>   *
+>>>   * @bit_size: size (in bits) of the current slice data
+>>>   * @data_bit_offset: offset (in bits) to the video data in the current slice 
+>> data
+>>> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
+>>> + *			     elements in the slice header.
+>>>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the 
+>> NAL unit
+>>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
+>>>  struct v4l2_ctrl_hevc_slice_params {
+>>>  	__u32	bit_size;
+>>>  	__u32	data_bit_offset;
+>>> -
+>>> +	__u32	num_entry_point_offsets;
+>>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>>>  	__u8	nal_unit_type;
+>>>  	__u8	nuh_temporal_id_plus1;
+>>> -- 
+>>> 2.32.0
+>>>
+>>>
+>>
+>>
+> 
 
