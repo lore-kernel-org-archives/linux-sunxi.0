@@ -1,141 +1,289 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594E018D
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 14:42:04 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 903513200645;
-	Mon, 30 May 2022 10:42:02 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 30 May 2022 10:42:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1653921722; x=
-	1654008122; bh=I5n0iZMhvRYtVlqNaE5gXodeWKpPzOtBBF09/N8SYdo=; b=u
-	nCiFpukoiLLGljwmlJqGAHNyALbBXAsnzoSGPWQlTQ1fB+Glsl54gEspnxjnffNm
-	76aH6MNrNn1KPUtIyVwdUlsWXByhi041izCSeA3m34cGnsYOTF+jaYOx8Pl+0YZt
-	WkIOEkjK5IP+ui3p0arns2qGz0tKXyGjbdwDJ2PTu/i6KpQbsLJwpmcT+ln4oGKD
-	PNMKdfOJq1py85vL8rUaMbsc1CoO5jlgdnZhdd1mLELn/iMaGctEwdmsMpH5yS0v
-	acUh4v49x0WL4q/1H6GG1fqKVxH/AkpFowg3HlXKgp1tM9mK3CArwWUh8KIcM3yD
-	MAiuipejo7nGrc4fX1Ssg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653921722; x=
-	1654008122; bh=I5n0iZMhvRYtVlqNaE5gXodeWKpPzOtBBF09/N8SYdo=; b=S
-	h/4vnGUiQadEwLFHt+V4mM8ql7zAOxHwJZOyk0d4Wa1PtM/lYQYN3XbvF2ScpM4N
-	0ko1X02PK9LbKwqAAugDY3Iwp0nR8iFn3NxJWN20VkfhJJGNLDjdTV/orSmysjeL
-	ECodXYQwAKfAk/x8SFQsnhwEORtLDdJ8ZFIZWkcu1XceYMbk4ekqoTKKDhwAWbjt
-	ZeGIeG+1stwpm3QPQeJT/gRN7153pbfZ1oSxIQhDw8DS1643CfiltPR5OjMWMEap
-	b97iw5VF8zWOAIogcfT1nMJEfwOrLyOeyumC55aDj7HTYctHH8tsfBk0Q+KtDp1D
-	Ro6/uPKdu1Yn0VeLV7xng==
-X-ME-Sender: <xms:udeUYollbMzrIHtLnAUvc5LBky07XH1VNo-4-3xb0hciP04jf_reVg>
-    <xme:udeUYn1toh2_-fbCxqgYD_nQGIOTfpDCWRyJQcxYgUMzoQ6cULMh7_lQ6keoNeFQC
-    aqpbS5ku922f2PLUQ>
-X-ME-Received: <xmr:udeUYmpEI9nXImBOVz1j26DT8Quxeb9y9Yz2bQYek4wEEL_i7DGvW64nUh9Mvzx3-WGCtZGk3Pylt7e7Bk7B5V2gEbhViuew9KR6HBbbAcjasQUt0KLG0Tg33A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigdejiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepkeeiteejuedttdehgfelveevjedtkeehuedtteeiiefggffffefh
-    ueegudekkeffnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehs
-    hhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:udeUYknJFmbBs5-2XgJHL_PjLU_QvUeT9aowu62Em_GW_PrqT5WHmQ>
-    <xmx:udeUYm0OGwq0Pc4vbfUJZKYiQXby3BptIr62O3UjADtDrBR8bolV2g>
-    <xmx:udeUYruu3e9BvxDfjBO0QbWfjXUmwAyeLIbgJ_qa6z2U-qym0E7BOw>
-    <xmx:uteUYvsVxsDDmQ5WyR-Mus3vOsM482qZhWDWeQNBHAqORY0cAz4EsA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 30 May 2022 10:42:00 -0400 (EDT)
-Subject: Re: [PATCH AUTOSEL 4.19 16/38] drm/sun4i: Add support for D1 TCONs
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <maxime@cerno.tech>, mripard@kernel.org, wens@csie.org,
- airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20220530134924.1936816-1-sashal@kernel.org>
- <20220530134924.1936816-16-sashal@kernel.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <0f81cfb5-de3c-02eb-8d6d-e5aa1b69c439@sholland.org>
-Date: Mon, 30 May 2022 09:41:59 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFC33234;
+	Mon, 30 May 2022 21:24:46 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id q21so23116509ejm.1;
+        Mon, 30 May 2022 14:24:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
+        b=Iw4lsRwvQS7PQ4uSFhO6pnlkBU/2pxGh67h4gxpCa1TN0bGK1RRzg6jfX8QiIW0X2z
+         dZojQHMJeCH19SaB1N4wLlVv4phDp8xqRvav5elYuMjvGIKTrxWom5gHPRTr7ejeaApU
+         OSx1pvMl9z8BUL9TN2TYsJJCoaZjXrFH1B6P+9qqxYmoduJWbzYcxzQ4G11ziYuUEjlk
+         0gXR4XnrtOUJxCO+T1m+fsYc6WcJjelUZQx+oCdY1niS0pXFtYcirl75GCHZL4zEPQ2D
+         jFoPm9TyaqhcAEy+H3F3VkANMTPkWHVMfZmb8brYHV0JY5Cd47/TgenQnev00Dwy/PxS
+         6iXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
+        b=Xz6PmfbJWTEFw9Qg30WSLA0casc/PIiXnJ7hev4dayffbk41sBbJzQjEDEh+GgdHtz
+         eB+3wI12Tpi3BHr5cR41pv3muM0s0FanMdOLwVSCn9IQTiQBKmnsK2l6klzguz+4xnmN
+         ocX2sftUf5vhskwMv6krUbcxR9EhdBkp6ciIHuwQr5GjpBoj3lirfacQ+QTKrtxpo9JV
+         2krJgglOooN5RvqTz4L1S9fBkSECCfnXShR+iGWTqHkSvQbZheKgi+d/1/puvxV4PiXp
+         /zVW8VGO1OBxftkC08yBI5rl9sqW/Zer/E44O420aKDB5HxYCXw+SUBrGl0xlQjjyTmD
+         IeTg==
+X-Gm-Message-State: AOAM531mSQ4F9NiAKwsPpXD9rlVCELbs4qcgB4ORARKkmt7qDyF5PJRI
+	mbNPd/7fChl3HNSrDLUZxnE=
+X-Google-Smtp-Source: ABdhPJwGS3A1Qmp0+vGUdObvEPcZ7zMJAXqBix8pd9sLBcoG4Rxhn+fBrxg/1jlRdhbKvSTCzipA+A==
+X-Received: by 2002:a17:907:720a:b0:6ff:2e1c:f22f with SMTP id dr10-20020a170907720a00b006ff2e1cf22fmr17953781ejc.16.1653945884756;
+        Mon, 30 May 2022 14:24:44 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id b16-20020a50b410000000b0042b5cf75d6esm7032775edh.97.2022.05.30.14.24.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 May 2022 14:24:44 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
+Subject: Re: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date: Mon, 30 May 2022 23:24:42 +0200
+Message-ID: <5824953.lOV4Wx5bFT@kista>
+In-Reply-To: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl> <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220530134924.1936816-16-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Sasha,
+Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a):
+> On 30/05/2022 11:18, Hans Verkuil wrote:
+> > On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
+> >> Hi!
+> >>
+> >> This series looks very good and I plan to test it shortly on Cedrus, b=
+ut=20
+I=20
+> >> have one major concern below.
+> >>
+> >> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(=
+a):
+> >>> The number of 'entry point offset' can be very variable.
+> >>> Instead of using a large static array define a v4l2 dynamic array
+> >>> of U32 (V4L2_CTRL_TYPE_U32).
+> >>> The number of entry point offsets is reported by the elems field
+> >>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> >>> field.
+> >>
+> >> Slice control by itself is variable length array, so you would actuall=
+y=20
+need=20
+> >> 2D variable array for entry points which is not supported. However, ea=
+sy=20
+> >> workaround for that is to flatten 2D array to 1D and either have anoth=
+er=20
+slice=20
+> >> control field which would tell first entry point index for convenience=
+ or=20
+let=20
+> >> driver calculate it by adding up all num_entry_point_offsets of previo=
+us=20
+> >> slices.
+> >>
+> >> Hans, what do you think?
+> >=20
+> > If I would support 2D variable array sizes, wouldn't that be more elega=
+nt?
+> >=20
+> > The current implementation doesn't support that, but as the commit log =
+for
+> > patch 1/17 says:
+> >=20
+> > "Currently dynamically sized arrays are limited to one dimensional arra=
+ys,
+> > but that might change in the future if there is a need for it."
+> >=20
+> > Let me know if you agree, and I'll try to implement this. It's been a=20
+while
+> > since I last looked at this, so I'm not sure how much work it is, but i=
+t=20
+is
+> > probably worth a shot.
+>=20
+> Digging more into this made me realize that this doesn't actually help fo=
+r=20
+this
+> particular case.
+>=20
+> I would lean towards your second suggestion of adding up all=20
+num_entry_point_offsets
+> of previous slices.
 
-On 5/30/22 8:49 AM, Sasha Levin wrote:
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> [ Upstream commit b9b52d2f4aafa2bd637ace0f24615bdad8e49f01 ]
-> 
-> D1 has a TCON TOP, so its quirks are similar to those for the R40 TCONs.
-> While there are some register changes, the part of the TCON TV supported
-> by the driver matches the R40 quirks, so that quirks structure can be
-> reused. D1 has the first supported TCON LCD with a TCON TOP, so the TCON
-> LCD needs a new quirks structure.
-> 
-> D1's TCON LCD hardware supports LVDS; in fact it provides dual-link LVDS
-> from a single TCON. However, it comes with a brand new LVDS PHY. Since
-> this PHY has not been tested, leave out LVDS driver support for now.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20220424162633.12369-14-samuel@sholland.org
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Just one question/clarification about dynamic arrays - does driver need to=
+=20
+reserve maximum amount of memory for dynamic array control at initializatio=
+n=20
+time? If so, this would still be problematic, since there cound be a huge=20
+amount of entry points in theory.
 
-This patch adds support for hardware in a SoC that will not boot on earlier
-kernel releases, so there is no benefit to backporting the patch (to any
-previous release).
+Best regards,
+Jernej
 
-Regards,
-Samuel
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+> >=20
+> > Regards,
+> >=20
+> > 	Hans
+> >=20
+> >>
+> >> Note, it seems that H265 decoding on Cedrus still works without entry=
+=20
+points,=20
+> >> so this problem can be solved later. I'm not sure what we lose with th=
+at=20
+but=20
+> >> it was suggested that this could influence speed or error resilience o=
+r=20
+both.=20
+> >> However, I think we're close to solve it, so I'd like to do that now.
+> >>
+> >> Best regards,
+> >> Jernej
+> >>
+> >>>
+> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>> ---
+> >>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++=
+++
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+> >>>  include/media/hevc-ctrls.h                            |  5 ++++-
+> >>>  3 files changed, 20 insertions(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
+t b/
+> >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> index 0796b1563daa..05228e280f66 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> >>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> >>>      * - __u32
+> >>>        - ``data_bit_offset``
+> >>>        - Offset (in bits) to the video data in the current slice data.
+> >>> +    * - __u32
+> >>> +      - ``num_entry_point_offsets``
+> >>> +      - Specifies the number of entry point offset syntax elements i=
+n the=20
+> >> slice header.
+> >>>      * - __u8
+> >>>        - ``nal_unit_type``
+> >>>        - Specifies the coding type of the slice (B, P or I).
+> >>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
+ -
+> >>> =20
+> >>>      \normalsize
+> >>> =20
+> >>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> >>> +    Specifies entry point offsets in bytes.
+> >>> +    This control is a dynamically sized array. The number of entry=20
+point
+> >>> +    offsets is reported by the ``elems`` field.
+> >>> +    This bitstream parameter is defined according to :ref:`hevc`.
+> >>> +    They are described in section 7.4.7.1 "General slice segment hea=
+der
+> >>> +    semantics" of the specification.
+> >>> +
+> >>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+> >>>      Specifies the HEVC scaling matrix parameters used for the scalin=
+g=20
+> >> process
+> >>>      for transform coefficients.
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/medi=
+a/
+v4l2-
+> >> core/v4l2-ctrls-defs.c
+> >>> index d594efbcbb93..e22921e7ea61 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> >>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return=20
+> >> "HEVC Decode Parameters";
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return=20
+> >> "HEVC Decode Mode";
+> >>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return=20
+> >> "HEVC Start Code";
+> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return=20
+> >> "HEVC Entry Point Offsets";
+> >>> =20
+> >>>  	/* Colorimetry controls */
+> >>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h!=20
+> >> */
+> >>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
+=20
+enum=20
+> >> v4l2_ctrl_type *type,
+> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+> >>>  		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+> >>>  		break;
+> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> >>> +		*type =3D V4L2_CTRL_TYPE_U32;
+> >>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> >>> +		break;
+> >>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+> >>>  		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+> >>>  		break;
+> >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> >>> index a3c829ef531a..1319cb99ae3f 100644
+> >>> --- a/include/media/hevc-ctrls.h
+> >>> +++ b/include/media/hevc-ctrls.h
+> >>> @@ -20,6 +20,7 @@
+> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE=20
+> >> + 1012)
+> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE=20
++ 1015)
+> >>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 10=
+16)
+> >>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_=
+BASE=20
++=20
+> >> 1017)
+> >>> =20
+> >>>  /* enum v4l2_ctrl_type type values */
+> >>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> >>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
+> >>>   *
+> >>>   * @bit_size: size (in bits) of the current slice data
+> >>>   * @data_bit_offset: offset (in bits) to the video data in the curre=
+nt=20
+slice=20
+> >> data
+> >>> + * @num_entry_point_offsets: specifies the number of entry point off=
+set=20
+syntax
+> >>> + *			     elements in the slice header.
+> >>>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> >>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier f=
+or=20
+the=20
+> >> NAL unit
+> >>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> >>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
+> >>>  struct v4l2_ctrl_hevc_slice_params {
+> >>>  	__u32	bit_size;
+> >>>  	__u32	data_bit_offset;
+> >>> -
+> >>> +	__u32	num_entry_point_offsets;
+> >>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> >>>  	__u8	nal_unit_type;
+> >>>  	__u8	nuh_temporal_id_plus1;
+> >>> --=20
+> >>> 2.32.0
+> >>>
+> >>>
+> >>
+> >>
+> >=20
+>=20
+>=20
 
-> ---
->  drivers/gpu/drm/sun4i/sun4i_tcon.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> index 113c032a2720..0ebb7c1dfee6 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-> @@ -1316,6 +1316,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
->  	.needs_edp_reset = true,
->  };
->  
-> +static const struct sun4i_tcon_quirks sun20i_d1_lcd_quirks = {
-> +	.has_channel_0		= true,
-> +	.dclk_min_div		= 1,
-> +	.set_mux		= sun8i_r40_tcon_tv_set_mux,
-> +};
-> +
->  /* sun4i_drv uses this list to check if a device node is a TCON */
->  const struct of_device_id sun4i_tcon_of_table[] = {
->  	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
-> @@ -1329,6 +1335,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
->  	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
->  	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
->  	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
-> +	{ .compatible = "allwinner,sun20i-d1-tcon-lcd", .data = &sun20i_d1_lcd_quirks },
-> +	{ .compatible = "allwinner,sun20i-d1-tcon-tv", .data = &sun8i_r40_tv_quirks },
->  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, sun4i_tcon_of_table);
-> 
 
