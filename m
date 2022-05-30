@@ -1,197 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE1C17F8;
-	Mon, 30 May 2022 09:18:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CEC3C385B8;
-	Mon, 30 May 2022 09:18:38 +0000 (UTC)
-Message-ID: <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl>
-Date: Mon, 30 May 2022 11:18:36 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A147B2F38
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:22:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 9A0595C01B4;
+	Mon, 30 May 2022 09:22:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 30 May 2022 09:22:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1653916956; x=
+	1654003356; bh=z7a79ghN+N76ZhwQ641IsKDuKwUgLOjLc7mVHgDfios=; b=s
+	3P4KBN+gl3HsslnjzvnXp2LcO5teFuFBSxeCpyP/gLvEO50TDtuuQ1Gf4WK6bdI9
+	JHrm9pAbafzd/Rudmo4V/fuWNXm3LIYKykwnXVbyDATrswzSL7WOjX28G2OaHPbT
+	4vkeB1/UIJH3JObjxLlKM6uD9ORLO6Y6KF01wrI7b3vIK8IhZzsChlF5bNQmVjje
+	6Kv920BrDUY22w4recK/E8+ORAXzRKYrYgG3Q7zqPMcvLF+gAzvsxpUSSq8ScVNW
+	hWpvsiUF5tYHnwZ1MIQxcDkHu/rTlT6L9Bob+gNSy0qDNUITQ0i/eKV7c1IeFATn
+	U7lqNEfuxktZ5xa4SbUqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1653916956; x=
+	1654003356; bh=z7a79ghN+N76ZhwQ641IsKDuKwUgLOjLc7mVHgDfios=; b=q
+	J8GEZqHBSm/cxidTwgjMDhW6snhd0QwR9/+Vo/PJJnd2Fo8qOtLDo5i3Ki3sXGiY
+	NUq0DeG4Gq5olkpk0aaucPs09yU2glhLRWt3bssdI0ktBqgR5LSGNzKwtrEMZJC2
+	8dCDQXBQ/QQijgYyA0uIIiaxmm6n8yhd9TySJiydr9Xkti5OGjhlHzn2gZEikg1I
+	enMMUKpwpvuZsBxCGjdBYQxsarpWss/849VnLVDPfk3bAIDL460DL5MG8O38tmNe
+	cqQ/ek4ReRFHJ4xhKC3O3RUcvPo+abI6gddbK6cDtVpzpjOIx3WMuKem+zJW3eS5
+	C68Tu11QiDQPbqgUn6L6g==
+X-ME-Sender: <xms:G8WUYn_5eZ7uW-GMnMnxcz_9ZOYBYl8BCDyi7YgIAUAr5NNHOF7lwA>
+    <xme:G8WUYjtxIXsyBygiFSFuRmcVhvX3PzdXjorK9bP-u2Q1taH_Sj7wrL6uDp1d7JK3p
+    joWyui7iPsvDQAau7c>
+X-ME-Received: <xmr:G8WUYlCQvPw96h6iJeqM2_qgelWcT91lR2AnGWtafkcDeAO2BVz76BHxpw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeeigdehlecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
+    teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:G8WUYje-lLTlw-rdu1x5n7XuL0H7G3wZo-Uffv6u-ZfWFHaQ5QVEaw>
+    <xmx:G8WUYsMrMs_6nuOGP6DJdL5z5yjbfdI2TedIAxds20dn72knm587kQ>
+    <xmx:G8WUYllwWD5A02oRVxGPmWikoyP3qQbPlIg3Ob6XH0GxoVh2fmS5Dg>
+    <xmx:HMWUYtE014QcM0DE06p4XUMtvHQxPnnciyrKE5Gm2JBi3A5jRf4Ofg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 30 May 2022 09:22:35 -0400 (EDT)
+Date: Mon, 30 May 2022 15:22:32 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: wens@csie.org, jernej.skrabec@gmail.com, airlied@linux.ie,
+	daniel@ffwll.ch, samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, megi@xff.cz,
+	Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+Subject: Re: [PATCH] drm/sun4i: Fix blend route/enable register corruption
+ for DE2.0/DE3.0
+Message-ID: <20220530132232.himfp7ubiacbmkpx@penduick>
+References: <20220525115445.93500-1-roman.o.stratiienko@globallogic.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.8.1
-Subject: Re: [PATCH v6 11/17] media: uapi: Add
- V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, mripard@kernel.org,
- paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org,
- nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- kernel@collabora.com
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
- <20220527143134.3360174-12-benjamin.gaignard@collabora.com>
- <2102641.irdbgypaU6@kista>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <2102641.irdbgypaU6@kista>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220525115445.93500-1-roman.o.stratiienko@globallogic.com>
 
-On 29/05/2022 08:40, Jernej Škrabec wrote:
-> Hi!
-> 
-> This series looks very good and I plan to test it shortly on Cedrus, but I 
-> have one major concern below.
-> 
-> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(a):
->> The number of 'entry point offset' can be very variable.
->> Instead of using a large static array define a v4l2 dynamic array
->> of U32 (V4L2_CTRL_TYPE_U32).
->> The number of entry point offsets is reported by the elems field
->> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
->> field.
-> 
-> Slice control by itself is variable length array, so you would actually need 
-> 2D variable array for entry points which is not supported. However, easy 
-> workaround for that is to flatten 2D array to 1D and either have another slice 
-> control field which would tell first entry point index for convenience or let 
-> driver calculate it by adding up all num_entry_point_offsets of previous 
-> slices.
-> 
-> Hans, what do you think?
+Hi Roman,
 
-If I would support 2D variable array sizes, wouldn't that be more elegant?
+On Wed, May 25, 2022 at 11:54:45AM +0000, Roman Stratiienko wrote:
+> By this commit 2 related issues are solved:
+>=20
+>   Issue #1. Corruption in blend route/enable register:
+>=20
+> Register corruption happens after using old_state->zpos to disable layer
+> state. Blend route/enable registers are shared with other layers
+> and other layers may have already assigned this PIPE to valid value.
+>=20
+> Solution: Do not use old_state->zpos to disable the plane pipe in
+> blend registers.
+>=20
+>   Issue #2. Remove disabled layer from blend route/enable registers:
+>=20
+> Since sun4i/drm are using normalized_zpos, .atomic_update() will setup
+> blend route/enable pipes starting from PIPE0 to PIPEX, where X+1 is a
+> number of layers used by the CRTC in this frame.
+>=20
+> Remaining pipes (PIPE[X+1] - PIPE[MAX]) can have old data that MUST be
+> updated.
+>=20
+> new_state->normalized_zpos can't be used, since drm helpers won't update
+> it for disabled planes.
+>=20
+> Solution:
+>=20
+> 1. Track the number of total used planes for crtc.
+> 2. Use this number instead of zpos to disable unused blend pipes.
+>=20
+> Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
 
-The current implementation doesn't support that, but as the commit log for
-patch 1/17 says:
+If there's two issues, and two solutions, it should be two patches.
 
-"Currently dynamically sized arrays are limited to one dimensional arrays,
-but that might change in the future if there is a need for it."
-
-Let me know if you agree, and I'll try to implement this. It's been a while
-since I last looked at this, so I'm not sure how much work it is, but it is
-probably worth a shot.
-
-Regards,
-
-	Hans
-
-> 
-> Note, it seems that H265 decoding on Cedrus still works without entry points, 
-> so this problem can be solved later. I'm not sure what we lose with that but 
-> it was suggested that this could influence speed or error resilience or both. 
-> However, I think we're close to solve it, so I'd like to do that now.
-> 
-> Best regards,
-> Jernej
-> 
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
->>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
->>  include/media/hevc-ctrls.h                            |  5 ++++-
->>  3 files changed, 20 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/
-> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index 0796b1563daa..05228e280f66 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>      * - __u32
->>        - ``data_bit_offset``
->>        - Offset (in bits) to the video data in the current slice data.
->> +    * - __u32
->> +      - ``num_entry_point_offsets``
->> +      - Specifies the number of entry point offset syntax elements in the 
-> slice header.
->>      * - __u8
->>        - ``nal_unit_type``
->>        - Specifies the coding type of the slice (B, P or I).
->> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>  
->>      \normalsize
->>  
->> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
->> +    Specifies entry point offsets in bytes.
->> +    This control is a dynamically sized array. The number of entry point
->> +    offsets is reported by the ``elems`` field.
->> +    This bitstream parameter is defined according to :ref:`hevc`.
->> +    They are described in section 7.4.7.1 "General slice segment header
->> +    semantics" of the specification.
->> +
->>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->>      Specifies the HEVC scaling matrix parameters used for the scaling 
-> process
->>      for transform coefficients.
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-
-> core/v4l2-ctrls-defs.c
->> index d594efbcbb93..e22921e7ea61 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
->> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
-> "HEVC Decode Parameters";
->>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
-> "HEVC Decode Mode";
->>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
-> "HEVC Start Code";
->> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
-> "HEVC Entry Point Offsets";
->>  
->>  	/* Colorimetry controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
-> */
->> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum 
-> v4l2_ctrl_type *type,
->>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->>  		break;
->> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
->> +		*type = V4L2_CTRL_TYPE_U32;
->> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->> +		break;
->>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->>  		break;
->> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
->> index a3c829ef531a..1319cb99ae3f 100644
->> --- a/include/media/hevc-ctrls.h
->> +++ b/include/media/hevc-ctrls.h
->> @@ -20,6 +20,7 @@
->>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
-> + 1012)
->>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
->> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 
-> 1017)
->>  
->>  /* enum v4l2_ctrl_type type values */
->>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
->> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
->>   *
->>   * @bit_size: size (in bits) of the current slice data
->>   * @data_bit_offset: offset (in bits) to the video data in the current slice 
-> data
->> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
->> + *			     elements in the slice header.
->>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the 
-> NAL unit
->>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
->> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
->>  struct v4l2_ctrl_hevc_slice_params {
->>  	__u32	bit_size;
->>  	__u32	data_bit_offset;
->> -
->> +	__u32	num_entry_point_offsets;
->>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->>  	__u8	nal_unit_type;
->>  	__u8	nuh_temporal_id_plus1;
->> -- 
->> 2.32.0
->>
->>
-> 
-> 
-
+Maxime
