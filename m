@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C88C2F38
-	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:33:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291F1C36AE7;
-	Mon, 30 May 2022 13:33:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5B82F38
+	for <linux-sunxi@lists.linux.dev>; Mon, 30 May 2022 13:40:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38E03C3411C;
+	Mon, 30 May 2022 13:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1653917627;
-	bh=Zcm9ySkbT/G7Q4BJQf5Zw5SrfV4XpqujHIMn+NmqG/M=;
+	s=k20201202; t=1653918028;
+	bh=I7LxCGqGRJzIqYh0gYUNNAZ2n4cqGO4jUUu8TCEeoIw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sttezF5sPcUgi0TczNTyQov56LLcdkmdPWKmd9acBoMLMKBQgTZFNhD4Riq2mmf9g
-	 RX+4ZNAUn6ARa+3L2xBDqbH0LYx2qmeJyyLGgFtpS6fYVNEeuQ3EU8W5q6FrnwpIX4
-	 m8AAV8Dg6ImJT0cSD/NSfRjYpckgN4Xhf4wqzxlKo6q4OEOV0Fm0Wt8vv/AQkMZI2d
-	 yG1fXSYAY/W5I/hTSbMFCI1E8hPF++KQhA1FE50rb1bwomNiQUXqDrjCBeOvCIW4SC
-	 +1RobAWcHVuU3xVo6GWGFSNF6FpH4WlNgIp4NIVqqmZuv7sKJeBKvSbTV8jMJtiIoH
-	 U8xbcovGoOOxA==
+	b=NMePOAabdFN6DnmCSCiKVO1ThFP5kF6STCD/v9dDk8W9fyAfESiVoQ3UKH82gY6cg
+	 0jLgqt8tzpNMRL9BTxzi7ArD2SxYFBjy9Ma8m93eujIbZnQ37ilcKcik2OYJNao2WV
+	 9Nn6SUWz8U79A09mMao+Y2oC9VXRm2Kr3UZg5AIUHhsh+PeymJTHltJENlKwtMbqUk
+	 Rg+Q/0DlfPjgR3L5IT2FxK1X8hxg8Og0aEth8c2X6hlqj7tM1JoYNN1NnKgJge8Y/r
+	 u3Fm3iCpWp73naLixRZvK3DoBHIPikhDyflYZoU7Vev7PgZEM+r1Hi+rx6Lq+s/Egu
+	 9+tq7W03MnI0w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -29,12 +29,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.17 047/135] drm/sun4i: Add support for D1 TCONs
-Date: Mon, 30 May 2022 09:30:05 -0400
-Message-Id: <20220530133133.1931716-47-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 038/109] drm/sun4i: Add support for D1 TCONs
+Date: Mon, 30 May 2022 09:37:14 -0400
+Message-Id: <20220530133825.1933431-38-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220530133133.1931716-1-sashal@kernel.org>
-References: <20220530133133.1931716-1-sashal@kernel.org>
+In-Reply-To: <20220530133825.1933431-1-sashal@kernel.org>
+References: <20220530133825.1933431-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -69,10 +69,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 8 insertions(+)
 
 diff --git a/drivers/gpu/drm/sun4i/sun4i_tcon.c b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-index 88db2d2a9336..2ee158aaeb9e 100644
+index 9f06dec0fc61..e27103f5a075 100644
 --- a/drivers/gpu/drm/sun4i/sun4i_tcon.c
 +++ b/drivers/gpu/drm/sun4i/sun4i_tcon.c
-@@ -1542,6 +1542,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
+@@ -1544,6 +1544,12 @@ static const struct sun4i_tcon_quirks sun9i_a80_tcon_tv_quirks = {
  	.needs_edp_reset = true,
  };
  
@@ -85,7 +85,7 @@ index 88db2d2a9336..2ee158aaeb9e 100644
  /* sun4i_drv uses this list to check if a device node is a TCON */
  const struct of_device_id sun4i_tcon_of_table[] = {
  	{ .compatible = "allwinner,sun4i-a10-tcon", .data = &sun4i_a10_quirks },
-@@ -1559,6 +1565,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
+@@ -1561,6 +1567,8 @@ const struct of_device_id sun4i_tcon_of_table[] = {
  	{ .compatible = "allwinner,sun8i-v3s-tcon", .data = &sun8i_v3s_quirks },
  	{ .compatible = "allwinner,sun9i-a80-tcon-lcd", .data = &sun9i_a80_tcon_lcd_quirks },
  	{ .compatible = "allwinner,sun9i-a80-tcon-tv", .data = &sun9i_a80_tcon_tv_quirks },
