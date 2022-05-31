@@ -1,81 +1,73 @@
 Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BA7320F1
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 04:50:55 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 3D477320096B;
-	Tue, 31 May 2022 00:50:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 31 May 2022 00:50:54 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C93020F1
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 05:36:27 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 962FC3200939;
+	Tue, 31 May 2022 01:36:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 31 May 2022 01:36:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1653972652; x=1654059052; bh=eU
-	7cue2LcpAeKkQtOhXjHuUv8SLcEPjT+d5wqr9dkU4=; b=rZikR53jzXP1uKcTwO
-	L28CY6lw/KGQSdqxtztJ5Ql+1TJcLH1zU5fFAojdQFdZL9Pd6k3sUFffgvBbrsbR
-	i4Ub94v1MiomBfQyQVm8hAcJw1z1bq28+H+NeetG1caE5aEczSQ/hNoXqHUxOPa+
-	D0TDWG3IX06N1dtI0pezACBqtYzLwbeyJgstvUBYEGRFQ+c3Q5GqQRSdZoqV16NG
-	8f1Q+j6AezmLcnwq+cfiy4pi5RqRToMNgxt+dEA1tKvXnzqoEMPagAMYUHPdXms/
-	VcWHBoUvYayFyFBO8PTF4RauUIs+Co5zQinTJdkJJ46sBpavjRSQtdUGa1B/AYnb
-	fgWw==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1653975385; x=1654061785; bh=u09AbJGPuNIVZN1PiNPkATqKx
+	XmT/KZro1kYxtMw6gY=; b=q9vDoi2og7ljp0M8+O5Po1S9SnfhRHnYSDBeVBdhe
+	LiEiPZit8i4vntrJ9yArjKFkoN/NxYBhtFdGRR8TqjGKdAvlDh596ETnXT+EIcuN
+	Y+dXFVUSY9YPSoEBBBVFhcv5Jbh2M1jfzuncEm91tAeIgqf4tXCuCBn5kkTS6BBb
+	4GbSH0ZVttf5zTEIpMXNhgb3C4YepDTATTH7hdU0kwkusEaXwYuOeSNolopORQv4
+	K6vVU99xKnKMUixjMkSy4FUO4lWYSXOCNQYzAi4UtIDbd1Pfc9+EkK3CU6oK+SHw
+	/6GuY5ULEfIr6W2mo8BiSXh9TAji9iNMCvbB6gtGNJhYQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1653972652; x=1654059052; bh=eU7cue2LcpAeK
-	kQtOhXjHuUv8SLcEPjT+d5wqr9dkU4=; b=SjiyAnNae2bJcw+LgxUfK1sQu0UAT
-	sMFHJdHZmrPvA16x1dMExFo0YP2Mwu4BXc34m9COiKNE2VEON+6CJNfBMD8yPfoK
-	tU3yd/SgQmM3l2BQBV5f8mS9JBPgaTTTozOZHlYOYdJbfIg2Pc0CVBih7UyJSqII
-	3Jhb/5aH9XYe4b2W3zYAWwBCY7VnDKDm+UIkHZJ4K7oY/LY8eZW6RB0y5oDpUab+
-	qHP2De7aB81weF87AM5xGAPitQYYbeTDqFoQ/sfVq2gbHPq3ChxlFUfWSG27dpFR
-	vwSDbMZRNqYpFbmPhdE2eMadmM9UEa+TBgEZw2oa6mBCpamkxCUbvRV/Q==
-X-ME-Sender: <xms:rJ6VYq9bEdrssHnetAqeorshHdpkEnZFeKdqVzAlBTWIFxGFK6HMLg>
-    <xme:rJ6VYqtfDQGfXHElCeQ33P_So-MRCKeBXMIKhkq7JPo3ybHL65Iz8iKmoNzcUcS4c
-    osUNk9-eYffpGSC5Q>
-X-ME-Received: <xmr:rJ6VYgC2qelAXLsQhx5oYo1eZDVeIlI42SbezXPEOxpeTdNVfdBUn_H0625pgmxQR6rR-Zk7IMfh9L0f6QolnqJlZCnSa6BMG9aHmoaiAq4AvJADVY3Z0w2xGPg1mQKVV9jDJQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgdeklecutefuodetggdotefrodftvf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1653975385; x=1654061785; bh=u09AbJGPuNIVZN1PiNPkATqKxXmT/KZro1k
+	YxtMw6gY=; b=hulM2hFfRoNf3nUR0tIs9NgzCZX/TIkZwkzfkezaiNuxVERnvN0
+	sRTH4oUGLUYiLULF8LmyUY1CGdzk+0SdjNIl129jv8fFvT5d7zEhRRP834TUvt3O
+	O1JIqAolnp3ovwIvXFwcd4Zraf1JXmnsShdfSNWUdNqKLMSi180SbjLAeolxEhWL
+	QnzcezCz9Cn/Iu4MCmIFYG9DF0UmgnHi/9hDxPXPHo0Mz6TseOSFvc6sOS7PnLFr
+	8iLrTZOXG7K8Uf9P+EIGF9IFVqZrJImGwWJyuOjJ1TSHDkQIAlkkFBNExh9iDlKQ
+	k6CCXUBG4VQ/XhdpCb2iOi/WH6QW5JTnWEg==
+X-ME-Sender: <xms:WKmVYoCPwtiFtnTvRLjME7WAoBiXTMetEwdWF4aSQxnqloifyVdXww>
+    <xme:WKmVYqg1uqn9dh5tMBKN7qh_N6gFf2wvRpSpHQCR1Nzo4m1JiwcbzKm0FAKOP_vhK
+    9VASvgSCQzcntJ3Vg>
+X-ME-Received: <xmr:WKmVYrkgvq6vC4QofJ7FYqKd6wwJfUx5L6JP3v3HoGR2lOcLkQDaWE38rxJC8uxPSp0K5JNJfSL1ViwxXYDUqerwcRmKesXCARvNGtrfzWBmrWKReVdODzXNXVBJ_PwzDd849g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgdelkecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeehgfdu
-    feeitdevteenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:rJ6VYifqqQNPgoXrXgMeOCwaZbJiW5EV5TG3qJpxFY2M8HMWPivfyA>
-    <xmx:rJ6VYvOA7yH833ecqkTPN8zyge6FqxR9X2gGvjx_lkXb0qFg523f5Q>
-    <xmx:rJ6VYsnVvrtiZHSAvULPAagARpAxHrqd1CdAP5GtNHW4ABRpaS7i6A>
-    <xmx:rJ6VYowpYhgKmUaXguW2sy4zXzj0S7jQmnGB2D-A_4hyFC3PqXtS2g>
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:WKmVYuyQyRULO7QtDtdsvDKcOPHLvS8IbZ7wzFcWoseBkgnH-mgqfw>
+    <xmx:WKmVYtSA2txUCOFMAvd8tbuUwDc7EiyJo0769Pf6gzkxCrbqqQ-Z_g>
+    <xmx:WKmVYpbuHXWrNSlwlkiOD0XIehVQZjudaiMaGCQaHIYtNYTvfGPPfg>
+    <xmx:WamVYsKMjMjqpZ7cGX8UucHvZks69ochiqc4wN2BljUwAcP9-GNq5Q>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 May 2022 00:50:51 -0400 (EDT)
+ 31 May 2022 01:36:24 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
+To: Linus Walleij <linus.walleij@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>,
+Cc: Andre Przywara <andre.przywara@arm.com>,
+	Maxime Ripard <mripard@kernel.org>,
 	Samuel Holland <samuel@sholland.org>,
-	Bartosz Dudziak <bartosz.dudziak@snejp.pl>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-	Luca Weiss <luca@z3ntu.xyz>,
-	Maxime Ripard <maxime@cerno.tech>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Rob Herring <robh+dt@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Stephan Gerhold <stephan@gerhold.net>,
-	Thierry Reding <treding@nvidia.com>,
-	Vinod Koul <vkoul@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/3] dt-bindings: arm: Remove obsolete CPU enable methods
-Date: Mon, 30 May 2022 23:50:38 -0500
-Message-Id: <20220531045038.42230-4-samuel@sholland.org>
+Subject: [PATCH 0/3] pinctrl: sunxi: Remove non-existent reset line references
+Date: Tue, 31 May 2022 00:36:20 -0500
+Message-Id: <20220531053623.43851-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220531045038.42230-1-samuel@sholland.org>
-References: <20220531045038.42230-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,30 +76,40 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-U-Boot has provided PSCI on Allwinner A31 and A23/A33 since May 2015,
-commit 014414f53695 ("ARM: sunxi: Enable PSCI for sun8i"). Since we can
-assume PSCI is available on these platforms, they no longer need custom
-CPU enable methods.
+I assume these properties came from a lack of documentation, and the
+very reasonable assumption that where there's a clock gate bit in the
+CCU, there's a reset bit. But the pin controllers are special and don't
+have a module reset line. The only way to reset the pin controller is to
+reset the whole VDD_SYS power domain.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+This series is preparation for converting the PRCM MFD and legacy clock
+drivers to a CCU clock/reset driver like all of the other Allwinner
+SoCs. I don't plan to add reset lines that don't actually exist to the
+new CCU driver. So we might as well get rid of the references now.
+Technically this breaks devicetree compatibility, since the old drivers
+expect the reset. But the CCU conversion will be a compatibility break
+anyway, so it's a bit of a moot point.
 
- Documentation/devicetree/bindings/arm/cpus.yaml | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/arm/cpus.yaml b/Documentation/devicetree/bindings/arm/cpus.yaml
-index ed04650291a8..94527187a85a 100644
---- a/Documentation/devicetree/bindings/arm/cpus.yaml
-+++ b/Documentation/devicetree/bindings/arm/cpus.yaml
-@@ -195,8 +195,6 @@ properties:
-       # On ARM 32-bit systems this property is optional
-       - enum:
-           - actions,s500-smp
--          - allwinner,sun6i-a31
--          - allwinner,sun8i-a23
-           - allwinner,sun9i-a80-smp
-           - allwinner,sun8i-a83t-smp
-           - amlogic,meson8-smp
+Samuel Holland (3):
+  pinctrl: sunxi: Remove reset controller consumers
+  ARM: dts: sunxi: Drop resets from r_pio nodes
+  dt-bindings: pinctrl: sunxi: Disallow the resets property
+
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  3 ---
+ arch/arm/boot/dts/sun6i-a31.dtsi              |  1 -
+ arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  1 -
+ arch/arm/boot/dts/sun9i-a80.dtsi              |  1 -
+ drivers/pinctrl/sunxi/Kconfig                 |  3 ---
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c  |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c   |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c   | 22 +---------------
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c   | 25 +------------------
+ drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c  |  1 -
+ drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c   |  1 -
+ 12 files changed, 2 insertions(+), 59 deletions(-)
+
 -- 
 2.35.1
 
