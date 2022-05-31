@@ -1,231 +1,104 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C47C22F50
-	for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 15:16:45 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 824375C08D3;
-	Tue, 31 May 2022 11:16:44 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 31 May 2022 11:16:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1654010204; x=
-	1654096604; bh=ulNAQ1pcXqswmEceuSuobLoT1dHK6KJ4SW3DfbzzGUY=; b=B
-	H2E1JaI1iWt9XB94fqwKNbQIyCGNujQn7s3wjr+KqygI88F6Bhsq71tCuDVZiw8z
-	6agTebYezaPRkIJ3tL2LyYd6kZdvimN8B2h6hZd6PN/1YkzFvcfEbdnBM2dGGe10
-	rGxCZixgYmP5TloGmatV9mWmnULu9Z2ZN1NBd+Kb5XjfC0RuTx7bwjUshFlBnnXv
-	ppdkdvgy6pIAQi4qySCdN7pMTmYx41br5IP8661Op3GEJPb392clk5vXAl5n9hVy
-	0H4tW5O9RWtBmM8m+/ZyusnS4QRJjW+9LXVfRdk4iqlX1BIV5/skdPAfQPDyiZx/
-	c9N9yTx+4kqdQCPsjvKRA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654010204; x=
-	1654096604; bh=ulNAQ1pcXqswmEceuSuobLoT1dHK6KJ4SW3DfbzzGUY=; b=R
-	v4Mq8lEWXMRg1AgCgs2ukEf1JMq/M1rAaLX3Ll68u85m8MmIVMW3z79ky8WAS8S5
-	/AniW47OaB00dgNouonWeQLGvGvDxUtqNhDodNC7foW+rh2BuLAR7wOq0gtJv6yn
-	KCIq72lwWrmMnar9/KUoqOSNP5YhxtctB2jpoZrUbunyB3VxeeZNgXwwHhJznUCV
-	4vLy6iqmS4TohTEfaVfoLrVbAiyKRT8ItXJmFUc7IcMXmQkSR7H1IUGz/ATsSkWs
-	CFborkc25htZ5pvOl/+Vuo1VAa1xmlXAdMyQrpCk235sKu4+ZVWqLBrLtm7UrYHg
-	pPbd9bWr4OoNdic0C3wKg==
-X-ME-Sender: <xms:WzGWYlB7i-PKi_iagBwL7U31m2e0qq4liLbHvqza-u6K4XcEaicf8Q>
-    <xme:WzGWYjh944iPbklfRLXQlXpugQdGA4yGTjU_fUA52s8a2wEcgU5fJoskl0XMj0rPE
-    f-0LaRcF0lp97IlouE>
-X-ME-Received: <xmr:WzGWYgn5XKJ69Z7RNUKL7-troe-LNx70PKYeNV4X-44OrMtLnYfOHr3Rug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeekgdekhecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeuteef
-    teefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WzGWYvyKg1BSSG-E0uiFRPSzlwQCRlOIhYo1XpAxU2jmUI2cdmgSLw>
-    <xmx:WzGWYqRZdFvV65tVakHGqTNCiPXA_Tkan_x-EW1k8xnQ9tIxQ7NPUg>
-    <xmx:WzGWYiYfKtX8Tbqx9793b8aKFeeBwJ01-84BTg0DoXtcoue72yThWA>
-    <xmx:XDGWYtE1UGORWGbbWPGSs4xczsNB2clPshOmEyia3a1r8NPSGDm1sQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 May 2022 11:16:42 -0400 (EDT)
-Date: Tue, 31 May 2022 17:16:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/6] drm/sun4i: sun8i-hdmi-phy: Used device-managed
- clocks/resets
-Message-ID: <20220531151641.ua6jzr2pmnuarcfv@penduick>
-References: <20220412043512.49364-1-samuel@sholland.org>
- <20220412043512.49364-4-samuel@sholland.org>
- <20220412132325.bq2c3g2fskckfgpz@houat>
- <4b3b2515-d180-fee4-6095-c2e197a3f195@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD692F50
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 15:22:49 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id d26so13558757wrb.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 08:22:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=8dhNZzxcDqH8eUH1s8IHbudWKgs58nSE0muzeXBTjuY=;
+        b=E1GQjuZW9sZHmfYcFMJ1aCOAduFcwcvyblhlBvq/cAFNzFuTn0SKU0mRpFpAYYq4M4
+         RL7F92BzzyAnPM+7e4UY7ciMPz1wi0xQ5Niwo428c0HGjrqIg5PgayxupDIiTTJufuT/
+         yavaeCJzEc7NIym5JQLqM5AFLnckZMuEBgZ4JW7vgmEHVAZ5m6gAwzKykayGuJYLM/tN
+         s3qc8N1ZX3AwBYay53ph+wJtHECS7/3YjHhRx7xzCPST8JPg9AqSJIJql0Cw+8t2+9ec
+         Qf3f4nFLfrNlYYK/JGoZXuS8zAk3wFPqBj5EaAB9zJWye79Ru3uliTiU49n2NCFr6Ybo
+         rmxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=8dhNZzxcDqH8eUH1s8IHbudWKgs58nSE0muzeXBTjuY=;
+        b=PK57YiepPVBRjlOe54NIthZihz1x28G4th0GJs8sGsSXW5Cjj1J66fTUXYkLB/abJz
+         jRua6WuQSPjnUGsHUfdfoq5QCvzo3MgO/OLY7Pgt6vi5l85fB8hHF5tkj+bMAYiABl7v
+         PjAuLqWg7rK50KQ0pm8hRpT8FOBS+H/ZMZqXLIubKaBzaOqdy8uQ6UoiNGPd60pcgztn
+         Z3YLC0S+927bqeOe29l7TtE7QGaGdz56gYJ0a9f/grKOQLJaIu09dFgDfKETMFOsnbmb
+         6CI6rh4gyPEREIuLJhl0b16t92kQykuM3B6ZZoilbFIKpn9/b9dTlM2keEmYhQexOJ1s
+         WHKQ==
+X-Gm-Message-State: AOAM533N6IaMX54YyyUBt0ltM2uIDAJzRUuuEonsU6wHqfphvI9o7tWd
+	LLidhv84tknJJFnnsxNn938=
+X-Google-Smtp-Source: ABdhPJzxQR5NMIK+rbklutVxfOhZ8bGcR/zgUdGkNetM8QcimtFO8AwzM70tocDrq5+3XsEckuxvww==
+X-Received: by 2002:a5d:54c3:0:b0:210:2a28:5666 with SMTP id x3-20020a5d54c3000000b002102a285666mr13156176wrv.345.1654010568205;
+        Tue, 31 May 2022 08:22:48 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id f6-20020a05600c4e8600b0039466988f6csm3062560wmq.31.2022.05.31.08.22.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 May 2022 08:22:47 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/3] pinctrl: sunxi: Remove non-existent reset line references
+Date: Tue, 31 May 2022 17:22:46 +0200
+Message-ID: <4400164.LvFx2qVVIh@kista>
+In-Reply-To: <20220531053623.43851-1-samuel@sholland.org>
+References: <20220531053623.43851-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <4b3b2515-d180-fee4-6095-c2e197a3f195@sholland.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Samuel,
+Dne torek, 31. maj 2022 ob 07:36:20 CEST je Samuel Holland napisal(a):
+> I assume these properties came from a lack of documentation, and the
+> very reasonable assumption that where there's a clock gate bit in the
+> CCU, there's a reset bit. But the pin controllers are special and don't
+> have a module reset line. The only way to reset the pin controller is to
+> reset the whole VDD_SYS power domain.
+> 
+> This series is preparation for converting the PRCM MFD and legacy clock
+> drivers to a CCU clock/reset driver like all of the other Allwinner
+> SoCs. I don't plan to add reset lines that don't actually exist to the
+> new CCU driver. So we might as well get rid of the references now.
+> Technically this breaks devicetree compatibility, since the old drivers
+> expect the reset. But the CCU conversion will be a compatibility break
+> anyway, so it's a bit of a moot point.
 
-Sorry for the (very) late answer
+If I understand correclty, this would cause only DT forward compatibility 
+issue, which happens now and then anyway. Kernel would still be compatible 
+with older DTs, it would just ignore that reset, right?
 
-On Tue, Apr 12, 2022 at 06:34:40PM -0500, Samuel Holland wrote:
-> On 4/12/22 8:23 AM, Maxime Ripard wrote:
-> > Hi,
-> >=20
-> > On Mon, Apr 11, 2022 at 11:35:08PM -0500, Samuel Holland wrote:
-> >> Now that the HDMI PHY is using a platform driver, it can use device-
-> >> managed resources. Use these, as well as the dev_err_probe helper, to
-> >> simplify the probe function and get rid of the remove function.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>
-> >>  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 100 ++++++++-----------------
-> >>  1 file changed, 30 insertions(+), 70 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/=
-sun4i/sun8i_hdmi_phy.c
-> >> index 1effa30bfe62..1351e633d485 100644
-> >> --- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> >> +++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-> >> @@ -673,10 +673,8 @@ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi=
-, struct device_node *node)
-> >>  static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
-> >>  {
-> >>  	struct device *dev =3D &pdev->dev;
-> >> -	struct device_node *node =3D dev->of_node;
-> >>  	struct sun8i_hdmi_phy *phy;
-> >>  	void __iomem *regs;
-> >> -	int ret;
-> >> =20
-> >>  	phy =3D devm_kzalloc(dev, sizeof(*phy), GFP_KERNEL);
-> >>  	if (!phy)
-> >> @@ -686,88 +684,50 @@ static int sun8i_hdmi_phy_probe(struct platform_=
-device *pdev)
-> >>  	phy->dev =3D dev;
-> >> =20
-> >>  	regs =3D devm_platform_ioremap_resource(pdev, 0);
-> >> -	if (IS_ERR(regs)) {
-> >> -		dev_err(dev, "Couldn't map the HDMI PHY registers\n");
-> >> -		return PTR_ERR(regs);
-> >> -	}
-> >> +	if (IS_ERR(regs))
-> >> +		return dev_err_probe(dev, PTR_ERR(regs),
-> >> +				     "Couldn't map the HDMI PHY registers\n");
-> >> =20
-> >>  	phy->regs =3D devm_regmap_init_mmio(dev, regs,
-> >>  					  &sun8i_hdmi_phy_regmap_config);
-> >> -	if (IS_ERR(phy->regs)) {
-> >> -		dev_err(dev, "Couldn't create the HDMI PHY regmap\n");
-> >> -		return PTR_ERR(phy->regs);
-> >> -	}
-> >> +	if (IS_ERR(phy->regs))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->regs),
-> >> +				     "Couldn't create the HDMI PHY regmap\n");
-> >> =20
-> >> -	phy->clk_bus =3D of_clk_get_by_name(node, "bus");
-> >> -	if (IS_ERR(phy->clk_bus)) {
-> >> -		dev_err(dev, "Could not get bus clock\n");
-> >> -		return PTR_ERR(phy->clk_bus);
-> >> -	}
-> >> -
-> >> -	phy->clk_mod =3D of_clk_get_by_name(node, "mod");
-> >> -	if (IS_ERR(phy->clk_mod)) {
-> >> -		dev_err(dev, "Could not get mod clock\n");
-> >> -		ret =3D PTR_ERR(phy->clk_mod);
-> >> -		goto err_put_clk_bus;
-> >> -	}
-> >> +	phy->clk_bus =3D devm_clk_get(dev, "bus");
-> >> +	if (IS_ERR(phy->clk_bus))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->clk_bus),
-> >> +				     "Could not get bus clock\n");
-> >> =20
-> >> -	if (phy->variant->has_phy_clk) {
-> >> -		phy->clk_pll0 =3D of_clk_get_by_name(node, "pll-0");
-> >> -		if (IS_ERR(phy->clk_pll0)) {
-> >> -			dev_err(dev, "Could not get pll-0 clock\n");
-> >> -			ret =3D PTR_ERR(phy->clk_pll0);
-> >> -			goto err_put_clk_mod;
-> >> -		}
-> >> -
-> >> -		if (phy->variant->has_second_pll) {
-> >> -			phy->clk_pll1 =3D of_clk_get_by_name(node, "pll-1");
-> >> -			if (IS_ERR(phy->clk_pll1)) {
-> >> -				dev_err(dev, "Could not get pll-1 clock\n");
-> >> -				ret =3D PTR_ERR(phy->clk_pll1);
-> >> -				goto err_put_clk_pll0;
-> >> -			}
-> >> -		}
-> >> -	}
-> >> +	phy->clk_mod =3D devm_clk_get(dev, "mod");
-> >> +	if (IS_ERR(phy->clk_mod))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->clk_mod),
-> >> +				     "Could not get mod clock\n");
-> >> =20
-> >> -	phy->rst_phy =3D of_reset_control_get_shared(node, "phy");
-> >> -	if (IS_ERR(phy->rst_phy)) {
-> >> -		dev_err(dev, "Could not get phy reset control\n");
-> >> -		ret =3D PTR_ERR(phy->rst_phy);
-> >> -		goto err_put_clk_pll1;
-> >> -	}
-> >> +	if (phy->variant->has_phy_clk)
-> >> +		phy->clk_pll0 =3D devm_clk_get(dev, "pll-0");
-> >> +	if (IS_ERR(phy->clk_pll0))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll0),
-> >> +				     "Could not get pll-0 clock\n");
-> >> +
-> >> +	if (phy->variant->has_second_pll)
-> >> +		phy->clk_pll1 =3D devm_clk_get(dev, "pll-1");
-> >> +	if (IS_ERR(phy->clk_pll1))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->clk_pll1),
-> >> +				     "Could not get pll-1 clock\n");
-> >> +
-> >> +	phy->rst_phy =3D devm_reset_control_get_shared(dev, "phy");
-> >> +	if (IS_ERR(phy->rst_phy))
-> >> +		return dev_err_probe(dev, PTR_ERR(phy->rst_phy),
-> >> +				     "Could not get phy reset control\n");
-> >=20
-> > I find the old construct clearer with the imbricated blocks.
->=20
-> I'm not sure what you mean here. Are you suggesting braces around the
-> dev_err_probe statements? Or do you want me to put the error handling for
-> variant-specific resources inside the variant checks? Please clarify.
+Best regards,
+Jernej
 
-I meant that we went, for example, from:
+> 
+> 
+> Samuel Holland (3):
+>   pinctrl: sunxi: Remove reset controller consumers
+>   ARM: dts: sunxi: Drop resets from r_pio nodes
+>   dt-bindings: pinctrl: sunxi: Disallow the resets property
+> 
+>  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  3 ---
+>  arch/arm/boot/dts/sun6i-a31.dtsi              |  1 -
+>  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |  1 -
+>  arch/arm/boot/dts/sun9i-a80.dtsi              |  1 -
+>  drivers/pinctrl/sunxi/Kconfig                 |  3 ---
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-a64-r.c  |  1 -
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c   |  1 -
+>  drivers/pinctrl/sunxi/pinctrl-sun50i-h616-r.c |  1 -
+>  drivers/pinctrl/sunxi/pinctrl-sun6i-a31-r.c   | 22 +---------------
+>  drivers/pinctrl/sunxi/pinctrl-sun8i-a23-r.c   | 25 +------------------
+>  drivers/pinctrl/sunxi/pinctrl-sun8i-a83t-r.c  |  1 -
+>  drivers/pinctrl/sunxi/pinctrl-sun9i-a80-r.c   |  1 -
+>  12 files changed, 2 insertions(+), 59 deletions(-)
+> 
+> -- 
+> 2.35.1
+> 
+> 
 
-if (phy->variant->has_phy_clk) {
-	phy->clk_pll0 =3D devm_clk_get(dev, "pll-0");
-	if (IS_ERR(phy->clk_pll0)) {
-		...
-	}
-}
 
-to
-
-if (phy->variant->has_phy_clk)
-	phy->clk_pll0 =3D devm_clk_get(dev, "pll-0");
-if (IS_ERR(phy->clk_pll0)) {
-		...
-}
-
-Which relies on the fact that phy->clk_pll0 is initialized to !IS_ERR(...),=
- which we never
-explicitly enforced. I find the first and original code clearer for that as=
-pect (since we only use
-that value if it was set), and less fragile.
-
-Maxime
