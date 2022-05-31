@@ -1,289 +1,603 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CFC33234;
-	Mon, 30 May 2022 21:24:46 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id q21so23116509ejm.1;
-        Mon, 30 May 2022 14:24:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
-        b=Iw4lsRwvQS7PQ4uSFhO6pnlkBU/2pxGh67h4gxpCa1TN0bGK1RRzg6jfX8QiIW0X2z
-         dZojQHMJeCH19SaB1N4wLlVv4phDp8xqRvav5elYuMjvGIKTrxWom5gHPRTr7ejeaApU
-         OSx1pvMl9z8BUL9TN2TYsJJCoaZjXrFH1B6P+9qqxYmoduJWbzYcxzQ4G11ziYuUEjlk
-         0gXR4XnrtOUJxCO+T1m+fsYc6WcJjelUZQx+oCdY1niS0pXFtYcirl75GCHZL4zEPQ2D
-         jFoPm9TyaqhcAEy+H3F3VkANMTPkWHVMfZmb8brYHV0JY5Cd47/TgenQnev00Dwy/PxS
-         6iXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CE58DyVsFpj1+2/hyAZSSQtjoW8T3CW+eJ7jWuJZvgg=;
-        b=Xz6PmfbJWTEFw9Qg30WSLA0casc/PIiXnJ7hev4dayffbk41sBbJzQjEDEh+GgdHtz
-         eB+3wI12Tpi3BHr5cR41pv3muM0s0FanMdOLwVSCn9IQTiQBKmnsK2l6klzguz+4xnmN
-         ocX2sftUf5vhskwMv6krUbcxR9EhdBkp6ciIHuwQr5GjpBoj3lirfacQ+QTKrtxpo9JV
-         2krJgglOooN5RvqTz4L1S9fBkSECCfnXShR+iGWTqHkSvQbZheKgi+d/1/puvxV4PiXp
-         /zVW8VGO1OBxftkC08yBI5rl9sqW/Zer/E44O420aKDB5HxYCXw+SUBrGl0xlQjjyTmD
-         IeTg==
-X-Gm-Message-State: AOAM531mSQ4F9NiAKwsPpXD9rlVCELbs4qcgB4ORARKkmt7qDyF5PJRI
-	mbNPd/7fChl3HNSrDLUZxnE=
-X-Google-Smtp-Source: ABdhPJwGS3A1Qmp0+vGUdObvEPcZ7zMJAXqBix8pd9sLBcoG4Rxhn+fBrxg/1jlRdhbKvSTCzipA+A==
-X-Received: by 2002:a17:907:720a:b0:6ff:2e1c:f22f with SMTP id dr10-20020a170907720a00b006ff2e1cf22fmr17953781ejc.16.1653945884756;
-        Mon, 30 May 2022 14:24:44 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id b16-20020a50b410000000b0042b5cf75d6esm7032775edh.97.2022.05.30.14.24.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 May 2022 14:24:44 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
-Subject: Re: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date: Mon, 30 May 2022 23:24:42 +0200
-Message-ID: <5824953.lOV4Wx5bFT@kista>
-In-Reply-To: <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <c639efc2-2089-359d-44c6-e9d92e8fd22e@xs4all.nl> <c47b3218-069b-790e-8781-7b6d195ac8a7@xs4all.nl>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3851619B
+	for <linux-sunxi@lists.linux.dev>; Tue, 31 May 2022 04:35:44 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id 9156B320097C;
+	Tue, 31 May 2022 00:35:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 31 May 2022 00:35:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1653971742; x=1654058142; bh=5yElh59+3MPLd85cpFAqy7fHN
+	oGUSso7fKbsFc/4EsI=; b=EcOxtSWidy5f15iZIilsNgHyLtTSb1YR/P6aTtnyO
+	wgB3PgDVWWo7dO2WpA57jmeMyN0zUA7GUrCMqJRAFhTr3yYfgL87ntRP8Rsg1A5H
+	QKh0HnWB2sW9ZO4uF3F0ujNjK8UozEQhKPOGbp4018PiiFEOj3qReDaoN3Q1xzvU
+	q7omwzUIVYvGcAemuEqKBaddmZBUFuUZn4LxIz8vy8ulnzhzST7nlA+RN8LbWToK
+	BgdMIstOfQX1+Dbp1ED5eFs/PM0dKAWFkIAv2T5Y+KJX2UOiySFB8+prySngd1N8
+	W3WtTXDr7qbOxhEY7ebZzccdEx+LeFTzShho45SIv680A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1653971742; x=1654058142; bh=5yElh59+3MPLd85cpFAqy7fHNoGUSso7fKb
+	sFc/4EsI=; b=isCK9nVu252CFAsbC6SQLVwhGpEdxexNR/OjWb6sZ0wBixwBoPG
+	MWeig4gz7HMaGaGLNDPNCglLMj/heO2JqTooIc5qqNFVgADpluXuDMcM6r05uBM9
+	qU1VrTKN29VOLmiLzUbopw61qaiQABfPOzVEosIf13IjS6YPCeIpLD7rWjv4nRUE
+	4ZWqnj8S0e1fyj0FqqhagyZfq7Z5vnqVhrRgTTo9rrCqaxfGUWiMWNr6T9xi5DxI
+	dh5vLlJUSwi/HEE0GJLm4sCvvAE9OXupOB7JkbEFUBTcv24XL1k3cP1LfFHxz5Xr
+	1DV5IhxqX8TwWLhOn3xmdotoflx3XCJwWPg==
+X-ME-Sender: <xms:HZuVYvIP_1WgpmewI3zhsZ_TmaI7KMV8tAJuI3PiiOIgIM_LkLLuHg>
+    <xme:HZuVYjJS-5wVzrulxgOAEz3FO0Hk69GSdvFRkZyQ8abU9VL1xg81x1bNwQV5puXLs
+    Bag7repkvx4jl_JXQ>
+X-ME-Received: <xmr:HZuVYntDU7wRxUp-jeSKkCoZNYnCMWsAagjybwe-__q9jb76c9LZVP9zAOX52omQWhuTwikjujLak1iVyWcaRmrvAuee1i82T6QcS24h70wbCMIBiVAXB0jhB-pu_xO7R8LOyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeejgdekhecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtffrrg
+    htthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeehhffh
+    keekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:HZuVYoapWyJllEwL7n_52DJgt16WxsVb55o3hBtXYMDrNrXeB83QYw>
+    <xmx:HZuVYmZWIbOgtGI_77KoiJASfSypLNJhzZQ3vbygljCtoKl80U3TaQ>
+    <xmx:HZuVYsAJwNMdpjCAkHGfcyMp8yJC9l6KA7UKOGVQ-NyH_iru_ktKcw>
+    <xmx:HpuVYu7MhcOdfN_AfN3IqrEiaLqvAHd9-46E3lkEBVlhCQvR41qlbw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 31 May 2022 00:35:41 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] clk: sunxi-ng: Deduplicate ccu_clks arrays
+Date: Mon, 30 May 2022 23:35:39 -0500
+Message-Id: <20220531043539.41549-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a):
-> On 30/05/2022 11:18, Hans Verkuil wrote:
-> > On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
-> >> Hi!
-> >>
-> >> This series looks very good and I plan to test it shortly on Cedrus, b=
-ut=20
-I=20
-> >> have one major concern below.
-> >>
-> >> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard napisal(=
-a):
-> >>> The number of 'entry point offset' can be very variable.
-> >>> Instead of using a large static array define a v4l2 dynamic array
-> >>> of U32 (V4L2_CTRL_TYPE_U32).
-> >>> The number of entry point offsets is reported by the elems field
-> >>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> >>> field.
-> >>
-> >> Slice control by itself is variable length array, so you would actuall=
-y=20
-need=20
-> >> 2D variable array for entry points which is not supported. However, ea=
-sy=20
-> >> workaround for that is to flatten 2D array to 1D and either have anoth=
-er=20
-slice=20
-> >> control field which would tell first entry point index for convenience=
- or=20
-let=20
-> >> driver calculate it by adding up all num_entry_point_offsets of previo=
-us=20
-> >> slices.
-> >>
-> >> Hans, what do you think?
-> >=20
-> > If I would support 2D variable array sizes, wouldn't that be more elega=
-nt?
-> >=20
-> > The current implementation doesn't support that, but as the commit log =
-for
-> > patch 1/17 says:
-> >=20
-> > "Currently dynamically sized arrays are limited to one dimensional arra=
-ys,
-> > but that might change in the future if there is a need for it."
-> >=20
-> > Let me know if you agree, and I'll try to implement this. It's been a=20
-while
-> > since I last looked at this, so I'm not sure how much work it is, but i=
-t=20
-is
-> > probably worth a shot.
->=20
-> Digging more into this made me realize that this doesn't actually help fo=
-r=20
-this
-> particular case.
->=20
-> I would lean towards your second suggestion of adding up all=20
-num_entry_point_offsets
-> of previous slices.
+The ccu_clks arrays are used to link ccu_common objects to a platform
+device during probe. There is no requirement that the clk_hw inside the
+ccu_common object ever gets registered with the clock framework. So the
+drivers do not need a separate ccu_clks array for each CCU variant.
+A single array per driver, containing the union of the CCU clocks from
+all variants, is sufficient.
 
-Just one question/clarification about dynamic arrays - does driver need to=
-=20
-reserve maximum amount of memory for dynamic array control at initializatio=
-n=20
-time? If so, this would still be problematic, since there cound be a huge=20
-amount of entry points in theory.
+Let's save some space by combining the ccu_clks arrays in each driver.
 
-Best regards,
-Jernej
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> >=20
-> > Regards,
-> >=20
-> > 	Hans
-> >=20
-> >>
-> >> Note, it seems that H265 decoding on Cedrus still works without entry=
-=20
-points,=20
-> >> so this problem can be solved later. I'm not sure what we lose with th=
-at=20
-but=20
-> >> it was suggested that this could influence speed or error resilience o=
-r=20
-both.=20
-> >> However, I think we're close to solve it, so I'd like to do that now.
-> >>
-> >> Best regards,
-> >> Jernej
-> >>
-> >>>
-> >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >>> ---
-> >>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++=
-++
-> >>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
-> >>>  include/media/hevc-ctrls.h                            |  5 ++++-
-> >>>  3 files changed, 20 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rs=
-t b/
-> >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> index 0796b1563daa..05228e280f66 100644
-> >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> >>>      * - __u32
-> >>>        - ``data_bit_offset``
-> >>>        - Offset (in bits) to the video data in the current slice data.
-> >>> +    * - __u32
-> >>> +      - ``num_entry_point_offsets``
-> >>> +      - Specifies the number of entry point offset syntax elements i=
-n the=20
-> >> slice header.
-> >>>      * - __u8
-> >>>        - ``nal_unit_type``
-> >>>        - Specifies the coding type of the slice (B, P or I).
-> >>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field=
- -
-> >>> =20
-> >>>      \normalsize
-> >>> =20
-> >>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> >>> +    Specifies entry point offsets in bytes.
-> >>> +    This control is a dynamically sized array. The number of entry=20
-point
-> >>> +    offsets is reported by the ``elems`` field.
-> >>> +    This bitstream parameter is defined according to :ref:`hevc`.
-> >>> +    They are described in section 7.4.7.1 "General slice segment hea=
-der
-> >>> +    semantics" of the specification.
-> >>> +
-> >>>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
-> >>>      Specifies the HEVC scaling matrix parameters used for the scalin=
-g=20
-> >> process
-> >>>      for transform coefficients.
-> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/medi=
-a/
-v4l2-
-> >> core/v4l2-ctrls-defs.c
-> >>> index d594efbcbb93..e22921e7ea61 100644
-> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return=20
-> >> "HEVC Decode Parameters";
-> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return=20
-> >> "HEVC Decode Mode";
-> >>>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return=20
-> >> "HEVC Start Code";
-> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return=20
-> >> "HEVC Entry Point Offsets";
-> >>> =20
-> >>>  	/* Colorimetry controls */
-> >>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h!=20
-> >> */
-> >>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name,=
-=20
-enum=20
-> >> v4l2_ctrl_type *type,
-> >>>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
-> >>>  		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
-> >>>  		break;
-> >>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> >>> +		*type =3D V4L2_CTRL_TYPE_U32;
-> >>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> >>> +		break;
-> >>>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
-> >>>  		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
-> >>>  		break;
-> >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> >>> index a3c829ef531a..1319cb99ae3f 100644
-> >>> --- a/include/media/hevc-ctrls.h
-> >>> +++ b/include/media/hevc-ctrls.h
-> >>> @@ -20,6 +20,7 @@
-> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE=20
-> >> + 1012)
-> >>>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE=20
-+ 1015)
-> >>>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 10=
-16)
-> >>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_=
-BASE=20
-+=20
-> >> 1017)
-> >>> =20
-> >>>  /* enum v4l2_ctrl_type type values */
-> >>>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> >>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
-> >>>   *
-> >>>   * @bit_size: size (in bits) of the current slice data
-> >>>   * @data_bit_offset: offset (in bits) to the video data in the curre=
-nt=20
-slice=20
-> >> data
-> >>> + * @num_entry_point_offsets: specifies the number of entry point off=
-set=20
-syntax
-> >>> + *			     elements in the slice header.
-> >>>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
-> >>>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier f=
-or=20
-the=20
-> >> NAL unit
-> >>>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> >>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
-> >>>  struct v4l2_ctrl_hevc_slice_params {
-> >>>  	__u32	bit_size;
-> >>>  	__u32	data_bit_offset;
-> >>> -
-> >>> +	__u32	num_entry_point_offsets;
-> >>>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> >>>  	__u8	nal_unit_type;
-> >>>  	__u8	nuh_temporal_id_plus1;
-> >>> --=20
-> >>> 2.32.0
-> >>>
-> >>>
-> >>
-> >>
-> >=20
->=20
->=20
+ drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c |  16 +---
+ drivers/clk/sunxi-ng/ccu-sun8i-de2.c   |  77 +++++------------
+ drivers/clk/sunxi-ng/ccu-sun8i-h3.c    | 113 +------------------------
+ drivers/clk/sunxi-ng/ccu-sun8i-r.c     |  40 ++-------
+ drivers/clk/sunxi-ng/ccu-sun8i-v3s.c   |  80 +----------------
+ 5 files changed, 37 insertions(+), 289 deletions(-)
 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+index 29a8c710ae06..001582ea71ba 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
+@@ -138,19 +138,9 @@ static struct ccu_common *sun50i_h6_r_ccu_clks[] = {
+ 	&r_apb2_rsb_clk.common,
+ 	&r_apb1_ir_clk.common,
+ 	&r_apb1_w1_clk.common,
+-	&ir_clk.common,
+-	&w1_clk.common,
+-};
+-
+-static struct ccu_common *sun50i_h616_r_ccu_clks[] = {
+-	&r_apb1_clk.common,
+-	&r_apb2_clk.common,
+-	&r_apb1_twd_clk.common,
+-	&r_apb2_i2c_clk.common,
+-	&r_apb2_rsb_clk.common,
+-	&r_apb1_ir_clk.common,
+ 	&r_apb1_rtc_clk.common,
+ 	&ir_clk.common,
++	&w1_clk.common,
+ };
+ 
+ static struct clk_hw_onecell_data sun50i_h6_r_hw_clks = {
+@@ -218,8 +208,8 @@ static const struct sunxi_ccu_desc sun50i_h6_r_ccu_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun50i_h616_r_ccu_desc = {
+-	.ccu_clks	= sun50i_h616_r_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun50i_h616_r_ccu_clks),
++	.ccu_clks	= sun50i_h6_r_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun50i_h6_r_ccu_clks),
+ 
+ 	.hw_clks	= &sun50i_h616_r_hw_clks,
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+index e7e3ddf4a227..2f6f02f00be2 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-de2.c
+@@ -53,65 +53,26 @@ static SUNXI_CCU_M(wb_div_a83_clk, "wb-div", "pll-de", 0x0c, 8, 4,
+ static SUNXI_CCU_M(rot_div_a83_clk, "rot-div", "pll-de", 0x0c, 0x0c, 4,
+ 		   CLK_SET_RATE_PARENT);
+ 
+-static struct ccu_common *sun8i_a83t_de2_clks[] = {
++static struct ccu_common *sun8i_de2_ccu_clks[] = {
+ 	&mixer0_clk.common,
+ 	&mixer1_clk.common,
+ 	&wb_clk.common,
+-
+-	&bus_mixer0_clk.common,
+-	&bus_mixer1_clk.common,
+-	&bus_wb_clk.common,
+-
+-	&mixer0_div_a83_clk.common,
+-	&mixer1_div_a83_clk.common,
+-	&wb_div_a83_clk.common,
+-
+-	&bus_rot_clk.common,
+ 	&rot_clk.common,
+-	&rot_div_a83_clk.common,
+-};
+-
+-static struct ccu_common *sun8i_h3_de2_clks[] = {
+-	&mixer0_clk.common,
+-	&mixer1_clk.common,
+-	&wb_clk.common,
+-
+-	&bus_mixer0_clk.common,
+-	&bus_mixer1_clk.common,
+-	&bus_wb_clk.common,
+-
+-	&mixer0_div_clk.common,
+-	&mixer1_div_clk.common,
+-	&wb_div_clk.common,
+-};
+-
+-static struct ccu_common *sun8i_v3s_de2_clks[] = {
+-	&mixer0_clk.common,
+-	&wb_clk.common,
+-
+-	&bus_mixer0_clk.common,
+-	&bus_wb_clk.common,
+-
+-	&mixer0_div_clk.common,
+-	&wb_div_clk.common,
+-};
+-
+-static struct ccu_common *sun50i_a64_de2_clks[] = {
+-	&mixer0_clk.common,
+-	&mixer1_clk.common,
+-	&wb_clk.common,
+ 
+ 	&bus_mixer0_clk.common,
+ 	&bus_mixer1_clk.common,
+ 	&bus_wb_clk.common,
++	&bus_rot_clk.common,
+ 
+ 	&mixer0_div_clk.common,
+ 	&mixer1_div_clk.common,
+ 	&wb_div_clk.common,
+-
+-	&bus_rot_clk.common,
+-	&rot_clk.common,
+ 	&rot_div_clk.common,
++
++	&mixer0_div_a83_clk.common,
++	&mixer1_div_a83_clk.common,
++	&wb_div_a83_clk.common,
++	&rot_div_a83_clk.common,
+ };
+ 
+ static struct clk_hw_onecell_data sun8i_a83t_de2_hw_clks = {
+@@ -219,8 +180,8 @@ static struct ccu_reset_map sun50i_h5_de2_resets[] = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_a83t_de2_clk_desc = {
+-	.ccu_clks	= sun8i_a83t_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_a83t_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_a83t_de2_hw_clks,
+ 
+@@ -229,8 +190,8 @@ static const struct sunxi_ccu_desc sun8i_a83t_de2_clk_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_h3_de2_clk_desc = {
+-	.ccu_clks	= sun8i_h3_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_h3_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_h3_de2_hw_clks,
+ 
+@@ -239,8 +200,8 @@ static const struct sunxi_ccu_desc sun8i_h3_de2_clk_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_r40_de2_clk_desc = {
+-	.ccu_clks	= sun50i_a64_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun50i_a64_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun50i_a64_de2_hw_clks,
+ 
+@@ -249,8 +210,8 @@ static const struct sunxi_ccu_desc sun8i_r40_de2_clk_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_v3s_de2_clk_desc = {
+-	.ccu_clks	= sun8i_v3s_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_v3s_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_v3s_de2_hw_clks,
+ 
+@@ -259,8 +220,8 @@ static const struct sunxi_ccu_desc sun8i_v3s_de2_clk_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun50i_a64_de2_clk_desc = {
+-	.ccu_clks	= sun50i_a64_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun50i_a64_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun50i_a64_de2_hw_clks,
+ 
+@@ -269,8 +230,8 @@ static const struct sunxi_ccu_desc sun50i_a64_de2_clk_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun50i_h5_de2_clk_desc = {
+-	.ccu_clks	= sun8i_h3_de2_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_h3_de2_clks),
++	.ccu_clks	= sun8i_de2_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_de2_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_h3_de2_hw_clks,
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
+index e058cf691aea..d3fcb983c17c 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-h3.c
+@@ -562,6 +562,7 @@ static struct ccu_common *sun8i_h3_ccu_clks[] = {
+ 	&bus_uart2_clk.common,
+ 	&bus_uart3_clk.common,
+ 	&bus_scr0_clk.common,
++	&bus_scr1_clk.common,
+ 	&bus_ephy_clk.common,
+ 	&bus_dbg_clk.common,
+ 	&ths_clk.common,
+@@ -612,114 +613,6 @@ static struct ccu_common *sun8i_h3_ccu_clks[] = {
+ 	&gpu_clk.common,
+ };
+ 
+-static struct ccu_common *sun50i_h5_ccu_clks[] = {
+-	&pll_cpux_clk.common,
+-	&pll_audio_base_clk.common,
+-	&pll_video_clk.common,
+-	&pll_ve_clk.common,
+-	&pll_ddr_clk.common,
+-	&pll_periph0_clk.common,
+-	&pll_gpu_clk.common,
+-	&pll_periph1_clk.common,
+-	&pll_de_clk.common,
+-	&cpux_clk.common,
+-	&axi_clk.common,
+-	&ahb1_clk.common,
+-	&apb1_clk.common,
+-	&apb2_clk.common,
+-	&ahb2_clk.common,
+-	&bus_ce_clk.common,
+-	&bus_dma_clk.common,
+-	&bus_mmc0_clk.common,
+-	&bus_mmc1_clk.common,
+-	&bus_mmc2_clk.common,
+-	&bus_nand_clk.common,
+-	&bus_dram_clk.common,
+-	&bus_emac_clk.common,
+-	&bus_ts_clk.common,
+-	&bus_hstimer_clk.common,
+-	&bus_spi0_clk.common,
+-	&bus_spi1_clk.common,
+-	&bus_otg_clk.common,
+-	&bus_ehci0_clk.common,
+-	&bus_ehci1_clk.common,
+-	&bus_ehci2_clk.common,
+-	&bus_ehci3_clk.common,
+-	&bus_ohci0_clk.common,
+-	&bus_ohci1_clk.common,
+-	&bus_ohci2_clk.common,
+-	&bus_ohci3_clk.common,
+-	&bus_ve_clk.common,
+-	&bus_tcon0_clk.common,
+-	&bus_tcon1_clk.common,
+-	&bus_deinterlace_clk.common,
+-	&bus_csi_clk.common,
+-	&bus_tve_clk.common,
+-	&bus_hdmi_clk.common,
+-	&bus_de_clk.common,
+-	&bus_gpu_clk.common,
+-	&bus_msgbox_clk.common,
+-	&bus_spinlock_clk.common,
+-	&bus_codec_clk.common,
+-	&bus_spdif_clk.common,
+-	&bus_pio_clk.common,
+-	&bus_ths_clk.common,
+-	&bus_i2s0_clk.common,
+-	&bus_i2s1_clk.common,
+-	&bus_i2s2_clk.common,
+-	&bus_i2c0_clk.common,
+-	&bus_i2c1_clk.common,
+-	&bus_i2c2_clk.common,
+-	&bus_uart0_clk.common,
+-	&bus_uart1_clk.common,
+-	&bus_uart2_clk.common,
+-	&bus_uart3_clk.common,
+-	&bus_scr0_clk.common,
+-	&bus_scr1_clk.common,
+-	&bus_ephy_clk.common,
+-	&bus_dbg_clk.common,
+-	&ths_clk.common,
+-	&nand_clk.common,
+-	&mmc0_clk.common,
+-	&mmc1_clk.common,
+-	&mmc2_clk.common,
+-	&ts_clk.common,
+-	&ce_clk.common,
+-	&spi0_clk.common,
+-	&spi1_clk.common,
+-	&i2s0_clk.common,
+-	&i2s1_clk.common,
+-	&i2s2_clk.common,
+-	&spdif_clk.common,
+-	&usb_phy0_clk.common,
+-	&usb_phy1_clk.common,
+-	&usb_phy2_clk.common,
+-	&usb_phy3_clk.common,
+-	&usb_ohci0_clk.common,
+-	&usb_ohci1_clk.common,
+-	&usb_ohci2_clk.common,
+-	&usb_ohci3_clk.common,
+-	&dram_clk.common,
+-	&dram_ve_clk.common,
+-	&dram_csi_clk.common,
+-	&dram_deinterlace_clk.common,
+-	&dram_ts_clk.common,
+-	&de_clk.common,
+-	&tcon_clk.common,
+-	&tve_clk.common,
+-	&deinterlace_clk.common,
+-	&csi_misc_clk.common,
+-	&csi_sclk_clk.common,
+-	&csi_mclk_clk.common,
+-	&ve_clk.common,
+-	&ac_dig_clk.common,
+-	&avs_clk.common,
+-	&hdmi_clk.common,
+-	&hdmi_ddc_clk.common,
+-	&mbus_clk.common,
+-	&gpu_clk.common,
+-};
+-
+ static const struct clk_hw *clk_parent_pll_audio[] = {
+ 	&pll_audio_base_clk.common.hw
+ };
+@@ -1116,8 +1009,8 @@ static const struct sunxi_ccu_desc sun8i_h3_ccu_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun50i_h5_ccu_desc = {
+-	.ccu_clks	= sun50i_h5_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun50i_h5_ccu_clks),
++	.ccu_clks	= sun8i_h3_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_h3_ccu_clks),
+ 
+ 	.hw_clks	= &sun50i_h5_hw_clks,
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-r.c b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
+index 5b7fab832a52..4221649b311f 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-r.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-r.c
+@@ -114,32 +114,7 @@ static struct ccu_mp a83t_ir_clk = {
+ 	},
+ };
+ 
+-static struct ccu_common *sun8i_a83t_r_ccu_clks[] = {
+-	&ar100_clk.common,
+-	&apb0_clk.common,
+-	&apb0_pio_clk.common,
+-	&apb0_ir_clk.common,
+-	&apb0_timer_clk.common,
+-	&apb0_rsb_clk.common,
+-	&apb0_uart_clk.common,
+-	&apb0_i2c_clk.common,
+-	&apb0_twd_clk.common,
+-	&a83t_ir_clk.common,
+-};
+-
+-static struct ccu_common *sun8i_h3_r_ccu_clks[] = {
+-	&ar100_clk.common,
+-	&apb0_clk.common,
+-	&apb0_pio_clk.common,
+-	&apb0_ir_clk.common,
+-	&apb0_timer_clk.common,
+-	&apb0_uart_clk.common,
+-	&apb0_i2c_clk.common,
+-	&apb0_twd_clk.common,
+-	&ir_clk.common,
+-};
+-
+-static struct ccu_common *sun50i_a64_r_ccu_clks[] = {
++static struct ccu_common *sun8i_r_ccu_clks[] = {
+ 	&ar100_clk.common,
+ 	&apb0_clk.common,
+ 	&apb0_pio_clk.common,
+@@ -150,6 +125,7 @@ static struct ccu_common *sun50i_a64_r_ccu_clks[] = {
+ 	&apb0_i2c_clk.common,
+ 	&apb0_twd_clk.common,
+ 	&ir_clk.common,
++	&a83t_ir_clk.common,
+ };
+ 
+ static struct clk_hw_onecell_data sun8i_a83t_r_hw_clks = {
+@@ -226,8 +202,8 @@ static struct ccu_reset_map sun50i_a64_r_ccu_resets[] = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_a83t_r_ccu_desc = {
+-	.ccu_clks	= sun8i_a83t_r_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_a83t_r_ccu_clks),
++	.ccu_clks	= sun8i_r_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_r_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_a83t_r_hw_clks,
+ 
+@@ -236,8 +212,8 @@ static const struct sunxi_ccu_desc sun8i_a83t_r_ccu_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_h3_r_ccu_desc = {
+-	.ccu_clks	= sun8i_h3_r_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_h3_r_ccu_clks),
++	.ccu_clks	= sun8i_r_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_r_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_h3_r_hw_clks,
+ 
+@@ -246,8 +222,8 @@ static const struct sunxi_ccu_desc sun8i_h3_r_ccu_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun50i_a64_r_ccu_desc = {
+-	.ccu_clks	= sun50i_a64_r_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun50i_a64_r_ccu_clks),
++	.ccu_clks	= sun8i_r_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_r_ccu_clks),
+ 
+ 	.hw_clks	= &sun50i_a64_r_hw_clks,
+ 
+diff --git a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+index 87f87d6ea3ad..fbb3529f0d3e 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
++++ b/drivers/clk/sunxi-ng/ccu-sun8i-v3s.c
+@@ -421,6 +421,7 @@ static struct ccu_common *sun8i_v3s_ccu_clks[] = {
+ 	&bus_de_clk.common,
+ 	&bus_codec_clk.common,
+ 	&bus_pio_clk.common,
++	&bus_i2s0_clk.common,
+ 	&bus_i2c0_clk.common,
+ 	&bus_i2c1_clk.common,
+ 	&bus_uart0_clk.common,
+@@ -439,6 +440,7 @@ static struct ccu_common *sun8i_v3s_ccu_clks[] = {
+ 	&mmc2_output_clk.common,
+ 	&ce_clk.common,
+ 	&spi0_clk.common,
++	&i2s0_clk.common,
+ 	&usb_phy0_clk.common,
+ 	&usb_ohci0_clk.common,
+ 	&dram_clk.common,
+@@ -463,80 +465,6 @@ static const struct clk_hw *clk_parent_pll_audio[] = {
+ 	&pll_audio_base_clk.common.hw
+ };
+ 
+-static struct ccu_common *sun8i_v3_ccu_clks[] = {
+-	&pll_cpu_clk.common,
+-	&pll_audio_base_clk.common,
+-	&pll_video_clk.common,
+-	&pll_ve_clk.common,
+-	&pll_ddr0_clk.common,
+-	&pll_periph0_clk.common,
+-	&pll_isp_clk.common,
+-	&pll_periph1_clk.common,
+-	&pll_ddr1_clk.common,
+-	&cpu_clk.common,
+-	&axi_clk.common,
+-	&ahb1_clk.common,
+-	&apb1_clk.common,
+-	&apb2_clk.common,
+-	&ahb2_clk.common,
+-	&bus_ce_clk.common,
+-	&bus_dma_clk.common,
+-	&bus_mmc0_clk.common,
+-	&bus_mmc1_clk.common,
+-	&bus_mmc2_clk.common,
+-	&bus_dram_clk.common,
+-	&bus_emac_clk.common,
+-	&bus_hstimer_clk.common,
+-	&bus_spi0_clk.common,
+-	&bus_otg_clk.common,
+-	&bus_ehci0_clk.common,
+-	&bus_ohci0_clk.common,
+-	&bus_ve_clk.common,
+-	&bus_tcon0_clk.common,
+-	&bus_csi_clk.common,
+-	&bus_de_clk.common,
+-	&bus_codec_clk.common,
+-	&bus_pio_clk.common,
+-	&bus_i2s0_clk.common,
+-	&bus_i2c0_clk.common,
+-	&bus_i2c1_clk.common,
+-	&bus_uart0_clk.common,
+-	&bus_uart1_clk.common,
+-	&bus_uart2_clk.common,
+-	&bus_ephy_clk.common,
+-	&bus_dbg_clk.common,
+-	&mmc0_clk.common,
+-	&mmc0_sample_clk.common,
+-	&mmc0_output_clk.common,
+-	&mmc1_clk.common,
+-	&mmc1_sample_clk.common,
+-	&mmc1_output_clk.common,
+-	&mmc2_clk.common,
+-	&mmc2_sample_clk.common,
+-	&mmc2_output_clk.common,
+-	&ce_clk.common,
+-	&spi0_clk.common,
+-	&i2s0_clk.common,
+-	&usb_phy0_clk.common,
+-	&usb_ohci0_clk.common,
+-	&dram_clk.common,
+-	&dram_ve_clk.common,
+-	&dram_csi_clk.common,
+-	&dram_ohci_clk.common,
+-	&dram_ehci_clk.common,
+-	&de_clk.common,
+-	&tcon_clk.common,
+-	&csi_misc_clk.common,
+-	&csi0_mclk_clk.common,
+-	&csi1_sclk_clk.common,
+-	&csi1_mclk_clk.common,
+-	&ve_clk.common,
+-	&ac_dig_clk.common,
+-	&avs_clk.common,
+-	&mbus_clk.common,
+-	&mipi_csi_clk.common,
+-};
+-
+ /* We hardcode the divider to 1 for SDM support */
+ static CLK_FIXED_FACTOR_HWS(pll_audio_clk, "pll-audio",
+ 			    clk_parent_pll_audio,
+@@ -798,8 +726,8 @@ static const struct sunxi_ccu_desc sun8i_v3s_ccu_desc = {
+ };
+ 
+ static const struct sunxi_ccu_desc sun8i_v3_ccu_desc = {
+-	.ccu_clks	= sun8i_v3_ccu_clks,
+-	.num_ccu_clks	= ARRAY_SIZE(sun8i_v3_ccu_clks),
++	.ccu_clks	= sun8i_v3s_ccu_clks,
++	.num_ccu_clks	= ARRAY_SIZE(sun8i_v3s_ccu_clks),
+ 
+ 	.hw_clks	= &sun8i_v3_hw_clks,
+ 
+-- 
+2.35.1
 
