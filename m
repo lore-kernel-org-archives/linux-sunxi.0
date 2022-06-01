@@ -1,320 +1,109 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCD47E;
-	Tue, 31 May 2022 18:20:40 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id o9so8499763wmd.0;
-        Tue, 31 May 2022 11:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=5xAebr2NVeBjl9CHUGU02Xh2JLK4FCctFhmN5cMdt6I=;
-        b=gk/ovidVQQdHp8HZE/8jFAZU/0TwEC/us2MtNRmAfCBRojJ9hBaHTgmmr1sFwZw7KW
-         r56qq1OQnvV+8IzbhbdUKOULHqZtdIjcsI0Ce0ZX9AOUnphsp1LAAhu5A6PDEOzvXek1
-         Zo5S+Oc6DEfvnuNcHmJQNJi9T0kTOk8uwIt0CyamHqYYasxEGrXS5WYwbpKah8B/aljQ
-         9DN3X5DJ6zbMLwVFUgqDHza6cNZSKOqOL8v9h69xNw+BAI21olb5928JnMhPfAlT4N6F
-         xJHmbT2kNm31NdGu/49Sy2WMGwQeCIdGjpcSamEaCWe1hp59iStfOHt8D4G4WVWCDGnd
-         lb7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=5xAebr2NVeBjl9CHUGU02Xh2JLK4FCctFhmN5cMdt6I=;
-        b=CfcmWWesFOWORecECfI7tAYHrgeYS472krxCP3TByIz+PWgVPCra2rZj2mKCYr7+d1
-         O8O563FZjvvjEUDWCcfE7gBqokEzLnNpoXXi05RbMp3Q2YYJcncwJIeNFCskugbfvA+Z
-         EwE3C6YHH41tnpvk/Zgy1TCaXHhfEW3iEUkOtdMecbypiZg21ZZzpPvMh5cUQP/goRGu
-         ZsV3bZOiIT/QFr3TWDxJQFuctZECMqkD8rANhnbDBpQsyNs3mbx86Gg05CyBkAUSF1S4
-         gjk0wc7ZLxM+o8Sw0WzFSlagxYxlNdYfFkp/JlNk4p9SEQJCKP2AB6yzswIjKdw8yHwl
-         LR2Q==
-X-Gm-Message-State: AOAM530PRXzHW8hFoNRGh7OBsbnBk8nL+Ji5puCaMbog64YOqvoM5Tvx
-	suYdeZicZeWfhe5B1ZAYeC4=
-X-Google-Smtp-Source: ABdhPJyvbycKBrgfnKv4yFm4VwT5uI4NbXHu65pEWt5+zb8TyOf7VpEV4NxD1mfNB5Amncf9wK7U2w==
-X-Received: by 2002:a7b:c109:0:b0:397:43ef:b66f with SMTP id w9-20020a7bc109000000b0039743efb66fmr24459854wmi.44.1654021239010;
-        Tue, 31 May 2022 11:20:39 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id h12-20020a05600c2cac00b0039749256d74sm3130267wmc.2.2022.05.31.11.20.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 May 2022 11:20:38 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
-Subject: Re: Re: [PATCH v6 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date: Tue, 31 May 2022 20:20:37 +0200
-Message-ID: <2102878.irdbgypaU6@kista>
-In-Reply-To: <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
-References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <5824953.lOV4Wx5bFT@kista> <b398272b-daf8-7499-b4fd-8a6f2af30053@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FCC366
+	for <linux-sunxi@lists.linux.dev>; Wed,  1 Jun 2022 04:42:38 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 1004032000D7;
+	Wed,  1 Jun 2022 00:42:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Wed, 01 Jun 2022 00:42:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1654058556; x=
+	1654144956; bh=MqKm1T3VhwChELMNhJiWU54GYv7cli4AIoO4d1HHU5c=; b=S
+	Y2Br8phdarVHJQwnRRVFPncv2X41yg7BNw1dJtJuDkmGd2VLfm6djnXuehZGpThH
+	rNd+80nPqawM6MqN/hmhyoZ2VElogT2TtJ4lClVY19cnfBhb17MDMptHD2VoC7ys
+	RSE9LXMuwqoCyB8vLQCrp+Rna6qzwpB+GBT/Dhdv1Pwk9EMRT5qdgCUHqqgQJzT8
+	7c6kZHjQAvA+Zmelk13NAbV6M2uoAAOy5hr4yQjnk1TyhHcTYpyLWhTbLXaLHyCB
+	YTm4kOt7P0K/aX3A7Lw2XkL+mzlAQC/eKphRzdHgsCUMVmhqW+oj4BGKrhIMNbJQ
+	xkVt6Ee8JuoRroAYsQZUQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654058556; x=
+	1654144956; bh=MqKm1T3VhwChELMNhJiWU54GYv7cli4AIoO4d1HHU5c=; b=g
+	zT88VczoX1HXe82zPqhmep4QQvouAYbfXpVOEYI0eCPhQS9fWzd4N7LF9GNlK8eo
+	PXD8vprEQFpDkMiQ69fCTrxIuXY4NerTmY1lhcpsXsA7OqzXgPDb0ZDOT4fQ0siR
+	L+wk6x4cOHHKKpYUTRDdnZ92tzlyp7djIr7d8TfpmP9wepKLIZLWBOUe0I17qKXT
+	Vq45BZGNM7aBQ1o9SQUSGm4Pu2oIYzvDArxqywwYopWExzmWoDo5ilq2v4m2XjR2
+	YqXT+DWfyr6CI5ge7D6jJ1pXAYAxZgAnxIZhP3C3MKY5DfUKNUrl6AEy5gvI70v4
+	J8Th/XuRPe2ObxdgDFnbQ==
+X-ME-Sender: <xms:O-6WYt7-s4pDVXWIi0jA72vLK2aiLZpGWz42jAgS_ptmaaQS1JkiYA>
+    <xme:O-6WYq4UPYbNjjdCDxMtF723cuNTxnW4hPbp-4yQX2rB0y1mcVueuDiDs9lB5W4B7
+    pziwa8bA7zzWeHeQA>
+X-ME-Received: <xmr:O-6WYkd6XvQ3lUKvQscJjVuNVsQUg2OO9TAx6-PiSpo2c8Z0WBOnmBDIlgfaU4jqvKy4RmeyK7Cf-rwXCuzxpyNR1Pu8oRHlX2cCxflL3KLhdZ-zB21Xqiyqiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrkeelgdekgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefuvfevfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnheptdevhfehhefgvdekteffleduueduheduuedvtdevleelkeevvdeu
+    vdeihfekueehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:O-6WYmJGbX4W8_HMxelFk3pY-tg1hd9YkjTfIdP0U3JU6BZ_2zDuPA>
+    <xmx:O-6WYhLIXhzd9gQDEWm2BnkVyVUSfJ6gzYvRZatWbig97jBqtXHQNA>
+    <xmx:O-6WYvz3mckQcAKb28DkX02-eNlOaJfcClbxiGB_1DWnd062uESwZA>
+    <xmx:PO6WYrwBzoC_VEB71MJXNEgTZF2Dioqsv-0xo6QxiircO4l-SLtoJQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Jun 2022 00:42:35 -0400 (EDT)
+Subject: Re: [PATCH 0/3] pinctrl: sunxi: Remove non-existent reset line
+ references
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Chen-Yu Tsai <wens@csie.org>
+Cc: Andre Przywara <andre.przywara@arm.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220531053623.43851-1-samuel@sholland.org>
+ <4400164.LvFx2qVVIh@kista>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <48570ec3-8159-11ae-8069-7f001081fd56@sholland.org>
+Date: Tue, 31 May 2022 23:42:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <4400164.LvFx2qVVIh@kista>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 31. maj 2022 ob 08:58:46 CEST je Benjamin Gaignard napisal(a):
->=20
-> Le 30/05/2022 =C3=A0 23:24, Jernej =C5=A0krabec a =C3=A9crit :
-> > Dne ponedeljek, 30. maj 2022 ob 15:49:57 CEST je Hans Verkuil napisal(a=
-):
-> >> On 30/05/2022 11:18, Hans Verkuil wrote:
-> >>> On 29/05/2022 08:40, Jernej =C5=A0krabec wrote:
-> >>>> Hi!
-> >>>>
-> >>>> This series looks very good and I plan to test it shortly on Cedrus,=
-=20
-but
-> > I
-> >>>> have one major concern below.
-> >>>>
-> >>>> Dne petek, 27. maj 2022 ob 16:31:28 CEST je Benjamin Gaignard=20
-napisal(a):
-> >>>>> The number of 'entry point offset' can be very variable.
-> >>>>> Instead of using a large static array define a v4l2 dynamic array
-> >>>>> of U32 (V4L2_CTRL_TYPE_U32).
-> >>>>> The number of entry point offsets is reported by the elems field
-> >>>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> >>>>> field.
-> >>>> Slice control by itself is variable length array, so you would actua=
-lly
-> > need
-> >>>> 2D variable array for entry points which is not supported. However,=
-=20
-easy
-> >>>> workaround for that is to flatten 2D array to 1D and either have ano=
-ther
-> > slice
-> >>>> control field which would tell first entry point index for convenien=
-ce or
-> > let
-> >>>> driver calculate it by adding up all num_entry_point_offsets of prev=
-ious
-> >>>> slices.
-> >>>>
-> >>>> Hans, what do you think?
-> >>> If I would support 2D variable array sizes, wouldn't that be more=20
-elegant?
-> >>>
-> >>> The current implementation doesn't support that, but as the commit lo=
-g=20
-for
-> >>> patch 1/17 says:
-> >>>
-> >>> "Currently dynamically sized arrays are limited to one dimensional=20
-arrays,
-> >>> but that might change in the future if there is a need for it."
-> >>>
-> >>> Let me know if you agree, and I'll try to implement this. It's been a
-> > while
-> >>> since I last looked at this, so I'm not sure how much work it is, but=
- it
-> > is
-> >>> probably worth a shot.
-> >> Digging more into this made me realize that this doesn't actually help=
-=20
-for
-> > this
-> >> particular case.
-> >>
-> >> I would lean towards your second suggestion of adding up all
-> > num_entry_point_offsets
-> >> of previous slices.
-> > Just one question/clarification about dynamic arrays - does driver need=
- to
-> > reserve maximum amount of memory for dynamic array control at=20
-initialization
-> > time? If so, this would still be problematic, since there cound be a hu=
-ge
-> > amount of entry points in theory.
->=20
-> When adding the control the driver could set .dims field to specify
-> the max number of accepted slices.
-> I have added '#define V4L2_HEVC_SLICE_MAX_COUNT 600' that you could use
-> for this field. It is the value we have found when using slices with RKVD=
-EC
-> driver.
+Hi Jernej,
 
-Is this maximum value applicable only to RKVDEC or is universal? Anyway, th=
-is=20
-means maximum offset points control for Cedrus would be 600 * 1024 (max. of=
-fset=20
-points supported per slice) * 4 ~=3D 2.4 MB, which is a lot for one control=
-, but=20
-I can live with that...
+On 5/31/22 10:22 AM, Jernej Škrabec wrote:
+> Dne torek, 31. maj 2022 ob 07:36:20 CEST je Samuel Holland napisal(a):
+>> I assume these properties came from a lack of documentation, and the
+>> very reasonable assumption that where there's a clock gate bit in the
+>> CCU, there's a reset bit. But the pin controllers are special and don't
+>> have a module reset line. The only way to reset the pin controller is to
+>> reset the whole VDD_SYS power domain.
+>>
+>> This series is preparation for converting the PRCM MFD and legacy clock
+>> drivers to a CCU clock/reset driver like all of the other Allwinner
+>> SoCs. I don't plan to add reset lines that don't actually exist to the
+>> new CCU driver. So we might as well get rid of the references now.
+>> Technically this breaks devicetree compatibility, since the old drivers
+>> expect the reset. But the CCU conversion will be a compatibility break
+>> anyway, so it's a bit of a moot point.
+> 
+> If I understand correclty, this would cause only DT forward compatibility 
+> issue, which happens now and then anyway. Kernel would still be compatible 
+> with older DTs, it would just ignore that reset, right?
 
-Best regards,
-Jernej
+Right, this only prevents older kernels from working with newer devicetrees. I
+brought it up because I'm generally trying to minimize how much we do that.
 
->=20
-> Regards,
-> Benjamin
->=20
-> >
-> > Best regards,
-> > Jernej
-> >
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
-> >>> Regards,
-> >>>
-> >>> 	Hans
-> >>>
-> >>>> Note, it seems that H265 decoding on Cedrus still works without entry
-> > points,
-> >>>> so this problem can be solved later. I'm not sure what we lose with=
-=20
-that
-> > but
-> >>>> it was suggested that this could influence speed or error resilience=
- or
-> > both.
-> >>>> However, I think we're close to solve it, so I'd like to do that now.
-> >>>>
-> >>>> Best regards,
-> >>>> Jernej
-> >>>>
-> >>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >>>>> ---
-> >>>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 ++++++=
-+++
-++
-> >>>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
-> >>>>>   include/media/hevc-ctrls.h                            |  5 ++++-
-> >>>>>   3 files changed, 20 insertions(+), 1 deletion(-)
-> >>>>>
-> >>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.=
-rst=20
-b/
-> >>>> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>> index 0796b1563daa..05228e280f66 100644
-> >>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_fiel=
-d -
-> >>>>>       * - __u32
-> >>>>>         - ``data_bit_offset``
-> >>>>>         - Offset (in bits) to the video data in the current slice d=
-ata.
-> >>>>> +    * - __u32
-> >>>>> +      - ``num_entry_point_offsets``
-> >>>>> +      - Specifies the number of entry point offset syntax elements=
- in=20
-the
-> >>>> slice header.
-> >>>>>       * - __u8
-> >>>>>         - ``nal_unit_type``
-> >>>>>         - Specifies the coding type of the slice (B, P or I).
-> >>>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_fie=
-ld -
-> >>>>>  =20
-> >>>>>       \normalsize
-> >>>>>  =20
-> >>>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> >>>>> +    Specifies entry point offsets in bytes.
-> >>>>> +    This control is a dynamically sized array. The number of entry
-> > point
-> >>>>> +    offsets is reported by the ``elems`` field.
-> >>>>> +    This bitstream parameter is defined according to :ref:`hevc`.
-> >>>>> +    They are described in section 7.4.7.1 "General slice segment=20
-header
-> >>>>> +    semantics" of the specification.
-> >>>>> +
-> >>>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
-> >>>>>       Specifies the HEVC scaling matrix parameters used for the sca=
-ling
-> >>>> process
-> >>>>>       for transform coefficients.
-> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/me=
-dia/
-> > v4l2-
-> >>>> core/v4l2-ctrls-defs.c
-> >>>>> index d594efbcbb93..e22921e7ea61 100644
-> >>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >>>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return
-> >>>> "HEVC Decode Parameters";
-> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return
-> >>>> "HEVC Decode Mode";
-> >>>>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return
-> >>>> "HEVC Start Code";
-> >>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return
-> >>>> "HEVC Entry Point Offsets";
-> >>>>>  =20
-> >>>>>   	/* Colorimetry controls */
-> >>>>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h!
-> >>>> */
-> >>>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **nam=
-e,
-> > enum
-> >>>> v4l2_ctrl_type *type,
-> >>>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
-> >>>>>   		*type =3D V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
-> >>>>>   		break;
-> >>>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> >>>>> +		*type =3D V4L2_CTRL_TYPE_U32;
-> >>>>> +		*flags |=3D V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> >>>>> +		break;
-> >>>>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
-> >>>>>   		*type =3D V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
-> >>>>>   		break;
-> >>>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> >>>>> index a3c829ef531a..1319cb99ae3f 100644
-> >>>>> --- a/include/media/hevc-ctrls.h
-> >>>>> +++ b/include/media/hevc-ctrls.h
-> >>>>> @@ -20,6 +20,7 @@
-> >>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS=09
-(V4L2_CID_CODEC_BASE
-> >>>> + 1012)
-> >>>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE=09
-(V4L2_CID_CODEC_BASE
-> > + 1015)
-> >>>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE=09
-(V4L2_CID_CODEC_BASE + 1016)
-> >>>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS=20
-(V4L2_CID_CODEC_BASE
-> > +
-> >>>> 1017)
-> >>>>>  =20
-> >>>>>   /* enum v4l2_ctrl_type type values */
-> >>>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> >>>>> @@ -318,6 +319,8 @@ struct v4l2_hevc_pred_weight_table {
-> >>>>>    *
-> >>>>>    * @bit_size: size (in bits) of the current slice data
-> >>>>>    * @data_bit_offset: offset (in bits) to the video data in the cu=
-rrent
-> > slice
-> >>>> data
-> >>>>> + * @num_entry_point_offsets: specifies the number of entry point o=
-ffset
-> > syntax
-> >>>>> + *			     elements in the slice header.
-> >>>>>    * @nal_unit_type: specifies the coding type of the slice (B, P o=
-r I)
-> >>>>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifie=
-r for
-> > the
-> >>>> NAL unit
-> >>>>>    * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> >>>>> @@ -360,7 +363,7 @@ struct v4l2_hevc_pred_weight_table {
-> >>>>>   struct v4l2_ctrl_hevc_slice_params {
-> >>>>>   	__u32	bit_size;
-> >>>>>   	__u32	data_bit_offset;
-> >>>>> -
-> >>>>> +	__u32	num_entry_point_offsets;
-> >>>>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
-> >>>>>   	__u8	nal_unit_type;
-> >>>>>   	__u8	nuh_temporal_id_plus1;
-> >>>>> --=20
-> >>>>> 2.32.0
-> >>>>>
-> >>>>>
-> >>>>
-> >>
-> >
->=20
-
-
+Regards,
+Samuel
