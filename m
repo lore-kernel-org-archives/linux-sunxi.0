@@ -1,132 +1,126 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from vps.xff.cz (vps.xff.cz [195.181.215.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BBD29B4
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 18:01:28 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id n28so7254075edb.9
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jun 2022 11:01:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CBkaCoK6wuMtRbb6NmA5F8dDDK95iOEjJpqmo1bo7RU=;
-        b=ZpoxLgXU602v2G/Xd3ivQRZ3M5INDPN8DNhTpEgbihmrZIwuUIQqjuMUHGGYehz9i3
-         BfZBBrYZOWM6IaNyFU6E+00dNVzVwDW6xwpedw6ki5XAVrDxxGz2ed6hU/XGmtytfyPB
-         4zRcXaWVMFaa35F65YMuli1Y3LV03vybRbLGb6zXrnspwuyBUo/70qIA6d6VZEpWVDaw
-         l94LfOOUOoIYIOS/OQSX7/VXgosmyXrdT6pwhA+QRqMG2BP3Gv4kVP52VonZiD0z357m
-         h79lWxSqNiv4A/PCv3ur4CfXuyDHDvBA0ZB3GOQMI2VmT6CDzqlAIFXnoECb4Q5VjLrW
-         BCzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CBkaCoK6wuMtRbb6NmA5F8dDDK95iOEjJpqmo1bo7RU=;
-        b=HZYHqlUyNyRutBV5t2Nps1KGPWXkGx19XWoZBSUO09+pKuzTlVCLNdpmARkPUClFdh
-         eU4/ejilAJ9Egw9UFHhIxskNnGUdOs+emZEoG5r+bMV85n2Y1CjHMLoDGzBQEB+mEgrd
-         NnoDLiYljOQ4H337dh5V0Gq5wm5xSG4jdaQeFhIRIgCySmBvh39sVAvpF1I5oc1D7aOP
-         IMByobsPaAq9vxColS4YZqpPggfBBLR/zQ/6eQXeJCe07wr+WKZwBKoAa+LLmpLwcuL3
-         485MJ310utNnMb8kCFvj43LzLvswNBdqfxKDSYmKWXJvk469Zn6qbhRu7gqEcrYE8EFU
-         XynA==
-X-Gm-Message-State: AOAM530ygNh/POUBTNw+F8fmTk6Eksr2yQwdVfcficlNAaJ4T8fdgbFO
-	R/7H88Q1RvV0Ym9A4EgiYYk=
-X-Google-Smtp-Source: ABdhPJzDb6Kdk0KW4bBqFxqLDw7MsjqgvypVVZTxyU0DlHbSHwe3R6lMclgq9JGCWeJgyKNpDQ/LrA==
-X-Received: by 2002:a05:6402:1007:b0:428:beb6:f483 with SMTP id c7-20020a056402100700b00428beb6f483mr6742760edu.391.1654192887279;
-        Thu, 02 Jun 2022 11:01:27 -0700 (PDT)
-Received: from orangepi3.mydomain.example ([195.234.74.2])
-        by smtp.gmail.com with ESMTPSA id kx16-20020a170907775000b00706e8ac43b8sm1972348ejc.199.2022.06.02.11.01.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 11:01:24 -0700 (PDT)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch,
-	samuel@sholland.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6700E3D86
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 22:01:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=megous.com; s=mail;
+	t=1654206947; bh=Ki/Rl/4q0399EjnSBqmzWU3sLpJik8WX4vFYR3fDXjg=;
+	h=Date:From:To:Cc:Subject:X-My-GPG-KeyId:References:From;
+	b=FLcoU608SZaHaFJVRmHeaoFikgDsv6OxWVxeRAWPKeAQKSmUPNsaF9elJXb9Z6ST9
+	 axoaxO/BP16uhEv0Im0qYE0VTGmt7sBdQe16Q8AWXWtcNdNVrolG1Z7fgg2u/tV3bL
+	 5e34zlYVa/hV/i9VZaDx0KppIU7ukftnHRY6QCLo=
+Date: Thu, 2 Jun 2022 23:55:47 +0200
+From: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: mripard@kernel.org, wens@csie.org, jernej.skrabec@gmail.com,
+	airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org,
 	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	megi@xff.cz
-Cc: Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled for VI layer
-Date: Thu,  2 Jun 2022 18:01:18 +0000
-Message-Id: <20220602180118.66170-1-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled
+ for VI layer
+Message-ID: <20220602215547.scsabzbeztgduaj3@core>
+Mail-Followup-To: =?utf-8?Q?Ond=C5=99ej?= Jirman <megous@megous.com>,
+	Roman Stratiienko <r.stratiienko@gmail.com>, mripard@kernel.org,
+	wens@csie.org, jernej.skrabec@gmail.com, airlied@linux.ie,
+	daniel@ffwll.ch, samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+X-My-GPG-KeyId: EBFBDDE11FB918D44D1F56C1F9F0A873BE9777ED
+ <https://xff.cz/key.txt>
+References: <20220602180118.66170-1-r.stratiienko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220602180118.66170-1-r.stratiienko@gmail.com>
 
-According to DE2.0/DE3.0 manual VI scaler enable register is double
-buffered, but de facto it doesn't, or the hardware has the shadow
-register latching issues which causes single-frame picture corruption
-after changing the state of scaler enable register.
+Hi Roman,
 
-Allow the user to keep the scaler always enabled, preventing the UI
-glitches on the transition from scaled to unscaled state.
+On Thu, Jun 02, 2022 at 06:01:18PM +0000, Roman Stratiienko wrote:
+> According to DE2.0/DE3.0 manual VI scaler enable register is double
+> buffered, but de facto it doesn't, or the hardware has the shadow
+> register latching issues which causes single-frame picture corruption
+> after changing the state of scaler enable register.
+> 
+> Allow the user to keep the scaler always enabled, preventing the UI
+> glitches on the transition from scaled to unscaled state.
+> 
+> NOTE:
+> UI layer scaler has more registers with double-buffering issue and can't
+> be workarounded in the same manner.
+> 
+> You may find a python test and a demo video for this issue at [1]
 
-NOTE:
-UI layer scaler has more registers with double-buffering issue and can't
-be workarounded in the same manner.
+Isn't this an issue with kernel driver not waiting for DE2 FINISH IRQ, but
+for VBLANK IRQ from TCON instead, before allowing to write new set of register
+values?
 
-You may find a python test and a demo video for this issue at [1]
+https://megous.com/dl/tmp/4fe35b3fc72ee7de.png
 
-[1]: https://github.com/GloDroid/glodroid_tests/issues/4
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
- drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
- 2 files changed, 15 insertions(+), 1 deletion(-)
+I haven't checked if FINISH flag is set at time of VBLANK interrupt, so maybe
+this is not the issue.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 71ab0a00b4de..15cad0330f66 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -27,6 +27,18 @@
- #include "sun8i_vi_layer.h"
- #include "sunxi_engine.h"
- 
-+/* According to DE2.0/DE3.0 manual VI scaler enable register is double
-+ * buffered, but de facto it doesn't, or the hardware has the shadow
-+ * register latching issues which causes single-frame picture corruption
-+ * after changing the state of scaler enable register.
-+ * Allow the user to keep the scaler always enabled, preventing the UI
-+ * glitches on the transition from scaled to unscaled state.
-+ */
-+int sun8i_vi_keep_scaler_enabled;
-+MODULE_PARM_DESC(keep_vi_scaler_enabled,
-+		 "Keep VI scaler enabled (1 = enabled, 0 = disabled (default))");
-+module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enabled, int, 0644);
-+
- struct de2_fmt_info {
- 	u32	drm_fmt;
- 	u32	de2_fmt;
-diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-index 662ba1018cc4..f005ab883503 100644
---- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
-@@ -17,6 +17,8 @@
- #include "sun8i_vi_layer.h"
- #include "sun8i_vi_scaler.h"
- 
-+extern int sun8i_vi_keep_scaler_enabled;
-+
- static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
- 				  int overlay, bool enable, unsigned int zpos)
- {
-@@ -149,7 +151,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
- 	 */
- 	subsampled = format->hsub > 1 || format->vsub > 1;
- 
--	if (insize != outsize || subsampled || hphase || vphase) {
-+	if (insize != outsize || subsampled || hphase || vphase || sun8i_vi_keep_scaler_enabled) {
- 		unsigned int scanline, required;
- 		struct drm_display_mode *mode;
- 		u32 hscale, vscale, fps;
--- 
-2.30.2
+regards,
+	o.
 
+> [1]: https://github.com/GloDroid/glodroid_tests/issues/4
+> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
+>  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
+>  2 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> index 71ab0a00b4de..15cad0330f66 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+> @@ -27,6 +27,18 @@
+>  #include "sun8i_vi_layer.h"
+>  #include "sunxi_engine.h"
+>  
+> +/* According to DE2.0/DE3.0 manual VI scaler enable register is double
+> + * buffered, but de facto it doesn't, or the hardware has the shadow
+> + * register latching issues which causes single-frame picture corruption
+> + * after changing the state of scaler enable register.
+> + * Allow the user to keep the scaler always enabled, preventing the UI
+> + * glitches on the transition from scaled to unscaled state.
+> + */
+> +int sun8i_vi_keep_scaler_enabled;
+> +MODULE_PARM_DESC(keep_vi_scaler_enabled,
+> +		 "Keep VI scaler enabled (1 = enabled, 0 = disabled (default))");
+> +module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enabled, int, 0644);
+> +
+>  struct de2_fmt_info {
+>  	u32	drm_fmt;
+>  	u32	de2_fmt;
+> diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> index 662ba1018cc4..f005ab883503 100644
+> --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> @@ -17,6 +17,8 @@
+>  #include "sun8i_vi_layer.h"
+>  #include "sun8i_vi_scaler.h"
+>  
+> +extern int sun8i_vi_keep_scaler_enabled;
+> +
+>  static void sun8i_vi_layer_enable(struct sun8i_mixer *mixer, int channel,
+>  				  int overlay, bool enable, unsigned int zpos)
+>  {
+> @@ -149,7 +151,7 @@ static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int channel,
+>  	 */
+>  	subsampled = format->hsub > 1 || format->vsub > 1;
+>  
+> -	if (insize != outsize || subsampled || hphase || vphase) {
+> +	if (insize != outsize || subsampled || hphase || vphase || sun8i_vi_keep_scaler_enabled) {
+>  		unsigned int scanline, required;
+>  		struct drm_display_mode *mode;
+>  		u32 hscale, vscale, fps;
+> -- 
+> 2.30.2
+> 
