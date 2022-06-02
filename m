@@ -1,105 +1,63 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ECE7F5
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 10:11:16 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id rq11so9016836ejc.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jun 2022 03:11:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XP2MYhxOsKZps4QmlXxrybN7eWdufRzVMujwQeLYeiQ=;
-        b=Y7onb5K2NewHqCE/PuGP/wM6SCeTA9lIvWKzv8jJhtUkxUOyaEHEvZiw4JImYrjs5s
-         kN6M2jWBn/hQJ/gO0U4qlL+XEEZs8pBtfUQ7IuiVcWEY+wkFthPiLSsrRXsS3fAejXjf
-         kvvCJdXMPDrXcvk9yeZZs+tpjZf5dJArjVjTut02jEijcVhq8rbRluqdP29ZKyXUlZ0F
-         fJkhZe5RKIX9fdItmgPXHqlKhpZXFaipTO/Gruap1SOY4B/9/Ytjd2qjTb2u4T/Z7HIv
-         oAhNBOBsbESgy+TS8gXxGpo9jSv+l6+EKeAQ+jf9dQdnk/13eCdBqS3ieLyeeOzv7xBB
-         liEw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72F5814
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 13:50:53 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id i66so6557532oia.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jun 2022 06:50:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=XP2MYhxOsKZps4QmlXxrybN7eWdufRzVMujwQeLYeiQ=;
-        b=Q0TiJ3tnAuxZONm1xkmekCzdP+dFX+O5LX7I1rJy5WohyE3JIYadEZ3XCvvn3butQ0
-         KJZT/gNszaDu4Pxre7u3MHqq9F/+NIzNeqo8kyL6bfWjo0fqZAVHTe1oPdd3sSP+zfdu
-         wDy89ludnv/cr2cLZERmmGtU6bBXlhbXdqxCcz+2JGXApOMRbQr2XpRUE2wZAyDYc1AB
-         1tyOqI0m1gCA41mTb8jrpWEUKJSAgzDpYWWZDzUVn0re4eMTsP0jpSU8Wtzjmd03rOXf
-         N7YMJBOP+BpbqwIJAIa/6uULNTUxVeod9TNe/9NBDBDcckKeBt8tLWv57OBNhDuLqWAM
-         qkdA==
-X-Gm-Message-State: AOAM531xhc4N2A9PGYxddpXSkSRGok/ZRtqscMbHFdzTQkuuC2ctZfi8
-	vSlX2p80sUfJveZ8/8adEQU=
-X-Google-Smtp-Source: ABdhPJxDXM6X2WzIbpB2ecG4Bo1W47SYy6zSGtMFLhp5s1cFEX36s9yh+wV046gKroqLIrujwyPa2g==
-X-Received: by 2002:a17:907:3e8a:b0:6fe:fcb6:6d45 with SMTP id hs10-20020a1709073e8a00b006fefcb66d45mr3454512ejc.348.1654164674585;
-        Thu, 02 Jun 2022 03:11:14 -0700 (PDT)
-Received: from orangepi3.mydomain.example ([195.234.74.2])
-        by smtp.gmail.com with ESMTPSA id kx16-20020a170907775000b00706e8ac43b8sm1599621ejc.199.2022.06.02.03.11.13
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=jdOjrDyA7N80Kr2XJDTR1sTUxUj7yflrK/c+RDOiH7Q=;
+        b=rjYUDsBAIsdgtsnPWqJalHRvgBHJ9s8HdeDz4GzeT+cSyNTkCOmWhJ4CHQKjcTfawH
+         nKJAz/+l8akpf54FcNFZDgPdbHb/WYrDG/gzzS+ox9l33fv7J5DgO1fYPIHBqLh5f1ow
+         +L9SMkmYfT3Loki+pP7Oz0rW3VoV0ZkQ5E29Y57bVN+5TbvCj4/37ZmeQQGKjdOSzUZU
+         p814obu/kGEb/T3e3NRlc80hEyJ1frIBC2bv8AJsXhO4s4yaHQWScIbH5jE+oSw/M3kf
+         QJE1QRw1WhlnQuIPT0k/SMtKac/0JAipQqTAAUlU2qu+TREfm3YLDyUyNlONBKR7DoMY
+         Evpg==
+X-Gm-Message-State: AOAM531IE3fPid7XNnQohqyD8whnYJGCOMg4YPPMC/I/v/qcJw7jd286
+	6dSvQHO0w25UeAPCvlOIcQ==
+X-Google-Smtp-Source: ABdhPJzzid12tQ8/0sk2mtJnB6ChA7jIEzHwVF8O3v1rFbLifzEkZET93h3PoIs/zk6pfvnr4NUigg==
+X-Received: by 2002:a05:6808:1828:b0:32a:dc9e:bc62 with SMTP id bh40-20020a056808182800b0032adc9ebc62mr17279222oib.239.1654177852958;
+        Thu, 02 Jun 2022 06:50:52 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id mv26-20020a0568706a9a00b000f5701f240csm1920694oab.19.2022.06.02.06.50.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Jun 2022 03:11:14 -0700 (PDT)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch,
-	samuel@sholland.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	megi@xff.cz
-Cc: Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [PATCH] drm/sun4i: Enable output signal premultiplication for DE2/DE3
-Date: Thu,  2 Jun 2022 10:10:57 +0000
-Message-Id: <20220602101057.48170-1-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Thu, 02 Jun 2022 06:50:52 -0700 (PDT)
+Received: (nullmailer pid 2187942 invoked by uid 1000);
+	Thu, 02 Jun 2022 13:50:51 -0000
+Date: Thu, 2 Jun 2022 08:50:51 -0500
+From: Rob Herring <robh@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-arm-kernel@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, Rob Herring <robh+dt@kernel.org>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, devicetree@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>, Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Frank Rowand <frowand.list@gmail.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v4 1/7] dt-bindings: interconnect: sunxi: Add V3s mbus
+ compatible
+Message-ID: <20220602135051.GA2187908-robh@kernel.org>
+References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
+ <20220525185853.695931-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220525185853.695931-2-paul.kocialkowski@bootlin.com>
 
-Otherwise alpha value is discarded, resulting incorrect pixel
-apperance on the display.
+On Wed, 25 May 2022 20:58:47 +0200, Paul Kocialkowski wrote:
+> Since the V3s uses the internal mbus for DMA with multimedia devices,
+> document its compatible in accordance with the extended mbus binding.
+> 
+> This will enable adding support for the V3s in the full-fledged
+> devfreq driver eventually.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Samuel Holland <samuel@sholland.org>
+> ---
+>  .../devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
 
-This also fixes missing transparency for the most bottom layer.
-
-Test applications and videos w/ w/o this patch are available at [1].
-
-[1]: https://github.com/GloDroid/glodroid_tests/issues/1
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
----
- drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 ++
- drivers/gpu/drm/sun4i/sun8i_mixer.h | 1 +
- 2 files changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-index 6b1711a9a71f..71ab0a00b4de 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-@@ -320,6 +320,8 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
- 	else
- 		val = 0;
- 
-+	val |= SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY;
-+
- 	regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
- 			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-index ebfc276b2464..bc12c95af6f3 100644
---- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-@@ -65,6 +65,7 @@
- #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)	(0xf << ((n) << 2))
- #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)	((n) << 2)
- 
-+#define SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY	BIT(0)
- #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED	BIT(1)
- 
- #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)	BIT(ch)
--- 
-2.30.2
-
+Acked-by: Rob Herring <robh@kernel.org>
