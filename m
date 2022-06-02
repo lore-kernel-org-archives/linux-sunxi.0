@@ -1,62 +1,105 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47587E9
-	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 07:27:58 +0000 (UTC)
-Received: from kwepemi500023.china.huawei.com (unknown [172.30.72.56])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4LDHdZ1DvxzjXLQ;
-	Thu,  2 Jun 2022 15:26:58 +0800 (CST)
-Received: from huawei.com (10.175.112.208) by kwepemi500023.china.huawei.com
- (7.221.188.76) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Thu, 2 Jun
- 2022 15:27:48 +0800
-From: Peng Wu <wupeng58@huawei.com>
-To: <clabbe.montjoie@gmail.com>, <herbert@gondor.apana.org.au>,
-	<davem@davemloft.net>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>
-CC: <linux-crypto@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
-	<liwei391@huawei.com>, <wupeng58@huawei.com>
-Subject: [PATCH] crypto: sun8i-ss - fix a NULL vs IS_ERR() check in sun8i_ss_hashkey
-Date: Thu, 2 Jun 2022 07:22:34 +0000
-Message-ID: <20220602072234.54593-1-wupeng58@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ECE7F5
+	for <linux-sunxi@lists.linux.dev>; Thu,  2 Jun 2022 10:11:16 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id rq11so9016836ejc.4
+        for <linux-sunxi@lists.linux.dev>; Thu, 02 Jun 2022 03:11:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XP2MYhxOsKZps4QmlXxrybN7eWdufRzVMujwQeLYeiQ=;
+        b=Y7onb5K2NewHqCE/PuGP/wM6SCeTA9lIvWKzv8jJhtUkxUOyaEHEvZiw4JImYrjs5s
+         kN6M2jWBn/hQJ/gO0U4qlL+XEEZs8pBtfUQ7IuiVcWEY+wkFthPiLSsrRXsS3fAejXjf
+         kvvCJdXMPDrXcvk9yeZZs+tpjZf5dJArjVjTut02jEijcVhq8rbRluqdP29ZKyXUlZ0F
+         fJkhZe5RKIX9fdItmgPXHqlKhpZXFaipTO/Gruap1SOY4B/9/Ytjd2qjTb2u4T/Z7HIv
+         oAhNBOBsbESgy+TS8gXxGpo9jSv+l6+EKeAQ+jf9dQdnk/13eCdBqS3ieLyeeOzv7xBB
+         liEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XP2MYhxOsKZps4QmlXxrybN7eWdufRzVMujwQeLYeiQ=;
+        b=Q0TiJ3tnAuxZONm1xkmekCzdP+dFX+O5LX7I1rJy5WohyE3JIYadEZ3XCvvn3butQ0
+         KJZT/gNszaDu4Pxre7u3MHqq9F/+NIzNeqo8kyL6bfWjo0fqZAVHTe1oPdd3sSP+zfdu
+         wDy89ludnv/cr2cLZERmmGtU6bBXlhbXdqxCcz+2JGXApOMRbQr2XpRUE2wZAyDYc1AB
+         1tyOqI0m1gCA41mTb8jrpWEUKJSAgzDpYWWZDzUVn0re4eMTsP0jpSU8Wtzjmd03rOXf
+         N7YMJBOP+BpbqwIJAIa/6uULNTUxVeod9TNe/9NBDBDcckKeBt8tLWv57OBNhDuLqWAM
+         qkdA==
+X-Gm-Message-State: AOAM531xhc4N2A9PGYxddpXSkSRGok/ZRtqscMbHFdzTQkuuC2ctZfi8
+	vSlX2p80sUfJveZ8/8adEQU=
+X-Google-Smtp-Source: ABdhPJxDXM6X2WzIbpB2ecG4Bo1W47SYy6zSGtMFLhp5s1cFEX36s9yh+wV046gKroqLIrujwyPa2g==
+X-Received: by 2002:a17:907:3e8a:b0:6fe:fcb6:6d45 with SMTP id hs10-20020a1709073e8a00b006fefcb66d45mr3454512ejc.348.1654164674585;
+        Thu, 02 Jun 2022 03:11:14 -0700 (PDT)
+Received: from orangepi3.mydomain.example ([195.234.74.2])
+        by smtp.gmail.com with ESMTPSA id kx16-20020a170907775000b00706e8ac43b8sm1599621ejc.199.2022.06.02.03.11.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jun 2022 03:11:14 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	megi@xff.cz
+Cc: Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: [PATCH] drm/sun4i: Enable output signal premultiplication for DE2/DE3
+Date: Thu,  2 Jun 2022 10:10:57 +0000
+Message-Id: <20220602101057.48170-1-r.stratiienko@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.112.208]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- kwepemi500023.china.huawei.com (7.221.188.76)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 
-The crypto_alloc_shash() function never returns NULL. It returns error
-pointers.
+Otherwise alpha value is discarded, resulting incorrect pixel
+apperance on the display.
 
-Fixes: 801b7d572c0a ("crypto: sun8i-ss - add hmac(sha1)")
-Signed-off-by: Peng Wu <wupeng58@huawei.com>
-Reported-by: Hulk Robot <hulkci@huawei.com>
+This also fixes missing transparency for the most bottom layer.
+
+Test applications and videos w/ w/o this patch are available at [1].
+
+[1]: https://github.com/GloDroid/glodroid_tests/issues/1
+Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
 ---
- drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/sun4i/sun8i_mixer.c | 2 ++
+ drivers/gpu/drm/sun4i/sun8i_mixer.h | 1 +
+ 2 files changed, 3 insertions(+)
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-index ac417a6b39e5..90334e435673 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
-@@ -30,8 +30,8 @@ static int sun8i_ss_hashkey(struct sun8i_ss_hash_tfm_ctx *tfmctx, const u8 *key,
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+index 6b1711a9a71f..71ab0a00b4de 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
+@@ -320,6 +320,8 @@ static void sun8i_mixer_mode_set(struct sunxi_engine *engine,
+ 	else
+ 		val = 0;
  
- 	xtfm = crypto_alloc_shash("sha1", 0, CRYPTO_ALG_NEED_FALLBACK);
--	if (!xtfm)
--		return -ENOMEM;
-+	if (IS_ERR(xtfm))
-+		return PTR_ERR(xtfm);
++	val |= SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY;
++
+ 	regmap_update_bits(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
+ 			   SUN8I_MIXER_BLEND_OUTCTL_INTERLACED, val);
  
- 	len = sizeof(*sdesc) + crypto_shash_descsize(xtfm);
- 	sdesc = kmalloc(len, GFP_KERNEL);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+index ebfc276b2464..bc12c95af6f3 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
++++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+@@ -65,6 +65,7 @@
+ #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)	(0xf << ((n) << 2))
+ #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)	((n) << 2)
+ 
++#define SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY	BIT(0)
+ #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED	BIT(1)
+ 
+ #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)	BIT(ch)
 -- 
-2.17.1
+2.30.2
 
