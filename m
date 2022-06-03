@@ -1,176 +1,66 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D60FED2
-	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jun 2022 14:19:49 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 5F3913200903;
-	Fri,  3 Jun 2022 10:19:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 03 Jun 2022 10:19:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1654265986; x=
-	1654352386; bh=pgoZiSnqzAty0gGUl5sg2b1gr+4y+ok52CSZUbELnhs=; b=s
-	aD5VBvbWjH/db2z8oHPTUNAOcujnTSV9jgaaQCTKU/lI6S9I8nGS9VkV0uriJb3H
-	lU5B8QwFz75okTIFfUu8b6CqrR3QOIKas0Ie/gtJae5KlPn4H+GLmz3f2KettEhC
-	U0TTOmiBYWN7r/dygmyWbENX/Re+u5cjoKt8t4Y+XoyulAlJgW6QmCo2bsWW01kk
-	f4rOUgbxyIn8FCmbYPYin0N2i9daK7X3P4qDtfg4QrhVMHiaOJlwxay9sHpJKP97
-	n6tz4Q4CvIK+JKvzWzG7hiF9Eu5itQrJj7K4QKALyVTqTqE7InhxxxxoRUI6btj+
-	SVyPrXh05MF2+RKm8m7wA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1654265986; x=
-	1654352386; bh=pgoZiSnqzAty0gGUl5sg2b1gr+4y+ok52CSZUbELnhs=; b=m
-	STwklVkTq53ZdBXcFpxGYQlAzb7GEIkGYNgU1g/iSlmXfqHRidn1wOUIu50qzC8r
-	z+MzGukeeIgtz8xTuK8aicpnkhOFy3SFYa1Q3/5BXdesp0i2M/cdI6art1c39dFC
-	s0TgI/1/p+A4Zp/2yeEv35XF25NbySOQ+bnzNxwQ3ml6sM81AZxEyvrYfA2XDj2T
-	TOcZbB4f5oLUo78+nEQ9lVEBFD1h7fQS4vzkc/Maj6kUQYgFnPK5NOU8vaYBjLSK
-	KzeCK9yIsukI1EnKGaQ6UqMZiQZdF/iyE4ndGwHj378EfKisifvPvx9on4/OwLAU
-	gWig2cWfKn7cOwgpKn7uQ==
-X-ME-Sender: <xms:gRiaYqz2b-6jK6fVgUAFH5tYyZoLAZ1Qa7lCN2jMc_L6xM9hV3sj5A>
-    <xme:gRiaYmSr0PPrPQxIIoUvGfWb5zTKGuYOrRVGrc0-5PdINBk9oBgbh39_VEAW94VYV
-    tNZBsZDiUUwTdT7kR4>
-X-ME-Received: <xmr:gRiaYsUpZfkLy95TMBHlV_kGTZkQXlx245HgZDNPdXoJP76cxADc81sJfy-x>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrleeigdejfecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtjeenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeefhfejveejfefgfedtudetvdfgleethefgvdevueelhedtheejteeuheeh
-    geeikeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:gRiaYggzGbB8-kfUsokcQrt3Iq4tg2npzWMmna9lRrXJwfLegnaiRA>
-    <xmx:gRiaYsCuN9a1lOnv0bnzn-PfJx5-JQutnJ_pxBONZ4CiwkxPvXMyCA>
-    <xmx:gRiaYhKEnFaVUIxDYykDH7nqOEbuHdHk2S2BHb2KHhWbJiJfDo85EQ>
-    <xmx:ghiaYsslgSXOzPaQBvGXUzAjIygdybVm31i7lgAVX1RoWY9-lMCuCA>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Jun 2022 10:19:45 -0400 (EDT)
-Date: Fri, 3 Jun 2022 16:19:37 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: wens@csie.org,
-	Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
-	airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>,
-	Samuel Holland <samuel@sholland.org>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, megi@xff.cz
-Subject: Re: [PATCH] drm/sun4i: sun8i: Add the ability to keep scaler enabled
- for VI layer
-Message-ID: <20220603141937.modhvsqa3urmpcxr@penduick>
-References: <20220602180118.66170-1-r.stratiienko@gmail.com>
- <20220603082416.ukohug3mwzu43csu@penduick>
- <CAGphcdkPJ57bkw4nxuSnk0TD1RGW5j9M-A0ek6t1rDnMY2PS8Q@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25E67E
+	for <linux-sunxi@lists.linux.dev>; Fri,  3 Jun 2022 22:22:34 +0000 (UTC)
+Received: by mail-yb1-f181.google.com with SMTP id w2so16103635ybi.7
+        for <linux-sunxi@lists.linux.dev>; Fri, 03 Jun 2022 15:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jbsgqnojhBY4V415x3C0fDTOg6GG6s3cxgXrWlI1RRs=;
+        b=vZZr8iprlZrWBkzFpxmomNEmLN9CfD1JTqvF5qBt2o84s3Xa1T3qgGz+J56QLbL77Y
+         axL+HiOLq3EM348vIMSvMR3cKiVUQleIcPWU6FyP/WdnPf7Wyv0dAhCe4Ih5s5mBZgz0
+         Qbb56h5a9ZsaC3sjzoGJyPva2YcruT0CwIuHWOXxJuEZCt4AtSSHktbAvLiahcdrtc9f
+         44FVXHppSQbz4wpplEo9W0JSGAdQHIrc7ejPd5QrJg38OtoI1ltsMOivLzRMArYgCsiG
+         uqjA21xhWQvcY/cCJ0xxTvIWYxj9OTF/nTnRAiiWyh/aeoR+FZ2sqRihoW856/AiLq6W
+         ZUHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jbsgqnojhBY4V415x3C0fDTOg6GG6s3cxgXrWlI1RRs=;
+        b=sB1LJkXlWk0rDkHLBpjEu5Nn5FY33E5ausXpIGV3O6+Lopz1Okrg4l2Mno7R6CaKiC
+         sZ89VEVaQj1OfUjPzPefAsyB8NWKvKcVzdZHQLWt6IR0QljttqL9wr7/AvTm2+9/uEtI
+         ziystNhYAemEMXa2Zi7U4Cj3CBE3hWbhr8MsB83NG3MWVs1TaEBOG8z32r757pLrSYA+
+         b7v1CKdI9ouiQp0IKrV04RyyeugsxnKb1mC69X0O8ITkeRmEgsK+jnK344v3MlAPPQt3
+         fpQmVX/NVQqUvdLWZR+scepZ0IMgi+F2CRA0w3pcOUeSXnS32YqATCYXhHKwObesYV31
+         vimQ==
+X-Gm-Message-State: AOAM530w0vbW6jhRdsVQLUGX0ZDxp7ZUADQcLoE9+cINtGYPQBLXRalX
+	ZvQ6od76XmyA0vMu8qbegGYhL53lG5MtCOs2GuEPiw==
+X-Google-Smtp-Source: ABdhPJzK4KSQwxvyeYkM8nwzhwDrVml+dsYJsEDSZ3ExN3FHy9LipBWD2wRf514AHIUo75t/iR/84tr5YAR01oNzZTU=
+X-Received: by 2002:a5b:302:0:b0:64b:a20a:fcd9 with SMTP id
+ j2-20020a5b0302000000b0064ba20afcd9mr13266629ybp.492.1654294953955; Fri, 03
+ Jun 2022 15:22:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAGphcdkPJ57bkw4nxuSnk0TD1RGW5j9M-A0ek6t1rDnMY2PS8Q@mail.gmail.com>
+References: <20220526024956.49500-1-samuel@sholland.org>
+In-Reply-To: <20220526024956.49500-1-samuel@sholland.org>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Sat, 4 Jun 2022 00:22:22 +0200
+Message-ID: <CACRpkdbuOm1EQgGsanb50oSFseDmgVrmf_FE1FgL7JUJJiaGtA@mail.gmail.com>
+Subject: Re: [PATCH] pinctrl: sunxi: a83t: Fix NAND function name for some pins
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Maxime Ripard <mripard@kernel.org>, Vishnu Patekar <vishnupatekar0510@gmail.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jun 03, 2022 at 11:57:35AM +0300, Roman Stratiienko wrote:
-> Hi Maxime,
->=20
-> =D0=BF=D1=82, 3 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 11:24, Maxime Rip=
-ard <maxime@cerno.tech>:
-> >
-> > Hi,
-> >
-> > On Thu, Jun 02, 2022 at 06:01:18PM +0000, Roman Stratiienko wrote:
-> > > According to DE2.0/DE3.0 manual VI scaler enable register is double
-> > > buffered, but de facto it doesn't, or the hardware has the shadow
-> > > register latching issues which causes single-frame picture corruption
-> > > after changing the state of scaler enable register.
-> > >
-> > > Allow the user to keep the scaler always enabled, preventing the UI
-> > > glitches on the transition from scaled to unscaled state.
-> > >
-> > > NOTE:
-> > > UI layer scaler has more registers with double-buffering issue and ca=
-n't
-> > > be workarounded in the same manner.
-> > >
-> > > You may find a python test and a demo video for this issue at [1]
-> > >
-> > > [1]: https://github.com/GloDroid/glodroid_tests/issues/4
-> >
-> > Please describe the issue entirely here. The commit log must be self-su=
-fficient.
->=20
-> Commit message already states "single-frame picture corruption after
-> changing the state of scaler enable register", therefore I find it
-> already self-sufficient
->=20
-> Also I find demo videos and link to tests useful for the followers to
-> go further with investigation.
+On Thu, May 26, 2022 at 4:49 AM Samuel Holland <samuel@sholland.org> wrote:
 
-Until a couple of years, where that URL isn't valid anymore and it's just u=
-seless.
+> The other NAND pins on Port C use the "nand0" function name.
+> "nand0" also matches all of the other Allwinner SoCs.
+>
+> Fixes: 4730f33f0d82 ("pinctrl: sunxi: add allwinner A83T PIO controller support")
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-> If you have something specific in mind when asking to enhance the
-> commit message please say it.
+Patch applied for fixes.
 
-What sequence of events trigger the issue, what issue it triggers and
-why your solution addresses it would be nice
-
-> > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> > > ---
-> > >  drivers/gpu/drm/sun4i/sun8i_mixer.c    | 12 ++++++++++++
-> > >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c |  4 +++-
-> > >  2 files changed, 15 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c b/drivers/gpu/drm/su=
-n4i/sun8i_mixer.c
-> > > index 71ab0a00b4de..15cad0330f66 100644
-> > > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > > @@ -27,6 +27,18 @@
-> > >  #include "sun8i_vi_layer.h"
-> > >  #include "sunxi_engine.h"
-> > >
-> > > +/* According to DE2.0/DE3.0 manual VI scaler enable register is doub=
-le
-> > > + * buffered, but de facto it doesn't, or the hardware has the shadow
-> > > + * register latching issues which causes single-frame picture corrup=
-tion
-> > > + * after changing the state of scaler enable register.
-> > > + * Allow the user to keep the scaler always enabled, preventing the =
-UI
-> > > + * glitches on the transition from scaled to unscaled state.
-> > > + */
-> > > +int sun8i_vi_keep_scaler_enabled;
-> > > +MODULE_PARM_DESC(keep_vi_scaler_enabled,
-> > > +              "Keep VI scaler enabled (1 =3D enabled, 0 =3D disabled=
- (default))");
-> > > +module_param_named(keep_vi_scaler_enabled, sun8i_vi_keep_scaler_enab=
-led, int, 0644);
-> > > +
-> >
-> > It's not clear to me why we would want to make that a parameter?
-> >
-> >1 If it never works, we should fix it once and for all and not allow a b=
-roken setup at all.
->=20
-> It's a hardware issue and can be fixed only within the hardware.
->=20
-> Current patch is a workaround that if enabled can cause increased
-> power consumption for existing users. Therefore I think it is better
-> to give existing distro-maintainers a chance to test it prior to
-> delivery.
-
-Except distro-maintainers are likely never going to notice that flag
-exists in the first place, won't be using it and thus the issue will
-remain.
-
-Maxime
+Yours,
+Linus Walleij
