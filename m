@@ -1,92 +1,95 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766617E
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 13:37:44 +0000 (UTC)
-Received: from dggpemm500021.china.huawei.com (unknown [172.30.72.56])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4LGvdt2gtTzjXP0;
-	Mon,  6 Jun 2022 21:36:18 +0800 (CST)
-Received: from dggpemm500007.china.huawei.com (7.185.36.183) by
- dggpemm500021.china.huawei.com (7.185.36.109) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.24; Mon, 6 Jun 2022 21:37:36 +0800
-Received: from huawei.com (10.175.103.91) by dggpemm500007.china.huawei.com
- (7.185.36.183) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.24; Mon, 6 Jun
- 2022 21:37:35 +0800
-From: Yang Yingliang <yangyingliang@huawei.com>
-To: <linux-kernel@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-crypto@vger.kernel.org>
-CC: <clabbe.montjoie@gmail.com>, <herbert@gondor.apana.org.au>
-Subject: [PATCH -next] crypto: sun8i-ss - fix error return code in allocate_flows()
-Date: Mon, 6 Jun 2022 21:48:15 +0800
-Message-ID: <20220606134815.4103024-1-yangyingliang@huawei.com>
-X-Mailer: git-send-email 2.25.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ABEB15A1
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 14:33:58 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8CACF15DB;
+	Mon,  6 Jun 2022 07:33:55 -0700 (PDT)
+Received: from [10.57.81.38] (unknown [10.57.81.38])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 555903F73B;
+	Mon,  6 Jun 2022 07:33:48 -0700 (PDT)
+Message-ID: <1e0e5403-1e65-db9a-c8e7-34e316bfda8e@arm.com>
+Date: Mon, 6 Jun 2022 15:33:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.103.91]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500007.china.huawei.com (7.185.36.183)
-X-CFilter-Loop: Reflected
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/5] iommu: Ensure device has the same iommu_ops as the
+ domain
+Content-Language: en-GB
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, joro@8bytes.org,
+ will@kernel.org, marcan@marcan.st, sven@svenpeter.dev, robdclark@gmail.com,
+ m.szyprowski@samsung.com, krzysztof.kozlowski@linaro.org,
+ baolu.lu@linux.intel.com, agross@kernel.org, bjorn.andersson@linaro.org,
+ matthias.bgg@gmail.com, heiko@sntech.de, orsonzhai@gmail.com,
+ baolin.wang7@gmail.com, zhang.lyra@gmail.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org, jean-philippe@linaro.org,
+ alex.williamson@redhat.com
+Cc: suravee.suthikulpanit@amd.com, alyssa@rosenzweig.io,
+ alim.akhtar@samsung.com, dwmw2@infradead.org, yong.wu@mediatek.com,
+ mjrosato@linux.ibm.com, gerald.schaefer@linux.ibm.com,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ cohuck@redhat.com, iommu@lists.linux-foundation.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org,
+ kvm@vger.kernel.org
+References: <20220606061927.26049-1-nicolinc@nvidia.com>
+ <20220606061927.26049-3-nicolinc@nvidia.com>
+From: Robin Murphy <robin.murphy@arm.com>
+In-Reply-To: <20220606061927.26049-3-nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If devm_kmalloc() fails, it should return error code in allocate_flows()
+On 2022-06-06 07:19, Nicolin Chen wrote:
+> The core code should not call an iommu driver op with a struct device
+> parameter unless it knows that the dev_iommu_priv_get() for that struct
+> device was setup by the same driver. Otherwise in a mixed driver system
+> the iommu_priv could be casted to the wrong type.
 
-Fixes: 8eec4563f152 ("crypto: sun8i-ss - do not allocate memory when handling hash requests")
-Fixes: 359e893e8af4 ("crypto: sun8i-ss - rework handling of IV")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
----
- .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c    | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+We don't have mixed-driver systems, and there are plenty more 
+significant problems than this one to solve before we can (but thanks 
+for pointing it out - I hadn't got as far as auditing the public 
+interfaces yet). Once domains are allocated via a particular device's 
+IOMMU instance in the first place, there will be ample opportunity for 
+the core to stash suitable identifying information in the domain for 
+itself. TBH even the current code could do it without needing the 
+weirdly invasive changes here.
 
-diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-index 98593a0cff69..ac2329e2b0e5 100644
---- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-+++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
-@@ -528,25 +528,33 @@ static int allocate_flows(struct sun8i_ss_dev *ss)
- 
- 		ss->flows[i].biv = devm_kmalloc(ss->dev, AES_BLOCK_SIZE,
- 						GFP_KERNEL | GFP_DMA);
--		if (!ss->flows[i].biv)
-+		if (!ss->flows[i].biv) {
-+			err = -ENOMEM;
- 			goto error_engine;
-+		}
- 
- 		for (j = 0; j < MAX_SG; j++) {
- 			ss->flows[i].iv[j] = devm_kmalloc(ss->dev, AES_BLOCK_SIZE,
- 							  GFP_KERNEL | GFP_DMA);
--			if (!ss->flows[i].iv[j])
-+			if (!ss->flows[i].iv[j]) {
-+				err = -ENOMEM;
- 				goto error_engine;
-+			}
- 		}
- 
- 		/* the padding could be up to two block. */
- 		ss->flows[i].pad = devm_kmalloc(ss->dev, MAX_PAD_SIZE,
- 						GFP_KERNEL | GFP_DMA);
--		if (!ss->flows[i].pad)
-+		if (!ss->flows[i].pad) {
-+			err = -ENOMEM;
- 			goto error_engine;
-+		}
- 		ss->flows[i].result = devm_kmalloc(ss->dev, SHA256_DIGEST_SIZE,
- 						   GFP_KERNEL | GFP_DMA);
--		if (!ss->flows[i].result)
-+		if (!ss->flows[i].result) {
-+			err = -ENOMEM;
- 			goto error_engine;
-+		}
- 
- 		ss->flows[i].engine = crypto_engine_alloc_init(ss->dev, true);
- 		if (!ss->flows[i].engine) {
--- 
-2.25.1
+> Store the iommu_ops pointer in the iommu_domain and use it as a check to
+> validate that the struct device is correct before invoking any domain op
+> that accepts a struct device.
 
+In fact this even describes exactly that - "Store the iommu_ops pointer 
+in the iommu_domain", vs. the "Store the iommu_ops pointer in the 
+iommu_domain_ops" which the patch is actually doing :/
+
+[...]
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 19cf28d40ebe..8a1f437a51f2 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1963,6 +1963,10 @@ static int __iommu_attach_device(struct iommu_domain *domain,
+>   {
+>   	int ret;
+>   
+> +	/* Ensure the device was probe'd onto the same driver as the domain */
+> +	if (dev->bus->iommu_ops != domain->ops->iommu_ops)
+
+Nope, dev_iommu_ops(dev) please. Furthermore I think the logical place 
+to put this is in iommu_group_do_attach_device(), since that's the 
+gateway for the public interfaces - we shouldn't need to second-guess 
+ourselves for internal default-domain-related calls.
+
+Thanks,
+Robin.
+
+> +		return -EMEDIUMTYPE;
+> +
+>   	if (unlikely(domain->ops->attach_dev == NULL))
+>   		return -ENODEV;
