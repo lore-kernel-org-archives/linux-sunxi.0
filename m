@@ -1,159 +1,121 @@
 Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7823723BD
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 10:16:18 +0000 (UTC)
-Received: by mail-qk1-f180.google.com with SMTP id 68so2052033qkk.9
-        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jun 2022 03:16:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78AC823CB
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 11:22:00 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id o73so5639454qke.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jun 2022 04:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=fc/OFAn0RvDAWJQtQ9B+1H+QxhmbSSJd9Hi613D0Bsw=;
-        b=KrxENmFO1QgWlWAeJCa+rew4MZ/Z6QR5iukbATFS7s8iFV0QZVhYSMTmzPhd5oC4vh
-         pluEXGxwfa233uFAQC3uo6A93DOqHr7hgYBAbzJUH58UH3mPrCPIVvNDuM7oLTNmQa7l
-         CecyCYcK7uRWxaElpG8gA8i2i8Js7+SHCbLtQkjxJ83RaYMhitJ4mWe0/mI5iItK7/A7
-         Uqk6v4YhCRui45xPLmv5UQgd/pqIvyOay2Bu6Sgwjw3K3vhO3YGilYTE+TBLuTvy8EEI
-         0YdfITyCJtezho5vU/xHQy1xidYG5aeW8gwlcT7H8lKWf8zswK9T3hPvhYvG/NDMjiED
-         Ia8w==
+        bh=xTsthcJVQmhF7Xm+0URj3QnPKdLx/8RaDMYR7w133tE=;
+        b=ZOewfqDrRLi/wwwz9ymLuAwvXjjYy53E3ClhFkvNdW+qY5vw0HCyp+up9VCzwFAaYC
+         TMZMyPxvNTz3csXNIdbs8rsyOHKUCVlnSamtOkI5F6E+zyV50wpCEXQvwX3Vchoobyi7
+         oEFLlmugJIZbBqnAwFBO6Jj70E2UYEMPY4tyZ6RIl1lE7paHygqQJIl3SXwoKeKrBZYA
+         jB8JdfEshy0LTf9aQq+lrbp36yS2ywNM6/WARXiQodcjG0/HrurVUVIChqTOmFDB6oPq
+         1W/cgapZ8twK+qTRv/lhZly7yjV0TCgOfRUkFeaWIQg0kk3I6VDhSs8SX5kgj8n9OUBC
+         fFjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fc/OFAn0RvDAWJQtQ9B+1H+QxhmbSSJd9Hi613D0Bsw=;
-        b=OOvFqMdrH6UfDXXsDAbEfhEaqXlzl8Bbj76cw2u4HKlinmi2awT7YFnI8Q4QxJRrGA
-         vKCyvvLE85fAEB4gCcMxVNaGQkzL7YLQDYMv2U5m8lV9c8Qj8/YtZ08p9jc2yu+Nc4kx
-         2rvfbPY2PbD/hCZ1OB7VmfdcYJlDdaENmA/yLUmRYkZsyIJAWkyFS4HSyYl6KGQVrLK2
-         /q9xeJlzJQLhGUHRSnwg5+0wrgiPKdcfJXDg+9H5GstshnzsPNnPiuY4ESjBfJVapcB6
-         zwODkmx1Dmu0BUet2u0bHtKq/sDlaUtGcVVa7M5kFlg7xWX0bai6bACega6pZ07gBh7E
-         /QTQ==
-X-Gm-Message-State: AOAM531wuavYQUYZcLkT4Ut0kw9TyzhyjEoWjklkBma/UOGim0x9y4TW
-	ffCtExh0uD7paoy+y9RdgdUFtPVnfG0pqlmIgXc=
-X-Google-Smtp-Source: ABdhPJzvmmwoAzRBHaAGyreIeKWdCWu7b5koSZ6XfRTIpHHHC8VvO+dYQd2nZJ945oooKEFeorywlbdLzYHZ6TmHgjw=
-X-Received: by 2002:a37:a1c4:0:b0:6a6:ac4f:1d3f with SMTP id
- k187-20020a37a1c4000000b006a6ac4f1d3fmr6832834qke.666.1654510577365; Mon, 06
- Jun 2022 03:16:17 -0700 (PDT)
+        bh=xTsthcJVQmhF7Xm+0URj3QnPKdLx/8RaDMYR7w133tE=;
+        b=rN3mVCiLA8qmTUOHTAFDsfvB8zqKyl/Xl1S+4B6/gH9IBDwWLpg28gwu3EJxLFo63U
+         z8b+CQJVPDO3IkIIPRVYe7xwQc9PpiVVGw7GeK7O3CQW61dNXrFXX17BxS4kGlF4GROH
+         ZRDw0kiXRcQ0fg9aJm4AkC0zoo0hd3pJTJaFqnO0LOrwqwM3CFh2FDzT960h8B1YluZd
+         pak4K+SnLJUWGLZAQaDkkJGHZyaCnrbTr7wvd9YCea5uWlTxVA30HO5j6cH5XR9FE/W1
+         8ToTi6w1GGLapKVeC09wVdyyKKnXwSI2joaNgWM905+WGav4AJHURB5SHrAniRyUuaZE
+         QUQA==
+X-Gm-Message-State: AOAM533WKVpzaM+hhe5UBBBjvNdM0L0QF+xZdZ4Q0WDZ61o6kFyqc5AP
+	81GIvZECJ9n+uvuYYBXAbe3ursbrMkNeM/d23YY=
+X-Google-Smtp-Source: ABdhPJzzrtziPOS1KJw58ikyVeRSCTJtL+zJfPSfWpi98XNxg9V5/7ZCr1rZWPNC30U++ZWvtfSeh1uxvMfo6LMcU18=
+X-Received: by 2002:a05:620a:4310:b0:67b:3fc1:86eb with SMTP id
+ u16-20020a05620a431000b0067b3fc186ebmr14966019qko.495.1654514519340; Mon, 06
+ Jun 2022 04:21:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220605094018.9782-1-r.stratiienko@gmail.com> <5826286.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <5826286.lOV4Wx5bFT@jernej-laptop>
+References: <20220605154731.17362-1-roman.o.stratiienko@globallogic.com>
+ <4714286.GXAFRqVoOG@jernej-laptop> <CAGphcdniPFdqgLcpUc88ak9GzNaCvmj_TDVYTOe2bXto-Y12FQ@mail.gmail.com>
+ <20220606092006.4bgxibmayv44juox@houat> <20220606092225.yxyw77mtuqpbmd35@houat>
+In-Reply-To: <20220606092225.yxyw77mtuqpbmd35@houat>
 From: Roman Stratiienko <r.stratiienko@gmail.com>
-Date: Mon, 6 Jun 2022 13:16:06 +0300
-Message-ID: <CAGphcdm=sOyppe8sAYMK6aeRXpxiHvj-h-Es6nigCNKBxdBNZQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/sun4i: Enable output signal premultiplication for DE2/DE3
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, wens@csie.org, airlied@linux.ie, 
-	Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, megi@xff.cz
+Date: Mon, 6 Jun 2022 14:21:48 +0300
+Message-ID: <CAGphcdmFyK0023cW=UuUWCzqXtkMNBF4t+9CGR13ULaWseJVaQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: sun8i: Add support for pixel blend mode property
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, wens@csie.org, 
+	airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz, 
+	Roman Stratiienko <roman.o.stratiienko@globallogic.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Maxime,
 
-=D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:23, Jernej =C5=
-=A0krabec <jernej.skrabec@gmail.com>:
+=D0=BF=D0=BD, 6 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 12:22, Maxime Ripar=
+d <maxime@cerno.tech>:
 >
-> Dne nedelja, 05. junij 2022 ob 11:40:18 CEST je Roman Stratiienko napisal=
-(a):
-> > Otherwise alpha value is discarded, resulting incorrect pixel
-> > apperance on the display.
+> On Mon, Jun 06, 2022 at 11:20:06AM +0200, Maxime Ripard wrote:
+> > On Mon, Jun 06, 2022 at 11:17:20AM +0300, Roman Stratiienko wrote:
+> > > Hello Jernej,
+> > >
+> > > Thank you for having a look.
+> > >
+> > > =D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:37, Jernej=
+ =C5=A0krabec <jernej.skrabec@gmail.com>:
+> > > >
+> > > > Dne nedelja, 05. junij 2022 ob 17:47:31 CEST je Roman Stratiienko n=
+apisal(a):
+> > > > > Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
+> > > > > "None", "Pre-multiplied", "Coverage"
+> > > > >
+> > > > > Add the blend mode property and route it to the appropriate regis=
+ters.
+> > > > >
+> > > > > Note:
+> > > > > "force_premulti" parameter was added to handle multi-overlay chan=
+nel
+> > > > > cases in future changes. It must be set to true for cases when mo=
+re
+> > > > > than 1 overlay layer is used within a channel and at least one of=
+ the
+> > > > > overlay layers within a group uses premultiplied blending mode.
+> > > >
+> > > > Please remove this parameter. It's nothing special, so it can be ea=
+sily added
+> > > > once it's actually needed. For now, it only complicates code.
+> > >
+> > > I would prefer keeping it if you do not have any strong opinion again=
+st it.
+> > >
+> > > I am working now on exposing all overlays, so it will be needed soon =
+anyway.
 > >
-> > This also fixes missing transparency for the most bottom layer.
+> > KMS assumes pre-multiplied alpha anyway, so we shouldn't need a
+> > parameter to force it: we're always going to force it.
 >
-> Can you explain that a bit more?
+> My bad, I got confused with your other patch.
+>
+> Still, I agree with Jernej, if it's not needed it only complicates the
+> code for no particular reason. If you need it at some point in the
+> future, add it then. Otherwise, it's hard to reason about, since we
+> don't know what are the expectations that those future patches will
+> bring.
 
-Well... I would recommend reading Bartosz Ciechanowski's blog
-https://ciechanow.ski/alpha-compositing/ or the Porter-Duff's 1984
-whitepaper itself.
+Well, existing code already has some sort of support for the sub-overlays:
+For example 'int overlay, ' parameter is always 0, but it still passed thro=
+ugh
+the call stack. Therefore this patch is just aligned with already existing
+traditions to keep sub-overlays in mind.
 
-HINT: That magic numbers from sun8i_mixer.h ( 0x03010301 ) corresponds
-to SOURCE OVER mode.
-
-As you can see from the blending equation it outputs both pixel value
-and alpha value (non-premultiplied data mode).
-
-Also single-layer non-premultiplied buffers may have for example
-(R255,G255,B255,A2) pixel value, which should be sent as {R2, G2, B2}
-through the physical display interface.
-
-When OUTCTL.PREMULTI disabled pixel, the RGB values passes as is, and
-even 100% transparent data {R255, G255, B255, A0} will appear as 100%
-opaque white.
-
->Also, BSP driver never enables this bit. What are we doing differently?
-
-Are you sure the BSP does not have an issues with presenting
-transparent buffers?
-Does the sunxi even have a customer-feedback mechanism and publicly
-available stable BSP with all the fixes?
+>
+> Maxime
 
 Regards,
 Roman
-
->
-> >
-> > Test applications and videos w/ w/o this patch are available at [1].
-> >
-> > [1]: https://github.com/GloDroid/glodroid_tests/issues/1
->
-> As stated in other emails, commit messages should not contain external li=
-nks
-> (per patch rules).
->
-> Best regards,
-> Jernej
->
-> > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> >
-> > ---
-> > Changelog:
-> >
-> > V2: Added code hunk missing in v1
-> > ---
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.c | 5 +++--
-> >  drivers/gpu/drm/sun4i/sun8i_mixer.h | 1 +
-> >  2 files changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.c index 6b1711a9a71f..ba2932aaed08
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.c
-> > @@ -320,8 +320,9 @@ static void sun8i_mixer_mode_set(struct sunxi_engin=
-e
-> > *engine, else
-> >               val =3D 0;
-> >
-> > -     regmap_update_bits(engine->regs,
-> SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> > -                        SUN8I_MIXER_BLEND_OUTCTL_INTERLACED,
-> val);
-> > +     val |=3D SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY;
-> > +
-> > +     regmap_write(engine->regs, SUN8I_MIXER_BLEND_OUTCTL(bld_base),
-> val);
-> >
-> >       DRM_DEBUG_DRIVER("Switching display mixer interlaced mode %s\n",
-> >                        interlaced ? "on" : "off");
-> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > b/drivers/gpu/drm/sun4i/sun8i_mixer.h index ebfc276b2464..bc12c95af6f3
-> > 100644
-> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
-> > @@ -65,6 +65,7 @@
-> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)  (0xf << ((n) << 2))
-> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)        ((n) << 2)
-> >
-> > +#define SUN8I_MIXER_BLEND_OUTCTL_PREMULTIPLY BIT(0)
-> >  #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED  BIT(1)
-> >
-> >  #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)    BIT(ch)
->
->
->
->
