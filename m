@@ -1,518 +1,426 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2066.outbound.protection.outlook.com [40.107.102.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9826223A0
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 06:20:08 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CMbTNfsQzZZ4Hu4qxRN2xdahDyj1n2imrw9YtdF0ZVkWdgw46P4qx66u8y6dP6lncvNcLcpH+1zsL7amCYCMyN+qJLNXda4GvCftu+AQO4M48/c74khbsDKU3B/JEJJQ2gYHU/A2BVDZTfasFzJoxhJ/gMfZm9gWrisO3mTgIN9W5Cj8Zzjzq/739CMjQJzt8t3w5ZhTRbQwWnrDQRochhDXYo3OyJWf6d5zu7HG/2CQ9FQe++efqE5zVQ2JIeHqVpHMdDMc5MKgmUHKRXboWxPRdFyKWq3oYiKJX9mk5wrQj+KghBtbHtSvZ0PlF9yQxHWTNOprdmZHfbyMZVK2QA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8B+c+H2V+bCnzCJetNz/ttkZvQqE/XCS0a2agveDiyc=;
- b=MTSAv9EdIrbVQU0RbsIpUvsH5rvxCIC+WYiry5QSzrvgl02B/9zxxqxlb9KqC9GAvGFBWXCAbZRoo9Oq51bKITFL/Hrx7ppk5y77/o8n1vL8AHfXeHYUAvf5LSK8zi+3dGOxLR8A33asY8mBo4eqRe0dVnisP/rkbJrjUvz0hwUA7ognpr7vIF6TpwPSGuZkOHVNwdvbJUp1WvrhgAjuPBVIbeWtUXOTT2V+5NO9dLyrkjHuY+2aPKqDpkDPgO2e4Q2zALeFnEJw5MtpMKFi4RdZVdtvY/Wz7TpIcczXr6UdynXdAeC7uMOlbKUa2LwptOUfI2wfv7/oQbdQzS9aaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=samsung.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8B+c+H2V+bCnzCJetNz/ttkZvQqE/XCS0a2agveDiyc=;
- b=H2+4eFhBXOQACIvRHWsHO018QqmROfBzKwfUz+n7RdbMNflN1GdFKX2hd2kl9v/VN7EO5eP3TjiKyLbN+CwLgQJ9OrJ2XFD5EpzqKNyis2vUchqoUSg1MnHy6lnez+DrNB/ycmbTr8Pe3pnHCuhleI9dXZP3MtZuUcGlf5Zh3b1AWN/zn7t5jvifAIylp94XCgZhaZBWABttPpNg+96mxLstBHOs7qn6cM/fwQcagkvvTuEfZtpDpfvLmrO3VKCy+4IqDvh+Wj0PecwyKfeVCovyvtNlros0iINDa2vp4bxsLOWdP9nJhFiDQoZBGnifQuji6w/o57jDl2kXRIwMxA==
-Received: from BN9PR03CA0604.namprd03.prod.outlook.com (2603:10b6:408:106::9)
- by DM6PR12MB3801.namprd12.prod.outlook.com (2603:10b6:5:1cc::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.15; Mon, 6 Jun
- 2022 06:20:06 +0000
-Received: from BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:106:cafe::7) by BN9PR03CA0604.outlook.office365.com
- (2603:10b6:408:106::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12 via Frontend
- Transport; Mon, 6 Jun 2022 06:20:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT064.mail.protection.outlook.com (10.13.176.160) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5314.12 via Frontend Transport; Mon, 6 Jun 2022 06:20:05 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Mon, 6 Jun
- 2022 06:20:04 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Sun, 5 Jun 2022
- 23:20:03 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.12) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.986.22 via Frontend
- Transport; Sun, 5 Jun 2022 23:20:01 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <jgg@nvidia.com>, <joro@8bytes.org>, <will@kernel.org>,
-	<marcan@marcan.st>, <sven@svenpeter.dev>, <robin.murphy@arm.com>,
-	<robdclark@gmail.com>, <m.szyprowski@samsung.com>,
-	<krzysztof.kozlowski@linaro.org>, <baolu.lu@linux.intel.com>,
-	<agross@kernel.org>, <bjorn.andersson@linaro.org>, <matthias.bgg@gmail.com>,
-	<heiko@sntech.de>, <orsonzhai@gmail.com>, <baolin.wang7@gmail.com>,
-	<zhang.lyra@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<samuel@sholland.org>, <jean-philippe@linaro.org>,
-	<alex.williamson@redhat.com>
-CC: <suravee.suthikulpanit@amd.com>, <alyssa@rosenzweig.io>,
-	<alim.akhtar@samsung.com>, <dwmw2@infradead.org>, <yong.wu@mediatek.com>,
-	<mjrosato@linux.ibm.com>, <gerald.schaefer@linux.ibm.com>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<cohuck@redhat.com>, <iommu@lists.linux-foundation.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-arm-msm@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
-	<linux-mediatek@lists.infradead.org>, <linux-rockchip@lists.infradead.org>,
-	<linux-s390@vger.kernel.org>, <linux-sunxi@lists.linux.dev>,
-	<linux-tegra@vger.kernel.org>, <virtualization@lists.linux-foundation.org>,
-	<kvm@vger.kernel.org>
-Subject: [PATCH 5/5] vfio/iommu_type1: Simplify group attachment
-Date: Sun, 5 Jun 2022 23:19:27 -0700
-Message-ID: <20220606061927.26049-6-nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20220606061927.26049-1-nicolinc@nvidia.com>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3BA27E
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 08:17:32 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id n197so3296741qke.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 06 Jun 2022 01:17:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0VB6ICitRovHxIYwUV+gm3Fi9aGF8p8zHqo2gL74d1Q=;
+        b=IyECiN0NGcda9tsDvkw5eeqZYQb9MoyP7maNVPcuEEw5AUsSLv6qtEX+mTV23KbgjN
+         PXFrqdSvj1XLDgHLw60qxDcv+sK0AQCIti3xcbsySH76dyEn/EDr9oZVyPNHrDw8COY0
+         Np5Y1HZ+Y4t/9k2/zeJ48fa6hg41d62wU9KSMLb58RyiIhKDbAM6T9JlWdM1ODAlVVG6
+         PZDsMui5wh9JspsfpkstCUtuRWOxT3hoCyt1eV1wBIX7c51aQheeCcCi49acNck+1khS
+         Hzgfc7bQz3vaOzwHQVDPhPd1IJDawfcqSzzv08Zi82eE7zG1GoMhTFSJ958kM3Kn8ZWA
+         cjJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0VB6ICitRovHxIYwUV+gm3Fi9aGF8p8zHqo2gL74d1Q=;
+        b=lKKE96dYKS0uwkTNaz9slGs2bBqMg51L+Nm736dg7MWEFIz5Q6KcYdGi8fPmpzgY8f
+         nWck8T3ecwwArL77XoJXruJl2tULZpHbgiT1E9vbfdrgrE88Icg2ZzqEx+b45xal/7UV
+         V2wbxQh7E0FsTQxxwV868Gn/9nTIJw6PqGdZDBOc/jkkdz6BbzCBoatabuU5j+juFTrH
+         DxlbSyJJHnS43KMTng0liGIVFpEOYZLY+Lfwmsh+eotvOlqKa4xYQ/nFlvM8oo3oZLSi
+         EHWsNSrw95P3kYRb94UoOhMlOpKfBQ/sPiMsZE4uENBpdEAOYvyo5A9mvosPxhzLbWHB
+         OmXQ==
+X-Gm-Message-State: AOAM533i1bFenO6PrDR5+x7PYZikskeHr71WuxAOPVCgxLVm1+i3yiFJ
+	AQ/LAwsI1BDKPKy5MIu2xzpnswIzardpuQuWmck=
+X-Google-Smtp-Source: ABdhPJwNXuLVvwNahmcnoYhvryCT5N0U9qupshmtSniU/vgKFF7ifk9ZOizThxKCi/9lppcxk7Ktq2EPEl7b8daj0eA=
+X-Received: by 2002:a37:a1c4:0:b0:6a6:ac4f:1d3f with SMTP id
+ k187-20020a37a1c4000000b006a6ac4f1d3fmr6633885qke.666.1654503451729; Mon, 06
+ Jun 2022 01:17:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0965645e-e480-4d14-69be-08da4784994f
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3801:EE_
-X-Microsoft-Antispam-PRVS:
-	<DM6PR12MB3801A1221DF32B1824A1EA93ABA29@DM6PR12MB3801.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	YvfS3ssPqqS5158rpVqrnyBXpmtW8PgI33WsDidNZ53bZQHUsl8rq3mpdGppPdocv/bcj7I0tB4TDIiXkNQ/BHchidxrvIm9AQntNRVyds4Z9Sxv+7q3rMqTboYh2Z9g96ngDSyKrmt66x81CVDPTOP9zT5mfi2MJWr4Ff5GpC8gV8OinO0yawsmanxxKDOX22+ptl4Wk6v7CrJsgm/apOI66ehzXr3cRURFWr4kSuytX2urfvGDthYpV9vSeBmUYGlnAu0qE4a2dDU4heI8nOOcS1xN7MJomELyCKFyV1r5xtYN9XNPaxsFEXxJorrmsQxY2vAL73vj7IaTh7Dh2c5Pti+Q5LB6nQ+0PMb+rbNSa9HPSIIKiY8WC14YV2l//rVR0eT+W7fUFHQdv+81JGaFOs9GKaVV72T2/lQpVpJBSUMrES8pvK78nieglpm3uCs3lL3wKxmYN6G+bfBqKNFwS6vXLW28cGaNd4ESEhBDohCjMv0Mbpd4ZGyxMnE7nClZPHI2OZg7njWg6YGRSeVoDtZZW0deXOObO2/Z47hR+tlA0LywS4FQXsLAczlvrezR8hsLwEMlKM/0eeRH4y4tp6+dwPfBOn0/DH2CO6NaXhg4E6cAw1yqIwZiwb9da7KSUiqHnQTX4PyrRxB0rXHP4aFOixDj9zsUbWB3CfJiHWzFOgocnN5ZdzXWQYltWKVmziqbV2BM7Fmp4rlb0iVEpA3/ioQECZ4/kbyIsoYRS+oWIa/6qEGHAa0KHv7LwUkQnFav5co4tjMW0OgKLw==
-X-Forefront-Antispam-Report:
-	CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(36840700001)(40470700004)(46966006)(47076005)(30864003)(7416002)(7406005)(70586007)(426003)(36756003)(356005)(70206006)(921005)(8676002)(1076003)(82310400005)(36860700001)(4326008)(5660300002)(8936002)(186003)(336012)(83380400001)(81166007)(2616005)(40460700003)(26005)(7696005)(2906002)(6666004)(316002)(86362001)(508600001)(54906003)(110136005)(83996005)(2101003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Jun 2022 06:20:05.7845
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0965645e-e480-4d14-69be-08da4784994f
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN8NAM11FT064.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3801
+References: <20220605154731.17362-1-roman.o.stratiienko@globallogic.com> <4714286.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <4714286.GXAFRqVoOG@jernej-laptop>
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Mon, 6 Jun 2022 11:17:20 +0300
+Message-ID: <CAGphcdniPFdqgLcpUc88ak9GzNaCvmj_TDVYTOe2bXto-Y12FQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/sun4i: sun8i: Add support for pixel blend mode property
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, wens@csie.org, airlied@linux.ie, 
+	Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, dri-devel@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, megi@xff.cz, 
+	Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Un-inline the domain specific logic from the attach/detach_group ops into
-two paired functions vfio_iommu_alloc_attach_domain() and
-vfio_iommu_detach_destroy_domain() that strictly deal with creating and
-destroying struct vfio_domains.
+Hello Jernej,
 
-Add the logic to check for EMEDIUMTYPE return code of iommu_attach_group()
-and avoid the extra domain allocations and attach/detach sequences of the
-old code. This allows properly detecting an actual attach error, like
--ENOMEM, vs treating all attach errors as an incompatible domain.
+Thank you for having a look.
 
-Remove the duplicated domain->ops comparison that is taken care of in the
-IOMMU core.
+=D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:37, Jernej =C5=
+=A0krabec <jernej.skrabec@gmail.com>:
+>
+> Dne nedelja, 05. junij 2022 ob 17:47:31 CEST je Roman Stratiienko napisal=
+(a):
+> > Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
+> > "None", "Pre-multiplied", "Coverage"
+> >
+> > Add the blend mode property and route it to the appropriate registers.
+> >
+> > Note:
+> > "force_premulti" parameter was added to handle multi-overlay channel
+> > cases in future changes. It must be set to true for cases when more
+> > than 1 overlay layer is used within a channel and at least one of the
+> > overlay layers within a group uses premultiplied blending mode.
+>
+> Please remove this parameter. It's nothing special, so it can be easily a=
+dded
+> once it's actually needed. For now, it only complicates code.
 
-Co-developed-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
----
- drivers/vfio/vfio_iommu_type1.c | 306 +++++++++++++++++---------------
- 1 file changed, 161 insertions(+), 145 deletions(-)
+I would prefer keeping it if you do not have any strong opinion against it.
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index b45b1cc118ef..c6f937e1d71f 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -86,6 +86,7 @@ struct vfio_domain {
- 	struct list_head	group_list;
- 	bool			fgsp : 1;	/* Fine-grained super pages */
- 	bool			enforce_cache_coherency : 1;
-+	bool			msi_cookie : 1;
- };
- 
- struct vfio_dma {
-@@ -2153,12 +2154,161 @@ static void vfio_iommu_iova_insert_copy(struct vfio_iommu *iommu,
- 	list_splice_tail(iova_copy, iova);
- }
- 
-+static struct vfio_domain *
-+vfio_iommu_alloc_attach_domain(struct bus_type *bus, struct vfio_iommu *iommu,
-+			       struct vfio_iommu_group *group)
-+{
-+	struct iommu_domain *new_domain;
-+	struct vfio_domain *domain;
-+	int ret = 0;
-+
-+	/* Try to match an existing compatible domain */
-+	list_for_each_entry (domain, &iommu->domain_list, next) {
-+		ret = iommu_attach_group(domain->domain, group->iommu_group);
-+		if (ret == -EMEDIUMTYPE)
-+			continue;
-+		if (ret)
-+			return ERR_PTR(ret);
-+		list_add(&group->next, &domain->group_list);
-+		return domain;
-+	}
-+
-+	new_domain = iommu_domain_alloc(bus);
-+	if (!new_domain)
-+		return ERR_PTR(-EIO);
-+
-+	if (iommu->nesting) {
-+		ret = iommu_enable_nesting(new_domain);
-+		if (ret)
-+			goto out_free_iommu_domain;
-+	}
-+
-+	ret = iommu_attach_group(new_domain, group->iommu_group);
-+	if (ret)
-+		goto out_free_iommu_domain;
-+
-+	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
-+	if (!domain) {
-+		ret = -ENOMEM;
-+		goto out_detach;
-+	}
-+
-+	domain->domain = new_domain;
-+	vfio_test_domain_fgsp(domain);
-+
-+	/*
-+	 * If the IOMMU can block non-coherent operations (ie PCIe TLPs with
-+	 * no-snoop set) then VFIO always turns this feature on because on Intel
-+	 * platforms it optimizes KVM to disable wbinvd emulation.
-+	 */
-+	if (new_domain->ops->enforce_cache_coherency)
-+		domain->enforce_cache_coherency =
-+			new_domain->ops->enforce_cache_coherency(new_domain);
-+
-+	/* replay mappings on new domains */
-+	ret = vfio_iommu_replay(iommu, domain);
-+	if (ret)
-+		goto out_free_domain;
-+
-+	/*
-+	 * An iommu backed group can dirty memory directly and therefore
-+	 * demotes the iommu scope until it declares itself dirty tracking
-+	 * capable via the page pinning interface.
-+	 */
-+	iommu->num_non_pinned_groups++;
-+
-+	INIT_LIST_HEAD(&domain->group_list);
-+	list_add(&group->next, &domain->group_list);
-+	list_add(&domain->next, &iommu->domain_list);
-+	vfio_update_pgsize_bitmap(iommu);
-+	return domain;
-+
-+out_free_domain:
-+	kfree(domain);
-+out_detach:
-+	iommu_detach_group(domain->domain, group->iommu_group);
-+out_free_iommu_domain:
-+	iommu_domain_free(new_domain);
-+	return ERR_PTR(ret);
-+}
-+
-+static void vfio_iommu_unmap_unpin_all(struct vfio_iommu *iommu)
-+{
-+	struct rb_node *node;
-+
-+	while ((node = rb_first(&iommu->dma_list)))
-+		vfio_remove_dma(iommu, rb_entry(node, struct vfio_dma, node));
-+}
-+
-+static void vfio_iommu_unmap_unpin_reaccount(struct vfio_iommu *iommu)
-+{
-+	struct rb_node *n, *p;
-+
-+	n = rb_first(&iommu->dma_list);
-+	for (; n; n = rb_next(n)) {
-+		struct vfio_dma *dma;
-+		long locked = 0, unlocked = 0;
-+
-+		dma = rb_entry(n, struct vfio_dma, node);
-+		unlocked += vfio_unmap_unpin(iommu, dma, false);
-+		p = rb_first(&dma->pfn_list);
-+		for (; p; p = rb_next(p)) {
-+			struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn,
-+							 node);
-+
-+			if (!is_invalid_reserved_pfn(vpfn->pfn))
-+				locked++;
-+		}
-+		vfio_lock_acct(dma, locked - unlocked, true);
-+	}
-+}
-+
-+static void vfio_iommu_detach_destroy_domain(struct vfio_domain *domain,
-+					     struct vfio_iommu *iommu,
-+					     struct vfio_iommu_group *group)
-+{
-+	iommu_detach_group(domain->domain, group->iommu_group);
-+	list_del(&group->next);
-+	if (!list_empty(&domain->group_list))
-+		return;
-+
-+	/*
-+	 * Group ownership provides privilege, if the group list is empty, the
-+	 * domain goes away. If it's the last domain with iommu and external
-+	 * domain doesn't exist, then all the mappings go away too. If it's the
-+	 * last domain with iommu and external domain exist, update accounting
-+	 */
-+	if (list_is_singular(&iommu->domain_list)) {
-+		if (list_empty(&iommu->emulated_iommu_groups)) {
-+			WARN_ON(iommu->notifier.head);
-+			vfio_iommu_unmap_unpin_all(iommu);
-+		} else {
-+			vfio_iommu_unmap_unpin_reaccount(iommu);
-+		}
-+	}
-+	iommu_domain_free(domain->domain);
-+	list_del(&domain->next);
-+	kfree(domain);
-+
-+	/*
-+	 * Removal of a group without dirty tracking may allow the iommu scope
-+	 * to be promoted.
-+	 */
-+	if (!group->pinned_page_dirty_scope) {
-+		iommu->num_non_pinned_groups--;
-+		if (iommu->dirty_page_tracking)
-+			vfio_iommu_populate_bitmap_full(iommu);
-+	}
-+
-+	vfio_update_pgsize_bitmap(iommu);
-+}
-+
- static int vfio_iommu_type1_attach_group(void *iommu_data,
- 		struct iommu_group *iommu_group, enum vfio_group_type type)
- {
- 	struct vfio_iommu *iommu = iommu_data;
- 	struct vfio_iommu_group *group;
--	struct vfio_domain *domain, *d;
-+	struct vfio_domain *domain;
- 	struct bus_type *bus = NULL;
- 	bool resv_msi, msi_remap;
- 	phys_addr_t resv_msi_base = 0;
-@@ -2197,26 +2347,12 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 	if (ret)
- 		goto out_free_group;
- 
--	ret = -ENOMEM;
--	domain = kzalloc(sizeof(*domain), GFP_KERNEL);
--	if (!domain)
-+	domain = vfio_iommu_alloc_attach_domain(bus, iommu, group);
-+	if (IS_ERR(domain)) {
-+		ret = PTR_ERR(domain);
- 		goto out_free_group;
--
--	ret = -EIO;
--	domain->domain = iommu_domain_alloc(bus);
--	if (!domain->domain)
--		goto out_free_domain;
--
--	if (iommu->nesting) {
--		ret = iommu_enable_nesting(domain->domain);
--		if (ret)
--			goto out_domain;
- 	}
- 
--	ret = iommu_attach_group(domain->domain, group->iommu_group);
--	if (ret)
--		goto out_domain;
--
- 	/* Get aperture info */
- 	geo = &domain->domain->geometry;
- 	if (vfio_iommu_aper_conflict(iommu, geo->aperture_start,
-@@ -2254,9 +2390,6 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 
- 	resv_msi = vfio_iommu_has_sw_msi(&group_resv_regions, &resv_msi_base);
- 
--	INIT_LIST_HEAD(&domain->group_list);
--	list_add(&group->next, &domain->group_list);
--
- 	msi_remap = irq_domain_check_msi_remap() ||
- 		    iommu_capable(bus, IOMMU_CAP_INTR_REMAP);
- 
-@@ -2267,117 +2400,32 @@ static int vfio_iommu_type1_attach_group(void *iommu_data,
- 		goto out_detach;
- 	}
- 
--	/*
--	 * If the IOMMU can block non-coherent operations (ie PCIe TLPs with
--	 * no-snoop set) then VFIO always turns this feature on because on Intel
--	 * platforms it optimizes KVM to disable wbinvd emulation.
--	 */
--	if (domain->domain->ops->enforce_cache_coherency)
--		domain->enforce_cache_coherency =
--			domain->domain->ops->enforce_cache_coherency(
--				domain->domain);
--
--	/*
--	 * Try to match an existing compatible domain.  We don't want to
--	 * preclude an IOMMU driver supporting multiple bus_types and being
--	 * able to include different bus_types in the same IOMMU domain, so
--	 * we test whether the domains use the same iommu_ops rather than
--	 * testing if they're on the same bus_type.
--	 */
--	list_for_each_entry(d, &iommu->domain_list, next) {
--		if (d->domain->ops == domain->domain->ops) {
--			iommu_detach_group(domain->domain, group->iommu_group);
--			if (!iommu_attach_group(d->domain,
--						group->iommu_group)) {
--				list_add(&group->next, &d->group_list);
--				iommu_domain_free(domain->domain);
--				kfree(domain);
--				goto done;
--			}
--
--			ret = iommu_attach_group(domain->domain,
--						 group->iommu_group);
--			if (ret)
--				goto out_domain;
--		}
--	}
--
--	vfio_test_domain_fgsp(domain);
--
--	/* replay mappings on new domains */
--	ret = vfio_iommu_replay(iommu, domain);
--	if (ret)
--		goto out_detach;
--
--	if (resv_msi) {
-+	if (resv_msi && !domain->msi_cookie) {
- 		ret = iommu_get_msi_cookie(domain->domain, resv_msi_base);
- 		if (ret && ret != -ENODEV)
- 			goto out_detach;
-+		domain->msi_cookie = true;
- 	}
- 
--	list_add(&domain->next, &iommu->domain_list);
--	vfio_update_pgsize_bitmap(iommu);
--done:
- 	/* Delete the old one and insert new iova list */
- 	vfio_iommu_iova_insert_copy(iommu, &iova_copy);
- 
--	/*
--	 * An iommu backed group can dirty memory directly and therefore
--	 * demotes the iommu scope until it declares itself dirty tracking
--	 * capable via the page pinning interface.
--	 */
--	iommu->num_non_pinned_groups++;
- 	mutex_unlock(&iommu->lock);
- 	vfio_iommu_resv_free(&group_resv_regions);
- 
- 	return 0;
- 
- out_detach:
--	iommu_detach_group(domain->domain, group->iommu_group);
--out_domain:
--	iommu_domain_free(domain->domain);
--	vfio_iommu_iova_free(&iova_copy);
--	vfio_iommu_resv_free(&group_resv_regions);
--out_free_domain:
--	kfree(domain);
-+	vfio_iommu_detach_destroy_domain(domain, iommu, group);
- out_free_group:
- 	kfree(group);
- out_unlock:
- 	mutex_unlock(&iommu->lock);
-+	vfio_iommu_iova_free(&iova_copy);
-+	vfio_iommu_resv_free(&group_resv_regions);
- 	return ret;
- }
- 
--static void vfio_iommu_unmap_unpin_all(struct vfio_iommu *iommu)
--{
--	struct rb_node *node;
--
--	while ((node = rb_first(&iommu->dma_list)))
--		vfio_remove_dma(iommu, rb_entry(node, struct vfio_dma, node));
--}
--
--static void vfio_iommu_unmap_unpin_reaccount(struct vfio_iommu *iommu)
--{
--	struct rb_node *n, *p;
--
--	n = rb_first(&iommu->dma_list);
--	for (; n; n = rb_next(n)) {
--		struct vfio_dma *dma;
--		long locked = 0, unlocked = 0;
--
--		dma = rb_entry(n, struct vfio_dma, node);
--		unlocked += vfio_unmap_unpin(iommu, dma, false);
--		p = rb_first(&dma->pfn_list);
--		for (; p; p = rb_next(p)) {
--			struct vfio_pfn *vpfn = rb_entry(p, struct vfio_pfn,
--							 node);
--
--			if (!is_invalid_reserved_pfn(vpfn->pfn))
--				locked++;
--		}
--		vfio_lock_acct(dma, locked - unlocked, true);
--	}
--}
--
- /*
-  * Called when a domain is removed in detach. It is possible that
-  * the removed domain decided the iova aperture window. Modify the
-@@ -2491,44 +2539,12 @@ static void vfio_iommu_type1_detach_group(void *iommu_data,
- 		group = find_iommu_group(domain, iommu_group);
- 		if (!group)
- 			continue;
--
--		iommu_detach_group(domain->domain, group->iommu_group);
--		list_del(&group->next);
--		/*
--		 * Group ownership provides privilege, if the group list is
--		 * empty, the domain goes away. If it's the last domain with
--		 * iommu and external domain doesn't exist, then all the
--		 * mappings go away too. If it's the last domain with iommu and
--		 * external domain exist, update accounting
--		 */
--		if (list_empty(&domain->group_list)) {
--			if (list_is_singular(&iommu->domain_list)) {
--				if (list_empty(&iommu->emulated_iommu_groups)) {
--					WARN_ON(iommu->notifier.head);
--					vfio_iommu_unmap_unpin_all(iommu);
--				} else {
--					vfio_iommu_unmap_unpin_reaccount(iommu);
--				}
--			}
--			iommu_domain_free(domain->domain);
--			list_del(&domain->next);
--			kfree(domain);
--			vfio_iommu_aper_expand(iommu, &iova_copy);
--			vfio_update_pgsize_bitmap(iommu);
--			/*
--			 * Removal of a group without dirty tracking may allow
--			 * the iommu scope to be promoted.
--			 */
--			if (!group->pinned_page_dirty_scope) {
--				iommu->num_non_pinned_groups--;
--				if (iommu->dirty_page_tracking)
--					vfio_iommu_populate_bitmap_full(iommu);
--			}
--		}
-+		vfio_iommu_detach_destroy_domain(domain, iommu, group);
- 		kfree(group);
- 		break;
- 	}
- 
-+	vfio_iommu_aper_expand(iommu, &iova_copy);
- 	if (!vfio_iommu_resv_refresh(iommu, &iova_copy))
- 		vfio_iommu_iova_insert_copy(iommu, &iova_copy);
- 	else
--- 
-2.17.1
+I am working now on exposing all overlays, so it will be needed soon anyway=
+.
 
+Also it helps to better understand the COV2PREMULT mode which has not
+the best description in the datasheet. Only after testing this
+register using devmem I became confident on its purpose.
+
+>
+> >
+> > Test:
+> > Manually tested all the modes using kmsxx python wrapper with and
+> > without 'force_premulti' flag enabled.
+> >
+> > Signed-off-by: Roman Stratiienko <roman.o.stratiienko@globallogic.com>
+> > ---
+> >  drivers/gpu/drm/sun4i/sun8i_mixer.h    |  2 ++
+> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.c | 48 ++++++++++++++++++++-----
+> >  drivers/gpu/drm/sun4i/sun8i_ui_layer.h |  5 +++
+> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.c | 49 ++++++++++++++++++++++----
+> >  drivers/gpu/drm/sun4i/sun8i_vi_layer.h |  5 +++
+> >  5 files changed, 94 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> > b/drivers/gpu/drm/sun4i/sun8i_mixer.h index ebfc276b2464..5c05907e26fb
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_mixer.h
+> > @@ -65,6 +65,8 @@
+> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_MSK(n)  (0xf << ((n) << 2))
+> >  #define SUN8I_MIXER_BLEND_ROUTE_PIPE_SHIFT(n)        ((n) << 2)
+> >
+> > +#define SUN8I_MIXER_BLEND_PREMULTIPLY_EN(pipe)       BIT(pipe)
+> > +
+> >  #define SUN8I_MIXER_BLEND_OUTCTL_INTERLACED  BIT(1)
+> >
+> >  #define SUN50I_MIXER_BLEND_CSC_CTL_EN(ch)    BIT(ch)
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c index 6ccbbca3176d..29c0d9cca1=
+9a
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.c
+> > @@ -58,24 +58,46 @@ static void sun8i_ui_layer_enable(struct sun8i_mixe=
+r
+> > *mixer, int channel, }
+> >
+> >  static void sun8i_ui_layer_update_alpha(struct sun8i_mixer *mixer, int
+> > channel, -                                    int overlay, struct
+> drm_plane *plane)
+> > +                                     int overlay, struct
+> drm_plane *plane,
+> > +                                     unsigned int zpos,
+> bool force_premulti)
+> >  {
+> > -     u32 mask, val, ch_base;
+> > +     u32 mask, val, ch_base, bld_base;
+> > +     bool in_premulti, out_premulti;
+> >
+> > +     bld_base =3D sun8i_blender_base(mixer);
+> >       ch_base =3D sun8i_channel_base(mixer, channel);
+> >
+> > +     in_premulti =3D plane->state->pixel_blend_mode =3D=3D
+> DRM_MODE_BLEND_PREMULTI;
+> > +     out_premulti =3D force_premulti || in_premulti;
+> > +
+> >       mask =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_MASK |
+> > -             SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK;
+> > +            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MASK |
+> > +            SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_MASK;
+> >
+> >       val =3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA(plane->state->alpha =
+>>
+> 8);
+> >
+> > -     val |=3D (plane->state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQUE) ?
+> > -             SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+> > -             SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> > +     if (plane->state->pixel_blend_mode =3D=3D DRM_MODE_BLEND_PIXEL_NO=
+NE) {
+> > +             val |=3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_LAYER;
+> > +     } else {
+> > +             val |=3D (plane->state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQ=
+UE)
+> ?
+> > +
+> SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+> > +
+> SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> > +
+> > +             if (in_premulti)
+> > +                     val |=3D
+> SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_PREMULTI;
+> > +     }
+> > +
+> > +     if (!in_premulti && out_premulti)
+> > +             val |=3D SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COV2PREM;
+> >
+> >       regmap_update_bits(mixer->engine.regs,
+> >                          SUN8I_MIXER_CHAN_UI_LAYER_ATTR(ch_base,
+> overlay),
+> >                          mask, val);
+> > +
+> > +     regmap_update_bits(
+> > +             mixer->engine.regs,
+> SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
+> > +             SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
+> > +             out_premulti ? SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) :
+> 0);
+> >  }
+> >
+> >  static int sun8i_ui_layer_update_coord(struct sun8i_mixer *mixer, int
+> > channel, @@ -274,7 +296,7 @@ static void
+> > sun8i_ui_layer_atomic_update(struct drm_plane *plane,
+> > sun8i_ui_layer_update_coord(mixer, layer->channel,
+> >                                   layer->overlay, plane, zpos);
+> >       sun8i_ui_layer_update_alpha(mixer, layer->channel,
+> > -                                 layer->overlay, plane);
+> > +                                 layer->overlay, plane, zpos,
+> false);
+> >       sun8i_ui_layer_update_formats(mixer, layer->channel,
+> >                                     layer->overlay, plane);
+> >       sun8i_ui_layer_update_buffer(mixer, layer->channel,
+> > @@ -332,8 +354,8 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(stru=
+ct
+> > drm_device *drm, {
+> >       enum drm_plane_type type =3D DRM_PLANE_TYPE_OVERLAY;
+> >       int channel =3D mixer->cfg->vi_num + index;
+> > +     unsigned int plane_cnt, blend_modes;
+> >       struct sun8i_ui_layer *layer;
+> > -     unsigned int plane_cnt;
+> >       int ret;
+> >
+> >       layer =3D devm_kzalloc(drm->dev, sizeof(*layer), GFP_KERNEL);
+> > @@ -362,6 +384,16 @@ struct sun8i_ui_layer *sun8i_ui_layer_init_one(str=
+uct
+> > drm_device *drm, return ERR_PTR(ret);
+> >       }
+> >
+> > +     blend_modes =3D BIT(DRM_MODE_BLEND_PREMULTI) |
+> > +                   BIT(DRM_MODE_BLEND_COVERAGE) |
+> > +                   BIT(DRM_MODE_BLEND_PIXEL_NONE);
+> > +
+> > +     ret =3D drm_plane_create_blend_mode_property(&layer->plane,
+> blend_modes);
+> > +     if (ret) {
+> > +             dev_err(drm->dev, "Couldn't add blend mode
+> property\n");
+> > +             return ERR_PTR(ret);
+> > +     }
+> > +
+> >       ret =3D drm_plane_create_zpos_property(&layer->plane, channel,
+> >                                            0, plane_cnt -
+> 1);
+> >       if (ret) {
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> > b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h index 43c48cf7bc51..bd3c30e805=
+8d
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_ui_layer.h
+> > @@ -46,6 +46,11 @@
+> >  #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_LAYER              (=
+(1) << 1)
+> >  #define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_ALPHA_MODE_COMBINED   ((2) << 1=
+)
+> >
+> > +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_MASK    GENMASK(17, 16)
+> > +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COVERAGE        ((0) << 1=
+6)
+> > +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_COV2PREM        ((1) << 1=
+6)
+> > +#define SUN8I_MIXER_CHAN_UI_LAYER_ATTR_BLEND_PREMULTI        ((2) << 1=
+6)
+> > +
+> >  struct sun8i_mixer;
+> >
+> >  struct sun8i_ui_layer {
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c index 662ba1018cc4..6581fc7d96=
+68
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.c
+> > @@ -52,21 +52,38 @@ static void sun8i_vi_layer_enable(struct sun8i_mixe=
+r
+> > *mixer, int channel, }
+> >
+> >  static void sun8i_vi_layer_update_alpha(struct sun8i_mixer *mixer, int
+> > channel, -                                    int overlay, struct
+> drm_plane *plane)
+> > +                                     int overlay, struct
+> drm_plane *plane,
+> > +                                     unsigned int zpos,
+> bool force_premulti)
+> >  {
+> > -     u32 mask, val, ch_base;
+> > +     u32 mask, val, ch_base, bld_base;
+> > +     bool in_premulti =3D false, out_premulti =3D false;
+> >
+> >       ch_base =3D sun8i_channel_base(mixer, channel);
+> > +     bld_base =3D sun8i_blender_base(mixer);
+> >
+> >       if (mixer->cfg->is_de3) {
+> > +             in_premulti =3D plane->state->pixel_blend_mode =3D=3D
+> DRM_MODE_BLEND_PREMULTI;
+> > +             out_premulti =3D force_premulti || in_premulti;
+> > +
+> >               mask =3D SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MASK |
+> > -                    SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_MASK;
+> > +                    SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_MASK
+> |
+> > +                    SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_MASK;
+> >               val =3D SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA
+> >                       (plane->state->alpha >> 8);
+> >
+> > -             val |=3D (plane->state->alpha =3D=3D DRM_BLEND_ALPHA_OPAQ=
+UE)
+> ?
+> > -
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+> > -
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> > +             if (plane->state->pixel_blend_mode =3D=3D
+> DRM_MODE_BLEND_PIXEL_NONE) {
+> > +                     val |=3D
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_LAYER;
+> > +             } else {
+> > +                     val |=3D (plane->state->alpha =3D=3D
+> DRM_BLEND_ALPHA_OPAQUE) ?
+> > +
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL :
+> > +
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED;
+> > +
+> > +                     if (in_premulti)
+> > +                             val |=3D
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_PREMULTI;
+> > +             }
+> > +
+> > +             if (!in_premulti && out_premulti)
+> > +                     val |=3D
+> SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COV2PREM;
+> >
+> >               regmap_update_bits(mixer->engine.regs,
+> >
+> SUN8I_MIXER_CHAN_VI_LAYER_ATTR(ch_base,
+> > @@ -79,6 +96,11 @@ static void sun8i_vi_layer_update_alpha(struct
+> > sun8i_mixer *mixer, int channel, SUN8I_MIXER_FCC_GLOBAL_ALPHA
+> >                                       (plane->state->alpha
+> >> 8));
+> >       }
+> > +
+> > +     regmap_update_bits(
+> > +             mixer->engine.regs,
+> SUN8I_MIXER_BLEND_PREMULTIPLY(bld_base),
+> > +             SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos),
+> > +             out_premulti ? SUN8I_MIXER_BLEND_PREMULTIPLY_EN(zpos) :
+> 0);
+>
+> Shouldn't be above block inside DE3 if block?
+
+No, we have to update the value to non-premulti in case it was set to
+premulti by another layer.
+
+
+Regards,
+Roman.
+
+>
+> Looks good otherwise.
+>
+> Best regards,
+> Jernej
+>
+> >  }
+> >
+> >  static int sun8i_vi_layer_update_coord(struct sun8i_mixer *mixer, int
+> > channel, @@ -408,7 +430,7 @@ static void
+> > sun8i_vi_layer_atomic_update(struct drm_plane *plane,
+> > sun8i_vi_layer_update_coord(mixer, layer->channel,
+> >                                   layer->overlay, plane, zpos);
+> >       sun8i_vi_layer_update_alpha(mixer, layer->channel,
+> > -                                 layer->overlay, plane);
+> > +                                 layer->overlay, plane, zpos,
+> false);
+> >       sun8i_vi_layer_update_formats(mixer, layer->channel,
+> >                                     layer->overlay, plane);
+> >       sun8i_vi_layer_update_buffer(mixer, layer->channel,
+> > @@ -563,6 +585,19 @@ struct sun8i_vi_layer *sun8i_vi_layer_init_one(str=
+uct
+> > drm_device *drm, }
+> >       }
+> >
+> > +     if (mixer->cfg->is_de3) {
+> > +             unsigned int blend_modes =3D BIT(DRM_MODE_BLEND_PREMULTI)
+> |
+> > +
+> BIT(DRM_MODE_BLEND_COVERAGE) |
+> > +
+> BIT(DRM_MODE_BLEND_PIXEL_NONE);
+> > +
+> > +             ret =3D drm_plane_create_blend_mode_property(&layer-
+> >plane,
+> > +
+> blend_modes);
+> > +             if (ret) {
+> > +                     dev_err(drm->dev, "Couldn't add blend mode
+> property\n");
+> > +                     return ERR_PTR(ret);
+> > +             }
+> > +     }
+> > +
+> >       ret =3D drm_plane_create_zpos_property(&layer->plane, index,
+> >                                            0, plane_cnt -
+> 1);
+> >       if (ret) {
+> > diff --git a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+> > b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h index 9939a4cc7a52..ccf91f09f1=
+fe
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+> > +++ b/drivers/gpu/drm/sun4i/sun8i_vi_layer.h
+> > @@ -44,6 +44,11 @@
+> >  #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MASK   GENMASK(31, 24)
+> >  #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA(x)     ((x) << 24)
+> >
+> > +#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_MASK   GENMASK(17, 16)
+> > +#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COVERAGE       ((0) << 1=
+6)
+> > +#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_COV2PREM       ((1) << 1=
+6)
+> > +#define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_BLEND_PREMULTI       ((2) << 1=
+6)
+> > +
+> >  #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_PIXEL     ((0) <<
+> 1)
+> >  #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_LAYER     ((1) <<
+> 1)
+> >  #define SUN50I_MIXER_CHAN_VI_LAYER_ATTR_ALPHA_MODE_COMBINED  ((2) << 1=
+)
+>
+>
+>
+>
