@@ -1,39 +1,39 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 600DE23BD
-	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 09:20:12 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 84DB23200937;
-	Mon,  6 Jun 2022 05:20:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Mon, 06 Jun 2022 05:20:11 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A9D323BD
+	for <linux-sunxi@lists.linux.dev>; Mon,  6 Jun 2022 09:22:30 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 93D2132002FB;
+	Mon,  6 Jun 2022 05:22:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Mon, 06 Jun 2022 05:22:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1654507210; x=1654593610; bh=z7m5NyH/mE
-	vLKqvSJdYSlrspdh+MTs/yya0ru7N26FY=; b=af+rpan26X8+Yun8w57p1riCh5
-	XUOlCx56kJEYEI2JWRfItLpwywDedqvdz376qX3rnPE1zUW0cE8bJ5jYBaGTwAzR
-	jH8hbYgtKFPqkUPdalQYDIdo902sdGosO2tQo7E5Cx1KfdHPCcvfuDVGupXG0okf
-	g4Peqt5vSUym4/fTccalRwVUwdIa8sGqZK5GyhnBoLvAdo04EaMETZS8FBT+Xlu5
-	Z/hrluyL8cUUp5wCwiV8ZNceWuPxv01NjCjn/BYwFxre1eJgGq/zDQTj7PG9WbFH
-	5lbhpOQQ7SMWE0HmnCo7aA+C3uiigXARV4DpYas6jexJQL8w2O6/zhPlJIIA==
+	:subject:to:to; s=fm1; t=1654507348; x=1654593748; bh=Xw4lnTY/et
+	JsJAGDFGc3jcxrakgTZHGFztPy9C0RzDM=; b=qxiiLfWULeAPQo8wYKlgqESjFG
+	6TGaZfecQYvAdffjoLWu9YG0TrJovLyO7ylqUihe6F61QahAqc0BAVqRy4Ucxxy4
+	DrxmKAJLMzMOgbfXVoP+AHuvh6QztQtYmBw4ibyH0LST0wlJmazaMMxuzMvSoMta
+	s3YBZb5JA644H4gnTon7TvG0pEfMZV9xrjpkm9Fh5FlMYGpn3gpkemo5Yyq+KG2a
+	LlhxrUovfCmLEph0pA7McLE9e/u+JYiDvoyXB723FRFYjBvXw6hEHQpzrDaGkgeo
+	kittXLPBx1KAA5i5K9YN2Y0eVrcEGROCfDa21n8f+jMnK1plVMDohSYuZlDw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1654507210; x=1654593610; bh=z7m5NyH/mEvLKqvSJdYSlrspdh+M
-	Ts/yya0ru7N26FY=; b=sbrGXNTxR5TdfVd9XeOtKLJTIcRoRlVQ8qFspvubS26F
-	HAalrbos69dp2KTHPA35dFYv4VGyqyMvTsuRWF79eIxQ1K8G7LrdTJRkaaovl+IJ
-	k6R+jmn/1dmeEzK0kHwHxHNqaSir+bco42FTjRWL0XkkLh23VKp7RXFnZi1SIlXP
-	iskVPwcKfPz2e3JzqYMiNhQ5laCSbRBjnY53YfSIrvCGlTU/zf9vCKrA4BgD8Ak+
-	giBzZ58DfkKib9PrnTOma3OAs3s/FZA4ts2Da9AoZvgpG1G97a6BVKeCZvVUgfmr
-	iRoU1QyZr1G8zFbL/1e3AdkkjIBFbvDoA4aCkNU5aQ==
-X-ME-Sender: <xms:yMadYutzqixSl1V29cRiJTAYqL1HrR3vGFnXsoxDG0WHDSAcgtcpCw>
-    <xme:yMadYjeZUhdXcVHVG62DiizmNmyYyiZKoY0PUjfiB3VOgSt1ihzAB-m8SnjXw3niO
-    YNAHYEDnKDdecQ216c>
-X-ME-Received: <xmr:yMadYpz-5gudxZxyK7dGKdUQIxbHwxlvpUjKcO0rTXETmznh5JNdW2AXwpCNIO-9yBflmDt--fJsIggQsx4v7eMcS8HA-EyG74Vz2CA>
+	fm2; t=1654507348; x=1654593748; bh=Xw4lnTY/etJsJAGDFGc3jcxrakgT
+	ZHGFztPy9C0RzDM=; b=PEwqST23OMlAUNHFqMxHnAJfKU40BvEfscyGrQViseSX
+	px/VVlVaH+85i1wn8bN9DA7pxQX5/Rxm5Zmo/ntfQmPFTukTpi+NRnAX23o72TF7
+	V5KBmBp5lnVpSAoYMAIQP4CCa0XL9IhN2Sg5yPHxMzUheZ50BpYNaZwKXLw3TRaY
+	TatwtKg9n/tMw8K4WTrtjSx4mQPhRPBSpekrPd+o9PdJ31SSjUsTWQQAn34Wq4Fg
+	3ph9Q0957ns9Xr+D4pChkbEj8qG/pzqR8cC4c4tuZpOy9lGyxyjLnLIQKjlfA86L
+	xz32lzWRe/283rcsK4w7GAZCkCsNYQ1UvgN0yUkovA==
+X-ME-Sender: <xms:U8edYg2cRD82UHQxi1oxy42mFBVxzggZweD4Nwu3WAAIGVxZDDk4dQ>
+    <xme:U8edYrE7XP7dBoaKUXxX-NGMjWuj3IvRvSuBjLHp7VkS6IB6S_Jx1TqjU0a0A6t8x
+    PfYVE0mSmsk6TPrQCk>
+X-ME-Received: <xmr:U8edYo7IcqcQ_YmKavdRNLFx3FiGjQf09ogJ_6Q8UX9yCopdZPW4avJhuyJQuJy7Bcjqz-_p53wK5pjg2dshDTVfA7tk8pRTitZScAE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgudegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -42,14 +42,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtvddgudegucetufdoteggod
     htthgvrhhnpeejgeeiveevvdfgffeftdevuefhheduveejieefgeejveeuhfetkeelgfev
     teefffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
     hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:yMadYpP8zd5pjLaNqCxVRXz30x0G8rRHh6WFl6XOHx3Yo15ZcWPHAg>
-    <xmx:yMadYu9gaHx2mf7xxSO4g40anA1MPc6DydauAssvAOj24MAyvNtueQ>
-    <xmx:yMadYhWcwt7-v2JIKGZ6Xcnn-YzsQL0x1g2r0SOIeiGW5q-l0GNUWg>
-    <xmx:ysadYv0M9YM2lun4ZAsPDydP4lij1j3v1HqRor7r1UaCa3n-1Yjv6Q>
+X-ME-Proxy: <xmx:U8edYp1k2rdN6LO_i3E36JF8vVN-xX-clV_1IrYu677gipX0WUG4dA>
+    <xmx:U8edYjGpYaHBOxOiONoCqdCg9oObmTyUyKXtkVsge35Si535KTsYBA>
+    <xmx:U8edYi-sqWw1vD9L4j8_KtpIJF59CU6yj1bz7VspQPAy4co9HE1VKA>
+    <xmx:VMedYr_puFd5iP3itjaz9la2pq6V6Vbt4L3B8XB-XInrG1Gjccl17g>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 6 Jun 2022 05:20:08 -0400 (EDT)
-Date: Mon, 6 Jun 2022 11:20:06 +0200
+ 6 Jun 2022 05:22:26 -0400 (EDT)
+Date: Mon, 6 Jun 2022 11:22:25 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Roman Stratiienko <r.stratiienko@gmail.com>
 Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
@@ -61,10 +61,11 @@ Cc: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>,
 	Roman Stratiienko <roman.o.stratiienko@globallogic.com>
 Subject: Re: [PATCH] drm/sun4i: sun8i: Add support for pixel blend mode
  property
-Message-ID: <20220606092006.4bgxibmayv44juox@houat>
+Message-ID: <20220606092225.yxyw77mtuqpbmd35@houat>
 References: <20220605154731.17362-1-roman.o.stratiienko@globallogic.com>
  <4714286.GXAFRqVoOG@jernej-laptop>
  <CAGphcdniPFdqgLcpUc88ak9GzNaCvmj_TDVYTOe2bXto-Y12FQ@mail.gmail.com>
+ <20220606092006.4bgxibmayv44juox@houat>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -72,67 +73,72 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xv3a7fv5iml6x7mx"
+	protocol="application/pgp-signature"; boundary="ycmmdvpgrnhgi2cu"
 Content-Disposition: inline
-In-Reply-To: <CAGphcdniPFdqgLcpUc88ak9GzNaCvmj_TDVYTOe2bXto-Y12FQ@mail.gmail.com>
+In-Reply-To: <20220606092006.4bgxibmayv44juox@houat>
 
 
---xv3a7fv5iml6x7mx
+--ycmmdvpgrnhgi2cu
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 06, 2022 at 11:17:20AM +0300, Roman Stratiienko wrote:
-> Hello Jernej,
->=20
-> Thank you for having a look.
->=20
-> =D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:37, Jernej =C5=
-=A0krabec <jernej.skrabec@gmail.com>:
-> >
-> > Dne nedelja, 05. junij 2022 ob 17:47:31 CEST je Roman Stratiienko napis=
-al(a):
-> > > Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
-> > > "None", "Pre-multiplied", "Coverage"
+On Mon, Jun 06, 2022 at 11:20:06AM +0200, Maxime Ripard wrote:
+> On Mon, Jun 06, 2022 at 11:17:20AM +0300, Roman Stratiienko wrote:
+> > Hello Jernej,
+> >=20
+> > Thank you for having a look.
+> >=20
+> > =D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:37, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
 > > >
-> > > Add the blend mode property and route it to the appropriate registers.
+> > > Dne nedelja, 05. junij 2022 ob 17:47:31 CEST je Roman Stratiienko nap=
+isal(a):
+> > > > Allwinner DE2 and DE3 hardware support 3 pixel blend modes:
+> > > > "None", "Pre-multiplied", "Coverage"
+> > > >
+> > > > Add the blend mode property and route it to the appropriate registe=
+rs.
+> > > >
+> > > > Note:
+> > > > "force_premulti" parameter was added to handle multi-overlay channel
+> > > > cases in future changes. It must be set to true for cases when more
+> > > > than 1 overlay layer is used within a channel and at least one of t=
+he
+> > > > overlay layers within a group uses premultiplied blending mode.
 > > >
-> > > Note:
-> > > "force_premulti" parameter was added to handle multi-overlay channel
-> > > cases in future changes. It must be set to true for cases when more
-> > > than 1 overlay layer is used within a channel and at least one of the
-> > > overlay layers within a group uses premultiplied blending mode.
-> >
-> > Please remove this parameter. It's nothing special, so it can be easily=
- added
-> > once it's actually needed. For now, it only complicates code.
+> > > Please remove this parameter. It's nothing special, so it can be easi=
+ly added
+> > > once it's actually needed. For now, it only complicates code.
+> >=20
+> > I would prefer keeping it if you do not have any strong opinion against=
+ it.
+> >=20
+> > I am working now on exposing all overlays, so it will be needed soon an=
+yway.
 >=20
-> I would prefer keeping it if you do not have any strong opinion against i=
-t.
->=20
-> I am working now on exposing all overlays, so it will be needed soon anyw=
-ay.
+> KMS assumes pre-multiplied alpha anyway, so we shouldn't need a
+> parameter to force it: we're always going to force it.
 
-KMS assumes pre-multiplied alpha anyway, so we shouldn't need a
-parameter to force it: we're always going to force it.
+My bad, I got confused with your other patch.
 
-> Also it helps to better understand the COV2PREMULT mode which has not
-> the best description in the datasheet. Only after testing this
-> register using devmem I became confident on its purpose.
-
-Sounds like a good job for a comment in the source code.
+Still, I agree with Jernej, if it's not needed it only complicates the
+code for no particular reason. If you need it at some point in the
+future, add it then. Otherwise, it's hard to reason about, since we
+don't know what are the expectations that those future patches will
+bring.
 
 Maxime
 
---xv3a7fv5iml6x7mx
+--ycmmdvpgrnhgi2cu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYp3GxgAKCRDj7w1vZxhR
-xeljAP9mEJgJMfjtVvkdDxEKuUW2ug6RTtPkaaitLKaDGcVC6QD/dXp7EEhjGu1b
-XDV2tbEGEJAHonQrLQMqo8eOo3pFZA0=
-=8iFG
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYp3HUQAKCRDj7w1vZxhR
+xQ7JAPwOH2WywNctfCg4rbYtCxC02Owlfgb33BXYypx4Py8rtQEAp7OVVf9HelNl
+uO4X3n7onqZVEW/knsWlXLnynOLuLgo=
+=oSp3
 -----END PGP SIGNATURE-----
 
---xv3a7fv5iml6x7mx--
+--ycmmdvpgrnhgi2cu--
