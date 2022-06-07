@@ -1,75 +1,126 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com (mail-oln040092070060.outbound.protection.outlook.com [40.92.70.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24D447C
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 07:44:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654587896; x=1686123896;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=OSBO16dRCwR6Wb79tDIGbzqHZ301kVBrdpEBr6LRMRc=;
-  b=e9d8bm4hLVivdzTQ0m6PKVs6DWuZ2mL3otYuVjJXNkC8BnmZjZuIZkH0
-   7mbVn3LedlxhapVD9+LnpJ3gqHw7hxBVnc2SMm1PpFZJ9SIfFbdEsp5tK
-   HfSi3yOixk/bUe+sBitZeEKr58FehiMfs+8ZpnPnsAqoUndmf0KG08gx7
-   RpWtQ+zEVkzbJvvkKm8/MGGqjzHNcqqRkCKWg/yo1y21ibYLPcjxsQY0m
-   PGoRuZfX+xaeTsZHAJzkjZetoBYtXWnJCK1r1hLYXkptq/k5MLgI2AUGG
-   6OOiEjoo5WHa3ADkZ8fHKDjQ5ALpTItILIVdgFWSG1YnZNHntfWafemma
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="363054753"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="363054753"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 00:44:55 -0700
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="584086830"
-Received: from zwang64-mobl1.ccr.corp.intel.com (HELO [10.249.174.202]) ([10.249.174.202])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 00:44:45 -0700
-Message-ID: <d357966b-7abd-f8f3-3ca7-3c99f5e075b9@linux.intel.com>
-Date: Tue, 7 Jun 2022 15:44:43 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCDD15A2
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 09:52:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=PLwYTqHWpNJs4ojHzT95lvL0kuc/w9Kq1Y0EJJcHiU14xYd6WfBJqmrCFhYK8hwHI8MDwAjK5Xb3+dt9eROaDjkz2IquA/Ue05gyBojKP9X3Gw/TPKKAdjM/DoZMnfx2BhEIvb+nPYCPETOHJYfgKLuVzyOq4zYHqPdaAG7t2MEoAn4MCcXCqjE3QDQ5FeNbUSOxtqj95AL0fdBaL1wkDF0xO7MsmBCx2LbDBDTIeUkTs5afVZppQpX/ty59pU9MHGLNt9Fi8x2PS/lRvv6UQGEcje9CohK6WwFpx8Oz+HzWIZtBd4CnFj9WnAaSU2mIGAv6X/1d5ULPFdOEPEcDTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k5qMDCwkWUgNVmMOCpyRappYHFqM9JD7NbBNpzvFLVI=;
+ b=cXyOKfbgX4Kx3B8rgbr7poHmdNMPeaAgcB+ev9ZWwWnTGp90GFNK9nvuSAQdzp+0udLR2Dmfd1AQyEJs9luR77lXVygHdzpHUNncxFGMFrbc02dXgWOQuzfWD6OPJGw+D74pGrN93Kt6tmvK94XuKoqgGM68QJ1JeXWBCp6JXug7Fqo60R86Id/TzVrj5KQ8aw+vEaGqVWoifaDtRCTioYJTuzuCLoRrm0cBHK1Rjz6QBdUozYt/I9iIzMGyb3P/N+HuxG2RAhCvLvnY+X9TfOZhoNvm8On4FKMus8b7fFPwf73CUspSxgFZ+0ThLANwnOBo4Z8/tZ+lrt8YL2uOgw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k5qMDCwkWUgNVmMOCpyRappYHFqM9JD7NbBNpzvFLVI=;
+ b=jZSuQNt04T2RVEUS1qkdrH/KAHq+Ut5g1d5MfnRk15b7zZ3VnFSC06WnA7EpfXEf9WbmnlkydUEsJ5nW74VnUtKQ7apl5E9Xpj8Cnlke0236Eg9cp5jdC2jtB92nIFOI50XXPt4Fwl1z0S1GWCnQOnRXQjBMVW7wAXLxzr+0EWnHwLECJGJqD4A3CfREfnTiOJKSPBJHhcoFukT5cEbzXyslCdYiQPlBvf06BYuh1J6yw/vEtNquhQkYB525HIQ+GM3TJb5zNaMpa+TY1XC6C2Qh9SLN49NBs09zzWXL2cDiZrTOifcRLvMx947Dnws/9p4Cvc4tMYIIrrv6+8InJw==
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c2::10)
+ by PAXP189MB1878.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:283::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Tue, 7 Jun
+ 2022 09:52:03 +0000
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d]) by PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d%6]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
+ 09:52:03 +0000
+From: Saud Farooqui <farooqui_saud@hotmail.com>
+To: jernej.skrabec@gmail.com,
+	maxime@cerno.tech,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	wens@csie.org,
+	daniel@ffwll.ch
+Cc: Saud Farooqui <farooqui_saud@hotmail.com>
+Subject: [PATCH] drm/sun4i: Add return statement in sun4i_layer_format_mod_supported Add a missing return after the IS_ERR_OR_NULL() check in sun4i_layer_format_mod_supported()
+Date: Tue,  7 Jun 2022 14:51:50 +0500
+Message-ID:
+ <PA4P189MB142180104916392C559B44308BA59@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [JnhlPj6BsCw7ttc1tmkj39KlWaUVH3zK]
+X-ClientProxiedBy: DX1P273CA0019.AREP273.PROD.OUTLOOK.COM
+ (2603:1086:300:20::6) To PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:c2::10)
+X-Microsoft-Original-Message-ID:
+ <20220607095150.86798-1-farooqui_saud@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Cc: baolu.lu@linux.intel.com, suravee.suthikulpanit@amd.com,
- alyssa@rosenzweig.io, alim.akhtar@samsung.com, dwmw2@infradead.org,
- yong.wu@mediatek.com, mjrosato@linux.ibm.com, gerald.schaefer@linux.ibm.com,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- cohuck@redhat.com, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org,
- kvm@vger.kernel.org
-Subject: Re: [PATCH 0/5] Simplify vfio_iommu_type1 attach/detach routine
-Content-Language: en-US
-To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, joro@8bytes.org,
- will@kernel.org, marcan@marcan.st, sven@svenpeter.dev, robin.murphy@arm.com,
- robdclark@gmail.com, m.szyprowski@samsung.com,
- krzysztof.kozlowski@linaro.org, agross@kernel.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, heiko@sntech.de,
- orsonzhai@gmail.com, baolin.wang7@gmail.com, zhang.lyra@gmail.com,
- wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- jean-philippe@linaro.org, alex.williamson@redhat.com
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220606061927.26049-1-nicolinc@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1eec91e6-d0f6-45ef-17de-08da486b5fc7
+X-MS-Exchange-SLBlob-MailProps:
+	6H6McBavlAg01BqTz547HMQ6v9jxklqohcjs9mAwA7olnnZR7LxGRjvF/znUhyPL4u57c1+aMuSw+QtwTuesiBodloy/ErDia71oBLGiDp/ypMn093EPHEEcCwzy9DxxbBsyPmRX0XyXe9U1bhLH3kRqJi+3KPwhSsfm/laCRMLSvtWbYHBPBuw8r3/bfM/FEzFpU6D/eOGyXLulunqL1yDIoup4gcBN53r/ZekmrH8taIJEL3/A+VnKhgK69gVx9gSH6i5CrOwFrhr+rYfOgWxIx6WfZBVYnXEs+CGwlwRy2+c8F+jOlDeRHn8PY1YoBXBlYxTA6DQUGEk2JR/1gye06CRqXJq/CEYLhHdgGVVjtnCtKJ9LF+OutoRIIq9OVfSAYJzR/MMVIu/Ro0GripN3ejDkWlfU1kJ3vhjAA6RBAht5g8xCEFi0kdfdpB22PRUqjAGFh8hwxp2jVwtCzR/bX3mWBWHdv8DuugfLqha6ECvjVJ7dW+dN7CeAE0xBeFrIJWiyRze7kTqgAauAqPf3W8wzEZgPHMtMZbecV5D8gm8cfejNsK6bD++5njrd4wXcOqNZyiHHGiECM75Nsv2ymYZs1+k1WJg9duwNvsTUIVHyzuGfMmkearLS+eKGC76Q3310ulabiHMFVr+7F6EFsmij6ty2IywK0BuJxYn0AzvfERKxwu/SJlt6MgBPpkDXEWfcZ9boKBdfnrAQeKqTEgTUQc5ikXE0y/po5R05r/xb9VCVPC3xk/cz1uf63hHTsJUHvi4=
+X-MS-TrafficTypeDiagnostic: PAXP189MB1878:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Sz6wfjU8Rwj8IXC8X/P2KBYVsiesWvM6NQea4L2Czy9UsTQA1hTfJUhozkPSU1GQKv0y68XOOx11MXz5Bf8EUOf0xWPZFyDmryWw6pPKR9DoCb/2Q3NfW40Yu5LRcsSGdMzp9+KToL2Z7ddww4M4qSGJ1DwxEKHn6MbWdo5ZbHLKPLzOZCwZztp0AJTz2BGIeGPKt9+BT7RT5XqfsnDb0u2KitSVzrEDThr9UC/moeIE8QMZSoWaRdnw+kXMa8fUdoFrnu42R6OC6UgSL5uTYeuNT0e877+pU/FKcBoXEY5B0xhur9mWtmPEl0akGZaZiJosG49f/XoYnqOA0+zgx1iEYO6liseTAWK8Z8/bAjdzGZ3LaupzPuHVZm/K+UXmShX9FnzROiHY0zXnBa2PXwU8VBOgFGG8i+s7ZJQuWwsd9eOGYm3kG2SKKkVzjpgc3TAR9wv8U5o4NXRn/hbewW6++UzRgqPC+gMex329Ubq7LvOrkESa7YDkqjw/6vTcOAYrloOWAm5rUC0mmbEnIsO+zW+G05hTZY5v4pim0AA4+lOu4BWEcoCMYF1yWUJ1dlSc6jGveYDzvPoiyckqwg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?4/eT37wELpW6TcZWb6AX2W4PDaUAnb1Mnm4FdW2hmWa5GfCKezbS2vRrqcgO?=
+ =?us-ascii?Q?Fm4D5T5kxKA4/DtJdN6Adf1M/LtfjCaJ2kOP6FcqOZsonHwtHyBCBbZr66yL?=
+ =?us-ascii?Q?Dz2YdXIn6vcAtXzOT4F0q7P69mCD+VlTBs6Gel7hnoIXXt5TZwGKyRzNSP6M?=
+ =?us-ascii?Q?yfve7KnVlgNRYusaBsTXXR3Bg9T7LBpIqpzUVLC1yMMd+xfRR6W2eU61PIo5?=
+ =?us-ascii?Q?OOsx1bT+iKx3dZtbAL4y1fQUOV/CrvL0ZlviJmZKAIHdrmHlKZ8hpvuQwMc/?=
+ =?us-ascii?Q?yNh+u3HawzlORr4hXg1hnmjpO0T/qxVe1M6Exv0X4qnKH4SIqpp/PNwqzYve?=
+ =?us-ascii?Q?28PQlfrhgVM8O44qov8QKdVP3CuttghzovvTXJxbbL77v6NQUktZEXj8CNmv?=
+ =?us-ascii?Q?uwvEf5iW3xeJjJXnfax6ONlQO3wJ5sFkMy+JLukVEaYZXCMfUoQx7Ggb9M0x?=
+ =?us-ascii?Q?TwgkkAR9jpD6SOdWb8WVW+eAutGPUDL3DKA9Oh72utdYZV3DCfz2h5vq0/m5?=
+ =?us-ascii?Q?uRmwBByO6gXgdW0kcOOx6Uk/YF2fLFwyZx9hUsLVqdAjZZEHdiRPnct0O7yM?=
+ =?us-ascii?Q?l4/rmkXJcbwTrgbSHwrelOkRz6fhc/vR6aHyI/Nlkn5o1JDt+HJVSH0mZ90d?=
+ =?us-ascii?Q?Kxmgbd3cw1d9RgZgOOdOqghJNW4AGG/IiXozSaNNfqRfJU0jWjYLYdpJftAt?=
+ =?us-ascii?Q?PpdCWWbGkgS8/DcvlPf29Pnq0csA8gOzKPIwdRTiVB9QyNVUzLLZwY/6HL59?=
+ =?us-ascii?Q?lNGcje59Fb9+zyHezCXV8PErytsKZHds7MLY4Gf5HW9f/wtIMkm3RInn3AOi?=
+ =?us-ascii?Q?K3J/9mlf8A8YQEN7awDhdknQY+FngEOzgdVjwbWxoaI38P2gCw2wH9N8mxyS?=
+ =?us-ascii?Q?jPFi5o23Y2lyhXMYWWNRudHrxrwkq12goUonDjv4GwTd62FbdHJpcjutFMaE?=
+ =?us-ascii?Q?bSFOC9FvyYpcehiqU50tXnzNACfXVKkyw66r2JYyPQB9DXXCTaUHASOnwOQw?=
+ =?us-ascii?Q?4scaJuILKR+AgsgNP/deuvlEVL/MkxhJCoxfJzv/FxwZVABlVHOU27rc1evi?=
+ =?us-ascii?Q?bpwPVFwZaLqwytG45ME0R6TU5bwPXmWYtRbH7aiEG8rlKdad/2uxofJ8Alhb?=
+ =?us-ascii?Q?pF82w5FN6qWWXM2nQSllmlVCpwjA7s6QCHUx7YALiCcu1QPubrkvLhoxXbSd?=
+ =?us-ascii?Q?WRrVSQIX2L6fC13GEXG8EKy33DxEG2eIDlriBudeX4L4vqE3WlJ5ASs4J9e1?=
+ =?us-ascii?Q?l8G9waTUzDr6NFzNdWlTxY/8h7g3cO8NBm0ap9rq2xkzVxiCqIGTY80ehRF0?=
+ =?us-ascii?Q?pjiyOVD5ezdhNRG1jkj5LPQN+aQu6vIJi0xj2YNRcJaFf4UqKeTxh5F2NyXO?=
+ =?us-ascii?Q?d1oWTEQSyM4Q5WtFBgbBP9ALUNiXNMDUIACRR1y+8Tei2ZxeEHmcRSPcKEBW?=
+ =?us-ascii?Q?LWfWwgPEqso=3D?=
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eec91e6-d0f6-45ef-17de-08da486b5fc7
+X-MS-Exchange-CrossTenant-AuthSource: PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 09:52:03.4898
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP189MB1878
 
-On 2022/6/6 14:19, Nicolin Chen wrote:
-> Worths mentioning the exact match for enforce_cache_coherency is removed
-> with this series, since there's very less value in doing that since KVM
-> won't be able to take advantage of it -- this just wastes domain memory.
-> Instead, we rely on Intel IOMMU driver taking care of that internally.
+Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_layer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-After reading this series, I don't see that Intel IOMMU driver needs any
-further change to support the new scheme. Did I miss anything?
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index 6d43080791a0..85fb9e800ddf 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -117,7 +117,7 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
+ 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+ 
+ 	if (IS_ERR_OR_NULL(layer->backend->frontend))
+-		sun4i_backend_format_is_supported(format, modifier);
++		return sun4i_backend_format_is_supported(format, modifier);
+ 
+ 	return sun4i_backend_format_is_supported(format, modifier) ||
+ 	       sun4i_frontend_format_is_supported(format, modifier);
+-- 
+2.25.1
 
-Best regards,
-baolu
