@@ -1,85 +1,66 @@
-Received: from mga06.intel.com (mga06b.intel.com [134.134.136.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC8B7C
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 12:42:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1654605766; x=1686141766;
-  h=message-id:date:mime-version:cc:subject:to:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=7CnaOaKftZFuU6zS5ejOPSw/a0TRQ7MfLEcH+ST55pI=;
-  b=npA/EwVLm80RPrCVVatUyQvh9x9gm5H6ghJ6dgiol7bnt46yPC4MAeIP
-   hodIq74n82eCvLkbY6D4n1U5g+cmclFLiS1lWHbglspj33Yx0VXhpW1xu
-   XXW9UHZ96K+9IXY9b2Fj6DgEmQ3WeVzrXk0/t33U8iB4Eu56WDtZMlNUm
-   pxMK+4gZexYxZYaxfCiELvhZ9RnU5kjk71ZGLbc98m1622I3PzO/VRn3x
-   XFvHXiaR2OZx8kR0okSiNW3ZGnzZm376te9757QJrrGqkayUVpgzKPh+f
-   935LMOkD4M2Ww6r8zdK9pommUkbicGZ9Jd72qeSG0NnIawB8Rb10j8+x0
-   w==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10370"; a="338101934"
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="338101934"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 05:42:44 -0700
-X-IronPort-AV: E=Sophos;i="5.91,283,1647327600"; 
-   d="scan'208";a="584184405"
-Received: from zwang64-mobl1.ccr.corp.intel.com (HELO [10.249.174.202]) ([10.249.174.202])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2022 05:42:34 -0700
-Message-ID: <3d0b2863-bb4f-31e1-d54e-09ddf4762d43@linux.intel.com>
-Date: Tue, 7 Jun 2022 20:42:32 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EBE928FB
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 16:08:10 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id v7so14557440ilo.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Jun 2022 09:08:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=IcVu4WajHv6XPQv1yYvHjVGQzqBrXJ6uvkB7WM1ORUk=;
+        b=ghG4HlxCb/r/Ek/WP8KcGjcnedG4mRHTo+yMDN8I3b/wcd7UTLoANXy5u9/rIY+JpP
+         3NbcZQb9227wwH8UiB8WkGSeGzVgkpQlQ4O+ApbpYFtEgOEhSoIT+h17x1pYZG4RDlKA
+         5JfgclnQ+UqZRvNMqZHjjJxHgOzdAd8m3Kyq2ytr7Pg3ez2QHAflwKFgxNkC8uenlz8+
+         F6EgyQkAAo6va2T7WOOlR0u3vrRVzeG7lfKnAk9QWZ+jk3ZIuMRqA4qP/taKBOnjsIRQ
+         tq3Z5/e0MicKV9fTXQlAREkk9iHMsZ/bn3hwCzdgvnzJ1CnirIX95CRecmgZWzZlkAki
+         0kbQ==
+X-Gm-Message-State: AOAM530p+AwmOw1cDsnx0yt0DZGmbL5urfdbxFolxRq5gtqNDuOltQ7I
+	YNCNcjLCyc5P59B0uSa8vQ==
+X-Google-Smtp-Source: ABdhPJwkB6tWssEJWTfCQGirJEa1uIPrrUEYFGpmaCAPiwN8q4TlO6GszS0vcXmTn6BhoiBisqAo5w==
+X-Received: by 2002:a05:6e02:1949:b0:2d3:c0fb:322 with SMTP id x9-20020a056e02194900b002d3c0fb0322mr17090293ilu.242.1654618089339;
+        Tue, 07 Jun 2022 09:08:09 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id i11-20020a02b68b000000b0033167715cf9sm5989686jam.27.2022.06.07.09.08.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Jun 2022 09:08:08 -0700 (PDT)
+Received: (nullmailer pid 3350333 invoked by uid 1000);
+	Tue, 07 Jun 2022 16:08:07 -0000
+Date: Tue, 7 Jun 2022 10:08:07 -0600
+From: Rob Herring <robh@kernel.org>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-watchdog@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Ulf Hansson <ulf.hansson@linaro.org>, Hu Ziji <huziji@marvell.com>, linux-arm-kernel@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, Guenter Roeck <linux@roeck-us.net>, Thierry Reding <thierry.reding@gmail.com>, linux-tegra@vger.kernel.org, Wim Van Sebroeck <wim@linux-watchdog.org>, linux-mmc@vger.kernel.org, Jonathan Hunter <jonathanh@nvidia.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH] dt-bindings: Drop more redundant 'maxItems/minItems' in
+ if/then schemas
+Message-ID: <20220607160807.GA3350189-robh@kernel.org>
+References: <20220606225137.1536010-1-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Cc: baolu.lu@linux.intel.com, Nicolin Chen <nicolinc@nvidia.com>,
- joro@8bytes.org, will@kernel.org, marcan@marcan.st, sven@svenpeter.dev,
- robin.murphy@arm.com, robdclark@gmail.com, m.szyprowski@samsung.com,
- krzysztof.kozlowski@linaro.org, agross@kernel.org,
- bjorn.andersson@linaro.org, matthias.bgg@gmail.com, heiko@sntech.de,
- orsonzhai@gmail.com, baolin.wang7@gmail.com, zhang.lyra@gmail.com,
- wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org,
- jean-philippe@linaro.org, alex.williamson@redhat.com,
- suravee.suthikulpanit@amd.com, alyssa@rosenzweig.io,
- alim.akhtar@samsung.com, dwmw2@infradead.org, yong.wu@mediatek.com,
- mjrosato@linux.ibm.com, gerald.schaefer@linux.ibm.com,
- thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
- cohuck@redhat.com, iommu@lists.linux-foundation.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-s390@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org, virtualization@lists.linux-foundation.org,
- kvm@vger.kernel.org
-Subject: Re: [PATCH 0/5] Simplify vfio_iommu_type1 attach/detach routine
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
- <d357966b-7abd-f8f3-3ca7-3c99f5e075b9@linux.intel.com>
- <20220607115820.GH1343366@nvidia.com>
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <20220607115820.GH1343366@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220606225137.1536010-1-robh@kernel.org>
 
-On 2022/6/7 19:58, Jason Gunthorpe wrote:
-> On Tue, Jun 07, 2022 at 03:44:43PM +0800, Baolu Lu wrote:
->> On 2022/6/6 14:19, Nicolin Chen wrote:
->>> Worths mentioning the exact match for enforce_cache_coherency is removed
->>> with this series, since there's very less value in doing that since KVM
->>> won't be able to take advantage of it -- this just wastes domain memory.
->>> Instead, we rely on Intel IOMMU driver taking care of that internally.
->>
->> After reading this series, I don't see that Intel IOMMU driver needs any
->> further change to support the new scheme. Did I miss anything?
+On Mon, 06 Jun 2022 17:51:36 -0500, Rob Herring wrote:
+> Another round from new cases in 5.19-rc of removing redundant
+> minItems/maxItems when 'items' list is specified. This time it is in
+> if/then schemas as the meta-schema was failing to check this case.
 > 
-> You already did it :)
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../bindings/memory-controllers/nvidia,tegra186-mc.yaml        | 3 ---
+>  Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml | 1 -
+>  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml  | 1 -
+>  3 files changed, 5 deletions(-)
+> 
 
-Just as I thought. Thank you!
-
-Best regards,
-baolu
-
+Applied, thanks!
