@@ -1,126 +1,139 @@
-Received: from EUR03-AM5-obe.outbound.protection.outlook.com (mail-oln040092070060.outbound.protection.outlook.com [40.92.70.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCDD15A2
-	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 09:52:05 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PLwYTqHWpNJs4ojHzT95lvL0kuc/w9Kq1Y0EJJcHiU14xYd6WfBJqmrCFhYK8hwHI8MDwAjK5Xb3+dt9eROaDjkz2IquA/Ue05gyBojKP9X3Gw/TPKKAdjM/DoZMnfx2BhEIvb+nPYCPETOHJYfgKLuVzyOq4zYHqPdaAG7t2MEoAn4MCcXCqjE3QDQ5FeNbUSOxtqj95AL0fdBaL1wkDF0xO7MsmBCx2LbDBDTIeUkTs5afVZppQpX/ty59pU9MHGLNt9Fi8x2PS/lRvv6UQGEcje9CohK6WwFpx8Oz+HzWIZtBd4CnFj9WnAaSU2mIGAv6X/1d5ULPFdOEPEcDTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k5qMDCwkWUgNVmMOCpyRappYHFqM9JD7NbBNpzvFLVI=;
- b=cXyOKfbgX4Kx3B8rgbr7poHmdNMPeaAgcB+ev9ZWwWnTGp90GFNK9nvuSAQdzp+0udLR2Dmfd1AQyEJs9luR77lXVygHdzpHUNncxFGMFrbc02dXgWOQuzfWD6OPJGw+D74pGrN93Kt6tmvK94XuKoqgGM68QJ1JeXWBCp6JXug7Fqo60R86Id/TzVrj5KQ8aw+vEaGqVWoifaDtRCTioYJTuzuCLoRrm0cBHK1Rjz6QBdUozYt/I9iIzMGyb3P/N+HuxG2RAhCvLvnY+X9TfOZhoNvm8On4FKMus8b7fFPwf73CUspSxgFZ+0ThLANwnOBo4Z8/tZ+lrt8YL2uOgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k5qMDCwkWUgNVmMOCpyRappYHFqM9JD7NbBNpzvFLVI=;
- b=jZSuQNt04T2RVEUS1qkdrH/KAHq+Ut5g1d5MfnRk15b7zZ3VnFSC06WnA7EpfXEf9WbmnlkydUEsJ5nW74VnUtKQ7apl5E9Xpj8Cnlke0236Eg9cp5jdC2jtB92nIFOI50XXPt4Fwl1z0S1GWCnQOnRXQjBMVW7wAXLxzr+0EWnHwLECJGJqD4A3CfREfnTiOJKSPBJHhcoFukT5cEbzXyslCdYiQPlBvf06BYuh1J6yw/vEtNquhQkYB525HIQ+GM3TJb5zNaMpa+TY1XC6C2Qh9SLN49NBs09zzWXL2cDiZrTOifcRLvMx947Dnws/9p4Cvc4tMYIIrrv6+8InJw==
-Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c2::10)
- by PAXP189MB1878.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:283::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.19; Tue, 7 Jun
- 2022 09:52:03 +0000
-Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
- ([fe80::5ae:1a99:f05c:b75d]) by PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
- ([fe80::5ae:1a99:f05c:b75d%6]) with mapi id 15.20.5314.019; Tue, 7 Jun 2022
- 09:52:03 +0000
-From: Saud Farooqui <farooqui_saud@hotmail.com>
-To: jernej.skrabec@gmail.com,
-	maxime@cerno.tech,
-	samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	wens@csie.org,
-	daniel@ffwll.ch
-Cc: Saud Farooqui <farooqui_saud@hotmail.com>
-Subject: [PATCH] drm/sun4i: Add return statement in sun4i_layer_format_mod_supported Add a missing return after the IS_ERR_OR_NULL() check in sun4i_layer_format_mod_supported()
-Date: Tue,  7 Jun 2022 14:51:50 +0500
-Message-ID:
- <PA4P189MB142180104916392C559B44308BA59@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TMN: [JnhlPj6BsCw7ttc1tmkj39KlWaUVH3zK]
-X-ClientProxiedBy: DX1P273CA0019.AREP273.PROD.OUTLOOK.COM
- (2603:1086:300:20::6) To PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:c2::10)
-X-Microsoft-Original-Message-ID:
- <20220607095150.86798-1-farooqui_saud@hotmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610F57F
+	for <linux-sunxi@lists.linux.dev>; Tue,  7 Jun 2022 10:43:17 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id a2so21519540lfg.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 07 Jun 2022 03:43:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8XdRg5mTQzw6nhVkPbcttepeHu1kmSLwBbs3fva93xc=;
+        b=N1DSIYQ2tUBiiR928h/wpbuAkWoyNemmJ20vBlcsKVQyNN84AnPudb55G8X5EEHZc5
+         VrfLCbnWDAtsrhHYhabH4L0BcK6Yj8HILDRD4QS8o9jivIkV09uQ9k8+flwSL9YhpfOf
+         EKIY6RpNWcq9H5P5HOecjEdKbfbUTACnthsEE+FVdO9ZPFQkU20CO5hbDY+TsXwi7Gyk
+         XR89OVy0Qnt+8Lqc8HgO4+mf7B2XbeP3Iw4IkdQhRpmxypzV+y4NmZjw14ztQ0cTRyjV
+         Vc9XiSpbooXYnaIEGWYbXJ0j+c6+AycmpTWR911QhQRT0pklscDEgFFUW/dz8ZLGdIVr
+         VVCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8XdRg5mTQzw6nhVkPbcttepeHu1kmSLwBbs3fva93xc=;
+        b=EXezC4TDT2xSNwCmeP+wy/60Dc54D2UVUe6TXkhdtkYhb5YTyX7YikBw2vo2ggpu84
+         ToCDs7rZ1BUraft3IzzG0zq7VB3nCfdncbZJ1EOm5kkVh2JtfOr5tWltR7yF38hC0owb
+         YC1CC+bYIb67CIFOhidaxRdyiZ4oYB0uEEaGKPxye6eXWIvMKJSTC9ms7wksrczEWyuf
+         menKaVEopa5i4TyjTDz6nS9H6hZwi997wR9VVNJdSnrJchvlIR947P25LPugUmpvFCfT
+         26fWs+ttC10CdVQre+5mhrejUga3wD7++8EFbMFAII8g+bPPTLqFoCCiwq4FyGrB7H7n
+         aCUw==
+X-Gm-Message-State: AOAM530O1xKCzsBlOSKwgLN/IospIB115yZDdwyZigjMpLwzqGOHrdrc
+	ldXtxDlUk9wL7fAPJLFU639dotU9FG92exBCon4u5w==
+X-Google-Smtp-Source: ABdhPJzxvjAZjQF6R+Mrr94IoW1X7wi8uwFKBgPf5GLnc+Gvu4doMpfp0SK0kukM6bfhDVOV0zyEW3g+vrtCParwkeY=
+X-Received: by 2002:a05:6512:403:b0:479:1627:a9b7 with SMTP id
+ u3-20020a056512040300b004791627a9b7mr15634227lfk.233.1654598595349; Tue, 07
+ Jun 2022 03:43:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1eec91e6-d0f6-45ef-17de-08da486b5fc7
-X-MS-Exchange-SLBlob-MailProps:
-	6H6McBavlAg01BqTz547HMQ6v9jxklqohcjs9mAwA7olnnZR7LxGRjvF/znUhyPL4u57c1+aMuSw+QtwTuesiBodloy/ErDia71oBLGiDp/ypMn093EPHEEcCwzy9DxxbBsyPmRX0XyXe9U1bhLH3kRqJi+3KPwhSsfm/laCRMLSvtWbYHBPBuw8r3/bfM/FEzFpU6D/eOGyXLulunqL1yDIoup4gcBN53r/ZekmrH8taIJEL3/A+VnKhgK69gVx9gSH6i5CrOwFrhr+rYfOgWxIx6WfZBVYnXEs+CGwlwRy2+c8F+jOlDeRHn8PY1YoBXBlYxTA6DQUGEk2JR/1gye06CRqXJq/CEYLhHdgGVVjtnCtKJ9LF+OutoRIIq9OVfSAYJzR/MMVIu/Ro0GripN3ejDkWlfU1kJ3vhjAA6RBAht5g8xCEFi0kdfdpB22PRUqjAGFh8hwxp2jVwtCzR/bX3mWBWHdv8DuugfLqha6ECvjVJ7dW+dN7CeAE0xBeFrIJWiyRze7kTqgAauAqPf3W8wzEZgPHMtMZbecV5D8gm8cfejNsK6bD++5njrd4wXcOqNZyiHHGiECM75Nsv2ymYZs1+k1WJg9duwNvsTUIVHyzuGfMmkearLS+eKGC76Q3310ulabiHMFVr+7F6EFsmij6ty2IywK0BuJxYn0AzvfERKxwu/SJlt6MgBPpkDXEWfcZ9boKBdfnrAQeKqTEgTUQc5ikXE0y/po5R05r/xb9VCVPC3xk/cz1uf63hHTsJUHvi4=
-X-MS-TrafficTypeDiagnostic: PAXP189MB1878:EE_
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	Sz6wfjU8Rwj8IXC8X/P2KBYVsiesWvM6NQea4L2Czy9UsTQA1hTfJUhozkPSU1GQKv0y68XOOx11MXz5Bf8EUOf0xWPZFyDmryWw6pPKR9DoCb/2Q3NfW40Yu5LRcsSGdMzp9+KToL2Z7ddww4M4qSGJ1DwxEKHn6MbWdo5ZbHLKPLzOZCwZztp0AJTz2BGIeGPKt9+BT7RT5XqfsnDb0u2KitSVzrEDThr9UC/moeIE8QMZSoWaRdnw+kXMa8fUdoFrnu42R6OC6UgSL5uTYeuNT0e877+pU/FKcBoXEY5B0xhur9mWtmPEl0akGZaZiJosG49f/XoYnqOA0+zgx1iEYO6liseTAWK8Z8/bAjdzGZ3LaupzPuHVZm/K+UXmShX9FnzROiHY0zXnBa2PXwU8VBOgFGG8i+s7ZJQuWwsd9eOGYm3kG2SKKkVzjpgc3TAR9wv8U5o4NXRn/hbewW6++UzRgqPC+gMex329Ubq7LvOrkESa7YDkqjw/6vTcOAYrloOWAm5rUC0mmbEnIsO+zW+G05hTZY5v4pim0AA4+lOu4BWEcoCMYF1yWUJ1dlSc6jGveYDzvPoiyckqwg==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?4/eT37wELpW6TcZWb6AX2W4PDaUAnb1Mnm4FdW2hmWa5GfCKezbS2vRrqcgO?=
- =?us-ascii?Q?Fm4D5T5kxKA4/DtJdN6Adf1M/LtfjCaJ2kOP6FcqOZsonHwtHyBCBbZr66yL?=
- =?us-ascii?Q?Dz2YdXIn6vcAtXzOT4F0q7P69mCD+VlTBs6Gel7hnoIXXt5TZwGKyRzNSP6M?=
- =?us-ascii?Q?yfve7KnVlgNRYusaBsTXXR3Bg9T7LBpIqpzUVLC1yMMd+xfRR6W2eU61PIo5?=
- =?us-ascii?Q?OOsx1bT+iKx3dZtbAL4y1fQUOV/CrvL0ZlviJmZKAIHdrmHlKZ8hpvuQwMc/?=
- =?us-ascii?Q?yNh+u3HawzlORr4hXg1hnmjpO0T/qxVe1M6Exv0X4qnKH4SIqpp/PNwqzYve?=
- =?us-ascii?Q?28PQlfrhgVM8O44qov8QKdVP3CuttghzovvTXJxbbL77v6NQUktZEXj8CNmv?=
- =?us-ascii?Q?uwvEf5iW3xeJjJXnfax6ONlQO3wJ5sFkMy+JLukVEaYZXCMfUoQx7Ggb9M0x?=
- =?us-ascii?Q?TwgkkAR9jpD6SOdWb8WVW+eAutGPUDL3DKA9Oh72utdYZV3DCfz2h5vq0/m5?=
- =?us-ascii?Q?uRmwBByO6gXgdW0kcOOx6Uk/YF2fLFwyZx9hUsLVqdAjZZEHdiRPnct0O7yM?=
- =?us-ascii?Q?l4/rmkXJcbwTrgbSHwrelOkRz6fhc/vR6aHyI/Nlkn5o1JDt+HJVSH0mZ90d?=
- =?us-ascii?Q?Kxmgbd3cw1d9RgZgOOdOqghJNW4AGG/IiXozSaNNfqRfJU0jWjYLYdpJftAt?=
- =?us-ascii?Q?PpdCWWbGkgS8/DcvlPf29Pnq0csA8gOzKPIwdRTiVB9QyNVUzLLZwY/6HL59?=
- =?us-ascii?Q?lNGcje59Fb9+zyHezCXV8PErytsKZHds7MLY4Gf5HW9f/wtIMkm3RInn3AOi?=
- =?us-ascii?Q?K3J/9mlf8A8YQEN7awDhdknQY+FngEOzgdVjwbWxoaI38P2gCw2wH9N8mxyS?=
- =?us-ascii?Q?jPFi5o23Y2lyhXMYWWNRudHrxrwkq12goUonDjv4GwTd62FbdHJpcjutFMaE?=
- =?us-ascii?Q?bSFOC9FvyYpcehiqU50tXnzNACfXVKkyw66r2JYyPQB9DXXCTaUHASOnwOQw?=
- =?us-ascii?Q?4scaJuILKR+AgsgNP/deuvlEVL/MkxhJCoxfJzv/FxwZVABlVHOU27rc1evi?=
- =?us-ascii?Q?bpwPVFwZaLqwytG45ME0R6TU5bwPXmWYtRbH7aiEG8rlKdad/2uxofJ8Alhb?=
- =?us-ascii?Q?pF82w5FN6qWWXM2nQSllmlVCpwjA7s6QCHUx7YALiCcu1QPubrkvLhoxXbSd?=
- =?us-ascii?Q?WRrVSQIX2L6fC13GEXG8EKy33DxEG2eIDlriBudeX4L4vqE3WlJ5ASs4J9e1?=
- =?us-ascii?Q?l8G9waTUzDr6NFzNdWlTxY/8h7g3cO8NBm0ap9rq2xkzVxiCqIGTY80ehRF0?=
- =?us-ascii?Q?pjiyOVD5ezdhNRG1jkj5LPQN+aQu6vIJi0xj2YNRcJaFf4UqKeTxh5F2NyXO?=
- =?us-ascii?Q?d1oWTEQSyM4Q5WtFBgbBP9ALUNiXNMDUIACRR1y+8Tei2ZxeEHmcRSPcKEBW?=
- =?us-ascii?Q?LWfWwgPEqso=3D?=
-X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1eec91e6-d0f6-45ef-17de-08da486b5fc7
-X-MS-Exchange-CrossTenant-AuthSource: PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2022 09:52:03.4898
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXP189MB1878
+References: <20220606225137.1536010-1-robh@kernel.org>
+In-Reply-To: <20220606225137.1536010-1-robh@kernel.org>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 7 Jun 2022 12:42:38 +0200
+Message-ID: <CAPDyKFqNiJB_2aEaQpBo4=Vzc60-986=aKKw4JZtXvO=X9WTqQ@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Drop more redundant 'maxItems/minItems' in
+ if/then schemas
+To: Rob Herring <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Hu Ziji <huziji@marvell.com>, Wim Van Sebroeck <wim@linux-watchdog.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-watchdog@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
----
- drivers/gpu/drm/sun4i/sun4i_layer.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 7 Jun 2022 at 00:51, Rob Herring <robh@kernel.org> wrote:
+>
+> Another round from new cases in 5.19-rc of removing redundant
+> minItems/maxItems when 'items' list is specified. This time it is in
+> if/then schemas as the meta-schema was failing to check this case.
+>
+> If a property has an 'items' list, then a 'minItems' or 'maxItems' with the
+> same size as the list is redundant and can be dropped. Note that is DT
+> schema specific behavior and not standard json-schema behavior. The tooling
+> will fixup the final schema adding any unspecified minItems/maxItems.
+>
+> Signed-off-by: Rob Herring <robh@kernel.org>
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
-index 6d43080791a0..85fb9e800ddf 100644
---- a/drivers/gpu/drm/sun4i/sun4i_layer.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
-@@ -117,7 +117,7 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
- 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
- 
- 	if (IS_ERR_OR_NULL(layer->backend->frontend))
--		sun4i_backend_format_is_supported(format, modifier);
-+		return sun4i_backend_format_is_supported(format, modifier);
- 
- 	return sun4i_backend_format_is_supported(format, modifier) ||
- 	       sun4i_frontend_format_is_supported(format, modifier);
--- 
-2.25.1
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
+Kind regards
+Uffe
+
+> ---
+>  .../bindings/memory-controllers/nvidia,tegra186-mc.yaml        | 3 ---
+>  Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml | 1 -
+>  .../devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml  | 1 -
+>  3 files changed, 5 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
+> index c7cfa6c2cd81..935d63d181d9 100644
+> --- a/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
+> +++ b/Documentation/devicetree/bindings/memory-controllers/nvidia,tegra186-mc.yaml
+> @@ -150,7 +150,6 @@ allOf:
+>            description: 5 memory controller channels and 1 for stream-id registers
+>
+>          reg-names:
+> -          maxItems: 6
+>            items:
+>              - const: sid
+>              - const: broadcast
+> @@ -170,7 +169,6 @@ allOf:
+>            description: 17 memory controller channels and 1 for stream-id registers
+>
+>          reg-names:
+> -          minItems: 18
+>            items:
+>              - const: sid
+>              - const: broadcast
+> @@ -202,7 +200,6 @@ allOf:
+>            description: 17 memory controller channels and 1 for stream-id registers
+>
+>          reg-names:
+> -          minItems: 18
+>            items:
+>              - const: sid
+>              - const: broadcast
+> diff --git a/Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml b/Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml
+> index c79639e9027e..7a2b22dd6d05 100644
+> --- a/Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml
+> +++ b/Documentation/devicetree/bindings/mmc/marvell,xenon-sdhci.yaml
+> @@ -145,7 +145,6 @@ allOf:
+>            items:
+>              - description: Xenon IP registers
+>              - description: Armada 3700 SoC PHY PAD Voltage Control register
+> -          minItems: 2
+>
+>          marvell,pad-type:
+>            $ref: /schemas/types.yaml#/definitions/string
+> diff --git a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> index cbcf19f51411..ed6c1ca80dcc 100644
+> --- a/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> +++ b/Documentation/devicetree/bindings/watchdog/allwinner,sun4i-a10-wdt.yaml
+> @@ -64,7 +64,6 @@ if:
+>  then:
+>    properties:
+>      clocks:
+> -      minItems: 2
+>        items:
+>          - description: High-frequency oscillator input, divided internally
+>          - description: Low-frequency oscillator input
+> --
+> 2.34.1
+>
