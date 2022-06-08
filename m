@@ -1,181 +1,100 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59A847B
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 00:06:39 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 802C6143D;
-	Tue,  7 Jun 2022 17:06:38 -0700 (PDT)
-Received: from slackpad.fritz.box (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 21DD23F766;
-	Tue,  7 Jun 2022 17:06:37 -0700 (PDT)
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>,
-	Simon Glass <sjg@chromium.org>,
-	Tom Rini <trini@konsulko.com>
-Cc: u-boot@lists.denx.de,
-	=?UTF-8?q?Milan=20P=20=2E=20Stani=C4=87?= <mps@arvanta.net>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: usb: convert PHY GPIO functions to DM
-Date: Wed,  8 Jun 2022 01:06:04 +0100
-Message-Id: <20220608000604.3357-1-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.35.3
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC28F7C
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 02:08:02 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 7809B5C017F;
+	Tue,  7 Jun 2022 22:08:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 07 Jun 2022 22:08:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1654654081; x=
+	1654740481; bh=05QZClo2yRu6zGn/RtcdmsWqfd2yLg+tYmuQf+IHflM=; b=W
+	7ylr1Cz8I2bcGjq6J2AfXA97LCKEnlzlC4yu7bBgq9ztFkDN0DjOXKylDmRZIc+K
+	jAptCCh1FtB//Qyh0MGZfT2x5GBADaEEUCnbuk5bvkSf/Oaoub52rGtz/f9G2j27
+	MMgc+bickXPsSPBk5Sn3MMofw6bxWI4FsXecMD5GmW46U9SSiPfJdQ2o05CTJWKn
+	PHZTVHxuIneZyCshv3Jpplcs+TEzHuRSS60dy0+k3ZhJ+2gkFNPOpBeHDY98GmzP
+	pg+dlHV7eOr8dbrKQ0T6/i7ZcYIVz/F09diw4g4zxvLYpM243VYZ2ateXBiEjO7D
+	f+8NwylBiTp1EQEhvd+Uw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1654654081; x=
+	1654740481; bh=05QZClo2yRu6zGn/RtcdmsWqfd2yLg+tYmuQf+IHflM=; b=l
+	+/UtXrfs0rk2folZfGGA9BH3QMGy+7xNSq7gfBq5IiepgGtfpMxoqtm3jLBJmrZv
+	eNslQR4JGsDAYLU+PZ2L23PDucfMsieUNwG9q1exU1c+qPa+RN5n3nZEVWOyp8Jb
+	8lTDy+hJXGl1/7YEDdxkKtvYZa9VCGnWVZ784Sev41kOdiF9OcvCvbAbs5BFFpq6
+	Dfi4H9WZbeLvTXNbJaJLQY+ejShLpdAoaCg6qfsOH5bekuBlX5v+ykHvVMt0/D+q
+	sRxjQGaaCL1wWcvNTB/FzK3O3M1EowB+tuywiU2UZoPT46qvQeOvywRIsqcRvKVT
+	L2uClmj0UPkZRQnYGxm3A==
+X-ME-Sender: <xms:gQSgYmRLo04Kw29jFteSXEFDUJwyD2hCzDz8i3KG4UaadsS6rpyUUg>
+    <xme:gQSgYrwNabGPxNuZ_CvIqJyclytV5oD6RbIvD9rlCJWJTH6p1Tax1Iew8NHsZEttL
+    nFJGSw60zJQXvR3iw>
+X-ME-Received: <xmr:gQSgYj0ZwpTTk1cPtY02xbji9XPxqhg5DhiD-WSKFMfK1pEVw-an_Abr5-MZoTLIFSZ7gUtqm8zIRtX9ef0zaDvlquJxSWfFfqHzJXD3mQg-E_xIlcOxWLujgw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtiedgheegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:gQSgYiD5cChSNx43UYJFhTB58nqMypPos9f_tQ1I3v3giReVv6fgAw>
+    <xmx:gQSgYviWsF0kVdWTo9uw3DSSXuYn0DNL_xdSKUZgkNodem-trtjXDg>
+    <xmx:gQSgYuqzWUk86YhfgzTPda0DMqKgQO3pnCCrYukuAPu8joHqothJkQ>
+    <xmx:gQSgYlYgoQAZCbYUSRDHV1IC3HZu4_UFHReysvRI6Wi7L6-6O3B84g>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 7 Jun 2022 22:08:00 -0400 (EDT)
+Subject: Re: [PATCH] sunxi: usb: convert PHY GPIO functions to DM
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de,
+ =?UTF-8?Q?Milan_P_=2e_Stani=c4=87?= <mps@arvanta.net>,
+ linux-sunxi@lists.linux.dev
+References: <20220608000604.3357-1-andre.przywara@arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <5737809a-f9e2-f325-5168-d222968a02d8@sholland.org>
+Date: Tue, 7 Jun 2022 21:07:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20220608000604.3357-1-andre.przywara@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-The Allwinner USB PHY driver is still using the legacy GPIO interface,
-which is now implemented by the DM_GPIO compat functions.
-Those seem to have some design flaws, as setting the direction, then
-later setting the value will not work, if the DM_GPIO driver is
-implementing set_flags.
+On 6/7/22 7:06 PM, Andre Przywara wrote:
+> The Allwinner USB PHY driver is still using the legacy GPIO interface,
+> which is now implemented by the DM_GPIO compat functions.
+> Those seem to have some design flaws, as setting the direction, then
+> later setting the value will not work, if the DM_GPIO driver is
+> implementing set_flags.
+> 
+> Fix this by using the dm_ version of the direct GPIO interface, which
+> uses struct gpio_desc structs to handle requested GPIOs, and actually
+> keeps the flags we set earlier.
+> 
+> This fixes USB operation on boards which need to toggle the VBUS supply
+> via a GPIO, like the Teres-I laptop or the BananaPi M2 Berry board.
+> 
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reported-by: Milan P. Stanić <mps@arvanta.net>
 
-Fix this by using the dm_ version of the direct GPIO interface, which
-uses struct gpio_desc structs to handle requested GPIOs, and actually
-keeps the flags we set earlier.
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
-This fixes USB operation on boards which need to toggle the VBUS supply
-via a GPIO, like the Teres-I laptop or the BananaPi M2 Berry board.
+It looks like the other users of sunxi_name_to_gpio are unaffected because they
+call only gpio_direction_output (sometimes repeatedly), never gpio_set_value.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-Reported-by: Milan P. Stanić <mps@arvanta.net>
----
- drivers/phy/allwinner/phy-sun4i-usb.c | 59 +++++++++++++++------------
- 1 file changed, 33 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinner/phy-sun4i-usb.c
-index 86c589a65fd..aef2cb8f6f8 100644
---- a/drivers/phy/allwinner/phy-sun4i-usb.c
-+++ b/drivers/phy/allwinner/phy-sun4i-usb.c
-@@ -125,9 +125,9 @@ struct sun4i_usb_phy_info {
- 
- struct sun4i_usb_phy_plat {
- 	void __iomem *pmu;
--	int gpio_vbus;
--	int gpio_vbus_det;
--	int gpio_id_det;
-+	struct gpio_desc gpio_vbus;
-+	struct gpio_desc gpio_vbus_det;
-+	struct gpio_desc gpio_id_det;
- 	struct clk clocks;
- 	struct reset_ctl resets;
- 	int id;
-@@ -224,8 +224,8 @@ static int sun4i_usb_phy_power_on(struct phy *phy)
- 		initial_usb_scan_delay = 0;
- 	}
- 
--	if (usb_phy->gpio_vbus >= 0)
--		gpio_set_value(usb_phy->gpio_vbus, SUNXI_GPIO_PULL_UP);
-+	if (dm_gpio_is_valid(&usb_phy->gpio_vbus))
-+		dm_gpio_set_value(&usb_phy->gpio_vbus, 1);
- 
- 	return 0;
- }
-@@ -235,8 +235,8 @@ static int sun4i_usb_phy_power_off(struct phy *phy)
- 	struct sun4i_usb_phy_data *data = dev_get_priv(phy->dev);
- 	struct sun4i_usb_phy_plat *usb_phy = &data->usb_phy[phy->id];
- 
--	if (usb_phy->gpio_vbus >= 0)
--		gpio_set_value(usb_phy->gpio_vbus, SUNXI_GPIO_PULL_DISABLE);
-+	if (dm_gpio_is_valid(&usb_phy->gpio_vbus))
-+		dm_gpio_set_value(&usb_phy->gpio_vbus, 0);
- 
- 	return 0;
- }
-@@ -386,8 +386,8 @@ int sun4i_usb_phy_vbus_detect(struct phy *phy)
- 	struct sun4i_usb_phy_plat *usb_phy = &data->usb_phy[phy->id];
- 	int err = 1, retries = 3;
- 
--	if (usb_phy->gpio_vbus_det >= 0) {
--		err = gpio_get_value(usb_phy->gpio_vbus_det);
-+	if (dm_gpio_is_valid(&usb_phy->gpio_vbus_det)) {
-+		err = dm_gpio_get_value(&usb_phy->gpio_vbus_det);
- 		/*
- 		 * Vbus may have been provided by the board and just turned off
- 		 * some milliseconds ago on reset. What we're measuring then is
-@@ -395,7 +395,7 @@ int sun4i_usb_phy_vbus_detect(struct phy *phy)
- 		 */
- 		while (err > 0 && retries--) {
- 			mdelay(100);
--			err = gpio_get_value(usb_phy->gpio_vbus_det);
-+			err = dm_gpio_get_value(&usb_phy->gpio_vbus_det);
- 		}
- 	} else if (data->vbus_power_supply) {
- 		err = regulator_get_enable(data->vbus_power_supply);
-@@ -409,10 +409,10 @@ int sun4i_usb_phy_id_detect(struct phy *phy)
- 	struct sun4i_usb_phy_data *data = dev_get_priv(phy->dev);
- 	struct sun4i_usb_phy_plat *usb_phy = &data->usb_phy[phy->id];
- 
--	if (usb_phy->gpio_id_det < 0)
--		return usb_phy->gpio_id_det;
-+	if (!dm_gpio_is_valid(&usb_phy->gpio_id_det))
-+		return -1;
- 
--	return gpio_get_value(usb_phy->gpio_id_det);
-+	return dm_gpio_get_value(&usb_phy->gpio_id_det);
- }
- 
- void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled)
-@@ -454,35 +454,42 @@ static int sun4i_usb_phy_probe(struct udevice *dev)
- 		if (data->cfg->missing_phys & BIT(i))
- 			continue;
- 
--		phy->gpio_vbus = sunxi_name_to_gpio(info->gpio_vbus);
--		if (phy->gpio_vbus >= 0) {
--			ret = gpio_request(phy->gpio_vbus, "usb_vbus");
-+		ret = dm_gpio_lookup_name(info->gpio_vbus, &phy->gpio_vbus);
-+		if (ret == 0) {
-+			ret = dm_gpio_request(&phy->gpio_vbus, "usb_vbus");
- 			if (ret)
- 				return ret;
--			ret = gpio_direction_output(phy->gpio_vbus, 0);
-+			ret = dm_gpio_set_dir_flags(&phy->gpio_vbus,
-+						    GPIOD_IS_OUT);
-+			if (ret)
-+				return ret;
-+			ret = dm_gpio_set_value(&phy->gpio_vbus, 0);
- 			if (ret)
- 				return ret;
- 		}
- 
--		phy->gpio_vbus_det = sunxi_name_to_gpio(info->gpio_vbus_det);
--		if (phy->gpio_vbus_det >= 0) {
--			ret = gpio_request(phy->gpio_vbus_det, "usb_vbus_det");
-+		ret = dm_gpio_lookup_name(info->gpio_vbus_det,
-+					  &phy->gpio_vbus_det);
-+		if (ret == 0) {
-+			ret = dm_gpio_request(&phy->gpio_vbus_det,
-+					      "usb_vbus_det");
- 			if (ret)
- 				return ret;
--			ret = gpio_direction_input(phy->gpio_vbus_det);
-+			ret = dm_gpio_set_dir_flags(&phy->gpio_vbus_det,
-+						    GPIOD_IS_IN);
- 			if (ret)
- 				return ret;
- 		}
- 
--		phy->gpio_id_det = sunxi_name_to_gpio(info->gpio_id_det);
--		if (phy->gpio_id_det >= 0) {
--			ret = gpio_request(phy->gpio_id_det, "usb_id_det");
-+		ret = dm_gpio_lookup_name(info->gpio_id_det, &phy->gpio_id_det);
-+		if (ret == 0) {
-+			ret = dm_gpio_request(&phy->gpio_id_det, "usb_id_det");
- 			if (ret)
- 				return ret;
--			ret = gpio_direction_input(phy->gpio_id_det);
-+			ret = dm_gpio_set_dir_flags(&phy->gpio_id_det,
-+						GPIOD_IS_IN | GPIOD_PULL_UP);
- 			if (ret)
- 				return ret;
--			sunxi_gpio_set_pull(phy->gpio_id_det, SUNXI_GPIO_PULL_UP);
- 		}
- 
- 		if (data->cfg->dedicated_clocks)
--- 
-2.35.3
-
+Regards,
+Samuel
