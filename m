@@ -1,177 +1,124 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2040.outbound.protection.outlook.com [40.107.237.40])
+Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75AD2F39
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 11:17:28 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kSbljbs6FoLDellRbZpgOPjudv63XU5tmncOfZ+pm2LmPoN5IJ7/UnAUTTbmyhWlELtGtovXauhcXb99qCpD7qccOEr3zmJnQUT5z+0s0lqKtORm9fqGAZSXFXEoOmM3KwxPSt/1UTFOj+hpmwA0kH8NVW4YP4h/39ikIBYvjx+gqrKN41lF5vgIOIoFbphWf44xwi5yub+mDi/s2TS8g/9NVbOmMbH0r/O5BhW5L8XRw2UmoIztNfF8SqcsmZZVLSR0IiqesD4B38pk31CYGFNvZg+fdW7/QIh5M5NpqFrmgu8Xm46HZoPhbIQLz2VfG62dq2KLblDy4QngaJd4Cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tIfkp8E5KBtvRmW4yi1xoFUv9uv8UQxyX18dwprf1MQ=;
- b=CRFpgDjh5KOmEFwRZAvuPswT3pJrEIBYU3NmY2ePuq/wcM4iRmieaDmarJZSAXGnLQHpD0f4V16/Jlzu9juRre6VKl6uRbm/OyJfIi+vHRo3XcS+8zBenYurV2xx5ti98s6MB9v1UIpGElwQUpqX6RgqKAmB7sagjzBMNd3Ch3dGnIXSJSyyuOpukNovFqjOA2TNv60dW3W1NTAMyGe/TtFh725u0RtSKi90hMmi/0GVtUby9/PnCm3RCRoVu/OomMgjUKDBOX5C+ASn6vdI6S8qnwcgjqgR6SdjTsskZ8QW4lU4O5lfqnfeWjy9MxRrC7uNqQb5MSh2kkXNbibf9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tIfkp8E5KBtvRmW4yi1xoFUv9uv8UQxyX18dwprf1MQ=;
- b=k6UJmfITb5ZJlFmT8BY9zNGu99HuopB2bSBnOeK5GvkkZPRTcaFmKIuTQdC3t0Q7ktsaDIkIpQTk7JHCvcr2sjnBIElZQa1w81OURzygTNQGNGT+yFrmfMWHhN2yzq2lRj4reBeWqqtj2X66DzqbMpAUEo0bRtTVx94jFA2uy1C0cEY7Li799x/Koc8GCiPNZ4PcZ4cDxqjaai/qWmVDXonUZ7CgDj5T/vWdohFGmTLsNPiv5JwBucRszICruQwqAdXllmUEzj6L6PfVpFrOs1FLkEM5AeyDIUlkpmSNMJpD62h/fMB2Ey0vUwqRo6eSWJFrecoasE9Ue4K5rYHSbg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com (2603:10b6:208:1d5::15)
- by DM4PR12MB5343.namprd12.prod.outlook.com (2603:10b6:5:389::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.13; Wed, 8 Jun
- 2022 11:17:26 +0000
-Received: from MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5]) by MN2PR12MB4192.namprd12.prod.outlook.com
- ([fe80::2484:51da:d56f:f1a5%9]) with mapi id 15.20.5314.019; Wed, 8 Jun 2022
- 11:17:26 +0000
-Date: Wed, 8 Jun 2022 08:17:24 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, "joro@8bytes.org" <joro@8bytes.org>,
-	"will@kernel.org" <will@kernel.org>,
-	"marcan@marcan.st" <marcan@marcan.st>,
-	"sven@svenpeter.dev" <sven@svenpeter.dev>,
-	"robin.murphy@arm.com" <robin.murphy@arm.com>,
-	"robdclark@gmail.com" <robdclark@gmail.com>,
-	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>,
-	"agross@kernel.org" <agross@kernel.org>,
-	"bjorn.andersson@linaro.org" <bjorn.andersson@linaro.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"heiko@sntech.de" <heiko@sntech.de>,
-	"orsonzhai@gmail.com" <orsonzhai@gmail.com>,
-	"baolin.wang7@gmail.com" <baolin.wang7@gmail.com>,
-	"zhang.lyra@gmail.com" <zhang.lyra@gmail.com>,
-	"wens@csie.org" <wens@csie.org>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"samuel@sholland.org" <samuel@sholland.org>,
-	"jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-	"virtualization@lists.linux-foundation.org" <virtualization@lists.linux-foundation.org>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-	"alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
-	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-	"linux-sunxi@lists.linux.dev" <linux-sunxi@lists.linux.dev>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"cohuck@redhat.com" <cohuck@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-	"dwmw2@infradead.org" <dwmw2@infradead.org>
-Subject: Re: [PATCH 3/5] vfio/iommu_type1: Prefer to reuse domains vs match
- enforced cache coherency
-Message-ID: <20220608111724.GL1343366@nvidia.com>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
- <20220606061927.26049-4-nicolinc@nvidia.com>
- <BN9PR11MB5276DC98E75B1906A76F7ADC8CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276DC98E75B1906A76F7ADC8CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-ClientProxiedBy: MN2PR05CA0035.namprd05.prod.outlook.com
- (2603:10b6:208:c0::48) To MN2PR12MB4192.namprd12.prod.outlook.com
- (2603:10b6:208:1d5::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC717C
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 13:14:31 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id D996C3200A6D;
+	Wed,  8 Jun 2022 09:14:29 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Wed, 08 Jun 2022 09:14:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1654694069; x=
+	1654780469; bh=UN7QkB/KXXBhGLM2C7OqWQxWqlOOb0tn6uS3qkjBjWg=; b=G
+	1TcrWSFfPAT/3YQCZXvWlEpORP8SDCtPVCTfiP9uZJYMPqR4g4Ut3Cf/IonrD2s8
+	q8oOm+ftcRLzAX+wxBEYjQOczdHa9Et3pdXAQgnh70C6pgKOISd78csetRo804Ht
+	6FC55vQYHQkDJx+3l97y27e94kbbNKpusYDvzBNNEmjMroY9RzlDACfmNm1felG+
+	IZVEGwIqqPLol6+Wf3z/VnPTuy4g9qEZOMDQ9iZV6CEOWEEpnZzpzu0/VUa6xmWN
+	CWThRmOXqn8+0UTWXUd8Ktk+DD9jSKhcRReiU6UXjV4VJjPOf3GZJFahDH+jQg48
+	TjmntjWtd9IFJHNFwVOSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1654694069; x=
+	1654780469; bh=UN7QkB/KXXBhGLM2C7OqWQxWqlOOb0tn6uS3qkjBjWg=; b=i
+	jZ0erYaRhLtsQHhMS3jPpDETcn6yaCuzAepJKJpaJgxC6Uk2InEuDvlZpmYXVdax
+	u8zW0E/jWqJhvf2Ql4M42L2HfeZ3+tyqj2dlLhmsJQtQqyhcfUwgb+Y5Vw5JKhal
+	Chzdh6TK8bOdCnVfjiuqk/S+an9vCEG+nIUd+j8htJqkr7IL3IPS6mhBYj2rGWKA
+	UE15WP+mKdgAuBF+T4P6nzZHYOVbSjajwp4BPOrzgXdjFpvzdqdhRGjS0K+UkvqL
+	ypNYl0LCdwdxXLY9CnvsHQAJ2FVmvz3fT71W9S50Yk1FoQDVIeNtbuPYGvTi3xc5
+	r23/pMmNEr7Ftrr9fL8lw==
+X-ME-Sender: <xms:taCgYt_ptIuoa1szw6rF8uMjR9gGf1M1tupG7Ty6Fc-ckwX75E034A>
+    <xme:taCgYhsKsEkE1mCyf1tLNOR7z-Glt5fJf3-Kdvs2Qf3WRn591-sKH5nUQONRBm8mb
+    Kxvx6_dlFjggQBpKQ>
+X-ME-Received: <xmr:taCgYrDnTDtPGYdL28TbPOjOuOEiA-prtkNEbE7B6EDD9m5jJFIquWiT5uViPl_BjdJxzzazKqsjbQZgxbX3o2qGVmdxtdNobmE8wZLJIpFJtVnh7eGBbsJjzw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddtjedgieduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:taCgYhcyCtP377kXUv1eVaGntggZ3oERgFbgSvS7bwo4TjQE5ihLlw>
+    <xmx:taCgYiPCz1-Ul9fjN269_ygAQs_YV__eKe5AIn1sDO9JEtbKjh4Dtg>
+    <xmx:taCgYjm3C0cw5X-Ubz-o_43QqJB9ODB9lHRr-XkPDo1f5vkndeRzeQ>
+    <xmx:taCgYp23RaTP6mtSw0tiSf0IohsqDaika5vA-9LpPssl2lf9rcAS_A>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 8 Jun 2022 09:14:28 -0400 (EDT)
+Subject: Re: [PATCH] sunxi: usb: convert PHY GPIO functions to DM
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de,
+ =?UTF-8?Q?Milan_P_=2e_Stani=c4=87?= <mps@arvanta.net>,
+ linux-sunxi@lists.linux.dev
+References: <20220608000604.3357-1-andre.przywara@arm.com>
+ <5737809a-f9e2-f325-5168-d222968a02d8@sholland.org>
+ <20220608104638.27ff5c3b@donnerap.cambridge.arm.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <9ef704d0-fec8-d07f-76e0-c10037aa6953@sholland.org>
+Date: Wed, 8 Jun 2022 08:14:27 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7e109dbf-2d78-4e90-7279-08da494077d9
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5343:EE_
-X-Microsoft-Antispam-PRVS:
-	<DM4PR12MB5343F3BADC2C0475E12C087EC2A49@DM4PR12MB5343.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	M3khKKea+46b7JZJFDq8fk/7GJsQpPRQVXbPELsmqPZbJhqZ/sGrdnoP82INW7xxhyE0Sh8PwumAQX0xAwCY44DqUTCnQ+j+9NTbAtpMFKSK7hz8CzBnPqd05bJNjRkuREYngOpnXggGeWYw1vyvjLivH7G/ni9oR2IRo2WVvubO1EMofeDKyGpuB0brQn42fNEtSj3gxwBzNMKOXlfRCmPAFUJjd4Bkir/RlB/sfdGoYLclZYjBLA1phqGBrbg/eSDBm3tmAtErbgMHgaqIc6y/dyYmDbY3x5WFWezXPZASOql70g1UF5fQPbEV2zWA5nYu8rANQrp7/SkkkZJfu04Fj7cg9NHS92+7JV/qeN275zU37J7nSC0jR4x5p9dA5cBWHVGCkE8PbzyFM24MZnBGzBxUiiqxsS2NJpnquF3XYPcoEzRPz5LNqrWLfwWTSIDu2vIOAQSUZoOpcvVA4dmV2O1KmWDlYehcmILD1YPcPib2lxxcHFsapcL8y25rVpOxpcz0Ghm8cXVMZSayluNYVYuOIXFHcefbp8LXMhs6U4MSMJHxB7sJ6lRc+PS7V2i8IXhQrx03SU8Vthr2HPou6KdNowOzVFI40nDa+L7uo+KerZ8joQVBOFYFNj6dkB4LE/zDJbQZHHIbn/NAjg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB4192.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(4636009)(366004)(8936002)(83380400001)(186003)(26005)(316002)(7406005)(6916009)(6512007)(2616005)(508600001)(36756003)(2906002)(33656002)(86362001)(6486002)(38100700002)(54906003)(6506007)(1076003)(4326008)(8676002)(5660300002)(66556008)(66476007)(7416002)(66946007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?ZuxJJbH8qjGIDaAh3SXYcmnbQ48YErF4SCikA3b1V3JaUcRYWCR9Sn0Db+5w?=
- =?us-ascii?Q?VVsZMMHLjVVw/dT0yRZQpvkoDr4v5k+UfKuL+goXQF5HsRmzsx+rUeRVciuO?=
- =?us-ascii?Q?ApUOj44GgQvCoa2InUVqJ4VBWDgPMEn4qWoB0zx6fsw3sb9Y7KCGhg45pQIi?=
- =?us-ascii?Q?Zon8rxAGg2vXNQ+YN3hJRyolw1lxmIVXp5MJtpajlEtEAcHwioQ8tw7dh5K+?=
- =?us-ascii?Q?9vN7dhuMjve4o9j4wrBT5/9afAerVMGspV/qbhGcRjK7KFUeQoehpwTHEyL3?=
- =?us-ascii?Q?nYYyxs8HDiDlSxFtI0ziNU5M12sEN5IHKvQHmyMh9/7eTRQg0/3/ZI+v6EQC?=
- =?us-ascii?Q?mbhdK7qbOrBPZWvOzfniUotHvYpI2albWCRhBQCIYstGu5VvIS8fBjaS3Ttu?=
- =?us-ascii?Q?6MAKqQyQ6UBOrDVlzINFCmVV228vpGsu8TQ5lg7Y0o19AJAc1NkvmFObHOQ0?=
- =?us-ascii?Q?OaQDIPqTrl5fFtV2iRMSo4ceBXGGxOtctuTrhfO2QnPJj0m1t05JJTb2G/KC?=
- =?us-ascii?Q?/WHb3IWSR+N3FrrqSxwYAZcYAlU6FeN+cIlXBzD4gs2tTCmFaQ3hmodBKgDl?=
- =?us-ascii?Q?L3Qbc2s5C6TBppaD69bg4VI/ht+rDDnze0ATW+xulsgx+huqjOU7KwztF2kB?=
- =?us-ascii?Q?fZH5K+iuS43f2gsQ2cekA2UdFmvFZyLHn6uCxDroodhLfehwYurAR6BQXQW6?=
- =?us-ascii?Q?dQwBYDClyVJmcUa47y9uWVY9lCpT0qa+Hx91M6jJYuW+U6GY7qaUVnxh4mz1?=
- =?us-ascii?Q?YMT9fly+eSA4lG6KN/iAWfSLMXyNEvDo6AYXYMQV6hb9bPNbgeaVCpc+wOUi?=
- =?us-ascii?Q?fkOs2CHd0NKUIl3jNn7dobCasoCXw3W9yB3uG4JqW2kMorqqGP95+yxP3N/q?=
- =?us-ascii?Q?QTL8URMR8KHC8aoiPmVLU9TTuRFOffbw2NcjVQcvc0l4moGS+Un4i2BE/zAh?=
- =?us-ascii?Q?BOlFoLeKFe8L9m00Px5jlBPFdBJJGsLmMel7xMO+lz2V8jG7S/XK1zI1ZspF?=
- =?us-ascii?Q?PBennkNHEuzruBnlFhI8B2uOqogw5mlCLxxUgl2W8E9PZPOvjpZRQLUN8wb0?=
- =?us-ascii?Q?SymmRZW0N+gQH1pEa4/5VbCw00K8sTqp5xX5d/h6RxG6U8so3pXc3hFgc1dF?=
- =?us-ascii?Q?iuiNsu6IzJaRKtNF2nznl5J0w8bFSV6aIlz+98kNz8835uWnKgodkgcGKE+M?=
- =?us-ascii?Q?F/tCvQwH4iGGLYbeKBhpQWFh5dsssrwT1fV7VluQWi4VRoHarlU0D4Q9P2wa?=
- =?us-ascii?Q?+QLNlHtfl/btEkD78B83tGt9keL/FyUgUu5KgjS06WvdG8T+ravcgyyabrsP?=
- =?us-ascii?Q?nA7A8kUhp5n0Rfc4CGlJdlk6d/0eEmytSS8gWxJZaDKmxICPfU8IxIWPsza4?=
- =?us-ascii?Q?rx7pSxxY8HzTbfrcMreK6qeJJ36uMqcgU0ltblyMFwucHgec9PzO7jmYHOyv?=
- =?us-ascii?Q?6lwozP2oVdziNIEpwXfYA9s0Earq2mfB1WY+iZHjvvhHLmCLXcv5dfRtmfAm?=
- =?us-ascii?Q?GlG71sQouvV02fTDHncm4iyLuu8lBMaHcoaC+jHZStFiw9A6McRabHNERPAk?=
- =?us-ascii?Q?uTaBHoEnP78LVtptltLmQH1vei7K5GVQAErhawkyaUE54GvrGIeLVsLYncb1?=
- =?us-ascii?Q?q5gt8lY2xnHeaRLkZqhXUaawpICAM9Qzs40wNDCaK3Sgig9NGu5Mu/llotKP?=
- =?us-ascii?Q?BoOGhJmReHMuHKEXwWNJUjvizem2Ah7RXpZGqYHsMKT2Ws8KnKNo0a+7qQl2?=
- =?us-ascii?Q?NI8ZF7G2aw=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e109dbf-2d78-4e90-7279-08da494077d9
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB4192.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 11:17:26.5851
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NlzeZFRt8LJ1fNvLhsuAFFE01oM4KB5zTUX++2oN79OXPBUrX0li9IRGiFytH7Ir
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5343
+In-Reply-To: <20220608104638.27ff5c3b@donnerap.cambridge.arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 08, 2022 at 08:28:03AM +0000, Tian, Kevin wrote:
-> > From: Nicolin Chen
-> > Sent: Monday, June 6, 2022 2:19 PM
-> > 
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > 
-> > The KVM mechanism for controlling wbinvd is only triggered during
-> > kvm_vfio_group_add(), meaning it is a one-shot test done once the devices
-> > are setup.
+On 6/8/22 4:46 AM, Andre Przywara wrote:
+> On Tue, 7 Jun 2022 21:07:59 -0500
+> Samuel Holland <samuel@sholland.org> wrote:
 > 
-> It's not one-shot. kvm_vfio_update_coherency() is called in both
-> group_add() and group_del(). Then the coherency property is
-> checked dynamically in wbinvd emulation:
+> Hi,
+> 
+>> On 6/7/22 7:06 PM, Andre Przywara wrote:
+>>> The Allwinner USB PHY driver is still using the legacy GPIO interface,
+>>> which is now implemented by the DM_GPIO compat functions.
+>>> Those seem to have some design flaws, as setting the direction, then
+>>> later setting the value will not work, if the DM_GPIO driver is
+>>> implementing set_flags.
+>>>
+>>> Fix this by using the dm_ version of the direct GPIO interface, which
+>>> uses struct gpio_desc structs to handle requested GPIOs, and actually
+>>> keeps the flags we set earlier.
+>>>
+>>> This fixes USB operation on boards which need to toggle the VBUS supply
+>>> via a GPIO, like the Teres-I laptop or the BananaPi M2 Berry board.
+>>>
+>>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>>> Reported-by: Milan P. Stanić <mps@arvanta.net>  
+>>
+>> Reviewed-by: Samuel Holland <samuel@sholland.org>
+> 
+> Thanks!
+> 
+>>
+>> It looks like the other users of sunxi_name_to_gpio are unaffected because they
+>> call only gpio_direction_output (sometimes repeatedly), never gpio_set_value.
+> 
+> Yeah, that's right, I was concerned about SATAPWR and MACPWR too, but they
+> work, for the very reason you mentioned.
+> But we should eventually eliminate their usage, together with
+> CONFIG_USB?_VBUS_PIN, as they are only used in U-Boot proper, where we can
+> rely on proper DT information now.
 
-From the perspective of managing the domains that is still
-one-shot. It doesn't get updated when individual devices are
-added/removed to domains.
+I have a series for converting the USB PHY driver to devicetree already, but it
+has been blocked on the devicetree update renaming "usb0_*_det-gpio" to
+"usb0_*_det-gpios". In fact it is still blocked on that, because the sun4i
+devicetree patch was only partially applied.
 
-> given that I'm fine with the change in this patch. Even more probably
-> we really want an explicit one-shot model so KVM can lock down
-> the property once it starts to consume it then further adding a new
-> group which would change the coherency is explicitly rejected and
-> removing an existing group leaves it intact.
+I will rebase the series on top of your patch and send it soon.
 
-Why? Once wbinvd is enabled it is compatible with all domain
-configurations, so just leave it on and ignore everything at that
-point.
-
-Jason
+Regards,
+Samuel
