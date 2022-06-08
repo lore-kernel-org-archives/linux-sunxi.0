@@ -1,210 +1,111 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5F6A7B
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 14:53:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1654699986; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=g3XBbcUgcr7RPvjyGEXjx+/RTzPFGWR/DvVUHYZc7LFndYP06sHFzbu3ykLfe2hpTAP5OtOyg72XFa4IHnttmb+oU8sxXUoKaJUh+raTW8OrVLG6P42/l5YRPPR/GwepprEG/F4zrYK/Tp8n6Y81OMca+SZXp+JJJNjMrFDEDHg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1654699986; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=F9JBMBia5rEoXy4yptoHZJknCMfwVffC8pmBgrhBArY=; 
-	b=d3liPRSDOtPjiQPUfbeA2/YJEaxOUWWi/QomjSx9Qp+pZ3K3wZDxyBVOwGjrsL5bpEhbVuzQWV8Jn2eJaistqlk8zYk1ANMaYL2IDpsNo6D8OjgHSegyXrKvPEoQbYSozFAGg1lUr1k9I1BQo21C22EyF18VNCxaQbLwywtEtPI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654699986;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=F9JBMBia5rEoXy4yptoHZJknCMfwVffC8pmBgrhBArY=;
-	b=W/Gxnvle0kTMRWewMbHueLB3F8j90Ih/+8aa4eajDkYeFvCilKZdp1rQW8Zz9Z+k
-	jFaHiSCCfIWR2obhpGMJbdcLSVByQTH8/O7o0M2PKeWJpe038DUvkegeM5NzXx5zxiS
-	oDEiJuzRYUELr4IOUpRZMX1WhPXyK5F0e1de2EGQ=
-Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-	with SMTPS id 1654699984521556.1461877734166; Wed, 8 Jun 2022 07:53:04 -0700 (PDT)
-Message-ID: <3628fbc2eb9a8c21dc0742b929ee14da76f9adf5.camel@icenowy.me>
-Subject: Re: [PATCH 2/7] dt-bindings: phy: add binding document for
- Allwinner F1C100s USB PHY
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Rob Herring <robh@kernel.org>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org
-Date: Wed, 08 Jun 2022 22:52:52 +0800
-In-Reply-To: <20220608144939.GA1366879-robh@kernel.org>
-References: <20220608070452.338006-1-uwu@icenowy.me>
-	 <20220608070452.338006-3-uwu@icenowy.me>
-	 <20220608144939.GA1366879-robh@kernel.org>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E91F320A
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 16:44:15 +0000 (UTC)
+Received: by mail-qk1-f180.google.com with SMTP id 68so7464729qkk.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 08 Jun 2022 09:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=OKe+1ryBcU5wu+GneAOFpMolJT5gcjQvw+XTgGCe/hU=;
+        b=huoYm4nYtKhyzF5CNXfpbIhEWsLEpDpRIhEtY14/dYnVkEtH8rYfpLy4P3y9w+2xXA
+         Q8aHhATX2gU2E3iKPxh6cZaJas7bmS7NcC1LU8hckdFLPvgld0Z0G4VD2CbG4kLcbRi3
+         4RwnQ++KHfyBH98d2R6cvxz7S69z/glJtL58JCITDIzoaXBGjVn8DyJX3vJss3aiEZzO
+         E0bJrX1UvWC0Pml6c49XYjkKME/u8Ytp0RIkMXLgHK45W5IO48PuiNU2zNmYLIItWoKY
+         COl3RiPg57lOmW9lYyyPYJPvaB0ts/fGttIv/IVKVo8h96F1lnV/DM3IPs2uFBTnh6VC
+         wWyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OKe+1ryBcU5wu+GneAOFpMolJT5gcjQvw+XTgGCe/hU=;
+        b=1Ae50LYCSHs8TdoNEwWpH95dddc0GTkzMhjVmhZAoJyY5VCdXjOvlKh1EW4DqsKYNC
+         Z7SeaslS85khBqxbRga3Zvrv8JTDtbvqOrjxEdu2mL5Dg1zNwW/1zb6yppuVtA0+SLOw
+         PclGz7Jkajf7Zk6CCHRwqoD+LbAnaZPLN61ZicIBvIXVUT1uP4nIDQrkAUd8MXGIDaf3
+         0xfxAC09tHeCm9x5gzyzLKnofpfKQYar3N/Gtup+hwwuNBZ4F94GIwEvvDrQDKOJ8LBR
+         FVKYjhPbfMm14TDCA5RNKIGDg32/COPN6YJ5oq+VMlKcT9/tuh5lpSEuU2Ir+AWqTYmf
+         +z7g==
+X-Gm-Message-State: AOAM533xB2mRQdBCFDnZDlKFJJ4VTtPtRq+eCbQaYj2FO3Tm9jmNL9Wb
+	n9FXSsNtUxWKeFDeTYB6rdx7fuvrTG9RRiYcrwk=
+X-Google-Smtp-Source: ABdhPJzNwxYrdy1kh0h3N3xUMS/invcRFbV/o+ic3nTzr2Q5cw3mBdJzapX7q93D6AtDdpHIIBjdtCh7DZrV8G6W5gY=
+X-Received: by 2002:a37:a1c4:0:b0:6a6:ac4f:1d3f with SMTP id
+ k187-20020a37a1c4000000b006a6ac4f1d3fmr15597451qke.666.1654706654377; Wed, 08
+ Jun 2022 09:44:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+References: <20220605094018.9782-1-r.stratiienko@gmail.com>
+ <5826286.lOV4Wx5bFT@jernej-laptop> <CAGphcdm=sOyppe8sAYMK6aeRXpxiHvj-h-Es6nigCNKBxdBNZQ@mail.gmail.com>
+ <20220608081715.cblotjle6benihal@houat>
+In-Reply-To: <20220608081715.cblotjle6benihal@houat>
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Wed, 8 Jun 2022 19:44:03 +0300
+Message-ID: <CAGphcdnz-fJUrtGoYXzmaCHd5rGR98_0e33a26Uh55c63Lh_rQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/sun4i: Enable output signal premultiplication for DE2/DE3
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, wens@csie.org, 
+	airlied@linux.ie, Daniel Vetter <daniel@ffwll.ch>, Samuel Holland <samuel@sholland.org>, 
+	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, megi@xff.cz
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
 
-=E5=9C=A8 2022-06-08=E6=98=9F=E6=9C=9F=E4=B8=89=E7=9A=84 08:49 -0600=EF=BC=
-=8CRob Herring=E5=86=99=E9=81=93=EF=BC=9A
-> On Wed, Jun 08, 2022 at 03:04:47PM +0800, Icenowy Zheng wrote:
-> > Allwinner F1C100s has the most simple USB PHY among all Allwinner
-> > SoCs,
-> > because it has only one OTG USB controller, no host-only OHCI/EHCI
-> > controllers.
-> >=20
-> > Add a binding document for it.
-> >=20
-> > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > ---
-> > =C2=A0.../phy/allwinner,suniv-f1c100s-usb-phy.yaml=C2=A0 | 83
-> > +++++++++++++++++++
-> > =C2=A01 file changed, 83 insertions(+)
-> > =C2=A0create mode 100644
-> > Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-
-> > phy.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/phy/allwinner,suniv-
-> > f1c100s-usb-phy.yaml
-> > b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-
-> > usb-phy.yaml
-> > new file mode 100644
-> > index 000000000000..180fa8840bf7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/phy/allwinner,suniv-
-> > f1c100s-usb-phy.yaml
-> > @@ -0,0 +1,83 @@
-> > +# SPDX-License-Identifier: GPL-2.0
->=20
-> Dual license please.
+=D1=81=D1=80, 8 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 11:17, Maxime Ripar=
+d <maxime@cerno.tech>:
+>
+> On Mon, Jun 06, 2022 at 01:16:06PM +0300, Roman Stratiienko wrote:
+> > =D0=B2=D1=81, 5 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 23:23, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
+> > >
+> > > Dne nedelja, 05. junij 2022 ob 11:40:18 CEST je Roman Stratiienko nap=
+isal(a):
+> > > > Otherwise alpha value is discarded, resulting incorrect pixel
+> > > > apperance on the display.
+> > > >
+> > > > This also fixes missing transparency for the most bottom layer.
+> > >
+> > > Can you explain that a bit more?
+> >
+> > Well... I would recommend reading Bartosz Ciechanowski's blog
+> > https://ciechanow.ski/alpha-compositing/ or the Porter-Duff's 1984
+> > whitepaper itself.
+> >
+> > HINT: That magic numbers from sun8i_mixer.h ( 0x03010301 ) corresponds
+> > to SOURCE OVER mode.
+> >
+> > As you can see from the blending equation it outputs both pixel value
+> > and alpha value (non-premultiplied data mode).
+> >
+> > Also single-layer non-premultiplied buffers may have for example
+> > (R255,G255,B255,A2) pixel value, which should be sent as {R2, G2, B2}
+> > through the physical display interface.
+> >
+> > When OUTCTL.PREMULTI disabled pixel, the RGB values passes as is, and
+> > even 100% transparent data {R255, G255, B255, A0} will appear as 100%
+> > opaque white.
+>
+> Without going into the full explanation about what alpha is, your commit
+> log must describe what the bug is exactly, and most importantly how do
+> you trigger it.
 
-I am based on another Allwinner USB PHY binding file in the same
-directory, and that file is single licensed. I created a new file
-because each variant of the PHY has a single file now.
+I do not understand what you want me to add. I checked alpha
+appearance manually by
+preparing framebuffers with data and presenting it on the display in
+various combinations.
 
->=20
-> > +%YAML 1.2
-> > +---
-> > +$id:
-> > http://devicetree.org/schemas/phy/allwinner,suniv-f1c100s-usb-phy.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner F1C100s USB PHY Device Tree Bindings
-> > +
-> > +maintainers:
-> > +=C2=A0 - Chen-Yu Tsai <wens@csie.org>
-> > +=C2=A0 - Maxime Ripard <mripard@kernel.org>
-> > +
-> > +properties:
-> > +=C2=A0 "#phy-cells":
-> > +=C2=A0=C2=A0=C2=A0 const: 1
-> > +
-> > +=C2=A0 compatible:
-> > +=C2=A0=C2=A0=C2=A0 const: allwinner,suniv-f1c100s-usb-phy
-> > +
-> > +=C2=A0 reg:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +=C2=A0=C2=A0=C2=A0 description: PHY Control registers
-> > +
-> > +=C2=A0 reg-names:
-> > +=C2=A0=C2=A0=C2=A0 const: phy_ctrl
-> > +
-> > +=C2=A0 clocks:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +=C2=A0=C2=A0=C2=A0 description: USB OTG PHY bus clock
-> > +
-> > +=C2=A0 clock-names:
-> > +=C2=A0=C2=A0=C2=A0 const: usb0_phy
->=20
-> *-names is not needed with only one entry. Plus, just using the
-> module=20
-> name is not a great choice.
+I attached the videos and tests as a proof. If you don't believe me
+you can always check.
 
-However the driver expects it...
+If you find something missing in the commit message or don't like to
+see external links feel
+free to amend it. From my point of view the patch is complete.
 
-Should I patch the driver to use no name on F1C100s?
+>
+> Maxime
 
->=20
-> > +
-> > +=C2=A0 resets:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +=C2=A0=C2=A0=C2=A0 description: USB OTG reset
-> > +
-> > +=C2=A0 reset-names:
-> > +=C2=A0=C2=A0=C2=A0 const: usb0_reset
->=20
-> Same here.
->=20
-> > +=C2=A0 usb0_id_det-gpios:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +=C2=A0=C2=A0=C2=A0 description: GPIO to the USB OTG ID pin
-> > +
-> > +=C2=A0 usb0_vbus_det-gpios:
-> > +=C2=A0=C2=A0=C2=A0 maxItems: 1
-> > +=C2=A0=C2=A0=C2=A0 description: GPIO to the USB OTG VBUS detect pin
-> > +
-> > +=C2=A0 usb0_vbus_power-supply:
-> > +=C2=A0=C2=A0=C2=A0 description: Power supply to detect the USB OTG VBU=
-S
-> > +
-> > +=C2=A0 usb0_vbus-supply:
-> > +=C2=A0=C2=A0=C2=A0 description: Regulator controlling USB OTG VBUS
->=20
-> Why the 'usb0_' prefix?
->=20
-> Are these GPIOs and Vbus supply connected to the phy? If not, these
-> all=20
-> belong in a connector node (as that is where they are connected to in
-> h/w).
-
-Well these are historical things of phy-sun4i-usb driver too.
-
->=20
-> > +
-> > +required:
-> > +=C2=A0 - "#phy-cells"
-> > +=C2=A0 - compatible
-> > +=C2=A0 - clocks
-> > +=C2=A0 - clock-names
-> > +=C2=A0 - reg
-> > +=C2=A0 - reg-names
-> > +=C2=A0 - resets
-> > +=C2=A0 - reset-names
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +=C2=A0 - |
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/gpio/gpio.h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/clock/suniv-f1c100s-ccu.h>
-> > +=C2=A0=C2=A0=C2=A0 #include <dt-bindings/reset/suniv-f1c100s-ccu.h>
-> > +
-> > +=C2=A0=C2=A0=C2=A0 phy@1c13400 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 compatible =3D "allwinner,s=
-univ-f1c100s-usb-phy";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg =3D <0x01c13400 0x10>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reg-names =3D "phy_ctrl";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clocks =3D <&ccu CLK_USB_PH=
-Y0>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 clock-names =3D "usb0_phy";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 resets =3D <&ccu RST_USB_PH=
-Y0>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 reset-names =3D "usb0_reset=
-";
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 #phy-cells =3D <1>;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb0_id_det-gpios =3D <&pio=
- 4 2 GPIO_ACTIVE_HIGH>;
-> > +=C2=A0=C2=A0=C2=A0 };
-> > --=20
-> > 2.36.0
-> >=20
-> >=20
-
-
+Roman
