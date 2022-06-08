@@ -1,28 +1,28 @@
 Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288ED7C
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 07:05:53 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1654671946; cv=none; 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AB17C
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 07:06:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; t=1654671954; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=WCTiZsVbZkiyPWNKvOWqgJDqqwyAZ2nrFRS/3PKCYlyJr603gecGh7m594lOs9XEyrw98uYBey3bzdT8SXT74t5bf49aVhHJoDnJ+cRrnZH8n82zIizKjenvjOlmdoGIVrZ1najueXgrQIThYmeXiWdj6x3hpfgzXfmN8xfBXLM=
+	b=QBYaXVSrh0KHPaoowHgjYi0kdMbKz9bfxBVEjUFYqcf8Bv+wgjTHbquhmw5vHzoqSXf+TGUJ5f3ItBmiD96AfyryitQ46fUgfLwIe0HvZzqL0DboR9ys6+5VBJ9TNKRv/4nmg3UJ8YDgkwEPUTc2m/JTFvUdb0Igrz8Xv5gu7Yw=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1654671946; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=eOSmYjeyodRtWW8Zwck9JJRoEsPSewYFv2Sg459aO/Q=; 
-	b=G/eNIckA5Til4nC5uo16h7QvppeC7CSstxKDtcsI8Y7Te0MksFJr9V+Fkm+vDqAnPXZn0powOMjU8e03pVP5O4szMQ1CO3dPbxPZj0OHnjn44I6oMJgVIr+pMfIcgwXCNmzX2rpqLsvIJuiTcJz144sTAt3eqHZfvN1bHH4bHvE=
+	t=1654671954; h=Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
+	bh=bK+qygT/W8e7IdMMhLssT6sOTIHj4DjaVCfrAGmo3wY=; 
+	b=GqG8SBbImRgbseNAloTdvbc0H4UilPdE75MRoH1taHqrXPebJTd26jXsgf50nnhfRvVbWzGWQVdkHePb7KSyq8nFBqg6eLASVY2dNg1EQIQLCk44SF1FmWMhGNRJw2SgXGCH6javF4pXkpgXOUGevPmC+Ps9AhcmEvaTpEJn0Rg=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=icenowy.me;
 	spf=pass  smtp.mailfrom=uwu@icenowy.me;
 	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671946;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1654671954;
 	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
-	bh=eOSmYjeyodRtWW8Zwck9JJRoEsPSewYFv2Sg459aO/Q=;
-	b=cNVbmGV1//Q6JbD9i1XFILyKxUL34hHeFs7E7h935aziVne3c/0xojIuQ6KRMkat
-	Mn/bZC38/aYu+a8CCF3OPvl6eFR7GpW2oXSU5GVRsEr45u8dO3qUY4bR23CalzuFW8P
-	GXH8fidZ459UrbemGmCb3SEppLuZ+vafke/DfQTg=
+	bh=bK+qygT/W8e7IdMMhLssT6sOTIHj4DjaVCfrAGmo3wY=;
+	b=EIQ6oOQk03dtkmAYYWCnH09Ex0X5yuigfdvdPWL53oPg5rAxSm0GGIVXAsWEesAG
+	qNIz4lceQ9oXGQiDS0Fecr5q+3SioH4bTppeCuL4yfYPQTQx/kZcPS+5XWoFteGNflu
+	vsfBNqT6Yx12CXQYIg72dZ6d7U4Ne71w7IFeHyuY=
 Received: from edelgard.icenowy.me (59.41.163.66 [59.41.163.66]) by mx.zohomail.com
-	with SMTPS id 1654671944661761.5571172953408; Wed, 8 Jun 2022 00:05:44 -0700 (PDT)
+	with SMTPS id 1654671953211498.9764845551447; Wed, 8 Jun 2022 00:05:53 -0700 (PDT)
 From: Icenowy Zheng <uwu@icenowy.me>
 To: Kishon Vijay Abraham I <kishon@ti.com>,
 	Vinod Koul <vkoul@kernel.org>,
@@ -39,9 +39,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
 	linux-usb@vger.kernel.org,
 	Icenowy Zheng <icenowy@aosc.io>
-Subject: [PATCH 5/7] musb: sunxi: add support for the F1C100s MUSB controller
-Date: Wed,  8 Jun 2022 15:04:50 +0800
-Message-Id: <20220608070452.338006-6-uwu@icenowy.me>
+Subject: [PATCH 6/7] ARM: suniv: add USB-related device nodes
+Date: Wed,  8 Jun 2022 15:04:51 +0800
+Message-Id: <20220608070452.338006-7-uwu@icenowy.me>
 X-Mailer: git-send-email 2.36.0
 In-Reply-To: <20220608070452.338006-1-uwu@icenowy.me>
 References: <20220608070452.338006-1-uwu@icenowy.me>
@@ -56,48 +56,53 @@ X-ZohoMailClient: External
 
 From: Icenowy Zheng <icenowy@aosc.io>
 
-The suniv SoC has a MUSB controller like the one in A33, but with a SRAM
-region to be claimed.
+The suniv SoC has a USB OTG controller and a USB PHY like other
+Allwinner SoCs.
 
-Add support for it.
+Add their device tree node.
 
 Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 ---
- drivers/usb/musb/sunxi.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ arch/arm/boot/dts/suniv-f1c100s.dtsi | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index 961c858fb349..2cb512e172f8 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -722,14 +722,17 @@ static int sunxi_musb_probe(struct platform_device *pdev)
- 	INIT_WORK(&glue->work, sunxi_musb_work);
- 	glue->host_nb.notifier_call = sunxi_musb_host_notifier;
+diff --git a/arch/arm/boot/dts/suniv-f1c100s.dtsi b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+index 0edc1724407b..a01541ba42c5 100644
+--- a/arch/arm/boot/dts/suniv-f1c100s.dtsi
++++ b/arch/arm/boot/dts/suniv-f1c100s.dtsi
+@@ -133,6 +133,32 @@ mmc1: mmc@1c10000 {
+ 			#size-cells = <0>;
+ 		};
  
--	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb"))
-+	if (of_device_is_compatible(np, "allwinner,sun4i-a10-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_SRAM, &glue->flags);
-+	}
- 
- 	if (of_device_is_compatible(np, "allwinner,sun6i-a31-musb"))
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 
- 	if (of_device_is_compatible(np, "allwinner,sun8i-a33-musb") ||
--	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb")) {
-+	    of_device_is_compatible(np, "allwinner,sun8i-h3-musb") ||
-+	    of_device_is_compatible(np, "allwinner,suniv-f1c100s-musb")) {
- 		set_bit(SUNXI_MUSB_FL_HAS_RESET, &glue->flags);
- 		set_bit(SUNXI_MUSB_FL_NO_CONFIGDATA, &glue->flags);
- 	}
-@@ -826,6 +829,7 @@ static const struct of_device_id sunxi_musb_match[] = {
- 	{ .compatible = "allwinner,sun6i-a31-musb", },
- 	{ .compatible = "allwinner,sun8i-a33-musb", },
- 	{ .compatible = "allwinner,sun8i-h3-musb", },
-+	{ .compatible = "allwinner,suniv-f1c100s-musb", },
- 	{}
- };
- MODULE_DEVICE_TABLE(of, sunxi_musb_match);
++		usb_otg: usb@1c13000 {
++			compatible = "allwinner,suniv-f1c100s-musb";
++			reg = <0x01c13000 0x0400>;
++			clocks = <&ccu CLK_BUS_OTG>;
++			resets = <&ccu RST_BUS_OTG>;
++			interrupts = <26>;
++			interrupt-names = "mc";
++			phys = <&usbphy 0>;
++			phy-names = "usb";
++			extcon = <&usbphy 0>;
++			allwinner,sram = <&otg_sram 1>;
++			status = "disabled";
++		};
++
++		usbphy: phy@1c13400 {
++			compatible = "allwinner,suniv-f1c100s-usb-phy";
++			reg = <0x01c13400 0x10>;
++			reg-names = "phy_ctrl";
++			clocks = <&ccu CLK_USB_PHY0>;
++			clock-names = "usb0_phy";
++			resets = <&ccu RST_USB_PHY0>;
++			reset-names = "usb0_reset";
++			#phy-cells = <1>;
++			status = "disabled";
++		};
++
+ 		ccu: clock@1c20000 {
+ 			compatible = "allwinner,suniv-f1c100s-ccu";
+ 			reg = <0x01c20000 0x400>;
 -- 
 2.36.0
 
