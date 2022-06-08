@@ -1,164 +1,160 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (mail-oln040092075084.outbound.protection.outlook.com [40.92.75.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF70320A
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 17:46:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E7F7C
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 21:44:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kHqn5PAP+jbe8Zs5DgorTAGXOCPOVhFXbYoYTJCHxFuoObzdit2lC4O9O1vivWhNiY+zDYZBIVasc/Aho9bjIjD7fDt1GqD+gg+dP/ddBsrnCVCKzIecUdca+WLJy9sebrabWuE5b5WP0NUGqMKynwjr6jsr/KABnoMoQbtgzX2HDJbLLwmnEwD7oc4JrRxQ6vncGo7kkEdM9nk2PNTj3RjuSo1KVDyFC3ckW3XGLlLz6pTm4/N1GuIYVPtlDsymbUm5Q4SmFW671AkPnxOgpKj3LiRQlRFSbsIq49rdxiSNZ1RDW+j4pW4chFq2HCD4qipoEqgXpbp/dP4z/yRSnQ==
+ b=AaGrXhXHUbLIHRKGMhvkvvo/VH4vumXzWCsQ6NFuG/bVnRT5xiOTTSJNkHisMPMlFUEoBR5jxAGxl7AeURvmvr56dozV4hDMOaf0o5L5WOzKPyN0DzCrh4mOKdF95o16femXZyJyyKxmsNZ3KH46GZwngHRcFQqqcAzX+sDVzmxGqAPYBCPKBoCotOiQFwZXyftazpXMfCmknJZWLs9buiHfRHWLWkMHVA4dJkrfloXJKHXMSL7s1Oc3Hf1v+M7m3rEEyCyLrgIriXEtMY1PQqdvW8E4hrahcL2hxZZ5CURtgoGZRENxjECu/OUjhynWOLNRWwMoJUOXIh7YWxDtYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fFeNMwak6IcWIfXn3ck/l0OoBncuvs3yDZ+On/hvF3w=;
- b=FZN7npI2c4Y6/FzlggObdZDGWKmeW1ze3nbyVSLHjKCRM/TJuUEKFLpjg+dHYHPwdclNK1SczwySFeQ0t5t6caG2h/c+3JFEieaq4HVQpxS+cBkJ4HXYubTTasnc875wk8w3T92nZWXIVgNPwbDwBBJ2j/tYkub3XCj3RdubsFgb/ItmmGkndwvVXLX0rfo+LMa0xToXGYN/NjWpGAMQ+up0Ia5wa2wSOG12uohIwTkZa4NxA6Ia4F1+QCpu/i4hrQ5C8YeEApE6BO1W4t4KWUHwDp/ar0dbs/bUykPAQF1cMB22xvKF/+P7BXR3alD4nUzSghf2wmH6ikDVALsqVg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 12.22.5.235) smtp.rcpttodomain=gmail.com smtp.mailfrom=nvidia.com; dmarc=pass
- (p=reject sp=reject pct=100) action=none header.from=nvidia.com; dkim=none
- (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=ZTU/PVysgftUff6kJGFGskS973apk9pJMP/n8+RnYCA=;
+ b=MXZVwcH9K3L7U7k5BXtIo9NZZFCt7ozEK33mGH0C/CrduIxa3QZ2e2bnMcrX9Fr+R5gxWLnwhnTImSg9cipH/9TDK1yfZ93kB244RsD1kRrwhv1aOjOhY/OjEgUvher+qx8e3BgY3IhKKGcD6nOW6yuvJ78Fe9fBLl3V7Bk4ftDNIarWL6XAawiafAAEufq8cK/17XKg2J+1d/c8PelSGtJoQiZyxwuBfV/KA7l5x00wb9TzS6ERn5/tIAaTMqfBhaZBskPDlKxLrKcskAHQqScDYvKgxR6cCD7ZIISN1s1VAtJkdHYhxQunbQMdRFD3Z2hI7KR5/XjEG2d7zC9GCw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fFeNMwak6IcWIfXn3ck/l0OoBncuvs3yDZ+On/hvF3w=;
- b=pj314MFZvyxbk0ZQs3c3QVIyiIVQvNRFWeljCaisw0svE3icciaLryu3SwB0ZrJruRPwCHycdF4wqAtPteGog6x6WVjlLESH6hvPeDrZrnR+RPyF39amcDN+uB9Vh7M8HNgVfpKFtMIPwxZD6OLG39vMVYxzMWC8fr6QDrGq6pHplKhKAzvo+3RQJasA72tXTPMmIYOac4j55a3VSKOkN5kGsFhdpTybvsc45awQKNkhJb+xIkvCjZlgTlBCzAKRScyZvB2f2v72w18BTuucGDIWT74YwdOeMTT88dbwNkPiNdDw6pXiRsR87KEhizzHi+VNUl9o+dBa+9XHhl5/uw==
-Received: from BN8PR04CA0048.namprd04.prod.outlook.com (2603:10b6:408:d4::22)
- by BL1PR12MB5109.namprd12.prod.outlook.com (2603:10b6:208:309::12) with
+ bh=ZTU/PVysgftUff6kJGFGskS973apk9pJMP/n8+RnYCA=;
+ b=hAh9+d0VMaDvBZq+VcC2k1XULm42zypfxrxdBZbo4g5Z3Rny0O38mYbbBL0QZfBaLYRC6UYE9C22mtwpzzKL+366efDRteSYY32r4sE2ZcvwG6g+T7HOBlKdK0LFQrIlMNTi4/0eHch6Vs1J8Iraja8QCSlb41nRM0Q3DHQMEbe4a00tgBXNvlhXWV+UqXmVZ4yCN5HnnL1SksopAAf48HhCv6Bpsz/ywk+PiJaHxerRgVykoxHr1UnqyeI5bPdol4o1AzxbtWeZLUHsePJjimyfGi5PCe6+B4nwelsubxET97jA+dbc7qSPhtes59S8GW38iA88mXBw6pdAf1U5nQ==
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c2::10)
+ by AS8P189MB1542.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:395::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5314.12; Wed, 8 Jun
- 2022 17:46:36 +0000
-Received: from BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:d4:cafe::74) by BN8PR04CA0048.outlook.office365.com
- (2603:10b6:408:d4::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.12 via Frontend
- Transport; Wed, 8 Jun 2022 17:46:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 12.22.5.235)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 12.22.5.235 as permitted sender) receiver=protection.outlook.com;
- client-ip=12.22.5.235; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (12.22.5.235) by
- BN8NAM11FT049.mail.protection.outlook.com (10.13.177.157) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.5332.12 via Frontend Transport; Wed, 8 Jun 2022 17:46:35 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.32; Wed, 8 Jun
- 2022 17:46:35 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Wed, 8 Jun 2022
- 10:46:34 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22 via Frontend
- Transport; Wed, 8 Jun 2022 10:46:31 -0700
-Date: Wed, 8 Jun 2022 10:46:30 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: "Tian, Kevin" <kevin.tian@intel.com>
-CC: "jgg@nvidia.com" <jgg@nvidia.com>, "joro@8bytes.org" <joro@8bytes.org>,
-	"will@kernel.org" <will@kernel.org>, "marcan@marcan.st" <marcan@marcan.st>,
-	"sven@svenpeter.dev" <sven@svenpeter.dev>, "robin.murphy@arm.com"
-	<robin.murphy@arm.com>, "robdclark@gmail.com" <robdclark@gmail.com>,
-	"m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "agross@kernel.org"
-	<agross@kernel.org>, "bjorn.andersson@linaro.org"
-	<bjorn.andersson@linaro.org>, "matthias.bgg@gmail.com"
-	<matthias.bgg@gmail.com>, "heiko@sntech.de" <heiko@sntech.de>,
-	"orsonzhai@gmail.com" <orsonzhai@gmail.com>, "baolin.wang7@gmail.com"
-	<baolin.wang7@gmail.com>, "zhang.lyra@gmail.com" <zhang.lyra@gmail.com>,
-	"wens@csie.org" <wens@csie.org>, "jernej.skrabec@gmail.com"
-	<jernej.skrabec@gmail.com>, "samuel@sholland.org" <samuel@sholland.org>,
-	"jean-philippe@linaro.org" <jean-philippe@linaro.org>,
-	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
-	"virtualization@lists.linux-foundation.org"
-	<virtualization@lists.linux-foundation.org>, "thierry.reding@gmail.com"
-	<thierry.reding@gmail.com>, "alim.akhtar@samsung.com"
-	<alim.akhtar@samsung.com>, "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	"linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-	"linux-samsung-soc@vger.kernel.org" <linux-samsung-soc@vger.kernel.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "jonathanh@nvidia.com"
-	<jonathanh@nvidia.com>, "linux-rockchip@lists.infradead.org"
-	<linux-rockchip@lists.infradead.org>, "gerald.schaefer@linux.ibm.com"
-	<gerald.schaefer@linux.ibm.com>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "cohuck@redhat.com"
-	<cohuck@redhat.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "iommu@lists.linux-foundation.org"
-	<iommu@lists.linux-foundation.org>, "dwmw2@infradead.org"
-	<dwmw2@infradead.org>
-Subject: Re: [PATCH 4/5] vfio/iommu_type1: Clean up update_dirty_scope in
- detach_group()
-Message-ID: <YqDgdqVIEwWF1Lku@Asurada-Nvidia>
-References: <20220606061927.26049-1-nicolinc@nvidia.com>
- <20220606061927.26049-5-nicolinc@nvidia.com>
- <BN9PR11MB5276FD77A2780C97BB82CBA88CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5332.13; Wed, 8 Jun
+ 2022 21:44:05 +0000
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d]) by PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d%5]) with mapi id 15.20.5332.012; Wed, 8 Jun 2022
+ 21:44:05 +0000
+From: Saud Farooqui <farooqui_saud@hotmail.com>
+To: clabbe.montjoie@gmail.com,
+	davem@davemloft.net,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	p.zabel@pengutronix.de,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Saud Farooqui <farooqui_saud@hotmail.com>
+Subject: [PATCH] crypto: sun8i-ss - Return appropriate error code
+Date: Thu,  9 Jun 2022 02:43:46 +0500
+Message-ID:
+ <PA4P189MB14215851AD16923CD7FED8988BA49@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [wu83tF/DiTuFzQEpevIOGdveInCte9dU]
+X-ClientProxiedBy: DX1P273CA0019.AREP273.PROD.OUTLOOK.COM
+ (2603:1086:300:20::6) To PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:c2::10)
+X-Microsoft-Original-Message-ID:
+ <20220608214346.1153223-1-farooqui_saud@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <BN9PR11MB5276FD77A2780C97BB82CBA88CA49@BN9PR11MB5276.namprd11.prod.outlook.com>
-X-EOPAttributedMessage: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1587681b-17e6-42e3-05b6-08da4976d555
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5109:EE_
-X-Microsoft-Antispam-PRVS:
-	<BL1PR12MB5109163184F6942DE7D0E27DABA49@BL1PR12MB5109.namprd12.prod.outlook.com>
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
+X-MS-Office365-Filtering-Correlation-Id: 8ec0fe74-24e4-47cc-e0e4-08da49980243
+X-MS-Exchange-SLBlob-MailProps:
+	CaK+F7me6Cn4w7g/Qnpre93SAPxeuyVxvedXIHMaoNFcTLOAYuJQ4B/Qpe/nBwfGQnP7ZuU41OFKMqYcy8/5LC/eR9frZdj2iWOrhLw+mgoz4jjrTKP2LyOGVC2tSCTAHblKLdnZtDdg/JUjdgXkwVv4ekFrpz6hoXoJ7VurSfnKgXugoez/fqVOWye+pHtWZznYlA0K2gGO0dvaBZfWaw2Ryvw4B79rvPum+NiHGDEoXncH4ZJfbnbsM2KghRO9JP/aCPjbqZJCvHzYnjPwjeDJ0F5jj1eZ5hiP77Rh9kfO1JSwZ10ZGanFf26ERrM3Lih3EXtiMvX6gjBX4VT5mQtNkt4Yj9X2RdBUAxK76bLwiWrx73dK3tAFZlyaCs8vUxKc5FpIJIyB6eHorcgr4yQ+UhasTWkUPWnpqJ8LtsK+vZqu0d6XlWkb/39GshljVBlr6TLDhWfsZ13lC/n3a9x9WUgUSBXLxkkgnL5OgzPAKM99Tfsn+QWZHNrIRLK7s02x7a/XOv1PUhoSebGSaRmPeCOwnudI/mPef8Jia339Qm9r9GMF0/F7Fsj3PqSi4s8Ig4TJvcHBdgz4Qg6uZK8Q2TuYCM2JiK7EI+xJhe9gxNpYW8RvsPKSQo2VLRuy9jK0LuxOaNs1xRUy/Ry9Hb8/OZYnje94exw1S6e8un5nUrxkjF6qufMb7qQsqVxAEmVXURuJm2pTKTnHchwguPtUGlif9CKlpT92xFQTESguIvlcqpMsVw==
+X-MS-TrafficTypeDiagnostic: AS8P189MB1542:EE_
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	VlWwurAOdfoGgoI16h8tVUGa0DMWObSVow2a+oqBe2GTFnExd/q6V80KUoAhwGlN9yTiFYxYW6jVjBzap0lqYoeVA4tHrBHMrOGcX5zZBeMejX3y7boGTlEAy8viOhvea4Lc5edPDt9f1gM3Yz4yshhtJU834DNuWSaDl8ncPyiQpyTRLuBvHJQBfduDGAfTgNfVbzHCJWrjAXpEGCRPTCGf7mTDAGh5679B46vrSg97YEDPFcMD43BwIItZvesFk4Zy64H93Dwary+5LvOOu343wysK9GxUMsJt9ESj5btIlqPdywHT8vmD67YvGPAoF/x3yZG3LHh7dZG8q/gtWy/b19cPhlo8nNnXnqEF0h7nE/ltWdup6DdvlH4HcoFYaMfD8+KZMV6Nv5XXpmSmcgQ94fjbq6RpxSQwnzq7UXarKD8LjmvWxl+5vaxdtSLl+vQBoPAlz1+dg+ILTz84VtisIYiw0ad3EIuQhQbcbYSsDfl9yL3rUkx2qO+yEb2NtCkQ2Fm3IO17nJB9KrPPm+T/qEgXoGVHlivYgejJEd9lU5sCIz0CwKdDurelw2XGvaY0nI7xYOBc6QrkGfSXmL4RbKqj3ZJ2PIJhnpEDGJMm+/XmrxCm1GA9pgdb3fgW8qWWDVkr+09ib2mFcHFvH7pgUIS1zo/GUOR2uhAkDta/7zYxFcm6pSERA8WykStTkWHbbfBM3IVe36tTA8CCypUdjIbGAWMJQSylTJFpr+k=
-X-Forefront-Antispam-Report:
-	CIP:12.22.5.235;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:InfoNoRecords;CAT:NONE;SFS:(13230001)(4636009)(40470700004)(46966006)(36840700001)(316002)(47076005)(426003)(8676002)(81166007)(36860700001)(55016003)(82310400005)(6916009)(70206006)(4326008)(70586007)(356005)(2906002)(54906003)(508600001)(336012)(8936002)(9686003)(33716001)(4744005)(186003)(5660300002)(83380400001)(40460700003)(86362001)(7416002)(7406005)(26005)(14143004)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 17:46:35.8559
+	QTNE53e4hggx6Zqmdhn9wVdOH1oAglSVk/Piw/MyR+LtOBgXfN0+u9QfKGiMDP7NEVM17Kirudt8JKsbZoRzSjlDi+NSIT/Ctfnan0EMezd+GXJ+v1/470Ge2OHZHNhC8t5bBUQ04JS1IRFrHOCUj6kB4Y13uUWUzgzSj2f6cx6hv+I7B1iXMPqONEGiqnM69QkOSmc906+KtqSgbHyXjW+lib5S9VuQdee3+yLP1IwAts6tih2X7EmA0vQi/JjG+Jaa0pFBRgzr3rkWxWcaiXjwI5AL/bGLs+7vboaB8rI3BDVM7FlJxZaD5fQ5m0S6ZVKgZRpBRk48DDnJWoomxN890SBOLN6Wf6OK7dzJqGcvKxqUq+ykMVDEb1TlU2ICSTUsQrD27cTJG4ppYDJ6838CxAyzergUeRaGpIYNqIyMFvcSueEd3M4v+2E/85L3L0hf/cZkHVL9t3t2BXAndj+hE1yGckwiPYqwyZmmX1GaiU9gkJMn37j8JKYPJQtyQY+oYRIrBS3tqEFDIXfYNv926ROc1mzKrbx8OjkevjX7o2M5KjTn+5UoQ7fH73gfgpDNMkg+A2zs1pbEaNIHZg==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?9GiyjnVPEpcWzUx5ZWFz+KMWU3BSq/mobgrHZsPCiHRCyBJ4lfYaNqQ1VG6Q?=
+ =?us-ascii?Q?IhrUTUerOMTNap97RN9OdBI0j6GaGF6rlZSEEeDPacKy0BiCxQrejpFvoYAJ?=
+ =?us-ascii?Q?/zUEq+CWndYBlOBKxVAPrgdIeZgu5qig/Yev2k8Fr1wRcdYYyPbejVws2BV7?=
+ =?us-ascii?Q?UFc8NqHVJ7Fsxd+hDMwGDfHz01IeilCsirdJH4sNFhdd0KKGaA9lwbovtULV?=
+ =?us-ascii?Q?B77U0YOADf+8bFiKxyhnFqfGnI3xQ22vEWuB7DEp/f9uv9NxOSHXDjD33LLw?=
+ =?us-ascii?Q?Wfk2oLIof6fc2xuI2VwKJmPxWrVzsQ4FS6r3KQSLjRzImVQ3Ky3mTg+OxEEW?=
+ =?us-ascii?Q?a6/SPHghGSIynuvgxFBCRiNfLdTXDw9lOPyLCHzqZ0SWp9eJgRuyQ6P7QBoJ?=
+ =?us-ascii?Q?gaCldwwUE+xbjwwxOvIoMXrf26rQnNS1pYfyXPTIiymyD9iUcGSrjksrL9v7?=
+ =?us-ascii?Q?KioM4gbChN0A0565rRpJPKvMu95Qn3EOl8hlLtkNSUJCGLU4xNVkE8tf6C+R?=
+ =?us-ascii?Q?HSW4sKVTi1bGmREzKCAowHR5JWuxYxgIbjgcElzDFUCHLIMMQMTPnt4mGLSV?=
+ =?us-ascii?Q?TItBwcqXsJrehx64nLJ+atRMjq++nlfF0ccGRPYXpzQtUkbxY3atY/m3/6ow?=
+ =?us-ascii?Q?XyaS9Xgo+YJfDeDeG35TP4w5w7fcUoMXn3X1BZNzV4U3IMfbfZiYumGrlcyy?=
+ =?us-ascii?Q?KgsJcXQYW1yznYGfcBiGSxxNEKPnCoINwr7kJnVSMbnnsF46cFyXjUgmt0oP?=
+ =?us-ascii?Q?TmbQF6cO78cC1MS/thFhVFulLOr6JkanXol2CARa0Zep0HGlq+i5x8kwIqdo?=
+ =?us-ascii?Q?3MgpW5//NjQ4dc8zy2uy0Zzd/yUyMu9dF7Wj05xwI4zSP2rRt6Pb7RRiOYhU?=
+ =?us-ascii?Q?XxceQMAgmHM6mGJJakaaVp0EdT1Rsyj5lokl9DopEIvw+8vFl+F09uJWORKm?=
+ =?us-ascii?Q?elt0a22PgVMGunHT541jchDcnOpBK4ePFyf6F6pL1RJgfgPyyonJ7zJrlP8O?=
+ =?us-ascii?Q?16GWWjA30HA0/8ovG01baBtQm+11AeuqBwVnbb/fNVWYBy5cFm4uyXUVfVwF?=
+ =?us-ascii?Q?wCwQI5BQnpz6vpDb2nnhnaIGtdZI+qzTUd3eUlHRg2keg8avzZExUXCIXWol?=
+ =?us-ascii?Q?Nzxym0YGm5TypuQijujwrYYbLuSD1UEaNlUqABWlbd6XksuNmrejhIZ2s8CI?=
+ =?us-ascii?Q?CwfnLtpGw7nULhtnGJdqPp40mNAQcZ/0DzoC8w+n5RznG4R6NZX/rO53ppiB?=
+ =?us-ascii?Q?ZwgciSTpUGBHD5GYxMcRB12hhi7S/eheQReyFDkrMsyT7AYpe5ecjv5W4O02?=
+ =?us-ascii?Q?lNqz1PwPnQVdT8aawc4eFpZUs3ovQikTKWhL5si7j2t37cIg3u29SuN+29bD?=
+ =?us-ascii?Q?aSLOwG1CrilV1FTmBntZgkFSsOVqGcYyVgE4tKuql8pKZQbolI1p/2+brotg?=
+ =?us-ascii?Q?oM4JcayAXqM=3D?=
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ec0fe74-24e4-47cc-e0e4-08da49980243
+X-MS-Exchange-CrossTenant-AuthSource: PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2022 21:44:05.0549
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1587681b-17e6-42e3-05b6-08da4976d555
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[12.22.5.235];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN8NAM11FT049.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5109
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1542
 
-On Wed, Jun 08, 2022 at 08:35:47AM +0000, Tian, Kevin wrote:
+Return error in case memory could not be allocated for sun8i_ss_flow
+internal params
 
-> > @@ -2519,7 +2515,17 @@ static void vfio_iommu_type1_detach_group(void
-> > *iommu_data,
-> >                       kfree(domain);
-> >                       vfio_iommu_aper_expand(iommu, &iova_copy);
-> >                       vfio_update_pgsize_bitmap(iommu);
-> > +                     /*
-> > +                      * Removal of a group without dirty tracking may
-> > allow
-> > +                      * the iommu scope to be promoted.
-> > +                      */
-> > +                     if (!group->pinned_page_dirty_scope) {
-> > +                             iommu->num_non_pinned_groups--;
-> > +                             if (iommu->dirty_page_tracking)
-> > +
-> >       vfio_iommu_populate_bitmap_full(iommu);
-> 
-> This doesn't look correct. The old code decrements
-> num_non_pinned_groups for every detach group without dirty
-> tracking. But now it's only done when the domain is about to
-> be released...
+Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
+---
+ .../crypto/allwinner/sun8i-ss/sun8i-ss-core.c    | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-Hmm..you are right. It should be placed outside:
-		if (list_empty(&domain->group_list)) {
-			...
-		}
-+		if (!group->pinned_page_dirty_scope) {
-+			...
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+index 98593a0cff69..448819550b59 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-core.c
+@@ -528,25 +528,33 @@ static int allocate_flows(struct sun8i_ss_dev *ss)
+ 
+ 		ss->flows[i].biv = devm_kmalloc(ss->dev, AES_BLOCK_SIZE,
+ 						GFP_KERNEL | GFP_DMA);
+-		if (!ss->flows[i].biv)
++		if (!ss->flows[i].biv) {
++			err = -ENOMEM;
+ 			goto error_engine;
 +		}
+ 
+ 		for (j = 0; j < MAX_SG; j++) {
+ 			ss->flows[i].iv[j] = devm_kmalloc(ss->dev, AES_BLOCK_SIZE,
+ 							  GFP_KERNEL | GFP_DMA);
+-			if (!ss->flows[i].iv[j])
++			if (!ss->flows[i].iv[j]) {
++				err = -ENOMEM;
+ 				goto error_engine;
++			}
+ 		}
+ 
+ 		/* the padding could be up to two block. */
+ 		ss->flows[i].pad = devm_kmalloc(ss->dev, MAX_PAD_SIZE,
+ 						GFP_KERNEL | GFP_DMA);
+-		if (!ss->flows[i].pad)
++		if (!ss->flows[i].pad) {
++			err = -ENOMEM;
+ 			goto error_engine;
++		}
+ 		ss->flows[i].result = devm_kmalloc(ss->dev, SHA256_DIGEST_SIZE,
+ 						   GFP_KERNEL | GFP_DMA);
+-		if (!ss->flows[i].result)
++		if (!ss->flows[i].result) {
++			err = -ENOMEM;
+ 			goto error_engine;
++		}
+ 
+ 		ss->flows[i].engine = crypto_engine_alloc_init(ss->dev, true);
+ 		if (!ss->flows[i].engine) {
+-- 
+2.25.1
 
-Will fix this and the same problem in PATCH-5 too.
-
-Thanks!
