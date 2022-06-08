@@ -1,106 +1,86 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5D5F7C
-	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 13:37:13 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DB4AB1424;
-	Wed,  8 Jun 2022 06:37:12 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BB8163F66F;
-	Wed,  8 Jun 2022 06:37:11 -0700 (PDT)
-Date: Wed, 8 Jun 2022 14:37:09 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
- Tom Rini <trini@konsulko.com>, u-boot@lists.denx.de, "Milan P .
- =?UTF-8?B?U3RhbmnEhw==?=" <mps@arvanta.net>, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: usb: convert PHY GPIO functions to DM
-Message-ID: <20220608143709.317ee976@donnerap.cambridge.arm.com>
-In-Reply-To: <9ef704d0-fec8-d07f-76e0-c10037aa6953@sholland.org>
-References: <20220608000604.3357-1-andre.przywara@arm.com>
-	<5737809a-f9e2-f325-5168-d222968a02d8@sholland.org>
-	<20220608104638.27ff5c3b@donnerap.cambridge.arm.com>
-	<9ef704d0-fec8-d07f-76e0-c10037aa6953@sholland.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306217C
+	for <linux-sunxi@lists.linux.dev>; Wed,  8 Jun 2022 13:45:13 +0000 (UTC)
+Received: by mail-io1-f44.google.com with SMTP id a10so18837164ioe.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 08 Jun 2022 06:45:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+         :message-id;
+        bh=wTTvlPBhL0R4VGrImadF6/peV4pBTwvdmzGU+XrZruE=;
+        b=Vi75KPX2AskpLU7r0AjnlrsJuZEoHldnsBsvt1ARWP/vJuth4ItI5O3jg7ZP1ab14b
+         zbSrxCf29VoolRriRIkAenvw1zlfuebtXbkMjAO9lR7yBDIiyt9ZVkAyc66i0zrSkpyk
+         mD9lB2u92z1mRzkHRUv78OEbNXzJ2c9oyL/oebY/GOay0n2waXF8Sq4z+gf0/NST/KSD
+         VDiQ/pUnZmbvWkHllAmc/HTCxFpgtJl3HhpnDUGqekh8W5N2ObF/OnJb+hFBl0CKG7nK
+         wHA/6bKFbFDg1IxnpUUD4t1jasnil9YoBBcM79Ntag0qoYJfxtv4wWWp2rR2pVtlnbg0
+         UkUA==
+X-Gm-Message-State: AOAM530LNxTbTxbi2I4eKweTX/LLH8/IAwbGSvTR5gi/761mFTTnDAlm
+	467lrlw7Qec+I/aL5C8/uQ==
+X-Google-Smtp-Source: ABdhPJzXC7b2axuL8VqcV+jcp6rJGpBavEB0PfCW3q7lAr4J3Dzn0kGXXRomqn4DlodahC0axmuGvw==
+X-Received: by 2002:a6b:cf13:0:b0:668:bda0:f300 with SMTP id o19-20020a6bcf13000000b00668bda0f300mr16208468ioa.89.1654695912193;
+        Wed, 08 Jun 2022 06:45:12 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.251])
+        by smtp.gmail.com with ESMTPSA id p4-20020a056638216400b003315a20c6e1sm7862407jak.9.2022.06.08.06.45.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jun 2022 06:45:11 -0700 (PDT)
+Received: (nullmailer pid 1272088 invoked by uid 1000);
+	Wed, 08 Jun 2022 13:45:07 -0000
+From: Rob Herring <robh@kernel.org>
+To: Icenowy Zheng <uwu@icenowy.me>
+Cc: Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh+dt@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>, linux-phy@lists.infradead.org, Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org, Vinod Koul <vkoul@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Kishon Vijay Abraham I <kishon@ti.com>, devicetree@vger.kernel.org
+In-Reply-To: <20220608070452.338006-3-uwu@icenowy.me>
+References: <20220608070452.338006-1-uwu@icenowy.me> <20220608070452.338006-3-uwu@icenowy.me>
+Subject: Re: [PATCH 2/7] dt-bindings: phy: add binding document for Allwinner F1C100s USB PHY
+Date: Wed, 08 Jun 2022 07:45:07 -0600
+Message-Id: <1654695907.384174.1272087.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 8 Jun 2022 08:14:27 -0500
-Samuel Holland <samuel@sholland.org> wrote:
+On Wed, 08 Jun 2022 15:04:47 +0800, Icenowy Zheng wrote:
+> Allwinner F1C100s has the most simple USB PHY among all Allwinner SoCs,
+> because it has only one OTG USB controller, no host-only OHCI/EHCI
+> controllers.
+> 
+> Add a binding document for it.
+> 
+> Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
+> ---
+>  .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83 +++++++++++++++++++
+>  1 file changed, 83 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.yaml
+> 
 
-Hi,
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-> On 6/8/22 4:46 AM, Andre Przywara wrote:
-> > On Tue, 7 Jun 2022 21:07:59 -0500
-> > Samuel Holland <samuel@sholland.org> wrote:
-> >=20
-> > Hi,
-> >  =20
-> >> On 6/7/22 7:06 PM, Andre Przywara wrote: =20
-> >>> The Allwinner USB PHY driver is still using the legacy GPIO interface,
-> >>> which is now implemented by the DM_GPIO compat functions.
-> >>> Those seem to have some design flaws, as setting the direction, then
-> >>> later setting the value will not work, if the DM_GPIO driver is
-> >>> implementing set_flags.
-> >>>
-> >>> Fix this by using the dm_ version of the direct GPIO interface, which
-> >>> uses struct gpio_desc structs to handle requested GPIOs, and actually
-> >>> keeps the flags we set earlier.
-> >>>
-> >>> This fixes USB operation on boards which need to toggle the VBUS supp=
-ly
-> >>> via a GPIO, like the Teres-I laptop or the BananaPi M2 Berry board.
-> >>>
-> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >>> Reported-by: Milan P. Stani=C4=87 <mps@arvanta.net>   =20
-> >>
-> >> Reviewed-by: Samuel Holland <samuel@sholland.org> =20
-> >=20
-> > Thanks!
-> >  =20
-> >>
-> >> It looks like the other users of sunxi_name_to_gpio are unaffected bec=
-ause they
-> >> call only gpio_direction_output (sometimes repeatedly), never gpio_set=
-_value. =20
-> >=20
-> > Yeah, that's right, I was concerned about SATAPWR and MACPWR too, but t=
-hey
-> > work, for the very reason you mentioned.
-> > But we should eventually eliminate their usage, together with
-> > CONFIG_USB?_VBUS_PIN, as they are only used in U-Boot proper, where we =
-can
-> > rely on proper DT information now. =20
->=20
-> I have a series for converting the USB PHY driver to devicetree already, =
-but it
+yamllint warnings/errors:
 
-So I remembered correctly ...
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.example.dts:19:18: fatal error: dt-bindings/clock/suniv-f1c100s-ccu.h: No such file or directory
+   19 |         #include <dt-bindings/clock/suniv-f1c100s-ccu.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:383: Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-phy.example.dtb] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1404: dt_binding_check] Error 2
 
-> has been blocked on the devicetree update renaming "usb0_*_det-gpio" to
-> "usb0_*_det-gpios". In fact it is still blocked on that, because the sun4i
-> devicetree patch was only partially applied.
+doc reference errors (make refcheckdocs):
 
-Yeah, I saw that, sorry for the mixup. That patch didn't make it to
-patchwork, so I applied it manually on one tree, but fixed it up wrongly on
-the other machine. It is in my (mental) fixes queue, together with that
-H616 FEL issue (once I find the actual culprit), and that NAND environment
-fix.
-Once that's in, I will try to update the -next branch with stuff for the
-next merge window (in July), so you can then work on that branch.
+See https://patchwork.ozlabs.org/patch/
 
-> I will rebase the series on top of your patch and send it soon.
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
 
-Cool, many thanks. And no rush, I just wanted to check to avoid double
-work.
-I think I figured nice and easy solutions for SATAPWR and MACPWR, will
-test them later tonight.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Cheers,
-Andre
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
