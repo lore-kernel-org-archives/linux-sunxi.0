@@ -1,516 +1,186 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 591977A
-	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jun 2022 11:39:29 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id v19so30803306edd.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 Jun 2022 04:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=qUF7mJgyuOeQm7yqPJz+0uBUgSwvVQUVFwelZsrvov4=;
-        b=NfadNQ/aFI7ofL8KwsplXAbQ0IPQd2DFyEVUrjhsA9GQfZK6w/oUk+3P1MwvQXGMG7
-         bIHvscTaV2Nm6AMfDzRwZo72/bsAT+H0lsqff2N83hg2YACYFhNQEVDe0pkLF/+6QjSU
-         mEH2gUVulT7Rv5LqWWXoPsYdcx0kY16/dq4J8kOV2KTJA7wPGAIaqY9+7ROuv5AY1Wsj
-         jQE82QLEwmBfUmIMoppyE/UfN0jsCeckfzfXCdyz0ruxvLkQq1epCliJfeegz89RKSgg
-         OVtd4ku/IsQQPeXL6uKjBtAcl+Nlzu8hHeRFCkdvycnSedrsQua1t8Yp9GZNQcj1iOHz
-         bv8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=qUF7mJgyuOeQm7yqPJz+0uBUgSwvVQUVFwelZsrvov4=;
-        b=OCT71KsFZr6WXGfQd1wDrxsiiuarfuoVFZBLyOq7QbuHpicqvwYyhXfSo6Xj3fx03W
-         aEujF+VUwxJN4TqJ8h8GDudhyWw1INrlI76MAKdaayDmPqpGATveijwCloM9eAua8iEM
-         64SWNbIjgXJ40DwzJ7ajJPFp6kN7w0sLGADbv/shRcsEnbGfg8ByQ011mYEZAHccEJXq
-         trpw6Voc9HWNbc2Y2RZf5XrCjsOXuX0w9PTbxU+d/RQTcAcVVifOKZCaU7jAl8vjcdtk
-         rjpwbb/W819wV6N4RqtH+vFxpzc8KGMGbuACWtADMb3dOIx2XP4eS4OaKQwDD02YSKID
-         Q6bQ==
-X-Gm-Message-State: AOAM533dL5Acp1KOmBH8zRyUyvLGrjVIgnY/Ttk+BgDxJp1g0zxUFrYj
-	7kTL9NqX6uzY10ZHPMFbCpiOag==
-X-Google-Smtp-Source: ABdhPJySnk1BDvd+UM+Ls8V8oJAH25W7D+a4xvsv+LPQaccuAQ/WgwM0D3Z5KNt/NbVt7CUYm6lDkA==
-X-Received: by 2002:a05:6402:2381:b0:42d:c8fe:d7fe with SMTP id j1-20020a056402238100b0042dc8fed7femr43984477eda.248.1654774767620;
-        Thu, 09 Jun 2022 04:39:27 -0700 (PDT)
-Received: from localhost.localdomain (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id u14-20020aa7d54e000000b0042e21f8c412sm11898495edr.42.2022.06.09.04.39.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 04:39:27 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	arm@kernel.org,
-	soc@kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH v2 06/48] ARM: dts: allwinner: align gpio-key node names with dtschema
-Date: Thu,  9 Jun 2022 13:39:08 +0200
-Message-Id: <20220609113911.380368-5-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E4E7C
+	for <linux-sunxi@lists.linux.dev>; Thu,  9 Jun 2022 13:32:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1062C34114;
+	Thu,  9 Jun 2022 13:32:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1654781536;
+	bh=z1uhxQdjX7oKygIhJ5n3vdkXs/MdE4hzoVbc7kac5Pw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=hMlmSDIOYJ+7b9WtKMfh6cgzJtzXooKB9Ak5wfc8T3UmN/WAUfnlQCqpv4GR0YjgG
+	 DWU8hxNDaAM1ZQt9W4THFQE6z0aY044Vscbzm22b4jgWPoF+LLoB4e3e4PGCUo8JaV
+	 hSxS8BIZYoLxBWGpe2pGg8ILRHwpznXh3kv7Kleqvg381zngU5Ik1Kyq+svQaNR7TJ
+	 Wq//i/RIqX99KrUBuYgO0bJ7T/gHcisYcj5pPKpQXMPx0I11l8o3/lQLUVPzaidmUb
+	 2RVz40d6hmCZ5zasbu3JfAz+I5RjDPkDu2c05iawkPzEg4Z20NkuVbFND0UQ7GKmsV
+	 DsOgIPzAWiAxQ==
+From: Mark Brown <broonie@kernel.org>
+To: ckeepax@opensource.cirrus.com
+Cc: linux-sunxi@lists.linux.dev, peter.ujfalusi@gmail.com, pierre-louis.bossart@linux.intel.com, linux-imx@nxp.com, krzk@kernel.org, jarkko.nikula@bitmer.com, linux-xtensa@linux-xtensa.org, cezary.rojewski@intel.com, shawnguo@kernel.org, linux-mediatek@lists.infradead.org, nicolas.ferre@microchip.com, patches@opensource.cirrus.com, linux-amlogic@lists.infradead.org, srinivas.kandagatla@linaro.org, daniel@zonque.org, linux-mips@vger.kernel.org, linux-tegra@vger.kernel.org, nsaenz@kernel.org, linux-stm32@st-md-mailman.stormreply.com, heiko@sntech.de, alsa-devel@alsa-project.org, kernel@pengutronix.de, jbrunet@baylibre.com, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, linux-rockchip@lists.infradead.org, linux-omap@vger.kernel.org, lgirdwood@gmail.com
+In-Reply-To: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
+Subject: Re: [PATCH 00/56] Specify clock provider directly to CPU DAIs
+Message-Id: <165478153064.1052094.1721875477574787769.b4-ty@kernel.org>
+Date: Thu, 09 Jun 2022 14:32:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The node names should be generic and DT schema expects certain pattern
-(e.g. with key/button/switch).
+On Thu, 19 May 2022 16:42:22 +0100, Charles Keepax wrote:
+> Currently the set_fmt callback always passes clock provider/consumer
+> with respect to the CODEC. This made sense when the framework was
+> directly broken down into platforms and CODECs. However, as things
+> are now broken down into components which can be connected as either
+> the CPU or CODEC side of a DAI link it simplifies things if each
+> side of the link is just told if it is provider or consumer of the
+> clocks. Making this change allows us to remove one of the last parts
+> of the ASoC core that needs to know if a driver is a CODEC driver,
+> where it flips the clock format specifier if a CODEC driver is used on
+> the CPU side of a DAI link, as well as just being conceptually more
+> consistent with componentisation.
+> 
+> [...]
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- arch/arm/boot/dts/sun4i-a10-inet9f-rev03.dts  | 40 +++++++++----------
- arch/arm/boot/dts/sun4i-a10-pcduino.dts       |  6 +--
- arch/arm/boot/dts/sun7i-a20-pcduino3.dts      |  6 +--
- .../dts/sun8i-h2-plus-bananapi-m2-zero.dts    |  4 +-
- arch/arm/boot/dts/sun8i-h3-beelink-x2.dts     |  4 +-
- .../boot/dts/sun8i-h3-mapleboard-mp130.dts    |  6 +--
- arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts    |  4 +-
- arch/arm/boot/dts/sun8i-h3-nanopi.dtsi        |  4 +-
- arch/arm/boot/dts/sun8i-h3-orangepi-2.dts     |  6 +--
- arch/arm/boot/dts/sun8i-h3-orangepi-lite.dts  |  4 +-
- arch/arm/boot/dts/sun8i-h3-orangepi-one.dts   |  4 +-
- arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts    |  4 +-
- arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi |  4 +-
- .../boot/dts/sunxi-libretech-all-h3-cc.dtsi   |  4 +-
- 14 files changed, 50 insertions(+), 50 deletions(-)
+Applied to
 
-diff --git a/arch/arm/boot/dts/sun4i-a10-inet9f-rev03.dts b/arch/arm/boot/dts/sun4i-a10-inet9f-rev03.dts
-index 0a562b2cc5bc..62e7aa587f89 100644
---- a/arch/arm/boot/dts/sun4i-a10-inet9f-rev03.dts
-+++ b/arch/arm/boot/dts/sun4i-a10-inet9f-rev03.dts
-@@ -63,7 +63,7 @@ gpio-keys {
- 		compatible = "gpio-keys-polled";
- 		poll-interval = <20>;
- 
--		left-joystick-left {
-+		event-left-joystick-left {
- 			label = "Left Joystick Left";
- 			linux,code = <ABS_X>;
- 			linux,input-type = <EV_ABS>;
-@@ -71,7 +71,7 @@ left-joystick-left {
- 			gpios = <&pio 0 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA6 */
- 		};
- 
--		left-joystick-right {
-+		event-left-joystick-right {
- 			label = "Left Joystick Right";
- 			linux,code = <ABS_X>;
- 			linux,input-type = <EV_ABS>;
-@@ -79,7 +79,7 @@ left-joystick-right {
- 			gpios = <&pio 0 5 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA5 */
- 		};
- 
--		left-joystick-up {
-+		event-left-joystick-up {
- 			label = "Left Joystick Up";
- 			linux,code = <ABS_Y>;
- 			linux,input-type = <EV_ABS>;
-@@ -87,7 +87,7 @@ left-joystick-up {
- 			gpios = <&pio 0 8 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA8 */
- 		};
- 
--		left-joystick-down {
-+		event-left-joystick-down {
- 			label = "Left Joystick Down";
- 			linux,code = <ABS_Y>;
- 			linux,input-type = <EV_ABS>;
-@@ -95,7 +95,7 @@ left-joystick-down {
- 			gpios = <&pio 0 9 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA9 */
- 		};
- 
--		right-joystick-left {
-+		event-right-joystick-left {
- 			label = "Right Joystick Left";
- 			linux,code = <ABS_Z>;
- 			linux,input-type = <EV_ABS>;
-@@ -103,7 +103,7 @@ right-joystick-left {
- 			gpios = <&pio 0 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA1 */
- 		};
- 
--		right-joystick-right {
-+		event-right-joystick-right {
- 			label = "Right Joystick Right";
- 			linux,code = <ABS_Z>;
- 			linux,input-type = <EV_ABS>;
-@@ -111,7 +111,7 @@ right-joystick-right {
- 			gpios = <&pio 0 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA0 */
- 		};
- 
--		right-joystick-up {
-+		event-right-joystick-up {
- 			label = "Right Joystick Up";
- 			linux,code = <ABS_RZ>;
- 			linux,input-type = <EV_ABS>;
-@@ -119,7 +119,7 @@ right-joystick-up {
- 			gpios = <&pio 0 3 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA3 */
- 		};
- 
--		right-joystick-down {
-+		event-right-joystick-down {
- 			label = "Right Joystick Down";
- 			linux,code = <ABS_RZ>;
- 			linux,input-type = <EV_ABS>;
-@@ -127,7 +127,7 @@ right-joystick-down {
- 			gpios = <&pio 0 4 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA4 */
- 		};
- 
--		dpad-left {
-+		event-dpad-left {
- 			label = "DPad Left";
- 			linux,code = <ABS_HAT0X>;
- 			linux,input-type = <EV_ABS>;
-@@ -135,7 +135,7 @@ dpad-left {
- 			gpios = <&pio 7 23 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PH23 */
- 		};
- 
--		dpad-right {
-+		event-dpad-right {
- 			label = "DPad Right";
- 			linux,code = <ABS_HAT0X>;
- 			linux,input-type = <EV_ABS>;
-@@ -143,7 +143,7 @@ dpad-right {
- 			gpios = <&pio 7 24 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PH24 */
- 		};
- 
--		dpad-up {
-+		event-dpad-up {
- 			label = "DPad Up";
- 			linux,code = <ABS_HAT0Y>;
- 			linux,input-type = <EV_ABS>;
-@@ -151,7 +151,7 @@ dpad-up {
- 			gpios = <&pio 7 25 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PH25 */
- 		};
- 
--		dpad-down {
-+		event-dpad-down {
- 			label = "DPad Down";
- 			linux,code = <ABS_HAT0Y>;
- 			linux,input-type = <EV_ABS>;
-@@ -159,49 +159,49 @@ dpad-down {
- 			gpios = <&pio 7 26 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PH26 */
- 		};
- 
--		x {
-+		event-x {
- 			label = "Button X";
- 			linux,code = <BTN_X>;
- 			gpios = <&pio 0 16 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA16 */
- 		};
- 
--		y {
-+		event-y {
- 			label = "Button Y";
- 			linux,code = <BTN_Y>;
- 			gpios = <&pio 0 14 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA14 */
- 		};
- 
--		a {
-+		event-a {
- 			label = "Button A";
- 			linux,code = <BTN_A>;
- 			gpios = <&pio 0 17 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA17 */
- 		};
- 
--		b {
-+		event-b {
- 			label = "Button B";
- 			linux,code = <BTN_B>;
- 			gpios = <&pio 0 15 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA15 */
- 		};
- 
--		select {
-+		event-select {
- 			label = "Select Button";
- 			linux,code = <BTN_SELECT>;
- 			gpios = <&pio 0 11 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA11 */
- 		};
- 
--		start {
-+		event-start {
- 			label = "Start Button";
- 			linux,code = <BTN_START>;
- 			gpios = <&pio 0 12 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA12 */
- 		};
- 
--		top-left {
-+		event-top-left {
- 			label = "Top Left Button";
- 			linux,code = <BTN_TL>;
- 			gpios = <&pio 7 22 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PH22 */
- 		};
- 
--		top-right {
-+		event-top-right {
- 			label = "Top Right Button";
- 			linux,code = <BTN_TR>;
- 			gpios = <&pio 0 13 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; /* PA13 */
-diff --git a/arch/arm/boot/dts/sun4i-a10-pcduino.dts b/arch/arm/boot/dts/sun4i-a10-pcduino.dts
-index 1ac82376baef..a332d61fd561 100644
---- a/arch/arm/boot/dts/sun4i-a10-pcduino.dts
-+++ b/arch/arm/boot/dts/sun4i-a10-pcduino.dts
-@@ -77,19 +77,19 @@ led-1 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		back {
-+		key-back {
- 			label = "Key Back";
- 			linux,code = <KEY_BACK>;
- 			gpios = <&pio 7 17 GPIO_ACTIVE_LOW>;
- 		};
- 
--		home {
-+		key-home {
- 			label = "Key Home";
- 			linux,code = <KEY_HOME>;
- 			gpios = <&pio 7 18 GPIO_ACTIVE_LOW>;
- 		};
- 
--		menu {
-+		key-menu {
- 			label = "Key Menu";
- 			linux,code = <KEY_MENU>;
- 			gpios = <&pio 7 19 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun7i-a20-pcduino3.dts b/arch/arm/boot/dts/sun7i-a20-pcduino3.dts
-index 4f8d55d3ba79..928b86a95f34 100644
---- a/arch/arm/boot/dts/sun7i-a20-pcduino3.dts
-+++ b/arch/arm/boot/dts/sun7i-a20-pcduino3.dts
-@@ -78,19 +78,19 @@ led-1 {
- 	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		back {
-+		key-back {
- 			label = "Key Back";
- 			linux,code = <KEY_BACK>;
- 			gpios = <&pio 7 17 GPIO_ACTIVE_LOW>;
- 		};
- 
--		home {
-+		key-home {
- 			label = "Key Home";
- 			linux,code = <KEY_HOME>;
- 			gpios = <&pio 7 18 GPIO_ACTIVE_LOW>;
- 		};
- 
--		menu {
-+		key-menu {
- 			label = "Key Menu";
- 			linux,code = <KEY_MENU>;
- 			gpios = <&pio 7 19 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts b/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-index d5c7b7984d85..335ab583b1cd 100644
---- a/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-+++ b/arch/arm/boot/dts/sun8i-h2-plus-bananapi-m2-zero.dts
-@@ -47,10 +47,10 @@ pwr_led {
- 		};
- 	};
- 
--	gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw4 {
-+		switch-4 {
- 			label = "power";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-index cd9f655e4f92..8167d473f2fd 100644
---- a/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-beelink-x2.dts
-@@ -93,10 +93,10 @@ led-1 {
- 		};
- 	};
- 
--	r-gpio-keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "power";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dts b/arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dts
-index ff0a7a952e0c..f5c8ccc5b872 100644
---- a/arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-mapleboard-mp130.dts
-@@ -39,16 +39,16 @@ status_led {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "power";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>; /* PL3 */
- 		};
- 
--		user {
-+		key-user {
- 			label = "user";
- 			linux,code = <BTN_0>;
- 			gpios = <&r_pio 0 4 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-index 8e7dfcffe1fb..71d617d25a56 100644
---- a/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-nanopi-duo2.dts
-@@ -37,10 +37,10 @@ led-1 {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		k1 {
-+		key-0 {
- 			label = "k1";
- 			linux,code = <BTN_0>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>; /* PL3 */
-diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-index a9f749f49beb..cf8413fba6c1 100644
---- a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-+++ b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-@@ -73,10 +73,10 @@ led-1 {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		k1 {
-+		key-0 {
- 			label = "k1";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-2.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-2.dts
-index 9daffd90c12f..f1f9dbead32a 100644
---- a/arch/arm/boot/dts/sun8i-h3-orangepi-2.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-orangepi-2.dts
-@@ -88,16 +88,16 @@ pwr_led {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw2 {
-+		switch-2 {
- 			label = "sw2";
- 			linux,code = <BTN_1>;
- 			gpios = <&r_pio 0 4 GPIO_ACTIVE_LOW>;
- 		};
- 
--		sw4 {
-+		switch-4 {
- 			label = "sw4";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-lite.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-lite.dts
-index 6f9c97add54e..305b34a321f5 100644
---- a/arch/arm/boot/dts/sun8i-h3-orangepi-lite.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-orangepi-lite.dts
-@@ -87,10 +87,10 @@ status_led {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw4 {
-+		switch-4 {
- 			label = "sw4";
- 			linux,code = <BTN_0>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-one.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-one.dts
-index 4759ba3f2986..59f6f6d5e7ca 100644
---- a/arch/arm/boot/dts/sun8i-h3-orangepi-one.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-orangepi-one.dts
-@@ -86,10 +86,10 @@ status_led {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw4 {
-+		switch-4 {
- 			label = "sw4";
- 			linux,code = <BTN_0>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-index 90f75fa85e68..b96e015f54ee 100644
---- a/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-+++ b/arch/arm/boot/dts/sun8i-h3-orangepi-pc.dts
-@@ -86,10 +86,10 @@ status_led {
- 		};
- 	};
- 
--	r_gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw4 {
-+		switch-4 {
- 			label = "sw4";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi b/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
-index d03f5853ef7b..d1d960a1ba48 100644
---- a/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
-+++ b/arch/arm/boot/dts/sunxi-bananapi-m2-plus.dtsi
-@@ -77,10 +77,10 @@ pwr_led {
- 		};
- 	};
- 
--	gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		sw4 {
-+		switch-4 {
- 			label = "power";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 3 GPIO_ACTIVE_LOW>;
-diff --git a/arch/arm/boot/dts/sunxi-libretech-all-h3-cc.dtsi b/arch/arm/boot/dts/sunxi-libretech-all-h3-cc.dtsi
-index 9e14fe5fdcde..89731bb34c6b 100644
---- a/arch/arm/boot/dts/sunxi-libretech-all-h3-cc.dtsi
-+++ b/arch/arm/boot/dts/sunxi-libretech-all-h3-cc.dtsi
-@@ -42,10 +42,10 @@ status_led {
- 		};
- 	};
- 
--	gpio_keys {
-+	gpio-keys {
- 		compatible = "gpio-keys";
- 
--		power {
-+		key-power {
- 			label = "power";
- 			linux,code = <KEY_POWER>;
- 			gpios = <&r_pio 0 2 GPIO_ACTIVE_LOW>; /* PL2 */
--- 
-2.34.1
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
+Thanks!
+
+[01/56] ASoC: core: Add set_fmt_new callback that directly specifies provider
+        commit: 905f3a04e184854555fc248ca4e692fdbf2f2547
+[02/56] ASoC: amd: vangogh: Update to use set_fmt_new callback
+        commit: ab890e0f83a65624d20b0ca4a7cb6306b8511558
+[03/56] ASoC: atmel: Update to use set_fmt_new callback
+        commit: 0fd054a577180cd807992e32c7cd394e54c85903
+[04/56] ASoC: au1x: Update to use set_fmt_new callback
+        commit: fee11f70849b21a244e6e27d281f3858b671bfea
+[05/56] ASoC: bcm: Update to use set_fmt_new callback
+        commit: 04ea2404468b7885c560c3673f6f2fd368f305a2
+[06/56] ASoC: ep93xx: Update to use set_fmt_new callback
+        commit: 5d6124e58d56818249a6266f56d9c3739e72e1bd
+[07/56] ASoC: dwc: Update to use set_fmt_new callback
+        commit: ca0444f1f7b228ae3b8d1a5c0f0d1b4463171f98
+[08/56] ASoC: fsl: Update to use set_fmt_new callback
+        commit: 3b14c15a333b8225ea38479e13c0366539d3374a
+[09/56] ASoC: hisilicon: Update to use set_fmt_new callback
+        commit: 0f362524dd3face4865077a4f7e7e640a95702aa
+[10/56] ASoC: img: Update to use set_fmt_new callback
+        commit: ed2b384082a678a0c4c8c56deff9e5f46d5e3fca
+[11/56] ASoC: Intel: Update to use set_fmt_new callback
+        commit: add9ee8c64c617f561a309cdda50104e9e2c12f6
+[12/56] ASoC: js4740-i2s: Update to use set_fmt_new callback
+        commit: cbb3a19f090d5a41b822caf9ff2058e1c6bc7ea3
+[13/56] ASoC: mediatek: Update to use set_fmt_new callback
+        commit: 3af99430f8d948a41556156155b0295dec274d41
+[14/56] ASoC: meson: Update to use set_fmt_new callback
+        commit: f60442bf6eab47aa4ab127aab88afdcc29a09a73
+[15/56] ASoC: mxs-saif: Update to use set_fmt_new callback
+        commit: f3c0064f1f8e358799c70c7905a09d15c5ec5e5a
+[16/56] ASoC: pxa: Update to use set_fmt_new callback
+        commit: 84c5b47c8ce4d5059d5e7539d3b44922cc0390e9
+[17/56] ASoC: qcom: Update to use set_fmt_new callback
+        commit: 1148e16b335f341f36475b646c692b4a71a1855e
+[18/56] ASoC: rockchip: Update to use set_fmt_new callback
+        commit: 27646d265da1745b2d1d10fec18465631cb1135f
+[19/56] ASoC: samsung: Update to use set_fmt_new callback
+        commit: 0b491c7c1b2555ef08285fd49a8567f2f9f34ff8
+[20/56] ASoC: sh: Update to use set_fmt_new callback
+        commit: 2d4dd776e902546389f2d7808ece7fd815aa829c
+[21/56] ASoC: stm: Update to use set_fmt_new callback
+        commit: 0092dac91ec1c404787841bdd9ecbf3404d1a41c
+[22/56] ASoC: sunxi: Update to use set_fmt_new callback
+        commit: 7cc3965fde74c9c725ed01de4ac35bc7d562d16a
+[23/56] ASoC: tegra: Update to use set_fmt_new callback
+        commit: d92ad6633fa77f9496840b77c8effeaa13ac78dc
+[24/56] ASoC: test-component: Update to use set_fmt_new callback
+        commit: d444c8d246a62392c0d249b1030c3ca271d47649
+[25/56] ASoC: ti: Update to use set_fmt_new callback
+        commit: 563ff63dc9fbb8ef4b8f145a53c84a5489bbd789
+[26/56] ASoC: ux500: Update to use set_fmt_new callback
+        commit: ce3467c78478e33927aea9043bf20f46fa4d5688
+[27/56] ASoC: xtensa: Update to use set_fmt_new callback
+        commit: e945206a0a448ac81dde0609578508368946f7a6
+[28/56] ASoC: core: Always send the CPU DAI a direct clock specifier
+        commit: 6c076273a326cc5b5162451aacf7b7744bb03c66
+[29/56] ASoC: amd: vangogh: Rename set_fmt_new back to set_fmt
+        commit: 346f47e784cd48b456f267a66e0daf1ef10d21b3
+[30/56] ASoC: atmel: Rename set_fmt_new back to set_fmt
+        commit: a839a53b9dc70f94032a671ee019599884612d4a
+[31/56] ASoC: au1x: Rename set_fmt_new back to set_fmt
+        commit: 2c73f5fd20a845fcb48173578b7c83dbcbacdeda
+[32/56] ASoC: bcm: Rename set_fmt_new back to set_fmt
+        commit: 1a267dd98c246237be00587b6e71f969bf75f10d
+[33/56] ASoC: ep93xx: Rename set_fmt_new back to set_fmt
+        commit: 324a4db8de05290237793dc3d7da887846ae90c1
+[34/56] ASoC: dwc: Rename set_fmt_new back to set_fmt
+        commit: 765fb623a2cd925c550370f73efe2137c52a1b25
+[35/56] ASoC: fsl: Rename set_fmt_new back to set_fmt
+        commit: 00778276cf4c611882219ab7aba9664c48981f1a
+[36/56] ASoC: hisilicon: Rename set_fmt_new back to set_fmt
+        commit: b9a7972818b84a15d46505df7808fd86c3fba5bb
+[37/56] ASoC: img: Rename set_fmt_new back to set_fmt
+        commit: 1830a30ec4cf1642a429e80dbbeb86aa7825c71a
+[38/56] ASoC: Intel: Rename set_fmt_new back to set_fmt
+        commit: c14a6ce9848571cf67faff206b02e212bec82761
+[39/56] ASoC: jz4740-i2s: Rename set_fmt_new back to set_fmt
+        commit: 1724cc38e7685ad8b01413acd70a4a731fc105ae
+[40/56] ASoC: mediatek: Rename set_fmt_new back to set_fmt
+        commit: 00ca2d152ef0fa9f4beb2a590e176499440de8fe
+[41/56] ASoC: meson: Rename set_fmt_new back to set_fmt
+        commit: eee6b5b9f3af0e906085022713ef41e56d03eca8
+[42/56] ASoC: mxs-saif: Rename set_fmt_new back to set_fmt
+        commit: 1a805faeb4915496671cd24bd2a75cc97a85dfc8
+[43/56] ASoC: pxa: Rename set_fmt_new back to set_fmt
+        commit: 8e2cc2b241bc0bb905231f301e6dfc80dc79f8a8
+[44/56] ASoC: qcom: Rename set_fmt_new back to set_fmt
+        commit: f1bd2fae856384f9377ca3faed0583d929002640
+[45/56] ASoC: rockchip: Rename set_fmt_new back to set_fmt
+        commit: 059f16bc0e02164617312435c31dffdc419f113f
+[46/56] ASoC: samsung: Rename set_fmt_new back to set_fmt
+        commit: b99d00c724bcf395558cb3028e823bd8f554fee6
+[47/56] ASoC: sh: Rename set_fmt_new back to set_fmt
+        commit: adced68031f96642272fae4e8c36d45d13797306
+[48/56] ASoC: stm: Rename set_fmt_new back to set_fmt
+        commit: 02ba0d9680feee645a321d65012f38d0a368b559
+[49/56] ASoC: sunxi: Rename set_fmt_new back to set_fmt
+        commit: 15011b2388d020a6cdb323539fc69c31b04d9f21
+[50/56] ASoC: tegra: Rename set_fmt_new back to set_fmt
+        commit: 475f2af6a2ff33e828900601a162e324b9986f9a
+[51/56] ASoC: test-component: Rename set_fmt_new back to set_fmt
+        commit: 408c122ef9de99220f7919594ab8af98194a19e8
+[52/56] ASoC: ti: Rename set_fmt_new back to set_fmt
+        commit: 9ff1836023ae19013c01f230e6a091fad6835213
+[53/56] ASoC: ux500: Rename set_fmt_new back to set_fmt
+        commit: e24ba1a21e244e7174e75ca0c4020beaff0ad369
+[54/56] ASoC: xtensa: Rename set_fmt_new back to set_fmt
+        commit: 58e23e21d18532aaa404e1db87ec92762e1fecd5
+[55/56] ASoC: soc-dai: Remove set_fmt_new callback
+        commit: 19423951a4b5c4f0ca107d6a4bed23f3f63718ca
+[56/56] ASoC: simple-card-utils: Move snd_soc_component_is_codec to be local
+        commit: 28086d05ada6d03daa886aad0e469854b811311c
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
