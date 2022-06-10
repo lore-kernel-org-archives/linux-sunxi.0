@@ -1,166 +1,47 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fornost.hmeau.com (helcar.hmeau.com [216.24.177.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419277A
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jun 2022 06:37:22 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id m32-20020a05600c3b2000b0039756bb41f2so573614wms.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 09 Jun 2022 23:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Qxlw/2GeYPhBz4i8FzCqobc8aHph2WQJ2uzH+wlAQPM=;
-        b=YvKD/lnZFHPf9Bklm5hR2t0kTgFB1/rXSkgOKvxFTago0OfV/XXVBnr65QfdQ0sIbE
-         X56d5w92lO93EaOJsDJ8oCNGyjZkcJXPRSg9xTkOKhWDw62K7tpcO84Az2vOBRZU/r3+
-         YIHnLV0yk1ox4ibJDxo/xtHUE91KPK5nhGt24yQglgyRLlAN46Y1Z1t0+GvzN7M+MEou
-         tOdQLaDCWTLurM3ng8g7elKpPBlMcfWMNnTz6GEuMIGKZgA7WgUpL2gOP6VsKo5/EHPb
-         626ZTuTKw9tktPSgibPC7QlWbKT0XcsOV4TdzYgmUmuC1ODYErjWurNuno/msyBC5MwG
-         9u4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Qxlw/2GeYPhBz4i8FzCqobc8aHph2WQJ2uzH+wlAQPM=;
-        b=azi8ZKOk7HS92+PEnnBbWh6jIpUYr8yQv4KUyS/ZjaN+Yf2Z6gxq2sY1cQItCk5ff9
-         EmTfVdrX8TdSmh+gGc0qWsVqxNe92MJrH6WHv4R+HCjK6gB5b70NalhzQITAjk8hCNNC
-         TI32A84P6oB0574bNtJfIktKCWNq3L6piJZf1+FGxDAjyGmumGyBGwZwWIKQNOpRD8X4
-         phVAD2yt3I11hHEJUplia+zBOtDbj+MmwAETtcl0lD/9AQct1zGQDmmPp/WfAKc4k1/y
-         0gImwVB4INqncwiNt3b8NtTfO2dAuBNVobUHYcXRr10pz/QFm+unMuQsWHYSFKLVgno7
-         VY6A==
-X-Gm-Message-State: AOAM531L1folkMJXrBzrQ5fZD3RIfXEG+eQ9UJq7merGS8MrU7EXkiIy
-	bgpdVR92aftvRhpgsKBwff5YrQ==
-X-Google-Smtp-Source: ABdhPJw4Hge4NDaRn0TL71ijVSQhRo1MhCaO3HbTb1tYRGHCORKkku8fnKoEAx9FGxDoG3CaWVnJNw==
-X-Received: by 2002:a1c:4e03:0:b0:39c:5bbc:e0d2 with SMTP id g3-20020a1c4e03000000b0039c5bbce0d2mr7034980wmh.184.1654843041123;
-        Thu, 09 Jun 2022 23:37:21 -0700 (PDT)
-Received: from localhost.localdomain ([2001:861:44c0:66c0:27b0:82d9:d0c6:702a])
-        by smtp.gmail.com with ESMTPSA id 2-20020a05600c228200b0039482d95ab7sm1729030wmf.24.2022.06.09.23.37.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jun 2022 23:37:20 -0700 (PDT)
-From: Neil Armstrong <narmstrong@baylibre.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	soc@kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	Olof Johansson <olof@lixom.net>,
-	arm@kernel.org
-Cc: Neil Armstrong <narmstrong@baylibre.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-mediatek@lists.infradead.org,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-tegra@vger.kernel.org,
-	Rob Herring <robh+dt@kernel.org>,
-	Tero Kristo <kristo@kernel.org>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-omap@vger.kernel.org,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Scott Branden <sbranden@broadcom.com>,
-	linux-gpio@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	Kevin Hilman <khilman@baylibre.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Nishanth Menon <nm@ti.com>,
-	devicetree@vger.kernel.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	linux-arm-msm@vger.kernel.org,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-kernel@vger.kernel.org,
-	Andrew Jeffery <andrew@aj.id.au>,
-	linux-input@vger.kernel.org,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	=?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Peter Rosin <peda@axentia.se>,
-	Khuong Dinh <khuong@os.amperecomputing.com>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Andy Gross <agross@kernel.org>,
-	Michal Simek <michal.simek@xilinx.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	linux-samsung-soc@vger.kernel.org,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Ray Jui <rjui@broadcom.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Li Yang <leoyang.li@nxp.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-aspeed@lists.ozlabs.org,
-	openbmc@lists.ozlabs.org,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Joel Stanley <joel@jms.id.au>,
-	linux-rockchip@lists.infradead.org
-Subject: Re: (subset) [PATCH v2 00/48] dt-bindings: input: gpio-keys: rework matching children
-Date: Fri, 10 Jun 2022 08:37:18 +0200
-Message-Id: <165484301356.1384204.15957178175784526690.b4-ty@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD25C7C
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jun 2022 09:17:12 +0000 (UTC)
+Received: from gwarestrin.arnor.me.apana.org.au ([192.168.103.7])
+	by fornost.hmeau.com with smtp (Exim 4.94.2 #2 (Debian))
+	id 1nzalN-005MgJ-Nu; Fri, 10 Jun 2022 19:17:07 +1000
+Received: by gwarestrin.arnor.me.apana.org.au (sSMTP sendmail emulation); Fri, 10 Jun 2022 17:17:06 +0800
+Date: Fri, 10 Jun 2022 17:17:06 +0800
+From: Herbert Xu <herbert@gondor.apana.org.au>
+To: Peng Wu <wupeng58@huawei.com>
+Cc: clabbe.montjoie@gmail.com, davem@davemloft.net,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	liwei391@huawei.com
+Subject: Re: [PATCH] crypto: sun8i-ss - fix a NULL vs IS_ERR() check in
+ sun8i_ss_hashkey
+Message-ID: <YqMMEsIDhqKcZmhr@gondor.apana.org.au>
+References: <20220602072234.54593-1-wupeng58@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220602072234.54593-1-wupeng58@huawei.com>
 
-Hi,
-
-On Thu, 9 Jun 2022 13:37:21 +0200, Krzysztof Kozlowski wrote:
-> Merging
-> =======
-> 1. dt-bindings: rebased on top of Rob's:
->    https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
+On Thu, Jun 02, 2022 at 07:22:34AM +0000, Peng Wu wrote:
+> The crypto_alloc_shash() function never returns NULL. It returns error
+> pointers.
 > 
-> 2. DTS patches are independent. They can be picked up directly by sub-arch
->    maintainers, by Arnd or Olof, or eventually by me (if you wish).
-> 
-> [...]
+> Fixes: 801b7d572c0a ("crypto: sun8i-ss - add hmac(sha1)")
+> Signed-off-by: Peng Wu <wupeng58@huawei.com>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> ---
+>  drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks, Applied to https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git (v5.20/arm64-dt)
-
-[07/48] arm64: dts: amlogic: correct gpio-keys properties
-        https://git.kernel.org/amlogic/c/4956be9944d1fb23107f27bad8a2cca0fa167443
-[08/48] arm64: dts: amlogic: align gpio-key node names with dtschema
-        https://git.kernel.org/amlogic/c/4fd9afd894ebe5831dbd737e6ca7b6de14da7fda
-
-These changes has been applied on the intermediate git tree [1].
-
-The v5.20/arm64-dt branch will then be sent via a formal Pull Request to the Linux SoC maintainers
-for inclusion in their intermediate git branches in order to be sent to Linus during
-the next merge window, or sooner if it's a set of fixes.
-
-In the cases of fixes, those will be merged in the current release candidate
-kernel and as soon they appear on the Linux master branch they will be
-backported to the previous Stable and Long-Stable kernels [2].
-
-The intermediate git branches are merged daily in the linux-next tree [3],
-people are encouraged testing these pre-release kernels and report issues on the
-relevant mailing-lists.
-
-If problems are discovered on those changes, please submit a signed-off-by revert
-patch followed by a corrective changeset.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/amlogic/linux.git
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
-
+Patch applied.  Thanks.
 -- 
-Neil
+Email: Herbert Xu <herbert@gondor.apana.org.au>
+Home Page: http://gondor.apana.org.au/~herbert/
+PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
