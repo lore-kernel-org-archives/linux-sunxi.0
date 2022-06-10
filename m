@@ -1,93 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78327636
-	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jun 2022 12:03:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9656BC3411D;
-	Fri, 10 Jun 2022 12:03:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1654862598;
-	bh=f91prLddVZ6W3Wxb6Hqxhw4VdV2kGrg/IH7kR4PdhnY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U1znS8ABzt3/7+3tW8r9w0ODLWoHYuds726WAKeoahr9hFltRLm81H0CA03oc5Onx
-	 23VM+SJfFghn425BmH1i2xpNVPDVsNSvEL/cpHEuCZoyxDGEaAo989Whdcq+w8Xr0x
-	 eM1QnspuhULq9B32zaxPnZEYYuRFsh5AvVkZYA+n9Rb1/XRe3sNm605YjInqypuQGf
-	 Ct0RLvUATkkDNkfEu+LaV/yPbv5tU1dN7tRgiZFdckQmCpZSAeMflyqASdKidO9ISp
-	 ZlUgqPC+kRCvY06U7U1bpuV5knThQEuewmaR79v8OzQme2AWBWAAH0vkrEzq39r705
-	 METMJ1sJh6Oyg==
-Date: Fri, 10 Jun 2022 13:03:08 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: ckeepax@opensource.cirrus.com, linux-sunxi@lists.linux.dev,
-	peter.ujfalusi@gmail.com, pierre-louis.bossart@linux.intel.com,
-	linux-imx@nxp.com, krzk@kernel.org, jarkko.nikula@bitmer.com,
-	linux-xtensa@linux-xtensa.org, cezary.rojewski@intel.com,
-	shawnguo@kernel.org, linux-mediatek@lists.infradead.org,
-	nicolas.ferre@microchip.com, patches@opensource.cirrus.com,
-	linux-amlogic@lists.infradead.org, srinivas.kandagatla@linaro.org,
-	daniel@zonque.org, linux-mips@vger.kernel.org,
-	linux-tegra@vger.kernel.org, nsaenz@kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, heiko@sntech.de,
-	alsa-devel@alsa-project.org, kernel@pengutronix.de,
-	jbrunet@baylibre.com,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	linux-rockchip@lists.infradead.org, linux-omap@vger.kernel.org,
-	lgirdwood@gmail.com
-Subject: Re: [PATCH 00/56] Specify clock provider directly to CPU DAIs
-Message-ID: <YqMy/FkxDPKmzdrB@sirena.org.uk>
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
- <165478153064.1052094.1721875477574787769.b4-ty@kernel.org>
- <2a498819-dbbf-31c1-4145-bbd2d7179bd8@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CA07A
+	for <linux-sunxi@lists.linux.dev>; Fri, 10 Jun 2022 14:00:43 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id a15so28140012wrh.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 10 Jun 2022 07:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:references:in-reply-to
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=IPP1I+64i7ooAr7hZW07Xbene7CuoEhu5599AQUWnoM=;
+        b=e8ie6pMQ/46sfhP67QvDFIfzZpzdSzDktchsNMnWIouASmbj8uI/TMmTXA0UJPZ/vG
+         0kFgBr9eUNuXN+rd2TzSHaXwnmNJRBjWeckW8V3tlHNGNFgojGM/B671mKAIpG5CbI3t
+         cNRj86VgQbTN4v/AYsitc3UUu2wx9075kI9Et/mBdxbn/FyH/g3cl09vxGNkWw8pnWdD
+         dOONWQ2zelN/AI7sVDTB8VqWFurQLbxYx+eDClGZQ6a5sHqETDy2ptFH7ecIEUOS7UDw
+         TUiqH49TjgtTdRqjdYFAhl5tLwsuQHq+s5F7tsX6/8zTbrt8E0q/yrRtoHqxAAhFXFBY
+         WJoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:references
+         :in-reply-to:user-agent:mime-version:content-transfer-encoding;
+        bh=IPP1I+64i7ooAr7hZW07Xbene7CuoEhu5599AQUWnoM=;
+        b=zqBQz5u8v+TO9B+OmX+Z2kd5ZI7x7Cr9cFbE4aeZ38+9KzruQNVaNnR8BzjLStOKOc
+         ogxHj6xSIz3v1tRxxXvXHJESLYTsrODqYYn6jKnxHHlZutxTEUcWg2iZdAQRyfTYF2pp
+         mtp4MH2AJunHSRAXRifAY3tQkUDpszWNXEk5IUcFEdz14gSyOsIGh9aAUCiAOKvR27lt
+         IPTmQl6Gsm02iju5l81HtTiKikja/Hvg3l0/564zwA8imI2rr622mLQNNHZNqSwx2rzs
+         vyqbjNLcoFa2XuczDMyWhXtoZe/CwZmU4g7Brh6dKRpD7QdAuGGwFceX/MA4NHsMjYTU
+         Ux8A==
+X-Gm-Message-State: AOAM531ewa3uPYdzA14SyIlprgmMIZodkuYa/hHxCaxXDTQ5gMnHY0If
+	dSo+Ski/gjEI5VxaLS7ewQ0hNA==
+X-Google-Smtp-Source: ABdhPJzRMmtiD0YNu5+s1dJ29kJv8Y40v5i8AmwTOT5ChEMrM4QXS+ua4liOSfQbboxVpfgXvlW1Ag==
+X-Received: by 2002:a05:6000:2a8:b0:213:ba0c:fef8 with SMTP id l8-20020a05600002a800b00213ba0cfef8mr39875210wry.485.1654869641656;
+        Fri, 10 Jun 2022 07:00:41 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+        by smtp.gmail.com with ESMTPSA id p190-20020a1c29c7000000b00397402ae674sm3162596wmp.11.2022.06.10.07.00.40
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 10 Jun 2022 07:00:40 -0700 (PDT)
+From: John Cox <jc@kynesim.co.uk>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v6 00/17] Move HEVC stateless controls out of staging
+Date: Fri, 10 Jun 2022 15:00:39 +0100
+Message-ID: <4fj6ah11kq78o4rns1l0j96rcdsl81u8ba@4ax.com>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220527143134.3360174-1-benjamin.gaignard@collabora.com>
+User-Agent: ForteAgent/8.00.32.1272
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uQXJNv1MQUHjV+R+"
-Content-Disposition: inline
-In-Reply-To: <2a498819-dbbf-31c1-4145-bbd2d7179bd8@sholland.org>
-X-Cookie: Teachers have class.
-
-
---uQXJNv1MQUHjV+R+
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 09, 2022 at 09:03:15PM -0500, Samuel Holland wrote:
-> On 6/9/22 8:32 AM, Mark Brown wrote:
-> > On Thu, 19 May 2022 16:42:22 +0100, Charles Keepax wrote:
+>This series aims to make HEVC uapi stable and usable for hardware
+>decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+>and 2 out of the tree drivers (rkvdec and RPI).
+>
+>version 6:
+>- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+>  in v4l2_ctrl_hevc_decode_params structure.
+>- Change slice_pic_order_cnt type to s32 to match with PoC type.
+>- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+>  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+>- Add a define for max slices count
+>- Stop using Hantro dedicated control.
+>
+>This version has been tested with these branches:
+>- GStreamer: =
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_a=
+ligned_with_kernel_5.15
+>- Linux: =
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_U=
+API_V6
+>
+>With patches to decode 10-bits bitstream and produce P010 frames the =
+Fluster score=20
+>which was 77/147 before, is now 138/147.
+>The 10-bits series will comes after this because of it dependency to
+>uAPI change. If you are curious you can find the WIP branch here:
+>https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WI=
+P_HEVC_UAPI_V6
+>
+>The 9 failing tests are:
+>- CONFWIN_A_Sony_1 which contains conformance_window_flag that isn't =
+supported=20
+>  by the hardware (but visually ok aside a pixel shift).
+>- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro =
+hardware.
+>- TSKIP_A_MS_3 is ok when testing alone but fail (corrupted lines on the
+>  first frame) when running it after a couple of other tests.
+>- VPSSPSPPS_A_MainConcept_1 where there is an issue on gst parser side=20
+>  because of VPS/SPS/PPS ordering
+>- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but =
+some=20
+>  difference exist on 5 decoded frames. Some pixels values are no the =
+same=20
+>  the very end of few lines.
+>
+>version 6:
+>- Stop using Hantro dedicated control and compute the number
+>  of bytes to skip inside the driver.
+>- Rebased on media_tree/master
+>
+>version 5:
+>- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+>  hevc_dpb_entry structure
+>- Add defines for SEI pic_struct values (patch 4)
+>- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+>- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+>  documentation (patch 8)
+>- Rebased on v5-18-rc1
+>
+>GStreamer H265 decoder plugin aligned with HEVC uAPI v5:
+>https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_=
+aligned_with_kernel_5.15
+>
+>Version 4:
+>- Add num_entry_point_offsets field in  struct =
+v4l2_ctrl_hevc_slice_params
+>- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+>- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+>- Fix space/tab issue in kernel-doc
+>- Add patch to change data_bit_offset definition
+>- Fix hantro-media SPDX license
+>- put controls under stateless section in v4l2-ctrls-defs.c
+>
+>At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+>
+>Benjamin Gaignard (14):
+>  media: uapi: HEVC: Add missing fields in HEVC controls
+>  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>    prefix
+>  media: uapi: HEVC: Change pic_order_cnt definition in
+>    v4l2_hevc_dpb_entry
+>  media: uapi: HEVC: Add SEI pic struct flags
+>  media: uapi: HEVC: Add documentation to uAPI structure
+>  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>    dynamic array
+>  media: uapi: Move parsed HEVC pixel format out of staging
+>  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+>  media: uapi: Move the HEVC stateless control type out of staging
+>  media: controls: Log HEVC stateless control in .std_log
+>  media: hantro: Stop using Hantro dedicated control
+>  media: uapi: HEVC: fix padding in v4l2 control structures
+>  media: uapi: Change data_bit_offset definition
+>  media: uapi: move HEVC stateless controls out of staging
+>
+>Hans Verkuil (3):
+>  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>  v4l2-ctrls: add support for dynamically allocated arrays.
+>  vivid: add dynamic array test control
+>
+> .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+> .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+> .../media/v4l/pixfmt-compressed.rst           |   7 +-
+> .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+> .../media/v4l/vidioc-queryctrl.rst            |   8 +
+> .../media/videodev2.h.rst.exceptions          |   5 +
+> .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+> drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+> drivers/media/v4l2-core/v4l2-ctrls-core.c     | 206 +++-
+> drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+> drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+> drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+> drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+> .../staging/media/hantro/hantro_g2_hevc_dec.c |  69 +-
+> drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+> drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+> drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
+> .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+> .../staging/media/sunxi/cedrus/cedrus_h265.c  |   6 +-
+> include/media/hevc-ctrls.h                    | 250 -----
+> include/media/v4l2-ctrls.h                    |  48 +-
+> include/uapi/linux/v4l2-controls.h            | 458 +++++++++
+> include/uapi/linux/videodev2.h                |  13 +
+> 23 files changed, 1830 insertions(+), 1219 deletions(-)
+> delete mode 100644 include/media/hevc-ctrls.h
 
-Please delete unneeded context from mails when replying.  Doing this
-makes it much easier to find your reply in the message, helping ensure
-it won't be missed by people scrolling through the irrelevant quoted
-material.
+=46or general info, I've ported this patchset to my Raspberry Pi
+implementation without issue - so at least in terms of "is this API
+adequate for Pi?" the answer is yes.
 
-> > [22/56] ASoC: sunxi: Update to use set_fmt_new callback
-> >         commit: 7cc3965fde74c9c725ed01de4ac35bc7d562d16a
+Many thanks
 
-> This patch is wrong, which I pointed out earlier[1]. It will break audio on the
-> Allwinner A33 and A64 SoCs. Charles said he would send a v2[2]. Excluding the
-> changes to sound/soc/sunxi/sun8i-codec.c from the patch would fix it.
-
-Your mail doesn't say that this will break, it says the change is
-unexpected.  In any case, please send an incremental fix - there's no
-need to revert the entire series for this.
-
---uQXJNv1MQUHjV+R+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKjMvsACgkQJNaLcl1U
-h9DEiwgAg5/u/EffroYC0gc/E++OVOkz3gwInEgNAC9hOiZUubIV0pLgHmDWF03b
-jPn25vdDiJrTgFiUmwAYyaI1N8iwXmd1UllhVOv/gLkFfltVeVeI5bb7VHjskvpU
-Xx9nbpqcM0LhbDF9NG+WYAoVy5NB/aJZRKoCWoc2qbqyxE4kHlcQ+uGmXHyJDseS
-8BmRAzbUgyMhj1H2rxUsdSJBv07mGmLozTE9V6Ah8CM/7n4PVN9VjDs29qDcs1v2
-4cxYC5JHT+tbp1KldMeaAv50v0292Sfvps0RbW8zrLY4WwXo5mYJWrS+TYv1UQ+M
-XNVup9oVA23wO2KVtvmWoirnwl8blg==
-=hG/3
------END PGP SIGNATURE-----
-
---uQXJNv1MQUHjV+R+--
+JC
