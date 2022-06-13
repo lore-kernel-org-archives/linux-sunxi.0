@@ -1,86 +1,216 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B7F1846
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 16:25:22 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DBuxUi006945;
-	Mon, 13 Jun 2022 11:15:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : mime-version : content-transfer-encoding :
- content-type; s=PODMain02222019;
- bh=4R4Ym4XA5bDdt/zDB7Y35xb6VBHh26DwvdrgZzMm1m4=;
- b=NFFik29o2NvZUx2AhujDPn+6BjLnktd3Bb8eKXXHUnu7rvyrxakwxjWipe1RFpIAn8UJ
- SrDUBCvzuuXVhrjqZNNhyRRAXV3pagYvMHitgSfIzZMkpX6cyt+UyfxmOhtJ70ZwrCns
- 1n3nFFMXiy9W/vln0kIIwBEyVKjItaSvwe/fLuZzzM0aKZajzPNjkPOX7iC1RRB35sMz
- E/YOADb3ImA7phkeOaBqHYWO6/mR3ZJCOrXZvNmU43iD+0QKhhnwUkA+iX9fTvNvqQjj
- 5/cG1DBMeVyFHbrSEZZ+CHPS6qFXLKpKs3xF5t2ESAvtRBMfofhVXNY0evryromRK/dm qg== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq24mu-2
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 13 Jun 2022 11:15:55 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 13 Jun
- 2022 17:15:52 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Mon, 13 Jun 2022 17:15:52 +0100
-Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C607546C;
-	Mon, 13 Jun 2022 16:15:52 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>, <samuel@sholland.org>
-CC: <matthias.bgg@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
-        <linux-mediatek@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-        <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
-        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/2] ASoC: sun8i-codec: Partial revert to fix clock specifiers
-Date: Mon, 13 Jun 2022 17:15:51 +0100
-Message-ID: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8039184B;
+	Mon, 13 Jun 2022 18:17:31 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id z7so8290363edm.13;
+        Mon, 13 Jun 2022 11:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=04TdR76m0s+utzyAIg4+tjqhY/fa77Y2+5Qo2pJbp30=;
+        b=ixWl1Vcyq/rsWbO+AUe8+lAesQZCwvLltHgldPMIDXk+HX3Fron25eAX1GOOayhNju
+         QB4Vm0HqM0g863YOq74/eVmhyOIQFU0WHyqQH05WEwvIcAY+mNY/jSIU3eVsqbMabWu9
+         oL4x4MzGDWWZtUH4s4sMqLny6+6kdPgW54q9TgYcOhbjpHNBlMtG0nFEHm1pGa4oaBr9
+         Q25ZKshkRyBlLm/fNvnNf7IXWwTCm1yb06tfy5c2ZKLmddiKeBlWhOWNykaDyAKYvaLy
+         5R9+9TC+eKDyCdpZ7tXT3iQ0B37ix1InWZ23I5NwFyMOV50aXR0Mie7q00IXkfQ0YHa3
+         AvZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=04TdR76m0s+utzyAIg4+tjqhY/fa77Y2+5Qo2pJbp30=;
+        b=HBbweeAzul4gQdRgLM7WaY+avjoUft6FEovJCN15Y7prF1oYswAdTDSby9J0IWUzfJ
+         h3omv+zqlgDI8zs7yzz1GsOe6Y2aFFdTeibFn4rh8vD25UkQiGFwZbWaTz1y+0VoDr56
+         +LgLYYqRFtxrxPkiTpgEkqegJ3FvIMZF6Ic3Kh3QP2bp6ftGeP8XyPuuGPFX3rUxRoD8
+         gsbBV1zDsEIKxQ+lWY/kJ09Q30rhIx6tLm8HUunSBReDNz7J4fum0S6Pi02jYNjho0T2
+         Yx3n8uAFv4F+qdFliOZD9wrNNkZwcmYyoJ0Tb/jIWFKHH1UrlkhRBOnPA+nCazHF6oUH
+         n4Qw==
+X-Gm-Message-State: AOAM533XXIvS9U6q+w/RBpk5cV9YapiAnCwGdunrVEwO3emal6vcv1ie
+	tQaQut8MRg9oDo0cSO5ssaQ=
+X-Google-Smtp-Source: ABdhPJyJfjpFJHiSXK9jnFkPNEEH+e/FB0EhCEk05XpAU9FqMrJeJbdJzkSOyRGzo5XaqodpkvLzug==
+X-Received: by 2002:a05:6402:e88:b0:434:d7de:8d0b with SMTP id h8-20020a0564020e8800b00434d7de8d0bmr1151160eda.149.1655144250007;
+        Mon, 13 Jun 2022 11:17:30 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id x24-20020aa7dad8000000b0042dd482d0c4sm5393678eds.80.2022.06.13.11.17.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Jun 2022 11:17:29 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com
+Subject: Re: Re: Re: [PATCH v6 16/17] media: uapi: Change data_bit_offset definition
+Date: Mon, 13 Jun 2022 20:17:27 +0200
+Message-ID: <3180718.44csPzL39Z@kista>
+In-Reply-To: <11997092.O9o76ZdvQC@kista>
+References: <20220527143134.3360174-1-benjamin.gaignard@collabora.com> <c330e3e1-e10c-5930-2d1d-6260cb8d64b8@collabora.com> <11997092.O9o76ZdvQC@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: ufAMjQSTEEIdy2v7qIN3Z_ZuR-cxb2fr
-X-Proofpoint-GUID: ufAMjQSTEEIdy2v7qIN3Z_ZuR-cxb2fr
-X-Proofpoint-Spam-Reason: safe
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-Recent updates accidentally updated the clock producer/consumer
-specifiers on this device as part of refactoring the CPU side of the DAI
-links. However, this device sits on the CODEC side and shouldn't have
-been updated. Partially revert the changes keeping the switch to the new
-clock terminology but going back to the CODEC defines.
+Dne nedelja, 12. junij 2022 ob 22:40:29 CEST je Jernej =C5=A0krabec napisal=
+(a):
+> Dne sreda, 01. junij 2022 ob 18:33:22 CEST je Benjamin Gaignard napisal(a=
+):
+> >=20
+> > Le 01/06/2022 =C3=A0 18:17, Jernej =C5=A0krabec a =C3=A9crit :
+> > > Dne nedelja, 29. maj 2022 ob 08:45:57 CEST je Jernej =C5=A0krabec nap=
+isal(a):
+> > >> Dne petek, 27. maj 2022 ob 16:31:33 CEST je Benjamin Gaignard=20
+napisal(a):
+> > >>> 'F.7.3.6.1 General slice segment header syntax' section of HEVC
+> > >>> specification describes that a slice header always end aligned on
+> > >>> byte boundary, therefore we only need to provide the data offset in=
+=20
+> bytes.
+> > >>>
+> > >>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > >>> ---
+> > >>>   Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+> > >>>   drivers/staging/media/sunxi/cedrus/cedrus_h265.c          | 2 +-
+> > >>>   include/media/hevc-ctrls.h                                | 4 ++--
+> > >>>   3 files changed, 5 insertions(+), 5 deletions(-)
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.=
+rst=20
+b/
+> > >> Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > >>> index 48a8825a001b..37079581c661 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > >>> @@ -3008,8 +3008,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_fiel=
+d -
+> > >>>         - ``bit_size``
+> > >>>         - Size (in bits) of the current slice data.
+> > >>>       * - __u32
+> > >>> -      - ``data_bit_offset``
+> > >>> -      - Offset (in bits) to the video data in the current slice da=
+ta.
+> > >>> +      - ``data_byte_offset``
+> > >>> +      - Offset (in bytes) to the video data in the current slice d=
+ata.
+> > >>>       * - __u32
+> > >>>         - ``num_entry_point_offsets``
+> > >>>         - Specifies the number of entry point offset syntax element=
+s in=20
+> the
+> > >> slice header.
+> > >>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/
+drivers/
+> > >> staging/media/sunxi/cedrus/cedrus_h265.c
+> > >>> index 411601975124..835454239f73 100644
+> > >>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > >>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > >>> @@ -405,7 +405,7 @@ static void cedrus_h265_setup(struct cedrus_ctx=
+=20
+> *ctx,
+> > >>>   	/* Initialize bitstream access. */
+> > >>>   	cedrus_write(dev, VE_DEC_H265_TRIGGER,
+> > >> VE_DEC_H265_TRIGGER_INIT_SWDEC);
+> > >>>  =20
+> > >>> -	cedrus_h265_skip_bits(dev, slice_params->data_bit_offset);
+> > >>> +	cedrus_h265_skip_bits(dev, slice_params->data_byte_offset * 8);
+> > >> While it's true that actual data starts on 8-bit aligned address,=20
+Cedrus=20
+> for
+> > >> some reason needs offset which points at the end of the header, befo=
+re
+> > >> alignment. There is very simple way to determine that, but=20
+unfortunately
+> > > this
+> > >> means reading source buffer.
+> > >>
+> > >> In short, above code won't work. I'll provide a fix.
+> > > Please include following fix http://ix.io/3Z8x otherwise Cedrus will =
+fail=20
+> to
+> > > decode slice.
+>=20
+> Fluster testing show that this patch isn't completely fine. I also have s=
+ome=20
+> other issues, which need control values comparisons. It would be best, if=
+=20
+you=20
+> can wait until I finish comparison. Old, hackish HEVC patches have high=20
+fluster=20
+> score whereas new, based on stable uAPI, has low and CPU also locks up...
 
-Fixes: 7cc3965fde74 ("ASoC: sunxi: Update to use set_fmt_new callback")
-Reported-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/sunxi/sun8i-codec.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+=46urther testing showed that I make a mistake in ffmpeg code. uAPI and sug=
+gested=20
+changes are fine. It's gtg.
 
-diff --git a/sound/soc/sunxi/sun8i-codec.c b/sound/soc/sunxi/sun8i-codec.c
-index 90d74a2d53f38..f797c535f2983 100644
---- a/sound/soc/sunxi/sun8i-codec.c
-+++ b/sound/soc/sunxi/sun8i-codec.c
-@@ -287,10 +287,10 @@ static int sun8i_codec_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
- 
- 	/* clock masters */
- 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
--	case SND_SOC_DAIFMT_BP_FP: /* Codec slave, DAI master */
-+	case SND_SOC_DAIFMT_CBC_CFC: /* Codec slave, DAI master */
- 		value = 0x1;
- 		break;
--	case SND_SOC_DAIFMT_BC_FC: /* Codec Master, DAI slave */
-+	case SND_SOC_DAIFMT_CBP_CFP: /* Codec Master, DAI slave */
- 		value = 0x0;
- 		break;
- 	default:
--- 
-2.30.2
+Sorry for the false alarm!
+=20
+Best regards,
+Jernej
+
+>=20
+> > >
+> > > Other than fix in previous e-mail and this one, code looks good and I=
+'ll=20
+be
+> > > able to add missing functionality to Cedrus without much trouble in=20
+follow=20
+> up
+> > > series.
+> >=20
+> > Thanks for the patch it will be in version 7.
+> >=20
+> > Regards,
+> > Benjamin
+> >=20
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > >>>  =20
+> > >>>   	/* Bitstream parameters. */
+> > >>>  =20
+> > >>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> > >>> index 9abca1a75bd4..936ff693967b 100644
+> > >>> --- a/include/media/hevc-ctrls.h
+> > >>> +++ b/include/media/hevc-ctrls.h
+> > >>> @@ -312,7 +312,7 @@ struct v4l2_hevc_pred_weight_table {
+> > >>>    * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> > >>>    *
+> > >>>    * @bit_size: size (in bits) of the current slice data
+> > >>> - * @data_bit_offset: offset (in bits) to the video data in the cur=
+rent
+> > > slice
+> > >> data
+> > >>> + * @data_byte_offset: offset (in bytes) to the video data in the=20
+current
+> > >> slice data
+> > >>>    * @num_entry_point_offsets: specifies the number of entry point =
+offset
+> > > syntax
+> > >>>    *			     elements in the slice header.
+> > >>>    * @nal_unit_type: specifies the coding type of the slice (B, P o=
+r I)
+> > >>> @@ -356,7 +356,7 @@ struct v4l2_hevc_pred_weight_table {
+> > >>>    */
+> > >>>   struct v4l2_ctrl_hevc_slice_params {
+> > >>>   	__u32	bit_size;
+> > >>> -	__u32	data_bit_offset;
+> > >>> +	__u32	data_byte_offset;
+> > >>>   	__u32	num_entry_point_offsets;
+> > >>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+> > >>>   	__u8	nal_unit_type;
+> > >>> --=20
+> > >>> 2.32.0
+> > >>>
+> > >>>
+> > >>
+> > >>
+> > >
+> >=20
+>=20
+>=20
+>=20
+
 
