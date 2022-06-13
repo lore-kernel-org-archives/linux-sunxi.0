@@ -1,110 +1,95 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D893A1364
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 11:17:42 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD648D6E;
-	Mon, 13 Jun 2022 04:17:35 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 332CE3F73B;
-	Mon, 13 Jun 2022 04:17:33 -0700 (PDT)
-Date: Mon, 13 Jun 2022 12:17:29 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Chen-Yu Tsai
- <wens@csie.org>, Russell King <linux@armlinux.org.uk>, Bartosz Dudziak
- <bartosz.dudziak@snejp.pl>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lorenzo Pieralisi
- <lorenzo.pieralisi@arm.com>, Luca Weiss <luca@z3ntu.xyz>, Maxime Ripard
- <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>, Robin Murphy
- <robin.murphy@arm.com>, Stephan Gerhold <stephan@gerhold.net>, Thierry
- Reding <treding@nvidia.com>, Vinod Koul <vkoul@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 0/3] ARM: sunxi: Remove A31 and A23/A33 platform SMP
- code
-Message-ID: <20220613121729.46233a75@donnerap.cambridge.arm.com>
-In-Reply-To: <2833034.e9J7NaK4W3@kista>
-References: <20220531045038.42230-1-samuel@sholland.org>
-	<2833034.e9J7NaK4W3@kista>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CA61842
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 16:25:22 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25DBuxUh006945;
+	Mon, 13 Jun 2022 11:15:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=PODMain02222019;
+ bh=oaA7oUhxhYUv3GT9ya+N4kfY6bFaVDi56FfyAbH3CmY=;
+ b=TGsnFcqGzzZtTnHDKYCMYRBijkKHSpjBSY5vb/RMpXj1vXoOgQTYsDCIiWVcGO3OsD2l
+ eWo15uyZNjCYVraF6AgYar1i6YQWduzXtVE5qop3cegmdixRsNkNPiElDP7h2sEpooXr
+ VeSbIyOBa+HEs/ZjE+pmWx7XxpvN6O0reA7lRJdSRsN6tYY2hiQDxfkTgkwwhBuMQby+
+ tcHdz5pS7H53eaA234Mrfy/IjGJV0s+3pOFWhb7xPppyvZPbNo5+QTvJYpRewuLNPx11
+ ugAw56x4rlr9cZ43MhqHXyKATg9j/ffLvNXtqi4AITGLMeHjI/23DWpjwelr15RvhVUd jQ== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq24mu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 13 Jun 2022 11:15:54 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 13 Jun
+ 2022 17:15:52 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Mon, 13 Jun 2022 17:15:52 +0100
+Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D5098458;
+	Mon, 13 Jun 2022 16:15:52 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>, <samuel@sholland.org>
+CC: <matthias.bgg@gmail.com>, <wens@csie.org>, <jernej.skrabec@gmail.com>,
+        <linux-mediatek@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
+        <lgirdwood@gmail.com>, <alsa-devel@alsa-project.org>,
+        <patches@opensource.cirrus.com>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 2/2] ASoC: mediatek: mt8186: Use new direct clock defines
+Date: Mon, 13 Jun 2022 17:15:52 +0100
+Message-ID: <20220613161552.481337-2-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
+References: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: l8ShZbS2HEhRTIrTc26Mw8OO2G2WDCou
+X-Proofpoint-GUID: l8ShZbS2HEhRTIrTc26Mw8OO2G2WDCou
+X-Proofpoint-Spam-Reason: safe
 
-On Sun, 12 Jun 2022 23:09:07 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+Update this driver to the new direct clock producer/consumer defines. It
+appears this driver was added with the inversion taken account of but
+still uses the CODEC defines so no inversion of the producer/consumer
+is necessary.
 
-Hi Samuel,
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
 
-> Dne torek, 31. maj 2022 ob 06:50:35 CEST je Samuel Holland napisal(a):
-> > This series is preparation for converting the PRCM MFD and legacy clock
-> > drivers to a CCU clock driver.
+Note this patch is completely untested, I don't have hardware and the
+mt8186 doesn't seem to be included in any makefiles at the moment so I
+can't build test either. But the change is trivial and I am pretty
+confident I have read the code correctly. It would be good if someone
+from Mediatek could have a quick look over though.
 
-May I ask what the purpose of this exercise is? So if I understand
-correctly, then it's about to convert the sun8i-a23-prcm MFD driver and
-its children to a single "modern style" CCU clock driver, with its opaque
-DT node?
-If that changes the compatible strings or the references to the clock
-providers (and I guess it would need to?), then this would mean an
-incompatible change. Which also means we would need to keep the old code
-around, to maintain compatibility with "old" DTs? So what is the win then?
-Now we have *two* clock drivers, for the same device, which need
-maintenance and testing.
+Thanks,
+Charles
 
-So can you confirm that this will be a breaking change?
+ sound/soc/mediatek/mt8186/mt8186-dai-tdm.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> The platform SMP code references the PRCM
-> > node to map its MMIO space, which will break when the PRCM node is
-> > removed/replaced. =20
->=20
-> Why can't we just leave old platform code? If older dtb file is used, it =
-would=20
-> still work. Actually, isn't trivial to support new CCU binding too, just =
-by=20
-> including new CCU compatible string? IIUC new CCU node will have same add=
-ress=20
-> as current PRCM node.
-
-This aims for a similar direction, though in this case the alternative
-(PSCI) predates the sunxi specific method in the kernel support. Can we
-just deprecate this code, maybe issue a warning, with the hint to update
-the bootloader (which might not be possible for some devices)?
-
-Cheers,
-Andre
-
-> Best regards,
-> Jernej
->=20
-> >=20
-> > Since PSCI has been available for 7+ years, instead of trying to deal
-> > with the migration, I think it's safe to just delete this code.
-> >=20
-> >=20
-> > Samuel Holland (3):
-> >   ARM: sunxi: Remove A31 and A23/A33 platform SMP code
-> >   ARM: dts: sunxi: Remove obsolete CPU enable methods
-> >   dt-bindings: arm: Remove obsolete CPU enable methods
-> >=20
-> >  .../devicetree/bindings/arm/cpus.yaml         |   2 -
-> >  arch/arm/boot/dts/sun6i-a31.dtsi              |   1 -
-> >  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |   1 -
-> >  arch/arm/mach-sunxi/Makefile                  |   1 -
-> >  arch/arm/mach-sunxi/platsmp.c                 | 194 ------------------
-> >  5 files changed, 199 deletions(-)
-> >  delete mode 100644 arch/arm/mach-sunxi/platsmp.c
-> >=20
-> > --=20
-> > 2.35.1
-> >=20
-> >  =20
->=20
->=20
->=20
+diff --git a/sound/soc/mediatek/mt8186/mt8186-dai-tdm.c b/sound/soc/mediatek/mt8186/mt8186-dai-tdm.c
+index dfff209b60da4..c6ead7c252f01 100644
+--- a/sound/soc/mediatek/mt8186/mt8186-dai-tdm.c
++++ b/sound/soc/mediatek/mt8186/mt8186-dai-tdm.c
+@@ -585,10 +585,10 @@ static int mtk_dai_tdm_set_fmt(struct snd_soc_dai *dai, unsigned int fmt)
+ 	}
+ 
+ 	switch (fmt & SND_SOC_DAIFMT_CLOCK_PROVIDER_MASK) {
+-	case SND_SOC_DAIFMT_CBP_CFP:
++	case SND_SOC_DAIFMT_BP_FP:
+ 		tdm_priv->slave_mode = false;
+ 		break;
+-	case SND_SOC_DAIFMT_CBC_CFC:
++	case SND_SOC_DAIFMT_BC_FC:
+ 		tdm_priv->slave_mode = true;
+ 		break;
+ 	default:
+-- 
+2.30.2
 
