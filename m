@@ -1,95 +1,110 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1D71119
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 10:07:56 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25D7jncr030852;
-	Mon, 13 Jun 2022 04:54:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=PODMain02222019;
- bh=SAL9QBrR9Hifnxdadv6LtK1riDzGLGAzq1j5dDkQ/eE=;
- b=YSEazX0uO5GV3d6eprUPFqBpY2HPFw6tjVtpSwFjm3pPOCyD6SFrbQuT8qP8aTpkafDG
- wEMwsYZTSezO57v7oNilz7MY86TJm4g9OiORe+E7d5kLh74zbgbf6wXjUpBlmEMbG8H6
- 9xgtekY2JVsWrI1WFghS9KWch1o2j/pFUmPWiGjLFQqZgwvmN/ZSCq4a8Nzev/hxGIaI
- 067Wj8AJx34nIpY4KIQbEKUU5w5DkIZnl8ZWtlBRglqaIwVerccqsUrkRpF0VTgpw5/W
- 8eqrcUGfEwdkdNFAaj8W5vDvtbi+DB3ikcOmlpx6B/W4dW4VZCSzcPsBWfNJkdOGtTqz hA== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf31py0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 13 Jun 2022 04:54:55 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Mon, 13 Jun
- 2022 10:54:53 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Mon, 13 Jun 2022 10:54:53 +0100
-Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2C2AD11D1;
-	Mon, 13 Jun 2022 09:54:53 +0000 (UTC)
-Date: Mon, 13 Jun 2022 09:54:53 +0000
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: Mark Brown <broonie@kernel.org>
-CC: Samuel Holland <samuel@sholland.org>, <linux-sunxi@lists.linux.dev>,
-        <peter.ujfalusi@gmail.com>, <pierre-louis.bossart@linux.intel.com>,
-        <linux-imx@nxp.com>, <krzk@kernel.org>, <jarkko.nikula@bitmer.com>,
-        <linux-xtensa@linux-xtensa.org>, <cezary.rojewski@intel.com>,
-        <shawnguo@kernel.org>, <linux-mediatek@lists.infradead.org>,
-        <nicolas.ferre@microchip.com>, <patches@opensource.cirrus.com>,
-        <linux-amlogic@lists.infradead.org>, <srinivas.kandagatla@linaro.org>,
-        <daniel@zonque.org>, <linux-mips@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <nsaenz@kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>, <heiko@sntech.de>,
-        <alsa-devel@alsa-project.org>, <kernel@pengutronix.de>,
-        <jbrunet@baylibre.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        <linux-rockchip@lists.infradead.org>, <linux-omap@vger.kernel.org>,
-        <lgirdwood@gmail.com>
-Subject: Re: [PATCH 00/56] Specify clock provider directly to CPU DAIs
-Message-ID: <20220613095453.GB38351@ediswmail.ad.cirrus.com>
-References: <20220519154318.2153729-1-ckeepax@opensource.cirrus.com>
- <165478153064.1052094.1721875477574787769.b4-ty@kernel.org>
- <2a498819-dbbf-31c1-4145-bbd2d7179bd8@sholland.org>
- <YqMy/FkxDPKmzdrB@sirena.org.uk>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D893A1364
+	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 11:17:42 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD648D6E;
+	Mon, 13 Jun 2022 04:17:35 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 332CE3F73B;
+	Mon, 13 Jun 2022 04:17:33 -0700 (PDT)
+Date: Mon, 13 Jun 2022 12:17:29 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Chen-Yu Tsai
+ <wens@csie.org>, Russell King <linux@armlinux.org.uk>, Bartosz Dudziak
+ <bartosz.dudziak@snejp.pl>, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Lorenzo Pieralisi
+ <lorenzo.pieralisi@arm.com>, Luca Weiss <luca@z3ntu.xyz>, Maxime Ripard
+ <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>, Robin Murphy
+ <robin.murphy@arm.com>, Stephan Gerhold <stephan@gerhold.net>, Thierry
+ Reding <treding@nvidia.com>, Vinod Koul <vkoul@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 0/3] ARM: sunxi: Remove A31 and A23/A33 platform SMP
+ code
+Message-ID: <20220613121729.46233a75@donnerap.cambridge.arm.com>
+In-Reply-To: <2833034.e9J7NaK4W3@kista>
+References: <20220531045038.42230-1-samuel@sholland.org>
+	<2833034.e9J7NaK4W3@kista>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <YqMy/FkxDPKmzdrB@sirena.org.uk>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Proofpoint-GUID: UiaFdV3e1tP7Nx8vGVE1XxJr6gdm5Oey
-X-Proofpoint-ORIG-GUID: UiaFdV3e1tP7Nx8vGVE1XxJr6gdm5Oey
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 10, 2022 at 01:03:08PM +0100, Mark Brown wrote:
-> On Thu, Jun 09, 2022 at 09:03:15PM -0500, Samuel Holland wrote:
-> > On 6/9/22 8:32 AM, Mark Brown wrote:
-> > > On Thu, 19 May 2022 16:42:22 +0100, Charles Keepax wrote:
-> 
-> Please delete unneeded context from mails when replying.  Doing this
-> makes it much easier to find your reply in the message, helping ensure
-> it won't be missed by people scrolling through the irrelevant quoted
-> material.
-> 
-> > > [22/56] ASoC: sunxi: Update to use set_fmt_new callback
-> > >         commit: 7cc3965fde74c9c725ed01de4ac35bc7d562d16a
-> 
-> > This patch is wrong, which I pointed out earlier[1]. It will break audio on the
-> > Allwinner A33 and A64 SoCs. Charles said he would send a v2[2]. Excluding the
-> > changes to sound/soc/sunxi/sun8i-codec.c from the patch would fix it.
-> 
-> Your mail doesn't say that this will break, it says the change is
-> unexpected.  In any case, please send an incremental fix - there's no
-> need to revert the entire series for this.
+On Sun, 12 Jun 2022 23:09:07 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Apologies guys was on PTO last week, I will send an incremental
-fix today to patch up the issues.
+Hi Samuel,
 
-Thanks,
-Charles
+> Dne torek, 31. maj 2022 ob 06:50:35 CEST je Samuel Holland napisal(a):
+> > This series is preparation for converting the PRCM MFD and legacy clock
+> > drivers to a CCU clock driver.
+
+May I ask what the purpose of this exercise is? So if I understand
+correctly, then it's about to convert the sun8i-a23-prcm MFD driver and
+its children to a single "modern style" CCU clock driver, with its opaque
+DT node?
+If that changes the compatible strings or the references to the clock
+providers (and I guess it would need to?), then this would mean an
+incompatible change. Which also means we would need to keep the old code
+around, to maintain compatibility with "old" DTs? So what is the win then?
+Now we have *two* clock drivers, for the same device, which need
+maintenance and testing.
+
+So can you confirm that this will be a breaking change?
+
+> The platform SMP code references the PRCM
+> > node to map its MMIO space, which will break when the PRCM node is
+> > removed/replaced. =20
+>=20
+> Why can't we just leave old platform code? If older dtb file is used, it =
+would=20
+> still work. Actually, isn't trivial to support new CCU binding too, just =
+by=20
+> including new CCU compatible string? IIUC new CCU node will have same add=
+ress=20
+> as current PRCM node.
+
+This aims for a similar direction, though in this case the alternative
+(PSCI) predates the sunxi specific method in the kernel support. Can we
+just deprecate this code, maybe issue a warning, with the hint to update
+the bootloader (which might not be possible for some devices)?
+
+Cheers,
+Andre
+
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Since PSCI has been available for 7+ years, instead of trying to deal
+> > with the migration, I think it's safe to just delete this code.
+> >=20
+> >=20
+> > Samuel Holland (3):
+> >   ARM: sunxi: Remove A31 and A23/A33 platform SMP code
+> >   ARM: dts: sunxi: Remove obsolete CPU enable methods
+> >   dt-bindings: arm: Remove obsolete CPU enable methods
+> >=20
+> >  .../devicetree/bindings/arm/cpus.yaml         |   2 -
+> >  arch/arm/boot/dts/sun6i-a31.dtsi              |   1 -
+> >  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |   1 -
+> >  arch/arm/mach-sunxi/Makefile                  |   1 -
+> >  arch/arm/mach-sunxi/platsmp.c                 | 194 ------------------
+> >  5 files changed, 199 deletions(-)
+> >  delete mode 100644 arch/arm/mach-sunxi/platsmp.c
+> >=20
+> > --=20
+> > 2.35.1
+> >=20
+> >  =20
+>=20
+>=20
+>=20
+
