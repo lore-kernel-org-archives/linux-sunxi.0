@@ -1,73 +1,199 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D5F46B0
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 10:25:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1194C341C0;
-	Tue, 14 Jun 2022 10:25:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655202314;
-	bh=/4wjBN/XD9r9d8fn277nelFLTt+axEseUdjXrsmW1cU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=JdeSQWXLchu9QxQUVDqhSTbVyAhOjuRuArsn0syriXa+9Qq9BrxzCpSbML5WI6MvX
-	 rieOOwWnvg/qq0YjsQmfXXIgeK6bx8mQHr+Cp7jItHCN2TGh12ndouxY2FFFPOMzoV
-	 OIj9Mb9xNVeeg7e7EYjwZAe452Iwx8BRu9WNpRbfAaEvucIA6+u0M2XLRpTQgF4owu
-	 hkJKkhk4nlzqH98aZNLkIRN8piFSAYzExErE7j+l41MzNbTwRZ3EqFPXUSTgcaT58B
-	 RjsjdaMcL3qclOjPvMSkjIE7/PkiKj4D6GIXIZdSp95ObCXd5jSt0nEnh7dDi9Gs33
-	 rlAatUrbYIFqw==
-From: Mark Brown <broonie@kernel.org>
-To: ckeepax@opensource.cirrus.com, samuel@sholland.org
-Cc: linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev, patches@opensource.cirrus.com, jernej.skrabec@gmail.com, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, wens@csie.org, lgirdwood@gmail.com, matthias.bgg@gmail.com
-In-Reply-To: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
-References: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH 1/2] ASoC: sun8i-codec: Partial revert to fix clock specifiers
-Message-Id: <165520231251.3607327.1586830877046934824.b4-ty@kernel.org>
-Date: Tue, 14 Jun 2022 11:25:12 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD4BB1851;
+	Tue, 14 Jun 2022 10:28:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9200CC3411B;
+	Tue, 14 Jun 2022 10:28:28 +0000 (UTC)
+Message-ID: <3a886196-5f35-8b59-cfc5-f99b92ea85e0@xs4all.nl>
+Date: Tue, 14 Jun 2022 12:28:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v8 00/17] Move HEVC stateless controls out of staging
+Content-Language: en-US
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 Jun 2022 17:15:51 +0100, Charles Keepax wrote:
-> Recent updates accidentally updated the clock producer/consumer
-> specifiers on this device as part of refactoring the CPU side of the DAI
-> links. However, this device sits on the CODEC side and shouldn't have
-> been updated. Partially revert the changes keeping the switch to the new
-> clock terminology but going back to the CODEC defines.
+Hi Benjamin,
+
+On 6/14/22 10:35, Benjamin Gaignard wrote:
+> This series aims to make HEVC uapi stable and usable for hardware
+> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> and 2 out of the tree drivers (rkvdec and RPI).
 > 
+> version 8:
+> - Same than v7 but rebased on media_stage/master
+
+I get the following documentation warning:
+
+Documentation/output/videodev2.h.rst:6: WARNING: undefined label: v4l2-ctrl-flag-dynamic-array
+
+The new flag needs to be added to Documentation/userspace-api/media/videodev2.h.rst.exceptions.
+
+I also get these kerneldoc warnings:
+
+kerneldoc: WARNINGS
+include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_sps'
+include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_sps'
+include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_pps'
+include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_pps'
+include/uapi/linux/v4l2-controls.h:2237: warning: Function parameter or member 'reserved' not described in 'v4l2_hevc_dpb_entry'
+include/uapi/linux/v4l2-controls.h:2339: warning: cannot understand function prototype: 'struct v4l2_ctrl_hevc_slice_params '
+include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_decode_params'
+include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_decode_params'
+
+Run 'scripts/kernel-doc -none include/uapi/linux/v4l2-controls.h' to get these warnings.
+
+The "cannot understand function prototype" warning is because
+
+/**
+ * v4l2_ctrl_hevc_slice_params - HEVC slice parameters
+
+is missing 'struct' before 'v4l2_ctrl_hevc_slice_params'.
+
+After adding that I get these warnings:
+
+include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_sps'
+include/uapi/linux/v4l2-controls.h:2123: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_sps'
+include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_pps'
+include/uapi/linux/v4l2-controls.h:2203: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_pps'
+include/uapi/linux/v4l2-controls.h:2237: warning: Function parameter or member 'reserved' not described in 'v4l2_hevc_dpb_entry'
+include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'reserved0' not described in 'v4l2_ctrl_hevc_slice_params'
+include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'reserved1' not described in 'v4l2_ctrl_hevc_slice_params'
+include/uapi/linux/v4l2-controls.h:2382: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_slice_params'
+include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'reserved' not described in 'v4l2_ctrl_hevc_decode_params'
+include/uapi/linux/v4l2-controls.h:2425: warning: Function parameter or member 'padding' not described in 'v4l2_ctrl_hevc_decode_params'
+
+Regards,
+
+	Hans
+
 > 
-> [...]
+> This version has been tested with these branches:
+> - GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+> - Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V8
+> 
+> version 7:
+> - Apply Jernej patches for Cedrus about bit offset definition and
+>   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+> - Based on media_tree/master
+> 
+> version 6:
+> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+>   in v4l2_ctrl_hevc_decode_params structure.
+> - Change slice_pic_order_cnt type to s32 to match with PoC type.
+> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+>   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+> - Add a define for max slices count
+> - Stop using Hantro dedicated control.
+> 
+> With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+> which was 77/147 before, is now 141/147.
+> The 10-bits series will comes after this because of it dependency to
+> uAPI change. If you are curious you can find the WIP branch here:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V7
+> 
+> The 6 failing tests are:
+> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+> - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+>   difference exist on 5 decoded frames. Some pixels values are no the same 
+>   the very end of few lines.
+> 
+> version 6:
+> - Stop using Hantro dedicated control and compute the number
+>   of bytes to skip inside the driver.
+> - Rebased on media_tree/master
+> 
+> version 5:
+> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+>   hevc_dpb_entry structure
+> - Add defines for SEI pic_struct values (patch 4)
+> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+>   documentation (patch 8)
+> - Rebased on v5-18-rc1
+> 
+> GStreamer H265 decoder plugin aligned with HEVC uAPI v5:
+> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+> 
+> Version 4:
+> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> - Fix space/tab issue in kernel-doc
+> - Add patch to change data_bit_offset definition
+> - Fix hantro-media SPDX license
+> - put controls under stateless section in v4l2-ctrls-defs.c
+> 
+> At the end fluster tests results on IMX8MQ is 77/147 for HEVC codec.
+> 
+> Benjamin Gaignard (14):
+>   media: uapi: HEVC: Add missing fields in HEVC controls
+>   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>     prefix
+>   media: uapi: HEVC: Change pic_order_cnt definition in
+>     v4l2_hevc_dpb_entry
+>   media: uapi: HEVC: Add SEI pic struct flags
+>   media: uapi: HEVC: Add documentation to uAPI structure
+>   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>     dynamic array
+>   media: uapi: Move parsed HEVC pixel format out of staging
+>   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+>   media: uapi: Move the HEVC stateless control type out of staging
+>   media: controls: Log HEVC stateless control in .std_log
+>   media: hantro: Stop using Hantro dedicated control
+>   media: uapi: HEVC: fix padding in v4l2 control structures
+>   media: uapi: Change data_bit_offset definition
+>   media: uapi: move HEVC stateless controls out of staging
+> 
+> Hans Verkuil (3):
+>   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>   v4l2-ctrls: add support for dynamically allocated arrays.
+>   vivid: add dynamic array test control
+> 
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+>  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+>  .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>  .../media/videodev2.h.rst.exceptions          |   5 +
+>  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 206 +++-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c |  69 +-
+>  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+>  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  25 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+>  include/media/hevc-ctrls.h                    | 250 -----
+>  include/media/v4l2-ctrls.h                    |  48 +-
+>  include/uapi/linux/v4l2-controls.h            | 458 +++++++++
+>  include/uapi/linux/videodev2.h                |  13 +
+>  24 files changed, 1848 insertions(+), 1220 deletions(-)
+>  delete mode 100644 include/media/hevc-ctrls.h
+> 
 
-Applied to
-
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-
-Thanks!
-
-[1/2] ASoC: sun8i-codec: Partial revert to fix clock specifiers
-      commit: beb89d1d49e9ae1188356d6e37581e5f0b5f62b4
-[2/2] ASoC: mediatek: mt8186: Use new direct clock defines
-      commit: 845a215558647acd4290dd773b9c0de62c123335
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
