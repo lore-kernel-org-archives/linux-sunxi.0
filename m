@@ -1,68 +1,99 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 582467A
-	for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 21:02:30 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id w27so8873366edl.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 13 Jun 2022 14:02:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Q+yaULdwu+rPL5G3MbWME0SaA5eeeXALvtNnWDC8wYA=;
-        b=Z3Zp+je1tvgRYJne1HFf3ZU8TV5rQ6wVEdKi2Ozg9+v/gZF1Q7EdGSU49t7iJbACzr
-         T60Bn+ddWAdg5eWnfRIB9uAQwPTuvHmXB917v7IPvts0r3jpZWWefU7QacBSK9uwNFZN
-         c8GDDbZqjrTisqwCR/vGfpKSHzXLv/V+6/OyOkGb3CTI6/dQ/4ke0F++EiV+3On1WacQ
-         mGnKAGI887a7ydBLuwYrYT6GHYTtqoYE77UDQ/X/KatV2tWb1fkYwcG9r1PuYSR9PBZZ
-         /+aq1qaKfHXxUomXC+UZrSaEeyNsTVPKnZeOxKLokpF8ku2eturrAlCy4DJg5gNozN0P
-         fAcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Q+yaULdwu+rPL5G3MbWME0SaA5eeeXALvtNnWDC8wYA=;
-        b=fz+hWoZNezWpePymVEhSzLbQfd4SbdMMl08ZoyrWFkwO7YMLL/s4WzWZX4tjMysDDP
-         N/FLZHIoYRTcgdm+vRixGPKHDWseK0yeo6jDJoWVtl2vDkX3UgVkg4OMplwMxRbcqzUo
-         qreFutJuKAj5ksbnHgdHu0weNIvfayTAfBxc0hojv2YDcRDlUvPZdK+ZcJdUVQGvHwtN
-         de2pPFL8gp+aOQDn9mBjrF1w2S0QCMW3QwmM0nXtOGIJDr0U+K4lQiVWbolZGZ+zODKj
-         ENQJUD4ZrZ0RjlT7y4O/Lw1km24F8vqYwyeNU/s1JycBhnyOITwsPmWzhrl5KrpPH+Q+
-         cwAQ==
-X-Gm-Message-State: AOAM532f0nHg05SEAtECkAxUf1u6XqX1Kzjy7x0rsl78H1MiCnPjKXwg
-	PWcHf72kqpjbM8JH7fXEREc=
-X-Google-Smtp-Source: ABdhPJxQQjQlNd90jfnjQ5cdDCsNYWfxsyeGYqf4sXuU6zLN/1BV9Z4Vj7CJU7eESLv+NSnM2GcZAQ==
-X-Received: by 2002:a05:6402:3293:b0:42e:18a:d6eb with SMTP id f19-20020a056402329300b0042e018ad6ebmr1871193eda.293.1655154148518;
-        Mon, 13 Jun 2022 14:02:28 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id q23-20020a1709064cd700b006feed212f50sm874123ejt.184.2022.06.13.14.02.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jun 2022 14:02:28 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>, arm@kernel.org, soc@kernel.org, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: Re: [PATCH v2 06/48] ARM: dts: allwinner: align gpio-key node names with dtschema
-Date: Mon, 13 Jun 2022 23:02:22 +0200
-Message-ID: <4743697.31r3eYUQgx@kista>
-In-Reply-To: <20220609113911.380368-5-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org> <20220609113911.380368-5-krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29E5184A
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 06:39:23 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id AF7045C006E;
+	Tue, 14 Jun 2022 02:39:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 14 Jun 2022 02:39:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655188762; x=
+	1655275162; bh=YLErNvqZx1IawB0vUHwDOxvcYy8H5o0KiKQdt10QrzY=; b=U
+	+UE/qlH2+74a1pdC++OqXtWIXXd/Vn6hgnkHOon4r+GApTLm1chn1Eni8QBPivqK
+	1DmND3dY5Lf5l0GtWXgt7QPm0AjuZhExJ0tyQKw6z8CMimhdS0+wNoYmgHvQTQdK
+	6BPZqxIr6RPnP/k6ILVSmKysxP9HS+LmzJiev4FiOjlzuKXI4lHk0X+5AY4Kc/ek
+	j04+YuxYNLOr/nbKaAhNS2J4AP2gM+iBn9DZLrnO/OsbkpiFu9ll11FUiYaKBtWb
+	HivOcOKV/KMN48CZcaWT1iu9FxgbHPBE42z7s/0JR1XrGveuacyt7Vr8ubL/7DUu
+	cgIttNkhTCs0Kk0zW1TVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655188762; x=
+	1655275162; bh=YLErNvqZx1IawB0vUHwDOxvcYy8H5o0KiKQdt10QrzY=; b=T
+	F8hdFjasH8OZY7roQVqWv0Qu+ZYPa18MW26BlKNU9wKY5xC5zqLPIFKkzVO/ar8m
+	dYHKe1jQY8qemfN7llew7vSEclxPNrk+rofePAwvISrHImsYBukiOzcxZV78H95Q
+	78GK5cMHid6DhEdQ1xIwewusmUU04cZCaNEOoln1OA/8Ql5/yVKm8r2ribVYxfyN
+	cS3FEH/4+MyDQsrq9hNfbW86pJg1ZlHa1bvrYkjvAL68tcaXqV32DrxGnm0c0K5t
+	WEhthjanMBkjvE7IqTS1W5VezJ/o6VB0pcJdrE3r/8+w1s3qags4uZdJfgy1XB0b
+	xyrJBkfVXl5/d0IpAi7ZA==
+X-ME-Sender: <xms:Gi2oYnHgdP4g0INELdKQolrmQ7gncQUll3xIh5DO1oB1NVD7CPKCTQ>
+    <xme:Gi2oYkUyi4d8wQArFGKLBpWpTW6DO6KfJegGUOLHQ-g2II_AwJlTbZG46fKCQ5S4X
+    Ib0Yz8GiCAuYN10pw>
+X-ME-Received: <xmr:Gi2oYpK9auqTk03rBrrS6TiPEsI7xv4_NogLK9VN90yHk_nevMwj9zaotIEuqN418N3IyoQqZIWLfq-muciFKWKEgtqBAukgqe7ojW0seZUGF8hMyashPMTyRA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedguddtkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfh
+    iedtheduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:Gi2oYlFPP1lcV22QarSqf1uxSt0P4_OvAWNOBD4Y6BXqxT-9OAONlg>
+    <xmx:Gi2oYtVPJ3pzCjVz7dUV-rNHoTbDRRgUCFdiTWXsLHroVPDi8BCpWA>
+    <xmx:Gi2oYgP4uCMNpZO6zr3l9N94LkmiSqhnDmEmEoNTHJ8E3xhbOFRrpw>
+    <xmx:Gi2oYlTmepW70fHSh9e8Uub9_Ckgpu5sZHiq_24x5-SXojU1XJuFFw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Jun 2022 02:39:21 -0400 (EDT)
+Subject: Re: [PATCH 1/2] ASoC: sun8i-codec: Partial revert to fix clock
+ specifiers
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: matthias.bgg@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
+ linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ lgirdwood@gmail.com, alsa-devel@alsa-project.org,
+ patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
+References: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <9e105410-94d5-1801-8919-af8c0cef4de1@sholland.org>
+Date: Tue, 14 Jun 2022 01:39:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Dne =C4=8Detrtek, 09. junij 2022 ob 13:39:08 CEST je Krzysztof Kozlowski=20
-napisal(a):
-> The node names should be generic and DT schema expects certain pattern
-> (e.g. with key/button/switch).
->=20
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Hi Charles,
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+On 6/13/22 11:15 AM, Charles Keepax wrote:
+> Recent updates accidentally updated the clock producer/consumer
+> specifiers on this device as part of refactoring the CPU side of the DAI
+> links. However, this device sits on the CODEC side and shouldn't have
+> been updated. Partially revert the changes keeping the switch to the new
+> clock terminology but going back to the CODEC defines.
+> 
+> Fixes: 7cc3965fde74 ("ASoC: sunxi: Update to use set_fmt_new callback")
+> Reported-by: Samuel Holland <samuel@sholland.org>
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Best regards,
-Jernej
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Tested-by: Samuel Holland <samuel@sholland.org>
 
+Thanks for the quick follow-up, and sorry for the confusion my earlier comment
+caused. I verified that sound is broken (loud static) on a Pine A64-LTS board
+with for-next, and is fixed by this patch.
 
+Regards,
+Samuel
