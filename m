@@ -1,88 +1,245 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B0E7A
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 15:45:58 +0000 (UTC)
-Received: by mail-ej1-f49.google.com with SMTP id gl15so18012831ejb.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 08:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YSB5MTfStk1UspqZc+McpHC5WrZMD/bRWtNH57v7Pi8=;
-        b=GMGDlORopVsfXCvr45KKTAZgyKiLinGmJP2++AkxuZWakX4DhNgvG1i9J6wUmCLEPZ
-         pYjhhb9/n4/K3dV/LoJnfWi9Ev4QLvBEo7GBmQXWaFn43GMCGHMs6mKdDc0WvOB57thE
-         b139b7GZPQW7DIQOit2W89RVb31QoAfooMGSzC2/2tk7cSUIDZEcslP5o0l3UOST1PsR
-         BeBVPXDeRp2qRvNa6zAP/fGVSeEUtNg4fdJq+EOqkumXhoz5mnZBtpmE6+ZWbQC4uJRl
-         TeKxjnN/Pi919oQPJn3jG6iIWR+9dEp75pCEWqlKNZYTznlUO+SPXT0a4OinMDQaE5NI
-         Ex1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YSB5MTfStk1UspqZc+McpHC5WrZMD/bRWtNH57v7Pi8=;
-        b=ssxmn5pHvLOE7eqseNtJTBUc6bO/mCJDCJeFpKknimzq77esLntyVLKhvef+VDasFr
-         +iSX4wP5y1Syynid8ceRquTdvpAj3KeQujwHCdnwUZTmVQyqioVeNqd2QMhruh2X5Xh2
-         ZO4IRVoCCetdiYatjid5DWXIHMgD/S+GtvhA8YmSXDP8MNxBN/TbmjWJcEqc4kJNPqRI
-         0wOJ7laRcb2GMqlKDAxRbBwZcBR4DOpaqGjhANF919YaJuL+eSISxZX50/YLlSwYlTMx
-         l1ciVfMDuclb+Mqzqs9AWR8S1wL1/9M9v2euZecAqtcsDfFSuR4cJ2WIO5Vp6XdXjTUa
-         czSA==
-X-Gm-Message-State: AJIora/10qcLmXe0SyLwUlcwbRGrtNDwu+HgsPL72ngQtp3CLZdv/aZa
-	KaoWwdrYNY/PQVmtVcDr90Q=
-X-Google-Smtp-Source: AGRyM1t6j6k1HmO4uYue7LESoFEcMf8JICSTSvZZkVWPlcUQUTc9Bxqf6cAzusx7gQvkL9WUcNPxOw==
-X-Received: by 2002:a17:907:9496:b0:711:f459:664 with SMTP id dm22-20020a170907949600b00711f4590664mr4815819ejc.704.1655221557066;
-        Tue, 14 Jun 2022 08:45:57 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id da26-20020a056402177a00b004315050d7dfsm7271922edb.81.2022.06.14.08.45.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Jun 2022 08:45:56 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, "H. Nikolaus Schaller" <hns@goldelico.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Neil Armstrong <narmstrong@baylibre.com>, Paul Cercueil <paul@crapouillou.net>, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict
-Date: Tue, 14 Jun 2022 17:45:55 +0200
-Message-ID: <8075386.T7Z3S40VBb@kista>
-In-Reply-To: <20220614073100.11550-1-samuel@sholland.org>
-References: <20220614073100.11550-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61AFD7A;
+	Tue, 14 Jun 2022 15:47:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABFB2C3411C;
+	Tue, 14 Jun 2022 15:47:51 +0000 (UTC)
+Message-ID: <c5c6903d-ec7d-6218-35d3-2ac6caa9d2c5@xs4all.nl>
+Date: Tue, 14 Jun 2022 17:47:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v8 14/17] media: hantro: Stop using Hantro dedicated
+ control
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
+ <20220614083614.240641-15-benjamin.gaignard@collabora.com>
+ <b244e86d-06de-7423-d0df-e77485ce4c87@xs4all.nl>
+ <958ab30f9cfbb14e4a7ea55826064e6a20d5ffd2.camel@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <958ab30f9cfbb14e4a7ea55826064e6a20d5ffd2.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 14. junij 2022 ob 09:31:00 CEST je Samuel Holland napisal(a):
-> commit 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio
-> support") added a consumer for this GPIO in the HDMI connector device.
-> This new consumer conflicts with the pre-existing GPIO consumer in the
-> sun8i HDMI controller driver, which prevents the driver from probing:
+
+
+On 6/14/22 17:43, Nicolas Dufresne wrote:
+> Le mardi 14 juin 2022 à 15:58 +0200, Hans Verkuil a écrit :
+>> On 6/14/22 10:36, Benjamin Gaignard wrote:
+>>> The number of bits to skip in the slice header can be computed
+>>> in the driver by using sps, pps and decode_params information.
+>>> This allow to remove Hantro dedicated control.
+>>
+>> allow -> makes it possible
+>>
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> ---
+>>>  drivers/staging/media/hantro/hantro_drv.c     | 36 -----------
+>>>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 62 ++++++++++++++++++-
+>>>  include/media/hevc-ctrls.h                    | 13 ----
+>>>  3 files changed, 61 insertions(+), 50 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+>>> index 536c8c374952..5aac3a090480 100644
+>>> --- a/drivers/staging/media/hantro/hantro_drv.c
+>>> +++ b/drivers/staging/media/hantro/hantro_drv.c
+>>> @@ -304,26 +304,6 @@ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>  	return 0;
+>>>  }
+>>>  
+>>> -static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+>>> -{
+>>> -	struct hantro_ctx *ctx;
+>>> -
+>>> -	ctx = container_of(ctrl->handler,
+>>> -			   struct hantro_ctx, ctrl_handler);
+>>> -
+>>> -	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
+>>> -
+>>> -	switch (ctrl->id) {
+>>> -	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
+>>> -		ctx->hevc_dec.ctrls.hevc_hdr_skip_length = ctrl->val;
+>>> -		break;
+>>> -	default:
+>>> -		return -EINVAL;
+>>> -	}
+>>> -
+>>> -	return 0;
+>>> -}
+>>> -
+>>>  static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>>>  	.try_ctrl = hantro_try_ctrl,
+>>>  };
+>>> @@ -332,10 +312,6 @@ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops = {
+>>>  	.s_ctrl = hantro_jpeg_s_ctrl,
+>>>  };
+>>>  
+>>> -static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+>>> -	.s_ctrl = hantro_hevc_s_ctrl,
+>>> -};
+>>> -
+>>>  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | \
+>>>  					 V4L2_JPEG_ACTIVE_MARKER_COM | \
+>>>  					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
+>>> @@ -487,18 +463,6 @@ static const struct hantro_ctrl controls[] = {
+>>>  		.cfg = {
+>>>  			.id = V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+>>>  		},
+>>> -	}, {
+>>> -		.codec = HANTRO_HEVC_DECODER,
+>>> -		.cfg = {
+>>> -			.id = V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
+>>> -			.name = "Hantro HEVC slice header skip bytes",
+>>> -			.type = V4L2_CTRL_TYPE_INTEGER,
+>>> -			.min = 0,
+>>> -			.def = 0,
+>>> -			.max = 0x100,
+>>> -			.step = 1,
+>>> -			.ops = &hantro_hevc_ctrl_ops,
+>>> -		},
+>>>  	}, {
+>>>  		.codec = HANTRO_VP9_DECODER,
+>>>  		.cfg = {
+>>> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> index d28653d04d20..3be8d6e60bf0 100644
+>>> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+>>> @@ -117,6 +117,66 @@ static void prepare_tile_info_buffer(struct hantro_ctx *ctx)
+>>>  		vpu_debug(1, "%s: no chroma!\n", __func__);
+>>>  }
+>>>  
+>>> +static unsigned int ceil_log2(unsigned int v)
+>>> +{
+>>> +	/* Compute Ceil(Log2(v))
+>>> +	 * Derived from branchless code for integer log2(v) from:
+>>> +	 * <http://graphics.stanford.edu/~seander/bithacks.html#IntegerLog>
+>>> +	 */
+>>> +	unsigned int r, shift;
+>>> +
+>>> +	v--;
+>>> +	r = (v > 0xFFFF) << 4;
+>>> +	v >>= r;
+>>> +	shift = (v > 0xFF) << 3;
+>>> +	v >>= shift;
+>>> +	r |= shift;
+>>> +	shift = (v > 0xF) << 2;
+>>> +	v >>= shift;
+>>> +	r |= shift;
+>>> +	shift = (v > 0x3) << 1;
+>>> +	v >>= shift;
+>>> +	r |= shift;
+>>> +	r |= (v >> 1);
+>>> +
+>>> +	return r + 1;
+>>> +}
+>>
+>> Isn't this identical to fls(v - 1)? See also lib/math/reciprocal_div.c
+>> where this is used.
 > 
->   [    4.983358] display-connector connector: GPIO lookup for consumer ddc-
-en
->   [    4.983364] display-connector connector: using device tree for GPIO 
-lookup
->   [    4.983392] gpio-226 (ddc-en): gpiod_request: status -16
->   [    4.983399] sun8i-dw-hdmi 6000000.hdmi: Couldn't get ddc-en gpio
->   [    4.983618] sun4i-drm display-engine: failed to bind 6000000.hdmi (ops 
-sun8i_dw_hdmi_ops [sun8i_drm_hdmi]): -16
->   [    4.984082] sun4i-drm display-engine: Couldn't bind all pipelines 
-components
->   [    4.984171] sun4i-drm display-engine: adev bind failed: -16
->   [    4.984179] sun8i-dw-hdmi: probe of 6000000.hdmi failed with error -16
+> Thanks for pointing this out, I was wondering if there was an equivalent, and
+> never knew there was a relation between log2() and the "last set bit". Not sure
+> about the -1 here though, can you extend ?
+
+Based on how lib/math/reciprocal_div.c did it. Also, the ceil_log2 function
+starts with v--, while fls doesn't. That said, it's wise to verify that that
+is correct.
+
+Regards,
+
+	Hans
+
 > 
-> Both drivers have the same behavior: they leave the GPIO active for the
-> life of the device. Let's take advantage of the new implementation, and
-> drop the now-obsolete code from the HDMI controller driver.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +
+>>> +static int compute_header_skip_lenght(struct hantro_ctx *ctx)
+>>> +{
+>>> +	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+>>> +	const struct v4l2_ctrl_hevc_decode_params *decode_params = ctrls->decode_params;
+>>> +	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+>>> +	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
+>>> +	int skip = 0;
+>>> +
+>>> +	if (pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT)
+>>> +		/* size of pic_output_flag */
+>>> +		skip++;
+>>> +
+>>> +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE)
+>>> +		/* size of pic_order_cnt_lsb */
+>>> +		skip += 2;
+>>> +
+>>> +	if (!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC)) {
+>>> +		/* size of pic_order_cnt_lsb */
+>>> +		skip += sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
+>>> +
+>>> +		/* size of short_term_ref_pic_set_sps_flag */
+>>> +		skip++;
+>>> +
+>>> +		if (decode_params->short_term_ref_pic_set_size)
+>>> +			/* size of st_ref_pic_set( num_short_term_ref_pic_sets ) */
+>>> +			skip += decode_params->short_term_ref_pic_set_size;
+>>> +		else if (sps->num_short_term_ref_pic_sets > 1)
+>>> +			skip += ceil_log2(sps->num_short_term_ref_pic_sets);
+>>> +
+>>> +		skip += decode_params->long_term_ref_pic_set_size;
+>>> +	}
+>>> +
+>>> +	return skip;
+>>> +}
+>>> +
+>>>  static void set_params(struct hantro_ctx *ctx)
+>>>  {
+>>>  	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+>>> @@ -134,7 +194,7 @@ static void set_params(struct hantro_ctx *ctx)
+>>>  
+>>>  	hantro_reg_write(vpu, &g2_output_8_bits, 0);
+>>>  
+>>> -	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls->hevc_hdr_skip_length);
+>>> +	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_skip_lenght(ctx));
+>>>  
+>>>  	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 3;
+>>>  	max_log2_ctb_size = min_log2_cb_size + sps->log2_diff_max_min_luma_coding_block_size;
+>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>> index d6cb3779d190..efc0412ac41e 100644
+>>> --- a/include/media/hevc-ctrls.h
+>>> +++ b/include/media/hevc-ctrls.h
+>>> @@ -467,17 +467,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
+>>>  	__u8	scaling_list_dc_coef_32x32[2];
+>>>  };
+>>>  
+>>> -/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2 */
+>>> -#define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC | 0x1200)
+>>> -/*
+>>> - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+>>> - * the number of data (in bits) to skip in the
+>>> - * slice segment header.
+>>> - * If non-IDR, the bits to be skipped go from syntax element "pic_output_flag"
+>>> - * to before syntax element "slice_temporal_mvp_enabled_flag".
+>>> - * If IDR, the skipped bits are just "pic_output_flag"
+>>> - * (separate_colour_plane_flag is not supported).
+>>> - */
+>>> -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_CODEC_HANTRO_BASE + 0)
+>>> -
+>>>  #endif
+>>
 > 
-> Fixes: 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio 
-support")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-
-Best regards,
-Jernej
-
-
