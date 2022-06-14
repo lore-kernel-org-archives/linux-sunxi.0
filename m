@@ -1,99 +1,226 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29E5184A
-	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 06:39:23 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id AF7045C006E;
-	Tue, 14 Jun 2022 02:39:22 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B57469F
+	for <linux-sunxi@lists.linux.dev>; Tue, 14 Jun 2022 07:31:03 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id CF6FA5C00DE;
+	Tue, 14 Jun 2022 03:31:02 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 14 Jun 2022 02:39:22 -0400
+  by compute5.internal (MEProxy); Tue, 14 Jun 2022 03:31:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655188762; x=
-	1655275162; bh=YLErNvqZx1IawB0vUHwDOxvcYy8H5o0KiKQdt10QrzY=; b=U
-	+UE/qlH2+74a1pdC++OqXtWIXXd/Vn6hgnkHOon4r+GApTLm1chn1Eni8QBPivqK
-	1DmND3dY5Lf5l0GtWXgt7QPm0AjuZhExJ0tyQKw6z8CMimhdS0+wNoYmgHvQTQdK
-	6BPZqxIr6RPnP/k6ILVSmKysxP9HS+LmzJiev4FiOjlzuKXI4lHk0X+5AY4Kc/ek
-	j04+YuxYNLOr/nbKaAhNS2J4AP2gM+iBn9DZLrnO/OsbkpiFu9ll11FUiYaKBtWb
-	HivOcOKV/KMN48CZcaWT1iu9FxgbHPBE42z7s/0JR1XrGveuacyt7Vr8ubL/7DUu
-	cgIttNkhTCs0Kk0zW1TVg==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1655191862; x=1655278262; bh=Dbk8kA3/CUb/CaOmXekOBIJYO
+	kqO37bfGP3D3h82pdI=; b=GjScZWiLfZQp+GRfzqrZkrlx8z0eymYKG26evbTcZ
+	+xaJFYiHwkMa1WqUbD5Z5TVH3CsaX9i4BFzYvtTx1+Uk2pQ97xEg7PyX8BQJ51qG
+	NmlRgX3lpLgV6iVpDbESPHnPYh3ut0lXwQPQtOAeLNk8M+AYL+P8SiCaPBDky7y8
+	E0sw+Mu7K6+tEMPnhElJOMiGIlc3S6yElK7p/srJ/G9OqKkvSwarBlXq1hpJSNKp
+	n90aQXXG4vSxG3rsuZNMl/+s0tHLkMrnYBlW5/we3fUQGzIvCh8S1MHh+oOzYI4g
+	cwj4Du//PB1VKYI0BzrsHvUaUxEHMuDK7TbC+0HcS1NTA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655188762; x=
-	1655275162; bh=YLErNvqZx1IawB0vUHwDOxvcYy8H5o0KiKQdt10QrzY=; b=T
-	F8hdFjasH8OZY7roQVqWv0Qu+ZYPa18MW26BlKNU9wKY5xC5zqLPIFKkzVO/ar8m
-	dYHKe1jQY8qemfN7llew7vSEclxPNrk+rofePAwvISrHImsYBukiOzcxZV78H95Q
-	78GK5cMHid6DhEdQ1xIwewusmUU04cZCaNEOoln1OA/8Ql5/yVKm8r2ribVYxfyN
-	cS3FEH/4+MyDQsrq9hNfbW86pJg1ZlHa1bvrYkjvAL68tcaXqV32DrxGnm0c0K5t
-	WEhthjanMBkjvE7IqTS1W5VezJ/o6VB0pcJdrE3r/8+w1s3qags4uZdJfgy1XB0b
-	xyrJBkfVXl5/d0IpAi7ZA==
-X-ME-Sender: <xms:Gi2oYnHgdP4g0INELdKQolrmQ7gncQUll3xIh5DO1oB1NVD7CPKCTQ>
-    <xme:Gi2oYkUyi4d8wQArFGKLBpWpTW6DO6KfJegGUOLHQ-g2II_AwJlTbZG46fKCQ5S4X
-    Ib0Yz8GiCAuYN10pw>
-X-ME-Received: <xmr:Gi2oYpK9auqTk03rBrrS6TiPEsI7xv4_NogLK9VN90yHk_nevMwj9zaotIEuqN418N3IyoQqZIWLfq-muciFKWKEgtqBAukgqe7ojW0seZUGF8hMyashPMTyRA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedguddtkecutefuodetggdotefrod
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1655191862; x=1655278262; bh=Dbk8kA3/CUb/CaOmXekOBIJYOkqO37bfGP3
+	D3h82pdI=; b=RRx+YASnTQKS74TUfNjQxCEegiO474fxANvHlE2etkWoZOomiML
+	J8WOEcjX3OlTw65GLjoTp/hyh/2vDcKPqGXo8TzPT2RAWhxYoT4Rv1jHxBG+bsdA
+	VY2ef8nQCzQppCdzGD0eFBoT9V8fIqr3T3nphGTzvWuTBs4VqKxGWAg5PBdnUg5+
+	PuoWYIebct4Src3LYLip+66Q9ZPMBUJzH43NM7wKIgkKXkU0XzlVHIDFKlV4pS/d
+	CG2Afs7zqkPnGR57OaHXCzW+vBqzP0cxX2jKPLUBG4mxp+bzIIpDQXQwJ0d/JV2K
+	rw7H1B1J87jW1YHcUe++T/RCAxhJkZVBNWg==
+X-ME-Sender: <xms:NjmoYjK6eDDoUIVQihZuQoHhq4K5AC2hcz7QUD3ho1Sd5Zkw4WAuhA>
+    <xme:NjmoYnJPvmSGJfBVwvNhZ4nnYLRDpTkPpTCyff38kKRKOD_GR2Gp8IlPxrF7r8t63
+    HbAZ5SfPmC_C650rQ>
+X-ME-Received: <xmr:NjmoYruX4PBmhgPBU9HliJ9tOECioYeac_cSZ6PjH7URGzN6rT6cl7wwpKR-XwVtbAaTz3xo685LYKelLt4-lF5cxmMFGwHEcvy-svsbQrJqydsmNXDuPZBh2kV_96eATrKfiQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddukedguddukecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfh
-    iedtheduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Gi2oYlFPP1lcV22QarSqf1uxSt0P4_OvAWNOBD4Y6BXqxT-9OAONlg>
-    <xmx:Gi2oYtVPJ3pzCjVz7dUV-rNHoTbDRRgUCFdiTWXsLHroVPDi8BCpWA>
-    <xmx:Gi2oYgP4uCMNpZO6zr3l9N94LkmiSqhnDmEmEoNTHJ8E3xhbOFRrpw>
-    <xmx:Gi2oYlTmepW70fHSh9e8Uub9_Ckgpu5sZHiq_24x5-SXojU1XJuFFw>
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:NjmoYsYIOqf-XLTYTfxq-IUOf7FECYtefDg3Ng70sZsS2zGK_GWX8g>
+    <xmx:NjmoYqZkY16jvUk8Uqfsmx1MFx-cJ4dLbwZF1PdqgBwgu4aReC6rUg>
+    <xmx:NjmoYgCbrbqXd0t3PiNvDqFlpQrwp-kgzqjWqlMD_QU_UKfna1yPsQ>
+    <xmx:NjmoYmS-87aCNzBeVwL2beT_wtRysCRqSbeTfy3VdR2NEe1GxYQzWQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Jun 2022 02:39:21 -0400 (EDT)
-Subject: Re: [PATCH 1/2] ASoC: sun8i-codec: Partial revert to fix clock
- specifiers
-To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
-Cc: matthias.bgg@gmail.com, wens@csie.org, jernej.skrabec@gmail.com,
- linux-mediatek@lists.infradead.org, linux-sunxi@lists.linux.dev,
- lgirdwood@gmail.com, alsa-devel@alsa-project.org,
- patches@opensource.cirrus.com, linux-kernel@vger.kernel.org
-References: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
+ 14 Jun 2022 03:31:01 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <9e105410-94d5-1801-8919-af8c0cef4de1@sholland.org>
-Date: Tue, 14 Jun 2022 01:39:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	"H. Nikolaus Schaller" <hns@goldelico.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] drm/sun4i: dw-hdmi: Fix ddc-en GPIO consumer conflict
+Date: Tue, 14 Jun 2022 02:31:00 -0500
+Message-Id: <20220614073100.11550-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220613161552.481337-1-ckeepax@opensource.cirrus.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Charles,
+commit 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio
+support") added a consumer for this GPIO in the HDMI connector device.
+This new consumer conflicts with the pre-existing GPIO consumer in the
+sun8i HDMI controller driver, which prevents the driver from probing:
 
-On 6/13/22 11:15 AM, Charles Keepax wrote:
-> Recent updates accidentally updated the clock producer/consumer
-> specifiers on this device as part of refactoring the CPU side of the DAI
-> links. However, this device sits on the CODEC side and shouldn't have
-> been updated. Partially revert the changes keeping the switch to the new
-> clock terminology but going back to the CODEC defines.
-> 
-> Fixes: 7cc3965fde74 ("ASoC: sunxi: Update to use set_fmt_new callback")
-> Reported-by: Samuel Holland <samuel@sholland.org>
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+  [    4.983358] display-connector connector: GPIO lookup for consumer ddc-en
+  [    4.983364] display-connector connector: using device tree for GPIO lookup
+  [    4.983392] gpio-226 (ddc-en): gpiod_request: status -16
+  [    4.983399] sun8i-dw-hdmi 6000000.hdmi: Couldn't get ddc-en gpio
+  [    4.983618] sun4i-drm display-engine: failed to bind 6000000.hdmi (ops sun8i_dw_hdmi_ops [sun8i_drm_hdmi]): -16
+  [    4.984082] sun4i-drm display-engine: Couldn't bind all pipelines components
+  [    4.984171] sun4i-drm display-engine: adev bind failed: -16
+  [    4.984179] sun8i-dw-hdmi: probe of 6000000.hdmi failed with error -16
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
-Tested-by: Samuel Holland <samuel@sholland.org>
+Both drivers have the same behavior: they leave the GPIO active for the
+life of the device. Let's take advantage of the new implementation, and
+drop the now-obsolete code from the HDMI controller driver.
 
-Thanks for the quick follow-up, and sorry for the confusion my earlier comment
-caused. I verified that sound is broken (loud static) on a Pine A64-LTS board
-with for-next, and is fixed by this patch.
+Fixes: 6de79dd3a920 ("drm/bridge: display-connector: add ddc-en gpio support")
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Regards,
-Samuel
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c | 54 ++-------------------------
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h |  2 -
+ 2 files changed, 4 insertions(+), 52 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index a8d75fd7e9f4..477cb6985b4d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -93,34 +93,10 @@ static u32 sun8i_dw_hdmi_find_possible_crtcs(struct drm_device *drm,
+ 	return crtcs;
+ }
+ 
+-static int sun8i_dw_hdmi_find_connector_pdev(struct device *dev,
+-					     struct platform_device **pdev_out)
+-{
+-	struct platform_device *pdev;
+-	struct device_node *remote;
+-
+-	remote = of_graph_get_remote_node(dev->of_node, 1, -1);
+-	if (!remote)
+-		return -ENODEV;
+-
+-	if (!of_device_is_compatible(remote, "hdmi-connector")) {
+-		of_node_put(remote);
+-		return -ENODEV;
+-	}
+-
+-	pdev = of_find_device_by_node(remote);
+-	of_node_put(remote);
+-	if (!pdev)
+-		return -ENODEV;
+-
+-	*pdev_out = pdev;
+-	return 0;
+-}
+-
+ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 			      void *data)
+ {
+-	struct platform_device *pdev = to_platform_device(dev), *connector_pdev;
++	struct platform_device *pdev = to_platform_device(dev);
+ 	struct dw_hdmi_plat_data *plat_data;
+ 	struct drm_device *drm = data;
+ 	struct device_node *phy_node;
+@@ -167,30 +143,16 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 		return dev_err_probe(dev, PTR_ERR(hdmi->regulator),
+ 				     "Couldn't get regulator\n");
+ 
+-	ret = sun8i_dw_hdmi_find_connector_pdev(dev, &connector_pdev);
+-	if (!ret) {
+-		hdmi->ddc_en = gpiod_get_optional(&connector_pdev->dev,
+-						  "ddc-en", GPIOD_OUT_HIGH);
+-		platform_device_put(connector_pdev);
+-
+-		if (IS_ERR(hdmi->ddc_en)) {
+-			dev_err(dev, "Couldn't get ddc-en gpio\n");
+-			return PTR_ERR(hdmi->ddc_en);
+-		}
+-	}
+-
+ 	ret = regulator_enable(hdmi->regulator);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to enable regulator\n");
+-		goto err_unref_ddc_en;
++		return ret;
+ 	}
+ 
+-	gpiod_set_value(hdmi->ddc_en, 1);
+-
+ 	ret = reset_control_deassert(hdmi->rst_ctrl);
+ 	if (ret) {
+ 		dev_err(dev, "Could not deassert ctrl reset control\n");
+-		goto err_disable_ddc_en;
++		goto err_disable_regulator;
+ 	}
+ 
+ 	ret = clk_prepare_enable(hdmi->clk_tmds);
+@@ -245,12 +207,8 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ err_assert_ctrl_reset:
+ 	reset_control_assert(hdmi->rst_ctrl);
+-err_disable_ddc_en:
+-	gpiod_set_value(hdmi->ddc_en, 0);
++err_disable_regulator:
+ 	regulator_disable(hdmi->regulator);
+-err_unref_ddc_en:
+-	if (hdmi->ddc_en)
+-		gpiod_put(hdmi->ddc_en);
+ 
+ 	return ret;
+ }
+@@ -264,11 +222,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
+ 	sun8i_hdmi_phy_deinit(hdmi->phy);
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ 	reset_control_assert(hdmi->rst_ctrl);
+-	gpiod_set_value(hdmi->ddc_en, 0);
+ 	regulator_disable(hdmi->regulator);
+-
+-	if (hdmi->ddc_en)
+-		gpiod_put(hdmi->ddc_en);
+ }
+ 
+ static const struct component_ops sun8i_dw_hdmi_ops = {
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+index bffe1b9cd3dc..9ad09522947a 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+@@ -9,7 +9,6 @@
+ #include <drm/bridge/dw_hdmi.h>
+ #include <drm/drm_encoder.h>
+ #include <linux/clk.h>
+-#include <linux/gpio/consumer.h>
+ #include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/reset.h>
+@@ -193,7 +192,6 @@ struct sun8i_dw_hdmi {
+ 	struct regulator		*regulator;
+ 	const struct sun8i_dw_hdmi_quirks *quirks;
+ 	struct reset_control		*rst_ctrl;
+-	struct gpio_desc		*ddc_en;
+ };
+ 
+ extern struct platform_driver sun8i_hdmi_phy_driver;
+-- 
+2.35.1
+
