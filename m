@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC074C76
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:10 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC0DJV015765;
-	Thu, 16 Jun 2022 09:34:33 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DC54C7E
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:11 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G9kEUH001578;
+	Thu, 16 Jun 2022 09:34:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=FzDSh8zY1KDxF7rJkQVN5S8yOHbt/setTYgyg3pJdkA=;
- b=WW+n3LXm4IbcCA9uCF6xcs3J0zac5kNaujrwPbxuQSlMcbQbLtXd0558rBikZ8SU51ws
- 2s7Y72rFxKL1OD0QTFwA7b3yMUa2RhUL3TNqvc29Q+7c7E/jTpqFAxcwSrilPxr7F8+e
- Q1vU3/2kHOhWdAslx/T1uK71nMFFqFk85qh7cCs5vWsMQHq28QVBTClUYGRCzfzDuCDE
- HR8eIdkKDGiE7tY/SzIvBNX3Ab9AgHKx690fEXmucp8+G1hd3C1V6husVL7Gy/IHcvpm
- aryzqujEVCtTiBdSNDJKMabYujaLFH78AX2o+hBzcGF9p472Wn4nTCfbvJBF3bxPra/e ng== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3h-3
+ bh=xY4xsRe/jm0kTWlxz5PklVpNc7pAIqqRFHsrc/CWjnk=;
+ b=M/od6+SASLau2MAVTBhZmd7nctO99F3HjcaBMw8lkg6q88PAL2AY2fcHRUAo6VnXdZiC
+ qPnSEDXx2o3BXWVkDiMFwE1MI3BpU8yEA+K2d+PQ3uwDo6atVTP/GuLzbqs67grbv8qR
+ eEllKwyYWm+3pVHI9G5lbHW/5V0VFKztENM/RbM17YL6JTU52b8kzx2WWYKNdD6dw5Kx
+ HzrRfkGzupeIvxrrIvO1fiA8gSVcfeSpIByqLom6BkEVZjhcZyizbghHCqCSwcVGgZff
+ v9dWvaSZ3JV0Nttyw3pjpwbBR9+5QEgseetAnK+SEfCPTHn2S5WDsKEAyvDjytEXobSA og== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vvg-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:32 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 16 Jun 2022 09:34:58 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:30 +0100
+ 2022 15:34:36 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 16 Jun 2022 15:34:30 +0100
+ Transport; Thu, 16 Jun 2022 15:34:36 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 54422468;
-	Thu, 16 Jun 2022 14:34:30 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id AC9C511D4;
+	Thu, 16 Jun 2022 14:34:36 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 05/96] ASoC: spear: Migrate to new style legacy DAI naming flag
-Date: Thu, 16 Jun 2022 15:32:58 +0100
-Message-ID: <20220616143429.1324494-6-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 84/96] ASoC: lm49453: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 16 Jun 2022 15:34:17 +0100
+Message-ID: <20220616143429.1324494-85-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,49 +61,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: JgVujUQviHpgxqwaL04xCfEOCuXtML3x
-X-Proofpoint-GUID: JgVujUQviHpgxqwaL04xCfEOCuXtML3x
+X-Proofpoint-GUID: PBppb_Vl-GdYod6diQV9HydO2wAn2u8q
+X-Proofpoint-ORIG-GUID: PBppb_Vl-GdYod6diQV9HydO2wAn2u8q
 X-Proofpoint-Spam-Reason: safe
 
-Change the legacy DAI naming flag from opting in to the new scheme
-(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-These drivers appear to be on the CPU side of the DAI link and
-currently uses the legacy naming, so add the new flag.
+The ASoC core has now been changed to default to the non-legacy DAI
+naming, as such drivers using the new scheme no longer need to specify
+the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/spear/spdif_in.c  | 3 ++-
- sound/soc/spear/spdif_out.c | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ sound/soc/codecs/lm49453.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/spear/spdif_in.c b/sound/soc/spear/spdif_in.c
-index 4b68d6ee75da4..4ad8b1fc713a7 100644
---- a/sound/soc/spear/spdif_in.c
-+++ b/sound/soc/spear/spdif_in.c
-@@ -172,7 +172,8 @@ static struct snd_soc_dai_driver spdif_in_dai = {
+diff --git a/sound/soc/codecs/lm49453.c b/sound/soc/codecs/lm49453.c
+index c4900ada86184..a2e782cc4276a 100644
+--- a/sound/soc/codecs/lm49453.c
++++ b/sound/soc/codecs/lm49453.c
+@@ -1399,7 +1399,6 @@ static const struct snd_soc_component_driver soc_component_dev_lm49453 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(lm49453_audio_map),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver spdif_in_component = {
--	.name		= "spdif-in",
-+	.name			= "spdif-in",
-+	.legacy_dai_naming	= 1,
- };
- 
- static irqreturn_t spdif_in_irq(int irq, void *arg)
-diff --git a/sound/soc/spear/spdif_out.c b/sound/soc/spear/spdif_out.c
-index 549295a6ed501..fb107c5790add 100644
---- a/sound/soc/spear/spdif_out.c
-+++ b/sound/soc/spear/spdif_out.c
-@@ -273,7 +273,8 @@ static struct snd_soc_dai_driver spdif_out_dai = {
- };
- 
- static const struct snd_soc_component_driver spdif_out_component = {
--	.name		= "spdif-out",
-+	.name			= "spdif-out",
-+	.legacy_dai_naming	= 1,
- };
- 
- static int spdif_out_probe(struct platform_device *pdev)
+ static const struct regmap_config lm49453_regmap_config = {
 -- 
 2.30.2
 
