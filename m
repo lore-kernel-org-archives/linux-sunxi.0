@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA20F2F4A
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:07 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07C5027888;
-	Thu, 16 Jun 2022 09:34:33 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ADF74C7B
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:11 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GBnCaI029573;
+	Thu, 16 Jun 2022 09:34:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=+ZJvFPqRLHsK8VJgqeCq9KcDpAuthuuELv8JAfqtDxU=;
- b=nej2Axtf3Ci8j7ARIaEkPtOyX3vHnMlxdIR7EowuXUDmwLLCRbwyITudvd2N+3nyYidV
- wWfhF62jHLB4vyOrVOqj5afDE3XT+8sjGTkl23WZwFFI5sMNH3hXMdmtpARcb6ljKktV
- 6TVNLBGOtAFjlfXtMV/KxKtCSNHigrUCHwiA6Y9HWNW3KTOIm+PTPuhunABhBPu8sWiP
- yzV8LE1mphYrBVqok4aLeYyd1vllWn3abct/40oDOOFplUn0WWMq27eRffnO7xH6mBbh
- h0lrs4F/hFFmTHRk33zfORXdEQRJV5XF2X3ulmj/ibqLJAfpXR8BeAW4FJRMoBG/elyH 0w== 
+ bh=mIa1mkeEkrDJt0gyT2HtnOxCb8TL4rQN20e++H56G2c=;
+ b=WF++K2livlbXpnkZLU36xjroMdLavKv47c7KhXYxHJ4WSkyR4VqtHiV2Eul68RXkLdI9
+ /8iLqZPBRVmFElqqX8dkPma0XjdzDfFVTSWhwxfvghoaanoULYURQ221tIhmMTA04P+c
+ 6ODQfViNSnC67OdV7BaUPZEJNbAyCLgiREWik52KQG/SuBpWuUCiabIGCnu/Jixy9gTM
+ Nh4q9k60goUMaVqzHn+HzIvjcChdzkM6Ha9EKD9QwIa8YPYIOpIwaLBn6kpF0wWRVVHA
+ jm0eWBzaawskt5ekD9OPUlnlqrKLffkRs4m63XFWJeAtSe9tBvOTu4G6fu56rO67l6C1 Qw== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-2
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3m-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:33 -0500
+	Thu, 16 Jun 2022 09:34:40 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:30 +0100
+ 2022 15:34:32 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 16 Jun 2022 15:34:30 +0100
+ Transport; Thu, 16 Jun 2022 15:34:32 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 282A9478;
-	Thu, 16 Jun 2022 14:34:30 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 053C511D3;
+	Thu, 16 Jun 2022 14:34:32 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 03/96] drm/vc4: Migrate to new style legacy DAI naming flag
-Date: Thu, 16 Jun 2022 15:32:56 +0100
-Message-ID: <20220616143429.1324494-4-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 26/96] ASoC: rockchip: Migrate to new style legacy DAI naming flag
+Date: Thu, 16 Jun 2022 15:33:19 +0100
+Message-ID: <20220616143429.1324494-27-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,32 +61,71 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 5u1n12_iA3o4iDdyKTapjKv8prc9bFEK
-X-Proofpoint-ORIG-GUID: 5u1n12_iA3o4iDdyKTapjKv8prc9bFEK
+X-Proofpoint-ORIG-GUID: IpsGq9FoaXt-9eT2DdnEMXdnzL34HmIT
+X-Proofpoint-GUID: IpsGq9FoaXt-9eT2DdnEMXdnzL34HmIT
 X-Proofpoint-Spam-Reason: safe
 
 Change the legacy DAI naming flag from opting in to the new scheme
 (non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-This driver appears to be on the CPU side of the DAI link and
+These drivers appear to be on the CPU side of the DAI link and
 currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 1 +
- 1 file changed, 1 insertion(+)
+ sound/soc/rockchip/rockchip_i2s.c     | 1 +
+ sound/soc/rockchip/rockchip_i2s_tdm.c | 1 +
+ sound/soc/rockchip/rockchip_pdm.c     | 1 +
+ sound/soc/rockchip/rockchip_spdif.c   | 1 +
+ 4 files changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 823d812f49829..3e3bd88745b7c 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1969,6 +1969,7 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
+diff --git a/sound/soc/rockchip/rockchip_i2s.c b/sound/soc/rockchip/rockchip_i2s.c
+index 47a3971a9ce14..2eb1a9bf4c00b 100644
+--- a/sound/soc/rockchip/rockchip_i2s.c
++++ b/sound/soc/rockchip/rockchip_i2s.c
+@@ -498,6 +498,7 @@ static struct snd_soc_dai_driver rockchip_i2s_dai = {
  
- static const struct snd_soc_component_driver vc4_hdmi_audio_cpu_dai_comp = {
- 	.name = "vc4-hdmi-cpu-dai-component",
+ static const struct snd_soc_component_driver rockchip_i2s_component = {
+ 	.name = DRV_NAME,
 +	.legacy_dai_naming = 1,
  };
  
- static int vc4_hdmi_audio_cpu_dai_probe(struct snd_soc_dai *dai)
+ static bool rockchip_i2s_wr_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.c b/sound/soc/rockchip/rockchip_i2s_tdm.c
+index 48b3ecfa58b46..2aad0f309cb63 100644
+--- a/sound/soc/rockchip/rockchip_i2s_tdm.c
++++ b/sound/soc/rockchip/rockchip_i2s_tdm.c
+@@ -1120,6 +1120,7 @@ static const struct snd_soc_dai_ops rockchip_i2s_tdm_dai_ops = {
+ 
+ static const struct snd_soc_component_driver rockchip_i2s_tdm_component = {
+ 	.name = DRV_NAME,
++	.legacy_dai_naming = 1,
+ };
+ 
+ static bool rockchip_i2s_tdm_wr_reg(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/rockchip/rockchip_pdm.c b/sound/soc/rockchip/rockchip_pdm.c
+index 64d9891b6434f..6d93155411b03 100644
+--- a/sound/soc/rockchip/rockchip_pdm.c
++++ b/sound/soc/rockchip/rockchip_pdm.c
+@@ -405,6 +405,7 @@ static struct snd_soc_dai_driver rockchip_pdm_dai = {
+ 
+ static const struct snd_soc_component_driver rockchip_pdm_component = {
+ 	.name = "rockchip-pdm",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static int rockchip_pdm_runtime_suspend(struct device *dev)
+diff --git a/sound/soc/rockchip/rockchip_spdif.c b/sound/soc/rockchip/rockchip_spdif.c
+index d027ca4b17964..8bef572d3cbc1 100644
+--- a/sound/soc/rockchip/rockchip_spdif.c
++++ b/sound/soc/rockchip/rockchip_spdif.c
+@@ -225,6 +225,7 @@ static struct snd_soc_dai_driver rk_spdif_dai = {
+ 
+ static const struct snd_soc_component_driver rk_spdif_component = {
+ 	.name = "rockchip-spdif",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static bool rk_spdif_wr_reg(struct device *dev, unsigned int reg)
 -- 
 2.30.2
 
