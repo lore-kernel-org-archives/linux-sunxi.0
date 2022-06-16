@@ -1,96 +1,85 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292637A
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 07:53:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 39F1B5C02F5;
-	Thu, 16 Jun 2022 03:53:12 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 16 Jun 2022 03:53:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1655365992; x=
-	1655452392; bh=wG8AKxotIC4hOqs7tLCZFx1yAYerGnafok9svmkMztY=; b=A
-	t1KF5yYBildNv/cPjbipuAlP1QT1ynvD+gCjnrzazE/qWno7Q8cElZJhaS/QUF7g
-	2DpO3joO/yBPXs3HoyJ09M9Xwu/kMs4ACokFazmPQBAzGYXTDCWlCN1e+9EFzVEl
-	Q3anL4Fd8uYYL/LFXcgNSpxsC+R8n20NGVT0MLxpPXN8FdlR5eYPJMAv5e/11pOu
-	pGKOxpikPNdOumkdRFMIBzmwyyFJK1B8KYQmgjDu/eY3aA772K2EKZWNgcppzSPv
-	LcabTueTDKnWj6JIeFdErfkZLfzfawmoAsysTIu5+JUnNcrOfr58Hjkj5Umx0Q0X
-	il1F+0cQXXYTiSJNPo2aA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655365992; x=
-	1655452392; bh=wG8AKxotIC4hOqs7tLCZFx1yAYerGnafok9svmkMztY=; b=I
-	u0/ri7wBl8TnhW+xXSY9Lww5W7sWjep8d61JpS8QYqV1XvM+PukkizXdK3E7QQan
-	gHmCuhMp0E0vjb0mjno2dz3iQsYiYT9AGY/KHpbr6ZstKce/KPk0jsQ561SXAeRH
-	zKKKgD/Rit1d3cmSVM7pIoXH50ywUaolR/4ezmUr6N+bmJ1VqvmIe0VPEyEc1EbM
-	laoVdZJLkHu8h15De/1+bPUI6I5AbuKLp2TDbRVOxR1PZw1dt6BKveKn3VDqgb4z
-	7UgX5GkWBfEAHyWwlk1/dzVEOqJq2gojpBruRL2oEeeJo7GhfyYaKaOtdYIga74z
-	gxkzuRZM6g3cBDAGzgirg==
-X-ME-Sender: <xms:Z-GqYsVhp1Vk0wous0BFNtzgWTOtnyhGTS8BOdVOfQo7dIRZohBJ6A>
-    <xme:Z-GqYgm7rRkcXsgDPWljk87RRf_xX_jbFc8MXzX1LynGPkJhlnBdDfQbt0M9CrXwg
-    1VknAaZ6bEH7B5JxlY>
-X-ME-Received: <xmr:Z-GqYgYRrzZVYdsZaKLwVwfGO9jukXLxjpZkurJfx8xPPO5IuJyYJkOYSSaFTpiwwIN7FaZ2-gb7JgFPjAEMJV1N2_5AIwEOjcmcNoU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvvddguddvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgr
-    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
-    frrghtthgvrhhnpeeuieeggffhffffieefheduieeuvdetgeeufeffvefgtedvffehheek
-    ffevudefieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:Z-GqYrUPQbyF0otCu17vCpGQiR0yzg8E48r8blP1qHqyQZmezzOPGw>
-    <xmx:Z-GqYmkS8EhgTtyHNjkPxx0Jfss8h1jj-GgpMl1RvbS-zUqQ6qLCmQ>
-    <xmx:Z-GqYgfJdEY1hxHUkdiNawozRLAn_tuJWqLmGSy7Qfb7wQPF_1VweQ>
-    <xmx:aOGqYvcQFK3ScywFeot7yKTcfLXwf5Wj23Dj5o2Kqg9CpTzd-L1vXg>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Jun 2022 03:53:11 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Samuel Holland <samuel@sholland.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D245F7A
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 08:29:00 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD5BC3411B;
+	Thu, 16 Jun 2022 08:28:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655368140;
+	bh=cuRduGGXj2Y/+lglkT8q2s4iGVAPd9QSM6DFTbaLwsg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C6Zm+uGDAZlCfuXL+7jVy9JTNhPGU8P7JdIWUWqYW7m7hpdwHYqzvNZmjgVbik80u
+	 fZD0DC6UEe3vLasuc8e1Qp4/m1LR3kgfbJ78L2lF2AUq7WH3gkHuDKt8DNpyNSBy9I
+	 JMQavnUGum3CwCIYYn/VNEfeQK71LgHL+ZVwRaHrOR/BzPxNwd2CHAVbdRDAmF3POq
+	 Thc8N8tWeCvKlTsZJySVybPKMvrcfbC57lrf7VDlNF+Sk1QqpKcAfWgF1Dy4U0EuHZ
+	 /mqMXMK0+WNwr0T5hKeRiAgEPiZDdPlOWHLI5NADG62SULN0hw9WQRJ/XzWYlaxDh9
+	 +j7bCSG8X23hg==
+Date: Thu, 16 Jun 2022 09:28:53 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Maxime Ripard <mripard@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	linux-sunxi@lists.linux.dev,
-	Ondrej Jirman <megous@megous.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	David Airlie <airlied@linux.ie>,
-	linux-kernel@vger.kernel.org,
-	Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm/sun4i: Fix crash during suspend after component bind failure
-Date: Thu, 16 Jun 2022 09:53:06 +0200
-Message-Id: <165536598378.1275350.14174129398362283973.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <20220615054254.16352-1-samuel@sholland.org>
-References: <20220615054254.16352-1-samuel@sholland.org>
+	Rob Herring <robh+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
+	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/3] ASoC: sun50i-codec-analog: Add support for internal
+ bias
+Message-ID: <YqrpxWrnaqqYWaGC@sirena.org.uk>
+References: <20220616062554.57266-1-samuel@sholland.org>
+ <20220616062554.57266-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sAeK2/sljyNuWwJM"
+Content-Disposition: inline
+In-Reply-To: <20220616062554.57266-3-samuel@sholland.org>
+X-Cookie: Pass with care.
 
-On Wed, 15 Jun 2022 00:42:53 -0500, Samuel Holland wrote:
-> If the component driver fails to bind, or is unbound, the driver data
-> for the top-level platform device points to a freed drm_device. If the
-> system is then suspended, the driver passes this dangling pointer to
-> drm_mode_config_helper_suspend(), which crashes.
-> 
-> Fix this by only setting the driver data while the platform driver holds
-> a reference to the drm_device.
-> 
-> [...]
 
-Applied to drm/drm-misc (drm-misc-fixes).
+--sAeK2/sljyNuWwJM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks!
-Maxime
+On Thu, Jun 16, 2022 at 01:25:53AM -0500, Samuel Holland wrote:
+
+> +static int sun50i_a64_codec_probe(struct snd_soc_component *component)
+> +{
+> +	struct sun50i_codec_analog *codec = snd_soc_component_get_drvdata(component);
+> +
+> +	regmap_update_bits(component->regmap, SUN50I_ADDA_JACK_MIC_CTRL,
+> +			   BIT(SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN),
+> +			   codec->internal_bias_resistor <<
+> +				SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN);
+> +
+> +	return 0;
+> +}
+
+It doesn't make much practical difference but is there any reason this
+can't be done in the main device probe?
+
+--sAeK2/sljyNuWwJM
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKq6cUACgkQJNaLcl1U
+h9BR4gf/WzTzXWC2DYw4VnEvPsv/DcmGEFWM2OxZieteTb8WSNpVt6LjTYrajpjH
+IMvOdqI3VRl3Ews5PI/DJX4NMZxBTwHF78kM8sFN8hTr9ANJUiGfTptv2HQ173tX
+lgmmQD6XNlxuoR52CQaln3HRGdqgZT/KPHU3ikI7RDMB97Uvy7hBEP9W4nBc0AC8
+8RLfeiru1vpq93VjCEyimUUY0CDij2eGKwgcbej5m45+33GUde2QVbF0SdExthP5
+w/7+7C7HpqBg8kNuUKS1Qyh+QGxCKiuhdsMBYGLfsIVuGcvVjiKPwkrTj9s5wPU7
+1vdqvkzXaqSBecgRohtLNU+tOOqMtQ==
+=1ZsU
+-----END PGP SIGNATURE-----
+
+--sAeK2/sljyNuWwJM--
