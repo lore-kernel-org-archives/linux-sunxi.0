@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA95F320C
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E987E29AE
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:06 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9ff009500;
-	Thu, 16 Jun 2022 09:34:57 -0500
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC0DJk015765;
+	Thu, 16 Jun 2022 09:34:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=BgbBX9Efb8K0LJNikCHrznq2RAOzoLRPZllxMCU4hQg=;
- b=gCQdUSk/rpXWxIbHsNOWoet4j2CvQDAbvyMUKg5MV9c7BW9qmUnwOMU3XkvoWH73h0p2
- 8N11vjRf6+hCqPoBYabcE14Q/uSpf2ddYtYzdi//jC6Rr5qBRI4EorNp/N/ApSyc/Oba
- madrOdzUyt2II2A9U6Ez3i9BJsP81VvXLfeKDwskOiaR6Zq2wZN1CK7iKSu9E5y4suIr
- H6cANzf8oLPK5k72u1fg3vt/j7okmXScfrX7FZXwhFGe2/GvBBeQN1ZcVdFOg41OfBf8
- f1Ex8eA3ibrKLVYMdi9UwBzhcZxNw71JWQVHLH0KwegXNuQAHzrlmdHd9xHrRWHuEU1i AQ== 
+ bh=Hb1BJgs7ggQEBvQnvEt4VwE69+B1LapMjioM9qfBP6M=;
+ b=VoeYUh9YGBmIeD3yRmlKThM4NyWA+1C4HKL2zrxTWa7NhI6ASIDVhCVgpX2vJbMedUaO
+ 8NeMOtzv9Z+m36bbLL2voSzsQmGJHEnXXWUPl76i7osl7HF1y2wycGiQgXh7z1nTlbdm
+ X14n6VbI0q+JTAlF6LKIT1sEkSrnJLAHBQm9FUpqezqPT/PfXZXFXHWAhQYiPozHqDJi
+ jG7FVbT2gOPoQ8N2vD9Sp4gsDaCX7zRx8TR/9Srlh5Wj9xeAMawk8wbJvOdH4Xb+ni88
+ HMmHO4DMn6+OFB1brHq72TgeaBlyc5V9SCVL6F0s02RD2RcBMNLsEKxoAriCkKRYwCSW XQ== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-13
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3h-18
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:57 -0500
+	Thu, 16 Jun 2022 09:34:44 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:37 +0100
+ 2022 15:34:33 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 16 Jun 2022 15:34:37 +0100
+ Transport; Thu, 16 Jun 2022 15:34:33 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BAA5D11DA;
-	Thu, 16 Jun 2022 14:34:37 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id BD97B11DB;
+	Thu, 16 Jun 2022 14:34:33 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 96/96] ASoC: soc-component: Remove non_legacy_dai_naming flag
-Date: Thu, 16 Jun 2022 15:34:29 +0100
-Message-ID: <20220616143429.1324494-97-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 48/96] ASoC: alc*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 16 Jun 2022 15:33:41 +0100
+Message-ID: <20220616143429.1324494-49-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,30 +61,44 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: QvTLDZlAgJ1aTgudm9s4QWmV0lZ-2fqM
-X-Proofpoint-GUID: QvTLDZlAgJ1aTgudm9s4QWmV0lZ-2fqM
+X-Proofpoint-ORIG-GUID: z8E09eyvKxBvoUf8C2ciKGUrqoYJFcfw
+X-Proofpoint-GUID: z8E09eyvKxBvoUf8C2ciKGUrqoYJFcfw
 X-Proofpoint-Spam-Reason: safe
 
-Now all the users are moved over to the new legacy_dai_naming flag,
-remove the now unused old flag.
+The ASoC core has now been changed to default to the non-legacy DAI
+naming, as such drivers using the new scheme no longer need to specify
+the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/soc-component.h | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/codecs/alc5623.c | 1 -
+ sound/soc/codecs/alc5632.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 96c2f5fffc51e..c26ffb033777a 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -180,7 +180,6 @@ struct snd_soc_component_driver {
- 	 */
- 	unsigned int endianness:1;
- 	unsigned int legacy_dai_naming:1;
--	unsigned int non_legacy_dai_naming:1;
+diff --git a/sound/soc/codecs/alc5623.c b/sound/soc/codecs/alc5623.c
+index 8e6235d2c5445..9ef01b1dd2941 100644
+--- a/sound/soc/codecs/alc5623.c
++++ b/sound/soc/codecs/alc5623.c
+@@ -956,7 +956,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5623 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
  
- 	/* this component uses topology and ignore machine driver FEs */
- 	const char *ignore_machine;
+ static const struct regmap_config alc5623_regmap = {
+diff --git a/sound/soc/codecs/alc5632.c b/sound/soc/codecs/alc5632.c
+index 641bdfddae160..a770704a4e170 100644
+--- a/sound/soc/codecs/alc5632.c
++++ b/sound/soc/codecs/alc5632.c
+@@ -1078,7 +1078,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5632 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config alc5632_regmap = {
 -- 
 2.30.2
 
