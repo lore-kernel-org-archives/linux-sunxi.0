@@ -1,85 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D245F7A
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 08:29:00 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FD5BC3411B;
-	Thu, 16 Jun 2022 08:28:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655368140;
-	bh=cuRduGGXj2Y/+lglkT8q2s4iGVAPd9QSM6DFTbaLwsg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=C6Zm+uGDAZlCfuXL+7jVy9JTNhPGU8P7JdIWUWqYW7m7hpdwHYqzvNZmjgVbik80u
-	 fZD0DC6UEe3vLasuc8e1Qp4/m1LR3kgfbJ78L2lF2AUq7WH3gkHuDKt8DNpyNSBy9I
-	 JMQavnUGum3CwCIYYn/VNEfeQK71LgHL+ZVwRaHrOR/BzPxNwd2CHAVbdRDAmF3POq
-	 Thc8N8tWeCvKlTsZJySVybPKMvrcfbC57lrf7VDlNF+Sk1QqpKcAfWgF1Dy4U0EuHZ
-	 /mqMXMK0+WNwr0T5hKeRiAgEPiZDdPlOWHLI5NADG62SULN0hw9WQRJ/XzWYlaxDh9
-	 +j7bCSG8X23hg==
-Date: Thu, 16 Jun 2022 09:28:53 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/3] ASoC: sun50i-codec-analog: Add support for internal
- bias
-Message-ID: <YqrpxWrnaqqYWaGC@sirena.org.uk>
-References: <20220616062554.57266-1-samuel@sholland.org>
- <20220616062554.57266-3-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B9115A4
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:06 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G4igBg030693;
+	Thu, 16 Jun 2022 09:34:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=PODMain02222019;
+ bh=DN8v8qtec1v5YCZ914sIJGES0VWwSNxzupuu1YFG+cU=;
+ b=Nf/tgL1kOqplx0AcPPM50B5b7lIY2MT/pGvtOxuN4EDF+NZpXIZUxvmveHuRIz327Cu5
+ b/MpAoUi3hR2D2X9Qsjf1zt2gu5m7+8pME+7gfCJwlhzczVtGDgr61lhEwj81B23/w28
+ Mpfsjq+z8ETVaiusDSmIKEDCsk8095kCp6S/edXF7qu0M4KeeytZA+ixSPrPYPbrqdX/
+ RQbjZuIxolL8rfi6+M+O7Iv2JreSEYhR5TyzpJqRptriL6xsE3COLTZ+2F2pZ7iRjeuc
+ 4YqzPf71/WF+lq0W7bbE6dPlo8ALEcO/2vwwrw9kXDm/w15YnBV4ZcL0yzcRtE0bBpB/ dA== 
+Received: from ediex02.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuw-11
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 16 Jun 2022 09:34:45 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
+ (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
+ 2022 15:34:34 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
+ Transport; Thu, 16 Jun 2022 15:34:34 +0100
+Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 246C911D4;
+	Thu, 16 Jun 2022 14:34:34 +0000 (UTC)
+From: Charles Keepax <ckeepax@opensource.cirrus.com>
+To: <broonie@kernel.org>
+CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
+        <mripard@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+        <vkoul@kernel.org>, <nicolas.ferre@microchip.com>, <nsaenz@kernel.org>,
+        <shawnguo@kernel.org>, <linux-imx@nxp.com>,
+        <cezary.rojewski@intel.com>, <pierre-louis.bossart@linux.intel.com>,
+        <linux-mips@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
+        <daniel@zonque.org>, <srinivas.kandagatla@linaro.org>,
+        <linux-rockchip@lists.infradead.org>, <krzk@kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
+        <linux-omap@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
+        <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
+        <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
+        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
+        <dri-devel@lists.freedesktop.org>,
+        <linux-rpi-kernel@lists.infradead.org>
+Subject: [PATCH 53/96] ASoC: msm*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 16 Jun 2022 15:33:46 +0100
+Message-ID: <20220616143429.1324494-54-ckeepax@opensource.cirrus.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
+References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sAeK2/sljyNuWwJM"
-Content-Disposition: inline
-In-Reply-To: <20220616062554.57266-3-samuel@sholland.org>
-X-Cookie: Pass with care.
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: fnW09lalbGeDbLapYuDuEImMovdEbBLN
+X-Proofpoint-ORIG-GUID: fnW09lalbGeDbLapYuDuEImMovdEbBLN
+X-Proofpoint-Spam-Reason: safe
 
+The ASoC core has now been changed to default to the non-legacy DAI
+naming, as such drivers using the new scheme no longer need to specify
+the non_legacy_dai_naming flag.
 
---sAeK2/sljyNuWwJM
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+---
+ sound/soc/codecs/msm8916-wcd-analog.c  | 1 -
+ sound/soc/codecs/msm8916-wcd-digital.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-On Thu, Jun 16, 2022 at 01:25:53AM -0500, Samuel Holland wrote:
+diff --git a/sound/soc/codecs/msm8916-wcd-analog.c b/sound/soc/codecs/msm8916-wcd-analog.c
+index e52a559c52d68..78e543eb3c834 100644
+--- a/sound/soc/codecs/msm8916-wcd-analog.c
++++ b/sound/soc/codecs/msm8916-wcd-analog.c
+@@ -1128,7 +1128,6 @@ static const struct snd_soc_component_driver pm8916_wcd_analog = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int pm8916_wcd_analog_parse_dt(struct device *dev,
+diff --git a/sound/soc/codecs/msm8916-wcd-digital.c b/sound/soc/codecs/msm8916-wcd-digital.c
+index 098a58990f07d..d490a0f186752 100644
+--- a/sound/soc/codecs/msm8916-wcd-digital.c
++++ b/sound/soc/codecs/msm8916-wcd-digital.c
+@@ -1155,7 +1155,6 @@ static const struct snd_soc_component_driver msm8916_wcd_digital = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config msm8916_codec_regmap_config = {
+-- 
+2.30.2
 
-> +static int sun50i_a64_codec_probe(struct snd_soc_component *component)
-> +{
-> +	struct sun50i_codec_analog *codec = snd_soc_component_get_drvdata(component);
-> +
-> +	regmap_update_bits(component->regmap, SUN50I_ADDA_JACK_MIC_CTRL,
-> +			   BIT(SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN),
-> +			   codec->internal_bias_resistor <<
-> +				SUN50I_ADDA_JACK_MIC_CTRL_INNERRESEN);
-> +
-> +	return 0;
-> +}
-
-It doesn't make much practical difference but is there any reason this
-can't be done in the main device probe?
-
---sAeK2/sljyNuWwJM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmKq6cUACgkQJNaLcl1U
-h9BR4gf/WzTzXWC2DYw4VnEvPsv/DcmGEFWM2OxZieteTb8WSNpVt6LjTYrajpjH
-IMvOdqI3VRl3Ews5PI/DJX4NMZxBTwHF78kM8sFN8hTr9ANJUiGfTptv2HQ173tX
-lgmmQD6XNlxuoR52CQaln3HRGdqgZT/KPHU3ikI7RDMB97Uvy7hBEP9W4nBc0AC8
-8RLfeiru1vpq93VjCEyimUUY0CDij2eGKwgcbej5m45+33GUde2QVbF0SdExthP5
-w/7+7C7HpqBg8kNuUKS1Qyh+QGxCKiuhdsMBYGLfsIVuGcvVjiKPwkrTj9s5wPU7
-1vdqvkzXaqSBecgRohtLNU+tOOqMtQ==
-=1ZsU
------END PGP SIGNATURE-----
-
---sAeK2/sljyNuWwJM--
