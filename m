@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA9D7460
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:36:04 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9fT009500;
-	Thu, 16 Jun 2022 09:34:47 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2897A7460
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:36:06 +0000 (UTC)
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07CF027888;
+	Thu, 16 Jun 2022 09:34:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=zQRzG9lSCmk/k4e5JnTlev/FoIoDPsWc475D5DF4tf0=;
- b=DatX+iqGt6kv+5Q/5pGtHc4UzTB8vsj98rhLEQ6BXPdisPWrv9AOZyhH0IiCfRe9j/xk
- lVGQd0bWS0CiWJOc+iWf6BK+BbkcPuVcHj3WxMyGucMhf96T69aKu4iBDzYYobMFIEHw
- WK7EcAx6iWxJmodhqsQbFdzE4OXyiQGEsdqcLGqezDSfPESxqzMY8m3n6WmbnWK+rv/1
- S6DVS8g/GHUuxRBzm9o7qiKczHjpoCwd7KMB8gWas/fO+oTybDl5MS51g5CDzv9rI+Pd
- DtBXXl9RPQaK3XjUbByK4Yw8bC6pra22de7iz6H2yNzexMEUoQO4/OJXVp/SQxWfbskd 3w== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-1
+ bh=QOfuAT4opaQnGN4l3F7a/ekhy562k9SkJ4H9CFLqgJc=;
+ b=gsyVEE5vjk/SPn6uZApJO4ZAWx4GqHhPRrIYYWurRE8cpj5RngDXNmg8NLRXRUnG+o5h
+ R4D7/Yajp1eyz2ms3z/+jdkbjH679P+q23PSjkufoy4+yaI2Jp7doLdI2fzFGTXhR3p+
+ zHUS4IG7rAG76ugZ7N6x77xhrSj3cH8V6tCp2PZLdqnXbrZoWQD3dLwRSfd/5jX/x55/
+ aw60EqUcj2g80/BMMTb3nMDcgGXQtAMHfHNHF4OeY3LQOZJbPIWXxpXIcL8NDZC+8TO2
+ pTsuW4p8oCQMUrOvWQKiDBsqtTZd49HEDhI5vqHzMCUNx82+UXmlrIKF+hjPsacqDXdy Xw== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:47 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 16 Jun 2022 09:34:41 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:34 +0100
+ 2022 15:34:32 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 16 Jun 2022 15:34:34 +0100
+ Transport; Thu, 16 Jun 2022 15:34:32 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 8A06D11DA;
-	Thu, 16 Jun 2022 14:34:34 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2FC5811DA;
+	Thu, 16 Jun 2022 14:34:32 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 58/96] ASoC: ssm*: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 16 Jun 2022 15:33:51 +0100
-Message-ID: <20220616143429.1324494-59-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 28/96] ASoC: pxa: Migrate to new style legacy DAI naming flag
+Date: Thu, 16 Jun 2022 15:33:21 +0100
+Message-ID: <20220616143429.1324494-29-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,57 +61,106 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: m0hzjWtCOG102Ju18rDdGmkffJORwiSx
-X-Proofpoint-GUID: m0hzjWtCOG102Ju18rDdGmkffJORwiSx
+X-Proofpoint-GUID: 4w4lVN3eXif12lQ6eqdKAmtSagwuJlo3
+X-Proofpoint-ORIG-GUID: 4w4lVN3eXif12lQ6eqdKAmtSagwuJlo3
 X-Proofpoint-Spam-Reason: safe
 
-The ASoC core has now been changed to default to the non-legacy DAI
-naming, as such drivers using the new scheme no longer need to specify
-the non_legacy_dai_naming flag.
+Change the legacy DAI naming flag from opting in to the new scheme
+(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
+These drivers appear to be on the CPU side of the DAI link and
+currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/ssm2518.c | 1 -
- sound/soc/codecs/ssm2602.c | 1 -
- sound/soc/codecs/ssm4567.c | 1 -
- 3 files changed, 3 deletions(-)
+ sound/soc/pxa/mmp-sspa.c   |  9 +++++----
+ sound/soc/pxa/pxa-ssp.c    | 21 +++++++++++----------
+ sound/soc/pxa/pxa2xx-i2s.c | 21 +++++++++++----------
+ 3 files changed, 27 insertions(+), 24 deletions(-)
 
-diff --git a/sound/soc/codecs/ssm2518.c b/sound/soc/codecs/ssm2518.c
-index 012f209e76e90..6d88478482990 100644
---- a/sound/soc/codecs/ssm2518.c
-+++ b/sound/soc/codecs/ssm2518.c
-@@ -721,7 +721,6 @@ static const struct snd_soc_component_driver ssm2518_component_driver = {
- 	.num_dapm_routes	= ARRAY_SIZE(ssm2518_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+diff --git a/sound/soc/pxa/mmp-sspa.c b/sound/soc/pxa/mmp-sspa.c
+index 382e9d8608a3f..fb5a4390443fe 100644
+--- a/sound/soc/pxa/mmp-sspa.c
++++ b/sound/soc/pxa/mmp-sspa.c
+@@ -456,10 +456,11 @@ static int mmp_sspa_close(struct snd_soc_component *component,
+ }
+ 
+ static const struct snd_soc_component_driver mmp_sspa_component = {
+-	.name		= "mmp-sspa",
+-	.mmap		= mmp_pcm_mmap,
+-	.open		= mmp_sspa_open,
+-	.close		= mmp_sspa_close,
++	.name			= "mmp-sspa",
++	.mmap			= mmp_pcm_mmap,
++	.open			= mmp_sspa_open,
++	.close			= mmp_sspa_close,
++	.legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ssm2518_regmap_config = {
-diff --git a/sound/soc/codecs/ssm2602.c b/sound/soc/codecs/ssm2602.c
-index 1821854ca0f37..cbbe83b85adaf 100644
---- a/sound/soc/codecs/ssm2602.c
-+++ b/sound/soc/codecs/ssm2602.c
-@@ -624,7 +624,6 @@ static const struct snd_soc_component_driver soc_component_dev_ssm2602 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+ static int asoc_mmp_sspa_probe(struct platform_device *pdev)
+diff --git a/sound/soc/pxa/pxa-ssp.c b/sound/soc/pxa/pxa-ssp.c
+index 0f504a9f4983d..430dd446321e5 100644
+--- a/sound/soc/pxa/pxa-ssp.c
++++ b/sound/soc/pxa/pxa-ssp.c
+@@ -848,16 +848,17 @@ static struct snd_soc_dai_driver pxa_ssp_dai = {
  };
  
- static bool ssm2602_register_volatile(struct device *dev, unsigned int reg)
-diff --git a/sound/soc/codecs/ssm4567.c b/sound/soc/codecs/ssm4567.c
-index b47321c597d0e..4b0265617c7b5 100644
---- a/sound/soc/codecs/ssm4567.c
-+++ b/sound/soc/codecs/ssm4567.c
-@@ -427,7 +427,6 @@ static const struct snd_soc_component_driver ssm4567_component_driver = {
- 	.num_dapm_routes	= ARRAY_SIZE(ssm4567_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+ static const struct snd_soc_component_driver pxa_ssp_component = {
+-	.name		= "pxa-ssp",
+-	.pcm_construct	= pxa2xx_soc_pcm_new,
+-	.open		= pxa2xx_soc_pcm_open,
+-	.close		= pxa2xx_soc_pcm_close,
+-	.hw_params	= pxa2xx_soc_pcm_hw_params,
+-	.prepare	= pxa2xx_soc_pcm_prepare,
+-	.trigger	= pxa2xx_soc_pcm_trigger,
+-	.pointer	= pxa2xx_soc_pcm_pointer,
+-	.suspend	= pxa_ssp_suspend,
+-	.resume		= pxa_ssp_resume,
++	.name			= "pxa-ssp",
++	.pcm_construct		= pxa2xx_soc_pcm_new,
++	.open			= pxa2xx_soc_pcm_open,
++	.close			= pxa2xx_soc_pcm_close,
++	.hw_params		= pxa2xx_soc_pcm_hw_params,
++	.prepare		= pxa2xx_soc_pcm_prepare,
++	.trigger		= pxa2xx_soc_pcm_trigger,
++	.pointer		= pxa2xx_soc_pcm_pointer,
++	.suspend		= pxa_ssp_suspend,
++	.resume			= pxa_ssp_resume,
++	.legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config ssm4567_regmap_config = {
+ #ifdef CONFIG_OF
+diff --git a/sound/soc/pxa/pxa2xx-i2s.c b/sound/soc/pxa/pxa2xx-i2s.c
+index ffcf44e4dc8c0..3e4c704036722 100644
+--- a/sound/soc/pxa/pxa2xx-i2s.c
++++ b/sound/soc/pxa/pxa2xx-i2s.c
+@@ -355,16 +355,17 @@ static struct snd_soc_dai_driver pxa_i2s_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver pxa_i2s_component = {
+-	.name		= "pxa-i2s",
+-	.pcm_construct	= pxa2xx_soc_pcm_new,
+-	.open		= pxa2xx_soc_pcm_open,
+-	.close		= pxa2xx_soc_pcm_close,
+-	.hw_params	= pxa2xx_soc_pcm_hw_params,
+-	.prepare	= pxa2xx_soc_pcm_prepare,
+-	.trigger	= pxa2xx_soc_pcm_trigger,
+-	.pointer	= pxa2xx_soc_pcm_pointer,
+-	.suspend	= pxa2xx_soc_pcm_suspend,
+-	.resume		= pxa2xx_soc_pcm_resume,
++	.name			= "pxa-i2s",
++	.pcm_construct		= pxa2xx_soc_pcm_new,
++	.open			= pxa2xx_soc_pcm_open,
++	.close			= pxa2xx_soc_pcm_close,
++	.hw_params		= pxa2xx_soc_pcm_hw_params,
++	.prepare		= pxa2xx_soc_pcm_prepare,
++	.trigger		= pxa2xx_soc_pcm_trigger,
++	.pointer		= pxa2xx_soc_pcm_pointer,
++	.suspend		= pxa2xx_soc_pcm_suspend,
++	.resume			= pxa2xx_soc_pcm_resume,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static int pxa2xx_i2s_drv_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
