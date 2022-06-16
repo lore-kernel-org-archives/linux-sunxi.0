@@ -1,24 +1,24 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B314C8F
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294A94C73
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:16 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07CD027888;
-	Thu, 16 Jun 2022 09:34:40 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC07CB027888;
+	Thu, 16 Jun 2022 09:34:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=Tu/WQm2FL2SPUViv8WWXoQaXIl+eGAzL/AaxkzkbEBw=;
- b=AMQdjrgAqwJ/4AsYDmuhjYwlEV3icOOcP06EzuAVCHrAQMPlCpQnC+0THfD5Buzd09e8
- +mTNrKwE32cQbYffRwT87jH28EUE7M+yvE+6+pTIG8LJfwvP3Q32d5vPZagE/EKZ+J6m
- wwgLlgXylhY30+u9mkW5iP7sHRMW6y5IYsl8UeMzG1wFSDWN2koZpIeB+yjuTGds33Vt
- G+VMlTbVXsfjWCAHDB3mPGkg2FFhcXuiZl9/h5UTyx4JNA7pevI04N8x0yjCiUY86KEg
- LqFZkv7T3wk4A0z4yQ1Y4wmwWmU0RCfhtdO9/UqRu1eZ9iGgsKasUz4tuHI4PPcCLphu 0g== 
+ bh=Jgy4HYvWutWIwNsNORzLVRecig1c5kbslPS86+xHyEg=;
+ b=mgSUGDdDdpekTdlEAUpg7wE+LP369Rc3nUTdx/i78NvLL0khdeqZUXymwvnMr/ndg+Y2
+ 7dM5ha1U1u7v6YOuu7TE17NbtXDOPMIWYYoZFYvW+FAG5dmq5ubNNVGNnMY+oslWNoZO
+ ZXdJIind7Vu0pQbk+niy0Nx3sWc+t2yG+6UxyZbdw+fJxiClb9PrVs4YN5HiqA5vayRE
+ ugGeyCj2wiCFoQ+qcLJj7dURgtkp7Pgtc3K9WiGxRPbeyRWAeIXAT+0ezNobqDQbvHMA
+ S55H5hYo32oL2nZoGifMM0BrTe/JgTks27bX1MtYOhVCKBpuYgD8kmmQx6C13BgS3xa8 2g== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-10
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gmrf35vuu-8
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:40 -0500
+	Thu, 16 Jun 2022 09:34:38 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
@@ -27,7 +27,7 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
  Transport; Thu, 16 Jun 2022 15:34:31 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id CF8A511D4;
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 2D276468;
 	Thu, 16 Jun 2022 14:34:31 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 24/96] ASoC: qcom: Migrate to new style legacy DAI naming flag
-Date: Thu, 16 Jun 2022 15:33:17 +0100
-Message-ID: <20220616143429.1324494-25-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 16/96] ASoC: meson: Migrate to new style legacy DAI naming flag
+Date: Thu, 16 Jun 2022 15:33:09 +0100
+Message-ID: <20220616143429.1324494-17-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: UENYE4qDSpHk7ZiegPp51XCrz9nX_mX8
-X-Proofpoint-ORIG-GUID: UENYE4qDSpHk7ZiegPp51XCrz9nX_mX8
+X-Proofpoint-GUID: UFBxm3IHq5fcn3nVljfzcgJ60t0r2xj7
+X-Proofpoint-ORIG-GUID: UFBxm3IHq5fcn3nVljfzcgJ60t0r2xj7
 X-Proofpoint-Spam-Reason: safe
 
 Change the legacy DAI naming flag from opting in to the new scheme
@@ -72,56 +72,108 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/qcom/lpass-cpu.c       |  1 +
- sound/soc/qcom/qdsp6/q6asm-dai.c | 23 ++++++++++++-----------
- 2 files changed, 13 insertions(+), 11 deletions(-)
+ sound/soc/meson/axg-frddr.c    | 3 +++
+ sound/soc/meson/axg-pdm.c      | 4 +++-
+ sound/soc/meson/axg-spdifin.c  | 1 +
+ sound/soc/meson/axg-spdifout.c | 1 +
+ sound/soc/meson/axg-toddr.c    | 3 +++
+ 5 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/sound/soc/qcom/lpass-cpu.c b/sound/soc/qcom/lpass-cpu.c
-index e6846ad2b5fa4..6f1cd38000016 100644
---- a/sound/soc/qcom/lpass-cpu.c
-+++ b/sound/soc/qcom/lpass-cpu.c
-@@ -472,6 +472,7 @@ static int asoc_qcom_of_xlate_dai_name(struct snd_soc_component *component,
- static const struct snd_soc_component_driver lpass_cpu_comp_driver = {
- 	.name = "lpass-cpu",
- 	.of_xlate_dai_name = asoc_qcom_of_xlate_dai_name,
-+	.legacy_dai_naming = 1,
- };
- 
- static bool lpass_cpu_regmap_writeable(struct device *dev, unsigned int reg)
-diff --git a/sound/soc/qcom/qdsp6/q6asm-dai.c b/sound/soc/qcom/qdsp6/q6asm-dai.c
-index b74b67720ef43..5fc8088e63c81 100644
---- a/sound/soc/qcom/qdsp6/q6asm-dai.c
-+++ b/sound/soc/qcom/qdsp6/q6asm-dai.c
-@@ -1205,17 +1205,18 @@ static const struct snd_soc_dapm_widget q6asm_dapm_widgets[] = {
- };
- 
- static const struct snd_soc_component_driver q6asm_fe_dai_component = {
--	.name		= DRV_NAME,
--	.open		= q6asm_dai_open,
--	.hw_params	= q6asm_dai_hw_params,
--	.close		= q6asm_dai_close,
--	.prepare	= q6asm_dai_prepare,
--	.trigger	= q6asm_dai_trigger,
--	.pointer	= q6asm_dai_pointer,
--	.pcm_construct	= q6asm_dai_pcm_new,
--	.compress_ops	= &q6asm_dai_compress_ops,
--	.dapm_widgets	= q6asm_dapm_widgets,
--	.num_dapm_widgets = ARRAY_SIZE(q6asm_dapm_widgets),
-+	.name			= DRV_NAME,
-+	.open			= q6asm_dai_open,
-+	.hw_params		= q6asm_dai_hw_params,
-+	.close			= q6asm_dai_close,
-+	.prepare		= q6asm_dai_prepare,
-+	.trigger		= q6asm_dai_trigger,
-+	.pointer		= q6asm_dai_pointer,
-+	.pcm_construct		= q6asm_dai_pcm_new,
-+	.compress_ops		= &q6asm_dai_compress_ops,
-+	.dapm_widgets		= q6asm_dapm_widgets,
-+	.num_dapm_widgets	= ARRAY_SIZE(q6asm_dapm_widgets),
+diff --git a/sound/soc/meson/axg-frddr.c b/sound/soc/meson/axg-frddr.c
+index 37f4bb3469b5c..61f9d417fd608 100644
+--- a/sound/soc/meson/axg-frddr.c
++++ b/sound/soc/meson/axg-frddr.c
+@@ -161,6 +161,7 @@ static const struct snd_soc_component_driver axg_frddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
 +	.legacy_dai_naming	= 1,
  };
  
- static struct snd_soc_dai_driver q6asm_fe_dais_template[] = {
+ static const struct axg_fifo_match_data axg_frddr_match_data = {
+@@ -286,6 +287,7 @@ static const struct snd_soc_component_driver g12a_frddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct axg_fifo_match_data g12a_frddr_match_data = {
+@@ -356,6 +358,7 @@ static const struct snd_soc_component_driver sm1_frddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct axg_fifo_match_data sm1_frddr_match_data = {
+diff --git a/sound/soc/meson/axg-pdm.c b/sound/soc/meson/axg-pdm.c
+index 672e43a9729dc..88ac58272f95b 100644
+--- a/sound/soc/meson/axg-pdm.c
++++ b/sound/soc/meson/axg-pdm.c
+@@ -457,7 +457,9 @@ static struct snd_soc_dai_driver axg_pdm_dai_drv = {
+ 	.remove		= axg_pdm_dai_remove,
+ };
+ 
+-static const struct snd_soc_component_driver axg_pdm_component_drv = {};
++static const struct snd_soc_component_driver axg_pdm_component_drv = {
++	.legacy_dai_naming = 1,
++};
+ 
+ static const struct regmap_config axg_pdm_regmap_cfg = {
+ 	.reg_bits	= 32,
+diff --git a/sound/soc/meson/axg-spdifin.c b/sound/soc/meson/axg-spdifin.c
+index 4ba44e0d65d9f..e2cc4c4be7586 100644
+--- a/sound/soc/meson/axg-spdifin.c
++++ b/sound/soc/meson/axg-spdifin.c
+@@ -390,6 +390,7 @@ static const struct snd_kcontrol_new axg_spdifin_controls[] = {
+ static const struct snd_soc_component_driver axg_spdifin_component_drv = {
+ 	.controls		= axg_spdifin_controls,
+ 	.num_controls		= ARRAY_SIZE(axg_spdifin_controls),
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config axg_spdifin_regmap_cfg = {
+diff --git a/sound/soc/meson/axg-spdifout.c b/sound/soc/meson/axg-spdifout.c
+index 3960d082e1436..e8a12f15f3b4a 100644
+--- a/sound/soc/meson/axg-spdifout.c
++++ b/sound/soc/meson/axg-spdifout.c
+@@ -383,6 +383,7 @@ static const struct snd_soc_component_driver axg_spdifout_component_drv = {
+ 	.dapm_routes		= axg_spdifout_dapm_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(axg_spdifout_dapm_routes),
+ 	.set_bias_level		= axg_spdifout_set_bias_level,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config axg_spdifout_regmap_cfg = {
+diff --git a/sound/soc/meson/axg-toddr.c b/sound/soc/meson/axg-toddr.c
+index d6adf7edea41f..e9208e74e9659 100644
+--- a/sound/soc/meson/axg-toddr.c
++++ b/sound/soc/meson/axg-toddr.c
+@@ -182,6 +182,7 @@ static const struct snd_soc_component_driver axg_toddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct axg_fifo_match_data axg_toddr_match_data = {
+@@ -242,6 +243,7 @@ static const struct snd_soc_component_driver g12a_toddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct axg_fifo_match_data g12a_toddr_match_data = {
+@@ -312,6 +314,7 @@ static const struct snd_soc_component_driver sm1_toddr_component_drv = {
+ 	.hw_free		= axg_fifo_pcm_hw_free,
+ 	.pointer		= axg_fifo_pcm_pointer,
+ 	.trigger		= axg_fifo_pcm_trigger,
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static const struct axg_fifo_match_data sm1_toddr_match_data = {
 -- 
 2.30.2
 
