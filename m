@@ -1,176 +1,97 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA6529A0
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 15:59:37 +0000 (UTC)
-Received: by mail-il1-f169.google.com with SMTP id f7so1221525ilr.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 08:59:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0866AA6
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 21:33:10 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id g7so3877503eda.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laSJoDIgvQBCTId5pVKj53fMxGvIURwK5+ffKs0ASlY=;
+        b=UBd17f/1SnZchYlExkTEs7FEuYTDz5ujzCzXm/SGFxfc7vQJ4lD7bhjBqiIPj2yGEY
+         OwWwEycnPAU139vVsRVxUyNnf6H75fg5PESXPcSy4hSPmAVLjAgzMN7gutw+N7PP/V/n
+         4Xha3koafKzw6BNAP+dZFpiWU3OKxLzLTXz5t7r/ZXiv/OgndLmncmtxxVKo22qgcomS
+         nTxiiFAiPY6wxRbda4CwsKu1nSWydVfLTtRpNEv6aAzv+AsbfvhPMIOeOhCoOLZPP9Ws
+         w+cmzNI/W2M1sMrVY8ka2YLMDqLl5axbTOql/Vt16eIKZ39AGlUcV6dPfCwO1RUQQdn0
+         B45w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=9X8XVpxanme0vyK5ZysC7xWSiXXF1IS6YVmw346xm58=;
-        b=aihQKZjNPro4xLvc2BMswAgssixpI0T2nn+60O4R1M92EJGVhTQARvrP/ZgcmZbI7s
-         PMpkXN3lEVLr4WO68qIL+1TULowl+EDK9T3MAhcsq0mzKoRaoFsLZ3X05z0skvVg9qL9
-         EF6X39ChWbXmxtGysga2PBHs+X/JtRRJQ5k5FPUOn+s0WwMA+C8w2l05q4r0iLV6p9rR
-         xBZV8dFWlVEYvGq/WyGr8sd3/mxhmZBVFJuectMXf4UK1zECKE4fxigKaclfJ7XX4Z2p
-         6SDvRkDPoIFjqy534vrkr1uXfWfipWEj1BcPxgwl720U/uIMZPpYHnuR2jEpsg0MMn3b
-         6uUw==
-X-Gm-Message-State: AJIora8kqufS/3weMMl0iLuss34eRJf+RhvI1etAVnXKt1oZpPoaioL5
-	sWDBA3FORAOro1enhsNOpQ==
-X-Google-Smtp-Source: AGRyM1tsF2fjNAC99BuE4yG5HgXIsLOoQnQ86Je1QQ5KdittiSk3qv10mDZg/0Ysw1DP6C4MAwPFUQ==
-X-Received: by 2002:a05:6e02:1521:b0:2d1:5e40:b94b with SMTP id i1-20020a056e02152100b002d15e40b94bmr3152904ilu.182.1655395176743;
-        Thu, 16 Jun 2022 08:59:36 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.251])
-        by smtp.gmail.com with ESMTPSA id c9-20020a6bb309000000b00669ae49f762sm1311642iof.19.2022.06.16.08.59.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=laSJoDIgvQBCTId5pVKj53fMxGvIURwK5+ffKs0ASlY=;
+        b=MNtslsvXFjpHRknGmEfvrx7hKXmOuVUOU44bqU75XoQJ9HAeks/CZNCaBsLTdiHOgo
+         /VecmhO1f2o0unMVddCDcgwGb1fqIb3QI9x17fUIiV9EimY0ZhdIT+iAguo6bSt5lPvC
+         NFgCQDPqHgh7eMZAKaIOM/EqHuFRDiEwJ3ok3FEj5I1FmmWLNuaGzd8+swlGRflfASH8
+         AYfu4Fs1+wlouk2eTU+t/R4oJ9nKM388SoulsPUMZ1Z7EOGnwbSo8CEoK2tbCkfuaV3J
+         XvUbRmi1DXrlntsQP7lOPQ+xKW11eNDjWydFCI7BIoS5kT8XhsZKWYR1AJB77u8Wc3pO
+         FHIg==
+X-Gm-Message-State: AJIora/n9NP/3E1jyAyv7kzE0IQKKIEVpVlmuuuLhl2zMUzRqoVwoUm6
+	JhG/8TQxq6sDkS3msbBz+OY=
+X-Google-Smtp-Source: AGRyM1smWRQNfSGi+fNS3fxjPTkk1JtE/FL1CrltkwNtsatE8j54xbfVNS+Jv1BDstvw0sEj54qO3A==
+X-Received: by 2002:aa7:c857:0:b0:433:5c62:ddbc with SMTP id g23-20020aa7c857000000b004335c62ddbcmr8865690edt.218.1655415189047;
+        Thu, 16 Jun 2022 14:33:09 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id d5-20020a170906304500b0070f7d1c5a18sm1241230ejd.55.2022.06.16.14.33.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Jun 2022 08:59:36 -0700 (PDT)
-Received: (nullmailer pid 3554362 invoked by uid 1000);
-	Thu, 16 Jun 2022 15:59:34 -0000
-Date: Thu, 16 Jun 2022 09:59:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Bin Liu <b-liu@ti.com>, linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 2/7] dt-bindings: phy: add binding document for Allwinner
- F1C100s USB PHY
-Message-ID: <20220616155934.GA3543984-robh@kernel.org>
-References: <20220608070452.338006-1-uwu@icenowy.me>
- <20220608070452.338006-3-uwu@icenowy.me>
- <20220608144939.GA1366879-robh@kernel.org>
- <3628fbc2eb9a8c21dc0742b929ee14da76f9adf5.camel@icenowy.me>
+        Thu, 16 Jun 2022 14:33:08 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: airlied@linux.ie,
+	daniel@ffwll.ch,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] drm/sun4i: Add DMA mask and segment size
+Date: Thu, 16 Jun 2022 23:32:40 +0200
+Message-Id: <20220616213240.392041-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3628fbc2eb9a8c21dc0742b929ee14da76f9adf5.camel@icenowy.me>
 
-On Wed, Jun 08, 2022 at 10:52:52PM +0800, Icenowy Zheng wrote:
-> 在 2022-06-08星期三的 08:49 -0600，Rob Herring写道：
-> > On Wed, Jun 08, 2022 at 03:04:47PM +0800, Icenowy Zheng wrote:
-> > > Allwinner F1C100s has the most simple USB PHY among all Allwinner
-> > > SoCs,
-> > > because it has only one OTG USB controller, no host-only OHCI/EHCI
-> > > controllers.
-> > > 
-> > > Add a binding document for it.
-> > > 
-> > > Signed-off-by: Icenowy Zheng <uwu@icenowy.me>
-> > > ---
-> > >  .../phy/allwinner,suniv-f1c100s-usb-phy.yaml  | 83
-> > > +++++++++++++++++++
-> > >  1 file changed, 83 insertions(+)
-> > >  create mode 100644
-> > > Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-usb-
-> > > phy.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/phy/allwinner,suniv-
-> > > f1c100s-usb-phy.yaml
-> > > b/Documentation/devicetree/bindings/phy/allwinner,suniv-f1c100s-
-> > > usb-phy.yaml
-> > > new file mode 100644
-> > > index 000000000000..180fa8840bf7
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/phy/allwinner,suniv-
-> > > f1c100s-usb-phy.yaml
-> > > @@ -0,0 +1,83 @@
-> > > +# SPDX-License-Identifier: GPL-2.0
-> > 
-> > Dual license please.
-> 
-> I am based on another Allwinner USB PHY binding file in the same
-> directory, and that file is single licensed. I created a new file
-> because each variant of the PHY has a single file now.
+Kernel occasionally complains that there is mismatch in segment size
+when trying to render HW decoded videos and rendering them directly with
+sun4i DRM driver.
 
-Okay, describing the source and the differences in the commit message 
-would be helpful.
+Fix that by setting DMA mask and segment size.
 
-> 
-> > 
-> > > +%YAML 1.2
-> > > +---
-> > > +$id:
-> > > http://devicetree.org/schemas/phy/allwinner,suniv-f1c100s-usb-phy.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Allwinner F1C100s USB PHY Device Tree Bindings
-> > > +
-> > > +maintainers:
-> > > +  - Chen-Yu Tsai <wens@csie.org>
-> > > +  - Maxime Ripard <mripard@kernel.org>
-> > > +
-> > > +properties:
-> > > +  "#phy-cells":
-> > > +    const: 1
-> > > +
-> > > +  compatible:
-> > > +    const: allwinner,suniv-f1c100s-usb-phy
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +    description: PHY Control registers
-> > > +
-> > > +  reg-names:
-> > > +    const: phy_ctrl
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +    description: USB OTG PHY bus clock
-> > > +
-> > > +  clock-names:
-> > > +    const: usb0_phy
-> > 
-> > *-names is not needed with only one entry. Plus, just using the
-> > module 
-> > name is not a great choice.
-> 
-> However the driver expects it...
-> 
-> Should I patch the driver to use no name on F1C100s?
-> 
-> > 
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +    description: USB OTG reset
-> > > +
-> > > +  reset-names:
-> > > +    const: usb0_reset
-> > 
-> > Same here.
-> > 
-> > > +  usb0_id_det-gpios:
-> > > +    maxItems: 1
-> > > +    description: GPIO to the USB OTG ID pin
-> > > +
-> > > +  usb0_vbus_det-gpios:
-> > > +    maxItems: 1
-> > > +    description: GPIO to the USB OTG VBUS detect pin
-> > > +
-> > > +  usb0_vbus_power-supply:
-> > > +    description: Power supply to detect the USB OTG VBUS
-> > > +
-> > > +  usb0_vbus-supply:
-> > > +    description: Regulator controlling USB OTG VBUS
-> > 
-> > Why the 'usb0_' prefix?
-> > 
-> > Are these GPIOs and Vbus supply connected to the phy? If not, these
-> > all 
-> > belong in a connector node (as that is where they are connected to in
-> > h/w).
-> 
-> Well these are historical things of phy-sun4i-usb driver too.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Okay, there should perhaps be a common schema so this sharing is clear. 
-Though longer term there should be a move to the common way of handling 
-these for new platforms.
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index 275f7e4a03ae..83f4e87f77f6 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -7,6 +7,7 @@
+  */
+ 
+ #include <linux/component.h>
++#include <linux/dma-mapping.h>
+ #include <linux/kfifo.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+@@ -367,6 +368,9 @@ static int sun4i_drv_probe(struct platform_device *pdev)
+ 
+ 	INIT_KFIFO(list.fifo);
+ 
++	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
++
+ 	for (i = 0;; i++) {
+ 		struct device_node *pipeline = of_parse_phandle(np,
+ 								"allwinner,pipelines",
+-- 
+2.36.1
 
-So I guess in summary:
-
-Reviewed-by: Rob Herring <robh@kernel.org>
