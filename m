@@ -1,127 +1,80 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC31A15D0
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 06:26:08 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id EFAC73200B43;
-	Thu, 16 Jun 2022 02:26:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Thu, 16 Jun 2022 02:26:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1655360766; x=1655447166; bh=B6
-	6Ha6BawNI5v7cRXHK0sJIXUS4GnPz6lQgVNJ1yryI=; b=IVlm4kT+eA+Eu/+rpc
-	Pq8+7roAl6iskpML1mlrdCp56hkrO1E2t/S/7jFYZQw3vxvt0bC5wrt2IETkT5+i
-	6U4Rli4s9hE/t2ehUm+MgyN5rTrrwKL/Cn29KvMM4uM9n638tPSeMzOj0ccfmp1y
-	VIbn53tRmExR8qIQ2BRWmravSraaQTqw7wh0QwfsWPw5DXIff2cxgATsqKn9THTD
-	EYBOe/4LS9X3bVn6qdHeFdBO3w6AtbiE4czasBrcEXh9CUewGkKmuyTWIQsEW/9l
-	tM5DG8ViNI4flI/9VHhqSqjnjLo3VdLxKkysRBGMZAqU7o1eKD+aAH2v3QqrCAZk
-	pujw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1655360766; x=1655447166; bh=B66Ha6BawNI5v
-	7cRXHK0sJIXUS4GnPz6lQgVNJ1yryI=; b=vvXG2UPbKQsU/5BAOEja64obwY9m9
-	/yltaHtzF1nubRwdvr4i3kzJlOwydcZY3eZmuhuAyNAGSphGIFqHIxdHB71f3jdL
-	gg40cEyOyry0RAHmMr3sCD645T4Fw0HzjVqQDPCZ3LB7vO+z9A5+7N04yvXoNNhB
-	hYQEkdnzDVZfaRVwh92ztoqiX3X9YHgfyLclsS8KUrRCzXwUlSsRsD8v65miPeRB
-	dDofx07wLQ+R5+K/jaFl2irP4kBlwmcChv+ikvdY4d44eurrjJuLmWh5K7QHwwhA
-	htK2pKOEQT06Kk5bwMHWID5hx9uqmcxMrK+Oeh3WaIzuriR+5WVANHwyg==
-X-ME-Sender: <xms:_cyqYs-9zC4vzVwAdmFbBS8PEO7UHAIbqQnTwR3Y-u5mkXj51k9wkw>
-    <xme:_cyqYkvnfqRH4tyGxHZpZFwTe_9GrTfnAVI54lLzTYqDPHUp7SnLo1laS9n1tHqK_
-    -vrq6a3HtrK4K4NPA>
-X-ME-Received: <xmr:_cyqYiA1WkjhdrDKVZqi9SSZZ7dk41topdAy8cE_NbAo4vvxVvcg8bBUt1cEdRwHGmtb8xWAvNeh_whm16oMcHzym3p_0VR7XXDRsq9ANzh6m8qrgkAFYy2jcfkXiGV5lr_Vww>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvvddguddthecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
-    gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:_syqYsfKhthcAxyPzjKZK106WNh3xL1sidzLtxt63E7d6m-egTAErA>
-    <xmx:_syqYhPlSglZP4Z2pwuSIETtq6GD1mCglkkIf_ltjAU5GPrnLv3HMg>
-    <xmx:_syqYmk3HWeak4GaVts3SvYkIlLvcpSjUtlayDHmiHPSkZBfwYLGVQ>
-    <xmx:_syqYonmp-6xj7X4vInCLZnDlNl-CcUaVF3ZPI2SlfmR7GvIsrtSCw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Jun 2022 02:26:05 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 3/3] arm64: dts: allwinner: pinephone: Enable internal HMIC bias
-Date: Thu, 16 Jun 2022 01:25:54 -0500
-Message-Id: <20220616062554.57266-4-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220616062554.57266-1-samuel@sholland.org>
-References: <20220616062554.57266-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5CD7A;
+	Thu, 16 Jun 2022 07:14:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A597C34114;
+	Thu, 16 Jun 2022 07:14:07 +0000 (UTC)
+Message-ID: <39a83a7e-caaf-1dac-1072-72cd2f5d8bf5@xs4all.nl>
+Date: Thu, 16 Jun 2022 09:14:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 0/2] media: cedrus: fix HEVC decoding
+Content-Language: en-US
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org, wens@csie.org, samuel@sholland.org,
+ benjamin.gaignard@collabora.com, nicolas.dufresne@collabora.com,
+ gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20220615204436.137377-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Revisions 1.0 and 1.1 of the PinePhone mainboard do not have an external
-resistor connecting HBIAS to MIC2P. Enable the internal resistor to
-provide the necessary headeset microphone bias.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
 
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts | 4 ++++
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts | 4 ++++
- 2 files changed, 8 insertions(+)
+On 6/15/22 22:44, Jernej Skrabec wrote:
+> After detailed comparison of register names to vendor library I noticed
+> that one register has completely different name. After some testing I
+> discovered that it was misnamed and used incorrectly. This patch series
+> fixes it. With that, 3 more reference bitstreams are now correctly
+> decoded. It is also possible that this fixes instability issue I had
+> after decoding such bitstreams. Running Fluster test suite very often
+> locked up my board, but after applying this fix, I never experienced it
+> again. It might still be completely coincidental, but I doubt this is
+> the case.
+> 
+> Note: Patch 2 clashes with HEVC uAPI destaging. In current form, it can
+> be easily backported. However, there are few users of Cedrus HEVC and
+> skipping this fix wouldn't be that bad.
+> 
+> Please let me know which way to go:
+> 1) wait for destaging, send rebased v2 and not care about backporting
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-index fb65319a3bd3..219f720b8b7d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-@@ -10,6 +10,10 @@ / {
- 	compatible = "pine64,pinephone-1.0", "pine64,pinephone", "allwinner,sun50i-a64";
- };
- 
-+&codec_analog {
-+	allwinner,internal-bias-resistor;
-+};
-+
- &sgm3140 {
- 	enable-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
- 	flash-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-index 5e59d3752178..723af64a9cee 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-@@ -29,6 +29,10 @@ &backlight {
- 	default-brightness-level = <400>;
- };
- 
-+&codec_analog {
-+	allwinner,internal-bias-resistor;
-+};
-+
- &sgm3140 {
- 	enable-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
- 	flash-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
--- 
-2.35.1
+Let's go with 1. There is not much point in backporting since destaging
+the HEVC API will also change it, so userspace will need to adapt. It's
+a staging driver anyway (although hopefully not for long).
 
+If you post a v2 on top of the latest series from Benjamin, then that
+should almost certainly work fine when Benjamin posts what will hopefully
+be the final version of his series. When it is all OK, then I put both in
+the same PR.
+
+Regards,
+
+	Hans
+
+> 2) merge before destaging, but v9 of HEVC uAPI destaging would need to
+>    be rebased.
+> 3) something else?
+> 
+> Best regards,
+> Jernej
+> 
+> Jernej Skrabec (2):
+>   media: cedrus: h265: Fix flag name
+>   media: cedrus: h265: Fix logic for not low delay flag
+> 
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  | 29 ++++++++++++++++++-
+>  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  3 +-
+>  2 files changed, 29 insertions(+), 3 deletions(-)
+> 
