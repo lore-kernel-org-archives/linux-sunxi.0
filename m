@@ -1,24 +1,24 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86B329A4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD9D2C80
 	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:06 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9fY009500;
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25G8o9fX009500;
 	Thu, 16 Jun 2022 09:34:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=QP+ZBUYAIdt6LRCHim/xoQUoHPNHrMxphXy99QAQmFo=;
- b=W7sD76ijL9djsTr6abct6t6eYBCgX3k7+AWRKQfipU6uE5UY7hBQbcDB+jW1dFjPalKq
- dx91m8fYrim8XadX5hAui+ITJmYe84DxF47r7sBQZqzyhAuqEGYLXFVTJg+iCoa5HOOS
- WZxkKP1kji1VWHA25GyMsnkLBJJ5SIJoE0/pWOjt1LSb5eL+cCvmmEOj1vgQ2Prfs7F3
- kjiQJZD/12wQJPZwWn6bpMzLUFOGDU0GIJhDYusAND/q46lIVXCSu3CZ5TeDFjDrprN0
- u8jetXplIR+COOr9H96kHQCJm+8//e50jGT6Q65gbGXXV5IJKJ/i+lx4bRl6p3muRiQM Kg== 
+ bh=W56hwLi4SAMCgZXDthTP0ck73M711wAsUs9++90Zjl0=;
+ b=SUg3JySSu1cPXGE3aZiAJhy6OgDdrFrK1Hd5hpWb2OIqYR2H/M7tpYl/4hC5yHFKKMap
+ 09+sR7QhAJbtvKv6dnQHS1w/NvMZulbzRQMcH69j1L9ev5QsHf6LJrmfraJUuOS/byBM
+ gASMdiJZqMjvqCPnxryQ7zb9QNSggC3pgVd7L97Cq8qnr6dBFUQSqGEhR6ZhknU3YhqZ
+ h7/S+UdW3NBcK1EkrnscAk0CbGVzfrhgULoD5trAfihMJ6h6aZjd3jdEIVDJ7YV9Ar1f
+ J8FyUyv6fy+hpNfALAAwn8laILCZ7gY+FNLjo1Dy055t/TNzp2bT3cCJgsWb9JOw5M5J ng== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-6
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3u-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:51 -0500
+	Thu, 16 Jun 2022 09:34:50 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
@@ -27,7 +27,7 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
  Transport; Thu, 16 Jun 2022 15:34:36 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6D60E11D4;
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 03EBA11DA;
 	Thu, 16 Jun 2022 14:34:36 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 81/96] ASoC: Intel: avs: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 16 Jun 2022 15:34:14 +0100
-Message-ID: <20220616143429.1324494-82-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 76/96] ASoC: gtm601: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 16 Jun 2022 15:34:09 +0100
+Message-ID: <20220616143429.1324494-77-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: MIJ5E7-CTCdKno97jBsHKYzCP_lVa-eW
-X-Proofpoint-GUID: MIJ5E7-CTCdKno97jBsHKYzCP_lVa-eW
+X-Proofpoint-ORIG-GUID: diE_6QxX1eDcQTgI5neNKXvgaTO0d7AR
+X-Proofpoint-GUID: diE_6QxX1eDcQTgI5neNKXvgaTO0d7AR
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,29 +71,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/intel/avs/pcm.c | 2 --
- 1 file changed, 2 deletions(-)
+ sound/soc/codecs/gtm601.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/intel/avs/pcm.c b/sound/soc/intel/avs/pcm.c
-index 668f533578a69..f21b0cdd32063 100644
---- a/sound/soc/intel/avs/pcm.c
-+++ b/sound/soc/intel/avs/pcm.c
-@@ -846,7 +846,6 @@ static const struct snd_soc_component_driver avs_component_driver = {
- 	.pcm_construct		= avs_component_construct,
- 	.module_get_upon_open	= 1, /* increment refcount when a pcm is opened */
- 	.topology_name_prefix	= "intel/avs",
--	.non_legacy_dai_naming	= true,
+diff --git a/sound/soc/codecs/gtm601.c b/sound/soc/codecs/gtm601.c
+index e1235e695b0fb..c6b1e77ffccd0 100644
+--- a/sound/soc/codecs/gtm601.c
++++ b/sound/soc/codecs/gtm601.c
+@@ -73,7 +73,6 @@ static const struct snd_soc_component_driver soc_component_dev_gtm601 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int avs_soc_component_register(struct device *dev, const char *name,
-@@ -1172,7 +1171,6 @@ static const struct snd_soc_component_driver avs_hda_component_driver = {
- 	.remove_order		= SND_SOC_COMP_ORDER_EARLY,
- 	.module_get_upon_open	= 1,
- 	.topology_name_prefix	= "intel/avs",
--	.non_legacy_dai_naming	= true,
- };
- 
- int avs_hda_platform_register(struct avs_dev *adev, const char *name)
+ static int gtm601_platform_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
