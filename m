@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF4E6ADB
-	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726ED6AB8
+	for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 14:35:19 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GC0DJe015765;
-	Thu, 16 Jun 2022 09:34:39 -0500
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25GBnCaP029573;
+	Thu, 16 Jun 2022 09:34:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=ywxDxyPYvrEKuL+MgnDui0khdcCuhp+qKYexP3Zb2Og=;
- b=V3x6YxqB+qnMMAPs3Co5fjPda804QIKTfyFpTKz+t1I+tEUdjlYqpKfzjts6byM7XRks
- RVljc/yi1IQWPMk8qqcxDW1HCw64X8ZmX2n8HyQQP6U77U5mzIKVbmERTgiv+4kUiRnh
- HhW/HN8JCPKYAuoPy9kcmjBOGEtrZy1jNeqHEerNA49oSzD0SVdCZ3DdeVS817qvAFhI
- YICN9yBYM9EOTrUP55eWWNLIwXWrpScBaDp7/cvlLQwOFu4dyDPOKj6ffpCUKQMeFmKP
- jOI9dExRRuCWD/k54V95pPvlp/4HeO0yQDxQpdQdPgBqiii0qWyS3PHNcSl7Dp0rlQm3 mg== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3h-12
+ bh=cQdXkHjIfdABxICRyXLMQvZ7JRraXFv/PnLRBa0ESzw=;
+ b=Jl2nooIzsiWYjdNBlpBkF2/ly/ePJsyAwFU9AKiP3Pt6axdOD8QXvBZ2sClgOox81O3z
+ hBBj8uX1txWJNr/LizNRfc6YYIdmTeIwvOxm0ZFelhP0aCoOowvXtOJYyu0kL8TSq+Hu
+ wv+CMAg5BKIS2nI5Rc4YekvFlH+Sii21EduXNjYyiV1s03+qjGhiiGEkbX7S/HM2uN0e
+ S2Z8b62tGM1a6EImkUlAKzcdcRjwUYKMLkrGY6w4Lb9pU2qAprFk/P78QJRq88DbwI6U
+ CR/JlMudGFu+dnWTUy4soslWDrvs9Xn7JssdYKpgQYhhd40K62ktH6eiR57UqxlOxjwP YA== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gmqfq5w3m-9
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 16 Jun 2022 09:34:39 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 16 Jun 2022 09:34:46 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 16 Jun
- 2022 15:34:32 +0100
+ 2022 15:34:34 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 16 Jun 2022 15:34:32 +0100
+ Transport; Thu, 16 Jun 2022 15:34:34 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 6F79811DA;
-	Thu, 16 Jun 2022 14:34:32 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 4FEAB11DA;
+	Thu, 16 Jun 2022 14:34:34 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>
-Subject: [PATCH 31/96] ASoC: ti: Migrate to new style legacy DAI naming flag
-Date: Thu, 16 Jun 2022 15:33:24 +0100
-Message-ID: <20220616143429.1324494-32-ckeepax@opensource.cirrus.com>
+Subject: [PATCH 55/96] ASoC: pcm*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 16 Jun 2022 15:33:48 +0100
+Message-ID: <20220616143429.1324494-56-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
 References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
@@ -61,126 +61,130 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: kGoXYMhDsKFWJHfjEh22Y1Gt_QnQ90zz
-X-Proofpoint-GUID: kGoXYMhDsKFWJHfjEh22Y1Gt_QnQ90zz
+X-Proofpoint-ORIG-GUID: oK2INGdRnu1-Pm_VYVfbsvlywSJrYsH_
+X-Proofpoint-GUID: oK2INGdRnu1-Pm_VYVfbsvlywSJrYsH_
 X-Proofpoint-Spam-Reason: safe
 
-Change the legacy DAI naming flag from opting in to the new scheme
-(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-These drivers appear to be on the CPU side of the DAI link and
-currently uses the legacy naming, so add the new flag.
+The ASoC core has now been changed to default to the non-legacy DAI
+naming, as such drivers using the new scheme no longer need to specify
+the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/ti/davinci-i2s.c   | 3 ++-
- sound/soc/ti/davinci-mcasp.c | 3 ++-
- sound/soc/ti/davinci-vcif.c  | 3 ++-
- sound/soc/ti/omap-dmic.c     | 3 ++-
- sound/soc/ti/omap-hdmi.c     | 1 +
- sound/soc/ti/omap-mcbsp.c    | 3 ++-
- sound/soc/ti/omap-mcpdm.c    | 7 ++++---
- 7 files changed, 15 insertions(+), 8 deletions(-)
+ sound/soc/codecs/pcm1681.c  | 1 -
+ sound/soc/codecs/pcm1789.c  | 1 -
+ sound/soc/codecs/pcm179x.c  | 1 -
+ sound/soc/codecs/pcm186x.c  | 2 --
+ sound/soc/codecs/pcm3008.c  | 1 -
+ sound/soc/codecs/pcm3168a.c | 1 -
+ sound/soc/codecs/pcm5102a.c | 1 -
+ sound/soc/codecs/pcm512x.c  | 1 -
+ 8 files changed, 9 deletions(-)
 
-diff --git a/sound/soc/ti/davinci-i2s.c b/sound/soc/ti/davinci-i2s.c
-index fe572b720b094..e6e77a5f3c1e7 100644
---- a/sound/soc/ti/davinci-i2s.c
-+++ b/sound/soc/ti/davinci-i2s.c
-@@ -640,7 +640,8 @@ static struct snd_soc_dai_driver davinci_i2s_dai = {
+diff --git a/sound/soc/codecs/pcm1681.c b/sound/soc/codecs/pcm1681.c
+index 20eb04c8a41a0..3591f6f53901f 100644
+--- a/sound/soc/codecs/pcm1681.c
++++ b/sound/soc/codecs/pcm1681.c
+@@ -290,7 +290,6 @@ static const struct snd_soc_component_driver soc_component_dev_pcm1681 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver davinci_i2s_component = {
--	.name		= DRV_NAME,
-+	.name			= DRV_NAME,
-+	.legacy_dai_naming	= 1,
+ static const struct i2c_device_id pcm1681_i2c_id[] = {
+diff --git a/sound/soc/codecs/pcm1789.c b/sound/soc/codecs/pcm1789.c
+index 35788b57e11f9..3ab381e9a8566 100644
+--- a/sound/soc/codecs/pcm1789.c
++++ b/sound/soc/codecs/pcm1789.c
+@@ -229,7 +229,6 @@ static const struct snd_soc_component_driver soc_component_dev_pcm1789 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int davinci_i2s_probe(struct platform_device *pdev)
-diff --git a/sound/soc/ti/davinci-mcasp.c b/sound/soc/ti/davinci-mcasp.c
-index e2aab4729f3ab..45ffcc7aadc93 100644
---- a/sound/soc/ti/davinci-mcasp.c
-+++ b/sound/soc/ti/davinci-mcasp.c
-@@ -1765,7 +1765,8 @@ static struct snd_soc_dai_driver davinci_mcasp_dai[] = {
+ int pcm1789_common_init(struct device *dev, struct regmap *regmap)
+diff --git a/sound/soc/codecs/pcm179x.c b/sound/soc/codecs/pcm179x.c
+index ee60373d7d254..f52ff66b6e644 100644
+--- a/sound/soc/codecs/pcm179x.c
++++ b/sound/soc/codecs/pcm179x.c
+@@ -207,7 +207,6 @@ static const struct snd_soc_component_driver soc_component_dev_pcm179x = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver davinci_mcasp_component = {
--	.name		= "davinci-mcasp",
-+	.name			= "davinci-mcasp",
-+	.legacy_dai_naming	= 1,
+ int pcm179x_common_init(struct device *dev, struct regmap *regmap)
+diff --git a/sound/soc/codecs/pcm186x.c b/sound/soc/codecs/pcm186x.c
+index fda9d7ee3fe6b..dd21803ba13cb 100644
+--- a/sound/soc/codecs/pcm186x.c
++++ b/sound/soc/codecs/pcm186x.c
+@@ -578,7 +578,6 @@ static struct snd_soc_component_driver soc_codec_dev_pcm1863 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- /* Some HW specific values and defaults. The rest is filled in from DT. */
-diff --git a/sound/soc/ti/davinci-vcif.c b/sound/soc/ti/davinci-vcif.c
-index f810123cc4070..36fa97e2b9e22 100644
---- a/sound/soc/ti/davinci-vcif.c
-+++ b/sound/soc/ti/davinci-vcif.c
-@@ -185,7 +185,8 @@ static struct snd_soc_dai_driver davinci_vcif_dai = {
+ static struct snd_soc_component_driver soc_codec_dev_pcm1865 = {
+@@ -593,7 +592,6 @@ static struct snd_soc_component_driver soc_codec_dev_pcm1865 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver davinci_vcif_component = {
--	.name		= "davinci-vcif",
-+	.name			= "davinci-vcif",
-+	.legacy_dai_naming	= 1,
+ static bool pcm186x_volatile(struct device *dev, unsigned int reg)
+diff --git a/sound/soc/codecs/pcm3008.c b/sound/soc/codecs/pcm3008.c
+index aef40ec40aa16..09c6c1326833d 100644
+--- a/sound/soc/codecs/pcm3008.c
++++ b/sound/soc/codecs/pcm3008.c
+@@ -102,7 +102,6 @@ static const struct snd_soc_component_driver soc_component_dev_pcm3008 = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int davinci_vcif_probe(struct platform_device *pdev)
-diff --git a/sound/soc/ti/omap-dmic.c b/sound/soc/ti/omap-dmic.c
-index f3eed20611a3f..825c70a443dad 100644
---- a/sound/soc/ti/omap-dmic.c
-+++ b/sound/soc/ti/omap-dmic.c
-@@ -453,7 +453,8 @@ static struct snd_soc_dai_driver omap_dmic_dai = {
+ static int pcm3008_codec_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/pcm3168a.c b/sound/soc/codecs/pcm3168a.c
+index cf27f05dc46ab..9d6431338fb71 100644
+--- a/sound/soc/codecs/pcm3168a.c
++++ b/sound/soc/codecs/pcm3168a.c
+@@ -716,7 +716,6 @@ static const struct snd_soc_component_driver pcm3168a_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(pcm3168a_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static const struct snd_soc_component_driver omap_dmic_component = {
--	.name		= "omap-dmic",
-+	.name			= "omap-dmic",
-+	.legacy_dai_naming	= 1,
+ int pcm3168a_probe(struct device *dev, struct regmap *regmap)
+diff --git a/sound/soc/codecs/pcm5102a.c b/sound/soc/codecs/pcm5102a.c
+index f39f98bbc97fd..3401a25341e61 100644
+--- a/sound/soc/codecs/pcm5102a.c
++++ b/sound/soc/codecs/pcm5102a.c
+@@ -28,7 +28,6 @@ static struct snd_soc_component_driver soc_component_dev_pcm5102a = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int asoc_dmic_probe(struct platform_device *pdev)
-diff --git a/sound/soc/ti/omap-hdmi.c b/sound/soc/ti/omap-hdmi.c
-index 3328c02f93c74..0dc0475670ffe 100644
---- a/sound/soc/ti/omap-hdmi.c
-+++ b/sound/soc/ti/omap-hdmi.c
-@@ -275,6 +275,7 @@ static const struct snd_soc_dai_ops hdmi_dai_ops = {
- 
- static const struct snd_soc_component_driver omap_hdmi_component = {
- 	.name = "omapdss_hdmi",
-+	.legacy_dai_naming = 1,
+ static int pcm5102a_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/pcm512x.c b/sound/soc/codecs/pcm512x.c
+index a3ff4a07aff72..767463e82665c 100644
+--- a/sound/soc/codecs/pcm512x.c
++++ b/sound/soc/codecs/pcm512x.c
+@@ -1512,7 +1512,6 @@ static const struct snd_soc_component_driver pcm512x_component_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(pcm512x_dapm_routes),
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static struct snd_soc_dai_driver omap5_hdmi_dai = {
-diff --git a/sound/soc/ti/omap-mcbsp.c b/sound/soc/ti/omap-mcbsp.c
-index 58d8e200a7b97..76df0e7844f8f 100644
---- a/sound/soc/ti/omap-mcbsp.c
-+++ b/sound/soc/ti/omap-mcbsp.c
-@@ -1317,7 +1317,8 @@ static struct snd_soc_dai_driver omap_mcbsp_dai = {
- };
- 
- static const struct snd_soc_component_driver omap_mcbsp_component = {
--	.name		= "omap-mcbsp",
-+	.name			= "omap-mcbsp",
-+	.legacy_dai_naming	= 1,
- };
- 
- static struct omap_mcbsp_platform_data omap2420_pdata = {
-diff --git a/sound/soc/ti/omap-mcpdm.c b/sound/soc/ti/omap-mcpdm.c
-index fafb2998ad0df..0b18a7bfd3fd7 100644
---- a/sound/soc/ti/omap-mcpdm.c
-+++ b/sound/soc/ti/omap-mcpdm.c
-@@ -524,9 +524,10 @@ static struct snd_soc_dai_driver omap_mcpdm_dai = {
- };
- 
- static const struct snd_soc_component_driver omap_mcpdm_component = {
--	.name		= "omap-mcpdm",
--	.suspend	= omap_mcpdm_suspend,
--	.resume		= omap_mcpdm_resume,
-+	.name			= "omap-mcpdm",
-+	.suspend		= omap_mcpdm_suspend,
-+	.resume			= omap_mcpdm_resume,
-+	.legacy_dai_naming	= 1,
- };
- 
- void omap_mcpdm_configure_dn_offsets(struct snd_soc_pcm_runtime *rtd,
+ static const struct regmap_range_cfg pcm512x_range = {
 -- 
 2.30.2
 
