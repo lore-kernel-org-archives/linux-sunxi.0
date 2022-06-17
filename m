@@ -1,59 +1,82 @@
-Received: from sonic314-20.consmr.mail.ne1.yahoo.com (sonic314-20.consmr.mail.ne1.yahoo.com [66.163.189.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA2C2F25
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 11:42:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1655466153; bh=5CPPxvhC6T96mWEH/gXJH34ww9z1KFmPZ7t1JL/4bzI=; h=Date:From:To:Subject:References:From:Subject:Reply-To; b=PjRCKCKulkBOI9JVw2aFASxBQ3OKWXF6ck4m1HYofR3B4JoZX4aGH7Auezn8d7H1cxe/tiQ/T2AqQMb28SyXiCqmOAk/Zt8sf90Y8+p7XTB07dwctXsC/h9U3czLv557VgzBSdB2ZiSq4hb3quxK3ulJJYIVDxg+X3zjTJzT2kVxr+FasICxjkMTiAWuIc+it8S74FcG7FdQ+IPMtkFlbInT26ICthTjTk1VJ40QSMqBgyyPU+OWmn/6AtFG6EkPtb6aF47xUzHTY8bjhZ+TXxNSSBCk+4X5NByIfQ960bMwvrGj0JTlAnioQVc45DSN+UUIZ/k78bQreNvAuQubLQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1655466153; bh=Lt53LyxdDrt3vWzI7ba81lPa9lVPR5A5+yPFxR1oKyo=; h=X-Sonic-MF:Date:From:To:Subject:From:Subject; b=e0oBKARd45G7FuPJaP+MAXGTdMlgIEX1zyVXn6HbVyBfXM5r3gEo7aGWohIF95y6WovyjtSjGua+ZCBbjJoRvHCvF8cR0XzWxAssEwSYGZhdTxxBwZJHaOZRW6z7O/BM1lJLeSffLJlhykI807wBU5o+Op0aHz/zt8nTNNLA3FYcZkMR61Hzy29zh6cwffzq3f/mLuhWbTm17jloKAvsWL9TWxlpo1ph8gdFLdyBqKkxSEQN0Wb30NDIIgT+FdeTp/TK8EKEEGqQD0hquR1bKpQKBO9xuETS7+I4vmG4mynLeupv8yjY941u18Q422sm6/MMxR7guNru2h+uRP32NA==
-X-YMail-OSG: hL131qwVM1nA_UdxEKt5pTYGlHFAdZohdjpzd0OWEsUD2dl4eEvsamyzY.k9588
- Ce3z1IXycFsi.JfbhEt0ccs8CQcaIC_0EzCHi9JjMoeWiaPtojwU.LX3P1ykSolhRmPatSdaRams
- 1WdY1.YuGIPMKu3h8m0C9mz7_plV6y.F.K0zOvcnx84dHPBUafG5.HJj_2zGtU7TZeGr6TbbIwvs
- tu_pUKq4ERDFl5MloXTdTQ1Cb6pLwp2bvflOeiLjsL2XtN5O.L0REW5.x8fACIfV9GU58QjNsoIL
- hdmrTxH4iyFAvI7Lh_q1PONaObAPPl71QQeEMdA7Pd3TMOrmAtCUnO7cRkuXdhdcZoBWkUkWewlv
- 22OFVRjXhRbXBrUA3ocsuB_XXu0S1hebKDTB8qJlhRcJDjbxWi3kJLbGnXdGNquK.o9VPrMgei9_
- HnAPw1k9.XmmIxmmKDXEWR96kNUO_XECpQc2NFa6ouOCPrRf0rb2q.rCY.PtcNBQzYRYPI8rsPv2
- MTZwDGC3d6S7M5tjS57lFaDcCddwPwS6B8S2XWGBMcmD.43lcf3K794_OmRrNgOqxl00G4li0rDj
- 8TLt2BGOiEwUtTu7dhfH_6.zILU_mO5CK5.EgIA9Kf0zdaxcOXzHqrC.vWgBosrlk3LVK4tprZlx
- rVP.BIcybWHn1reLrJm2NmNMGOKu3Dk_3KKiuIQqyoyEvfnwsMFRyLE30kx7iCGMfoF79WKw5TqI
- q0CH_u6_C87dt3fBKQymGO6wWIFDAnWI2sys650HdWDUXRfyx8OltrTp13HuntWM3cIgp4187hag
- JNRpilmwl5JkagqiPSr_j21YBgJpcTc2gTSx9ShlZaUOk6vPd7rlX7R0.r5WSUhqGv3.ycxV4VT6
- L.mQBwrYYP9QHqbPhNUC8F8XmtmJ.w5TbxsBcyMFVK6lCyB6eCcetMkHgJrWfb5kvPJHY90tQORf
- TV9SJ8SWo4b5skQ.hzZt5ThvuYZ_blXdjJwvHkJynKo2hGz_t79rFV2cy_k_BJwszipZgwTyMQ.r
- UoanhAMwiq9W3H9C5bLNdR736pe2WlsmgrhIRMdtU._41jKmx.QXPaYQ585p27iMhdFEnsDvH4Nj
- 41a.B1hydXRnkKrq1QE5apCjMZVh1_xKxTpf7rWE9VWNKKS.4M3WIVUTuR0cUOvOMpacmpsnc5aG
- F5eSmvbGmd_6aU3EhIomM1nIsjsSpXXfts.x9jMrzRtKkZ8b8aK.O_ViUIY899QAWoyHH52q66EO
- PoGx5bj6OFulQj7W1QmBAO5Fu9.JQZIS_S20JqVMM3FJN3w03jNHF3RvQ.APybEQDRvUpnBw8Dl.
- ktPGboo8IjyNtbj7uZfzCHGU5dIaWbCrkpXmbR4DgrdyVD8zTPjLD6PljGkn4U4N2lSy.NeBk2E9
- enkV2XU630H.uIDgpHrX0AVFu1QVhcS.WNNc9qpGAUjDRIbAj2V._kELubCbyrYFXtjeDA.eKmR4
- jJB908ljQTPCg3w0qUzqIVgetRZkw_3YTPUWjoR4O5.8ZlnxnbckQdPyrwrMwt1hMH96qyoaA5in
- UPiZpNCwocdb4_AdjncbXzL_GAGr3anE670h7IXRnYQVDnwhJSrsiV3YAB3fQSsHzscqDVA9zFvK
- c_7nK3jb1rQLIpzXbCTr_NQ1ofHQNd.ub4jNosjF9WUyyNxEiuB6uCoIAxZEGZbyDdVQC4h5pn_t
- cA0iH7J_MjGOkmqpSmK47sg.N5DCLr7QOkkHf7_brm.XXZcEb_MhmiSbB.fbAfxZXhax6zEN_Fl4
- oUGsZkj4AXmZg94GuW5AE8qJ5lStHRxmKQh7q5YQr6OOFSklg62IqBJf8gMjp6jZDezmhWpAAbwW
- RxFmD3LZWpHn3y4tezZ6yzi7YyvX5ElFjk2X83ec.wXHFZKcVEPGtr2296iWyH1vbw6gulfS4QfY
- K7_N.mZSpaR5UITn_ikL2FYFNVY2SELUKPlm1hNJM2QQIEDjK.iSqOaDfPv86OtBcEWfOimgqClG
- 13.ns4k_WeTkttB1CGDKsRhWQFnY3Cdgkgk5sxBP1S.NM93haBfBPoHST2d0s8q3S0l_1wFrhvct
- v8yMgtqlnrYuKxbSmOn45yuRmDFAFqg1SW3_dewX5EiDqC8FHzI.O1TMY1ZPx9Thwhf1RMdlBMgN
- rWAEkljy04cWCmX6CYyiVenf9f7D9qYTNNd8SSfRcew--
-X-Sonic-MF: <tjosko@yahoo.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic314.consmr.mail.ne1.yahoo.com with HTTP; Fri, 17 Jun 2022 11:42:33 +0000
-Date: Fri, 17 Jun 2022 11:42:32 +0000 (UTC)
-From: tjosko@yahoo.com
-To: linux-sunxi@lists.linux.dev
-Message-ID: <1421960305.5077928.1655466152034@mail.yahoo.com>
-Subject: sun8i_codec_analog requires sun4i_codec to work but doesnt depend
- on it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C752F25;
+	Fri, 17 Jun 2022 11:58:12 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 54D35660179A;
+	Fri, 17 Jun 2022 12:58:10 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1655467090;
+	bh=bmkptHQUlkkCdHC5ksCT9Ab01Sj/lrYkZJFYy5abr5o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=frdPQspHObR+qQp+aMt1vMTPsEKhPxUimVzD3mf5lVBRs4QpJILObfMH9YhyawfbW
+	 nJNWbZDKAyt+ILWlmeWko/eNcjEvZHSqxP+GkHvNGH64PzofVTk+ZvMud6k6eZ31cl
+	 sOXt8FDUjoG10MYruAk3U9q9T6h0rQKaljoCUsSoWQOhmHxzzhci6elqRH6irsqBkY
+	 CU0Z6FtviZPJDxraRylHumnwPDVIvTnZ6srn8EVQY/yoLv3fXbWRbssXUTRS3P5hYh
+	 9JFlp1J6cukoY65uaZNzwj8tgCPIA50GPGshdvjNOn2/leQux2HSTsi/LMRyy/UNNd
+	 A4bzxH0yF1Juw==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH 0/7] Enable 10bits bitstream for Hantro/G2 HEVC codec
+Date: Fri, 17 Jun 2022 13:57:55 +0200
+Message-Id: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1421960305.5077928.1655466152034.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.20280 YMailNodin
+Content-Transfer-Encoding: 8bit
 
-kernel: 5.18.5, board: Libre Computer Board ALL-H3-CC H5
+This series is based on top of Jernej series: "media: hantro: Add 10-bit
+support" v2.
+Jernej series is focusing on VP9 and hardware block with legacy regs.
+This one add 10bits support for newer hardware blocks (i.e without
+legacy regs) and for HEVC codec.
 
-unless there is some bug in initialization, modprobe'ing sun8i_codec_analog doesnt enable audio on H5. doing modprobe sun4i_codec results in working audio and sun4i_codec having 'uses' increased in lsmod indicating it's required
+It based tested on IMX8MQ with HEVC conformance tests.
+The results are that all 10bits bitstreams are OK.
+
+Benjamin Gaignard (7):
+  media: hantro: Store HEVC bit depth in context
+  media: hantro: HEVC: Fix auxilary buffer size calculation
+  media: hantro: HEVC: Fix chroma offset computation
+  media: hantro: postproc: Configure output regs to support 10bit
+  media: Hantro: HEVC: Allows 10-bit bitstream
+  media: hantro: imx8m: Enable 10bit decoding
+  media: hantro: Allows luma and chroma depth to be different
+
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  4 +--
+ drivers/staging/media/hantro/hantro_hevc.c    | 13 +++++----
+ .../staging/media/hantro/hantro_postproc.c    |  7 ++++-
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   | 27 +++++++++++++++++++
+ 4 files changed, 40 insertions(+), 11 deletions(-)
+
+-- 
+2.32.0
+
