@@ -1,42 +1,42 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0427F
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 04:32:09 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id C2C385C00D9;
-	Fri, 17 Jun 2022 00:32:08 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83B67F
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 05:10:14 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id CF14E5C013E;
+	Fri, 17 Jun 2022 01:10:13 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 17 Jun 2022 00:32:08 -0400
+  by compute3.internal (MEProxy); Fri, 17 Jun 2022 01:10:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655440328; x=
-	1655526728; bh=mlsoKVlXqPqeY2AbABBxaZnMTRS2pQThx4lkvWjNiOs=; b=i
-	uZwVvSSZy5wTKUuK1m07bF5k9hJ5YFDzBOQ4c9qxkp05xwZywnPn+SBQN2fFIACp
-	BLEF3D9oob2xxaMDmM4oG4j/34/FYxjWcwBNgISvoWB/DFTDejupTxFZMnZb0bw5
-	RJH9cKw0/mCNwzxmJf9M0PjbkXMQRlyqsTQrMDFhDwuIkknXpRWKRgrs6pQOf7+o
-	CJPmIKkoWqhtYry+vaFsx2X+sFZ7TGU7r2BtGxN11P6+wf+vr/Q+LJRQV2nVVfvY
-	Vl64Y4Ovh4QPTqGPvn0xmJDBcITi9LfEm0njYXR2praSR4MmTNOjJDn0ZE6szkRg
-	54wOjLnppHu3vD4pVPk5w==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655442613; x=
+	1655529013; bh=06SXRPZNOocNXWxGRqH7I0OqfFWahXsedY1b35/Z7kg=; b=m
+	QpCBOk+A3bZ7Tj+yITJ9PcO2R0EOx2TzLK9A0kssJSnLhJdbh8SYQ3XUTcUTY7mA
+	PuLdmTvkIpC0iHh6/WRK1ocg50Q+Wnfmn3aGwJX9MaJ4LMmnRx3KxGLuoaSgVsDS
+	BEWcLvATdWINOhNiwKn79y5CrqIQpVedIK2czNc16SNx2WDr/a0tbddplJHzeAly
+	ptRCAvjj1IjLF5/PQO6f5qJ78CAnZyFpKHbwXgt9h1+rZdXqTuBGx8DrrL0uFRBu
+	RGV5cPWsEKSegCPr2vkTmQikDFxDvfdwY88TD9lo4pcKiQhS2Vkf6ds27zKxBTGc
+	1kCs767MQot9CzOWqCotA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655440328; x=
-	1655526728; bh=mlsoKVlXqPqeY2AbABBxaZnMTRS2pQThx4lkvWjNiOs=; b=P
-	pwOp6xShACMLwjWypLIetU0ii+2klmtU8itRDkkrfZ/dugG1upe0d0PuuJJaO4Ns
-	JjhYyWqjH+JJ8Q+pckIBOXAvvMhTMNhNeXbr930Dw20Xh/Nnl7O0h4u4v7PZc0me
-	NPJzvioaxoyB0QfUTqCoYaAfYSjLhvpc68c1kJsaeWBaX5RU/oZFnWzFfGAin+Ot
-	i+NedrCOrkhPA3xw1PweCcS1Eeda2ZjpGopg+RA3MSCLlk1YG/XQPXHRernqU1B+
-	CHZpJKwyPILXrL8QISUQ05OyFyxfl8KSMLDlFzA7s2FE3mHoBXIREPwD7sE/xsLB
-	emywAImNEkEEwexwo9jAg==
-X-ME-Sender: <xms:yAOsYsFNbV9M1Pfh5tX2WaVY1AeQHQawhoDUKHk4V3S-Ym7AKxHY8A>
-    <xme:yAOsYlWdRylfq4y1FffO1lWSKhIQ5LjFj2zOt5iFxFdNVukqbisQdiEuu0j6lJtM1
-    it98LJy6iOCsBjE1g>
-X-ME-Received: <xmr:yAOsYmKzlKLtiNMKAGjqT9FD6P7RlvL_FnogArmhsipC7lkjX_Z_bZ8Go4zBwdtBRwzx6Udzs6PcFJtK3XwpzMgNo5UPftICiFIRS8-8AwPYh7fi-xu41gL_vA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgkeefucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655442613; x=
+	1655529013; bh=06SXRPZNOocNXWxGRqH7I0OqfFWahXsedY1b35/Z7kg=; b=H
+	eDa6XUadrlVUi+qPuOSMQ6F7qJbaSJKkDRAq4waHFO2Wf4EuRMipr+VZD3drxqIZ
+	FQiGxgPfZNlV/nXtrYY5l9AmfbKQcatQo7xFzD/ZQhoej+XdpcdkKSX0MRbRsKKc
+	cFWMa0O2ziyCCVoD1UShA6YWCAEsfFstJjHojEpxMUnxzk2Nl2U5jinmtpEpgGbT
+	qcCCaDhdK5RaAlSLCoTpFJRU1bvzGDTCl5HgKF8AZqZlKADfdkbCQWDo81idca0t
+	SKbeHz4WOFygQO+VPtJAd/D6ymPUnk61ICTMYiKZU2Tqv8pkNj8boZIpQ0qKqu2Y
+	RYEynEKJBze6sRCHO4rlg==
+X-ME-Sender: <xms:tQysYusCyoW36daozlmhwR4dmRRr_rjLiTEOJmYl4nxXwaqRe45mQA>
+    <xme:tQysYjd8PDjO5tOirRIll1GTabLSasIKRMH7l-NyEModTcCAl9WnF4zpabzrMAWCa
+    KZRI1OuQVDRjvc1Dg>
+X-ME-Received: <xmr:tQysYpylbnXpTJ7PARkCV19BEcC4Rctf3xoqUTcdmJEKSFI8KVrmD2pN88Ph3mqsjB-a9HnzNjK09bhvhGmBftQGvul9U-m_rVgQio6STBUKDaNFimGRU1P2ow>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgledtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
@@ -44,26 +44,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgkeefucetufdoteggod
     ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
     uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:yAOsYuHYtXHovmw6cBTmp-Rj92ZnEgmNMKpLsiXla4bWB-Ylg3wdEg>
-    <xmx:yAOsYiVC9xSz-w2w8GtCVWRYJrEYb7ZBz_gulyFVorNU3mSNpSqimQ>
-    <xmx:yAOsYhMEt6Puxw7EXBDmM_aRrJ7zh1cNgnyQfKZGXMJx2usIQQqtBQ>
-    <xmx:yAOsYtEmVyevWqnU-xHUjvwtcYM8S8hAHdXAMPuwu4Z5V8zbvFexnQ>
+X-ME-Proxy: <xmx:tQysYpMXmqEh2krUGY75xpV2MmG_3NXL2pwfNwxgKdMRfDw4Dp0U6Q>
+    <xmx:tQysYu_fkbHfkcKYu4CIQm1VZIKovrvXs6RoN3q0fHIvre7bntFunw>
+    <xmx:tQysYhWvh92esinX1dQs5GXe0rbPKg9nAg9Unw0JtyYm-mMYGIanNQ>
+    <xmx:tQysYjOCqZuk0xchhj3WIBzBDtqeoU5MCaL9o-fj3iaE0EXbIGalxw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Jun 2022 00:32:07 -0400 (EDT)
-Subject: Re: [PATCH] pinctrl: sunxi: sunxi_pconf_set: use correct offset
+ 17 Jun 2022 01:10:12 -0400 (EDT)
+Subject: Re: [PATCH] drm/sun4i: Add DMA mask and segment size
 To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Andrei Lalaev <andrey.lalaev@gmail.com>,
- Andre Przywara <andre.przywara@arm.com>, Yangtao Li
- <frank@allwinnertech.com>, Maxime Ripard <mripard@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: wens@csie.org, linux-gpio@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220525190423.410609-1-andrey.lalaev@gmail.com>
- <CACRpkdbfJhwee-dnkhE3=ijiLcSx8seVxoKPzyZ_n7bz=TkU7w@mail.gmail.com>
- <3106779.5fSG56mABF@kista>
+ mripard@kernel.org, wens@csie.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220616213240.392041-1-jernej.skrabec@gmail.com>
+ <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
+ <10094862.nUPlyArG6x@jernej-laptop>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <f1fd1974-3013-1622-10d5-255835f5905a@sholland.org>
-Date: Thu, 16 Jun 2022 23:32:07 -0500
+Message-ID: <8a805401-457d-41c1-1be2-be1076bb02c9@sholland.org>
+Date: Fri, 17 Jun 2022 00:10:12 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -72,35 +71,75 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3106779.5fSG56mABF@kista>
+In-Reply-To: <10094862.nUPlyArG6x@jernej-laptop>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 6/15/22 10:56 AM, Jernej Škrabec wrote:
-> Dne sreda, 15. junij 2022 ob 15:17:55 CEST je Linus Walleij napisal(a):
->> On Wed, May 25, 2022 at 9:08 PM Andrei Lalaev <andrey.lalaev@gmail.com> 
-> wrote:
+On 6/16/22 11:13 PM, Jernej Škrabec wrote:
+> Dne petek, 17. junij 2022 ob 05:03:11 CEST je Samuel Holland napisal(a):
+>> Hi Jernej,
 >>
->>> Some Allwinner SoCs have 2 pinctrls (PIO and R_PIO).
->>> Previous implementation used absolute pin numbering and it was incorrect
->>> for R_PIO pinctrl.
->>> It's necessary to take into account the base pin number.
+>> On 6/16/22 4:32 PM, Jernej Skrabec wrote:
+>>> Kernel occasionally complains that there is mismatch in segment size
+>>> when trying to render HW decoded videos and rendering them directly with
+>>> sun4i DRM driver.
 >>>
->>> Fixes: 90be64e27621 ("pinctrl: sunxi: implement pin_config_set")
->>> Signed-off-by: Andrei Lalaev <andrey.lalaev@gmail.com>
+>>> Fix that by setting DMA mask and segment size.
+>>>
+>>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>> ---
+>>>
+>>>  drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++++
+>>>  1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c
+>>> b/drivers/gpu/drm/sun4i/sun4i_drv.c index 275f7e4a03ae..83f4e87f77f6
+>>> 100644
+>>> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+>>> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+>>> @@ -7,6 +7,7 @@
+>>>
+>>>   */
+>>>  
+>>>  #include <linux/component.h>
+>>>
+>>> +#include <linux/dma-mapping.h>
+>>>
+>>>  #include <linux/kfifo.h>
+>>>  #include <linux/module.h>
+>>>  #include <linux/of_graph.h>
+>>>
+>>> @@ -367,6 +368,9 @@ static int sun4i_drv_probe(struct platform_device
+>>> *pdev)> 
+>>>  	INIT_KFIFO(list.fifo);
+>>>
+>>> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
 >>
->> It fixes a patch by Maxime so want Maxime to ACK this if it should be
->> applied. Paging Andre and Yangtao too, would be sad if we don't apply it
->> if it is a necessary fix.
+>> Isn't this already the default, from of_dma_configure_id or
+>> setup_pdev_dma_masks?
 > 
-> From what I can see, this fixes makes code consistent with pattern in other 
-> functions, so I think it's good.
+> Not sure, I need to check.
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+Looking at the DE2 and DE3 spec to answer your question, I noticed that all of
+the address fields have a corresponding 8-bit "high address" field, so from a
+hardware perspective, the DMA mask should be 40 bits.
 
-This patch looks right to me as well. It appears the subtraction was
-accidentally removed in the referenced commit.
+However, currently we do not use these fields, so we are limited to 32 bits. I
+would suggest we comment that, so I am fine with setting the mask even if
+redundant, as it provides a good place to add the comment.
+
+>>> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>>
+>> This looks like a good change. In fact, I think we need a similar change in
+>> some other drivers.
+> 
+> Should be DMA_BIT_MASK(25) as in your other patch?
+
+No, that limit is specific to the other DMA engine. I do not see any limit for
+the display engine. BSP uses sg_tables only for dma-buf, and then it puts the
+entire framebuffer in one segment. So I think DMA_BIT_MASK(32) (the maximum
+possible value) is correct.
 
 Regards,
 Samuel
