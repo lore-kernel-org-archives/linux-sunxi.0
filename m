@@ -1,145 +1,99 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83B67F
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 05:10:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3574D7F
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 07:25:39 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id CF14E5C013E;
-	Fri, 17 Jun 2022 01:10:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Fri, 17 Jun 2022 01:10:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	by mailout.nyi.internal (Postfix) with ESMTP id D16F15C0151;
+	Fri, 17 Jun 2022 03:25:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Fri, 17 Jun 2022 03:25:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655442613; x=
-	1655529013; bh=06SXRPZNOocNXWxGRqH7I0OqfFWahXsedY1b35/Z7kg=; b=m
-	QpCBOk+A3bZ7Tj+yITJ9PcO2R0EOx2TzLK9A0kssJSnLhJdbh8SYQ3XUTcUTY7mA
-	PuLdmTvkIpC0iHh6/WRK1ocg50Q+Wnfmn3aGwJX9MaJ4LMmnRx3KxGLuoaSgVsDS
-	BEWcLvATdWINOhNiwKn79y5CrqIQpVedIK2czNc16SNx2WDr/a0tbddplJHzeAly
-	ptRCAvjj1IjLF5/PQO6f5qJ78CAnZyFpKHbwXgt9h1+rZdXqTuBGx8DrrL0uFRBu
-	RGV5cPWsEKSegCPr2vkTmQikDFxDvfdwY88TD9lo4pcKiQhS2Vkf6ds27zKxBTGc
-	1kCs767MQot9CzOWqCotA==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1655450738; x=
+	1655537138; bh=t6QXcNLzauxbqf0PNTG8MvaAdoQQFis6uQHBpNA5m+I=; b=n
+	r/26OCnEDIr6jYGUp00hxr/NMoxkf6xXfRuhMockkxh6n/wloYbpla88d1SGLc3P
+	BtUBgD8RZGZwQq1VPEdFsxTpp0vbEShL/ls6VxYlg3QMzR0vwLar8HSi00UlQ0gL
+	CH0ldBnQE8fgusDetIp4GspeBfNwxFV/Kux0Hx5Gn4thT/XQgU8PMW4HgsFFcXRm
+	Zivnb/+Onrj1LGZ5AHx2nvHV0C75KC/tYxnCCabt/MYKO/z8c0fQcLinaQbHGkZ/
+	ReDK0Ixt6XyqgHi5Jl8vZzwm7V5ELSXQsKa2v6qLRWnUgG5G2P5dohWhsokjAjTc
+	L+OzZ1aV3f76OQGSJyChg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655442613; x=
-	1655529013; bh=06SXRPZNOocNXWxGRqH7I0OqfFWahXsedY1b35/Z7kg=; b=H
-	eDa6XUadrlVUi+qPuOSMQ6F7qJbaSJKkDRAq4waHFO2Wf4EuRMipr+VZD3drxqIZ
-	FQiGxgPfZNlV/nXtrYY5l9AmfbKQcatQo7xFzD/ZQhoej+XdpcdkKSX0MRbRsKKc
-	cFWMa0O2ziyCCVoD1UShA6YWCAEsfFstJjHojEpxMUnxzk2Nl2U5jinmtpEpgGbT
-	qcCCaDhdK5RaAlSLCoTpFJRU1bvzGDTCl5HgKF8AZqZlKADfdkbCQWDo81idca0t
-	SKbeHz4WOFygQO+VPtJAd/D6ymPUnk61ICTMYiKZU2Tqv8pkNj8boZIpQ0qKqu2Y
-	RYEynEKJBze6sRCHO4rlg==
-X-ME-Sender: <xms:tQysYusCyoW36daozlmhwR4dmRRr_rjLiTEOJmYl4nxXwaqRe45mQA>
-    <xme:tQysYjd8PDjO5tOirRIll1GTabLSasIKRMH7l-NyEModTcCAl9WnF4zpabzrMAWCa
-    KZRI1OuQVDRjvc1Dg>
-X-ME-Received: <xmr:tQysYpylbnXpTJ7PARkCV19BEcC4Rctf3xoqUTcdmJEKSFI8KVrmD2pN88Ph3mqsjB-a9HnzNjK09bhvhGmBftQGvul9U-m_rVgQio6STBUKDaNFimGRU1P2ow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgledtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
-    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:tQysYpMXmqEh2krUGY75xpV2MmG_3NXL2pwfNwxgKdMRfDw4Dp0U6Q>
-    <xmx:tQysYu_fkbHfkcKYu4CIQm1VZIKovrvXs6RoN3q0fHIvre7bntFunw>
-    <xmx:tQysYhWvh92esinX1dQs5GXe0rbPKg9nAg9Unw0JtyYm-mMYGIanNQ>
-    <xmx:tQysYjOCqZuk0xchhj3WIBzBDtqeoU5MCaL9o-fj3iaE0EXbIGalxw>
-Feedback-ID: i0ad843c9:Fastmail
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655450738; x=
+	1655537138; bh=t6QXcNLzauxbqf0PNTG8MvaAdoQQFis6uQHBpNA5m+I=; b=C
+	kYUa18GGhGd0oZQ43NnZDN3+5y/3awo+Sws0Pq3eb6UKVOekXJ4Y7ZEHvLp36JHj
+	tycJVtu9HwZf6jSnqxW4zSYXVJbe86AaaXxlWH7q4QH3qe9lRa6jd+fNATp9LPAT
+	uMB4hcgr49bGrbUHs5jLTWfsDcAY1XnxmodGaA/DgxKZG0akk8naBHEsjI+9wBbi
+	bdBT2GvJE4pNDjc9Q1xJKM5StazQkLXgIHK2oujsy/VM2X0INDscm2W7ndAJ5rcf
+	mBBIfmMwMR/jziK5WAQT6SO63sjbrOoLYrgXG/T1UfFrVqW/5w3OIEWPJWQoFPkh
+	/k+4PB1FRuFRA5/pGTzAw==
+X-ME-Sender: <xms:cCysYuGbj_tXIkPunEurAIwroXW5XpxjXpF4QSJbzxhbPXclwax6XA>
+    <xme:cCysYvWgkzuxSA4c7vUx_UbBJT8gLLCv-uNPJbxN_6t01QjqR06uBZtc0l9wxHzhR
+    zr0LWaTeAJNrwG7Sv4>
+X-ME-Received: <xmr:cCysYoL-s8_MAzYdUOgHxl_upF4_8dJ4RyvHl_ZD6Qzg5t8bcXrIWoJ5sq56JxsiML5p_3EqajNOb9VnX0x1uY0f2nUbuWm7o5g4tUo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedguddujecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
+    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
+    frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
+    teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:cCysYoGVB8cZQ7yOz48SmLfp873hgDRpdEpPRutGsvxTCLizycl41w>
+    <xmx:cCysYkVSvHtiRSBPNAhrPCzXsNP5d45QhqafU_iIo0w9pj_rG6ibZQ>
+    <xmx:cCysYrOhmw8cG_xUkAWqqi3Xw5qv0x5wtJ9n4l4N9ZI1Bu5NZbr7WA>
+    <xmx:ciysYvyJISiAd-XGF0UUbZ-Rv8dPZGqNpVjs7CZjxA6lvgGh5OS30A>
+Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Jun 2022 01:10:12 -0400 (EDT)
-Subject: Re: [PATCH] drm/sun4i: Add DMA mask and segment size
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- mripard@kernel.org, wens@csie.org
-Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20220616213240.392041-1-jernej.skrabec@gmail.com>
- <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
- <10094862.nUPlyArG6x@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <8a805401-457d-41c1-1be2-be1076bb02c9@sholland.org>
-Date: Fri, 17 Jun 2022 00:10:12 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ 17 Jun 2022 03:25:36 -0400 (EDT)
+Date: Fri, 17 Jun 2022 09:25:33 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: broonie@kernel.org, lgirdwood@gmail.com,
+	kuninori.morimoto.gx@renesas.com, airlied@linux.ie, daniel@ffwll.ch,
+	vkoul@kernel.org, nicolas.ferre@microchip.com, nsaenz@kernel.org,
+	shawnguo@kernel.org, linux-imx@nxp.com, cezary.rojewski@intel.com,
+	pierre-louis.bossart@linux.intel.com, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, daniel@zonque.org,
+	srinivas.kandagatla@linaro.org, linux-rockchip@lists.infradead.org,
+	krzk@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	peter.ujfalusi@gmail.com, jarkko.nikula@bitmer.com, heiko@sntech.de,
+	jbrunet@baylibre.com, kernel@pengutronix.de,
+	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
+	dri-devel@lists.freedesktop.org,
+	linux-rpi-kernel@lists.infradead.org
+Subject: Re: [PATCH 03/96] drm/vc4: Migrate to new style legacy DAI naming
+ flag
+Message-ID: <20220617072533.foajsg6z3c2js3nb@houat>
+References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
+ <20220616143429.1324494-4-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <10094862.nUPlyArG6x@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220616143429.1324494-4-ckeepax@opensource.cirrus.com>
 
-On 6/16/22 11:13 PM, Jernej Škrabec wrote:
-> Dne petek, 17. junij 2022 ob 05:03:11 CEST je Samuel Holland napisal(a):
->> Hi Jernej,
->>
->> On 6/16/22 4:32 PM, Jernej Skrabec wrote:
->>> Kernel occasionally complains that there is mismatch in segment size
->>> when trying to render HW decoded videos and rendering them directly with
->>> sun4i DRM driver.
->>>
->>> Fix that by setting DMA mask and segment size.
->>>
->>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
->>> ---
->>>
->>>  drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++++
->>>  1 file changed, 4 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c
->>> b/drivers/gpu/drm/sun4i/sun4i_drv.c index 275f7e4a03ae..83f4e87f77f6
->>> 100644
->>> --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
->>> +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
->>> @@ -7,6 +7,7 @@
->>>
->>>   */
->>>  
->>>  #include <linux/component.h>
->>>
->>> +#include <linux/dma-mapping.h>
->>>
->>>  #include <linux/kfifo.h>
->>>  #include <linux/module.h>
->>>  #include <linux/of_graph.h>
->>>
->>> @@ -367,6 +368,9 @@ static int sun4i_drv_probe(struct platform_device
->>> *pdev)> 
->>>  	INIT_KFIFO(list.fifo);
->>>
->>> +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
->>
->> Isn't this already the default, from of_dma_configure_id or
->> setup_pdev_dma_masks?
-> 
-> Not sure, I need to check.
+On Thu, Jun 16, 2022 at 03:32:56PM +0100, Charles Keepax wrote:
+> Change the legacy DAI naming flag from opting in to the new scheme
+> (non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
+> This driver appears to be on the CPU side of the DAI link and
+> currently uses the legacy naming, so add the new flag.
+>=20
+> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-Looking at the DE2 and DE3 spec to answer your question, I noticed that all of
-the address fields have a corresponding 8-bit "high address" field, so from a
-hardware perspective, the DMA mask should be 40 bits.
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-However, currently we do not use these fields, so we are limited to 32 bits. I
-would suggest we comment that, so I am fine with setting the mask even if
-redundant, as it provides a good place to add the comment.
-
->>> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
->>
->> This looks like a good change. In fact, I think we need a similar change in
->> some other drivers.
-> 
-> Should be DMA_BIT_MASK(25) as in your other patch?
-
-No, that limit is specific to the other DMA engine. I do not see any limit for
-the display engine. BSP uses sg_tables only for dma-buf, and then it puts the
-entire framebuffer in one segment. So I think DMA_BIT_MASK(32) (the maximum
-possible value) is correct.
-
-Regards,
-Samuel
+Thanks!
+Maxime
