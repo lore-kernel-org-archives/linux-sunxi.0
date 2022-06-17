@@ -1,112 +1,107 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6D97F
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 03:42:12 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 56BD75C00CC;
-	Thu, 16 Jun 2022 23:42:11 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Thu, 16 Jun 2022 23:42:11 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E867F
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 03:56:43 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 994D95C010E;
+	Thu, 16 Jun 2022 23:56:42 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Thu, 16 Jun 2022 23:56:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1655437331; x=1655523731; bh=t1gILM+a5sDOSWsDsWFr57f86
-	QLkg7frBwJzEs01CII=; b=tCHDJakn7Bd+IibM5flhnH8eTvqERDp7Q0WHcwfaI
-	Viz6NyrT1g/A/aS0nfAQEXZ90DpfzkW+yDxU5kxzLLlGR5+lozlNX0i5cv8NGOZ0
-	HYH24QNKgkZQSeUNkFU88TXA6x4WVL0CaVkj3Bg0SolrAwF7BqTqJHGuRl/yNQz5
-	PQkjNYrpFR8jgTRS5ecTCfkXC4Bn4UPy/CtbxRFHMqXnxujPonVkVLAu5Q1Qz+TI
-	IkEHOhKkRyXZdJVNIC930L4b44zNluYHgahG8168X9O8ePrxK+QRiMlAvQ4e2eOM
-	KSH7dr8zClp2pHO8iyHLSjD3rgMKV3kahRU6waCsqhS1w==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655438202; x=
+	1655524602; bh=AgEDvz+cw4RVOmL9USG0wqNDy4vNacxqxz1ctQNYbOM=; b=C
+	rM2JjExkP1W7P9Uj7Drjk6PDHwlZ/BYcU82vvxhyJWI7ji4eH1fhmgN/NKSeRH6J
+	FcctYuLTWDnF3UILYNZFzRAWdCsIFBgZb2pveShbX4UPZ6k8sNz2Vgssv0Nit1cZ
+	K2Cju5sH/xyBM8iDw1HV/18VY8x3E1IaZLLbF6TgZPHp/pK0Ty1ZTQ8sONh6eTWs
+	8+xyy9dFvdNE300YZkCyao5smk+ooaipqS4A8t2578tqWTtLrr9+J1AtH+RxALVz
+	x8EyrjTkm46RU0YsaroCOH+baakH+kcg/t+Yr5N1VJ6eMZjS+plhZJUGMJezWun5
+	Oe63hJ/uXmw1KITsqsB7A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1655437331; x=1655523731; bh=t1gILM+a5sDOSWsDsWFr57f86QLkg7frBwJ
-	zEs01CII=; b=N7rNsjHy0bTYY8ZUQZ4OvCpJ7GbNfju+daNgvWf+eFgHxINNjo/
-	3WbyJXCOPDVys53CL7PXwfhm3n0USpkVtiUTmbfRMXXhZMs2eJUxIozu4HXwC8H9
-	0c8GpP2guJ8A/ckqpaSzhHZflv7m2voYCf/MzlqfFJ11lMDISOUwqtKQHtYKG2K4
-	mmoButoCsU/dFk4h7eGu4VJBvMa25YVYbmfjnuU9KGiNMPRICLukBnsnQgXEi1rc
-	7+fPpH0l2UkqWFYBLejx6hdg1BfZtdVZOeuV+smum6ouYfvt70JAPgAeeXa+LXIN
-	FvKHssRRYii0MtAHrwtqb9VYzo7Oc1oU9nQ==
-X-ME-Sender: <xms:E_irYpP_RbQfwzdSeK_XKR3VPBfmRkQ9weKOxh4scTh3YVOT7vR4Ow>
-    <xme:E_irYr__5QKofzrmFf0E28r5VjAvpUD8vWm8MJfvNpoihEjgaAPSLQRhiKCVsiQtb
-    UG2yE7FOPYUF0PHkw>
-X-ME-Received: <xmr:E_irYoTWJz1wSOh4p6l0zIeDdqm89WAGJKPLWxtoqakQYF_FWudcbU3Ih1AOpKNai2uo1NQPNILBxjJmIAJYhgH5aLq4RuiVGjQo7RsrhO9toyh4okHlx4oLiY4RBEsShT_fCg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgjeefucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655438202; x=
+	1655524602; bh=AgEDvz+cw4RVOmL9USG0wqNDy4vNacxqxz1ctQNYbOM=; b=o
+	M4crVDhL8tOgdG5YtHmt4crq3uzYqb/u65Io9SCtRs60pOpvRXlYz+bSCuXHVBTa
+	UW+L3o+H8e1kiNkYxiTgw55pcgY6NjJhTsyoQ+HcWrRDcRAoBcOSsMeQa0EgRMT6
+	ItANAjNQLlRwnPuD8serp53nHpmDVHEaldr3DHkmlIG3k0FMe1VBYhNFi2AldEAJ
+	NCb3LulxgwLDNafL9q+bl1+CJ28YMYPWC2ElQtPKfs5CmjvDP/HnhjYj1ZJ6pONs
+	1EQ8xJCVoyE8RstB3cQ+RajATTXvyDwESda4VDYG4e3/0l93MqnpywfpMUzncT10
+	vDe09UZv1dfim0xOcQxSA==
+X-ME-Sender: <xms:evurYpmRIEbCt3hUL2okeU-4FVwO3Yt_xaHeXnUuFrGhoCpowS5BQw>
+    <xme:evurYk2Qr00_wgQ2Tmmr1zJHDBEqF0H13bqqqq1SoqOuRHPPx9SqJEsBrVpT_OFoU
+    JLwwdO1eI--8wr4kQ>
+X-ME-Received: <xmr:evurYvr2wZPnlxB6KRJtDCBeWYMwWPnPxr8K6KDc4yvQKYE4ghGfAExoX9CVvCK9-b-YoYg_aHYJ_A9we2IVed8S0np9ztsO-OqmxDQlT6Yktf8bUIDGxDYM-Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:E_irYltaRFM9IsopLzXPHjDMYoUEn21epauftX5KAZOjBFG_cOHX8A>
-    <xmx:E_irYhf_b0-0nbzygD6sprHgPHZjnzophRwko1KOgYyBnrTjB_JlLg>
-    <xmx:E_irYh3j-A07RogbevLC3qu2J8IMFV84hi8rhjWcWK9em_itv6W9uw>
-    <xmx:E_irYpRvzuvalDXJN4xG0PM45InMrLj--f3fD60bTsmsPdBR4x8n0A>
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:evurYpkw1uyyHi100HZ8Kph2maY85Tp8y6d4aJbmcLL4At3g8a-XaQ>
+    <xmx:evurYn3rK_4rsGJAoZ4F887OHE350s93hc11HYb31Y1TReXQ-chnXw>
+    <xmx:evurYosuaKyksBHOE3b7GI_C6srRS8d6x8UZdcSVEN0er_WPv_ZfEg>
+    <xmx:evurYiTVfW-yKhDmh3rRfZKtULSXm-nIZ_9_nB4Mtivk3doLAQz9rg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Jun 2022 23:42:10 -0400 (EDT)
+ 16 Jun 2022 23:56:41 -0400 (EDT)
+Subject: Re: [PATCH] arm64: defconfig: Enable Allwinner built in CODECs
+To: broonie@kernel.org, Maxime Ripard <mripard@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, jernej.skrabec@gmail.com,
+ wens@csie.org, linux-sunxi@lists.linux.dev
+References: <20220614100343.3135227-1-broonie@kernel.org>
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>,
-	dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] dmaengine: sun6i: Set the maximum segment size
-Date: Thu, 16 Jun 2022 22:42:09 -0500
-Message-Id: <20220617034209.57337-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+Message-ID: <052b1bc3-f110-fcdd-e88c-a3df77c921c5@sholland.org>
+Date: Thu, 16 Jun 2022 22:56:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220614100343.3135227-1-broonie@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
-explicitly stated in newer SoC documentation (H6, D1), and it is implied
-in older documentation by the 25-bit width of the "bytes left in the
-current segment" register field.
++sunxi maintainers
 
-Exposing the real segment size limit (instead of the 64k default)
-reduces the number of SG list segments needed for a transaction.
+On 6/14/22 5:03 AM, broonie@kernel.org wrote:
+> From: Mark Brown <broonie@kernel.org>
+> 
+> Allwinner provide an audio CODEC as part of their SoCs which is used on a
+> number of designs, enable the driver as part of defconfig in order to
+> improve coverage of this in the various automated testing systems.
+> 
+> Signed-off-by: Mark Brown <broonie@kernel.org>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-Tested on A64, verified that the maximum ALSA PCM period increased, and
-that audio playback still worked.
+Reviewed-by: Samuel Holland <samuel@sholland.org>
 
- drivers/dma/sun6i-dma.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-index b7557f437936..1425f87d97b7 100644
---- a/drivers/dma/sun6i-dma.c
-+++ b/drivers/dma/sun6i-dma.c
-@@ -9,6 +9,7 @@
- 
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/dma-mapping.h>
- #include <linux/dmaengine.h>
- #include <linux/dmapool.h>
- #include <linux/interrupt.h>
-@@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_device *pdev)
- 	INIT_LIST_HEAD(&sdc->pending);
- 	spin_lock_init(&sdc->lock);
- 
-+	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(25));
-+
- 	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
- 	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
- 	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
--- 
-2.35.1
+> ---
+>  arch/arm64/configs/defconfig | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+> index 7d1105343bc2..c2ad42bd8536 100644
+> --- a/arch/arm64/configs/defconfig
+> +++ b/arch/arm64/configs/defconfig
+> @@ -804,6 +804,9 @@ CONFIG_SND_SOC_RCAR=m
+>  CONFIG_SND_SOC_RZ=m
+>  CONFIG_SND_SUN4I_I2S=m
+>  CONFIG_SND_SUN4I_SPDIF=m
+> +CONFIG_SND_SUN50I_CODEC_ANALOG=m
+> +CONFIG_SND_SUN8I_CODEC=m
+> +CONFIG_SND_SUN8I_CODEC_ANALOG=m
+>  CONFIG_SND_SOC_TEGRA=m
+>  CONFIG_SND_SOC_TEGRA210_AHUB=m
+>  CONFIG_SND_SOC_TEGRA210_DMIC=m
+> 
 
