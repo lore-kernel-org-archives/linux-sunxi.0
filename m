@@ -1,99 +1,176 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3574D7F
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 07:25:39 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id D16F15C0151;
-	Fri, 17 Jun 2022 03:25:38 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute3.internal (MEProxy); Fri, 17 Jun 2022 03:25:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1655450738; x=
-	1655537138; bh=t6QXcNLzauxbqf0PNTG8MvaAdoQQFis6uQHBpNA5m+I=; b=n
-	r/26OCnEDIr6jYGUp00hxr/NMoxkf6xXfRuhMockkxh6n/wloYbpla88d1SGLc3P
-	BtUBgD8RZGZwQq1VPEdFsxTpp0vbEShL/ls6VxYlg3QMzR0vwLar8HSi00UlQ0gL
-	CH0ldBnQE8fgusDetIp4GspeBfNwxFV/Kux0Hx5Gn4thT/XQgU8PMW4HgsFFcXRm
-	Zivnb/+Onrj1LGZ5AHx2nvHV0C75KC/tYxnCCabt/MYKO/z8c0fQcLinaQbHGkZ/
-	ReDK0Ixt6XyqgHi5Jl8vZzwm7V5ELSXQsKa2v6qLRWnUgG5G2P5dohWhsokjAjTc
-	L+OzZ1aV3f76OQGSJyChg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655450738; x=
-	1655537138; bh=t6QXcNLzauxbqf0PNTG8MvaAdoQQFis6uQHBpNA5m+I=; b=C
-	kYUa18GGhGd0oZQ43NnZDN3+5y/3awo+Sws0Pq3eb6UKVOekXJ4Y7ZEHvLp36JHj
-	tycJVtu9HwZf6jSnqxW4zSYXVJbe86AaaXxlWH7q4QH3qe9lRa6jd+fNATp9LPAT
-	uMB4hcgr49bGrbUHs5jLTWfsDcAY1XnxmodGaA/DgxKZG0akk8naBHEsjI+9wBbi
-	bdBT2GvJE4pNDjc9Q1xJKM5StazQkLXgIHK2oujsy/VM2X0INDscm2W7ndAJ5rcf
-	mBBIfmMwMR/jziK5WAQT6SO63sjbrOoLYrgXG/T1UfFrVqW/5w3OIEWPJWQoFPkh
-	/k+4PB1FRuFRA5/pGTzAw==
-X-ME-Sender: <xms:cCysYuGbj_tXIkPunEurAIwroXW5XpxjXpF4QSJbzxhbPXclwax6XA>
-    <xme:cCysYvWgkzuxSA4c7vUx_UbBJT8gLLCv-uNPJbxN_6t01QjqR06uBZtc0l9wxHzhR
-    zr0LWaTeAJNrwG7Sv4>
-X-ME-Received: <xmr:cCysYoL-s8_MAzYdUOgHxl_upF4_8dJ4RyvHl_ZD6Qzg5t8bcXrIWoJ5sq56JxsiML5p_3EqajNOb9VnX0x1uY0f2nUbuWm7o5g4tUo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedguddujecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtugfgjgesthhqredttddtvdenucfhrhhomhepofgr
-    gihimhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtf
-    frrghtthgvrhhnpeetgfelgefggeekkefggfeludeiudffjeffgeevveekjedukedtudeu
-    teefteefgfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:cCysYoGVB8cZQ7yOz48SmLfp873hgDRpdEpPRutGsvxTCLizycl41w>
-    <xmx:cCysYkVSvHtiRSBPNAhrPCzXsNP5d45QhqafU_iIo0w9pj_rG6ibZQ>
-    <xmx:cCysYrOhmw8cG_xUkAWqqi3Xw5qv0x5wtJ9n4l4N9ZI1Bu5NZbr7WA>
-    <xmx:ciysYvyJISiAd-XGF0UUbZ-Rv8dPZGqNpVjs7CZjxA6lvgGh5OS30A>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Jun 2022 03:25:36 -0400 (EDT)
-Date: Fri, 17 Jun 2022 09:25:33 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Charles Keepax <ckeepax@opensource.cirrus.com>
-Cc: broonie@kernel.org, lgirdwood@gmail.com,
-	kuninori.morimoto.gx@renesas.com, airlied@linux.ie, daniel@ffwll.ch,
-	vkoul@kernel.org, nicolas.ferre@microchip.com, nsaenz@kernel.org,
-	shawnguo@kernel.org, linux-imx@nxp.com, cezary.rojewski@intel.com,
-	pierre-louis.bossart@linux.intel.com, linux-mips@vger.kernel.org,
-	linux-amlogic@lists.infradead.org, daniel@zonque.org,
-	srinivas.kandagatla@linaro.org, linux-rockchip@lists.infradead.org,
-	krzk@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-	peter.ujfalusi@gmail.com, jarkko.nikula@bitmer.com, heiko@sntech.de,
-	jbrunet@baylibre.com, kernel@pengutronix.de,
-	alsa-devel@alsa-project.org, patches@opensource.cirrus.com,
-	dri-devel@lists.freedesktop.org,
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 03/96] drm/vc4: Migrate to new style legacy DAI naming
- flag
-Message-ID: <20220617072533.foajsg6z3c2js3nb@houat>
-References: <20220616143429.1324494-1-ckeepax@opensource.cirrus.com>
- <20220616143429.1324494-4-ckeepax@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA977F;
+	Fri, 17 Jun 2022 08:35:55 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:faf2:1a12:f903:cc5e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0BDEA660179A;
+	Fri, 17 Jun 2022 09:35:53 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1655454953;
+	bh=7x8/8HIIJI7T1pseYga/Y7jcduOcSFuotK39n2h+Ncw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=iOfLp4XMB9xXSuz6oTsB0aRx934JkSWZ51zGng/ukPDKfdybILfVJJZ0nmPa6/RZY
+	 eMdP1POd1Ym9GBcqh7PMgJcCRgKqCIvdCPEAIMThsdoOtqnipEnehFRfoAo3NNu1ro
+	 /VP8MsnOqcfFjKEKWoPGfslTPVZvROFkpewa5knFsiaKQi4JS/nZ83deSyxIePBFi+
+	 +CK/4urNOvAeFE904IX9vZ3UkVHb3gn+7TE/LorDzqnLJbaW+mj8XInU5yWPe3ldeT
+	 0D480VWpUgs+2Zl5ec1JhxrKrVAL/AZOl3rlpiOYR8mNAVCRso0xI5pnWcmrSD+Uk1
+	 QJaYPaptlwD7g==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v9 00/17] Move HEVC stateless controls out of staging
+Date: Fri, 17 Jun 2022 10:35:28 +0200
+Message-Id: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220616143429.1324494-4-ckeepax@opensource.cirrus.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jun 16, 2022 at 03:32:56PM +0100, Charles Keepax wrote:
-> Change the legacy DAI naming flag from opting in to the new scheme
-> (non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-> This driver appears to be on the CPU side of the DAI link and
-> currently uses the legacy naming, so add the new flag.
->=20
-> Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-Acked-by: Maxime Ripard <maxime@cerno.tech>
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
 
-Thanks!
-Maxime
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V9
+
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V9
+
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
+
+version 8:
+- Same than v7 but rebased on media_stage/master
+
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
+
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
+
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c
+
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1826 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+
+-- 
+2.32.0
+
