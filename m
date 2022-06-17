@@ -1,107 +1,116 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E867F
-	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 03:56:43 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 994D95C010E;
-	Thu, 16 Jun 2022 23:56:42 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 16 Jun 2022 23:56:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655438202; x=
-	1655524602; bh=AgEDvz+cw4RVOmL9USG0wqNDy4vNacxqxz1ctQNYbOM=; b=C
-	rM2JjExkP1W7P9Uj7Drjk6PDHwlZ/BYcU82vvxhyJWI7ji4eH1fhmgN/NKSeRH6J
-	FcctYuLTWDnF3UILYNZFzRAWdCsIFBgZb2pveShbX4UPZ6k8sNz2Vgssv0Nit1cZ
-	K2Cju5sH/xyBM8iDw1HV/18VY8x3E1IaZLLbF6TgZPHp/pK0Ty1ZTQ8sONh6eTWs
-	8+xyy9dFvdNE300YZkCyao5smk+ooaipqS4A8t2578tqWTtLrr9+J1AtH+RxALVz
-	x8EyrjTkm46RU0YsaroCOH+baakH+kcg/t+Yr5N1VJ6eMZjS+plhZJUGMJezWun5
-	Oe63hJ/uXmw1KITsqsB7A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655438202; x=
-	1655524602; bh=AgEDvz+cw4RVOmL9USG0wqNDy4vNacxqxz1ctQNYbOM=; b=o
-	M4crVDhL8tOgdG5YtHmt4crq3uzYqb/u65Io9SCtRs60pOpvRXlYz+bSCuXHVBTa
-	UW+L3o+H8e1kiNkYxiTgw55pcgY6NjJhTsyoQ+HcWrRDcRAoBcOSsMeQa0EgRMT6
-	ItANAjNQLlRwnPuD8serp53nHpmDVHEaldr3DHkmlIG3k0FMe1VBYhNFi2AldEAJ
-	NCb3LulxgwLDNafL9q+bl1+CJ28YMYPWC2ElQtPKfs5CmjvDP/HnhjYj1ZJ6pONs
-	1EQ8xJCVoyE8RstB3cQ+RajATTXvyDwESda4VDYG4e3/0l93MqnpywfpMUzncT10
-	vDe09UZv1dfim0xOcQxSA==
-X-ME-Sender: <xms:evurYpmRIEbCt3hUL2okeU-4FVwO3Yt_xaHeXnUuFrGhoCpowS5BQw>
-    <xme:evurYk2Qr00_wgQ2Tmmr1zJHDBEqF0H13bqqqq1SoqOuRHPPx9SqJEsBrVpT_OFoU
-    JLwwdO1eI--8wr4kQ>
-X-ME-Received: <xmr:evurYvr2wZPnlxB6KRJtDCBeWYMwWPnPxr8K6KDc4yvQKYE4ghGfAExoX9CVvCK9-b-YoYg_aHYJ_A9we2IVed8S0np9ztsO-OqmxDQlT6Yktf8bUIDGxDYM-Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedruddvgedgjeehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:evurYpkw1uyyHi100HZ8Kph2maY85Tp8y6d4aJbmcLL4At3g8a-XaQ>
-    <xmx:evurYn3rK_4rsGJAoZ4F887OHE350s93hc11HYb31Y1TReXQ-chnXw>
-    <xmx:evurYosuaKyksBHOE3b7GI_C6srRS8d6x8UZdcSVEN0er_WPv_ZfEg>
-    <xmx:evurYiTVfW-yKhDmh3rRfZKtULSXm-nIZ_9_nB4Mtivk3doLAQz9rg>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Jun 2022 23:56:41 -0400 (EDT)
-Subject: Re: [PATCH] arm64: defconfig: Enable Allwinner built in CODECs
-To: broonie@kernel.org, Maxime Ripard <mripard@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, jernej.skrabec@gmail.com,
- wens@csie.org, linux-sunxi@lists.linux.dev
-References: <20220614100343.3135227-1-broonie@kernel.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <052b1bc3-f110-fcdd-e88c-a3df77c921c5@sholland.org>
-Date: Thu, 16 Jun 2022 22:56:41 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF077F
+	for <linux-sunxi@lists.linux.dev>; Fri, 17 Jun 2022 04:13:10 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id fd6so1867306edb.5
+        for <linux-sunxi@lists.linux.dev>; Thu, 16 Jun 2022 21:13:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=jkcre2VBtMzxrZPMCfkOrbliJifXwznY6q+h4wI7Wog=;
+        b=ks4gT/sjz/WSG+M5zgBy04ySeXYNutXYYTK+m3oKvm+UTsWFHoZV8YN+/uk7OnvEtx
+         cWE8AppXxMsByuappwZWKZ1/yzO5k4172qqWeNux1iwTxPBLFVcXB432LsD88WrCOZWa
+         UJoWq936BeiriVTzTt2Kfj2qdZRECUzGyDuqbDMte/Pwm+2hs+zb78HDqLztmlX9LwGB
+         paddvZRoiD/fQBG5dyW3TFK6cmufzLK71Wpdjc1/ZnXoOWIDh9RmzuCS/wuOppl7IZ+Y
+         qTlQ8rBbEQmJyhdz/Y7tgs7+GddN58IZifVaMKUzvH234WJThH5eOleuQHWWy/oZQ/Rs
+         sAJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=jkcre2VBtMzxrZPMCfkOrbliJifXwznY6q+h4wI7Wog=;
+        b=jb8OPgaGkiDte7X8b5eHJe9QTXcpvCyxUiE4/Ew1B3xIllwQWL/CAri3/1EO8YUil+
+         9OP+CwoxVlaOeRaBiUfG7OEqQ2ghHoxmogtpaHU7gT9WWuf1ox2zMWNBfExoU1YI3cHm
+         N6HYn/rkalDsFrE/YHD3pqWhqoK0Z0NIZBGZNPftKeFaKJ0caj1AOxuYpyp/JfZGil1Q
+         jtldPRqsi+MqikH24ny9ZebE+PD3GWOU7CV7BX9ewnPvjUvfSWtqF2UnJs6lmi2hL2s7
+         3qmJam5rHS1qNh15dGlWerz+Rs+xF8tObw0n8LRGSzlbPfMtrCFy3A5kBlnfI6EqiUy4
+         z1og==
+X-Gm-Message-State: AJIora+4KpCFHu/rQuP1WrFQjnhTKRpSA+2gKwiU7wZS6EKb7iYEQVwp
+	UsgCF1rvRLJ1EXWauMXSzg0=
+X-Google-Smtp-Source: AGRyM1vDq6JtWJzZZ4jWmMy/sOS/uWzEGjgdqQ8zfDxc/FoUMgzm2o+2uai90JO5XUJAJJlsQ9RbCw==
+X-Received: by 2002:a05:6402:149:b0:431:7dde:9b59 with SMTP id s9-20020a056402014900b004317dde9b59mr10021996edu.339.1655439188935;
+        Thu, 16 Jun 2022 21:13:08 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id i24-20020a05640200d800b0042dcac2afc6sm2874051edu.72.2022.06.16.21.13.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Jun 2022 21:13:08 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: mripard@kernel.org, wens@csie.org, Samuel Holland <samuel@sholland.org>
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: Add DMA mask and segment size
+Date: Fri, 17 Jun 2022 06:13:06 +0200
+Message-ID: <10094862.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
+References: <20220616213240.392041-1-jernej.skrabec@gmail.com> <e4a73a0f-c725-fad2-021b-5b5ee5ead1b3@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220614100343.3135227-1-broonie@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-+sunxi maintainers
+Dne petek, 17. junij 2022 ob 05:03:11 CEST je Samuel Holland napisal(a):
+> Hi Jernej,
+> 
+> On 6/16/22 4:32 PM, Jernej Skrabec wrote:
+> > Kernel occasionally complains that there is mismatch in segment size
+> > when trying to render HW decoded videos and rendering them directly with
+> > sun4i DRM driver.
+> > 
+> > Fix that by setting DMA mask and segment size.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/gpu/drm/sun4i/sun4i_drv.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > b/drivers/gpu/drm/sun4i/sun4i_drv.c index 275f7e4a03ae..83f4e87f77f6
+> > 100644
+> > --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+> > @@ -7,6 +7,7 @@
+> > 
+> >   */
+> >  
+> >  #include <linux/component.h>
+> > 
+> > +#include <linux/dma-mapping.h>
+> > 
+> >  #include <linux/kfifo.h>
+> >  #include <linux/module.h>
+> >  #include <linux/of_graph.h>
+> > 
+> > @@ -367,6 +368,9 @@ static int sun4i_drv_probe(struct platform_device
+> > *pdev)> 
+> >  	INIT_KFIFO(list.fifo);
+> > 
+> > +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> 
+> Isn't this already the default, from of_dma_configure_id or
+> setup_pdev_dma_masks?
 
-On 6/14/22 5:03 AM, broonie@kernel.org wrote:
-> From: Mark Brown <broonie@kernel.org>
-> 
-> Allwinner provide an audio CODEC as part of their SoCs which is used on a
-> number of designs, enable the driver as part of defconfig in order to
-> improve coverage of this in the various automated testing systems.
-> 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
+Not sure, I need to check.
 
-Reviewed-by: Samuel Holland <samuel@sholland.org>
+> > +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> 
+> This looks like a good change. In fact, I think we need a similar change in
+> some other drivers.
 
-> ---
->  arch/arm64/configs/defconfig | 3 +++
->  1 file changed, 3 insertions(+)
+Should be DMA_BIT_MASK(25) as in your other patch?
+
+Best regards,
+Jernej
+
 > 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index 7d1105343bc2..c2ad42bd8536 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -804,6 +804,9 @@ CONFIG_SND_SOC_RCAR=m
->  CONFIG_SND_SOC_RZ=m
->  CONFIG_SND_SUN4I_I2S=m
->  CONFIG_SND_SUN4I_SPDIF=m
-> +CONFIG_SND_SUN50I_CODEC_ANALOG=m
-> +CONFIG_SND_SUN8I_CODEC=m
-> +CONFIG_SND_SUN8I_CODEC_ANALOG=m
->  CONFIG_SND_SOC_TEGRA=m
->  CONFIG_SND_SOC_TEGRA210_AHUB=m
->  CONFIG_SND_SOC_TEGRA210_DMIC=m
-> 
+> Regards,
+> Samuel
+
+
+
 
