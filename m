@@ -1,145 +1,109 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE1CA3205
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 18:13:39 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id q15so6246209wmj.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 11:13:39 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7603205
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 18:28:49 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id m1so8039474wrb.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 11:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
-        b=Zejyg6E+FHLKxRKdaEVHf2AZnDX7ypJREPoEvt3q1fFl3poi2cMzNceoS2L5xfLnPb
-         Hj+R732naG47N54mKP5MQpsSSUdgqOafOLptTfNnpGpubW05/fVMDbTQV+sMTeE5+PGP
-         G1PtclC9DqxT26xSkM2/3RaxOLmFefPV37XUIQua/iSphifY21dvtzrbnCUZpiXg0N2n
-         XHXPevhVP0+l851iCLc4EkMrnfLnwki+2xj71hWiMdp2ZVSD9hEm9rzWNJpCO9T6G8hu
-         5SHb0+fboJV+3XgJVsDIf3OWHEYhAcr8JYttvJwxKMLyTDOEH0o0B+KvQ5EYF5l9zpIf
-         8uQQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=EbH61xgbcQFZqiKdtF3EiTrlMIA03mVcXgcJh8nFhYw=;
+        b=mSQEmLJ0Fn5QVozsHIogGY5NXi+9CJYGRIz8gpuc1yRs1WXusV7NLcUOAPe/oDHd+p
+         CGfunJlCmJ3FttTozAiBihvuQo80brGH5cxd7esS/dJ8+prrLrD9NYWnUklcB1Wn/L9D
+         4xSjQZ8Ht1+2KVRUzP+G9tpz8dK5qZdWFtEcKKIo3UWWd5lQCv7rPsKZhCW5toVy38+V
+         HzYrtpJ5nPWn9oymuE5UJnlGqTc5qT4epprO+dTLcXI+5zwNJsTsQNUu7WMD9R9VluLf
+         yzP0plxjqlwIb92S1XFNdmlBBMjgngHOZahcjJtaSnvziwMaVFoUKTmPGRSoHc1Y+Zlh
+         1dxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T+Bp4C6tHNEGnt3nH/cIgRCgYn49Fk+PkAiYN+Dhmk4=;
-        b=KwuCWznADOiXugLVaobcVrnBJV34GXzXffdvWrbSkqAoXFO2ppq730/uhjtOfy3J5D
-         l7QbcMEYZqus/ICJMcXo8Scp9x5HCPGXgHjmMGJ4mgewaf9/hlQx/meIpjy4KmTUR5/C
-         YcbEe1Wu6uek5kgMv1mXMak5xQGMxcDhFj2P7GHV/Mxr9dnrMd5b2iH8QLxofFSo7HjY
-         YhR4MJK6RH3xdXyAoMFYMYPZ/wajeateCUV9TZCzkIcPs39QDshcEpJIh63/xJYE6n8R
-         oblmrp6Cuca9FRDP9TMGAba8vqicIXHM22YAibVeVPoZdTNiIjvxVngK7duMa3HyLCX1
-         yuHw==
-X-Gm-Message-State: AJIora+JKLpghOV6CXgsrFQsxUxXJnb3PppZehvgr07xwOJIKhX+0JwJ
-	To3XrmlaAOWc2cDDe2XuYhI=
-X-Google-Smtp-Source: AGRyM1uI4F8cjHPAFAwOIFBOoZgwystK4qPSTCHz/P/WvlP3vbn23eKdbUXeK8JyCxxGaxVhOGfXAw==
-X-Received: by 2002:a7b:c389:0:b0:39c:49fe:25df with SMTP id s9-20020a7bc389000000b0039c49fe25dfmr25474259wmj.164.1655748818130;
-        Mon, 20 Jun 2022 11:13:38 -0700 (PDT)
-Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id k20-20020adfc714000000b002103aebe8absm14006977wrg.93.2022.06.20.11.13.36
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=EbH61xgbcQFZqiKdtF3EiTrlMIA03mVcXgcJh8nFhYw=;
+        b=h952O/0RbJWT7jnt05U4UWXxmhipFkGQEApV5MQAJIO+YgZFzeWyID1Vm5fhE3fcHr
+         89qODVpXd4+uqTdvchH2YcEoaLCHhxUau7SPKyYgphftpMtHY6UwTNziwM5CBjMSTIcp
+         UQRC8JNZ4Qf+KVofMzT0YYA0X4M7AXb36uBOY1FiRFiyc25Ka3cPWnIiIGXCBzGVe3c7
+         bMdLwTALZf5A9GPWHgYgPDnk8NyY4tWh8vamO/IxehiCMFkFcQXAr+BXY/WZkxOzPCaq
+         +/k2jXcEz8CiFa6ZlphgFUjPWfjrPU/B3WsKmGMoSNkgdtGWSIgaD/jxoyac2EcmoIzp
+         9fKQ==
+X-Gm-Message-State: AJIora/qiHWe7BLQDjGV5IKU8m6vcYiDpPpTn5QICCVmKbnC4J1Uf+go
+	RuAileBCOGT7CqIBvtBvGMI=
+X-Google-Smtp-Source: AGRyM1t14bVeWv+aaSXZzdp98dSIn+wgQmnAILYuJY07t+yPD4z3EwzouaR/YGr9cTVVtwEooMSWGA==
+X-Received: by 2002:a5d:584c:0:b0:218:4ee2:38fd with SMTP id i12-20020a5d584c000000b002184ee238fdmr24050138wrf.584.1655749727868;
+        Mon, 20 Jun 2022 11:28:47 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id l8-20020a1ced08000000b0039744bd664esm19254682wmh.13.2022.06.20.11.28.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 11:13:37 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: airlied@linux.ie,
-	daniel@ffwll.ch,
-	samuel@sholland.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2] drm/sun4i: Add DMA mask and segment size
-Date: Mon, 20 Jun 2022 20:13:33 +0200
-Message-Id: <20220620181333.650301-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.36.1
+        Mon, 20 Jun 2022 11:28:47 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] dmaengine: sun6i: Set the maximum segment size
+Date: Mon, 20 Jun 2022 20:28:46 +0200
+Message-ID: <3494277.R56niFO833@kista>
+In-Reply-To: <20220617034209.57337-1-samuel@sholland.org>
+References: <20220617034209.57337-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Kernel occasionally complains that there is mismatch in segment size
-when trying to render HW decoded videos and rendering them directly with
-sun4i DRM driver. Following message can be observed on H6 SoC:
+Dne petek, 17. junij 2022 ob 05:42:09 CEST je Samuel Holland napisal(a):
+> The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
+> explicitly stated in newer SoC documentation (H6, D1), and it is implied
+> in older documentation by the 25-bit width of the "bytes left in the
+> current segment" register field.
 
-[  184.298308] ------------[ cut here ]------------
-[  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
-[  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
-[  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
-[  184.329533] Hardware name: Tanix TX6 (DT)
-[  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
-[  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
-[  184.349250] sp : ffff800009f33a50
-[  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
-[  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
-[  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
-[  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
-[  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
-[  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
-[  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
-[  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
-[  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
-[  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
-[  184.424106] Call trace:
-[  184.426556]  debug_dma_map_sg+0x2b0/0x350
-[  184.430580]  __dma_map_sg_attrs+0xa0/0x110
-[  184.434687]  dma_map_sgtable+0x28/0x4c
-[  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
-[  184.442729]  __map_dma_buf+0x2c/0xd4
-[  184.446321]  dma_buf_map_attachment+0xa0/0x130
-[  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
-[  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
-[  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
-[  184.465190]  drm_ioctl_kernel+0xc4/0x174
-[  184.469123]  drm_ioctl+0x204/0x420
-[  184.472534]  __arm64_sys_ioctl+0xac/0xf0
-[  184.476474]  invoke_syscall+0x48/0x114
-[  184.480240]  el0_svc_common.constprop.0+0x44/0xec
-[  184.484956]  do_el0_svc+0x2c/0xc0
-[  184.488283]  el0_svc+0x2c/0x84
-[  184.491354]  el0t_64_sync_handler+0x11c/0x150
-[  184.495723]  el0t_64_sync+0x18c/0x190
-[  184.499397] ---[ end trace 0000000000000000 ]---
+At least A10 user manual says 128k max in description for Byte Counter 
+register (0x100+N*0x20+0xC), although field size is defined as 23:0, but that's 
+still less than 2^25-1. A20 supports only 128k too according to manual. New 
+quirk should be introduced for this.
 
-Fix that by setting DMA mask and segment size.
+Best regards,
+Jernej
 
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
-Changes from v1:
-- added comment
-- updated commit message with kernel report
+> 
+> Exposing the real segment size limit (instead of the 64k default)
+> reduces the number of SG list segments needed for a transaction.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> Tested on A64, verified that the maximum ALSA PCM period increased, and
+> that audio playback still worked.
+> 
+>  drivers/dma/sun6i-dma.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+> index b7557f437936..1425f87d97b7 100644
+> --- a/drivers/dma/sun6i-dma.c
+> +++ b/drivers/dma/sun6i-dma.c
+> @@ -9,6 +9,7 @@
+>  
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+> +#include <linux/dma-mapping.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/dmapool.h>
+>  #include <linux/interrupt.h>
+> @@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_device 
+*pdev)
+>  	INIT_LIST_HEAD(&sdc->pending);
+>  	spin_lock_init(&sdc->lock);
+>  
+> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(25));
+> +
+>  	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
+>  	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
+>  	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
+> -- 
+> 2.35.1
+> 
+> 
 
- drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 275f7e4a03ae..f135a6b3cadb 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/component.h>
-+#include <linux/dma-mapping.h>
- #include <linux/kfifo.h>
- #include <linux/module.h>
- #include <linux/of_graph.h>
-@@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
- 
- 	INIT_KFIFO(list.fifo);
- 
-+	/*
-+	 * DE2 and DE3 cores actually supports 40-bit addresses, but
-+	 * driver does not.
-+	 */
-+	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-+
- 	for (i = 0;; i++) {
- 		struct device_node *pipeline = of_parse_phandle(np,
- 								"allwinner,pipelines",
--- 
-2.36.1
 
