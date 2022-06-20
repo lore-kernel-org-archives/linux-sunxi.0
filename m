@@ -1,165 +1,115 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806507B
-	for <linux-sunxi@lists.linux.dev>; Sun, 19 Jun 2022 11:44:37 +0000 (UTC)
-Received: by mail-ej1-f45.google.com with SMTP id h23so16216457ejj.12
-        for <linux-sunxi@lists.linux.dev>; Sun, 19 Jun 2022 04:44:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B043A34;
+	Mon, 20 Jun 2022 17:55:31 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id g27so9043670wrb.10;
+        Mon, 20 Jun 2022 10:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FQbBjcBfD7V1TcniNo3XYd/5J9V350QbGnDoj858ycY=;
-        b=Xb2iTmdVGW+PvMqYxyub4QxQHV0TQ3b1izCzfoW+XluTzOwzcJfFWuSbZRoAA8lbzD
-         v8FNJy0aJolsQjoY545X+w1K24MJJ5xZ1YJcMRSE57UH+wPFznA2G+6mpi7DS/3FlPRd
-         FFalUTcBi633WGar9Efv/B9+GqSU1Y7hiwCWUOppYIlzQ0q+41xmysIiOxkknSiCpHUS
-         TcZ86uKkqZAwlnnwnxfOIm9jG85icOGl9SiA0lwCsTpyP/KlLoaHvhupschG9uoJflWM
-         f2DM8vuegImSXr+iCVartWQDiucYQCQDLz9opYJK4TWDIvyu7T9lB9/C+vOtLHmw2NT0
-         PWYg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
+        b=RWKEkdXq+lSk+dmdI6Iot8rAZyvslodnYkpKOvXWK2K1boPyqJvZE44FF88y2Emvbm
+         +yXvUSTM8IH/gOAuYmyJYphk7VLlg7HcDGNSypDuEOXopHleVoqItdbjuY63AZUlEiKq
+         eruxK5ScWYaLkwaR/E9jz8q8dmkHsUHfErc9XoD9L806hmBH7bC1TOB5kt1f2+K5PPHM
+         YdpP1Gb/liecVdKNGquPCsbpStcSZrlH5QL27wGGjHxrEVclvULkCb07YHNXt1YaQIge
+         Cj6PwnXTktHdBFWyPTrHDx2tW2JM7jmqXrLFwX8qtRxQTLXjrtYRrlwdMkAGuFZ3whhJ
+         EesA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FQbBjcBfD7V1TcniNo3XYd/5J9V350QbGnDoj858ycY=;
-        b=t6OlXcKVdmTW50fkhQBmEolLUtaX6L8O6jxizod2V5SktbySY4eX29EwszxctpbX6H
-         cumqxweXc42fJq5Qn+BhpSJzWElVO25iqBjlIOQejkBsbU0jC8qZ4LzJTqcd48+UqYGG
-         OugdbUM2fcBR6a73uU1/Bm2QnHI/0N/tQGI7xuZHl8/g0iwMhjvOvCDJbocjO2KBKDgI
-         PQBsi65dhsU9rQ9ogbwVHigHHXDcsKaB7phRMiPm2sFcfj6ZWl/OKyLrHCeKVR/d+qSN
-         nT0Ors9O0TWiXy5lI3T1QRAvT8q7Msp2POeSKbrj1FK0V27poFVr0zaDidL/jG7Qa0Zr
-         6tWg==
-X-Gm-Message-State: AJIora81vI5ZVrylgSbqz5qngm1Y7u3XIXmQJJGe660f6+XppVH+l1jF
-	ueYzqh1geE6AjOvYvSpsQ88/y380/cnrsNSxnUk=
-X-Google-Smtp-Source: AGRyM1tlqH8/GM63li+9dtAK0sP+225UJsR/jtnTMd09exzoSTHeAoncSqMSOd4NfnVRj4GYFD3MYUvNG3rNbv4f1SY=
-X-Received: by 2002:a17:906:d550:b0:704:7ba6:9854 with SMTP id
- cr16-20020a170906d55000b007047ba69854mr16758726ejc.579.1655639075680; Sun, 19
- Jun 2022 04:44:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7Dx8kHYChInXA05yvjMTh5hDqDoL/JwqTYniVb/CEJw=;
+        b=ToPeY422e6UK580IIQzMNKTkYrBW0+2Mh5pyDWTSeRKkl67QgA/ujnlTHKjA0Sgfds
+         iZr0DAxgl7PqxvGSrd6gYy5iADXnE88eZZuRXR331uhoaMxeHoOCY1LFmYp7B7UOr46T
+         gf8pKYUObWM++WYhIgzxZ724hvAcLwYFJC/neAbx0WCcnAkaAyklljfikNAfHoxLyYcG
+         Q8F4VRCHFcE4rY3+efKGSAoSHT9RlT53i7eVAJn9XDbJkMSlUm8Lj8ilFWOPanQLExL1
+         Wl4KvPNihf5HQN65z1alhd4E1SWBLTgHD+qsII23C3x2L3zItQXkCGrS2b2PCvI+86RW
+         o1Bg==
+X-Gm-Message-State: AJIora+1WFKKWFnAwY5YPcquJOW28ckbsy/7iz8mDFBKC2pLMSTxene1
+	tIzInYSoQY3V0zmq0BSX4d8=
+X-Google-Smtp-Source: AGRyM1tf6dHvP/4piBoIAhMdMxtYQKzRiL3AmGmYpf47aENlwuoGJoCvcq7wTdgbldWLXnoiTG8NnQ==
+X-Received: by 2002:a5d:5250:0:b0:21b:8b4e:ee54 with SMTP id k16-20020a5d5250000000b0021b8b4eee54mr9248694wrc.624.1655747729719;
+        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id 184-20020a1c02c1000000b0039db31f6372sm19620752wmc.2.2022.06.20.10.55.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Jun 2022 10:55:29 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	samuel@sholland.org
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH 0/7] media: cedrus: h265: Implement tiles support
+Date: Mon, 20 Jun 2022 19:55:10 +0200
+Message-Id: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.36.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220618165747.55709-1-samuel@sholland.org> <20220618165747.55709-3-samuel@sholland.org>
-In-Reply-To: <20220618165747.55709-3-samuel@sholland.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 19 Jun 2022 13:43:59 +0200
-Message-ID: <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
-Subject: Re: [PATCH v4 2/4] Input: pinephone-keyboard - Add PinePhone keyboard driver
-To: Samuel Holland <samuel@sholland.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>, linux-input <linux-input@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Rob Herring <robh+dt@kernel.org>, 
-	Ondrej Jirman <x@xff.cz>, Krzysztof Kozlowski <krzk+dt@kernel.org>, devicetree <devicetree@vger.kernel.org>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Colin Ian King <colin.king@intel.com>, David Gow <davidgow@google.com>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Marco Felsch <m.felsch@pengutronix.de>, 
-	Mattijs Korpershoek <mkorpershoek@baylibre.com>, Stephen Boyd <swboyd@chromium.org>, 
-	Yassine Oudjana <y.oudjana@protonmail.com>, "fengping.yu" <fengping.yu@mediatek.com>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 18, 2022 at 7:10 PM Samuel Holland <samuel@sholland.org> wrote:
->
-> The official Pine64 PinePhone keyboard case contains a matrix keypad and
-> a MCU which runs a libre firmware. Add support for its I2C interface.
+Now that we have full and stable HEVC uAPI, let's implement last big
+missing piece of HEVC in Cedrus - tiles support. This is done in
+last patch. Before that, there are bug fixes (patch 1 & 2, previously
+submitted separately in [1]), error handling improvements (patch 3, 4)
+and added helper for dealing with dynamic arrays (patch 5).
 
-...
+These patches are based on top of [2].
 
-> +#include <linux/crc8.h>
-> +#include <linux/i2c.h>
-> +#include <linux/input/matrix_keypad.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/regulator/consumer.h>
+Final fluster score with this series is 125/147. 11 bitstreams are
+MAIN10, which is not yet properly supported. 5 bitstreams need better
+memory management with auxiliary buffers (wip patches exists). 4 are
+too big and 2 probably fails due to ffmpeg implementation.
 
-Missed
-types.h
+Used ffmpeg source is in [3].
 
-...
+Note - Cedrus driver currently supports only one slice per request since
+HW takes data for 1 slice only. This can be improved by loading data for
+next slice automatically after HW signalled end of decoding. Something
+for later.
 
-> +#define PPKB_ROWS                      6
-> +#define PPKB_COLS                      12
+Please take a look.
 
-...
+Best regards,
+Jernej
 
-> +       for (col = 0; col < PPKB_COLS; ++col) {
-> +               u8 old = old_buf[1 + col];
-> +               u8 new = new_buf[1 + col];
-> +               u8 changed = old ^ new;
-> +
-> +               if (!changed)
-> +                       continue;
-> +
-> +               for (row = 0; row < PPKB_ROWS; ++row) {
-> +                       u8 mask = BIT(row);
-> +                       u8 value = new & mask;
-> +                       unsigned short code;
-> +                       bool fn_state;
-> +
-> +                       if (!(changed & mask))
-> +                               continue;
-> +
-> +                       /*
-> +                        * Save off the FN key state when the key was pressed,
-> +                        * and use that to determine the code during a release.
-> +                        */
-> +                       fn_state = value ? ppkb->fn_pressed : ppkb->fn_state[col] & mask;
-> +                       if (fn_state)
-> +                               ppkb->fn_state[col] ^= mask;
+[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
+[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
+[3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
 
-Can't it be converted to use bitmap APIs?
+Jernej Skrabec (7):
+  media: cedrus: h265: Fix flag name
+  media: cedrus: h265: Fix logic for not low delay flag
+  media: cedrus: Improve error messages for controls
+  media: cedrus: Add error handling for failed setup
+  media: cedrus: h265: Add a couple of error checks
+  media: cedrus: Add helper for determining number of elements
+  media: cedrus: h265: Implement support for tiles
 
-> +               }
-> +       }
-
-...
-
-> +static int ppkb_set_scan(struct i2c_client *client, bool enable)
-> +{
-> +       struct device *dev = &client->dev;
-> +       int ret, val;
-> +
-> +       ret = i2c_smbus_read_byte_data(client, PPKB_SYS_CONFIG);
-> +       if (ret < 0) {
-> +               dev_err(dev, "Failed to read config: %d\n", ret);
-> +               return ret;
-> +       }
-> +
-> +       if (enable)
-> +               val = ret & ~PPKB_SYS_CONFIG_DISABLE_SCAN;
-> +       else
-> +               val = ret | PPKB_SYS_CONFIG_DISABLE_SCAN;
-> +       ret = i2c_smbus_write_byte_data(client, PPKB_SYS_CONFIG, val);
-> +       if (ret) {
-> +               dev_err(dev, "Failed to write config: %d\n", ret);
-
-> +               return ret;
-> +       }
-> +
-> +       return 0;
-
-return ret;
-
-> +}
-
-...
-
-> +static int ppkb_open(struct input_dev *input)
-> +{
-> +       struct i2c_client *client = input_get_drvdata(input);
-
-> +       int ret;
-> +
-> +       ret = ppkb_set_scan(client, true);
-> +       if (ret)
-> +               return ret;
-> +
-> +       return 0;
-
-  return ppkb_set_scan(...);
-
-> +}
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  28 +++-
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |   7 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  25 ++-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |   5 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  | 153 ++++++++++++++++--
+ .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   4 +-
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |   3 +-
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   |   5 +-
+ 8 files changed, 204 insertions(+), 26 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.36.1
+
