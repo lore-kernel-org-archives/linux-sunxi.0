@@ -1,41 +1,41 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B67C3D6E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C6D3D75
 	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:14 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id w17so16065939wrg.7
+Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
         for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=y97fwLubKQPhfVzVr/BJ8A0OiHWSUnBqrgJCFHiEuQo=;
-        b=N5XPG9OplADmbLH0pHfxycXOk0ogBS6as/63+9NbBIR+tpKjwFF8jaDqvXytgN7eFN
-         iCIGHlH+jU+vvt27pchv5bzTabl6azkQzKY7vFkafPwH50QQyWfkBzOGOCCVxQXhvncE
-         YaWxNzKfmxeTvJUbcVoUMVUAWlE3JvZZ4lB+5+QyyAHS3e43yyMBrnmUQcQabmJqyNxu
-         yz5S4TVH2O8DPD2Rf80CaJq7lQH+C0gh4FsLbgYgRXSmVebkFxyjrNjhCPP76XpsYQIa
-         zUI7t6/WnGNbz1TtlV3gFxQsN1aO4fpmL8EGt0pWJOiQvv0pEELOjmzyWY2VXTtrFst3
-         zOhg==
+        bh=dbyvlkbY4sJOjh3UQdGyOPNGXQQ/y7Irc+C1CWkw+ak=;
+        b=O31tT53sO/Sz1zUUmz4+b7clogfECSiQb9wF145zFCWeos95kyFGhyMNr0ihPdqpqx
+         bJc50KM0wIrtRqZCqzGADVF4M3k1QjGTHVo1VYjGwT74JLbT3B4kvTSheNe818VtY8DZ
+         HDqJJzSXulU9aA8Q7p64IRscmVk+LyazVQczqtnvFpnAbVUfczXyJXpSX6rv84tpA2ID
+         Fp6mzmh7R3C0ofGj++M07N5Nk1RQvkOi9t24WmMCnaJkp1Xa/s9Jij2cEafhCNNYBn56
+         seJUbVNIALw9YCjjSnuje4l/jDR/w2Hi2qVNJRlUiL9Bqsun5VReJR/qIIMDhEg6iASO
+         mm4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=y97fwLubKQPhfVzVr/BJ8A0OiHWSUnBqrgJCFHiEuQo=;
-        b=6IHifKMyjsvTTPg7hSHXdsUFbF3jR0k54NT3qgpL3TYVsqjcAUAOfmymrOFQlEdNLE
-         LqyYuCMxvFbRRZVKpsOnnXWHEOgo5vX5JvY/FpuFq7OrdgH5ETnTFfZYBQrLOChuF3+M
-         XZKHbNGZu9ERroNQle44utIqlJ/IecuT8EriefiVb8yvkXVGITT6ED/m6kEH8VHBFki+
-         ln5j2H0ca17Y5spffziwfHb7Hk5aMHE0YJ4Kw60GdHMWKsTRTakEmTbsiB3GA+V6lz0m
-         3p9wK8PCcHFvokCNG5Vj+VkqLS01ejL6drl5+om0QVYsF7yaS8oBieAVP2apI2haZo/u
-         mpZw==
-X-Gm-Message-State: AJIora9aZIAGYbo8PcXHgXYoeVVtdY2F/03vh9b0kneFWxswr01Hm1uL
-	VE7dBa3GMvKez839AIz9m94=
-X-Google-Smtp-Source: AGRyM1snTNRqPq+iZgzXYj3YO4MyMbr+ecuPp+zCi4PLi5xytxdvLNbc3QFI/5y6NXWpWtWF0rRckQ==
-X-Received: by 2002:a5d:5e92:0:b0:21a:278c:b901 with SMTP id ck18-20020a5d5e92000000b0021a278cb901mr24824370wrb.461.1655755632740;
-        Mon, 20 Jun 2022 13:07:12 -0700 (PDT)
+        bh=dbyvlkbY4sJOjh3UQdGyOPNGXQQ/y7Irc+C1CWkw+ak=;
+        b=zK3rH7gZZWkGR9+o4Xa/e0ugFk9fjCUhsWmFWQH2wGek+XN+cRND8HjR/V6snVxVXj
+         xb93OnEqyg8V8Uz9OpSJg6fFlP+HBOeyjW2+klW4pTFJyg/xDmkwmurkDAEj5bC+RPJH
+         yHewqH949If1kTPTKiby9MEshHrX4JtbexdweTQ+a2Doj3m8rwyiOdPqTEJ+I9BZmssU
+         fmkufnDB23mkkmiBfq1mxRtR+9v2AH9q6jjK9xoawkJDZ4M3TT74wYEIqt1QJ4BgZ3uH
+         Cl4nVURpCgnKFpLK8jPZHg38rXMmP3b4Rlta/G4w2kUkaQbG+tjaC/tWXxgYqAyeP7bp
+         YWRQ==
+X-Gm-Message-State: AJIora92EMdpcuSOu/I3AEPEniKyU+mCCsAOYtXF+59mZvLUG4z0ke/y
+	qK3XUN/kAwVfhncnMPZ6NOM=
+X-Google-Smtp-Source: AGRyM1txLq4Tx5IKJyl2yL+hQwHqEppU3pzgOBeDxgV9FsOmPyXZOlr03TOSB7o38hDoIT4MKowqhA==
+X-Received: by 2002:a5d:588d:0:b0:218:4d0e:b89 with SMTP id n13-20020a5d588d000000b002184d0e0b89mr24292034wrf.58.1655755634413;
+        Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id c5-20020a05600c0a4500b0039c4ba160absm33779394wmq.2.2022.06.20.13.07.12
+        by smtp.gmail.com with ESMTPSA id n68-20020a1c2747000000b0039c5a765388sm15705645wmn.28.2022.06.20.13.07.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:12 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 36/49] extcon: sm5502: drop useless mask_invert flag on irqchip
-Date: Mon, 20 Jun 2022 21:06:31 +0100
-Message-Id: <20220620200644.1961936-37-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 37/49] extcon: rt8973a: drop useless mask_invert flag on irqchip
+Date: Mon, 20 Jun 2022 21:06:32 +0100
+Message-Id: <20220620200644.1961936-38-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,29 +93,21 @@ is the default value from zero initialization.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/extcon/extcon-sm5502.c | 2 --
- 1 file changed, 2 deletions(-)
+ drivers/extcon/extcon-rt8973a.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/extcon/extcon-sm5502.c b/drivers/extcon/extcon-sm5502.c
-index f706f5288257..8401e8b27788 100644
---- a/drivers/extcon/extcon-sm5502.c
-+++ b/drivers/extcon/extcon-sm5502.c
-@@ -227,7 +227,6 @@ static const struct regmap_irq_chip sm5502_muic_irq_chip = {
- 	.name			= "sm5502",
- 	.status_base		= SM5502_REG_INT1,
- 	.mask_base		= SM5502_REG_INTMASK1,
+diff --git a/drivers/extcon/extcon-rt8973a.c b/drivers/extcon/extcon-rt8973a.c
+index 40c07f4d656e..02ba770acb27 100644
+--- a/drivers/extcon/extcon-rt8973a.c
++++ b/drivers/extcon/extcon-rt8973a.c
+@@ -192,7 +192,6 @@ static const struct regmap_irq_chip rt8973a_muic_irq_chip = {
+ 	.name			= "rt8973a",
+ 	.status_base		= RT8973A_REG_INT1,
+ 	.mask_base		= RT8973A_REG_INTM1,
 -	.mask_invert		= false,
  	.num_regs		= 2,
- 	.irqs			= sm5502_irqs,
- 	.num_irqs		= ARRAY_SIZE(sm5502_irqs),
-@@ -276,7 +275,6 @@ static const struct regmap_irq_chip sm5504_muic_irq_chip = {
- 	.name			= "sm5504",
- 	.status_base		= SM5502_REG_INT1,
- 	.mask_base		= SM5502_REG_INTMASK1,
--	.mask_invert		= false,
- 	.num_regs		= 2,
- 	.irqs			= sm5504_irqs,
- 	.num_irqs		= ARRAY_SIZE(sm5504_irqs),
+ 	.irqs			= rt8973a_irqs,
+ 	.num_irqs		= ARRAY_SIZE(rt8973a_irqs),
 -- 
 2.35.1
 
