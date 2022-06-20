@@ -1,41 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F38413D6E
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:07 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id n185so6369435wmn.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:07 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7283D6E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:11 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id i81-20020a1c3b54000000b0039c76434147so8282893wma.1
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ioRXJqRjZqDXf4uhS+zPl4sLu26/rBgrPA3q0xnI1Pk=;
-        b=bnHiwq/OClrzuqi/qkl++cxkoDtbanVKeopfnQWVzhU6b4gvB+73xPfwfecrFvG0fg
-         c94hGekA8YHpGAXe9zm4qRYYRU0MygrSlEa2zYIu7XgB36o7uYhJEoYrROKQmUBSIY4o
-         GC/IaRLTd6YmBywt5HAzxlmtbcVviB558rpnzU3IVr9JxhUY6/cumMLeOBejkhO41DwT
-         DsEaO5ReO1eTDEIa8hszhVJBZB5Hbw7MzANj+u8x+/yO6D10YAQ3WQUnywEkt8FEYgLt
-         +TQ57DgXgy4ZTyDpkcfoqzaf3zEuCixQ6UraTBXfq3S+ppuoQQgmhycH0ATq77SlYom2
-         h4rg==
+        bh=FJAftx/p0C7OJqXldJ+ksCvuM2Jz1/dLJXnCMlN2VIw=;
+        b=SqSwnGBcriuBOSFplaryTgzwQV9etoBhh79kFYweRlmDdxQeRvrcZhZxeGzYrNQvjK
+         69NE66snB8AAFxosGQi32hwg8wAh/0UlVrRlylnlYpF3UP2foQigCMMdDJ2hf1VoUcQw
+         IGJhoucIfU9bShmNTRIW7SeERFLMl9SzWwa/gkuyhaNnZGAegN5/b8AD7xgZbr+q96V3
+         wIZE74xoK0opWS9DO77kd+xhhjv05vYGMC2P4dGUBy6pWp5QiJg6JRI3NjoqvsL5Fuv7
+         /rYrzhVG+vkyLBPngH5EcdERxjCI3qHqaUK8MI70z8mDb7VK4k5Utxh9mIEOvpvvGk/6
+         VkjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ioRXJqRjZqDXf4uhS+zPl4sLu26/rBgrPA3q0xnI1Pk=;
-        b=eB1qtMtL8t0fBDEsGEPzJ3E1FTvgl2paRVOnaK9SW1kpfwvTE3ol8EMd8GNdOILUwy
-         bjVT84nDNcT9/eHXreSvZ8OKRH2NOwOOPdtne5ZF0OLK3xzVagZ0ZhqplRL9AqOoH7Tk
-         LCeS3/fciR6/p4QwSnhCV6qdgSMS/q0NP+lRy6zKSEcKj+h7ioQVDCgjy+j/+ktubPuD
-         ZbWNFTLVMivdrBjEMjMaFVq4bgCF10hyQIpk1eeLE5TLR52jPMAwJlCI20fGfVDpxUno
-         pwYzeFF9UHqnPwA57G351Eh4OoShbANnpL2/+YeC4Xx2R1qLUmBkuPcivT7aYx0IFkow
-         +loQ==
-X-Gm-Message-State: AOAM533KRN5XEwX90B5jYKy9WBIpXTvnstjSAh+kjKBvELTCDSQ0atdV
-	eg3lK8r3CRptzmBFNWbzno4=
-X-Google-Smtp-Source: ABdhPJyk2pG0lVa2PXgg+IL73pDXXybyl784/0CAFzghroiptrtMxz7E7l4unjYw5iEqpwxxNZmr7A==
-X-Received: by 2002:a1c:4c0d:0:b0:39c:5233:1873 with SMTP id z13-20020a1c4c0d000000b0039c52331873mr37323556wmf.28.1655755627588;
-        Mon, 20 Jun 2022 13:07:07 -0700 (PDT)
+        bh=FJAftx/p0C7OJqXldJ+ksCvuM2Jz1/dLJXnCMlN2VIw=;
+        b=eS0JbT28ViwgafLHeogQNwa6eFZqE1wfQiGieXvJMj9vzgWtIKk96R8Y/DVT5KEbWO
+         MbL2X9NnoyOIdT38x9uuQRNfy7Daz7+rotxoo7AyvCro+dfVzpj+Ikl9WLItsEs4OtMp
+         YVwVSKqonjnVbqa+1r+18ImFgrSStAnSkVly/YXgfABwFdjiqRspLAe0n/se9q3qZ6pE
+         3wCDbGnlQ55gks6t6q/k1lFah9VXsxeMezCHGmHwixlgoN/b6Ewnb8/fTRxLOzuTUNP8
+         ePTNZwRCvRYpf2EU+fecjn1Swcm+EEqNPVXVVYu1csMRboiEwTO/U2NeOq5JERPl4CA/
+         UZaQ==
+X-Gm-Message-State: AJIora/myzYtsE41PuDl322tFh4kaE6uVCeBc1rfJOc2waBbbMwDcJdP
+	YypWKYI5UyB26TYrV5AgigI=
+X-Google-Smtp-Source: AGRyM1uYqQE7GmYoWseO34ZpgDLrPdxmQJYvkYR87njx8ZglDl7MI8oKPbgMJxyF1RluTFoj9tUheA==
+X-Received: by 2002:a1c:c909:0:b0:3a0:1725:619d with SMTP id f9-20020a1cc909000000b003a01725619dmr5451578wmb.19.1655755629537;
+        Mon, 20 Jun 2022 13:07:09 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id o10-20020a1c4d0a000000b003942a244ee6sm15738587wmh.43.2022.06.20.13.07.06
+        by smtp.gmail.com with ESMTPSA id q7-20020adf9dc7000000b0020cdcb0efa2sm7500229wre.34.2022.06.20.13.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:07 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:09 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 33/49] mfd: rohm-bd718x7: drop useless mask_invert flag on irqchip
-Date: Mon, 20 Jun 2022 21:06:28 +0100
-Message-Id: <20220620200644.1961936-34-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 34/49] mfd: max77843: drop useless mask_invert flag on irqchip
+Date: Mon, 20 Jun 2022 21:06:29 +0100
+Message-Id: <20220620200644.1961936-35-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,21 +93,21 @@ is the default value from zero initialization.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/rohm-bd718x7.c | 1 -
+ drivers/mfd/max77843.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/drivers/mfd/rohm-bd718x7.c b/drivers/mfd/rohm-bd718x7.c
-index bfd81f78beae..ad6c0971a997 100644
---- a/drivers/mfd/rohm-bd718x7.c
-+++ b/drivers/mfd/rohm-bd718x7.c
-@@ -70,7 +70,6 @@ static struct regmap_irq_chip bd718xx_irq_chip = {
- 	.mask_base = BD718XX_REG_MIRQ,
- 	.ack_base = BD718XX_REG_IRQ,
- 	.init_ack_masked = true,
--	.mask_invert = false,
- };
- 
- static const struct regmap_range pmic_status_range = {
+diff --git a/drivers/mfd/max77843.c b/drivers/mfd/max77843.c
+index 209ee24d9ce1..4da58eab1603 100644
+--- a/drivers/mfd/max77843.c
++++ b/drivers/mfd/max77843.c
+@@ -59,7 +59,6 @@ static const struct regmap_irq_chip max77843_irq_chip = {
+ 	.name		= "max77843",
+ 	.status_base	= MAX77843_SYS_REG_SYSINTSRC,
+ 	.mask_base	= MAX77843_SYS_REG_SYSINTMASK,
+-	.mask_invert	= false,
+ 	.num_regs	= 1,
+ 	.irqs		= max77843_irqs,
+ 	.num_irqs	= ARRAY_SIZE(max77843_irqs),
 -- 
 2.35.1
 
