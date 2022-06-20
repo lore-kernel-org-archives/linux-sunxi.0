@@ -1,49 +1,49 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7603205
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 18:28:49 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id m1so8039474wrb.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 11:28:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3253D6E;
+	Mon, 20 Jun 2022 19:54:16 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id n1so15804799wrg.12;
+        Mon, 20 Jun 2022 12:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EbH61xgbcQFZqiKdtF3EiTrlMIA03mVcXgcJh8nFhYw=;
-        b=mSQEmLJ0Fn5QVozsHIogGY5NXi+9CJYGRIz8gpuc1yRs1WXusV7NLcUOAPe/oDHd+p
-         CGfunJlCmJ3FttTozAiBihvuQo80brGH5cxd7esS/dJ8+prrLrD9NYWnUklcB1Wn/L9D
-         4xSjQZ8Ht1+2KVRUzP+G9tpz8dK5qZdWFtEcKKIo3UWWd5lQCv7rPsKZhCW5toVy38+V
-         HzYrtpJ5nPWn9oymuE5UJnlGqTc5qT4epprO+dTLcXI+5zwNJsTsQNUu7WMD9R9VluLf
-         yzP0plxjqlwIb92S1XFNdmlBBMjgngHOZahcjJtaSnvziwMaVFoUKTmPGRSoHc1Y+Zlh
-         1dxA==
+        bh=s2WOQUH0wXSdYV78PK0Csxc8qJyHls+YdgLQRT9Q8rg=;
+        b=miAYxyNOGr4WuC7CQuRPsnYVVf7RSPCkPV9973meC08nyP9OtGJ6RXFsa8d7m45Fm+
+         hoS1clWlitq5K43xX0bZUaWF0Dpwy+BB1yHppd4dmbQRIvz3a0Klzia1wZ3WUt7CPj4I
+         tY2KxPiN6tI1/B6WoZNcQZJ+R7B0bxRgq5JfIJC+dlDddOJs58m9zBGaPvscJIir6NZm
+         8n17gbnSTCQ0Yy55MYqVbGOx8wz5CZvWaJBPIfmh3ZXSWODq+C6LQlsaLo/P/q8630Y7
+         W8u5OaI4n+LMk6/XoJSOT+OGFX/TA1nA1OCG7BQu0wJFM8uTy4Db8TIFDw7fjOBq8aHv
+         v8hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EbH61xgbcQFZqiKdtF3EiTrlMIA03mVcXgcJh8nFhYw=;
-        b=h952O/0RbJWT7jnt05U4UWXxmhipFkGQEApV5MQAJIO+YgZFzeWyID1Vm5fhE3fcHr
-         89qODVpXd4+uqTdvchH2YcEoaLCHhxUau7SPKyYgphftpMtHY6UwTNziwM5CBjMSTIcp
-         UQRC8JNZ4Qf+KVofMzT0YYA0X4M7AXb36uBOY1FiRFiyc25Ka3cPWnIiIGXCBzGVe3c7
-         bMdLwTALZf5A9GPWHgYgPDnk8NyY4tWh8vamO/IxehiCMFkFcQXAr+BXY/WZkxOzPCaq
-         +/k2jXcEz8CiFa6ZlphgFUjPWfjrPU/B3WsKmGMoSNkgdtGWSIgaD/jxoyac2EcmoIzp
-         9fKQ==
-X-Gm-Message-State: AJIora/qiHWe7BLQDjGV5IKU8m6vcYiDpPpTn5QICCVmKbnC4J1Uf+go
-	RuAileBCOGT7CqIBvtBvGMI=
-X-Google-Smtp-Source: AGRyM1t14bVeWv+aaSXZzdp98dSIn+wgQmnAILYuJY07t+yPD4z3EwzouaR/YGr9cTVVtwEooMSWGA==
-X-Received: by 2002:a5d:584c:0:b0:218:4ee2:38fd with SMTP id i12-20020a5d584c000000b002184ee238fdmr24050138wrf.584.1655749727868;
-        Mon, 20 Jun 2022 11:28:47 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id l8-20020a1ced08000000b0039744bd664esm19254682wmh.13.2022.06.20.11.28.46
+        bh=s2WOQUH0wXSdYV78PK0Csxc8qJyHls+YdgLQRT9Q8rg=;
+        b=vBxpbKtbSUhew+OXDg6xduhccC2QSzmaF/vf+aoSJSa4Ll2MA3Q22gJ1gwLHcIEY5X
+         Ey9CszybWqNpBQuukNWWFNyVBAmdMCnZefvWyZPF84ELFKeNDQLXELtx2gaWMyQS3Jsy
+         q83h+QkFczmm03zpyytDApARs3icay0gkxjzVjqHik/zdbq8OpvKVDdS+nG5TnP3SSXG
+         jW4eUUdvBPVtd0bGbFxmp4PbAy7aOw93hLGnH7sn1vwkTHbsx0EjN7oQuw81wqRzrzvi
+         BtB14ZWKEAIDu/7CO6l47GCC1c5VkplJn9yUL0oGfFCdFwsyaLKtgNwFa2oDfon69Rnv
+         haeQ==
+X-Gm-Message-State: AJIora9W4MKcGfcvRbHxQkVg20UAqONZI6L2J31/QNQA8/DrdNIrDTC6
+	MtaAg6sUUkI3oaaWIe8w9Kw=
+X-Google-Smtp-Source: AGRyM1swaMVmkvG35QSSlyaKvF4+h/fJGbr8Dk32vCzFNayDWA3Oms7SncdE5PLQv7zzWK7tV6Sspw==
+X-Received: by 2002:a5d:5941:0:b0:21a:342d:510f with SMTP id e1-20020a5d5941000000b0021a342d510fmr22671176wri.700.1655754855039;
+        Mon, 20 Jun 2022 12:54:15 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id t5-20020a05600001c500b0020d106c0386sm5806017wrx.89.2022.06.20.12.54.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 11:28:47 -0700 (PDT)
+        Mon, 20 Jun 2022 12:54:14 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] dmaengine: sun6i: Set the maximum segment size
-Date: Mon, 20 Jun 2022 20:28:46 +0200
-Message-ID: <3494277.R56niFO833@kista>
-In-Reply-To: <20220617034209.57337-1-samuel@sholland.org>
-References: <20220617034209.57337-1-samuel@sholland.org>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v9 14/17] media: hantro: Stop using Hantro dedicated control
+Date: Mon, 20 Jun 2022 21:54:12 +0200
+Message-ID: <11999002.O9o76ZdvQC@jernej-laptop>
+In-Reply-To: <20220617083545.133920-15-benjamin.gaignard@collabora.com>
+References: <20220617083545.133920-1-benjamin.gaignard@collabora.com> <20220617083545.133920-15-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,57 +53,186 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 17. junij 2022 ob 05:42:09 CEST je Samuel Holland napisal(a):
-> The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
-> explicitly stated in newer SoC documentation (H6, D1), and it is implied
-> in older documentation by the 25-bit width of the "bytes left in the
-> current segment" register field.
+Dne petek, 17. junij 2022 ob 10:35:42 CEST je Benjamin Gaignard napisal(a):
+> The number of bits to skip in the slice header can be computed
+> in the driver by using sps, pps and decode_params information.
+> This makes it possible to remove Hantro dedicated control.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+> version 9:
+> - Reword commit message
+> - Use fls()
+> 
+>  drivers/staging/media/hantro/hantro_drv.c     | 36 ------------------
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c | 37 ++++++++++++++++++-
+>  include/media/hevc-ctrls.h                    | 13 -------
+>  3 files changed, 36 insertions(+), 50 deletions(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c
+> b/drivers/staging/media/hantro/hantro_drv.c index
+> 536c8c374952..5aac3a090480 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -304,26 +304,6 @@ static int hantro_jpeg_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+> 
+> -static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
+> -{
+> -	struct hantro_ctx *ctx;
+> -
+> -	ctx = container_of(ctrl->handler,
+> -			   struct hantro_ctx, ctrl_handler);
+> -
+> -	vpu_debug(1, "s_ctrl: id = %d, val = %d\n", ctrl->id, ctrl->val);
+> -
+> -	switch (ctrl->id) {
+> -	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
+> -		ctx->hevc_dec.ctrls.hevc_hdr_skip_length = ctrl->val;
+> -		break;
+> -	default:
+> -		return -EINVAL;
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  static const struct v4l2_ctrl_ops hantro_ctrl_ops = {
+>  	.try_ctrl = hantro_try_ctrl,
+>  };
+> @@ -332,10 +312,6 @@ static const struct v4l2_ctrl_ops hantro_jpeg_ctrl_ops
+> = { .s_ctrl = hantro_jpeg_s_ctrl,
+>  };
+> 
+> -static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops = {
+> -	.s_ctrl = hantro_hevc_s_ctrl,
+> -};
+> -
+>  #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_APP0 | 
+\
+>  					 
+V4L2_JPEG_ACTIVE_MARKER_COM | \
+>  					 
+V4L2_JPEG_ACTIVE_MARKER_DQT | \
+> @@ -487,18 +463,6 @@ static const struct hantro_ctrl controls[] = {
+>  		.cfg = {
+>  			.id = 
+V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
+>  		},
+> -	}, {
+> -		.codec = HANTRO_HEVC_DECODER,
+> -		.cfg = {
+> -			.id = 
+V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
+> -			.name = "Hantro HEVC slice header skip 
+bytes",
+> -			.type = V4L2_CTRL_TYPE_INTEGER,
+> -			.min = 0,
+> -			.def = 0,
+> -			.max = 0x100,
+> -			.step = 1,
+> -			.ops = &hantro_hevc_ctrl_ops,
+> -		},
+>  	}, {
+>  		.codec = HANTRO_VP9_DECODER,
+>  		.cfg = {
+> diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c index
+> d28653d04d20..9eac133bda68 100644
+> --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
+> @@ -117,6 +117,41 @@ static void prepare_tile_info_buffer(struct hantro_ctx
+> *ctx) vpu_debug(1, "%s: no chroma!\n", __func__);
+>  }
+> 
+> +static int compute_header_skip_lenght(struct hantro_ctx *ctx)
 
-At least A10 user manual says 128k max in description for Byte Counter 
-register (0x100+N*0x20+0xC), although field size is defined as 23:0, but that's 
-still less than 2^25-1. A20 supports only 128k too according to manual. New 
-quirk should be introduced for this.
+lenght -> length
 
 Best regards,
 Jernej
 
-> 
-> Exposing the real segment size limit (instead of the 64k default)
-> reduces the number of SG list segments needed for a transaction.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> Tested on A64, verified that the maximum ALSA PCM period increased, and
-> that audio playback still worked.
-> 
->  drivers/dma/sun6i-dma.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> index b7557f437936..1425f87d97b7 100644
-> --- a/drivers/dma/sun6i-dma.c
-> +++ b/drivers/dma/sun6i-dma.c
-> @@ -9,6 +9,7 @@
->  
->  #include <linux/clk.h>
->  #include <linux/delay.h>
-> +#include <linux/dma-mapping.h>
->  #include <linux/dmaengine.h>
->  #include <linux/dmapool.h>
->  #include <linux/interrupt.h>
-> @@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_device 
-*pdev)
->  	INIT_LIST_HEAD(&sdc->pending);
->  	spin_lock_init(&sdc->lock);
->  
-> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(25));
+> +{
+> +	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> +	const struct v4l2_ctrl_hevc_decode_params *decode_params =
+> ctrls->decode_params; +	const struct v4l2_ctrl_hevc_sps *sps = ctrls->sps;
+> +	const struct v4l2_ctrl_hevc_pps *pps = ctrls->pps;
+> +	int skip = 0;
 > +
->  	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
->  	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
->  	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
-> -- 
-> 2.35.1
+> +	if (pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT)
+> +		/* size of pic_output_flag */
+> +		skip++;
+> +
+> +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE)
+> +		/* size of pic_order_cnt_lsb */
+> +		skip += 2;
+> +
+> +	if (!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_PIC)) 
+{
+> +		/* size of pic_order_cnt_lsb */
+> +		skip += sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
+> +
+> +		/* size of short_term_ref_pic_set_sps_flag */
+> +		skip++;
+> +
+> +		if (decode_params->short_term_ref_pic_set_size)
+> +			/* size of st_ref_pic_set( 
+num_short_term_ref_pic_sets ) */
+> +			skip += decode_params-
+>short_term_ref_pic_set_size;
+> +		else if (sps->num_short_term_ref_pic_sets > 1)
+> +			skip += fls(sps->num_short_term_ref_pic_sets 
+- 1);
+> +
+> +		skip += decode_params->long_term_ref_pic_set_size;
+> +	}
+> +
+> +	return skip;
+> +}
+> +
+>  static void set_params(struct hantro_ctx *ctx)
+>  {
+>  	const struct hantro_hevc_dec_ctrls *ctrls = &ctx->hevc_dec.ctrls;
+> @@ -134,7 +169,7 @@ static void set_params(struct hantro_ctx *ctx)
 > 
+>  	hantro_reg_write(vpu, &g2_output_8_bits, 0);
 > 
+> -	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls-
+>hevc_hdr_skip_length);
+> +	hantro_reg_write(vpu, &g2_hdr_skip_length,
+> compute_header_skip_lenght(ctx));
+> 
+>  	min_log2_cb_size = sps->log2_min_luma_coding_block_size_minus3 + 
+3;
+>  	max_log2_ctb_size = min_log2_cb_size +
+> sps->log2_diff_max_min_luma_coding_block_size; diff --git
+> a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h index
+> 42d16e8a1050..9239e8b649e0 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -465,17 +465,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
+>  	__u8	scaling_list_dc_coef_32x32[2];
+>  };
+> 
+> -/*  MPEG-class control IDs specific to the Hantro driver as defined by V4L2
+> */ -#define V4L2_CID_CODEC_HANTRO_BASE				
+(V4L2_CTRL_CLASS_CODEC | 0x1200)
+> -/*
+> - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
+> - * the number of data (in bits) to skip in the
+> - * slice segment header.
+> - * If non-IDR, the bits to be skipped go from syntax element
+> "pic_output_flag" - * to before syntax element
+> "slice_temporal_mvp_enabled_flag".
+> - * If IDR, the skipped bits are just "pic_output_flag"
+> - * (separate_colour_plane_flag is not supported).
+> - */
+> -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	
+(V4L2_CID_CODEC_HANTRO_BASE
+> + 0) -
+>  #endif
+
+
 
 
