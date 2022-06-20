@@ -1,41 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5FE3D6E
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:27 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id q9so16081708wrd.8
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC673D75
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:28 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=rE0XsHvuQMGHkh+DWN4I0u4Mry72SZTz94U/AwkKe64=;
-        b=R2nM9gpViD7RpxZufBEYDf0sqKPJn+Vqc0jUeZDkwV0e+SnITT7LfK/9yzWVU5IQhu
-         aA8WUpzc6J0Qf7iIoRilFZEWo0nV5HsEN4NblRAipOFGBlQ/fSulqH247JQGB+Vbnmz6
-         u+j2et5Rf+Emw9sgGoIp8Ua1g6/wgIJuStK0XWLJu64d2gAGwoDQCdtaVYypYAWvkfQX
-         jXux0apgjHCpI8qq2XpRhrhdyFsE0YxHMLP8R6wnnvs9dQt5nl7aqrNMv0hrLaXmrugZ
-         kyh9aob6sQAuWXwqPokSAhhl/C8pUOash7nUyLmMzRyTrdLb7ZhEwWLRjTGZ/E7DshAW
-         tGSQ==
+        bh=klzG1EiAdFscBZBcoCzDKMr3GKqX2S6ab3hLTukICYA=;
+        b=l4GFUZrKtyjWTlZn2W6sbNe7RkJpSisjb5nPFCMRsK4VVftYk11OQgyGsUsVQOVVxd
+         WveltYUyuvOFbYFUdYhxpXNuxE4S4YCumzKcvnxPGX4OsA13JEey1GXiYfj+BN3FyuAk
+         YoyM6iFFHOgbk2ykc+NDEEHh/n23+NkaBHDoIRTmULng90YVn+qOGMdpsjX8phANF5/i
+         sk5OxAxVvNJ2GPbb6NqRjZvP8u6Pf1FxTRCjPvzgHPcXQnzfgqR8rhEIYzbMNaK4cAp6
+         yiv/olpO3Koxh4OhoUfRvU3fEVkmdETxuX090a9/gNWOJYRM4fDVw5XWJYzxI9yxqfA6
+         IXWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=rE0XsHvuQMGHkh+DWN4I0u4Mry72SZTz94U/AwkKe64=;
-        b=j7T6k7BrG5XhV9H9kaZaD8UVvB9kMf+SXgZLPeQWTeSeIs23oL58yRSjeWVK7MQPw/
-         qnKyGmUHvy6/YCw5jiT9UpIeamM2Wv4BDoc9/nFMlqtlVQSdUHSN2MalopWSNZUyVX4Y
-         b0HTPJbuM43c6PrjUVSAn1rr8tHee3ZwR53oPA4Du3O+sCPDIu7IY0a/jNtaBbeRs4q9
-         viZsftbZsU60mIf8VQ/r7Vw44fyT/TpdAIvVR2r68oQ+loD6nRO0+TSD7nl2dankhxU9
-         gOuMlGlp7cgpgoRo/4xADcnB0jaa/R3j5HeaMTYxanXKO5G2B3LwbwkIkrUcq7WKIoYq
-         F22g==
-X-Gm-Message-State: AJIora+lsZglrJ3WtJ8WAKllpRLiqbCtS8JQf/UW0mKmaal39PTSqoUe
-	OsFufWkhTtqVniJsBfrbbf/lT+Bed+0=
-X-Google-Smtp-Source: AGRyM1utPBE8XYxoB7U0xnTciGPQVtQTgTqRZ99c6POU/yfZ+JPXfl21N1f7SnJeHKblgblpcXVNWQ==
-X-Received: by 2002:a5d:5481:0:b0:21a:3573:def0 with SMTP id h1-20020a5d5481000000b0021a3573def0mr23413256wrv.28.1655755646148;
-        Mon, 20 Jun 2022 13:07:26 -0700 (PDT)
+        bh=klzG1EiAdFscBZBcoCzDKMr3GKqX2S6ab3hLTukICYA=;
+        b=eY89QEVhSBgVY4IvZGXCXiIWYPNdHSAq9F1y/a/rbb1BOwnJL8xIC2CEy1uqMDO/va
+         KqNzW1S3B0LxbtFZcIfe0crPzg6bojms415de0ROsGj9+3+qvsXWjL6brn812/G6pePe
+         vzIBdvISLSKX9S5W1cV3miaRFHsbPXQ+wj5Msr14xHUww3BpZYWeCXSHkbysXc6FUTDK
+         9/mbzdwxyikGrxiDR1K+VSnkD4TD7OfCibqFPiYIGGvLebqA5gfBWbD+7KW0Uc0/0Jc0
+         RHLkrNsaXeCCN8QXjjoRD06u/grihStA22U5GzT4GQq+TDvgZ4q2uUiiEiUhTtGbPUp/
+         rd6g==
+X-Gm-Message-State: AJIora9Lly6ePViH25oW3ou6bl+mDJNF7wX3CEhV/5wUxqGZY2gjLztF
+	36X6qfV3GWev4DPbeCwadWo=
+X-Google-Smtp-Source: AGRyM1tNlpsLQBbADqcDPRR01JRNtswf/HBtBf5oihaYlvZj08PdTVfZrZn0YfVlGpD8PsGFQGId1w==
+X-Received: by 2002:a5d:5981:0:b0:218:51ae:8808 with SMTP id n1-20020a5d5981000000b0021851ae8808mr24885992wri.244.1655755648056;
+        Mon, 20 Jun 2022 13:07:28 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id p14-20020a5d48ce000000b0021020517639sm14095785wrs.102.2022.06.20.13.07.25
+        by smtp.gmail.com with ESMTPSA id d3-20020adffbc3000000b0020e6ce4dabdsm14219147wrs.103.2022.06.20.13.07.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:25 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:27 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 44/49] regmap-irq: Remove broken_mask_unmask flag
-Date: Mon, 20 Jun 2022 21:06:39 +0100
-Message-Id: <20220620200644.1961936-45-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 45/49] regmap-irq: Remove mask_invert flag
+Date: Mon, 20 Jun 2022 21:06:40 +0100
+Message-Id: <20220620200644.1961936-46-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -88,47 +88,111 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop broken_mask_unmask flag; no drivers are relying on it anymore.
+An inverted mask register can be represented more directly
+as an unmask register. Drop the redundant mask_invert flag.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/base/regmap/regmap-irq.c | 9 +--------
- include/linux/regmap.h           | 1 -
- 2 files changed, 1 insertion(+), 9 deletions(-)
+ drivers/base/regmap/regmap-irq.c | 30 ++++++++----------------------
+ include/linux/regmap.h           |  2 --
+ 2 files changed, 8 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
-index 082a2981120c..8a718615fd09 100644
+index 8a718615fd09..0a8edaee064a 100644
 --- a/drivers/base/regmap/regmap-irq.c
 +++ b/drivers/base/regmap/regmap-irq.c
-@@ -723,15 +723,8 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+@@ -30,9 +30,6 @@ struct regmap_irq_chip_data {
+ 	int irq;
+ 	int wake_count;
  
- 	/*
- 	 * Swap role of mask_base and unmask_base if mask bits are inverted.
--	 *
--	 * Historically, chips that specify both mask_base and unmask_base
--	 * got inverted mask behavior; this was arguably a bug in regmap-irq
--	 * and there was no way to get the normal, non-inverted behavior.
--	 * Those chips will set the broken_mask_unmask flag. They don't set
--	 * mask_invert so there is no need to worry about interactions with
--	 * that flag.
+-	unsigned int mask_base;
+-	unsigned int unmask_base;
+-
+ 	void *status_reg_buf;
+ 	unsigned int *main_status_buf;
+ 	unsigned int *status_buf;
+@@ -126,8 +123,8 @@ static void regmap_irq_sync_unlock(struct irq_data *data)
+ 	 * suppress pointless writes.
  	 */
--	if (chip->mask_invert || chip->broken_mask_unmask) {
-+	if (chip->mask_invert) {
- 		d->mask_base = chip->unmask_base;
- 		d->unmask_base = chip->mask_base;
- 	} else {
+ 	for (i = 0; i < d->chip->num_regs; i++) {
+-		if (d->mask_base) {
+-			reg = sub_irq_reg(d, d->mask_base, i);
++		if (d->chip->mask_base) {
++			reg = sub_irq_reg(d, d->chip->mask_base, i);
+ 			ret = regmap_irq_update_mask_bits(d, reg,
+ 					d->mask_buf_def[i], d->mask_buf[i]);
+ 			if (ret != 0)
+@@ -135,8 +132,8 @@ static void regmap_irq_sync_unlock(struct irq_data *data)
+ 					reg);
+ 		}
+ 
+-		if (d->unmask_base) {
+-			reg = sub_irq_reg(d, d->unmask_base, i);
++		if (d->chip->unmask_base) {
++			reg = sub_irq_reg(d, d->chip->unmask_base, i);
+ 			ret = regmap_irq_update_mask_bits(d, reg,
+ 					d->mask_buf_def[i], ~d->mask_buf[i]);
+ 			if (ret != 0)
+@@ -721,17 +718,6 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+ 	d->chip = chip;
+ 	d->irq_base = irq_base;
+ 
+-	/*
+-	 * Swap role of mask_base and unmask_base if mask bits are inverted.
+-	 */
+-	if (chip->mask_invert) {
+-		d->mask_base = chip->unmask_base;
+-		d->unmask_base = chip->mask_base;
+-	} else {
+-		d->mask_base = chip->mask_base;
+-		d->unmask_base = chip->unmask_base;
+-	}
+-
+ 	if (chip->irq_reg_stride)
+ 		d->irq_reg_stride = chip->irq_reg_stride;
+ 	else
+@@ -756,8 +742,8 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+ 	for (i = 0; i < chip->num_regs; i++) {
+ 		d->mask_buf[i] = d->mask_buf_def[i];
+ 
+-		if (d->mask_base) {
+-			reg = sub_irq_reg(d, d->mask_base, i);
++		if (d->chip->mask_base) {
++			reg = sub_irq_reg(d, d->chip->mask_base, i);
+ 			ret = regmap_irq_update_mask_bits(d, reg,
+ 					d->mask_buf_def[i], d->mask_buf[i]);
+ 			if (ret != 0) {
+@@ -767,8 +753,8 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
+ 			}
+ 		}
+ 
+-		if (d->unmask_base) {
+-			reg = sub_irq_reg(d, d->unmask_base, i);
++		if (d->chip->unmask_base) {
++			reg = sub_irq_reg(d, d->chip->unmask_base, i);
+ 			ret = regmap_irq_update_mask_bits(d, reg,
+ 					d->mask_buf_def[i], ~d->mask_buf[i]);
+ 			if (ret != 0) {
 diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index 0cf3c4a66946..a3103c88e936 100644
+index a3103c88e936..bb625a1edef9 100644
 --- a/include/linux/regmap.h
 +++ b/include/linux/regmap.h
-@@ -1524,7 +1524,6 @@ struct regmap_irq_chip {
- 	bool clear_on_unmask:1;
- 	bool not_fixed_stride:1;
- 	bool status_invert:1;
--	bool broken_mask_unmask:1;
- 
- 	int num_regs;
- 
+@@ -1462,7 +1462,6 @@ struct regmap_irq_sub_irq_map {
+  * @config_base: Base address for IRQ type config regs. If null unsupported.
+  * @irq_reg_stride:  Stride to use for chips where registers are not contiguous.
+  * @init_ack_masked: Ack all masked interrupts once during initalization.
+- * @mask_invert: Inverted mask register: cleared bits are masked out.
+  * @use_ack:     Use @ack register even if it is zero.
+  * @ack_invert:  Inverted ack register: cleared bits for ack.
+  * @clear_ack:  Use this to set 1 and 0 or vice-versa to clear interrupts.
+@@ -1514,7 +1513,6 @@ struct regmap_irq_chip {
+ 	unsigned int irq_reg_stride;
+ 	bool mask_writeonly:1;
+ 	bool init_ack_masked:1;
+-	bool mask_invert:1;
+ 	bool use_ack:1;
+ 	bool ack_invert:1;
+ 	bool clear_ack:1;
 -- 
 2.35.1
 
