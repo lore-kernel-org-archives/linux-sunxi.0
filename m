@@ -1,41 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 166343D75
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:51 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id c130-20020a1c3588000000b0039c6fd897b4so8271491wma.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10FA3D6E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:53 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id o16so16089094wra.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=83f6yOVGHF33wbJFNUqHVsMRQC83Nm7l3Jffulf5Q20=;
-        b=nSss6m1iZMp9y7Vv5974YLuhhJUZ614v32RzAfng7nP1DgOtE0Apdk3S4hwIYaOcx1
-         golYgrNSS7bRWfwoAUSA5Og7WysO98jLMv2W9IlYLvHZnPWxMcZHBnXlEYNbFGYXAe4h
-         zkX/QFUpTqAkwk57wIfRoBajgsGcPIRZsVFEZEBTCfHJUtpgAuIwl1tCoiFICvSGYFcM
-         iW1sdZy6IBsByUO4a0aRbsf/NzuzhMMy7unrWxcauagegTS75O7aSHLZgHRYpLH0BAZ+
-         4ZZseSMNKYwbZHqZFgQqC8T4HX4zh6g3gg0Rzx4vx6r8K2qxxQIrzGRKLh03m3NFkovC
-         6bHg==
+        bh=/LPf9h09XUJR/z/RdQdPV0VQS/kTyakjP+1OAofeWXA=;
+        b=fwpJrSBMfmFPeeNXJrlpjWlkFshzFm6Y1DWOVq+h4L71A/9e1R5aHmopQ9JlXAYX77
+         p/aPMsuwp0jXJ6JA/lErm+8RcPw1nwj/qzcNe82rYLGJJE87iMHlnWgUuO98N/3+uLWl
+         HoFIstzlvMDtCLgfhnOriWLoNwZv6+3clTJtgU5AJImo5hzLcA8Xl5biIy+qCPN0Yl2h
+         sSZ3MIekuF7sfDNA5dosij4OPFFY4DXnc1sarY9jKvYuFBzZIvgCKpyr0XlJB/Ymar7p
+         76Xyx3zNFdDnkRRyU54ZBIwLy/ubU9zZyaI0NzK9C8RtA20uucTc0zHujNOvDTsjWaG+
+         UbTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=83f6yOVGHF33wbJFNUqHVsMRQC83Nm7l3Jffulf5Q20=;
-        b=lLTIecXijH4mmRh92A5aMV42kgXHPU7Z9co+2KqwAF03xuK5pkUlVB7kXtMjVLnXFp
-         ED4u56y7//jRJmt5Fjkpawb9DRJjV7xTmm/I1t+u+JCd0uipqHjcYOmWvEBh265S5CIu
-         JtmEficuR/16qRE5NM1kp3ZBTWhAUL/fWwMCaIfKi9M3TuJ3zGch72Rv/uj7iqlQnyXg
-         Gn3slofT8OiuJuE69T5WefWVm7S+NmE8guvTgspqZoHjB0sw7mL0Q1DZjKWyvl9CR9us
-         NGrHsCfPk/6ymhqZSnXfs8Awxakehl3Dogks8ULnnihsB3rAGoZgsbFfbNe68IPeES46
-         rHmA==
-X-Gm-Message-State: AOAM530ovlAMqzEUT9C5gP5J7OozXG2LNBtvHDSLsbWU1I7ckEjXoiz4
-	aX19gRs1IUj8XhimI9+3gyw=
-X-Google-Smtp-Source: ABdhPJy5hxDd4tBIdG/h7CHZ7zMWEzJh0oBujvFGRYSxBfUs0KG9/aftZhFj9CMuaUDM6O3W6BLpoA==
-X-Received: by 2002:a05:600c:1547:b0:39c:7fc6:3082 with SMTP id f7-20020a05600c154700b0039c7fc63082mr36832709wmg.189.1655755610410;
-        Mon, 20 Jun 2022 13:06:50 -0700 (PDT)
+        bh=/LPf9h09XUJR/z/RdQdPV0VQS/kTyakjP+1OAofeWXA=;
+        b=3tHkL62PFXr9eqjHCi8kqJU3qRkDK0lyFcaNV2sIgVPwxEmqaO98VrzblJldc1m5eO
+         4tLI5i7UeLdJBl2VrZa23NFLxeOlM62H/VpHpu3/wFXb+rD2BtiHFzIGjVBJjPANDzOh
+         oaR7P78v1CYy5vKulj0Yh64BuSbKFfUw3UV/7yCBEYgL8Dsyvz0xZJyXjY+/Aw4n1UAw
+         C5JaYW+vpWlMRDMGRpxNrvYIYskxYZPbMTqU9TUML7fHg6BmbWaP8nFvql2/NucwXqMg
+         rySJxTowAxvC8+jcC9IuMbi7SzDKJFlOsFDcSMNciQBuIZvrCI0juUegllIxbXScH25N
+         J4tw==
+X-Gm-Message-State: AJIora/2CTFG/kaKQ2ivRdr5Tna82b2srSD4DSvosxUGXmxbTdT7U4dB
+	xRWv3Sw8Jf8zJ3CLCgpJsIU=
+X-Google-Smtp-Source: AGRyM1saqWHhZeAqgNDua/lIIE8QUgq+ce7t9oCt2daRUSekH7GNKx27L1qwZwbxMxNYwR5edglGYw==
+X-Received: by 2002:a05:6000:156c:b0:218:5691:e72b with SMTP id 12-20020a056000156c00b002185691e72bmr24333023wrz.95.1655755612132;
+        Mon, 20 Jun 2022 13:06:52 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id cl10-20020a5d5f0a000000b0021b92171d28sm3418468wrb.54.2022.06.20.13.06.49
+        by smtp.gmail.com with ESMTPSA id h17-20020a05600c2cb100b00397393419e3sm20418814wmc.28.2022.06.20.13.06.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:06:50 -0700 (PDT)
+        Mon, 20 Jun 2022 13:06:51 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 23/49] mfd: sprd-sc27xx-spi: replace irqchip mask_invert with unmask_base
-Date: Mon, 20 Jun 2022 21:06:18 +0100
-Message-Id: <20220620200644.1961936-24-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 24/49] mfd: rt5033: replace irqchip mask_invert with unmask_base
+Date: Mon, 20 Jun 2022 21:06:19 +0100
+Message-Id: <20220620200644.1961936-25-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,26 +93,23 @@ as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/sprd-sc27xx-spi.c | 3 +--
+ drivers/mfd/rt5033.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/mfd/sprd-sc27xx-spi.c b/drivers/mfd/sprd-sc27xx-spi.c
-index d05a47c5187f..a4a9b81a952b 100644
---- a/drivers/mfd/sprd-sc27xx-spi.c
-+++ b/drivers/mfd/sprd-sc27xx-spi.c
-@@ -181,11 +181,10 @@ static int sprd_pmic_probe(struct spi_device *spi)
- 	ddata->irq_chip.name = dev_name(&spi->dev);
- 	ddata->irq_chip.status_base =
- 		pdata->irq_base + SPRD_PMIC_INT_MASK_STATUS;
--	ddata->irq_chip.mask_base = pdata->irq_base + SPRD_PMIC_INT_EN;
-+	ddata->irq_chip.unmask_base = pdata->irq_base + SPRD_PMIC_INT_EN;
- 	ddata->irq_chip.ack_base = 0;
- 	ddata->irq_chip.num_regs = 1;
- 	ddata->irq_chip.num_irqs = pdata->num_irqs;
--	ddata->irq_chip.mask_invert = true;
- 
- 	ddata->irqs = devm_kcalloc(&spi->dev,
- 				   pdata->num_irqs, sizeof(struct regmap_irq),
+diff --git a/drivers/mfd/rt5033.c b/drivers/mfd/rt5033.c
+index f1236a9acf30..dc9bf4057a09 100644
+--- a/drivers/mfd/rt5033.c
++++ b/drivers/mfd/rt5033.c
+@@ -29,8 +29,7 @@ static const struct regmap_irq rt5033_irqs[] = {
+ static const struct regmap_irq_chip rt5033_irq_chip = {
+ 	.name		= "rt5033",
+ 	.status_base	= RT5033_REG_PMIC_IRQ_STAT,
+-	.mask_base	= RT5033_REG_PMIC_IRQ_CTRL,
+-	.mask_invert	= true,
++	.unmask_base	= RT5033_REG_PMIC_IRQ_CTRL,
+ 	.num_regs	= 1,
+ 	.irqs		= rt5033_irqs,
+ 	.num_irqs	= ARRAY_SIZE(rt5033_irqs),
 -- 
 2.35.1
 
