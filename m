@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0569C3D6E
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:18 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1527C3D6E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:21 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id g27so9434019wrb.10
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=NcUaD1/hetXoR1Hr3zOaIrV5ibqb80WKTQCzVE8bVrc=;
-        b=JYv78xaECQZTaj29SjmNHnhs4gfEEratnCgfJZagJJiK+EVif7vCkcuTP1QF0wfouK
-         JhOxz5Q0vETS+bhO7JLSkwPttvHYnqkEyX3HWyCMGYjjskRlAQvkUsr5XtoBlAJVGwhM
-         Gw+0xCBp9YPW230YKLPHGegCcK1UoKqqxF+q0NM7n1ss/f9b2tA03ELnh9lj8wNVqRiD
-         p3oWRBH9z/0ejlWRohZ3vCWr/VL+wIvmrnrFxL5IVwRiWT8mfm+mPnriC/8/NBkGAEQT
-         cw5lNfhGyRNeY0VAdg2EvhXglVeSK8bk4eq65rFbOML/1pGcXaRo+6lWO3/nbDyuiy/y
-         5z2A==
+        bh=drtbL6Ol3nSvJosEWn6BWyNAP++5ZasjbOfmzop3MZQ=;
+        b=QjvV+I2LY/VPVY45eWYJLbt7si9DgUbUdBiK1tnDmgIOAGcJlPEfPEbz0xPv6PFG6C
+         fqwpwN657JaXPxJXBP5AOwcKcjfbM0nFCo3ly+/TCctIcxL8Ez9srZzj3C6ZbVZaRiqz
+         JbpxIf/a/wjakAyd7TsXsc3ArAii392QnIxa2RXb5I35fEt59JdMD+jqhaGkdRCDDnM/
+         pAKKZGaQWk1j3re/9CnNYt5bHRviVWNWQz6tjo3Kf2EI4KjNuph2+cI7M7xbk0fkDW+c
+         fBjVbekqWUfyD7IfdeqH1QuljKLVCEXC/+72mhEJsa01pPfOg9ygPXXe7cysaPnB7z2q
+         C0NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=NcUaD1/hetXoR1Hr3zOaIrV5ibqb80WKTQCzVE8bVrc=;
-        b=yWPYN21ZEMbDK824dc2brrtP0zW5aamOLkF9M1SCjxRiQowkn3gelIHlcd3knOb3nK
-         PYdD6OML8SVrAXNYIVSOyjeyg8k0cfCSANEhplkLAEEnCJbS+9x4t9ZMwXD6ffPTh+iG
-         82lZ+1hNWcxbuLvjAF8OasyT7yCB369pcpOv9f2yR4MJ4kUwFhuW4nSqMdZ64oWQpjAE
-         TaBlPHOH4ZCqKBg+EVphKfV29GkVID/RPXzLVPiFeYMHQzHPGEjsP5CvQFo4vxGZv/sS
-         j1ll8RSt/OhXx+fqQ1yJmDdETYSIXeKLa1NTaM8lhCQq9LDL4KgS05inhcbTqoPy8vvb
-         kbCQ==
-X-Gm-Message-State: AJIora9fbNXscgpTpo7Ec6vhmxTxFTi/7ZY5YJ0MW2k49xf7xGNHNm7i
-	W7F5U9l6Y/5w6l1h7JR0IQU=
-X-Google-Smtp-Source: AGRyM1t6EjGq1Ksd7MyVDLpDLClD84TIjP3RmrRekqAiittfXcb8Cp1PUoN9E0quIHfglyDXxzFsVA==
-X-Received: by 2002:a5d:4601:0:b0:21b:9035:d295 with SMTP id t1-20020a5d4601000000b0021b9035d295mr6103622wrq.63.1655755637616;
-        Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
+        bh=drtbL6Ol3nSvJosEWn6BWyNAP++5ZasjbOfmzop3MZQ=;
+        b=kdkOq5+kXnE5dT+94HlgSVk/k69RURKXkzd6RMh9y5r7wDNi6k/a/hNBFAQweJfGdg
+         zfU5dfpB+gc09UPvDZnBL9lwmEp45ChELVFlqZLATtwIcWU06RC7XLqVVK1LSRxU7KY1
+         ZMGqjJ4QOAG2f2N30c4JGGWQ8yrQOtg9BKO0JPNoKtnsjlTLKEHLSr2w+Lk19cy7eY6v
+         2KUoPIwuChb3kEuBgaolErlhM+r2LohRB7p72mJyzmusvDDH/xsmZ2YpbKNhzdIfOCUz
+         ErV+Sa8ThgZG22K4lInT1Iv2H9yejsRRb65fwQPIBEqd/hk2WYGWQHAmAJ6hmUndb4C/
+         fUSw==
+X-Gm-Message-State: AJIora+LLj7ZPSZQMrAzJoKitOtKHTuZ6KaEjctCZ+JpvhSjfh8mfECr
+	YqOunH6DVABuV1poK5l49rk=
+X-Google-Smtp-Source: AGRyM1upACNZTooDfHG9XrmiWJXxBNAesYYQbcORquUwOuEJ3OJEEk57wgHnkZp1ZcThb45MTPunjw==
+X-Received: by 2002:a05:6000:1788:b0:219:e28f:dc98 with SMTP id e8-20020a056000178800b00219e28fdc98mr24527156wrg.144.1655755639378;
+        Mon, 20 Jun 2022 13:07:19 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id m42-20020a05600c3b2a00b003973435c517sm16572141wms.0.2022.06.20.13.07.16
+        by smtp.gmail.com with ESMTPSA id c130-20020a1c3588000000b0039c798b2dc5sm19765399wma.8.2022.06.20.13.07.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:18 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 39/49] gpio: sl28cpld: replace irqchip mask_invert with unmask_base
-Date: Mon, 20 Jun 2022 21:06:34 +0100
-Message-Id: <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 40/49] mfd: stpmic1: Fix broken mask/unmask in irq chip
+Date: Mon, 20 Jun 2022 21:06:35 +0100
+Message-Id: <20220620200644.1961936-41-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -88,28 +88,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-An inverted mask register can be described more directly
-as an unmask register.
+Swap mask_base and unmask_base, and drop the broken_mask_unmask
+flag since we're now expecting the registers to have their usual
+behavior.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/gpio/gpio-sl28cpld.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/mfd/stpmic1.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpio/gpio-sl28cpld.c b/drivers/gpio/gpio-sl28cpld.c
-index 52404736ac86..2195f88c2048 100644
---- a/drivers/gpio/gpio-sl28cpld.c
-+++ b/drivers/gpio/gpio-sl28cpld.c
-@@ -70,8 +70,7 @@ static int sl28cpld_gpio_irq_init(struct platform_device *pdev,
- 	irq_chip->num_irqs = ARRAY_SIZE(sl28cpld_gpio_irqs);
- 	irq_chip->num_regs = 1;
- 	irq_chip->status_base = base + GPIO_REG_IP;
--	irq_chip->mask_base = base + GPIO_REG_IE;
--	irq_chip->mask_invert = true;
-+	irq_chip->unmask_base = base + GPIO_REG_IE;
- 	irq_chip->ack_base = base + GPIO_REG_IP;
- 
- 	ret = devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
+diff --git a/drivers/mfd/stpmic1.c b/drivers/mfd/stpmic1.c
+index 2307d1b0269d..11f3d92acbc0 100644
+--- a/drivers/mfd/stpmic1.c
++++ b/drivers/mfd/stpmic1.c
+@@ -108,9 +108,8 @@ static const struct regmap_irq stpmic1_irqs[] = {
+ static const struct regmap_irq_chip stpmic1_regmap_irq_chip = {
+ 	.name = "pmic_irq",
+ 	.status_base = INT_PENDING_R1,
+-	.mask_base = INT_CLEAR_MASK_R1,
+-	.unmask_base = INT_SET_MASK_R1,
+-	.broken_mask_unmask = true,
++	.mask_base = INT_SET_MASK_R1,
++	.unmask_base = INT_CLEAR_MASK_R1,
+ 	.ack_base = INT_CLEAR_R1,
+ 	.num_regs = STPMIC1_PMIC_NUM_IRQ_REGS,
+ 	.irqs = stpmic1_irqs,
 -- 
 2.35.1
 
