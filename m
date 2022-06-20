@@ -1,41 +1,41 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 995843D77
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:27 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id w17so16063541wrg.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C2E3D77
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:30 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id m1so8325081wrb.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EX/yDVwKkfC5joprzjhLTLUj2n8x64TTg4RMNQ20jNw=;
-        b=EJbtvC5hJvHxpndMkFlPD86W4NZOimlOhDeQWXXsnvu8LCn08/ZUypJbCVlZT8Zuhn
-         XmUdbUWQxzrNNs2DmjZS3cX9l4SmZeoOAinDDjt7qIBZ1kZbLnv/kaRvrnevyMBMjeb4
-         hOXAaAWFkIccOi0rRaIQHvD9FbXJP6JG8+uUM2Yvgiq+4XMa45SLpysk/cPJy2kEz+5M
-         XzYjPDhx4KLybpC23mko2FoWhrLe2DoqaS//+ApXLqEFVX/NLWz82gpyhjFvOFIuBnqD
-         SrjohLlUiNBtgW5OAqfemvUQFWciS+bIq9Btr5bpWiH873KE5azsyZ1i9j1W55ltyC5w
-         XtRw==
+        bh=CygB1KehYAHqhpc4bRUhgcxf+zQL9loE7cQLl/MEP/k=;
+        b=VdNEnW4i4C6kZGpiqp1Jxmc+HT2MVBw6IwavlCehBQXlv5QOH8TPwVeq3H4ho5YMpx
+         H8exp7Pq3R8RMqC3UBwjz4B4XNaNN5lfob6sT6+PndMQfoaU+DTqcC6wBk5rfoCSNQCJ
+         /25J++hcAVbS0URhiPSxzu20PkT4vyStw3QlwmbqipEVuj0SMfiZBMh7ShX9R9n4h95O
+         9crhgA7QEsaJW7A0sgHALhx1p9ncqoWinxadYQ4mbkrwCqLicK48miZo2piT71YFto5R
+         e92szgit9CnwLu5DANwjGf3x1RqZ4wrj46ixAYyPN9ECBgT4l9bBF3FVNWT0DQBc63Y5
+         2+BQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EX/yDVwKkfC5joprzjhLTLUj2n8x64TTg4RMNQ20jNw=;
-        b=gnykiL4quxBVLict0lBPhm2T+w1+4S3fhxkuVnlVf7NcFl5fVKBh5ZoMith7xO2R9M
-         tyxcGSMpxm/OQHtBokSr1gKp/2Dqdgs2MKYpypfogSe0d6jqtl3/By9uQnkH6M49dHbe
-         QBDWMotxb7fPev/PjC9Poz0rpLSnQ601PJt9EstqDheRWHJIgU09GRyXIY2JHjfxoUTO
-         O1hBwVp8pUwldIBDaAKITfu09pjjAUkFPQJPHvd2KL/7vgs1oj2ArVkLpNMHwsdTgUmP
-         hB6UQQrNBojh2R9I+GXGMrr+BSSlS1RqHfLjjhO3W0KJezytYPFsc0IGDRYyzAEmGqoZ
-         5t/A==
-X-Gm-Message-State: AJIora87EwP4kkQkq5UnoPk7j92i8TtS6SiRqCpUomxhIKvJcqbdSWvi
-	/+htqC5l6d34zecp9zEFyQE=
-X-Google-Smtp-Source: AGRyM1uZmrSpfQCxnF3FN/c4+CKx0AmJvG5Ujc+oe6FV8JjIcjgEvKjL58h/5RQFttDX69HrNrpXpw==
-X-Received: by 2002:a5d:4d52:0:b0:21b:93b4:6a2a with SMTP id a18-20020a5d4d52000000b0021b93b46a2amr3588083wru.576.1655755587154;
-        Mon, 20 Jun 2022 13:06:27 -0700 (PDT)
+        bh=CygB1KehYAHqhpc4bRUhgcxf+zQL9loE7cQLl/MEP/k=;
+        b=rMhhAnDzrw9cYDl92donLMJIxAGwHp9JF7k+uBS7SjEISsxgmgHht/UcPldfeK3k55
+         bBoPO2ql77Qy1QdV9kyktGUYdf1B5widFcXN6uESIxtzpQohdUvbFA4EtUbsWW6op59K
+         pO8eIIe4TwU2o1Ma7K8eYs/1B2yaS0RjBnow2FJHzSis6ATOQTEPghJ4yHToxDZ1jYi1
+         N6+M4fkvDFUPhCN0FabpyE2qOYIN0McNUvLmcGTlntPoKybNZ/BlA5WCSc4GV5T66ouv
+         s2Zn5BOSpbq80xOMT+y+7ILtsgaKdtzaFZUUNs9ey+o8bUwg7J1cOXxBI5v1f8YM6m39
+         WekQ==
+X-Gm-Message-State: AJIora/MG5/nBIcEF5Yh3ffSKsLzrzNd5mmRXdGQNFTh0y2hOAE+fd4O
+	I9qudOkD86bODKDFNVTMZiI=
+X-Google-Smtp-Source: AGRyM1v/XOcLvn/YOZvKeR4GgDqyzG8bAWUAUx2H4/vrgHli6exwOFqzUpGDvK4ZhP7QI3IhQMp+Sw==
+X-Received: by 2002:a05:6000:1567:b0:217:abea:6a67 with SMTP id 7-20020a056000156700b00217abea6a67mr25796898wrz.305.1655755588840;
+        Mon, 20 Jun 2022 13:06:28 -0700 (PDT)
 Received: from localhost (92.40.169.68.threembb.co.uk. [92.40.169.68])
-        by smtp.gmail.com with ESMTPSA id n23-20020a05600c3b9700b0039c5224bfcbsm20984858wms.46.2022.06.20.13.06.26
+        by smtp.gmail.com with ESMTPSA id a13-20020adffb8d000000b0021a3a87fda9sm12865573wrr.47.2022.06.20.13.06.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:06:26 -0700 (PDT)
+        Mon, 20 Jun 2022 13:06:28 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 08/49] sound: soc: codecs: wcd938x: Remove spurious type_base from irq chip
-Date: Mon, 20 Jun 2022 21:06:03 +0100
-Message-Id: <20220620200644.1961936-9-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 09/49] mfd: max77650: Remove useless type_invert flag
+Date: Mon, 20 Jun 2022 21:06:04 +0100
+Message-Id: <20220620200644.1961936-10-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -88,27 +88,26 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This chip does not set num_type_regs or define any supported IRQ types,
-so regmap-irq can't configure its IRQ types. Including type_base in the
-chip definition is therefore redundant.
+The type_invert flag does nothing when type_in_mask is set,
+so get rid of it.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- sound/soc/codecs/wcd938x.c | 1 -
+ drivers/mfd/max77650.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wcd938x.c b/sound/soc/codecs/wcd938x.c
-index c1b61b997f69..acba253b791e 100644
---- a/sound/soc/codecs/wcd938x.c
-+++ b/sound/soc/codecs/wcd938x.c
-@@ -1298,7 +1298,6 @@ static struct regmap_irq_chip wcd938x_regmap_irq_chip = {
- 	.num_regs = 3,
- 	.status_base = WCD938X_DIGITAL_INTR_STATUS_0,
- 	.mask_base = WCD938X_DIGITAL_INTR_MASK_0,
--	.type_base = WCD938X_DIGITAL_INTR_LEVEL_0,
- 	.ack_base = WCD938X_DIGITAL_INTR_CLEAR_0,
- 	.use_ack = 1,
- 	.runtime_pm = true,
+diff --git a/drivers/mfd/max77650.c b/drivers/mfd/max77650.c
+index 777485a33bc0..3c07fcdd9d07 100644
+--- a/drivers/mfd/max77650.c
++++ b/drivers/mfd/max77650.c
+@@ -138,7 +138,6 @@ static const struct regmap_irq_chip max77650_irq_chip = {
+ 	.status_base		= MAX77650_REG_INT_GLBL,
+ 	.mask_base		= MAX77650_REG_INTM_GLBL,
+ 	.type_in_mask		= true,
+-	.type_invert		= true,
+ 	.init_ack_masked	= true,
+ 	.clear_on_unmask	= true,
+ };
 -- 
 2.35.1
 
