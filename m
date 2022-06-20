@@ -1,187 +1,219 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A303D6E;
-	Mon, 20 Jun 2022 19:56:34 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id j5-20020a05600c1c0500b0039c5dbbfa48so8259153wms.5;
-        Mon, 20 Jun 2022 12:56:34 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D7D3D6E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:16 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id l2-20020a05600c4f0200b0039c55c50482so8296172wmq.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8JXpksGN8on+hs1kw2vF/ANqrZgfrCyZJ79yotiZS7o=;
-        b=Jxj0yKO8OaskheKCkkfQI5jMOBb26izi/IghJ+NTGUFIzOOsB0CmFD4RPNwUNtaLof
-         /C3hAXGVclJM0vR6lh8CDHU4GMMT9xyh7RiksMHIaBii/MzeZK68bgHz+LcafyrE+gMc
-         mMfCsWH9mQASrfIFkwr05Wrot/6BG81EdYq7EXv40E5YmGAMSUXSS3w0ZBtBKg6LYTZ3
-         HtU+cy5glXehl52TcQI/z1P1oNg9rBXNQ87Dxw7DoGIEGaj2SKzjVcwdP+nKFoP63sGx
-         0f4eyLLsx9Sux8ZhyLxge2I8edbegqFVWISeEpE8uHp9q2Ea9hY+homqRtUzV/v2T3mA
-         gwew==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oX9lN4QRIjjDytL1egq7FKfqlZ9uKSn9qlbeSJsieqg=;
+        b=K+4UeUWjHq6YAI9jmYvUTMkv1gq1iw00GX/6AlYN+9b41Q3kf86nQDTqY6rD37C4HI
+         kzPm2mFeTHl+1E1B1XQfdRnKW8+YaELFKaQgGAqgsXl7/q1p71QRVLhIGdeg4j5KK+cP
+         3YX3ykOuY2lgJL2B7erq/iMhopV+WmK1QZ8/MAPeoCMn4tyiCnMezfoZOyzEos9QqFg2
+         e5w+U0RJhQvBhZddSX2H2SbdIyiKQLQYRn4o5iDRWV3n6i8JNHC0MqRAoimLsqSlXU0f
+         qGvg/aHb4Vfv5PQh5RZ68Qw5K5jk6ukus9q+UPCgwRCPHKmP1bzrm1D+okCYj+yUNj2Q
+         +fUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8JXpksGN8on+hs1kw2vF/ANqrZgfrCyZJ79yotiZS7o=;
-        b=VqLm/H5oU4w3Dz2o6kB8Pti3FwaZzHEPg2P2YdACbcBpYWvUlQ1CjXd7qulS8YBSCw
-         GlvjwMj5vCh/DPNbGjccxHJraaXiDIlvnyjoFiY9nRLI59tZuYrxiMI5dNpqkus+xq2q
-         L7AW3dJjJs/Q+NeAQ99p3mEG15t9IDm3sBSbVaLz0ybnD7imtojluRwhKqwa/2FjNVlh
-         nkFcdaO0qTBk1QXNHs3H/vSBXvPioKoKC0v0udJM/4X4yfjZhuPMFQRU4KQ9h+BRf06+
-         kNqNwb7/0Mq2H/dH7l0/IEk9XM29S3oKGwkVdwgeQbooS5+mdWAmjjImJUhUZRktWLxW
-         yfvg==
-X-Gm-Message-State: AJIora/jFyEvK7p6Mefd/9rZJKHoQxVTnjMslLWQj59jRWSKJpsP0/S5
-	5jJrowPh/OzfeNuIkcvQk6Q=
-X-Google-Smtp-Source: AGRyM1tt9bsEk8NgI/kpR3VLu38LafWZxQsfbYJmfVaV9kJuFMh9wfpKKuSUoIKnZ9fjpDuLI2I8ZQ==
-X-Received: by 2002:a1c:7206:0:b0:39c:4d16:683f with SMTP id n6-20020a1c7206000000b0039c4d16683fmr25813689wmc.197.1655754993183;
-        Mon, 20 Jun 2022 12:56:33 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id t9-20020adfe109000000b0021018642ff8sm14293461wrz.76.2022.06.20.12.56.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=oX9lN4QRIjjDytL1egq7FKfqlZ9uKSn9qlbeSJsieqg=;
+        b=eiSgMEhEcaatCJyVzAxOKwFpcw5W+fzMf3zK0toCL77ulPUZy1UiN+4zhnjEkfvZV9
+         3uCo9OeuWp3ZQ8XiZESi+MDl+MBv/iCzixZlq7UTwJ897P/BiBnyGWXEECEgsufUikCs
+         Pil4z76VTtGmQ9y8BYA9xvduKVbXiv8jOTB1B+MfnxIn2m9RuUpe5biwOwwSsx987yuJ
+         1aTVNdsbo/K5wz5dyvu4Qne3jZmO7e9fXSjr9IXPSJx7I1Yi5ERWYZgioCf3etDx1Fu1
+         la10LLqed8veFZqYzDHLpiGMu1adKMJq+CbumYOjCzbZLmcDCbQ4e5PnGb1rlWYqMu52
+         z0EA==
+X-Gm-Message-State: AOAM532AKk9xexPTTmXFYx1WxBJlvS/ucHRalY61fww38Ii9Uqi/OTrV
+	DNkYenr3fvNyJZ4kH5rJrnA=
+X-Google-Smtp-Source: ABdhPJxsi6sQIkVr9H0Bu1PTh/rzJ3ELem1KRMbimP0CLQUhYJkhAnA3ChsXiGO+dNs73Bpag9foIA==
+X-Received: by 2002:a05:600c:3acc:b0:39c:7427:d379 with SMTP id d12-20020a05600c3acc00b0039c7427d379mr36991978wms.32.1655755574785;
+        Mon, 20 Jun 2022 13:06:14 -0700 (PDT)
+Received: from localhost (92.40.169.68.threembb.co.uk. [92.40.169.68])
+        by smtp.gmail.com with ESMTPSA id eh1-20020a05600c61c100b003973d425a7fsm17910543wmb.41.2022.06.20.13.06.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 12:56:32 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v9 00/17] Move HEVC stateless controls out of staging
-Date: Mon, 20 Jun 2022 21:56:30 +0200
-Message-ID: <5830902.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
-References: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+        Mon, 20 Jun 2022 13:06:14 -0700 (PDT)
+From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+To: broonie@kernel.org
+Cc: agross@kernel.org,
+	bjorn.andersson@linaro.org,
+	srinivas.kandagatla@linaro.org,
+	bgoswami@codeaurora.org,
+	gregkh@linuxfoundation.org,
+	rafael@kernel.org,
+	cw00.choi@samsung.com,
+	krzysztof.kozlowski@linaro.org,
+	b.zolnierkie@samsung.com,
+	myungjoo.ham@samsung.com,
+	michael@walle.cc,
+	linus.walleij@linaro.org,
+	brgl@bgdev.pl,
+	tglx@linutronix.de,
+	maz@kernel.org,
+	lee.jones@linaro.org,
+	mani@kernel.org,
+	cristian.ciocaltea@gmail.com,
+	wens@csie.org,
+	tharvey@gateworks.com,
+	rjones@gateworks.com,
+	mazziesaccount@gmail.com,
+	orsonzhai@gmail.com,
+	baolin.wang7@gmail.com,
+	zhang.lyra@gmail.com,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	lgirdwood@gmail.com,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org,
+	linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	alsa-devel@alsa-project.org
+Subject: [PATCH 00/49] regmap-irq cleanups and refactoring
+Date: Mon, 20 Jun 2022 21:05:55 +0100
+Message-Id: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne petek, 17. junij 2022 ob 10:35:28 CEST je Benjamin Gaignard napisal(a):
-> This series aims to make HEVC uapi stable and usable for hardware
-> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
-> and 2 out of the tree drivers (rkvdec and RPI).
+Hi Mark,
 
-Whole series is:
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Here's a bunch of cleanups for regmap-irq focused on simplifying the API
+and generalizing it a bit. It's broken up into three refactors, focusing
+on one area at a time.
 
-Best regards,
-Jernej
+* Patches 01 and 02 are straightforward bugfixes, independent of the
+  rest of the series. Neither of the bugs are triggered by in-tree
+  drivers but they might be worth picking up early anyhow.
 
-> 
-> version 9:
-> - Reword some commit message
-> - Use fls()
-> - Remove useless padding at the end of hevc structures
-> - Reword all _minus* field description
-> - change CVS to codec video sequence
-> - Fix various typo
-> - Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
-> - fix the waring reported by 'scripts/kernel-doc -none
->   include/uapi/linux/v4l2-controls.h'
-> 
-> This version has been tested with these branches:
-> - GStreamer:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_ali
-> gned_with_kernel_5.15 - Linux:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAP
-> I_V9
-> 
-> With patches to decode 10-bits bitstream and produce P010 frames the Fluster
-> score which was 77/147 before, is now 141/147.
-> The 10-bits series will comes after this because of it dependency to
-> uAPI change. If you are curious you can find the WIP branch here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HE
-> VC_UAPI_V9
-> 
-> The 6 failing tests are:
-> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro
-> hardware. - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually
-> ok but some difference exist on 5 decoded frames. Some pixels values are no
-> the same the very end of few lines.
-> 
-> version 8:
-> - Same than v7 but rebased on media_stage/master
-> 
-> version 7:
-> - Apply Jernej patches for Cedrus about bit offset definition and
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
-> - Based on media_tree/master
-> 
-> version 6:
-> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
->   in v4l2_ctrl_hevc_decode_params structure.
-> - Change slice_pic_order_cnt type to s32 to match with PoC type.
-> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
->   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
-> - Add a define for max slices count
-> - Stop using Hantro dedicated control.
-> 
-> version 5:
-> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
->   hevc_dpb_entry structure
-> - Add defines for SEI pic_struct values (patch 4)
-> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
-> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
->   documentation (patch 8)
-> - Rebased on v5-18-rc1
-> 
-> Version 4:
-> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
-> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
-> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
-> - Fix space/tab issue in kernel-doc
-> - Add patch to change data_bit_offset definition
-> - Fix hantro-media SPDX license
-> - put controls under stateless section in v4l2-ctrls-defs.c
-> 
-> Benjamin Gaignard (14):
->   media: uapi: HEVC: Add missing fields in HEVC controls
->   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
->     prefix
->   media: uapi: HEVC: Change pic_order_cnt definition in
->     v4l2_hevc_dpb_entry
->   media: uapi: HEVC: Add SEI pic struct flags
->   media: uapi: HEVC: Add documentation to uAPI structure
->   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
->     dynamic array
->   media: uapi: Move parsed HEVC pixel format out of staging
->   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
->   media: uapi: Move the HEVC stateless control type out of staging
->   media: controls: Log HEVC stateless control in .std_log
->   media: hantro: Stop using Hantro dedicated control
->   media: uapi: HEVC: fix padding in v4l2 control structures
->   media: uapi: Change data_bit_offset definition
->   media: uapi: move HEVC stateless controls out of staging
-> 
-> Hans Verkuil (3):
->   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
->   v4l2-ctrls: add support for dynamically allocated arrays.
->   vivid: add dynamic array test control
-> 
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
->  .../media/v4l/pixfmt-compressed.rst           |   7 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
->  .../media/v4l/vidioc-queryctrl.rst            |   8 +
->  .../media/videodev2.h.rst.exceptions          |   6 +
->  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
->  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
->  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
->  .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
->  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
->  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
->  include/media/hevc-ctrls.h                    | 250 -----
->  include/media/v4l2-ctrls.h                    |  48 +-
->  include/uapi/linux/v4l2-controls.h            | 459 +++++++++
->  include/uapi/linux/videodev2.h                |  13 +
->  24 files changed, 1826 insertions(+), 1226 deletions(-)
->  delete mode 100644 include/media/hevc-ctrls.h
+* Patches 03-13 clean up everything related to configuring IRQ types.
 
+* Patches 14-45 deal with mask/unmask registers. First, make unmask
+  registers behave more intuitively and usefully, and get rid of the
+  mask_invert flag in favor of describing inverted mask registers as
+  unmask registers. Second, make the mask_writeonly flag more useful
+  and enable it for two chips where it makes sense.
 
+* Patches 46-49 refactor sub_irq_reg() as a get_irq_reg() callback,
+  and use that to eliminate the not_fixed_stride flag.
 
+The approach I used when refactoring is pretty simple: (1) introduce new
+functionality in regmap-irq, (2) convert the drivers, and (3) remove any
+old code. Nothing should break in the middle.
+
+The patches can be re-ordered to some extent if that's preferable, but
+it's best to add get_irq_reg() last to avoid having to think about how
+it interacts with features that'll be removed anyway.
+
+I can't test most of the devices affected by this series so a lot of the
+code is only build tested. I've tested on real hardware with my AXP192
+patchset[1], although it only provides limited code coverage.
+
+qcom-pm8008 in particular deserves careful testing - it used all of the
+features touched by the refactors and required the most changes. Other
+drivers only required trivial changes but there are three of them worth
+mentioning: wcd943x, wcd9335, and wcd938x. They have suspicious looking
+IRQ type definitions and I'm pretty sure aren't working properly, but
+I can't fix them myself. The refactor shouldn't affect their behavior
+so how / when / if they get fixed shouldn't be much of an issue.
+
+Oh, and I added the 'mask_writeonly' flag and volatile ranges to the
+stpmic1 driver based on its datasheet[2] as a small optimization. It's
+probably fine but testing would be a good idea.
+
+[1]: https://lore.kernel.org/linux-iio/20220618214009.2178567-1-aidanmacdonald.0x0@gmailcom/
+[2]: https://www.st.com/resource/en/datasheet/stpmic1.pdf
+
+Aidan MacDonald (49):
+  regmap-irq: Fix a bug in regmap_irq_enable() for type_in_mask chips
+  regmap-irq: Fix offset/index mismatch in read_sub_irq_data()
+  regmap-irq: Remove an unnecessary restriction on type_in_mask
+  regmap-irq: Introduce config registers for irq types
+  mfd: qcom-pm8008: Convert irq chip to config regs
+  mfd: wcd934x: Convert irq chip to config regs
+  sound: soc: codecs: wcd9335: Convert irq chip to config regs
+  sound: soc: codecs: wcd938x: Remove spurious type_base from irq chip
+  mfd: max77650: Remove useless type_invert flag
+  regmap-irq: Remove virtual registers support
+  regmap-irq: Remove old type register support, refactor
+  regmap-irq: Remove unused type_reg_stride field
+  regmap-irq: Remove unused type_invert flag
+  regmap-irq: Do not use regmap_irq_update_bits() for wake regs
+  regmap-irq: Change the behavior of mask_writeonly
+  regmap-irq: Rename regmap_irq_update_bits()
+  regmap-irq: Add broken_mask_unmask flag
+  mfd: qcom-pm8008: Add broken_mask_unmask irq chip flag
+  mfd: stpmic1: Add broken_mask_unmask irq chip flag
+  regmap-irq: Fix inverted handling of unmask registers
+  mfd: tps65090: replace irqchip mask_invert with unmask_base
+  mfd: sun4i-gpadc: replace irqchip mask_invert with unmask_base
+  mfd: sprd-sc27xx-spi: replace irqchip mask_invert with unmask_base
+  mfd: rt5033: replace irqchip mask_invert with unmask_base
+  mfd: rohm-bd71828: replace irqchip mask_invert with unmask_base
+  mfd: rn5t618: replace irqchip mask_invert with unmask_base
+  mfd: gateworks-gsc: replace irqchip mask_invert with unmask_base
+  mfd: axp20x: replace irqchip mask_invert with unmask_base
+  mfd: atc260x: replace irqchip mask_invert with unmask_base
+  mfd: 88pm800: replace irqchip mask_invert with unmask_base
+  mfd: max14577: replace irqchip mask_invert with unmask_base
+  mfd: max77693: replace irqchip mask_invert with unmask_base
+  mfd: rohm-bd718x7: drop useless mask_invert flag on irqchip
+  mfd: max77843: drop useless mask_invert flag on irqchip
+  extcon: max77843: replace irqchip mask_invert with unmask_base
+  extcon: sm5502: drop useless mask_invert flag on irqchip
+  extcon: rt8973a: drop useless mask_invert flag on irqchip
+  irqchip: sl28cpld: replace irqchip mask_invert with unmask_base
+  gpio: sl28cpld: replace irqchip mask_invert with unmask_base
+  mfd: stpmic1: Fix broken mask/unmask in irq chip
+  mfd: stpmic1: Enable mask_writeonly flag for irq chip
+  mfd: qcom-pm8008: Fix broken mask/unmask in irq chip
+  mfd: qcom-pm8008: Enable mask_writeonly flag for irq chip
+  regmap-irq: Remove broken_mask_unmask flag
+  regmap-irq: Remove mask_invert flag
+  regmap-irq: Refactor checks for status bulk read support
+  regmap-irq: Add get_irq_reg() callback
+  mfd: qcom-pm8008: Use get_irq_reg() for irq chip
+  regmap-irq: Remove not_fixed_stride flag
+
+ drivers/base/regmap/regmap-irq.c | 457 ++++++++++++++-----------------
+ drivers/extcon/extcon-max77843.c |   3 +-
+ drivers/extcon/extcon-rt8973a.c  |   1 -
+ drivers/extcon/extcon-sm5502.c   |   2 -
+ drivers/gpio/gpio-sl28cpld.c     |   3 +-
+ drivers/irqchip/irq-sl28cpld.c   |   3 +-
+ drivers/mfd/88pm800.c            |   3 +-
+ drivers/mfd/atc260x-core.c       |   6 +-
+ drivers/mfd/axp20x.c             |  21 +-
+ drivers/mfd/gateworks-gsc.c      |   3 +-
+ drivers/mfd/max14577.c           |   7 +-
+ drivers/mfd/max77650.c           |   1 -
+ drivers/mfd/max77693.c           |   6 +-
+ drivers/mfd/max77843.c           |   1 -
+ drivers/mfd/qcom-pm8008.c        | 131 ++++-----
+ drivers/mfd/rn5t618.c            |   3 +-
+ drivers/mfd/rohm-bd71828.c       |   6 +-
+ drivers/mfd/rohm-bd718x7.c       |   1 -
+ drivers/mfd/rt5033.c             |   3 +-
+ drivers/mfd/sprd-sc27xx-spi.c    |   3 +-
+ drivers/mfd/stpmic1.c            |   7 +-
+ drivers/mfd/sun4i-gpadc.c        |   3 +-
+ drivers/mfd/tps65090.c           |   3 +-
+ drivers/mfd/wcd934x.c            |  11 +-
+ include/linux/regmap.h           |  59 ++--
+ sound/soc/codecs/wcd9335.c       |  10 +-
+ sound/soc/codecs/wcd938x.c       |   1 -
+ 27 files changed, 332 insertions(+), 426 deletions(-)
+
+-- 
+2.35.1
 
