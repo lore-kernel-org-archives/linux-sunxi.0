@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC83D77
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:47 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98B013D77
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:50 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id q9so16079871wrd.8
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=uoe8IKHiznCb2+08YYHq6Yn162+SdkatHT+ONYvtyvg=;
-        b=VO5DAnqEeePAwi/axXTy4qE8A246zDDyLHKvfEeupMh4NJS9PKzy2HLbzv2HmLinOh
-         sJDew7tvb/Du6JA9+pWT6wLYpZiUruBlDXuUNGniMiaSflxpZ999oM2RPoZbfWY8bM3s
-         gls0xbSabfR+zndjmVVe2gZatWsAghFwtSJv7FWIrq2fOl5iZF4ORrEzRPpb9VagUUok
-         bzn4DhZTxBTkt686Eof5bwsbZb+iffrPyGoKCrO/d9vttrGG2aS8UHirbaHGBHIZdzMU
-         DZCNjjT5h1ru5g19uCfpQwoKH/YS5Rr49DFzT6RKpFmZ5PA1XwoUduGXijcI+1DBXDyM
-         XTeg==
+        bh=gBD4FGBJfr7WfKu1UZU1bV8IB7E8/qXlLxTviEK1Akg=;
+        b=n+dv2OHyeLcXNTmM5AoQ5y71hnTNJIpcERPeXRAZGzH3I/VENsQCVHYqLkDxbEjmN/
+         TTkfawWz7sGx1fEvNmiL1zWs5fqtd8PmEYJ/uuxwTzmlN3TNWDIjfT7h7X2oiiCeJDJo
+         G0D3xiO8ep0dRDPxWfA7mglV2rl0lfdiXs/NgfHf3uClxo2T0zSzKmcugT014uVsbBA4
+         a8d72hUTWqP7aMSTkN4E6jMQH1AsJpvanWTcr/TzYICesUohxeYCLmlbHF8Or3sDiq5E
+         ReozveZPFU1OGId9YBAanmpEq2oZ6/HDOKmehZPgromaOnVKCB0W7RktevOubR0I+UbT
+         T3Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=uoe8IKHiznCb2+08YYHq6Yn162+SdkatHT+ONYvtyvg=;
-        b=21uezqTDZkAzeIjOZtsCLjX6iLog8/IBMvVnFUWkCZJnf63DGmG7CSoxhT2TMjCXLP
-         l2FKO7fk2TW/b4AKgNk8jIals76h/FNVKgj8jPOeTfTY7wq5Q0wucg7OAPQT/X58HVlC
-         M+06DNv60VL/Fe1eSOsuamg20Yr/jIZ3141opzg10F19TI7Fc94NmisVMIjfW2L5Vv29
-         H5WpO1fhcSVazIvO1CLn9LsTbvVzlf209l4eAYNewFs6PdZ9f/gq1pwSmMtLAYnJIQrI
-         kRaWys3muj7gdCKMviR+qr+S7cAynRQS5xW3TihYXrPO3ljWGH3x1VFYJhvhWnepsNBP
-         ELMA==
-X-Gm-Message-State: AJIora/JK5R1Xs+pfjJ6LRTUUi2ndpbz4xPsLt8R/r6jw+/sFCuPf9Uj
-	W/9yxDCQarNDVY29SyZVRok=
-X-Google-Smtp-Source: AGRyM1uZONrpz0spvVCV2D/AIVMzkFz9w2tp1QWQa34Ft0vrEMdw9wgaS52AsbxHhGWZBMtjoEgiDw==
-X-Received: by 2002:adf:fec2:0:b0:21a:6cff:a4f1 with SMTP id q2-20020adffec2000000b0021a6cffa4f1mr18316222wrs.139.1655755607554;
-        Mon, 20 Jun 2022 13:06:47 -0700 (PDT)
+        bh=gBD4FGBJfr7WfKu1UZU1bV8IB7E8/qXlLxTviEK1Akg=;
+        b=Y6L35xHwfJ/ovryoB6b/5hJfMlI49ukRvfcQOBDS4LAaoudj0Ct1Jt8tNVb4BGzFGe
+         hAMfbkcZZcfbrfdj7iTfXZXfwIUGU4kFBgbp7Jt3GeoPermfggzLmqKZ0M3sm2iBb2eL
+         g2pxnn2ZfRnIG7hHmHPrYRt9M1BFfpjkiUw0oK/LhvRkEQIwa3sDEmsALC3FVM25t3LR
+         MUsPKSlkcvxE8mpO2G2d8J3vSyoSkcfWPSxT0AxOqg6GqiyMrTRBmHBJPD9h+4OgoJiJ
+         T2y0LHOiTuIU0whtQy5I1cnKc0bW2IoXuO6J77dME61zZbYpnLymXCvmpo6NhiimJF+0
+         VUvA==
+X-Gm-Message-State: AJIora+O2RVknnHnGZPqERqXHmhiNXDi8UmjQEG82pDuIj35UKUBpg8a
+	OH88MZ5PJ5Xyxx8Um/JeYLw=
+X-Google-Smtp-Source: AGRyM1ueeTVj4W+irPUqcFh4aibJZGRQv0luVUmTWKHSamp2328uXg/JWH281sGfd9zcwAAoGkXCMQ==
+X-Received: by 2002:adf:ae09:0:b0:20e:e4f0:2133 with SMTP id x9-20020adfae09000000b0020ee4f02133mr24684442wrc.104.1655755608969;
+        Mon, 20 Jun 2022 13:06:48 -0700 (PDT)
 Received: from localhost (92.40.169.68.threembb.co.uk. [92.40.169.68])
-        by smtp.gmail.com with ESMTPSA id j27-20020a05600c1c1b00b0039c1396b495sm16596378wms.9.2022.06.20.13.06.46
+        by smtp.gmail.com with ESMTPSA id l9-20020a05600c4f0900b0039db500714fsm16981828wmq.6.2022.06.20.13.06.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:06:47 -0700 (PDT)
+        Mon, 20 Jun 2022 13:06:48 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 21/49] mfd: tps65090: replace irqchip mask_invert with unmask_base
-Date: Mon, 20 Jun 2022 21:06:16 +0100
-Message-Id: <20220620200644.1961936-22-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 22/49] mfd: sun4i-gpadc: replace irqchip mask_invert with unmask_base
+Date: Mon, 20 Jun 2022 21:06:17 +0100
+Message-Id: <20220620200644.1961936-23-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,23 +93,24 @@ as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/tps65090.c | 3 +--
+ drivers/mfd/sun4i-gpadc.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/mfd/tps65090.c b/drivers/mfd/tps65090.c
-index bd6235308c6b..e474e1ca253a 100644
---- a/drivers/mfd/tps65090.c
-+++ b/drivers/mfd/tps65090.c
-@@ -127,8 +127,7 @@ static struct regmap_irq_chip tps65090_irq_chip = {
- 	.num_irqs = ARRAY_SIZE(tps65090_irqs),
- 	.num_regs = NUM_INT_REG,
- 	.status_base = TPS65090_REG_INTR_STS,
--	.mask_base = TPS65090_REG_INTR_MASK,
+diff --git a/drivers/mfd/sun4i-gpadc.c b/drivers/mfd/sun4i-gpadc.c
+index cfe14d9bf6dc..edc180d83a4b 100644
+--- a/drivers/mfd/sun4i-gpadc.c
++++ b/drivers/mfd/sun4i-gpadc.c
+@@ -34,9 +34,8 @@ static const struct regmap_irq_chip sun4i_gpadc_regmap_irq_chip = {
+ 	.name = "sun4i_gpadc_irq_chip",
+ 	.status_base = SUN4I_GPADC_INT_FIFOS,
+ 	.ack_base = SUN4I_GPADC_INT_FIFOS,
+-	.mask_base = SUN4I_GPADC_INT_FIFOC,
++	.unmask_base = SUN4I_GPADC_INT_FIFOC,
+ 	.init_ack_masked = true,
 -	.mask_invert = true,
-+	.unmask_base = TPS65090_REG_INTR_MASK,
- };
- 
- static bool is_volatile_reg(struct device *dev, unsigned int reg)
+ 	.irqs = sun4i_gpadc_regmap_irq,
+ 	.num_irqs = ARRAY_SIZE(sun4i_gpadc_regmap_irq),
+ 	.num_regs = 1,
 -- 
 2.35.1
 
