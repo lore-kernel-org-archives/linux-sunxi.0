@@ -1,41 +1,41 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE163D75
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:43 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id n185so6369435wmn.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:42 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29BC3D75
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:44 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id m125-20020a1ca383000000b0039c63fe5f64so6210813wme.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6euAwHf+u1ItA2eK0so1Yr2FypSsHdAXRoV366E1T7A=;
-        b=ltBWD1dr5RteubU05COvdKRAItNBE3XGRxsyg7vyiQ01v6gFjKkGQCa7AxlmlAlEzY
-         AezfAXia6RuJ38Bg9CC3TjmJVkv+VhSCZoabV6MHfCWW/xklUdcZ/WY/1zIABVKL88nB
-         WIUir0+yDu0HI5+CAA3jsSyTlvoO/BMKRYNcAGaUDoqrRUi7MUBaYNF+YGqEKRDqHCrk
-         6NWMWphH7cTh+N4d7Wj2CRuYxpEAqY1ZRwT8qgOSayGNQKBdURajaEjI6DjrBNeapqlB
-         yYOfUhgVlTPPPj0QyHa5BKMwDnq4P6Qhr+RaXEI/210OX3LUMTHtrnc7u7e9RyvHCH4H
-         a21g==
+        bh=yDbkoyglFzlD/is/5GkDF5bxT9ENs1AtX/zXNAcYF8s=;
+        b=gdmCZ/lBOcInOC7Vpu1bY/iCkTRvuWC70p3sTpyPTGpiGjPvbOfn3qCcOS6TYvfax1
+         3L11FjZaxXZKn19jySJpcCpWV+xtFrtQQCVooDpT2B76t5Yf89SzliwlOHigso1rDVLk
+         oTKVebpiS712yjcf0kpN9r3uejsVQPOSwQQwOfRTaV3WxoLZf11oL8qGCQ6IIb3JKTvH
+         Gd5oqTmwdqCLXQGfP9Un8n1q4CYFfIWgJvxX8PaS4jqeICZF2WLj79nuYT2SFdtS4Hri
+         hh9xIXG5EB3E4bg9SOAm4e7Z9wjbeiNwP/00cDnzR6iUmi2i9i1qZqeOzh3rmmFV/C0Q
+         vMPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6euAwHf+u1ItA2eK0so1Yr2FypSsHdAXRoV366E1T7A=;
-        b=KjquHwm01hVVBKox0tEoY9chS1OBy3vIkluxfq6aHEeR+frO5vwNGl8Fa6koT5DrpO
-         lQg1fwEsn+OHEO6Rfylu1a6KwDXKom2zzZnziSZsYhIu6xb47LHGQSTZbpoilDjlgk5+
-         WKz+gjg/S2FBq/14hfPaf+3rKEJ+i+lQutDa9av+OAmVLm8V6VzODV7WgcQN1uwAdewQ
-         F0K+JqsKyqVXpNrbx+pPxC4iBmui05KJ+m0S++u7akKKfu+NCGBQno//ZZC+VplxQgrX
-         PFDT/MD4TcfYaSEUOXoQqkUNoDpwf/TCf6TFTi3LHNxGmXuOL8AcXcoyyeRLAn+7RsVq
-         CPSg==
-X-Gm-Message-State: AJIora/coYxihO6Ucf+DKhejFrfGO2R9vjLYkY0FlJsMfCqJbjSCcUML
-	uls44+rTo2QnycrvyN2I15o=
-X-Google-Smtp-Source: AGRyM1vvGym6dIu1dzL5D9w5ByCyaMzKJVi5dIkF/tCPnAULV9l/JONes8lGy1VG4OGs+OyJ5i+Pgg==
-X-Received: by 2002:a7b:c012:0:b0:39c:529a:7590 with SMTP id c18-20020a7bc012000000b0039c529a7590mr26485917wmb.6.1655755601453;
-        Mon, 20 Jun 2022 13:06:41 -0700 (PDT)
+        bh=yDbkoyglFzlD/is/5GkDF5bxT9ENs1AtX/zXNAcYF8s=;
+        b=AAcVA/p8TLfx5m1XqHCkdiSfPpj9FBDE7Y6RYyNiRrmuXfcz91TJ8UXI04vWazpijJ
+         enRAYhbpxq2s2nvPvrrxeBoZRakcATqjpeVAZRxIbFvTTezr4C4DTb5/8YdxG8q7jKzI
+         jsR2Pa5dk5Gph5r+hOYn6vQgQfoNSh2crJ70Ift87S3bClleuAqxg/ntvOAdV6MbUibA
+         gOrlcS0e/lxfsI7MByJKilZSynXSVm+smDslFXM3rWkQY5DYvBgU29SphN1cVxsyfWh7
+         AnIcX9egDk2DYkJpl1elxSw73bEzsHjza3CIVXYRKxSwCgVpbr1qKMjL/1c1XEurh3r8
+         mbsQ==
+X-Gm-Message-State: AOAM531zgFVPEg+3TeB+6ycmjBsZuC4UWcRfcv/CBAZpI5TUFmuUAii1
+	iE7GR9kssu0S2a/vrzrhNDA=
+X-Google-Smtp-Source: ABdhPJynux7C1eoNMlx+vUMO5VOj8q1wBlYfPuBT+ReLmKHLRHcj/n+Q7FNGG42F1xN9EMg0dcGAng==
+X-Received: by 2002:a05:600c:601f:b0:39c:416c:4069 with SMTP id az31-20020a05600c601f00b0039c416c4069mr36844654wmb.85.1655755603037;
+        Mon, 20 Jun 2022 13:06:43 -0700 (PDT)
 Received: from localhost (92.40.169.68.threembb.co.uk. [92.40.169.68])
-        by smtp.gmail.com with ESMTPSA id v188-20020a1cacc5000000b003973c54bd69sm19423794wme.1.2022.06.20.13.06.40
+        by smtp.gmail.com with ESMTPSA id n15-20020a5d4c4f000000b0021b966abc19sm300460wrt.19.2022.06.20.13.06.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:06:41 -0700 (PDT)
+        Mon, 20 Jun 2022 13:06:42 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 17/49] regmap-irq: Add broken_mask_unmask flag
-Date: Mon, 20 Jun 2022 21:06:12 +0100
-Message-Id: <20220620200644.1961936-18-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 18/49] mfd: qcom-pm8008: Add broken_mask_unmask irq chip flag
+Date: Mon, 20 Jun 2022 21:06:13 +0100
+Message-Id: <20220620200644.1961936-19-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -88,29 +88,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This flag is necessary to prepare for fixing the behavior of unmask
-registers. Existing chips that set mask_base and unmask_base must
-set broken_mask_unmask=1 to declare that they expect the mask bits
-will be inverted in both registers, contrary to the usual behavior
-of mask registers.
+The qcom-pm8008 appears to use "1 to enable" convention for
+enabling interrupts, with separate set and clear registers.
+It's relying on masks and unmasks being inverted from their
+intuitive meaning, so it needs the broken_mask_unmask flag.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- include/linux/regmap.h | 1 +
+ drivers/mfd/qcom-pm8008.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index ee2567a0465c..21a70fd99493 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -1523,6 +1523,7 @@ struct regmap_irq_chip {
- 	bool clear_on_unmask:1;
- 	bool not_fixed_stride:1;
- 	bool status_invert:1;
-+	bool broken_mask_unmask:1;
- 
- 	int num_regs;
- 
+diff --git a/drivers/mfd/qcom-pm8008.c b/drivers/mfd/qcom-pm8008.c
+index da16566f7883..18095e72714e 100644
+--- a/drivers/mfd/qcom-pm8008.c
++++ b/drivers/mfd/qcom-pm8008.c
+@@ -141,6 +141,7 @@ static struct regmap_irq_chip pm8008_irq_chip = {
+ 	.status_base		= PM8008_STATUS_BASE,
+ 	.mask_base		= PM8008_MASK_BASE,
+ 	.unmask_base		= PM8008_UNMASK_BASE,
++	.broken_mask_unmask	= true,
+ 	.ack_base		= PM8008_ACK_BASE,
+ 	.config_base		= pm8008_config_regs,
+ 	.num_config_bases	= ARRAY_SIZE(pm8008_config_regs),
 -- 
 2.35.1
 
