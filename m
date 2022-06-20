@@ -1,41 +1,41 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCE3D75
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:16 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id m125-20020a1ca383000000b0039c63fe5f64so6210813wme.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0569C3D6E
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:18 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4twauV1jKrSap9S7bWtY2G6jDd+AwgeAtPmARMXtVJs=;
-        b=HAVLNiSG1Db+lrcRkQRn8OxHpInOCKVObpVGiV2a54L1CQgeoGOooL330nzmb1IrII
-         a3+TudV6Bx14k7cwx4iQj2dXFhyD/5OkarV2X1AcQ8112qn1+A6sYLyb7gP/k60vWcpp
-         QlXmznoiGFzV+kfuaH3NwBCvN7xAfZ6eQWiXmrgD9jVR+QP4E0pwxB386bRkdp7qjh4v
-         RRefsra95ego+spLsfQaC4Onjyy0W/nUDl+zsdYC0d5hRcphjIZcJd2yOdzoQBdmrOLN
-         oGvMMVKLgN9yHbyQ2rgqGCUc73aP/jM/TLKGsXmkumYZuLKeHNvCzWm6gGOK0EhOiQTm
-         KNOA==
+        bh=NcUaD1/hetXoR1Hr3zOaIrV5ibqb80WKTQCzVE8bVrc=;
+        b=JYv78xaECQZTaj29SjmNHnhs4gfEEratnCgfJZagJJiK+EVif7vCkcuTP1QF0wfouK
+         JhOxz5Q0vETS+bhO7JLSkwPttvHYnqkEyX3HWyCMGYjjskRlAQvkUsr5XtoBlAJVGwhM
+         Gw+0xCBp9YPW230YKLPHGegCcK1UoKqqxF+q0NM7n1ss/f9b2tA03ELnh9lj8wNVqRiD
+         p3oWRBH9z/0ejlWRohZ3vCWr/VL+wIvmrnrFxL5IVwRiWT8mfm+mPnriC/8/NBkGAEQT
+         cw5lNfhGyRNeY0VAdg2EvhXglVeSK8bk4eq65rFbOML/1pGcXaRo+6lWO3/nbDyuiy/y
+         5z2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4twauV1jKrSap9S7bWtY2G6jDd+AwgeAtPmARMXtVJs=;
-        b=ZcZdzinyglhEunA39piVGeP6jb/mrTgRaLb01RzXcC7I/K4GF8L1yFU1oImgIL5DDT
-         ILHH0DgB3rnEcIPwK74j+Ee+ZhXZhMN0YJmuz3QOfSgtNZsvxMs5R3HPZj5Mf8iZByvZ
-         PUCf6t3GIAWFd0BEVVhDkoyPYtV7/xBlc+qjHz69UDS5drBVwhDAj5O7NvlkNawWL7LH
-         tgg+JtfYDN/2NhAul5hGTGGcZ6DGBbrFcyEBSXZjRiJDi/d9HM++dD+3XudpQF7+Qk4Q
-         Bz7/xTuqZ41skBUh+G77Y8n/FY1TAgmlTKWnoobpRkySRx9D5zreyE0B9WyKufQjq16u
-         iqvg==
-X-Gm-Message-State: AJIora/o6oC9K7bCboY3QttyDZ1ED8doiw2Tu4dbAqF7pH7IEsu+0zd7
-	ZvX2gIuIOVwnx2N++kHIJTw=
-X-Google-Smtp-Source: AGRyM1vZj7DM/aKfxxiAy6DKWUA3/0+uS2K9N2/ZQZ6xqLKDO+9vKTvK3AWaJgypH2v81OQNNU2jMg==
-X-Received: by 2002:a05:600c:4787:b0:39c:8576:8f55 with SMTP id k7-20020a05600c478700b0039c85768f55mr25382417wmo.1.1655755635917;
-        Mon, 20 Jun 2022 13:07:15 -0700 (PDT)
+        bh=NcUaD1/hetXoR1Hr3zOaIrV5ibqb80WKTQCzVE8bVrc=;
+        b=yWPYN21ZEMbDK824dc2brrtP0zW5aamOLkF9M1SCjxRiQowkn3gelIHlcd3knOb3nK
+         PYdD6OML8SVrAXNYIVSOyjeyg8k0cfCSANEhplkLAEEnCJbS+9x4t9ZMwXD6ffPTh+iG
+         82lZ+1hNWcxbuLvjAF8OasyT7yCB369pcpOv9f2yR4MJ4kUwFhuW4nSqMdZ64oWQpjAE
+         TaBlPHOH4ZCqKBg+EVphKfV29GkVID/RPXzLVPiFeYMHQzHPGEjsP5CvQFo4vxGZv/sS
+         j1ll8RSt/OhXx+fqQ1yJmDdETYSIXeKLa1NTaM8lhCQq9LDL4KgS05inhcbTqoPy8vvb
+         kbCQ==
+X-Gm-Message-State: AJIora9fbNXscgpTpo7Ec6vhmxTxFTi/7ZY5YJ0MW2k49xf7xGNHNm7i
+	W7F5U9l6Y/5w6l1h7JR0IQU=
+X-Google-Smtp-Source: AGRyM1t6EjGq1Ksd7MyVDLpDLClD84TIjP3RmrRekqAiittfXcb8Cp1PUoN9E0quIHfglyDXxzFsVA==
+X-Received: by 2002:a5d:4601:0:b0:21b:9035:d295 with SMTP id t1-20020a5d4601000000b0021b9035d295mr6103622wrq.63.1655755637616;
+        Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id n37-20020a05600c502500b0039c5cecf206sm16544192wmr.4.2022.06.20.13.07.15
+        by smtp.gmail.com with ESMTPSA id m42-20020a05600c3b2a00b003973435c517sm16572141wms.0.2022.06.20.13.07.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:15 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:17 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 38/49] irqchip: sl28cpld: replace irqchip mask_invert with unmask_base
-Date: Mon, 20 Jun 2022 21:06:33 +0100
-Message-Id: <20220620200644.1961936-39-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 39/49] gpio: sl28cpld: replace irqchip mask_invert with unmask_base
+Date: Mon, 20 Jun 2022 21:06:34 +0100
+Message-Id: <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,23 +93,23 @@ as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/irqchip/irq-sl28cpld.c | 3 +--
+ drivers/gpio/gpio-sl28cpld.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/irqchip/irq-sl28cpld.c b/drivers/irqchip/irq-sl28cpld.c
-index fbb354413ffa..f2172240172c 100644
---- a/drivers/irqchip/irq-sl28cpld.c
-+++ b/drivers/irqchip/irq-sl28cpld.c
-@@ -65,8 +65,7 @@ static int sl28cpld_intc_probe(struct platform_device *pdev)
- 	irqchip->chip.num_irqs = ARRAY_SIZE(sl28cpld_irqs);
- 	irqchip->chip.num_regs = 1;
- 	irqchip->chip.status_base = base + INTC_IP;
--	irqchip->chip.mask_base = base + INTC_IE;
--	irqchip->chip.mask_invert = true;
-+	irqchip->chip.unmask_base = base + INTC_IE;
- 	irqchip->chip.ack_base = base + INTC_IP;
+diff --git a/drivers/gpio/gpio-sl28cpld.c b/drivers/gpio/gpio-sl28cpld.c
+index 52404736ac86..2195f88c2048 100644
+--- a/drivers/gpio/gpio-sl28cpld.c
++++ b/drivers/gpio/gpio-sl28cpld.c
+@@ -70,8 +70,7 @@ static int sl28cpld_gpio_irq_init(struct platform_device *pdev,
+ 	irq_chip->num_irqs = ARRAY_SIZE(sl28cpld_gpio_irqs);
+ 	irq_chip->num_regs = 1;
+ 	irq_chip->status_base = base + GPIO_REG_IP;
+-	irq_chip->mask_base = base + GPIO_REG_IE;
+-	irq_chip->mask_invert = true;
++	irq_chip->unmask_base = base + GPIO_REG_IE;
+ 	irq_chip->ack_base = base + GPIO_REG_IP;
  
- 	return devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
+ 	ret = devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
 -- 
 2.35.1
 
