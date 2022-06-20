@@ -1,41 +1,41 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5C6D3D75
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:14 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id k22so9641978wrd.6
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDCE3D75
+	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:16 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id m125-20020a1ca383000000b0039c63fe5f64so6210813wme.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=dbyvlkbY4sJOjh3UQdGyOPNGXQQ/y7Irc+C1CWkw+ak=;
-        b=O31tT53sO/Sz1zUUmz4+b7clogfECSiQb9wF145zFCWeos95kyFGhyMNr0ihPdqpqx
-         bJc50KM0wIrtRqZCqzGADVF4M3k1QjGTHVo1VYjGwT74JLbT3B4kvTSheNe818VtY8DZ
-         HDqJJzSXulU9aA8Q7p64IRscmVk+LyazVQczqtnvFpnAbVUfczXyJXpSX6rv84tpA2ID
-         Fp6mzmh7R3C0ofGj++M07N5Nk1RQvkOi9t24WmMCnaJkp1Xa/s9Jij2cEafhCNNYBn56
-         seJUbVNIALw9YCjjSnuje4l/jDR/w2Hi2qVNJRlUiL9Bqsun5VReJR/qIIMDhEg6iASO
-         mm4Q==
+        bh=4twauV1jKrSap9S7bWtY2G6jDd+AwgeAtPmARMXtVJs=;
+        b=HAVLNiSG1Db+lrcRkQRn8OxHpInOCKVObpVGiV2a54L1CQgeoGOooL330nzmb1IrII
+         a3+TudV6Bx14k7cwx4iQj2dXFhyD/5OkarV2X1AcQ8112qn1+A6sYLyb7gP/k60vWcpp
+         QlXmznoiGFzV+kfuaH3NwBCvN7xAfZ6eQWiXmrgD9jVR+QP4E0pwxB386bRkdp7qjh4v
+         RRefsra95ego+spLsfQaC4Onjyy0W/nUDl+zsdYC0d5hRcphjIZcJd2yOdzoQBdmrOLN
+         oGvMMVKLgN9yHbyQ2rgqGCUc73aP/jM/TLKGsXmkumYZuLKeHNvCzWm6gGOK0EhOiQTm
+         KNOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=dbyvlkbY4sJOjh3UQdGyOPNGXQQ/y7Irc+C1CWkw+ak=;
-        b=zK3rH7gZZWkGR9+o4Xa/e0ugFk9fjCUhsWmFWQH2wGek+XN+cRND8HjR/V6snVxVXj
-         xb93OnEqyg8V8Uz9OpSJg6fFlP+HBOeyjW2+klW4pTFJyg/xDmkwmurkDAEj5bC+RPJH
-         yHewqH949If1kTPTKiby9MEshHrX4JtbexdweTQ+a2Doj3m8rwyiOdPqTEJ+I9BZmssU
-         fmkufnDB23mkkmiBfq1mxRtR+9v2AH9q6jjK9xoawkJDZ4M3TT74wYEIqt1QJ4BgZ3uH
-         Cl4nVURpCgnKFpLK8jPZHg38rXMmP3b4Rlta/G4w2kUkaQbG+tjaC/tWXxgYqAyeP7bp
-         YWRQ==
-X-Gm-Message-State: AJIora92EMdpcuSOu/I3AEPEniKyU+mCCsAOYtXF+59mZvLUG4z0ke/y
-	qK3XUN/kAwVfhncnMPZ6NOM=
-X-Google-Smtp-Source: AGRyM1txLq4Tx5IKJyl2yL+hQwHqEppU3pzgOBeDxgV9FsOmPyXZOlr03TOSB7o38hDoIT4MKowqhA==
-X-Received: by 2002:a5d:588d:0:b0:218:4d0e:b89 with SMTP id n13-20020a5d588d000000b002184d0e0b89mr24292034wrf.58.1655755634413;
-        Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
+        bh=4twauV1jKrSap9S7bWtY2G6jDd+AwgeAtPmARMXtVJs=;
+        b=ZcZdzinyglhEunA39piVGeP6jb/mrTgRaLb01RzXcC7I/K4GF8L1yFU1oImgIL5DDT
+         ILHH0DgB3rnEcIPwK74j+Ee+ZhXZhMN0YJmuz3QOfSgtNZsvxMs5R3HPZj5Mf8iZByvZ
+         PUCf6t3GIAWFd0BEVVhDkoyPYtV7/xBlc+qjHz69UDS5drBVwhDAj5O7NvlkNawWL7LH
+         tgg+JtfYDN/2NhAul5hGTGGcZ6DGBbrFcyEBSXZjRiJDi/d9HM++dD+3XudpQF7+Qk4Q
+         Bz7/xTuqZ41skBUh+G77Y8n/FY1TAgmlTKWnoobpRkySRx9D5zreyE0B9WyKufQjq16u
+         iqvg==
+X-Gm-Message-State: AJIora/o6oC9K7bCboY3QttyDZ1ED8doiw2Tu4dbAqF7pH7IEsu+0zd7
+	ZvX2gIuIOVwnx2N++kHIJTw=
+X-Google-Smtp-Source: AGRyM1vZj7DM/aKfxxiAy6DKWUA3/0+uS2K9N2/ZQZ6xqLKDO+9vKTvK3AWaJgypH2v81OQNNU2jMg==
+X-Received: by 2002:a05:600c:4787:b0:39c:8576:8f55 with SMTP id k7-20020a05600c478700b0039c85768f55mr25382417wmo.1.1655755635917;
+        Mon, 20 Jun 2022 13:07:15 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id n68-20020a1c2747000000b0039c5a765388sm15705645wmn.28.2022.06.20.13.07.13
+        by smtp.gmail.com with ESMTPSA id n37-20020a05600c502500b0039c5cecf206sm16544192wmr.4.2022.06.20.13.07.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:14 -0700 (PDT)
+        Mon, 20 Jun 2022 13:07:15 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 37/49] extcon: rt8973a: drop useless mask_invert flag on irqchip
-Date: Mon, 20 Jun 2022 21:06:32 +0100
-Message-Id: <20220620200644.1961936-38-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 38/49] irqchip: sl28cpld: replace irqchip mask_invert with unmask_base
+Date: Mon, 20 Jun 2022 21:06:33 +0100
+Message-Id: <20220620200644.1961936-39-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -88,26 +88,28 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's no need to set the flag explicitly to false, since that
-is the default value from zero initialization.
+An inverted mask register can be described more directly
+as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/extcon/extcon-rt8973a.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/irqchip/irq-sl28cpld.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/extcon/extcon-rt8973a.c b/drivers/extcon/extcon-rt8973a.c
-index 40c07f4d656e..02ba770acb27 100644
---- a/drivers/extcon/extcon-rt8973a.c
-+++ b/drivers/extcon/extcon-rt8973a.c
-@@ -192,7 +192,6 @@ static const struct regmap_irq_chip rt8973a_muic_irq_chip = {
- 	.name			= "rt8973a",
- 	.status_base		= RT8973A_REG_INT1,
- 	.mask_base		= RT8973A_REG_INTM1,
--	.mask_invert		= false,
- 	.num_regs		= 2,
- 	.irqs			= rt8973a_irqs,
- 	.num_irqs		= ARRAY_SIZE(rt8973a_irqs),
+diff --git a/drivers/irqchip/irq-sl28cpld.c b/drivers/irqchip/irq-sl28cpld.c
+index fbb354413ffa..f2172240172c 100644
+--- a/drivers/irqchip/irq-sl28cpld.c
++++ b/drivers/irqchip/irq-sl28cpld.c
+@@ -65,8 +65,7 @@ static int sl28cpld_intc_probe(struct platform_device *pdev)
+ 	irqchip->chip.num_irqs = ARRAY_SIZE(sl28cpld_irqs);
+ 	irqchip->chip.num_regs = 1;
+ 	irqchip->chip.status_base = base + INTC_IP;
+-	irqchip->chip.mask_base = base + INTC_IE;
+-	irqchip->chip.mask_invert = true;
++	irqchip->chip.unmask_base = base + INTC_IE;
+ 	irqchip->chip.ack_base = base + INTC_IP;
+ 
+ 	return devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
 -- 
 2.35.1
 
