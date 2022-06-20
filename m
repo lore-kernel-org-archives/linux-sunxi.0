@@ -1,41 +1,41 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54AFC3D6E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FFA3D75
 	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:06:57 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id i10so12333818wrc.0
+Received: by mail-wr1-f52.google.com with SMTP id o8so16101330wro.3
         for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:06:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aFyu5esk/Zb2lNQzmvPRJ9QuwxnaeJqoP/Ih9wxKaVE=;
-        b=Hx66dBMoypw3HFQ6ZlYKo/eR568ezNz8W5y6iElQBkDHOOhjdkd2OOUeXyuM4IJATJ
-         nOWdw0iuhlEmOX8vNXfnAWlMC147l0U4mfE3S2gNMusmdyP2zWZJyHYTvmwCppX/Iskv
-         vwfm6snjUXGKxpT/jRbYfj6RIQgagfupLw7jvBu/UAvy5tQBhPO9eQAGfcl+0IEp9k+M
-         wAT+eo4bwJp8EjwTVNo5vMEs/MgiikrzJ6fDgsNBPx0jramgLds5jhx1zxPNI3c4MG3Q
-         IGQX9FrRR/YfkFCB3wF6UfpCKRFn8rTPevafX0DQ9EPElddTBsBLn3qw+l3BZXYk9GKI
-         5nXg==
+        bh=dZq4DXS5hfuZufkfinYetDi/sPSwHy1FNwiaqhpssa4=;
+        b=bpjyLwVivcFSW5QVbgosK/o2QuZHms1vCc6tC1sGza+OT1YZWe465cW4jNRW7fx4ks
+         msy9Ia4HJKGcKj1u1StthDIoGNe0jPNNRCwfixCCbhsIu8kl5EdbhBkaAOJGTjzxLAZf
+         Bv9bbx8NKTphmbx8bemLzrtymECuH5WWFEStWDPJlp6dqluOf0EOgjov5G1nTwcbn/99
+         6V1IcwQ/cUBFnAQ+UHfvGn1YssCCtL98+3EotWIqSk0wFS+MMtuhmD5WuWOcv9MXK3SK
+         oL+O91AqJHe+kT2bNOas/VelkJQaxBD6di93/z4nY9iPMcMc3LCgHQ1sLEmd+cWZ+9Od
+         WH6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aFyu5esk/Zb2lNQzmvPRJ9QuwxnaeJqoP/Ih9wxKaVE=;
-        b=hC5MWC8Cjw3w5j60DJ4eqGzrGbjuFUcQkxZGtj/KcCWoyILWbizrffEMD86PAqnLGq
-         qWnDnj0kjSinE8HOHAhH0TZoXove/UlJvAvrAdWL7bGv7Hxlx9LLCd+nOvS4Rl2An6zU
-         MR+r3Vf8fmWzCYX9dTZB9pl+mBcZ6kytmvpVGrjULCy9HRs0tzbAGr1jAgwhMZcHlDua
-         k0ISBrobfCq5zbl1+e8iatkbDQnOjpXQ2u4WjIH9IixgIAalls6w8BqVeJbFXGxPxNFI
-         /H36ITqAGFAfYhg8sO48eEezBGW+RXyv4WkPXot9ynC5fGoqKsj/nl8OwW2gvmVPla7f
-         uitA==
-X-Gm-Message-State: AJIora+NGF3Qj0vkYhUZaw1ZcCDmu3gKk0TXOneJz0//0fGcAR+72p85
-	SjSrtfN0iSF6XoWajMLyxB8=
-X-Google-Smtp-Source: AGRyM1tHw8LdpOYQ4ocdkg/wb7xbdY+ptC8YBcgzkEw+K1EEKq9i385MNLM8p7QV0MNlJKBoINhp9g==
-X-Received: by 2002:a5d:5847:0:b0:218:5319:f4e3 with SMTP id i7-20020a5d5847000000b002185319f4e3mr25586723wrf.500.1655755615568;
-        Mon, 20 Jun 2022 13:06:55 -0700 (PDT)
+        bh=dZq4DXS5hfuZufkfinYetDi/sPSwHy1FNwiaqhpssa4=;
+        b=YaiQzpc+UmnleMJVBUVFRnS2jw8QIvUetG/ZVjAjAC6JOpuK/WYBkVpWi20nF/5j+h
+         1A9cm6uJdlTk4YOULyvXO4XpNXeP/j8j4SnKpbUeMRnS+/9TzIvGp1KthLbO+S5jHbIr
+         44F5ggBBVgPEgCTzfZq/MYvaL0KKXW70gI7SoYOchmL8zloW8gyjHAQ1JVFP972/lb+W
+         6jOoF+MQ8Sow5lH7YeSpF1+v3S4MLvevXnUMN/S/hDhvbwityEgjjU0CJjhXDz3NF8Wy
+         eXj4JAtElh0dOfw4oJ5TxXS8+Qmfzfw5HOv7yMc5cMVPL4hjrhP0+OIcQEBtca05q8o/
+         mAdg==
+X-Gm-Message-State: AJIora+kB1ikNIV6sZPdY8St+RNzHUA2Nk5d1gAEIMHqrPzO3NepyqFv
+	HIcrgwdGLrNTfLXYDtY5lx8=
+X-Google-Smtp-Source: AGRyM1uUe+TJYcYrAuoAsTQoql0GG3zgxE4cm70M4L11J/HjtjuiCzoxQPxyTkB4HBjRJYR8SssVEQ==
+X-Received: by 2002:adf:fb06:0:b0:21a:3dc9:f12d with SMTP id c6-20020adffb06000000b0021a3dc9f12dmr19252192wrr.204.1655755617100;
+        Mon, 20 Jun 2022 13:06:57 -0700 (PDT)
 Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id w5-20020a7bc105000000b003976fbfbf00sm15528084wmi.30.2022.06.20.13.06.54
+        by smtp.gmail.com with ESMTPSA id x1-20020adff0c1000000b002103cfd2fbasm14315943wro.65.2022.06.20.13.06.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:06:54 -0700 (PDT)
+        Mon, 20 Jun 2022 13:06:56 -0700 (PDT)
 From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 To: broonie@kernel.org
 Cc: agross@kernel.org,
@@ -75,9 +75,9 @@ Cc: agross@kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	alsa-devel@alsa-project.org
-Subject: [PATCH 26/49] mfd: rn5t618: replace irqchip mask_invert with unmask_base
-Date: Mon, 20 Jun 2022 21:06:21 +0100
-Message-Id: <20220620200644.1961936-27-aidanmacdonald.0x0@gmail.com>
+Subject: [PATCH 27/49] mfd: gateworks-gsc: replace irqchip mask_invert with unmask_base
+Date: Mon, 20 Jun 2022 21:06:22 +0100
+Message-Id: <20220620200644.1961936-28-aidanmacdonald.0x0@gmail.com>
 In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
 Precedence: bulk
@@ -93,23 +93,23 @@ as an unmask register.
 
 Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 ---
- drivers/mfd/rn5t618.c | 3 +--
+ drivers/mfd/gateworks-gsc.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/mfd/rn5t618.c b/drivers/mfd/rn5t618.c
-index 384acb459427..7ed002d090bd 100644
---- a/drivers/mfd/rn5t618.c
-+++ b/drivers/mfd/rn5t618.c
-@@ -80,8 +80,7 @@ static const struct regmap_irq_chip rc5t619_irq_chip = {
- 	.num_irqs = ARRAY_SIZE(rc5t619_irqs),
+diff --git a/drivers/mfd/gateworks-gsc.c b/drivers/mfd/gateworks-gsc.c
+index d87876747b91..28ec167a9861 100644
+--- a/drivers/mfd/gateworks-gsc.c
++++ b/drivers/mfd/gateworks-gsc.c
+@@ -189,8 +189,7 @@ static const struct regmap_irq_chip gsc_irq_chip = {
+ 	.num_irqs = ARRAY_SIZE(gsc_irqs),
  	.num_regs = 1,
- 	.status_base = RN5T618_INTMON,
--	.mask_base = RN5T618_INTEN,
+ 	.status_base = GSC_IRQ_STATUS,
+-	.mask_base = GSC_IRQ_ENABLE,
 -	.mask_invert = true,
-+	.unmask_base = RN5T618_INTEN,
++	.unmask_base = GSC_IRQ_ENABLE,
+ 	.ack_base = GSC_IRQ_STATUS,
+ 	.ack_invert = true,
  };
- 
- static struct i2c_client *rn5t618_pm_power_off;
 -- 
 2.35.1
 
