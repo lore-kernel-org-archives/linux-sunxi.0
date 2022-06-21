@@ -1,129 +1,175 @@
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2BF5A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 03:55:06 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id B37FF32009AC;
-	Mon, 20 Jun 2022 23:55:04 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568E3A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 04:12:50 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.west.internal (Postfix) with ESMTP id CB03632004F8;
+	Tue, 21 Jun 2022 00:12:48 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 20 Jun 2022 23:55:06 -0400
+  by compute3.internal (MEProxy); Tue, 21 Jun 2022 00:12:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm3; t=1655783704; x=1655870104; bh=VR
-	hWQHBguZsw8yrrHV1JpbZv0bAlRhTVvnAV7jTHX4w=; b=ioG//c2UFTlNLdI6/f
-	mw7nqozZ1TMUk2nmIHpEr+9y9Bo6Rfzf0ID3Xu+BdCnTYFWY+c9aJtXBrFUTQY/H
-	S0Jhp9ZMwQ4xW8gROGew+J0wA9KWfcT9oxKv+O3EKKAOUDqxpP07T7VLdf64b+Ab
-	iIxA14zIyFihRKwqSEKj73UalCRUAXABAdcBxfEz6Q7pBFdOUjNe9FkVHqNWwMiW
-	dl970xPjvSTco3SWbu280o8vQSg4NrF7lZzquRECJJnjaXW/DwANGbYQSmK696BR
-	GlcLyYOBm3krFTFWYGdeo7oNtkWlJ6+0jMhqiPHxdGApVRENc5vtg/bNukR9QZFO
-	/QHg==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655784768; x=
+	1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=C
+	1M85zd3eSzPbPbrqJLqJf9XGPjCp5qspTW0Pb2G5upYU2zzPTmqd1H/GkSDF4R2h
+	jTVkPgJvlPCbUT6D66cr5MOagfZp8/qJ7gT7m6CH/IPz1QgwP5kmuhn2pcMJ+Bjq
+	wF3m6DwBEx8ZkjB9ljR1S07Y371FLj2Rk4NejXkBpjEyR1qdIpmSmNNV/St6FPaX
+	Axq3ihYYd9b+xHhWwlk4BM9Ze4n+fNrYaOeJYCXxsgDruW8N2Niew1cwoZ7I6oOe
+	ZmRbDc5CSGn+GXqrjbz/U4POJ0yx9yl+FXAEafjH5TgkODpPrvBLIzxVO3B5T9mK
+	mnzQnlTfPmlOth79Drw5A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; t=1655783704; x=1655870104; bh=VRhWQHBguZsw8
-	yrrHV1JpbZv0bAlRhTVvnAV7jTHX4w=; b=R01ZE/sKfHaJ7Q35qldycLrEjPmgt
-	Qu2gjuea1qgnrSVVtuR5k8BUAqdaHBfMS0i4XUdnDL5YenSivR+UB++YCXDazeaO
-	5r1VBtzLLSOLbuCHYu9q+boLgfAkIHplzAMZvMFeX96P28w8qqI37eOA449kfA8g
-	ulowo6ZfTlVtJbJe5tL1g9ENP3ELadZ3WNZfP4xf3z99Vgfi+MLTL++4An/eDxP+
-	78yYx090yJsxxpOFSftb3BdwODjzSJV3B/IZjKou/GyldCZFd6p9tD+N46w5Xm4Y
-	PcqLa+NxFIT89EQ3QRRIya6HxVcE8q5ghNqWMf7T2y3+MEhGIozM+2q4g==
-X-ME-Sender: <xms:GEGxYsiBnbERuAyHXmBtTjSMwysllg0dWLYA4Bk1cgxM53LTezhcBQ>
-    <xme:GEGxYlAOAH9uqScfS04cSV00HkWjDXBCwLoedJyWznPauQ6ih310Fvz8_pbar6VSI
-    hgPd2b2CxtRFDahsw>
-X-ME-Received: <xmr:GEGxYkFQAqnFGK_2GFmGU9VwCyQIPMaMHOepMIilCQSQfN21s3tjqwdIrCi5nRsF4k61njE2aO0xCXf2219a6YvqnORcTtjt-gkrCGTjFeDEjFn2RzxUwTKR8Aaescq0OwrkNw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgjeefucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655784768; x=
+	1655871168; bh=YFC9enACBq9N/iDDvL+ELyNOFTG6bJu/nZay/ScaEg4=; b=O
+	eb/c7KAsWiuQnepLqcYmFDJjhF1toXYwtArej8zdAYFOE4m6yXPYTKUgH8DFUAXT
+	CBCYQPUEnqhlY9h1iOeG4lFU8VqoZAYJxlU7Jwkwkangi5r3GhyuXcvc3bhvgydU
+	mEodnq47L0sIIQoNhDYj9+sLqkfddMBdepKvDioqFEr/DwquVHV9bQr55sUgy3YQ
+	d7U/L0jmpEC4IUz0LR/iiWEp+ZahM5L7hGyFEk1uB6mC4kkJPZ0fC4MUanPnu48s
+	TROyoixs26PBdxrFpylGlkzEiwvXMr0HmCLvWfVor5suPMHuhfpg/NFBxmvb0SUu
+	hnuE4vdC8TYCbD8YSqzXA==
+X-ME-Sender: <xms:P0WxYjYjZ3ggPBjDznWxsI_xY88tokEBwsrabMSJZbYDlkUfkHjB_A>
+    <xme:P0WxYiaeSn9xZHM91Omj9O1gEj1CeUlw5Cuo0NzXTt25cdmRtiwHvXnk406dSw7cn
+    QmbkPp8P_YOomyrMw>
+X-ME-Received: <xmr:P0WxYl_SQ_N1Ya67JdJFmg_rf_xGTABdGNn7CMC8qhixECYKAfFfJkvMhccd-js5zOaVINHxk5Hz_cVuzOKI1qZUC1w3ocUErsyvNebn47IxdQZUMxleYYhEmg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgjeeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:GEGxYtT95agFMh9NGGXxhwWPvTCQFVGb_X8gj6RI-Czhj1z8K6k9wg>
-    <xmx:GEGxYpxPrZ8qixAG9_ue4WURFz4HlpqlQadis23HwkFUTdnHLhSTJg>
-    <xmx:GEGxYr6pB9-HN4w8idgpE5IYSt8RyeqnutLXuGg_I-t8AkPH6Y46jA>
-    <xmx:GEGxYuKI6EVTipbaj696Y4FEoDfqx2YwpteO_KEjEe8DrmbN2q31og>
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:P0WxYppYWRlEAXkE22DXCaxNCPu73OOgNvnNwi2VBHxTiY3YPJpGlQ>
+    <xmx:P0WxYurZ4IZK3fxEpNCPDQwbYfqJ8qv1cVEohuIkX23OpSkliM2ADA>
+    <xmx:P0WxYvSgI8J-br5kRUO6Z23iXeq7YmrJ52h-uo2E3zH7WsIDnIGfyg>
+    <xmx:QEWxYqcQmHZbcl19fcgCPek4ZOHVkFaKzIR8XNo3U8HDxpcmdvJ9AQ>
 Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jun 2022 23:55:03 -0400 (EDT)
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 21 Jun 2022 00:12:47 -0400 (EDT)
+Subject: Re: [PATCH v4 2/4] Input: pinephone-keyboard - Add PinePhone keyboard
+ driver
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ linux-input <linux-input@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Ondrej Jirman <x@xff.cz>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev
+References: <20220618165747.55709-1-samuel@sholland.org>
+ <20220618165747.55709-3-samuel@sholland.org>
+ <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>
-Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Jaroslav Kysela <perex@perex.cz>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>,
-	alsa-devel@alsa-project.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 3/3] arm64: dts: allwinner: pinephone: Enable internal HMIC bias
-Date: Mon, 20 Jun 2022 22:54:52 -0500
-Message-Id: <20220621035452.60272-4-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220621035452.60272-1-samuel@sholland.org>
-References: <20220621035452.60272-1-samuel@sholland.org>
+Message-ID: <2e6499b8-d8f4-b63a-689b-1e93aca7c210@sholland.org>
+Date: Mon, 20 Jun 2022 23:12:46 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcXNTxusT5N_8JvYWMhUyY_sAUzTcT3h0hz2bAawv6ThQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Revisions 1.0 and 1.1 of the PinePhone mainboard do not have an external
-resistor connecting HBIAS to MIC2P. Enable the internal resistor to
-provide the necessary headeset microphone bias.
+On 6/19/22 6:43 AM, Andy Shevchenko wrote:
+> On Sat, Jun 18, 2022 at 7:10 PM Samuel Holland <samuel@sholland.org> wrote:
+>>
+>> The official Pine64 PinePhone keyboard case contains a matrix keypad and
+>> a MCU which runs a libre firmware. Add support for its I2C interface.
+> 
+> ...
+> 
+>> +#include <linux/crc8.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/input/matrix_keypad.h>
+>> +#include <linux/interrupt.h>
+>> +#include <linux/module.h>
+>> +#include <linux/regulator/consumer.h>
+> 
+> Missed
+> types.h
+> 
+> ...
+> 
+>> +#define PPKB_ROWS                      6
+>> +#define PPKB_COLS                      12
+> 
+> ...
+> 
+>> +       for (col = 0; col < PPKB_COLS; ++col) {
+>> +               u8 old = old_buf[1 + col];
+>> +               u8 new = new_buf[1 + col];
+>> +               u8 changed = old ^ new;
+>> +
+>> +               if (!changed)
+>> +                       continue;
+>> +
+>> +               for (row = 0; row < PPKB_ROWS; ++row) {
+>> +                       u8 mask = BIT(row);
+>> +                       u8 value = new & mask;
+>> +                       unsigned short code;
+>> +                       bool fn_state;
+>> +
+>> +                       if (!(changed & mask))
+>> +                               continue;
+>> +
+>> +                       /*
+>> +                        * Save off the FN key state when the key was pressed,
+>> +                        * and use that to determine the code during a release.
+>> +                        */
+>> +                       fn_state = value ? ppkb->fn_pressed : ppkb->fn_state[col] & mask;
+>> +                       if (fn_state)
+>> +                               ppkb->fn_state[col] ^= mask;
+> 
+> Can't it be converted to use bitmap APIs?
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+This is a 2D matrix, with one byte per column, and one bit per row. There are
+only 6 rows, so two bits per byte are unused. Converting this to the bitmap API
+would unnecessarily complicate things.
 
-(no changes since v1)
+>> +               }
+>> +       }
+> 
+> ...
+> 
+>> +static int ppkb_set_scan(struct i2c_client *client, bool enable)
+>> +{
+>> +       struct device *dev = &client->dev;
+>> +       int ret, val;
+>> +
+>> +       ret = i2c_smbus_read_byte_data(client, PPKB_SYS_CONFIG);
+>> +       if (ret < 0) {
+>> +               dev_err(dev, "Failed to read config: %d\n", ret);
+>> +               return ret;
+>> +       }
+>> +
+>> +       if (enable)
+>> +               val = ret & ~PPKB_SYS_CONFIG_DISABLE_SCAN;
+>> +       else
+>> +               val = ret | PPKB_SYS_CONFIG_DISABLE_SCAN;
+>> +       ret = i2c_smbus_write_byte_data(client, PPKB_SYS_CONFIG, val);
+>> +       if (ret) {
+>> +               dev_err(dev, "Failed to write config: %d\n", ret);
+> 
+>> +               return ret;
+>> +       }
+>> +
+>> +       return 0;
+> 
+> return ret;
 
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts | 4 ++++
- arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts | 4 ++++
- 2 files changed, 8 insertions(+)
+The "return 0" pattern is idiomatic, and more diff-friendly when adding error
+handling or more operations. But I don't have that strong of an opinion on it.
 
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-index fb65319a3bd3..219f720b8b7d 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.0.dts
-@@ -10,6 +10,10 @@ / {
- 	compatible = "pine64,pinephone-1.0", "pine64,pinephone", "allwinner,sun50i-a64";
- };
- 
-+&codec_analog {
-+	allwinner,internal-bias-resistor;
-+};
-+
- &sgm3140 {
- 	enable-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
- 	flash-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-index 5e59d3752178..723af64a9cee 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-pinephone-1.1.dts
-@@ -29,6 +29,10 @@ &backlight {
- 	default-brightness-level = <400>;
- };
- 
-+&codec_analog {
-+	allwinner,internal-bias-resistor;
-+};
-+
- &sgm3140 {
- 	enable-gpios = <&pio 3 24 GPIO_ACTIVE_HIGH>; /* PD24 */
- 	flash-gpios = <&pio 2 3 GPIO_ACTIVE_HIGH>; /* PC3 */
--- 
-2.35.1
-
+Regards,
+Samuel
