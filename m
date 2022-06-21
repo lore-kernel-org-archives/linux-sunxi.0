@@ -1,207 +1,141 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820733D6E
-	for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 20:07:35 +0000 (UTC)
-Received: by mail-wr1-f51.google.com with SMTP id g27so9434019wrb.10
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 13:07:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=8kelxsU1mTvCHb8JyuDiGnwBNKthLdTp6riqPTxASyE=;
-        b=o6bhf9AeZ2+5NqgP4pO+3P9gyNweVr/bGU2k/NUXa6NYXjGakzCObDD7wDkgdnebAg
-         v6HJT2NvVLc4mo3MpTeYh7ui7/s+BGJ7Q4/gnJt/JyyKpgFnZPhBR2Ka+BdipZTmpezs
-         50XXSFPysaMCnC2KyoQqTfJgpwHcP8Qs6csQsoSjKJr7YEOzIlf0AvxEBaBGy51urmg4
-         0Qc9l+ouyuPb6zVKalYja0H/6iGdSRaP0Jx3Ik9CPxUwZcQPoSFsBH2qzIwE8XNgSX1u
-         1SryEGKFSLwPnYG9/aqm/DK+EGcho8O+D/L54CfDLfTFRjDpxwWLjKpGj0GZHfs/pPGX
-         yvQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=8kelxsU1mTvCHb8JyuDiGnwBNKthLdTp6riqPTxASyE=;
-        b=Zq7qxfz1GoAk5uljaEtkzD9NDVfoPK3TTC9Wv8X5OyGrdOwBjY7j3KEe2DZPZmOGan
-         G1wvGwttaw2rSM6Y+/vBMnjXAmBuFcY1Vh8VerP8iDxSyTAoYqlTJJBglGiNdfGE5DYU
-         b2zwj7M9aB3dBx59K+cUDXutgnsdF8WAMX/59EUMLg/EEMhz7InFxGaayE0J0m/rOjkC
-         77J4v/pXQjBovMWKOygomTb/tyGOkD0lU5A8DU+bIEKVdfpKEc+SsvAEp/mRYGAi/fxH
-         ShArv0HaAUh5ra1trZhYUKURhZW1YIO39B6SQDaSpqAtbpYpCHfo/sTlER2CUMReqZ1U
-         ytxg==
-X-Gm-Message-State: AJIora8DGLXr4PiSyuQmmcDiUUl3oAs3d/g1F94DYVrrTGgv7T3egCw2
-	SNjLXeP1Wsqj3hSVzfzzjXs=
-X-Google-Smtp-Source: AGRyM1svSmsGihGwSulWHMLA111MOtQXrfsi0glFa3Tcg1QRdKrN9n0oiKBKxxv3eSGlgwCYymRU0Q==
-X-Received: by 2002:a05:6000:1689:b0:218:3fb1:fd30 with SMTP id y9-20020a056000168900b002183fb1fd30mr24704084wrd.302.1655755655073;
-        Mon, 20 Jun 2022 13:07:35 -0700 (PDT)
-Received: from localhost (92.40.169.63.threembb.co.uk. [92.40.169.63])
-        by smtp.gmail.com with ESMTPSA id j6-20020adff006000000b0021b892f4b35sm7152390wro.98.2022.06.20.13.07.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 13:07:34 -0700 (PDT)
-From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-To: broonie@kernel.org
-Cc: agross@kernel.org,
-	bjorn.andersson@linaro.org,
-	srinivas.kandagatla@linaro.org,
-	bgoswami@codeaurora.org,
-	gregkh@linuxfoundation.org,
-	rafael@kernel.org,
-	cw00.choi@samsung.com,
-	krzysztof.kozlowski@linaro.org,
-	b.zolnierkie@samsung.com,
-	myungjoo.ham@samsung.com,
-	michael@walle.cc,
-	linus.walleij@linaro.org,
-	brgl@bgdev.pl,
-	tglx@linutronix.de,
-	maz@kernel.org,
-	lee.jones@linaro.org,
-	mani@kernel.org,
-	cristian.ciocaltea@gmail.com,
-	wens@csie.org,
-	tharvey@gateworks.com,
-	rjones@gateworks.com,
-	mazziesaccount@gmail.com,
-	orsonzhai@gmail.com,
-	baolin.wang7@gmail.com,
-	zhang.lyra@gmail.com,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	lgirdwood@gmail.com,
-	perex@perex.cz,
-	tiwai@suse.com,
-	linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-actions@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	alsa-devel@alsa-project.org
-Subject: [PATCH 49/49] regmap-irq: Remove not_fixed_stride flag
-Date: Mon, 20 Jun 2022 21:06:44 +0100
-Message-Id: <20220620200644.1961936-50-aidanmacdonald.0x0@gmail.com>
-In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AECA361
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 00:20:15 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.west.internal (Postfix) with ESMTP id 5CAA33200993;
+	Mon, 20 Jun 2022 20:20:14 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 20 Jun 2022 20:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655770813; x=
+	1655857213; bh=vW0Q8UBusbFNOQTYDIkgMBtPXU57mzxz1Jy7DV8VqXM=; b=g
+	Z2v+FeIl/R179S49hPK7ezv0qkGxo3x3g384vICa8jdyY9vOI80guXH3QQp8LCDz
+	BuSo/Ysh6LmttnTMgJx9zHC0Gz54BK8Arnw0fzsSr1dSZSp2VjAJyp9xgOivqVHB
+	ygbqtTyMtCtMReVxfwhHCWaSIZHhQX1uu2P3caDPd2CTamt2ZgYqBhC2Wlk3oYzZ
+	UrbpBEeHWS1Slt2I8d+1pvUQ2iHrzpRQ2xHkPSk6AtKB1IOFBBeDGp/v+VkK/3KW
+	UlELy2kMfpyNoTmnpTn8vjOn/1m+nReKunJLyLzVOGNYmWimViLYI8AsWzD6BckZ
+	eOa6jLyaqC3c6ZMT8vkPQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655770813; x=
+	1655857213; bh=vW0Q8UBusbFNOQTYDIkgMBtPXU57mzxz1Jy7DV8VqXM=; b=Y
+	d5bj5fN3EcyKCmlXVADWmtgdl3X9bx4bkapdJXL6bNBmoKT8D7NEQM2bnZOMbQeP
+	gsqic+8V7GKvrWzU/Zn3yrWTU5WmdYkmCa/a7mBNlQxvbzsXwg7M89Hd+36ZHAZE
+	Vm0nGl66m/r0C+3+OjCFNrpPOweCvzEhJ1+8FFAUln/a3gH+0qUCvQh9F/GqHxas
+	zh3UD3K2263CgBRL/mhadQcUwgDm69kMYVLNWVQjpbU0QeCNQ9owwGmKFn/ZEnD1
+	03/9P7ADqCTab0IldtFdUXZlH3a91h7p9xSxhJOxNXgL4mXSu4C7NrCHUCv12jGl
+	l9oIEyGlmhHGP8Y7WF9sQ==
+X-ME-Sender: <xms:vA6xYk0lZZmfDyoDRcHlLobupJgD2IChFPbtqoeWN0Z-_bMQ5-UCLQ>
+    <xme:vA6xYvErhqCs88Q-1Cz3v9amsjPo1fZs9XxYv6BhrcwxItPJNbODoMmMaq0BmOVLI
+    MD0GWWLsAonTF1StA>
+X-ME-Received: <xmr:vA6xYs6TJ1wruMeVPxSs3YLzc4AGbHtHrYGm2PQ59Yf8b5Ht5e8q5LhHS_o4sSfmQYVc6UXwBypRok50cY8jT1uEe4t03sv1j2KkO503BzfmRAHDFfd-w3QBSw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgvdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:vQ6xYt1ucPZEn-qArIj4S5h5zMu_p2I5OKEaRrOR5zYWOOfPhugSow>
+    <xmx:vQ6xYnGGeQdxmqeSCZWt_hKhFiPJ7RZMSgcPZx8Zhg3LBsZ7bVvgTQ>
+    <xmx:vQ6xYm9gmszPTGtrWP2TbWT8N5hQKjPUNw3NJOvuBkb_CYneWiSpIQ>
+    <xmx:vQ6xYoM5iBdf-o23s6zlNO1FWPDNuf5SpLKpfBH9zp-zKTBQVes2UQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 20 Jun 2022 20:20:12 -0400 (EDT)
+Subject: Re: [PATCH] dmaengine: sun6i: Set the maximum segment size
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>
+Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220617034209.57337-1-samuel@sholland.org>
+ <3494277.R56niFO833@kista>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <c0c27494-99ea-969d-ff6c-a21f110ed3e8@sholland.org>
+Date: Mon, 20 Jun 2022 19:20:11 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <3494277.R56niFO833@kista>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Clean up all the cruft related to not_fixed_stride. The same thing
-can be accomplished with a custom get_irq_reg() callback.
+Hi Jernej,
 
-Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
----
- drivers/base/regmap/regmap-irq.c | 41 +++-----------------------------
- include/linux/regmap.h           |  7 ------
- 2 files changed, 3 insertions(+), 45 deletions(-)
+On 6/20/22 1:28 PM, Jernej Škrabec wrote:
+> Dne petek, 17. junij 2022 ob 05:42:09 CEST je Samuel Holland napisal(a):
+>> The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
+>> explicitly stated in newer SoC documentation (H6, D1), and it is implied
+>> in older documentation by the 25-bit width of the "bytes left in the
+>> current segment" register field.
+> 
+> At least A10 user manual says 128k max in description for Byte Counter 
+> register (0x100+N*0x20+0xC), although field size is defined as 23:0, but that's 
+> still less than 2^25-1. A20 supports only 128k too according to manual. New 
+> quirk should be introduced for this.
 
-diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
-index acbd6e22b0cd..0c9dd218614a 100644
---- a/drivers/base/regmap/regmap-irq.c
-+++ b/drivers/base/regmap/regmap-irq.c
-@@ -320,15 +320,8 @@ static inline int read_sub_irq_data(struct regmap_irq_chip_data *data,
- 			unsigned int offset = subreg->offset[i];
- 			unsigned int index = offset / map->reg_stride;
- 
--			if (chip->not_fixed_stride)
--				ret = regmap_read(map,
--						chip->status_base + offset,
--						&data->status_buf[b]);
--			else
--				ret = regmap_read(map,
--						chip->status_base + offset,
--						&data->status_buf[index]);
--
-+			ret = regmap_read(map, chip->status_base + offset,
-+					  &data->status_buf[index]);
- 			if (ret)
- 				break;
- 		}
-@@ -380,18 +373,7 @@ static irqreturn_t regmap_irq_thread(int irq, void *d)
- 		 * sake of simplicity. and add bulk reads only if needed
- 		 */
- 		for (i = 0; i < chip->num_main_regs; i++) {
--			/*
--			 * For not_fixed_stride, don't use get_irq_reg().
--			 * It would produce an incorrect result.
--			 */
--			if (data->chip->not_fixed_stride)
--				reg = chip->main_status +
--					(i * map->reg_stride *
--					 data->irq_reg_stride);
--			else
--				reg = data->get_irq_reg(data,
--							chip->main_status, i);
--
-+			reg = data->get_irq_reg(data, chip->main_status, i);
- 			ret = regmap_read(map, reg, &data->main_status_buf[i]);
- 			if (ret) {
- 				dev_err(map->dev,
-@@ -561,17 +543,6 @@ unsigned int regmap_irq_get_irq_reg_linear(struct regmap_irq_chip_data *data,
- 	const struct regmap_irq_chip *chip = data->chip;
- 	struct regmap *map = data->map;
- 
--	/*
--	 * NOTE: This is for backward compatibility only and will be removed
--	 * when not_fixed_stride is dropped (it's only used by qcom-pm8008).
--	 */
--	if (chip->not_fixed_stride && chip->sub_reg_offsets) {
--		struct regmap_irq_sub_irq_map *subreg;
--
--		subreg = &chip->sub_reg_offsets[0];
--		return base + subreg->offset[0];
--	}
--
- 	return base + index * (map->reg_stride * chip->irq_reg_stride);
- }
- EXPORT_SYMBOL_GPL(regmap_irq_get_irq_reg_linear);
-@@ -674,12 +645,6 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
- 			return -EINVAL;
- 	}
- 
--	if (chip->not_fixed_stride) {
--		for (i = 0; i < chip->num_regs; i++)
--			if (chip->sub_reg_offsets[i].num_regs != 1)
--				return -EINVAL;
--	}
--
- 	if (irq_base) {
- 		irq_base = irq_alloc_descs(irq_base, 0, chip->num_irqs, 0);
- 		if (irq_base < 0) {
-diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-index be51af0a2425..ecd3682de269 100644
---- a/include/linux/regmap.h
-+++ b/include/linux/regmap.h
-@@ -1446,9 +1446,6 @@ struct regmap_irq_chip_data;
-  *		     status_base. Should contain num_regs arrays.
-  *		     Can be provided for chips with more complex mapping than
-  *		     1.st bit to 1.st sub-reg, 2.nd bit to 2.nd sub-reg, ...
-- *		     When used with not_fixed_stride, each one-element array
-- *		     member contains offset calculated as address from each
-- *		     peripheral to first peripheral.
-  * @num_main_regs: Number of 'main status' irq registers for chips which have
-  *		   main_status set.
-  *
-@@ -1474,9 +1471,6 @@ struct regmap_irq_chip_data;
-  * @clear_on_unmask: For chips with interrupts cleared on read: read the status
-  *                   registers before unmasking interrupts to clear any bits
-  *                   set when they were masked.
-- * @not_fixed_stride: Used when chip peripherals are not laid out with fixed
-- * 		      stride. Must be used with sub_reg_offsets containing the
-- * 		      offsets to each peripheral.
-  * @status_invert: Inverted status register: cleared bits are active interrupts.
-  * @runtime_pm:  Hold a runtime PM lock on the device when accessing it.
-  *
-@@ -1529,7 +1523,6 @@ struct regmap_irq_chip {
- 	bool runtime_pm:1;
- 	bool type_in_mask:1;
- 	bool clear_on_unmask:1;
--	bool not_fixed_stride:1;
- 	bool status_invert:1;
- 
- 	int num_regs;
--- 
-2.35.1
+Thanks for checking this. A10 and A20 use a separate driver (sun4i-dma). That
+driver will also benefit from setting the max segment size, so I will send a
+patch for it.
+
+I think all of the variants supported by sun6i-dma have the same segment size
+capability, so no quirk is needed here.
+
+Regards,
+Samuel
+
+>>
+>> Exposing the real segment size limit (instead of the 64k default)
+>> reduces the number of SG list segments needed for a transaction.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>> Tested on A64, verified that the maximum ALSA PCM period increased, and
+>> that audio playback still worked.
+>>
+>>  drivers/dma/sun6i-dma.c | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
+>> index b7557f437936..1425f87d97b7 100644
+>> --- a/drivers/dma/sun6i-dma.c
+>> +++ b/drivers/dma/sun6i-dma.c
+>> @@ -9,6 +9,7 @@
+>>  
+>>  #include <linux/clk.h>
+>>  #include <linux/delay.h>
+>> +#include <linux/dma-mapping.h>
+>>  #include <linux/dmaengine.h>
+>>  #include <linux/dmapool.h>
+>>  #include <linux/interrupt.h>
+>> @@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_device 
+> *pdev)
+>>  	INIT_LIST_HEAD(&sdc->pending);
+>>  	spin_lock_init(&sdc->lock);
+>>  
+>> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(25));
+>> +
+>>  	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
+>>  	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
+>>  	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
+>> -- 
+>> 2.35.1
+>>
+>>
+> 
+> 
 
