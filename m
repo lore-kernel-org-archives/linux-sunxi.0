@@ -1,50 +1,50 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D8BEA4
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:43:09 +0000 (UTC)
-Received: by mail-ej1-f42.google.com with SMTP id v1so26193463ejg.13
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:43:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DBFEA4
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:45:53 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id es26so16870435edb.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7W8pS4HaYS/K/F5s5QPICn7aqLZXMuTyRRVdAfsAcPg=;
-        b=XoZerS+qv1R28f40K6hoLnLM4Ct5C+e/yqRmtv+kzV9PCDFL/LS7bsUEdldOD+RyHB
-         ukczq/1O7qTvO3tyrlZrzFhXQ33KoFDifHZODZVFjJ3TigoHkBk7geFdz+QWVVDhdZd0
-         4QXA3Mcp4UOLWIVfOEaXgpOhro4R7EyEOzGxZz//6kMGNLexIQ1RMMhIHoy6Fmqp95s3
-         edH6j4r60Egf0+IoooN2Kl4dh1amXJKmc5SerDqp0IPAetq8boVtQMtd1V4UihFiytjO
-         i7exWG8M8Vy6qOonHlsopob38cCHeq//DmG2j5wMnELgMi7YdE2S591sC4Eqab5J28+F
-         vr/w==
+        bh=CTHYGS8g7sCFv5p4IGpE8ByIK0vfNIUXHpKKS2cHepQ=;
+        b=aZan9a+4JhusAULYzHK4QFgDvTJUfc7zekQyAVoRGCyOHUagzlr3IY3SntNiCuk2D1
+         NQjyRuwmILTBnDHyj8RbP6weJG7bsYc7fpeAX5WMX7NI80xLjR2pEQelEAuHWyLISW03
+         dZaw/laN5sK9zCYrzCpBc92fUeGmzlgcNNnV+C/p3f0do3S2Xro53gDdPjHT4fWtJj81
+         rYkou1ikTNpl6+XOXXlO5K890puNv8x9VBAb1IKHcoUKaWjKVctK6anPKEkAjSj3/2W5
+         5VnldB0KCYV6EffLfKh44jApav4JdfNauC+sb7GhpOh85EPNh735t0b35swaLkY44kt/
+         +liQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7W8pS4HaYS/K/F5s5QPICn7aqLZXMuTyRRVdAfsAcPg=;
-        b=udccoiosapfkpLF2MiWF7GMvY7e2mDR0ejR5qhVsr1N/WilFl5KIwlNDKHxGrdY/Qx
-         KjCjPzp/3M1uZnyt/Fzc4hlSadnYzqjYJ0J/YOzUnLhUHqRrwUAEHLgdFh8aSZnIX8hI
-         mKiXwZFIi4XCjvTp0AraUTbZnnKUAMNzrmoit1p8wgkMR+PEQV599q690rKmgVEYur2Z
-         6TQUsi6mYmep42rPkBSa9SyPeMwNdB6129bftJlV1ClKtJk2Tlgk4bqwG9fQH4QastzD
-         YE2L8DMn9Kd3noNgNuZbJxdDxkbXEvGsAngDnC3i+EQjxZV4lJ2CB+sSItPMD1U7o6KK
-         jZWw==
-X-Gm-Message-State: AJIora/OJPnLeyrZkm68CAMYxbXsUzA7pE9NoXUvebmlUAJsaH6Br1mF
-	RfKxRc/fQ0gK7LzZHTZKU4E1LFhW7uFZnm2N9fw=
-X-Google-Smtp-Source: AGRyM1uYARWsSweZJveSPRopcUyqQF9g3LZ0zGnE7aD5N8bF+zyg2cKewkA1ySgZCwIP7Hmn7pVNYQGyGOFlItx8/YQ=
-X-Received: by 2002:a17:906:434f:b0:711:eb76:c320 with SMTP id
- z15-20020a170906434f00b00711eb76c320mr24832521ejm.636.1655804587541; Tue, 21
- Jun 2022 02:43:07 -0700 (PDT)
+        bh=CTHYGS8g7sCFv5p4IGpE8ByIK0vfNIUXHpKKS2cHepQ=;
+        b=oxBkDI0p2z6r0usuxrSZ4ezbTVAwjZyMCjWgpXZmZIHZroi6x5jF3PgU9QHZ1OWvCT
+         IA3Ajk0YtTLp7m2J5j2ee/6cloZUqGTQbG62CuM2KP/jiCf87b9+NovXAGoYYPgvNknE
+         dWJCOkvCdj+PcpRekBIk/nu/R2d2QDoOZrP7XOhpPXk68R5X6/W6c0cBjt/ahuOVrzhX
+         5tmCC1BN2vtA+nqAcRCR9BzIXSdbni4wOlgLoLYFZebKzBySBsQ8Q0AtE0NQ92CPsT+M
+         pl3+g+6+Dry79eiTvYtTZ7pJ5pndyZs/bS5uJUrypIITQUvrtMbiE1lgITy90ngjuUfm
+         SOAQ==
+X-Gm-Message-State: AJIora9JIjpk2+C+Rlc+VBwfeRiyykavgMTRjPChL+TGQekK7rsVosbn
+	FxwIKfofSDXyN9+6ZsoXj4A9mC48tP5Psq/7lbU=
+X-Google-Smtp-Source: AGRyM1u+LlqfMEeQQX/kZr8ewmIWAzmzCCS9cETMG4/8g63994DOIJmrlDmEJXOU2GEP6EkqBPGnv4N6VF0F7gWLvvI=
+X-Received: by 2002:a05:6402:f8d:b0:435:6df2:68a with SMTP id
+ eh13-20020a0564020f8d00b004356df2068amr20143116edb.209.1655804752004; Tue, 21
+ Jun 2022 02:45:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
-In-Reply-To: <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-47-aidanmacdonald.0x0@gmail.com>
+In-Reply-To: <20220620200644.1961936-47-aidanmacdonald.0x0@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 21 Jun 2022 11:42:31 +0200
-Message-ID: <CAHp75VfYebbY47_jOmyC0PapZB=ne1XA4gfV4OPuHcurFR6JCA@mail.gmail.com>
-Subject: Re: [PATCH 39/49] gpio: sl28cpld: replace irqchip mask_invert with unmask_base
+Date: Tue, 21 Jun 2022 11:45:15 +0200
+Message-ID: <CAHp75VcidJzb+1-uNMuDCKPSaxKkCdKnB=iF33g_PqaiyHAN8g@mail.gmail.com>
+Subject: Re: [PATCH 46/49] regmap-irq: Refactor checks for status bulk read support
 To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>, 
 	Bjorn Andersson <bjorn.andersson@linaro.org>, 
@@ -68,37 +68,25 @@ Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>,
 	ALSA Development Mailing List <alsa-devel@alsa-project.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 20, 2022 at 10:10 PM Aidan MacDonald
+On Mon, Jun 20, 2022 at 10:11 PM Aidan MacDonald
 <aidanmacdonald.0x0@gmail.com> wrote:
 >
-> An inverted mask register can be described more directly
-> as an unmask register.
+> There are several conditions that must be satisfied to support
+> bulk read of status registers. Move the check into a function
+> to avoid duplicating it in two places.
 
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+...
 
-> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-> ---
->  drivers/gpio/gpio-sl28cpld.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/drivers/gpio/gpio-sl28cpld.c b/drivers/gpio/gpio-sl28cpld.c
-> index 52404736ac86..2195f88c2048 100644
-> --- a/drivers/gpio/gpio-sl28cpld.c
-> +++ b/drivers/gpio/gpio-sl28cpld.c
-> @@ -70,8 +70,7 @@ static int sl28cpld_gpio_irq_init(struct platform_device *pdev,
->         irq_chip->num_irqs = ARRAY_SIZE(sl28cpld_gpio_irqs);
->         irq_chip->num_regs = 1;
->         irq_chip->status_base = base + GPIO_REG_IP;
-> -       irq_chip->mask_base = base + GPIO_REG_IE;
-> -       irq_chip->mask_invert = true;
-> +       irq_chip->unmask_base = base + GPIO_REG_IE;
->         irq_chip->ack_base = base + GPIO_REG_IP;
->
->         ret = devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
-> --
-> 2.35.1
+> -       } else if (!map->use_single_read && map->reg_stride == 1 &&
+> -                  data->irq_reg_stride == 1) {
+> +       } else if (regmap_irq_can_bulk_read_status(data)) {
+
 >
 
+While at it, you may drop this unneeded blank line.
+
+>                 u8 *buf8 = data->status_reg_buf;
+>                 u16 *buf16 = data->status_reg_buf;
 
 -- 
 With Best Regards,
