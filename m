@@ -1,179 +1,126 @@
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD35A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 03:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB06A20
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 03:17:22 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 964C13200645;
-	Mon, 20 Jun 2022 23:13:53 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id EF4D53200681;
+	Mon, 20 Jun 2022 23:17:20 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 20 Jun 2022 23:13:54 -0400
+  by compute5.internal (MEProxy); Mon, 20 Jun 2022 23:17:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1655781233; x=1655867633; bh=JIQVua/KN0tcwAdf3iHUyfV4R
-	R4Q0CrA2bv56SJC9R8=; b=B9PRh5Rd8oa01y2eEFjqHFLOJpm0h6pNVrDISZLfN
-	u4q4T5eMwkFl9Fmxh1Slx53T+fqgEA7aXEmbnlvsWkq6bJZ8xkpRTNvhPsdEO+Ef
-	D5ugfb6HLepwJBiaxWdcC51HplPrmwZlJrDWVW+au9jVutw9/EUrvp+mXP9jtiyu
-	JZHDSteD9UxuThTDqX7cAyM0C8CzP7UMRk0SQfv19bg4g9wysm2rVgUU3IUjvVdM
-	6KrqwwAmwnrsHV81onzVz1eHZoqGAoPOJe6kBvFcXRV2RBB8Pc8Z9LQt97Bls1oH
-	v93Dy+jwZ3b8oO2DDDffYLlr+XhORmwkh7DpxZX3IH2cg==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1655781440; x=
+	1655867840; bh=Sfk1SXZ7F6XnwAc31bmXv51aiOv48V99TnEspvYhC8U=; b=l
+	Mz8i+xJS86NW82yt2y9Yv6ilXg+Swd89w7B8zkfeePV03MV9vCTG7c4Oz4Nk9dJI
+	25P5uYWPGd+L7KRIKWHGXPIbMDe4jIhqgH8WGSkMvAqWiAZgdiN0AFQ/gg77B15J
+	fBzkNwFczL1vFeio+dv6IypmXZ0bToB0m18UWDqb/pTiq2eF7N/3ivnpdHM2k+VI
+	Vzw23NG3JIaEDIiFCGDQeNIdYFnb0glAVy8pxSJtYAVceXUYFZr0zt8jT4ug8V8O
+	93IK0eJzMbd7OvveSxL4gFEt6VgkneDoa+hgiNg7sav3zK1RTmFPyLSVFPs0HbmU
+	Pv7rwMgQctInA1SETXh6g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1655781233; x=1655867633; bh=JIQVua/KN0tcwAdf3iHUyfV4RR4Q0CrA2bv
-	56SJC9R8=; b=d/1pFOzkbXgDSKc4QUKgR1VKKr/JOtCqdC2W3A/f/x/XG8GYqca
-	C0bnkyqBVnRwsK6GO1hOya50WMYhe3sWQDtVA2zyPAWomtgPITXJfnRFDiB/wVp+
-	MO1HqHF4xEECW6gc5a5eNFZGN8GrKBHbWhTAYBr8ZHUe/w7PS8mokLYwWZYEHt8A
-	ihWiPCvb0UP16cFcqLWDDqTG+VV4192eSE2SAkHRXXLsRxyrA3ZtTouf/JbavgEN
-	07FBphtM8wWS/ntSQ8n21Eko/KHxgTdrK3uFWsd8+yIQb42TFpE8tLsZvIbRTCPM
-	LpHADavYrj77n90DtzN/f41qnRFnuHWTRRQ==
-X-ME-Sender: <xms:cDexYmtpYzGwWMcldm3imIgDH4Y5UjePUlBB1aIz-bWiHjyiuC5rjA>
-    <xme:cDexYrcgpJgQGTtvPML0q-MbgmH98ch2Qi0Fzaz3he1N35Xhc32HMenC--4-s0rAs
-    0QEZWqz6SXYWN2uOQ>
-X-ME-Received: <xmr:cDexYhywWkUVEqD1Zc1gTHtxnp1CDXZbtoimh8rkSGB4iy_8JXQF2KX0kCiokPBidnRpgVOq3oclzZK309ZQF78VSvaE9rW1mdkwAKMMhWoA8WA7ZmEosOyS5O2r8xbSTH3EGg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgieegucetufdoteggodetrfdotf
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655781440; x=
+	1655867840; bh=Sfk1SXZ7F6XnwAc31bmXv51aiOv48V99TnEspvYhC8U=; b=F
+	9stTVIrj2tX8ZHEb/m5IFcOdApbiwUShR4qu8qDwiZeRMxgJ1OSJHgBbJmVHAzGy
+	zpCqT5iqDdx62DfXfrEMhykAga0Hx/6i59IGMtZRvqR+wHjXJHsRCCgK5cqUu6an
+	GMdBMu5934N+JUpSveAK/bABVJcorfcAFIgbc8dlGrTWa/AtolP9J+ypbpMaAtVQ
+	L/Z/L8Fq7ytBJOurtZLxXD7nH1f7GH3ByIs35pzPeyw249PWmaFEEzcPHxCNJN/o
+	f7dW/oh2hI5IxZsajcnOYXO7yTDIoe7aOb5scDbo91qpkGfnsGQZfy9PSv/uaqrV
+	PGO/ty7j0g7qp7oNb4HAw==
+X-ME-Sender: <xms:QDixYih5qPPaBmrb--Uca4Yll0jCeDybnx-Ej4yMhMqD4if8vGGCsw>
+    <xme:QDixYjCia8TmQijbO7Fi61wE-QKB42YiYUKOp4gVszkhibawYKyk_Eki5d9Qr8lGd
+    uQru4VBZ14UikHArg>
+X-ME-Received: <xmr:QDixYqGGK3EDt0BB_qliiqJm9In4sukYR56dzOWGJk727sKHI4w4gk12I3JBN5OmIWiLD9iA4QOSa6fo7407RITEktTxrys2qULN7_Xnv3eSlGVZLWIuuqZAHw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefvddgieeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:cDexYhOQiehcAPyETfjU7K7iiCf27dSuD-wEFrtVvkPnzcsLQ3XgoA>
-    <xmx:cDexYm8uyyFpqjq4SQxClVqT-9-prc4vt5_4z1ckSF8RlpnYorpCsA>
-    <xmx:cDexYpUbdYAswhbeKT0tLb92_e52ds4GKFuXwjtCv7Qyp8hyOXIzsQ>
-    <xmx:cTexYrNGQ28OJHiL8kYhWYZ5oCdkCr0W7fjPLw2ykmq0GBbIy9OUFA>
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:QDixYrRkzEkp4dPq8eV37_XEoq9wrFADw6WhdUAin6ESA6qkhcYdfg>
+    <xmx:QDixYvxctDhWIKI73HYMWRd75jz8tMzKeeCo0YuEi4FIr3-i3EjO-w>
+    <xmx:QDixYp6bjPGnQP7jbh1Jb_YLAUnkrWu8A1ARccOoOy-IozorviX0iw>
+    <xmx:QDixYmwYwib7ccxYXV_YpPNh7KfGcgOkLXEWyPIzP5PVtWqBlm9w4Q>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Jun 2022 23:13:51 -0400 (EDT)
+ 20 Jun 2022 23:17:19 -0400 (EDT)
+Subject: Re: [PATCH v2] drm/sun4i: Add DMA mask and segment size
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, mripard@kernel.org,
+ wens@csie.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220620181333.650301-1-jernej.skrabec@gmail.com>
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	Samuel Holland <samuel@sholland.org>,
-	dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] dmaengine: sun4i: Set the maximum segment size
-Date: Mon, 20 Jun 2022 22:13:50 -0500
-Message-Id: <20220621031350.36187-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+Message-ID: <4c0c9c77-260a-9955-46bd-1740cdf8c22c@sholland.org>
+Date: Mon, 20 Jun 2022 22:17:19 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220620181333.650301-1-jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-The sun4i DMA engine supports transfer sizes up to 128k for normal DMA
-and 16M for dedicated DMA, as documented in the A10 and A20 manuals.
+On 6/20/22 1:13 PM, Jernej Skrabec wrote:
+> Kernel occasionally complains that there is mismatch in segment size
+> when trying to render HW decoded videos and rendering them directly with
+> sun4i DRM driver. Following message can be observed on H6 SoC:
+> 
+> [  184.298308] ------------[ cut here ]------------
+> [  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
+> [  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
+> [  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
+> [  184.329533] Hardware name: Tanix TX6 (DT)
+> [  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
+> [  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
+> [  184.349250] sp : ffff800009f33a50
+> [  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
+> [  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
+> [  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
+> [  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
+> [  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
+> [  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
+> [  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
+> [  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
+> [  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
+> [  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
+> [  184.424106] Call trace:
+> [  184.426556]  debug_dma_map_sg+0x2b0/0x350
+> [  184.430580]  __dma_map_sg_attrs+0xa0/0x110
+> [  184.434687]  dma_map_sgtable+0x28/0x4c
+> [  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
+> [  184.442729]  __map_dma_buf+0x2c/0xd4
+> [  184.446321]  dma_buf_map_attachment+0xa0/0x130
+> [  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
+> [  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
+> [  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
+> [  184.465190]  drm_ioctl_kernel+0xc4/0x174
+> [  184.469123]  drm_ioctl+0x204/0x420
+> [  184.472534]  __arm64_sys_ioctl+0xac/0xf0
+> [  184.476474]  invoke_syscall+0x48/0x114
+> [  184.480240]  el0_svc_common.constprop.0+0x44/0xec
+> [  184.484956]  do_el0_svc+0x2c/0xc0
+> [  184.488283]  el0_svc+0x2c/0x84
+> [  184.491354]  el0t_64_sync_handler+0x11c/0x150
+> [  184.495723]  el0t_64_sync+0x18c/0x190
+> [  184.499397] ---[ end trace 0000000000000000 ]---
+> 
+> Fix that by setting DMA mask and segment size.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Since this is larger than the default segment size limit (64k), exposing
-the real limit reduces the number of transfers needed for a transaction.
-However, because the device can only report one segment size limit, we
-have to expose the smaller limit from normal DMA.
-
-One complication is that the driver combines pairs of periodic transfers
-to reduce programming overhead. This only works when the period size is
-at most half of the maximum transfer size. With the default 64k segment
-size limit, this was always the case, but for normal DMA it is no longer
-guaranteed. Skip the optimization if the period is too long; even
-without it, the overhead is less than before.
-
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-I don't have any A10 or A20 boards I can test this on.
-
- drivers/dma/sun4i-dma.c | 32 +++++++++++++++++++++++++++-----
- 1 file changed, 27 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
-index 93f1645ae928..f291b1b4db32 100644
---- a/drivers/dma/sun4i-dma.c
-+++ b/drivers/dma/sun4i-dma.c
-@@ -7,6 +7,7 @@
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
- #include <linux/clk.h>
-+#include <linux/dma-mapping.h>
- #include <linux/dmaengine.h>
- #include <linux/dmapool.h>
- #include <linux/interrupt.h>
-@@ -122,6 +123,15 @@
- 	 SUN4I_DDMA_PARA_DST_WAIT_CYCLES(2) |				\
- 	 SUN4I_DDMA_PARA_SRC_WAIT_CYCLES(2))
- 
-+/*
-+ * Normal DMA supports individual transfers (segments) up to 128k.
-+ * Dedicated DMA supports transfers up to 16M. We can only report
-+ * one size limit, so we have to use the smaller value.
-+ */
-+#define SUN4I_NDMA_MAX_SEG_SIZE		SZ_128K
-+#define SUN4I_DDMA_MAX_SEG_SIZE		SZ_16M
-+#define SUN4I_DMA_MAX_SEG_SIZE		SUN4I_NDMA_MAX_SEG_SIZE
-+
- struct sun4i_dma_pchan {
- 	/* Register base of channel */
- 	void __iomem			*base;
-@@ -155,7 +165,8 @@ struct sun4i_dma_contract {
- 	struct virt_dma_desc		vd;
- 	struct list_head		demands;
- 	struct list_head		completed_demands;
--	int				is_cyclic;
-+	bool				is_cyclic : 1;
-+	bool				use_half_int : 1;
- };
- 
- struct sun4i_dma_dev {
-@@ -372,7 +383,7 @@ static int __execute_vchan_pending(struct sun4i_dma_dev *priv,
- 	if (promise) {
- 		vchan->contract = contract;
- 		vchan->pchan = pchan;
--		set_pchan_interrupt(priv, pchan, contract->is_cyclic, 1);
-+		set_pchan_interrupt(priv, pchan, contract->use_half_int, 1);
- 		configure_pchan(pchan, promise);
- 	}
- 
-@@ -735,12 +746,21 @@ sun4i_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf, size_t len,
- 	 *
- 	 * Which requires half the engine programming for the same
- 	 * functionality.
-+	 *
-+	 * This only works if two periods fit in a single promise. That will
-+	 * always be the case for dedicated DMA, where the hardware has a much
-+	 * larger maximum transfer size than advertised to clients.
- 	 */
--	nr_periods = DIV_ROUND_UP(len / period_len, 2);
-+	if (vchan->is_dedicated || period_len <= SUN4I_NDMA_MAX_SEG_SIZE / 2) {
-+		period_len *= 2;
-+		contract->use_half_int = 1;
-+	}
-+
-+	nr_periods = DIV_ROUND_UP(len, period_len);
- 	for (i = 0; i < nr_periods; i++) {
- 		/* Calculate the offset in the buffer and the length needed */
--		offset = i * period_len * 2;
--		plength = min((len - offset), (period_len * 2));
-+		offset = i * period_len;
-+		plength = min((len - offset), period_len);
- 		if (dir == DMA_MEM_TO_DEV)
- 			src = buf + offset;
- 		else
-@@ -1149,6 +1169,8 @@ static int sun4i_dma_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, priv);
- 	spin_lock_init(&priv->lock);
- 
-+	dma_set_max_seg_size(&pdev->dev, SUN4I_DMA_MAX_SEG_SIZE);
-+
- 	dma_cap_zero(priv->slave.cap_mask);
- 	dma_cap_set(DMA_PRIVATE, priv->slave.cap_mask);
- 	dma_cap_set(DMA_MEMCPY, priv->slave.cap_mask);
--- 
-2.35.1
-
+Reviewed-by: Samuel Holland <samuel@sholland.org>
