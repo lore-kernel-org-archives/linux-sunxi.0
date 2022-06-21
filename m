@@ -1,50 +1,50 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069AEEA4
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:40:49 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id n20so19461726ejz.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:40:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41D8BEA4
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:43:09 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id v1so26193463ejg.13
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=yO9ZPtHQWlDG8pJW5AjR6r/iVBmTjGfBSQKVmAjwZYM=;
-        b=MiT9YSgqAyyHbC2NgSFHcI9mU0I4SmbelZoevB0+h8amRGfyUTmMrWazwaITPEHarp
-         ymKzl2T79u9M7zLSooXOXyVg4z58w0poQeJaq3PyZdrpSWwinByRfTzDd3MJMVKc+Jh1
-         HrosNpkC9SLF6USdA/ZDhAg0uPAMPxz5wZw22PnS/SvBpuDabh76flqB27+QDjuz85Rk
-         kVWCot5G6uKY0ebmYx0cAKxiYNCgHV9fAO4fsWARBr5Cz29I6Pl4NDihgDbx49z6TXgM
-         upDr6OeHbZyVU5E1CaDMSJLWT9I584x/Nsc/beJSY8ZvpOWxhrcr5L3ty9BdiC7iyRCj
-         44Kw==
+        bh=7W8pS4HaYS/K/F5s5QPICn7aqLZXMuTyRRVdAfsAcPg=;
+        b=XoZerS+qv1R28f40K6hoLnLM4Ct5C+e/yqRmtv+kzV9PCDFL/LS7bsUEdldOD+RyHB
+         ukczq/1O7qTvO3tyrlZrzFhXQ33KoFDifHZODZVFjJ3TigoHkBk7geFdz+QWVVDhdZd0
+         4QXA3Mcp4UOLWIVfOEaXgpOhro4R7EyEOzGxZz//6kMGNLexIQ1RMMhIHoy6Fmqp95s3
+         edH6j4r60Egf0+IoooN2Kl4dh1amXJKmc5SerDqp0IPAetq8boVtQMtd1V4UihFiytjO
+         i7exWG8M8Vy6qOonHlsopob38cCHeq//DmG2j5wMnELgMi7YdE2S591sC4Eqab5J28+F
+         vr/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=yO9ZPtHQWlDG8pJW5AjR6r/iVBmTjGfBSQKVmAjwZYM=;
-        b=nGI8ekpTX5ym4nqBbMdDGE5Zx0eDHFLCE2sw0uz6ZtH3u0sDiovk1/AuWlkK5yyVjb
-         3+oP+7HxHgZ1D6P2XFssEsX0ZTYQsKLGAaVWfi9JslT/LHvZf4EHYM6Vj3W3nh6QJdSS
-         UTiQZP97KiuGujWZVUiB+EfdpBYv7bvQ8eIJB3uH629uPY0djC79oWQ2bSP89FS6VtG/
-         ZDLGeZbyQY7ucUkhROvQV4DmZYrRONOW09fnEcZAayqXkfaGwcVnDYY2kWJ+x6f2e8MF
-         gTAHVE9XGA3oLQ0g3RV12h6192rXriYeQSxwAQ+B4+b6VufPw62pm+A6QQKrOYX+zvn8
-         COfg==
-X-Gm-Message-State: AJIora/SbmMZFJ0Q1kydB83PxjNf/G+0wWxlv2xBESmv8Af1te4W91/s
-	Il8ej2gzZvo8aHgtAS7sOkMqwc71HbYB9myCQrI=
-X-Google-Smtp-Source: AGRyM1t+MEvnyKMMSOFbe0KDznz+llRYAN363T+/fom4dMy2mWe1LxJilznTSxS3mrmOTfCBkGAcauPWgPhktFyIGgA=
-X-Received: by 2002:a17:907:72c7:b0:722:e5af:f666 with SMTP id
- du7-20020a17090772c700b00722e5aff666mr1301982ejc.44.1655804448287; Tue, 21
- Jun 2022 02:40:48 -0700 (PDT)
+        bh=7W8pS4HaYS/K/F5s5QPICn7aqLZXMuTyRRVdAfsAcPg=;
+        b=udccoiosapfkpLF2MiWF7GMvY7e2mDR0ejR5qhVsr1N/WilFl5KIwlNDKHxGrdY/Qx
+         KjCjPzp/3M1uZnyt/Fzc4hlSadnYzqjYJ0J/YOzUnLhUHqRrwUAEHLgdFh8aSZnIX8hI
+         mKiXwZFIi4XCjvTp0AraUTbZnnKUAMNzrmoit1p8wgkMR+PEQV599q690rKmgVEYur2Z
+         6TQUsi6mYmep42rPkBSa9SyPeMwNdB6129bftJlV1ClKtJk2Tlgk4bqwG9fQH4QastzD
+         YE2L8DMn9Kd3noNgNuZbJxdDxkbXEvGsAngDnC3i+EQjxZV4lJ2CB+sSItPMD1U7o6KK
+         jZWw==
+X-Gm-Message-State: AJIora/OJPnLeyrZkm68CAMYxbXsUzA7pE9NoXUvebmlUAJsaH6Br1mF
+	RfKxRc/fQ0gK7LzZHTZKU4E1LFhW7uFZnm2N9fw=
+X-Google-Smtp-Source: AGRyM1uYARWsSweZJveSPRopcUyqQF9g3LZ0zGnE7aD5N8bF+zyg2cKewkA1ySgZCwIP7Hmn7pVNYQGyGOFlItx8/YQ=
+X-Received: by 2002:a17:906:434f:b0:711:eb76:c320 with SMTP id
+ z15-20020a170906434f00b00711eb76c320mr24832521ejm.636.1655804587541; Tue, 21
+ Jun 2022 02:43:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-21-aidanmacdonald.0x0@gmail.com>
-In-Reply-To: <20220620200644.1961936-21-aidanmacdonald.0x0@gmail.com>
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
+In-Reply-To: <20220620200644.1961936-40-aidanmacdonald.0x0@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 21 Jun 2022 11:40:12 +0200
-Message-ID: <CAHp75VdRC5_AUZttMqY8f9gBAct+q5sEUjqOAwVfdtCvwsE_dg@mail.gmail.com>
-Subject: Re: [PATCH 20/49] regmap-irq: Fix inverted handling of unmask registers
+Date: Tue, 21 Jun 2022 11:42:31 +0200
+Message-ID: <CAHp75VfYebbY47_jOmyC0PapZB=ne1XA4gfV4OPuHcurFR6JCA@mail.gmail.com>
+Subject: Re: [PATCH 39/49] gpio: sl28cpld: replace irqchip mask_invert with unmask_base
 To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>, 
 	Bjorn Andersson <bjorn.andersson@linaro.org>, 
@@ -68,94 +68,37 @@ Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>,
 	ALSA Development Mailing List <alsa-devel@alsa-project.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 20, 2022 at 10:08 PM Aidan MacDonald
+On Mon, Jun 20, 2022 at 10:10 PM Aidan MacDonald
 <aidanmacdonald.0x0@gmail.com> wrote:
 >
-> To me "unmask" suggests that we write 1s to the register when
-> an interrupt is enabled. This also makes sense because it's the
-> opposite of what the "mask" register does (write 1s to disable
-> an interrupt).
->
-> But regmap-irq does the opposite: for a disabled interrupt, it
-> writes 1s to "unmask" and 0s to "mask". This is surprising and
-> deviates from the usual way mask registers are handled.
->
-> Additionally, mask_invert didn't interact with unmask registers
-> properly -- it caused them to be ignored entirely.
->
-> Fix this by making mask and unmask registers orthogonal, using
-> the following behavior:
->
-> * Mask registers are written with 1s for disabled interrupts.
-> * Unmask registers are written with 1s for enabled interrupts.
->
-> This behavior supports both normal or inverted mask registers
-> and separate set/clear registers via different combinations of
-> mask_base/unmask_base. The mask_invert flag is made redundant,
-> since an inverted mask register can be described more directly
+> An inverted mask register can be described more directly
 > as an unmask register.
+
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+
+> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+> ---
+>  drivers/gpio/gpio-sl28cpld.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> To cope with existing drivers that rely on the old "backward"
-> behavior, check for the broken_mask_unmask flag and swap the
-> roles of mask/unmask registers. This is a compatibility measure
-> which can be dropped once the drivers are updated to use the
-> new, more consistent behavior.
+> diff --git a/drivers/gpio/gpio-sl28cpld.c b/drivers/gpio/gpio-sl28cpld.c
+> index 52404736ac86..2195f88c2048 100644
+> --- a/drivers/gpio/gpio-sl28cpld.c
+> +++ b/drivers/gpio/gpio-sl28cpld.c
+> @@ -70,8 +70,7 @@ static int sl28cpld_gpio_irq_init(struct platform_device *pdev,
+>         irq_chip->num_irqs = ARRAY_SIZE(sl28cpld_gpio_irqs);
+>         irq_chip->num_regs = 1;
+>         irq_chip->status_base = base + GPIO_REG_IP;
+> -       irq_chip->mask_base = base + GPIO_REG_IE;
+> -       irq_chip->mask_invert = true;
+> +       irq_chip->unmask_base = base + GPIO_REG_IE;
+>         irq_chip->ack_base = base + GPIO_REG_IP;
+>
+>         ret = devm_regmap_add_irq_chip_fwnode(dev, dev_fwnode(dev),
+> --
+> 2.35.1
+>
 
-...
-
-> +                       if (ret != 0)
-
-if (ret)
-
-> +                               dev_err(d->map->dev, "Failed to sync masks in %x\n",
-> +                                       reg);
-
-...
-
-> +                       if (ret != 0)
-
-Ditto.
-
-> +                               dev_err(d->map->dev, "Failed to sync masks in %x\n",
-
-...
-
-> +       /*
-> +        * Swap role of mask_base and unmask_base if mask bits are inverted.
-
-the roles
-
-> +        *
-> +        * Historically, chips that specify both mask_base and unmask_base
-> +        * got inverted mask behavior; this was arguably a bug in regmap-irq
-> +        * and there was no way to get the normal, non-inverted behavior.
-> +        * Those chips will set the broken_mask_unmask flag. They don't set
-> +        * mask_invert so there is no need to worry about interactions with
-> +        * that flag.
-> +        */
-
-Reading this comment perhaps the code needs a validator part that will
-issue a WARN_ON / dev_warn() / etc in case where the above is not
-satisfied?
-
-...
-
-> +                       if (ret != 0) {
-
-if (ret)
-
-
-> +                               dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-> +                                       reg, ret);
-
-...
-
-> +                       if (ret != 0) {
-
-Ditto.
-
-> +                               dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-> +                                       reg, ret);
 
 -- 
 With Best Regards,
