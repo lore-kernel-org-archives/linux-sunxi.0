@@ -1,309 +1,131 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05olkn2030.outbound.protection.outlook.com [40.92.90.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7997810E0;
-	Tue, 21 Jun 2022 14:51:06 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 5B97A6601688;
-	Tue, 21 Jun 2022 15:50:56 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1655823058;
-	bh=gH3pOctepXLG6QaAL9GIM0RulPRWKtbflyqgdZBkvXQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=k3h6myAq1nJnsdwQZrbuO1He4Rr0cYQHJV3zqTgVl/rAjkjpe/gn6p9WEGnax0yyZ
-	 k/RHlWkJVinbdfuP8FNF5HeIZWqyTk7TdJKdil0lpqDXsyOyc8yovUewwrnSi9M4yt
-	 2hdKp5rkd4BOjNIebPd1iOU80yhCGcR7crc6O+n0rz4MkK/Gc35VHgerW2rNyUkrfr
-	 3Gik07h3iet+S3dVFJam+zuScuRRL7QQSYmS2rxTml+7gB74VrjpyRPZufZKlOk3Xr
-	 UXzsKfpsHOwhIDDBclmnYoVQEaoNA4zBvV98oED8flogfW1pRoFpFOnmV2DPmAv+G0
-	 o95pGnkQdVE1w==
-Message-ID: <65c2e2805b40b1d88ac9f380bda53c085bf612e6.camel@collabora.com>
-Subject: Re: [PATCH v8 14/17] media: hantro: Stop using Hantro dedicated
- control
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
-	 <hverkuil@xs4all.nl>, mchehab@kernel.org, ezequiel@vanguardiasur.com.ar, 
-	p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, 
-	paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com, 
-	samuel@sholland.org, andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	kernel@collabora.com
-Date: Tue, 21 Jun 2022 10:50:47 -0400
-In-Reply-To: <f6c636b6-f379-650a-cc7c-6f1e8b014455@collabora.com>
-References: <20220614083614.240641-1-benjamin.gaignard@collabora.com>
-	 <20220614083614.240641-15-benjamin.gaignard@collabora.com>
-	 <b244e86d-06de-7423-d0df-e77485ce4c87@xs4all.nl>
-	 <958ab30f9cfbb14e4a7ea55826064e6a20d5ffd2.camel@collabora.com>
-	 <c5c6903d-ec7d-6218-35d3-2ac6caa9d2c5@xs4all.nl>
-	 <ac31307f9186fc851f76889a66ffb007de88fa15.camel@collabora.com>
-	 <f6c636b6-f379-650a-cc7c-6f1e8b014455@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFE41397
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 16:44:51 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WzQysY0cwC2bRkKCBLoXA6roEItdgNm05xDQuw0n6wlG8PenwNmrmvyh8WzST973HoBvfOewu3qyxpTN7bjyr6cQN+qCZySH6ZurkcjB2iXK/EzkmoE/e6LovJGMd9kmMWL5SbEaNBfvhKD8wL0pcf4aUnHWP8FzrQacU9GXlW/lN8wrCwCIU2w6qMvXwR1/LhwjOy4bOKaz7JNI2fUENbsSonkJycu34P+MCvC+0bVgyb4aTzeBiq2SN9bXW9b8HCj2B49mH9F0Z/kizeTvWowKqZ2JI5f2jBKrOXMsdOOE5wNheRBKkMJxuFNqxGvGPY/yYQD7j/eLWYpeNyAReg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Pf2MnEJp4dnbpr+pHCw2orzJK7oLI9VLqvaCJ1Pk3hY=;
+ b=TvQd29n87hLavVYLzX+Wu0JugeygeaimBjHGehBmtXXGnJFYuDN5+PGQTrG3NSz7m8w3XYeRIkjksgXz+w6XDr5OdMOJxxmHQ2x46+qVzy5TzdjLXE8sJ4KSOJcCsSVNOMWn4FWReRnmooyhZsqY0+iG6bZ8Fhi051h3rQ2p2p2VxVHT8qO8Ywl386tHShIyM62a6wr0zrBDSUWokIBpVfwzYyVoMPtIdekv0Tgx80iVG9GW+aWAjWoAS21alPA8ADbBWFgRjl7IvGDRO+QVTVENsAINP3FZKreqhEZAoCv0RIlkzQXNK4/RBBhO6KKeoA7+oGO9A9a1DqZ6n/vXNg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Pf2MnEJp4dnbpr+pHCw2orzJK7oLI9VLqvaCJ1Pk3hY=;
+ b=NMIOtFxochKfTinvhKdBX1Qudxfq5HDSoOeoTXzr6Xy0R0O+0FqooJPZXwanpDmfeGIykGMABYdnjKQ3radjTa8iqxd2F+pvU+RY9BPr0WWvloRwqG8YJkyid0QNiLMttCBqrKkpindQUbHXcFkw2+K7KdP5kcKd/niKwn/xWAf3RbSi2sjE2dZdcYqt23EElExJhXY4dQ+KtcC7nkGRzHQK6UY4YqCaNvEdJOz0LfWvgtp8NVmcnofndFur/6XV+pFvP+cxTLpvWFihaXFMX8tk5dasdSb/yN6gRz/tOb72Kwt1IzPk+OAANXGHcFahqq/128jbf0t8radgqm1lfA==
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:c2::10)
+ by AM9P189MB1713.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:301::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5353.14; Tue, 21 Jun
+ 2022 16:44:49 +0000
+Received: from PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d]) by PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5ae:1a99:f05c:b75d%6]) with mapi id 15.20.5353.022; Tue, 21 Jun 2022
+ 16:44:49 +0000
+From: Saud Farooqui <farooqui_saud@hotmail.com>
+To: maxime@cerno.tech
+Cc: jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	wens@csie.org,
+	daniel@ffwll.ch,
+	Saud Farooqui <farooqui_saud@hotmail.com>
+Subject: [PATCH v1] drm/sun4i: Return from the function in error condition
+Date: Tue, 21 Jun 2022 21:44:27 +0500
+Message-ID:
+ <PA4P189MB14215D2A66A54FFA3F7DD9348BB39@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220609142253.7aad4jlaoahqkmy7@houat>
+References: <20220609142253.7aad4jlaoahqkmy7@houat>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [MFwVIXPqtv+sR3QUZa7gsO1aTgSPGvIZ]
+X-ClientProxiedBy: DXXP273CA0023.AREP273.PROD.OUTLOOK.COM
+ (2603:1086:300:2::35) To PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:c2::10)
+X-Microsoft-Original-Message-ID:
+ <20220621164427.30669-1-farooqui_saud@hotmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 335af846-5e3e-418b-f96e-08da53a55b09
+X-MS-Exchange-SLBlob-MailProps:
+	Zv/SX2iM+5VErZYGRkItsGyxMAx1p7VJqBx0HgbQcUE/f1G92z7gs81cgHfHAlFg9z7pHE2cEgXX/XHvd0oqUD+SCqBgnfxpm2ij/V91po+Gy5V1LJPmQWQllzVNw5ptYLw4WghipNADcUy5Gz/onyikkRidsEWPA/zlE7eHlZAO/edTlH5WXc5MRIKllMulC00o1u0RJd+dU9Da66C4EASgnIEzcFFc2Ahib+y5ISobST/oEgxvGWx8ncLoQP/7raid64SzTX5qmhYB9KtGaILmVjI3u8a44Nhogr6xZqkkFR+OfbUvIyl1VYqSXRAl0jniUWPEzEgtXvRxBWzjB17u1cOiQtqztkJqsg1JQ9ZAYSBC5Li50NjjpEB/9DpF5W7+/MFbiNTZ/Q7qG5OjIXzuJJTEBRELcvsMAsEM38nEYJrWp5s4bDZMk4cbQ6xQ/0+jj8fGKfmha4VqUASxEshFN6Wi458KhZL3BcfCgRlsdlyWKxGdFOaWfxYpcHA4xvqAh0Z8FOJ4+jxUF2iuXkw/4swb+xeX4KK/u7Q4MbZB07Sa1v4uwlR6T8JNkQmTNmDDU5YmIZN+OCjHPzdZP9CKo5Nr1cQ8Ac9vGFXmvSaP+hpnbXP1/LENdwGlt/Qb4nRSbpwTkFMo4Q09Kp/GpIG7wqBS/4AUx0d1W5MMtRwpJYIruoQjY/mbBvO90LwThBOC/TvGh+Y=
+X-MS-TrafficTypeDiagnostic: AM9P189MB1713:EE_
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	m0hiXvWxAw4UGfAPg0kbq9AVWOTr21EgA/CRL0JX52gN7WjUn7uw3sObN6Vwr2zNervJJLA5vzfnWxuJNcFK57yY9jResnGsxEZHZEznFn9JbhS5KPNanRKbEubcatmkiQRtUR6g/7Wu9TQO8KSes5dz+WMSkIj5H89KNApeZNkPwIclKX6UoqqQ72N+YSOv7ludaTwnUdTBgrZ117A38RoOUMlxPJK0fHwoc9WjzlCN66kjmyBABb15JAiGI1YI1YzHjLqPyPTdQVVuuaZCLlKvu7zwwc4rZcvRU6Iop0qwyI21uQxkwJxYcCzkT+Movwlwd8K+5nkyTjQc0XnlcT8ApuQJyOZAoEiegm+ZfupAQGwXc6SNec/lPuUF7b2rtQP3uKn7pqMiqnRpObkPXTKcSWJtA/BNpAkqamUQ0v6/lnAs5i3Mr2dFPnY1Eh3Ktw5L2DIuOCNiaW3o/5oHOEfgMMhWe6Yf7SoMsx94aTSLKDVUdtoF88FW7q+lwkpgDL/yoArlIDnXN6EG7jVd2MxOki3axb8cSWJntg1krx0mHZ9pIvUilQBYwzuiFhW6h9u0XDJrmIZzdT57cRJPfw==
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?reFncdDy8L/EeInU81V85KRpWRcFHL811P1ZzbiZDwGcWJaffLHBJ9oQX2NH?=
+ =?us-ascii?Q?BjNkdnwN3yoG+jNDAW1+3CdFyfCkQu4q9yjn63akMHCbzoJ+kURZJGlZDboe?=
+ =?us-ascii?Q?zeSmpq3uPSb2P1cZhi5bImQ/E6qtUumxgvA6T+TnNRuRAgZ6bc71ciF3Fbqp?=
+ =?us-ascii?Q?EuQZmchpckShE213R9G1PHVKXmoswfaimMlB0xpzEnSxYXAJPRF4QtdJTZKQ?=
+ =?us-ascii?Q?TYOpS+huWR1ufqVu1K69DUTCie0bdtKQWPBrl3O1Y7yMauj/ZhfAfphkw6wD?=
+ =?us-ascii?Q?qw1nBEvPjvuV9LODkCpcT8aSQ7kAOq7v8X8tJJATxN7Q8X0AtCn9RwNa+3L8?=
+ =?us-ascii?Q?b4v+633nF7OBtEmRl/VIUCL0Mgvjw2rPRrC5oc5ogFF3p9ddfrYTZMClQY3L?=
+ =?us-ascii?Q?1UNO8/NryN1FEvgVDUrKQMn/PIETKk1RdjSb2B3bhpHo2GD8xjJrrVljwAdN?=
+ =?us-ascii?Q?uz8eiFjqe8VKK+2Hfy+MOOcwqOoaAsrokTSZir/YXsj4RPIs7A1AX1F+eD3t?=
+ =?us-ascii?Q?1uXnBcPOHaueXO8JWIMhoZm2WxnVMqDXKgSFou0Ym1IVuayK8vukqsWEQedt?=
+ =?us-ascii?Q?78zAVcr38T/wpKFhpfoY5P72Cc+QSyJaoNzkUJOJKuejo3/dNwPL01B5XH80?=
+ =?us-ascii?Q?fqoRe8Y7YiTgxgqKDJfwABL66uOqV2mul5VntdYnidiyFhAJ4jW+xMSjEcJv?=
+ =?us-ascii?Q?zlIAu9ESEaYQErBQ6rbKSbCsoxyN6x8nRNzjcjQpOMrbfC8mpA3ma9zDW28m?=
+ =?us-ascii?Q?9fFZ2TFkdVy4pnmJ3QPqLzAKPlX7rwSOQU03WTjVZH6IatUY8Qq6sjrr3plN?=
+ =?us-ascii?Q?AbZPZEimCOr+HBb/mQ7qNoftryI8tBmlL9b7WbBVTY0Fcxql/OPAAPL/0pcD?=
+ =?us-ascii?Q?Oz8+S3JvGzX1N5GcQpupo+eUF12KQmlJqDB/6bSxijUEJRW+RcUaMpeXZyL0?=
+ =?us-ascii?Q?JfvLt8PjobqEQ8DR2IxR1bRAQP+ySZZsKanidyMbQH3xhzVNrSmY6V8XNemX?=
+ =?us-ascii?Q?hQJF2qb4z3lKSVcTW4QEf1iwSa0SSlgY5ZigFYm5dTqtynYHOIRwppp70gH2?=
+ =?us-ascii?Q?ulEFumKFDpPOVWkUAv9ZzOwH7bn/QkuJQflPQIDCamOiqjtphe4wH1l1YyMs?=
+ =?us-ascii?Q?ytNlZFQsBvZeC5IjK8ZqQOh5ONzyavIpyLVmgD/JN/YyyEDd9n0LQ4RRATYT?=
+ =?us-ascii?Q?yJ2qHPYTt8v8dBCSBaA74yVN1ymv33eEUakgpQzoOuCZ2Hbl6SHNc5sUJbW4?=
+ =?us-ascii?Q?0iVONtN94PvgPkSQWfMy3gpnZf9VQytFYubYOxSICP7Ej0QnhpIjbk6bnopu?=
+ =?us-ascii?Q?iWddLLqKm4nn0o4TnVsGFWkElRRmCw+LELmMugavQkCSZNo9Kddg4+ut3Qcy?=
+ =?us-ascii?Q?mzd/PZgGLMX+vddCR3tvKpWb8Ufhtio0IsmZddED8dytIfRYkYhSHLbE2ZwR?=
+ =?us-ascii?Q?SMA2Tth90yw/DOdksIkRi3z3jk69W6w0?=
+X-OriginatorOrg: sct-15-20-4734-24-msonline-outlook-c54b5.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 335af846-5e3e-418b-f96e-08da53a55b09
+X-MS-Exchange-CrossTenant-AuthSource: PA4P189MB1421.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jun 2022 16:44:49.1872
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P189MB1713
 
-Le mardi 14 juin 2022 =C3=A0 18:46 +0200, Benjamin Gaignard a =C3=A9crit=C2=
-=A0:
-> Le 14/06/2022 =C3=A0 18:23, Nicolas Dufresne a =C3=A9crit=C2=A0:
-> > Le mardi 14 juin 2022 =C3=A0 17:47 +0200, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> > > On 6/14/22 17:43, Nicolas Dufresne wrote:
-> > > > Le mardi 14 juin 2022 =C3=A0 15:58 +0200, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> > > > > On 6/14/22 10:36, Benjamin Gaignard wrote:
-> > > > > > The number of bits to skip in the slice header can be computed
-> > > > > > in the driver by using sps, pps and decode_params information.
-> > > > > > This allow to remove Hantro dedicated control.
-> > > > > allow -> makes it possible
-> > > > >=20
-> > > > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.c=
-om>
-> > > > > > ---
-> > > > > >   drivers/staging/media/hantro/hantro_drv.c     | 36 ----------=
--
-> > > > > >   .../staging/media/hantro/hantro_g2_hevc_dec.c | 62 ++++++++++=
-++++++++-
-> > > > > >   include/media/hevc-ctrls.h                    | 13 ----
-> > > > > >   3 files changed, 61 insertions(+), 50 deletions(-)
-> > > > > >=20
-> > > > > > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/driver=
-s/staging/media/hantro/hantro_drv.c
-> > > > > > index 536c8c374952..5aac3a090480 100644
-> > > > > > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > > > > > @@ -304,26 +304,6 @@ static int hantro_jpeg_s_ctrl(struct v4l2_=
-ctrl *ctrl)
-> > > > > >   	return 0;
-> > > > > >   }
-> > > > > >  =20
-> > > > > > -static int hantro_hevc_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > > -{
-> > > > > > -	struct hantro_ctx *ctx;
-> > > > > > -
-> > > > > > -	ctx =3D container_of(ctrl->handler,
-> > > > > > -			   struct hantro_ctx, ctrl_handler);
-> > > > > > -
-> > > > > > -	vpu_debug(1, "s_ctrl: id =3D %d, val =3D %d\n", ctrl->id, ctr=
-l->val);
-> > > > > > -
-> > > > > > -	switch (ctrl->id) {
-> > > > > > -	case V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP:
-> > > > > > -		ctx->hevc_dec.ctrls.hevc_hdr_skip_length =3D ctrl->val;
-> > > > > > -		break;
-> > > > > > -	default:
-> > > > > > -		return -EINVAL;
-> > > > > > -	}
-> > > > > > -
-> > > > > > -	return 0;
-> > > > > > -}
-> > > > > > -
-> > > > > >   static const struct v4l2_ctrl_ops hantro_ctrl_ops =3D {
-> > > > > >   	.try_ctrl =3D hantro_try_ctrl,
-> > > > > >   };
-> > > > > > @@ -332,10 +312,6 @@ static const struct v4l2_ctrl_ops hantro_j=
-peg_ctrl_ops =3D {
-> > > > > >   	.s_ctrl =3D hantro_jpeg_s_ctrl,
-> > > > > >   };
-> > > > > >  =20
-> > > > > > -static const struct v4l2_ctrl_ops hantro_hevc_ctrl_ops =3D {
-> > > > > > -	.s_ctrl =3D hantro_hevc_s_ctrl,
-> > > > > > -};
-> > > > > > -
-> > > > > >   #define HANTRO_JPEG_ACTIVE_MARKERS	(V4L2_JPEG_ACTIVE_MARKER_A=
-PP0 | \
-> > > > > >   					 V4L2_JPEG_ACTIVE_MARKER_COM | \
-> > > > > >   					 V4L2_JPEG_ACTIVE_MARKER_DQT | \
-> > > > > > @@ -487,18 +463,6 @@ static const struct hantro_ctrl controls[]=
- =3D {
-> > > > > >   		.cfg =3D {
-> > > > > >   			.id =3D V4L2_CID_STATELESS_HEVC_SCALING_MATRIX,
-> > > > > >   		},
-> > > > > > -	}, {
-> > > > > > -		.codec =3D HANTRO_HEVC_DECODER,
-> > > > > > -		.cfg =3D {
-> > > > > > -			.id =3D V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP,
-> > > > > > -			.name =3D "Hantro HEVC slice header skip bytes",
-> > > > > > -			.type =3D V4L2_CTRL_TYPE_INTEGER,
-> > > > > > -			.min =3D 0,
-> > > > > > -			.def =3D 0,
-> > > > > > -			.max =3D 0x100,
-> > > > > > -			.step =3D 1,
-> > > > > > -			.ops =3D &hantro_hevc_ctrl_ops,
-> > > > > > -		},
-> > > > > >   	}, {
-> > > > > >   		.codec =3D HANTRO_VP9_DECODER,
-> > > > > >   		.cfg =3D {
-> > > > > > diff --git a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c =
-b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > index d28653d04d20..3be8d6e60bf0 100644
-> > > > > > --- a/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > +++ b/drivers/staging/media/hantro/hantro_g2_hevc_dec.c
-> > > > > > @@ -117,6 +117,66 @@ static void prepare_tile_info_buffer(struc=
-t hantro_ctx *ctx)
-> > > > > >   		vpu_debug(1, "%s: no chroma!\n", __func__);
-> > > > > >   }
-> > > > > >  =20
-> > > > > > +static unsigned int ceil_log2(unsigned int v)
-> > > > > > +{
-> > > > > > +	/* Compute Ceil(Log2(v))
-> > > > > > +	 * Derived from branchless code for integer log2(v) from:
-> > > > > > +	 * <http://graphics.stanford.edu/~seander/bithacks.html#Integ=
-erLog>
-> > > > > > +	 */
-> > > > > > +	unsigned int r, shift;
-> > > > > > +
-> > > > > > +	v--;
-> > > > > > +	r =3D (v > 0xFFFF) << 4;
-> > > > > > +	v >>=3D r;
-> > > > > > +	shift =3D (v > 0xFF) << 3;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	shift =3D (v > 0xF) << 2;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	shift =3D (v > 0x3) << 1;
-> > > > > > +	v >>=3D shift;
-> > > > > > +	r |=3D shift;
-> > > > > > +	r |=3D (v >> 1);
-> > > > > > +
-> > > > > > +	return r + 1;
-> > > > > > +}
-> > > > > Isn't this identical to fls(v - 1)? See also lib/math/reciprocal_=
-div.c
-> > > > > where this is used.
-> > > > Thanks for pointing this out, I was wondering if there was an equiv=
-alent, and
-> > > > never knew there was a relation between log2() and the "last set bi=
-t". Not sure
-> > > > about the -1 here though, can you extend ?
-> > > Based on how lib/math/reciprocal_div.c did it. Also, the ceil_log2 fu=
-nction
-> > > starts with v--, while fls doesn't. That said, it's wise to verify th=
-at that
-> > > is correct.
-> > Just for the reference, from lib/math/reciprocal_div.c:
-> >=20
-> > 	/* ceil(log2(d)) */
-> > 	l =3D fls(d - 1);
-> >=20
-> > Perhaps fls() return position starting from 1 rather then 0 ?
->=20
-> I have compare the results of ceil_log2(d) vs fls(d-1)
-> for values between 2 (because sps->num_short_term_ref_pic_sets > 1) and 1=
-6 (the maximum number of frames)
-> they are always the same so I will remove ceil_log2() and use fls().
+Added return statement in sun4i_layer_format_mod_supported()
+in case of error.
 
-I've also check on my side few samples, and it indeed seems to be exactly t=
-he
-same.
+Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
+---
+ drivers/gpu/drm/sun4i/sun4i_layer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->=20
-> Regards,
-> Benjamin
->=20
-> >=20
-> > Nicolas
-> >=20
-> > > Regards,
-> > >=20
-> > > 	Hans
-> > >=20
-> > > > > Regards,
-> > > > >=20
-> > > > > 	Hans
-> > > > >=20
-> > > > > > +
-> > > > > > +static int compute_header_skip_lenght(struct hantro_ctx *ctx)
-> > > > > > +{
-> > > > > > +	const struct hantro_hevc_dec_ctrls *ctrls =3D &ctx->hevc_dec.=
-ctrls;
-> > > > > > +	const struct v4l2_ctrl_hevc_decode_params *decode_params =3D =
-ctrls->decode_params;
-> > > > > > +	const struct v4l2_ctrl_hevc_sps *sps =3D ctrls->sps;
-> > > > > > +	const struct v4l2_ctrl_hevc_pps *pps =3D ctrls->pps;
-> > > > > > +	int skip =3D 0;
-> > > > > > +
-> > > > > > +	if (pps->flags & V4L2_HEVC_PPS_FLAG_OUTPUT_FLAG_PRESENT)
-> > > > > > +		/* size of pic_output_flag */
-> > > > > > +		skip++;
-> > > > > > +
-> > > > > > +	if (sps->flags & V4L2_HEVC_SPS_FLAG_SEPARATE_COLOUR_PLANE)
-> > > > > > +		/* size of pic_order_cnt_lsb */
-> > > > > > +		skip +=3D 2;
-> > > > > > +
-> > > > > > +	if (!(decode_params->flags & V4L2_HEVC_DECODE_PARAM_FLAG_IDR_=
-PIC)) {
-> > > > > > +		/* size of pic_order_cnt_lsb */
-> > > > > > +		skip +=3D sps->log2_max_pic_order_cnt_lsb_minus4 + 4;
-> > > > > > +
-> > > > > > +		/* size of short_term_ref_pic_set_sps_flag */
-> > > > > > +		skip++;
-> > > > > > +
-> > > > > > +		if (decode_params->short_term_ref_pic_set_size)
-> > > > > > +			/* size of st_ref_pic_set( num_short_term_ref_pic_sets ) */
-> > > > > > +			skip +=3D decode_params->short_term_ref_pic_set_size;
-> > > > > > +		else if (sps->num_short_term_ref_pic_sets > 1)
-> > > > > > +			skip +=3D ceil_log2(sps->num_short_term_ref_pic_sets);
-> > > > > > +
-> > > > > > +		skip +=3D decode_params->long_term_ref_pic_set_size;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	return skip;
-> > > > > > +}
-> > > > > > +
-> > > > > >   static void set_params(struct hantro_ctx *ctx)
-> > > > > >   {
-> > > > > >   	const struct hantro_hevc_dec_ctrls *ctrls =3D &ctx->hevc_dec=
-.ctrls;
-> > > > > > @@ -134,7 +194,7 @@ static void set_params(struct hantro_ctx *c=
-tx)
-> > > > > >  =20
-> > > > > >   	hantro_reg_write(vpu, &g2_output_8_bits, 0);
-> > > > > >  =20
-> > > > > > -	hantro_reg_write(vpu, &g2_hdr_skip_length, ctrls->hevc_hdr_sk=
-ip_length);
-> > > > > > +	hantro_reg_write(vpu, &g2_hdr_skip_length, compute_header_ski=
-p_lenght(ctx));
-> > > > > >  =20
-> > > > > >   	min_log2_cb_size =3D sps->log2_min_luma_coding_block_size_mi=
-nus3 + 3;
-> > > > > >   	max_log2_ctb_size =3D min_log2_cb_size + sps->log2_diff_max_=
-min_luma_coding_block_size;
-> > > > > > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ct=
-rls.h
-> > > > > > index d6cb3779d190..efc0412ac41e 100644
-> > > > > > --- a/include/media/hevc-ctrls.h
-> > > > > > +++ b/include/media/hevc-ctrls.h
-> > > > > > @@ -467,17 +467,4 @@ struct v4l2_ctrl_hevc_scaling_matrix {
-> > > > > >   	__u8	scaling_list_dc_coef_32x32[2];
-> > > > > >   };
-> > > > > >  =20
-> > > > > > -/*  MPEG-class control IDs specific to the Hantro driver as de=
-fined by V4L2 */
-> > > > > > -#define V4L2_CID_CODEC_HANTRO_BASE				(V4L2_CTRL_CLASS_CODEC |=
- 0x1200)
-> > > > > > -/*
-> > > > > > - * V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP -
-> > > > > > - * the number of data (in bits) to skip in the
-> > > > > > - * slice segment header.
-> > > > > > - * If non-IDR, the bits to be skipped go from syntax element "=
-pic_output_flag"
-> > > > > > - * to before syntax element "slice_temporal_mvp_enabled_flag".
-> > > > > > - * If IDR, the skipped bits are just "pic_output_flag"
-> > > > > > - * (separate_colour_plane_flag is not supported).
-> > > > > > - */
-> > > > > > -#define V4L2_CID_HANTRO_HEVC_SLICE_HEADER_SKIP	(V4L2_CID_CODEC=
-_HANTRO_BASE + 0)
-> > > > > > -
-> > > > > >   #endif
+diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/sun4i_layer.c
+index 6d43080791a0..85fb9e800ddf 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_layer.c
++++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+@@ -117,7 +117,7 @@ static bool sun4i_layer_format_mod_supported(struct drm_plane *plane,
+ 	struct sun4i_layer *layer = plane_to_sun4i_layer(plane);
+ 
+ 	if (IS_ERR_OR_NULL(layer->backend->frontend))
+-		sun4i_backend_format_is_supported(format, modifier);
++		return sun4i_backend_format_is_supported(format, modifier);
+ 
+ 	return sun4i_backend_format_is_supported(format, modifier) ||
+ 	       sun4i_frontend_format_is_supported(format, modifier);
+-- 
+2.25.1
 
