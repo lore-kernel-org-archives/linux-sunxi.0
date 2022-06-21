@@ -1,50 +1,50 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DEA0EA4
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:30:01 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id eo8so18588731edb.0
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:30:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04B9EA4
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:34:13 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id e2so7604484edv.3
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:34:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=eVfQd3XPechRFli107C/XOXRbeHsShcnB7OFUBR1wN4=;
-        b=SkWmIxEV+ESyHsCbsR1Xt7I9SQuAWrV1KNmPiHSefbw6tjpPMuthp3LqtVQ2N+GIyh
-         BF0EUqeIjZ/fTFqxBB6wXJ7xGaqQxl7IRe8eZi1sO2oZD7dNwzX7VC5QBndK7WTzX8pW
-         ar9X/Z0jZRtZLQ6fUs2aQmiDZ2d91v914nUh+KGkyPNtXOmVVYNnVMMqb+EzlDt8o66V
-         a0FVH1Zp8dBl16N3CmVzQ4p+Wj0SgKmTk9HwQkqHXo0LNrXTGtskvMPd3alLj3K0vLA/
-         //ny6WHJ/gvkwxF84HzdQy++kjBUu8yXxysyZC5+Z+VkMghwv8Mv/zySzZVeO0ePODU+
-         GlXg==
+        bh=c7tGMV7/SSO3JozWEHbkFTrboHXpmm3VDf/oaKBPuDs=;
+        b=BUGmrcAUC+BxJxranrDe0YJYzGvQkDLTBZjdzWtcfzrpUMCnxTVONXV0mU3URS5tLL
+         aEOSB9xjhNccR9NdTm0PXAB31J+uj3WMdOSSAcTNqu5PPt4bWhBbZj33RozwJCD/yiKw
+         aHWzcKV8n5eWavzTVIcGpfPCfSHFkmxIrynAq1xxs+lS4+qvsptHbhl4YwmwptrNB3Nm
+         BqUf9oYH5JyI1RkDsf7QjLD7aLBiXMcbClIMDqdNnscmsnklX7J0ionOlcwtPKbTTD6W
+         MWo/2NK17ioZE0f4OZTLPJxUbR3T9Flg/zpzKS0On4R8An+t7QKX8I7HCC+lq7kqxQUE
+         aL4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eVfQd3XPechRFli107C/XOXRbeHsShcnB7OFUBR1wN4=;
-        b=erjSSyzOJ4z0zbMsst/6EaPQIEl2jLhiP3zPwBFG30/0n4ioXN3l/9xKU0IRe8Dw2g
-         ezTRxoAmICtdnruz9GaKDXco0AuTb9//vJbcoJtofTCyxyLcIvcfKocpvXz7FzooIzyU
-         xpNLxm6XCGQpFXH9Ufel5InwkQoub3oua+Sk2EStKEcemFDEheFNYsgQNsIAv1qqxK6D
-         A1AonDSBDZvW2YUxVuDTsuenFRduO0Dz83pkmgM7cIX/yvY0ysFUUlvUl1PMINxuMdEj
-         GpYI2ZVG+4c/K7tpC+4eIy1INEIVKc2wvGOaEoejl/tdCYJaijA/YXc8J4+K7b964pmB
-         wofQ==
-X-Gm-Message-State: AJIora/9D+tTUVszf5uM45bpRXkOZCtBIxJdZKkz37S+dnz5YRnMfCkM
-	HOZgvYUV7vRwpy1NIRrl332UvGCakA1xm988Oh4=
-X-Google-Smtp-Source: AGRyM1tM0xU4gMjk8srBUxoaihaU7C2henLT+DWnWAydDDa7goTMcwvw8+NLuBGCqmwgWP4p2sY0HbLwAwb7ohmPFDY=
+        bh=c7tGMV7/SSO3JozWEHbkFTrboHXpmm3VDf/oaKBPuDs=;
+        b=J4gjmHhOIfKFd4meRG6u2JPNmonHjDY4j5Tu4byt8rKSy8yVbsm7KmT0BvXuRDZSLX
+         gx63b2bgqwchBjy5uhTZ0xNs3z+NAFiykmNJK3A8+Lj/e7Vzy+MfPYn4PbSm5QYTl+H+
+         7JGFzhmTlmu0sozb4jgwVmlqWJ6ylRZtjQ+U/RvdoyQYadJpC1hyLrHCb3vmmONNHRZ8
+         ls4ezP+b2Rup9VB2N9X6tU5H09Jy2m3KQ95KZ+I0myKM8mqvq4Us0qzuaYuICN4uCjd/
+         5LDxgxZDIA698MTzyOCXCW1D2UAY1eWuQqdt4tvxaIBPi+2fgm89bQz2m+Lws4FH3Zpu
+         tnAw==
+X-Gm-Message-State: AJIora/CLRzo7eAd2i+KnGfnLMndmX7J3P8+y67TnO6FiSn2+4h7xM7K
+	9ShmQAZOGnLBbvTiw+AFI3VD6hTRid1kzDGDtxs=
+X-Google-Smtp-Source: AGRyM1vl6qAENnpkydkK4orwRZWx0Z6A0R1L281fxwrvs+ww8MsmgIRorfjJHWF6QSaoxaSyeHSEr2OQ0e5QEiIHYqg=
 X-Received: by 2002:a05:6402:4390:b0:42e:b7e:e9ac with SMTP id
- o16-20020a056402439000b0042e0b7ee9acmr34685476edc.97.1655803800295; Tue, 21
- Jun 2022 02:30:00 -0700 (PDT)
+ o16-20020a056402439000b0042e0b7ee9acmr34705675edc.97.1655804052209; Tue, 21
+ Jun 2022 02:34:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-16-aidanmacdonald.0x0@gmail.com>
-In-Reply-To: <20220620200644.1961936-16-aidanmacdonald.0x0@gmail.com>
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-18-aidanmacdonald.0x0@gmail.com>
+In-Reply-To: <20220620200644.1961936-18-aidanmacdonald.0x0@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 21 Jun 2022 11:29:23 +0200
-Message-ID: <CAHp75Vd7Sq9RMqin_y-8qUEAJLaGfuqxAbe+qcMB22=bqkyZqg@mail.gmail.com>
-Subject: Re: [PATCH 15/49] regmap-irq: Change the behavior of mask_writeonly
+Date: Tue, 21 Jun 2022 11:33:35 +0200
+Message-ID: <CAHp75VcN0hf5_AVB-aRBhyvwuojuDC=FbBUqWpUWQR=r=zSRPA@mail.gmail.com>
+Subject: Re: [PATCH 17/49] regmap-irq: Add broken_mask_unmask flag
 To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
 Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>, 
 	Bjorn Andersson <bjorn.andersson@linaro.org>, 
@@ -71,30 +71,33 @@ Content-Type: text/plain; charset="UTF-8"
 On Mon, Jun 20, 2022 at 10:08 PM Aidan MacDonald
 <aidanmacdonald.0x0@gmail.com> wrote:
 >
-> No drivers currently use mask_writeonly, and in its current form
-> it seems a bit misleading. When set, mask registers will be
-> updated with regmap_write_bits() instead of regmap_update_bits(),
-> but regmap_write_bits() still does a read-modify-write under the
-> hood. It's not a write-only operation.
->
-> Performing a simple regmap_write() is probably more useful, since
-> it can be used for chips that have separate set & clear registers
-> for controlling mask bits. Such registers are normally volatile
-> and read as 0, so avoiding a register read minimizes bus traffic.
+> This flag is necessary to prepare for fixing the behavior of unmask
+> registers. Existing chips that set mask_base and unmask_base must
+> set broken_mask_unmask=1 to declare that they expect the mask bits
 
-Reading your explanations and the code, I would rather think about
-fixing the regmap_write_bits() to be writeonly op.
+Boolean should take true/false.
 
-Otherwise it's unclear what's the difference between
-regmap_write_bits() vs. regmap_update_bits().
+> will be inverted in both registers, contrary to the usual behavior
+> of mask registers.
 
-...
+> diff --git a/include/linux/regmap.h b/include/linux/regmap.h
+> index ee2567a0465c..21a70fd99493 100644
+> --- a/include/linux/regmap.h
+> +++ b/include/linux/regmap.h
+> @@ -1523,6 +1523,7 @@ struct regmap_irq_chip {
+>         bool clear_on_unmask:1;
+>         bool not_fixed_stride:1;
+>         bool status_invert:1;
+> +       bool broken_mask_unmask:1;
 
->         if (d->chip->mask_writeonly)
-> -               return regmap_write_bits(d->map, reg, mask, val);
-> +               return regmap_write(d->map, reg, val & mask);
->         else
->                 return regmap_update_bits(d->map, reg, mask, val);
+Looking at the given context, I would group it with clean_on_unmask above.
+
+The above is weird enough on its own. Can you prepare a precursor
+patch that either drops the bit fields of booleans or moves them to
+unsigned int?
+
+Note, bit fields in C are beasts when it goes to concurrent access. It
+would be nice to ensure these are not the cases of a such.
 
 -- 
 With Best Regards,
