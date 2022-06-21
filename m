@@ -1,143 +1,139 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CF1A20
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 04:13:02 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id m125-20020a1ca383000000b0039c63fe5f64so6591668wme.0
-        for <linux-sunxi@lists.linux.dev>; Mon, 20 Jun 2022 21:13:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31614EA4
+	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 09:22:42 +0000 (UTC)
+Received: by mail-ej1-f48.google.com with SMTP id ay16so6774743ejb.6
+        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 02:22:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gWNf4zISviT0O075eMDft6o66p0iSBmP3yoC2k9L30s=;
-        b=f3qrhg5kivwoN62pkQbcd4DuX9n8K9cZ9BP+ptY1tWJ7tZgQg2er1cSs3AjXP+UnYt
-         6cRh3QvedL01Pw75eXfsUtFhueMSqxX6taL4E1ArDFBhODwSRhIgog7UVQhkPn3J8AQp
-         zNN0wastumrL5Gq5bfrcqREF5fOFhezoDvKrdUlYlGK5bX42VKGqBdTBaP9jztvuKQfG
-         a4AtS9szMHVcLXh7b+ClVSoLfANQKtf6voqXV4k1sQcynXBCA8WwIkaoaNWpZ7u6INe6
-         jyuTWFAxheiqlEEnosdoDxMd7fCNGPTpg3qSeX9eLpy2xH9Zi4GsIPX1mqQ4MgHlIGLP
-         pxrw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nwSBD3PTloVRfceK56G2aCfoof4Hwc6nnq2tpaiVX1E=;
+        b=SZC4AJowoOWLiXUnJNCXlRo+Fy21+43HuGqupG34NYAHev8FNX9LB4nFwui2g2ERc/
+         2nAJjFE7gSxwK3AKqYoV1+xDYo3j7xKpCHwaEkBrfpjwItcvjJqbKZBmsBC6S6wk0LeP
+         jECzrOFPrp+pM5SPwC+6kLb36nf+Eql2JHp+xmKVEp9KBopfkHCProz5vj1URUzLxuOc
+         2gtMsViSY39FbLby9xOKwyFIHQnssNg0xndDzN3H/27fb1evpypF3YvV3oswAKpp+Rdc
+         8SQN3kqU5KrBqva1r+R8tUi0Xkhp826IwLzXg6j6O1xwnr3vjRymNISR9wMWgtdGEpu5
+         ffSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gWNf4zISviT0O075eMDft6o66p0iSBmP3yoC2k9L30s=;
-        b=Q1ygfj2agYr3BbpT8XZWuVa97K4cNceZuFan4R/iKm9bSCjfkyzG1n0zRV1FKiUhlC
-         YFR5pJtYo+dABJKHIc3PNue0j+UoPX3za2jZBSowhziENaG6F7hY3F166Bh3at3xa3Ik
-         I94l2D/ReSY5rcIobvt6LprXFJTBJXjBE/eA/Ro++jOiN2iVBWeTuAiSPmaAYbhpuoah
-         YsEUX6ClJggVtasHNkTUAvXH7ioVBamgtiFXU7K30OchkRU1+APqw91xNKXAKIMRzvPF
-         b8DJvBefJcixBjOoSaxJKtsBfBmICxn3LIR1oHRlrDFXzFef2y6B/HwD+2w9Kt2xz1mD
-         yRMA==
-X-Gm-Message-State: AOAM533fVDnoDfYtiaMgTvLU4gax/acYJJ9kg2TfF1DuZUz2m5ZfiScN
-	u85heM1hJTBlycEyVrZ/ydmhmpOaU00=
-X-Google-Smtp-Source: ABdhPJy1EcK1Ls78Ofn6WTxbw21kuLZhIFxSHu84kK9NBQ1319q3BRU7LTTnK4saL8kgvjS2sRwCpA==
-X-Received: by 2002:a7b:cc94:0:b0:39c:4507:e806 with SMTP id p20-20020a7bcc94000000b0039c4507e806mr38807711wma.91.1655784780332;
-        Mon, 20 Jun 2022 21:13:00 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id bt28-20020a056000081c00b0020fcc655e4asm14349200wrb.5.2022.06.20.21.12.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jun 2022 21:12:59 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Vinod Koul <vkoul@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: dmaengine@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH] dmaengine: sun6i: Set the maximum segment size
-Date: Tue, 21 Jun 2022 06:12:53 +0200
-Message-ID: <1793109.atdPhlSkOF@kista>
-In-Reply-To: <c0c27494-99ea-969d-ff6c-a21f110ed3e8@sholland.org>
-References: <20220617034209.57337-1-samuel@sholland.org> <3494277.R56niFO833@kista> <c0c27494-99ea-969d-ff6c-a21f110ed3e8@sholland.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nwSBD3PTloVRfceK56G2aCfoof4Hwc6nnq2tpaiVX1E=;
+        b=fPofENgW/FociU8UpbPGy8OBaLKCkm3Gg6ijbBGCvO7IY0xw0RouHbhkofhas+gPVa
+         1u/nlTpLEFdpW8wrqeneBHo4hYep/mYDZGhYKWPd2lyINo+jy7lcfxlz54BcJxDj0P/4
+         9OX/S+0/XUeftfYGulA+dBgnhi3hg94dYLH/kgjHfBbXXSiJIsLeOt6ZJWLWQUdNWRcK
+         BZx7zeP+NjvMtrj0hrKKTr4/CymfL5Hu5KX7oh2Dg5av44p9GfFOais5iDRRmDNtHUS+
+         ty3p3LZljE63y1xKkd1lgNwrsHShZXnLIGMTWmHFvFg1DIVJYQxzZDNSv/etv4RyW+8O
+         xebA==
+X-Gm-Message-State: AJIora//CpLp3y0qggGpuHg2rneT0ttEB+5c1XYwhikRSBdOo4yX8ZCz
+	xmxrmyag5dyJWbIYCg42OtMDqG8YrXqXtLF77IE=
+X-Google-Smtp-Source: AGRyM1st5l8YH2ggqJetd23NizO1SBXRfCSKIN2Ag6+snWa4U1k/4MnJ2Of8mZI6rssF1UlaIrePIaWD6CbQW7kd1/8=
+X-Received: by 2002:a17:906:149:b0:711:fca6:bc2f with SMTP id
+ 9-20020a170906014900b00711fca6bc2fmr25088970ejh.497.1655803360410; Tue, 21
+ Jun 2022 02:22:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com> <20220620200644.1961936-5-aidanmacdonald.0x0@gmail.com>
+In-Reply-To: <20220620200644.1961936-5-aidanmacdonald.0x0@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 21 Jun 2022 11:22:03 +0200
+Message-ID: <CAHp75VePD-ROfnFtwU33Jt_h9a-qBC0QwRQcQfgmEbyOV22CKA@mail.gmail.com>
+Subject: Re: [PATCH 04/49] regmap-irq: Introduce config registers for irq types
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <bjorn.andersson@linaro.org>, 
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>, Banajit Goswami <bgoswami@codeaurora.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+	Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
+	Michael Walle <michael@walle.cc>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>, Thomas Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, 
+	Lee Jones <lee.jones@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Cristian Ciocaltea <cristian.ciocaltea@gmail.com>, Chen-Yu Tsai <wens@csie.org>, tharvey@gateworks.com, 
+	rjones@gateworks.com, Matti Vaittinen <mazziesaccount@gmail.com>, orsonzhai@gmail.com, 
+	baolin.wang7@gmail.com, zhang.lyra@gmail.com, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, linux-actions@lists.infradead.org, 
+	linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	ALSA Development Mailing List <alsa-devel@alsa-project.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Dne torek, 21. junij 2022 ob 02:20:11 CEST je Samuel Holland napisal(a):
-> Hi Jernej,
->=20
-> On 6/20/22 1:28 PM, Jernej =C5=A0krabec wrote:
-> > Dne petek, 17. junij 2022 ob 05:42:09 CEST je Samuel Holland napisal(a):
-> >> The sun6i DMA engine supports segment sizes up to 2^25-1 bytes. This is
-> >> explicitly stated in newer SoC documentation (H6, D1), and it is impli=
-ed
-> >> in older documentation by the 25-bit width of the "bytes left in the
-> >> current segment" register field.
-> >=20
-> > At least A10 user manual says 128k max in description for Byte Counter=
-=20
-> > register (0x100+N*0x20+0xC), although field size is defined as 23:0, bu=
-t=20
-that's=20
-> > still less than 2^25-1. A20 supports only 128k too according to manual.=
-=20
-New=20
-> > quirk should be introduced for this.
->=20
-> Thanks for checking this. A10 and A20 use a separate driver (sun4i-dma).=
-=20
-That
-> driver will also benefit from setting the max segment size, so I will sen=
-d a
-> patch for it.
->=20
-> I think all of the variants supported by sun6i-dma have the same segment=
-=20
-size
-> capability, so no quirk is needed here.
+On Mon, Jun 20, 2022 at 10:08 PM Aidan MacDonald
+<aidanmacdonald.0x0@gmail.com> wrote:
+>
+> Config registers provide a more uniform approach to handling irq type
+> registers. They are essentially an extension of the virtual registers
+> used by the qcom-pm8008 driver.
+>
+> Config registers can be represented as a 2D array:
+>
+>     config_base[0]      reg0,0      reg0,1      reg0,2      reg0,3
+>     config_base[1]      reg1,0      reg1,1      reg1,2      reg1,3
+>     config_base[2]      reg2,0      reg2,1      reg2,2      reg2,3
+>
+> There are 'num_config_bases' base registers, each of which is used to
+> address 'num_config_regs' registers. The addresses are calculated in
+> the same way as for other bases. It is assumed that an irq's type is
+> controlled by one column of registers; that column is identified by
+> the irq's 'type_reg_offset'.
+>
+> The set_type_config() callback is responsible for updating the config
+> register contents. It receives an array of buffers (each represents a
+> row of registers) and the index of the column to update, along with
+> the 'struct regmap_irq' description and requested irq type.
+>
+> Buffered values are written to registers in regmap_irq_sync_unlock().
+> Note that the entire register contents are overwritten, which is a
+> minor change in behavior from type registers via 'type_base'.
 
-Ah, yes. Then this patch is:
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+...
 
-Best regards,
-Jernej
+> +                       ret = regmap_write(map, reg, d->config_buf[i][j]);
+> +                       if (ret != 0)
 
->=20
-> Regards,
-> Samuel
->=20
-> >>
-> >> Exposing the real segment size limit (instead of the 64k default)
-> >> reduces the number of SG list segments needed for a transaction.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >> Tested on A64, verified that the maximum ALSA PCM period increased, and
-> >> that audio playback still worked.
-> >>
-> >>  drivers/dma/sun6i-dma.c | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/dma/sun6i-dma.c b/drivers/dma/sun6i-dma.c
-> >> index b7557f437936..1425f87d97b7 100644
-> >> --- a/drivers/dma/sun6i-dma.c
-> >> +++ b/drivers/dma/sun6i-dma.c
-> >> @@ -9,6 +9,7 @@
-> >> =20
-> >>  #include <linux/clk.h>
-> >>  #include <linux/delay.h>
-> >> +#include <linux/dma-mapping.h>
-> >>  #include <linux/dmaengine.h>
-> >>  #include <linux/dmapool.h>
-> >>  #include <linux/interrupt.h>
-> >> @@ -1334,6 +1335,8 @@ static int sun6i_dma_probe(struct platform_devic=
-e=20
-> > *pdev)
-> >>  	INIT_LIST_HEAD(&sdc->pending);
-> >>  	spin_lock_init(&sdc->lock);
-> >> =20
-> >> +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(25));
-> >> +
-> >>  	dma_cap_set(DMA_PRIVATE, sdc->slave.cap_mask);
-> >>  	dma_cap_set(DMA_MEMCPY, sdc->slave.cap_mask);
-> >>  	dma_cap_set(DMA_SLAVE, sdc->slave.cap_mask);
-> >> --=20
-> >> 2.35.1
-> >>
-> >>
-> >=20
-> >=20
->=20
->=20
+if (ret)
 
+> +                               dev_err(d->map->dev,
+> +                                       "Failed to write config %x: %d\n",
+> +                                       reg, ret);
+> +               }
 
+...
+
+> + * regmap_irq_set_type_config_simple() - Simple IRQ type configuration callback.
+
+> + *
+
+Redundant line.
+
+...
+
+> +               d->config_buf = kcalloc(chip->num_config_bases,
+> +                                       sizeof(*d->config_buf), GFP_KERNEL);
+> +               if (!d->config_buf)
+> +                       goto err_alloc;
+> +
+> +               for (i = 0; i < chip->num_config_regs; i++) {
+> +                       d->config_buf[i] = kcalloc(chip->num_config_regs,
+> +                                                  sizeof(unsigned int),
+
+Can it be sizeof(**d->config_buf) ?
+
+> +                                                  GFP_KERNEL);
+> +                       if (!d->config_buf[i])
+> +                               goto err_alloc;
+> +               }
+
+-- 
+With Best Regards,
+Andy Shevchenko
