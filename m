@@ -1,71 +1,28 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678E91843
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 14:42:52 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 537115C01F7;
-	Wed, 22 Jun 2022 10:42:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Wed, 22 Jun 2022 10:42:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1655908971; x=
-	1655995371; bh=q+1sB2EjKcE1D8Tt+wDoAsTfPMB0jI+HIrgtAgz1Z1g=; b=H
-	MBpm6cETzus8LyhNcsTi/26c4/P5tTar1NhG1plx5rhcRcHZdgAc95ffPMiYhPQw
-	yJR18tuvxG9ql9ChnqdhwRrhuS1m6rGY90VDhi9f0kewSCrMkzNqnmRDy91b7F5Y
-	JkF2ToAt9eaXn2UK7gj2GrMGyyL/5wG1OoFO4NW5BRXwm80/Ubt1AOEId91vHzRB
-	1DRy45B30mvlkb0YlGUE5ED/2s3K14gCKCWQeF6FELtFUeizUsqu+GNu8EuZCueW
-	5LfrZ/LGxk4Ay2uXkG1r44AeuXsYnVsasp87YIEPrAWIE2mQf/McqXOX16mM3boo
-	qrrL0YF819jBy4oVulYZg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655908971; x=
-	1655995371; bh=q+1sB2EjKcE1D8Tt+wDoAsTfPMB0jI+HIrgtAgz1Z1g=; b=R
-	wqfRR6Juaz2hc5Rcz8iZI6RH5X3CsL/5o7xPSBgLKuOl7uFV9VmnN1D7ag7t7rws
-	mmixvzfzBKlHN/0fID/9SGwUsUPYQ5jpZrl690ASphhwMPrEQ2WN7lA0bkeIPTrh
-	g9MRBRm4sGBi5+QaOLMZd4XQ8dTpszTa3lmw0KAIqnZaS1Raftqt5meyTAqa6CiP
-	h9gwBhUfLnoORe2q8g4PzDucW7ICrebCisO6xXOAIV+FRa7bGKNfDh751knhi1Ln
-	jRfF9wlhJdvGq83nqXK6vKCDp7VZKZ6ONz80kpZ3w6heZYsEEsQYKzjvUaVbrMcB
-	KzxH1xArxTH3knAQoxGAw==
-X-ME-Sender: <xms:aiqzYj7Nl09fEdW-Z0VdCHW0Iay_tTxkJksHSnbBCBLuKPd6-QjXBA>
-    <xme:aiqzYo4zJoexBUS7cO0BE8QMv2G3Q3ifYuF_IM3BTiGYv_xYqlTII99C7KIigGrXA
-    O1NZfAS0WhZqKngeVk>
-X-ME-Received: <xmr:aiqzYqff3X82sK0khptgMKK1ed2SHGB-2no1Pxn-3PibmM5tMLAD2ujknviHQx9DtJl6YMayghn9DDB8mZSzK_6akoKWmAT9B6VlUdQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefhedgjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfgggtgfesth
-    ekredtredtjeenucfhrhhomhepofgrgihimhgvucftihhprghrugcuoehmrgigihhmvges
-    tggvrhhnohdrthgvtghhqeenucggtffrrghtthgvrhhnpeeuieeggffhffffieefheduie
-    euvdetgeeufeffvefgtedvffehheekffevudefieenucevlhhushhtvghrufhiiigvpedt
-    necurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:aiqzYkKwPw3gIfJ_SjIbs_w9UUBhK1M1Ui1r83ckpM67FWVVOyEASA>
-    <xmx:aiqzYnIcldF7v-xnUXWzZoqs4tpeYgPHayL0m2NqHG0Dk7huZ_Z4VQ>
-    <xmx:aiqzYtwkCspe4ZLfKbz4BRnmjSmJLqvYXvQeIfXCbJsjN2K7TmgNRg>
-    <xmx:ayqzYkq92ysytwgfHg_TQnIczgbONjc9jHybzhf5Bely2wJnD3l5Zw>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 10:42:50 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: farooqui_saud@hotmail.com
-Cc: Maxime Ripard <maxime@cerno.tech>,
-	wens@csie.org,
-	daniel@ffwll.ch,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	jernej.skrabec@gmail.com,
-	linux-sunxi@lists.linux.dev,
-	samuel@sholland.org
-Subject: Re: (subset) [PATCH v2] drm/sun4i: Return if frontend is not present
-Date: Wed, 22 Jun 2022 16:42:44 +0200
-Message-Id: <165590895784.604863.5392246455510678871.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.36.1
-In-Reply-To: <PA4P189MB1421E93EF5F8E8E00E71B7878BB29@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
-References: <20220622075725.y6ws22ielpc4pmxw@houat> <PA4P189MB1421E93EF5F8E8E00E71B7878BB29@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC3F1843
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 15:16:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821F2C34114;
+	Wed, 22 Jun 2022 15:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655911005;
+	bh=74OTJmsDUnJ8Yy67wCt0W4gdTWxoxbdt0Ekwa+iJXlw=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=Wd3MRhoZEa6qShbmTQ//LXyurzxGZedShHyF58V4d/EgvL0X0NAU6WbQjTyrsDCFy
+	 9o6DzQBjeTAVrFaODUGwNzjWaoCZaomicw4Yz0hU37Q4HtmjEPKP5QpbzZxh61TIle
+	 VNaUfM6ZI3D7gX/pX/Dt07tQc3sTOG1abvL6llR/iSnNhsy6lnNJoXQH0yB1zO8Rs4
+	 ryl2ehKgtUYQJ99Okc2O5QWFF377RFC9m7TA/ATUZN8TQEPq/lcfeBPoMAeCCHwYHX
+	 frMeOdV7fGBnNCxVvKViwd/uGsp9eLgSEEcYIEfWvDGpUE8Lpe6VfYddUCmnYj/OMD
+	 bT9FlVvImCbeg==
+From: Mark Brown <broonie@kernel.org>
+To: aidanmacdonald.0x0@gmail.com
+Cc: bjorn.andersson@linaro.org, rafael@kernel.org, orsonzhai@gmail.com, krzysztof.kozlowski@linaro.org, jernej.skrabec@gmail.com, zhang.lyra@gmail.com, b.zolnierkie@samsung.com, linux-actions@lists.infradead.org, myungjoo.ham@samsung.com, linux-arm-kernel@lists.infradead.org, tglx@linutronix.de, tiwai@suse.com, cristian.ciocaltea@gmail.com, michael@walle.cc, lgirdwood@gmail.com, maz@kernel.org, rjones@gateworks.com, linux-sunxi@lists.linux.dev, cw00.choi@samsung.com, gregkh@linuxfoundation.org, linus.walleij@linaro.org, linux-arm-msm@vger.kernel.org, agross@kernel.org, tharvey@gateworks.com, samuel@sholland.org, brgl@bgdev.pl, alsa-devel@alsa-project.org, lee.jones@linaro.org, linux-gpio@vger.kernel.org, mazziesaccount@gmail.com, wens@csie.org, mani@kernel.org, perex@perex.cz, baolin.wang7@gmail.com, linux-kernel@vger.kernel.org, srinivas.kandagatla@linaro.org
+In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
+Subject: Re: (subset) [PATCH 00/49] regmap-irq cleanups and refactoring
+Message-Id: <165591099823.672192.3312043171342090457.b4-ty@kernel.org>
+Date: Wed, 22 Jun 2022 16:16:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -75,13 +32,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On Wed, 22 Jun 2022 13:59:17 +0500, Saud Farooqui wrote:
-> Added return statement in sun4i_layer_format_mod_supported()
-> in case frontend is not present.
+On Mon, 20 Jun 2022 21:05:55 +0100, Aidan MacDonald wrote:
+> Here's a bunch of cleanups for regmap-irq focused on simplifying the API
+> and generalizing it a bit. It's broken up into three refactors, focusing
+> on one area at a time.
 > 
+> * Patches 01 and 02 are straightforward bugfixes, independent of the
+>   rest of the series. Neither of the bugs are triggered by in-tree
+>   drivers but they might be worth picking up early anyhow.
 > 
+> [...]
 
-Applied to drm/drm-misc (drm-misc-fixes).
+Applied to
+
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
 
 Thanks!
-Maxime
+
+[01/49] regmap-irq: Fix a bug in regmap_irq_enable() for type_in_mask chips
+        commit: 485037ae9a095491beb7f893c909a76cc4f9d1e7
+[02/49] regmap-irq: Fix offset/index mismatch in read_sub_irq_data()
+        commit: 3f05010f243be06478a9b11cfce0ce994f5a0890
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
