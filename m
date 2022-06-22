@@ -1,117 +1,130 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D2A7499
-	for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 21:11:59 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id o8so20652826wro.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 21 Jun 2022 14:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=references:from:to:cc:subject:in-reply-to:date:message-id
-         :mime-version;
-        bh=5jGRxWa+Hik2xXu28OZInbUMDSK1LmZ28o9a5C6ustA=;
-        b=dBkR+OXnEaZPr9uoaZB+DI5wT1AXufYbc+9qN44d74R1jy7oOaP5glLLgc/hzh3E8m
-         VEYB0O8O8TiK3K0KU8aR4nbUvWWFGE7uePKS5PELYCU4SnEeJA8EVcTkrM2DoduTme8M
-         T2w+A4Oj1CabUPV/iQcD8tJhe3/0P4UoInCNfQd2pdDiq/qrgQ6JtX7yLUUFdykN73bM
-         NtCtwLELefp/0JcgOX6hIfK1mCyMbjfNrGysmUUfiSDKIuEdhMG6diRPWKvISTwtHa9N
-         kgrC4FpslcP3XTRRhPHg48OrMHfSCIL2fPrOOeRY9LvrBNjg8LF3SLUYHP6wXsVMRurd
-         LPAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:references:from:to:cc:subject:in-reply-to:date
-         :message-id:mime-version;
-        bh=5jGRxWa+Hik2xXu28OZInbUMDSK1LmZ28o9a5C6ustA=;
-        b=1qv0J6QGFiDDdCFxlNTf0IAXYNG0+O8dnB96kV8boCJ07FiDP2uxyroNkEshFxzrKO
-         CKmTUIntW+aOzmf82Sf/QHXQMCeRms+9xcJ2WghgSS47GO5EFOJ9k6F19Jhn6VOy5/pf
-         l1wP0zTgrl4hmclpJWuMaFAnWHGVy8+c+LtZy30ROWQAwTjx3E3/4ppNXw34K6m9iPNq
-         +oidUn9Lcd1U/yBjsQZW4jSweTJOhL9il0nGMMMKKahsCSQns9mEMze13CDLt5ueqmuH
-         TjW9mdbIOlJBIQ+jjl/sgqYGHoSSuZs8wB7decr9KiMDpdz4WtAxC0/VgR8wu+JCgLu8
-         dr+g==
-X-Gm-Message-State: AJIora9oPhX7BKgAhL11R8tobyI5tsNcbaL0cO0v5PwO618tSNuBZzEb
-	6AbwqVrQVcmAcBnevNuzxlg=
-X-Google-Smtp-Source: AGRyM1uWGscZnGaavVg/uIQYsRslzM5t54de/BLxZBl+KXB10CZYw57ndf/q8EV3SUZ+AQYy58rh1w==
-X-Received: by 2002:adf:fb10:0:b0:207:af88:1eb9 with SMTP id c16-20020adffb10000000b00207af881eb9mr30853557wrr.238.1655845918233;
-        Tue, 21 Jun 2022 14:11:58 -0700 (PDT)
-Received: from localhost (92.40.168.122.threembb.co.uk. [92.40.168.122])
-        by smtp.gmail.com with ESMTPSA id bv27-20020a0560001f1b00b0021b84ac7a05sm7979960wrb.0.2022.06.21.14.11.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jun 2022 14:11:57 -0700 (PDT)
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
- <20220620200644.1961936-16-aidanmacdonald.0x0@gmail.com>
- <CAHp75Vd7Sq9RMqin_y-8qUEAJLaGfuqxAbe+qcMB22=bqkyZqg@mail.gmail.com>
-From: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>, Andy Gross <agross@kernel.org>, Bjorn
- Andersson <bjorn.andersson@linaro.org>, Srinivas Kandagatla
- <srinivas.kandagatla@linaro.org>, Banajit Goswami
- <bgoswami@codeaurora.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski
- <krzysztof.kozlowski@linaro.org>, Bartlomiej Zolnierkiewicz
- <b.zolnierkie@samsung.com>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Michael Walle <michael@walle.cc>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Thomas
- Gleixner <tglx@linutronix.de>, Marc Zyngier <maz@kernel.org>, Lee Jones
- <lee.jones@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, Cristian
- Ciocaltea <cristian.ciocaltea@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- tharvey@gateworks.com, rjones@gateworks.com, Matti Vaittinen
- <mazziesaccount@gmail.com>, orsonzhai@gmail.com, baolin.wang7@gmail.com,
- zhang.lyra@gmail.com, Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Linux
- Kernel Mailing List <linux-kernel@vger.kernel.org>, "open list:GPIO
- SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- linux-actions@lists.infradead.org, linux-arm-msm
- <linux-arm-msm@vger.kernel.org>, linux-arm Mailing List
- <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, ALSA
- Development Mailing List <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 15/49] regmap-irq: Change the behavior of mask_writeonly
-In-reply-to: <CAHp75Vd7Sq9RMqin_y-8qUEAJLaGfuqxAbe+qcMB22=bqkyZqg@mail.gmail.com>
-Date: Tue, 21 Jun 2022 22:13:03 +0100
-Message-ID: <FQHPnJKuXUHf8vLiZoXidpoim5RtEYUC@localhost>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2519A110A
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 07:37:18 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 09CD55C00E0;
+	Wed, 22 Jun 2022 03:37:18 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 22 Jun 2022 03:37:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1655883438; x=
+	1655969838; bh=xC3T80hMMa/KAtkEhkckBxtjK8g6J2RttpW8iWfN1EU=; b=N
+	rjEVKcSFbDeeL2+mjqiRXs8dxZ8VPagAavHFkXzmAqs/lqE9hguC62MI8KYE1zKe
+	EjHjAZipIiD73lBLNcVVkfHz8E/DXfGpi78eWb7qXP4bSbsiwOA73GO/hH+2a2YV
+	xzeK8HSvbQKqqR6qxkch7Qwjtn7XkkN2/4YlGr6kFVL+t7p31FhWBKWyjvn3Udl4
+	0MIM5Wpn+wAPnGm9YRPxdWSDWAlAESGnJCaRqF4/ojoNgTi53s76RBrKTPYnOQjO
+	jDZShdjQ4wuv4AIbASKuM8yGmNWnQ8N3hOBfDptN8J/D1gVlv7Hm8y/wIc/am3+k
+	VwGozVqDb9zYvT+D/jKAQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1655883438; x=
+	1655969838; bh=xC3T80hMMa/KAtkEhkckBxtjK8g6J2RttpW8iWfN1EU=; b=b
+	DKvd43wNUKyEB9b7ULS3DZEoZJ76jrw10egcKbVjt5MxORz6qojl+oOOUlgS0RUQ
+	tAoMwlq3+VrkcxEJEWvkQRrKX9qTnIgdXAYTSmo+junYjAsLUBFGZzRX1u90c1Qr
+	PZqB84guDmYsQeqThTIVl6B/IE9GWsNB14iuMnnbOLh+lo0yOEcrelwjdSiigbmN
+	nWZ6EakEQkHuFqYK/SQiddLueGKRb3lX9TdV9jy0pujJC2/lWSGlC/YkVq1wM11l
+	WVxvSYahhzEXtDoM9gfltVbOR7u/Vt4ij8w6PwWZ1gBmJc3YDAoS12wigEMB8Dau
+	4a83Xot3lJoLIPFqwWiMQ==
+X-ME-Sender: <xms:rcayYgvNYCFUjm6CUu-eKu6GU3hf-7_Jc1TqSNwFLbbhRSWsmXamJg>
+    <xme:rcayYtdLiQZEmw_PIW3Pootsajx3DqBdN4luUA4RUL9vuq_LZ4TmxJXD_qnx8Xwks
+    YL1FBvTFwSUUXalNpU>
+X-ME-Received: <xmr:rcayYrzMLHbQoZ060U-mjDqcyxR_j4o7TXZCk7REJ1jORfe97biPHrfkYRbS26nby7nSt71INQ55AntiA25_aIjs53y1o21GX4Z4xFA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgse
+    htkeertdertdejnecuhfhrohhmpeforgigihhmvgcutfhiphgrrhguuceomhgrgihimhgv
+    segtvghrnhhordhtvggthheqnecuggftrfgrthhtvghrnhepueeigefghfffffeifeehud
+    eiuedvteegueefffevgfetvdffheehkeffvedufeeinecuvehluhhsthgvrhfuihiivgep
+    tdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:rcayYjOAN5uBm2KtQiw2c3WztAK0JdZ9Wu4I0AbPEghfER5x6mgUoQ>
+    <xmx:rcayYg8sF5myABSdKgMbY-09QX0r4VcIhy_2QBd45FNge4Ri6BQe9Q>
+    <xmx:rcayYrXYLSF02Vi5zAMNdGOiwWE57HukC6Y0QUGW4Ntp2PV22oosRQ>
+    <xmx:rsayYrYTSSwSl0FaHrMyLDjhKl-KsJ7tavSCRJRcll-sXED_GwHnWg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Jun 2022 03:37:16 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: mripard@kernel.org,
+	jernej.skrabec@gmail.com,
+	wens@csie.org
+Cc: Maxime Ripard <maxime@cerno.tech>,
+	samuel@sholland.org,
+	dri-devel@lists.freedesktop.org,
+	airlied@linux.ie,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	daniel@ffwll.ch
+Subject: Re: (subset) [PATCH v2] drm/sun4i: Add DMA mask and segment size
+Date: Wed, 22 Jun 2022 09:37:13 +0200
+Message-Id: <165588343010.17134.16657769855274724616.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.36.1
+In-Reply-To: <20220620181333.650301-1-jernej.skrabec@gmail.com>
+References: <20220620181333.650301-1-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+On Mon, 20 Jun 2022 20:13:33 +0200, Jernej Skrabec wrote:
+> Kernel occasionally complains that there is mismatch in segment size
+> when trying to render HW decoded videos and rendering them directly with
+> sun4i DRM driver. Following message can be observed on H6 SoC:
+> 
+> [  184.298308] ------------[ cut here ]------------
+> [  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
+> [  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
+> [  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
+> [  184.329533] Hardware name: Tanix TX6 (DT)
+> [  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
+> [  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
+> [  184.349250] sp : ffff800009f33a50
+> [  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
+> [  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
+> [  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
+> [  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
+> [  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
+> [  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
+> [  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
+> [  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
+> [  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
+> [  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
+> [  184.424106] Call trace:
+> [  184.426556]  debug_dma_map_sg+0x2b0/0x350
+> [  184.430580]  __dma_map_sg_attrs+0xa0/0x110
+> [  184.434687]  dma_map_sgtable+0x28/0x4c
+> [  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
+> [  184.442729]  __map_dma_buf+0x2c/0xd4
+> [  184.446321]  dma_buf_map_attachment+0xa0/0x130
+> [  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
+> [  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
+> [  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
+> [  184.465190]  drm_ioctl_kernel+0xc4/0x174
+> [  184.469123]  drm_ioctl+0x204/0x420
+> [  184.472534]  __arm64_sys_ioctl+0xac/0xf0
+> [  184.476474]  invoke_syscall+0x48/0x114
+> [  184.480240]  el0_svc_common.constprop.0+0x44/0xec
+> [  184.484956]  do_el0_svc+0x2c/0xc0
+> [  184.488283]  el0_svc+0x2c/0x84
+> [  184.491354]  el0t_64_sync_handler+0x11c/0x150
+> [  184.495723]  el0t_64_sync+0x18c/0x190
+> [  184.499397] ---[ end trace 0000000000000000 ]---
+> 
+> [...]
 
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+Applied to drm/drm-misc (drm-misc-fixes).
 
-> On Mon, Jun 20, 2022 at 10:08 PM Aidan MacDonald
-> <aidanmacdonald.0x0@gmail.com> wrote:
->>
->> No drivers currently use mask_writeonly, and in its current form
->> it seems a bit misleading. When set, mask registers will be
->> updated with regmap_write_bits() instead of regmap_update_bits(),
->> but regmap_write_bits() still does a read-modify-write under the
->> hood. It's not a write-only operation.
->>
->> Performing a simple regmap_write() is probably more useful, since
->> it can be used for chips that have separate set & clear registers
->> for controlling mask bits. Such registers are normally volatile
->> and read as 0, so avoiding a register read minimizes bus traffic.
->
-> Reading your explanations and the code, I would rather think about
-> fixing the regmap_write_bits() to be writeonly op.
-
-That's impossible without special hardware support.
-
-> Otherwise it's unclear what's the difference between
-> regmap_write_bits() vs. regmap_update_bits().
-
-This was not obvious to me either. They're the same except in how they
-issue the low-level write op -- regmap_update_bits() will only do the
-write if the new value differs from the current one. regmap_write_bits()
-will always do a write, even if the new value is the same.
-
-I think the problem is lack of documentation. I only figured this out
-by reading the implementation.
-
->>         if (d->chip->mask_writeonly)
->> -               return regmap_write_bits(d->map, reg, mask, val);
->> +               return regmap_write(d->map, reg, val & mask);
->>         else
->>                 return regmap_update_bits(d->map, reg, mask, val);
+Thanks!
+Maxime
