@@ -1,40 +1,40 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F396110A
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 07:38:06 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 477DB5C00FC;
-	Wed, 22 Jun 2022 03:38:05 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute4.internal (MEProxy); Wed, 22 Jun 2022 03:38:05 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DEA6110A
+	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 07:57:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 33A935C00D8;
+	Wed, 22 Jun 2022 03:57:28 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 22 Jun 2022 03:57:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm1; t=1655883485; x=1655969885; bh=Cn6Z2/p9SO
-	EAnDYDOhTo2hgXRX/uuhVY54GGM0ULJDw=; b=DA/ngi2a9qaz8ulm8WmNEkiUu2
-	RedJpyOR7IZNZOztxMmZDhGdT/qWo3HXsJFLIHoLkMxrpwVFYXruscBQVWZR1RjW
-	KmeQBWBDgf8NGjLa0n4XoPuu4wjRBHuOuc2QZ8kxvlG8IKPaRTd7ZUUsgksNYOS2
-	Tkrbd+yqsefy+rGUcxgEnjGLA0Vu7eQpZlyywN7VPBo0H+5LVUpe9bhI6Bf0l03D
-	06OleAholZGW4cZpCgnzm8KM2WRgeXkZYr4gNOGbptrA0j53mPq5TZ6OCJ6mWc52
-	5g6YnE4fqpNecJK5saU1Abf12YIWVsZu9mrms7o1+NLSv+DNi/yxG5fy+uoA==
+	:subject:to:to; s=fm1; t=1655884648; x=1655971048; bh=x1drCMu5dq
+	EeEn5rlOqr732uAMnNtHSW/+Yw52DBQHM=; b=pbyDL2YJVwqma+q5ZDQLE+Cw4h
+	8zD5iAzAXCo402V0ukFU1qb9Ad+Mq6U1NBQ8QBQG8T0xBVhdSjE/SLm11/pFzedW
+	tdQjkxxpaiqX6J5s7Xp5nw3l7e/Ln6StT0zo5GCV8V/Y5WY83wMeXNB/+B/JnQ8j
+	kus9OCi7biIq7o/dfMizKS9zAl05EfvrYXEWzT5v4UHo6Qkiy9JdbW/FuwO47rFV
+	wltuOvTmUG6PIfbMNgZ4VmbaaTq6ZfJBd/mlS9D2m8ZV17kQ/LqfN4065LSTRD4g
+	r7q18oGc4qzphbpNoiegbT3WfclFkOvvOPQ0byd2qt/ilExPOvGNJU22hPbw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1655883485; x=1655969885; bh=Cn6Z2/p9SOEAnDYDOhTo2hgXRX/u
-	uhVY54GGM0ULJDw=; b=ubw0mNuagzWqjF49CTycXdreJzpRYvW2/0Y/wkiagD2p
-	oIU2fuVhbP8zFGtxmA12S2N0N49e+AmbtocvC4WHR1KErspQS80fdzV4Et+Sr4r3
-	Kbn8Oc+XlD3Wn4K/2Z/mgwTzVyz6fXfu4tQ87wgyym5sxpWXHTIODNaHeEp9XB30
-	h6AKudFamehCS5bdl7nrTE62WcNbCiBH8L/ZwyNL+lwpd0ux4B/gCo2YD4gW1QTU
-	HEt9Zs8DKUJeNsobJ+ksxucnqIbqlvwml+fTpYO0uEjdJcy6RJrWopLpYx6sKXB6
-	yUzHJuo5E3Qby1ns7ol6OXCQ3bNnavuxZ3qFe9y/AA==
-X-ME-Sender: <xms:3cayYrz2qFL3rz1pPngsL0q2bjsgO6vyqOzRM-r48HWZ6LblKrjVNQ>
-    <xme:3cayYjQS5MSHDWA5sjHkauiGDqFFQcn4OgxsonNp3BH-RqKjxYuVC5Z2KKjKh2W_k
-    XAXsP-xVG-3oiuWpDc>
-X-ME-Received: <xmr:3cayYlXQxpQoCbJpS3WOff6FwhPpJQe4aztqPI-Fan-0IMJK5jU7fZ7iTK-qNki1ssfIUeuFVithMFE9tAQOY_c0mmae5xzM4OZtI-M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvgecutefuodetggdotefrod
+	fm2; t=1655884648; x=1655971048; bh=x1drCMu5dqEeEn5rlOqr732uAMnN
+	tHSW/+Yw52DBQHM=; b=o3k5NlJchNCwnv8bCsQZx2/IWFPd3VUiOaFHm4rkuDzW
+	lipDdqr9jRUHzC/nBEM23CZ5SpS36QD2d19H/HlI8Nm3Oj4pNzNTs+ngj1j3R7a8
+	SNxLCyfueW3ccnrqRAlsZbwuc2ezuArdl46u6HsrTfLNESWXdkKUtpLQXJkOToev
+	KSRUh3eI1Ji+z1wCUn8ahheo6qMusFP2uh7hq2UGOdlxqvfruI7cEWd0MvhrCBAq
+	emGDaBecGN7jv8f89FGDQ3bnf7Eq+pp9uaHl1OkVMmh0nVloX1HdTIbW4xdwbnW9
+	wmny/fPZcaGGEk4utiITTKpAyJwSZqgj0xLPPdGOWA==
+X-ME-Sender: <xms:Z8uyYgZ2ReBdYtNKL3VJ2PgyMc6fHTTdaCrXBU034dhqX9tH7U7oEQ>
+    <xme:Z8uyYrbAGi_QegF8Am4XP-AonTO1ITYIWoYrils9wu9IgUA-ajjrY2QngeR07skJU
+    3c1Iu70WvZCw4V2tL4>
+X-ME-Received: <xmr:Z8uyYq_pr4oP7nXUWDgldaTfrX_gqanKAUXcstbh7_QWoCkoC1Z64z0huxFems1I0jJ_Wv2tSKfNwGvONkTSfx4IjSArhik7xEI5aOo>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
@@ -42,25 +42,23 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudefgedguddvgecutefuodetgg
     grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
     fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
     epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:3cayYlh-EgGxubOScnDIUo9zasxwuuSjD3I895M_XCXCZefkHlW_EQ>
-    <xmx:3cayYtCfxhdTnsA0B4FvkRn45dIaReniW5cIMR49KKGvZ7lELhG99w>
-    <xmx:3cayYuKHzcdcAwdgneTqwwW3-w3YpD_f3HxxX_NwpDrg2HsPSv0zIQ>
-    <xmx:3cayYh14TtKm7JTq5MnkFIWemOh7O5WcKWTtilekvgxV-3kJxyavVg>
+X-ME-Proxy: <xmx:aMuyYqolEY3y7cFboHCxtfkOyPUg118vLv8onNCDOttgVZcmQSAqJQ>
+    <xmx:aMuyYrqJH9kravIH9cgZwhgZpbfNib3_jvdyPDWLUjtG2mS30vVqJA>
+    <xmx:aMuyYoRciYyMCcVtFxBVWj734PGQyZv6hOUy1FTwe00mj3fHzeBGpg>
+    <xmx:aMuyYsdotOKfnHfIX-jp_BpPP59zZ8mv7kZkmdZaYJDs9aNSK-lU2A>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Jun 2022 03:38:04 -0400 (EDT)
-Date: Wed, 22 Jun 2022 09:38:03 +0200
+ 22 Jun 2022 03:57:27 -0400 (EDT)
+Date: Wed, 22 Jun 2022 09:57:25 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, wens@csie.org,
-	airlied@linux.ie, daniel@ffwll.ch, samuel@sholland.org,
-	dri-devel@lists.freedesktop.org,
+To: Saud Farooqui <farooqui_saud@hotmail.com>
+Cc: jernej.skrabec@gmail.com, samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] drm/sun4i: Add DMA mask and segment size
-Message-ID: <20220622073803.34awgg6lm3ps6xmx@houat>
-References: <20220620181333.650301-1-jernej.skrabec@gmail.com>
- <45ef3221-8f27-0ae7-8cd9-48575812d797@arm.com>
+	linux-kernel@vger.kernel.org, wens@csie.org, daniel@ffwll.ch
+Subject: Re: [PATCH v1] drm/sun4i: Return from the function in error condition
+Message-ID: <20220622075725.y6ws22ielpc4pmxw@houat>
+References: <20220609142253.7aad4jlaoahqkmy7@houat>
+ <PA4P189MB14215D2A66A54FFA3F7DD9348BB39@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -68,127 +66,61 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hp2rj7odld5eb4tp"
+	protocol="application/pgp-signature"; boundary="dpuceqjgfufrqrxt"
 Content-Disposition: inline
-In-Reply-To: <45ef3221-8f27-0ae7-8cd9-48575812d797@arm.com>
+In-Reply-To: <PA4P189MB14215D2A66A54FFA3F7DD9348BB39@PA4P189MB1421.EURP189.PROD.OUTLOOK.COM>
 
 
---hp2rj7odld5eb4tp
+--dpuceqjgfufrqrxt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Robin,
+Hi,
 
-On Tue, Jun 21, 2022 at 01:44:44PM +0100, Robin Murphy wrote:
-> On 2022-06-20 19:13, Jernej Skrabec wrote:
-> > Kernel occasionally complains that there is mismatch in segment size
-> > when trying to render HW decoded videos and rendering them directly with
-> > sun4i DRM driver. Following message can be observed on H6 SoC:
-> >=20
-> > [  184.298308] ------------[ cut here ]------------
-> > [  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment lo=
-nger than device claims to support [len=3D6144000] [max=3D65536]
-> > [  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debu=
-g_dma_map_sg+0x2b0/0x350
-> > [  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #13=
-31
-> > [  184.329533] Hardware name: Tanix TX6 (DT)
-> > [  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BT=
-YPE=3D--)
-> > [  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
-> > [  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
-> > [  184.349250] sp : ffff800009f33a50
-> > [  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000=
-001b86c00
-> > [  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000=
-000000000
-> > [  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000=
-000000001
-> > [  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: fffffff=
-fffffffff
-> > [  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: fffffff=
-fffffffff
-> > [  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707=
-573206f74
-> > [  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000=
-000010000
-> > [  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 0000000=
-00000000c
-> > [  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000=
-000000027
-> > [  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000=
-003960e80
-> > [  184.424106] Call trace:
-> > [  184.426556]  debug_dma_map_sg+0x2b0/0x350
-> > [  184.430580]  __dma_map_sg_attrs+0xa0/0x110
-> > [  184.434687]  dma_map_sgtable+0x28/0x4c
-> > [  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
-> > [  184.442729]  __map_dma_buf+0x2c/0xd4
-> > [  184.446321]  dma_buf_map_attachment+0xa0/0x130
-> > [  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
-> > [  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
-> > [  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
-> > [  184.465190]  drm_ioctl_kernel+0xc4/0x174
-> > [  184.469123]  drm_ioctl+0x204/0x420
-> > [  184.472534]  __arm64_sys_ioctl+0xac/0xf0
-> > [  184.476474]  invoke_syscall+0x48/0x114
-> > [  184.480240]  el0_svc_common.constprop.0+0x44/0xec
-> > [  184.484956]  do_el0_svc+0x2c/0xc0
-> > [  184.488283]  el0_svc+0x2c/0x84
-> > [  184.491354]  el0t_64_sync_handler+0x11c/0x150
-> > [  184.495723]  el0t_64_sync+0x18c/0x190
-> > [  184.499397] ---[ end trace 0000000000000000 ]---
-> >=20
-> > Fix that by setting DMA mask and segment size.
-> >=20
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > ---
-> > Changes from v1:
-> > - added comment
-> > - updated commit message with kernel report
-> >=20
-> >   drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
-> >   1 file changed, 8 insertions(+)
-> >=20
-> > diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/=
-sun4i_drv.c
-> > index 275f7e4a03ae..f135a6b3cadb 100644
-> > --- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-> > +++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-> > @@ -7,6 +7,7 @@
-> >    */
-> >   #include <linux/component.h>
-> > +#include <linux/dma-mapping.h>
-> >   #include <linux/kfifo.h>
-> >   #include <linux/module.h>
-> >   #include <linux/of_graph.h>
-> > @@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device =
-*pdev)
-> >   	INIT_KFIFO(list.fifo);
-> > +	/*
-> > +	 * DE2 and DE3 cores actually supports 40-bit addresses, but
-> > +	 * driver does not.
-> > +	 */
-> > +	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> > +	dma_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+On Tue, Jun 21, 2022 at 09:44:27PM +0500, Saud Farooqui wrote:
+> Added return statement in sun4i_layer_format_mod_supported()
+> in case of error.
 >=20
-> Nit: this one is a number, not a bitmask, so UINT_MAX would be more
-> appropriate semantically.
+> Signed-off-by: Saud Farooqui <farooqui_saud@hotmail.com>
+> ---
+>  drivers/gpu/drm/sun4i/sun4i_layer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_layer.c b/drivers/gpu/drm/sun4i/=
+sun4i_layer.c
+> index 6d43080791a0..85fb9e800ddf 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_layer.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_layer.c
+> @@ -117,7 +117,7 @@ static bool sun4i_layer_format_mod_supported(struct d=
+rm_plane *plane,
+>  	struct sun4i_layer *layer =3D plane_to_sun4i_layer(plane);
+> =20
+>  	if (IS_ERR_OR_NULL(layer->backend->frontend))
+> -		sun4i_backend_format_is_supported(format, modifier);
+> +		return sun4i_backend_format_is_supported(format, modifier);
 
-Thanks for the suggestion, I've fixed it while applying
+While there's a bug, it definitely isn't what your commit message
+describe.
+
+Frontends only available on some SoCs and are thus optional in the
+driver.
+
+If the frontend pointer isn't set, it means that it isn't there and thus
+we try to figure out the format through the backend that is always
+there.
 
 Maxime
 
---hp2rj7odld5eb4tp
+--dpuceqjgfufrqrxt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrLG2wAKCRDj7w1vZxhR
-xVqLAP908SepTKlaW7ljl34wwmEyK8rFL3xIkpMke8JZsv1LzQD/VH5C1zsAONBE
-tvabgS329bcFnEQzeo2rWq9zDbyuDAM=
-=SM9K
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYrLLZQAKCRDj7w1vZxhR
+xawwAP4u3twxDl6X0vHRjMf8txv6dArTqceH0FbDHlbmVRr+UgEAw7KvX806M1k8
+y9t+0imQJJiEN4hGTzwC4nriK80T/AA=
+=om1g
 -----END PGP SIGNATURE-----
 
---hp2rj7odld5eb4tp--
+--dpuceqjgfufrqrxt--
