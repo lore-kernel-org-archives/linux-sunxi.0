@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 250491C31
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E041C31
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:55:58 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQei013924;
-	Thu, 23 Jun 2022 07:53:19 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeQ013924;
+	Thu, 23 Jun 2022 07:53:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=/YrLbsib8Yh5fzo7Etvf2etgY4zhhSJ7yMT4UFg+Ibo=;
- b=AZ066CSWBpyF8xfRacDfhhkBDz51cq+pdUyK2y0s79hZrlj/GCkv6TNn9zu8ha2b3BAy
- zDapJV9IskFefEfI7YSl57TdEn72UKdytGiF5uFObomv1PR7En8QoR0FIjDgif4LBTeZ
- 70BflmNNGVNuVxYtzYJYrYXdWDKuQsziea9Aiz67Sml4p4bFpUwSrqjNVu+OczzRwVFb
- f4RWeFAbtUOeNkHj3LOhAeN5vhIHbBjuhqba5w6zZaD7CjTvor1zDoVx4Y3nv5Ps6ogi
- 3kzDdEO6SCv1beSoqWv2rq5gzcgXr+xr6+Y76hE18ylvI/X7uq4V1PZ0uzAteaO9XXEc xA== 
+ bh=UKatc6+tXyUsYCxIUlOCKACRDXtjL/84KfpSbCPcQ6U=;
+ b=ICtsKWl0xLIBTe9gWC1gwrUJngkUM0/snJ4hBhIZdomhH6AhBdJWjSgbx99X4QcAy1Ux
+ UaFeov3dxr2dHRvZmKkr421s8nEYNoD1aaH7EhzVjyIvx06D1rpsYELJqnAHm3hFI1dI
+ 2PTYQqmJ9PoG0pXsOLPvRZDZfOW4afaqeElCEQZMHhtj3xxFvx21qQyYYDdGLJRubNCz
+ 5dMQ/as2QsHIG1Egum9cAKrJ5S1J2UyDQwdBRObQX3wmnyFsZuNketWjBoW6H4F/DHwi
+ E3jy8KQQmCrf9yD4r3xGuyMl3d7iwlVSY2rO9gtND6y2zvOftq5GeG0kwzLqNMTF2dqJ sA== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-20
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-2
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:19 -0500
+	Thu, 23 Jun 2022 07:53:04 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:59 +0100
+ 2022 13:52:54 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:59 +0100
+ Transport; Thu, 23 Jun 2022 13:52:54 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 3B6F211D4;
-	Thu, 23 Jun 2022 12:52:59 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 28DF511D4;
+	Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 95/96] ASoC: zl38060: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:49 +0100
-Message-ID: <20220623125250.2355471-96-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 38/96] ASoC: pistachio: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:51:52 +0100
+Message-ID: <20220623125250.2355471-39-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 0VaHRuKWj1VUe2Hz7TpzGCef3HcYfQcc
-X-Proofpoint-ORIG-GUID: 0VaHRuKWj1VUe2Hz7TpzGCef3HcYfQcc
+X-Proofpoint-GUID: VbZTrn18pNK7fOsa191xTfebl-_1pjzu
+X-Proofpoint-ORIG-GUID: VbZTrn18pNK7fOsa191xTfebl-_1pjzu
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,21 +71,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/zl38060.c | 1 -
+ sound/soc/img/pistachio-internal-dac.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/zl38060.c b/sound/soc/codecs/zl38060.c
-index 6cae0fb08093b..c3d0a2a7c36f2 100644
---- a/sound/soc/codecs/zl38060.c
-+++ b/sound/soc/codecs/zl38060.c
-@@ -385,7 +385,6 @@ static const struct snd_soc_component_driver zl38_component_dev = {
- 	.dapm_routes		= zl38_dapm_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(zl38_dapm_routes),
+diff --git a/sound/soc/img/pistachio-internal-dac.c b/sound/soc/img/pistachio-internal-dac.c
+index 802c0ee63aa26..e3b858643bd5d 100644
+--- a/sound/soc/img/pistachio-internal-dac.c
++++ b/sound/soc/img/pistachio-internal-dac.c
+@@ -138,7 +138,6 @@ static const struct snd_soc_component_driver pistachio_internal_dac_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(pistachio_internal_dac_routes),
+ 	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static void chip_gpio_set(struct gpio_chip *c, unsigned int offset, int val)
+ static int pistachio_internal_dac_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
