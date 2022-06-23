@@ -1,22 +1,22 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6D1FAF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C431FAD
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:25 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrO011978;
-	Thu, 23 Jun 2022 07:53:07 -0500
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUt9006859;
+	Thu, 23 Jun 2022 07:53:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=7Bq72ssSzXzMAew0ncbg3wMXNO2cUCX44WTWYkeLRvQ=;
- b=QM5jW6EO3shYXf1pgkRrEMlr5iJQjVFo/Jpydw6G2xPXqA72p2Sbtol0pg1wBqyb80qr
- c6JqJnKNNCXldfkKtE6nFqjiH6gEH+09/bLblCDcVczWilRsj6jZJ3mKLpKmuFjxnfLr
- 35S8czYLFEtvSWl/PZJx87CPPddaTCN2Fmn+gdfs6d8+5s/AOBGFEC0wayudDg+rpa87
- blcZ1ETeAiN2XkbaEmrRY2kg8pG8zoPwg9FmjAnZomPwHpjg6goVy3qidfw2kFL2kmtn
- Q+llbJ53eLpZx2IakzgwzWu3j/iM0ULfIjEX43KJ7VohLACrPbdvt3QsgUaz8My5JLd1 wQ== 
+ bh=ed4emzUJTohq/e8wpqVyWmmKyLgimfFl0YhHiaRz77c=;
+ b=OOiJGmG85L484CfcVnS3FexGssS82qr/6OzuHB+u4DnIR+yr5LBJPWrZid6Y97RkMMLk
+ HW362I/IrKo20aNL1CzMVL0r16KcIUHHIEuAVeHQgNPdN3gSMhqxSksf16eRVmA5J1w8
+ nfTE7yVo9hsJhlwd/XRIsSpMEHAq7jcms26rtTOQ633lBKlSZv9wGzjfAwLAhAHQto/w
+ fztnUzMKfWIMDHG4qZyh3fgzUUScuSi9+FNiV43P7IhneD2JsYz/ZlOHzCUvX04aCwYB
+ FHZivDvf2fRqQZg1Q56oVApolaEfpiuei+T/jjZsLe+/WDDQaJDM9eCEmmGXUfBC1DCD EQ== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-19
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 23 Jun 2022 07:53:06 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
@@ -27,7 +27,7 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
  Transport; Thu, 23 Jun 2022 13:52:56 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 637A211D4;
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 50ECE11D1;
 	Thu, 23 Jun 2022 12:52:56 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 64/96] ASoC: uda*: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:18 +0100
-Message-ID: <20220623125250.2355471-65-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 63/96] ASoC: twl*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:17 +0100
+Message-ID: <20220623125250.2355471-64-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: OITl_O1QmBKLYfyGHRA1icGivoxuVon3
-X-Proofpoint-ORIG-GUID: OITl_O1QmBKLYfyGHRA1icGivoxuVon3
+X-Proofpoint-GUID: 9u5ASWETBhCYKbud3W7eaHnWhTYCWAHQ
+X-Proofpoint-ORIG-GUID: 9u5ASWETBhCYKbud3W7eaHnWhTYCWAHQ
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,47 +71,34 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/uda1334.c | 1 -
- sound/soc/codecs/uda134x.c | 1 -
- sound/soc/codecs/uda1380.c | 1 -
- 3 files changed, 3 deletions(-)
+ sound/soc/codecs/twl4030.c | 1 -
+ sound/soc/codecs/twl6040.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/sound/soc/codecs/uda1334.c b/sound/soc/codecs/uda1334.c
-index 9d5ed34e54204..eace965336003 100644
---- a/sound/soc/codecs/uda1334.c
-+++ b/sound/soc/codecs/uda1334.c
-@@ -236,7 +236,6 @@ static const struct snd_soc_component_driver soc_component_dev_uda1334 = {
- 	.idle_bias_on		= 1,
+diff --git a/sound/soc/codecs/twl4030.c b/sound/soc/codecs/twl4030.c
+index 87b58017094b2..e48768233e208 100644
+--- a/sound/soc/codecs/twl4030.c
++++ b/sound/soc/codecs/twl4030.c
+@@ -2195,7 +2195,6 @@ static const struct snd_soc_component_driver soc_component_dev_twl4030 = {
+ 	.num_dapm_routes	= ARRAY_SIZE(intercon),
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct of_device_id uda1334_of_match[] = {
-diff --git a/sound/soc/codecs/uda134x.c b/sound/soc/codecs/uda134x.c
-index 037833c509f70..2db3d8a60c7a0 100644
---- a/sound/soc/codecs/uda134x.c
-+++ b/sound/soc/codecs/uda134x.c
-@@ -527,7 +527,6 @@ static const struct snd_soc_component_driver soc_component_dev_uda134x = {
+ static int twl4030_codec_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/twl6040.c b/sound/soc/codecs/twl6040.c
+index b37203336c4e0..dd5ee5dc0cd75 100644
+--- a/sound/soc/codecs/twl6040.c
++++ b/sound/soc/codecs/twl6040.c
+@@ -1153,7 +1153,6 @@ static const struct snd_soc_component_driver soc_component_dev_twl6040 = {
+ 	.suspend_bias_off	= 1,
  	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config uda134x_regmap_config = {
-diff --git a/sound/soc/codecs/uda1380.c b/sound/soc/codecs/uda1380.c
-index b5004842520bf..fdaaee845176e 100644
---- a/sound/soc/codecs/uda1380.c
-+++ b/sound/soc/codecs/uda1380.c
-@@ -736,7 +736,6 @@ static const struct snd_soc_component_driver soc_component_dev_uda1380 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static int uda1380_i2c_probe(struct i2c_client *i2c)
+ static int twl6040_codec_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
