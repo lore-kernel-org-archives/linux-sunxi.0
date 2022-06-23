@@ -1,74 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECC3F1843
-	for <linux-sunxi@lists.linux.dev>; Wed, 22 Jun 2022 15:16:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 821F2C34114;
-	Wed, 22 Jun 2022 15:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1655911005;
-	bh=74OTJmsDUnJ8Yy67wCt0W4gdTWxoxbdt0Ekwa+iJXlw=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=Wd3MRhoZEa6qShbmTQ//LXyurzxGZedShHyF58V4d/EgvL0X0NAU6WbQjTyrsDCFy
-	 9o6DzQBjeTAVrFaODUGwNzjWaoCZaomicw4Yz0hU37Q4HtmjEPKP5QpbzZxh61TIle
-	 VNaUfM6ZI3D7gX/pX/Dt07tQc3sTOG1abvL6llR/iSnNhsy6lnNJoXQH0yB1zO8Rs4
-	 ryl2ehKgtUYQJ99Okc2O5QWFF377RFC9m7TA/ATUZN8TQEPq/lcfeBPoMAeCCHwYHX
-	 frMeOdV7fGBnNCxVvKViwd/uGsp9eLgSEEcYIEfWvDGpUE8Lpe6VfYddUCmnYj/OMD
-	 bT9FlVvImCbeg==
-From: Mark Brown <broonie@kernel.org>
-To: aidanmacdonald.0x0@gmail.com
-Cc: bjorn.andersson@linaro.org, rafael@kernel.org, orsonzhai@gmail.com, krzysztof.kozlowski@linaro.org, jernej.skrabec@gmail.com, zhang.lyra@gmail.com, b.zolnierkie@samsung.com, linux-actions@lists.infradead.org, myungjoo.ham@samsung.com, linux-arm-kernel@lists.infradead.org, tglx@linutronix.de, tiwai@suse.com, cristian.ciocaltea@gmail.com, michael@walle.cc, lgirdwood@gmail.com, maz@kernel.org, rjones@gateworks.com, linux-sunxi@lists.linux.dev, cw00.choi@samsung.com, gregkh@linuxfoundation.org, linus.walleij@linaro.org, linux-arm-msm@vger.kernel.org, agross@kernel.org, tharvey@gateworks.com, samuel@sholland.org, brgl@bgdev.pl, alsa-devel@alsa-project.org, lee.jones@linaro.org, linux-gpio@vger.kernel.org, mazziesaccount@gmail.com, wens@csie.org, mani@kernel.org, perex@perex.cz, baolin.wang7@gmail.com, linux-kernel@vger.kernel.org, srinivas.kandagatla@linaro.org
-In-Reply-To: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
-Subject: Re: (subset) [PATCH 00/49] regmap-irq cleanups and refactoring
-Message-Id: <165591099823.672192.3312043171342090457.b4-ty@kernel.org>
-Date: Wed, 22 Jun 2022 16:16:38 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E737F43C3
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 02:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1655949609; x=1687485609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KbeXCVtz+edFvopo5p5QoDn9huAgw0qHkMWWoFBLhXA=;
+  b=KR8w1PUgKSLgaQPqpLhfqiVVBLLUe5PHjl3diWqe9Z157DkPnuErwpco
+   sdluAzxA3r7qGDbbP464d56i3mvhAkhIGB2JcHzL20k9wTyoLSb+y6Nd8
+   nIYkDkyervxkQIx62+mKNwTDsJwPnfG1Eq6+mFsRNRiJ1XrkJSDhV6rOF
+   ZZhdLZVwlDfWhqhrQGLNTvEKS+TGBk8vKSUZKKLMqrMQDgnWx6vgTyxvc
+   1bbQNCqBlA7MvPpSV8Rc+kBt/MiNSRnpegcck61sMZzR39PDc/Ls903wF
+   PjUQASwLGmsRGPD0HaMCfXtkQ0dHgWpCwAibRrDEEeNv6orSG580xk+0V
+   Q==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10386"; a="280645178"
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
+   d="scan'208";a="280645178"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2022 19:00:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,215,1650956400"; 
+   d="scan'208";a="615398908"
+Received: from lkp-server01.sh.intel.com (HELO 68b931ab7ac1) ([10.239.97.150])
+  by orsmga008.jf.intel.com with ESMTP; 22 Jun 2022 19:00:02 -0700
+Received: from kbuild by 68b931ab7ac1 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1o4C8X-0000LT-BJ;
+	Thu, 23 Jun 2022 02:00:01 +0000
+Date: Thu, 23 Jun 2022 09:59:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Charles Keepax <ckeepax@opensource.cirrus.com>, broonie@kernel.org
+Cc: kbuild-all@lists.01.org, lgirdwood@gmail.com,
+	kuninori.morimoto.gx@renesas.com, mripard@kernel.org,
+	airlied@linux.ie, daniel@ffwll.ch, vkoul@kernel.org,
+	nicolas.ferre@microchip.com, nsaenz@kernel.org, shawnguo@kernel.org,
+	linux-imx@nxp.com, cezary.rojewski@intel.com,
+	pierre-louis.bossart@linux.intel.com, linux-mips@vger.kernel.org,
+	linux-amlogic@lists.infradead.org, daniel@zonque.org,
+	srinivas.kandagatla@linaro.org, linux-rockchip@lists.infradead.org,
+	krzk@kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+	peter.ujfalusi@gmail.com, jarkko.nikula@bitmer.com, heiko@sntech.de,
+	jbrunet@baylibre.com, kernel@pengutronix.de,
+	alsa-devel@alsa-project.org
+Subject: Re: [PATCH 27/96] ASoC: au1x: Migrate to new style legacy DAI naming
+ flag
+Message-ID: <202206230910.wUXKFP3z-lkp@intel.com>
+References: <20220616143429.1324494-28-ckeepax@opensource.cirrus.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220616143429.1324494-28-ckeepax@opensource.cirrus.com>
 
-On Mon, 20 Jun 2022 21:05:55 +0100, Aidan MacDonald wrote:
-> Here's a bunch of cleanups for regmap-irq focused on simplifying the API
-> and generalizing it a bit. It's broken up into three refactors, focusing
-> on one area at a time.
-> 
-> * Patches 01 and 02 are straightforward bugfixes, independent of the
->   rest of the series. Neither of the bugs are triggered by in-tree
->   drivers but they might be worth picking up early anyhow.
-> 
-> [...]
+Hi Charles,
 
-Applied to
+I love your patch! Yet something to improve:
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regmap.git for-next
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on tegra/for-next sunxi/sunxi/for-next linus/master v5.19-rc3 next-20220622]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-Thanks!
+url:    https://github.com/intel-lab-lkp/linux/commits/Charles-Keepax/Refactor-non_legacy_dai_naming-flag/20220616-224300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+config: mips-db1xxx_defconfig (https://download.01.org/0day-ci/archive/20220623/202206230910.wUXKFP3z-lkp@intel.com/config)
+compiler: mipsel-linux-gcc (GCC) 11.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/794205d61285d0921e564e722daf9b20df82ed57
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Charles-Keepax/Refactor-non_legacy_dai_naming-flag/20220616-224300
+        git checkout 794205d61285d0921e564e722daf9b20df82ed57
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-11.3.0 make.cross W=1 O=build_dir ARCH=mips SHELL=/bin/bash sound/soc/au1x/
 
-[01/49] regmap-irq: Fix a bug in regmap_irq_enable() for type_in_mask chips
-        commit: 485037ae9a095491beb7f893c909a76cc4f9d1e7
-[02/49] regmap-irq: Fix offset/index mismatch in read_sub_irq_data()
-        commit: 3f05010f243be06478a9b11cfce0ce994f5a0890
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+All error/warnings (new ones prefixed by >>):
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+>> sound/soc/au1x/ac97c.c:227:10: error: 'const struct snd_soc_component_driver' has no member named 'legacy_dai_name'; did you mean 'legacy_dai_naming'?
+     227 |         .legacy_dai_name        = 1,
+         |          ^~~~~~~~~~~~~~~
+         |          legacy_dai_naming
+>> sound/soc/au1x/ac97c.c:227:35: warning: initialization of 'const struct snd_kcontrol_new *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     227 |         .legacy_dai_name        = 1,
+         |                                   ^
+   sound/soc/au1x/ac97c.c:227:35: note: (near initialization for 'au1xac97c_component.controls')
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+vim +227 sound/soc/au1x/ac97c.c
 
-Thanks,
-Mark
+   224	
+   225	static const struct snd_soc_component_driver au1xac97c_component = {
+   226		.name			= "au1xac97c",
+ > 227		.legacy_dai_name	= 1,
+   228	};
+   229	
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
