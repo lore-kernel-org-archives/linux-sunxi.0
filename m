@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076881FA6
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:24 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NAKUtJ006859;
-	Thu, 23 Jun 2022 07:53:15 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AC01FA8
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:25 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxl8032604;
+	Thu, 23 Jun 2022 07:53:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=BgbBX9Efb8K0LJNikCHrznq2RAOzoLRPZllxMCU4hQg=;
- b=BlSXO39AK6ILlrMGhditR/qvxvAwY1jMLgZ0oQIUcRy2EMQB0Kp7rUM8XGWn88LqGtTa
- PZRH18Key0WntsJs3vZcCHbOvT4x0RcEi1W7OqmcnQTV+y2QZoKJx+PwwuH63H7JyvZd
- 0EWp/duQ0UF0mXlLqm24AyhoQnTKEKSNTq+ofEfY+3LDviMhvjeUOciUfR0TX2+DkwVW
- MuBa3NqryCLshfuxNZH7VFlp8g1R9duzcaL6gAii2V3ORRcrxPYfXkUBowqIaXbH8ZIE
- XEyuJmcKAbEajkuvGtsSSirzDPkeNMJfPJ86f+GocycR10QTqaGGUKa2NdKZQ/ccQfPp 9w== 
-Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4u-17
+ bh=PWSGRrWgNvQqI/FJwn730ONsTAALyjkFDX1e4aDoN0Y=;
+ b=bKxrLAXAB+Levg9Ryb8wPZzMyFxm4gGK6IMfnAG08l8/SXBc+vuWql3wIjYxU7xd9F9O
+ ObVDTp19SliXDwuVGGTsgAsnxLqYqFUp2yeVxAOdaFxCE8TMvZBpaYO+TGu9IZhNIsP+
+ 1SHmYAZNcuOPv34RDgnmSxtMB9HJ18MgGGXXM+haAo48PNT8Ln55NclDh1zBIx2ZlJ/l
+ Ul9Fee2q1Z+LojCvy/CMfS7pe/hEFFDR7ji8o4uQ0KB8ludEBbe4s9UQIyNgjXj7N+bi
+ tsEU2s7QHlD4G4q1kwY92afPgAWaZGW+SD1sjXHnM4+hBpNuHL3gVO3gUERtCdoNA5sg yw== 
+Received: from ediex01.ad.cirrus.com ([84.19.233.68])
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:15 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
- (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 23 Jun 2022 07:53:02 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:59 +0100
+ 2022 13:52:53 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:59 +0100
+ Transport; Thu, 23 Jun 2022 13:52:53 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 53DC811D1;
-	Thu, 23 Jun 2022 12:52:59 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id A15D911D4;
+	Thu, 23 Jun 2022 12:52:53 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 96/96] ASoC: soc-component: Remove non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:50 +0100
-Message-ID: <20220623125250.2355471-97-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 32/96] ASoC: mxs-saif: Migrate to new style legacy DAI naming flag
+Date: Thu, 23 Jun 2022 13:51:46 +0100
+Message-ID: <20220623125250.2355471-33-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,30 +61,34 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
-X-Proofpoint-ORIG-GUID: fUGTb7dJJMOmVmNkY5DMbA2EPSxXxxUM
+X-Proofpoint-GUID: U_xxkO-3rI0tMd7c7V3pwC1aVNGN9wuM
+X-Proofpoint-ORIG-GUID: U_xxkO-3rI0tMd7c7V3pwC1aVNGN9wuM
 X-Proofpoint-Spam-Reason: safe
 
-Now all the users are moved over to the new legacy_dai_naming flag,
-remove the now unused old flag.
+Change the legacy DAI naming flag from opting in to the new scheme
+(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
+This driver appears to be on the CPU side of the DAI link and
+currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- include/sound/soc-component.h | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/mxs/mxs-saif.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/sound/soc-component.h b/include/sound/soc-component.h
-index 96c2f5fffc51e..c26ffb033777a 100644
---- a/include/sound/soc-component.h
-+++ b/include/sound/soc-component.h
-@@ -180,7 +180,6 @@ struct snd_soc_component_driver {
- 	 */
- 	unsigned int endianness:1;
- 	unsigned int legacy_dai_naming:1;
--	unsigned int non_legacy_dai_naming:1;
+diff --git a/sound/soc/mxs/mxs-saif.c b/sound/soc/mxs/mxs-saif.c
+index 467b0f2ce0bb1..ac761d3a01c05 100644
+--- a/sound/soc/mxs/mxs-saif.c
++++ b/sound/soc/mxs/mxs-saif.c
+@@ -663,7 +663,8 @@ static struct snd_soc_dai_driver mxs_saif_dai = {
+ };
  
- 	/* this component uses topology and ignore machine driver FEs */
- 	const char *ignore_machine;
+ static const struct snd_soc_component_driver mxs_saif_component = {
+-	.name		= "mxs-saif",
++	.name			= "mxs-saif",
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static irqreturn_t mxs_saif_irq(int irq, void *dev_id)
 -- 
 2.30.2
 
