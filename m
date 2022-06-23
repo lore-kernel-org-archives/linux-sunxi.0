@@ -1,104 +1,87 @@
-Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180041FA6
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:56:06 +0000 (UTC)
-Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxlB032604;
-	Thu, 23 Jun 2022 07:53:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=PODMain02222019;
- bh=Hb1BJgs7ggQEBvQnvEt4VwE69+B1LapMjioM9qfBP6M=;
- b=HGHzcpeTXH7+P8hQzzwhOglX8iutqWzmgbDhU+laKB2O9sRiXjq9TCYtvrk85HQ8AZjO
- 9lYy1SJo0lamTHLgtVGQUCcIPyvTfUgZuu+Bc4wMPrnqZ2Lj5OJXI5p9HfvO2GqwcIIJ
- 0qOD47z5WbWyYFQMuvOpsfkUCpBq46KAUoRbVOWf1nxGtt0zZ/BCFohl53YujbBirpbr
- tk0QvlYMoc+KfkqLXXzWK+4JKz+k8qWt6hi1+QEp3imke9MG/ydG1mLnDhiueHI24mCT
- KEjy6+eL1KsrdtQI6QYt1Qg1B25JaHrp2wssLsc/xvG1jJDAZu6Ae0IhAt8Rw5iemjJX nA== 
-Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:05 -0500
-Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:55 +0100
-Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
- (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:55 +0100
-Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 0D89611DA;
-	Thu, 23 Jun 2022 12:52:55 +0000 (UTC)
-From: Charles Keepax <ckeepax@opensource.cirrus.com>
-To: <broonie@kernel.org>
-CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
-        <mripard@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-        <vkoul@kernel.org>, <nicolas.ferre@microchip.com>, <nsaenz@kernel.org>,
-        <shawnguo@kernel.org>, <linux-imx@nxp.com>,
-        <cezary.rojewski@intel.com>, <pierre-louis.bossart@linux.intel.com>,
-        <linux-mips@vger.kernel.org>, <linux-amlogic@lists.infradead.org>,
-        <daniel@zonque.org>, <srinivas.kandagatla@linaro.org>,
-        <linux-rockchip@lists.infradead.org>, <krzk@kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-sunxi@lists.linux.dev>, <linux-tegra@vger.kernel.org>,
-        <linux-omap@vger.kernel.org>, <linux-xtensa@linux-xtensa.org>,
-        <peter.ujfalusi@gmail.com>, <jarkko.nikula@bitmer.com>,
-        <heiko@sntech.de>, <jbrunet@baylibre.com>, <kernel@pengutronix.de>,
-        <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
-        <dri-devel@lists.freedesktop.org>,
-        <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 48/96] ASoC: alc*: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:02 +0100
-Message-ID: <20220623125250.2355471-49-ckeepax@opensource.cirrus.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
-References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541441C31
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 13:18:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85E80C3411B;
+	Thu, 23 Jun 2022 13:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1655990335;
+	bh=+q91rozLXV1F07SnlyqqwQIzXat1VY2KS3Sqp7xJIY4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HS+pblC4MwqlSH7SyaOuXtrYtqHzDCKRC5rHPEdOtp9Ja+Pm2+gC9OaEkRKwGe5BE
+	 AtYJ1Uej8uOcdPPUoXJhdwkCXZDZ/feogxiyLKNs5ESSloKWTtgBK3kHd7IyPkdZqW
+	 amzSnzAk9WrzI0UnAVXTKKL9buWhwWPl9Cvtr5aeEBys4Jz8Ifgry/I3uqBQAU4SRf
+	 aNeigM5Xd1rRKUcaEmWz50nF00ZO+pIcLQSoFmswWuP3GAgs5TuGtCk4nUUyRpSDgC
+	 RwuJQL+mMeIlG6q0ShhzO1Fjtm+1E622/Y1kJy7n7yVQHs01pJWzm7qP3QERVUKsYA
+	 NBCSqbGMG+Wdg==
+Date: Thu, 23 Jun 2022 14:18:43 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
+Cc: agross@kernel.org, bjorn.andersson@linaro.org,
+	srinivas.kandagatla@linaro.org, bgoswami@codeaurora.org,
+	gregkh@linuxfoundation.org, rafael@kernel.org,
+	cw00.choi@samsung.com, krzysztof.kozlowski@linaro.org,
+	b.zolnierkie@samsung.com, myungjoo.ham@samsung.com,
+	michael@walle.cc, linus.walleij@linaro.org, brgl@bgdev.pl,
+	tglx@linutronix.de, maz@kernel.org, lee.jones@linaro.org,
+	mani@kernel.org, cristian.ciocaltea@gmail.com, wens@csie.org,
+	tharvey@gateworks.com, rjones@gateworks.com,
+	mazziesaccount@gmail.com, orsonzhai@gmail.com,
+	baolin.wang7@gmail.com, zhang.lyra@gmail.com,
+	jernej.skrabec@gmail.com, samuel@sholland.org, lgirdwood@gmail.com,
+	perex@perex.cz, tiwai@suse.com, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-actions@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: Re: [PATCH 00/49] regmap-irq cleanups and refactoring
+Message-ID: <YrRoMya3Rf8E2S4D@sirena.org.uk>
+References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
+ <YrH7JurP2LAl1uYU@sirena.org.uk>
+ <oewDtaKXJJctSx2HcLTI4xuAmbzWo8Vb@localhost>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: bPrFlyQjN-mqvtJQ0K5eB64xEDoIwY0u
-X-Proofpoint-ORIG-GUID: bPrFlyQjN-mqvtJQ0K5eB64xEDoIwY0u
-X-Proofpoint-Spam-Reason: safe
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="uZnLRbY3NTiniDs7"
+Content-Disposition: inline
+In-Reply-To: <oewDtaKXJJctSx2HcLTI4xuAmbzWo8Vb@localhost>
+X-Cookie: I had pancake makeup for brunch!
 
-The ASoC core has now been changed to default to the non-legacy DAI
-naming, as such drivers using the new scheme no longer need to specify
-the non_legacy_dai_naming flag.
 
-Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
----
- sound/soc/codecs/alc5623.c | 1 -
- sound/soc/codecs/alc5632.c | 1 -
- 2 files changed, 2 deletions(-)
+--uZnLRbY3NTiniDs7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/sound/soc/codecs/alc5623.c b/sound/soc/codecs/alc5623.c
-index 8e6235d2c5445..9ef01b1dd2941 100644
---- a/sound/soc/codecs/alc5623.c
-+++ b/sound/soc/codecs/alc5623.c
-@@ -956,7 +956,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5623 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config alc5623_regmap = {
-diff --git a/sound/soc/codecs/alc5632.c b/sound/soc/codecs/alc5632.c
-index 641bdfddae160..a770704a4e170 100644
---- a/sound/soc/codecs/alc5632.c
-+++ b/sound/soc/codecs/alc5632.c
-@@ -1078,7 +1078,6 @@ static const struct snd_soc_component_driver soc_component_device_alc5632 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config alc5632_regmap = {
--- 
-2.30.2
+On Tue, Jun 21, 2022 at 10:04:59PM +0100, Aidan MacDonald wrote:
 
+> Thanks for the advice. After reading this and some of Andy's comments I
+> think I understand how to organize this better.
+
+> I'll send a trimmed down series including only regmap changes, and
+> instead of removing things right away I'll just mark them deprecated.
+> Then the driver patches can go by subsystem (one series per subsystem?)
+> and once everything is merged the deprecated stuff in regmap-irq can be
+> removed at a later date.
+
+That sounds like it should help a lot, thanks.
+
+--uZnLRbY3NTiniDs7
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmK0aDMACgkQJNaLcl1U
+h9Ciawf+O3sPwoZ7b2cwMa7fzkJuh3cMIYDwQqI91x9o3Rt/Ao6QDFqqFiizb0zm
+mxT6/xlzsCfci3loaADC6+l4mERSTrv9+H6ZyuCBGIUDi8HEARM5nVW22SVRrpDz
+5iG8AsjJi24GWheFMBDyq+quYM7E/2uVnyXlyBp/ujgLWoI1Wr6AK2s5NDcgGYBV
+1Z/i3iwu6Q0dHydTMVMHTzp+2JR+3AxNeAFsj5n5F2jZu3fT6GbyJmjP8fw2MzzZ
+7vtCDr2ZiWOTXolV4yzl7z8izc32LCB11q9XRqpqvMWDO0nGGzovdkzszfyjwoDl
+B6Yyutu8vbrp0o1+HBUTrFrKIMA7Zg==
+=uNbN
+-----END PGP SIGNATURE-----
+
+--uZnLRbY3NTiniDs7--
