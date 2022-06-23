@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB64A1C32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 361391C31
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:23 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeT013924;
-	Thu, 23 Jun 2022 07:53:06 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeR013924;
+	Thu, 23 Jun 2022 07:53:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=LQthqukNyA3pYgiRvP4CphcDficzMhOY41++Ct87+s4=;
- b=Py8grDYLkLl4dxux8s/Qu0hWl87IMth7x8rVpO6AGa6Eah0xE7ep7yGIkIgRUxPBAhse
- H43MCCn0LCtUdsoEhYTkK/KprsKwZ2rnmfwArebFPorzRmQKgLcnCB5nDQLrC0yLuwSA
- Klro8jupgHBQixjRQEfDgnPpfJ1+Uu5htp/ABg8sQy+fd+ma/YtiuKgtuBJ+5YSdaDD8
- ZfumVRXp1hdUCUES1eXrvGeU1dMx4mNyTzIH1I7wgubwtZP+MdMXMfR1tyb/EG7sFSbH
- TXAq2f3k9ANCXAwChU0zRnpknI26PkAYFSjJAGj+8BVOiW6yeByxLtwppA9um8PnrxsF CQ== 
+ bh=KldRAQaWlyO+eIosBDd1bGZgvOmvQGtuzz10esRY5l4=;
+ b=fMmAvJKAT9OtGfmIbTsl+kMtmXZMeCA5m6TycHxK8go2+4BnnuObeDc8LIEN1KTy41TH
+ GQ1HOszJFdVgrLjY7sceH45CREmB0gIE40Edfkx3xMZ+QS9i7Nizo6kYzMisfaqcUsuM
+ MlTJaHtYMsXWHWUo2axwbXapiUqyafVmj5X2bp7aT0DNbix2pzvyE1LxVSN1sU/JRI7a
+ O8Zw2fW8kRY3YQfc2B8ICD6VXEMwudaWCCHV9I/L7x1rr/f+gjn8uUSf71pEvxysY1qm
+ U87VDkdBURSS8iGbVpWKnFFD+DfzqUMpk2tqCYhe1M90i7tq5WRu5gv/7kzo/Ol96RuL Vg== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-5
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:06 -0500
+	Thu, 23 Jun 2022 07:53:04 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:55 +0100
+ 2022 13:52:54 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:55 +0100
+ Transport; Thu, 23 Jun 2022 13:52:54 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B795111D1;
-	Thu, 23 Jun 2022 12:52:55 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id CFDE511D4;
+	Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 56/96] ASoC: rt*: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:10 +0100
-Message-ID: <20220623125250.2355471-57-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 46/96] ASoC: ad*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:00 +0100
+Message-ID: <20220623125250.2355471-47-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: mAZIcs2JujMAvA86Gc8r3Duab2lIzFWu
-X-Proofpoint-ORIG-GUID: mAZIcs2JujMAvA86Gc8r3Duab2lIzFWu
+X-Proofpoint-GUID: zeFBoFFUHzcljivzfFkwLiK3Ro1C38Ib
+X-Proofpoint-ORIG-GUID: zeFBoFFUHzcljivzfFkwLiK3Ro1C38Ib
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,334 +71,164 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/rt1011.c  | 1 -
- sound/soc/codecs/rt1015.c  | 1 -
- sound/soc/codecs/rt1015p.c | 1 -
- sound/soc/codecs/rt1016.c  | 1 -
- sound/soc/codecs/rt1019.c  | 1 -
- sound/soc/codecs/rt1305.c  | 1 -
- sound/soc/codecs/rt1308.c  | 1 -
- sound/soc/codecs/rt274.c   | 1 -
- sound/soc/codecs/rt286.c   | 1 -
- sound/soc/codecs/rt298.c   | 1 -
- sound/soc/codecs/rt5514.c  | 1 -
- sound/soc/codecs/rt5616.c  | 1 -
- sound/soc/codecs/rt5631.c  | 1 -
- sound/soc/codecs/rt5640.c  | 2 --
- sound/soc/codecs/rt5645.c  | 1 -
- sound/soc/codecs/rt5651.c  | 1 -
- sound/soc/codecs/rt5659.c  | 1 -
- sound/soc/codecs/rt5660.c  | 1 -
- sound/soc/codecs/rt5663.c  | 1 -
- sound/soc/codecs/rt5665.c  | 1 -
- sound/soc/codecs/rt5668.c  | 1 -
- sound/soc/codecs/rt5670.c  | 1 -
- sound/soc/codecs/rt5677.c  | 1 -
- sound/soc/codecs/rt5682.c  | 1 -
- sound/soc/codecs/rt5682s.c | 1 -
- 25 files changed, 26 deletions(-)
+ sound/soc/codecs/ad1836.c   | 1 -
+ sound/soc/codecs/ad193x.c   | 1 -
+ sound/soc/codecs/ad1980.c   | 1 -
+ sound/soc/codecs/ad73311.c  | 1 -
+ sound/soc/codecs/adau1373.c | 1 -
+ sound/soc/codecs/adau1701.c | 1 -
+ sound/soc/codecs/adau1761.c | 1 -
+ sound/soc/codecs/adau1781.c | 1 -
+ sound/soc/codecs/adau1977.c | 1 -
+ sound/soc/codecs/adau7002.c | 1 -
+ sound/soc/codecs/adau7118.c | 1 -
+ sound/soc/codecs/adav80x.c  | 1 -
+ 12 files changed, 12 deletions(-)
 
-diff --git a/sound/soc/codecs/rt1011.c b/sound/soc/codecs/rt1011.c
-index 08dbaef84d4e1..c1568216126ef 100644
---- a/sound/soc/codecs/rt1011.c
-+++ b/sound/soc/codecs/rt1011.c
-@@ -2176,7 +2176,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1011 = {
- 	.set_pll = rt1011_set_component_pll,
- 	.use_pmdown_time = 1,
- 	.endianness = 1,
--	.non_legacy_dai_naming = 1,
- };
- 
- static const struct regmap_config rt1011_regmap = {
-diff --git a/sound/soc/codecs/rt1015.c b/sound/soc/codecs/rt1015.c
-index 7a06f2654afb0..57d0f1c69e46c 100644
---- a/sound/soc/codecs/rt1015.c
-+++ b/sound/soc/codecs/rt1015.c
-@@ -1071,7 +1071,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1015 = {
- 	.set_pll = rt1015_set_component_pll,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt1015_regmap = {
-diff --git a/sound/soc/codecs/rt1015p.c b/sound/soc/codecs/rt1015p.c
-index 415cfb3b2f0d0..06800dad87981 100644
---- a/sound/soc/codecs/rt1015p.c
-+++ b/sound/soc/codecs/rt1015p.c
-@@ -89,7 +89,6 @@ static const struct snd_soc_component_driver rt1015p_component_driver = {
+diff --git a/sound/soc/codecs/ad1836.c b/sound/soc/codecs/ad1836.c
+index 29e1689da67ff..2c64df96b5ce9 100644
+--- a/sound/soc/codecs/ad1836.c
++++ b/sound/soc/codecs/ad1836.c
+@@ -332,7 +332,6 @@ static const struct snd_soc_component_driver soc_component_dev_ad1836 = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static struct snd_soc_dai_driver rt1015p_dai_driver = {
-diff --git a/sound/soc/codecs/rt1016.c b/sound/soc/codecs/rt1016.c
-index e31c4736627f0..37eeec650f035 100644
---- a/sound/soc/codecs/rt1016.c
-+++ b/sound/soc/codecs/rt1016.c
-@@ -595,7 +595,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1016 = {
- 	.set_pll = rt1016_set_component_pll,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt1016_regmap = {
-diff --git a/sound/soc/codecs/rt1019.c b/sound/soc/codecs/rt1019.c
-index f3f15fbe85d0e..b66bfecbb879b 100644
---- a/sound/soc/codecs/rt1019.c
-+++ b/sound/soc/codecs/rt1019.c
-@@ -522,7 +522,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1019 = {
- 	.num_dapm_widgets	= ARRAY_SIZE(rt1019_dapm_widgets),
- 	.dapm_routes		= rt1019_dapm_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(rt1019_dapm_routes),
--	.non_legacy_dai_naming	= 1,
- 	.endianness		= 1,
- };
- 
-diff --git a/sound/soc/codecs/rt1305.c b/sound/soc/codecs/rt1305.c
-index 58d97e3c5087d..5b39a440b6dc1 100644
---- a/sound/soc/codecs/rt1305.c
-+++ b/sound/soc/codecs/rt1305.c
-@@ -946,7 +946,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1305 = {
- 	.set_pll = rt1305_set_component_pll,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt1305_regmap = {
-diff --git a/sound/soc/codecs/rt1308.c b/sound/soc/codecs/rt1308.c
-index eec2b17604089..d2a8e9fe3e234 100644
---- a/sound/soc/codecs/rt1308.c
-+++ b/sound/soc/codecs/rt1308.c
-@@ -765,7 +765,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt1308 = {
- 	.set_pll = rt1308_set_component_pll,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt1308_regmap = {
-diff --git a/sound/soc/codecs/rt274.c b/sound/soc/codecs/rt274.c
-index a5615e94ec7d0..6b208f9eb5035 100644
---- a/sound/soc/codecs/rt274.c
-+++ b/sound/soc/codecs/rt274.c
-@@ -1072,7 +1072,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt274 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt274_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt274_regmap = {
-diff --git a/sound/soc/codecs/rt286.c b/sound/soc/codecs/rt286.c
-index 0534a073ee695..b2b0b2b1e4d06 100644
---- a/sound/soc/codecs/rt286.c
-+++ b/sound/soc/codecs/rt286.c
-@@ -1058,7 +1058,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt286 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt286_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt286_regmap = {
-diff --git a/sound/soc/codecs/rt298.c b/sound/soc/codecs/rt298.c
-index 1a27e5e63289c..266a2cc55b8d6 100644
---- a/sound/soc/codecs/rt298.c
-+++ b/sound/soc/codecs/rt298.c
-@@ -1123,7 +1123,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt298 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt298_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt298_regmap = {
-diff --git a/sound/soc/codecs/rt5514.c b/sound/soc/codecs/rt5514.c
-index be8ece4630df5..b9bcf04d4dc93 100644
---- a/sound/soc/codecs/rt5514.c
-+++ b/sound/soc/codecs/rt5514.c
-@@ -1173,7 +1173,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5514 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5514_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt5514_i2c_regmap = {
-diff --git a/sound/soc/codecs/rt5616.c b/sound/soc/codecs/rt5616.c
-index 37f1bf552eff4..970d6c4a358e0 100644
---- a/sound/soc/codecs/rt5616.c
-+++ b/sound/soc/codecs/rt5616.c
-@@ -1304,7 +1304,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5616 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5616_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- 
- static const struct regmap_config rt5616_regmap = {
-diff --git a/sound/soc/codecs/rt5631.c b/sound/soc/codecs/rt5631.c
-index c941e878471c1..957f6b19beec9 100644
---- a/sound/soc/codecs/rt5631.c
-+++ b/sound/soc/codecs/rt5631.c
-@@ -1666,7 +1666,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5631 = {
+ static const struct reg_default ad1836_reg_defaults[] = {
+diff --git a/sound/soc/codecs/ad193x.c b/sound/soc/codecs/ad193x.c
+index 30b98b4267e13..1d3c4d94b4ae9 100644
+--- a/sound/soc/codecs/ad193x.c
++++ b/sound/soc/codecs/ad193x.c
+@@ -523,7 +523,6 @@ static const struct snd_soc_component_driver soc_component_dev_ad193x = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct i2c_device_id rt5631_i2c_id[] = {
-diff --git a/sound/soc/codecs/rt5640.c b/sound/soc/codecs/rt5640.c
-index 69c80d80ed9d5..56008e4518f3d 100644
---- a/sound/soc/codecs/rt5640.c
-+++ b/sound/soc/codecs/rt5640.c
-@@ -2867,8 +2867,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5640 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5640_dapm_routes),
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
--
- };
- 
- static const struct regmap_config rt5640_regmap = {
-diff --git a/sound/soc/codecs/rt5645.c b/sound/soc/codecs/rt5645.c
-index 507aba8de3cc9..8635bc6567dce 100644
---- a/sound/soc/codecs/rt5645.c
-+++ b/sound/soc/codecs/rt5645.c
-@@ -3534,7 +3534,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5645 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5645_dapm_routes),
+ const struct regmap_config ad193x_regmap_config = {
+diff --git a/sound/soc/codecs/ad1980.c b/sound/soc/codecs/ad1980.c
+index 9fd2023da218f..5e777d7fd5d91 100644
+--- a/sound/soc/codecs/ad1980.c
++++ b/sound/soc/codecs/ad1980.c
+@@ -302,7 +302,6 @@ static const struct snd_soc_component_driver soc_component_dev_ad1980 = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5645_regmap = {
-diff --git a/sound/soc/codecs/rt5651.c b/sound/soc/codecs/rt5651.c
-index d11d201b1d03e..df90af906563a 100644
---- a/sound/soc/codecs/rt5651.c
-+++ b/sound/soc/codecs/rt5651.c
-@@ -2161,7 +2161,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5651 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5651_dapm_routes),
+ static int ad1980_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/ad73311.c b/sound/soc/codecs/ad73311.c
+index b98bf19f594e0..f6090ac57e937 100644
+--- a/sound/soc/codecs/ad73311.c
++++ b/sound/soc/codecs/ad73311.c
+@@ -58,7 +58,6 @@ static const struct snd_soc_component_driver soc_component_dev_ad73311 = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5651_regmap = {
-diff --git a/sound/soc/codecs/rt5659.c b/sound/soc/codecs/rt5659.c
-index 6efa90f46362b..5e21e3c37ab57 100644
---- a/sound/soc/codecs/rt5659.c
-+++ b/sound/soc/codecs/rt5659.c
-@@ -3801,7 +3801,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5659 = {
- 	.set_pll		= rt5659_set_component_pll,
+ static int ad73311_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/adau1373.c b/sound/soc/codecs/adau1373.c
+index a9032b5c8d782..7f832d00ab177 100644
+--- a/sound/soc/codecs/adau1373.c
++++ b/sound/soc/codecs/adau1373.c
+@@ -1470,7 +1470,6 @@ static const struct snd_soc_component_driver adau1373_component_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(adau1373_dapm_routes),
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- 
-diff --git a/sound/soc/codecs/rt5660.c b/sound/soc/codecs/rt5660.c
-index d5f9926625d23..341baa29fdb18 100644
---- a/sound/soc/codecs/rt5660.c
-+++ b/sound/soc/codecs/rt5660.c
-@@ -1208,7 +1208,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5660 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5660_dapm_routes),
+ static int adau1373_i2c_probe(struct i2c_client *client)
+diff --git a/sound/soc/codecs/adau1701.c b/sound/soc/codecs/adau1701.c
+index 98768e5300f09..135a7db7fcf95 100644
+--- a/sound/soc/codecs/adau1701.c
++++ b/sound/soc/codecs/adau1701.c
+@@ -772,7 +772,6 @@ static const struct snd_soc_component_driver adau1701_component_drv = {
+ 	.set_sysclk		= adau1701_set_sysclk,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5660_regmap = {
-diff --git a/sound/soc/codecs/rt5663.c b/sound/soc/codecs/rt5663.c
-index e51eed8a79ab7..ca981b374b0c8 100644
---- a/sound/soc/codecs/rt5663.c
-+++ b/sound/soc/codecs/rt5663.c
-@@ -3258,7 +3258,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5663 = {
- 	.set_jack		= rt5663_set_jack_detect,
+ static const struct regmap_config adau1701_regmap = {
+diff --git a/sound/soc/codecs/adau1761.c b/sound/soc/codecs/adau1761.c
+index 8f887227981f1..3ccc7acac2056 100644
+--- a/sound/soc/codecs/adau1761.c
++++ b/sound/soc/codecs/adau1761.c
+@@ -930,7 +930,6 @@ static const struct snd_soc_component_driver adau1761_component_driver = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5663_v2_regmap = {
-diff --git a/sound/soc/codecs/rt5665.c b/sound/soc/codecs/rt5665.c
-index 4a8d62e1dd2b5..6e66cc218fa8d 100644
---- a/sound/soc/codecs/rt5665.c
-+++ b/sound/soc/codecs/rt5665.c
-@@ -4617,7 +4617,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5665 = {
- 	.set_jack		= rt5665_set_jack_detect,
+ #define ADAU1761_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | \
+diff --git a/sound/soc/codecs/adau1781.c b/sound/soc/codecs/adau1781.c
+index 74dc3344b2590..ff6be24863bfb 100644
+--- a/sound/soc/codecs/adau1781.c
++++ b/sound/soc/codecs/adau1781.c
+@@ -439,7 +439,6 @@ static const struct snd_soc_component_driver adau1781_component_driver = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- 
-diff --git a/sound/soc/codecs/rt5668.c b/sound/soc/codecs/rt5668.c
-index 01566f036ca17..beb0951ff680b 100644
---- a/sound/soc/codecs/rt5668.c
-+++ b/sound/soc/codecs/rt5668.c
-@@ -2362,7 +2362,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5668 = {
- 	.set_jack = rt5668_set_jack_detect,
+ #define ADAU1781_FORMATS (SNDRV_PCM_FMTBIT_S16_LE | SNDRV_PCM_FMTBIT_S24_LE | \
+diff --git a/sound/soc/codecs/adau1977.c b/sound/soc/codecs/adau1977.c
+index 5fcbdf2ec313c..7a9672f94fc6c 100644
+--- a/sound/soc/codecs/adau1977.c
++++ b/sound/soc/codecs/adau1977.c
+@@ -876,7 +876,6 @@ static const struct snd_soc_component_driver adau1977_component_driver = {
+ 	.num_dapm_routes	= ARRAY_SIZE(adau1977_dapm_routes),
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5668_regmap = {
-diff --git a/sound/soc/codecs/rt5670.c b/sound/soc/codecs/rt5670.c
-index 8a97f6db04d56..60dbfa2a54f1b 100644
---- a/sound/soc/codecs/rt5670.c
-+++ b/sound/soc/codecs/rt5670.c
-@@ -2852,7 +2852,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5670 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5670_dapm_routes),
+ static int adau1977_setup_micbias(struct adau1977 *adau1977)
+diff --git a/sound/soc/codecs/adau7002.c b/sound/soc/codecs/adau7002.c
+index 0e00de6ce3fb1..401bafabc8eb4 100644
+--- a/sound/soc/codecs/adau7002.c
++++ b/sound/soc/codecs/adau7002.c
+@@ -91,7 +91,6 @@ static const struct snd_soc_component_driver adau7002_component_driver = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5670_regmap = {
-diff --git a/sound/soc/codecs/rt5677.c b/sound/soc/codecs/rt5677.c
-index 4a8c267d4fbc8..31a2dd0aafb64 100644
---- a/sound/soc/codecs/rt5677.c
-+++ b/sound/soc/codecs/rt5677.c
-@@ -5189,7 +5189,6 @@ static const struct snd_soc_component_driver soc_component_dev_rt5677 = {
- 	.num_dapm_routes	= ARRAY_SIZE(rt5677_dapm_routes),
+ static int adau7002_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/adau7118.c b/sound/soc/codecs/adau7118.c
+index 841229dcbca10..bbb0972498876 100644
+--- a/sound/soc/codecs/adau7118.c
++++ b/sound/soc/codecs/adau7118.c
+@@ -442,7 +442,6 @@ static const struct snd_soc_component_driver adau7118_component_driver = {
+ 	.num_dapm_widgets	= ARRAY_SIZE(adau7118_widgets),
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config rt5677_regmap_physical = {
-diff --git a/sound/soc/codecs/rt5682.c b/sound/soc/codecs/rt5682.c
-index 2b6c6d6b9771e..2df95e792900c 100644
---- a/sound/soc/codecs/rt5682.c
-+++ b/sound/soc/codecs/rt5682.c
-@@ -3064,7 +3064,6 @@ const struct snd_soc_component_driver rt5682_soc_component_dev = {
- 	.set_jack = rt5682_set_jack_detect,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- };
- EXPORT_SYMBOL_GPL(rt5682_soc_component_dev);
- 
-diff --git a/sound/soc/codecs/rt5682s.c b/sound/soc/codecs/rt5682s.c
-index 4d44eddee901c..eb47e7cd485aa 100644
---- a/sound/soc/codecs/rt5682s.c
-+++ b/sound/soc/codecs/rt5682s.c
-@@ -2893,7 +2893,6 @@ static const struct snd_soc_component_driver rt5682s_soc_component_dev = {
- 	.set_jack = rt5682s_set_jack_detect,
+ static void adau7118_regulator_disable(void *data)
+diff --git a/sound/soc/codecs/adav80x.c b/sound/soc/codecs/adav80x.c
+index 90f3a5e9e31f4..fcff35f26cecb 100644
+--- a/sound/soc/codecs/adav80x.c
++++ b/sound/soc/codecs/adav80x.c
+@@ -842,7 +842,6 @@ static const struct snd_soc_component_driver adav80x_component_driver = {
+ 	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
  };
  
- static int rt5682s_parse_dt(struct rt5682s_priv *rt5682s, struct device *dev)
+ int adav80x_bus_probe(struct device *dev, struct regmap *regmap)
 -- 
 2.30.2
 
