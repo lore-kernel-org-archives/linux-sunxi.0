@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B1F51C3C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEDB1FA6
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:12 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqb015665;
-	Thu, 23 Jun 2022 07:52:59 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQed013924;
+	Thu, 23 Jun 2022 07:53:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=dui2WyLPcVQAcGZTKMeDfiNpSHT7WGXeltT4HVqDtXA=;
- b=jzhGlWvxAaHLfiiUUttoY42mgLqWo/gAk7UqW6G3aNWmNBlofWGPJtujl1OXq0NL5F3W
- Clma+tLYRliTWCTJGDuYwXfZEpGQJj9gJl3/wYdJ47eNUCDF9BnYH5LiKj2VtYKp5aHI
- vmMs8g56CmvjgsYoT5Tzccf5Vm9ZsqousSN154gVQbLn6PwtvFuCMTrvt7OuDRri/Uvc
- 5nFXi1wv0kUIq0shLO45VNlq3CmeLnJCgBwstT/db1ETeywe1xVT+Go4cHvNxkwzxRet
- JEiEgafcpeV0PUTjbtGiG4St2LBXeRVB+d7uIZNm7C7LWolsKDql8j9yILbjydrdRp4L fg== 
+ bh=CoOVGpqGnoSZU6Q3CKzELkkPwnCyCYjSBf0+fD7T35U=;
+ b=ITIivl5bfd4xdTRk8bjVwGLnM2h10D2prFdkuL7x8ZyFCJfqI1RkFZVHpPEgytktyLVW
+ hv0RF2v+I3vBxXKhQ1TlWlcRjKPAW1GSjrFYtqp3VQEDWYG0YoroTcjCJZY0wXsbhBQp
+ ByBPKODXAgF8MANavSVzqpvJ6bgs7te95R/IKqqAeW36O26x5nJzKIy66IC55kAlNHnj
+ x+91A9HiBnIbRf+yeD9FzDFmqmBAs0zwR17ll3hMooFws3AIXRjE23YdvDhmSpDsZWtT
+ T/EpWJBqaUFPKnVh/d2Jb4fHKsERlwJ3CpjiY2K3dBKbxgMYrc/jcu0Ue6KHovrW9FMN ow== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-8
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-15
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:52:58 -0500
+	Thu, 23 Jun 2022 07:53:15 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:52 +0100
+ 2022 13:52:58 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:52 +0100
+ Transport; Thu, 23 Jun 2022 13:52:58 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 3E8DF478;
-	Thu, 23 Jun 2022 12:52:52 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id C041D11D1;
+	Thu, 23 Jun 2022 12:52:58 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 17/96] ASoC: sti-uniperf: Migrate to new style legacy DAI naming flag
-Date: Thu, 23 Jun 2022 13:51:31 +0100
-Message-ID: <20220623125250.2355471-18-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 90/96] ASoC: si476x: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:44 +0100
+Message-ID: <20220623125250.2355471-91-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,34 +61,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: VMp9MBPYpbjMvS9wn2kz3hDp3A_95lnC
-X-Proofpoint-ORIG-GUID: VMp9MBPYpbjMvS9wn2kz3hDp3A_95lnC
+X-Proofpoint-GUID: Z1FggZ5jpd1Xev3dtejxnJggrkzFiwQg
+X-Proofpoint-ORIG-GUID: Z1FggZ5jpd1Xev3dtejxnJggrkzFiwQg
 X-Proofpoint-Spam-Reason: safe
 
-Change the legacy DAI naming flag from opting in to the new scheme
-(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
-This driver appears to be on the CPU side of the DAI link and
-currently uses the legacy naming, so add the new flag.
+The ASoC core has now been changed to default to the non-legacy DAI
+naming, as such drivers using the new scheme no longer need to specify
+the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/sti/sti_uniperif.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ sound/soc/codecs/si476x.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/sti/sti_uniperif.c b/sound/soc/sti/sti_uniperif.c
-index 34668fe3909d1..a4d74d1e3c240 100644
---- a/sound/soc/sti/sti_uniperif.c
-+++ b/sound/soc/sti/sti_uniperif.c
-@@ -376,7 +376,8 @@ static const struct snd_soc_dai_driver sti_uniperiph_dai_template = {
- static const struct snd_soc_component_driver sti_uniperiph_dai_component = {
- 	.name = "sti_cpu_dai",
- 	.suspend = sti_uniperiph_suspend,
--	.resume = sti_uniperiph_resume
-+	.resume = sti_uniperiph_resume,
-+	.legacy_dai_naming = 1,
+diff --git a/sound/soc/codecs/si476x.c b/sound/soc/codecs/si476x.c
+index 8bd2edf70f137..d87141ba84388 100644
+--- a/sound/soc/codecs/si476x.c
++++ b/sound/soc/codecs/si476x.c
+@@ -239,7 +239,6 @@ static const struct snd_soc_component_driver soc_component_dev_si476x = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
  };
  
- static int sti_uniperiph_cpu_dai_of(struct device_node *node,
+ static int si476x_platform_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
