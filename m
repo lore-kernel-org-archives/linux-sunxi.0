@@ -1,24 +1,24 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481E11C32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D271FA3
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:54:12 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQee013924;
-	Thu, 23 Jun 2022 07:53:16 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeb013924;
+	Thu, 23 Jun 2022 07:53:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=lh7UQEX0kU+iQnt9yjv/Ak7Aj+spwbbMvg6HY5Ou4c8=;
- b=nLJOX6gViVzc9Iwrm1sHVQ6xOqP60CFnpYP0RdY1h7QrteLn/gQzYD0SVoLh9Tqpjjid
- +JkaRxKGi/6lZDJ25v7afNcjGnM//SQzEaQQ08vMdHJYVVqJg6aiQ5TxxlvbO7SUza6O
- s5+um3e0pnPE3TzbJ4hNrFJAPuUBzIsaX2TgcOZITFbpo4uD7ezfDCABM/M82+rqZA9/
- LyCBhV90hscI55fLd2N1R21mt4VcnVhPzLWAg8TPPoYbI0bN2ItA50ebD0RfK1UvpupY
- 84RZbOGdyR6QfH0aJM9TabWE4E9lNwpmHmbdfzLlObGoaIk+EJA59SDVcgZx+YLsDniu kw== 
+ bh=0akrc3t0gvqgAg9mHNYY5I7ETdh3VIkukD6HTMu03Q8=;
+ b=RGBC0OgKsImgqtmzWxueuIWm/iPxb8fbLeQXo5Av1ekmhIFSzokkaVCMFH+7JjoxMjPH
+ lEoYLGTJ9+TGbIGBtSLf7XElAQu1lbuysblI8dLUVy1KAxYu5qi/CQ9jfo2H4blpBakc
+ QF9hvfE5fS5DgvOJGIH4NKgelpRDEaImVAbgofUpwHK6ix2g/Gd9adFCI0ooLCLbu2OP
+ P24op62QObIYqEQeQgQyzZ8XhqYjzSgvjjmIemqtd3QA7XuUQpmcK9rwelzSan3Enepc
+ ODufOzkG75k/EWwV1a62kde6kCvtQ4cM3PdAh8lvD0nTjV1BhHcvI501aWSx3LYKctcm RA== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-16
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:16 -0500
+	Thu, 23 Jun 2022 07:53:14 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
@@ -27,7 +27,7 @@ Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
  Transport; Thu, 23 Jun 2022 13:52:58 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id D6E8311D3;
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 8DBA511D4;
 	Thu, 23 Jun 2022 12:52:58 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 91/96] ASoC: stac9766: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:45 +0100
-Message-ID: <20220623125250.2355471-92-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 88/96] ASoC: rk817: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:42 +0100
+Message-ID: <20220623125250.2355471-89-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: pAz994mXEfVgDCaY46V-sIHD1CSFavMG
-X-Proofpoint-ORIG-GUID: pAz994mXEfVgDCaY46V-sIHD1CSFavMG
+X-Proofpoint-GUID: 55AiC7Bk2_FY81iBWH4DMPNj2jdeZGYX
+X-Proofpoint-ORIG-GUID: 55AiC7Bk2_FY81iBWH4DMPNj2jdeZGYX
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,22 +71,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/stac9766.c | 2 --
- 1 file changed, 2 deletions(-)
+ sound/soc/codecs/rk817_codec.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/stac9766.c b/sound/soc/codecs/stac9766.c
-index d99f6e466d0a3..1824a71fe053d 100644
---- a/sound/soc/codecs/stac9766.c
-+++ b/sound/soc/codecs/stac9766.c
-@@ -313,8 +313,6 @@ static const struct snd_soc_component_driver soc_component_dev_stac9766 = {
- 	.idle_bias_on		= 1,
- 	.use_pmdown_time	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
--
- };
- 
- static int stac9766_probe(struct platform_device *pdev)
+diff --git a/sound/soc/codecs/rk817_codec.c b/sound/soc/codecs/rk817_codec.c
+index cce6f4e7992f5..2a5b274bfc0f5 100644
+--- a/sound/soc/codecs/rk817_codec.c
++++ b/sound/soc/codecs/rk817_codec.c
+@@ -444,7 +444,6 @@ static const struct snd_soc_component_driver soc_codec_dev_rk817 = {
+ 	.idle_bias_on = 1,
+ 	.use_pmdown_time = 1,
+ 	.endianness = 1,
+-	.non_legacy_dai_naming = 1,
+ 	.controls = rk817_volume_controls,
+ 	.num_controls = ARRAY_SIZE(rk817_volume_controls),
+ 	.dapm_routes = rk817_dapm_routes,
 -- 
 2.30.2
 
