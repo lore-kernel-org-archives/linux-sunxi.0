@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C4261C31
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4291C31
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:53:20 +0000 (UTC)
 Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
-	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlrG011978;
-	Thu, 23 Jun 2022 07:53:00 -0500
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBvlr8011978;
+	Thu, 23 Jun 2022 07:52:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=GTnHSi0yRHHF639vxs9xx5N++7My5MIlVXcDYN1gZUo=;
- b=kPxDJpeA9itRjjKzDmbUW30RB6LylMe+gdsLt5rZ6t2h7ad6frtu2kytY+nDHxs8n4It
- njFwp7JkLACHD5fPBBpouF1t50bdcqGrAzy+YzQLMOFoEb+MiZLhwKkKyr8t7TstGJDW
- KcObatdIX+0R56yKRkkrCRDJNDoPvaEg3VloFcZIQJ7Hxt/TZGlY0ctm835JLPRz2hU0
- LTnlp0U5PnVdlSG37w3ouJ+NnT29PjPcHgppP0mfL6Gj0zrtx0Yi6BYKwcxBHXaTGKTF
- EJQStIRgU5yZmufoqo9PEVOLS26pkSfPvu6TucYsp43UWO20MLaOPlwoMYvwGA1VCN5J vg== 
+ bh=Cu9tESwNAJCqNud4CH2wl7Pn1vWEacIdyZK6FUTRt2s=;
+ b=nQ67567rrziiWuo8+0zYu+hVjf6omAUzwwZ3/+hZtC2g9OCT36IubELHDhfWB39cF2Tp
+ yCbkSVsAYzuVq7Lw779+6bKDclIQhOMyW1cRdsD27odfKhRtQJq1OJKWhq/I4q8XoVQt
+ LAm6JentLCWDEOc7aXrBW6vdpbpV8EBZgeTp0Yc7IQkdcEYczyWNWUrU//ZvZN+oKwLu
+ SocVcm1/kiYoJ5AYOvVMiEJDH76SXU7bfHv2xhH/D2sJBG1vPiApTrHlkpPeT091Ijid
+ YPdaBVdeS4RrnefvW4MsppxfkqbCSvLOy4utpsjBDg94vAP02gyD+RM56dUWsIEvMYJM KA== 
 Received: from ediex02.ad.cirrus.com ([84.19.233.68])
-	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-11
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvp-3
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:00 -0500
+	Thu, 23 Jun 2022 07:52:53 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX02.ad.cirrus.com
  (198.61.84.81) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:53 +0100
+ 2022 13:52:51 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:53 +0100
+ Transport; Thu, 23 Jun 2022 13:52:51 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 5AD2911D4;
-	Thu, 23 Jun 2022 12:52:53 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 16B3D475;
+	Thu, 23 Jun 2022 12:52:51 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 29/96] ASoC: sof: Migrate to new style legacy DAI naming flag
-Date: Thu, 23 Jun 2022 13:51:43 +0100
-Message-ID: <20220623125250.2355471-30-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 04/96] ASoC: img: Migrate to new style legacy DAI naming flag
+Date: Thu, 23 Jun 2022 13:51:18 +0100
+Message-ID: <20220623125250.2355471-5-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: 7Rh8siupePuSNyXx_DrQmV9InHb_wGhk
-X-Proofpoint-ORIG-GUID: 7Rh8siupePuSNyXx_DrQmV9InHb_wGhk
+X-Proofpoint-GUID: GcYbAiclxJEWpyUT1MrOi7axNXq5xsep
+X-Proofpoint-ORIG-GUID: GcYbAiclxJEWpyUT1MrOi7axNXq5xsep
 X-Proofpoint-Spam-Reason: safe
 
 Change the legacy DAI naming flag from opting in to the new scheme
@@ -72,33 +72,83 @@ currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/sof/pcm.c               | 2 ++
- sound/soc/sof/sof-client-probes.c | 1 +
- 2 files changed, 3 insertions(+)
+ sound/soc/img/img-i2s-in.c       | 3 ++-
+ sound/soc/img/img-i2s-out.c      | 3 ++-
+ sound/soc/img/img-parallel-out.c | 3 ++-
+ sound/soc/img/img-spdif-in.c     | 3 ++-
+ sound/soc/img/img-spdif-out.c    | 3 ++-
+ 5 files changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/sound/soc/sof/pcm.c b/sound/soc/sof/pcm.c
-index 27504abc5385f..6cb6a432be5e9 100644
---- a/sound/soc/sof/pcm.c
-+++ b/sound/soc/sof/pcm.c
-@@ -682,4 +682,6 @@ void snd_sof_new_platform_drv(struct snd_sof_dev *sdev)
- 
- 	 /* increment module refcount when a pcm is opened */
- 	pd->module_get_upon_open = 1;
-+
-+	pd->legacy_dai_naming = 1;
+diff --git a/sound/soc/img/img-i2s-in.c b/sound/soc/img/img-i2s-in.c
+index 97cab6d95b169..56bb7bbd3976c 100644
+--- a/sound/soc/img/img-i2s-in.c
++++ b/sound/soc/img/img-i2s-in.c
+@@ -386,7 +386,8 @@ static int img_i2s_in_dai_probe(struct snd_soc_dai *dai)
  }
-diff --git a/sound/soc/sof/sof-client-probes.c b/sound/soc/sof/sof-client-probes.c
-index 34e6bd356e717..1f1ea93a7fbf3 100644
---- a/sound/soc/sof/sof-client-probes.c
-+++ b/sound/soc/sof/sof-client-probes.c
-@@ -667,6 +667,7 @@ static const struct snd_soc_component_driver sof_probes_component = {
- 	.name = "sof-probes-component",
- 	.compress_ops = &sof_probes_compressed_ops,
- 	.module_get_upon_open = 1,
+ 
+ static const struct snd_soc_component_driver img_i2s_in_component = {
+-	.name = "img-i2s-in"
++	.name = "img-i2s-in",
 +	.legacy_dai_naming = 1,
  };
  
- SND_SOC_DAILINK_DEF(dummy, DAILINK_COMP_ARRAY(COMP_DUMMY()));
+ static int img_i2s_in_dma_prepare_slave_config(struct snd_pcm_substream *st,
+diff --git a/sound/soc/img/img-i2s-out.c b/sound/soc/img/img-i2s-out.c
+index 9ec6fc528e2b4..e3c6e662aa867 100644
+--- a/sound/soc/img/img-i2s-out.c
++++ b/sound/soc/img/img-i2s-out.c
+@@ -394,7 +394,8 @@ static int img_i2s_out_dai_probe(struct snd_soc_dai *dai)
+ }
+ 
+ static const struct snd_soc_component_driver img_i2s_out_component = {
+-	.name = "img-i2s-out"
++	.name = "img-i2s-out",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static int img_i2s_out_dma_prepare_slave_config(struct snd_pcm_substream *st,
+diff --git a/sound/soc/img/img-parallel-out.c b/sound/soc/img/img-parallel-out.c
+index cd6a6a8257419..08506b05e2265 100644
+--- a/sound/soc/img/img-parallel-out.c
++++ b/sound/soc/img/img-parallel-out.c
+@@ -201,7 +201,8 @@ static struct snd_soc_dai_driver img_prl_out_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver img_prl_out_component = {
+-	.name = "img-prl-out"
++	.name = "img-prl-out",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static int img_prl_out_probe(struct platform_device *pdev)
+diff --git a/sound/soc/img/img-spdif-in.c b/sound/soc/img/img-spdif-in.c
+index a79d1ccaeec01..3f1d1a7e8735b 100644
+--- a/sound/soc/img/img-spdif-in.c
++++ b/sound/soc/img/img-spdif-in.c
+@@ -711,7 +711,8 @@ static struct snd_soc_dai_driver img_spdif_in_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver img_spdif_in_component = {
+-	.name = "img-spdif-in"
++	.name = "img-spdif-in",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static int img_spdif_in_probe(struct platform_device *pdev)
+diff --git a/sound/soc/img/img-spdif-out.c b/sound/soc/img/img-spdif-out.c
+index f7062eba2611a..983761d3fa7e6 100644
+--- a/sound/soc/img/img-spdif-out.c
++++ b/sound/soc/img/img-spdif-out.c
+@@ -316,7 +316,8 @@ static struct snd_soc_dai_driver img_spdif_out_dai = {
+ };
+ 
+ static const struct snd_soc_component_driver img_spdif_out_component = {
+-	.name = "img-spdif-out"
++	.name = "img-spdif-out",
++	.legacy_dai_naming = 1,
+ };
+ 
+ static int img_spdif_out_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
