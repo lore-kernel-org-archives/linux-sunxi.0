@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2C81FA1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509E71FA3
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:53:38 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeh013924;
-	Thu, 23 Jun 2022 07:53:19 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeY013924;
+	Thu, 23 Jun 2022 07:53:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=TeKfedTH0Ouzg/AS1v+qBN/wdMbF8epgQhipJsCmHVs=;
- b=fPVlkrWJutj4xIozpUEep7GO0LqChcVt+bxov8JY6SYn0Bpa0yAJnX8D8r0WRQqyT4yi
- RZDJHRCPsySvvRChpK8OVELyNSH9koikyY1WvdNhV/yJADWKnLbKbp1LCd1gCt7fV/vz
- AGZFbvfycUkILY7hoplJB+/V3rIY+K5Li7ypeHXxbvAMC5Imk/bmMZ09x4aj3HMqCJW3
- jH74PxHNcMaU+pPDsaYYqNHde8PN5UBUv9AcuYoZCWsvUl5L+lHiMd4X+deZaRAs13/X
- n5fEgbqh8aXddK/Xr7/oumHeZsXtYKNkX3b02P7JRpSk+oNqa3FmLkaUvV40yyIyUhhQ 9g== 
+ bh=SrABh16h3tGxB1yv98FDK9mGxjpUcpJfHk25js15UBw=;
+ b=bGFTo1A3U3+TFxMwz7u/b1vKxG1+2CNOmGsEDTmpDPyKm8ziRDwfJvpxIQzggR7/CLLc
+ oYQJgSfLeMb5G5BhLVzQn+2ydZg5mro7ruviNwvodWtrOUZPA73Jl5G38bBp4yLcNiIT
+ D/kxVZLG7k+2/vrt3BYdomBziyDQQqE8ZVtMo+kJ1Z/SfmJkwDNygBaAWHQoIuqvjiu5
+ A4lKP17PQMGV3XcTMruywCMJw0/w9cm6oQWCQL8Jxo7TskOjXkofHwDcruA0lN5K/KpU
+ OxBhsH41qFFwQxtC2ZKGHA4vD+T/GxyntiSqCGOPSkkKjqVGUgq+sAP4hxXJujc2Mf1X bw== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-19
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:18 -0500
+	Thu, 23 Jun 2022 07:53:11 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:59 +0100
+ 2022 13:52:57 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:59 +0100
+ Transport; Thu, 23 Jun 2022 13:52:57 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 25FAB11D3;
-	Thu, 23 Jun 2022 12:52:59 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id B176A11D1;
+	Thu, 23 Jun 2022 12:52:57 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 94/96] ASoC: wl1273: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:52:48 +0100
-Message-ID: <20220623125250.2355471-95-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 78/96] ASoC: hdmi-codec: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:32 +0100
+Message-ID: <20220623125250.2355471-79-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: eiNMX25Yp5ydE-rs49yuVRagAeqplw3V
-X-Proofpoint-ORIG-GUID: eiNMX25Yp5ydE-rs49yuVRagAeqplw3V
+X-Proofpoint-GUID: MtCncSoXQqkeNMtMFSVTvaxfeze7GvIs
+X-Proofpoint-ORIG-GUID: MtCncSoXQqkeNMtMFSVTvaxfeze7GvIs
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,21 +71,21 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/codecs/wl1273.c | 1 -
+ sound/soc/codecs/hdmi-codec.c | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/sound/soc/codecs/wl1273.c b/sound/soc/codecs/wl1273.c
-index 02232f64110e0..626278e4c9238 100644
---- a/sound/soc/codecs/wl1273.c
-+++ b/sound/soc/codecs/wl1273.c
-@@ -475,7 +475,6 @@ static const struct snd_soc_component_driver soc_component_dev_wl1273 = {
+diff --git a/sound/soc/codecs/hdmi-codec.c b/sound/soc/codecs/hdmi-codec.c
+index 7d1e351f863a4..5679102de91f8 100644
+--- a/sound/soc/codecs/hdmi-codec.c
++++ b/sound/soc/codecs/hdmi-codec.c
+@@ -977,7 +977,6 @@ static const struct snd_soc_component_driver hdmi_driver = {
  	.idle_bias_on		= 1,
  	.use_pmdown_time	= 1,
  	.endianness		= 1,
 -	.non_legacy_dai_naming	= 1,
+ 	.set_jack		= hdmi_codec_set_jack,
  };
  
- static int wl1273_platform_probe(struct platform_device *pdev)
 -- 
 2.30.2
 
