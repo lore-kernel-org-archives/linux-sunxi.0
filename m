@@ -1,34 +1,34 @@
-Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
+Received: from mx0b-001ae601.pphosted.com (mx0b-001ae601.pphosted.com [67.231.152.168])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07EC1FA1
-	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:56:05 +0000 (UTC)
-Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqi015665;
-	Thu, 23 Jun 2022 07:53:04 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1803F1FA7
+	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:56:06 +0000 (UTC)
+Received: from pps.filterd (m0077474.ppops.net [127.0.0.1])
+	by mx0b-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N5mxlC032604;
+	Thu, 23 Jun 2022 07:53:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=Moe+iDLBBrEDDxnDYh3XwjhpqoMM9y00x+UEeU8HbSI=;
- b=nzDzD0M4+oBoB04zS3kTEyNWmfUPwrllM6NPXCURXxqnZPVrKRnNM+1jC4reaatLVL6/
- eaomOFc8OgQ2rokIOM0wG2hgPs6+RYsLQPb2oV8sD/PkdNHr1IQzFA6f8R0GaPfDEQeZ
- VidDMiKaPsXwSbSfpdwcp4/AiYqrRsXGc4lHJQVZWlPU5Rmpe7H/hVR96x/x697vhA42
- iYKSSgo81x3ysKhIVLvEbah/ud74YD4LgwsCmVxVtNxxJJdR1cfYrk715n/4EDxd4zAC
- DUSBAQ0jTicDQZK4NsJC8HM7nRljzfttU8VuIy62/4TkTAunWA8txK3sORmBQ8vXANg1 6g== 
+ bh=vz4pTGb6RSnyR0fnPsokrNw+ENVF1PSgVY/ErFIGaJk=;
+ b=mXgXq+kY6s2Of/DBfrZnKXVmLz8kIR4/QJdo32swaKsfMeoOKPd8KpFuASkKTAjvksSn
+ wJ4bmQfo2Q33w7xSXywJSita6+vj+36cSw2YOd7ItGWNZ9fAbSWWTUw/XQTiKN5DE1ew
+ psx11E8HN1NF+0JoMJAid6Anw6d9vldCqiWWQu9CE/R3hXNnzlO/pveN/iL6irT9N4GI
+ jEUyzgcqpub8J5G9q+Yu+0a0v/vXqCAABUPzxI9xzj5Y5USV/81yQ/HsDr3gK+wt367w
+ LeR9XCwzBGarmSTH1FsiywfxQr88rbydAAqaPcgwEPmuwJNKJ7yikRVgMMhLCuN7KC+j mw== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-15
+	by mx0b-001ae601.pphosted.com (PPS) with ESMTPS id 3gsb4p6wvu-11
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jun 2022 07:53:04 -0500
+	Thu, 23 Jun 2022 07:53:05 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:54 +0100
+ 2022 13:52:55 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:54 +0100
+ Transport; Thu, 23 Jun 2022 13:52:55 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 87A0F11DA;
-	Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 8FFF111D1;
+	Thu, 23 Jun 2022 12:52:55 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 43/96] ASoC: test-component: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:57 +0100
-Message-ID: <20220623125250.2355471-44-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 54/96] ASoC: nau*: Remove now redundant non_legacy_dai_naming flag
+Date: Thu, 23 Jun 2022 13:52:08 +0100
+Message-ID: <20220623125250.2355471-55-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
-X-Proofpoint-ORIG-GUID: C7mfGE8ZI4r9XF-oXseaPgPSXaUVL4js
+X-Proofpoint-GUID: Yi3-Y6Ge2LR5rGupQl3212cvuTOEOXeY
+X-Proofpoint-ORIG-GUID: Yi3-Y6Ge2LR5rGupQl3212cvuTOEOXeY
 X-Proofpoint-Spam-Reason: safe
 
 The ASoC core has now been changed to default to the non-legacy DAI
@@ -71,21 +71,99 @@ the non_legacy_dai_naming flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/generic/test-component.c | 1 -
- 1 file changed, 1 deletion(-)
+ sound/soc/codecs/nau8315.c | 1 -
+ sound/soc/codecs/nau8540.c | 1 -
+ sound/soc/codecs/nau8810.c | 1 -
+ sound/soc/codecs/nau8821.c | 1 -
+ sound/soc/codecs/nau8822.c | 1 -
+ sound/soc/codecs/nau8824.c | 1 -
+ sound/soc/codecs/nau8825.c | 1 -
+ 7 files changed, 7 deletions(-)
 
-diff --git a/sound/soc/generic/test-component.c b/sound/soc/generic/test-component.c
-index e2a009bc69af2..98c8990596a88 100644
---- a/sound/soc/generic/test-component.c
-+++ b/sound/soc/generic/test-component.c
-@@ -569,7 +569,6 @@ static int test_driver_probe(struct platform_device *pdev)
- 		cdriv->name			= "test_codec";
- 		cdriv->idle_bias_on		= 1;
- 		cdriv->endianness		= 1;
--		cdriv->non_legacy_dai_naming	= 1;
- 	}
+diff --git a/sound/soc/codecs/nau8315.c b/sound/soc/codecs/nau8315.c
+index 2b66e3f7a8b7f..ad4dce9e50807 100644
+--- a/sound/soc/codecs/nau8315.c
++++ b/sound/soc/codecs/nau8315.c
+@@ -93,7 +93,6 @@ static const struct snd_soc_component_driver nau8315_component_driver = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
  
- 	cdriv->open		= test_component_open;
+ static const struct snd_soc_dai_ops nau8315_dai_ops = {
+diff --git a/sound/soc/codecs/nau8540.c b/sound/soc/codecs/nau8540.c
+index 347c715e22a4b..58f70a02f18aa 100644
+--- a/sound/soc/codecs/nau8540.c
++++ b/sound/soc/codecs/nau8540.c
+@@ -806,7 +806,6 @@ static const struct snd_soc_component_driver nau8540_component_driver = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct regmap_config nau8540_regmap_config = {
+diff --git a/sound/soc/codecs/nau8810.c b/sound/soc/codecs/nau8810.c
+index 7b3b1e4ac2465..ccb512c21d748 100644
+--- a/sound/soc/codecs/nau8810.c
++++ b/sound/soc/codecs/nau8810.c
+@@ -866,7 +866,6 @@ static const struct snd_soc_component_driver nau8810_component_driver = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static int nau8810_i2c_probe(struct i2c_client *i2c)
+diff --git a/sound/soc/codecs/nau8821.c b/sound/soc/codecs/nau8821.c
+index ce4e7f46bb067..6453e93678d22 100644
+--- a/sound/soc/codecs/nau8821.c
++++ b/sound/soc/codecs/nau8821.c
+@@ -1430,7 +1430,6 @@ static const struct snd_soc_component_driver nau8821_component_driver = {
+ 	.dapm_routes		= nau8821_dapm_routes,
+ 	.num_dapm_routes	= ARRAY_SIZE(nau8821_dapm_routes),
+ 	.suspend_bias_off	= 1,
+-	.non_legacy_dai_naming	= 1,
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+diff --git a/sound/soc/codecs/nau8822.c b/sound/soc/codecs/nau8822.c
+index 3907d1dd8ceef..1aef281a99727 100644
+--- a/sound/soc/codecs/nau8822.c
++++ b/sound/soc/codecs/nau8822.c
+@@ -1083,7 +1083,6 @@ static const struct snd_soc_component_driver soc_component_dev_nau8822 = {
+ 	.idle_bias_on			= 1,
+ 	.use_pmdown_time		= 1,
+ 	.endianness			= 1,
+-	.non_legacy_dai_naming		= 1,
+ };
+ 
+ static const struct regmap_config nau8822_regmap_config = {
+diff --git a/sound/soc/codecs/nau8824.c b/sound/soc/codecs/nau8824.c
+index 2a7c935085353..ad54d70f7d8e7 100644
+--- a/sound/soc/codecs/nau8824.c
++++ b/sound/soc/codecs/nau8824.c
+@@ -1544,7 +1544,6 @@ static const struct snd_soc_component_driver nau8824_component_driver = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static const struct snd_soc_dai_ops nau8824_dai_ops = {
+diff --git a/sound/soc/codecs/nau8825.c b/sound/soc/codecs/nau8825.c
+index 20e45a337b8f2..907ec88c759a8 100644
+--- a/sound/soc/codecs/nau8825.c
++++ b/sound/soc/codecs/nau8825.c
+@@ -2478,7 +2478,6 @@ static const struct snd_soc_component_driver nau8825_component_driver = {
+ 	.idle_bias_on		= 1,
+ 	.use_pmdown_time	= 1,
+ 	.endianness		= 1,
+-	.non_legacy_dai_naming	= 1,
+ };
+ 
+ static void nau8825_reset_chip(struct regmap *regmap)
 -- 
 2.30.2
 
