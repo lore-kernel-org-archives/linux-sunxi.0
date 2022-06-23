@@ -1,34 +1,34 @@
 Received: from mx0b-001ae601.pphosted.com (mx0a-001ae601.pphosted.com [67.231.149.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55D21C31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07B01C3C
 	for <linux-sunxi@lists.linux.dev>; Thu, 23 Jun 2022 12:56:05 +0000 (UTC)
 Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
-	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25NBNlqh015665;
-	Thu, 23 Jun 2022 07:53:04 -0500
+	by mx0a-001ae601.pphosted.com (8.17.1.5/8.17.1.5) with ESMTP id 25N6FQeP013924;
+	Thu, 23 Jun 2022 07:53:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=PODMain02222019;
- bh=lUR098xjWteEbH1+FUtUPo6I+j1bPK4ArKFxC7siG8M=;
- b=V92mHpBxj1U/wYnPVgsO3LRKurl9Jm2I/m9HXLnmI0H7uz61m3DoLPesHfznSBDfLtHK
- P9QdIfasUx/i2RuT76alsan39yDuSzG+d4BT/Wkg405l9EF7F4j/Kcwhnx9X3kDl3TTT
- n8yPxJASPpeVjUrrzqxXuXXg/7HDXsCE6Z146b+1urkTu0Yuzk34pyf1oyg5vaIUs4xQ
- Ok0/MUqsbjBRDRUSUE/83V/Ov9i2gONqxlKg/TtXgpstisB5bev+fUXzklHCDn9ZHHXP
- bu0e0CZ1H0219eTYXNH9F37UII5gBY2Ozy6da4p9hEtHcDPUl+9CBsiqQe6WSTdywGNW KA== 
+ bh=qB9TzZptXxMq27rHMq4lEOjBC7xijNuixvv7m2asfGg=;
+ b=Myc8DuBGzmBY6PpimVDg7JowJlqUVUbNYCOVJGXqGrHsTUl1GuXbhREl6GiBovxy2QzX
+ +dbvWGoE1jE2FzyuhltULwUWKgIcNZK+ozXHdC/OCXqMl+wBORdeh1+ezs4OxW/xrakL
+ AOml0A5pcIfXaMGJRCkzB+dQHoU7WugW26ZyI3Bc5Whnsj10T8dGXFNKftXw6ijT7nXp
+ xH68wnGZKeA6Q1c9Ez3iut60O8TYKIvqBtD7DMFvt73MfXDpI+hszSPTDoDaAdU/jr3A
+ pbA3RqvdiShnMMhOjUcSbg6lwX/hWb5QYvv1NMfwbT9C3iZquUtvbNHi7moNOS1IQ0zs KQ== 
 Received: from ediex01.ad.cirrus.com ([84.19.233.68])
-	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4j-14
+	by mx0a-001ae601.pphosted.com (PPS) with ESMTPS id 3gsc41fa4x-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
 	Thu, 23 Jun 2022 07:53:03 -0500
 Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.28; Thu, 23 Jun
- 2022 13:52:54 +0100
+ 2022 13:52:53 +0100
 Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
  (198.61.84.80) with Microsoft SMTP Server id 15.1.2375.28 via Frontend
- Transport; Thu, 23 Jun 2022 13:52:54 +0100
+ Transport; Thu, 23 Jun 2022 13:52:53 +0100
 Received: from algalon.ad.cirrus.com (algalon.ad.cirrus.com [198.90.251.122])
-	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 133F311D1;
-	Thu, 23 Jun 2022 12:52:54 +0000 (UTC)
+	by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 31B9511D3;
+	Thu, 23 Jun 2022 12:52:53 +0000 (UTC)
 From: Charles Keepax <ckeepax@opensource.cirrus.com>
 To: <broonie@kernel.org>
 CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
@@ -47,9 +47,9 @@ CC: <lgirdwood@gmail.com>, <kuninori.morimoto.gx@renesas.com>,
         <alsa-devel@alsa-project.org>, <patches@opensource.cirrus.com>,
         <dri-devel@lists.freedesktop.org>,
         <linux-rpi-kernel@lists.infradead.org>, <frattaroli.nicolas@gmail.com>
-Subject: [PATCH v2 37/96] ASoC: meson: Remove now redundant non_legacy_dai_naming flag
-Date: Thu, 23 Jun 2022 13:51:51 +0100
-Message-ID: <20220623125250.2355471-38-ckeepax@opensource.cirrus.com>
+Subject: [PATCH v2 27/96] ASoC: au1x: Migrate to new style legacy DAI naming flag
+Date: Thu, 23 Jun 2022 13:51:41 +0100
+Message-ID: <20220623125250.2355471-28-ckeepax@opensource.cirrus.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
 References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
@@ -61,91 +61,83 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-GUID: SzNCzuptw7eEZGl2I-h7iUv05DZ7N-SU
-X-Proofpoint-ORIG-GUID: SzNCzuptw7eEZGl2I-h7iUv05DZ7N-SU
+X-Proofpoint-GUID: 5W9aCtwCMCd5hLlYtQKTcTXDoaBqX75h
+X-Proofpoint-ORIG-GUID: 5W9aCtwCMCd5hLlYtQKTcTXDoaBqX75h
 X-Proofpoint-Spam-Reason: safe
 
-The ASoC core has now been changed to default to the non-legacy DAI
-naming, as such drivers using the new scheme no longer need to specify
-the non_legacy_dai_naming flag.
+Change the legacy DAI naming flag from opting in to the new scheme
+(non_legacy_dai_naming), to opting out of it (legacy_dai_naming).
+These drivers appear to be on the CPU side of the DAI link and
+currently uses the legacy naming, so add the new flag.
 
 Signed-off-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 ---
- sound/soc/meson/aiu-acodec-ctrl.c | 1 -
- sound/soc/meson/aiu-codec-ctrl.c  | 1 -
- sound/soc/meson/g12a-toacodec.c   | 2 --
- sound/soc/meson/g12a-tohdmitx.c   | 1 -
- sound/soc/meson/t9015.c           | 1 -
- 5 files changed, 6 deletions(-)
 
-diff --git a/sound/soc/meson/aiu-acodec-ctrl.c b/sound/soc/meson/aiu-acodec-ctrl.c
-index 3776b073a3dbb..d0f0ada5f4bce 100644
---- a/sound/soc/meson/aiu-acodec-ctrl.c
-+++ b/sound/soc/meson/aiu-acodec-ctrl.c
-@@ -192,7 +192,6 @@ static const struct snd_soc_component_driver aiu_acodec_ctrl_component = {
- 	.num_dapm_routes	= ARRAY_SIZE(aiu_acodec_ctrl_routes),
- 	.of_xlate_dai_name	= aiu_acodec_of_xlate_dai_name,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_prefix		= "acodec",
- #endif
-diff --git a/sound/soc/meson/aiu-codec-ctrl.c b/sound/soc/meson/aiu-codec-ctrl.c
-index 286ac4983d40c..84c10956c2414 100644
---- a/sound/soc/meson/aiu-codec-ctrl.c
-+++ b/sound/soc/meson/aiu-codec-ctrl.c
-@@ -139,7 +139,6 @@ static const struct snd_soc_component_driver aiu_hdmi_ctrl_component = {
- 	.num_dapm_routes	= ARRAY_SIZE(aiu_hdmi_ctrl_routes),
- 	.of_xlate_dai_name	= aiu_hdmi_of_xlate_dai_name,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
- #ifdef CONFIG_DEBUG_FS
- 	.debugfs_prefix		= "hdmi",
- #endif
-diff --git a/sound/soc/meson/g12a-toacodec.c b/sound/soc/meson/g12a-toacodec.c
-index 1dfee1396843c..ddc667956cf5e 100644
---- a/sound/soc/meson/g12a-toacodec.c
-+++ b/sound/soc/meson/g12a-toacodec.c
-@@ -242,7 +242,6 @@ static const struct snd_soc_component_driver g12a_toacodec_component_drv = {
- 	.dapm_routes		= g12a_toacodec_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(g12a_toacodec_routes),
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+Changes since v1:
+ - Fix typo in ac97c.c legacy_dai_name -> legacy_dai_naming
+
+ sound/soc/au1x/ac97c.c    | 3 ++-
+ sound/soc/au1x/i2sc.c     | 3 ++-
+ sound/soc/au1x/psc-ac97.c | 3 ++-
+ sound/soc/au1x/psc-i2s.c  | 3 ++-
+ 4 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/sound/soc/au1x/ac97c.c b/sound/soc/au1x/ac97c.c
+index 3b1700e665f52..b18512ca25781 100644
+--- a/sound/soc/au1x/ac97c.c
++++ b/sound/soc/au1x/ac97c.c
+@@ -223,7 +223,8 @@ static struct snd_soc_dai_driver au1xac97c_dai_driver = {
  };
  
- static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
-@@ -254,7 +253,6 @@ static const struct snd_soc_component_driver sm1_toacodec_component_drv = {
- 	.dapm_routes		= g12a_toacodec_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(g12a_toacodec_routes),
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+ static const struct snd_soc_component_driver au1xac97c_component = {
+-	.name		= "au1xac97c",
++	.name			= "au1xac97c",
++	.legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config g12a_toacodec_regmap_cfg = {
-diff --git a/sound/soc/meson/g12a-tohdmitx.c b/sound/soc/meson/g12a-tohdmitx.c
-index 6c99052feafd8..579a04ad4d197 100644
---- a/sound/soc/meson/g12a-tohdmitx.c
-+++ b/sound/soc/meson/g12a-tohdmitx.c
-@@ -226,7 +226,6 @@ static const struct snd_soc_component_driver g12a_tohdmitx_component_drv = {
- 	.dapm_routes		= g12a_tohdmitx_routes,
- 	.num_dapm_routes	= ARRAY_SIZE(g12a_tohdmitx_routes),
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+ static int au1xac97c_drvprobe(struct platform_device *pdev)
+diff --git a/sound/soc/au1x/i2sc.c b/sound/soc/au1x/i2sc.c
+index 45bb7851e75d7..b15c8baa9ee45 100644
+--- a/sound/soc/au1x/i2sc.c
++++ b/sound/soc/au1x/i2sc.c
+@@ -227,7 +227,8 @@ static struct snd_soc_dai_driver au1xi2s_dai_driver = {
  };
  
- static const struct regmap_config g12a_tohdmitx_regmap_cfg = {
-diff --git a/sound/soc/meson/t9015.c b/sound/soc/meson/t9015.c
-index a9b8c4e77d405..9c6b4dac68932 100644
---- a/sound/soc/meson/t9015.c
-+++ b/sound/soc/meson/t9015.c
-@@ -234,7 +234,6 @@ static const struct snd_soc_component_driver t9015_codec_driver = {
- 	.num_dapm_routes	= ARRAY_SIZE(t9015_dapm_routes),
- 	.suspend_bias_off	= 1,
- 	.endianness		= 1,
--	.non_legacy_dai_naming	= 1,
+ static const struct snd_soc_component_driver au1xi2s_component = {
+-	.name		= "au1xi2s",
++	.name			= "au1xi2s",
++	.legacy_dai_naming	= 1,
  };
  
- static const struct regmap_config t9015_regmap_config = {
+ static int au1xi2s_drvprobe(struct platform_device *pdev)
+diff --git a/sound/soc/au1x/psc-ac97.c b/sound/soc/au1x/psc-ac97.c
+index 05eb36991f147..b536394b9ca08 100644
+--- a/sound/soc/au1x/psc-ac97.c
++++ b/sound/soc/au1x/psc-ac97.c
+@@ -356,7 +356,8 @@ static const struct snd_soc_dai_driver au1xpsc_ac97_dai_template = {
+ };
+ 
+ static const struct snd_soc_component_driver au1xpsc_ac97_component = {
+-	.name		= "au1xpsc-ac97",
++	.name			= "au1xpsc-ac97",
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static int au1xpsc_ac97_drvprobe(struct platform_device *pdev)
+diff --git a/sound/soc/au1x/psc-i2s.c b/sound/soc/au1x/psc-i2s.c
+index 530a072d74274..79b5ae4e494cb 100644
+--- a/sound/soc/au1x/psc-i2s.c
++++ b/sound/soc/au1x/psc-i2s.c
+@@ -286,7 +286,8 @@ static const struct snd_soc_dai_driver au1xpsc_i2s_dai_template = {
+ };
+ 
+ static const struct snd_soc_component_driver au1xpsc_i2s_component = {
+-	.name		= "au1xpsc-i2s",
++	.name			= "au1xpsc-i2s",
++	.legacy_dai_naming	= 1,
+ };
+ 
+ static int au1xpsc_i2s_drvprobe(struct platform_device *pdev)
 -- 
 2.30.2
 
