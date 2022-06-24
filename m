@@ -1,283 +1,224 @@
-Received: from alexa-out-sd-02.qualcomm.com (alexa-out-sd-02.qualcomm.com [199.106.114.39])
-	(using TLSv1.2 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF5C7C
-	for <linux-sunxi@lists.linux.dev>; Fri, 24 Jun 2022 00:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
-  t=1656030071; x=1687566071;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/4AhlIlzIXaCK8b1KJQH/xfkDhNB2s6ZxkkOv5WDaTw=;
-  b=UgHrC7KRUI9zztliuTFQgqwHsVoQ9jNPx3egICCLnCa2nXH0pNf9vT5E
-   om79/QpuxFST6coM2xsAoxXYLt0s0eyBIwL2klbFleqgtg+5Yasfzon5N
-   fRafCSvyb/nQQwYgOnlwAq57q8HANwVAmqODnTqJasyWgoYivJYNHuNjK
-   E=;
-Received: from unknown (HELO ironmsg03-sd.qualcomm.com) ([10.53.140.143])
-  by alexa-out-sd-02.qualcomm.com with ESMTP; 23 Jun 2022 17:21:10 -0700
-X-QCInternal: smtphost
-Received: from nasanex01b.na.qualcomm.com ([10.46.141.250])
-  by ironmsg03-sd.qualcomm.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2022 17:21:08 -0700
-Received: from quicinc.com (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.22; Thu, 23 Jun
- 2022 17:21:07 -0700
-Date: Thu, 23 Jun 2022 17:21:06 -0700
-From: Guru Das Srinagesh <quic_gurus@quicinc.com>
-To: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-CC: <broonie@kernel.org>, <agross@kernel.org>, <bjorn.andersson@linaro.org>,
-	<srinivas.kandagatla@linaro.org>, <bgoswami@codeaurora.org>,
-	<gregkh@linuxfoundation.org>, <rafael@kernel.org>, <cw00.choi@samsung.com>,
-	<krzysztof.kozlowski@linaro.org>, <b.zolnierkie@samsung.com>,
-	<myungjoo.ham@samsung.com>, <michael@walle.cc>, <linus.walleij@linaro.org>,
-	<brgl@bgdev.pl>, <tglx@linutronix.de>, <maz@kernel.org>,
-	<lee.jones@linaro.org>, <mani@kernel.org>, <cristian.ciocaltea@gmail.com>,
-	<wens@csie.org>, <tharvey@gateworks.com>, <rjones@gateworks.com>,
-	<mazziesaccount@gmail.com>, <orsonzhai@gmail.com>, <baolin.wang7@gmail.com>,
-	<zhang.lyra@gmail.com>, <jernej.skrabec@gmail.com>, <samuel@sholland.org>,
-	<lgirdwood@gmail.com>, <perex@perex.cz>, <tiwai@suse.com>,
-	<linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
-	<linux-actions@lists.infradead.org>, <linux-arm-msm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-sunxi@lists.linux.dev>,
-	<alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 20/49] regmap-irq: Fix inverted handling of unmask
- registers
-Message-ID: <20220624002106.GC21400@quicinc.com>
-References: <20220620200644.1961936-1-aidanmacdonald.0x0@gmail.com>
- <20220620200644.1961936-21-aidanmacdonald.0x0@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC8FE7C
+	for <linux-sunxi@lists.linux.dev>; Fri, 24 Jun 2022 01:01:40 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2F6D512FC;
+	Thu, 23 Jun 2022 18:01:40 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 877183F534;
+	Thu, 23 Jun 2022 18:01:38 -0700 (PDT)
+Date: Fri, 24 Jun 2022 02:00:40 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Jagan Teki <jagan@amarulasolutions.com>, u-boot@lists.denx.de,
+ linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Chris Morgan <macroalpha82@gmail.com>, Simon Glass <sjg@chromium.org>, Tom
+ Rini <trini@konsulko.com>
+Subject: Re: [PATCH] sunxi: fix initial environment loading without MMC
+Message-ID: <20220624020040.3992190c@slackpad.lan>
+In-Reply-To: <20220426152556.4a3ba3fb@donnerap.cambridge.arm.com>
+References: <20220421003448.4517-1-andre.przywara@arm.com>
+	<bed703d6-1820-8df4-747a-6114877dedee@sholland.org>
+	<20220426152556.4a3ba3fb@donnerap.cambridge.arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20220620200644.1961936-21-aidanmacdonald.0x0@gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 20, 2022 at 09:06:15PM +0100, Aidan MacDonald wrote:
-> To me "unmask" suggests that we write 1s to the register when
-> an interrupt is enabled. This also makes sense because it's the
-> opposite of what the "mask" register does (write 1s to disable
-> an interrupt).
-> 
-> But regmap-irq does the opposite: for a disabled interrupt, it
-> writes 1s to "unmask" and 0s to "mask". This is surprising and
-> deviates from the usual way mask registers are handled.
+On Tue, 26 Apr 2022 15:25:56 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
 
-Thank you for fixing this.
+Hi Samuel,
 
+> On Sat, 23 Apr 2022 16:01:00 -0500
+> Samuel Holland <samuel@sholland.org> wrote:
 > 
-> Additionally, mask_invert didn't interact with unmask registers
-> properly -- it caused them to be ignored entirely.
+> Hi Samuel,
 > 
-> Fix this by making mask and unmask registers orthogonal, using
-> the following behavior:
+> thanks for having a look and the comments.
 > 
-> * Mask registers are written with 1s for disabled interrupts.
-> * Unmask registers are written with 1s for enabled interrupts.
+> > On 4/20/22 7:34 PM, Andre Przywara wrote:  
+> > > Commit e42dad4168fe ("sunxi: use boot source for determining environment
+> > > location") changed our implementation of env_get_location() and enabled
+> > > it for every board, even those without MMC support (like the C.H.I.P.
+> > > boards). However the default fallback location of ENVL_FAT does not cope
+> > > very well without MMC support compiled in, so the board hangs when trying
+> > > to initially load the environment.
+> > > 
+> > > Change the default fallback location to be ENVL_FAT only when the FAT
+> > > environment support is enabled, and use ENVL_NOWHERE and ENVL_UBI as
+> > > alternative fallbacks, when those sources are enabled.
+> > > 
+> > > This fixes U-Boot loading on the C.H.I.P. boards.
+> > > 
+> > > Fixes: e42dad4168fe ("sunxi: use boot source for determining environment location")
+> > > Reported-by: Chris Morgan <macroalpha82@gmail.com>
+> > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > ---
+> > >  board/sunxi/board.c | 9 ++++++++-
+> > >  1 file changed, 8 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > > index 89324159d55..befb6076ca6 100644
+> > > --- a/board/sunxi/board.c
+> > > +++ b/board/sunxi/board.c
+> > > @@ -132,7 +132,14 @@ void i2c_init_board(void)
+> > >   */
+> > >  enum env_location env_get_location(enum env_operation op, int prio)
+> > >  {
+> > > -	enum env_location boot_loc = ENVL_FAT;
+> > > +	enum env_location boot_loc;
+> > > +
+> > > +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
+> > > +		boot_loc = ENVL_NOWHERE;
+> > > +	else if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+> > > +		boot_loc = ENVL_FAT;
+> > > +	else if (IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
+> > > +		boot_loc = ENVL_UBI;  
+> > 
+> > This could leave boot_loc uninitialized. And there is still an unconditional use
+> > of ENVL_FAT in the BOOT_DEVICE_MMCx case.  
+> 
+> Yeah, it's a mess, and there doesn't seem to be a one-fits-all fallback
+> value. Returning ENVL_UNKNOWN when prio is 0 definitely hangs, as does
+> returning some source without having the corresponding driver compiled in,
+> so getting this right *and* nice-looking is a bit tricky.
+> 
+> > >  	gd->env_load_prio = prio;  
+> > 
+> > I don't think the hook is supposed to change this variable.  
+> 
+> Yeah, don't remember why I initially put that in, I must have copied that
+> from somewhere. All I remember is that this code is touchy (as the bug
+> report leading to that patch shows), and there are quite some corner cases
+> to test.
+> 
+> > I'm still a bit confused on the fallback logic you have in place. Splitting it
+> > up into three blocks doesn't help. If the goal is to load the environment from
+> > the boot device, while preferring filesystems over raw block devices, I propose
+> > the following:  
+> 
+> Admittedly this gets messier, I mainly wanted to fix the regression
+> quickly, since it already broke the release for the CHIP boards.
+> I will have a closer look at your suggestion and check for those corner
+> cases, but will probably go with that instead of piling up more cruft on
+> my previous code ;-)
 
-This is more in line with my understanding of the semantics as well.
+So I was about to submit your solution, but this is suffering from the
+same old problem: we must not return ENVL_UNKNOWN on the first call.
+FEL booting triggers this: it will lead to env_init() returning a
+negative error value, which is fatal, as it's part of init_sequence_f[].
+I think the proper fix is to treat this case the same as the -ENOENT
+case at the end of env_init(), but I don't dare to do this generic
+change this late in the cycle.
+My plan is to hack-fix this for sunxi, for now (see below), then
+propose the generic change for the next cycle. Does this sound OK?
+Another solution is to always select ENV_IS_NOWHERE, then return this,
+but I don't know if this has more side effects, so is also risky at
+this point.
 
-> 
-> This behavior supports both normal or inverted mask registers
-> and separate set/clear registers via different combinations of
-> mask_base/unmask_base. The mask_invert flag is made redundant,
-> since an inverted mask register can be described more directly
-> as an unmask register.
-> 
-> To cope with existing drivers that rely on the old "backward"
-> behavior, check for the broken_mask_unmask flag and swap the
-> roles of mask/unmask registers. This is a compatibility measure
-> which can be dropped once the drivers are updated to use the
-> new, more consistent behavior.
-> 
-> Signed-off-by: Aidan MacDonald <aidanmacdonald.0x0@gmail.com>
-> ---
->  drivers/base/regmap/regmap-irq.c | 96 +++++++++++++++++---------------
->  include/linux/regmap.h           |  7 ++-
->  2 files changed, 55 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/base/regmap/regmap-irq.c b/drivers/base/regmap/regmap-irq.c
-> index 875415fc3133..082a2981120c 100644
-> --- a/drivers/base/regmap/regmap-irq.c
-> +++ b/drivers/base/regmap/regmap-irq.c
-> @@ -30,6 +30,9 @@ struct regmap_irq_chip_data {
->  	int irq;
->  	int wake_count;
->  
-> +	unsigned int mask_base;
-> +	unsigned int unmask_base;
-> +
->  	void *status_reg_buf;
->  	unsigned int *main_status_buf;
->  	unsigned int *status_buf;
-> @@ -95,7 +98,6 @@ static void regmap_irq_sync_unlock(struct irq_data *data)
->  	struct regmap *map = d->map;
->  	int i, j, ret;
->  	u32 reg;
-> -	u32 unmask_offset;
->  	u32 val;
->  
->  	if (d->chip->runtime_pm) {
-> @@ -124,35 +126,23 @@ static void regmap_irq_sync_unlock(struct irq_data *data)
->  	 * suppress pointless writes.
->  	 */
->  	for (i = 0; i < d->chip->num_regs; i++) {
-> -		if (!d->chip->mask_base)
-> -			continue;
-> -
-> -		reg = sub_irq_reg(d, d->chip->mask_base, i);
-> -		if (d->chip->mask_invert) {
-> +		if (d->mask_base) {
-> +			reg = sub_irq_reg(d, d->mask_base, i);
->  			ret = regmap_irq_update_mask_bits(d, reg,
-> -					 d->mask_buf_def[i], ~d->mask_buf[i]);
-> -		} else if (d->chip->unmask_base) {
-> -			/* set mask with mask_base register */
-> +					d->mask_buf_def[i], d->mask_buf[i]);
-> +			if (ret != 0)
-> +				dev_err(d->map->dev, "Failed to sync masks in %x\n",
-> +					reg);
-> +		}
-> +
-> +		if (d->unmask_base) {
-> +			reg = sub_irq_reg(d, d->unmask_base, i);
->  			ret = regmap_irq_update_mask_bits(d, reg,
->  					d->mask_buf_def[i], ~d->mask_buf[i]);
-> -			if (ret < 0)
-> -				dev_err(d->map->dev,
-> -					"Failed to sync unmasks in %x\n",
-> +			if (ret != 0)
-> +				dev_err(d->map->dev, "Failed to sync masks in %x\n",
->  					reg);
-> -			unmask_offset = d->chip->unmask_base -
-> -							d->chip->mask_base;
-> -			/* clear mask with unmask_base register */
-> -			ret = regmap_irq_update_mask_bits(d,
-> -					reg + unmask_offset,
-> -					d->mask_buf_def[i],
-> -					d->mask_buf[i]);
-> -		} else {
-> -			ret = regmap_irq_update_mask_bits(d, reg,
-> -					 d->mask_buf_def[i], d->mask_buf[i]);
->  		}
-> -		if (ret != 0)
-> -			dev_err(d->map->dev, "Failed to sync masks in %x\n",
-> -				reg);
->  
->  		reg = sub_irq_reg(d, d->chip->wake_base, i);
->  		if (d->wake_buf) {
-> @@ -634,7 +624,6 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
->  	int i;
->  	int ret = -ENOMEM;
->  	u32 reg;
-> -	u32 unmask_offset;
->  
->  	if (chip->num_regs <= 0)
->  		return -EINVAL;
-> @@ -732,6 +721,24 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
->  	d->chip = chip;
->  	d->irq_base = irq_base;
->  
-> +	/*
-> +	 * Swap role of mask_base and unmask_base if mask bits are inverted.
-> +	 *
-> +	 * Historically, chips that specify both mask_base and unmask_base
-> +	 * got inverted mask behavior; this was arguably a bug in regmap-irq
-> +	 * and there was no way to get the normal, non-inverted behavior.
-> +	 * Those chips will set the broken_mask_unmask flag. They don't set
-> +	 * mask_invert so there is no need to worry about interactions with
-> +	 * that flag.
-> +	 */
-> +	if (chip->mask_invert || chip->broken_mask_unmask) {
+> > 
+> > diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> > index 427113534b..27508bd306 100644
+> > --- a/board/sunxi/board.c
+> > +++ b/board/sunxi/board.c
+> > @@ -129,26 +129,38 @@
+> >   * Try to use the environment from the boot source first.
+> >   * For MMC, this means a FAT partition on the boot device (SD or eMMC).
+> >   * If the raw MMC environment is also enabled, this is tried next.
+> > - * SPI flash falls back to FAT (on SD card).
+> >   */
+> >  enum env_location env_get_location(enum env_operation op, int prio)
+> >  {
+> > -	enum env_location boot_loc = ENVL_FAT;
+> > +	if (prio > 1)
+> > +		return ENVL_UNKNOWN;
+> > 
+> > -	gd->env_load_prio = prio;
+> > +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
+> > +		return ENVL_NOWHERE;
+> > 
+> >  	switch (sunxi_get_boot_device()) {
+> >  	case BOOT_DEVICE_MMC1:
+> >  	case BOOT_DEVICE_MMC2:
+> > -		boot_loc = ENVL_FAT;
+> > +		if (prio == 0) {
+> > +			if (IS_ENABLED(CONFIG_ENV_IS_IN_EXT4))
+> > +				return ENVL_EXT4;
+> > +			if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+> > +				return ENVL_FAT;
+> > +		}
+> > +		if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
+> > +			return ENVL_MMC;
+> >  		break;
+> >  	case BOOT_DEVICE_NAND:
+> > +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
+> > +			return ENVL_UBI;
+> >  		if (IS_ENABLED(CONFIG_ENV_IS_IN_NAND))
+> > -			boot_loc = ENVL_NAND;
+> > +			return ENVL_NAND;
+> >  		break;
+> >  	case BOOT_DEVICE_SPI:
+> > +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
+> > +			return ENVL_UBI;
+> >  		if (IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
+> > -			boot_loc = ENVL_SPI_FLASH;
+> > +			return ENVL_SPI_FLASH;
+> >  		break;
+> >  	case BOOT_DEVICE_BOARD:
+> >  		break;
+> > @@ -156,23 +168,6 @@
+> >  		break;
+> >  	}
+> > 
+> > -	/* Always try to access the environment on the boot device first. */
+> > -	if (prio == 0)
+> > -		return boot_loc;
+> > -
+> > -	if (prio == 1) {
+> > -		switch (boot_loc) {
+> > -		case ENVL_SPI_FLASH:
+> > -			return ENVL_FAT;
+> > -		case ENVL_FAT:
+> > -			if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
+> > -				return ENVL_MMC;
+> > -			break;
+> > -		default:
+> > -			break;
+> > -		}
+> > -	}
+> > -
 
-I'm not able to comment on whether mask_invert belongs here.
++	/*
++	 * If we come here for the first call, we *must* return a valid
++	 * environment location other than ENVL_UNKNOWN, or the setup sequence
++	 * in board_f() will silently hang. This is arguably a bug in
++	 * env_init(), but for now pick one environment for which we know for
++	 * sure to have a driver for. For all defconfigs this is either FAT
++	 * or UBI, or NOWHERE, which is already handled above.
++	 */
++	if (prio == 0) {
++		if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
++			return ENVL_FAT;
++		if (IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
++			return ENVL_UBI;
++	}
 
-> +		d->mask_base = chip->unmask_base;
-> +		d->unmask_base = chip->mask_base;
-> +	} else {
-> +		d->mask_base = chip->mask_base;
-> +		d->unmask_base = chip->unmask_base;
-> +	}
-> +
->  	if (chip->irq_reg_stride)
->  		d->irq_reg_stride = chip->irq_reg_stride;
->  	else
-> @@ -755,28 +762,27 @@ int regmap_add_irq_chip_fwnode(struct fwnode_handle *fwnode,
->  	/* Mask all the interrupts by default */
->  	for (i = 0; i < chip->num_regs; i++) {
->  		d->mask_buf[i] = d->mask_buf_def[i];
-> -		if (!chip->mask_base)
-> -			continue;
->  
-> -		reg = sub_irq_reg(d, d->chip->mask_base, i);
-> -
-> -		if (chip->mask_invert)
-> +		if (d->mask_base) {
-> +			reg = sub_irq_reg(d, d->mask_base, i);
->  			ret = regmap_irq_update_mask_bits(d, reg,
-> -					 d->mask_buf[i], ~d->mask_buf[i]);
-> -		else if (d->chip->unmask_base) {
-> -			unmask_offset = d->chip->unmask_base -
-> -					d->chip->mask_base;
-> -			ret = regmap_irq_update_mask_bits(d,
-> -					reg + unmask_offset,
-> -					d->mask_buf[i],
-> -					d->mask_buf[i]);
-> -		} else
-> +					d->mask_buf_def[i], d->mask_buf[i]);
-> +			if (ret != 0) {
-> +				dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-> +					reg, ret);
-> +				goto err_alloc;
-> +			}
-> +		}
-> +
-> +		if (d->unmask_base) {
+Cheers,
+Andre
 
-This makes a lot of sense. unmask_base really needed to be handled separately
-and not as an offset from mask_base.
-
-> +			reg = sub_irq_reg(d, d->unmask_base, i);
->  			ret = regmap_irq_update_mask_bits(d, reg,
-> -					 d->mask_buf[i], d->mask_buf[i]);
-> -		if (ret != 0) {
-> -			dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-> -				reg, ret);
-> -			goto err_alloc;
-> +					d->mask_buf_def[i], ~d->mask_buf[i]);
-> +			if (ret != 0) {
-> +				dev_err(map->dev, "Failed to set masks in 0x%x: %d\n",
-> +					reg, ret);
-> +				goto err_alloc;
-> +			}
->  		}
->  
->  		if (!chip->init_ack_masked)
-> diff --git a/include/linux/regmap.h b/include/linux/regmap.h
-> index 21a70fd99493..0cf3c4a66946 100644
-> --- a/include/linux/regmap.h
-> +++ b/include/linux/regmap.h
-> @@ -1451,10 +1451,11 @@ struct regmap_irq_sub_irq_map {
->   *		   main_status set.
->   *
->   * @status_base: Base status register address.
-> - * @mask_base:   Base mask register address.
-> + * @mask_base:   Base mask register address. Mask bits are set to 1 when an
-> + *               interrupt is masked, 0 when unmasked.
->   * @mask_writeonly: Base mask register is write only.
-> - * @unmask_base:  Base unmask register address. for chips who have
-> - *                separate mask and unmask registers
-> + * @unmask_base:  Base unmask register address. Unmask bits are set to 1 when
-> + *                an interrupt is unmasked and 0 when masked.
->   * @ack_base:    Base ack address. If zero then the chip is clear on read.
->   *               Using zero value is possible with @use_ack bit.
->   * @wake_base:   Base address for wake enables.  If zero unsupported.
-> -- 
-> 2.35.1
+> >  	return ENVL_UNKNOWN;
+> >  }
+> > 
+> > 
+> > Regards,
+> > Samuel  
 > 
+> 
+
