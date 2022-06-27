@@ -1,76 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9975E20E8
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:46:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EB0C34115;
-	Mon, 27 Jun 2022 20:46:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656362793;
-	bh=UiaAu/L1sfP4Mx0eMmE72X2gzOVHDTEcJcPI7zKKQ2g=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=CddB4nZT6iM+fjCtSN4kqidyQKt3BmutS2erpTUnZvb76JkBD1onosNbSCWZ5jh8L
-	 Eq+pzHohiP7IUIwwKfAFBLTiERTPHB7fCtum7nUWUfOl/FwISL2th0E6MZUqRmyIRO
-	 ndejmvx4meRiHO9NKIZVktYTWaLD8Iy8sz1OjZDfUYe4LWn6JnqTB7Y7s45CzDQ6zj
-	 IFr6h/jxGNpZ6kXwUh3f7O94BLFDg/8POkGz6I3A4bfGTbRJx80VktD7zfcAkTri+C
-	 Bdny7eORXbwJx3obunku3cMN2YObFVglah1IDxiNuibajLfRvO+rh4r3IFCnIUKc/M
-	 SfIhtXS9wuwbg==
-From: Mark Brown <broonie@kernel.org>
-To: jernej.skrabec@gmail.com, lgirdwood@gmail.com, samuel@sholland.org, wens@csie.org
-Cc: robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org, perex@perex.cz, arnaud.ferraris@collabora.com, devicetree@vger.kernel.org, tiwai@suse.com, linux-sunxi@lists.linux.dev, mripard@kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
-In-Reply-To: <20220621035452.60272-1-samuel@sholland.org>
-References: <20220621035452.60272-1-samuel@sholland.org>
-Subject: Re: (subset) [PATCH v2 0/3] ASoC: sun50i-codec-analog: Internal bias support
-Message-Id: <165636279016.4185952.318954133536578049.b4-ty@kernel.org>
-Date: Mon, 27 Jun 2022 21:46:30 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAEC20E8
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:53:09 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id e2so14807460edv.3
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 13:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2IA+0VfcVBkch2BU2eYjCNzBquhqaGbstP7Dzuv9Lqo=;
+        b=TUVg0HsIqLw4sApAkHjqnkpFHrds7l7w0mQZVXGCjUxtRg9tT/C0Sbb8yO+tjzsYSY
+         kj6NfSMrW3R9plL5lGlW+mcCCb7SdvQBZo1fRAPrxIlm3LY8ws+enJl7Q2gFbOvlbY/A
+         CZc3kQz7BKYdmhONPxVB8QxIoCs9TLFW1ezxIvteEDCrpx6Y5jE4M5IYLfzQ4p1LFTFB
+         pIMAstdeQ8N7xmpOKec/0SxjfkcK6F2erW4jmyBQv9T/L1OtyWymKO5tOG38e17cUtt4
+         kX7XcNInyC+5oa262lczEiqFMnYEi/YggipKpwgcx6zUS4dmWa4w/09RAh56/EjB9lzv
+         VWog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2IA+0VfcVBkch2BU2eYjCNzBquhqaGbstP7Dzuv9Lqo=;
+        b=BNTCCFjGnx6qolbXR/tGFV6sasBQwZpXM3j+XYpL+lycHwWcHUumTAqPNwpc7md9yR
+         hctqLhGtVXe9+B8THUrLvflpfsc8+VFaNbnIADFzUELgVF1Ds+VdUIvHuYZpE5XxlZVE
+         oOVVnaZhwsV3CWhatt+Tnssu+ETunqWKSdSUHtLbWGlPr0bC56MWV8n5lHP5aBS3nj7i
+         y15ee3hLvmtHNN0FSZrHnnws3xbYH0hD40I5QH/myH69diWqBK4Vnbar7s3bJ90Wob1S
+         DdW/WlVqOh/D0+jZMfYxYTwFanlUQICSvit1F5IuxfkPOk94WNVtpOJ3aoX2tmZfNbeq
+         xxqA==
+X-Gm-Message-State: AJIora+fjGzdxaXLlPhmydcRSJ8xjPbxtwtTniY+EU8ZZAkKKrO0ItKx
+	PJgmvnTt+sXV7JZkY776ges=
+X-Google-Smtp-Source: AGRyM1sOleAAXiC2Z84z7E23pKGNaf1YN5XBERpRmtfSGUqMPsciG8VWq+vn/Gj8YZVQHS579GHYiA==
+X-Received: by 2002:a05:6402:14c4:b0:435:717a:fd63 with SMTP id f4-20020a05640214c400b00435717afd63mr18902564edx.395.1656363188396;
+        Mon, 27 Jun 2022 13:53:08 -0700 (PDT)
+Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id r1-20020a17090638c100b007219c20dcd8sm5447202ejd.196.2022.06.27.13.53.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Jun 2022 13:53:07 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Chen-Yu Tsai <wens@csie.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Samuel Holland <samuel@sholland.org>
+Cc: Arnaud Ferraris <arnaud.ferraris@collabora.com>, Samuel Holland <samuel@sholland.org>, Jaroslav Kysela <perex@perex.cz>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] arm64: dts: allwinner: pinephone: Enable internal HMIC bias
+Date: Mon, 27 Jun 2022 22:53:05 +0200
+Message-ID: <13043007.uLZWGnKmhe@jernej-laptop>
+In-Reply-To: <20220621035452.60272-4-samuel@sholland.org>
+References: <20220621035452.60272-1-samuel@sholland.org> <20220621035452.60272-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Mon, 20 Jun 2022 22:54:49 -0500, Samuel Holland wrote:
-> This series adds support for enabling the codec's internal microphone
-> bias, which is needed on at least some versions of the PinePhone.
+Dne torek, 21. junij 2022 ob 05:54:52 CEST je Samuel Holland napisal(a):
+> Revisions 1.0 and 1.1 of the PinePhone mainboard do not have an external
+> resistor connecting HBIAS to MIC2P. Enable the internal resistor to
+> provide the necessary headeset microphone bias.
 > 
-> Changes in v2:
->  - Move register update from component probe to device probe
-> 
-> Arnaud Ferraris (2):
->   ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
->   ASoC: sun50i-codec-analog: Add support for internal bias
-> 
-> [...]
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Applied to
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+Best regards,
+Jernej
 
-Thanks!
 
-[1/3] ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
-      commit: 24e0b04dd42be34ec4b18dc1a1e139d66eb572a3
-[2/3] ASoC: sun50i-codec-analog: Add support for internal bias
-      commit: 25ae1a04da0d32c22db0b018e5668129b91fa104
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
