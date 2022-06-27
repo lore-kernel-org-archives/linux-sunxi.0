@@ -1,175 +1,76 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07D4E20E8
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:43:05 +0000 (UTC)
-Received: by mail-ej1-f43.google.com with SMTP id cw10so21620542ejb.3
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 13:43:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=pX8mkwuBJMDVUqI/3IJvGaMM4XSCal/s1gxF0ly7VUQ=;
-        b=QoQQ4++P9s5DYrtw/AQwBYJLlNnFOBx7HzP+wYaYJH49psnaITjI7cPcPUnJeK1ujz
-         b1q4KJW1CeS5qGyyr57esEE21cjZEfz96ZImaxSazJDwYPF8QXtiWWsqf2InGxDpHdV+
-         2O2+2TxPVF3bTk+5addEEEC3ZhCzh+rtDfmt8qvBCgXqLV2EY/tP4Xs2xcAYb6XedBwM
-         4gq0erZfP56o9ybZBGG7GoczY68lAwmKDpk9X0q9EEFnh+Y5/yWipr8uruwFM/YF3gEl
-         N4+4B/VgTem7aR/yaFDlb+Y0EP5Rbi8XB+/yQ0ah39JLjLPq2jnbtRYeHiiR88KSh4kC
-         HErA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=pX8mkwuBJMDVUqI/3IJvGaMM4XSCal/s1gxF0ly7VUQ=;
-        b=6nlqUaKpE2nBICSd/xB5Dj6DX9I//OIO35mUocY7b/Ek5nB2k5yRZ6FMPBoZF589bC
-         S4GmZzN50ijO03VRI1AED96kF3Uf6Zby+OQYZSZpnVAOhmkmubKnbrJzCsWs/ydp22KZ
-         4mEc8ocFDRN3TuT/fvCdTbgXmrL8AEnoKVMxvIRVbwOct6kyQaSwQ/v6n92YI5pwF/Sa
-         UMHWvSldL579NmgnNMRFhpLwJpR2wapCKO899R5dtZ5UfqUGUkt/Q2jBMRyUeXHhXPBX
-         ttZNh6CitVKx/SLBVtXdw8JXzQqSANkxa660xJqwIZU210mysdwFRpIO/7gxUc/6wlRf
-         l5yQ==
-X-Gm-Message-State: AJIora9JrdZrzAhoAMF3UduOmMr7NyJ9HoF4JBZgnO8DmdaQlqJT8XLc
-	R4ucrtH9oK761asgi3PyGsY=
-X-Google-Smtp-Source: AGRyM1u/Qpe9FohRa7baqPeSJkc20W7Civ6KZPWzhFWn2Ly0AZVHfraXHNtUlW02PWiwx1Qp1JfYMA==
-X-Received: by 2002:a17:907:3f9f:b0:726:39d8:4c8c with SMTP id hr31-20020a1709073f9f00b0072639d84c8cmr14083460ejc.241.1656362584143;
-        Mon, 27 Jun 2022 13:43:04 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id dt16-20020a170906b79000b00704fa2748ffsm5528538ejb.99.2022.06.27.13.43.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jun 2022 13:43:03 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Linus Walleij <linus.walleij@linaro.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 3/6] pinctrl: sunxi: Support the 2.5V I/O bias mode
-Date: Mon, 27 Jun 2022 22:43:02 +0200
-Message-ID: <1818958.tdWV9SEqCh@jernej-laptop>
-In-Reply-To: <20220626021148.56740-4-samuel@sholland.org>
-References: <20220626021148.56740-1-samuel@sholland.org> <20220626021148.56740-4-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9975E20E8
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:46:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EB0C34115;
+	Mon, 27 Jun 2022 20:46:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656362793;
+	bh=UiaAu/L1sfP4Mx0eMmE72X2gzOVHDTEcJcPI7zKKQ2g=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=CddB4nZT6iM+fjCtSN4kqidyQKt3BmutS2erpTUnZvb76JkBD1onosNbSCWZ5jh8L
+	 Eq+pzHohiP7IUIwwKfAFBLTiERTPHB7fCtum7nUWUfOl/FwISL2th0E6MZUqRmyIRO
+	 ndejmvx4meRiHO9NKIZVktYTWaLD8Iy8sz1OjZDfUYe4LWn6JnqTB7Y7s45CzDQ6zj
+	 IFr6h/jxGNpZ6kXwUh3f7O94BLFDg/8POkGz6I3A4bfGTbRJx80VktD7zfcAkTri+C
+	 Bdny7eORXbwJx3obunku3cMN2YObFVglah1IDxiNuibajLfRvO+rh4r3IFCnIUKc/M
+	 SfIhtXS9wuwbg==
+From: Mark Brown <broonie@kernel.org>
+To: jernej.skrabec@gmail.com, lgirdwood@gmail.com, samuel@sholland.org, wens@csie.org
+Cc: robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org, perex@perex.cz, arnaud.ferraris@collabora.com, devicetree@vger.kernel.org, tiwai@suse.com, linux-sunxi@lists.linux.dev, mripard@kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
+In-Reply-To: <20220621035452.60272-1-samuel@sholland.org>
+References: <20220621035452.60272-1-samuel@sholland.org>
+Subject: Re: (subset) [PATCH v2 0/3] ASoC: sun50i-codec-analog: Internal bias support
+Message-Id: <165636279016.4185952.318954133536578049.b4-ty@kernel.org>
+Date: Mon, 27 Jun 2022 21:46:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Dne nedelja, 26. junij 2022 ob 04:11:44 CEST je Samuel Holland napisal(a):
-> H616 and newer SoCs feature a 2.5V I/O bias mode in addition to the
-> 1.8V and 3.3V modes. This mode is entered by selecting the 3.3V level
-> and disabling the "withstand function".
+On Mon, 20 Jun 2022 22:54:49 -0500, Samuel Holland wrote:
+> This series adds support for enabling the codec's internal microphone
+> bias, which is needed on at least some versions of the PinePhone.
 > 
-> H616 supports this capability on its main PIO only. A100 supports this
-> capability on both its PIO and R-PIO.
+> Changes in v2:
+>  - Move register update from component probe to device probe
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
+> Arnaud Ferraris (2):
+>   ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
+>   ASoC: sun50i-codec-analog: Add support for internal bias
 > 
->  drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c |  1 +
->  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c   |  2 +-
->  drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c   |  2 +-
->  drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 10 ++++++++++
->  drivers/pinctrl/sunxi/pinctrl-sunxi.h         |  7 +++++++
->  5 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
-> b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c index
-> 21054fcacd34..afc1f5df7545 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
-> @@ -82,6 +82,7 @@ static const struct sunxi_pinctrl_desc a100_r_pinctrl_data
-> = { .npins = ARRAY_SIZE(a100_r_pins),
->  	.pin_base = PL_BASE,
->  	.irq_banks = 1,
-> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->  };
-> 
->  static int a100_r_pinctrl_probe(struct platform_device *pdev)
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
-> b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c index
-> e69f6da40dc0..f682e0e4244d 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
-> @@ -684,7 +684,7 @@ static const struct sunxi_pinctrl_desc a100_pinctrl_data
-> = { .npins = ARRAY_SIZE(a100_pins),
->  	.irq_banks = 7,
->  	.irq_bank_map = a100_irq_bank_map,
-> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->  };
-> 
->  static int a100_pinctrl_probe(struct platform_device *pdev)
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
-> b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c index
-> 152b71226a80..d6ca720ee8d8 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
-> @@ -525,7 +525,7 @@ static const struct sunxi_pinctrl_desc h616_pinctrl_data
-> = { .irq_banks = ARRAY_SIZE(h616_irq_bank_map),
->  	.irq_bank_map = h616_irq_bank_map,
->  	.irq_read_needs_mux = true,
-> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->  };
-> 
->  static int h616_pinctrl_probe(struct platform_device *pdev)
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c index 3c5e71359ca8..eb3d595f816a
-> 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -662,6 +662,16 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct
-> sunxi_pinctrl *pctl, reg &= ~IO_BIAS_MASK;
->  		writel(reg | val, pctl->membase + 
-sunxi_grp_config_reg(pin));
->  		return 0;
-> +	case BIAS_VOLTAGE_PIO_POW_MODE_CTL:
-> +		val = uV > 1800000 && uV <= 2500000 ? BIT(bank) : 0;
-> +
-> +		raw_spin_lock_irqsave(&pctl->lock, flags);
-> +		reg = readl(pctl->membase + PIO_POW_MOD_CTL_REG);
-> +		reg &= ~BIT(bank);
-> +		writel(reg | val, pctl->membase + PIO_POW_MOD_CTL_REG);
-> +		raw_spin_unlock_irqrestore(&pctl->lock, flags);
-> +
-> +		fallthrough;
+> [...]
 
-Would this set bit 12 as needed? According to documentation, it's a bit 
-special case, since it covers VCC-IO, port F and port H, at least according to 
-documentation. I guess BIAS_VOLTAGE_PIO_POW_MODE_SEL has same issue.
+Applied to
 
-Best regards,
-Jernej
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
 
->  	case BIAS_VOLTAGE_PIO_POW_MODE_SEL:
->  		val = uV <= 1800000 ? 1 : 0;
-> 
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> b/drivers/pinctrl/sunxi/pinctrl-sunxi.h index a32bb5bcb754..0f1aab58650c
-> 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.h
-> @@ -98,6 +98,7 @@
->  #define PINCTRL_SUN8I_V3S	BIT(10)
-> 
->  #define PIO_POW_MOD_SEL_REG	0x340
-> +#define PIO_POW_MOD_CTL_REG	0x344
-> 
->  enum sunxi_desc_bias_voltage {
->  	BIAS_VOLTAGE_NONE,
-> @@ -111,6 +112,12 @@ enum sunxi_desc_bias_voltage {
->  	 * register, as seen on H6 SoC, for example.
->  	 */
->  	BIAS_VOLTAGE_PIO_POW_MODE_SEL,
-> +	/*
-> +	 * Bias voltage is set through PIO_POW_MOD_SEL_REG
-> +	 * and PIO_POW_MOD_CTL_REG register, as seen on
-> +	 * A100 and D1 SoC, for example.
-> +	 */
-> +	BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->  };
-> 
->  struct sunxi_desc_function {
+Thanks!
 
+[1/3] ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
+      commit: 24e0b04dd42be34ec4b18dc1a1e139d66eb572a3
+[2/3] ASoC: sun50i-codec-analog: Add support for internal bias
+      commit: 25ae1a04da0d32c22db0b018e5668129b91fa104
 
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
 
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
 
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
