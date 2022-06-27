@@ -1,82 +1,167 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC977A
-	for <linux-sunxi@lists.linux.dev>; Sun, 26 Jun 2022 10:37:23 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id g26so13330757ejb.5
-        for <linux-sunxi@lists.linux.dev>; Sun, 26 Jun 2022 03:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=v5MWZtaUVFOqtoxtacN9tsMmQ+YFWE4QkhWitNXkbM8=;
-        b=FgKQolRyfAt9w6xD99Ino2epPCiqr+aD2KNrO2/A5NTVNZIkxOjp1iaG//izy3NqmN
-         sMO73MAUM1s3gh6CLH2Eonf0Gp7oWerOORUx+iBQ9rOfkNmu5w71fL/OZFZnD1A98y4N
-         vdmpHvxMcltr8PAZVc4SriR4ie0S4mZXudhhW0Z9ooglfND2eX3UaRWyBIp/TZGiWBLW
-         ILC3j3EvOlda4FuzpOHjjxlMEwti5UM30ll25Bu8uX5wPrLoFV6OcZr6tmLLEwzXNz6O
-         JbKhswqenlfJ4XZIVCCmu/lSlYS/qG3aKPLLMte+cptIkucen8FgbPZZTkuvoTB93C9l
-         whqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=v5MWZtaUVFOqtoxtacN9tsMmQ+YFWE4QkhWitNXkbM8=;
-        b=g6TiEVvfTvwgvR2GYUq5eTncV/4Q0Km9R6ZPhH+Jm7nnndpjAnsbOw4rAf2u/nNVYC
-         UErPG6lHmvHzoP0ujuH3S3YrJn/02bhPYnzwZUc7Hzc0fOt7HM0W0ABASXDYXCQDnTBN
-         GPChXXDP74YjaaLXfbmyj0Vv4Vfb4wtdt8wgLuylzntLBLVDaL36/LSvLYzGqwGpg+SX
-         yOEvsdyrj8nmzKqXa6D8MtPS3bdhTA8BkncZQyh19GtkCbeBn3p1DQtJTbYoXRmdbSLx
-         2Pb9aNCE1RiQgD5N90YlOvPw00B8jTY5CPcYeKw4Lif8AsTsB7xe1cbN6MukE4VdkKNF
-         DYBg==
-X-Gm-Message-State: AJIora9ju0CsbCAQYrxlrBV24vDvb7J1sF4dlo8ZpwK+sTSX1FBZ2/hX
-	owesUqOOFjlYU7VF/rCiDyNeLg==
-X-Google-Smtp-Source: AGRyM1uWyS24JWs5XjcLmOW4sPUId65Hj2vcLLUX54VtWo/YEmnh8xQ//lOm8qCxYI8AVf++vBA9bg==
-X-Received: by 2002:a17:906:2252:b0:711:d2e6:9e7e with SMTP id 18-20020a170906225200b00711d2e69e7emr7421799ejr.161.1656239841978;
-        Sun, 26 Jun 2022 03:37:21 -0700 (PDT)
-Received: from [192.168.0.239] (xdsl-188-155-176-92.adslplus.ch. [188.155.176.92])
-        by smtp.gmail.com with ESMTPSA id jz18-20020a17090775f200b0070fd7da3e47sm3624539ejc.127.2022.06.26.03.37.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Jun 2022 03:37:21 -0700 (PDT)
-Message-ID: <4d50b9ae-fad4-346d-8e98-8e10786ec8f1@linaro.org>
-Date: Sun, 26 Jun 2022 12:37:20 +0200
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F1817CB
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 00:47:20 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 290A312FC;
+	Sun, 26 Jun 2022 17:47:14 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6506F3F5A1;
+	Sun, 26 Jun 2022 17:47:12 -0700 (PDT)
+Date: Mon, 27 Jun 2022 01:13:19 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Samuel
+ Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
+ u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2] sunxi: fix initial environment loading without MMC
+Message-ID: <20220627011319.29440b06@slackpad.lan>
+In-Reply-To: <20220624161209.1644097-1-andre.przywara@arm.com>
+References: <20220624161209.1644097-1-andre.przywara@arm.com>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 1/6] dt-bindings: pinctrl: Add compatibles for Allwinner
- D1/D1s
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-2-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220626021148.56740-2-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 26/06/2022 04:11, Samuel Holland wrote:
-> D1 contains a pin controller similar to previous SoCs, but with some
-> register layout changes. It includes 6 interrupt-capable pin banks.
+On Fri, 24 Jun 2022 17:12:09 +0100
+Andre Przywara <andre.przywara@arm.com> wrote:
+
+> From: Samuel Holland <samuel@sholland.org>
 > 
-> D1s is a low pin count version of the D1 SoC, with some pins omitted.
-> The remaining pins have the same function assignments as D1.
+> Commit e42dad4168fe ("sunxi: use boot source for determining environment
+> location") changed our implementation of env_get_location() and enabled
+> it for every board, even those without MMC support (like the C.H.I.P.
+> boards). However the default fallback location of ENVL_FAT requires MMC
+> support compiled in, so the board hangs when trying to initially load
+> the environment.
 > 
+> Change the algorithm to only return configured environment locations,
+> and improve the fallback algorithm on the way.
+> 
+> The env_init() routine calling this function here does not behave well
+> if the return value is ENVL_UNKNOWN on the very first call: it will make
+> U-Boot proper silently hang very early.
+> Work around this issue by making sure we return some configured (dummy)
+> environment location when prio is 0. This for instance happens when
+> booting via FEL.
+> 
+> This fixes U-Boot loading on the C.H.I.P. boards.
+> 
+> Fixes: e42dad4168fe ("sunxi: use boot source for determining environment location")
+> Reported-by: Chris Morgan <macroalpha82@gmail.com>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
+> [Andre: fix FEL boot case by not returning ENVL_UNKNOWN when prio==0]
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 
+Applied to sunxi/master, for v2022.07.
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cheers,
+Andre
 
+> ---
+> Hi Samuel,
+> 
+> I cheekily added your Signed-off-by:, as I made this your patch (since
+> you came up with it in that email reply some weeks ago). I hope that's
+> fine.
+> I tested this briefly on a Pine64-LTS, booting from FEL, SD card, eMMC
+> and SPI. I also simulated a CHIP board, by just defining ENV_IS_NOWHERE,
+> then booting, as this was the case that broke.
+> If no one complains, I would like to push this ASAP, to make it into
+> the 2022.07 release still.
+> 
+> Cheers,
+> Andre
+> 
+>  board/sunxi/board.c | 49 +++++++++++++++++++++++++++------------------
+>  1 file changed, 29 insertions(+), 20 deletions(-)
+> 
+> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
+> index 806e3bcb69..21a2407e06 100644
+> --- a/board/sunxi/board.c
+> +++ b/board/sunxi/board.c
+> @@ -128,26 +128,37 @@ void i2c_init_board(void)
+>   * Try to use the environment from the boot source first.
+>   * For MMC, this means a FAT partition on the boot device (SD or eMMC).
+>   * If the raw MMC environment is also enabled, this is tried next.
+> + * When booting from NAND we try UBI first, then NAND directly.
+>   * SPI flash falls back to FAT (on SD card).
+>   */
+>  enum env_location env_get_location(enum env_operation op, int prio)
+>  {
+> -	enum env_location boot_loc = ENVL_FAT;
+> +	if (prio > 1)
+> +		return ENVL_UNKNOWN;
+>  
+> -	gd->env_load_prio = prio;
+> +	/* NOWHERE is exclusive, no other option can be defined. */
+> +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
+> +		return ENVL_NOWHERE;
+>  
+>  	switch (sunxi_get_boot_device()) {
+>  	case BOOT_DEVICE_MMC1:
+>  	case BOOT_DEVICE_MMC2:
+> -		boot_loc = ENVL_FAT;
+> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+> +			return ENVL_FAT;
+> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
+> +			return ENVL_MMC;
+>  		break;
+>  	case BOOT_DEVICE_NAND:
+> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
+> +			return ENVL_UBI;
+>  		if (IS_ENABLED(CONFIG_ENV_IS_IN_NAND))
+> -			boot_loc = ENVL_NAND;
+> +			return ENVL_NAND;
+>  		break;
+>  	case BOOT_DEVICE_SPI:
+> -		if (IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
+> -			boot_loc = ENVL_SPI_FLASH;
+> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
+> +			return ENVL_SPI_FLASH;
+> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+> +			return ENVL_FAT;
+>  		break;
+>  	case BOOT_DEVICE_BOARD:
+>  		break;
+> @@ -155,21 +166,19 @@ enum env_location env_get_location(enum env_operation op, int prio)
+>  		break;
+>  	}
+>  
+> -	/* Always try to access the environment on the boot device first. */
+> -	if (prio == 0)
+> -		return boot_loc;
+> -
+> -	if (prio == 1) {
+> -		switch (boot_loc) {
+> -		case ENVL_SPI_FLASH:
+> +	/*
+> +	 * If we come here for the first time, we *must* return a valid
+> +	 * environment location other than ENVL_UNKNOWN, or the setup sequence
+> +	 * in board_f() will silently hang. This is arguably a bug in
+> +	 * env_init(), but for now pick one environment for which we know for
+> +	 * sure to have a driver for. For all defconfigs this is either FAT
+> +	 * or UBI, or NOWHERE, which is already handled above.
+> +	 */
+> +	if (prio == 0) {
+> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
+>  			return ENVL_FAT;
+> -		case ENVL_FAT:
+> -			if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
+> -				return ENVL_MMC;
+> -			break;
+> -		default:
+> -			break;
+> -		}
+> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
+> +			return ENVL_UBI;
+>  	}
+>  
+>  	return ENVL_UNKNOWN;
 
-Best regards,
-Krzysztof
