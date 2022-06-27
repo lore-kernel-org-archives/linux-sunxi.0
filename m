@@ -1,23 +1,23 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3F1817CB
-	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 00:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F2617CB
+	for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 00:47:22 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 290A312FC;
-	Sun, 26 Jun 2022 17:47:14 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1157D6E;
+	Sun, 26 Jun 2022 17:47:16 -0700 (PDT)
 Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6506F3F5A1;
-	Sun, 26 Jun 2022 17:47:12 -0700 (PDT)
-Date: Mon, 27 Jun 2022 01:13:19 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C3293F5A1;
+	Sun, 26 Jun 2022 17:47:15 -0700 (PDT)
+Date: Mon, 27 Jun 2022 01:12:10 +0100
 From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Simon Glass <sjg@chromium.org>, Tom Rini <trini@konsulko.com>, Samuel
- Holland <samuel@sholland.org>, Chris Morgan <macroalpha82@gmail.com>,
- u-boot@lists.denx.de, Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Jagan Teki <jagan@amarulasolutions.com>, Simon Glass <sjg@chromium.org>,
+ Tom Rini <trini@konsulko.com>
+Cc: u-boot@lists.denx.de, "Milan P . =?UTF-8?B?U3RhbmnEhw==?="
+ <mps@arvanta.net>, Samuel Holland <samuel@sholland.org>,
  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2] sunxi: fix initial environment loading without MMC
-Message-ID: <20220627011319.29440b06@slackpad.lan>
-In-Reply-To: <20220624161209.1644097-1-andre.przywara@arm.com>
-References: <20220624161209.1644097-1-andre.przywara@arm.com>
+Subject: Re: [PATCH] sunxi: usb: convert PHY GPIO functions to DM
+Message-ID: <20220627011210.61636a26@slackpad.lan>
+In-Reply-To: <20220608000604.3357-1-andre.przywara@arm.com>
+References: <20220608000604.3357-1-andre.przywara@arm.com>
 Organization: Arm Ltd.
 X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
@@ -26,38 +26,27 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 24 Jun 2022 17:12:09 +0100
+On Wed,  8 Jun 2022 01:06:04 +0100
 Andre Przywara <andre.przywara@arm.com> wrote:
 
-> From: Samuel Holland <samuel@sholland.org>
-> 
-> Commit e42dad4168fe ("sunxi: use boot source for determining environment
-> location") changed our implementation of env_get_location() and enabled
-> it for every board, even those without MMC support (like the C.H.I.P.
-> boards). However the default fallback location of ENVL_FAT requires MMC
-> support compiled in, so the board hangs when trying to initially load
-> the environment.
-> 
-> Change the algorithm to only return configured environment locations,
-> and improve the fallback algorithm on the way.
-> 
-> The env_init() routine calling this function here does not behave well
-> if the return value is ENVL_UNKNOWN on the very first call: it will make
-> U-Boot proper silently hang very early.
-> Work around this issue by making sure we return some configured (dummy)
-> environment location when prio is 0. This for instance happens when
-> booting via FEL.
-> 
-> This fixes U-Boot loading on the C.H.I.P. boards.
-> 
-> Fixes: e42dad4168fe ("sunxi: use boot source for determining environment location")
-> Reported-by: Chris Morgan <macroalpha82@gmail.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> [Andre: fix FEL boot case by not returning ENVL_UNKNOWN when prio==0]
+> The Allwinner USB PHY driver is still using the legacy GPIO interface,
+> which is now implemented by the DM_GPIO compat functions.
+> Those seem to have some design flaws, as setting the direction, then
+> later setting the value will not work, if the DM_GPIO driver is
+> implementing set_flags.
+>=20
+> Fix this by using the dm_ version of the direct GPIO interface, which
+> uses struct gpio_desc structs to handle requested GPIOs, and actually
+> keeps the flags we set earlier.
+>=20
+> This fixes USB operation on boards which need to toggle the VBUS supply
+> via a GPIO, like the Teres-I laptop or the BananaPi M2 Berry board.
+>=20
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Reported-by: Milan P. Stani=C4=87 <mps@arvanta.net>
 
 Applied to sunxi/master, for v2022.07.
 
@@ -65,103 +54,137 @@ Cheers,
 Andre
 
 > ---
-> Hi Samuel,
-> 
-> I cheekily added your Signed-off-by:, as I made this your patch (since
-> you came up with it in that email reply some weeks ago). I hope that's
-> fine.
-> I tested this briefly on a Pine64-LTS, booting from FEL, SD card, eMMC
-> and SPI. I also simulated a CHIP board, by just defining ENV_IS_NOWHERE,
-> then booting, as this was the case that broke.
-> If no one complains, I would like to push this ASAP, to make it into
-> the 2022.07 release still.
-> 
-> Cheers,
-> Andre
-> 
->  board/sunxi/board.c | 49 +++++++++++++++++++++++++++------------------
->  1 file changed, 29 insertions(+), 20 deletions(-)
-> 
-> diff --git a/board/sunxi/board.c b/board/sunxi/board.c
-> index 806e3bcb69..21a2407e06 100644
-> --- a/board/sunxi/board.c
-> +++ b/board/sunxi/board.c
-> @@ -128,26 +128,37 @@ void i2c_init_board(void)
->   * Try to use the environment from the boot source first.
->   * For MMC, this means a FAT partition on the boot device (SD or eMMC).
->   * If the raw MMC environment is also enabled, this is tried next.
-> + * When booting from NAND we try UBI first, then NAND directly.
->   * SPI flash falls back to FAT (on SD card).
->   */
->  enum env_location env_get_location(enum env_operation op, int prio)
->  {
-> -	enum env_location boot_loc = ENVL_FAT;
-> +	if (prio > 1)
-> +		return ENVL_UNKNOWN;
->  
-> -	gd->env_load_prio = prio;
-> +	/* NOWHERE is exclusive, no other option can be defined. */
-> +	if (IS_ENABLED(CONFIG_ENV_IS_NOWHERE))
-> +		return ENVL_NOWHERE;
->  
->  	switch (sunxi_get_boot_device()) {
->  	case BOOT_DEVICE_MMC1:
->  	case BOOT_DEVICE_MMC2:
-> -		boot_loc = ENVL_FAT;
-> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
-> +			return ENVL_FAT;
-> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
-> +			return ENVL_MMC;
->  		break;
->  	case BOOT_DEVICE_NAND:
-> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
-> +			return ENVL_UBI;
->  		if (IS_ENABLED(CONFIG_ENV_IS_IN_NAND))
-> -			boot_loc = ENVL_NAND;
-> +			return ENVL_NAND;
->  		break;
->  	case BOOT_DEVICE_SPI:
-> -		if (IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
-> -			boot_loc = ENVL_SPI_FLASH;
-> +		if (prio == 0 && IS_ENABLED(CONFIG_ENV_IS_IN_SPI_FLASH))
-> +			return ENVL_SPI_FLASH;
-> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
-> +			return ENVL_FAT;
->  		break;
->  	case BOOT_DEVICE_BOARD:
->  		break;
-> @@ -155,21 +166,19 @@ enum env_location env_get_location(enum env_operation op, int prio)
->  		break;
+>  drivers/phy/allwinner/phy-sun4i-usb.c | 59 +++++++++++++++------------
+>  1 file changed, 33 insertions(+), 26 deletions(-)
+>=20
+> diff --git a/drivers/phy/allwinner/phy-sun4i-usb.c b/drivers/phy/allwinne=
+r/phy-sun4i-usb.c
+> index 86c589a65fd..aef2cb8f6f8 100644
+> --- a/drivers/phy/allwinner/phy-sun4i-usb.c
+> +++ b/drivers/phy/allwinner/phy-sun4i-usb.c
+> @@ -125,9 +125,9 @@ struct sun4i_usb_phy_info {
+> =20
+>  struct sun4i_usb_phy_plat {
+>  	void __iomem *pmu;
+> -	int gpio_vbus;
+> -	int gpio_vbus_det;
+> -	int gpio_id_det;
+> +	struct gpio_desc gpio_vbus;
+> +	struct gpio_desc gpio_vbus_det;
+> +	struct gpio_desc gpio_id_det;
+>  	struct clk clocks;
+>  	struct reset_ctl resets;
+>  	int id;
+> @@ -224,8 +224,8 @@ static int sun4i_usb_phy_power_on(struct phy *phy)
+>  		initial_usb_scan_delay =3D 0;
 >  	}
->  
-> -	/* Always try to access the environment on the boot device first. */
-> -	if (prio == 0)
-> -		return boot_loc;
-> -
-> -	if (prio == 1) {
-> -		switch (boot_loc) {
-> -		case ENVL_SPI_FLASH:
-> +	/*
-> +	 * If we come here for the first time, we *must* return a valid
-> +	 * environment location other than ENVL_UNKNOWN, or the setup sequence
-> +	 * in board_f() will silently hang. This is arguably a bug in
-> +	 * env_init(), but for now pick one environment for which we know for
-> +	 * sure to have a driver for. For all defconfigs this is either FAT
-> +	 * or UBI, or NOWHERE, which is already handled above.
-> +	 */
-> +	if (prio == 0) {
-> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_FAT))
->  			return ENVL_FAT;
-> -		case ENVL_FAT:
-> -			if (IS_ENABLED(CONFIG_ENV_IS_IN_MMC))
-> -				return ENVL_MMC;
-> -			break;
-> -		default:
-> -			break;
-> -		}
-> +		if (IS_ENABLED(CONFIG_ENV_IS_IN_UBI))
-> +			return ENVL_UBI;
->  	}
->  
->  	return ENVL_UNKNOWN;
+> =20
+> -	if (usb_phy->gpio_vbus >=3D 0)
+> -		gpio_set_value(usb_phy->gpio_vbus, SUNXI_GPIO_PULL_UP);
+> +	if (dm_gpio_is_valid(&usb_phy->gpio_vbus))
+> +		dm_gpio_set_value(&usb_phy->gpio_vbus, 1);
+> =20
+>  	return 0;
+>  }
+> @@ -235,8 +235,8 @@ static int sun4i_usb_phy_power_off(struct phy *phy)
+>  	struct sun4i_usb_phy_data *data =3D dev_get_priv(phy->dev);
+>  	struct sun4i_usb_phy_plat *usb_phy =3D &data->usb_phy[phy->id];
+> =20
+> -	if (usb_phy->gpio_vbus >=3D 0)
+> -		gpio_set_value(usb_phy->gpio_vbus, SUNXI_GPIO_PULL_DISABLE);
+> +	if (dm_gpio_is_valid(&usb_phy->gpio_vbus))
+> +		dm_gpio_set_value(&usb_phy->gpio_vbus, 0);
+> =20
+>  	return 0;
+>  }
+> @@ -386,8 +386,8 @@ int sun4i_usb_phy_vbus_detect(struct phy *phy)
+>  	struct sun4i_usb_phy_plat *usb_phy =3D &data->usb_phy[phy->id];
+>  	int err =3D 1, retries =3D 3;
+> =20
+> -	if (usb_phy->gpio_vbus_det >=3D 0) {
+> -		err =3D gpio_get_value(usb_phy->gpio_vbus_det);
+> +	if (dm_gpio_is_valid(&usb_phy->gpio_vbus_det)) {
+> +		err =3D dm_gpio_get_value(&usb_phy->gpio_vbus_det);
+>  		/*
+>  		 * Vbus may have been provided by the board and just turned off
+>  		 * some milliseconds ago on reset. What we're measuring then is
+> @@ -395,7 +395,7 @@ int sun4i_usb_phy_vbus_detect(struct phy *phy)
+>  		 */
+>  		while (err > 0 && retries--) {
+>  			mdelay(100);
+> -			err =3D gpio_get_value(usb_phy->gpio_vbus_det);
+> +			err =3D dm_gpio_get_value(&usb_phy->gpio_vbus_det);
+>  		}
+>  	} else if (data->vbus_power_supply) {
+>  		err =3D regulator_get_enable(data->vbus_power_supply);
+> @@ -409,10 +409,10 @@ int sun4i_usb_phy_id_detect(struct phy *phy)
+>  	struct sun4i_usb_phy_data *data =3D dev_get_priv(phy->dev);
+>  	struct sun4i_usb_phy_plat *usb_phy =3D &data->usb_phy[phy->id];
+> =20
+> -	if (usb_phy->gpio_id_det < 0)
+> -		return usb_phy->gpio_id_det;
+> +	if (!dm_gpio_is_valid(&usb_phy->gpio_id_det))
+> +		return -1;
+> =20
+> -	return gpio_get_value(usb_phy->gpio_id_det);
+> +	return dm_gpio_get_value(&usb_phy->gpio_id_det);
+>  }
+> =20
+>  void sun4i_usb_phy_set_squelch_detect(struct phy *phy, bool enabled)
+> @@ -454,35 +454,42 @@ static int sun4i_usb_phy_probe(struct udevice *dev)
+>  		if (data->cfg->missing_phys & BIT(i))
+>  			continue;
+> =20
+> -		phy->gpio_vbus =3D sunxi_name_to_gpio(info->gpio_vbus);
+> -		if (phy->gpio_vbus >=3D 0) {
+> -			ret =3D gpio_request(phy->gpio_vbus, "usb_vbus");
+> +		ret =3D dm_gpio_lookup_name(info->gpio_vbus, &phy->gpio_vbus);
+> +		if (ret =3D=3D 0) {
+> +			ret =3D dm_gpio_request(&phy->gpio_vbus, "usb_vbus");
+>  			if (ret)
+>  				return ret;
+> -			ret =3D gpio_direction_output(phy->gpio_vbus, 0);
+> +			ret =3D dm_gpio_set_dir_flags(&phy->gpio_vbus,
+> +						    GPIOD_IS_OUT);
+> +			if (ret)
+> +				return ret;
+> +			ret =3D dm_gpio_set_value(&phy->gpio_vbus, 0);
+>  			if (ret)
+>  				return ret;
+>  		}
+> =20
+> -		phy->gpio_vbus_det =3D sunxi_name_to_gpio(info->gpio_vbus_det);
+> -		if (phy->gpio_vbus_det >=3D 0) {
+> -			ret =3D gpio_request(phy->gpio_vbus_det, "usb_vbus_det");
+> +		ret =3D dm_gpio_lookup_name(info->gpio_vbus_det,
+> +					  &phy->gpio_vbus_det);
+> +		if (ret =3D=3D 0) {
+> +			ret =3D dm_gpio_request(&phy->gpio_vbus_det,
+> +					      "usb_vbus_det");
+>  			if (ret)
+>  				return ret;
+> -			ret =3D gpio_direction_input(phy->gpio_vbus_det);
+> +			ret =3D dm_gpio_set_dir_flags(&phy->gpio_vbus_det,
+> +						    GPIOD_IS_IN);
+>  			if (ret)
+>  				return ret;
+>  		}
+> =20
+> -		phy->gpio_id_det =3D sunxi_name_to_gpio(info->gpio_id_det);
+> -		if (phy->gpio_id_det >=3D 0) {
+> -			ret =3D gpio_request(phy->gpio_id_det, "usb_id_det");
+> +		ret =3D dm_gpio_lookup_name(info->gpio_id_det, &phy->gpio_id_det);
+> +		if (ret =3D=3D 0) {
+> +			ret =3D dm_gpio_request(&phy->gpio_id_det, "usb_id_det");
+>  			if (ret)
+>  				return ret;
+> -			ret =3D gpio_direction_input(phy->gpio_id_det);
+> +			ret =3D dm_gpio_set_dir_flags(&phy->gpio_id_det,
+> +						GPIOD_IS_IN | GPIOD_PULL_UP);
+>  			if (ret)
+>  				return ret;
+> -			sunxi_gpio_set_pull(phy->gpio_id_det, SUNXI_GPIO_PULL_UP);
+>  		}
+> =20
+>  		if (data->cfg->dedicated_clocks)
 
