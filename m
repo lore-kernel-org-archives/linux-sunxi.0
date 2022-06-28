@@ -1,260 +1,297 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6DC368
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 03:43:29 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id c1so18275772qvi.11
-        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:43:29 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791C23209
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 12:59:13 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id h23so25526748ejj.12
+        for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 05:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=QEHEyacbqWJnh5I8neexkZXvqdcsmMlunRIyL22Odso=;
-        b=OakumQzeL67o42RRZZfhOeVcGi1SU5WocvhHxS+cpx7sBgE6KY871mRIqbxfFrOBfD
-         KHvUY34tXREkenS6pjHL0nYoPyCHFAIcHesS1qQ2XdJ3BEiJQS/MsI0uqmGM5tfRPMQS
-         M951aJ7FE9YUBxlxO6pG346TOFdpb6UcqhyZ+rJi+a/qzOhfb//qzMl6JTyQXrqwIXBF
-         ZGkK2RSCaNd3HgxRv6Rvt6zWypMFkW50vIpVSPxXaK0n98XexyTeQM/xmNtG2w+vUQWO
-         yW2a1jQIXFWDXFdX/aVd4uaLFMR/tf3mYynClC0jiECQlUpScZ6DfZUjpwQYOv16Cxlx
-         dyDA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=xDecVtCYD/XjP/cNxfyUNjbT22tvyLt7gwAbzs5/kc0=;
+        b=X/ShBLHihRUDKZ000u8wVfrWGL6G5yXX5y+1EwDRFK4CRDdMz/rQO7D/NSlHp0lGzx
+         nLr6XBx4C4P75mJpqkXBOLaDErJqTw/llcE4iQPvcQu7tdM7kevZgWZt1+RBvyLfchWn
+         KVTj42bWhLl/AoXlO0SccC7+FTFz+DY60SLzsxoXbsNqW0rFLr+k7Ebh7z9FpgEAKl1E
+         vGqvc+pVwVE/xanKFAJfRaqVc0tF840Dc3ydBta7e/fldfaRdlejz9vZdcvVQd60xdCQ
+         oJNys+Piy6FLU/uLYXd3WS8f1KNHY/QUOTQa1pl1hZjslNxnR+I1+YpkuFz3ZolQKk30
+         fWNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=QEHEyacbqWJnh5I8neexkZXvqdcsmMlunRIyL22Odso=;
-        b=yDevpBcztN3yN0H+S/WUnRLh4Axf0omS/Deq34ZjWPB/SUIPvzpPdt65sdEfnqI1rA
-         FGZKSqm8MF+k7CW2ecd/ST7tAIbaxWMNZlY30aiVymrGYDoMQeG4OgQMETgVhkv4/DfF
-         lQy3KNKKpsv7YB9riPDlMtzT6NVaHmvKwZqRLUSWzJjKqJYMv03vBeds6Z0Q4v0aIyix
-         bBelizQvdxz9FY0+53KIICYk9wbyxKl1UZIbsjCt9gFLchMhk6huG1PZz4jRkZ/CF/bh
-         pmQo0ZlvpO7FVSY82fL/sBZbuG5w+bY5YmYl16bs7F4vGxIRJCb/pVvvm8ViPN9Y+gTC
-         jBgQ==
-X-Gm-Message-State: AJIora+y/MELjaptWO0nLCq2STrEC+1DpIwR2x7ALLEdam784zCz93LN
-	ES3Pzf36mL6jej4yf3wnb0k=
-X-Google-Smtp-Source: AGRyM1vFIQzP3PPHmaOKiiW5Qi/QUwHyc8BLoYjaCexmI3FC/ehNW573qf1B9DqpzRrPfQgMUcLgcw==
-X-Received: by 2002:ac8:5904:0:b0:317:76f4:9efb with SMTP id 4-20020ac85904000000b0031776f49efbmr12070399qty.303.1656387808674;
-        Mon, 27 Jun 2022 20:43:28 -0700 (PDT)
-Received: from [10.4.10.38] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
-        by smtp.gmail.com with ESMTPSA id de43-20020a05620a372b00b006a2f5ea4a29sm10186214qkb.46.2022.06.27.20.43.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Jun 2022 20:43:27 -0700 (PDT)
-Message-ID: <69d93bce-f28e-aff8-fc52-03bf93d26bf2@gmail.com>
-Date: Mon, 27 Jun 2022 23:43:25 -0400
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=xDecVtCYD/XjP/cNxfyUNjbT22tvyLt7gwAbzs5/kc0=;
+        b=Wpkeaeh2bl+wwGMSWQKdGXLfxA1Ua8wuzoDzrs7UZ2y4O0oBKBczI4emdpgPOnRNIy
+         Q2GAVOX6V/2TqroQhYnVFX8LGB6aTYMnD2Q3J3QfAcJU0FTKXR8kRUN1ihPjgMn4bu53
+         U1rRWGSrC9mY5MKS50+GNGhwF2zPNkfPkHDbdeaS5bwTD4APpqR9h3nqFECk2xX1byaU
+         UO9w69ZStRj9+vcvasCCA9286NEy9Xqx/kfwsROaGuUB7V/5kckrkPrMEiQ7nhrFE/uK
+         Wxkvrm4ccGLONjKA3exsrWnpwLUchgLAkPs7HxGx677oua1K5pOVv9uI3nK0abVLItb4
+         c0lw==
+X-Gm-Message-State: AJIora8nxHfNla+rBb+MKDS/Zistp8TrYfnxjqsGX9QahpWI/050UbDS
+	L619TgNC+YBl3nOVQ+cQ2cpetlJX4VCZjIcFiWA=
+X-Google-Smtp-Source: AGRyM1vBt1Zma4l92xd9XCjZPNuqb5fG7YZItlTpxadxcxiR3I/h+XYFdlIJe3z5eR86vEZ5tlfLHO1FFw4deCPnWus=
+X-Received: by 2002:a17:907:97d0:b0:726:ccd3:1757 with SMTP id
+ js16-20020a17090797d000b00726ccd31757mr3354107ejc.399.1656421151376; Tue, 28
+ Jun 2022 05:59:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH 2/7] spi: sunxi: refactor SPI speed/mode programming
-Content-Language: en-US
-To: Andre Przywara <andre.przywara@arm.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- George Hilliard <thirtythreeforty@gmail.com>,
- qianfan Zhao <qianfanguijin@163.com>
-Cc: Icenowy Zheng <icenowy@aosc.io>, Yifan Gu <me@yifangu.com>,
- Giulio Benetti <giulio.benetti@benettiengineering.com>,
- Samuel Holland <samuel@sholland.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- u-boot@lists.denx.de
-References: <20220503212040.27884-1-andre.przywara@arm.com>
- <20220503212040.27884-3-andre.przywara@arm.com>
- <20220628013157.129f4d64@slackpad.lan>
-From: Jesse Taube <mr.bossman075@gmail.com>
-In-Reply-To: <20220628013157.129f4d64@slackpad.lan>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20220624165211.4318-1-r.stratiienko@gmail.com>
+ <1779483.VLH7GnMWUR@jernej-laptop> <CAGphcd=ND93Kek+8=WhXQcU2Z54megQJOetZnwx-EhHwG8ZjDQ@mail.gmail.com>
+ <CAGphcdkqWwXhF+4uEjCyRc3TJ_cbs+rbcE=buuZfVu12Es9nyg@mail.gmail.com>
+In-Reply-To: <CAGphcdkqWwXhF+4uEjCyRc3TJ_cbs+rbcE=buuZfVu12Es9nyg@mail.gmail.com>
+From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
+Date: Tue, 28 Jun 2022 14:58:59 +0200
+Message-ID: <CAJiuCcfC6px7nGW5wAeu1B5g1+5wY4kciD8PSRhOa96r=u9YHw@mail.gmail.com>
+Subject: Re: [PATCH] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration
+ to support DFS
+To: Roman Stratiienko <r.stratiienko@gmail.com>, Ondrej Jirman <megous@megous.com>, 
+	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
+	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
+	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
+	linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Roman, Jernej,
+
+On Sat, 25 Jun 2022 at 16:02, Roman Stratiienko <r.stratiienko@gmail.com> w=
+rote:
+>
+> PS:
+>
+> For better DFS resolution P or GPU_CLK divider can be preprogrammed
+> and GPU_PLL can be marked with fixed out divider. It's safe. Not safe
+> to touch these regs during runtime.
+> But do we really need that resolution?
+>
+> =D1=81=D0=B1, 25 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 16:27, Roman Str=
+atiienko <r.stratiienko@gmail.com>:
+> >
+> > Hi,
+> >
+> > DVFS was tested as DVFS using devfreq driver, not the script.
+> >
+> > The following OPP table was used:
+> > https://github.com/clementperon/linux/commit/add3ef683238095d2721de0360=
+1d5b01f2d9ce22
+
+I now remember when I tried to enable GPU devfreq on H6 and noticed
+instability, I made a recap of my searches:
+https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47h=
+tg2bA@mail.gmail.com/
+
+And found that Megous gave a possible explanation on linux-sunxi IRC:
+
+20:12 <megi> looks like gpu pll on H6 is NKMP clock, and those are
+implemented in such a way in mainline that they are prone to
+overshooting the frequency during output divider reduction
+20:13 <megi> so disabling P divider may help
+20:13 <megi> or fixing the dividers
+20:14 <megi> and just allowing N to change
+20:22 <megi> hmm, I haven't looked at this for quite some time, but H6
+BSP way of setting PLL factors actually makes the most sense out of
+everything I've seen/tested so far
+20:23 <megi> it waits for lock not after setting NK factors, but after
+reducing the M factor (pre-divider)
+20:24 <megi> I might as well re-run my CPU PLL tester with this
+algorithm, to see if it fixes the lockups
+20:26 <megi> it makes sense to wait for PLL to stabilize "after"
+changing all the factors that actually affect the VCO, and not just
+some of them
+20:27 <megi> warpme_: ^
+20:28 <megi> it may be the same thing that plagues the CPU PLL rate
+changes at runtime
+
+Regards,
+Clement
 
 
-
-On 6/27/22 20:31, Andre Przywara wrote:
-> On Tue,  3 May 2022 22:20:35 +0100
-> Andre Przywara <andre.przywara@arm.com> wrote:
-> 
-> Hi,
-> 
->> As George rightfully pointed out [1], the spi-sunxi driver programs the
->> speed and mode settings only when the respective functions are called,
->> but this gets lost over a call to release_bus(). That asserts the
->> reset line, thus forces each SPI register back to its default value.
->> Adding to that, trying to program SPI_CCR and SPI_TCR might be pointless
->> in the first place, when the reset line is still asserted (before
->> claim_bus()), so those setting won't apply most of the time. In reality
->> I see two nested claim_bus() calls for the first use, so settings between
->> the two would work (for instance for the initial "sf probe"). However
->> later on the speed setting is not programmed into the hardware anymore.
-> 
-> So this issue was addressed with patches by both George (earlier, in a
-> different way) and Qianfan (later, in a very similar way).
-> 
-> Can someone (Jagan?) please have a look at this change from the U-Boot
-> SPI perspective? And also the other changes in this series?
-> I pushed them to the sunxi/next branch:
-> https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/next/
-> 
-> So can people please test this and report whether this now works as
-> expected?
-
-I'm very confused I have forgotten much about this patch set.
-I'm going to test it, but why has it only been merged now?
-
-Thanks,
-Jesse
-> Thanks,
-> Andre
->   
->> So far we get away with that default frequency, because that is a rather
->> tame 24 MHz, which most SPI flash chips can handle just fine.
->>
->> Move the actual register programming into a separate function, and use
->> .set_speed and .set_mode just to set the variables in our priv structure.
->> Then we only call this new function in claim_bus(), when we are sure
->> that register accesses actually work and are preserved.
->>
->> [1] https://lore.kernel.org/u-boot/20210725231636.879913-17-me@yifangu.com/
->>
->> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->> Reported-by: George Hilliard <thirtythreeforty@gmail.com>
->> ---
->>   drivers/spi/spi-sunxi.c | 95 ++++++++++++++++++++++-------------------
->>   1 file changed, 52 insertions(+), 43 deletions(-)
->>
->> diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
->> index b6cd7ddafad..d6b2dd09514 100644
->> --- a/drivers/spi/spi-sunxi.c
->> +++ b/drivers/spi/spi-sunxi.c
->> @@ -221,6 +221,56 @@ err_ahb:
->>   	return ret;
->>   }
->>   
->> +static void sun4i_spi_set_speed_mode(struct udevice *dev)
->> +{
->> +	struct sun4i_spi_priv *priv = dev_get_priv(dev);
->> +	unsigned int div;
->> +	u32 reg;
->> +
->> +	/*
->> +	 * Setup clock divider.
->> +	 *
->> +	 * We have two choices there. Either we can use the clock
->> +	 * divide rate 1, which is calculated thanks to this formula:
->> +	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
->> +	 * Or we can use CDR2, which is calculated with the formula:
->> +	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
->> +	 * Whether we use the former or the latter is set through the
->> +	 * DRS bit.
->> +	 *
->> +	 * First try CDR2, and if we can't reach the expected
->> +	 * frequency, fall back to CDR1.
->> +	 */
->> +
->> +	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
->> +	reg = readl(SPI_REG(priv, SPI_CCR));
->> +
->> +	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
->> +		if (div > 0)
->> +			div--;
->> +
->> +		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
->> +		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
->> +	} else {
->> +		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
->> +		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
->> +		reg |= SUN4I_CLK_CTL_CDR1(div);
->> +	}
->> +
->> +	writel(reg, SPI_REG(priv, SPI_CCR));
->> +
->> +	reg = readl(SPI_REG(priv, SPI_TCR));
->> +	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
->> +
->> +	if (priv->mode & SPI_CPOL)
->> +		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
->> +
->> +	if (priv->mode & SPI_CPHA)
->> +		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
->> +
->> +	writel(reg, SPI_REG(priv, SPI_TCR));
->> +}
->> +
->>   static int sun4i_spi_claim_bus(struct udevice *dev)
->>   {
->>   	struct sun4i_spi_priv *priv = dev_get_priv(dev->parent);
->> @@ -240,6 +290,8 @@ static int sun4i_spi_claim_bus(struct udevice *dev)
->>   	setbits_le32(SPI_REG(priv, SPI_TCR), SPI_BIT(priv, SPI_TCR_CS_MANUAL) |
->>   		     SPI_BIT(priv, SPI_TCR_CS_ACTIVE_LOW));
->>   
->> +	sun4i_spi_set_speed_mode(dev->parent);
->> +
->>   	return 0;
->>   }
->>   
->> @@ -329,46 +381,14 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
->>   {
->>   	struct sun4i_spi_plat *plat = dev_get_plat(dev);
->>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
->> -	unsigned int div;
->> -	u32 reg;
->>   
->>   	if (speed > plat->max_hz)
->>   		speed = plat->max_hz;
->>   
->>   	if (speed < SUN4I_SPI_MIN_RATE)
->>   		speed = SUN4I_SPI_MIN_RATE;
->> -	/*
->> -	 * Setup clock divider.
->> -	 *
->> -	 * We have two choices there. Either we can use the clock
->> -	 * divide rate 1, which is calculated thanks to this formula:
->> -	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
->> -	 * Or we can use CDR2, which is calculated with the formula:
->> -	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
->> -	 * Whether we use the former or the latter is set through the
->> -	 * DRS bit.
->> -	 *
->> -	 * First try CDR2, and if we can't reach the expected
->> -	 * frequency, fall back to CDR1.
->> -	 */
->> -
->> -	div = SUN4I_SPI_MAX_RATE / (2 * speed);
->> -	reg = readl(SPI_REG(priv, SPI_CCR));
->> -
->> -	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
->> -		if (div > 0)
->> -			div--;
->> -
->> -		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
->> -		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
->> -	} else {
->> -		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(speed);
->> -		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
->> -		reg |= SUN4I_CLK_CTL_CDR1(div);
->> -	}
->>   
->>   	priv->freq = speed;
->> -	writel(reg, SPI_REG(priv, SPI_CCR));
->>   
->>   	return 0;
->>   }
->> @@ -376,19 +396,8 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
->>   static int sun4i_spi_set_mode(struct udevice *dev, uint mode)
->>   {
->>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
->> -	u32 reg;
->> -
->> -	reg = readl(SPI_REG(priv, SPI_TCR));
->> -	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
->> -
->> -	if (mode & SPI_CPOL)
->> -		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
->> -
->> -	if (mode & SPI_CPHA)
->> -		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
->>   
->>   	priv->mode = mode;
->> -	writel(reg, SPI_REG(priv, SPI_TCR));
->>   
->>   	return 0;
->>   }
-> 
+> >
+> > As is already mentioned in the commit message, P causes the issues as w=
+ell.
+> >
+> > Regards,
+> > Roman
+> >
+> > =D1=81=D0=B1, 25 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 13:43, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
+> >
+> > >
+> > > Hi Roman,
+> > >
+> > > Dne petek, 24. junij 2022 ob 18:52:11 CEST je Roman Stratiienko napis=
+al(a):
+> > > > Using simple bash script it was discovered that not all CCU registe=
+rs
+> > > > can be safely used for DFS, e.g.:
+> > > >
+> > > >     while true
+> > > >     do
+> > > >         devmem 0x3001030 4 0xb0003e02
+> > > >         devmem 0x3001030 4 0xb0001e02
+> > > >     done
+> > > >
+> > > > Script above changes the GPU_PLL multiplier register value. While t=
+he
+> > > > script is running, the user should interact with the user interface=
+.
+> > > >
+> > > > Using this method the following results were obtained:
+> > > > | Register  | Name           | Bits  | Values | Result |
+> > > > | --        | --             | --    | --     | --     |
+> > > > | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
+> > > > | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
+> > > > | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
+> > > > | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
+> > > >
+> > > > Once bits that caused system failure disabled (kept default 0),
+> > > > it was discovered that GPU_CLK.MUX was used during DFS for some
+> > > > reason and was causing the failure too.
+> > > >
+> > > > After disabling GPU_PLL.OUTDIV the system started to fail during
+> > > > booting for some reason until the maximum frequency of GPU_PLL
+> > > > clock was limited to 756MHz.
+> > > >
+> > > > After all the changes made DVFS started to work seamlessly.
+> > >
+> > > I appreciate testing effort, but I don't think userspace approach is =
+good way
+> > > for testing DVFS. I see 2 issues:
+> > > - As name already suggest, voltage also plays crucial role for stabil=
+ity. You
+> > > didn't say on which board you tested this, but I assume it has PMIC. =
+Did you
+> > > make sure GPU voltage regulator is always at 1.04 V, which is needed =
+for 756
+> > > MHz?
+> > > - Kernel clock driver always goes through proper procedure for clock =
+rate
+> > > change, which involves several steps. Bypassing them might also cause=
+ some
+> > > stability problems.
+> > >
+> > > I agree that GPU PLL should be limited to 756 MHz max. This seems to =
+be
+> > > maximum operating point specified at vendor DT. But I managed to extr=
+act some
+> > > more information from vendor GPU driver. More specifically, from this=
+ snippet,
+> > > located in modules/gpu/mali-midgard/kernel_mode/driver/drivers/gpu/ar=
+m/
+> > > midgard/platform/sunxi/mali_kbase_config_sunxi.c:
+> > >
+> > > pll_freq =3D target->freq;
+> > > while (pll_freq < 288000000)
+> > >         pll_freq *=3D 2;
+> > >
+> > > err =3D clk_set_rate(sunxi_mali->gpu_pll_clk, pll_freq);
+> > > <...>
+> > > err =3D clk_set_rate(kbdev->clock, target->freq);
+> > > <...>
+> > >
+> > > Apparently, minimum stable PLL frequency is 288 MHz (this should be a=
+dded) and
+> > > divider in peripheral clock can really be used, although preferably n=
+ot.
+> > > Vendor GPU operating points specify only 2 lower than 288 MHz points =
+- at 264
+> > > MHz and 216 MHz. I'm fully aware that they may not be really stable a=
+nd given
+> > > that these two and next two all share minimum voltage of 810 mV, powe=
+r and
+> > > thermal savings are probably not that great, so we can skip them and =
+pin
+> > > peripheral divider to 1, as you already did.
+> > >
+> > > Another discrepancy I see is that vendor DT has two operating points,=
+ at 336
+> > > MHz and 384 MHz, which also use factor P (also known as d2 in vendor =
+clock
+> > > source). This can be again an oversight or alternatively, it can be t=
+hat P
+> > > factor can actually be used, but just with lower frequencies.
+> > >
+> > > Can you please make another test with GPU operating points specified =
+in DT and
+> > > check if it works with P factor left in?
+> > >
+> > > For reference, vendor DT has following operating points (kHz, uV):
+> > > 756000 1040000
+> > > 624000 950000
+> > > 576000 930000
+> > > 540000 910000
+> > > 504000 890000
+> > > 456000 870000
+> > > 432000 860000
+> > > 420000 850000
+> > > 408000 840000
+> > > 384000 830000
+> > > 360000 820000
+> > > 336000 810000
+> > > 312000 810000
+> > > 264000 810000
+> > > 216000 810000
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > > >
+> > > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > > > ---
+> > > >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 12 +++++-------
+> > > >  1 file changed, 5 insertions(+), 7 deletions(-)
+> > > >
+> > > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index 2ddf0a0da526f..d941238=
+cd178a
+> > > > 100644
+> > > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > @@ -95,13 +95,14 @@ static struct ccu_nkmp pll_periph1_clk =3D {
+> > > >       },
+> > > >  };
+> > > >
+> > > > +/* For GPU PLL, using an output divider for DFS causes system to f=
+ail */
+> > > >  #define SUN50I_H6_PLL_GPU_REG                0x030
+> > > >  static struct ccu_nkmp pll_gpu_clk =3D {
+> > > >       .enable         =3D BIT(31),
+> > > >       .lock           =3D BIT(28),
+> > > >       .n              =3D _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > > >       .m              =3D _SUNXI_CCU_DIV(1, 1), /* input divider */
+> > > > -     .p              =3D _SUNXI_CCU_DIV(0, 1), /* output divider
+> > > */
+> > > > +     .max_rate       =3D 756000000UL,
+> > > >       .common         =3D {
+> > > >               .reg            =3D 0x030,
+> > > >               .hw.init        =3D CLK_HW_INIT("pll-gpu", "osc24M",
+> > > > @@ -294,12 +295,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_c=
+lk,
+> > > > "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
+> > > > "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
+> > > >
+> > > > -static const char * const gpu_parents[] =3D { "pll-gpu" };
+> > > > -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x67=
+0,
+> > > > -                                    0, 3,    /* M */
+> > > > -                                    24, 1,   /* mux */
+> > > > -                                    BIT(31), /* gate */
+> > > > -                                    CLK_SET_RATE_PARENT);
+> > > > +/* GPU_CLK divider kept disabled to avoid interferences with DFS *=
+/
+> > > > +static SUNXI_CCU_GATE(gpu_clk, "gpu", "pll-gpu", 0x670,
+> > > > +                   BIT(31), CLK_SET_RATE_PARENT);
+> > > >
+> > > >  static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
+> > > >                     0x67c, BIT(0), 0);
+> > >
+> > >
+> > >
+> > >
