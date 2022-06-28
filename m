@@ -1,171 +1,260 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5EF368
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 03:29:55 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 61ED4320097D;
-	Mon, 27 Jun 2022 23:29:53 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 27 Jun 2022 23:29:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656386992; x=
-	1656473392; bh=GXdRtjVdnwILxLdtyM/xN95hYHB1ae83/NYaN89uAv8=; b=p
-	SZmozpusuFw5cqSpA4LbjEkNnKgbZG9kv+G7DTLU/QwgKaxXSNGV6+Sv23j1+qU0
-	3lFzGNvqVm97PJf+e1MfbWC2cwCq03ZG6R9SANqnPusxWcsgb979cJeMktuZBQV0
-	QcZCCmAWBo3rTvUDd1KCjSsyHLupgrF/vFOm0g1fL57FLKRz7QZmDzQjD8jpruLv
-	iee1UzDmEUGl//kVKof+EwxRIDXWx+5ktxjga8YM6ha/52hMJFb7OXQxBxonh2vI
-	3refu2XTBtY65BjchXPV3ddnOYT7z6WGfQYENnkQHclDorsRATcTp1twXu9p4bPa
-	8zLjmErGwf/57rFJgBkEQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656386992; x=
-	1656473392; bh=GXdRtjVdnwILxLdtyM/xN95hYHB1ae83/NYaN89uAv8=; b=a
-	YOuOrFSqzZd2cXPRbpdHzzeql076eT03IL90bzaLJIIxee/uJS3g2OApi2Bkr15K
-	eg2h4O+DSp9GJEvfjK1qYlsLCz1scA8kaRgunIyNYLNfv2++l1L2LUzy33Eqbo1X
-	gFT2ufZtJpqbQO6vYEmTMr5jzwPNA3Is5BIYzAYfsfOxMWTMXcvm1dGIJawcMRTP
-	5vG97PPUAdbj2uzIg5GdH1SpDdD7DEIdqJmF0TEx2ZOBIjyIGDxu81Ql3NNWty2C
-	39XbTupgNdH4fSxTe0Z9cQjTUz1s7ayHqNhtNL2R80jHv83Ja6z8TWRD3FXjJ1LF
-	5qEpDx05d7CqnX5g/F6fw==
-X-ME-Sender: <xms:sHW6YgjOBgHdmwEIns-ctdSBIUeE46Nm-j7TnVVAIuLhv455GPDmHg>
-    <xme:sHW6YpAFV7RcMuD_dRpRqsTq7nPd6PeIfM3cVCaOsqf6Mr07fY_UyOK0OTih2dZIu
-    PwqyOHYZMPk3sOKMA>
-X-ME-Received: <xmr:sHW6YoEWLfBpgoMj-yF1PEhg33slSCqEK-Clqga8quitBSkwhz0jwtBW8v44Z992pnxjZlnksXr23lV1djA3dE6mSChJmUaYuqpNaOWEKijhLYKGRlGo2Vsikg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegiedgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
-    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:sHW6YhTnOaeM5Y74OwVlWRIdKvFIcceMRcXRV0cthlbAFx_IHVcYbg>
-    <xmx:sHW6Ytwf99M4HjheAEB9jZg8A8A2wQHhhMRUIOf2TLP1wlfyqOO38A>
-    <xmx:sHW6Yv7Uju4meBL2PW1Dq8nygHLT6ojtHnr4VSkzlvHFup1DUJW49A>
-    <xmx:sHW6YiphFUAsJFhnNd8qkBfEuOv8RTiJGMNnVkD9HWz_V0dfO7mqIA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Jun 2022 23:29:51 -0400 (EDT)
-Subject: Re: [PATCH 3/6] pinctrl: sunxi: Support the 2.5V I/O bias mode
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Linus Walleij <linus.walleij@linaro.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-4-samuel@sholland.org>
- <1818958.tdWV9SEqCh@jernej-laptop>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <b1aaa895-59dd-bbb1-3dc1-9dfaa96dfdb0@sholland.org>
-Date: Mon, 27 Jun 2022 22:29:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6DC368
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 03:43:29 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id c1so18275772qvi.11
+        for <linux-sunxi@lists.linux.dev>; Mon, 27 Jun 2022 20:43:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=QEHEyacbqWJnh5I8neexkZXvqdcsmMlunRIyL22Odso=;
+        b=OakumQzeL67o42RRZZfhOeVcGi1SU5WocvhHxS+cpx7sBgE6KY871mRIqbxfFrOBfD
+         KHvUY34tXREkenS6pjHL0nYoPyCHFAIcHesS1qQ2XdJ3BEiJQS/MsI0uqmGM5tfRPMQS
+         M951aJ7FE9YUBxlxO6pG346TOFdpb6UcqhyZ+rJi+a/qzOhfb//qzMl6JTyQXrqwIXBF
+         ZGkK2RSCaNd3HgxRv6Rvt6zWypMFkW50vIpVSPxXaK0n98XexyTeQM/xmNtG2w+vUQWO
+         yW2a1jQIXFWDXFdX/aVd4uaLFMR/tf3mYynClC0jiECQlUpScZ6DfZUjpwQYOv16Cxlx
+         dyDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=QEHEyacbqWJnh5I8neexkZXvqdcsmMlunRIyL22Odso=;
+        b=yDevpBcztN3yN0H+S/WUnRLh4Axf0omS/Deq34ZjWPB/SUIPvzpPdt65sdEfnqI1rA
+         FGZKSqm8MF+k7CW2ecd/ST7tAIbaxWMNZlY30aiVymrGYDoMQeG4OgQMETgVhkv4/DfF
+         lQy3KNKKpsv7YB9riPDlMtzT6NVaHmvKwZqRLUSWzJjKqJYMv03vBeds6Z0Q4v0aIyix
+         bBelizQvdxz9FY0+53KIICYk9wbyxKl1UZIbsjCt9gFLchMhk6huG1PZz4jRkZ/CF/bh
+         pmQo0ZlvpO7FVSY82fL/sBZbuG5w+bY5YmYl16bs7F4vGxIRJCb/pVvvm8ViPN9Y+gTC
+         jBgQ==
+X-Gm-Message-State: AJIora+y/MELjaptWO0nLCq2STrEC+1DpIwR2x7ALLEdam784zCz93LN
+	ES3Pzf36mL6jej4yf3wnb0k=
+X-Google-Smtp-Source: AGRyM1vFIQzP3PPHmaOKiiW5Qi/QUwHyc8BLoYjaCexmI3FC/ehNW573qf1B9DqpzRrPfQgMUcLgcw==
+X-Received: by 2002:ac8:5904:0:b0:317:76f4:9efb with SMTP id 4-20020ac85904000000b0031776f49efbmr12070399qty.303.1656387808674;
+        Mon, 27 Jun 2022 20:43:28 -0700 (PDT)
+Received: from [10.4.10.38] (146-115-144-188.s4282.c3-0.nwt-cbr1.sbo-nwt.ma.cable.rcncustomer.com. [146.115.144.188])
+        by smtp.gmail.com with ESMTPSA id de43-20020a05620a372b00b006a2f5ea4a29sm10186214qkb.46.2022.06.27.20.43.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Jun 2022 20:43:27 -0700 (PDT)
+Message-ID: <69d93bce-f28e-aff8-fc52-03bf93d26bf2@gmail.com>
+Date: Mon, 27 Jun 2022 23:43:25 -0400
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <1818958.tdWV9SEqCh@jernej-laptop>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH 2/7] spi: sunxi: refactor SPI speed/mode programming
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To: Andre Przywara <andre.przywara@arm.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ George Hilliard <thirtythreeforty@gmail.com>,
+ qianfan Zhao <qianfanguijin@163.com>
+Cc: Icenowy Zheng <icenowy@aosc.io>, Yifan Gu <me@yifangu.com>,
+ Giulio Benetti <giulio.benetti@benettiengineering.com>,
+ Samuel Holland <samuel@sholland.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
+ u-boot@lists.denx.de
+References: <20220503212040.27884-1-andre.przywara@arm.com>
+ <20220503212040.27884-3-andre.przywara@arm.com>
+ <20220628013157.129f4d64@slackpad.lan>
+From: Jesse Taube <mr.bossman075@gmail.com>
+In-Reply-To: <20220628013157.129f4d64@slackpad.lan>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 6/27/22 3:43 PM, Jernej Škrabec wrote:
-> Dne nedelja, 26. junij 2022 ob 04:11:44 CEST je Samuel Holland napisal(a):
->> H616 and newer SoCs feature a 2.5V I/O bias mode in addition to the
->> 1.8V and 3.3V modes. This mode is entered by selecting the 3.3V level
->> and disabling the "withstand function".
->>
->> H616 supports this capability on its main PIO only. A100 supports this
->> capability on both its PIO and R-PIO.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c |  1 +
->>  drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c   |  2 +-
->>  drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c   |  2 +-
->>  drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 10 ++++++++++
->>  drivers/pinctrl/sunxi/pinctrl-sunxi.h         |  7 +++++++
->>  5 files changed, 20 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
->> b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c index
->> 21054fcacd34..afc1f5df7545 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c
->> @@ -82,6 +82,7 @@ static const struct sunxi_pinctrl_desc a100_r_pinctrl_data
->> = { .npins = ARRAY_SIZE(a100_r_pins),
->>  	.pin_base = PL_BASE,
->>  	.irq_banks = 1,
->> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->>  };
->>
->>  static int a100_r_pinctrl_probe(struct platform_device *pdev)
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
->> b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c index
->> e69f6da40dc0..f682e0e4244d 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c
->> @@ -684,7 +684,7 @@ static const struct sunxi_pinctrl_desc a100_pinctrl_data
->> = { .npins = ARRAY_SIZE(a100_pins),
->>  	.irq_banks = 7,
->>  	.irq_bank_map = a100_irq_bank_map,
->> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
->> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->>  };
->>
->>  static int a100_pinctrl_probe(struct platform_device *pdev)
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
->> b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c index
->> 152b71226a80..d6ca720ee8d8 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c
->> @@ -525,7 +525,7 @@ static const struct sunxi_pinctrl_desc h616_pinctrl_data
->> = { .irq_banks = ARRAY_SIZE(h616_irq_bank_map),
->>  	.irq_bank_map = h616_irq_bank_map,
->>  	.irq_read_needs_mux = true,
->> -	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_SEL,
->> +	.io_bias_cfg_variant = BIAS_VOLTAGE_PIO_POW_MODE_CTL,
->>  };
->>
->>  static int h616_pinctrl_probe(struct platform_device *pdev)
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> b/drivers/pinctrl/sunxi/pinctrl-sunxi.c index 3c5e71359ca8..eb3d595f816a
->> 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> @@ -662,6 +662,16 @@ static int sunxi_pinctrl_set_io_bias_cfg(struct
->> sunxi_pinctrl *pctl, reg &= ~IO_BIAS_MASK;
->>  		writel(reg | val, pctl->membase + 
-> sunxi_grp_config_reg(pin));
->>  		return 0;
->> +	case BIAS_VOLTAGE_PIO_POW_MODE_CTL:
->> +		val = uV > 1800000 && uV <= 2500000 ? BIT(bank) : 0;
->> +
->> +		raw_spin_lock_irqsave(&pctl->lock, flags);
->> +		reg = readl(pctl->membase + PIO_POW_MOD_CTL_REG);
->> +		reg &= ~BIT(bank);
->> +		writel(reg | val, pctl->membase + PIO_POW_MOD_CTL_REG);
->> +		raw_spin_unlock_irqrestore(&pctl->lock, flags);
->> +
->> +		fallthrough;
+
+
+On 6/27/22 20:31, Andre Przywara wrote:
+> On Tue,  3 May 2022 22:20:35 +0100
+> Andre Przywara <andre.przywara@arm.com> wrote:
 > 
-> Would this set bit 12 as needed? According to documentation, it's a bit 
-> special case, since it covers VCC-IO, port F and port H, at least according to 
-> documentation. I guess BIAS_VOLTAGE_PIO_POW_MODE_SEL has same issue.
+> Hi,
+> 
+>> As George rightfully pointed out [1], the spi-sunxi driver programs the
+>> speed and mode settings only when the respective functions are called,
+>> but this gets lost over a call to release_bus(). That asserts the
+>> reset line, thus forces each SPI register back to its default value.
+>> Adding to that, trying to program SPI_CCR and SPI_TCR might be pointless
+>> in the first place, when the reset line is still asserted (before
+>> claim_bus()), so those setting won't apply most of the time. In reality
+>> I see two nested claim_bus() calls for the first use, so settings between
+>> the two would work (for instance for the initial "sf probe"). However
+>> later on the speed setting is not programmed into the hardware anymore.
+> 
+> So this issue was addressed with patches by both George (earlier, in a
+> different way) and Qianfan (later, in a very similar way).
+> 
+> Can someone (Jagan?) please have a look at this change from the U-Boot
+> SPI perspective? And also the other changes in this series?
+> I pushed them to the sunxi/next branch:
+> https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/next/
+> 
+> So can people please test this and report whether this now works as
+> expected?
 
-Right, it seems we would need some mask to tell us which ports are affected by
-bit 12, and which have their own setting. The current code is unlikely to cause
-any issue, though, because in practice VCC-IO is always 3.3 V.
+I'm very confused I have forgotten much about this patch set.
+I'm going to test it, but why has it only been merged now?
 
-Regards,
-Samuel
+Thanks,
+Jesse
+> Thanks,
+> Andre
+>   
+>> So far we get away with that default frequency, because that is a rather
+>> tame 24 MHz, which most SPI flash chips can handle just fine.
+>>
+>> Move the actual register programming into a separate function, and use
+>> .set_speed and .set_mode just to set the variables in our priv structure.
+>> Then we only call this new function in claim_bus(), when we are sure
+>> that register accesses actually work and are preserved.
+>>
+>> [1] https://lore.kernel.org/u-boot/20210725231636.879913-17-me@yifangu.com/
+>>
+>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>> Reported-by: George Hilliard <thirtythreeforty@gmail.com>
+>> ---
+>>   drivers/spi/spi-sunxi.c | 95 ++++++++++++++++++++++-------------------
+>>   1 file changed, 52 insertions(+), 43 deletions(-)
+>>
+>> diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
+>> index b6cd7ddafad..d6b2dd09514 100644
+>> --- a/drivers/spi/spi-sunxi.c
+>> +++ b/drivers/spi/spi-sunxi.c
+>> @@ -221,6 +221,56 @@ err_ahb:
+>>   	return ret;
+>>   }
+>>   
+>> +static void sun4i_spi_set_speed_mode(struct udevice *dev)
+>> +{
+>> +	struct sun4i_spi_priv *priv = dev_get_priv(dev);
+>> +	unsigned int div;
+>> +	u32 reg;
+>> +
+>> +	/*
+>> +	 * Setup clock divider.
+>> +	 *
+>> +	 * We have two choices there. Either we can use the clock
+>> +	 * divide rate 1, which is calculated thanks to this formula:
+>> +	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
+>> +	 * Or we can use CDR2, which is calculated with the formula:
+>> +	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
+>> +	 * Whether we use the former or the latter is set through the
+>> +	 * DRS bit.
+>> +	 *
+>> +	 * First try CDR2, and if we can't reach the expected
+>> +	 * frequency, fall back to CDR1.
+>> +	 */
+>> +
+>> +	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
+>> +	reg = readl(SPI_REG(priv, SPI_CCR));
+>> +
+>> +	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
+>> +		if (div > 0)
+>> +			div--;
+>> +
+>> +		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
+>> +		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
+>> +	} else {
+>> +		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
+>> +		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
+>> +		reg |= SUN4I_CLK_CTL_CDR1(div);
+>> +	}
+>> +
+>> +	writel(reg, SPI_REG(priv, SPI_CCR));
+>> +
+>> +	reg = readl(SPI_REG(priv, SPI_TCR));
+>> +	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
+>> +
+>> +	if (priv->mode & SPI_CPOL)
+>> +		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
+>> +
+>> +	if (priv->mode & SPI_CPHA)
+>> +		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
+>> +
+>> +	writel(reg, SPI_REG(priv, SPI_TCR));
+>> +}
+>> +
+>>   static int sun4i_spi_claim_bus(struct udevice *dev)
+>>   {
+>>   	struct sun4i_spi_priv *priv = dev_get_priv(dev->parent);
+>> @@ -240,6 +290,8 @@ static int sun4i_spi_claim_bus(struct udevice *dev)
+>>   	setbits_le32(SPI_REG(priv, SPI_TCR), SPI_BIT(priv, SPI_TCR_CS_MANUAL) |
+>>   		     SPI_BIT(priv, SPI_TCR_CS_ACTIVE_LOW));
+>>   
+>> +	sun4i_spi_set_speed_mode(dev->parent);
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> @@ -329,46 +381,14 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
+>>   {
+>>   	struct sun4i_spi_plat *plat = dev_get_plat(dev);
+>>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
+>> -	unsigned int div;
+>> -	u32 reg;
+>>   
+>>   	if (speed > plat->max_hz)
+>>   		speed = plat->max_hz;
+>>   
+>>   	if (speed < SUN4I_SPI_MIN_RATE)
+>>   		speed = SUN4I_SPI_MIN_RATE;
+>> -	/*
+>> -	 * Setup clock divider.
+>> -	 *
+>> -	 * We have two choices there. Either we can use the clock
+>> -	 * divide rate 1, which is calculated thanks to this formula:
+>> -	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
+>> -	 * Or we can use CDR2, which is calculated with the formula:
+>> -	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
+>> -	 * Whether we use the former or the latter is set through the
+>> -	 * DRS bit.
+>> -	 *
+>> -	 * First try CDR2, and if we can't reach the expected
+>> -	 * frequency, fall back to CDR1.
+>> -	 */
+>> -
+>> -	div = SUN4I_SPI_MAX_RATE / (2 * speed);
+>> -	reg = readl(SPI_REG(priv, SPI_CCR));
+>> -
+>> -	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
+>> -		if (div > 0)
+>> -			div--;
+>> -
+>> -		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
+>> -		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
+>> -	} else {
+>> -		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(speed);
+>> -		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
+>> -		reg |= SUN4I_CLK_CTL_CDR1(div);
+>> -	}
+>>   
+>>   	priv->freq = speed;
+>> -	writel(reg, SPI_REG(priv, SPI_CCR));
+>>   
+>>   	return 0;
+>>   }
+>> @@ -376,19 +396,8 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
+>>   static int sun4i_spi_set_mode(struct udevice *dev, uint mode)
+>>   {
+>>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
+>> -	u32 reg;
+>> -
+>> -	reg = readl(SPI_REG(priv, SPI_TCR));
+>> -	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
+>> -
+>> -	if (mode & SPI_CPOL)
+>> -		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
+>> -
+>> -	if (mode & SPI_CPHA)
+>> -		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
+>>   
+>>   	priv->mode = mode;
+>> -	writel(reg, SPI_REG(priv, SPI_TCR));
+>>   
+>>   	return 0;
+>>   }
+> 
