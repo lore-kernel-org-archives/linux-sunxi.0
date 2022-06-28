@@ -1,218 +1,135 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A55737A
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 00:44:32 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D00F1691;
-	Mon, 27 Jun 2022 17:44:32 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 181053F66F;
-	Mon, 27 Jun 2022 17:44:24 -0700 (PDT)
-Date: Tue, 28 Jun 2022 01:31:57 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jagan Teki <jagan@amarulasolutions.com>, George Hilliard
- <thirtythreeforty@gmail.com>, qianfan Zhao <qianfanguijin@163.com>
-Cc: Jesse Taube <mr.bossman075@gmail.com>, Icenowy Zheng <icenowy@aosc.io>,
- Yifan Gu <me@yifangu.com>, Giulio Benetti
- <giulio.benetti@benettiengineering.com>, Samuel Holland
- <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
-Subject: Re: [PATCH 2/7] spi: sunxi: refactor SPI speed/mode programming
-Message-ID: <20220628013157.129f4d64@slackpad.lan>
-In-Reply-To: <20220503212040.27884-3-andre.przywara@arm.com>
-References: <20220503212040.27884-1-andre.przywara@arm.com>
- <20220503212040.27884-3-andre.przywara@arm.com>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFEB7A
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 02:20:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C254C341CB;
+	Tue, 28 Jun 2022 02:20:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656382843;
+	bh=wbO/Xa2eXLxW28phcXHoMQTFFXAWO8MmaRfdv3KfyN4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=id7FlDi0hYrosjq5Iv04cJLmY1vTl5YuSGFaFiTpoohKtsi6UtMoprXKD8G9q80y1
+	 1X2RHImAW408zP4T87sCJY6Ox+9s+zix/wNDMvB05udYMqqJKDXDg+G0eDbFhOK1kM
+	 wmCW6vCCpUy16NF2fqcWxPQRxxYtiFmHPQ8NZpxpQmnbQs9rAaE2HGzGTOW+zQ7xDW
+	 4AmzIsoIIXd2HFVB83MJMRkDaDDGNJEqwwKfrW6jPg5QjRU9ofeqf6I0VNKY4HNOZ7
+	 fN5gBUPHOLmOie3wxVGe7gnvhqbRaxfL/KG9BJ7o1m72I0yBvH8VuF4EFYuArReoCA
+	 OYq/pZZp8M15g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Maxime Ripard <maxime@cerno.tech>,
+	Sasha Levin <sashal@kernel.org>,
+	mripard@kernel.org,
+	wens@csie.org,
+	airlied@linux.ie,
+	daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.18 47/53] drm/sun4i: Add DMA mask and segment size
+Date: Mon, 27 Jun 2022 22:18:33 -0400
+Message-Id: <20220628021839.594423-47-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220628021839.594423-1-sashal@kernel.org>
+References: <20220628021839.594423-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
-On Tue,  3 May 2022 22:20:35 +0100
-Andre Przywara <andre.przywara@arm.com> wrote:
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Hi,
+[ Upstream commit f5aa16807aa4f99293044944590dde81364f434f ]
 
-> As George rightfully pointed out [1], the spi-sunxi driver programs the
-> speed and mode settings only when the respective functions are called,
-> but this gets lost over a call to release_bus(). That asserts the
-> reset line, thus forces each SPI register back to its default value.
-> Adding to that, trying to program SPI_CCR and SPI_TCR might be pointless
-> in the first place, when the reset line is still asserted (before
-> claim_bus()), so those setting won't apply most of the time. In reality
-> I see two nested claim_bus() calls for the first use, so settings between
-> the two would work (for instance for the initial "sf probe"). However
-> later on the speed setting is not programmed into the hardware anymore.
+Kernel occasionally complains that there is mismatch in segment size
+when trying to render HW decoded videos and rendering them directly with
+sun4i DRM driver. Following message can be observed on H6 SoC:
 
-So this issue was addressed with patches by both George (earlier, in a
-different way) and Qianfan (later, in a very similar way).
+[  184.298308] ------------[ cut here ]------------
+[  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
+[  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
+[  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
+[  184.329533] Hardware name: Tanix TX6 (DT)
+[  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
+[  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
+[  184.349250] sp : ffff800009f33a50
+[  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
+[  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
+[  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
+[  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
+[  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
+[  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
+[  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
+[  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
+[  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
+[  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
+[  184.424106] Call trace:
+[  184.426556]  debug_dma_map_sg+0x2b0/0x350
+[  184.430580]  __dma_map_sg_attrs+0xa0/0x110
+[  184.434687]  dma_map_sgtable+0x28/0x4c
+[  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
+[  184.442729]  __map_dma_buf+0x2c/0xd4
+[  184.446321]  dma_buf_map_attachment+0xa0/0x130
+[  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
+[  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
+[  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
+[  184.465190]  drm_ioctl_kernel+0xc4/0x174
+[  184.469123]  drm_ioctl+0x204/0x420
+[  184.472534]  __arm64_sys_ioctl+0xac/0xf0
+[  184.476474]  invoke_syscall+0x48/0x114
+[  184.480240]  el0_svc_common.constprop.0+0x44/0xec
+[  184.484956]  do_el0_svc+0x2c/0xc0
+[  184.488283]  el0_svc+0x2c/0x84
+[  184.491354]  el0t_64_sync_handler+0x11c/0x150
+[  184.495723]  el0t_64_sync+0x18c/0x190
+[  184.499397] ---[ end trace 0000000000000000 ]---
 
-Can someone (Jagan?) please have a look at this change from the U-Boot
-SPI perspective? And also the other changes in this series?
-I pushed them to the sunxi/next branch:
-https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/next/
+Fix that by setting DMA mask and segment size.
 
-So can people please test this and report whether this now works as
-expected?
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Link: https://patchwork.freedesktop.org/patch/msgid/20220620181333.650301-1-jernej.skrabec@gmail.com
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Thanks,
-Andre
+diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
+index 6a9ba8a77c77..7ee1e53eb919 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_drv.c
++++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
+@@ -7,6 +7,7 @@
+  */
  
-> So far we get away with that default frequency, because that is a rather
-> tame 24 MHz, which most SPI flash chips can handle just fine.
-> 
-> Move the actual register programming into a separate function, and use
-> .set_speed and .set_mode just to set the variables in our priv structure.
-> Then we only call this new function in claim_bus(), when we are sure
-> that register accesses actually work and are preserved.
-> 
-> [1] https://lore.kernel.org/u-boot/20210725231636.879913-17-me@yifangu.com/
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> Reported-by: George Hilliard <thirtythreeforty@gmail.com>
-> ---
->  drivers/spi/spi-sunxi.c | 95 ++++++++++++++++++++++-------------------
->  1 file changed, 52 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
-> index b6cd7ddafad..d6b2dd09514 100644
-> --- a/drivers/spi/spi-sunxi.c
-> +++ b/drivers/spi/spi-sunxi.c
-> @@ -221,6 +221,56 @@ err_ahb:
->  	return ret;
->  }
->  
-> +static void sun4i_spi_set_speed_mode(struct udevice *dev)
-> +{
-> +	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> +	unsigned int div;
-> +	u32 reg;
-> +
-> +	/*
-> +	 * Setup clock divider.
-> +	 *
-> +	 * We have two choices there. Either we can use the clock
-> +	 * divide rate 1, which is calculated thanks to this formula:
-> +	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
-> +	 * Or we can use CDR2, which is calculated with the formula:
-> +	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
-> +	 * Whether we use the former or the latter is set through the
-> +	 * DRS bit.
-> +	 *
-> +	 * First try CDR2, and if we can't reach the expected
-> +	 * frequency, fall back to CDR1.
-> +	 */
-> +
-> +	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
-> +	reg = readl(SPI_REG(priv, SPI_CCR));
-> +
-> +	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-> +		if (div > 0)
-> +			div--;
-> +
-> +		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
-> +		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
-> +	} else {
-> +		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
-> +		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
-> +		reg |= SUN4I_CLK_CTL_CDR1(div);
-> +	}
-> +
-> +	writel(reg, SPI_REG(priv, SPI_CCR));
-> +
-> +	reg = readl(SPI_REG(priv, SPI_TCR));
-> +	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
-> +
-> +	if (priv->mode & SPI_CPOL)
-> +		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
-> +
-> +	if (priv->mode & SPI_CPHA)
-> +		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
-> +
-> +	writel(reg, SPI_REG(priv, SPI_TCR));
-> +}
-> +
->  static int sun4i_spi_claim_bus(struct udevice *dev)
->  {
->  	struct sun4i_spi_priv *priv = dev_get_priv(dev->parent);
-> @@ -240,6 +290,8 @@ static int sun4i_spi_claim_bus(struct udevice *dev)
->  	setbits_le32(SPI_REG(priv, SPI_TCR), SPI_BIT(priv, SPI_TCR_CS_MANUAL) |
->  		     SPI_BIT(priv, SPI_TCR_CS_ACTIVE_LOW));
->  
-> +	sun4i_spi_set_speed_mode(dev->parent);
-> +
->  	return 0;
->  }
->  
-> @@ -329,46 +381,14 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
->  {
->  	struct sun4i_spi_plat *plat = dev_get_plat(dev);
->  	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> -	unsigned int div;
-> -	u32 reg;
->  
->  	if (speed > plat->max_hz)
->  		speed = plat->max_hz;
->  
->  	if (speed < SUN4I_SPI_MIN_RATE)
->  		speed = SUN4I_SPI_MIN_RATE;
-> -	/*
-> -	 * Setup clock divider.
-> -	 *
-> -	 * We have two choices there. Either we can use the clock
-> -	 * divide rate 1, which is calculated thanks to this formula:
-> -	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
-> -	 * Or we can use CDR2, which is calculated with the formula:
-> -	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
-> -	 * Whether we use the former or the latter is set through the
-> -	 * DRS bit.
-> -	 *
-> -	 * First try CDR2, and if we can't reach the expected
-> -	 * frequency, fall back to CDR1.
-> -	 */
-> -
-> -	div = SUN4I_SPI_MAX_RATE / (2 * speed);
-> -	reg = readl(SPI_REG(priv, SPI_CCR));
-> -
-> -	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-> -		if (div > 0)
-> -			div--;
-> -
-> -		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
-> -		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
-> -	} else {
-> -		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(speed);
-> -		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
-> -		reg |= SUN4I_CLK_CTL_CDR1(div);
-> -	}
->  
->  	priv->freq = speed;
-> -	writel(reg, SPI_REG(priv, SPI_CCR));
->  
->  	return 0;
->  }
-> @@ -376,19 +396,8 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
->  static int sun4i_spi_set_mode(struct udevice *dev, uint mode)
->  {
->  	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> -	u32 reg;
-> -
-> -	reg = readl(SPI_REG(priv, SPI_TCR));
-> -	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
-> -
-> -	if (mode & SPI_CPOL)
-> -		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
-> -
-> -	if (mode & SPI_CPHA)
-> -		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
->  
->  	priv->mode = mode;
-> -	writel(reg, SPI_REG(priv, SPI_TCR));
->  
->  	return 0;
->  }
+ #include <linux/component.h>
++#include <linux/dma-mapping.h>
+ #include <linux/kfifo.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
+@@ -367,6 +368,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
+ 
+ 	INIT_KFIFO(list.fifo);
+ 
++	/*
++	 * DE2 and DE3 cores actually supports 40-bit addresses, but
++	 * driver does not.
++	 */
++	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
++
+ 	for (i = 0;; i++) {
+ 		struct device_node *pipeline = of_parse_phandle(np,
+ 								"allwinner,pipelines",
+-- 
+2.35.1
 
