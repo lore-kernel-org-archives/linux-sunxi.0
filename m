@@ -1,135 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F137A
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 02:26:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B32C9C341CC;
-	Tue, 28 Jun 2022 02:26:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656383168;
-	bh=IWw4aMICN7+gP5SfZFCyAcon0APYnT3cIIcG3y/tfvU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kfiQG32N/Hxu65BTWTNpn5LxT992Nw7RXn8y5wCm43qEEeY95qCEeTzR69LoCE5nF
-	 RXFGvBbtcoPM5OPH73nXsSslfdxkhqoYaaxu7HQ3INvHTE74qy8/xGDmdXePTjDafI
-	 dmOLxUi9cjExqyX+WcrknwBS3lEmMU/wjev8GET7bN3lczSX00rGvJFl3YpRUPeDZ/
-	 +SbAix3W81CEln1VXtFbkGPCIDAolbxKQU6wFuzYFSG31Rg8VOPJSq3e9YJWSzcMx7
-	 Y9KI24UzwYdM6r9ItLeKo84pBdaq8hQtWHobBAaVgALyGW2+sZdFirNvd2dXeGqh60
-	 U5vd4lpCNQFrw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <maxime@cerno.tech>,
-	Sasha Levin <sashal@kernel.org>,
-	mripard@kernel.org,
-	wens@csie.org,
-	airlied@linux.ie,
-	daniel@ffwll.ch,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 4.19 20/22] drm/sun4i: Add DMA mask and segment size
-Date: Mon, 27 Jun 2022 22:25:15 -0400
-Message-Id: <20220628022518.596687-20-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220628022518.596687-1-sashal@kernel.org>
-References: <20220628022518.596687-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E04368
+	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 03:18:53 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 593873200956;
+	Mon, 27 Jun 2022 23:18:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Mon, 27 Jun 2022 23:18:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656386330; x=
+	1656472730; bh=/YpMypc4CtUEpSm1nrTuU0i+0ewy87iAcDekmp+xtcA=; b=U
+	BZcVDfchVaWFO56Wp9ddD3Kb5jzex7CQrh0fAzLw9+tJxlvf6RNiq1EHMZDE6z3Y
+	SCe/zhclh2hLgnv2273e5KEABKupjZjmdlmz0gDHI9S2CUJkRE+qeeVxMRd44XQ7
+	unUpKkqe+1A4iaRF5yV8pTsgbyObVdpX8JMQ7L3vhfmZzec0gJo8flQBc+SlEtmX
+	CjyZBdZml+uLp5oQb3enjovrte4QPB+jGwOSvE3dMlRsaA8oPt/4ywJcwcIV3Kdt
+	m+oZ8xgOW0Kuyav4Y+LGRQtDGX+IUhdImTSiKALNwQ7GJ93HwTt4AV8SdDbn6kwo
+	GF1QevF8+P6eipMt/HqDw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656386330; x=
+	1656472730; bh=/YpMypc4CtUEpSm1nrTuU0i+0ewy87iAcDekmp+xtcA=; b=H
+	rDg86DII921aq69Gy4ZvLxZyipPCHUXDdsip8zmaFj43+zDzBaGgoKz7G19hxtC5
+	Vyn4al/oeY6p3IvbMaJV8u1dqG8qMdcnPILXYwG0XlEVWAmjtIs1JcH49BRwckR5
+	64CMBsQjOWPq3yZstOiEGJqiY8S7IzY+ltFhAEKOB9yqLxXWIg/0mwgnpO7PZ0vW
+	abp9UPhxqfX5C3SlGIhT/zN0d6uJOPaXuQ6CMkQI2zn6443ccHS2YZsKQtRGFoG2
+	E9r5VBieX9W4Q3SCBaT4ZsQ4x6byMAnXNBLK6gJh0/AcSDZQRMmDyd2h4H2QjWUs
+	lYzNGVb+RHe3e8hHk3tWw==
+X-ME-Sender: <xms:GXO6YhiTJQ0pARW7mR7Vjc1SCoVR9SVhQdWlC5hmJAIQ31SywnBakA>
+    <xme:GXO6YmBNPQ0wahjvTUpqMUjCjrmTLTsrifi3F8cPxPuhKu3kJqazk7vj6P5iMSutQ
+    9jR_RIt4lvMsqIj6A>
+X-ME-Received: <xmr:GXO6YhGKfkIiBUE5ripN-wkxAOW4rLpI_Zk_fwa3cIzNEdK6Hfd3iKTdGKlIgQwcgTWcSctczuWZJkcuHnK_SsegJdayF3DXoEayUopfd0V90OJ2RGMKTate4Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudegiedgjeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:GXO6YmR7e0p1cKQpM83Zlctpcw0hXu4RMLTHbNXC3sgW4zGSnvroEg>
+    <xmx:GXO6Yuwl41vWCtpt6pDw9_zQH4IZLDEYvMjARqO87SaPJcpQLemSHA>
+    <xmx:GXO6Ys7JP1K-CKiWyyoRbGYjv6YZ2BaYqUBn7chd8m6g6X5V7mRGFg>
+    <xmx:GnO6YjoLT1qGFihLtcLS91hOQUXo8535d0onk1DbP7Zov7R5dIcqcA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Jun 2022 23:18:49 -0400 (EDT)
+Subject: Re: [PATCH 2/6] pinctrl: sunxi: Add I/O bias setting for H6 R-PIO
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220626021148.56740-1-samuel@sholland.org>
+ <20220626021148.56740-3-samuel@sholland.org>
+ <4405996.LvFx2qVVIh@jernej-laptop>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <bfb768a8-8286-c596-8b10-28222c962ec3@sholland.org>
+Date: Mon, 27 Jun 2022 22:18:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+In-Reply-To: <4405996.LvFx2qVVIh@jernej-laptop>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
+On 6/27/22 3:34 PM, Jernej Škrabec wrote:
+> Dne nedelja, 26. junij 2022 ob 04:11:43 CEST je Samuel Holland napisal(a):
+>> H6 requires I/O bias configuration on both of its PIO devices.
+>> Previously it was only done for the main PIO.
+>>
+>> The setting for Port L is at bit 0, so the bank calculation needs to
+>> account for the pin base. Otherwise the wrong bit is used.
+>>
+>> Fixes: cc62383fcebe ("pinctrl: sunxi: Support I/O bias voltage setting on
+>> H6") Signed-off-by: Samuel Holland <samuel@sholland.org>
+> 
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> 
+> Did you noticed any improvement with this properly set? In theory, 3.3 V bias 
+> should always work, right?
 
-[ Upstream commit f5aa16807aa4f99293044944590dde81364f434f ]
+I think it matters for inputs, which may not detect a high level state if the
+bias (comparator reference) voltage is too high.
 
-Kernel occasionally complains that there is mismatch in segment size
-when trying to render HW decoded videos and rendering them directly with
-sun4i DRM driver. Following message can be observed on H6 SoC:
+It looks like Orange Pi 3 has a 1.8 V supply for port M. I am not currently set
+up to test the behavior with different bias settings, but I may do that if I get
+the chance.
 
-[  184.298308] ------------[ cut here ]------------
-[  184.298326] DMA-API: sun4i-drm display-engine: mapping sg segment longer than device claims to support [len=6144000] [max=65536]
-[  184.298364] WARNING: CPU: 1 PID: 382 at kernel/dma/debug.c:1162 debug_dma_map_sg+0x2b0/0x350
-[  184.322997] CPU: 1 PID: 382 Comm: ffmpeg Not tainted 5.19.0-rc1+ #1331
-[  184.329533] Hardware name: Tanix TX6 (DT)
-[  184.333544] pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[  184.340512] pc : debug_dma_map_sg+0x2b0/0x350
-[  184.344882] lr : debug_dma_map_sg+0x2b0/0x350
-[  184.349250] sp : ffff800009f33a50
-[  184.352567] x29: ffff800009f33a50 x28: 0000000000010000 x27: ffff000001b86c00
-[  184.359725] x26: ffffffffffffffff x25: ffff000005d8cc80 x24: 0000000000000000
-[  184.366879] x23: ffff80000939ab18 x22: 0000000000000001 x21: 0000000000000001
-[  184.374031] x20: 0000000000000000 x19: ffff0000018a7410 x18: ffffffffffffffff
-[  184.381186] x17: 0000000000000000 x16: 0000000000000000 x15: ffffffffffffffff
-[  184.388338] x14: 0000000000000001 x13: ffff800009534e86 x12: 6f70707573206f74
-[  184.395493] x11: 20736d69616c6320 x10: 000000000000000a x9 : 0000000000010000
-[  184.402647] x8 : ffff8000093b6d40 x7 : ffff800009f33850 x6 : 000000000000000c
-[  184.409800] x5 : ffff0000bf997940 x4 : 0000000000000000 x3 : 0000000000000027
-[  184.416953] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffff000003960e80
-[  184.424106] Call trace:
-[  184.426556]  debug_dma_map_sg+0x2b0/0x350
-[  184.430580]  __dma_map_sg_attrs+0xa0/0x110
-[  184.434687]  dma_map_sgtable+0x28/0x4c
-[  184.438447]  vb2_dc_dmabuf_ops_map+0x60/0xcc
-[  184.442729]  __map_dma_buf+0x2c/0xd4
-[  184.446321]  dma_buf_map_attachment+0xa0/0x130
-[  184.450777]  drm_gem_prime_import_dev+0x7c/0x18c
-[  184.455410]  drm_gem_prime_fd_to_handle+0x1b8/0x214
-[  184.460300]  drm_prime_fd_to_handle_ioctl+0x2c/0x40
-[  184.465190]  drm_ioctl_kernel+0xc4/0x174
-[  184.469123]  drm_ioctl+0x204/0x420
-[  184.472534]  __arm64_sys_ioctl+0xac/0xf0
-[  184.476474]  invoke_syscall+0x48/0x114
-[  184.480240]  el0_svc_common.constprop.0+0x44/0xec
-[  184.484956]  do_el0_svc+0x2c/0xc0
-[  184.488283]  el0_svc+0x2c/0x84
-[  184.491354]  el0t_64_sync_handler+0x11c/0x150
-[  184.495723]  el0t_64_sync+0x18c/0x190
-[  184.499397] ---[ end trace 0000000000000000 ]---
-
-Fix that by setting DMA mask and segment size.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Reviewed-by: Samuel Holland <samuel@sholland.org>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Link: https://patchwork.freedesktop.org/patch/msgid/20220620181333.650301-1-jernej.skrabec@gmail.com
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 57f61ec4bc6b..2fdc83f7fb05 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -11,6 +11,7 @@
-  */
- 
- #include <linux/component.h>
-+#include <linux/dma-mapping.h>
- #include <linux/kfifo.h>
- #include <linux/of_graph.h>
- #include <linux/of_reserved_mem.h>
-@@ -378,6 +379,13 @@ static int sun4i_drv_probe(struct platform_device *pdev)
- 
- 	INIT_KFIFO(list.fifo);
- 
-+	/*
-+	 * DE2 and DE3 cores actually supports 40-bit addresses, but
-+	 * driver does not.
-+	 */
-+	dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-+	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
-+
- 	for (i = 0;; i++) {
- 		struct device_node *pipeline = of_parse_phandle(np,
- 								"allwinner,pipelines",
--- 
-2.35.1
-
+Regards,
+Samuel
