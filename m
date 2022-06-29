@@ -1,297 +1,58 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791C23209
-	for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 12:59:13 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id h23so25526748ejj.12
-        for <linux-sunxi@lists.linux.dev>; Tue, 28 Jun 2022 05:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=xDecVtCYD/XjP/cNxfyUNjbT22tvyLt7gwAbzs5/kc0=;
-        b=X/ShBLHihRUDKZ000u8wVfrWGL6G5yXX5y+1EwDRFK4CRDdMz/rQO7D/NSlHp0lGzx
-         nLr6XBx4C4P75mJpqkXBOLaDErJqTw/llcE4iQPvcQu7tdM7kevZgWZt1+RBvyLfchWn
-         KVTj42bWhLl/AoXlO0SccC7+FTFz+DY60SLzsxoXbsNqW0rFLr+k7Ebh7z9FpgEAKl1E
-         vGqvc+pVwVE/xanKFAJfRaqVc0tF840Dc3ydBta7e/fldfaRdlejz9vZdcvVQd60xdCQ
-         oJNys+Piy6FLU/uLYXd3WS8f1KNHY/QUOTQa1pl1hZjslNxnR+I1+YpkuFz3ZolQKk30
-         fWNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=xDecVtCYD/XjP/cNxfyUNjbT22tvyLt7gwAbzs5/kc0=;
-        b=Wpkeaeh2bl+wwGMSWQKdGXLfxA1Ua8wuzoDzrs7UZ2y4O0oBKBczI4emdpgPOnRNIy
-         Q2GAVOX6V/2TqroQhYnVFX8LGB6aTYMnD2Q3J3QfAcJU0FTKXR8kRUN1ihPjgMn4bu53
-         U1rRWGSrC9mY5MKS50+GNGhwF2zPNkfPkHDbdeaS5bwTD4APpqR9h3nqFECk2xX1byaU
-         UO9w69ZStRj9+vcvasCCA9286NEy9Xqx/kfwsROaGuUB7V/5kckrkPrMEiQ7nhrFE/uK
-         Wxkvrm4ccGLONjKA3exsrWnpwLUchgLAkPs7HxGx677oua1K5pOVv9uI3nK0abVLItb4
-         c0lw==
-X-Gm-Message-State: AJIora8nxHfNla+rBb+MKDS/Zistp8TrYfnxjqsGX9QahpWI/050UbDS
-	L619TgNC+YBl3nOVQ+cQ2cpetlJX4VCZjIcFiWA=
-X-Google-Smtp-Source: AGRyM1vBt1Zma4l92xd9XCjZPNuqb5fG7YZItlTpxadxcxiR3I/h+XYFdlIJe3z5eR86vEZ5tlfLHO1FFw4deCPnWus=
-X-Received: by 2002:a17:907:97d0:b0:726:ccd3:1757 with SMTP id
- js16-20020a17090797d000b00726ccd31757mr3354107ejc.399.1656421151376; Tue, 28
- Jun 2022 05:59:11 -0700 (PDT)
+Received: from mail.nfschina.com (unknown [124.16.136.209])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1B236F
+	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jun 2022 06:32:43 +0000 (UTC)
+Received: from localhost (unknown [127.0.0.1])
+	by mail.nfschina.com (Postfix) with ESMTP id 8BAA21E80D11;
+	Wed, 29 Jun 2022 14:26:01 +0800 (CST)
+X-Virus-Scanned: amavisd-new at test.com
+Received: from mail.nfschina.com ([127.0.0.1])
+	by localhost (mail.nfschina.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id XFCoZU6XrfkK; Wed, 29 Jun 2022 14:25:58 +0800 (CST)
+Received: from localhost.localdomain (unknown [219.141.250.2])
+	(Authenticated sender: zhoujie@nfschina.com)
+	by mail.nfschina.com (Postfix) with ESMTPA id C2A681E80CDC;
+	Wed, 29 Jun 2022 14:25:58 +0800 (CST)
+From: Zhou jie <zhoujie@nfschina.com>
+To: daniel.lezcano@linaro.org,
+	tglx@linutronix.de,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@nfschina.com,
+	Zhou jie <zhoujie@nfschina.com>
+Subject: [PATCH] drivers: remove unnecessary (void*) conversions.
+Date: Wed, 29 Jun 2022 14:26:58 +0800
+Message-Id: <20220629062658.56466-1-zhoujie@nfschina.com>
+X-Mailer: git-send-email 2.18.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20220624165211.4318-1-r.stratiienko@gmail.com>
- <1779483.VLH7GnMWUR@jernej-laptop> <CAGphcd=ND93Kek+8=WhXQcU2Z54megQJOetZnwx-EhHwG8ZjDQ@mail.gmail.com>
- <CAGphcdkqWwXhF+4uEjCyRc3TJ_cbs+rbcE=buuZfVu12Es9nyg@mail.gmail.com>
-In-Reply-To: <CAGphcdkqWwXhF+4uEjCyRc3TJ_cbs+rbcE=buuZfVu12Es9nyg@mail.gmail.com>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Tue, 28 Jun 2022 14:58:59 +0200
-Message-ID: <CAJiuCcfC6px7nGW5wAeu1B5g1+5wY4kciD8PSRhOa96r=u9YHw@mail.gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration
- to support DFS
-To: Roman Stratiienko <r.stratiienko@gmail.com>, Ondrej Jirman <megous@megous.com>, 
-	Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, 
-	"open list:COMMON CLK FRAMEWORK" <linux-clk@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Roman, Jernej,
+remove unnecessary void* type casting.
 
-On Sat, 25 Jun 2022 at 16:02, Roman Stratiienko <r.stratiienko@gmail.com> w=
-rote:
->
-> PS:
->
-> For better DFS resolution P or GPU_CLK divider can be preprogrammed
-> and GPU_PLL can be marked with fixed out divider. It's safe. Not safe
-> to touch these regs during runtime.
-> But do we really need that resolution?
->
-> =D1=81=D0=B1, 25 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 16:27, Roman Str=
-atiienko <r.stratiienko@gmail.com>:
-> >
-> > Hi,
-> >
-> > DVFS was tested as DVFS using devfreq driver, not the script.
-> >
-> > The following OPP table was used:
-> > https://github.com/clementperon/linux/commit/add3ef683238095d2721de0360=
-1d5b01f2d9ce22
+Signed-off-by: Zhou jie <zhoujie@nfschina.com>
+---
+ drivers/clocksource/timer-sun4i.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I now remember when I tried to enable GPU devfreq on H6 and noticed
-instability, I made a recap of my searches:
-https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47h=
-tg2bA@mail.gmail.com/
+diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
+index 0ba8155b8287..6fe71f95e2c2 100644
+--- a/drivers/clocksource/timer-sun4i.c
++++ b/drivers/clocksource/timer-sun4i.c
+@@ -131,7 +131,7 @@ static void sun4i_timer_clear_interrupt(void __iomem *base)
+ 
+ static irqreturn_t sun4i_timer_interrupt(int irq, void *dev_id)
+ {
+-	struct clock_event_device *evt = (struct clock_event_device *)dev_id;
++	struct clock_event_device *evt = dev_id;
+ 	struct timer_of *to = to_timer_of(evt);
+ 
+ 	sun4i_timer_clear_interrupt(timer_of_base(to));
+-- 
+2.18.2
 
-And found that Megous gave a possible explanation on linux-sunxi IRC:
-
-20:12 <megi> looks like gpu pll on H6 is NKMP clock, and those are
-implemented in such a way in mainline that they are prone to
-overshooting the frequency during output divider reduction
-20:13 <megi> so disabling P divider may help
-20:13 <megi> or fixing the dividers
-20:14 <megi> and just allowing N to change
-20:22 <megi> hmm, I haven't looked at this for quite some time, but H6
-BSP way of setting PLL factors actually makes the most sense out of
-everything I've seen/tested so far
-20:23 <megi> it waits for lock not after setting NK factors, but after
-reducing the M factor (pre-divider)
-20:24 <megi> I might as well re-run my CPU PLL tester with this
-algorithm, to see if it fixes the lockups
-20:26 <megi> it makes sense to wait for PLL to stabilize "after"
-changing all the factors that actually affect the VCO, and not just
-some of them
-20:27 <megi> warpme_: ^
-20:28 <megi> it may be the same thing that plagues the CPU PLL rate
-changes at runtime
-
-Regards,
-Clement
-
-
-> >
-> > As is already mentioned in the commit message, P causes the issues as w=
-ell.
-> >
-> > Regards,
-> > Roman
-> >
-> > =D1=81=D0=B1, 25 =D0=B8=D1=8E=D0=BD. 2022 =D0=B3. =D0=B2 13:43, Jernej =
-=C5=A0krabec <jernej.skrabec@gmail.com>:
-> >
-> > >
-> > > Hi Roman,
-> > >
-> > > Dne petek, 24. junij 2022 ob 18:52:11 CEST je Roman Stratiienko napis=
-al(a):
-> > > > Using simple bash script it was discovered that not all CCU registe=
-rs
-> > > > can be safely used for DFS, e.g.:
-> > > >
-> > > >     while true
-> > > >     do
-> > > >         devmem 0x3001030 4 0xb0003e02
-> > > >         devmem 0x3001030 4 0xb0001e02
-> > > >     done
-> > > >
-> > > > Script above changes the GPU_PLL multiplier register value. While t=
-he
-> > > > script is running, the user should interact with the user interface=
-.
-> > > >
-> > > > Using this method the following results were obtained:
-> > > > | Register  | Name           | Bits  | Values | Result |
-> > > > | --        | --             | --    | --     | --     |
-> > > > | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
-> > > > | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
-> > > > | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
-> > > > | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
-> > > >
-> > > > Once bits that caused system failure disabled (kept default 0),
-> > > > it was discovered that GPU_CLK.MUX was used during DFS for some
-> > > > reason and was causing the failure too.
-> > > >
-> > > > After disabling GPU_PLL.OUTDIV the system started to fail during
-> > > > booting for some reason until the maximum frequency of GPU_PLL
-> > > > clock was limited to 756MHz.
-> > > >
-> > > > After all the changes made DVFS started to work seamlessly.
-> > >
-> > > I appreciate testing effort, but I don't think userspace approach is =
-good way
-> > > for testing DVFS. I see 2 issues:
-> > > - As name already suggest, voltage also plays crucial role for stabil=
-ity. You
-> > > didn't say on which board you tested this, but I assume it has PMIC. =
-Did you
-> > > make sure GPU voltage regulator is always at 1.04 V, which is needed =
-for 756
-> > > MHz?
-> > > - Kernel clock driver always goes through proper procedure for clock =
-rate
-> > > change, which involves several steps. Bypassing them might also cause=
- some
-> > > stability problems.
-> > >
-> > > I agree that GPU PLL should be limited to 756 MHz max. This seems to =
-be
-> > > maximum operating point specified at vendor DT. But I managed to extr=
-act some
-> > > more information from vendor GPU driver. More specifically, from this=
- snippet,
-> > > located in modules/gpu/mali-midgard/kernel_mode/driver/drivers/gpu/ar=
-m/
-> > > midgard/platform/sunxi/mali_kbase_config_sunxi.c:
-> > >
-> > > pll_freq =3D target->freq;
-> > > while (pll_freq < 288000000)
-> > >         pll_freq *=3D 2;
-> > >
-> > > err =3D clk_set_rate(sunxi_mali->gpu_pll_clk, pll_freq);
-> > > <...>
-> > > err =3D clk_set_rate(kbdev->clock, target->freq);
-> > > <...>
-> > >
-> > > Apparently, minimum stable PLL frequency is 288 MHz (this should be a=
-dded) and
-> > > divider in peripheral clock can really be used, although preferably n=
-ot.
-> > > Vendor GPU operating points specify only 2 lower than 288 MHz points =
-- at 264
-> > > MHz and 216 MHz. I'm fully aware that they may not be really stable a=
-nd given
-> > > that these two and next two all share minimum voltage of 810 mV, powe=
-r and
-> > > thermal savings are probably not that great, so we can skip them and =
-pin
-> > > peripheral divider to 1, as you already did.
-> > >
-> > > Another discrepancy I see is that vendor DT has two operating points,=
- at 336
-> > > MHz and 384 MHz, which also use factor P (also known as d2 in vendor =
-clock
-> > > source). This can be again an oversight or alternatively, it can be t=
-hat P
-> > > factor can actually be used, but just with lower frequencies.
-> > >
-> > > Can you please make another test with GPU operating points specified =
-in DT and
-> > > check if it works with P factor left in?
-> > >
-> > > For reference, vendor DT has following operating points (kHz, uV):
-> > > 756000 1040000
-> > > 624000 950000
-> > > 576000 930000
-> > > 540000 910000
-> > > 504000 890000
-> > > 456000 870000
-> > > 432000 860000
-> > > 420000 850000
-> > > 408000 840000
-> > > 384000 830000
-> > > 360000 820000
-> > > 336000 810000
-> > > 312000 810000
-> > > 264000 810000
-> > > 216000 810000
-> > >
-> > > Best regards,
-> > > Jernej
-> > >
-> > > >
-> > > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> > > > ---
-> > > >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 12 +++++-------
-> > > >  1 file changed, 5 insertions(+), 7 deletions(-)
-> > > >
-> > > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index 2ddf0a0da526f..d941238=
-cd178a
-> > > > 100644
-> > > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > @@ -95,13 +95,14 @@ static struct ccu_nkmp pll_periph1_clk =3D {
-> > > >       },
-> > > >  };
-> > > >
-> > > > +/* For GPU PLL, using an output divider for DFS causes system to f=
-ail */
-> > > >  #define SUN50I_H6_PLL_GPU_REG                0x030
-> > > >  static struct ccu_nkmp pll_gpu_clk =3D {
-> > > >       .enable         =3D BIT(31),
-> > > >       .lock           =3D BIT(28),
-> > > >       .n              =3D _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> > > >       .m              =3D _SUNXI_CCU_DIV(1, 1), /* input divider */
-> > > > -     .p              =3D _SUNXI_CCU_DIV(0, 1), /* output divider
-> > > */
-> > > > +     .max_rate       =3D 756000000UL,
-> > > >       .common         =3D {
-> > > >               .reg            =3D 0x030,
-> > > >               .hw.init        =3D CLK_HW_INIT("pll-gpu", "osc24M",
-> > > > @@ -294,12 +295,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_c=
-lk,
-> > > > "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
-> > > > "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
-> > > >
-> > > > -static const char * const gpu_parents[] =3D { "pll-gpu" };
-> > > > -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x67=
-0,
-> > > > -                                    0, 3,    /* M */
-> > > > -                                    24, 1,   /* mux */
-> > > > -                                    BIT(31), /* gate */
-> > > > -                                    CLK_SET_RATE_PARENT);
-> > > > +/* GPU_CLK divider kept disabled to avoid interferences with DFS *=
-/
-> > > > +static SUNXI_CCU_GATE(gpu_clk, "gpu", "pll-gpu", 0x670,
-> > > > +                   BIT(31), CLK_SET_RATE_PARENT);
-> > > >
-> > > >  static SUNXI_CCU_GATE(bus_gpu_clk, "bus-gpu", "psi-ahb1-ahb2",
-> > > >                     0x67c, BIT(0), 0);
-> > >
-> > >
-> > >
-> > >
