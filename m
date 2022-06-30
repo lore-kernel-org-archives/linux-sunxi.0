@@ -1,262 +1,356 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A203D6C
-	for <linux-sunxi@lists.linux.dev>; Wed, 29 Jun 2022 16:24:03 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E892C341CC;
-	Wed, 29 Jun 2022 16:23:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1656519843;
-	bh=BQk96XPXhMlTi13f6yCCrvn/8gYix9PjnzJYL42TN7s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=VW2yy9wHGEB3RwMgTdrsQaoW/Ma/abZbffXSLvQ9Zqp6Axo0G2D24TTx5/Yl9FGE7
-	 4kFmiAHHKB7kXVfcoaKTk/CtYcJ9rLFHAYy3RpCkDV8fggVH41eMn8hAa5vNFK50/U
-	 llHsfbIinN/MnhVCEfLf+e3cGGKyAVnxuT98gfaRko7gmvnfiDj15NQZAcj/hD3pSZ
-	 c9YhVwSDPiwPZ+VaIkPJozCDt5Jx8KY5wSv0RxPiAM5EXlg/XnXRqNjB+EseDxBoa0
-	 7MpQjBJokUnMJysNj3I64tS+Eie2bZgRhLxqgyDq0vJ4S4hKUnrijIeYvNSkW/Qwcp
-	 qIxPAH3f/PEtw==
-From: Mark Brown <broonie@kernel.org>
-To: ckeepax@opensource.cirrus.com
-Cc: linux-mips@vger.kernel.org, alsa-devel@alsa-project.org, linux-stm32@st-md-mailman.stormreply.com, nsaenz@kernel.org, lgirdwood@gmail.com, srinivas.kandagatla@linaro.org, jbrunet@baylibre.com, heiko@sntech.de, linux-tegra@vger.kernel.org, shawnguo@kernel.org, linux-rockchip@lists.infradead.org, nicolas.ferre@microchip.com, patches@opensource.cirrus.com, peter.ujfalusi@gmail.com, linux-sunxi@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, linux-omap@vger.kernel.org, Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, vkoul@kernel.org, frattaroli.nicolas@gmail.com, airlied@linux.ie, daniel@zonque.org, mripard@kernel.org, linux-xtensa@linux-xtensa.org, krzk@kernel.org, cezary.rojewski@intel.com, kernel@pengutronix.de, dri-devel@lists.freedesktop.org, daniel@ffwll.ch, linux-amlogic@lists.infradead.org, linux-imx@nxp.com, pierre-louis.bossart@linux.intel.com, jarkko.nikula@bitmer.com
-In-Reply-To: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
-References: <20220623125250.2355471-1-ckeepax@opensource.cirrus.com>
-Subject: Re: [PATCH v2 00/96] Refactor non_legacy_dai_naming flag
-Message-Id: <165651983704.2058781.8213227099502123936.b4-ty@kernel.org>
-Date: Wed, 29 Jun 2022 17:23:57 +0100
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BD77B
+	for <linux-sunxi@lists.linux.dev>; Thu, 30 Jun 2022 00:10:22 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C97271480;
+	Wed, 29 Jun 2022 17:10:16 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8D40C3F5A1;
+	Wed, 29 Jun 2022 17:10:14 -0700 (PDT)
+Date: Thu, 30 Jun 2022 01:08:23 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 5/6] arm64: dts: allwinner: h616: Add OrangePi Zero
+ 2 board support
+Message-ID: <20220630010823.3935caf6@slackpad.lan>
+In-Reply-To: <7374416.EvYhyI6sBW@kista>
+References: <20220428230933.15262-1-andre.przywara@arm.com>
+ <20220428230933.15262-6-andre.przywara@arm.com>
+ <7374416.EvYhyI6sBW@kista>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 23 Jun 2022 13:51:14 +0100, Charles Keepax wrote:
-> Historically, the legacy DAI naming scheme was applied to platform
-> drivers and the newer scheme to CODEC drivers. During componentisation
-> the core lost the knowledge of if a driver was a CODEC or platform, they
-> were all now components. To continue to support the legacy naming on
-> older platform drivers a flag was added to the snd_soc_component_driver
-> structure, non_legacy_dai_naming, to indicate to use the new scheme and
-> this was applied to all CODECs as part of the migration.
-> 
-> [...]
+On Tue, 03 May 2022 21:41:21 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Applied to
+Hi Jernej,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+> Dne petek, 29. april 2022 ob 01:09:32 CEST je Andre Przywara napisal(a):
+> > The OrangePi Zero 2 is a development board with the new H616 SoC. It
+> > comes with the following features:
+> >   - Four ARM Cortex-A53 cores, Mali-G31 MP2 GPU
+> >   - 512MiB/1GiB DDR3 DRAM
+> >   - AXP305 PMIC
+> >   - Raspberry-Pi-1 compatible GPIO header
+> >   - extra 13 pin expansion header, exposing pins for 2x USB 2.0 ports
+> >   - 1 USB 2.0 host port
+> >   - 1 USB 2.0 type C port (power supply + OTG)
+> >   - MicroSD slot
+> >   - on-board 2MiB bootable SPI NOR flash
+> >   - 1Gbps Ethernet port (via RTL8211F PHY)
+> >   - micro-HDMI port
+> >   - unsupported Allwinner WiFi/BT chip
+> >=20
+> > For more details see: https://linux-sunxi.org/Orange_Pi_Zero_2 =20
+>=20
+> Please no external links.
 
-Thanks!
+Shame. I understand the reasons behind that, but this source is rather
+stable (more so than some LKML archives ;-), and I copied the actual
+important information. But well, I guess people have to put it in their
+search engine and hope it doesn't drop them to the vendor's website ;-)
 
-[01/96] ASoC: soc-component: Add legacy_dai_naming flag
-        commit: 1c348f748b4dd7711c5564a8fce0842529498dff
-[02/96] soundwire: intel: Migrate to new style legacy DAI naming flag
-        commit: ca68202098a4416501cc9b5d68a54de22d754766
-[03/96] drm/vc4: Migrate to new style legacy DAI naming flag
-        commit: db827cb34ca38f4106f7c667bea3bbb48bc73552
-[04/96] ASoC: img: Migrate to new style legacy DAI naming flag
-        commit: 5f9d69986014945b826c712081678446c1f10fd7
-[05/96] ASoC: spear: Migrate to new style legacy DAI naming flag
-        commit: eeb021ee8fab0baae82e3784664666fd6b826e89
-[06/96] ASoC: jz4740-i2c: Migrate to new style legacy DAI naming flag
-        commit: 2bebc3b622c3c300eb3a3f603473429d8264c3b6
-[07/96] ASoC: ep93xx: Migrate to new style legacy DAI naming flag
-        commit: fe58b58330434ffad5fa0bc97e177aa93a9a6222
-[08/96] ASoC: stm32: Migrate to new style legacy DAI naming flag
-        commit: 36f07985f81b7482dceb8e650d2ce1f0222294d1
-[09/96] ASoC: bcm: Migrate to new style legacy DAI naming flag
-        commit: b9a0db0ae5247d92f379107a9c479f881914999d
-[10/96] ASoC: sh: Migrate to new style legacy DAI naming flag
-        commit: f712ff57a27090baff61f92bdb6521e8781d5e6b
-[11/96] ASoC: tegra: Migrate to new style legacy DAI naming flag
-        commit: 3172582c10540d4bf1caac1c39c903793648db8f
-[12/96] ASoC: hisilicon: Migrate to new style legacy DAI naming flag
-        commit: bf6dacb784f0efb5a225f6560d693fa71c7fda64
-[13/96] ASoC: xilinx: Migrate to new style legacy DAI naming flag
-        commit: bd486b070b1e24b38b3d6d7e33abffe4a18e3296
-[14/96] ASoC: sunxi: Migrate to new style legacy DAI naming flag
-        commit: f450b5dbce413b276e6c9215b40868b905c7b634
-[15/96] ASoC: Intel: Migrate to new style legacy DAI naming flag
-        commit: 725cf3bc6009b7fa156b73982eddf23c71767fbb
-[16/96] ASoC: meson: Migrate to new style legacy DAI naming flag
-        commit: d8572da099247860e97b27a7fddc9d80a71b8c25
-[17/96] ASoC: sti-uniperf: Migrate to new style legacy DAI naming flag
-        commit: ad483da7b0a17fdf4df0bd75b2cf29b5650ca2f7
-[18/96] ASoC: amd: Migrate to new style legacy DAI naming flag
-        commit: 0bc1e7d1fc3c50cf1eb62cd3c8d2b73c5f6d83fe
-[19/96] ASoC: atmel: Migrate to new style legacy DAI naming flag
-        commit: 7593e00807fb62e9f5e7367fc2500428cc317ff0
-[20/96] ASoC: fsl: Migrate to new style legacy DAI naming flag
-        commit: 1e63fcc74ace9824f3529eeabbb8f1881a7d3800
-[21/96] ASoC: xtensa: Migrate to new style legacy DAI naming flag
-        commit: f257dea1c589fa3f558502b3ac7b1c09699a73ab
-[22/96] ASoC: adi: Migrate to new style legacy DAI naming flag
-        commit: 9a34161a0bc90df825694195659d894e80afe7a3
-[23/96] ASoC: dwc: Migrate to new style legacy DAI naming flag
-        commit: e740ef3d9418db78ac7a8a24071933f9146af6e4
-[24/96] ASoC: qcom: Migrate to new style legacy DAI naming flag
-        commit: 8135d0290a9a1f1f752bb374f93a017b2074d09b
-[25/96] ASoC: test-component: Migrate to new style legacy DAI naming flag
-        commit: d73130ba523b88a3edb097ae3eb9f93df844b5e2
-[26/96] ASoC: rockchip: Migrate to new style legacy DAI naming flag
-        commit: d48a77173534df90788075e76fa88c52b7395a1e
-[27/96] ASoC: au1x: Migrate to new style legacy DAI naming flag
-        commit: 8e750817a1943b49d81c633f48370bce93bab98c
-[28/96] ASoC: pxa: Migrate to new style legacy DAI naming flag
-        commit: 05603f15b67a517c05ee2e2298e9accb8b7f1794
-[29/96] ASoC: sof: Migrate to new style legacy DAI naming flag
-        commit: a718ba30038402e6daa311c566d9be39e4ab3f05
-[30/96] ASoC: ux500: Migrate to new style legacy DAI naming flag
-        commit: 768be0d633d9ff668a7ca4ba3b8e3eebea328cb8
-[31/96] ASoC: ti: Migrate to new style legacy DAI naming flag
-        commit: 39c84e77da04f66f20fc54c6c6f49a5863bace5d
-[32/96] ASoC: mxs-saif: Migrate to new style legacy DAI naming flag
-        commit: 4cc4e22843e9bec6e9083d85e8a0bfed85fe5423
-[33/96] ASoC: samsung: Migrate to new style legacy DAI naming flag
-        commit: f7bfa516a39a111a5d3b6473cdac20ee6075358c
-[34/96] ASoC: core: Switch core to new DAI naming flag
-        commit: 129f055a2144ab588a43c2e66d21a1f55ce54f81
-[35/96] media: TDA1997x: Remove now redundant non_legacy_dai_naming flag
-        commit: 55b566ded44db29e9c1ab61623c60ade4600301e
-[36/96] ASoC: fsl: Remove now redundant non_legacy_dai_naming flag
-        commit: 89836f00429b5c3dedb2e2f30262e53847b82ad0
-[37/96] ASoC: meson: Remove now redundant non_legacy_dai_naming flag
-        commit: 9455e289246d8769631e6bec78c0c2ef40171b70
-[38/96] ASoC: pistachio: Remove now redundant non_legacy_dai_naming flag
-        commit: 7e91c90863df7387b9e1f04d9bfc2a43c77d2a46
-[39/96] ASoC: samsung: Remove now redundant non_legacy_dai_naming flag
-        commit: 752044db5b54c867dadfbd0daea90f1b9ecb21f1
-[40/96] ASoC: soc-utils: Remove now redundant non_legacy_dai_naming flag
-        commit: 0f91b4de756415382c10c502010c7536500a1632
-[41/96] ASoC: sunxi: Remove now redundant non_legacy_dai_naming flag
-        commit: 4c6391f59c459e7cf8d584299d0746cb681c2cb7
-[42/96] ASoC: tegra: Remove now redundant non_legacy_dai_naming flag
-        commit: 63c0ec9ebfec499d603993ea8244907bfbe39598
-[43/96] ASoC: test-component: Remove now redundant non_legacy_dai_naming flag
-        commit: 485c5924f262d4aef720c508ee2ff3cb8e2e531b
-[44/96] ASoC: topology: KUnit: Remove now redundant non_legacy_dai_naming flag
-        commit: 7cfb102a55556f5f165a2150a6f77a5aa7257599
-[45/96] ASoC: uniphier: Remove now redundant non_legacy_dai_naming flag
-        commit: 36e79a44b12e4ce2d8659f47dbcce42690919567
-[46/96] ASoC: ad*: Remove now redundant non_legacy_dai_naming flag
-        commit: d9e7ddb98604de6470a0fe4f9e2434a55ca35730
-[47/96] ASoC: ak*: Remove now redundant non_legacy_dai_naming flag
-        commit: 410e73a5338d72c31a32a50c1629d81d8ce6a71f
-[48/96] ASoC: alc*: Remove now redundant non_legacy_dai_naming flag
-        commit: 60d28b5c47c7f02bb52fc5e52a84d669b9b54dbc
-[49/96] ASoC: cs*: Remove now redundant non_legacy_dai_naming flag
-        commit: ff946fd98bffe5de450047f54a27492827186b75
-[50/96] ASoC: da*: Remove now redundant non_legacy_dai_naming flag
-        commit: c03a5b4c419799676013cb0c58c03e00ebe21a61
-[51/96] ASoC: es*: Remove now redundant non_legacy_dai_naming flag
-        commit: f0b163b4d5a215f610bd64eb8ab8a8906e53bec6
-[52/96] ASoC: max*: Remove now redundant non_legacy_dai_naming flag
-        commit: d2d3219ebe568fe4ee90ac748939304f7e05a8ec
-[53/96] ASoC: msm*: Remove now redundant non_legacy_dai_naming flag
-        commit: 736f48714c1b85b0b1f6c88af07989a5828531c9
-[54/96] ASoC: nau*: Remove now redundant non_legacy_dai_naming flag
-        commit: c2fd88f0029172679917ebc536cfdc4b8fabe168
-[55/96] ASoC: pcm*: Remove now redundant non_legacy_dai_naming flag
-        commit: 8d4470b8d08b4aab5136cc3265eb0b05d2a1c72d
-[56/96] ASoC: rt*: Remove now redundant non_legacy_dai_naming flag
-        commit: a524837ddd11bc20ec59d033d0260707cfa3cb99
-[57/96] ASoC: spdif: Remove now redundant non_legacy_dai_naming flag
-        commit: 792a8a944e7aa3f6ae0733429ba9937d7029ee4b
-[58/96] ASoC: ssm*: Remove now redundant non_legacy_dai_naming flag
-        commit: a4311a5b1502f747576e5995d1b5ab04f60033f9
-[59/96] ASoC: sta*: Remove now redundant non_legacy_dai_naming flag
-        commit: 402f437b43870e65377bb97240ee3911858547cb
-[60/96] ASoC: tas*: Remove now redundant non_legacy_dai_naming flag
-        commit: 02bcc2be4c12763dd4c524e67973afe4d8ea6d4c
-[61/96] ASoC: tfa*: Remove now redundant non_legacy_dai_naming flag
-        commit: c91f7e94ce931f058543174a409bb082208cae4a
-[62/96] ASoC: tlv320*: Remove now redundant non_legacy_dai_naming flag
-        commit: 04f3d715df3a463985dc25e55a55dbd970dd77b7
-[63/96] ASoC: twl*: Remove now redundant non_legacy_dai_naming flag
-        commit: 5947b42cbe0ee580c31f7f327119e7f7c703c25c
-[64/96] ASoC: uda*: Remove now redundant non_legacy_dai_naming flag
-        commit: 792008f6df86f7e5f861ef80fd4d6eb444a4aa92
-[65/96] ASoC: wm*: Remove now redundant non_legacy_dai_naming flag
-        commit: 02004449dbe6ec05b5b64a88824939b8fe474b82
-[66/96] ASoC: 88pm860x: Remove now redundant non_legacy_dai_naming flag
-        commit: 4c90eebd97c519361f32e11de991e299f5b47e3d
-[67/96] ASoC: ab8500: Remove now redundant non_legacy_dai_naming flag
-        commit: bb426d37dcd9a1474f785fea434875233d24e537
-[68/96] ASoC: ac97: Remove now redundant non_legacy_dai_naming flag
-        commit: 96b409c94d6766ae8faa9f07fabc3694ddb7d018
-[69/96] ASoC: ads117x: Remove now redundant non_legacy_dai_naming flag
-        commit: e556a108e0aab4688cb0c7b1c0517e3fab8b5eb4
-[70/96] ASoC: bd28623: Remove now redundant non_legacy_dai_naming flag
-        commit: 310288271f55ae0edccd01257c9fdf460dd45e30
-[71/96] ASoC: bt-sco: Remove now redundant non_legacy_dai_naming flag
-        commit: 8c657358f685cec541d7ad3c54f899a65f56783e
-[72/96] ASoC: cpcap: Remove now redundant non_legacy_dai_naming flag
-        commit: 35c5013ce7ca3ad55974e3517273a0e42140b5e7
-[73/96] ASoC: cq93vc: Remove now redundant non_legacy_dai_naming flag
-        commit: 73a3dca65cbe5e7de20f3453b6881acf3fb3cfbe
-[74/96] ASoC: cx20442: Remove now redundant non_legacy_dai_naming flag
-        commit: a0b6e4048228829485a43247c12c7774531728c4
-[75/96] ASoC: dmic: Remove now redundant non_legacy_dai_naming flag
-        commit: 4eaf75fa427262289a2bc34d3fcfbc602ebbacfa
-[76/96] ASoC: gtm601: Remove now redundant non_legacy_dai_naming flag
-        commit: 33b179e7513c30f03277f5de2a845e940a9bde9c
-[77/96] ASoC: hdac_hdmi: Remove now redundant non_legacy_dai_naming flag
-        commit: f02a7d11998eefe8c5627b93627469a0aab8d3da
-[78/96] ASoC: hdmi-codec: Remove now redundant non_legacy_dai_naming flag
-        commit: f5f8019371b42c742d9777052c189e89a0745319
-[79/96] ASoC: ics43432: Remove now redundant non_legacy_dai_naming flag
-        commit: e8f88be5c1548791397dadf2250fb5dcc9461f10
-[80/96] ASoC: inno_rk3036: Remove now redundant non_legacy_dai_naming flag
-        commit: 1f1ee5ae7a8b3d30cbfe18561a4e3b7430e96c9f
-[81/96] ASoC: Intel: avs: Remove now redundant non_legacy_dai_naming flag
-        commit: 22afe04dd84a63440e69dfc7f0e670404fbce831
-[82/96] ASoC: isabelle: Remove now redundant non_legacy_dai_naming flag
-        commit: 328bd81743f0823d9604b0098c95f071e7d02805
-[83/96] ASoC: jz4740: Remove now redundant non_legacy_dai_naming flag
-        commit: dd213681c801fd9d26aef95f4eb563c38f4967f9
-[84/96] ASoC: lm49453: Remove now redundant non_legacy_dai_naming flag
-        commit: 191889406df931cc2e40abf0a0de141b098f0481
-[85/96] ASoC: lochnagar: Remove now redundant non_legacy_dai_naming flag
-        commit: 34b89b309441f7f45f68d7ec3633ee3d50921bc8
-[86/96] ASoC: mc13783: Remove now redundant non_legacy_dai_naming flag
-        commit: 139db4ad9e0b793ffd3f4f23976bf72d5e4e6703
-[87/96] ASoC: ml26124: Remove now redundant non_legacy_dai_naming flag
-        commit: 7e6fcd7f6223ab32bdccc5e22cdec780cde305c3
-[88/96] ASoC: rk817: Remove now redundant non_legacy_dai_naming flag
-        commit: 2e938b8edfedb73efd07545a58fe51bb7fc48a56
-[89/96] ASoC: sgtl5000: Remove now redundant non_legacy_dai_naming flag
-        commit: 81ed3cb8d93936fe32b2b5c213dd56d8ecae7be8
-[90/96] ASoC: si476x: Remove now redundant non_legacy_dai_naming flag
-        commit: 89571b892e74b9724e155774576651cd675b4110
-[91/96] ASoC: stac9766: Remove now redundant non_legacy_dai_naming flag
-        commit: e5257aa583b6d9f80e3aaa3ed6fc68c1b1b5925a
-[92/96] ASoC: sti-sas: Remove now redundant non_legacy_dai_naming flag
-        commit: 20b1894d16547dcd99f190f5a0604a06a0c4479f
-[93/96] ASoC: tscs42xx: Remove now redundant non_legacy_dai_naming flag
-        commit: c06fb318493a059ac2c47937761d048f9ab1b542
-[94/96] ASoC: wl1273: Remove now redundant non_legacy_dai_naming flag
-        commit: 11c8bfaacbcd6c8251f65101d5ceeb173a76b1a3
-[95/96] ASoC: zl38060: Remove now redundant non_legacy_dai_naming flag
-        commit: 4a7a283a41dad608ce32c4ed623cc2caf68150c4
-[96/96] ASoC: soc-component: Remove non_legacy_dai_naming flag
-        commit: 01936221278c5af60d82b8e78ca74caa491c0d31
+> >=20
+> > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/Makefile        |   1 +
+> >  .../allwinner/sun50i-h616-orangepi-zero2.dts  | 203 ++++++++++++++++++
+> >  2 files changed, 204 insertions(+)
+> >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-=
+ =20
+> zero2.dts
+> >=20
+> > diff --git a/arch/arm64/boot/dts/allwinner/Makefile b/arch/arm64/boot/d=
+ts/ =20
+> allwinner/Makefile
+> > index 8fa5c060a4fe..df2214e6d946 100644
+> > --- a/arch/arm64/boot/dts/allwinner/Makefile
+> > +++ b/arch/arm64/boot/dts/allwinner/Makefile
+> > @@ -38,3 +38,4 @@ dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-pine-h64-model-b.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6.dtb
+> >  dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h6-tanix-tx6-mini.dtb
+> > +dtb-$(CONFIG_ARCH_SUNXI) +=3D sun50i-h616-orangepi-zero2.dtb
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.d=
+ts b/ =20
+> arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> > new file mode 100644
+> > index 000000000000..ca07cae698ce
+> > --- /dev/null
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616-orangepi-zero2.dts
+> > @@ -0,0 +1,203 @@
+> > +// SPDX-License-Identifier: (GPL-2.0+ or MIT)
+> > +/*
+> > + * Copyright (C) 2020 Arm Ltd. =20
+>=20
+> 2022?
 
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
+Mmh, but why? I wrote this in 2020, and it was published the first time
+that year[1]. If the copyright year means anything, by my understanding
+it should cover the earliest publication date, to establish the license
+conditions over every copy out there.
 
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
+[1]
+https://lore.kernel.org/linux-arm-kernel/20201202135409.13683-8-andre.przyw=
+ara@arm.com/
 
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
+>=20
+> > + */
+> > +
+> > +/dts-v1/;
+> > +
+> > +#include "sun50i-h616.dtsi"
+> > +
+> > +#include <dt-bindings/gpio/gpio.h>
+> > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +#include <dt-bindings/leds/common.h>
+> > +
+> > +/ {
+> > +	model =3D "OrangePi Zero2";
+> > +	compatible =3D "xunlong,orangepi-zero2", "allwinner,sun50i-h616";
+> > +
+> > +	aliases {
+> > +		ethernet0 =3D &emac0;
+> > +		serial0 =3D &uart0;
+> > +	};
+> > +
+> > +	chosen {
+> > +		stdout-path =3D "serial0:115200n8";
+> > +	};
+> > +
+> > +	leds {
+> > +		compatible =3D "gpio-leds";
+> > +
+> > +		led-0 {
+> > +			function =3D LED_FUNCTION_POWER;
+> > +			color =3D <LED_COLOR_ID_RED>;
+> > +			gpios =3D <&pio 2 12 GPIO_ACTIVE_HIGH>; /* PC12  =20
+> */
+> > +			default-state =3D "on";
+> > +		};
+> > +
+> > +		led-1 {
+> > +			function =3D LED_FUNCTION_STATUS;
+> > +			color =3D <LED_COLOR_ID_GREEN>;
+> > +			gpios =3D <&pio 2 13 GPIO_ACTIVE_HIGH>; /* PC13  =20
+> */
+> > +		};
+> > +	};
+> > +
+> > +	reg_vcc5v: vcc5v {
+> > +		/* board wide 5V supply directly from the USB-C socket  =20
+> */
+> > +		compatible =3D "regulator-fixed";
+> > +		regulator-name =3D "vcc-5v";
+> > +		regulator-min-microvolt =3D <5000000>;
+> > +		regulator-max-microvolt =3D <5000000>;
+> > +		regulator-always-on;
+> > +	};
+> > +};
+> > +
+> > +&emac0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&ext_rgmii_pins>;
+> > +	phy-mode =3D "rgmii";
+> > +	phy-handle =3D <&ext_rgmii_phy>;
+> > +	phy-supply =3D <&reg_dcdce>;
+> > +	allwinner,rx-delay-ps =3D <3100>;
+> > +	allwinner,tx-delay-ps =3D <700>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&mdio0 {
+> > +	ext_rgmii_phy: ethernet-phy@1 {
+> > +		compatible =3D "ethernet-phy-ieee802.3-c22";
+> > +		reg =3D <1>;
+> > +	};
+> > +};
+> > +
+> > +&mmc0 {
+> > +	vmmc-supply =3D <&reg_dcdce>;
+> > +	cd-gpios =3D <&pio 5 6 GPIO_ACTIVE_LOW>;	/* PF6 */
+> > +	bus-width =3D <4>;
+> > +	status =3D "okay";
+> > +};
+> > +
+> > +&r_rsb {
+> > +	status =3D "okay";
+> > +
+> > +	axp305: pmic@745 {
+> > +		compatible =3D "x-powers,axp305", "x-powers,axp805",
+> > +			     "x-powers,axp806";
+> > +		interrupt-controller;
+> > +		#interrupt-cells =3D <1>;
+> > +		reg =3D <0x745>;
+> > +
+> > +		x-powers,self-working-mode;
+> > +		vina-supply =3D <&reg_vcc5v>;
+> > +		vinb-supply =3D <&reg_vcc5v>;
+> > +		vinc-supply =3D <&reg_vcc5v>;
+> > +		vind-supply =3D <&reg_vcc5v>;
+> > +		vine-supply =3D <&reg_vcc5v>;
+> > +		aldoin-supply =3D <&reg_vcc5v>;
+> > +		bldoin-supply =3D <&reg_vcc5v>;
+> > +		cldoin-supply =3D <&reg_vcc5v>;
+> > +
+> > +		regulators {
+> > +			reg_aldo1: aldo1 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-max-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-name =3D "vcc-sys";
+> > +			};
+> > +
+> > +			reg_aldo2: aldo2 {	/* 3.3V on headers  =20
+> */
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-max-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-name =3D "vcc3v3-ext";
+> > +			};
+> > +
+> > +			reg_aldo3: aldo3 {	/* 3.3V on headers  =20
+> */
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-max-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-name =3D "vcc3v3-ext2";
+> > +			};
+> > +
+> > +			reg_bldo1: bldo1 {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <1800000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1800000>;
+> > +				regulator-name =3D "vcc1v8";
+> > +			};
+> > +
+> > +			bldo2 {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			bldo3 {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			bldo4 {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			cldo1 {
+> > +				/* reserved */
+> > +			};
+> > +
+> > +			cldo2 {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			cldo3 {
+> > +				/* unused */
+> > +			};
+> > +
+> > +			reg_dcdca: dcdca {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <810000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1080000>;
+> > +				regulator-name =3D "vdd-cpu";
+> > +			};
+> > +
+> > +			reg_dcdcc: dcdcc {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <810000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1080000>;
+> > +				regulator-name =3D "vdd-gpu-sys";
+> > +			};
+> > +
+> > +			reg_dcdcd: dcdcd {
+> > +				regulator-always-on;
+> > +				regulator-min-microvolt =3D  =20
+> <1500000>;
+> > +				regulator-max-microvolt =3D  =20
+> <1500000>;
+> > +				regulator-name =3D "vdd-dram";
+> > +			};
+> > +
+> > +			reg_dcdce: dcdce {
+> > +				regulator-boot-on; =20
+>=20
+> As discussed in the past, this will cause reboot issues because Linux wil=
+l=20
+> turn down above regulator and thus SD card will stop working. This should=
+ be=20
+> always on.
+>=20
+> And please add pio regulators, this is something we always add later...
 
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
+Sure, thanks for the heads up, will do.
 
-Thanks,
-Mark
+Cheers,
+Andre
+
+>=20
+> Best regards,
+> Jernej
+>=20
+> > +				regulator-min-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-max-microvolt =3D  =20
+> <3300000>;
+> > +				regulator-name =3D "vcc-eth-mmc";
+> > +			};
+> > +
+> > +			sw {
+> > +				/* unused */
+> > +			};
+> > +		};
+> > +	};
+> > +};
+> > +
+> > +&spi0  {
+> > +	status =3D "okay";
+> > +
+> > +	flash@0 {
+> > +		#address-cells =3D <1>;
+> > +		#size-cells =3D <1>;
+> > +		compatible =3D "jedec,spi-nor";
+> > +		reg =3D <0>;
+> > +		spi-max-frequency =3D <40000000>;
+> > +	};
+> > +};
+> > +
+> > +&uart0 {
+> > +	pinctrl-names =3D "default";
+> > +	pinctrl-0 =3D <&uart0_ph_pins>;
+> > +	status =3D "okay";
+> > +};
+> > --=20
+> > 2.35.3
+> >=20
+> >  =20
+>=20
+>=20
+
