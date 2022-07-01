@@ -1,126 +1,156 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2241C3A
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 14:55:28 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id i1so3565950wrb.11
-        for <linux-sunxi@lists.linux.dev>; Fri, 01 Jul 2022 07:55:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=aKmhqWsvz2VXt/NxPWZTmSfapGdUQJOe7XuueEGMywA=;
-        b=q7+4mVv9tGFQDYiHUjyiZhWOet/va8+qMXYFOdyNBU6x5hh0p/oE2lRkR7wEInuyyX
-         njarglTDvX8/WBvF5xCWpQ90YXMrij4tXs99p5lLzfEk9B0iGhvJTTw4yI3drnDlt5XS
-         lnhx8sGxE1b2ouu4aIo5+HzV3huTYEkpTvVHhvuQmuhVkNEpAzAcejTB4oO/QQk4g4jq
-         HpC+BRflTl7YknywuQmrycZRm2eJWEo9XUorIGW1B4vcty520Jc+Q5lYvsGqO1yNfwTW
-         wqjRhywZOUy3R7HsxEMdDhEUQ8P/9dODWLeKaRFkb6QmBmBMjm3h90Qp4PEUyVHi3YCs
-         ruRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=aKmhqWsvz2VXt/NxPWZTmSfapGdUQJOe7XuueEGMywA=;
-        b=dYl99OMMirOV7UdlLoaI88u2uJCZxCSTNymI32sf3GqvTuXa3KJADNGSY1YvkqUm6q
-         ZZvltevcKu5D2pllQTYlSzbBQQODRg/DDcwZW3oQAFp2Icz4+e/I4PejID6p3HbLQwYx
-         4BWxIFvS7RqJMJdXrlvV+1LrhiM5Ard5K9n5Rvd4Awvd8bLoS4Or6+8mJJGmAwnFqB8o
-         NjNhY8wWoiqbLSdJHzKGY3QL9+HTEqxQ9JnMGbTh7QMfmt/sfOuL/xCNgVvnfXSePGi9
-         UkIGTbOVDTS9sEJD1uGPIOw+4cFHLqgVaNG+wAQEDmQS2dGXMpFgnjnepx5JMkLO7fEW
-         uYNg==
-X-Gm-Message-State: AJIora9+7LuTE9SqijZCf4NGRUq+M27rKwr8+JcRiHuR9DtJWEbYuf+u
-	StE2auYoi46YeL3Vkuc21uLiOQ==
-X-Google-Smtp-Source: AGRyM1tCIA07jyVpPAgoHKY5VvDK82sz/FIuyrKzmAOblKWvPhdFd7fSDEiruHGXEYgIAT5QawR1jA==
-X-Received: by 2002:a5d:4b08:0:b0:21d:2ea6:2fe0 with SMTP id v8-20020a5d4b08000000b0021d2ea62fe0mr12365732wrq.144.1656687327276;
-        Fri, 01 Jul 2022 07:55:27 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id b8-20020a05600c4e0800b003974cb37a94sm7081073wmq.22.2022.07.01.07.55.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 07:55:26 -0700 (PDT)
-Date: Fri, 1 Jul 2022 16:55:24 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: herbert@gondor.apana.org.au, hch@lst.de, heiko@sntech.de,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	Ben Dooks <ben.dooks@codethink.co.uk>
-Subject: Re: [RFC PATCH] crypto: flush poison data
-Message-ID: <Yr8K3Kxm6QzGY/g4@Red>
-References: <20220701132735.1594822-1-clabbe@baylibre.com>
- <20220701153614.0a576f9c@donnerap.cambridge.arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A571C3A
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 15:16:13 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 549FB3200684;
+	Fri,  1 Jul 2022 11:16:11 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 01 Jul 2022 11:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656688570; x=
+	1656774970; bh=Tqwsov16Tb0O3xmHbTi4I+HfDNbMkRJRXqdUjVyems0=; b=f
+	IR3s4uS4yWZciAfs+E8sv1lP4+d4xh9McJaAh+lLsBBivpn4rTbX4iIe3lb9Jnv4
+	pfaUQPUMPss2tykJLQlt1OL4DF2c64giwSjAHzhb0Wmw4v09Kprw3Fgeic5/tiA7
+	Sg7ZN9QVaau7+pZYx0bHqG/aORhLS3XIl6AXBvZ8+NGs5aXl4VDseDZaPZj72ybe
+	G5HHazVhkg5Ev7WyPOkFn/lDYH+yDi/j014Kup4kjOLG0AkmVI6Rid1Y6t3i0+wM
+	PhXBM/NUcXPdgdUEmFC41D8QSh9b1HiiqEoVXWjrD1gg3m0oSxMNnhhlfrJO+K9K
+	AOg7iowiiRYEzQTRjmJCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656688570; x=
+	1656774970; bh=Tqwsov16Tb0O3xmHbTi4I+HfDNbMkRJRXqdUjVyems0=; b=e
+	+Hdle0aD9T5q2Zxi+2LOdnfPs+A2JW2Owdfw1YtAZeD/8sJghUqhOM8eEmgKM21X
+	UQBDjK+I4xVJUUatNYt/MxTFONARP/lROXkldTXoV97sl6WDOl6uA2sYqiNuGzj2
+	57K/JMwf4k1P3kkYLDFrKPq3WNf3LgQPNXc0pcEiKqzlCR7nPZuyw6gxnCWNBNDS
+	wQ7+j6QNiVN7TJtKuFkzCx6Luf6X/5/qEjh4dTtlG1NtSu1L9ROgA2CU8RpAA9YS
+	+X6zA+RpAzhiPgnao/Q9Zf2a8ytHVlj/DwQrKmR4KTafONBd/xo2+03RP9+GdBGo
+	/xaFLFnnyBV0lbesMLlAg==
+X-ME-Sender: <xms:uQ-_Yuxb0GQMRCVEJJqp2RMZJk1ZedtGxiRbprHZfQLLCOz7ZkhiOw>
+    <xme:uQ-_YqRH08y6riR4f4Xji7XlN3emQmWe2QEoCeHP0JbLpvdLS9cOjCx0XXM3_bsjw
+    0HiVSIxN1cwRxKhcA>
+X-ME-Received: <xmr:uQ-_YgUx40LlBe6syWCBJHSz9acW7DQOROdgHAbxhiINJT_DtrWrZL-3sJh3O9LGITtvYScm5_Y-XLvD-pNegcmI0zkMphe5TyLaMGO9D6SdCxl4M368RWU1Jg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgkeeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:uQ-_YkjJRWT8TPe9MP3hVekmyrt2oqD5kWCEG0eNuyxe03Z3SBI-0w>
+    <xmx:uQ-_YgAoMZ-uLUf8naXGiZfDwfFNGmsoXM9OmjdpSz0jcXAD6TnCTA>
+    <xmx:uQ-_YlKkxFLALD803MggfrKfXtcSSezkc8FKpUyRNor2v30eguH-uw>
+    <xmx:ug-_YpJv9AA1oHVjBlqdhJrv1b4xiOOu64EsUc5YsPzr2wQopcJQcQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 11:16:08 -0400 (EDT)
+Subject: Re: [PATCH 6/6] pinctrl: sunxi: Add driver for Allwinner D1/D1s
+To: Heiko Stuebner <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220626021148.56740-1-samuel@sholland.org>
+ <20220626021148.56740-7-samuel@sholland.org> <17090319.JCcGWNJJiE@phil>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <e6d2d4e8-b385-11d6-4d41-454542735269@sholland.org>
+Date: Fri, 1 Jul 2022 10:16:07 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220701153614.0a576f9c@donnerap.cambridge.arm.com>
+In-Reply-To: <17090319.JCcGWNJJiE@phil>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Le Fri, Jul 01, 2022 at 03:36:14PM +0100, Andre Przywara a écrit :
-> On Fri,  1 Jul 2022 13:27:35 +0000
-> Corentin Labbe <clabbe@baylibre.com> wrote:
+Hi Heiko,
+
+On 7/1/22 8:13 AM, Heiko Stuebner wrote:
+> Am Sonntag, 26. Juni 2022, 04:11:47 CEST schrieb Samuel Holland:
+>> These SoCs contain a pinctrl with a new register layout. Use the variant
+>> parameter to set the right register offsets. This pinctrl also increases
+>> the number of functions per pin from 8 to 16, taking advantage of all 4
+>> bits in the mux config field (so far, only functions 0-8 and 14-15 are
+>> used). This increases the maximum possible number of functions.
+>>
+>> D1s is a low pin count version of the D1 SoC, with some pins omitted.
+>> The remaining pins have the same function assignments as D1.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
 > 
-> Hi,
+> On a D1-Nezha
+> Tested-by: Heiko Stuebner <heiko@sntech.de>
 > 
-> > On my Allwinner D1 nezha, the sun8i-ce fail self-tests due to:
-> > alg: skcipher: cbc-des3-sun8i-ce encryption overran dst buffer on test vector 0
-> > 
-> > In fact the buffer is not overran by device but by the dma_map_single() operation.
-> > 
-> > To prevent any corruption of the poisoned data, simply flush them before
-> > giving the buffer to the tested driver.
-> > 
-> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
-> > ---
-> > 
-> > Hello
-> > 
-> > I put this patch as RFC, since this behavour happen only on non yet merged RISCV code.
-> > (Mostly riscv: implement Zicbom-based CMO instructions + the t-head variant)
-> > 
-> > Regards
-> > 
-> >  crypto/testmgr.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/crypto/testmgr.c b/crypto/testmgr.c
-> > index c59bd9e07978..187163e2e593 100644
-> > --- a/crypto/testmgr.c
-> > +++ b/crypto/testmgr.c
-> > @@ -19,6 +19,7 @@
-> >  #include <crypto/aead.h>
-> >  #include <crypto/hash.h>
-> >  #include <crypto/skcipher.h>
-> > +#include <linux/cacheflush.h>
-> >  #include <linux/err.h>
-> >  #include <linux/fips.h>
-> >  #include <linux/module.h>
-> > @@ -205,6 +206,8 @@ static void testmgr_free_buf(char *buf[XBUFSIZE])
-> >  static inline void testmgr_poison(void *addr, size_t len)
-> >  {
-> >  	memset(addr, TESTMGR_POISON_BYTE, len);
-> > +	/* Be sure data is written to prevent corruption from some DMA sync */
-> > +	flush_icache_range((unsigned long)addr, (unsigned long)addr + len);
+> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 > 
-> As Ben already mentioned, this looks like having nothing to do with the I
-> cache. I guess you picked that because it does the required cache cleaning
-> and doesn't require a vma parameter?
+> with one remark below
 
-The reality is simpler, I just copied what did drivers/crypto/xilinx/zynqmp-sha.c
+Thanks for reviewing the series.
 
+>> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+>> index ec7daaa5666b..350044d4c1b5 100644
+>> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+>> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
+>> @@ -1297,11 +1297,11 @@ static int sunxi_pinctrl_build_state(struct platform_device *pdev)
+>>  
+>>  	/*
+>>  	 * Find an upper bound for the maximum number of functions: in
+>> -	 * the worst case we have gpio_in, gpio_out, irq and up to four
+>> +	 * the worst case we have gpio_in, gpio_out, irq and up to seven
+>>  	 * special functions per pin, plus one entry for the sentinel.
+>>  	 * We'll reallocate that later anyway.
+>>  	 */
+>> -	pctl->functions = kcalloc(4 * pctl->ngroups + 4,
+>> +	pctl->functions = kcalloc(7 * pctl->ngroups + 4,
+>>  				  sizeof(*pctl->functions),
+>>  				  GFP_KERNEL);
+>>  	if (!pctl->functions)
+>> @@ -1494,9 +1494,15 @@ int sunxi_pinctrl_init_with_variant(struct platform_device *pdev,
+>>  	pctl->dev = &pdev->dev;
+>>  	pctl->desc = desc;
+>>  	pctl->variant = variant;
+>> -	pctl->bank_mem_size = BANK_MEM_SIZE;
+>> -	pctl->pull_regs_offset = PULL_REGS_OFFSET;
+>> -	pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
+>> +	if (pctl->variant >= PINCTRL_SUN20I_D1) {
+>> +		pctl->bank_mem_size = D1_BANK_MEM_SIZE;
+>> +		pctl->pull_regs_offset = D1_PULL_REGS_OFFSET;
+>> +		pctl->dlevel_field_width = D1_DLEVEL_FIELD_WIDTH;
+>> +	} else {
+>> +		pctl->bank_mem_size = BANK_MEM_SIZE;
+>> +		pctl->pull_regs_offset = PULL_REGS_OFFSET;
+>> +		pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
+>> +	}
 > 
-> But more importantly: I think drivers shouldn't do explicit cache
-> maintenance, this is what the DMA API is for.
-> So if you get DMA corruption, then this points to some flaw in the DMA API
-> usage: either the buffer belongs to the CPU, then the device must not write
-> to it. Or the buffer belongs to the device, then the CPU cannot expect to
-> write to that without that data potentially getting corrupted.
+> this is likely ok for _one_ variant (so for now this should be ok) but
+> will get ugly when there are more of them.
+> 
+> So in the long term it might make sense to pass these values in from
+> the soc-specific driver maybe?
 
-The device does nothing wrong, I removed all sun8i-ce device action (and kept DMA API actions) and the the whole buffer is still corrupted.
-Anyway if the driver was doing something wrong, it should have fail on arm or arm64.
+Yes, in the long term. It took 10 years before the first layout change, so I do
+not expect another layout change any time soon.
 
-See my previous report https://lore.kernel.org/lkml/YllWTN+15CoskNBt@Red/ which show the problem (The invalidated size is bigger than the dma_sync length parameter)
+For now, I did not want to deal with the overhead of passing in the offsets
+individually, nor coming up with a name for each layout to look up the offsets
+from a table. (The BSP calls the variants "SUNXI_PCTL_HW_TYPE_0" and
+"SUNXI_PCTL_HW_TYPE_1", which is... not descriptive.)
 
+Regards,
+Samuel
