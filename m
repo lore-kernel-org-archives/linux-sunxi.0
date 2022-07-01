@@ -1,156 +1,152 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A571C3A
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 15:16:13 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 549FB3200684;
-	Fri,  1 Jul 2022 11:16:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 01 Jul 2022 11:16:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656688570; x=
-	1656774970; bh=Tqwsov16Tb0O3xmHbTi4I+HfDNbMkRJRXqdUjVyems0=; b=f
-	IR3s4uS4yWZciAfs+E8sv1lP4+d4xh9McJaAh+lLsBBivpn4rTbX4iIe3lb9Jnv4
-	pfaUQPUMPss2tykJLQlt1OL4DF2c64giwSjAHzhb0Wmw4v09Kprw3Fgeic5/tiA7
-	Sg7ZN9QVaau7+pZYx0bHqG/aORhLS3XIl6AXBvZ8+NGs5aXl4VDseDZaPZj72ybe
-	G5HHazVhkg5Ev7WyPOkFn/lDYH+yDi/j014Kup4kjOLG0AkmVI6Rid1Y6t3i0+wM
-	PhXBM/NUcXPdgdUEmFC41D8QSh9b1HiiqEoVXWjrD1gg3m0oSxMNnhhlfrJO+K9K
-	AOg7iowiiRYEzQTRjmJCQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656688570; x=
-	1656774970; bh=Tqwsov16Tb0O3xmHbTi4I+HfDNbMkRJRXqdUjVyems0=; b=e
-	+Hdle0aD9T5q2Zxi+2LOdnfPs+A2JW2Owdfw1YtAZeD/8sJghUqhOM8eEmgKM21X
-	UQBDjK+I4xVJUUatNYt/MxTFONARP/lROXkldTXoV97sl6WDOl6uA2sYqiNuGzj2
-	57K/JMwf4k1P3kkYLDFrKPq3WNf3LgQPNXc0pcEiKqzlCR7nPZuyw6gxnCWNBNDS
-	wQ7+j6QNiVN7TJtKuFkzCx6Luf6X/5/qEjh4dTtlG1NtSu1L9ROgA2CU8RpAA9YS
-	+X6zA+RpAzhiPgnao/Q9Zf2a8ytHVlj/DwQrKmR4KTafONBd/xo2+03RP9+GdBGo
-	/xaFLFnnyBV0lbesMLlAg==
-X-ME-Sender: <xms:uQ-_Yuxb0GQMRCVEJJqp2RMZJk1ZedtGxiRbprHZfQLLCOz7ZkhiOw>
-    <xme:uQ-_YqRH08y6riR4f4Xji7XlN3emQmWe2QEoCeHP0JbLpvdLS9cOjCx0XXM3_bsjw
-    0HiVSIxN1cwRxKhcA>
-X-ME-Received: <xmr:uQ-_YgUx40LlBe6syWCBJHSz9acW7DQOROdgHAbxhiINJT_DtrWrZL-3sJh3O9LGITtvYScm5_Y-XLvD-pNegcmI0zkMphe5TyLaMGO9D6SdCxl4M368RWU1Jg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehfedgkeeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:uQ-_YkjJRWT8TPe9MP3hVekmyrt2oqD5kWCEG0eNuyxe03Z3SBI-0w>
-    <xmx:uQ-_YgAoMZ-uLUf8naXGiZfDwfFNGmsoXM9OmjdpSz0jcXAD6TnCTA>
-    <xmx:uQ-_YlKkxFLALD803MggfrKfXtcSSezkc8FKpUyRNor2v30eguH-uw>
-    <xmx:ug-_YpJv9AA1oHVjBlqdhJrv1b4xiOOu64EsUc5YsPzr2wQopcJQcQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 11:16:08 -0400 (EDT)
-Subject: Re: [PATCH 6/6] pinctrl: sunxi: Add driver for Allwinner D1/D1s
-To: Heiko Stuebner <heiko@sntech.de>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- linux-arm-kernel@lists.infradead.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-7-samuel@sholland.org> <17090319.JCcGWNJJiE@phil>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <e6d2d4e8-b385-11d6-4d41-454542735269@sholland.org>
-Date: Fri, 1 Jul 2022 10:16:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EC773C2F
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 16:28:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 862EAC341CD;
+	Fri,  1 Jul 2022 16:28:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1656692928;
+	bh=R8iGcJ/q4R9xa0G3mQb3hMxAlVQoBfF30z8+ZZkTAVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k7nnHPKmQ78xkG3MaFecuBEPoBXG6f1Qg+E/PH1vsnn06xDko5MYwE/leoTqSTj6i
+	 ozFze5Roamqux+noCahHYLuuH9rJfaTqgnc5i6FAEB9TPAubzHygIm34XiUvhbLl78
+	 bzxHUScSbhLaskc3vVwcQclgIqvnK4IFX02CtgYjHTOu/+XEmVxHG6jc6DHBIP0PQa
+	 jJrXCiDz1jxCeHnOPd0tYnfZCYA7a+xhZrq/SVs+xrd/9BH2uVaGfcVI2A6jcVH+/4
+	 cjb/ePzIPQvTKnkugwYZn9XoF1uMjgCNUKTxGoy9UN/TQ5/1GYzrEs4w+JPzubZUFq
+	 IESuBzxGTCZKg==
+Date: Fri, 1 Jul 2022 21:58:43 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <maxime@cerno.tech>, dmaengine@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] dmaengine: sun4i: Set the maximum segment size
+Message-ID: <Yr8guz0No80hdgxi@matsya>
+References: <20220621031350.36187-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <17090319.JCcGWNJJiE@phil>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220621031350.36187-1-samuel@sholland.org>
 
-Hi Heiko,
-
-On 7/1/22 8:13 AM, Heiko Stuebner wrote:
-> Am Sonntag, 26. Juni 2022, 04:11:47 CEST schrieb Samuel Holland:
->> These SoCs contain a pinctrl with a new register layout. Use the variant
->> parameter to set the right register offsets. This pinctrl also increases
->> the number of functions per pin from 8 to 16, taking advantage of all 4
->> bits in the mux config field (so far, only functions 0-8 and 14-15 are
->> used). This increases the maximum possible number of functions.
->>
->> D1s is a low pin count version of the D1 SoC, with some pins omitted.
->> The remaining pins have the same function assignments as D1.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
+On 20-06-22, 22:13, Samuel Holland wrote:
+> The sun4i DMA engine supports transfer sizes up to 128k for normal DMA
+> and 16M for dedicated DMA, as documented in the A10 and A20 manuals.
 > 
-> On a D1-Nezha
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
+> Since this is larger than the default segment size limit (64k), exposing
+> the real limit reduces the number of transfers needed for a transaction.
+> However, because the device can only report one segment size limit, we
+> have to expose the smaller limit from normal DMA.
 > 
-> Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+> One complication is that the driver combines pairs of periodic transfers
+> to reduce programming overhead. This only works when the period size is
+> at most half of the maximum transfer size. With the default 64k segment
+> size limit, this was always the case, but for normal DMA it is no longer
+> guaranteed. Skip the optimization if the period is too long; even
+> without it, the overhead is less than before.
 > 
-> with one remark below
-
-Thanks for reviewing the series.
-
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> index ec7daaa5666b..350044d4c1b5 100644
->> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
->> @@ -1297,11 +1297,11 @@ static int sunxi_pinctrl_build_state(struct platform_device *pdev)
->>  
->>  	/*
->>  	 * Find an upper bound for the maximum number of functions: in
->> -	 * the worst case we have gpio_in, gpio_out, irq and up to four
->> +	 * the worst case we have gpio_in, gpio_out, irq and up to seven
->>  	 * special functions per pin, plus one entry for the sentinel.
->>  	 * We'll reallocate that later anyway.
->>  	 */
->> -	pctl->functions = kcalloc(4 * pctl->ngroups + 4,
->> +	pctl->functions = kcalloc(7 * pctl->ngroups + 4,
->>  				  sizeof(*pctl->functions),
->>  				  GFP_KERNEL);
->>  	if (!pctl->functions)
->> @@ -1494,9 +1494,15 @@ int sunxi_pinctrl_init_with_variant(struct platform_device *pdev,
->>  	pctl->dev = &pdev->dev;
->>  	pctl->desc = desc;
->>  	pctl->variant = variant;
->> -	pctl->bank_mem_size = BANK_MEM_SIZE;
->> -	pctl->pull_regs_offset = PULL_REGS_OFFSET;
->> -	pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
->> +	if (pctl->variant >= PINCTRL_SUN20I_D1) {
->> +		pctl->bank_mem_size = D1_BANK_MEM_SIZE;
->> +		pctl->pull_regs_offset = D1_PULL_REGS_OFFSET;
->> +		pctl->dlevel_field_width = D1_DLEVEL_FIELD_WIDTH;
->> +	} else {
->> +		pctl->bank_mem_size = BANK_MEM_SIZE;
->> +		pctl->pull_regs_offset = PULL_REGS_OFFSET;
->> +		pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
->> +	}
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> I don't have any A10 or A20 boards I can test this on.
 > 
-> this is likely ok for _one_ variant (so for now this should be ok) but
-> will get ugly when there are more of them.
+>  drivers/dma/sun4i-dma.c | 32 +++++++++++++++++++++++++++-----
+>  1 file changed, 27 insertions(+), 5 deletions(-)
 > 
-> So in the long term it might make sense to pass these values in from
-> the soc-specific driver maybe?
+> diff --git a/drivers/dma/sun4i-dma.c b/drivers/dma/sun4i-dma.c
+> index 93f1645ae928..f291b1b4db32 100644
+> --- a/drivers/dma/sun4i-dma.c
+> +++ b/drivers/dma/sun4i-dma.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/bitmap.h>
+>  #include <linux/bitops.h>
+>  #include <linux/clk.h>
+> +#include <linux/dma-mapping.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/dmapool.h>
+>  #include <linux/interrupt.h>
+> @@ -122,6 +123,15 @@
+>  	 SUN4I_DDMA_PARA_DST_WAIT_CYCLES(2) |				\
+>  	 SUN4I_DDMA_PARA_SRC_WAIT_CYCLES(2))
+>  
+> +/*
+> + * Normal DMA supports individual transfers (segments) up to 128k.
+> + * Dedicated DMA supports transfers up to 16M. We can only report
+> + * one size limit, so we have to use the smaller value.
+> + */
+> +#define SUN4I_NDMA_MAX_SEG_SIZE		SZ_128K
+> +#define SUN4I_DDMA_MAX_SEG_SIZE		SZ_16M
 
-Yes, in the long term. It took 10 years before the first layout change, so I do
-not expect another layout change any time soon.
+This new define is not used, so why add?
 
-For now, I did not want to deal with the overhead of passing in the offsets
-individually, nor coming up with a name for each layout to look up the offsets
-from a table. (The BSP calls the variants "SUNXI_PCTL_HW_TYPE_0" and
-"SUNXI_PCTL_HW_TYPE_1", which is... not descriptive.)
+> +#define SUN4I_DMA_MAX_SEG_SIZE		SUN4I_NDMA_MAX_SEG_SIZE
+> +
+>  struct sun4i_dma_pchan {
+>  	/* Register base of channel */
+>  	void __iomem			*base;
+> @@ -155,7 +165,8 @@ struct sun4i_dma_contract {
+>  	struct virt_dma_desc		vd;
+>  	struct list_head		demands;
+>  	struct list_head		completed_demands;
+> -	int				is_cyclic;
+> +	bool				is_cyclic : 1;
+> +	bool				use_half_int : 1;
+>  };
+>  
+>  struct sun4i_dma_dev {
+> @@ -372,7 +383,7 @@ static int __execute_vchan_pending(struct sun4i_dma_dev *priv,
+>  	if (promise) {
+>  		vchan->contract = contract;
+>  		vchan->pchan = pchan;
+> -		set_pchan_interrupt(priv, pchan, contract->is_cyclic, 1);
+> +		set_pchan_interrupt(priv, pchan, contract->use_half_int, 1);
 
-Regards,
-Samuel
+not interrupt when cyclic?
+
+>  		configure_pchan(pchan, promise);
+>  	}
+>  
+> @@ -735,12 +746,21 @@ sun4i_dma_prep_dma_cyclic(struct dma_chan *chan, dma_addr_t buf, size_t len,
+>  	 *
+>  	 * Which requires half the engine programming for the same
+>  	 * functionality.
+> +	 *
+> +	 * This only works if two periods fit in a single promise. That will
+> +	 * always be the case for dedicated DMA, where the hardware has a much
+> +	 * larger maximum transfer size than advertised to clients.
+>  	 */
+> -	nr_periods = DIV_ROUND_UP(len / period_len, 2);
+> +	if (vchan->is_dedicated || period_len <= SUN4I_NDMA_MAX_SEG_SIZE / 2) {
+> +		period_len *= 2;
+> +		contract->use_half_int = 1;
+> +	}
+> +
+> +	nr_periods = DIV_ROUND_UP(len, period_len);
+>  	for (i = 0; i < nr_periods; i++) {
+>  		/* Calculate the offset in the buffer and the length needed */
+> -		offset = i * period_len * 2;
+> -		plength = min((len - offset), (period_len * 2));
+> +		offset = i * period_len;
+> +		plength = min((len - offset), period_len);
+>  		if (dir == DMA_MEM_TO_DEV)
+>  			src = buf + offset;
+>  		else
+> @@ -1149,6 +1169,8 @@ static int sun4i_dma_probe(struct platform_device *pdev)
+>  	platform_set_drvdata(pdev, priv);
+>  	spin_lock_init(&priv->lock);
+>  
+> +	dma_set_max_seg_size(&pdev->dev, SUN4I_DMA_MAX_SEG_SIZE);
+> +
+>  	dma_cap_zero(priv->slave.cap_mask);
+>  	dma_cap_set(DMA_PRIVATE, priv->slave.cap_mask);
+>  	dma_cap_set(DMA_MEMCPY, priv->slave.cap_mask);
+> -- 
+> 2.35.1
+
+-- 
+~Vinod
