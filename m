@@ -1,21 +1,21 @@
 Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1098E1C2C
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 13:13:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229CE1871
+	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 13:14:19 +0000 (UTC)
 Received: from p508fd39e.dip0.t-ipconnect.de ([80.143.211.158] helo=phil.localnet)
 	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <heiko@sntech.de>)
-	id 1o7GST-0001fu-9M; Fri, 01 Jul 2022 15:13:17 +0200
+	id 1o7GG4-0001Vv-Rz; Fri, 01 Jul 2022 15:00:28 +0200
 From: Heiko Stuebner <heiko@sntech.de>
-To: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Linus Walleij <linus.walleij@linaro.org>, linux-arm-kernel@lists.infradead.org
-Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH 6/6] pinctrl: sunxi: Add driver for Allwinner D1/D1s
-Date: Fri, 01 Jul 2022 15:13:17 +0200
-Message-ID: <17090319.JCcGWNJJiE@phil>
-In-Reply-To: <20220626021148.56740-7-samuel@sholland.org>
-References: <20220626021148.56740-1-samuel@sholland.org> <20220626021148.56740-7-samuel@sholland.org>
+To: Alessandro Zummo <a.zummo@towertech.it>, Alexandre Belloni <alexandre.belloni@bootlin.com>, linux-arm-kernel@lists.infradead.org
+Cc: Icenowy Zheng <icenowy@aosc.io>, Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-rtc@vger.kernel.org, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>
+Subject: Re: [RESEND PATCH] rtc: sun6i: add support for R329 RTC
+Date: Fri, 01 Jul 2022 15:00:28 +0200
+Message-ID: <5026101.q0ZmV6gNhb@phil>
+In-Reply-To: <20220626042756.58961-1-samuel@sholland.org>
+References: <20220626042756.58961-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -25,16 +25,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Am Sonntag, 26. Juni 2022, 04:11:47 CEST schrieb Samuel Holland:
-> These SoCs contain a pinctrl with a new register layout. Use the variant
-> parameter to set the right register offsets. This pinctrl also increases
-> the number of functions per pin from 8 to 16, taking advantage of all 4
-> bits in the mux config field (so far, only functions 0-8 and 14-15 are
-> used). This increases the maximum possible number of functions.
+Am Sonntag, 26. Juni 2022, 06:27:56 CEST schrieb Samuel Holland:
+> From: Icenowy Zheng <icenowy@aosc.io>
 > 
-> D1s is a low pin count version of the D1 SoC, with some pins omitted.
-> The remaining pins have the same function assignments as D1.
+> Allwinner R329 has a RTC with a similar time storage with H616 but a
+> slightly different clock part.
 > 
+> As we have already handled the R329 RTC clocks in the CCU driver, add a
+> compatible string to RTC driver to allow probing of the RTC.
+> 
+> Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
 On a D1-Nezha
@@ -42,50 +42,32 @@ Tested-by: Heiko Stuebner <heiko@sntech.de>
 
 Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
-with one remark below
-
-> diff --git a/drivers/pinctrl/sunxi/pinctrl-sunxi.c b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> index ec7daaa5666b..350044d4c1b5 100644
-> --- a/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> +++ b/drivers/pinctrl/sunxi/pinctrl-sunxi.c
-> @@ -1297,11 +1297,11 @@ static int sunxi_pinctrl_build_state(struct platform_device *pdev)
->  
->  	/*
->  	 * Find an upper bound for the maximum number of functions: in
-> -	 * the worst case we have gpio_in, gpio_out, irq and up to four
-> +	 * the worst case we have gpio_in, gpio_out, irq and up to seven
->  	 * special functions per pin, plus one entry for the sentinel.
->  	 * We'll reallocate that later anyway.
->  	 */
-> -	pctl->functions = kcalloc(4 * pctl->ngroups + 4,
-> +	pctl->functions = kcalloc(7 * pctl->ngroups + 4,
->  				  sizeof(*pctl->functions),
->  				  GFP_KERNEL);
->  	if (!pctl->functions)
-> @@ -1494,9 +1494,15 @@ int sunxi_pinctrl_init_with_variant(struct platform_device *pdev,
->  	pctl->dev = &pdev->dev;
->  	pctl->desc = desc;
->  	pctl->variant = variant;
-> -	pctl->bank_mem_size = BANK_MEM_SIZE;
-> -	pctl->pull_regs_offset = PULL_REGS_OFFSET;
-> -	pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
-> +	if (pctl->variant >= PINCTRL_SUN20I_D1) {
-> +		pctl->bank_mem_size = D1_BANK_MEM_SIZE;
-> +		pctl->pull_regs_offset = D1_PULL_REGS_OFFSET;
-> +		pctl->dlevel_field_width = D1_DLEVEL_FIELD_WIDTH;
-> +	} else {
-> +		pctl->bank_mem_size = BANK_MEM_SIZE;
-> +		pctl->pull_regs_offset = PULL_REGS_OFFSET;
-> +		pctl->dlevel_field_width = DLEVEL_FIELD_WIDTH;
-> +	}
-
-this is likely ok for _one_ variant (so for now this should be ok) but
-will get ugly when there are more of them.
-
-So in the long term it might make sense to pass these values in from
-the soc-specific driver maybe?
+> ---
+> Resending this patch separately from Icenowy's R329 series[1] because it
+> is also needed for D1 (which has R329 as its fallback compatible[2]), so
+> I would like to get it in to 5.20.
+> 
+> [1]: https://lore.kernel.org/lkml/BYAPR20MB2472C608678F3FAEDA7B7541BCF79@BYAPR20MB2472.namprd20.prod.outlook.com/
+> [2]: https://lore.kernel.org/lkml/20220203021736.13434-3-samuel@sholland.org/
+> 
+>  drivers/rtc/rtc-sun6i.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/rtc/rtc-sun6i.c b/drivers/rtc/rtc-sun6i.c
+> index 57540727ce1c..ed5516089e9a 100644
+> --- a/drivers/rtc/rtc-sun6i.c
+> +++ b/drivers/rtc/rtc-sun6i.c
+> @@ -875,6 +875,8 @@ static const struct of_device_id sun6i_rtc_dt_ids[] = {
+>  	{ .compatible = "allwinner,sun50i-h6-rtc" },
+>  	{ .compatible = "allwinner,sun50i-h616-rtc",
+>  		.data = (void *)RTC_LINEAR_DAY },
+> +	{ .compatible = "allwinner,sun50i-r329-rtc",
+> +		.data = (void *)RTC_LINEAR_DAY },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, sun6i_rtc_dt_ids);
+> 
 
 
-Heiko
 
 
