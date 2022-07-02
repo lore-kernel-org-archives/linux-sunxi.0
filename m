@@ -1,189 +1,104 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9573C1D
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 17:03:39 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 854275C0163;
-	Sat,  2 Jul 2022 13:03:38 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614011FA8
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 18:40:46 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id 481E35C0197;
+	Sat,  2 Jul 2022 14:40:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 02 Jul 2022 13:03:38 -0400
+  by compute3.internal (MEProxy); Sat, 02 Jul 2022 14:40:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656781418; x=
-	1656867818; bh=Qw0g3C0GCDs1Krht9RCgkXeovny/SwSqNa/Sv0Q8bjY=; b=r
-	VBmpVASF3jGoNCF0i3CEx9TlVgGKj0OIneOTRlhXTcUF1aH8xwkouQul4YGZyo9N
-	38t3tff/NNFZ02/gKboaO750iZXP+xjqHHvh9rb4oidrqjAc1Mg5WEEOLX3A7718
-	1xK5grx9rr7PB/ANdUtcvKIx7GCzVtR3JMyoKCm7cKrxvG2C8KVAUx4SKM+7HwlZ
-	WqAWv4bI6hLkgi6DszVYYQjGTDTIbrpOKJbKXyfP8IxC7hjo41Wg8Z44QWpGEMcA
-	sbfY0dnYXGmKNdb4pXv+8Nf4VLg6cC7yx2iSJpO0xhdyzqyOQSk6rlN9TZm3BNck
-	S+1pMMU6a5bFZaNqqH0pA==
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1656787245; x=1656873645; bh=pfmmVMf+mB8FJ236qCWDsBxR6
+	Vdsvx3/s3O7TyTZeSk=; b=OCHejxF056CJYLXpUFdd1YU60NopgVCQy6pHo6Prq
+	RwrCocJIXWpxTOjycqrj8Za6qKUE01RyBvSju1010YG/vWe9QVmf8GUgpPEDHd8Z
+	LRnBiYmdhD4zJzE60a2V4haE21WNSLhk7FfPtMztABq+c6ysosf2s2PDNypMmtZt
+	QEKCv5v8mJxuTyy+ZplGpwlX4ou0FinxOpQL8aIqZnSTdQQh9msLb0M1b4dk4QUD
+	B6QqEZASWL/N3t1hofoH6tUlV5tdTGDSxay9yQAp1+t+nObslbIdR6umjUx/fCsi
+	xGK2bfpBr39JIseY9oWhRbfgrRb35/Z7T6D9paGnfUjvQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656781418; x=
-	1656867818; bh=Qw0g3C0GCDs1Krht9RCgkXeovny/SwSqNa/Sv0Q8bjY=; b=T
-	ppaHG4SJqXpXhMgJtsJGffsPppzujMcVklJ3+5w9qgoLM6dqxncKPUNeaMJ5Culi
-	ptGAq03MhAyCjDrli2HPZcglwmUgCH6rb/ZoDP74QlOEPG2gQ2yRXW39nDq8MY0C
-	hok1XMR9kclnYF4DiQKS6ed22hJhO5aoCNh8frNhmsURfb4aMQ34ifPeYFyTkDjr
-	bo69tLzhx6mT1cL6etOgdIGXEZCY6iwLnrz9O9KFU+eDxgPRl9DCRT9fgZZLGyt9
-	+8VtWqWYHdY9L9GsP3iMMrShgaKwUwsec8L3RCmLpf8ATVQtYVhTcpI9jOdI7pVR
-	HYHjkfUaXvlFm4rrylFdQ==
-X-ME-Sender: <xms:aXrAYtJBfCwcoLHxzIR-JgbhSU4eaizYBIRq0ERcnQNYwGuC3GhKVw>
-    <xme:aXrAYpLOmKVutZb6yu3HYCeiVQFWvcN4V4d87F4pKW_dFnwZgvBmxR-j07ccPuLby
-    0B7ai-f0ZSncDkz_w>
-X-ME-Received: <xmr:aXrAYlt4n80duRIcxG3KRfPyEvfC6rMAfsSOgbI79ObjyKRJFfbGHYIPQePRKXlvz9dkAtu1m9tjCP_QLVJheTpN_ROTUq-6CxE3AxqgddDcVUuFXkVVHWWs1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedguddtjecutefuodetggdotefrod
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1656787245; x=1656873645; bh=pfmmVMf+mB8FJ236qCWDsBxR6Vdsvx3/s3O
+	7TyTZeSk=; b=PCUbmRrGYOHBMLSMWi0pQpDOsHlq9cyjr+FXEY1nqA6JXB0dun+
+	YIJxo6iCmh4zDYSnHddwvF6ODZ0LMWSdPL8r3nNqxLwlywcW5fmOLbzm0sD/agXI
+	L9KZzTDtlyeS5JW9s9MJJke1V0ifD60j4BMjGGqcSmEZpaZL2tsKPklyWV8QM2gF
+	J1lsHb51ogzv5NshqMuROLXXRTmgpF+a+DMLl7CRDgGEioLF6hqmW3q3uX3KrkCd
+	YCiN8cuCiauniKTYIBIH6KHttjmqDxte7Lo8EoMqAZU2h3zRRiqPJtvei9wZCaFU
+	c/ixK9Tc3Fme77NbO1IkK0OQ9KHqVz4CQfA==
+X-ME-Sender: <xms:LZHAYnO7pIdI3tbRkDtNJKW1AfMLb5tYrfECVQ0WQYytEsaeMvYKBA>
+    <xme:LZHAYh8-h5GVaKG2j5NNsjg3FwXrhPiy-WhFx7frpqzwqBd8pDHnbHb3ErBinjsWR
+    otZIshddHoK5-A7dQ>
+X-ME-Received: <xmr:LZHAYmSlWZY9mxCPDXAMoAzSquobBA6D8w7h_UOnNx7PwTNXxLUARkgXplYpfiEUUW08EdkzetNKD46nRaFYaldEaQAjA3UCBItkH6V_5nz6k9UT2wDJo212JzrC_ZfejoKYdA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedguddvkecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefuvfevfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepjeelfedutdeggeevvdekheefjeefvefgfeeiffefgeduieeu
-    tdehkeejleegueejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
-    lhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:aXrAYuZsz_UhmxI7CZwIMhHnE7Ru2l2YpXe0FML3IXw21_Z6miFdLg>
-    <xmx:aXrAYkbGcxlj6Wr6DVO-pJyxY8wGCkVp1_guGuIIrjnkxXV0QHY6UA>
-    <xmx:aXrAYiDs3Nfgdt2Yi9_IFnu52i2FkaI1oHEo-_L5-QzfBEcLN7tnMw>
-    <xmx:anrAYkqyaJmGZ7Dom7nJNRuGR-A8SCLakorPvruP0KUk4hSVZtFXUg>
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:LZHAYruv1gMZ7tUfdpuW2dU8q8I7DtN3b084UMhhHl0u3zVogzuLzA>
+    <xmx:LZHAYveY8uop6AspiS5I9g2hy1iU8rtTmR0mcFYhsQARwacddH2T3g>
+    <xmx:LZHAYn2nU7Wa4aH2OvdBZRySdrcXxj0VHqBQbZRVlhbezzMSd1He1w>
+    <xmx:LZHAYm5XbIMYUlcUgy-uWBRWiB8IArVlaKcOM3aNJLPS77VG5elE3A>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 13:03:36 -0400 (EDT)
-Subject: Re: [PATCH 0/3] ARM: sunxi: Remove A31 and A23/A33 platform SMP code
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Chen-Yu Tsai <wens@csie.org>, Russell King <linux@armlinux.org.uk>,
- Stephen Boyd <sboyd@kernel.org>, Michael Turquette
- <mturquette@baylibre.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- linux-clk@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
- Rob Herring <robh+dt@kernel.org>, =?UTF-8?Q?Emilio_L=c3=b3pez?=
- <emilio@elopez.com.ar>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220531045038.42230-1-samuel@sholland.org>
- <2833034.e9J7NaK4W3@kista>
- <20220613121729.46233a75@donnerap.cambridge.arm.com>
+ 2 Jul 2022 14:40:44 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <87fd9c7a-69be-e846-45ae-de3d773ba33a@sholland.org>
-Date: Sat, 2 Jul 2022 12:03:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+To: Lee Jones <lee.jones@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>,
+	linux-sunxi@lists.linux.dev,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] mfd: sun6i-prcm: Update Kconfig description
+Date: Sat,  2 Jul 2022 13:40:43 -0500
+Message-Id: <20220702184044.51144-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220613121729.46233a75@donnerap.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-[+ clock maintainers]
+This driver is used by a specific range of SoCs between when the PRCM
+hardware was introduced (A31) and when the PRCM CCU driver was added
+(A83T). It is unlikely to be extended to additional hardware. Update
+the description to include the full list of applicable SoCs.
 
-On 6/13/22 6:17 AM, Andre Przywara wrote:
-> On Sun, 12 Jun 2022 23:09:07 +0200
-> Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
-> 
-> Hi Samuel,
-> 
->> Dne torek, 31. maj 2022 ob 06:50:35 CEST je Samuel Holland napisal(a):
->>> This series is preparation for converting the PRCM MFD and legacy clock
->>> drivers to a CCU clock driver.
-> 
-> May I ask what the purpose of this exercise is? So if I understand
-> correctly, then it's about to convert the sun8i-a23-prcm MFD driver and
-> its children to a single "modern style" CCU clock driver, with its opaque
-> DT node?
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Yes, the purpose is to finish the conversion that was started six years
-ago[1][2], and eventually delete drivers/clk/sunxi.
+ drivers/mfd/Kconfig | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-[1]: https://git.kernel.org/torvalds/c/78a9f0dbcd60
-[2]: https://git.kernel.org/torvalds/c/2c89ce4f4b19
+diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
+index 3b59456f5545..9e44a60e2308 100644
+--- a/drivers/mfd/Kconfig
++++ b/drivers/mfd/Kconfig
+@@ -1357,12 +1357,13 @@ config MFD_STA2X11
+ 	select REGMAP_MMIO
+ 
+ config MFD_SUN6I_PRCM
+-	bool "Allwinner A31 PRCM controller"
++	bool "Allwinner A31/A23/A33 PRCM controller"
+ 	depends on ARCH_SUNXI || COMPILE_TEST
+ 	select MFD_CORE
+ 	help
+ 	  Support for the PRCM (Power/Reset/Clock Management) unit available
+-	  in A31 SoC.
++	  in the A31, A23, and A33 SoCs. Other Allwinner SoCs contain similar
++	  hardware, but they do not use this driver.
+ 
+ config MFD_SYSCON
+ 	bool "System Controller Register R/W Based on Regmap"
+-- 
+2.35.1
 
-> If that changes the compatible strings or the references to the clock
-> providers (and I guess it would need to?), then this would mean an
-> incompatible change. Which also means we would need to keep the old code
-> around, to maintain compatibility with "old" DTs? So what is the win then?
-> Now we have *two* clock drivers, for the same device, which need
-> maintenance and testing.
-
-We already have two drivers for the PRCM. ccu-sun8i-r, which is already built in
-to all MACH_SUN8I kernels, was originally intended to support A31/A23/A33, but
-nobody ever implemented it. See the comment in the binding header:
-
-    /* 8 is reserved for CLK_APB0_W1 on A31 */
-
-The benefits of conversion are:
- - U-Boot does not have to add support for an already-deprecated clock framework.
- - Users who know they have a recent devicetree can disable CLK_SUNXI.
- - Eventually we can disable CLK_SUNXI and delete drivers/clk/sunxi.
-
-Yes, we need to keep the old code for several years to support existing
-devicetrees. That is exactly why I want to do the conversion as soon as
-possible: to get that clock started now.
-
-> So can you confirm that this will be a breaking change?
-
-Yes, just like the other half of the CCU conversion was.
-
->> The platform SMP code references the PRCM
->>> node to map its MMIO space, which will break when the PRCM node is
->>> removed/replaced.  
->>
->> Why can't we just leave old platform code? If older dtb file is used, it would 
->> still work. Actually, isn't trivial to support new CCU binding too, just by 
->> including new CCU compatible string? IIUC new CCU node will have same address 
->> as current PRCM node.
-
-Yes, I could add the new compatible. I was trying to avoid adding more code and
-more complexity to code that appeared to be unused in the first place.
-
-> This aims for a similar direction, though in this case the alternative
-> (PSCI) predates the sunxi specific method in the kernel support. Can we
-> just deprecate this code, maybe issue a warning, with the hint to update
-> the bootloader (which might not be possible for some devices)?
-
-Since mainline U-Boot provides PSCI, I assume the purpose of this code was to
-support the vendor bootloader blob. And the threads adding this code[3][4]
-confirm that. In that case, users would have to be using a DTB shipped with the
-kernel, not the one provided by the bootloader. So if we change the devicetree,
-we have to change the code, too.
-
-Regards,
-Samuel
-
-[3]: https://lore.kernel.org/lkml/20131110100312.GI26440@lukather/
-[4]: https://lore.kernel.org/lkml/1426649042-30547-1-git-send-email-wens@csie.org/
-
-> Cheers,
-> Andre
-> 
->> Best regards,
->> Jernej
->>
->>>
->>> Since PSCI has been available for 7+ years, instead of trying to deal
->>> with the migration, I think it's safe to just delete this code.
->>>
->>>
->>> Samuel Holland (3):
->>>   ARM: sunxi: Remove A31 and A23/A33 platform SMP code
->>>   ARM: dts: sunxi: Remove obsolete CPU enable methods
->>>   dt-bindings: arm: Remove obsolete CPU enable methods
->>>
->>>  .../devicetree/bindings/arm/cpus.yaml         |   2 -
->>>  arch/arm/boot/dts/sun6i-a31.dtsi              |   1 -
->>>  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |   1 -
->>>  arch/arm/mach-sunxi/Makefile                  |   1 -
->>>  arch/arm/mach-sunxi/platsmp.c                 | 194 ------------------
->>>  5 files changed, 199 deletions(-)
->>>  delete mode 100644 arch/arm/mach-sunxi/platsmp.c
->>>
->>> -- 
->>> 2.35.1
