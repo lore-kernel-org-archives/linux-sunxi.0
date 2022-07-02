@@ -1,72 +1,75 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308093D9C
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 15:43:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE9573C1D
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 17:03:39 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 09C005C01AF;
-	Sat,  2 Jul 2022 11:43:08 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 854275C0163;
+	Sat,  2 Jul 2022 13:03:38 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sat, 02 Jul 2022 11:43:08 -0400
+  by compute2.internal (MEProxy); Sat, 02 Jul 2022 13:03:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656776588; x=
-	1656862988; bh=N+om0oGp4TwoRP9IDT3vxivTBNdKJRwkhS1z0hTFeZ0=; b=R
-	rjMk40z0rxtaL3HnEQMLgPVBeUZun/NCgtyzOhgxX6sulBoEBoVaufmphlUz1bjy
-	N1B16qH0qUsvrfTodQdT6qeO3jvZLbyvUAsdpycrg/7VDOHNlz3IB5XVeWIJXUla
-	tB+nqPgKUDo8xqTyBT75HnTUla36+D15GvmK/XSBLALD5/K4aKR74cGJ1sdEki5e
-	yEktFuUImIKEuKl7hZgxTGM446CrSd9J5rYQON1DtiZ0DPOUoMgypsugFcCUc9oS
-	IY3Qnn+VFT5+QWXk3+i8KK8zzEwbUsd17EIASvPd/oHMcRVQfy1nVsFmBumxTO87
-	GXF9iojTLBaDYNt2u6t/Q==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656781418; x=
+	1656867818; bh=Qw0g3C0GCDs1Krht9RCgkXeovny/SwSqNa/Sv0Q8bjY=; b=r
+	VBmpVASF3jGoNCF0i3CEx9TlVgGKj0OIneOTRlhXTcUF1aH8xwkouQul4YGZyo9N
+	38t3tff/NNFZ02/gKboaO750iZXP+xjqHHvh9rb4oidrqjAc1Mg5WEEOLX3A7718
+	1xK5grx9rr7PB/ANdUtcvKIx7GCzVtR3JMyoKCm7cKrxvG2C8KVAUx4SKM+7HwlZ
+	WqAWv4bI6hLkgi6DszVYYQjGTDTIbrpOKJbKXyfP8IxC7hjo41Wg8Z44QWpGEMcA
+	sbfY0dnYXGmKNdb4pXv+8Nf4VLg6cC7yx2iSJpO0xhdyzqyOQSk6rlN9TZm3BNck
+	S+1pMMU6a5bFZaNqqH0pA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656776588; x=
-	1656862988; bh=N+om0oGp4TwoRP9IDT3vxivTBNdKJRwkhS1z0hTFeZ0=; b=c
-	3nO4kGz7GSPnwcRWtPe67gFcYOtRz2t/xMKfwlXPjxYim9WyJjuwoo4LzO47C228
-	JoTNAhDs5VuYFOJkEiTNm3RTZNFaC/PAX2RkEJUH7i+SSMwQKjalr6rQj7PvX7Zk
-	SkRApFx5cghSqk1C3UlJ2UN9puvh2Rreew/ogQYMGP2FFurAiViGuvQDd6yOaoIV
-	9Gv+QEAvmclNVDihqFRpy0/3DI1u06hjRY/kMtuwdA5mCksFLvsanLGT0KVN0psc
-	0GZSasv+mTO7uGb23ciL8I/n1ENM4qM4Ii+sH2G/gkwHvSrSy6Nzj0kCoAR1DA++
-	EHbPrdFIQgGbJtO7JsqgA==
-X-ME-Sender: <xms:i2fAYn6PrPnBnlm7pA5MSveomsa5EQvI8aqINvGFQyXOMgWhWz0rHw>
-    <xme:i2fAYs5ogiuCKx-9w7qsHTxoBG-XGNV7X0_hUOsBHu4T0gxYUcUHkid_6uvRQRjTx
-    sAZOLew7iZmsQryUg>
-X-ME-Received: <xmr:i2fAYucL-Okwyzy_Sv4e5Jluk8YB5rYYr22L3AE0gT70iMZrmSawgfa0Ze16gLw1p-A016cku8VbltezqbxNGsuzPy-wuvZb18VpfkvPhe7T8SSP9MBDNYbmgA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgleduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:i2fAYoIHJgmz2ioOQnYMBvEpMndsbv0UFtiZb8A96k9R91k5UWy2qA>
-    <xmx:i2fAYrLCC_QMK73p6umlkaVRF3y4DlZo5P0S_Oq8u-bgzJfixfKDEQ>
-    <xmx:i2fAYhxu7NIj6G2sP3IYl12HV4Po-1v6mfY98t6X1yTKxQHlZjPc2Q>
-    <xmx:jGfAYlBc99jLvkPLamf5mdoB5gbSmFxoNmuK-ll21omNilszBiokmw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656781418; x=
+	1656867818; bh=Qw0g3C0GCDs1Krht9RCgkXeovny/SwSqNa/Sv0Q8bjY=; b=T
+	ppaHG4SJqXpXhMgJtsJGffsPppzujMcVklJ3+5w9qgoLM6dqxncKPUNeaMJ5Culi
+	ptGAq03MhAyCjDrli2HPZcglwmUgCH6rb/ZoDP74QlOEPG2gQ2yRXW39nDq8MY0C
+	hok1XMR9kclnYF4DiQKS6ed22hJhO5aoCNh8frNhmsURfb4aMQ34ifPeYFyTkDjr
+	bo69tLzhx6mT1cL6etOgdIGXEZCY6iwLnrz9O9KFU+eDxgPRl9DCRT9fgZZLGyt9
+	+8VtWqWYHdY9L9GsP3iMMrShgaKwUwsec8L3RCmLpf8ATVQtYVhTcpI9jOdI7pVR
+	HYHjkfUaXvlFm4rrylFdQ==
+X-ME-Sender: <xms:aXrAYtJBfCwcoLHxzIR-JgbhSU4eaizYBIRq0ERcnQNYwGuC3GhKVw>
+    <xme:aXrAYpLOmKVutZb6yu3HYCeiVQFWvcN4V4d87F4pKW_dFnwZgvBmxR-j07ccPuLby
+    0B7ai-f0ZSncDkz_w>
+X-ME-Received: <xmr:aXrAYlt4n80duRIcxG3KRfPyEvfC6rMAfsSOgbI79ObjyKRJFfbGHYIPQePRKXlvz9dkAtu1m9tjCP_QLVJheTpN_ROTUq-6CxE3AxqgddDcVUuFXkVVHWWs1w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedguddtjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefuvfevfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepjeelfedutdeggeevvdekheefjeefvefgfeeiffefgeduieeu
+    tdehkeejleegueejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
+    lhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:aXrAYuZsz_UhmxI7CZwIMhHnE7Ru2l2YpXe0FML3IXw21_Z6miFdLg>
+    <xmx:aXrAYkbGcxlj6Wr6DVO-pJyxY8wGCkVp1_guGuIIrjnkxXV0QHY6UA>
+    <xmx:aXrAYiDs3Nfgdt2Yi9_IFnu52i2FkaI1oHEo-_L5-QzfBEcLN7tnMw>
+    <xmx:anrAYkqyaJmGZ7Dom7nJNRuGR-A8SCLakorPvruP0KUk4hSVZtFXUg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 11:43:06 -0400 (EDT)
-Subject: Re: [PATCH 6/6] pinctrl: sunxi: Add driver for Allwinner D1/D1s
+ 2 Jul 2022 13:03:36 -0400 (EDT)
+Subject: Re: [PATCH 0/3] ARM: sunxi: Remove A31 and A23/A33 platform SMP code
 To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Linus Walleij <linus.walleij@linaro.org>,
+Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Russell King <linux@armlinux.org.uk>,
+ Stephen Boyd <sboyd@kernel.org>, Michael Turquette
+ <mturquette@baylibre.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Heiko Stuebner <heiko@sntech.de>
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-7-samuel@sholland.org>
- <20220702154647.53c6755a@slackpad.lan>
+ linux-clk@vger.kernel.org, Maxime Ripard <maxime@cerno.tech>,
+ Rob Herring <robh+dt@kernel.org>, =?UTF-8?Q?Emilio_L=c3=b3pez?=
+ <emilio@elopez.com.ar>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220531045038.42230-1-samuel@sholland.org>
+ <2833034.e9J7NaK4W3@kista>
+ <20220613121729.46233a75@donnerap.cambridge.arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <ef4454cb-a387-7dda-67e3-7493a89be8e7@sholland.org>
-Date: Sat, 2 Jul 2022 10:43:05 -0500
+Message-ID: <87fd9c7a-69be-e846-45ae-de3d773ba33a@sholland.org>
+Date: Sat, 2 Jul 2022 12:03:35 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -75,145 +78,112 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220702154647.53c6755a@slackpad.lan>
+In-Reply-To: <20220613121729.46233a75@donnerap.cambridge.arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 7/2/22 9:47 AM, Andre Przywara wrote:
-> On Sat, 25 Jun 2022 21:11:47 -0500
-> Samuel Holland <samuel@sholland.org> wrote:
+[+ clock maintainers]
+
+On 6/13/22 6:17 AM, Andre Przywara wrote:
+> On Sun, 12 Jun 2022 23:09:07 +0200
+> Jernej Škrabec <jernej.skrabec@gmail.com> wrote:
 > 
 > Hi Samuel,
 > 
->> These SoCs contain a pinctrl with a new register layout. Use the variant
->> parameter to set the right register offsets. This pinctrl also increases
->> the number of functions per pin from 8 to 16, taking advantage of all 4
->> bits in the mux config field (so far, only functions 0-8 and 14-15 are
->> used). This increases the maximum possible number of functions.
->>
->> D1s is a low pin count version of the D1 SoC, with some pins omitted.
->> The remaining pins have the same function assignments as D1.
+>> Dne torek, 31. maj 2022 ob 06:50:35 CEST je Samuel Holland napisal(a):
+>>> This series is preparation for converting the PRCM MFD and legacy clock
+>>> drivers to a CCU clock driver.
 > 
-> So do we actually need this extra variant, if there are no conflicts?
-> The D1s seems to be a simple subset of the D1. I think we followed the
-> same approach for the H616 already, where there are more pins in the
-> pinctrl driver than the manual describes, and which are used in other
-> package variants, like the T507.
-> In case of the H616, those pins are there, you can program them (which
-> is not the case for not implemented pins otherwise), they are just not
-> connected to the package.
-> I would expect a DT to never reference them, and even if, it doesn't do
-> any harm other than just not working.
+> May I ask what the purpose of this exercise is? So if I understand
+> correctly, then it's about to convert the sun8i-a23-prcm MFD driver and
+> its children to a single "modern style" CCU clock driver, with its opaque
+> DT node?
 
-I am following the example of V3/V3s here, so it seems we are inconsistent on
-this point. I needed to supply one variant for the register layout anyway, so I
-though I might as well be "accurate".
+Yes, the purpose is to finish the conversion that was started six years
+ago[1][2], and eventually delete drivers/clk/sunxi.
 
-But with Allwinner releasing lots of packages per die, it is probably overkill
-to have a separate compatible per packge. As you note, there is no harm in
-configuring pins that do not map to any pad.
+[1]: https://git.kernel.org/torvalds/c/78a9f0dbcd60
+[2]: https://git.kernel.org/torvalds/c/2c89ce4f4b19
 
-Some notes for completeness:
- - D1 documents all three JTAG functions (ARM, RISC-V, and DSP), although the
-ARM JTAG does not work.
- - D1s/F133 only documents the RISC-V JTAG function.
- - T113 only documents the ARM and DSP JTAG functions.
- - T113 adds a CAN function on mux 8 of PB2-PB5. The CAN controller accidentally
-made it in to one version of the D1 datasheet, so it may unofficially exist there.
+> If that changes the compatible strings or the references to the clock
+> providers (and I guess it would need to?), then this would mean an
+> incompatible change. Which also means we would need to keep the old code
+> around, to maintain compatibility with "old" DTs? So what is the win then?
+> Now we have *two* clock drivers, for the same device, which need
+> maintenance and testing.
 
-None of these variations are conflicting.
+We already have two drivers for the PRCM. ccu-sun8i-r, which is already built in
+to all MACH_SUN8I kernels, was originally intended to support A31/A23/A33, but
+nobody ever implemented it. See the comment in the binding header:
 
-> For the table below: I checked every pin against the D1 manual (yes,
-> that took an hour), and found only one small issue and some nits in
-> PortE, see inline.
-> 
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
+    /* 8 is reserved for CLK_APB0_W1 on A31 */
+
+The benefits of conversion are:
+ - U-Boot does not have to add support for an already-deprecated clock framework.
+ - Users who know they have a recent devicetree can disable CLK_SUNXI.
+ - Eventually we can disable CLK_SUNXI and delete drivers/clk/sunxi.
+
+Yes, we need to keep the old code for several years to support existing
+devicetrees. That is exactly why I want to do the conversion as soon as
+possible: to get that clock started now.
+
+> So can you confirm that this will be a breaking change?
+
+Yes, just like the other half of the CCU conversion was.
+
+>> The platform SMP code references the PRCM
+>>> node to map its MMIO space, which will break when the PRCM node is
+>>> removed/replaced.  
 >>
->>  drivers/pinctrl/sunxi/Kconfig             |   5 +
->>  drivers/pinctrl/sunxi/Makefile            |   1 +
->>  drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c | 860 ++++++++++++++++++++++
->>  drivers/pinctrl/sunxi/pinctrl-sunxi.c     |  16 +-
->>  drivers/pinctrl/sunxi/pinctrl-sunxi.h     |   7 +
->>  5 files changed, 884 insertions(+), 5 deletions(-)
->>  create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
->>
->> diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
->> index 33751a6a0757..a6ac1c1f2585 100644
->> --- a/drivers/pinctrl/sunxi/Kconfig
->> +++ b/drivers/pinctrl/sunxi/Kconfig
->> @@ -84,6 +84,11 @@ config PINCTRL_SUN9I_A80_R
->>  	depends on RESET_CONTROLLER
->>  	select PINCTRL_SUNXI
->>  
->> +config PINCTRL_SUN20I_D1
->> +	bool "Support for the Allwinner D1 PIO"
->> +	default RISCV && ARCH_SUNXI
->> +	select PINCTRL_SUNXI
->> +
->>  config PINCTRL_SUN50I_A64
->>  	bool "Support for the Allwinner A64 PIO"
->>  	default ARM64 && ARCH_SUNXI
->> diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
->> index d3440c42b9d6..2ff5a55927ad 100644
->> --- a/drivers/pinctrl/sunxi/Makefile
->> +++ b/drivers/pinctrl/sunxi/Makefile
->> @@ -20,6 +20,7 @@ obj-$(CONFIG_PINCTRL_SUN8I_A83T_R)	+= pinctrl-sun8i-a83t-r.o
->>  obj-$(CONFIG_PINCTRL_SUN8I_H3)		+= pinctrl-sun8i-h3.o
->>  obj-$(CONFIG_PINCTRL_SUN8I_H3_R)	+= pinctrl-sun8i-h3-r.o
->>  obj-$(CONFIG_PINCTRL_SUN8I_V3S)		+= pinctrl-sun8i-v3s.o
->> +obj-$(CONFIG_PINCTRL_SUN20I_D1)		+= pinctrl-sun20i-d1.o
->>  obj-$(CONFIG_PINCTRL_SUN50I_H5)		+= pinctrl-sun50i-h5.o
->>  obj-$(CONFIG_PINCTRL_SUN50I_H6)		+= pinctrl-sun50i-h6.o
->>  obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
->> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
->> new file mode 100644
->> index 000000000000..7247c1f1d92c
->> --- /dev/null
->> +++ b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
->> @@ -0,0 +1,860 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Allwinner D1 SoC pinctrl driver.
->> + *
->> + * Copyright (c) 2020 wuyan@allwinnertech.com
->> + * Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
->> + */
->> +
->> +#include <linux/module.h>
->> +#include <linux/platform_device.h>
->> +#include <linux/of.h>
->> +#include <linux/of_device.h>
->> +#include <linux/pinctrl/pinctrl.h>
->> +
->> +#include "pinctrl-sunxi.h"
->> +
->> +static const struct sunxi_desc_pin d1_pins[] = {
->> +	/* PB */
->> +	SUNXI_PIN_VARIANT(SUNXI_PINCTRL_PIN(B, 0),
->> +		PINCTRL_SUN20I_D1,
->> +		SUNXI_FUNCTION(0x0, "gpio_in"),
->> +		SUNXI_FUNCTION(0x1, "gpio_out"),
->> +		SUNXI_FUNCTION(0x2, "pwm"),
-> 
-> The manual mentions the PWM channel number in the pin name, and it
-> seems like in other pinctrl drivers we use the number either in the
-> function name, or at least in the comment.
-> Shall we do one of them here as well?
+>> Why can't we just leave old platform code? If older dtb file is used, it would 
+>> still work. Actually, isn't trivial to support new CCU binding too, just by 
+>> including new CCU compatible string? IIUC new CCU node will have same address 
+>> as current PRCM node.
 
-I originally had the numbers in the function name, but then I realized that no
-pin has multiple PWM muxes, so I removed them. As you mention, other drivers
-have them, so I will add them back.
+Yes, I could add the new compatible. I was trying to avoid adding more code and
+more complexity to code that appeared to be unused in the first place.
 
-> And the mux numbers for pwm are all over the place, so lets hope we
-> never need pwm in U-Boot ;-)
+> This aims for a similar direction, though in this case the alternative
+> (PSCI) predates the sunxi specific method in the kernel support. Can we
+> just deprecate this code, maybe issue a warning, with the hint to update
+> the bootloader (which might not be possible for some devices)?
 
-PWM is used for the CPU voltage regulator on at least one board (Nezha), but I
-think we can get away without U-Boot support for that. And including the PWM
-number in the function name will improve things somewhat.
-
-I will fix the typos you noted below.
+Since mainline U-Boot provides PSCI, I assume the purpose of this code was to
+support the vendor bootloader blob. And the threads adding this code[3][4]
+confirm that. In that case, users would have to be using a DTB shipped with the
+kernel, not the one provided by the bootloader. So if we change the devicetree,
+we have to change the code, too.
 
 Regards,
 Samuel
+
+[3]: https://lore.kernel.org/lkml/20131110100312.GI26440@lukather/
+[4]: https://lore.kernel.org/lkml/1426649042-30547-1-git-send-email-wens@csie.org/
+
+> Cheers,
+> Andre
+> 
+>> Best regards,
+>> Jernej
+>>
+>>>
+>>> Since PSCI has been available for 7+ years, instead of trying to deal
+>>> with the migration, I think it's safe to just delete this code.
+>>>
+>>>
+>>> Samuel Holland (3):
+>>>   ARM: sunxi: Remove A31 and A23/A33 platform SMP code
+>>>   ARM: dts: sunxi: Remove obsolete CPU enable methods
+>>>   dt-bindings: arm: Remove obsolete CPU enable methods
+>>>
+>>>  .../devicetree/bindings/arm/cpus.yaml         |   2 -
+>>>  arch/arm/boot/dts/sun6i-a31.dtsi              |   1 -
+>>>  arch/arm/boot/dts/sun8i-a23-a33.dtsi          |   1 -
+>>>  arch/arm/mach-sunxi/Makefile                  |   1 -
+>>>  arch/arm/mach-sunxi/platsmp.c                 | 194 ------------------
+>>>  5 files changed, 199 deletions(-)
+>>>  delete mode 100644 arch/arm/mach-sunxi/platsmp.c
+>>>
+>>> -- 
+>>> 2.35.1
