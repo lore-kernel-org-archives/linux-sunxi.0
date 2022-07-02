@@ -1,49 +1,49 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E35A1FA8
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 19:03:17 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id c13so6675789eds.10
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 12:03:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158601FA8
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 19:06:10 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id fd6so6711830edb.5
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 12:06:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8UoRIKt+MdEo0nGrpYkHOpyeyu1MYRbMg4sefqGC+RM=;
-        b=mtsg3MSK3J7Ilz/+4IHNU3HRqnOz5iVV3E77wemlJRCDVk4MPdPDW5Ile2bdwZkHWv
-         grrcYuVF6D6IcHGJd4c/UKe91eoX1+w0lJ9qM7fJiOy4AlffBXVW5g3O79yCV/8mMR8R
-         IWZEjOrq3lYyt7QSkaCscZJfBr3T21JaQcbjFmN4RZPTwtNfVSBOUG4g/HWk7m+4s5kv
-         a0p7MHPQHEbdp7GtMdcbcTdOeeakfEoxdZVoCHmj3v2aDox+yv6sDaiklwBy6BY5W3/b
-         tjHB7C6MvvIoum++4AbrChfPse3iY/tEZr8+92tf6QLSkLMQah2tCQUw2SjJ3urdwHcJ
-         tSGQ==
+        bh=N0yu1El6vOD8A0gSx756Jt25HtpMxiSxwi6fNvLtoxg=;
+        b=I4sXXmxDa/iZ225kkuLhwo9R+auGLloq99vC99wWuA7xov8rtKLRnD4nCrU8UbINB3
+         6xypnAMT5Waiixv3xn8tW1xeyEQ3+ClVhd81CjOcKXGVDOeUkT13SqX3XM6EoCl4mZNF
+         +gupnlPKVrv0MSsooUatuOJEyIqAypMd/4gRbTSOt3QzPcMyq7FsIVVW1SQM/uuDIXkZ
+         gVa6joh8wIdt8MOBwVgeGryWLGywj8xdbq7UKuJjQGapV49d7kXlcme/mY3W+5Sygbsf
+         ea11/cp1vHsccmOcFr8rrgx2yEulKEoC9ytXTXwOwDo4/zZTf5D1RGcoti6J8eK3cMXC
+         v4/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8UoRIKt+MdEo0nGrpYkHOpyeyu1MYRbMg4sefqGC+RM=;
-        b=PkTYxD/iTWzUsHj+q1SDvt4PJ/PJkcJUy3w4WPA3usgvEuYdhaqaEik66sp1+wtp9w
-         ADZt5vCAcLUkz/Nj1QREsgyd32W6kbbPSFwXK+1nGywuZ3bTou64oPV4EAYv/xA2Ms7D
-         GjdOOt5G/Dh8c2ukkMmSo/AbVOYjbkGaH8BzhxQRUseCGJL6SizPxMYeSLOSkvFruX+a
-         3ZD6gBCyBQue3HXWcx5j0KG4uDiWsI2ku6uYfuqooTJF/6a4epBw1HGonq9NnShLqe7A
-         AausTx6f5vK4Uk0hU1eWYfFU6BnWdJfBzg1zD/xOGaqiI/PV3j5ZvzfdGDPDxBP/Jb3x
-         n8CA==
-X-Gm-Message-State: AJIora+6uckxpho1LVuF+dvMUrMp1Yn0FvkxrcUl0jS5HBE99v0ezUFv
-	GHmzOc/Swealsh4ZJ4e0LwE=
-X-Google-Smtp-Source: AGRyM1tt1qh/Z1d0og/MUS7fqcR831lmUGX2KsGpkE7Yu8O61Sq+1UGGbg9LqLlFSosuNNxst2cCMg==
-X-Received: by 2002:a05:6402:104a:b0:435:c7cd:11dc with SMTP id e10-20020a056402104a00b00435c7cd11dcmr27200063edu.335.1656788595913;
-        Sat, 02 Jul 2022 12:03:15 -0700 (PDT)
+        bh=N0yu1El6vOD8A0gSx756Jt25HtpMxiSxwi6fNvLtoxg=;
+        b=iFtQMZk4scrikSEDy9lK2TNbn/1BZXgvJk3hKvNQRRWv/GV+fyTJEmTX4/41pjlTJf
+         /dnzU4l4PZdOW/bIXmVQ3kdhjyES9Rjso5uUnWmbvI2I1Ywkk7zLqBjd4Krc0la52sN9
+         UP+tQpsNq+yS42H1XXFPQlLxHa9ThJ8fMaowtALxgbH8vRSUgYb+WLKfcNaH1dJ7fL+w
+         /bks5KZRbeoZ+gPKzf1dki80resa+xvJLhROqZ390f8ZUtSVhmb38up3rVzwbb9iwB32
+         VWx2fYxwzXQmnie29XtSHn4Lk1KbBYLlPBQsboOGQM57jSao2vGbPnVyJYyppNrMZw1h
+         6f1A==
+X-Gm-Message-State: AJIora+3WauZU8MCR9NC10RAO7RNNL1YTdc12O2PCy3I+p0IMikfnVdT
+	KW8XIH/gDJqRdkrjLmY9EQc=
+X-Google-Smtp-Source: AGRyM1uMMhIQ4Yw/s8eXzx+VpJdxchNQa9w2WGeJr1Rl6GkGJCDIxVskSkBGawHb9dTWaD4Ev/CxTA==
+X-Received: by 2002:a05:6402:1774:b0:435:7fea:8c02 with SMTP id da20-20020a056402177400b004357fea8c02mr27136096edb.213.1656788769330;
+        Sat, 02 Jul 2022 12:06:09 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id w20-20020aa7dcd4000000b0042dc882c823sm17049659edu.70.2022.07.02.12.03.14
+        by smtp.gmail.com with ESMTPSA id c22-20020aa7c756000000b00439c146efc9sm1244786eds.60.2022.07.02.12.06.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 12:03:15 -0700 (PDT)
+        Sat, 02 Jul 2022 12:06:09 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
-Date: Sat, 02 Jul 2022 21:03:14 +0200
-Message-ID: <21517512.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20220702132816.46456-1-samuel@sholland.org>
-References: <20220702132816.46456-1-samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] dt-bindings: display: sun4i: Fix D1 pipeline count
+Date: Sat, 02 Jul 2022 21:06:07 +0200
+Message-ID: <3674367.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20220702032921.22433-1-samuel@sholland.org>
+References: <20220702032921.22433-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,11 +53,13 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 02. julij 2022 ob 15:28:15 CEST je Samuel Holland napisal(a):
-> "status" does not match any pattern in the gpio-leds binding. Rename the
-> node to the preferred pattern. This fixes a `make dtbs_check` error.
+Dne sobota, 02. julij 2022 ob 05:29:21 CEST je Samuel Holland napisal(a):
+> When adding the bindings for the D1 display engine, I missed the
+> condition for the number of pipelines. D1 has two mixers, so it
+> will have two pipeline references.
 > 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine
+> compatibles") Signed-off-by: Samuel Holland <samuel@sholland.org>
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
