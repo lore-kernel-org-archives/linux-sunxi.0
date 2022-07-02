@@ -1,71 +1,170 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF511FA8
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 19:12:07 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id fd6so6723019edb.5
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 12:12:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Sfab9HgfAOoADvsUwSkk4m+M1h+ar5bTh7JdIRbhQUM=;
-        b=IZu3Jt7AOIy4gdTFW6XqEe6Vy5q4dQ+7cSaaO5Jp5vqnbQSaeYqiPGKGx07IAhRKDq
-         2VyC6TqTHecbOtQGmZQ4FQetwvWbB7MCC8atuWVX6mhiSaZIjU2JpeKPT2WamAatxPql
-         QPwEYpNwFuLOWBTubiCV5jL+auYD0ILdi+3I6HvWtXr4pxlQup/lfJB1VuhndRqHu7ML
-         MOHHtaIkc+IS5GuSJOj+M293GdqUrcdM7jMRz8BHZmd4v5sXhWZ880Rl1kokCA6DQ4oF
-         DugtnNdErNp3rO1moDyy2VCnycHEIMjhIKSM30OKXPIr8VEQ7UrkEAP5FDjLg/JEFosP
-         bLxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Sfab9HgfAOoADvsUwSkk4m+M1h+ar5bTh7JdIRbhQUM=;
-        b=n7Es0lbW62XPunRqd4FRYRPUgV9pAXFVPRYrCldXu4kKnyw5eifrjX2GHwDsG5RVo/
-         HG59LU5ooyFbTr0I7ZNo7ommvrc1kLiB2y6L3a9VSUySq8uTBQBVYy7X5qRqt/+hQYYE
-         lTb3YHGrsIDo1VB0FogHce/BlnfOASh+AjZqUz0YECVvO9nTiZl1iSIPQtXSQ4A8UfA1
-         nIU/lfK6mbQTFJb/6MqMnw2yciy4UuuMTOCT22f2fhGwH64qleA0/AYU2mbdQNeh/VF7
-         BYc4qQeIDh8blJMnJdi9zPSqGAil1Ihl9x7r0VUZj6htT2L9JhwWu/P+s/uOerCIitG0
-         IT8g==
-X-Gm-Message-State: AJIora8D8FUfnOTIWQuC1m2BLJ55yBlQHFnJ7vslwUM2s4XbiTL9eNOV
-	+tgOc/do38svn+8j02Grqyo=
-X-Google-Smtp-Source: AGRyM1trQsDgFAgjZCDM6+LfX2t/95nmgyXMYlWVjHe4Y++0mi52iclKRU1r5EvC8sNf+1WcdB+vpQ==
-X-Received: by 2002:a05:6402:270a:b0:437:63ea:f2b5 with SMTP id y10-20020a056402270a00b0043763eaf2b5mr27486657edd.33.1656789125939;
-        Sat, 02 Jul 2022 12:12:05 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05640204d200b00435a08a3557sm17349318edw.27.2022.07.02.12.12.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 12:12:05 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] soc: sunxi: mbus: Only build the driver on ARM/ARM64
-Date: Sat, 02 Jul 2022 21:12:04 +0200
-Message-ID: <8122293.NyiUUSuA9g@jernej-laptop>
-In-Reply-To: <20220702032520.22129-1-samuel@sholland.org>
-References: <20220702032520.22129-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD811FA8
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 19:32:53 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6DDE35C0132;
+	Sat,  2 Jul 2022 15:32:52 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 02 Jul 2022 15:32:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP
+	4tyajVF75O728IzP2s=; b=CBWebKpBWjZnYdpPp9ncptZsa28Yp69MMLIzgXWph
+	XL0AGNWkc8I7QNBnAD/gLx2EXijzLpYmgt7043/QjEvKNOBPSqmuydqOnyp95akV
+	Gq5QnpFYFXYr6nlXZQbqo1kw8m2Q2LV2fJFwFgu48qzexijCmJg5zVMFlAfN+5vp
+	Bpisr8gDWUQ2PZdZViuwEDLPL/8r6rIzrqp4vqiJPeC6R5nJt3vkzuLqBeRP+b/j
+	a5sG9T6fXfEs2wrJdZXq9DbYTJru6MSx0d+iX7DOb+UaYlVpAgNtUoibtfpUkl0X
+	X/QJYlAsQccFnomrZltasTnOtOQ/kqcSMfetldgNmQ2uQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1656790372; x=1656876772; bh=NFzetHdLCqetwr73VJiN2bfUP4tyajVF75O
+	728IzP2s=; b=wJTwxZbxlYBJO8gemZplA7wZT1a6QsNynnz/GYw3HU2RC4c9RSD
+	pTYY1VP8W7EiPH678LT0QpznIv2P7haTmc4p67nP4ZIdoD6cQMsMShVIFcfmZyFi
+	FQWfctS+lSPmKxuBRBU1munSImB/B0ofkVG16+sxOyP/lCJC58ID/xMhKC9k0JWh
+	8q0cjD3xl8JhYygR0gp6ce6POz6iCK1l1htZvZKxSmqyY2lai2UXpEq+LmyL0IRh
+	I3JYmR4iJ0A919S+tRD5DIJJ9l+I2xPg1LDoH/ZIEAgRYYeiTApULqCKuzI2iyqY
+	Wh6XfRZcfUrZc3chAySd2RIl1M1Cx1giE1w==
+X-ME-Sender: <xms:Y53AYtngb2kiljCdyrK0CBEO4ZsbHbxXwl-ITtv0zUAAe3EnUL2KkQ>
+    <xme:Y53AYo3OpyY3v9EE0PM1CRUXj_zlq_eAiyP_--fetb-lNYAwH_Z7DcRLi9X-9effY
+    -Fv6JPdSV0gFtV6iQ>
+X-ME-Received: <xmr:Y53AYjr4YeAsDMH4MSaEbXIOZOtIHbvOsb5fR-BYmfEFd0PhgyJz1oM61jiqa0E7XFSD_55aSetv_WqKxOln_TjJ1HQFPerVDFdCuOR8vqRzMl87VIvyshirdIyBjcyrGiR9XQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:Y53AYtk4FvX_uQ10YNqC_C9VYr_dP5h1nvKwrKnd3JSveUA4EG0RyA>
+    <xmx:Y53AYr3u2COdryL7g7u6oQN3-sWORSPDNlU84olL5keQQCVOcGZXlg>
+    <xmx:Y53AYssQ_qYFo0-BEfNZwsF4EwJ4XvuQ46yXSQpDKHScEkOC-ybIPQ>
+    <xmx:ZJ3AYkJjxy5Z1kJTjrjAbeZTYn-EQWLBgzDVwgoaFnebuSltI1PoAg>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Jul 2022 15:32:51 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Maxime Ripard <mripard@kernel.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] drm/sun4i: Update Kconfig defaults and descriptions
+Date: Sat,  2 Jul 2022 14:32:50 -0500
+Message-Id: <20220702193250.52959-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne sobota, 02. julij 2022 ob 05:25:20 CEST je Samuel Holland napisal(a):
-> This driver exists as a workaround for old devicetrees which are missing
-> interconnects properties, so it is only useful for those specific
-> platforms, which all happen to be ARM or ARM64.
-> 
-> This solves the issue that the driver fails to build on RISC-V, where
-> PHYS_OFFSET is not defined.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Allwinner display drivers are split roughly into two generations. The
+first generation was found on early 32-bit ARM SoCs and contains DE1.0
+and a custom HDMI controller. Clarify that these options only apply to
+a specific list of SoCs, and limit selecting them to 32-bit ARM, to
+avoid confusion.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+The second generation, found in A83T and newer SoCs (both 32-bit and
+64-bit), contains a DE2.0 and a DesignWare HDMI controller. Since this
+is the most widely-used generation, enable it by default. The previous
+default condition (MACH_SUN8I) was limited to 32-bit SoCs. Also enable
+the DSI controller by default, which is found on 64-bit SoCs as well.
 
-Best regards,
-Jernej
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
+ drivers/gpu/drm/sun4i/Kconfig | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/Kconfig b/drivers/gpu/drm/sun4i/Kconfig
+index 3a43c436c74a..1c2f8909f3cd 100644
+--- a/drivers/gpu/drm/sun4i/Kconfig
++++ b/drivers/gpu/drm/sun4i/Kconfig
+@@ -16,23 +16,25 @@ config DRM_SUN4I
+ if DRM_SUN4I
+ 
+ config DRM_SUN4I_HDMI
+-	tristate "Allwinner A10 HDMI Controller Support"
++	tristate "Allwinner A10/A10s/A20/A31 HDMI Controller Support"
++	depends on ARM || COMPILE_TEST
+ 	default DRM_SUN4I
+ 	help
+-	  Choose this option if you have an Allwinner SoC with an HDMI
+-	  controller.
++	  Choose this option if you have an Allwinner A10/A10s/A20/A31
++	  SoC with an HDMI controller.
+ 
+ config DRM_SUN4I_HDMI_CEC
+-	bool "Allwinner A10 HDMI CEC Support"
++	bool "Allwinner A10/A10s/A20/A31 HDMI CEC Support"
+ 	depends on DRM_SUN4I_HDMI
+ 	select CEC_CORE
+ 	select CEC_PIN
+ 	help
+-	  Choose this option if you have an Allwinner SoC with an HDMI
+-	  controller and want to use CEC.
++	  Choose this option if you have an Allwinner A10/A10s/A20/A31
++	  SoC with an HDMI controller and want to use CEC.
+ 
+ config DRM_SUN4I_BACKEND
+ 	tristate "Support for Allwinner A10 Display Engine Backend"
++	depends on ARM || COMPILE_TEST
+ 	default DRM_SUN4I
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+@@ -41,8 +43,8 @@ config DRM_SUN4I_BACKEND
+ 	  selected the module will be called sun4i-backend.
+ 
+ config DRM_SUN6I_DSI
+-	tristate "Allwinner A31 MIPI-DSI Controller Support"
+-	default MACH_SUN8I
++	tristate "Allwinner A31/A64 MIPI-DSI Controller Support"
++	default DRM_SUN4I
+ 	select CRC_CCITT
+ 	select DRM_MIPI_DSI
+ 	select RESET_CONTROLLER
+@@ -55,15 +57,17 @@ config DRM_SUN6I_DSI
+ config DRM_SUN8I_DW_HDMI
+ 	tristate "Support for Allwinner version of DesignWare HDMI"
+ 	depends on DRM_SUN4I
++	default DRM_SUN4I
+ 	select DRM_DW_HDMI
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+-	  DesignWare HDMI controller with custom HDMI PHY. If M is
++	  DesignWare HDMI controller. SoCs that support HDMI and
++	  have a Display Engine 2.0 contain this controller. If M is
+ 	  selected the module will be called sun8i_dw_hdmi.
+ 
+ config DRM_SUN8I_MIXER
+ 	tristate "Support for Allwinner Display Engine 2.0 Mixer"
+-	default MACH_SUN8I
++	default DRM_SUN4I
+ 	help
+ 	  Choose this option if you have an Allwinner SoC with the
+ 	  Allwinner Display Engine 2.0, which has a mixer to do some
+@@ -75,6 +79,6 @@ config DRM_SUN8I_TCON_TOP
+ 	default DRM_SUN4I if DRM_SUN8I_MIXER!=n
+ 	help
+ 	  TCON TOP is responsible for configuring display pipeline for
+-	  HTMI, TVE and LCD.
++	  HDMI, TVE and LCD.
+ 
+ endif
+-- 
+2.35.1
 
