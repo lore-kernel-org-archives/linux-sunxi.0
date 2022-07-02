@@ -1,40 +1,40 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508F71866
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873BD1867
 	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 04:04:47 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 685FA5C050D;
-	Fri,  1 Jul 2022 23:29:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Fri, 01 Jul 2022 23:29:25 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 37CF65C0481;
+	Fri,  1 Jul 2022 23:19:07 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Fri, 01 Jul 2022 23:19:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1656732565; x=1656818965; bh=6jxn8F7BMajvrURVaJ+9NyqpY
-	/x+IozbjnQEFfXY0Y4=; b=NnCHze/L+KfW3lqcfUGkF8rIueEvIyeP0Rb0z5dTH
-	gWc3nLXwxmUQtAAISo2TMUTJh362HO9wlNHk5XQ6XDDA2MUJRXFeowDKKbuVHTpT
-	dEj3EAbtAg5tgHNDyLlWU12mC6xQ8I0uCokcM1JoHVfEi3i0hsHp2DjsJ+1atJFp
-	bKOJ907w2riAlq2G0UOlYaG0NQZ6EjzGLhCuo7YZMmrenbvXTkTWRrvowQcUmu1y
-	J+bqpSz9y9VF79q9Jg/Jds76CB7iqoywSmQ/xfRyX5mttcCAjJLEUNsinK78Zvms
-	W4IJZ5xSyXnnGnATasITkZAaFvdoEC2qBH1iPrDRbZaYQ==
+	 s=fm3; t=1656731947; x=1656818347; bh=tkkn7H5KuR11DtRO9e3GKNcav
+	/pqu6bhTLvUj+dAf2Q=; b=d18xCvPJG2YTZLN+2pqHslXYMa/slrpgHGGKA5izv
+	ROTpjaDIuk0AeQC3LtRluxniSIVtBlQEkTTYdG6oQBwSDQGVYZn61KiUozRz8y5B
+	6h9Wj3ll5Sn5R6ABfv9GQHPJLIes64vQccpRG6mbZJIWI2YWcQh9Gr39AmIyw4jy
+	FwIrzu8mRQpeVLWOpVSY1M6LQCE9OOChDRsANTa2Qk6fJhLaSePsdZJzWtgWeVny
+	v0Is9RslW8yLctAYxEvsutARMr9hyuV5Uyow37rDw/SzynvM5mtXASEd0SW4W6PS
+	dGpcBgIztfDFJCv6Qtdw3wX+b/swg7RX7HFlHhhi/am0Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1656732565; x=1656818965; bh=6jxn8F7BMajvrURVaJ+9NyqpY/x+IozbjnQ
-	EFfXY0Y4=; b=ftE4GMxrdgPqspaMnDOlGiSiYxiwE7lD8A593OzwWvLk1JLxtgx
-	ebXJy3MysxNOXXcX2Wnxe2RFxvvE+ij5JgD8HM41pxaNXbabSpbmCqlGWJMMjktY
-	40NR/95K13zjNVyCtiLK8nKQF5c1TOLRNNMar4N6H0l7FgdB4WFEA2K4PW3BkH7F
-	d532KVO/+xbZsUwiU5inNLWY3p4TFnZcB8PHGc9T7F6iT3stdsQ0BAFqJIZVOh2x
-	7ca4A22zrU9sIAacW40BmKeR/kb6+kLjloURXIiFoMDVIkhGMYkTCFPySyBCivQA
-	96Tkv71DOlOP20P2qAaJMY0ObjoWZcjWlWw==
-X-ME-Sender: <xms:kru_YptiNjP_c8sFMZkaUjUjuHNlds4-6MXeEqWn0eOoiy8EjRIbMw>
-    <xme:kru_YidamUMIX70hhYWCTieHCsm7yX2tXxFFrJl4KebLeuTIb88dlKCBXZJNftwe6
-    Vx8YCcuUxYEIcxM_g>
-X-ME-Received: <xmr:kru_YszEnnQIopX7kM0t8pBqUsL3rSgnWMFhI9tOZrzE-Re8BVzsCvOnBJhxo98mcjyZiEFBUcBeHgdfMPBNosPCeMqDWXHnXNz6HCpagjT4Cs_d26NPsfdJqtFkhkC5eMck4w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjeduucetufdoteggodetrfdotf
+	1656731947; x=1656818347; bh=tkkn7H5KuR11DtRO9e3GKNcav/pqu6bhTLv
+	Uj+dAf2Q=; b=n4IDn3TZZJi2SIgct/dfULfRQnbBWEnMFeyHfSCml7rd/QhVq2d
+	COzs9XBC6jzC5iNy1c/GoCD4/rmyNMiLFE77g9wQfUXs5oE+kPtdXPkb3Nu1klrA
+	T94xOwGe42NwQLCZAb0jQ3ChAY+C8RDc8iJXOw6lJI27PxQZ/foFNjkm7gUSMCUv
+	ebo6ZGr6rrjjEBO9jCaU9otbAyuScsuCGD7cZzE37/0IXMHRSY2FCt7GGdiByX/H
+	AxPeQTrSbvav5GFsQk9P9nbQ5qUX57VWNjFjdoMUtt4BMc5de/gw/2im+GxkFISr
+	o7CMwgdAMmbnDJ+dooIzHc0wgWmhUV7gkXA==
+X-ME-Sender: <xms:KLm_YuZOfEf1B4ct142S9uZXaY6Oq7iWNhIvbPcRD5JPULgyWqutnQ>
+    <xme:KLm_YhZYzpZ4jtIBZPDMHlwMgfUoheD4UT6d9DMSe6eUaFDZYUQ8F0IC6bVivRANT
+    q_Mbdndm-n2aOUqFA>
+X-ME-Received: <xmr:KLm_Yo-dp9gvLdbPlyJHmOMftoG2WaX1FMtEK5VuYXkQa98bGVOGMTNkhfEuKDLH6iNJqC8lKVTWgltZbtpsPbj71tfVbdKV0qZcmZLZN07I0H9QkF93aOAdR3WD2ZwzBTGdfA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
@@ -42,30 +42,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjeduucetufdoteggod
     grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
     hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
     epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:k7u_YgN_XOXPsjBR0Vw0exvNO_nZm1U77hivy4gK5cFvGXCPgfHFyA>
-    <xmx:k7u_Yp-Khq9LsU8AWA4mnYAP48uKT6sAIHxxhbHAU7REbNBXrLNuKA>
-    <xmx:k7u_YgV8TsoFP3lqlmtC-KDoZmHckmEzmKQSv9RYMjD8j8rUWqHhhQ>
-    <xmx:lbu_YgWav0sAXsewrluJXov77byloh6AjSEAVr-iy4N2c1AjQbsqNg>
+X-ME-Proxy: <xmx:KLm_Ygr8o12zYFjbMgUhvr69ifbYaLN3lIbz5kaCv--GPYI46yY9FA>
+    <xmx:KLm_YpoQv3SqvaqsvuitSSMK-gNdcPcJ7TWdhOFYjhS5dSDN9C7kaQ>
+    <xmx:KLm_YuQJI7mUTT4XJv3zMfoi3zoLfWAjidtuFbEFOogf-amlf1cxQA>
+    <xmx:K7m_Ymj90vjLauS9j6bXtP-xM_RtDybOdkTl3HlQZgFrBR0vC7TzOA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 23:29:22 -0400 (EDT)
+ 1 Jul 2022 23:19:04 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Maxime Ripard <mripard@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Vinod Koul <vkoul@kernel.org>
 Cc: Samuel Holland <samuel@sholland.org>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@linux.ie>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
+	dmaengine@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] dt-bindings: display: sun4i: Fix D1 pipeline count
-Date: Fri,  1 Jul 2022 22:29:21 -0500
-Message-Id: <20220702032921.22433-1-samuel@sholland.org>
+Subject: [PATCH] dt-bindings: dma: allwinner,sun50i-a64-dma: Fix min/max typo
+Date: Fri,  1 Jul 2022 22:19:02 -0500
+Message-Id: <20220702031903.21703-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -75,29 +74,30 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When adding the bindings for the D1 display engine, I missed the
-condition for the number of pipelines. D1 has two mixers, so it
-will have two pipeline references.
+The conditional block for variants with a second clock should have set
+minItems, not maxItems, which was already 2. Since clock-names requires
+two items, this typo should not have caused any problems.
 
-Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine compatibles")
+Fixes: edd14218bd66 ("dt-bindings: dmaengine: Convert Allwinner A31 and A64 DMA to a schema")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- .../bindings/display/allwinner,sun4i-a10-display-engine.yaml     | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-index c388ae5da1e4..c9c346e6228e 100644
---- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-+++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
-@@ -94,6 +94,7 @@ if:
-           - allwinner,sun8i-a83t-display-engine
-           - allwinner,sun8i-r40-display-engine
-           - allwinner,sun9i-a80-display-engine
-+          - allwinner,sun20i-d1-display-engine
-           - allwinner,sun50i-a64-display-engine
- 
+diff --git a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+index ff0a5c58d78c..e712444abff1 100644
+--- a/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
++++ b/Documentation/devicetree/bindings/dma/allwinner,sun50i-a64-dma.yaml
+@@ -67,7 +67,7 @@ if:
  then:
+   properties:
+     clocks:
+-      maxItems: 2
++      minItems: 2
+ 
+   required:
+     - clock-names
 -- 
 2.35.1
 
