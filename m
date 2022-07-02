@@ -1,60 +1,98 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3DF91860
-	for <linux-sunxi@lists.linux.dev>; Fri,  1 Jul 2022 20:57:42 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id y18so3390914iof.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 01 Jul 2022 13:57:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=wrd1tKb0ukMGehVRD4HY6PzNoWhwwKiujKNhXqXrfTA=;
-        b=L9dqYSCV1rQwH5Cj1TcyVgkfVo/Qz0dM5dVTbtoUa2+7AUgUBDdsphjgb6kMzt7QCo
-         UpQOVr7eLv6SjYM8zooaFgXU3VzAmk4ia4fJq2K6fArcYQZbtB6wswOZtY+MyktPdtC3
-         gVpqWINzItosIl2fAS48vjW0nqOtM8x46j9ggP2WbWt7RzAONm1xMtDccecwqjvSnlwN
-         OlwPsxkkjPvNeRiD1xpLBogOkaA6grT6lRVaUJEmrpfwUPel+g5+qpI8OM5qUBV4gqcx
-         rWpuVnzTznN6d1AfgCmAok5b4DvSW+CdIuM6hU4JnQ61rIANQeBb7U5KXMmqiU5SC7xc
-         YiIQ==
-X-Gm-Message-State: AJIora8yCOjltp8qhOQJy1VOzrv+2rzjGyfTP+K69CvxVrLyw4xI2aPH
-	3UcHiHLhCkAGOxfn6TmNKA==
-X-Google-Smtp-Source: AGRyM1s2nL+i/VRJ0Dif3mbz/sX017+1VfxaQriSwMdUDZkqQQXwePTOLUGfM2JFY4es+43x3Vm3fA==
-X-Received: by 2002:a05:6638:22c7:b0:333:f684:ccc4 with SMTP id j7-20020a05663822c700b00333f684ccc4mr10019992jat.57.1656709061730;
-        Fri, 01 Jul 2022 13:57:41 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id x11-20020a0566380cab00b00335c432c4b9sm10209572jad.136.2022.07.01.13.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Jul 2022 13:57:41 -0700 (PDT)
-Received: (nullmailer pid 1517008 invoked by uid 1000);
-	Fri, 01 Jul 2022 20:57:40 -0000
-Date: Fri, 1 Jul 2022 14:57:40 -0600
-From: Rob Herring <robh@kernel.org>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, Samuel Holland <samuel@sholland.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, linux-gpio@vger.kernel.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v12 4/7] dt-bindings: pinctrl: sunxi: allow vcc-pi-supply
-Message-ID: <20220701205740.GA1516792-robh@kernel.org>
-References: <20220701112453.2310722-1-andre.przywara@arm.com>
- <20220701112453.2310722-5-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DE95817
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 04:03:26 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id AC6CF5C049B;
+	Fri,  1 Jul 2022 23:25:22 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Fri, 01 Jul 2022 23:25:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1656732322; x=1656818722; bh=aSJJxlyL6XPezKf/zOjOwtmW7
+	W1A/fXy5V9azTBip78=; b=cN/SSYcV/5hqqtMqm4pWnzGRa7abNf0GnsBq+rIRb
+	ENT9Oly2PJmSVcPD/NQspc2jAcWrLQb/KKaMfNjUEnao0F1kJ+Zb1jXWyZQ8kgp1
+	naZnLX+gXicGr5jP1IxjKQk23SogMTweHuAeAOGvxQXk4NM06suNfP3vOYUKOdCU
+	whYsH+qUl5XGFgob0j8QP/HB+sWjpVtSG5wiJ7wUPkSM3Xr2N4eN9SkAFH0bq5iz
+	F/n1TYpdq+G5B0EXu2cbRrGaRSGeXkDTZNahF7pWr8IBS1qJPBdIO6cjMr3tv++H
+	UQHrBcXnPcvuDcipGYd2c+t/zYli3vt4IP109E+wN8ymg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1656732322; x=1656818722; bh=aSJJxlyL6XPezKf/zOjOwtmW7W1A/fXy5V9
+	azTBip78=; b=w1U+5Mq0yvoiDzaaZzfaZ2BcmEijSDHf0NorVPJo5bBJFDXhBKP
+	QXn9zn12tEVFHJF1TGPvXFnFeiqUZ3Vlj9Q/d1o0bow/tHmB9gVAZZygiVpV/e7c
+	wjOtVXGCPFEcNNcNWaAR8tTXOsCWCs4JVxemBkVB2umKJvjW6Lp1VZ3HmQj6E1WK
+	9CQGgYPYr6tC/YBhLdG172NTuG+2CZEhzx8k3hmTFpyw4EknkJr4/CckJs5akXM5
+	3P5R4hvTJPIvVEY1xW8fBuWI3c3fES2TPPT6diJhJDTO2X2vmLGLTAnrhx76csDh
+	3ZPwddfbapS5E/bJRQc3RsKSKwvBW2QIgWQ==
+X-ME-Sender: <xms:obq_YgmYpRU3UOZz_s3N5UHp7iAWOO5UQ_Rq49rHHjLM1HVjjjwcvw>
+    <xme:obq_Yv3tWzyd9z5jFrR74UpTk3fuqq8XjdCc3UFqxkNbMJOBC_zCg3MGgxwYPpH4C
+    y1ngUkUuEOOIQ0n2g>
+X-ME-Received: <xmr:obq_Yur6kQ3oBMCbtnL-g6wqjEfLi9BektDFtaqQE3ce-6VdOGsUb3OGXogq6B1zd1u7lLSP2v6HmskrwD1z51j9FdfX6_tjgWVwGFUbOBe7ATQJabyF_yk8ZCDH3zcznaXJHA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:obq_Ysl9MW-mo6O0co6-GAag6eypq89Vrv8H8_3_mh6u9qV83WBuQw>
+    <xmx:obq_Yu3opE5JxqZwr9yOTJNCY4nWF2gxMjl63EQGWWPLLqC5cHTAcA>
+    <xmx:obq_Yju33mYV52d55oQgmBBmDUt9vkYt-d5zUuVwTeRJ4Xf6iON2Ag>
+    <xmx:orq_YhSWASDhleyq2Em7r1cKIuUl_HcKnw3-iay3afIr1Kpy297PCw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 Jul 2022 23:25:21 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] soc: sunxi: mbus: Only build the driver on ARM/ARM64
+Date: Fri,  1 Jul 2022 22:25:20 -0500
+Message-Id: <20220702032520.22129-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220701112453.2310722-5-andre.przywara@arm.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, 01 Jul 2022 12:24:50 +0100, Andre Przywara wrote:
-> The Allwinner H616 SoC contains a VCC_PI pin, which supplies the voltage
-> for GPIO port I.
-> Extend the range of supply port names to include vcc-pi-supply to cover
-> that.
-> 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> ---
->  .../bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml           | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+This driver exists as a workaround for old devicetrees which are missing
+interconnects properties, so it is only useful for those specific
+platforms, which all happen to be ARM or ARM64.
 
-Acked-by: Rob Herring <robh@kernel.org>
+This solves the issue that the driver fails to build on RISC-V, where
+PHYS_OFFSET is not defined.
+
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
+
+ drivers/soc/sunxi/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
+index 1fef0e711056..8aecbc9b1976 100644
+--- a/drivers/soc/sunxi/Kconfig
++++ b/drivers/soc/sunxi/Kconfig
+@@ -6,6 +6,7 @@
+ config SUNXI_MBUS
+ 	bool
+ 	default ARCH_SUNXI
++	depends on ARM || ARM64
+ 	help
+ 	  Say y to enable the fixups needed to support the Allwinner
+ 	  MBUS DMA quirks.
+-- 
+2.35.1
+
