@@ -1,69 +1,100 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBC14404
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 18:49:37 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id fw3so9578177ejc.10
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 11:49:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CdAV/6GUNOpdTz1C7hAmWiCc9fjEGHw3vQkBTwxBEOY=;
-        b=FMn02QLmEMmkl/6gZP3RKuRZJVWU68THnsRAGKmQHz8Lrr00VWn01EGbtZhub1l4Ob
-         i2WDfca2lqmi1irUTtYplzgqAMyoEL9tMGaMXYyloftE8yo7Ok/PikbVJ9i/6SqNMWsR
-         ZeFjcT6CALaYjBnhwBrmmmj1++iwEx+fJe/9APaRMTKQ1zUfT19P8jgM7ZzTnPCPd5WF
-         IlNHUyfy7xHp+UY7UjCEoZ11C7OvrvUvOf0FpAFe2nxVISTeekw46owJLp0kyNLQDRbn
-         dqo1gGen8dZBgXXu+yCiugWtib4sJ6dzmzE2M3Th85POv3ZXQT7JMotp//zSTD8q3Tsu
-         q79g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CdAV/6GUNOpdTz1C7hAmWiCc9fjEGHw3vQkBTwxBEOY=;
-        b=dRR6ajGMtjrM6f0mK7W4HZqGz4hxSujoBeQDcU8gEEWCfdTdKHWc3C4V4f0ffGqBD/
-         zKpNOMF4HKMeHSHDvYnQLFNOV9194te3Ci3JMz2SyBkmyUdghwvYyFL+nY+X2P5aU2ez
-         8GsS6RP8ffnt4LaPMAVLo9vLbBRdMpMTv8F5f79816G0oiV8EBMnYjRRrm913PgoFyJQ
-         UGHZtsrs4PzASIz6YyRInxlAZNaO94cl2Ep7pAz0ECq3YSM2E3FWKNynu5/SHY26l88I
-         ETehy5mtwua03AtE1dinKYTYoPOi5cQvEaSiNW+JOzKO7+WyV+GFLSm1pZ8I4qdx4A8U
-         y8Iw==
-X-Gm-Message-State: AJIora9h4ym4g7PF9cjEQu0E4rOK99niVnwCTAXENA6t4d8XFlnrDdll
-	R3zKrM5tYiPdHaTS+GtxuaLueQgL+Mc=
-X-Google-Smtp-Source: AGRyM1tenYnX0HVtR56fkd/R+fWFRKkwPnmcJxGhx2/merGL3RJjmFBCmigs2vqU63stKLD9E04ysw==
-X-Received: by 2002:a17:906:4fd4:b0:722:f223:8d86 with SMTP id i20-20020a1709064fd400b00722f2238d86mr20538747ejw.558.1656787776015;
-        Sat, 02 Jul 2022 11:49:36 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id p19-20020aa7cc93000000b0042bdb6a3602sm16927232edt.69.2022.07.02.11.49.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 11:49:35 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Lee Jones <lee.jones@linaro.org>, Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mfd: sun6i-prcm: Update Kconfig description
-Date: Sat, 02 Jul 2022 20:49:34 +0200
-Message-ID: <10103142.nUPlyArG6x@jernej-laptop>
-In-Reply-To: <20220702184044.51144-1-samuel@sholland.org>
-References: <20220702184044.51144-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72101FA8
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 19:01:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id C03585C0195;
+	Sat,  2 Jul 2022 15:01:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sat, 02 Jul 2022 15:01:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm3; t=1656788496; x=1656874896; bh=YpEelYmUvdLtWnPD4x37HhXs0
+	h7SsV/ws5mffLHlEmg=; b=pjDEfEvT+op90UV/7Tj0uGeG3Xx4aJLrxlfxlvvQ/
+	LCAEi24uYdfUvKbOkf1gQnMyvR0EICwJdj+td2KdkoybKGIktpmAtDmfrtcNpCvp
+	YTcV2JKk/SwNYLirWr5hOomTo9N5vKWyMeZaf57u4hywX5bPLl8mByz92VwB9Ygi
+	ZCnx9grwf1x0V7UqenUxWy+i8i/p8/3U7YqErNuDLhFPHnOITtvK6qNV01IvW/Q/
+	OjCAYbrAFdAdiQtCw9WeSklPgan1DcbLtvq7XEl3QNxujWUtbfc/HLSPAWqWygld
+	FoQdvjq0yMuM+5LaG2uc291Ls47mxmJRw/J0vhleH5BSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1656788496; x=1656874896; bh=YpEelYmUvdLtWnPD4x37HhXs0h7SsV/ws5m
+	ffLHlEmg=; b=S/4AdPqBg2QwigWuJn9uFT3Sz1jn23ECoS/0NlpP2wb5GJeV0dp
+	8jVxpYe70jjDXJ0enTABoYIY1/kjOcCl6j2SzIvTRbpO0wcTiqqXy7dUGOUygFz7
+	WH38U9D4mdMeW6Q+A5ktpHJ/y0EA0rYuQm1V73sTBlX9LfF2LpWw/Vb8pnNlqo0C
+	Bj41a57PDuKa4t9kt8w2J8Ct0tarRtamukjbElJ09p3QYkKhETzomD3kyBndHju2
+	lAFqYPZCK05j75I1PWwBDAMcFkcYdoFAV2TkAwUHlONR+t05NUMBxY6e0prSlbvK
+	xV4NbMhEk8QkEf4kSJxjTKHLwTMRR8rM69w==
+X-ME-Sender: <xms:EJbAYjAVkdLec4KbZd3gB6jmTLiUut93joFTYFh0X1L3dpaSFWXJxA>
+    <xme:EJbAYphBBXFzR1lEXjcNOxTuKSvKivbU1CASJFkhz4qtdtaKQbXPCrhMAze49BlwV
+    IoGw0ni-ZTc2kEcAw>
+X-ME-Received: <xmr:EJbAYunVqxdqD94yW1QHCITe4bLqxmVgxzqAAv9LA7kE55xIwQ4jFur1n5AAhp2XRK_P5q7gJ4cv-8C7J1uqyh68W8IFXZmcg0uW5ImRerzQOeso7zEuY6NLWkp2LPV6HgaFsA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedgudefvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:EJbAYlzWCPz72Gsok-obuasuvBXrdYwIQ8UFC5qBVcNVFQWUMNngBQ>
+    <xmx:EJbAYoSxbeE0buFXDvQnR9AMMVndBo_i1vmCTHM96g1WaWLIbrRZMQ>
+    <xmx:EJbAYobJxyeNEmP541ZsmbtmaypNAWpg7kvbbGUyJ2PhklCNMp4GlA>
+    <xmx:EJbAYrEKkN_mBRS-dm15aeKkGIEKX0WTzdF_G--KkZvh5ALlI2OgBQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 2 Jul 2022 15:01:35 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	=?UTF-8?q?Emilio=20L=C3=B3pez?= <emilio@elopez.com.ar>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH 1/2] clk: sunxi: Limit legacy clocks to 32-bit ARM
+Date: Sat,  2 Jul 2022 14:01:34 -0500
+Message-Id: <20220702190135.51744-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne sobota, 02. julij 2022 ob 20:40:43 CEST je Samuel Holland napisal(a):
-> This driver is used by a specific range of SoCs between when the PRCM
-> hardware was introduced (A31) and when the PRCM CCU driver was added
-> (A83T). It is unlikely to be extended to additional hardware. Update
-> the description to include the full list of applicable SoCs.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+The sunxi legacy clocks were never compatible with any 64-bit SoC,
+so there is no point in building them as part of a 64-bit ARM kernel.
+They make even less sense being built in to a 64-bit RISC-V kernel.
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Best regards,
-Jernej
+ drivers/clk/sunxi/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/clk/sunxi/Kconfig b/drivers/clk/sunxi/Kconfig
+index 3fba3d3ac9a2..a5c237610357 100644
+--- a/drivers/clk/sunxi/Kconfig
++++ b/drivers/clk/sunxi/Kconfig
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ menuconfig CLK_SUNXI
+ 	bool "Legacy clock support for Allwinner SoCs"
+-	depends on ARCH_SUNXI || COMPILE_TEST
++	depends on (ARM && ARCH_SUNXI) || COMPILE_TEST
+ 	default y
+ 
+ if CLK_SUNXI
+-- 
+2.35.1
 
