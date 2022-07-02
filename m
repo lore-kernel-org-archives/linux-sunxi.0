@@ -1,104 +1,69 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614011FA8
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 18:40:46 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 481E35C0197;
-	Sat,  2 Jul 2022 14:40:45 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Sat, 02 Jul 2022 14:40:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1656787245; x=1656873645; bh=pfmmVMf+mB8FJ236qCWDsBxR6
-	Vdsvx3/s3O7TyTZeSk=; b=OCHejxF056CJYLXpUFdd1YU60NopgVCQy6pHo6Prq
-	RwrCocJIXWpxTOjycqrj8Za6qKUE01RyBvSju1010YG/vWe9QVmf8GUgpPEDHd8Z
-	LRnBiYmdhD4zJzE60a2V4haE21WNSLhk7FfPtMztABq+c6ysosf2s2PDNypMmtZt
-	QEKCv5v8mJxuTyy+ZplGpwlX4ou0FinxOpQL8aIqZnSTdQQh9msLb0M1b4dk4QUD
-	B6QqEZASWL/N3t1hofoH6tUlV5tdTGDSxay9yQAp1+t+nObslbIdR6umjUx/fCsi
-	xGK2bfpBr39JIseY9oWhRbfgrRb35/Z7T6D9paGnfUjvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1656787245; x=1656873645; bh=pfmmVMf+mB8FJ236qCWDsBxR6Vdsvx3/s3O
-	7TyTZeSk=; b=PCUbmRrGYOHBMLSMWi0pQpDOsHlq9cyjr+FXEY1nqA6JXB0dun+
-	YIJxo6iCmh4zDYSnHddwvF6ODZ0LMWSdPL8r3nNqxLwlywcW5fmOLbzm0sD/agXI
-	L9KZzTDtlyeS5JW9s9MJJke1V0ifD60j4BMjGGqcSmEZpaZL2tsKPklyWV8QM2gF
-	J1lsHb51ogzv5NshqMuROLXXRTmgpF+a+DMLl7CRDgGEioLF6hqmW3q3uX3KrkCd
-	YCiN8cuCiauniKTYIBIH6KHttjmqDxte7Lo8EoMqAZU2h3zRRiqPJtvei9wZCaFU
-	c/ixK9Tc3Fme77NbO1IkK0OQ9KHqVz4CQfA==
-X-ME-Sender: <xms:LZHAYnO7pIdI3tbRkDtNJKW1AfMLb5tYrfECVQ0WQYytEsaeMvYKBA>
-    <xme:LZHAYh8-h5GVaKG2j5NNsjg3FwXrhPiy-WhFx7frpqzwqBd8pDHnbHb3ErBinjsWR
-    otZIshddHoK5-A7dQ>
-X-ME-Received: <xmr:LZHAYmSlWZY9mxCPDXAMoAzSquobBA6D8w7h_UOnNx7PwTNXxLUARkgXplYpfiEUUW08EdkzetNKD46nRaFYaldEaQAjA3UCBItkH6V_5nz6k9UT2wDJo212JzrC_ZfejoKYdA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehhedguddvkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
-    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:LZHAYruv1gMZ7tUfdpuW2dU8q8I7DtN3b084UMhhHl0u3zVogzuLzA>
-    <xmx:LZHAYveY8uop6AspiS5I9g2hy1iU8rtTmR0mcFYhsQARwacddH2T3g>
-    <xmx:LZHAYn2nU7Wa4aH2OvdBZRySdrcXxj0VHqBQbZRVlhbezzMSd1He1w>
-    <xmx:LZHAYm5XbIMYUlcUgy-uWBRWiB8IArVlaKcOM3aNJLPS77VG5elE3A>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 2 Jul 2022 14:40:44 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Lee Jones <lee.jones@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>,
-	linux-sunxi@lists.linux.dev,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] mfd: sun6i-prcm: Update Kconfig description
-Date: Sat,  2 Jul 2022 13:40:43 -0500
-Message-Id: <20220702184044.51144-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBC14404
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 18:49:37 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id fw3so9578177ejc.10
+        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 11:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CdAV/6GUNOpdTz1C7hAmWiCc9fjEGHw3vQkBTwxBEOY=;
+        b=FMn02QLmEMmkl/6gZP3RKuRZJVWU68THnsRAGKmQHz8Lrr00VWn01EGbtZhub1l4Ob
+         i2WDfca2lqmi1irUTtYplzgqAMyoEL9tMGaMXYyloftE8yo7Ok/PikbVJ9i/6SqNMWsR
+         ZeFjcT6CALaYjBnhwBrmmmj1++iwEx+fJe/9APaRMTKQ1zUfT19P8jgM7ZzTnPCPd5WF
+         IlNHUyfy7xHp+UY7UjCEoZ11C7OvrvUvOf0FpAFe2nxVISTeekw46owJLp0kyNLQDRbn
+         dqo1gGen8dZBgXXu+yCiugWtib4sJ6dzmzE2M3Th85POv3ZXQT7JMotp//zSTD8q3Tsu
+         q79g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CdAV/6GUNOpdTz1C7hAmWiCc9fjEGHw3vQkBTwxBEOY=;
+        b=dRR6ajGMtjrM6f0mK7W4HZqGz4hxSujoBeQDcU8gEEWCfdTdKHWc3C4V4f0ffGqBD/
+         zKpNOMF4HKMeHSHDvYnQLFNOV9194te3Ci3JMz2SyBkmyUdghwvYyFL+nY+X2P5aU2ez
+         8GsS6RP8ffnt4LaPMAVLo9vLbBRdMpMTv8F5f79816G0oiV8EBMnYjRRrm913PgoFyJQ
+         UGHZtsrs4PzASIz6YyRInxlAZNaO94cl2Ep7pAz0ECq3YSM2E3FWKNynu5/SHY26l88I
+         ETehy5mtwua03AtE1dinKYTYoPOi5cQvEaSiNW+JOzKO7+WyV+GFLSm1pZ8I4qdx4A8U
+         y8Iw==
+X-Gm-Message-State: AJIora9h4ym4g7PF9cjEQu0E4rOK99niVnwCTAXENA6t4d8XFlnrDdll
+	R3zKrM5tYiPdHaTS+GtxuaLueQgL+Mc=
+X-Google-Smtp-Source: AGRyM1tenYnX0HVtR56fkd/R+fWFRKkwPnmcJxGhx2/merGL3RJjmFBCmigs2vqU63stKLD9E04ysw==
+X-Received: by 2002:a17:906:4fd4:b0:722:f223:8d86 with SMTP id i20-20020a1709064fd400b00722f2238d86mr20538747ejw.558.1656787776015;
+        Sat, 02 Jul 2022 11:49:36 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id p19-20020aa7cc93000000b0042bdb6a3602sm16927232edt.69.2022.07.02.11.49.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Jul 2022 11:49:35 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Lee Jones <lee.jones@linaro.org>, Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Samuel Holland <samuel@sholland.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] mfd: sun6i-prcm: Update Kconfig description
+Date: Sat, 02 Jul 2022 20:49:34 +0200
+Message-ID: <10103142.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <20220702184044.51144-1-samuel@sholland.org>
+References: <20220702184044.51144-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This driver is used by a specific range of SoCs between when the PRCM
-hardware was introduced (A31) and when the PRCM CCU driver was added
-(A83T). It is unlikely to be extended to additional hardware. Update
-the description to include the full list of applicable SoCs.
+Dne sobota, 02. julij 2022 ob 20:40:43 CEST je Samuel Holland napisal(a):
+> This driver is used by a specific range of SoCs between when the PRCM
+> hardware was introduced (A31) and when the PRCM CCU driver was added
+> (A83T). It is unlikely to be extended to additional hardware. Update
+> the description to include the full list of applicable SoCs.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
- drivers/mfd/Kconfig | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Best regards,
+Jernej
 
-diff --git a/drivers/mfd/Kconfig b/drivers/mfd/Kconfig
-index 3b59456f5545..9e44a60e2308 100644
---- a/drivers/mfd/Kconfig
-+++ b/drivers/mfd/Kconfig
-@@ -1357,12 +1357,13 @@ config MFD_STA2X11
- 	select REGMAP_MMIO
- 
- config MFD_SUN6I_PRCM
--	bool "Allwinner A31 PRCM controller"
-+	bool "Allwinner A31/A23/A33 PRCM controller"
- 	depends on ARCH_SUNXI || COMPILE_TEST
- 	select MFD_CORE
- 	help
- 	  Support for the PRCM (Power/Reset/Clock Management) unit available
--	  in A31 SoC.
-+	  in the A31, A23, and A33 SoCs. Other Allwinner SoCs contain similar
-+	  hardware, but they do not use this driver.
- 
- config MFD_SYSCON
- 	bool "System Controller Register R/W Based on Regmap"
--- 
-2.35.1
 
