@@ -1,40 +1,40 @@
 Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DE95817
-	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 04:03:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id AC6CF5C049B;
-	Fri,  1 Jul 2022 23:25:22 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Fri, 01 Jul 2022 23:25:22 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508F71866
+	for <linux-sunxi@lists.linux.dev>; Sat,  2 Jul 2022 04:04:47 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 685FA5C050D;
+	Fri,  1 Jul 2022 23:29:25 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Fri, 01 Jul 2022 23:29:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm3; t=1656732322; x=1656818722; bh=aSJJxlyL6XPezKf/zOjOwtmW7
-	W1A/fXy5V9azTBip78=; b=cN/SSYcV/5hqqtMqm4pWnzGRa7abNf0GnsBq+rIRb
-	ENT9Oly2PJmSVcPD/NQspc2jAcWrLQb/KKaMfNjUEnao0F1kJ+Zb1jXWyZQ8kgp1
-	naZnLX+gXicGr5jP1IxjKQk23SogMTweHuAeAOGvxQXk4NM06suNfP3vOYUKOdCU
-	whYsH+qUl5XGFgob0j8QP/HB+sWjpVtSG5wiJ7wUPkSM3Xr2N4eN9SkAFH0bq5iz
-	F/n1TYpdq+G5B0EXu2cbRrGaRSGeXkDTZNahF7pWr8IBS1qJPBdIO6cjMr3tv++H
-	UQHrBcXnPcvuDcipGYd2c+t/zYli3vt4IP109E+wN8ymg==
+	 s=fm3; t=1656732565; x=1656818965; bh=6jxn8F7BMajvrURVaJ+9NyqpY
+	/x+IozbjnQEFfXY0Y4=; b=NnCHze/L+KfW3lqcfUGkF8rIueEvIyeP0Rb0z5dTH
+	gWc3nLXwxmUQtAAISo2TMUTJh362HO9wlNHk5XQ6XDDA2MUJRXFeowDKKbuVHTpT
+	dEj3EAbtAg5tgHNDyLlWU12mC6xQ8I0uCokcM1JoHVfEi3i0hsHp2DjsJ+1atJFp
+	bKOJ907w2riAlq2G0UOlYaG0NQZ6EjzGLhCuo7YZMmrenbvXTkTWRrvowQcUmu1y
+	J+bqpSz9y9VF79q9Jg/Jds76CB7iqoywSmQ/xfRyX5mttcCAjJLEUNsinK78Zvms
+	W4IJZ5xSyXnnGnATasITkZAaFvdoEC2qBH1iPrDRbZaYQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1656732322; x=1656818722; bh=aSJJxlyL6XPezKf/zOjOwtmW7W1A/fXy5V9
-	azTBip78=; b=w1U+5Mq0yvoiDzaaZzfaZ2BcmEijSDHf0NorVPJo5bBJFDXhBKP
-	QXn9zn12tEVFHJF1TGPvXFnFeiqUZ3Vlj9Q/d1o0bow/tHmB9gVAZZygiVpV/e7c
-	wjOtVXGCPFEcNNcNWaAR8tTXOsCWCs4JVxemBkVB2umKJvjW6Lp1VZ3HmQj6E1WK
-	9CQGgYPYr6tC/YBhLdG172NTuG+2CZEhzx8k3hmTFpyw4EknkJr4/CckJs5akXM5
-	3P5R4hvTJPIvVEY1xW8fBuWI3c3fES2TPPT6diJhJDTO2X2vmLGLTAnrhx76csDh
-	3ZPwddfbapS5E/bJRQc3RsKSKwvBW2QIgWQ==
-X-ME-Sender: <xms:obq_YgmYpRU3UOZz_s3N5UHp7iAWOO5UQ_Rq49rHHjLM1HVjjjwcvw>
-    <xme:obq_Yv3tWzyd9z5jFrR74UpTk3fuqq8XjdCc3UFqxkNbMJOBC_zCg3MGgxwYPpH4C
-    y1ngUkUuEOOIQ0n2g>
-X-ME-Received: <xmr:obq_Yur6kQ3oBMCbtnL-g6wqjEfLi9BektDFtaqQE3ce-6VdOGsUb3OGXogq6B1zd1u7lLSP2v6HmskrwD1z51j9FdfX6_tjgWVwGFUbOBe7ATQJabyF_yk8ZCDH3zcznaXJHA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjedtucetufdoteggodetrfdotf
+	1656732565; x=1656818965; bh=6jxn8F7BMajvrURVaJ+9NyqpY/x+IozbjnQ
+	EFfXY0Y4=; b=ftE4GMxrdgPqspaMnDOlGiSiYxiwE7lD8A593OzwWvLk1JLxtgx
+	ebXJy3MysxNOXXcX2Wnxe2RFxvvE+ij5JgD8HM41pxaNXbabSpbmCqlGWJMMjktY
+	40NR/95K13zjNVyCtiLK8nKQF5c1TOLRNNMar4N6H0l7FgdB4WFEA2K4PW3BkH7F
+	d532KVO/+xbZsUwiU5inNLWY3p4TFnZcB8PHGc9T7F6iT3stdsQ0BAFqJIZVOh2x
+	7ca4A22zrU9sIAacW40BmKeR/kb6+kLjloURXIiFoMDVIkhGMYkTCFPySyBCivQA
+	96Tkv71DOlOP20P2qAaJMY0ObjoWZcjWlWw==
+X-ME-Sender: <xms:kru_YptiNjP_c8sFMZkaUjUjuHNlds4-6MXeEqWn0eOoiy8EjRIbMw>
+    <xme:kru_YidamUMIX70hhYWCTieHCsm7yX2tXxFFrJl4KebLeuTIb88dlKCBXZJNftwe6
+    Vx8YCcuUxYEIcxM_g>
+X-ME-Received: <xmr:kru_YszEnnQIopX7kM0t8pBqUsL3rSgnWMFhI9tOZrzE-Re8BVzsCvOnBJhxo98mcjyZiEFBUcBeHgdfMPBNosPCeMqDWXHnXNz6HCpagjT4Cs_d26NPsfdJqtFkhkC5eMck4w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjeduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
@@ -42,23 +42,30 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehgedgjedtucetufdoteggod
     grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
     hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
     epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:obq_Ysl9MW-mo6O0co6-GAag6eypq89Vrv8H8_3_mh6u9qV83WBuQw>
-    <xmx:obq_Yu3opE5JxqZwr9yOTJNCY4nWF2gxMjl63EQGWWPLLqC5cHTAcA>
-    <xmx:obq_Yju33mYV52d55oQgmBBmDUt9vkYt-d5zUuVwTeRJ4Xf6iON2Ag>
-    <xmx:orq_YhSWASDhleyq2Em7r1cKIuUl_HcKnw3-iay3afIr1Kpy297PCw>
+X-ME-Proxy: <xmx:k7u_YgN_XOXPsjBR0Vw0exvNO_nZm1U77hivy4gK5cFvGXCPgfHFyA>
+    <xmx:k7u_Yp-Khq9LsU8AWA4mnYAP48uKT6sAIHxxhbHAU7REbNBXrLNuKA>
+    <xmx:k7u_YgV8TsoFP3lqlmtC-KDoZmHckmEzmKQSv9RYMjD8j8rUWqHhhQ>
+    <xmx:lbu_YgWav0sAXsewrluJXov77byloh6AjSEAVr-iy4N2c1AjQbsqNg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 1 Jul 2022 23:25:21 -0400 (EDT)
+ 1 Jul 2022 23:29:22 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
+To: Maxime Ripard <mripard@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
 Cc: Samuel Holland <samuel@sholland.org>,
+	Daniel Vetter <daniel@ffwll.ch>,
+	David Airlie <airlied@linux.ie>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] soc: sunxi: mbus: Only build the driver on ARM/ARM64
-Date: Fri,  1 Jul 2022 22:25:20 -0500
-Message-Id: <20220702032520.22129-1-samuel@sholland.org>
+Subject: [PATCH] dt-bindings: display: sun4i: Fix D1 pipeline count
+Date: Fri,  1 Jul 2022 22:29:21 -0500
+Message-Id: <20220702032921.22433-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -68,31 +75,29 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver exists as a workaround for old devicetrees which are missing
-interconnects properties, so it is only useful for those specific
-platforms, which all happen to be ARM or ARM64.
+When adding the bindings for the D1 display engine, I missed the
+condition for the number of pipelines. D1 has two mixers, so it
+will have two pipeline references.
 
-This solves the issue that the driver fails to build on RISC-V, where
-PHYS_OFFSET is not defined.
-
+Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine compatibles")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/soc/sunxi/Kconfig | 1 +
+ .../bindings/display/allwinner,sun4i-a10-display-engine.yaml     | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/soc/sunxi/Kconfig b/drivers/soc/sunxi/Kconfig
-index 1fef0e711056..8aecbc9b1976 100644
---- a/drivers/soc/sunxi/Kconfig
-+++ b/drivers/soc/sunxi/Kconfig
-@@ -6,6 +6,7 @@
- config SUNXI_MBUS
- 	bool
- 	default ARCH_SUNXI
-+	depends on ARM || ARM64
- 	help
- 	  Say y to enable the fixups needed to support the Allwinner
- 	  MBUS DMA quirks.
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
+index c388ae5da1e4..c9c346e6228e 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml
+@@ -94,6 +94,7 @@ if:
+           - allwinner,sun8i-a83t-display-engine
+           - allwinner,sun8i-r40-display-engine
+           - allwinner,sun9i-a80-display-engine
++          - allwinner,sun20i-d1-display-engine
+           - allwinner,sun50i-a64-display-engine
+ 
+ then:
 -- 
 2.35.1
 
