@@ -1,147 +1,161 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D4C7185D
-	for <linux-sunxi@lists.linux.dev>; Sun,  3 Jul 2022 03:57:31 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id t189so8918920oie.8
-        for <linux-sunxi@lists.linux.dev>; Sat, 02 Jul 2022 20:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=S2PQt3HxkBxUYjC+VtlXEq4NoCpstcc7waq7Ie+ZSSw=;
-        b=LcxkuQlcBom6K7cYz2cObFcKqvmFziGvIewxr5CVdQDXpiVs4Qe1p9/ma3MjpEBl0m
-         LdiaLTeEwxUPT1iylGK2uBRwa96fvGW0y6QRWq5F+NZCFL6N1e6TXJlkAQCGEx5XaKBZ
-         bMXT/f+ogoq6vs4TCzgBdramsCAz0nmWRD4br2nzTC8FHRTsVjgo15di4+fdqYbsWQIV
-         4/vga7HK3myEs7r2HcBsoYeS5QL/sXXpo879hazt2tPiyyJMP+yzm9vvBM9i2od8IqAh
-         LSpFzHsWhZD+5n1ToMnLkj0S4zSlSFpghH27+UmeVqnGiX+vxJHJBYAk1fLnQfBbxsFF
-         J2sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=S2PQt3HxkBxUYjC+VtlXEq4NoCpstcc7waq7Ie+ZSSw=;
-        b=MQp28DoMAZ7OubMV7kMfw9KAyOF2reRbCzgKFB2n71j1ZYptKYTDRhjRxxsr87rjtO
-         ajPEd6Gj+w+hFL1jp6X6y/gTQkvRN+XgfhU4swULWRZhvT8MNkqfu3JhDmcTbL5zU2mQ
-         Sv9Er0O7B6kpJwun2aEwwxFofmEyIa3xudpoo6Qu6vRwIO3EkhSvKlYQ1Da3DTxXEDzp
-         b7cdcGXkDLOij1pTKm2MQCYRCvZguRSaa8/g60PJMSoJHDo88XljxHTcSyYjbMAKnjMt
-         DtkUzrr3C/t1o2mmUT+9oNesbLCbSKWMDT2T+VpPL7ehwqKo++y9qGT8uHHG7wY+Zv9W
-         WpKQ==
-X-Gm-Message-State: AJIora821kuIx5sVf6pTCQstXAe2WBgzZMBf+DVb0rZWCAFesPkGhMvo
-	W3kMXZIRfhbYi852nlpvaH7IWA==
-X-Google-Smtp-Source: AGRyM1vPsLVLSd2YTyZeBHDlHn82rVPH0GlTr+Bdo5oMuTiVoQgn60DY/3PL3sh3O2ct5ts3e02W/w==
-X-Received: by 2002:a05:6808:1b25:b0:32e:e59c:3901 with SMTP id bx37-20020a0568081b2500b0032ee59c3901mr13881725oib.186.1656820650648;
-        Sat, 02 Jul 2022 20:57:30 -0700 (PDT)
-Received: from builder.lan (104-57-184-186.lightspeed.austtx.sbcglobal.net. [104.57.184.186])
-        by smtp.gmail.com with ESMTPSA id 25-20020aca0f19000000b0032e5d0b5d5fsm12965910oip.58.2022.07.02.20.57.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Jul 2022 20:57:29 -0700 (PDT)
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Olof Johansson <olof@lixom.net>,
-	soc@kernel.org,
-	Arnd Bergmann <arnd@arndb.de>,
-	arm@kernel.org
-Cc: Li Yang <leoyang.li@nxp.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Tony Lindgren <tony@atomide.com>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Joel Stanley <joel@jms.id.au>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Tero Kristo <kristo@kernel.org>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	Scott Branden <sbranden@broadcom.com>,
-	linux-rockchip@lists.infradead.org,
-	Russell King <linux@armlinux.org.uk>,
-	=?UTF-8?q?Beno=C3=AEt=20Cousson?= <bcousson@baylibre.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-tegra@vger.kernel.org,
-	Khuong Dinh <khuong@os.amperecomputing.com>,
-	linux-gpio@vger.kernel.org,
-	Kevin Hilman <khilman@baylibre.com>,
-	linux-amlogic@lists.infradead.org,
-	Fabio Estevam <festevam@gmail.com>,
-	Michal Simek <michal.simek@xilinx.com>,
-	linux-samsung-soc@vger.kernel.org,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Nishanth Menon <nm@ti.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Peter Rosin <peda@axentia.se>,
-	linux-arm-kernel@lists.infradead.org,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	openbmc@lists.ozlabs.org,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Andy Gross <agross@kernel.org>,
-	Wei Xu <xuwei5@hisilicon.com>,
-	linux-omap@vger.kernel.org,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	devicetree@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	Ray Jui <rjui@broadcom.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	=?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-input@vger.kernel.org,
-	linux-aspeed@lists.ozlabs.org,
-	Chen-Yu Tsai <wens@csie.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>
-Subject: Re: (subset) [PATCH v2 00/48] dt-bindings: input: gpio-keys: rework matching children
-Date: Sat,  2 Jul 2022 22:56:25 -0500
-Message-Id: <165682055971.445910.5189932421143220440.b4-ty@linaro.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
-References: <20220609113721.379932-1-krzysztof.kozlowski@linaro.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6AC14437
+	for <linux-sunxi@lists.linux.dev>; Sun,  3 Jul 2022 06:50:01 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 8B1975C006F;
+	Sun,  3 Jul 2022 02:50:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Sun, 03 Jul 2022 02:50:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656831000; x=
+	1656917400; bh=XbHz1O6006EfuGFVS6D/gxZESYgM1ts2Dx5M1x9GZ8s=; b=r
+	NReSIBnmOK33z/OyQ9Ak9zvfdP+pUrIRipAl7qB0fPzEE2BCu+xbnbykWJcsG2HQ
+	UFAp6JPUeuW20HRjGGsp2+Ge5LyvUcXn3mhz7c/PwoR02BLfwaFKbXxmyrjvKgoN
+	SMdG7SD9hTVX9nYHnLa/dgr0Q6T2jVvkV3aHMVjhyH1bZKVvb5Jqaae9Wod9xu+q
+	0xD2JNp3e3aoaSCESRWhbt+Tmcqves+c+MWFd+1uH3r8MFv0evjuOb4kHhWze7sF
+	WT2kyjW744NA00ih64MTZHC40HIQwB6HFzpj4bIfsDKXYApG7hWyr0VagbcxQfSD
+	SQxyr5yXncQDdjzECQ7Bw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656831000; x=
+	1656917400; bh=XbHz1O6006EfuGFVS6D/gxZESYgM1ts2Dx5M1x9GZ8s=; b=b
+	Cnm73gzsZPlhFLa83U7pergZ27NN8Hon5RdsVf9JZjpsne31t8cLJMZJQj4hSeRs
+	oaiXw6KHDWbsTVSFserEblBiqwqt8qLXvJQx6Ep5MkPY4VZ8pP5QYNoXDfc4Qh2p
+	mQxlI01qbpVH0FXmizTJpNEtThRIh3ul9sb0ecKe/cAuIjXuw9m9YsIHPGmfpRSr
+	QaOvQm0CAgp69HtdBfEAJp0lXSmX9NfJusbM/JIMFVbpYDJbRA7NI4GGtvM93FzD
+	XTQ4nPqejbwWrSLYqKGkXsfy4GQsgrzGicSHcWDCv+tQHuGq8QbHNMbyQ/SZLWMa
+	tz4jDMiCA/df/8gvXI3IA==
+X-ME-Sender: <xms:FzzBYnpmpR5f8htEICf7SXZkjW8_yqCSnVylYQt4MXgKZVERPYKGiw>
+    <xme:FzzBYhpa7DKi2fV7TK3UH2ri-KUdpYSCWEv7lLD9LXki6e31Ygl4vB27OmlCAq1aW
+    1TwLp2bTkJfHSdrbg>
+X-ME-Received: <xmr:FzzBYkMR7prQ-WAIk1_GgSFnUV-ufDwTtL_aEteqKlqeUb14KiI1NpASZpoI3HPJGuH2TiF8jRAbIoM-LpqApVG8VpzZXBYDxYdn9VCjsu2qwosNW6bFM5Cvpg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehiedguddugecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfh
+    iedtheduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:FzzBYq73hiNJD3x5qWUG9RLrMX5qzWfEZJqGXpHMo1I3x0fUDB-MzQ>
+    <xmx:FzzBYm6Nqdcmr2sYp3TBgo-ramg7mrlEjZxQtpwLaCBwnRcpgab63A>
+    <xmx:FzzBYiiokG5V0aiOVYpym38VTMjRNCLm_39uCAmYI44Pa7uR7O6gWA>
+    <xmx:GDzBYvFfIauhGWDpbFl3K2EhiM-X5c63m8wIghdkAjXL54zNc9SVIQ>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 3 Jul 2022 02:49:59 -0400 (EDT)
+Subject: Re: [PATCH] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration
+ to support DFS
+To: Roman Stratiienko <r.stratiienko@gmail.com>, peron.clem@gmail.com,
+ jernej.skrabec@gmail.com
+Cc: mturquette@baylibre.com, sboyd@kernel.org, mripard@kernel.org,
+ wens@csie.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20220624165211.4318-1-r.stratiienko@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <e5837e14-739e-5137-7398-3acfc8a54b84@sholland.org>
+Date: Sun, 3 Jul 2022 01:49:58 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220624165211.4318-1-r.stratiienko@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, 9 Jun 2022 13:37:21 +0200, Krzysztof Kozlowski wrote:
-> Merging
-> =======
-> 1. dt-bindings: rebased on top of Rob's:
->    https://lore.kernel.org/all/20220608211207.2058487-1-robh@kernel.org/
+On 6/24/22 11:52 AM, Roman Stratiienko wrote:
+> Using simple bash script it was discovered that not all CCU registers
+> can be safely used for DFS, e.g.:
 > 
-> 2. DTS patches are independent. They can be picked up directly by sub-arch
->    maintainers, by Arnd or Olof, or eventually by me (if you wish).
+>     while true
+>     do
+>         devmem 0x3001030 4 0xb0003e02
+>         devmem 0x3001030 4 0xb0001e02
+>     done
 > 
-> [...]
+> Script above changes the GPU_PLL multiplier register value. While the
+> script is running, the user should interact with the user interface.
+> 
+> Using this method the following results were obtained:
+> 
+> | Register  | Name           | Bits  | Values | Result |
+> | --        | --             | --    | --     | --     |
+> | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
+> | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
+> | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
+> | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
+> 
+> Once bits that caused system failure disabled (kept default 0),
+> it was discovered that GPU_CLK.MUX was used during DFS for some
+> reason and was causing the failure too.
 
-Applied, thanks!
+The GPU module clock has only one parent declared, so it is surprising that the
+mux would get set. Did this happen while the kernel driver was changing the
+frequency?
 
-[27/48] arm64: dts: qcom: align gpio-key node names with dtschema
-        commit: b08f5cbd69dcd25f5ab2a0798fe3836a97a9d7c6
-[28/48] arm64: dts: qcom: correct gpio-keys properties
-        commit: 5a4b0b853a2914403746b0a1decab695202ff242
-[29/48] arm64: dts: qcom: sdm630-sony-xperia-nile: drop unneeded status from gpio-keys
-        commit: 9d8840f6ee426b6dfcb65bdf39e2898652e2b1e5
-[30/48] arm64: dts: qcom: align led node names with dtschema
-        commit: 3cfe94d660a8ebc19e78ea0a4781d7e9a1054c65
+> After disabling GPU_PLL.OUTDIV the system started to fail during
+> booting for some reason until the maximum frequency of GPU_PLL
+> clock was limited to 756MHz.
 
-Best regards,
--- 
-Bjorn Andersson <bjorn.andersson@linaro.org>
+The manual lists PLL_GPU's maximum frequency as 800 MHz. I assume you chose 756
+MHz because that is the highest OPP. That should be okay, too.
+
+> After all the changes made DVFS started to work seamlessly.
+> 
+> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> index 2ddf0a0da526f..d941238cd178a 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> @@ -95,13 +95,14 @@ static struct ccu_nkmp pll_periph1_clk = {
+>  	},
+>  };
+>  
+> +/* For GPU PLL, using an output divider for DFS causes system to fail */
+>  #define SUN50I_H6_PLL_GPU_REG		0x030
+>  static struct ccu_nkmp pll_gpu_clk = {
+>  	.enable		= BIT(31),
+>  	.lock		= BIT(28),
+>  	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+>  	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+> -	.p		= _SUNXI_CCU_DIV(0, 1), /* output divider */
+> +	.max_rate	= 756000000UL,
+>  	.common		= {
+>  		.reg		= 0x030,
+>  		.hw.init	= CLK_HW_INIT("pll-gpu", "osc24M",
+> @@ -294,12 +295,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk, "deinterlace",
+>  static SUNXI_CCU_GATE(bus_deinterlace_clk, "bus-deinterlace", "psi-ahb1-ahb2",
+>  		      0x62c, BIT(0), 0);
+>  
+> -static const char * const gpu_parents[] = { "pll-gpu" };
+> -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
+> -				       0, 3,	/* M */
+> -				       24, 1,	/* mux */
+> -				       BIT(31),	/* gate */
+> -				       CLK_SET_RATE_PARENT);
+> +/* GPU_CLK divider kept disabled to avoid interferences with DFS */
+> +static SUNXI_CCU_GATE(gpu_clk, "gpu", "pll-gpu", 0x670,
+> +		      BIT(31), CLK_SET_RATE_PARENT);
+
+These changes look fine to me. You also need to set the initial value for the
+fixed fields in the driver's probe function.
+
+Regards,
+Samuel
