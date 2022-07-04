@@ -1,362 +1,322 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA5B4A02;
-	Mon,  4 Jul 2022 17:35:53 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 9A5E0C0013;
-	Mon,  4 Jul 2022 17:35:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1656956152;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Ky1vcLMejhSRaqCZltQx4VBUKkCfIDNB3dkzM+sU0eI=;
-	b=EmyAASbFx3tO0zbZUQR9AGW7IZeIkW3BzSDFonGHXpJlaYVk28pbvL1AG4WB8KaWPiTj0x
-	L+YlxXbGR1OpL301OCZYFGikE1DBJhZBJPWC5Q77hzgRNggHsqbiPQJJ3CixlvXGIFZKWe
-	HwU+cDqciJsluBa58Vpm/QWljZLosRzB4xdnoEe9Ne8GS/F9YMx3h9JxnmyMiLReZAMLpg
-	cxg5zBjPs0IagPLjg5HkJgeZpPxGHbWh2MKWGSSP7Is7sTAXXwpdmNQEnXd9l/jqpIbTvN
-	lGoKndCoF7k8vw3N0xtiY82S1XQnTxJHyeC9J1YkXe7CxfB1LkijpQQxCkDorw==
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v5 6/6] media: sun6i-csi: Add support for hooking to the isp devices
-Date: Mon,  4 Jul 2022 19:35:23 +0200
-Message-Id: <20220704173523.76729-7-paul.kocialkowski@bootlin.com>
-X-Mailer: git-send-email 2.37.0
-In-Reply-To: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
-References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D2715D2
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 18:42:50 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id q6so17991358eji.13
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 11:42:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=RVJSQrTkQwe5Z79nmWayDFvWmq1VAQ9HxitkgUgMq7I=;
+        b=nNwxh1be9FXpXETndamwxF8+aKZO5VyLdF+ZKCK/kHSIaHqMYO+HT4wuM8FJsaSVyQ
+         uEaxS6vxcf83Ai90ONWLn7FiyMNS/KjlXSohBN5GCdH1s+IDfFP36sXlWWu+DRWFQKnw
+         4ooyMo+wi8vr0Lqivl75cK+xT7q2rR+qiGoLCArODj1s83Ynd7AXmTAwOtylUwqjWlM6
+         BcjD5Emg/qZP2BoBKSDBUNR9q79a9OhalapR0LxOg1jknW4JY/cH1tx5WDuxgoLem+jS
+         kXhn4BuThlzNDNwYkFQdrpdjxqHbEbl1XfKwM9kTpYno08q5gmAVY7L+Jfnw8jFPZCe3
+         6jjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=RVJSQrTkQwe5Z79nmWayDFvWmq1VAQ9HxitkgUgMq7I=;
+        b=1J+aggLh/4JInCkbGx09/sbipWmSbB7G/H/v20zXB6i3htmiErtYj0KzcURsH5BRim
+         HsbXjaySfIj5i9nqszGR+TRgVMR+blKBUiGV+1ytrsfydvjekzbM/yo8zINKAjdRda0D
+         xxEmTpXYAcned2EJ8QSqNFrK2WuuDwdRAvTcFuRwzHKQVAel54QBHL5vYJQwjH2NSJbJ
+         U25ljFu51axgqVDPqJqNcnf4z6ZEoCeWT/FfvYf97pGc6IJTQ9HibQr/UUDAwjv7rdUD
+         AxBQIbNZ9tgQ43iXuV2Wc21u2Kb3OSvvhUt4/Ic0aU8B4l86CzA5LjN0uufd0r4Brxa/
+         WfPg==
+X-Gm-Message-State: AJIora/L5FC89PcSTznI7rgTAlj3/orGHmDU6MXRDfISjfwiAc0TMvFg
+	IkuE+p5epCwV+odlbg4Kz4c=
+X-Google-Smtp-Source: AGRyM1v1ECUUyG9a10cJpPtqQtqmjS6SBNVFEIfhdSeE5cA+Z6q0MwW0/iujbPi9QkKpY+t1MedfGw==
+X-Received: by 2002:a17:907:2cf4:b0:72a:47b1:32ee with SMTP id hz20-20020a1709072cf400b0072a47b132eemr27235391ejc.293.1656960168878;
+        Mon, 04 Jul 2022 11:42:48 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id 21-20020a170906301500b00728f6d4d0d7sm7818732ejz.67.2022.07.04.11.42.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Jul 2022 11:42:48 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH v11 3/6] arm64: dts: allwinner: Add Allwinner H616 .dtsi file
+Date: Mon, 04 Jul 2022 20:42:47 +0200
+Message-ID: <22699277.6Emhk5qWAg@kista>
+In-Reply-To: <20220704143057.76163208@donnerap.cambridge.arm.com>
+References: <20220428230933.15262-1-andre.przywara@arm.com> <2985997.CbtlEUcBR6@jernej-laptop> <20220704143057.76163208@donnerap.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
 
-In order to use the isp and csi together, both devices need to be
-parented to the same v4l2 and media devices. We use the isp as
-top-level device and let the csi code hook to its v4l2 and media
-devices when async subdev registration takes place.
+Dne ponedeljek, 04. julij 2022 ob 15:30:57 CEST je Andre Przywara napisal(a=
+):
+> On Sat, 02 Jul 2022 23:16:53 +0200
+> Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+>=20
+> Hi Jernej,
+>=20
+> > Dne =C4=8Detrtek, 30. junij 2022 ob 02:04:10 CEST je Andre Przywara nap=
+isal(a):
+> > > On Tue, 03 May 2022 21:05:11 +0200
+> > > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+> > >=20
+> > > Hi Jernej,
+> > >=20
+> > > many thanks for taking the time to wade through this file!
+> > >  =20
+> > > > Dne petek, 29. april 2022 ob 01:09:30 CEST je Andre Przywara=20
+napisal(a): =20
+> > > > > This (relatively) new SoC is similar to the H6, but drops the=20
+(broken)
+> > > > > PCIe support and the USB 3.0 controller. It also gets the managem=
+ent
+> > > > > controller removed, which in turn removes *some*, but not all of =
+the
+> > > > > devices formerly dedicated to the ARISC (CPUS).
+> > > > > And while there is still the extra sunxi interrupt controller, the
+> > > > > package lacks the corresponding NMI pin, so no interrupts for the=
+=20
+PMIC.
+> > > > >=20
+> > > > > The reserved memory node is actually handled by Trusted Firmware=
+=20
+now,
+> > > > > but U-Boot fails to propagate this to a separately loaded DTB, so=
+ we
+> > > > > keep it in here for now, until U-Boot learns to do this properly.
+> > > > >=20
+> > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > > ---
+> > > > >=20
+> > > > >  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 574 ++++++++++++=
++++
++++
+> > > > >  1 file changed, 574 insertions(+)
+> > > > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > > >=20
+> > > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > > > b/arch/arm64/ =20
+> > > >=20
+> > > > boot/dts/allwinner/sun50i-h616.dtsi
+> > > >  =20
+> > > > > new file mode 100644
+> > > > > index 000000000000..cc06cdd15ba5
+> > > > > --- /dev/null
+> > > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > > > @@ -0,0 +1,574 @@
+> > > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > > > > +// Copyright (C) 2020 Arm Ltd.
+> > > > > +// based on the H6 dtsi, which is:
+> > > > > +//   Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
+> > > > > +
+> > > > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > > +#include <dt-bindings/clock/sun50i-h616-ccu.h>
+> > > > > +#include <dt-bindings/clock/sun50i-h6-r-ccu.h>
+> > > > > +#include <dt-bindings/reset/sun50i-h616-ccu.h>
+> > > > > +#include <dt-bindings/reset/sun50i-h6-r-ccu.h>
+> > > > > +
+> > > > > +/ {
+> > > > > +	interrupt-parent =3D <&gic>;
+> > > > > +	#address-cells =3D <2>;
+> > > > > +	#size-cells =3D <2>;
+> > > > > +
+> > > > > +	cpus {
+> > > > > +		#address-cells =3D <1>;
+> > > > > +		#size-cells =3D <0>;
+> > > > > +
+> > > > > +		cpu0: cpu@0 {
+> > > > > +			compatible =3D "arm,cortex-a53";
+> > > > > +			device_type =3D "cpu";
+> > > > > +			reg =3D <0>;
+> > > > > +			enable-method =3D "psci";
+> > > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > > +		};
+> > > > > +
+> > > > > +		cpu1: cpu@1 {
+> > > > > +			compatible =3D "arm,cortex-a53";
+> > > > > +			device_type =3D "cpu";
+> > > > > +			reg =3D <1>;
+> > > > > +			enable-method =3D "psci";
+> > > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > > +		};
+> > > > > +
+> > > > > +		cpu2: cpu@2 {
+> > > > > +			compatible =3D "arm,cortex-a53";
+> > > > > +			device_type =3D "cpu";
+> > > > > +			reg =3D <2>;
+> > > > > +			enable-method =3D "psci";
+> > > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > > +		};
+> > > > > +
+> > > > > +		cpu3: cpu@3 {
+> > > > > +			compatible =3D "arm,cortex-a53";
+> > > > > +			device_type =3D "cpu";
+> > > > > +			reg =3D <3>;
+> > > > > +			enable-method =3D "psci";
+> > > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > > +		};
+> > > > > +	};
+> > > > > +
+> > > > > +	reserved-memory {
+> > > > > +		#address-cells =3D <2>;
+> > > > > +		#size-cells =3D <2>;
+> > > > > +		ranges;
+> > > > > +
+> > > > > +		/* 512KiB reserved for ARM Trusted Firmware (BL31) */
+> > > > > +		secmon_reserved: secmon@40000000 {
+> > > > > +			reg =3D <0x0 0x40000000 0x0 0x80000>;
+> > > > > +			no-map;
+> > > > > +		};
+> > > > > +	}; =20
+> > > >=20
+> > > > I'm not a fan of above. If anything changes in future in BL31, U-Bo=
+ot
+> > > > would
+> > > > need to reconfigure it anyway. Can we just skip it? =20
+> > >=20
+> > > I am not a fan neither, but last time I checked this is needed to boo=
+t.
+> > > Indeed TF-A inserts this node, with the right values, into U-Boot's D=
+T.
+> > > And that's nicely preserved if you use that DT ($fdtcontroladdr) for
+> > > the kernel as well.
+> > > But if someone *loads* a DTB into U-Boot (to $fdt_addr_r), then
+> > > U-Boot fails to propagate the /reserved-memory node into that copy.
+> > > There does not seem to be a global notion of reserved memory in U-Boo=
+t.
+> > > Some commands (like tftp) explicitly parse the control DT to find and
+> > > respect reserved memory regions. bootm does that also, but only to
+> > > avoid placing the ramdisk or DTB into reserved memory. The information
+> > > ends up in images->lmb, but is not used to generate or amend nodes in
+> > > the target DT.
+> > > So the bits and pieces are there, but it will require some code to be
+> > > added to the generic U-Boot code.
+> > >=20
+> > > So what do you think? Leaving this out will prevent loading DTBs into
+> > > U-Boot, at the moment, which sounds bad. I suggest we keep it in, for
+> > > now, it should not really hurt. U-Boot will hopefully start to do the
+> > > right thing soon, then we can either phase it out here (maybe when we
+> > > actually change something in TF-A), or let U-Boot fix it. =20
+> >=20
+> > TBH, if "soon" is really soon, I would rather wait with H616 DT until U-
+Boot=20
+> > supports carrying over reserved memory nodes.
+>=20
+> But this also carries compatibility issues. U-Boot support the H616 for
+> more than a year now, and the earliest possible U-Boot release having that
+> propagation code would be the one released in October.=20
 
-As a result v4l2/media device setup is only called when the ISP
-is missing and the capture device is registered after the devices
-are hooked. The bridge subdev and its notifier are registered
-without any device when the ISP is available. Top-level pointers
-for the devices are introduced to either redirect to the hooked ones
-(isp available) or the registered ones (isp missing).
+I was hoping you would say July (next U-Boot release) :).
 
-Also keep track of whether the capture node was setup or not to
-avoid cleaning up resources when it wasn't.
+> And then people
+> would still need to update first, so that's quite some months out.
+> And I was actually hoping to get at least the H616 DT patches off my
+> plate, and get them into the tree to have a stable and agreed upon base
+> (before this series turns into a teenager ;-)
 
-Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
----
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 45 +++++++++++++++----
- .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  7 +++
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 32 +++++++++++--
- .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 19 ++++++--
- .../sunxi/sun6i-csi/sun6i_csi_capture.h       |  1 +
- 5 files changed, 89 insertions(+), 15 deletions(-)
+Yeah, I would like that too.
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-index b16166cba2ef..0bac89d8112f 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-@@ -26,6 +26,18 @@
- 
- /* ISP */
- 
-+int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-+			   struct v4l2_device *v4l2_dev)
-+{
-+	if (csi_dev->v4l2_dev && csi_dev->v4l2_dev != v4l2_dev)
-+		return -EINVAL;
-+
-+	csi_dev->v4l2_dev = v4l2_dev;
-+	csi_dev->media_dev = v4l2_dev->mdev;
-+
-+	return sun6i_csi_capture_setup(csi_dev);
-+}
-+
- static bool sun6i_csi_isp_detect(struct sun6i_csi_device *csi_dev)
- {
- 	struct device *dev = csi_dev->dev;
-@@ -95,6 +107,9 @@ static int sun6i_csi_v4l2_setup(struct sun6i_csi_device *csi_dev)
- 		goto error_media;
- 	}
- 
-+	csi_dev->v4l2_dev = v4l2_dev;
-+	csi_dev->media_dev = media_dev;
-+
- 	return 0;
- 
- error_media:
-@@ -323,17 +338,27 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
- 	if (ret)
- 		goto error_resources;
- 
--	ret = sun6i_csi_v4l2_setup(csi_dev);
--	if (ret)
--		goto error_resources;
-+	/*
-+	 * Register our own v4l2 and media devices when there is no ISP around.
-+	 * Otherwise the ISP will use async subdev registration with our bridge,
-+	 * which will provide v4l2 and media devices that are used to register
-+	 * the video interface.
-+	 */
-+	if (!csi_dev->isp_available) {
-+		ret = sun6i_csi_v4l2_setup(csi_dev);
-+		if (ret)
-+			goto error_resources;
-+	}
- 
- 	ret = sun6i_csi_bridge_setup(csi_dev);
- 	if (ret)
- 		goto error_v4l2;
- 
--	ret = sun6i_csi_capture_setup(csi_dev);
--	if (ret)
--		goto error_bridge;
-+	if (!csi_dev->isp_available) {
-+		ret = sun6i_csi_capture_setup(csi_dev);
-+		if (ret)
-+			goto error_bridge;
-+	}
- 
- 	return 0;
- 
-@@ -341,7 +366,8 @@ static int sun6i_csi_probe(struct platform_device *platform_dev)
- 	sun6i_csi_bridge_cleanup(csi_dev);
- 
- error_v4l2:
--	sun6i_csi_v4l2_cleanup(csi_dev);
-+	if (!csi_dev->isp_available)
-+		sun6i_csi_v4l2_cleanup(csi_dev);
- 
- error_resources:
- 	sun6i_csi_resources_cleanup(csi_dev);
-@@ -355,7 +381,10 @@ static int sun6i_csi_remove(struct platform_device *pdev)
- 
- 	sun6i_csi_capture_cleanup(csi_dev);
- 	sun6i_csi_bridge_cleanup(csi_dev);
--	sun6i_csi_v4l2_cleanup(csi_dev);
-+
-+	if (!csi_dev->isp_available)
-+		sun6i_csi_v4l2_cleanup(csi_dev);
-+
- 	sun6i_csi_resources_cleanup(csi_dev);
- 
- 	return 0;
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-index 8e232cd91ebe..bc3f0dae35df 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.h
-@@ -36,6 +36,8 @@ struct sun6i_csi_v4l2 {
- 
- struct sun6i_csi_device {
- 	struct device			*dev;
-+	struct v4l2_device		*v4l2_dev;
-+	struct media_device		*media_dev;
- 
- 	struct sun6i_csi_v4l2		v4l2;
- 	struct sun6i_csi_bridge		bridge;
-@@ -53,4 +55,9 @@ struct sun6i_csi_variant {
- 	unsigned long	clock_mod_rate;
- };
- 
-+/* ISP */
-+
-+int sun6i_csi_isp_complete(struct sun6i_csi_device *csi_dev,
-+			   struct v4l2_device *v4l2_dev);
-+
- #endif
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-index 8e9eded0df28..9624c3f683ee 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_bridge.c
-@@ -654,6 +654,7 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
- 	struct sun6i_csi_bridge_source *source = bridge_async_subdev->source;
- 	bool enabled;
-+	int ret;
- 
- 	switch (source->endpoint.base.port) {
- 	case SUN6I_CSI_PORT_PARALLEL:
-@@ -668,6 +669,16 @@ sun6i_csi_bridge_notifier_bound(struct v4l2_async_notifier *notifier,
- 
- 	source->subdev = remote_subdev;
- 
-+	if (csi_dev->isp_available) {
-+		/*
-+		 * Hook to the first available remote subdev to get v4l2 and
-+		 * media devices and register the capture device then.
-+		 */
-+		ret = sun6i_csi_isp_complete(csi_dev, remote_subdev->v4l2_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return sun6i_csi_bridge_link(csi_dev, SUN6I_CSI_BRIDGE_PAD_SINK,
- 				     remote_subdev, enabled);
- }
-@@ -680,6 +691,9 @@ sun6i_csi_bridge_notifier_complete(struct v4l2_async_notifier *notifier)
- 			     bridge.notifier);
- 	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
- 
-+	if (csi_dev->isp_available)
-+		return 0;
-+
- 	return v4l2_device_register_subdev_nodes(v4l2_dev);
- }
- 
-@@ -753,7 +767,7 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- {
- 	struct device *dev = csi_dev->dev;
- 	struct sun6i_csi_bridge *bridge = &csi_dev->bridge;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct v4l2_subdev *subdev = &bridge->subdev;
- 	struct v4l2_async_notifier *notifier = &bridge->notifier;
- 	struct media_pad *pads = bridge->pads;
-@@ -794,7 +808,11 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- 
- 	/* V4L2 Subdev */
- 
--	ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-+	if (csi_dev->isp_available)
-+		ret = v4l2_async_register_subdev(subdev);
-+	else
-+		ret = v4l2_device_register_subdev(v4l2_dev, subdev);
-+
- 	if (ret) {
- 		dev_err(dev, "failed to register v4l2 subdev: %d\n", ret);
- 		goto error_media_entity;
-@@ -811,7 +829,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- 	sun6i_csi_bridge_source_setup(csi_dev, &bridge->source_mipi_csi2,
- 				      SUN6I_CSI_PORT_MIPI_CSI2, NULL);
- 
--	ret = v4l2_async_nf_register(v4l2_dev, notifier);
-+	if (csi_dev->isp_available)
-+		ret = v4l2_async_subdev_nf_register(subdev, notifier);
-+	else
-+		ret = v4l2_async_nf_register(v4l2_dev, notifier);
- 	if (ret) {
- 		dev_err(dev, "failed to register v4l2 async notifier: %d\n",
- 			ret);
-@@ -823,7 +844,10 @@ int sun6i_csi_bridge_setup(struct sun6i_csi_device *csi_dev)
- error_v4l2_async_notifier:
- 	v4l2_async_nf_cleanup(notifier);
- 
--	v4l2_device_unregister_subdev(subdev);
-+	if (csi_dev->isp_available)
-+		v4l2_async_unregister_subdev(subdev);
-+	else
-+		v4l2_device_unregister_subdev(subdev);
- 
- error_media_entity:
- 	media_entity_cleanup(&subdev->entity);
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index c9e7526b84c4..69ea1cbaea0c 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -570,7 +570,7 @@ static int sun6i_csi_capture_buffer_prepare(struct vb2_buffer *buffer)
- {
- 	struct sun6i_csi_device *csi_dev = vb2_get_drv_priv(buffer->vb2_queue);
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct vb2_v4l2_buffer *v4l2_buffer = to_vb2_v4l2_buffer(buffer);
- 	unsigned long size = capture->format.fmt.pix.sizeimage;
- 
-@@ -889,7 +889,7 @@ static int sun6i_csi_capture_link_validate(struct media_link *link)
- 	struct video_device *video_dev =
- 		media_entity_to_video_device(link->sink->entity);
- 	struct sun6i_csi_device *csi_dev = video_get_drvdata(video_dev);
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	const struct sun6i_csi_capture_format *capture_format;
- 	const struct sun6i_csi_bridge_format *bridge_format;
- 	unsigned int capture_width, capture_height;
-@@ -971,7 +971,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- {
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
- 	struct sun6i_csi_capture_state *state = &capture->state;
--	struct v4l2_device *v4l2_dev = &csi_dev->v4l2.v4l2_dev;
-+	struct v4l2_device *v4l2_dev = csi_dev->v4l2_dev;
- 	struct v4l2_subdev *bridge_subdev = &csi_dev->bridge.subdev;
- 	struct video_device *video_dev = &capture->video_dev;
- 	struct vb2_queue *queue = &capture->queue;
-@@ -980,6 +980,10 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 	struct v4l2_pix_format *pix_format = &format->fmt.pix;
- 	int ret;
- 
-+	/* This may happen with multiple bridge notifier bound calls. */
-+	if (state->setup)
-+		return 0;
-+
- 	/* State */
- 
- 	INIT_LIST_HEAD(&state->queue);
-@@ -1055,6 +1059,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 	ret = media_create_pad_link(&bridge_subdev->entity,
- 				    SUN6I_CSI_BRIDGE_PAD_SOURCE,
- 				    &video_dev->entity, 0,
-+				    csi_dev->isp_available ? 0 :
- 				    MEDIA_LNK_FL_ENABLED |
- 				    MEDIA_LNK_FL_IMMUTABLE);
- 	if (ret < 0) {
-@@ -1065,6 +1070,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 		goto error_video_device;
- 	}
- 
-+	state->setup = true;
-+
- 	return 0;
- 
- error_video_device:
-@@ -1083,7 +1090,13 @@ void sun6i_csi_capture_cleanup(struct sun6i_csi_device *csi_dev)
- 	struct sun6i_csi_capture *capture = &csi_dev->capture;
- 	struct video_device *video_dev = &capture->video_dev;
- 
-+	/* This may happen if async registration failed to complete. */
-+	if (!capture->state.setup)
-+		return;
-+
- 	vb2_video_unregister_device(video_dev);
- 	media_entity_cleanup(&video_dev->entity);
- 	mutex_destroy(&capture->lock);
-+
-+	capture->state.setup = false;
- }
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-index 29893cf96f6b..3ee5ccefbd10 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.h
-@@ -45,6 +45,7 @@ struct sun6i_csi_capture_state {
- 
- 	unsigned int			sequence;
- 	bool				streaming;
-+	bool				setup;
- };
- 
- struct sun6i_csi_capture {
--- 
-2.37.0
+> Then we could for instance update the U-Boot H616 support.
+>=20
+> > Whatever we do now, it will have=20
+> > compatibility issues. If we introduce reserved memory node now, we can'=
+t=20
+> > easily drop it later. Bootloaders are not very often updated, but kerne=
+ls=20
+and=20
+> > DTB files are, at least in my experience. So when we decide to drop the=
+=20
+node?
+>=20
+> I think of the three possibilities:
+> - Drop the node now, and ask people to not load DTBs explicitly
+> - Drop the node when U-Boot learned to propagate the reservation
+> - Keep the node
+> the last one is the least painful: having this node in does not really
+> hurt, so we can be very relaxed with this removal decision:
+> - If U-Boot does not add the reserved node, we are covered.
+> - If U-Boot adds the node, it will do so in a way where it deals with
+> existing reservations. So either it doesn't actually change anything, or
+> it extends the reservation.
+> - Should the TF-A location actually move (and we have no plans or needs to
+> do that), people would only get this by updating the firmware, at which
+> point the U-Boot part would surely be in place already. We don't really
+> support updating just BL31 in an existing binary firmware image, so you
+> would get an updated U-Boot as well.
+>=20
+> I think the worst case scenario is that users end up with an unneeded 512K
+> reservation. If they care, a firmware update should solve this problem.
+>=20
+> As for the time to remove that node: we could do that at the time when
+> (or rather: if) we actually change the TF-A reservation. At the moment
+> there are no plans to do this, and the size reservation is more than
+> generous (the current debug build is actually 77 KB or so only). If there
+> is no change, and the node stays in the .dtsi, it doesn't really hurt, see
+> above.
+
+I see your point, but I would like to get some input from Samuel first.
+
+Samuel, what do you think?
+
+>=20
+> > After 10 years? Alternatively, reserved memory node can be just dropped=
+=20
+and=20
+> > anyone loading DTB file from outside would need to make sure it's patch=
+ed.=20
+But=20
+> > that's unexpected from user perspective, although patching DT files is =
+done=20
+by=20
+> > some distros.
+>=20
+> Yeah, let's not go there. As you know, I already dislike the idea of
+> explicitly loading DTBs at all, but I understand this is what people, and
+> distributions, do, so I'd rather have them covered. Hence the node to
+> work with existing firmware.
+
+Reusing DTB from U-Boot is only useful when you're happy with completeness =
+of=20
+DT and with the lack of bugs in it. Then you can save troubles with skippin=
+g=20
+external DTB load step and life is easier. But as you know, features and th=
+us=20
+nodes are added in steps and sometimes some bugs are fixed, which means it'=
+s=20
+extremely handy to have easily updatable DTB file. Yes, U-Boot can be=20
+automated, but it's tedious for distro to maintain one bootloader package p=
+er=20
+board. Ideally, distro shouldn't care at all about that, but many boards do=
+n't=20
+have designated bootloader storage (SPI NOR flash in AW case), so they have=
+ to=20
+be combined on same storage, partition even, as distro. On the other hand,=
+=20
+when building kernel, you automatically build all relevant DTB files, which=
+ you=20
+can then just copy to common place. No device specific handling needed. Als=
+o,=20
+U-Boot doesn't sync DT files every release, so latest U-Boot doesn't necess=
+arly=20
+mean latest DT.
+
+Above is a bit off topic, but I hope you understand why distros opt to use=
+=20
+external DTB files (speaking from my own experiences).
+
+Best regards,
+Jernej
+
+>=20
+> Does that make sense?
+>=20
+> Cheers,
+> Andre
+>=20
+
 
