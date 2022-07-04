@@ -1,41 +1,41 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFABB7E
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 23:53:17 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8CF495C0058;
-	Mon,  4 Jul 2022 19:53:16 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 996B97E
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 23:56:01 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id B8C1D5C00DD;
+	Mon,  4 Jul 2022 19:56:00 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Mon, 04 Jul 2022 19:53:16 -0400
+  by compute5.internal (MEProxy); Mon, 04 Jul 2022 19:56:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656978796; x=
-	1657065196; bh=hRtV2tmxTGHWgaE1iVcT0zpQrqZDg6gyLKB2wVgW0vo=; b=T
-	vhe3/lISntp8F4XP10zGlS+kat7MmJH/hcrB1wPhiXE2yPbUq3AUBkplSOAAzYKu
-	OAKNvFBynSC0pnA1X4KBFVc/Q+g9SU80G+bolLDkBslrWSd/TkBiZMwedh/wiUMk
-	sYttwA3KodMA+mgu2GNkgvNPxyf5q9c7s2ufaT1uk4DtLREkxL/ZZ4DaOMT/Vkvz
-	frev+0D9JTxhhfL+towmLTOTQ2g2urWbTjtvgVU0RD43AW8shxIubjEy1zZbP6Ic
-	QFdGUTIaKejzyoUbwUAYDVbJXyiPg6zLhuSPEnarJK6D64CxR3zHDn9TEsECEJ87
-	gtAK2lYaAoJQlJcEnSjBg==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656978960; x=
+	1657065360; bh=VjjCNK/QUJQgIUTHTpMOStvQY2cL+8rDq3LhVbeEC1Q=; b=h
+	ifwV1yYFNvbZC/udgowFCmTOSmQ/qcy2IOL1cTA8TMdVqjZhB9dnAHZSMTvDZej/
+	7f8JVANCeh2WkC4Gx0lbISJquIb/EYAsH7G+w8Avw7tNbG5EEsbqIfWOoo/Kl1Sl
+	zDDUUR3a1495DQ8KQ1ZqlMKQbCX4XRvdu1sQ02OsaubVt/TKq0bSXc82t7MwFmgf
+	8wVwLk/tjIlZh17NInWC6o7T1WLeQqmpI7JPhjqQ2Of0VhpP22i1VHBakOFpl8n+
+	PFHBG6oyN6QnLzMkGMKeedBjw11r1R82EvLyFHXFGgxTaiTeMfGDWu5oIRyEh1F6
+	nkjqcLWNH15X0/5FF43Jg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656978796; x=
-	1657065196; bh=hRtV2tmxTGHWgaE1iVcT0zpQrqZDg6gyLKB2wVgW0vo=; b=j
-	X610wJ0G2bO43nBljf1hmO06Mn4aR3fOwFPm99EJzjr34y8T4/S/YtIhvGFQxL/i
-	jP6i6EvYgwPL7Vl0LL4RkG2o7Ib6o412GO0ZidVeDu1rsDtOAu1tU/3bSsmcDYmC
-	C+mMW6I9hJVtJE52k1JXDEyjovJMKwdaaYME354ktbOvin0JF0B+vRqF5UN/6buN
-	pYCsyxlLbLqiLwSk/+2Eu+eEDHSErVwFw87qZ2LT7t/G7yTq3JAsA9F+zrDoSc8h
-	pNrUo3O4v6kkIzKy6y8fuMqnuCq0tWNRqBjHHMrll6s+CbCUqUZvN8zApXWQE8yY
-	4j1fvpowiL85gzAy3f89w==
-X-ME-Sender: <xms:bH3DYqD0bLia9ca-mTcv-wDabTy0hD7sTEWuqCtoQ77MG_03wU-Kkw>
-    <xme:bH3DYkgEovVE12p5tHBhDKhlPxERzkQg5zUymkaDQYrGjmS0RsLhMBUvJAya40XUn
-    rEbERk6hZtVoQctkw>
-X-ME-Received: <xmr:bH3DYtnalH8DVwiEKcU0jL_tnEA52T-1R17_NxQszlVPwem_8wIn3IJfZnC1y1dR2O_LWrQyqfVDbKumU_mW-GoRXvfkw-Nr6gkxlKxTIxrPkk1U8p6eXEFHTw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656978960; x=
+	1657065360; bh=VjjCNK/QUJQgIUTHTpMOStvQY2cL+8rDq3LhVbeEC1Q=; b=R
+	TfYJfkvawaWXek+h6Zjyz4SYSCyrOlatEV2aVVi3K9KE/5JO2sTjVWLnHJse8zGu
+	y1vw8jIt8HuiyyAsxt4HDpGiZGaBFE8H0KSxkyzIP0Uu/hpLQx29qo3hqXFQhCJy
+	oIm3OoqjzqREaxG73SbcUYjbl1XSOKzuzKy9dv9/OGLu5CR0HYWK/o4AZQylbbeH
+	m24CjKkXDGhEyDulJjs9krZlEUhSOj9D3WO4GVPqYr3+AscUSw7sDSIafmTWeHfy
+	OVlPrKR2kGddRUQdIR9In8KqUNbrghtgCDLsXi4zpyqVknimZCYWIpg+vBR+6IKb
+	ZPZjr30lTUAXID68e5X7g==
+X-ME-Sender: <xms:EH7DYvWbRUH8tTcu-a_7OhCENgU3bg5LBZp7rPwzF0wBSs0NvE0VUw>
+    <xme:EH7DYnmhk9gDVCrR66Keb9k5qquPEyPP3T-UECCulDX04sICbDqKsqLm6nzZ-STZQ
+    _bkSdwEPJJaJnGjVg>
+X-ME-Received: <xmr:EH7DYrbO2prypG0RvHH_4a_vxgxuvB5Ybboo2nqO47ljSDtzvvJ3sHVr3i5RkhVrLo_RwYwWn1FJn1bBuTiyI7ml1ToH9J-JTLxkIR6iu1JVcWcJ6uaAsGbOLg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgvdegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -44,27 +44,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgvdegucetufdoteggod
     ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
     tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:bH3DYoyQ70HyDHpizunZF_V6yfKDZuOVes9evuJwjTuH6dLfY1u5ew>
-    <xmx:bH3DYvQXMjRtHUzHU_--LXfFvDRkqonl3FGFmnblCSXUgEu9KamYPQ>
-    <xmx:bH3DYjYHsGhSQLWcu9XUe0bmr5x1KbB7FZ-tyN42-jlNzHQTdl0k6g>
-    <xmx:bH3DYtC3M8W4qfl0raLoFOPsTYKch2tTcY4HA_op_db5-nWCMGFw8Q>
+X-ME-Proxy: <xmx:EH7DYqXzjC3S-vANAIgpERQCjTt-QuPff7X3R7z6yWIwbREF4ntQvg>
+    <xmx:EH7DYpm_SfYE_oP0QSRD5dBf_9rtcOLBa6r2GgL6ZaYQUeMNSDhpNA>
+    <xmx:EH7DYnemfO8_xw_clYBvmvIUnIyLIyz8023rquBwyAzkxzUJCz5JYw>
+    <xmx:EH7DYqhHig5EpJ-EFrQn9UYxW4YZDZe8m3AQ5iRs1_5IN545ezH0Zw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Jul 2022 19:53:15 -0400 (EDT)
-Subject: Re: [PATCH v12 1/7] dt-bindings: arm: sunxi: Add H616 EMAC compatible
+ 4 Jul 2022 19:55:59 -0400 (EDT)
+Subject: Re: [PATCH v12 2/7] dt-bindings: pinctrl: sunxi: Make interrupts
+ optional
 To: Andre Przywara <andre.przywara@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
+ linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org
 References: <20220701112453.2310722-1-andre.przywara@arm.com>
- <20220701112453.2310722-2-andre.przywara@arm.com>
+ <20220701112453.2310722-3-andre.przywara@arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <b2661412-5fce-a20d-c7c4-6df58efdb930@sholland.org>
-Date: Mon, 4 Jul 2022 18:53:14 -0500
+Message-ID: <74a5466c-a84b-57fa-79ad-96155c1324a0@sholland.org>
+Date: Mon, 4 Jul 2022 18:55:59 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -73,40 +73,68 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220701112453.2310722-2-andre.przywara@arm.com>
+In-Reply-To: <20220701112453.2310722-3-andre.przywara@arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 On 7/1/22 6:24 AM, Andre Przywara wrote:
-> The Allwinner H616 contains an "EMAC" Ethernet MAC compatible to the A64
-> version.
+> The R_PIO pinctrl device on the Allwinner H616 SoC does not have an
+> interrupt (it features only two pins).
+> However the binding requires at least naming one upstream interrupt,
+> plus the #interrupt-cells and interrupt-controller properties.
 > 
-> Add it to the list of compatible strings.
+> Drop the unconditional requirement for the interrupt properties, and
+> make them dependent on being not this particular pinctrl device.
 > 
 > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+
+Acked-by: Samuel Holland <samuel@sholland.org>
+
 > ---
->  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml       | 1 +
->  1 file changed, 1 insertion(+)
+>  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml      | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> index 6a4831fd3616c..87f1306831cc9 100644
-> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> @@ -22,6 +22,7 @@ properties:
->            - enum:
->                - allwinner,sun20i-d1-emac
->                - allwinner,sun50i-h6-emac
-> +              - allwinner,sun50i-h616-emac
-
-The H616 manual has register fields for an internal PHY, like H3. Are these not
-hooked up for either EMAC?
-
-Regards,
-Samuel
-
->            - const: allwinner,sun50i-a64-emac
+> diff --git a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+> index bfce850c20351..0bd903954195b 100644
+> --- a/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+> +++ b/Documentation/devicetree/bindings/pinctrl/allwinner,sun4i-a10-pinctrl.yaml
+> @@ -133,14 +133,11 @@ patternProperties:
 >  
->    reg:
+>  required:
+>    - "#gpio-cells"
+> -  - "#interrupt-cells"
+>    - compatible
+>    - reg
+> -  - interrupts
+>    - clocks
+>    - clock-names
+>    - gpio-controller
+> -  - interrupt-controller
+>  
+>  allOf:
+>    # FIXME: We should have the pin bank supplies here, but not a lot of
+> @@ -148,6 +145,18 @@ allOf:
+>    # warnings.
+>  
+>    - $ref: "pinctrl.yaml#"
+> +  - if:
+> +      not:
+> +        properties:
+> +          compatible:
+> +            enum:
+> +              - allwinner,sun50i-h616-r-pinctrl
+> +    then:
+
+Nit: all of the existing ifs and thens have blank lines between them.
+
+> +      required:
+> +        - "#interrupt-cells"
+> +        - interrupts
+> +        - interrupt-controller
+> +
+>    - if:
+>        properties:
+>          compatible:
 > 
 
