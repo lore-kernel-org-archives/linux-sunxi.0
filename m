@@ -1,238 +1,136 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D96469C
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 13:31:11 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9625F23A;
-	Mon,  4 Jul 2022 06:31:11 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED6363F66F;
-	Mon,  4 Jul 2022 06:31:09 -0700 (PDT)
-Date: Mon, 4 Jul 2022 14:30:57 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 3/6] arm64: dts: allwinner: Add Allwinner H616 .dtsi
- file
-Message-ID: <20220704143057.76163208@donnerap.cambridge.arm.com>
-In-Reply-To: <2985997.CbtlEUcBR6@jernej-laptop>
-References: <20220428230933.15262-1-andre.przywara@arm.com>
-	<3165164.aeNJFYEL58@kista>
-	<20220630010410.38fc117f@slackpad.lan>
-	<2985997.CbtlEUcBR6@jernej-laptop>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D753D99;
+	Mon,  4 Jul 2022 15:44:19 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id AC33466015CF;
+	Mon,  4 Jul 2022 16:44:09 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1656949451;
+	bh=T0jdgrAyHCTaLPYprZARiSvG27dAijlSDfp7uHdeNpY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=f/smC5qK/a7kfrVFv3B/D+docBl4EQbeLo9oSRMcQJkp43qS39AOZW7J81g5d+m6h
+	 kmW6CnsaAMC8kAQdOGFEhwUTMQ9I91R3n3uaVqWWin3+KJ6iFI7ItwwFKv9IxRVYMy
+	 VmYmcOtlUwvzjYRKopx7WCASUljYlLKieHdFPWSntv2VWIFeMImNtXBT+e1/ZS1S50
+	 JU9NweKFQWnSlVCuDJB+PjMzvBD7jDtbCGjcO14HSGWo3z6V6CZLdcBLKvpcyfHV3D
+	 hefh5ZRU/mulv6r6O10RdtZ7m5aKjk0sfMk2sfxRJfjnygFLtWFCXgK5liKgJ8t+x4
+	 wQW/GDR+42WpQ==
+Message-ID: <e7247c9af96be6565b8bc33760f3767e1bf2073f.camel@collabora.com>
+Subject: Re: [PATCH 6/7] media: hantro: imx8m: Enable 10bit decoding
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Ezequiel Garcia
+	 <ezequiel@vanguardiasur.com.ar>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de, 
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org,  andrzej.p@collabora.com, linux-media@vger.kernel.org,
+  linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-sunxi@lists.linux.dev, kernel@collabora.com
+Date: Mon, 04 Jul 2022 11:43:59 -0400
+In-Reply-To: <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
+References: <20220617115802.396442-1-benjamin.gaignard@collabora.com>
+	 <20220617115802.396442-7-benjamin.gaignard@collabora.com>
+	 <Yr3gDuzOXk58wTnd@eze-laptop>
+	 <16bb6fe6-0d95-d4d1-f7c7-f2ca61f7bdcc@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, 02 Jul 2022 23:16:53 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-
-Hi Jernej,
-
-> Dne =C4=8Detrtek, 30. junij 2022 ob 02:04:10 CEST je Andre Przywara napis=
-al(a):
-> > On Tue, 03 May 2022 21:05:11 +0200
-> > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+Le vendredi 01 juillet 2022 =C3=A0 09:01 +0200, Benjamin Gaignard a =C3=A9c=
+rit=C2=A0:
+> Le 30/06/2022 =C3=A0 19:40, Ezequiel Garcia a =C3=A9crit=C2=A0:
+> > Hi Benjamin,
 > >=20
-> > Hi Jernej,
-> >=20
-> > many thanks for taking the time to wade through this file!
-> >  =20
-> > > Dne petek, 29. april 2022 ob 01:09:30 CEST je Andre Przywara napisal(=
-a): =20
-> > > > This (relatively) new SoC is similar to the H6, but drops the (brok=
-en)
-> > > > PCIe support and the USB 3.0 controller. It also gets the management
-> > > > controller removed, which in turn removes *some*, but not all of the
-> > > > devices formerly dedicated to the ARISC (CPUS).
-> > > > And while there is still the extra sunxi interrupt controller, the
-> > > > package lacks the corresponding NMI pin, so no interrupts for the P=
-MIC.
-> > > >=20
-> > > > The reserved memory node is actually handled by Trusted Firmware no=
-w,
-> > > > but U-Boot fails to propagate this to a separately loaded DTB, so we
-> > > > keep it in here for now, until U-Boot learns to do this properly.
-> > > >=20
-> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > > ---
-> > > >=20
-> > > >  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 574 ++++++++++++++=
-++++
-> > > >  1 file changed, 574 insertions(+)
-> > > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > > >=20
-> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > > > b/arch/arm64/ =20
+> > On Fri, Jun 17, 2022 at 01:58:01PM +0200, Benjamin Gaignard wrote:
+> > > Expose 10bit pixel formats to enable 10bit decoding in IMX8M SoCs.
 > > >=20
-> > > boot/dts/allwinner/sun50i-h616.dtsi
-> > >  =20
-> > > > new file mode 100644
-> > > > index 000000000000..cc06cdd15ba5
-> > > > --- /dev/null
-> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > > > @@ -0,0 +1,574 @@
-> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > +// Copyright (C) 2020 Arm Ltd.
-> > > > +// based on the H6 dtsi, which is:
-> > > > +//   Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
-> > > > +
-> > > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > +#include <dt-bindings/clock/sun50i-h616-ccu.h>
-> > > > +#include <dt-bindings/clock/sun50i-h6-r-ccu.h>
-> > > > +#include <dt-bindings/reset/sun50i-h616-ccu.h>
-> > > > +#include <dt-bindings/reset/sun50i-h6-r-ccu.h>
-> > > > +
-> > > > +/ {
-> > > > +	interrupt-parent =3D <&gic>;
-> > > > +	#address-cells =3D <2>;
-> > > > +	#size-cells =3D <2>;
-> > > > +
-> > > > +	cpus {
-> > > > +		#address-cells =3D <1>;
-> > > > +		#size-cells =3D <0>;
-> > > > +
-> > > > +		cpu0: cpu@0 {
-> > > > +			compatible =3D "arm,cortex-a53";
-> > > > +			device_type =3D "cpu";
-> > > > +			reg =3D <0>;
-> > > > +			enable-method =3D "psci";
-> > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > +		};
-> > > > +
-> > > > +		cpu1: cpu@1 {
-> > > > +			compatible =3D "arm,cortex-a53";
-> > > > +			device_type =3D "cpu";
-> > > > +			reg =3D <1>;
-> > > > +			enable-method =3D "psci";
-> > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > +		};
-> > > > +
-> > > > +		cpu2: cpu@2 {
-> > > > +			compatible =3D "arm,cortex-a53";
-> > > > +			device_type =3D "cpu";
-> > > > +			reg =3D <2>;
-> > > > +			enable-method =3D "psci";
-> > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > +		};
-> > > > +
-> > > > +		cpu3: cpu@3 {
-> > > > +			compatible =3D "arm,cortex-a53";
-> > > > +			device_type =3D "cpu";
-> > > > +			reg =3D <3>;
-> > > > +			enable-method =3D "psci";
-> > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > +		};
-> > > > +	};
-> > > > +
-> > > > +	reserved-memory {
-> > > > +		#address-cells =3D <2>;
-> > > > +		#size-cells =3D <2>;
-> > > > +		ranges;
-> > > > +
-> > > > +		/* 512KiB reserved for ARM Trusted Firmware (BL31) */
-> > > > +		secmon_reserved: secmon@40000000 {
-> > > > +			reg =3D <0x0 0x40000000 0x0 0x80000>;
-> > > > +			no-map;
-> > > > +		};
-> > > > +	}; =20
-> > >=20
-> > > I'm not a fan of above. If anything changes in future in BL31, U-Boot
-> > > would
-> > > need to reconfigure it anyway. Can we just skip it? =20
+> > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > Looks good to me.
 > >=20
-> > I am not a fan neither, but last time I checked this is needed to boot.
-> > Indeed TF-A inserts this node, with the right values, into U-Boot's DT.
-> > And that's nicely preserved if you use that DT ($fdtcontroladdr) for
-> > the kernel as well.
-> > But if someone *loads* a DTB into U-Boot (to $fdt_addr_r), then
-> > U-Boot fails to propagate the /reserved-memory node into that copy.
-> > There does not seem to be a global notion of reserved memory in U-Boot.
-> > Some commands (like tftp) explicitly parse the control DT to find and
-> > respect reserved memory regions. bootm does that also, but only to
-> > avoid placing the ramdisk or DTB into reserved memory. The information
-> > ends up in images->lmb, but is not used to generate or amend nodes in
-> > the target DT.
-> > So the bits and pieces are there, but it will require some code to be
-> > added to the generic U-Boot code.
+> > Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 > >=20
-> > So what do you think? Leaving this out will prevent loading DTBs into
-> > U-Boot, at the moment, which sounds bad. I suggest we keep it in, for
-> > now, it should not really hurt. U-Boot will hopefully start to do the
-> > right thing soon, then we can either phase it out here (maybe when we
-> > actually change something in TF-A), or let U-Boot fix it. =20
+> > Have you checked Fluster tests passess using both P010 and P010_4L4?
+> > It would be good to double-check.
 >=20
-> TBH, if "soon" is really soon, I would rather wait with H616 DT until U-B=
-oot=20
-> supports carrying over reserved memory nodes.
+> It isn't possible to check P010_4L4 with fluster because GStreamer
+> videoconvert element doesn't support this format.
 
-But this also carries compatibility issues. U-Boot support the H616 for
-more than a year now, and the earliest possible U-Boot release having that
-propagation code would be the one released in October. And then people
-would still need to update first, so that's quite some months out.
-And I was actually hoping to get at least the H616 DT patches off my
-plate, and get them into the tree to have a stable and agreed upon base
-(before this series turns into a teenager ;-)
-Then we could for instance update the U-Boot H616 support.
+I can offert to work on this. If you can send me offline some picture dump,=
+ so I
+can validate, that would help.
 
-> Whatever we do now, it will have=20
-> compatibility issues. If we introduce reserved memory node now, we can't=
-=20
-> easily drop it later. Bootloaders are not very often updated, but kernels=
- and=20
-> DTB files are, at least in my experience. So when we decide to drop the n=
-ode?
+>=20
+> Regards,
+> Benjamin
+>=20
+> >=20
+> > Thanks a lot,
+> > Ezequiel
+> >=20
+> > > ---
+> > >   drivers/staging/media/hantro/imx8m_vpu_hw.c | 27 ++++++++++++++++++=
++++
+> > >   1 file changed, 27 insertions(+)
+> > >=20
+> > > diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/st=
+aging/media/hantro/imx8m_vpu_hw.c
+> > > index 77f574fdfa77..b390228fd3b4 100644
+> > > --- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > +++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+> > > @@ -162,12 +162,39 @@ static const struct hantro_fmt imx8m_vpu_g2_pos=
+tproc_fmts[] =3D {
+> > >   			.step_height =3D MB_DIM,
+> > >   		},
+> > >   	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.postprocessed =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D MB_DIM,
+> > > +		},
+> > > +	},
+> > >   };
+> > >  =20
+> > >   static const struct hantro_fmt imx8m_vpu_g2_dec_fmts[] =3D {
+> > >   	{
+> > >   		.fourcc =3D V4L2_PIX_FMT_NV12_4L4,
+> > >   		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > > +		.frmsize =3D {
+> > > +			.min_width =3D FMT_MIN_WIDTH,
+> > > +			.max_width =3D FMT_UHD_WIDTH,
+> > > +			.step_width =3D TILE_MB_DIM,
+> > > +			.min_height =3D FMT_MIN_HEIGHT,
+> > > +			.max_height =3D FMT_UHD_HEIGHT,
+> > > +			.step_height =3D TILE_MB_DIM,
+> > > +		},
+> > > +	},
+> > > +	{
+> > > +		.fourcc =3D V4L2_PIX_FMT_P010_4L4,
+> > > +		.codec_mode =3D HANTRO_MODE_NONE,
+> > > +		.match_depth =3D true,
+> > >   		.frmsize =3D {
+> > >   			.min_width =3D FMT_MIN_WIDTH,
+> > >   			.max_width =3D FMT_UHD_WIDTH,
+> > > --=20
+> > > 2.32.0
+> > >=20
 
-I think of the three possibilities:
-- Drop the node now, and ask people to not load DTBs explicitly
-- Drop the node when U-Boot learned to propagate the reservation
-- Keep the node
-the last one is the least painful: having this node in does not really
-hurt, so we can be very relaxed with this removal decision:
-- If U-Boot does not add the reserved node, we are covered.
-- If U-Boot adds the node, it will do so in a way where it deals with
-existing reservations. So either it doesn't actually change anything, or
-it extends the reservation.
-- Should the TF-A location actually move (and we have no plans or needs to
-do that), people would only get this by updating the firmware, at which
-point the U-Boot part would surely be in place already. We don't really
-support updating just BL31 in an existing binary firmware image, so you
-would get an updated U-Boot as well.
-
-I think the worst case scenario is that users end up with an unneeded 512K
-reservation. If they care, a firmware update should solve this problem.
-
-As for the time to remove that node: we could do that at the time when
-(or rather: if) we actually change the TF-A reservation. At the moment
-there are no plans to do this, and the size reservation is more than
-generous (the current debug build is actually 77 KB or so only). If there
-is no change, and the node stays in the .dtsi, it doesn't really hurt, see
-above.
-
-> After 10 years? Alternatively, reserved memory node can be just dropped a=
-nd=20
-> anyone loading DTB file from outside would need to make sure it's patched=
-. But=20
-> that's unexpected from user perspective, although patching DT files is do=
-ne by=20
-> some distros.
-
-Yeah, let's not go there. As you know, I already dislike the idea of
-explicitly loading DTBs at all, but I understand this is what people, and
-distributions, do, so I'd rather have them covered. Hence the node to
-work with existing firmware.
-
-Does that make sense?
-
-Cheers,
-Andre
