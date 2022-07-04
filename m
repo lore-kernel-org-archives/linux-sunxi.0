@@ -1,101 +1,197 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A5C4A0A
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 18:59:31 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 91B905C00B2;
-	Mon,  4 Jul 2022 14:59:30 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Mon, 04 Jul 2022 14:59:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656961170; x=
-	1657047570; bh=F5nGqDVFT2QAl9raw0kYO5IPENgXXLfXR4vGd0m2UgE=; b=S
-	GWb3VNgBuFI+LzQ130jHv65ZXwAf93X6brKPo50RhylJOKQ3g5IPCv1eHe0dPJ2m
-	gv2+SaG+EA0hAyp/GlE5WxxXFQINQrkSDocf2MjWcECNThQRNT98jzEaJAMa4inR
-	Nz56/gjx20GJlZO4IQCvA9A6GU6H5kecJFz15Cx72e3MqoZl0xdOMANvmwXDN20S
-	mkrJ5N/iVgYzGPEEInxysHtOJJXuBSvleaQqZ7RK13b12AXvuzN827T936NqMmLM
-	GMZwn5GMIb7AH60TCsgc84OM7qd42QXKmOx7lc9jpjVRR/Mos3DCMBPczNnf7gRX
-	pL1xo5kBIoOseKuCLgQKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656961170; x=
-	1657047570; bh=F5nGqDVFT2QAl9raw0kYO5IPENgXXLfXR4vGd0m2UgE=; b=v
-	EtquaKUde5G9Xko95UNgER955jTmkZNlhs4oO+uPJNEN4wvtwUWg5/P37HQQXZc2
-	pz31KRHLph0PmZbnF3ne49v5Bx0qSXavEg/vUoP5NrV6lk2tDTdgOm6nNCiMAeFz
-	1viNexFarGcFYXK9GF6ZeCPSGmPbKA4ug4JgH6Uboj8Ow8Wp1lVmM7F6JEtQH1EJ
-	Wg0+evFYOE49x7i9Z97IgHKEVGxquvGbw1F2n2FBTbPbQp5MPGsQZQu7nwLpIItc
-	UZmHUgzRqTRvXDwHTMR/SlhY64OvEDPaPpcp9DwS+AxOGjenqrFhK8YTa8S+4mFb
-	8IdhvnUyNruQXAL/sq64w==
-X-ME-Sender: <xms:kjjDYiQxDScMgjLBhdVZymGn9ASzaTUkWpUR2QndQT-44Hzm_rt4VA>
-    <xme:kjjDYnxg6kfkCFsKSn4c4EB3GbgRsBINqE_vCPeY3VnlfeVvk9fDg8yp8QkSfY7vO
-    VpUXdsftf-Yo8Ugew>
-X-ME-Received: <xmr:kjjDYv3UKqMB-4tW5D8AT4Jbe6Se9xGtITVh2oYyfYyHw1dBLVXHPwks3s9e03JSkxLnikH9YPXIs_9d0yb7NiTq0ziBkNoD0Cue_vo2sf4XCxQc1mlLgo5NwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudehledgudeffecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
-    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfh
-    iedtheduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:kjjDYuBpt_hL62xi7sHJUUIVbGavVJRSeN4Uo_NWukIP-b4ojuCKBA>
-    <xmx:kjjDYrgY-8XI_1BWi1il2Od0_5jLhgxHYT4U0SDIk9UvECPkIp8FFQ>
-    <xmx:kjjDYqpypb5FqgWMwpOxstMBsP09Nk-h7yxkl0PrwSkKmxcKJWjCkQ>
-    <xmx:kjjDYgZJuf5d-Iblhqr-aditUvn1iSp3B1crGDRCETR0M4X9VBYhvA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Jul 2022 14:59:29 -0400 (EDT)
-Subject: Re: [PATCH V3 15/20] OPP: Migrate set-prop-name helper API to use
- set-config helpers
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: Yangtao Li <tiny.windzz@gmail.com>, "Rafael J. Wysocki"
- <rafael@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Nishanth Menon <nm@ti.com>,
- Stephen Boyd <sboyd@kernel.org>, linux-pm@vger.kernel.org,
- Vincent Guittot <vincent.guittot@linaro.org>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <cover.1656935522.git.viresh.kumar@linaro.org>
- <bbd8f1e7508a9c66028ea1d80fd86924256fdb64.1656935522.git.viresh.kumar@linaro.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <500bf605-a30c-8092-631f-0f9a623bfb74@sholland.org>
-Date: Mon, 4 Jul 2022 13:59:29 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C27D4A0A;
+	Mon,  4 Jul 2022 19:40:30 +0000 (UTC)
+Received: from nicolas-tpx395.localdomain (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B5165660199A;
+	Mon,  4 Jul 2022 20:40:26 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1656963628;
+	bh=nNZa7Ge5MHVKSzxBaBt+mXeh5k5ePRYOAg+X8XLySH4=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=eruSIePRQZDm8Ne6Q3JCzJYO4I/2i42H4ighHZIUZPsW4j5ybJQFO/HpxAeFIjEaa
+	 TsMqdPXipksdbSR//jj/PvOVqUEuz2U9Js2S6F6K6Rb6KUiC6k+rDHTWFjzr+6+RNi
+	 VXeeswjL5JjfsUNA2cnsqE9KOycsiHjZ9q6ETTa05y+SMTtXutv8eU/29RgAANrvTQ
+	 GF5OsiKwqO96SQuWmvgUdnPDTZQdRkcKacH+uze9IhkGVDbg1A9xQUSMLKDnu4k75n
+	 8+WHp5yVIK+F2WhKruhqFrLpHw3bkM/Bio1rfZb/ytyuADnkGtlGyWtt5Ja44T1HMk
+	 eho8sO2JQmPWQ==
+Message-ID: <cbdf14457647730569c9ac186965e98f67582ec0.camel@collabora.com>
+Subject: Re: [PATCH v9 00/17] Move HEVC stateless controls out of staging
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+  hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+  gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com,  wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org,  andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	kernel@collabora.com
+Date: Mon, 04 Jul 2022 15:40:17 -0400
+In-Reply-To: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+References: <20220617083545.133920-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.2 (3.44.2-1.fc36) 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <bbd8f1e7508a9c66028ea1d80fd86924256fdb64.1656935522.git.viresh.kumar@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 
-On 7/4/22 7:07 AM, Viresh Kumar wrote:
-> Now that we have a central API to handle all OPP table configurations,
-> migrate the set-prop-name family of helpers to use the new
-> infrastructure.
-> 
-> The return type and parameter to the APIs change a bit due to this,
-> update the current users as well in the same commit in order to avoid
-> breaking builds.
-> 
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  drivers/cpufreq/sun50i-cpufreq-nvmem.c | 31 +++++++--------
+Hello Everyone,
 
-For sun50i-cpufreq-nvmem.c:
+Le vendredi 17 juin 2022 =C3=A0 10:35 +0200, Benjamin Gaignard a =C3=A9crit=
+=C2=A0:
+> This series aims to make HEVC uapi stable and usable for hardware
+> decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+> and 2 out of the tree drivers (rkvdec and RPI).
 
-Acked-by: Samuel Holland <samuel@sholland.org>
+As of today, we have 2 userland implementation (GStreamer and FFMPEG) that =
+we
+have been testing with. We have this API working for Hantro G2 and Cedrus. =
+There
+is still some driver stability issues, but what matters for an uAPI is the
+conformance and this seems to go quite well everywhere. We also have a WIP =
+of
+rkvdec (derived from LibreELEC fork) that should get to the mailing list an=
+d is
+based on this series. With all the review that already taken place this see=
+ms
+more then enough to conclude this API is ready. So for the entire series:
 
->  drivers/opp/core.c                     | 55 +++++++++-----------------
->  include/linux/pm_opp.h                 | 23 ++++++-----
->  3 files changed, 46 insertions(+), 63 deletions(-)
+Acked-by: Nicolas Dufresne <nicolas.dufresne.com>
+
+p.s. I didn't link anything due to lack of time, ping me if you need any of=
+ the
+referred items, test results, etc.
+
+>=20
+> version 9:
+> - Reword some commit message
+> - Use fls()
+> - Remove useless padding at the end of hevc structures
+> - Reword all _minus* field description
+> - change CVS to codec video sequence
+> - Fix various typo
+> - Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+> - fix the waring reported by 'scripts/kernel-doc -none
+>   include/uapi/linux/v4l2-controls.h'
+>=20
+> This version has been tested with these branches:
+> - GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/=
+-/tree/HEVC_aligned_with_kernel_5.15
+> - Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tr=
+ee/HEVC_UAPI_V9
+>=20
+> With patches to decode 10-bits bitstream and produce P010 frames the Flus=
+ter score=20
+> which was 77/147 before, is now 141/147.
+> The 10-bits series will comes after this because of it dependency to
+> uAPI change. If you are curious you can find the WIP branch here:
+> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP=
+_HEVC_UAPI_V9
+>=20
+> The 6 failing tests are:
+> - PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hard=
+ware.
+> - WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but s=
+ome=20
+>   difference exist on 5 decoded frames. Some pixels values are no the sam=
+e=20
+>   the very end of few lines.
+>=20
+> version 8:
+> - Same than v7 but rebased on media_stage/master
+>=20
+> version 7:
+> - Apply Jernej patches for Cedrus about bit offset definition and
+>   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+> - Based on media_tree/master
+>=20
+> version 6:
+> - Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+>   in v4l2_ctrl_hevc_decode_params structure.
+> - Change slice_pic_order_cnt type to s32 to match with PoC type.
+> - Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+>   V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+> - Add a define for max slices count
+> - Stop using Hantro dedicated control.
+>=20
+> version 5:
+> - Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+>   hevc_dpb_entry structure
+> - Add defines for SEI pic_struct values (patch 4)
+> - Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+> - Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+>   documentation (patch 8)
+> - Rebased on v5-18-rc1
+>=20
+> Version 4:
+> - Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_param=
+s
+> - Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+> - Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+> - Fix space/tab issue in kernel-doc
+> - Add patch to change data_bit_offset definition
+> - Fix hantro-media SPDX license
+> - put controls under stateless section in v4l2-ctrls-defs.c
+>=20
+> Benjamin Gaignard (14):
+>   media: uapi: HEVC: Add missing fields in HEVC controls
+>   media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+>     prefix
+>   media: uapi: HEVC: Change pic_order_cnt definition in
+>     v4l2_hevc_dpb_entry
+>   media: uapi: HEVC: Add SEI pic struct flags
+>   media: uapi: HEVC: Add documentation to uAPI structure
+>   media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+>     dynamic array
+>   media: uapi: Move parsed HEVC pixel format out of staging
+>   media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+>   media: uapi: Move the HEVC stateless control type out of staging
+>   media: controls: Log HEVC stateless control in .std_log
+>   media: hantro: Stop using Hantro dedicated control
+>   media: uapi: HEVC: fix padding in v4l2 control structures
+>   media: uapi: Change data_bit_offset definition
+>   media: uapi: move HEVC stateless controls out of staging
+>=20
+> Hans Verkuil (3):
+>   videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+>   v4l2-ctrls: add support for dynamically allocated arrays.
+>   vivid: add dynamic array test control
+>=20
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+>  .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+>  .../media/v4l/pixfmt-compressed.rst           |   7 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+>  .../media/v4l/vidioc-queryctrl.rst            |   8 +
+>  .../media/videodev2.h.rst.exceptions          |   6 +
+>  .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+>  drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+>  drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+>  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+>  .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+>  include/media/hevc-ctrls.h                    | 250 -----
+>  include/media/v4l2-ctrls.h                    |  48 +-
+>  include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+>  include/uapi/linux/videodev2.h                |  13 +
+>  24 files changed, 1826 insertions(+), 1226 deletions(-)
+>  delete mode 100644 include/media/hevc-ctrls.h
+>=20
+
