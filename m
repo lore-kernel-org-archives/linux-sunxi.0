@@ -1,325 +1,238 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B695F7E
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 12:08:54 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id bh13so2845381pgb.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 05:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kl68/Ge329JOBN8CDqlysFsOT5joX99Z+i70CGu+msw=;
-        b=EAPUEFzYTGuwd7KwfeWIWHABSqOZA8SlZNOKkdvDAGNYKPrscnkHRezVxW6I5aU9ZE
-         kb99aFv5etogNHOd2Zwp8kUS8EaI/8XrWsJnPKcUJaCFV5S6VXiI0nYSeM0+JEqnTasx
-         CJlMwU/51ZCD8caQIU5SoFnuJgMDKcTiFuVBtxSTwVOzrCICJd51IzmZB5zTl3+mjtEX
-         MNukj7W3NiuKs5eWUcPLg2I7DNtbmaINAg687PtwC+z8eKqUrkx/a9YSia7PuB3dT0NL
-         CGTp17o5Chf/5/Z64eVeYSJWDpLT6l6RlctpUHzifEvD2IJhOcX20fTzcSuBbMiOoR/c
-         bapQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kl68/Ge329JOBN8CDqlysFsOT5joX99Z+i70CGu+msw=;
-        b=38ypjHG3ksb0rVZt6ISD/MzCTdg3ozL1ZNdKKHYRyMBLHEgNbWN9dsyR5y6g3+gk8N
-         UIFtL4fRSNxSoBOVpN7zbAc+oioy30HCADRdsFRy7O/X7saFuP3eKp0s5vkXeweU3wSb
-         cgyk9sl1hR/2aqAqoOBoIbpupQq3BnIripoAriDemzvs5EnrK+6eVHNr3P1HmFamupM4
-         7INf1rJC8pzpqQDCK/y1saJUvY47CiCkGt2mzbB69/dxomJwWo4T/Z/3i37cL1arkUUj
-         A3N9Oml1HMDYnEWg+HkTjfh5D/+4fFhp1/uVNEbMlihnBwtzxpKII+R96af2enlUixhs
-         gttg==
-X-Gm-Message-State: AJIora/siBMl7u5clBw7c864uy0nGdHw+DvetW6s2b1vZAt0ZUbFrx4U
-	fgqUFBaTb0E5r6VFiEy5hxqkcg==
-X-Google-Smtp-Source: AGRyM1saClCpHqIjdDI+VytCcyi2ILPZ57ZBHaO9dBX+pNGS/RIp1zb8Fj/hebHIstDpQXjporCXxQ==
-X-Received: by 2002:a63:de10:0:b0:411:9f90:b91f with SMTP id f16-20020a63de10000000b004119f90b91fmr21147329pgg.412.1656936534130;
-        Mon, 04 Jul 2022 05:08:54 -0700 (PDT)
-Received: from localhost ([122.171.18.80])
-        by smtp.gmail.com with ESMTPSA id z15-20020a1709027e8f00b0015e8d4eb273sm4544753pla.189.2022.07.04.05.08.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 05:08:53 -0700 (PDT)
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Yangtao Li <tiny.windzz@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Nishanth Menon <nm@ti.com>,
-	Stephen Boyd <sboyd@kernel.org>
-Cc: linux-pm@vger.kernel.org,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH V3 15/20] OPP: Migrate set-prop-name helper API to use set-config helpers
-Date: Mon,  4 Jul 2022 17:37:53 +0530
-Message-Id: <bbd8f1e7508a9c66028ea1d80fd86924256fdb64.1656935522.git.viresh.kumar@linaro.org>
-X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
-In-Reply-To: <cover.1656935522.git.viresh.kumar@linaro.org>
-References: <cover.1656935522.git.viresh.kumar@linaro.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D96469C
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 13:31:11 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9625F23A;
+	Mon,  4 Jul 2022 06:31:11 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ED6363F66F;
+	Mon,  4 Jul 2022 06:31:09 -0700 (PDT)
+Date: Mon, 4 Jul 2022 14:30:57 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 3/6] arm64: dts: allwinner: Add Allwinner H616 .dtsi
+ file
+Message-ID: <20220704143057.76163208@donnerap.cambridge.arm.com>
+In-Reply-To: <2985997.CbtlEUcBR6@jernej-laptop>
+References: <20220428230933.15262-1-andre.przywara@arm.com>
+	<3165164.aeNJFYEL58@kista>
+	<20220630010410.38fc117f@slackpad.lan>
+	<2985997.CbtlEUcBR6@jernej-laptop>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Now that we have a central API to handle all OPP table configurations,
-migrate the set-prop-name family of helpers to use the new
-infrastructure.
+On Sat, 02 Jul 2022 23:16:53 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-The return type and parameter to the APIs change a bit due to this,
-update the current users as well in the same commit in order to avoid
-breaking builds.
+Hi Jernej,
 
-Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
----
- drivers/cpufreq/sun50i-cpufreq-nvmem.c | 31 +++++++--------
- drivers/opp/core.c                     | 55 +++++++++-----------------
- include/linux/pm_opp.h                 | 23 ++++++-----
- 3 files changed, 46 insertions(+), 63 deletions(-)
+> Dne =C4=8Detrtek, 30. junij 2022 ob 02:04:10 CEST je Andre Przywara napis=
+al(a):
+> > On Tue, 03 May 2022 21:05:11 +0200
+> > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+> >=20
+> > Hi Jernej,
+> >=20
+> > many thanks for taking the time to wade through this file!
+> >  =20
+> > > Dne petek, 29. april 2022 ob 01:09:30 CEST je Andre Przywara napisal(=
+a): =20
+> > > > This (relatively) new SoC is similar to the H6, but drops the (brok=
+en)
+> > > > PCIe support and the USB 3.0 controller. It also gets the management
+> > > > controller removed, which in turn removes *some*, but not all of the
+> > > > devices formerly dedicated to the ARISC (CPUS).
+> > > > And while there is still the extra sunxi interrupt controller, the
+> > > > package lacks the corresponding NMI pin, so no interrupts for the P=
+MIC.
+> > > >=20
+> > > > The reserved memory node is actually handled by Trusted Firmware no=
+w,
+> > > > but U-Boot fails to propagate this to a separately loaded DTB, so we
+> > > > keep it in here for now, until U-Boot learns to do this properly.
+> > > >=20
+> > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> > > > ---
+> > > >=20
+> > > >  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 574 ++++++++++++++=
+++++
+> > > >  1 file changed, 574 insertions(+)
+> > > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > >=20
+> > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > > b/arch/arm64/ =20
+> > >=20
+> > > boot/dts/allwinner/sun50i-h616.dtsi
+> > >  =20
+> > > > new file mode 100644
+> > > > index 000000000000..cc06cdd15ba5
+> > > > --- /dev/null
+> > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
+> > > > @@ -0,0 +1,574 @@
+> > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+> > > > +// Copyright (C) 2020 Arm Ltd.
+> > > > +// based on the H6 dtsi, which is:
+> > > > +//   Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
+> > > > +
+> > > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > > +#include <dt-bindings/clock/sun50i-h616-ccu.h>
+> > > > +#include <dt-bindings/clock/sun50i-h6-r-ccu.h>
+> > > > +#include <dt-bindings/reset/sun50i-h616-ccu.h>
+> > > > +#include <dt-bindings/reset/sun50i-h6-r-ccu.h>
+> > > > +
+> > > > +/ {
+> > > > +	interrupt-parent =3D <&gic>;
+> > > > +	#address-cells =3D <2>;
+> > > > +	#size-cells =3D <2>;
+> > > > +
+> > > > +	cpus {
+> > > > +		#address-cells =3D <1>;
+> > > > +		#size-cells =3D <0>;
+> > > > +
+> > > > +		cpu0: cpu@0 {
+> > > > +			compatible =3D "arm,cortex-a53";
+> > > > +			device_type =3D "cpu";
+> > > > +			reg =3D <0>;
+> > > > +			enable-method =3D "psci";
+> > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > +		};
+> > > > +
+> > > > +		cpu1: cpu@1 {
+> > > > +			compatible =3D "arm,cortex-a53";
+> > > > +			device_type =3D "cpu";
+> > > > +			reg =3D <1>;
+> > > > +			enable-method =3D "psci";
+> > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > +		};
+> > > > +
+> > > > +		cpu2: cpu@2 {
+> > > > +			compatible =3D "arm,cortex-a53";
+> > > > +			device_type =3D "cpu";
+> > > > +			reg =3D <2>;
+> > > > +			enable-method =3D "psci";
+> > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > +		};
+> > > > +
+> > > > +		cpu3: cpu@3 {
+> > > > +			compatible =3D "arm,cortex-a53";
+> > > > +			device_type =3D "cpu";
+> > > > +			reg =3D <3>;
+> > > > +			enable-method =3D "psci";
+> > > > +			clocks =3D <&ccu CLK_CPUX>;
+> > > > +		};
+> > > > +	};
+> > > > +
+> > > > +	reserved-memory {
+> > > > +		#address-cells =3D <2>;
+> > > > +		#size-cells =3D <2>;
+> > > > +		ranges;
+> > > > +
+> > > > +		/* 512KiB reserved for ARM Trusted Firmware (BL31) */
+> > > > +		secmon_reserved: secmon@40000000 {
+> > > > +			reg =3D <0x0 0x40000000 0x0 0x80000>;
+> > > > +			no-map;
+> > > > +		};
+> > > > +	}; =20
+> > >=20
+> > > I'm not a fan of above. If anything changes in future in BL31, U-Boot
+> > > would
+> > > need to reconfigure it anyway. Can we just skip it? =20
+> >=20
+> > I am not a fan neither, but last time I checked this is needed to boot.
+> > Indeed TF-A inserts this node, with the right values, into U-Boot's DT.
+> > And that's nicely preserved if you use that DT ($fdtcontroladdr) for
+> > the kernel as well.
+> > But if someone *loads* a DTB into U-Boot (to $fdt_addr_r), then
+> > U-Boot fails to propagate the /reserved-memory node into that copy.
+> > There does not seem to be a global notion of reserved memory in U-Boot.
+> > Some commands (like tftp) explicitly parse the control DT to find and
+> > respect reserved memory regions. bootm does that also, but only to
+> > avoid placing the ramdisk or DTB into reserved memory. The information
+> > ends up in images->lmb, but is not used to generate or amend nodes in
+> > the target DT.
+> > So the bits and pieces are there, but it will require some code to be
+> > added to the generic U-Boot code.
+> >=20
+> > So what do you think? Leaving this out will prevent loading DTBs into
+> > U-Boot, at the moment, which sounds bad. I suggest we keep it in, for
+> > now, it should not really hurt. U-Boot will hopefully start to do the
+> > right thing soon, then we can either phase it out here (maybe when we
+> > actually change something in TF-A), or let U-Boot fix it. =20
+>=20
+> TBH, if "soon" is really soon, I would rather wait with H616 DT until U-B=
+oot=20
+> supports carrying over reserved memory nodes.
 
-diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-index 75e1bf3a08f7..a4922580ce06 100644
---- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-+++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
-@@ -86,20 +86,20 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
- 
- static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- {
--	struct opp_table **opp_tables;
-+	int *opp_tokens;
- 	char name[MAX_NAME_LEN];
- 	unsigned int cpu;
- 	u32 speed = 0;
- 	int ret;
- 
--	opp_tables = kcalloc(num_possible_cpus(), sizeof(*opp_tables),
-+	opp_tokens = kcalloc(num_possible_cpus(), sizeof(*opp_tokens),
- 			     GFP_KERNEL);
--	if (!opp_tables)
-+	if (!opp_tokens)
- 		return -ENOMEM;
- 
- 	ret = sun50i_cpufreq_get_efuse(&speed);
- 	if (ret) {
--		kfree(opp_tables);
-+		kfree(opp_tokens);
- 		return ret;
- 	}
- 
-@@ -113,9 +113,9 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 			goto free_opp;
- 		}
- 
--		opp_tables[cpu] = dev_pm_opp_set_prop_name(cpu_dev, name);
--		if (IS_ERR(opp_tables[cpu])) {
--			ret = PTR_ERR(opp_tables[cpu]);
-+		opp_tokens[cpu] = dev_pm_opp_set_prop_name(cpu_dev, name);
-+		if (opp_tokens[cpu] < 0) {
-+			ret = opp_tokens[cpu];
- 			pr_err("Failed to set prop name\n");
- 			goto free_opp;
- 		}
-@@ -124,7 +124,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 	cpufreq_dt_pdev = platform_device_register_simple("cpufreq-dt", -1,
- 							  NULL, 0);
- 	if (!IS_ERR(cpufreq_dt_pdev)) {
--		platform_set_drvdata(pdev, opp_tables);
-+		platform_set_drvdata(pdev, opp_tokens);
- 		return 0;
- 	}
- 
-@@ -132,27 +132,24 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
- 	pr_err("Failed to register platform device\n");
- 
- free_opp:
--	for_each_possible_cpu(cpu) {
--		if (IS_ERR_OR_NULL(opp_tables[cpu]))
--			break;
--		dev_pm_opp_put_prop_name(opp_tables[cpu]);
--	}
--	kfree(opp_tables);
-+	for_each_possible_cpu(cpu)
-+		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
-+	kfree(opp_tokens);
- 
- 	return ret;
- }
- 
- static int sun50i_cpufreq_nvmem_remove(struct platform_device *pdev)
- {
--	struct opp_table **opp_tables = platform_get_drvdata(pdev);
-+	int *opp_tokens = platform_get_drvdata(pdev);
- 	unsigned int cpu;
- 
- 	platform_device_unregister(cpufreq_dt_pdev);
- 
- 	for_each_possible_cpu(cpu)
--		dev_pm_opp_put_prop_name(opp_tables[cpu]);
-+		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
- 
--	kfree(opp_tables);
-+	kfree(opp_tokens);
- 
- 	return 0;
- }
-diff --git a/drivers/opp/core.c b/drivers/opp/core.c
-index 458584994c2b..1745e25c1eaf 100644
---- a/drivers/opp/core.c
-+++ b/drivers/opp/core.c
-@@ -1997,7 +1997,7 @@ static void _opp_put_supported_hw(struct opp_table *opp_table)
- }
- 
- /**
-- * dev_pm_opp_set_prop_name() - Set prop-extn name
-+ * _opp_set_prop_name() - Set prop-extn name
-  * @dev: Device for which the prop-name has to be set.
-  * @name: name to postfix to properties.
-  *
-@@ -2006,50 +2006,33 @@ static void _opp_put_supported_hw(struct opp_table *opp_table)
-  * which the extension will apply are opp-microvolt and opp-microamp. OPP core
-  * should postfix the property name with -<name> while looking for them.
-  */
--struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
-+static int _opp_set_prop_name(struct opp_table *opp_table, const char *name)
- {
--	struct opp_table *opp_table;
--
--	opp_table = _add_opp_table(dev, false);
--	if (IS_ERR(opp_table))
--		return opp_table;
--
--	/* Make sure there are no concurrent readers while updating opp_table */
--	WARN_ON(!list_empty(&opp_table->opp_list));
--
- 	/* Another CPU that shares the OPP table has set the property ? */
--	if (opp_table->prop_name)
--		return opp_table;
--
--	opp_table->prop_name = kstrdup(name, GFP_KERNEL);
- 	if (!opp_table->prop_name) {
--		dev_pm_opp_put_opp_table(opp_table);
--		return ERR_PTR(-ENOMEM);
-+		opp_table->prop_name = kstrdup(name, GFP_KERNEL);
-+		if (!opp_table->prop_name)
-+			return -ENOMEM;
- 	}
- 
--	return opp_table;
-+	return 0;
- }
--EXPORT_SYMBOL_GPL(dev_pm_opp_set_prop_name);
- 
- /**
-- * dev_pm_opp_put_prop_name() - Releases resources blocked for prop-name
-- * @opp_table: OPP table returned by dev_pm_opp_set_prop_name().
-+ * _opp_put_prop_name() - Releases resources blocked for prop-name
-+ * @opp_table: OPP table returned by _opp_set_prop_name().
-  *
-  * This is required only for the V2 bindings, and is called for a matching
-- * dev_pm_opp_set_prop_name(). Until this is called, the opp_table structure
-+ * _opp_set_prop_name(). Until this is called, the opp_table structure
-  * will not be freed.
-  */
--void dev_pm_opp_put_prop_name(struct opp_table *opp_table)
-+static void _opp_put_prop_name(struct opp_table *opp_table)
- {
--	if (unlikely(!opp_table))
--		return;
--
--	kfree(opp_table->prop_name);
--	opp_table->prop_name = NULL;
--
--	dev_pm_opp_put_opp_table(opp_table);
-+	if (opp_table->prop_name) {
-+		kfree(opp_table->prop_name);
-+		opp_table->prop_name = NULL;
-+	}
- }
--EXPORT_SYMBOL_GPL(dev_pm_opp_put_prop_name);
- 
- /**
-  * _opp_set_regulators() - Set regulator names for the device
-@@ -2414,7 +2397,7 @@ static void _opp_clear_config(struct opp_config_data *data)
- 	if (data->flags & OPP_CONFIG_REGULATOR_HELPER)
- 		_opp_unregister_set_opp_helper(data->opp_table);
- 	if (data->flags & OPP_CONFIG_PROP_NAME)
--		dev_pm_opp_put_prop_name(data->opp_table);
-+		_opp_put_prop_name(data->opp_table);
- 	if (data->flags & OPP_CONFIG_CLK)
- 		_opp_put_clknames(data->opp_table);
- 
-@@ -2441,7 +2424,7 @@ static void _opp_clear_config(struct opp_config_data *data)
-  */
- int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
- {
--	struct opp_table *opp_table, *err;
-+	struct opp_table *opp_table;
- 	struct opp_config_data *data;
- 	unsigned int id;
- 	int ret;
-@@ -2476,11 +2459,9 @@ int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
- 
- 	/* Configure property names */
- 	if (config->prop_name) {
--		err = dev_pm_opp_set_prop_name(dev, config->prop_name);
--		if (IS_ERR(err)) {
--			ret = PTR_ERR(err);
-+		ret = _opp_set_prop_name(opp_table, config->prop_name);
-+		if (ret)
- 			goto err;
--		}
- 
- 		data->flags |= OPP_CONFIG_PROP_NAME;
- 	}
-diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
-index 20e1e5060a8a..f995ca1406e8 100644
---- a/include/linux/pm_opp.h
-+++ b/include/linux/pm_opp.h
-@@ -184,8 +184,6 @@ int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config);
- int devm_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config);
- void dev_pm_opp_clear_config(int token);
- 
--struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name);
--void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
- struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
- int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
- int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
-@@ -357,13 +355,6 @@ static inline int dev_pm_opp_unregister_notifier(struct device *dev, struct noti
- 	return -EOPNOTSUPP;
- }
- 
--static inline struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
--{
--	return ERR_PTR(-EOPNOTSUPP);
--}
--
--static inline void dev_pm_opp_put_prop_name(struct opp_table *opp_table) {}
--
- static inline int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
- {
- 	return -EOPNOTSUPP;
-@@ -652,5 +643,19 @@ static inline int devm_pm_opp_attach_genpd(struct device *dev,
- 	return devm_pm_opp_set_config(dev, &config);
- }
- 
-+/* prop-name helpers */
-+static inline int dev_pm_opp_set_prop_name(struct device *dev, const char *name)
-+{
-+	struct dev_pm_opp_config config = {
-+		.prop_name = name,
-+	};
-+
-+	return dev_pm_opp_set_config(dev, &config);
-+}
-+
-+static inline void dev_pm_opp_put_prop_name(int token)
-+{
-+	dev_pm_opp_clear_config(token);
-+}
- 
- #endif		/* __LINUX_OPP_H__ */
--- 
-2.31.1.272.g89b43f80a514
+But this also carries compatibility issues. U-Boot support the H616 for
+more than a year now, and the earliest possible U-Boot release having that
+propagation code would be the one released in October. And then people
+would still need to update first, so that's quite some months out.
+And I was actually hoping to get at least the H616 DT patches off my
+plate, and get them into the tree to have a stable and agreed upon base
+(before this series turns into a teenager ;-)
+Then we could for instance update the U-Boot H616 support.
 
+> Whatever we do now, it will have=20
+> compatibility issues. If we introduce reserved memory node now, we can't=
+=20
+> easily drop it later. Bootloaders are not very often updated, but kernels=
+ and=20
+> DTB files are, at least in my experience. So when we decide to drop the n=
+ode?
+
+I think of the three possibilities:
+- Drop the node now, and ask people to not load DTBs explicitly
+- Drop the node when U-Boot learned to propagate the reservation
+- Keep the node
+the last one is the least painful: having this node in does not really
+hurt, so we can be very relaxed with this removal decision:
+- If U-Boot does not add the reserved node, we are covered.
+- If U-Boot adds the node, it will do so in a way where it deals with
+existing reservations. So either it doesn't actually change anything, or
+it extends the reservation.
+- Should the TF-A location actually move (and we have no plans or needs to
+do that), people would only get this by updating the firmware, at which
+point the U-Boot part would surely be in place already. We don't really
+support updating just BL31 in an existing binary firmware image, so you
+would get an updated U-Boot as well.
+
+I think the worst case scenario is that users end up with an unneeded 512K
+reservation. If they care, a firmware update should solve this problem.
+
+As for the time to remove that node: we could do that at the time when
+(or rather: if) we actually change the TF-A reservation. At the moment
+there are no plans to do this, and the size reservation is more than
+generous (the current debug build is actually 77 KB or so only). If there
+is no change, and the node stays in the .dtsi, it doesn't really hurt, see
+above.
+
+> After 10 years? Alternatively, reserved memory node can be just dropped a=
+nd=20
+> anyone loading DTB file from outside would need to make sure it's patched=
+. But=20
+> that's unexpected from user perspective, although patching DT files is do=
+ne by=20
+> some distros.
+
+Yeah, let's not go there. As you know, I already dislike the idea of
+explicitly loading DTBs at all, but I understand this is what people, and
+distributions, do, so I'd rather have them covered. Hence the node to
+work with existing firmware.
+
+Does that make sense?
+
+Cheers,
+Andre
