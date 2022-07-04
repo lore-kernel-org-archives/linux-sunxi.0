@@ -1,359 +1,91 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC9124A18
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 21:59:06 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CD8EB23A;
-	Mon,  4 Jul 2022 14:59:05 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F7D13F70D;
-	Mon,  4 Jul 2022 14:59:03 -0700 (PDT)
-Date: Mon, 4 Jul 2022 22:58:02 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Icenowy Zheng <icenowy@aosc.io>,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v11 3/6] arm64: dts: allwinner: Add Allwinner H616 .dtsi
- file
-Message-ID: <20220704225534.3e1a901a@slackpad.lan>
-In-Reply-To: <22699277.6Emhk5qWAg@kista>
-References: <20220428230933.15262-1-andre.przywara@arm.com>
-	<2985997.CbtlEUcBR6@jernej-laptop>
-	<20220704143057.76163208@donnerap.cambridge.arm.com>
-	<22699277.6Emhk5qWAg@kista>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B85B7E
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 22:58:37 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 6C2C15C0060;
+	Mon,  4 Jul 2022 18:58:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 04 Jul 2022 18:58:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656975516; x=
+	1657061916; bh=YQPDi76UjXhnZ5Xq0bASEFxohmnXwf+Ul8m5mXNcvcw=; b=M
+	EmeYpcYMWHMKDJ9EnTtpYDJzlP5pGFaZ4UwxLwRAcNnIo59nXkfO5KQ483tbZvXs
+	EVQl0CEQ2uzY30yowG9BAeXE1Zv1YJTd5HlSZ63s1k99WiJ9dxD3GWxZspjNxMb1
+	EtF1vFszW8Rjzwwt2VO7Xjx9rgBaavfsj//HyJtytKyBMyw92OSqg/kH1O4xcHhf
+	ea6LlkmU3USo8uzrE/hgfUu9sAeVJt8PPPZK3D/eDAW/9gwiBmw42K9B0pCWHZcp
+	VdXlZkxngbsRkJHiehgXTXx6I0YCgHT1sT6Hxe7xIRmtGGCte1j5uaEMCGRS/esM
+	L7fjEUAyqLRtwxLYjHTxQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656975516; x=
+	1657061916; bh=YQPDi76UjXhnZ5Xq0bASEFxohmnXwf+Ul8m5mXNcvcw=; b=Q
+	d2HM90i2mJQ0c+f6F2L+NDgDZvVNWM+OYKun7Jh7+3p8NOlGPR7qXEY31TjxjJ9W
+	HrIeWLVLZiHuxO7rBVx0qxgP9pN2VHg9VpQyEDKnbED1gzIGmF/19hsO3P/scD1w
+	gAIBJBYjiX6qyDIE8xW7ve6AIA8BsAD2ZQ7XVwirrzr+/TZyOSe7SbAvHERoWAa4
+	Fssmjx9JJSyNp34F+Rl2LzEbxGENaJdk0HAZiGtrO+fDcC0tr3ql6Wgr3LZP6HvP
+	VVrQMu/5nsErwA6u5oivU3y2sZozSu3kqz7U0ZJT/QeqH6d+rFMbLA8EfK9l37ba
+	eZzWwvnqeqSsuUFS1aDmg==
+X-ME-Sender: <xms:m3DDYk5P_k7ydWqSlR126VjhnSedxAtBW7MFavSSPY7KECsNPeB5vw>
+    <xme:m3DDYl70ZSVGjk4w1CMbB6zlD5IpjKDz_jFVe0O2V_Ks2u6f_N6rtCw5w3HwAzUjD
+    0U4eR20huIXnD-laA>
+X-ME-Received: <xmr:m3DDYjfY_UfRRG8sizFQt38lk_5wpW86L1Ej_f_ZRQHHVGpq-o_6Ty8WMCyI1-aoCrSfSvNYRTFxckotorKZ_2RoqgqmNwYmZf0-VNcS7WsbcTXgfX-ZknzXjA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgudegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:m3DDYpLl7QCW7uzP9BxV1C_qfrjttwK-so9oTC6AJJYypet5dXNigA>
+    <xmx:m3DDYoKvZ5w-Z-a6Q-REECgbWEgrMW763VzXiUAEWTgvguthIRNr4g>
+    <xmx:m3DDYqwik8hJnBOl3VyH7RPRPxNomJKLZAR-iboXQDwdHVf9Ck9Y2Q>
+    <xmx:nHDDYrY824btdgtOb3oG7sXqfhtiagO1XxDRuF61FljoYZr11FDf5A>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 4 Jul 2022 18:58:35 -0400 (EDT)
+Subject: Re: [PATCH v4 2/7] clk: sunxi-ng: v3s: Export MBUS and DRAM clocks to
+ the public header
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Frank Rowand <frowand.list@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20220525185853.695931-1-paul.kocialkowski@bootlin.com>
+ <20220525185853.695931-3-paul.kocialkowski@bootlin.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <d3b47dcf-9d5b-1292-15bf-fc766bb4adb0@sholland.org>
+Date: Mon, 4 Jul 2022 17:58:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220525185853.695931-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, 04 Jul 2022 20:42:47 +0200
-Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
+On 5/25/22 1:58 PM, Paul Kocialkowski wrote:
+> In order to declare a mbus node for the v3s, expose its associated
+> clocks to the public header.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Hi Jernej,
-
-> Dne ponedeljek, 04. julij 2022 ob 15:30:57 CEST je Andre Przywara napisal=
-(a):
-> > On Sat, 02 Jul 2022 23:16:53 +0200
-> > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-> >=20
-> > Hi Jernej,
-> >  =20
-> > > Dne =C4=8Detrtek, 30. junij 2022 ob 02:04:10 CEST je Andre Przywara n=
-apisal(a): =20
-> > > > On Tue, 03 May 2022 21:05:11 +0200
-> > > > Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
-> > > >=20
-> > > > Hi Jernej,
-> > > >=20
-> > > > many thanks for taking the time to wade through this file!
-> > > >    =20
-> > > > > Dne petek, 29. april 2022 ob 01:09:30 CEST je Andre Przywara  =20
-> napisal(a): =20
-> > > > > > This (relatively) new SoC is similar to the H6, but drops the  =
-=20
-> (broken)
-> > > > > > PCIe support and the USB 3.0 controller. It also gets the manag=
-ement
-> > > > > > controller removed, which in turn removes *some*, but not all o=
-f the
-> > > > > > devices formerly dedicated to the ARISC (CPUS).
-> > > > > > And while there is still the extra sunxi interrupt controller, =
-the
-> > > > > > package lacks the corresponding NMI pin, so no interrupts for t=
-he  =20
-> PMIC.
-> > > > > >=20
-> > > > > > The reserved memory node is actually handled by Trusted Firmwar=
-e  =20
-> now,
-> > > > > > but U-Boot fails to propagate this to a separately loaded DTB, =
-so we
-> > > > > > keep it in here for now, until U-Boot learns to do this properl=
-y.
-> > > > > >=20
-> > > > > > Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> > > > > > ---
-> > > > > >=20
-> > > > > >  .../arm64/boot/dts/allwinner/sun50i-h616.dtsi | 574 ++++++++++=
-+++++ =20
-> +++
-> > > > > >  1 file changed, 574 insertions(+)
-> > > > > >  create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h616.d=
-tsi
-> > > > > >=20
-> > > > > > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > > > > > b/arch/arm64/   =20
-> > > > >=20
-> > > > > boot/dts/allwinner/sun50i-h616.dtsi
-> > > > >    =20
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..cc06cdd15ba5
-> > > > > > --- /dev/null
-> > > > > > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h616.dtsi
-> > > > > > @@ -0,0 +1,574 @@
-> > > > > > +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> > > > > > +// Copyright (C) 2020 Arm Ltd.
-> > > > > > +// based on the H6 dtsi, which is:
-> > > > > > +//   Copyright (C) 2017 Icenowy Zheng <icenowy@aosc.io>
-> > > > > > +
-> > > > > > +#include <dt-bindings/interrupt-controller/arm-gic.h>
-> > > > > > +#include <dt-bindings/clock/sun50i-h616-ccu.h>
-> > > > > > +#include <dt-bindings/clock/sun50i-h6-r-ccu.h>
-> > > > > > +#include <dt-bindings/reset/sun50i-h616-ccu.h>
-> > > > > > +#include <dt-bindings/reset/sun50i-h6-r-ccu.h>
-> > > > > > +
-> > > > > > +/ {
-> > > > > > +	interrupt-parent =3D <&gic>;
-> > > > > > +	#address-cells =3D <2>;
-> > > > > > +	#size-cells =3D <2>;
-> > > > > > +
-> > > > > > +	cpus {
-> > > > > > +		#address-cells =3D <1>;
-> > > > > > +		#size-cells =3D <0>;
-> > > > > > +
-> > > > > > +		cpu0: cpu@0 {
-> > > > > > +			compatible =3D "arm,cortex-a53";
-> > > > > > +			device_type =3D "cpu";
-> > > > > > +			reg =3D <0>;
-> > > > > > +			enable-method =3D "psci";
-> > > > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > > > +		};
-> > > > > > +
-> > > > > > +		cpu1: cpu@1 {
-> > > > > > +			compatible =3D "arm,cortex-a53";
-> > > > > > +			device_type =3D "cpu";
-> > > > > > +			reg =3D <1>;
-> > > > > > +			enable-method =3D "psci";
-> > > > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > > > +		};
-> > > > > > +
-> > > > > > +		cpu2: cpu@2 {
-> > > > > > +			compatible =3D "arm,cortex-a53";
-> > > > > > +			device_type =3D "cpu";
-> > > > > > +			reg =3D <2>;
-> > > > > > +			enable-method =3D "psci";
-> > > > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > > > +		};
-> > > > > > +
-> > > > > > +		cpu3: cpu@3 {
-> > > > > > +			compatible =3D "arm,cortex-a53";
-> > > > > > +			device_type =3D "cpu";
-> > > > > > +			reg =3D <3>;
-> > > > > > +			enable-method =3D "psci";
-> > > > > > +			clocks =3D <&ccu CLK_CPUX>;
-> > > > > > +		};
-> > > > > > +	};
-> > > > > > +
-> > > > > > +	reserved-memory {
-> > > > > > +		#address-cells =3D <2>;
-> > > > > > +		#size-cells =3D <2>;
-> > > > > > +		ranges;
-> > > > > > +
-> > > > > > +		/* 512KiB reserved for ARM Trusted Firmware (BL31) */
-> > > > > > +		secmon_reserved: secmon@40000000 {
-> > > > > > +			reg =3D <0x0 0x40000000 0x0 0x80000>;
-> > > > > > +			no-map;
-> > > > > > +		};
-> > > > > > +	};   =20
-> > > > >=20
-> > > > > I'm not a fan of above. If anything changes in future in BL31, U-=
-Boot
-> > > > > would
-> > > > > need to reconfigure it anyway. Can we just skip it?   =20
-> > > >=20
-> > > > I am not a fan neither, but last time I checked this is needed to b=
-oot.
-> > > > Indeed TF-A inserts this node, with the right values, into U-Boot's=
- DT.
-> > > > And that's nicely preserved if you use that DT ($fdtcontroladdr) for
-> > > > the kernel as well.
-> > > > But if someone *loads* a DTB into U-Boot (to $fdt_addr_r), then
-> > > > U-Boot fails to propagate the /reserved-memory node into that copy.
-> > > > There does not seem to be a global notion of reserved memory in U-B=
-oot.
-> > > > Some commands (like tftp) explicitly parse the control DT to find a=
-nd
-> > > > respect reserved memory regions. bootm does that also, but only to
-> > > > avoid placing the ramdisk or DTB into reserved memory. The informat=
-ion
-> > > > ends up in images->lmb, but is not used to generate or amend nodes =
-in
-> > > > the target DT.
-> > > > So the bits and pieces are there, but it will require some code to =
-be
-> > > > added to the generic U-Boot code.
-> > > >=20
-> > > > So what do you think? Leaving this out will prevent loading DTBs in=
-to
-> > > > U-Boot, at the moment, which sounds bad. I suggest we keep it in, f=
-or
-> > > > now, it should not really hurt. U-Boot will hopefully start to do t=
-he
-> > > > right thing soon, then we can either phase it out here (maybe when =
-we
-> > > > actually change something in TF-A), or let U-Boot fix it.   =20
-> > >=20
-> > > TBH, if "soon" is really soon, I would rather wait with H616 DT until=
- U- =20
-> Boot=20
-> > > supports carrying over reserved memory nodes. =20
-> >=20
-> > But this also carries compatibility issues. U-Boot support the H616 for
-> > more than a year now, and the earliest possible U-Boot release having t=
-hat
-> > propagation code would be the one released in October.  =20
->=20
-> I was hoping you would say July (next U-Boot release) :).
-
-Well, 2022.07 was supposed to be released today, and even if that is
-delayed by a bit, that's obviously far too late ;-)
-
-> > And then people
-> > would still need to update first, so that's quite some months out.
-> > And I was actually hoping to get at least the H616 DT patches off my
-> > plate, and get them into the tree to have a stable and agreed upon base
-> > (before this series turns into a teenager ;-) =20
->=20
-> Yeah, I would like that too.
->=20
-> > Then we could for instance update the U-Boot H616 support.
-> >  =20
-> > > Whatever we do now, it will have=20
-> > > compatibility issues. If we introduce reserved memory node now, we ca=
-n't=20
-> > > easily drop it later. Bootloaders are not very often updated, but ker=
-nels  =20
-> and=20
-> > > DTB files are, at least in my experience. So when we decide to drop t=
-he  =20
-> node?
-> >=20
-> > I think of the three possibilities:
-> > - Drop the node now, and ask people to not load DTBs explicitly
-> > - Drop the node when U-Boot learned to propagate the reservation
-> > - Keep the node
-> > the last one is the least painful: having this node in does not really
-> > hurt, so we can be very relaxed with this removal decision:
-> > - If U-Boot does not add the reserved node, we are covered.
-> > - If U-Boot adds the node, it will do so in a way where it deals with
-> > existing reservations. So either it doesn't actually change anything, or
-> > it extends the reservation.
-> > - Should the TF-A location actually move (and we have no plans or needs=
- to
-> > do that), people would only get this by updating the firmware, at which
-> > point the U-Boot part would surely be in place already. We don't really
-> > support updating just BL31 in an existing binary firmware image, so you
-> > would get an updated U-Boot as well.
-> >=20
-> > I think the worst case scenario is that users end up with an unneeded 5=
-12K
-> > reservation. If they care, a firmware update should solve this problem.
-> >=20
-> > As for the time to remove that node: we could do that at the time when
-> > (or rather: if) we actually change the TF-A reservation. At the moment
-> > there are no plans to do this, and the size reservation is more than
-> > generous (the current debug build is actually 77 KB or so only). If the=
-re
-> > is no change, and the node stays in the .dtsi, it doesn't really hurt, =
-see
-> > above. =20
->=20
-> I see your point, but I would like to get some input from Samuel first.
->
-> Samuel, what do you think?
->=20
-> >  =20
-> > > After 10 years? Alternatively, reserved memory node can be just dropp=
-ed  =20
-> and=20
-> > > anyone loading DTB file from outside would need to make sure it's pat=
-ched.  =20
-> But=20
-> > > that's unexpected from user perspective, although patching DT files i=
-s done  =20
-> by=20
-> > > some distros. =20
-> >=20
-> > Yeah, let's not go there. As you know, I already dislike the idea of
-> > explicitly loading DTBs at all, but I understand this is what people, a=
-nd
-> > distributions, do, so I'd rather have them covered. Hence the node to
-> > work with existing firmware. =20
->=20
-> Reusing DTB from U-Boot is only useful when you're happy with completenes=
-s of=20
-> DT and with the lack of bugs in it. Then you can save troubles with skipp=
-ing=20
-> external DTB load step and life is easier. But as you know, features and =
-thus=20
-> nodes are added in steps and sometimes some bugs are fixed, which means i=
-t's=20
-> extremely handy to have easily updatable DTB file.
-
-Yes, definitely, see my reply to Samuel. I just held back with the DT
-update in U-Boot because of the conflict between "we only take pure
-kernel tree DTs" and "there is a breaking change" (r_intc binding).
-
-If we find a way forward with the DT stability problem, I am happy to
-push for a much more frequent DT update, or even update just the DT in
-an existing firmware installation. This can be automated, since the DTB
-is just a member in the FIT image, which can be re-assembled with an
-updated DTB by some tool or script. Or we use capsule updates, of just
-the DTB, separately (if this is possible)?
-
-> Yes, U-Boot can be=20
-> automated, but it's tedious for distro to maintain one bootloader package=
- per=20
-> board. Ideally, distro shouldn't care at all about that,
-
-Yes, I totally agree, distros should not ship firmware. Since leaving
-this to the board vendors is not realistic, I wonder if we (as "the
-sunxi community") should step up here, and provide binary builds (purely
-for convenience reasons) of board firmware? That could be updated from
-a running Linux, or put on an SD card, or fetched by distros to
-generate an installer? Wasn't there even some central storage offered
-lately by Linux, to hold (UEFI) firmware update files?
-
-> but many boards don't=20
-> have designated bootloader storage (SPI NOR flash in AW case), so they ha=
-ve to=20
-> be combined on same storage, partition even, as distro.
-
-Have you tried eMMC boot partitions? I found them equally convenient as
-SPI flash, and while not too many boards actually have SPI flash,
-quite some have eMMC (thinking about TV boxes). I recently even
-used "dual boot" with a BSP installation.
-And even the smallest eMMCs seem to have 4 MB per boot partition, so
-plenty of space for U-Boot (plus TF-A plus crust).
-
-> On the other hand,=20
-> when building kernel, you automatically build all relevant DTB files, whi=
-ch you=20
-> can then just copy to common place. No device specific handling needed. A=
-lso,=20
-> U-Boot doesn't sync DT files every release, so latest U-Boot doesn't nece=
-ssarly=20
-> mean latest DT.
-
-Yes, for the compatibility reasons mentioned. I am more than happy to
-make this a regular exercise (say at each kernel's -rc3 or so).
-
-> Above is a bit off topic, but I hope you understand why distros opt to us=
-e=20
-> external DTB files (speaking from my own experiences).
-
-Yes, I understand where they (including LE) are coming from, to provide
-a pragmatic solution to the users' problems. And that's why I wanted to
-still give the possibility to load a DTB, even though I think this
-should not be the standard way.
-
-Cheers,
-Andre
+Reviewed-by: Samuel Holland <samuel@sholland.org>
