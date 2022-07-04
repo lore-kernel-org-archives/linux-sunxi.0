@@ -1,88 +1,61 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B670C7E
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 12:08:10 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id m14so8404868plg.5
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 05:08:10 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B695F7E
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 12:08:54 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id bh13so2845381pgb.4
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 05:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oRPwtSfaZ4lK+/Kwqo3hIoWwSAaNNETI/B4QeMlq4K0=;
-        b=vJ8/VNDeZy+E+GejBNM7BapmNbdbn8iOiAYLS8BzvfKFvpk6CdR/Mnagao/Gw0H7jf
-         LnQLiFNEht81PcZFPHiWhIaSCu70QDfOqAa6+yId1JCV4HSO1Unw3VcKXpVFK7l+uLAa
-         6tgC/XrPbB61OdJR18NqwpzOUGI4obFkG6Jsi69ZcVRV/RfsUIhvkkLWPN3KU8aReJTi
-         AFIjCf42RSzRiBRGfKs+tzI9gBb1Ye1L96wXhT1ElmU6pn/qgv75K8/crdjKUUfOX3J/
-         noZLYEmHwmI1jmH5mN0RcBuHTxCbA/TegDWRR6awCiMU/3dx7+ZyEYVwegC7cot1yxTR
-         zv0g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=kl68/Ge329JOBN8CDqlysFsOT5joX99Z+i70CGu+msw=;
+        b=EAPUEFzYTGuwd7KwfeWIWHABSqOZA8SlZNOKkdvDAGNYKPrscnkHRezVxW6I5aU9ZE
+         kb99aFv5etogNHOd2Zwp8kUS8EaI/8XrWsJnPKcUJaCFV5S6VXiI0nYSeM0+JEqnTasx
+         CJlMwU/51ZCD8caQIU5SoFnuJgMDKcTiFuVBtxSTwVOzrCICJd51IzmZB5zTl3+mjtEX
+         MNukj7W3NiuKs5eWUcPLg2I7DNtbmaINAg687PtwC+z8eKqUrkx/a9YSia7PuB3dT0NL
+         CGTp17o5Chf/5/Z64eVeYSJWDpLT6l6RlctpUHzifEvD2IJhOcX20fTzcSuBbMiOoR/c
+         bapQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=oRPwtSfaZ4lK+/Kwqo3hIoWwSAaNNETI/B4QeMlq4K0=;
-        b=Lau0wfOeSqV3Jy4cbzfH0k+N5Mwc/2wtvwBx9iV3UEMc2lc80T+5GCea96MSv1CTqB
-         XEU5lIjzramykvAC9MwN+pHuq2gVokGg3pq+PT8vm5pTfJlNg18APzz4+ENh7ON3DqmA
-         4kkZDrZ/AGmzoyT5yCCbI6Xsqee6Ra4Cz01TgUk2BD6p8vCONCG1rfLP1TIAcLBjyDQa
-         XjCbjaTqZXz5415zkzIGU0VRuz6xOeBq6ndTK5cKqVhFsUpmtDgU0RrbjXerQ7DLhkE6
-         nfQh5cTuuDCa02Hxkj6cwWB7rElrKXasdAAHcsPYhowV9oH/RFr3Glchj1FLwO1Jywp+
-         VlQA==
-X-Gm-Message-State: AJIora9FheIpswO0ua6Y1oCwwHvmjtHf/3HQqp4CEajyLeIJrYNGjHLb
-	gtrZOprmKmQIFydCL284i9RCaQ==
-X-Google-Smtp-Source: AGRyM1sM6QESGjlfD1GGt0oFtY+CVN6+kz3J/8IXAvOmEUXgWJ/VGwfVTka8Ig/8o207cGsoSgkOBA==
-X-Received: by 2002:a17:902:b184:b0:168:a310:3eb0 with SMTP id s4-20020a170902b18400b00168a3103eb0mr36007275plr.9.1656936490190;
-        Mon, 04 Jul 2022 05:08:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=kl68/Ge329JOBN8CDqlysFsOT5joX99Z+i70CGu+msw=;
+        b=38ypjHG3ksb0rVZt6ISD/MzCTdg3ozL1ZNdKKHYRyMBLHEgNbWN9dsyR5y6g3+gk8N
+         UIFtL4fRSNxSoBOVpN7zbAc+oioy30HCADRdsFRy7O/X7saFuP3eKp0s5vkXeweU3wSb
+         cgyk9sl1hR/2aqAqoOBoIbpupQq3BnIripoAriDemzvs5EnrK+6eVHNr3P1HmFamupM4
+         7INf1rJC8pzpqQDCK/y1saJUvY47CiCkGt2mzbB69/dxomJwWo4T/Z/3i37cL1arkUUj
+         A3N9Oml1HMDYnEWg+HkTjfh5D/+4fFhp1/uVNEbMlihnBwtzxpKII+R96af2enlUixhs
+         gttg==
+X-Gm-Message-State: AJIora/siBMl7u5clBw7c864uy0nGdHw+DvetW6s2b1vZAt0ZUbFrx4U
+	fgqUFBaTb0E5r6VFiEy5hxqkcg==
+X-Google-Smtp-Source: AGRyM1saClCpHqIjdDI+VytCcyi2ILPZ57ZBHaO9dBX+pNGS/RIp1zb8Fj/hebHIstDpQXjporCXxQ==
+X-Received: by 2002:a63:de10:0:b0:411:9f90:b91f with SMTP id f16-20020a63de10000000b004119f90b91fmr21147329pgg.412.1656936534130;
+        Mon, 04 Jul 2022 05:08:54 -0700 (PDT)
 Received: from localhost ([122.171.18.80])
-        by smtp.gmail.com with ESMTPSA id u4-20020a170902714400b0015e8d4eb28fsm21099493plm.217.2022.07.04.05.08.09
+        by smtp.gmail.com with ESMTPSA id z15-20020a1709027e8f00b0015e8d4eb273sm4544753pla.189.2022.07.04.05.08.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 05:08:09 -0700 (PDT)
+        Mon, 04 Jul 2022 05:08:53 -0700 (PDT)
 From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Alim Akhtar <alim.akhtar@samsung.com>,
-	Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <bjorn.andersson@linaro.org>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Ilia Lin <ilia.lin@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Nishanth Menon <nm@ti.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Qiang Yu <yuq825@gmail.com>,
+To: Yangtao Li <tiny.windzz@gmail.com>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Steven Price <steven.price@arm.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-	Viresh Kumar <vireshk@kernel.org>,
 	Viresh Kumar <viresh.kumar@linaro.org>,
-	Yangtao Li <tiny.windzz@gmail.com>
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Nishanth Menon <nm@ti.com>,
+	Stephen Boyd <sboyd@kernel.org>
 Cc: linux-pm@vger.kernel.org,
 	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	dri-devel@lists.freedesktop.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	lima@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-samsung-soc@vger.kernel.org,
 	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org
-Subject: [PATCH V3 00/20] OPP: Add new configuration interface: dev_pm_opp_set_config()
-Date: Mon,  4 Jul 2022 17:37:38 +0530
-Message-Id: <cover.1656935522.git.viresh.kumar@linaro.org>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH V3 15/20] OPP: Migrate set-prop-name helper API to use set-config helpers
+Date: Mon,  4 Jul 2022 17:37:53 +0530
+Message-Id: <bbd8f1e7508a9c66028ea1d80fd86924256fdb64.1656935522.git.viresh.kumar@linaro.org>
 X-Mailer: git-send-email 2.31.1.272.g89b43f80a514
+In-Reply-To: <cover.1656935522.git.viresh.kumar@linaro.org>
+References: <cover.1656935522.git.viresh.kumar@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -91,98 +64,262 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Now that we have a central API to handle all OPP table configurations,
+migrate the set-prop-name family of helpers to use the new
+infrastructure.
 
-We have too many configuration specific APIs currently, six of them already,
-like dev_pm_opp_set_regulators(). This makes it complex/messy for both the OPP
-core and its users to manage. There is also code redundancy in these APIs, in
-the way they add/manage the OPP table specific stuff.
+The return type and parameter to the APIs change a bit due to this,
+update the current users as well in the same commit in order to avoid
+breaking builds.
 
-This patch series is an attempt to simplify these interfaces by adding a new
-interface, dev_pm_opp_set_config(), which is now used by all the existing ones.
-This series also migrates few users to the new API, where multiple
-configurations were required and rest are updated for API interface changes.
+Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
+---
+ drivers/cpufreq/sun50i-cpufreq-nvmem.c | 31 +++++++--------
+ drivers/opp/core.c                     | 55 +++++++++-----------------
+ include/linux/pm_opp.h                 | 23 ++++++-----
+ 3 files changed, 46 insertions(+), 63 deletions(-)
 
-This is pushed here:
-
-git://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/linux-next
-
-This was earlier tested by various folks, I have tested it again on hikey board,
-it will get further tested on linux-next in the coming days. Build test is
-already done by Linaro's bot for enough platform though.
-
-The entire patchset shall get merged via the OPP tree in 5.20-rc1, please do not
-merge individual patches.
-
-V2->V3:
-- Merged two patchsets:
-  [PATCH V2 00/30] OPP: Add new configuration interface: dev_pm_opp_set_config()
-  [PATCH V2 0/5] OPP: Replace custom set_opp() with config_regulators()
-
-- The existing APIs aren't removed anymore, but are made to use the new core API
-  to set various configurations (Greg KH).
-
-- clk-names and regulator-names are NULL terminated arrays now (Greg KH).
-
-- New interface added: dev_pm_opp_set_config_regulators().
-
-V1->V2:
-- dev_pm_opp_set_config() doesn't return the OPP table anymore, but a token
-  allocated with xa_alloc(). The same needs to be passed to clear-config API.
-- Updated all users according to that as well.
-- The clk_names interface is updated to allow multiple clocks.
-- Converted few // comments to /* */.
-- Added tags by few people.
-- Dropped the last patch to rearrange stuff, not required anymore.
-
-Thanks.
-
---
-Viresh
-
-
-
-Viresh Kumar (20):
-  OPP: Track if clock name is configured by platform
-  OPP: Make dev_pm_opp_set_regulators() accept NULL terminated list
-  OPP: Add dev_pm_opp_set_config() and friends
-  cpufreq: qcom-nvmem: Migrate to dev_pm_opp_set_config()
-  cpufreq: sti: Migrate to dev_pm_opp_set_config()
-  cpufreq: ti: Migrate to dev_pm_opp_set_config()
-  drm/lima: Migrate to dev_pm_opp_set_config()
-  soc/tegra: Add comment over devm_pm_opp_set_clkname()
-  soc/tegra: Migrate to dev_pm_opp_set_config()
-  OPP: Migrate set-regulators API to use set-config helpers
-  OPP: Migrate set-supported-hw API to use set-config helpers
-  OPP: Migrate set-clk-name API to use set-config helpers
-  OPP: Migrate set-opp-helper API to use set-config helpers
-  OPP: Migrate attach-genpd API to use set-config helpers
-  OPP: Migrate set-prop-name helper API to use set-config helpers
-  OPP: Add support for config_regulators() helper
-  OPP: Make _generic_set_opp_regulator() a config_regulators() interface
-  OPP: Add dev_pm_opp_get_supplies()
-  OPP: ti: Migrate to dev_pm_opp_set_config_regulators()
-  OPP: Remove custom OPP helper support
-
- drivers/cpufreq/cpufreq-dt.c                |  19 +-
- drivers/cpufreq/imx-cpufreq-dt.c            |  12 +-
- drivers/cpufreq/qcom-cpufreq-nvmem.c        | 109 +--
- drivers/cpufreq/sti-cpufreq.c               |  27 +-
- drivers/cpufreq/sun50i-cpufreq-nvmem.c      |  31 +-
- drivers/cpufreq/tegra20-cpufreq.c           |  12 +-
- drivers/cpufreq/ti-cpufreq.c                |  42 +-
- drivers/devfreq/exynos-bus.c                |  21 +-
- drivers/gpu/drm/lima/lima_devfreq.c         |  12 +-
- drivers/gpu/drm/panfrost/panfrost_devfreq.c |   4 +-
- drivers/memory/tegra/tegra124-emc.c         |  11 +-
- drivers/opp/core.c                          | 821 +++++++++-----------
- drivers/opp/opp.h                           |  32 +-
- drivers/opp/ti-opp-supply.c                 |  77 +-
- drivers/soc/tegra/common.c                  |  49 +-
- drivers/soc/tegra/pmc.c                     |   4 +-
- include/linux/pm_opp.h                      | 295 ++++---
- 17 files changed, 750 insertions(+), 828 deletions(-)
-
+diff --git a/drivers/cpufreq/sun50i-cpufreq-nvmem.c b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+index 75e1bf3a08f7..a4922580ce06 100644
+--- a/drivers/cpufreq/sun50i-cpufreq-nvmem.c
++++ b/drivers/cpufreq/sun50i-cpufreq-nvmem.c
+@@ -86,20 +86,20 @@ static int sun50i_cpufreq_get_efuse(u32 *versions)
+ 
+ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ {
+-	struct opp_table **opp_tables;
++	int *opp_tokens;
+ 	char name[MAX_NAME_LEN];
+ 	unsigned int cpu;
+ 	u32 speed = 0;
+ 	int ret;
+ 
+-	opp_tables = kcalloc(num_possible_cpus(), sizeof(*opp_tables),
++	opp_tokens = kcalloc(num_possible_cpus(), sizeof(*opp_tokens),
+ 			     GFP_KERNEL);
+-	if (!opp_tables)
++	if (!opp_tokens)
+ 		return -ENOMEM;
+ 
+ 	ret = sun50i_cpufreq_get_efuse(&speed);
+ 	if (ret) {
+-		kfree(opp_tables);
++		kfree(opp_tokens);
+ 		return ret;
+ 	}
+ 
+@@ -113,9 +113,9 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 			goto free_opp;
+ 		}
+ 
+-		opp_tables[cpu] = dev_pm_opp_set_prop_name(cpu_dev, name);
+-		if (IS_ERR(opp_tables[cpu])) {
+-			ret = PTR_ERR(opp_tables[cpu]);
++		opp_tokens[cpu] = dev_pm_opp_set_prop_name(cpu_dev, name);
++		if (opp_tokens[cpu] < 0) {
++			ret = opp_tokens[cpu];
+ 			pr_err("Failed to set prop name\n");
+ 			goto free_opp;
+ 		}
+@@ -124,7 +124,7 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 	cpufreq_dt_pdev = platform_device_register_simple("cpufreq-dt", -1,
+ 							  NULL, 0);
+ 	if (!IS_ERR(cpufreq_dt_pdev)) {
+-		platform_set_drvdata(pdev, opp_tables);
++		platform_set_drvdata(pdev, opp_tokens);
+ 		return 0;
+ 	}
+ 
+@@ -132,27 +132,24 @@ static int sun50i_cpufreq_nvmem_probe(struct platform_device *pdev)
+ 	pr_err("Failed to register platform device\n");
+ 
+ free_opp:
+-	for_each_possible_cpu(cpu) {
+-		if (IS_ERR_OR_NULL(opp_tables[cpu]))
+-			break;
+-		dev_pm_opp_put_prop_name(opp_tables[cpu]);
+-	}
+-	kfree(opp_tables);
++	for_each_possible_cpu(cpu)
++		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
++	kfree(opp_tokens);
+ 
+ 	return ret;
+ }
+ 
+ static int sun50i_cpufreq_nvmem_remove(struct platform_device *pdev)
+ {
+-	struct opp_table **opp_tables = platform_get_drvdata(pdev);
++	int *opp_tokens = platform_get_drvdata(pdev);
+ 	unsigned int cpu;
+ 
+ 	platform_device_unregister(cpufreq_dt_pdev);
+ 
+ 	for_each_possible_cpu(cpu)
+-		dev_pm_opp_put_prop_name(opp_tables[cpu]);
++		dev_pm_opp_put_prop_name(opp_tokens[cpu]);
+ 
+-	kfree(opp_tables);
++	kfree(opp_tokens);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/opp/core.c b/drivers/opp/core.c
+index 458584994c2b..1745e25c1eaf 100644
+--- a/drivers/opp/core.c
++++ b/drivers/opp/core.c
+@@ -1997,7 +1997,7 @@ static void _opp_put_supported_hw(struct opp_table *opp_table)
+ }
+ 
+ /**
+- * dev_pm_opp_set_prop_name() - Set prop-extn name
++ * _opp_set_prop_name() - Set prop-extn name
+  * @dev: Device for which the prop-name has to be set.
+  * @name: name to postfix to properties.
+  *
+@@ -2006,50 +2006,33 @@ static void _opp_put_supported_hw(struct opp_table *opp_table)
+  * which the extension will apply are opp-microvolt and opp-microamp. OPP core
+  * should postfix the property name with -<name> while looking for them.
+  */
+-struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
++static int _opp_set_prop_name(struct opp_table *opp_table, const char *name)
+ {
+-	struct opp_table *opp_table;
+-
+-	opp_table = _add_opp_table(dev, false);
+-	if (IS_ERR(opp_table))
+-		return opp_table;
+-
+-	/* Make sure there are no concurrent readers while updating opp_table */
+-	WARN_ON(!list_empty(&opp_table->opp_list));
+-
+ 	/* Another CPU that shares the OPP table has set the property ? */
+-	if (opp_table->prop_name)
+-		return opp_table;
+-
+-	opp_table->prop_name = kstrdup(name, GFP_KERNEL);
+ 	if (!opp_table->prop_name) {
+-		dev_pm_opp_put_opp_table(opp_table);
+-		return ERR_PTR(-ENOMEM);
++		opp_table->prop_name = kstrdup(name, GFP_KERNEL);
++		if (!opp_table->prop_name)
++			return -ENOMEM;
+ 	}
+ 
+-	return opp_table;
++	return 0;
+ }
+-EXPORT_SYMBOL_GPL(dev_pm_opp_set_prop_name);
+ 
+ /**
+- * dev_pm_opp_put_prop_name() - Releases resources blocked for prop-name
+- * @opp_table: OPP table returned by dev_pm_opp_set_prop_name().
++ * _opp_put_prop_name() - Releases resources blocked for prop-name
++ * @opp_table: OPP table returned by _opp_set_prop_name().
+  *
+  * This is required only for the V2 bindings, and is called for a matching
+- * dev_pm_opp_set_prop_name(). Until this is called, the opp_table structure
++ * _opp_set_prop_name(). Until this is called, the opp_table structure
+  * will not be freed.
+  */
+-void dev_pm_opp_put_prop_name(struct opp_table *opp_table)
++static void _opp_put_prop_name(struct opp_table *opp_table)
+ {
+-	if (unlikely(!opp_table))
+-		return;
+-
+-	kfree(opp_table->prop_name);
+-	opp_table->prop_name = NULL;
+-
+-	dev_pm_opp_put_opp_table(opp_table);
++	if (opp_table->prop_name) {
++		kfree(opp_table->prop_name);
++		opp_table->prop_name = NULL;
++	}
+ }
+-EXPORT_SYMBOL_GPL(dev_pm_opp_put_prop_name);
+ 
+ /**
+  * _opp_set_regulators() - Set regulator names for the device
+@@ -2414,7 +2397,7 @@ static void _opp_clear_config(struct opp_config_data *data)
+ 	if (data->flags & OPP_CONFIG_REGULATOR_HELPER)
+ 		_opp_unregister_set_opp_helper(data->opp_table);
+ 	if (data->flags & OPP_CONFIG_PROP_NAME)
+-		dev_pm_opp_put_prop_name(data->opp_table);
++		_opp_put_prop_name(data->opp_table);
+ 	if (data->flags & OPP_CONFIG_CLK)
+ 		_opp_put_clknames(data->opp_table);
+ 
+@@ -2441,7 +2424,7 @@ static void _opp_clear_config(struct opp_config_data *data)
+  */
+ int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
+ {
+-	struct opp_table *opp_table, *err;
++	struct opp_table *opp_table;
+ 	struct opp_config_data *data;
+ 	unsigned int id;
+ 	int ret;
+@@ -2476,11 +2459,9 @@ int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
+ 
+ 	/* Configure property names */
+ 	if (config->prop_name) {
+-		err = dev_pm_opp_set_prop_name(dev, config->prop_name);
+-		if (IS_ERR(err)) {
+-			ret = PTR_ERR(err);
++		ret = _opp_set_prop_name(opp_table, config->prop_name);
++		if (ret)
+ 			goto err;
+-		}
+ 
+ 		data->flags |= OPP_CONFIG_PROP_NAME;
+ 	}
+diff --git a/include/linux/pm_opp.h b/include/linux/pm_opp.h
+index 20e1e5060a8a..f995ca1406e8 100644
+--- a/include/linux/pm_opp.h
++++ b/include/linux/pm_opp.h
+@@ -184,8 +184,6 @@ int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config);
+ int devm_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config);
+ void dev_pm_opp_clear_config(int token);
+ 
+-struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name);
+-void dev_pm_opp_put_prop_name(struct opp_table *opp_table);
+ struct dev_pm_opp *dev_pm_opp_xlate_required_opp(struct opp_table *src_table, struct opp_table *dst_table, struct dev_pm_opp *src_opp);
+ int dev_pm_opp_xlate_performance_state(struct opp_table *src_table, struct opp_table *dst_table, unsigned int pstate);
+ int dev_pm_opp_set_rate(struct device *dev, unsigned long target_freq);
+@@ -357,13 +355,6 @@ static inline int dev_pm_opp_unregister_notifier(struct device *dev, struct noti
+ 	return -EOPNOTSUPP;
+ }
+ 
+-static inline struct opp_table *dev_pm_opp_set_prop_name(struct device *dev, const char *name)
+-{
+-	return ERR_PTR(-EOPNOTSUPP);
+-}
+-
+-static inline void dev_pm_opp_put_prop_name(struct opp_table *opp_table) {}
+-
+ static inline int dev_pm_opp_set_config(struct device *dev, struct dev_pm_opp_config *config)
+ {
+ 	return -EOPNOTSUPP;
+@@ -652,5 +643,19 @@ static inline int devm_pm_opp_attach_genpd(struct device *dev,
+ 	return devm_pm_opp_set_config(dev, &config);
+ }
+ 
++/* prop-name helpers */
++static inline int dev_pm_opp_set_prop_name(struct device *dev, const char *name)
++{
++	struct dev_pm_opp_config config = {
++		.prop_name = name,
++	};
++
++	return dev_pm_opp_set_config(dev, &config);
++}
++
++static inline void dev_pm_opp_put_prop_name(int token)
++{
++	dev_pm_opp_clear_config(token);
++}
+ 
+ #endif		/* __LINUX_OPP_H__ */
 -- 
 2.31.1.272.g89b43f80a514
 
