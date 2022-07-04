@@ -1,165 +1,197 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A7D290A
-	for <linux-sunxi@lists.linux.dev>; Sun,  3 Jul 2022 18:43:52 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id sb34so13066542ejc.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 03 Jul 2022 11:43:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YNiliZWXNoSejurrkg/bZM1+hwajBnqHCSCntKvBUaI=;
-        b=npbI1nD+znAoMU7pXRx5AAX2LM820YJ/YUybd49rlin0LVoZdUNVLe9DSUHETWBfh5
-         LlBJioKkqM6GkY/WB0BE2keebr0ENUPFlCaQ3FQWJ9+n0kS8Nvu+u/fSUo4Sk59Rr0nG
-         rSs4yJ9A9wIJzkjMqJU0nQ0PWemZJ593KwBvQ5pT5YmIshoS/123yM1iJsw+PvRGxReo
-         lkiUH+q1nltWejKztICUVGfEWbJ72NTWGhuVnzs5LW7KY0e1Tuyf9SYxjN0AntHJRyxe
-         yTzfcQVCLnrWqNtT/3BA7S7Xaz9PPg2stfswbBVVUpi30mxEpPNXFWawNED7W4cVugNr
-         wwzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YNiliZWXNoSejurrkg/bZM1+hwajBnqHCSCntKvBUaI=;
-        b=ytwjuaYSmP6me5QFxWANgKnKIIW6lc4JJsGpgRKbJrWNjkgCUWSwJavX+R4O6gW9Ko
-         d0dB4Qe8g4U1j1E9OML9XZH9vwe/B9LQXIED+TgxnVNoqw1ilvShpJ+QevV1GW2Vh0H+
-         JTJAH8MUKszu4JpWgCjzpw/UBvdQl2Nq7ITHP1S1JObO1b5e5HKGHrlb69q4M78WHosw
-         icLOXTNzmKZy5lj2iBDd0szXhX4ahpfVM4WAXvimzdnLH+7vgJOWIn2PQh3ruz5oA7od
-         qFJdLW9b+r5rG/Ath+TaSPogMI64Cb1DtiUQsKzc8c+k5agiIiyYjo4PhxMaNSAE69cZ
-         RB6w==
-X-Gm-Message-State: AJIora/uYMTSyymeSwvOrLn+UeRweTxgl61emrF0mYubwVZnZbm2ZnNe
-	ZZJ+BGiq1lUvXTLUyK0KTCo=
-X-Google-Smtp-Source: AGRyM1uhjp+RgS2ynpA11LiieVXvsXwvY7y8TuIgmM3sQHxv0yU0hV6peQrIhc6stvF4D+KvPe7s3Q==
-X-Received: by 2002:a17:907:3e8c:b0:726:41fa:2866 with SMTP id hs12-20020a1709073e8c00b0072641fa2866mr24122132ejc.562.1656873830342;
-        Sun, 03 Jul 2022 11:43:50 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id s10-20020a1709060c0a00b0070beb9401d9sm13390726ejf.171.2022.07.03.11.43.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Jul 2022 11:43:49 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: samuel@sholland.org, Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: peron.clem@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, mripard@kernel.org, wens@csie.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH v2] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
-Date: Sun, 03 Jul 2022 20:43:48 +0200
-Message-ID: <4748270.31r3eYUQgx@jernej-laptop>
-In-Reply-To: <20220703164514.308622-1-r.stratiienko@gmail.com>
-References: <20220703164514.308622-1-r.stratiienko@gmail.com>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7C0523B5
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 09:42:21 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6255223A;
+	Mon,  4 Jul 2022 02:42:21 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 484563F792;
+	Mon,  4 Jul 2022 02:42:19 -0700 (PDT)
+Date: Mon, 4 Jul 2022 10:42:14 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Linus Walleij <linus.walleij@linaro.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>,
+ Ondrej Jirman <x@xff.cz>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, Heiko Stuebner <heiko@sntech.de>
+Subject: Re: [PATCH 6/6] pinctrl: sunxi: Add driver for Allwinner D1/D1s
+Message-ID: <20220704104214.2d9cd1a0@donnerap.cambridge.arm.com>
+In-Reply-To: <ef4454cb-a387-7dda-67e3-7493a89be8e7@sholland.org>
+References: <20220626021148.56740-1-samuel@sholland.org>
+	<20220626021148.56740-7-samuel@sholland.org>
+	<20220702154647.53c6755a@slackpad.lan>
+	<ef4454cb-a387-7dda-67e3-7493a89be8e7@sholland.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Dne nedelja, 03. julij 2022 ob 18:45:14 CEST je Roman Stratiienko napisal(a):
-> Using simple bash script it was discovered that not all CCU registers
-> can be safely used for DFS, e.g.:
-> 
->     while true
->     do
->         devmem 0x3001030 4 0xb0003e02
->         devmem 0x3001030 4 0xb0001e02
->     done
-> 
-> Script above changes the GPU_PLL multiplier register value. While the
-> script is running, the user should interact with the user interface.
-> 
-> Using this method the following results were obtained:
-> | Register  | Name           | Bits  | Values | Result |
-> | --        | --             | --    | --     | --     |
-> | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
-> | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
-> | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
-> | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
-> 
-> DVFS started to work seamlessly once dividers which caused the
-> glitches were set to fixed values.
-> 
-> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> 
-> ---
-> 
-> Changelog:
-> 
-> V2:
-> - Drop changes related to mux
-> - Drop frequency limiting
-> - Add unused dividers initialization
-> ---
->  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index 2ddf0a0da526f..1b0205ff24108
-> 100644
-> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> @@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk = {
->  	},
->  };
-> 
-> +/* For GPU PLL, using an output divider for DFS causes system to fail */
->  #define SUN50I_H6_PLL_GPU_REG		0x030
->  static struct ccu_nkmp pll_gpu_clk = {
->  	.enable		= BIT(31),
->  	.lock		= BIT(28),
->  	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
->  	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-> -	.p		= _SUNXI_CCU_DIV(0, 1), /* output divider 
-*/
+On Sat, 2 Jul 2022 10:43:05 -0500
+Samuel Holland <samuel@sholland.org> wrote:
 
-Having minimum (288 MHz) as per vendor GPU driver and maximum, either max. opp 
-or max. from datasheet is equally good. I know that both are basically limited 
-with opp table, but people like to play with these, so it's good to have them 
-in.
+Hi Samuel,
 
->  	.common		= {
->  		.reg		= 0x030,
->  		.hw.init	= CLK_HW_INIT("pll-gpu", "osc24M",
-> @@ -294,9 +294,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk,
-> "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
-> "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
+> On 7/2/22 9:47 AM, Andre Przywara wrote:
+> > On Sat, 25 Jun 2022 21:11:47 -0500
+> > Samuel Holland <samuel@sholland.org> wrote:
+> > 
+> > Hi Samuel,
+> >   
+> >> These SoCs contain a pinctrl with a new register layout. Use the variant
+> >> parameter to set the right register offsets. This pinctrl also increases
+> >> the number of functions per pin from 8 to 16, taking advantage of all 4
+> >> bits in the mux config field (so far, only functions 0-8 and 14-15 are
+> >> used). This increases the maximum possible number of functions.
+> >>
+> >> D1s is a low pin count version of the D1 SoC, with some pins omitted.
+> >> The remaining pins have the same function assignments as D1.  
+> > 
+> > So do we actually need this extra variant, if there are no conflicts?
+> > The D1s seems to be a simple subset of the D1. I think we followed the
+> > same approach for the H616 already, where there are more pins in the
+> > pinctrl driver than the manual describes, and which are used in other
+> > package variants, like the T507.
+> > In case of the H616, those pins are there, you can program them (which
+> > is not the case for not implemented pins otherwise), they are just not
+> > connected to the package.
+> > I would expect a DT to never reference them, and even if, it doesn't do
+> > any harm other than just not working.  
 > 
-> +/* Keep GPU_CLK divider const to avoid DFS instability. */
->  static const char * const gpu_parents[] = { "pll-gpu" };
-> -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
-> -				       0, 3,	/* M */
-> +static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
->  				       24, 1,	/* mux */
->  				       BIT(31),	/* gate */
->  				       CLK_SET_RATE_PARENT);
-> @@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct platform_device
-> *pdev) if (IS_ERR(reg))
->  		return PTR_ERR(reg);
+> I am following the example of V3/V3s here, so it seems we are inconsistent on
+> this point. I needed to supply one variant for the register layout anyway, so I
+> though I might as well be "accurate".
 > 
-> +	/* Force PLL_GPU output divider to 0 */
+> But with Allwinner releasing lots of packages per die, it is probably overkill
+> to have a separate compatible per packge. As you note, there is no harm in
+> configuring pins that do not map to any pad.
 
-Divider  0 here
+Yes, thanks, that current inflation of SoC variants is what I was
+concerned about.
 
-> +	val = readl(reg + SUN50I_H6_PLL_GPU_REG);
-> +	val &= ~BIT(0);
-> +	writel(val, reg + SUN50I_H6_PLL_GPU_REG);
-> +
-> +	/* Force GPU_CLK divider to 0 */
+> Some notes for completeness:
+>  - D1 documents all three JTAG functions (ARM, RISC-V, and DSP), although the
+> ARM JTAG does not work.
+>  - D1s/F133 only documents the RISC-V JTAG function.
+>  - T113 only documents the ARM and DSP JTAG functions.
+>  - T113 adds a CAN function on mux 8 of PB2-PB5. The CAN controller accidentally
+> made it in to one version of the D1 datasheet, so it may unofficially exist there.
 
-and here sounds wrong, since division by zero is not defined. Using 1 is more 
-intuitive and correct, since that's what HW actually uses.
+Have you checked whether the CAN peripheral registers are there, on the D1?
 
-Patch looks good otherwise.
+One more thing below:
 
-Best regards,
-Jernej
+> None of these variations are conflicting.
+> 
+> > For the table below: I checked every pin against the D1 manual (yes,
+> > that took an hour), and found only one small issue and some nits in
+> > PortE, see inline.
+> >   
+> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> >> ---
+> >>
+> >>  drivers/pinctrl/sunxi/Kconfig             |   5 +
+> >>  drivers/pinctrl/sunxi/Makefile            |   1 +
+> >>  drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c | 860 ++++++++++++++++++++++
+> >>  drivers/pinctrl/sunxi/pinctrl-sunxi.c     |  16 +-
+> >>  drivers/pinctrl/sunxi/pinctrl-sunxi.h     |   7 +
+> >>  5 files changed, 884 insertions(+), 5 deletions(-)
+> >>  create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+> >>
+> >> diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
+> >> index 33751a6a0757..a6ac1c1f2585 100644
+> >> --- a/drivers/pinctrl/sunxi/Kconfig
+> >> +++ b/drivers/pinctrl/sunxi/Kconfig
+> >> @@ -84,6 +84,11 @@ config PINCTRL_SUN9I_A80_R
+> >>  	depends on RESET_CONTROLLER
+> >>  	select PINCTRL_SUNXI
+> >>  
+> >> +config PINCTRL_SUN20I_D1
+> >> +	bool "Support for the Allwinner D1 PIO"
+> >> +	default RISCV && ARCH_SUNXI
 
-> +	val = readl(reg + gpu_clk.common.reg);
-> +	val &= ~GENMASK(3, 0);
-> +	writel(val, reg + gpu_clk.common.reg);
-> +
->  	/* Enable the lock bits on all PLLs */
->  	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
->  		val = readl(reg + pll_regs[i]);
+Is there any chance you can add the "MACH_SUN8I || " already?
+Not that it is really surprising, but I explicitly compared the pin mux
+overview tables of the R528(ARMv7) and D1(RISC-V) manuals, and they are
+identical. So we just use the D1 compatible string as a fallback for the
+R528 and T113 parts, in which case the driver should be build for ARM, too.
 
+Cheers,
+Andre
 
-
+> >> +	select PINCTRL_SUNXI
+> >> +
+> >>  config PINCTRL_SUN50I_A64
+> >>  	bool "Support for the Allwinner A64 PIO"
+> >>  	default ARM64 && ARCH_SUNXI
+> >> diff --git a/drivers/pinctrl/sunxi/Makefile b/drivers/pinctrl/sunxi/Makefile
+> >> index d3440c42b9d6..2ff5a55927ad 100644
+> >> --- a/drivers/pinctrl/sunxi/Makefile
+> >> +++ b/drivers/pinctrl/sunxi/Makefile
+> >> @@ -20,6 +20,7 @@ obj-$(CONFIG_PINCTRL_SUN8I_A83T_R)	+= pinctrl-sun8i-a83t-r.o
+> >>  obj-$(CONFIG_PINCTRL_SUN8I_H3)		+= pinctrl-sun8i-h3.o
+> >>  obj-$(CONFIG_PINCTRL_SUN8I_H3_R)	+= pinctrl-sun8i-h3-r.o
+> >>  obj-$(CONFIG_PINCTRL_SUN8I_V3S)		+= pinctrl-sun8i-v3s.o
+> >> +obj-$(CONFIG_PINCTRL_SUN20I_D1)		+= pinctrl-sun20i-d1.o
+> >>  obj-$(CONFIG_PINCTRL_SUN50I_H5)		+= pinctrl-sun50i-h5.o
+> >>  obj-$(CONFIG_PINCTRL_SUN50I_H6)		+= pinctrl-sun50i-h6.o
+> >>  obj-$(CONFIG_PINCTRL_SUN50I_H6_R)	+= pinctrl-sun50i-h6-r.o
+> >> diff --git a/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+> >> new file mode 100644
+> >> index 000000000000..7247c1f1d92c
+> >> --- /dev/null
+> >> +++ b/drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+> >> @@ -0,0 +1,860 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Allwinner D1 SoC pinctrl driver.
+> >> + *
+> >> + * Copyright (c) 2020 wuyan@allwinnertech.com
+> >> + * Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
+> >> + */
+> >> +
+> >> +#include <linux/module.h>
+> >> +#include <linux/platform_device.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/of_device.h>
+> >> +#include <linux/pinctrl/pinctrl.h>
+> >> +
+> >> +#include "pinctrl-sunxi.h"
+> >> +
+> >> +static const struct sunxi_desc_pin d1_pins[] = {
+> >> +	/* PB */
+> >> +	SUNXI_PIN_VARIANT(SUNXI_PINCTRL_PIN(B, 0),
+> >> +		PINCTRL_SUN20I_D1,
+> >> +		SUNXI_FUNCTION(0x0, "gpio_in"),
+> >> +		SUNXI_FUNCTION(0x1, "gpio_out"),
+> >> +		SUNXI_FUNCTION(0x2, "pwm"),  
+> > 
+> > The manual mentions the PWM channel number in the pin name, and it
+> > seems like in other pinctrl drivers we use the number either in the
+> > function name, or at least in the comment.
+> > Shall we do one of them here as well?  
+> 
+> I originally had the numbers in the function name, but then I realized that no
+> pin has multiple PWM muxes, so I removed them. As you mention, other drivers
+> have them, so I will add them back.
+> 
+> > And the mux numbers for pwm are all over the place, so lets hope we
+> > never need pwm in U-Boot ;-)  
+> 
+> PWM is used for the CPU voltage regulator on at least one board (Nezha), but I
+> think we can get away without U-Boot support for that. And including the PWM
+> number in the function name will improve things somewhat.
+> 
+> I will fix the typos you noted below.
+> 
+> Regards,
+> Samuel
 
