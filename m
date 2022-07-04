@@ -1,49 +1,49 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D4046BF
-	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 20:26:05 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id r6so1505283edd.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 13:26:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA0B17DD
+	for <linux-sunxi@lists.linux.dev>; Mon,  4 Jul 2022 20:35:27 +0000 (UTC)
+Received: by mail-ej1-f41.google.com with SMTP id dn9so13126821ejc.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 04 Jul 2022 13:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1tJIxz5ezajZKza1h78R8fmlrf7RERifYbGM507EmBE=;
-        b=ccv1cqJAZDDLfohSVkllVuLjbgxVsqMkB8cqyWqo1Ar0DmxZ3EcEmoAK3V8kc6jvaM
-         YvZ+qCLTB0yXV9EuMAav21XL4shWfYu11tR97moxDWTCjtAgUYE6rSyziVmr0tge0yZx
-         fkeOuHn+sVoZLINJqG9n8Zprw45jqDD3QFv0Jz7G9sOBK1akE2qPYOwabvYux3Fe5PT6
-         vWoEPv2tA3KhFhDI98LuPhrASolXYnU/EbobNl7ELiS/+EdIFBe2LehPglCyYJDBpftL
-         3FLQhWkzm7/8e1sncf0LhTtPXN+ijjsn31WOS7/aFAEtyuLxPHzpQLw83N6Yu59gQxas
-         2aJQ==
+        bh=l5RKSEwMtYWUzRQ7RcuOICxLgoH1DtWLQtcUXxCeKHo=;
+        b=cuuhrnB1Z3qMtW1Rte2htfl1jyJZuMjDt6eYBMPcdlfZO6h5Tk8lzSNU8TBINmyjsE
+         WIzVD9Q85f4Px1O2uq1wtus48tCNFG/Ms1UhxQy8t0DlGfAMWDZoiaPUq7rnFXDUY3xp
+         MvwP5fqRA9eM6JBwK+OoW0pBx8oZld6jdyBB76Jh2QhLA1+MAqRvPap4xS8m86+i0wyz
+         VLcmkO3GMq9j74GW6fA1JKneoJ7Cr0+II+Gsx01355O/wosjGmVQXe6ilukT8XbIPSQH
+         gzbTlNAE+f5Nijsrz5830jxhRHYaUVvLn3uq50HqUQDDBwFcQO9c2sUTlJyP6YGo6xPZ
+         nejA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1tJIxz5ezajZKza1h78R8fmlrf7RERifYbGM507EmBE=;
-        b=MOKIU02YJeayVzT4yX7U25fY8XnEyXsPkHsanVVjuZbkNP3gJHs0MQlFBgbqSRt0mQ
-         Cqp7USGJjb8V8SwNFsnFMgePJ93rs12jCNYrFRO/2mFD6gHw2STwIMg/g8GFmlB6pi8u
-         IeN8O+85wKHp4LjEYAh0XgDuMLsxxW1Y4tpaudxClYIPwIKsa4481S7qc778du6n0/2E
-         et9j+d4oJ8x2P8LOpeTl1cpvUeSox7AUYLqKZUPgIKyPgaGBSyghSsDQOElFXNX6KpXp
-         2M95FTDC1lZqT9jQ1fqMMoSnFwWgrspMSjRqb38jo2Q3HAbN5kf8AHpiVwryN7oDKcPL
-         GUxw==
-X-Gm-Message-State: AJIora/Iwgn3ZwvgQKQn/dZhAK/yEXigbLwkKeZFrPrFLN93IBOZxI3g
-	ITcJK9Fke/S/rgbKi5KTssU=
-X-Google-Smtp-Source: AGRyM1sampbUz6y4KfVXdkWjW2A/GCw/gASMZ/wjup1d+riy2rElxKRVxi48y7n9vSccHlO1o5zJRA==
-X-Received: by 2002:a50:fd16:0:b0:435:9170:8e2c with SMTP id i22-20020a50fd16000000b0043591708e2cmr41357313eds.216.1656966364098;
-        Mon, 04 Jul 2022 13:26:04 -0700 (PDT)
+        bh=l5RKSEwMtYWUzRQ7RcuOICxLgoH1DtWLQtcUXxCeKHo=;
+        b=sFyTxJPeFnkS3rHOALc9Yvr+mzHHZAeiqyKeKStlIjIJQFEFmH+aqqN6zgr7pJIuHl
+         tJmu5qcvRmzxJi7WZ/xSyBFoW2Lp0MG6qh4tyH21PjlVKEVGinsJ1fTcWKMUjQAUHzJ4
+         az0ZqhhwOky0OVYIEJPSfhiEMOJ1K5ChlctVc4lrOPosoBN0t4JS6vxXTEGiwx7sjzEC
+         fjWiqBwTQR6KHq41iNVDYZmTKjWwoZLkaaN/KZcFjX2gMtXwvb9rJ7pkBu2ySIKshqYs
+         iOVZ473jnXa9woxEhNyOupdPdvxldaAQV0QFS984ZP0jW7XJbIylTAayTpbQX2U/Jpmr
+         4ANQ==
+X-Gm-Message-State: AJIora9bnaVB/gfV4g6pXlHLrDrhYfsFD41c7P4BHHfHMhlol8d2xR4l
+	TsKLfdiNGN++s5Vgu1nMn/A=
+X-Google-Smtp-Source: AGRyM1tlNsZvI5Qs15Ak98v/bYen0FnGftmRy+1cPsXpKDmi6R1EGXR3Z5hY5U8PyRS+UxnPErWYMQ==
+X-Received: by 2002:a17:906:d550:b0:723:5c2c:8a71 with SMTP id cr16-20020a170906d55000b007235c2c8a71mr29789718ejc.254.1656966925403;
+        Mon, 04 Jul 2022 13:35:25 -0700 (PDT)
 Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05640204d200b00435a08a3557sm21499039edw.27.2022.07.04.13.26.03
+        by smtp.gmail.com with ESMTPSA id uz12-20020a170907118c00b00711aed17047sm14599009ejb.28.2022.07.04.13.35.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Jul 2022 13:26:03 -0700 (PDT)
+        Mon, 04 Jul 2022 13:35:25 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>, wens@csie.org, Mark Brown <broonie@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] arm64: defconfig: Enable Allwinner built in CODECs
-Date: Mon, 04 Jul 2022 22:25:57 +0200
-Message-ID: <1865047.taCxCBeP46@kista>
-In-Reply-To: <20220701112213.1765599-1-broonie@kernel.org>
-References: <20220701112213.1765599-1-broonie@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/3] dt-bindings: usb: Document Allwinner D1 compatibles
+Date: Mon, 04 Jul 2022 22:35:24 +0200
+Message-ID: <44784082.fMDQidcC6G@kista>
+In-Reply-To: <20220702195249.54160-1-samuel@sholland.org>
+References: <20220702195249.54160-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,17 +53,28 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 01. julij 2022 ob 13:22:13 CEST je Mark Brown napisal(a):
-> Allwinner provide an audio CODEC as part of their SoCs which is used on a
-> number of designs, enable the driver as part of defconfig in order to
-> improve coverage of this in the various automated testing systems.
+Dne sobota, 02. julij 2022 ob 21:52:46 CEST je Samuel Holland napisal(a):
+> These patches document the compatible strings for the USB controllers in
+> the Allwinner D1 SoC, which require no special driver support.
 > 
-> Signed-off-by: Mark Brown <broonie@kernel.org>
-> Reviewed-by: Samuel Holland <samuel@sholland.org>
+> 
+> Samuel Holland (3):
+>   dt-bindings: usb: sunxi-musb: Add Allwinner D1 compatible
+>   dt-bindings: usb: generic-ehci: Add Allwinner D1 compatible
+>   dt-bindings: usb: generic-ohci: Add Allwinner D1 compatible
 
-Applied, thanks!
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+> 
+>  .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
+>  Documentation/devicetree/bindings/usb/generic-ehci.yaml          | 1 +
+>  Documentation/devicetree/bindings/usb/generic-ohci.yaml          | 1 +
+>  3 files changed, 3 insertions(+)
+> 
+> --
+> 2.35.1
 
 
