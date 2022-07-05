@@ -1,30 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com [209.85.217.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8922F56
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 13:04:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AE61C341C7;
-	Tue,  5 Jul 2022 13:04:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657026282;
-	bh=X2byGQzH9xU1QuC680v/fmEWN9fBoq1dBxQH8XoDPIQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kg1/TYBTib55w6uEoH1YZUkBkvUI5GCCOrEoxZ3NOkrSvnbQDgPdTIYis/G2YPTAA
-	 Y6fdQ1aF7fOA7gwZXzC1xhGc+o1QhB8HEOjHsef9eh4QmP1YP4pKlg3/loexuhaRym
-	 QuKGVGRORn0xpJh1C412G1XXTEKX4lnzWlClKL1NbXZJXKLl1lz17zG6XPS4jUiW4E
-	 zwOXV62QhW0v+84CbO7UTsu4rKJur660fz302YwStHUopedlaU0MTMZHHEhI9MJT3V
-	 zo/hOoQrDWXqKmGd3oKqtRvpk7o8Lz/n9gzVAEPL7jGAFDcF5TKbTT4/6BmPlQaum4
-	 rqT4XxsIseVRQ==
-Date: Tue, 5 Jul 2022 18:34:37 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <maxime@cerno.tech>, dmaengine@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] dmaengine: sun4i: Set the maximum segment size
-Message-ID: <YsQ25dZ1t4bt7Stg@matsya>
-References: <20220621031350.36187-1-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3B07C
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 15:19:51 +0000 (UTC)
+Received: by mail-vs1-f52.google.com with SMTP id t124so1848860vsb.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 08:19:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=SKPvviyPL26CyA8l9iar2MIM4Wl98vso25xZ3nSjowU=;
+        b=c0XNEbkP56Uqlf4jbginpW0oHEPYA0t7AvZsiEserqczx9y1nIzJpBNsL8Sc6nrkj/
+         q2T/YS82/7XzUAAoKEyCWX539afsddUI2xsSnt4prcm+mjMFdB32eOuzeB/EZ8vX30kY
+         bO58EClJSlDOewXEm7SqHBVP309Srux5rkhUkTWEs/pYyCk3AqY9lrqtJetO8Z3ofaun
+         i8OVgiYO/LzH9Igm+AMI5uxUw8y8ljzUSEEYe2E3RO31MCWc39KO5uc6saJfMtQnpPuF
+         rpxBWGIQYgfm4LUJSsPfHkADD/CwTH4HT3F1UUDv7UogtFBxSYJzExYvvgyVWz2CU6kS
+         Io4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SKPvviyPL26CyA8l9iar2MIM4Wl98vso25xZ3nSjowU=;
+        b=pDj5r/2wYR6tYHklkr6v+Yws/MkevYw/Qpg6eYZohBu99jeW7rvIXhvwmq4VRCAVCk
+         Pg/Z/vljNbCLSRqHBK10oWxPCbFCOiUrMHhbMYdPktR0yRJIAq1lok8V+2hdMiVxd2Wa
+         m0+MZX5kfSFnP2vLISRXEjRDaUNTOS0q67EKzIsIRkEvglyx7gvNnuEw9dYAYWs6o16j
+         cijqrOPI4cKa2OZez5/TVn6aoVezm99dgpbZ1LFHPSeM2FVASL7nsuMrQ1C2PgsOITcP
+         0Lt8+rUW4wWF5U70K4nE36c4bZhtzuHZ42LV6XhGuwcoqsA21VMcNfZwIIZcJiKcRMNP
+         LCYg==
+X-Gm-Message-State: AJIora8XrpgqKnJl+6B30mAzm7+rXFju48p4WvRsZEn129DkorR+jEC1
+	6NP9NpipLBKZCUDIf9qXrkAzZA==
+X-Google-Smtp-Source: AGRyM1tMBtr7MaG5fInbc7HrIJPJwBQ3Wz4TiiPGLX6OFZzB9OSAQ2Kvd7GK6x+gf0OnNgXpAqo5AA==
+X-Received: by 2002:a67:b207:0:b0:356:51a5:993e with SMTP id b7-20020a67b207000000b0035651a5993emr19609454vsf.12.1657034390773;
+        Tue, 05 Jul 2022 08:19:50 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id b5-20020ab00b05000000b00382a8b1e590sm2980986uak.20.2022.07.05.08.19.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 08:19:49 -0700 (PDT)
+Date: Tue, 5 Jul 2022 12:19:44 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, mripard@kernel.org,
+	paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v10 04/17] media: uapi: HEVC: Add missing fields in HEVC
+ controls
+Message-ID: <YsRWkP6pCMcP2Im2@eze-laptop>
+References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+ <20220705085420.272912-5-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -33,25 +61,131 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220621031350.36187-1-samuel@sholland.org>
+In-Reply-To: <20220705085420.272912-5-benjamin.gaignard@collabora.com>
 
-On 20-06-22, 22:13, Samuel Holland wrote:
-> The sun4i DMA engine supports transfer sizes up to 128k for normal DMA
-> and 16M for dedicated DMA, as documented in the A10 and A20 manuals.
+On Tue, Jul 05, 2022 at 10:54:07AM +0200, Benjamin Gaignard wrote:
+> Complete the HEVC controls with missing fields from H.265 specifications.
+> Even if these fields aren't used by the current mainlined drivers
+> they will be required for (at least) the rkvdec driver.
 > 
-> Since this is larger than the default segment size limit (64k), exposing
-> the real limit reduces the number of transfers needed for a transaction.
-> However, because the device can only report one segment size limit, we
-> have to expose the smaller limit from normal DMA.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+> ---
+> version 9:
+> - fix typo
 > 
-> One complication is that the driver combines pairs of periodic transfers
-> to reduce programming overhead. This only works when the period size is
-> at most half of the maximum transfer size. With the default 64k segment
-> size limit, this was always the case, but for normal DMA it is no longer
-> guaranteed. Skip the optimization if the period is too long; even
-> without it, the overhead is less than before.
-
-Applied, thanks
-
--- 
-~Vinod
+>  .../media/v4l/ext-ctrls-codec.rst             | 32 +++++++++++++++++++
+>  include/media/hevc-ctrls.h                    |  8 ++++-
+>  2 files changed, 39 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 6183f43f4d73..cff742142a55 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -2683,6 +2683,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``video_parameter_set_id``
+> +      - Specifies the value of the vps_video_parameter_set_id of the active VPS
+> +        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+> +        of H.265 specifications.
+> +    * - __u8
+> +      - ``seq_parameter_set_id``
+> +      - Provides an identifier for the SPS for reference by other syntax elements
+> +        as described in section "7.4.3.2.1 General sequence parameter set RBSP semantics"
+> +        of H.265 specifications.
+>      * - __u16
+>        - ``pic_width_in_luma_samples``
+>        -
+> @@ -2822,6 +2832,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      :stub-columns: 0
+>      :widths:       1 1 2
+>  
+> +    * - __u8
+> +      - ``pic_parameter_set_id``
+> +      - Identifies the PPS for reference by other syntax elements.
+>      * - __u8
+>        - ``num_extra_slice_header_bits``
+>        -
+> @@ -3048,6 +3061,15 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u8
+>        - ``ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX]``
+>        - The list of L1 reference elements as indices in the DPB.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, described as st_ref_pic_set()
+> +        in the specification, included in the slice header or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set include in the slice header
+> +        or SPS. It is the number of bits in the conditional block if(long_term_ref_pics_present_flag)
+> +        in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``padding``
+>        - Applications and drivers must set this to zero.
+> @@ -3385,6 +3407,16 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - ``pic_order_cnt_val``
+>        - PicOrderCntVal as described in section 8.3.1 "Decoding process
+>          for picture order count" of the specification.
+> +    * - __u16
+> +      - ``short_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the short-term reference picture set, of the first slice
+> +        described as st_ref_pic_set() in the specification, included in the slice header
+> +        or SPS (section 7.3.6.1).
+> +    * - __u16
+> +      - ``long_term_ref_pic_set_size``
+> +      - Specifies the size, in bits, of the long-term reference picture set, of the first slice
+> +        included in the slice header or SPS. It is the number of bits in the conditional block
+> +        if(long_term_ref_pics_present_flag) in section 7.3.6.1 of the specification.
+>      * - __u8
+>        - ``num_active_dpb_entries``
+>        - The number of entries in ``dpb``.
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index 01ccda48d8c5..752a8d10782c 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -58,6 +58,8 @@ enum v4l2_mpeg_video_hevc_start_code {
+>  /* The controls are not stable at the moment and will likely be reworked. */
+>  struct v4l2_ctrl_hevc_sps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Sequence parameter set */
+> +	__u8	video_parameter_set_id;
+> +	__u8	seq_parameter_set_id;
+>  	__u16	pic_width_in_luma_samples;
+>  	__u16	pic_height_in_luma_samples;
+>  	__u8	bit_depth_luma_minus8;
+> @@ -108,6 +110,7 @@ struct v4l2_ctrl_hevc_sps {
+>  
+>  struct v4l2_ctrl_hevc_pps {
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Picture parameter set */
+> +	__u8	pic_parameter_set_id;
+>  	__u8	num_extra_slice_header_bits;
+>  	__u8	num_ref_idx_l0_default_active_minus1;
+>  	__u8	num_ref_idx_l1_default_active_minus1;
+> @@ -199,7 +202,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	slice_segment_addr;
+>  	__u8	ref_idx_l0[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	ref_idx_l1[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+> -
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	padding;
+>  
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: Weighted prediction parameter */
+> @@ -214,6 +218,8 @@ struct v4l2_ctrl_hevc_slice_params {
+>  
+>  struct v4l2_ctrl_hevc_decode_params {
+>  	__s32	pic_order_cnt_val;
+> +	__u16	short_term_ref_pic_set_size;
+> +	__u16	long_term_ref_pic_set_size;
+>  	__u8	num_active_dpb_entries;
+>  	struct	v4l2_hevc_dpb_entry dpb[V4L2_HEVC_DPB_ENTRIES_NUM_MAX];
+>  	__u8	num_poc_st_curr_before;
+> -- 
+> 2.32.0
+> 
