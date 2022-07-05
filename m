@@ -1,155 +1,113 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0362917
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 07:52:41 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id y4so843447edc.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 00:52:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC872917
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 08:21:18 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id r81-20020a1c4454000000b003a0297a61ddso9241774wma.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 01:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sVHg27tFoCVvZZIXk/W94pwI0Pu4JuMAc/g2EqD7c8I=;
-        b=CYr0HGCmIpU9tGWD2SZn/cCWxwGIhI4vSE7yNrw3jvX35pfLMdSuYkZn+aRhaqQrFV
-         wUiljZdTSAT1Qphe09CajjMcNNRnZoLQSqWUKN1dMnHSybQYHCj3DH3pcjcsCdGXP3h4
-         vRrOrUL/ZBeuYpPmACPFsXqQQ4JoJPDo39HZESMHB4X9FK5g8U1lc8GpTJodXm6wYMBm
-         WXKMtYKcvuL5bvqEQIkvfYmthZXs6zyeHrhVlUJgdud1+zK863uHkFMZ31enqw6dzC6E
-         Z7ct5el9AqIuEb3hN5YuEEBBqV/EDTCCDFAeCDmBJcQm1R3ghLtwg+wQ1sY+z6zxdQLl
-         bpcg==
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=wfqoXVK+YfH3izkn1ZIOXk7M9UJ/gOHJBL54VlMil1E=;
+        b=xUkNuB6sThZg8/L+TCfTHvgqmve+3X2XTscpzPB8Tdd347qOEdLnpGh+mxdoEih7j+
+         LWCL7OdboRbOwv0QIsWPxwLkyW60r6irie07Mr+8PkDgDPCIjcWUhcM+RlBKaOlzwpiL
+         I9oZqLzvc1EQwqvJkJygFu1TJthBVJpGZQo0/Xe8hUr8QpCPFrsHLL6F/ySU1L6krew6
+         KDXsXBtTB9BWPKMq81vsoGDHHMUFq1YO/k86zB55BlddKyc4GChaRZ8aTpAIERpcpLcE
+         1WndJcUi28Js1hwgiup05QRq/MZn02FUl9eX0YYVgkR7sZW3++szGVyA8qXWoGF0PzuR
+         st7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=sVHg27tFoCVvZZIXk/W94pwI0Pu4JuMAc/g2EqD7c8I=;
-        b=lVj145OrUJf5hkbqHuA/DYG9FESIbxhGi3iinyVMHuUYtvbTkdCjfepGQVZzcbUbmq
-         Jbp20YbpzpCKTaOXXyv7H+kPXmmg4U7b8NHUGlK8fA6alJ6U+72d9ydbBpXyVXaL3r7t
-         utkuDbVTpPpXEWctesYUz6gF8bCnwGSJzHnvzlZe7n/4QLIb+KK8Bc4ZOLEYjuAsOgDm
-         AV26F8uD60lT43sbmUnt0956qy+2KkeI8e8KiwoeFrqLmyowochiKafE9DCuIKv6I0o8
-         7qM9SoGklhpLDnvhyFwLlwhLaiAEthXjbeHTjHQytbj9I6K4/bklG6lnhlzqG++oNLo+
-         NVow==
-X-Gm-Message-State: AJIora/AO4glTQN85gijGrA/zvmPHEeZHYrTjn2lFMhFIsAVBs4sKoDi
-	HA2o8PJkCNzj2DY6WG4atVI=
-X-Google-Smtp-Source: AGRyM1vYJUa7eNnjIo+BOJ3SwH3f9c/JjmwfxHh5ctJZ51DjW1EJTxHpL1HA2YYhSpMihoKRCuag0g==
-X-Received: by 2002:a05:6402:4414:b0:434:f58c:ee2e with SMTP id y20-20020a056402441400b00434f58cee2emr43708933eda.362.1657007560160;
-        Tue, 05 Jul 2022 00:52:40 -0700 (PDT)
-Received: from roman-Latitude-3400.globallogic.com ([195.234.74.2])
-        by smtp.gmail.com with ESMTPSA id q17-20020a17090676d100b0072aac7446edsm4171579ejn.41.2022.07.05.00.52.38
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=wfqoXVK+YfH3izkn1ZIOXk7M9UJ/gOHJBL54VlMil1E=;
+        b=CgzdejdfAleuR2ik5HloV35T4l5afZ0DXr7NQDndnHWDCwZ/HfwvZ0EUf/1TNeXFt5
+         XMRnUkDmmkFNHTBVKQ4hrtMNdLa3P93L/jjaoB/e3iqCoTMJH2+2XJqsXzPCH4CQrVv1
+         nyzTZpJYc3yGaVe6BC6SS1CZFhxUH/PVIQCyz4In8D2L4oPOzMOsddbh+xg3c44G9yjv
+         /45/+f2r4wUBe5GzDit3dAwSj/Shlbacn/7+YZ+dw4BZBkmNimZR+yhEYk5EHHMZLoq8
+         x5+ZCFeLO8s5dSCD53bTxm07ei0XkDqizJmtNSjE7MC9/pb7D6v8eNW2N9r3GWyLo7vX
+         29EQ==
+X-Gm-Message-State: AJIora+rz0gvE1SmcXPQRcDp9tMU9vg0F5iAMozI+kYCzTe1P75xvhzz
+	Faywf2vNHbB7E/D1Gj53gIiRCg==
+X-Google-Smtp-Source: AGRyM1tr6rhGjC+OjSy5qUIGsdXXqW+hoadeDxw4So3EyQixfHxlPvRR/BsUHVmT5zqFTafMEYVfUw==
+X-Received: by 2002:a05:600c:4ece:b0:3a1:7816:31a9 with SMTP id g14-20020a05600c4ece00b003a1781631a9mr30790692wmq.100.1657009277148;
+        Tue, 05 Jul 2022 01:21:17 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id m123-20020a1ca381000000b003942a244f47sm19512608wme.32.2022.07.05.01.21.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 00:52:39 -0700 (PDT)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: samuel@sholland.org
-Cc: peron.clem@gmail.com,
-	mturquette@baylibre.com,
-	sboyd@kernel.org,
-	mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
-Date: Tue,  5 Jul 2022 10:52:26 +0300
-Message-Id: <20220705075226.359475-1-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 05 Jul 2022 01:21:16 -0700 (PDT)
+Date: Tue, 5 Jul 2022 10:21:13 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Ben Dooks <ben.dooks@codethink.co.uk>
+Cc: herbert@gondor.apana.org.au, hch@lst.de, heiko@sntech.de,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH] crypto: flush poison data
+Message-ID: <YsP0eekTthD4jWGV@Red>
+References: <20220701132735.1594822-1-clabbe@baylibre.com>
+ <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
 
-Using simple bash script it was discovered that not all CCU registers
-can be safely used for DFS, e.g.:
+Le Fri, Jul 01, 2022 at 02:35:41PM +0100, Ben Dooks a écrit :
+> On 01/07/2022 14:27, Corentin Labbe wrote:
+> > On my Allwinner D1 nezha, the sun8i-ce fail self-tests due to:
+> > alg: skcipher: cbc-des3-sun8i-ce encryption overran dst buffer on test vector 0
+> > 
+> > In fact the buffer is not overran by device but by the dma_map_single() operation.
+> > 
+> > To prevent any corruption of the poisoned data, simply flush them before
+> > giving the buffer to the tested driver.
+> > 
+> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
+> > ---
+> > 
+> > Hello
+> > 
+> > I put this patch as RFC, since this behavour happen only on non yet merged RISCV code.
+> > (Mostly riscv: implement Zicbom-based CMO instructions + the t-head variant)
+> > 
+> > Regards
+> > 
+> >   crypto/testmgr.c | 3 +++
+> >   1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/crypto/testmgr.c b/crypto/testmgr.c
+> > index c59bd9e07978..187163e2e593 100644
+> > --- a/crypto/testmgr.c
+> > +++ b/crypto/testmgr.c
+> > @@ -19,6 +19,7 @@
+> >   #include <crypto/aead.h>
+> >   #include <crypto/hash.h>
+> >   #include <crypto/skcipher.h>
+> > +#include <linux/cacheflush.h>
+> >   #include <linux/err.h>
+> >   #include <linux/fips.h>
+> >   #include <linux/module.h>
+> > @@ -205,6 +206,8 @@ static void testmgr_free_buf(char *buf[XBUFSIZE])
+> >   static inline void testmgr_poison(void *addr, size_t len)
+> >   {
+> >   	memset(addr, TESTMGR_POISON_BYTE, len);
+> > +	/* Be sure data is written to prevent corruption from some DMA sync */
+> > +	flush_icache_range((unsigned long)addr, (unsigned long)addr + len);
+> >   }
+> >   
+> >   /* Is the memory region still fully poisoned? */
+> 
+> why are you flushing the instruction cache and not the data-cache?
+> 
 
-    while true
-    do
-        devmem 0x3001030 4 0xb0003e02
-        devmem 0x3001030 4 0xb0001e02
-    done
+I just copied what did drivers/crypto/xilinx/zynqmp-sha.c.
+I tried to do flush_dcache_range() but it seems to not be implemented on riscV.
+And flush_dcache_page(virt_to_page(addr), len) produce a kernel panic.
 
-Script above changes the GPU_PLL multiplier register value. While the
-script is running, the user should interact with the user interface.
-
-Using this method the following results were obtained:
-
-| Register  | Name           | Bits  | Values | Result |
-| --        | --             | --    | --     | --     |
-| 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
-| 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
-| 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
-| 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
-
-DVFS started to work seamlessly once dividers which caused the
-glitches were set to fixed values.
-
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-
----
-
-Changelog:
-
-V2:
-- Drop changes related to mux
-- Drop frequency limiting
-- Add unused dividers initialization
-
-V3:
-- Adjust comments
----
- drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-index 2ddf0a0da526f..068d1a6b2ebf3 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-@@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk = {
- 	},
- };
- 
-+/* For GPU PLL, using an output divider for DFS causes system to fail */
- #define SUN50I_H6_PLL_GPU_REG		0x030
- static struct ccu_nkmp pll_gpu_clk = {
- 	.enable		= BIT(31),
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
--	.p		= _SUNXI_CCU_DIV(0, 1), /* output divider */
- 	.common		= {
- 		.reg		= 0x030,
- 		.hw.init	= CLK_HW_INIT("pll-gpu", "osc24M",
-@@ -294,9 +294,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk, "deinterlace",
- static SUNXI_CCU_GATE(bus_deinterlace_clk, "bus-deinterlace", "psi-ahb1-ahb2",
- 		      0x62c, BIT(0), 0);
- 
-+/* Keep GPU_CLK divider const to avoid DFS instability. */
- static const char * const gpu_parents[] = { "pll-gpu" };
--static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
--				       0, 3,	/* M */
-+static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
- 				       24, 1,	/* mux */
- 				       BIT(31),	/* gate */
- 				       CLK_SET_RATE_PARENT);
-@@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct platform_device *pdev)
- 	if (IS_ERR(reg))
- 		return PTR_ERR(reg);
- 
-+	/* Force PLL_GPU output divider bits to 0 */
-+	val = readl(reg + SUN50I_H6_PLL_GPU_REG);
-+	val &= ~BIT(0);
-+	writel(val, reg + SUN50I_H6_PLL_GPU_REG);
-+
-+	/* Force GPU_CLK divider bits to 0 */
-+	val = readl(reg + gpu_clk.common.reg);
-+	val &= ~GENMASK(3, 0);
-+	writel(val, reg + gpu_clk.common.reg);
-+
- 	/* Enable the lock bits on all PLLs */
- 	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
- 		val = readl(reg + pll_regs[i]);
--- 
-2.34.1
-
+Any advice on how to go further ?
