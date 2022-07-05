@@ -1,60 +1,83 @@
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com [209.85.166.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B1C06010
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 20:30:37 +0000 (UTC)
-Received: by mail-io1-f49.google.com with SMTP id k15so12253898iok.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 13:30:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=CxSIBZ2jt/pLFazAIwW59noEAO34Ns2wBgEVpI7Mfqw=;
-        b=oNOxZs1uoZe6wLzoPzOAVetjxMHmpxeNOnSbXME3HmuR6OgZZpOHW/wDjokfU8plr/
-         uKA5nLmqMxJDGieaWk/PZkL/8lFPu0kw0fA4a9IL+zlcaEBF7HGnTmp6RbZzNTHO36b4
-         e7Fx+Dvv/4d1N1CyiDmAe0i6cia/DTvhXsYzsk8oKdryeKl+gwu/vc1i3FBj3VGeWiQm
-         tSE8VO44vjirsepDowIb8tAlsyhTNTm2MCIJz+xlzk77EVeuHimFx1QNSmc+gXTAtk0H
-         NTsultfDED7+KL+N0ZULeipOcmbdjZZ8BKM0SANpVPE3DA8Q3SwG+TH4swOKLc7CILAj
-         VvvA==
-X-Gm-Message-State: AJIora9B4eHM4yMEFqgYIeC2cgyazkyqhDgpZuCfhUGk0jbCxISVIWxS
-	7uWZWdYPZiyFMW+T6QVjJA==
-X-Google-Smtp-Source: AGRyM1sE+zZ5ACiYVTRNPKT1VCnFOrF8wpzg7YmCt1PaLASTZMzUxCyInyFvTe6hDgajT/k+H4YxSg==
-X-Received: by 2002:a05:6638:22d3:b0:33c:a25e:e3ca with SMTP id j19-20020a05663822d300b0033ca25ee3camr22616206jat.191.1657053037104;
-        Tue, 05 Jul 2022 13:30:37 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id m7-20020a0566022e8700b0067885c5fd94sm3051749iow.29.2022.07.05.13.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 13:30:36 -0700 (PDT)
-Received: (nullmailer pid 2573162 invoked by uid 1000);
-	Tue, 05 Jul 2022 20:30:34 -0000
-Date: Tue, 5 Jul 2022 14:30:34 -0600
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>, linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, linux-sunxi@lists.linux.dev, Jernej Skrabec <jernej.skrabec@gmail.com>, devicetree@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH 3/3] dt-bindings: usb: generic-ohci: Add Allwinner D1
- compatible
-Message-ID: <20220705203034.GA2573110-robh@kernel.org>
-References: <20220702195249.54160-1-samuel@sholland.org>
- <20220702195249.54160-4-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A0F6010
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 20:58:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02891C341C7;
+	Tue,  5 Jul 2022 20:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657054719;
+	bh=IbmVrAKlWijkdQ5ebbEp6oCPsHF0O8OlYtTkQZBGwDc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p0tanYVReDJ/ZO3qbCCJdXZxLAzHEhYecLdl4cTFAJCcumA8WnuIaFxmiNgHWWlX/
+	 0JFqhmWdmHMe+HDdpr3C6BCxTbT/5YmDHDZAZQf/Hjcw5hoQfSSrELhxJqxOSFOLPr
+	 uhtzLIiogtmCA/1AOHYV67r9coXgD0Z1e0QVWSePBK7aebmuJLiwcSP12djKDnVlL2
+	 j4/wJCZtiBABHXUXiwrpfiYSqxTAS0chZhHgj99BA5BqwSjfgIpDwxHQhykMNPJ/Pz
+	 DQyCMU1ET+zFkrHJVwqSVGncwD2fwfOMyGnCRARSUXcTqZTnx2c/RThtv9gyKSXzWg
+	 2N3L6GOpZPd6Q==
+Date: Tue, 5 Jul 2022 21:58:32 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: lgirdwood@gmail.com, samuel@sholland.org, wens@csie.org,
+	robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org,
+	perex@perex.cz, arnaud.ferraris@collabora.com,
+	devicetree@vger.kernel.org, tiwai@suse.com,
+	linux-sunxi@lists.linux.dev, mripard@kernel.org,
+	alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org,
+	krzysztof.kozlowski+dt@linaro.org
+Subject: Re: Re: (subset) [PATCH v2 0/3] ASoC: sun50i-codec-analog: Internal
+ bias support
+Message-ID: <YsSl+JOmMpGLK1Xc@sirena.org.uk>
+References: <20220621035452.60272-1-samuel@sholland.org>
+ <165636279016.4185952.318954133536578049.b4-ty@kernel.org>
+ <3139722.aV6nBDHxoP@kista>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ZVk6fcVA+73A5IXw"
 Content-Disposition: inline
-In-Reply-To: <20220702195249.54160-4-samuel@sholland.org>
+In-Reply-To: <3139722.aV6nBDHxoP@kista>
+X-Cookie: Only God can make random selections.
 
-On Sat, 02 Jul 2022 14:52:49 -0500, Samuel Holland wrote:
-> The Allwinner D1 contains USB controllers which claim to be compatible
-> with the OHCI specification version 1.0a.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
->  Documentation/devicetree/bindings/usb/generic-ohci.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+--ZVk6fcVA+73A5IXw
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Jul 05, 2022 at 10:12:56PM +0200, Jernej =C5=A0krabec wrote:
+> Dne ponedeljek, 27. junij 2022 ob 22:46:30 CEST je Mark Brown napisal(a):
+> > On Mon, 20 Jun 2022 22:54:49 -0500, Samuel Holland wrote:
+
+> > [1/3] ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
+> >       commit: 24e0b04dd42be34ec4b18dc1a1e139d66eb572a3
+> > [2/3] ASoC: sun50i-codec-analog: Add support for internal bias
+> >       commit: 25ae1a04da0d32c22db0b018e5668129b91fa104
+
+> Can you also take patch 3? You picked bindings change, so it's easiest if=
+ DT=20
+> change goes through your tree too.
+
+I can if the sunxi maintainers like, but normally changes to the DTs go
+via the platform tree.
+
+--ZVk6fcVA+73A5IXw
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLEpfcACgkQJNaLcl1U
+h9DC5wf/RMKBqpKm/zHIhE2dv1fovXxq6NieGY7O8vL1kob6qMCw/aYUBbS1RVld
+5qIgyC21wmo4MSF2QJJRcO+4N1zqfwqBG8kxyBVPKBi7bZGlDRUmDjAbRQh3fhjM
+KE4Y83EURjzifgk1Vtk9LA/8X+XSiCkMD4m80bLHIzMChro6d8KMnwjc4MKY7lpu
+rgwmztfYJHGXI+6vdfegXc5V8+OaIF7FwyEltTZvbnF2RO57oFmh25t1IJEpoRe4
+RA4KhB2CPwYqP9sGZWVs9Xqx3NYxVJylXI5CDlxyHl4dDudj2PnpsV1PgNbca4Wj
+dP1Wfstm+Na+EPYOvd8/+4tNjjS0rw==
+=cr2k
+-----END PGP SIGNATURE-----
+
+--ZVk6fcVA+73A5IXw--
