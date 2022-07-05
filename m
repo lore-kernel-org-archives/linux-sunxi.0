@@ -1,49 +1,49 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DF22917
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 19:53:59 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id y8so10896169eda.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 12:53:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B806E6020
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 20:08:38 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id li14so1604000ejb.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 13:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oXMuNwTXUvJo0+POZWc/5imaFRdw3zoRSiX+En9QOVw=;
-        b=aCAO7obABtqBdXKJyThLKOxRy3Gkos3sCS85KBPppcd5OtU6W0mAv8wa3910L4g+wv
-         fVzmu9c7Lx8j8FyLigZXQNdR2GQHgxpkhaEKzuYcF0X4V3PODju071tD4JP/R8cA5Rzx
-         1w1//jejTVMZPH0Tj8JKWbCQ79VtMdgFKuWY86K7kkCZC6/DZMdfPlz1/b8wzw+9I6gi
-         Wy8c9PFMCRb3qBkqpLtc/qt87+Sdz+eRCVxRqrDay6SUsCmLAPmMBtKGiMzFdl7COXLj
-         cFeEZpcOIyfO4THHHDc2kD1wA0y2IGoVRMAuFGiD2bTw9Evr8M9iSafyZJ4IDAimmgME
-         PAVg==
+        bh=pIq36v8wbs/crdsFluPW/o6PUn4dC6+CyT1Mue/r6HA=;
+        b=Re0vVY2AKXjk6ch8pHfO7eao4ier7bJy84tNV8N6GCRRrhgwN/x20kkMDp1IpXTbGO
+         F+RJhCcSc1d3eOGS545ZeziJ2RGUB5rYLZHkptxK9NukD1lfjc5Gd8z8TGYt+G4fmWGJ
+         gHaDvuaMxe/wjwXO6MJ+ReoVMw7dW+YY2+szBr/8t+Tr371rYaAYtyCvLoRp8r1R8Vk7
+         j88rOH/wz5+/PbJ1eMXVTjIks/Ej0zFYJTR54Xfhr/gB4mcvukIwUhp/rJwQfXK71y3W
+         n+HffrFmF6Ey+8EXBIqBcFWCwgdDI/3gmb0ub6Yp2u2vPn2euVcrcRfs+fKDMrdAURbC
+         j/Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oXMuNwTXUvJo0+POZWc/5imaFRdw3zoRSiX+En9QOVw=;
-        b=fpZQ7fqGteF3duXDSxVtmUmv1gWCGKKt2lpkA0h2yiihqGOJhcwL6lQe63zzFiz9vR
-         NIpFogm+OVinDe+lKOrG/37K5sk2wiYTSgRexS5oH9Rb9gEvBci/gDpD8wgMmkv5P8M+
-         pvJDYhXpWGv9fKQMvxZcSuZr09uRgP2lMGRPT9vp+ZwL3yp1rVEcy5jKCvc8FoZBSzzS
-         H7mj9JUHrGUR4qzGgeIqQqt5Ufyro2GPX8QD5OG4QYix2dtYyWMWU16L+GWYEMW048Qu
-         eXMtL/FPnCheXcrNwmByKGKF0YntfQpXQW0QD/9cLzhXIKQvVTlNKNyobJYXj0JJFf5O
-         Hvhg==
-X-Gm-Message-State: AJIora93vsUjOIVM5myZxZFNbSLKIXJHd+P60Payp5VQXOQzb6sy1dLf
-	OGk+X4yA0ymHHRt8Sl6t4O8=
-X-Google-Smtp-Source: AGRyM1tkSzZ6D5ILvqab8zXo3yg+wHUqQ7K5bD/agyl++p9ronNEmGXjzgYTHCP0hrx20V7g2KJ6Cw==
-X-Received: by 2002:a05:6402:228f:b0:43a:896:e4f0 with SMTP id cw15-20020a056402228f00b0043a0896e4f0mr23879935edb.81.1657050837497;
-        Tue, 05 Jul 2022 12:53:57 -0700 (PDT)
+        bh=pIq36v8wbs/crdsFluPW/o6PUn4dC6+CyT1Mue/r6HA=;
+        b=ASCQFhao6sAP633QKJ/w6sTdQvQZPys5gmya4OT8mgynDbInvyX4WohSc5B/CoJPMI
+         2OYMLjwhkmW3K/C1zd+cBaFb81hDWAandYJzc6rw9H53sm5CqMqXUSBvBYdQzAK1YFTH
+         j0SPj8NhVignooKx5Xg28KRQXVb4vmM+5fjT9Aq/jfio1v/YCWrtfH1CY6KVagtYwr1a
+         BLNXbqCjf67ccUbWJnqnmJDg0FCIHhVpRvQ6bIVOBwxh9kNpIVk6eyJgzHg4SyZWKp0K
+         M3sXRuW0Tv9vqNrQ5yad6h/5sZzDAbRsYg00Q1EojXCLtPDqjFREoAVgnNMuZgELI/BN
+         kMZw==
+X-Gm-Message-State: AJIora+iKLRK3nwxcqYKFNt2RISDZfJFxIZre2qPTT2ZKKAYURrtQwqB
+	silIznr44zoPAZbAoL3gW+0=
+X-Google-Smtp-Source: AGRyM1tlIP9NshOHw7mRD90hBXUoaOn6/U4K+d/MSfl75EZRSgK1+016xvOMN3dBGdMuomvHtlViEQ==
+X-Received: by 2002:a17:907:7fa5:b0:726:935b:2faa with SMTP id qk37-20020a1709077fa500b00726935b2faamr36914434ejc.17.1657051717095;
+        Tue, 05 Jul 2022 13:08:37 -0700 (PDT)
 Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id a18-20020a50ff12000000b0043789187c1esm18863714edu.80.2022.07.05.12.53.56
+        by smtp.gmail.com with ESMTPSA id ds12-20020a0564021ccc00b00437d3e6c4c7sm13944635edb.53.2022.07.05.13.08.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 12:53:57 -0700 (PDT)
+        Tue, 05 Jul 2022 13:08:36 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org
-Subject: Re: Re: [PATCH 0/3] dt-bindings: usb: Document Allwinner D1 compatibles
-Date: Tue, 05 Jul 2022 21:53:55 +0200
-Message-ID: <1688790.QkHrqEjB74@kista>
-In-Reply-To: <44784082.fMDQidcC6G@kista>
-References: <20220702195249.54160-1-samuel@sholland.org> <44784082.fMDQidcC6G@kista>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: Re: [PATCH] soc: sunxi: mbus: Only build the driver on ARM/ARM64
+Date: Tue, 05 Jul 2022 22:08:35 +0200
+Message-ID: <2156179.72vocr9iq0@kista>
+In-Reply-To: <8122293.NyiUUSuA9g@jernej-laptop>
+References: <20220702032520.22129-1-samuel@sholland.org> <8122293.NyiUUSuA9g@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,30 +53,23 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne ponedeljek, 04. julij 2022 ob 22:35:24 CEST je Jernej =C5=A0krabec napi=
-sal(a):
-> Dne sobota, 02. julij 2022 ob 21:52:46 CEST je Samuel Holland napisal(a):
-> > These patches document the compatible strings for the USB controllers in
-> > the Allwinner D1 SoC, which require no special driver support.
+Dne sobota, 02. julij 2022 ob 21:12:04 CEST je Jernej =C5=A0krabec napisal(=
+a):
+> Dne sobota, 02. julij 2022 ob 05:25:20 CEST je Samuel Holland napisal(a):
+> > This driver exists as a workaround for old devicetrees which are missing
+> > interconnects properties, so it is only useful for those specific
+> > platforms, which all happen to be ARM or ARM64.
 > >=20
-> > Samuel Holland (3):
-> >   dt-bindings: usb: sunxi-musb: Add Allwinner D1 compatible
-> >   dt-bindings: usb: generic-ehci: Add Allwinner D1 compatible
-> >   dt-bindings: usb: generic-ohci: Add Allwinner D1 compatible
+> > This solves the issue that the driver fails to build on RISC-V, where
+> > PHYS_OFFSET is not defined.
+> >=20
+> > Signed-off-by: Samuel Holland <samuel@sholland.org>
 >=20
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Applied all three, thanks!
+Applied, thanks!
 =20
 Best regards,
 Jernej
-=20
-> >  .../devicetree/bindings/usb/allwinner,sun4i-a10-musb.yaml        | 1 +
-> >  Documentation/devicetree/bindings/usb/generic-ehci.yaml          | 1 +
-> >  Documentation/devicetree/bindings/usb/generic-ohci.yaml          | 1 +
-> >  3 files changed, 3 insertions(+)
-> >=20
-> > --
-> > 2.35.1
 
 
