@@ -1,141 +1,155 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCD37C
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 05:17:37 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 44B635C009A;
-	Tue,  5 Jul 2022 01:17:36 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 05 Jul 2022 01:17:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656998256; x=
-	1657084656; bh=l06hKa8FX6f2rc48K0AkRV8GNe0TgQght/OVF4ypUag=; b=V
-	U/kgryCJ6yVCm81ZS+aci+Bl4bPdaRa0dCkHHQFHPZo1e3Yg14Eiv7tQfGuZeKHS
-	q8wZPUqdlNgf2BzJ677d2k9nieISzpWkkASyirapBforOYn6KboTQb2jZT+rqsR3
-	3JV4Ifte7daxvxxHlqAWoFzG1XHxWXoZuP0vI4WfmCI23N0KcIfL6i5AidUBbFzB
-	u4xOSHklUkLEDx68ycfz8fa++amjoOdCQAjpUubkU468zeHkfGrNMVrpCJBl+Wtj
-	aCi734X4cXcvi5Vve6d4YdinMcGQinP75vPo7c/5KQRMPCT477HYaXJBSv5n22LQ
-	YtL6gxE+/hQJR0kbVIF9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656998256; x=
-	1657084656; bh=l06hKa8FX6f2rc48K0AkRV8GNe0TgQght/OVF4ypUag=; b=m
-	ZSqr8TEq53pUAE2WPhGKf8d4RTZ0tbR6UkPXL5/jEbdeJrhtfS9NcfKQ3XeiKx7x
-	rnK/D+osPhuhiJBPxatOucmsI70/jmL8NZqrinkzZONPR937B4k2WaZbZx2+LLdW
-	grtR4P84xKMRJ6j1qq2Oll45kTyjcTt2dp/oDnXb/BnCQTh+YVxBKX+dVBrhDFIm
-	UxyEt8bXF7ub8XH6woXRWwfi67VFm7b8FZW1zcNHnPMsb2D/nYvHCaiF6P9VHcd5
-	kg7LvDXILIcIzEq2B2mYDQ8Zn3VjU+rPug5YkQ+wcM4nOuxB42tFJpsYFcU+3aYN
-	vuMK+1A9oIx3CiA1km0VA==
-X-ME-Sender: <xms:b8nDYlokvJ97rwqdNGNj8mabFwVK-2Vv1r_OnUhmSjc4VQldzGFi6w>
-    <xme:b8nDYnpysuJaFUQT5HELXBk98__VU2Fy_VENxPGxlnXVEGqeBFE6_SVjQAtkBLoj9
-    I05X7gYsheYbN3uMQ>
-X-ME-Received: <xmr:b8nDYiOyrCSe_nzQMH4vJqfqzWGqTIR38Zbi5IffjNnH2Qns5uB8gWoebIfuXudmEJ9LugKC3ecBEzJ0Q0P2sC5VlwpN-DvlU9-oroxZ6Mc1RHqlH4Fduj0yoA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgledvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:b8nDYg63upzuEj5QuqmvXbJdJWEVDCoK1Z1cVnXFW67B5rxtOb8N7Q>
-    <xmx:b8nDYk5JIp0uKlRlqUFRRNlxfmrpD0fBjwSkiLnkq3SzgNBATwow5A>
-    <xmx:b8nDYojmQ277RnZBZY7oLtnKQOsi4ZeP49C582t0fSeRBoyZEZPi0Q>
-    <xmx:cMnDYjaP5YXuMF9o9sY_5_yoBa3rxd2Qd5_-Ytv_8BT1hpUmqy7bWQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 01:17:34 -0400 (EDT)
-Subject: Re: [PATCH v2 1/1] arm64: dts: allwinner: h6: Enable CPU opp tables
- for OrangePi One Plus
-To: Chukun Pan <amadeus@jmu.edu.cn>
-Cc: Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20220510153006.279233-1-amadeus@jmu.edu.cn>
- <20220510153006.279233-2-amadeus@jmu.edu.cn>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <93bbf82c-5868-e5ad-6325-7c4e6ba50907@sholland.org>
-Date: Tue, 5 Jul 2022 00:17:34 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0362917
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 07:52:41 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id y4so843447edc.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 00:52:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sVHg27tFoCVvZZIXk/W94pwI0Pu4JuMAc/g2EqD7c8I=;
+        b=CYr0HGCmIpU9tGWD2SZn/cCWxwGIhI4vSE7yNrw3jvX35pfLMdSuYkZn+aRhaqQrFV
+         wUiljZdTSAT1Qphe09CajjMcNNRnZoLQSqWUKN1dMnHSybQYHCj3DH3pcjcsCdGXP3h4
+         vRrOrUL/ZBeuYpPmACPFsXqQQ4JoJPDo39HZESMHB4X9FK5g8U1lc8GpTJodXm6wYMBm
+         WXKMtYKcvuL5bvqEQIkvfYmthZXs6zyeHrhVlUJgdud1+zK863uHkFMZ31enqw6dzC6E
+         Z7ct5el9AqIuEb3hN5YuEEBBqV/EDTCCDFAeCDmBJcQm1R3ghLtwg+wQ1sY+z6zxdQLl
+         bpcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sVHg27tFoCVvZZIXk/W94pwI0Pu4JuMAc/g2EqD7c8I=;
+        b=lVj145OrUJf5hkbqHuA/DYG9FESIbxhGi3iinyVMHuUYtvbTkdCjfepGQVZzcbUbmq
+         Jbp20YbpzpCKTaOXXyv7H+kPXmmg4U7b8NHUGlK8fA6alJ6U+72d9ydbBpXyVXaL3r7t
+         utkuDbVTpPpXEWctesYUz6gF8bCnwGSJzHnvzlZe7n/4QLIb+KK8Bc4ZOLEYjuAsOgDm
+         AV26F8uD60lT43sbmUnt0956qy+2KkeI8e8KiwoeFrqLmyowochiKafE9DCuIKv6I0o8
+         7qM9SoGklhpLDnvhyFwLlwhLaiAEthXjbeHTjHQytbj9I6K4/bklG6lnhlzqG++oNLo+
+         NVow==
+X-Gm-Message-State: AJIora/AO4glTQN85gijGrA/zvmPHEeZHYrTjn2lFMhFIsAVBs4sKoDi
+	HA2o8PJkCNzj2DY6WG4atVI=
+X-Google-Smtp-Source: AGRyM1vYJUa7eNnjIo+BOJ3SwH3f9c/JjmwfxHh5ctJZ51DjW1EJTxHpL1HA2YYhSpMihoKRCuag0g==
+X-Received: by 2002:a05:6402:4414:b0:434:f58c:ee2e with SMTP id y20-20020a056402441400b00434f58cee2emr43708933eda.362.1657007560160;
+        Tue, 05 Jul 2022 00:52:40 -0700 (PDT)
+Received: from roman-Latitude-3400.globallogic.com ([195.234.74.2])
+        by smtp.gmail.com with ESMTPSA id q17-20020a17090676d100b0072aac7446edsm4171579ejn.41.2022.07.05.00.52.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Jul 2022 00:52:39 -0700 (PDT)
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+To: samuel@sholland.org
+Cc: peron.clem@gmail.com,
+	mturquette@baylibre.com,
+	sboyd@kernel.org,
+	mripard@kernel.org,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	linux-clk@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
+Date: Tue,  5 Jul 2022 10:52:26 +0300
+Message-Id: <20220705075226.359475-1-r.stratiienko@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220510153006.279233-2-amadeus@jmu.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/10/22 10:30 AM, Chukun Pan wrote:
-> Enable CPU opp tables for OrangePi One Plus.
-> 
-> This needs to change the CPU regulator max voltage to fit
-> the OPP table.
-> 
-> Signed-off-by: Chukun Pan <amadeus@jmu.edu.cn>
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> index 92745128fcfe..7773c51438ce 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
+Using simple bash script it was discovered that not all CCU registers
+can be safely used for DFS, e.g.:
 
-Putting the changes in this file also applies them to the OrangePi Lite2 and
-OrangePi 3.
+    while true
+    do
+        devmem 0x3001030 4 0xb0003e02
+        devmem 0x3001030 4 0xb0001e02
+    done
 
-Did you test OrangePi Lite2? They both use the same PMIC with a similar
-configuration, so it may be safe to assume that what works on OrangePi One Plus
-also works there, but I am not sure.
+Script above changes the GPU_PLL multiplier register value. While the
+script is running, the user should interact with the user interface.
 
-OrangePi 3 already includes the OPP header and these changes, so it is safe but
-redundant.
+Using this method the following results were obtained:
 
-Either these changes need to be made in sun50i-h6-orangepi-one-plus.dts, or we
-need to remove the duplicate changes from sun50i-h6-orangepi-3.dts.
+| Register  | Name           | Bits  | Values | Result |
+| --        | --             | --    | --     | --     |
+| 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
+| 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
+| 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
+| 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
 
-Regards,
-Samuel
+DVFS started to work seamlessly once dividers which caused the
+glitches were set to fixed values.
 
-> @@ -5,6 +5,7 @@
->  /dts-v1/;
->  
->  #include "sun50i-h6.dtsi"
-> +#include "sun50i-h6-cpu-opp.dtsi"
->  
->  #include <dt-bindings/gpio/gpio.h>
->  
-> @@ -64,6 +65,10 @@ reg_vcc5v: vcc5v {
->  	};
->  };
->  
-> +&cpu0 {
-> +	cpu-supply = <&reg_dcdca>;
-> +};
-> +
->  &de {
->  	status = "okay";
->  };
-> @@ -208,7 +213,7 @@ reg_cldo3: cldo3 {
->  			reg_dcdca: dcdca {
->  				regulator-always-on;
->  				regulator-min-microvolt = <810000>;
-> -				regulator-max-microvolt = <1080000>;
-> +				regulator-max-microvolt = <1160000>;
->  				regulator-name = "vdd-cpu";
->  			};
->  
-> 
+Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+
+---
+
+Changelog:
+
+V2:
+- Drop changes related to mux
+- Drop frequency limiting
+- Add unused dividers initialization
+
+V3:
+- Adjust comments
+---
+ drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+index 2ddf0a0da526f..068d1a6b2ebf3 100644
+--- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
++++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+@@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk = {
+ 	},
+ };
+ 
++/* For GPU PLL, using an output divider for DFS causes system to fail */
+ #define SUN50I_H6_PLL_GPU_REG		0x030
+ static struct ccu_nkmp pll_gpu_clk = {
+ 	.enable		= BIT(31),
+ 	.lock		= BIT(28),
+ 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
+ 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
+-	.p		= _SUNXI_CCU_DIV(0, 1), /* output divider */
+ 	.common		= {
+ 		.reg		= 0x030,
+ 		.hw.init	= CLK_HW_INIT("pll-gpu", "osc24M",
+@@ -294,9 +294,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk, "deinterlace",
+ static SUNXI_CCU_GATE(bus_deinterlace_clk, "bus-deinterlace", "psi-ahb1-ahb2",
+ 		      0x62c, BIT(0), 0);
+ 
++/* Keep GPU_CLK divider const to avoid DFS instability. */
+ static const char * const gpu_parents[] = { "pll-gpu" };
+-static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
+-				       0, 3,	/* M */
++static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
+ 				       24, 1,	/* mux */
+ 				       BIT(31),	/* gate */
+ 				       CLK_SET_RATE_PARENT);
+@@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct platform_device *pdev)
+ 	if (IS_ERR(reg))
+ 		return PTR_ERR(reg);
+ 
++	/* Force PLL_GPU output divider bits to 0 */
++	val = readl(reg + SUN50I_H6_PLL_GPU_REG);
++	val &= ~BIT(0);
++	writel(val, reg + SUN50I_H6_PLL_GPU_REG);
++
++	/* Force GPU_CLK divider bits to 0 */
++	val = readl(reg + gpu_clk.common.reg);
++	val &= ~GENMASK(3, 0);
++	writel(val, reg + gpu_clk.common.reg);
++
+ 	/* Enable the lock bits on all PLLs */
+ 	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
+ 		val = readl(reg + pll_regs[i]);
+-- 
+2.34.1
 
