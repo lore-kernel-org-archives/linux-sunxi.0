@@ -1,113 +1,181 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BC872917
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 08:21:18 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id r81-20020a1c4454000000b003a0297a61ddso9241774wma.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 01:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wfqoXVK+YfH3izkn1ZIOXk7M9UJ/gOHJBL54VlMil1E=;
-        b=xUkNuB6sThZg8/L+TCfTHvgqmve+3X2XTscpzPB8Tdd347qOEdLnpGh+mxdoEih7j+
-         LWCL7OdboRbOwv0QIsWPxwLkyW60r6irie07Mr+8PkDgDPCIjcWUhcM+RlBKaOlzwpiL
-         I9oZqLzvc1EQwqvJkJygFu1TJthBVJpGZQo0/Xe8hUr8QpCPFrsHLL6F/ySU1L6krew6
-         KDXsXBtTB9BWPKMq81vsoGDHHMUFq1YO/k86zB55BlddKyc4GChaRZ8aTpAIERpcpLcE
-         1WndJcUi28Js1hwgiup05QRq/MZn02FUl9eX0YYVgkR7sZW3++szGVyA8qXWoGF0PzuR
-         st7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wfqoXVK+YfH3izkn1ZIOXk7M9UJ/gOHJBL54VlMil1E=;
-        b=CgzdejdfAleuR2ik5HloV35T4l5afZ0DXr7NQDndnHWDCwZ/HfwvZ0EUf/1TNeXFt5
-         XMRnUkDmmkFNHTBVKQ4hrtMNdLa3P93L/jjaoB/e3iqCoTMJH2+2XJqsXzPCH4CQrVv1
-         nyzTZpJYc3yGaVe6BC6SS1CZFhxUH/PVIQCyz4In8D2L4oPOzMOsddbh+xg3c44G9yjv
-         /45/+f2r4wUBe5GzDit3dAwSj/Shlbacn/7+YZ+dw4BZBkmNimZR+yhEYk5EHHMZLoq8
-         x5+ZCFeLO8s5dSCD53bTxm07ei0XkDqizJmtNSjE7MC9/pb7D6v8eNW2N9r3GWyLo7vX
-         29EQ==
-X-Gm-Message-State: AJIora+rz0gvE1SmcXPQRcDp9tMU9vg0F5iAMozI+kYCzTe1P75xvhzz
-	Faywf2vNHbB7E/D1Gj53gIiRCg==
-X-Google-Smtp-Source: AGRyM1tr6rhGjC+OjSy5qUIGsdXXqW+hoadeDxw4So3EyQixfHxlPvRR/BsUHVmT5zqFTafMEYVfUw==
-X-Received: by 2002:a05:600c:4ece:b0:3a1:7816:31a9 with SMTP id g14-20020a05600c4ece00b003a1781631a9mr30790692wmq.100.1657009277148;
-        Tue, 05 Jul 2022 01:21:17 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id m123-20020a1ca381000000b003942a244f47sm19512608wme.32.2022.07.05.01.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 01:21:16 -0700 (PDT)
-Date: Tue, 5 Jul 2022 10:21:13 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Ben Dooks <ben.dooks@codethink.co.uk>
-Cc: herbert@gondor.apana.org.au, hch@lst.de, heiko@sntech.de,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH] crypto: flush poison data
-Message-ID: <YsP0eekTthD4jWGV@Red>
-References: <20220701132735.1594822-1-clabbe@baylibre.com>
- <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550F32F34;
+	Tue,  5 Jul 2022 08:54:30 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:6610:ee84:2ba:7917])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id A66C7660180F;
+	Tue,  5 Jul 2022 09:54:27 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657011268;
+	bh=MBzgqHdSZRvB6rJVKH3yJTlp+CNTNNydwqek24ljDwA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=KFShzg/37zg5dX+J+wbUDr+8HqgJDwpWU1lm8ZbUYzHaOpSHpPHhUtLQjva+DIXYP
+	 XgClSI//+YY9gxBae/P2k5+VZAifG/pXyPxo7FRIdgijvXh5NFBY+QR1FJGGNthBYF
+	 a8WmeHrSl9ucL6+iasdqzm18nc+nS0VlMv3Ud4IrCR7/TBfD7B959ePq6TVT6IwOev
+	 Dmeh6Fc7FB9H0qWa4XCfUKWGf0t7S0VfdIrBe9r/hNzG6TGuf3ZyCcMsjW3GE6kHxb
+	 EpeZfE80wFqh0bU3w0aZCu/okfju9LkTJjMA6DiUyy9tfhHkXtkkWWFROY3YldXDXS
+	 lK01HPa7lhZPg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v10 00/17] Move HEVC stateless controls out of staging
+Date: Tue,  5 Jul 2022 10:54:03 +0200
+Message-Id: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
 
-Le Fri, Jul 01, 2022 at 02:35:41PM +0100, Ben Dooks a écrit :
-> On 01/07/2022 14:27, Corentin Labbe wrote:
-> > On my Allwinner D1 nezha, the sun8i-ce fail self-tests due to:
-> > alg: skcipher: cbc-des3-sun8i-ce encryption overran dst buffer on test vector 0
-> > 
-> > In fact the buffer is not overran by device but by the dma_map_single() operation.
-> > 
-> > To prevent any corruption of the poisoned data, simply flush them before
-> > giving the buffer to the tested driver.
-> > 
-> > Signed-off-by: Corentin Labbe <clabbe@baylibre.com>
-> > ---
-> > 
-> > Hello
-> > 
-> > I put this patch as RFC, since this behavour happen only on non yet merged RISCV code.
-> > (Mostly riscv: implement Zicbom-based CMO instructions + the t-head variant)
-> > 
-> > Regards
-> > 
-> >   crypto/testmgr.c | 3 +++
-> >   1 file changed, 3 insertions(+)
-> > 
-> > diff --git a/crypto/testmgr.c b/crypto/testmgr.c
-> > index c59bd9e07978..187163e2e593 100644
-> > --- a/crypto/testmgr.c
-> > +++ b/crypto/testmgr.c
-> > @@ -19,6 +19,7 @@
-> >   #include <crypto/aead.h>
-> >   #include <crypto/hash.h>
-> >   #include <crypto/skcipher.h>
-> > +#include <linux/cacheflush.h>
-> >   #include <linux/err.h>
-> >   #include <linux/fips.h>
-> >   #include <linux/module.h>
-> > @@ -205,6 +206,8 @@ static void testmgr_free_buf(char *buf[XBUFSIZE])
-> >   static inline void testmgr_poison(void *addr, size_t len)
-> >   {
-> >   	memset(addr, TESTMGR_POISON_BYTE, len);
-> > +	/* Be sure data is written to prevent corruption from some DMA sync */
-> > +	flush_icache_range((unsigned long)addr, (unsigned long)addr + len);
-> >   }
-> >   
-> >   /* Is the memory region still fully poisoned? */
-> 
-> why are you flushing the instruction cache and not the data-cache?
-> 
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-I just copied what did drivers/crypto/xilinx/zynqmp-sha.c.
-I tried to do flush_dcache_range() but it seems to not be implemented on riscV.
-And flush_dcache_page(virt_to_page(addr), len) produce a kernel panic.
+version 10:
+- Rebased on media_stage/master
+- Add Acked-by tag from Nicolas
+- Add Tested-by tag from Jernej
+- Fix typo in patch 14
 
-Any advice on how to go further ?
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V10
+
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V10
+
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
+
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
+
+version 8:
+- Same than v7 but rebased on media_stage/master
+
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
+
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
+
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c 
+
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 897 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1826 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+
+-- 
+2.32.0
+
