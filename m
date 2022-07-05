@@ -1,42 +1,42 @@
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com [209.85.217.51])
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E7FD7C
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 15:36:00 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id a184so3198238vsa.1
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 08:36:00 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB557C
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 15:41:59 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id a184so3217165vsa.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 08:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=aBsQ/FqzMQX8oz4i9xIq1hsZFN6R3v8LL4whKtQ9DcQ=;
-        b=2LO57y5cBoufIsVy5DZC97R15Htw3dkqeBBo3/uAEHulLpQVqo+gaAgm3X+SYfCJ1A
-         i70TNmBzdyaUlahCfEsUjfAnm0Xfa6dOO4K173zAlPzzXRxhdBjPYdTwjr4GR229eA9z
-         ZqU48AncYBjYbyMvAW+bT5PHkXrpcmf6ju3dKy84IaSpP/RfQD2JXqqfKlHkyP4gTbLZ
-         X6D0Sk0XHTmf/Ht4detKKDypL9zcdnTuK7WAXkoHEfI82BxoobIyxaBDVKlxEPEVjHOY
-         vxWS4XAP8xHjAI1ESXsq2rhl8i5UwbC62p25jTYdrfwueV0SbpHHPQscuw/HC2KO/vrl
-         wuhA==
+        bh=aOSlQwGHqHMk9jCb7FPi1YVKKmzo7IkyF9AxYI+HMwc=;
+        b=lEWYc0FJmy7xsUlF/XqFFqDpLao+GFseZKedmcnA0vAJuySut4DrLfOe39xKBsH1ri
+         cK/6c74WRGCa3t8DbnHiI6xGbwa1T7IpbQxrR1hwxOeWrVxeGu+CB2uMFg9dEGmkPUHX
+         Zpwm384wCGRHWdyWYJKrwfDI3MZbjFrMQfroX4F2tGKFRSCquCWo5/i4s9GisyD7zcnM
+         FVmZPZDlDOJqvuWlo1CSqfb+c5XpXSCMWnCeiQvSfs/LtubdJ40SLsSn5KiUB9vIdOet
+         IMMVfLLV/3InoUMEisC63P1q55YiKizx0nlc+GPDEBtLHxB2YMrasGSgGJVCVZZOO+mA
+         7xHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=aBsQ/FqzMQX8oz4i9xIq1hsZFN6R3v8LL4whKtQ9DcQ=;
-        b=HGU3fpLM5xMk4vCpc3tSUlQE/jLlLAu7E+UbkpZSQHzsCLQpnaAuulbm1P2YY+qc0o
-         q5LZuxfF0x0uqsRLu9doYxBZfKq5L2KrtiO7B2xqHzVdspjlq8mM8DrO2tBfHSllvgh4
-         u5enbQOaFpZxPC4+T5QhXiOHEP/Ks6yH+i998bPDRZv+TvxFhnmwy/l2k491ixvSOtB9
-         ldwT/TVxrq/OIr3emGOArupkyTrD+Vzlw+yK3jUEELq9RqIlSwwfirxi/CdG9KhqP7ps
-         PdWOjVjdCTjLpnEaHFFRUkq9hgl3T/U3X0OioKUAXA8ORn/B3DE7fEVgDb/hHCrVqF+d
-         qIUw==
-X-Gm-Message-State: AJIora8W588RYhXspkFXz0AHJC4mEtjqSuYELf2Eb6IgUy1/WWXZvSj5
-	dzzGFT1bKuXXBn96byIOOIyHow==
-X-Google-Smtp-Source: AGRyM1uuuaI3iiwiSQTbd5nuoRILw2C4fjLapUvr6uaXVbv9wRjXrC654OtbXCEwWI/1nI9vnkpqWw==
-X-Received: by 2002:a05:6102:3548:b0:354:34a1:e8f1 with SMTP id e8-20020a056102354800b0035434a1e8f1mr19773426vss.53.1657035359158;
-        Tue, 05 Jul 2022 08:35:59 -0700 (PDT)
+        bh=aOSlQwGHqHMk9jCb7FPi1YVKKmzo7IkyF9AxYI+HMwc=;
+        b=uZkmWWLgDYSuoywApuL2i4+DFV8ASSRwjJUKyUrOABi2W2K5nSjfyvYGtotc+VjaVO
+         QjaDx92DxdbBrHKJeBqdDMbp4BtAmFBCRvhbFJBLloCi4ym39uzZJUWkVPFVc7LIEeoa
+         hJzhplGUnnxle63zMmczbphAhRoxUKGVbGYNA8jIamuT8r2w/AEN4pR8mD3UK6eSd/hm
+         dGIelJSGEMTQI/1+zbugFQNy2gPN74b33dkkz+f3WTmJIdhTaWvA+V4RwHMLZeKZoqcg
+         3hSqvksAXqeQwPUzZAauSY2tBGCLX7XibGVZuM68y7hozal4UwSe1YQQUfKWIsmAmQap
+         kXoQ==
+X-Gm-Message-State: AJIora+htERCPMVWXNknods3cU95gfgOLd85moUTfNJk0ioklURl/9SH
+	heU3dNAjkndGrvPkecEyJ1+0wg==
+X-Google-Smtp-Source: AGRyM1um77GB4FnVI9AhmpdjQZMc0MTu0qqLKDXNb5ztuNGuTH/WhZIyDFVsPgWlx34rbCdsVJ0Dpw==
+X-Received: by 2002:a05:6102:3ec7:b0:356:cbdf:122d with SMTP id n7-20020a0561023ec700b00356cbdf122dmr5234167vsv.9.1657035718331;
+        Tue, 05 Jul 2022 08:41:58 -0700 (PDT)
 Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id g39-20020a05610215a700b003544e1b52cbsm3956388vsv.10.2022.07.05.08.35.55
+        by smtp.gmail.com with ESMTPSA id m11-20020a1fa30b000000b0036fbf614bb3sm6234190vke.19.2022.07.05.08.41.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 08:35:58 -0700 (PDT)
-Date: Tue, 5 Jul 2022 12:35:53 -0300
+        Tue, 05 Jul 2022 08:41:57 -0700 (PDT)
+Date: Tue, 5 Jul 2022 12:41:51 -0300
 From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
@@ -48,11 +48,11 @@ Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
 	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
 	kernel@collabora.com
-Subject: Re: [PATCH v10 09/17] media: uapi: HEVC: Define
- V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a dynamic array
-Message-ID: <YsRaWY2lM2270w9g@eze-laptop>
+Subject: Re: [PATCH v10 10/17] media: uapi: Move parsed HEVC pixel format out
+ of staging
+Message-ID: <YsRbv7VLqYFSNIJA@eze-laptop>
 References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
- <20220705085420.272912-10-benjamin.gaignard@collabora.com>
+ <20220705085420.272912-11-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -61,13 +61,10 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220705085420.272912-10-benjamin.gaignard@collabora.com>
+In-Reply-To: <20220705085420.272912-11-benjamin.gaignard@collabora.com>
 
-On Tue, Jul 05, 2022 at 10:54:12AM +0200, Benjamin Gaignard wrote:
-> Make explicit that V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control is
-> a dynamic array control type.
-> Some drivers may be able to receive multiple slices in one control
-> to improve decoding performance.
+On Tue, Jul 05, 2022 at 10:54:13AM +0200, Benjamin Gaignard wrote:
+> Move HEVC pixel format since we are ready to stabilize the uAPI
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
@@ -76,68 +73,53 @@ On Tue, Jul 05, 2022 at 10:54:12AM +0200, Benjamin Gaignard wrote:
 Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
 > ---
-> version 9:
-> - Add comment about current driver dynamic limitation to 1
-> - Remove unused define
+>  Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 5 -----
+>  include/media/hevc-ctrls.h                                  | 3 ---
+>  include/uapi/linux/videodev2.h                              | 1 +
+>  3 files changed, 1 insertion(+), 8 deletions(-)
 > 
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 2 ++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                 | 1 +
->  drivers/staging/media/sunxi/cedrus/cedrus.c               | 2 ++
->  include/media/hevc-ctrls.h                                | 3 +++
->  4 files changed, 8 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index eeb60c9a1af4..db0df7d9f27c 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -2986,6 +2986,8 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      These bitstream parameters are defined according to :ref:`hevc`.
->      They are described in section 7.4.7 "General slice segment header
->      semantics" of the specification.
-> +    This control is a dynamically sized 1-dimensional array,
-> +    V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index 967fc803ef94..c352d91a73d8 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -215,11 +215,6 @@ Compressed Formats
+>  	See the :ref:`associated Codec Control IDs <v4l2-mpeg-hevc>`.
+>  	Buffers associated with this pixel format must contain the appropriate
+>  	number of macroblocks to decode a full corresponding frame.
+> -
+> -	.. note::
+> -
+> -	   This format is not yet part of the public kernel API and it
+> -	   is expected to change.
+>      * .. _V4L2-PIX-FMT-FWHT:
 >  
->  .. c:type:: v4l2_ctrl_hevc_slice_params
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 9f55503cd3d6..d594efbcbb93 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1510,6 +1510,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		break;
->  	case V4L2_CID_STATELESS_HEVC_SLICE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->  		break;
->  	case V4L2_CID_STATELESS_HEVC_SCALING_MATRIX:
->  		*type = V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> index 87be975a72b6..b12219123a6b 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -178,6 +178,8 @@ static const struct cedrus_control cedrus_controls[] = {
->  	{
->  		.cfg = {
->  			.id	= V4L2_CID_STATELESS_HEVC_SLICE_PARAMS,
-> +			/* The driver can only handle 1 entry per slice for now */
-> +			.dims   = { 1 },
->  		},
->  		.codec		= CEDRUS_CODEC_H265,
->  	},
+>        - ``V4L2_PIX_FMT_FWHT``
 > diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index 57053cfa099b..341fc795d550 100644
+> index 341fc795d550..a372c184689e 100644
 > --- a/include/media/hevc-ctrls.h
 > +++ b/include/media/hevc-ctrls.h
-> @@ -314,6 +314,9 @@ struct v4l2_hevc_pred_weight_table {
->  /**
->   * struct v4l2_ctrl_hevc_slice_params - HEVC slice parameters
->   *
-> + * This control is a dynamically sized 1-dimensional array,
-> + * V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag must be set when using it.
-> + *
->   * @bit_size: size (in bits) of the current slice data
->   * @data_bit_offset: offset (in bits) to the video data in the current slice data
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+> @@ -13,9 +13,6 @@
+>  
+>  #include <linux/videodev2.h>
+>  
+> -/* The pixel format isn't stable at the moment and will likely be renamed. */
+> -#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+> -
+>  #define V4L2_CID_STATELESS_HEVC_SPS		(V4L2_CID_CODEC_BASE + 1008)
+>  #define V4L2_CID_STATELESS_HEVC_PPS		(V4L2_CID_CODEC_BASE + 1009)
+>  #define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS	(V4L2_CID_CODEC_BASE + 1010)
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 9018aa984db3..37f9f23a67fe 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -712,6 +712,7 @@ struct v4l2_pix_format {
+>  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+>  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
+>  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+> +#define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC parsed slices */
+>  
+>  /*  Vendor-specific formats   */
+>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
 > -- 
 > 2.32.0
 > 
