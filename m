@@ -1,75 +1,110 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B806E6020
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 20:08:38 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id li14so1604000ejb.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 13:08:38 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6012F39
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 20:12:59 +0000 (UTC)
+Received: by mail-ej1-f42.google.com with SMTP id u12so23506952eja.8
+        for <linux-sunxi@lists.linux.dev>; Tue, 05 Jul 2022 13:12:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=pIq36v8wbs/crdsFluPW/o6PUn4dC6+CyT1Mue/r6HA=;
-        b=Re0vVY2AKXjk6ch8pHfO7eao4ier7bJy84tNV8N6GCRRrhgwN/x20kkMDp1IpXTbGO
-         F+RJhCcSc1d3eOGS545ZeziJ2RGUB5rYLZHkptxK9NukD1lfjc5Gd8z8TGYt+G4fmWGJ
-         gHaDvuaMxe/wjwXO6MJ+ReoVMw7dW+YY2+szBr/8t+Tr371rYaAYtyCvLoRp8r1R8Vk7
-         j88rOH/wz5+/PbJ1eMXVTjIks/Ej0zFYJTR54Xfhr/gB4mcvukIwUhp/rJwQfXK71y3W
-         n+HffrFmF6Ey+8EXBIqBcFWCwgdDI/3gmb0ub6Yp2u2vPn2euVcrcRfs+fKDMrdAURbC
-         j/Hw==
+        bh=+4Rl23w/icZA1D45EvjNhKFOa2QN4S2mMkfghKH9T+w=;
+        b=bokDxqmIAvNaE10/oTxRc+xeNaW52DY859KEXGdIQ9Miw2HatV/FJbH6I7G02PcPjN
+         7XwKg8jK75qmfy0QBk8fJElDaseFAI1bsY0LxjeTlulhAp/twfDu95KTQ3pu+TFOkMGj
+         /Ey7O2V4frtSaYtNZbW2ewMwfLK830sAScJlVSkGZp0bH3fkSQ/q2F8KeXDDXqkP+J20
+         ggU0k8wL69pt8ReHZy65h6gJFNQrIaGWHRy/EhBD6OC74KPqDwh9ePQYLtbbIs1KRa//
+         ZpmD608eNgmeyKKj1DB8bj2H4ryQumZE+ChuLFkVOcI9m5w+842X1WL96yHhuBk1jfWO
+         dc9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=pIq36v8wbs/crdsFluPW/o6PUn4dC6+CyT1Mue/r6HA=;
-        b=ASCQFhao6sAP633QKJ/w6sTdQvQZPys5gmya4OT8mgynDbInvyX4WohSc5B/CoJPMI
-         2OYMLjwhkmW3K/C1zd+cBaFb81hDWAandYJzc6rw9H53sm5CqMqXUSBvBYdQzAK1YFTH
-         j0SPj8NhVignooKx5Xg28KRQXVb4vmM+5fjT9Aq/jfio1v/YCWrtfH1CY6KVagtYwr1a
-         BLNXbqCjf67ccUbWJnqnmJDg0FCIHhVpRvQ6bIVOBwxh9kNpIVk6eyJgzHg4SyZWKp0K
-         M3sXRuW0Tv9vqNrQ5yad6h/5sZzDAbRsYg00Q1EojXCLtPDqjFREoAVgnNMuZgELI/BN
-         kMZw==
-X-Gm-Message-State: AJIora+iKLRK3nwxcqYKFNt2RISDZfJFxIZre2qPTT2ZKKAYURrtQwqB
-	silIznr44zoPAZbAoL3gW+0=
-X-Google-Smtp-Source: AGRyM1tlIP9NshOHw7mRD90hBXUoaOn6/U4K+d/MSfl75EZRSgK1+016xvOMN3dBGdMuomvHtlViEQ==
-X-Received: by 2002:a17:907:7fa5:b0:726:935b:2faa with SMTP id qk37-20020a1709077fa500b00726935b2faamr36914434ejc.17.1657051717095;
-        Tue, 05 Jul 2022 13:08:37 -0700 (PDT)
+        bh=+4Rl23w/icZA1D45EvjNhKFOa2QN4S2mMkfghKH9T+w=;
+        b=ddAwqwt9VaadfMgI2SzqXqI9oPRRr5N4Xn67ggjl+RUNoFFxd5BW05xph/+mG6VYDR
+         fzPXy7DyGT403rfm6ycLbbsLBLG5+E59RZYdGrC03jrs1LsehvGPxf3SWM7vAfBqb2hz
+         75PA4DJ++QTFEWM0gDfIm9ZeWuWDaQFYGB3+HDyV515hC1I3uvudrgOKK4+GG22qUNM5
+         q0AAIyE+ZlstK0fSbSXgTP6WCjJo9U8Lo6UmynpwgB1XSqT8wG+NKhAlmCDsRtuxWCY7
+         cAZj3uZZgiPqttW0z1ELI8JqiOqba34O8sDtPZkinCkfT0GNk7UG2GCYkmmyDLxIcI+o
+         nD9Q==
+X-Gm-Message-State: AJIora/gAp4kwpx/HmyejiiRxxEJ9Hjkq1/Jr0+k9AYSImcgCcLihZ7x
+	INchnrEO40+Em0ZtfcCrdsw=
+X-Google-Smtp-Source: AGRyM1uxDY4QHvPbRs9gRTse8HNXy2XC7pEEwYoci795EVH18hYFZx0atz3AG4HsgJEPfforNDUfxA==
+X-Received: by 2002:a17:907:1623:b0:722:ef86:e25c with SMTP id hb35-20020a170907162300b00722ef86e25cmr36283139ejc.461.1657051977854;
+        Tue, 05 Jul 2022 13:12:57 -0700 (PDT)
 Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id ds12-20020a0564021ccc00b00437d3e6c4c7sm13944635edb.53.2022.07.05.13.08.36
+        by smtp.gmail.com with ESMTPSA id t25-20020a056402241900b0043589eba83bsm13832022eda.58.2022.07.05.13.12.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Jul 2022 13:08:36 -0700 (PDT)
+        Tue, 05 Jul 2022 13:12:57 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: Re: [PATCH] soc: sunxi: mbus: Only build the driver on ARM/ARM64
-Date: Tue, 05 Jul 2022 22:08:35 +0200
-Message-ID: <2156179.72vocr9iq0@kista>
-In-Reply-To: <8122293.NyiUUSuA9g@jernej-laptop>
-References: <20220702032520.22129-1-samuel@sholland.org> <8122293.NyiUUSuA9g@jernej-laptop>
+To: lgirdwood@gmail.com, samuel@sholland.org, wens@csie.org, Mark Brown <broonie@kernel.org>
+Cc: robh+dt@kernel.org, linux-arm-kernel@lists.infradead.org, perex@perex.cz, arnaud.ferraris@collabora.com, devicetree@vger.kernel.org, tiwai@suse.com, linux-sunxi@lists.linux.dev, mripard@kernel.org, alsa-devel@alsa-project.org, linux-kernel@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
+Subject: Re: Re: (subset) [PATCH v2 0/3] ASoC: sun50i-codec-analog: Internal bias support
+Date: Tue, 05 Jul 2022 22:12:56 +0200
+Message-ID: <3139722.aV6nBDHxoP@kista>
+In-Reply-To: <165636279016.4185952.318954133536578049.b4-ty@kernel.org>
+References: <20220621035452.60272-1-samuel@sholland.org> <165636279016.4185952.318954133536578049.b4-ty@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Dne sobota, 02. julij 2022 ob 21:12:04 CEST je Jernej =C5=A0krabec napisal(=
-a):
-> Dne sobota, 02. julij 2022 ob 05:25:20 CEST je Samuel Holland napisal(a):
-> > This driver exists as a workaround for old devicetrees which are missing
-> > interconnects properties, so it is only useful for those specific
-> > platforms, which all happen to be ARM or ARM64.
-> >=20
-> > This solves the issue that the driver fails to build on RISC-V, where
-> > PHYS_OFFSET is not defined.
-> >=20
-> > Signed-off-by: Samuel Holland <samuel@sholland.org>
->=20
-> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi Mark!
 
-Applied, thanks!
-=20
+Dne ponedeljek, 27. junij 2022 ob 22:46:30 CEST je Mark Brown napisal(a):
+> On Mon, 20 Jun 2022 22:54:49 -0500, Samuel Holland wrote:
+> > This series adds support for enabling the codec's internal microphone
+> > bias, which is needed on at least some versions of the PinePhone.
+> > 
+> > Changes in v2:
+> >  - Move register update from component probe to device probe
+> > 
+> > Arnaud Ferraris (2):
+> >   ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
+> >   ASoC: sun50i-codec-analog: Add support for internal bias
+> > 
+> > [...]
+> 
+> Applied to
+> 
+>    https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+> for-next
+> 
+> Thanks!
+> 
+> [1/3] ASoC: dt-bindings: sun50i-codec: Add binding for internal bias
+>       commit: 24e0b04dd42be34ec4b18dc1a1e139d66eb572a3
+> [2/3] ASoC: sun50i-codec-analog: Add support for internal bias
+>       commit: 25ae1a04da0d32c22db0b018e5668129b91fa104
+
+Can you also take patch 3? You picked bindings change, so it's easiest if DT 
+change goes through your tree too.
+
 Best regards,
 Jernej
+
+> 
+> All being well this means that it will be integrated into the linux-next
+> tree (usually sometime in the next 24 hours) and sent to Linus during
+> the next merge window (or sooner if it is a bug fix), however if
+> problems are discovered then the patch may be dropped or reverted.
+> 
+> You may get further e-mails resulting from automated or manual testing
+> and review of the tree, please engage with people reporting problems and
+> send followup patches addressing any issues that are reported if needed.
+> 
+> If any updates are required or you are submitting further changes they
+> should be sent as incremental updates against current git, existing
+> patches will not be replaced.
+> 
+> Please add any relevant lists and maintainers to the CCs when replying
+> to this mail.
+> 
+> Thanks,
+> Mark
 
 
