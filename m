@@ -1,70 +1,69 @@
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CFD15DA
-	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 04:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FA017D0
+	for <linux-sunxi@lists.linux.dev>; Tue,  5 Jul 2022 04:15:30 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id EB76C5C007A;
-	Tue,  5 Jul 2022 00:05:33 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id F3B895C0111;
+	Tue,  5 Jul 2022 00:15:29 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 05 Jul 2022 00:05:33 -0400
+  by compute5.internal (MEProxy); Tue, 05 Jul 2022 00:15:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656993933; x=
-	1657080333; bh=qhjLmKoG8hTiptIGjmMn/wFrRLHB9qodKyUm0n1oZog=; b=S
-	Pz2MI7ZjHtpd4TStxeQDoUcITpTFrMRN3QFNZrPFZLrGJYwCHnbqe6WsoqVXJ8/o
-	+iIEf92Dkuk8TqOkvZ29UcYYn+QDyxXyHgLZMorkveEdAttq94asK8zboUQCsSNJ
-	/uNBgl3MkZYckqDtMbXUMc8edQmGqjnhbyqZt8CVp8lJ47fX3fP+xavBGm4znTcY
-	r3lPGYfcKgIRr92NK5pzfGIZIr/G9iTGcijyAb5hrPiV1SzvCfkwSWSg/MlXBVaI
-	AxGLsbZLcog3tQ1thyqzJMZ+J1mQjcQ3yFrYUnJ/dPfdjT1ZPR9Pbv5kzSbTa9BU
-	lFPFuvW2mGp809QkBIIcQ==
+	:reply-to:sender:subject:subject:to:to; s=fm3; t=1656994529; x=
+	1657080929; bh=OIlVoKUqRNS0JTsxX6oVgzDx5cA0cwwSWzjKLk9Gqu8=; b=g
+	TXNup1J2DVYM+LHokDyJZ6P1aEkHt1B34MdYhlafXUt3WeqzimYUUNBvy3JyA+xr
+	HcVffJ584kam5A9ZeO979zof0fLADzS8GlJinh1Nx5NHkeqR79RHvGBztbADYUvO
+	lsMlQANEVZTdPwW25mL490qnbTbU33Q+Hty0MtrlI74LXo6vaEReGQXTdPyHWP4U
+	YtPZKiU3tM8InqjGQlNR4nTElcC34EAQCVgyEDSupqhP4xns4UDxV1/azGS6uPHs
+	/A0BmyABMP9n5efdTxjswN9z5SYdRLtKI8bXfAOyk5oXvFwW179j92ZqcNggDvpU
+	1Ktl7l9nSeD3Wc6eG7Ltw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656993933; x=
-	1657080333; bh=qhjLmKoG8hTiptIGjmMn/wFrRLHB9qodKyUm0n1oZog=; b=u
-	aszrMytuhV3J9vLkPVQExTkpZuD81j8LSEaxUjLuuHGcBgrodPNtH/qKgbPxERm/
-	deaTB3QziIXKEgOzxDjZ4mRHYjbU5jlghE2hUyniRUPCwyuBtNyM4awqR4I/Llwa
-	HCoLzqapI4GRQgqJ4DhNhF+l/Bt7KXvpXrhr1paMj3apP4fQzEndjCeZOAIFIDlj
-	jDJ/grkaEz9f4BAKkGD+WNTQ8aEXZdKl4b0uIQbomt+1pLdXrkoNXT6Qatxx0noV
-	4vX0yufnBrJz4nS9I4I0cpc3jg4aAoaywIVGPsC3/VTOrIXgAGUmoKQPgcr/UvF0
-	vALLrcdQgW8/stYzdnMiw==
-X-ME-Sender: <xms:jbjDYrwPbz8dgyOZmZxWNkBVw59a9WYPAZV6_0Pxn4z-mSxv-U4MZw>
-    <xme:jbjDYjS3spsjJ6YwLi04DBsUFLKfR1jyO1FELCts98cKonh10DTS-AHcElFZGY-6j
-    e9_ErMXBisaatVehg>
-X-ME-Received: <xmr:jbjDYlURAc_qHbmIO0PIPJHYxjzEgIVbIb3iTpz4SEFesLLno9BG0I5EO-SiEUWBiAc2RNIzMNGVrp6Tta5DE9SVpB1N3P0UO1CcH4cgk8y5yzz6RsetwDmsgg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgjeekucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1656994529; x=
+	1657080929; bh=OIlVoKUqRNS0JTsxX6oVgzDx5cA0cwwSWzjKLk9Gqu8=; b=t
+	p7tw4JiMTSiOf6C3otxsGCaxjs7ftJgrme0lNuKkgrqSs9u3088JJJllKEnLl1wb
+	cA9pBITUYtzGORzLa3ym6ooonaEd0XsasQ9vyXpvb/w7oj6aGdgiH6KpRAjHHcVu
+	/M6KB8alO84zhDpbKUQyUsO7giB6SmoCvxRS9tvv0dQFpeOz+8WVbEF1xL5sIpfZ
+	iaTmme5QFj+oxVXcozsfa3+dlKRvpaC9P+k1CIUORWxU38TdP1UCjvKR05W+pajM
+	YtNNBAdH/KGBdkGGhdxEMnrPiG+0geR7akHn5lqZoLuDe7F7aQIpMCPtWEMrwczQ
+	p0bWcgGTBdaeki1YtsLoA==
+X-ME-Sender: <xms:4brDYiq_omisC6DyH1XIQwHE-Xl2AZqKMl3YDinkyHXNWgAcS9Jj0w>
+    <xme:4brDYgo9ubMYp2GtSrbbn2ONbWWBO8_7QDjT4AcGVW3ij7WK_21HAl2BwbViJGhRD
+    BVvb4qDiMENfZlvrg>
+X-ME-Received: <xmr:4brDYnNRTtvPXs_eYdVNbk46DGO_fgtynO-kWtLwWzLKizHW8AT7sQdDkXFFnIUn6SH-Qw2e6JNpyLB5SjouXFu6Bp8toOoeUdRjpvusMFlQoEVo-fJfjUbo7g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeitddgkedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedtvddvudelveeuleegveduiefggeegheffgefhjeduhfeigfei
-    vedthfduleegueenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:jbjDYlgrRg7KS4tfU7fmODDmytf0xygjI2xTjd8EPcy6_Es6KJe53w>
-    <xmx:jbjDYtBINaBzB5wCWfUkNNk0C-aDmcTUw5EB4Cehg532BKFYpxTqqg>
-    <xmx:jbjDYuJ8wRavw-nV016LMwHQ105dFXoVNaw2Tz5O83A0O5C-oPGfCw>
-    <xmx:jbjDYhvSHO30_1RdLWwkRLmSaR61XcExcIVpR76ZFq92Q10HUNY_Ew>
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:4brDYh5sbdKmHAVNYy2kPGV7Y9RQj_ryvJPVgijGVgFJ8r8ByXUFPw>
+    <xmx:4brDYh7BpdN5gawI4trXwnhKSI1DCSs_cNLQXVol3fKEKcH5FIr09g>
+    <xmx:4brDYhjKopUlfywhbYs_5Q8FKWVGRPoskSOAS438KpnYUnRUohIifg>
+    <xmx:4brDYuzWllqCLUpipgx0pNCseMZpEFknH_GcTh_ygAYDZtRap2_O0g>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 00:05:32 -0400 (EDT)
+ 5 Jul 2022 00:15:29 -0400 (EDT)
 Subject: Re: [PATCH v4 0/2] ARM: sun8i-r40: Enable usb otg support
-To: Evgeny Boger <boger@wirenboard.com>, qianfan <qianfanguijin@163.com>
-Cc: andre.przywara@arm.com, devicetree@vger.kernel.org,
- jernej.skrabec@gmail.com, krzysztof.kozlowski+dt@linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev, robh+dt@kernel.org, wens@csie.org
-References: <264cb004-677a-13df-cc68-676ef3c2e7d8@163.com>
- <ec5f7fe8-d47d-ce7f-0e0a-2bdf41a88ba2@wirenboard.com>
- <0936de49-a349-8fd4-2598-2a8995b01c86@163.com>
- <21a659db-f64c-fbea-b3e7-ccc27aec29a0@wirenboard.com>
+To: Icenowy Zheng <icenowy@aosc.io>, qianfanguijin@163.com
+Cc: linux-sunxi@lists.linux.dev, Andre Przywara <andre.przywara@arm.com>,
+ Evgeny Boger <boger@wirenboard.com>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20220518101706.26869-1-qianfanguijin@163.com>
+ <a50307f826e8e5f4218bd2bfde23add8a26af0dc.camel@aosc.io>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <d7059a5c-ba44-2d4d-b594-d7fa37fe0959@sholland.org>
-Date: Mon, 4 Jul 2022 23:05:32 -0500
+Message-ID: <70bad34b-b72f-9719-185c-c79b46a4b704@sholland.org>
+Date: Mon, 4 Jul 2022 23:15:28 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -73,115 +72,35 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <21a659db-f64c-fbea-b3e7-ccc27aec29a0@wirenboard.com>
+In-Reply-To: <a50307f826e8e5f4218bd2bfde23add8a26af0dc.camel@aosc.io>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Hi Evgeny, Qianfan,
-
-On 5/21/22 6:10 AM, Evgeny Boger wrote:
-> my point is not that your patch is good enough.
+On 5/23/22 8:11 AM, Icenowy Zheng wrote:
+> 在 2022-05-18星期三的 18:17 +0800，qianfanguijin@163.com写道：
+>> From: qianfan Zhao <qianfanguijin@163.com>
+>>
+>> History:
+>> =======
+>>
+>> v4(2022-05-18):
+>> - Enable both musb and OHCI/EHCI support
+>>
+>> Tests:
+>> ======
+>>
+>> All test cases were tested on bananapi-m2-ultra.
+>>
+>> 1. USB DEVICE(ping test)
+>>
+>> Enable usb gadget rndis network, ping m2u on ubuntu host:
 > 
-> My point is that it would be very difficult to maintain backward compatibility
-> with this device tree once proper driver support is implemented.
+> Interestingly musb previous totally fail when I initially work on R40.
+> Maybe some phy-sun4i-usb patches fixed it by accident?
 
-Any solution to the problems below will have to maintain backward compatibility
-with the current bindings anyway, for all of the other SoCs that are affected.
-It is no more difficult to apply that same solution to R40. So I do not see a
-benefit to delaying this series.
+I tested this series on my BPi M2U, and both host and device mode work fine. So
+indeed whatever bug was there must have been fixed. Possibly it was e6f32efb1b12
+("phy: sun4i-usb: Make sure to disable PHY0 passby for peripheral mode").
 
-> On 5/21/22 07:26, qianfan wrote:
->>
->>
->> 在 2022/5/20 4:54, Evgeny Boger 写道:
->>> Hi qianfan,
->>>
->>> As Allwinner A40i user, let me first thank you for your effort for making
->>> better upstream support for R40!
->>>
->>> However, I would strongly suggest *not* to add USB support to one more
->>> Allwinner SoC in this particular way.
->>> The problem is, this approach consists of a number of carefully crafted hacks
->>> in device tree to make current drivers work on Allwinner hardware without
->>> modification to the drivers.
->>>
->>> a few examples:
->>>
->>> 1) please notice how ohci0 and ehci0 nodes do not contain reference to usb
->>> phy. It is done intentionally, otherwise EHCI will reset musb mode.
->>> Of course omitting phy reference here is also completely breaking power
->>> cycling in case of usb error and otherwise messes with a power management.
->>>
->>> 2) one must always enable ohci, ehci and usb_otg nodes at the same time. If
->>> one forgets to enable ohci/ehci nodes while enabling usb_otg node, the system
->>> will silently fail to work as USB host.
->>>
->>> 3) For host-only mode we still have to enable usb_otg node despite no role
->>> switching is needed. That's because phy reference is missing in ehci/ohci, so
->>> the ehci/ohci driver won't enable the PHY.
->>> Also I might be wrong, but I think phy won't be routed to ehci/ohci
->>> controllers is this case.
->>>
->>> 4) musb host controller is initialized and present to hardware though never
->>> actually used
->>>
->>> To summarize, not only the resulting device tree is not describing the
->>> hardware properly, it is creating device tree configuration which will be
->>> very hard to support in future, once proper driver support is in place.
-
-All of these issues can be fixed either with no DT changes, or with only
-backward-compatible changes like adding PHY references.
-
->> PHY setting is did in MUSB driver, so we need enable MUSB regardless of host
->> mode.
->>
->> I know your's point, OHCI/EHCI need do more works to init USBPHY, it shoule be
->> able to work
->> in dependently, but I don't have the ability to deal with these things right
->> now, I need
->> learn more things about OHCI/EHCI, that's a long-term goal.
->>
->> So now I need to make the whole usb work and do some tests as much as possible,
->> hoping to merge this patch into master. Some other optimizations can be made
->> later.
-
-I am fine with merging this series, with the existing binding, and without
-increasing the scope of the changes. It is still an improvement over the current
-situation.
-
-Regards,
-Samuel
-
->> Thanks for yours guide.
->>>
->>>
->>> At Wiren Board kernel tree we tried to untangle this issue [1-6].
->>> Unfortunately I didn't have time to prepare it for kernel submission yet, but
->>> I think I better submit it as RFC to get a feedback from you and others.
->>>
->>>
->>> [1]
->>> https://github.com/wirenboard/linux/commit/359abbbd86ddff4d3c61179c882c286de32bb089
->>>
->>> [2]
->>> https://github.com/wirenboard/linux/commit/6327f9d7972c21b229fb83457fdde643b31553f9
->>>
->>> [3]
->>> https://github.com/wirenboard/linux/commit/f01f4c66758bde460a4d8c5b54ecee3b585c0232
->>>
->>> [4]
->>> https://github.com/wirenboard/linux/commit/c27598ad601e5a46f624b73412a531d6f1f63d37
->>>
->>> [5]
->>> https://github.com/wirenboard/linux/commit/5796d6eebb86b32a3751b2038b63af46f94954b3
->>>
->>> [6]
->>> https://github.com/wirenboard/linux/commit/0928a675d875f9c2849fd3a9888f718bbb673bda
->>>
->>>
->>>
->>
-> 
-> 
-
+Tested-by: Samuel Holland <samuel@sholland.org>
