@@ -1,164 +1,78 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0525420EC
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Jul 2022 03:55:58 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id CB602320094E;
-	Tue,  5 Jul 2022 23:55:56 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 05 Jul 2022 23:55:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm3; t=1657079756; x=
-	1657166156; bh=Xp5o6gyxdCzArszMKlaxjCeE8en69xtf9sJ/OOknFpw=; b=t
-	QjgxdFTZ/sUqBixmaQRr4hw6EYwdgHYSkiRP0iuxNrvlEdqAMUACl2Hcgldpg859
-	KvrASy01+4n+WZM6RjXvjDI1hgy4Hqbaftix4Le1sY39cRnl7hZcm9UMwHtm8QLS
-	JR7I8VuZlm9BglD346DCV2XbU8raU8FU9C1/X1ZNHStFdS0NMHvTtwApdFGzjoBL
-	plbJtCniV2B0pyqlyLv8HRVneulIbXgUG6xJySofMQGSIiDFHYYhPBavmBw/lIXw
-	X5EhS+xxIZwg2Hkh4QFc5NIOHFnq+HqW6wYKZpSw3WY5kblUFviu6bFx6nr7vcJ7
-	pMyRD98EeahoZjdEXMAoA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1657079756; x=
-	1657166156; bh=Xp5o6gyxdCzArszMKlaxjCeE8en69xtf9sJ/OOknFpw=; b=i
-	+wBPw2eDYxdbbxq2CljoEg2WZ4X6XY95ngfukq2ibo4Mgp/V2vrNPbKscpiyRRtH
-	XAMbey+IW8pqctdRHFPNYG2lC2zbkKR1Ea6sLnvTeIri4CPV7TZT3Kg5q5kguvQN
-	K2PBaBGKgZDMn+zhLBiQT6ThtxnXDJFZi6viX4m67YrNUe6qS8+yC0Co0tHpbsYX
-	+xsdz58PEQgVmuuwBIepVSMgQGPs1AVS3eAaXw2LTSd86nSuUDiakhVVcvIYtQRQ
-	CkQKv92ZfCc40rnbIrCrlVByfv3kgdzORWIDxR+GLDeIEThxCJgd4zs3A7uUHV45
-	h99YlaDrf9GwjtBfj1Suw==
-X-ME-Sender: <xms:ywfFYkpEwjKqpg_RCclvnqXfNW6z6CTowdmENDLwkFyzpKPumTcqDg>
-    <xme:ywfFYqqrP471WWg2kOkAUfglarASmf18wOd0j56inmJTvP7TAwyydJs6rVBvq8qrs
-    XUg-FkJ8XNdFq4LsA>
-X-ME-Received: <xmr:ywfFYpMrb2l3Bd3fbMc1WA6w3Vi2MBG5a2nQ1IxnKd16WTB3ti_L-_kx4sl2JTCEhBgsA_EaMzbFAp9ZIQNdNzz7P-9lyMuEQMoK5xDuM0URg9SPF_hZTRbLvQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeivddgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffuvfevfhfkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedthefhheevffegvdehkeehieffkeegffethfejteelieejffdu
-    veejkeduleeltdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:ywfFYr4L468_Mqq1TBX6j7WTTY6Y90bk6HT-rAROHGRWJw51CGB1zQ>
-    <xmx:ywfFYj54pLMF3-jpJMy7WkcOVUGaR3Jq1QTtV-U-3qNf2G6U_x4zfQ>
-    <xmx:ywfFYriCHV_1o9BkG_FtzD82xZHcVS3HudHTtGMqxkYBVj20QciZVg>
-    <xmx:zAfFYqIs_oBKvV1qh5lPpLrnF6KoOTns_NvTkgy-EyIi7o2GsLajcw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 5 Jul 2022 23:55:54 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-Subject: Re: [PATCH v12 1/7] dt-bindings: arm: sunxi: Add H616 EMAC compatible
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-References: <20220701112453.2310722-1-andre.przywara@arm.com>
- <20220701112453.2310722-2-andre.przywara@arm.com>
- <b2661412-5fce-a20d-c7c4-6df58efdb930@sholland.org>
- <20220705111906.3c553f23@donnerap.cambridge.arm.com>
-Message-ID: <b3149c47-7fbf-53b2-f0d7-a45942bb819c@sholland.org>
-Date: Tue, 5 Jul 2022 22:55:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91804210D
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Jul 2022 07:25:57 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id s1so20664067wra.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 06 Jul 2022 00:25:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=RNGv+/8XLL3pLmqx9QBeEgEnepJuAQVAPCFO8Yi+Cro=;
+        b=3mUI2v7SV28d9VmjYj0Fyg+1wNOzEcpQ4VMVHukiS0/GQw88kM3nJjZIj9oUc5CyOn
+         HWcWTODnZgR+0wizfsFWughub1yC23i2CW45v0j3SfQ6zbxNdXA8w2tH0HZO1N5WWZah
+         9l6I3qFan41NyCXQCm14R222BXC4hhrZWPm5nFJfGfc6eKig5tAO1KCC1MsEvu1oJO56
+         ArveHYEYcNb5z55A57UdWFcrxHRuCxGREVvxJZ2XM2ZrBPzy2YGruospChNnGUgoleU1
+         b1QGJDfEz9UYeOIri0rx7Nqk+wtupPIUNQYC3rxhUem/IABM7T9tuf5TB0uUF0jZB69F
+         o/Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=RNGv+/8XLL3pLmqx9QBeEgEnepJuAQVAPCFO8Yi+Cro=;
+        b=W9Ri/jRwg4HNfCe+3vY/dZ3h+CADLVlOvBgyFchukCs0GHRRIFnIauR37AI5zGXS26
+         Auhpxrg2NyeAPBPeqBNPDHWx+25kid1Sf6JDEd0jf1tVL9F/az3SPj+0IW+cuFG6z9/k
+         jMySxfxdc52nGeyEzRXR32a5nw7PRDtqkRyk8e6N+M4R6m4xltMiWWJoXcnMj6z7rR99
+         0WmIkJB1OB/nqsZ/hCSmCRGudyYvXMIhC/m4CDI7BLMt/mjAufjKHpSce0A6Xqi7R8Sm
+         rZTVxu7xgbIL2ptiSeXlHaLIzrdD1TfujWmWuS54x/ivXq7yuaZSkoWA4cLdaogV/v9H
+         PYCQ==
+X-Gm-Message-State: AJIora8BbsyCWV752h8EUFRlFIW9avhqig2sP3zapiMjE1GcTilPj7Fw
+	dGLvk85xOifYdgu8NrW+egevnw==
+X-Google-Smtp-Source: AGRyM1sjjoD72QqN/kPda1ll5BXRtL8M7g0zel6AU2vN3d7fDNT6a5wzNwnXMciWvstWpJaNyTIO/g==
+X-Received: by 2002:a5d:468a:0:b0:21d:6dc8:9e60 with SMTP id u10-20020a5d468a000000b0021d6dc89e60mr11671635wrq.595.1657092355613;
+        Wed, 06 Jul 2022 00:25:55 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id a1-20020a05600c348100b003a03be22f9fsm20272887wmq.18.2022.07.06.00.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Jul 2022 00:25:55 -0700 (PDT)
+Date: Wed, 6 Jul 2022 09:25:50 +0200
+From: LABBE Corentin <clabbe@baylibre.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Ben Dooks <ben.dooks@codethink.co.uk>, herbert@gondor.apana.org.au,
+	heiko@sntech.de, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [RFC PATCH] crypto: flush poison data
+Message-ID: <YsU4/qrnxG8yjFwC@Red>
+References: <20220701132735.1594822-1-clabbe@baylibre.com>
+ <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
+ <YsP0eekTthD4jWGV@Red>
+ <20220705164213.GA14484@lst.de>
+ <YsR7O4q4IRI14Wkc@Red>
+ <20220705175834.GA15815@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220705111906.3c553f23@donnerap.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20220705175834.GA15815@lst.de>
 
-Hi Andre,
-
-On 7/5/22 5:19 AM, Andre Przywara wrote:
-> On Mon, 4 Jul 2022 18:53:14 -0500
-> Samuel Holland <samuel@sholland.org> wrote:
->> On 7/1/22 6:24 AM, Andre Przywara wrote:
->>> The Allwinner H616 contains an "EMAC" Ethernet MAC compatible to the A64
->>> version.
->>>
->>> Add it to the list of compatible strings.
->>>
->>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->>> ---
->>>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml       | 1 +
->>>  1 file changed, 1 insertion(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
->>> index 6a4831fd3616c..87f1306831cc9 100644
->>> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
->>> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
->>> @@ -22,6 +22,7 @@ properties:
->>>            - enum:
->>>                - allwinner,sun20i-d1-emac
->>>                - allwinner,sun50i-h6-emac
->>> +              - allwinner,sun50i-h616-emac  
->>
->> The H616 manual has register fields for an internal PHY, like H3. Are these not
->> hooked up for either EMAC?
+Le Tue, Jul 05, 2022 at 07:58:34PM +0200, Christoph Hellwig a écrit :
+> On Tue, Jul 05, 2022 at 07:56:11PM +0200, LABBE Corentin wrote:
+> > My problem is that a dma_sync on the data buffer corrupt the poison buffer as collateral dommage.
+> > Probably because the sync operate on a larger region than the requested dma_sync length.
+> > So I try to flush poison data in the cryptoAPI.
 > 
-> Which register fields do you mean, exactly?
+> Data structures that are DMAed to must be aligned to
+> the value returned by dma_get_cache_alignment(), as non-coherent DMA
+> by definition can disturb the data inside that boundary.  That is not
+> a bug but fundamentally part of how DMA works when the device attachment
+> is not cache coherent.
 
-I mean bits 15-31 of EMAC_EPHY_CLK_REG0.
-
-> The H616 uses the same internal PHY solution as the H6: an AC200 die
-> co-packaged on the carrier (or whatever integration solution they actually
-> chose). The difference to the H6 is that EMAC0 is hardwired to the external
-> RGMII pins, whereas EMAC1 is hardwired to the internal AC200 RMII pins.
-> From all I could see that does not impact the actual MAC IP: both are the
-> same as in the H6, or A64, for that matter.
-
-If those bits in EMAC_EPHY_CLK_REG0 have no effect, then I agree. But if
-switching bit 15 to internal PHY causes Ethernet to stop working, then the mux
-really does exist (even if one side is not connected to anything). In that case,
-we need to make sure the mux is set to the external PHY, using the code from H3.
-
-> There is one twist, though: the second EMAC uses a separate EMAC clock
-> register in the syscon. I came up with this patch to support that:
-> https://github.com/apritzel/linux/commit/078f591017794a0ec689345b0eeb7150908cf85a
-> That extends the syscon to take an optional(!) index. So EMAC0 works
-> exactly like before (both as "<&syscon>;", or "<&syscon 0>;", but for EMAC1
-> we need the index: "<&syscon 4>;".
-> But in my opinion this should not affect the MAC binding, at least not for
-> MAC0.
-
-It definitely affects the MAC binding, because we have to change the definition
-of the syscon property. We should still get that reviewed before doing anything
-that depends on it. (And I think EMAC0 support depends on it.)
-
-> And I think we should get away without a different compatible string
-> for EMAC1, since the MAC IP is technically the same, it's just the
-> connection that is different.
-
-If you claim that both EMACs are compatible with allwinner,sun50i-a64-emac, then
-you are saying that any existing driver for allwinner,sun50i-a64-emac will also
-work with both of the H616 EMACs. But this is not true. If I hook up both EMACs
-in the DT per the binding, and use the driver in master, at best only EMAC0 will
-work, and likely neither will work.
-
-So at minimum you need a new compatible for the second EMAC, so it only binds to
-drivers that know about the syscon offset specifier.
-
-> In any case I think this does not affect the level of support we promise
-> today: EMAC0 with an external PHY only.
-
-This can work if you introduce a second compatible for EMAC1. But at that point
-you don't need the syscon offset specifier; it can be part of the driver data,
-like for R40. (And any future EMAC1 could likely fall back to this compatible.)
-
-Regards,
-Samuel
+I am sorry but I dont see how this can help my problem.
