@@ -1,758 +1,281 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8772F24;
-	Wed,  6 Jul 2022 09:45:04 +0000 (UTC)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3a70:988d:42ce:f5cc])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id DD9BC66019A7;
-	Wed,  6 Jul 2022 10:38:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1657100292;
-	bh=IFpuVtxsupaZW1RdjYWKcB8xD21ZZ/DTAqiND43hFNQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QwS8nPHYkv2WKBuqOzkYO3p9yBYd/qrxn6l/6P+zJe1jdxnypSo4co+djBOhz93hH
-	 Ja+2GP/uDyj246oxyYbauBxczeisDi+Z3XSrd8/+BQMlWmTPuYRPcQto+PlbMufEf9
-	 wMAlv1UazO2gmHEALOuaVqT4KwD7GMgt1jxZQyOEw97XwlWvVvaLGWnxED1ip+KEq4
-	 E7F2lU6O0yQOS72gPFcWpWmsH5OmCPStFIIP1siIln/s/TJwpOVfEVYBPWPwXpFi1d
-	 gLNXiE86XRcmbRuVQiomSz1rFR+VycjB0ybRHfdxn7/Mg2r9ymMP4pTDKXMl5FSNAq
-	 NqfYDDEZ6UGGw==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	gregkh@linuxfoundation.org,
-	mripard@kernel.org,
-	paul.kocialkowski@bootlin.com,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	samuel@sholland.org,
-	nicolas.dufresne@collabora.com,
-	andrzej.p@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	kernel@collabora.com,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v11 02/17] v4l2-ctrls: add support for dynamically allocated arrays.
-Date: Wed,  6 Jul 2022 11:37:48 +0200
-Message-Id: <20220706093803.158810-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20220706093803.158810-1-benjamin.gaignard@collabora.com>
-References: <20220706093803.158810-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 035697C
+	for <linux-sunxi@lists.linux.dev>; Wed,  6 Jul 2022 09:46:24 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id r138so10596001qke.13
+        for <linux-sunxi@lists.linux.dev>; Wed, 06 Jul 2022 02:46:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=FlGR5yjoFVwhTWKssnAw48fbsd+AG8btuIa/MYgoHwQ=;
+        b=GyQKyBfcbaQn0NY3C/hXODPWJ2dkrlNEeiztnZ2zXpbzSpHYGloYq7XHMEJ9vxVdc8
+         s0bgr+fkHNk94NF13sbHLYAYLvsweCnLOdpzcrbAFB2zl0gKsdYNnNRT/DgQOaxgJqIz
+         br3yoXUCmIto/jlzELS29AGHJxBVlvfe6y8DWXhDfnohDFhXlfVoDherH/Oe32qCULEa
+         AMNjB0upksTLcWxVDVDqr6dI1fKI3klfMk2i6W4PdSU7+T9N4V9qk5sJjkyTcRoYXanZ
+         xMgwaVEaVQpnFGOqz1AIAHG5s1dWaN7stqz+2Ydhur1Ef0H6EsdthXOCvUtAmBZms+B9
+         K1zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=FlGR5yjoFVwhTWKssnAw48fbsd+AG8btuIa/MYgoHwQ=;
+        b=dmY5rKuU29wv+wjnbRJpdkd+cFp1ass+zp68e79BefAH/pRPw3GWviuXpfXmh7RYcJ
+         W2y3LcpCZi+94Uj2vDP1QmGjWv1tz/RAh+KsiC41bDM1sKRw6bzAfD/hw+rlfHmGricc
+         GRih8i8fvZUtpXOwaQrj1ftGZ/LusHtF/ErWLQHD+IoIqNhys1e3V2LaK0mi0+EEX4p3
+         gswWYUYXL+awFd0+X+q7hlX41O7ULrzmhTWlxFzQf3VFk60cxWbgMp4Q8oFu/nUkt9b+
+         xYipxk60a2SGSk2h8Mg/s+FHVHQiybKb09fhY8uc5m8L4YU1Az3g7wfcubEJBbmuUj6T
+         IC4A==
+X-Gm-Message-State: AJIora/apcc76WZceyXk4g18PMO+pOYd1GTSxMn02FLfMh3ry/jS0v/q
+	c9S992pqyZJp7Xvoo3Cq7+BiXTHFl/rocSkD368=
+X-Google-Smtp-Source: AGRyM1u3wRkI6zt+DKDj6XJdZvXJuqhSbz2ET2++iRICYDpUnH2UbBCwlTN9J0CRziNYkVlaM+tfryyE+GZiJ7R+cyc=
+X-Received: by 2002:a05:620a:408c:b0:6b2:678c:6091 with SMTP id
+ f12-20020a05620a408c00b006b2678c6091mr17060003qko.518.1657100783827; Wed, 06
+ Jul 2022 02:46:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20220705075226.359475-1-r.stratiienko@gmail.com>
+ <5580615.DvuYhMxLoT@kista> <CAGphcd=O-BQRJwQbUbbFMt29jxHf+KpJWrrm5SmMhumkCBam0Q@mail.gmail.com>
+ <2562485.k3LOHGUjKi@kista>
+In-Reply-To: <2562485.k3LOHGUjKi@kista>
+From: Roman Stratiienko <r.stratiienko@gmail.com>
+Date: Wed, 6 Jul 2022 12:46:13 +0300
+Message-ID: <CAGphcdnw3+E9cHZGUOLnroo7wTR4HRjiKJXdmihSK40jsga9Qw@mail.gmail.com>
+Subject: Re: Re: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock
+ configuration to support DFS
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>, 
+	Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org, mripard@kernel.org, 
+	wens@csie.org, linux-clk@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+=D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 21:07, Jernej =C5=
+=A0krabec <jernej.skrabec@gmail.com>:
+>
+> Dne torek, 05. julij 2022 ob 18:29:39 CEST je Roman Stratiienko napisal(a=
+):
+> > Hi Jernej,
+> >
+> > =D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 19:07, Jernej =
+=C5=A0krabec <jernej.skrabec@gmail.com>:
+> > > Hi Roman,
+> > >
+> > > Dne torek, 05. julij 2022 ob 09:52:26 CEST je Roman Stratiienko
+> napisal(a):
+> > > > Using simple bash script it was discovered that not all CCU registe=
+rs
+> > > >
+> > > > can be safely used for DFS, e.g.:
+> > > >     while true
+> > > >     do
+> > > >
+> > > >         devmem 0x3001030 4 0xb0003e02
+> > > >         devmem 0x3001030 4 0xb0001e02
+> > > >
+> > > >     done
+> > > >
+> > > > Script above changes the GPU_PLL multiplier register value. While t=
+he
+> > > > script is running, the user should interact with the user interface=
+.
+> > > >
+> > > > Using this method the following results were obtained:
+> > > > | Register  | Name           | Bits  | Values | Result |
+> > > > | --        | --             | --    | --     | --     |
+> > > > | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
+> > > > | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
+> > > > | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
+> > > > | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
+> > > >
+> > > > DVFS started to work seamlessly once dividers which caused the
+> > > > glitches were set to fixed values.
+> > > >
+> > > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > > >
+> > > > ---
+> > > >
+> > > > Changelog:
+> > > >
+> > > > V2:
+> > > > - Drop changes related to mux
+> > > > - Drop frequency limiting
+> > > > - Add unused dividers initialization
+> > > >
+> > > > V3:
+> > > > - Adjust comments
+> > >
+> > > I don't see any comment fixed, at least not to "1", as we discussed. =
+Did I
+> > > miss anything?
+> >
+> > I've added the "bits" word, so now it should sound correct.
+>
+> Technically it's correct, but this would be third form of comments for fi=
+xed
+> bits. Let's stick to the form which is most informative ("Force PLL_GPU o=
+utput
+> divider to 1"). Ideally, comment would also point to gpu_clk comment for
+> reason why, like it's done for video PLL block already.
+>
+> >
+> > > Also, please add min and max.
+> >
+> > What is the rationale for additional limits?
+>
+> If limits are specified in whatever form, they should be added. As I said
+> several times already, vendor code limits PLL frequency to 288 MHz minimu=
+m and
+> lists maximum. As experienced a few times before with video PLLs, these a=
+re
+> important, otherwise PLL is unstable. For example, OPP table in vendor DT=
+ has
+> two operating points lower than 288 MHz, which means it would either lock=
+ up
+> or be unstable. In such cases, vendor code actually sets GPU_CLK divider =
+to 2,
+> but we can skip them, because GPU_CLK divider will be hardcoded to 1 with=
+ this
+> patch.
 
-Implement support for dynamically allocated arrays.
+What is the rationale behind vendor's freq limitation?
 
-Most of the changes concern keeping track of the number of elements
-of the array and the number of elements allocated for the array and
-reallocating memory if needed.
+There's no min_rate field in ccu_nkmp. After I changed it to ccu_nm
+and set limits, the system started to behave unstable with a lot of
+messages in dmesg:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Acked-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Tested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/media/v4l2-core/v4l2-ctrls-api.c     | 103 ++++++++---
- drivers/media/v4l2-core/v4l2-ctrls-core.c    | 182 +++++++++++++++----
- drivers/media/v4l2-core/v4l2-ctrls-priv.h    |   3 +-
- drivers/media/v4l2-core/v4l2-ctrls-request.c |  13 +-
- include/media/v4l2-ctrls.h                   |  42 ++++-
- 5 files changed, 272 insertions(+), 71 deletions(-)
+[   40.089091] panfrost 1800000.gpu: _generic_set_opp_clk_only: failed
+to set clock rate: -22
+[   40.097698] devfreq 1800000.gpu: dvfs failed with (-22) error
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index db9baa0bd05f..50d012ba3c02 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -97,29 +97,47 @@ static int def_to_user(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- 	return ptr_to_user(c, ctrl, ctrl->p_new);
- }
- 
--/* Helper function: copy the caller-provider value to the given control value */
--static int user_to_ptr(struct v4l2_ext_control *c,
--		       struct v4l2_ctrl *ctrl,
--		       union v4l2_ctrl_ptr ptr)
-+/* Helper function: copy the caller-provider value as the new control value */
-+static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
- {
- 	int ret;
- 	u32 size;
- 
--	ctrl->is_new = 1;
-+	ctrl->is_new = 0;
-+	if (ctrl->is_dyn_array &&
-+	    c->size > ctrl->p_dyn_alloc_elems * ctrl->elem_size) {
-+		void *old = ctrl->p_dyn;
-+		void *tmp = kvzalloc(2 * c->size, GFP_KERNEL);
-+
-+		if (!tmp)
-+			return -ENOMEM;
-+		memcpy(tmp, ctrl->p_new.p, ctrl->elems * ctrl->elem_size);
-+		memcpy(tmp + c->size, ctrl->p_cur.p, ctrl->elems * ctrl->elem_size);
-+		ctrl->p_new.p = tmp;
-+		ctrl->p_cur.p = tmp + c->size;
-+		ctrl->p_dyn = tmp;
-+		ctrl->p_dyn_alloc_elems = c->size / ctrl->elem_size;
-+		kvfree(old);
-+	}
-+
- 	if (ctrl->is_ptr && !ctrl->is_string) {
-+		unsigned int elems = c->size / ctrl->elem_size;
- 		unsigned int idx;
- 
--		ret = copy_from_user(ptr.p, c->ptr, c->size) ? -EFAULT : 0;
--		if (ret || !ctrl->is_array)
--			return ret;
--		for (idx = c->size / ctrl->elem_size; idx < ctrl->elems; idx++)
--			ctrl->type_ops->init(ctrl, idx, ptr);
-+		if (copy_from_user(ctrl->p_new.p, c->ptr, c->size))
-+			return -EFAULT;
-+		ctrl->is_new = 1;
-+		if (ctrl->is_dyn_array)
-+			ctrl->new_elems = elems;
-+		else if (ctrl->is_array)
-+			for (idx = elems; idx < ctrl->elems; idx++)
-+				ctrl->type_ops->init(ctrl, idx, ctrl->p_new);
- 		return 0;
- 	}
- 
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_INTEGER64:
--		*ptr.p_s64 = c->value64;
-+		*ctrl->p_new.p_s64 = c->value64;
- 		break;
- 	case V4L2_CTRL_TYPE_STRING:
- 		size = c->size;
-@@ -127,32 +145,27 @@ static int user_to_ptr(struct v4l2_ext_control *c,
- 			return -ERANGE;
- 		if (size > ctrl->maximum + 1)
- 			size = ctrl->maximum + 1;
--		ret = copy_from_user(ptr.p_char, c->string, size) ? -EFAULT : 0;
-+		ret = copy_from_user(ctrl->p_new.p_char, c->string, size) ? -EFAULT : 0;
- 		if (!ret) {
--			char last = ptr.p_char[size - 1];
-+			char last = ctrl->p_new.p_char[size - 1];
- 
--			ptr.p_char[size - 1] = 0;
-+			ctrl->p_new.p_char[size - 1] = 0;
- 			/*
- 			 * If the string was longer than ctrl->maximum,
- 			 * then return an error.
- 			 */
--			if (strlen(ptr.p_char) == ctrl->maximum && last)
-+			if (strlen(ctrl->p_new.p_char) == ctrl->maximum && last)
- 				return -ERANGE;
- 		}
- 		return ret;
- 	default:
--		*ptr.p_s32 = c->value;
-+		*ctrl->p_new.p_s32 = c->value;
- 		break;
- 	}
-+	ctrl->is_new = 1;
- 	return 0;
- }
- 
--/* Helper function: copy the caller-provider value as the new control value */
--static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
--{
--	return user_to_ptr(c, ctrl, ctrl->p_new);
--}
--
- /*
-  * VIDIOC_G/TRY/S_EXT_CTRLS implementation
-  */
-@@ -254,7 +267,31 @@ static int prepare_ext_ctrls(struct v4l2_ctrl_handler *hdl,
- 			have_clusters = true;
- 		if (ctrl->cluster[0] != ctrl)
- 			ref = find_ref_lock(hdl, ctrl->cluster[0]->id);
--		if (ctrl->is_ptr && !ctrl->is_string) {
-+		if (ctrl->is_dyn_array) {
-+			unsigned int max_size = ctrl->dims[0] * ctrl->elem_size;
-+			unsigned int tot_size = ctrl->elem_size;
-+
-+			if (cs->which == V4L2_CTRL_WHICH_REQUEST_VAL)
-+				tot_size *= ref->p_req_elems;
-+			else
-+				tot_size *= ctrl->elems;
-+
-+			c->size = ctrl->elem_size * (c->size / ctrl->elem_size);
-+			if (get) {
-+				if (c->size < tot_size) {
-+					c->size = tot_size;
-+					return -ENOSPC;
-+				}
-+				c->size = tot_size;
-+			} else {
-+				if (c->size > max_size) {
-+					c->size = max_size;
-+					return -ENOSPC;
-+				}
-+				if (!c->size)
-+					return -EFAULT;
-+			}
-+		} else if (ctrl->is_ptr && !ctrl->is_string) {
- 			unsigned int tot_size = ctrl->elems * ctrl->elem_size;
- 
- 			if (c->size < tot_size) {
-@@ -346,7 +383,7 @@ static int class_check(struct v4l2_ctrl_handler *hdl, u32 which)
-  *
-  * Note that v4l2_g_ext_ctrls_common() with 'which' set to
-  * V4L2_CTRL_WHICH_REQUEST_VAL is only called if the request was
-- * completed, and in that case valid_p_req is true for all controls.
-+ * completed, and in that case p_req_valid is true for all controls.
-  */
- int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 			    struct v4l2_ext_controls *cs,
-@@ -430,7 +467,9 @@ int v4l2_g_ext_ctrls_common(struct v4l2_ctrl_handler *hdl,
- 
- 			if (is_default)
- 				ret = def_to_user(cs->controls + idx, ref->ctrl);
--			else if (is_request && ref->valid_p_req)
-+			else if (is_request && ref->p_req_dyn_enomem)
-+				ret = -ENOMEM;
-+			else if (is_request && ref->p_req_valid)
- 				ret = req_to_user(cs->controls + idx, ref);
- 			else if (is_volatile)
- 				ret = new_to_user(cs->controls + idx, ref->ctrl);
-@@ -457,6 +496,17 @@ int v4l2_g_ext_ctrls(struct v4l2_ctrl_handler *hdl, struct video_device *vdev,
- }
- EXPORT_SYMBOL(v4l2_g_ext_ctrls);
- 
-+/* Validate a new control */
-+static int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
-+{
-+	unsigned int idx;
-+	int err = 0;
-+
-+	for (idx = 0; !err && idx < ctrl->new_elems; idx++)
-+		err = ctrl->type_ops->validate(ctrl, idx, p_new);
-+	return err;
-+}
-+
- /* Validate controls. */
- static int validate_ctrls(struct v4l2_ext_controls *cs,
- 			  struct v4l2_ctrl_helper *helpers,
-@@ -872,6 +922,9 @@ int __v4l2_ctrl_s_ctrl_compound(struct v4l2_ctrl *ctrl,
- 	/* It's a driver bug if this happens. */
- 	if (WARN_ON(ctrl->type != type))
- 		return -EINVAL;
-+	/* Setting dynamic arrays is not (yet?) supported. */
-+	if (WARN_ON(ctrl->is_dyn_array))
-+		return -EINVAL;
- 	memcpy(ctrl->p_new.p, p, ctrl->elems * ctrl->elem_size);
- 	return set_ctrl(NULL, ctrl, 0);
- }
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 949c1884d9c1..ff8a61f24d0a 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -991,11 +991,12 @@ EXPORT_SYMBOL(v4l2_ctrl_notify);
- 
- /* Copy the one value to another. */
- static void ptr_to_ptr(struct v4l2_ctrl *ctrl,
--		       union v4l2_ctrl_ptr from, union v4l2_ctrl_ptr to)
-+		       union v4l2_ctrl_ptr from, union v4l2_ctrl_ptr to,
-+		       unsigned int elems)
- {
- 	if (ctrl == NULL)
- 		return;
--	memcpy(to.p, from.p_const, ctrl->elems * ctrl->elem_size);
-+	memcpy(to.p, from.p_const, elems * ctrl->elem_size);
- }
- 
- /* Copy the new value to the current value. */
-@@ -1008,8 +1009,11 @@ void new_to_cur(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags)
- 
- 	/* has_changed is set by cluster_changed */
- 	changed = ctrl->has_changed;
--	if (changed)
--		ptr_to_ptr(ctrl, ctrl->p_new, ctrl->p_cur);
-+	if (changed) {
-+		if (ctrl->is_dyn_array)
-+			ctrl->elems = ctrl->new_elems;
-+		ptr_to_ptr(ctrl, ctrl->p_new, ctrl->p_cur, ctrl->elems);
-+	}
- 
- 	if (ch_flags & V4L2_EVENT_CTRL_CH_FLAGS) {
- 		/* Note: CH_FLAGS is only set for auto clusters. */
-@@ -1039,36 +1043,122 @@ void cur_to_new(struct v4l2_ctrl *ctrl)
- {
- 	if (ctrl == NULL)
- 		return;
--	ptr_to_ptr(ctrl, ctrl->p_cur, ctrl->p_new);
-+	if (ctrl->is_dyn_array)
-+		ctrl->new_elems = ctrl->elems;
-+	ptr_to_ptr(ctrl, ctrl->p_cur, ctrl->p_new, ctrl->new_elems);
-+}
-+
-+static bool req_alloc_dyn_array(struct v4l2_ctrl_ref *ref, u32 elems)
-+{
-+	void *tmp;
-+
-+	if (elems < ref->p_req_dyn_alloc_elems)
-+		return true;
-+
-+	tmp = kvmalloc(elems * ref->ctrl->elem_size, GFP_KERNEL);
-+
-+	if (!tmp) {
-+		ref->p_req_dyn_enomem = true;
-+		return false;
-+	}
-+	ref->p_req_dyn_enomem = false;
-+	kvfree(ref->p_req.p);
-+	ref->p_req.p = tmp;
-+	ref->p_req_dyn_alloc_elems = elems;
-+	return true;
- }
- 
- /* Copy the new value to the request value */
- void new_to_req(struct v4l2_ctrl_ref *ref)
- {
-+	struct v4l2_ctrl *ctrl;
-+
- 	if (!ref)
- 		return;
--	ptr_to_ptr(ref->ctrl, ref->ctrl->p_new, ref->p_req);
--	ref->valid_p_req = true;
-+
-+	ctrl = ref->ctrl;
-+	if (ctrl->is_dyn_array && !req_alloc_dyn_array(ref, ctrl->new_elems))
-+		return;
-+
-+	ref->p_req_elems = ctrl->new_elems;
-+	ptr_to_ptr(ctrl, ctrl->p_new, ref->p_req, ref->p_req_elems);
-+	ref->p_req_valid = true;
- }
- 
- /* Copy the current value to the request value */
- void cur_to_req(struct v4l2_ctrl_ref *ref)
- {
-+	struct v4l2_ctrl *ctrl;
-+
- 	if (!ref)
- 		return;
--	ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->p_req);
--	ref->valid_p_req = true;
-+
-+	ctrl = ref->ctrl;
-+	if (ctrl->is_dyn_array && !req_alloc_dyn_array(ref, ctrl->elems))
-+		return;
-+
-+	ref->p_req_elems = ctrl->elems;
-+	ptr_to_ptr(ctrl, ctrl->p_cur, ref->p_req, ctrl->elems);
-+	ref->p_req_valid = true;
- }
- 
- /* Copy the request value to the new value */
--void req_to_new(struct v4l2_ctrl_ref *ref)
-+int req_to_new(struct v4l2_ctrl_ref *ref)
- {
-+	struct v4l2_ctrl *ctrl;
-+
- 	if (!ref)
--		return;
--	if (ref->valid_p_req)
--		ptr_to_ptr(ref->ctrl, ref->p_req, ref->ctrl->p_new);
--	else
--		ptr_to_ptr(ref->ctrl, ref->ctrl->p_cur, ref->ctrl->p_new);
-+		return 0;
-+
-+	ctrl = ref->ctrl;
-+
-+	/*
-+	 * This control was never set in the request, so just use the current
-+	 * value.
-+	 */
-+	if (!ref->p_req_valid) {
-+		if (ctrl->is_dyn_array)
-+			ctrl->new_elems = ctrl->elems;
-+		ptr_to_ptr(ctrl, ctrl->p_cur, ctrl->p_new, ctrl->new_elems);
-+		return 0;
-+	}
-+
-+	/* Not a dynamic array, so just copy the request value */
-+	if (!ctrl->is_dyn_array) {
-+		ptr_to_ptr(ctrl, ref->p_req, ctrl->p_new, ctrl->new_elems);
-+		return 0;
-+	}
-+
-+	/* Sanity check, should never happen */
-+	if (WARN_ON(!ref->p_req_dyn_alloc_elems))
-+		return -ENOMEM;
-+
-+	/*
-+	 * Check if the number of elements in the request is more than the
-+	 * elements in ctrl->p_dyn. If so, attempt to realloc ctrl->p_dyn.
-+	 * Note that p_dyn is allocated with twice the number of elements
-+	 * in the dynamic array since it has to store both the current and
-+	 * new value of such a control.
-+	 */
-+	if (ref->p_req_elems > ctrl->p_dyn_alloc_elems) {
-+		unsigned int sz = ref->p_req_elems * ctrl->elem_size;
-+		void *old = ctrl->p_dyn;
-+		void *tmp = kvzalloc(2 * sz, GFP_KERNEL);
-+
-+		if (!tmp)
-+			return -ENOMEM;
-+		memcpy(tmp, ctrl->p_new.p, ctrl->elems * ctrl->elem_size);
-+		memcpy(tmp + sz, ctrl->p_cur.p, ctrl->elems * ctrl->elem_size);
-+		ctrl->p_new.p = tmp;
-+		ctrl->p_cur.p = tmp + sz;
-+		ctrl->p_dyn = tmp;
-+		ctrl->p_dyn_alloc_elems = ref->p_req_elems;
-+		kvfree(old);
-+	}
-+
-+	ctrl->new_elems = ref->p_req_elems;
-+	ptr_to_ptr(ctrl, ref->p_req, ctrl->p_new, ctrl->new_elems);
-+	return 0;
- }
- 
- /* Control range checking */
-@@ -1110,17 +1200,6 @@ int check_range(enum v4l2_ctrl_type type,
- 	}
- }
- 
--/* Validate a new control */
--int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new)
--{
--	unsigned idx;
--	int err = 0;
--
--	for (idx = 0; !err && idx < ctrl->elems; idx++)
--		err = ctrl->type_ops->validate(ctrl, idx, p_new);
--	return err;
--}
--
- /* Set the handler's error code if it wasn't set earlier already */
- static inline int handler_set_err(struct v4l2_ctrl_handler *hdl, int err)
- {
-@@ -1164,6 +1243,8 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
- 	/* Free all nodes */
- 	list_for_each_entry_safe(ref, next_ref, &hdl->ctrl_refs, node) {
- 		list_del(&ref->node);
-+		if (ref->p_req_dyn_alloc_elems)
-+			kvfree(ref->p_req.p);
- 		kfree(ref);
- 	}
- 	/* Free all controls owned by the handler */
-@@ -1171,6 +1252,7 @@ void v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
- 		list_del(&ctrl->node);
- 		list_for_each_entry_safe(sev, next_sev, &ctrl->ev_subs, node)
- 			list_del(&sev->node);
-+		kvfree(ctrl->p_dyn);
- 		kvfree(ctrl);
- 	}
- 	kvfree(hdl->buckets);
-@@ -1286,7 +1368,7 @@ int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 	if (hdl->error)
- 		return hdl->error;
- 
--	if (allocate_req)
-+	if (allocate_req && !ctrl->is_dyn_array)
- 		size_extra_req = ctrl->elems * ctrl->elem_size;
- 	new_ref = kzalloc(sizeof(*new_ref) + size_extra_req, GFP_KERNEL);
- 	if (!new_ref)
-@@ -1460,7 +1542,6 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 			elem_size = sizeof(s32);
- 		break;
- 	}
--	tot_ctrl_size = elem_size * elems;
- 
- 	/* Sanity checks */
- 	if (id == 0 || name == NULL || !elem_size ||
-@@ -1481,17 +1562,33 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 		handler_set_err(hdl, -EINVAL);
- 		return NULL;
- 	}
-+	if (flags & V4L2_CTRL_FLAG_DYNAMIC_ARRAY) {
-+		/*
-+		 * For now only support this for one-dimensional arrays only.
-+		 *
-+		 * This can be relaxed in the future, but this will
-+		 * require more effort.
-+		 */
-+		if (nr_of_dims != 1) {
-+			handler_set_err(hdl, -EINVAL);
-+			return NULL;
-+		}
-+		/* Start with just 1 element */
-+		elems = 1;
-+	}
- 
-+	tot_ctrl_size = elem_size * elems;
- 	sz_extra = 0;
- 	if (type == V4L2_CTRL_TYPE_BUTTON)
- 		flags |= V4L2_CTRL_FLAG_WRITE_ONLY |
- 			V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
- 	else if (type == V4L2_CTRL_TYPE_CTRL_CLASS)
- 		flags |= V4L2_CTRL_FLAG_READ_ONLY;
--	else if (type == V4L2_CTRL_TYPE_INTEGER64 ||
--		 type == V4L2_CTRL_TYPE_STRING ||
--		 type >= V4L2_CTRL_COMPOUND_TYPES ||
--		 is_array)
-+	else if (!(flags & V4L2_CTRL_FLAG_DYNAMIC_ARRAY) &&
-+		 (type == V4L2_CTRL_TYPE_INTEGER64 ||
-+		  type == V4L2_CTRL_TYPE_STRING ||
-+		  type >= V4L2_CTRL_COMPOUND_TYPES ||
-+		  is_array))
- 		sz_extra += 2 * tot_ctrl_size;
- 
- 	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const)
-@@ -1520,7 +1617,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	ctrl->is_ptr = is_array || type >= V4L2_CTRL_COMPOUND_TYPES || ctrl->is_string;
- 	ctrl->is_int = !ctrl->is_ptr && type != V4L2_CTRL_TYPE_INTEGER64;
- 	ctrl->is_array = is_array;
-+	ctrl->is_dyn_array = !!(flags & V4L2_CTRL_FLAG_DYNAMIC_ARRAY);
- 	ctrl->elems = elems;
-+	ctrl->new_elems = elems;
- 	ctrl->nr_of_dims = nr_of_dims;
- 	if (nr_of_dims)
- 		memcpy(ctrl->dims, dims, nr_of_dims * sizeof(dims[0]));
-@@ -1533,6 +1632,16 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	ctrl->cur.val = ctrl->val = def;
- 	data = &ctrl[1];
- 
-+	if (ctrl->is_dyn_array) {
-+		ctrl->p_dyn_alloc_elems = elems;
-+		ctrl->p_dyn = kvzalloc(2 * elems * elem_size, GFP_KERNEL);
-+		if (!ctrl->p_dyn) {
-+			kvfree(ctrl);
-+			return NULL;
-+		}
-+		data = ctrl->p_dyn;
-+	}
-+
- 	if (!ctrl->is_int) {
- 		ctrl->p_new.p = data;
- 		ctrl->p_cur.p = data + tot_ctrl_size;
-@@ -1542,7 +1651,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	}
- 
- 	if (type >= V4L2_CTRL_COMPOUND_TYPES && p_def.p_const) {
--		ctrl->p_def.p = ctrl->p_cur.p + tot_ctrl_size;
-+		if (ctrl->is_dyn_array)
-+			ctrl->p_def.p = &ctrl[1];
-+		else
-+			ctrl->p_def.p = ctrl->p_cur.p + tot_ctrl_size;
- 		memcpy(ctrl->p_def.p, p_def.p_const, elem_size);
- 	}
- 
-@@ -1552,6 +1664,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	}
- 
- 	if (handler_new_ref(hdl, ctrl, NULL, false, false)) {
-+		kvfree(ctrl->p_dyn);
- 		kvfree(ctrl);
- 		return NULL;
- 	}
-@@ -1889,6 +2002,9 @@ static int cluster_changed(struct v4l2_ctrl *master)
- 			continue;
- 		}
- 
-+		if (ctrl->elems != ctrl->new_elems)
-+			ctrl_changed = true;
-+
- 		for (idx = 0; !ctrl_changed && idx < ctrl->elems; idx++)
- 			ctrl_changed = !ctrl->type_ops->equal(ctrl, idx,
- 				ctrl->p_cur, ctrl->p_new);
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-priv.h b/drivers/media/v4l2-core/v4l2-ctrls-priv.h
-index d4bf2c716f97..aba6176fab6c 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-priv.h
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-priv.h
-@@ -57,10 +57,9 @@ void cur_to_new(struct v4l2_ctrl *ctrl);
- void cur_to_req(struct v4l2_ctrl_ref *ref);
- void new_to_cur(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 ch_flags);
- void new_to_req(struct v4l2_ctrl_ref *ref);
--void req_to_new(struct v4l2_ctrl_ref *ref);
-+int req_to_new(struct v4l2_ctrl_ref *ref);
- void send_initial_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl);
- void send_event(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl, u32 changes);
--int validate_new(const struct v4l2_ctrl *ctrl, union v4l2_ctrl_ptr p_new);
- int handler_new_ref(struct v4l2_ctrl_handler *hdl,
- 		    struct v4l2_ctrl *ctrl,
- 		    struct v4l2_ctrl_ref **ctrl_ref,
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-request.c b/drivers/media/v4l2-core/v4l2-ctrls-request.c
-index 7d098f287fd9..c637049d7a2b 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-request.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-request.c
-@@ -143,7 +143,7 @@ v4l2_ctrl_request_hdl_ctrl_find(struct v4l2_ctrl_handler *hdl, u32 id)
- {
- 	struct v4l2_ctrl_ref *ref = find_ref_lock(hdl, id);
- 
--	return (ref && ref->valid_p_req) ? ref->ctrl : NULL;
-+	return (ref && ref->p_req_valid) ? ref->ctrl : NULL;
- }
- EXPORT_SYMBOL_GPL(v4l2_ctrl_request_hdl_ctrl_find);
- 
-@@ -373,7 +373,7 @@ void v4l2_ctrl_request_complete(struct media_request *req,
- 			v4l2_ctrl_unlock(master);
- 			continue;
- 		}
--		if (ref->valid_p_req)
-+		if (ref->p_req_valid)
- 			continue;
- 
- 		/* Copy the current control value into the request */
-@@ -442,7 +442,7 @@ int v4l2_ctrl_request_setup(struct media_request *req,
- 				struct v4l2_ctrl_ref *r =
- 					find_ref(hdl, master->cluster[i]->id);
- 
--				if (r->valid_p_req) {
-+				if (r->p_req_valid) {
- 					have_new_data = true;
- 					break;
- 				}
-@@ -458,7 +458,11 @@ int v4l2_ctrl_request_setup(struct media_request *req,
- 				struct v4l2_ctrl_ref *r =
- 					find_ref(hdl, master->cluster[i]->id);
- 
--				req_to_new(r);
-+				ret = req_to_new(r);
-+				if (ret) {
-+					v4l2_ctrl_unlock(master);
-+					goto error;
-+				}
- 				master->cluster[i]->is_new = 1;
- 				r->req_done = true;
- 			}
-@@ -490,6 +494,7 @@ int v4l2_ctrl_request_setup(struct media_request *req,
- 			break;
- 	}
- 
-+error:
- 	media_request_object_put(obj);
- 	return ret;
- }
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index b3ce438f1329..f4105de8a8d2 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -185,6 +185,8 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		and/or has type %V4L2_CTRL_TYPE_STRING. In other words, &struct
-  *		v4l2_ext_control uses field p to point to the data.
-  * @is_array: If set, then this control contains an N-dimensional array.
-+ * @is_dyn_array: If set, then this control contains a dynamically sized 1-dimensional array.
-+ *		If this is set, then @is_array is also set.
-  * @has_volatiles: If set, then one or more members of the cluster are volatile.
-  *		Drivers should never touch this flag.
-  * @call_notify: If set, then call the handler's notify function whenever the
-@@ -205,6 +207,9 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  * @step:	The control's step value for non-menu controls.
-  * @elems:	The number of elements in the N-dimensional array.
-  * @elem_size:	The size in bytes of the control.
-+ * @new_elems:	The number of elements in p_new. This is the same as @elems,
-+ *		except for dynamic arrays. In that case it is in the range of
-+ *		1 to @p_dyn_alloc_elems.
-  * @dims:	The size of each dimension.
-  * @nr_of_dims:The number of dimensions in @dims.
-  * @menu_skip_mask: The control's skip mask for menu controls. This makes it
-@@ -223,15 +228,21 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		:math:`ceil(\frac{maximum - minimum}{step}) + 1`.
-  *		Used only if the @type is %V4L2_CTRL_TYPE_INTEGER_MENU.
-  * @flags:	The control's flags.
-- * @cur:	Structure to store the current value.
-- * @cur.val:	The control's current value, if the @type is represented via
-- *		a u32 integer (see &enum v4l2_ctrl_type).
-- * @val:	The control's new s32 value.
-  * @priv:	The control's private pointer. For use by the driver. It is
-  *		untouched by the control framework. Note that this pointer is
-  *		not freed when the control is deleted. Should this be needed
-  *		then a new internal bitfield can be added to tell the framework
-  *		to free this pointer.
-+ * @p_dyn:	Pointer to the dynamically allocated array. Only valid if
-+ *		@is_dyn_array is true.
-+ * @p_dyn_alloc_elems: The number of elements in the dynamically allocated
-+ *		array for both the cur and new values. So @p_dyn is actually
-+ *		sized for 2 * @p_dyn_alloc_elems * @elem_size. Only valid if
-+ *		@is_dyn_array is true.
-+ * @cur:	Structure to store the current value.
-+ * @cur.val:	The control's current value, if the @type is represented via
-+ *		a u32 integer (see &enum v4l2_ctrl_type).
-+ * @val:	The control's new s32 value.
-  * @p_def:	The control's default value represented via a union which
-  *		provides a standard way of accessing control types
-  *		through a pointer (for compound controls only).
-@@ -260,6 +271,7 @@ struct v4l2_ctrl {
- 	unsigned int is_string:1;
- 	unsigned int is_ptr:1;
- 	unsigned int is_array:1;
-+	unsigned int is_dyn_array:1;
- 	unsigned int has_volatiles:1;
- 	unsigned int call_notify:1;
- 	unsigned int manual_mode_value:8;
-@@ -272,6 +284,7 @@ struct v4l2_ctrl {
- 	s64 minimum, maximum, default_value;
- 	u32 elems;
- 	u32 elem_size;
-+	u32 new_elems;
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 nr_of_dims;
- 	union {
-@@ -284,6 +297,8 @@ struct v4l2_ctrl {
- 	};
- 	unsigned long flags;
- 	void *priv;
-+	void *p_dyn;
-+	u32 p_dyn_alloc_elems;
- 	s32 val;
- 	struct {
- 		s32 val;
-@@ -309,12 +324,22 @@ struct v4l2_ctrl {
-  *		the control has been applied. This prevents applying controls
-  *		from a cluster with multiple controls twice (when the first
-  *		control of a cluster is applied, they all are).
-- * @valid_p_req: If set, then p_req contains the control value for the request.
-+ * @p_req_valid: If set, then p_req contains the control value for the request.
-+ * @p_req_dyn_enomem: If set, then p_req is invalid since allocating space for
-+ *		a dynamic array failed. Attempting to read this value shall
-+ *		result in ENOMEM. Only valid if ctrl->is_dyn_array is true.
-+ * @p_req_dyn_alloc_elems: The number of elements allocated for the dynamic
-+ *		array. Only valid if @p_req_valid and ctrl->is_dyn_array are
-+ *		true.
-+ * @p_req_elems: The number of elements in @p_req. This is the same as
-+ *		ctrl->elems, except for dynamic arrays. In that case it is in
-+ *		the range of 1 to @p_req_dyn_alloc_elems. Only valid if
-+ *		@p_req_valid is true.
-  * @p_req:	If the control handler containing this control reference
-  *		is bound to a media request, then this points to the
-  *		value of the control that must be applied when the request
-  *		is executed, or to the value of the control at the time
-- *		that the request was completed. If @valid_p_req is false,
-+ *		that the request was completed. If @p_req_valid is false,
-  *		then this control was never set for this request and the
-  *		control will not be updated when this request is applied.
-  *
-@@ -329,7 +354,10 @@ struct v4l2_ctrl_ref {
- 	struct v4l2_ctrl_helper *helper;
- 	bool from_other_dev;
- 	bool req_done;
--	bool valid_p_req;
-+	bool p_req_valid;
-+	bool p_req_dyn_enomem;
-+	u32 p_req_dyn_alloc_elems;
-+	u32 p_req_elems;
- 	union v4l2_ctrl_ptr p_req;
- };
- 
--- 
-2.32.0
+From the other end I have no issues so far with the current version
+and I have a lot of other work to do.
+I think it's a good point to stop any further improvements until
+testing results show any issues with the current version.
 
+> > CPU_PLL doesn't have these limits. I don't want to make them different.
+>
+> Why CPU_PLL?
+
+According to the H6 usermanual only CPU and GPU PLLs support smooth
+clock transition during DFS.
+
+Regards,
+Roman.
+
+> Why not video PLL? In any case, it doesn't matter if struct looks
+> similar to some other or is unique. Only important thing is that struct
+> describes PLL as best as possible.
+>
+> >
+> > > I also consent to R-B, which you
+> > > didn't include.
+> >
+> > I was expecting an explicit 'review-by' line. Anyway I can add it and
+> > resend v4 if it's necessary.
+>
+> If you at least add min and max limits, you can add following tag:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> If you send it before Friday, it will be in 5.20.
+>
+> Best regards,
+> Jernej
+>
+> >
+> > Regards,
+> > Roman
+> >
+> > > Did you resend v2 instead of v3?
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > > > ---
+> > > >
+> > > >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
+> > > >  1 file changed, 13 insertions(+), 3 deletions(-)
+> > > >
+> > > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index
+> > > > 2ddf0a0da526f..068d1a6b2ebf3
+> > > > 100644
+> > > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > @@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk =3D {
+> > > >
+> > > >       },
+> > > >
+> > > >  };
+> > > >
+> > > > +/* For GPU PLL, using an output divider for DFS causes system to f=
+ail
+> > > > */
+> > > >
+> > > >  #define SUN50I_H6_PLL_GPU_REG                0x030
+> > > >  static struct ccu_nkmp pll_gpu_clk =3D {
+> > > >
+> > > >       .enable         =3D BIT(31),
+> > > >       .lock           =3D BIT(28),
+> > > >       .n              =3D _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > > >       .m              =3D _SUNXI_CCU_DIV(1, 1), /* input divider */
+> > > >
+> > > > -     .p              =3D _SUNXI_CCU_DIV(0, 1), /* output divider
+> > >
+> > > */
+> > >
+> > > >       .common         =3D {
+> > > >
+> > > >               .reg            =3D 0x030,
+> > > >               .hw.init        =3D CLK_HW_INIT("pll-gpu", "osc24M",
+> > > >
+> > > > @@ -294,9 +294,9 @@ static SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_cl=
+k,
+> > > > "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
+> > > > "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
+> > > >
+> > > > +/* Keep GPU_CLK divider const to avoid DFS instability. */
+> > > >
+> > > >  static const char * const gpu_parents[] =3D { "pll-gpu" };
+> > > >
+> > > > -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents, 0x67=
+0,
+> > > > -                                    0, 3,    /* M */
+> > > > +static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x670,
+> > > >
+> > > >                                      24, 1,   /* mux */
+> > > >                                      BIT(31), /* gate */
+> > > >                                      CLK_SET_RATE_PARENT);
+> > > >
+> > > > @@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct
+> > > > platform_device *pdev) if (IS_ERR(reg))
+> > > >
+> > > >               return PTR_ERR(reg);
+> > > >
+> > > > +     /* Force PLL_GPU output divider bits to 0 */
+> > > > +     val =3D readl(reg + SUN50I_H6_PLL_GPU_REG);
+> > > > +     val &=3D ~BIT(0);
+> > > > +     writel(val, reg + SUN50I_H6_PLL_GPU_REG);
+> > > > +
+> > > > +     /* Force GPU_CLK divider bits to 0 */
+> > > > +     val =3D readl(reg + gpu_clk.common.reg);
+> > > > +     val &=3D ~GENMASK(3, 0);
+> > > > +     writel(val, reg + gpu_clk.common.reg);
+> > > > +
+> > > >
+> > > >       /* Enable the lock bits on all PLLs */
+> > > >       for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
+> > > >
+> > > >               val =3D readl(reg + pll_regs[i]);
+> > > >
+> > > > --
+> > > > 2.34.1
+>
+>
