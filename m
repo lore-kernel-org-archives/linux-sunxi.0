@@ -1,78 +1,173 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91804210D
-	for <linux-sunxi@lists.linux.dev>; Wed,  6 Jul 2022 07:25:57 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id s1so20664067wra.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 06 Jul 2022 00:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=RNGv+/8XLL3pLmqx9QBeEgEnepJuAQVAPCFO8Yi+Cro=;
-        b=3mUI2v7SV28d9VmjYj0Fyg+1wNOzEcpQ4VMVHukiS0/GQw88kM3nJjZIj9oUc5CyOn
-         HWcWTODnZgR+0wizfsFWughub1yC23i2CW45v0j3SfQ6zbxNdXA8w2tH0HZO1N5WWZah
-         9l6I3qFan41NyCXQCm14R222BXC4hhrZWPm5nFJfGfc6eKig5tAO1KCC1MsEvu1oJO56
-         ArveHYEYcNb5z55A57UdWFcrxHRuCxGREVvxJZ2XM2ZrBPzy2YGruospChNnGUgoleU1
-         b1QGJDfEz9UYeOIri0rx7Nqk+wtupPIUNQYC3rxhUem/IABM7T9tuf5TB0uUF0jZB69F
-         o/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=RNGv+/8XLL3pLmqx9QBeEgEnepJuAQVAPCFO8Yi+Cro=;
-        b=W9Ri/jRwg4HNfCe+3vY/dZ3h+CADLVlOvBgyFchukCs0GHRRIFnIauR37AI5zGXS26
-         Auhpxrg2NyeAPBPeqBNPDHWx+25kid1Sf6JDEd0jf1tVL9F/az3SPj+0IW+cuFG6z9/k
-         jMySxfxdc52nGeyEzRXR32a5nw7PRDtqkRyk8e6N+M4R6m4xltMiWWJoXcnMj6z7rR99
-         0WmIkJB1OB/nqsZ/hCSmCRGudyYvXMIhC/m4CDI7BLMt/mjAufjKHpSce0A6Xqi7R8Sm
-         rZTVxu7xgbIL2ptiSeXlHaLIzrdD1TfujWmWuS54x/ivXq7yuaZSkoWA4cLdaogV/v9H
-         PYCQ==
-X-Gm-Message-State: AJIora8BbsyCWV752h8EUFRlFIW9avhqig2sP3zapiMjE1GcTilPj7Fw
-	dGLvk85xOifYdgu8NrW+egevnw==
-X-Google-Smtp-Source: AGRyM1sjjoD72QqN/kPda1ll5BXRtL8M7g0zel6AU2vN3d7fDNT6a5wzNwnXMciWvstWpJaNyTIO/g==
-X-Received: by 2002:a5d:468a:0:b0:21d:6dc8:9e60 with SMTP id u10-20020a5d468a000000b0021d6dc89e60mr11671635wrq.595.1657092355613;
-        Wed, 06 Jul 2022 00:25:55 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id a1-20020a05600c348100b003a03be22f9fsm20272887wmq.18.2022.07.06.00.25.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Jul 2022 00:25:55 -0700 (PDT)
-Date: Wed, 6 Jul 2022 09:25:50 +0200
-From: LABBE Corentin <clabbe@baylibre.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Ben Dooks <ben.dooks@codethink.co.uk>, herbert@gondor.apana.org.au,
-	heiko@sntech.de, linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [RFC PATCH] crypto: flush poison data
-Message-ID: <YsU4/qrnxG8yjFwC@Red>
-References: <20220701132735.1594822-1-clabbe@baylibre.com>
- <4570f6d8-251f-2cdb-1ea6-c3a8d6bb9fcf@codethink.co.uk>
- <YsP0eekTthD4jWGV@Red>
- <20220705164213.GA14484@lst.de>
- <YsR7O4q4IRI14Wkc@Red>
- <20220705175834.GA15815@lst.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC82210D;
+	Wed,  6 Jul 2022 07:57:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2787C341C8;
+	Wed,  6 Jul 2022 07:56:57 +0000 (UTC)
+Message-ID: <e63f409e-4e9c-78c1-dc1c-92efa4fff744@xs4all.nl>
+Date: Wed, 6 Jul 2022 09:56:55 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.6.0
+Subject: Re: [PATCH v10 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Content-Language: en-US
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: mchehab@kernel.org, p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+ mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+ jernej.skrabec@gmail.com, samuel@sholland.org,
+ nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220705085420.272912-1-benjamin.gaignard@collabora.com>
+ <20220705085420.272912-12-benjamin.gaignard@collabora.com>
+ <YsRclobW7gL/Dtlr@eze-laptop>
+ <6ae43dcd-9b1d-ce30-8c3e-a8c313ef5b0a@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <6ae43dcd-9b1d-ce30-8c3e-a8c313ef5b0a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220705175834.GA15815@lst.de>
 
-Le Tue, Jul 05, 2022 at 07:58:34PM +0200, Christoph Hellwig a �crit :
-> On Tue, Jul 05, 2022 at 07:56:11PM +0200, LABBE Corentin wrote:
-> > My problem is that a dma_sync on the data buffer corrupt the poison buffer as collateral dommage.
-> > Probably because the sync operate on a larger region than the requested dma_sync length.
-> > So I try to flush poison data in the cryptoAPI.
+Hi Benjamin,
+
+On 7/5/22 18:03, Benjamin Gaignard wrote:
 > 
-> Data structures that are DMAed to must be aligned to
-> the value returned by dma_get_cache_alignment(), as non-coherent DMA
-> by definition can disturb the data inside that boundary.  That is not
-> a bug but fundamentally part of how DMA works when the device attachment
-> is not cache coherent.
+> Le 05/07/2022 à 17:45, Ezequiel Garcia a écrit :
+>> Hi guys,
+>>
+>> On Tue, Jul 05, 2022 at 10:54:14AM +0200, Benjamin Gaignard wrote:
+>>> The number of 'entry point offset' can be very variable.
+>>> Instead of using a large static array define a v4l2 dynamic array
+>>> of U32 (V4L2_CTRL_TYPE_U32).
+>>> The number of entry point offsets is reported by the elems field
+>>> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+>>> field.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>> ---
+>>>   .../userspace-api/media/v4l/ext-ctrls-codec.rst       | 11 +++++++++++
+>>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c             |  5 +++++
+>>>   include/media/hevc-ctrls.h                            |  5 ++++-
+>>>   3 files changed, 20 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> index db0df7d9f27c..8df8d7fdfe70 100644
+>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>> @@ -3010,6 +3010,9 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>       * - __u32
+>>>         - ``data_bit_offset``
+>>>         - Offset (in bits) to the video data in the current slice data.
+>>> +    * - __u32
+>>> +      - ``num_entry_point_offsets``
+>>> +      - Specifies the number of entry point offset syntax elements in the slice header.
+>> This looks underdocumented. Somewhere in the docs it should be mentioned
+>> that the field 'num_entry_point_offsets' is linked to the control
+>> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS.
+> 
+> This field is here because some drivers would like know the number of
+> entry point offsets without getting the entry point offsets data itself.
 
-I am sorry but I dont see how this can help my problem.
+I agree with Ezequiel that this needs to be documented a bit better, esp. by
+having a reference to the control (and vice versa, probably). That puts this
+into better context.
+
+I assume you'll post a v11?
+
+Regards,
+
+	Hans
+
+> 
+> Benjamin
+> 
+>>
+>> Thanks,
+>> Ezequiel
+>>
+>>>       * - __u8
+>>>         - ``nal_unit_type``
+>>>         - Specifies the coding type of the slice (B, P or I).
+>>> @@ -3150,6 +3153,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>   
+>>>       \normalsize
+>>>   
+>>> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+>>> +    Specifies entry point offsets in bytes.
+>>> +    This control is a dynamically sized array. The number of entry point
+>>> +    offsets is reported by the ``elems`` field.
+>>> +    This bitstream parameter is defined according to :ref:`hevc`.
+>>> +    They are described in section 7.4.7.1 "General slice segment header
+>>> +    semantics" of the specification.
+>>> +
+>>>   ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>>>       Specifies the HEVC scaling matrix parameters used for the scaling process
+>>>       for transform coefficients.
+>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> index d594efbcbb93..e22921e7ea61 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>>> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
+>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return "HEVC Entry Point Offsets";
+>>>   
+>>>   	/* Colorimetry controls */
+>>>   	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>>> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>>   	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>>>   		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>>>   		break;
+>>> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+>>> +		*type = V4L2_CTRL_TYPE_U32;
+>>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>>> +		break;
+>>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>>   		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>>   		break;
+>>> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+>>> index a372c184689e..3a6601a46ced 100644
+>>> --- a/include/media/hevc-ctrls.h
+>>> +++ b/include/media/hevc-ctrls.h
+>>> @@ -20,6 +20,7 @@
+>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
+>>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+>>> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 1017)
+>>>   
+>>>   /* enum v4l2_ctrl_type type values */
+>>>   #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+>>> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>>>    *
+>>>    * @bit_size: size (in bits) of the current slice data
+>>>    * @data_bit_offset: offset (in bits) to the video data in the current slice data
+>>> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
+>>> + *			     elements in the slice header.
+>>>    * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>>>    * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the NAL unit
+>>>    * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+>>> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>>>   struct v4l2_ctrl_hevc_slice_params {
+>>>   	__u32	bit_size;
+>>>   	__u32	data_bit_offset;
+>>> -
+>>> +	__u32	num_entry_point_offsets;
+>>>   	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>>>   	__u8	nal_unit_type;
+>>>   	__u8	nuh_temporal_id_plus1;
+>>> -- 
+>>> 2.32.0
+>>>
+
