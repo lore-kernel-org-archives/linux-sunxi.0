@@ -1,72 +1,73 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B1C362
-	for <linux-sunxi@lists.linux.dev>; Thu,  7 Jul 2022 06:30:35 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 590775C00EA;
-	Thu,  7 Jul 2022 02:30:34 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67501362
+	for <linux-sunxi@lists.linux.dev>; Thu,  7 Jul 2022 06:36:33 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 671DA5C009F;
+	Thu,  7 Jul 2022 02:36:32 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 07 Jul 2022 02:30:34 -0400
+  by compute5.internal (MEProxy); Thu, 07 Jul 2022 02:36:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657175434; x=
-	1657261834; bh=TJIn1V9ic4c6ApTfvv5dVrRd3t/GgxV3Sqp0Eq+6r2g=; b=c
-	MS6GOy0bVkuopuTWs3E68kSB8PBsKg8ibPv3O84u5Sh0VeXirV2OjpPl55joEPVI
-	WE53kOXPflazVfEgd8BbKerHq4/KseZZOPO+VJfL+A3ob1MbA0I5w5MSqEXFeYrl
-	ydmcsZ2V7Scisq+aH2ZZ5f4mN2UiI0Ap5xnJxIud1qlN2gN4zan+fWkmLhPYctAE
-	32TJBqvLB6Ejx+L2DY27g9L85fPdoMa4v4MsNB2ojr+k6SBzvdZi3Qh0gU0WwasT
-	9FQcReC5HItTaEY9HczcXJI3AM1lfUM3n2EYaEwQFUyQAQC2z3LjsVzBjO8BQMQU
-	emOBVIIz5UiGcw1FIvspQ==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657175792; x=
+	1657262192; bh=omzO4IBIszkvfzOM5YHSGqttWGEM0+zARu1BSItsPIQ=; b=a
+	nKQm3EVZ4f0mLKPcpaelfdrMwoZzCNFaZwGO1gnIxnS0+iVa7do3vB2U23odhNMv
+	4Sba5Zl71wh86+knjDh5bCXF+s58V2+FBHCQ3g9agKOi5mmia/ts7TPcYgM/JalA
+	V7Xenw/HnS1eXq5YYfqGy5V5pqFjS5phg1PgyqwW0QZkslpxxjeaS28mtZDd81PI
+	78a7irUh+z9jWArJLOqBPm4kAiWsdUwwFpewoWntUXzq+lPvRZvV89vowBIWLcsQ
+	kNTv1xK5EEKX6oRv0t7r+zmT/5+0uBLmIbQVsrFLbcnaxx+Pe0r9bqW6q74ke3fB
+	TFX3cuR9GVvETz4Hd29oA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657175434; x=
-	1657261834; bh=TJIn1V9ic4c6ApTfvv5dVrRd3t/GgxV3Sqp0Eq+6r2g=; b=H
-	jz8B7KLzbG2MiX/JJiPW0Ecv8YH9Fx+7bBEcpdtIFAJeOtRMStgSwhNJrJjeO7qA
-	4ZNu2CGNf150HlgJ0fEAd0vVV+4azEPquXHaokXrbttlRvKwxVvW4hIptjREGrFe
-	9kC+BdJ2bR4nfVI8mo4rQMlQk+ga4LGYGOxx9q0lb3XHdOXcjCXZqDCDjD47HKhL
-	6ZZDoTpvoJ9+MrP1wRoHIQD8TuUOG4WefSVt0M+Z4GmEJngBAIjuGyDKTCSg1xVA
-	DHE2q4h4zcGJXVCCAkCOEUSsquragbcZMm7pXCgrEQjmuYwBMbciYZhRXrTXOKWS
-	Gw/iDGGEdnEMjJcJYWluQ==
-X-ME-Sender: <xms:iX3GYtUbQ8sSCWKMsyk1ZiyCOdH1oc2iU4gzaybbpkZzD3j24n9QfA>
-    <xme:iX3GYtlT5nx4ARJxb2hJwi0SI5vB0jPfmRbWiWCXf_MOUfOWrnjX_c-9G0GYBI5au
-    RjPsb4OCEMYjgDEIQ>
-X-ME-Received: <xmr:iX3GYpYB044yJcwFqElkFhRn_E92_-h3lZntpCMcUOD4Prci6mcf1Z6Bt_p2favjuf5svEuQLlyf1QEU6dVY3xeKYbIOTMak7MnvYg4gmwNApGyzXqZImPx-4g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedguddutdcutefuodetggdotefrod
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657175792; x=
+	1657262192; bh=omzO4IBIszkvfzOM5YHSGqttWGEM0+zARu1BSItsPIQ=; b=O
+	JyMSBE0+YaUWcrWbqc1SiV47Caf6WrlRnh+HME/mwpo/EX0oTp+3hLpk0qVu5cJj
+	tQvTtPVBHe9kKGcKcU2fbhO/KkYXr5bnu9c37c6ANzzhFZNnGtPdOtkcoG4Rmn1F
+	Vh8WiYNs2SL7cryd4Bf64+K6HAKDni1EL6pJcFnul90sqoWIuVyMIM8A62ksmrbl
+	hh3IT9R9U8Tye8WnQ4HWQ/nlu3GrjjLHhAsLiWDwlBh/FQPqp5ZJoeDK8uFrKp4L
+	Q/+GDyUwJtpN7o6Mooey/L5GpY1AIHyvkVkYhNZwpHnvbj6e9REHw/nufjl9kHKp
+	KYjQDijTASLcksMZGAzMw==
+X-ME-Sender: <xms:8H7GYmIcBeMZgyDPBKBFp73EM2e-KEv-K3Bw6J_RuftibSHqbfS-Qw>
+    <xme:8H7GYuI9-65ClbkTJyhwxVGLfMHcuQtPwOKftLKSyf-8UIxkGxWTAvRlcAu_zDugU
+    eLkyfRBhpA1KvOcrQ>
+X-ME-Received: <xmr:8H7GYmu9Sjq_Q9Hm1IxQTrnFaowsvcrMw_zADlgn9rFeUvmEXxK2oq-vZJ1__s74K-AlN08El5dX-6aNnOjGpFgBITRc2K6RORGYQ9BKtZTWxL-lljyhdcvPTg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudeigedgudduudcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
     enucfjughrpefuvfevfhfhkffffgggjggtgfesthejredttdefjeenucfhrhhomhepufgr
     mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
-    cuggftrfgrthhtvghrnhepffdtveekvdegkeeuueetgfetffeileevudekuefhheelvdfh
-    iedtheduhfduhefhnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:iX3GYgXdbzLv5yFKKcNEbjuVMdxFf6HwoPgTbeokPRJV44xgHKq7ww>
-    <xmx:iX3GYnldE02U6d-KTR5G7LE5l8ADzjA0YNOgZKirRFT3A6FuOAbpMQ>
-    <xmx:iX3GYtcerNFQGAyI0Adpuo10lgp1O8s4iVjw-FnElFoLi_Ffn_NZFg>
-    <xmx:in3GYp57PRmOH0nBgDQTexj1gKo512VSuiQiX8DXDGGn4tqse8dA8A>
+    cuggftrfgrthhtvghrnhepleetjeffvdegheektdekveeuueetffetffehudefueejvddu
+    feduteeiieejveelnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhl
+    lhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:8H7GYrY0iKUyc-iXv6An3L50sUiW96oUjfxtBJ8ZWUle0vjmIne8iQ>
+    <xmx:8H7GYta5ZYIvbK_DC2UzgK1jEp63NfQjHBg887ZoO3dE4hA0doQ64g>
+    <xmx:8H7GYnAAdVDomucA9JoPZXrWkRDrZhyXa_GiZaZ7_ZBdTx9U6Yp8Ug>
+    <xmx:8H7GYrPWn47SG2h-NxueDRNXphquKL6mM3FzwG8h2SB6nVBDSNWxog>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Jul 2022 02:30:33 -0400 (EDT)
-Subject: Re: [PATCH v11 3/6] arm64: dts: allwinner: Add Allwinner H616 .dtsi
+ 7 Jul 2022 02:36:31 -0400 (EDT)
+Subject: Re: [PATCH v12 3/7] arm64: dts: allwinner: Add Allwinner H616 .dtsi
  file
-To: Andre Przywara <andre.przywara@arm.com>,
- =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh@kernel.org>,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Icenowy Zheng <icenowy@aosc.io>, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org,
+ Linus Walleij <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-References: <20220428230933.15262-1-andre.przywara@arm.com>
- <22699277.6Emhk5qWAg@kista> <20220704225534.3e1a901a@slackpad.lan>
- <5278570.Sb9uPGUboI@kista>
- <20220706141655.15d2dd0e@donnerap.cambridge.arm.com>
+References: <20220701112453.2310722-1-andre.przywara@arm.com>
+ <20220701112453.2310722-4-andre.przywara@arm.com>
+ <2056c471-39d7-6d8e-c4b2-5a83f13d831a@sholland.org>
+ <20220705114250.5136ede4@donnerap.cambridge.arm.com>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <39537f95-2ed4-f526-5912-364c1c1ed512@sholland.org>
-Date: Thu, 7 Jul 2022 01:30:32 -0500
+Message-ID: <506f5ba8-434e-d740-0d14-fa0e129ac0e0@sholland.org>
+Date: Thu, 7 Jul 2022 01:36:31 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -75,42 +76,31 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20220706141655.15d2dd0e@donnerap.cambridge.arm.com>
+In-Reply-To: <20220705114250.5136ede4@donnerap.cambridge.arm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi Andre, Jernej,
+Hi Andre,
 
-On 7/6/22 8:16 AM, Andre Przywara wrote:
-> so after seemingly having finished writing this email, I realised that
-> this won't really help, as I think this diverts the discussion. And the
-> problem has been around for a while, and won't probably be solved easily
-> or quickly. I think we agree to disagree here, or we should admit that
-> there are different approaches ("bundled firmware" vs. "UEFI"), so in the
-> interest of not blocking the H616 series:
+On 7/5/22 5:42 AM, Andre Przywara wrote:
+> On Mon, 4 Jul 2022 20:16:50 -0500
+> Samuel Holland <samuel@sholland.org> wrote:
+>>> +		i2c0: i2c@5002000 {
+>>> +			compatible = "allwinner,sun50i-h616-i2c",
+>>> +				     "allwinner,sun6i-a31-i2c";  
+>>
+>> Future note: this will be affected by [1] which adds a fallback compatible for
+>> variants with offload support. That way we don't have to support them all
+>> individually in the driver if/when we implement that.
+>>
+>> [1]: https://lore.kernel.org/lkml/20220702052544.31443-1-samuel@sholland.org/
 > 
-> Shall I just keep the firmware node? This would work both ways, whereas
-> dropping the node would impede the "bundled firmware" approach?
+> I saw (and liked) that. Shall I insert the compatible string already? Or
+> is it too early for that, because dtbs_checks would fail without the
+> amended binding in the tree?
 
-Let me try to sum up the relevant portion of my thoughts (and save the rest for
-elsewhere):
-
-The only reason to add the reserved-memory node is to support externally-loaded
-DTBs. By adding the node, we are committing to support externally-loaded DTBs on
-this SoC.
-
-Upgrading the kernel is not allowed to break boot. If we support
-externally-loaded DTBs, that rule extends to DTBs shipped with the kernel.
-
-If we remove the reserved-memory node, the combination of old U-Boot + new
-externally-loaded DTB will stop booting (the kernel version is irrelevant).
-Therefore, if we add the node, we can never remove it, full stop.
-
-I will (begrudgingly) accept that, as long as the node matches what TF-A
-actually generates today. That means, please:
- - Drop the label and update the node name
- - Reduce the size to 256 KiB, matching (BL31_LIMIT - BL31_BASE)
+The updated binding is in linux-next, so please add the new compatible.
 
 Regards,
 Samuel
