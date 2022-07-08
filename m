@@ -1,49 +1,49 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A541F65B
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 04:53:45 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id y8so19789519eda.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 07 Jul 2022 21:53:45 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC7765B
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 04:57:17 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id u15so11380995ejx.9
+        for <linux-sunxi@lists.linux.dev>; Thu, 07 Jul 2022 21:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Ifd6YvR971sQbkTDoi8ioWcjmTS4ihpj6psKjLvOgsg=;
-        b=lfYE5tzh2TowBWRFhQcIuCLeYjkDlkpzZ2FtOaAaopdYJWsvkxVeyl+Q6TGRYOuyml
-         7stejPBh/SbFwt6MxCf1WtdOuMCBlry6XBrfGPqpP9vka5bgU/GzUnL33CTZUENla7zp
-         vNexaOxkdZG1rSJvrvigLC5E6ositJqzUo1EcdYnp5rR1D3i+N7eRDEAJhK4scna2wAZ
-         l+LMeEnGMM7YGMFyN1QDqM4AqI91F54CDZQJtf0gboXW/GdSihXAL7RkjlpCl3YyzBB8
-         ybJafvwIu9btRqoJkCQCtHgBVDwQDSA8ZOcCUF4wgsZnvoqINPUSWVJc+xsY0jUi3yMH
-         UQqA==
+        bh=x8fQU4B1VYv6gYeOF0+DboUyub0Jgur6jpw9VLuvZLc=;
+        b=U+QK06ak6c3yoHF0diiJe6mM6YJAqv4ly7xM7b3y7THF4unwcNKjwA2xdmwP7JAWMR
+         SQuxjIVHnhMs4QIBeuL1jqKoV8wnWoS9HTSQYCrdwYcdR1FwUK7EWls8XADk7aysw+f5
+         ZcLTjVKaPZC6ncpaCqQvTLenyjqnu9TAVcvWG75bMYW833gA2QkGJkxHzXKa4GcUobQA
+         mPPOpyh8/9RmxkDQfa7oBQZdctqnJ0DvJV5ZKVSImi120k2XsbMb09OjZQ/qF5YS4OPM
+         b6gnRt0s8WXURRU1GY58NcAVP5zLQKKU0/ly0JgNXiYMvWWViqcoftXH2lP+rtZWAr+5
+         UFYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Ifd6YvR971sQbkTDoi8ioWcjmTS4ihpj6psKjLvOgsg=;
-        b=knZq51OSIrtiV4lXH6V0o+D4keuBAYlyi3mnntzeSGrWvNfkOOl8AvJ+9uYf+0yLJn
-         JDDyNF+IuvgQvdPJtYVwM8Kn1Ck5YiiMBsznbZ0Q4NEMqHzRA4qazZLZ4QQJxcsXpclX
-         qYhQNSd0IEjKgI7bxe2I9efl9Rogii4hwuwuyy0ksEYddyWvd9eJHy27T4jPnD5tGq54
-         U9zvCDSXkWMpXjKRxYaLSzDB9c6eaY5iNghcD3VEDh3R5Uf+wkETVGuGDxbDHftZkGel
-         LVK43yHKU5P8kvI+jZ6dQ1seyirQlRmqsF0SSs5nFe+YJs4L2oLc7nV54IJvdTj9x9v9
-         V+XQ==
-X-Gm-Message-State: AJIora+dDVcg87LR3bj/2+8rwA1VFDNcrYUdJM3YVrHdCAf4PdqaXNeb
-	GcPWOqIQM8+4YkUihoQCct6H/w/qe0zAYA==
-X-Google-Smtp-Source: AGRyM1sdjA51qCoZ7NUFs/lENCEIWfFIXxbWT341U/bvcvuvoTdMakI0TtWwRJh+P8OquJViwHo9hA==
-X-Received: by 2002:a05:6402:328f:b0:43a:8488:1000 with SMTP id f15-20020a056402328f00b0043a84881000mr2198862eda.105.1657256023794;
-        Thu, 07 Jul 2022 21:53:43 -0700 (PDT)
+        bh=x8fQU4B1VYv6gYeOF0+DboUyub0Jgur6jpw9VLuvZLc=;
+        b=4wqeM5HVk/Zp4sIoJFcdeqzHfseqUgyoH8SDM1BWINv3ITZie6S2IxnbhCgR06l5nU
+         kBtC+0T2abtxJ2e1mEPxHah4q9wwOhqajUqdcKucxZLKltkLTlyM6L21535FdEe3YBCK
+         jWQBg7NKEDRiYJFYSFqtzVVdl5hCEClAZ5elHh9BYDcePnFeqosijJJJY5AKzLMNJIiu
+         I/KjsZzoFMN2FfewqL9G5CBSIvVrVGwPjH2nIDcMIQM+8gOTx5wxuSJwvbNwZ0hSu0UG
+         v+PeMTFQ/EAsFkkr2BWU8b5z24N71M1m3864XCZgFyCM715uo7f0HxRre7eR+FMrsABc
+         gKUg==
+X-Gm-Message-State: AJIora9ATshmyb3Rv4VNT0TnjrjYvjhUmgdJFwvicW2e3bp1s0H8cCSX
+	5bTb435n6Hil56SfmyYfjSM=
+X-Google-Smtp-Source: AGRyM1s+YcMW+irQo4Mgyxf2lZ+uk+g5ag5Ce6sUSXJiKASfue6qTWGlJV1dSGKo71FWvcb3IhWRrg==
+X-Received: by 2002:a17:907:2ccc:b0:72b:2f1:f157 with SMTP id hg12-20020a1709072ccc00b0072b02f1f157mr1659330ejc.265.1657256236231;
+        Thu, 07 Jul 2022 21:57:16 -0700 (PDT)
 Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id s17-20020a1709060c1100b00722e52d043dsm19778844ejf.114.2022.07.07.21.53.42
+        by smtp.gmail.com with ESMTPSA id kx12-20020a170907774c00b0072b02f99e55sm2570899ejc.197.2022.07.07.21.57.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 21:53:42 -0700 (PDT)
+        Thu, 07 Jul 2022 21:57:15 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@lists.linux.dev, Michal Suchanek <msuchanek@suse.de>
-Cc: Michal Suchanek <msuchanek@suse.de>, Icenowy Zheng <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] sunxi: dts: Fix SPI NOR campatible on Orange Pi Zero
-Date: Fri, 08 Jul 2022 06:53:41 +0200
-Message-ID: <5580737.DvuYhMxLoT@jernej-laptop>
-In-Reply-To: <20220707170721.20225-1-msuchanek@suse.de>
-References: <20220707174801.36e010da@donnerap.cambridge.arm.com> <20220707170721.20225-1-msuchanek@suse.de>
+To: Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org, mripard@kernel.org, wens@csie.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
+Date: Fri, 08 Jul 2022 06:57:14 +0200
+Message-ID: <4408347.LvFx2qVVIh@jernej-laptop>
+In-Reply-To: <CAGphcdnw3+E9cHZGUOLnroo7wTR4HRjiKJXdmihSK40jsga9Qw@mail.gmail.com>
+References: <20220705075226.359475-1-r.stratiienko@gmail.com> <2562485.k3LOHGUjKi@kista> <CAGphcdnw3+E9cHZGUOLnroo7wTR4HRjiKJXdmihSK40jsga9Qw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,21 +53,243 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Michal,
+Hi Roman,
 
-Dne =C4=8Detrtek, 07. julij 2022 ob 19:07:20 CEST je Michal Suchanek napisa=
-l(a):
-> Without "jedec,spi-nor" compatible the flash memory cannot be probed by
-> u-boot. The macronix part is what is shipped on the boards that come
-> with a flash chip.
+Dne sreda, 06. julij 2022 ob 11:46:13 CEST je Roman Stratiienko napisal(a):
+> =D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 21:07, Jernej =C5=
+=A0krabec <jernej.skrabec@gmail.com>:
+> > Dne torek, 05. julij 2022 ob 18:29:39 CEST je Roman Stratiienko=20
+napisal(a):
+> > > Hi Jernej,
+> > >=20
+> > > =D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 19:07, Jernej=
+ =C5=A0krabec <jernej.skrabec@gmail.com>:
+> > > > Hi Roman,
+> > > >=20
+> > > > Dne torek, 05. julij 2022 ob 09:52:26 CEST je Roman Stratiienko
+> >=20
+> > napisal(a):
+> > > > > Using simple bash script it was discovered that not all CCU
+> > > > > registers
+> > > > >=20
+> > > > > can be safely used for DFS, e.g.:
+> > > > >     while true
+> > > > >     do
+> > > > >    =20
+> > > > >         devmem 0x3001030 4 0xb0003e02
+> > > > >         devmem 0x3001030 4 0xb0001e02
+> > > > >    =20
+> > > > >     done
+> > > > >=20
+> > > > > Script above changes the GPU_PLL multiplier register value. While
+> > > > > the
+> > > > > script is running, the user should interact with the user interfa=
+ce.
+> > > > >=20
+> > > > > Using this method the following results were obtained:
+> > > > > | Register  | Name           | Bits  | Values | Result |
+> > > > > | --        | --             | --    | --     | --     |
+> > > > > | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
+> > > > > | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
+> > > > > | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
+> > > > > | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
+> > > > >=20
+> > > > > DVFS started to work seamlessly once dividers which caused the
+> > > > > glitches were set to fixed values.
+> > > > >=20
+> > > > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > > > >=20
+> > > > > ---
+> > > > >=20
+> > > > > Changelog:
+> > > > >=20
+> > > > > V2:
+> > > > > - Drop changes related to mux
+> > > > > - Drop frequency limiting
+> > > > > - Add unused dividers initialization
+> > > > >=20
+> > > > > V3:
+> > > > > - Adjust comments
+> > > >=20
+> > > > I don't see any comment fixed, at least not to "1", as we discussed.
+> > > > Did I
+> > > > miss anything?
+> > >=20
+> > > I've added the "bits" word, so now it should sound correct.
+> >=20
+> > Technically it's correct, but this would be third form of comments for
+> > fixed bits. Let's stick to the form which is most informative ("Force
+> > PLL_GPU output divider to 1"). Ideally, comment would also point to
+> > gpu_clk comment for reason why, like it's done for video PLL block
+> > already.
+> >=20
+> > > > Also, please add min and max.
+> > >=20
+> > > What is the rationale for additional limits?
+> >=20
+> > If limits are specified in whatever form, they should be added. As I sa=
+id
+> > several times already, vendor code limits PLL frequency to 288 MHz mini=
+mum
+> > and lists maximum. As experienced a few times before with video PLLs,
+> > these are important, otherwise PLL is unstable. For example, OPP table =
+in
+> > vendor DT has two operating points lower than 288 MHz, which means it
+> > would either lock up or be unstable. In such cases, vendor code actually
+> > sets GPU_CLK divider to 2, but we can skip them, because GPU_CLK divider
+> > will be hardcoded to 1 with this patch.
 >=20
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> What is the rationale behind vendor's freq limitation?
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+You have to ask Allwinner. But usually it's a good reason, otherwise they=20
+wouldn't bother to write such code.
 
-Next time, please add changelog below --- line.
+>=20
+> There's no min_rate field in ccu_nkmp. After I changed it to ccu_nm
+> and set limits, the system started to behave unstable with a lot of
+> messages in dmesg:
+>=20
+> [   40.089091] panfrost 1800000.gpu: _generic_set_opp_clk_only: failed
+> to set clock rate: -22
+> [   40.097698] devfreq 1800000.gpu: dvfs failed with (-22) error
+
+Did you remove points below 288 MHz?
+
+>=20
+> From the other end I have no issues so far with the current version
+> and I have a lot of other work to do.
+> I think it's a good point to stop any further improvements until
+> testing results show any issues with the current version.
+>=20
+> > > CPU_PLL doesn't have these limits. I don't want to make them differen=
+t.
+> >=20
+> > Why CPU_PLL?
+>=20
+> According to the H6 usermanual only CPU and GPU PLLs support smooth
+> clock transition during DFS.
+
+This doesn't mean they have exactly the same limitations. Anyway, I'll merg=
+e=20
+this one. So:
+
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
+
+>=20
+> Regards,
+> Roman.
+>=20
+> > Why not video PLL? In any case, it doesn't matter if struct looks
+> > similar to some other or is unique. Only important thing is that struct
+> > describes PLL as best as possible.
+> >=20
+> > > > I also consent to R-B, which you
+> > > > didn't include.
+> > >=20
+> > > I was expecting an explicit 'review-by' line. Anyway I can add it and
+> > > resend v4 if it's necessary.
+> >=20
+> > If you at least add min and max limits, you can add following tag:
+> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
+> > If you send it before Friday, it will be in 5.20.
+> >=20
+> > Best regards,
+> > Jernej
+> >=20
+> > > Regards,
+> > > Roman
+> > >=20
+> > > > Did you resend v2 instead of v3?
+> > > >=20
+> > > > Best regards,
+> > > > Jernej
+> > > >=20
+> > > > > ---
+> > > > >=20
+> > > > >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
+> > > > >  1 file changed, 13 insertions(+), 3 deletions(-)
+> > > > >=20
+> > > > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index
+> > > > > 2ddf0a0da526f..068d1a6b2ebf3
+> > > > > 100644
+> > > > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > > > > @@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk =3D {
+> > > > >=20
+> > > > >       },
+> > > > > =20
+> > > > >  };
+> > > > >=20
+> > > > > +/* For GPU PLL, using an output divider for DFS causes system to
+> > > > > fail
+> > > > > */
+> > > > >=20
+> > > > >  #define SUN50I_H6_PLL_GPU_REG                0x030
+> > > > >  static struct ccu_nkmp pll_gpu_clk =3D {
+> > > > > =20
+> > > > >       .enable         =3D BIT(31),
+> > > > >       .lock           =3D BIT(28),
+> > > > >       .n              =3D _SUNXI_CCU_MULT_MIN(8, 8, 12),
+> > > > >       .m              =3D _SUNXI_CCU_DIV(1, 1), /* input divider =
+*/
+> > > > >=20
+> > > > > -     .p              =3D _SUNXI_CCU_DIV(0, 1), /* output divider
+> > > >=20
+> > > > */
+> > > >=20
+> > > > >       .common         =3D {
+> > > > >      =20
+> > > > >               .reg            =3D 0x030,
+> > > > >               .hw.init        =3D CLK_HW_INIT("pll-gpu", "osc24M",
+> > > > >=20
+> > > > > @@ -294,9 +294,9 @@ static
+> > > > > SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk,
+> > > > > "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
+> > > > > "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
+> > > > >=20
+> > > > > +/* Keep GPU_CLK divider const to avoid DFS instability. */
+> > > > >=20
+> > > > >  static const char * const gpu_parents[] =3D { "pll-gpu" };
+> > > > >=20
+> > > > > -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents,
+> > > > > 0x670,
+> > > > > -                                    0, 3,    /* M */
+> > > > > +static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x67=
+0,
+> > > > >=20
+> > > > >                                      24, 1,   /* mux */
+> > > > >                                      BIT(31), /* gate */
+> > > > >                                      CLK_SET_RATE_PARENT);
+> > > > >=20
+> > > > > @@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct
+> > > > > platform_device *pdev) if (IS_ERR(reg))
+> > > > >=20
+> > > > >               return PTR_ERR(reg);
+> > > > >=20
+> > > > > +     /* Force PLL_GPU output divider bits to 0 */
+> > > > > +     val =3D readl(reg + SUN50I_H6_PLL_GPU_REG);
+> > > > > +     val &=3D ~BIT(0);
+> > > > > +     writel(val, reg + SUN50I_H6_PLL_GPU_REG);
+> > > > > +
+> > > > > +     /* Force GPU_CLK divider bits to 0 */
+> > > > > +     val =3D readl(reg + gpu_clk.common.reg);
+> > > > > +     val &=3D ~GENMASK(3, 0);
+> > > > > +     writel(val, reg + gpu_clk.common.reg);
+> > > > > +
+> > > > >=20
+> > > > >       /* Enable the lock bits on all PLLs */
+> > > > >       for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
+> > > > >      =20
+> > > > >               val =3D readl(reg + pll_regs[i]);
+> > > > >=20
+> > > > > --
+> > > > > 2.34.1
+
+
 
 
