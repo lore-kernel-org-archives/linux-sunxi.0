@@ -1,294 +1,186 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC7765B
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 04:57:17 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id u15so11380995ejx.9
-        for <linux-sunxi@lists.linux.dev>; Thu, 07 Jul 2022 21:57:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CBF65B;
+	Fri,  8 Jul 2022 04:59:51 +0000 (UTC)
+Received: by mail-ej1-f52.google.com with SMTP id a9so6095042ejf.6;
+        Thu, 07 Jul 2022 21:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=x8fQU4B1VYv6gYeOF0+DboUyub0Jgur6jpw9VLuvZLc=;
-        b=U+QK06ak6c3yoHF0diiJe6mM6YJAqv4ly7xM7b3y7THF4unwcNKjwA2xdmwP7JAWMR
-         SQuxjIVHnhMs4QIBeuL1jqKoV8wnWoS9HTSQYCrdwYcdR1FwUK7EWls8XADk7aysw+f5
-         ZcLTjVKaPZC6ncpaCqQvTLenyjqnu9TAVcvWG75bMYW833gA2QkGJkxHzXKa4GcUobQA
-         mPPOpyh8/9RmxkDQfa7oBQZdctqnJ0DvJV5ZKVSImi120k2XsbMb09OjZQ/qF5YS4OPM
-         b6gnRt0s8WXURRU1GY58NcAVP5zLQKKU0/ly0JgNXiYMvWWViqcoftXH2lP+rtZWAr+5
-         UFYQ==
+        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
+        b=ZWDRcARnh37E7hLpPiJw+bSbMNdnbTvwSIG8mJQuN9AJLUetbtk70FdGBlQgFPRZcG
+         eCHryFyoOT2l6irvv4WjXHqUMJrc+CAvCGHhJiYS8bh+8GMQvdAG8icBHZNmsfal/sFQ
+         3JGbAb2ZaC37PYZ00KpCj9J3uDvZDxkmOmfBMNGW0BqnYFOmBN6KWwuxxmDIXJ2Jd8BY
+         eJLxh5CjUDjSHKra9WClVwi21aMVLk5/2g+oAoAKr+fOsKcehl1cmIrn4ERhl6Lw9G8M
+         E12aylIE90bli3DwOzaMe0BJNU8sgAwjc+v4WTYuhAI9A730h4hEOh4YDdTwbUlGp6Kc
+         w+tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=x8fQU4B1VYv6gYeOF0+DboUyub0Jgur6jpw9VLuvZLc=;
-        b=4wqeM5HVk/Zp4sIoJFcdeqzHfseqUgyoH8SDM1BWINv3ITZie6S2IxnbhCgR06l5nU
-         kBtC+0T2abtxJ2e1mEPxHah4q9wwOhqajUqdcKucxZLKltkLTlyM6L21535FdEe3YBCK
-         jWQBg7NKEDRiYJFYSFqtzVVdl5hCEClAZ5elHh9BYDcePnFeqosijJJJY5AKzLMNJIiu
-         I/KjsZzoFMN2FfewqL9G5CBSIvVrVGwPjH2nIDcMIQM+8gOTx5wxuSJwvbNwZ0hSu0UG
-         v+PeMTFQ/EAsFkkr2BWU8b5z24N71M1m3864XCZgFyCM715uo7f0HxRre7eR+FMrsABc
-         gKUg==
-X-Gm-Message-State: AJIora9ATshmyb3Rv4VNT0TnjrjYvjhUmgdJFwvicW2e3bp1s0H8cCSX
-	5bTb435n6Hil56SfmyYfjSM=
-X-Google-Smtp-Source: AGRyM1s+YcMW+irQo4Mgyxf2lZ+uk+g5ag5Ce6sUSXJiKASfue6qTWGlJV1dSGKo71FWvcb3IhWRrg==
-X-Received: by 2002:a17:907:2ccc:b0:72b:2f1:f157 with SMTP id hg12-20020a1709072ccc00b0072b02f1f157mr1659330ejc.265.1657256236231;
-        Thu, 07 Jul 2022 21:57:16 -0700 (PDT)
+        bh=qbzU1NEw9jssixWhWJrvAWfUIVJG59WeLpo6y3ejNL8=;
+        b=yFd43BAttaIL5gPRhUq0rKZi8CpF+/fnm82mG6/c/FhrU0JbYcEcrL523Bo0v8HRh3
+         0rShmit8HD9BECvp23tMFEomMu0u4pPu0QGU+xurRuSmbPo970j8VkAP8bvD+i3V5MDD
+         hRS+k17dknRDy/nD+xF+prnkFejbC+LJ0G3wUBgVguRzpVIlB6/OlnvNS8GaVbFyna4e
+         h0/Iuj7sd5sCyrEaS4DqPjyOpFPcBwgqq9PUHbz92MK2ZWntzm7dGafln/3Dwhpd3OJH
+         svHLMSHGcG5w0GAY9s7oJscy0dtmiGos5RbfwccIutDYTsXZHbJzGEPIbmSlS3BB2Rl6
+         UovQ==
+X-Gm-Message-State: AJIora+vRgrQ3dveiWZOECZykc5E3uk9L+u+5Koe1sFHwkrDbkOPPDtS
+	6oLF27tyfJ5GvMsLhh5iB8g=
+X-Google-Smtp-Source: AGRyM1tB1j1dl+dJsTCR1/AayROaNRUAdCtoaXF2DONWEedudqNFFhQj8RHgrNXfonLTu2a8K6WC2g==
+X-Received: by 2002:a17:906:20c6:b0:718:cc95:ccaf with SMTP id c6-20020a17090620c600b00718cc95ccafmr1676983ejc.714.1657256389600;
+        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
 Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id kx12-20020a170907774c00b0072b02f99e55sm2570899ejc.197.2022.07.07.21.57.14
+        by smtp.gmail.com with ESMTPSA id l10-20020a1709063d2a00b0072ae8fb13e6sm2553165ejf.126.2022.07.07.21.59.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Jul 2022 21:57:15 -0700 (PDT)
+        Thu, 07 Jul 2022 21:59:49 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, Michael Turquette <mturquette@baylibre.com>, sboyd@kernel.org, mripard@kernel.org, wens@csie.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
-Date: Fri, 08 Jul 2022 06:57:14 +0200
-Message-ID: <4408347.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <CAGphcdnw3+E9cHZGUOLnroo7wTR4HRjiKJXdmihSK40jsga9Qw@mail.gmail.com>
-References: <20220705075226.359475-1-r.stratiienko@gmail.com> <2562485.k3LOHGUjKi@kista> <CAGphcdnw3+E9cHZGUOLnroo7wTR4HRjiKJXdmihSK40jsga9Qw@mail.gmail.com>
+To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: Re: [PATCH v11 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Date: Fri, 08 Jul 2022 06:59:47 +0200
+Message-ID: <4722279.GXAFRqVoOG@jernej-laptop>
+In-Reply-To: <20220706093803.158810-12-benjamin.gaignard@collabora.com>
+References: <20220706093803.158810-1-benjamin.gaignard@collabora.com> <20220706093803.158810-12-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Roman,
+Hi Benjamin,
 
-Dne sreda, 06. julij 2022 ob 11:46:13 CEST je Roman Stratiienko napisal(a):
-> =D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 21:07, Jernej =C5=
-=A0krabec <jernej.skrabec@gmail.com>:
-> > Dne torek, 05. julij 2022 ob 18:29:39 CEST je Roman Stratiienko=20
-napisal(a):
-> > > Hi Jernej,
-> > >=20
-> > > =D0=B2=D1=82, 5 =D0=B8=D1=8E=D0=BB. 2022 =D0=B3. =D0=B2 19:07, Jernej=
- =C5=A0krabec <jernej.skrabec@gmail.com>:
-> > > > Hi Roman,
-> > > >=20
-> > > > Dne torek, 05. julij 2022 ob 09:52:26 CEST je Roman Stratiienko
-> >=20
-> > napisal(a):
-> > > > > Using simple bash script it was discovered that not all CCU
-> > > > > registers
-> > > > >=20
-> > > > > can be safely used for DFS, e.g.:
-> > > > >     while true
-> > > > >     do
-> > > > >    =20
-> > > > >         devmem 0x3001030 4 0xb0003e02
-> > > > >         devmem 0x3001030 4 0xb0001e02
-> > > > >    =20
-> > > > >     done
-> > > > >=20
-> > > > > Script above changes the GPU_PLL multiplier register value. While
-> > > > > the
-> > > > > script is running, the user should interact with the user interfa=
-ce.
-> > > > >=20
-> > > > > Using this method the following results were obtained:
-> > > > > | Register  | Name           | Bits  | Values | Result |
-> > > > > | --        | --             | --    | --     | --     |
-> > > > > | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
-> > > > > | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
-> > > > > | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
-> > > > > | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
-> > > > >=20
-> > > > > DVFS started to work seamlessly once dividers which caused the
-> > > > > glitches were set to fixed values.
-> > > > >=20
-> > > > > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> > > > >=20
-> > > > > ---
-> > > > >=20
-> > > > > Changelog:
-> > > > >=20
-> > > > > V2:
-> > > > > - Drop changes related to mux
-> > > > > - Drop frequency limiting
-> > > > > - Add unused dividers initialization
-> > > > >=20
-> > > > > V3:
-> > > > > - Adjust comments
-> > > >=20
-> > > > I don't see any comment fixed, at least not to "1", as we discussed.
-> > > > Did I
-> > > > miss anything?
-> > >=20
-> > > I've added the "bits" word, so now it should sound correct.
-> >=20
-> > Technically it's correct, but this would be third form of comments for
-> > fixed bits. Let's stick to the form which is most informative ("Force
-> > PLL_GPU output divider to 1"). Ideally, comment would also point to
-> > gpu_clk comment for reason why, like it's done for video PLL block
-> > already.
-> >=20
-> > > > Also, please add min and max.
-> > >=20
-> > > What is the rationale for additional limits?
-> >=20
-> > If limits are specified in whatever form, they should be added. As I sa=
-id
-> > several times already, vendor code limits PLL frequency to 288 MHz mini=
-mum
-> > and lists maximum. As experienced a few times before with video PLLs,
-> > these are important, otherwise PLL is unstable. For example, OPP table =
-in
-> > vendor DT has two operating points lower than 288 MHz, which means it
-> > would either lock up or be unstable. In such cases, vendor code actually
-> > sets GPU_CLK divider to 2, but we can skip them, because GPU_CLK divider
-> > will be hardcoded to 1 with this patch.
->=20
-> What is the rationale behind vendor's freq limitation?
+Dne sreda, 06. julij 2022 ob 11:37:57 CEST je Benjamin Gaignard napisal(a):
+> The number of 'entry point offset' can be very variable.
+> Instead of using a large static array define a v4l2 dynamic array
+> of U32 (V4L2_CTRL_TYPE_U32).
+> The number of entry point offsets is reported by the elems field
+> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> field.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-You have to ask Allwinner. But usually it's a good reason, otherwise they=20
-wouldn't bother to write such code.
-
->=20
-> There's no min_rate field in ccu_nkmp. After I changed it to ccu_nm
-> and set limits, the system started to behave unstable with a lot of
-> messages in dmesg:
->=20
-> [   40.089091] panfrost 1800000.gpu: _generic_set_opp_clk_only: failed
-> to set clock rate: -22
-> [   40.097698] devfreq 1800000.gpu: dvfs failed with (-22) error
-
-Did you remove points below 288 MHz?
-
->=20
-> From the other end I have no issues so far with the current version
-> and I have a lot of other work to do.
-> I think it's a good point to stop any further improvements until
-> testing results show any issues with the current version.
->=20
-> > > CPU_PLL doesn't have these limits. I don't want to make them differen=
-t.
-> >=20
-> > Why CPU_PLL?
->=20
-> According to the H6 usermanual only CPU and GPU PLLs support smooth
-> clock transition during DFS.
-
-This doesn't mean they have exactly the same limitations. Anyway, I'll merg=
-e=20
-this one. So:
+Clarification looks good to me :)
 
 Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
 
->=20
-> Regards,
-> Roman.
->=20
-> > Why not video PLL? In any case, it doesn't matter if struct looks
-> > similar to some other or is unique. Only important thing is that struct
-> > describes PLL as best as possible.
-> >=20
-> > > > I also consent to R-B, which you
-> > > > didn't include.
-> > >=20
-> > > I was expecting an explicit 'review-by' line. Anyway I can add it and
-> > > resend v4 if it's necessary.
-> >=20
-> > If you at least add min and max limits, you can add following tag:
-> > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > If you send it before Friday, it will be in 5.20.
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > > Regards,
-> > > Roman
-> > >=20
-> > > > Did you resend v2 instead of v3?
-> > > >=20
-> > > > Best regards,
-> > > > Jernej
-> > > >=20
-> > > > > ---
-> > > > >=20
-> > > > >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 16 +++++++++++++---
-> > > > >  1 file changed, 13 insertions(+), 3 deletions(-)
-> > > > >=20
-> > > > > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index
-> > > > > 2ddf0a0da526f..068d1a6b2ebf3
-> > > > > 100644
-> > > > > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-> > > > > @@ -95,13 +95,13 @@ static struct ccu_nkmp pll_periph1_clk =3D {
-> > > > >=20
-> > > > >       },
-> > > > > =20
-> > > > >  };
-> > > > >=20
-> > > > > +/* For GPU PLL, using an output divider for DFS causes system to
-> > > > > fail
-> > > > > */
-> > > > >=20
-> > > > >  #define SUN50I_H6_PLL_GPU_REG                0x030
-> > > > >  static struct ccu_nkmp pll_gpu_clk =3D {
-> > > > > =20
-> > > > >       .enable         =3D BIT(31),
-> > > > >       .lock           =3D BIT(28),
-> > > > >       .n              =3D _SUNXI_CCU_MULT_MIN(8, 8, 12),
-> > > > >       .m              =3D _SUNXI_CCU_DIV(1, 1), /* input divider =
+> ---
+> version 11:
+> - Be more verbose about num_entry_point_offsets field usage.
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst   | 15 +++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c         |  5 +++++
+>  include/media/hevc-ctrls.h                        |  5 ++++-
+>  3 files changed, 24 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
+> c2e0adece613..59e751c38d06 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3010,6 +3010,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``num_entry_point_offsets``
+> +      - Specifies the number of entry point offset syntax elements in the
+> slice header. +        This field must be set even if
+> V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS +        control isn't used.
+> Additionally, if entry point offsets control is needed +        and if
+> submitting multiple slices at once, length of entry point offsets +       
+> array must be sum of num_entry_point_offsets of all slices in that job. * -
+> __u8
+>        - ``nal_unit_type``
+>        - Specifies the coding type of the slice (B, P or I).
+> @@ -3150,6 +3157,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+> 
+>      \normalsize
+> 
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> +    Specifies entry point offsets in bytes.
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
+> +
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling
+> process for transform coefficients.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
+> d594efbcbb93..e22921e7ea61 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
+"HEVC Decode
+> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
+"HEVC Decode
+> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
+"HEVC Start Code";
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
+"HEVC Entry
+> Point Offsets";
+> 
+>  	/* Colorimetry controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
 */
-> > > > >=20
-> > > > > -     .p              =3D _SUNXI_CCU_DIV(0, 1), /* output divider
-> > > >=20
-> > > > */
-> > > >=20
-> > > > >       .common         =3D {
-> > > > >      =20
-> > > > >               .reg            =3D 0x030,
-> > > > >               .hw.init        =3D CLK_HW_INIT("pll-gpu", "osc24M",
-> > > > >=20
-> > > > > @@ -294,9 +294,9 @@ static
-> > > > > SUNXI_CCU_M_WITH_MUX_GATE(deinterlace_clk,
-> > > > > "deinterlace", static SUNXI_CCU_GATE(bus_deinterlace_clk,
-> > > > > "bus-deinterlace", "psi-ahb1-ahb2", 0x62c, BIT(0), 0);
-> > > > >=20
-> > > > > +/* Keep GPU_CLK divider const to avoid DFS instability. */
-> > > > >=20
-> > > > >  static const char * const gpu_parents[] =3D { "pll-gpu" };
-> > > > >=20
-> > > > > -static SUNXI_CCU_M_WITH_MUX_GATE(gpu_clk, "gpu", gpu_parents,
-> > > > > 0x670,
-> > > > > -                                    0, 3,    /* M */
-> > > > > +static SUNXI_CCU_MUX_WITH_GATE(gpu_clk, "gpu", gpu_parents, 0x67=
-0,
-> > > > >=20
-> > > > >                                      24, 1,   /* mux */
-> > > > >                                      BIT(31), /* gate */
-> > > > >                                      CLK_SET_RATE_PARENT);
-> > > > >=20
-> > > > > @@ -1193,6 +1193,16 @@ static int sun50i_h6_ccu_probe(struct
-> > > > > platform_device *pdev) if (IS_ERR(reg))
-> > > > >=20
-> > > > >               return PTR_ERR(reg);
-> > > > >=20
-> > > > > +     /* Force PLL_GPU output divider bits to 0 */
-> > > > > +     val =3D readl(reg + SUN50I_H6_PLL_GPU_REG);
-> > > > > +     val &=3D ~BIT(0);
-> > > > > +     writel(val, reg + SUN50I_H6_PLL_GPU_REG);
-> > > > > +
-> > > > > +     /* Force GPU_CLK divider bits to 0 */
-> > > > > +     val =3D readl(reg + gpu_clk.common.reg);
-> > > > > +     val &=3D ~GENMASK(3, 0);
-> > > > > +     writel(val, reg + gpu_clk.common.reg);
-> > > > > +
-> > > > >=20
-> > > > >       /* Enable the lock bits on all PLLs */
-> > > > >       for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
-> > > > >      =20
-> > > > >               val =3D readl(reg + pll_regs[i]);
-> > > > >=20
-> > > > > --
-> > > > > 2.34.1
+> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
+> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> +		*type = V4L2_CTRL_TYPE_U32;
+> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> +		break;
+>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index a372c184689e..3a6601a46ced 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
++ 1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
+> 1017)
+> 
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current
+> slice data + * @num_entry_point_offsets: specifies the number of entry
+> point offset syntax + *			     elements in the slice 
+header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
+> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+> -
+> +	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
 
 
 
