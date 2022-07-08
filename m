@@ -1,88 +1,193 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B590B29A9
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 16:15:30 +0000 (UTC)
-Received: by mail-ej1-f52.google.com with SMTP id ez10so8347875ejc.13
-        for <linux-sunxi@lists.linux.dev>; Fri, 08 Jul 2022 09:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=SLM5PUwTV31o0kHfGXDzIJFVkz9EnZxECRqe7Eh0GBQ=;
-        b=QOVATOOfBLjHUxfN9QCROHwRyowlMCkwTO0uRvQYtkT7889uWXuqssJomf8UYieCOH
-         rOsyd0Qs1SZpcSisQbGXueVwVgpGfeIgniy7d4JTgKGCnFm7IXyjd34VQ8VDwgnbI34I
-         tHJqi8SnqOf99qKxi7g2sH1R2ZdV1jDmrdRdiHfQVHu3QeplkH6iZ5HP68HWKdebByl0
-         O08Wy+WH9jN4t84EPDCmr3iqRzhuv21trCJcNgcfVJj4T5sfTdnLpGFnmBHxNXUliXpO
-         97leioUbrmBwxj9sQK+4jjq3jyuNI6lPxHF5G/FeleG3IBhxIY5hhbZ6hKHPf11Zo7D5
-         CKCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SLM5PUwTV31o0kHfGXDzIJFVkz9EnZxECRqe7Eh0GBQ=;
-        b=CCPvt8KpHamNc5EYasoVp+GDOJnucIAtdyFfyHiCs48ieb6VBdq+KWijYgDaO2PA5E
-         K1GleTR20DiI8yzSbjKzX7ugy1m9YjiM68bd5diPjlFvXwplis0AwmQkGNW5TMFS/SpR
-         xjyjIP/YR7ypEltfN10XjC2IWpREfxEz8E6wr4iCSS1QvDhwFuQcdcfkwNz53h2fZvb+
-         iCSJbXiTgg9bb9ajCHjlmApV5dxI1HwQdaXQlL2BVpDvFVppLp4V7EPdyZBotOfEey2i
-         Ar4hRJHETqW2QpX+koIZ8JtAW7KuMmJ9YwOkmZ7+g+nvH6e9xPsTmCnpEa2tAvoiPSHN
-         R53Q==
-X-Gm-Message-State: AJIora8f0+JKZPpDBYCD48yXt3KOQDt8Ohbwjk3UN/+wvZR19eionxng
-	svC3dkOXVPPsEtiKuegi7Us=
-X-Google-Smtp-Source: AGRyM1sUnIACkJ+dK6objElcohl7xX5z6IIBO2igjeYRXpiLZCRqJ+I7upZxDk5p8T2cnAhMP/w6wA==
-X-Received: by 2002:a17:906:9b09:b0:72b:d70:32a6 with SMTP id eo9-20020a1709069b0900b0072b0d7032a6mr4248571ejc.723.1657296928940;
-        Fri, 08 Jul 2022 09:15:28 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id cn22-20020a0564020cb600b0043a896048basm6071727edb.85.2022.07.08.09.15.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 09:15:28 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: samuel@sholland.org, Roman Stratiienko <r.stratiienko@gmail.com>
-Cc: peron.clem@gmail.com, mturquette@baylibre.com, sboyd@kernel.org, mripard@kernel.org, wens@csie.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: Re: [PATCH v3] clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DFS
-Date: Fri, 08 Jul 2022 18:15:27 +0200
-Message-ID: <1930698.8hb0ThOEGa@kista>
-In-Reply-To: <20220705075226.359475-1-r.stratiienko@gmail.com>
-References: <20220705075226.359475-1-r.stratiienko@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF99829A9;
+	Fri,  8 Jul 2022 16:22:14 +0000 (UTC)
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:3cab:61a1:2b1f:896b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 6038D66019F2;
+	Fri,  8 Jul 2022 17:22:12 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1657297333;
+	bh=o7ebIOjpMgtPQ39JcRXc/Ro+io5jN2W2nv9fLX75sa0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=muvNRQdER9IO0S1c15PPAB4e2sDqHgkuf17AHlvI1jTz5o+yznWgHJlb6i1uCLsgx
+	 T6Qi5g4pkCErYbraJWiaNdC29wQDYJ092xVfAfJcl6DJxAJuYqy1GGL8GbA7vEddo4
+	 8bgWSxYq7d8gYDmyeKEtoO+Q7WEYdY5VevdVasK0VlwkDY58yoeBhAirnFc1rwyYyf
+	 hpE8jl/ilPJojysCmasE0kB1QAC43mm3arPgl7QIFVitiSALHaYNaPEaWYwqOrdqDW
+	 nNWqjhX9fpFYisJrj8/x+doEOq0lQB76LRE3b50ZlKymF3dCF6whPHFR4MxVNKysrg
+	 LFqCP3YJnm6Hw==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org,
+	mripard@kernel.org,
+	paul.kocialkowski@bootlin.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	nicolas.dufresne@collabora.com,
+	andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v13 00/17] Move HEVC stateless controls out of staging
+Date: Fri,  8 Jul 2022 18:21:39 +0200
+Message-Id: <20220708162156.815772-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne torek, 05. julij 2022 ob 09:52:26 CEST je Roman Stratiienko napisal(a):
-> Using simple bash script it was discovered that not all CCU registers
-> can be safely used for DFS, e.g.:
-> 
->     while true
->     do
->         devmem 0x3001030 4 0xb0003e02
->         devmem 0x3001030 4 0xb0001e02
->     done
-> 
-> Script above changes the GPU_PLL multiplier register value. While the
-> script is running, the user should interact with the user interface.
-> 
-> Using this method the following results were obtained:
-> | Register  | Name           | Bits  | Values | Result |
-> | --        | --             | --    | --     | --     |
-> | 0x3001030 | GPU_PLL.MULT   | 15..8 | 20-62  | OK     |
-> | 0x3001030 | GPU_PLL.INDIV  |     1 | 0-1    | OK     |
-> | 0x3001030 | GPU_PLL.OUTDIV |     0 | 0-1    | FAIL   |
-> | 0x3001670 | GPU_CLK.DIV    |  3..0 | ANY    | FAIL   |
-> 
-> DVFS started to work seamlessly once dividers which caused the
-> glitches were set to fixed values.
-> 
-> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
-> 
+This series aims to make HEVC uapi stable and usable for hardware
+decoder. HEVC uapi is used by 2 mainlined drivers (Cedrus and Hantro)
+and 2 out of the tree drivers (rkvdec and RPI).
 
-Applied, thanks!
+version 13:
+- Reword num_entry_point_offsets field and control usage (yes, again)
 
-Best regards,
-Jernej
+version 12:
+- Fix commit message in patch "HEVC: fix padding in v4l2 control
+  structures"
+- Reword num_entry_point_offsets field usage.
 
+version 11:
+- Be more verbose about num_entry_point_offsets field usage.
+- Fix various typos in "Add documentation to uAPI structure" patch.
+
+version 10:
+- Rebased on media_stage/master
+- Add Acked-by tag from Nicolas
+- Add Tested-by tag from Jernej
+- Fix typo in patch 14
+
+This version has been tested with these branches:
+- GStreamer: https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/tree/HEVC_aligned_with_kernel_5.15
+- Linux: https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/tree/HEVC_UAPI_V10
+
+With patches to decode 10-bits bitstream and produce P010 frames the Fluster score 
+which was 77/147 before, is now 141/147.
+The 10-bits series will comes after this because of it dependency to
+uAPI change. If you are curious you can find the WIP branch here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/WIP_HEVC_UAPI_V10
+
+The 6 failing tests are:
+- PICSIZE_{A,B,C,D}_Bossen_1 where resolutions are to big for Hantro hardware.
+- WPP_D_ericsson_MAIN_2 and WPP_D_ericsson_MAIN10_2 are visually ok but some 
+  difference exist on 5 decoded frames. Some pixels values are no the same 
+  the very end of few lines.
+
+version 9:
+- Reword some commit message
+- Use fls()
+- Remove useless padding at the end of hevc structures
+- Reword all _minus* field description
+- change CVS to codec video sequence
+- Fix various typo
+- Fix undefined label: v4l2-ctrl-flag-dynamic-array warning
+- fix the waring reported by 'scripts/kernel-doc -none
+  include/uapi/linux/v4l2-controls.h'
+
+version 8:
+- Same than v7 but rebased on media_stage/master
+
+version 7:
+- Apply Jernej patches for Cedrus about bit offset definition and
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS being a dynamic array control.
+- Based on media_tree/master
+
+version 6:
+- Add short_term_ref_pic_set_size and long_term_ref_pic_set_size
+  in v4l2_ctrl_hevc_decode_params structure.
+- Change slice_pic_order_cnt type to s32 to match with PoC type.
+- Set V4L2_CTRL_FLAG_DYNAMIC_ARRAY flag automatically when using
+  V4L2_CID_STATELESS_HEVC_SLICE_PARAMS control.
+- Add a define for max slices count
+- Stop using Hantro dedicated control.
+
+version 5:
+- Change __u16 pic_order_cnt[2] into __s32 pic_order_cnt_val in
+  hevc_dpb_entry structure
+- Add defines for SEI pic_struct values (patch 4)
+- Fix numbers of bits computation in cedrus_h265_skip_bits() parameters
+- Fix num_short_term_ref_pic_sets and num_long_term_ref_pics_sps
+  documentation (patch 8)
+- Rebased on v5-18-rc1
+
+Version 4:
+- Add num_entry_point_offsets field in  struct v4l2_ctrl_hevc_slice_params
+- Fix V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS name
+- Initialize control V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS
+- Fix space/tab issue in kernel-doc
+- Add patch to change data_bit_offset definition
+- Fix hantro-media SPDX license
+- put controls under stateless section in v4l2-ctrls-defs.c 
+ 
+Benjamin Gaignard (14):
+  media: uapi: HEVC: Add missing fields in HEVC controls
+  media: uapi: HEVC: Rename HEVC stateless controls with STATELESS
+    prefix
+  media: uapi: HEVC: Change pic_order_cnt definition in
+    v4l2_hevc_dpb_entry
+  media: uapi: HEVC: Add SEI pic struct flags
+  media: uapi: HEVC: Add documentation to uAPI structure
+  media: uapi: HEVC: Define V4L2_CID_STATELESS_HEVC_SLICE_PARAMS as a
+    dynamic array
+  media: uapi: Move parsed HEVC pixel format out of staging
+  media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+  media: uapi: Move the HEVC stateless control type out of staging
+  media: controls: Log HEVC stateless control in .std_log
+  media: hantro: Stop using Hantro dedicated control
+  media: uapi: HEVC: fix padding in v4l2 control structures
+  media: uapi: Change data_bit_offset definition
+  media: uapi: move HEVC stateless controls out of staging
+
+Hans Verkuil (3):
+  videodev2.h: add V4L2_CTRL_FLAG_DYNAMIC_ARRAY
+  v4l2-ctrls: add support for dynamically allocated arrays.
+  vivid: add dynamic array test control
+
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 902 ++++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 780 ---------------
+ .../media/v4l/pixfmt-compressed.rst           |   7 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  20 +
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../media/videodev2.h.rst.exceptions          |   6 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  15 +
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      | 103 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 212 +++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  38 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h     |   3 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c  |  13 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  62 +-
+ .../staging/media/hantro/hantro_g2_hevc_dec.c |  44 +-
+ drivers/staging/media/hantro/hantro_hevc.c    |  10 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  26 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  10 +-
+ .../staging/media/sunxi/cedrus/cedrus_h265.c  |  23 +-
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   1 -
+ include/media/hevc-ctrls.h                    | 250 -----
+ include/media/v4l2-ctrls.h                    |  48 +-
+ include/uapi/linux/v4l2-controls.h            | 459 +++++++++
+ include/uapi/linux/videodev2.h                |  13 +
+ 24 files changed, 1831 insertions(+), 1226 deletions(-)
+ delete mode 100644 include/media/hevc-ctrls.h
+
+-- 
+2.32.0
 
