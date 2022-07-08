@@ -1,28 +1,28 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6589B320E
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 16:40:47 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C30BCC341C0;
-	Fri,  8 Jul 2022 16:40:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FA12575
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 16:45:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C18C4C341C0;
+	Fri,  8 Jul 2022 16:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657298447;
-	bh=bMr4UlDyzQyfV4TSFUR109tk/tUvUuwJwppGmASzYQU=;
+	s=k20201202; t=1657298755;
+	bh=Nxh/HJOIUK9VB1rO0Z3HXHNlnvZT6n4Ybx4iuj48Cdo=;
 	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=pGEEUoQIxTlf+idr0RPfwJMUGvzGl67V7o8sBi+Xq/YvpzR4NeoC+DeBGVq57/CSV
-	 GkRUB7cFGzfCXl4POyziGa0fFm84uOyIEew8VKfQ9z+av4cuGXnhOodm+rwieKTejK
-	 Tz61+Qvxur4JSVeI637JCi/4thQlxXktyM/2b8+1YoyQnBNLmPYTlzcWwjuahE/Atj
-	 QTvzeICVZ5YHucbwtGwy+6Wr0JCHkyN8pULwlgqib6vbTJLsfv7JywZMWQ2WLKOFtU
-	 SxADRnHzBRxkX9GzdIrUmqehmNifGmLbKRHy5EvMHQRVFjGL8v1MazVr+QOyZNfKlH
-	 D85sf2gUgWYTw==
-Date: Fri, 8 Jul 2022 18:40:43 +0200
+	b=ARj2NYR9waiR2/JBkOQyvS4ET7B+7mGulnqeF2VOG4Ugq1QHP9HTFcx0qofFPI9Nz
+	 ZTVIdEBuk8yZQEw24E1S93DZxI7d53xFmYy/MI5EAqHrZnez5WojFTena1tz7sfTjl
+	 oUz/O4ujzvbdvaphLMBCKD+G9cGHNBL1+rMGyVnxX3PlS91kts14h3Vwl5ET3rV8x3
+	 yI709PGqkS5C9mXoEyg+n81s2E2FAUQiLpyGvzDBi6LiTuA5Xt676uydix20Zhs6CV
+	 pVQdl47YZmQb1mpc1vcEGFZ6hG9YW+bfAcd1frkY9bRDudLPor3PRcfZX1WcgW/Xq8
+	 rDarvGXFDop8Q==
+Date: Fri, 8 Jul 2022 18:45:50 +0200
 From: Jernej Skrabec <jernej@kernel.org>
 List-Id: <soc.lore.kernel.org>
 To: arm@kernel.org, soc@kernel.org
 Cc: wens@csie.org, samuel@sholland.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner config64 changes for 5.20
-Message-ID: <YsheC0hgyJB9kPsS@kista.localdomain>
+Subject: [GIT PULL] Allwinner drivers changes for 5.20
+Message-ID: <YshfPux1c2x9S7Fi@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -34,7 +34,7 @@ Content-Disposition: inline
 
 Hi!
 
-Please pull following config64 changes for 5.20.
+Please pull following drivers changes for 5.20.
 
 Best regards,
 Jernej
@@ -45,18 +45,18 @@ The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
 
 are available in the Git repository at:
 
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-config64-for-5.20-1
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-drivers-for-5.20-1
 
-for you to fetch changes up to 900bd8cb85277dd23713f92db72dedd59b62d9fd:
+for you to fetch changes up to db1bfbd60e325abddc824c49b2fd45a39a10b2f5:
 
-  arm64: defconfig: Enable Allwinner built in CODECs (2022-07-04 22:25:02 +0200)
-
-----------------------------------------------------------------
-- enable Allwinner analogue audio codecs
+  soc: sunxi: mbus: Only build the driver on ARM/ARM64 (2022-07-05 22:05:59 +0200)
 
 ----------------------------------------------------------------
-Mark Brown (1):
-      arm64: defconfig: Enable Allwinner built in CODECs
+- build mbus driver only for ARM/ARM64
 
- arch/arm64/configs/defconfig | 3 +++
- 1 file changed, 3 insertions(+)
+----------------------------------------------------------------
+Samuel Holland (1):
+      soc: sunxi: mbus: Only build the driver on ARM/ARM64
+
+ drivers/soc/sunxi/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
