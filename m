@@ -1,49 +1,49 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 737402563;
-	Fri,  8 Jul 2022 14:02:44 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id e15so6053103edj.2;
-        Fri, 08 Jul 2022 07:02:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411ED2563
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 14:14:36 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id j22so11681883ejs.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 08 Jul 2022 07:14:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
-        b=jX99svRh8xS9/r4UdMiq3Y43MyPOaKw23r0VGQpXgkg3bioDTKO58NGaP49lqcXvpc
-         DFBO6tQcbxHsWjsGqky0/k1S76xj5BSrxed1s2pSnnXFyInXkzuJmcQXTb0PVCtEaTDb
-         jitJSvt3JPKrhn6U7i2dLTbuS/pK6AFioBujioBFbqGEykPog3kNwEZ1yBki79CqYn1l
-         4ZuRg+Uk4ejPWhlNRn0Pzuk7qu+w2qQBTJSQej5gWEFRr1awgBY7EVSA1r4bE02WyhJi
-         QLwZ8OTYPirLS2KvJK0+5Uhz0nv3rbxAOmIrJ1IKw3XRA0BWZpcN1A/Umt72OoYc1TpX
-         g11w==
+        bh=Z0XOec91623/KuMv+Ej/7gZUuHsCJ62v6usunFr5b6A=;
+        b=f6IhZTBULbQ7llaZot4o9crrDH/bVkSBG4cnMtEpeURfPACgFjn6vJq/r5K9ktnt1p
+         LERVggmRob4jL/GCkTX2w7v74r1KkY3FTdHWj4yihWbrOZUOANV5aUCghGUOwU0dnxko
+         /PZTw+0EqCC4O3OgTunDclurFhOm+fOeM7DwyLzfawWZNxV75iEId53Bz12llAwF3zZA
+         CxlP1Y+szHux5dgocUVRRMZVsnAep+OILxAx64nCQmbv+MyobgioKifPwL4r/ZjZE8Ln
+         pQduBNe9DY1hriNkcdpRfW0SVuCcc5CUW3dFFnTn/mtPcA5nKFiMo8hNefUcad7CmpbW
+         7uVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=F7oZGiTf22yduXzKnlRZ5i/UEiJcCIYtZr80JfrcWJA=;
-        b=cFBGd5ig6J79/lHyvLDI4XhszFW8K7+NylKvPVlpj8IMdUOc8RrbUzpitvKVBXlHsl
-         G6F/qCuI6eMYgNRWHRqSXzOMVS37DzacigGThs8LYgmraRz+/FzDESEp3Ns/jV/AbnAH
-         2EhDRr5/oQ+AzjqV4kmfaHBtYDsRuIgHwGwp1PepRrQIAAHnpMqOwKKivQ+NPjn0tDnc
-         qzxxlOQ6wJ+XMt/kk6hTfYqDZjYooNNQH8AKIYwvExr0SOpBSkatFBCCgbEs7YYIzu6m
-         NvnCEk6KOIf+EEH5cf908BFZHjq2KFWDwzybgK9fPRpOOWWn7VcKznzFovmvnDstVq9t
-         p6xw==
-X-Gm-Message-State: AJIora/ItsFP2mojsVdCYRq/wf5bsZDl2yp+V8rlddmuoRc/HWHNGCud
-	0T1Qi7HkVKsY5parxWGoUPo=
-X-Google-Smtp-Source: AGRyM1uL3PNKL7wSHt7HyGuMnLf4+atBsviy3tmAb8n+32sYhrZgr9xVlpYX+JxNRGbN+AcQxRdQSA==
-X-Received: by 2002:a05:6402:22b5:b0:43a:8e9f:f495 with SMTP id cx21-20020a05640222b500b0043a8e9ff495mr4961017edb.324.1657288962504;
-        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
+        bh=Z0XOec91623/KuMv+Ej/7gZUuHsCJ62v6usunFr5b6A=;
+        b=jQoarcajgQz/zNKFCwUyE5/0qH0MkjJgq4lVuLKriMLJdzwBaBaT8qWGbDmmlVGGMs
+         NjqVhQ4iT19NH54h/o031nhJGpQE709bqQGVRyQLqzqTlwqtLthaN5XCIZJU7QeHZKPV
+         7RpKjgSX2shbHYaLO2XRIBlV1I/pw12fr677ryFzUtTzmEO6cHbWiMSOqk6Y6mC6LTnO
+         fGq9ujyaozQo6InbwuFAFUhXHgaQ2z+Vj7e/aH0cVthkr5cQiRPd8TLDXser1uQZSvdQ
+         uSrWISkG1+TUkJamfS7H8wiAskxz+nL2tRUJyz6Gl9T3k/rg8i1HN5IaFoUZL9LS0lpw
+         hwdA==
+X-Gm-Message-State: AJIora/ujY92EQfNAgs2FrKMOj6B3ltNs1kKrmE3Q+cLWxAa+WShUrqI
+	IPPJdFh8PwsZe30GUTN2R5A=
+X-Google-Smtp-Source: AGRyM1v6rPWBPZilFN90Jv15KQMt+j6kMHP6jk8djEs05COCTktH+9O11oNXRuqjRUVfaq+6AN/t3g==
+X-Received: by 2002:a17:907:3dac:b0:722:e6ab:8d9 with SMTP id he44-20020a1709073dac00b00722e6ab08d9mr4190126ejc.20.1657289674494;
+        Fri, 08 Jul 2022 07:14:34 -0700 (PDT)
 Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id o19-20020a170906769300b0072b13a10477sm2143227ejm.108.2022.07.08.07.02.40
+        by smtp.gmail.com with ESMTPSA id q2-20020a170906a08200b006fed93bf71fsm20603401ejy.18.2022.07.08.07.14.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 07:02:42 -0700 (PDT)
+        Fri, 08 Jul 2022 07:14:34 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mchehab@kernel.org, hverkuil@xs4all.nl, ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de, gregkh@linuxfoundation.org, mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, kernel@collabora.com, Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v12 11/17] media: uapi: Add V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
-Date: Fri, 08 Jul 2022 16:02:40 +0200
-Message-ID: <2106581.irdbgypaU6@jernej-laptop>
-In-Reply-To: <20220708120554.495495-12-benjamin.gaignard@collabora.com>
-References: <20220708120554.495495-1-benjamin.gaignard@collabora.com> <20220708120554.495495-12-benjamin.gaignard@collabora.com>
+To: Michal Suchanek <msuchanek@suse.de>, Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev, Icenowy Zheng <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] sunxi: dts: Fix SPI NOR campatible on Orange Pi Zero
+Date: Fri, 08 Jul 2022 16:13:11 +0200
+Message-ID: <10106175.nUPlyArG6x@jernej-laptop>
+In-Reply-To: <0c575068-abd7-c69a-e59c-3140f8cb7813@sholland.org>
+References: <20220707174801.36e010da@donnerap.cambridge.arm.com> <20220707170721.20225-1-msuchanek@suse.de> <0c575068-abd7-c69a-e59c-3140f8cb7813@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,129 +53,64 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Benjamin!
+Hi Michal,
 
-Dne petek, 08. julij 2022 ob 14:05:48 CEST je Benjamin Gaignard napisal(a):
-> The number of 'entry point offset' can be very variable.
-> Instead of using a large static array define a v4l2 dynamic array
-> of U32 (V4L2_CTRL_TYPE_U32).
-> The number of entry point offsets is reported by the elems field
-> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
-> field.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> ---
-> version 12:
-> - Reword num_entry_point_offsets documentation
-> 
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst     | 13 +++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c           |  5 +++++
->  include/media/hevc-ctrls.h                          |  5 ++++-
->  3 files changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst index
-> c2e0adece613..0cd967126fdf 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->      * - __u32
->        - ``data_bit_offset``
->        - Offset (in bits) to the video data in the current slice data.
-> +    * - __u32
-> +      - ``num_entry_point_offsets``
-> +      - Specifies the number of entry point offset syntax elements in the
-> slice header. +        When the driver supports it, the
-> ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS`` +        must be set.
->      * - __u8
->        - ``nal_unit_type``
->        - Specifies the coding type of the slice (B, P or I).
-> @@ -3150,6 +3155,14 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> 
->      \normalsize
-> 
-> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
-> +    Specifies entry point offsets in bytes.
-> +    This control is a dynamically sized array. The number of entry point
-> +    offsets is reported by the ``elems`` field.
-> +    This bitstream parameter is defined according to :ref:`hevc`.
-> +    They are described in section 7.4.7.1 "General slice segment header
-> +    semantics" of the specification.
+sorry, but I was a bit too quick with giving r-b line. See comments below.
 
-You forgot to update above description per Ezequiel comment.
+Dne petek, 08. julij 2022 ob 09:36:26 CEST je Samuel Holland napisal(a):
+> Hi Michal,
+> 
+> The subject prefix should start with "ARM: dts:" (e.g. "ARM: dts: sunxi:").
+> Generally it is a good idea to look at the log of the file and follow the
+> pattern you see there.
+> 
+> On 7/7/22 12:07 PM, Michal Suchanek wrote:
+> > Without "jedec,spi-nor" compatible the flash memory cannot be probed by
+> > u-boot. The macronix part is what is shipped on the boards that come
+> > with a flash chip.
+
+Please reword this a bit. DT isn't user specific, so U-Boot should not be 
+mentioned. But you can write about compatible being wrong. According to DT 
+bindings, it should be manufacturer specific compatible, followed by 
+"jedec,spi-nor".
+
+Once both issues are addressed, you can keep my r-b tag and include fixes tag 
+posted by Sameul.
 
 Best regards,
 Jernej
 
-> +
->  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
->      Specifies the HEVC scaling matrix parameters used for the scaling
-> process for transform coefficients.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> b/drivers/media/v4l2-core/v4l2-ctrls-defs.c index
-> d594efbcbb93..e22921e7ea61 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return 
-"HEVC Decode
-> Parameters"; case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return 
-"HEVC Decode
-> Mode"; case V4L2_CID_STATELESS_HEVC_START_CODE:		return 
-"HEVC Start Code";
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return 
-"HEVC Entry
-> Point Offsets";
 > 
->  	/* Colorimetry controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! 
-*/
-> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum
-> v4l2_ctrl_type *type, case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
->  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
->  		break;
-> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
-> +		*type = V4L2_CTRL_TYPE_U32;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
->  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->  		break;
-> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
-> index a372c184689e..3a6601a46ced 100644
-> --- a/include/media/hevc-ctrls.h
-> +++ b/include/media/hevc-ctrls.h
-> @@ -20,6 +20,7 @@
->  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE 
-+ 1012)
->  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
->  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
-> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE +
-> 1017)
+> Fixes: 45857ae95478 ("ARM: dts: orange-pi-zero: add node for SPI NOR")
 > 
->  /* enum v4l2_ctrl_type type values */
->  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
-> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
->   *
->   * @bit_size: size (in bits) of the current slice data
->   * @data_bit_offset: offset (in bits) to the video data in the current
-> slice data + * @num_entry_point_offsets: specifies the number of entry
-> point offset syntax + *			     elements in the slice 
-header.
->   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
->   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the
-> NAL unit * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
-> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
->  struct v4l2_ctrl_hevc_slice_params {
->  	__u32	bit_size;
->  	__u32	data_bit_offset;
-> -
-> +	__u32	num_entry_point_offsets;
->  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
->  	__u8	nal_unit_type;
->  	__u8	nuh_temporal_id_plus1;
+> Regards,
+> Samuel
+> 
+> > Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> > ---
+> > 
+> >  arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
+> > b/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts index
+> > f19ed981da9d..3706216ffb40 100644
+> > --- a/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
+> > +++ b/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
+> > @@ -169,7 +169,7 @@ &spi0 {
+> > 
+> >  	flash@0 {
+> >  	
+> >  		#address-cells = <1>;
+> >  		#size-cells = <1>;
+> > 
+> > -		compatible = "mxicy,mx25l1606e", "winbond,w25q128";
+> > +		compatible = "mxicy,mx25l1606e", "jedec,spi-nor";
+> > 
+> >  		reg = <0>;
+> >  		spi-max-frequency = <40000000>;
+> >  	
+> >  	};
 
 
 
