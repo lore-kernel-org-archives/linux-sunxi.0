@@ -1,71 +1,62 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42947A
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 18:31:25 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id e15so6892412edj.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 08 Jul 2022 11:31:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=36rF+EA9uWT2mpDidJKHhWxhm7lBZsbuip/44O/He84=;
-        b=nZeY9K8WaHz5JD5ODEhu/zIQe4g+MprhpHQMx5NXH6omtiCN8zigVz2fSVcqhdDJms
-         nQ8k0otOaI9HEXXEIHmPujzhLPR5no60CqGH9jtoAxvOpQSnVzScGrlbRyhnNg/QQ+sr
-         rnsZVmKxskDfo5XiFG+4P8vx1ZA0TARB4gMbsgD3F54TfTloOm4n9Vy3bfK7vmyQRhxZ
-         UaJmrF/KirG1hicB8K8ZlgFTuhiklPgwvOrkUMphy4Cddfromg0RM2y8n0LBoaBIs8SV
-         eJEuOwiNY5YqWCT2WYJbLHs80b6BUWRd8giO+5gVJXfClKML1CmHoKzwzfvR35hEY9ub
-         bzaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=36rF+EA9uWT2mpDidJKHhWxhm7lBZsbuip/44O/He84=;
-        b=2ViCthW68ltk+7xcsDUUKghBealYIjdOIW+l0EIJP3Un7b7En3cPoP2z8cNHZZv+q0
-         PrhkCsTDZTslDcUxuG3L43T8EL0lzaUkeYvSmI1kaWIbpO7+5B8PZD8ikvzTXowBQG4Z
-         Xpb69fGdKC74P6lJTloYcIaA4xfX51Y9TcD/kyo8HL4coU/gJUmJT9JJMVnZ9NpHE3mS
-         kYpXqu4+kS5AoGofNiVzqPQEGJjJ94+xNrAfTeFhDv2EJz6vweNuJlzJ8vwy4qL1HXIY
-         o+glN5JZcIz+7aa8WqUACq2qBhHU9Y2y59qqQgXGeTACyXYh4OJBrJu7FChqLYZMLunX
-         dZ+g==
-X-Gm-Message-State: AJIora/IDiHtKygQuGDbDsSB0U4+iTK0ONp98Hu2zZE1dEYb8f676woE
-	WJzsR2KzWwueMLTzMHgjIvw7GuDorXQ6ww==
-X-Google-Smtp-Source: AGRyM1uMFV4eY7pt9h2ChiX00tWhYrTNc4IF6JZgK/pJE3XvGVynvEOrkEPJp+VKO1Wes1398mV+Gg==
-X-Received: by 2002:a05:6402:500b:b0:431:78d0:bf9d with SMTP id p11-20020a056402500b00b0043178d0bf9dmr6553702eda.184.1657305084077;
-        Fri, 08 Jul 2022 11:31:24 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id w3-20020a1709067c8300b00722fc0779e3sm20628128ejo.85.2022.07.08.11.31.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Jul 2022 11:31:23 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-sunxi@lists.linux.dev, Michal Suchanek <msuchanek@suse.de>
-Cc: Michal Suchanek <msuchanek@suse.de>, Icenowy Zheng <icenowy@aosc.xyz>, Andre Przywara <andre.przywara@arm.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] ARM: dts: sunxi: Fix SPI NOR campatible on Orange Pi Zero
-Date: Fri, 08 Jul 2022 20:31:22 +0200
-Message-ID: <2128843.C4sosBPzcN@kista>
-In-Reply-To: <20220708174529.3360-1-msuchanek@suse.de>
-References: <10106175.nUPlyArG6x@jernej-laptop> <20220708174529.3360-1-msuchanek@suse.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC70F7A
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 18:35:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C49BAC341C0;
+	Fri,  8 Jul 2022 18:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657305321;
+	bh=cb9aRkfH7qDeTzl1BrTzBay/sOVJzF/E6FhpnficN4s=;
+	h=Date:From:List-Id:To:Cc:Subject:From;
+	b=S/uQHR/AQOCsl1pglxqSVI3DvTX8ETyeP1cWO3YcCr3Yg2YtTgcR9UUBrU3GBY6Xa
+	 qFjPSdPT7JQssZw7i3BqPmX7k+M4ezxdzCQIKopzRkhh5IUYY5JYg2C3F99q9ttoXi
+	 41FVo26zShB4C/bXkq5JNhD2M+6ZNEWlkQZpssw9sHYVmCHoMjL6mNZQ0a4e+klbdR
+	 EnxjizW0d3UeByFTsYDtql4txYGDwvBVfDxqvhfoBdwnA36vKtHXtS8GksgWZcWjnb
+	 i4WMxVr9bW4RIeW4gPbAOnaC+IPqtFXk3D7T4o4XKtfQRq7Wdj+HG6ZLVh+fv4XSSA
+	 yUb4l8nW+U3+w==
+Date: Fri, 8 Jul 2022 20:35:14 +0200
+From: Jernej Skrabec <jernej@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org, soc@kernel.org
+Cc: wens@csie.org, samuel@sholland.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: [GIT PULL] Allwinner DT fixes for 5.19, part 2
+Message-ID: <Ysh44qUmdmF6TWS6@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Dne petek, 08. julij 2022 ob 19:45:29 CEST je Michal Suchanek napisal(a):
-> The device tree should include generic "jedec,spi-nor" compatible, and a
-> manufacturer-specific one.
-> The macronix part is what is shipped on the boards that come with a
-> flash chip.
-> 
-> Fixes: 45857ae95478 ("ARM: dts: orange-pi-zero: add node for SPI NOR")
-> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
-> Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Hi!
 
-Applied, thanks!
+One DT fix came late, so here is follow up DT fixes PR for 5.19.
 
 Best regards,
 Jernej
 
+The following changes since commit 79471f29ec4870bc02b4fea844e86669a8a4f2a5:
 
+  dt-bindings: display: sun4i: Fix D1 pipeline count (2022-07-04 22:41:26 +0200)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-fixes-for-5.19-2
+
+for you to fetch changes up to 884b66976a7279ee889ba885fe364244d50b79e7:
+
+  ARM: dts: sunxi: Fix SPI NOR campatible on Orange Pi Zero (2022-07-08 20:30:43 +0200)
+
+----------------------------------------------------------------
+- Fix SPI NOR compatible on Orange Pi Zero
+
+----------------------------------------------------------------
+Michal Suchanek (1):
+      ARM: dts: sunxi: Fix SPI NOR campatible on Orange Pi Zero
+
+ arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
