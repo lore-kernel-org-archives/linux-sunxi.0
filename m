@@ -1,28 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4C02575
-	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 16:58:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16DE6C341C0;
-	Fri,  8 Jul 2022 16:58:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657299520;
-	bh=NwK/cMvuYLFQX7b9qiBhy4uyusgGZfGDj2CbHD2r7S8=;
-	h=Date:From:List-Id:To:Cc:Subject:From;
-	b=Gw7/rrj9P9gUq9cnWmPEW0JLJYwF5ezdWsPAu5MDCUKjB7m7IW/fJj59x5R1Mgg0e
-	 /qBhutHgYZGm+ZXCKqU03yEa4m7TQYpY2cxZtBF5ZLIMwZ9u8LaJ4dty+NpAtrOWSY
-	 yF8SnyJ46XEAlYP8KVqoFtjBZinPpUhzXDfT+/lDVx8opC8dIyoczLM+FXMS88YeLE
-	 M9F1GRrWPq8MNQROpLwjfI7Or0U4ObNslMpd6S1fDz5s1GsYbTiFYaZ1OteWOpL9lj
-	 Lefiqs/WoAVvel3NUAmhSgAIsQ+tUxDhJbW3q4M32soYSJlTzwsyyXj5SCaqT/rMFA
-	 /cQ4aDzeDLRtA==
-Date: Fri, 8 Jul 2022 18:58:36 +0200
-From: Jernej Skrabec <jernej@kernel.org>
-List-Id: <soc.lore.kernel.org>
-To: arm@kernel.org, soc@kernel.org
-Cc: wens@csie.org, samuel@sholland.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [GIT PULL] Allwinner DT fixes for 5.19
-Message-ID: <YshiPKZRq6NHxPzO@kista.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493C733E0
+	for <linux-sunxi@lists.linux.dev>; Fri,  8 Jul 2022 17:25:24 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id 126so21858921vsq.13
+        for <linux-sunxi@lists.linux.dev>; Fri, 08 Jul 2022 10:25:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PtHKRPEI89RBiussynoEoQBwVKRqi9WwDOq/hTwvg08=;
+        b=xZX5FasoYj3UWBf7c1OivQn7v4gD2OV3Fj/GNe/0sX2wRe6iaxYv+tkh/LfKWV88fy
+         bX84F2/1Gevy+q/oSKjL3hV39t1f0Lq9b+tN+wbxX8qJo3kRx4maU03fZrbidrgkUkW6
+         ESXxzLL6K0B5uQ/IkIwPOAVYGF/QT7FxemJN8JLkC1BLjyH301X6s7TA1kbRuC3vLpms
+         lmHTpC7/LbI+Ws8HJLEcJDlBCpsXyR89vxh+RJBwEVBWJdg2IdYCzWWV0lXHIvr1v6NI
+         jwpsDSV+rMRQKNnTO/xio4AQ7bWbzlDAk7jivQYQGuqGwyc2RbDfHGdUrzcZewYNyd+y
+         6QAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PtHKRPEI89RBiussynoEoQBwVKRqi9WwDOq/hTwvg08=;
+        b=fTKFgpUdYSleed/PXFOWaKuddlKLqG76L6he2av9O9Bnioy/sYH7ByT7qCyzl6sFoz
+         Nnhit6MUo72504l60ahUjQ++O00wWsNz5vPuyMFzY/XQZ0F0Dk0HK3FBPi2kPYDYzKDb
+         pYHSQ6lhFrNmXzWbLFD9J/NcEZkG2cSn0F+fj4pYAJyu7MqZwiuwpEUQK885ysRHu/gh
+         nL8NUo+fZwa9hbSTVOOhW2kVMnSxwHuzka/CbNTI3w9Rlu0ZG/15JFMHfTxBROL4bmCh
+         89kZyksgepA27YUyDsvcTZrpNkk13pueciAcSbYHVp9+BFcjPbuW5slcyGKZxNOuJFQg
+         0DYw==
+X-Gm-Message-State: AJIora+TbSEtLJ0wRK/Uyf+P3dgGnJp5RyVxSlO3QhsqtjwcT1UDDHyO
+	5ZDHW7Xot9hV0GjHrFdkN7go8Q==
+X-Google-Smtp-Source: AGRyM1uHUHWz1P7lT6OaSA/5Q7gXNyRjeEMJGRcx/jkExokTUSEA+uMtxRyCFR3AO0zHSzr/mjF6dQ==
+X-Received: by 2002:a67:b103:0:b0:354:447a:93b0 with SMTP id w3-20020a67b103000000b00354447a93b0mr2217123vsl.56.1657301123099;
+        Fri, 08 Jul 2022 10:25:23 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id r23-20020ab03317000000b00370fe98f896sm12572339uao.7.2022.07.08.10.25.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Jul 2022 10:25:22 -0700 (PDT)
+Date: Fri, 8 Jul 2022 14:25:16 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, p.zabel@pengutronix.de,
+	gregkh@linuxfoundation.org, mripard@kernel.org,
+	paul.kocialkowski@bootlin.com, wens@csie.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	nicolas.dufresne@collabora.com, andrzej.p@collabora.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	kernel@collabora.com
+Subject: Re: [PATCH v13 11/17] media: uapi: Add
+ V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS control
+Message-ID: <YshofLPFd7Sp8iOF@eze-laptop>
+References: <20220708162156.815772-1-benjamin.gaignard@collabora.com>
+ <20220708162156.815772-12-benjamin.gaignard@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -31,32 +61,121 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220708162156.815772-12-benjamin.gaignard@collabora.com>
 
-Hi!
+On Fri, Jul 08, 2022 at 06:21:50PM +0200, Benjamin Gaignard wrote:
+> The number of 'entry point offset' can be very variable.
+> Instead of using a large static array define a v4l2 dynamic array
+> of U32 (V4L2_CTRL_TYPE_U32).
+> The number of entry point offsets is reported by the elems field
+> and in struct v4l2_ctrl_hevc_slice_params.num_entry_point_offsets
+> field.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Please pull following DT binding fix for 5.19.
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
 
-Best regards,
-Jernej
+Thanks!
+Ezequiel
 
-The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
-
-  Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-
-are available in the Git repository at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/sunxi-fixes-for-5.19-1
-
-for you to fetch changes up to 79471f29ec4870bc02b4fea844e86669a8a4f2a5:
-
-  dt-bindings: display: sun4i: Fix D1 pipeline count (2022-07-04 22:41:26 +0200)
-
-----------------------------------------------------------------
-- fix binding for D1 display pipeline
-
-----------------------------------------------------------------
-Samuel Holland (1):
-      dt-bindings: display: sun4i: Fix D1 pipeline count
-
- .../devicetree/bindings/display/allwinner,sun4i-a10-display-engine.yaml  | 1 +
- 1 file changed, 1 insertion(+)
+> ---
+> version 13:
+> - Reword num_entry_point_offsets field and control usage (yes, again)
+> 
+>  .../userspace-api/media/v4l/ext-ctrls-codec.rst  | 16 ++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c        |  5 +++++
+>  include/media/hevc-ctrls.h                       |  5 ++++-
+>  3 files changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index c2e0adece613..c05c5553f0e3 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -3010,6 +3010,11 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>      * - __u32
+>        - ``data_bit_offset``
+>        - Offset (in bits) to the video data in the current slice data.
+> +    * - __u32
+> +      - ``num_entry_point_offsets``
+> +      - Specifies the number of entry point offset syntax elements in the slice header.
+> +        When the driver supports it, the ``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS``
+> +        must be set.
+>      * - __u8
+>        - ``nal_unit_type``
+>        - Specifies the coding type of the slice (B, P or I).
+> @@ -3150,6 +3155,17 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>  
+>      \normalsize
+>  
+> +``V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (integer)``
+> +    Specifies entry point offsets in bytes.
+> +    This control is a dynamically sized array. The number of entry point
+> +    offsets is reported by the ``elems`` field.
+> +    This bitstream parameter is defined according to :ref:`hevc`.
+> +    They are described in section 7.4.7.1 "General slice segment header
+> +    semantics" of the specification.
+> +    When multiple slices are submitted in a request, the length of
+> +    this array must be the sum of num_entry_point_offsets of all the
+> +    slices in the request.
+> +
+>  ``V4L2_CID_STATELESS_HEVC_SCALING_MATRIX (struct)``
+>      Specifies the HEVC scaling matrix parameters used for the scaling process
+>      for transform coefficients.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> index d594efbcbb93..e22921e7ea61 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> @@ -1188,6 +1188,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:		return "HEVC Decode Parameters";
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return "HEVC Entry Point Offsets";
+>  
+>  	/* Colorimetry controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> @@ -1518,6 +1519,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_STATELESS_HEVC_DECODE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS;
+>  		break;
+> +	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:
+> +		*type = V4L2_CTRL_TYPE_U32;
+> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+> +		break;
+>  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>  		break;
+> diff --git a/include/media/hevc-ctrls.h b/include/media/hevc-ctrls.h
+> index a372c184689e..3a6601a46ced 100644
+> --- a/include/media/hevc-ctrls.h
+> +++ b/include/media/hevc-ctrls.h
+> @@ -20,6 +20,7 @@
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_PARAMS	(V4L2_CID_CODEC_BASE + 1012)
+>  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_BASE + 1015)
+>  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_BASE + 1016)
+> +#define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_BASE + 1017)
+>  
+>  /* enum v4l2_ctrl_type type values */
+>  #define V4L2_CTRL_TYPE_HEVC_SPS 0x0120
+> @@ -316,6 +317,8 @@ struct v4l2_hevc_pred_weight_table {
+>   *
+>   * @bit_size: size (in bits) of the current slice data
+>   * @data_bit_offset: offset (in bits) to the video data in the current slice data
+> + * @num_entry_point_offsets: specifies the number of entry point offset syntax
+> + *			     elements in the slice header.
+>   * @nal_unit_type: specifies the coding type of the slice (B, P or I)
+>   * @nuh_temporal_id_plus1: minus 1 specifies a temporal identifier for the NAL unit
+>   * @slice_type: see V4L2_HEVC_SLICE_TYPE_{}
+> @@ -358,7 +361,7 @@ struct v4l2_hevc_pred_weight_table {
+>  struct v4l2_ctrl_hevc_slice_params {
+>  	__u32	bit_size;
+>  	__u32	data_bit_offset;
+> -
+> +	__u32	num_entry_point_offsets;
+>  	/* ISO/IEC 23008-2, ITU-T Rec. H.265: NAL unit header */
+>  	__u8	nal_unit_type;
+>  	__u8	nuh_temporal_id_plus1;
+> -- 
+> 2.32.0
+> 
