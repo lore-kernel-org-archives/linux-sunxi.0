@@ -1,112 +1,179 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBC91C3D
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 21:25:23 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id bu1so3584326wrb.9
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 14:25:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=JHt96uT4Q7BwS4NdRXSU1MVIN9ZQRmgKBYoUqlA70sg=;
-        b=FTmtHevb/2lCiduv1bxN2jNSRFQIRp1jQ/TUsaCdBwAW/diJI+MM6X5FtZpJwCzVf3
-         xFWyF1+0v3PX7grCleGiUZm577zgV6OCoxe/iNYb6agevNc8T+GA5VXWgMU5cpaWYEBF
-         7FDYF6mc+ZQkiaNF9fOgCkXuuWuHDE3v6XnFCI0Lfr/ViYuHr7P9EZThxmTbJYEqO7Lc
-         3kEoa0C2AA2hLg3U7vfgE7HgyBpa1NzcFta7EJPcXQvO8K+9vcDp834AfTGXBZ0+eZqT
-         D/ZCenPS+afAUNbazuch9U8MPl56fezX+Sfhj2+98avOEg11/9H4dBRFDs+0XsBTrxTT
-         nMfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=JHt96uT4Q7BwS4NdRXSU1MVIN9ZQRmgKBYoUqlA70sg=;
-        b=KuEwE8QHB0cepxQgArRoGrcsjqwhnnUThUQVrEoDborcij5GURjxU3c/J2tzz1Cr/I
-         FYar8LBwuWqh8GAvZbClTug5hsULv9DnkJcqsCBU53jOVsQwlJoI+gqAmxcrzTKjvEZu
-         qfZRCE53krf6FPwIkFrqFQ/IpLakefgjFUgVhE8AIwEbaiD1pyDinu4FxA7R+XzPCcW7
-         GLS3RtfeqqkNLho/ikMcPNlD2ctPM67AbzhrUPdmoUYpYbSTvt8LlRFZnxTa5pusLJZ6
-         1jXQGQAIx3aF9AR939pHl76ugDwUJnfIEfNA0ThmFlhnfZhllAx1E1hxtwCU55ogaVBY
-         ftlw==
-X-Gm-Message-State: AJIora87Lf3Ka++2umO+uC9STItiQ9Muo6918uud8aWYDppm/vfMDPBn
-	S9ib+tberBCDgNPmD0FrCG1vVQ==
-X-Google-Smtp-Source: AGRyM1uU2a9N+Tlm73VXF1neUxMMjGVz19hV+EhKo6BBv9h2XUa3CSeloMqm50v7vGSnm5mdnJA8Kw==
-X-Received: by 2002:a5d:6d0d:0:b0:21d:7ae5:22ee with SMTP id e13-20020a5d6d0d000000b0021d7ae522eemr13289006wrq.152.1657488321495;
-        Sun, 10 Jul 2022 14:25:21 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:c7c0:6823:f3ce:2447])
-        by smtp.gmail.com with ESMTPSA id m19-20020a05600c3b1300b003a2dd0d21f0sm7142759wms.13.2022.07.10.14.25.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 14:25:21 -0700 (PDT)
-From: Daniel Lezcano <daniel.lezcano@linexp.org>
-To: daniel.lezcano@linaro.org,
-	rafael@kernel.org
-Cc: rui.zhang@intel.com,
-	khilman@baylibre.com,
-	abailon@baylibre.com,
-	amitk@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v1 28/33] input/drivers/touchscreen_sun4i: Switch to new of thermal API
-Date: Sun, 10 Jul 2022 23:24:18 +0200
-Message-Id: <20220710212423.681301-29-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220710212423.681301-1-daniel.lezcano@linexp.org>
-References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16C9D7B
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 22:55:55 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D81023A;
+	Sun, 10 Jul 2022 15:55:49 -0700 (PDT)
+Received: from slackpad.lan (unknown [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3C7E73F73D;
+	Sun, 10 Jul 2022 15:55:47 -0700 (PDT)
+Date: Sun, 10 Jul 2022 23:54:40 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+Cc: samuel@sholland.org, Roman Stratiienko <r.stratiienko@gmail.com>,
+ mturquette@baylibre.com, sboyd@kernel.org, mripard@kernel.org,
+ wens@csie.org, linux-clk@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [RFC] ccu-sun50i-h6: Bump-up DDR0 PLL to 1800MHz
+Message-ID: <20220710235440.0b34d8cb@slackpad.lan>
+In-Reply-To: <1917526.jZfb76A358@kista>
+References: <20220710175214.544748-1-r.stratiienko@gmail.com>
+	<1917526.jZfb76A358@kista>
+Organization: Arm Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach.
+On Sun, 10 Jul 2022 20:47:55 +0200
+Jernej =C5=A0krabec <jernej.skrabec@gmail.com> wrote:
 
-Use this new API.
+Hi Roman,
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
----
- drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+> Dne nedelja, 10. julij 2022 ob 19:52:14 CEST je Roman Stratiienko napisal=
+(a):
+> > While debugging complex animated composition cases  I noticed a glitch
+> > which as it turned-out eventually was caused by lack of memory bandwidt=
+h.
+> >=20
+> > I can't find a DRAMC manual to check what input frequency must be
+> > supplied to avoid exceeding the 800MHz LPDDR3 which is installed on
+> > my orangepi3 board. But the system is running stable so far. =20
 
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 742a7e96c1b5..7cee09504e34 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
- 	return 0;
- }
- 
--static int sun4i_get_tz_temp(void *data, int *temp)
-+static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
- {
--	return sun4i_get_temp(data, temp);
-+	return sun4i_get_temp(tz->devdata, temp);
- }
- 
--static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-+static struct thermal_zone_device_ops sun4i_ts_tz_ops = {
- 	.get_temp = sun4i_get_tz_temp,
- };
- 
-@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
- 	if (IS_ERR(hwmon))
- 		return PTR_ERR(hwmon);
- 
--	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
--						       &sun4i_ts_tz_ops);
-+	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
-+						&sun4i_ts_tz_ops);
- 	if (IS_ERR(thermal))
- 		return PTR_ERR(thermal);
- 
--- 
-2.25.1
+Well, most recent Allwinner boards indeed have capable LPDDR3 (800 MHz)
+or DDR3-1600 (or even higher) chips, but we never got them running at the
+full clock speed, and lowering the DRAM frequency is a common kludge to
+improve system stability (as in: actually reaching the login prompt).
+And we figured that those "more aggressive" timings are quite board
+specific, so while 800 MHz might work on your particular board, your
+friend's OPi3 might not be as lucky.
+
+> this is hard topic. Generally, max. supported DRAM frequency is board spe=
+cific=20
+> and is set by SPL (part of U-Boot), so we can't assume every board suppor=
+ts=20
+> max. frequency for its memory type.
+
+Yes, while we run most H6 boards at 744 MHz, the Tanix TX6 requires no
+more than 648 MHz, for instance, partly because it has DDR3 (not LPDDR3)
+DRAM. Another H6 TV box I have needs an even lower frequency (at least
+with the current timing settings).
+
+> In fact, this assumption was proven wrong.=20
+> Some boards were unstable until DRAM frequency was lowered. So in short, =
+Linux=20
+> clock driver certainly shouldn't set DRAM frequency.
+
+Yes, and on top of that, also keep in mind that many DRAM controller
+registers take timing parameters in terms of clock cycles, but the
+actual DDR chips are specified in terms of pico- or nanoseconds. This
+means the register values must be calculated and programmed based on
+the clock frequency, see [1] for examples in all those ns_to_t()
+calls. And just increasing the PLL frequency might now lead to exceeded
+specifications, and thus subtle instabilities.
+
+[1] https://source.denx.de/u-boot/u-boot/-/blob/master/arch/arm/mach-sunxi/=
+dram_timings/h6_ddr3_1333.c
+
+> There is, however, Linux=20
+> MBUS driver for H5 and A64, which can throttle DRAM frequency when system=
+ is=20
+> idle, but max. frequency is still that one which was programmed by SPL.
+>=20
+> There is no definitive DRAM documentation, because Allwinner usually trie=
+s to=20
+> hide all details. DRAM drivers are, except in rare cases, all reverse=20
+> engineered by community. Register values (mostly) match those produced by=
+=20
+> vendor driver. Fortunately, at least H6 DRAM controller matches pretty go=
+od=20
+> with one other memory controller (one in Zynq UltraScale+ MPSoC), which i=
+s=20
+> fully documented (see comments in U-Boot driver). MBUS is also pretty sta=
+ndard=20
+> and it's not a mystery.
+>=20
+> Note that it's hard to convince maintainers to either lower or increase D=
+RAM=20
+> frequency as it was common issue in the past. You have to do a lot of mem=
+ory=20
+> intensive tests, both CPU and GPU, running at the same time for extended=
+=20
+> period of time. Initial board bring ups usually just use same frequency a=
+s in=20
+> BSP based images.
+
+Yes, this DDR3 controller logic is mostly undocumented rocket science,
+see [2] in our wiki for just *some* (old!) pieces of information and
+the complexity it involved in the past to come to a set of timing
+parameters (including the clock frequency) that works stably across
+all boards.
+
+[2] https://linux-sunxi.org/A10_DRAM_Controller_Calibration
+
+> If I understand procedure correctly, boards are sent to=20
+> Allwinner, so their engineers determine max. DRAM frequency and timings, =
+so=20
+> these values are pretty trustwothy.
+> There is other possibility. Along with DRAM controller and PHY, there is =
+MBUS=20
+> core, which is memory arbiter and responsible for bandwidth allocation. Y=
+ou=20
+> can change DE priority and bandwith there (again, in U-Boot DRAM driver).
+
+That's indeed an interesting topic to explore, though the DE seems to
+be already in the top tier in our settings:
+https://source.denx.de/u-boot/u-boot/-/blob/master/arch/arm/mach-sunxi/dram=
+_sun50i_h6.c#L135-151
+
+Cheers,
+Andre
+
+> I hope this explains why things are the way they are.
+>=20
+> Best regards,
+> Jernej
+>=20
+> >=20
+> > Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> > ---
+> >  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 11 +++++++++++
+> >  1 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index 750368a86b8b6..abdde803079=
+93
+> > 100644
+> > --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> > @@ -1203,6 +1203,17 @@ static int sun50i_h6_ccu_probe(struct platform_d=
+evice
+> > *pdev) val &=3D ~GENMASK(3, 0);
+> >  	writel(val, reg + gpu_clk.common.reg);
+> >=20
+> > +	/*
+> > +	 * Increase DDR0 PLL from 1488(default) to 1800MHz.
+> > +	 * (DE3.0 require higher memory bandwidth while displaying
+> > +	 * complex composition at 1920x1080@60FPS)
+> > +	 */
+> > +
+> > +	val =3D readl(reg + SUN50I_H6_PLL_DDR0_REG);
+> > +	val &=3D ~GENMASK(15, 0);
+> > +	val |=3D 74 << 8;
+> > +	writel(val, reg + SUN50I_H6_PLL_DDR0_REG);
+> > +
+> >  	/* Enable the lock bits on all PLLs */
+> >  	for (i =3D 0; i < ARRAY_SIZE(pll_regs); i++) {
+> >  		val =3D readl(reg + pll_regs[i]);
+> > --
+> > 2.34.1 =20
+>=20
+>=20
+>=20
 
