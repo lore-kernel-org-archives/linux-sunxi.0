@@ -1,99 +1,131 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50FE7187D
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 17:52:40 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h17so4439000wrx.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 10:52:40 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2217A
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 18:47:58 +0000 (UTC)
+Received: by mail-ej1-f53.google.com with SMTP id a9so5480933ejf.6
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 11:47:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AeSUffjgrxLIDrHX0WRm/GzkZY58B1bVWJKIzfHMVqY=;
-        b=Fx0xAcxQswDl6PZOZPn4Ig2Gi+z8tQ3eW9sjga5TlDz1ubNvvqGiBOz+y61CqBBRrG
-         7rtnn+Sw8cpEQvDGJeAhqBOD2vpmj0W+qQamEdEDi+vSGoGM2WYrTOozWjIRgwlYwtTH
-         6MfIw+1j+v1FJsv8wmAWP03om3TOARE3okCdLHnzZoVhfe95oH++xbARRkV/iuvd7bO1
-         vuYRUpxD0kMucxII8XXDqzNB1lTZ5so7rodpfMJXSLM3aCUofra54ax6iITHa5BTOes7
-         8iviher/DChZKOOk2kr2wpZ0HjbcsbHAVb/L7+/mFqPcnWEzJLftQhpIAp9eJCEoPRKC
-         vlBg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=C80Ap1NXuZqTKIgCrLtABirop3OeeK3fdoI8KowoeOs=;
+        b=ZOpQ1n0M0OnqaRpX8U1nIdAk1kQ66bjVUCEE2Y67Doa8nB74h809IMNYQDcsHN5JV5
+         W/kt/2kZZiQNxRMOyFZhQWnLBGkvw8nhao0WNJ4eyq+0vpsdnoEiKYhv7csabekLSo/N
+         o80kR/iIVciGw8O03J7f2qEQPI8Qpsiq2LESCxNsxDtEoLQhLeInKqrXbOQAObyD1BUs
+         4LzvcMOvfApyyZiB3MVEf0gri17579oZtVWhhAsidaTONVEO0+9SshJo7Tc/HC13DYEO
+         zVJ6Llo2C0o9HgEpHndudpMAFOBk1EgEK2edcQxFr8Z/83WcQDZbkGPCNbg045TwJx13
+         GudA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=AeSUffjgrxLIDrHX0WRm/GzkZY58B1bVWJKIzfHMVqY=;
-        b=5GR9K+TrHokoctqDIuR/pJyzeK9QTi86Zro9xC9D8NIqO/8/l0w/ND7TYIpzpvM/yF
-         46ceTDogPS2OEtUKAqsyCh23JcXlTiPv4gZL/Rwu+gLsYQ3RIqN8IvWkhnNR1BjqsUvQ
-         hHhDR4XZF2w3kVNMWzTJHvQWJIjLBXbE1ajJePaeMTIn2fcDwZFmTm2GlxdnekNBA/iX
-         tFrbZOs0PEZKX/fNNTQkwFBbYfdd/PDHQJNWTJnaWl7CLgvAS1X4EHt6ctc0bO0LMdh6
-         o21gZ6j62+BfMfVHa28DUBCgYy2ikz9uki+Ts1d5CmJDUqi7ftR/P3xh6u8hBED75jR1
-         kxFg==
-X-Gm-Message-State: AJIora9oU7KzqhQi/NAH6YMa1/VJ6dszKSLlj5bAJK3JflDirmOuyiHq
-	7Nx5w7xwmINYOu3Y8CLBGcs=
-X-Google-Smtp-Source: AGRyM1tO70VRNWP+zx9h+dZMqVSgs/r1nVqGy2ngqLU80XsFfk9kYgm6wOt2MUcya3rcsubm/NQJDA==
-X-Received: by 2002:a5d:6dab:0:b0:21d:9fc8:3029 with SMTP id u11-20020a5d6dab000000b0021d9fc83029mr4189820wrs.172.1657475558497;
-        Sun, 10 Jul 2022 10:52:38 -0700 (PDT)
-Received: from roman-Latitude-3400.globallogic.com ([195.234.74.2])
-        by smtp.gmail.com with ESMTPSA id c8-20020a7bc848000000b003a2e7c13a3asm840346wml.42.2022.07.10.10.52.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=C80Ap1NXuZqTKIgCrLtABirop3OeeK3fdoI8KowoeOs=;
+        b=65iY32uBTsy2m8wq/wzWpeNQW2bZodiV3dsVn+YHpLUZ3rtKJefzw3kIXz9z9LQ0n7
+         hMlZfmZ9nVmho8OiofXOfjfyhLnzOaYOjYp0+KF36Z5fSSuhQEF33srHxBsn3GrcIiFC
+         eMMv6EicqTTaxGYiNB4sEI64VBAZXbTY8pEaXN6aHAiZgG+oRGJEwcKV4FrtmyZB5E6e
+         6WsfDJo3gdfHZ+TX+yVTdNvD2a6gtMt9cutFVTKQybBoOFl2duA3QbhMzPAsASuJt8M9
+         uWRZ/y8+wQBHMLOymnUXPLjjEX0K/ARWEtaSP58Ev/WfX6oLUvsDIOYeFy5ecNSp8ob7
+         zFOg==
+X-Gm-Message-State: AJIora8Goo+XZLMigFcG9WZJwO8j83WPTCKxTekEnjiAJZV+lmRlPz1/
+	QX3BwwmWAMsUvHNbT1IFM8c=
+X-Google-Smtp-Source: AGRyM1v8LP9i025JYfgRgPcAmlTD5Y+Rcjg0cRMXzHhXx90s+gyCRBFmmeu3UaNXQf9uAZpxRsVPOw==
+X-Received: by 2002:a17:906:6416:b0:722:e812:1000 with SMTP id d22-20020a170906641600b00722e8121000mr15282978ejm.275.1657478876956;
+        Sun, 10 Jul 2022 11:47:56 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id x21-20020a170906149500b0072b2ef2757csm1780200ejc.180.2022.07.10.11.47.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Jul 2022 10:52:38 -0700 (PDT)
-From: Roman Stratiienko <r.stratiienko@gmail.com>
-To: samuel@sholland.org
-Cc: mturquette@baylibre.com,
-	sboyd@kernel.org,
-	mripard@kernel.org,
-	wens@csie.org,
-	jernej.skrabec@gmail.com,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Roman Stratiienko <r.stratiienko@gmail.com>
-Subject: [RFC] ccu-sun50i-h6: Bump-up DDR0 PLL to 1800MHz
-Date: Sun, 10 Jul 2022 20:52:14 +0300
-Message-Id: <20220710175214.544748-1-r.stratiienko@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sun, 10 Jul 2022 11:47:56 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: samuel@sholland.org, Roman Stratiienko <r.stratiienko@gmail.com>
+Cc: mturquette@baylibre.com, sboyd@kernel.org, mripard@kernel.org, wens@csie.org, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Roman Stratiienko <r.stratiienko@gmail.com>
+Subject: Re: [RFC] ccu-sun50i-h6: Bump-up DDR0 PLL to 1800MHz
+Date: Sun, 10 Jul 2022 20:47:55 +0200
+Message-ID: <1917526.jZfb76A358@kista>
+In-Reply-To: <20220710175214.544748-1-r.stratiienko@gmail.com>
+References: <20220710175214.544748-1-r.stratiienko@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-While debugging complex animated composition cases  I noticed a glitch
-which as it turned-out eventually was caused by lack of memory bandwidth.
+Hi Roman,
 
-I can't find a DRAMC manual to check what input frequency must be
-supplied to avoid exceeding the 800MHz LPDDR3 which is installed on
-my orangepi3 board. But the system is running stable so far.
+Dne nedelja, 10. julij 2022 ob 19:52:14 CEST je Roman Stratiienko napisal(a):
+> While debugging complex animated composition cases  I noticed a glitch
+> which as it turned-out eventually was caused by lack of memory bandwidth.
+> 
+> I can't find a DRAMC manual to check what input frequency must be
+> supplied to avoid exceeding the 800MHz LPDDR3 which is installed on
+> my orangepi3 board. But the system is running stable so far.
 
-Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
----
- drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+this is hard topic. Generally, max. supported DRAM frequency is board specific 
+and is set by SPL (part of U-Boot), so we can't assume every board supports 
+max. frequency for its memory type. In fact, this assumption was proven wrong. 
+Some boards were unstable until DRAM frequency was lowered. So in short, Linux 
+clock driver certainly shouldn't set DRAM frequency. There is, however, Linux 
+MBUS driver for H5 and A64, which can throttle DRAM frequency when system is 
+idle, but max. frequency is still that one which was programmed by SPL.
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-index 750368a86b8b6..abdde80307993 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
-@@ -1203,6 +1203,17 @@ static int sun50i_h6_ccu_probe(struct platform_device *pdev)
- 	val &= ~GENMASK(3, 0);
- 	writel(val, reg + gpu_clk.common.reg);
- 
-+	/*
-+	 * Increase DDR0 PLL from 1488(default) to 1800MHz.
-+	 * (DE3.0 require higher memory bandwidth while displaying
-+	 * complex composition at 1920x1080@60FPS)
-+	 */
-+
-+	val = readl(reg + SUN50I_H6_PLL_DDR0_REG);
-+	val &= ~GENMASK(15, 0);
-+	val |= 74 << 8;
-+	writel(val, reg + SUN50I_H6_PLL_DDR0_REG);
-+
- 	/* Enable the lock bits on all PLLs */
- 	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
- 		val = readl(reg + pll_regs[i]);
--- 
-2.34.1
+There is no definitive DRAM documentation, because Allwinner usually tries to 
+hide all details. DRAM drivers are, except in rare cases, all reverse 
+engineered by community. Register values (mostly) match those produced by 
+vendor driver. Fortunately, at least H6 DRAM controller matches pretty good 
+with one other memory controller (one in Zynq UltraScale+ MPSoC), which is 
+fully documented (see comments in U-Boot driver). MBUS is also pretty standard 
+and it's not a mystery.
+
+Note that it's hard to convince maintainers to either lower or increase DRAM 
+frequency as it was common issue in the past. You have to do a lot of memory 
+intensive tests, both CPU and GPU, running at the same time for extended 
+period of time. Initial board bring ups usually just use same frequency as in 
+BSP based images. If I understand procedure correctly, boards are sent to 
+Allwinner, so their engineers determine max. DRAM frequency and timings, so 
+these values are pretty trustwothy.
+
+There is other possibility. Along with DRAM controller and PHY, there is MBUS 
+core, which is memory arbiter and responsible for bandwidth allocation. You 
+can change DE priority and bandwith there (again, in U-Boot DRAM driver).
+
+I hope this explains why things are the way they are.
+
+Best regards,
+Jernej
+
+> 
+> Signed-off-by: Roman Stratiienko <r.stratiienko@gmail.com>
+> ---
+>  drivers/clk/sunxi-ng/ccu-sun50i-h6.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c index 750368a86b8b6..abdde80307993
+> 100644
+> --- a/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> +++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6.c
+> @@ -1203,6 +1203,17 @@ static int sun50i_h6_ccu_probe(struct platform_device
+> *pdev) val &= ~GENMASK(3, 0);
+>  	writel(val, reg + gpu_clk.common.reg);
+> 
+> +	/*
+> +	 * Increase DDR0 PLL from 1488(default) to 1800MHz.
+> +	 * (DE3.0 require higher memory bandwidth while displaying
+> +	 * complex composition at 1920x1080@60FPS)
+> +	 */
+> +
+> +	val = readl(reg + SUN50I_H6_PLL_DDR0_REG);
+> +	val &= ~GENMASK(15, 0);
+> +	val |= 74 << 8;
+> +	writel(val, reg + SUN50I_H6_PLL_DDR0_REG);
+> +
+>  	/* Enable the lock bits on all PLLs */
+>  	for (i = 0; i < ARRAY_SIZE(pll_regs); i++) {
+>  		val = readl(reg + pll_regs[i]);
+> --
+> 2.34.1
+
 
