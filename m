@@ -1,78 +1,121 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6ED7A
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 19:09:02 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-31c89111f23so31038107b3.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 12:09:02 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC211C3D
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 21:24:53 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id v14so4766016wra.5
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 14:24:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=g8uBrLbWc94Zt3/5+ItReRZraOQhpXiAxYkcJ2+dIok=;
-        b=YvHdS0dcpg797mdkhiGVt5EYXBki+VqxBmuaZtbSw/FuLBBGfXBkeEFpMyGUeCoeOZ
-         tkN4QAWerGT9YiJHy9rhnaldPXCG1SAmfWff89/ppYzAKuvVpWFLjzvYudlRJvBkcgq3
-         29kKJgs7KrfCsqID+Oap4Xo7rbUTL1JG7rqcyCKolRHR/tpmysEwCwwMuRysEksm6ODA
-         FkQjCGhKS+j4Xv6uaQM5cF/dnqrveBhpH7vwfdmZu6WHTLH///Yj+F0iAr1qaauC5IHH
-         OzWOkmx465cLskT5lAxwt+Y8vjb6ugJV95myiv6v7NWz6rpuoo+oD5rxEZQYVQbEZA8e
-         3QbQ==
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=XKrmrf+cSxdde7+ZUymVasY3n7CrcY/HjZWqjqekd2E=;
+        b=Q6/0d8VjALBuFP6Yp6/DDTv9I6sAEW6VuNJ0HRWOdbHFQXEGVkKwEqGlyKySV7oKc0
+         zl9TgSS9dbQcAYqB5k9Qdc/MfOMbMV2wwJ6QehNTZv3ldzlg8dXldph6QRO0zqz9aAfu
+         i8chWAUnWBSdBF8uVesQPWD8uDEJ4LcwFTxGHxBIZto03XxX6YqBUeS3SudWdspoFqOg
+         gUMVqKEiza42aro7/7QSsT/ptwxZHZuNoP2d14R7J+6o4zaIrW4b5XGzJZ8vj6W0nvYu
+         rw2FZyhy0mR8MvGud5WQVAUr5yrl1lXYKHyfitjIe4v2vcC6z0utO16kLSHFagt31w1H
+         PZGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=g8uBrLbWc94Zt3/5+ItReRZraOQhpXiAxYkcJ2+dIok=;
-        b=l2asUc1LRAlt0EnYvvuyaZYP1+DhZZzjWoYcfpwhEk43nipvfSs7/j6/HZh8qVC3UM
-         qUt8ZpKSV3cUnaLlPkzLHb+B/a7eBdc+wFUZUJatwNyiO5G1G3BUACkJ5BJMVfXaCF1f
-         cblnY+6WZlplgqwrig6XLbTPdBb4KvA+oLE58clsVxdqUzbAIEHeUPM9Do0LDMnHTbwB
-         5Cb2AGAIVe7JWkwW3quZtovaNaD6tz4W+nhE9/imhbiE+EKte87Fp6enX2HTTtqU9gwp
-         1VBc3zGqFhaP42FUQXDi0lB3cfynW0V1BGU8zkTtzkpWo9+6b+ziMw+MjIipbxF0mxYS
-         D0Qg==
-X-Gm-Message-State: AJIora9AFzpE7q+ADu4lSzkL8/oHklNlG/Fxo95Zl2A4NDGZUxAhBYZu
-	cst4e9K0gbrVMCv2mqto5ltYiAOGeovrgrW+Rvc=
-X-Google-Smtp-Source: AGRyM1uQhf5F8te2uFSd0prGAFf6uTxYdIFIrz6w9GanRjKRI0AwDZInMAcv9znJU/AI6ZDy3jbdkzHSycFBE5OPSlE=
-X-Received: by 2002:a81:468b:0:b0:318:4cac:6576 with SMTP id
- t133-20020a81468b000000b003184cac6576mr15721393ywa.277.1657480141962; Sun, 10
- Jul 2022 12:09:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=XKrmrf+cSxdde7+ZUymVasY3n7CrcY/HjZWqjqekd2E=;
+        b=KRiuXmGk8m3RnLsk81AVLHlaHusGXo1mw86I/od3M/R2OOkMS1n3wVUbcpcI/MLQvp
+         VGDGnYcXCHgcZb+N1mpwZkbKDKtFITDrDHKf5njU8ZfUCUsMJ/mpgvY7zZ8fdjd3qc/1
+         IwX2DuZzfzEzihjPn/Zo9RluaJsegOsOTPnE47W4mt50KPSpkeXZkSbihVg2UiZosJdl
+         XiS4YeFjngfi6wAuHlH3RrXJnpCTzKCv67h6IkaXceFQ52ej43nLPAi/zRX1sr0KYjTb
+         OSo2SskAY8TbIphkEUUDOwvDKIA0wTMKMizrGxZgt47QUFg11mYiroR1gBwTKOtwPmCl
+         1JlQ==
+X-Gm-Message-State: AJIora82D6+zuLIVDuQyR+PL8bYRNODcib+MvzoSmCd4zUBKM0Wd6xCi
+	VvwC1PaihbM0ZeFg/YHK98Lavw==
+X-Google-Smtp-Source: AGRyM1u2vq7qmaJGmyL9yhX5LXCLt9CoVTxexTX9SfZep/w9D5UJPtU+1Xzot74ix+2oUD+2qtF+9w==
+X-Received: by 2002:adf:d4c4:0:b0:21d:6c8f:4da3 with SMTP id w4-20020adfd4c4000000b0021d6c8f4da3mr14085345wrk.325.1657488291458;
+        Sun, 10 Jul 2022 14:24:51 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:c7c0:6823:f3ce:2447])
+        by smtp.gmail.com with ESMTPSA id m19-20020a05600c3b1300b003a2dd0d21f0sm7142759wms.13.2022.07.10.14.24.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Jul 2022 14:24:51 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@linexp.org>
+To: daniel.lezcano@linaro.org,
+	rafael@kernel.org
+Cc: rui.zhang@intel.com,
+	khilman@baylibre.com,
+	abailon@baylibre.com,
+	amitk@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Vasily Khoruzhick <anarsoul@gmail.com>,
+	Yangtao Li <tiny.windzz@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v1 08/33] thermal/drivers/sun8i: Switch to new of API
+Date: Sun, 10 Jul 2022 23:23:58 +0200
+Message-Id: <20220710212423.681301-9-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220710212423.681301-1-daniel.lezcano@linexp.org>
+References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220710081853.1699028-1-uwu@icenowy.me> <20220710081853.1699028-4-uwu@icenowy.me>
-In-Reply-To: <20220710081853.1699028-4-uwu@icenowy.me>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 10 Jul 2022 21:08:24 +0200
-Message-ID: <CAHp75VcK4nF6TxE2e3s-qTE5RKLuAeKykoKN3usXe+NiJX4Eng@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] pinctrl: sunxi: add support for R329 R-PIO pin controller
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 10, 2022 at 10:28 AM Icenowy Zheng <uwu@icenowy.me> wrote:
->
-> Allwinner R320 SoC has a pin controller in the CPUS power domain.
->
-> Add support for it.
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach.
 
-> +#include <linux/init.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/of.h>
-> +#include <linux/of_device.h>
-> +#include <linux/pinctrl/pinctrl.h>
-> +#include <linux/reset.h>
+Use this new API.
 
-Same comment as per previous patch.
-Also I forgot to mention kernel.h from which ARRAY_SIZE() is currently
-available.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ drivers/thermal/sun8i_thermal.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> +#include "pinctrl-sunxi.h"
-
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index d9cd23cbb671..d4e04c2c5135 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
+ 		return -1590 * reg / 10 + 276000;
+ }
+ 
+-static int sun8i_ths_get_temp(void *data, int *temp)
++static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	struct tsensor *s = data;
++	struct tsensor *s = tz->devdata;
+ 	struct ths_device *tmdev = s->tmdev;
+ 	int val = 0;
+ 
+@@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops ths_ops = {
++static struct thermal_zone_device_ops ths_ops = {
+ 	.get_temp = sun8i_ths_get_temp,
+ };
+ 
+@@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 		tmdev->sensor[i].tmdev = tmdev;
+ 		tmdev->sensor[i].id = i;
+ 		tmdev->sensor[i].tzd =
+-			devm_thermal_zone_of_sensor_register(tmdev->dev,
+-							     i,
+-							     &tmdev->sensor[i],
+-							     &ths_ops);
++			devm_thermal_of_zone_register(tmdev->dev,
++						      i,
++						      &tmdev->sensor[i],
++						      &ths_ops);
+ 		if (IS_ERR(tmdev->sensor[i].tzd))
+ 			return PTR_ERR(tmdev->sensor[i].tzd);
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
