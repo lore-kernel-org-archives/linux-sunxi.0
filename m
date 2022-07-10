@@ -1,50 +1,50 @@
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149D97A
-	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 19:07:19 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id l11so5604708ybu.13
-        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 12:07:18 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6ED7A
+	for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 19:09:02 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-31c89111f23so31038107b3.0
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 12:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5pJ2mY4u3LGxMAcCpcPEWdZJC2DKdA33cpYfSaprjpk=;
-        b=b6kLel3P40kfn9mtHJmNm3A1puIDxVDvFW+w5n8REW2Qr+jWiPzYUowghbkcalrq+u
-         33xJ4rXHnbR1pUhKTvdompZTuFumz9ZG1Qtg9PkbxxzQyvFpmFBGU5a+ZlbpzrlBTP4O
-         IQHGa00tcG5NDbi47W1nGe+3g6hNLh9EKDZrJYOcZr1Ma/QPqWhfinJATrT8mdWLWovO
-         4atAiGuKR290iDhuftFvqzF7T6FOE9IXZpIg4l/zBFrP4D8a0mepbDWg6V2xikT6ya/K
-         hq0aL93vMlXZeV6rukAJ93G609V73mJrSeH+JvTjQ4+PCbEhlBOst81Hi9Z9XLA4/zto
-         +qVA==
+        bh=g8uBrLbWc94Zt3/5+ItReRZraOQhpXiAxYkcJ2+dIok=;
+        b=YvHdS0dcpg797mdkhiGVt5EYXBki+VqxBmuaZtbSw/FuLBBGfXBkeEFpMyGUeCoeOZ
+         tkN4QAWerGT9YiJHy9rhnaldPXCG1SAmfWff89/ppYzAKuvVpWFLjzvYudlRJvBkcgq3
+         29kKJgs7KrfCsqID+Oap4Xo7rbUTL1JG7rqcyCKolRHR/tpmysEwCwwMuRysEksm6ODA
+         FkQjCGhKS+j4Xv6uaQM5cF/dnqrveBhpH7vwfdmZu6WHTLH///Yj+F0iAr1qaauC5IHH
+         OzWOkmx465cLskT5lAxwt+Y8vjb6ugJV95myiv6v7NWz6rpuoo+oD5rxEZQYVQbEZA8e
+         3QbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5pJ2mY4u3LGxMAcCpcPEWdZJC2DKdA33cpYfSaprjpk=;
-        b=YxH3vfW8DN4qgyTrNBZ8NMHonxoD/1JLdAiyNeISm+KaayNQrGgqR555vKXMw+qYTQ
-         5at0nUjiqqm1H2KA5MlhSIIeYNVkmATVHwHdd2u0HlSkbtHgs+uvYhkU5pjG03ukm+ci
-         dfd/bkxo1bADfc6W700xxRsBzHZUDbz6qjN+u9r0Yjszrnx96DOQVrDirshckiYn5cVa
-         f6adOioCrzV0C8AWS3A7/RbnpyaZJEw2ohRLN+J/IDur7jcfrVa19Pwkd6ha5lmTQS6D
-         N3+E6U5T0rSw8jE1HsESFyiJtNLyIXbKhE4zhqt2CPKI4VBI3AljVcIXOGWB5t1lTs47
-         2DRA==
-X-Gm-Message-State: AJIora9Y1hYdNmXnVRsseUEEXLBPWi0m/DdYgLn6OO0ozmXprZ7RZJVh
-	LO5mrUAs6LoBCOeO+MRoxvMoIlxkaGvrPfpgsZE=
-X-Google-Smtp-Source: AGRyM1usMvKd9f2/H5alDs+qjUrsqY+va9QV6ErxeZWmxYWH5zM60anQcdnlEiOVWdGy8L9IlScLjQt6eOQ+XffYNqY=
-X-Received: by 2002:a25:cbcf:0:b0:66e:8893:a02c with SMTP id
- b198-20020a25cbcf000000b0066e8893a02cmr14363105ybg.460.1657480037999; Sun, 10
- Jul 2022 12:07:17 -0700 (PDT)
+        bh=g8uBrLbWc94Zt3/5+ItReRZraOQhpXiAxYkcJ2+dIok=;
+        b=l2asUc1LRAlt0EnYvvuyaZYP1+DhZZzjWoYcfpwhEk43nipvfSs7/j6/HZh8qVC3UM
+         qUt8ZpKSV3cUnaLlPkzLHb+B/a7eBdc+wFUZUJatwNyiO5G1G3BUACkJ5BJMVfXaCF1f
+         cblnY+6WZlplgqwrig6XLbTPdBb4KvA+oLE58clsVxdqUzbAIEHeUPM9Do0LDMnHTbwB
+         5Cb2AGAIVe7JWkwW3quZtovaNaD6tz4W+nhE9/imhbiE+EKte87Fp6enX2HTTtqU9gwp
+         1VBc3zGqFhaP42FUQXDi0lB3cfynW0V1BGU8zkTtzkpWo9+6b+ziMw+MjIipbxF0mxYS
+         D0Qg==
+X-Gm-Message-State: AJIora9AFzpE7q+ADu4lSzkL8/oHklNlG/Fxo95Zl2A4NDGZUxAhBYZu
+	cst4e9K0gbrVMCv2mqto5ltYiAOGeovrgrW+Rvc=
+X-Google-Smtp-Source: AGRyM1uQhf5F8te2uFSd0prGAFf6uTxYdIFIrz6w9GanRjKRI0AwDZInMAcv9znJU/AI6ZDy3jbdkzHSycFBE5OPSlE=
+X-Received: by 2002:a81:468b:0:b0:318:4cac:6576 with SMTP id
+ t133-20020a81468b000000b003184cac6576mr15721393ywa.277.1657480141962; Sun, 10
+ Jul 2022 12:09:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220710081853.1699028-1-uwu@icenowy.me> <20220710081853.1699028-3-uwu@icenowy.me>
-In-Reply-To: <20220710081853.1699028-3-uwu@icenowy.me>
+References: <20220710081853.1699028-1-uwu@icenowy.me> <20220710081853.1699028-4-uwu@icenowy.me>
+In-Reply-To: <20220710081853.1699028-4-uwu@icenowy.me>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 10 Jul 2022 21:06:41 +0200
-Message-ID: <CAHp75Vdso_PGUomjmKaF1ytdUe4qLeAbpwkNmcRng9aNHs7g8w@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] pinctrl: sunxi: add support for R329 CPUX pin controller
+Date: Sun, 10 Jul 2022 21:08:24 +0200
+Message-ID: <CAHp75VcK4nF6TxE2e3s-qTE5RKLuAeKykoKN3usXe+NiJX4Eng@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] pinctrl: sunxi: add support for R329 R-PIO pin controller
 To: Icenowy Zheng <uwu@icenowy.me>
 Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
 	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
@@ -54,27 +54,22 @@ Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>,
 	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Jul 10, 2022 at 10:22 AM Icenowy Zheng <uwu@icenowy.me> wrote:
+On Sun, Jul 10, 2022 at 10:28 AM Icenowy Zheng <uwu@icenowy.me> wrote:
 >
-> Allwinner R329 SoC has two pin controllers similar to ones on previous
-> SoCs, one in CPUX power domain and another in CPUS.
+> Allwinner R320 SoC has a pin controller in the CPUS power domain.
 >
-> This patch adds support for the CPUX domain pin controller.
+> Add support for it.
 
-...
-
-> +#include <linux/module.h>
+> +#include <linux/init.h>
 > +#include <linux/platform_device.h>
-
 > +#include <linux/of.h>
 > +#include <linux/of_device.h>
-
-No use of these.
-
 > +#include <linux/pinctrl/pinctrl.h>
+> +#include <linux/reset.h>
 
-Missed headers:
-mod_devicetable.h
+Same comment as per previous patch.
+Also I forgot to mention kernel.h from which ARRAY_SIZE() is currently
+available.
 
 > +#include "pinctrl-sunxi.h"
 
