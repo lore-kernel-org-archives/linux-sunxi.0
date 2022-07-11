@@ -1,70 +1,252 @@
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766B21FCE
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 08:58:59 +0000 (UTC)
-Received: by mail-yb1-f178.google.com with SMTP id e69so7685300ybh.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 01:58:59 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE4D54C9D
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 21:22:03 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id s204so8229791oif.5
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 14:22:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3YbR695TAkYYv9ibYrseADeKNiAp29rpTVuxO2dXGuQ=;
-        b=jWghaS/DFgsiSnUJHftdqdnrg2WIrICSKOBwr4Fg3a+wWb3TpflG1i2PZAiMlU/4E6
-         D74gSkN/HeXD6YCpd6mWX+fZtMleIcZLyxQ40Y+L2baaDX13Ukt0/3+1buEnW0M5qfQn
-         TMyb1hibKJOaSwl8eKQX/bn7yFsHcz87p/M6WMHdIjptcrEfJ9fOc9BkRFxQhOF7TDW/
-         dAqTBn28uc/ogvDdtvHmyGk9rLz54ZUeIrmHS0btk5UKzVpZXGKhqxwiFslxuHjAVQjj
-         oIw8mcKkXz5RyC5yHSMNetMLT85DRirHzIHz86+OySeuRJ/PO9Bgvqk1QcTF1VZmci7U
-         3TGw==
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=DlVNbxuhHiE0YW6IfxJk+i5c5jEODpePbQ6g9q+lpxA=;
+        b=LwQWUEinUCMBYYBc7qN0jExmAf2FO1r7LHie57nyLt7LixbPeeSEj7hUEJpKkzW/Fm
+         WyRVBjp5IRx/nfORkIB8sLI8hBJqSZArmXI2x/3EMVw9B7BLhREJIzGu6w189Cab8vie
+         PT8LeimE+0s5AQVydZTLezmrvDOrxHH0Tehe6doNqv9q6kwQ9HJkpwgco8LU30Xo8y12
+         0NBcP/pqmrWALkCaprRW3cVGgJKAu1HBjRd2GhtH+Iuv0xFhQb+k5PnugA14UIPqH0R8
+         Gp9qXg7dtiXDb2quprYaa5Dk3F2PUEIU3ircOaoZN9Wko4fdp2Yd6KZOur8FC6n9Dypl
+         vgFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3YbR695TAkYYv9ibYrseADeKNiAp29rpTVuxO2dXGuQ=;
-        b=MCdtR1/FSdbGgczWKFl0WyfO1MuZN0QEsZvJQGuPBjqH4BN4xAtvy7WCgHmST8zWDS
-         /J1C0ZUN4jzdi282gBLsw47ciZaFR1WMI7t1HR9UL42Vi4fqAqLM5AIi4y9nCmi0cSC5
-         8mq988hIDe20uSZK9dtNi1CKvBJqVjPdNUZ+3cF04T2udx27yG3Nmnb2rLROa9cJhx2C
-         rSualLVjUCOBv/UNan1Ss9Hv4fuqzfKUR0tnetspApznI1UePAS3qgco/b0xgu5DUF28
-         wgmQJWuD8osz2N2uWgyTewhlEeUoxhDvjbnTrBjokV1jtEFQ9XUkOXpLHGg5YdA4X++k
-         +OsQ==
-X-Gm-Message-State: AJIora+/i5iSSWDJO2dZyRxkMr6wLIjDeZMXFz6enfV+UAfduDhMgC1E
-	uKBP2h6gW5XVOS5+4Q1youoR9gP7ymPgl24sLrpyrQ==
-X-Google-Smtp-Source: AGRyM1vOozNp4mqN9zKhfAC9fc+51TZ/hNdBOP7sE0QplBqhONxtHw1MITMLtXnUVjs+zSTcRrksncX3k/+I0ztVTOo=
-X-Received: by 2002:a25:fe04:0:b0:66e:1f8a:8e89 with SMTP id
- k4-20020a25fe04000000b0066e1f8a8e89mr16564699ybe.514.1657529938451; Mon, 11
- Jul 2022 01:58:58 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DlVNbxuhHiE0YW6IfxJk+i5c5jEODpePbQ6g9q+lpxA=;
+        b=xfz/JLrk9mwYRKYTsG4mp3kkCjZrI443sknHUEm1CacQM/12dHSDRxm8AapSezb++J
+         G/yofvdy8YnO75mRqsVPACxaS7XEliu9tsQ3bEfB5tTZYZCnNTshNxQRfENHtPywRXAE
+         nKvvwjTxuaaEhWiQ9WtwE6xJgNF2+C6aYC0pAHKojxNAPedoYBqfXI01ESjSRbuyV/f4
+         FFCSG7NOAAzOYiDT0Lp1jE5P3yLhBSzlihl3rOfVRxIzWXdUA43jmDSqbEipMbQ4DYUd
+         7pavfcEno6Fri7cUq3kD5XgGxNFh7B2HLhVn7yOO6ppx07gyVCpKzaWDQJZz6QRH5vBq
+         KbPA==
+X-Gm-Message-State: AJIora/MJtuh4Tej9zcKdHUWHc+rN3uKrJudhjeohdQhJ65Bpb7rl2pz
+	aC6aHPQ+6JLiwl/FBMt9YPPiQQ==
+X-Google-Smtp-Source: AGRyM1suX5HCZoxqdbv5pRbmEJaW0Gk9ndmhHnqFYwBqop5sOUVwue3ket7abTy1gwO4u/a3nPw/mg==
+X-Received: by 2002:a05:6808:1a11:b0:33a:87d:d9c3 with SMTP id bk17-20020a0568081a1100b0033a087dd9c3mr211788oib.175.1657574522456;
+        Mon, 11 Jul 2022 14:22:02 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id q4-20020a9d6644000000b00616d98ad780sm3032840otm.52.2022.07.11.14.21.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Jul 2022 14:22:01 -0700 (PDT)
+Date: Mon, 11 Jul 2022 18:21:56 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
+	samuel@sholland.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
+	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/7] media: cedrus: Add error handling for failed setup
+Message-ID: <YsyUdCcMHYBJCFY9@eze-laptop>
+References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+ <20220620175517.648767-5-jernej.skrabec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220626021148.56740-1-samuel@sholland.org> <20220626021148.56740-2-samuel@sholland.org>
-In-Reply-To: <20220626021148.56740-2-samuel@sholland.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 11 Jul 2022 10:58:47 +0200
-Message-ID: <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] dt-bindings: pinctrl: Add compatibles for Allwinner D1/D1s
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, 
-	Ondrej Jirman <x@xff.cz>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220620175517.648767-5-jernej.skrabec@gmail.com>
 
-On Sun, Jun 26, 2022 at 4:11 AM Samuel Holland <samuel@sholland.org> wrote:
+Hi Jernej,
 
-> D1 contains a pin controller similar to previous SoCs, but with some
-> register layout changes. It includes 6 interrupt-capable pin banks.
->
-> D1s is a low pin count version of the D1 SoC, with some pins omitted.
-> The remaining pins have the same function assignments as D1.
->
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+On Mon, Jun 20, 2022 at 07:55:14PM +0200, Jernej Skrabec wrote:
+> During decoding setup stage for complex codecs like HEVC driver can
+> detect inconsistent values in controls or some other task, like
+> allocating memory, can fail.
+> 
+> Currently setup stage has no way of signalling error. Change return type
+> of setup callback to int and if returned value is not zero, skip
+> decoding and finish job immediately with error flag.
+> 
+> While currently there is only one place when setup can fail, it's
+> expected that there will be more such cases in the future, when HEVC
+> decoding is improved.
+> 
+> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-All 6 patches applied to the pinctrl tree, the last patch 6/6
-required some fuzzing so please check the result!
+Looks good and it's very typical to have a setup stage
+to put actions that can be allowed to fail.
 
-Yours,
-Linus Walleij
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 +-
+>  .../staging/media/sunxi/cedrus/cedrus_dec.c   | 21 ++++++++++++++-----
+>  .../staging/media/sunxi/cedrus/cedrus_h264.c  |  5 +++--
+>  .../staging/media/sunxi/cedrus/cedrus_h265.c  |  8 +++----
+>  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |  4 +++-
+>  .../staging/media/sunxi/cedrus/cedrus_vp8.c   |  5 +++--
+>  6 files changed, 30 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> index 3bc094eb497f..d2b697a9ded2 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+> @@ -162,7 +162,7 @@ struct cedrus_dec_ops {
+>  	void (*irq_clear)(struct cedrus_ctx *ctx);
+>  	void (*irq_disable)(struct cedrus_ctx *ctx);
+>  	enum cedrus_irq_status (*irq_status)(struct cedrus_ctx *ctx);
+> -	void (*setup)(struct cedrus_ctx *ctx, struct cedrus_run *run);
+> +	int (*setup)(struct cedrus_ctx *ctx, struct cedrus_run *run);
+>  	int (*start)(struct cedrus_ctx *ctx);
+>  	void (*stop)(struct cedrus_ctx *ctx);
+>  	void (*trigger)(struct cedrus_ctx *ctx);
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> index aabe6253078e..b0944abaacbd 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -28,6 +28,7 @@ void cedrus_device_run(void *priv)
+>  	struct cedrus_dev *dev = ctx->dev;
+>  	struct cedrus_run run = {};
+>  	struct media_request *src_req;
+> +	int error;
+>  
+>  	run.src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>  	run.dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> @@ -89,16 +90,26 @@ void cedrus_device_run(void *priv)
+>  
+>  	cedrus_dst_format_set(dev, &ctx->dst_fmt);
+>  
+> -	dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
+> +	error = dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
+> +	if (error)
+> +		v4l2_err(&ctx->dev->v4l2_dev,
+> +			 "Failed to setup decoding job: %d\n", error);
+>  
+>  	/* Complete request(s) controls if needed. */
+>  
+>  	if (src_req)
+>  		v4l2_ctrl_request_complete(src_req, &ctx->hdl);
+>  
+> -	dev->dec_ops[ctx->current_codec]->trigger(ctx);
+> +	/* Trigger decoding if setup went well, bail out otherwise. */
+> +	if (!error) {
+> +		dev->dec_ops[ctx->current_codec]->trigger(ctx);
+>  
+> -	/* Start the watchdog timer. */
+> -	schedule_delayed_work(&dev->watchdog_work,
+> -			      msecs_to_jiffies(2000));
+> +		/* Start the watchdog timer. */
+> +		schedule_delayed_work(&dev->watchdog_work,
+> +				      msecs_to_jiffies(2000));
+> +	} else {
+> +		v4l2_m2m_buf_done_and_job_finish(ctx->dev->m2m_dev,
+> +						 ctx->fh.m2m_ctx,
+> +						 VB2_BUF_STATE_ERROR);
+> +	}
+>  }
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> index d8fb93035470..c345e67ba9bc 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> @@ -493,8 +493,7 @@ static void cedrus_h264_irq_disable(struct cedrus_ctx *ctx)
+>  		     reg & ~VE_H264_CTRL_INT_MASK);
+>  }
+>  
+> -static void cedrus_h264_setup(struct cedrus_ctx *ctx,
+> -			      struct cedrus_run *run)
+> +static int cedrus_h264_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  {
+>  	struct cedrus_dev *dev = ctx->dev;
+>  
+> @@ -510,6 +509,8 @@ static void cedrus_h264_setup(struct cedrus_ctx *ctx,
+>  	cedrus_write_frame_list(ctx, run);
+>  
+>  	cedrus_set_params(ctx, run);
+> +
+> +	return 0;
+>  }
+>  
+>  static int cedrus_h264_start(struct cedrus_ctx *ctx)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> index 46119912c387..cfde4ccf6011 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -326,8 +326,7 @@ static int cedrus_h265_is_low_delay(struct cedrus_run *run)
+>  	return 0;
+>  }
+>  
+> -static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+> -			      struct cedrus_run *run)
+> +static int cedrus_h265_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  {
+>  	struct cedrus_dev *dev = ctx->dev;
+>  	const struct v4l2_ctrl_hevc_sps *sps;
+> @@ -385,8 +384,7 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  					GFP_KERNEL, DMA_ATTR_NO_KERNEL_MAPPING);
+>  		if (!ctx->codec.h265.mv_col_buf) {
+>  			ctx->codec.h265.mv_col_buf_size = 0;
+> -			// TODO: Abort the process here.
+> -			return;
+> +			return -ENOMEM;
+>  		}
+>  	}
+>  
+> @@ -703,6 +701,8 @@ static void cedrus_h265_setup(struct cedrus_ctx *ctx,
+>  
+>  	/* Enable appropriate interruptions. */
+>  	cedrus_write(dev, VE_DEC_H265_CTRL, VE_DEC_H265_CTRL_IRQ_MASK);
+> +
+> +	return 0;
+>  }
+>  
+>  static int cedrus_h265_start(struct cedrus_ctx *ctx)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> index 5dad2f296c6d..4cfc4a3c8a7f 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
+> @@ -48,7 +48,7 @@ static void cedrus_mpeg2_irq_disable(struct cedrus_ctx *ctx)
+>  	cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
+>  }
+>  
+> -static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+> +static int cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  {
+>  	const struct v4l2_ctrl_mpeg2_sequence *seq;
+>  	const struct v4l2_ctrl_mpeg2_picture *pic;
+> @@ -185,6 +185,8 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  	      VE_DEC_MPEG_CTRL_MC_CACHE_EN;
+>  
+>  	cedrus_write(dev, VE_DEC_MPEG_CTRL, reg);
+> +
+> +	return 0;
+>  }
+>  
+>  static void cedrus_mpeg2_trigger(struct cedrus_ctx *ctx)
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> index f4016684b32d..3f750d1795b6 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+> @@ -651,8 +651,7 @@ static void cedrus_vp8_irq_disable(struct cedrus_ctx *ctx)
+>  		     reg & ~VE_H264_CTRL_INT_MASK);
+>  }
+>  
+> -static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
+> -			     struct cedrus_run *run)
+> +static int cedrus_vp8_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
+>  {
+>  	const struct v4l2_ctrl_vp8_frame *slice = run->vp8.frame_params;
+>  	struct vb2_queue *cap_q = &ctx->fh.m2m_ctx->cap_q_ctx.q;
+> @@ -855,6 +854,8 @@ static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
+>  		ctx->codec.vp8.last_sharpness_level =
+>  			slice->lf.sharpness_level;
+>  	}
+> +
+> +	return 0;
+>  }
+>  
+>  static int cedrus_vp8_start(struct cedrus_ctx *ctx)
+> -- 
+> 2.36.1
+> 
