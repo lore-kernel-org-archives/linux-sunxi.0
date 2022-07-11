@@ -1,164 +1,89 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E82531113
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 00:17:45 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CA9323A;
-	Sun, 10 Jul 2022 17:17:45 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 79EB33F73D;
-	Sun, 10 Jul 2022 17:17:42 -0700 (PDT)
-Date: Mon, 11 Jul 2022 01:16:36 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Linus Walleij
- <linus.walleij@linaro.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH v12 1/7] dt-bindings: arm: sunxi: Add H616 EMAC
- compatible
-Message-ID: <20220711011558.01a586d2@slackpad.lan>
-In-Reply-To: <b3149c47-7fbf-53b2-f0d7-a45942bb819c@sholland.org>
-References: <20220701112453.2310722-1-andre.przywara@arm.com>
-	<20220701112453.2310722-2-andre.przywara@arm.com>
-	<b2661412-5fce-a20d-c7c4-6df58efdb930@sholland.org>
-	<20220705111906.3c553f23@donnerap.cambridge.arm.com>
-	<b3149c47-7fbf-53b2-f0d7-a45942bb819c@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 552F11865
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 03:28:15 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id c13so3377759pla.6
+        for <linux-sunxi@lists.linux.dev>; Sun, 10 Jul 2022 20:28:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wvpJcRf6oUgX+QTmJOMTVRuB6ZpQWygO0uE6iOwv3EY=;
+        b=OT22HNUXNQMXJ8QFqf2Ppbo9WsAw44UUVwPFI2ZRqLBMIsK+PxOfalK5+Yoesp7fA6
+         btFqpIfbjtLE4kxZp62YiNkErFz+3OK6g2QbxcLEg7WN2BAT8heMUVIOp2HdMwuaLGkk
+         qqMrQDjBtmaxs2uSpYOT58uJo3B/cUsJPw+sccWiIStcejXidcfYDHK0DM2sUpLOMSJR
+         y6XQIKNSxmVWq45hI1hwzBdrINXzOEyf5Rm4m4WU1l05g26hxpuLivuyeApdG3zdQwuX
+         3tEeabcjsfCmKXs5SfVpxX3nSM6j570wFc8cNSZ7XdXM6EN2tJ+ysPbyvk7qBoaHhG7j
+         CUJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wvpJcRf6oUgX+QTmJOMTVRuB6ZpQWygO0uE6iOwv3EY=;
+        b=lSQT6qfPk1UqvGiE8H+QAAKsCGOWcEJH29+XUja4WQpNpvggeyPyOC9kLDTEWWkabi
+         Vz3BNy7VOIWk3K0PTW626PXZvw7ahU7RvoJXVBdYHDR2yozefGRAfp9zXIKtdrgp2Klp
+         C+hiIt954PM6iOCGnTctHg+DjD2xpWJGm7QZ/hJAfciQET3l58DIGeb7K9axtqIGG5HD
+         NtXjcSWaIEwgaGX1q9Bl6rOHWKFNQ2hFoZ37Sm8qrhgnCgHdQhKeJMtSthylKv2mqI4x
+         7Y4qo5Q0w24n9u2d3OMUP1g10bsaE0a58NDjaEpsgCWLYt6ByNl24yUhAFS9eMhqVPtY
+         MqvQ==
+X-Gm-Message-State: AJIora8cpj08gsdZ9rd6PxIrJ8dOlEc+OaH9vX9PWOQVmuinuiQyWx7E
+	Cisv3fB+pJCrqAysd6f7Sxs=
+X-Google-Smtp-Source: AGRyM1toH/cAS/LDlQiylUhVdo5tejUnCGLAKWX1fMPdZ4XeRBtTApKS4ROZLiTcRHyu+7wY5gJtIw==
+X-Received: by 2002:a17:903:2447:b0:16a:3b58:48c1 with SMTP id l7-20020a170903244700b0016a3b5848c1mr17049132pls.44.1657510094625;
+        Sun, 10 Jul 2022 20:28:14 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:fe1c:af2d:8734:b8ac])
+        by smtp.gmail.com with ESMTPSA id 4-20020a620404000000b00528d880a32fsm3569832pfe.78.2022.07.10.20.28.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 10 Jul 2022 20:28:13 -0700 (PDT)
+Date: Sun, 10 Jul 2022 20:28:11 -0700
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Daniel Lezcano <daniel.lezcano@linexp.org>
+Cc: daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com,
+	khilman@baylibre.com, abailon@baylibre.com, amitk@kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	"open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)..." <linux-input@vger.kernel.org>,
+	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>,
+	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
+Subject: Re: [PATCH v1 28/33] input/drivers/touchscreen_sun4i: Switch to new
+ of thermal API
+Message-ID: <YsuYyxTY6Ils/snA@google.com>
+References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
+ <20220710212423.681301-29-daniel.lezcano@linexp.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220710212423.681301-29-daniel.lezcano@linexp.org>
 
-On Tue, 5 Jul 2022 22:55:54 -0500
-Samuel Holland <samuel@sholland.org> wrote:
+Hi Daniel,
 
-Hi Samuel,
-
-thanks for the answer! I think we settled this particular issue, just
-for clarification some comments/questions below.
-
-> On 7/5/22 5:19 AM, Andre Przywara wrote:
-> > On Mon, 4 Jul 2022 18:53:14 -0500
-> > Samuel Holland <samuel@sholland.org> wrote:  
-> >> On 7/1/22 6:24 AM, Andre Przywara wrote:  
-> >>> The Allwinner H616 contains an "EMAC" Ethernet MAC compatible to the A64
-> >>> version.
-> >>>
-> >>> Add it to the list of compatible strings.
-> >>>
-> >>> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >>> ---
-> >>>  .../devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml       | 1 +
-> >>>  1 file changed, 1 insertion(+)
-> >>>
-> >>> diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> >>> index 6a4831fd3616c..87f1306831cc9 100644
-> >>> --- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> >>> +++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
-> >>> @@ -22,6 +22,7 @@ properties:
-> >>>            - enum:
-> >>>                - allwinner,sun20i-d1-emac
-> >>>                - allwinner,sun50i-h6-emac
-> >>> +              - allwinner,sun50i-h616-emac    
-> >>
-> >> The H616 manual has register fields for an internal PHY, like H3. Are these not
-> >> hooked up for either EMAC?  
-> > 
-> > Which register fields do you mean, exactly?  
+On Sun, Jul 10, 2022 at 11:24:18PM +0200, Daniel Lezcano wrote:
+> The thermal OF code has a new API allowing to migrate the OF
+> initialization to a simpler approach.
 > 
-> I mean bits 15-31 of EMAC_EPHY_CLK_REG0.
-
-Right, so those bits look the same as in the H6, and probably do the
-same "nothing" here as well, except for PHY_SELECT[15]?
-
-> > The H616 uses the same internal PHY solution as the H6: an AC200 die
-> > co-packaged on the carrier (or whatever integration solution they actually
-> > chose). The difference to the H6 is that EMAC0 is hardwired to the external
-> > RGMII pins, whereas EMAC1 is hardwired to the internal AC200 RMII pins.
-> > From all I could see that does not impact the actual MAC IP: both are the
-> > same as in the H6, or A64, for that matter.  
+> Use this new API.
 > 
-> If those bits in EMAC_EPHY_CLK_REG0 have no effect, then I agree. But if
-> switching bit 15 to internal PHY causes Ethernet to stop working, then the mux
-> really does exist (even if one side is not connected to anything). In that case,
-> we need to make sure the mux is set to the external PHY, using the code from H3.
+> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
 
-I guess so, but this is what we do for the H6/A64 already, if I read the
-code correctly?
+I assume you want to take this through thermal tree if you get everyone
+to agree. I am OK with it, but please use "Input: <driver> - <subject>"
+format for input patches, i.e.
 
-        if (gmac->variant->soc_has_internal_phy) {
-		...
-        } else {
-                /* For SoCs without internal PHY the PHY selection bit should be
-                 * set to 0 (external PHY).
-                 */
-                reg &= ~H3_EPHY_SELECT;
-        }
+	Input: sun4i-ts - switch to new OF thermal API
 
-And since we set soc_has_internal_phy to false for the A64 (and H6)
-compatible, we should be good?
+Otherwise:
 
-> > There is one twist, though: the second EMAC uses a separate EMAC clock
-> > register in the syscon. I came up with this patch to support that:
-> > https://github.com/apritzel/linux/commit/078f591017794a0ec689345b0eeb7150908cf85a
-> > That extends the syscon to take an optional(!) index. So EMAC0 works
-> > exactly like before (both as "<&syscon>;", or "<&syscon 0>;", but for EMAC1
-> > we need the index: "<&syscon 4>;".
-> > But in my opinion this should not affect the MAC binding, at least not for
-> > MAC0.  
-> 
-> It definitely affects the MAC binding, because we have to change the definition
-> of the syscon property. We should still get that reviewed before doing anything
-> that depends on it. (And I think EMAC0 support depends on it.)
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-Technically I agree that it affects the current binding, at least for
-EMAC1. Though this looks like some shortcoming of our binding then, as
-the actual EMAC IP looks the same for both instances. It just seems
-to be the *connection* to the PHYs that differ, so it's a more PHY
-*setup* property than an EMAC configuration issue.
-But I guess this ship has sailed, and we have to stick with what we
-have right now, so would need a different compatible and some code
-additions for EMAC1. But since this relies on the AC200 support
-anyway (buggy RFC/WIP code here [1], btw), this doesn't look like a big
-problem for now.
+Thanks.
 
-[1] https://github.com/apritzel/linux/commits/ac200-WIP)
-
-> > And I think we should get away without a different compatible string
-> > for EMAC1, since the MAC IP is technically the same, it's just the
-> > connection that is different.  
-> 
-> If you claim that both EMACs are compatible with allwinner,sun50i-a64-emac, then
-> you are saying that any existing driver for allwinner,sun50i-a64-emac will also
-> work with both of the H616 EMACs. But this is not true. If I hook up both EMACs
-> in the DT per the binding, and use the driver in master, at best only EMAC0 will
-> work, and likely neither will work.
-> 
-> So at minimum you need a new compatible for the second EMAC, so it only binds to
-> drivers that know about the syscon offset specifier.
-> 
-> > In any case I think this does not affect the level of support we promise
-> > today: EMAC0 with an external PHY only.  
-> 
-> This can work if you introduce a second compatible for EMAC1. But at that point
-> you don't need the syscon offset specifier; it can be part of the driver data,
-> like for R40. (And any future EMAC1 could likely fall back to this compatible.)
-
-Yeah, I agree. For robustness I would prefer having a specifier, so any
-future twisted EMAC could be covered without yet another compatible
-string. But this is a detail.
-Or we use the opportunity to design this differently, so that the PHY
-driver enables its PHY using this bit, maybe as part of this AC200 EPHY
-"control" driver?
-
-Cheers,
-Andre
+-- 
+Dmitry
