@@ -1,112 +1,72 @@
-Received: from www381.your-server.de (www381.your-server.de [78.46.137.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 702D81FB7
-	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 08:08:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=metafoo.de;
-	 s=default2002; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=7zyLGVcEIyQkC+gl1zpwEzMAKU5QvqQXdssCJTKoXVE=; b=WL1SOL694htlJ6V9kixrsLc3+l
-	nkMyBDfR9rX8pFnBzj16yzkxbOI5mDNEA88W49Rrh6H2+wX+1oe4XuFX5PqFpvZcoB05p64TvrQDq
-	LDQKKyhQa060vAMecHWOLaP1r64sTnAp4dL4iyIYKJ/scUwMl6LNarizhLn5+fkMOLvBa+DdPT4qn
-	MIGoJ60RTFIHjRnRvLvl7xgT0ab2CccVoO6Onov7mlznOlUjAyDsE7X5WRdx+35jeu+C7RtF6Cy8M
-	FpSYfp13IEh8x5zctziqSeDc/dl3Y3f8pQKLDMdgMgqAsOpLS6dBgNGAdbPKWVthzOPg/1neSg143
-	hUewiJbg==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www381.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92.3)
-	(envelope-from <lars@metafoo.de>)
-	id 1oAoDA-000Cc6-7p; Mon, 11 Jul 2022 09:52:08 +0200
-Received: from [2001:a61:2a49:8301:9e5c:8eff:fe01:8578]
-	by sslproxy02.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <lars@metafoo.de>)
-	id 1oAoD9-000551-Rv; Mon, 11 Jul 2022 09:52:07 +0200
-Message-ID: <6b81cb4d-4080-188d-df7c-1529e55ddf7f@metafoo.de>
-Date: Mon, 11 Jul 2022 09:52:07 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC8C1FCE
+	for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 08:51:45 +0000 (UTC)
+Received: by mail-yb1-f172.google.com with SMTP id p129so7643639yba.7
+        for <linux-sunxi@lists.linux.dev>; Mon, 11 Jul 2022 01:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oCCoYwA6Xo79naahfzsaqUYKymVR7vZ6x0VBH0fAwSY=;
+        b=KgEpwlYUjIxPqeS0n1sMwZBjNPdUGNT7O1KFsaFMxULZXFtpTO8+uI9BZEYUHrRhui
+         E8xp9H6xkVf85Kf+anAroUSLxAlLsdeaVP2oe4C+cKgVUzFx6MCdlLLx7bOR7BNP56r7
+         6d/FTvKCyYdFWnq1/TuI1gsqcnK8xJnCad9oEVp29nzWHRCXGkkLTSPVPt/MS17Rabch
+         Z9wmqlW1fjc6VOog/E8ERKDe85VDa7RWtdBRtKIH5ROz2fSdJ+qFoVAI+mBOMsqqgtg6
+         3miyB9HB0oSt8v7XQU9TwU/2IPoP/O42NWPtN5K/wHbkaRMbQghXlLtD+PEysiATUfJt
+         aziQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oCCoYwA6Xo79naahfzsaqUYKymVR7vZ6x0VBH0fAwSY=;
+        b=nhuZOp7cPiRRLrrV+6WcG4+M4QfnlovzoNCwmU0ovuthQtJ9X49kQNSotgmKsvTZYo
+         +q6/jSYLGub0AwOsu2qBEAf0pDwwqJ9Z3fDkw/SbfnqfNRGKvSoJGeqNiYFAWl3hBPGR
+         3wdCIwxBqt/JJ5MCYSEW+5T3bJ5ccp9CSSUZmD6cQCzxSixDbtDi2pV3sm95x6GLXPet
+         fW2WUQfvQGPRI+cj7XXmRc+lvZ9UvvaFHPl/UnPvKc3XILzoUF9DFiCc3WX/dYSHqLUZ
+         R/VN7MD5IPs3IK9abN8NnMxmvzTGwdzZ4F/bzyF5q1x0LkM8Be5v+SgDTqd4KIAuFWBM
+         Wptw==
+X-Gm-Message-State: AJIora8fOtycGo3arIjFWUF4TeO4z+09nHrBwbr71DxjIjvY6axZdVDd
+	PgeSzUOvixW99mbZxhTSgLjJU9+yU/jD4X1AoTQ+fA==
+X-Google-Smtp-Source: AGRyM1uKbHI7q/R1gcPw/USyJqnRHCFtiAlgKUxoTaKXXMmcR+q5YmNfBJ71fCB3vqnDWcXf+Df9409dWttXpSjB83I=
+X-Received: by 2002:a25:d07:0:b0:66e:6c0e:a2d1 with SMTP id
+ 7-20020a250d07000000b0066e6c0ea2d1mr14553827ybn.369.1657529504905; Mon, 11
+ Jul 2022 01:51:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.10.0
-Subject: Re: [PATCH v1 27/33] iio/drivers/sun4i_gpadc: Switch to new of
- thermal API
-Content-Language: en-US
-To: Daniel Lezcano <daniel.lezcano@linexp.org>, daniel.lezcano@linaro.org,
- rafael@kernel.org
-Cc: rui.zhang@intel.com, khilman@baylibre.com, abailon@baylibre.com,
- amitk@kernel.org, linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- Jonathan Cameron <jic23@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
- "moderated list:ARM/Allwinner sunXi SoC support"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-References: <20220710212423.681301-1-daniel.lezcano@linexp.org>
- <20220710212423.681301-28-daniel.lezcano@linexp.org>
-From: Lars-Peter Clausen <lars@metafoo.de>
-In-Reply-To: <20220710212423.681301-28-daniel.lezcano@linexp.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: lars@metafoo.de
-X-Virus-Scanned: Clear (ClamAV 0.103.6/26597/Sun Jul 10 09:56:43 2022)
+References: <20220708105235.3983266-1-andre.przywara@arm.com>
+In-Reply-To: <20220708105235.3983266-1-andre.przywara@arm.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 11 Jul 2022 10:51:33 +0200
+Message-ID: <CACRpkdYPgFeVJurZyPnWQg2jQGvBSybrNxWDXBF4W32p_HD1_Q@mail.gmail.com>
+Subject: Re: [PATCH v13 0/7] arm64: sunxi: Allwinner H616 SoC DT support
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh+dt@kernel.org>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/10/22 23:24, Daniel Lezcano wrote:
-> The thermal OF code has a new API allowing to migrate the OF
-> initialization to a simpler approach.
->
-> Use this new API.
->
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-> ---
->   drivers/iio/adc/sun4i-gpadc-iio.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
-> index 2d393a4dfff6..7aebfd337871 100644
-> --- a/drivers/iio/adc/sun4i-gpadc-iio.c
-> +++ b/drivers/iio/adc/sun4i-gpadc-iio.c
-> @@ -412,9 +412,9 @@ static int sun4i_gpadc_runtime_resume(struct device *dev)
->   	return 0;
->   }
->   
-> -static int sun4i_gpadc_get_temp(void *data, int *temp)
-> +static int sun4i_gpadc_get_temp(struct thermal_zone_device *tz, int *temp)
->   {
-> -	struct sun4i_gpadc_iio *info = data;
-> +	struct sun4i_gpadc_iio *info = tz->devdata;
->   	int val, scale, offset;
->   
->   	if (sun4i_gpadc_temp_read(info->indio_dev, &val))
-> @@ -428,7 +428,7 @@ static int sun4i_gpadc_get_temp(void *data, int *temp)
->   	return 0;
->   }
->   
-> -static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-> +static struct thermal_zone_device_ops sun4i_ts_tz_ops = {
->   	.get_temp = &sun4i_gpadc_get_temp,
->   };
-Why is the const removed? If the framework modifies the structure you 
-need a per device copy of the struct.
->   
-> @@ -637,9 +637,9 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
->   	pm_runtime_enable(&pdev->dev);
->   
->   	if (IS_ENABLED(CONFIG_THERMAL_OF)) {
-> -		info->tzd = thermal_zone_of_sensor_register(info->sensor_device,
-> -							    0, info,
-> -							    &sun4i_ts_tz_ops);
-> +		info->tzd = thermal_of_zone_register(info->sensor_device,
-> +						     0, info,
-> +						     &sun4i_ts_tz_ops);
->   		/*
->   		 * Do not fail driver probing when failing to register in
->   		 * thermal because no thermal DT node is found.
+On Fri, Jul 8, 2022 at 12:52 PM Andre Przywara <andre.przywara@arm.com> wrote:
 
+> only some minor changes this time in the .dtsi, addressing the comments,
+> many thanks to Jernej and Samuel for that! Also adding the R-b tags.
 
+> Andre Przywara (7):
+>   dt-bindings: pinctrl: sunxi: Make interrupts optional
+>   dt-bindings: pinctrl: sunxi: allow vcc-pi-supply
+
+These two (patches 2 & 4) applied to the pinctrl tree, I suppose it
+is what I'm supposed to do?
+
+If they end up also applied to the SoC tree it's not the end of the
+world.
+
+Yours,
+Linus Walleij
