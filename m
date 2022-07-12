@@ -1,109 +1,106 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com [51.81.35.219])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85537A
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 10:15:00 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id B67325C0223;
-	Tue, 12 Jul 2022 06:14:59 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Tue, 12 Jul 2022 06:14:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657620899; x=
-	1657707299; bh=v0+CmKWP2loTCoFQCysnsurtV75oEd9q2EXIWMHg5G8=; b=o
-	WEp3IO5JG0BJyeXFFtLCdU98eQKJ8c2mFFnkxAVVl5wnbzNZUYwSos4nIBajtUKw
-	HyfKD/0yEdmn536AkVyAAiB569drM0c5GHk/pqN8AggbVehaLizP9mRwq99S1DB2
-	SLgU3NW8kYvWf9TWSFnN4O0eAZAeySVq+IXZwxtBpgCbQ8mlaihhvwROiwx07tn3
-	TV/whk9JkujdyM90LVP+OrL2AG8gRQXOeLxVSIxPLomjcin3mFvF0XWHTLfNXLu8
-	X5wUxtUJExMYhkDyVJJngQwzdfiexguZReFJRUYFul2xwt2TCLGeGEsjogfHBJto
-	/z8aQ5OfyywJeIu2dpzvQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657620899; x=
-	1657707299; bh=v0+CmKWP2loTCoFQCysnsurtV75oEd9q2EXIWMHg5G8=; b=a
-	jE3Sw1L2U+FQzaAjg7GzxHpYJ69GRATwL0/nWdjVHlMdVZPWFoUbehNIioHuM5r9
-	wB3Q7KzRuWVqRCItA3jS4iUQZbvpfB0YIUN6PgJQjVcTnKg2vP6/RldytpHlS0GQ
-	rIt/YgITu7DTqA6Y9l1jIRuBxYlN6pNoRYv/m9Ts5lnvvKOXtaiBZX5Q5m0gRSl3
-	uIJLi3ubR539EpNz/Txi7qO+lG7tLbdB8GgKzNC4VTCFXQjk9IvYwvAIjImBafDK
-	EfQ0n+Rb9y1BGD96yqoP7eSBwCBaEVntgDOpod7IKenQg0NxoPhbl8h359+SveEt
-	VUpA7Vfe8PRW1Fn96/Xtg==
-X-ME-Sender: <xms:oknNYvuz4lsXsLEmy0KQIoSCiwdrJpRKQyBNOVDeU7ZrNvK2NeOLTQ>
-    <xme:oknNYgdAlKrhMPCRlOVjBAThFjb7FsCJ5Xc1flP1ixejHef-Qwk4DNrwcMaSwfwZf
-    7w32LVS6wsSstY_lQ>
-X-ME-Received: <xmr:oknNYizleeJvReSYmDtL4qj73KfaS-FAQ-E8mHAuG1plPLJISsJvDnfuArxfY4t-QB7Lrwat83OAmmt8-JwJ4cbXB0AMmKd3ebW7AKKQuesorx2ETijB8E3XIg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgvdeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:oknNYuOHP6O5r1KRG-24Sr9ateMDvk6aeVG4kqg1THqLTrtwwn-m5g>
-    <xmx:oknNYv-RqvFyYUbiCxD5iwlDiLquLYeuLXcJYMTzyuU6X6-u5xa7uQ>
-    <xmx:oknNYuXfxV5hmusWWxOCkeOvJ9oaZr3ufcXj0kQd0Avov0hQ6bhkfg>
-    <xmx:o0nNYuW1Vy4mq7_mZ1PaUMuYu3V2G3QBjeQ3a8-qT-0b1bc26ieFag>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 06:14:58 -0400 (EDT)
-Subject: Re: [PATCH 1/6] dt-bindings: pinctrl: Add compatibles for Allwinner
- D1/D1s
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Andre Przywara <andre.przywara@arm.com>
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-2-samuel@sholland.org>
- <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <879fb3b2-4bcb-82d6-e186-e845d62c9843@sholland.org>
-Date: Tue, 12 Jul 2022 05:14:57 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704083D65
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 12:06:05 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com [159.100.241.64])
+	by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 7585C201F7
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 11:58:08 +0000 (UTC)
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.113.132])
+	by relay5.mymailcheap.com (Postfix) with ESMTPS id 0649D206D6
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 11:57:59 +0000 (UTC)
+Received: from filter1.mymailcheap.com (filter1.mymailcheap.com [149.56.130.247])
+	by relay2.mymailcheap.com (Postfix) with ESMTPS id 01CD73ECD9;
+	Tue, 12 Jul 2022 13:57:51 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by filter1.mymailcheap.com (Postfix) with ESMTP id 565912A37A;
+	Tue, 12 Jul 2022 11:57:50 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at filter1.mymailcheap.com
+Received: from filter1.mymailcheap.com ([127.0.0.1])
+	by localhost (filter1.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id M5DJ4iuCCZiA; Tue, 12 Jul 2022 11:57:49 +0000 (UTC)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by filter1.mymailcheap.com (Postfix) with ESMTPS;
+	Tue, 12 Jul 2022 11:57:49 +0000 (UTC)
+Received: from edelgard.icenowy.me (unknown [59.41.160.3])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail20.mymailcheap.com (Postfix) with ESMTPSA id 42D17401CE;
+	Tue, 12 Jul 2022 11:57:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+	t=1657627068; bh=ngIZLTuVH9bK77KIsBS8/RQadlTRO2EmRZFRx9q6pic=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=legNVkDF7C6eeEdfhizFOZu6xr38rsC6eHTxb8EoeQJZFlO5hbwJXtVo71Q6znPff
+	 GlcbGVi35E7LcHRbnqH5JEmuc55DX567CisvB0fDIhE8yWpU14AZmtGFt2P1lnyo00
+	 x12JEgzd3uzbPPieUjRTJBMJh/HgFomrIp2e3Kc8=
+Message-ID: <4fc9873e87c11dce23099a24be34465f09f3a9a4.camel@aosc.io>
+Subject: Re: [PATCH 06/12] clk: sunxi=ng: add support for R329 CCUs
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Andre Przywara
+ <andre.przywara@arm.com>,  devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Date: Tue, 12 Jul 2022 19:57:29 +0800
+In-Reply-To: <c858b944-d72f-4e59-6a1a-329b5b8949c4@sholland.org>
+References: <20220422140902.1058101-1-icenowy@aosc.io>
+	 <BYAPR20MB2472930AAFFBDC0ACB9A7487BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
+	 <c858b944-d72f-4e59-6a1a-329b5b8949c4@sholland.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
-
-On 7/11/22 3:58 AM, Linus Walleij wrote:
-> On Sun, Jun 26, 2022 at 4:11 AM Samuel Holland <samuel@sholland.org> wrote:
+在 2022-04-23星期六的 21:12 -0500，Samuel Holland写道：
+> On 4/22/22 10:41 AM, icenowy@outlook.com wrote:
+> > From: Icenowy Zheng <icenowy@aosc.io>
+> > 
+> > Allwinner R329 has two CCUs, one in CPUX and another in PRCM.
+> > 
+> > Add support for them.
+> > 
+> > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
 > 
->> D1 contains a pin controller similar to previous SoCs, but with some
->> register layout changes. It includes 6 interrupt-capable pin banks.
->>
->> D1s is a low pin count version of the D1 SoC, with some pins omitted.
->> The remaining pins have the same function assignments as D1.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> There is a typo in your commit title. = should be -.
 > 
-> All 6 patches applied to the pinctrl tree, the last patch 6/6
-> required some fuzzing so please check the result!
+> Thanks for updating the driver to use .fw_name and be loadable as a
+> module. All
+> of those changes look good.
+> 
+> There are still some missing clocks here compared to the BSP, and a
+> couple of
+> other minor issues. Please see my earlier review:
+> 
+> https://lore.kernel.org/linux-sunxi/99a74950-fdc0-ecfe-e5f0-ba4a7d8751f0@sholland.org/
+> 
+> So far it's been consistent that any settable bits in the CCU
+> registers actually
+> do something. So I would expect all of those bits to have an index
+> reserved in
+> the binding, even if we do not model them. I want to avoid having to
 
-Somehow the version of patch 6 applied to the pinctrl tree did not include the
-new driver source file. It only applied changes to existing files (including the
-Makefile reference to the new file).
+Sorry but I don't think it proper to reserve unclear bits, because
+we're just allocating the numbers as a random sequence (in fact it's
+the sequence that it gets implemented).
 
-I also needed to make some minor changes to patch 6 to resolve comments from Andre.
+Or consider a structural number scheme, in which a value can be
+uniquely predicted by its name?
 
-Is it okay if I send a v2 of just patch 6? Or do I need to send a follow-up
-based on what was already applied?
+> go back and
+> add gates to the binding out-of-order later, like we are doing for
+> H6.
+> 
+> Regards,
+> Samuel
 
-Regards,
-Samuel
+
