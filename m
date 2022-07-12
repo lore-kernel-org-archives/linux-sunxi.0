@@ -1,115 +1,144 @@
-Received: from sender4-op-o18.zoho.com (sender4-op-o18.zoho.com [136.143.188.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE653D65
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 12:19:56 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; t=1657628362; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FJj1MZJAFJrfnBPewVGJgduey6uHYBrbH6lGXkQlj1dpr4J2tOphiNlZiKL1Tsyk37f0QapHAV0f5kMaOLDJJFwukDxmV1e6lgmS8uYKGllHhY9EG6kXjdaG0gK9WTVKzNvdz0taQQZztiVAkTOQlGtIKUvV56NCh3sbwq3BZac=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1657628362; h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To; 
-	bh=SxdnHC2dnxNY4yLBqg/y0wuycbRGOVX5whTYGdp2GTw=; 
-	b=T1XQ1Ez2wjc4wupOXVhG8YW3VvsbgdrG1XdcJrye5IJQreS54W84054CdfN5KXBsPlGfzXoUt5K8Z8WYUUjFU1nX68sJzNEdPwx3krIhy/TxIlX2Lfxks+0D2DcHujIzJJf4YrY4chR2cpoDztbwkDBWnMZqeGtdHZeWGCJ60Fc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=icenowy.me;
-	spf=pass  smtp.mailfrom=uwu@icenowy.me;
-	dmarc=pass header.from=<uwu@icenowy.me>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1657628362;
-	s=zmail; d=icenowy.me; i=uwu@icenowy.me;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=SxdnHC2dnxNY4yLBqg/y0wuycbRGOVX5whTYGdp2GTw=;
-	b=Jwtz8dwblhId0JrvlCSpBmOBx0InzCgsI0Bicb1FXOB1Ikj5g1XZLtyZ3uL2okis
-	1YqE9x6FBm/ac6ZGwcGvU9sFNQCJfmiUvNVgFktZbALHCqyJ4l4T4hz/b0YrH12nmp3
-	7clzSOv7K+2PsCQ2H1Jnmw0gpzUpqI1tZ7UZft3k=
-Received: from edelgard.icenowy.me (59.41.160.3 [59.41.160.3]) by mx.zohomail.com
-	with SMTPS id 1657628218526833.9611344929851; Tue, 12 Jul 2022 05:16:58 -0700 (PDT)
-Message-ID: <dfa6507c68bae9c62520cf100172e1a79bc201c1.camel@icenowy.me>
-Subject: Re: [PATCH 06/12] clk: sunxi=ng: add support for R329 CCUs
-From: Icenowy Zheng <uwu@icenowy.me>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Linus Walleij <linus.walleij@linaro.org>, Andre Przywara
- <andre.przywara@arm.com>,  devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Date: Tue, 12 Jul 2022 20:16:49 +0800
-In-Reply-To: <4fc9873e87c11dce23099a24be34465f09f3a9a4.camel@aosc.io>
-References: <20220422140902.1058101-1-icenowy@aosc.io>
-	 <BYAPR20MB2472930AAFFBDC0ACB9A7487BCF79@BYAPR20MB2472.namprd20.prod.outlook.com>
-	 <c858b944-d72f-4e59-6a1a-329b5b8949c4@sholland.org>
-	 <4fc9873e87c11dce23099a24be34465f09f3a9a4.camel@aosc.io>
-Organization: Anthon Open-Source Community
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE926AAC;
+	Tue, 12 Jul 2022 21:25:15 +0000 (UTC)
+Received: by mail-ed1-f52.google.com with SMTP id w12so11009476edd.13;
+        Tue, 12 Jul 2022 14:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tBChpcrNJ7uqMkrlYvpxSCbNo0rDEKF5+LZTTXtJt14=;
+        b=Ywi86ClERDeLuKNgFXaQC9C0Am+AWfURZcVsReXCWgtWBy1GfoVl0R6WPPPTlHQErG
+         jvoRgofZ0r3jKGOSWj0M8PBwVMxTkkaRoo9gXi9CDdA9GorEEpP7oqu+ssUCkREX1Ovs
+         peY1IMAAGlLTZkp+oCV6xVzieZqlH9W3ODaeDlSQZn4/bx/A/Fv291MUyKaxtF+VIsMc
+         K+SDlZDCHgMvG4FKXPZPY8CN2X7fsz+eS3QTTKj7DrL5OXrQ6HD0C08KH6DrA5HHQtgU
+         53jzf3YbyqCBEx9/MbYCtQmxXiEr6k3msPTAUICZe6d/xtuVMXyaCKrho0FDfkPU2CAv
+         DEgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tBChpcrNJ7uqMkrlYvpxSCbNo0rDEKF5+LZTTXtJt14=;
+        b=qE1xgE8ZrxMyu02ydYyQ5KJu2LY80X7i0UpIBjwjQ2TRQLuTuGwJ8UZnwrPxmmYqEt
+         eC+4C7OGUqk6IvQG5ffXN1rUmF96+9BrFrUgaILenAh2DPcHo2kiNrz0rXdCKVhWh+sg
+         kv0YkjfhiDiiT9JNIxla+KZEZNfFoobZUBMdDKFHy5Ssy1NI4UMCE/LnaJG8r9CDPqnC
+         mgM/prI5yYZ66fCvwZzkRYJUgIz0GP3JLIXNRoTjzwH/S1r7XPpfKIZ1z+6ots/YuxtZ
+         gitOHDhhb9vzwRrGFSjEfcvKowGAEMZfsdtLHmg9l3pWrtTM4oeifK0o1E252T5THiXM
+         cb6Q==
+X-Gm-Message-State: AJIora8lHNA4haWiWVo9bHzcGLzkGcyC7zkjVGMiTTkCejQtBy/fp7Pi
+	SMgdFA5Gu1W+ok5w7fopUIY=
+X-Google-Smtp-Source: AGRyM1s+hQS+QLnU/6lQQ0tzxXZ5MhaAO+TPHGDbqYL360sXVhmOZtETjA1glKjKTh/Rh8MDdn6VUQ==
+X-Received: by 2002:a05:6402:4395:b0:43a:c694:907d with SMTP id o21-20020a056402439500b0043ac694907dmr161122edc.310.1657661113418;
+        Tue, 12 Jul 2022 14:25:13 -0700 (PDT)
+Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id r17-20020a056402019100b0043a9144d8ecsm6650252edv.71.2022.07.12.14.25.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Jul 2022 14:25:12 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org, mchehab@kernel.org, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH 5/7] media: cedrus: h265: Add a couple of error checks
+Date: Tue, 12 Jul 2022 23:25:00 +0200
+Message-ID: <37675481.J2Yia2DhmK@kista>
+In-Reply-To: <YsyWnzdTZ0bC733i@eze-laptop>
+References: <20220620175517.648767-1-jernej.skrabec@gmail.com> <20220620175517.648767-6-jernej.skrabec@gmail.com> <YsyWnzdTZ0bC733i@eze-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=E5=9C=A8 2022-07-12=E6=98=9F=E6=9C=9F=E4=BA=8C=E7=9A=84 19:57 +0800=EF=BC=
-=8CIcenowy Zheng=E5=86=99=E9=81=93=EF=BC=9A
-> =E5=9C=A8 2022-04-23=E6=98=9F=E6=9C=9F=E5=85=AD=E7=9A=84 21:12 -0500=EF=
-=BC=8CSamuel Holland=E5=86=99=E9=81=93=EF=BC=9A
-> > On 4/22/22 10:41 AM, icenowy@outlook.com=C2=A0wrote:
-> > > From: Icenowy Zheng <icenowy@aosc.io>
-> > >=20
-> > > Allwinner R329 has two CCUs, one in CPUX and another in PRCM.
-> > >=20
-> > > Add support for them.
-> > >=20
-> > > Signed-off-by: Icenowy Zheng <icenowy@aosc.io>
-> >=20
-> > There is a typo in your commit title. =3D should be -.
-> >=20
-> > Thanks for updating the driver to use .fw_name and be loadable as a
-> > module. All
-> > of those changes look good.
-> >=20
-> > There are still some missing clocks here compared to the BSP, and a
-> > couple of
-> > other minor issues. Please see my earlier review:
-> >=20
-> > https://lore.kernel.org/linux-sunxi/99a74950-fdc0-ecfe-e5f0-ba4a7d8751f=
-0@sholland.org/
-> >=20
-> > So far it's been consistent that any settable bits in the CCU
-> > registers actually
-> > do something. So I would expect all of those bits to have an index
-> > reserved in
-> > the binding, even if we do not model them. I want to avoid having
-> > to
->=20
-> Sorry but I don't think it proper to reserve unclear bits, because
-> we're just allocating the numbers as a random sequence (in fact it's
-> the sequence that it gets implemented).
->=20
-> Or consider a structural number scheme, in which a value can be
-> uniquely predicted by its name?
+Hi Ezequiel.
 
-Well by thinking a little further, I realized our current CCU DT
-binding is just based on implementation details of sunxi-ng drivers
-(for example, some intermediate clocks get a number too, just not
-exposed to the DT binding header). This continues to prove that
-reserving numbers is just needed at all, and the current way to make
-CCU DT bindings might be totally wrong.
+Dne ponedeljek, 11. julij 2022 ob 23:31:11 CEST je Ezequiel Garcia napisal(a):
+> On Mon, Jun 20, 2022 at 07:55:15PM +0200, Jernej Skrabec wrote:
+> > Now that we have infrastructure for reporting errors, let's add two
+> > checks, which will make sure slice can be actually decoded.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > cfde4ccf6011..99020b9f9ff8 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> 
+> Now that you've allowed setup to fail, I would suggest
+> to have some documentation/comments on struct cedrus_dec_ops,
+> to set the expectation/rules for each ops, including the
+> call paths for each operation, which of them are allowed to sleep,
+> etc.
 
-Maybe we should start to use reasonable slice numbers in the next CCU
-driver?
+Documentation can be always added, but it should be separate patch.
 
->=20
-> > go back and
-> > add gates to the binding out-of-order later, like we are doing for
-> > H6.
-> >=20
-> > Regards,
-> > Samuel
->=20
->=20
->=20
+> 
+> > @@ -435,9 +435,17 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
+> > struct cedrus_run *run)> 
+> >  	 * instead of start of slice data. Padding is 8 bits at most (one 
+bit
+> >  	 set to 1 and * at most seven bits set to 0), so we have to 
+inspect
+> >  	 only one byte before slice data. */
+> > 
+> > +
+> > +	if (slice_params->data_byte_offset == 0)
+> > +		return -EOPNOTSUPP;
+> > +
+> 
+> AFAICS, cedrus_h265_setup is called from .device_run.
+> We've been discussing control validation before, and I think the
+> ideal place to do that is v4l2_ctrl_ops.s_ctrl, if that's
+> at all possible.
+
+Yeah, this particular check can be moved to s_ctrl handler.
+
+> 
+> Driver's mem2mem device_run are executed in the context
+> of a work_struct and the failure won't really get reported
+> up the stack.
+
+Well, at least there will be a notice in dmesg. Not ideal, I know.
+
+> 
+> >  	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
+> >  	
+> >  		slice_params->data_byte_offset - 1;
+> > 
+> > +	/* at least one bit must be set in that byte */
+> > +	if (*padding == 0)
+> > +		return -EINVAL;
+> > +
+> 
+> Maybe this is something to check at cedrus_buf_prepare(),
+> when the buffer is queued?
+
+I don't think so. This check is HEVC specific, but cedrus_buf_prepare() is not 
+and we need to have slice control ready, which I'm not sure is the case for 
+cedrus_buf_prepare().
+
+Best regards,
+Jernej
+
+> 
+> Thanks,
+> Ezequiel
+> 
+> >  	for (count = 0; count < 8; count++)
+> >  	
+> >  		if (*padding & (1 << count))
+> >  		
+> >  			break;
+> > 
+> > --
+> > 2.36.1
 
 
