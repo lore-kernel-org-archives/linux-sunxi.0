@@ -1,103 +1,109 @@
-Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com [209.85.219.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C037A
-	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 10:12:16 +0000 (UTC)
-Received: by mail-yb1-f177.google.com with SMTP id e69so13134664ybh.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 03:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=zGLFrLBHG+1vv4/3v4Wd5AI8LgLowaMQ1bylMp8eakU=;
-        b=QLb4YxBFgvCvVSM3WWcpg/dUiKZWa7PTOwW655/JTyr59QyvjD5FM95w9faZhye6CX
-         9uFJ6x8kItnEYz5Kr3Wwl1WASKa2yXCfqytF06RseZjJoHh+cBDmw+tEtqUClRzBr/Oc
-         iBYMzopVI0D82GFaEUbNFxjPX+8mxdhUm/qfoe9WOi9H2oIXD5j19d4BqFX67m/fHKFs
-         kOzWcpgEpnhmb+qTosCLhQThWYUwrIzcrtp2m7e4ZGfQAGDZ9vZlmR5p8ttPWQ1/RXEI
-         /uO5wgRSY7ByZPDUTvjPDRIe2Sij5lJx5kx2OZcc+8MsTWSPZGrXnyfHbOdiOXD9kJ4Y
-         WtGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=zGLFrLBHG+1vv4/3v4Wd5AI8LgLowaMQ1bylMp8eakU=;
-        b=Dg4KvARVkJ9/+M+I/tnZjwLt5PduTlX1zKNbQJA65BVarUIHKf/M1+C5y4D6zpdN9E
-         4N1avdkoO/xehcq9c14mftB202THWa6QgnDOh5m+g+8lYK2+/aD/U7XK4UipAejLKyo7
-         CSdFdQij9fFbtUY4k+F4htBLg1HokD2RpxRt3VqxUA7YtAOo2waYo6n5z+KX4fvDvURq
-         GhSPlm5I2d9KrIsyiMUK1HhyjcPJLaxJ5mOqQNasxB3GsDV95xUqAVqRmfJEY7tNlWTq
-         YbBfTCEWJTLGvcn+DP59jAg8DrBY+DBg+N8119npar0lepivchwUY3m4/c8L/9oobXgP
-         hJZQ==
-X-Gm-Message-State: AJIora8/YhbdYW9uhJzSV6PVw8gVmedOEEx360FOpdD1qiGJhQvgGO2R
-	WURpyV4iyH5I4hx9I6UMQPyEhcrPGOKtL1PPlx0=
-X-Google-Smtp-Source: AGRyM1uHJNRmgjQfalyLG4jytq0xStL7w+XWRtNelxM3bTZS79V1VyOF1h+TbGs8VkEMK0RdJshJwdamh4TFrh8p69I=
-X-Received: by 2002:a05:6902:10c9:b0:668:e27c:8f7 with SMTP id
- w9-20020a05690210c900b00668e27c08f7mr21528639ybu.128.1657620735969; Tue, 12
- Jul 2022 03:12:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85537A
+	for <linux-sunxi@lists.linux.dev>; Tue, 12 Jul 2022 10:15:00 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id B67325C0223;
+	Tue, 12 Jul 2022 06:14:59 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 12 Jul 2022 06:14:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657620899; x=
+	1657707299; bh=v0+CmKWP2loTCoFQCysnsurtV75oEd9q2EXIWMHg5G8=; b=o
+	WEp3IO5JG0BJyeXFFtLCdU98eQKJ8c2mFFnkxAVVl5wnbzNZUYwSos4nIBajtUKw
+	HyfKD/0yEdmn536AkVyAAiB569drM0c5GHk/pqN8AggbVehaLizP9mRwq99S1DB2
+	SLgU3NW8kYvWf9TWSFnN4O0eAZAeySVq+IXZwxtBpgCbQ8mlaihhvwROiwx07tn3
+	TV/whk9JkujdyM90LVP+OrL2AG8gRQXOeLxVSIxPLomjcin3mFvF0XWHTLfNXLu8
+	X5wUxtUJExMYhkDyVJJngQwzdfiexguZReFJRUYFul2xwt2TCLGeGEsjogfHBJto
+	/z8aQ5OfyywJeIu2dpzvQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657620899; x=
+	1657707299; bh=v0+CmKWP2loTCoFQCysnsurtV75oEd9q2EXIWMHg5G8=; b=a
+	jE3Sw1L2U+FQzaAjg7GzxHpYJ69GRATwL0/nWdjVHlMdVZPWFoUbehNIioHuM5r9
+	wB3Q7KzRuWVqRCItA3jS4iUQZbvpfB0YIUN6PgJQjVcTnKg2vP6/RldytpHlS0GQ
+	rIt/YgITu7DTqA6Y9l1jIRuBxYlN6pNoRYv/m9Ts5lnvvKOXtaiBZX5Q5m0gRSl3
+	uIJLi3ubR539EpNz/Txi7qO+lG7tLbdB8GgKzNC4VTCFXQjk9IvYwvAIjImBafDK
+	EfQ0n+Rb9y1BGD96yqoP7eSBwCBaEVntgDOpod7IKenQg0NxoPhbl8h359+SveEt
+	VUpA7Vfe8PRW1Fn96/Xtg==
+X-ME-Sender: <xms:oknNYvuz4lsXsLEmy0KQIoSCiwdrJpRKQyBNOVDeU7ZrNvK2NeOLTQ>
+    <xme:oknNYgdAlKrhMPCRlOVjBAThFjb7FsCJ5Xc1flP1ixejHef-Qwk4DNrwcMaSwfwZf
+    7w32LVS6wsSstY_lQ>
+X-ME-Received: <xmr:oknNYizleeJvReSYmDtL4qj73KfaS-FAQ-E8mHAuG1plPLJISsJvDnfuArxfY4t-QB7Lrwat83OAmmt8-JwJ4cbXB0AMmKd3ebW7AKKQuesorx2ETijB8E3XIg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejhedgvdeiucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:oknNYuOHP6O5r1KRG-24Sr9ateMDvk6aeVG4kqg1THqLTrtwwn-m5g>
+    <xmx:oknNYv-RqvFyYUbiCxD5iwlDiLquLYeuLXcJYMTzyuU6X6-u5xa7uQ>
+    <xmx:oknNYuXfxV5hmusWWxOCkeOvJ9oaZr3ufcXj0kQd0Avov0hQ6bhkfg>
+    <xmx:o0nNYuW1Vy4mq7_mZ1PaUMuYu3V2G3QBjeQ3a8-qT-0b1bc26ieFag>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Jul 2022 06:14:58 -0400 (EDT)
+Subject: Re: [PATCH 1/6] dt-bindings: pinctrl: Add compatibles for Allwinner
+ D1/D1s
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
+ Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ Andre Przywara <andre.przywara@arm.com>
+References: <20220626021148.56740-1-samuel@sholland.org>
+ <20220626021148.56740-2-samuel@sholland.org>
+ <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <879fb3b2-4bcb-82d6-e186-e845d62c9843@sholland.org>
+Date: Tue, 12 Jul 2022 05:14:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220710081853.1699028-1-uwu@icenowy.me> <20220710081853.1699028-3-uwu@icenowy.me>
- <CAHp75Vdso_PGUomjmKaF1ytdUe4qLeAbpwkNmcRng9aNHs7g8w@mail.gmail.com>
- <7a947683de71e68a0925cfd4cab80238c3a03205.camel@icenowy.me> <CAHp75Vc0kfQZJjdu+MrJAAdcR7GKD9Sh1zU4gz5dua5Lw9BVHA@mail.gmail.com>
-In-Reply-To: <CAHp75Vc0kfQZJjdu+MrJAAdcR7GKD9Sh1zU4gz5dua5Lw9BVHA@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 12 Jul 2022 12:11:39 +0200
-Message-ID: <CAHp75Vcv3zVGjty_vLUgYu3sowNtg-sWg=qtVt7Vp6mqX6pLvg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] pinctrl: sunxi: add support for R329 CPUX pin controller
-To: Icenowy Zheng <uwu@icenowy.me>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Maxime Ripard <mripard@kernel.org>, 
-	"open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Maxime Ripard <maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 12, 2022 at 12:10 PM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Tue, Jul 12, 2022 at 11:37 AM Icenowy Zheng <uwu@icenowy.me> wrote:
-> > =E5=9C=A8 2022-07-10=E6=98=9F=E6=9C=9F=E6=97=A5=E7=9A=84 21:06 +0200=EF=
-=BC=8CAndy Shevchenko=E5=86=99=E9=81=93=EF=BC=9A
-> > > On Sun, Jul 10, 2022 at 10:22 AM Icenowy Zheng <uwu@icenowy.me>
-> > > wrote:
->
-> ...
->
-> > > > +#include <linux/of.h>
-> > > > +#include <linux/of_device.h>
-> > >
-> > > No use of these.
-> > >
-> > > > +#include <linux/pinctrl/pinctrl.h>
-> > >
-> > > Missed headers:
-> > > mod_devicetable.h
-> >
-> > Thanks for these.
-> >
-> > In addition, how to decide what header should be included? The code
-> > works properly because of_device.h includes mod_devicetable.h.
+Hi Linus,
 
-Forgot to put in the first place this:
+On 7/11/22 3:58 AM, Linus Walleij wrote:
+> On Sun, Jun 26, 2022 at 4:11 AM Samuel Holland <samuel@sholland.org> wrote:
+> 
+>> D1 contains a pin controller similar to previous SoCs, but with some
+>> register layout changes. It includes 6 interrupt-capable pin banks.
+>>
+>> D1s is a low pin count version of the D1 SoC, with some pins omitted.
+>> The remaining pins have the same function assignments as D1.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> 
+> All 6 patches applied to the pinctrl tree, the last patch 6/6
+> required some fuzzing so please check the result!
 
-The rule of thumb is Include headers that the header or C module is
-direct user of. Additional information is located in the sections
-below.
+Somehow the version of patch 6 applied to the pinctrl tree did not include the
+new driver source file. It only applied changes to existing files (including the
+Makefile reference to the new file).
 
-> The best approach is usually learnt with experience =E2=80=94 the more yo=
-u
-> code, the more you get. One of the rules is to avoid too many
-> inclusions and at the same time reduce indirect inclusions, so that
-> the headers which are guaranteed to be included by others shouldn't
-> appear. Another rule is that, for the headers (*.h files) the forward
-> declarations are preferable over the inclusion in case if the opaque
-> pointers are in use.
+I also needed to make some minor changes to patch 6 to resolve comments from Andre.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Is it okay if I send a v2 of just patch 6? Or do I need to send a follow-up
+based on what was already applied?
+
+Regards,
+Samuel
