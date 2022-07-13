@@ -1,21 +1,21 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCD8646A7
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 15:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5B4B4681
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 15:28:07 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 862E41C01;
-	Wed, 13 Jul 2022 08:28:06 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9CA141C0A;
+	Wed, 13 Jul 2022 08:28:07 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 39CAC3F73D;
-	Wed, 13 Jul 2022 08:28:05 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5047E3F73D;
+	Wed, 13 Jul 2022 08:28:06 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	linux-sunxi@lists.linux.dev,
 	u-boot@lists.denx.de
-Subject: [PATCH 1/3] sunxi: armv8: fel: load only 32-bit values
-Date: Wed, 13 Jul 2022 16:27:56 +0100
-Message-Id: <20220713152758.56929-2-andre.przywara@arm.com>
+Subject: [PATCH 2/3] sunxi: h616: lower SPL stack address to avoid BROM data
+Date: Wed, 13 Jul 2022 16:27:57 +0100
+Message-Id: <20220713152758.56929-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220713152758.56929-1-andre.przywara@arm.com>
 References: <20220713152758.56929-1-andre.przywara@arm.com>
@@ -27,41 +27,37 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Both the values and the MMIO addresses that we need during the 64-bit FEL
-restore are smaller than 2^32, so we don't need to do any 64-bit loads.
+When using the USB OTG FEL mode on the Allwinner H616, the BootROM
+stores some data at the end of SRAM C. This is also the location where
+we place the initial SPL stack, so it will overwrite this data.
+We still need the BROM code after running the SPL, so should leave that
+area alone.
+Interestingly this does not seem to have an adverse effect, I guess on
+the "way out" (when we return to FEL after the SPL has run), this data
+is not needed by the BROM, for just the trailing end of the USB operation.
+However this is still wrong, and we should not clobber BROM data.
 
-Change the loads to only load 32 bits worth of data, that saves us some
-bytes for storing the values.
+Lower the SPL stack address to be situated right below the swap buffers
+we use in sunxi-fel: that should be out of the way of everyone else.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- arch/arm/cpu/armv8/fel_utils.S | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/configs/sunxi-common.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/cpu/armv8/fel_utils.S b/arch/arm/cpu/armv8/fel_utils.S
-index 5266515f14..2fe38a1a04 100644
---- a/arch/arm/cpu/armv8/fel_utils.S
-+++ b/arch/arm/cpu/armv8/fel_utils.S
-@@ -39,15 +39,15 @@ ENTRY(return_to_fel)
- 	adr	x1, fel_stash_addr	// to find the fel_stash address in AA32
- 	str	w2, [x1]
- 
--	ldr	x0, =0xfa50392f		// CPU hotplug magic
-+	ldr	w0, =0xfa50392f		// CPU hotplug magic
+diff --git a/include/configs/sunxi-common.h b/include/configs/sunxi-common.h
+index 0f0ef4f64b..d36b59daf7 100644
+--- a/include/configs/sunxi-common.h
++++ b/include/configs/sunxi-common.h
+@@ -105,7 +105,7 @@
+ #endif /* !CONFIG_ARM64 */
+ #elif CONFIG_SUNXI_SRAM_ADDRESS == 0x20000
  #ifdef CONFIG_MACH_SUN50I_H616
--	ldr	x2, =(SUNXI_R_CPUCFG_BASE + 0x1c0)
-+	ldr	w2, =(SUNXI_R_CPUCFG_BASE + 0x1c0)
- 	str	w0, [x2], #0x4
- #elif CONFIG_MACH_SUN50I_H6
--	ldr	x2, =(SUNXI_RTC_BASE + 0x1b8)	// BOOT_CPU_HP_FLAG_REG
-+	ldr	w2, =(SUNXI_RTC_BASE + 0x1b8)	// BOOT_CPU_HP_FLAG_REG
- 	str	w0, [x2], #0x4
+-#define LOW_LEVEL_SRAM_STACK		0x58000
++#define LOW_LEVEL_SRAM_STACK		0x52a00		/* below FEL buffers */
  #else
--	ldr	x2, =(SUNXI_CPUCFG_BASE + 0x1a4) // offset for CPU hotplug base
-+	ldr	w2, =(SUNXI_CPUCFG_BASE + 0x1a4) // offset for CPU hotplug base
- 	str	w0, [x2, #0x8]
- #endif
- 	adr	x0, back_in_32
+ /* end of SRAM A2 on H6 for now */
+ #define LOW_LEVEL_SRAM_STACK		0x00118000
 -- 
 2.25.1
 
