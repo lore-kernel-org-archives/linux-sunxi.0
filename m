@@ -1,22 +1,24 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD69F4681
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86FD46B2
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:21:55 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64E7A15A1;
-	Wed, 13 Jul 2022 09:21:54 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A7DF1C01;
+	Wed, 13 Jul 2022 09:21:55 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 170D23F792;
-	Wed, 13 Jul 2022 09:21:52 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2DF0C3F792;
+	Wed, 13 Jul 2022 09:21:54 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 0/3] sunxi: remove CONFIG_MMC?_CD_PIN
-Date: Wed, 13 Jul 2022 17:21:42 +0100
-Message-Id: <20220713162145.95744-1-andre.przywara@arm.com>
+Subject: [PATCH 1/3] sunxi: mmc: ignore card detect in SPL
+Date: Wed, 13 Jul 2022 17:21:43 +0100
+Message-Id: <20220713162145.95744-2-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220713162145.95744-1-andre.przywara@arm.com>
+References: <20220713162145.95744-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -25,107 +27,95 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Since the dawn of time we had CONFIG_MMC?_CD_PIN defines for each
-Allwinner board, which held the name for the respective MMC card
-detect GPIO. These days we don't use that in U-Boot proper anymore
-(and rely on DT for that, instead), so it's just for the SPL loading.
-However the card detect is actually not needed there:
-- We continue loading from the same boot media that the BootROM booted
-  us from, so when we get to load from MMC, there is surely a card in
-  the slot.
-- The BROM already spoiled all efforts by unconditionally accessing the
-  MMC bus, regardless of any card presence or not. We can't do more harm
-  by doing the same.
+The sunxi MMC code does not use the DM in the SPL, as we don't have a
+device tree available that early, also no space for it.
+This also means we cannot access the card-detect GPIO information from
+there, so we have Kconfig symbols called CONFIG_MMCx_CD_PIN, which each
+board has to define. This is a burden, also requires extra GPIO code in
+the SPL.
+As the SPL is the natural successor of the BootROM (from which we are
+loaded), we can actually ignore the CD pin completely, as this is what
+the BootROM does as well: CD GPIOs are board specific, but the BootROM
+is not, so accesses the MMC devices anyway.
 
-This series removes the code checking the CD pin, and also the definition
-from Kconfig and all defconfigs. On top there is a cleanup for the MMC
-driver, which explains the reason for still also implementing the legacy
-MMC interface.
+Remove the card detect code from the non-DM implementation of the sunxi
+MMC driver, to get rid of this unneeded code.
 
-Please have a look and test!
+Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+---
+ drivers/mmc/sunxi_mmc.c | 37 ++-----------------------------------
+ 1 file changed, 2 insertions(+), 35 deletions(-)
 
-Thanks,
-Andre
-
-Andre Przywara (3):
-  sunxi: mmc: ignore card detect in SPL
-  sunxi: mmc: group non-DM specific functions
-  sunxi: remove CONFIG_MMC?_CD_PIN
-
- arch/arm/mach-sunxi/Kconfig                  |  27 ----
- configs/A10-OLinuXino-Lime_defconfig         |   1 -
- configs/A10s-OLinuXino-M_defconfig           |   2 -
- configs/A13-OLinuXinoM_defconfig             |   1 -
- configs/A13-OLinuXino_defconfig              |   1 -
- configs/A20-OLinuXino-Lime2-eMMC_defconfig   |   1 -
- configs/A20-OLinuXino-Lime2_defconfig        |   1 -
- configs/A20-OLinuXino-Lime_defconfig         |   1 -
- configs/A20-OLinuXino_MICRO-eMMC_defconfig   |   1 -
- configs/A20-OLinuXino_MICRO_defconfig        |   2 -
- configs/A20-Olimex-SOM-EVB_defconfig         |   2 -
- configs/A20-Olimex-SOM204-EVB-eMMC_defconfig |   1 -
- configs/A20-Olimex-SOM204-EVB_defconfig      |   1 -
- configs/A33-OLinuXino_defconfig              |   1 -
- configs/Ainol_AW1_defconfig                  |   1 -
- configs/Ampe_A76_defconfig                   |   1 -
- configs/Bananapi_M2_Ultra_defconfig          |   1 -
- configs/Bananapi_m2m_defconfig               |   1 -
- configs/Cubieboard2_defconfig                |   1 -
- configs/Cubieboard4_defconfig                |   1 -
- configs/Cubieboard_defconfig                 |   1 -
- configs/Cubietruck_defconfig                 |   1 -
- configs/Empire_electronix_d709_defconfig     |   1 -
- configs/Empire_electronix_m712_defconfig     |   1 -
- configs/Itead_Ibox_A20_defconfig             |   1 -
- configs/Lamobo_R1_defconfig                  |   1 -
- configs/Mele_M3_defconfig                    |   1 -
- configs/Mele_M5_defconfig                    |   1 -
- configs/Merrii_A80_Optimus_defconfig         |   1 -
- configs/Orangepi_mini_defconfig              |   2 -
- configs/Sinlinx_SinA31s_defconfig            |   1 -
- configs/Sinlinx_SinA33_defconfig             |   1 -
- configs/Sunchip_CX-A99_defconfig             |   1 -
- configs/UTOO_P66_defconfig                   |   1 -
- configs/Wobo_i5_defconfig                    |   1 -
- configs/Yones_Toptech_BD1078_defconfig       |   2 -
- configs/Yones_Toptech_BS1078_V2_defconfig    |   1 -
- configs/bananapi_m2_berry_defconfig          |   1 -
- configs/bananapi_m2_zero_defconfig           |   1 -
- configs/bananapi_m64_defconfig               |   1 -
- configs/beelink_gs1_defconfig                |   1 -
- configs/colorfly_e708_q1_defconfig           |   1 -
- configs/difrnce_dit4350_defconfig            |   1 -
- configs/dserve_dsrv9703c_defconfig           |   1 -
- configs/gt90h_v4_defconfig                   |   1 -
- configs/iNet_3F_defconfig                    |   1 -
- configs/iNet_3W_defconfig                    |   1 -
- configs/iNet_D978_rev2_defconfig             |   1 -
- configs/icnova-a20-swac_defconfig            |   1 -
- configs/inet86dz_defconfig                   |   1 -
- configs/inet98v_rev2_defconfig               |   1 -
- configs/inet_q972_defconfig                  |   1 -
- configs/nanopi_m1_plus_defconfig             |   1 -
- configs/oceanic_5205_5inmfd_defconfig        |   1 -
- configs/orangepi_3_defconfig                 |   1 -
- configs/orangepi_lite2_defconfig             |   1 -
- configs/orangepi_one_plus_defconfig          |   1 -
- configs/orangepi_zero2_defconfig             |   1 -
- configs/orangepi_zero_plus2_defconfig        |   1 -
- configs/orangepi_zero_plus2_h3_defconfig     |   1 -
- configs/parrot_r16_defconfig                 |   1 -
- configs/pine64-lts_defconfig                 |   1 -
- configs/pine_h64_defconfig                   |   1 -
- configs/polaroid_mid2407pxe03_defconfig      |   1 -
- configs/polaroid_mid2809pxe04_defconfig      |   1 -
- configs/q8_a13_tablet_defconfig              |   1 -
- configs/q8_a23_tablet_800x480_defconfig      |   1 -
- configs/q8_a33_tablet_1024x600_defconfig     |   1 -
- configs/q8_a33_tablet_800x480_defconfig      |   1 -
- configs/sopine_baseboard_defconfig           |   1 -
- configs/tanix_tx6_defconfig                  |   1 -
- drivers/mmc/sunxi_mmc.c                      | 152 ++++++++-----------
- 72 files changed, 62 insertions(+), 192 deletions(-)
-
+diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+index 1bb7b6d0e9..b2f7e2d142 100644
+--- a/drivers/mmc/sunxi_mmc.c
++++ b/drivers/mmc/sunxi_mmc.c
+@@ -44,22 +44,10 @@ struct sunxi_mmc_priv {
+ /* support 4 mmc hosts */
+ struct sunxi_mmc_priv mmc_host[4];
+ 
+-static int sunxi_mmc_getcd_gpio(int sdc_no)
+-{
+-	switch (sdc_no) {
+-	case 0: return sunxi_name_to_gpio(CONFIG_MMC0_CD_PIN);
+-	case 1: return sunxi_name_to_gpio(CONFIG_MMC1_CD_PIN);
+-	case 2: return sunxi_name_to_gpio(CONFIG_MMC2_CD_PIN);
+-	case 3: return sunxi_name_to_gpio(CONFIG_MMC3_CD_PIN);
+-	}
+-	return -EINVAL;
+-}
+-
+ static int mmc_resource_init(int sdc_no)
+ {
+ 	struct sunxi_mmc_priv *priv = &mmc_host[sdc_no];
+ 	struct sunxi_ccm_reg *ccm = (struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
+-	int cd_pin, ret = 0;
+ 
+ 	debug("init mmc %d resource\n", sdc_no);
+ 
+@@ -90,16 +78,7 @@ static int mmc_resource_init(int sdc_no)
+ 	}
+ 	priv->mmc_no = sdc_no;
+ 
+-	cd_pin = sunxi_mmc_getcd_gpio(sdc_no);
+-	if (cd_pin >= 0) {
+-		ret = gpio_request(cd_pin, "mmc_cd");
+-		if (!ret) {
+-			sunxi_gpio_set_pull(cd_pin, SUNXI_GPIO_PULL_UP);
+-			ret = gpio_direction_input(cd_pin);
+-		}
+-	}
+-
+-	return ret;
++	return 0;
+ }
+ #endif
+ 
+@@ -523,23 +502,11 @@ static int sunxi_mmc_send_cmd_legacy(struct mmc *mmc, struct mmc_cmd *cmd,
+ 	return sunxi_mmc_send_cmd_common(priv, mmc, cmd, data);
+ }
+ 
+-static int sunxi_mmc_getcd_legacy(struct mmc *mmc)
+-{
+-	struct sunxi_mmc_priv *priv = mmc->priv;
+-	int cd_pin;
+-
+-	cd_pin = sunxi_mmc_getcd_gpio(priv->mmc_no);
+-	if (cd_pin < 0)
+-		return 1;
+-
+-	return !gpio_get_value(cd_pin);
+-}
+-
++/* .get_cd is not needed by the SPL */
+ static const struct mmc_ops sunxi_mmc_ops = {
+ 	.send_cmd	= sunxi_mmc_send_cmd_legacy,
+ 	.set_ios	= sunxi_mmc_set_ios_legacy,
+ 	.init		= sunxi_mmc_core_init,
+-	.getcd		= sunxi_mmc_getcd_legacy,
+ };
+ 
+ struct mmc *sunxi_mmc_init(int sdc_no)
 -- 
 2.25.1
 
