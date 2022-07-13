@@ -1,105 +1,127 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EBA6AAC;
-	Tue, 12 Jul 2022 21:28:59 +0000 (UTC)
-Received: by mail-ej1-f50.google.com with SMTP id ez10so16570930ejc.13;
-        Tue, 12 Jul 2022 14:28:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
-        b=oN5XoqcVxMnycuXA07RCPGjZGDbKv2XzrtoJdpEJqM+T/yQqztcOiBEJz+KqUqqJga
-         kw+SX/a38LI8HrpIyvN00Sbql19iG/4qDMO5R7dVKWLrNZjZ/E32SM4Ct8/1sjlnQEvY
-         jgrD6Usb1wE4swF5y3adFtdK17D5h5AYUAjgGh/JcsuDFRQPGc3krlBvRWHgeV2FqwN6
-         xxHG4wI1ZSJHbHvfA9ksmdK3ND3XVYsJVUcmpkbzGs8o0eU+i+pf2oTxtDfcO2p+SzWu
-         BcSKR36gyCkwm6wLNXFThR7tMjPOh084ssJxilJ4bp2NcqjfmpdRq5ufZU69xOQ4AF9a
-         EjLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=BknaE/Kld0FnjC1aUofNUzwSa+QGAFkBMskakzse0z8=;
-        b=7KsVBA+zuS+RCkgM4j/SAX9H3DPtM86zpgDBKZ0j04j2vaHuKLfcPrANhkNbWUolb4
-         2NlYhoZ0teYL145WqTMUkJOTRC9xwxfIXo0KICC5yunXqA3viNCj2QhHwZwqzPdOX+gV
-         4ICSNnJ/aD9y/1iDtv2Ue15QTSbt8ZrvQBNyYFuOrpUV12Fu7Y2CGQ7aaycdiHBbFVF7
-         x6K5Xz5Wax2pxkBNVFpQXMqm4ccKqaQ6K2x05zy+OrkDTdekxoEFVLNjaPkCREeHayLP
-         d19t+WnP6zy1QLGkeF+6FQm0206UVUqC7x3416OnReH0CuJNArNh0pe0KRRcc+VwffM+
-         8FtQ==
-X-Gm-Message-State: AJIora9MLbIVA8TznoGMESVE74IU4qjCc7HwqcbJlFq0SArnI+0KBxo/
-	cQ0nT2Qa94xgCnE0E1MyBik=
-X-Google-Smtp-Source: AGRyM1ty94Bi/kThUyYCtcONkfQEatSMxB4zQNDcet6s1fIeNCkp6cZN9Ip6+R4/UZLfNCXrGMqLvg==
-X-Received: by 2002:a17:907:d18:b0:726:3172:2266 with SMTP id gn24-20020a1709070d1800b0072631722266mr129773ejc.476.1657661337442;
-        Tue, 12 Jul 2022 14:28:57 -0700 (PDT)
-Received: from kista.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id c17-20020a056402121100b00437e08d319csm6572339edw.61.2022.07.12.14.28.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Jul 2022 14:28:56 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org, samuel@sholland.org
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/7] media: cedrus: h265: Implement tiles support
-Date: Tue, 12 Jul 2022 23:28:55 +0200
-Message-ID: <12371972.VsHLxoZxqI@kista>
-In-Reply-To: <20220620175517.648767-1-jernej.skrabec@gmail.com>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A19115AA
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 02:52:37 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 71E945C0051;
+	Tue, 12 Jul 2022 22:52:36 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 12 Jul 2022 22:52:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1657680756; x=1657767156; bh=LZJK/dcxtbGpNFfRmqzuMotXu
+	yK73IQLM1tbkYhb0Z0=; b=ogOpoho0bZhFI3vl/qb7l3r8aR0gVws3pei5wJvE/
+	izMYNcT7oTK3+o/hQqcgoCfV5iwM3y1KMSCo1Iu4Nn4YATPMsp5gLIbFoqvQdJkb
+	HArecbgO+Ozqv1PiAaoOPjBObENFOiDqbXAdutN322XdpPAf43KwbJNbLRxKLHOH
+	An469/x1xmQd2fjWmzCs/4HsKPiKnkVy4ZGvo1gj/lZxBKLtvCGYDcSpunOfheV0
+	/FQt1+oaW5L3HMIMt5N1jXFme7tnk7z/ttvv49I2yol5Y4Rwri6PRqEP5lj+NnmD
+	DqFreuWBNm7MfPqnHwAqSLX3IVseJmhISaFybCzgAsPzA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1657680756; x=1657767156; bh=LZJK/dcxtbGpNFfRmqzuMotXuyK73IQLM1t
+	bkYhb0Z0=; b=vfofMhc2knqiEwCpHManqRmcVoRqMf6w9H+p/QuPCrBdEtx7cKM
+	0lRCWwapS4rzIEt+IX1OFQX8PoW8trYbAzjFJAmEuBnZdfci+nsZL7fmbnNU7WG3
+	mrERxZIOhrfJxLknfsHSd9mOSOh8PvrEfW9YoD+mvEfA2LAqiwFIs2ZStltuR6ao
+	i762gu6FdDmzq7UBv/wnD69K4piGh/U2jrMWHyxuWmndPjl6vEcQkzhhjqOUPsvM
+	zy1NKCFqZhYvcZFQwMlRwxmFtEKeqPUXljmXP2tzBsgOIq87rEDKnaHM+7Bu1Nlo
+	oXBivARaDuXcuLEIqF8JjJjhIqQj1lyPJ8g==
+X-ME-Sender: <xms:czPOYka7o2niLhWtYu6SAi0ABE5SNQQ3HrhiMztwxuLEPSPiVen_jw>
+    <xme:czPOYva8dbXTyEosvtbW9aiCjvvDAWNICO3RYEiN4OS-gdI8JnrLzKzip9XMAY0dC
+    Hn7ipHP2_Me0rOexw>
+X-ME-Received: <xmr:czPOYu_QDokyqNG_yhLYghHCIbUPlKjJhA8VL2iiCtN8fA3VDG_hsMWXtlDqKLHMseBvHBBoy79UPKdN-v9IZuD31lvZJu7Y4lnoKkkdW9MvKQMsxXtAzNnqCRHS6NC28fWPwg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejiedgieejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:czPOYuobPc6vhuTUJTHcP4CTwM4dGzvx8OuH00yazV8WET1QrpRvvA>
+    <xmx:czPOYvriFJuFKiFP2qP46505sxU-TfQgLIV1yp9eS5DmdiwtqkdG-A>
+    <xmx:czPOYsTcL1dzIP6M6oLH9UxDy5eHVUpcA5PtEIMIfgioEmso0NYEzw>
+    <xmx:dDPOYoSoRkrktCoFnVoU6aTOL8Le1zRmzWzr6YhL2GJ0IvYx5SWaGw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 12 Jul 2022 22:52:34 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 0/6] pinctrl: sunxi: Allwinner D1 support
+Date: Tue, 12 Jul 2022 21:52:27 -0500
+Message-Id: <20220713025233.27248-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 20. junij 2022 ob 19:55:10 CEST je Jernej Skrabec napisal(a):
-> Now that we have full and stable HEVC uAPI, let's implement last big
-> missing piece of HEVC in Cedrus - tiles support. This is done in
-> last patch. Before that, there are bug fixes (patch 1 & 2, previously
-> submitted separately in [1]), error handling improvements (patch 3, 4)
-> and added helper for dealing with dynamic arrays (patch 5).
-> 
-> These patches are based on top of [2].
-> 
-> Final fluster score with this series is 125/147. 11 bitstreams are
-> MAIN10, which is not yet properly supported. 5 bitstreams need better
-> memory management with auxiliary buffers (wip patches exists). 4 are
-> too big and 2 probably fails due to ffmpeg implementation.
-> 
-> Used ffmpeg source is in [3].
-> 
-> Note - Cedrus driver currently supports only one slice per request since
-> HW takes data for 1 slice only. This can be improved by loading data for
-> next slice automatically after HW signalled end of decoding. Something
-> for later.
-> 
-> Please take a look.
-> 
-> Best regards,
-> Jernej
-> 
-> [1] https://patchwork.linuxtv.org/project/linux-media/list/?series=8187
-> [2] https://patchwork.linuxtv.org/project/linux-media/list/?series=8208
-> [3] https://github.com/jernejsk/FFmpeg/commits/hevc-mainline
-> 
-> Jernej Skrabec (7):
->   media: cedrus: h265: Fix flag name
->   media: cedrus: h265: Fix logic for not low delay flag
->   media: cedrus: Improve error messages for controls
->   media: cedrus: Add error handling for failed setup
->   media: cedrus: h265: Add a couple of error checks
->   media: cedrus: Add helper for determining number of elements
->   media: cedrus: h265: Implement support for tiles
+In the interest of keeping the series ready for v5.20, I decided to drop
+the D1s bits so we can decide how to handle the compatibles next cycle.
 
-Hi Hans,
+This series adds pinctrl support for the Allwinner D1 SoC. First,
+it updates the I/O bias code to support the new mode found on the D1
+(as well as some existing SoCs). Then it refactors the driver to support
+the new register layout found on the D1. Finally, it adds the new
+driver.
 
-do you mind picking patch 6 and 7? They are reviewed and don't depend on patch 
-5.
+The code size impact of the dynamic register layout ends up being just
+over 100 bytes:
 
-Best regards,
-Jernej
+   text    data     bss     dec     hex filename
+  11293     564       0   11857    2e51 pinctrl-sunxi.o (patch 3)
+  11405     564       0   11969    2ec1 pinctrl-sunxi.o (patch 6)
 
+This series was tested on A64, H6, and D1.
 
+Changes in v2:
+ - Drop D1s compatible for now, due to ongoing discussion
+ - Fix PE3 function "csi0" -> "ncsi0"
+ - Fix comments for JTAG DI/DO pins
+ - Include channel numbers in PWM functions
+ - Drop the separate D1s variant, since D1s is a non-conflicting subset
+ - Enable the driver for MACH_SUN8I to cover T113 (same die, but ARMv7)
 
+Samuel Holland (6):
+  dt-bindings: pinctrl: Add compatible for Allwinner D1
+  pinctrl: sunxi: Add I/O bias setting for H6 R-PIO
+  pinctrl: sunxi: Support the 2.5V I/O bias mode
+  pinctrl: sunxi: Refactor register/offset calculation
+  pinctrl: sunxi: Make some layout parameters dynamic
+  pinctrl: sunxi: Add driver for Allwinner D1
+
+ .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  13 +
+ drivers/pinctrl/sunxi/Kconfig                 |   5 +
+ drivers/pinctrl/sunxi/Makefile                |   1 +
+ drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c     | 840 ++++++++++++++++++
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a100-r.c |   1 +
+ drivers/pinctrl/sunxi/pinctrl-sun50i-a100.c   |   2 +-
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h6-r.c   |   1 +
+ drivers/pinctrl/sunxi/pinctrl-sun50i-h616.c   |   2 +-
+ drivers/pinctrl/sunxi/pinctrl-sunxi.c         | 156 +++-
+ drivers/pinctrl/sunxi/pinctrl-sunxi.h         | 109 +--
+ 10 files changed, 999 insertions(+), 131 deletions(-)
+ create mode 100644 drivers/pinctrl/sunxi/pinctrl-sun20i-d1.c
+
+-- 
+2.35.1
 
