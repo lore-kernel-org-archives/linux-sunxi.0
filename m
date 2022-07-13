@@ -1,74 +1,70 @@
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66D015AA
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 02:56:37 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id B882F5C00E1;
-	Tue, 12 Jul 2022 22:56:36 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEC515AA
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 03:01:18 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+	by mailout.nyi.internal (Postfix) with ESMTP id 85DDB5C00BE;
+	Tue, 12 Jul 2022 23:01:17 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 12 Jul 2022 22:56:36 -0400
+  by compute4.internal (MEProxy); Tue, 12 Jul 2022 23:01:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657680996; x=
-	1657767396; bh=K/cj+gRS3RhE670rnCrMr2lhCalMsbp97ysqO+RlgnI=; b=E
-	7Sn8IFON6Zrl4Ob6F1aytfkRmGHTKz957uZaOClRwJ57glVCfyKG55qYn0JUOwLD
-	Gqf5AF8QUVJNF4HKVmwFIxzASlL0WHFn8LM8P7oqTYRDYO6zVeEQOCO1P16N2+KX
-	7dWLhzzDKJZ/JsCvZBA1SxLiajj0QvYQOCLsC4vcZ2ls6cNokHEq67VSTG06xWNm
-	xGpCWHtWTIxsj+cNiYE77XH5siNZwXd2N24aPldGtPGeVPm75W3twZMe3Bet1Zru
-	Yzx0n9owsovqB4E33A7ldDpYEOOosle3ZP6+djLeA7nIfFS05y574hL94K4bo5VL
-	NwtxwXEvaiwbiHg2oV+gQ==
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657681277; x=
+	1657767677; bh=IX/xuPhA1GhYJNalCXe7PUV3ahJKE0iqzjYmdUN5By4=; b=N
+	GCyoWzlVHaJXrmPU9AnDWIoqY+jhJ8uau0h1esA/9qOQykTiMax3YLh84vfKuTJX
+	4J6u58Q3BAO/CqNVDIinNyw/00jPP2FWVSK/56DQNpd2igEAxjrYcpI+HH13Xgck
+	2RsxAG3ipaMc7letBqqLzY9rcCzt7zAYdLIY2iSRsdE+Iq0XgM330n6mG4ejoAbW
+	O56QstjQjN8vZcBWHDBD+fAAVn7e0NbRZOnwaA+GHKZtrCpb9w9CVpH6EfXClh53
+	m33Rd1H6xfnQS2DdVJ2eBoeF5hJRP3VdPM5cx0tGOK6CUPoiocXNcfJeuxNso4P6
+	Yxtp/vAyDe26gTFWgRNmQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657680996; x=
-	1657767396; bh=K/cj+gRS3RhE670rnCrMr2lhCalMsbp97ysqO+RlgnI=; b=S
-	fjMWjpxcw/u7t+a5sUBFj93BsL+Noa5Y04fImJT49vl8+h6zpuPd2Nakp0Qhsuv1
-	dFxcuZMUXGptJBr7r6siDElNuzg6ZxGqMPsKQFfAcTDP6A3nNb24CwKLJzg1My9B
-	lX+3pD0mbo8z0KGOYm1Sx01L9qvAzK0er2g68ols89dEknIfqp2+t9z9vtQqGcfP
-	0wFmyoH+lCpHqtqxgnnjt2FopGW6q1uHaN+zbWNUfa+KyBz/SU9IuZ/gUdhVtkCG
-	qGhvGX07afP7Gj/ugrgrQHpYtJisQh8RbQWelJm6DF/A6KUetrPIia7rJbxqEEGD
-	+NImoIohgdDF2qlJncIHw==
-X-ME-Sender: <xms:ZDTOYkKG1xM3VRQTo_3c5qBJVUGiVFWOWqGUNCms86Pj_kQePlq9cg>
-    <xme:ZDTOYkKSMV451J2o9ivexatzTvHZsu7Kcki7s_9Fh7NLL0ZrCmT0WdbFoCkshMHui
-    Ae-bSp0AJPzG4kkuA>
-X-ME-Received: <xmr:ZDTOYkvquqz0Qz4reIALRH8asmOzLF1RmKvR4tY_-Ad0eTHqmGcRAcVzahccwIj38wSDGRg99x1g2SPAR2s5q_a0pIn9dRIIcjxW3ShnYMpuwD_lgPJ-ziGwJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejiedgieejucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657681277; x=
+	1657767677; bh=IX/xuPhA1GhYJNalCXe7PUV3ahJKE0iqzjYmdUN5By4=; b=G
+	rPmlsUXGYBy9hmyDoQ1f8oHg4igM/LsPLgVGqxHWrQ2szWCrzuV0Vken95P8Qa9j
+	0JoqD1WBmTiUQyfhPRfzki1Kk4cXjazvdhRZvkMW0KYBRjkcJ5QyAKkgVo+WAYLY
+	go672uzD1x8ZVBIgPwakUykwo/njOTbcVWCl4A/NUsBai7Nj3vXjFSAxZkpYtiTu
+	HixmiLuIbXWadLyFWOzY4e78qaVdDWGFIuqlj5o3Mqvknfjjv2X31M/ytoLs0dOJ
+	FrIsY0v9sVbAm1KpIGoc5zWvS9CfXwzVCwDvehd3V9u5UPEpSv/Xt9AYqxoLFgXl
+	KENaLybUnl02JkgjGhLBQ==
+X-ME-Sender: <xms:fDXOYkYXDRQD7C1LwnBN1AukH04EbTw-WKhshNQfgdqo05Pe6SvhJA>
+    <xme:fDXOYvbo-byWPZOqLJjYpIuh6bX9l_jbKIdXqLuJFgIdB55BGP9J-MhT9CmQmKF26
+    HaEQFbYW3K60ezIfg>
+X-ME-Received: <xmr:fDXOYu-M3QtRomq3GSGGel6HLSBeSjh6GxsZmAknrR3HvLorfbl_DtpKwhk2WpEDUWoovh_jD8AJ2VPKg3AZXV8GlOiZ60aNRRobM7kmR3g6jGXC0I7Qi4-kQg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejiedgieekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffhvfevfhfkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeejgfdtffeiheduuefggeehkefhlefghedvheekheduueffudel
-    vedvtdelveevieenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:ZDTOYhaQHMaH_41kEYG7Ic8GfrPpLH5ybJXrv5bsRYkFZLBP-2jx-g>
-    <xmx:ZDTOYrbhKChr2TYwYXjG5sy5sJSojTouB17B9YYRIoAUgxsF0zPsyg>
-    <xmx:ZDTOYtA64DxTtoPaV_nvrkAB4pN4lWDp3pVfLMbBGjJPlPM1ZO2OAA>
-    <xmx:ZDTOYpChOhounWK14SmvvDFlWrSTVwivI4VvRLxqNGcPXbDSZnAB8Q>
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:fDXOYuonK41IB2Ls64O4tJrBgH8ggEroI9wsHaKbnQkz-ZM11XXH9Q>
+    <xmx:fDXOYvr-N9VQbL6UWkbTPiP4OXj6zTc7VrQj3ZvlBJilf2F1EZC1MA>
+    <xmx:fDXOYsTISnM7Ildottj7UuSuatLupxiDbIzqrp0luin0YWDeNR7AaA>
+    <xmx:fTXOYi0XYiEYa2S4-mOFb9DO57VlJRjYwF_o3QwcMvgMyah6r1sNjA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 22:56:35 -0400 (EDT)
-Subject: Re: [PATCH 1/6] dt-bindings: pinctrl: Add compatibles for Allwinner
- D1/D1s
-From: Samuel Holland <samuel@sholland.org>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ 12 Jul 2022 23:01:16 -0400 (EDT)
+Subject: Re: [PATCH 2/2] dt-bindings: arm: sunxi: Add several MBUS compatibles
+To: Chanwoo Choi <cwchoi00@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Chanwoo Choi <cw00.choi@samsung.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Ondrej Jirman <x@xff.cz>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev,
- Andre Przywara <andre.przywara@arm.com>
-References: <20220626021148.56740-1-samuel@sholland.org>
- <20220626021148.56740-2-samuel@sholland.org>
- <CACRpkdY65q12sjDwH0UOOAa8GkBO--EDTsKrnEwn8NoTYTgtPQ@mail.gmail.com>
- <879fb3b2-4bcb-82d6-e186-e845d62c9843@sholland.org>
-Message-ID: <3418c509-c54a-484a-cb2e-c4705bc829a6@sholland.org>
-Date: Tue, 12 Jul 2022 21:56:35 -0500
+ Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220702042447.26734-1-samuel@sholland.org>
+ <20220702042447.26734-2-samuel@sholland.org>
+ <59e565e3-8930-9010-7642-2b13607cba61@gmail.com>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <3a57d278-295a-313e-ed22-7cc482e9921f@sholland.org>
+Date: Tue, 12 Jul 2022 22:01:15 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -77,45 +73,58 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <879fb3b2-4bcb-82d6-e186-e845d62c9843@sholland.org>
+In-Reply-To: <59e565e3-8930-9010-7642-2b13607cba61@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 7/12/22 5:14 AM, Samuel Holland wrote:
-> Hi Linus,
+On 7/7/22 3:06 PM, Chanwoo Choi wrote:
+> Hi Samuel,
 > 
-> On 7/11/22 3:58 AM, Linus Walleij wrote:
->> On Sun, Jun 26, 2022 at 4:11 AM Samuel Holland <samuel@sholland.org> wrote:
+> On 22. 7. 2. 13:24, Samuel Holland wrote:
+>> All of the sunxi SoCs since at least the A33 have a similar structure
+>> for the MBUS and DRAM controller, but they all have minor differences in
+>> MBUS port assignments and DRAM controller behavior. Give each SoC its
+>> own compatible.
 >>
->>> D1 contains a pin controller similar to previous SoCs, but with some
->>> register layout changes. It includes 6 interrupt-capable pin banks.
->>>
->>> D1s is a low pin count version of the D1 SoC, with some pins omitted.
->>> The remaining pins have the same function assignments as D1.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
 >>
->> All 6 patches applied to the pinctrl tree, the last patch 6/6
->> required some fuzzing so please check the result!
-
-I do not see anything in patch 6 that would have required a 3-way merge, so I
-don't understand what the issue was here.
-
-> Somehow the version of patch 6 applied to the pinctrl tree did not include the
-> new driver source file. It only applied changes to existing files (including the
-> Makefile reference to the new file).
+>>  .../bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml   | 10 ++++++++++
+>>  1 file changed, 10 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+>> index 2b018feb56df..99566688d033 100644
+>> --- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
+>> @@ -29,10 +29,20 @@ properties:
+>>    compatible:
+>>      enum:
+>>        - allwinner,sun5i-a13-mbus
+>> +      - allwinner,sun8i-a33-mbus
+>> +      - allwinner,sun8i-a50-mbus
+>> +      - allwinner,sun8i-a83t-mbus
+>>        - allwinner,sun8i-h3-mbus
+>>        - allwinner,sun8i-r40-mbus
+>> +      - allwinner,sun8i-v3s-mbus
+>> +      - allwinner,sun8i-v536-mbus
+>> +      - allwinner,sun20i-d1-mbus
+>>        - allwinner,sun50i-a64-mbus
+>> +      - allwinner,sun50i-a100-mbus
+>>        - allwinner,sun50i-h5-mbus
+>> +      - allwinner,sun50i-h6-mbus
+>> +      - allwinner,sun50i-h616-mbus
+>> +      - allwinner,sun50i-r329-mbus
+>>  
+>>    reg:
+>>      minItems: 1
 > 
-> I also needed to make some minor changes to patch 6 to resolve comments from Andre.
-> 
-> Is it okay if I send a v2 of just patch 6? Or do I need to send a follow-up
-> based on what was already applied?
+> I have a question. 
+> Are there the device drivers for the newly added compatible?
 
-I sent a v2 of the whole series:
-
-https://lore.kernel.org/linux-gpio/20220713025233.27248-1-samuel@sholland.org/
-
-Please let me know if you want something different.
+There are not DVFS drivers yet. However, the nodes are needed for their
+dma-ranges property, which affects some other devices that do have drivers. And
+at least for D1, the MBUS node is used for U-Boot's DRAM driver.
 
 Regards,
 Samuel
