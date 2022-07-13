@@ -1,181 +1,113 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7984B46B6
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:45:09 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id k25-20020a056830169900b0061c6f68f451so1216539otr.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 09:45:09 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B85C4A00
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 18:17:21 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id o1so381042qkg.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 11:17:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        d=konsulko.com; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=I7OsLXqH/9Te2vd5tdFip+Lxyy07Bn8K3zDG4t0Ezcc=;
-        b=hAx+fSrAw38bjYwAO1Esy2LLER4aocavVMjR9aB3tMBTWR0qAncmKsogUxpydf8s3N
-         QCMWVRcIRLjkPfSfqRjPpD60mMtAPFOYBd+f5PMPvzzrrmjGCMyFCkSXfQkPJyGZ57Cb
-         6xQ3xGUlRysPLHADNHM+sB0orRw8bZnSs00Zr8aO+d7iMty6aTKL8Ypsx/V8WLYdBWtR
-         9ki5UC6Ha/HsXR7wVH33LG67FCZhInQrbkWjwcB+NxloRNrBLaXxVWFnY3NOF3MqDPEc
-         dENbPWO0A7v5HmywQK3mL5EKScFDyxG93o8gI+A90kZNmlg3zakGQNOfZ6aP/QhMBCsB
-         ZO3w==
+         :content-disposition:in-reply-to;
+        bh=BhBxxXErolDDeAjaKYVNvGKhlVWMLhLrt4LAU1AjUHE=;
+        b=l2V2yX0badbJ6OWKiDoneTV4ppIybTqV7NU7bwSWxJhY9EWTX6s++/LaC0JL8eZSo5
+         x9+2mJnr/yFGf3lKSAM3VQdHDNF9A4yemj0KF12yXtD0xQLdmfNzqfcqNE38ejx60CkZ
+         LeDwfsL7IIXchq/4ykwy2nql1hwY8tyOELPEg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=I7OsLXqH/9Te2vd5tdFip+Lxyy07Bn8K3zDG4t0Ezcc=;
-        b=6BK0qla+/IJxQnxuip0ctagsDz/UjqPqjIsgIQQ8yVERx5hbEQTCA4kg2k6OFYiibL
-         fbzQYdfDsUdtyrgsQIFk8BudHzHmnVTGds5OqUcFG0ohZMiAlMJBM/KoLsAbygSmEMZ5
-         fA71kBkvxXgG2dinpZIFzfBsktyZT5+sQwnHrY7Iq3mysvwEbSBI6MD5PSes/EauV0vJ
-         x2TY/cLjg3Isj4di9rIMBHrD9KQg8A1kEcTmsCNGlPsxvvr9s854YQvnfkrrYk/hLUfr
-         z+Cpokby+NjG7kUs1yS3nTVvGv+OD9P487mPHLHrG0N3goSr0yNKVuU7MlSZUYbqVNPY
-         vkfg==
-X-Gm-Message-State: AJIora8d3xzV/nwS5t+K1V7TNKkGnNAvoozzxZbZ5cXsHDQ69IU3UzJQ
-	1FUayKKY9S2Fjd64a0xledAC9w==
-X-Google-Smtp-Source: AGRyM1sZyletAlpOLLvqspKneS9GbsFMhbPODCXHsv0X3czopt/lO/s2OwjXWhLFoptQ5UEqamDkNA==
-X-Received: by 2002:a05:6830:3686:b0:61c:4a56:5c8b with SMTP id bk6-20020a056830368600b0061c4a565c8bmr1723947otb.49.1657730708440;
-        Wed, 13 Jul 2022 09:45:08 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id u17-20020a056870305100b000f325409614sm6176741oau.13.2022.07.13.09.45.04
+         :mime-version:content-disposition:in-reply-to;
+        bh=BhBxxXErolDDeAjaKYVNvGKhlVWMLhLrt4LAU1AjUHE=;
+        b=WChjyWEbWBXw5xzp7/E858dnQbx7GwHh1BZyHBk3KBGeoLHmslSImKxLBGYdfYcFhY
+         dkaadJesrMvc8ZcZbZ7Cia6Z35M9MLvq+KbMAn1rc04XR7X/4ZkwLLpEklTn0gXyEl0N
+         8+GIntA3uGY7B1lU3yJ31hUso7xFBzFtxNAjkSePRpPWxu+ZNX8lR/LlhskNOVmbhepO
+         QVfhFN3VguVf/6351fF5Gixm3J5kySnOBF+inK5hILiW5NHUAaQyQON6f3SV09mct/Oh
+         PL1/yFw0AogvYV7dKWyhpg4nkIlgBTLm/BPaU/gpituxDw75rpbE9lw+vyZwpwDDegi8
+         st6A==
+X-Gm-Message-State: AJIora/F1rdUH60ciPjR/zCoCMb1x/ufkyleLEgjJ4SpsnVX3yfoab5t
+	p7It44qe8HmM+CniKBXpV+0cPQ==
+X-Google-Smtp-Source: AGRyM1uGNPwQY3bRMYRYylX5ofnn1QPnq/JzKllJLLnmp10je7EhUNwlR7Q8r2VFeSU3TK3jdhRYow==
+X-Received: by 2002:a05:620a:1a0e:b0:6b5:a277:f9b3 with SMTP id bk14-20020a05620a1a0e00b006b5a277f9b3mr3339852qkb.145.1657736240420;
+        Wed, 13 Jul 2022 11:17:20 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-195-139.ec.res.rr.com. [65.184.195.139])
+        by smtp.gmail.com with ESMTPSA id l20-20020a05622a175400b00304fa21762csm7341787qtk.53.2022.07.13.11.17.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 09:45:07 -0700 (PDT)
-Date: Wed, 13 Jul 2022 13:45:01 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com, wens@csie.org,
-	samuel@sholland.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: Re: [PATCH 5/7] media: cedrus: h265: Add a couple of error checks
-Message-ID: <Ys72jfI1QdGm+q0g@eze-laptop>
-References: <20220620175517.648767-1-jernej.skrabec@gmail.com>
- <20220620175517.648767-6-jernej.skrabec@gmail.com>
- <YsyWnzdTZ0bC733i@eze-laptop>
- <37675481.J2Yia2DhmK@kista>
+        Wed, 13 Jul 2022 11:17:19 -0700 (PDT)
+Date: Wed, 13 Jul 2022 14:17:17 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Simon Glass <sjg@chromium.org>, Samuel Holland <samuel@sholland.org>,
+	u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] sunxi: configs: streamline include/configs/sun*.h
+ wrappers
+Message-ID: <20220713181717.GP1146598@bill-the-cat>
+References: <20220713155857.83170-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="MKJ5QjdZMmoZffjB"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <37675481.J2Yia2DhmK@kista>
+In-Reply-To: <20220713155857.83170-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-Hi Jernej,
 
-On Tue, Jul 12, 2022 at 11:25:00PM +0200, Jernej Škrabec wrote:
-> Hi Ezequiel.
-> 
-> Dne ponedeljek, 11. julij 2022 ob 23:31:11 CEST je Ezequiel Garcia napisal(a):
-> > On Mon, Jun 20, 2022 at 07:55:15PM +0200, Jernej Skrabec wrote:
-> > > Now that we have infrastructure for reporting errors, let's add two
-> > > checks, which will make sure slice can be actually decoded.
-> > > 
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > ---
-> > > 
-> > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > cfde4ccf6011..99020b9f9ff8 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > 
-> > Now that you've allowed setup to fail, I would suggest
-> > to have some documentation/comments on struct cedrus_dec_ops,
-> > to set the expectation/rules for each ops, including the
-> > call paths for each operation, which of them are allowed to sleep,
-> > etc.
-> 
-> Documentation can be always added, but it should be separate patch.
-> 
+--MKJ5QjdZMmoZffjB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Of course, this wasn't a comment meant to block the patch in any way.
+On Wed, Jul 13, 2022 at 04:58:57PM +0100, Andre Przywara wrote:
+> For mostly historic reasons we had configuration headers for each
+> Allwinner CPU "family". These days they are mostly just including one
+> common header, with the rest being somewhat empty.
+> There were attempts to remove them, and to just use the one common header
+> to begin with, but this has implications to the build system, which me
+> might not be ready for, yet.
+>=20
+> To document this behaviour, and to avoid something sneaking in over
+> time, make those files all the same (minus the CPU family name and
+> the copyrights), and add a comment explaining that.
+> This makes it easier to just remove those files later on, when needed
+> and possible.
+>=20
+> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+>
+> ---
+> Hi Tom,
+>=20
+> this is mostly to just confirm and document what we already established
+> earlier: that those files are redundant, and are just needed to match
+> CONFIG_SYS_CONFIG_NAME. In case we don't need or want that anymore, we
+> can just remove them, without needing to think too hard about it.
 
-> > 
-> > > @@ -435,9 +435,17 @@ static int cedrus_h265_setup(struct cedrus_ctx *ctx,
-> > > struct cedrus_run *run)> 
-> > >  	 * instead of start of slice data. Padding is 8 bits at most (one 
-> bit
-> > >  	 set to 1 and * at most seven bits set to 0), so we have to 
-> inspect
-> > >  	 only one byte before slice data. */
-> > > 
-> > > +
-> > > +	if (slice_params->data_byte_offset == 0)
-> > > +		return -EOPNOTSUPP;
-> > > +
-> > 
-> > AFAICS, cedrus_h265_setup is called from .device_run.
-> > We've been discussing control validation before, and I think the
-> > ideal place to do that is v4l2_ctrl_ops.s_ctrl, if that's
-> > at all possible.
-> 
-> Yeah, this particular check can be moved to s_ctrl handler.
-> 
-> > 
-> > Driver's mem2mem device_run are executed in the context
-> > of a work_struct and the failure won't really get reported
-> > up the stack.
-> 
-> Well, at least there will be a notice in dmesg. Not ideal, I know.
-> 
-> > 
-> > >  	padding = (u8 *)vb2_plane_vaddr(&run->src->vb2_buf, 0) +
-> > >  	
-> > >  		slice_params->data_byte_offset - 1;
-> > > 
-> > > +	/* at least one bit must be set in that byte */
-> > > +	if (*padding == 0)
-> > > +		return -EINVAL;
-> > > +
-> > 
-> > Maybe this is something to check at cedrus_buf_prepare(),
-> > when the buffer is queued?
-> 
-> I don't think so. This check is HEVC specific, but cedrus_buf_prepare() is not 
-> and we need to have slice control ready, which I'm not sure is the case for 
-> cedrus_buf_prepare().
-> 
+Right, we need this for CONFIG_SYS_CONFIG_NAME and in turn being able to
+break up the build for Azure, and manual build testing still.
 
-Hm... this is indeed a special case. The buffer contents
-depend on a control, and both buffer and control are part of the same
-request.
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-At least the decoding job would fail, and would get signaled
-by the dequeued CAPTURE buffers and the V4L2_BUF_FLAG_ERROR flag,
-which makes perfect sense.
+--=20
+Tom
 
-In general vb2_ops.buf_prepare() is called for each
-buffer (either through VIDIOC_QBUF or through MEDIA_REQUEST_IOC_QUEUE),
-so for some buffer validations .buf_prepare() _might_ work better 
-than .device_run for validation.
+--MKJ5QjdZMmoZffjB
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In any case, the patch looks good, I don't think these
-comments should block the patch:
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmLPDC0ACgkQFHw5/5Y0
+tyzJjQv/T8I0TDits8CCxMLw2XPmcSZxvOQ9dgROClDMS8FNhPkfVXcOJ4KAW/VG
+J9YavfFYrS4WIjbEZZZ7MFBhUhcl69ByGrGZLVP/zkAxmlP/Lyy3/DievESG15a7
+54wUecO55zz9JWJmWKyg6WpXbEaQTFQD5KoHDBgerGkfAQfEX/fu0KX5nghzNPiA
+uHViG65xAt4kzumwE66RmHIxwmsoC2JlagzTJVJc/PlAtbVqTIvXKFRso69oflmB
+n7gWDNrYQYzGofdcZmvjnBcZgMWKdcClhpI2GpRS7Ha6HQaf7ya6KqmMybtrf3gI
+B3WOysHsMQ0myDMaSuCnWHNKDsTq50GdBhsAkpdHSK1H/6LUGMiVTsK0oPO7Rw+F
+UpCwjytFZdYqxSm564CuiRegypu1Ta06499v3/UQioSiInm6o4uM876oQWROu9u5
+6aaWMWYK9uH5UYw96mv6R45ExjT2zNUOzplHigLATqTnSMpkw3xYpu1pEwLTE4vJ
+XtQitGC4
+=WF+F
+-----END PGP SIGNATURE-----
 
-Thanks,
-Ezequiel
-
-> Best regards,
-> Jernej
-> 
-> > 
-> > Thanks,
-> > Ezequiel
-> > 
-> > >  	for (count = 0; count < 8; count++)
-> > >  	
-> > >  		if (*padding & (1 << count))
-> > >  		
-> > >  			break;
-> > > 
-> > > --
-> > > 2.36.1
-> 
-> 
+--MKJ5QjdZMmoZffjB--
