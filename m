@@ -1,21 +1,21 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 929EF4681
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 15:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD69F4681
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:21:54 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A76E15A1;
-	Wed, 13 Jul 2022 08:59:03 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64E7A15A1;
+	Wed, 13 Jul 2022 09:21:54 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2C5F03F792;
-	Wed, 13 Jul 2022 08:59:02 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 170D23F792;
+	Wed, 13 Jul 2022 09:21:52 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
-To: Tom Rini <trini@konsulko.com>,
-	Simon Glass <sjg@chromium.org>
+To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] sunxi: configs: streamline include/configs/sun*.h wrappers
-Date: Wed, 13 Jul 2022 16:58:57 +0100
-Message-Id: <20220713155857.83170-1-andre.przywara@arm.com>
+Subject: [PATCH 0/3] sunxi: remove CONFIG_MMC?_CD_PIN
+Date: Wed, 13 Jul 2022 17:21:42 +0100
+Message-Id: <20220713162145.95744-1-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -25,242 +25,107 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For mostly historic reasons we had configuration headers for each
-Allwinner CPU "family". These days they are mostly just including one
-common header, with the rest being somewhat empty.
-There were attempts to remove them, and to just use the one common header
-to begin with, but this has implications to the build system, which me
-might not be ready for, yet.
+Since the dawn of time we had CONFIG_MMC?_CD_PIN defines for each
+Allwinner board, which held the name for the respective MMC card
+detect GPIO. These days we don't use that in U-Boot proper anymore
+(and rely on DT for that, instead), so it's just for the SPL loading.
+However the card detect is actually not needed there:
+- We continue loading from the same boot media that the BootROM booted
+  us from, so when we get to load from MMC, there is surely a card in
+  the slot.
+- The BROM already spoiled all efforts by unconditionally accessing the
+  MMC bus, regardless of any card presence or not. We can't do more harm
+  by doing the same.
 
-To document this behaviour, and to avoid something sneaking in over
-time, make those files all the same (minus the CPU family name and
-the copyrights), and add a comment explaining that.
-This makes it easier to just remove those files later on, when needed
-and possible.
+This series removes the code checking the CD pin, and also the definition
+from Kconfig and all defconfigs. On top there is a cleanup for the MMC
+driver, which explains the reason for still also implementing the legacy
+MMC interface.
 
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
-Hi Tom,
+Please have a look and test!
 
-this is mostly to just confirm and document what we already established
-earlier: that those files are redundant, and are just needed to match
-CONFIG_SYS_CONFIG_NAME. In case we don't need or want that anymore, we
-can just remove them, without needing to think too hard about it.
-
-Cheers,
+Thanks,
 Andre
 
- include/configs/sun4i.h  | 10 ++--------
- include/configs/sun50i.h | 19 ++-----------------
- include/configs/sun5i.h  | 10 ++--------
- include/configs/sun6i.h  |  7 ++-----
- include/configs/sun7i.h  |  6 ++----
- include/configs/sun8i.h  | 13 ++-----------
- include/configs/sun9i.h  | 11 ++---------
- include/configs/suniv.h  |  7 ++-----
- 8 files changed, 16 insertions(+), 67 deletions(-)
+Andre Przywara (3):
+  sunxi: mmc: ignore card detect in SPL
+  sunxi: mmc: group non-DM specific functions
+  sunxi: remove CONFIG_MMC?_CD_PIN
 
-diff --git a/include/configs/sun4i.h b/include/configs/sun4i.h
-index 0e1baa91bb..70d451f224 100644
---- a/include/configs/sun4i.h
-+++ b/include/configs/sun4i.h
-@@ -2,18 +2,12 @@
- /*
-  * (C) Copyright 2012-2013 Henrik Nordstrom <henrik@henriknordstrom.net>
-  *
-- * Configuration settings for the Allwinner A10 (sun4i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A10 (sun4i) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * A10 specific configuration
-- */
--
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun50i.h b/include/configs/sun50i.h
-index bc2e3a3d00..dfcb321d42 100644
---- a/include/configs/sun50i.h
-+++ b/include/configs/sun50i.h
-@@ -1,26 +1,11 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * Configuration settings for the Allwinner A64 (sun50i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A64 (and later) sun50i
-+ * CPU based devices separately. Please do not add anything in here.
-  */
--
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * A64 specific configuration
-- */
--
--#ifndef CONFIG_SUN50I_GEN_H6
--#define GICD_BASE		0x1c81000
--#define GICC_BASE		0x1c82000
--#else
--#define GICD_BASE		0x3021000
--#define GICC_BASE		0x3022000
--#endif
--
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun5i.h b/include/configs/sun5i.h
-index ada18de753..3017307854 100644
---- a/include/configs/sun5i.h
-+++ b/include/configs/sun5i.h
-@@ -2,18 +2,12 @@
- /*
-  * (C) Copyright 2012-2013 Henrik Nordstrom <henrik@henriknordstrom.net>
-  *
-- * Configuration settings for the Allwinner A13 (sun5i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A13 (sun5i) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * High Level Configuration Options
-- */
--
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun6i.h b/include/configs/sun6i.h
-index 0b1fedda10..cbe04ac3c2 100644
---- a/include/configs/sun6i.h
-+++ b/include/configs/sun6i.h
-@@ -4,15 +4,12 @@
-  * (C) Copyright 2013 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
-  * (C) Copyright 2013 Maxime Ripard <maxime.ripard@free-electrons.com>
-  *
-- * Configuration settings for the Allwinner A31 (sun6i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A31 (sun6i) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
--
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun7i.h b/include/configs/sun7i.h
-index bc2779fa26..ad24ab98b5 100644
---- a/include/configs/sun7i.h
-+++ b/include/configs/sun7i.h
-@@ -3,14 +3,12 @@
-  * (C) Copyright 2012-2013 Henrik Nordstrom <henrik@henriknordstrom.net>
-  * (C) Copyright 2013 Luke Kenneth Casson Leighton <lkcl@lkcl.net>
-  *
-- * Configuration settings for the Allwinner A20 (sun7i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A20 (sun7i) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun8i.h b/include/configs/sun8i.h
-index 106139d090..b6cd8d39a8 100644
---- a/include/configs/sun8i.h
-+++ b/include/configs/sun8i.h
-@@ -2,21 +2,12 @@
- /*
-  * (C) Copyright 2014 Chen-Yu Tsai <wens@csie.org>
-  *
-- * Configuration settings for the Allwinner A23 (sun8i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A23 (and later) sun8i
-+ * CPU based devices separately. Please do not add anything in here.
-  */
--
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * A23 specific configuration
-- */
--
--#include <asm/arch/cpu.h>
--
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/sun9i.h b/include/configs/sun9i.h
-index 6ee08cf0d9..6bf5fc3f66 100644
---- a/include/configs/sun9i.h
-+++ b/include/configs/sun9i.h
-@@ -2,19 +2,12 @@
- /*
-  * (C) Copyright 2015 Hans de Goede <hdegoede@redhat.com>
-  *
-- * Configuration settings for the Allwinner A80 (sun9i) CPU
-+ * Placeholder wrapper to allow addressing Allwinner A80 (sun9i) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
--
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * A80 specific configuration
-- */
--
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
-diff --git a/include/configs/suniv.h b/include/configs/suniv.h
-index 6118cd5e1a..9cc1a77f6c 100644
---- a/include/configs/suniv.h
-+++ b/include/configs/suniv.h
-@@ -1,14 +1,11 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * Configuration settings for new Allwinner F-series (suniv) CPU
-+ * Placeholder wrapper to allow addressing Allwinner F-series (suniv) CPU
-+ * based devices separately. Please do not add anything in here.
-  */
--
- #ifndef __CONFIG_H
- #define __CONFIG_H
- 
--/*
-- * Include common sunxi configuration where most the settings are
-- */
- #include <configs/sunxi-common.h>
- 
- #endif /* __CONFIG_H */
+ arch/arm/mach-sunxi/Kconfig                  |  27 ----
+ configs/A10-OLinuXino-Lime_defconfig         |   1 -
+ configs/A10s-OLinuXino-M_defconfig           |   2 -
+ configs/A13-OLinuXinoM_defconfig             |   1 -
+ configs/A13-OLinuXino_defconfig              |   1 -
+ configs/A20-OLinuXino-Lime2-eMMC_defconfig   |   1 -
+ configs/A20-OLinuXino-Lime2_defconfig        |   1 -
+ configs/A20-OLinuXino-Lime_defconfig         |   1 -
+ configs/A20-OLinuXino_MICRO-eMMC_defconfig   |   1 -
+ configs/A20-OLinuXino_MICRO_defconfig        |   2 -
+ configs/A20-Olimex-SOM-EVB_defconfig         |   2 -
+ configs/A20-Olimex-SOM204-EVB-eMMC_defconfig |   1 -
+ configs/A20-Olimex-SOM204-EVB_defconfig      |   1 -
+ configs/A33-OLinuXino_defconfig              |   1 -
+ configs/Ainol_AW1_defconfig                  |   1 -
+ configs/Ampe_A76_defconfig                   |   1 -
+ configs/Bananapi_M2_Ultra_defconfig          |   1 -
+ configs/Bananapi_m2m_defconfig               |   1 -
+ configs/Cubieboard2_defconfig                |   1 -
+ configs/Cubieboard4_defconfig                |   1 -
+ configs/Cubieboard_defconfig                 |   1 -
+ configs/Cubietruck_defconfig                 |   1 -
+ configs/Empire_electronix_d709_defconfig     |   1 -
+ configs/Empire_electronix_m712_defconfig     |   1 -
+ configs/Itead_Ibox_A20_defconfig             |   1 -
+ configs/Lamobo_R1_defconfig                  |   1 -
+ configs/Mele_M3_defconfig                    |   1 -
+ configs/Mele_M5_defconfig                    |   1 -
+ configs/Merrii_A80_Optimus_defconfig         |   1 -
+ configs/Orangepi_mini_defconfig              |   2 -
+ configs/Sinlinx_SinA31s_defconfig            |   1 -
+ configs/Sinlinx_SinA33_defconfig             |   1 -
+ configs/Sunchip_CX-A99_defconfig             |   1 -
+ configs/UTOO_P66_defconfig                   |   1 -
+ configs/Wobo_i5_defconfig                    |   1 -
+ configs/Yones_Toptech_BD1078_defconfig       |   2 -
+ configs/Yones_Toptech_BS1078_V2_defconfig    |   1 -
+ configs/bananapi_m2_berry_defconfig          |   1 -
+ configs/bananapi_m2_zero_defconfig           |   1 -
+ configs/bananapi_m64_defconfig               |   1 -
+ configs/beelink_gs1_defconfig                |   1 -
+ configs/colorfly_e708_q1_defconfig           |   1 -
+ configs/difrnce_dit4350_defconfig            |   1 -
+ configs/dserve_dsrv9703c_defconfig           |   1 -
+ configs/gt90h_v4_defconfig                   |   1 -
+ configs/iNet_3F_defconfig                    |   1 -
+ configs/iNet_3W_defconfig                    |   1 -
+ configs/iNet_D978_rev2_defconfig             |   1 -
+ configs/icnova-a20-swac_defconfig            |   1 -
+ configs/inet86dz_defconfig                   |   1 -
+ configs/inet98v_rev2_defconfig               |   1 -
+ configs/inet_q972_defconfig                  |   1 -
+ configs/nanopi_m1_plus_defconfig             |   1 -
+ configs/oceanic_5205_5inmfd_defconfig        |   1 -
+ configs/orangepi_3_defconfig                 |   1 -
+ configs/orangepi_lite2_defconfig             |   1 -
+ configs/orangepi_one_plus_defconfig          |   1 -
+ configs/orangepi_zero2_defconfig             |   1 -
+ configs/orangepi_zero_plus2_defconfig        |   1 -
+ configs/orangepi_zero_plus2_h3_defconfig     |   1 -
+ configs/parrot_r16_defconfig                 |   1 -
+ configs/pine64-lts_defconfig                 |   1 -
+ configs/pine_h64_defconfig                   |   1 -
+ configs/polaroid_mid2407pxe03_defconfig      |   1 -
+ configs/polaroid_mid2809pxe04_defconfig      |   1 -
+ configs/q8_a13_tablet_defconfig              |   1 -
+ configs/q8_a23_tablet_800x480_defconfig      |   1 -
+ configs/q8_a33_tablet_1024x600_defconfig     |   1 -
+ configs/q8_a33_tablet_800x480_defconfig      |   1 -
+ configs/sopine_baseboard_defconfig           |   1 -
+ configs/tanix_tx6_defconfig                  |   1 -
+ drivers/mmc/sunxi_mmc.c                      | 152 ++++++++-----------
+ 72 files changed, 62 insertions(+), 192 deletions(-)
+
 -- 
 2.25.1
 
