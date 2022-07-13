@@ -1,130 +1,42 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BEC515AA
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 03:01:18 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 85DDB5C00BE;
-	Tue, 12 Jul 2022 23:01:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 12 Jul 2022 23:01:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm1; t=1657681277; x=
-	1657767677; bh=IX/xuPhA1GhYJNalCXe7PUV3ahJKE0iqzjYmdUN5By4=; b=N
-	GCyoWzlVHaJXrmPU9AnDWIoqY+jhJ8uau0h1esA/9qOQykTiMax3YLh84vfKuTJX
-	4J6u58Q3BAO/CqNVDIinNyw/00jPP2FWVSK/56DQNpd2igEAxjrYcpI+HH13Xgck
-	2RsxAG3ipaMc7letBqqLzY9rcCzt7zAYdLIY2iSRsdE+Iq0XgM330n6mG4ejoAbW
-	O56QstjQjN8vZcBWHDBD+fAAVn7e0NbRZOnwaA+GHKZtrCpb9w9CVpH6EfXClh53
-	m33Rd1H6xfnQS2DdVJ2eBoeF5hJRP3VdPM5cx0tGOK6CUPoiocXNcfJeuxNso4P6
-	Yxtp/vAyDe26gTFWgRNmQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1657681277; x=
-	1657767677; bh=IX/xuPhA1GhYJNalCXe7PUV3ahJKE0iqzjYmdUN5By4=; b=G
-	rPmlsUXGYBy9hmyDoQ1f8oHg4igM/LsPLgVGqxHWrQ2szWCrzuV0Vken95P8Qa9j
-	0JoqD1WBmTiUQyfhPRfzki1Kk4cXjazvdhRZvkMW0KYBRjkcJ5QyAKkgVo+WAYLY
-	go672uzD1x8ZVBIgPwakUykwo/njOTbcVWCl4A/NUsBai7Nj3vXjFSAxZkpYtiTu
-	HixmiLuIbXWadLyFWOzY4e78qaVdDWGFIuqlj5o3Mqvknfjjv2X31M/ytoLs0dOJ
-	FrIsY0v9sVbAm1KpIGoc5zWvS9CfXwzVCwDvehd3V9u5UPEpSv/Xt9AYqxoLFgXl
-	KENaLybUnl02JkgjGhLBQ==
-X-ME-Sender: <xms:fDXOYkYXDRQD7C1LwnBN1AukH04EbTw-WKhshNQfgdqo05Pe6SvhJA>
-    <xme:fDXOYvbo-byWPZOqLJjYpIuh6bX9l_jbKIdXqLuJFgIdB55BGP9J-MhT9CmQmKF26
-    HaEQFbYW3K60ezIfg>
-X-ME-Received: <xmr:fDXOYu-M3QtRomq3GSGGel6HLSBeSjh6GxsZmAknrR3HvLorfbl_DtpKwhk2WpEDUWoovh_jD8AJ2VPKg3AZXV8GlOiZ60aNRRobM7kmR3g6jGXC0I7Qi4-kQg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrudejiedgieekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:fDXOYuonK41IB2Ls64O4tJrBgH8ggEroI9wsHaKbnQkz-ZM11XXH9Q>
-    <xmx:fDXOYvr-N9VQbL6UWkbTPiP4OXj6zTc7VrQj3ZvlBJilf2F1EZC1MA>
-    <xmx:fDXOYsTISnM7Ildottj7UuSuatLupxiDbIzqrp0luin0YWDeNR7AaA>
-    <xmx:fTXOYi0XYiEYa2S4-mOFb9DO57VlJRjYwF_o3QwcMvgMyah6r1sNjA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 12 Jul 2022 23:01:16 -0400 (EDT)
-Subject: Re: [PATCH 2/2] dt-bindings: arm: sunxi: Add several MBUS compatibles
-To: Chanwoo Choi <cwchoi00@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Chanwoo Choi <cw00.choi@samsung.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220702042447.26734-1-samuel@sholland.org>
- <20220702042447.26734-2-samuel@sholland.org>
- <59e565e3-8930-9010-7642-2b13607cba61@gmail.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <3a57d278-295a-313e-ed22-7cc482e9921f@sholland.org>
-Date: Tue, 12 Jul 2022 22:01:15 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+Received: from m12-11.163.com (m12-11.163.com [220.181.12.11])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C9A817C3
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 06:12:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:From:Subject; bh=V4t/O
+	h1+hQMbZs6iI9Yth+rG2IGfjh56KMwlmHHC5o4=; b=OS7c7XJczGzmGsyfcbi1W
+	M+NSNC+p46aiA6LmkAI/D3TpcgRgEMQB6rV4cZ3Fb39ET1mc7JvG7WDxwXh9vLLb
+	17Hxq1XHOJb151oZgzAWa+gjkT76DGi9PQsgg3Nuwu/kxUlYw8lkFouCZ9Mvrrx1
+	jVn6vYrXj8iqvw8tg39OjQ=
+Received: from [192.168.3.100] (unknown [218.201.129.20])
+	by smtp7 (Coremail) with SMTP id C8CowADnOmKqXs5iVM_eNA--.32623S2;
+	Wed, 13 Jul 2022 13:56:58 +0800 (CST)
+Message-ID: <0a56c830-9fde-25fd-c087-739da4b68c48@163.com>
+Date: Wed, 13 Jul 2022 13:56:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <59e565e3-8930-9010-7642-2b13607cba61@gmail.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+To: linux-sunxi@lists.linux.dev
 Content-Language: en-US
+From: qianfan <qianfanguijin@163.com>
+Subject: ext4load: Watchdog support
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:C8CowADnOmKqXs5iVM_eNA--.32623S2
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxUYsqWDUUUU
+X-Originating-IP: [218.201.129.20]
+X-CM-SenderInfo: htld0w5dqj3xxmlqqiywtou0bp/1tbiXQo97VWBoZ8IxwAAsi
 
-On 7/7/22 3:06 PM, Chanwoo Choi wrote:
-> Hi Samuel,
-> 
-> On 22. 7. 2. 13:24, Samuel Holland wrote:
->> All of the sunxi SoCs since at least the A33 have a similar structure
->> for the MBUS and DRAM controller, but they all have minor differences in
->> MBUS port assignments and DRAM controller behavior. Give each SoC its
->> own compatible.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->>
->>  .../bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml   | 10 ++++++++++
->>  1 file changed, 10 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
->> index 2b018feb56df..99566688d033 100644
->> --- a/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
->> +++ b/Documentation/devicetree/bindings/arm/sunxi/allwinner,sun4i-a10-mbus.yaml
->> @@ -29,10 +29,20 @@ properties:
->>    compatible:
->>      enum:
->>        - allwinner,sun5i-a13-mbus
->> +      - allwinner,sun8i-a33-mbus
->> +      - allwinner,sun8i-a50-mbus
->> +      - allwinner,sun8i-a83t-mbus
->>        - allwinner,sun8i-h3-mbus
->>        - allwinner,sun8i-r40-mbus
->> +      - allwinner,sun8i-v3s-mbus
->> +      - allwinner,sun8i-v536-mbus
->> +      - allwinner,sun20i-d1-mbus
->>        - allwinner,sun50i-a64-mbus
->> +      - allwinner,sun50i-a100-mbus
->>        - allwinner,sun50i-h5-mbus
->> +      - allwinner,sun50i-h6-mbus
->> +      - allwinner,sun50i-h616-mbus
->> +      - allwinner,sun50i-r329-mbus
->>  
->>    reg:
->>      minItems: 1
-> 
-> I have a question. 
-> Are there the device drivers for the newly added compatible?
+Hi:
 
-There are not DVFS drivers yet. However, the nodes are needed for their
-dma-ranges property, which affects some other devices that do have drivers. And
-at least for D1, the MBUS node is used for U-Boot's DRAM driver.
+the watchdog will timedout when 'ext4load' reading a large file, the 
+dirver of ext4
+doesn't touch watchdog. Anyone who are fixing this?
 
-Regards,
-Samuel
+Thanks
+
