@@ -1,21 +1,21 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A86FD46B2
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC61046B3
+	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 16:21:56 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7A7DF1C01;
-	Wed, 13 Jul 2022 09:21:55 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 911381C0A;
+	Wed, 13 Jul 2022 09:21:56 -0700 (PDT)
 Received: from donnerap.arm.com (donnerap.cambridge.arm.com [10.1.197.42])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2DF0C3F792;
-	Wed, 13 Jul 2022 09:21:54 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 44AF63F792;
+	Wed, 13 Jul 2022 09:21:55 -0700 (PDT)
 From: Andre Przywara <andre.przywara@arm.com>
 To: Jagan Teki <jagan@amarulasolutions.com>
 Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	u-boot@lists.denx.de,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/3] sunxi: mmc: ignore card detect in SPL
-Date: Wed, 13 Jul 2022 17:21:43 +0100
-Message-Id: <20220713162145.95744-2-andre.przywara@arm.com>
+Subject: [PATCH 2/3] sunxi: mmc: group non-DM specific functions
+Date: Wed, 13 Jul 2022 17:21:44 +0100
+Message-Id: <20220713162145.95744-3-andre.przywara@arm.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220713162145.95744-1-andre.przywara@arm.com>
 References: <20220713162145.95744-1-andre.przywara@arm.com>
@@ -27,95 +27,180 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sunxi MMC code does not use the DM in the SPL, as we don't have a
-device tree available that early, also no space for it.
-This also means we cannot access the card-detect GPIO information from
-there, so we have Kconfig symbols called CONFIG_MMCx_CD_PIN, which each
-board has to define. This is a burden, also requires extra GPIO code in
-the SPL.
-As the SPL is the natural successor of the BootROM (from which we are
-loaded), we can actually ignore the CD pin completely, as this is what
-the BootROM does as well: CD GPIOs are board specific, but the BootROM
-is not, so accesses the MMC devices anyway.
+As the SPL code for sunxi boards does not use the driver model, we have
+two mmc_ops structures, one for DM, one for non-DM. The actual hardware
+access code is shared, with the respective callback functions using that
+common code.
 
-Remove the card detect code from the non-DM implementation of the sunxi
-MMC driver, to get rid of this unneeded code.
+To make this more obvious and easier to read, reorder the functions to
+group them: we first have the common code, then the non-DM bits, and
+the proper DM implementation at the end.
+Also document this structure in the comment at the beginning of the file.
+
+No functional change intended.
 
 Signed-off-by: Andre Przywara <andre.przywara@arm.com>
 ---
- drivers/mmc/sunxi_mmc.c | 37 ++-----------------------------------
- 1 file changed, 2 insertions(+), 35 deletions(-)
+ drivers/mmc/sunxi_mmc.c | 117 +++++++++++++++++++++-------------------
+ 1 file changed, 61 insertions(+), 56 deletions(-)
 
 diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index 1bb7b6d0e9..b2f7e2d142 100644
+index b2f7e2d142..ad0fb4ad08 100644
 --- a/drivers/mmc/sunxi_mmc.c
 +++ b/drivers/mmc/sunxi_mmc.c
-@@ -44,22 +44,10 @@ struct sunxi_mmc_priv {
- /* support 4 mmc hosts */
- struct sunxi_mmc_priv mmc_host[4];
+@@ -5,6 +5,12 @@
+  * Aaron <leafy.myeh@allwinnertech.com>
+  *
+  * MMC driver for allwinner sunxi platform.
++ *
++ * This driver is used by the (ARM) SPL with the legacy MMC interface, and
++ * by U-Boot proper using the full DM interface. The actual hardware access
++ * code is common, and comes first in this file.
++ * The legacy MMC interface implementation comes next, followed by the
++ * proper DM_MMC implementation at the end.
+  */
  
--static int sunxi_mmc_getcd_gpio(int sdc_no)
--{
--	switch (sdc_no) {
--	case 0: return sunxi_name_to_gpio(CONFIG_MMC0_CD_PIN);
--	case 1: return sunxi_name_to_gpio(CONFIG_MMC1_CD_PIN);
--	case 2: return sunxi_name_to_gpio(CONFIG_MMC2_CD_PIN);
--	case 3: return sunxi_name_to_gpio(CONFIG_MMC3_CD_PIN);
--	}
--	return -EINVAL;
--}
--
- static int mmc_resource_init(int sdc_no)
- {
- 	struct sunxi_mmc_priv *priv = &mmc_host[sdc_no];
- 	struct sunxi_ccm_reg *ccm = (struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
--	int cd_pin, ret = 0;
- 
- 	debug("init mmc %d resource\n", sdc_no);
- 
-@@ -90,16 +78,7 @@ static int mmc_resource_init(int sdc_no)
- 	}
- 	priv->mmc_no = sdc_no;
- 
--	cd_pin = sunxi_mmc_getcd_gpio(sdc_no);
--	if (cd_pin >= 0) {
--		ret = gpio_request(cd_pin, "mmc_cd");
--		if (!ret) {
--			sunxi_gpio_set_pull(cd_pin, SUNXI_GPIO_PULL_UP);
--			ret = gpio_direction_input(cd_pin);
--		}
--	}
--
--	return ret;
-+	return 0;
- }
- #endif
- 
-@@ -523,23 +502,11 @@ static int sunxi_mmc_send_cmd_legacy(struct mmc *mmc, struct mmc_cmd *cmd,
- 	return sunxi_mmc_send_cmd_common(priv, mmc, cmd, data);
- }
- 
--static int sunxi_mmc_getcd_legacy(struct mmc *mmc)
--{
--	struct sunxi_mmc_priv *priv = mmc->priv;
--	int cd_pin;
--
--	cd_pin = sunxi_mmc_getcd_gpio(priv->mmc_no);
--	if (cd_pin < 0)
--		return 1;
--
--	return !gpio_get_value(cd_pin);
--}
--
-+/* .get_cd is not needed by the SPL */
- static const struct mmc_ops sunxi_mmc_ops = {
- 	.send_cmd	= sunxi_mmc_send_cmd_legacy,
- 	.set_ios	= sunxi_mmc_set_ios_legacy,
- 	.init		= sunxi_mmc_core_init,
--	.getcd		= sunxi_mmc_getcd_legacy,
+ #include <common.h>
+@@ -40,48 +46,6 @@ struct sunxi_mmc_priv {
+ 	struct mmc_config cfg;
  };
  
- struct mmc *sunxi_mmc_init(int sdc_no)
+-#if !CONFIG_IS_ENABLED(DM_MMC)
+-/* support 4 mmc hosts */
+-struct sunxi_mmc_priv mmc_host[4];
+-
+-static int mmc_resource_init(int sdc_no)
+-{
+-	struct sunxi_mmc_priv *priv = &mmc_host[sdc_no];
+-	struct sunxi_ccm_reg *ccm = (struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
+-
+-	debug("init mmc %d resource\n", sdc_no);
+-
+-	switch (sdc_no) {
+-	case 0:
+-		priv->reg = (struct sunxi_mmc *)SUNXI_MMC0_BASE;
+-		priv->mclkreg = &ccm->sd0_clk_cfg;
+-		break;
+-	case 1:
+-		priv->reg = (struct sunxi_mmc *)SUNXI_MMC1_BASE;
+-		priv->mclkreg = &ccm->sd1_clk_cfg;
+-		break;
+-#ifdef SUNXI_MMC2_BASE
+-	case 2:
+-		priv->reg = (struct sunxi_mmc *)SUNXI_MMC2_BASE;
+-		priv->mclkreg = &ccm->sd2_clk_cfg;
+-		break;
+-#endif
+-#ifdef SUNXI_MMC3_BASE
+-	case 3:
+-		priv->reg = (struct sunxi_mmc *)SUNXI_MMC3_BASE;
+-		priv->mclkreg = &ccm->sd3_clk_cfg;
+-		break;
+-#endif
+-	default:
+-		printf("Wrong mmc number %d\n", sdc_no);
+-		return -1;
+-	}
+-	priv->mmc_no = sdc_no;
+-
+-	return 0;
+-}
+-#endif
+-
+ /*
+  * All A64 and later MMC controllers feature auto-calibration. This would
+  * normally be detected via the compatible string, but we need something
+@@ -269,19 +233,6 @@ static int sunxi_mmc_set_ios_common(struct sunxi_mmc_priv *priv,
+ 	return 0;
+ }
+ 
+-#if !CONFIG_IS_ENABLED(DM_MMC)
+-static int sunxi_mmc_core_init(struct mmc *mmc)
+-{
+-	struct sunxi_mmc_priv *priv = mmc->priv;
+-
+-	/* Reset controller */
+-	writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
+-	udelay(1000);
+-
+-	return 0;
+-}
+-#endif
+-
+ static int mmc_trans_data_by_cpu(struct sunxi_mmc_priv *priv, struct mmc *mmc,
+ 				 struct mmc_data *data)
+ {
+@@ -486,7 +437,60 @@ out:
+ 	return error;
+ }
+ 
++/* non-DM code here is used by the (ARM) SPL only */
++
+ #if !CONFIG_IS_ENABLED(DM_MMC)
++/* support 4 mmc hosts */
++struct sunxi_mmc_priv mmc_host[4];
++
++static int mmc_resource_init(int sdc_no)
++{
++	struct sunxi_mmc_priv *priv = &mmc_host[sdc_no];
++	struct sunxi_ccm_reg *ccm = (struct sunxi_ccm_reg *)SUNXI_CCM_BASE;
++
++	debug("init mmc %d resource\n", sdc_no);
++
++	switch (sdc_no) {
++	case 0:
++		priv->reg = (struct sunxi_mmc *)SUNXI_MMC0_BASE;
++		priv->mclkreg = &ccm->sd0_clk_cfg;
++		break;
++	case 1:
++		priv->reg = (struct sunxi_mmc *)SUNXI_MMC1_BASE;
++		priv->mclkreg = &ccm->sd1_clk_cfg;
++		break;
++#ifdef SUNXI_MMC2_BASE
++	case 2:
++		priv->reg = (struct sunxi_mmc *)SUNXI_MMC2_BASE;
++		priv->mclkreg = &ccm->sd2_clk_cfg;
++		break;
++#endif
++#ifdef SUNXI_MMC3_BASE
++	case 3:
++		priv->reg = (struct sunxi_mmc *)SUNXI_MMC3_BASE;
++		priv->mclkreg = &ccm->sd3_clk_cfg;
++		break;
++#endif
++	default:
++		printf("Wrong mmc number %d\n", sdc_no);
++		return -1;
++	}
++	priv->mmc_no = sdc_no;
++
++	return 0;
++}
++
++static int sunxi_mmc_core_init(struct mmc *mmc)
++{
++	struct sunxi_mmc_priv *priv = mmc->priv;
++
++	/* Reset controller */
++	writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
++	udelay(1000);
++
++	return 0;
++}
++
+ static int sunxi_mmc_set_ios_legacy(struct mmc *mmc)
+ {
+ 	struct sunxi_mmc_priv *priv = mmc->priv;
+@@ -562,7 +566,8 @@ struct mmc *sunxi_mmc_init(int sdc_no)
+ 
+ 	return mmc_create(cfg, priv);
+ }
+-#else
++
++#else /* CONFIG_DM_MMC code below, as used by U-Boot proper */
+ 
+ static int sunxi_mmc_set_ios(struct udevice *dev)
+ {
 -- 
 2.25.1
 
