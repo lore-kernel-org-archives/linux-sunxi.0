@@ -1,113 +1,61 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B85C4A00
-	for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 18:17:21 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id o1so381042qkg.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 13 Jul 2022 11:17:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BhBxxXErolDDeAjaKYVNvGKhlVWMLhLrt4LAU1AjUHE=;
-        b=l2V2yX0badbJ6OWKiDoneTV4ppIybTqV7NU7bwSWxJhY9EWTX6s++/LaC0JL8eZSo5
-         x9+2mJnr/yFGf3lKSAM3VQdHDNF9A4yemj0KF12yXtD0xQLdmfNzqfcqNE38ejx60CkZ
-         LeDwfsL7IIXchq/4ykwy2nql1hwY8tyOELPEg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BhBxxXErolDDeAjaKYVNvGKhlVWMLhLrt4LAU1AjUHE=;
-        b=WChjyWEbWBXw5xzp7/E858dnQbx7GwHh1BZyHBk3KBGeoLHmslSImKxLBGYdfYcFhY
-         dkaadJesrMvc8ZcZbZ7Cia6Z35M9MLvq+KbMAn1rc04XR7X/4ZkwLLpEklTn0gXyEl0N
-         8+GIntA3uGY7B1lU3yJ31hUso7xFBzFtxNAjkSePRpPWxu+ZNX8lR/LlhskNOVmbhepO
-         QVfhFN3VguVf/6351fF5Gixm3J5kySnOBF+inK5hILiW5NHUAaQyQON6f3SV09mct/Oh
-         PL1/yFw0AogvYV7dKWyhpg4nkIlgBTLm/BPaU/gpituxDw75rpbE9lw+vyZwpwDDegi8
-         st6A==
-X-Gm-Message-State: AJIora/F1rdUH60ciPjR/zCoCMb1x/ufkyleLEgjJ4SpsnVX3yfoab5t
-	p7It44qe8HmM+CniKBXpV+0cPQ==
-X-Google-Smtp-Source: AGRyM1uGNPwQY3bRMYRYylX5ofnn1QPnq/JzKllJLLnmp10je7EhUNwlR7Q8r2VFeSU3TK3jdhRYow==
-X-Received: by 2002:a05:620a:1a0e:b0:6b5:a277:f9b3 with SMTP id bk14-20020a05620a1a0e00b006b5a277f9b3mr3339852qkb.145.1657736240420;
-        Wed, 13 Jul 2022 11:17:20 -0700 (PDT)
-Received: from bill-the-cat (cpe-65-184-195-139.ec.res.rr.com. [65.184.195.139])
-        by smtp.gmail.com with ESMTPSA id l20-20020a05622a175400b00304fa21762csm7341787qtk.53.2022.07.13.11.17.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Jul 2022 11:17:19 -0700 (PDT)
-Date: Wed, 13 Jul 2022 14:17:17 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Simon Glass <sjg@chromium.org>, Samuel Holland <samuel@sholland.org>,
-	u-boot@lists.denx.de, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] sunxi: configs: streamline include/configs/sun*.h
- wrappers
-Message-ID: <20220713181717.GP1146598@bill-the-cat>
-References: <20220713155857.83170-1-andre.przywara@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBC64A38
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 15:31:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D5A8C34114;
+	Thu, 14 Jul 2022 15:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657812696;
+	bh=VOQW/199CRMbWh98PrMCjV6bygr6rVY+vcM2T9vyCcE=;
+	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QAWNW5Vgbb53kcijWZ+O29sCVwLF5vO1Mfq0iZRvBqUvBJunyxLURHpabmYRfnDPu
+	 zvYpiZMlkIkNbBxJhLYlUc37Wx4xCE/xMfwyF0xN+v4IOTAr1C/GmumdzxCstSt0MH
+	 VK82FWgyYsdE7kWLOGKU0o8BSvh9tLvFH2gtp5dviIoyqFDnnqI71dLucuDS2zZPY9
+	 cAiDU+h9EiD6qJchnQGZ4GiGhkphhlZqiuPlkG+Eb5FPkyEEfZzP6566KUvXtUbesA
+	 Xa4e+t40r+6eCoy4WeF4JP9YKE5GMDGDV03leujXsqvhsccvVug1J5DU0QgInZX4Fd
+	 MXqOxxcpStqEg==
+From: Arnd Bergmann <arnd@kernel.org>
+List-Id: <soc.lore.kernel.org>
+To: arm@kernel.org,
+	soc@kernel.org,
+	Jernej Skrabec <jernej@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	linux-arm-kernel@lists.infradead.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [GIT PULL] Allwinner config64 changes for 5.20
+Date: Thu, 14 Jul 2022 17:31:23 +0200
+Message-Id: <165781258677.3193274.3635616027978236662.b4-ty@arndb.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <YsheC0hgyJB9kPsS@kista.localdomain>
+References: <YsheC0hgyJB9kPsS@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="MKJ5QjdZMmoZffjB"
-Content-Disposition: inline
-In-Reply-To: <20220713155857.83170-1-andre.przywara@arm.com>
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
+From: Arnd Bergmann <arnd@arndb.de>
 
---MKJ5QjdZMmoZffjB
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 8 Jul 2022 18:40:43 +0200, Jernej Skrabec wrote:
+> Please pull following config64 changes for 5.20.
+> 
+> Best regards,
+> Jernej
+> 
+> The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a56:
+> 
+>   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+> 
+> [...]
 
-On Wed, Jul 13, 2022 at 04:58:57PM +0100, Andre Przywara wrote:
-> For mostly historic reasons we had configuration headers for each
-> Allwinner CPU "family". These days they are mostly just including one
-> common header, with the rest being somewhat empty.
-> There were attempts to remove them, and to just use the one common header
-> to begin with, but this has implications to the build system, which me
-> might not be ready for, yet.
->=20
-> To document this behaviour, and to avoid something sneaking in over
-> time, make those files all the same (minus the CPU family name and
-> the copyrights), and add a comment explaining that.
-> This makes it easier to just remove those files later on, when needed
-> and possible.
->=20
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
->
-> ---
-> Hi Tom,
->=20
-> this is mostly to just confirm and document what we already established
-> earlier: that those files are redundant, and are just needed to match
-> CONFIG_SYS_CONFIG_NAME. In case we don't need or want that anymore, we
-> can just remove them, without needing to think too hard about it.
+Merged into arm/defconfig, thanks!
 
-Right, we need this for CONFIG_SYS_CONFIG_NAME and in turn being able to
-break up the build for Azure, and manual build testing still.
+merge commit: 2b4b612638b8e87719f82ab7a9cda8925375eef6
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
---=20
-Tom
-
---MKJ5QjdZMmoZffjB
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmLPDC0ACgkQFHw5/5Y0
-tyzJjQv/T8I0TDits8CCxMLw2XPmcSZxvOQ9dgROClDMS8FNhPkfVXcOJ4KAW/VG
-J9YavfFYrS4WIjbEZZZ7MFBhUhcl69ByGrGZLVP/zkAxmlP/Lyy3/DievESG15a7
-54wUecO55zz9JWJmWKyg6WpXbEaQTFQD5KoHDBgerGkfAQfEX/fu0KX5nghzNPiA
-uHViG65xAt4kzumwE66RmHIxwmsoC2JlagzTJVJc/PlAtbVqTIvXKFRso69oflmB
-n7gWDNrYQYzGofdcZmvjnBcZgMWKdcClhpI2GpRS7Ha6HQaf7ya6KqmMybtrf3gI
-B3WOysHsMQ0myDMaSuCnWHNKDsTq50GdBhsAkpdHSK1H/6LUGMiVTsK0oPO7Rw+F
-UpCwjytFZdYqxSm564CuiRegypu1Ta06499v3/UQioSiInm6o4uM876oQWROu9u5
-6aaWMWYK9uH5UYw96mv6R45ExjT2zNUOzplHigLATqTnSMpkw3xYpu1pEwLTE4vJ
-XtQitGC4
-=WF+F
------END PGP SIGNATURE-----
-
---MKJ5QjdZMmoZffjB--
+       Arnd
