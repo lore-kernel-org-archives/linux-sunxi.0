@@ -1,85 +1,77 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BDD4A38
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 15:46:14 +0000 (UTC)
-Received: by mail-ej1-f53.google.com with SMTP id dn9so4137289ejc.7
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 08:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=adLCRjyG9ql2dpnI6XTEKDQmCPOfQAuHG5SMH18mDPM=;
-        b=GUjfArcxHRm0/PWidPnP5+up2cPSBhcf+NbNQJSDjl35v8MRismPbEPQE+JFGwEe9S
-         p6PbGP2SmmrNCjVsXkLsEYF9SyyPm+epMA490reQCc7WGu+er60puPqonmvwKGyiq2p2
-         E48rZ2jY6DJZnu8aKHuWLJV0H4PMaQWLV5U2LOgXNxQMssGGsgWAoeB6odtN+sV99+Kx
-         5tDhGoeMsUnn7D/GPwzDwidXAtNNNwYp7ps0y2v2LBYN8w+DKDN8kj2qKeRSshbXW8/C
-         NujTASdguIyfKtgy7KGeEj9heY4j4bqnVNJLjqpj84lYfxepZIfvf1kEiXcBvId0il8w
-         KnBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=adLCRjyG9ql2dpnI6XTEKDQmCPOfQAuHG5SMH18mDPM=;
-        b=X7yrHkJzLz+SkdYQCy6zrD1mU/FzE+uUx2vboq+vuUxxPVNrxKNuL34x2qodMztzo0
-         JXAwCytmzNXFT+QQOEXJhtNWqcYyw6ZpL4pBsMwuGNw5W+EpQvf7LtVNQAeohbrjvl39
-         m53YIgr5WjfiAAsmnxySFajHDZPNcfF+PH1PqCS7OGBU0Fg2ByUsg1W7mJXjQ93mOcWX
-         Witu97JkA3BdsLbYFxuUQsVJd2oWb5+5KyqWDNdUR+JhHY0mlZG2ZJEQXra3YJHZLyO+
-         ZrCvpkq/5WCp+wY5qlqDI6MXzOCxE8OTzIGKxHVZCVxRmK5MfG4+v9+Ev8sH4eV5irtW
-         q7JA==
-X-Gm-Message-State: AJIora9GE5xhGDWCulrDOrnyyB46pcHD7zjUrDGKji5NITpYjz70Eh3f
-	3SOCGUNKISi+IZEA5sT81HMjve6XAq0=
-X-Google-Smtp-Source: AGRyM1vQiNm/I64hNbcGE8zd0cyKohjH6SoOVBwY9xjYiLG+BQDcBgSyuS01ppH+w9E1NDbqP8uyng==
-X-Received: by 2002:a17:907:7632:b0:72b:4d5d:ecce with SMTP id jy18-20020a170907763200b0072b4d5deccemr9841203ejc.11.1657813572648;
-        Thu, 14 Jul 2022 08:46:12 -0700 (PDT)
-Received: from jernej-laptop.localnet (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
-        by smtp.gmail.com with ESMTPSA id ey6-20020a0564022a0600b00431962fe5d4sm1241399edb.77.2022.07.14.08.46.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Jul 2022 08:46:12 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: arm@kernel.org, soc@kernel.org, Jernej Skrabec <jernej@kernel.org>, Arnd Bergmann <arnd@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, linux-arm-kernel@lists.infradead.org, wens@csie.org, samuel@sholland.org, linux-sunxi@lists.linux.dev
-Subject: Re: [GIT PULL] Allwinner config64 changes for 5.20
-Date: Thu, 14 Jul 2022 17:45:59 +0200
-Message-ID: <5838152.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <165781258677.3193274.3635616027978236662.b4-ty@arndb.de>
-References: <YsheC0hgyJB9kPsS@kista.localdomain> <165781258677.3193274.3635616027978236662.b4-ty@arndb.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AB94A38
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 16:06:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC74C341CE
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 16:06:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1657814778;
+	bh=D+KyPbiZw/JOdUc0aKu3DvDfjfE78T1gy4PuRReGoqM=;
+	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
+	b=dQHUla8SroldZg4VLTB6S7a9X/MZZQltY/nnRWOiLKtgRo2SU7my69dRRMtNy2Ld7
+	 TPpL66byNdxG5hXLp+B0X04DR7iTMsdxsfXrGf/IIh9Xgp6p79TnOfcdSps49woS/q
+	 qQAWROQzG8oTnHmga/jrExZxHLb4EBPVfwI3UYa3Xou68H8DDowEPrFdcNcvkCoWog
+	 AHAZ7I9JcGdgZl0VZ4SMEFxYel4Scbh9dr6TN25uTycmQYW+GuQoIgtR0DN7XWeCGN
+	 yABGm2EmP4EWzknW0LGAL0Kta7UgY7jP+kkmfhzoKCZxJAnNWQd5xRDEjKJHZmhfL/
+	 FqBauy/h2+sWA==
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-31d7db3e6e5so21652677b3.11
+        for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 09:06:17 -0700 (PDT)
+X-Gm-Message-State: AJIora9ioNjUjKFgdWbcGaBdB4XwZJzDw9wNSn2F2HvcQQN0d2Yingfv
+	ESyAngF7h5UMhKRD+MPbwnQyGqZgQo0Y4IBM7eM=
+X-Google-Smtp-Source: AGRyM1sNGuMtM2ZDuvC2+WChABHFd+ogJnKciS+BxIRFFkfGIPQVDHU3G2Mh7D9zoSXkDef0M3km6+Y3IQk0B4ZeDIE=
+X-Received: by 2002:a81:1e4d:0:b0:31c:86f1:95b1 with SMTP id
+ e74-20020a811e4d000000b0031c86f195b1mr10435712ywe.42.1657814777011; Thu, 14
+ Jul 2022 09:06:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+References: <YsheC0hgyJB9kPsS@kista.localdomain> <165781258677.3193274.3635616027978236662.b4-ty@arndb.de>
+ <5838152.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <5838152.lOV4Wx5bFT@jernej-laptop>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Thu, 14 Jul 2022 18:06:00 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a14rwmwjEQJX-Z5tj_1-N1CBgf10Arx+e1=ufhTNk6Mzg@mail.gmail.com>
+Message-ID: <CAK8P3a14rwmwjEQJX-Z5tj_1-N1CBgf10Arx+e1=ufhTNk6Mzg@mail.gmail.com>
+Subject: Re: [GIT PULL] Allwinner config64 changes for 5.20
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+List-Id: <soc.lore.kernel.org>
+Cc: arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Arnd Bergmann <arnd@arndb.de>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Dne =C4=8Detrtek, 14. julij 2022 ob 17:31:23 CEST je Arnd Bergmann napisal(=
-a):
-> From: Arnd Bergmann <arnd@arndb.de>
->=20
-> On Fri, 8 Jul 2022 18:40:43 +0200, Jernej Skrabec wrote:
-> > Please pull following config64 changes for 5.20.
-> >=20
-> > Best regards,
-> > Jernej
-> >=20
-> > The following changes since commit=20
-f2906aa863381afb0015a9eb7fefad885d4e5a56:
-> >   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-> >=20
-> > [...]
->=20
-> Merged into arm/defconfig, thanks!
->=20
-> merge commit: 2b4b612638b8e87719f82ab7a9cda8925375eef6
->=20
->        Arnd
+On Thu, Jul 14, 2022 at 5:45 PM Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
+om> wrote:
+> Dne =C4=8Detrtek, 14. julij 2022 ob 17:31:23 CEST je Arnd Bergmann napisa=
+l(a):
+> > From: Arnd Bergmann <arnd@arndb.de>
+> >
+> > On Fri, 8 Jul 2022 18:40:43 +0200, Jernej Skrabec wrote:
+> > > Please pull following config64 changes for 5.20.
+> > >
+> > > Best regards,
+> > > Jernej
+> > >
+> > > The following changes since commit
+> f2906aa863381afb0015a9eb7fefad885d4e5a56:
+> > >   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+> > >
+> > > [...]
+> >
+> > Merged into arm/defconfig, thanks!
+> >
+> > merge commit: 2b4b612638b8e87719f82ab7a9cda8925375eef6
+> >
+>
+> Thanks! For the future, can I send changes to 32-bit and 64-bit configs i=
+n
+> single pull request?
 
-Thanks! For the future, can I send changes to 32-bit and 64-bit configs in=
-=20
-single pull request?
+Yes, definitely.
 
-Best regards,
-Jernej
-
-
+       Arnd
