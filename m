@@ -1,77 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AB94A38
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 16:06:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC74C341CE
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 16:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657814778;
-	bh=D+KyPbiZw/JOdUc0aKu3DvDfjfE78T1gy4PuRReGoqM=;
-	h=References:In-Reply-To:From:Date:Subject:To:List-Id:Cc:From;
-	b=dQHUla8SroldZg4VLTB6S7a9X/MZZQltY/nnRWOiLKtgRo2SU7my69dRRMtNy2Ld7
-	 TPpL66byNdxG5hXLp+B0X04DR7iTMsdxsfXrGf/IIh9Xgp6p79TnOfcdSps49woS/q
-	 qQAWROQzG8oTnHmga/jrExZxHLb4EBPVfwI3UYa3Xou68H8DDowEPrFdcNcvkCoWog
-	 AHAZ7I9JcGdgZl0VZ4SMEFxYel4Scbh9dr6TN25uTycmQYW+GuQoIgtR0DN7XWeCGN
-	 yABGm2EmP4EWzknW0LGAL0Kta7UgY7jP+kkmfhzoKCZxJAnNWQd5xRDEjKJHZmhfL/
-	 FqBauy/h2+sWA==
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-31d7db3e6e5so21652677b3.11
-        for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 09:06:17 -0700 (PDT)
-X-Gm-Message-State: AJIora9ioNjUjKFgdWbcGaBdB4XwZJzDw9wNSn2F2HvcQQN0d2Yingfv
-	ESyAngF7h5UMhKRD+MPbwnQyGqZgQo0Y4IBM7eM=
-X-Google-Smtp-Source: AGRyM1sNGuMtM2ZDuvC2+WChABHFd+ogJnKciS+BxIRFFkfGIPQVDHU3G2Mh7D9zoSXkDef0M3km6+Y3IQk0B4ZeDIE=
-X-Received: by 2002:a81:1e4d:0:b0:31c:86f1:95b1 with SMTP id
- e74-20020a811e4d000000b0031c86f195b1mr10435712ywe.42.1657814777011; Thu, 14
- Jul 2022 09:06:17 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AD4600D
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 19:20:04 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id C4D9234D34;
+	Thu, 14 Jul 2022 19:19:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1657826396; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=J1TVAvphNmTpAWW61VUw6mw/9ks964p5lRoXg8fT5pQ=;
+	b=yaCt/W2pKkPFnDaETQRiTHkJCEF9k9sdkjq5JwaHQnawjSKoiYi4DI8vi/+Uw5d+Sul19z
+	37o2WGZVI43rBZhYukzagHSaK4SmQbA7jQM9qetajPGOmDZ520FSpw9IloUNbGKlSSf9kP
+	bRh46ZyDYQTdv+Zp8n1jh86KwnMJjmE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1657826396;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=J1TVAvphNmTpAWW61VUw6mw/9ks964p5lRoXg8fT5pQ=;
+	b=wngWGUvhjqDObMv9OkYHJzzRhkbc88uRRchYKwwT861i6KWlF4AscZVrctIi5rsYr2VauG
+	Qs7ENmMlzAFzaQBw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+	by relay2.suse.de (Postfix) with ESMTP id 80F252C141;
+	Thu, 14 Jul 2022 19:19:55 +0000 (UTC)
+From: Michal Suchanek <msuchanek@suse.de>
+To: linux-sunxi@lists.linux.dev
+Cc: Michal Suchanek <msuchanek@suse.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
+	Michael Walle <michael@walle.cc>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Subject: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not report an error
+Date: Thu, 14 Jul 2022 21:19:47 +0200
+Message-Id: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
+X-Mailer: git-send-email 2.35.3
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YsheC0hgyJB9kPsS@kista.localdomain> <165781258677.3193274.3635616027978236662.b4-ty@arndb.de>
- <5838152.lOV4Wx5bFT@jernej-laptop>
-In-Reply-To: <5838152.lOV4Wx5bFT@jernej-laptop>
-From: Arnd Bergmann <arnd@kernel.org>
-Date: Thu, 14 Jul 2022 18:06:00 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a14rwmwjEQJX-Z5tj_1-N1CBgf10Arx+e1=ufhTNk6Mzg@mail.gmail.com>
-Message-ID: <CAK8P3a14rwmwjEQJX-Z5tj_1-N1CBgf10Arx+e1=ufhTNk6Mzg@mail.gmail.com>
-Subject: Re: [GIT PULL] Allwinner config64 changes for 5.20
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-List-Id: <soc.lore.kernel.org>
-Cc: arm-soc <arm@kernel.org>, SoC Team <soc@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, linux-sunxi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 14, 2022 at 5:45 PM Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
-om> wrote:
-> Dne =C4=8Detrtek, 14. julij 2022 ob 17:31:23 CEST je Arnd Bergmann napisa=
-l(a):
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > On Fri, 8 Jul 2022 18:40:43 +0200, Jernej Skrabec wrote:
-> > > Please pull following config64 changes for 5.20.
-> > >
-> > > Best regards,
-> > > Jernej
-> > >
-> > > The following changes since commit
-> f2906aa863381afb0015a9eb7fefad885d4e5a56:
-> > >   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
-> > >
-> > > [...]
-> >
-> > Merged into arm/defconfig, thanks!
-> >
-> > merge commit: 2b4b612638b8e87719f82ab7a9cda8925375eef6
-> >
->
-> Thanks! For the future, can I send changes to 32-bit and 64-bit configs i=
-n
-> single pull request?
+It is normal that devices are designed with multiple types of storage,
+and only some types of storage are present.
 
-Yes, definitely.
+The kernel can handle this situation gracefully for many types of
+storage devices such as mmc or ata but it reports and error when spi
+flash is not present.
 
-       Arnd
+Only print a notice that the storage device is missing when no response
+to the identify command is received.
+
+Consider reply buffers with all bits set to the same value no response.
+
+Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+---
+ drivers/mtd/spi-nor/core.c | 25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+index 502967c76c5f..6bab540171a4 100644
+--- a/drivers/mtd/spi-nor/core.c
++++ b/drivers/mtd/spi-nor/core.c
+@@ -1652,6 +1652,24 @@ static const struct flash_info *spi_nor_match_id(struct spi_nor *nor,
+ 	return NULL;
+ }
+ 
++static const bool buffer_uniform(const u8 *buffer, size_t length)
++{
++	bool all0;
++	size_t i;
++
++	for (all0 = true, i = 0; i < length; i++)
++		if (buffer[i] != 0) {
++			all0 = false;
++			break;
++		}
++	if (all0)
++		return true;
++	for (i = 0; i < length; i++)
++		if (buffer[i] != 0xff)
++			return false;
++	return true;
++}
++
+ static const struct flash_info *spi_nor_detect(struct spi_nor *nor)
+ {
+ 	const struct flash_info *info;
+@@ -1666,8 +1684,11 @@ static const struct flash_info *spi_nor_detect(struct spi_nor *nor)
+ 
+ 	info = spi_nor_match_id(nor, id);
+ 	if (!info) {
+-		dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
+-			SPI_NOR_MAX_ID_LEN, id);
++		if (buffer_uniform(id, SPI_NOR_MAX_ID_LEN))
++			dev_info(nor->dev, "No flash memory detected.\n");
++		else
++			dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
++				SPI_NOR_MAX_ID_LEN, id);
+ 		return ERR_PTR(-ENODEV);
+ 	}
+ 	return info;
+-- 
+2.35.3
+
