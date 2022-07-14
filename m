@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA324A38
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 15:31:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FD4C341CA;
-	Thu, 14 Jul 2022 15:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3674A38
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 15:31:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A19D9C34114;
+	Thu, 14 Jul 2022 15:31:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1657812703;
-	bh=7KHHOQxYeRXaCfeo1oGry63h2hhCRFTvLXyvFtC2FEk=;
+	s=k20201202; t=1657812705;
+	bh=e6uOQSiiMmKGWMZhwDJkmBnPhx03MeAufyZNqA3dI5w=;
 	h=From:List-Id:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=erCZob9K+oV14L5TDw5tnsPXjGpYi2Jtzxe2hx9ihMrwWzZJbF2qjU2f3e9uWdi26
-	 BPyTa3fCzHLvl/22zMjiiBplkZamImaIzHN4B/6GYSl183Rgjc2SlX/KS1fXwU+js4
-	 qhX2ydL0ukWaAV9CjpTh7W3qcRN1j1sE4gzEd0Q1pnNlhZTb9xTl/YHb+aLjKUo5li
-	 p2TkAvhRqcuQfVw+cYml0E0pVKvRp4xYPJvRyh81RRZOzjNFjB7Jt8Lei/sd+aFgec
-	 RpfERUWRnFsIXL95vf8idPGeoU8sgX3fXa47/tGCzICPUHhZFcGXg4SDAwBaXVdIIn
-	 P8zOpD1+bYjEA==
+	b=Kgs9GC8K9jiYUHo2bk3nzSW4qANyh7pi2yzHZn2+Q4YTZI4n1FfRXX6aXIskkwMHw
+	 XjAikf2jNUOOmLE7QDCvM66i7odfRAj28grHOIPydbcMahqWpnS1TBRoEcerNvVxJ4
+	 ngq0MlkBLoMH0opbQluJtRcQL2p5PO8iYZCKLP2J89VZKxRhu0KXmxqR8Q3/RnvHxa
+	 2Ti6OT6ciSSolh+3VOt+9Pb/FkMopI/6AHBGtwbcFDqIuCHLynBMVsbFhuKKzJcAOO
+	 AgTwFrACSuuw2+htazAIc4cBc+gA1uLSZG4MgVGvohhZdNUbmhxjzCbjlMSFYCe9P0
+	 1xlVdadNJtssg==
 From: Arnd Bergmann <arnd@kernel.org>
 List-Id: <soc.lore.kernel.org>
 To: arm@kernel.org,
@@ -25,12 +25,12 @@ Cc: Arnd Bergmann <arnd@arndb.de>,
 	wens@csie.org,
 	samuel@sholland.org,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [GIT PULL] Allwinner drivers changes for 5.20
-Date: Thu, 14 Jul 2022 17:31:26 +0200
-Message-Id: <165781258654.3193274.11995901129474791351.b4-ty@arndb.de>
+Subject: Re: [GIT PULL] Allwinner DT fixes for 5.19
+Date: Thu, 14 Jul 2022 17:31:27 +0200
+Message-Id: <165781258563.3193274.7144022791216312653.b4-ty@arndb.de>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <YshfPux1c2x9S7Fi@kista.localdomain>
-References: <YshfPux1c2x9S7Fi@kista.localdomain>
+In-Reply-To: <YshiPKZRq6NHxPzO@kista.localdomain>
+References: <YshiPKZRq6NHxPzO@kista.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,8 +42,8 @@ Content-Transfer-Encoding: 8bit
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-On Fri, 8 Jul 2022 18:45:50 +0200, Jernej Skrabec wrote:
-> Please pull following drivers changes for 5.20.
+On Fri, 8 Jul 2022 18:58:36 +0200, Jernej Skrabec wrote:
+> Please pull following DT binding fix for 5.19.
 > 
 > Best regards,
 > Jernej
@@ -54,8 +54,8 @@ On Fri, 8 Jul 2022 18:45:50 +0200, Jernej Skrabec wrote:
 > 
 > [...]
 
-Merged into arm/drivers, thanks!
+Merged into arm/fixes, thanks!
 
-merge commit: 611f6810aac8e9b5b3eb48c0eed47e2f791af224
+merge commit: 884b66976a7279ee889ba885fe364244d50b79e7
 
        Arnd
