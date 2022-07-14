@@ -1,90 +1,128 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ssl.serverraum.org (ssl.serverraum.org [176.9.125.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33186014
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 19:20:05 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id 2EAD91F986;
-	Thu, 14 Jul 2022 19:19:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657826398; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C12600D
+	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 19:47:51 +0000 (UTC)
+Received: from ssl.serverraum.org (web.serverraum.org [172.16.0.2])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ssl.serverraum.org (Postfix) with ESMTPSA id 8758B22238;
+	Thu, 14 Jul 2022 21:41:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=walle.cc; s=mail2016061301;
+	t=1657827716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=4IXIt9i4IIWMBr8dsDU+TZSGcKwpUFNYiCeI9reK8Fo=;
-	b=ogcuG11BaEb+JOU64/DLbpgROHc29PvOwMkMSFEH8hy5UIsK9BC4cqqutMZKAfXGQ2z4LP
-	qSEsQv9CuNeUmZ7y5YwBVvGA4WuJJUKfCsz4zm+SBeD0aNTKYbw5XJp6IPBjrWawJMqKEX
-	QIPycGOXqiz9VCZE45SgE0f1ikUqMys=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657826398;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4IXIt9i4IIWMBr8dsDU+TZSGcKwpUFNYiCeI9reK8Fo=;
-	b=gbsPuTgJhHTRxWIuoej/HugirZJCurSMj40g+kYnzuvVo+0NexrRxKqgASXl/wBCVR5oJF
-	be/0CDRYgEv7enDQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
-	by relay2.suse.de (Postfix) with ESMTP id CE1032C142;
-	Thu, 14 Jul 2022 19:19:57 +0000 (UTC)
-From: Michal Suchanek <msuchanek@suse.de>
-To: linux-sunxi@lists.linux.dev
-Cc: Michal Suchanek <msuchanek@suse.de>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Pratyush Yadav <p.yadav@ti.com>,
-	Michael Walle <michael@walle.cc>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: [PATCH resend 2/2] ARM: dts: sunxi: Enable optional SPI flash on Orange Pi Zero board
-Date: Thu, 14 Jul 2022 21:19:48 +0200
-Message-Id: <62c4e6be12771f3120f67a328a51ac360dc468d2.1657826188.git.msuchanek@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
-References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
+	bh=3ro6DsiZOyVl0p4EfjbReVqk2JZ+ojOAHyeH+zjJsEw=;
+	b=iBPQLNv4oS0P3UsioZAiEjIeQk76v1WKPCD5H0BzEwm00wXbLr8bX/Ya43aeQ5023QJq2k
+	4q5ldJ7b56ZzTlNLFYfJBNS0SE3Cpk9/hYEctK+IcAQ8s1yWUCUeHXT5KFE5rSHhco2K8k
+	KjI4b29t+HcLCCg6PXHnUv2ihhDi6d4=
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 14 Jul 2022 21:41:48 +0200
+From: Michael Walle <michael@walle.cc>
+To: Michal Suchanek <msuchanek@suse.de>
+Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
+ <samuel@sholland.org>, Tudor Ambarus <tudor.ambarus@microchip.com>, Pratyush
+ Yadav <p.yadav@ti.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Richard
+ Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
+Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
+ report an error
+In-Reply-To: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
+References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
+User-Agent: Roundcube Webmail/1.4.13
+Message-ID: <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
+X-Sender: michael@walle.cc
 
-The flash is present on all new boards and users went out of their way
-to add it on the old ones.
+Hi,
 
-Enabling it makes a more reasonable default.
+Am 2022-07-14 21:19, schrieb Michal Suchanek:
+> It is normal that devices are designed with multiple types of storage,
+> and only some types of storage are present.
+> 
+> The kernel can handle this situation gracefully for many types of
+> storage devices such as mmc or ata but it reports and error when spi
+> flash is not present.
+> 
+> Only print a notice that the storage device is missing when no response
+> to the identify command is received.
+> 
+> Consider reply buffers with all bits set to the same value no response.
 
-Signed-off-by: Michal Suchanek <msuchanek@suse.de>
----
-Link: https://lore.kernel.org/all/20200929083025.2089-1-msuchanek@suse.de/
- arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'm not sure you can compare SPI with ATA and MMC. I'm just speaking of
+DT now, but there, for ATA and MMC you just describe the controller and
+it will auto-detect the connected storage. Whereas with SPI you describe
+both the controller and the flash. So I'd argue that your hardware
+description is wrong if it describes a flash which is not present.
 
-diff --git a/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts b/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
-index 3706216ffb40..4f782b1bdf27 100644
---- a/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
-+++ b/arch/arm/boot/dts/sun8i-h2-plus-orangepi-zero.dts
-@@ -163,8 +163,8 @@ &ohci1 {
- };
- 
- &spi0 {
--	/* Disable SPI NOR by default: it optional on Orange Pi Zero boards */
--	status = "disabled";
-+	/* Enable optional SPI NOR by default */
-+	status = "okay";
- 
- 	flash@0 {
- 		#address-cells = <1>;
--- 
-2.35.3
+> Signed-off-by: Michal Suchanek <msuchanek@suse.de>
+> ---
+>  drivers/mtd/spi-nor/core.c | 25 +++++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/mtd/spi-nor/core.c b/drivers/mtd/spi-nor/core.c
+> index 502967c76c5f..6bab540171a4 100644
+> --- a/drivers/mtd/spi-nor/core.c
+> +++ b/drivers/mtd/spi-nor/core.c
+> @@ -1652,6 +1652,24 @@ static const struct flash_info
+> *spi_nor_match_id(struct spi_nor *nor,
+>  	return NULL;
+>  }
+> 
+> +static const bool buffer_uniform(const u8 *buffer, size_t length)
+> +{
+> +	bool all0;
+> +	size_t i;
+> +
+> +	for (all0 = true, i = 0; i < length; i++)
+> +		if (buffer[i] != 0) {
+> +			all0 = false;
+> +			break;
+> +		}
+> +	if (all0)
+> +		return true;
+> +	for (i = 0; i < length; i++)
+> +		if (buffer[i] != 0xff)
+> +			return false;
+> +	return true;
+> +}
 
+That seems unnecessarily complex.
+if (!memchr_inv(id, '\x00', SPI_NOR_MAX_ID_LEN) ||
+     !memchr_inv(id, '\xff', SPI_NOR_MAX_ID_LEN))
+
+should be the same.
+
+-michael
+
+> +
+>  static const struct flash_info *spi_nor_detect(struct spi_nor *nor)
+>  {
+>  	const struct flash_info *info;
+> @@ -1666,8 +1684,11 @@ static const struct flash_info
+> *spi_nor_detect(struct spi_nor *nor)
+> 
+>  	info = spi_nor_match_id(nor, id);
+>  	if (!info) {
+> -		dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
+> -			SPI_NOR_MAX_ID_LEN, id);
+> +		if (buffer_uniform(id, SPI_NOR_MAX_ID_LEN))
+> +			dev_info(nor->dev, "No flash memory detected.\n");
+> +		else
+> +			dev_err(nor->dev, "unrecognized JEDEC id bytes: %*ph\n",
+> +				SPI_NOR_MAX_ID_LEN, id);
+>  		return ERR_PTR(-ENODEV);
+>  	}
+>  	return info;
