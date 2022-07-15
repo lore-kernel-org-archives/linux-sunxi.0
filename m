@@ -1,44 +1,45 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86B9D6029
-	for <linux-sunxi@lists.linux.dev>; Thu, 14 Jul 2022 22:07:48 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out2.suse.de (Postfix) with ESMTP id ABCAD1F944;
-	Thu, 14 Jul 2022 22:07:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1657836466; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rxL2Skx8UbFEzQGYad/BuKmDMwwk8ncManhq+noClII=;
-	b=nxO/VsiByIQUvVw8J3ec8bA9Eu0GqyfKAIeitip/+JUq3wxLXLPc3ZEP0m4Y0l2sN+FfFY
-	2mbmtaRnK98LtjaY5ZMVb38Luz5E/d25hhVK0JUJJd1DJQXRo5L8nkqORD4WoZ18GrHsq+
-	ZSM//84UURlzTy+CWZ12ZyXCHYIeZEI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1657836466;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rxL2Skx8UbFEzQGYad/BuKmDMwwk8ncManhq+noClII=;
-	b=1oHnFx62By/T3EA1ZD0f6lyFebUWlXX0tED1o5Z6GDaSWFHJ9N8iImlQQ6/zhyj++TDBQz
-	+2qz/Orr3TcT/+Cg==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id D3E4C2C141;
-	Thu, 14 Jul 2022 22:07:45 +0000 (UTC)
-Date: Fri, 15 Jul 2022 00:07:44 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Michael Walle <michael@walle.cc>
-Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490186644
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Jul 2022 00:43:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1657845837; x=1689381837;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jJ2QO/k1ABVMsRZgKGsv6X/yHVjuDNgI50HCJWC87kE=;
+  b=GVzbjIueNxb4DgpE6WDzAi43YOTedXBU0E3nAEvF3CW6RG6/lEzVBK9T
+   k5ZWWunlCf2UwpXrOYpd3/C3t5SHfxdSrwDFEF+KneCxg4K/Jle6ol6TE
+   LHjyP+aGob/S6r7+x3emocUhziOHGzGgJ1FKhPHS/bNcgBuFf26lyXWzw
+   zcSLSNkwzL0Et8zHX6/5w92xYLovV+Oluwf3K0XeKMitspbJhQGQRqyrb
+   6doSb/UoWegEpFsSpCMW3KdTfK/RJYsUeWSOwgsfeU0I9ABBUmGhCMFy+
+   ugL1XiTazOtFT869F3xFjc6wliFdBQ8G8F3OygGrg4c65EPwYetgGSQ8r
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10408"; a="311328462"
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="311328462"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2022 17:43:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.92,272,1650956400"; 
+   d="scan'208";a="923304559"
+Received: from lkp-server01.sh.intel.com (HELO fd2c14d642b4) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 14 Jul 2022 17:43:52 -0700
+Received: from kbuild by fd2c14d642b4 with local (Exim 4.95)
+	(envelope-from <lkp@intel.com>)
+	id 1oC9Qu-0001Jm-9b;
+	Fri, 15 Jul 2022 00:43:52 +0000
+Date: Fri, 15 Jul 2022 08:43:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Michal Suchanek <msuchanek@suse.de>, linux-sunxi@lists.linux.dev
+Cc: kbuild-all@lists.01.org, Michal Suchanek <msuchanek@suse.de>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
 	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Pratyush Yadav <p.yadav@ti.com>,
+	Pratyush Yadav <p.yadav@ti.com>, Michael Walle <michael@walle.cc>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
 	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
@@ -46,100 +47,73 @@ Cc: linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
 	linux-mtd@lists.infradead.org
 Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
  report an error
-Message-ID: <20220714220744.GF17705@kitsune.suse.cz>
+Message-ID: <202207150854.H5k2mIIu-lkp@intel.com>
 References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
- <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
- <20220714205529.GE17705@kitsune.suse.cz>
- <33abf7b84860049c4a22605578303ff2@walle.cc>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <33abf7b84860049c4a22605578303ff2@walle.cc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
 
-On Thu, Jul 14, 2022 at 11:51:56PM +0200, Michael Walle wrote:
-> Am 2022-07-14 22:55, schrieb Michal Suchánek:
-> > On Thu, Jul 14, 2022 at 09:41:48PM +0200, Michael Walle wrote:
-> > > Hi,
-> > > 
-> > > Am 2022-07-14 21:19, schrieb Michal Suchanek:
-> > > > It is normal that devices are designed with multiple types of storage,
-> > > > and only some types of storage are present.
-> > > >
-> > > > The kernel can handle this situation gracefully for many types of
-> > > > storage devices such as mmc or ata but it reports and error when spi
-> > > > flash is not present.
-> > > >
-> > > > Only print a notice that the storage device is missing when no response
-> > > > to the identify command is received.
-> > > >
-> > > > Consider reply buffers with all bits set to the same value no response.
-> > > 
-> > > I'm not sure you can compare SPI with ATA and MMC. I'm just speaking
-> > > of
-> > > DT now, but there, for ATA and MMC you just describe the controller
-> > > and
-> > > it will auto-detect the connected storage. Whereas with SPI you
-> > > describe
-> > 
-> > Why does mmc assume storage and SDIO must be descibed? Why the special
-> > casing?
-> 
-> I can't follow you here. My SDIO wireless card just works in an SD
-> slot and doesn't have to be described.
-> 
-> > > both the controller and the flash. So I'd argue that your hardware
-> > > description is wrong if it describes a flash which is not present.
-> > 
-> > At any rate the situation is the same - the storage may be present
-> > sometimes. I don't think assuming some kind of device by defualt is a
-> > sound practice.
-> 
-> Where is the assumption when the DT tells you there is a flash
-> on a specific chip select but actually there it isn't. Shouldn't
-> the DT then be fixed?
+Hi Michal,
 
-The DT says there isn't a flash on a specific chip select when there is.
-Shouldn't that be fixed?
+Thank you for the patch! Perhaps something to improve:
 
-> Maybe I don't understand your problem. What are you trying to
-> solve? I mean this just demotes an error to an info message.
+[auto build test WARNING on mtd/spi-nor/next]
+[also build test WARNING on sunxi/sunxi/for-next krzk/for-next krzk-dt/for-next krzk-mem-ctrl/for-next linus/master v5.19-rc6 next-20220714]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Many boards provide multiple storage options - you get a PCB designed to
-carry different kinds of storage, some may be socketed, some can be
-soldered on in some production batches and not others.
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Suchanek/mtd-spi-nor-When-a-flash-memory-is-missing-do-not-report-an-error/20220715-032336
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-nor/next
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220715/202207150854.H5k2mIIu-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-3) 11.3.0
+reproduce (this is a W=1 build):
+        # https://github.com/intel-lab-lkp/linux/commit/d747dae258dd8d5220d38fae5fd09be703b0391b
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Michal-Suchanek/mtd-spi-nor-When-a-flash-memory-is-missing-do-not-report-an-error/20220715-032336
+        git checkout d747dae258dd8d5220d38fae5fd09be703b0391b
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash drivers/mtd/spi-nor/
 
-The kernel can handle this for many kinds of storage but not SPI flash.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-I don't see any reason why SPI flash should be a second class storage.
+All warnings (new ones prefixed by >>):
 
-> > However, when the board is designed for a specific kind of device which
-> > is not always present, and the kernel can detect the device, it is
-> > perfectly fine to describe it.
-> > 
-> > The alternative is to not use the device at all, even when present,
-> > which is kind of useless.
-> 
-> Or let the bootloader update your device tree and disable the device
-> if it's not there?
+>> drivers/mtd/spi-nor/core.c:1655:8: warning: type qualifiers ignored on function return type [-Wignored-qualifiers]
+    1655 | static const bool buffer_uniform(const u8 *buffer, size_t length)
+         |        ^~~~~
 
-But then it must be in the device tree?
 
-And then people will complain that if the bootloader does not have this
-feature then the kernel prints an error message?
+vim +1655 drivers/mtd/spi-nor/core.c
 
-> Or load an overlay if it is there?
+  1654	
+> 1655	static const bool buffer_uniform(const u8 *buffer, size_t length)
+  1656	{
+  1657		bool all0;
+  1658		size_t i;
+  1659	
+  1660		for (all0 = true, i = 0; i < length; i++)
+  1661			if (buffer[i] != 0) {
+  1662				all0 = false;
+  1663				break;
+  1664			}
+  1665		if (all0)
+  1666			return true;
+  1667		for (i = 0; i < length; i++)
+  1668			if (buffer[i] != 0xff)
+  1669				return false;
+  1670		return true;
+  1671	}
+  1672	
 
-Or maybe the kernel could just detect if the storage is present?
-
-It's not like we don't have an identify command.
-
-Thanks
-
-Michal
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
