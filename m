@@ -1,188 +1,178 @@
-Received: from lelv0143.ext.ti.com (lelv0143.ext.ti.com [198.47.23.248])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9030E7A
-	for <linux-sunxi@lists.linux.dev>; Fri, 15 Jul 2022 09:39:44 +0000 (UTC)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 26F9KI0r094953;
-	Fri, 15 Jul 2022 04:20:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1657876818;
-	bh=79+15PhDBbaYfjRz4Da0CiyiPsDJzQ/ow0y1Q7+aARk=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=kku9VDBbVMWl9g0xa3sStuUIr4MfzM0QTmdvBlm/S2Z7YPaldmgSrAsxASMklZLRQ
-	 NVZfyuAwCazMKJkkJvxJ5Ubh9vpImw4d7WrajJW1p47vrCR2QgnoPH6a+JXkZH3KXS
-	 lHEO39TeX6H63j7cAr36m8Jy3dUjk78ULwbzSliI=
-Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 26F9KIQ0004595
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 15 Jul 2022 04:20:18 -0500
-Received: from DFLE106.ent.ti.com (10.64.6.27) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 15
- Jul 2022 04:20:18 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Fri, 15 Jul 2022 04:20:18 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
-	by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 26F9KHi9108271;
-	Fri, 15 Jul 2022 04:20:18 -0500
-Date: Fri, 15 Jul 2022 14:50:17 +0530
-From: Pratyush Yadav <p.yadav@ti.com>
-To: Michal =?utf-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
-CC: Michael Walle <michael@walle.cc>, <linux-sunxi@lists.linux.dev>,
-        Rob
- Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej
- Skrabec <jernej.skrabec@gmail.com>,
-        Samuel Holland <samuel@sholland.org>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Miquel Raynal
-	<miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh
- Raghavendra <vigneshr@ti.com>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888BB2F34
+	for <linux-sunxi@lists.linux.dev>; Fri, 15 Jul 2022 12:20:18 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2FDFA1474;
+	Fri, 15 Jul 2022 05:20:18 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 93C003F73D;
+	Fri, 15 Jul 2022 05:20:15 -0700 (PDT)
+Date: Fri, 15 Jul 2022 13:20:06 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>
+Cc: Michael Walle <michael@walle.cc>, linux-sunxi@lists.linux.dev, Rob
+ Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
+ Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>,
+ Tudor Ambarus <tudor.ambarus@microchip.com>, Pratyush Yadav
+ <p.yadav@ti.com>, Miquel Raynal <miquel.raynal@bootlin.com>, Richard
+ Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
 Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
  report an error
-Message-ID: <20220715092017.2ftoyzm22i4amrbt@ti.com>
+Message-ID: <20220715132006.077c90f8@donnerap.cambridge.arm.com>
+In-Reply-To: <20220714220744.GF17705@kitsune.suse.cz>
 References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
- <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
- <20220714205529.GE17705@kitsune.suse.cz>
- <33abf7b84860049c4a22605578303ff2@walle.cc>
- <20220714220744.GF17705@kitsune.suse.cz>
+	<d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
+	<20220714205529.GE17705@kitsune.suse.cz>
+	<33abf7b84860049c4a22605578303ff2@walle.cc>
+	<20220714220744.GF17705@kitsune.suse.cz>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20220714220744.GF17705@kitsune.suse.cz>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 15/07/22 12:07AM, Michal Suchánek wrote:
+On Fri, 15 Jul 2022 00:07:44 +0200
+Michal Such=C3=A1nek <msuchanek@suse.de> wrote:
+
+Hi,
+
 > On Thu, Jul 14, 2022 at 11:51:56PM +0200, Michael Walle wrote:
-> > Am 2022-07-14 22:55, schrieb Michal Suchánek:
-> > > On Thu, Jul 14, 2022 at 09:41:48PM +0200, Michael Walle wrote:
+> > Am 2022-07-14 22:55, schrieb Michal Such=C3=AF=C2=BF=C2=BDnek: =20
+> > > On Thu, Jul 14, 2022 at 09:41:48PM +0200, Michael Walle wrote: =20
 > > > > Hi,
-> > > > 
-> > > > Am 2022-07-14 21:19, schrieb Michal Suchanek:
-> > > > > It is normal that devices are designed with multiple types of storage,
+> > > >=20
+> > > > Am 2022-07-14 21:19, schrieb Michal Suchanek: =20
+> > > > > It is normal that devices are designed with multiple types of sto=
+rage,
 > > > > > and only some types of storage are present.
 > > > > >
 > > > > > The kernel can handle this situation gracefully for many types of
-> > > > > storage devices such as mmc or ata but it reports and error when spi
+> > > > > storage devices such as mmc or ata but it reports and error when =
+spi
 > > > > > flash is not present.
 > > > > >
-> > > > > Only print a notice that the storage device is missing when no response
+> > > > > Only print a notice that the storage device is missing when no re=
+sponse
 > > > > > to the identify command is received.
 > > > > >
-> > > > > Consider reply buffers with all bits set to the same value no response.
-> > > > 
+> > > > > Consider reply buffers with all bits set to the same value no res=
+ponse. =20
+> > > >=20
 > > > > I'm not sure you can compare SPI with ATA and MMC. I'm just speaking
 > > > > of
 > > > > DT now, but there, for ATA and MMC you just describe the controller
 > > > > and
 > > > > it will auto-detect the connected storage. Whereas with SPI you
-> > > > describe
-> > > 
+> > > > describe =20
+> > >=20
 > > > Why does mmc assume storage and SDIO must be descibed? Why the special
-> > > casing?
-> > 
+> > > casing? =20
+> >=20
 > > I can't follow you here. My SDIO wireless card just works in an SD
 > > slot and doesn't have to be described.
-> > 
+
+I think the difference is that MMC (so also SDIO) is a discoverable bus,
+whereas SPI is not.
+It's conceptually dangerous to blindly probe for SPI chips, and the kernel
+tries to stay out of guessing games, in general, and leaves that up to
+firmware.
+
 > > > > both the controller and the flash. So I'd argue that your hardware
-> > > > description is wrong if it describes a flash which is not present.
-> > > 
+> > > > description is wrong if it describes a flash which is not present. =
+=20
+> > >=20
 > > > At any rate the situation is the same - the storage may be present
 > > > sometimes. I don't think assuming some kind of device by defualt is a
-> > > sound practice.
-> > 
+> > > sound practice. =20
+> >=20
 > > Where is the assumption when the DT tells you there is a flash
 > > on a specific chip select but actually there it isn't. Shouldn't
-> > the DT then be fixed?
-> 
+> > the DT then be fixed? =20
+>=20
 > The DT says there isn't a flash on a specific chip select when there is.
 > Shouldn't that be fixed?
-
-If the board has a flash chip, then DT should describe it. The it does 
-not have one, then DT should not describe it.
-
-So if DT says there isn't a flash on a specific CS when there is, then 
-DT should be fixed to describe the flash, and then we can probe it. You 
-both seem to be saying the same thing here, and I agree.
-
-> 
+>=20
 > > Maybe I don't understand your problem. What are you trying to
 > > solve? I mean this just demotes an error to an info message.
-> 
+
+The particular problem at hand is that on those cheap development boards
+SPI flash is somewhat optional. The PCB often has the footprint for it, but
+sometimes it is not populated, because the vendor wants to save pennies.
+
+In this case (OrangePi Zero) there was no SPI chip soldered on the first
+batches, but later boards are shipped with a flash chip. The footprint is
+on every version, and I for instance soldered a chip on an early board.
+
 > Many boards provide multiple storage options - you get a PCB designed to
 > carry different kinds of storage, some may be socketed, some can be
 > soldered on in some production batches and not others.
-
-Usually for non-enumerable components you can plug in or out, you should 
-use DT overlays to add the correct nodes as needed. For example, CSI 
-cameras just plug into a slot on the board. So you can easily remove one 
-and add another. That is why we do not put the camera node in the board 
-dts, but instead apply it as an overlay from the bootloader.
-
-> 
+>=20
 > The kernel can handle this for many kinds of storage but not SPI flash.
-> 
+>=20
 > I don't see any reason why SPI flash should be a second class storage.
-> 
-> > > However, when the board is designed for a specific kind of device which
+
+See above, SPI is not discoverable, you need to know about the slave
+devices.
+
+> > > However, when the board is designed for a specific kind of device whi=
+ch
 > > > is not always present, and the kernel can detect the device, it is
 > > > perfectly fine to describe it.
-> > > 
+> > >=20
 > > > The alternative is to not use the device at all, even when present,
-> > > which is kind of useless.
-> > 
+> > > which is kind of useless. =20
+> >=20
 > > Or let the bootloader update your device tree and disable the device
-> > if it's not there?
-> 
+> > if it's not there? =20
+
+Yes, this is what I was suggesting already: U-Boot can do the job, because
+a U-Boot build is device specific, and we can take certain risks that the
+generic and single-image kernel wants to avoid.
+In this case we know that there is a SPI flash footprint, and it does no
+harm in trying to check on CS0. So I was thinking about introducing a
+U-Boot Kconfig variable to probe for and potentially disable the SPI flash
+DT node. We would set this variable in defconfigs of boards with optional
+SPI flash.
+
 > But then it must be in the device tree?
-> 
+
+However this indeed means that the SPI flash DT node must be in and enabled
+in the DT, because we (try hard to) only use original Linux DT files, and
+DTs must have been reviewed through the kernel ML first. The U-Boot driver
+relies on the DT as well, so the official kernel DT copy would need to come
+with that node enabled. Ideally U-Boot would disable it, if needed, and
+the kernel error message would never appear.
+
 > And then people will complain that if the bootloader does not have this
 > feature then the kernel prints an error message?
 
-Then add the feature to the bootloader? Adding a node in DT for a flash 
-that is not present is wrong.
+This should not happen, if people follow the advice and use U-Boot's
+device tree directly ($fdtcontroladdr) instead of loading some DTB from
+somewhere. Then the U-Boot code (doing the check) and the DT (having
+it enabled) should be in sync, and we don't see kernel error messages.
 
-> 
-> > Or load an overlay if it is there?
-> 
+If it happens anyways (because people load some DTB), then it's a matter of
+either "live with it" or "update your firmware".
+
+Cheers,
+Andre
+
+> > Or load an overlay if it is there? =20
+>=20
 > Or maybe the kernel could just detect if the storage is present?
-
-It can't. This is a non-enumerable bus, unlike USB or PCI. And there is 
-no way you can actually detect the presence or absence of a flash 
-reliably. For example, TI chips come with a flash that is capable of 
-8D-8D-8D mode. If the flash is handed to the kernel in 8D-8D-8D mode, 
-the read ID command will return all 0xff bytes since the kernel expacts 
-communication in 1S-1S-1S mode. With your patch you will say that no 
-flash memory is detected. In reality the flash is present but the kernel 
-just failed to properly detect it.
-
-> 
+>=20
 > It's not like we don't have an identify command.
-
-We do, but it does not let us detect the _absence_ of a flash.
-
-> 
+>=20
 > Thanks
-> 
+>=20
 > Michal
+>=20
 
--- 
-Regards,
-Pratyush Yadav
-Texas Instruments Inc.
