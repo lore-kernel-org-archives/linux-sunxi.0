@@ -1,155 +1,67 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+Received: from smtpbg.qq.com (biz-43-154-54-12.mail.qq.com [43.154.54.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A342139F;
-	Tue, 19 Jul 2022 11:25:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1658229942; x=1689765942;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ndkgKEe4xEhufL1VbtNDAZ1EDUCVZK8z8B35R5zLA7E=;
-  b=PsfF756aDKATpAWdAKh4RDyzUtRmFLm0CELrPDQwyGF3Yt8mcZ1oQE6C
-   8PR15tgRP3vSPBofATb0SlXNwjkiRKLOx1ClLLExvPBuoGYaNxVXIIZiB
-   KcY3aVISTAmCLv1Alc+gvDA+tXT1BUD2i6BVmv0Cm/U3q9bunb6T2ZMmP
-   f3LOC9+Yh63iBMKiq/816vTH0jfwcG0i5PWDyG38S6B6U1WfwZ6wKW2Q1
-   ZTvQeMpBCir/98p2C4ZhbT50XUBRi9M8foVALSOvIOAJf7LCWyZf2MdIJ
-   vJiwvTrQ4RxNEI2wNuw9g2N3iqwhxXeo1nQHYUMMGdQ+YONpp6cP4rAgM
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10412"; a="284028549"
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; 
-   d="scan'208";a="284028549"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2022 04:25:41 -0700
-X-IronPort-AV: E=Sophos;i="5.92,283,1650956400"; 
-   d="scan'208";a="597626946"
-Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2022 04:25:36 -0700
-Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
-	by paasikivi.fi.intel.com (Postfix) with SMTP id 5DB25202EA;
-	Tue, 19 Jul 2022 14:25:34 +0300 (EEST)
-Date: Tue, 19 Jul 2022 11:25:34 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hans.verkuil@cisco.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
- bindings documentation
-Message-ID: <YtaUrvkAmCQI50z+@paasikivi.fi.intel.com>
-References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
- <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
- <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
- <YtaBr3B5JMrdFVgV@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564C51871
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Jul 2022 12:37:25 +0000 (UTC)
+X-QQ-mid: bizesmtp75t1658233983tjylqyrq
+Received: from localhost.localdomain ( [171.223.96.21])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Tue, 19 Jul 2022 20:33:02 +0800 (CST)
+X-QQ-SSF: 01000000002000F0U000C00A0000020
+X-QQ-FEAT: l48D28I/3+29Yf2UJQ43owyP/FUIs34xsI2CDRUIMKP7D/nFh1M7kG/F0Jklp
+	eJSaBjWVPPXf8niwpyaHjw0IRKOCuzMeFLVCyXj9Ef/5MoXv8zG1JgnWESZCZkLuPC7f77c
+	KWg1yiBlHoEIQ9joAsd/7IRHylbP5jTFDLkHldhzwaoiYgmWJ92qMzn+7SnPb/XdSrryfU/
+	VG8c5g0KxfeJpMhO5mCIPOJ+fa7Z3i9oDXLCAqd+cBR5BUjk5vz/yhzOiENeplBhIBzNf0F
+	XGeoFRDefaVnUb7PuEx8TI4AYfUCJKlGsw7/IZL8DqDcZjgbpodO7iGmvbBomBB6lDkSIx3
+	G4wxuGzXq/lWB/uIlTCPoF2iqeqpQrrwLuo7attYWizDN17h8Sztt3XsXDp0tgFNjcmaY1O
+	6wt4y2LZlVI=
+X-QQ-GoodBg: 0
+From: Jason Wang <wangborong@cdjrlc.com>
+To: mchehab@kernel.org
+Cc: yong.deng@magewell.com,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jason Wang <wangborong@cdjrlc.com>
+Subject: [PATCH] media: sun6i-csi: Fix comment typo
+Date: Sat, 16 Jul 2022 12:31:02 +0800
+Message-Id: <20220716043102.40894-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YtaBr3B5JMrdFVgV@aptenodytes>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybglogicsvr:qybglogicsvr6
 
-Hi Paul,
+The double `the' is duplicated in the comment, remove one.
 
-On Tue, Jul 19, 2022 at 12:04:31PM +0200, Paul Kocialkowski wrote:
-> Hi Sakari,
-> 
-> On Sun 17 Jul 22, 11:37, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
-> > > This introduces YAML bindings documentation for the Allwinner A31 Image
-> > > Signal Processor (ISP).
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > ---
-> > >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
-> > >  1 file changed, 97 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > new file mode 100644
-> > > index 000000000000..2fda6e05e16c
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
-> > > @@ -0,0 +1,97 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
-> > > +
-> > > +maintainers:
-> > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - allwinner,sun6i-a31-isp
-> > > +      - allwinner,sun8i-v3s-isp
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    items:
-> > > +      - description: Bus Clock
-> > > +      - description: Module Clock
-> > > +      - description: DRAM Clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: bus
-> > > +      - const: mod
-> > > +      - const: ram
-> > > +
-> > > +  resets:
-> > > +    maxItems: 1
-> > > +
-> > > +  ports:
-> > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > +
-> > > +    properties:
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: CSI0 input port
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: CSI1 input port
-> > 
-> > Do both support a single PHY with a single data only? If multiple data lanes
-> > are supported, please require data-lanes property (on endpoint).
-> 
-> There's actually no PHY involved here: the ISP drivers gets its video stream
-> from these CSI controllers which are the ones interfacing with a MIPI CSI-2
-> receiver (on A31/V3 it uses an external D-PHY, on A83T the D-PHY is collocated
-> with the controller).
-> 
-> So I think the data-lanes property is not relevant here.
-> 
-> What do you think?
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+---
+ drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ah, indeed, if it's an internal bus, then data-lanes isn't relevant.
-
+diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+index 1d46e113d01d..74d64a20ba5b 100644
+--- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
++++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_video.c
+@@ -177,7 +177,7 @@ static int sun6i_video_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 
+ 	/*
+ 	 * CSI will lookup the next dma buffer for next frame before the
+-	 * the current frame done IRQ triggered. This is not documented
++	 * current frame done IRQ triggered. This is not documented
+ 	 * but reported by Ondřej Jirman.
+ 	 * The BSP code has workaround for this too. It skip to mark the
+ 	 * first buffer as frame done for VB2 and pass the second buffer
 -- 
-Sakari Ailus
+2.35.1
+
