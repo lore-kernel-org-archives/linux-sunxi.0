@@ -1,109 +1,185 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2905638
-	for <linux-sunxi@lists.linux.dev>; Sat, 16 Jul 2022 11:00:03 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9B8181063;
-	Sat, 16 Jul 2022 04:00:03 -0700 (PDT)
-Received: from slackpad.lan (unknown [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 407D03F73D;
-	Sat, 16 Jul 2022 04:00:00 -0700 (PDT)
-Date: Sat, 16 Jul 2022 11:58:49 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Michal =?UTF-8?B?U3VjaMOhbmVr?= <msuchanek@suse.de>, Michael Walle
- <michael@walle.cc>, linux-sunxi@lists.linux.dev, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski
- <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, Tudor Ambarus
- <tudor.ambarus@microchip.com>, Pratyush Yadav <p.yadav@ti.com>, Miquel
- Raynal <miquel.raynal@bootlin.com>, Richard Weinberger <richard@nod.at>,
- Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mtd@lists.infradead.org
-Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
- report an error
-Message-ID: <20220716115849.75a27753@slackpad.lan>
-In-Reply-To: <2d4f200c-1ce3-19c6-179f-8d8e0545adfe@sholland.org>
-References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
-	<d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
-	<20220714205529.GE17705@kitsune.suse.cz>
-	<33abf7b84860049c4a22605578303ff2@walle.cc>
-	<20220714220744.GF17705@kitsune.suse.cz>
-	<20220715132006.077c90f8@donnerap.cambridge.arm.com>
-	<2d4f200c-1ce3-19c6-179f-8d8e0545adfe@sholland.org>
-Organization: Arm Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.31; x86_64-slackware-linux-gnu)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141D180F;
+	Sun, 17 Jul 2022 11:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1658057832; x=1689593832;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X6aY0q+5aDpSXPBzmndb3qPcsEz32yV4MXOhg75mJSM=;
+  b=Fw2UrD+/3u8XtuE3ge1PRaXeZiKN2ZQaoRyCqdYdrtYo3EJgW8DEQTGY
+   kcOILwiUi4f1SNcYvFEd/v4vmha4/SBBBtOlYaz9n3OgtSfHwZY2Wv6DD
+   mtSRz9tBzP0fJYlgXcUWz0kpMNchKs7fCYQLjg87C1scnMl7zs9ZD5dMT
+   q5XgsJfWpD7AdCxDiCYRwGlV/OOJZROoRH9yBzMqTqX0ANVRO/zqwQA8k
+   tldVg3IsxDby/6o1ZVI6uXm60gnibmar2nCwb2BEX5fySIw4CJGrbwP+F
+   AFswGWVcmC+YnMgAjeksymv4VcdIcBhByKKbFYmU58TYLgPZS0xQ2ZNOg
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10410"; a="283617026"
+X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
+   d="scan'208";a="283617026"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:11 -0700
+X-IronPort-AV: E=Sophos;i="5.92,279,1650956400"; 
+   d="scan'208";a="739155206"
+Received: from punajuuri.fi.intel.com (HELO paasikivi.fi.intel.com) ([10.237.72.43])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2022 04:37:07 -0700
+Received: from paasikivi.fi.intel.com (localhost [127.0.0.1])
+	by paasikivi.fi.intel.com (Postfix) with SMTP id 16DCD20521;
+	Sun, 17 Jul 2022 14:37:05 +0300 (EEST)
+Date: Sun, 17 Jul 2022 11:37:05 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
+References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+ <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
 
-On Fri, 15 Jul 2022 21:28:57 -0500
-Samuel Holland <samuel@sholland.org> wrote:
+Hi Paul,
 
-Hi,
-
-> On 7/15/22 7:20 AM, Andre Przywara wrote:
-> >>>> However, when the board is designed for a specific kind of device which
-> >>>> is not always present, and the kernel can detect the device, it is
-> >>>> perfectly fine to describe it.
-> >>>>
-> >>>> The alternative is to not use the device at all, even when present,
-> >>>> which is kind of useless.    
-> >>>
-> >>> Or let the bootloader update your device tree and disable the device
-> >>> if it's not there?    
-> > 
-> > Yes, this is what I was suggesting already: U-Boot can do the job, because
-> > a U-Boot build is device specific, and we can take certain risks that the
-> > generic and single-image kernel wants to avoid.
-> > In this case we know that there is a SPI flash footprint, and it does no
-> > harm in trying to check on CS0. So I was thinking about introducing a
-> > U-Boot Kconfig variable to probe for and potentially disable the SPI flash
-> > DT node. We would set this variable in defconfigs of boards with optional
-> > SPI flash.  
+On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the Allwinner A31 Image
+> Signal Processor (ISP).
 > 
-> To support the "does no harm" assertion: the Allwinner Boot ROM will probe for
-> NOR flash (and possibly SPI NAND) on SPI0 + CS0 if no bootable MMC device is
-> found. So the board designer must already assume that JEDEC Read ID commands
-> will be sent over that bus.
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
 > 
-> >> But then it must be in the device tree?  
-> > 
-> > However this indeed means that the SPI flash DT node must be in and enabled
-> > in the DT, because we (try hard to) only use original Linux DT files, and
-> > DTs must have been reviewed through the kernel ML first. The U-Boot driver
-> > relies on the DT as well, so the official kernel DT copy would need to come
-> > with that node enabled. Ideally U-Boot would disable it, if needed, and
-> > the kernel error message would never appear.  
-> 
-> I don't think this works for newer SoCs where the Boot ROM supports both NOR and
-> SPI NAND. If the board is sold with the flash chip unpopulated, the user could
-> install either kind of chip. So we cannot statically assume which binding will
-> be used. We would need to add a node with the right compatible string after
-> probing for both in the bootloader.
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> new file mode 100644
+> index 000000000000..2fda6e05e16c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.yaml
+> @@ -0,0 +1,97 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree Bindings
+> +
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun6i-a31-isp
+> +      - allwinner,sun8i-v3s-isp
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +      - description: DRAM Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +      - const: ram
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI0 input port
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: CSI1 input port
 
-If a *user* decides to *change* the board, it's up to the user
-to make sure the DT matches. Overlays are the typical answer, or people
-change the DT before they build U-Boot. If someone decides to hack
-their board, they have to take care of the respective DT description
-hack as well.
+Do both support a single PHY with a single data only? If multiple data lanes
+are supported, please require data-lanes property (on endpoint).
 
-This case here is about the *vendor* shipping different versions of the
-board, which I think is a different case. Technically we now would need
-two DTs: one with, one without the SPI flash node, and let the user
-decide which one to include in U-Boot at build time, depending on which
-version they have.
+> +
+> +    anyOf:
+> +      - required:
+> +          - port@0
+> +      - required:
+> +          - port@1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    isp: isp@1cb8000 {
+> +        compatible = "allwinner,sun8i-v3s-isp";
+> +        reg = <0x01cb8000 0x1000>;
+> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks = <&ccu CLK_BUS_CSI>,
+> +             <&ccu CLK_CSI1_SCLK>,
+> +             <&ccu CLK_DRAM_CSI>;
+> +        clock-names = "bus", "mod", "ram";
+> +        resets = <&ccu RST_BUS_CSI>;
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +
+> +                isp_in_csi0: endpoint {
+> +                    remote-endpoint = <&csi0_out_isp>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
 
-What I was suggesting is a U-Boot config switch, which would only be
-enabled on those boards where we have this situation (OPi Zero):
-That avoids dangerous situations (because we know it's safe *on this
-particular board*), and avoids the hassle of shipping two firmware
-versions.
-
-Cheers,
-Andre
+-- 
+Sakari Ailus
