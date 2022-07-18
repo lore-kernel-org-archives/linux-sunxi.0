@@ -1,70 +1,83 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B14EA6
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 09:41:37 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id k85so17145147ybk.7
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 02:41:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0fOvbxuv2i/5Fzmz+3Q/qIWhDdrS7QG5wOKPzGz/uIY=;
-        b=G3ldbuY+mWVn7ay3tMVHD/zVJ4BIpuzDiqmOUrL9SZtu6moGWd4rAPTZqsejlKf3q+
-         yia8d++1RE9vr7d8BKUzuJih3iYsDhRndNPYzJtGPsDBs8IWzb5iPSPiun4IRIO/LEN/
-         17tvA/OeTpsA0qbadS2ZCrODA/MY30gkZ2BUkc20mH2yNCeMy+U8hwukifQs42YTzFbL
-         4iQxnLCjX4HYCKnVaupqTes4Kt9vVg7H26chsPzMoZIuuQitXLWbjdTCsLmBc9rld0pY
-         Bg85u1C0QgW1d71VlR62SQT9BaTljmaRxhg+FZmtpxlRKXaWxQ5C7MQoHCZuH109IlEW
-         c41g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0fOvbxuv2i/5Fzmz+3Q/qIWhDdrS7QG5wOKPzGz/uIY=;
-        b=zAX4pfdUUx/QkO0H8HO7ZVexNmcF5beX22HDUBbbr8Xw3h6ePNqbJTRCdKtT19ap9W
-         enNkGHHTLbraXClhwwsn5V44kS+RyYObZ3AUCUdBc6g/OYgOcin+XELl3msGCV9hlXDJ
-         sV/B5VbMRUHW5f8qGELvnDwyydid1lAQBQ0uYRX9V/UEmrv8pnlNqrL6iEmDRQ31HseK
-         1Rqf7WMvPNHmUfydwINaIlIi7xYJjJEXZYe2AnTLd/ETbZAWLacedRFDuQgQ/oRFW5c6
-         oGjmFHeEbne/JQs2bdnBTT+XSghZe3H0vLwbWM12UFP+mEiCP9C/8ejCp3ESLO8Vl28w
-         OfBQ==
-X-Gm-Message-State: AJIora8RZSQqg6QVv4Z9XXeXs2Tshh+pm0WwKt5dBwqRlSOlk5rBpSx2
-	W7GhJmJpcDq5MUoCPkq36uPoM3lq6QwYqlaq5BPoHQ==
-X-Google-Smtp-Source: AGRyM1vAtV/OOZgvx1kKG3FvseqMLz6Z/yAiXnzUMl+LY6h0es27TmM8UASc1JpZ0HuCq+s3wHStVZi2IjNSqN7I20I=
-X-Received: by 2002:a25:8c91:0:b0:670:5c00:7c6a with SMTP id
- m17-20020a258c91000000b006705c007c6amr1238342ybl.66.1658137296329; Mon, 18
- Jul 2022 02:41:36 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B2AEA6;
+	Mon, 18 Jul 2022 10:12:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD49FC341C0;
+	Mon, 18 Jul 2022 10:12:49 +0000 (UTC)
+Message-ID: <f3162b4e-a2ab-326b-f905-360dc63bc143@xs4all.nl>
+Date: Mon, 18 Jul 2022 12:12:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <YtH53r9UcYwquxcx@debian> <043cec12-b719-e9e6-d234-fe6ca75ca894@gmail.com>
- <a15dc5d9-ed10-d75b-3e76-e5e03ebfe25f@sholland.org>
-In-Reply-To: <a15dc5d9-ed10-d75b-3e76-e5e03ebfe25f@sholland.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Mon, 18 Jul 2022 11:41:25 +0200
-Message-ID: <CACRpkdZ6yPUd0KPLqviB_ufiEe9dz3XyP+JPkP5ujKc7xYYKVw@mail.gmail.com>
-Subject: Re: build failure of next-20220715 due to "No rule to make target"
-To: Samuel Holland <samuel@sholland.org>
-Cc: Florian Fainelli <f.fainelli@gmail.com>, 
-	"Sudip Mukherjee (Codethink)" <sudipm.mukherjee@gmail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, linux-gpio@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-next@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.10.0
+Subject: Re: [PATCH v2 0/7] Enable 10bits bitstream for Hantro/G2 HEVC codec
+Content-Language: en-US
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+ gregkh@linuxfoundation.org, mripard@kernel.org,
+ paul.kocialkowski@bootlin.com, wens@csie.org, jernej.skrabec@gmail.com,
+ samuel@sholland.org, nicolas.dufresne@collabora.com, andrzej.p@collabora.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ kernel@collabora.com
+References: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20220718083945.200845-1-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jul 16, 2022 at 4:15 AM Samuel Holland <samuel@sholland.org> wrote:
+On 7/18/22 10:39, Benjamin Gaignard wrote:
+> Since v1 Jernej patches to support 10 bits decoding have been merged.
+> This v2 rebase the previously send patches and add Ezequiel reviewed-by
+> tag.
+> This series add 10bits support for newer hardware blocks (i.e without
+> legacy regs) and for HEVC codec.
+> 
+> It based tested on IMX8MQ with HEVC conformance tests.
+> The results are that all 10bits bitstreams are OK.
+> 
+> The problematic point raise by this series is the question of where 
+> to put HEVC validation function. Does it have to be only hantro_try_ctrl()
+> or shall it be done also in .run().
+> This series doesn't change that behavoir so I will argue in farvor to
+> merge it and to work on this validation time problem when unstaging 
+> the driver.
+> Hans, Ezequiel may that sound acceptable for you ? 
 
-> The patch in question[0] contains the new file, so something must have gone
-> wrong when applying it[1].
+Hmm, the hantro driver will be unstaged either this week or (hopefully)
+very early on in the next cycle. So I think you should no longer consider
+hantro as a staging driver but as a regular mainline driver.
 
-Patch 6/6 didn't apply cleanly so was applied with
-patch -p1 < patch.patch and then I missed to git add the .c file.
+This series definitely won't make the 5.20 cut, so I think it makes more
+sense to get this right before merging it.
 
-> I wasn't sure what to do, so I resent the whole
-> series[2], in case the index hashes in the v1 patches were causing the problem.
+Regards,
 
-Fixed up by applying v2 now!
+	Hans
 
-Linus Walleij
+> 
+> Regards,
+> Benjamin
+> 
+> Benjamin Gaignard (7):
+>   media: hantro: Store HEVC bit depth in context
+>   media: hantro: HEVC: Fix auxilary buffer size calculation
+>   media: hantro: HEVC: Fix chroma offset computation
+>   media: hantro: postproc: Configure output regs to support 10bit
+>   media: Hantro: HEVC: Allows 10-bit bitstream
+>   media: hantro: imx8m: Enable 10bit decoding
+>   media: hantro: Allows luma and chroma depth to be different
+> 
+>  .../staging/media/hantro/hantro_g2_hevc_dec.c |  4 +--
+>  drivers/staging/media/hantro/hantro_hevc.c    | 13 +++++----
+>  .../staging/media/hantro/hantro_postproc.c    |  7 ++++-
+>  drivers/staging/media/hantro/imx8m_vpu_hw.c   | 27 +++++++++++++++++++
+>  4 files changed, 40 insertions(+), 11 deletions(-)
+> 
+
