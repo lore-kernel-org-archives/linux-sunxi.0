@@ -1,246 +1,98 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8D7DEA6
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 10:17:14 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7D8B01042;
-	Mon, 18 Jul 2022 03:17:08 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8F9E33F70D;
-	Mon, 18 Jul 2022 03:17:06 -0700 (PDT)
-Date: Mon, 18 Jul 2022 11:17:04 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Jesse Taube <mr.bossman075@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>, George Hilliard
- <thirtythreeforty@gmail.com>, qianfan Zhao <qianfanguijin@163.com>, Icenowy
- Zheng <icenowy@aosc.io>, Yifan Gu <me@yifangu.com>, Giulio Benetti
- <giulio.benetti@benettiengineering.com>, Samuel Holland
- <samuel@sholland.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-sunxi@lists.linux.dev, u-boot@lists.denx.de
-Subject: Re: [PATCH 2/7] spi: sunxi: refactor SPI speed/mode programming
-Message-ID: <20220718111704.1ff83ad5@donnerap.cambridge.arm.com>
-In-Reply-To: <69d93bce-f28e-aff8-fc52-03bf93d26bf2@gmail.com>
-References: <20220503212040.27884-1-andre.przywara@arm.com>
-	<20220503212040.27884-3-andre.przywara@arm.com>
-	<20220628013157.129f4d64@slackpad.lan>
-	<69d93bce-f28e-aff8-fc52-03bf93d26bf2@gmail.com>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010F8320D;
+	Mon, 18 Jul 2022 16:56:59 +0000 (UTC)
+Received: by mail-ed1-f51.google.com with SMTP id g1so16131822edb.12;
+        Mon, 18 Jul 2022 09:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y3DicpiZDzzyLvsd6Ksc1jxotvvS3SoBDIYH96KWNtg=;
+        b=KUKKHyYWEJQbW9ke9Rw1YIZJaiFxXnCj4yr4QmqifDHu6S1SMb6SIZE5A21R2HhbZ0
+         2gPuEGxA3VkBSG5aEF5bDSx00RMurXvxMRSIv8MEiFxhF0iKD9YHGVkYTvOinpxKmIQ+
+         Nv6jaPHBJ2gJx22z5fzAzcVI6X2PESSspw5ui+uRmlCMGo16JQBEwjVaN0EXtibBKJDG
+         qQ6JwWEKnDD8o/tnyaEEfWawuHJt09qBUeH2a4+mzdGmT51ClBuZsDhppFJv3ORp4DCp
+         EFq8lWr0u2wLMuFZCx59OaP/eI9XSdqO/djQobEM//RngBYiGpHJQU8zUIildGJ9GWR4
+         7iwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Y3DicpiZDzzyLvsd6Ksc1jxotvvS3SoBDIYH96KWNtg=;
+        b=pPJYAB3qRy5nDSuJb8uOBOdg30KTAgf+RTZgb0tzgY35/fopo4nbbL5invfFL1lxfa
+         LPdPAR6GZvQ7AnF4QTOqlnNJwwvjQv1QCxtTLNhYo9H3RcewEwESkQbLeBy3tClunHRW
+         lsG+womn7kcNt9klieSot22cFrxSsdCypSjDbHknKj6e8OPyYtvFY7pkL//G8JE8DH7R
+         Nto9Wm9Mwruf/2oJM9KA4XVipu10ENLJDZTmYznj9w5m56jBUyNIIeF2Q8N+ZWrtNIcP
+         zI/SdMRRTaphzQBLooOrv7mMrhlXEp4fpHYp6Vk0XQcgaUhPZ4BR66XEizqa09RqU4UW
+         WRyA==
+X-Gm-Message-State: AJIora+1em5xAZ6RxgRs4+xusEsyyFIwL0hzEoNGd5qh7rJFLU9M/qiC
+	RHg1GyONs8cgnkejolWjBao=
+X-Google-Smtp-Source: AGRyM1syIdVOZlV95OE9SRKoINorbj9ZvFSagj4n4pG8X5leSXmfWy+OX9VV0dqUJVDUD4hGdnhwtw==
+X-Received: by 2002:a05:6402:46:b0:43a:f611:5992 with SMTP id f6-20020a056402004600b0043af6115992mr38917400edu.18.1658163418196;
+        Mon, 18 Jul 2022 09:56:58 -0700 (PDT)
+Received: from kista.localdomain (213-161-3-76.dynamic.telemach.net. [213.161.3.76])
+        by smtp.gmail.com with ESMTPSA id gr19-20020a170906e2d300b0070abf371274sm5661292ejb.136.2022.07.18.09.56.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 09:56:57 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	paul.kocialkowski@bootlin.com
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	wens@csie.org,
+	samuel@sholland.org,
+	hverkuil-cisco@xs4all.nl,
+	ezequiel@vanguardiasur.com.ar,
+	nicolas.dufresne@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
+Date: Mon, 18 Jul 2022 18:56:49 +0200
+Message-Id: <20220718165649.16407-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.37.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Jun 2022 23:43:25 -0400
-Jesse Taube <mr.bossman075@gmail.com> wrote:
+Not all DPB entries will be used most of the time. Unused entries will
+thus have invalid timestamps. They will produce negative buffer index
+which is not specifically handled. This works just by chance in current
+code. It will even produce bogus pointer, but since it's not used, it
+won't do any harm.
 
-Hi Jesse,
+Let's fix that brittle design by skipping writing DPB entry altogether
+if timestamp is invalid.
 
-> On 6/27/22 20:31, Andre Przywara wrote:
-> > On Tue,  3 May 2022 22:20:35 +0100
-> > Andre Przywara <andre.przywara@arm.com> wrote:
-> > 
-> > Hi,
-> >   
-> >> As George rightfully pointed out [1], the spi-sunxi driver programs the
-> >> speed and mode settings only when the respective functions are called,
-> >> but this gets lost over a call to release_bus(). That asserts the
-> >> reset line, thus forces each SPI register back to its default value.
-> >> Adding to that, trying to program SPI_CCR and SPI_TCR might be pointless
-> >> in the first place, when the reset line is still asserted (before
-> >> claim_bus()), so those setting won't apply most of the time. In reality
-> >> I see two nested claim_bus() calls for the first use, so settings between
-> >> the two would work (for instance for the initial "sf probe"). However
-> >> later on the speed setting is not programmed into the hardware anymore.  
-> > 
-> > So this issue was addressed with patches by both George (earlier, in a
-> > different way) and Qianfan (later, in a very similar way).
-> > 
-> > Can someone (Jagan?) please have a look at this change from the U-Boot
-> > SPI perspective? And also the other changes in this series?
-> > I pushed them to the sunxi/next branch:
-> > https://source.denx.de/u-boot/custodians/u-boot-sunxi/-/commits/next/
-> > 
-> > So can people please test this and report whether this now works as
-> > expected?  
-> 
-> I'm very confused I have forgotten much about this patch set.
-> I'm going to test it, but why has it only been merged now?
+Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Because no one reviewed it, or even replied to it - hence my email. And
-apparently it was even broken.
-The code quality in U-Boot is not really great, as the problems fixed with
-this series and the other problems emerged lately ([1]) demonstrate. So I
-am very reluctant to take any patches without a meaningful review, or at
-least without confirmation of their functionality - regardless of the
-author. For instance I just found a bug in my patch 4/7 ...
-
-And I didn't really merge them yet, I just pushed them to the sunxi/next
-branch, to expose them more widely and encourage testing - which
-apparently worked out as planned ;-)
-
-Cheers,
-Andre
-
-[1]
-https://lore.kernel.org/u-boot/20220711165215.218e21ae@donnerap.cambridge.arm.com/
-
-> >> So far we get away with that default frequency, because that is a rather
-> >> tame 24 MHz, which most SPI flash chips can handle just fine.
-> >>
-> >> Move the actual register programming into a separate function, and use
-> >> .set_speed and .set_mode just to set the variables in our priv structure.
-> >> Then we only call this new function in claim_bus(), when we are sure
-> >> that register accesses actually work and are preserved.
-> >>
-> >> [1] https://lore.kernel.org/u-boot/20210725231636.879913-17-me@yifangu.com/
-> >>
-> >> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
-> >> Reported-by: George Hilliard <thirtythreeforty@gmail.com>
-> >> ---
-> >>   drivers/spi/spi-sunxi.c | 95 ++++++++++++++++++++++-------------------
-> >>   1 file changed, 52 insertions(+), 43 deletions(-)
-> >>
-> >> diff --git a/drivers/spi/spi-sunxi.c b/drivers/spi/spi-sunxi.c
-> >> index b6cd7ddafad..d6b2dd09514 100644
-> >> --- a/drivers/spi/spi-sunxi.c
-> >> +++ b/drivers/spi/spi-sunxi.c
-> >> @@ -221,6 +221,56 @@ err_ahb:
-> >>   	return ret;
-> >>   }
-> >>   
-> >> +static void sun4i_spi_set_speed_mode(struct udevice *dev)
-> >> +{
-> >> +	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> >> +	unsigned int div;
-> >> +	u32 reg;
-> >> +
-> >> +	/*
-> >> +	 * Setup clock divider.
-> >> +	 *
-> >> +	 * We have two choices there. Either we can use the clock
-> >> +	 * divide rate 1, which is calculated thanks to this formula:
-> >> +	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
-> >> +	 * Or we can use CDR2, which is calculated with the formula:
-> >> +	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
-> >> +	 * Whether we use the former or the latter is set through the
-> >> +	 * DRS bit.
-> >> +	 *
-> >> +	 * First try CDR2, and if we can't reach the expected
-> >> +	 * frequency, fall back to CDR1.
-> >> +	 */
-> >> +
-> >> +	div = SUN4I_SPI_MAX_RATE / (2 * priv->freq);
-> >> +	reg = readl(SPI_REG(priv, SPI_CCR));
-> >> +
-> >> +	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-> >> +		if (div > 0)
-> >> +			div--;
-> >> +
-> >> +		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
-> >> +		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
-> >> +	} else {
-> >> +		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(priv->freq);
-> >> +		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
-> >> +		reg |= SUN4I_CLK_CTL_CDR1(div);
-> >> +	}
-> >> +
-> >> +	writel(reg, SPI_REG(priv, SPI_CCR));
-> >> +
-> >> +	reg = readl(SPI_REG(priv, SPI_TCR));
-> >> +	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
-> >> +
-> >> +	if (priv->mode & SPI_CPOL)
-> >> +		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
-> >> +
-> >> +	if (priv->mode & SPI_CPHA)
-> >> +		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
-> >> +
-> >> +	writel(reg, SPI_REG(priv, SPI_TCR));
-> >> +}
-> >> +
-> >>   static int sun4i_spi_claim_bus(struct udevice *dev)
-> >>   {
-> >>   	struct sun4i_spi_priv *priv = dev_get_priv(dev->parent);
-> >> @@ -240,6 +290,8 @@ static int sun4i_spi_claim_bus(struct udevice *dev)
-> >>   	setbits_le32(SPI_REG(priv, SPI_TCR), SPI_BIT(priv, SPI_TCR_CS_MANUAL) |
-> >>   		     SPI_BIT(priv, SPI_TCR_CS_ACTIVE_LOW));
-> >>   
-> >> +	sun4i_spi_set_speed_mode(dev->parent);
-> >> +
-> >>   	return 0;
-> >>   }
-> >>   
-> >> @@ -329,46 +381,14 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
-> >>   {
-> >>   	struct sun4i_spi_plat *plat = dev_get_plat(dev);
-> >>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> >> -	unsigned int div;
-> >> -	u32 reg;
-> >>   
-> >>   	if (speed > plat->max_hz)
-> >>   		speed = plat->max_hz;
-> >>   
-> >>   	if (speed < SUN4I_SPI_MIN_RATE)
-> >>   		speed = SUN4I_SPI_MIN_RATE;
-> >> -	/*
-> >> -	 * Setup clock divider.
-> >> -	 *
-> >> -	 * We have two choices there. Either we can use the clock
-> >> -	 * divide rate 1, which is calculated thanks to this formula:
-> >> -	 * SPI_CLK = MOD_CLK / (2 ^ (cdr + 1))
-> >> -	 * Or we can use CDR2, which is calculated with the formula:
-> >> -	 * SPI_CLK = MOD_CLK / (2 * (cdr + 1))
-> >> -	 * Whether we use the former or the latter is set through the
-> >> -	 * DRS bit.
-> >> -	 *
-> >> -	 * First try CDR2, and if we can't reach the expected
-> >> -	 * frequency, fall back to CDR1.
-> >> -	 */
-> >> -
-> >> -	div = SUN4I_SPI_MAX_RATE / (2 * speed);
-> >> -	reg = readl(SPI_REG(priv, SPI_CCR));
-> >> -
-> >> -	if (div <= (SUN4I_CLK_CTL_CDR2_MASK + 1)) {
-> >> -		if (div > 0)
-> >> -			div--;
-> >> -
-> >> -		reg &= ~(SUN4I_CLK_CTL_CDR2_MASK | SUN4I_CLK_CTL_DRS);
-> >> -		reg |= SUN4I_CLK_CTL_CDR2(div) | SUN4I_CLK_CTL_DRS;
-> >> -	} else {
-> >> -		div = __ilog2(SUN4I_SPI_MAX_RATE) - __ilog2(speed);
-> >> -		reg &= ~((SUN4I_CLK_CTL_CDR1_MASK << 8) | SUN4I_CLK_CTL_DRS);
-> >> -		reg |= SUN4I_CLK_CTL_CDR1(div);
-> >> -	}
-> >>   
-> >>   	priv->freq = speed;
-> >> -	writel(reg, SPI_REG(priv, SPI_CCR));
-> >>   
-> >>   	return 0;
-> >>   }
-> >> @@ -376,19 +396,8 @@ static int sun4i_spi_set_speed(struct udevice *dev, uint speed)
-> >>   static int sun4i_spi_set_mode(struct udevice *dev, uint mode)
-> >>   {
-> >>   	struct sun4i_spi_priv *priv = dev_get_priv(dev);
-> >> -	u32 reg;
-> >> -
-> >> -	reg = readl(SPI_REG(priv, SPI_TCR));
-> >> -	reg &= ~(SPI_BIT(priv, SPI_TCR_CPOL) | SPI_BIT(priv, SPI_TCR_CPHA));
-> >> -
-> >> -	if (mode & SPI_CPOL)
-> >> -		reg |= SPI_BIT(priv, SPI_TCR_CPOL);
-> >> -
-> >> -	if (mode & SPI_CPHA)
-> >> -		reg |= SPI_BIT(priv, SPI_TCR_CPHA);
-> >>   
-> >>   	priv->mode = mode;
-> >> -	writel(reg, SPI_REG(priv, SPI_TCR));
-> >>   
-> >>   	return 0;
-> >>   }  
-> >   
-> 
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+index 1afc6797d806..687f87598f78 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+@@ -147,6 +147,9 @@ static void cedrus_h265_frame_info_write_dpb(struct cedrus_ctx *ctx,
+ 			dpb[i].pic_order_cnt_val
+ 		};
+ 
++		if (buffer_index < 0)
++			continue;
++
+ 		cedrus_h265_frame_info_write_single(ctx, i, dpb[i].field_pic,
+ 						    pic_order_cnt,
+ 						    buffer_index);
+-- 
+2.37.1
 
