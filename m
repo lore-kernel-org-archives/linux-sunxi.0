@@ -1,61 +1,192 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDAD3D88
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 21:13:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A160CC341C0;
-	Mon, 18 Jul 2022 21:13:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658178811;
-	bh=3ZeacVnqNecYCnFgRv8FYWYVoPrKJUcCC4ed0oBS7ak=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=PCdCZCsvn+r9ZtkjQqGHzkdN21cfynSrjXjFyP5miehsHr8iGx7OQIUgfoDo0WlmC
-	 8ebdtcwMqiR8sU09qrIKvthuJIee6f/4Ia0yvWBWLA2vlH9o44ChYvBsEKrF/chC5d
-	 h0TR/rm1om9KGJttczLhB2rW9RMoqlGF0/Be4ildZ+71vpksDDSw+h+aHP0IF3vQam
-	 QSHCyLsmalISHXmlUwEezsZKFumd7o0xfioWG7jB0RKFZVqAfDiwwwbqZGPXJNLl7H
-	 /TqBsop5kpmd5ABEpqIH+zoUmdgg/q3fwwOZrmotij9cJsZou+yuZO+NrSsxUDqXz7
-	 bVZEn/DIQLskA==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F34D3D9D
+	for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 21:49:51 +0000 (UTC)
+Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-10cf9f5b500so26348841fac.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 14:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
+        b=tx4wDsqJpNDyDy+RoCSOngclATfOSZSGSNqXermhdzAgWIJQzVv0Sma93TTt5PbTRY
+         +e7j74ZUKxge80dMCD6hCLmAJ2hJBFc3zvXypaiavIDgrvxyXj1DjZQdv7wvxR1Wxoxk
+         4+rGISmGIRqAt8HpsKy75keqQh+uErIt/MgHLMjTRI2ItvOLvWYMS5l0MstP+DAKkbzD
+         cnRaXQS6t2qZe6WYsf8Y+oGTp3+xwjJ1crHibSHTjBN6Y73d8RHByBcdPS0VB24OCp9h
+         0ndrMFGKb1W0GUoTKLkZNswK44qbXle4hLt5CkaXZ6tWaHq08rpmzz+QP9mgMrtl3oks
+         nf8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
+        b=WCRIs9rIgUQpqslc87NNvOK//fnquEXTLXlpxanDB2RDWlIBXIeqtqQmMOfajNfEMM
+         hQ0g3bf8k1u1Gkn4aRI2yj6S5+SaQEKhoj7FQJ+Gju6aanCHoXK1mrLt1gcx7Rcew71N
+         LdJHGCYbV4HogFkdM+5lRRwOa53CSlddSrXNCIGa2CZyVWH2WekORljsBjQYGbLjiDQr
+         rL59Qx9xYUSBac/eWfGuxqt9UjhxEYmh1Z5i1OTZ0Hx9AvmD4Cu1R28JB7OLlC82QEsN
+         Kam/vPmNxCX0qUEwrBr50PvlrlNhXAzlGmJYDMF2gjMlfuxDFJCKwAbEykkIwKGYUZN9
+         t+wQ==
+X-Gm-Message-State: AJIora96nS3SNU2XQN1WhzR6bDlSrWgYflPiO1h+UsRZOLT/3r5L4LBz
+	Lg2oPjG25iWf1hB4ROUzYQFrfg==
+X-Google-Smtp-Source: AGRyM1vz+73Xt/EprCxr0glRx7mlW8o0gR7RQ50oLzXGipGpGPDEmsqZtjvD/fY5SFshUU/R35B23w==
+X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id bb17-20020a056808169100b002f94bd7581emr16545639oib.144.1658180990517;
+        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
+Received: from eze-laptop ([190.190.187.68])
+        by smtp.gmail.com with ESMTPSA id c127-20020a4a0585000000b00431003ca076sm5472932ooc.44.2022.07.18.14.49.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
+Date: Mon, 18 Jul 2022 18:49:44 -0300
+From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+	samuel@sholland.org, hverkuil-cisco@xs4all.nl,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
+Message-ID: <YtXVeAChyKlfqD8O@eze-laptop>
+References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
+ <4725382.GXAFRqVoOG@kista>
+ <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
+ <1795344.atdPhlSkOF@jernej-laptop>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YshcQP6rsWJHgfYO@kista.localdomain>
-References: <YshcQP6rsWJHgfYO@kista.localdomain>
-Subject: Re: [GIT PULL] Allwinner clock changes for 5.20
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
-Date: Mon, 18 Jul 2022 14:13:29 -0700
-User-Agent: alot/0.10
-Message-Id: <20220718211331.A160CC341C0@smtp.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1795344.atdPhlSkOF@jernej-laptop>
 
-Quoting Jernej Skrabec (2022-07-08 09:33:04)
-> Hi!
->=20
-> Please pull following clock changes for 5.20.
->=20
+Hi Jernej,
+
+On Mon, Jul 18, 2022 at 10:34:37PM +0200, Jernej Škrabec wrote:
+> Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne 
+> napisal(a):
+> > Le lundi 18 juillet 2022 à 19:57 +0200, Jernej Škrabec a écrit :
+> > > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
+> > > 
+> > > napisal(a):
+> > > > Le lundi 18 juillet 2022 à 18:56 +0200, Jernej Skrabec a écrit :
+> > > > > Not all DPB entries will be used most of the time. Unused entries will
+> > > > > thus have invalid timestamps. They will produce negative buffer index
+> > > > > which is not specifically handled. This works just by chance in
+> > > > > current
+> > > > > code. It will even produce bogus pointer, but since it's not used, it
+> > > > > won't do any harm.
+> > > > > 
+> > > > > Let's fix that brittle design by skipping writing DPB entry altogether
+> > > > > if timestamp is invalid.
+> > > > > 
+> > > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
+> > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > > > ---
+> > > > > 
+> > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
+> > > > >  1 file changed, 3 insertions(+)
+> > > > > 
+> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> > > > > 1afc6797d806..687f87598f78 100644
+> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> > > > > @@ -147,6 +147,9 @@ static void
+> > > > > cedrus_h265_frame_info_write_dpb(struct
+> > > > > cedrus_ctx *ctx,>
+> > > > > 
+> > > > >  			dpb[i].pic_order_cnt_val
+> > > > >  		
+> > > > >  		};
+> > > > > 
+> > > > > +		if (buffer_index < 0)
+> > > > > +			continue;
+> > > > 
+> > > > When I compare to other codecs, when the buffer_index does not exist,
+> > > > the
+> > > > addr 0 is being programmed into the HW. With this implementation is is
+> > > > left
+> > > > to whatever it was set for the previous decode operation. I think its is
+> > > > nicer done the other way.
+> > > 
+> > > It's done the same way as it's done in vendor lib. As I stated in commit
+> > > message, actual values don't matter for unused entries. If it is used by
+> > > accident, HW reaction on all zero pointers can only be worse than using
+> > > old, but valid entry.
+> > > 
+> > > Due to no real documentation and Allwinner unwillingness to share details,
+> > > we'll probably never know what's best response for each error. Some things
+> > > can be deduced from vendor code, but not all.
+> > > 
+> > > I would rather not complicate this fix, especially since it's candidate
+> > > for
+> > > backporting.
+
+I think this makes sense, since it allows to fix the bug for the time
+being.
+
+Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+
+Thanks!
+Ezequiel
+
+> > 
+> > I am simply trying to highlight that this is not consistant with how the
+> > H264 part is done. Why do we reset the register for one codec and not the
+> > other ?
+> 
+> While H264 and HEVC are similar in many ways, Cedrus uses two different cores 
+> or in Cedrus slang, engines, for them. They have their own quirks. One of the 
+> most apparent is handling of DPB array. H264 requires that same entry is 
+> always at the same position in HW DPB. That's not required by HEVC.
+> 
+> Additional reasons for differences come from the fact that it's from two 
+> different authors (Maxime and Paul). Those differences were created at the 
+> beginning and it is what it is.
+> 
+> > 
+> > Perhaps you should sync to your preference the driver as a whole. It also
+> > seems that before your patch, some bits would be 0 and some other would be
+> > very large values. Between this and leaving random value, I don't really
+> > see any gain or reason for a backport. It neither break or fix anything as
+> > far as I understand.
+> 
+> Maybe there is no need to backport, but the change is nevertheless useful. As 
+> I explained, current code works only by chance, as we noticed with Ezequiel's 
+> rework. It's certainly worthwhile to make code less brittle. As far as I'm 
+> concerned, fixes tag can be dropped or even Ezequiel can squash this change 
+> into his commit, with appropriate adjustments, of course.
+> 
+> I'm not completely sure what do you mean by syncing driver preference. Code 
+> changes always need a good reason to be accepted. Moving code around and 
+> renaming things just to be similar with something else is not.
+> 
 > Best regards,
 > Jernej
->=20
-> The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a=
-56:
->=20
->   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-for-5.20-1
->=20
-> for you to fetch changes up to 4167ac8a657e4f0860419adf24d4b91a26580488:
->=20
->   clk: sunxi-ng: sun50i: h6: Modify GPU clock configuration to support DF=
-S (2022-07-08 18:13:50 +0200)
->=20
-> ----------------------------------------------------------------
-
-Thanks. Pulled into clk-next
+> 
+> > 
+> > My general opinion, is that we fixe the unused address (like to 0) then when
+> > something goes wrong, as least it will go wrong consistently.
+> > 
+> > > Best regards,
+> > > Jernej
+> > > 
+> > > > > +
+> > > > > 
+> > > > >  		cedrus_h265_frame_info_write_single(ctx, i,
+> > > 
+> > > dpb[i].field_pic,
+> > > 
+> > > 
+> > > pic_order_cnt,
+> > > 
+> > > buffer_index);
+> 
+> 
+> 
+> 
