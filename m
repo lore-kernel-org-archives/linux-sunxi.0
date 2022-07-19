@@ -1,140 +1,129 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518E329AB
-	for <linux-sunxi@lists.linux.dev>; Tue, 19 Jul 2022 18:37:31 +0000 (UTC)
-Received: by mail-ej1-f48.google.com with SMTP id l23so28855019ejr.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 19 Jul 2022 11:37:31 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFCED5393
+	for <linux-sunxi@lists.linux.dev>; Tue, 19 Jul 2022 19:54:30 +0000 (UTC)
+Received: by mail-qk1-f171.google.com with SMTP id c3so6374287qko.1
+        for <linux-sunxi@lists.linux.dev>; Tue, 19 Jul 2022 12:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cmI+PQby/2CoTm1Le4E4JzH/gDv5I8DfTHHCjF+E0Yo=;
-        b=bnapr9AglL7uJ+mEdePPNRjhQ+56XJg0PqREOWrSGwly5HmTo3Pf8wBgUKwYqlDXHW
-         G0xrgAPoC+IUkE+p4NB18uKVhqtIj55YPPQiV+AZaYa+ExFaIttNQIEzXeY34Mc9rqDa
-         M2KY6ixz2qOYzyRtUie1UGdONzvPefyYZkcdysBmO/m/Lypo2w6wgsZps5aHqI37MhcL
-         c2vjJtPGHhTy5IyDXHBWjNTOYggTJNcAcbVtEOoq55h0dU1VbIB8QBq4xVequAa7PI0z
-         51MubYzQIECe2InjtZ+oSxYppZGRJyA1MfqYIcHeW3cR+/USBexggDzau8yvOoa4j/Db
-         honQ==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=EKdcLxQqyBbwP9+ENU6AldTlBWMH6J2sxdxcNVl0/1o=;
+        b=jCT3bO2GCqCwWB8Gz6P79oBidrzib7kK/yFV3QHYivqqIS/LgbGt6P+PTBMOHM9l5B
+         +zR04GGWTSaWTXdZ1SRZR1XucrZR2zKcKnE6uBZGErGOXuoSvTUjEdqJ2LGhQa2cO/6C
+         arIyLXPHsY6V96+jTktlLZsDtfYsid2G68MVY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=cmI+PQby/2CoTm1Le4E4JzH/gDv5I8DfTHHCjF+E0Yo=;
-        b=dO92j6NMLMogfowyQddpUAGtxQO77sGafo94MwSABbxJ6oIi79z0f4xbc6MJZUjmiu
-         wW0g51XfrS4jKqGqqwldklRDdbiMsD+g9wKG9jUuoYt7ZaEwq0wXv+dmraFXe1xL5qhI
-         2WsQifNZCNZEw6TRec9/IhDRi4wyzeHd6Tfv9+w1WV4PMrzF5Lfev7TgIFoWjX4P12ZD
-         U3ukuJqXViPyWO8exlGrquvNUwonOmieB9gyyR4npS3XDyiZKa+pp4HIYPX8C9O+IzAh
-         uOQJJfinUGmygpbNLRiw4luJkzW68zJOHNbvrTJff7R4lUrqdjrwaksYlwjvq8ykSGw8
-         Ig8g==
-X-Gm-Message-State: AJIora/ubUYqj0yYVhMS/oheV098wfNGsYQ9hxXWGcvSe+aUnoUu4i8x
-	gt3BuQ0d+w9Nn3CG/9JIYo8=
-X-Google-Smtp-Source: AGRyM1v0H52s37VXka8PL070L/fUmtAwwIDJVKfV4hQtsMLDYV0jRrvxrpV+jaX2mNOgVIZz9/o6Zg==
-X-Received: by 2002:a17:907:980d:b0:72f:2cf2:9aff with SMTP id ji13-20020a170907980d00b0072f2cf29affmr11494969ejc.165.1658255849567;
-        Tue, 19 Jul 2022 11:37:29 -0700 (PDT)
-Received: from kista.localdomain (86-58-13-89.dynamic.telemach.net. [86.58.13.89])
-        by smtp.gmail.com with ESMTPSA id w13-20020aa7cb4d000000b0043a5004e714sm10830602edt.64.2022.07.19.11.37.28
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=EKdcLxQqyBbwP9+ENU6AldTlBWMH6J2sxdxcNVl0/1o=;
+        b=I3HIH5Sk6qjqdIkxpnohSrPgegDKj6wr7cHvykfrrQAC+cDVrYws4Wio02RG2Ccu/j
+         aVnBPw4cSAZw+j2vDiATjBs3CXGmS51L7MABPPsDlL4MQdeBPkt7cmNFs9qVIE7TB5kg
+         N/J/yHAzHdjsqs2n+NOH4bWFojms0BQDQPKh/I34wG3XZPZyn1lKwlwHzY5iM9YAmyn4
+         27wuzR1TO+Ymz/nZIkZ1bHjFFunp4DIW07AOyxbqMEW5eHuK/UwCw84KbPwts8EvEhxr
+         VVLFdbhPhEaBA0/JeEv0l2HKiyBU2dZ+NXFttSDT22NLd3DbGC9cyXj7QeymOuCJY/pW
+         ynsA==
+X-Gm-Message-State: AJIora/cNLuLlkG4epEttWWpVI6dgam5zNy//CL6KpJVusmUF8V4j/09
+	CXkaPOcIgtyJLXGjFyY6iNZTxw==
+X-Google-Smtp-Source: AGRyM1uk9116pIWnw3DLKOZgk6lOfTKEPXcDQNuYeIaD/4CPt0jTY3Job1u/9o+pzzD4NQXiXzglSQ==
+X-Received: by 2002:a05:620a:400f:b0:6af:53bc:7311 with SMTP id h15-20020a05620a400f00b006af53bc7311mr22096158qko.305.1658260469647;
+        Tue, 19 Jul 2022 12:54:29 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-195-139.ec.res.rr.com. [65.184.195.139])
+        by smtp.gmail.com with ESMTPSA id q14-20020ac8734e000000b0031eb5f07b95sm11108588qtp.57.2022.07.19.12.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Jul 2022 11:37:28 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: samuel@sholland.org,
-	wens@csie.org
-Cc: mturquette@baylibre.com,
-	sboyd@kernel.org,
-	andre.przywara@arm.com,
-	linux-clk@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+        Tue, 19 Jul 2022 12:54:28 -0700 (PDT)
+Date: Tue, 19 Jul 2022 15:54:26 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: u-boot@lists.denx.de, Samuel Holland <samuel@sholland.org>,
 	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
-Date: Tue, 19 Jul 2022 20:37:25 +0200
-Message-Id: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.37.1
+	Markus Hoffrogge <mhoffrogge@gmail.com>,
+	Michal Suchanek <msuchanek@suse.de>
+Subject: Re: Pull request: u-boot-sunxi/master for v2022.10
+Message-ID: <20220719195426.GL1146598@bill-the-cat>
+References: <20220719135102.1497678-1-andre.przywara@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="GdngOFRSbIuZDyer"
+Content-Disposition: inline
+In-Reply-To: <20220719135102.1497678-1-andre.przywara@arm.com>
+X-Clacks-Overhead: GNU Terry Pratchett
 
-While RTC clock was added in H616 ccu_common list, it was not in H6
-list. That caused invalid pointer dereference like this:
 
-Unable to handle kernel NULL pointer dereference at virtual address 000000000000020c
-Mem abort info:
-  ESR = 0x96000004
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x04: level 0 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000004
-  CM = 0, WnR = 0
-user pgtable: 4k pages, 48-bit VAs, pgdp=000000004d574000
-[000000000000020c] pgd=0000000000000000, p4d=0000000000000000
-Internal error: Oops: 96000004 [#1] PREEMPT SMP
-CPU: 3 PID: 339 Comm: cat Tainted: G    B             5.18.0-rc1+ #1352
-Hardware name: Tanix TX6 (DT)
-pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : ccu_gate_is_enabled+0x48/0x74
-lr : ccu_gate_is_enabled+0x40/0x74
-sp : ffff80000c0b76d0
-x29: ffff80000c0b76d0 x28: 00000000016e3600 x27: 0000000000000000
-x26: 0000000000000000 x25: 0000000000000002 x24: ffff00000952fe08
-x23: ffff800009611400 x22: ffff00000952fe79 x21: 0000000000000000
-x20: 0000000000000001 x19: ffff80000aad6f08 x18: 0000000000000000
-x17: 2d2d2d2d2d2d2d2d x16: 2d2d2d2d2d2d2d2d x15: 2d2d2d2d2d2d2d2d
-x14: 0000000000000000 x13: 00000000f2f2f2f2 x12: ffff700001816e89
-x11: 1ffff00001816e88 x10: ffff700001816e88 x9 : dfff800000000000
-x8 : ffff80000c0b7447 x7 : 0000000000000001 x6 : ffff700001816e88
-x5 : ffff80000c0b7440 x4 : 0000000000000001 x3 : ffff800008935c50
-x2 : dfff800000000000 x1 : 0000000000000000 x0 : 000000000000020c
-Call trace:
- ccu_gate_is_enabled+0x48/0x74
- clk_core_is_enabled+0x7c/0x1c0
- clk_summary_show_subtree+0x1dc/0x334
- clk_summary_show_subtree+0x250/0x334
- clk_summary_show_subtree+0x250/0x334
- clk_summary_show_subtree+0x250/0x334
- clk_summary_show_subtree+0x250/0x334
- clk_summary_show+0x90/0xdc
- seq_read_iter+0x248/0x6d4
- seq_read+0x17c/0x1fc
- full_proxy_read+0x90/0xf0
- vfs_read+0xdc/0x28c
- ksys_read+0xc8/0x174
- __arm64_sys_read+0x44/0x5c
- invoke_syscall+0x60/0x190
- el0_svc_common.constprop.0+0x7c/0x160
- do_el0_svc+0x38/0xa0
- el0_svc+0x68/0x160
- el0t_64_sync_handler+0x10c/0x140
- el0t_64_sync+0x18c/0x190
-Code: d1006260 97e5c981 785e8260 8b0002a0 (b9400000)
----[ end trace 0000000000000000 ]---
+--GdngOFRSbIuZDyer
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fix that by adding rtc clock to H6 ccu_common list too.
+On Tue, Jul 19, 2022 at 02:51:02PM +0100, Andre Przywara wrote:
 
-Fixes: 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate clock")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c | 1 +
- 1 file changed, 1 insertion(+)
+> Hi Tom,
+>=20
+> please pull the sunxi/master branch, containing the first part of the
+> 2022.10 changes.
+>=20
+> One prominent feature is the restructering of the clock driver, which
+> allows to end up with one actual driver for all variants, although we
+> still only compile in support for one SoC.
+> Also contained are some initial SPI fixes, which should fix some
+> problems, and enable SPI flash support for the F1C100s SoC. Those
+> patches revealed more problems, I will queue fixes later on, but for
+> now it should at least still work.
+> Apart from some smaller fixes (for instance for NAND operation), there
+> is also preparation for the upcoming Allwinner D1 support, in form of
+> the USB PHY driver. There are more driver support patches to come.
+>=20
+> The gitlab CI completed successfully, including the build test for all
+> 160 sunxi boards. I also boot tested on a few boards, but didn't have
+> time for more elaborate tests this time.
+>=20
+> Thanks,
+> Andre
+>=20
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
+> The following changes since commit 26f6f7fb5c0651d65afdee6d8ed36063606179=
+a8:
+>=20
+>   Merge branch '2022-07-14-migrate-wiki-to-sphinx' (2022-07-14 18:43:51 -=
+0400)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://source.denx.de/u-boot/custodians/u-boot-sunxi.git master
+>=20
+> for you to fetch changes up to 25ba5be1c2b6324917254f0c22df1ad9d3d3c9e7:
+>=20
+>   phy: sun4i-usb: Add D1 variant (2022-07-18 23:48:37 +0100)
+>=20
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-index 29a8c710ae06..b7962e5149a5 100644
---- a/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun50i-h6-r.c
-@@ -138,6 +138,7 @@ static struct ccu_common *sun50i_h6_r_ccu_clks[] = {
- 	&r_apb2_rsb_clk.common,
- 	&r_apb1_ir_clk.common,
- 	&r_apb1_w1_clk.common,
-+	&r_apb1_rtc_clk.common,
- 	&ir_clk.common,
- 	&w1_clk.common,
- };
--- 
-2.37.1
+Applied to u-boot/master, thanks!
 
+--=20
+Tom
+
+--GdngOFRSbIuZDyer
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEEGjx/cOCPqxcHgJu/FHw5/5Y0tywFAmLXC+8ACgkQFHw5/5Y0
+tyxojwwAtSNCo30e8TY/mkTbcD6Bfax2I0jwKWvT0ryM03VfVp8rw7ZBhjJmMJ4f
+zLCpKxfyShOZgHxDVM9LCVsdInnUH2PrZN3mkBSsAnMYsJ97MoGi2Q+3ikAPGI3p
+rD2sEjUYBPYMF8ZDbeZf2xTH/G0PsKyeLKjs+mcNNvJqhjNHWn3iPzREgI7DL7Kw
+j9KAG5RarSTcSHgsaBZNwvcMHoPpUuxO3ASow/Dd67WWguQqtBnrflRq0bqltDgk
+HxPpBlkXHMxwsiXFmxiNLOp8IMi8pEYBRFbG0r4UO2UwDM+pmMDIGJ4Hdn66/fUL
+p07C24CGjVM0oJMQxVzy0y4pZ3p5VskONFEj6Z0oUQCNn/uAidMox4YgNJyPnoHh
+whvZqbbsJaBwG4ft+Cu28BGHaGLcsGJSv40xOmTU2jxSJrC1V77O2nubxEh3OmYd
+F5WY06PMCT45S+G8AUOs4wcwNupK26ZaI9teNBJT/XQAXFJygGUz4/OMa6rMje5E
+9d7KbalW
+=4yLo
+-----END PGP SIGNATURE-----
+
+--GdngOFRSbIuZDyer--
