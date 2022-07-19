@@ -1,192 +1,228 @@
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F34D3D9D
-	for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 21:49:51 +0000 (UTC)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-10cf9f5b500so26348841fac.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 18 Jul 2022 14:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
-        b=tx4wDsqJpNDyDy+RoCSOngclATfOSZSGSNqXermhdzAgWIJQzVv0Sma93TTt5PbTRY
-         +e7j74ZUKxge80dMCD6hCLmAJ2hJBFc3zvXypaiavIDgrvxyXj1DjZQdv7wvxR1Wxoxk
-         4+rGISmGIRqAt8HpsKy75keqQh+uErIt/MgHLMjTRI2ItvOLvWYMS5l0MstP+DAKkbzD
-         cnRaXQS6t2qZe6WYsf8Y+oGTp3+xwjJ1crHibSHTjBN6Y73d8RHByBcdPS0VB24OCp9h
-         0ndrMFGKb1W0GUoTKLkZNswK44qbXle4hLt5CkaXZ6tWaHq08rpmzz+QP9mgMrtl3oks
-         nf8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=YRegPlGkAgnXCQS+56XrhwlChkX0WERwCF78v3+dEDE=;
-        b=WCRIs9rIgUQpqslc87NNvOK//fnquEXTLXlpxanDB2RDWlIBXIeqtqQmMOfajNfEMM
-         hQ0g3bf8k1u1Gkn4aRI2yj6S5+SaQEKhoj7FQJ+Gju6aanCHoXK1mrLt1gcx7Rcew71N
-         LdJHGCYbV4HogFkdM+5lRRwOa53CSlddSrXNCIGa2CZyVWH2WekORljsBjQYGbLjiDQr
-         rL59Qx9xYUSBac/eWfGuxqt9UjhxEYmh1Z5i1OTZ0Hx9AvmD4Cu1R28JB7OLlC82QEsN
-         Kam/vPmNxCX0qUEwrBr50PvlrlNhXAzlGmJYDMF2gjMlfuxDFJCKwAbEykkIwKGYUZN9
-         t+wQ==
-X-Gm-Message-State: AJIora96nS3SNU2XQN1WhzR6bDlSrWgYflPiO1h+UsRZOLT/3r5L4LBz
-	Lg2oPjG25iWf1hB4ROUzYQFrfg==
-X-Google-Smtp-Source: AGRyM1vz+73Xt/EprCxr0glRx7mlW8o0gR7RQ50oLzXGipGpGPDEmsqZtjvD/fY5SFshUU/R35B23w==
-X-Received: by 2002:a05:6808:1691:b0:2f9:4bd7:581e with SMTP id bb17-20020a056808169100b002f94bd7581emr16545639oib.144.1658180990517;
-        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
-Received: from eze-laptop ([190.190.187.68])
-        by smtp.gmail.com with ESMTPSA id c127-20020a4a0585000000b00431003ca076sm5472932ooc.44.2022.07.18.14.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Jul 2022 14:49:50 -0700 (PDT)
-Date: Mon, 18 Jul 2022 18:49:44 -0300
-From: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Jernej =?utf-8?Q?=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: mripard@kernel.org, paul.kocialkowski@bootlin.com,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-	samuel@sholland.org, hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACBC510E9;
+	Tue, 19 Jul 2022 10:04:42 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id 59EF6E000E;
+	Tue, 19 Jul 2022 10:04:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1658225075;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NwzRrHTBlq6/GPcoprPr/yVYl2AllY/DC/t0CGrDf+A=;
+	b=e7f3TXzS3kV6ulJEA/Lge79POr4lJvgvaIo82298rbQnPih9xt0d9sckb/7/J6nV+87uyc
+	v+ib1i6xG+odNmUoJoPIbHNLCNz/+Go/D5ocGreEvWWqpMnkkYHgIKrfMNhKfyNSE2c9Dj
+	Gf9qk1lXvZRJK4+RuGVQLnulDML1DL5TGuAWxVqaDvuAs5foWN2Xek1xJT9u5UGo00uHAD
+	RtFMg1Kq8Y831tdSQ6DQhdLpA0NPjiTdsXqwEJxC0IzHbKMeYN6Rw0KwiNnw65tAOClIIw
+	mPamOXd6BbCLTEKjR4dslHJTbEeMMi8Qaz+6DQWoqc0G/z+p5kozXsWst8yeKA==
+Date: Tue, 19 Jul 2022 12:04:31 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: cedrus: hevc: Add check for invalid timestamp
-Message-ID: <YtXVeAChyKlfqD8O@eze-laptop>
-References: <20220718165649.16407-1-jernej.skrabec@gmail.com>
- <4725382.GXAFRqVoOG@kista>
- <b588b53fcfe539692a0a55b9fd0e97528def1d96.camel@collabora.com>
- <1795344.atdPhlSkOF@jernej-laptop>
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Hans Verkuil <hans.verkuil@cisco.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v5 1/6] dt-bindings: media: Add Allwinner A31 ISP
+ bindings documentation
+Message-ID: <YtaBr3B5JMrdFVgV@aptenodytes>
+References: <20220704173523.76729-1-paul.kocialkowski@bootlin.com>
+ <20220704173523.76729-2-paul.kocialkowski@bootlin.com>
+ <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3I9kBemjOHRithZP"
+Content-Disposition: inline
+In-Reply-To: <YtP0YfPteyzsBWn3@paasikivi.fi.intel.com>
+
+
+--3I9kBemjOHRithZP
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1795344.atdPhlSkOF@jernej-laptop>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
+Hi Sakari,
 
-On Mon, Jul 18, 2022 at 10:34:37PM +0200, Jernej Škrabec wrote:
-> Dne ponedeljek, 18. julij 2022 ob 21:37:31 CEST je Nicolas Dufresne 
-> napisal(a):
-> > Le lundi 18 juillet 2022 à 19:57 +0200, Jernej Škrabec a écrit :
-> > > Dne ponedeljek, 18. julij 2022 ob 19:41:48 CEST je Nicolas Dufresne
-> > > 
-> > > napisal(a):
-> > > > Le lundi 18 juillet 2022 à 18:56 +0200, Jernej Skrabec a écrit :
-> > > > > Not all DPB entries will be used most of the time. Unused entries will
-> > > > > thus have invalid timestamps. They will produce negative buffer index
-> > > > > which is not specifically handled. This works just by chance in
-> > > > > current
-> > > > > code. It will even produce bogus pointer, but since it's not used, it
-> > > > > won't do any harm.
-> > > > > 
-> > > > > Let's fix that brittle design by skipping writing DPB entry altogether
-> > > > > if timestamp is invalid.
-> > > > > 
-> > > > > Fixes: 86caab29da78 ("media: cedrus: Add HEVC/H.265 decoding support")
-> > > > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> > > > > ---
-> > > > > 
-> > > > >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 3 +++
-> > > > >  1 file changed, 3 insertions(+)
-> > > > > 
-> > > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
-> > > > > 1afc6797d806..687f87598f78 100644
-> > > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > > > > @@ -147,6 +147,9 @@ static void
-> > > > > cedrus_h265_frame_info_write_dpb(struct
-> > > > > cedrus_ctx *ctx,>
-> > > > > 
-> > > > >  			dpb[i].pic_order_cnt_val
-> > > > >  		
-> > > > >  		};
-> > > > > 
-> > > > > +		if (buffer_index < 0)
-> > > > > +			continue;
-> > > > 
-> > > > When I compare to other codecs, when the buffer_index does not exist,
-> > > > the
-> > > > addr 0 is being programmed into the HW. With this implementation is is
-> > > > left
-> > > > to whatever it was set for the previous decode operation. I think its is
-> > > > nicer done the other way.
-> > > 
-> > > It's done the same way as it's done in vendor lib. As I stated in commit
-> > > message, actual values don't matter for unused entries. If it is used by
-> > > accident, HW reaction on all zero pointers can only be worse than using
-> > > old, but valid entry.
-> > > 
-> > > Due to no real documentation and Allwinner unwillingness to share details,
-> > > we'll probably never know what's best response for each error. Some things
-> > > can be deduced from vendor code, but not all.
-> > > 
-> > > I would rather not complicate this fix, especially since it's candidate
-> > > for
-> > > backporting.
+On Sun 17 Jul 22, 11:37, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Mon, Jul 04, 2022 at 07:35:18PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the Allwinner A31 Image
+> > Signal Processor (ISP).
+> >=20
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> > ---
+> >  .../media/allwinner,sun6i-a31-isp.yaml        | 97 +++++++++++++++++++
+> >  1 file changed, 97 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
+un6i-a31-isp.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-isp.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-is=
+p.yaml
+> > new file mode 100644
+> > index 000000000000..2fda6e05e16c
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-isp.y=
+aml
+> > @@ -0,0 +1,97 @@
+> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-isp.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Allwinner A31 Image Signal Processor Driver (ISP) Device Tree B=
+indings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    enum:
+> > +      - allwinner,sun6i-a31-isp
+> > +      - allwinner,sun8i-v3s-isp
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: Bus Clock
+> > +      - description: Module Clock
+> > +      - description: DRAM Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: bus
+> > +      - const: mod
+> > +      - const: ram
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    $ref: /schemas/graph.yaml#/properties/ports
+> > +
+> > +    properties:
+> > +      port@0:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI0 input port
+> > +
+> > +      port@1:
+> > +        $ref: /schemas/graph.yaml#/properties/port
+> > +        description: CSI1 input port
+>=20
+> Do both support a single PHY with a single data only? If multiple data la=
+nes
+> are supported, please require data-lanes property (on endpoint).
 
-I think this makes sense, since it allows to fix the bug for the time
-being.
+There's actually no PHY involved here: the ISP drivers gets its video stream
+=66rom these CSI controllers which are the ones interfacing with a MIPI CSI=
+-2
+receiver (on A31/V3 it uses an external D-PHY, on A83T the D-PHY is colloca=
+ted
+with the controller).
 
-Reviewed-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+So I think the data-lanes property is not relevant here.
 
-Thanks!
-Ezequiel
+What do you think?
 
-> > 
-> > I am simply trying to highlight that this is not consistant with how the
-> > H264 part is done. Why do we reset the register for one codec and not the
-> > other ?
-> 
-> While H264 and HEVC are similar in many ways, Cedrus uses two different cores 
-> or in Cedrus slang, engines, for them. They have their own quirks. One of the 
-> most apparent is handling of DPB array. H264 requires that same entry is 
-> always at the same position in HW DPB. That's not required by HEVC.
-> 
-> Additional reasons for differences come from the fact that it's from two 
-> different authors (Maxime and Paul). Those differences were created at the 
-> beginning and it is what it is.
-> 
-> > 
-> > Perhaps you should sync to your preference the driver as a whole. It also
-> > seems that before your patch, some bits would be 0 and some other would be
-> > very large values. Between this and leaving random value, I don't really
-> > see any gain or reason for a backport. It neither break or fix anything as
-> > far as I understand.
-> 
-> Maybe there is no need to backport, but the change is nevertheless useful. As 
-> I explained, current code works only by chance, as we noticed with Ezequiel's 
-> rework. It's certainly worthwhile to make code less brittle. As far as I'm 
-> concerned, fixes tag can be dropped or even Ezequiel can squash this change 
-> into his commit, with appropriate adjustments, of course.
-> 
-> I'm not completely sure what do you mean by syncing driver preference. Code 
-> changes always need a good reason to be accepted. Moving code around and 
-> renaming things just to be similar with something else is not.
-> 
-> Best regards,
-> Jernej
-> 
-> > 
-> > My general opinion, is that we fixe the unused address (like to 0) then when
-> > something goes wrong, as least it will go wrong consistently.
-> > 
-> > > Best regards,
-> > > Jernej
-> > > 
-> > > > > +
-> > > > > 
-> > > > >  		cedrus_h265_frame_info_write_single(ctx, i,
-> > > 
-> > > dpb[i].field_pic,
-> > > 
-> > > 
-> > > pic_order_cnt,
-> > > 
-> > > buffer_index);
-> 
-> 
-> 
-> 
+Cheers,
+
+Paul
+
+> > +
+> > +    anyOf:
+> > +      - required:
+> > +          - port@0
+> > +      - required:
+> > +          - port@1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - resets
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> > +
+> > +    isp: isp@1cb8000 {
+> > +        compatible =3D "allwinner,sun8i-v3s-isp";
+> > +        reg =3D <0x01cb8000 0x1000>;
+> > +        interrupts =3D <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
+> > +        clocks =3D <&ccu CLK_BUS_CSI>,
+> > +             <&ccu CLK_CSI1_SCLK>,
+> > +             <&ccu CLK_DRAM_CSI>;
+> > +        clock-names =3D "bus", "mod", "ram";
+> > +        resets =3D <&ccu RST_BUS_CSI>;
+> > +
+> > +        ports {
+> > +            #address-cells =3D <1>;
+> > +            #size-cells =3D <0>;
+> > +
+> > +            port@0 {
+> > +                reg =3D <0>;
+> > +
+> > +                isp_in_csi0: endpoint {
+> > +                    remote-endpoint =3D <&csi0_out_isp>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+>=20
+> --=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--3I9kBemjOHRithZP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLWga8ACgkQ3cLmz3+f
+v9EUlAf8DYEIQLUQoXOrMlsqRDJSzDzjYJfAHBgm/q9wjI7fvxHf4yHlFuSVReSH
+O42woPwdpBWLkW8Nkd710Ln/xK0bp9yBmTxJ10yWCUKdeSDrzrX0WDzU62NQIjbB
+Ue0cNaQaCXTsgdY0xP/MgkDVPp13MfebobbyM4tqLwcEZyj3yCWR3skLd47htQoq
+O1I8TAi+7j5ssrk3hSyZdS1yPsQt2a02IoZ9iA4ItXDRw0yhN+Ak6dd/VTumaA9N
+l7sn1HQZTYsAb5wodKw5sroZBQV8dtJtPuvfwXSJbwuD8pfEJlmq8J0M6tRwDZs8
+kc/jaPT0DQF4oYt8l6tpHEff5vpixA==
+=IQ69
+-----END PGP SIGNATURE-----
+
+--3I9kBemjOHRithZP--
