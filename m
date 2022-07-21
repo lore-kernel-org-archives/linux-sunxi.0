@@ -1,44 +1,44 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE574680
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 15:36:22 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id u13so3390666lfn.5
-        for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 08:36:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E364680
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 15:38:25 +0000 (UTC)
+Received: by mail-lf1-f46.google.com with SMTP id m12so2306972lfj.4
+        for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 08:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=hfKsdhQQt9tQ595I9ds8b/DPqZVDcCzjVcrK9iWT3ts=;
-        b=GCw16KpafXB+y2e+gFPayJKLMhyZMkVvIg00xSfR0J6zmap4XUiw74QYrBPZojxqnG
-         nlMigEvmPTJqX2BUwSdZ4mJxx8kFZTXQJaOIndmhXWmnsZmilUJXncDHi2uKE8pGuWVL
-         znA3Smzdfbdkc8qVWjZ7RHlZu4leucipgnhrY3cduU0fYTHFS3staPx9+XFkY/ZjtM2h
-         117KpUbzALp8IYmM0wdGGHbqPzb9abAasZ2Y4vFeXAUqeWHw9qTJ0dR/mA5YE4OC5PTw
-         ZVK2616IlVs5qLNNTIINaLS39Wgp/5PWsi2sSjQEOqP4IsbdopLcNcEJfX1/nxCnsqxR
-         Lwew==
+        bh=UqCa+wJI049j4zTLACQna4vEDfj2rqaLjlldqQdrtbc=;
+        b=Hr4EUI+tJ5IR28Fd9rlLrL2Jhdl6y04tFTZ7SiEj8y1JW0oLBxnYtIiAxp4fV/1ml3
+         XNc2IHUMggG0rlz1xVNCcB8Ij7GdlfZJng1lvQzRta+lFGgEuqvRcPk1VAyXG6/rz6L3
+         24N7v/a2z6VqnTCmtZRoxq9+R94zChXy64OuJ+ofzweytxFPcsC18NRkN0F/inqmx65G
+         8EtBrYyOKrnRMNd1zVShLukQdFrlhcWvnBxH1Skm/pMFhtK5dIa0hnnAVck4MmS80fWc
+         O4GIa+aNN+YT4KPfVRPywl0b25PpIhaAQOpzc4dspd4HUkTiGvC7Qox4l+D4eMYzliSj
+         M93g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=hfKsdhQQt9tQ595I9ds8b/DPqZVDcCzjVcrK9iWT3ts=;
-        b=cDx9n3aEPOxOFfgSKlCKnj+NIIA5/9EWBZXjkI6YubCOaGo0x9h5gzrhXLmOMRubf2
-         OGkeKKjGqHt1Kd1PESEyvq5Jufj7oBkaREG6Lwbjg0YspsRTodM5jC1bvwpAz72MLZfl
-         IKZivUuI+J7C5hzRXDaDHOf6N8xY+jRBPnlww6nYLfB6IVcaXnYA2VmOfcpK0q39wpmQ
-         fdB5TW9jp0C0x+fgQW1HBvI2+2blOajQXljhXEbnZjzglNrPhTyD0KUN8XCKdh1ZlkTx
-         XOf+ybw1iANFbMHgEV/yc1HNUaaQWE7vZO0o/BTvyB2UoTo0C7fowZuxVCUBB6j6KMPk
-         5FWA==
-X-Gm-Message-State: AJIora8AQs+EAbyDYuxgNxt53DP9iUSw9c1uyLaXWkFXyNhunlttNOm7
-	QRqytQxLTjNaV7kc4dCXwNiSmA==
-X-Google-Smtp-Source: AGRyM1uYyhdhJ+K6lLI/9qjAZeU/e9ueK5AuTfFuX6OK/DbxDxlvM3z4hS4HgQhwQusCJCfVoUBo3A==
-X-Received: by 2002:a05:6512:1506:b0:47f:79c6:eb36 with SMTP id bq6-20020a056512150600b0047f79c6eb36mr24308198lfb.168.1658417780731;
-        Thu, 21 Jul 2022 08:36:20 -0700 (PDT)
+        bh=UqCa+wJI049j4zTLACQna4vEDfj2rqaLjlldqQdrtbc=;
+        b=bjEAho2VcmCsOfBbtWdh4QVXF+lTClD450617i+5TcG+XRj/aWtnngrqsOqL20RPMK
+         SSsZxLWeCqiXlRhPdLCwrnjiEK+kMevcpt5VVCZW/+xrDDboWzxCdNiQLRd+aiPv0xqz
+         +dOXB8Mc0Kgs1l9eFt2Xl7BJCvdJa798VTK/Qh5Gk09yS+11hHfrdu9MjFaFWN66rXLD
+         bKC86ZFhTsoYrB1OvIAEa8HuEIkMf2zlk+ufq+aH8kGjQioc3+QzsVhqc1j8ebdQxk0X
+         xD4P7kghkhP+PEuaFOqH3pgJZlCIDqAjyiidACzvL/E6t5osLG6nWyDtcJ2NWETlVdrK
+         UnBg==
+X-Gm-Message-State: AJIora8ItvuXZaB2XJNiajOb7PXTIyUeU1yQsvxtcF4SAau1N1T9y+fi
+	46jQzZ7PSqvNKxjPpbCSt/qU2Q==
+X-Google-Smtp-Source: AGRyM1u+XAg5Gfu+MlpMWaQN3hIuyfigsjR8EO3U+oTkp4M+3abIhECXSY47lzIOdxD8vuPZLJkGzA==
+X-Received: by 2002:a05:6512:108d:b0:489:e640:df8c with SMTP id j13-20020a056512108d00b00489e640df8cmr22708209lfg.332.1658417903698;
+        Thu, 21 Jul 2022 08:38:23 -0700 (PDT)
 Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id w17-20020a05651234d100b00478f1e04655sm511718lfr.14.2022.07.21.08.36.18
+        by smtp.gmail.com with ESMTPSA id 8-20020a05651c12c800b0025de7126bf1sm448863lje.89.2022.07.21.08.38.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 08:36:20 -0700 (PDT)
-Message-ID: <9e872a00-966a-aaf8-7bb9-6627fcb0cf83@linaro.org>
-Date: Thu, 21 Jul 2022 17:36:17 +0200
+        Thu, 21 Jul 2022 08:38:23 -0700 (PDT)
+Message-ID: <6468e7b1-b253-53bc-c81f-2fa6b75194ae@linaro.org>
+Date: Thu, 21 Jul 2022 17:38:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -49,8 +49,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
 Subject: Re: [PATCH 1/6] ARM: refresh defconfig files
 Content-Language: en-US
-To: Scott Branden <scott.branden@broadcom.com>,
- Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
+To: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
 Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  Nicolas Ferre <nicolas.ferre@microchip.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
@@ -86,37 +85,30 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  linux-sh@vger.kernel.org
 References: <20220721141325.2413920-1-arnd@kernel.org>
  <20220721141325.2413920-2-arnd@kernel.org>
- <9321ce6c-7565-a7eb-2bfe-dac144ab7733@broadcom.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <9321ce6c-7565-a7eb-2bfe-dac144ab7733@broadcom.com>
+In-Reply-To: <20220721141325.2413920-2-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 21/07/2022 17:33, Scott Branden wrote:
-> Hi Arnd,
+On 21/07/2022 16:13, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> On 2022-07-21 07:13, Arnd Bergmann wrote:
->> From: Arnd Bergmann <arnd@arndb.de>
->>
->> A lot of Kconfig options have changed over the years, and we tend
->> to not do a blind 'make defconfig' to refresh the files, to ensure
->> we catch options that should not have gone away.
->>
->> I used some a bit of scripting to only rework the bits where an
->> option moved around in any of the defconfig files, without also
->> dropping any of the other lines, to make it clearer which options
->> we no longer have.
-> Resync is fine.  But, it would be great if the defconfig files were kept 
-> in sync. Almost every kernel version kconfig options change which affect 
-> these files. Could we put in place a defconfig refresh per kernel 
-> version to keep them all in sync going forward?
->
+> A lot of Kconfig options have changed over the years, and we tend
+> to not do a blind 'make defconfig' to refresh the files, to ensure
+> we catch options that should not have gone away.
+> 
+> I used some a bit of scripting to only rework the bits where an
+> option moved around in any of the defconfig files, without also
+> dropping any of the other lines, to make it clearer which options
+> we no longer have.
+> 
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Not entirely, because some Kconfig changes are causing symbols to
-disappear. Also defconfig is expected to include user-visible options,
-even if savedefconfig would drop them.
+Samsung bits (s3c, s5p, exynos, mini2440, tct_hammer) look good:
 
-This is why blind savedefconfig is not acceptable.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
+
+(I did not review the rest, though)
 
 Best regards,
 Krzysztof
