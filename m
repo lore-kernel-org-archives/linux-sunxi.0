@@ -1,84 +1,89 @@
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com [209.85.219.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC059291C
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 11:03:39 +0000 (UTC)
-Received: by mail-yb1-f175.google.com with SMTP id e69so2183032ybh.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 04:03:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=libre-computer.20210112.gappssmtp.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=o5rErEkHGCkTSMZgJgsY0qkL+g3Lk1jQwpG+NJT6gFs=;
-        b=e5Ytputp9DYiEdEfJ3wrQ72VCfPQWchKPgS10hmfqfI0pFJEbB5UTEahHQlt6JzxdQ
-         QjoUcLluH/s8eBq/a17nqVh8tMou1aEMYcwNf88TGC6MgNAQNFNzuIzCWba/fKRZi8Cr
-         QB8pFgnBy3jjS5zSoe9qwxbAnBuyYf7txzEzZHlnP/crvkqOWyKit6Ux5L2R3MDXISCa
-         TWmQsUnxE3LNIAW3wLPsL9UsMpTOr+Dwk66MQPAPlYWETeTTVJINBWhfcDpgiS+ji9O6
-         L4Wf+bBuQ0V1DykT0B3u1V8E6C3qhxAky/OeufVXDHznp+YjV2zbcHOPCbeTgN8QpDIZ
-         PCGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=o5rErEkHGCkTSMZgJgsY0qkL+g3Lk1jQwpG+NJT6gFs=;
-        b=bz1rOpBZijLtTvSAnZQJNGwZqwrDtXXx2E99XKhJbwr7WrYKZRsn/971HFO5COgpzp
-         AJ/z487f4g0D7sk7EmP1X+8lehBQK/5czixtxpCD6FbdcM2+P8KI5Ze0976zQsQDp8Zu
-         LwD8RoLP8PJTTyGmUy5QRywHlRJLR7k8vYa2CbknhmW1DUPK10/A9Mz5dzYDxXSSzDnU
-         9nXKZ1CotG35RrX+KmhaK5s+cGDn4HU2SkQIM1zMFcBfdBKcYRgAD6FyruzZJcBGsDpb
-         d5g1CptQF6bviUAW3J+ov1CpHLDzNvfgIhLA3s7C6b9O464+qO5bxw9DmzYLIW9OQ4pL
-         RbiQ==
-X-Gm-Message-State: AJIora8CCDj/W/KUg02h92n2LDRixHWAqZs1DhilYr7zRuyJPI8X5SMR
-	fUUJUpT1BMJf/Tn94Qyosj35GzE0g/JhK/5gALeiduUOEwRjfM8=
-X-Google-Smtp-Source: AGRyM1tUlJhB32GNGlnNNXbmbjDIaiGia+O5Kou4nsrVWiGw2nmGfRLWsKaLkFz4/jWWmKgogY56y3ZzcfBtjMSTStE=
-X-Received: by 2002:a25:5006:0:b0:670:9834:8767 with SMTP id
- e6-20020a255006000000b0067098348767mr5881189ybb.147.1658401418349; Thu, 21
- Jul 2022 04:03:38 -0700 (PDT)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68F2F291C
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 11:29:13 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E72C1042;
+	Thu, 21 Jul 2022 04:29:07 -0700 (PDT)
+Received: from [10.57.43.160] (unknown [10.57.43.160])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 171FD3F70D;
+	Thu, 21 Jul 2022 04:29:05 -0700 (PDT)
+Message-ID: <1d28ba1c-3fa1-a8fb-849d-b3f4d77c6054@arm.com>
+Date: Thu, 21 Jul 2022 12:28:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Da Xue <da@libre.computer>
-Date: Thu, 21 Jul 2022 07:03:27 -0400
-Message-ID: <CACqvRUZ=3CJOOmX_5Tk=ZR9JhnL-aYpeshJLySEQ_-p6EqgARA@mail.gmail.com>
-Subject: Increasing stabilization time in sunxi_mmc_core_init
-To: linux-sunxi@lists.linux.dev
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
+Subject: Re: Increasing stabilization time in sunxi_mmc_core_init
+Content-Language: en-GB
+To: Da Xue <da@libre.computer>, linux-sunxi@lists.linux.dev
 Cc: u-boot@lists.denx.de
-Content-Type: text/plain; charset="UTF-8"
+References: <CACqvRUZ=3CJOOmX_5Tk=ZR9JhnL-aYpeshJLySEQ_-p6EqgARA@mail.gmail.com>
+From: Andre Przywara <andre.przywara@arm.com>
+In-Reply-To: <CACqvRUZ=3CJOOmX_5Tk=ZR9JhnL-aYpeshJLySEQ_-p6EqgARA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 21/07/2022 12:03, Da Xue wrote:
 
-Users were reporting non-boot on our H5 boards (ALL-H3-CC-H5). u-boot
-gets stuck in SPL with this message for SD/eMMC respectively.
+Hi Da,
 
-Trying to boot from MMC1 or Trying to boot from MMC2
+> Users were reporting non-boot on our H5 boards (ALL-H3-CC-H5). u-boot
+> gets stuck in SPL with this message for SD/eMMC respectively.
+> 
+> Trying to boot from MMC1 or Trying to boot from MMC2
+> 
+> I tested about 20 MicroSD cards from different brands and some were
+> happy and some were not. Increasing the udelay to 8-10ms in
+> drivers/mmc/sunxi_mmc.c sunxi_mmc_core_init after reset seems to fix
+> the issue for the MicroSD cards.
 
-I tested about 20 MicroSD cards from different brands and some were
-happy and some were not. Increasing the udelay to 8-10ms in
-drivers/mmc/sunxi_mmc.c sunxi_mmc_core_init after reset seems to fix
-the issue for the MicroSD cards.
+That's interesting, thanks for the report. I don't remember hearing of 
+issues with MMC before, at least not in the SPL.
+It's a bit odd that waiting after the *controller* reset should affect 
+SD cards, and 1ms seems plenty for just the reset.
+I just checked and at least the SOFT_RESET and FIFO_RESET bits are self 
+clearing. Can you try to use wait_for_bit_le32() to wait for those parts 
+to finish? See sun8i_emac_eth_start() for an example.
 
-Author: Da Xue <da@libre.computer>
-Date:   Wed Jul 20 19:11:55 2022 -0400
+And since you mentioned it's card related: can you check whether the 
+delay is actually needed somewhere else, later? At some point where we 
+wait to the card to response, for instance?
 
-    sunxi: raise stabilization time for mmc from 1ms to 8ms
+I am not against taking this patch, if it fixes problems for you, but 
+just want to avoid that it papers over other issues.
 
-diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
-index 1bb7b6d0e9..499e057725 100644
---- a/drivers/mmc/sunxi_mmc.c
-+++ b/drivers/mmc/sunxi_mmc.c
-@@ -297,7 +297,7 @@ static int sunxi_mmc_core_init(struct mmc *mmc)
+Cheers,
+Andre
 
-        /* Reset controller */
-        writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
--       udelay(1000);
-+       udelay(8000);
+> 
+> Author: Da Xue <da@libre.computer>
+> Date:   Wed Jul 20 19:11:55 2022 -0400
+> 
+>      sunxi: raise stabilization time for mmc from 1ms to 8ms
+> 
+> diff --git a/drivers/mmc/sunxi_mmc.c b/drivers/mmc/sunxi_mmc.c
+> index 1bb7b6d0e9..499e057725 100644
+> --- a/drivers/mmc/sunxi_mmc.c
+> +++ b/drivers/mmc/sunxi_mmc.c
+> @@ -297,7 +297,7 @@ static int sunxi_mmc_core_init(struct mmc *mmc)
+> 
+>          /* Reset controller */
+>          writel(SUNXI_MMC_GCTRL_RESET, &priv->reg->gctrl);
+> -       udelay(1000);
+> +       udelay(8000);
+> 
+>          return 0;
+>   }
+> 
+> I don't know the implications of this change so I am seeking feedback.
+> Are other boards having this issue as well or is it specific to our
+> hardware?
+> 
+> Best,
+> Da
+> 
 
-        return 0;
- }
-
-I don't know the implications of this change so I am seeking feedback.
-Are other boards having this issue as well or is it specific to our
-hardware?
-
-Best,
-Da
