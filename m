@@ -1,44 +1,44 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E364680
-	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 15:38:25 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id m12so2306972lfj.4
-        for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 08:38:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDFC4680
+	for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 15:39:36 +0000 (UTC)
+Received: by mail-lj1-f169.google.com with SMTP id o12so2295840ljc.3
+        for <linux-sunxi@lists.linux.dev>; Thu, 21 Jul 2022 08:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=message-id:date:mime-version:user-agent:subject:content-language:to
          :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=UqCa+wJI049j4zTLACQna4vEDfj2rqaLjlldqQdrtbc=;
-        b=Hr4EUI+tJ5IR28Fd9rlLrL2Jhdl6y04tFTZ7SiEj8y1JW0oLBxnYtIiAxp4fV/1ml3
-         XNc2IHUMggG0rlz1xVNCcB8Ij7GdlfZJng1lvQzRta+lFGgEuqvRcPk1VAyXG6/rz6L3
-         24N7v/a2z6VqnTCmtZRoxq9+R94zChXy64OuJ+ofzweytxFPcsC18NRkN0F/inqmx65G
-         8EtBrYyOKrnRMNd1zVShLukQdFrlhcWvnBxH1Skm/pMFhtK5dIa0hnnAVck4MmS80fWc
-         O4GIa+aNN+YT4KPfVRPywl0b25PpIhaAQOpzc4dspd4HUkTiGvC7Qox4l+D4eMYzliSj
-         M93g==
+        bh=oqVQwNQbcwLQWg6kfm6rj9WKvgY4OIEgQOzUXlpBlmg=;
+        b=bUbA0eHhlHZLz/7ERfxE+ujHsrXIi/1BLF0UUgCTGD2Op4a9uPqxE8PfjDUnh0vkrM
+         NoiNYlMDhoMOEIMth1a4LodxokvPtNEiBNqvhrTtMsiqk5AvOOTWVvtkX0vcdar+TZ9P
+         cuHmDRDRj/iCTgpFnlWFwejofmUcNLUdW+0FeB/h2HYA1p1jGTJseRZ/c1Dk0fKehi12
+         XzY95w37ZgrMXEVRmU96gkg5e/DspC1gFPZ/ekbdgflGdDWjEXquopvsQwGp1I4qEgn7
+         d7QKdgpNbpN8vahcEQWCFuFNkozJDOmGqU5v/udTFpQ1oOJ+f117PzP28vOHlt71WwUc
+         35AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
          :content-language:to:cc:references:from:in-reply-to
          :content-transfer-encoding;
-        bh=UqCa+wJI049j4zTLACQna4vEDfj2rqaLjlldqQdrtbc=;
-        b=bjEAho2VcmCsOfBbtWdh4QVXF+lTClD450617i+5TcG+XRj/aWtnngrqsOqL20RPMK
-         SSsZxLWeCqiXlRhPdLCwrnjiEK+kMevcpt5VVCZW/+xrDDboWzxCdNiQLRd+aiPv0xqz
-         +dOXB8Mc0Kgs1l9eFt2Xl7BJCvdJa798VTK/Qh5Gk09yS+11hHfrdu9MjFaFWN66rXLD
-         bKC86ZFhTsoYrB1OvIAEa8HuEIkMf2zlk+ufq+aH8kGjQioc3+QzsVhqc1j8ebdQxk0X
-         xD4P7kghkhP+PEuaFOqH3pgJZlCIDqAjyiidACzvL/E6t5osLG6nWyDtcJ2NWETlVdrK
-         UnBg==
-X-Gm-Message-State: AJIora8ItvuXZaB2XJNiajOb7PXTIyUeU1yQsvxtcF4SAau1N1T9y+fi
-	46jQzZ7PSqvNKxjPpbCSt/qU2Q==
-X-Google-Smtp-Source: AGRyM1u+XAg5Gfu+MlpMWaQN3hIuyfigsjR8EO3U+oTkp4M+3abIhECXSY47lzIOdxD8vuPZLJkGzA==
-X-Received: by 2002:a05:6512:108d:b0:489:e640:df8c with SMTP id j13-20020a056512108d00b00489e640df8cmr22708209lfg.332.1658417903698;
-        Thu, 21 Jul 2022 08:38:23 -0700 (PDT)
+        bh=oqVQwNQbcwLQWg6kfm6rj9WKvgY4OIEgQOzUXlpBlmg=;
+        b=EAXJaVHx4iDfwpokiZJdHHagIl5tjvVtYKDs2RT1A4QFWHyxuaLXAG4YCxJap6y2v4
+         jNb9RKT8sg742NA7B8srsx4+QtWatxYRPnvKMtcTReQtWWuz8mkAiK7JmBlw/mSoahiq
+         ZptagV+mF8oG05Akfa/NfKZ7ChKW70eBXArENrHljfTrbMNKmSTDMoZlMm+pBxtz8K/x
+         fWpylgfN4ajbPquyq6+LBxBozr3vScg8UT8vNbNkSoBeQuuK6Tc5N2v4Ogx8OEUO4X/g
+         anb48afhspH5Vx5iprNgM87HGbqjQLEa8dyiqWqZE/ZSl0uI1L8aPVyAJ6zFv+Z0csE3
+         OmUg==
+X-Gm-Message-State: AJIora/diwdfFBRIobk7MHrTK1Z7oSuhjFEsMyg8CCgVkP86ljRViDXF
+	81BM7w7tHiERH5QKshVZxi0kAQ==
+X-Google-Smtp-Source: AGRyM1u1EiuENGOYTFtFOFvt+gosoK/tppAX7Zpo5TZqB7ckZKOx3LwixuugOACtM48KFq3goni/DQ==
+X-Received: by 2002:a2e:953:0:b0:25d:5c20:2265 with SMTP id 80-20020a2e0953000000b0025d5c202265mr18734344ljj.348.1658417974213;
+        Thu, 21 Jul 2022 08:39:34 -0700 (PDT)
 Received: from [192.168.115.193] (89-162-31-138.fiber.signal.no. [89.162.31.138])
-        by smtp.gmail.com with ESMTPSA id 8-20020a05651c12c800b0025de7126bf1sm448863lje.89.2022.07.21.08.38.21
+        by smtp.gmail.com with ESMTPSA id o23-20020a05651205d700b0048a35b93b24sm504903lfo.181.2022.07.21.08.39.31
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Jul 2022 08:38:23 -0700 (PDT)
-Message-ID: <6468e7b1-b253-53bc-c81f-2fa6b75194ae@linaro.org>
-Date: Thu, 21 Jul 2022 17:38:20 +0200
+        Thu, 21 Jul 2022 08:39:33 -0700 (PDT)
+Message-ID: <e3b0a57b-e987-9be0-75e5-40c0d7e41310@linaro.org>
+Date: Thu, 21 Jul 2022 17:39:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -47,7 +47,7 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.11.0
-Subject: Re: [PATCH 1/6] ARM: refresh defconfig files
+Subject: Re: [PATCH 3/6] ARM: defconfig: remove stale CONFIG_ZBOOT_ROM entries
 Content-Language: en-US
 To: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
 Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
@@ -84,31 +84,24 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
  linux-sh@vger.kernel.org
 References: <20220721141325.2413920-1-arnd@kernel.org>
- <20220721141325.2413920-2-arnd@kernel.org>
+ <20220721141325.2413920-4-arnd@kernel.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220721141325.2413920-2-arnd@kernel.org>
+In-Reply-To: <20220721141325.2413920-4-arnd@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 21/07/2022 16:13, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
-> A lot of Kconfig options have changed over the years, and we tend
-> to not do a blind 'make defconfig' to refresh the files, to ensure
-> we catch options that should not have gone away.
-> 
-> I used some a bit of scripting to only rework the bits where an
-> option moved around in any of the defconfig files, without also
-> dropping any of the other lines, to make it clearer which options
-> we no longer have.
+> The default is always 0x0 after commit 39c3e304567a ("ARM: 8984/1:
+> Kconfig: set default ZBOOT_ROM_TEXT/BSS value to 0x0"), so any
+> defconfig file that has these two lines can now drop them to reduce
+> the diff against the 'make savedefconfig' version.
 > 
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Samsung bits (s3c, s5p, exynos, mini2440, tct_hammer) look good:
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> # Samsung
-
-(I did not review the rest, though)
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
