@@ -1,22 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A25F33C4
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Jul 2022 15:12:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11E56C341C6;
-	Fri, 22 Jul 2022 15:12:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658502762;
-	bh=QNDA1Wl/P9Tdabb9er+hcjmLg+ZWPQYKQjQn31syPZs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=TOvvu0qlyhr+tmgrzFarODSHy2nmwd/vZkaOfw7UOlCrWttzwGKU19rg8AV7A8T7i
-	 IfjgWg0t2g4Ij3/wDGk0CzmXgSTPXgE3n1u2iwGUjmleTogf4uINMSXjxmVGVqzSDf
-	 NdnzljfzlPJdmijyVLMwEzZZ53euLLK3T+7lg1++pTTDKLDbOWkoP2Kq2RUZ3s84P6
-	 FBICts7HV/wapVFQ1AVuS+EXg97CVEyaQ8kbfAxQREHvjUc07BdPWl0gXMD41NG9LD
-	 308lnEB6RcxuafVaPDXSt3EJNt5k6THt96Bq2WKrP+Lj0X4kKIL9pRDDVTaN2puF9b
-	 HBK7vSUuswD+Q==
-Message-ID: <8430301c-3682-fde0-4bf3-033450563be3@kernel.org>
-Date: Fri, 22 Jul 2022 10:12:34 -0500
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED03A4A2C
+	for <linux-sunxi@lists.linux.dev>; Fri, 22 Jul 2022 17:17:20 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id u19so8762268lfs.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 22 Jul 2022 10:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=message-id:date:mime-version:user-agent:subject:content-language:to
+         :cc:references:from:in-reply-to:content-transfer-encoding;
+        bh=kKlkNDy7IkULxlqR/cm5H8XjRPA1VC1UXnLKGJxFlME=;
+        b=kBc+EnEOjMvGg2ZacnNtByBS5zqpdyDA3715FeJnzHEz8i7uQ3YazW37ESeq6Bt/Xs
+         xfZxUKs2P9eMWf6y8K6/VFe7VOybuL/G6VLN3AIKAgqfVnwnDcWIaWqMeBD90b1cHJEm
+         CrGy0+PfYoICbO7lBsY1q6kAKWV6HYUaZI6Pxj9bQK+3VRbuFAmNR6timpbiAbfNAD1h
+         RgrdIYtHkCLgg+QKCKOKx3J8mbJQ8vlMXmwgS5nuRcsGKH/WiePo8hsKWsIvPjTXvgG5
+         74rE/woUGUEcCuZI9zWfuFtnmKLvL6vpUJWmdAEsEulykLv048QBWoQr4lEKzl+ShQ0H
+         hidA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+         :content-language:to:cc:references:from:in-reply-to
+         :content-transfer-encoding;
+        bh=kKlkNDy7IkULxlqR/cm5H8XjRPA1VC1UXnLKGJxFlME=;
+        b=106vt4KnANObFdnDfoyJqNhLTxiiCHwQPQdBnTGUuOgEzKwylZhMybymSVTtVKTpyH
+         52PAi8PLrXrrnU+vnOz9rUkbRWcoExRKdbWssBAdrZrI/pCKOhVLgrWm9z+pGhzkkmC3
+         VQWTgFu5y6cCUSjKU1WJaLwZdwADQCzLISvt8XCkrHtFS4e7W4PN+snBoJGtYztB5mDF
+         vbhDG6KwX9mX65ycVgUyP7SlbSXg7a8Ad+vIEHlRvn66cATdYFapQj7BxrmgHTfdHh/f
+         onaINTGj715c9riJB0sT5sdCN2n59aNc5fPDDY80kRFVm2Jz8mstvYSBzuYyVj62fUrd
+         pI5Q==
+X-Gm-Message-State: AJIora9pMAhXteb4OTOqLJQj92zY+ak5Ovi65ISZ6hXdsMsKe2G8hX9Y
+	/joAvasK2BwXKkMf6fqUzgiGyA==
+X-Google-Smtp-Source: AGRyM1tCkKIh7mn6CioEd8be2QKiJ6B5weamVHcEf6LV7UC4qd+9bgwV6JWvuVCeXL6DaArFJ0VqEA==
+X-Received: by 2002:a05:6512:b84:b0:48a:7d72:407c with SMTP id b4-20020a0565120b8400b0048a7d72407cmr183405lfv.537.1658510238975;
+        Fri, 22 Jul 2022 10:17:18 -0700 (PDT)
+Received: from [192.168.10.173] (93.81-167-86.customer.lyse.net. [81.167.86.93])
+        by smtp.gmail.com with ESMTPSA id e6-20020a05651236c600b0048a72437127sm962811lfs.42.2022.07.22.10.17.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 Jul 2022 10:17:18 -0700 (PDT)
+Message-ID: <3c3bccc2-786f-45f2-fe30-3e0c9f95da63@linaro.org>
+Date: Fri, 22 Jul 2022 19:17:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -24,17 +46,17 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: [PATCH 1/6] ARM: refresh defconfig files
+ Thunderbird/91.11.0
+Subject: Re: [PATCH 4/6] ARM: defconfig: address renamed CONFIG_DEBUG_INFO=y
 Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
-Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  Nicolas Ferre <nicolas.ferre@microchip.com>,
  Alexandre Belloni <alexandre.belloni@bootlin.com>,
  Claudiu Beznea <claudiu.beznea@microchip.com>,
  Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
  Scott Branden <sbranden@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>,
  Sascha Hauer <s.hauer@pengutronix.de>,
  Pengutronix Kernel Team <kernel@pengutronix.de>,
@@ -48,7 +70,7 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
  Aaro Koskinen <aaro.koskinen@iki.fi>,
  Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>,
  Maxime Coquelin <mcoquelin.stm32@gmail.com>,
  Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
  <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -56,114 +78,40 @@ Cc: Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
  Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
  Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- linux-kernel@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
- bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
- linux-samsung-soc@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-oxnas@groups.io, linux-stm32@st-md-mailman.stormreply.com,
- linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-sh@vger.kernel.org
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-aspeed <linux-aspeed@lists.ozlabs.org>,
+ bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+ "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
+ <linux-rpi-kernel@lists.infradead.org>,
+ "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
+ <linux-samsung-soc@vger.kernel.org>, linux-omap
+ <linux-omap@vger.kernel.org>, linux-oxnas@groups.io,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
+ "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
+ Linux-sh list <linux-sh@vger.kernel.org>
 References: <20220721141325.2413920-1-arnd@kernel.org>
- <20220721141325.2413920-2-arnd@kernel.org>
-From: Dinh Nguyen <dinguyen@kernel.org>
-In-Reply-To: <20220721141325.2413920-2-arnd@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ <20220721141325.2413920-5-arnd@kernel.org>
+ <e83c98f9-f32a-6bfd-71b6-9aba22aa7abb@linaro.org>
+ <CAK8P3a0yc_iZ1dqbReckvune6KszCPvysCX9okYoaU-by+YRhQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <CAK8P3a0yc_iZ1dqbReckvune6KszCPvysCX9okYoaU-by+YRhQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 21/07/2022 22:43, Arnd Bergmann wrote:
 
-
-On 7/21/22 09:13, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+> I'd rather keep them together: while removing the DEBUG_INFO is
+> now a NOP, keeping the two changes together explains much better
+> why this is done and is atomically needed based on the single patch
+> that caused the change.
 > 
-> A lot of Kconfig options have changed over the years, and we tend
-> to not do a blind 'make defconfig' to refresh the files, to ensure
-> we catch options that should not have gone away.
-> 
-> I used some a bit of scripting to only rework the bits where an
-> option moved around in any of the defconfig files, without also
-> dropping any of the other lines, to make it clearer which options
-> we no longer have.
-> 
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->   arch/arm/configs/am200epdkit_defconfig    |  26 ++---
->   arch/arm/configs/aspeed_g4_defconfig      |  16 +--
->   arch/arm/configs/aspeed_g5_defconfig      |  16 +--
->   arch/arm/configs/assabet_defconfig        |   8 +-
->   arch/arm/configs/at91_dt_defconfig        |  10 +-
->   arch/arm/configs/axm55xx_defconfig        |  22 ++--
->   arch/arm/configs/badge4_defconfig         |   8 +-
->   arch/arm/configs/bcm2835_defconfig        |  36 +++----
->   arch/arm/configs/cerfcube_defconfig       |  16 +--
->   arch/arm/configs/clps711x_defconfig       |   2 +-
->   arch/arm/configs/cm_x300_defconfig        |  26 ++---
->   arch/arm/configs/cns3420vb_defconfig      |  18 ++--
->   arch/arm/configs/colibri_pxa270_defconfig |  32 +++---
->   arch/arm/configs/colibri_pxa300_defconfig |  10 +-
->   arch/arm/configs/collie_defconfig         |  20 ++--
->   arch/arm/configs/corgi_defconfig          |  44 ++++----
->   arch/arm/configs/davinci_all_defconfig    |  26 ++---
->   arch/arm/configs/dove_defconfig           |  28 ++---
->   arch/arm/configs/ep93xx_defconfig         |  16 +--
->   arch/arm/configs/eseries_pxa_defconfig    |  26 ++---
->   arch/arm/configs/exynos_defconfig         |  20 ++--
->   arch/arm/configs/ezx_defconfig            |  72 ++++++-------
->   arch/arm/configs/footbridge_defconfig     |  14 +--
->   arch/arm/configs/h3600_defconfig          |  10 +-
->   arch/arm/configs/h5000_defconfig          |  18 ++--
->   arch/arm/configs/hackkit_defconfig        |   4 +-
->   arch/arm/configs/hisi_defconfig           |  24 ++---
->   arch/arm/configs/imx_v4_v5_defconfig      |   8 +-
->   arch/arm/configs/imx_v6_v7_defconfig      |   8 +-
->   arch/arm/configs/integrator_defconfig     |   2 +-
->   arch/arm/configs/iop32x_defconfig         |  20 ++--
->   arch/arm/configs/jornada720_defconfig     |  10 +-
->   arch/arm/configs/keystone_defconfig       |  62 +++++------
->   arch/arm/configs/lart_defconfig           |   6 +-
->   arch/arm/configs/lpc18xx_defconfig        |  12 +--
->   arch/arm/configs/lpc32xx_defconfig        |   8 +-
->   arch/arm/configs/lpd270_defconfig         |   6 +-
->   arch/arm/configs/lubbock_defconfig        |  10 +-
->   arch/arm/configs/magician_defconfig       |  30 +++---
->   arch/arm/configs/mainstone_defconfig      |   4 +-
->   arch/arm/configs/milbeaut_m10v_defconfig  |   6 +-
->   arch/arm/configs/mini2440_defconfig       |   6 +-
->   arch/arm/configs/mmp2_defconfig           |  28 ++---
->   arch/arm/configs/moxart_defconfig         |  18 ++--
->   arch/arm/configs/mps2_defconfig           |  14 +--
->   arch/arm/configs/multi_v4t_defconfig      |   4 +-
->   arch/arm/configs/multi_v5_defconfig       |  12 +--
->   arch/arm/configs/multi_v7_defconfig       |  62 +++++------
->   arch/arm/configs/mv78xx0_defconfig        |  32 +++---
->   arch/arm/configs/mvebu_v5_defconfig       |  28 ++---
->   arch/arm/configs/mvebu_v7_defconfig       |   2 +-
->   arch/arm/configs/mxs_defconfig            |   4 +-
->   arch/arm/configs/neponset_defconfig       |  24 ++---
->   arch/arm/configs/netwinder_defconfig      |  10 +-
->   arch/arm/configs/nhk8815_defconfig        |   6 +-
->   arch/arm/configs/omap1_defconfig          |  74 ++++++-------
->   arch/arm/configs/omap2plus_defconfig      |  16 +--
->   arch/arm/configs/orion5x_defconfig        |  32 +++---
->   arch/arm/configs/oxnas_v6_defconfig       |  14 +--
->   arch/arm/configs/palmz72_defconfig        |  14 +--
->   arch/arm/configs/pcm027_defconfig         |  22 ++--
->   arch/arm/configs/pleb_defconfig           |   6 +-
->   arch/arm/configs/pxa168_defconfig         |  18 ++--
->   arch/arm/configs/pxa255-idp_defconfig     |  10 +-
->   arch/arm/configs/pxa3xx_defconfig         |  18 ++--
->   arch/arm/configs/pxa910_defconfig         |  22 ++--
->   arch/arm/configs/pxa_defconfig            | 126 +++++++++++-----------
->   arch/arm/configs/qcom_defconfig           |  60 +++++------
->   arch/arm/configs/realview_defconfig       |   8 +-
->   arch/arm/configs/rpc_defconfig            |  18 ++--
->   arch/arm/configs/s3c2410_defconfig        |   8 +-
->   arch/arm/configs/s3c6400_defconfig        |   2 +-
->   arch/arm/configs/s5pv210_defconfig        |   4 +-
->   arch/arm/configs/sama5_defconfig          |   8 +-
->   arch/arm/configs/sama7_defconfig          |   8 +-
->   arch/arm/configs/shannon_defconfig        |   8 +-
->   arch/arm/configs/simpad_defconfig         |  18 ++--
->   arch/arm/configs/socfpga_defconfig        |   4 +-
+> It's the same with the LEDS patch that replaces the CONFIG_LEDS
+> option with CONFIG_NEW_LEDS.
 
-for socfpga
+OK,
 
-Acked-by: Dinh Nguyen <dinguyen@kernel.org>
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+
+Best regards,
+Krzysztof
