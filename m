@@ -1,117 +1,219 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED03A4A2C
-	for <linux-sunxi@lists.linux.dev>; Fri, 22 Jul 2022 17:17:20 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id u19so8762268lfs.0
-        for <linux-sunxi@lists.linux.dev>; Fri, 22 Jul 2022 10:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=message-id:date:mime-version:user-agent:subject:content-language:to
-         :cc:references:from:in-reply-to:content-transfer-encoding;
-        bh=kKlkNDy7IkULxlqR/cm5H8XjRPA1VC1UXnLKGJxFlME=;
-        b=kBc+EnEOjMvGg2ZacnNtByBS5zqpdyDA3715FeJnzHEz8i7uQ3YazW37ESeq6Bt/Xs
-         xfZxUKs2P9eMWf6y8K6/VFe7VOybuL/G6VLN3AIKAgqfVnwnDcWIaWqMeBD90b1cHJEm
-         CrGy0+PfYoICbO7lBsY1q6kAKWV6HYUaZI6Pxj9bQK+3VRbuFAmNR6timpbiAbfNAD1h
-         RgrdIYtHkCLgg+QKCKOKx3J8mbJQ8vlMXmwgS5nuRcsGKH/WiePo8hsKWsIvPjTXvgG5
-         74rE/woUGUEcCuZI9zWfuFtnmKLvL6vpUJWmdAEsEulykLv048QBWoQr4lEKzl+ShQ0H
-         hidA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:from:in-reply-to
-         :content-transfer-encoding;
-        bh=kKlkNDy7IkULxlqR/cm5H8XjRPA1VC1UXnLKGJxFlME=;
-        b=106vt4KnANObFdnDfoyJqNhLTxiiCHwQPQdBnTGUuOgEzKwylZhMybymSVTtVKTpyH
-         52PAi8PLrXrrnU+vnOz9rUkbRWcoExRKdbWssBAdrZrI/pCKOhVLgrWm9z+pGhzkkmC3
-         VQWTgFu5y6cCUSjKU1WJaLwZdwADQCzLISvt8XCkrHtFS4e7W4PN+snBoJGtYztB5mDF
-         vbhDG6KwX9mX65ycVgUyP7SlbSXg7a8Ad+vIEHlRvn66cATdYFapQj7BxrmgHTfdHh/f
-         onaINTGj715c9riJB0sT5sdCN2n59aNc5fPDDY80kRFVm2Jz8mstvYSBzuYyVj62fUrd
-         pI5Q==
-X-Gm-Message-State: AJIora9pMAhXteb4OTOqLJQj92zY+ak5Ovi65ISZ6hXdsMsKe2G8hX9Y
-	/joAvasK2BwXKkMf6fqUzgiGyA==
-X-Google-Smtp-Source: AGRyM1tCkKIh7mn6CioEd8be2QKiJ6B5weamVHcEf6LV7UC4qd+9bgwV6JWvuVCeXL6DaArFJ0VqEA==
-X-Received: by 2002:a05:6512:b84:b0:48a:7d72:407c with SMTP id b4-20020a0565120b8400b0048a7d72407cmr183405lfv.537.1658510238975;
-        Fri, 22 Jul 2022 10:17:18 -0700 (PDT)
-Received: from [192.168.10.173] (93.81-167-86.customer.lyse.net. [81.167.86.93])
-        by smtp.gmail.com with ESMTPSA id e6-20020a05651236c600b0048a72437127sm962811lfs.42.2022.07.22.10.17.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Jul 2022 10:17:18 -0700 (PDT)
-Message-ID: <3c3bccc2-786f-45f2-fe30-3e0c9f95da63@linaro.org>
-Date: Fri, 22 Jul 2022 19:17:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C578F33C3
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Jul 2022 15:59:37 +0000 (UTC)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+	by smtp-out1.suse.de (Postfix) with ESMTP id D782C34C60;
+	Sun, 24 Jul 2022 15:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1658678369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cxvex5bGw+e3+6CFw4jkNhrpNowUtS9AgtNeRXWKTkA=;
+	b=GdIEqA2ysDLUgucN7UH6ziilC6kEZ9rNQC6tSdrlyxkttgr1jj2qeJvMQVDruV5f/C709N
+	nNQ+rcQ7jDnNeeYwcO8qxKHpirsnGUJiWUW0ZjHCiicrEfMy4x8vw47i0tYliQ9Xp/9gBr
+	8ChbJjIt+bvy3EUj7UT9osWLZSRXuwk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1658678369;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cxvex5bGw+e3+6CFw4jkNhrpNowUtS9AgtNeRXWKTkA=;
+	b=htFrnRKw5thq/VIxymIR7zbZRaYJ+2HwW18cB/XvFhRUzGTamCVInI97Xs2bC1ACPV59/6
+	KS7TRLtoXWMEkQBw==
+Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by relay2.suse.de (Postfix) with ESMTPS id E52192C174;
+	Sun, 24 Jul 2022 15:59:27 +0000 (UTC)
+Date: Sun, 24 Jul 2022 17:59:26 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: Michael Walle <michael@walle.cc>
+Cc: Pratyush Yadav <p.yadav@ti.com>, linux-sunxi@lists.linux.dev,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org
+Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
+ report an error
+Message-ID: <20220724155926.GI17705@kitsune.suse.cz>
+References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
+ <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
+ <20220714205529.GE17705@kitsune.suse.cz>
+ <33abf7b84860049c4a22605578303ff2@walle.cc>
+ <20220714220744.GF17705@kitsune.suse.cz>
+ <20220715092017.2ftoyzm22i4amrbt@ti.com>
+ <20220716082027.GK17705@kitsune.suse.cz>
+ <c6955eed3a445f4b87920fe0d47e7230@walle.cc>
+ <20220716093850.GL17705@kitsune.suse.cz>
+ <50ec7bf33d8eca5eb68a079f7bcc12b7@walle.cc>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH 4/6] ARM: defconfig: address renamed CONFIG_DEBUG_INFO=y
-Content-Language: en-US
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>,
- Arnd Bergmann <arnd@arndb.de>, Russell King <linux@armlinux.org.uk>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Florian Fainelli <f.fainelli@gmail.com>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>, Alexander Shiyan <shc_work@mail.ru>,
- Alim Akhtar <alim.akhtar@samsung.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Vladimir Zapolskiy <vz@mleia.com>,
- Taichi Sugaya <sugaya.taichi@socionext.com>,
- Takao Orito <orito.takao@socionext.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
- Gregory Clement <gregory.clement@bootlin.com>,
- Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
- Aaro Koskinen <aaro.koskinen@iki.fi>,
- Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>,
- Neil Armstrong <narmstrong@baylibre.com>, Dinh Nguyen <dinguyen@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai
- <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-aspeed <linux-aspeed@lists.ozlabs.org>,
- bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
- "moderated list:BROADCOM BCM2835 ARM ARCHITECTURE"
- <linux-rpi-kernel@lists.infradead.org>,
- "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
- <linux-samsung-soc@vger.kernel.org>, linux-omap
- <linux-omap@vger.kernel.org>, linux-oxnas@groups.io,
- linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev,
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- Linux-sh list <linux-sh@vger.kernel.org>
-References: <20220721141325.2413920-1-arnd@kernel.org>
- <20220721141325.2413920-5-arnd@kernel.org>
- <e83c98f9-f32a-6bfd-71b6-9aba22aa7abb@linaro.org>
- <CAK8P3a0yc_iZ1dqbReckvune6KszCPvysCX9okYoaU-by+YRhQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <CAK8P3a0yc_iZ1dqbReckvune6KszCPvysCX9okYoaU-by+YRhQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <50ec7bf33d8eca5eb68a079f7bcc12b7@walle.cc>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 21/07/2022 22:43, Arnd Bergmann wrote:
-
-> I'd rather keep them together: while removing the DEBUG_INFO is
-> now a NOP, keeping the two changes together explains much better
-> why this is done and is atomically needed based on the single patch
-> that caused the change.
+On Sat, Jul 16, 2022 at 11:44:48AM +0200, Michael Walle wrote:
+> Am 2022-07-16 11:38, schrieb Michal Suchánek:
+> > On Sat, Jul 16, 2022 at 11:30:12AM +0200, Michael Walle wrote:
+> > > Am 2022-07-16 10:20, schrieb Michal Suchánek:
+> > > 
+> > > > > So if DT says there isn't a flash on a specific CS when there is, then
+> > > > > DT should be fixed to describe the flash, and then we can probe it.
+> > > > > You
+> > > > > both seem to be saying the same thing here, and I agree.
+> > > >
+> > > > The disagreement is about the situation when there is sometimes a flash
+> > > > chip.
+> > > 
+> > > No. The disagreement is what should happen if the DT says there is
+> > > a device but there isn't. Which right now is an error and it should
+> > > stay that way. Your hardware description says there is a flash
+> > > but it cannot be probed, so it is an error. What about a board
+> > > which has an actual error and the flash isn't responding? You
+> > > trade one use case for another.
+> > 
+> > And what if you have a SATA controller with a bad cable?
+> > 
+> > Or a bad connection to a mmc card?
 > 
-> It's the same with the LEDS patch that replaces the CONFIG_LEDS
-> option with CONFIG_NEW_LEDS.
+> Again. You don't tell the kernel via the DT that there is an
+> MMC card nor that there is a SATA SDD. In contrast to SPI-NOR..
 
-OK,
+So what?
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+there is some firmware table that can enable/disable individual SATA
+ports, and some BIOSes have the option to disable individual ports.
 
+Sure, you could insist that users should disable unused ports, and
+having enabled port with no disk is an error but it's unreasonable - the
+users would have to flip the setting unnecessarily because the kernel
+can probe the presence of the disk but insists on assuming there is
+one on every port. So people would rightfully point out that it's not
+inherently an error to have a SATA port but no disk attached.
 
-Best regards,
-Krzysztof
+What I want is merely the same level of service for SPI NOR - that the
+user does not need to switch the devicetrees when the presence of a
+flash chip can be probed.
+
+You keep repeting that devicetree describes the hardware but that's not
+what it does.
+
+"A |spec|-compliant devicetree describes device information in a system
+that cannot necessarily be dynamically detected by a client program."
+
+So it does not describe 'hardware', it describes hardware properties
+that cannot be probed.
+
+Let's dissect the mmc situation in a bit more detail:
+
+If the device tree describes a MMC bus it means that there are some
+traces attached to some hardware pins, and that the pinmux should be
+configured to expose a mmc peripherial on these pins.
+
+The decision to use these pins for mmc is somewhat arbitrary. It must be
+specified in the devicetree because it cannot be probed but on many
+boards you could use the same pins for different hardware peripherial
+such as an UART, and with bitbanging low-speed protocols the
+possibilities are endless. Even if there is a SD socket that does not
+really mean anything - there are many abuses of standard connectors for
+non-standard purposes all around.
+
+Nonetheless, if at least some boards come with a MMC device soldered to
+the pins or the documentation advises to use a SD/SDIO card then the
+pins should be configured as MMC, and it is not invalidated by the fact
+that the pins could theoretically be abused for other purposes.
+
+Also on some boards there is always a MMC device soldered, and lack of
+the device could be considered an error. Nonetheless, on other boards
+the device may be present only on some boards or socketed. The mmc
+driver is driver for all of these boards so it has to deal with missing
+device gracefully.
+
+Sure, it means that for some boards that have damaged hardware no error
+is reported. That's the result of drivers being general purpose, not
+baord specific. The same way on some PC mainboards you could consider
+missing SATA drive on a specific port an error but the driver is
+generic, and should handle also boards that don't necessarily always
+come with all ports populated.
+
+There is also the possibility that you have a SDIO WiFi card that does
+not have an eeprom with a MAC address, and an EEPROM is mounted
+somewhere on the board to store it. In thios case although the MMC bus
+is 'discoverable', and the presence and type of the SDIO card can be
+probed all right the relationship to the eeprom cannot, and has to be
+recorded in the device tree. Will missing the SDIO card cause an error?
+I doubt it, MMC is the great 'discoverable' bus after all so here you
+have it - a hardware is described, it's missing, and it's not an error.
+
+So for SPI NOR we similarily have some traces that are connected to some
+hardware pins, and given that the board comes with a SPI NOR at least
+sometimes, or it is documented that these traces should be used for
+mounting a SPI NOR that should be described in the device tree. It is
+not invalidated by the fact that not all boards come with the SPI NOR or
+that it comes in an optional separate bag with accessories or that the
+pins coud be theoretically abused for something else.
+
+Now because SPI bus is not 'discoverable' not only the arbitrary
+decision to mux the SPI peripehrial on those pins needs to be recorded
+but also the arbitrary decision to use the pins to acces a SPI NOR, and
+not any other random SPI peripherial.
+
+Again, the spi-nor driver is driver not only the boards that always come
+with the flash soldered but also for the boards where it is mounted only
+sometimes. It should deal gracefully with the flash missing as much as
+it deals gracefully with different flash memory sizes, erase block
+sizes, etc. It's a parameter that can be probed.
+
+> > Then the kernel also does not say there is an error and simply does not
+> > see the device.
+> > 
+> > This is normal. Not all devices that can potentially exist do exist. It
+> > is up to the user to decide if it's an error that the device is missing.
+> > 
+> > > Also I've looked at the PHY subsystem and there, if a PHY is described
+> > > in the DT but isn't there, the following error will be printed:
+> > >   dev_err(&mdio->dev, "MDIO device at address %d is missing.\n",
+> > > addr);
+> > > 
+> > > And that is for a bus which can even be automatically be
+> > > probed/detected.
+> > 
+> > If there is no use case for having a card with unpopulated PHY then it
+> > makes sense.
+> > 
+> > Here we do have a use case so the comparison is moot.
+> 
+> And what use case is that? You are just demoting an error
+
+Boards with optional SPI NOR device.
+
+> to an info. Apparently you just want to see that error
+> go away, there is no change in functionality.
+
+Yes, it's a sign of a bad assumption on the part of the driver. Sure, it
+might have been true in the past but with new hardware it's no longer
+the case so the driver should adjust.
+
+Currently the driver problem is worked around by being over-specific
+in devicetree but ultimately the driver is broken and should be fixed.
+
+Thanks
+
+Michal
