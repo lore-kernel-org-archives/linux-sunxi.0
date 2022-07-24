@@ -1,44 +1,42 @@
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C578F33C3
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Jul 2022 15:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596253D76
+	for <linux-sunxi@lists.linux.dev>; Sun, 24 Jul 2022 18:28:51 +0000 (UTC)
 Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id D782C34C60;
-	Sun, 24 Jul 2022 15:59:29 +0000 (UTC)
+	by smtp-out1.suse.de (Postfix) with ESMTP id 67E4E374FA;
+	Sun, 24 Jul 2022 18:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1658678369; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1658687329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cxvex5bGw+e3+6CFw4jkNhrpNowUtS9AgtNeRXWKTkA=;
-	b=GdIEqA2ysDLUgucN7UH6ziilC6kEZ9rNQC6tSdrlyxkttgr1jj2qeJvMQVDruV5f/C709N
-	nNQ+rcQ7jDnNeeYwcO8qxKHpirsnGUJiWUW0ZjHCiicrEfMy4x8vw47i0tYliQ9Xp/9gBr
-	8ChbJjIt+bvy3EUj7UT9osWLZSRXuwk=
+	bh=vXU3mfPGPs/j/ew1KRBJ1KboWBt6ZAfsknPUbfGyXTo=;
+	b=p9uITAdf/l42HNco51Oc9uxKbXrOd4wkuzyNgELwOMJeAex6ZNoeaLLdDrS7EXM0K9z+wN
+	8Q1o/CE3xdfknINAthlWWm7TeyTLp4y+yGPSs7eNpSEJYD3QqmKGWQ0bi8dTeH3kGb4ISs
+	YkTNGfrwr8A5geQ68/fdTwM4kqjhMpc=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1658678369;
+	s=susede2_ed25519; t=1658687329;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cxvex5bGw+e3+6CFw4jkNhrpNowUtS9AgtNeRXWKTkA=;
-	b=htFrnRKw5thq/VIxymIR7zbZRaYJ+2HwW18cB/XvFhRUzGTamCVInI97Xs2bC1ACPV59/6
-	KS7TRLtoXWMEkQBw==
+	bh=vXU3mfPGPs/j/ew1KRBJ1KboWBt6ZAfsknPUbfGyXTo=;
+	b=CXBmskjvWsPSdQvzBdcdh17pBv4/cFdsRrRP6P+RXqT8oQ/LXCHZJtZu1Dh3sKModVXLa/
+	EFHMTminnj865FCQ==
 Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id E52192C174;
-	Sun, 24 Jul 2022 15:59:27 +0000 (UTC)
-Date: Sun, 24 Jul 2022 17:59:26 +0200
+	by relay2.suse.de (Postfix) with ESMTPS id A72A02C177;
+	Sun, 24 Jul 2022 18:28:48 +0000 (UTC)
+Date: Sun, 24 Jul 2022 20:28:47 +0200
 From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Michael Walle <michael@walle.cc>
-Cc: Pratyush Yadav <p.yadav@ti.com>, linux-sunxi@lists.linux.dev,
-	Rob Herring <robh+dt@kernel.org>,
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: Samuel Holland <samuel@sholland.org>, Michael Walle <michael@walle.cc>,
+	linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
 	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
 	Miquel Raynal <miquel.raynal@bootlin.com>,
 	Richard Weinberger <richard@nod.at>,
 	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
@@ -46,173 +44,100 @@ Cc: Pratyush Yadav <p.yadav@ti.com>, linux-sunxi@lists.linux.dev,
 	linux-mtd@lists.infradead.org
 Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
  report an error
-Message-ID: <20220724155926.GI17705@kitsune.suse.cz>
+Message-ID: <20220724182847.GJ17705@kitsune.suse.cz>
 References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
  <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
  <20220714205529.GE17705@kitsune.suse.cz>
  <33abf7b84860049c4a22605578303ff2@walle.cc>
  <20220714220744.GF17705@kitsune.suse.cz>
- <20220715092017.2ftoyzm22i4amrbt@ti.com>
- <20220716082027.GK17705@kitsune.suse.cz>
- <c6955eed3a445f4b87920fe0d47e7230@walle.cc>
- <20220716093850.GL17705@kitsune.suse.cz>
- <50ec7bf33d8eca5eb68a079f7bcc12b7@walle.cc>
+ <20220715132006.077c90f8@donnerap.cambridge.arm.com>
+ <2d4f200c-1ce3-19c6-179f-8d8e0545adfe@sholland.org>
+ <20220716115849.75a27753@slackpad.lan>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <50ec7bf33d8eca5eb68a079f7bcc12b7@walle.cc>
+In-Reply-To: <20220716115849.75a27753@slackpad.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On Sat, Jul 16, 2022 at 11:44:48AM +0200, Michael Walle wrote:
-> Am 2022-07-16 11:38, schrieb Michal Suchánek:
-> > On Sat, Jul 16, 2022 at 11:30:12AM +0200, Michael Walle wrote:
-> > > Am 2022-07-16 10:20, schrieb Michal Suchánek:
-> > > 
-> > > > > So if DT says there isn't a flash on a specific CS when there is, then
-> > > > > DT should be fixed to describe the flash, and then we can probe it.
-> > > > > You
-> > > > > both seem to be saying the same thing here, and I agree.
-> > > >
-> > > > The disagreement is about the situation when there is sometimes a flash
-> > > > chip.
-> > > 
-> > > No. The disagreement is what should happen if the DT says there is
-> > > a device but there isn't. Which right now is an error and it should
-> > > stay that way. Your hardware description says there is a flash
-> > > but it cannot be probed, so it is an error. What about a board
-> > > which has an actual error and the flash isn't responding? You
-> > > trade one use case for another.
-> > 
-> > And what if you have a SATA controller with a bad cable?
-> > 
-> > Or a bad connection to a mmc card?
+On Sat, Jul 16, 2022 at 11:58:49AM +0100, Andre Przywara wrote:
+> On Fri, 15 Jul 2022 21:28:57 -0500
+> Samuel Holland <samuel@sholland.org> wrote:
 > 
-> Again. You don't tell the kernel via the DT that there is an
-> MMC card nor that there is a SATA SDD. In contrast to SPI-NOR..
-
-So what?
-
-there is some firmware table that can enable/disable individual SATA
-ports, and some BIOSes have the option to disable individual ports.
-
-Sure, you could insist that users should disable unused ports, and
-having enabled port with no disk is an error but it's unreasonable - the
-users would have to flip the setting unnecessarily because the kernel
-can probe the presence of the disk but insists on assuming there is
-one on every port. So people would rightfully point out that it's not
-inherently an error to have a SATA port but no disk attached.
-
-What I want is merely the same level of service for SPI NOR - that the
-user does not need to switch the devicetrees when the presence of a
-flash chip can be probed.
-
-You keep repeting that devicetree describes the hardware but that's not
-what it does.
-
-"A |spec|-compliant devicetree describes device information in a system
-that cannot necessarily be dynamically detected by a client program."
-
-So it does not describe 'hardware', it describes hardware properties
-that cannot be probed.
-
-Let's dissect the mmc situation in a bit more detail:
-
-If the device tree describes a MMC bus it means that there are some
-traces attached to some hardware pins, and that the pinmux should be
-configured to expose a mmc peripherial on these pins.
-
-The decision to use these pins for mmc is somewhat arbitrary. It must be
-specified in the devicetree because it cannot be probed but on many
-boards you could use the same pins for different hardware peripherial
-such as an UART, and with bitbanging low-speed protocols the
-possibilities are endless. Even if there is a SD socket that does not
-really mean anything - there are many abuses of standard connectors for
-non-standard purposes all around.
-
-Nonetheless, if at least some boards come with a MMC device soldered to
-the pins or the documentation advises to use a SD/SDIO card then the
-pins should be configured as MMC, and it is not invalidated by the fact
-that the pins could theoretically be abused for other purposes.
-
-Also on some boards there is always a MMC device soldered, and lack of
-the device could be considered an error. Nonetheless, on other boards
-the device may be present only on some boards or socketed. The mmc
-driver is driver for all of these boards so it has to deal with missing
-device gracefully.
-
-Sure, it means that for some boards that have damaged hardware no error
-is reported. That's the result of drivers being general purpose, not
-baord specific. The same way on some PC mainboards you could consider
-missing SATA drive on a specific port an error but the driver is
-generic, and should handle also boards that don't necessarily always
-come with all ports populated.
-
-There is also the possibility that you have a SDIO WiFi card that does
-not have an eeprom with a MAC address, and an EEPROM is mounted
-somewhere on the board to store it. In thios case although the MMC bus
-is 'discoverable', and the presence and type of the SDIO card can be
-probed all right the relationship to the eeprom cannot, and has to be
-recorded in the device tree. Will missing the SDIO card cause an error?
-I doubt it, MMC is the great 'discoverable' bus after all so here you
-have it - a hardware is described, it's missing, and it's not an error.
-
-So for SPI NOR we similarily have some traces that are connected to some
-hardware pins, and given that the board comes with a SPI NOR at least
-sometimes, or it is documented that these traces should be used for
-mounting a SPI NOR that should be described in the device tree. It is
-not invalidated by the fact that not all boards come with the SPI NOR or
-that it comes in an optional separate bag with accessories or that the
-pins coud be theoretically abused for something else.
-
-Now because SPI bus is not 'discoverable' not only the arbitrary
-decision to mux the SPI peripehrial on those pins needs to be recorded
-but also the arbitrary decision to use the pins to acces a SPI NOR, and
-not any other random SPI peripherial.
-
-Again, the spi-nor driver is driver not only the boards that always come
-with the flash soldered but also for the boards where it is mounted only
-sometimes. It should deal gracefully with the flash missing as much as
-it deals gracefully with different flash memory sizes, erase block
-sizes, etc. It's a parameter that can be probed.
-
-> > Then the kernel also does not say there is an error and simply does not
-> > see the device.
-> > 
-> > This is normal. Not all devices that can potentially exist do exist. It
-> > is up to the user to decide if it's an error that the device is missing.
-> > 
-> > > Also I've looked at the PHY subsystem and there, if a PHY is described
-> > > in the DT but isn't there, the following error will be printed:
-> > >   dev_err(&mdio->dev, "MDIO device at address %d is missing.\n",
-> > > addr);
-> > > 
-> > > And that is for a bus which can even be automatically be
-> > > probed/detected.
-> > 
-> > If there is no use case for having a card with unpopulated PHY then it
-> > makes sense.
-> > 
-> > Here we do have a use case so the comparison is moot.
+> Hi,
 > 
-> And what use case is that? You are just demoting an error
+> > On 7/15/22 7:20 AM, Andre Przywara wrote:
+> > >>>> However, when the board is designed for a specific kind of device which
+> > >>>> is not always present, and the kernel can detect the device, it is
+> > >>>> perfectly fine to describe it.
+> > >>>>
+> > >>>> The alternative is to not use the device at all, even when present,
+> > >>>> which is kind of useless.    
+> > >>>
+> > >>> Or let the bootloader update your device tree and disable the device
+> > >>> if it's not there?    
+> > > 
+> > > Yes, this is what I was suggesting already: U-Boot can do the job, because
+> > > a U-Boot build is device specific, and we can take certain risks that the
+> > > generic and single-image kernel wants to avoid.
+> > > In this case we know that there is a SPI flash footprint, and it does no
+> > > harm in trying to check on CS0. So I was thinking about introducing a
+> > > U-Boot Kconfig variable to probe for and potentially disable the SPI flash
+> > > DT node. We would set this variable in defconfigs of boards with optional
+> > > SPI flash.  
+> > 
+> > To support the "does no harm" assertion: the Allwinner Boot ROM will probe for
+> > NOR flash (and possibly SPI NAND) on SPI0 + CS0 if no bootable MMC device is
+> > found. So the board designer must already assume that JEDEC Read ID commands
+> > will be sent over that bus.
+> > 
+> > >> But then it must be in the device tree?  
+> > > 
+> > > However this indeed means that the SPI flash DT node must be in and enabled
+> > > in the DT, because we (try hard to) only use original Linux DT files, and
+> > > DTs must have been reviewed through the kernel ML first. The U-Boot driver
+> > > relies on the DT as well, so the official kernel DT copy would need to come
+> > > with that node enabled. Ideally U-Boot would disable it, if needed, and
+> > > the kernel error message would never appear.  
+> > 
+> > I don't think this works for newer SoCs where the Boot ROM supports both NOR and
+> > SPI NAND. If the board is sold with the flash chip unpopulated, the user could
+> > install either kind of chip. So we cannot statically assume which binding will
+> > be used. We would need to add a node with the right compatible string after
+> > probing for both in the bootloader.
+> 
+> If a *user* decides to *change* the board, it's up to the user
+> to make sure the DT matches. Overlays are the typical answer, or people
+> change the DT before they build U-Boot. If someone decides to hack
+> their board, they have to take care of the respective DT description
+> hack as well.
+> 
+> This case here is about the *vendor* shipping different versions of the
+> board, which I think is a different case. Technically we now would need
+> two DTs: one with, one without the SPI flash node, and let the user
+> decide which one to include in U-Boot at build time, depending on which
+> version they have.
 
-Boards with optional SPI NOR device.
+Technically we don't. The DT is supposed to describe hardware properties
+that cannot be probed. Probing presence of the SPI NOR is perfectly
+possible so it suffices to record that the SPI CS is reserved for a SPI
+NOR, and as much as we don't describe the size we don't need to describe
+or assume the presence either.
 
-> to an info. Apparently you just want to see that error
-> go away, there is no change in functionality.
+> What I was suggesting is a U-Boot config switch, which would only be
+> enabled on those boards where we have this situation (OPi Zero):
+> That avoids dangerous situations (because we know it's safe *on this
+> particular board*), and avoids the hassle of shipping two firmware
+> versions.
 
-Yes, it's a sign of a bad assumption on the part of the driver. Sure, it
-might have been true in the past but with new hardware it's no longer
-the case so the driver should adjust.
-
-Currently the driver problem is worked around by being over-specific
-in devicetree but ultimately the driver is broken and should be fixed.
+Also if we really want to make u-boot probe the device (such as in cases
+when there is choice of mutiple devices) DT also supports "reserved"
+state which may be useful for makring the devices to probe when the DT
+is loaded together with u-boot before passing it to Linux.
 
 Thanks
 
