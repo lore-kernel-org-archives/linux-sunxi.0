@@ -1,144 +1,100 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 596253D76
-	for <linux-sunxi@lists.linux.dev>; Sun, 24 Jul 2022 18:28:51 +0000 (UTC)
-Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
-	by smtp-out1.suse.de (Postfix) with ESMTP id 67E4E374FA;
-	Sun, 24 Jul 2022 18:28:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1658687329; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXU3mfPGPs/j/ew1KRBJ1KboWBt6ZAfsknPUbfGyXTo=;
-	b=p9uITAdf/l42HNco51Oc9uxKbXrOd4wkuzyNgELwOMJeAex6ZNoeaLLdDrS7EXM0K9z+wN
-	8Q1o/CE3xdfknINAthlWWm7TeyTLp4y+yGPSs7eNpSEJYD3QqmKGWQ0bi8dTeH3kGb4ISs
-	YkTNGfrwr8A5geQ68/fdTwM4kqjhMpc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1658687329;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXU3mfPGPs/j/ew1KRBJ1KboWBt6ZAfsknPUbfGyXTo=;
-	b=CXBmskjvWsPSdQvzBdcdh17pBv4/cFdsRrRP6P+RXqT8oQ/LXCHZJtZu1Dh3sKModVXLa/
-	EFHMTminnj865FCQ==
-Received: from kitsune.suse.cz (kitsune.suse.cz [10.100.12.127])
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by relay2.suse.de (Postfix) with ESMTPS id A72A02C177;
-	Sun, 24 Jul 2022 18:28:48 +0000 (UTC)
-Date: Sun, 24 Jul 2022 20:28:47 +0200
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Andre Przywara <andre.przywara@arm.com>
-Cc: Samuel Holland <samuel@sholland.org>, Michael Walle <michael@walle.cc>,
-	linux-sunxi@lists.linux.dev, Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D06B372
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 05:17:18 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 686DF5C0097;
+	Mon, 25 Jul 2022 01:17:17 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 25 Jul 2022 01:17:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm1; t=1658726237; x=1658812637; bh=0fgmiotfvvA25BECvdY/7miKV
+	B9hRcyaay/R6+d4lYA=; b=UTFtUC5dSKiyDoScNweUNf1i2QR4PIddEUzLmnzUy
+	7fWzyyF4adFU1TPhBphdvZpAf/+Fxp8uGS3dSygeq/VKRO5OrWCPDDespbc+xiWT
+	d+FsoRUQiIYboZTaVCwF8NgKOpJUAgUU2cuRrhYFU3cgQcb6SOj06RwsWTHq+UZ0
+	S+d0cmmBMmGWehDT9rb6xg4eRm7LG9pwMS4KltRgukIkqx0KURk8mVTYMjUyTzDj
+	k17fEMYYMQTseWjRP2RzxwSqzvlZwGI97jh8mFv49kMoXXVEVH5lRHX5728FG5MO
+	k+S/MAkNfi+yci5J6iXV5pEnP8TM+K2J0xkbZZnCJj+kQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1658726237; x=1658812637; bh=0fgmiotfvvA25BECvdY/7miKVB9hRcyaay/
+	R6+d4lYA=; b=AvtysUnUVFlYehOZtPhSJ4kKsWz3KAunMsKJen63KtzfiXN0u4G
+	ArD2wEMkR1OkZ53QkQZziQDD3TKqntMAUwqI/uUiIGZFCyV3Ho3Ht2ZYHtnlqsOo
+	CJSynXZdUryDA76MJHzr8J0BR9/N0YoTGS3Bp8Rm7VC5UQl5pmrv/Hr3n2PvR1um
+	3nd5rB42ELmd8auwlevlUack/8r9i9bdLKGOHJ9xuGV3gUxWnGZIfBTn0S1QuSPp
+	BrwOGkq67eaqFIY5TLh/lM7EkCfK7gkvSWI2EZ7JRP+TtcL1tTXx6Fw96WMzr2n5
+	lHUW2WgEeTlZkw2/62BlFvTcOamvymtDGPA==
+X-ME-Sender: <xms:XCfeYqkYh7LHuO5beX-2MXKfgv8CmZUtdqHtSbH0pCmVPhg7YV93nA>
+    <xme:XCfeYh1yb_VqVtazAtDgnSxZVrEtlUqA1D0jRayNChLCIGHbN7aRKtQktdTFLk3t9
+    JrMut6eIwUTWQ88WA>
+X-ME-Received: <xmr:XCfeYor8FfG-PGFALTTYk1uqnZ-yEX-j8PfnjpKAe-aof6RHx3UfRL7yD_3TaksrO8lTWl_7r1WKlPhbxsL3sy-x8wnNTldLTUYikoroTmTIxk0EUbSmQZT55f1zTz8nYwaM9g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgleehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:XCfeYunuWydAvghR5gtsAdc2MqhXHuRjE_pvrGtIDfAiKARHSZR9zA>
+    <xmx:XCfeYo3T2eP6JAPnJ_q_KvJj2DO4U_zT8qE2KRtBztdCh03n_ldjvA>
+    <xmx:XCfeYltdsoQ9fVXLMMpybraA1ZWT8dBDK9QxDppM6WktseEgrWz5HA>
+    <xmx:XSfeYhtjQNq4QbQHIfoqEeAeXGyo5QuzVMP9URdymhrLGvWw7t04bw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 25 Jul 2022 01:17:16 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
 	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Tudor Ambarus <tudor.ambarus@microchip.com>,
-	Pratyush Yadav <p.yadav@ti.com>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-mtd@lists.infradead.org
-Subject: Re: [PATCH 1/2] mtd: spi-nor: When a flash memory is missing do not
- report an error
-Message-ID: <20220724182847.GJ17705@kitsune.suse.cz>
-References: <701967b0c418db333c66b48d225df60aa9d03ead.1657826188.git.msuchanek@suse.de>
- <d8de86aa0331be697fbef33d5ab2c57a@walle.cc>
- <20220714205529.GE17705@kitsune.suse.cz>
- <33abf7b84860049c4a22605578303ff2@walle.cc>
- <20220714220744.GF17705@kitsune.suse.cz>
- <20220715132006.077c90f8@donnerap.cambridge.arm.com>
- <2d4f200c-1ce3-19c6-179f-8d8e0545adfe@sholland.org>
- <20220716115849.75a27753@slackpad.lan>
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH] dt-bindings: timer: allwinner,sun4i-a10-timer: Add D1 compatible
+Date: Mon, 25 Jul 2022 00:17:14 -0500
+Message-Id: <20220725051715.56427-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220716115849.75a27753@slackpad.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jul 16, 2022 at 11:58:49AM +0100, Andre Przywara wrote:
-> On Fri, 15 Jul 2022 21:28:57 -0500
-> Samuel Holland <samuel@sholland.org> wrote:
-> 
-> Hi,
-> 
-> > On 7/15/22 7:20 AM, Andre Przywara wrote:
-> > >>>> However, when the board is designed for a specific kind of device which
-> > >>>> is not always present, and the kernel can detect the device, it is
-> > >>>> perfectly fine to describe it.
-> > >>>>
-> > >>>> The alternative is to not use the device at all, even when present,
-> > >>>> which is kind of useless.    
-> > >>>
-> > >>> Or let the bootloader update your device tree and disable the device
-> > >>> if it's not there?    
-> > > 
-> > > Yes, this is what I was suggesting already: U-Boot can do the job, because
-> > > a U-Boot build is device specific, and we can take certain risks that the
-> > > generic and single-image kernel wants to avoid.
-> > > In this case we know that there is a SPI flash footprint, and it does no
-> > > harm in trying to check on CS0. So I was thinking about introducing a
-> > > U-Boot Kconfig variable to probe for and potentially disable the SPI flash
-> > > DT node. We would set this variable in defconfigs of boards with optional
-> > > SPI flash.  
-> > 
-> > To support the "does no harm" assertion: the Allwinner Boot ROM will probe for
-> > NOR flash (and possibly SPI NAND) on SPI0 + CS0 if no bootable MMC device is
-> > found. So the board designer must already assume that JEDEC Read ID commands
-> > will be sent over that bus.
-> > 
-> > >> But then it must be in the device tree?  
-> > > 
-> > > However this indeed means that the SPI flash DT node must be in and enabled
-> > > in the DT, because we (try hard to) only use original Linux DT files, and
-> > > DTs must have been reviewed through the kernel ML first. The U-Boot driver
-> > > relies on the DT as well, so the official kernel DT copy would need to come
-> > > with that node enabled. Ideally U-Boot would disable it, if needed, and
-> > > the kernel error message would never appear.  
-> > 
-> > I don't think this works for newer SoCs where the Boot ROM supports both NOR and
-> > SPI NAND. If the board is sold with the flash chip unpopulated, the user could
-> > install either kind of chip. So we cannot statically assume which binding will
-> > be used. We would need to add a node with the right compatible string after
-> > probing for both in the bootloader.
-> 
-> If a *user* decides to *change* the board, it's up to the user
-> to make sure the DT matches. Overlays are the typical answer, or people
-> change the DT before they build U-Boot. If someone decides to hack
-> their board, they have to take care of the respective DT description
-> hack as well.
-> 
-> This case here is about the *vendor* shipping different versions of the
-> board, which I think is a different case. Technically we now would need
-> two DTs: one with, one without the SPI flash node, and let the user
-> decide which one to include in U-Boot at build time, depending on which
-> version they have.
+Allwinner D1 contains the usual sun4i MMIO timer device. It contains two
+timers like other recent SoCs, so it is compatible with the A23 variant.
 
-Technically we don't. The DT is supposed to describe hardware properties
-that cannot be probed. Probing presence of the SPI NOR is perfectly
-possible so it suffices to record that the SPI CS is reserved for a SPI
-NOR, and as much as we don't describe the size we don't need to describe
-or assume the presence either.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-> What I was suggesting is a U-Boot config switch, which would only be
-> enabled on those boards where we have this situation (OPi Zero):
-> That avoids dangerous situations (because we know it's safe *on this
-> particular board*), and avoids the hassle of shipping two firmware
-> versions.
+ .../devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml     | 1 +
+ 1 file changed, 1 insertion(+)
 
-Also if we really want to make u-boot probe the device (such as in cases
-when there is choice of mutiple devices) DT also supports "reserved"
-state which may be useful for makring the devices to probe when the DT
-is loaded together with u-boot before passing it to Linux.
+diff --git a/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml b/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
+index 53fd24bdc34e..3711872b6b99 100644
+--- a/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
++++ b/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
+@@ -20,6 +20,7 @@ properties:
+           - allwinner,suniv-f1c100s-timer
+       - items:
+           - enum:
++              - allwinner,sun20i-d1-timer
+               - allwinner,sun50i-a64-timer
+               - allwinner,sun50i-h6-timer
+               - allwinner,sun50i-h616-timer
+-- 
+2.35.1
 
-Thanks
-
-Michal
