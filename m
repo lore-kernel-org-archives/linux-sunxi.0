@@ -1,71 +1,26 @@
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+Received: from out198-41.us.a.mail.aliyun.com (out198-41.us.a.mail.aliyun.com [47.90.198.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D06B372
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 05:17:18 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 686DF5C0097;
-	Mon, 25 Jul 2022 01:17:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 25 Jul 2022 01:17:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm1; t=1658726237; x=1658812637; bh=0fgmiotfvvA25BECvdY/7miKV
-	B9hRcyaay/R6+d4lYA=; b=UTFtUC5dSKiyDoScNweUNf1i2QR4PIddEUzLmnzUy
-	7fWzyyF4adFU1TPhBphdvZpAf/+Fxp8uGS3dSygeq/VKRO5OrWCPDDespbc+xiWT
-	d+FsoRUQiIYboZTaVCwF8NgKOpJUAgUU2cuRrhYFU3cgQcb6SOj06RwsWTHq+UZ0
-	S+d0cmmBMmGWehDT9rb6xg4eRm7LG9pwMS4KltRgukIkqx0KURk8mVTYMjUyTzDj
-	k17fEMYYMQTseWjRP2RzxwSqzvlZwGI97jh8mFv49kMoXXVEVH5lRHX5728FG5MO
-	k+S/MAkNfi+yci5J6iXV5pEnP8TM+K2J0xkbZZnCJj+kQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1658726237; x=1658812637; bh=0fgmiotfvvA25BECvdY/7miKVB9hRcyaay/
-	R6+d4lYA=; b=AvtysUnUVFlYehOZtPhSJ4kKsWz3KAunMsKJen63KtzfiXN0u4G
-	ArD2wEMkR1OkZ53QkQZziQDD3TKqntMAUwqI/uUiIGZFCyV3Ho3Ht2ZYHtnlqsOo
-	CJSynXZdUryDA76MJHzr8J0BR9/N0YoTGS3Bp8Rm7VC5UQl5pmrv/Hr3n2PvR1um
-	3nd5rB42ELmd8auwlevlUack/8r9i9bdLKGOHJ9xuGV3gUxWnGZIfBTn0S1QuSPp
-	BrwOGkq67eaqFIY5TLh/lM7EkCfK7gkvSWI2EZ7JRP+TtcL1tTXx6Fw96WMzr2n5
-	lHUW2WgEeTlZkw2/62BlFvTcOamvymtDGPA==
-X-ME-Sender: <xms:XCfeYqkYh7LHuO5beX-2MXKfgv8CmZUtdqHtSbH0pCmVPhg7YV93nA>
-    <xme:XCfeYh1yb_VqVtazAtDgnSxZVrEtlUqA1D0jRayNChLCIGHbN7aRKtQktdTFLk3t9
-    JrMut6eIwUTWQ88WA>
-X-ME-Received: <xmr:XCfeYor8FfG-PGFALTTYk1uqnZ-yEX-j8PfnjpKAe-aof6RHx3UfRL7yD_3TaksrO8lTWl_7r1WKlPhbxsL3sy-x8wnNTldLTUYikoroTmTIxk0EUbSmQZT55f1zTz8nYwaM9g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddtjedgleehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:XCfeYunuWydAvghR5gtsAdc2MqhXHuRjE_pvrGtIDfAiKARHSZR9zA>
-    <xmx:XCfeYo3T2eP6JAPnJ_q_KvJj2DO4U_zT8qE2KRtBztdCh03n_ldjvA>
-    <xmx:XCfeYltdsoQ9fVXLMMpybraA1ZWT8dBDK9QxDppM6WktseEgrWz5HA>
-    <xmx:XSfeYhtjQNq4QbQHIfoqEeAeXGyo5QuzVMP9URdymhrLGvWw7t04bw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 25 Jul 2022 01:17:16 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6376B62D
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 08:51:36 +0000 (UTC)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07437|-1;BR=01201311R231S26rulernew998_84748_2000303;CH=blue;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.118326-0.0259815-0.855693;FP=0|0|0|0|0|-1|-1|-1;HT=ay29a033018047194;MF=victor@allwinnertech.com;NM=1;PH=DS;RN=9;RT=9;SR=0;TI=SMTPD_---.Od487LD_1658738131;
+Received: from SunxiBot.allwinnertech.com(mailfrom:victor@allwinnertech.com fp:SMTPD_---.Od487LD_1658738131)
+          by smtp.aliyun-inc.com;
+          Mon, 25 Jul 2022 16:35:32 +0800
+From: Victor Hassan <victor@allwinnertech.com>
+To: daniel.lezcano@linaro.org,
+	tglx@linutronix.de,
+	wens@csie.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org
+Cc: linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] dt-bindings: timer: allwinner,sun4i-a10-timer: Add D1 compatible
-Date: Mon, 25 Jul 2022 00:17:14 -0500
-Message-Id: <20220725051715.56427-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+	linux-sunxi@lists.linux.dev,
+	allwinner-opensource-support@allwinnertech.com
+Subject: [PATCH 1/2] clocksource: sun4i: Fix the bug that tick_resume stucks
+Date: Mon, 25 Jul 2022 16:35:21 +0800
+Message-Id: <20220725083522.82931-1-victor@allwinnertech.com>
+X-Mailer: git-send-email 2.29.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -74,27 +29,212 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allwinner D1 contains the usual sun4i MMIO timer device. It contains two
-timers like other recent SoCs, so it is compatible with the A23 variant.
+Currently syscore_resume() will stuck on tick_resume().
+Fix this by changing  `.tick_resume` from
+sun4i_clkevt_shutdown() to a new function sun4i_tick_resume().
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
+Signed-off-by: Victor Hassan <victor@allwinnertech.com>
 ---
+ drivers/clocksource/timer-sun4i.c | 131 ++++++++++++++++++++++--------
+ 1 file changed, 96 insertions(+), 35 deletions(-)
 
- .../devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml     | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml b/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
-index 53fd24bdc34e..3711872b6b99 100644
---- a/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
-+++ b/Documentation/devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml
-@@ -20,6 +20,7 @@ properties:
-           - allwinner,suniv-f1c100s-timer
-       - items:
-           - enum:
-+              - allwinner,sun20i-d1-timer
-               - allwinner,sun50i-a64-timer
-               - allwinner,sun50i-h6-timer
-               - allwinner,sun50i-h616-timer
+diff --git a/drivers/clocksource/timer-sun4i.c b/drivers/clocksource/timer-sun4i.c
+index bb6ea6c19829..afc26de963af 100644
+--- a/drivers/clocksource/timer-sun4i.c
++++ b/drivers/clocksource/timer-sun4i.c
+@@ -38,6 +38,19 @@
+ 
+ #define TIMER_SYNC_TICKS	3
+ 
++/* Registers which needs to be saved and restored before and after sleeping */
++static u32 sun4i_timer_regs_offset[] = {
++	TIMER_IRQ_EN_REG,
++	TIMER_CTL_REG(0),
++	TIMER_INTVAL_REG(0),
++	TIMER_CNTVAL_REG(0),
++	TIMER_CTL_REG(1),
++	TIMER_INTVAL_REG(1),
++	TIMER_CNTVAL_REG(1),
++};
++
++static void __iomem *sun4i_timer_sched_base __read_mostly;
++
+ /*
+  * When we disable a timer, we need to wait at least for 2 cycles of
+  * the timer source clock. We will use for that the clocksource timer
+@@ -79,10 +92,41 @@ static void sun4i_clkevt_time_start(void __iomem *base, u8 timer,
+ 	       base + TIMER_CTL_REG(timer));
+ }
+ 
++static inline void sun4i_timer_save_regs(struct timer_of *to)
++{
++	void __iomem *base = timer_of_base(to);
++	int i;
++	u32 *regs_backup = (u32 *)to->private_data;
++
++	for (i = 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
++		regs_backup[i] = readl(base + sun4i_timer_regs_offset[i]);
++}
++
++static inline void sun4i_timer_restore_regs(struct timer_of *to)
++{
++	void __iomem *base = timer_of_base(to);
++	int i;
++	u32 *regs_backup = (u32 *)to->private_data;
++
++	for (i = 0; i < ARRAY_SIZE(sun4i_timer_regs_offset); i++)
++		writel(regs_backup[i], base + sun4i_timer_regs_offset[i]);
++}
++
+ static int sun4i_clkevt_shutdown(struct clock_event_device *evt)
+ {
+ 	struct timer_of *to = to_timer_of(evt);
+ 
++	sun4i_timer_save_regs(to);
++	sun4i_clkevt_time_stop(timer_of_base(to), 0);
++
++	return 0;
++}
++
++static int sun4i_tick_resume(struct clock_event_device *evt)
++{
++	struct timer_of *to = to_timer_of(evt);
++
++	sun4i_timer_restore_regs(to);
+ 	sun4i_clkevt_time_stop(timer_of_base(to), 0);
+ 
+ 	return 0;
+@@ -137,45 +181,54 @@ static irqreturn_t sun4i_timer_interrupt(int irq, void *dev_id)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static struct timer_of to = {
+-	.flags = TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE,
+-
+-	.clkevt = {
+-		.name = "sun4i_tick",
+-		.rating = 350,
+-		.features = CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT,
+-		.set_state_shutdown = sun4i_clkevt_shutdown,
+-		.set_state_periodic = sun4i_clkevt_set_periodic,
+-		.set_state_oneshot = sun4i_clkevt_set_oneshot,
+-		.tick_resume = sun4i_clkevt_shutdown,
+-		.set_next_event = sun4i_clkevt_next_event,
+-		.cpumask = cpu_possible_mask,
+-	},
+-
+-	.of_irq = {
+-		.handler = sun4i_timer_interrupt,
+-		.flags = IRQF_TIMER | IRQF_IRQPOLL,
+-	},
+-};
++static void __init sun4i_clockevent_init(struct timer_of *to)
++{
++	to->clkevt.name = "sun4i_tick";
++	to->clkevt.features = CLOCK_EVT_FEAT_PERIODIC | CLOCK_EVT_FEAT_ONESHOT;
++	to->clkevt.set_state_shutdown = sun4i_clkevt_shutdown;
++	to->clkevt.set_state_periodic = sun4i_clkevt_set_periodic;
++	to->clkevt.set_state_oneshot = sun4i_clkevt_set_oneshot;
++	to->clkevt.tick_resume = sun4i_tick_resume;
++	to->clkevt.set_next_event = sun4i_clkevt_next_event;
++	to->clkevt.cpumask = cpu_possible_mask;
++	to->of_irq.flags = IRQF_TIMER | IRQF_IRQPOLL;
++
++	sun4i_timer_sched_base = timer_of_base(to) + TIMER_CNTVAL_REG(1);
++}
+ 
+ static u64 notrace sun4i_timer_sched_read(void)
+ {
+-	return ~readl(timer_of_base(&to) + TIMER_CNTVAL_REG(1));
++	return (u64)~readl(sun4i_timer_sched_base);
+ }
+ 
+ static int __init sun4i_timer_init(struct device_node *node)
+ {
++	struct timer_of *to;
+ 	int ret;
+ 	u32 val;
+ 
+-	ret = timer_of_init(node, &to);
++	to = kzalloc(sizeof(*to), GFP_KERNEL);
++	if (!to)
++		return -ENOMEM;
++
++	to->flags = TIMER_OF_IRQ | TIMER_OF_CLOCK | TIMER_OF_BASE;
++	to->of_irq.handler = sun4i_timer_interrupt;
++	ret = timer_of_init(node, to);
+ 	if (ret)
+-		return ret;
++		goto err;
+ 
+-	writel(~0, timer_of_base(&to) + TIMER_INTVAL_REG(1));
++	sun4i_clockevent_init(to);
++
++	to->private_data = kcalloc(ARRAY_SIZE(sun4i_timer_regs_offset), sizeof(u32), GFP_KERNEL);
++	if (!to->private_data) {
++		ret = -ENOMEM;
++		goto err1;
++	}
++
++	writel(~0, timer_of_base(to) + TIMER_INTVAL_REG(1));
+ 	writel(TIMER_CTL_ENABLE | TIMER_CTL_RELOAD |
+ 	       TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
+-	       timer_of_base(&to) + TIMER_CTL_REG(1));
++	       timer_of_base(to) + TIMER_CTL_REG(1));
+ 
+ 	/*
+ 	 * sched_clock_register does not have priorities, and on sun6i and
+@@ -186,32 +239,40 @@ static int __init sun4i_timer_init(struct device_node *node)
+ 	    of_machine_is_compatible("allwinner,sun5i-a10s") ||
+ 	    of_machine_is_compatible("allwinner,suniv-f1c100s"))
+ 		sched_clock_register(sun4i_timer_sched_read, 32,
+-				     timer_of_rate(&to));
++				     timer_of_rate(to));
+ 
+-	ret = clocksource_mmio_init(timer_of_base(&to) + TIMER_CNTVAL_REG(1),
+-				    node->name, timer_of_rate(&to), 350, 32,
++	ret = clocksource_mmio_init(timer_of_base(to) + TIMER_CNTVAL_REG(1),
++				    node->name, timer_of_rate(to), 350, 32,
+ 				    clocksource_mmio_readl_down);
+ 	if (ret) {
+ 		pr_err("Failed to register clocksource\n");
+-		return ret;
++		goto err2;
+ 	}
+ 
+ 	writel(TIMER_CTL_CLK_SRC(TIMER_CTL_CLK_SRC_OSC24M),
+-	       timer_of_base(&to) + TIMER_CTL_REG(0));
++	       timer_of_base(to) + TIMER_CTL_REG(0));
+ 
+ 	/* Make sure timer is stopped before playing with interrupts */
+-	sun4i_clkevt_time_stop(timer_of_base(&to), 0);
++	sun4i_clkevt_time_stop(timer_of_base(to), 0);
+ 
+ 	/* clear timer0 interrupt */
+-	sun4i_timer_clear_interrupt(timer_of_base(&to));
++	sun4i_timer_clear_interrupt(timer_of_base(to));
+ 
+-	clockevents_config_and_register(&to.clkevt, timer_of_rate(&to),
++	clockevents_config_and_register(&to->clkevt, timer_of_rate(to),
+ 					TIMER_SYNC_TICKS, 0xffffffff);
+ 
+ 	/* Enable timer0 interrupt */
+-	val = readl(timer_of_base(&to) + TIMER_IRQ_EN_REG);
+-	writel(val | TIMER_IRQ_EN(0), timer_of_base(&to) + TIMER_IRQ_EN_REG);
++	val = readl(timer_of_base(to) + TIMER_IRQ_EN_REG);
++	writel(val | TIMER_IRQ_EN(0), timer_of_base(to) + TIMER_IRQ_EN_REG);
++
++	return ret;
+ 
++err2:
++	kfree(to->private_data);
++err1:
++	timer_of_cleanup(to);
++err:
++	kfree(to);
+ 	return ret;
+ }
+ TIMER_OF_DECLARE(sun4i, "allwinner,sun4i-a10-timer",
 -- 
-2.35.1
+2.29.0
 
