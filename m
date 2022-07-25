@@ -1,136 +1,59 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05144C61
-	for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 21:28:05 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id u5so17718215wrm.4
-        for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 14:28:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=uisaYlWHlc1RSvh90hpzc7AOFByO6SZOCyDzOMnogH0ZogazNwnYVkQ9oEHpT9V+JG
-         dHyb/dlixsReklVEcEGk1t6k+jnAlhFtWhmjsD+3vhap9Y7sdPNYwZ7n6GaWxIPg8VIr
-         M5BrqdaX1YGUbos8NzxD1/HbBDMNiMxwh9Ej/3ahYypsbH2QRpvXUNFFpO122LDxygZ2
-         yflNbmzyx/yfw4bJe7B+sh2esm9/YIr8r737zy8yHkSXxoJ9HTZd8sl7aRrYVW3GmYS0
-         2Q2weVTqUyHsNYiQeuy4csaFK93xldDCTSdJ58OnQxYjMCQCfveEwsJ8VgVSkkaJoMe6
-         yFzg==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1512A7E
+	for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 23:29:08 +0000 (UTC)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-10d845dcf92so16677062fac.12
+        for <linux-sunxi@lists.linux.dev>; Mon, 25 Jul 2022 16:29:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=T3H0ME2NvHZgmMrY8iv80gir4iN6P55K7hYYI4YzZvYDirgb4WTz0bPNHcqmLO9Ufl
-         IRgzG09WlzbG+/4YyehhlavTC7OEkyGm7kuPaHgi7JIluGZptHHKf5Zbd9u/51uUBFQe
-         Eq7V6EY1ep1eDC+L4qr8EcEIaNYnlRAArUpNOry6uDYLCsY/PumGXDYak26p4P6iMWW/
-         gPbDa6oxDa4IvDsIW9oykejUP1KcN8yeWSFt2Od5mJX7kc2Oa4c0mgVRW+lITK3iKMHs
-         EVQDHrPFzwWzaxQTIWPzKIAE1XhXixItxXESMGlUORJx2+7e2koi0sRXx6oePZwukKpA
-         inmw==
-X-Gm-Message-State: AJIora9MBA/fUHKPd1Ps29/NLLdSDhMx7R3Jteg27bASwIzvYmBxR71n
-	ZcSpUoQuYauDXsA3cUlecZqObw==
-X-Google-Smtp-Source: AGRyM1uI3wfXx2DOxmMhE1F+VbGqV3pN/W/4oQOzQ/VR/RxyuEoMWtDqsQfUPTNSt3/kwY1RVdJN+Q==
-X-Received: by 2002:a5d:4811:0:b0:21e:3d86:a2df with SMTP id l17-20020a5d4811000000b0021e3d86a2dfmr9104284wrq.633.1658784483998;
-        Mon, 25 Jul 2022 14:28:03 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:1780:8e54:dd38:6668])
-        by smtp.gmail.com with ESMTPSA id r17-20020a5d52d1000000b0021d68a504cbsm12668772wrv.94.2022.07.25.14.28.01
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=pDBC+SN3XUz1fTYobGbOcnhMg9/j1jmuI+TaTt4V2s4=;
+        b=OzEEGJjBcvs5/XgeHfSpAYjdBNyzSJX273FuHUEfcUNMi3yH7Jz+NooRK1jOsMzyaE
+         ltPVbfm3n89W795zeqV/1N6zNfsPpuMBRF8qUfpYnPD9aRcDT+7PfTOcEBQjSmZRcoM5
+         5ed2dvX4XTcQgIhWtkImTqhtTR3VCn2C8ryNtGyujvRrbobieO/3afQUzfSPWPz1O4T3
+         bP88qROSMosShCTW+guDf1VYAG0ZNTk4z1CV0XfjyM87pCDASJNESVl1M0BfHycrQj/y
+         KtKTKdj3GkJmo7qVTHbjSGVHi6ZJVVCzDJH1sSiOyt03URE//CryeUgFD6tk0iHshvnw
+         TnDQ==
+X-Gm-Message-State: AJIora+svU6On5+9VWl3o9DZu2zNCxXHDZPKfzPJzJaHERp/EbmkbyA4
+	29HDzpztUPU/3wJk5bWeCA==
+X-Google-Smtp-Source: AGRyM1vhB7LzTu9o9WY8Ius1OoEy/Rlrf2xb4cPbrShtSbpFTMzuhLhU5dx5+8rVg+znEScMELoZkw==
+X-Received: by 2002:a05:6871:b22:b0:10d:c30a:c096 with SMTP id fq34-20020a0568710b2200b0010dc30ac096mr8436424oab.75.1658791748050;
+        Mon, 25 Jul 2022 16:29:08 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id i22-20020a056870221600b000f325409614sm6724959oaf.13.2022.07.25.16.29.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Jul 2022 14:28:03 -0700 (PDT)
-From: Daniel Lezcano <daniel.lezcano@linexp.org>
-To: daniel.lezcano@linaro.org,
-	rafael@kernel.org
-Cc: rui.zhang@intel.com,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khilman@baylibre.com,
-	abailon@baylibre.com,
-	lukasz.luba@arm.com,
-	broonie@kernel.org,
-	damien.lemoal@opensource.wdc.com,
-	heiko@sntech.de,
-	hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org,
-	talel@amazon.com,
-	thierry.reding@gmail.com,
-	digetx@gmail.com,
-	jonathanh@nvidia.com,
-	anarsoul@gmail.com,
-	tiny.windzz@gmail.com,
-	baolin.wang7@gmail.com,
-	f.fainelli@gmail.com,
-	bjorn.andersson@linaro.org,
-	mcoquelin.stm32@gmail.com,
-	glaroque@baylibre.com,
-	miquel.raynal@bootlin.com,
-	shawnguo@kernel.org,
-	niklas.soderlund@ragnatech.se,
-	matthias.bgg@gmail.com,
-	j-keerthy@ti.com,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v2 28/32] Input: sun4i-ts - switch to new of thermal API
-Date: Mon, 25 Jul 2022 23:26:33 +0200
-Message-Id: <20220725212637.2818207-29-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
-References: <20220725212637.2818207-1-daniel.lezcano@linexp.org>
+        Mon, 25 Jul 2022 16:29:07 -0700 (PDT)
+Received: (nullmailer pid 2957827 invoked by uid 1000);
+	Mon, 25 Jul 2022 23:29:05 -0000
+Date: Mon, 25 Jul 2022 17:29:05 -0600
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-arm-kernel@lists.infradead.org, Daniel Lezcano <daniel.lezcano@linaro.org>, Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Rob Herring <robh+dt@kernel.org>, linux-sunxi@lists.linux.dev, devicetree@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH] dt-bindings: timer: allwinner,sun4i-a10-timer: Add D1
+ compatible
+Message-ID: <20220725232905.GA2957766-robh@kernel.org>
+References: <20220725051715.56427-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220725051715.56427-1-samuel@sholland.org>
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
+On Mon, 25 Jul 2022 00:17:14 -0500, Samuel Holland wrote:
+> Allwinner D1 contains the usual sun4i MMIO timer device. It contains two
+> timers like other recent SoCs, so it is compatible with the A23 variant.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../devicetree/bindings/timer/allwinner,sun4i-a10-timer.yaml     | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 742a7e96c1b5..73eb8f80be6e 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
- 	return 0;
- }
- 
--static int sun4i_get_tz_temp(void *data, int *temp)
-+static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
- {
--	return sun4i_get_temp(data, temp);
-+	return sun4i_get_temp(tz->devdata, temp);
- }
- 
--static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-+static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
- 	.get_temp = sun4i_get_tz_temp,
- };
- 
-@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
- 	if (IS_ERR(hwmon))
- 		return PTR_ERR(hwmon);
- 
--	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
--						       &sun4i_ts_tz_ops);
-+	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
-+						&sun4i_ts_tz_ops);
- 	if (IS_ERR(thermal))
- 		return PTR_ERR(thermal);
- 
--- 
-2.25.1
-
+Acked-by: Rob Herring <robh@kernel.org>
