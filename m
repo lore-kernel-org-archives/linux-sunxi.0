@@ -1,125 +1,70 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DDE5381
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 16:28:49 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id u5so20906087wrm.4
-        for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 09:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cIPI5KmDuzcke0XGgrnA7zF01gNNf3RwyHxJZzCv/6M=;
-        b=k8hilhnoU7dbumJaKM2qpgafxXdLLktBG83dcxCI1JKx7n39zUKZxlP+hYZm/5j5C2
-         7YXLb7fuySnGgbnGkpxhvXpl1sRoF7hshwnMXivVt8w4pR79xXoN0Zf/Z7O6i0ZPoqXy
-         h1w3xxojKg6npjOj4gSATpRpP4fc1AKm8exDwY9RtlBiYU/Nfv3DnCgIerclgCrtIiHW
-         4pqdofanwkiLeTMik0j7QL4VI2a6h9rzGwhyNseX/zAvfEyvDIB7CGdodUglNtq//vdd
-         dTGcKL2oeKGfhCJtZP5P5kO4nWtRmbI4NitvhT49eeOqA5wxxNWKTwDOcY0s9DVscfWs
-         8yxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cIPI5KmDuzcke0XGgrnA7zF01gNNf3RwyHxJZzCv/6M=;
-        b=dBV69x3D1hun780nxufxZzppJbUev8SbvA3n6t1D+LX/fBp8XvXXXzkH13Zo9Hj9m4
-         01ZPxAq8gkPbDEYo9rOqnJ2eyRYMdh8rl2xq8IgQB0NtglujmacWg56sDrZKsiiAYE47
-         F8je5I4pqQaan7d2lgwk0pW0tMWJ+YSJlP7+LVBbx+qrPjcEYBZHugHytaW3VHXilPsR
-         Wy04IaU5uAniST8GbdlHVaMcFTCwXo6LgOBvmQDS/C8yutFE829B6nS56boJszNT8uj2
-         lBjLr8c+TP7z7FZtJNAlV2vKW7YCF9twqMCR5QKfo7jNgD+KvSEbyTmPPhbvGyMXn1Vb
-         wXng==
-X-Gm-Message-State: AJIora/J2WAXzCFy535QvIzkMjhli3OeZIW0FVAcnol+crj0fm3OKjY2
-	RJIkjv8v87mo+wejedWI75LjSz9CRFjf010+fyk=
-X-Google-Smtp-Source: AGRyM1vY2aubeKfH02KOuWoMorYDcmWdRSnkyGf3LHvGNaqt/b0DKZ5DoJ31VTcRGRydCQOFcoPshiRi+xhhDc0J+ac=
-X-Received: by 2002:a5d:4889:0:b0:21d:eab7:f798 with SMTP id
- g9-20020a5d4889000000b0021deab7f798mr11482162wrq.96.1658852927394; Tue, 26
- Jul 2022 09:28:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2782538E
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 17:56:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C627C433D6;
+	Tue, 26 Jul 2022 17:56:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1658858179;
+	bh=ph2uDxsSutc2DnlVa7eIwwd3K5Vf9gr9912RR4aKO5U=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=O2Pb4nJeDz4nyc0vY47kt/NXyO6BAEBHlwUkJi0ddIyHrP9raI17aK6K40JS/1+my
+	 T7Nt2l4/EA8yrT2hNMBdXM7ab4fZQ07VINQQsZTPeK6DvHPUbHGFizDf/krTwc/Agq
+	 zN7FFqtDhKBlVwXTiSVmQIo093bNkgYczyqxWDtAwSb3ROu9zqv50LJTRgEow7AfmN
+	 akyJ8pBqRhvecnGnKU+SMKrFEhe+G/ZzaafL7alTOBE4CO8/S9fg+hka+ZvCJxxvhI
+	 1yVPfowocl4MqP0Im7qxhU93FpXG5QMIoN6U/xQF5Q6hH8NERRHtvn+zbYuWCcc13+
+	 m5iiNb32mNQIQ==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220725212637.2818207-1-daniel.lezcano@linexp.org> <20220725212637.2818207-9-daniel.lezcano@linexp.org>
-In-Reply-To: <20220725212637.2818207-9-daniel.lezcano@linexp.org>
-From: Vasily Khoruzhick <anarsoul@gmail.com>
-Date: Tue, 26 Jul 2022 09:28:20 -0700
-Message-ID: <CA+E=qVdrNkx9nXMEFFYQgDcX+gdKJaCh3zoTkBZBY3HhBFDAdQ@mail.gmail.com>
-Subject: Re: [PATCH v2 08/32] thermal/drivers/sun8i: Switch to new of API
-To: Daniel Lezcano <daniel.lezcano@linexp.org>
-Cc: daniel.lezcano@linaro.org, rafael@kernel.org, rui.zhang@intel.com, 
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org, khilman@baylibre.com, 
-	abailon@baylibre.com, lukasz.luba@arm.com, broonie@kernel.org, 
-	damien.lemoal@opensource.wdc.com, heiko@sntech.de, 
-	hayashi.kunihiko@socionext.com, mhiramat@kernel.org, talel@amazon.com, 
-	thierry.reding@gmail.com, digetx@gmail.com, jonathanh@nvidia.com, 
-	tiny.windzz@gmail.com, baolin.wang7@gmail.com, f.fainelli@gmail.com, 
-	bjorn.andersson@linaro.org, mcoquelin.stm32@gmail.com, glaroque@baylibre.com, 
-	miquel.raynal@bootlin.com, shawnguo@kernel.org, niklas.soderlund@ragnatech.se, 
-	matthias.bgg@gmail.com, j-keerthy@ti.com, Amit Kucheria <amitk@kernel.org>, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, 
-	"moderated list:ARM/Allwinner sunXi SoC support" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:ARM/Allwinner sunXi SoC support" <linux-sunxi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YtnDy29glGFDhqU1@kista.localdomain>
+References: <YtnDy29glGFDhqU1@kista.localdomain>
+Subject: Re: [GIT PULL] Allwinner clock fixes for 5.19
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
+To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
+Date: Tue, 26 Jul 2022 10:56:17 -0700
+User-Agent: alot/0.10
+Message-Id: <20220726175619.4C627C433D6@smtp.kernel.org>
 
-On Mon, Jul 25, 2022 at 2:27 PM Daniel Lezcano
-<daniel.lezcano@linexp.org> wrote:
->
-> The thermal OF code has a new API allowing to migrate the OF
-> initialization to a simpler approach. The ops are no longer device
-> tree specific and are the generic ones provided by the core code.
->
-> Convert the ops to the thermal_zone_device_ops format and use the new
-> API to register the thermal zone with these generic ops.
->
+Quoting Jernej Skrabec (2022-07-21 14:23:23)
+> Hi!
+>=20
+> As it turns out, commit 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate
+> clock"), queued for 5.19, introduced a bug. This bug is accidentally
+> fixed by commit e1c51d31befc ("clk: sunxi-ng: Deduplicate ccu_clks
+> arrays"), which is already queued for 5.20.
+>=20
+> Although this commit as a fix is much bigger than it needs to be, I
+> still suggest that's fast tracked to 5.19. This will also avoid any
+> merge conflicts during merging material for 5.20.
+>=20
+> Best regards,
+> Jernej
+>=20
+> The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a=
+56:
+>=20
+>   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
+>=20
+> are available in the Git repository at:
+>=20
+>   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
+nxi-clk-fixes-for-5.19-1
+>=20
+> for you to fetch changes up to 48e29e0f3be086a28a9384befa77d02a43be2f98:
+>=20
+>   clk: sunxi-ng: Deduplicate ccu_clks arrays (2022-07-21 23:11:28 +0200)
+>=20
+> ----------------------------------------------------------------
+> Fix H6 RTC clock
 
-Reviewed-by: Vasily Khoruzhick <anarsoul@gmail.com>
-
-> Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-> ---
->  drivers/thermal/sun8i_thermal.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-> index d9cd23cbb671..2a4fa4068950 100644
-> --- a/drivers/thermal/sun8i_thermal.c
-> +++ b/drivers/thermal/sun8i_thermal.c
-> @@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
->                 return -1590 * reg / 10 + 276000;
->  }
->
-> -static int sun8i_ths_get_temp(void *data, int *temp)
-> +static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
->  {
-> -       struct tsensor *s = data;
-> +       struct tsensor *s = tz->devdata;
->         struct ths_device *tmdev = s->tmdev;
->         int val = 0;
->
-> @@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
->         return 0;
->  }
->
-> -static const struct thermal_zone_of_device_ops ths_ops = {
-> +static const struct thermal_zone_device_ops ths_ops = {
->         .get_temp = sun8i_ths_get_temp,
->  };
->
-> @@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
->                 tmdev->sensor[i].tmdev = tmdev;
->                 tmdev->sensor[i].id = i;
->                 tmdev->sensor[i].tzd =
-> -                       devm_thermal_zone_of_sensor_register(tmdev->dev,
-> -                                                            i,
-> -                                                            &tmdev->sensor[i],
-> -                                                            &ths_ops);
-> +                       devm_thermal_of_zone_register(tmdev->dev,
-> +                                                     i,
-> +                                                     &tmdev->sensor[i],
-> +                                                     &ths_ops);
->                 if (IS_ERR(tmdev->sensor[i].tzd))
->                         return PTR_ERR(tmdev->sensor[i].tzd);
->
-> --
-> 2.25.1
->
+Anymore details besides "Fix"? There's some more details in this pull
+request but the tag tells me almost nothing. Does RTC fail? What's
+actually broken?
