@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2782538E
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 17:56:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C627C433D6;
-	Tue, 26 Jul 2022 17:56:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB368801
+	for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 22:58:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615E1C433D6;
+	Tue, 26 Jul 2022 22:58:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658858179;
-	bh=ph2uDxsSutc2DnlVa7eIwwd3K5Vf9gr9912RR4aKO5U=;
+	s=k20201202; t=1658876335;
+	bh=95zhTF3RvSPpdIG4fmJ3Qawy4FvFggDDh2yy8qTKelU=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=O2Pb4nJeDz4nyc0vY47kt/NXyO6BAEBHlwUkJi0ddIyHrP9raI17aK6K40JS/1+my
-	 T7Nt2l4/EA8yrT2hNMBdXM7ab4fZQ07VINQQsZTPeK6DvHPUbHGFizDf/krTwc/Agq
-	 zN7FFqtDhKBlVwXTiSVmQIo093bNkgYczyqxWDtAwSb3ROu9zqv50LJTRgEow7AfmN
-	 akyJ8pBqRhvecnGnKU+SMKrFEhe+G/ZzaafL7alTOBE4CO8/S9fg+hka+ZvCJxxvhI
-	 1yVPfowocl4MqP0Im7qxhU93FpXG5QMIoN6U/xQF5Q6hH8NERRHtvn+zbYuWCcc13+
-	 m5iiNb32mNQIQ==
+	b=JB9NLfp2xH0FofRGBLksoua8oV3DsjCIVChSnJpFO1XtWy4f4IoLCP/gShk/y6LqT
+	 FAHWIIxyQjul6m5yLpfedt74GPpB+lTKwmJqB76PNk9HeWAqg5R40lJyjxnVooYQjS
+	 9ClBvf6YE2QNbtvkA9jhtxxHwX0jY2y4RQstr1PH8AnaUKGKTrI8RTlRwJwuSEqss+
+	 1qqxR5IDUfYiCtwnqziueD2qeWnhcFZxbutTu6UDYdrEIX1rwBQPSEj90SxelXi163
+	 3ta1foNlveScUW5UGdbpxQUKFlklWAugeKMYhNz88g3HMGtBXGSPSeyqdgstU1kmTY
+	 nse+UJATCJVVA==
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -23,48 +23,31 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YtnDy29glGFDhqU1@kista.localdomain>
-References: <YtnDy29glGFDhqU1@kista.localdomain>
-Subject: Re: [GIT PULL] Allwinner clock fixes for 5.19
+In-Reply-To: <2118699.Icojqenx9y@jernej-laptop>
+References: <20220719183725.2605141-1-jernej.skrabec@gmail.com> <a7a253a0-1cc3-61e4-ae59-fc299057974a@sholland.org> <2118699.Icojqenx9y@jernej-laptop>
+Subject: Re: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
 From: Stephen Boyd <sboyd@kernel.org>
-Cc: wens@csie.org, samuel@sholland.org, linux-clk@vger.kernel.org, linux-sunxi@lists.linux.dev
-To: Jernej Skrabec <jernej@kernel.org>, mturquette@baylibre.com
-Date: Tue, 26 Jul 2022 10:56:17 -0700
+Cc: mturquette@baylibre.com, andre.przywara@arm.com, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+To: Jernej =?utf-8?q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, wens@csie.org
+Date: Tue, 26 Jul 2022 15:58:53 -0700
 User-Agent: alot/0.10
-Message-Id: <20220726175619.4C627C433D6@smtp.kernel.org>
+Message-Id: <20220726225855.615E1C433D6@smtp.kernel.org>
 
-Quoting Jernej Skrabec (2022-07-21 14:23:23)
-> Hi!
+Quoting Jernej =C5=A0krabec (2022-07-20 08:16:54)
+> Dne sreda, 20. julij 2022 ob 02:21:29 CEST je Samuel Holland napisal(a):
+> > On 7/19/22 1:37 PM, Jernej Skrabec wrote:
+> > >=20
+> > > Fixes: 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate clock")
+> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> >=20
+> > Reviewed-by: Samuel Holland <samuel@sholland.org>
+> >=20
+> > This bug also got fixed in passing by e1c51d31befc ("clk: sunxi-ng:
+> > Deduplicate ccu_clks arrays"), but that won't land until 5.20.
 >=20
-> As it turns out, commit 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate
-> clock"), queued for 5.19, introduced a bug. This bug is accidentally
-> fixed by commit e1c51d31befc ("clk: sunxi-ng: Deduplicate ccu_clks
-> arrays"), which is already queued for 5.20.
->=20
-> Although this commit as a fix is much bigger than it needs to be, I
-> still suggest that's fast tracked to 5.19. This will also avoid any
-> merge conflicts during merging material for 5.20.
->=20
-> Best regards,
-> Jernej
->=20
-> The following changes since commit f2906aa863381afb0015a9eb7fefad885d4e5a=
-56:
->=20
->   Linux 5.19-rc1 (2022-06-05 17:18:54 -0700)
->=20
-> are available in the Git repository at:
->=20
->   https://git.kernel.org/pub/scm/linux/kernel/git/sunxi/linux.git tags/su=
-nxi-clk-fixes-for-5.19-1
->=20
-> for you to fetch changes up to 48e29e0f3be086a28a9384befa77d02a43be2f98:
->=20
->   clk: sunxi-ng: Deduplicate ccu_clks arrays (2022-07-21 23:11:28 +0200)
->=20
-> ----------------------------------------------------------------
-> Fix H6 RTC clock
+> Argh, good catch. I will send your patch as fix then, otherwise there wil=
+l be=20
+> issues during merging.
 
-Anymore details besides "Fix"? There's some more details in this pull
-request but the tag tells me almost nothing. Does RTC fail? What's
-actually broken?
+This is a one line fix. I can just apply this and send this off and deal
+with the merge conflict locally by taking the other side.
