@@ -1,53 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB368801
-	for <linux-sunxi@lists.linux.dev>; Tue, 26 Jul 2022 22:58:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615E1C433D6;
-	Tue, 26 Jul 2022 22:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658876335;
-	bh=95zhTF3RvSPpdIG4fmJ3Qawy4FvFggDDh2yy8qTKelU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=JB9NLfp2xH0FofRGBLksoua8oV3DsjCIVChSnJpFO1XtWy4f4IoLCP/gShk/y6LqT
-	 FAHWIIxyQjul6m5yLpfedt74GPpB+lTKwmJqB76PNk9HeWAqg5R40lJyjxnVooYQjS
-	 9ClBvf6YE2QNbtvkA9jhtxxHwX0jY2y4RQstr1PH8AnaUKGKTrI8RTlRwJwuSEqss+
-	 1qqxR5IDUfYiCtwnqziueD2qeWnhcFZxbutTu6UDYdrEIX1rwBQPSEj90SxelXi163
-	 3ta1foNlveScUW5UGdbpxQUKFlklWAugeKMYhNz88g3HMGtBXGSPSeyqdgstU1kmTY
-	 nse+UJATCJVVA==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B8D7EE
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 02:26:45 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailout.nyi.internal (Postfix) with ESMTP id BD53E5C011A;
+	Tue, 26 Jul 2022 22:26:44 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 26 Jul 2022 22:26:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm1; t=1658888804; x=
+	1658975204; bh=smaAqEBD9EAasFw+KnLs6MeGfeaKJNcvnsdlP0YdAZA=; b=e
+	yH6etxCEem1MHLMcE9mBPEo8DE9rabU94kXFfBczNhejqt6t/CE64WNJk0ecl8Lo
+	KXXsPCHvD6AimHesZfc8DpVujIhjfA2JcrDVFBf9rWXJzrLuAh0y0oDgWWe1tc6r
+	MH/Ehr3Pm1/DQBcfDzXVPaAjEqUBim58abcH/iwSAb/sbOuoqLii1Cxdcf0CCEhx
+	8+XspcZUMP2NJlybm6fU7KCdcXrrFQjiZFmr59M0js4QO/xEOPszUk+mU+e4Y/66
+	ja+W6de23AKWonmvFrqrfCKt6fNevrOq8YEJ2xf3JFWB7TU34ljnNd1gz2x3epPu
+	oV9Yaq/7T4KhwHDDKmjsw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1658888804; x=
+	1658975204; bh=smaAqEBD9EAasFw+KnLs6MeGfeaKJNcvnsdlP0YdAZA=; b=C
+	llVo+h5raTWZsHvVx3JWUw6ZM4mvWGUItNeZXhEQvfI7g4+PFX7yOOYsS0QPgzXI
+	p/chPYd/AHFfJPb2wTLq7wFyXYdv9gsMSq/qnETDIgRefyuNb5Ve0TLhRSX6Bc+I
+	daHWFe0zYgSm/GhDZX+IotZslPzFyuJ1YbdfSAlNQSHSZc8WTmfdxVzt9jgr3362
+	KmxLNyIA8H8WiCsKAwAqP71z7DgJ7vzBKrJeqKVmqW9w8RoJ0oogJLOJoDjKFpAG
+	jyq6Vfalo7nL5+vmllKSKnAsV82Fwp2OLnF+hIn1XDmJcWA4CXp+CCpLR0ADpr2B
+	RU90qXJ2k5n8jJJA278RQ==
+X-ME-Sender: <xms:ZKLgYtQwgnRW-fZIUNn-5gJXqJkJmiuXt6o8cxlgL8Z_j5VHwEcd_w>
+    <xme:ZKLgYmxes7YH51fqdfQRJNcUveYHaXUxym_-LK7C4ONpTEUK7u23JjxyfmfIB0pN0
+    zLWsbfvMP_i4_0UjA>
+X-ME-Received: <xmr:ZKLgYi2UJJxZVgV5pTfRuCkOw-DrJIz-w_442pmhMbXXXWFWMhJ83bYPFbqZr9txHpHvkHSk0HJIxNGCIRROeqqT2egkfNu7vBw1INbAWto9X9KBc111k8YQuA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduuddgiedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedtvefhheehgfdvkeetffeludeuudehudeuvddtveelleekvedv
+    uedviefhkeeuheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:ZKLgYlDxEj25usO0sH-Rqq5EjzfFeZowtX2BJHCAxNRmdnYjFeJDeA>
+    <xmx:ZKLgYmhj4hfwIb1e-jwEKMRsVXu932p0TRpJnAr3370KmBR3H_wi2g>
+    <xmx:ZKLgYppfeuUKoX2WVeMcOmHoiCBb-gidgGnUaFRitTzsLcgNL-Y07A>
+    <xmx:ZKLgYqhboQU9r49rqUhm6TvPoF9m44ekNlOMPcEsGSeCXbXmk9u-Xw>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 26 Jul 2022 22:26:43 -0400 (EDT)
+Subject: Re: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
+To: Stephen Boyd <sboyd@kernel.org>, =?UTF-8?Q?Jernej_=c5=a0krabec?=
+ <jernej.skrabec@gmail.com>, wens@csie.org
+Cc: mturquette@baylibre.com, andre.przywara@arm.com,
+ linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
+ <a7a253a0-1cc3-61e4-ae59-fc299057974a@sholland.org>
+ <2118699.Icojqenx9y@jernej-laptop>
+ <20220726225855.615E1C433D6@smtp.kernel.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <6ff332d4-fcd4-ce6b-3543-377667dbd30e@sholland.org>
+Date: Tue, 26 Jul 2022 21:26:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2118699.Icojqenx9y@jernej-laptop>
-References: <20220719183725.2605141-1-jernej.skrabec@gmail.com> <a7a253a0-1cc3-61e4-ae59-fc299057974a@sholland.org> <2118699.Icojqenx9y@jernej-laptop>
-Subject: Re: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: mturquette@baylibre.com, andre.przywara@arm.com, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-To: Jernej =?utf-8?q?=C5=A0krabec?= <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, wens@csie.org
-Date: Tue, 26 Jul 2022 15:58:53 -0700
-User-Agent: alot/0.10
-Message-Id: <20220726225855.615E1C433D6@smtp.kernel.org>
+In-Reply-To: <20220726225855.615E1C433D6@smtp.kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Quoting Jernej =C5=A0krabec (2022-07-20 08:16:54)
-> Dne sreda, 20. julij 2022 ob 02:21:29 CEST je Samuel Holland napisal(a):
-> > On 7/19/22 1:37 PM, Jernej Skrabec wrote:
-> > >=20
-> > > Fixes: 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate clock")
-> > > Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-> >=20
-> > Reviewed-by: Samuel Holland <samuel@sholland.org>
-> >=20
-> > This bug also got fixed in passing by e1c51d31befc ("clk: sunxi-ng:
-> > Deduplicate ccu_clks arrays"), but that won't land until 5.20.
->=20
-> Argh, good catch. I will send your patch as fix then, otherwise there wil=
-l be=20
-> issues during merging.
+On 7/26/22 5:58 PM, Stephen Boyd wrote:
+> Quoting Jernej Škrabec (2022-07-20 08:16:54)
+>> Dne sreda, 20. julij 2022 ob 02:21:29 CEST je Samuel Holland napisal(a):
+>>> On 7/19/22 1:37 PM, Jernej Skrabec wrote:
+>>>>
+>>>> Fixes: 38d321b61bda ("clk: sunxi-ng: h6-r: Add RTC gate clock")
+>>>> Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>>>
+>>> Reviewed-by: Samuel Holland <samuel@sholland.org>
+>>>
+>>> This bug also got fixed in passing by e1c51d31befc ("clk: sunxi-ng:
+>>> Deduplicate ccu_clks arrays"), but that won't land until 5.20.
+>>
+>> Argh, good catch. I will send your patch as fix then, otherwise there will be 
+>> issues during merging.
+> 
+> This is a one line fix. I can just apply this and send this off and deal
+> with the merge conflict locally by taking the other side.
 
-This is a one line fix. I can just apply this and send this off and deal
-with the merge conflict locally by taking the other side.
+That sounds good to me. I also would prefer to take only this targeted fix for 5.19.
+
+Regards,
+Samuel
