@@ -1,136 +1,94 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6F5A20
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 21:04:19 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id ay11-20020a05600c1e0b00b003a3013da120so1539841wmb.5
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 14:04:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=gBmx9wqQLoqOz1G8d20izBhuJqPdHv57Lnkp1oGme86ifNa1BX5VaVX6Qxni4w11x0
-         M5zasePCyPuhkkRG7E4ecxaZtVm3iRm5eHLpLZPBANzAUDlBB29l7RG7wxAdPCjmW+K8
-         I3ErWXL6Gwezl/+usLr2NQm7fGLJM1fjDkrbCY+RZSK7VCNfKlRaiEg79sLuQ6TtiXWb
-         BaaMSQ+T81j7SbXHZbGqpSl905NGyHTffwPDdGqHZXhrRr6lKrF0G2Z4cpEdNb8PTKnP
-         aneAxR3IUSJHYeTylaPGo2J/cIAjCJMsSXhMh8D3cOr3wS1Ms7vEJsdwrjb8KMZlxRj3
-         Figw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=4yW1ASDzCxU7nhirmpMxWniIpw93ubY1eJ965Tb9gqO2zEFonbF/hDqo4eeTTCwXIK
-         btU0aiqzLfyY0xt9GiFt5rnUeacc0Io319t+WBuRIsjyeEl8wA4mNiMKopede668BxN+
-         GIy07M7W0qx6JNOq30Ph2u/yxZEkNX4SOYHpKDq42qxTjXGkvGbXBavRRqek/+dqxt+y
-         pN5/q3+IX0NpBlnBjjNcfY1o4CtmseZRcXNYEhrCwAndx2NRH//2yhK/RH5nh1Pz42xg
-         diadSRcgVeH2Z7BM6gAoPJncpxLvrOIBQMsq7G8F7RGFZ13kjdOjVC2PJaCWGiZzKUlz
-         LRNA==
-X-Gm-Message-State: AJIora9yoq5pjrE+TWeL7CJz9iHeVQh2sN2EizFGuIdcz0oli6SojPP9
-	TOmEpT1rY2U1lyHtcCP9shrvgw==
-X-Google-Smtp-Source: AGRyM1ugHIvYzT8GdJW8TvjMkyTFgxeT9hbgI4acFLt2PD9dNPAlJfHZAYPec9JkG0vYfhz8FRL5JA==
-X-Received: by 2002:a05:600c:1d1b:b0:3a3:e2:42d1 with SMTP id l27-20020a05600c1d1b00b003a300e242d1mr4242428wms.137.1658955858007;
-        Wed, 27 Jul 2022 14:04:18 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:65a8:ebd8:4098:d9d0])
-        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.04.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 14:04:17 -0700 (PDT)
-From: Daniel Lezcano <daniel.lezcano@linexp.org>
-To: daniel.lezcano@linaro.org,
-	rafael@kernel.org
-Cc: rui.zhang@intel.com,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khilman@baylibre.com,
-	abailon@baylibre.com,
-	lukasz.luba@arm.com,
-	broonie@kernel.org,
-	damien.lemoal@opensource.wdc.com,
-	heiko@sntech.de,
-	hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org,
-	talel@amazon.com,
-	thierry.reding@gmail.com,
-	digetx@gmail.com,
-	jonathanh@nvidia.com,
-	anarsoul@gmail.com,
-	tiny.windzz@gmail.com,
-	baolin.wang7@gmail.com,
-	f.fainelli@gmail.com,
-	bjorn.andersson@linaro.org,
-	mcoquelin.stm32@gmail.com,
-	glaroque@baylibre.com,
-	miquel.raynal@bootlin.com,
-	shawnguo@kernel.org,
-	niklas.soderlund@ragnatech.se,
-	matthias.bgg@gmail.com,
-	j-keerthy@ti.com,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v3 28/32] Input: sun4i-ts - switch to new of thermal API
-Date: Wed, 27 Jul 2022 23:02:49 +0200
-Message-Id: <20220727210253.3794069-29-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
-References: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E4A33DA
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 23:47:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 501BFC433D6;
+	Wed, 27 Jul 2022 23:47:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1658965639;
+	bh=lbu5zPdYF9W+kJoFAZzKphWhxdbHEfKvdS1DNBnOYnI=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=R/x9nvQSQSU1hdiddXhKn5BkYFHBFZ4RTZ8QlBUzryOuUJ2CPL03lx8qdcXdjin4t
+	 44DD45N6nP9ooPjHjsgP1mZqmcfreULSW3tmdfKgoqnJ4qW04M4fHXTeYYfucf+7O2
+	 IGojEBrHPpCJ7eKuLE5kAgQ/DbkkubgxXDb3Otlhbnecw8AUxbs+ERhvv3DqWMS81E
+	 Tu92L//5zU4Vus7kEHlg3Yl5fwCM0Cz8Uptdzq3u7JZ4dCKalChJkPLN1+T9B6kHfy
+	 0KPW+VAIxUi9TD98Ig9G9b9IoQCaYQkJVmd1Rqc1ENDBkS0t7RjtxiC8EQKRBPxft6
+	 ahlGhhIt13ApA==
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
+References: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
+Subject: Re: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
+From: Stephen Boyd <sboyd@kernel.org>
+Cc: mturquette@baylibre.com, andre.przywara@arm.com, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>, samuel@sholland.org, wens@csie.org
+Date: Wed, 27 Jul 2022 16:47:17 -0700
+User-Agent: alot/0.10
+Message-Id: <20220727234719.501BFC433D6@smtp.kernel.org>
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
+Quoting Jernej Skrabec (2022-07-19 11:37:25)
+> While RTC clock was added in H616 ccu_common list, it was not in H6
+> list. That caused invalid pointer dereference like this:
+>=20
+> Unable to handle kernel NULL pointer dereference at virtual address 00000=
+0000000020c
+> Mem abort info:
+>   ESR =3D 0x96000004
+>   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
+>   SET =3D 0, FnV =3D 0
+>   EA =3D 0, S1PTW =3D 0
+>   FSC =3D 0x04: level 0 translation fault
+> Data abort info:
+>   ISV =3D 0, ISS =3D 0x00000004
+>   CM =3D 0, WnR =3D 0
+> user pgtable: 4k pages, 48-bit VAs, pgdp=3D000000004d574000
+> [000000000000020c] pgd=3D0000000000000000, p4d=3D0000000000000000
+> Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> CPU: 3 PID: 339 Comm: cat Tainted: G    B             5.18.0-rc1+ #1352
+> Hardware name: Tanix TX6 (DT)
+> pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
+> pc : ccu_gate_is_enabled+0x48/0x74
+> lr : ccu_gate_is_enabled+0x40/0x74
+> sp : ffff80000c0b76d0
+> x29: ffff80000c0b76d0 x28: 00000000016e3600 x27: 0000000000000000
+> x26: 0000000000000000 x25: 0000000000000002 x24: ffff00000952fe08
+> x23: ffff800009611400 x22: ffff00000952fe79 x21: 0000000000000000
+> x20: 0000000000000001 x19: ffff80000aad6f08 x18: 0000000000000000
+> x17: 2d2d2d2d2d2d2d2d x16: 2d2d2d2d2d2d2d2d x15: 2d2d2d2d2d2d2d2d
+> x14: 0000000000000000 x13: 00000000f2f2f2f2 x12: ffff700001816e89
+> x11: 1ffff00001816e88 x10: ffff700001816e88 x9 : dfff800000000000
+> x8 : ffff80000c0b7447 x7 : 0000000000000001 x6 : ffff700001816e88
+> x5 : ffff80000c0b7440 x4 : 0000000000000001 x3 : ffff800008935c50
+> x2 : dfff800000000000 x1 : 0000000000000000 x0 : 000000000000020c
+> Call trace:
+>  ccu_gate_is_enabled+0x48/0x74
+>  clk_core_is_enabled+0x7c/0x1c0
+>  clk_summary_show_subtree+0x1dc/0x334
+>  clk_summary_show_subtree+0x250/0x334
+>  clk_summary_show_subtree+0x250/0x334
+>  clk_summary_show_subtree+0x250/0x334
+>  clk_summary_show_subtree+0x250/0x334
+>  clk_summary_show+0x90/0xdc
+>  seq_read_iter+0x248/0x6d4
+>  seq_read+0x17c/0x1fc
+>  full_proxy_read+0x90/0xf0
+>  vfs_read+0xdc/0x28c
+>  ksys_read+0xc8/0x174
+>  __arm64_sys_read+0x44/0x5c
+>  invoke_syscall+0x60/0x190
+>  el0_svc_common.constprop.0+0x7c/0x160
+>  do_el0_svc+0x38/0xa0
+>  el0_svc+0x68/0x160
+>  el0t_64_sync_handler+0x10c/0x140
+>  el0t_64_sync+0x18c/0x190
+> Code: d1006260 97e5c981 785e8260 8b0002a0 (b9400000)
+> ---[ end trace 0000000000000000 ]---
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
-
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 742a7e96c1b5..73eb8f80be6e 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
- 	return 0;
- }
- 
--static int sun4i_get_tz_temp(void *data, int *temp)
-+static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
- {
--	return sun4i_get_temp(data, temp);
-+	return sun4i_get_temp(tz->devdata, temp);
- }
- 
--static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-+static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
- 	.get_temp = sun4i_get_tz_temp,
- };
- 
-@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
- 	if (IS_ERR(hwmon))
- 		return PTR_ERR(hwmon);
- 
--	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
--						       &sun4i_ts_tz_ops);
-+	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
-+						&sun4i_ts_tz_ops);
- 	if (IS_ERR(thermal))
- 		return PTR_ERR(thermal);
- 
--- 
-2.25.1
-
+Applied to clk-fixes
