@@ -1,41 +1,41 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AC7A20
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 21:03:28 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id v17so7137257wrr.10
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 14:03:28 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A2EA20
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 21:04:16 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id x23-20020a05600c179700b003a30e3e7989so118368wmo.0
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 14:04:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linexp-org.20210112.gappssmtp.com; s=20210112;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
-        b=FGGLVzfx4BZq6tb0SPQJeiGIls9Y9otMd0oDQ8KKBCrCOid6Um1zjDXdapW9zopV3O
-         gNsZWoglPbSDWFPOyr9yJdyGtgE3IaYP3VsjNwEoHVOcs6zgY78tgAt++783huFC8N25
-         bC2KsnGaPbvpqtwIGI/j4O9EQLi608OQLkJI2RGqRVysceitXpr/OiH5AAvn9aq0Q8cr
-         fOXbpIXzmgMltKUJWGu4HM1dWlIJKjouOnZdJR1ZI3SLJOHbUMeKDVcy1vy/7R1Xo7K5
-         mZDvdKMUVTSP5EO8wSd1HMJnPqk2O4aRBPZZccissOcB+IjnYWKQ59QMPpFUllEh0Xw8
-         oo+A==
+        bh=hWFZXwysMvsN10lXDK6sChpf4X2qhnFs4AeSH8mvwTs=;
+        b=fKlk36kNOIXutyiEJaCv7Gy8Y8SXPlCpXEpYT3v5hsMHepohYOURnllehr0xqrdsih
+         078Fcvs34wsDW8L5O5Pd7eWtz38QHUh1HtvR4zooK/5hbc97+Wmqbny72ol7qEj20n3v
+         GJV9ONI+/SmPBwYp1ysGn6xl2li8XJ7rlA9/L3pzQVAH9NdJeieQevx7mwXWpqjgeSoa
+         y3rBAk4q3yoQrnxQHvFy1QFxG2EKnxE9CDr+o4Pfk15EcgVvqz2DQxJyuis6Eot8avz/
+         0qyxFLygD/WvXkzaPZoOgQu6Nur+1H3zTbzuIy0Cw3V0q/rP5rk2p5z1Bc3boCtnkvAC
+         qrHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
-        b=T/+OFz0Fmx1VDA9LRDcPYANWldJcze083wgIFqBN6RSRf10Q7CoPkbf3MPUCs2/WKB
-         7YOWBfT0FDlgCXWkx9R1g0mZJdUm2Kur4qoSBimwHXb4vXMuE0vOY4mDu6Bg8K/fltmz
-         ScjQFH5Opp7FXT2HkcFE1bSLxDSaekZBrffivpLJ/SDyY51vdjpemDPx+RgL3oJ9yhwV
-         HBDG6kY2wsWTJUYHJet6uVXA1zwr7P4G1WAmuFbB9Hny17A4jL5tdkxmrPSDOeTHcNhf
-         dZNJjpiGOfpHXGOxLLsXEEGkST4Njdyad8ifOLnTQC0fYFh8OYLkDQFmhHf7dNzzOcDJ
-         8fZw==
-X-Gm-Message-State: AJIora+0eAoksoOF/d5Qqrs4kMB9q1sBna6DFyTjz1msS/oq0c/i/iw0
-	IKDb0lu/Ssf05/9HlqTY0sbA7w==
-X-Google-Smtp-Source: AGRyM1tXz/i+RQouBdI72BasLcWFpSsgokti/kC2BxvW6NBwQNGEzXEydiPc+macGX4K1FVqLUI8AQ==
-X-Received: by 2002:a05:6000:1a8b:b0:21d:9ae8:f8d9 with SMTP id f11-20020a0560001a8b00b0021d9ae8f8d9mr14493418wry.686.1658955806595;
-        Wed, 27 Jul 2022 14:03:26 -0700 (PDT)
+        bh=hWFZXwysMvsN10lXDK6sChpf4X2qhnFs4AeSH8mvwTs=;
+        b=xq5Guhmg6AAXlfMqjdfaXCGExTgL3IlZtZhTFlTzBEEWGO8hlp/C22j8iNAFTaTrcJ
+         ZmcJeccWzkuU6vDwVw8DmY9q/ruj7OyUtg+PEqSdhYkQfawdo/jU5eTtyPepnd6yQi9u
+         YZKRMALxbiA7RgdVWZj7d4pJBZlXtJZXTL3x98YuhHPe/NVYTgTdq1ctCL0vR5bm/XF+
+         MVCD5lyZ5dxMFY3ZgY0O6HClL8vbYA75oslhMx62HefDmc1hyyTDjkfZ9LOORXENA+kV
+         9/oGZ0C6tLTwKLc5CE1TOc/NnsqkoKAD+3uD982Xr0H5X3oZtrs4yf5hMt/mgk7iX8f4
+         yofQ==
+X-Gm-Message-State: AJIora+N68xKqGneX+Y+3NzRRL9U4rBPMgscuN50BwRWyd1g0j8wmq1L
+	lQd4TdHvnGPGRUQ+MQdkbu5T7A==
+X-Google-Smtp-Source: AGRyM1uvQcL47CIAsOneuLf1vtRWhov+nEkxHt6C1rGUbebVn2iW0PNibO5XgN8bydxhr3hGx4Gw1g==
+X-Received: by 2002:a05:600c:1c26:b0:3a3:2251:c3cb with SMTP id j38-20020a05600c1c2600b003a32251c3cbmr4353158wms.126.1658955854767;
+        Wed, 27 Jul 2022 14:04:14 -0700 (PDT)
 Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:65a8:ebd8:4098:d9d0])
-        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.03.24
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.04.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Jul 2022 14:03:26 -0700 (PDT)
+        Wed, 27 Jul 2022 14:04:14 -0700 (PDT)
 From: Daniel Lezcano <daniel.lezcano@linexp.org>
 To: daniel.lezcano@linaro.org,
 	rafael@kernel.org
@@ -66,15 +66,17 @@ Cc: rui.zhang@intel.com,
 	niklas.soderlund@ragnatech.se,
 	matthias.bgg@gmail.com,
 	j-keerthy@ti.com,
-	Amit Kucheria <amitk@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
+	linux-iio@vger.kernel.org (open list:IIO SUBSYSTEM AND DRIVERS),
 	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
 	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v3 08/32] thermal/drivers/sun8i: Switch to new of API
-Date: Wed, 27 Jul 2022 23:02:29 +0200
-Message-Id: <20220727210253.3794069-9-daniel.lezcano@linexp.org>
+Subject: [PATCH v3 27/32] iio/drivers/sun4i_gpadc: Switch to new of thermal API
+Date: Wed, 27 Jul 2022 23:02:48 +0200
+Message-Id: <20220727210253.3794069-28-daniel.lezcano@linexp.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
 References: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
@@ -95,49 +97,47 @@ API to register the thermal zone with these generic ops.
 
 Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
 ---
- drivers/thermal/sun8i_thermal.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/iio/adc/sun4i-gpadc-iio.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
-index 212c87e63a66..e64d06d1328c 100644
---- a/drivers/thermal/sun8i_thermal.c
-+++ b/drivers/thermal/sun8i_thermal.c
-@@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
- 		return -1590 * reg / 10 + 276000;
- }
- 
--static int sun8i_ths_get_temp(void *data, int *temp)
-+static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
- {
--	struct tsensor *s = data;
-+	struct tsensor *s = tz->devdata;
- 	struct ths_device *tmdev = s->tmdev;
- 	int val = 0;
- 
-@@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
+diff --git a/drivers/iio/adc/sun4i-gpadc-iio.c b/drivers/iio/adc/sun4i-gpadc-iio.c
+index 2d393a4dfff6..13d1e937357c 100644
+--- a/drivers/iio/adc/sun4i-gpadc-iio.c
++++ b/drivers/iio/adc/sun4i-gpadc-iio.c
+@@ -412,9 +412,9 @@ static int sun4i_gpadc_runtime_resume(struct device *dev)
  	return 0;
  }
  
--static const struct thermal_zone_of_device_ops ths_ops = {
-+static const struct thermal_zone_device_ops ths_ops = {
- 	.get_temp = sun8i_ths_get_temp,
+-static int sun4i_gpadc_get_temp(void *data, int *temp)
++static int sun4i_gpadc_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	struct sun4i_gpadc_iio *info = data;
++	struct sun4i_gpadc_iio *info = tz->devdata;
+ 	int val, scale, offset;
+ 
+ 	if (sun4i_gpadc_temp_read(info->indio_dev, &val))
+@@ -428,7 +428,7 @@ static int sun4i_gpadc_get_temp(void *data, int *temp)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
++static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
+ 	.get_temp = &sun4i_gpadc_get_temp,
  };
  
-@@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
- 		tmdev->sensor[i].tmdev = tmdev;
- 		tmdev->sensor[i].id = i;
- 		tmdev->sensor[i].tzd =
--			devm_thermal_zone_of_sensor_register(tmdev->dev,
--							     i,
--							     &tmdev->sensor[i],
--							     &ths_ops);
-+			devm_thermal_of_zone_register(tmdev->dev,
-+						      i,
-+						      &tmdev->sensor[i],
-+						      &ths_ops);
- 		if (IS_ERR(tmdev->sensor[i].tzd))
- 			return PTR_ERR(tmdev->sensor[i].tzd);
+@@ -637,9 +637,9 @@ static int sun4i_gpadc_probe(struct platform_device *pdev)
+ 	pm_runtime_enable(&pdev->dev);
  
+ 	if (IS_ENABLED(CONFIG_THERMAL_OF)) {
+-		info->tzd = thermal_zone_of_sensor_register(info->sensor_device,
+-							    0, info,
+-							    &sun4i_ts_tz_ops);
++		info->tzd = thermal_of_zone_register(info->sensor_device,
++						     0, info,
++						     &sun4i_ts_tz_ops);
+ 		/*
+ 		 * Do not fail driver probing when failing to register in
+ 		 * thermal because no thermal DT node is found.
 -- 
 2.25.1
 
