@@ -1,155 +1,121 @@
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90424EC7
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 12:06:35 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4E2E35C01A0;
-	Wed, 27 Jul 2022 08:06:34 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 27 Jul 2022 08:06:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm2; t=1658923594; x=1659009994; bh=sns5b3/QFe
-	KrteH5LAIPWxoG6sLFqTq3vrWcUhZbXYo=; b=GibnmcNO6wp3WeAyKuTE/nUCLB
-	YW50Ol+91ZDj79Zo5CIskHeaFVR8jAMN0X49kTLFWOa3a9HjROw12SLcp+WTbRWk
-	OAkgmgaftSsl5cwK5scd/mWQIJFxIcXwJ1bcX64UgyDee8EVuuwj44j05ryTguUB
-	p4DCIfXbxijwwku9KDHPm/VhzCK98td11UVKG7pSS/a7NmdUAmozFwQXu3IG1JFW
-	txl5azyk8POfhYSw+3hREMc6nZv9m7rRxqDP8J8Vajz9PGVQLBsC2PlyTMAIwkXm
-	D5yStClLg0CP5ubMKD1whxvJ0Og4wzm6jioIRQ20dGJ6ekEYdHcOyHVe+pFQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm3; t=1658923594; x=1659009994; bh=sns5b3/QFeKrteH5LAIPWxoG6sLF
-	qTq3vrWcUhZbXYo=; b=CPOvtjMSWfr51w9qpRc0e0LNAed6DSTlNlYhggqfevUC
-	XGfbJ7p3LwPJWqUWCd9A2SMlnM+cLnehqodde9XgZ5q7NJjPW1cPu960mZoIUu+Z
-	MLtHutev6Jg6MRHV7ZuYmcu463JoZ56rC+pIo38UBmuZ91cuktZr3PfECppTuleR
-	WMLUUJaap9ElmMQVnCox/54tVH+0yXXjJJtLkRxteSs55EAxP8C8XnXgsO6TB1WB
-	gWiOY4jExXpp8UFQ7CKeiQWNA90ehzhOO+HibWyvhBUzwZCZuwSwtUA2gssBu4Ig
-	jHUbywnvlinBSmdRzE/t7o4wYzVBt+GLMzcD049NfQ==
-X-ME-Sender: <xms:SSrhYuzCudXQOXDePTu9vd-jnHWA2c0dG9z3DmtX82aSwA_iiHLlVQ>
-    <xme:SSrhYqQivoa7jzWzw_mNC5VX8HsHDGaFeRqg7-0c9M8dAne77B8nWeOZvJglqA2F8
-    13RETjYW95OvqTKwa4>
-X-ME-Received: <xmr:SSrhYgVwpFCYbJHWnIkNSZl2pqClDE01SmH6gCdeKdXa4o7jKmy2gepA-Ejw_cRbcv9nvxuLg3wZ3U5mLd650aRxRfb9Ip_VeJjiaj4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduvddggeekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
-    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:SSrhYkicJ_IGgqz6iexkhVvJotQY9PgHDYu6at83sP86XcN-jbRxig>
-    <xmx:SSrhYgD_6W9SF0CcaX5syZO4GDpQtYW869-2NL9JMz79PzcyP-mG8w>
-    <xmx:SSrhYlIvonbC6Au2J1vGXrnhrB9vVXK9few-aIOgGzwMHy05o0c_Hw>
-    <xmx:SirhYob7ea0CytTonx1V7XsjzDERI7TE34Dj8js15DQ3IuZ1nqkMsQ>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 27 Jul 2022 08:06:33 -0400 (EDT)
-Date: Wed, 27 Jul 2022 14:06:31 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Saravana Kannan <saravanak@google.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Frank Rowand <frowand.list@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as
- optional
-Message-ID: <20220727120631.iefzititedahdsdt@houat>
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
- <20220302211100.65264-2-paul.kocialkowski@bootlin.com>
- <YiaTfsMDs7RGob2N@robh.at.kernel.org>
- <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168447A
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 16:06:53 +0000 (UTC)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-31f443e276fso62604767b3.1
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 09:06:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6ewmeS4McgdnQEH35NlTf+WYZOW3FH17zRDpoEtE6dI=;
+        b=INtOTD/aD9pkxpId/nbuIfYIh2625Ql2cdm3PPE/6OV3MR+Wf16Bp5IKfLSjHDDdjS
+         W7lwSfyvr4fx7EfPX3hqXV1XLbcIMhTyo9YzIwh63CE0L71Xq9Obi4EnF+MQIy1X8AJt
+         Wg+uJYmmPqba3AXMWElBsWx5w+MQ+RS/loTWNnuza6cW8u1isDc7eBuHwdXTdLQ7bxLQ
+         oSpj0xrrJsCW4Pq4spqSnAhj9GsF0WpwBPW8y/ICNyaWKHRCpa157wFfGAr5fGaoA4sI
+         QIUcdKKRbvI4kPeVTPgHneG9ZJXqa0aJU7PVTwSy8IyTy/Lg3cMir7MB3t0/5VoDrZGs
+         sV4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6ewmeS4McgdnQEH35NlTf+WYZOW3FH17zRDpoEtE6dI=;
+        b=4xaBvC4GsZj3zqMexCCZbQ74V0GNSvg6VfwEgkIhC/zqO5Hd8dPcw+I2AMF5R6xNFH
+         Zo9Npgq60I2R6G/2q9B50kU5BA0qWCNokRhyvBBD/gfq53E/hVGyY8g/w6JX012DvXFD
+         hlw7Xpw2Zu23zPvS7OcOvycf/HXTWRzIIv9rKo9Z5Xrq7w/VhGY31IOOypWmjIlotZBX
+         W8GwZnmiXbbbUsYIjImTKHvRbJUgWLlbGsxCsWC7FmtwvXJ8v+tKWr6DeDko5HpwY0y+
+         evyk4oTbSRfezMoZ66XkX87xz2vy5lpphhHon6QmKAsk1iekAA6GNGLHiAGwGBHDI1PM
+         f4Jw==
+X-Gm-Message-State: AJIora/25+7C1n4zYWDA8yoi1Ub4Vl1n/c4epU1w6tO353lQZeXm5wfU
+	495o8+IcBpGXnRC0P6hnuwiSzo6x9l40EW8ET7MFMQ==
+X-Google-Smtp-Source: AGRyM1vqCW78Cn3V5a5E1wbeBWAhNzfNn3hKWKs7sG2nMhfHyzih69XaNV0l1aSjh7XmJa8TaUVDgp3KjFrA2y3Jezs=
+X-Received: by 2002:a05:690c:72c:b0:31f:474d:ea43 with SMTP id
+ bt12-20020a05690c072c00b0031f474dea43mr8578158ywb.126.1658938011811; Wed, 27
+ Jul 2022 09:06:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="5f267h7mxg6wplag"
-Content-Disposition: inline
-In-Reply-To: <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
+References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
+ <20220302211100.65264-2-paul.kocialkowski@bootlin.com> <YiaTfsMDs7RGob2N@robh.at.kernel.org>
+ <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com> <20220727120631.iefzititedahdsdt@houat>
+In-Reply-To: <20220727120631.iefzititedahdsdt@houat>
+From: Saravana Kannan <saravanak@google.com>
+Date: Wed, 27 Jul 2022 09:06:15 -0700
+Message-ID: <CAGETcx_o=L+Ku9CPGbQW2wS15etvi+ofkKZ0K=C7imP4=JcXeQ@mail.gmail.com>
+Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as optional
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Rob Herring <robh@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland <samuel@sholland.org>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Frank Rowand <frowand.list@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
 
-
---5f267h7mxg6wplag
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
-> On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
+On Wed, Jul 27, 2022 at 5:06 AM Maxime Ripard <maxime@cerno.tech> wrote:
+>
+> Hi,
+>
+> On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
+> > On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
+> > >
+> > > +Saravana
+> > >
+> > > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
+> > > > In order to set their correct DMA address offset, some devices rely on
+> > > > the device-tree interconnects property which identifies an
+> > > > interconnect node that provides a dma-ranges property that can be used
+> > > > to set said offset.
+> > > >
+> > > > Since that logic is all handled by the generic openfirmware and driver
+> > > > code, the device-tree description could be enough to properly set
+> > > > the offset.
+> > > >
+> > > > However the interconnects property is currently not marked as
+> > > > optional, which implies that a driver for the corresponding node
+> > > > must be loaded as a requirement. When no such driver exists, this
+> > > > results in an endless EPROBE_DEFER which gets propagated to the
+> > > > calling driver. This ends up in the driver never loading.
+> > > >
+> > > > Marking the interconnects property as optional makes it possible
+> > > > to load the driver in that situation, since the EPROBE_DEFER return
+> > > > code will no longer be propagated to the driver.
+> > > >
+> > > > There might however be undesirable consequences with this change,
+> > > > which I do not fully grasp at this point.
 > >
-> > +Saravana
+> > Temporary NACK till I get a bit more time to take a closer look. I
+> > really don't like the idea of making interconnects optional. IOMMUs
+> > and DMAs were exceptions. Also, we kinda discuss similar issues in
+> > LPC. We had some consensus on how to handle these and I noted them all
+> > down with a lot of details -- let me go take a look at those notes
+> > again and see if I can send a more generic patch.
 > >
-> > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
-> > > In order to set their correct DMA address offset, some devices rely on
-> > > the device-tree interconnects property which identifies an
-> > > interconnect node that provides a dma-ranges property that can be used
-> > > to set said offset.
-> > >
-> > > Since that logic is all handled by the generic openfirmware and driver
-> > > code, the device-tree description could be enough to properly set
-> > > the offset.
-> > >
-> > > However the interconnects property is currently not marked as
-> > > optional, which implies that a driver for the corresponding node
-> > > must be loaded as a requirement. When no such driver exists, this
-> > > results in an endless EPROBE_DEFER which gets propagated to the
-> > > calling driver. This ends up in the driver never loading.
-> > >
-> > > Marking the interconnects property as optional makes it possible
-> > > to load the driver in that situation, since the EPROBE_DEFER return
-> > > code will no longer be propagated to the driver.
-> > >
-> > > There might however be undesirable consequences with this change,
-> > > which I do not fully grasp at this point.
->=20
-> Temporary NACK till I get a bit more time to take a closer look. I
-> really don't like the idea of making interconnects optional. IOMMUs
-> and DMAs were exceptions. Also, we kinda discuss similar issues in
-> LPC. We had some consensus on how to handle these and I noted them all
-> down with a lot of details -- let me go take a look at those notes
-> again and see if I can send a more generic patch.
->=20
-> Paul,
->=20
-> Can you point to the DTS (not DTSI) file that corresponds to this?
-> Also, if it's a builtin kernel, I'd recommend setting
-> deferred_probe_timeout=3D1 and that should take care of it too.
+> > Paul,
+> >
+> > Can you point to the DTS (not DTSI) file that corresponds to this?
+> > Also, if it's a builtin kernel, I'd recommend setting
+> > deferred_probe_timeout=1 and that should take care of it too.
+>
+> For the record, I also encountered this today on next-20220726 with this
+> device:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/sun5i.dtsi#n775
+>
+> The driver won't probe without fw_devlink=off
 
-For the record, I also encountered this today on next-20220726 with this
-device:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arc=
-h/arm/boot/dts/sun5i.dtsi#n775
+Really? I basically ended up doing what I mentioned in my original
+reply. next-20220726 should have my changes that'll make sure
+fw_devlink doesn't block any probe (it'll still try to create as many
+device links as possible) after 10s (default deferred probe timeout).
+Can you try to find more info on why it's not probing?
+<debugfs>/devices_deferred should give more details.
 
-The driver won't probe without fw_devlink=3Doff
 
-Maxime
-
---5f267h7mxg6wplag
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYuEqRwAKCRDj7w1vZxhR
-xU7hAPwISO3g/gkHRCgtYcqZGbLJsQTjFn8UlaYIl4MsqUE71AEArjHaL+k43u3L
-IMF27kO1knwUR8duIkDbYBb49e/ZQgs=
-=h3a/
------END PGP SIGNATURE-----
-
---5f267h7mxg6wplag--
+-Saravana
