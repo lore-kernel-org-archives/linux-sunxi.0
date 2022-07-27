@@ -1,132 +1,143 @@
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E0D2566
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 18:08:08 +0000 (UTC)
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-2ef5380669cso183881757b3.9
-        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 11:08:08 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AC7A20
+	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 21:03:28 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id v17so7137257wrr.10
+        for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 14:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NMXcRI87yufdY6/XT5cLLLORQt3sxSxSpP/LTh5+LvM=;
-        b=S+TOJiLqHXqCcXVfOGmduOCIM0kskUGMNI92Ai1NEPb0uxl8PI2/KmpWvLVjiD919D
-         ZvZS4emRhEfkqWESzGR5OlA4oWesobF5FDdCT+pj3IUTAQvEbfG3bcxkh6iWymMF1RU+
-         tTN0RwcYj1C6I2G7aaAoMjgrPeFGRE3ffcUa7oMvXlq0nIpJh7SmEjEyb1XXB6pVt9xr
-         pWhBykPSHwtd4h0Xq157RIzg6P7UY4aEAIHcCKecJU5iKJOzl4QL6m54x48zjZP/7V//
-         S6xdyM+FN8dU9RizSaLb4lV8OS/TPMjkoHJKI1dY/+79Oc3l+B/7a6THeWohcl2Ww4M8
-         A9fw==
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=FGGLVzfx4BZq6tb0SPQJeiGIls9Y9otMd0oDQ8KKBCrCOid6Um1zjDXdapW9zopV3O
+         gNsZWoglPbSDWFPOyr9yJdyGtgE3IaYP3VsjNwEoHVOcs6zgY78tgAt++783huFC8N25
+         bC2KsnGaPbvpqtwIGI/j4O9EQLi608OQLkJI2RGqRVysceitXpr/OiH5AAvn9aq0Q8cr
+         fOXbpIXzmgMltKUJWGu4HM1dWlIJKjouOnZdJR1ZI3SLJOHbUMeKDVcy1vy/7R1Xo7K5
+         mZDvdKMUVTSP5EO8wSd1HMJnPqk2O4aRBPZZccissOcB+IjnYWKQ59QMPpFUllEh0Xw8
+         oo+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NMXcRI87yufdY6/XT5cLLLORQt3sxSxSpP/LTh5+LvM=;
-        b=rVgNxHKfLyE2nyXYmeU57q4mE/LobVo/v0HshFlzoFB5/GHCdMaXoXv9/7xfNmhOfJ
-         5cSrtY+C5tTn7fPxwl5yLk7pp6hJlnkyNI40ix44o7liqeVtyKX6ONS9LtLryCAnrKaE
-         rs4hDgN+UHpZ0PNGB2tK3spr9OxWCCpDQs13oMvc1vyx4q4K+Yur5aLMP8zqLFXXFH4+
-         DnMfTfdLaK+n/7oz+wBxAjUvKmdWaodZ1wLU7uoSxgmWf35fxnnhduldQkasGOklhg0i
-         g8w9yPqgUJxii1oc8L0pnuzJQi7rzepy7h0JmtnmziT7rRbMYDM4JM3E/jVBiBTut23E
-         b2Kg==
-X-Gm-Message-State: AJIora+TFS236FYkFXWqlD7rEtVqePgT5dDtyCRX/cpcMBx+o0wYR9Bs
-	7h9FEQAkEqD/z7i5soS14708XfodBOXygI7wPRSshA==
-X-Google-Smtp-Source: AGRyM1uD7b1fr29udoQDI9d1E7IIKfgZyoN4ai5FBzz23w5LGSBRFo2LyXt+kDCYDfuXed2hJDzynnxut0qJtcvmw4c=
-X-Received: by 2002:a81:4807:0:b0:31e:7002:46cc with SMTP id
- v7-20020a814807000000b0031e700246ccmr20494789ywa.83.1658945287641; Wed, 27
- Jul 2022 11:08:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=T/+OFz0Fmx1VDA9LRDcPYANWldJcze083wgIFqBN6RSRf10Q7CoPkbf3MPUCs2/WKB
+         7YOWBfT0FDlgCXWkx9R1g0mZJdUm2Kur4qoSBimwHXb4vXMuE0vOY4mDu6Bg8K/fltmz
+         ScjQFH5Opp7FXT2HkcFE1bSLxDSaekZBrffivpLJ/SDyY51vdjpemDPx+RgL3oJ9yhwV
+         HBDG6kY2wsWTJUYHJet6uVXA1zwr7P4G1WAmuFbB9Hny17A4jL5tdkxmrPSDOeTHcNhf
+         dZNJjpiGOfpHXGOxLLsXEEGkST4Njdyad8ifOLnTQC0fYFh8OYLkDQFmhHf7dNzzOcDJ
+         8fZw==
+X-Gm-Message-State: AJIora+0eAoksoOF/d5Qqrs4kMB9q1sBna6DFyTjz1msS/oq0c/i/iw0
+	IKDb0lu/Ssf05/9HlqTY0sbA7w==
+X-Google-Smtp-Source: AGRyM1tXz/i+RQouBdI72BasLcWFpSsgokti/kC2BxvW6NBwQNGEzXEydiPc+macGX4K1FVqLUI8AQ==
+X-Received: by 2002:a05:6000:1a8b:b0:21d:9ae8:f8d9 with SMTP id f11-20020a0560001a8b00b0021d9ae8f8d9mr14493418wry.686.1658955806595;
+        Wed, 27 Jul 2022 14:03:26 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:65a8:ebd8:4098:d9d0])
+        by smtp.gmail.com with ESMTPSA id h6-20020a05600c350600b003a38606385esm37908wmq.3.2022.07.27.14.03.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Jul 2022 14:03:26 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@linexp.org>
+To: daniel.lezcano@linaro.org,
+	rafael@kernel.org
+Cc: rui.zhang@intel.com,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	khilman@baylibre.com,
+	abailon@baylibre.com,
+	lukasz.luba@arm.com,
+	broonie@kernel.org,
+	damien.lemoal@opensource.wdc.com,
+	heiko@sntech.de,
+	hayashi.kunihiko@socionext.com,
+	mhiramat@kernel.org,
+	talel@amazon.com,
+	thierry.reding@gmail.com,
+	digetx@gmail.com,
+	jonathanh@nvidia.com,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	baolin.wang7@gmail.com,
+	f.fainelli@gmail.com,
+	bjorn.andersson@linaro.org,
+	mcoquelin.stm32@gmail.com,
+	glaroque@baylibre.com,
+	miquel.raynal@bootlin.com,
+	shawnguo@kernel.org,
+	niklas.soderlund@ragnatech.se,
+	matthias.bgg@gmail.com,
+	j-keerthy@ti.com,
+	Amit Kucheria <amitk@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v3 08/32] thermal/drivers/sun8i: Switch to new of API
+Date: Wed, 27 Jul 2022 23:02:29 +0200
+Message-Id: <20220727210253.3794069-9-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
+References: <20220727210253.3794069-1-daniel.lezcano@linexp.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220302211100.65264-1-paul.kocialkowski@bootlin.com>
- <20220302211100.65264-2-paul.kocialkowski@bootlin.com> <YiaTfsMDs7RGob2N@robh.at.kernel.org>
- <CAGETcx9u9RO_5nSp+=qgwDGY=jL_Q1hAcj+RfVN=q-H_8iuT4w@mail.gmail.com>
- <20220727120631.iefzititedahdsdt@houat> <CAGETcx_o=L+Ku9CPGbQW2wS15etvi+ofkKZ0K=C7imP4=JcXeQ@mail.gmail.com>
- <YuFzG9SykSHw1bVe@aptenodytes>
-In-Reply-To: <YuFzG9SykSHw1bVe@aptenodytes>
-From: Saravana Kannan <saravanak@google.com>
-Date: Wed, 27 Jul 2022 11:07:31 -0700
-Message-ID: <CAGETcx_=UJWtNoqZUbOx9LmQWKg070cL265nk4W2nXQdZ940bA@mail.gmail.com>
-Subject: Re: [PATCH RFC v3 1/8] of: Mark interconnects property supplier as optional
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Frank Rowand <frowand.list@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 27, 2022 at 10:17 AM Paul Kocialkowski
-<paul.kocialkowski@bootlin.com> wrote:
->
-> Hi,
->
-> On Wed 27 Jul 22, 09:06, Saravana Kannan wrote:
-> > On Wed, Jul 27, 2022 at 5:06 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > Hi,
-> > >
-> > > On Mon, Mar 07, 2022 at 07:34:22PM -0800, Saravana Kannan wrote:
-> > > > On Mon, Mar 7, 2022 at 3:21 PM Rob Herring <robh@kernel.org> wrote:
-> > > > >
-> > > > > +Saravana
-> > > > >
-> > > > > On Wed, Mar 02, 2022 at 10:10:53PM +0100, Paul Kocialkowski wrote:
-> > > > > > In order to set their correct DMA address offset, some devices rely on
-> > > > > > the device-tree interconnects property which identifies an
-> > > > > > interconnect node that provides a dma-ranges property that can be used
-> > > > > > to set said offset.
-> > > > > >
-> > > > > > Since that logic is all handled by the generic openfirmware and driver
-> > > > > > code, the device-tree description could be enough to properly set
-> > > > > > the offset.
-> > > > > >
-> > > > > > However the interconnects property is currently not marked as
-> > > > > > optional, which implies that a driver for the corresponding node
-> > > > > > must be loaded as a requirement. When no such driver exists, this
-> > > > > > results in an endless EPROBE_DEFER which gets propagated to the
-> > > > > > calling driver. This ends up in the driver never loading.
-> > > > > >
-> > > > > > Marking the interconnects property as optional makes it possible
-> > > > > > to load the driver in that situation, since the EPROBE_DEFER return
-> > > > > > code will no longer be propagated to the driver.
-> > > > > >
-> > > > > > There might however be undesirable consequences with this change,
-> > > > > > which I do not fully grasp at this point.
-> > > >
-> > > > Temporary NACK till I get a bit more time to take a closer look. I
-> > > > really don't like the idea of making interconnects optional. IOMMUs
-> > > > and DMAs were exceptions. Also, we kinda discuss similar issues in
-> > > > LPC. We had some consensus on how to handle these and I noted them all
-> > > > down with a lot of details -- let me go take a look at those notes
-> > > > again and see if I can send a more generic patch.
-> > > >
-> > > > Paul,
-> > > >
-> > > > Can you point to the DTS (not DTSI) file that corresponds to this?
-> > > > Also, if it's a builtin kernel, I'd recommend setting
-> > > > deferred_probe_timeout=1 and that should take care of it too.
-> > >
-> > > For the record, I also encountered this today on next-20220726 with this
-> > > device:
-> > > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/arm/boot/dts/sun5i.dtsi#n775
-> > >
-> > > The driver won't probe without fw_devlink=off
-> >
-> > Really? I basically ended up doing what I mentioned in my original
-> > reply. next-20220726 should have my changes that'll make sure
-> > fw_devlink doesn't block any probe (it'll still try to create as many
-> > device links as possible) after 10s (default deferred probe timeout).
-> > Can you try to find more info on why it's not probing?
-> > <debugfs>/devices_deferred should give more details.
->
-> By the way last time I checked the initial issue that I reported appeared to be
-> fixed by the patch (Extend deferred probe timeout on driver registration).
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-Thanks for the confirmation.
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
--Saravana
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ drivers/thermal/sun8i_thermal.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index 212c87e63a66..e64d06d1328c 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
+ 		return -1590 * reg / 10 + 276000;
+ }
+ 
+-static int sun8i_ths_get_temp(void *data, int *temp)
++static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	struct tsensor *s = data;
++	struct tsensor *s = tz->devdata;
+ 	struct ths_device *tmdev = s->tmdev;
+ 	int val = 0;
+ 
+@@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops ths_ops = {
++static const struct thermal_zone_device_ops ths_ops = {
+ 	.get_temp = sun8i_ths_get_temp,
+ };
+ 
+@@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 		tmdev->sensor[i].tmdev = tmdev;
+ 		tmdev->sensor[i].id = i;
+ 		tmdev->sensor[i].tzd =
+-			devm_thermal_zone_of_sensor_register(tmdev->dev,
+-							     i,
+-							     &tmdev->sensor[i],
+-							     &ths_ops);
++			devm_thermal_of_zone_register(tmdev->dev,
++						      i,
++						      &tmdev->sensor[i],
++						      &ths_ops);
+ 		if (IS_ERR(tmdev->sensor[i].tzd))
+ 			return PTR_ERR(tmdev->sensor[i].tzd);
+ 
+-- 
+2.25.1
+
