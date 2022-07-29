@@ -1,94 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E4A33DA
-	for <linux-sunxi@lists.linux.dev>; Wed, 27 Jul 2022 23:47:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 501BFC433D6;
-	Wed, 27 Jul 2022 23:47:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1658965639;
-	bh=lbu5zPdYF9W+kJoFAZzKphWhxdbHEfKvdS1DNBnOYnI=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=R/x9nvQSQSU1hdiddXhKn5BkYFHBFZ4RTZ8QlBUzryOuUJ2CPL03lx8qdcXdjin4t
-	 44DD45N6nP9ooPjHjsgP1mZqmcfreULSW3tmdfKgoqnJ4qW04M4fHXTeYYfucf+7O2
-	 IGojEBrHPpCJ7eKuLE5kAgQ/DbkkubgxXDb3Otlhbnecw8AUxbs+ERhvv3DqWMS81E
-	 Tu92L//5zU4Vus7kEHlg3Yl5fwCM0Cz8Uptdzq3u7JZ4dCKalChJkPLN1+T9B6kHfy
-	 0KPW+VAIxUi9TD98Ig9G9b9IoQCaYQkJVmd1Rqc1ENDBkS0t7RjtxiC8EQKRBPxft6
-	 ahlGhhIt13ApA==
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06AC7A
+	for <linux-sunxi@lists.linux.dev>; Fri, 29 Jul 2022 00:14:49 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 77CB758099B;
+	Thu, 28 Jul 2022 20:14:48 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute3.internal (MEProxy); Thu, 28 Jul 2022 20:14:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm2; t=1659053688; x=1659060888; bh=1CqIgEzBLY
+	47OHaV4sSf/xZhANJWym0dF7Lbe51Gho8=; b=Prja2fJywNoccXxpjpow3zGOJ2
+	xOO4vfXVawIaKmJc0bhYtRFydLKuH0fHCgcVLRM1lUuLNu9BBN//3X9ouCnjhWE/
+	h6CzOrA/fHh2fcolx+w5V5tq6TCq2bQIPsf3ZACWLAKEpf25e8ZY9XU3KFQic2se
+	Jtce8nCqDD9jE+OjT6DxHmtBE41TY8DYxcrHiNxcyS8kN3p2GQxDzYsllntF8mJS
+	FS2T7PKKNAKPR8aJRiKi728rbnqI8yzpnLur/gXgoHLFMmia3zmPWCK9KTleynRy
+	jOxuw5ngIWElnzlSjMqsH07YSliZTA7wCA1cjU76B4SvQw24/jF2rPXTu1qg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm3; t=1659053688; x=1659060888; bh=1CqIgEzBLY47OHaV4sSf/xZhANJW
+	ym0dF7Lbe51Gho8=; b=rk1BZHZ1UaKHog5lKRuUrUckMq4BFSl4BtoMl4GVeEqA
+	uP8Q/U4l30FCDS6Lcw3xoSku/ZK/qU0Ppk3IwCHStdpczFzStmnmO+vC8fgdqtMF
+	L/9J11RH73L9sx+hzEM7Eu5L2OQZDiRt+J4fkyFq50/7oqrhR+fyh3f2zJfKWvbX
+	G5oB1PIDRUU4HJ25E1M0KtG9dyqUyrQTA3jbvGkorG2/yaqJAjlBAAjd5Q2fWxl8
+	Itq4r/XIBs9hQu2qdc6/UCMqpnavTMvAaMxWwoxGtCPMptiR3o/ZgbZKMSuVjAu9
+	GxafBtrfUIcHJLVFoN5Y5kI4k3zq1mPqBv0rN8j4eQ==
+X-ME-Sender: <xms:dibjYq61WULSSvHAb-Fw6g_a4fXhuLh8dvOAfkntuhZvcfdlvl7Pww>
+    <xme:dibjYj7LyoGVphHU_BmO-2rYwgaulvBbRFulbawl0I52oSGsa9-e4LnjM3ZcB2utm
+    iqBTBR4VqJXRHgcMw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdduhedgudefiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+    nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
+    ftrfgrthhtvghrnhepkedvkeejkefgjeduffetteegjeekteetudevtdfftdeluddthfeh
+    veefteekieetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:dibjYpeVeo5Y5h9hpZreusiUaYr9cd-GNjqdKKjoELpg2MwQwS2j_g>
+    <xmx:dibjYnLHruoskZDhofIBZdqd2L6PUeOuHZh_12EOvd8nk4fKXELcKA>
+    <xmx:dibjYuIb9-it4epXA9PpIvUcVGm0Og35TN2M0qLz4e-5zACCQcRfjQ>
+    <xmx:eCbjYsQMVZNaGfoD93vj0O0QSde7ARYF5pisHwVHhhgcCI35mR2OAg>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 183BA1700083; Thu, 28 Jul 2022 20:14:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.7.0-alpha0-757-gc3ad9c75d3-fm-20220722.001-gc3ad9c75
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
-References: <20220719183725.2605141-1-jernej.skrabec@gmail.com>
-Subject: Re: [PATCH] clk: sunxi-ng: Fix H6 RTC clock definition
-From: Stephen Boyd <sboyd@kernel.org>
-Cc: mturquette@baylibre.com, andre.przywara@arm.com, linux-clk@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Jernej Skrabec <jernej.skrabec@gmail.com>
-To: Jernej Skrabec <jernej.skrabec@gmail.com>, samuel@sholland.org, wens@csie.org
-Date: Wed, 27 Jul 2022 16:47:17 -0700
-User-Agent: alot/0.10
-Message-Id: <20220727234719.501BFC433D6@smtp.kernel.org>
+Mime-Version: 1.0
+Message-Id: <833e10d7-ceb1-4859-8028-e724d41421f1@www.fastmail.com>
+In-Reply-To: <20220721141325.2413920-2-arnd@kernel.org>
+References: <20220721141325.2413920-1-arnd@kernel.org>
+ <20220721141325.2413920-2-arnd@kernel.org>
+Date: Fri, 29 Jul 2022 09:44:25 +0930
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Arnd Bergmann" <arnd@kernel.org>, linux-arm-kernel@lists.infradead.org
+Cc: "Andrew Lunn" <andrew@lunn.ch>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ linux-aspeed@lists.ozlabs.org,
+ "Neil Armstrong" <narmstrong@baylibre.com>,
+ "Tony Lindgren" <tony@atomide.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Lorenzo Pieralisi" <lpieralisi@kernel.org>,
+ "Liviu Dudau" <liviu.dudau@arm.com>,
+ "Alexandre Torgue" <alexandre.torgue@foss.st.com>,
+ linux-kernel@vger.kernel.org,
+ "Thierry Reding" <thierry.reding@gmail.com>,
+ "Alim Akhtar" <alim.akhtar@samsung.com>,
+ "Fabio Estevam" <festevam@gmail.com>,
+ linux-stm32@st-md-mailman.stormreply.com,
+ "Florian Fainelli" <f.fainelli@gmail.com>,
+ "Alexander Shiyan" <shc_work@mail.ru>,
+ "Aaro Koskinen" <aaro.koskinen@iki.fi>, "Will Deacon" <will@kernel.org>,
+ "Gregory Clement" <gregory.clement@bootlin.com>,
+ linux-sh@vger.kernel.org, "Janusz Krzysztofik" <jmkrzyszt@gmail.com>,
+ "Russell King" <linux@armlinux.org.uk>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Chen-Yu Tsai" <wens@csie.org>,
+ bcm-kernel-feedback-list@broadcom.com,
+ "NXP Linux Team" <linux-imx@nxp.com>, linux-sunxi@lists.linux.dev,
+ "Sebastian Hesselbarth" <sebastian.hesselbarth@gmail.com>,
+ "Maxime Coquelin" <mcoquelin.stm32@gmail.com>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Ray Jui" <rjui@broadcom.com>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>,
+ "Takao Orito" <orito.takao@socionext.com>,
+ "Vladimir Zapolskiy" <vz@mleia.com>, linux-samsung-soc@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-omap@vger.kernel.org, "Scott Branden" <sbranden@broadcom.com>,
+ "Taichi Sugaya" <sugaya.taichi@socionext.com>,
+ "Samuel Holland" <samuel@sholland.org>,
+ "Nicolas Ferre" <nicolas.ferre@microchip.com>,
+ "Dinh Nguyen" <dinguyen@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski@linaro.org>,
+ "Pengutronix Kernel Team" <kernel@pengutronix.de>,
+ "Sudeep Holla" <sudeep.holla@arm.com>, linux-oxnas@groups.io,
+ "Shawn Guo" <shawnguo@kernel.org>,
+ "Claudiu Beznea" <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH 1/6] ARM: refresh defconfig files
+Content-Type: text/plain
 
-Quoting Jernej Skrabec (2022-07-19 11:37:25)
-> While RTC clock was added in H616 ccu_common list, it was not in H6
-> list. That caused invalid pointer dereference like this:
->=20
-> Unable to handle kernel NULL pointer dereference at virtual address 00000=
-0000000020c
-> Mem abort info:
->   ESR =3D 0x96000004
->   EC =3D 0x25: DABT (current EL), IL =3D 32 bits
->   SET =3D 0, FnV =3D 0
->   EA =3D 0, S1PTW =3D 0
->   FSC =3D 0x04: level 0 translation fault
-> Data abort info:
->   ISV =3D 0, ISS =3D 0x00000004
->   CM =3D 0, WnR =3D 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=3D000000004d574000
-> [000000000000020c] pgd=3D0000000000000000, p4d=3D0000000000000000
-> Internal error: Oops: 96000004 [#1] PREEMPT SMP
-> CPU: 3 PID: 339 Comm: cat Tainted: G    B             5.18.0-rc1+ #1352
-> Hardware name: Tanix TX6 (DT)
-> pstate: 00000005 (nzcv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=3D--)
-> pc : ccu_gate_is_enabled+0x48/0x74
-> lr : ccu_gate_is_enabled+0x40/0x74
-> sp : ffff80000c0b76d0
-> x29: ffff80000c0b76d0 x28: 00000000016e3600 x27: 0000000000000000
-> x26: 0000000000000000 x25: 0000000000000002 x24: ffff00000952fe08
-> x23: ffff800009611400 x22: ffff00000952fe79 x21: 0000000000000000
-> x20: 0000000000000001 x19: ffff80000aad6f08 x18: 0000000000000000
-> x17: 2d2d2d2d2d2d2d2d x16: 2d2d2d2d2d2d2d2d x15: 2d2d2d2d2d2d2d2d
-> x14: 0000000000000000 x13: 00000000f2f2f2f2 x12: ffff700001816e89
-> x11: 1ffff00001816e88 x10: ffff700001816e88 x9 : dfff800000000000
-> x8 : ffff80000c0b7447 x7 : 0000000000000001 x6 : ffff700001816e88
-> x5 : ffff80000c0b7440 x4 : 0000000000000001 x3 : ffff800008935c50
-> x2 : dfff800000000000 x1 : 0000000000000000 x0 : 000000000000020c
-> Call trace:
->  ccu_gate_is_enabled+0x48/0x74
->  clk_core_is_enabled+0x7c/0x1c0
->  clk_summary_show_subtree+0x1dc/0x334
->  clk_summary_show_subtree+0x250/0x334
->  clk_summary_show_subtree+0x250/0x334
->  clk_summary_show_subtree+0x250/0x334
->  clk_summary_show_subtree+0x250/0x334
->  clk_summary_show+0x90/0xdc
->  seq_read_iter+0x248/0x6d4
->  seq_read+0x17c/0x1fc
->  full_proxy_read+0x90/0xf0
->  vfs_read+0xdc/0x28c
->  ksys_read+0xc8/0x174
->  __arm64_sys_read+0x44/0x5c
->  invoke_syscall+0x60/0x190
->  el0_svc_common.constprop.0+0x7c/0x160
->  do_el0_svc+0x38/0xa0
->  el0_svc+0x68/0x160
->  el0t_64_sync_handler+0x10c/0x140
->  el0t_64_sync+0x18c/0x190
-> Code: d1006260 97e5c981 785e8260 8b0002a0 (b9400000)
-> ---[ end trace 0000000000000000 ]---
 
-Applied to clk-fixes
+
+On Thu, 21 Jul 2022, at 23:43, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> A lot of Kconfig options have changed over the years, and we tend
+> to not do a blind 'make defconfig' to refresh the files, to ensure
+> we catch options that should not have gone away.
+>
+> I used some a bit of scripting to only rework the bits where an
+> option moved around in any of the defconfig files, without also
+> dropping any of the other lines, to make it clearer which options
+> we no longer have.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  arch/arm/configs/am200epdkit_defconfig    |  26 ++---
+>  arch/arm/configs/aspeed_g4_defconfig      |  16 +--
+>  arch/arm/configs/aspeed_g5_defconfig      |  16 +--
+
+For the Aspeed bits:
+
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
