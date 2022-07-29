@@ -1,158 +1,148 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287084C77
-	for <linux-sunxi@lists.linux.dev>; Fri, 29 Jul 2022 18:12:13 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id f20so1256123lfc.10
-        for <linux-sunxi@lists.linux.dev>; Fri, 29 Jul 2022 11:12:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=from:message-id:date:mime-version:user-agent:subject
-         :content-language:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=YRtWVtjASRhasg4zc8teXz0/znN+y1S+ZkqIbY7XKTA=;
-        b=nKEbCpTn4ES338fo/oL+ZxbpzekkKK2V0nZCrR8D9coR5pJNycc5h9KHT3bd8XeneQ
-         vPSuxtMcHwyAfCbOMCvpReAOZt0imu43u+fzDy1KqhXerbTrgMa2PFQ/1EM3YFWwnm20
-         n+Pay0YAcn5etX+RhQMrfN2166BiRYs1f6LlxnUIgqQA17G+U4KzPhZlOZpPSwW9yDJc
-         VqmOVvoVheAn8/IAIy+SueUv7yI1jmne/GlQE11VSytvv8R0SJvtANTgFeVKRxqOoG8P
-         pbs6XpbiFip7/U/Ms8xoVcdMPVTz11kQDSLw9cyGEAoUlwClryZRDsAT/7eUJXB0Enty
-         p/rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:message-id:date:mime-version:user-agent
-         :subject:content-language:to:cc:references:in-reply-to
-         :content-transfer-encoding;
-        bh=YRtWVtjASRhasg4zc8teXz0/znN+y1S+ZkqIbY7XKTA=;
-        b=SlphMOzBVqcr8BLzu3GQQc8OiGaK1dGyluvT0vrMw0hFtR1O73BhJD7521eQGGoMhI
-         EuF+nJ7FwrGRK5Gz+Lu7a9hjOQ5T5i6lDseVyWcUfEWBlJJzZVeXPH5hKGbAX3ijdKpM
-         6FFMoWav/rh80cZq7jWCk2HDg2dx6/o8yP72GoCxrZWxon9cR4irWJYdmeASAFGuJZVH
-         WyK7wcsUMUBc2LaJBKTnaBqKfPC7OsgZNmbzSpnQBT/G+EmZOyVhfPvKsNsfsecbJHXc
-         +5BWxZHZar3rw0C8LOmEgeXUAnOcraGPXfuCrWD59usAFu8lXNAOEdRMp5Y0nDxmU/jf
-         pCRw==
-X-Gm-Message-State: AJIora9UJWmjJfSGBfeVVfuMsK9b6ZTt37vwLBo2CvQztSHR+txHbbE2
-	9NKqTLMWmiAy+oFHTZQUcLA=
-X-Google-Smtp-Source: AGRyM1tGTdtn7I/aNBel79an2DZRtTumSuY2b+SFhmNnAAQda14q5JmpFf7rHUQ5FfW3XCUPU7bjZw==
-X-Received: by 2002:a05:6512:1521:b0:48a:3c5d:5d17 with SMTP id bq33-20020a056512152100b0048a3c5d5d17mr1600643lfb.587.1659118331035;
-        Fri, 29 Jul 2022 11:12:11 -0700 (PDT)
-Received: from [192.168.177.6] (public-gprs370360.centertel.pl. [37.47.77.249])
-        by smtp.googlemail.com with ESMTPSA id p3-20020a2e7403000000b0025e0b9ea91csm731173ljc.84.2022.07.29.11.12.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 Jul 2022 11:12:10 -0700 (PDT)
-From: Mateusz Kwiatkowski <kfyatek@gmail.com>
-X-Google-Original-From: Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>
-Message-ID: <0e285cf5-6ef2-3484-9fb7-5eb55c0ca269@gmail.com>
-Date: Fri, 29 Jul 2022 20:12:07 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A71FB4C8F;
+	Fri, 29 Jul 2022 20:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1659125247; x=1690661247;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G3EYJuCImAFppAcSlVnUcEfwImmJRRAzetmU8K028Uo=;
+  b=ZJ2znwYdu4xtfmvTw0e/6H7GDv/aKGMf4ueL9XHpaJdVQREQ4ahTdeBy
+   LZ+d1roAPeZEUIE3zNR0G6uR/EqELRfhQFxK+YvPrHNyJ1eHRZQfpL9D8
+   0Zz3Rqf988cjsjS0HsWz1Lp9FPiv8+N8cCTt101ZeSV7OIS3cz0+ZYjNd
+   q4kFa+zzuCYIWvGpmzVfkdXbnXC0ABXwrYTOOPUxrV8Or74XYvazDi1bV
+   NRpsmwMOhOn9bP4uye2F2z4svnzYzBL+chOYc6KWWJSCgCGyynMg+sgqh
+   0D/ukUzuelobEPNXmh5afk/swOqAQboizyOt0eqrYT/mghL8zSndcATEC
+   w==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10423"; a="271879949"
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
+   d="scan'208";a="271879949"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2022 13:07:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.93,202,1654585200"; 
+   d="scan'208";a="605067850"
+Received: from lkp-server01.sh.intel.com (HELO e0eace57cfef) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 29 Jul 2022 13:07:21 -0700
+Received: from kbuild by e0eace57cfef with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1oHWGW-000C3P-1J;
+	Fri, 29 Jul 2022 20:07:20 +0000
+Date: Sat, 30 Jul 2022 04:06:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Maxime Ripard <maxime@cerno.tech>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 33/35] drm/connector: Remove TV modes property
+Message-ID: <202207300305.EGSDOjh4-lkp@intel.com>
+References: <20220728-rpi-analog-tv-properties-v1-33-3d53ae722097@cerno.tech>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.1.0
-Subject: Re: [PATCH v1 20/35] drm/vc4: vec: Switch for common modes
-Content-Language: pl
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Phil Elwell <phil@raspberrypi.com>, linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-20-3d53ae722097@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-20-3d53ae722097@cerno.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220728-rpi-analog-tv-properties-v1-33-3d53ae722097@cerno.tech>
 
 Hi Maxime,
 
-I'm just noting that the modelines you defined in drm_modes.c are 
-different to the ones you're removing here.
+I love your patch! Yet something to improve:
 
-The horizontal sync differences probably doesn't matter too much, VC4 
-uses those only as a hint anyway and generates sync autonomously, so the 
-slight differences will only cause the image to slightly shift horizontally.
+[auto build test ERROR on 37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9]
 
-But you're also changing the 480i vertical sync (vsync_start is now 488 
-instead of 487, etc.). Are you sure that this won't break anything? This 
-will probably shift the image by 1 line (which for the 480i might 
-actually mean going out of spec), and I _think_ it might control the odd 
-vs. even field first modes on some drivers. I won't be able to test this 
-before Monday, but I'm just pointing out the potential issue.
+url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-Ripard/drm-Analog-TV-Improvements/20220730-004859
+base:   37b355fdaf31ee18bda9a93c2a438dc1cbf57ec9
+config: hexagon-randconfig-r041-20220729 (https://download.01.org/0day-ci/archive/20220730/202207300305.EGSDOjh4-lkp@intel.com/config)
+compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 8dfaecc4c24494337933aff9d9166486ca0949f1)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/intel-lab-lkp/linux/commit/83327cd72054a9c8d02b6f632453a8bdc90d3797
+        git remote add linux-review https://github.com/intel-lab-lkp/linux
+        git fetch --no-tags linux-review Maxime-Ripard/drm-Analog-TV-Improvements/20220730-004859
+        git checkout 83327cd72054a9c8d02b6f632453a8bdc90d3797
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash drivers/gpu/drm/i2c/
 
-BTW, I've seen a similar thing in the sun4i driver changes (patch 32/35) 
-and the differences in vertical sync are even more dramatic. It's 
-entirely possible that the current timings in sun4i are broken and the 
-new ones are correct (the new ones certainly look saner to me), but I'd 
-double-check if that driver does not have any quirks that would 
-_require_ such weird settings.
+If you fix the issue, kindly add following tag where applicable
+Reported-by: kernel test robot <lkp@intel.com>
 
-Best regards,
-Mateusz Kwiatkowski
+All errors (new ones prefixed by >>):
 
-W dniu 29.07.2022 o 18:35, Maxime Ripard pisze:
-> Now that the core has a definition for the 525 and 625 lines analog TV
-> modes, let's switch to it for vc4.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
-> index 8f30a530b2d5..255bba563fce 100644
-> --- a/drivers/gpu/drm/vc4/vc4_vec.c
-> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
-> @@ -224,38 +224,24 @@ static const struct debugfs_reg32 vec_regs[] = {
->   	VC4_REG32(VEC_DAC_MISC),
->   };
->   
-> -static const struct drm_display_mode ntsc_mode = {
-> -	DRM_MODE("720x480", DRM_MODE_TYPE_DRIVER, 13500,
-> -		 720, 720 + 14, 720 + 14 + 64, 720 + 14 + 64 + 60, 0,
-> -		 480, 480 + 7, 480 + 7 + 6, 525, 0,
-> -		 DRM_MODE_FLAG_INTERLACE)
-> -};
-> -
-> -static const struct drm_display_mode pal_mode = {
-> -	DRM_MODE("720x576", DRM_MODE_TYPE_DRIVER, 13500,
-> -		 720, 720 + 20, 720 + 20 + 64, 720 + 20 + 64 + 60, 0,
-> -		 576, 576 + 4, 576 + 4 + 6, 625, 0,
-> -		 DRM_MODE_FLAG_INTERLACE)
-> -};
-> -
->   static const struct vc4_vec_tv_mode vc4_vec_tv_modes[] = {
->   	[VC4_VEC_TV_MODE_NTSC] = {
-> -		.mode = &ntsc_mode,
-> +		.mode = &drm_mode_480i,
->   		.config0 = VEC_CONFIG0_NTSC_STD | VEC_CONFIG0_PDEN,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_NTSC_J] = {
-> -		.mode = &ntsc_mode,
-> +		.mode = &drm_mode_480i,
->   		.config0 = VEC_CONFIG0_NTSC_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_PAL] = {
-> -		.mode = &pal_mode,
-> +		.mode = &drm_mode_576i,
->   		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS,
->   	},
->   	[VC4_VEC_TV_MODE_PAL_M] = {
-> -		.mode = &pal_mode,
-> +		.mode = &drm_mode_576i,
->   		.config0 = VEC_CONFIG0_PAL_BDGHI_STD,
->   		.config1 = VEC_CONFIG1_C_CVBS_CVBS | VEC_CONFIG1_CUSTOM_FREQ,
->   		.custom_freq = 0x223b61d1,
->
+>> drivers/gpu/drm/i2c/ch7006_drv.c:253:51: error: too many arguments to function call, expected 2, have 3
+           drm_mode_create_tv_properties(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~                    ^~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_connector.h:1807:5: note: 'drm_mode_create_tv_properties' declared here
+   int drm_mode_create_tv_properties(struct drm_device *dev,
+       ^
+   1 error generated.
 
+
+vim +253 drivers/gpu/drm/i2c/ch7006_drv.c
+
+6ee738610f41b5 Ben Skeggs   2009-12-11  245  
+6ee738610f41b5 Ben Skeggs   2009-12-11  246  static int ch7006_encoder_create_resources(struct drm_encoder *encoder,
+6ee738610f41b5 Ben Skeggs   2009-12-11  247  					   struct drm_connector *connector)
+6ee738610f41b5 Ben Skeggs   2009-12-11  248  {
+6ee738610f41b5 Ben Skeggs   2009-12-11  249  	struct ch7006_priv *priv = to_ch7006_priv(encoder);
+6ee738610f41b5 Ben Skeggs   2009-12-11  250  	struct drm_device *dev = encoder->dev;
+6ee738610f41b5 Ben Skeggs   2009-12-11  251  	struct drm_mode_config *conf = &dev->mode_config;
+6ee738610f41b5 Ben Skeggs   2009-12-11  252  
+6ee738610f41b5 Ben Skeggs   2009-12-11 @253  	drm_mode_create_tv_properties(dev, NUM_TV_NORMS, ch7006_tv_norm_names);
+6ee738610f41b5 Ben Skeggs   2009-12-11  254  
+d9bc3c02e36d84 Sascha Hauer 2012-02-06  255  	priv->scale_property = drm_property_create_range(dev, 0, "scale", 0, 2);
+44084efc2fd804 Insu Yun     2016-01-28  256  	if (!priv->scale_property)
+44084efc2fd804 Insu Yun     2016-01-28  257  		return -ENOMEM;
+6ee738610f41b5 Ben Skeggs   2009-12-11  258  
+ec61c71d0dba24 Rob Clark    2012-10-11  259  	drm_object_attach_property(&connector->base, conf->tv_select_subconnector_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  260  				      priv->select_subconnector);
+ec61c71d0dba24 Rob Clark    2012-10-11  261  	drm_object_attach_property(&connector->base, conf->tv_subconnector_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  262  				      priv->subconnector);
+ec61c71d0dba24 Rob Clark    2012-10-11  263  	drm_object_attach_property(&connector->base, conf->tv_left_margin_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  264  				      priv->hmargin);
+ec61c71d0dba24 Rob Clark    2012-10-11  265  	drm_object_attach_property(&connector->base, conf->tv_bottom_margin_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  266  				      priv->vmargin);
+ec61c71d0dba24 Rob Clark    2012-10-11  267  	drm_object_attach_property(&connector->base, conf->tv_mode_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  268  				      priv->norm);
+ec61c71d0dba24 Rob Clark    2012-10-11  269  	drm_object_attach_property(&connector->base, conf->tv_brightness_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  270  				      priv->brightness);
+ec61c71d0dba24 Rob Clark    2012-10-11  271  	drm_object_attach_property(&connector->base, conf->tv_contrast_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  272  				      priv->contrast);
+ec61c71d0dba24 Rob Clark    2012-10-11  273  	drm_object_attach_property(&connector->base, conf->tv_flicker_reduction_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  274  				      priv->flicker);
+ec61c71d0dba24 Rob Clark    2012-10-11  275  	drm_object_attach_property(&connector->base, priv->scale_property,
+6ee738610f41b5 Ben Skeggs   2009-12-11  276  				      priv->scale);
+6ee738610f41b5 Ben Skeggs   2009-12-11  277  
+6ee738610f41b5 Ben Skeggs   2009-12-11  278  	return 0;
+6ee738610f41b5 Ben Skeggs   2009-12-11  279  }
+6ee738610f41b5 Ben Skeggs   2009-12-11  280  
+
+-- 
+0-DAY CI Kernel Test Service
+https://01.org/lkp
