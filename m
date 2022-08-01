@@ -1,229 +1,143 @@
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B185A7F
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 17:27:54 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id o14so906839ilt.2
-        for <linux-sunxi@lists.linux.dev>; Mon, 01 Aug 2022 10:27:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC477F
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 21:23:23 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id m41-20020a05600c3b2900b003a4e094256eso177147wms.0
+        for <linux-sunxi@lists.linux.dev>; Mon, 01 Aug 2022 14:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=cDdZ1fw1VBXgwqqqsZJVe+iYyRklKK14Nx/crmCVIHw8nTjAmdzHAZrEMEIsHDSVaP
+         bFwIIFVAGKzXoZu0VCb23bBjMJm/CUlPPCOnYKS+UGzltYOqJC69/9LrG/JUVnN093wV
+         2slfXYfe4ct/rYqRfPjhBmRIX1SLdZaggvEumZIoB27zW548fVkCmpjSQTG+gFfvjvKZ
+         QvKhvR9ltxkSwsJx/nYTJohoJSSn5CWwYskzduELDEk8LrNDOeuqaIs4cJ/Zr+idIUZA
+         PNMxm2osYyDFLMpC+JUb0Sp09O4220nLucKU4j1gBK4e8Xk9KtIrUkocoCKqzkAA+0Zx
+         N5Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=DT2Geze8xZk20nzhJQnuaecT6m/qepz1PXwiI2wJ8mo=;
-        b=6ik5raiX8SivlJjGhWDV56K0bOi9HGQ5ugwu+jTjpTDO4axbNeLIhFBk4Yw+vwM397
-         9MR5NBo+qT0Qa1uQ8YPZY6yGuhxGkXvo5Q6R8MhPBwoyR5AuH1EG0f2Vo5v2uJX0MbKO
-         mWcvrI4z1Yy4S+PtVq354pHx3UvfWc3S246IjohVexvdKsZG/Nbrmyso+Nw83ue2YXk8
-         KZzskqa2umO9kx2HivUwZYzDJ9ovP9ZjwC8CxRqRn0E6yGGOYT8AHaJwjz3XDJXYzA4y
-         iSwZo4ZyXBFsvg3eEEmzRGEIw/31338JGaS69lc7/LwYRQyd10chjMoV3+p/yWCBSJ5M
-         z/0g==
-X-Gm-Message-State: ACgBeo1ynlHwxop922g69M4WPO/NPoGnIFWAfkV5tmaKDUZA1coHrNme
-	+8SazEXKV8A2BQHIezw+1A==
-X-Google-Smtp-Source: AA6agR74AJrs16WLEPSZfKvH/nCWTfqHGbm7FoFlr61YvcMuA85bUtzPe+FO0BVG+LydNvaDZJ2l5A==
-X-Received: by 2002:a05:6e02:1546:b0:2de:2a87:b9d0 with SMTP id j6-20020a056e02154600b002de2a87b9d0mr6113732ilu.134.1659374873632;
-        Mon, 01 Aug 2022 10:27:53 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id c10-20020a0566022d0a00b0067c09fd0b53sm5847043iow.21.2022.08.01.10.27.51
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=8AZUyBaKdlK0BmhBHa9XhUFEcNbg/6z16OK90r2uqCJL8LLFoPuLfRQVxZuR4wEE23
+         STrWdWwoLYkkAP02FxnNBrMLSo1FxGwhWAHGsqWPvuNwmwWM5h4WfbJ+L16utlhe8I+b
+         ZjUPy+6BamiTRyw464tbguEW+7fiesnU7M5ZrG9ruWawGROEjITy1g6TljSsZNFTAkY3
+         j6jRQdoFKkfijIIyubYF2m+LfNHK+69Uxfeve+IWbrF66xc71hKOucuLNczXs6Qmy4Gu
+         xJFcWs4l7BPj/XI9KSb33bZOzdlhI954sm2VS2j/GwEGxPczXW1sHQtTypFIA+zR/69e
+         0CfA==
+X-Gm-Message-State: AJIora8bFjet7VDR1FAu96V17CwA9xe1RWuggOL6TKRQih1HO6o0kfW6
+	J+8WolSbuombQA6BDm9B2OA60g==
+X-Google-Smtp-Source: AGRyM1spgzXBzeo0Wmzah9XtSnUDIxgfTDKPyUBrvUAZ6nl8rbTqKySOGK6nLYffuY5v1GTWMDPLtg==
+X-Received: by 2002:a1c:720a:0:b0:3a3:327:da23 with SMTP id n10-20020a1c720a000000b003a30327da23mr12932289wmc.196.1659389001926;
+        Mon, 01 Aug 2022 14:23:21 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:d00:ceb8:9c09:1302])
+        by smtp.gmail.com with ESMTPSA id c7-20020adffb07000000b0021e501519d3sm12995285wrr.67.2022.08.01.14.23.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Aug 2022 10:27:52 -0700 (PDT)
-Received: (nullmailer pid 1211753 invoked by uid 1000);
-	Mon, 01 Aug 2022 17:27:50 -0000
-Date: Mon, 1 Aug 2022 11:27:50 -0600
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/2] regulator: dt-bindings: Add Allwinner D1 LDOs
-Message-ID: <20220801172750.GA1198151-robh@kernel.org>
-References: <20220801044758.12679-1-samuel@sholland.org>
+        Mon, 01 Aug 2022 14:23:21 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@linexp.org>
+To: daniel.lezcano@linaro.org,
+	rafael@kernel.org
+Cc: rui.zhang@intel.com,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	khilman@baylibre.com,
+	abailon@baylibre.com,
+	lukasz.luba@arm.com,
+	broonie@kernel.org,
+	damien.lemoal@opensource.wdc.com,
+	heiko@sntech.de,
+	hayashi.kunihiko@socionext.com,
+	mhiramat@kernel.org,
+	talel@amazon.com,
+	thierry.reding@gmail.com,
+	digetx@gmail.com,
+	jonathanh@nvidia.com,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	baolin.wang7@gmail.com,
+	f.fainelli@gmail.com,
+	bjorn.andersson@linaro.org,
+	mcoquelin.stm32@gmail.com,
+	glaroque@baylibre.com,
+	miquel.raynal@bootlin.com,
+	shawnguo@kernel.org,
+	niklas.soderlund@ragnatech.se,
+	matthias.bgg@gmail.com,
+	j-keerthy@ti.com,
+	Amit Kucheria <amitk@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v4 08/32] thermal/drivers/sun8i: Switch to new of API
+Date: Mon,  1 Aug 2022 23:22:20 +0200
+Message-Id: <20220801212244.1124867-9-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220801212244.1124867-1-daniel.lezcano@linexp.org>
+References: <20220801212244.1124867-1-daniel.lezcano@linexp.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220801044758.12679-1-samuel@sholland.org>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jul 31, 2022 at 11:47:57PM -0500, Samuel Holland wrote:
-> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
-> for general purpose use. LDOA generally powers the board's 1.8 V rail.
-> LDOB generally powers the in-package DRAM, where applicable.
-> 
-> The other pair of LDOs powers the analog power domains inside the SoC,
-> including the audio codec, thermal sensor, and ADCs. These LDOs require
-> a 0.9 V bandgap voltage reference. The calibration value for the voltage
-> reference is stored in an eFuse, accessed via an NVMEM cell.
-> 
-> Neither LDO control register is in its own MMIO range; instead, each
-> regulator device relies on a syscon exported by some "host" device node.
-> Getting the register via a syscon avoids a dependency on the subsystem/
-> driver for that host device (e.g. a functioning thermal sensor should
-> not depend on having the audio codec driver loaded).
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
-> 
->  .../allwinner,sun20i-d1-analog-ldos.yaml      | 77 +++++++++++++++++++
->  .../allwinner,sun20i-d1-system-ldos.yaml      | 55 +++++++++++++
->  2 files changed, 132 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
->  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
-> new file mode 100644
-> index 000000000000..df648c56123d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
-> @@ -0,0 +1,77 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-analog-ldos.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1 Analog LDOs
-> +
-> +description:
-> +  Allwinner D1 contains a set of LDOs which are designed to supply analog power
-> +  inside and outside the SoC. They are controlled by a register within the audio
-> +  codec MMIO space, but which is not part of the audio codec clock/reset domain,
-> +  and so is exposed as a syscon.
-> +
-> +maintainers:
-> +  - Samuel Holland <samuel@sholland.org>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun20i-d1-analog-ldos
-> +
-> +  nvmem-cells:
-> +    items:
-> +      - description: NVMEM cell for the calibrated bandgap reference trim value
-> +
-> +  nvmem-cell-names:
-> +    items:
-> +      - const: bg_trim
-> +
-> +  syscon:
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-'syscon' is not a generic property. Name it based on the block you are 
-linking to or what the control is. 
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
-Or better yet, if this is the only control interface, make this a child 
-node of the referenced node instead.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ drivers/thermal/sun8i_thermal.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle of the device containing the power register
-> +
-> +patternProperties:
-> +  "^(aldo|hpldo)$":
-> +    type: object
-> +    $ref: regulator.yaml#
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index 212c87e63a66..e64d06d1328c 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
+ 		return -1590 * reg / 10 + 276000;
+ }
+ 
+-static int sun8i_ths_get_temp(void *data, int *temp)
++static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	struct tsensor *s = data;
++	struct tsensor *s = tz->devdata;
+ 	struct ths_device *tmdev = s->tmdev;
+ 	int val = 0;
+ 
+@@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops ths_ops = {
++static const struct thermal_zone_device_ops ths_ops = {
+ 	.get_temp = sun8i_ths_get_temp,
+ };
+ 
+@@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 		tmdev->sensor[i].tmdev = tmdev;
+ 		tmdev->sensor[i].id = i;
+ 		tmdev->sensor[i].tzd =
+-			devm_thermal_zone_of_sensor_register(tmdev->dev,
+-							     i,
+-							     &tmdev->sensor[i],
+-							     &ths_ops);
++			devm_thermal_of_zone_register(tmdev->dev,
++						      i,
++						      &tmdev->sensor[i],
++						      &ths_ops);
+ 		if (IS_ERR(tmdev->sensor[i].tzd))
+ 			return PTR_ERR(tmdev->sensor[i].tzd);
+ 
+-- 
+2.25.1
 
-       unevaluatedProperties: false
-
-> +
-> +required:
-> +  - compatible
-> +  - nvmem-cells
-> +  - nvmem-cell-names
-> +  - syscon
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    sid: efuse {
-> +        #address-cells = <1>;
-> +        #size-cells = <1>;
-> +
-> +        bg_trim: bg-trim@28 {
-> +            reg = <0x28 0x4>;
-> +            bits = <16, 8>;
-> +        };
-> +    };
-> +
-> +    ldos-analog {
-> +        compatible = "allwinner,sun20i-d1-analog-ldos";
-> +        nvmem-cells = <&bg_trim>;
-> +        nvmem-cell-names = "bg_trim";
-> +        syscon = <&codec>;
-> +
-> +        reg_aldo: aldo {
-> +            regulator-min-microvolt = <1800000>;
-> +            regulator-max-microvolt = <1800000>;
-> +        };
-> +
-> +        reg_hpldo: hpldo {
-> +            regulator-min-microvolt = <1800000>;
-> +            regulator-max-microvolt = <1800000>;
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> new file mode 100644
-> index 000000000000..13b2e8c84f1d
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> @@ -0,0 +1,55 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner D1 System LDOs
-> +
-> +description:
-> +  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
-> +  supply power inside and outside the SoC. They are controlled by a register
-> +  within the system controller MMIO space.
-> +
-> +maintainers:
-> +  - Samuel Holland <samuel@sholland.org>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - allwinner,sun20i-d1-system-ldos
-> +
-> +  syscon:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle of the device containing the LDO control register
-> +
-> +patternProperties:
-> +  "^(ldoa|ldob)$":
-> +    type: object
-> +    $ref: regulator.yaml#
-> +
-> +required:
-> +  - compatible
-> +  - syscon
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    ldos-system {
-> +        compatible = "allwinner,sun20i-d1-system-ldos";
-> +        syscon = <&syscon>;
-> +
-> +        reg_ldoa: ldoa {
-> +            regulator-min-microvolt = <1800000>;
-> +            regulator-max-microvolt = <1800000>;
-> +        };
-> +
-> +        reg_ldob: ldob {
-> +            regulator-name = "vcc-dram";
-> +            regulator-min-microvolt = <1500000>;
-> +            regulator-max-microvolt = <1500000>;
-> +        };
-> +    };
-> +
-> +...
-> -- 
-> 2.35.1
-> 
-> 
