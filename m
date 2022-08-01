@@ -1,40 +1,40 @@
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2992E7F
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 03:05:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515B17F
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 03:05:30 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 766553200077;
-	Sun, 31 Jul 2022 23:05:25 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id 5F1EE320070D;
+	Sun, 31 Jul 2022 23:05:28 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Sun, 31 Jul 2022 23:05:26 -0400
+  by compute5.internal (MEProxy); Sun, 31 Jul 2022 23:05:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1659323124; x=1659409524; bh=bK
-	bLq8gXyaC/nciXymlgvBGqzJKGfY3EeYJHQps9uFk=; b=MyJcbt5TZlAyb0UE1/
-	+XIHxklCzbXhu+wr+ER32MDbN0NvOTqY+wSgYKXkha3r0KqK52Qko/1v9MGXwLda
-	rH1n/fTG596lu5SocVL6L4Uk4eI/PNp3OQx/watQBq2wbM3hyOgOqZ2QMvoyZPO7
-	aFXSwXFo0IBUQ0jFKkp1Vbih/cJC2+ruSWOU7TN1tdNwG7zmtkgPYV3giI5wBAOD
-	lBUoI5/JztXjzXWjLVeQRxz4IBNzLIURHPQARzu0EOJHxpO0K6pEtsDgQ/l/ieSJ
-	qc91TY6OMw5RYXv62RWju4sksiU5b/eRTt99JVrEVwu81xmWCYird6kDnkhH1Suv
-	uC7Q==
+	:subject:subject:to:to; s=fm1; t=1659323127; x=1659409527; bh=s9
+	WFLVwZEMuAM0cTEBVsRJsr2wnA2LCJYYugauiDLN4=; b=IzLg2OYLjawKDfEsAG
+	po40vB5+VtI7Z5Gmo0l+wXh2XvSwxARZqxPwviB3quisgaq3IDm+3uadU4ytz8fz
+	crG8ajyNkvlS/mTkxnH4aJPH74Idi0toCD6qXMELnoaY9iwJGJPGJq4DDupTPGiJ
+	Rd8AXDBTJRrBLwPPfi7bkMU8uxdMtQPAYhuLOlnzlFA7qcqZtanZOoKBD/Nnu21C
+	CYlpIFJ3NzW8NPuzH7vbd/+lwcb+9lM0Tt/qhOhOyzfE8Q1LnpgcZr235noCBl6b
+	76MID1mzjP5evlNYX4YwuCyME2ZzZet3kvjXcoRZhfXqfKnL2aPVe+GCOTv3rHd+
+	1tGg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1659323124; x=1659409524; bh=bKbLq8gXyaC/n
-	ciXymlgvBGqzJKGfY3EeYJHQps9uFk=; b=PLpcmrBpmOE5T/AJeRVL9k6HIVl7V
-	IMwCYJAcoeE7yStOUVKwXYoQFEf3v8xO4TvnY7JFyUnnCaKouhhmJ/olJOhHLtYw
-	p+mkCTYA5a3j2iHY7J7WpCoDZiMJap77dGWzo0iHJ0zfRz4JN4qQUwL9GhOobkoQ
-	TQS0RtMG20ssUbWItykJ+c8WER7b0+Ki/hl9B6q8HSluQ/8/1dM8mHdIM3qEiYN8
-	eYVvRy6mWBTizietF/dEScTjJ5z1VNtS9dNqZ0FjTTcAElK3KmMwbmhmT2asLA8z
-	+12QOzpDigWunR5Yr7sRu6UBIAKmmuetjcAK31+b2eMthPmnfQN/fooNA==
-X-ME-Sender: <xms:9ELnYtgRvaS-MGENgkzeBTu_iTQ018DKHfCyTF912Ljqrxjbl88enQ>
-    <xme:9ELnYiDFng3s2O_6z0Xo5xM3XmgtEDwl7KfncNv-EEHQ1Tr1fiwEMAoQnPGbGWSRh
-    ywbAkvc1EDjqpkpyg>
-X-ME-Received: <xmr:9ELnYtEGleKAI3_9g5idzN2hr20b-xxigLOgOaDTkbp5IP3U9biq2dtGjNcUczRepmPbHXGVdG41rpCKTfQi1ZOc0u4l4lHIMEGlB3VV7MnIAo8NehuQ0gsxx3Yt5lfsvkZUNg>
+	:x-sasl-enc; s=fm3; t=1659323127; x=1659409527; bh=s9WFLVwZEMuAM
+	0cTEBVsRJsr2wnA2LCJYYugauiDLN4=; b=x57uUAk+TGU/KCeioNTbqrjy8IZYV
+	BZtzneyPVOOxP9XhYk5RIaraxq7/0PaLq3njiA2+SV2X8V1h01BAMkGp1eMp4Kbr
+	7NC1pZhLy8NcxFNrx7oe0WEB2Q02VeG3sInqLA8D2ftZlL3FM0lxPCDsMb0WTaCE
+	cecnyKC6QgYCHJ0fs/Jq6awkBz3GU9uhijdyLQFrYPetjgIjy62fuavNSXj55hSS
+	qhAP0hGD8VYhjyW/3ufYa1eFG8PgKRH1BGNigmDJLwOFDAEnrbMZgvzFaf5zZvKS
+	kf1GugTkE2g62PPFpDHTTssP4b2G2hBbqXg8hV+7E946U0nxQn7kk2vjA==
+X-ME-Sender: <xms:90LnYkhYoESI_OBcVmTSfsGFUCDh52r7LEv98pOMFdPHYd1mXiGHvg>
+    <xme:90LnYtBi7GEwg3waQmk--Yuo8WLUil2o0xMMXG8xnnP_VjAFpUN0aKVRE83r_Zzer
+    IOPasrro6MJfY9kTg>
+X-ME-Received: <xmr:90LnYsFKjYFxZ14naB67EorePcJmla2BqynHNZejxxJBgUraqRguDtwf05IbCoU8XB8hFcekqMWqHZrn3v1oWyMamhH-lvTGcrDLVRGU0WsLFHDzS1JrrTImYG9F1cMOMw0ZUQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvvddgheejucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -43,13 +43,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvvddgheejucetufdoteggod
     ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
     udefiedtveetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrh
     homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:9ELnYiQZIynvpGl5kq6csn_w_4vzRIWe1HtysVb4Ty23egbUM8A24A>
-    <xmx:9ELnYqzQ-602Z6tFd0XLIVhA34lBvtxBsf6aQjJ0XhKfS-qvJbRxvA>
-    <xmx:9ELnYo79KFmcWlkuaCEgcVG86qLGib5YovRV8ICb_Vt_CN6wuhAWyA>
-    <xmx:9ELnYs6PUVjRxVceN2uTnlkUUpzx9jhdxB2WEYxWj7LDZilBA3C1JA>
+X-ME-Proxy: <xmx:90LnYlSmIac1BXXicO04QSpC9U9u6HwwC0UN2r-YH6rui_FOGWGcmg>
+    <xmx:90LnYhwOd845sjT54nO-4o-pW5e1l3ciblpOHAxtbM74_Gruzw_rRA>
+    <xmx:90LnYj7GFKptQieG3Rh38AClOSIEy3h6QKVW_l81n5eURlzHxUmDeQ>
+    <xmx:90LnYn7kgKsRMgggAkTMXy4SEb3he3saajRcKUJgVmz7O_TIlCI5vw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 31 Jul 2022 23:05:24 -0400 (EDT)
+ 31 Jul 2022 23:05:27 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>
@@ -64,9 +64,9 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 4/9] soc: sunxi: sram: Fix probe function ordering issues
-Date: Sun, 31 Jul 2022 22:05:04 -0500
-Message-Id: <20220801030509.21966-5-samuel@sholland.org>
+Subject: [PATCH 5/9] soc: sunxi: sram: Fix debugfs info for A64 SRAM C
+Date: Sun, 31 Jul 2022 22:05:05 -0500
+Message-Id: <20220801030509.21966-6-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220801030509.21966-1-samuel@sholland.org>
 References: <20220801030509.21966-1-samuel@sholland.org>
@@ -78,64 +78,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Errors from debugfs are intended to be non-fatal, and should not prevent
-the driver from probing.
+The labels were backward with respect to the register values. The SRAM
+is mapped to the CPU when the register value is 1.
 
-Since debugfs file creation is treated as infallible, move it below the
-parts of the probe function that can fail. This prevents an error
-elsewhere in the probe function from causing the file to leak. Do the
-same for the call to of_platform_populate().
-
-Finally, checkpatch suggests an octal literal for the file permissions.
-
-Fixes: 4af34b572a85 ("drivers: soc: sunxi: Introduce SoC driver to map SRAMs")
-Fixes: 5828729bebbb ("soc: sunxi: export a regmap for EMAC clock reg on A64")
+Fixes: 5e4fb6429761 ("drivers: soc: sunxi: add support for A64 and its SRAM C")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/soc/sunxi/sunxi_sram.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ drivers/soc/sunxi/sunxi_sram.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index a858a37fcdd4..52d07bed7664 100644
+index 52d07bed7664..09754cd1d57d 100644
 --- a/drivers/soc/sunxi/sunxi_sram.c
 +++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -332,9 +332,9 @@ static struct regmap_config sunxi_sram_emac_clock_regmap = {
+@@ -78,8 +78,8 @@ static struct sunxi_sram_desc sun4i_a10_sram_d = {
  
- static int __init sunxi_sram_probe(struct platform_device *pdev)
- {
--	struct dentry *d;
- 	struct regmap *emac_clock;
- 	const struct sunxi_sramc_variant *variant;
-+	struct device *dev = &pdev->dev;
+ static struct sunxi_sram_desc sun50i_a64_sram_c = {
+ 	.data	= SUNXI_SRAM_DATA("C", 0x4, 24, 1,
+-				  SUNXI_SRAM_MAP(0, 1, "cpu"),
+-				  SUNXI_SRAM_MAP(1, 0, "de2")),
++				  SUNXI_SRAM_MAP(1, 0, "cpu"),
++				  SUNXI_SRAM_MAP(0, 1, "de2")),
+ };
  
- 	sram_dev = &pdev->dev;
- 
-@@ -346,13 +346,6 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
- 	if (IS_ERR(base))
- 		return PTR_ERR(base);
- 
--	of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
--
--	d = debugfs_create_file("sram", S_IRUGO, NULL, NULL,
--				&sunxi_sram_fops);
--	if (!d)
--		return -ENOMEM;
--
- 	if (variant->num_emac_clocks > 0) {
- 		emac_clock = devm_regmap_init_mmio(&pdev->dev, base,
- 						   &sunxi_sram_emac_clock_regmap);
-@@ -361,6 +354,10 @@ static int __init sunxi_sram_probe(struct platform_device *pdev)
- 			return PTR_ERR(emac_clock);
- 	}
- 
-+	of_platform_populate(dev->of_node, NULL, NULL, dev);
-+
-+	debugfs_create_file("sram", 0444, NULL, NULL, &sunxi_sram_fops);
-+
- 	return 0;
- }
- 
+ static const struct of_device_id sunxi_sram_dt_ids[] = {
 -- 
 2.35.1
 
