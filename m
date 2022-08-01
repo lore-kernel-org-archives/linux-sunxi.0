@@ -1,78 +1,229 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9B47F
-	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 16:03:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 945BEC433D6;
-	Mon,  1 Aug 2022 16:03:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659369820;
-	bh=K8PZRhgkYG3cNsoiyYsSqxmzC5S5rbdYFqDxKPBWgag=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=idMcUm3VwOTAalLuTRvxJl4kr1d7Jpt26SetaJhhkPVQ8BX0HxfeHwJTeCGOIPKpX
-	 Bt9vOq8TcQE2pnaecmKNy75kxJeSE8b9fHP9CKFQFq8V/djjMlP9b8zkiG4lr7hKp2
-	 2fmsL4OT3uC6S9iQ1q5TfK0ifvwq3Xi/G2VgvmnLQTkXaDMnUGHwT+jJleJYXaI6Fi
-	 ohXxmEQMCgarm5SE6ZP70fF7/6QY75dkRAs4wiQmkYm2/vMVGjqhBS7py2eIVhF3sL
-	 23N3q4BYQRmJxZXZftGX+kvzp2ptWQDi6eIaH2Bp5yvwH6wt50eiI4EsCJfKDXfPX+
-	 d+1rLe++PThoQ==
-Date: Mon, 1 Aug 2022 17:03:33 +0100
-From: Mark Brown <broonie@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B185A7F
+	for <linux-sunxi@lists.linux.dev>; Mon,  1 Aug 2022 17:27:54 +0000 (UTC)
+Received: by mail-il1-f171.google.com with SMTP id o14so906839ilt.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 01 Aug 2022 10:27:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
+        bh=DT2Geze8xZk20nzhJQnuaecT6m/qepz1PXwiI2wJ8mo=;
+        b=6ik5raiX8SivlJjGhWDV56K0bOi9HGQ5ugwu+jTjpTDO4axbNeLIhFBk4Yw+vwM397
+         9MR5NBo+qT0Qa1uQ8YPZY6yGuhxGkXvo5Q6R8MhPBwoyR5AuH1EG0f2Vo5v2uJX0MbKO
+         mWcvrI4z1Yy4S+PtVq354pHx3UvfWc3S246IjohVexvdKsZG/Nbrmyso+Nw83ue2YXk8
+         KZzskqa2umO9kx2HivUwZYzDJ9ovP9ZjwC8CxRqRn0E6yGGOYT8AHaJwjz3XDJXYzA4y
+         iSwZo4ZyXBFsvg3eEEmzRGEIw/31338JGaS69lc7/LwYRQyd10chjMoV3+p/yWCBSJ5M
+         z/0g==
+X-Gm-Message-State: ACgBeo1ynlHwxop922g69M4WPO/NPoGnIFWAfkV5tmaKDUZA1coHrNme
+	+8SazEXKV8A2BQHIezw+1A==
+X-Google-Smtp-Source: AA6agR74AJrs16WLEPSZfKvH/nCWTfqHGbm7FoFlr61YvcMuA85bUtzPe+FO0BVG+LydNvaDZJ2l5A==
+X-Received: by 2002:a05:6e02:1546:b0:2de:2a87:b9d0 with SMTP id j6-20020a056e02154600b002de2a87b9d0mr6113732ilu.134.1659374873632;
+        Mon, 01 Aug 2022 10:27:53 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id c10-20020a0566022d0a00b0067c09fd0b53sm5847043iow.21.2022.08.01.10.27.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Aug 2022 10:27:52 -0700 (PDT)
+Received: (nullmailer pid 1211753 invoked by uid 1000);
+	Mon, 01 Aug 2022 17:27:50 -0000
+Date: Mon, 1 Aug 2022 11:27:50 -0600
+From: Rob Herring <robh@kernel.org>
 To: Samuel Holland <samuel@sholland.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] regulator: sun20i: Add support for Allwinner D1 LDOs
-Message-ID: <Yuf5VQNrBHi7xG81@sirena.org.uk>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] regulator: dt-bindings: Add Allwinner D1 LDOs
+Message-ID: <20220801172750.GA1198151-robh@kernel.org>
 References: <20220801044758.12679-1-samuel@sholland.org>
- <20220801044758.12679-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yUJqW8Kc38GtV6bu"
-Content-Disposition: inline
-In-Reply-To: <20220801044758.12679-2-samuel@sholland.org>
-X-Cookie: Dieters live life in the fasting lane.
-
-
---yUJqW8Kc38GtV6bu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20220801044758.12679-1-samuel@sholland.org>
 
-On Sun, Jul 31, 2022 at 11:47:58PM -0500, Samuel Holland wrote:
+On Sun, Jul 31, 2022 at 11:47:57PM -0500, Samuel Holland wrote:
+> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
+> for general purpose use. LDOA generally powers the board's 1.8 V rail.
+> LDOB generally powers the in-package DRAM, where applicable.
+> 
+> The other pair of LDOs powers the analog power domains inside the SoC,
+> including the audio codec, thermal sensor, and ADCs. These LDOs require
+> a 0.9 V bandgap voltage reference. The calibration value for the voltage
+> reference is stored in an eFuse, accessed via an NVMEM cell.
+> 
+> Neither LDO control register is in its own MMIO range; instead, each
+> regulator device relies on a syscon exported by some "host" device node.
+> Getting the register via a syscon avoids a dependency on the subsystem/
+> driver for that host device (e.g. a functioning thermal sensor should
+> not depend on having the audio codec driver loaded).
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+>  .../allwinner,sun20i-d1-analog-ldos.yaml      | 77 +++++++++++++++++++
+>  .../allwinner,sun20i-d1-system-ldos.yaml      | 55 +++++++++++++
+>  2 files changed, 132 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+> new file mode 100644
+> index 000000000000..df648c56123d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-analog-ldos.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1 Analog LDOs
+> +
+> +description:
+> +  Allwinner D1 contains a set of LDOs which are designed to supply analog power
+> +  inside and outside the SoC. They are controlled by a register within the audio
+> +  codec MMIO space, but which is not part of the audio codec clock/reset domain,
+> +  and so is exposed as a syscon.
+> +
+> +maintainers:
+> +  - Samuel Holland <samuel@sholland.org>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-analog-ldos
+> +
+> +  nvmem-cells:
+> +    items:
+> +      - description: NVMEM cell for the calibrated bandgap reference trim value
+> +
+> +  nvmem-cell-names:
+> +    items:
+> +      - const: bg_trim
+> +
+> +  syscon:
 
-> +static const struct regulator_desc sun20i_d1_analog_ldo_descs[] = {
-> +	{
-> +		.name		= "aldo",
-> +		.supply_name	= "vdd33",
-> +		.of_match	= "aldo",
-> +		.ops		= &sun20i_d1_analog_ldo_ops,
-> +		.type		= REGULATOR_VOLTAGE,
-> +		.owner		= THIS_MODULE,
-> +		.n_voltages	= BIT(3),
+'syscon' is not a generic property. Name it based on the block you are 
+linking to or what the control is. 
 
-I'm really unconvinced that using BIT() is clearer than just writing the
-number of voltages directly as a number.
+Or better yet, if this is the only control interface, make this a child 
+node of the referenced node instead.
 
---yUJqW8Kc38GtV6bu
-Content-Type: application/pgp-signature; name="signature.asc"
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle of the device containing the power register
+> +
+> +patternProperties:
+> +  "^(aldo|hpldo)$":
+> +    type: object
+> +    $ref: regulator.yaml#
 
------BEGIN PGP SIGNATURE-----
+       unevaluatedProperties: false
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmLn+VQACgkQJNaLcl1U
-h9BlqQf/VyorEumLx9DM246SpPg5dho5RS+QCt5MT3miehmIayT0RTVcEQzLPx0P
-BrxsBsvfEMpglkiW/NjFZ5aQ5nsqRNOe5f67MMt1gLXhps0tU/4szWEIzrtyoN8Z
-lCOeUmVhd5+savX5s1DdAHg+YvbKZ9idn0xUY+Bm85R+vttFj8zB56i3tLP5proz
-w/+jgHUD0VCu+1yYTXpxHEHdwzxKMh0aWsDWFzC6C+bvbf5smqucs2lhc75Vc/CS
-EPPiFY9/7uhX7TjqqaePvChkKpBlF5NShk59rmjawuiNVHowAMQW74OtP1VtA3WO
-KPyaTH1QC3JrujzDBEKK026dd6Artw==
-=TkpN
------END PGP SIGNATURE-----
-
---yUJqW8Kc38GtV6bu--
+> +
+> +required:
+> +  - compatible
+> +  - nvmem-cells
+> +  - nvmem-cell-names
+> +  - syscon
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    sid: efuse {
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        bg_trim: bg-trim@28 {
+> +            reg = <0x28 0x4>;
+> +            bits = <16, 8>;
+> +        };
+> +    };
+> +
+> +    ldos-analog {
+> +        compatible = "allwinner,sun20i-d1-analog-ldos";
+> +        nvmem-cells = <&bg_trim>;
+> +        nvmem-cell-names = "bg_trim";
+> +        syscon = <&codec>;
+> +
+> +        reg_aldo: aldo {
+> +            regulator-min-microvolt = <1800000>;
+> +            regulator-max-microvolt = <1800000>;
+> +        };
+> +
+> +        reg_hpldo: hpldo {
+> +            regulator-min-microvolt = <1800000>;
+> +            regulator-max-microvolt = <1800000>;
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> new file mode 100644
+> index 000000000000..13b2e8c84f1d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> @@ -0,0 +1,55 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1 System LDOs
+> +
+> +description:
+> +  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
+> +  supply power inside and outside the SoC. They are controlled by a register
+> +  within the system controller MMIO space.
+> +
+> +maintainers:
+> +  - Samuel Holland <samuel@sholland.org>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-system-ldos
+> +
+> +  syscon:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: phandle of the device containing the LDO control register
+> +
+> +patternProperties:
+> +  "^(ldoa|ldob)$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +
+> +required:
+> +  - compatible
+> +  - syscon
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    ldos-system {
+> +        compatible = "allwinner,sun20i-d1-system-ldos";
+> +        syscon = <&syscon>;
+> +
+> +        reg_ldoa: ldoa {
+> +            regulator-min-microvolt = <1800000>;
+> +            regulator-max-microvolt = <1800000>;
+> +        };
+> +
+> +        reg_ldob: ldob {
+> +            regulator-name = "vcc-dram";
+> +            regulator-min-microvolt = <1500000>;
+> +            regulator-max-microvolt = <1500000>;
+> +        };
+> +    };
+> +
+> +...
+> -- 
+> 2.35.1
+> 
+> 
