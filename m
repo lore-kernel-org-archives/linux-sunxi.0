@@ -1,74 +1,53 @@
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F73E7F
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Aug 2022 05:32:29 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id D0FEC320029B;
-	Tue,  2 Aug 2022 01:32:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Tue, 02 Aug 2022 01:32:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm1; t=1659418347; x=1659504747; bh=R/
-	+5h2/DAfq0YCIGUVxS5EwHlMEbm7OFJH1J6Sy47ck=; b=sspf3FLqhx1v+GhxFE
-	twX3YF012CRJpjcX9YjZXud3u7bRq8x+B2WKBIJsrHCcB7dwtDmxLjuWFKrcGfff
-	GNdJpt2y8RXLvbXGosDqxua1pggG543qaj/WE48u/fwenDpEKaVjeLJKtQY1zNAk
-	EhHA/SRd0mXHmCVxpjPZtclvLW7eKBdzdPknj+fikGQTZ7mNAm6J6bODU5EKTv6M
-	iXkEfEI4OsiwHF2WmFVdK7e6ytfQRnJEq+O4dv6v54ZGlOsbrljRKcEqayb57lUN
-	fjL7hbh+XLQ/YsEXmXKcMFjpLHqEmzlX9UORnI4mm89YfgG15ZwJiEH84RWLJ2nk
-	6sbw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm3; t=1659418347; x=1659504747; bh=R/+5h2/DAfq0Y
-	CIGUVxS5EwHlMEbm7OFJH1J6Sy47ck=; b=2MUbs1AmBJuyWTbT277VEKlR+Sfkl
-	8vHD+tbQowt3KYTUz87uWbtHQB5bSbnT9U/G/yY+61dLwDGuGlnZiMJeNASBlv/u
-	sJWJCFStJRi2EUDsSY2HmQ4VBOFBDPaW1/jrfBIYwnx9YSWnXcv/eMOVReUBRH+G
-	lrcv3wtq0vWYbnc3FhR/QBLIFcA9JD6nUklCq+EJYUH0xxLQJnVmhK2ivJmQSxUZ
-	zsvROlA2JvcIL+xLW9mr4r6q6FP/y2PrmWa/b12HezAt7dWWhAkAzROwXYb4MgZa
-	xJKmW4Oda1Iac6onGp/ATYmaCa3tfOdrDWHrqXNJQCNC4xR8qQOiY8Tmw==
-X-ME-Sender: <xms:67boYtS1so2OUNmSvPCbglbHmCakw4_ND-QQlzQ8yLFSRP4UsJQPoQ>
-    <xme:67boYmz_2aPxtV6Nxz3eAL8Jpeq1fd5F5l7J605UpX1E3pokVVEOruj4sgeIdMR-q
-    1eDAOnc_pjwCekAsw>
-X-ME-Received: <xmr:67boYi0hPbYVI-pyH6BXyh1CoWAslfQtXm_iD-NCYvaltpy6QldIU__olnj32hWNpkwZoiFSJVGL0rQRsdyIXcnXzSNqC7a1ZTHavyXbxjl3BnXdv84gZ7cmTP2DXG03uXjaDQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvddvgedgleejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:67boYlD6NGRgm4KBCYLXDTNEhkSC-yOnw9ke1UzVKLw-d1U96t_L0w>
-    <xmx:67boYmg4dqHjpeQuMwXEp07zKMXeoiQdNnrdrcQIlBXWwUJOjsH_xA>
-    <xmx:67boYpoQyqbd4e8p4oCOEkNqOX91bkypo2o-sNmocjGELa5TYiTjvg>
-    <xmx:67boYra0-wryNw1yVe0QM7vQBHIy1LUs4yhS-4YYa07Mg2QzE1y-6A>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 2 Aug 2022 01:32:26 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	devicetree@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A1D7F
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Aug 2022 07:48:24 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id q16so11696713pgq.6
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Aug 2022 00:48:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=1MS9pf4ztVbyCKv989qflQ+PxKq3BLF8CrASWzL5Thk=;
+        b=lGIiLus4o2SfA2Jxob2Ha+khYgBkKyGJKS+Vcci102rBZUndmRJ5ljsqfYbY9GTCax
+         fWGx7ZodJ5lzCXLb6GCJFPY7/I+iY1UgUaNn51Sg/U06fGB47G7uCY9T8SRtPJTgrqw2
+         /faFbPbiAoTWKxQTHOGn0IKmjo3IYIDfrgVanrSewmwdfqtoMYrUKA5Jd3LBVEdwYgUa
+         kmMbAI2kGntsDeibkuagDFgO++O4jQQfFNwPeB/5bER7mfp9ErYpkOJ1sbabGAJKvQzK
+         nzjdxhwuf5JhrNd5fdB8pXKG8/8y9f1BwOJJ6nf60acaDbFu5N5ek7OVT4wf4xGZ2lKO
+         1OAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=1MS9pf4ztVbyCKv989qflQ+PxKq3BLF8CrASWzL5Thk=;
+        b=Uh5bq7N4bp74Na8+B38TNMOeUniyWdRy8F6v6ZEvTOmo7wAPkYi97b6CDNj3r3kinm
+         4rlqJg9dZzFpeeSG70iDFsk6d7fv/9p1X3A+eEpvDO6/qdwY59Eyh+pjZtA4dcnGj7R2
+         0SxFbpwUhu0fF8wMmmWhXOeZBG+jeGXejFzOrRKChZCqtubFZk2UW4g8FVBk/NKsSszN
+         R6K6Ide9s5PjgvU/wUQHyONGBNUiOtEizbN06ZhKquK+YtyoEWTz2Wd4E9Ac4gbCFVWD
+         NX1QRKz8nABfHJURw16gTr9K69hj6CXL/i/s5S/7vXk36/TjxUupBLZm5pbSc7o8j9Kd
+         2HVQ==
+X-Gm-Message-State: AJIora8dRi+wltcrMONGwBsEYpWG+fJ1JAf4TgaOlBx8WBZdPczQDTo6
+	441mZQTeolUv0URB4KjMQj0=
+X-Google-Smtp-Source: AGRyM1v1gY2V3nnnptsChGo3jWDB2lLIfhIs+d8gvjTPXPhtu/yYY3HgvYwrtligtEO7ZgSGWqKeoQ==
+X-Received: by 2002:a63:f143:0:b0:41a:3744:8639 with SMTP id o3-20020a63f143000000b0041a37448639mr16131973pgk.254.1659426504327;
+        Tue, 02 Aug 2022 00:48:24 -0700 (PDT)
+Received: from localhost.localdomain ([193.203.214.57])
+        by smtp.gmail.com with ESMTPSA id m17-20020a170902db1100b0016ec8286733sm7485135plx.243.2022.08.02.00.48.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 00:48:24 -0700 (PDT)
+From: cgel.zte@gmail.com
+X-Google-Original-From: ye.xingchen@zte.com.cn
+To: linux-kernel@vger.kernel.org
+Cc: linux-crypto@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 4/4] regulator: sun20i: Add support for Allwinner D1 LDOs
-Date: Tue,  2 Aug 2022 00:32:13 -0500
-Message-Id: <20220802053213.3645-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220802053213.3645-1-samuel@sholland.org>
-References: <20220802053213.3645-1-samuel@sholland.org>
+	linux-sunxi@lists.linux.dev,
+	ye xingchen <ye.xingchen@zte.com.cn>,
+	Zeal Robot <zealci@zte.com.cn>
+Subject: [PATCH linux-next] crypto: sun8i-ce:using the pm_runtime_resume_and_get  to simplify the code
+Date: Tue,  2 Aug 2022 07:48:20 +0000
+Message-Id: <20220802074820.1648786-1-ye.xingchen@zte.com.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -77,298 +56,31 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 contains two pairs of LDOs. Since they have similar bindings, and
-they always exist together, put them in a single driver.
+From: ye xingchen <ye.xingchen@zte.com.cn>
 
-The analog LDOs are relatively boring, with a single linear range. Their
-one quirk is that a bandgap reference must be calibrated for them to
-produce the correct voltage.
+Using pm_runtime_resume_and_get() to instade of  pm_runtime_get_sync
+and pm_runtime_put_noidle.
 
-The system LDOs have the complication that their voltage step is not an
-integer, so a custom .list_voltage is needed to get the rounding right.
-
-Signed-off-by: Samuel Holland <samuel@sholland.org>
+Reported-by: Zeal Robot <zealci@zte.com.cn>
+Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
 ---
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Changes in v2:
- - Use decimal numbers for .n_voltages instead of field widths
- - Get the regmap from the parent device instead of a property/phandle
-
- drivers/regulator/Kconfig            |   8 +
- drivers/regulator/Makefile           |   1 +
- drivers/regulator/sun20i-regulator.c | 232 +++++++++++++++++++++++++++
- 3 files changed, 241 insertions(+)
- create mode 100644 drivers/regulator/sun20i-regulator.c
-
-diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-index cbe0f96ca342..20a22f900bb2 100644
---- a/drivers/regulator/Kconfig
-+++ b/drivers/regulator/Kconfig
-@@ -1234,6 +1234,14 @@ config REGULATOR_STW481X_VMMC
- 	  This driver supports the internal VMMC regulator in the STw481x
- 	  PMIC chips.
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
+index 19cd2e52f89d..ef9cfc61af32 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
+@@ -54,9 +54,8 @@ static int sun8i_ce_trng_read(struct hwrng *rng, void *data, size_t max, bool wa
+ 		goto err_dst;
+ 	}
  
-+config REGULATOR_SUN20I
-+	tristate "Allwinner D1 internal LDOs"
-+	depends on ARCH_SUNXI || COMPILE_TEST
-+	depends on MFD_SYSCON && NVMEM
-+	default ARCH_SUNXI
-+	help
-+	  This driver supports the internal LDOs in the Allwinner D1 SoC.
-+
- config REGULATOR_SY7636A
- 	tristate "Silergy SY7636A voltage regulator"
- 	help
-diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-index 8d3ee8b6d41d..cb3ac9290fc3 100644
---- a/drivers/regulator/Makefile
-+++ b/drivers/regulator/Makefile
-@@ -145,6 +145,7 @@ obj-$(CONFIG_REGULATOR_STM32_VREFBUF) += stm32-vrefbuf.o
- obj-$(CONFIG_REGULATOR_STM32_PWR) += stm32-pwr.o
- obj-$(CONFIG_REGULATOR_STPMIC1) += stpmic1_regulator.o
- obj-$(CONFIG_REGULATOR_STW481X_VMMC) += stw481x-vmmc.o
-+obj-$(CONFIG_REGULATOR_SUN20I) += sun20i-regulator.o
- obj-$(CONFIG_REGULATOR_SY7636A) += sy7636a-regulator.o
- obj-$(CONFIG_REGULATOR_SY8106A) += sy8106a-regulator.o
- obj-$(CONFIG_REGULATOR_SY8824X) += sy8824x.o
-diff --git a/drivers/regulator/sun20i-regulator.c b/drivers/regulator/sun20i-regulator.c
-new file mode 100644
-index 000000000000..789a68829630
---- /dev/null
-+++ b/drivers/regulator/sun20i-regulator.c
-@@ -0,0 +1,232 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+//
-+// Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
-+//
-+
-+#include <linux/mfd/syscon.h>
-+#include <linux/module.h>
-+#include <linux/nvmem-consumer.h>
-+#include <linux/of_device.h>
-+#include <linux/platform_device.h>
-+#include <linux/regmap.h>
-+#include <linux/regulator/driver.h>
-+
-+#define SUN20I_POWER_REG		0x348
-+
-+#define SUN20I_SYS_LDO_CTRL_REG		0x150
-+
-+struct sun20i_regulator_data {
-+	int				(*init)(struct device *dev,
-+						struct regmap *regmap);
-+	const struct regulator_desc	*descs;
-+	unsigned int			ndescs;
-+};
-+
-+static int sun20i_d1_analog_ldos_init(struct device *dev, struct regmap *regmap)
-+{
-+	u8 bg_trim;
-+	int ret;
-+
-+	ret = nvmem_cell_read_u8(dev, "bg_trim", &bg_trim);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get bg_trim value\n");
-+
-+	/* The default value corresponds to 900 mV. */
-+	if (!bg_trim)
-+		bg_trim = 0x19;
-+
-+	return regmap_update_bits(regmap, SUN20I_POWER_REG,
-+				  GENMASK(7, 0), bg_trim);
-+}
-+
-+static const struct regulator_ops sun20i_d1_analog_ldo_ops = {
-+	.list_voltage		= regulator_list_voltage_linear,
-+	.map_voltage		= regulator_map_voltage_linear,
-+	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
-+	.enable			= regulator_enable_regmap,
-+	.disable		= regulator_disable_regmap,
-+	.is_enabled		= regulator_is_enabled_regmap,
-+};
-+
-+static const struct regulator_desc sun20i_d1_analog_ldo_descs[] = {
-+	{
-+		.name		= "aldo",
-+		.supply_name	= "vdd33",
-+		.of_match	= "aldo",
-+		.ops		= &sun20i_d1_analog_ldo_ops,
-+		.type		= REGULATOR_VOLTAGE,
-+		.owner		= THIS_MODULE,
-+		.n_voltages	= 8,
-+		.min_uV		= 1650000,
-+		.uV_step	= 50000,
-+		.vsel_reg	= SUN20I_POWER_REG,
-+		.vsel_mask	= GENMASK(14, 12),
-+		.enable_reg	= SUN20I_POWER_REG,
-+		.enable_mask	= BIT(31),
-+	},
-+	{
-+		.name		= "hpldo",
-+		.supply_name	= "hpldoin",
-+		.of_match	= "hpldo",
-+		.ops		= &sun20i_d1_analog_ldo_ops,
-+		.type		= REGULATOR_VOLTAGE,
-+		.owner		= THIS_MODULE,
-+		.n_voltages	= 8,
-+		.min_uV		= 1650000,
-+		.uV_step	= 50000,
-+		.vsel_reg	= SUN20I_POWER_REG,
-+		.vsel_mask	= GENMASK(10, 8),
-+		.enable_reg	= SUN20I_POWER_REG,
-+		.enable_mask	= BIT(30),
-+	},
-+};
-+
-+static const struct sun20i_regulator_data sun20i_d1_analog_ldos = {
-+	.init	= sun20i_d1_analog_ldos_init,
-+	.descs	= sun20i_d1_analog_ldo_descs,
-+	.ndescs	= ARRAY_SIZE(sun20i_d1_analog_ldo_descs),
-+};
-+
-+/* regulator_list_voltage_linear() modified for the non-integral uV_step. */
-+static int sun20i_d1_system_ldo_list_voltage(struct regulator_dev *rdev,
-+					     unsigned int selector)
-+{
-+	const struct regulator_desc *desc = rdev->desc;
-+	unsigned int uV;
-+
-+	if (selector >= desc->n_voltages)
-+		return -EINVAL;
-+
-+	uV = desc->min_uV + (desc->uV_step * selector);
-+
-+	/* Produce correctly-rounded absolute voltages. */
-+	return uV + ((selector + 1 + (desc->min_uV % 4)) / 3);
-+}
-+
-+static const struct regulator_ops sun20i_d1_system_ldo_ops = {
-+	.list_voltage		= sun20i_d1_system_ldo_list_voltage,
-+	.map_voltage		= regulator_map_voltage_ascend,
-+	.set_voltage_sel	= regulator_set_voltage_sel_regmap,
-+	.get_voltage_sel	= regulator_get_voltage_sel_regmap,
-+};
-+
-+static const struct regulator_desc sun20i_d1_system_ldo_descs[] = {
-+	{
-+		.name		= "ldoa",
-+		.supply_name	= "ldo-in",
-+		.of_match	= "ldoa",
-+		.ops		= &sun20i_d1_system_ldo_ops,
-+		.type		= REGULATOR_VOLTAGE,
-+		.owner		= THIS_MODULE,
-+		.n_voltages	= 32,
-+		.min_uV		= 1600000,
-+		.uV_step	= 13333, /* repeating */
-+		.vsel_reg	= SUN20I_SYS_LDO_CTRL_REG,
-+		.vsel_mask	= GENMASK(7, 0),
-+	},
-+	{
-+		.name		= "ldob",
-+		.supply_name	= "ldo-in",
-+		.of_match	= "ldob",
-+		.ops		= &sun20i_d1_system_ldo_ops,
-+		.type		= REGULATOR_VOLTAGE,
-+		.owner		= THIS_MODULE,
-+		.n_voltages	= 64,
-+		.min_uV		= 1166666,
-+		.uV_step	= 13333, /* repeating */
-+		.vsel_reg	= SUN20I_SYS_LDO_CTRL_REG,
-+		.vsel_mask	= GENMASK(15, 8),
-+	},
-+};
-+
-+static const struct sun20i_regulator_data sun20i_d1_system_ldos = {
-+	.descs	= sun20i_d1_system_ldo_descs,
-+	.ndescs	= ARRAY_SIZE(sun20i_d1_system_ldo_descs),
-+};
-+
-+static const struct of_device_id sun20i_regulator_of_match[] = {
-+	{
-+		.compatible = "allwinner,sun20i-d1-analog-ldos",
-+		.data = &sun20i_d1_analog_ldos,
-+	},
-+	{
-+		.compatible = "allwinner,sun20i-d1-system-ldos",
-+		.data = &sun20i_d1_system_ldos,
-+	},
-+	{ },
-+};
-+MODULE_DEVICE_TABLE(of, sun20i_regulator_of_match);
-+
-+static struct regmap *sun20i_regulator_get_regmap(struct device *dev)
-+{
-+	struct regmap *regmap;
-+
-+	/*
-+	 * First try the syscon interface. The system control device is not
-+	 * compatible with "syscon", so fall back to getting the regmap from
-+	 * its platform device. This is ugly, but required for devicetree
-+	 * backward compatibility.
-+	 */
-+	regmap = syscon_node_to_regmap(dev->parent->of_node);
-+	if (!IS_ERR(regmap))
-+		return regmap;
-+
-+	regmap = dev_get_regmap(dev->parent, NULL);
-+	if (!regmap)
-+		return ERR_PTR(-EPROBE_DEFER);
-+
-+	return regmap;
-+}
-+
-+static int sun20i_regulator_probe(struct platform_device *pdev)
-+{
-+	const struct sun20i_regulator_data *data;
-+	struct device *dev = &pdev->dev;
-+	struct regulator_config config;
-+	struct regmap *regmap;
-+	int ret;
-+
-+	data = of_device_get_match_data(dev);
-+	if (!data)
-+		return -EINVAL;
-+
-+	regmap = sun20i_regulator_get_regmap(dev);
-+	if (IS_ERR(regmap))
-+		return dev_err_probe(dev, PTR_ERR(regmap), "Failed to get regmap\n");
-+
-+	if (data->init) {
-+		ret = data->init(dev, regmap);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	config = (struct regulator_config) {
-+		.dev	= dev,
-+		.regmap	= regmap,
-+	};
-+
-+	for (unsigned int i = 0; i < data->ndescs; ++i) {
-+		const struct regulator_desc *desc = &data->descs[i];
-+		struct regulator_dev *rdev;
-+
-+		rdev = devm_regulator_register(dev, desc, &config);
-+		if (IS_ERR(rdev))
-+			return PTR_ERR(rdev);
-+	}
-+
-+	return 0;
-+}
-+
-+static struct platform_driver sun20i_regulator_driver = {
-+	.probe	= sun20i_regulator_probe,
-+	.driver	= {
-+		.name		= "sun20i-regulator",
-+		.of_match_table	= sun20i_regulator_of_match,
-+	},
-+};
-+module_platform_driver(sun20i_regulator_driver);
-+
-+MODULE_AUTHOR("Samuel Holland <samuel@sholland.org>");
-+MODULE_DESCRIPTION("Allwinner D1 internal LDO driver");
-+MODULE_LICENSE("GPL");
+-	err = pm_runtime_get_sync(ce->dev);
++	err = pm_runtime_resume_and_get(ce->dev);
+ 	if (err < 0) {
+-		pm_runtime_put_noidle(ce->dev);
+ 		goto err_pm;
+ 	}
+ 
 -- 
-2.35.1
-
+2.25.1
