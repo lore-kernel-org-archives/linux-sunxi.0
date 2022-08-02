@@ -1,188 +1,93 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F317F
-	for <linux-sunxi@lists.linux.dev>; Tue,  2 Aug 2022 13:59:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1659448743; x=1690984743;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=JXaQKy9UvN4RoNFqHuqgOiDf4e31ilcdvl1X5DNMf8k=;
-  b=VTYwkv9vpAat1vIEdsoaIqkASQv8CZZ/NbM+8vN8FUvmzpuOchIbQf08
-   Pw/WeVBzQ/btIEZALfF7UI9w5c/JVmvAJ1tbZsp58l1enBK8D8bJM+EIS
-   IZZBKQPEeYkBkusYTFwAvG34qLVFyrBy6lf0U8585SiTQlotpo1SeINyk
-   sGeA6DYPE3nluELuXaTRG725VrWAKUOLMhYge4vYp3OyXkNOotGV3G50e
-   oc1/9oXZJSByKeXwlto71dipjtAKUji3YrPCcJ6N/68yoNJmHXhgQdsVn
-   fE+W1bUMvROcIPQ7qgyGxDOOTshAqFbzlSM0uDY836kwo+QiZo9US/F6W
-   A==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10427"; a="269181375"
-X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; 
-   d="scan'208";a="269181375"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 06:59:02 -0700
-X-IronPort-AV: E=Sophos;i="5.93,211,1654585200"; 
-   d="scan'208";a="661633082"
-Received: from llaviniu-mobl1.ger.corp.intel.com (HELO localhost) ([10.252.60.134])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Aug 2022 06:58:55 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <maxime@cerno.tech>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet
- <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>, Thomas
- Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>, Emma
- Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Noralf =?utf-8?Q?Tr=C3=B8n?=
- =?utf-8?Q?nes?=
- <noralf@tronnes.org>, Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-Cc: Dom Cobley <dom@raspberrypi.com>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Mateusz Kwiatkowski
- <kfyatek+publicgit@gmail.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Maxime Ripard <maxime@cerno.tech>, linux-amlogic@lists.infradead.org,
- linux-sunxi@lists.linux.dev, Phil Elwell <phil@raspberrypi.com>,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
-Date: Tue, 02 Aug 2022 16:58:53 +0300
-Message-ID: <8735eeg31e.fsf@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620167F
+	for <linux-sunxi@lists.linux.dev>; Tue,  2 Aug 2022 14:01:44 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id e69so10688489iof.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 02 Aug 2022 07:01:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=message-id:date:subject:references:in-reply-to:cc:to:from
+         :x-gm-message-state:from:to:cc;
+        bh=vlxxqffRGLJz6At1luZovyKJ8Z0Fn0mEQjFHuFpnTaA=;
+        b=jwndlG4ThNekpgva2SF95pmOFNmP7lbfHxbRNeJSxys6BV3S8ZPicG9DB1XwTm1+hG
+         qcOtKxuiUDCgqXjw39sL3ftafU4crHAtYPvpeYjcRWj7tys8Q0xeSNRiR/oYzgPGbPv6
+         k3gbDjjVNBxm30UNsnoRYeMotd9r9mV5qCFqUSH+VI+Qhh6Ll6NnjlzlIrCRJ3tfCUif
+         Q4Ed6r9L1CVNWedN90lzjA81WN2s7oXwRMw3OVszd1rdVb1YHDp9mtS6gw9/1C+igMna
+         LQPWsNtrNB99SxuUvX38xAjR1BZNYJ4vVr2ulJPsk6ULLC5kpdWAMWSUGbZrhP3MWcm1
+         8XgQ==
+X-Gm-Message-State: ACgBeo0gcGrb4Va3Tmss0LfgwPKsoJWpSQx1VL4XjOIwV5J5HGwrvbQh
+	UJUXIBp1DqZNpJAhB2DRFt3mvUK97w==
+X-Google-Smtp-Source: AA6agR7jv2r8Ke28anbCI27c32r7DRSvqdJjz4YIzELL5re2hxIzpmdz8hZ1RHOwJ/H1pPmN+lMp7Q==
+X-Received: by 2002:a05:6638:446:b0:342:77f4:7858 with SMTP id r6-20020a056638044600b0034277f47858mr3568258jap.135.1659448903448;
+        Tue, 02 Aug 2022 07:01:43 -0700 (PDT)
+Received: from robh.at.kernel.org ([64.188.179.248])
+        by smtp.gmail.com with ESMTPSA id e1-20020a056602044100b0067bcf7bf3c1sm7103445iov.14.2022.08.02.07.01.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Aug 2022 07:01:43 -0700 (PDT)
+Received: (nullmailer pid 8417 invoked by uid 1000);
+	Tue, 02 Aug 2022 14:01:41 -0000
+From: Rob Herring <robh@kernel.org>
+To: Samuel Holland <samuel@sholland.org>
+Cc: linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+In-Reply-To: <20220802053213.3645-4-samuel@sholland.org>
+References: <20220802053213.3645-1-samuel@sholland.org> <20220802053213.3645-4-samuel@sholland.org>
+Subject: Re: [PATCH v2 3/4] regulator: dt-bindings: Add Allwinner D1 LDOs
+Date: Tue, 02 Aug 2022 08:01:41 -0600
+Message-Id: <1659448901.659907.8416.nullmailer@robh.at.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain
 
-On Fri, 29 Jul 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
-> modes in the drivers.
->
-> Since those modes are fairly standards, and that we'll need to use them in
-> more places in the future, let's move the meson definition into the
-> framework.
+On Tue, 02 Aug 2022 00:32:12 -0500, Samuel Holland wrote:
+> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
+> for general purpose use. LDOA generally powers the board's 1.8 V rail.
+> LDOB generally powers the in-package DRAM, where applicable.
+> 
+> The other pair of LDOs powers the analog power domains inside the SoC,
+> including the audio codec, thermal sensor, and ADCs. These LDOs require
+> a 0.9 V bandgap voltage reference. The calibration value for the voltage
+> reference is stored in an eFuse, accessed via an NVMEM cell.
+> 
+> Neither LDO control register is in its own MMIO range; instead, each
+> regulator device relies on a regmap/syscon exported by its parent.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v2:
+>  - Remove syscon property from bindings
+>  - Update binding examples to fix warnings and provide context
+> 
+>  .../allwinner,sun20i-d1-analog-ldos.yaml      | 65 +++++++++++++++++++
+>  .../allwinner,sun20i-d1-system-ldos.yaml      | 57 ++++++++++++++++
+>  2 files changed, 122 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> 
 
-I think you should always expose interfaces, not data. Data is not an
-interface, and I think this sets a bad example that will be cargo
-culted.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
+yamllint warnings/errors:
 
-BR,
-Jani.
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.example.dtb:0:0: /example-0/syscon@3000000: failed to match any schema with compatible: ['allwinner,sun20i-d1-system-control']
 
->
-> The meson one was chosen because vc4's isn't accurate and doesn't amount to
-> 525 and 625 lines.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->
-> diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-> index 304004fb80aa..a4c1bd688338 100644
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -48,6 +48,24 @@
->  
->  #include "drm_crtc_internal.h"
->  
-> +const struct drm_display_mode drm_mode_480i = {
-> +	DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
-> +		 720, 739, 801, 858, 0,
-> +		 480, 488, 494, 525, 0,
-> +		 DRM_MODE_FLAG_INTERLACE),
-> +	.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_480i);
-> +
-> +const struct drm_display_mode drm_mode_576i = {
-> +	DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
-> +		 720, 732, 795, 864, 0,
-> +		 576, 580, 586, 625, 0,
-> +		 DRM_MODE_FLAG_INTERLACE),
-> +	.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_576i);
-> +
->  /**
->   * drm_mode_debug_printmodeline - print a mode to dmesg
->   * @mode: mode to print
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.c b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> index 8110a6e39320..98ec3e563155 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.c
-> @@ -45,21 +45,11 @@ struct meson_encoder_cvbs {
->  struct meson_cvbs_mode meson_cvbs_modes[MESON_CVBS_MODES_COUNT] = {
->  	{ /* PAL */
->  		.enci = &meson_cvbs_enci_pal,
-> -		.mode = {
-> -			DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
-> -				 720, 732, 795, 864, 0, 576, 580, 586, 625, 0,
-> -				 DRM_MODE_FLAG_INTERLACE),
-> -			.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> -		},
-> +		.mode = &drm_mode_576i,
->  	},
->  	{ /* NTSC */
->  		.enci = &meson_cvbs_enci_ntsc,
-> -		.mode = {
-> -			DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
-> -				720, 739, 801, 858, 0, 480, 488, 494, 525, 0,
-> -				DRM_MODE_FLAG_INTERLACE),
-> -			.picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> -		},
-> +		.mode = &drm_mode_480i,
->  	},
->  };
->  
-> @@ -71,7 +61,7 @@ meson_cvbs_get_mode(const struct drm_display_mode *req_mode)
->  	for (i = 0; i < MESON_CVBS_MODES_COUNT; ++i) {
->  		struct meson_cvbs_mode *meson_mode = &meson_cvbs_modes[i];
->  
-> -		if (drm_mode_match(req_mode, &meson_mode->mode,
-> +		if (drm_mode_match(req_mode, meson_mode->mode,
->  				   DRM_MODE_MATCH_TIMINGS |
->  				   DRM_MODE_MATCH_CLOCK |
->  				   DRM_MODE_MATCH_FLAGS |
-> @@ -104,7 +94,7 @@ static int meson_encoder_cvbs_get_modes(struct drm_bridge *bridge,
->  	for (i = 0; i < MESON_CVBS_MODES_COUNT; ++i) {
->  		struct meson_cvbs_mode *meson_mode = &meson_cvbs_modes[i];
->  
-> -		mode = drm_mode_duplicate(priv->drm, &meson_mode->mode);
-> +		mode = drm_mode_duplicate(priv->drm, meson_mode->mode);
->  		if (!mode) {
->  			dev_err(priv->dev, "Failed to create a new display mode\n");
->  			return 0;
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_cvbs.h b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> index 61d9d183ce7f..26cefb202924 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> +++ b/drivers/gpu/drm/meson/meson_encoder_cvbs.h
-> @@ -16,7 +16,7 @@
->  
->  struct meson_cvbs_mode {
->  	struct meson_cvbs_enci_mode *enci;
-> -	struct drm_display_mode mode;
-> +	const struct drm_display_mode *mode;
->  };
->  
->  #define MESON_CVBS_MODES_COUNT	2
-> diff --git a/include/drm/drm_modes.h b/include/drm/drm_modes.h
-> index a80ae9639e96..b4a440e2688c 100644
-> --- a/include/drm/drm_modes.h
-> +++ b/include/drm/drm_modes.h
-> @@ -394,6 +394,9 @@ struct drm_display_mode {
->  
->  };
->  
-> +extern const struct drm_display_mode drm_mode_480i;
-> +extern const struct drm_display_mode drm_mode_576i;
-> +
->  /**
->   * DRM_MODE_FMT - printf string for &struct drm_display_mode
->   */
+doc reference errors (make refcheckdocs):
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+See https://patchwork.ozlabs.org/patch/
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
