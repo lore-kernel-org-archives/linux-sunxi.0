@@ -1,243 +1,143 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E5D5387
-	for <linux-sunxi@lists.linux.dev>; Thu,  4 Aug 2022 20:25:24 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id o14so489570ilt.2
-        for <linux-sunxi@lists.linux.dev>; Thu, 04 Aug 2022 13:25:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 732236AA2
+	for <linux-sunxi@lists.linux.dev>; Thu,  4 Aug 2022 22:52:14 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id j15so1370766wrr.2
+        for <linux-sunxi@lists.linux.dev>; Thu, 04 Aug 2022 15:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linexp-org.20210112.gappssmtp.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=tK8BZUrYjVSQkECpXaiG1qT4bYmfWcZCkyTFwzwm2zJsiqOs2137daSTFMuKmG6ZWf
+         6uxkl6beWGwhQZETcttDQAPtqpYYgBIkCsMTq+ac+SYyQFmkkzYYfgb7SPtRylhlT1MY
+         hbSCVHmggrCRjLOEhccrCXswC8ML7Siwn7aI4rS4H4ZnDUU8pSwx+gPcUPFvtZQfqB6u
+         /1CoVD3XIICZRz210i7lsScpbpQguQur0gISJO46OEXFjAtdMr5Jk7IBpqGU7KDXVn6G
+         dObIG9YBDlYlvqHkRfawbEOcWbsiYobcEwnVQ1+hckMOCfjwPnrwFE8aqdcCAXFWBm3d
+         QgSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc;
-        bh=VCrvf/3BTjJQt0YH832xOkI02Lgn0gW1RupzGTTYZ48=;
-        b=NdgjSuK6ENr4QGU2KU/V37477EmPTT4VDynNWWhJjMgxTUFsmhcI++wGdVEjF5kpAw
-         OXQQxRZ5Oz5NYkzigYdkzKN1o0FcofwNv17IQ+H4Z3KnGEjqEzgJESmVnBuvgrINMNvo
-         t2/431aiQRdIgzXkQcwNvQw41xgULbD47WtRlTVOQ3QONJyc0jvP3Ot/A6+7QCWUQaPc
-         /QBvWbH8dVr17JnVUxODj+K/ZSdalfzrT7z3/jqd9lHegt0AoTJ13/i/o2D3QNiLhKgB
-         Lv1dcBd52+BhfqdT5swq9SMuvXlUrFftadNhNHNn8738SV+czHklHpds75Z20lNuGbz+
-         orfw==
-X-Gm-Message-State: ACgBeo0mjq2qkyX7DPk4M/jMOfuENT09zCsoax2T2lPSHTLgOjHYboEf
-	SvBa+jVElOCeu6U5AA5/QA==
-X-Google-Smtp-Source: AA6agR4IEIf2V1e+SjXZ08QE3XEDkC/YH4eaoedz452FM2FY+ToqoUd9zND/cdfAZ57pVgDo6kT9lA==
-X-Received: by 2002:a05:6e02:2188:b0:2dd:f749:512d with SMTP id j8-20020a056e02218800b002ddf749512dmr1587415ila.216.1659644723968;
-        Thu, 04 Aug 2022 13:25:23 -0700 (PDT)
-Received: from robh.at.kernel.org ([64.188.179.248])
-        by smtp.gmail.com with ESMTPSA id d18-20020a92c192000000b002dd028f5ef5sm811076ilh.38.2022.08.04.13.25.22
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=KoCo3jVOreA60M5B2h+gu+yJSl6IxRYoUlnzq7WRBI0=;
+        b=U1rxLEdI1VRMlQ0UEQkoPdWvsKS1W+QgsazJzi9bXfidt7YLqRd1urRTsBf3/XG8Az
+         bTWImWB0350uCRgt5drdke6DV69azJGTslf8gWsFfy5nJYk6X08bLmnZ/+nPdGPQfpiW
+         xyDCNJlfNRnbm3nUpBGi5AaxCLI+BKoaGDj8bBg1yZNLOrTJ5pZeUiDMCuketRyRUKGW
+         h2Bs2Ik/NQrkduVaZkIbKaPRKV6c7wZ2qmzBuXsX6Z7+vvzKd67EJWTZP8uPgSKM15Iq
+         T7XalCMzMTshL5iggZbsbsEizjWSzl5S6Ac2jDIA0j7ut/aeMzyYtefpCDWa0ZIgdtg0
+         YldQ==
+X-Gm-Message-State: ACgBeo1VFRcebYApIGOQY7NFZYLCL8RcBs5B/WEgN16eCRG/QXqvfDxZ
+	NyWni8oBEGclRfXuXciIkafRaw==
+X-Google-Smtp-Source: AA6agR57CkmUOuQZ/UDgeWmNjX/seB7gnWJdHW8biXGloj7zueDyqn8OOWCYGy0WwgScQ6ACI16iOg==
+X-Received: by 2002:a5d:5957:0:b0:220:79d5:f8ae with SMTP id e23-20020a5d5957000000b0022079d5f8aemr2588998wri.160.1659653532830;
+        Thu, 04 Aug 2022 15:52:12 -0700 (PDT)
+Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:31aa:ed2c:3f7:19d])
+        by smtp.gmail.com with ESMTPSA id a16-20020a056000051000b0021f87e8945asm2495906wrf.12.2022.08.04.15.52.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 13:25:23 -0700 (PDT)
-Received: (nullmailer pid 304396 invoked by uid 1000);
-	Thu, 04 Aug 2022 20:25:22 -0000
-Date: Thu, 4 Aug 2022 14:25:22 -0600
-From: Rob Herring <robh@kernel.org>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v2 3/4] regulator: dt-bindings: Add Allwinner D1 LDOs
-Message-ID: <20220804202522.GC4145453-robh@kernel.org>
-References: <20220802053213.3645-1-samuel@sholland.org>
- <20220802053213.3645-4-samuel@sholland.org>
- <20220802150452.GA86158-robh@kernel.org>
- <918a83a7-1b8d-04b1-4f7b-386fc800e653@sholland.org>
+        Thu, 04 Aug 2022 15:52:12 -0700 (PDT)
+From: Daniel Lezcano <daniel.lezcano@linexp.org>
+To: daniel.lezcano@linaro.org,
+	rafael@kernel.org
+Cc: rui.zhang@intel.com,
+	linux-pm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	khilman@baylibre.com,
+	abailon@baylibre.com,
+	lukasz.luba@arm.com,
+	broonie@kernel.org,
+	damien.lemoal@opensource.wdc.com,
+	heiko@sntech.de,
+	hayashi.kunihiko@socionext.com,
+	mhiramat@kernel.org,
+	talel@amazon.com,
+	thierry.reding@gmail.com,
+	digetx@gmail.com,
+	jonathanh@nvidia.com,
+	anarsoul@gmail.com,
+	tiny.windzz@gmail.com,
+	baolin.wang7@gmail.com,
+	f.fainelli@gmail.com,
+	bjorn.andersson@linaro.org,
+	mcoquelin.stm32@gmail.com,
+	glaroque@baylibre.com,
+	miquel.raynal@bootlin.com,
+	shawnguo@kernel.org,
+	niklas.soderlund@ragnatech.se,
+	matthias.bgg@gmail.com,
+	j-keerthy@ti.com,
+	Amit Kucheria <amitk@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
+	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
+Subject: [PATCH v5 08/33] thermal/drivers/sun8i: Switch to new of API
+Date: Fri,  5 Aug 2022 00:43:24 +0200
+Message-Id: <20220804224349.1926752-9-daniel.lezcano@linexp.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
+References: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <918a83a7-1b8d-04b1-4f7b-386fc800e653@sholland.org>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Aug 03, 2022 at 10:03:07PM -0500, Samuel Holland wrote:
-> Hi Rob,
-> 
-> Thanks again for your review.
-> 
-> On 8/2/22 10:04 AM, Rob Herring wrote:
-> > On Tue, Aug 02, 2022 at 12:32:12AM -0500, Samuel Holland wrote:
-> >> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
-> >> for general purpose use. LDOA generally powers the board's 1.8 V rail.
-> >> LDOB generally powers the in-package DRAM, where applicable.
-> >>
-> >> The other pair of LDOs powers the analog power domains inside the SoC,
-> >> including the audio codec, thermal sensor, and ADCs. These LDOs require
-> >> a 0.9 V bandgap voltage reference. The calibration value for the voltage
-> >> reference is stored in an eFuse, accessed via an NVMEM cell.
-> >>
-> >> Neither LDO control register is in its own MMIO range; instead, each
-> >> regulator device relies on a regmap/syscon exported by its parent.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>
-> >> Changes in v2:
-> >>  - Remove syscon property from bindings
-> >>  - Update binding examples to fix warnings and provide context
-> >>
-> >>  .../allwinner,sun20i-d1-analog-ldos.yaml      | 65 +++++++++++++++++++
-> >>  .../allwinner,sun20i-d1-system-ldos.yaml      | 57 ++++++++++++++++
-> >>  2 files changed, 122 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
-> >>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
-> >> new file mode 100644
-> >> index 000000000000..19c984ef4e53
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
-> >> @@ -0,0 +1,65 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-analog-ldos.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Allwinner D1 Analog LDOs
-> >> +
-> >> +description:
-> >> +  Allwinner D1 contains a set of LDOs which are designed to supply analog power
-> >> +  inside and outside the SoC. They are controlled by a register within the audio
-> >> +  codec MMIO space, but which is not part of the audio codec clock/reset domain.
-> >> +
-> >> +maintainers:
-> >> +  - Samuel Holland <samuel@sholland.org>
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    enum:
-> >> +      - allwinner,sun20i-d1-analog-ldos
-> >> +
-> >> +  nvmem-cells:
-> >> +    items:
-> >> +      - description: NVMEM cell for the calibrated bandgap reference trim value
-> >> +
-> >> +  nvmem-cell-names:
-> >> +    items:
-> >> +      - const: bg_trim
-> >> +
-> >> +patternProperties:
-> >> +  "^(aldo|hpldo)$":
-> > 
-> > '^(a|hp)ldo$'
-> > 
-> >> +    type: object
-> >> +    $ref: regulator.yaml#
-> > 
-> >        unevaluatedProperties: false
-> > 
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - nvmem-cells
-> >> +  - nvmem-cell-names
-> >> +
-> >> +unevaluatedProperties: false
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    audio-codec@2030000 {
-> >> +        compatible = "simple-mfd", "syscon";
-> > 
-> > Needs a specific compatible. Obviously there's some other functionality 
-> > here if this is an 'audio-codec'.
-> 
-> I am not yet ready to submit the binding or driver for the audio codec, as I
-> still need to work out the details for jack detection (and some other issues).
-> If I added the specific audio codec compatible now, without the properties
-> required for the sound driver, that would create backward compatibility issues,
-> right?
+The thermal OF code has a new API allowing to migrate the OF
+initialization to a simpler approach. The ops are no longer device
+tree specific and are the generic ones provided by the core code.
 
-Only if something used it.
+Convert the ops to the thermal_zone_device_ops format and use the new
+API to register the thermal zone with these generic ops.
 
-> My intention is to add the specific compatible along with the ASoC support.
-> 
-> > 'simple-mfd' also means the child nodes have zero dependence on the 
-> > parent node and its resources.
-> 
-> That is correct. The regulators have zero dependencies on the audio codec
-> resources (clocks/resets/etc.). The _only_ relationship is the overlapping
-> address of the MMIO register.
+Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
+---
+ drivers/thermal/sun8i_thermal.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Okay.
+diff --git a/drivers/thermal/sun8i_thermal.c b/drivers/thermal/sun8i_thermal.c
+index 212c87e63a66..e64d06d1328c 100644
+--- a/drivers/thermal/sun8i_thermal.c
++++ b/drivers/thermal/sun8i_thermal.c
+@@ -108,9 +108,9 @@ static int sun50i_h5_calc_temp(struct ths_device *tmdev,
+ 		return -1590 * reg / 10 + 276000;
+ }
+ 
+-static int sun8i_ths_get_temp(void *data, int *temp)
++static int sun8i_ths_get_temp(struct thermal_zone_device *tz, int *temp)
+ {
+-	struct tsensor *s = data;
++	struct tsensor *s = tz->devdata;
+ 	struct ths_device *tmdev = s->tmdev;
+ 	int val = 0;
+ 
+@@ -135,7 +135,7 @@ static int sun8i_ths_get_temp(void *data, int *temp)
+ 	return 0;
+ }
+ 
+-static const struct thermal_zone_of_device_ops ths_ops = {
++static const struct thermal_zone_device_ops ths_ops = {
+ 	.get_temp = sun8i_ths_get_temp,
+ };
+ 
+@@ -468,10 +468,10 @@ static int sun8i_ths_register(struct ths_device *tmdev)
+ 		tmdev->sensor[i].tmdev = tmdev;
+ 		tmdev->sensor[i].id = i;
+ 		tmdev->sensor[i].tzd =
+-			devm_thermal_zone_of_sensor_register(tmdev->dev,
+-							     i,
+-							     &tmdev->sensor[i],
+-							     &ths_ops);
++			devm_thermal_of_zone_register(tmdev->dev,
++						      i,
++						      &tmdev->sensor[i],
++						      &ths_ops);
+ 		if (IS_ERR(tmdev->sensor[i].tzd))
+ 			return PTR_ERR(tmdev->sensor[i].tzd);
+ 
+-- 
+2.25.1
 
-> 
-> >> +        reg = <0x2030000 0x1000>;
-> >> +
-> >> +        regulators {
-> >> +            compatible = "allwinner,sun20i-d1-analog-ldos";
-> > 
-> > Is there a defined set of registers for these regulators? If so, put 
-> > them into 'reg'.
-> 
-> What do you suggest for 'ranges' in the parent device? I ask because the
-> SRAM/system controller binding requires an empty 'ranges' property.
-
-I think you are misreading 'ranges: true'. That just means the property 
-can be present, not that it's type is boolean.
-
-
-> With empty 'ranges', the child has to compute the relative address for use with
-> the parent's regmap, but maybe that is okay?
-
-We should probably have some sort of 'address to regmap offset' helper 
-that works no matter what ranges has.
-
-In most cases, while I require 'reg', unless the child nodes use a mixed 
-up set of registers, Linux doesn't currently use 'reg'. You can also 
-just hardcode the offsets in your driver.
-
-> >> +            nvmem-cells = <&bg_trim>;
-> >> +            nvmem-cell-names = "bg_trim";
-> >> +
-> >> +            reg_aldo: aldo {
-> >> +                regulator-min-microvolt = <1800000>;
-> >> +                regulator-max-microvolt = <1800000>;
-> >> +            };
-> >> +
-> >> +            reg_hpldo: hpldo {
-> >> +                regulator-min-microvolt = <1800000>;
-> >> +                regulator-max-microvolt = <1800000>;
-> >> +            };
-> >> +        };
-> >> +    };
-> >> +
-> >> +...
-> >> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> >> new file mode 100644
-> >> index 000000000000..c95030a827d6
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
-> >> @@ -0,0 +1,57 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Allwinner D1 System LDOs
-> >> +
-> >> +description:
-> >> +  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
-> >> +  supply power inside and outside the SoC. They are controlled by a register
-> >> +  within the system control MMIO space.
-> >> +
-> >> +maintainers:
-> >> +  - Samuel Holland <samuel@sholland.org>
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    enum:
-> >> +      - allwinner,sun20i-d1-system-ldos
-> >> +
-> >> +patternProperties:
-> >> +  "^(ldoa|ldob)$":
-> > 
-> > '^ldo[ab]$'
-> > 
-> > Any reason the naming is not consistent with 'ldo' as the prefix or 
-> > suffix?
-> 
-> All four names match the pin names from the SoC datasheet.
-
-Good enough for me.
-
-Rob
