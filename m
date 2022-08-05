@@ -1,136 +1,198 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF68A6AA2
-	for <linux-sunxi@lists.linux.dev>; Thu,  4 Aug 2022 22:53:06 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id q30so1318360wra.11
-        for <linux-sunxi@lists.linux.dev>; Thu, 04 Aug 2022 15:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linexp-org.20210112.gappssmtp.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=W3cU+eWftwod/gCCEn4RF6D7EDBHd9HP5Cy2gZBlBBe8SyqLB424UiO5yQ9/meWDAW
-         tnLWYXRnRl1Ey5cgoNvNP7eFz9G5zR5z7h8meNq54WbpA63LDnP5UUpy6sZB+qk5mMoi
-         Wq0tCL+soGYDBzUpQB19pONUQ1IFKfw/91eaM2V4KdbqTWeNaJLNDx1gs757ZOxhO5N6
-         UCORYdZTHrwj+mPxVhQjmnqZXpn0eB4zHMqs/eAPkQoqsvsq8m5l38M1h/fpSMfHQJXS
-         UqRikfL2/jGXGWXtTPSMcqjwCXygVwn7U9+i+xiOUiBRi7H9Any6ZVrjOsBsszElFiTs
-         jsRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=kpAJvHnsGVgVYdV6CGwRXamKol+XLg/BJyowOdExSUs=;
-        b=m5vgf61Wy18Cia5QgrNmN62NB497wMqBO92/wfnJpwzw6hGo9oz9Qya43mY4IugdC7
-         jcN6BmI6+WJpSlUM+Bz293ue26LFWOkJqCMZ9g+ZUQV0RB7XF/gFLPdfh/bOWM55kx4Z
-         qlJ8NrbcAYWBa+rCkJb9ph6oO0Q4xumZg1wiRXnIYg6FUrzoBoRH6TFPunq+u5OxzypE
-         dllw3BoFNl5wc13xYwyJbcJHTpfcDu7yGbSWd+G0e1ZAA86DmqtgqrielRlRuPFq0hv6
-         sxug+C3n3eQvPwZQLki95fSpWR+S+z9WEdr6zRUIeILCeMrgRu32LfUs2dRrUbOAAC6K
-         8goQ==
-X-Gm-Message-State: ACgBeo1iTXYR4cfLrryTEpNkRe3ULn6j/qwQgL3561l6OMGCJZKCd1Q9
-	rnnX63rw21rK2liZgjCjD6tssw==
-X-Google-Smtp-Source: AA6agR5Ha3VmIOQi6HqXaFNq4+uOYAdNMIGg2F5UmBMHHeRJ1PozwZCiQ9FAcStTb/q3qk7rfALfsQ==
-X-Received: by 2002:adf:f386:0:b0:220:44e9:ea5 with SMTP id m6-20020adff386000000b0022044e90ea5mr2530945wro.555.1659653585234;
-        Thu, 04 Aug 2022 15:53:05 -0700 (PDT)
-Received: from mai.box.freepro.com ([2a05:6e02:1041:c10:31aa:ed2c:3f7:19d])
-        by smtp.gmail.com with ESMTPSA id a16-20020a056000051000b0021f87e8945asm2495906wrf.12.2022.08.04.15.53.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Aug 2022 15:53:04 -0700 (PDT)
-From: Daniel Lezcano <daniel.lezcano@linexp.org>
-To: daniel.lezcano@linaro.org,
-	rafael@kernel.org
-Cc: rui.zhang@intel.com,
-	linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	khilman@baylibre.com,
-	abailon@baylibre.com,
-	lukasz.luba@arm.com,
-	broonie@kernel.org,
-	damien.lemoal@opensource.wdc.com,
-	heiko@sntech.de,
-	hayashi.kunihiko@socionext.com,
-	mhiramat@kernel.org,
-	talel@amazon.com,
-	thierry.reding@gmail.com,
-	digetx@gmail.com,
-	jonathanh@nvidia.com,
-	anarsoul@gmail.com,
-	tiny.windzz@gmail.com,
-	baolin.wang7@gmail.com,
-	f.fainelli@gmail.com,
-	bjorn.andersson@linaro.org,
-	mcoquelin.stm32@gmail.com,
-	glaroque@baylibre.com,
-	miquel.raynal@bootlin.com,
-	shawnguo@kernel.org,
-	niklas.soderlund@ragnatech.se,
-	matthias.bgg@gmail.com,
-	j-keerthy@ti.com,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 577AF10E0
+	for <linux-sunxi@lists.linux.dev>; Fri,  5 Aug 2022 14:10:38 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id C1C2BE000C;
+	Fri,  5 Aug 2022 14:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1659708631;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vwkQ0qv8d11cIg/eLHddZY+Oe9mA1gFNjKFinhC1Y8M=;
+	b=Y1gyFXYgDm/ZkaFa+HUYy1liTzoVSUHLysu92DcYh1vFOetVC5OCigjwOg1EJ601fO8iHZ
+	mwz27HvzOeoLBrFX1bv/bOd5HIIUlkzrhie3LRcoErS94ZhGHUBsEYkhq8l/fzH/ST3dtb
+	3uNjPFxSo1WyCtvHdhitFluYFvCtRWJcJ9QQALKn1RCjAGggmQEwgNLC+kkS5xLBVrFuJc
+	fECGlIB4YnmVUmqS1r5zxgDqRBhPr0Zb8/rhUYREU5KZad1vAgqBMYTGEFbUFsQxQFunyI
+	leci3TREwFuoLw+BCmfXHLpZ9U4SKNvo0FgL7NectIbI5moe970rgDny7E0Dsw==
+Date: Fri, 5 Aug 2022 16:10:28 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	linux-input@vger.kernel.org (open list:INPUT (KEYBOARD, MOUSE, JOYSTICK, TOUCHSCREEN)...),
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Allwinner sunXi SoC support),
-	linux-sunxi@lists.linux.dev (open list:ARM/Allwinner sunXi SoC support)
-Subject: [PATCH v5 29/33] Input: sun4i-ts - switch to new of thermal API
-Date: Fri,  5 Aug 2022 00:43:45 +0200
-Message-Id: <20220804224349.1926752-30-daniel.lezcano@linexp.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
-References: <20220804224349.1926752-1-daniel.lezcano@linexp.org>
+	Maxime Ripard <mripard@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 1/2] media: sunxi: Fix some error handling path of
+ sun8i_a83t_mipi_csi2_probe()
+Message-ID: <Yu0k1ER3jVhGx92u@aptenodytes>
+References: <62c0aef8d3b86d8f290bf6787f1b2b41efbb0b55.1659295329.git.christophe.jaillet@wanadoo.fr>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="hqu9GGmQSmzk8QQV"
+Content-Disposition: inline
+In-Reply-To: <62c0aef8d3b86d8f290bf6787f1b2b41efbb0b55.1659295329.git.christophe.jaillet@wanadoo.fr>
 
-The thermal OF code has a new API allowing to migrate the OF
-initialization to a simpler approach. The ops are no longer device
-tree specific and are the generic ones provided by the core code.
 
-Convert the ops to the thermal_zone_device_ops format and use the new
-API to register the thermal zone with these generic ops.
+--hqu9GGmQSmzk8QQV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Daniel Lezcano <daniel.lezcano@linexp.org>
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
----
- drivers/input/touchscreen/sun4i-ts.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Hi Christophe,
 
-diff --git a/drivers/input/touchscreen/sun4i-ts.c b/drivers/input/touchscreen/sun4i-ts.c
-index 742a7e96c1b5..73eb8f80be6e 100644
---- a/drivers/input/touchscreen/sun4i-ts.c
-+++ b/drivers/input/touchscreen/sun4i-ts.c
-@@ -192,12 +192,12 @@ static int sun4i_get_temp(const struct sun4i_ts_data *ts, int *temp)
- 	return 0;
- }
- 
--static int sun4i_get_tz_temp(void *data, int *temp)
-+static int sun4i_get_tz_temp(struct thermal_zone_device *tz, int *temp)
- {
--	return sun4i_get_temp(data, temp);
-+	return sun4i_get_temp(tz->devdata, temp);
- }
- 
--static const struct thermal_zone_of_device_ops sun4i_ts_tz_ops = {
-+static const struct thermal_zone_device_ops sun4i_ts_tz_ops = {
- 	.get_temp = sun4i_get_tz_temp,
- };
- 
-@@ -356,8 +356,8 @@ static int sun4i_ts_probe(struct platform_device *pdev)
- 	if (IS_ERR(hwmon))
- 		return PTR_ERR(hwmon);
- 
--	thermal = devm_thermal_zone_of_sensor_register(ts->dev, 0, ts,
--						       &sun4i_ts_tz_ops);
-+	thermal = devm_thermal_of_zone_register(ts->dev, 0, ts,
-+						&sun4i_ts_tz_ops);
- 	if (IS_ERR(thermal))
- 		return PTR_ERR(thermal);
- 
--- 
-2.25.1
+On Sun 31 Jul 22, 21:22, Christophe JAILLET wrote:
+> Release some resources in the error handling path of the probe and of
+> sun8i_a83t_mipi_csi2_resources_setup(), as already done in the remove
+> function.
 
+Great finds, thanks! Just some nitpick about the label names to make them
+consistent with other labels (also from the sun6i-csi rework).
+=20
+> Fixes: 576d196c522b ("media: sunxi: Add support for the A83T MIPI CSI-2 c=
+ontroller")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> I'm unsure about the phy_exit() call in
+> sun8i_a83t_mipi_csi2_resources_cleanup() because no explicit phy_init()
+> call is performed.
+>=20
+> The same code is in sun6i-mipi-csi2/sun6i_mipi_csi2.c, but in this driver
+> phy_init() IS called.
+>=20
+> I leave it as-is because I don't if it is an issue or not.
+> My feeling is that it is a copy'n'paste error and that it should be
+> removed.
+> ---
+>  .../sun8i_a83t_mipi_csi2.c                    | 21 ++++++++++++++-----
+>  1 file changed, 16 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index d052ee77ef0a..67c7475d5d10 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -719,13 +719,15 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a=
+83t_mipi_csi2_device *csi2_de
+>  	csi2_dev->clock_mipi =3D devm_clk_get(dev, "mipi");
+>  	if (IS_ERR(csi2_dev->clock_mipi)) {
+>  		dev_err(dev, "failed to acquire mipi clock\n");
+> -		return PTR_ERR(csi2_dev->clock_mipi);
+> +		ret =3D PTR_ERR(csi2_dev->clock_mipi);
+> +		goto err_put_clk_rate;
+>  	}
+> =20
+>  	csi2_dev->clock_misc =3D devm_clk_get(dev, "misc");
+>  	if (IS_ERR(csi2_dev->clock_misc)) {
+>  		dev_err(dev, "failed to acquire misc clock\n");
+> -		return PTR_ERR(csi2_dev->clock_misc);
+> +		ret =3D PTR_ERR(csi2_dev->clock_misc);
+> +		goto err_put_clk_rate;
+>  	}
+> =20
+>  	/* Reset */
+> @@ -733,7 +735,8 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83=
+t_mipi_csi2_device *csi2_de
+>  	csi2_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
+>  	if (IS_ERR(csi2_dev->reset)) {
+>  		dev_err(dev, "failed to get reset controller\n");
+> -		return PTR_ERR(csi2_dev->reset);
+> +		ret =3D PTR_ERR(csi2_dev->reset);
+> +		goto err_put_clk_rate;
+>  	}
+> =20
+>  	/* D-PHY */
+> @@ -741,7 +744,7 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a83=
+t_mipi_csi2_device *csi2_de
+>  	ret =3D sun8i_a83t_dphy_register(csi2_dev);
+>  	if (ret) {
+>  		dev_err(dev, "failed to initialize MIPI D-PHY\n");
+> -		return ret;
+> +		goto err_put_clk_rate;
+>  	}
+> =20
+>  	/* Runtime PM */
+> @@ -749,6 +752,10 @@ sun8i_a83t_mipi_csi2_resources_setup(struct sun8i_a8=
+3t_mipi_csi2_device *csi2_de
+>  	pm_runtime_enable(dev);
+> =20
+>  	return 0;
+> +
+> +err_put_clk_rate:
+
+Please call this "error_clock_rate_exclusive",
+
+> +	clk_rate_exclusive_put(csi2_dev->clock_mod);
+
+and add a blank line here.
+
+> +	return ret;
+>  }
+> =20
+>  static void
+> @@ -778,9 +785,13 @@ static int sun8i_a83t_mipi_csi2_probe(struct platfor=
+m_device *platform_dev)
+> =20
+>  	ret =3D sun8i_a83t_mipi_csi2_bridge_setup(csi2_dev);
+>  	if (ret)
+> -		return ret;
+> +		goto err_cleanup_resources;
+> =20
+>  	return 0;
+> +
+> +err_cleanup_resources:
+
+Please call this "error_resources",
+
+> +	sun8i_a83t_mipi_csi2_resources_cleanup(csi2_dev);
+
+and add a blank line here.
+
+Thanks!
+
+Paul
+
+> +	return ret;
+>  }
+> =20
+>  static int sun8i_a83t_mipi_csi2_remove(struct platform_device *platform_=
+dev)
+> --=20
+> 2.34.1
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--hqu9GGmQSmzk8QQV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLtJNQACgkQ3cLmz3+f
+v9EKVgf/eJBH4biR6Ppa4WNEg0C3+uaXI4M06qGKmX8fWvyljWZ6L9Q7WoDOt0+P
+lM5SJdnMNd/dDUzm2JZ/U6R+ojz6tmWM4VhEAFQG/VfiTIh0nqFkuqRXcOBL9MSG
+S8ekLSy0MpnVwxP4kWRu6VLAjemciTixmBPLSpxT87+a2kWxRd5AsU7e02y1MkhZ
+eRK1BzErjvpkC2YpoQs+GPWf83Fblns9iDu12Rm4VH8q56WOJ7Rcg6CqIoskQDU7
+ia2fR8anMC0vkA1YCvI4L6MsJhgVWm7hLR1iZN8xGzyUEEwPPPrKmKAWppdQZvCV
+b5c3wioSX4p/hpZ5Ppb+MLZnfQmjwA==
+=dnOM
+-----END PGP SIGNATURE-----
+
+--hqu9GGmQSmzk8QQV--
