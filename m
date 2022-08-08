@@ -1,174 +1,77 @@
-Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6032710E0
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Aug 2022 14:18:27 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-	by mslow1.mail.gandi.net (Postfix) with ESMTP id 80049CB5BF
-	for <linux-sunxi@lists.linux.dev>; Fri,  5 Aug 2022 14:11:52 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 1EE0CFF805;
-	Fri,  5 Aug 2022 14:11:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1659708704;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u2noyRzn5oYWYwmIMBH9uFDA4P12nprNL0SehkpX2g0=;
-	b=ls6MZAjPDMN8Jaa8rk8L36zOyS6t+bADzZqUNsQF2WBt+1H+uZ7ZxFZkTbfDLUznKDwKut
-	tbZR3QCTXZJJTq7kab77a0zsEtW1xOJU5jEO5wR5+TC8I9V+MTzQC38eAQzqiy/vcVNO0h
-	jwvjEOxCWjfP13j2ykihmJ0bLP77e3myOZYEvV7kODe/sRWFhYcoE6ET4WIk9jQGmA92Xw
-	UKRbkIklzNOccHmLFCg/bloroIkuWAfMXu/LA7vtHC7EgKHzd7uKBKMvwesNO2PFhzAhqu
-	CD2ces9mAXDxVX+g08PXyVpyERBCt3+hdOTcAjNigtGOrwk9pkH552unpeI0Kg==
-Date: Fri, 5 Aug 2022 16:11:41 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC607A
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Aug 2022 01:33:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95310C433D6;
+	Mon,  8 Aug 2022 01:33:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1659922395;
+	bh=rwkTHpB1djJ8Tb2+9cwpD8csB2WM2/iWjGaLWOtDMeQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Xrdh5vTUyLVz2Z+NMNbXG1ahXRA1VnDfDF3xFFtHofO0fjHZtoGAtZhGyYVa1kkdQ
+	 UIj2iQwuPuDd+QkkHJuFGtvT9ixMieR8DtOO2PRWY/VDNOv1WAhW9tNCPM/MW4rKqf
+	 Ht2XzCSd1mB4gT8oRwIp3g8NaNQ6DNLSujI/o2zcrwS6LaqaN5ZRN8oRjsRMBze6M4
+	 Vq0UcoqWqk6TUyC5S2RvGZKqcQBbXvrudTwGRLqQ48CxVytIupVzj8wQ6QoGB7a12r
+	 Kf3EZwIcmdxG8YmQznYP8EVywSlLNKVI9Aq0TIAwN77MSFDwTiW4C3llt8uDRlO2W1
+	 y1k+AtuyE0jcA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Samuel Holland <samuel@sholland.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Maxime Ripard <mripard@kernel.org>, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 2/2] media: sunxi: Fix some error handling path of
- sun6i_mipi_csi2_probe()
-Message-ID: <Yu0lHcp63DwF0DBI@aptenodytes>
-References: <62c0aef8d3b86d8f290bf6787f1b2b41efbb0b55.1659295329.git.christophe.jaillet@wanadoo.fr>
- <9999a30560d0ab8201734cbab0483c6f840402da.1659295329.git.christophe.jaillet@wanadoo.fr>
+	Sasha Levin <sashal@kernel.org>,
+	robh+dt@kernel.org,
+	krzysztof.kozlowski+dt@linaro.org,
+	wens@csie.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH AUTOSEL 5.19 45/58] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
+Date: Sun,  7 Aug 2022 21:31:03 -0400
+Message-Id: <20220808013118.313965-45-sashal@kernel.org>
+X-Mailer: git-send-email 2.35.1
+In-Reply-To: <20220808013118.313965-1-sashal@kernel.org>
+References: <20220808013118.313965-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="6hGXz6ToMr4OxfZM"
-Content-Disposition: inline
-In-Reply-To: <9999a30560d0ab8201734cbab0483c6f840402da.1659295329.git.christophe.jaillet@wanadoo.fr>
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 
+From: Samuel Holland <samuel@sholland.org>
 
---6hGXz6ToMr4OxfZM
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[ Upstream commit b8eb2df19fbf97aa1e950cf491232c2e3bef8357 ]
 
-Hi Christophe,
+"status" does not match any pattern in the gpio-leds binding. Rename the
+node to the preferred pattern. This fixes a `make dtbs_check` error.
 
-On Sun 31 Jul 22, 21:22, Christophe JAILLET wrote:
-> Release some resources in the error handling path of the probe and of
-> sun6i_mipi_csi2_resources_setup(), as already done in the remove
-> function.
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Link: https://lore.kernel.org/r/20220702132816.46456-1-samuel@sholland.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks again, my comments are the same as in the other patch!
+diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+index c519d9fa6967..3d2c68d58f49 100644
+--- a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
++++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
+@@ -40,7 +40,7 @@ hdmi_con_in: endpoint {
+ 	leds {
+ 		compatible = "gpio-leds";
+ 
+-		status {
++		led-0 {
+ 			label = "orangepi:green:status";
+ 			gpios = <&pio 7 11 GPIO_ACTIVE_HIGH>; /* PH11 */
+ 		};
+-- 
+2.35.1
 
-> Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2 co=
-ntroller")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c    | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2=
-=2Ec b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> index a4e3f9a6b2ff..1ee8501e25f6 100644
-> --- a/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> +++ b/drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
-> @@ -661,7 +661,8 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_csi=
-2_device *csi2_dev,
->  	csi2_dev->reset =3D devm_reset_control_get_shared(dev, NULL);
->  	if (IS_ERR(csi2_dev->reset)) {
->  		dev_err(dev, "failed to get reset controller\n");
-> -		return PTR_ERR(csi2_dev->reset);
-> +		ret =3D PTR_ERR(csi2_dev->reset);
-> +		goto err_put_clk_rate;
->  	}
-> =20
->  	/* D-PHY */
-> @@ -669,13 +670,14 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_c=
-si2_device *csi2_dev,
->  	csi2_dev->dphy =3D devm_phy_get(dev, "dphy");
->  	if (IS_ERR(csi2_dev->dphy)) {
->  		dev_err(dev, "failed to get MIPI D-PHY\n");
-> -		return PTR_ERR(csi2_dev->dphy);
-> +		ret =3D PTR_ERR(csi2_dev->dphy);
-> +		goto err_put_clk_rate;
->  	}
-> =20
->  	ret =3D phy_init(csi2_dev->dphy);
->  	if (ret) {
->  		dev_err(dev, "failed to initialize MIPI D-PHY\n");
-> -		return ret;
-> +		goto err_put_clk_rate;
->  	}
-> =20
->  	/* Runtime PM */
-> @@ -683,6 +685,10 @@ sun6i_mipi_csi2_resources_setup(struct sun6i_mipi_cs=
-i2_device *csi2_dev,
->  	pm_runtime_enable(dev);
-> =20
->  	return 0;
-> +
-> +err_put_clk_rate:
-
-Please call this "error_clock_rate_exclusive",
-
-> +	clk_rate_exclusive_put(csi2_dev->clock_mod);
-
-and add a blank line here.
-
-> +	return ret;
->  }
-> =20
->  static void
-> @@ -712,9 +718,13 @@ static int sun6i_mipi_csi2_probe(struct platform_dev=
-ice *platform_dev)
-> =20
->  	ret =3D sun6i_mipi_csi2_bridge_setup(csi2_dev);
->  	if (ret)
-> -		return ret;
-> +		goto err_cleanup_resources;
-> =20
->  	return 0;
-> +
-> +err_cleanup_resources:
-
-Please call this "error_resources",
-
-> +	sun6i_mipi_csi2_resources_cleanup(csi2_dev);
-
-and add a blank line here.
-
-Thanks,
-
-Paul
-
-> +	return ret;
->  }
-> =20
->  static int sun6i_mipi_csi2_remove(struct platform_device *platform_dev)
-> --=20
-> 2.34.1
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---6hGXz6ToMr4OxfZM
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmLtJR0ACgkQ3cLmz3+f
-v9HtuAgAjbJFqp2zBhPvBdeCo2uWchkhpw5Kne+JeEllzzEEjA82pkxkJA+Ir6kY
-CFHskoQgJTwR48dcvxEVXfKeFuhUxIsqWPn/ip+E2OnSeYx20VtceL1YwTEF/zCN
-Gd/tvy4nlAgkGxUpifiXVeoQb/FIJFb87UO+btc/le3xo903O8vJ6mMFUP2nR+3w
-rQDf2lc9t6LZldJVGm2fB7mht6KRIu8ytw4ym291tn1dKNlfzpZDr+nsMl6lqfzM
-FeVSgMc7tiZy+/jYMI1vpXnGirgsjUB3qsW0im1zpcR8LGjDRTaDHx6EvXn4DF1f
-Dm2Ak2aYs6juTAHdxVOJ4aUJyLIGJQ==
-=xPvq
------END PGP SIGNATURE-----
-
---6hGXz6ToMr4OxfZM--
