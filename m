@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F937A
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Aug 2022 01:35:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29147C433D7;
-	Mon,  8 Aug 2022 01:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F094A7A
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Aug 2022 01:37:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7122FC4347C;
+	Mon,  8 Aug 2022 01:37:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659922529;
-	bh=rwkTHpB1djJ8Tb2+9cwpD8csB2WM2/iWjGaLWOtDMeQ=;
+	s=k20201202; t=1659922638;
+	bh=CRl5thBS3ZKwFT58v02G+ypacOiiUGNgiHmYuAwki8E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sFckeHz+HYeAe/xhle972rwUDuanl/5yzdFsovd21EH6MCBeMAREpo2NeUBAxKo02
-	 iHjUC6oeFANtuIGaYHo2wXFoObtiC4SQg6cU/qyxShHla5FTzZgjIlOoX+WPZPz+0U
-	 9d0OLD8bHAIDxD3BvZWLWQNOTcIJSXq47e/dGsfwGQrxgkG49VB1ACoyadlyDJ6sZ2
-	 nWA9T9uXZL+m/+gqImA9CApKKUoivAW10jZf5rHNXYhmMfPaTHr03/G+cfNEftFTga
-	 bBJqAWaT0jQTfwp6DqtklW/hcg0pru6PVPv1ImMndUTbdl4Pzxu3/jTkBuIB9gNE7I
-	 Y5W9/XFIGJXsA==
+	b=D+mjygdB5IXRF79KhoNObHGgIGRGuFctlD8ztKWWKwfh5G8lbfg+/IFkLMoXo3ZBs
+	 0wL98Q4HYZ5qKkp9WeTPRpBO+lVmuMMCsxjxyaWRZXtnx8Tc4R6Z7d88pEiIKi53aU
+	 y1qPwLdB8jWqMfLlJLKWg2uymoBsk2kF9+5x2b4cswrbxhdaF0i0mkjPc0STZPJXXu
+	 o63ykdFRpbnNmPUhvVhX1Gr/zkCkfg/EqEzSI6HTqx8GB8rpEZcKoP543cdqxS9QOa
+	 IWcV4O+KOWxJky1e8VZU1JJZwC4GoiAKZ9DUzKEoPrm7wnQNEL+SN2SEIGj/49BDS4
+	 IdTKmk7qbmQDQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -27,12 +27,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.18 43/53] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
-Date: Sun,  7 Aug 2022 21:33:38 -0400
-Message-Id: <20220808013350.314757-43-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 36/45] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
+Date: Sun,  7 Aug 2022 21:35:40 -0400
+Message-Id: <20220808013551.315446-36-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013350.314757-1-sashal@kernel.org>
-References: <20220808013350.314757-1-sashal@kernel.org>
+In-Reply-To: <20220808013551.315446-1-sashal@kernel.org>
+References: <20220808013551.315446-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,7 +60,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
-index c519d9fa6967..3d2c68d58f49 100644
+index 097a5511523a..09eee653d5ca 100644
 --- a/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
 +++ b/arch/arm64/boot/dts/allwinner/sun50i-a64-orangepi-win.dts
 @@ -40,7 +40,7 @@ hdmi_con_in: endpoint {
