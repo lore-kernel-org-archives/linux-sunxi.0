@@ -1,20 +1,20 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC607A
-	for <linux-sunxi@lists.linux.dev>; Mon,  8 Aug 2022 01:33:15 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95310C433D6;
-	Mon,  8 Aug 2022 01:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F937A
+	for <linux-sunxi@lists.linux.dev>; Mon,  8 Aug 2022 01:35:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29147C433D7;
+	Mon,  8 Aug 2022 01:35:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1659922395;
+	s=k20201202; t=1659922529;
 	bh=rwkTHpB1djJ8Tb2+9cwpD8csB2WM2/iWjGaLWOtDMeQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Xrdh5vTUyLVz2Z+NMNbXG1ahXRA1VnDfDF3xFFtHofO0fjHZtoGAtZhGyYVa1kkdQ
-	 UIj2iQwuPuDd+QkkHJuFGtvT9ixMieR8DtOO2PRWY/VDNOv1WAhW9tNCPM/MW4rKqf
-	 Ht2XzCSd1mB4gT8oRwIp3g8NaNQ6DNLSujI/o2zcrwS6LaqaN5ZRN8oRjsRMBze6M4
-	 Vq0UcoqWqk6TUyC5S2RvGZKqcQBbXvrudTwGRLqQ48CxVytIupVzj8wQ6QoGB7a12r
-	 Kf3EZwIcmdxG8YmQznYP8EVywSlLNKVI9Aq0TIAwN77MSFDwTiW4C3llt8uDRlO2W1
-	 y1k+AtuyE0jcA==
+	b=sFckeHz+HYeAe/xhle972rwUDuanl/5yzdFsovd21EH6MCBeMAREpo2NeUBAxKo02
+	 iHjUC6oeFANtuIGaYHo2wXFoObtiC4SQg6cU/qyxShHla5FTzZgjIlOoX+WPZPz+0U
+	 9d0OLD8bHAIDxD3BvZWLWQNOTcIJSXq47e/dGsfwGQrxgkG49VB1ACoyadlyDJ6sZ2
+	 nWA9T9uXZL+m/+gqImA9CApKKUoivAW10jZf5rHNXYhmMfPaTHr03/G+cfNEftFTga
+	 bBJqAWaT0jQTfwp6DqtklW/hcg0pru6PVPv1ImMndUTbdl4Pzxu3/jTkBuIB9gNE7I
+	 Y5W9/XFIGJXsA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -27,12 +27,12 @@ Cc: Samuel Holland <samuel@sholland.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH AUTOSEL 5.19 45/58] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
-Date: Sun,  7 Aug 2022 21:31:03 -0400
-Message-Id: <20220808013118.313965-45-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.18 43/53] arm64: dts: allwinner: a64: orangepi-win: Fix LED node name
+Date: Sun,  7 Aug 2022 21:33:38 -0400
+Message-Id: <20220808013350.314757-43-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220808013118.313965-1-sashal@kernel.org>
-References: <20220808013118.313965-1-sashal@kernel.org>
+In-Reply-To: <20220808013350.314757-1-sashal@kernel.org>
+References: <20220808013350.314757-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
