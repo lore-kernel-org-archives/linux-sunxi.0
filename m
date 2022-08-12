@@ -1,139 +1,133 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10621368
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 12:22:35 +0000 (UTC)
-Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id 8730DC0010;
-	Fri, 12 Aug 2022 12:22:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1660306947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=24bKiqU55JXRuVlkYegpaqJ9og5C48IeVZvaeDQry2M=;
-	b=Hv0YvjVZadPNGue6A/WQsAZQfBtEXiAYedGoDH36AbycZTxH5OSk9lJrz+Uvt9lB7o3lik
-	9sJOQAsAKAScXMgOQti3u4SzvK14cOpXcc4kcYEeuP3XD2YmJGMbSX2nv0G3yi0WkznDpV
-	iOJL+vI3nvGck2HkVtkVJzgeQvZsGMX+3Nj3/eSXP4bni36Dc09smaOrJX2b/2QKysJRLe
-	Mkd56fjrYzCDdjs/LFm2NWGpjENLmNLCVCKpE3WRCqfQplFa8fNyOXlhxgCoTFjKMyTUcb
-	5xDL/VkuoiVPwi24eEhcsogqCvsrIGs1mVzuQNEgx6hjliHgr5hE6i19jN5OfQ==
-Date: Fri, 12 Aug 2022 14:22:24 +0200
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
- property
-Message-ID: <YvZGAEM4B8SdDjwJ@aptenodytes>
-References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-2-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333D71371
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 13:19:14 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id v27so712981qkj.8
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:19:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=3HLPBVRse5OcNJxEM0wXkaB5QH7QwzyC6KEnOhyPoPY=;
+        b=6m2J26ZVQnObuzBkAMeOjDgh3YIHz1B+h/n5dnPhUTaaS3OMNSU8VkGS9nN1M/RYfp
+         SicOGDOA8rKyaZB2Ye1KtSOda/S2epaI4xSyhyJpyJdE+AlfS2ksY3n/rxZfyk1pC+lN
+         q+gycixmWIr9Xu5lLHs16BJ7M0d4DAcnrs4V0s5XUwp/SOcA5Ys8P9ys+sn0PTS/N+V4
+         KwbxmFQsCDuKQeUax9ah1NT7dpH3Jrg42qkKeQeCXEBDFcaFFbYDZOGwxZbJQQJfTKSm
+         cSZoFNfwoAYFhoQ3lghCtluOv4ITy3d08GHEWNsyf4yNeEcR//pv8XEDMBUwDvb4CNT+
+         JH1w==
+X-Gm-Message-State: ACgBeo1REk5jKbCk/T18KE1O1n99CwfbD/aWMH4H/4kRAjvJjgSi8EXs
+	knRPULVEbJi9hcDTlMBAWwhHVyP9LNAkHg==
+X-Google-Smtp-Source: AA6agR44EYAUNAu3KwLAD/ZOvLiNnsJvvDFjP98eCe5fORopSdHV81u2GtfyYDDdrIij9SBE/UwcjA==
+X-Received: by 2002:a05:620a:228b:b0:6b9:593e:2f29 with SMTP id o11-20020a05620a228b00b006b9593e2f29mr2725277qkh.678.1660310352802;
+        Fri, 12 Aug 2022 06:19:12 -0700 (PDT)
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
+        by smtp.gmail.com with ESMTPSA id t201-20020a37aad2000000b006b9264191b5sm1876136qke.32.2022.08.12.06.19.10
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Aug 2022 06:19:11 -0700 (PDT)
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-328a1cff250so9621207b3.6
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:19:10 -0700 (PDT)
+X-Received: by 2002:a81:1204:0:b0:322:7000:4ecb with SMTP id
+ 4-20020a811204000000b0032270004ecbmr3771794yws.47.1660310350262; Fri, 12 Aug
+ 2022 06:19:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="KjPeSdJ+GXZUw4K/"
-Content-Disposition: inline
-In-Reply-To: <20220812075603.59375-2-samuel@sholland.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech> <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 12 Aug 2022 15:18:58 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+Message-ID: <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	Maxime Ripard <mripard@kernel.org>, linux-sunxi@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Maxime,
 
---KjPeSdJ+GXZUw4K/
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your patch!
 
-Hi Samuel,
+On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
+> modes in the drivers.
 
-On Fri 12 Aug 22, 02:55, Samuel Holland wrote:
-> The sun6i DPHY can generate several interrupts, mostly for reporting
-> error conditions, but also for detecting BTA and UPLS sequences.
-> Document this capability in order to accurately describe the hardware.
->=20
-> The DPHY has no interrupt number provided in the vendor documentation
-> because its interrupt line is shared with the DSI controller.
+Nit: strictly speaking these are not analog modes, but the digital
+variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
+13.5 MHz sampling frequency for pixels.
 
-Interesting! I do see DPHY_INT_EN*/PD* in the Allwinner BSP's
-drivers/media/video/sunxi-vfe/mipi_csi/dphy/dphy_reg_i.h
+In analog modes, the only discrete values are the number of lines, and
+the frame/field rate (fixing the horizontal sync rate when combined).
 
-Maybe it would be useful to import the fields in the driver so that the
-next person who'll try to debug DSI can use them directly?
+The number of (in)visible pixels per line depends on the available
+bandwidth.  In a digital variant (which is anything generated by a
+digital computer system), the latter depends on the pixel clock, which
+can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
+Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
 
-You might also want to submit a patch as [PATCH NOT FOR MERGE] that
-adds an interrupt routine and some useful debugging.
+So I think we probably need some way to generate a PAL/NTSC-compatible
+mode based not only on resolution, but also on pixel clock.
 
-Do you think this is also available without a DSI controller?
-I could just give it a try on V3/A83t here and find out :)
+>
+> Since those modes are fairly standards, and that we'll need to use them in
+> more places in the future, let's move the meson definition into the
+> framework.
+>
+> The meson one was chosen because vc4's isn't accurate and doesn't amount to
+> 525 and 625 lines.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Cheers,
-
-Paul
-
-> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a sc=
-hema")
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
->  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml           | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
-pi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
-pi-dphy.yaml
-> index 22636c9fdab8..cf49bd99b3e2 100644
-> --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
-=2Eyaml
-> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
-=2Eyaml
-> @@ -24,6 +24,9 @@ properties:
->    reg:
->      maxItems: 1
-> =20
-> +  interrupts:
-> +    maxItems: 1
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -48,6 +48,24 @@
+>
+>  #include "drm_crtc_internal.h"
+>
+> +const struct drm_display_mode drm_mode_480i = {
+> +       DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
+> +                720, 739, 801, 858, 0,
+> +                480, 488, 494, 525, 0,
+> +                DRM_MODE_FLAG_INTERLACE),
+> +       .picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
+> +};
+> +EXPORT_SYMBOL_GPL(drm_mode_480i);
 > +
->    clocks:
->      items:
->        - description: Bus Clock
-> @@ -53,6 +56,7 @@ required:
->    - "#phy-cells"
->    - compatible
->    - reg
-> +  - interrupts
->    - clocks
->    - clock-names
->    - resets
-> --=20
-> 2.35.1
->=20
+> +const struct drm_display_mode drm_mode_576i = {
+> +       DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
+> +                720, 732, 795, 864, 0,
+> +                576, 580, 586, 625, 0,
+> +                DRM_MODE_FLAG_INTERLACE),
+> +       .picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
+> +};
+> +EXPORT_SYMBOL_GPL(drm_mode_576i);
+> +
+>  /**
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Gr{oetje,eeting}s,
 
---KjPeSdJ+GXZUw4K/
-Content-Type: application/pgp-signature; name="signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmL2RgAACgkQ3cLmz3+f
-v9EJmAf/RUjmCJrqT+VVsenrzACFjYYacE4PB9OUct0QvopV8HTeQ4cpP5PxQ7Hq
-Z7EDMun2tudD2q3tgqtIMRIjtikuL/VYQuBh+rCTEdxj+BUsRVFU6bXR3/CH4gp8
-dJcZuMc3pXWDq74sLz5JscdEaUAGTUJqqkl5TsSR/Kt0BVEKP7sHTg1xEVfJ0N6K
-OPP5oxJYMR3WSEiPpN7Vy3jeCpijm8hJJTHrbY6un7PfddvTXiBm0AU02RJ1PD2+
-nJwVDo+AO+E8WJsKoa+5BWCCPF+it7dVcyPLZszuYxYGC0B5+Yv+hjOeBw/Ouggf
-vuufwYdETc2xCdlsjvAp90wcwj1F0g==
-=A0Yv
------END PGP SIGNATURE-----
-
---KjPeSdJ+GXZUw4K/--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
