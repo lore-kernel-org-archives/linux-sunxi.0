@@ -1,151 +1,132 @@
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5EDF645
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 10:49:26 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id v2so830831lfi.6
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 03:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=UJnFvf2CipkkOM+lYgM36L0ZtmP7Hx57QaN536b3YCw=;
-        b=GOKMFNg1REVIwFrExYqDnxeUxvmN6E6p1tHUohNkXRce3yIDW9omFNKeKDn50YdSj7
-         jR+iLaL7K7o1v1j+HwmvXdLnGwH/Z4n7sra00irgT2f7Wk4Bv28PT1fqBGO0XV2WQSRH
-         FtIqjm63bbe8hZEAVGKm+hELlLOmxMqxInFpYj27Ap1mRoWRDVEvzIbAM9fCd8njNmYw
-         ZLy1OQXmqj9WtiJM2UEdbgb+9QJJGrhPewkdoh7QsIclb1Ip0jSPzjdZ7z3fSmGF4Aq1
-         syIo5izG7Mk7/uh40LPecqsMusRl25/M2WVcFcl+iVulYvxUi9jx4q5FEjRLv/M8fs0G
-         Z5Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=UJnFvf2CipkkOM+lYgM36L0ZtmP7Hx57QaN536b3YCw=;
-        b=d7m+yFdmubQofUSUlLOVsbz0gjsLnPXu99ccfwKj3wCtqFI6NjOs7GGSv9QTN/I5WP
-         3oDoIqBu6kK/Lqfh6HYP8F1C7LNaQeU29vilYclHWy8yx52JBqQzmNg83hN8HvVPdJIR
-         9OeMSnfEEFgdNFf1H0UeVmB4uf3xMxWJGn5qR/N3v9vCOAAUgJDFzLPrsftCHOJUfq2a
-         8yzzS+4XVumicWTcrmXxVDxOqC7cF3y0UaG9rgXjYbcMX62Fjl4MIFBZOP+oFmL7xo4X
-         jL5mXL7FUVRHcj/Qf/RlEsKetkqTIgZmufTrRC9ku9JXXOPejsnltb/XHzRanix0vc0z
-         xRZA==
-X-Gm-Message-State: ACgBeo1FvoNu8WRT/5HwvBZrxLUcEqfgIots4Or2apAwS0zzHQvqaA11
-	dJdjlz/TgzizSsW0lOLI72GGhQ==
-X-Google-Smtp-Source: AA6agR5b1udKMfU6HMSFMRaqG2/gb4fi6eYQzjti5Wtvya5ucwIJC/D1/rchFHsRLMSOw7dMOtSjPw==
-X-Received: by 2002:ac2:5cc6:0:b0:48a:f879:f6ef with SMTP id f6-20020ac25cc6000000b0048af879f6efmr1018055lfq.347.1660301364948;
-        Fri, 12 Aug 2022 03:49:24 -0700 (PDT)
-Received: from [192.168.1.39] ([83.146.140.105])
-        by smtp.gmail.com with ESMTPSA id p8-20020ac24ec8000000b0048b29b13d22sm166371lfr.299.2022.08.12.03.49.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Aug 2022 03:49:24 -0700 (PDT)
-Message-ID: <13fcaa01-d2c0-e57f-bedc-b2e0536a55f9@linaro.org>
-Date: Fri, 12 Aug 2022 13:49:19 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A31368
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 12:03:49 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+	by mail.gandi.net (Postfix) with ESMTPSA id E503BFF80A;
+	Fri, 12 Aug 2022 12:03:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1660305821;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xJDSkuzgeV8CqTp6TkfD/obtXLV+oEiR4ZcU8k4v+ek=;
+	b=NPJ7eC0zKp7U4oyJ4vf8ZxTJ0Je4iWxUBdKluIPWfjmqXkLsTFUv2FUqvOhOH8XVp8Onf6
+	OGGltD1A9dvIegtAfnTODq70SwsvzOx/X15+IU76jR5+59z8+9kUXLMPCV2BFylPVPpzd7
+	L0I+b5LEibDiTHpT44wEnE/IMvRbkN8YW8ZbbpvS8UsgD+zVHLV0P7wqmA0h+JLmfTEixd
+	JoSFfrxBh1Ybi4jL0J7S1DctX7N8DKlGS4NaxOLECRqAYbar5NBp7Sdj9nN6hRUj8bFfhd
+	9JgZDpuyT1/YMwpiun5Nk2ZQN1nV7f7gei2qeR8JBIKx2Sc2iWnrw4/FUK7xZQ==
+Date: Fri, 12 Aug 2022 14:03:37 +0200
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 6/8] phy: allwinner: phy-sun6i-mipi-dphy: Set enable bit
+ last
+Message-ID: <YvZBmZ+SfrJuAzAs@aptenodytes>
+References: <20220812075603.59375-1-samuel@sholland.org>
+ <20220812075603.59375-7-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 2/4] dt-bindings: display: sun6i-dsi: Add the A100 variant
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220812074257.58254-1-samuel@sholland.org>
- <20220812074257.58254-3-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220812074257.58254-3-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="cZWc4gSUKHi2eZD5"
+Content-Disposition: inline
+In-Reply-To: <20220812075603.59375-7-samuel@sholland.org>
 
-On 12/08/2022 10:42, Samuel Holland wrote:
-> The "40nm" MIPI DSI controller found in the A100 and D1 SoCs has the
-> same register layout as previous SoC integrations. However, its module
-> clock now comes from the TCON, which means it no longer runs at a fixed
-> rate, so this needs to be distinguished in the driver.
-> 
-> The controller also now uses pins on Port D instead of dedicated pins,
-> so it drops the separate power domain.
-> 
+
+--cZWc4gSUKHi2eZD5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Samuel,
+
+On Fri 12 Aug 22, 02:56, Samuel Holland wrote:
+> The A100 variant of the DPHY requires configuring the analog registers
+> before setting the global enable bit. Since this order also works on the
+> other variants, always use it, to minimize the differences between them.
+
+Did you get a chance to actually test this with either DSI/CSI-2 hardware?
+I vaguely remember that the order mattered. Do you have an idea of what the
+Allwinner BSP does too?
+
+Otherwise I could give it a try, at least with my MIPI CSI-2 setup
+that uses the driver.
+
+Cheers,
+
+Pau
+
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
-> Removal of the vcc-dsi-supply is maybe a bit questionable. Since there
-> is no "VCC-DSI" pin anymore, it's not obvious which pin actually does
-> power the DSI controller/PHY. Possibly power comes from VCC-PD or VCC-IO
-> or VCC-LVDS. So far, all boards have all of these as always-on supplies,
-> so it is hard to test.
-> 
->  .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 +++++++++++++++----
->  1 file changed, 23 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> index ae55ef3fb1fe..c53c25b87bd4 100644
-> --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
-> @@ -12,9 +12,14 @@ maintainers:
->  
->  properties:
->    compatible:
-> -    enum:
-> -      - allwinner,sun6i-a31-mipi-dsi
-> -      - allwinner,sun50i-a64-mipi-dsi
-> +    oneOf:
-> +      - enum:
-> +          - allwinner,sun6i-a31-mipi-dsi
-> +          - allwinner,sun50i-a64-mipi-dsi
-> +          - allwinner,sun50i-a100-mipi-dsi
+>=20
+>  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/al=
+lwinner/phy-sun6i-mipi-dphy.c
+> index 625c6e1e9990..9698d68d0db7 100644
+> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+> @@ -183,10 +183,6 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy =
+*dphy)
+>  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA0(3) |
+>  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA1(3));
+> =20
+> -	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
+> -		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
+> -		     SUN6I_DPHY_GCTL_EN);
+> -
+>  	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
+>  		     SUN6I_DPHY_ANA0_REG_PWS |
+>  		     SUN6I_DPHY_ANA0_REG_DMPC |
+> @@ -244,6 +240,10 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy =
+*dphy)
+>  			   SUN6I_DPHY_ANA2_EN_P2S_CPU_MASK,
+>  			   SUN6I_DPHY_ANA2_EN_P2S_CPU(lanes_mask));
+> =20
+> +	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
+> +		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
+> +		     SUN6I_DPHY_GCTL_EN);
+> +
+>  	return 0;
+>  }
+> =20
+> --=20
+> 2.35.1
+>=20
 
-While you are moving code, how about bringing alphabetical order?
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-> +      - items:
-> +          - const: allwinner,sun20i-d1-mipi-dsi
-> +          - const: allwinner,sun50i-a100-mipi-dsi
->  
->    reg:
->      maxItems: 1
-> @@ -59,7 +64,6 @@ required:
->    - phys
->    - phy-names
->    - resets
-> -  - vcc-dsi-supply
->    - port
->  
->  allOf:
-> @@ -68,7 +72,9 @@ allOf:
->        properties:
->          compatible:
->            contains:
-> -            const: allwinner,sun6i-a31-mipi-dsi
-> +            enum:
-> +              - allwinner,sun6i-a31-mipi-dsi
-> +              - allwinner,sun50i-a100-mipi-dsi
+--cZWc4gSUKHi2eZD5
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Here as well
+-----BEGIN PGP SIGNATURE-----
 
->  
->      then:
->        properties:
-> @@ -83,6 +89,18 @@ allOf:
->          clocks:
->            maxItems: 1
->  
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - allwinner,sun6i-a31-mipi-dsi
-> +              - allwinner,sun50i-a64-mipi-dsi
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmL2QZkACgkQ3cLmz3+f
+v9FGyQf+P9y9cIf8pj9y0dDk8rWiTtCyuoScQ7U+K4YYW1ai+/FUC1qkgnDnOcjw
+MLMI6hSgtI73b0JVFagBpmR2RuEhUnYLZzlmfKeA6+85XNe/7y873RpiDz+qonjj
+MhPjOgfUgriStjzBdtL/uLVZZ7nIEmz7aRA4XstW6LbSjcY38zqEKGxdDq5Phfbt
+dPK1i7nqSj8inGOrwr0Xky8movDO2Vp1+x+42RwX7YcgEX6haJLPUHLBkd5ccMFX
+//EI0XVoSnw01M2G8iUaR4Zn1FAUrDaBTDkMPhurRdLb8iIxf4RCfWvV96G/kZv1
+DpFCAGrSKoEKO9XZROsSggMoOSjC1g==
+=EDd0
+-----END PGP SIGNATURE-----
 
-and here
-
-
-Best regards,
-Krzysztof
+--cZWc4gSUKHi2eZD5--
