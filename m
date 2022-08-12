@@ -1,126 +1,88 @@
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70BD2626
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 08:00:52 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id 8939E5C0064;
-	Fri, 12 Aug 2022 04:00:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Fri, 12 Aug 2022 04:00:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1660291251; x=1660377651; bh=8ACGRm0dwGVoAVmIuINlfIamT
-	QCxuccBvGOj1vSpQxs=; b=wLvbqfvt6dUV1CYy9j1IYKCSz0dq6jwCyFzLdIvvY
-	CZZSGcTw3w9K8aHYY8uA2alIUDMXsSeFUr6k3fVFmQy/S0F8KeLe/fBunR9UcOpC
-	N2LCzzv4zs0VWPju8mR4Y1Ooi3R5LgJkcNYVv/Wkt5Z+6sTmZ2RgT00ZuXECWtGF
-	ZI7MZGTd8YAkqbvizAwPuPhXYZ1aGf0KN69jdYum73rxXKQW+JJLcEx5fh3w/LF+
-	l21oVObjq9gi+9cfEYw9L/gwoHbNwsSdwZDT/B1WN8gPZsA0h2Cv3FIEsLwxyK7G
-	DjUwCpdwaaEWk2AcrffWXF7O2MCJTAkDPQHPiTwAz9GkQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:message-id
-	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1660291251; x=1660377651; bh=8ACGRm0dwGVoAVmIuINlfIamTQCxuccBvGO
-	j1vSpQxs=; b=wxoSlat8ZO4yKvbQu7hCvPD+NdsMKmkvq4Tz8CBjMBdBfX8tNjr
-	Mxukx/yl07nfR/Tg0Sty6j8qevkLu4XtBEYnNAG62pUxyTNPgwG6YJwWdk8d/kpx
-	cxElSLAi1fFTJszkeGsLKh/wdwdkQk2IbyHDrXs+2d9R+KBVbSzySNwOAXWpb7CK
-	7jDXdBu46SQte/iuT0c84yjd+4p1lK1c0Sz6vhc3twuAQeUtNCThA2BbMvbEY2Rv
-	1mpMhK2l94sPmqA62IXgFo9FXN788yBXvRqkkVWZm0/Hg7xD8DVxWA4PbJ38CYwi
-	67ECugefkieeSvMhiHN1K8HNtNSfFW+isYQ==
-X-ME-Sender: <xms:swj2Yhz3RNKkmDIaHa5EA13S3R-VWB12euh8WEv_pI5t6EfNZFg6eg>
-    <xme:swj2YhR7JttJ0dIdlc1NSbdvIKXoOZs3EjSpGK5ReQmEgVMSkjSqXGFu3HEJhw6QH
-    zJ-kRGj-DnMrLOfIg>
-X-ME-Received: <xmr:swj2YrW3xqeGu-yIkfnP8x1lS7yQ6hngTYBjpSrj0CjEP6j1acdyRVvKvylRKCvC31Qe25BFEjK2jI_JuHsWNPS6eQAVlUZSQ0yW96rgrbP5WLnCAZc9SII_12x_NuuubrSR1Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
-    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
-    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
-    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
-    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:swj2YjhCaI6QScNxW-3I5v6-Cfh5HqQErFRrJ1WYAo0Hnl0iBJzwFQ>
-    <xmx:swj2YjBGxiX12Id0ux0xBNUF20fhE9VLW3NcCRJBvevXStfNfIdl7g>
-    <xmx:swj2YsKeoQ0F13qarPOhAKAL5n1qOmdPtzTsCAYki9pQ_6degQKY_Q>
-    <xmx:swj2YlDyNCnESDzoN5hJXTjdw4hwtolizpLCMF6UMGcZkT1LuOMkJQ>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 04:00:50 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] clk: sunxi-ng: d1: Limit PLL rates to stable ranges
-Date: Fri, 12 Aug 2022 03:00:49 -0500
-Message-Id: <20220812080050.59850-1-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272E0366
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 10:46:08 +0000 (UTC)
+Received: by mail-lj1-f171.google.com with SMTP id j3so598711ljo.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 03:46:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=HcymQXHxdtVOcEgBn0VssZp+OhA8MUztfXg3luej/30=;
+        b=KQyT9gkSS80tNswQCnw26mDxHyeZJq9+pzb2ka9Yzwn9zYkidpK61b6E9pz3isHsO0
+         +6TmO5PpQtw4Qm2WypxV4fdSEueXnoeAbgzQxtlee25FcWCBQYRN+4jd8QIKLsPi0czG
+         WLbpWCuvqMr2R/lW2afcZkC9f77xJpEq7FL0AxBKVVNyPSrs1zcLohk35ateRH6k0prb
+         +3T59aW2f1cm129xT+z5xk3wzHUO7AFzBzvFxjRqLefAxHTF3EdpjZ0gGa4GgCgVERul
+         uMyJjr8ytyBkO2bkXG/EXgcXMVTwsJIcoPS6T3YcjqZD1XIc6gGPcfaC5QaEWRc74fKS
+         yUKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=HcymQXHxdtVOcEgBn0VssZp+OhA8MUztfXg3luej/30=;
+        b=wR0Cin+K1pzaoh6L21NR4Ws34eBOsBaPUZ0B+Je5NA+mrIHbzRw3eTMuW8dzKq9uhU
+         0ZtWlb3q/lboyk2Tq0imw0ha9sTCcgOUClZ78Z4Fy0fmDY+eK00R9+CmJ/xVZxlVt2ge
+         goLkAaj7A3QNrAMT6ACNwpcXaEL4kx9idDKq5uHRS6Rr0fxrfPRYWDz39zUWvaYa4Y/x
+         2WdprRXCdaQ1h2zGDlHIzNaxX9aWRbMFmo23i3c/Msjm2Cw2SKvKX09eJaKDNbzC3Pzu
+         IGe4hoFXsAut6egO/5YecZESfuGHHis2+w509o6mcdN7gF1+U9i4vbPMHQ6eYhgh1R66
+         b8YA==
+X-Gm-Message-State: ACgBeo2GgAGAhXF+M5acQkp0M8Xhj1QFdv0nO1+3dvKr177oVDnHQqI/
+	GnRiAYJZBkntws5DxFutPw2bvg==
+X-Google-Smtp-Source: AA6agR6bi6AwFioTlQi1smxD8HeUMQmnbOqDkeVxg95idAlpnE1omPwD1bXNcdWThP0ZO5GBYtYk9A==
+X-Received: by 2002:a2e:9c8a:0:b0:25f:84fb:c98f with SMTP id x10-20020a2e9c8a000000b0025f84fbc98fmr1043315lji.478.1660301166150;
+        Fri, 12 Aug 2022 03:46:06 -0700 (PDT)
+Received: from [192.168.1.39] ([83.146.140.105])
+        by smtp.gmail.com with ESMTPSA id x9-20020a19f609000000b0048a9603399csm172667lfe.116.2022.08.12.03.46.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Aug 2022 03:46:05 -0700 (PDT)
+Message-ID: <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
+Date: Fri, 12 Aug 2022 13:45:56 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
+ property
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>,
+ Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Maxime Ripard <mripard@kernel.org>
+Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-sunxi@lists.linux.dev
+References: <20220812075603.59375-1-samuel@sholland.org>
+ <20220812075603.59375-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220812075603.59375-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Set the min/max rates for audio and video PLLs to keep them from going
-outside their documented stable ranges. Use the most restrictive of the
-"stable" and "actual" frequencies listed in the manual.
+On 12/08/2022 10:55, Samuel Holland wrote:
+> The sun6i DPHY can generate several interrupts, mostly for reporting
+> error conditions, but also for detecting BTA and UPLS sequences.
+> Document this capability in order to accurately describe the hardware.
+> 
+> The DPHY has no interrupt number provided in the vendor documentation
+> because its interrupt line is shared with the DSI controller.
+> 
+> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a schema")
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+I don't understand what is being fixed in that commit. That commit did
+not have interrupts in D-PHY, so what was broken by it?
 
- drivers/clk/sunxi-ng/ccu-sun20i-d1.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+The Fixes tag annotates the commit which introduced a bug.
 
-diff --git a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-index 51058ba4db4d..8ef3cdeb7962 100644
---- a/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-+++ b/drivers/clk/sunxi-ng/ccu-sun20i-d1.c
-@@ -104,6 +104,8 @@ static struct ccu_nm pll_video0_4x_clk = {
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-+	.min_rate	= 252000000U,
-+	.max_rate	= 2400000000U,
- 	.common		= {
- 		.reg		= 0x040,
- 		.hw.init	= CLK_HW_INIT_PARENTS_DATA("pll-video0-4x", osc24M,
-@@ -126,6 +128,8 @@ static struct ccu_nm pll_video1_4x_clk = {
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1), /* input divider */
-+	.min_rate	= 252000000U,
-+	.max_rate	= 2400000000U,
- 	.common		= {
- 		.reg		= 0x048,
- 		.hw.init	= CLK_HW_INIT_PARENTS_DATA("pll-video1-4x", osc24M,
-@@ -175,6 +179,8 @@ static struct ccu_nm pll_audio0_4x_clk = {
- 	.m		= _SUNXI_CCU_DIV(16, 6),
- 	.sdm		= _SUNXI_CCU_SDM(pll_audio0_sdm_table, BIT(24),
- 					 0x178, BIT(31)),
-+	.min_rate	= 180000000U,
-+	.max_rate	= 3000000000U,
- 	.common		= {
- 		.reg		= 0x078,
- 		.features	= CCU_FEATURE_SIGMA_DELTA_MOD,
-@@ -202,6 +208,8 @@ static struct ccu_nm pll_audio1_clk = {
- 	.lock		= BIT(28),
- 	.n		= _SUNXI_CCU_MULT_MIN(8, 8, 12),
- 	.m		= _SUNXI_CCU_DIV(1, 1),
-+	.min_rate	= 180000000U,
-+	.max_rate	= 3000000000U,
- 	.common		= {
- 		.reg		= 0x080,
- 		.hw.init	= CLK_HW_INIT_PARENTS_DATA("pll-audio1", osc24M,
--- 
-2.35.1
-
+Best regards,
+Krzysztof
