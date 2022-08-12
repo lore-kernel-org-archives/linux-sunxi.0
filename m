@@ -1,42 +1,42 @@
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E6D2F28
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 22:19:14 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 13666320090B;
-	Fri, 12 Aug 2022 18:19:11 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2FD136D
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 22:31:58 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 01C0F32008FB;
+	Fri, 12 Aug 2022 18:31:55 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 12 Aug 2022 18:19:13 -0400
+  by compute1.internal (MEProxy); Fri, 12 Aug 2022 18:31:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660342751; x=
-	1660429151; bh=NVr5DzIN9NKJQUZlYZVN75R1jb8BrZu1TnV/2szNqjE=; b=m
-	I5vUYZij+qXU/ROI+66uPkBL619Mef1RJBFZ+3rmE4kOSiCWpAi00+Q6sZh9VHvW
-	qou+IMBWADBUCAKpyWsMEP7l2I1bD3ZusX7EzqZW1ynrre7TCK9LK+Nt1g97hv2B
-	RjtvFUEj33b4MN5F/PJpHbFtNQc2x5/rK+B0VlhYVJfRK/OVArMRzrs9lMF4ZWBz
-	krH23CWJkFVxh7fzNa75Y8EvnXMYbC52XoH6oRpZf4JRU6QXexBAmBxWH1/jLfi7
-	ROdEARNOtsYwm8vCIkFqxw6kk6A51nIG9/o+JOBEAxy5Vg6SkMB4RGkpZUro2W2m
-	/6ovzConFN92Jx94AHcQw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660343515; x=
+	1660429915; bh=kgS42RQgG/tiE5VGji6aib4Oy9gURPck9Fi+x//w8eU=; b=y
+	CsbGqpOkVSo0Xin2aC9GExcdGKs8UxUhKlgip+5w4IqZuVN8gWqzAP1JIB8gF2FJ
+	oPg70bJH7vDXn+vjd012wOrsmGWOARsAvVBDtyX3V2cNFEt/7zApF9TtGAMsftTA
+	L3rfxRfby+8Tk+M48jlZSbYMXmB90lMASMwpLl7CSIUswO4QYJhkCIvRvockDRc6
+	S2ybO3xop0kRYDvwJryn4QSrOXflD8/50GVWnxaCU1BD9UefYa8DiZtOgQ1r3NOS
+	c1W4K8RDz9T1HlvB1aumy8MweCVVPitq6FVjJaFU5MayKGqrdmAYNLZIUTbccSOd
+	vH5BN0Slo1ch9O5cY4TLw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660342751; x=
-	1660429151; bh=NVr5DzIN9NKJQUZlYZVN75R1jb8BrZu1TnV/2szNqjE=; b=3
-	w2I2KtneyJRrNU/zU6nBp2HhOXWu2ohfygEjjVkPQ13+u7lCFfZSjbs015YnDvMd
-	CUbjdaDO+KA4sc1Q1pgzBpLrGX4BNT5CJGymH6FrrcSHdtWD+qWDeq/2N1sEFIOZ
-	n3aZ8c4D3bC48TpgJQMExeNpZsf1/Fb/B8t0eGaGZOJo1kVhasXKYCqIAaL1favL
-	Ilej5dQPIAHs5L4mzv5Icf+beYBok/3urMO0N2pIOnYBcHD5xNGl+5kpaTQyZJ9I
-	ngKLUscSiXnSe8jva6HP4cVGx818dfZGGHHbhEN6l9nsE2rEfbxHzd+PkSZMaF33
-	rlyTHMgmILospVnGZXfyQ==
-X-ME-Sender: <xms:3tH2Yncjry_pDlR5oP1yGLk1Ps59m1m5YugvR3AGnHaK8iNEr2BJeg>
-    <xme:3tH2YtMfGdOOLYv3P0nF_UkMQXZMafbD86E65beOWJYwtUKWsjmi089YXMPNNDrHQ
-    J4aG0Wbyhprsq90NQ>
-X-ME-Received: <xmr:3tH2Ygh3Lrzmpqax50VdLw-8ZNdfayoD5O8KIacFCmNyN0MerbMBzqUcj6kx6h5HFZFQXPYY3BcAIm2lfVfV8ll4z1dAB88-eGg-cuQoYcgPPYYZlLBPkLD6NQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgtdekucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660343515; x=
+	1660429915; bh=kgS42RQgG/tiE5VGji6aib4Oy9gURPck9Fi+x//w8eU=; b=W
+	j97d76GyyLi27VuagXD865UAWLlMXkhvJGZbd5+L6MdlFK6IZ3/3isSic4Y560kM
+	h1KtXR3Q34AYqr6zhdudMoKZ0fi9zfOoSP4ExZqEYnVKtB9ti0W2AOkQl9YuA1Ct
+	hNswG0cIbLt34mOBlrzF6SPuXDqHnOCUEnXsn0idHA3qGw947xNA2ewscuUsSSxL
+	0e67OLm8DdF6O1iID7Bsn5Mj1hk3vJoDrrHgUsWWJu+RziRejF0XGEWChO2gcFwA
+	EQL9umR8VzQWGGtz/3Oq/E+mfHH/9XHHTNGX6eMm3j3otdJmSHVVOSHvn9l8kjAS
+	Fl+h1wBWkzZkdK3g9bKNA==
+X-ME-Sender: <xms:29T2Yjronklez5rC9QvkRZ5IOh8Glmjl6-zGFC0kKSM0ACcPiC0Ftg>
+    <xme:29T2YtoYu8a88cBeVQC-olIoXclrvykrolrDpbg_NnMfofnKU3cXHyXxp_74BoPmc
+    BRWPUsDph9FQmpPuA>
+X-ME-Received: <xmr:29T2YgPJVaKdCeHUWVbrfu8n6kpu7phn_TlyPOQEE_yPuuHWEWmu_3AmIClZNfpwZQINQzKPI5tv4DMfqgkOwER0GlFja2VOPYRNVeZ6Eo3n0VsKn_hJkZQaNg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgudduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
@@ -44,32 +44,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgtdekucetufdoteggod
     ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
     tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:3tH2Yo9K_c6QrdiWmmZVkCK52HZaXRFSfHMIFcP5kemqa43LN69x3g>
-    <xmx:3tH2Yjv97Kxp0a_cp9bEDaQjLT208DtQ2wvXTuBJ_lRKDr4up83Bvg>
-    <xmx:3tH2YnFwtan-9303L_NzLLViZLKHOlFngP9HgzbI4rSCJ4aVYXPThw>
-    <xmx:39H2YjFT5MFvRIsHyQBkGpvfvyygQeSFHRwAbrLugi7MP2STqKGiYA>
+X-ME-Proxy: <xmx:29T2Ym60xl5IRoBqxYQ5PXJnhHq__wkrwHfbUxVbPCmrRRRaWR31YA>
+    <xmx:29T2Yi5rYdZt8zaq6YlhP5IRuqPe6oCFuiYlTfwJyHVhDwo9KpzwVA>
+    <xmx:29T2YuiSFAH5ArNpogzaluKq6Upk3Nk8zXSui6WctijI7Uc5PwOYBg>
+    <xmx:29T2YlL8ncCii3rgdIflz_YNMAse12Ya8Q_HUx3SErmvcrsDkXVPDA>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 18:19:10 -0400 (EDT)
-Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
- property
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
+ 12 Aug 2022 18:31:54 -0400 (EDT)
+Subject: Re: [PATCH 6/8] phy: allwinner: phy-sun6i-mipi-dphy: Set enable bit
+ last
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
+ Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@amarulasolutions.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
  linux-sunxi@lists.linux.dev
 References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-2-samuel@sholland.org>
- <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
+ <20220812075603.59375-7-samuel@sholland.org> <YvZBmZ+SfrJuAzAs@aptenodytes>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
-Date: Fri, 12 Aug 2022 17:19:09 -0500
+Message-ID: <b3a2dc61-7384-17f7-2f4f-4b6bb86bcced@sholland.org>
+Date: Fri, 12 Aug 2022 17:31:54 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -78,31 +75,75 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
+In-Reply-To: <YvZBmZ+SfrJuAzAs@aptenodytes>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/12/22 5:45 AM, Krzysztof Kozlowski wrote:
-> On 12/08/2022 10:55, Samuel Holland wrote:
->> The sun6i DPHY can generate several interrupts, mostly for reporting
->> error conditions, but also for detecting BTA and UPLS sequences.
->> Document this capability in order to accurately describe the hardware.
->>
->> The DPHY has no interrupt number provided in the vendor documentation
->> because its interrupt line is shared with the DSI controller.
->>
->> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a schema")
-> 
-> I don't understand what is being fixed in that commit. That commit did
-> not have interrupts in D-PHY, so what was broken by it?
-> 
-> The Fixes tag annotates the commit which introduced a bug.
+Hi Paul,
 
-The binding had a bug because it did not accurately describe the hardware. If
-you don't think this warrants a Fixes tag, I can remove it. Or are you
-suggesting that the Fixes tag should instead reference the commit adding the
-original .txt binding?
+On 8/12/22 7:03 AM, Paul Kocialkowski wrote:
+> On Fri 12 Aug 22, 02:56, Samuel Holland wrote:
+>> The A100 variant of the DPHY requires configuring the analog registers
+>> before setting the global enable bit. Since this order also works on the
+>> other variants, always use it, to minimize the differences between them.
+> 
+> Did you get a chance to actually test this with either DSI/CSI-2 hardware?
+
+I have tested DSI output with the Clockwork DevTerm (D1 SoC) and Pine64
+PinePhone (A64 SoC). I do not have any MIPI CSI hardware to test with.
+
+> I vaguely remember that the order mattered. Do you have an idea of what the
+> Allwinner BSP does too?
+
+The Allwinner BSP makes the same change as this commit in its "lowlevel_v2x"
+copy of the code, which is used for R40 and T7 (original DPHY) and A100 and D1
+(updated DPHY). It does not make the change in "lowlevel_sun50iw1" (A64 SoC,
+original DPHY), but I tested A64 with this change, and it works fine.
+
+> Otherwise I could give it a try, at least with my MIPI CSI-2 setup
+> that uses the driver.
+
+This commit only changes sun6i_dphy_tx_power_on(). The code for RX is unchanged
+-- in fact, it already sets SUN6I_DPHY_GCTL_REG last.
 
 Regards,
 Samuel
+
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+>> index 625c6e1e9990..9698d68d0db7 100644
+>> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+>> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
+>> @@ -183,10 +183,6 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy *dphy)
+>>  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA0(3) |
+>>  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA1(3));
+>>  
+>> -	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
+>> -		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
+>> -		     SUN6I_DPHY_GCTL_EN);
+>> -
+>>  	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
+>>  		     SUN6I_DPHY_ANA0_REG_PWS |
+>>  		     SUN6I_DPHY_ANA0_REG_DMPC |
+>> @@ -244,6 +240,10 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy *dphy)
+>>  			   SUN6I_DPHY_ANA2_EN_P2S_CPU_MASK,
+>>  			   SUN6I_DPHY_ANA2_EN_P2S_CPU(lanes_mask));
+>>  
+>> +	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
+>> +		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
+>> +		     SUN6I_DPHY_GCTL_EN);
+>> +
+>>  	return 0;
+>>  }
+>>  
+>> -- 
+>> 2.35.1
+>>
+> 
+
