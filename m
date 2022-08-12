@@ -1,49 +1,49 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C551371
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 13:32:26 +0000 (UTC)
-Received: by mail-qt1-f181.google.com with SMTP id l5so743234qtv.4
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:32:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7DA1371
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 13:33:43 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id cb12-20020a056830618c00b00616b871cef3so569746otb.5
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:33:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=aTZUDWioyW00G3FP5HrhAR/urlDDduygUMh7slAg+gU=;
-        b=7rShiPWNqtlDYs4er7MzTT1Ii2TtDdG4LeTWV+sR6OgBsTheTBgbuQBF02JTxPq3/4
-         EO5gzcAQ/3vkyI5WKh9hfkd/UK30ObcViNh57xc03YGZtH3pTjXfkRF+Y8BPW8jm6Z+c
-         IyE/UGmGB/BGFwDUyxXsRqTNClSwE2fpUlJbWG97n5sP+/vPn2cQr14RkUa59sNZwDAk
-         fOeoHgPTWTiKNgqG8h4MOBG7wRrCfRdazTlGET748JTB5U5/Hjo91/GkQJAsmcQirxBN
-         tlRiJUacT4tTuNXlucLLLDT1Se6qjgqi9+WWSsT7kW2iXgGGl4+2wnW31kTxUUQiuIlU
-         i7cQ==
-X-Gm-Message-State: ACgBeo3WIOcEHw1mMflD11b/FAToFtnp2c1U7A4MUsQO63FBoxtVh8zz
-	zNsjwmqZMJdXfwzEe6oug+akzSXd+eNUzw==
-X-Google-Smtp-Source: AA6agR7h2w4nZI3kd+6L8olTaL6JYRoSFKyv6ABMWB17xQGvXAUaIkjhHJskXAEQSHkw41qt4HZ8aA==
-X-Received: by 2002:a05:622a:100d:b0:31f:25e3:7a45 with SMTP id d13-20020a05622a100d00b0031f25e37a45mr3495291qte.365.1660311145770;
-        Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
-        by smtp.gmail.com with ESMTPSA id bl26-20020a05620a1a9a00b006b8e63dfffbsm1889566qkb.58.2022.08.12.06.32.25
+        bh=OXdSHuVG78f8K6rpNcMaWPwy/pvmJ+nqUgx8dG2xzfs=;
+        b=RZ042pM0+IOKB+cWLPCyVLGdkVx+n80EtkmMN7UoKpfh1O00tArtp45J6UaoU1q5Q0
+         Gv4wNtoQVUFt6LWy8RfdX64JqLg9TC0RlCa0ojyl3Wtegw71Jze0p9TREMwI9YGmCF8P
+         Elxhl43sXqgWwDdO0cb7/H9jDzhkv8x3YgUK+3lNAvd4wNUh1T84rCpF8f77HpT9K282
+         68BfSaoD/xTRE3jiX5nqH277cGH2D80DTdGpyqtNF9fqqUKy2FzROw6ctxK27wSghyHJ
+         YFPQJk2NUc5NlcXRcNCfaVQaKWSdjTYgGfkeKD2dBcmFx8HlEiPJLUc33dcjnX6bseaE
+         A6zg==
+X-Gm-Message-State: ACgBeo10QfHtIinn7P3JSRTbiy5KGseoRci67+1d8L+6YJxjr2uj1skS
+	3FC4kZ8gwprW7Kq1wYBcv9pJVPEPzWS5mg==
+X-Google-Smtp-Source: AA6agR7OiNalOYe5NrcDMGk2T9uQK+3u8MHKn0ZybXHRoF8wy+jXLpQbU9StqDIvtKz4zvXnssXkHQ==
+X-Received: by 2002:a05:6830:9cb:b0:616:a9b5:df50 with SMTP id y11-20020a05683009cb00b00616a9b5df50mr1416267ott.306.1660311222520;
+        Fri, 12 Aug 2022 06:33:42 -0700 (PDT)
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com. [209.85.161.41])
+        by smtp.gmail.com with ESMTPSA id i23-20020a9d4a97000000b00616e2d2204csm371691otf.21.2022.08.12.06.33.42
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id e205so1288212ybb.2
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
-X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
- v18-20020a81b812000000b0032868e4c886mr3592742ywe.502.1660310729490; Fri, 12
- Aug 2022 06:25:29 -0700 (PDT)
+        Fri, 12 Aug 2022 06:33:42 -0700 (PDT)
+Received: by mail-oo1-f41.google.com with SMTP id j1-20020a4ab1c1000000b0043576bcb9b1so173805ooo.10
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:33:42 -0700 (PDT)
+X-Received: by 2002:a5b:6c1:0:b0:669:a7c3:4c33 with SMTP id
+ r1-20020a5b06c1000000b00669a7c34c33mr3307653ybq.543.1660310750947; Fri, 12
+ Aug 2022 06:25:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech> <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech> <20220728-rpi-analog-tv-properties-v1-7-3d53ae722097@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v1-7-3d53ae722097@cerno.tech>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Aug 2022 15:25:18 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
-Message-ID: <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Date: Fri, 12 Aug 2022 15:25:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
+Message-ID: <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
+Subject: Re: [PATCH v1 07/35] drm/modes: Only consider bpp and refresh before options
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
@@ -64,77 +64,60 @@ Content-Type: text/plain; charset="UTF-8"
 Hi Maxime,
 
 On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> The TV mode property has been around for a while now to select and get the
-> current TV mode output on an analog TV connector.
+> Some video= options might have a value that contains a dash. However, the
+> command line parsing mode considers all dashes as the separator between the
+> mode and the bpp count.
 >
-> Despite that property name being generic, its content isn't and has been
-> driver-specific which makes it hard to build any generic behaviour on top
-> of it, both in kernel and user-space.
+> Let's rework the parsing code a bit to only consider a dash as the bpp
+> separator if it before a comma, the options separator.
 >
-> Let's create a new bitmask tv norm property, that can contain any of the
-> analog TV standards currently supported by kernel drivers. Each driver can
-> then pass in a bitmask of the modes it supports.
->
-> We'll then be able to phase out the older tv mode property.
+> A follow-up patch will add a unit-test for this once such an option is
+> introduced.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
 Thanks for your patch!
 
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
->   * 0 on success or a negative error code on failure.
->   */
->  int drm_mode_create_tv_properties(struct drm_device *dev,
-> +                                 unsigned int supported_tv_norms,
->                                   unsigned int num_modes,
->                                   const char * const modes[])
->  {
-> +       static const struct drm_prop_enum_list tv_norm_values[] = {
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
-The above are analog standards, with a variable horizontal resolution.
+> --- a/drivers/gpu/drm/drm_modes.c
+> +++ b/drivers/gpu/drm/drm_modes.c
+> @@ -1819,20 +1819,22 @@ bool drm_mode_parse_command_line_for_connector(const char *mode_option,
+>
+>         name = mode_option;
+>
+> +       /* Locate the start of named options */
+> +       options_ptr = strchr(name, ',');
+> +       if (options_ptr)
+> +               options_off = options_ptr - name;
+> +       else
+> +               options_off = strlen(name);
+> +
+>         /* Try to locate the bpp and refresh specifiers, if any */
+> -       bpp_ptr = strchr(name, '-');
+> +       bpp_ptr = strnchr(name, options_off, '-');
 
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
-> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+Probably you still want to add a check that the next character
+is actually a digit, cfr. my "[PATCH v2 5/5] drm/modes:
+parse_cmdline: Add support for named modes containing dashes"
+(https://lore.kernel.org/dri-devel/2eb205da88c3cb19ddf04d167ece4e16a330948b.1657788997.git.geert@linux-m68k.org)?
 
-The above are digital standards, with a fixed resolution.
-
-You seem to have missed "hd1080p"?
-
-In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
-and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
-Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-handle them through "@<refresh>".  The latter would impact "[PATCH v1
-09/35] drm/modes: Move named modes parsing to a separate function", as
-currently a named mode and a refresh rate can't be specified both.
-
-As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-command-line option" uses a separate "tv_mode" option, and not the main
-mode name, I think you want to add them here.
+>         if (bpp_ptr)
+>                 bpp_off = bpp_ptr - name;
+>
+> -       refresh_ptr = strchr(name, '@');
+> +       refresh_ptr = strnchr(name, options_off, '@');
+>         if (refresh_ptr)
+>                 refresh_off = refresh_ptr - name;
+>
+> -       /* Locate the start of named options */
+> -       options_ptr = strchr(name, ',');
+> -       if (options_ptr)
+> -               options_off = options_ptr - name;
+> -
+>         /* Locate the end of the name / resolution, and parse it */
+>         if (bpp_ptr) {
+>                 mode_end = bpp_off;
 
 Gr{oetje,eeting}s,
 
