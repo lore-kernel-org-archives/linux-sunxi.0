@@ -1,49 +1,49 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 333D71371
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 13:19:14 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id v27so712981qkj.8
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:19:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01C551371
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 13:32:26 +0000 (UTC)
+Received: by mail-qt1-f181.google.com with SMTP id l5so743234qtv.4
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:32:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc;
-        bh=3HLPBVRse5OcNJxEM0wXkaB5QH7QwzyC6KEnOhyPoPY=;
-        b=6m2J26ZVQnObuzBkAMeOjDgh3YIHz1B+h/n5dnPhUTaaS3OMNSU8VkGS9nN1M/RYfp
-         SicOGDOA8rKyaZB2Ye1KtSOda/S2epaI4xSyhyJpyJdE+AlfS2ksY3n/rxZfyk1pC+lN
-         q+gycixmWIr9Xu5lLHs16BJ7M0d4DAcnrs4V0s5XUwp/SOcA5Ys8P9ys+sn0PTS/N+V4
-         KwbxmFQsCDuKQeUax9ah1NT7dpH3Jrg42qkKeQeCXEBDFcaFFbYDZOGwxZbJQQJfTKSm
-         cSZoFNfwoAYFhoQ3lghCtluOv4ITy3d08GHEWNsyf4yNeEcR//pv8XEDMBUwDvb4CNT+
-         JH1w==
-X-Gm-Message-State: ACgBeo1REk5jKbCk/T18KE1O1n99CwfbD/aWMH4H/4kRAjvJjgSi8EXs
-	knRPULVEbJi9hcDTlMBAWwhHVyP9LNAkHg==
-X-Google-Smtp-Source: AA6agR44EYAUNAu3KwLAD/ZOvLiNnsJvvDFjP98eCe5fORopSdHV81u2GtfyYDDdrIij9SBE/UwcjA==
-X-Received: by 2002:a05:620a:228b:b0:6b9:593e:2f29 with SMTP id o11-20020a05620a228b00b006b9593e2f29mr2725277qkh.678.1660310352802;
-        Fri, 12 Aug 2022 06:19:12 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id t201-20020a37aad2000000b006b9264191b5sm1876136qke.32.2022.08.12.06.19.10
+        bh=aTZUDWioyW00G3FP5HrhAR/urlDDduygUMh7slAg+gU=;
+        b=7rShiPWNqtlDYs4er7MzTT1Ii2TtDdG4LeTWV+sR6OgBsTheTBgbuQBF02JTxPq3/4
+         EO5gzcAQ/3vkyI5WKh9hfkd/UK30ObcViNh57xc03YGZtH3pTjXfkRF+Y8BPW8jm6Z+c
+         IyE/UGmGB/BGFwDUyxXsRqTNClSwE2fpUlJbWG97n5sP+/vPn2cQr14RkUa59sNZwDAk
+         fOeoHgPTWTiKNgqG8h4MOBG7wRrCfRdazTlGET748JTB5U5/Hjo91/GkQJAsmcQirxBN
+         tlRiJUacT4tTuNXlucLLLDT1Se6qjgqi9+WWSsT7kW2iXgGGl4+2wnW31kTxUUQiuIlU
+         i7cQ==
+X-Gm-Message-State: ACgBeo3WIOcEHw1mMflD11b/FAToFtnp2c1U7A4MUsQO63FBoxtVh8zz
+	zNsjwmqZMJdXfwzEe6oug+akzSXd+eNUzw==
+X-Google-Smtp-Source: AA6agR7h2w4nZI3kd+6L8olTaL6JYRoSFKyv6ABMWB17xQGvXAUaIkjhHJskXAEQSHkw41qt4HZ8aA==
+X-Received: by 2002:a05:622a:100d:b0:31f:25e3:7a45 with SMTP id d13-20020a05622a100d00b0031f25e37a45mr3495291qte.365.1660311145770;
+        Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com. [209.85.219.170])
+        by smtp.gmail.com with ESMTPSA id bl26-20020a05620a1a9a00b006b8e63dfffbsm1889566qkb.58.2022.08.12.06.32.25
         for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Aug 2022 06:19:11 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-328a1cff250so9621207b3.6
-        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:19:10 -0700 (PDT)
-X-Received: by 2002:a81:1204:0:b0:322:7000:4ecb with SMTP id
- 4-20020a811204000000b0032270004ecbmr3771794yws.47.1660310350262; Fri, 12 Aug
- 2022 06:19:10 -0700 (PDT)
+        Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
+Received: by mail-yb1-f170.google.com with SMTP id e205so1288212ybb.2
+        for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 06:32:25 -0700 (PDT)
+X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
+ v18-20020a81b812000000b0032868e4c886mr3592742ywe.502.1660310729490; Fri, 12
+ Aug 2022 06:25:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech> <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech> <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 12 Aug 2022 15:18:58 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
-Message-ID: <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+Date: Fri, 12 Aug 2022 15:25:18 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+Message-ID: <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
 To: Maxime Ripard <maxime@cerno.tech>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
@@ -63,63 +63,78 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Maxime,
 
-Thanks for your patch!
-
 On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
-> modes in the drivers.
-
-Nit: strictly speaking these are not analog modes, but the digital
-variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
-13.5 MHz sampling frequency for pixels.
-
-In analog modes, the only discrete values are the number of lines, and
-the frame/field rate (fixing the horizontal sync rate when combined).
-
-The number of (in)visible pixels per line depends on the available
-bandwidth.  In a digital variant (which is anything generated by a
-digital computer system), the latter depends on the pixel clock, which
-can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
-Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
-
-So I think we probably need some way to generate a PAL/NTSC-compatible
-mode based not only on resolution, but also on pixel clock.
-
+> The TV mode property has been around for a while now to select and get the
+> current TV mode output on an analog TV connector.
 >
-> Since those modes are fairly standards, and that we'll need to use them in
-> more places in the future, let's move the meson definition into the
-> framework.
+> Despite that property name being generic, its content isn't and has been
+> driver-specific which makes it hard to build any generic behaviour on top
+> of it, both in kernel and user-space.
 >
-> The meson one was chosen because vc4's isn't accurate and doesn't amount to
-> 525 and 625 lines.
+> Let's create a new bitmask tv norm property, that can contain any of the
+> analog TV standards currently supported by kernel drivers. Each driver can
+> then pass in a bitmask of the modes it supports.
+>
+> We'll then be able to phase out the older tv mode property.
 >
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> --- a/drivers/gpu/drm/drm_modes.c
-> +++ b/drivers/gpu/drm/drm_modes.c
-> @@ -48,6 +48,24 @@
->
->  #include "drm_crtc_internal.h"
->
-> +const struct drm_display_mode drm_mode_480i = {
-> +       DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 13500,
-> +                720, 739, 801, 858, 0,
-> +                480, 488, 494, 525, 0,
-> +                DRM_MODE_FLAG_INTERLACE),
-> +       .picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_480i);
-> +
-> +const struct drm_display_mode drm_mode_576i = {
-> +       DRM_MODE("720x576i", DRM_MODE_TYPE_DRIVER, 13500,
-> +                720, 732, 795, 864, 0,
-> +                576, 580, 586, 625, 0,
-> +                DRM_MODE_FLAG_INTERLACE),
-> +       .picture_aspect_ratio = HDMI_PICTURE_ASPECT_4_3,
-> +};
-> +EXPORT_SYMBOL_GPL(drm_mode_576i);
-> +
->  /**
+Thanks for your patch!
+
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>   * 0 on success or a negative error code on failure.
+>   */
+>  int drm_mode_create_tv_properties(struct drm_device *dev,
+> +                                 unsigned int supported_tv_norms,
+>                                   unsigned int num_modes,
+>                                   const char * const modes[])
+>  {
+> +       static const struct drm_prop_enum_list tv_norm_values[] = {
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+
+The above are analog standards, with a variable horizontal resolution.
+
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+> +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+
+The above are digital standards, with a fixed resolution.
+
+You seem to have missed "hd1080p"?
+
+In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
+and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
+Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+handle them through "@<refresh>".  The latter would impact "[PATCH v1
+09/35] drm/modes: Move named modes parsing to a separate function", as
+currently a named mode and a refresh rate can't be specified both.
+
+As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+command-line option" uses a separate "tv_mode" option, and not the main
+mode name, I think you want to add them here.
 
 Gr{oetje,eeting}s,
 
