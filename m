@@ -1,23 +1,23 @@
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450A31368
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 12:03:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10621368
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 12:22:35 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
-	by mail.gandi.net (Postfix) with ESMTPSA id E503BFF80A;
-	Fri, 12 Aug 2022 12:03:38 +0000 (UTC)
+	by mail.gandi.net (Postfix) with ESMTPSA id 8730DC0010;
+	Fri, 12 Aug 2022 12:22:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1660305821;
+	t=1660306947;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=xJDSkuzgeV8CqTp6TkfD/obtXLV+oEiR4ZcU8k4v+ek=;
-	b=NPJ7eC0zKp7U4oyJ4vf8ZxTJ0Je4iWxUBdKluIPWfjmqXkLsTFUv2FUqvOhOH8XVp8Onf6
-	OGGltD1A9dvIegtAfnTODq70SwsvzOx/X15+IU76jR5+59z8+9kUXLMPCV2BFylPVPpzd7
-	L0I+b5LEibDiTHpT44wEnE/IMvRbkN8YW8ZbbpvS8UsgD+zVHLV0P7wqmA0h+JLmfTEixd
-	JoSFfrxBh1Ybi4jL0J7S1DctX7N8DKlGS4NaxOLECRqAYbar5NBp7Sdj9nN6hRUj8bFfhd
-	9JgZDpuyT1/YMwpiun5Nk2ZQN1nV7f7gei2qeR8JBIKx2Sc2iWnrw4/FUK7xZQ==
-Date: Fri, 12 Aug 2022 14:03:37 +0200
+	bh=24bKiqU55JXRuVlkYegpaqJ9og5C48IeVZvaeDQry2M=;
+	b=Hv0YvjVZadPNGue6A/WQsAZQfBtEXiAYedGoDH36AbycZTxH5OSk9lJrz+Uvt9lB7o3lik
+	9sJOQAsAKAScXMgOQti3u4SzvK14cOpXcc4kcYEeuP3XD2YmJGMbSX2nv0G3yi0WkznDpV
+	iOJL+vI3nvGck2HkVtkVJzgeQvZsGMX+3Nj3/eSXP4bni36Dc09smaOrJX2b/2QKysJRLe
+	Mkd56fjrYzCDdjs/LFm2NWGpjENLmNLCVCKpE3WRCqfQplFa8fNyOXlhxgCoTFjKMyTUcb
+	5xDL/VkuoiVPwi24eEhcsogqCvsrIGs1mVzuQNEgx6hjliHgr5hE6i19jN5OfQ==
+Date: Fri, 12 Aug 2022 14:22:24 +0200
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Samuel Holland <samuel@sholland.org>
 Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
@@ -30,11 +30,11 @@ Cc: Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
 	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 6/8] phy: allwinner: phy-sun6i-mipi-dphy: Set enable bit
- last
-Message-ID: <YvZBmZ+SfrJuAzAs@aptenodytes>
+Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
+ property
+Message-ID: <YvZGAEM4B8SdDjwJ@aptenodytes>
 References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-7-samuel@sholland.org>
+ <20220812075603.59375-2-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -42,69 +42,76 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="cZWc4gSUKHi2eZD5"
+	protocol="application/pgp-signature"; boundary="KjPeSdJ+GXZUw4K/"
 Content-Disposition: inline
-In-Reply-To: <20220812075603.59375-7-samuel@sholland.org>
+In-Reply-To: <20220812075603.59375-2-samuel@sholland.org>
 
 
---cZWc4gSUKHi2eZD5
+--KjPeSdJ+GXZUw4K/
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Samuel,
 
-On Fri 12 Aug 22, 02:56, Samuel Holland wrote:
-> The A100 variant of the DPHY requires configuring the analog registers
-> before setting the global enable bit. Since this order also works on the
-> other variants, always use it, to minimize the differences between them.
+On Fri 12 Aug 22, 02:55, Samuel Holland wrote:
+> The sun6i DPHY can generate several interrupts, mostly for reporting
+> error conditions, but also for detecting BTA and UPLS sequences.
+> Document this capability in order to accurately describe the hardware.
+>=20
+> The DPHY has no interrupt number provided in the vendor documentation
+> because its interrupt line is shared with the DSI controller.
 
-Did you get a chance to actually test this with either DSI/CSI-2 hardware?
-I vaguely remember that the order mattered. Do you have an idea of what the
-Allwinner BSP does too?
+Interesting! I do see DPHY_INT_EN*/PD* in the Allwinner BSP's
+drivers/media/video/sunxi-vfe/mipi_csi/dphy/dphy_reg_i.h
 
-Otherwise I could give it a try, at least with my MIPI CSI-2 setup
-that uses the driver.
+Maybe it would be useful to import the fields in the driver so that the
+next person who'll try to debug DSI can use them directly?
+
+You might also want to submit a patch as [PATCH NOT FOR MERGE] that
+adds an interrupt routine and some useful debugging.
+
+Do you think this is also available without a DSI controller?
+I could just give it a try on V3/A83t here and find out :)
 
 Cheers,
 
-Pau
+Paul
 
+> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a sc=
+hema")
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 > ---
 >=20
->  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml           | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c b/drivers/phy/al=
-lwinner/phy-sun6i-mipi-dphy.c
-> index 625c6e1e9990..9698d68d0db7 100644
-> --- a/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> +++ b/drivers/phy/allwinner/phy-sun6i-mipi-dphy.c
-> @@ -183,10 +183,6 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy =
-*dphy)
->  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA0(3) |
->  		     SUN6I_DPHY_TX_TIME4_HS_TX_ANA1(3));
+> diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
+pi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mi=
+pi-dphy.yaml
+> index 22636c9fdab8..cf49bd99b3e2 100644
+> --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
+=2Eyaml
+> +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy=
+=2Eyaml
+> @@ -24,6 +24,9 @@ properties:
+>    reg:
+>      maxItems: 1
 > =20
-> -	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
-> -		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
-> -		     SUN6I_DPHY_GCTL_EN);
-> -
->  	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
->  		     SUN6I_DPHY_ANA0_REG_PWS |
->  		     SUN6I_DPHY_ANA0_REG_DMPC |
-> @@ -244,6 +240,10 @@ static int sun6i_dphy_tx_power_on(struct sun6i_dphy =
-*dphy)
->  			   SUN6I_DPHY_ANA2_EN_P2S_CPU_MASK,
->  			   SUN6I_DPHY_ANA2_EN_P2S_CPU(lanes_mask));
-> =20
-> +	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
-> +		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
-> +		     SUN6I_DPHY_GCTL_EN);
+> +  interrupts:
+> +    maxItems: 1
 > +
->  	return 0;
->  }
-> =20
+>    clocks:
+>      items:
+>        - description: Bus Clock
+> @@ -53,6 +56,7 @@ required:
+>    - "#phy-cells"
+>    - compatible
+>    - reg
+> +  - interrupts
+>    - clocks
+>    - clock-names
+>    - resets
 > --=20
 > 2.35.1
 >=20
@@ -114,19 +121,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---cZWc4gSUKHi2eZD5
+--KjPeSdJ+GXZUw4K/
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmL2QZkACgkQ3cLmz3+f
-v9FGyQf+P9y9cIf8pj9y0dDk8rWiTtCyuoScQ7U+K4YYW1ai+/FUC1qkgnDnOcjw
-MLMI6hSgtI73b0JVFagBpmR2RuEhUnYLZzlmfKeA6+85XNe/7y873RpiDz+qonjj
-MhPjOgfUgriStjzBdtL/uLVZZ7nIEmz7aRA4XstW6LbSjcY38zqEKGxdDq5Phfbt
-dPK1i7nqSj8inGOrwr0Xky8movDO2Vp1+x+42RwX7YcgEX6haJLPUHLBkd5ccMFX
-//EI0XVoSnw01M2G8iUaR4Zn1FAUrDaBTDkMPhurRdLb8iIxf4RCfWvV96G/kZv1
-DpFCAGrSKoEKO9XZROsSggMoOSjC1g==
-=EDd0
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmL2RgAACgkQ3cLmz3+f
+v9EJmAf/RUjmCJrqT+VVsenrzACFjYYacE4PB9OUct0QvopV8HTeQ4cpP5PxQ7Hq
+Z7EDMun2tudD2q3tgqtIMRIjtikuL/VYQuBh+rCTEdxj+BUsRVFU6bXR3/CH4gp8
+dJcZuMc3pXWDq74sLz5JscdEaUAGTUJqqkl5TsSR/Kt0BVEKP7sHTg1xEVfJ0N6K
+OPP5oxJYMR3WSEiPpN7Vy3jeCpijm8hJJTHrbY6un7PfddvTXiBm0AU02RJ1PD2+
+nJwVDo+AO+E8WJsKoa+5BWCCPF+it7dVcyPLZszuYxYGC0B5+Yv+hjOeBw/Ouggf
+vuufwYdETc2xCdlsjvAp90wcwj1F0g==
+=A0Yv
 -----END PGP SIGNATURE-----
 
---cZWc4gSUKHi2eZD5--
+--KjPeSdJ+GXZUw4K/--
