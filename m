@@ -1,40 +1,40 @@
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8B862E
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 07:56:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1436C626
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 07:56:09 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 032FD5C0178;
-	Fri, 12 Aug 2022 03:56:07 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id 3447D5C0093;
+	Fri, 12 Aug 2022 03:56:08 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Fri, 12 Aug 2022 03:56:07 -0400
+  by compute2.internal (MEProxy); Fri, 12 Aug 2022 03:56:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1660290966; x=1660377366; bh=A0
-	Suz3pFHzbaDEdJ1Zd98AaOQsAUFz+r94G9QZCuotI=; b=TcTrobC40xND3xjOAj
-	2l1FKmjTq5yki6KIjmfkgJu3HuvOnGRd0JIpeAKS/7sd8nOU6K14WRB00JjWsk07
-	lsFBBEBmb2ZAsSCY4YyecmhWHsp7QJznf1H0ejwF5sL8ATZLbmWBoPzyMCrBhTBX
-	vGOrLzA1bI4YrzjMyHUCaAstmVn6exGijY3PgmiS7mEezGKgSjTqlTR/ubBA9a/r
-	cRbyi/F8t6zQE7BKow0822E2Eh2YrQvQxZcfyWQgXiawufVCY6TzMKzZwlT4lIE9
-	sKwbVVsgPBipDDiriaAOoyKEH8dnmQljqd0u1ysgmkMer2pcBwSqlQkLI2+0+Q6F
-	d4SA==
+	:subject:subject:to:to; s=fm2; t=1660290968; x=1660377368; bh=rZ
+	iG6grkeNFoa0EaMz7hkCpgYpyXUz05Y3f0gOaC91o=; b=tJ/2BG8yq+Hs2vtIxb
+	gGpRbzgkCYI3Y3boXrrGiR/LNXHlccTfH9IR+2qmtOHROA9eu12m6DVhL6EF1Mek
+	Gh3MFHFpCP1eBo7mnD33UMKN9zx2NY61BIq6kd4kX7jlII+uHx8tlagpDmabOuZx
+	fll8ggR7rSZqmV/s5MFabzF02FxjSZK3gjHLjKGY0CzC+aD9jQ4w/WCGvsaQHBqH
+	wKkEBhJP6SChcOUPb8LNH4zbdG+7cu8CAMOvVCfPWFGGzFh3k9TGQTOz1PBl3MYM
+	loirqMUq5/0Py6bBINrTJggG6wdsiVUF0JvnUJlqHj48d0+UWPb3dm6KVLKp+jAy
+	9d4w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660290966; x=1660377366; bh=A0Suz3pFHzbaD
-	EdJ1Zd98AaOQsAUFz+r94G9QZCuotI=; b=k+uqelU/83YxgC4MuSV2hgruY03b4
-	EK+7aMRf2l6enro9v96bAWT6Wdyp53ejsmUE3R0yOID9aPu0PcRom7AHN48Jimtx
-	8h0UaE38FLQSPzkrHdw6CWUxkA7/kl+Uogrsk6TZwHIHqRi+Vby/oQRdkDjiUPCp
-	VnDA+E4hVOeUN9RZUMLSq9IMfmIZnoXAgEItxXb0qUowkyQYUTnXxkhw+PRxdm4C
-	BdOpdfZngoHfOOLTtxjM9tIW8k9KSwi/0xtnfXzG4qEE9TwDA7n3Ey2e8mlAhDGg
-	a5kQi6sIHXQkjNMKAmJ+2FV9oxV9r/W50Bnymsx0aaPM5enWoDn2i//GA==
-X-ME-Sender: <xms:lgf2Yv99GP7xaaezsQbdwcYhigZH8Kv5JosBcFJL9nngdy_bv5MmNw>
-    <xme:lgf2YrvbqsKg7eAGvmsJblaReef1J6r3uXPpXVaSrvx5gXbj4-4bTrgRS3yeSm6hW
-    SmZEv40bjNSSgUy8Q>
-X-ME-Received: <xmr:lgf2YtDo7RVPKySsjM5bbIKmfkpOTWUF80UngYmrPYkuxBcliU23TYpBP-T2fG7zvkQDRPBpzgYjIMp4GVo8tOyBkXvFWQvEIYKeIsS3CpTLWyIgfKUncCLAFQl-OojDnrTVmA>
+	:x-sasl-enc; s=fm1; t=1660290968; x=1660377368; bh=rZiG6grkeNFoa
+	0EaMz7hkCpgYpyXUz05Y3f0gOaC91o=; b=Zqiv6Qfmm0Txv1KErVAbGUbO8IjVF
+	IBGzjSvezCTXlfxjySlHQufo42HLHhbx3Q0EjYl5zZdv10WWv+fms0LpvzXsV3q7
+	IHxgG/Y7OsrzHfaCTFbV5azeKN0qbb95htkgoYcmVZr0UN1zHtsfGuwLRwupjmag
+	0M/3EpQgKsYkPjK0mmr1xDhF06elAJ4wF2Yn0LKt1s1TvWUup0UUHIDQoZV6oCed
+	dubgC6nCDgzDCACXqAMgZGe3s5lo/lUFXEWYuryNjjAvbqAGGPX6ATCVPLl1Fs2F
+	Y+lZLnI5cV6WAKPubmOa0Ev4Jbye9ynP+HhAndySSTpqp+TGRVSQ9TphQ==
+X-ME-Sender: <xms:mAf2YmSQzK9Tf-oYFE_P6clsL2wzSyFtW921kdvbiK7M7u1bSXFudg>
+    <xme:mAf2Yrxu-b_PSF589-vBjk5qw4-yq4E2KVmIZnqemm9B0nET7AekolNFTFEUjVrbe
+    AHnriXsYDFb6DpoiA>
+X-ME-Received: <xmr:mAf2Yj1mYesLMG_USq1CLlAYAK5n9ch2972MmATz4rOsw7CjZtUz3Uy1svL4nMliijwkR5ffuwAbYAP5nR_-MlKlWq1DJnLykeTMHVJyB2ai0Eu-g3f98o63PlrXTvtshlncgA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvjecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -43,13 +43,13 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvjecutefuodetgg
     ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
     gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
     hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:lgf2YrdsGlrKYFa0u5xJqaKctGAghArR6xKXHfXIPXU6Rlaor6JHuQ>
-    <xmx:lgf2YkN45EEV9vxzP0e-mAqK53xk9euVSNyiDur5E4xcna4KBVG6Vw>
-    <xmx:lgf2YtkC_sq2ngCoKNrSdaxA-JMcfanwQjgAOaHcKGWqp_Bre6GRpg>
-    <xmx:lgf2YrloC4C1N2bjU1vKKqB0qtlK6EMwWlNZu8UJfWH01qEhpBqMtg>
+X-ME-Proxy: <xmx:mAf2YiDCciXx2kYWBCEI8kyHiDYqwopJV4HxXoCIsNxNSPEB96gbmQ>
+    <xmx:mAf2YvgrCf6zwUlG0SDnXIUifNDouJoXD5Ui8Y5SVNSp8cewyUmXjw>
+    <xmx:mAf2Yuok74AluJWPFbP1y71w9-F95fPOjK0kdhq-mePxUYBXHVH6zA>
+    <xmx:mAf2Yv4NxpRRscJTaBoIe5zAELYO53wZIxsrFZc19KraOxPSc-gdTg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 03:56:05 -0400 (EDT)
+ 12 Aug 2022 03:56:07 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Kishon Vijay Abraham I <kishon@ti.com>,
 	Vinod Koul <vkoul@kernel.org>,
@@ -67,9 +67,9 @@ Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
 	linux-kernel@vger.kernel.org,
 	linux-phy@lists.infradead.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts property
-Date: Fri, 12 Aug 2022 02:55:56 -0500
-Message-Id: <20220812075603.59375-2-samuel@sholland.org>
+Subject: [PATCH 2/8] ARM: dts: sun8i: a33: Add DPHY interrupt
+Date: Fri, 12 Aug 2022 02:55:57 -0500
+Message-Id: <20220812075603.59375-3-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220812075603.59375-1-samuel@sholland.org>
 References: <20220812075603.59375-1-samuel@sholland.org>
@@ -81,42 +81,27 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sun6i DPHY can generate several interrupts, mostly for reporting
-error conditions, but also for detecting BTA and UPLS sequences.
-Document this capability in order to accurately describe the hardware.
+The DPHY has an interrupt line which is shared with the DSI controller.
 
-The DPHY has no interrupt number provided in the vendor documentation
-because its interrupt line is shared with the DSI controller.
-
-Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a schema")
+Fixes: 88fe315d2c0a ("ARM: dts: sun8i: a33: Add the DSI-related nodes")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- .../bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml           | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/arm/boot/dts/sun8i-a33.dtsi | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-index 22636c9fdab8..cf49bd99b3e2 100644
---- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-+++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml
-@@ -24,6 +24,9 @@ properties:
-   reg:
-     maxItems: 1
- 
-+  interrupts:
-+    maxItems: 1
-+
-   clocks:
-     items:
-       - description: Bus Clock
-@@ -53,6 +56,7 @@ required:
-   - "#phy-cells"
-   - compatible
-   - reg
-+  - interrupts
-   - clocks
-   - clock-names
-   - resets
+diff --git a/arch/arm/boot/dts/sun8i-a33.dtsi b/arch/arm/boot/dts/sun8i-a33.dtsi
+index b3d1bdfb5118..30fdd2703b1f 100644
+--- a/arch/arm/boot/dts/sun8i-a33.dtsi
++++ b/arch/arm/boot/dts/sun8i-a33.dtsi
+@@ -278,6 +278,7 @@ dsi_in_tcon0: endpoint {
+ 		dphy: d-phy@1ca1000 {
+ 			compatible = "allwinner,sun6i-a31-mipi-dphy";
+ 			reg = <0x01ca1000 0x1000>;
++			interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+ 			clocks = <&ccu CLK_BUS_MIPI_DSI>,
+ 				 <&ccu CLK_DSI_DPHY>;
+ 			clock-names = "bus", "mod";
 -- 
 2.35.1
 
