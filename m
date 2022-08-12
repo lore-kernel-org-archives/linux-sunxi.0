@@ -1,54 +1,54 @@
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com [66.111.4.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F4F366
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 03:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F261E399
+	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 07:37:05 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 8579B320083A;
-	Thu, 11 Aug 2022 23:16:26 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id B98575C0185;
+	Fri, 12 Aug 2022 03:37:04 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Thu, 11 Aug 2022 23:16:27 -0400
+  by compute5.internal (MEProxy); Fri, 12 Aug 2022 03:37:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
-	 s=fm2; t=1660274186; x=1660360586; bh=eEN4SPCABGXPkuUYKnXW9SWU+
-	dCnKerEicjfCo3KjfE=; b=Y6hbFDwFKkmF6RVegZVeNnfXwVr54p5hH9JtP8ywB
-	xpJCi0oQ1Me2H2DOOdklWUV2jSKelWgvxXxdrhsgc6xEY4wz9hKfAtQRjX++gdZN
-	ziRtfnNTCWNEu528c22syXvY/PinVpzhxiWwGz6ZG2Y6pdsml38QGuzZ4F/KoAY9
-	RYlPwJXnRg5J1eI6jO5xcyk6TTmgEdW1ztkQGpKtKDbYjF2TR0k5auh+kbg7CIy0
-	qqbLwDspbAhIO0cuyGkMdY2kThmJWhXglh9s6c6g74tcp2iaLswtr0WP+XEzYRFs
-	qJ9MKa16KntqJXjnMq1ZPAZkynxMmqXeGX7RdC/ESGGqQ==
+	 s=fm2; t=1660289824; x=1660376224; bh=0vomSWUYgz25cq0M/5SuumlfH
+	1NhqVcmcXAH78BG0Ro=; b=CSCNL4vjOfBWUBIKzMHLUdL5JO72UJcw5KFlg/69j
+	CF5KU+84gaRWu0+rTWpVH6NduN5x/MAA0b8mzT7BAu+4P504QpDIILGG10Uj9mYQ
+	mdGsTfqHPqEZYGmTTLjQyLuuqps7TzaQqttMGtYAz+sxO1IfLWe3OOpLex5VizKf
+	zGqB+CDYHOh4yKniX7Muv78ELx71ihGCD1Ah7YOqtHkZOSBuUnQmdVEiH/BP/uRA
+	dPsEfCn1a83wPwsNFxQvezOJKTnGhGbtPTJs317ktf/25MViiaTpkQJtkyGxZN++
+	s2Enhe5t/TjrnFHfs1w+qbef4NJOxXuaZxA5Hg3pTvbmg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:message-id
 	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
 	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1660274186; x=1660360586; bh=eEN4SPCABGXPkuUYKnXW9SWU+dCnKerEicj
-	fCo3KjfE=; b=UamtFwWoSpRzmtdXyf3hGbX9ehx7fps2l2mBxBTs5B0gx9YYqKc
-	tJnr8lTBAsSW8dgyhl7YaqZjg/yCxXErX6HTXIf5RrRN6MOXIFEXBnUnNQOFQZvO
-	YKB/aoTsn5AS3JHwDpTQy7nr48ez40lLEK7/NJIjmTaV0TVS2Z1vAbnp4d8A6Aps
-	xEh7/oz5g08YsDs5IK8sTXPJLsRVFg7EuNbNQ/bPihzVeN0vDv7kZqXrxTH+cTHz
-	yE9Q0smTf+imeGjRYH+ZJDv6rpttO6bDaJNcIPUgX/luXqskSFydUxi/77/dmJNd
-	mPqTMfwfAJtsGL/hTRp0pfSVuAAlqLXD2yA==
-X-ME-Sender: <xms:Ccb1Ykn1cX-qUVm71lU5MqnUfue_XKPqqRvCdc_fPygkKObNDRtpXw>
-    <xme:Ccb1Yj0iJ1sT7cX2P6X0MC9PAeEewnQX5LjmzJWuyWb_-ldltrj9S8trvHzltyewd
-    U1S_dOWtMa7HpNd0w>
-X-ME-Received: <xmr:Ccb1Yiq6CGbED7hZuS30TkciVi0L2rFzkNpy2B18pq3yp9en5rap5cnsvRGl3bi0qdaadsXp7xmcm-uLB_Hje0HkaqvYDyW68QhRvs0YokaL1XyyQrJ9Ku-eZv6okWwNqCYD_Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedgjedtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
-    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
-    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
-    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:Ccb1YglslJidpdEpPwYNfT21xqzAk-U7GrejXzdoLxV8ysOxwNZajg>
-    <xmx:Ccb1Yi3a0fLmaiYzWWG5TxsYiz3lQUBs5kM8PRujdCvwq62g8tGVWQ>
-    <xmx:Ccb1YnvvwJW8Cbu5fjhKJ39Tu4LzbVxBiLDfvgqfJsArftCeppgbpg>
-    <xmx:Csb1YjKBYkz5EFboar812m0mAc8khyj3jW7eXxhtqEVZDfm6m_qVRg>
+	1660289824; x=1660376224; bh=0vomSWUYgz25cq0M/5SuumlfH1NhqVcmcXA
+	H78BG0Ro=; b=f9h1J5ARtHOZZVRwp2sHuWrsT22gk5MWMwe2V7JK/RB33DSSmvc
+	8LsAPI59jG7eviCgsbd/wUGrmtpQzVw3Y1S0Q+bDo8wNjFiAw+RuzZriauO2mf5v
+	8k5sFJj/d4rvJkqQqKwcXM5+Fhmsl6SexiojDe+LzRXUl2krEHCQxc5rDf2t5GGv
+	5YofMLj9KqE6sjshEIY/wf4Fe1REBnE3V+GZrzamefoS8V6/b8ULgFzSj8HU2BtH
+	xQgSMTEQ0Lua266bJXmDAiy/Tfb/4VGcuflIaK2J/umwKErYH+1x68eAKe2BlCLL
+	aPBvrAAWtRH/fZDVP226C3LcvqGV1C0+Emg==
+X-ME-Sender: <xms:IAP2YoiprmhceXYihmGNyokxR2u5bP7m4xu63M4hZaeAtpiSq4q_4A>
+    <xme:IAP2YhB7BAC0E3Bg_Mre68J5GVDZMtnx7zUexUd7AZfxh0jJ3vNuVJI3v7ddq1dck
+    uJptI0bTfY0hCnXlw>
+X-ME-Received: <xmr:IAP2YgEemVKtLl3JziUzXnc1TCan_9_jFB-QUTNI3DOZuy5wqscUF6W11p7s3-23asyNTfDZucfP0TIEnYFJYNUpOHQkBZjpXHUsuPxgDWPgntf72iXs6TstPdXTzdX7l8YXDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdeghedguddvvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefurghmuhgv
+    lhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucggtf
+    frrghtthgvrhhnpeekveelhfejueelleetvdejvdeffeetgeelheeujeffhefgffefkeeh
+    hffhkeekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+    hmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:IAP2YpQY9ofEqq7c6NrJ0gi3rv-PZ3CI7ccDRlu_paY48e9qX4tjtw>
+    <xmx:IAP2YlwzkTq5TtKGzMkiGP9ZrVJuSuoQ50MjXXR1qn_fGjCL0Df4VQ>
+    <xmx:IAP2Yn4irgWWHCp8oDUVPtl1TJsG4JrI60dkPTug07019q8nxhn4Jg>
+    <xmx:IAP2Yr7QKe2bW58vetWDAUcgVy9ACiOo5M-H09QqEsnp_PuamCBfAw>
 Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Aug 2022 23:16:24 -0400 (EDT)
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 12 Aug 2022 03:37:03 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -56,13 +56,16 @@ To: Chen-Yu Tsai <wens@csie.org>,
 Cc: Samuel Holland <samuel@sholland.org>,
 	Daniel Vetter <daniel@ffwll.ch>,
 	David Airlie <airlied@linux.ie>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH] drm/sun4i: dsi: Prevent underflow when computing packet sizes
-Date: Thu, 11 Aug 2022 22:16:23 -0500
-Message-Id: <20220812031623.34057-1-samuel@sholland.org>
+Subject: [PATCH] dt-bindings: display: sun4i: Add D1 TCONs to conditionals
+Date: Fri, 12 Aug 2022 02:37:02 -0500
+Message-Id: <20220812073702.57618-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
@@ -72,108 +75,110 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Currently, the packet overhead is subtracted using unsigned arithmetic.
-With a short sync pulse, this could underflow and wrap around to near
-the maximal u16 value. Fix this by using signed subtraction. The call to
-max() will correctly handle any negative numbers that are produced.
+When adding the D1 TCON bindings, I missed the conditional blocks that
+restrict the binding for TCON LCD vs TCON TV hardware. Add the D1 TCON
+variants to the appropriate blocks for DE2 TCON LCDs and TCON TVs.
 
-Apply the same fix to the other timings, even though those subtractions
-are less likely to underflow.
-
-Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller support")
+Fixes: ae5a5d26c15c ("dt-bindings: display: Add D1 display engine compatibles")
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-index b4dfa166eccd..34234a144e87 100644
---- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-+++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
-@@ -522,77 +522,77 @@ static void sun6i_dsi_setup_format(struct sun6i_dsi *dsi,
- 		     SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINE0(0xffff) |
- 		     SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINEN(0xffff));
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+index 4a92a4c7dcd7..f8168986a0a9 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+@@ -224,43 +224,45 @@ allOf:
+             - const: ahb
+             - const: tcon-ch0
+             - const: lvds-alt
  
- 	regmap_write(dsi->regs, SUN6I_DSI_PIXEL_CTL0_REG,
- 		     SUN6I_DSI_PIXEL_CTL0_PD_PLUG_DISABLE |
- 		     SUN6I_DSI_PIXEL_CTL0_FORMAT(fmt));
- }
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - allwinner,sun8i-a83t-tcon-lcd
+               - allwinner,sun8i-v3s-tcon
+               - allwinner,sun9i-a80-tcon-lcd
++              - allwinner,sun20i-d1-tcon-lcd
  
- static void sun6i_dsi_setup_timings(struct sun6i_dsi *dsi,
- 				    struct drm_display_mode *mode)
- {
- 	struct mipi_dsi_device *device = dsi->device;
--	unsigned int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
-+	int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
- 	u16 hbp = 0, hfp = 0, hsa = 0, hblk = 0, vblk = 0;
- 	u32 basic_ctl = 0;
- 	size_t bytes;
- 	u8 *buffer;
+     then:
+       properties:
+         clocks:
+           minItems: 2
  
- 	/* Do all timing calculations up front to allocate buffer space */
+         clock-names:
+           items:
+             - const: ahb
+             - const: tcon-ch0
  
- 	if (device->mode_flags & MIPI_DSI_MODE_VIDEO_BURST) {
- 		hblk = mode->hdisplay * Bpp;
- 		basic_ctl = SUN6I_DSI_BASIC_CTL_VIDEO_BURST |
- 			    SUN6I_DSI_BASIC_CTL_HSA_HSE_DIS |
- 			    SUN6I_DSI_BASIC_CTL_HBP_DIS;
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - allwinner,sun8i-a83t-tcon-tv
+               - allwinner,sun8i-r40-tcon-tv
+               - allwinner,sun9i-a80-tcon-tv
++              - allwinner,sun20i-d1-tcon-tv
  
- 		if (device->lanes == 4)
- 			basic_ctl |= SUN6I_DSI_BASIC_CTL_TRAIL_FILL |
- 				     SUN6I_DSI_BASIC_CTL_TRAIL_INV(0xc);
- 	} else {
- 		/*
- 		 * A sync period is composed of a blanking packet (4
- 		 * bytes + payload + 2 bytes) and a sync event packet
- 		 * (4 bytes). Its minimal size is therefore 10 bytes
- 		 */
- #define HSA_PACKET_OVERHEAD	10
--		hsa = max((unsigned int)HSA_PACKET_OVERHEAD,
-+		hsa = max(HSA_PACKET_OVERHEAD,
- 			  (mode->hsync_end - mode->hsync_start) * Bpp - HSA_PACKET_OVERHEAD);
+     then:
+       properties:
+         clocks:
+           minItems: 2
  
- 		/*
- 		 * The backporch is set using a blanking packet (4
- 		 * bytes + payload + 2 bytes). Its minimal size is
- 		 * therefore 6 bytes
- 		 */
- #define HBP_PACKET_OVERHEAD	6
--		hbp = max((unsigned int)HBP_PACKET_OVERHEAD,
-+		hbp = max(HBP_PACKET_OVERHEAD,
- 			  (mode->htotal - mode->hsync_end) * Bpp - HBP_PACKET_OVERHEAD);
+         clock-names:
+           items:
+             - const: ahb
+             - const: tcon-ch1
  
- 		/*
- 		 * The frontporch is set using a sync event (4 bytes)
- 		 * and two blanking packets (each one is 4 bytes +
- 		 * payload + 2 bytes). Its minimal size is therefore
- 		 * 16 bytes
- 		 */
- #define HFP_PACKET_OVERHEAD	16
--		hfp = max((unsigned int)HFP_PACKET_OVERHEAD,
-+		hfp = max(HFP_PACKET_OVERHEAD,
- 			  (mode->hsync_start - mode->hdisplay) * Bpp - HFP_PACKET_OVERHEAD);
+   - if:
+@@ -269,40 +271,42 @@ allOf:
+           contains:
+             enum:
+               - allwinner,sun5i-a13-tcon
+               - allwinner,sun6i-a31-tcon
+               - allwinner,sun6i-a31s-tcon
+               - allwinner,sun7i-a20-tcon
+               - allwinner,sun8i-a23-tcon
+               - allwinner,sun8i-a33-tcon
+               - allwinner,sun8i-v3s-tcon
+               - allwinner,sun9i-a80-tcon-lcd
+               - allwinner,sun4i-a10-tcon
+               - allwinner,sun8i-a83t-tcon-lcd
++              - allwinner,sun20i-d1-tcon-lcd
  
- 		/*
- 		 * The blanking is set using a sync event (4 bytes)
- 		 * and a blanking packet (4 bytes + payload + 2
- 		 * bytes). Its minimal size is therefore 10 bytes.
- 		 */
- #define HBLK_PACKET_OVERHEAD	10
--		hblk = max((unsigned int)HBLK_PACKET_OVERHEAD,
-+		hblk = max(HBLK_PACKET_OVERHEAD,
- 			   (mode->htotal - (mode->hsync_end - mode->hsync_start)) * Bpp -
- 			   HBLK_PACKET_OVERHEAD);
+     then:
+       required:
+         - "#clock-cells"
+         - clock-output-names
  
- 		/*
- 		 * And I'm not entirely sure what vblk is about. The driver in
- 		 * Allwinner BSP is using a rather convoluted calculation
- 		 * there only for 4 lanes. However, using 0 (the !4 lanes
- 		 * case) even with a 4 lanes screen seems to work...
- 		 */
- 		vblk = 0;
- 	}
+   - if:
+       properties:
+         compatible:
+           contains:
+             enum:
+               - allwinner,sun6i-a31-tcon
+               - allwinner,sun6i-a31s-tcon
+               - allwinner,sun8i-a23-tcon
+               - allwinner,sun8i-a33-tcon
+               - allwinner,sun8i-a83t-tcon-lcd
++              - allwinner,sun20i-d1-tcon-lcd
  
+     then:
+       properties:
+         resets:
+           minItems: 2
+ 
+         reset-names:
+           items:
+             - const: lcd
+             - const: lvds
+ 
+   - if:
 -- 
 2.35.1
 
