@@ -1,131 +1,72 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49E2E320A
-	for <linux-sunxi@lists.linux.dev>; Fri, 12 Aug 2022 22:58:51 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 59D7432003AC;
-	Fri, 12 Aug 2022 18:58:49 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Fri, 12 Aug 2022 18:58:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660345128; x=
-	1660431528; bh=P9CWBxixdXhGy2tM+UZaqwS2e4jHPYt7yfX7kGMtD0I=; b=L
-	eQs4JJYO3JrcuXT0TvnwZ1ceRnRuiE6C76Hxu0nlM7JPKtSpjEbIOP/LKVRG1EME
-	EVkkHVRfN6N2QkG/7k6TOoHS6drktdzhIVvh37tAgJ+JUASHLASVNldFoMyirjoI
-	caQWycKlJNJ2mPYFmUTx+wStJAn8ZTws0q5fGxha97GQk9bSIjtTQC5Su8PMymzs
-	przJXY+iyDTRtTuc8XdG9M45q9a453BIFwD6eJkzoNFMlWg8ZRmvjxgvUgisJCus
-	i6zoyZOFFcR/0KHqbJvzR54RqEttOGzmIvVmtX6bZVNhxpj955K0VJkdMOBpQOBx
-	QqNE5dX9DC1xal4CvUyZw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660345128; x=
-	1660431528; bh=P9CWBxixdXhGy2tM+UZaqwS2e4jHPYt7yfX7kGMtD0I=; b=l
-	jOdnRHi45bTlc9jV3b8KsXnbtCjhOtwVrQWn+mwl4gvX2GrbcZ/unxELvJ+0HTIk
-	/SqkvHnx9t2aNEcKtpTbXiE8NeVQG/AbZNFMR6MqoINJvx3RzSgcpzrUq5YEwWFz
-	w2qKRjBLOyA3NKS7xbFNEiOm0Gf2PZ2F/tvNszeYTYWPGehPQVwQXB2+2AlCgfQV
-	VZjrn1+zkv9axFPbKphCqzeCTNNVD14UPdkjRtjKiMe5/FQBlFNis4WSVv0Ze9GT
-	lFUu4/oJeJvdBVpkFjYNfBVDlZQKupxHV/Gx+fe9L5fOxg/TWbAh1ABgW0XnNIax
-	jsE2jjRXOv8T0SqWO9tIg==
-X-ME-Sender: <xms:KNv2Yv08IMinok4V4BCUFTHPg4Q8wvnv57K1E8A_SGjebqaPMh6ktA>
-    <xme:KNv2YuFhtxO-GHz5ixibKKh5OLMbwEU9wHKY3ZwLJhk7F0FpfjKUI1XovvUl7rPCD
-    PTeibWg4Iha9jvzbQ>
-X-ME-Received: <xmr:KNv2Yv4q0Xd3P0L-stmhwbbq_XomYrasRn-IBPGlfkXV0z0LBS3y1ZSCrbYRZLBUMvJMZgiQ6MOiz-C0hwZxY255fpIykJkZvviUC4Wb8hujCeSJbnGxuativg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdegjedgudejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:KNv2Yk3uuhsqDXdg-nJc7ci4rh9xpYlIvqnm-344vG5s5LmS5d9TCA>
-    <xmx:KNv2YiFp8HEobYBfyt6_ALiQLyvHEe3HihhhVnWlR0BwBfNcBmiOzw>
-    <xmx:KNv2Yl8FI4vCnNRNTTNoAglbVS8KIeJOwDsQdSYWr9S5VcAa0Yqr5Q>
-    <xmx:KNv2YpdlZZzZSMnTzKtmpC4Pp9lJCbP6bcsnlyvnsTPZmpGFO4gOZw>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 12 Aug 2022 18:58:47 -0400 (EDT)
-Subject: Re: [PATCH 2/4] dt-bindings: display: sun6i-dsi: Add the A100 variant
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-References: <20220812074257.58254-1-samuel@sholland.org>
- <20220812074257.58254-3-samuel@sholland.org>
- <13fcaa01-d2c0-e57f-bedc-b2e0536a55f9@linaro.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <379eabe8-3f55-d69f-dd2d-120b8d13f1b3@sholland.org>
-Date: Fri, 12 Aug 2022 17:58:47 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D52527E0
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 06:42:42 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id qn6so8579836ejc.11
+        for <linux-sunxi@lists.linux.dev>; Sat, 13 Aug 2022 23:42:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=lJ8gBapU+3I/Fz9LZ5favwJM0YfdvqXAjWYrlqgEVg8=;
+        b=oFcN1jtJrAWrkrsYs75dkC5rJMcPYnYciSlrMdc1Rey/o0vE7d5G//ei161GnZSXul
+         k9M+DS7107ymze/izgVzWbnS+7ahP4B66YoZch0Baq0kaEw6DIVmiDKHthUPGCXdb5Na
+         3GtKHI/411yTNFHU3O14PEzhz5MBPvqSXvUAMWieKFLZtx1s7lxDs59uoRJzetPDnzmc
+         6wucQnaX50Vpzkp5ruDqNadnmh3jzfR/9yyspCMh4N9Ueju1ZXEEXNBMgNY0lULHmqER
+         OHC6dkRzZ7EhIuNDIQxR4LZvTk+23OrzNHOJQa+UlE26dbTwHEBAOoM8DgXkV/1G1ZC+
+         zQQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=lJ8gBapU+3I/Fz9LZ5favwJM0YfdvqXAjWYrlqgEVg8=;
+        b=ngGGZmCh2u94DqDInTG8EmNVt2kMogbz6FgPrtxsUJKOSgJQV4Zr9tqkQyS7skZn/m
+         lg4FrGsYi6c7XKpZwA8H1NRRnnm/59it3gnXoWMlnU2cBeOuuHVkwiKWu68Si33w+VkO
+         QJ08Jr/qOdx7q+MqC7qlRfiE+mURMSuek7ACbQCrW2epEPQvi+doUocGrAyGURKjv92F
+         mB/oCH2Lc8o4/Zlja4031sYgKMTaxvMeUXp7OfhMOCeyj6rFzsTwOA7981E8MeOfwKn1
+         ZT6ODpV6tMFZcROuEbk1K/IluKGhsDKeCxo0kKj1XhoO8Mau3tHM2EsXAO2iW0RejNBH
+         /i2g==
+X-Gm-Message-State: ACgBeo1afakLkYO9Ej36b+m5Fn091tNeVRpirKPcTtfUqfM/Fc3uUfDo
+	cEK08OUFfqqHu6AidEiUlH4=
+X-Google-Smtp-Source: AA6agR5um22tR+AS4GkxN7UJD+cDeqE1juTpQYbU/f5aBXd87Mexe2YSMRmH3Y3s/wv4uZBA9Cn7Lg==
+X-Received: by 2002:a17:906:8a6c:b0:730:a322:6f69 with SMTP id hy12-20020a1709068a6c00b00730a3226f69mr7027005ejc.585.1660459361130;
+        Sat, 13 Aug 2022 23:42:41 -0700 (PDT)
+Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
+        by smtp.gmail.com with ESMTPSA id kw11-20020a170907770b00b00730b5a35288sm2602982ejc.214.2022.08.13.23.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Aug 2022 23:42:40 -0700 (PDT)
+From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH 1/6] media: sun6i-mipi-csi2: Add a Kconfig dependency on RESET_CONTROLLER
+Date: Sun, 14 Aug 2022 08:42:39 +0200
+Message-ID: <2640649.mvXUDI8C0e@jernej-laptop>
+In-Reply-To: <20220812220045.800820-1-paul.kocialkowski@bootlin.com>
+References: <20220812220045.800820-1-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <13fcaa01-d2c0-e57f-bedc-b2e0536a55f9@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Hi Krzysztof,
-
-On 8/12/22 5:49 AM, Krzysztof Kozlowski wrote:
-> On 12/08/2022 10:42, Samuel Holland wrote:
->> The "40nm" MIPI DSI controller found in the A100 and D1 SoCs has the
->> same register layout as previous SoC integrations. However, its module
->> clock now comes from the TCON, which means it no longer runs at a fixed
->> rate, so this needs to be distinguished in the driver.
->>
->> The controller also now uses pins on Port D instead of dedicated pins,
->> so it drops the separate power domain.
->>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
->> Removal of the vcc-dsi-supply is maybe a bit questionable. Since there
->> is no "VCC-DSI" pin anymore, it's not obvious which pin actually does
->> power the DSI controller/PHY. Possibly power comes from VCC-PD or VCC-IO
->> or VCC-LVDS. So far, all boards have all of these as always-on supplies,
->> so it is hard to test.
->>
->>  .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 +++++++++++++++----
->>  1 file changed, 23 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
->> index ae55ef3fb1fe..c53c25b87bd4 100644
->> --- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
->> +++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
->> @@ -12,9 +12,14 @@ maintainers:
->>  
->>  properties:
->>    compatible:
->> -    enum:
->> -      - allwinner,sun6i-a31-mipi-dsi
->> -      - allwinner,sun50i-a64-mipi-dsi
->> +    oneOf:
->> +      - enum:
->> +          - allwinner,sun6i-a31-mipi-dsi
->> +          - allwinner,sun50i-a64-mipi-dsi
->> +          - allwinner,sun50i-a100-mipi-dsi
+Dne sobota, 13. avgust 2022 ob 00:00:40 CEST je Paul Kocialkowski napisal(a):
+> The driver relies on the reset controller API to work, so add
+> RESET_CONTROLLER as one of its Kconfig dependencies.
 > 
-> While you are moving code, how about bringing alphabetical order?
+> It also selects PHY_SUN6I_MIPI_DPHY, which depends on RESET_CONTROLLER.
+> 
+> Fixes: af54b4f4c17f ("media: sunxi: Add support for the A31 MIPI CSI-2
+> controller") Signed-off-by: Paul Kocialkowski
+> <paul.kocialkowski@bootlin.com>
+> Reported-by: kernel test robot <lkp@intel.com>
 
-I have put the sun*i prefix in numeric order, which matches (almost) all of our
-other bindings. It roughly corresponds to chronological order as well. It
-doesn't make much sense to me to sort sun50i (ARM64 SoCs) between sun5i and
-sun6i (early ARMv7 SoCs).
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Regards,
-Samuel
+Best regards,
+Jernej
+
+
