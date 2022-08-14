@@ -1,49 +1,49 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4985CA4E
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 08:22:15 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id t5so6156494edc.11
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 01:22:15 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37D7AEB8
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 10:03:03 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id y3so6334521eda.6
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 03:03:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=TNUwlG9nzp/Ftl8DzRydchfqZilNnNf9wCNcd4Axyyc=;
-        b=AsEa44Yc9lPon5nq4b7t2lUsgYwtl38nBM80b4OEIXUmDvPFUK3Ea6watTDnpUP//5
-         Rb98C1RrEplCcahkDx0onVcQi+FRIR7igDeitUo5JDX7ticQ9DMh7lcgWORZeQp91drj
-         R24codiDwS6kHVQjc9ersi82pyV7oarHgP1ciRxLTG7A55VD5YeP5DOLk+/A9fjJ4t8I
-         k7TabjpB8lNP/QZNXWjBh8i7keS9+fd3eZktH4i4fGTOuIExnwWyj4ph0qQ7EC1CG/mF
-         L2EjVFwHKrGF6fC+F47yDlL5eM03xDo7ILVRxOiyuOgRrUjC9cl+mdOTtDzK86BkhhhH
-         GFeg==
+        bh=WHxiaSb1rJIu9R+4l2gEHdhyltoYWvxM1ZRzquRwQl0=;
+        b=X+wo0w8MzLU4kGs4TRnTw5kEzw9LrwS55YxQc7qJBNKDvaE2yU6WqBS1aBImY6GmmS
+         OXvGAU+iNQ2Rcl0gLG2gvtAiG+ea+no9zXcHIK5Iu34j5bhdo3dnTJqBsK1Cpm3ZkloI
+         3hj7bYmF+2gTBYwmPzRzqS6vthsZ2U8ibVD1j59cS36s/tYtobth7b2TWjeVcE2Tp34R
+         fvCAWIGkFSGNk2mF0uJ9qL5/Od6EvxtzGR4wLaqjsl5X84t0MNZ/Mw2RVWQJnScNCE2V
+         uYCjvdxPAHXvR8KL00yj3o15N38ReHuYU5B6hPZEjbefoow6vvw1PWqagUF5nFbKcrV6
+         huxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=TNUwlG9nzp/Ftl8DzRydchfqZilNnNf9wCNcd4Axyyc=;
-        b=ngWMX6x/1Fw08J2mHGT3Rv3Pto7uHX/DdIRsSNnfIYNxrbCh7EtqWT+xR4V2Ur2K24
-         VdHq0ZIQElooXoJwwfwAJJKZNTlSHlVeYSOG2O3gHbF+zh5afHtA6fFPwaxdj19AK7y3
-         F353a478kJbEbxg53bszryGBSw7xeiOuns4Ht5ueGHPj9oLIyt6UJuXp/0EeDffmCEHI
-         JNh0dRSClxeviOhGzcOopWghIZySe5qPV1Obi2oqG0svEEHWPNY0wQ4mid5jWc97VFlB
-         Onb5njEj5MU1bcO6ESTVNnKGP85CV5cUj3oFpjja7+N6jY7T+WxmlIDcUgHU+16/qntj
-         GQFA==
-X-Gm-Message-State: ACgBeo0wwfIczH253G+dmKIJBoVlJ/cqObrh1krVIOj1EFypW1aCE3KM
-	yE4HFuqbpTNtKChDBgJxfRY=
-X-Google-Smtp-Source: AA6agR7CV8kNq1XXv7XP88MrV1HeSYkUOz8GKDEpxx8jnl28DpZxeL/ERxuzAJd0fcrNHGowxnjkng==
-X-Received: by 2002:aa7:d795:0:b0:43c:eb00:fc77 with SMTP id s21-20020aa7d795000000b0043ceb00fc77mr9816545edq.284.1660465333601;
-        Sun, 14 Aug 2022 01:22:13 -0700 (PDT)
+        bh=WHxiaSb1rJIu9R+4l2gEHdhyltoYWvxM1ZRzquRwQl0=;
+        b=wpQ9m5FEhP3ipcGk1hPx1maR74/ocySvxxtoDQf3NrV3hVDwuYF2Q1U+lEi4wK56wB
+         JWk5lfron9uLp+0NGjqJ5QoqZ9RzCXkhT0iOyIVeGJnhuklkH7pOruPfYNkBnKPJ3J5o
+         z+Tw7EWHhzx8pT8D2MAJD9TF0gXtSr4t/vZI2oPO4kOX+dFW7VktktY++/1YRO5Vod7j
+         agBV7/NF1pHPNfDO7PeKtFpzcfvM/5B9Z3m1TFTLuv1P1Kt+JApnQVqbDv7fL4xd9/mn
+         dK3xN5XHmJj1JO0cD135Q+7nQ9hNdvzIVf0u0tZA+wAp7prJbY24sFYdqz9MOkNGUXU2
+         /JMw==
+X-Gm-Message-State: ACgBeo30QEB5pmrQEEmXXfOv1jR9auyp2BhWwGCow2Y/5l+bhjzs0fA6
+	yVaN5WEttb+ifQ/btLJd2Qw=
+X-Google-Smtp-Source: AA6agR6pfODl4z8g5+0i3U/G2F8naB8pinZvLP9XUoURWyhHcN67EGwaG5aUxFgsihalBkIBjoqSCw==
+X-Received: by 2002:a05:6402:2549:b0:440:5af7:f117 with SMTP id l9-20020a056402254900b004405af7f117mr10576010edb.259.1660471381510;
+        Sun, 14 Aug 2022 03:03:01 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id z5-20020a1709063ac500b007306df330e5sm2774748ejd.12.2022.08.14.01.22.12
+        by smtp.gmail.com with ESMTPSA id n9-20020a05640206c900b0043cc7a3ff7fsm4450601edy.33.2022.08.14.03.03.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 01:22:13 -0700 (PDT)
+        Sun, 14 Aug 2022 03:03:01 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Ulf Hansson <ulf.hansson@linaro.org>, Wolfram Sang <wsa+renesas@sang-engineering.com>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Andre Przywara <andre.przywara@arm.com>, Maxime Ripard <maxime@cerno.tech>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] mmc: sunxi-mmc: Fix clock refcount imbalance during unbind
-Date: Sun, 14 Aug 2022 10:22:11 +0200
-Message-ID: <21565294.EfDdHjke4D@jernej-laptop>
-In-Reply-To: <20220810022509.43743-1-samuel@sholland.org>
-References: <20220810022509.43743-1-samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] clk: sunxi-ng: mp: Avoid computing the rate twice
+Date: Sun, 14 Aug 2022 12:02:59 +0200
+Message-ID: <3682564.kQq0lBPeGt@jernej-laptop>
+In-Reply-To: <20220810014024.27568-1-samuel@sholland.org>
+References: <20220810014024.27568-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,18 +53,16 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne sreda, 10. avgust 2022 ob 04:25:09 CEST je Samuel Holland napisal(a):
-> If the controller is suspended by runtime PM, the clock is already
-> disabled, so do not try to disable it again during removal. Use
-> pm_runtime_disable() to flush any pending runtime PM transitions.
+Dne sreda, 10. avgust 2022 ob 03:40:24 CEST je Samuel Holland napisal(a):
+> ccu_mp_find_best() already computes a best_rate at the same time as the
+> best m and p factors. Return it so the caller does not need to duplicate
+> the division.
 > 
-> Fixes: 9a8e1e8cc2c0 ("mmc: sunxi: Add runtime_pm support")
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Did you get any warnings for unbalanced disable calls?
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-Anyway:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Other ccu_*_find_best() functions would also benefit with similar change.
 
 Best regards,
 Jernej
