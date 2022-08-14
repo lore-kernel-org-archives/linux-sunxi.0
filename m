@@ -1,195 +1,127 @@
 Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C082572
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 17:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFA42573
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 17:54:43 +0000 (UTC)
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id B2BFF32005CA;
-	Sun, 14 Aug 2022 13:37:09 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute2.internal (MEProxy); Sun, 14 Aug 2022 13:37:10 -0400
+	by mailout.west.internal (Postfix) with ESMTP id D11373200413;
+	Sun, 14 Aug 2022 13:54:41 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Sun, 14 Aug 2022 13:54:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1660498629; x=1660585029; bh=49
-	dhIZfr5q8v+hGU8cuF1niSFm1wGL2iaQ0mMKaC1Us=; b=KMrjwpl8IyD45VewM0
-	dnahvq08KfsO25Cnb/NS7UvZIdllLvu08CkJfT1IJRn+RauKE5ROgPXzcLoAiPbz
-	GG8x351g5x40BbTEE4fd1BN0E/bac9JP1l5OqMBTwLGNfmhczFib9iGTh3GLmy3V
-	XmV69ZIXLPW74p1KKcwojNrkasQok2SPbX77ECRBQqtftiO/XGl4OmmMXzP24rlF
-	yL9wxa8ipCWVvid7XN6jHf0uPnGWw9YYKeD61p1/nQTDW3TPodE7Rs7nHn/5ixTD
-	U+IxN+38eMNvnJFEe6KGosSZWIrtOO2q79E05Fdf6kTIFHWVMvChvKmNFQfJ8X0X
-	1NDA==
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660499681; x=
+	1660586081; bh=rg5A4PneXluGDG51+pizXl8CwAXEzj0HygpUz3KfuU0=; b=k
+	t/a6rRNBrJpta/FUoyDpMq5odlszXC2rivLR5tqgVAkWn8GMr9kzvwstfIa6W7Mm
+	cxS1+vJJfngCm2EH8Ix1PFB6Mo1zXujAuPct0zC+MesFucxkrZRZLh0bEACeUJWx
+	5XJxtjN+VlJDOTTcNcngmjA/ofeznMkJ3RI9at58AdeuUy46zNq8ngp9Z2wkWAa1
+	V9xcANB6kD9kKd1Uv8rIiQnrqR+N9D3KsjBnYzAxoIYegQ2EFowP+hnT/5/2YCsq
+	9BiOxFUpMYlzeEHHO9SyMIQPvXrGHU54gDKWYy8gUsjFjK0d+/QKT8MNmW3DmJ8U
+	EGcLlzzRQ5CpcB9dwkA0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660498629; x=1660585029; bh=49dhIZfr5q8v+
-	hGU8cuF1niSFm1wGL2iaQ0mMKaC1Us=; b=RuQ9kyJ9nsUTo/A8HY226w+V00dU+
-	QdHGVJOLVr2M9qocaY5Z4cMX5XD9AMI1Fj08k47MlL0PjmsS7Ssu81c+vK7M3IaW
-	1RaxCyJBMvjjay4GWXNp0AOfg86Go3xI9DfuyJCPJ8KAeMwRxxxoYsPMDyCjH1Jo
-	1b/bUWAs6vSbgjAa0ib/ILDeujgYWhjpXw6d1FyXo07teXesVwvxA3y6X4xYjmoS
-	ix6ASTAZXNv5ONtUw4V7GA2Zk7BeHKfnU3z0FhXHeYsOhJANAy6/J9TbEXOgB2j+
-	Dhavxe9oT/eil+udKtY7y8DRiCwp7pvobX0m0xf+0MgVOVr0Ej1vcUn7g==
-X-ME-Sender: <xms:xTL5YkxODX12D1Aq4EyfkqSJ1C6d3iVT2IIeVTIO8-3WC5O37FAOdg>
-    <xme:xTL5YoS6CJEARSd6d0zqgeKm9CrN9EYaXpHUF_jKUQzs-3BSjv4XhfPGG_I1Kz9Ok
-    T64-Nog92hkYHp5dg>
-X-ME-Received: <xmr:xTL5YmVaWvkZOf31BDT9kuUCP9PgjQRIGdpaoeh2IvWwcH3WBKfVCzu0RXX6KFSWsqQSrmbqSeWO9VkZYLIbihspEU3v32V24hmU7mlYmixZixGlukNeEgFwQ0XzV_8NVq0EeQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehtddgudduiecutefuodetggdotefrod
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660499681; x=
+	1660586081; bh=rg5A4PneXluGDG51+pizXl8CwAXEzj0HygpUz3KfuU0=; b=F
+	KQVJnQl9ap/WznUnkz5+LpehylIOQNrL7uMR5T6Edte+JHQZcrV4Y1PU4UoARazQ
+	VyPI0oythbIDrBv4L+QHOEj6sV6Gr4wYTapdiUVdhLjq/+EGApreyhHBGVcX98c5
+	IPtYkdrfWW8sIt/mExNB/vTgDocCrEqpRsJQotSz3GA4cCZ3Kb4wun2ZdgkqjMbX
+	XBY1uikGfAzsIutcA+ESbxmBbgBYPdNaIWI69pZ+KTjPcxpsmynjk40g/b3cmlQF
+	D3mpDIq53R/xSH3J/JP3W+sHJwDbI362AGVmGHiwr6OB2Jyve06Psg3KpE6vIyT2
+	LbJLXI5K7cOcHp0DyQgbA==
+X-ME-Sender: <xms:4Tb5YrTEs2KOEwa4hE8qQyp6l5A2BE-k6tjE5LfDpOP9WTT3a9uDRg>
+    <xme:4Tb5YsyUKj-f9N52JZbmbB-aiP1D4jkkNDVOuYazrsuQUUE5PhMNMJdhfnrtM-gXR
+    e6xSHjlG783yctZ3w>
+X-ME-Received: <xmr:4Tb5Yg37QDLjpXLjvA0mA39-KYA6GGZXwKc3K1kK3SyFtD0LAFBnenl8qMZcbHrYg0H6K5H_PdDmyTcEDQbxyI4H9i3dEzgB2meJRGQpqVvXS9-oeWQrKT3EIQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehtddguddvtdcutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
     necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefhvfevufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpedukeetueduhedtleetvefguddvvdejhfefudelgfduveeggeeh
-    gfdufeeitdevteenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:xTL5YiinrohnMCAtfOeDbJQzUrS3hkEBoac7wJVm5vLjellUHXYlXQ>
-    <xmx:xTL5YmDgriE-MUY-RnNbLeC1ctcdkVHXVqnsGi4_pfly8Ahf8VoYMg>
-    <xmx:xTL5YjJlcg75im5-1bXtZHqFZRjvUYjh_IfOxFikbAgA2YxPh9rimg>
-    <xmx:xTL5Yuvh2-za21XwMcj3mjnmNf5knNWjpxT53cp5A-tc_Nzvo_WTfg>
+    enucfjughrpefuvfevfhfhkffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgr
+    mhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqne
+    cuggftrfgrthhtvghrnheptdevhfehhefgvdekteffleduueduheduuedvtdevleelkeev
+    vdeuvdeihfekueehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
+    hfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:4Tb5YrD-F8LK1lI1jECLiaAEoEl_lKIT2zEY_HTLg2H4jReNIIpdQA>
+    <xmx:4Tb5YkhVjdmuSQvPTgZ2cx1lxbJfE2jBoWrjAwYlDku1_wiybtvtIA>
+    <xmx:4Tb5YvqbEitNLqYJ9NR_bCQZ7n-C003raaAu3KUD2xwSYZ_hxU2jiA>
+    <xmx:4Tb5Ygjq0j3-SeolZmylSueGRY3XVGcLWpvcCSNL0WAYs1HkXqcnpw>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 14 Aug 2022 13:37:08 -0400 (EDT)
+ 14 Aug 2022 13:54:40 -0400 (EDT)
+Subject: Re: [PATCH] drm/sun4i: dsi: Prevent underflow when computing packet
+ sizes
+To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220812031623.34057-1-samuel@sholland.org>
+ <8100632.T7Z3S40VBb@jernej-laptop>
 From: Samuel Holland <samuel@sholland.org>
-To: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH 4/4] nvmem: core: Support reading cells with >= 8 bit offsets
-Date: Sun, 14 Aug 2022 12:36:55 -0500
-Message-Id: <20220814173656.11856-5-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220814173656.11856-1-samuel@sholland.org>
-References: <20220814173656.11856-1-samuel@sholland.org>
+Message-ID: <093fee4d-d0b9-c6f2-8dde-d50b514fbc69@sholland.org>
+Date: Sun, 14 Aug 2022 12:54:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+In-Reply-To: <8100632.T7Z3S40VBb@jernej-laptop>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-For NVMEM devices with .stride > 1, some cell values may not be aligned
-to the device's stride. In this case, it is necessary to use bit_offset
-to access the cell. For example, to access the third byte of an NVMEM
-device with .stride == 4, we need "bits = <16 8>;" in the devicetree.
+On 8/14/22 2:55 AM, Jernej Škrabec wrote:
+> Dne petek, 12. avgust 2022 ob 05:16:23 CEST je Samuel Holland napisal(a):
+>> Currently, the packet overhead is subtracted using unsigned arithmetic.
+>> With a short sync pulse, this could underflow and wrap around to near
+>> the maximal u16 value. Fix this by using signed subtraction. The call to
+>> max() will correctly handle any negative numbers that are produced.
+>>
+>> Apply the same fix to the other timings, even though those subtractions
+>> are less likely to underflow.
+>>
+>> Fixes: 133add5b5ad4 ("drm/sun4i: Add Allwinner A31 MIPI-DSI controller
+>> support") Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 10 +++++-----
+>>  1 file changed, 5 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c index b4dfa166eccd..34234a144e87
+>> 100644
+>> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+>> @@ -522,77 +522,77 @@ static void sun6i_dsi_setup_format(struct sun6i_dsi
+>> *dsi, SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINE0(0xffff) |
+>>  		     SUN6I_DSI_PIXEL_PF1_CRC_INIT_LINEN(0xffff));
+>>
+>>  	regmap_write(dsi->regs, SUN6I_DSI_PIXEL_CTL0_REG,
+>>  		     SUN6I_DSI_PIXEL_CTL0_PD_PLUG_DISABLE |
+>>  		     SUN6I_DSI_PIXEL_CTL0_FORMAT(fmt));
+>>  }
+>>
+>>  static void sun6i_dsi_setup_timings(struct sun6i_dsi *dsi,
+>>  				    struct drm_display_mode *mode)
+>>  {
+>>  	struct mipi_dsi_device *device = dsi->device;
+>> -	unsigned int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
+>> +	int Bpp = mipi_dsi_pixel_format_to_bpp(device->format) / 8;
+> 
+> Nit: mipi_dsi_pixel_format_to_bpp() can return -EINVAL in case of unsupported 
+> format. Would it make sense to check it?
 
-Implement this on the read side. The write side implementation would be
-more complicated, and it is not necessary for read-only NVMEM devices.
-For now, reject writes for these cells to avoid any incorrect behavior.
+The switch statement in mipi_dsi_pixel_format_to_bpp() handles every value in
+the enumeration, so I think the -EINVAL is just there to keep GCC from
+complaining. If we do want to handle this case, it would need to be in
+sun6i_dsi_attach(), since the other places we use mipi_dsi_pixel_format_to_bpp()
+are way too late to handle any errors.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
-
- drivers/nvmem/core.c | 43 ++++++++++++++++++++++++-------------------
- 1 file changed, 24 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
-index 1e3c754efd0d..309beba8c9f0 100644
---- a/drivers/nvmem/core.c
-+++ b/drivers/nvmem/core.c
-@@ -1373,63 +1373,67 @@ void nvmem_cell_put(struct nvmem_cell *cell)
- }
- EXPORT_SYMBOL_GPL(nvmem_cell_put);
- 
--static void nvmem_shift_read_buffer_in_place(struct nvmem_cell_entry *cell, void *buf)
-+static int nvmem_shift_read_buffer_in_place(struct nvmem_cell_entry *cell, void *buf)
- {
-+	int bit_offset = cell->bit_offset, bytes, i;
- 	u8 *p, *b;
--	int i, extra, bit_offset = cell->bit_offset;
- 
- 	p = b = buf;
- 	if (bit_offset) {
-+		int byte_offset = bit_offset / BITS_PER_BYTE;
-+
-+		b += byte_offset;
-+		bit_offset %= BITS_PER_BYTE;
-+		bytes = cell->bytes - byte_offset;
-+
- 		/* First shift */
--		*b++ >>= bit_offset;
-+		*p = *b++ >> bit_offset;
- 
- 		/* setup rest of the bytes if any */
--		for (i = 1; i < cell->bytes; i++) {
-+		for (i = 1; i < bytes; i++) {
- 			/* Get bits from next byte and shift them towards msb */
--			*p |= *b << (BITS_PER_BYTE - bit_offset);
--
--			p = b;
--			*b++ >>= bit_offset;
-+			*p++ |= *b << (BITS_PER_BYTE - bit_offset);
-+			*p = *b++ >> bit_offset;
- 		}
--	} else {
--		/* point to the msb */
--		p += cell->bytes - 1;
- 	}
- 
- 	/* result fits in less bytes */
--	extra = cell->bytes - DIV_ROUND_UP(cell->nbits, BITS_PER_BYTE);
--	while (--extra >= 0)
--		*p-- = 0;
-+	bytes = DIV_ROUND_UP(cell->nbits, BITS_PER_BYTE);
-+	p = buf + bytes;
-+	memset(p, 0, cell->bytes - bytes);
- 
- 	/* clear msb bits if any leftover in the last byte */
- 	if (cell->nbits % BITS_PER_BYTE)
--		*p &= GENMASK((cell->nbits % BITS_PER_BYTE) - 1, 0);
-+		p[-1] &= GENMASK((cell->nbits % BITS_PER_BYTE) - 1, 0);
-+
-+	return bytes;
- }
- 
- static int __nvmem_cell_read(struct nvmem_device *nvmem,
- 		      struct nvmem_cell_entry *cell,
- 		      void *buf, size_t *len, const char *id)
- {
-+	int bytes = cell->bytes;
- 	int rc;
- 
--	rc = nvmem_reg_read(nvmem, cell->offset, buf, cell->bytes);
-+	rc = nvmem_reg_read(nvmem, cell->offset, buf, bytes);
- 
- 	if (rc)
- 		return rc;
- 
- 	/* shift bits in-place */
- 	if (cell->bit_offset || cell->nbits)
--		nvmem_shift_read_buffer_in_place(cell, buf);
-+		bytes = nvmem_shift_read_buffer_in_place(cell, buf);
- 
- 	if (nvmem->cell_post_process) {
- 		rc = nvmem->cell_post_process(nvmem->priv, id,
--					      cell->offset, buf, cell->bytes);
-+					      cell->offset, buf, bytes);
- 		if (rc)
- 			return rc;
- 	}
- 
- 	if (len)
--		*len = cell->bytes;
-+		*len = bytes;
- 
- 	return 0;
- }
-@@ -1526,6 +1530,7 @@ static int __nvmem_cell_entry_write(struct nvmem_cell_entry *cell, void *buf, si
- 	int rc;
- 
- 	if (!nvmem || nvmem->read_only ||
-+	    cell->bit_offset >= BITS_PER_BYTE ||
- 	    (cell->bit_offset == 0 && len != cell->bytes))
- 		return -EINVAL;
- 
--- 
-2.35.1
-
+Regards,
+Samuel
