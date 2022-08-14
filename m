@@ -1,49 +1,49 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E14EB8
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 10:13:55 +0000 (UTC)
-Received: by mail-ed1-f47.google.com with SMTP id o22so6328987edc.10
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 03:13:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43462EB8
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 10:21:34 +0000 (UTC)
+Received: by mail-ej1-f45.google.com with SMTP id a7so9093776ejp.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 03:21:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=s2xCRCS5m4i4+EfBqMdOEQInaq/ShuXp1FW8bVckG40=;
-        b=WAX9jpeTuNWjlK8hqNNxEsbMZ7M3aD+MgDj/BVKuUiGwTEAG17A1knJU8BBwA4hJLI
-         /HAobNHHkFzxsZDlBjIj+o+3o/+6iXtKmwc4xnaXjaDOY912JF8twRccony2QhKgvpfW
-         TcyGggtlXvNwPPIoSkb9Lt9CIi6oNAHS3KlNenppEF7SnhcoEnZBDDQhFLgLWXfvP3At
-         Yl4REhB2gt4ghQ67RDOKrPaGLyt+LOAcuXAsF+P+cbJo7vI3lVKl9iu7p857sQEhgSZn
-         PfRVlFm+SkktqecyYSYVmEej1B8TBwHPv0SHJjpB3R9xoBcQMFRfxWnOlbgMhqYakwnF
-         dnmg==
+        bh=NgLSVABhBcWdug9UrtD9+LNXeaw8h4QX1AgubMiZPaE=;
+        b=EWvXkmaUv98OEwpQ4/IYmrswQI0ewNc7UtMSIuYn7fJHsAM62v+gfIu/BTKPAVTH1B
+         pQTRJZQv1BNl8pixFn+wZTIHhHoqpcmYv6cDoko00mjKMdziHvqpzvIrriE+j85mNz6l
+         s8S1bnbJ6jIGOucu2dAE2VPK0XTHPOCFA4mjuzfJ8JCtIAUWRmYzP/T17Qn4G+5rVCWx
+         O/jxBkup/cUM/qCQsuyA1Uk18oBlV+V0xGbArxcE+nl7Bi6L3tzBzMCzoHiy27ngq2le
+         VbSAlwRMnQiXV0gO1fxLwLwUbfhMGZWygn1Ad+EpxitARvigcros1fJ+HWjCeb3ekbLu
+         vgtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=s2xCRCS5m4i4+EfBqMdOEQInaq/ShuXp1FW8bVckG40=;
-        b=zC/iLb4pJsVe/CbB1ZPPFAuOKOisUNntTsbmTgoVrrNC+rM40BU9wRYFFu0dNNvig8
-         2kOuoCNb7yZN0DR+L9cHbagnrJcLiXqJ1W99dKIAUcAlo8T0l3cRgmFXKVDrzxQeI/wC
-         zlU0ATj2Q1WBAxbZiCQE46nqna0BvYLktkh4F7/dQGr2Lyy0ql5lvb9nNmlR6rR+P8a+
-         O93yd9x+kmGcDLO5f2psV5rmuAVdWuSXctQn4JQvieAJ93xvbIdEW9MeYuy6l+yEAcSF
-         Zr7nv+YodUFNoi1WeoFw05Svovzl3eFuRxmmWgGJYrkdi+sKRHA4L691mTbVPxJhlEJg
-         qRLA==
-X-Gm-Message-State: ACgBeo1McW7/on6ouCRyXV9iJ4Hd09BQ8M/RqwmF8Ua/i0n8NLrR6glp
-	v4estrNxby+QvN79GWuMZqg=
-X-Google-Smtp-Source: AA6agR42k51Lq8Yp/MP5cdbyrsfugOi+nLPScpkpXy8R/epCeq6yMXoPKsS9t/LJLtkE6kyFkTmLCQ==
-X-Received: by 2002:a05:6402:331f:b0:43d:931c:6945 with SMTP id e31-20020a056402331f00b0043d931c6945mr10280751eda.199.1660472033733;
-        Sun, 14 Aug 2022 03:13:53 -0700 (PDT)
+        bh=NgLSVABhBcWdug9UrtD9+LNXeaw8h4QX1AgubMiZPaE=;
+        b=Vkt5TQpXElraVV14d1LVfXLYZOifWZj9WQSLQ7GvHhefrLU6PbdEnJfd5sguk+01NO
+         Vmp/m0jwMYUZySezlDAwWbyTF3jFPfq3ORBdImkk9F/ytssELIKbsyNF6H8tgAJAGydB
+         XhKuPJVDlBokYC7IyWO7qRVpTPad50Jk3gBFWgwObzEarrXOUXf3T1v5j1BN20Axzakz
+         UbY1okp+vMS3dxGwmBR9v8/aXbbgGPKJWo8s2RBKGmAG0/sjANN1YD3jATUcN9JpPYkC
+         txQD6AfLbxfoA4mJRX+jTDxOeJy/ESJ6xq8T68kUtx/OParJYaqRPrqjeJLlMur+EuVr
+         yksA==
+X-Gm-Message-State: ACgBeo0SXCIWFsjkeWnO3OFd0fGXhocHC9l9Nzg8HReu27LxPJbmYV3d
+	Rg+SoPnbOGnXr9asUobzp8E=
+X-Google-Smtp-Source: AA6agR41uSYgu6jwgwi4GNbOiiHGpeVDJUS+R3XUJ+D/AlJZSWhM9JJEsC2Abiy5Ip6gc0dNsSdgCA==
+X-Received: by 2002:a17:906:fe45:b0:734:ca71:9672 with SMTP id wz5-20020a170906fe4500b00734ca719672mr7419035ejb.446.1660472492615;
+        Sun, 14 Aug 2022 03:21:32 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id c18-20020a056402121200b0043cc2c9f5adsm4496602edw.40.2022.08.14.03.13.52
+        by smtp.gmail.com with ESMTPSA id jl4-20020a17090775c400b00734a9503bcasm2788909ejc.135.2022.08.14.03.21.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 03:13:53 -0700 (PDT)
+        Sun, 14 Aug 2022 03:21:32 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-kernel@vger.kernel.org, cgel.zte@gmail.com
-Cc: linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, ye xingchen <ye.xingchen@zte.com.cn>, Zeal Robot <zealci@zte.com.cn>
-Subject: Re: [PATCH linux-next] crypto: sun8i-ce:using the pm_runtime_resume_and_get  to simplify the code
-Date: Sun, 14 Aug 2022 12:13:52 +0200
-Message-ID: <8140378.NyiUUSuA9g@jernej-laptop>
-In-Reply-To: <20220802074820.1648786-1-ye.xingchen@zte.com.cn>
-References: <20220802074820.1648786-1-ye.xingchen@zte.com.cn>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>, Icenowy Zheng <icenowy@aosc.io>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 2/9] soc: sunxi: sram: Actually claim SRAM regions
+Date: Sun, 14 Aug 2022 12:21:31 +0200
+Message-ID: <3368908.QJadu78ljV@jernej-laptop>
+In-Reply-To: <20220801030509.21966-3-samuel@sholland.org>
+References: <20220801030509.21966-1-samuel@sholland.org> <20220801030509.21966-3-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,41 +53,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne torek, 02. avgust 2022 ob 09:48:20 CEST je cgel.zte@gmail.com napisal(a):
-> From: ye xingchen <ye.xingchen@zte.com.cn>
+Dne ponedeljek, 01. avgust 2022 ob 05:05:02 CEST je Samuel Holland napisal(a):
+> sunxi_sram_claim() checks the sram_desc->claimed flag before updating
+> the register, with the intent that only one device can claim a region.
+> However, this was ineffective because the flag was never set.
 > 
-> Using pm_runtime_resume_and_get() to instade of  pm_runtime_get_sync
-> and pm_runtime_put_noidle.
-> 
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
-> ---
->  drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-> b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c index
-> 19cd2e52f89d..ef9cfc61af32 100644
-> --- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-> +++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-trng.c
-> @@ -54,9 +54,8 @@ static int sun8i_ce_trng_read(struct hwrng *rng, void
-> *data, size_t max, bool wa goto err_dst;
->  	}
-> 
-> -	err = pm_runtime_get_sync(ce->dev);
-> +	err = pm_runtime_resume_and_get(ce->dev);
->  	if (err < 0) {
-> -		pm_runtime_put_noidle(ce->dev);
->  		goto err_pm;
->  	}
+> Fixes: 4af34b572a85 ("drivers: soc: sunxi: Introduce SoC driver to map
+> SRAMs") Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-You should also remove braces, since there is only one line left.
-
-With that fixed:
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
-
 
 
