@@ -1,49 +1,49 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0BAAA4E
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 07:47:11 +0000 (UTC)
-Received: by mail-ed1-f42.google.com with SMTP id a89so6115640edf.5
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 00:47:11 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 316C0A4E
+	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 07:47:45 +0000 (UTC)
+Received: by mail-ej1-f51.google.com with SMTP id a7so8764792ejp.2
+        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 00:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=hPc+aF2VAi/VbtY/nNmAuTS5AG9h1lW1aTIOSa9Z7t8=;
-        b=TcrPgJ4ohViDciruhNDRuGYu8uFAQ7ywdU0cgSCp6gfiZ9WMtHxZGnHTWpXtzyJFww
-         Pg90Kl2fWc/reoStkjEFcj8YZHJUHgvqsoaCwnOWScJMxfY9Lpu5lcOtwXD0/b3rsy+q
-         XLbNEtxtZ9L4JYQxWpHo+hBBlOlDzOlRUGP+1iPQNp5vAHXhC/q0M2LXWfXT/SepsYCJ
-         MJu0Ga3dQGkUi09svuD8eTus6cQJ282lmm82NP0KnCyfcNJso0p/fhuQShnqOlFxYyOd
-         7u7Y2pTLQE+++IL5972uDenQ5Q2XG7Bp10K46srntrOJ9ChWAHpCkS3z+kvs3pC3+Avg
-         QvsA==
+        bh=Hnh4O8lBATWYE9MckUrwDYzVE7Ezy3HP7Kymm/nWvtM=;
+        b=Fp6/0M1coVCo0dHzpCuZtyoy5EV5+zwP2A3veaF0rQ1xP89YJfwisOeMA2J5yIhK/P
+         Sl1Esknrec0buoonCzK3KNI3D9AFa80+3/V56EmdDGPV6bt95CY4fuzVgdRB/n4mFsDJ
+         H+sqK4k79aAUiJXbeAcZmJFsHuXUvti/gdecNZiYucgS9AnZc4a32VOjo2utgb3yPspa
+         sLX+8WuyIAZEBJh4ttLUfX3BhZtYlStNkF7oTmCpZLbBy1O78vdD5A29PXz25/W7BsrC
+         xdlcwfOsU/bSWaULv3dmii+g2nOMrwi/WrXMN62BqR+dHyzKaM1Fqh3Y2FiocbODd8ag
+         t51g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=hPc+aF2VAi/VbtY/nNmAuTS5AG9h1lW1aTIOSa9Z7t8=;
-        b=neCWnFkkFLvid3hW8TMypM89uRmqWFVRX9pVCpuIedw9BgFcKUx8CMYzxufhp3YtRc
-         OuZK10tdcSeXHmTymIsr8ZaVttfKtwUo2vsz6IXNY9WMzHKe5V96dn70aAb7LA2t8edc
-         SSXFWZ+E+w3ep3awuAFkhKu5TArGehVdnBx+/WVQBhtncC998D7y6o+ykp4lkO9ZDy09
-         +2ybu23YM886dzM7XQUyoyuTd0o3i2gxlnz9YQ/Z7c+kOS1lGIchYio+FU3WgL1+1MTB
-         JwOsy6GiPRgPsjG46LQ2jCCUZUXFSXUE0fRVZeb2z71dsP0XyMKDsddnA3LVDliCFUer
-         JWLA==
-X-Gm-Message-State: ACgBeo2EjTVwQSbevySXdVGmseQWZXwpkMMSrj8WnTL3KOp94NCMmxJ4
-	PFzNQOetdfcNDif0NiiLEXQ=
-X-Google-Smtp-Source: AA6agR4xesSbq0h+Z50jLzI3hDE4cPZAkKUdasYL/U5BfidpRRo0/xGAgREkUb2XLYIBaHbs5IHMRA==
-X-Received: by 2002:a05:6402:5190:b0:43d:da02:566a with SMTP id q16-20020a056402519000b0043dda02566amr10055382edd.187.1660463230217;
-        Sun, 14 Aug 2022 00:47:10 -0700 (PDT)
+        bh=Hnh4O8lBATWYE9MckUrwDYzVE7Ezy3HP7Kymm/nWvtM=;
+        b=KXlNuLtWxRlu/jQceo5iuBp1wRyVK3v2Ed5PHSZH4T0OXLFGL39WvAkO4qFWg0euod
+         je3Un2ySxKUA2NmYI4CBcS4RXWRg7nmEm82oM96hRsQlJ7YulallJv4RoyEHW/fkzka4
+         l3VQ+V7N1XhMFPp2HQUXuPUFgqS5tETsQaEkE3kPPuQrCNXOQzkexIEDlM3FhQ8ckoU/
+         Rq/3LeRb3Jc3eZAdnYne8LiVzqtlpxSo9UWdyK76hOl9yirpE/NwqVC6FUwhENTE587j
+         Rz8y4A5DDDbpxgTi7tsPr6m+Pu0Zazu5GqM0dwTV/0uLNvPpwymMxgPsEOSwHDZ8JFmX
+         pHYw==
+X-Gm-Message-State: ACgBeo2XPTmlXmGnQhjTe06sxAhG2tnbX+aeyFqyV/9K07Yco5Tif7LM
+	Ik6WCInmuPTJXerL879Enhk=
+X-Google-Smtp-Source: AA6agR6vANf1pbhVeeVmygcGCmaP0DXMRLm1Z7g9ey+MR1EXQB5U4oGHawZ6EGSAh+bQJawKfVONCg==
+X-Received: by 2002:a17:906:fc6:b0:72f:d080:416 with SMTP id c6-20020a1709060fc600b0072fd0800416mr7304325ejk.1.1660463263575;
+        Sun, 14 Aug 2022 00:47:43 -0700 (PDT)
 Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id 23-20020a170906309700b0072b342ad997sm2651373ejv.199.2022.08.14.00.47.09
+        by smtp.gmail.com with ESMTPSA id l13-20020a170906078d00b0072af0b036f3sm2666813ejc.41.2022.08.14.00.47.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 00:47:09 -0700 (PDT)
+        Sun, 14 Aug 2022 00:47:43 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Maxime Ripard <mripard@kernel.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Jagan Teki <jagan@amarulasolutions.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 4/4] drm/sun4i: dsi: Add the A100 variant
-Date: Sun, 14 Aug 2022 09:47:08 +0200
-Message-ID: <2110674.irdbgypaU6@jernej-laptop>
-In-Reply-To: <20220812074257.58254-5-samuel@sholland.org>
-References: <20220812074257.58254-1-samuel@sholland.org> <20220812074257.58254-5-samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
+Cc: Samuel Holland <samuel@sholland.org>, Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] clk: sunxi-ng: d1: Limit PLL rates to stable ranges
+Date: Sun, 14 Aug 2022 09:47:42 +0200
+Message-ID: <2839208.e9J7NaK4W3@jernej-laptop>
+In-Reply-To: <20220812080050.59850-1-samuel@sholland.org>
+References: <20220812080050.59850-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,14 +53,14 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Dne petek, 12. avgust 2022 ob 09:42:56 CEST je Samuel Holland napisal(a):
-> The A100 variant of the MIPI DSI controller now gets its module clock
-> from the TCON via the TCON TOP, so the clock rate cannot be set to a
-> fixed value. Otherwise, it appears to be the same as the A31 variant.
+Dne petek, 12. avgust 2022 ob 10:00:49 CEST je Samuel Holland napisal(a):
+> Set the min/max rates for audio and video PLLs to keep them from going
+> outside their documented stable ranges. Use the most restrictive of the
+> "stable" and "actual" frequencies listed in the manual.
 > 
 > Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
 Best regards,
 Jernej
