@@ -1,75 +1,72 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 019A410EA
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 04:13:26 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 5963D3200564;
-	Mon, 15 Aug 2022 00:13:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Mon, 15 Aug 2022 00:13:26 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A8EEA1
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 04:34:39 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id E3CCB320039A;
+	Mon, 15 Aug 2022 00:34:37 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Mon, 15 Aug 2022 00:34:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1660536804; x=1660623204; bh=Nq
-	FKEkODlx0WhlIOI2ngbEzxnvj41xzTMmfpeow5T8U=; b=KscRtCvSYKbRtCLpwr
-	Sp4z5EuprCpPXar0hKXZhnlD7Cv7VJOkMSoIB5WuG3bGOK0DhT69byuadTIkv/r/
-	Rbzf5ulg8+KFX7rRqRCgY5kuqcE5XFQUoyPbSwDDA7fp4SZXIinRGqdpCLqTY86p
-	UJiY/gds2GX5H0WcVwqUTIDFhm7shns3pQMsYabc3aZHNWrPaPuW2MQxn4xvhMqN
-	+MilaUecbEEuRgw4V6FZxHzW4knY7quIBF06i/dnD1KQDPuMdNRSwO0xBx9QHNBS
-	q/m37bKstFBSMH5UTh/ylYmdzUn9VkkHQtbNcGAt7PpJTkG61bQVQH1bJNcsonnQ
-	Q5GQ==
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1660538077; x=1660624477; bh=SZ5v7SwKxKRGgP+cCIUCQcwi+
+	uzQ6nY+5CX8LY/PRvU=; b=r0dmwSkDzL2DJSVK1OllhF1cmFKiWGI1fsuZQTYeC
+	yunxoXucbTAowbsN0JMLq6MfQdfl2dfUedoM7Stu+dSq6d3S+0au//HvXpt9kTAx
+	rKUN8oqDITU+D+yJPeao0jqqrapbumDV4+H+5enHQ5GqWTKp26p/IjUGHndwqGTV
+	upMKbLozzGtW3wKqbl8ml9omlKJ38zWZyRXnRMNa0KMcC/FXf4p5mhf2kLGEQK8d
+	NVCOLrwXkNwvp9TviSTDZjF4IGEEIMRbWa9DoibgGBndLeWn9YUUU0ch8NcOu5uN
+	Al7xzYsM5rVik9F2NxedANzEQwFKUlBXWCed4n4hbfjUQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660536804; x=1660623204; bh=NqFKEkODlx0Wh
-	lIOI2ngbEzxnvj41xzTMmfpeow5T8U=; b=KUU90m5RsYrHCN2++nqvIfeeMgWRd
-	ujq9Uq1RXhSQSgKWbkDxBoNWr+NvMBzdRACtylRuXar3axPIgvavTrcbjj5oUoHS
-	C8qI6Xl9FPbjOWCcbXZjVJ6HhudxjjmhPRH8FGPovhYW02UET+sXvUAAau0HYZmR
-	pwGFSiBIgNvifJ5BJ502tgsfyWU49qjappoZxkH6ss8UTwWnV6H+UIuNyIhL7rAN
-	JekZjIxpZV+9dG4b/jXLgCWvR6gag3qZiR5X235ByZDF/83glnL6RQNFoB9KsVIe
-	LsbyuUBIc/D07J2PZgcCw/2MlM0XNdOdmyB4HnnzQ5gGM9ua04784Lx2A==
-X-ME-Sender: <xms:5Mf5Yv2pbZ7xn0ypLSSAf0q9jgN0LZqTER1VQ-R9-LPRUQh41r0jog>
-    <xme:5Mf5YuHKnF66UcbCapOFB0QL5sr91Hcjhfc3srWzvS3nM39jaPRdJrIiaJ9htWNw8
-    jRV46vbbh9fNdEoGw>
-X-ME-Received: <xmr:5Mf5Yv7f1EPGStzrnlc_k8CqbIe_qN2dy8uIE_DqMMvYUfmDkY5rY5ZQ6xSHk_iB8HZxDom2WO9RGcMz4MIk4jNqz-_8hXmwySMYYWN-LWbcW_r5SM2XNjQaeeb5HXDTTkyClQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgkeehucetufdoteggodetrfdotf
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1660538077; x=1660624477; bh=SZ5v7SwKxKRGgP+cCIUCQcwi+uzQ6nY+5CX
+	8LY/PRvU=; b=a+As4MBWRZZfnaH6SVQ3b8RutI94ecUfSFXawbhGynFHGXSI1HC
+	Fz5IXhM8+xjurIbi1GGGXeUOPAzxLHJ0K8UkBqX4hiWorgdUTZKQmFQW6XuHWYff
+	7T7R6NS/IzSJkGBHvMhPmli8AqkoGf/e5qKR1+t2OjCd6N/sMt8nvXntTzzjfFe8
+	Ytza7W40iKMLG6zeDqJaKyiJPov3r0fGLDyi3Da9VDUNuWGSjMdmkBApBK9YcuMH
+	E5GxPsw1Fcg04anucc9tRUwK8nA0vknL9nAp4WYSgfNS0uf7y4YiPG+6vu51En88
+	G9zlw7fvAQRCIEWRfRX6J2OGAgHQccmLxwQ==
+X-ME-Sender: <xms:3cz5YsfU42jqkGMhuwz9vnNuHy6qGoULUR0vhntqT9bEn-VEifMong>
+    <xme:3cz5YuN-llvgbuNsq8xZ4pIJUvE5JG-AmSjWiqsYV_6ZEvbiP3vA5cP0JY6pI-87R
+    0-LQ4COMXKWueMiHg>
+X-ME-Received: <xmr:3cz5YthQuP-OHPZ9buI8jCqfnez0A_6ycCCm25pE1scdHl9rbCKK8nQ4MrumnjjOYz_uxkdmq7Wnm7QGmu-CM77ULu-9Xxzu_9oDPzDAApcweAxHSMf2or-Lj0hKkRCcWxruTw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgkeekucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:5Mf5Yk3_7CnVsmzOH1heQjQhCyfJQhzEyaG--ROEesV8K_TTDKjilQ>
-    <xmx:5Mf5YiGmhyTv-y5-xWRp2WVVI769acCFK6t8XvbY5rTD_yP-2X9KZQ>
-    <xmx:5Mf5Yl_-VbLY7OH_w8qFSAMD6RmmNAgeau7t4JPM20N1vdtMmzmOww>
-    <xmx:5Mf5Yt9mdBW2FVywTZu9SLe8L6kCyKylf8h4P4GhLPEm3YbG5lzSNA>
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeehffethedtteffgfefteetjedvfeelueevudffgfeutdejvdehledv
+    vdffhfevnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehsrghmuhgvlhesshhhohhllhgrnhgu
+    rdhorhhg
+X-ME-Proxy: <xmx:3cz5Yh_oH5azO04EomE9h090QZhDRgJHW-_SgF-r3gJf5iBA2PRcnA>
+    <xmx:3cz5Yotz-bA9P3SLvjrIKM9LQ1l5-EJGbqlvsZV80xSVxdAPaCfLEw>
+    <xmx:3cz5YoGwDwexOHo5h0F0AkmIWiVhKUCNU1olsXUJGXlNQn0rv17dew>
+    <xmx:3cz5Ypn-n-1O4CCcTAUH6-vo_gUpejwOZUNo_AT9yBz5F97RUYuAWg>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 00:13:24 -0400 (EDT)
+ 15 Aug 2022 00:34:36 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Cc: Samuel Holland <samuel@sholland.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Icenowy Zheng <icenowy@aosc.io>,
+To: Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>
+Cc: Samuel Holland <samuel@sholland.org>,
 	Maxime Ripard <mripard@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	linux-sunxi@lists.linux.dev
-Subject: [PATCH v2 10/10] soc: sunxi: sram: Add support for the D1 system control
-Date: Sun, 14 Aug 2022 23:12:47 -0500
-Message-Id: <20220815041248.53268-11-samuel@sholland.org>
+Subject: [PATCH v3 0/4] regulator: Add support for Allwinner D1 LDOs
+Date: Sun, 14 Aug 2022 23:34:31 -0500
+Message-Id: <20220815043436.20170-1-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220815041248.53268-1-samuel@sholland.org>
-References: <20220815041248.53268-1-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -78,44 +75,49 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-D1 has a single EMAC and some LDOs that need to be exported.
+This series adds bindings and a driver for the two pairs of LDOs
+inside the Allwinner D1 SoC.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+A binding and driver change is required for the SRAM controller, to
+accept the regulators device as its child node. The new example in the
+SRAM controller binding uses the compatible string added in this series:
+https://lore.kernel.org/lkml/20220815041248.53268-1-samuel@sholland.org/
 
-(no changes since v1)
+Changes in v3:
+ - Add "reg" property to bindings
+ - Add "unevaluatedProperties: true" to regulator nodes
+ - Minor changes to regulator node name patterns
+ - Remove system-ldos example (now added in patch 3)
+ - Adjust control flow in sun20i_regulator_get_regmap() for clarity
+ - Require the regulators node to have a unit address
+ - Reference the regulator schema from the SRAM controller schema
+ - Move the system LDOs example to the SRAM controller schema
+ - Reorder the patches so the example passes validation
 
- drivers/soc/sunxi/sunxi_sram.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Changes in v2:
+ - Remove syscon property from bindings
+ - Update binding examples to fix warnings and provide context
+ - Use decimal numbers for .n_voltages instead of field widths
+ - Get the regmap from the parent device instead of a property/phandle
 
-diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
-index 7e8dab0f0ec4..92f9186c1c42 100644
---- a/drivers/soc/sunxi/sunxi_sram.c
-+++ b/drivers/soc/sunxi/sunxi_sram.c
-@@ -294,6 +294,11 @@ static const struct sunxi_sramc_variant sun8i_h3_sramc_variant = {
- 	.num_emac_clocks = 1,
- };
- 
-+static const struct sunxi_sramc_variant sun20i_d1_sramc_variant = {
-+	.num_emac_clocks = 1,
-+	.has_ldo_ctrl = true,
-+};
-+
- static const struct sunxi_sramc_variant sun50i_a64_sramc_variant = {
- 	.num_emac_clocks = 1,
- };
-@@ -382,6 +387,10 @@ static const struct of_device_id sunxi_sram_dt_match[] = {
- 		.compatible = "allwinner,sun8i-h3-system-control",
- 		.data = &sun8i_h3_sramc_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun20i-d1-system-control",
-+		.data = &sun20i_d1_sramc_variant,
-+	},
- 	{
- 		.compatible = "allwinner,sun50i-a64-sram-controller",
- 		.data = &sun50i_a64_sramc_variant,
+Samuel Holland (4):
+  regulator: dt-bindings: Add Allwinner D1 LDOs
+  regulator: sun20i: Add support for Allwinner D1 LDOs
+  dt-bindings: sram: sunxi-sram: Add optional regulators child
+  soc: sunxi: sram: Only iterate over SRAM children
+
+ .../allwinner,sun20i-d1-analog-ldos.yaml      |  74 ++++++
+ .../allwinner,sun20i-d1-system-ldos.yaml      |  37 +++
+ .../allwinner,sun4i-a10-system-control.yaml   |  29 +++
+ drivers/regulator/Kconfig                     |   8 +
+ drivers/regulator/Makefile                    |   1 +
+ drivers/regulator/sun20i-regulator.c          | 232 ++++++++++++++++++
+ drivers/soc/sunxi/sunxi_sram.c                |   3 +
+ 7 files changed, 384 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+ create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+ create mode 100644 drivers/regulator/sun20i-regulator.c
+
 -- 
 2.35.1
 
