@@ -1,170 +1,201 @@
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com [66.111.4.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23D7210F5
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 05:08:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B58B1102
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 06:43:02 +0000 (UTC)
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.west.internal (Postfix) with ESMTP id 455E3320077A;
-	Mon, 15 Aug 2022 01:08:53 -0400 (EDT)
+	by mailout.nyi.internal (Postfix) with ESMTP id E4D2C5C00B9;
+	Mon, 15 Aug 2022 02:43:01 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Mon, 15 Aug 2022 01:08:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1660540132; x=1660626532; bh=CS
-	KC6w1bA8nM1A76JAooQJx5OjKisqiho6nwC7B/by4=; b=iuCNaHtsbsrq/ObZgW
-	BeoL3AQ2tDNmAJeI1WuBSsOo0NLcsu9vLNQrY+ACR/huBsc7izbAT84HcwAgRCwx
-	VeRtnajnc4qKP977d15TpsFJbRFfUzsJvS37fsv4AgZ1GPrAxRSClQHzVsYaEeW4
-	XNTYGYRGm78N7DgcvD161+TxLTBU3svoWIC4yEik/e386K+Qc2T9lJrzASvkI5xK
-	6R3MYariKi9nQGHzQYd89FwcD6+ZaqSYqv4wmdGdlObWD4HXVtbilXyGvBo6db1Q
-	/xwrVIwWQaLk8z11dOwa9DxgkjVDrnPZfluXZHYxUic2kLEuabeL5nw1onn/gYSF
-	XgLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+  by compute4.internal (MEProxy); Mon, 15 Aug 2022 02:43:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660540132; x=1660626532; bh=CSKC6w1bA8nM1
-	A76JAooQJx5OjKisqiho6nwC7B/by4=; b=VfAXbYTQDtOTY2GBYV6+TdI2xoBBR
-	59DfgJhrpWv2gI7WVVVsRE8iIcKkH+aMxX/x888aLBcGunZDnJ2QRmo8vn1fFXrv
-	bk4KvZbnqn3cGRIRvJ1Zb5iPJ8+y40NF7NlpggkyqDExKGNe2V+9z7L6JNMtWoB5
-	lz7EHOtkCDAJON8ZUZhCxKFIVq52Rr2l/aRkfm+PdNuzrS6A10fT/7uN/twqE9sw
-	ka4BMp9vWwRH5cvOp1SMxwhcuo5628VMng/RI7SKhAuCQQk3cPxj0dWsQmHiPpQa
-	wz0rQZckUGmG3IPMw7lGOK6xI6GSm2pFGCJ5rs02uxjID3rPdChMXKW2Q==
-X-ME-Sender: <xms:5NT5YkX5Wh7PGuW9RUV6kZwP6N_yMKnWfAEVih2eDHtx9JeOu7Mqkw>
-    <xme:5NT5Yok8QpIr6CEGOmUi7714-28tsjiFUj3mcaDb4hpleiqoyJ4LxHpL2efs2jzis
-    2fe2iBBlpzkQJksrw>
-X-ME-Received: <xmr:5NT5YoY0Q1zy6N4hCNUzp_IHWiCHZdKEX0TVmm6wzQmB_JuseMTRvhI7g-7o8owFGgOWJE3BlY2na_lwEtRc_RXvo6XfSmIPw8L6aKVb5Un2hyG4G0B8lnvCtcQYkcl5gTWuWw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgleehucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:5NT5YjUtOY7awMJmptXshxo2_O0TqOmYI6eFIgTHQvcqj5JkqrbT7Q>
-    <xmx:5NT5YumhFcyOU9WS1QgLWf_C741yvbLBMqXBixGcZAq9-rXtmfxCmw>
-    <xmx:5NT5YofiXyZ4gjTLH7nMwZ2b4mn1QtgKBODPPjJSF2LLlL6nzbqanA>
-    <xmx:5NT5YneAvErAlT11AWkJRpqowJ5CgPA-YF6_iPHR4YWB-Bc0vLlBkQ>
-Feedback-ID: i0ad843c9:Fastmail
+	:subject:to:to; s=fm3; t=1660545781; x=1660632181; bh=8v1UNNv97h
+	9J2L3WvxkH00sK+2Af+0MdgE0J1dhPpWA=; b=QBYvXoFE2expmhkMkPUa5b9q5J
+	PJJ2hvuYdIuDuAStEHtfVpFxuE0rm9pi0n2MqT8brNudqMCmcIs9iMMb7udhtyQu
+	Jku39EGmJVm1Ssj6AamPCjWZzdFFfLjumzy9QPcewvh8JfdmkDJ72G42IUMCw4FS
+	dY4zC1H7DdhPpwZMMXrYLllHVJNk4cfil++OCi6mg3uIMKgtfIqhLTYzAI3s4CSZ
+	bhjbP6E7sPa4hdayqvNaqYbabL06vdMam6fahFpUOQRojr4F8QBCosgYl9Dyx/NM
+	Mo1XAE48Hm8nDCGZRWoClZnluZ4o7XD1+Ek+uFF8npJE7bCs2PTFxRE4RBag==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660545781; x=1660632181; bh=8v1UNNv97h9J2L3WvxkH00sK+2Af
+	+0MdgE0J1dhPpWA=; b=mYi0k5szCs5yZozk29RRx8q5qgOTdLBRsL8hGMEWLfnH
+	ez8RFhJdZEdDQOdWsSA/wMS270RyUrecpyaq7QjdnNyttVRBu1quc4+SD867LYro
+	41Gr25rR0YctXAS0odKzpWTU8nY+23p+681+AmJwC5EW23NI1YaKhH9BkP5EwiAs
+	0lqhSPE6Id/EJ7TOOqf397/CPpWxA/txw8bCu09H7Md8jvNWABv2oFXgqqRbwt1b
+	Mn6kBMDGLy67+47x6LXSwTvxDMjCFZjkv70itsEjcM6uXHs4U15dzrMoRhBuy+TC
+	AAaaxtH845XqkVGyhhIR/lgsXSh8uZxVy4yNVFXiiw==
+X-ME-Sender: <xms:9er5YmbPDT0JdOfn9FMUEzoXns9jT0o6gk3Kvl416ecLoTlZ5CQInA>
+    <xme:9er5YpYONVVk6v9MGzUWveEA27hHAy-pGy9Ne_p5GQOBxk6cm6Bwg5-7BD6Pe3tBD
+    s2BIFHWwue-w9C64s4>
+X-ME-Received: <xmr:9er5Yg9SWnCsZZjs9aeDVnuGso9ndQG1WSNZa8u-tEayhh4HVu2M7MdLyN3O>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgudduhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
+    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
+    grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
+    fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9er5YorW5eieMVy2cljIB4lVcVYjdRVQptdswd1VCSBAU2maX4hE1A>
+    <xmx:9er5YhoZGFiNdqZxuHq_5t9vxVZD_3NCg6kRG6RtG-Bqh1mVVIXouA>
+    <xmx:9er5YmSorlkhw-ItEgf4iwovSGC9316WpxYvm4b-_XmfNz4T_bbe7Q>
+    <xmx:9er5YiScjy43Usltq-fQC9u7FMsF0LG3ru--gDdz_rjhDCxwBLnKvg>
+Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 01:08:52 -0400 (EDT)
-From: Samuel Holland <samuel@sholland.org>
-To: Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-sunxi@lists.linux.dev,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	linux-riscv@lists.infradead.org
-Cc: Rob Herring <robh+dt@kernel.org>,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+ 15 Aug 2022 02:43:00 -0400 (EDT)
+Date: Mon, 15 Aug 2022 08:42:48 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Samuel Holland <samuel@sholland.org>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+	Jagan Teki <jagan@amarulasolutions.com>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 12/12] riscv: defconfig: Enable the Allwinner D1 platform and drivers
-Date: Mon, 15 Aug 2022 00:08:15 -0500
-Message-Id: <20220815050815.22340-13-samuel@sholland.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220815050815.22340-1-samuel@sholland.org>
-References: <20220815050815.22340-1-samuel@sholland.org>
+	Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH 3/4] drm/sun4i: dsi: Add a variant structure
+Message-ID: <20220815064248.4ujitfpvtw6y3k4k@houat>
+References: <20220812074257.58254-1-samuel@sholland.org>
+ <20220812074257.58254-4-samuel@sholland.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fe5pr2l7i2tpjvdm"
+Content-Disposition: inline
+In-Reply-To: <20220812074257.58254-4-samuel@sholland.org>
 
-Now that several D1-based boards are supported, enable the platform in
-our defconfig. Build in the drivers which are necessary to boot, such as
-the pinctrl, MMC, RTC (which provides critical clocks), SPI (for flash),
-and watchdog (which may be left enabled by the bootloader). Other common
-onboard peripherals are enabled as modules.
 
-Signed-off-by: Samuel Holland <samuel@sholland.org>
----
+--fe5pr2l7i2tpjvdm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- arch/riscv/configs/defconfig | 23 ++++++++++++++++++++++-
- 1 file changed, 22 insertions(+), 1 deletion(-)
+Hi Samuel,
 
-diff --git a/arch/riscv/configs/defconfig b/arch/riscv/configs/defconfig
-index aed332a9d4ea..8f856982da87 100644
---- a/arch/riscv/configs/defconfig
-+++ b/arch/riscv/configs/defconfig
-@@ -25,6 +25,7 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_EXPERT=y
- # CONFIG_SYSFS_SYSCALL is not set
- CONFIG_PROFILING=y
-+CONFIG_ARCH_SUNXI=y
- CONFIG_SOC_MICROCHIP_POLARFIRE=y
- CONFIG_SOC_SIFIVE=y
- CONFIG_SOC_STARFIVE=y
-@@ -118,22 +119,31 @@ CONFIG_VIRTIO_NET=y
- CONFIG_MACB=y
- CONFIG_E1000E=y
- CONFIG_R8169=y
-+CONFIG_STMMAC_ETH=m
- CONFIG_MICROSEMI_PHY=y
- CONFIG_INPUT_MOUSEDEV=y
-+CONFIG_KEYBOARD_SUN4I_LRADC=m
- CONFIG_SERIAL_8250=y
- CONFIG_SERIAL_8250_CONSOLE=y
-+CONFIG_SERIAL_8250_DW=y
- CONFIG_SERIAL_OF_PLATFORM=y
- CONFIG_VIRTIO_CONSOLE=y
- CONFIG_HW_RANDOM=y
- CONFIG_HW_RANDOM_VIRTIO=y
-+CONFIG_I2C_MV64XXX=m
- CONFIG_SPI=y
- CONFIG_SPI_SIFIVE=y
-+CONFIG_SPI_SUN6I=y
- # CONFIG_PTP_1588_CLOCK is not set
--CONFIG_GPIOLIB=y
- CONFIG_GPIO_SIFIVE=y
-+CONFIG_WATCHDOG=y
-+CONFIG_SUNXI_WATCHDOG=y
-+CONFIG_REGULATOR=y
-+CONFIG_REGULATOR_FIXED_VOLTAGE=y
- CONFIG_DRM=m
- CONFIG_DRM_RADEON=m
- CONFIG_DRM_NOUVEAU=m
-+CONFIG_DRM_SUN4I=m
- CONFIG_DRM_VIRTIO_GPU=m
- CONFIG_FB=y
- CONFIG_FRAMEBUFFER_CONSOLE=y
-@@ -146,19 +156,30 @@ CONFIG_USB_OHCI_HCD=y
- CONFIG_USB_OHCI_HCD_PLATFORM=y
- CONFIG_USB_STORAGE=y
- CONFIG_USB_UAS=y
-+CONFIG_USB_MUSB_HDRC=m
-+CONFIG_USB_MUSB_SUNXI=m
-+CONFIG_NOP_USB_XCEIV=m
- CONFIG_MMC=y
- CONFIG_MMC_SDHCI=y
- CONFIG_MMC_SDHCI_PLTFM=y
- CONFIG_MMC_SDHCI_CADENCE=y
- CONFIG_MMC_SPI=y
-+CONFIG_MMC_SUNXI=y
- CONFIG_RTC_CLASS=y
-+CONFIG_RTC_DRV_SUN6I=y
-+CONFIG_DMADEVICES=y
-+CONFIG_DMA_SUN6I=m
- CONFIG_VIRTIO_PCI=y
- CONFIG_VIRTIO_BALLOON=y
- CONFIG_VIRTIO_INPUT=y
- CONFIG_VIRTIO_MMIO=y
-+CONFIG_SUN8I_DE2_CCU=m
-+CONFIG_SUN50I_IOMMU=y
- CONFIG_RPMSG_CHAR=y
- CONFIG_RPMSG_CTRL=y
- CONFIG_RPMSG_VIRTIO=y
-+CONFIG_PHY_SUN4I_USB=m
-+CONFIG_NVMEM_SUNXI_SID=y
- CONFIG_EXT4_FS=y
- CONFIG_EXT4_FS_POSIX_ACL=y
- CONFIG_EXT4_FS_SECURITY=y
--- 
-2.35.1
+On Fri, Aug 12, 2022 at 02:42:55AM -0500, Samuel Holland wrote:
+> Replace the ad-hoc calls to of_device_is_compatible() with a structure
+> describing the differences between variants. This is in preparation for
+> adding more variants to the driver.
+>=20
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>=20
+>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c | 50 +++++++++++++++++---------
+>  drivers/gpu/drm/sun4i/sun6i_mipi_dsi.h |  7 ++++
+>  2 files changed, 40 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c b/drivers/gpu/drm/sun=
+4i/sun6i_mipi_dsi.c
+> index b4dfa166eccd..6479ade416b9 100644
+> --- a/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> +++ b/drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c
+> @@ -1101,12 +1101,16 @@ static const struct component_ops sun6i_dsi_ops =
+=3D {
+> =20
+>  static int sun6i_dsi_probe(struct platform_device *pdev)
+>  {
+> +	const struct sun6i_dsi_variant *variant;
+>  	struct device *dev =3D &pdev->dev;
+> -	const char *bus_clk_name =3D NULL;
+>  	struct sun6i_dsi *dsi;
+>  	void __iomem *base;
+>  	int ret;
+> =20
+> +	variant =3D device_get_match_data(dev);
+> +	if (!variant)
+> +		return -EINVAL;
+> +
+>  	dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+>  	if (!dsi)
+>  		return -ENOMEM;
+> @@ -1114,10 +1118,7 @@ static int sun6i_dsi_probe(struct platform_device =
+*pdev)
+>  	dsi->dev =3D dev;
+>  	dsi->host.ops =3D &sun6i_dsi_host_ops;
+>  	dsi->host.dev =3D dev;
+> -
+> -	if (of_device_is_compatible(dev->of_node,
+> -				    "allwinner,sun6i-a31-mipi-dsi"))
+> -		bus_clk_name =3D "bus";
+> +	dsi->variant =3D variant;
+> =20
+>  	base =3D devm_platform_ioremap_resource(pdev, 0);
+>  	if (IS_ERR(base)) {
+> @@ -1142,7 +1143,7 @@ static int sun6i_dsi_probe(struct platform_device *=
+pdev)
+>  		return PTR_ERR(dsi->regs);
+>  	}
+> =20
+> -	dsi->bus_clk =3D devm_clk_get(dev, bus_clk_name);
+> +	dsi->bus_clk =3D devm_clk_get(dev, variant->has_mod_clk ? "bus" : NULL);
+>  	if (IS_ERR(dsi->bus_clk))
+>  		return dev_err_probe(dev, PTR_ERR(dsi->bus_clk),
+>  				     "Couldn't get the DSI bus clock\n");
+> @@ -1151,21 +1152,21 @@ static int sun6i_dsi_probe(struct platform_device=
+ *pdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> -	if (of_device_is_compatible(dev->of_node,
+> -				    "allwinner,sun6i-a31-mipi-dsi")) {
+> +	if (variant->has_mod_clk) {
+>  		dsi->mod_clk =3D devm_clk_get(dev, "mod");
+>  		if (IS_ERR(dsi->mod_clk)) {
+>  			dev_err(dev, "Couldn't get the DSI mod clock\n");
+>  			ret =3D PTR_ERR(dsi->mod_clk);
+>  			goto err_attach_clk;
+>  		}
+> -	}
+> =20
+> -	/*
+> -	 * In order to operate properly, that clock seems to be always
+> -	 * set to 297MHz.
+> -	 */
+> -	clk_set_rate_exclusive(dsi->mod_clk, 297000000);
+> +		/*
+> +		 * In order to operate properly, the module clock on the
+> +		 * A31 variant always seems to be set to 297MHz.
+> +		 */
+> +		if (variant->set_mod_clk)
+> +			clk_set_rate_exclusive(dsi->mod_clk, 297000000);
+> +	}
+>
+>
+>  	dsi->dphy =3D devm_phy_get(dev, "dphy");
+>  	if (IS_ERR(dsi->dphy)) {
+> @@ -1205,16 +1206,31 @@ static int sun6i_dsi_remove(struct platform_devic=
+e *pdev)
+> =20
+>  	component_del(&pdev->dev, &sun6i_dsi_ops);
+>  	mipi_dsi_host_unregister(&dsi->host);
+> -	clk_rate_exclusive_put(dsi->mod_clk);
+> +	if (dsi->variant->has_mod_clk && dsi->variant->set_mod_clk)
+> +		clk_rate_exclusive_put(dsi->mod_clk);
 
+There's also a clk_rate_exclusive_put call in the bind error path
+
+Maxime
+
+--fe5pr2l7i2tpjvdm
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvnq6AAKCRDj7w1vZxhR
+xRUgAQC+Q6FefSqQzlCuirg8gH0Zff7RElCM+/kmmzZdz/QEiwEA1K0JgOyS8Xbv
+pApMRj4LRfKxndHBOk/R4DCvHbcNxwk=
+=pvGf
+-----END PGP SIGNATURE-----
+
+--fe5pr2l7i2tpjvdm--
