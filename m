@@ -1,139 +1,104 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E581398
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 10:40:47 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 4CAB758024F;
-	Mon, 15 Aug 2022 06:40:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Mon, 15 Aug 2022 06:40:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660560046; x=1660567246; bh=xZdyFzkGwx
-	NMaSQo9f1nE23W8o0Knxs8zi25rNE/F+g=; b=K0y9jdKT7Kqzfipo6DBG31ePNj
-	Fb0wyla4+TvyGQ/KrNeInN+6WERTOM9Nyjd3dYIhJfCozuQXBgY+BKkPTqQpHGOW
-	2d7TWIlHQYfRafW2TQFflIOgPgCruZcXThcmkSWzd+41bi/FeV9bhRku3kkA8k+U
-	jV4xFniD75iqFZYiDWBnTiHMCcuvb2AhkPg5iGdwlF9XB8Lua7lDzCOAkRW42IU3
-	AXJmWiEuQyhGdCTnodHHzf3lItiiLT1Z0VrFFnGZrguStTTk/yDH11eO6AtR49za
-	3jQ++ef7BBrPi2IuxaaDvS571gfD8ScZvA4gZYeWAjlIyeUdzn4MeHKPyfQw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660560046; x=1660567246; bh=xZdyFzkGwxNMaSQo9f1nE23W8o0K
-	nxs8zi25rNE/F+g=; b=KuELks6dtpN1WqhnN7uKXV+ed912oj+rJmyd1lNhf2CZ
-	c/+JIhTQpRs9odLjPNmpgNH2T7eaqsJB+TSTK/UI83wcb+EFSY6zmMcfrbkZLCPj
-	Tf6Gsg6+yzuwW25e8dKfs168TxSpyRDzA1KZ9HRku8dgyryvYtIXJ3sPkqQiCqwq
-	ufocVBlrbMIyCs0gZmbuUJKnLFKXljZRBd8w1Puuudvmy/mJdWFphZD5HOlQcoGa
-	6BpmTZR4CGaTiHWiocmSG8dqh2hTnOhm0CATBtm/hq7K5W6gPRP5GGPZ4B3HqgY3
-	Ri/U1F28EdCPwNgmrsydQYAQwCHwsyCPsyhkugX8Wg==
-X-ME-Sender: <xms:rCL6YhbbYH_kqaDn4cLbM_M0B9mDmlCm5zrZzg36ARp-nL9_ISA6mw>
-    <xme:rCL6YoYoUZVON99FeMGEiNDuROvTBBhIhEGoEUCy-9iobL4dzdtHVVxJ8QS3ps1pi
-    xVvKLd4fJrwa_-n1g4>
-X-ME-Received: <xmr:rCL6Yj_93gSWPrkTEC3bWOTeTokDGtEeg0XtGHXA3Ud3Av6Ba9-bAPDfls-X>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehvddgfeduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeejveefheefkeeiffegveelveetgffffeektdefuefhtedtgeejhefggedu
-    ffffudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:rCL6YvrZb8d-70a2yCKLG23pvQYKghlC03ajxx8SGoIbIft-vVGjwg>
-    <xmx:rCL6YsovMmOaDx-QoWNCODYJdhrHPFwrWAdwZt8KTlLJ2hWCVa1ngA>
-    <xmx:rCL6YlRxbA4IVIfJXPfh5Oy9TI_xAgceXYr5NZwtlneMgj9nqxc6lg>
-    <xmx:riL6YlY4P3xtxIziMyH_eBPDfULxza36rNr2CLomIy3NS99U_2Afww>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 06:40:43 -0400 (EDT)
-Date: Mon, 15 Aug 2022 12:40:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
-	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Phil Elwell <phil@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 06/35] drm/connector: Only register TV mode property
- if present
-Message-ID: <20220815104041.6ymspbhpjdxg2aoe@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-6-3d53ae722097@cerno.tech>
- <d96df677-a1a7-ae49-bda6-abad025dc974@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3E2111F
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 10:48:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=vh4WP5c9FJ0MbLK61vY6yRT/SQaaMEr8RbbREz+rZ1g=; b=b1TJYcymPjKnvyimmR5TjK81Mu
+	VqbuVBHbCfn54WGnqn0VB7piwq8YS9MKHNpYBPPOvVgVgp2zlJtU9MFGi7NrC9Be70mYyrw+TW1EW
+	cNVYeWCOkfSvyulTlCiQT9jnM28OmqhwKChxRrhWHa812xj2Du4i5eaMDXWJDocyjv1ikGAs+wYcB
+	XQ4Z6Yh28waRpNDKXpQZisudD5+cFUqFL8m9SLmx+AKeDFVXUCU0neZoELSCxtN5DM7H077grQe+s
+	zywFm7UJLVQ7ZJpq4rQVY2XG4QCDYe/PczZS6fBvKKfGIJWQ+oB40qpMJNvxKx2PZqV93BUmiJ1d+
+	2i/+GCAA==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=52543)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oNXe0-00013Y-A2; Mon, 15 Aug 2022 12:48:28 +0200
+Message-ID: <53216533-d0d6-90d5-b9d1-c7d935867a54@tronnes.org>
+Date: Mon, 15 Aug 2022 12:48:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dvyzowdjas7acdtu"
-Content-Disposition: inline
-In-Reply-To: <d96df677-a1a7-ae49-bda6-abad025dc974@tronnes.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 03/35] drm/atomic: Add TV subconnector property to
+ get/set_property
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-3-3d53ae722097@cerno.tech>
+ <6e47ce2d-25c7-7254-703d-2a1d3bb64373@tronnes.org>
+ <20220815073546.4isrl7o3bt5g23pk@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220815073546.4isrl7o3bt5g23pk@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
---dvyzowdjas7acdtu
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Den 15.08.2022 09.35, skrev Maxime Ripard:
+> Hi Noralf,
+> 
+> Thanks for your review
+> 
+> On Mon, Aug 08, 2022 at 02:30:42PM +0200, Noralf Trønnes wrote:
+>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>> The subconnector property was created by drm_mode_create_tv_properties(),
+>>> but wasn't exposed to the userspace through the generic
+>>> atomic_get/set_property implementation, and wasn't stored in any generic
+>>> state structure.
+>>>
+>>> Let's solve this.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>
+>> I just realised that this and the select_subconnector property isn't
+>> used by any drivers. Do you plan to use them? Maybe they don't need to
+>> be wired up at all.
+> 
+> I'm not sure really
+> 
+> It's true that the subconnector and select_subconnector fields in the TV
+> connector state aren't used by any driver, but the ch7006 and nouveau
+> will update the property content through a call to
+> drm_object_property_set_value
+> 
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/i2c/ch7006_drv.c#L217
+> https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/nouveau/dispnv04/tvnv17.c#L185
+> 
+> I think it could still be useful to report it in the connector state, if
+> only for consistency?
+> 
 
-On Mon, Aug 08, 2022 at 02:49:08PM +0200, Noralf Tr=F8nnes wrote:
-> Den 29.07.2022 18.34, skrev Maxime Ripard:
-> > The drm_create_tv_properties() will create the TV mode property
-> > unconditionally.
-> >=20
-> > However, since we'll gradually phase it out, let's register it only if =
-we
-> > have a list passed as an argument. This will make the transition easier.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
->=20
-> I don't understand why this makes the transition easier, but if you
-> think so:
+Yeah maybe.
 
-So the basic idea behind this series was to introduce the new property,
-gradually convert the old drivers to the new one, and finally remove the
-old one.
+I just realised that I have support in the GUD protocol for these
+properties so any future devices that rely on them them will need this
+patch, so I'm now suddenly in favor of this :)
 
-In order to keep the backward compatibility, we need to add to the
-drivers some custom get/set_property hook to expose the old property and
-fill the new one if needed.
-
-That means that each driver would have to create the old property, which
-will conflict with that code
-
-Maxime
-
---dvyzowdjas7acdtu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvoiqQAKCRDj7w1vZxhR
-xaybAQC2LtyY3MToe9xoyVgcLBOfo1ql+NWQtjIn17TggFlnRgEAr4/9dmteOoOs
-AoYm/Hq80I2UIc7K4NZgCJX6MSwZCQ4=
-=bqI2
------END PGP SIGNATURE-----
-
---dvyzowdjas7acdtu--
+Noralf.
