@@ -1,55 +1,57 @@
 Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C58FA10F5
-	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 05:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F03E10F5
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 05:08:28 +0000 (UTC)
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailout.west.internal (Postfix) with ESMTP id 2F79232004AE;
-	Mon, 15 Aug 2022 01:08:24 -0400 (EDT)
+	by mailout.west.internal (Postfix) with ESMTP id E802632000F9;
+	Mon, 15 Aug 2022 01:08:26 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Mon, 15 Aug 2022 01:08:25 -0400
+  by compute3.internal (MEProxy); Mon, 15 Aug 2022 01:08:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
 	:in-reply-to:message-id:mime-version:references:reply-to:sender
-	:subject:subject:to:to; s=fm2; t=1660540103; x=1660626503; bh=29
-	uAAq1TVY/O7ZEUaRe+3LcWY61wpaNsGqYURHUMEAQ=; b=Lv40otdXtr3OwindnT
-	WjgvPehS8V6WPGFcblD/hR1waOQkqGMjINtWzTvfMc9n79ZAG2e8+RN0+L3rgPTj
-	l/7hKUTjvkzNtdB1XFtc1eUgKTTecpVco3fZ/RYsB1P5m88BRDNxPoFuzqim+3D7
-	pf0eLDvwd5x9OC3PFPOHjYVR7XLyP69P3HHEUKgxAQwXp493L7cfUqqEl21gN9qx
-	zp0BT269U1qhmj/3s9Pc6HhJC0ONNyj0QvYpyGkLLuQRQt2pwslDX7KgfmSWflhK
-	pKmRPqyoaO3k//oYYrXO0ZW5zMRF4NM8Wdpe+QTj9VRW3ImjFnZBlirb7zSkFM7Y
-	swtQ==
+	:subject:subject:to:to; s=fm2; t=1660540106; x=1660626506; bh=1b
+	8wvlOIqq08dzssrbjKws+JgmGzBWVPDh4Dm1RTFCU=; b=jWF0lvKSrnMxYNz01X
+	1WCXUHnk3Xx7veBUORmXijOreUbQeBMioHxw1iCFYTS9Dpj9XCnCghsIOmQYKE4c
+	7qKDJCtrE2M4Da0XxiGjL/cDVV5/f7vNCbTkUT6xLIY9ZA30wrLXMWLf81sJb6+q
+	LJkn5xhph/bdZmkC2lbgN8/OuXAwfaqZbxGnprsIuQmrKT4EfzIstjiXg1PBLXYJ
+	ZBd5jG4ZIBJmp9WLEG4a+buj4295tsOc3nLQHRtTT9+SXCl8vbkOwttSmuGyO5wE
+	1xuTQYEnJVZZs/ixtDkqPOEvz8xVOkUAU4DRXWLFjSQhYI+qqvtUR/adqav5pLNi
+	5qzQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
 	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
 	:subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm1; t=1660540103; x=1660626503; bh=29uAAq1TVY/O7
-	ZEUaRe+3LcWY61wpaNsGqYURHUMEAQ=; b=QE0kSkO9TDbjd71LqM6FjE1EYAG82
-	eyJNBrE6n0W3mOl1qwtdGRa+GsK6dreQ0ydKJNijL8TS4mSkA+d8KCQ/Tqe9FDnU
-	a1K/Bs0LMG9BbcuJDFMygPaMjk+btMra8wcQKkLLKP5lHe5GZY7TVOb9GAlvvVRr
-	9YnKA/HP+BkVKXeMGlRgSPf99I0qEXXOlRN+efuuTy/+ctdx+kMEmP8U+ibxlliP
-	tECM8hvYyG5l8iWonuWSWgMlsNa99Upe4oMWndA/26eAXc8qtmDyjIk4gQHN6IuV
-	13+wHLL6y10Y5bUxz3EI1L9ttQGLft5g30VPBetqS44H3Taj4DLyIiqaQ==
-X-ME-Sender: <xms:x9T5YiO6IUTkHwAMlkM6Bs2tZ3oszi9Tt4Sd8f7V6lCE0yC0VLKikg>
-    <xme:x9T5Yg_P0Yln4UTTEQks2EjDfVIxPqHZM4nPwA7tBc9gVdbvwbXg40NQtC9JEohNI
-    CftQrvyS0VzGa2PgQ>
-X-ME-Received: <xmr:x9T5YpT7kAl1f7E2aoXDm1edp98oGM2g91RaFhe5Mx1mthWjkMNahjigDc4mo8sSuZIrxYgdqNInSC14XlkAaVxeU6dezAwDwQFD2SpDggWB_YuQJEBHN9tzrZTWNHauYpgB8Q>
+	:x-sasl-enc; s=fm1; t=1660540106; x=1660626506; bh=1b8wvlOIqq08d
+	zssrbjKws+JgmGzBWVPDh4Dm1RTFCU=; b=DhBNH1UDadbs/vc2awR003MB7DSL3
+	j7PgSENLFy+gg4XtsE9Tk1uxiFtjhYTpnwsBmhOht5i0HRu97L0qbC7o76RH83c0
+	Eaa3Zg8JoS0hXxAbtLcbUzuW35oNccb3BRymKKZwp4hgzErSdTCmuCgqFT6+q3Vg
+	qOVeB7K/wPkEyLL76gYA+931QMuOp+PV29rroAjojGposxO/SwqRBdnlO9enLyKG
+	IEayl1qUMcUwVPm5Le36RAuQY3ZbefiRnau5uFfnm+IX75lu14AsygJKGF1vF80V
+	ziHDC2okA2Tpk21pKcRdESc7atcutvfOuKIhfw2+h3DoGzp7IP1YVnNpw==
+X-ME-Sender: <xms:ytT5YgNuDI3W1pB6y9oem49C1zc3Ya5kyU6FKrT56XoNy5qJ6VoA2w>
+    <xme:ytT5Ym-l24WuXrLdwU-FwGJpU1AISmXIlOso2Q5JnWihq3vEPW6BRiqFPFG7CCRv4
+    GyXtW_w3uBZ9SB7Pw>
+X-ME-Received: <xmr:ytT5YnSC2xC0Mifh65yzfVHUVA0Kefg7EOeNfTPvIfCM993xCeayRoSEV9G64fpVsVPfzThb7U1tAUQf8auqSpvaDka3elPn8XaupzdRWjdRZ46c6FL6TiAvZHMS-ZZ6ZmGwDA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgleehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmhhu
-    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
-    ftrfgrthhtvghrnhepudekteeuudehtdelteevgfduvddvjefhfedulefgudevgeeghefg
-    udefiedtveetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
-X-ME-Proxy: <xmx:x9T5YiuCFd4EIQkQDy39U45BVL4gP1qnft-kynxLRcUwUfRGSpn02w>
-    <xmx:x9T5YqfSAmjtfdaXRzqr3irzB59utULy6H_i3nveU1b3FAUCq8BjYg>
-    <xmx:x9T5Ym1XUFftOcEdsAsTQyPrxQlhlHS9WurXL2rE2V16j8N-IImB6w>
-    <xmx:x9T5YrVcbxL3GRyZDRK4VkEphlWqSlJtrDKkOyV2xs7hm33VTSqaZQ>
+    gfrhhlucfvnfffucdluddtmdenogevohgrshhtrghlqdfhgeduvddqtddvucdludehtddm
+    necujfgurhephffvvefufffkofgjfhgggfestdekredtredttdenucfhrhhomhepufgrmh
+    huvghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecu
+    ggftrfgrthhtvghrnhepleevtddvvdevieekieffjefggfeuieetieelveelhfeukeejvd
+    dvgfeiveekleefnecuffhomhgrihhnpegtlhhotghkfihorhhkphhirdgtohhmpdhmrghn
+    ghhophhirdgttgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:ytT5YosvfoRm0rG_2DYgvoFqi386Mvcpb3HjO3Uf3EfZlib0UNdnDQ>
+    <xmx:ytT5Yofk2GLlMebkzICcryKPSXgVmAxM3Ne86KT9PNrSTGmrOUDmbA>
+    <xmx:ytT5Ys0zBTM7IgU5King9sZzfzTPHoawLu96qaLV7tcKFanc3RtniA>
+    <xmx:ytT5YpWmbYjQkkx0sChh1uYUvLtQF4k27wMrtuTtSPkIICyz9HUuTQ>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 01:08:22 -0400 (EDT)
+ 15 Aug 2022 01:08:25 -0400 (EDT)
 From: Samuel Holland <samuel@sholland.org>
 To: Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -63,9 +65,9 @@ Cc: Rob Herring <robh+dt@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH 02/12] dt-bindings: riscv: Add T-HEAD C906 and C910 compatibles
-Date: Mon, 15 Aug 2022 00:08:05 -0500
-Message-Id: <20220815050815.22340-3-samuel@sholland.org>
+Subject: [PATCH 03/12] dt-bindings: vendor-prefixes: Add Allwinner D1 board vendors
+Date: Mon, 15 Aug 2022 00:08:06 -0500
+Message-Id: <20220815050815.22340-4-samuel@sholland.org>
 X-Mailer: git-send-email 2.35.1
 In-Reply-To: <20220815050815.22340-1-samuel@sholland.org>
 References: <20220815050815.22340-1-samuel@sholland.org>
@@ -77,28 +79,43 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The C906 and C910 are RISC-V CPU cores from T-HEAD Semiconductor.
-Notably, the C906 core is used in the Allwinner D1 SoC.
+Some boards using the Allwinner D1 SoC are made by vendors not
+previously documented.
+
+Clockwork Tech LLC (https://www.clockworkpi.com/) manufactures the
+ClockworkPi and DevTerm boards.
+
+Beijing Widora Technology Co., Ltd. (https://mangopi.cc/) manufactures
+the MangoPi family of boards.
 
 Signed-off-by: Samuel Holland <samuel@sholland.org>
 ---
 
- Documentation/devicetree/bindings/riscv/cpus.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/devicetree/bindings/vendor-prefixes.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/riscv/cpus.yaml b/Documentation/devicetree/bindings/riscv/cpus.yaml
-index 873dd12f6e89..ce2161d9115a 100644
---- a/Documentation/devicetree/bindings/riscv/cpus.yaml
-+++ b/Documentation/devicetree/bindings/riscv/cpus.yaml
-@@ -38,6 +38,8 @@ properties:
-               - sifive,u5
-               - sifive,u7
-               - canaan,k210
-+              - thead,c906
-+              - thead,c910
-           - const: riscv
-       - items:
-           - enum:
+diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+index 2f0151e9f6be..52d076ab6c48 100644
+--- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
++++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+@@ -258,6 +258,8 @@ patternProperties:
+     description: Cirrus Logic, Inc.
+   "^cisco,.*":
+     description: Cisco Systems, Inc.
++  "^clockwork,.*":
++    description: Clockwork Tech LLC
+   "^cloudengines,.*":
+     description: Cloud Engines, Inc.
+   "^cnm,.*":
+@@ -1412,6 +1414,8 @@ patternProperties:
+     description: Shenzhen whwave Electronics, Inc.
+   "^wi2wi,.*":
+     description: Wi2Wi, Inc.
++  "^widora,.*":
++    description: Beijing Widora Technology Co., Ltd.
+   "^wiligear,.*":
+     description: Wiligear, Ltd.
+   "^willsemi,.*":
 -- 
 2.35.1
 
