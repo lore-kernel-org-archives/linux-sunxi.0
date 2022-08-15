@@ -1,66 +1,109 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com [64.147.123.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73BDD257C
-	for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 18:33:44 +0000 (UTC)
-Received: by mail-ej1-f44.google.com with SMTP id uj29so10308837ejc.0
-        for <linux-sunxi@lists.linux.dev>; Sun, 14 Aug 2022 11:33:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=4+2ulhFVcoDAjZEoMthRjrOaXvnt89QHNhQtRqhHP4s=;
-        b=fX9pi09EiTGFxwGOxA2V8wdc4cS8yTLAY5O+Lr6evH7WYQfLNkQPjwLA2TgtZPHOMh
-         jxjpmtzkHC8K082p36rUUQDcHGYqPstimpHyacdkMk24iiQzLf37vOOGPjs8l4yVJe/w
-         6wkT6xr5guhQGq/x5jslkQCMuRuMWfs1Hdo9pbcV1uEWsP3IKhq8CVlCZXaRjdLnKvaC
-         J3lrFLEWJcRgoy1nFmi4hZ8muwNhyrYyAIJqCw5lHhcgfX7dE2IWmJtlS8NnYN2WbD9Y
-         5MJQRql+oOAh8Wcw0rOhflL5YxgP26rXhTIWwCPM7JXreuXWjasSScqI9LPII9zRyfQF
-         su7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=4+2ulhFVcoDAjZEoMthRjrOaXvnt89QHNhQtRqhHP4s=;
-        b=AojojNeVYgPdUnwtlMNYffvZiK7niZz0b4TjlEHX1AMSQdarOL7fcGpX2xFL9PvPQn
-         YAbJc0dfPkUzxDgCo9s0I62LnZOQiPM9ci2Y6F19FGOI7/8iIFBSIuUd5ANzLMZjvWvn
-         Jv6L77ijW0G00DscY+Wv7g6MjtJbbkhShPdSsM9mWAzvgxZZuwyf0FNkUgqCZlqLUryG
-         UgbnV56EMwtwxY/FZ3EtTn8rv8WtB/e7jnM+3slsJiFZUVdQeR7GPQI2w7tDAECnyPt0
-         tXWEPeRxXNZT+ybpv+4m1TkWaj3qDGEAWz83A4yOxK9efTlob8amTMErbak6F37j0Fah
-         xO6Q==
-X-Gm-Message-State: ACgBeo1B5jI0b/df2sCQb7LNVoebUzSL7dYaY4lu8lKdLHp8btbK6Si+
-	u4+yX11qfccNM5hXO9V+WQg=
-X-Google-Smtp-Source: AA6agR4/M9HH2/f84AG8Fd/KLTX78rK74rtI0dDGgYRxggAqcMOivuaVI3DiNTELE+WqZshrf4D2Pw==
-X-Received: by 2002:a17:906:8a73:b0:730:9af8:b335 with SMTP id hy19-20020a1709068a7300b007309af8b335mr8740361ejc.14.1660502022790;
-        Sun, 14 Aug 2022 11:33:42 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id o19-20020a170906861300b0072eddcc807fsm3183679ejx.155.2022.08.14.11.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Aug 2022 11:33:42 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>
-Cc: Samuel Holland <samuel@sholland.org>, Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>, Icenowy Zheng <icenowy@aosc.io>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH 9/9] soc: sunxi: sram: Add support for the D1 system control
-Date: Sun, 14 Aug 2022 20:33:41 +0200
-Message-ID: <2310270.NG923GbCHz@jernej-laptop>
-In-Reply-To: <20220801030509.21966-10-samuel@sholland.org>
-References: <20220801030509.21966-1-samuel@sholland.org> <20220801030509.21966-10-samuel@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2044210EA
+	for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 04:12:52 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 49F6A32000EB;
+	Mon, 15 Aug 2022 00:12:51 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Mon, 15 Aug 2022 00:12:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
+	:message-id:mime-version:reply-to:sender:subject:subject:to:to;
+	 s=fm2; t=1660536770; x=1660623170; bh=BLGvhPXJZwyKlOHCPFA0QFQvR
+	du4sjNkhCzDGkbfI/g=; b=geEopUJJtlAkPnRH3NSENE0S+CXA6KECTI8oRgBXb
+	VOpePec/5bzDFoeFD5eUWSmC7hOeCtbiiiOK6jWMLtF5YLh04hRR8eA1rX6XxJWe
+	5WyPn4q4Q38Htmvpmb69smOazGRCmnzGvPqxZ1lNOulH/LYTaVpdX8y/xc5aluo6
+	JlyrACs0cFiHN0AKNQ62ZC665r/oj7W6wgjD7B4QtDAPoKx4wocpRylHj52VFiHe
+	qJG2ODhaFn3QLeeWDFT8MkfFJJ3mgs5cXn5yjCDPoDTMjDp0dmnIgQcIW4wG84Z3
+	xWfCcud+2iwUp10daZ+fAWoKQ7S99JkBmMcpoCyBL/F6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:message-id
+	:mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
+	1660536770; x=1660623170; bh=BLGvhPXJZwyKlOHCPFA0QFQvRdu4sjNkhCz
+	DGkbfI/g=; b=3EjOrYzX6+bXout+6iHugtmlSio9O5YB3rPS7spf4yMt4OejPpM
+	TgtVODs55ytfAJEumyrChHD7G6AAnh2LnRSQqNIt8nfbuJxbZCd2h7wl4HpA6uH4
+	PEqRgY7AKgig41CmxLZc984uP3BMl/GLVv9JFna1/57lUBf2LIC0jkx53HSnW7aj
+	j8cEtYfWEU804eyCAL9nSPPs6iL0O/TFgjfTy8fv/PTtQ9GLAg3ndvbz5HTa8jne
+	CO9hNwhVJE+Fo3H439KPZFbQtTAINwxIrQd7mu/j0rkCh/2G+xq2A6PqcO6gF8D4
+	HUR0yo1jOh29qRy2pmwNzduziMAGZykY7uw==
+X-ME-Sender: <xms:wsf5YvCrq__oRv3iJB9RYQnBClxYVF5w3qER5HTMCt1FayKRorOsjA>
+    <xme:wsf5YljxxwFVU1UmjUOsiFD7zECE5_Al2VyvjA-pfNU7tkDdMzFhvmd5WoiK5p7KF
+    cvVm4zcSNNTn-YZPQ>
+X-ME-Received: <xmr:wsf5YqkqdylLOaKH4bUARZU-prCWofTfPhUWLw69SuBCO2t__bhEVZlf57GxhVd4EnSiuTWa-xDsN7RpH4HPr_yJGHuD5iyK9DhS77lkAJRovyAMb3B6AuCHh-0w-bqdp3lTOA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehuddgkeehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvvefufffkofgggfestdekredtredttdenucfhrhhomhepufgrmhhuvghl
+    ucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecuggftrf
+    grthhtvghrnhepkeevlefhjeeuleeltedvjedvfeefteegleehueejffehgffffeekhefh
+    hfekkeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
+    epshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:wsf5YhxswN4EKKntiR0Q5r83QyIA3mIt3Lp7gJy2ZJ9-ILRBQFSdKw>
+    <xmx:wsf5YkT0Iuf-ODo4hINOhdhYx9v4uVuL3TvqqYPdjPt0nJUwbXLehQ>
+    <xmx:wsf5Yka17Xje2BpeEHZSfxRIc_IfnqPwHEP2Hrjnkid9l5oU2-Cgvg>
+    <xmx:wsf5YoalEzJoW-jEPXqquOELfwgYIw7DgJCuQ3iFng_DrUKuT6YHRA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 15 Aug 2022 00:12:49 -0400 (EDT)
+From: Samuel Holland <samuel@sholland.org>
+To: Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Icenowy Zheng <icenowy@aosc.io>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v2 00/10] soc: sunxi: sram: Fixes and D1 support
+Date: Sun, 14 Aug 2022 23:12:37 -0500
+Message-Id: <20220815041248.53268-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 
-Dne ponedeljek, 01. avgust 2022 ob 05:05:09 CEST je Samuel Holland napisal(a):
-> D1 has a single EMAC and some LDOs that need to be exported.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+This series cleans up a few issues in the system controller driver, and
+then expands the exported regmap to support one of the pairs of LDOs
+built in to the D1 SoC.
 
-Acked-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+Eventually, we will need to update the SRAM region claiming API so
+ownership can be swapped back and forth by consumer drivers. This will
+be necessary for uploading firmware to the R329/D1 DSPs, but it is not
+needed for initial bringup.
 
-Best regards,
-Jernej
+Changes in v2:
+ - New patch to first clean up the binding
 
+Samuel Holland (10):
+  dt-bindings: sram: sunxi-sram: Clean up the compatible lists
+  dt-bindings: sram: sunxi-sram: Add D1 compatible string
+  soc: sunxi: sram: Actually claim SRAM regions
+  soc: sunxi: sram: Prevent the driver from being unbound
+  soc: sunxi: sram: Fix probe function ordering issues
+  soc: sunxi: sram: Fix debugfs info for A64 SRAM C
+  soc: sunxi: sram: Return void from the release function
+  soc: sunxi: sram: Save a pointer to the OF match data
+  soc: sunxi: sram: Export the LDO control register
+  soc: sunxi: sram: Add support for the D1 system control
+
+ .../allwinner,sun4i-a10-system-control.yaml   | 82 ++++++++-----------
+ drivers/soc/sunxi/sunxi_sram.c                | 74 +++++++++--------
+ include/linux/soc/sunxi/sunxi_sram.h          |  2 +-
+ 3 files changed, 73 insertions(+), 85 deletions(-)
+
+-- 
+2.35.1
 
