@@ -1,169 +1,84 @@
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83F1310F5
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:42:12 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 6C16E32006F5;
-	Mon, 15 Aug 2022 22:42:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 15 Aug 2022 22:42:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660617729; x=
-	1660704129; bh=HaNW5dTGTh6zJmCxeaRGccdi0HcEeWElpDsk1nTJqRI=; b=t
-	O3umcuiU77ia+LxIcGxlsoBkD7xGUydhdJ15OVQ8IJk9/9QnSs6Nw4VOHLJvQZPR
-	Ca1LbWEeCaqVL2cKflNzJaTwpFPgJEqXlAmZ2T6VBtQD6Yr37epnef8pxbcXYlvW
-	N+5zRAps2D9YmYCHJxmyjgvszqrWn0AYMVHhKNPANOYg1IV4dvYgouGLe+vwgl5e
-	rrYL2n3bnJgPrD3fgSj6c8U7+KftUG8ATZfp86bgdH8fJ0zvZQDRu4A/LdJzCh3Z
-	uq7KzhuzOoGpxprxU+n2WwFfyjR8y08ICKbOgOGeDL+Es3zqUy0I7fqSS5SMTu3O
-	cT5VlqGObjDw605UnpXyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660617729; x=
-	1660704129; bh=HaNW5dTGTh6zJmCxeaRGccdi0HcEeWElpDsk1nTJqRI=; b=D
-	pBGByD80wJUgFGnrCdO0dVRLJ7XXMteN7lEhuAw8XdBCtKAdlFlI/MdiBGdK3YI3
-	SxubzMPY0N8bSAPjjfYi3ndKcjo9C4eeGDAyKvSMmphrrHQb8XMitiNTNhBbTI9Q
-	uONwdbhGXDhEV1pdB8Gb6n2tXqxzHSaOBABa3z2uZYPlwo/pXqO8V+riWzLnETnO
-	dzyZkMx9RaJGtrk0sRqpeLCehCs64PSxExpZ+spgWbT0Fyh6QOKkAXj2V6EO0eL7
-	BZoFKE9czxotQfQg/WJIazwYjK8fkK6ZVvVa7ULKQdrs95sQ5uOWxqcGHijHbNvR
-	N/forPXnfLqWuj/R5IX2g==
-X-ME-Sender: <xms:AQT7YgPH9943MR27JtlDLBMQ1UDWv047NevytleYTJvMF2n4a1I9-A>
-    <xme:AQT7Ym-KBuVqpclJKq1G-J0IMAKHEuQ6tmR4qAdEgb9RiweiBQIlCmPzKTYZGrNzY
-    tKAJTDiCTh44ADd_g>
-X-ME-Received: <xmr:AQT7YnQD3TuKms4VX3_s7lvp7z8BjA6ZAq4wP1Dq_F1qJqgmtQujYSv8MZOY2rJBUF7_XWg0GrRH-2pVBgiffAeEAdxhH1X2clArD9SXWfbpDmcjYE9FkRQDVw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehfedgieegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucenucfjughrpefuvfevfhfhkffffgggjggtgfesth
-    ekredttdefjeenucfhrhhomhepufgrmhhuvghlucfjohhllhgrnhguuceoshgrmhhuvghl
-    sehshhholhhlrghnugdrohhrgheqnecuggftrfgrthhtvghrnhepjeelfedutdeggeevvd
-    ekheefjeefvefgfeeiffefgeduieeutdehkeejleegueejnecuffhomhgrihhnpehkvghr
-    nhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:AQT7YoscCBqM9HQ9Yup77uhI-lPB4SA5oRa0GwitHz5blQu4F_fpJg>
-    <xmx:AQT7YofNgHWbEhKUo6Q17YMlIynT7IQXQLpYbhxVchQ_K0jSM441vA>
-    <xmx:AQT7Ys1o2cu0k8uFmGdfJrpCjLqalFsZA60oI0oGL2RajLzD0iQhgw>
-    <xmx:AQT7YpXP4SgluZnONeW9Hylpj8Z5FhmZ0jq6Vt-1cLdxys3KCAl3kA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Aug 2022 22:42:08 -0400 (EDT)
-Subject: Re: [PATCH 00/12] riscv: Allwinner D1 platform support
-To: Conor.Dooley@microchip.com, wens@csie.org, jernej.skrabec@gmail.com,
- linux-sunxi@lists.linux.dev, palmer@dabbelt.com, paul.walmsley@sifive.com,
- aou@eecs.berkeley.edu, linux-riscv@lists.infradead.org, robh+dt@kernel.org,
- devicetree@vger.kernel.org, krzysztof.kozlowski+dt@linaro.org
-Cc: linux-kernel@vger.kernel.org
-References: <20220815050815.22340-1-samuel@sholland.org>
- <50dc816c-3129-f5aa-9777-99c6f0fa58f1@microchip.com>
- <6b8cd27d-5671-7bcb-549d-e903cf019fe3@microchip.com>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <6d54da3f-d4fc-7c40-38d6-4f02c7346458@sholland.org>
-Date: Mon, 15 Aug 2022 21:42:07 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451091FAC
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 05:55:12 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id z25so13424665lfr.2
+        for <linux-sunxi@lists.linux.dev>; Mon, 15 Aug 2022 22:55:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=SM85WUFG4iEcrdGXUW1ovRXHJvVq4YoOra1Othbb/sI=;
+        b=EwhBI+O8yhjttvfqkMyGgqju7SabAqYWbFGrQ9MqCy/t8smDKOrX4ZLMlouZVonOz6
+         iwvUksftnAVCQQ7TsS7aZFhUmu0J1KZ0nv0sISODZ/JJm25kK6/oh3Z5hRk4iHlbdsyy
+         OLFSD4mtvOZ6G6kjpeHJI+nEF0AzSt6YDOaTTqEP6TUJJcWxVbhfCK/EvupvSqvb11a2
+         2t1zArEwfbv+BviVGZO1nHlkcm46oGvdOGa2Tzc0elglZ2hnByt0eGRQkeQhiWK5pABR
+         nmm83J4PIgVhKmKs8nE/LYEcrRuI2syBUzb5wbOaZIccCAceLxa1Z5hwXW0JMoDIHIKI
+         lRag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=SM85WUFG4iEcrdGXUW1ovRXHJvVq4YoOra1Othbb/sI=;
+        b=fdhyOhPzG9JlkQck7crvZBS/WRC0fgyP/L36vpD/AnemG1LCR2YW8XQkZJNdO62QNf
+         eP0JQprtINbZtSW12rPEAhhj1Pq3HWuxaY3zLQM6GKnxFD/nUX75yX9SedU3Jefcuq0C
+         Xro5F6oXqQKiX1qo2lwbRzxqNMqCbDGkytx810yfiWC8SXfrO1TqqVNf0djaCQnX6OB1
+         hGdgUkewCpDB9Xxoaza/xgXUiN4nAU5kslPukQcvsJtwP4nKQcdAUdwZA+bq0R1atfXp
+         kFdo0wIawb3Jcn/QgJL3fGLvg+xYHA9h8MYl9jZMA0DZnfXKn8w3QWl8Onibc2P/m0TM
+         s1iQ==
+X-Gm-Message-State: ACgBeo04cGYzQrSsy+0+WQwpkr/JaKgQn3Ym/Cix/1JJN2RFcKW11sZI
+	VNBukT+GRsMqtjR/y8eTTbSDyA==
+X-Google-Smtp-Source: AA6agR7IeUpFg8yHso/TiNxbVUWwOdABAJVuP+7GB6b2iz3fuXp47F/1wpnpJjS37Xv39u1GZHp8gQ==
+X-Received: by 2002:a05:6512:304c:b0:48c:ed09:1e95 with SMTP id b12-20020a056512304c00b0048ced091e95mr7274477lfb.642.1660629310351;
+        Mon, 15 Aug 2022 22:55:10 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+        by smtp.gmail.com with ESMTPSA id o15-20020a05651205cf00b00491203d6cc9sm935238lfo.131.2022.08.15.22.55.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Aug 2022 22:55:09 -0700 (PDT)
+Message-ID: <7f1e6b96-49f6-e83c-7711-d6a60cd012e2@linaro.org>
+Date: Tue, 16 Aug 2022 08:55:07 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <6b8cd27d-5671-7bcb-549d-e903cf019fe3@microchip.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v2 01/10] dt-bindings: sram: sunxi-sram: Clean up the
+ compatible lists
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Hans de Goede <hdegoede@redhat.com>,
+ Icenowy Zheng <icenowy@aosc.io>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
+References: <20220815041248.53268-1-samuel@sholland.org>
+ <20220815041248.53268-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220815041248.53268-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 8/15/22 12:12 PM, Conor.Dooley@microchip.com wrote:
-> On 15/08/2022 08:05, Conor Dooley wrote:
->> Hey Samuel,
->> Apologies for the last email, the first 5 patches in this series
->> didn't correctly land in my inbox and I skimmed & replied to the
->> wrong cover letter... I blame it being pre 8 AM ;)
->>
->> On 15/08/2022 06:08, Samuel Holland wrote:
->>> EXTERNAL EMAIL: Do not click links or open attachments unless you know the content is safe
->>>
->>> This series adds the Kconfig/defconfig plumbing and devicetrees for a
->>> range of Allwinner D1-based boards. Many features are already enabled,
->>> including USB, Ethernet, and WiFi.
->>>
->>> The SoC devicetree uses bindings from the following series which have
->>> not yet been merged:
->>> - SRAM controller:
->>>    https://lore.kernel.org/lkml/20220815041248.53268-1-samuel@sholland.org/
->>> - NVMEM cell bits property change:
->>>    https://lore.kernel.org/lkml/20220814173656.11856-1-samuel@sholland.org/
->>> - In-package LDO regulators:
->>>    https://lore.kernel.org/lkml/20220815043436.20170-1-samuel@sholland.org/
->>>
->>> All three of these are required to set the correct I/O domain voltages
->>> in the pin controller, which I would consider important to have in the
->>> initial version of the devicetree.
->>>
->>> The SoC devicetree does contain one small hack to avoid a dependency on
->>> the audio codec binding, since that is not ready yet: the codec node
->>> uses a bare "simple-mfd", "syscon" compatible.
->>
->>
->> I tried this series on top of both 6.0-rc1 & next, but I saw a shed
->> load of errors from dtbs_check. I'll take a look at the rest of the
->> series later on, but just FYI. This time I did at least read the
->> right cover letter and actually applied your dependent series..
->> /facepalm
->>
->> I have been trying to get riscv down to 0 warnings and would not be
->> in favour of accepting patches that go in the other direction.
->> (This patchset currently produces about 47 new warnings)
+On 15/08/2022 07:12, Samuel Holland wrote:
+> Use enumerations where appropriate to combine "const" choices and
+> deduplicate fallback compatible strings.
+> 
+> Suggested-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v2:
 
-Only 4 unique ones :)
 
-Thanks for checking this. I had done a couple of passes cleaning things up. The
-remaining warnings are the ones I was unsure how to fix.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> FWIW this is what I see, LMK if I am missing something.
-> allwinner/sun20i-d1-lichee-rv.dtb: i2c@2502000: Unevaluated properties are not allowed ('dma-names', 'dmas' were unexpected)
 
-This one is new with dt-schema 2022.08.1 (I was previously on d1f3102e locally).
-I'm not sure if it is a bug in the binding or in the dt-schema tool. The
-warnings go away if I do:
-
---- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-@@ -72,6 +72,7 @@ required:
-   - interrupts
-
- allOf:
-+  - $ref: /schemas/dma/dma.yaml#
-   - $ref: /schemas/i2c/i2c-controller.yaml#
-   - if:
-       properties:
-
-But I wouldn't expect this to be necessary, since dma.yaml has "select: true".
-Compare the this with the UARTs. Neither serial/snps-dw-apb-uart.yaml nor
-serial/serial.yaml references any DMA properties, yet there is no warning for those.
-
-> allwinner/sun20i-d1-clockworkpi-v3.14.dtb: pmic@34: compatible: 'oneOf' conditional failed, one must be fixed:
-> allwinner/sun20i-d1-devterm-v3.14.dtb: pmic@34: compatible: 'oneOf' conditional failed, one must be fixed:
-
-The new compatible is in linux-next. I can add it to the cover letter for v2:
-https://lore.kernel.org/linux-devicetree/20220810013430.27061-1-samuel@sholland.org/
-https://git.kernel.org/lee/mfd/c/97ecda0f615e
-
-> allwinner/sun20i-d1-lichee-rv.dtb: ethernet@4500000: Unevaluated properties are not allowed ('mdio', 'reset-names', 'resets' were unexpected)
-
-This showed up with a dt-schema update in the last year or so. This may be a bug
-in the binding? allwinner,sun8i-a83t-emac.yaml picks up these three properties
-from snps,dwmac.yaml, but does not have them in its own "properties" block.
-(resets and reset-names are even in "required"!)
-
-> allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb: ethernet@4500000: Unevaluated properties are not allowed ('phy-supply' was unexpected)
-> allwinner/sun20i-d1-dongshan-nezha-stu.dtb: ethernet@4500000: Unevaluated properties are not allowed ('phy-supply' was unexpected)
-
-I think this one is just flat out missing from the binding. It is present in the
-other two Allwinner Ethernet MAC bindings, but not this one.
-
-Regards,
-Samuel
+Best regards,
+Krzysztof
