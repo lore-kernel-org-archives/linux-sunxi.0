@@ -1,163 +1,178 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBDB110C
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:29:22 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id b9so2505031qka.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 06:29:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=hdhYrvwFVCJ/wIIa+DKIK8qp10gL+xmn48+Cm6GZTzY=;
-        b=u7FBWxUGzAJAQk6UCgkQC7Snln5rtkkvGoGUP0kvufGJSa8ErQwc5WL7XvlnkzUJie
-         P7C99lGISlnV1s1HmBsEmYlnkCquD+ePeqqOTT/YieVg431jQnccS26M2rGdryK3oWmx
-         2PbY02K3ITg3a4rR/a/+L8pa2aPgiXnreE7ulLE8zn4jIxk+mhDgSYr8ADgpTtEpcNvT
-         IiWw0oGX30lm9XTEgDyQZi317AxnkJtRZX4Jnsd07HTMT4Z+s3TlqdiR2h9gk5nKjLAe
-         /Hbek5o95QLnbE68bWf3rU/LBQDozJCvoBgaANQw7lPgQ7FX6yD9V2RtYixa9dLBBbgI
-         Eeqw==
-X-Gm-Message-State: ACgBeo14B4WXaF91Dv3+2DD0SLMg+TX0JWm8O6JB3jrsLz5oZx/+PDrc
-	tZ2gcm2p0dN9MFCwQuh49/H8tFbTDUnO+A==
-X-Google-Smtp-Source: AA6agR7V0e4lBS6cs9KcReJz2rqslqVxFI1e2YQN9WuZl/z4ghte/u6sAy6FobelCq5P7VYUd9d7AA==
-X-Received: by 2002:a05:620a:3705:b0:6b9:6ff:559d with SMTP id de5-20020a05620a370500b006b906ff559dmr14399363qkb.365.1660656561507;
-        Tue, 16 Aug 2022 06:29:21 -0700 (PDT)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
-        by smtp.gmail.com with ESMTPSA id y23-20020ac87c97000000b00342f8984348sm10255247qtv.87.2022.08.16.06.29.20
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 06:29:20 -0700 (PDT)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-332fc508d88so81233217b3.3
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 06:29:20 -0700 (PDT)
-X-Received: by 2002:a81:502:0:b0:32f:dcc4:146e with SMTP id
- 2-20020a810502000000b0032fdcc4146emr10322596ywf.316.1660656559751; Tue, 16
- Aug 2022 06:29:19 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88FF110C
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:46:28 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id CF7A85803B8;
+	Tue, 16 Aug 2022 09:46:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Tue, 16 Aug 2022 09:46:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1660657587; x=1660664787; bh=gHbL+MytjJ
+	sZvOVGVzDN1GM9hKYjC7rxGk40WyTKaIo=; b=g5XU3Y09Fp0m6twECmjiDPgoD8
+	SlSF+LAfJbkef44m7fWMWdW6HV2pS8Rl6yMS4aqsH+reDeg0xYhJpkyl06HlSiGS
+	NhkqwOPuDcU5X5mmwbKdFkJSLfL3xMUbf1VSrJij1t1lgyNtXf4d3JaAEK1djaHV
+	955s/W/wAZCpzb/9Dma0gBHmULtU7/xrZL49O6Sp0gQcze1wdeHTgqmhWEurWo86
+	CHU43FOJBFSeXSfJftsTiUJx+aHQm5s1GJSuQYoE43+LVuQnW1WzOkmmGyBSOTmm
+	FdcDkO+sLNBuPxXgd1oHCa0Z01GatPcRdW5mlyldKfx9mnTSDbuvYIWrZYwg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660657587; x=1660664787; bh=gHbL+MytjJsZvOVGVzDN1GM9hKYj
+	C7rxGk40WyTKaIo=; b=kmAgyWxk9CRWsdlOPMowrQ81I+xu32+X9sXWngkrs64D
+	SpOvcWAlxbw4Z7Ks4uXYyMx5fSC0RmtNSYud9WV7FPvtPCdlXlRCwWUXW8mJVN1G
+	RmUrd8KXTue9ZVbBDHQXUwylRMHzD4wm0u60mUJ+imY8cTogoOd734xD19lkT/LJ
+	KX8tO6ikVBnZSRUERu3BcC7LJ6/Ux9czDptrE4aGzhssG7V3TWFjaeufH9waKDyN
+	SeXuuL4AGKV2dr03uawgCjnZL6ltWaXMrMs1StJtc5ATl112Gbz+Hth1PAp4J3pl
+	8r+eaBxJ3JQvPIuuyo2otHLpBAhF80CIdzeSgYQiLA==
+X-ME-Sender: <xms:s5_7YqzzZQoAWUgz1kfH2ymHepyDm213uAckzgqFSzuMaMENVi6OvA>
+    <xme:s5_7YmRk2xhRYIKNBPL4rKPaaDGM-WL0mlsQMugX_AJhMl-ZzxSU2uvV2BgqwcnOJ
+    NyWuvY05qtQfyjYOzg>
+X-ME-Received: <xmr:s5_7YsXuK-3JVFMmyMVM2XGYJzmQJN3e8iWhTp0eTeEZkQ8npxP1GXZaUoU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
+    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:s5_7YggUuaxFesnjbcsrU2LUladhr5kLaWWzL5KaGVvRylgv9wHsYg>
+    <xmx:s5_7YsB7cHZfSR07JuLU_cnuM3OwfsClKgn7QiX8wWN4CQE6hYD60w>
+    <xmx:s5_7YhLN-ZJinuVFhhhltyU-kp6lbX_ruN80INBF1QvhJvew5W1rVQ>
+    <xmx:s5_7YuxTmg5yDXXc4a6DbirShoBajE24XWu7p0WiFGAumrChOuVWbg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 09:46:26 -0400 (EDT)
+Date: Tue, 16 Aug 2022 15:46:24 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+	DRI Development <dri-devel@lists.freedesktop.org>,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 09/35] drm/modes: Move named modes parsing to a
+ separate function
+Message-ID: <20220816134624.cmb5s6i6pkdhu3qj@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-9-3d53ae722097@cerno.tech>
+ <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com> <20220816132040.uwirtjm5yr6rdd3q@houat>
-In-Reply-To: <20220816132040.uwirtjm5yr6rdd3q@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Aug 2022 15:29:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
-Message-ID: <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="xbotrfh2f6jawwvu"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
 
-Hi Maxime,
 
-On Tue, Aug 16, 2022 at 3:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
-> > > --- a/drivers/gpu/drm/drm_connector.c
-> > > +++ b/drivers/gpu/drm/drm_connector.c
-> > > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
-> > >   * 0 on success or a negative error code on failure.
-> > >   */
-> > >  int drm_mode_create_tv_properties(struct drm_device *dev,
-> > > +                                 unsigned int supported_tv_norms,
-> > >                                   unsigned int num_modes,
-> > >                                   const char * const modes[])
-> > >  {
-> > > +       static const struct drm_prop_enum_list tv_norm_values[] = {
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+--xbotrfh2f6jawwvu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Aug 12, 2022 at 03:27:17PM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Fri, Jul 29, 2022 at 6:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > The current construction of the named mode parsing doesn't allow to ext=
+end
+> > it easily. Let's move it to a separate function so we can add more
+> > parameters and modes.
 > >
-> > The above are analog standards, with a variable horizontal resolution.
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Thanks for your patch, which looks similar to my "[PATCH v2 2/5]
+> drm/modes: Extract drm_mode_parse_cmdline_named_mode()"
+> (https://lore.kernel.org/dri-devel/1371554419ae63cb54c2a377db0c1016fcf200=
+bb.1657788997.git.geert@linux-m68k.org
+> ;-)
+
+Indeed, I forgot about that one, sorry :/
+
+I think I'd still prefer to have the check for refresh + named mode
+outside of the function, since I see them as an "integration" issue, not
+a parsing one.
+
+It's not the named mode parsing that fails, but the fact that we both
+have a valid refresh and a valid named mode.
+
+>=20
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1773,6 +1773,28 @@ static const char * const drm_named_modes_whitel=
+ist[] =3D {
+> >         "PAL",
+> >  };
 > >
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
-> > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
-> >
-> > The above are digital standards, with a fixed resolution.
->
-> Are they?
->
-> It's not clear to me from looking at nouveau, but I was under the
-> impression that they were modes for a component output, so CEA 770.3. I
-> don't have the spec though, so I can't check.
+> > +static bool drm_mode_parse_cmdline_named_mode(const char *name,
+> > +                                             unsigned int name_end,
+> > +                                             struct drm_cmdline_mode *=
+cmdline_mode)
+> > +{
+> > +       unsigned int i;
+> > +
+> > +       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
+> > +               int ret;
+> > +
+> > +               ret =3D str_has_prefix(name, drm_named_modes_whitelist[=
+i]);
+> > +               if (ret !=3D name_end)
+> > +                       continue;
+> > +
+> > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]=
+);
+> > +               cmdline_mode->specified =3D true;
+> > +
+> > +               return true;
+> > +       }
+> > +
+> > +       return false;
+>=20
+> What's the point in returning a value, if it is never checked?
+> Just make this function return void?
 
-Oh right, I forgot about analog HD over component, where you can use
-other pixel clocks than in the digital standard.
+Yeah, it's something I went back and forth to between the dev, and it's
+an artifact.
 
-> > You seem to have missed "hd1080p"?
->
-> Nobody is using it. If we ever have a driver that uses it I think we can
-> add it.
+I'll drop that patch, take your version and move the refresh check to
+drm_mode_parse_command_line_for_connector if that's alright for you?
 
-The PS3 supports 1080p over component
-https://manuals.playstation.net/document/en/ps3/current/settings/videooutput.html
+Maxime
 
-> > In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
-> > and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
->
-> It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
-> 50Hz, 720p at 60Hz, 1080i at 30Hz.
+--xbotrfh2f6jawwvu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-PS3 supports both 50 and 60 Hz (same link above).
+-----BEGIN PGP SIGNATURE-----
 
-> > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > currently a named mode and a refresh rate can't be specified both.
->
-> I think the former would make more sense. It simplifies a bit the
-> parser, and we're going to use a named mode anyway.
->
-> > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > command-line option" uses a separate "tv_mode" option, and not the main
-> > mode name, I think you want to add them here.
->
-> It's a separate story I think, we could have a named mode hd720p50,
-> which would be equivalent to 1280x720,tv_mode=hd720p
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvufsAAKCRDj7w1vZxhR
+xRvYAP9DR7LzVwd0ITVjjsOrO+BQ9andM/0A4P6qCsx/ywFipQEA+bV9F+NyoFUN
+oNXdDnnG7g+hOqMsx28nmzB45wcO6w0=
+=uJzR
+-----END PGP SIGNATURE-----
 
-So where's the field rate in "1280x720,tv_mode=hd720p"?
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--xbotrfh2f6jawwvu--
