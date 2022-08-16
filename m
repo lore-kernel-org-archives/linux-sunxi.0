@@ -1,55 +1,56 @@
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509F13D7E
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3143D7E
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 14:11:23 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 419555801CF;
-	Tue, 16 Aug 2022 09:51:08 -0400 (EDT)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 2C0EA5803B6;
+	Tue, 16 Aug 2022 10:11:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:51:08 -0400
+  by compute5.internal (MEProxy); Tue, 16 Aug 2022 10:11:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660657868; x=1660665068; bh=yuVLbrrN+N
-	1iK12i7DUjM6pGqTkdcihboprTmt6Byjw=; b=odX2548XwGXoGeKNs0MbkWaSSx
-	lfpsoLA8A8tZ3+XRhAbG1K21dnqkAYavMxd5ydxZzSSazv9h7PvZWs3oaJqIVzdA
-	RfmZLhQ6h0EfZpOr1x+wr6wcBilxBz5VUTfO6oIvSod3iW4DRW9iZAY5JWrBRVWy
-	8RbA1h9nm3vFyOx+F+XZ3Oi0Ew0Vp7PsnmwPJmo+2pX+i+6ZJpekDYbdmpGtfVCo
-	3VAKjkXEUHf0bOEZYobFiUnvijuSsqOZ7WAeqXo3nvUpCPV8fn3snx0SW0lCtRGR
-	3K7tv7ETwiQEhEEeQLinpzolbgJNH5qkXFL+wVcSjhd7ht2J/SWD6yDSAvuw==
+	:subject:to:to; s=fm3; t=1660659082; x=1660666282; bh=hSJbcUfnd7
+	qULOS3ijW0b6OV+nlzyadXJ1a4AV3AD5k=; b=TcKgtAX+mpgb0/tjtqkL+Hmef1
+	C0cBL3Nv+ZAkcp571t1bLhXkQJB9UidM9tQVYioYkj6BQIYEPmpYdcf723wQOOzt
+	UyYPpavIHEujcE9OywXEQgeLQOqa7UCormpYIKu5cLwE0bvqNxlGuogMoEbE6Ls6
+	8Y7aTmM3s5agRZrJUilRr8PVzKTN7y/525Jx32+w84ZjJXgCBdxeTHwbwL1X3LqI
+	nJldxEDyZ34CdlE+hJv85oNipeugIe+ekl3s3g9L/O7bqNsGFam3JAKgA7W+YkV/
+	2tiHHgg9SA6UzxTWaVMqYyNgKWRiiJjKj2FlhkfUuvk55MWOayyDBTEUeb/Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660657868; x=1660665068; bh=yuVLbrrN+N1iK12i7DUjM6pGqTkd
-	cihboprTmt6Byjw=; b=A1Si8qi+Laz5mf39bB95eWK9Z9k4Uwq/ARX10hcF5KoC
-	rsCZ4h4myKe7lFZDNiG31Mst8v4bkATp+OYda5/B48kbYWQ2u0KmB9codo9djrHe
-	yTOUZjbJZyB8E2j3I25Q+pbwyeqoVuqgfw6Eb/Ta82kHO4XwYxUPaMPA+8XxwcC+
-	bTV1VisVVgUolSf0+JPD6hqwLHiiFwPXAG/3ChEFsyvxGYNAfSU1zvmJVn9fuQJm
-	kxGz4+rdbVp3wtvdqh8E4B2HCDmNbzxD8l1XRhP9sDDFyjJPZjCwbnP9t0tfssr5
-	yfc8ortuZ8OiMn3m0oboGq9/2l0bSlAJDth5K7vXyQ==
-X-ME-Sender: <xms:y6D7Yi5dGJhRTsSGZBa9vyukMq9hYKB9U0_RHpfh03QgEetm5byqvg>
-    <xme:y6D7Yr4cdbgoEw_0L-SdM11M8wG7DlbMGgv-7R9rQA-mUT5LaO75CFlSi5iBSgWaD
-    __y_zatS_jJqtm1Es0>
-X-ME-Received: <xmr:y6D7YhdJOPym6auR3F3LbUaT7Gw7xA6ooEFtcT0WCjCINXg2WimtbPEekYY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
+	fm1; t=1660659082; x=1660666282; bh=hSJbcUfnd7qULOS3ijW0b6OV+nlz
+	yadXJ1a4AV3AD5k=; b=ca4xMYXemjueWWzN5SlBJA61FWu2c2A8OGAOwkwaKDoT
+	rCk5lY8VCYYmXbp0GpTGPuSHgi2ibOHhJbcSwtBk63T6/uMcT5mr/3BDNPLoWhja
+	NvFwKBfU1FR9WhfZlgePOfdTFI7JcfuY4RI/NYhud647Al4aonrTxEW2YvMlow5E
+	bPQK4IdU2TXRBJOsZKaXdHAWM2VoSMLpDAjvMQL+USFvE1tRu/1Jh3V9NnKAploU
+	KZd2dBSlBZ9NdILv+rOKy0juWEGyb/jIXi9DoMW2wRnm7T+lpP35jJrB/cumdfFf
+	MCX6QctyDuLKPJncOfQs6/I/26qbltzG627OUvdBkA==
+X-ME-Sender: <xms:iKX7YjQMsADeuRoeVvrGSLYt3PtuACX8fjBnbgnrmTXAWLeAY-pn5Q>
+    <xme:iKX7YkwG0hW3AzBa9mIzcKuQGgiefBAlkLfqfulNvJxdj_RTjSpz2_-LAwAHq-eci
+    kJfs8FrrgIXusjuDZQ>
+X-ME-Received: <xmr:iKX7Yo1OhaneH6cpixS7UjkU_9N6WlY-EE34mLbUiCnMKwa9up3au0vEb_g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjeehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:y6D7YvI0uY1gs0_NlIylruE9Zs-XXwZlX_P_FEl_My6SPc7HLEwL4A>
-    <xmx:y6D7YmK7yKTdmpQmBSGQH2Y4I_GTRd_KRzJGnECTVLhPLnKVUgehWw>
-    <xmx:y6D7YgxxEL2lavOAuWvzDdfmduCHGRSf9UhoPNKAuLZ7cRiW3e-2BA>
-    <xmx:zKD7Ym6mGad4cGanjPeIgtE-CDNYjoT7Vt1767fMSgxfM1B86VJUWQ>
+    htthgvrhhnpeeljeehgeejudduueevtdekheduffdutdfgueduiedvffdtleejudekvedt
+    tdektdenucffohhmrghinhepphhlrgihshhtrghtihhonhdrnhgvthenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhn
+    ohdrthgvtghh
+X-ME-Proxy: <xmx:iKX7YjCMNOewfeRaFNgVrZjUhIKQquvHL-94rUW8S9MwpArn1-DSkg>
+    <xmx:iKX7YsiU1r9Xk1V4oENyc2wb6uSdKopUO3cWRhdcpNcvggqd_j0Biw>
+    <xmx:iKX7YnqlT5EHjUVGQbCe__2UvOfWtaW7noVyb3HrchMhSOoOi2IAQQ>
+    <xmx:iqX7YnRQw_mEpJvrYLzbDl6KuZMQHJtmp6InvUBCTlRUtTXI0Sl7Tg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 09:51:06 -0400 (EDT)
-Date: Tue, 16 Aug 2022 15:51:05 +0200
+ 16 Aug 2022 10:11:19 -0400 (EDT)
+Date: Tue, 16 Aug 2022 16:11:16 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -71,12 +72,13 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
 	DRI Development <dri-devel@lists.freedesktop.org>,
 	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
- command-line option
-Message-ID: <20220816135105.goztqjzqqhhigytd@houat>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220816141116.5nuszmilqv2exdb3@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
- <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -84,104 +86,158 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="oapqvc3fwa7skyps"
+	protocol="application/pgp-signature"; boundary="d44byhtxjosx7akc"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
+In-Reply-To: <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
 
 
---oapqvc3fwa7skyps
+--d44byhtxjosx7akc
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 12, 2022 at 03:31:19PM +0200, Geert Uytterhoeven wrote:
+On Tue, Aug 16, 2022 at 03:29:07PM +0200, Geert Uytterhoeven wrote:
 > Hi Maxime,
 >=20
-> On Fri, Jul 29, 2022 at 6:37 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > Our new tv mode option allows to specify the TV mode from a property.
-> > However, it can still be useful, for example to avoid any boot time
-> > artifact, to set that property directly from the kernel command line.
+> On Tue, Aug 16, 2022 at 3:20 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
+> > > > --- a/drivers/gpu/drm/drm_connector.c
+> > > > +++ b/drivers/gpu/drm/drm_connector.c
+> > > > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_pro=
+perties);
+> > > >   * 0 on success or a negative error code on failure.
+> > > >   */
+> > > >  int drm_mode_create_tv_properties(struct drm_device *dev,
+> > > > +                                 unsigned int supported_tv_norms,
+> > > >                                   unsigned int num_modes,
+> > > >                                   const char * const modes[])
+> > > >  {
+> > > > +       static const struct drm_prop_enum_list tv_norm_values[] =3D=
+ {
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NT=
+SC-443" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC=
+-J" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC=
+-M" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-=
+60" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N=
+" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-=
+Nc" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SE=
+CAM-60" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SEC=
+AM-B" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SEC=
+AM-D" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SEC=
+AM-G" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SEC=
+AM-K" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SE=
+CAM-K1" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SEC=
+AM-L" },
+> > >
+> > > The above are analog standards, with a variable horizontal resolution.
+> > >
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd48=
+0i" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd48=
+0p" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd57=
+6i" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd57=
+6p" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd72=
+0p" },
+> > > > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1=
+080i" },
+> > >
+> > > The above are digital standards, with a fixed resolution.
 > >
-> > Let's add some code to allow it, and some unit tests to exercise that c=
-ode.
+> > Are they?
 > >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > It's not clear to me from looking at nouveau, but I was under the
+> > impression that they were modes for a component output, so CEA 770.3. I
+> > don't have the spec though, so I can't check.
 >=20
-> Thanks for your patch!
+> Oh right, I forgot about analog HD over component, where you can use
+> other pixel clocks than in the digital standard.
 >=20
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1677,6 +1677,80 @@ static int drm_mode_parse_panel_orientation(cons=
-t char *delim,
-> >         return 0;
-> >  }
+> > > You seem to have missed "hd1080p"?
 > >
-> > +#define TV_OPTION_EQUAL(value, len, option) \
-> > +       ((strlen(option) =3D=3D len) && !strncmp(value, option, len))
-> > +
-> > +static int drm_mode_parse_tv_mode(const char *delim,
-> > +                                 struct drm_cmdline_mode *mode)
-> > +{
-> > +       const char *value;
-> > +       unsigned int len;
-> > +
-> > +       if (*delim !=3D '=3D')
-> > +               return -EINVAL;
-> > +
-> > +       value =3D delim + 1;
-> > +       delim =3D strchr(value, ',');
-> > +       if (!delim)
-> > +               delim =3D value + strlen(value);
-> > +
-> > +       len =3D delim - value;
-> > +       if (TV_OPTION_EQUAL(value, len, "NTSC-443"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_443;
-> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-J"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_J;
-> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-M"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_M;
+> > Nobody is using it. If we ever have a driver that uses it I think we can
+> > add it.
 >=20
-> [...]
+> The PS3 supports 1080p over component
+> https://manuals.playstation.net/document/en/ps3/current/settings/videoout=
+put.html
+
+Yeah, and iirc the Xbox360 did too, but what I meant by nobody is using
+it is that there's no driver using it currently.
+
+> > > In addition, "hd720p", "hd080i", and "hd1080p" are available in both =
+50
+> > > and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
+> >
+> > It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
+> > 50Hz, 720p at 60Hz, 1080i at 30Hz.
 >=20
-> You already have the array tv_norm_values[] from "[PATCH v1 05/35]
-> drm/connector: Add TV standard property". Can't you export that, and
-> loop over that array instead?
+> PS3 supports both 50 and 60 Hz (same link above).
 
-I'm not sure, the command line doesn't follow the same conventions than
-the property names for a number of conventions, but at the same time we
-should try to keep it as consistent as possible...
+I'm probably wary on this, but I'd rather stay at feature parity for
+this series. There's already plenty of occasion to screw up something
+that I'd rather not introduce new stuff I haven't been able to test :)
 
-Then again, Jani and Thomas didn't seem too fond about exposing data as
-part of the API, so I'm not sure how we could expose that properly.
+Provided we can easily extend it to support these additional features of
+course :)
 
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD480I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480I;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD480P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD576I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576I;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD576P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD720P"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD720P;
-> > +       else if (TV_OPTION_EQUAL(value, len, "HD1080I"))
-> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD1080I;
+> > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> > > 09/35] drm/modes: Move named modes parsing to a separate function", as
+> > > currently a named mode and a refresh rate can't be specified both.
+> >
+> > I think the former would make more sense. It simplifies a bit the
+> > parser, and we're going to use a named mode anyway.
+> >
+> > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> > > command-line option" uses a separate "tv_mode" option, and not the ma=
+in
+> > > mode name, I think you want to add them here.
+> >
+> > It's a separate story I think, we could have a named mode hd720p50,
+> > which would be equivalent to 1280x720,tv_mode=3Dhd720p
 >=20
-> The names in tv_norm_values[] use lower-case, while you use upper-case
-> here.
+> So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
 
-Indeed, I'll fix it, thanks!
+Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
+
 Maxime
 
---oapqvc3fwa7skyps
+--d44byhtxjosx7akc
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvugyAAKCRDj7w1vZxhR
-xYVoAQDFAMNuU1dbZgCiVBYUf+Y13tqfHCtlOuPYmSb6Gmh3xgEAgXYxzEcBWNLK
-j9bSNzYbE9lp+H3MaLuAPoiaBAXIRQE=
-=szbm
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvulhAAKCRDj7w1vZxhR
+xRqFAP9pwwQpb8+R6FlV8bX+bcumZKNtNkKkAhuExyLKeM9jUQD/R5nsZHxJ1FG/
+iUbuVwP8spLqjciAMIaurbVBaZgL+AU=
+=dDk8
 -----END PGP SIGNATURE-----
 
---oapqvc3fwa7skyps--
+--d44byhtxjosx7akc--
