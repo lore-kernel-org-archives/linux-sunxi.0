@@ -1,133 +1,144 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com [66.111.4.224])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56D73539A
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 15:00:52 +0000 (UTC)
-Received: by mail-qk1-f171.google.com with SMTP id g21so4606350qka.5
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 08:00:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=5LUM7nzor1/XqC5vXK/cNLgsMpFS8BfigyHBrmKtMuQ=;
-        b=0wsGENrlqESb2edMGa+9iSqTAydQLIdJT43PgaATO5iVDoCoa1dr+ef7/WsMRhkQVV
-         j1WufMaZlZ9TRyvJDBuGz0BdaWfYhVEyoDLsLRuMgJgP/15V0VJO2z83EivvqATeKwc3
-         EX0h+PeTe8P/rp6HZaAJl1QtYfCYiENzUiT2q1/Cg3kSBE+Thj3/IO6clGTR0+LhXP3i
-         jdUuG5ubclcNy1Gr+Rp3IZAChfxO3FtBus9m+sQlCV/G3plRKUO4RtgcVHaTcsQvnfKB
-         Kr2anfli1KdvnelFZzOm0YnStLmiDWRdvMPy2FZ8q92FhnlOjRj0qKJjFBqZgyECHzZD
-         apPw==
-X-Gm-Message-State: ACgBeo39+i6t/QuudoUCtvo3BhNHaqm8OAutvT6EUEzehYD2WfXLpW5K
-	JYiMJbtMYW/AxYQb2x0tHsGK2UfSL0u9AQ==
-X-Google-Smtp-Source: AA6agR5ETeS7hnpfx5bhSAvY1ZfoRZx3/pbNr0TlfZ6zTItLW7JAG1TwiTNDax7lB1oWbNmVdw/2TQ==
-X-Received: by 2002:a05:620a:2ea:b0:6bb:264f:bf42 with SMTP id a10-20020a05620a02ea00b006bb264fbf42mr7111394qko.649.1660662050686;
-        Tue, 16 Aug 2022 08:00:50 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id y18-20020a37f612000000b006b8e8c657ccsm11241416qkj.117.2022.08.16.08.00.50
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 08:00:50 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3246910dac3so157978097b3.12
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 08:00:50 -0700 (PDT)
-X-Received: by 2002:a5b:bcd:0:b0:68f:b4c0:7eca with SMTP id
- c13-20020a5b0bcd000000b0068fb4c07ecamr130640ybr.202.1660662049765; Tue, 16
- Aug 2022 08:00:49 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5455391
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 15:50:03 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 3BB98580406;
+	Tue, 16 Aug 2022 11:50:02 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute2.internal (MEProxy); Tue, 16 Aug 2022 11:50:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1660665002; x=1660672202; bh=uDbm7d0qwz
+	4pvPmD2wfHPxR0S82D7wURNJkfQ0Lpz5Y=; b=GrGNwQalKlm7CiiXRQTu6nzxia
+	lNKtaztECVkRYFzsHTJHj89rIUrFwmUoIAoU6cJBFaQWmYAlSbs72tAWQNugKR+5
+	fy+pwZh3Pqnf77LvpxJwQMVxPIbzko1in8QqqTq+UPfeY7lLQ6biUGk+L9cIViw3
+	dlBa7d4wAJ899T83CjTK5L7HCpXJ5hC3P6SAxNxLTbsJG7r6j1XtwIzmSAmBAgPr
+	qHeDdfI0vnQoZTewzKMqqWeuXReBK/uE0n87Tj4Q2TA8nkk/GBNIuSLi6uDX55cJ
+	LYMS8tDRI5GSus2De0i/aGfUAR1eGlY2dNy8FrY4rsX149VV+f/y+gH7PIzw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660665002; x=1660672202; bh=uDbm7d0qwz4pvPmD2wfHPxR0S82D
+	7wURNJkfQ0Lpz5Y=; b=UN35GHbGXMmB42WjDX7dQmoYxakSQnjIoMD8v58QKWSK
+	l1U/RN4AoVWqPbmEc7+QW6Ic0R2k1xYqYZ+ABLRAQngyQ9CPunkrW3XlEW8TBiOV
+	QByLAPrEXFfZnpGVKsbOJZ+UkxHiAO2fVeFfFONW9TgbKjGpp7uSThAzOcUmdYxS
+	+LSivv2AfFmQKzXkIlbUUS9Jp+NLTsMY/1dJT04GjGqSWVI20Ip9yyK4Ly8N8Qln
+	CVKvXnIdTAPHDZxe68Noi6reLm5fzRbYKoISeOPTFcSSx1VXm0Hrs57BU9wDJ67l
+	vP4NRKjx5E2vJmRENMpSu+7tSrtHjEKTvf9UR4bn6w==
+X-ME-Sender: <xms:p7z7YvWgoNrTPVlF091lQmiOGp0_-rnmiTWXAjM2vdj3cAg8qjbQKw>
+    <xme:p7z7YnnC0oYCO0Fas4pAOneqx8Kv0fVU9-535wQ_bLn_El-PCQBcBHtUx8ff9DWPv
+    3W9YJgwOHqat-hYysc>
+X-ME-Received: <xmr:p7z7YrbbYe_EjXLt8SwM-1CQRz41ek1Bh4RaQduH7e4kEnS8r6vLZdbt__Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgleehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:p7z7YqV8u3zjGwpyFN9h4ZerxWD9iD-890iBPzSDfxmvewlX2yP7RA>
+    <xmx:p7z7YpkUMMgT4Y3SmDtzAe42LdqQr_uEi7fiHCNYE81r9tqXWmjBbw>
+    <xmx:p7z7YnfX7JrTZsCzX9iW8-Z1i2O_nxMGIfLKZGuQYRVb2fiQ227MFA>
+    <xmx:qrz7YrVZSph2gnyH9vEwdblGdGfop_tCyNPS_3YKedhfZsCPGGXCrA>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 11:49:59 -0400 (EDT)
+Date: Tue, 16 Aug 2022 17:49:56 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+	DRI Development <dri-devel@lists.freedesktop.org>,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220816154956.pkdpxmmw27mia5ix@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat>
+ <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com> <20220816132636.3tmwqmrox64pu3lt@houat>
-In-Reply-To: <20220816132636.3tmwqmrox64pu3lt@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 16 Aug 2022 17:00:38 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
-Message-ID: <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="txot7fjmru2r6vem"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
 
-Hi Maxime,
 
-On Tue, Aug 16, 2022 at 3:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
-> > On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-lines
-> > > modes in the drivers.
+--txot7fjmru2r6vem
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
+> > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60")=
+, or
+> > > > > handle them through "@<refresh>".  The latter would impact "[PATC=
+H v1
+> > > > > 09/35] drm/modes: Move named modes parsing to a separate function=
+", as
+> > > > > currently a named mode and a refresh rate can't be specified both.
+> > > >
+> > > > I think the former would make more sense. It simplifies a bit the
+> > > > parser, and we're going to use a named mode anyway.
+> > > >
+> > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as=
+ a
+> > > > > command-line option" uses a separate "tv_mode" option, and not th=
+e main
+> > > > > mode name, I think you want to add them here.
+> > > >
+> > > > It's a separate story I think, we could have a named mode hd720p50,
+> > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
+> > >
+> > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
 > >
-> > Nit: strictly speaking these are not analog modes, but the digital
-> > variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
-> > 13.5 MHz sampling frequency for pixels.
-> >
-> > In analog modes, the only discrete values are the number of lines, and
-> > the frame/field rate (fixing the horizontal sync rate when combined).
-> >
-> > The number of (in)visible pixels per line depends on the available
-> > bandwidth.  In a digital variant (which is anything generated by a
-> > digital computer system), the latter depends on the pixel clock, which
-> > can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
-> > Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
-> >
-> > So I think we probably need some way to generate a PAL/NTSC-compatible
-> > mode based not only on resolution, but also on pixel clock.
->
-> This would also fix the comments made by Jani and Thomas, so I quite
-> like the idea of it.
->
-> I'm struggling a bit to find how would could implement this though.
->
-> From what you were saying, I guess the prototype would be something like
->
-> struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_clock,
->                                                 unsigned int lines,
->                                                 unsigned int frame_rate)
->
-> But I have zero idea on what the implementation would be. Do you have
-> some resources for this you could point me to?
+> > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
+>=20
+> Above you said "I think the former would make more sense", so that
+> should be "1280x720,tv_mode=3Dhd720p50"?
 
-Horizontally, I think you should calculate left/right margins and
-hsync length to yield timings that match those for the BT.656 PAL/NTSC
-modes.  I.e. when a 640x512 mode with a pixel clock of 14 MHz is
-requested, you want to calculate left', right', and hslen' for
+No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=3Dhd720p
+and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
 
-| <---- left' ---> | <- 640 pixels -> | <---- right' ---> | <--- hslen' --> |
-                        @ 14 MHz
+Maxime
 
-so they match the timings for left, right, and hslen for
+--txot7fjmru2r6vem
+Content-Type: application/pgp-signature; name="signature.asc"
 
-| <--- left ---> | <--- 720 pixels ---> | <--- right ---> | <--- hslen ---> |
-                        @ 13.5 MHz
+-----BEGIN PGP SIGNATURE-----
 
-As 640 pixels @ 14 MHz are less wide than 720 pixels @ 13.5 MHz,
-you want to make sure to align the center of the visible part.
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvu8pAAKCRDj7w1vZxhR
+xeBJAQDkJDuBb9NT3t74aPA6633aiSdZ5T/VyRAsiD1bq7XLFgD/ZVFyws0xlUf2
+pztAVRTUkSu7seGcOJ3pPbEwOnqabwU=
+=6Lb9
+-----END PGP SIGNATURE-----
 
-Vertically, it's simpler, as the number of lines is discrete.
-You do have to take into account interlace and doublescan, and
-progressive modes with 262/312 lines.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+--txot7fjmru2r6vem--
