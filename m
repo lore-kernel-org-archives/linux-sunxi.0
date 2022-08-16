@@ -1,110 +1,213 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5418323B
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:25:56 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id o22so12689091edc.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:25:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=p2IAoMXBFUx3gxWp+4ICwtPEKeo+wvYA575xG1H6jVI=;
-        b=WLvFZu2KS+q7THGZo9rHUDk4wDTyZ4zqLbQUR0lnef4x6El+rrsbBeFOSf0fg+5FFE
-         +5KdbCM9VHFcQlUrRnxbKlpfmYyKz1NSKx0uwDunbyOdRi1iQbIFtzIQx5C+zT4g8oe4
-         Yg6ejIKdWFY/BoB1cv2pfomkAO2W41Ansn4cb7c85y/kRaZOVFPLpA46gMhtn3LG387u
-         0+mUg9xYw/8DxVT+zo3hhsZucpjCEKyWvEbSDqyxdYRRSvwv2tvkTjZ0cmSYo2bxxCOh
-         7pCETWJ02xnPN8vxu19rPFljUNDiBOkHY5o/3K4N5Wz6qJGdYIZP5+ApBVBYt/8TefxM
-         pF0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=p2IAoMXBFUx3gxWp+4ICwtPEKeo+wvYA575xG1H6jVI=;
-        b=xjo0mCSA9teE7hoqyMWVJujM2ui6m7MZ9Qjrqvv1Jdrqnn6BegEh5qZke30ACUX/M3
-         ozRNNFT0lgDXTI/zfZRBRLFgAdbkZ6GMB15ffF7hPdUxYdgH3WCL7gGfn2Ed+MamPzTD
-         eNwlikAmE8QkCtqEPEwV++5cCIh+glrOT2NmVE0VlW5qK6//UStvujr4/Fue4c6Pc3Vc
-         Zlj18gHdtEDeS0x9iNKw+oZ7o3i7Pckpk4FrSVPcFIb3FGxdVeVCceXScPX/HsumGjqS
-         /uDb8JwglI+TV0XPDPA8yTYqWc44ECZjACboOXiwXs+4XXwUYmcXPUSCsc6VO9ig3CKN
-         MUAw==
-X-Gm-Message-State: ACgBeo1K+bn3bUrP/q8uxJDSRoQsW7avxriNel9ICmOjCGMd8Wh/gh7y
-	T9gPgd5KGjpa0IJBQt4qOsM=
-X-Google-Smtp-Source: AA6agR41CmKxbTEYoP/DOpTKRPVPg8STgzbCPzshr17hiEzC27VkjvA7+xRqBIA+VNOKDchJNuruHw==
-X-Received: by 2002:a05:6402:1f87:b0:43b:b88d:1d93 with SMTP id c7-20020a0564021f8700b0043bb88d1d93mr17792300edc.314.1660641955004;
-        Tue, 16 Aug 2022 02:25:55 -0700 (PDT)
-Received: from jernej-laptop.localnet (89-212-118-115.static.t-2.net. [89.212.118.115])
-        by smtp.gmail.com with ESMTPSA id cn19-20020a0564020cb300b0043bdc47803csm8142604edb.30.2022.08.16.02.25.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Aug 2022 02:25:54 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>, linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>, linux-riscv@lists.infradead.org, Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base devicetree
-Date: Tue, 16 Aug 2022 11:25:53 +0200
-Message-ID: <2249129.ElGaqSPkdT@jernej-laptop>
-In-Reply-To: <3881930.ZaRXLXkqSa@diego>
-References: <20220815050815.22340-1-samuel@sholland.org> <5593349.DvuYhMxLoT@jernej-laptop> <3881930.ZaRXLXkqSa@diego>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F2B733CC
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=bIEYAdJMn8rJfxn0kVE7GP80ys7ubTpy0sCOub6aPs4=; b=CKoCDea0HqbcbzaDQ9f24zjk7P
+	UVqHhjEHGavJ5cii86GWwrZaWQJmxUAXZcNINGer8F72h3kmbRppk573SxDxeGmm8TV4wH3IMpewp
+	ezcCjp7FuaFz9mJFE167azuVlCfDV8Yx0UFB5dqTE2PEN6dFKUW1Zd/WyFlMvtMItCubDKeXR3e09
+	mxjQoiLiWZP2APT790i1y4JN5UgBrAcHFFIEcvGrv/YS+B8/Ncbop9kpmytPJURC7PFricfiUNai9
+	w24g9Hj45j8zDLWPn7FbaETtjeiLI1TuG/4mBDC/SWLs45mSYLT11bag9AwfFDIghKiPfE03HAoIy
+	TcAvZP4w==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=56539)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oNt5f-0004wT-VP; Tue, 16 Aug 2022 11:42:27 +0200
+Message-ID: <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+Date: Tue, 16 Aug 2022 11:42:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-
-Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko St=C3=BCbner napisal(a=
-):
-> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej =C5=A0krabec:
-> > Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski=20
-napisal(a):
-> > > On 15/08/2022 08:08, Samuel Holland wrote:
-> > > > +
-> > > > +	de: display-engine {
-> > > > +		compatible =3D "allwinner,sun20i-d1-display-engine";
-> > > > +		allwinner,pipelines =3D <&mixer0>, <&mixer1>;
-> > > > +		status =3D "disabled";
-> > > > +	};
-> > > > +
-> > > > +	osc24M: osc24M-clk {
-> > >=20
-> > > lowercase
-> > >=20
-> > > > +		compatible =3D "fixed-clock";
-> > > > +		clock-frequency =3D <24000000>;
-> > >=20
-> > > This is a property of the board, not SoC.
-> >=20
-> > SoC needs 24 MHz oscillator for correct operation, so each and every bo=
-ard
-> > has it. Having it here simplifies board DT files.
->=20
-> I guess the oscillator is a separate component on each board, right?
-
-Correct.
-
-> And DT obvious is meant to describe the hardware - independently from
-> implementation-specific choices.
-
-There is no choice in this case. 24 MHz crystal has to be present.
-
-=46WIW, including crystal node in SoC specific DTSI is already common patte=
-rn in=20
-Allwinner ARM SoC DTSI files.
-
->=20
-> Starting to discuss which exceptions to allow then might lead to even more
-> exceptions.
->=20
-> Also having to look for a board-component in the soc dtsi also is surpris=
-ing
-> if one gets to the party later on :-) .
-
-As I said, if one is accustomed to Allwinner ARM DT development, it would b=
-e=20
-more surprising to include 24 MHz crystal node in each and every board DT.
-
-Best regards,
-Jernej
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
+ <20220816082612.grebxql5ynnfnvfd@houat>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220816082612.grebxql5ynnfnvfd@houat>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 
+
+Den 16.08.2022 10.26, skrev Maxime Ripard:
+> Hi,
+> 
+> On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Trønnes wrote:
+>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+>>> The TV mode property has been around for a while now to select and get the
+>>> current TV mode output on an analog TV connector.
+>>>
+>>> Despite that property name being generic, its content isn't and has been
+>>> driver-specific which makes it hard to build any generic behaviour on top
+>>> of it, both in kernel and user-space.
+>>>
+>>> Let's create a new bitmask tv norm property, that can contain any of the
+>>> analog TV standards currently supported by kernel drivers. Each driver can
+>>> then pass in a bitmask of the modes it supports.
+>>>
+>>> We'll then be able to phase out the older tv mode property.
+>>>
+>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>>>
+>>
+>> Please also update Documentation/gpu/kms-properties.csv
+>>
+>> Requirements for adding a new property is found in
+>> Documentation/gpu/drm-kms.rst
+> 
+> I knew this was going to be raised at some point, so I'm glad it's that
+> early :)
+> 
+> I really don't know what to do there. If we stick by our usual rules,
+> then we can't have any of that work merged.
+> 
+> However, I think the status quo is not really satisfactory either.
+> Indeed, we have a property, that doesn't follow those requirements
+> either, with a driver-specific content, and that stands in the way of
+> fixes and further improvements at both the core framework and driver
+> levels.
+> 
+> So having that new property still seems like a net improvement at the
+> driver, framework and uAPI levels, even if it's not entirely following
+> the requirements we have in place.
+> 
+> Even more so since, realistically, those kind of interfaces will never
+> get any new development on the user-space side of things, it's
+> considered by everyone as legacy.
+> 
+> This also is something we need to support at some point if we want to
+> completely deprecate the fbdev drivers and provide decent alternatives
+> in KMS.
+> 
+> So yeah, strictly speaking, we would not qualify for our requirements
+> there. I still think we have a strong case for an exception though.
+> 
+
+Which requirements would that be? The only one I can see is the
+documentation and maybe an IGT test.
+
+Noralf.
+
+>>> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> index c06d0639d552..d7ff6c644c2f 100644
+>>> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+>>> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+>>> @@ -700,6 +700,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>>>  		state->tv.margins.bottom = val;
+>>>  	} else if (property == config->tv_mode_property) {
+>>>  		state->tv.mode = val;
+>>> +	} else if (property == config->tv_norm_property) {
+>>> +		state->tv.norm = val;
+>>>  	} else if (property == config->tv_brightness_property) {
+>>>  		state->tv.brightness = val;
+>>>  	} else if (property == config->tv_contrast_property) {
+>>> @@ -810,6 +812,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>>>  		*val = state->tv.margins.bottom;
+>>>  	} else if (property == config->tv_mode_property) {
+>>>  		*val = state->tv.mode;
+>>> +	} else if (property == config->tv_norm_property) {
+>>> +		*val = state->tv.norm;
+>>>  	} else if (property == config->tv_brightness_property) {
+>>>  		*val = state->tv.brightness;
+>>>  	} else if (property == config->tv_contrast_property) {
+>>> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+>>> index e3142c8142b3..68a4e47f85a9 100644
+>>> --- a/drivers/gpu/drm/drm_connector.c
+>>> +++ b/drivers/gpu/drm/drm_connector.c
+>>> @@ -1637,6 +1637,7 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>>>  /**
+>>>   * drm_mode_create_tv_properties - create TV specific connector properties
+>>>   * @dev: DRM device
+>>> + * @supported_tv_norms: Bitmask of TV norms supported (See DRM_MODE_TV_NORM_*)
+>>>   * @num_modes: number of different TV formats (modes) supported
+>>>   * @modes: array of pointers to strings containing name of each format
+>>>   *
+>>> @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>>>   * 0 on success or a negative error code on failure.
+>>>   */
+>>>  int drm_mode_create_tv_properties(struct drm_device *dev,
+>>> +				  unsigned int supported_tv_norms,
+>>>  				  unsigned int num_modes,
+>>>  				  const char * const modes[])
+>>>  {
+>>> +	static const struct drm_prop_enum_list tv_norm_values[] = {
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+>>> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+>>> +	};
+>>>  	struct drm_property *tv_selector;
+>>>  	struct drm_property *tv_subconnector;
+>>> +	struct drm_property *tv_norm;
+>>>  	unsigned int i;
+>>>  
+>>>  	if (dev->mode_config.tv_select_subconnector_property)
+>>> @@ -1686,6 +1716,13 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
+>>>  	if (drm_mode_create_tv_margin_properties(dev))
+>>>  		goto nomem;
+>>>  
+>>> +	tv_norm = drm_property_create_bitmask(dev, 0, "tv norm",
+>>> +					   tv_norm_values, ARRAY_SIZE(tv_norm_values),
+>>> +					   supported_tv_norms);
+>>
+>> I expected this to be an enum, why a bitmask? Userspace can set multiple
+>> bits in a bitmask.
+> 
+> I went for a bitmask since it allowed to report the capabilities of a
+> driver, but I just realised that you can do that with an enum too, like
+> we do for color encodings.
+> 
+> I'll switch for an enum, thanks!
+> Maxime
