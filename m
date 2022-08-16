@@ -1,56 +1,55 @@
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D88FF110C
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:46:28 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.nyi.internal (Postfix) with ESMTP id CF7A85803B8;
-	Tue, 16 Aug 2022 09:46:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 16 Aug 2022 09:46:27 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509F13D7E
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:51:09 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 419555801CF;
+	Tue, 16 Aug 2022 09:51:08 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:51:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660657587; x=1660664787; bh=gHbL+MytjJ
-	sZvOVGVzDN1GM9hKYjC7rxGk40WyTKaIo=; b=g5XU3Y09Fp0m6twECmjiDPgoD8
-	SlSF+LAfJbkef44m7fWMWdW6HV2pS8Rl6yMS4aqsH+reDeg0xYhJpkyl06HlSiGS
-	NhkqwOPuDcU5X5mmwbKdFkJSLfL3xMUbf1VSrJij1t1lgyNtXf4d3JaAEK1djaHV
-	955s/W/wAZCpzb/9Dma0gBHmULtU7/xrZL49O6Sp0gQcze1wdeHTgqmhWEurWo86
-	CHU43FOJBFSeXSfJftsTiUJx+aHQm5s1GJSuQYoE43+LVuQnW1WzOkmmGyBSOTmm
-	FdcDkO+sLNBuPxXgd1oHCa0Z01GatPcRdW5mlyldKfx9mnTSDbuvYIWrZYwg==
+	:subject:to:to; s=fm3; t=1660657868; x=1660665068; bh=yuVLbrrN+N
+	1iK12i7DUjM6pGqTkdcihboprTmt6Byjw=; b=odX2548XwGXoGeKNs0MbkWaSSx
+	lfpsoLA8A8tZ3+XRhAbG1K21dnqkAYavMxd5ydxZzSSazv9h7PvZWs3oaJqIVzdA
+	RfmZLhQ6h0EfZpOr1x+wr6wcBilxBz5VUTfO6oIvSod3iW4DRW9iZAY5JWrBRVWy
+	8RbA1h9nm3vFyOx+F+XZ3Oi0Ew0Vp7PsnmwPJmo+2pX+i+6ZJpekDYbdmpGtfVCo
+	3VAKjkXEUHf0bOEZYobFiUnvijuSsqOZ7WAeqXo3nvUpCPV8fn3snx0SW0lCtRGR
+	3K7tv7ETwiQEhEEeQLinpzolbgJNH5qkXFL+wVcSjhd7ht2J/SWD6yDSAvuw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660657587; x=1660664787; bh=gHbL+MytjJsZvOVGVzDN1GM9hKYj
-	C7rxGk40WyTKaIo=; b=kmAgyWxk9CRWsdlOPMowrQ81I+xu32+X9sXWngkrs64D
-	SpOvcWAlxbw4Z7Ks4uXYyMx5fSC0RmtNSYud9WV7FPvtPCdlXlRCwWUXW8mJVN1G
-	RmUrd8KXTue9ZVbBDHQXUwylRMHzD4wm0u60mUJ+imY8cTogoOd734xD19lkT/LJ
-	KX8tO6ikVBnZSRUERu3BcC7LJ6/Ux9czDptrE4aGzhssG7V3TWFjaeufH9waKDyN
-	SeXuuL4AGKV2dr03uawgCjnZL6ltWaXMrMs1StJtc5ATl112Gbz+Hth1PAp4J3pl
-	8r+eaBxJ3JQvPIuuyo2otHLpBAhF80CIdzeSgYQiLA==
-X-ME-Sender: <xms:s5_7YqzzZQoAWUgz1kfH2ymHepyDm213uAckzgqFSzuMaMENVi6OvA>
-    <xme:s5_7YmRk2xhRYIKNBPL4rKPaaDGM-WL0mlsQMugX_AJhMl-ZzxSU2uvV2BgqwcnOJ
-    NyWuvY05qtQfyjYOzg>
-X-ME-Received: <xmr:s5_7YsXuK-3JVFMmyMVM2XGYJzmQJN3e8iWhTp0eTeEZkQ8npxP1GXZaUoU>
+	fm1; t=1660657868; x=1660665068; bh=yuVLbrrN+N1iK12i7DUjM6pGqTkd
+	cihboprTmt6Byjw=; b=A1Si8qi+Laz5mf39bB95eWK9Z9k4Uwq/ARX10hcF5KoC
+	rsCZ4h4myKe7lFZDNiG31Mst8v4bkATp+OYda5/B48kbYWQ2u0KmB9codo9djrHe
+	yTOUZjbJZyB8E2j3I25Q+pbwyeqoVuqgfw6Eb/Ta82kHO4XwYxUPaMPA+8XxwcC+
+	bTV1VisVVgUolSf0+JPD6hqwLHiiFwPXAG/3ChEFsyvxGYNAfSU1zvmJVn9fuQJm
+	kxGz4+rdbVp3wtvdqh8E4B2HCDmNbzxD8l1XRhP9sDDFyjJPZjCwbnP9t0tfssr5
+	yfc8ortuZ8OiMn3m0oboGq9/2l0bSlAJDth5K7vXyQ==
+X-ME-Sender: <xms:y6D7Yi5dGJhRTsSGZBa9vyukMq9hYKB9U0_RHpfh03QgEetm5byqvg>
+    <xme:y6D7Yr4cdbgoEw_0L-SdM11M8wG7DlbMGgv-7R9rQA-mUT5LaO75CFlSi5iBSgWaD
+    __y_zatS_jJqtm1Es0>
+X-ME-Received: <xmr:y6D7YhdJOPym6auR3F3LbUaT7Gw7xA6ooEFtcT0WCjCINXg2WimtbPEekYY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgjedtucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
-    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:s5_7YggUuaxFesnjbcsrU2LUladhr5kLaWWzL5KaGVvRylgv9wHsYg>
-    <xmx:s5_7YsB7cHZfSR07JuLU_cnuM3OwfsClKgn7QiX8wWN4CQE6hYD60w>
-    <xmx:s5_7YhLN-ZJinuVFhhhltyU-kp6lbX_ruN80INBF1QvhJvew5W1rVQ>
-    <xmx:s5_7YuxTmg5yDXXc4a6DbirShoBajE24XWu7p0WiFGAumrChOuVWbg>
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:y6D7YvI0uY1gs0_NlIylruE9Zs-XXwZlX_P_FEl_My6SPc7HLEwL4A>
+    <xmx:y6D7YmK7yKTdmpQmBSGQH2Y4I_GTRd_KRzJGnECTVLhPLnKVUgehWw>
+    <xmx:y6D7YgxxEL2lavOAuWvzDdfmduCHGRSf9UhoPNKAuLZ7cRiW3e-2BA>
+    <xmx:zKD7Ym6mGad4cGanjPeIgtE-CDNYjoT7Vt1767fMSgxfM1B86VJUWQ>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 09:46:26 -0400 (EDT)
-Date: Tue, 16 Aug 2022 15:46:24 +0200
+ 16 Aug 2022 09:51:06 -0400 (EDT)
+Date: Tue, 16 Aug 2022 15:51:05 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -72,12 +71,12 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
 	DRI Development <dri-devel@lists.freedesktop.org>,
 	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 09/35] drm/modes: Move named modes parsing to a
- separate function
-Message-ID: <20220816134624.cmb5s6i6pkdhu3qj@houat>
+Subject: Re: [PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+ command-line option
+Message-ID: <20220816135105.goztqjzqqhhigytd@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-9-3d53ae722097@cerno.tech>
- <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
+ <20220728-rpi-analog-tv-properties-v1-34-3d53ae722097@cerno.tech>
+ <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,94 +84,104 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="xbotrfh2f6jawwvu"
+	protocol="application/pgp-signature"; boundary="oapqvc3fwa7skyps"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUiMEybnhgxgBXh1Cbv6syVe9iVU=sb17zHM72R8A2Dew@mail.gmail.com>
+In-Reply-To: <CAMuHMdXizN9OgXgxwdFc1gpnhZof-SZrCH8PczEiJrtYpB62Ow@mail.gmail.com>
 
 
---xbotrfh2f6jawwvu
+--oapqvc3fwa7skyps
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 12, 2022 at 03:27:17PM +0200, Geert Uytterhoeven wrote:
+On Fri, Aug 12, 2022 at 03:31:19PM +0200, Geert Uytterhoeven wrote:
 > Hi Maxime,
 >=20
-> On Fri, Jul 29, 2022 at 6:36 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > The current construction of the named mode parsing doesn't allow to ext=
-end
-> > it easily. Let's move it to a separate function so we can add more
-> > parameters and modes.
+> On Fri, Jul 29, 2022 at 6:37 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > Our new tv mode option allows to specify the TV mode from a property.
+> > However, it can still be useful, for example to avoid any boot time
+> > artifact, to set that property directly from the kernel command line.
+> >
+> > Let's add some code to allow it, and some unit tests to exercise that c=
+ode.
 > >
 > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 >=20
-> Thanks for your patch, which looks similar to my "[PATCH v2 2/5]
-> drm/modes: Extract drm_mode_parse_cmdline_named_mode()"
-> (https://lore.kernel.org/dri-devel/1371554419ae63cb54c2a377db0c1016fcf200=
-bb.1657788997.git.geert@linux-m68k.org
-> ;-)
-
-Indeed, I forgot about that one, sorry :/
-
-I think I'd still prefer to have the check for refresh + named mode
-outside of the function, since I see them as an "integration" issue, not
-a parsing one.
-
-It's not the named mode parsing that fails, but the fact that we both
-have a valid refresh and a valid named mode.
-
+> Thanks for your patch!
 >=20
 > > --- a/drivers/gpu/drm/drm_modes.c
 > > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1773,6 +1773,28 @@ static const char * const drm_named_modes_whitel=
-ist[] =3D {
-> >         "PAL",
-> >  };
+> > @@ -1677,6 +1677,80 @@ static int drm_mode_parse_panel_orientation(cons=
+t char *delim,
+> >         return 0;
+> >  }
 > >
-> > +static bool drm_mode_parse_cmdline_named_mode(const char *name,
-> > +                                             unsigned int name_end,
-> > +                                             struct drm_cmdline_mode *=
-cmdline_mode)
+> > +#define TV_OPTION_EQUAL(value, len, option) \
+> > +       ((strlen(option) =3D=3D len) && !strncmp(value, option, len))
+> > +
+> > +static int drm_mode_parse_tv_mode(const char *delim,
+> > +                                 struct drm_cmdline_mode *mode)
 > > +{
-> > +       unsigned int i;
+> > +       const char *value;
+> > +       unsigned int len;
 > > +
-> > +       for (i =3D 0; i < ARRAY_SIZE(drm_named_modes_whitelist); i++) {
-> > +               int ret;
+> > +       if (*delim !=3D '=3D')
+> > +               return -EINVAL;
 > > +
-> > +               ret =3D str_has_prefix(name, drm_named_modes_whitelist[=
-i]);
-> > +               if (ret !=3D name_end)
-> > +                       continue;
+> > +       value =3D delim + 1;
+> > +       delim =3D strchr(value, ',');
+> > +       if (!delim)
+> > +               delim =3D value + strlen(value);
 > > +
-> > +               strcpy(cmdline_mode->name, drm_named_modes_whitelist[i]=
-);
-> > +               cmdline_mode->specified =3D true;
-> > +
-> > +               return true;
-> > +       }
-> > +
-> > +       return false;
+> > +       len =3D delim - value;
+> > +       if (TV_OPTION_EQUAL(value, len, "NTSC-443"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_443;
+> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-J"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_J;
+> > +       else if (TV_OPTION_EQUAL(value, len, "NTSC-M"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_NTSC_M;
 >=20
-> What's the point in returning a value, if it is never checked?
-> Just make this function return void?
+> [...]
+>=20
+> You already have the array tv_norm_values[] from "[PATCH v1 05/35]
+> drm/connector: Add TV standard property". Can't you export that, and
+> loop over that array instead?
 
-Yeah, it's something I went back and forth to between the dev, and it's
-an artifact.
+I'm not sure, the command line doesn't follow the same conventions than
+the property names for a number of conventions, but at the same time we
+should try to keep it as consistent as possible...
 
-I'll drop that patch, take your version and move the refresh check to
-drm_mode_parse_command_line_for_connector if that's alright for you?
+Then again, Jani and Thomas didn't seem too fond about exposing data as
+part of the API, so I'm not sure how we could expose that properly.
 
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD480I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480I;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD480P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD480P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD576I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576I;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD576P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD576P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD720P"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD720P;
+> > +       else if (TV_OPTION_EQUAL(value, len, "HD1080I"))
+> > +               mode->tv_mode =3D DRM_MODE_TV_NORM_HD1080I;
+>=20
+> The names in tv_norm_values[] use lower-case, while you use upper-case
+> here.
+
+Indeed, I'll fix it, thanks!
 Maxime
 
---xbotrfh2f6jawwvu
+--oapqvc3fwa7skyps
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvufsAAKCRDj7w1vZxhR
-xRvYAP9DR7LzVwd0ITVjjsOrO+BQ9andM/0A4P6qCsx/ywFipQEA+bV9F+NyoFUN
-oNXdDnnG7g+hOqMsx28nmzB45wcO6w0=
-=uJzR
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvugyAAKCRDj7w1vZxhR
+xYVoAQDFAMNuU1dbZgCiVBYUf+Y13tqfHCtlOuPYmSb6Gmh3xgEAgXYxzEcBWNLK
+j9bSNzYbE9lp+H3MaLuAPoiaBAXIRQE=
+=szbm
 -----END PGP SIGNATURE-----
 
---xbotrfh2f6jawwvu--
+--oapqvc3fwa7skyps--
