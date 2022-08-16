@@ -1,56 +1,55 @@
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE9A3C29
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 12:21:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65F36110C
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 13:20:46 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 1CB1158040B;
-	Tue, 16 Aug 2022 08:21:01 -0400 (EDT)
+	by mailnew.nyi.internal (Postfix) with ESMTP id 402C058037D;
+	Tue, 16 Aug 2022 09:20:45 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Tue, 16 Aug 2022 08:21:01 -0400
+  by compute5.internal (MEProxy); Tue, 16 Aug 2022 09:20:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660652461; x=1660659661; bh=6XLImf6D+u
-	ceaDHdtwK+6f06L2Vn5a6E/RxhQgeCM3Q=; b=kexpck3CQZ0ElJThDTOQn44AzH
-	8rR9jah9MWJU/TxAjZD3W5IdNrro8d3oe92deiJXvqX7ccuj0Zhl9rzStuw4KB/J
-	1WzDxddqdMma54Ujb/j4ldVoBl1tmqWrtu/dOS2orS6opeEIlWc+4a3Fpzc2J4eN
-	hzUV9oHihVAuMbIDL/bTMMCKIF9GKt9BD+G0vbzXnTV5msk2B0C4k7j+uvfy1G/f
-	3ljZdqa0RXOVJYfuget5K31tpi1j/KokQBB4mLJkY5R4iTwu/6BZBzSPx5teuViE
-	pUjiz2b+YukKvsNwW0lLgw7RZ59NIlZSQAvTvbz5EzR6JhopVseT581SnF3Q==
+	:subject:to:to; s=fm3; t=1660656045; x=1660663245; bh=U+FP9WL6qH
+	xAhIYTKKc2LvJDq7iEJgXc9SQbodiDDXA=; b=kJHgvO1K5X0yS0bXTChkquj0OR
+	RCqHnNc0XBPUm3z7/WQdy5I5PLYVzPHjIdS5OZOIuEfLDyIsD/C1uGYVV4cetvIs
+	NsNprQ8/ltFMmNqACY4L2Jamw1Py44t1jUjVCUbu3ecCRSBcBlyesR77IMVtD3GL
+	SxHtV5HQm3W3GBPzXNqyOEqrCgE2IHdxTFkTqsg7u0lV6SIF76nj4n6KjfHuXVrH
+	x6d5n9FNGnDfaHYc1nVkvD/70S6O6AFqXgmPtrrNJDbBJd29vEGJgEHb0Fse3hFc
+	yxmEYL9ytZDahmeoSvWgVNvlo9jeUIVbP+yYD9iXbfqj8Aca5A8/jhCzZdPQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660652461; x=1660659661; bh=6XLImf6D+uceaDHdtwK+6f06L2Vn
-	5a6E/RxhQgeCM3Q=; b=RiG9AYB4Rh8oJH8nXRdnWyg1t8YNWMwRp+sCCYFHS43e
-	ovLwo+W+rX2GTLM5PHUx+FmfE7VuI9padh5Clhf1WdBo+fYi/umQpjTQ3bOBK8lL
-	zMKx75aSgPmoyPma/+DHD9V4RFym0Kne8Uzju3PvL1eeGz35Pp1H9/XBInor30U5
-	1GnHyEyIzjSoBVZc6XaYj+1GOA4gH5LBY31eTfABPb/MlPCoKptGssDwnBDTx1qs
-	UJzE2gjPGjQtU6gAHBmhz2vZ16JreGBOKXFGlCdwHiuldjyTYj3UyP1ER+7+C29P
-	LEY/PxqQoAyNF9yS/jZqos+H8NzqEqFXg443pSa4lw==
-X-ME-Sender: <xms:q4v7Ys6aP__5QCMFUO25bBV2G7JDvWby3ENM_fIs5yF_kPK9wOtDXg>
-    <xme:q4v7Yt4ZCHVfcY9dhK9TP4oIWwsvVjjLwfmUabehVA02DQWzJdIz7w7FWwmDH6Cia
-    wx9LmJ-Qzm1wV-Y97A>
-X-ME-Received: <xmr:q4v7YrfPuG8yHdsiV1zoE1Cx1HGVTxHTLUMpAs_M2HK4GKdLjxyjjuyL7Bc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgheduucetufdoteggodetrfdotf
+	fm1; t=1660656045; x=1660663245; bh=U+FP9WL6qHxAhIYTKKc2LvJDq7iE
+	JgXc9SQbodiDDXA=; b=Tc31jgiKV5ovT3ovNozG+Pnm++oNgJ4zTUPLNWDit1I9
+	Hvxm1aapLTpKhJILH2PqTF0YmOH4MSHwgLDInaTkSjvtt3JFSNw/86LLTGvvRW51
+	3I8JQa9ZdbNlV5G10yeloK2aMT/VfzQuZ7kqiUJAPrVvfpvVCSs3ZaELCQzkIdGC
+	RCJh9y7jbBzlWjE9TD/r/NtpgnNJDGZiidnMkodJVlf41Iw35XEBS+C4H8z1sL6f
+	hjSWjlTnKjEV6X8NnPtcusvXvvMbcLZGOZXeCV4ILTH+fnQdUlqrx2eICkmp4464
+	JVNvn6zDFQMJ1tU5vS+lnIV6tJFYHdUIFzr2g+CO7w==
+X-ME-Sender: <xms:q5n7Yj9umwrX7oVw9UghmxD4i7MGuJvny9AfymC_b-hQUPYCdeX78g>
+    <xme:q5n7YvumRLVde5YnKu_WeSjfYdYqZtjgvT6uWTriXiCFd4xFnkXY8yhIRlz1YB6NT
+    16KkFKUBr2YqO1vSTo>
+X-ME-Received: <xmr:q5n7YhDzBG2aG79HV1UbRHQZVoQwoQbTDeSO_zfoB4AgJmcZveOVY1EGvbc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgieehucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
-    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:q4v7YhJH5g-sSvIY6rkOl6DMIxeVtuoI_NjXdVZgmDrD7-sigy8lmQ>
-    <xmx:q4v7YgIzwgWlPkY9C_SPaURJ0GIWUFAtE4lG8X88Gldi0kiFa06BRQ>
-    <xmx:q4v7YiwgQjDuZo7g0n86ZxM797iVdPO59xB_iMSMrZbI16_rCP4cAw>
-    <xmx:rYv7Yg400P-RBy5vHEPL_kEqm8A33uMzt14unJ6sJkk-EylfjyC3xA>
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:q5n7YvdJHxWnNwnbPCPdD9m9OiPE6vQw37M5kLxLNBJQ7ClvMEOmEA>
+    <xmx:q5n7YoMsvrihcmnmoa_Ax-aiS1fWIbTnQ9BZ48X3-QIUVWnh0z31HQ>
+    <xmx:q5n7YhlCoaiIGJifTn0HQnb5FLP_E2e8paJHarllCzQBxQTIJxax6Q>
+    <xmx:rZn7Yv-TN8-6TSqsBSP7TZQKK5gZIvDf7lWQFpnazpZNkrC89JOgQg>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 08:20:59 -0400 (EDT)
-Date: Tue, 16 Aug 2022 14:20:56 +0200
+ 16 Aug 2022 09:20:42 -0400 (EDT)
+Date: Tue, 16 Aug 2022 15:20:40 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Geert Uytterhoeven <geert@linux-m68k.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -72,12 +71,11 @@ Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
 	DRI Development <dri-devel@lists.freedesktop.org>,
 	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 07/35] drm/modes: Only consider bpp and refresh before
- options
-Message-ID: <20220816122056.w6suecaizdoss2sv@houat>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220816132040.uwirtjm5yr6rdd3q@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-7-3d53ae722097@cerno.tech>
- <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -85,83 +83,123 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="d5ua5726mqkqg3lm"
+	protocol="application/pgp-signature"; boundary="6ena3yqc72sajvcu"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
 
 
---d5ua5726mqkqg3lm
+--6ena3yqc72sajvcu
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 Hi Geert,
 
-Thanks for your review
+On Fri, Aug 12, 2022 at 03:25:18PM +0200, Geert Uytterhoeven wrote:
+> > --- a/drivers/gpu/drm/drm_connector.c
+> > +++ b/drivers/gpu/drm/drm_connector.c
+> > @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_propert=
+ies);
+> >   * 0 on success or a negative error code on failure.
+> >   */
+> >  int drm_mode_create_tv_properties(struct drm_device *dev,
+> > +                                 unsigned int supported_tv_norms,
+> >                                   unsigned int num_modes,
+> >                                   const char * const modes[])
+> >  {
+> > +       static const struct drm_prop_enum_list tv_norm_values[] =3D {
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-4=
+43" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-=
+60" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B=
+" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D=
+" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G=
+" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K=
+" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-=
+K1" },
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L=
+" },
+>=20
+> The above are analog standards, with a variable horizontal resolution.
+>=20
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" =
+},
+> > +               { __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i=
+" },
+>=20
+> The above are digital standards, with a fixed resolution.
 
-On Fri, Aug 12, 2022 at 03:25:39PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > Some video=3D options might have a value that contains a dash. However,=
- the
-> > command line parsing mode considers all dashes as the separator between=
- the
-> > mode and the bpp count.
-> >
-> > Let's rework the parsing code a bit to only consider a dash as the bpp
-> > separator if it before a comma, the options separator.
-> >
-> > A follow-up patch will add a unit-test for this once such an option is
-> > introduced.
-> >
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> Thanks for your patch!
->=20
-> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
->=20
-> > --- a/drivers/gpu/drm/drm_modes.c
-> > +++ b/drivers/gpu/drm/drm_modes.c
-> > @@ -1819,20 +1819,22 @@ bool drm_mode_parse_command_line_for_connector(=
-const char *mode_option,
-> >
-> >         name =3D mode_option;
-> >
-> > +       /* Locate the start of named options */
-> > +       options_ptr =3D strchr(name, ',');
-> > +       if (options_ptr)
-> > +               options_off =3D options_ptr - name;
-> > +       else
-> > +               options_off =3D strlen(name);
-> > +
-> >         /* Try to locate the bpp and refresh specifiers, if any */
-> > -       bpp_ptr =3D strchr(name, '-');
-> > +       bpp_ptr =3D strnchr(name, options_off, '-');
->=20
-> Probably you still want to add a check that the next character
-> is actually a digit, cfr. my "[PATCH v2 5/5] drm/modes:
-> parse_cmdline: Add support for named modes containing dashes"
-> (https://lore.kernel.org/dri-devel/2eb205da88c3cb19ddf04d167ece4e16a33094=
-8b.1657788997.git.geert@linux-m68k.org)?
+Are they?
 
-I think your patch is orthogonal, and we should merge it anyway.
+It's not clear to me from looking at nouveau, but I was under the
+impression that they were modes for a component output, so CEA 770.3. I
+don't have the spec though, so I can't check.
 
-As a matter of fact, I initially wanted to do something similar but
-bailed out to deal with PAL-M and so on. If there's such modes already,
-then we should totally support it
+> You seem to have missed "hd1080p"?
+
+Nobody is using it. If we ever have a driver that uses it I think we can
+add it.
+
+> In addition, "hd720p", "hd080i", and "hd1080p" are available in both 50
+> and 60 (actually 59.94) Hz, while "hd1080p" can also use 24 or 25 Hz.
+
+It looks like nouveau only exposes modes for 480p at 59.94Hz, 576p at
+50Hz, 720p at 60Hz, 1080i at 30Hz.
+
+> Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> 09/35] drm/modes: Move named modes parsing to a separate function", as
+> currently a named mode and a refresh rate can't be specified both.
+
+I think the former would make more sense. It simplifies a bit the
+parser, and we're going to use a named mode anyway.
+
+> As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> command-line option" uses a separate "tv_mode" option, and not the main
+> mode name, I think you want to add them here.
+
+It's a separate story I think, we could have a named mode hd720p50,
+which would be equivalent to 1280x720,tv_mode=3Dhd720p
 
 Maxime
 
---d5ua5726mqkqg3lm
+--6ena3yqc72sajvcu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvuLqAAKCRDj7w1vZxhR
-xS46AQCDoo68eNI5t/JZrITdAKWMGUwSBfFFuOU+V38x2GFqwQEA7EsamAC81DFp
-NHD21FgHcTvgUUUJaJo5pResSbjL5g0=
-=dh0z
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvuZqAAKCRDj7w1vZxhR
+xRpdAQCdHo+W59CWD9zJ3T1LvoCmG3uMcVuRQ9G79/cpqOxH9wEAhPrjIiW5PuV0
+9yKEPpR9rUmMFVvJOYSKOJ0j4md2bQE=
+=XiNC
 -----END PGP SIGNATURE-----
 
---d5ua5726mqkqg3lm--
+--6ena3yqc72sajvcu--
