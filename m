@@ -1,45 +1,45 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77ED33CC
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:57:35 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id v2so14223277lfi.6
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:57:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B10933CC
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:59:42 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id x25so10009889ljm.5
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=J81JV8hikPsZojzsvlP6ILAJmYNXwPnWvXa+KmRWS0Q=;
-        b=jQQ+eLT7HYQLMb9V/o5Ded/h8BWxCiDtI/PoG0ObjjGccnrgEph81/L11DMGNa5VSx
-         iSsWR3L/RelHi1s7Hy6B/ms0E7wFYWjJgftDMTEpCF8Oc2aGCvnlhgjAYuWe9204VNrT
-         h58IUY0eTvayl5HBu8vWSfh0g5DkPWiKseWZzyVL9BM1bWMEVlZQqtaAt4afXf12Ln+7
-         J2IFswj4RWJXN3bBRKggBFgCGCF3USyAVfbyZGVfqAPY3q89DJxMhvQJSQ2Qc2ZpyZ5p
-         Diqfrbo52SaMc5Pw2DMYrZd2Ju2RGqbVrmyq4QzdJYVHTcA0yj1pYu1Up4dHUIiEZcmI
-         EgEA==
+        bh=FUFa0tAMMh/TtMA4JL4AeBH252o6vhFi0++29Z10b24=;
+        b=zVE9sjyWG25xLS+qfczRwgEvdChwcxYO9y9ThgToxbiD92NoriI2/CugHb+2TF3ZFF
+         /VXzNtQOnWx3R0kfeyzg8WfW+5EUt9bgy1gW7Yegna+Po6NGdGDJgHl5Nxz6UXRqKqFP
+         fTc++mSbFkWyzCFK0wXmxpUKsuOcNjJgDR39utT/D3NxyGfYnbhTWBdIuj6akm4Bzko7
+         vz8sowWFwXLFNBVl4aaNXSw+3yD83buEjvoUZ2WYEtGbit0Tgtc5xyxrwWGU2kIA2HyZ
+         y/47r3YT6oT3mH6gKYu00BulMGdQcHyDyBVfKhGRcfRG38Zqvj/ELALRHaU37DJ7c1MF
+         Om0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=J81JV8hikPsZojzsvlP6ILAJmYNXwPnWvXa+KmRWS0Q=;
-        b=cJ1BCcSo9KnkEzJH1U7AQlDawOdAn2HEaBXNdZBheMOqNwas6wkyu4s0eHZdbw1A4i
-         GRgqwFKLYazTsrATXmaH4Lzjtwq5lDVmq7b6dDBWHeCtBAFJ+EAh39VPVFK3vRdhwger
-         esEn7tEQ5JLoo41UtIzRDLVhUiOz1NOsK9ehu46nicLefNh7iL8oUpwrVIfwW6/kITea
-         3Y4iPn1Rbe8SqlS31AzLDvWoTzND0aG7E2bUz5U4Eh2IoZhnfGSVCJIBfIE/0JnKACy1
-         buuR45pUDf5X6HOjAly99gIQ4zNMhAz+A3DK0JlHT6lEbOXTMV+Iy+n+2PkrM8tX5bLt
-         p2Lg==
-X-Gm-Message-State: ACgBeo2JNWDm8W/iE1ntQpqZVbbhQx2MrCCD+7zX8YAwXbSV7QhWDFUY
-	37VZiCUqxZCVF7RNSxY61kH91g==
-X-Google-Smtp-Source: AA6agR5BXtY+i9FUTQzbBUsXLd2vZVPfTFvV7zCU6pC5DN18tLDE/qWfQ2L1Ip3a8zZIsZ8WLZHO7A==
-X-Received: by 2002:a05:6512:c19:b0:48a:f3bc:5537 with SMTP id z25-20020a0565120c1900b0048af3bc5537mr6670576lfu.490.1660643853696;
-        Tue, 16 Aug 2022 02:57:33 -0700 (PDT)
+        bh=FUFa0tAMMh/TtMA4JL4AeBH252o6vhFi0++29Z10b24=;
+        b=IpMFJJkQbWQ7yjCFAGKvihdBcvBLRAGzGH2XlqVU2Im+6269e4BBreC9qBkFV3Esux
+         /2oxR/KdTTtpshwH46vIUdyEE3mLPUrKpJumY8TuwaLNzDtpjvEvyL5im3bQDhHwkRdv
+         jxzT+qtv39pDMH/+c8+yGdqMbB6pBmjnJEe0VM6Nmct9yPflLI1cKvRB5oD9WGSGrj7g
+         H4oyReEcmSWLsqrQhQyJul4ZQQuXd49Mxt5Uvj4LaZra2L5k8GYsWpkUB9FxDMkX+m63
+         NZXC0vAYJWWW15UXsbXF2Q41IVamQ6mxl0N97o0fDUHGhCZxIhEwZSMK0AsjHBnpvmrT
+         28Sw==
+X-Gm-Message-State: ACgBeo1IyxL9H2DWU03lLJv93+rpG5lf/dc0TCNjG7wQaObOOv8cYcBs
+	WpoFcT8c0/up7ES0VWopogpqqQ==
+X-Google-Smtp-Source: AA6agR6vA3wQXqUJnn2nYR4Cb7jBvUzx/9ftdty6xbOM/7CP2StR5ZpMn2Us3AJtLeblD6qmRz2oQg==
+X-Received: by 2002:a2e:b74a:0:b0:25f:3f72:9210 with SMTP id k10-20020a2eb74a000000b0025f3f729210mr6307340ljo.8.1660643981080;
+        Tue, 16 Aug 2022 02:59:41 -0700 (PDT)
 Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
-        by smtp.gmail.com with ESMTPSA id h4-20020a19ca44000000b0048b0aa2f87csm1335298lfj.181.2022.08.16.02.57.32
+        by smtp.gmail.com with ESMTPSA id o5-20020a2e9445000000b0025e0396786dsm1741897ljh.93.2022.08.16.02.59.39
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 02:57:33 -0700 (PDT)
-Message-ID: <3b5358e3-9ba6-49a8-fa37-da237ba56ddb@linaro.org>
-Date: Tue, 16 Aug 2022 12:57:31 +0300
+        Tue, 16 Aug 2022 02:59:40 -0700 (PDT)
+Message-ID: <3e23c288-7065-a3fd-c326-8d66e168ba41@linaro.org>
+Date: Tue, 16 Aug 2022 12:59:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,7 +48,8 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
+Subject: Re: [PATCH v3 3/4] dt-bindings: sram: sunxi-sram: Add optional
+ regulators child
 Content-Language: en-US
 To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
  <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -59,40 +60,84 @@ Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev
 References: <20220815043436.20170-1-samuel@sholland.org>
- <20220815043436.20170-2-samuel@sholland.org>
+ <20220815043436.20170-4-samuel@sholland.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220815043436.20170-2-samuel@sholland.org>
+In-Reply-To: <20220815043436.20170-4-samuel@sholland.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 15/08/2022 07:34, Samuel Holland wrote:
-> +  reg:
-> +    maxItems: 1
-> +
-> +  nvmem-cells:
-> +    items:
-> +      - description: NVMEM cell for the calibrated bandgap reference trim value
-> +
-> +  nvmem-cell-names:
-> +    items:
-> +      - const: bg_trim
-> +
-> +patternProperties:
-> +  "^(a|hp)ldo$":
-> +    type: object
-> +    $ref: regulator.yaml#
+> Some sunxi SoCs have in-package regulators controlled by a register in
+> the system control MMIO block. Allow a child node for these regulators
+> in addition to SRAM child nodes.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v3:
+>  - Require the regulators node to have a unit address
+>  - Reference the regulator schema from the SRAM controller schema
+>  - Move the system LDOs example to the SRAM controller schema
+>  - Reorder the patches so the example passes validation
+> 
+> Changes in v2:
+>  - New patch for v2
+> 
+>  .../allwinner,sun4i-a10-system-control.yaml   | 29 +++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+> index d64c1b28fb61..915ca85c3f10 100644
+> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+> @@ -56,6 +56,10 @@ properties:
+>    ranges: true
+>  
+>  patternProperties:
+> +  "^regulators@[0-9a-f]+$":
+> +    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
 > +    unevaluatedProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - nvmem-cells
-> +  - nvmem-cell-names
-> +
-> +unevaluatedProperties: false
 
-one more: this must be additionalProperties:false, because you do not
-reference any other schema in top level. Same in second file.
+unevaluatedProperties is not needed. Your other schema does not allow
+anything else here.
+
+> +
+>    "^sram@[a-z0-9]+":
+>      type: object
+>  
+> @@ -130,3 +134,28 @@ examples:
+>          };
+>        };
+>      };
+> +
+> +  - |
+> +    syscon@3000000 {
+> +      compatible = "allwinner,sun20i-d1-system-control";
+
+Your other example uses simple-mfd, syscon... A bit confusing.
+
+> +      reg = <0x3000000 0x1000>;
+> +      ranges;
+> +      #address-cells = <1>;
+> +      #size-cells = <1>;
+> +
+> +      regulators@3000150 {
+> +        compatible = "allwinner,sun20i-d1-system-ldos";
+> +        reg = <0x3000150 0x4>;
+> +
+> +        reg_ldoa: ldoa {
+> +          regulator-min-microvolt = <1800000>;
+> +          regulator-max-microvolt = <1800000>;
+> +        };
+> +
+> +        reg_ldob: ldob {
+> +          regulator-name = "vcc-dram";
+> +          regulator-min-microvolt = <1500000>;
+> +          regulator-max-microvolt = <1500000>;
+> +        };
+> +      };
+> +    };
+
 
 Best regards,
 Krzysztof
