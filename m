@@ -1,45 +1,45 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544A93C0C
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:11:24 +0000 (UTC)
-Received: by mail-lf1-f50.google.com with SMTP id z25so14448041lfr.2
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 04:11:24 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F6A3C0C
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:12:29 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id u1so14457145lfq.4
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 04:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=0cuU1bG6KFLMr6an740FWMa8MPaqg8PFLx685pJUkOY=;
-        b=GYEkY3kBMOdN21wTqQAEDOg88pgX6jp9BtCRiEAUPFEC6zLl70PjISb/WBZMzz3c/E
-         azAJ/UWONLB1jmDNlv9VZH2FA77IyeUK8jMU51+I/lXnmBeUB6KNCTR94t1sG0NrS9vt
-         UnWaYBYdbffWDhISjUJXAUDWBwzwYGfsDdS/xntKp6At257goXRAUH5oiRfXMgJg5aFQ
-         6tS7afCAa6zoTnvIK4rB3RePeJNCayOSIY6uaJ0DqtXTt5vVGG0GC7gO5ngutEGaZMca
-         6W5ZMF8oiVXgcqcq9d4QDxrta+c6D//Ffad0mHN5wG4u8vy2kG54TuUk19KN2RewMM6+
-         CzTQ==
+        bh=3voalfDQmBkJPM0iEJsy/pKGiIZwChjwOwKTgiPpcq4=;
+        b=u1jHFXVQelHvAsNbis29DRi8FSq7YOKJir1/5EgPIni7IHBviuSNWkvqKcxU6mb40R
+         BlTCsCYh1K7sEgITXhZRYuYCN5pe2icqTkOWfoMuklIV/+8Gz8Km9Ua5GakzZb5C6vYE
+         c/gtolt2fQpzqg7RzUa7JJJZHGFZesC1epB+YBppY3+iXA3X9R/+A+b/Cs8fSx7Zfgj9
+         HkhIRc/RtFysjq/jswJbCKcPVLXfYAkP/TdFb/zRc/nvYNbE7Tr0tyCAg9dK61Mg2I+X
+         kYaLufS6xx2BrN+tOj97sb3WT5EVJ4DulT3EMA5N8rYLWheSzQTjpo0MJU1zCmaGZXGZ
+         808w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=0cuU1bG6KFLMr6an740FWMa8MPaqg8PFLx685pJUkOY=;
-        b=HVvphFTGRla7t66ucjPUlgIu5YXs+qz1F+cuWZQT7BUizu0c6OFkP1Zd4zQfe2q8Pk
-         73qAwVAuA2frSp9em0iTmz03zm7WqqNpz/zdU4yprwZR20nehbbqhNp2CWpPslp4NED6
-         nZ+nkYggNPzj2GauIumkvCLTZfVipqCOAvOOxiMQhCPj3YxhY2oy1WeY75i99kGm6ASU
-         atYhO/EATLYq4krRM9xcdQd5Bpz+HQIK8HUZ3MqSzwGE+Rsx2xQAx7ONw2MZuUD4i8eK
-         F+KrNCwugWHYFB7hyDmM9zzHiZcdGDGhiXiI0btYq8dn9vBvSsQ+Q0F2o76oDWO+3x1N
-         73hw==
-X-Gm-Message-State: ACgBeo2wgo48uaJp3Ds2e9xaGn5Vy8xy9EKizH1Yj3JNBWmv9Wu558tg
-	+A0Y+rXWCo4KWxln6uQgCfTeoA==
-X-Google-Smtp-Source: AA6agR4jvAh3L22ickhZa14uDRFbhGMs9hDFABhJBvwWXmWM/n4NtsL5IflGqzOc8MYp3IFiSXYs5A==
-X-Received: by 2002:ac2:47f1:0:b0:48a:ea6e:b8fd with SMTP id b17-20020ac247f1000000b0048aea6eb8fdmr6589451lfp.26.1660648282335;
-        Tue, 16 Aug 2022 04:11:22 -0700 (PDT)
+        bh=3voalfDQmBkJPM0iEJsy/pKGiIZwChjwOwKTgiPpcq4=;
+        b=kiEArKH+oc69rOqsw0RQfLoS1yi84m04TKPN7ts2LUZzbLCS3sxw/zI187LO8LzZ70
+         FFFTnnvMSqcb1wgFhZWaHX5TLhKJjyFvForeeiM+f/7c4XllsimRRfzLHZHB3tw+vpRq
+         0SAQmd3hgOf38FcurL2rVtmjosv7hkkr02MFdflkrLfn0bfWNjUCK5voTbbjC2J5b8Lx
+         /PgGm5IZj/ty/l6jZG9R+Q1mlRmU4ES2XId848AC/iMkK4+rQJz3wll2oUXRXsLv4x2X
+         9yLK0M3UMjDLkAa1QuYaRn2uyII0iK3Jjzkqk6Z95FuZHo+lxkq6vrKjxVAQE6lIR4ef
+         5JIA==
+X-Gm-Message-State: ACgBeo3DbAHOgc5HLoA6e2GsAgo4btmnzH9swprlkXnIBTXRbdpkq38V
+	P3d+tUnRFT3ZCO6xmhC6DjSzBw==
+X-Google-Smtp-Source: AA6agR5s6mmYOckWupogUoGlmi0i4i7rbgUk9CW8zTxihnx3AOW7S9ITLQhn/Y/uWTfocKkgvLXxHg==
+X-Received: by 2002:ac2:50d7:0:b0:492:8830:4819 with SMTP id h23-20020ac250d7000000b0049288304819mr3641459lfm.36.1660648347906;
+        Tue, 16 Aug 2022 04:12:27 -0700 (PDT)
 Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
-        by smtp.gmail.com with ESMTPSA id u17-20020a056512041100b0047f7419de4asm1354065lfk.180.2022.08.16.04.11.20
+        by smtp.gmail.com with ESMTPSA id b16-20020a056512025000b0048b18d65998sm1358896lfo.38.2022.08.16.04.12.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 04:11:21 -0700 (PDT)
-Message-ID: <29072f12-b9a3-9815-ad52-5c4f6b1634b3@linaro.org>
-Date: Tue, 16 Aug 2022 14:11:19 +0300
+        Tue, 16 Aug 2022 04:12:26 -0700 (PDT)
+Message-ID: <14753794-245a-7b27-3bd9-46b80666b7af@linaro.org>
+Date: Tue, 16 Aug 2022 14:12:25 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -51,6 +51,7 @@ User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
 Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
  devicetree
 Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 To: Andre Przywara <andre.przywara@arm.com>
 Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
  Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
@@ -65,98 +66,33 @@ References: <20220815050815.22340-1-samuel@sholland.org>
  <2249129.ElGaqSPkdT@jernej-laptop>
  <b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
  <20220816120050.07dc2416@donnerap.cambridge.arm.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220816120050.07dc2416@donnerap.cambridge.arm.com>
+ <29072f12-b9a3-9815-ad52-5c4f6b1634b3@linaro.org>
+In-Reply-To: <29072f12-b9a3-9815-ad52-5c4f6b1634b3@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 16/08/2022 14:00, Andre Przywara wrote:
-> On Tue, 16 Aug 2022 12:42:39 +0300
-> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
-> 
-> Hi,
-> 
->> On 16/08/2022 12:25, Jernej Škrabec wrote:
->>> Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko Stübner napisal(a):  
->>>> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej Škrabec:  
->>>>> Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski   
->>> napisal(a):  
->>>>>> On 15/08/2022 08:08, Samuel Holland wrote:  
->>>>>>> +
->>>>>>> +	de: display-engine {
->>>>>>> +		compatible = "allwinner,sun20i-d1-display-engine";
->>>>>>> +		allwinner,pipelines = <&mixer0>, <&mixer1>;
->>>>>>> +		status = "disabled";
->>>>>>> +	};
->>>>>>> +
->>>>>>> +	osc24M: osc24M-clk {  
->>>>>>
->>>>>> lowercase
->>>>>>  
->>>>>>> +		compatible = "fixed-clock";
->>>>>>> +		clock-frequency = <24000000>;  
->>>>>>
->>>>>> This is a property of the board, not SoC.  
->>>>>
->>>>> SoC needs 24 MHz oscillator for correct operation, so each and every board
->>>>> has it. Having it here simplifies board DT files.  
->>>>
->>>> I guess the oscillator is a separate component on each board, right?  
->>>
->>> Correct.
->>>   
->>>> And DT obvious is meant to describe the hardware - independently from
->>>> implementation-specific choices.  
->>>
->>> There is no choice in this case. 24 MHz crystal has to be present.
->>>
->>> FWIW, including crystal node in SoC specific DTSI is already common pattern in 
->>> Allwinner ARM SoC DTSI files.
->>>   
->>>>
->>>> Starting to discuss which exceptions to allow then might lead to even more
->>>> exceptions.
->>>>
->>>> Also having to look for a board-component in the soc dtsi also is surprising
->>>> if one gets to the party later on :-) .  
->>>
->>> As I said, if one is accustomed to Allwinner ARM DT development, it would be 
->>> more surprising to include 24 MHz crystal node in each and every board DT.  
+On 16/08/2022 14:11, Krzysztof Kozlowski wrote:
 >>
->> It's same everywhere. Allwinner, Exynos, iMX, Qualcomm. Everywhere this
->> is a part of the board, so even if oscillator frequency is fixed (as in
->> 99% of cases although some SoCs I think might just allow to implement
->> one of few), still this is a property of the board. Because:
->> 1. DTSI describes the SoC part, not board.
->> 2. So the DTS developer is a bit more conscious about his design.
+>> I think one reason might be that this is so central to the whole SoC
+>> operation, that it's already referenced multiple times in the base .dtsi.
+>> And having a yet unresolved reference in the .dtsi looks dodgy.
+>>
+>> NVidia seems to omit a base oscillator (maybe it's implicit in their
+>> binding design), Marvell doesn't use a fixed-clock (but still puts their
+>> base clock in armada-37xx.dtsi).
+>>
+>> Exynos and Renesas put a *stub* fixed-clock in the .dtsi, and set the
+>> frequency in the board .dts files. Would this be a compromise?
 > 
-> 1) is certainly true, but indeed most platforms put the base
-> crystal oscillator in the SoC .dtsi:
+> This is exactly what I said before. The clock frequency is a property of
+> the board. Feel free to keep the rest of the clock in the SoC DTSI to
+> reduce duplication, but at minimum the clock should go to the board.
 
-Yes. And once per week when I look at new DTS I need to repeat the same
-arguments. :)
 
-> I just sampled Rockchip (rk3399.dtsi,
-> rk356x.dtsi, rk3328.dtsi), Amlogic (meson-g12-common.dtsi), ActionSemi (s[79]00.dtsi),
-> Qualcomm (msm8916.dtsi, sm8450.dtsi, sc7180.dtsi), Freescale (imx8mm.dtsi,
-> imx8qxp.dtsi), Realtek (rtd129x.dtsi), Broadcom (bcm283x.dtsi), Mediatek
-> (mt8183.dtsi, mt8516.dtsi). The list probably goes on (I just stopped
-> here).
-> 
-> I think one reason might be that this is so central to the whole SoC
-> operation, that it's already referenced multiple times in the base .dtsi.
-> And having a yet unresolved reference in the .dtsi looks dodgy.
-> 
-> NVidia seems to omit a base oscillator (maybe it's implicit in their
-> binding design), Marvell doesn't use a fixed-clock (but still puts their
-> base clock in armada-37xx.dtsi).
-> 
-> Exynos and Renesas put a *stub* fixed-clock in the .dtsi, and set the
-> frequency in the board .dts files. Would this be a compromise?
+s/minimum the clock should go to the board/minimum the clock frequency
+should go to the board./
 
-This is exactly what I said before. The clock frequency is a property of
-the board. Feel free to keep the rest of the clock in the SoC DTSI to
-reduce duplication, but at minimum the clock should go to the board.
+
 
 Best regards,
 Krzysztof
