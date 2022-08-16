@@ -1,183 +1,236 @@
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D41333CC
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:49:29 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.west.internal (Postfix) with ESMTP id B14432B059FF;
-	Tue, 16 Aug 2022 05:49:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Tue, 16 Aug 2022 05:49:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660643366; x=1660650566; bh=LDg0F/tdWm
-	uuX+5Y52zO8Sqcm7DQL0YcyaqGkQk8adc=; b=GPpFjSOrwZxIYxYGAXsZL6mHjD
-	WbjU9v6Cap1kKGhAEqkg57BIGNOPRu2hyTIbMt7feU6DsQpypdeWuoTEyC/buFjX
-	rk2MONDaPv9NB3Ig+QokHa5oA98ZpWJoXyFA2tcQfUcu5t+1S+oedTww0kKzo7NU
-	yaPmk8EUfi4c2+xNI0YjM1CXGv22lWemlWZl8x5QSycKGykmDH13U0fI3PDII043
-	YpYk8UEsy4wk741tnCqA/AvXdH8FUCixrYVSLAe5BpFwv1Fcrvhf/8diiRG5Eu8x
-	otMOeoTcNjVRrlmwMvQ5K4xRMgRq1TphmgdkW6PUa8eeezdDTJy7rz/q1Rwg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660643366; x=1660650566; bh=LDg0F/tdWmuuX+5Y52zO8Sqcm7DQ
-	L0YcyaqGkQk8adc=; b=3Ax3i/frWA1OJ/WVrRDv96/pDYIOq+xB3sBoWFdH93O/
-	d+E8N3D5uiix0u5hIsoOzu1B6xy1iuXInlcuUTOQwWfP4rghbaotNkEukW6wnxZz
-	3zNWdBo34rrVe2jpV7L+epwEr0ke9uBhMVc3Hh069JCweIrJuRPkMu0ecjkTisvI
-	RE4hGsBf5hCU1rE2ChO8nndii3HbsP2eMrL8ty45mv/HhGxkftE/RJUS18iP9QnX
-	G6+f6O2nisM/yWvQ19b+sAuJDAMHaskW1WkltLGBUhmrJJ4kPHuqe2so1lLne4XI
-	vIE45/4Q+Wc6+MMPDs5WPDbVOWzvXD2mL13r0G6i+A==
-X-ME-Sender: <xms:JWj7YmJ2NdSrJApiuS_qsqrvR7DFDeJm9787V7XliSkuq9hHJuVKBw>
-    <xme:JWj7YuKPbclW3rHsThJRK-7jLiV_b3I5zfTpWR4g-AnfNzzd6hxjr_cJgTycWkxsp
-    VYY8lmhggu0WbWScJY>
-X-ME-Received: <xmr:JWj7Ymuno8rq01Nb1Z8-oyF0Irh3B8eOgkhXeL7ahfp9kVf2ihQgcEDCD0k>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgvdduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedukeevvdehheeuhefhhfefteeiffefgeffuefgkeetffevgeevgeejteei
-    gffghfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhn
-    ohdrthgvtghh
-X-ME-Proxy: <xmx:JWj7YrbWn7UHWJgGfNxx5L3ZSRi_2z9w7seKrmSh0e-w89WzmrAYIA>
-    <xmx:JWj7YtazAfBfmbhzLNpiqYbkr7bdx71dbJowYgq8817v2UYa5dqsNw>
-    <xmx:JWj7YnByepaGyImxjUck4n1YplQ2s7xp7VgiN2rXgIAcWX7lvHGMUA>
-    <xmx:Jmj7YqJp35QTIMSU1Q05bl9u74Ce-NNm75OwDKsOOSwtg18qO_VHALNIk_s>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 05:49:24 -0400 (EDT)
-Date: Tue, 16 Aug 2022 11:49:22 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
-	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Phil Elwell <phil@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220816094922.oqhrhefv327zo2ou@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
- <20220816082612.grebxql5ynnfnvfd@houat>
- <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699A633CC
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:55:51 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id z6so14205820lfu.9
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:55:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=ouC/nNUCrt3P9AuPPNvbcQrm5hP3Vq91u5mO0hzhgiE=;
+        b=M15UJ2gOPRlQBuniCuEzZ1DZQGIvMn6hZQugOgpxtBBpI+dVn7JouVQf2GgunA7fn2
+         JGCezc6VJWURz7ImxJVhUQ1Qz5aMgHzjtlZdj+33GXQ46q1BYMSGq5SkRD4fwJvMqPlP
+         o63wR8dJ9no0B/xph6tdn/7+uc/0sl8zt6epZgRD/qN3z1cKpcLBCKbuyL8WgxuHRK5z
+         j0FEcfQJZS9KCpo0LE3cW5Fl8nR+LfkaOKs9KNfAefMqQWnqobQJ5PH4mP4vTRQ8FGQq
+         V4G8ZzVuA8C3UdrDZMBNP6yZWs69XBpsV8EwXxXiLt4gvD7s6uFhLcmP34FCmvno2tCF
+         rR1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=ouC/nNUCrt3P9AuPPNvbcQrm5hP3Vq91u5mO0hzhgiE=;
+        b=lTf2sv5wYEkAa1a5XlGj92TJqa7icW69Nm1/3ICKaIJblV9RZIwp8mn7Mgg5XNjAbL
+         nX4nJAVsAonsiIiDsE56/+eOfO+GsCcnCV1flFd0QlWDCqguBY7yGgYoPjau+aXUWgJy
+         PLhgAN6xywWwgb6cWBsUkMKvyDGkpr7i3HAaaiCGSDWej4AC8kKcRX1ZDijQw8Jjcy7L
+         memvzzCEldXojFj1W7HEjM5D/Ls9ENcPhCg/jWdpZounbu19b3xtyXCJxEntEQtd7h0f
+         lhBUlYr+YrssiRCKygEjSBWZKoGDKz9E8OeK0q3X5Gz09nH32QJ8qZnMi7jKI2fI1VYN
+         8/FA==
+X-Gm-Message-State: ACgBeo0nCfTYCG4ZVycGSNfyDYxLCdS5waML6JV9zxPb47/ljaXOEtgz
+	WFBfo6jxPYR9jiID01G6DtGGIA==
+X-Google-Smtp-Source: AA6agR4ck7myM8UAKNZmScqtxz9CNJgaLd86fBns30J2pD7pFR0A3bi0Rz8iFtZoxIVrvkf43riM/w==
+X-Received: by 2002:a19:3856:0:b0:491:7b45:7617 with SMTP id d22-20020a193856000000b004917b457617mr4301867lfj.47.1660643749373;
+        Tue, 16 Aug 2022 02:55:49 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+        by smtp.gmail.com with ESMTPSA id v5-20020a2e2f05000000b0025e4dcc48b1sm1724683ljv.19.2022.08.16.02.55.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 02:55:48 -0700 (PDT)
+Message-ID: <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
+Date: Tue, 16 Aug 2022 12:55:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="wxlquavc6w2uimy2"
-Content-Disposition: inline
-In-Reply-To: <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220815043436.20170-1-samuel@sholland.org>
+ <20220815043436.20170-2-samuel@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220815043436.20170-2-samuel@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+On 15/08/2022 07:34, Samuel Holland wrote:
+> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
+> for general purpose use. LDOA generally powers the board's 1.8 V rail.
+> LDOB generally powers the in-package DRAM, where applicable.
+> 
+> The other pair of LDOs powers the analog power domains inside the SoC,
+> including the audio codec, thermal sensor, and ADCs. These LDOs require
+> a 0.9 V bandgap voltage reference. The calibration value for the voltage
+> reference is stored in an eFuse, accessed via an NVMEM cell.
+> 
+> Neither LDO control register is in its own MMIO range; instead, each
+> regulator device relies on a regmap/syscon exported by its parent.
+> 
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+> 
+> Changes in v3:
+>  - Add "reg" property to bindings
+>  - Add "unevaluatedProperties: true" to regulator nodes
+>  - Minor changes to regulator node name patterns
+>  - Remove system-ldos example (now added in patch 3)
+> 
+> Changes in v2:
+>  - Remove syscon property from bindings
+>  - Update binding examples to fix warnings and provide context
+> 
+>  .../allwinner,sun20i-d1-analog-ldos.yaml      | 74 +++++++++++++++++++
+>  .../allwinner,sun20i-d1-system-ldos.yaml      | 37 ++++++++++
+>  2 files changed, 111 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+> new file mode 100644
+> index 000000000000..d6964b44ef21
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+> @@ -0,0 +1,74 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-analog-ldos.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1 Analog LDOs
+> +
+> +description:
+> +  Allwinner D1 contains a set of LDOs which are designed to supply analog power
+> +  inside and outside the SoC. They are controlled by a register within the audio
+> +  codec MMIO space, but which is not part of the audio codec clock/reset domain.
+> +
+> +maintainers:
+> +  - Samuel Holland <samuel@sholland.org>
+
+Please follow the example schema. Order is: title, maintainers, description.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-analog-ldos
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  nvmem-cells:
+> +    items:
+> +      - description: NVMEM cell for the calibrated bandgap reference trim value
+> +
+> +  nvmem-cell-names:
+> +    items:
+> +      - const: bg_trim
+> +
+> +patternProperties:
+> +  "^(a|hp)ldo$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - nvmem-cells
+> +  - nvmem-cell-names
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    audio-codec@2030000 {
+> +        compatible = "simple-mfd", "syscon";
+
+This cannot be on its own. Both require device specific compatible.
+
+> +        reg = <0x2030000 0x1000>;
+> +        ranges;
+> +        #address-cells = <1>;
+> +        #size-cells = <1>;
+> +
+> +        regulators@2030348 {
+> +            compatible = "allwinner,sun20i-d1-analog-ldos";
+> +            reg = <0x2030348 0x4>;
+> +            nvmem-cells = <&bg_trim>;
+> +            nvmem-cell-names = "bg_trim";
+> +
+> +            reg_aldo: aldo {
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +            };
+> +
+> +            reg_hpldo: hpldo {
+> +                regulator-min-microvolt = <1800000>;
+> +                regulator-max-microvolt = <1800000>;
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> new file mode 100644
+> index 000000000000..e3e2810fb3d7
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+> @@ -0,0 +1,37 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Allwinner D1 System LDOs
+> +
+> +description:
+> +  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
+> +  supply power inside and outside the SoC. They are controlled by a register
+> +  within the system control MMIO space.
+
+Fix order.
 
 
---wxlquavc6w2uimy2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> +
+> +maintainers:
+> +  - Samuel Holland <samuel@sholland.org>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - allwinner,sun20i-d1-system-ldos
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +patternProperties:
+> +  "^ldo[ab]$":
+> +    type: object
+> +    $ref: regulator.yaml#
+> +    unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +
+> +unevaluatedProperties: false
 
-On Tue, Aug 16, 2022 at 11:42:20AM +0200, Noralf Tr=F8nnes wrote:
->=20
->=20
-> Den 16.08.2022 10.26, skrev Maxime Ripard:
-> > Hi,
-> >=20
-> > On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Tr=F8nnes wrote:
-> >> Den 29.07.2022 18.34, skrev Maxime Ripard:
-> >>> The TV mode property has been around for a while now to select and ge=
-t the
-> >>> current TV mode output on an analog TV connector.
-> >>>
-> >>> Despite that property name being generic, its content isn't and has b=
-een
-> >>> driver-specific which makes it hard to build any generic behaviour on=
- top
-> >>> of it, both in kernel and user-space.
-> >>>
-> >>> Let's create a new bitmask tv norm property, that can contain any of =
-the
-> >>> analog TV standards currently supported by kernel drivers. Each drive=
-r can
-> >>> then pass in a bitmask of the modes it supports.
-> >>>
-> >>> We'll then be able to phase out the older tv mode property.
-> >>>
-> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >>>
-> >>
-> >> Please also update Documentation/gpu/kms-properties.csv
-> >>
-> >> Requirements for adding a new property is found in
-> >> Documentation/gpu/drm-kms.rst
-> >=20
-> > I knew this was going to be raised at some point, so I'm glad it's that
-> > early :)
-> >=20
-> > I really don't know what to do there. If we stick by our usual rules,
-> > then we can't have any of that work merged.
-> >=20
-> > However, I think the status quo is not really satisfactory either.
-> > Indeed, we have a property, that doesn't follow those requirements
-> > either, with a driver-specific content, and that stands in the way of
-> > fixes and further improvements at both the core framework and driver
-> > levels.
-> >=20
-> > So having that new property still seems like a net improvement at the
-> > driver, framework and uAPI levels, even if it's not entirely following
-> > the requirements we have in place.
-> >=20
-> > Even more so since, realistically, those kind of interfaces will never
-> > get any new development on the user-space side of things, it's
-> > considered by everyone as legacy.
-> >=20
-> > This also is something we need to support at some point if we want to
-> > completely deprecate the fbdev drivers and provide decent alternatives
-> > in KMS.
-> >=20
-> > So yeah, strictly speaking, we would not qualify for our requirements
-> > there. I still think we have a strong case for an exception though.
->
-> Which requirements would that be? The only one I can see is the
-> documentation and maybe an IGT test.
 
-This is the one I had in mind
-https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspac=
-e-requirements
+Example please.
 
-I overlooked yours obviously, so I'll update my patches to fix it.
-
-Maxime
-
---wxlquavc6w2uimy2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvtoIgAKCRDj7w1vZxhR
-xdmCAP0TxNLQ337aCmZF1DrZ9PxgyCBlNhBMtaDX8zJsaRfqJgD+Kw7tZK+ncFk4
-xnge3+28RfIGi25dtfBBzpr7m1dc6QA=
-=aMK2
------END PGP SIGNATURE-----
-
---wxlquavc6w2uimy2--
+Best regards,
+Krzysztof
