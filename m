@@ -1,84 +1,83 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com [66.111.4.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E3FE3C29
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:58:21 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 9EA072B05A10;
-	Tue, 16 Aug 2022 07:58:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Tue, 16 Aug 2022 07:58:20 -0400
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE9A3C29
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 12:21:02 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1CB1158040B;
+	Tue, 16 Aug 2022 08:21:01 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute5.internal (MEProxy); Tue, 16 Aug 2022 08:21:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660651098; x=1660658298; bh=6Jh4QYGMoH
-	o8Uic4iv978KBBZgS0XFbP7zpUkCqVKX4=; b=FCrHz4tyUrvT59ofQy8bv49daB
-	b9ddhsClYCYaznQxsUbhQCBUVKiiky2iMysH4vDNk6e/iUUqYXKbv8IkDNRaXAIM
-	HoxDQS2e2jZ2q5Fnraf/cMcYro+04SDBbA14KFWtOsBHwUqyilR4L/9EDqy6PF4h
-	f0oacHQB+zDQc3tsBJIZx2zTRocB4RsdHhchVFcesQqKz8DpAbZxsLcECP1o7mz9
-	QFsjVo8VF8a9QvEvR+sVrTSwuyM8V+4I3Asm+F26jbXoYHGOjEAkcflOxALaJ9Ls
-	45R78V68i1ecrqap0yNf+VPtI3gUiE+9O5/ozmGhldRUMQ47DnTxTNYNDcrw==
+	:subject:to:to; s=fm3; t=1660652461; x=1660659661; bh=6XLImf6D+u
+	ceaDHdtwK+6f06L2Vn5a6E/RxhQgeCM3Q=; b=kexpck3CQZ0ElJThDTOQn44AzH
+	8rR9jah9MWJU/TxAjZD3W5IdNrro8d3oe92deiJXvqX7ccuj0Zhl9rzStuw4KB/J
+	1WzDxddqdMma54Ujb/j4ldVoBl1tmqWrtu/dOS2orS6opeEIlWc+4a3Fpzc2J4eN
+	hzUV9oHihVAuMbIDL/bTMMCKIF9GKt9BD+G0vbzXnTV5msk2B0C4k7j+uvfy1G/f
+	3ljZdqa0RXOVJYfuget5K31tpi1j/KokQBB4mLJkY5R4iTwu/6BZBzSPx5teuViE
+	pUjiz2b+YukKvsNwW0lLgw7RZ59NIlZSQAvTvbz5EzR6JhopVseT581SnF3Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660651098; x=1660658298; bh=6Jh4QYGMoHo8Uic4iv978KBBZgS0
-	XFbP7zpUkCqVKX4=; b=CqM3xPr+nc9UfN/4WjR3csBYhFI33bC+6TTBegRKLKcc
-	k1gQyrqVDgN/Utvni23YWLg8U+C05A+hVUFMlE94Pu2IhF5laKmajz9DIlCvw0oQ
-	HpLXdEpaYJVQDtdfsk/25eEmkI+jcHsRZoEgfoblF06oTC6wj6uiHchXWbrCFtm9
-	GddW4Dfb5eZQ29viAglGOF4HjtErtdM8zwZ5SmNwDlTD/EQq9/Or0K9kwlXhfTEb
-	9GGhfL3t6S19YUhq81BnHH+jivbY3fvzeDlWMyN6+99vtQy90UjBjwfU1ZzPqapa
-	Yy3B5sxKVpO5lBEtlvfaiNtSu0Hp04SikV1+0pKtzw==
-X-ME-Sender: <xms:WIb7Ys_VI-WF_64BjUsMRp6hgkJNR386LYoRDrsWVDOydiVoAknNbQ>
-    <xme:WIb7YksfJKc1NBRiYwiqx8p7Zkr1gQrrt8vsxOxYaZh009HDH9a_GVPLE6dABlzAK
-    KUmJko9Jc09fVFBFnE>
-X-ME-Received: <xmr:WIb7YiANA3mQm-BFej2TzDFNkaWjr0CsDS-wAkZX8QZ6KLwlFArAVjtz68U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedggeejucetufdoteggodetrfdotf
+	fm1; t=1660652461; x=1660659661; bh=6XLImf6D+uceaDHdtwK+6f06L2Vn
+	5a6E/RxhQgeCM3Q=; b=RiG9AYB4Rh8oJH8nXRdnWyg1t8YNWMwRp+sCCYFHS43e
+	ovLwo+W+rX2GTLM5PHUx+FmfE7VuI9padh5Clhf1WdBo+fYi/umQpjTQ3bOBK8lL
+	zMKx75aSgPmoyPma/+DHD9V4RFym0Kne8Uzju3PvL1eeGz35Pp1H9/XBInor30U5
+	1GnHyEyIzjSoBVZc6XaYj+1GOA4gH5LBY31eTfABPb/MlPCoKptGssDwnBDTx1qs
+	UJzE2gjPGjQtU6gAHBmhz2vZ16JreGBOKXFGlCdwHiuldjyTYj3UyP1ER+7+C29P
+	LEY/PxqQoAyNF9yS/jZqos+H8NzqEqFXg443pSa4lw==
+X-ME-Sender: <xms:q4v7Ys6aP__5QCMFUO25bBV2G7JDvWby3ENM_fIs5yF_kPK9wOtDXg>
+    <xme:q4v7Yt4ZCHVfcY9dhK9TP4oIWwsvVjjLwfmUabehVA02DQWzJdIz7w7FWwmDH6Cia
+    wx9LmJ-Qzm1wV-Y97A>
+X-ME-Received: <xmr:q4v7YrfPuG8yHdsiV1zoE1Cx1HGVTxHTLUMpAs_M2HK4GKdLjxyjjuyL7Bc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgheduucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:WIb7YsfCemL9tFFy8sGs_JIhBOlptgZwVEiwGRrbOFKQCZZTZqPr6w>
-    <xmx:WIb7YhN9-5Y4ca-TLP1ARLg_vMZNpontCTAM940_DRUP1V-YhQKdhw>
-    <xmx:WIb7Ymnv3YP06kW34I4-5iHoU4P-vrIvnk-oAyXsL2eZiDoQcFJ2nA>
-    <xmx:Wob7YsOQ2TYfwUPyuJVNCV4wNBlRMmm2-WxTvl83YbKdwr7UETeCpp9IDaw>
+    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
+    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
+    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
+    hh
+X-ME-Proxy: <xmx:q4v7YhJH5g-sSvIY6rkOl6DMIxeVtuoI_NjXdVZgmDrD7-sigy8lmQ>
+    <xmx:q4v7YgIzwgWlPkY9C_SPaURJ0GIWUFAtE4lG8X88Gldi0kiFa06BRQ>
+    <xmx:q4v7YiwgQjDuZo7g0n86ZxM797iVdPO59xB_iMSMrZbI16_rCP4cAw>
+    <xmx:rYv7Yg400P-RBy5vHEPL_kEqm8A33uMzt14unJ6sJkk-EylfjyC3xA>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 16 Aug 2022 07:58:15 -0400 (EDT)
-Date: Tue, 16 Aug 2022 13:58:14 +0200
+ 16 Aug 2022 08:20:59 -0400 (EDT)
+Date: Tue, 16 Aug 2022 14:20:56 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
 	Jerome Brunet <jbrunet@baylibre.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
-	David Airlie <airlied@linux.ie>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
 	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,
-	Dom Cobley <dom@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	linux-amlogic@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
 	Phil Elwell <phil@raspberrypi.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-Message-ID: <20220816115814.gtdymzjsutu4am7z@houat>
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+	DRI Development <dri-devel@lists.freedesktop.org>,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 07/35] drm/modes: Only consider bpp and refresh before
+ options
+Message-ID: <20220816122056.w6suecaizdoss2sv@houat>
 References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <8735eeg31e.fsf@intel.com>
- <46871a84-3b17-5474-9608-cfbe7e6f4c7f@suse.de>
+ <20220728-rpi-analog-tv-properties-v1-7-3d53ae722097@cerno.tech>
+ <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -86,52 +85,83 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="awchg3pjflohp76k"
+	protocol="application/pgp-signature"; boundary="d5ua5726mqkqg3lm"
 Content-Disposition: inline
-In-Reply-To: <46871a84-3b17-5474-9608-cfbe7e6f4c7f@suse.de>
+In-Reply-To: <CAMuHMdWa9soLHSvmxWqjKAO93WhViww6GZiC9qh0RccVENPRYw@mail.gmail.com>
 
 
---awchg3pjflohp76k
+--d5ua5726mqkqg3lm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 02, 2022 at 04:16:29PM +0200, Thomas Zimmermann wrote:
-> Hi
->=20
-> Am 02.08.22 um 15:58 schrieb Jani Nikula:
-> > On Fri, 29 Jul 2022, Maxime Ripard <maxime@cerno.tech> wrote:
-> > > Multiple drivers (meson, vc4) define the analog TV 525-lines and 625-=
-lines
-> > > modes in the drivers.
-> > >=20
-> > > Since those modes are fairly standards, and that we'll need to use th=
-em in
-> > > more places in the future, let's move the meson definition into the
-> > > framework.
-> >=20
-> > I think you should always expose interfaces, not data. Data is not an
-> > interface, and I think this sets a bad example that will be cargo
-> > culted.
->=20
-> Although I wrote the opposite wrt patch 8, I agree with Jani here when it
-> comes to 'official' interfaces. The cases I've seen of exported data
-> structures often lead to intransparent code.
+Hi Geert,
 
-Ack. The improvement Geert suggested would involve that change anyway,
-so this should be fixed for the next iteration.
+Thanks for your review
+
+On Fri, Aug 12, 2022 at 03:25:39PM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
+>=20
+> On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > Some video=3D options might have a value that contains a dash. However,=
+ the
+> > command line parsing mode considers all dashes as the separator between=
+ the
+> > mode and the bpp count.
+> >
+> > Let's rework the parsing code a bit to only consider a dash as the bpp
+> > separator if it before a comma, the options separator.
+> >
+> > A follow-up patch will add a unit-test for this once such an option is
+> > introduced.
+> >
+> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+>=20
+> Thanks for your patch!
+>=20
+> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>=20
+> > --- a/drivers/gpu/drm/drm_modes.c
+> > +++ b/drivers/gpu/drm/drm_modes.c
+> > @@ -1819,20 +1819,22 @@ bool drm_mode_parse_command_line_for_connector(=
+const char *mode_option,
+> >
+> >         name =3D mode_option;
+> >
+> > +       /* Locate the start of named options */
+> > +       options_ptr =3D strchr(name, ',');
+> > +       if (options_ptr)
+> > +               options_off =3D options_ptr - name;
+> > +       else
+> > +               options_off =3D strlen(name);
+> > +
+> >         /* Try to locate the bpp and refresh specifiers, if any */
+> > -       bpp_ptr =3D strchr(name, '-');
+> > +       bpp_ptr =3D strnchr(name, options_off, '-');
+>=20
+> Probably you still want to add a check that the next character
+> is actually a digit, cfr. my "[PATCH v2 5/5] drm/modes:
+> parse_cmdline: Add support for named modes containing dashes"
+> (https://lore.kernel.org/dri-devel/2eb205da88c3cb19ddf04d167ece4e16a33094=
+8b.1657788997.git.geert@linux-m68k.org)?
+
+I think your patch is orthogonal, and we should merge it anyway.
+
+As a matter of fact, I initially wanted to do something similar but
+bailed out to deal with PAL-M and so on. If there's such modes already,
+then we should totally support it
 
 Maxime
 
---awchg3pjflohp76k
+--d5ua5726mqkqg3lm
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvuGVgAKCRDj7w1vZxhR
-xS0WAP47XlF53evVNWhich0B1ptAwy/AePOsskAxEmgx3yqrNQD9E0bjZfOAyvz/
-e3gbsh9/yRHjOZuY9N1BqkC04K6VFQE=
-=ezHC
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvuLqAAKCRDj7w1vZxhR
+xS46AQCDoo68eNI5t/JZrITdAKWMGUwSBfFFuOU+V38x2GFqwQEA7EsamAC81DFp
+NHD21FgHcTvgUUUJaJo5pResSbjL5g0=
+=dh0z
 -----END PGP SIGNATURE-----
 
---awchg3pjflohp76k--
+--d5ua5726mqkqg3lm--
