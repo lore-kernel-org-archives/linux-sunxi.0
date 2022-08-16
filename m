@@ -1,142 +1,162 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A6B1C04
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:01:01 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0A2E113E;
-	Tue, 16 Aug 2022 04:01:01 -0700 (PDT)
-Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2960F3F70D;
-	Tue, 16 Aug 2022 04:00:59 -0700 (PDT)
-Date: Tue, 16 Aug 2022 12:00:50 +0100
-From: Andre Przywara <andre.przywara@arm.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Samuel
- Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Paul
- Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-riscv@lists.infradead.org, Heiko =?UTF-8?B?U3TDvGJuZXI=?=
- <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
- devicetree
-Message-ID: <20220816120050.07dc2416@donnerap.cambridge.arm.com>
-In-Reply-To: <b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
-References: <20220815050815.22340-1-samuel@sholland.org>
-	<5593349.DvuYhMxLoT@jernej-laptop>
-	<3881930.ZaRXLXkqSa@diego>
-	<2249129.ElGaqSPkdT@jernej-laptop>
-	<b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
-Organization: ARM
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544A93C0C
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:11:24 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id z25so14448041lfr.2
+        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 04:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=0cuU1bG6KFLMr6an740FWMa8MPaqg8PFLx685pJUkOY=;
+        b=GYEkY3kBMOdN21wTqQAEDOg88pgX6jp9BtCRiEAUPFEC6zLl70PjISb/WBZMzz3c/E
+         azAJ/UWONLB1jmDNlv9VZH2FA77IyeUK8jMU51+I/lXnmBeUB6KNCTR94t1sG0NrS9vt
+         UnWaYBYdbffWDhISjUJXAUDWBwzwYGfsDdS/xntKp6At257goXRAUH5oiRfXMgJg5aFQ
+         6tS7afCAa6zoTnvIK4rB3RePeJNCayOSIY6uaJ0DqtXTt5vVGG0GC7gO5ngutEGaZMca
+         6W5ZMF8oiVXgcqcq9d4QDxrta+c6D//Ffad0mHN5wG4u8vy2kG54TuUk19KN2RewMM6+
+         CzTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=0cuU1bG6KFLMr6an740FWMa8MPaqg8PFLx685pJUkOY=;
+        b=HVvphFTGRla7t66ucjPUlgIu5YXs+qz1F+cuWZQT7BUizu0c6OFkP1Zd4zQfe2q8Pk
+         73qAwVAuA2frSp9em0iTmz03zm7WqqNpz/zdU4yprwZR20nehbbqhNp2CWpPslp4NED6
+         nZ+nkYggNPzj2GauIumkvCLTZfVipqCOAvOOxiMQhCPj3YxhY2oy1WeY75i99kGm6ASU
+         atYhO/EATLYq4krRM9xcdQd5Bpz+HQIK8HUZ3MqSzwGE+Rsx2xQAx7ONw2MZuUD4i8eK
+         F+KrNCwugWHYFB7hyDmM9zzHiZcdGDGhiXiI0btYq8dn9vBvSsQ+Q0F2o76oDWO+3x1N
+         73hw==
+X-Gm-Message-State: ACgBeo2wgo48uaJp3Ds2e9xaGn5Vy8xy9EKizH1Yj3JNBWmv9Wu558tg
+	+A0Y+rXWCo4KWxln6uQgCfTeoA==
+X-Google-Smtp-Source: AA6agR4jvAh3L22ickhZa14uDRFbhGMs9hDFABhJBvwWXmWM/n4NtsL5IflGqzOc8MYp3IFiSXYs5A==
+X-Received: by 2002:ac2:47f1:0:b0:48a:ea6e:b8fd with SMTP id b17-20020ac247f1000000b0048aea6eb8fdmr6589451lfp.26.1660648282335;
+        Tue, 16 Aug 2022 04:11:22 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
+        by smtp.gmail.com with ESMTPSA id u17-20020a056512041100b0047f7419de4asm1354065lfk.180.2022.08.16.04.11.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Aug 2022 04:11:21 -0700 (PDT)
+Message-ID: <29072f12-b9a3-9815-ad52-5c4f6b1634b3@linaro.org>
+Date: Tue, 16 Aug 2022 14:11:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
+ devicetree
+Content-Language: en-US
+To: Andre Przywara <andre.przywara@arm.com>
+Cc: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-riscv@lists.infradead.org, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+References: <20220815050815.22340-1-samuel@sholland.org>
+ <5593349.DvuYhMxLoT@jernej-laptop> <3881930.ZaRXLXkqSa@diego>
+ <2249129.ElGaqSPkdT@jernej-laptop>
+ <b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
+ <20220816120050.07dc2416@donnerap.cambridge.arm.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <20220816120050.07dc2416@donnerap.cambridge.arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 16 Aug 2022 12:42:39 +0300
-Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+On 16/08/2022 14:00, Andre Przywara wrote:
+> On Tue, 16 Aug 2022 12:42:39 +0300
+> Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
+> 
+> Hi,
+> 
+>> On 16/08/2022 12:25, Jernej Škrabec wrote:
+>>> Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko Stübner napisal(a):  
+>>>> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej Škrabec:  
+>>>>> Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski   
+>>> napisal(a):  
+>>>>>> On 15/08/2022 08:08, Samuel Holland wrote:  
+>>>>>>> +
+>>>>>>> +	de: display-engine {
+>>>>>>> +		compatible = "allwinner,sun20i-d1-display-engine";
+>>>>>>> +		allwinner,pipelines = <&mixer0>, <&mixer1>;
+>>>>>>> +		status = "disabled";
+>>>>>>> +	};
+>>>>>>> +
+>>>>>>> +	osc24M: osc24M-clk {  
+>>>>>>
+>>>>>> lowercase
+>>>>>>  
+>>>>>>> +		compatible = "fixed-clock";
+>>>>>>> +		clock-frequency = <24000000>;  
+>>>>>>
+>>>>>> This is a property of the board, not SoC.  
+>>>>>
+>>>>> SoC needs 24 MHz oscillator for correct operation, so each and every board
+>>>>> has it. Having it here simplifies board DT files.  
+>>>>
+>>>> I guess the oscillator is a separate component on each board, right?  
+>>>
+>>> Correct.
+>>>   
+>>>> And DT obvious is meant to describe the hardware - independently from
+>>>> implementation-specific choices.  
+>>>
+>>> There is no choice in this case. 24 MHz crystal has to be present.
+>>>
+>>> FWIW, including crystal node in SoC specific DTSI is already common pattern in 
+>>> Allwinner ARM SoC DTSI files.
+>>>   
+>>>>
+>>>> Starting to discuss which exceptions to allow then might lead to even more
+>>>> exceptions.
+>>>>
+>>>> Also having to look for a board-component in the soc dtsi also is surprising
+>>>> if one gets to the party later on :-) .  
+>>>
+>>> As I said, if one is accustomed to Allwinner ARM DT development, it would be 
+>>> more surprising to include 24 MHz crystal node in each and every board DT.  
+>>
+>> It's same everywhere. Allwinner, Exynos, iMX, Qualcomm. Everywhere this
+>> is a part of the board, so even if oscillator frequency is fixed (as in
+>> 99% of cases although some SoCs I think might just allow to implement
+>> one of few), still this is a property of the board. Because:
+>> 1. DTSI describes the SoC part, not board.
+>> 2. So the DTS developer is a bit more conscious about his design.
+> 
+> 1) is certainly true, but indeed most platforms put the base
+> crystal oscillator in the SoC .dtsi:
 
-Hi,
+Yes. And once per week when I look at new DTS I need to repeat the same
+arguments. :)
 
-> On 16/08/2022 12:25, Jernej =C5=A0krabec wrote:
-> > Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko St=C3=BCbner napis=
-al(a): =20
-> >> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej =C5=A0krabe=
-c: =20
-> >>> Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski  =
-=20
-> > napisal(a): =20
-> >>>> On 15/08/2022 08:08, Samuel Holland wrote: =20
-> >>>>> +
-> >>>>> +	de: display-engine {
-> >>>>> +		compatible =3D "allwinner,sun20i-d1-display-engine";
-> >>>>> +		allwinner,pipelines =3D <&mixer0>, <&mixer1>;
-> >>>>> +		status =3D "disabled";
-> >>>>> +	};
-> >>>>> +
-> >>>>> +	osc24M: osc24M-clk { =20
-> >>>>
-> >>>> lowercase
-> >>>> =20
-> >>>>> +		compatible =3D "fixed-clock";
-> >>>>> +		clock-frequency =3D <24000000>; =20
-> >>>>
-> >>>> This is a property of the board, not SoC. =20
-> >>>
-> >>> SoC needs 24 MHz oscillator for correct operation, so each and every =
-board
-> >>> has it. Having it here simplifies board DT files. =20
-> >>
-> >> I guess the oscillator is a separate component on each board, right? =
-=20
-> >=20
-> > Correct.
-> >  =20
-> >> And DT obvious is meant to describe the hardware - independently from
-> >> implementation-specific choices. =20
-> >=20
-> > There is no choice in this case. 24 MHz crystal has to be present.
-> >=20
-> > FWIW, including crystal node in SoC specific DTSI is already common pat=
-tern in=20
-> > Allwinner ARM SoC DTSI files.
-> >  =20
-> >>
-> >> Starting to discuss which exceptions to allow then might lead to even =
-more
-> >> exceptions.
-> >>
-> >> Also having to look for a board-component in the soc dtsi also is surp=
-rising
-> >> if one gets to the party later on :-) . =20
-> >=20
-> > As I said, if one is accustomed to Allwinner ARM DT development, it wou=
-ld be=20
-> > more surprising to include 24 MHz crystal node in each and every board =
-DT. =20
->=20
-> It's same everywhere. Allwinner, Exynos, iMX, Qualcomm. Everywhere this
-> is a part of the board, so even if oscillator frequency is fixed (as in
-> 99% of cases although some SoCs I think might just allow to implement
-> one of few), still this is a property of the board. Because:
-> 1. DTSI describes the SoC part, not board.
-> 2. So the DTS developer is a bit more conscious about his design.
+> I just sampled Rockchip (rk3399.dtsi,
+> rk356x.dtsi, rk3328.dtsi), Amlogic (meson-g12-common.dtsi), ActionSemi (s[79]00.dtsi),
+> Qualcomm (msm8916.dtsi, sm8450.dtsi, sc7180.dtsi), Freescale (imx8mm.dtsi,
+> imx8qxp.dtsi), Realtek (rtd129x.dtsi), Broadcom (bcm283x.dtsi), Mediatek
+> (mt8183.dtsi, mt8516.dtsi). The list probably goes on (I just stopped
+> here).
+> 
+> I think one reason might be that this is so central to the whole SoC
+> operation, that it's already referenced multiple times in the base .dtsi.
+> And having a yet unresolved reference in the .dtsi looks dodgy.
+> 
+> NVidia seems to omit a base oscillator (maybe it's implicit in their
+> binding design), Marvell doesn't use a fixed-clock (but still puts their
+> base clock in armada-37xx.dtsi).
+> 
+> Exynos and Renesas put a *stub* fixed-clock in the .dtsi, and set the
+> frequency in the board .dts files. Would this be a compromise?
 
-1) is certainly true, but indeed most platforms put the base
-crystal oscillator in the SoC .dtsi: I just sampled Rockchip (rk3399.dtsi,
-rk356x.dtsi, rk3328.dtsi), Amlogic (meson-g12-common.dtsi), ActionSemi (s[7=
-9]00.dtsi),
-Qualcomm (msm8916.dtsi, sm8450.dtsi, sc7180.dtsi), Freescale (imx8mm.dtsi,
-imx8qxp.dtsi), Realtek (rtd129x.dtsi), Broadcom (bcm283x.dtsi), Mediatek
-(mt8183.dtsi, mt8516.dtsi). The list probably goes on (I just stopped
-here).
+This is exactly what I said before. The clock frequency is a property of
+the board. Feel free to keep the rest of the clock in the SoC DTSI to
+reduce duplication, but at minimum the clock should go to the board.
 
-I think one reason might be that this is so central to the whole SoC
-operation, that it's already referenced multiple times in the base .dtsi.
-And having a yet unresolved reference in the .dtsi looks dodgy.
-
-NVidia seems to omit a base oscillator (maybe it's implicit in their
-binding design), Marvell doesn't use a fixed-clock (but still puts their
-base clock in armada-37xx.dtsi).
-
-Exynos and Renesas put a *stub* fixed-clock in the .dtsi, and set the
-frequency in the board .dts files. Would this be a compromise?
-
-Cheers,
-Andre
-
-> Keeping things in SoC DTSI just because it simplifies DTS is not correct
-> IMHO. So again - like in several other cases - minimum the frequency is
-> property of the board, not the SoC DTSI.
->=20
-> Everywhere. Allwinner is not special to receive exceptions.
->=20
-> Best regards,
-> Krzysztof
->=20
-
+Best regards,
+Krzysztof
