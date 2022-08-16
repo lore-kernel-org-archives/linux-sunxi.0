@@ -1,132 +1,183 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221C333CC
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:42:43 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id f20so14151798lfc.10
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 02:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=Y58LopX3Xau62EqFhAJuU29XSrAjPOJKcpX9ia/1x/U=;
-        b=vtoZdSOhjarg/GSUa+9qG6BMrKkJOe83PvRmhRhyuCerPbGiIrm8pgH0PekReyxXJ6
-         br5da1shUHmmP98ueTSt3G69sK9FhXyVW3WshnsnkN5Zd9pD4/lLqoMERKRF+w7swXkM
-         AeIbHzMZsV28B9ebYLbsaCZ0jduwrq/sNPO2NVsFmvFtUPUZJWcrl8zjdGivtVPbCski
-         3t3C/SRG3X5doYfn+nTF8cJUl3g/YvK7CVLwOZJws/ZpTvhaiUyGafpkHX0KACEFk68A
-         QHr4Aga2v7Ah2M9FdDI0/vgxJtgzrZnGZ7q/NfLu5futbWVzkQ+nzoQuKEwZv1YoRTFV
-         zsjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=Y58LopX3Xau62EqFhAJuU29XSrAjPOJKcpX9ia/1x/U=;
-        b=zxZlozXzrpUQi/zgNPL+JpS8FrgxzUnpXxuI4myPc9Q9kROgTIcBsiyqycJ0pNi1DY
-         uWgiAKYVNxRii0StxoYjQhECZh0SnUMbpL0ArQofJe7UhMg3a7JiVKLaYh1M14snTPU9
-         0V5gmyyT9ojyKmTF+n5UMwqYSJ2u3PYL37oeD5x+7KxRXZL7QpT9431ZkLpTMQuFKmag
-         myVYBAF+7Sz56qr5H9K+n98HCtEtO/M4gDaqVW5mBtOqGKhRCJ6m2rWE61K7VxU4vxGH
-         a3Ba95mr51nvQOBCcqSULyajwH8RUuDyLqAR+8zu/PMYX8S3wjEbBj8G1+j0UmLkaHbH
-         o4oA==
-X-Gm-Message-State: ACgBeo2RtjDSoK0+cdrhcr4Ey3kuOaR0XNxXYngxPXlVB9TtFFqvp6Pz
-	lDHrECzUnmGiStYqCEflaTn2Gg==
-X-Google-Smtp-Source: AA6agR5AgFW8i1G8KDg24W4ut+/FzCr3UMJzFdeE8sWqRtObktk+u4BKs7+LO+EgAtH4db4A3D91Jg==
-X-Received: by 2002:a05:6512:1052:b0:491:f371:ad44 with SMTP id c18-20020a056512105200b00491f371ad44mr4099234lfb.416.1660642961195;
-        Tue, 16 Aug 2022 02:42:41 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
-        by smtp.gmail.com with ESMTPSA id k12-20020ac24f0c000000b0048b03b4b018sm1325108lfr.283.2022.08.16.02.42.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 02:42:40 -0700 (PDT)
-Message-ID: <b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
-Date: Tue, 16 Aug 2022 12:42:39 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D41333CC
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 09:49:29 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.west.internal (Postfix) with ESMTP id B14432B059FF;
+	Tue, 16 Aug 2022 05:49:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Tue, 16 Aug 2022 05:49:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1660643366; x=1660650566; bh=LDg0F/tdWm
+	uuX+5Y52zO8Sqcm7DQL0YcyaqGkQk8adc=; b=GPpFjSOrwZxIYxYGAXsZL6mHjD
+	WbjU9v6Cap1kKGhAEqkg57BIGNOPRu2hyTIbMt7feU6DsQpypdeWuoTEyC/buFjX
+	rk2MONDaPv9NB3Ig+QokHa5oA98ZpWJoXyFA2tcQfUcu5t+1S+oedTww0kKzo7NU
+	yaPmk8EUfi4c2+xNI0YjM1CXGv22lWemlWZl8x5QSycKGykmDH13U0fI3PDII043
+	YpYk8UEsy4wk741tnCqA/AvXdH8FUCixrYVSLAe5BpFwv1Fcrvhf/8diiRG5Eu8x
+	otMOeoTcNjVRrlmwMvQ5K4xRMgRq1TphmgdkW6PUa8eeezdDTJy7rz/q1Rwg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660643366; x=1660650566; bh=LDg0F/tdWmuuX+5Y52zO8Sqcm7DQ
+	L0YcyaqGkQk8adc=; b=3Ax3i/frWA1OJ/WVrRDv96/pDYIOq+xB3sBoWFdH93O/
+	d+E8N3D5uiix0u5hIsoOzu1B6xy1iuXInlcuUTOQwWfP4rghbaotNkEukW6wnxZz
+	3zNWdBo34rrVe2jpV7L+epwEr0ke9uBhMVc3Hh069JCweIrJuRPkMu0ecjkTisvI
+	RE4hGsBf5hCU1rE2ChO8nndii3HbsP2eMrL8ty45mv/HhGxkftE/RJUS18iP9QnX
+	G6+f6O2nisM/yWvQ19b+sAuJDAMHaskW1WkltLGBUhmrJJ4kPHuqe2so1lLne4XI
+	vIE45/4Q+Wc6+MMPDs5WPDbVOWzvXD2mL13r0G6i+A==
+X-ME-Sender: <xms:JWj7YmJ2NdSrJApiuS_qsqrvR7DFDeJm9787V7XliSkuq9hHJuVKBw>
+    <xme:JWj7YuKPbclW3rHsThJRK-7jLiV_b3I5zfTpWR4g-AnfNzzd6hxjr_cJgTycWkxsp
+    VYY8lmhggu0WbWScJY>
+X-ME-Received: <xmr:JWj7Ymuno8rq01Nb1Z8-oyF0Irh3B8eOgkhXeL7ahfp9kVf2ihQgcEDCD0k>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehgedgvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpedukeevvdehheeuhefhhfefteeiffefgeffuefgkeetffevgeevgeejteei
+    gffghfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhn
+    ohdrthgvtghh
+X-ME-Proxy: <xmx:JWj7YrbWn7UHWJgGfNxx5L3ZSRi_2z9w7seKrmSh0e-w89WzmrAYIA>
+    <xmx:JWj7YtazAfBfmbhzLNpiqYbkr7bdx71dbJowYgq8817v2UYa5dqsNw>
+    <xmx:JWj7YnByepaGyImxjUck4n1YplQ2s7xp7VgiN2rXgIAcWX7lvHGMUA>
+    <xmx:Jmj7YqJp35QTIMSU1Q05bl9u74Ce-NNm75OwDKsOOSwtg18qO_VHALNIk_s>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 16 Aug 2022 05:49:24 -0400 (EDT)
+Date: Tue, 16 Aug 2022 11:49:22 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220816094922.oqhrhefv327zo2ou@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
+ <20220816082612.grebxql5ynnfnvfd@houat>
+ <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
- devicetree
-Content-Language: en-US
-To: =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-riscv@lists.infradead.org, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko@sntech.de>
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220815050815.22340-1-samuel@sholland.org>
- <5593349.DvuYhMxLoT@jernej-laptop> <3881930.ZaRXLXkqSa@diego>
- <2249129.ElGaqSPkdT@jernej-laptop>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <2249129.ElGaqSPkdT@jernej-laptop>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wxlquavc6w2uimy2"
+Content-Disposition: inline
+In-Reply-To: <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
 
-On 16/08/2022 12:25, Jernej Škrabec wrote:
-> Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko Stübner napisal(a):
->> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej Škrabec:
->>> Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski 
-> napisal(a):
->>>> On 15/08/2022 08:08, Samuel Holland wrote:
->>>>> +
->>>>> +	de: display-engine {
->>>>> +		compatible = "allwinner,sun20i-d1-display-engine";
->>>>> +		allwinner,pipelines = <&mixer0>, <&mixer1>;
->>>>> +		status = "disabled";
->>>>> +	};
->>>>> +
->>>>> +	osc24M: osc24M-clk {
->>>>
->>>> lowercase
->>>>
->>>>> +		compatible = "fixed-clock";
->>>>> +		clock-frequency = <24000000>;
->>>>
->>>> This is a property of the board, not SoC.
->>>
->>> SoC needs 24 MHz oscillator for correct operation, so each and every board
->>> has it. Having it here simplifies board DT files.
->>
->> I guess the oscillator is a separate component on each board, right?
-> 
-> Correct.
-> 
->> And DT obvious is meant to describe the hardware - independently from
->> implementation-specific choices.
-> 
-> There is no choice in this case. 24 MHz crystal has to be present.
-> 
-> FWIW, including crystal node in SoC specific DTSI is already common pattern in 
-> Allwinner ARM SoC DTSI files.
-> 
->>
->> Starting to discuss which exceptions to allow then might lead to even more
->> exceptions.
->>
->> Also having to look for a board-component in the soc dtsi also is surprising
->> if one gets to the party later on :-) .
-> 
-> As I said, if one is accustomed to Allwinner ARM DT development, it would be 
-> more surprising to include 24 MHz crystal node in each and every board DT.
 
-It's same everywhere. Allwinner, Exynos, iMX, Qualcomm. Everywhere this
-is a part of the board, so even if oscillator frequency is fixed (as in
-99% of cases although some SoCs I think might just allow to implement
-one of few), still this is a property of the board. Because:
-1. DTSI describes the SoC part, not board.
-2. So the DTS developer is a bit more conscious about his design.
+--wxlquavc6w2uimy2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Keeping things in SoC DTSI just because it simplifies DTS is not correct
-IMHO. So again - like in several other cases - minimum the frequency is
-property of the board, not the SoC DTSI.
+On Tue, Aug 16, 2022 at 11:42:20AM +0200, Noralf Tr=F8nnes wrote:
+>=20
+>=20
+> Den 16.08.2022 10.26, skrev Maxime Ripard:
+> > Hi,
+> >=20
+> > On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 29.07.2022 18.34, skrev Maxime Ripard:
+> >>> The TV mode property has been around for a while now to select and ge=
+t the
+> >>> current TV mode output on an analog TV connector.
+> >>>
+> >>> Despite that property name being generic, its content isn't and has b=
+een
+> >>> driver-specific which makes it hard to build any generic behaviour on=
+ top
+> >>> of it, both in kernel and user-space.
+> >>>
+> >>> Let's create a new bitmask tv norm property, that can contain any of =
+the
+> >>> analog TV standards currently supported by kernel drivers. Each drive=
+r can
+> >>> then pass in a bitmask of the modes it supports.
+> >>>
+> >>> We'll then be able to phase out the older tv mode property.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>
+> >>
+> >> Please also update Documentation/gpu/kms-properties.csv
+> >>
+> >> Requirements for adding a new property is found in
+> >> Documentation/gpu/drm-kms.rst
+> >=20
+> > I knew this was going to be raised at some point, so I'm glad it's that
+> > early :)
+> >=20
+> > I really don't know what to do there. If we stick by our usual rules,
+> > then we can't have any of that work merged.
+> >=20
+> > However, I think the status quo is not really satisfactory either.
+> > Indeed, we have a property, that doesn't follow those requirements
+> > either, with a driver-specific content, and that stands in the way of
+> > fixes and further improvements at both the core framework and driver
+> > levels.
+> >=20
+> > So having that new property still seems like a net improvement at the
+> > driver, framework and uAPI levels, even if it's not entirely following
+> > the requirements we have in place.
+> >=20
+> > Even more so since, realistically, those kind of interfaces will never
+> > get any new development on the user-space side of things, it's
+> > considered by everyone as legacy.
+> >=20
+> > This also is something we need to support at some point if we want to
+> > completely deprecate the fbdev drivers and provide decent alternatives
+> > in KMS.
+> >=20
+> > So yeah, strictly speaking, we would not qualify for our requirements
+> > there. I still think we have a strong case for an exception though.
+>
+> Which requirements would that be? The only one I can see is the
+> documentation and maybe an IGT test.
 
-Everywhere. Allwinner is not special to receive exceptions.
+This is the one I had in mind
+https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-userspac=
+e-requirements
 
-Best regards,
-Krzysztof
+I overlooked yours obviously, so I'll update my patches to fix it.
+
+Maxime
+
+--wxlquavc6w2uimy2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvtoIgAKCRDj7w1vZxhR
+xdmCAP0TxNLQ337aCmZF1DrZ9PxgyCBlNhBMtaDX8zJsaRfqJgD+Kw7tZK+ncFk4
+xnge3+28RfIGi25dtfBBzpr7m1dc6QA=
+=aMK2
+-----END PGP SIGNATURE-----
+
+--wxlquavc6w2uimy2--
