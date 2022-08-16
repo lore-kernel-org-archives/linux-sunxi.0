@@ -1,107 +1,142 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5622133CC
-	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 10:18:27 +0000 (UTC)
-Received: by mail-lj1-f178.google.com with SMTP id l10so10043038lje.7
-        for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 03:18:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=3TSQJ+ajQb7oi0SISNRrwjgay+bQ0YpimkdDJopO6Zw=;
-        b=xjjTCVqjAVU4Lr5HgNJZklHzY+wpNtU8v8mBhm7o2HhzogdL4vRU0XJ5fmJngd0tx6
-         XUIqZRhJNKcv5N0ShN0JyVq4DwxmiBYBzQ2D9SWNJ6eBdsYwRiPwhCdcLy6xHgtnPuAb
-         yIAzq3JRL3olX9nF6shP/M+zDzdv7jKNFT6B2vJ+cD05EXOJIyfY987amxAjAjb8ujvP
-         9iG3K2/BBp1lbWYwfvxaHS5t56ZO7+sRxXWEtYU8qGOfkuWsyD4ROUkWO/iMf13WRH9+
-         Jft38ypd0UnUyRKrnUnNihg9qT9Pu2PK4ZH9rkbsL1i0BvqSiTg1Zil7aMKBokMKyTVI
-         ZsWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=3TSQJ+ajQb7oi0SISNRrwjgay+bQ0YpimkdDJopO6Zw=;
-        b=Xj/UOdphBepC2dH9fEraEXUdvtmMfq7GhgBr+B3iaBI4nA7qBsjzzO1iL7WXqLTeXw
-         6J+NDDD8oU+d54cmXwPbvX4Xypa/6CBh0V9BXIDPT1e19eW/d1oV4dd3IqNImk3sbvm7
-         3t78gZ54TEPuX37vFG74Th9rPo2ULdEq8TYkRPKfFyzlfy9PKXVQpHIpRM3kaQL8DJVN
-         SRG7gwj7cPL6nTkLiIxuieTfP95V2ZTKZd9tPnU4wc4Quo2uCrEg4AGz1sRDmxnLFx65
-         vQBwG97rUOYVV4+nxjDwMW9hVk3zS0VxVl26fUniA/zanQx255ggwTfDhr9zjXquKEdy
-         /Bow==
-X-Gm-Message-State: ACgBeo1gkKhqMxeCk9pPCQoFd+cbTjTydy9pkgGNddl9F6KSHBFGpyx2
-	rCC7fIuXDcgaTQ1ncou8p7CnKw==
-X-Google-Smtp-Source: AA6agR4zLM19yV8AIxJngm1cQTBt04mcHmIAWaf59FHTXRvmruyL3ih96C0EcgpAUCdxQ8T6G7uvdA==
-X-Received: by 2002:a2e:8096:0:b0:25e:4024:5fb6 with SMTP id i22-20020a2e8096000000b0025e40245fb6mr5956281ljg.332.1660645105391;
-        Tue, 16 Aug 2022 03:18:25 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ae:539c:1782:dd68:b0c1:c1a4? (d15l54g8c71znbtrbzt-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1782:dd68:b0c1:c1a4])
-        by smtp.gmail.com with ESMTPSA id w13-20020a05651c118d00b0025fe2049beesm1677215ljo.60.2022.08.16.03.18.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Aug 2022 03:18:24 -0700 (PDT)
-Message-ID: <3e897c2c-c2a0-b815-e6b4-374bd80b98e0@linaro.org>
-Date: Tue, 16 Aug 2022 13:18:23 +0300
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A6B1C04
+	for <linux-sunxi@lists.linux.dev>; Tue, 16 Aug 2022 11:01:01 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0A2E113E;
+	Tue, 16 Aug 2022 04:01:01 -0700 (PDT)
+Received: from donnerap.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2960F3F70D;
+	Tue, 16 Aug 2022 04:00:59 -0700 (PDT)
+Date: Tue, 16 Aug 2022 12:00:50 +0100
+From: Andre Przywara <andre.przywara@arm.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ linux-sunxi@lists.linux.dev, Palmer Dabbelt <palmer@dabbelt.com>, Paul
+ Walmsley <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ linux-riscv@lists.infradead.org, Heiko =?UTF-8?B?U3TDvGJuZXI=?=
+ <heiko@sntech.de>, Rob Herring <robh+dt@kernel.org>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>
+Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
+ devicetree
+Message-ID: <20220816120050.07dc2416@donnerap.cambridge.arm.com>
+In-Reply-To: <b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
+References: <20220815050815.22340-1-samuel@sholland.org>
+	<5593349.DvuYhMxLoT@jernej-laptop>
+	<3881930.ZaRXLXkqSa@diego>
+	<2249129.ElGaqSPkdT@jernej-laptop>
+	<b5401052-e803-9788-64d6-82b2737533ce@linaro.org>
+Organization: ARM
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.32; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 1/8] dt-bindings: sun6i-a31-mipi-dphy: Add the interrupts
- property
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Maxime Ripard <mripard@kernel.org>
-Cc: Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-sunxi@lists.linux.dev
-References: <20220812075603.59375-1-samuel@sholland.org>
- <20220812075603.59375-2-samuel@sholland.org>
- <c85ec3a3-fa6e-aa71-a847-22062b9683e9@linaro.org>
- <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <0d2bf232-8aa6-2dc1-121d-f0439bfd7b54@sholland.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 13/08/2022 01:19, Samuel Holland wrote:
-> On 8/12/22 5:45 AM, Krzysztof Kozlowski wrote:
->> On 12/08/2022 10:55, Samuel Holland wrote:
->>> The sun6i DPHY can generate several interrupts, mostly for reporting
->>> error conditions, but also for detecting BTA and UPLS sequences.
->>> Document this capability in order to accurately describe the hardware.
->>>
->>> The DPHY has no interrupt number provided in the vendor documentation
->>> because its interrupt line is shared with the DSI controller.
->>>
->>> Fixes: c25b84c00826 ("dt-bindings: display: Convert Allwinner DSI to a schema")
->>
->> I don't understand what is being fixed in that commit. That commit did
->> not have interrupts in D-PHY, so what was broken by it?
->>
->> The Fixes tag annotates the commit which introduced a bug.
-> 
-> The binding had a bug because it did not accurately describe the hardware. If
-> you don't think this warrants a Fixes tag, I can remove it. Or are you
-> suggesting that the Fixes tag should instead reference the commit adding the
-> original .txt binding?
+On Tue, 16 Aug 2022 12:42:39 +0300
+Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org> wrote:
 
-Yes, the latter. If original binding were not complete (although just
-"incompleteness" is not really a bug, unless it is something
-serious/obvious etc), then TXT commit should be the fixed one.
+Hi,
 
-The backports of course will not go that deep, but Fixes tag is used
-also for statistics which kernel release actually brought the bug.
-Therefore adjusting Fixes just for sake of backporting is not good -
-messes up with statistics.
+> On 16/08/2022 12:25, Jernej =C5=A0krabec wrote:
+> > Dne torek, 16. avgust 2022 ob 11:12:05 CEST je Heiko St=C3=BCbner napis=
+al(a): =20
+> >> Am Dienstag, 16. August 2022, 09:49:58 CEST schrieb Jernej =C5=A0krabe=
+c: =20
+> >>> Dne torek, 16. avgust 2022 ob 09:41:45 CEST je Krzysztof Kozlowski  =
+=20
+> > napisal(a): =20
+> >>>> On 15/08/2022 08:08, Samuel Holland wrote: =20
+> >>>>> +
+> >>>>> +	de: display-engine {
+> >>>>> +		compatible =3D "allwinner,sun20i-d1-display-engine";
+> >>>>> +		allwinner,pipelines =3D <&mixer0>, <&mixer1>;
+> >>>>> +		status =3D "disabled";
+> >>>>> +	};
+> >>>>> +
+> >>>>> +	osc24M: osc24M-clk { =20
+> >>>>
+> >>>> lowercase
+> >>>> =20
+> >>>>> +		compatible =3D "fixed-clock";
+> >>>>> +		clock-frequency =3D <24000000>; =20
+> >>>>
+> >>>> This is a property of the board, not SoC. =20
+> >>>
+> >>> SoC needs 24 MHz oscillator for correct operation, so each and every =
+board
+> >>> has it. Having it here simplifies board DT files. =20
+> >>
+> >> I guess the oscillator is a separate component on each board, right? =
+=20
+> >=20
+> > Correct.
+> >  =20
+> >> And DT obvious is meant to describe the hardware - independently from
+> >> implementation-specific choices. =20
+> >=20
+> > There is no choice in this case. 24 MHz crystal has to be present.
+> >=20
+> > FWIW, including crystal node in SoC specific DTSI is already common pat=
+tern in=20
+> > Allwinner ARM SoC DTSI files.
+> >  =20
+> >>
+> >> Starting to discuss which exceptions to allow then might lead to even =
+more
+> >> exceptions.
+> >>
+> >> Also having to look for a board-component in the soc dtsi also is surp=
+rising
+> >> if one gets to the party later on :-) . =20
+> >=20
+> > As I said, if one is accustomed to Allwinner ARM DT development, it wou=
+ld be=20
+> > more surprising to include 24 MHz crystal node in each and every board =
+DT. =20
+>=20
+> It's same everywhere. Allwinner, Exynos, iMX, Qualcomm. Everywhere this
+> is a part of the board, so even if oscillator frequency is fixed (as in
+> 99% of cases although some SoCs I think might just allow to implement
+> one of few), still this is a property of the board. Because:
+> 1. DTSI describes the SoC part, not board.
+> 2. So the DTS developer is a bit more conscious about his design.
 
+1) is certainly true, but indeed most platforms put the base
+crystal oscillator in the SoC .dtsi: I just sampled Rockchip (rk3399.dtsi,
+rk356x.dtsi, rk3328.dtsi), Amlogic (meson-g12-common.dtsi), ActionSemi (s[7=
+9]00.dtsi),
+Qualcomm (msm8916.dtsi, sm8450.dtsi, sc7180.dtsi), Freescale (imx8mm.dtsi,
+imx8qxp.dtsi), Realtek (rtd129x.dtsi), Broadcom (bcm283x.dtsi), Mediatek
+(mt8183.dtsi, mt8516.dtsi). The list probably goes on (I just stopped
+here).
 
-Best regards,
-Krzysztof
+I think one reason might be that this is so central to the whole SoC
+operation, that it's already referenced multiple times in the base .dtsi.
+And having a yet unresolved reference in the .dtsi looks dodgy.
+
+NVidia seems to omit a base oscillator (maybe it's implicit in their
+binding design), Marvell doesn't use a fixed-clock (but still puts their
+base clock in armada-37xx.dtsi).
+
+Exynos and Renesas put a *stub* fixed-clock in the .dtsi, and set the
+frequency in the board .dts files. Would this be a compromise?
+
+Cheers,
+Andre
+
+> Keeping things in SoC DTSI just because it simplifies DTS is not correct
+> IMHO. So again - like in several other cases - minimum the frequency is
+> property of the board, not the SoC DTSI.
+>=20
+> Everywhere. Allwinner is not special to receive exceptions.
+>=20
+> Best regards,
+> Krzysztof
+>=20
+
