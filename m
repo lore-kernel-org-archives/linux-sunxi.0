@@ -1,88 +1,87 @@
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com [64.147.123.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5A93D8B
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 11:15:01 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5E94E580DA3;
-	Wed, 17 Aug 2022 07:15:00 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC273D8B
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 11:46:12 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailnew.west.internal (Postfix) with ESMTP id 4F1152B06406;
+	Wed, 17 Aug 2022 07:46:09 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute3.internal (MEProxy); Wed, 17 Aug 2022 07:15:00 -0400
+  by compute5.internal (MEProxy); Wed, 17 Aug 2022 07:46:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
 	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
 	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660734900; x=1660742100; bh=7/MyY+LBb7
-	xbVEmhuCyBhoCzY/9cxkCFf1VHHVrX6CY=; b=grrDb7phnJ8YS7DoYmClhDowva
-	mf0hyZG1cElbLmCByi9qZfwQST1mrUurzidSCbpXzLfvUzrbTrOQioCAKC7U2Fwp
-	jm+jENEKf8Vy1T/MorGsNClgSxDglsVgGyCX7UfoFeVFnLOETgr0/p9hs3QB88dR
-	sbSoRPnGd69728/P/mt+7Fh+vWebfjlS/I7UsqjhGtn17DbWdnP/EkpsYqbQNwVv
-	WQtJ4vAXXBVssg+IMz+GS+lG3ddEwQCPDgiFnLFA9ysgfKqwRZXwt8UFyXWB1BS0
-	kUzrjtDuamQLJjwF4qqcj5aFreTij0nTlG0h1GIxKPYZ2AhmjLEmwgoC2u/Q==
+	:subject:to:to; s=fm3; t=1660736768; x=1660743968; bh=lUH/6UgCMW
+	ECcvdrSrFSpz1gNDkIIpOrqzpmSxHmlQo=; b=k5bJNLyLM5pDagUtc7MW21WdhX
+	4KEluTlxo34sQoPto6jW4E6lNQBoZ0yX8HtDywj3Y+jjciX3OccGOsX7XklakhZ3
+	E2BVN0GZUjcu1zpfvPoazXdLOLZvnPWpUglfEbULcn/QdIm0sKQwCp+yi9t5bxqh
+	xBm+BQuqUxKN76PQJgUeuDZr0mg8bTAkp8c4gxohrpleyRMgswENdh3VxsANWsYg
+	sPTb5immdvMuzrPFhiHX2WoP+9dHoAR8GBfPXI7Z25hHrac0NE9yTwRTu2H4a26d
+	SWGx6eGihA7T6UboSJf9bJ1SsCA/SuVUYWlnl4dtKxGoGI4GeSsRhEHegz7Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
 	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
 	:mime-version:references:reply-to:sender:subject:subject:to:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660734900; x=1660742100; bh=7/MyY+LBb7xbVEmhuCyBhoCzY/9c
-	xkCFf1VHHVrX6CY=; b=1EjiYV1IDT9sKd5r3mLzkdKwMFMlonp4bEctBDecRUya
-	ZlpnqtUdldGetHD37riEiUUvZGlMEqu124iAqLMJ5iN2ONf2abY5VWp06pRbQ+/6
-	6W4ZKgtun/ru5zgTMT/ePki4t9Z1FsEfCzHeI5zEz+PrbhaFCGLsggAXU5MVBu5U
-	+FwyikIohL0SBGOuk1IfHbASHFnJCiOCRnZThfHbBprg6joaAp7F8MNh+k1pj/jf
-	DyTXjPYwQFQehxwbJdfXESh1FquX9og/rEOuQMKCTlBFZrFevsqr6cgA4gaTkM4X
-	WlmugzAHmc7tzr6NIUDl6X9UGByCvf/IOiJ6IMjRHQ==
-X-ME-Sender: <xms:ss38Ymz6QIJVROnLxmIjqn_3TMnD9ZLFHefJCfGNyBCHaTEh0d9E8A>
-    <xme:ss38YiTELaLWGqYanHfSD6VWKyMUjfqc07lsrLPsN3Xf25xqqj0yBtjUnChpOnajr
-    92MoarTmCFXFjH7m0g>
-X-ME-Received: <xmr:ss38YoUzRSzcuNOADkP7kR5ntYkzbd9ylNolSoNBKiyDhA78E3ttDGbQ-g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgfeejucetufdoteggodetrfdotf
+	fm1; t=1660736768; x=1660743968; bh=lUH/6UgCMWECcvdrSrFSpz1gNDkI
+	IpOrqzpmSxHmlQo=; b=TtYOmTWfik5H82ZvdUxTfDwW+oad2YxPVtBamul4Akri
+	4ZT8EnQAONWpWgTIDBGkANXYyv4YJmmkbHOnTOO03JEPBAezwkDzlJlGHnk5jFrS
+	++Mwn3fr98+rpdPxPdbo9abs1GVvwlfNfoIUjv2WDGNXF/aIim02m3xp4D2+6GMV
+	P/lkT/dGb9CTKHrM2CKWYoNxK9KC6cby5d3Q9vFbXilAdBnePauBMaCwYiLEqyc+
+	6EPl8/IluLiNq7dZCiXvk8qzKzF40S0U5VwGPEhR5HppmQ4Om8eNcPN6MqIJ34S6
+	iQgWkKanH7ieDQVfXAlgTx9RbuV3IrWeRJf9meVcXw==
+X-ME-Sender: <xms:ANX8YqZ6GCsp05N_ZOQV8TbelC46VbTPDRPRFgTUCaNEe_sH3T1P7A>
+    <xme:ANX8YtZ4m6Qe98LxIWD9kWOX84iFwapUQTnv6Xp23u89HAw59nq2G6c8DQdf_fjbE
+    0Wd1yfLoG4kozL5HxE>
+X-ME-Received: <xmr:ANX8Yk8Pa7VMvsVhma5BRAQffhdG-eEffvVh6MXKIJa7mFWDU9nheWtOpg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedggeegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihi
     mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
-    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
-    hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ss38YsjZPx_G1Zc8tP9aygClJLiL_P6juc2jFveN0GQgc0P9nQkhuw>
-    <xmx:ss38YoAufRzR7_QR2U-zba1HO11VCExDDNMadtbPaaWeyOFbRlviRA>
-    <xmx:ss38YtJo-vfEDw0s84F9ypKZ1-0zVXkz8garCQi-_Nfg8XoGqLnY2A>
-    <xmx:tM38Yqy6P1AyJ75RZnKbU9oqLErBbDheLyu7DSvqoX3-T7Z68V_Beg>
+    htthgvrhhnpedukeevvdehheeuhefhhfefteeiffefgeffuefgkeetffevgeevgeejteei
+    gffghfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
+    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhn
+    ohdrthgvtghh
+X-ME-Proxy: <xmx:ANX8YsrqDVLKwjBT9wMSx86sZmqgMbulwVaMD6MccZggHG_aWRoHzw>
+    <xmx:ANX8Ylo4Wkvi_p49TeLnj7TZda07cy2MaPONaaY8oLcyi0zmIOFizg>
+    <xmx:ANX8YqR26aOF3wmmwnhNwo1XcnVGuYO5zF1kwybHjXXsMqNbESvayw>
+    <xmx:ANX8YubfjbQvH87Kp37hyOJ-C5O2pUu9HwQzMfrXg0oCONzbZLXVZa85pGk>
 Feedback-ID: i8771445c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 07:14:57 -0400 (EDT)
-Date: Wed, 17 Aug 2022 13:14:54 +0200
+ 17 Aug 2022 07:46:07 -0400 (EDT)
+Date: Wed, 17 Aug 2022 13:46:05 +0200
 From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
+To: Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>
 Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Jerome Brunet <jbrunet@baylibre.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+	David Airlie <airlied@linux.ie>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
 	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Phil Elwell <phil@raspberrypi.com>,
 	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
+	linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
 	Dom Cobley <dom@raspberrypi.com>
 Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220817111454.pn2iltvyo2drebq7@houat>
-References: <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
- <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
- <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
- <20220816154956.pkdpxmmw27mia5ix@houat>
- <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+Message-ID: <20220817114605.jpb3tlnoseyvf65d@houat>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
+ <20220816082612.grebxql5ynnfnvfd@houat>
+ <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
+ <20220816094922.oqhrhefv327zo2ou@houat>
+ <be9b6b71-fa2a-3290-2bce-901342e01981@tronnes.org>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -90,84 +89,185 @@ List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gu5whptxg6eujuan"
+	protocol="application/pgp-signature"; boundary="czkluqawi3ha2o5u"
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+In-Reply-To: <be9b6b71-fa2a-3290-2bce-901342e01981@tronnes.org>
 
 
---gu5whptxg6eujuan
-Content-Type: text/plain; charset=us-ascii
+--czkluqawi3ha2o5u
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
+On Tue, Aug 16, 2022 at 09:35:24PM +0200, Noralf Tr=F8nnes wrote:
+> Den 16.08.2022 11.49, skrev Maxime Ripard:
+> > On Tue, Aug 16, 2022 at 11:42:20AM +0200, Noralf Tr=F8nnes wrote:
+> >> Den 16.08.2022 10.26, skrev Maxime Ripard:
+> >>> Hi,
+> >>>
+> >>> On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Tr=F8nnes wrote:
+> >>>> Den 29.07.2022 18.34, skrev Maxime Ripard:
+> >>>>> The TV mode property has been around for a while now to select and =
+get the
+> >>>>> current TV mode output on an analog TV connector.
+> >>>>>
+> >>>>> Despite that property name being generic, its content isn't and has=
+ been
+> >>>>> driver-specific which makes it hard to build any generic behaviour =
+on top
+> >>>>> of it, both in kernel and user-space.
+> >>>>>
+> >>>>> Let's create a new bitmask tv norm property, that can contain any o=
+f the
+> >>>>> analog TV standards currently supported by kernel drivers. Each dri=
+ver can
+> >>>>> then pass in a bitmask of the modes it supports.
+> >>>>>
+> >>>>> We'll then be able to phase out the older tv mode property.
+> >>>>>
+> >>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>>>>
+> >>>>
+> >>>> Please also update Documentation/gpu/kms-properties.csv
+> >>>>
+> >>>> Requirements for adding a new property is found in
+> >>>> Documentation/gpu/drm-kms.rst
+> >>>
+> >>> I knew this was going to be raised at some point, so I'm glad it's th=
+at
+> >>> early :)
+> >>>
+> >>> I really don't know what to do there. If we stick by our usual rules,
+> >>> then we can't have any of that work merged.
+> >>>
+> >>> However, I think the status quo is not really satisfactory either.
+> >>> Indeed, we have a property, that doesn't follow those requirements
+> >>> either, with a driver-specific content, and that stands in the way of
+> >>> fixes and further improvements at both the core framework and driver
+> >>> levels.
+> >>>
+> >>> So having that new property still seems like a net improvement at the
+> >>> driver, framework and uAPI levels, even if it's not entirely following
+> >>> the requirements we have in place.
+> >>>
+> >>> Even more so since, realistically, those kind of interfaces will never
+> >>> get any new development on the user-space side of things, it's
+> >>> considered by everyone as legacy.
+> >>>
+> >>> This also is something we need to support at some point if we want to
+> >>> completely deprecate the fbdev drivers and provide decent alternatives
+> >>> in KMS.
+> >>>
+> >>> So yeah, strictly speaking, we would not qualify for our requirements
+> >>> there. I still think we have a strong case for an exception though.
+> >>
+> >> Which requirements would that be? The only one I can see is the
+> >> documentation and maybe an IGT test.
+> >=20
+> > This is the one I had in mind
+> > https://dri.freedesktop.org/docs/drm/gpu/drm-uapi.html#open-source-user=
+space-requirements
+> >=20
 >=20
-> On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd=
-720p60"), or
-> > > > > > > > > handle them through "@<refresh>".  The latter would impac=
-t "[PATCH v1
-> > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate =
-function", as
-> > > > > > > > > currently a named mode and a refresh rate can't be specif=
-ied both.
-> > > > > > > >
-> > > > > > > > I think the former would make more sense. It simplifies a b=
-it the
-> > > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > > >
-> > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode pro=
-perty as a
-> > > > > > > > > command-line option" uses a separate "tv_mode" option, an=
-d not the main
-> > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > >
-> > > > > > > > It's a separate story I think, we could have a named mode h=
-d720p50,
-> > > > > > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
-> > > > > > >
-> > > > > > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
-> > > > > >
-> > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
-> > > > >
-> > > > > Above you said "I think the former would make more sense", so that
-> > > > > should be "1280x720,tv_mode=3Dhd720p50"?
-> > > >
-> > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=3D=
-hd720p
-> > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
-> > >
-> > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> >
-> > I agree, and I don't see how that command-line doesn't express that?
+> Oh right, I had forgotten about that one.
 >=20
-> Oh, I see what you mean: yes, it expresses that.
-> But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-> where the TV mode specifies both number of lines and frame rate.
+> One benefit of having a userspace implementation is that it increases
+> the chance of widespread adoption having a working implementation to
+> look at. I don't think the reason tv.mode is not used anywhere (that I
+> know of) is because the driver picks the enum values resulting in no
+> standard names.
 
-Only if we're using a named mode, and naming is hard :)
+It probably doesn't help, but it's not what I was implying.
 
-Honestly, I'd be inclined to drop the hd* for now from this series. I
-don't have a hardware to test it with, for some we don't even have
-drivers that could implement these modes, we don't have a spec to work
-=66rom, it looks like a recipe for failure :)
+> It's a niche thing and way down on the todo list. nouveau and ch7006
+> has a tv_norm module parameter which certainly doesn't help in moving
+> people/projects over to the DRM property (downstream rpi also has it
+> now).
+
+Yeah, the RPi version is part of the reason I started working on this.
+We should also consider the named modes used by vc4 and sun4i. All these
+ad-hoc solutions are limited and (I think) come from the fact that we
+don't have a solution easy enough to use for drivers (and to discover).
+
+nouveau, ch7006, i915 and vc4 are using the tv.mode property for
+example, but sun4i and meson don't.
+
+sun4i relies on named modes to reimplement TV modes, but meson doesn't
+at all.
+
+And then nouveau has that extra command line parameter to set it up at
+boot time.
+
+It doesn't really make much sense to me, when all drivers have very
+similar needs, that none of them behave in the same way. And I think the
+non-standard property is partly to blame for this, since without some
+generic content we can't share code.
+
+This is what this series is about: every driver having similar
+capabilities and as trivially as possible.
+
+> mpv[1] is a commandline media player that after a quick look might be a
+> candidate for implementing the property without too much effort.
+
+Kodi might be another one. I can try to hack something around, but I'm
+really skeptical about whether a PR would be merged or not.
+
+> How do you test the property? I've used modetest but I can only change
+> to a tv.mode that matches the current display mode. I can't switch from
+> ntsc to pal for instance.
+
+Yep, if you want to change from PAL to NTSC, it will require a new mode.
+
+> I have tried changing mode on rpi-5.15 (which I will switch to for the
+> gud gadget), but I always end up with flip timeouts when changing the val=
+ue:
+>=20
+> $ cat /proc/cpuinfo | grep Model
+> Model           : Raspberry Pi 4 Model B Rev 1.1
+> $ uname -a
+> Linux pi4t 5.15.56-v7l+ #1575 SMP Fri Jul 22 20:29:46 BST 2022 armv7l
+> GNU/Linux
+> $ sudo dmesg -C
+> $ modetest -M vc4 -s 45:720x480i -w 45:mode:1
+> setting mode 720x480i-29.97Hz on connectors 45, crtc 73
+> failed to set gamma: Function not implemented
+>=20
+> $ dmesg
+> $ modetest -M vc4 -s 45:720x480i -w 45:mode:0
+> setting mode 720x480i-29.97Hz on connectors 45, crtc 73
+> failed to set gamma: Function not implemented
+>=20
+> $ dmesg
+> [   95.193059] [drm:drm_atomic_helper_wait_for_flip_done
+> [drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] flip_done timed out
+> [  105.433112] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed o=
+ut
+> [  105.433519] [drm:drm_atomic_helper_wait_for_dependencies
+> [drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] commit wait timed out
+> [  115.673095] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed o=
+ut
+> [  115.673498] [drm:drm_atomic_helper_wait_for_dependencies
+> [drm_kms_helper]] *ERROR* [PLANE:63:plane-1] commit wait timed out
+> [  125.913106] [drm:drm_crtc_commit_wait [drm]] *ERROR* flip_done timed o=
+ut
+> [  125.913510] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
+> [  136.153411] [drm:drm_atomic_helper_wait_for_flip_done
+> [drm_kms_helper]] *ERROR* [CRTC:73:crtc-1] flip_done timed out
+
+So I haven't tested with 5.15, but I tested it with this series and it
+was working well, both with the compat layer and the new property.
 
 Maxime
 
---gu5whptxg6eujuan
+--czkluqawi3ha2o5u
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzNrgAKCRDj7w1vZxhR
-xZPiAP9cuj5zZR8NRJHbKfFO0mr9fc31dj4wR+Gpelf6U7ZzwQEAvGoAg1Oi6hb0
-Hui+aaNLN6Rq3Vi1HR7q65YsP3trIwM=
-=i1o+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzU/QAKCRDj7w1vZxhR
+xS08AP9NeNCOAupd5XSF/H7nXearx83tEnIfYGr1rThuL9TcCAD/QTdia92C4K8J
+7zspmuJTy2qJsfCJ88kCd5IetNDNOwU=
+=cF9j
 -----END PGP SIGNATURE-----
 
---gu5whptxg6eujuan--
+--czkluqawi3ha2o5u--
