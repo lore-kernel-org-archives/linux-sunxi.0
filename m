@@ -1,107 +1,118 @@
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4BF7C
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:29:20 +0000 (UTC)
-Received: by mail-lf1-f46.google.com with SMTP id z25so18130378lfr.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:29:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc;
-        bh=LlRoK8GCouttuQaBiu3XZNyJMKx9NckoSxJlAPIv4MY=;
-        b=BNa4kzN4tStk2kyeoWATpkWYOOrU/u42HkDaDm2RyGzskUGA1OS98DKDu1ZO8TeyAc
-         BHlGTLFvooBdLrQ7bsGjHyYLXjT7U/XTPw5XtNXVB4DmN/k3ooISitVoSvRIe0jo63MY
-         lCcg1xcDs63reLeAyJgfToUbtlbtP1e/bJcsgIb9/ZFKekQUywKC+kfTTRYYfXkQpiVa
-         GBXTd4Fhe8jOx6NHT4i8DvZN66P846rCuttcsOqO2aigTpUnw0k/d/vy7Kragknk0xEl
-         +uTxBH1xVZUqPd1mz5kYCWkyV36LyiV5EWF/Ik0hqjJXCxdqwHlu2ac1m7hso6chDzRi
-         QFbQ==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B230C1FA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:35:25 +0000 (UTC)
+Received: by mail-qv1-f43.google.com with SMTP id m17so506544qvv.7
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:35:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc;
-        bh=LlRoK8GCouttuQaBiu3XZNyJMKx9NckoSxJlAPIv4MY=;
-        b=LXjkKcS/3ycP2KXaAVGye5n7mUIAUZ4aBxNI+n4ijAANGVzzdL1SAh6LEPNvJRk36+
-         Hsx2DDnX2aCa16A+XPLHhe5qRL5nEIMfVO9/w1k4v5Dl9xLkY6YO51RMlHhgWxwmd9Dl
-         ji0Z5jUrgNj6dvO++GSwLlugj4ZCaG599uzAEWx2r+A5DnimqSN3q4Ymwr+n9vR6wb10
-         DgByRVzT+ic7klv+aqKCgiw5uK2moCPzEGd8+XnE3Ufg9+RRp7cw0r3mR17zd+1wRb34
-         Y/TIp2GqrpLOpR0x4KFs05ujvsAaPY+guQevubZTz11Pt2DyiNc2m1dlLRmLk3IQHroA
-         PoAw==
-X-Gm-Message-State: ACgBeo1AaHAnLDGMkn0sRJCYmz7cTOLPVT9QF9/pMBvDnEnTZJd76X9n
-	3AVoHCj/42lOEbZwZ4/8E9n6qg==
-X-Google-Smtp-Source: AA6agR4HHYiX+08ES6ynJULFRUES7PlCFeft6BMZRI/rn6fM+kl/t2dpDlDozOXX4PW1JsquPkATig==
-X-Received: by 2002:a05:6512:3e0c:b0:48a:fdb2:f1c4 with SMTP id i12-20020a0565123e0c00b0048afdb2f1c4mr9470671lfv.379.1660724958883;
-        Wed, 17 Aug 2022 01:29:18 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:ae:539c:1b1c:14b7:109b:ed76? (d15l54h48cw7vbh-qr4-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1b1c:14b7:109b:ed76])
-        by smtp.gmail.com with ESMTPSA id e7-20020a05651c038700b0025df04af0f0sm2123207ljp.51.2022.08.17.01.29.17
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=oGUO+aRsBeoQZf7v2A5uqTblY/HRl0z6pHKiV+qcGIw=;
+        b=dyC7patqcR5/1928yDRuIs5vs9UPhFl5cAiCPAUfCOvRwy9QM5PYTlee+EKywwcuME
+         /Md3FUa+ty2yye0bjCgqr3BMZnUp2Wn5NFeJDUaR8f7Uoyx1VHX2fRsI+gPMDQI7Zm/e
+         h1fMPNUhuQYiSRtYn1t/kS6uS46sOSv5AlSG2M7MVkmtc+nQi+EZwDw3sDovGgXkgdXj
+         HgazA063ei0tTdUdYesLo1q3Gt1QGQet8cby7XkNtMQdroz98N0KIDEaDKQ//9Rws0nz
+         DrVsFbaRiPDYTRpeQrujCqxV2UirjFqzGSoASH0KBQj+08pypDCVWfY50faA5phKy5Ej
+         IbDg==
+X-Gm-Message-State: ACgBeo3+zPPzmYdS8lgV65XlM+p0svReExfxtUIPg3akEUD2XcVtyqkF
+	Sm9jtE4NOkf6/6bWSSCdBMjr8iayQ8b+ig==
+X-Google-Smtp-Source: AA6agR46lHXAnfguC2ubBqhwcQwT57JXDfKqPB7MMHUghRN3Bm6FeJKSAya94ZV5s4aPTag943hecw==
+X-Received: by 2002:ad4:5cc9:0:b0:475:5b35:3b03 with SMTP id iu9-20020ad45cc9000000b004755b353b03mr20906495qvb.42.1660725324470;
+        Wed, 17 Aug 2022 01:35:24 -0700 (PDT)
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
+        by smtp.gmail.com with ESMTPSA id bs10-20020a05620a470a00b006bb9125363fsm831511qkb.121.2022.08.17.01.35.20
+        for <linux-sunxi@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 01:29:18 -0700 (PDT)
-Message-ID: <f9729b31-c487-ea0a-d329-2efb7765d5fe@linaro.org>
-Date: Wed, 17 Aug 2022 11:29:16 +0300
+        Wed, 17 Aug 2022 01:35:22 -0700 (PDT)
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-33365a01f29so115866207b3.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:35:20 -0700 (PDT)
+X-Received: by 2002:a05:6902:100a:b0:676:ed53:25b0 with SMTP id
+ w10-20020a056902100a00b00676ed5325b0mr17391450ybt.365.1660725320216; Wed, 17
+ Aug 2022 01:35:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
- devicetree
-Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, linux-sunxi@lists.linux.dev,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <paul.walmsley@sifive.com>, Albert Ou <aou@eecs.berkeley.edu>,
- linux-riscv@lists.infradead.org
-Cc: Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>
-References: <20220815050815.22340-1-samuel@sholland.org>
- <20220815050815.22340-7-samuel@sholland.org>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <20220815050815.22340-7-samuel@sholland.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat> <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat> <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+ <20220816154956.pkdpxmmw27mia5ix@houat> <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
+ <20220817074710.w4c4xwj7edly2b5p@houat>
+In-Reply-To: <20220817074710.w4c4xwj7edly2b5p@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Aug 2022 10:35:07 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+Message-ID: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	linux-sunxi@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 15/08/2022 08:08, Samuel Holland wrote:
-> D1 is a SoC containing a single-core T-HEAD Xuantie C906 CPU, as well as
-> one HiFi 4 DSP. The SoC is based on a design that additionally contained
-> a pair of Cortex A7's. For that reason, some peripherals are duplicated.
-> 
-> This devicetree includes all of the peripherals that already have a
-> documented binding.
-> 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+Hi Maxime,
 
-(...)
+On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
+> > > > > > > > currently a named mode and a refresh rate can't be specified both.
+> > > > > > >
+> > > > > > > I think the former would make more sense. It simplifies a bit the
+> > > > > > > parser, and we're going to use a named mode anyway.
+> > > > > > >
+> > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
+> > > > > > > > mode name, I think you want to add them here.
+> > > > > > >
+> > > > > > > It's a separate story I think, we could have a named mode hd720p50,
+> > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
+> > > > > >
+> > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
+> > > > >
+> > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
+> > > >
+> > > > Above you said "I think the former would make more sense", so that
+> > > > should be "1280x720,tv_mode=hd720p50"?
+> > >
+> > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
+> > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
+> >
+> > I disagree: hd720p50 and hd720p60 are different TV modes.
+>
+> I agree, and I don't see how that command-line doesn't express that?
 
-> +
-> +		codec: audio-codec@2030000 {
-> +			compatible = "simple-mfd", "syscon";
+Oh, I see what you mean: yes, it expresses that.
+But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
+where the TV mode specifies both number of lines and frame rate.
 
-This alone is not correct. You must use device specific compatible.
+Gr{oetje,eeting}s,
 
-> +			reg = <0x2030000 0x1000>;
-> +			#address-cells = <1>;
-> +			#size-cells = <1>;
-> +
-> +			regulators@2030348 {
-> +				compatible = "allwinner,sun20i-d1-analog-ldos";
-> +				reg = <0x2030348 0x4>;
-> +				nvmem-cells = <&bg_trim>;
-> +				nvmem-cell-names = "bg_trim";
-> +
-> +				reg_aldo: aldo {
-> +				};
-> +
-> +				reg_hpldo: hpldo {
-> +				};
-> +			};
-> +		};
+                        Geert
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Best regards,
-Krzysztof
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
