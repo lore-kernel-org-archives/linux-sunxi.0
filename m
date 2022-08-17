@@ -1,118 +1,130 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B230C1FA0
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:35:25 +0000 (UTC)
-Received: by mail-qv1-f43.google.com with SMTP id m17so506544qvv.7
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:35:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=oGUO+aRsBeoQZf7v2A5uqTblY/HRl0z6pHKiV+qcGIw=;
-        b=dyC7patqcR5/1928yDRuIs5vs9UPhFl5cAiCPAUfCOvRwy9QM5PYTlee+EKywwcuME
-         /Md3FUa+ty2yye0bjCgqr3BMZnUp2Wn5NFeJDUaR8f7Uoyx1VHX2fRsI+gPMDQI7Zm/e
-         h1fMPNUhuQYiSRtYn1t/kS6uS46sOSv5AlSG2M7MVkmtc+nQi+EZwDw3sDovGgXkgdXj
-         HgazA063ei0tTdUdYesLo1q3Gt1QGQet8cby7XkNtMQdroz98N0KIDEaDKQ//9Rws0nz
-         DrVsFbaRiPDYTRpeQrujCqxV2UirjFqzGSoASH0KBQj+08pypDCVWfY50faA5phKy5Ej
-         IbDg==
-X-Gm-Message-State: ACgBeo3+zPPzmYdS8lgV65XlM+p0svReExfxtUIPg3akEUD2XcVtyqkF
-	Sm9jtE4NOkf6/6bWSSCdBMjr8iayQ8b+ig==
-X-Google-Smtp-Source: AA6agR46lHXAnfguC2ubBqhwcQwT57JXDfKqPB7MMHUghRN3Bm6FeJKSAya94ZV5s4aPTag943hecw==
-X-Received: by 2002:ad4:5cc9:0:b0:475:5b35:3b03 with SMTP id iu9-20020ad45cc9000000b004755b353b03mr20906495qvb.42.1660725324470;
-        Wed, 17 Aug 2022 01:35:24 -0700 (PDT)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com. [209.85.128.179])
-        by smtp.gmail.com with ESMTPSA id bs10-20020a05620a470a00b006bb9125363fsm831511qkb.121.2022.08.17.01.35.20
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 01:35:22 -0700 (PDT)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-33365a01f29so115866207b3.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:35:20 -0700 (PDT)
-X-Received: by 2002:a05:6902:100a:b0:676:ed53:25b0 with SMTP id
- w10-20020a056902100a00b00676ed5325b0mr17391450ybt.365.1660725320216; Wed, 17
- Aug 2022 01:35:20 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8A81FA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:39:27 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id F40A85C015C;
+	Wed, 17 Aug 2022 04:39:26 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute5.internal (MEProxy); Wed, 17 Aug 2022 04:39:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660725566; x=
+	1660811966; bh=1XgksyqqOpjmG5LRrLM6xA1+iwp2OMLWZWBQsySSgeI=; b=s
+	Xx2BlpjDk+EXCp1fpwwAcWPw0H6ob4T8XOP1COeMB7VEi4LH30S7gj6lxZn69oHo
+	p88YfKLxTYFU+S+bogQUDV0Ko/efYev4g1RnuDXwY0rdC1ubkgb0zTKihwnFMdw5
+	7prlhqwTbRooLsksUfZpXU44jjJdq63EhwSRE6psISFn2fIsJFlfe8cd51J9rO2G
+	NNHICZNlSwlAadCjOYDKz8nFLJIM3hnuWgiCcDCoIVxDIO+y2ATaHnmPXGL01Lv5
+	0D8pKJNzAdTAiHwpNkVuEbYA1q1ojf5qJqH5PdrLZU1yLJlN4B/m0vgNTcs2Zkhr
+	nvBnrIWIfi3YWujqwG2WA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660725566; x=
+	1660811966; bh=1XgksyqqOpjmG5LRrLM6xA1+iwp2OMLWZWBQsySSgeI=; b=b
+	ntu4LsVEXqMEwtw6BIeHooL5R5nY/EuiUxc5IUfzHyYkMq0S+mdvIUl4cvdadMqx
+	+YNdCx7eQOHidWKUdu1brtHqZSyjgbXmGm600L3qUXkrqORV0owMLYXgCgc4C9GY
+	v/WxZAQ0PUi657cS3ACtxO0McTKvPq4pB2u+qRV4FQ8+r/+51gq5/YvcUN4ynNkT
+	yoODzCvigK1yktb/6/OcvRwLRQm2ZeB0sH8+CzY7Nx1K7446ianxY7PQrsklCmlD
+	9oEdvnuewbN9qqp1Dr1X8TXZw4S4/Xrm7nsoaVqZMi7TFK+JGb8XOQC+jmIV5stw
+	w9ul19O4NQVfs2NnvfsQg==
+X-ME-Sender: <xms:Pqn8YjaP96pYv6lFuj9BxBI42QgQdoy8t1P3Ajsetz7I5FeG55jz4w>
+    <xme:Pqn8Yiaa0Feayn7fYyfbm44esgJv65Qt_bzqV6bDVAadu_6g2gNOKqXncnIflyXDx
+    cw2lG8TkUpzSMYHhA>
+X-ME-Received: <xmr:Pqn8Yl8euNQV8Mm6x3iNhB5bgtt6Hw7mfUNnvDRAPp6h2Cy_gS9gB4H3kagD1qCBuvfPaDiKsK7XRd0eW1NjS4a3iCMi8LF3FcceovT_U40Juvyrab4w_qyWcA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:Pqn8Ypq0JaRWQt_ZEKVTpbp-vyoxI60yQ9r3sKWwF3ZhMrZk9bqu3w>
+    <xmx:Pqn8YuoFjAqb_Vtlr96lPWRIlxkjaA1ZISMN7kkWYdc4k2xoPht84w>
+    <xmx:Pqn8YvRcjSsA8TKNFHXSGLhLBJjqtanS7dAYy5Y39ppKBjW-a_c1Kw>
+    <xmx:Pqn8YrjmB8RTyj2eyz-VsORgR-Y3KH8x54IISIIt9Eh2T6OlkqTmKA>
+Feedback-ID: i0ad843c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Aug 2022 04:39:25 -0400 (EDT)
+Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220815043436.20170-1-samuel@sholland.org>
+ <20220815043436.20170-2-samuel@sholland.org>
+ <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
+ <03de0f7b-9251-a5c0-91a1-5f2b5d41d8a0@sholland.org>
+ <29e6a293-29c4-a9ab-0767-9adfa982226b@linaro.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <8f133166-dff8-e376-3ac4-a464724d5421@sholland.org>
+Date: Wed, 17 Aug 2022 03:39:25 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
- <20220816132040.uwirtjm5yr6rdd3q@houat> <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat> <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
- <20220816154956.pkdpxmmw27mia5ix@houat> <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
-In-Reply-To: <20220817074710.w4c4xwj7edly2b5p@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 17 Aug 2022 10:35:07 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
-Message-ID: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <29e6a293-29c4-a9ab-0767-9adfa982226b@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
+On 8/17/22 3:27 AM, Krzysztof Kozlowski wrote:
+> On 17/08/2022 11:15, Samuel Holland wrote:
+>>>> +examples:
+>>>> +  - |
+>>>> +    audio-codec@2030000 {
+>>>> +        compatible = "simple-mfd", "syscon";
+>>>
+>>> This cannot be on its own. Both require device specific compatible.
+>>
+>> Again, the device-specific compatible does not exist, because the binding for
+>> the audio codec has not been written (and it will be quite nontrivial).
+>>
+>> So I can:
+>>   1) Leave the example as-is until the audio codec binding gets written,
+>>      and fill in the specific compatible at that time.
+>>   2) Remove the example, with the reasoning that the example really
+>>      belongs with the MFD parent (like for the other regulator). Then
+>>      there will be no example until the audio codec binding is written.
+>>   3) Drop the analog LDOs from this series entirely, and some parts
+>>      of the SoC (like thermal monitoring) cannot be added to the DTSI
+>>      until the audio codec binding is written.
+>>
+>> What do you think?
+> 
+> How about just removing the audio-codec node? The schema is about
+> regulators, not audio-codec.
 
-On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > > > > > currently a named mode and a refresh rate can't be specified both.
-> > > > > > >
-> > > > > > > I think the former would make more sense. It simplifies a bit the
-> > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > >
-> > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > > > > > mode name, I think you want to add them here.
-> > > > > > >
-> > > > > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
-> > > > > >
-> > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
-> > > > >
-> > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-> > > >
-> > > > Above you said "I think the former would make more sense", so that
-> > > > should be "1280x720,tv_mode=hd720p50"?
-> > >
-> > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
-> > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
-> >
-> > I disagree: hd720p50 and hd720p60 are different TV modes.
->
-> I agree, and I don't see how that command-line doesn't express that?
+That works for me. I put the extra node there to signify that this is a MFD
+child and requires some parent node to work, but I suppose it is not that
+helpful to have.
 
-Oh, I see what you mean: yes, it expresses that.
-But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-where the TV mode specifies both number of lines and frame rate.
+> OTOH, if you have parent device schema, you could put the example only
+> there. But as I understand, you don't have, right?
 
-Gr{oetje,eeting}s,
+Right.
 
-                        Geert
+>> The same question applies for the D1 SoC DTSI, where I use this same construct.
+> 
+> This is not correct and should be fixed. Either you add the schema with
+> compatible or please drop the device node from the DTSI.
 
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+That's what I was afraid of.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Regards,
+Samuel
+
+>> (And technically this does validate with the current schema.)
