@@ -1,59 +1,57 @@
 Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63CE1FA0
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:47:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id B087D5C00DC;
-	Wed, 17 Aug 2022 04:47:25 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4623E1FA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:50:28 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+	by mailout.nyi.internal (Postfix) with ESMTP id 55DFB5C0158;
+	Wed, 17 Aug 2022 04:50:27 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute1.internal (MEProxy); Wed, 17 Aug 2022 04:47:25 -0400
+  by compute2.internal (MEProxy); Wed, 17 Aug 2022 04:50:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
 	cc:cc:content-transfer-encoding:content-type:date:date:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660726045; x=
-	1660812445; bh=eJdjM2G4sB7ExeX/ghGvYLyWHzgtzAuKtAeAW6HccW4=; b=c
-	MUUgBUAa/zHxVrKvDud3Ck2IzqvXgdstw7hfvouWNyxy/GYG0yGzu+BMETP/2bD1
-	P6tU/wCtIlL61GI0VQPXG8whOFc8/ou2lamy/JBv5xToprtElouR5tji47MZa+Fb
-	KxD88O7TBkff1dkLYy5f6GPglB4p10EO1OFCg49sJB78XGphO3I3cpYLiKFcW9To
-	DKFqlNxshRS0rWFh0wHbwpQt6vQ0FqnZ/Vd1SgDr5e7Zc+5Mz7fvfzzovtwKE7st
-	5Oy3/b8jF2184TZSrhwCsxxaD3DH3+lU+cWkIRDE2S3TO+nwV4YPsTkvmHbMzXu+
-	pPnBMqXlQQWXyMOffcOOw==
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660726227; x=
+	1660812627; bh=qjCTliriPTIj2jcyPtsg+UorPFtVEycVX2NzPCDuQ1Y=; b=n
+	4TqT6htuV5DDkJQllXEPBAe+9G/Ua75/SNBIBpNemkwXrUrKhc6zEkA55QvdDpuk
+	YBPNLZKoTnnsQkIvBgNZtJIe+YXcNSJPoyeQYtZhtrCNpFmSjtWTJWe+8+UEkOzu
+	xfmSzryfPUx9N09it9ksnHgyKSHEHPwIuHk9jMw0hR7oI7AyxC7GvLxpiAnLN5KB
+	ayvDiD+X8bpH7e6vhOAg/+mBNplc1xeEvd/sLGMsonII7Syr7CYMgVM5ZIEh0BZA
+	ap9IFTMFllCNxqALfY1rA9zrIJdFClVJKYrDYd/Ow07gKU+XvwWEKwX5+5hcfiI9
+	odCcUOCcCLQZE7Xz9zX7w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660726045; x=
-	1660812445; bh=eJdjM2G4sB7ExeX/ghGvYLyWHzgtzAuKtAeAW6HccW4=; b=S
-	6aGhEAw2x9L2hMza6+9atDCM1BP1Wm4R5IRmfEkpqtVZkm28OPTk31jQxHbdzgTV
-	4J/lGaQsxm5v8ETGjYeANBAt1BhAxeTwJQN7MpMgUo8fAsedaRefEAfi1AyphpYb
-	bdSgrjI/CDu3CmN9C7iE0f3s0wnoUgA5AbLfzRNBlBiCo/xptuuS3EP90uEi8q1I
-	Xielk3ESvwVJ3eIlnzvUhLYUTmo88svmcc3ho523YgOi4NNaDQBacNwp/hX17stO
-	V3g2ecfPWDIoAcm8qxBvZIvgnXDQGjC0QBy7NxkNEQMvj1NWeURfuo88szh7rWmc
-	3ZaQj1j0BjIZYzqwx+N9Q==
-X-ME-Sender: <xms:Hav8YiH1_T322uwt7IM7JKvqnpVKRhYsCPtOjJyr_846_eIDmgW94g>
-    <xme:Hav8YjUhv29bx9Su3SbZnjoLIuRhOx58eSEPWJgZCR7_LKNyibMbPSZx77TV82t-m
-    3tv7onH4_P_ceoEeg>
-X-ME-Received: <xmr:Hav8YsIZc9ZvLXLJjsDHIjFsA4BSFIOJSJDL73Hae0TNk9UOYLDCglqroYg8zRsjzq1SyMm1NVp_zmzzqqQMjL5DMgx6dHfQIF782YcoOuvaVTTQh3xUNT4c3Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdekucetufdoteggodetrfdotf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660726227; x=
+	1660812627; bh=qjCTliriPTIj2jcyPtsg+UorPFtVEycVX2NzPCDuQ1Y=; b=c
+	+FQ5CCTxLKG2ztDpB+x7aZs8pucpadcRkvekSVxmYoBrhuynQSV/3ROzdCag8lPU
+	8cOikptRAozmbmAhywXZ5WJxSMUDSnIjPAD/aGz7IaGfGfrwk5yhLSl6jYvuO5Pn
+	r8cqL/1IBzy/bvHFO1DVx/yoMPBKDqHpzQODBGvV/Hub7QkiHpXYreP8qA5pvdyR
+	f6V4uydr24uHTYhjFeJJypGdbp3Om0MaSqZDWN7me69ey7s1DL0ncO4iwqGCJ6zy
+	PL7xKuUnVDdLt2vzHxNsvrGd3DykCPHKixcWXTiTyVaR2w+wN4dAQpceIvxenTLl
+	2ll0eihSwxktA11mf8eWg==
+X-ME-Sender: <xms:06v8YmoHN7kI6wTPzueiA3_uaZAQbsY8xqHzG_3FoFGakWBicZ5niw>
+    <xme:06v8YkqAxVZ40h8J0YtBSpdlr-dotGPl563H6cJxjKRk167WUhwKrarJM-6UU4_Jj
+    nNGwgw_k0ZxYLOy-Q>
+X-ME-Received: <xmr:06v8YrNz8spwMZy8wA9IARNClAuRwoNvMUECcicsBQGQpMbo-IItn2iAYR1Q4DIif1uru3dcfVrmjRQ0t_MvjCzWSARc3r-Z_FCSjS5uaZK5oPQ52rCVsOEhOw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
     cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
     uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpeeitedvhfejhfdvjefggeeutdegteejfffgvedtjedukefgueek
-    tddtvdegfedtgfenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrh
-    fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhl
-    rghnugdrohhrgh
-X-ME-Proxy: <xmx:Hav8YsGv4fcaMz_id0kMTTl2j31xfvRbtJdOSARd6IwjthR0fQs4gQ>
-    <xmx:Hav8YoX_Lu_LjSH9JuXlIIlv4mE0K75-iEbGPPhdnGRFQ_JV9t09fw>
-    <xmx:Hav8YvPlFnYvzerZQpahI1WSMXkHANtMk1IcBwQVsjH1uYiO5cI7ZQ>
-    <xmx:Hav8YhN9mFG_IRsI3L61ECqRRHhIucucK2J6VwcsYzpl7gC09RJb0w>
+    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
+    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
+X-ME-Proxy: <xmx:06v8Yl6BFWVVpZqSn16Vq6zsQ0ZVMbDaZtanCM_DiT6LmZXaMA5Agg>
+    <xmx:06v8Yl5NTl9Ks7FXPdNO76GXESntVrSaAyg-3qXemTHp-hlubPpfRw>
+    <xmx:06v8YlgBaEUh2HHDIPVn5HExrSUGtdiSPyRzEIyGensf8IYEJ2vx4g>
+    <xmx:06v8Yizzeq4ZB7gqcOKdC54_-g37gi9PH07JROmBaoG3Rs9N1K5k_g>
 Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 04:47:25 -0400 (EDT)
-Subject: Re: [PATCH v3 3/4] dt-bindings: sram: sunxi-sram: Add optional
- regulators child
+ 17 Aug 2022 04:50:26 -0400 (EDT)
+Subject: Re: [PATCH v3 4/4] soc: sunxi: sram: Only iterate over SRAM children
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
  Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
  Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
@@ -63,11 +61,12 @@ Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev
 References: <20220815043436.20170-1-samuel@sholland.org>
- <20220815043436.20170-4-samuel@sholland.org>
- <3e23c288-7065-a3fd-c326-8d66e168ba41@linaro.org>
+ <20220815043436.20170-5-samuel@sholland.org>
+ <e5969030-0a17-d10e-7eef-8d906e8a4dc4@linaro.org>
+ <82fedf98-1d94-514a-ba03-f88b4e1d888b@linaro.org>
 From: Samuel Holland <samuel@sholland.org>
-Message-ID: <3c646774-3b1e-bb9a-cc7d-c4a010e8a28a@sholland.org>
-Date: Wed, 17 Aug 2022 03:47:24 -0500
+Message-ID: <a0e02ec6-b1e2-e4f7-8902-2768543f56fd@sholland.org>
+Date: Wed, 17 Aug 2022 03:50:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 Precedence: bulk
@@ -76,52 +75,52 @@ List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <3e23c288-7065-a3fd-c326-8d66e168ba41@linaro.org>
+In-Reply-To: <82fedf98-1d94-514a-ba03-f88b4e1d888b@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On 8/16/22 4:59 AM, Krzysztof Kozlowski wrote:
-> On 15/08/2022 07:34, Samuel Holland wrote:
->> Some sunxi SoCs have in-package regulators controlled by a register in
->> the system control MMIO block. Allow a child node for these regulators
->> in addition to SRAM child nodes.
+On 8/16/22 5:03 AM, Krzysztof Kozlowski wrote:
+> On 16/08/2022 13:01, Krzysztof Kozlowski wrote:
+>> On 15/08/2022 07:34, Samuel Holland wrote:
+>>> Now that a "regulators" child is accepted by the controller binding, the
+>>> debugfs show routine must be explicitly limited to "sram" children.
+>>>
+>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>> ---
+>>>
+>>> (no changes since v2)
+>>>
+>>> Changes in v2:
+>>>  - New patch for v2
+>>>
+>>>  drivers/soc/sunxi/sunxi_sram.c | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
+>>> index 92f9186c1c42..6acaaeb65652 100644
+>>> --- a/drivers/soc/sunxi/sunxi_sram.c
+>>> +++ b/drivers/soc/sunxi/sunxi_sram.c
+>>> @@ -120,6 +120,9 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
+>>>  	seq_puts(s, "--------------------\n\n");
+>>>  
+>>>  	for_each_child_of_node(sram_dev->of_node, sram_node) {
+>>> +		if (!of_node_name_eq(sram_node, "sram"))
 >>
->> Signed-off-by: Samuel Holland <samuel@sholland.org>
->> ---
+>> You should not rely on node names. They can change in DTS. Why do you
+>> need to test for the name?
 >>
->> Changes in v3:
->>  - Require the regulators node to have a unit address
->>  - Reference the regulator schema from the SRAM controller schema
->>  - Move the system LDOs example to the SRAM controller schema
->>  - Reorder the patches so the example passes validation
->>
->> Changes in v2:
->>  - New patch for v2
->>
->>  .../allwinner,sun4i-a10-system-control.yaml   | 29 +++++++++++++++++++
->>  1 file changed, 29 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->> index d64c1b28fb61..915ca85c3f10 100644
->> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->> @@ -56,6 +56,10 @@ properties:
->>    ranges: true
->>  
->>  patternProperties:
->> +  "^regulators@[0-9a-f]+$":
->> +    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
->> +    unevaluatedProperties: false
 > 
-> unevaluatedProperties is not needed. Your other schema does not allow
-> anything else here.
+> Ah, it is not a device node but a child property, right? In such case,
+> it's of course fine.
 
-I can remove it. I added it because it looks like the dt-schema tools use it as
-an indicator that the matched properties are child nodes[1]. Maybe that is not
-relevant here?
+It is a child node.
+
+> The device node names could change and should not be considered ABI (at
+> least I hope should not...).
+
+The node names are limited by patternProperties in the controller binding. I can
+check the child nodes for compatibility with "mmio-sram" if that is better.
 
 Regards,
 Samuel
-
-[1]: https://github.com/devicetree-org/dt-schema/commit/b12b3737cabc
