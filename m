@@ -1,59 +1,57 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8A81FA0
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:39:27 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id F40A85C015C;
-	Wed, 17 Aug 2022 04:39:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute5.internal (MEProxy); Wed, 17 Aug 2022 04:39:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660725566; x=
-	1660811966; bh=1XgksyqqOpjmG5LRrLM6xA1+iwp2OMLWZWBQsySSgeI=; b=s
-	Xx2BlpjDk+EXCp1fpwwAcWPw0H6ob4T8XOP1COeMB7VEi4LH30S7gj6lxZn69oHo
-	p88YfKLxTYFU+S+bogQUDV0Ko/efYev4g1RnuDXwY0rdC1ubkgb0zTKihwnFMdw5
-	7prlhqwTbRooLsksUfZpXU44jjJdq63EhwSRE6psISFn2fIsJFlfe8cd51J9rO2G
-	NNHICZNlSwlAadCjOYDKz8nFLJIM3hnuWgiCcDCoIVxDIO+y2ATaHnmPXGL01Lv5
-	0D8pKJNzAdTAiHwpNkVuEbYA1q1ojf5qJqH5PdrLZU1yLJlN4B/m0vgNTcs2Zkhr
-	nvBnrIWIfi3YWujqwG2WA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660725566; x=
-	1660811966; bh=1XgksyqqOpjmG5LRrLM6xA1+iwp2OMLWZWBQsySSgeI=; b=b
-	ntu4LsVEXqMEwtw6BIeHooL5R5nY/EuiUxc5IUfzHyYkMq0S+mdvIUl4cvdadMqx
-	+YNdCx7eQOHidWKUdu1brtHqZSyjgbXmGm600L3qUXkrqORV0owMLYXgCgc4C9GY
-	v/WxZAQ0PUi657cS3ACtxO0McTKvPq4pB2u+qRV4FQ8+r/+51gq5/YvcUN4ynNkT
-	yoODzCvigK1yktb/6/OcvRwLRQm2ZeB0sH8+CzY7Nx1K7446ianxY7PQrsklCmlD
-	9oEdvnuewbN9qqp1Dr1X8TXZw4S4/Xrm7nsoaVqZMi7TFK+JGb8XOQC+jmIV5stw
-	w9ul19O4NQVfs2NnvfsQg==
-X-ME-Sender: <xms:Pqn8YjaP96pYv6lFuj9BxBI42QgQdoy8t1P3Ajsetz7I5FeG55jz4w>
-    <xme:Pqn8Yiaa0Feayn7fYyfbm44esgJv65Qt_bzqV6bDVAadu_6g2gNOKqXncnIflyXDx
-    cw2lG8TkUpzSMYHhA>
-X-ME-Received: <xmr:Pqn8Yl8euNQV8Mm6x3iNhB5bgtt6Hw7mfUNnvDRAPp6h2Cy_gS9gB4H3kagD1qCBuvfPaDiKsK7XRd0eW1NjS4a3iCMi8LF3FcceovT_U40Juvyrab4w_qyWcA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdejucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:Pqn8Ypq0JaRWQt_ZEKVTpbp-vyoxI60yQ9r3sKWwF3ZhMrZk9bqu3w>
-    <xmx:Pqn8YuoFjAqb_Vtlr96lPWRIlxkjaA1ZISMN7kkWYdc4k2xoPht84w>
-    <xmx:Pqn8YvRcjSsA8TKNFHXSGLhLBJjqtanS7dAYy5Y39ppKBjW-a_c1Kw>
-    <xmx:Pqn8YrjmB8RTyj2eyz-VsORgR-Y3KH8x54IISIIt9Eh2T6OlkqTmKA>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 04:39:25 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271751FA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:46:54 +0000 (UTC)
+Received: by mail-lj1-f176.google.com with SMTP id z20so12926354ljq.3
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=rPDIdAvwvxRbTMbTaA58adHMS2XfvHNw84IukHrkG9Q=;
+        b=uQJ3nu/XQtmX3r1ZncDPRVCwNh0IKEUdGJzHjoOKAvPK4iv8SplAxioJTcT/WWaUzu
+         e4M+IGydoZslqb/vJr9AatISY5tbzVxPs6jx9ZmTG3S2x7Fy57l6X9GmVS8wwxWA9b+B
+         XDscRjYKw2+/pPpBNX3AZqWxpkwU/VkKNtMY9caQ07fvT1nMHGuuKWPjNAQqcIylYKuM
+         xWKUOx+NL9GGjB2UEhGi1nH/ld/sEBuonskXIP4dSr9+CWSHUnLCeR+gjReQXmi14tMV
+         Jr9hSEIDHfKKXXJnw1ut6z9J4wBKDF/fGPdG5ynb0mRTtrsgMHvVL6EXJ7jLC8E5EVWV
+         DlSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=rPDIdAvwvxRbTMbTaA58adHMS2XfvHNw84IukHrkG9Q=;
+        b=Bmcf3LK6y5/LxtMxR0KFMN0wQ/UHYsRT3d56dwtnEbUjEBZxcRsLpUH27rKvz2dN3C
+         8B+L9WJe0V0RHEqwgkN4tLCzNUdmcxbNBgnHnzQKh4UCGcw8YCBDxMZfXmKsjl6WKTCj
+         9ngQyaZaya6atGgpwKz3youN9V4IeaLlub/khqIp9f2MzXEoN9SgwLRmfnRuyhi4W+/7
+         DOBV9FeyVRRnW2O+uw2EMFH8P+MgjdlfywisNbKHm4dl4tiREMDiKpY0MJnWfbSOylqj
+         t4KjUHqh5b6fLOKNjd0S6Q+eA/KtR4Crohvnpk88BY67cDMa2itUt76kBirOx2M1esxA
+         x74w==
+X-Gm-Message-State: ACgBeo1PeflRviv+hlQhGjwpVpml6YGzR/ok7t7CDTIaFHjsfUDmANts
+	JUQS0Dv3rSB6rEBZCH2MUPanXQ==
+X-Google-Smtp-Source: AA6agR5qvhZz6zi8n+r+DoBxvVg7j79SxEPJJ8C/tOLxs+Nh74vBxfxePExHW7ThouZ4qAp6RICLZA==
+X-Received: by 2002:a2e:9254:0:b0:25e:4f20:8d3a with SMTP id v20-20020a2e9254000000b0025e4f208d3amr8115361ljg.233.1660726012270;
+        Wed, 17 Aug 2022 01:46:52 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1b1c:14b7:109b:ed76? (d15l54h48cw7vbh-qr4-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1b1c:14b7:109b:ed76])
+        by smtp.gmail.com with ESMTPSA id y22-20020a197516000000b0048b08124139sm1615304lfe.177.2022.08.17.01.46.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 01:46:51 -0700 (PDT)
+Message-ID: <f97a0d91-3cef-09ad-ecee-f6bd8322c20b@linaro.org>
+Date: Wed, 17 Aug 2022 11:46:50 +0300
+Precedence: bulk
+X-Mailing-List: linux-sunxi@lists.linux.dev
+List-Id: <linux-sunxi.lists.linux.dev>
+List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
+List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
 Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Rob Herring <robh+dt@kernel.org>
 Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
@@ -65,66 +63,24 @@ References: <20220815043436.20170-1-samuel@sholland.org>
  <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
  <03de0f7b-9251-a5c0-91a1-5f2b5d41d8a0@sholland.org>
  <29e6a293-29c4-a9ab-0767-9adfa982226b@linaro.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <8f133166-dff8-e376-3ac4-a464724d5421@sholland.org>
-Date: Wed, 17 Aug 2022 03:39:25 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-Precedence: bulk
-X-Mailing-List: linux-sunxi@lists.linux.dev
-List-Id: <linux-sunxi.lists.linux.dev>
-List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
-List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-In-Reply-To: <29e6a293-29c4-a9ab-0767-9adfa982226b@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ <8f133166-dff8-e376-3ac4-a464724d5421@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <8f133166-dff8-e376-3ac4-a464724d5421@sholland.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 8/17/22 3:27 AM, Krzysztof Kozlowski wrote:
-> On 17/08/2022 11:15, Samuel Holland wrote:
->>>> +examples:
->>>> +  - |
->>>> +    audio-codec@2030000 {
->>>> +        compatible = "simple-mfd", "syscon";
->>>
->>> This cannot be on its own. Both require device specific compatible.
+On 17/08/2022 11:39, Samuel Holland wrote:
+>>> The same question applies for the D1 SoC DTSI, where I use this same construct.
 >>
->> Again, the device-specific compatible does not exist, because the binding for
->> the audio codec has not been written (and it will be quite nontrivial).
->>
->> So I can:
->>   1) Leave the example as-is until the audio codec binding gets written,
->>      and fill in the specific compatible at that time.
->>   2) Remove the example, with the reasoning that the example really
->>      belongs with the MFD parent (like for the other regulator). Then
->>      there will be no example until the audio codec binding is written.
->>   3) Drop the analog LDOs from this series entirely, and some parts
->>      of the SoC (like thermal monitoring) cannot be added to the DTSI
->>      until the audio codec binding is written.
->>
->> What do you think?
+>> This is not correct and should be fixed. Either you add the schema with
+>> compatible or please drop the device node from the DTSI.
 > 
-> How about just removing the audio-codec node? The schema is about
-> regulators, not audio-codec.
+> That's what I was afraid of.
 
-That works for me. I put the extra node there to signify that this is a MFD
-child and requires some parent node to work, but I suppose it is not that
-helpful to have.
+The bindings can grow, so you can add a bindings stub documenting
+compatibles (device + simple-mfd + syscon) and IO space, then later
+extend it. Of course it is preferred to add bindings as complete as
+possible, but incremental growing also works.
 
-> OTOH, if you have parent device schema, you could put the example only
-> there. But as I understand, you don't have, right?
-
-Right.
-
->> The same question applies for the D1 SoC DTSI, where I use this same construct.
-> 
-> This is not correct and should be fixed. Either you add the schema with
-> compatible or please drop the device node from the DTSI.
-
-That's what I was afraid of.
-
-Regards,
-Samuel
-
->> (And technically this does validate with the current schema.)
+Best regards,
+Krzysztof
