@@ -1,45 +1,45 @@
 Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326F1187F
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 13:22:52 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id z25so18999841lfr.2
-        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 06:22:51 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0494404
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 13:46:15 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id v2so19065897lfi.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 06:46:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc;
-        bh=pKuDJQIjnUP1FPupXFVJgNN8PDzdanh6kEbyoo/FXtE=;
-        b=x8Koy3ce7TesE9irvfo3XvT4v5oR8fBjYeN8/AbIIhR+i3t16Terl1WvSlEub8AuD2
-         UINF7cEj7uHSSD1P7QYXmtPynr48Ii9Qu5+9fHhE0oy+60t7OOHxMWY6X/wH1Dg+9up6
-         LAmW0CR4nV+l2GeFLii7UPDKzaam/L6GBrMi3VPGPwty5VWLep3MT/vtHhSOnF4gt/bs
-         lZnkj8pGOE6RbBir35xaXUy1pVzxUeIG9Akxkwg6aYSokTxF2DVw+K/5ohIScMJUZKn/
-         6F8eYg49u3DVwJMtrGCcY8rsYzSh6s/sG/NTZPHO0YhNgxPx/zOkPF+mZLkVNNm3s87y
-         ozjw==
+        bh=gQ9ZdHAonv1+cNCneY42f+VkcN8uTabWejW5IY05OD4=;
+        b=KTjTHibusJ3Q5B6hEEPhteJ85Ffv8KvOEn3uUw/xQVRdL6Zo1CkYrEOL7ZAC1Tw1Ou
+         uU5RufF2Tdvu2+nmf2C0KTfR7A2Igxvxw8T/eUeKx52INZGiEKRka7WEIwxCR2CZ+ZSJ
+         e/vQmpHliCd7Cqy1Zy50sfUCIIZLixaPjkqOK/7InUSjMIC23bUaIt6Mck1XWtEetmMJ
+         xqdxUZuSJKJ3/glf0Mj/ekPD8QxDCZ/UHom2kzqDSWgHHwSlRbzFsqaKV29BqFV401mW
+         L7PQ51pKmSprJ5+3vGlxrNT1VYAzmVYMxSR7p0A1IxGR+jY3AsB4EmseuYJKfMqe6EzN
+         W1KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc;
-        bh=pKuDJQIjnUP1FPupXFVJgNN8PDzdanh6kEbyoo/FXtE=;
-        b=iDuwq4Zz7PSrkD08QMl/uxP+CZusdfS+p+SzrMDvzzUjK7zFk9b7kSuCx32AM7tTtp
-         EUeyO/3jhDK/QhHPqKaZkKmTK9wOPI6a8L4TdsyD9S0A+jBbr3jgH8/nabq7ZTyCN4eu
-         aaa56qu/t8NJA1uyHvlHkderiPN6cOuvosYQvpbvBVW3QUw3tgRr3kWJM1/3Wt4hNBGv
-         qAEv03ErkEnksq6hTuLs6Am9WyHxO9KkBnNlXv3xPtXZlQMs7kjetqgxpfBV0fdnuunl
-         bDtWTmY+4iYt4zikuCY/z3dfRVCoDSCfIyYeZPsY1i9wOivDJkG/Aa9k05aPB9TGuyeY
-         XFhA==
-X-Gm-Message-State: ACgBeo1R1HQO4odOXVAsw808XObHPkZvpDQZMUm9xGH0RD1jZi12USjS
-	PrOdfI+ngYhQYKkO/ST/MLJjVQ==
-X-Google-Smtp-Source: AA6agR66cjNQJAfYsQlMR7FOKYOhQRiQWwsWAe3h7I3VqkV869rj+PTDJortJKwjBw0ErsMyAlF5Tw==
-X-Received: by 2002:ac2:5c02:0:b0:48b:29ed:6e1e with SMTP id r2-20020ac25c02000000b0048b29ed6e1emr8380920lfp.560.1660742570190;
-        Wed, 17 Aug 2022 06:22:50 -0700 (PDT)
+        bh=gQ9ZdHAonv1+cNCneY42f+VkcN8uTabWejW5IY05OD4=;
+        b=ex5ftPsf/1kFDBBFPX7shuFdQfsC5XtvmgdnZVnDcnoMnmPZolQWx+dGbQc2H/cW5i
+         9seEYskK4laPspQ0RRx9Y87d6aBb1R57eNCoXRM/79ZrYfcekpA5jHHjeqb0v3aAW26+
+         13WRdDtQsckT70s2Pkiau1Kiq8jl2uc75zIFF6N2OOpFZKtCC8jv1GYjDePxqktOmyw2
+         uYO9UVrB4TgSu68tT7jQk+PFvcZO2L4TZ6D8QS1nZeBwYe9alo+LF4TT3ilPP0Sp3u7o
+         jOezfUJZJHysmhmrujpLwzEM44rhKpWdSnh8//TnD0nDioSkiCX4GWkcvCRCSkzN4dpe
+         AF8Q==
+X-Gm-Message-State: ACgBeo3mp+jRfy1+dgmwle4/Gi2Mruo0XQJQ8g29jSZHlegTlLvyr+sM
+	qohx+q8onJzSpkrppMC+xELqCg==
+X-Google-Smtp-Source: AA6agR4vOLQVaDpNaTlrgQpr6MQJs6T1zj+svIXXP/Rtynk4ey8sYo2c1ptChOUd++TTtrnFyrV1cw==
+X-Received: by 2002:a19:6b0b:0:b0:48a:e7de:d34c with SMTP id d11-20020a196b0b000000b0048ae7ded34cmr8780224lfa.454.1660743973563;
+        Wed, 17 Aug 2022 06:46:13 -0700 (PDT)
 Received: from ?IPV6:2001:14bb:ae:539c:1b1c:14b7:109b:ed76? (d15l54h48cw7vbh-qr4-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1b1c:14b7:109b:ed76])
-        by smtp.gmail.com with ESMTPSA id g3-20020a2ea4a3000000b0025e5fd96bf6sm2219420ljm.15.2022.08.17.06.22.48
+        by smtp.gmail.com with ESMTPSA id b10-20020a05651c032a00b0025d5eb5dde7sm2151655ljp.104.2022.08.17.06.46.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 17 Aug 2022 06:22:49 -0700 (PDT)
-Message-ID: <58851c87-9cea-8e48-1888-54d0b3237875@linaro.org>
-Date: Wed, 17 Aug 2022 16:22:48 +0300
+        Wed, 17 Aug 2022 06:46:13 -0700 (PDT)
+Message-ID: <64913eef-8b4f-7617-578b-53ddc22bd06e@linaro.org>
+Date: Wed, 17 Aug 2022 16:46:11 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -48,68 +48,53 @@ List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.12.0
-Subject: Re: [PATCH v3 3/4] dt-bindings: sram: sunxi-sram: Add optional
- regulators child
+Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
 Content-Language: en-US
-To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+To: Samuel Holland <samuel@sholland.org>, Chen-Yu Tsai <wens@csie.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
  Rob Herring <robh+dt@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-sunxi@lists.linux.dev
 References: <20220815043436.20170-1-samuel@sholland.org>
- <20220815043436.20170-4-samuel@sholland.org>
- <3e23c288-7065-a3fd-c326-8d66e168ba41@linaro.org>
- <3c646774-3b1e-bb9a-cc7d-c4a010e8a28a@sholland.org>
+ <20220815043436.20170-2-samuel@sholland.org>
+ <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
+ <03de0f7b-9251-a5c0-91a1-5f2b5d41d8a0@sholland.org>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-In-Reply-To: <3c646774-3b1e-bb9a-cc7d-c4a010e8a28a@sholland.org>
+In-Reply-To: <03de0f7b-9251-a5c0-91a1-5f2b5d41d8a0@sholland.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/08/2022 11:47, Samuel Holland wrote:
-> On 8/16/22 4:59 AM, Krzysztof Kozlowski wrote:
->> On 15/08/2022 07:34, Samuel Holland wrote:
->>> Some sunxi SoCs have in-package regulators controlled by a register in
->>> the system control MMIO block. Allow a child node for these regulators
->>> in addition to SRAM child nodes.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>> ---
->>>
->>> Changes in v3:
->>>  - Require the regulators node to have a unit address
->>>  - Reference the regulator schema from the SRAM controller schema
->>>  - Move the system LDOs example to the SRAM controller schema
->>>  - Reorder the patches so the example passes validation
->>>
->>> Changes in v2:
->>>  - New patch for v2
->>>
->>>  .../allwinner,sun4i-a10-system-control.yaml   | 29 +++++++++++++++++++
->>>  1 file changed, 29 insertions(+)
->>>
->>> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->>> index d64c1b28fb61..915ca85c3f10 100644
->>> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->>> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
->>> @@ -56,6 +56,10 @@ properties:
->>>    ranges: true
->>>  
->>>  patternProperties:
->>> +  "^regulators@[0-9a-f]+$":
->>> +    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
->>> +    unevaluatedProperties: false
+On 17/08/2022 11:15, Samuel Holland wrote:
+>>> +    audio-codec@2030000 {
+>>> +        compatible = "simple-mfd", "syscon";
 >>
->> unevaluatedProperties is not needed. Your other schema does not allow
->> anything else here.
+>> This cannot be on its own. Both require device specific compatible.
 > 
-> I can remove it. I added it because it looks like the dt-schema tools use it as
-> an indicator that the matched properties are child nodes[1]. Maybe that is not
-> relevant here?
+> Again, the device-specific compatible does not exist, because the binding for
+> the audio codec has not been written (and it will be quite nontrivial).
+> 
+> So I can:
+>   1) Leave the example as-is until the audio codec binding gets written,
+>      and fill in the specific compatible at that time.
+>   2) Remove the example, with the reasoning that the example really
+>      belongs with the MFD parent (like for the other regulator). Then
+>      there will be no example until the audio codec binding is written.
+>   3) Drop the analog LDOs from this series entirely, and some parts
+>      of the SoC (like thermal monitoring) cannot be added to the DTSI
+>      until the audio codec binding is written.
+> 
+> What do you think?
+> 
+> The same question applies for the D1 SoC DTSI, where I use this same construct.
+> 
+> (And technically this does validate with the current schema.)
 
-It is not relevant here as the other schema does not allow anything else.
+BTW, it validates only because of limitation in DT schema. Such
+combination is not allowed and I wonder if we can make the schema
+stricter...
 
 Best regards,
 Krzysztof
