@@ -1,183 +1,115 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94714401
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 13:19:01 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.west.internal (Postfix) with ESMTP id EB4E02B059AF;
-	Wed, 17 Aug 2022 09:18:58 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute5.internal (MEProxy); Wed, 17 Aug 2022 09:19:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660742338; x=1660749538; bh=l9nnSULWeK
-	Q3XggL/zqDG46qTFmpp//Ck12PCcxE0C4=; b=pF/7j9Cm7g40yrOScl4skNreL2
-	ccqXhCjvRZznSRSF8iv3BsajgJqsSxeejMYry/aJir12Cq0cDvoWOHMKSqK+hrHV
-	/a27Uah7wwi9OZ7JdFLS7io3iwHSZhBkcRbqLKcFYW0VKdkH3qp7RyiNwZl94f1E
-	zUKVdX0Co++619zrN85L7jZYtou5/rFWIReG9TxjiSrtRfHMVALZK0a2dIAiNPey
-	k5xnYjBQ3midyovFl94hMcQQQnartAKyINKT1f2u5iiYyJQebKsLIWShk3lNd5zG
-	iekKZZiB/p9w/dHaCx4QUo+QmNkBoWYG2huX0B7rx5qHpjlU+GQZnHln1NxQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660742338; x=1660749538; bh=l9nnSULWeKQ3XggL/zqDG46qTFmp
-	p//Ck12PCcxE0C4=; b=0yq+TQb2k0Ge8C7gWLSDZxUbaft3Y7NQ2c9RLH0PWcT2
-	PiTwPZj2vykG414dYWHWPehc5NXyFhrx3qTMKgDlx50h/Eu1NPTeQS4J/i0EBC9H
-	766vhkSIScDQvoKRkaqRMENnynoZCLR3D9h5DdZD+n40FTRjKuWenUtAJbtZe4fU
-	oO89K0GrZnhFZ107Ch6BFcgp8mVf5U43254oG8WVsCnSXzedtRo8f5LGWaViy1dW
-	F7W+bIb0hNWZMipRiW9UaIRKzNU5ffBRgnHRZj9R6Nd5RGbwMPcStxkuQrKAv5uS
-	IJOmBt7TDmIRVxsyjLN2TIPOE1t6rTNFwJyi5emdkg==
-X-ME-Sender: <xms:wer8YnbbrLd39px3c8-wsLjK179EcEwMQQhEiu6HjxxNJUOarWEPPw>
-    <xme:wer8YmaRg24-lqp6fTE9m-uwMwtqC10YlWNZ_39X2C8Rxsh6v-fh1gjShzfpwmXUC
-    rP5d0z91KpP4jWVpJI>
-X-ME-Received: <xmr:wer8Yp_kDrgVTos-fv8w0E9iNoNwBk0yHcrZ5lzCWpl0RajwJAbrkO7Vsw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgieefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpedtleekjeeiudefvdfhieffteelhfeivdeliefgieeugffhvdelieffjeei
-    geetjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
-    eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
-    hh
-X-ME-Proxy: <xmx:wer8YtqdNamwIkeQpl6RDY9VlFq4ChZh4cTgFhI5ay_1mkURX8oJtA>
-    <xmx:wer8YirW4QTJSrqhg96beQy_yHD2Y5kSTvJAHmIGBx83zAVCiSNOhA>
-    <xmx:wer8YjSIMFaX9hU7t1obQrk2WAo2e5DTtnuHUfoKqMTTB6u5v6s1sA>
-    <xmx:wur8YrbocuObCBuPv2KR9L1HKdRIijNGO56ppPQRu5g4IlXgKq4Qh52Cgts>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 09:18:56 -0400 (EDT)
-Date: Wed, 17 Aug 2022 15:18:54 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-Message-ID: <20220817131854.jwmhqvhfhp77bbr3@houat>
-References: <20220816132040.uwirtjm5yr6rdd3q@houat>
- <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
- <20220816141116.5nuszmilqv2exdb3@houat>
- <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
- <20220816154956.pkdpxmmw27mia5ix@houat>
- <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat>
- <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat>
- <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326F1187F
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 13:22:52 +0000 (UTC)
+Received: by mail-lf1-f51.google.com with SMTP id z25so18999841lfr.2
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 06:22:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc;
+        bh=pKuDJQIjnUP1FPupXFVJgNN8PDzdanh6kEbyoo/FXtE=;
+        b=x8Koy3ce7TesE9irvfo3XvT4v5oR8fBjYeN8/AbIIhR+i3t16Terl1WvSlEub8AuD2
+         UINF7cEj7uHSSD1P7QYXmtPynr48Ii9Qu5+9fHhE0oy+60t7OOHxMWY6X/wH1Dg+9up6
+         LAmW0CR4nV+l2GeFLii7UPDKzaam/L6GBrMi3VPGPwty5VWLep3MT/vtHhSOnF4gt/bs
+         lZnkj8pGOE6RbBir35xaXUy1pVzxUeIG9Akxkwg6aYSokTxF2DVw+K/5ohIScMJUZKn/
+         6F8eYg49u3DVwJMtrGCcY8rsYzSh6s/sG/NTZPHO0YhNgxPx/zOkPF+mZLkVNNm3s87y
+         ozjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc;
+        bh=pKuDJQIjnUP1FPupXFVJgNN8PDzdanh6kEbyoo/FXtE=;
+        b=iDuwq4Zz7PSrkD08QMl/uxP+CZusdfS+p+SzrMDvzzUjK7zFk9b7kSuCx32AM7tTtp
+         EUeyO/3jhDK/QhHPqKaZkKmTK9wOPI6a8L4TdsyD9S0A+jBbr3jgH8/nabq7ZTyCN4eu
+         aaa56qu/t8NJA1uyHvlHkderiPN6cOuvosYQvpbvBVW3QUw3tgRr3kWJM1/3Wt4hNBGv
+         qAEv03ErkEnksq6hTuLs6Am9WyHxO9KkBnNlXv3xPtXZlQMs7kjetqgxpfBV0fdnuunl
+         bDtWTmY+4iYt4zikuCY/z3dfRVCoDSCfIyYeZPsY1i9wOivDJkG/Aa9k05aPB9TGuyeY
+         XFhA==
+X-Gm-Message-State: ACgBeo1R1HQO4odOXVAsw808XObHPkZvpDQZMUm9xGH0RD1jZi12USjS
+	PrOdfI+ngYhQYKkO/ST/MLJjVQ==
+X-Google-Smtp-Source: AA6agR66cjNQJAfYsQlMR7FOKYOhQRiQWwsWAe3h7I3VqkV869rj+PTDJortJKwjBw0ErsMyAlF5Tw==
+X-Received: by 2002:ac2:5c02:0:b0:48b:29ed:6e1e with SMTP id r2-20020ac25c02000000b0048b29ed6e1emr8380920lfp.560.1660742570190;
+        Wed, 17 Aug 2022 06:22:50 -0700 (PDT)
+Received: from ?IPV6:2001:14bb:ae:539c:1b1c:14b7:109b:ed76? (d15l54h48cw7vbh-qr4-4.rev.dnainternet.fi. [2001:14bb:ae:539c:1b1c:14b7:109b:ed76])
+        by smtp.gmail.com with ESMTPSA id g3-20020a2ea4a3000000b0025e5fd96bf6sm2219420ljm.15.2022.08.17.06.22.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 06:22:49 -0700 (PDT)
+Message-ID: <58851c87-9cea-8e48-1888-54d0b3237875@linaro.org>
+Date: Wed, 17 Aug 2022 16:22:48 +0300
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="pwhi6bupdwzq7ldy"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v3 3/4] dt-bindings: sram: sunxi-sram: Add optional
+ regulators child
+Content-Language: en-US
+To: Samuel Holland <samuel@sholland.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220815043436.20170-1-samuel@sholland.org>
+ <20220815043436.20170-4-samuel@sholland.org>
+ <3e23c288-7065-a3fd-c326-8d66e168ba41@linaro.org>
+ <3c646774-3b1e-bb9a-cc7d-c4a010e8a28a@sholland.org>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+In-Reply-To: <3c646774-3b1e-bb9a-cc7d-c4a010e8a28a@sholland.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 17/08/2022 11:47, Samuel Holland wrote:
+> On 8/16/22 4:59 AM, Krzysztof Kozlowski wrote:
+>> On 15/08/2022 07:34, Samuel Holland wrote:
+>>> Some sunxi SoCs have in-package regulators controlled by a register in
+>>> the system control MMIO block. Allow a child node for these regulators
+>>> in addition to SRAM child nodes.
+>>>
+>>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>>> ---
+>>>
+>>> Changes in v3:
+>>>  - Require the regulators node to have a unit address
+>>>  - Reference the regulator schema from the SRAM controller schema
+>>>  - Move the system LDOs example to the SRAM controller schema
+>>>  - Reorder the patches so the example passes validation
+>>>
+>>> Changes in v2:
+>>>  - New patch for v2
+>>>
+>>>  .../allwinner,sun4i-a10-system-control.yaml   | 29 +++++++++++++++++++
+>>>  1 file changed, 29 insertions(+)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+>>> index d64c1b28fb61..915ca85c3f10 100644
+>>> --- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+>>> +++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+>>> @@ -56,6 +56,10 @@ properties:
+>>>    ranges: true
+>>>  
+>>>  patternProperties:
+>>> +  "^regulators@[0-9a-f]+$":
+>>> +    $ref: /schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
+>>> +    unevaluatedProperties: false
+>>
+>> unevaluatedProperties is not needed. Your other schema does not allow
+>> anything else here.
+> 
+> I can remove it. I added it because it looks like the dt-schema tools use it as
+> an indicator that the matched properties are child nodes[1]. Maybe that is not
+> relevant here?
 
---pwhi6bupdwzq7ldy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is not relevant here as the other schema does not allow anything else.
 
-On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
-> > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech>=
- wrote:
-> > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wr=
-ote:
-> > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and=
- "hd720p60"), or
-> > > > > > > > > > > handle them through "@<refresh>".  The latter would i=
-mpact "[PATCH v1
-> > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separ=
-ate function", as
-> > > > > > > > > > > currently a named mode and a refresh rate can't be sp=
-ecified both.
-> > > > > > > > > >
-> > > > > > > > > > I think the former would make more sense. It simplifies=
- a bit the
-> > > > > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > > > > >
-> > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode=
- property as a
-> > > > > > > > > > > command-line option" uses a separate "tv_mode" option=
-, and not the main
-> > > > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > > > >
-> > > > > > > > > > It's a separate story I think, we could have a named mo=
-de hd720p50,
-> > > > > > > > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
-> > > > > > > > >
-> > > > > > > > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
-> > > > > > > >
-> > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
-> > > > > > >
-> > > > > > > Above you said "I think the former would make more sense", so=
- that
-> > > > > > > should be "1280x720,tv_mode=3Dhd720p50"?
-> > > > > >
-> > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mod=
-e=3Dhd720p
-> > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
-> > > > >
-> > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> > > >
-> > > > I agree, and I don't see how that command-line doesn't express that?
-> > >
-> > > Oh, I see what you mean: yes, it expresses that.
-> > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-> > > where the TV mode specifies both number of lines and frame rate.
-> >
-> > Only if we're using a named mode, and naming is hard :)
->=20
-> That's not true: "640x480,tv_mode=3DPAL-N" would give me a mode with
-> 625 lines and 25 frames/s, "640x480,tv_mode=3DPAL-M" would give me a
-> mode with 525 lines and 30 frames/s.
-
-In that series, "640x480,tv_mode=3DPAL-N" would be rejected as invalid:
-
-https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3=
-d53ae722097@cerno.tech/
-
-Maxime
-
---pwhi6bupdwzq7ldy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzqvgAKCRDj7w1vZxhR
-xevAAQDN39buWD69Y1UeITS4YCga5URhBHuCskbyb0E4+dbIUQD7BdiRmRfU6P3f
-TcmNW67KPvbwkbPIv57K49HlmhcZ6AQ=
-=egIl
------END PGP SIGNATURE-----
-
---pwhi6bupdwzq7ldy--
+Best regards,
+Krzysztof
