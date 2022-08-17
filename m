@@ -1,126 +1,181 @@
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4623E1FA0
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:50:28 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailout.nyi.internal (Postfix) with ESMTP id 55DFB5C0158;
-	Wed, 17 Aug 2022 04:50:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 17 Aug 2022 04:50:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660726227; x=
-	1660812627; bh=qjCTliriPTIj2jcyPtsg+UorPFtVEycVX2NzPCDuQ1Y=; b=n
-	4TqT6htuV5DDkJQllXEPBAe+9G/Ua75/SNBIBpNemkwXrUrKhc6zEkA55QvdDpuk
-	YBPNLZKoTnnsQkIvBgNZtJIe+YXcNSJPoyeQYtZhtrCNpFmSjtWTJWe+8+UEkOzu
-	xfmSzryfPUx9N09it9ksnHgyKSHEHPwIuHk9jMw0hR7oI7AyxC7GvLxpiAnLN5KB
-	ayvDiD+X8bpH7e6vhOAg/+mBNplc1xeEvd/sLGMsonII7Syr7CYMgVM5ZIEh0BZA
-	ap9IFTMFllCNxqALfY1rA9zrIJdFClVJKYrDYd/Ow07gKU+XvwWEKwX5+5hcfiI9
-	odCcUOCcCLQZE7Xz9zX7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660726227; x=
-	1660812627; bh=qjCTliriPTIj2jcyPtsg+UorPFtVEycVX2NzPCDuQ1Y=; b=c
-	+FQ5CCTxLKG2ztDpB+x7aZs8pucpadcRkvekSVxmYoBrhuynQSV/3ROzdCag8lPU
-	8cOikptRAozmbmAhywXZ5WJxSMUDSnIjPAD/aGz7IaGfGfrwk5yhLSl6jYvuO5Pn
-	r8cqL/1IBzy/bvHFO1DVx/yoMPBKDqHpzQODBGvV/Hub7QkiHpXYreP8qA5pvdyR
-	f6V4uydr24uHTYhjFeJJypGdbp3Om0MaSqZDWN7me69ey7s1DL0ncO4iwqGCJ6zy
-	PL7xKuUnVDdLt2vzHxNsvrGd3DykCPHKixcWXTiTyVaR2w+wN4dAQpceIvxenTLl
-	2ll0eihSwxktA11mf8eWg==
-X-ME-Sender: <xms:06v8YmoHN7kI6wTPzueiA3_uaZAQbsY8xqHzG_3FoFGakWBicZ5niw>
-    <xme:06v8YkqAxVZ40h8J0YtBSpdlr-dotGPl563H6cJxjKRk167WUhwKrarJM-6UU4_Jj
-    nNGwgw_k0ZxYLOy-Q>
-X-ME-Received: <xmr:06v8YrNz8spwMZy8wA9IARNClAuRwoNvMUECcicsBQGQpMbo-IItn2iAYR1Q4DIif1uru3dcfVrmjRQ0t_MvjCzWSARc3r-Z_FCSjS5uaZK5oPQ52rCVsOEhOw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
-    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
-    ggtffrrghtthgvrhhnpefftdevkedvgeekueeutefgteffieelvedukeeuhfehledvhfei
-    tdehudfhudehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
-    hrohhmpehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhg
-X-ME-Proxy: <xmx:06v8Yl6BFWVVpZqSn16Vq6zsQ0ZVMbDaZtanCM_DiT6LmZXaMA5Agg>
-    <xmx:06v8Yl5NTl9Ks7FXPdNO76GXESntVrSaAyg-3qXemTHp-hlubPpfRw>
-    <xmx:06v8YlgBaEUh2HHDIPVn5HExrSUGtdiSPyRzEIyGensf8IYEJ2vx4g>
-    <xmx:06v8Yizzeq4ZB7gqcOKdC54_-g37gi9PH07JROmBaoG3Rs9N1K5k_g>
-Feedback-ID: i0ad843c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 04:50:26 -0400 (EDT)
-Subject: Re: [PATCH v3 4/4] soc: sunxi: sram: Only iterate over SRAM children
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Rob Herring <robh+dt@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-sunxi@lists.linux.dev
-References: <20220815043436.20170-1-samuel@sholland.org>
- <20220815043436.20170-5-samuel@sholland.org>
- <e5969030-0a17-d10e-7eef-8d906e8a4dc4@linaro.org>
- <82fedf98-1d94-514a-ba03-f88b4e1d888b@linaro.org>
-From: Samuel Holland <samuel@sholland.org>
-Message-ID: <a0e02ec6-b1e2-e4f7-8902-2768543f56fd@sholland.org>
-Date: Wed, 17 Aug 2022 03:50:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E731FA0
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:52:10 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id s11so9912592qtx.6
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:52:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
+        bh=2JD+X/GOYgljDqW3V4/txiGVTXdbLlGZCC1UfMUdTQc=;
+        b=1ix7aRNtBn3dvLXWXZPJPCfZW341QuTiyEFQLhKWcYJf4ImUw42UpZYXGbNbgf8lN2
+         fx5/l6I1KNUIiZbjeZyL47+QRafyP2EeVtXonDe8ZnOVTLDkwjXRny1SMGXq4iq1vmHK
+         lwM0WIucMUMbIwIc8aJj7Jwqf7sr+77Wm3cdzLddZi7rFPhvMDwlabryWbrNmU8zbwjO
+         jJkZeJVI47nTamAFGULD4OQRB7lItsyFvjQLx5wXk6Of2B/Ukv1GNV4lQSqYtLdhpxGh
+         9STcIqSmpYNw4hbVb3dGQ9HdbsmTNRaSznK3w+IAwP+cBds4CCCW8mBG81c+7t79PrsH
+         FxMA==
+X-Gm-Message-State: ACgBeo3PZriSq3aQUpza7vKKdk715kQ2gTj97ytC+UCRA1SwH/a+wXIY
+	o+s/IEbW48YCEx8gILUu5YzIhUEd2Y1LYA==
+X-Google-Smtp-Source: AA6agR6W87o2F6/+HTeHrd2EamIulWjqTwashaDycKF/FunLHP8BqUVMwTxG2EnWWgwIkFPrYE7zZg==
+X-Received: by 2002:ac8:594e:0:b0:343:5e86:fa65 with SMTP id 14-20020ac8594e000000b003435e86fa65mr21799131qtz.29.1660726329446;
+        Wed, 17 Aug 2022 01:52:09 -0700 (PDT)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com. [209.85.128.170])
+        by smtp.gmail.com with ESMTPSA id h4-20020ac81384000000b00342fb07944fsm12051885qtj.82.2022.08.17.01.52.07
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Aug 2022 01:52:07 -0700 (PDT)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-32a17d3bba2so214181007b3.9
+        for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 01:52:07 -0700 (PDT)
+X-Received: by 2002:a25:880f:0:b0:67c:2727:7e3c with SMTP id
+ c15-20020a25880f000000b0067c27277e3cmr18847109ybl.36.1660726327196; Wed, 17
+ Aug 2022 01:52:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <82fedf98-1d94-514a-ba03-f88b4e1d888b@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
+ <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
+ <20220816132636.3tmwqmrox64pu3lt@houat> <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+ <20220817075351.4xpsqdngjgtiqvob@houat>
+In-Reply-To: <20220817075351.4xpsqdngjgtiqvob@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 17 Aug 2022 10:51:55 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+Message-ID: <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
+Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	linux-sunxi@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/16/22 5:03 AM, Krzysztof Kozlowski wrote:
-> On 16/08/2022 13:01, Krzysztof Kozlowski wrote:
->> On 15/08/2022 07:34, Samuel Holland wrote:
->>> Now that a "regulators" child is accepted by the controller binding, the
->>> debugfs show routine must be explicitly limited to "sram" children.
->>>
->>> Signed-off-by: Samuel Holland <samuel@sholland.org>
->>> ---
->>>
->>> (no changes since v2)
->>>
->>> Changes in v2:
->>>  - New patch for v2
->>>
->>>  drivers/soc/sunxi/sunxi_sram.c | 3 +++
->>>  1 file changed, 3 insertions(+)
->>>
->>> diff --git a/drivers/soc/sunxi/sunxi_sram.c b/drivers/soc/sunxi/sunxi_sram.c
->>> index 92f9186c1c42..6acaaeb65652 100644
->>> --- a/drivers/soc/sunxi/sunxi_sram.c
->>> +++ b/drivers/soc/sunxi/sunxi_sram.c
->>> @@ -120,6 +120,9 @@ static int sunxi_sram_show(struct seq_file *s, void *data)
->>>  	seq_puts(s, "--------------------\n\n");
->>>  
->>>  	for_each_child_of_node(sram_dev->of_node, sram_node) {
->>> +		if (!of_node_name_eq(sram_node, "sram"))
->>
->> You should not rely on node names. They can change in DTS. Why do you
->> need to test for the name?
->>
-> 
-> Ah, it is not a device node but a child property, right? In such case,
-> it's of course fine.
+Hi Maxime,
 
-It is a child node.
+On Wed, Aug 17, 2022 at 9:54 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Tue, Aug 16, 2022 at 05:00:38PM +0200, Geert Uytterhoeven wrote:
+> > On Tue, Aug 16, 2022 at 3:26 PM Maxime Ripard <maxime@cerno.tech> wrote=
+:
+> > > On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
+> > > > On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> w=
+rote:
+> > > > > Multiple drivers (meson, vc4) define the analog TV 525-lines and =
+625-lines
+> > > > > modes in the drivers.
+> > > >
+> > > > Nit: strictly speaking these are not analog modes, but the digital
+> > > > variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
+> > > > 13.5 MHz sampling frequency for pixels.
+> > > >
+> > > > In analog modes, the only discrete values are the number of lines, =
+and
+> > > > the frame/field rate (fixing the horizontal sync rate when combined=
+).
+> > > >
+> > > > The number of (in)visible pixels per line depends on the available
+> > > > bandwidth.  In a digital variant (which is anything generated by a
+> > > > digital computer system), the latter depends on the pixel clock, wh=
+ich
+> > > > can wildly differ from the 13.5 MHz used in the BT.656 standard. (e=
+.g.
+> > > > Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC=
+)).
+> > > >
+> > > > So I think we probably need some way to generate a PAL/NTSC-compati=
+ble
+> > > > mode based not only on resolution, but also on pixel clock.
+> > >
+> > > This would also fix the comments made by Jani and Thomas, so I quite
+> > > like the idea of it.
+> > >
+> > > I'm struggling a bit to find how would could implement this though.
+> > >
+> > > From what you were saying, I guess the prototype would be something l=
+ike
+> > >
+> > > struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_cl=
+ock,
+> > >                                                 unsigned int lines,
+> > >                                                 unsigned int frame_ra=
+te)
+> > >
+> > > But I have zero idea on what the implementation would be. Do you have
+> > > some resources for this you could point me to?
+> >
+> > Horizontally, I think you should calculate left/right margins and
+> > hsync length to yield timings that match those for the BT.656 PAL/NTSC
+> > modes.  I.e. when a 640x512 mode with a pixel clock of 14 MHz is
+> > requested, you want to calculate left', right', and hslen' for
+> >
+> > | <---- left' ---> | <- 640 pixels -> | <---- right' ---> | <--- hslen'=
+ --> |
+> >                         @ 14 MHz
+> >
+> > so they match the timings for left, right, and hslen for
+> >
+> > | <--- left ---> | <--- 720 pixels ---> | <--- right ---> | <--- hslen =
+---> |
+> >                         @ 13.5 MHz
+> >
+> > As 640 pixels @ 14 MHz are less wide than 720 pixels @ 13.5 MHz,
+> > you want to make sure to align the center of the visible part.
+>
+> So I guess in that example if we want to center it, left =3D=3D right and
+> left' =3D=3D right'? What about the sync length?
 
-> The device node names could change and should not be considered ABI (at
-> least I hope should not...).
+No, left and right are asymmetrical, cfr. front and back porch in
+https://en.wikipedia.org/wiki/PAL#PAL_signal_details
+I.e. if the pixel part is reduced, both the left and right margins
+should be increased by the same amount.
 
-The node names are limited by patternProperties in the controller binding. I can
-check the child nodes for compatibility with "mmio-sram" if that is better.
+From the table linked above, hslen should be ca. 4.7=C2=B5s (fixed).
 
-Regards,
-Samuel
+> > Vertically, it's simpler, as the number of lines is discrete.
+> > You do have to take into account interlace and doublescan, and
+> > progressive modes with 262/312 lines.
+>
+> So we only have to deal with 525 and 625 lines total (without taking
+> interlace and doublescan into account), right?
+
+Yes.
+
+> I guess we still have the same question, we probably want to center it,
+> so top =3D=3D bottom, but what about the vsync length?
+
+Unfortunately that table does not mention top and bottom margins.
+But according to drivers/video/fbdev/amifb.c (see the "Broadcast
+video timings" comment block and the definitions of the "ntsc-lace"
+and "pal-lace" video modes), they are asymmetrical, too.
+
+Vsync length is 0.576ms, so that's 9 scan lines (I guess I didn't
+have that info when I wrote amifb, as I used 4 lines there).
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
