@@ -1,184 +1,274 @@
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com [64.147.123.26])
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DA87C
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 07:53:58 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
-	by mailnew.west.internal (Postfix) with ESMTP id 75D7F2B0647A;
-	Wed, 17 Aug 2022 03:53:55 -0400 (EDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990727C
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 08:15:16 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 754205C026E;
+	Wed, 17 Aug 2022 04:15:15 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Wed, 17 Aug 2022 03:53:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660722834; x=1660730034; bh=H7AMF4kZE2
-	hOLEr28TVkQrVEDPRpXPajEymRGpT0zuY=; b=VekMXPHqujdEVZpBIpN79E+lff
-	1H4NFvjSrep9AFQbJUTuRXgh+NaV8q1zMs/5fTBGWFQG/nhnGjgxCZpTLcbaO2qk
-	yVKq5W21fIJ9S0XmxRG1PwTEGV2zqCSbfuaiKrwDA8pZYKlXFxqbI033TvlvMnjl
-	H4bqWQwFR4UD33MEt0/0htul9s0JX1UilhvUiJu+xr+sECciKyrjwITasOapHnkE
-	t/oC9LFiNxRcylIgLbETNXkRy+xdOO6cATUoD3/J9M2TMDIvJYGZ7CSP/Zg9V81l
-	X1yD9HhnGOU2lvRbVZhSUIjMteOIMlH7yR4KA7Pqf62rp6KvBAnvIUDWYbUA==
+  by compute5.internal (MEProxy); Wed, 17 Aug 2022 04:15:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to; s=fm2; t=1660724115; x=
+	1660810515; bh=9a/TQoxruiG9hZLDHJejrNpQAuP/IxZ7P05QpiGXpeM=; b=v
+	nY7jOaW2hO1FlsfkFPoAOcsNbsp5wgWX7QbCEOrVO++bI9ueRQDuDn4cN34FF/+e
+	rbek5nW/OkbPFVz19IPkV8yPBt+lXd8F9m3qsaLh8CHDFF6nVbwnU7EyWt20zEbN
+	4RTUuxpw+eBarHmHYKVDck+4h+KrkOCe7KklRzt3Bd6h39iaBIs0Yj7zw/qB9OXB
+	/rhvGCtdslUpQ3RrGQU5EbZSlCdAor8VmLxRFinnZFU03m42ZPimA4WuroXKcDbM
+	5+1hoMSksQG/ZwHPq/70QZxvCsXymWdcGi3BhE3VT7QW17eSGvt+YkCaadWZ6PDB
+	283b6QDs9/RCjAbEThBlg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660722834; x=1660730034; bh=H7AMF4kZE2hOLEr28TVkQrVEDPRp
-	XPajEymRGpT0zuY=; b=fM8BqqoCCmnHUEEV4QhP1Xvmbfp/msYYVT77ftKhx5IR
-	29ftNAgDXPWu67vBjBfmHJqlUPQm0psZpTW41ELXNNaeApmxA46qI6EzN7NwGngn
-	/OLMWHMeMYWIoW7BbhjcqECv9h4HWSks1q03kjR22NHiIIJOlD4y+OWv3HARgqQs
-	w/kIz6HscEPj3PD944TsbMktD7Nbu9ZdLdSJVV7AtyFiIUorX2RZuyrCnYuQlypU
-	7Fhz5gTgemp4FqiSIBcmVWy0Zr3veReOCjC0AxbsGRejUQcy436aC4pY0lv0m7Pu
-	4s+SgpUdF/3g0q5BkxKzCfEl0HAD/34vZfmtuZq8Cw==
-X-ME-Sender: <xms:kZ78YmU8KAGJLFcYMDQSS8pgZqxptw9N-PgMq1JOHfWOC4-oVrMGrQ>
-    <xme:kZ78YimRdi_yVT8NngQEvi90JqKCrgtAk4XVX9oiLCsK9bFsWA1T1cCqkHIVSxMIE
-    889tniyxK8bGRiulZY>
-X-ME-Received: <xmr:kZ78Yqb8EhO8iXCsixF6nzx98hxId96DRgIqIl34ojgGbEtV8gL5lqbYmg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehhedguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgig
-    ihhmvgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrf
-    grthhtvghrnhepteefffefgfektdefgfeludfgtdejfeejvddttdekteeiffejvdfgheeh
-    fffhvedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:kZ78YtUi_k-2n9qOML_KW-3BlyEf4zMTK8RPeLiYT8uvG94O6XLbDw>
-    <xmx:kZ78Ygn3H3Fvzsbm3dQjc-U_RwYV1eqiO3X4OhcNtuOeUd5zc_r2sQ>
-    <xmx:kZ78YifhwO143SUZ4cb2EPKMWXAQGmcJyNz9H_4sL21a2s80E4CSKA>
-    <xmx:kp78YiVtdOHOoRRJiJOWnhBAJaV6sekXMscUNymMrAa9IAOesMH7WB3c7rA>
-Feedback-ID: i8771445c:Fastmail
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1660724115; x=
+	1660810515; bh=9a/TQoxruiG9hZLDHJejrNpQAuP/IxZ7P05QpiGXpeM=; b=F
+	QwribRhA9ktEL0LhmvWm6UyJO61N7n1m3P9kaDUDBlOowopI68ew7jsrnKUTI7qK
+	MpBTWpyLokKmngqFl9iUi5q0qolBSsoimsseD71AF+vlhQQSw2+hjQFlUxnBjNDw
+	maD9v+efoURPKWCGE/clLrkJc9HjPcxt8zF8KLG7ffF9Y71gL9jpek3PTlQXBYt1
+	RIo31EpFz8LNctSNTsGUj7us5pVFyddOFpAZJV63h2kTMXSYilWS4MP2L3kCo7T9
+	FnV4LsLyhQBlOs8rcTTIDaiwmHCVw1YRAu+ApAs+YzLzvMeZMSvpsP0CpG6dnrPa
+	+F4NO/Km7I21ZwXUk0XlQ==
+X-ME-Sender: <xms:k6P8YmCblG9dlf80cI3nt6y8X5D40ve_BNzd-gIWZ8-50vJtoXf8cQ>
+    <xme:k6P8YgiEVMq2chSxX0vIZ9-ONnAQoh30xb6EgGzQEEHoJr36CGHt6x7fso98OBfhk
+    R0c9Nd37LyQfy-Mwg>
+X-ME-Received: <xmr:k6P8Ypm_W7MqqIC9H34SKa4q2taB_k3GJauH3qoBSLhv-euYtql2lsU5kfARWR-fQhjsy23w1jY5O7_74VlnEekrFPWZinqoBYcwurZT5Wx_PCidVC3RRatmjg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgtdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepuffvvehfhffkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefurghm
+    uhgvlhcujfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeduvedtvdduvdeghfevtddvveffjefffeetheegiedtjeffhedt
+    kedvveffleehkeenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgnecuvehluh
+    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehs
+    hhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:k6P8Ykx2I2BM-hqV8EQuOfRlnmLDB58z1ln3eOdu7lFS6LdDdyMpHA>
+    <xmx:k6P8YrRqtf3msnlFH33HKAjFr2ffnzFnFKRUWPDjtFtwWxr3xAuB2w>
+    <xmx:k6P8YvbC8vpQCUIaHxQVqXJYLaOJT7F1KU3EOpPR9WtfMpr0SC-jVg>
+    <xmx:k6P8YgIS3D-M3xLBij2vB1VImADboGjKkixZTGZ9lbMsjPjxHeM1Ew>
+Feedback-ID: i0ad843c9:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 17 Aug 2022 03:53:53 -0400 (EDT)
-Date: Wed, 17 Aug 2022 09:53:51 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-Message-ID: <20220817075351.4xpsqdngjgtiqvob@houat>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
- <20220816132636.3tmwqmrox64pu3lt@houat>
- <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+ 17 Aug 2022 04:15:14 -0400 (EDT)
+Subject: Re: [PATCH v3 1/4] regulator: dt-bindings: Add Allwinner D1 LDOs
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-sunxi@lists.linux.dev
+References: <20220815043436.20170-1-samuel@sholland.org>
+ <20220815043436.20170-2-samuel@sholland.org>
+ <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
+From: Samuel Holland <samuel@sholland.org>
+Message-ID: <03de0f7b-9251-a5c0-91a1-5f2b5d41d8a0@sholland.org>
+Date: Wed, 17 Aug 2022 03:15:13 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ctmqbrja2753ufff"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
+In-Reply-To: <c4ec080a-b8b1-e3a9-c9d7-063e138c9bb8@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
+On 8/16/22 4:55 AM, Krzysztof Kozlowski wrote:
+> On 15/08/2022 07:34, Samuel Holland wrote:
+>> The Allwinner D1 SoC contains two pairs of in-package LDOs. One pair is
+>> for general purpose use. LDOA generally powers the board's 1.8 V rail.
+>> LDOB generally powers the in-package DRAM, where applicable.
+>>
+>> The other pair of LDOs powers the analog power domains inside the SoC,
+>> including the audio codec, thermal sensor, and ADCs. These LDOs require
+>> a 0.9 V bandgap voltage reference. The calibration value for the voltage
+>> reference is stored in an eFuse, accessed via an NVMEM cell.
+>>
+>> Neither LDO control register is in its own MMIO range; instead, each
+>> regulator device relies on a regmap/syscon exported by its parent.
+>>
+>> Signed-off-by: Samuel Holland <samuel@sholland.org>
+>> ---
+>>
+>> Changes in v3:
+>>  - Add "reg" property to bindings
+>>  - Add "unevaluatedProperties: true" to regulator nodes
+>>  - Minor changes to regulator node name patterns
+>>  - Remove system-ldos example (now added in patch 3)
+>>
+>> Changes in v2:
+>>  - Remove syscon property from bindings
+>>  - Update binding examples to fix warnings and provide context
+>>
+>>  .../allwinner,sun20i-d1-analog-ldos.yaml      | 74 +++++++++++++++++++
+>>  .../allwinner,sun20i-d1-system-ldos.yaml      | 37 ++++++++++
+>>  2 files changed, 111 insertions(+)
+>>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>>  create mode 100644 Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>> new file mode 100644
+>> index 000000000000..d6964b44ef21
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-analog-ldos.yaml
+>> @@ -0,0 +1,74 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-analog-ldos.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Allwinner D1 Analog LDOs
+>> +
+>> +description:
+>> +  Allwinner D1 contains a set of LDOs which are designed to supply analog power
+>> +  inside and outside the SoC. They are controlled by a register within the audio
+>> +  codec MMIO space, but which is not part of the audio codec clock/reset domain.
+>> +
+>> +maintainers:
+>> +  - Samuel Holland <samuel@sholland.org>
+> 
+> Please follow the example schema. Order is: title, maintainers, description.
+> 
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - allwinner,sun20i-d1-analog-ldos
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  nvmem-cells:
+>> +    items:
+>> +      - description: NVMEM cell for the calibrated bandgap reference trim value
+>> +
+>> +  nvmem-cell-names:
+>> +    items:
+>> +      - const: bg_trim
+>> +
+>> +patternProperties:
+>> +  "^(a|hp)ldo$":
+>> +    type: object
+>> +    $ref: regulator.yaml#
+>> +    unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - nvmem-cells
+>> +  - nvmem-cell-names
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    audio-codec@2030000 {
+>> +        compatible = "simple-mfd", "syscon";
+> 
+> This cannot be on its own. Both require device specific compatible.
 
---ctmqbrja2753ufff
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Again, the device-specific compatible does not exist, because the binding for
+the audio codec has not been written (and it will be quite nontrivial).
 
-On Tue, Aug 16, 2022 at 05:00:38PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Tue, Aug 16, 2022 at 3:26 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Fri, Aug 12, 2022 at 03:18:58PM +0200, Geert Uytterhoeven wrote:
-> > > On Fri, Jul 29, 2022 at 6:35 PM Maxime Ripard <maxime@cerno.tech> wro=
-te:
-> > > > Multiple drivers (meson, vc4) define the analog TV 525-lines and 62=
-5-lines
-> > > > modes in the drivers.
-> > >
-> > > Nit: strictly speaking these are not analog modes, but the digital
-> > > variants (ITU-R BT.656 and DVD-Video D1) of NTSC and PAL, using a
-> > > 13.5 MHz sampling frequency for pixels.
-> > >
-> > > In analog modes, the only discrete values are the number of lines, and
-> > > the frame/field rate (fixing the horizontal sync rate when combined).
-> > >
-> > > The number of (in)visible pixels per line depends on the available
-> > > bandwidth.  In a digital variant (which is anything generated by a
-> > > digital computer system), the latter depends on the pixel clock, which
-> > > can wildly differ from the 13.5 MHz used in the BT.656 standard. (e.g.
-> > > Amiga uses 7.09/14.19/28.38 MHz (PAL) or 7.16/14.32/28.64 MHz (NTSC)).
-> > >
-> > > So I think we probably need some way to generate a PAL/NTSC-compatible
-> > > mode based not only on resolution, but also on pixel clock.
-> >
-> > This would also fix the comments made by Jani and Thomas, so I quite
-> > like the idea of it.
-> >
-> > I'm struggling a bit to find how would could implement this though.
-> >
-> > From what you were saying, I guess the prototype would be something like
-> >
-> > struct drm_display_mode *drm_create_analog_mode(unsigned int pixel_cloc=
-k,
-> >                                                 unsigned int lines,
-> >                                                 unsigned int frame_rate)
-> >
-> > But I have zero idea on what the implementation would be. Do you have
-> > some resources for this you could point me to?
->=20
-> Horizontally, I think you should calculate left/right margins and
-> hsync length to yield timings that match those for the BT.656 PAL/NTSC
-> modes.  I.e. when a 640x512 mode with a pixel clock of 14 MHz is
-> requested, you want to calculate left', right', and hslen' for
->=20
-> | <---- left' ---> | <- 640 pixels -> | <---- right' ---> | <--- hslen' -=
--> |
->                         @ 14 MHz
->=20
-> so they match the timings for left, right, and hslen for
->=20
-> | <--- left ---> | <--- 720 pixels ---> | <--- right ---> | <--- hslen --=
--> |
->                         @ 13.5 MHz
->=20
-> As 640 pixels @ 14 MHz are less wide than 720 pixels @ 13.5 MHz,
-> you want to make sure to align the center of the visible part.
+So I can:
+  1) Leave the example as-is until the audio codec binding gets written,
+     and fill in the specific compatible at that time.
+  2) Remove the example, with the reasoning that the example really
+     belongs with the MFD parent (like for the other regulator). Then
+     there will be no example until the audio codec binding is written.
+  3) Drop the analog LDOs from this series entirely, and some parts
+     of the SoC (like thermal monitoring) cannot be added to the DTSI
+     until the audio codec binding is written.
 
-So I guess in that example if we want to center it, left =3D=3D right and
-left' =3D=3D right'? What about the sync length?
+What do you think?
 
-> Vertically, it's simpler, as the number of lines is discrete.
-> You do have to take into account interlace and doublescan, and
-> progressive modes with 262/312 lines.
+The same question applies for the D1 SoC DTSI, where I use this same construct.
 
-So we only have to deal with 525 and 625 lines total (without taking
-interlace and doublescan into account), right?
+(And technically this does validate with the current schema.)
 
-I guess we still have the same question, we probably want to center it,
-so top =3D=3D bottom, but what about the vsync length?
+>> +        reg = <0x2030000 0x1000>;
+>> +        ranges;
+>> +        #address-cells = <1>;
+>> +        #size-cells = <1>;
+>> +
+>> +        regulators@2030348 {
+>> +            compatible = "allwinner,sun20i-d1-analog-ldos";
+>> +            reg = <0x2030348 0x4>;
+>> +            nvmem-cells = <&bg_trim>;
+>> +            nvmem-cell-names = "bg_trim";
+>> +
+>> +            reg_aldo: aldo {
+>> +                regulator-min-microvolt = <1800000>;
+>> +                regulator-max-microvolt = <1800000>;
+>> +            };
+>> +
+>> +            reg_hpldo: hpldo {
+>> +                regulator-min-microvolt = <1800000>;
+>> +                regulator-max-microvolt = <1800000>;
+>> +            };
+>> +        };
+>> +    };
+>> +
+>> +...
+>> diff --git a/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+>> new file mode 100644
+>> index 000000000000..e3e2810fb3d7
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/regulator/allwinner,sun20i-d1-system-ldos.yaml
+>> @@ -0,0 +1,37 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/regulator/allwinner,sun20i-d1-system-ldos.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Allwinner D1 System LDOs
+>> +
+>> +description:
+>> +  Allwinner D1 contains a pair of general-purpose LDOs which are designed to
+>> +  supply power inside and outside the SoC. They are controlled by a register
+>> +  within the system control MMIO space.
+> 
+> Fix order.
+> 
+> 
+>> +
+>> +maintainers:
+>> +  - Samuel Holland <samuel@sholland.org>
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - allwinner,sun20i-d1-system-ldos
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +patternProperties:
+>> +  "^ldo[ab]$":
+>> +    type: object
+>> +    $ref: regulator.yaml#
+>> +    unevaluatedProperties: false
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +unevaluatedProperties: false
+> 
+> 
+> Example please.
 
-Maxime
+Rob asked me to move the example to the parent binding, so I did. The example is
+added in patch 3.
 
---ctmqbrja2753ufff
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvyejwAKCRDj7w1vZxhR
-xcu6AP93cHMTNRRfPsacynbiMt5NcO8eI/W3VyqQnewI23mFIQEA2IRU57HVlr7Q
-XOvH5VN6C7Xaplea0Zs4gC+zyOmyLwo=
-=MlUC
------END PGP SIGNATURE-----
-
---ctmqbrja2753ufff--
+Regards,
+Samuel
