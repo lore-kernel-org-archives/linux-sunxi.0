@@ -1,118 +1,173 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com [66.111.4.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E48A3C26
-	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 10:01:44 +0000 (UTC)
-Received: from ip5b412258.dynamic.kabel-deutschland.de ([91.65.34.88] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1oOFrW-0001ZB-2Q; Wed, 17 Aug 2022 12:01:22 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Samuel Holland <samuel@sholland.org>
-Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, linux-arm-kernel@lists.infradead.org, Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 2/4] regulator: sun20i: Add support for Allwinner D1 LDOs
-Date: Wed, 17 Aug 2022 12:01:21 +0200
-Message-ID: <5212752.LvFx2qVVIh@diego>
-In-Reply-To: <1c172085-9586-b612-8600-776e8a394f12@sholland.org>
-References: <20220815043436.20170-1-samuel@sholland.org> <37742446.J2Yia2DhmK@diego> <1c172085-9586-b612-8600-776e8a394f12@sholland.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5A93D8B
+	for <linux-sunxi@lists.linux.dev>; Wed, 17 Aug 2022 11:15:01 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 5E94E580DA3;
+	Wed, 17 Aug 2022 07:15:00 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute3.internal (MEProxy); Wed, 17 Aug 2022 07:15:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
+	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:sender:subject
+	:subject:to:to; s=fm3; t=1660734900; x=1660742100; bh=7/MyY+LBb7
+	xbVEmhuCyBhoCzY/9cxkCFf1VHHVrX6CY=; b=grrDb7phnJ8YS7DoYmClhDowva
+	mf0hyZG1cElbLmCByi9qZfwQST1mrUurzidSCbpXzLfvUzrbTrOQioCAKC7U2Fwp
+	jm+jENEKf8Vy1T/MorGsNClgSxDglsVgGyCX7UfoFeVFnLOETgr0/p9hs3QB88dR
+	sbSoRPnGd69728/P/mt+7Fh+vWebfjlS/I7UsqjhGtn17DbWdnP/EkpsYqbQNwVv
+	WQtJ4vAXXBVssg+IMz+GS+lG3ddEwQCPDgiFnLFA9ysgfKqwRZXwt8UFyXWB1BS0
+	kUzrjtDuamQLJjwF4qqcj5aFreTij0nTlG0h1GIxKPYZ2AhmjLEmwgoC2u/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:sender:subject:subject:to:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1660734900; x=1660742100; bh=7/MyY+LBb7xbVEmhuCyBhoCzY/9c
+	xkCFf1VHHVrX6CY=; b=1EjiYV1IDT9sKd5r3mLzkdKwMFMlonp4bEctBDecRUya
+	ZlpnqtUdldGetHD37riEiUUvZGlMEqu124iAqLMJ5iN2ONf2abY5VWp06pRbQ+/6
+	6W4ZKgtun/ru5zgTMT/ePki4t9Z1FsEfCzHeI5zEz+PrbhaFCGLsggAXU5MVBu5U
+	+FwyikIohL0SBGOuk1IfHbASHFnJCiOCRnZThfHbBprg6joaAp7F8MNh+k1pj/jf
+	DyTXjPYwQFQehxwbJdfXESh1FquX9og/rEOuQMKCTlBFZrFevsqr6cgA4gaTkM4X
+	WlmugzAHmc7tzr6NIUDl6X9UGByCvf/IOiJ6IMjRHQ==
+X-ME-Sender: <xms:ss38Ymz6QIJVROnLxmIjqn_3TMnD9ZLFHefJCfGNyBCHaTEh0d9E8A>
+    <xme:ss38YiTELaLWGqYanHfSD6VWKyMUjfqc07lsrLPsN3Xf25xqqj0yBtjUnChpOnajr
+    92MoarTmCFXFjH7m0g>
+X-ME-Received: <xmr:ss38YoUzRSzcuNOADkP7kR5ntYkzbd9ylNolSoNBKiyDhA78E3ttDGbQ-g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehiedgfeejucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeetfefffefgkedtfefgledugfdtjeefjedvtddtkeetieffjedvgfehheff
+    hfevudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:ss38YsjZPx_G1Zc8tP9aygClJLiL_P6juc2jFveN0GQgc0P9nQkhuw>
+    <xmx:ss38YoAufRzR7_QR2U-zba1HO11VCExDDNMadtbPaaWeyOFbRlviRA>
+    <xmx:ss38YtJo-vfEDw0s84F9ypKZ1-0zVXkz8garCQi-_Nfg8XoGqLnY2A>
+    <xmx:tM38Yqy6P1AyJ75RZnKbU9oqLErBbDheLyu7DSvqoX3-T7Z68V_Beg>
+Feedback-ID: i8771445c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 17 Aug 2022 07:14:57 -0400 (EDT)
+Date: Wed, 17 Aug 2022 13:14:54 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+	Linux ARM <linux-arm-kernel@lists.infradead.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+	DRI Development <dri-devel@lists.freedesktop.org>,
+	Dom Cobley <dom@raspberrypi.com>
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+Message-ID: <20220817111454.pn2iltvyo2drebq7@houat>
+References: <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+ <CAMuHMdWYo7M44uLNhTmJenGDreGALBZ9E48oyBDEeAuL=0h=dw@mail.gmail.com>
+ <20220816132040.uwirtjm5yr6rdd3q@houat>
+ <CAMuHMdWevP=3af=NneAJEDfOR+sz1thrQEhAQPNGrgitBtLjGA@mail.gmail.com>
+ <20220816141116.5nuszmilqv2exdb3@houat>
+ <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+ <20220816154956.pkdpxmmw27mia5ix@houat>
+ <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
+ <20220817074710.w4c4xwj7edly2b5p@houat>
+ <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="gu5whptxg6eujuan"
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+
+
+--gu5whptxg6eujuan
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Am Mittwoch, 17. August 2022, 10:28:40 CEST schrieb Samuel Holland:
-> On 8/15/22 12:00 PM, Heiko St=FCbner wrote:
-> > Am Montag, 15. August 2022, 06:34:33 CEST schrieb Samuel Holland:
-> >> D1 contains two pairs of LDOs. Since they have similar bindings, and
-> >> they always exist together, put them in a single driver.
-> >>
-> >> The analog LDOs are relatively boring, with a single linear range. The=
-ir
-> >> one quirk is that a bandgap reference must be calibrated for them to
-> >> produce the correct voltage.
-> >>
-> >> The system LDOs have the complication that their voltage step is not an
-> >> integer, so a custom .list_voltage is needed to get the rounding right.
-> >>
-> >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> >> ---
-> >>
-> >> Changes in v3:
-> >>  - Adjust control flow in sun20i_regulator_get_regmap() for clarity
-> >>
-> >> Changes in v2:
-> >>  - Use decimal numbers for .n_voltages instead of field widths
-> >>  - Get the regmap from the parent device instead of a property/phandle
-> >>
-> >>  drivers/regulator/Kconfig            |   8 +
-> >>  drivers/regulator/Makefile           |   1 +
-> >>  drivers/regulator/sun20i-regulator.c | 232 +++++++++++++++++++++++++++
-> >>  3 files changed, 241 insertions(+)
-> >>  create mode 100644 drivers/regulator/sun20i-regulator.c
-> >>
-> >> diff --git a/drivers/regulator/Kconfig b/drivers/regulator/Kconfig
-> >> index 23e3e4a35cc9..0c5727173fa0 100644
-> >> --- a/drivers/regulator/Kconfig
-> >> +++ b/drivers/regulator/Kconfig
-> >> @@ -1262,6 +1262,14 @@ config REGULATOR_STW481X_VMMC
-> >>  	  This driver supports the internal VMMC regulator in the STw481x
-> >>  	  PMIC chips.
-> >> =20
-> >> +config REGULATOR_SUN20I
-> >> +	tristate "Allwinner D1 internal LDOs"
-> >> +	depends on ARCH_SUNXI || COMPILE_TEST
-> >> +	depends on MFD_SYSCON && NVMEM
-> >> +	default ARCH_SUNXI
-> >> +	help
-> >> +	  This driver supports the internal LDOs in the Allwinner D1 SoC.
-> >> +
-> >>  config REGULATOR_SY7636A
-> >>  	tristate "Silergy SY7636A voltage regulator"
-> >>  	help
-> >> diff --git a/drivers/regulator/Makefile b/drivers/regulator/Makefile
-> >> index fa49bb6cc544..5dff112eb015 100644
-> >> --- a/drivers/regulator/Makefile
-> >> +++ b/drivers/regulator/Makefile
-> >> @@ -148,6 +148,7 @@ obj-$(CONFIG_REGULATOR_STM32_VREFBUF) +=3D stm32-v=
-refbuf.o
-> >>  obj-$(CONFIG_REGULATOR_STM32_PWR) +=3D stm32-pwr.o
-> >>  obj-$(CONFIG_REGULATOR_STPMIC1) +=3D stpmic1_regulator.o
-> >>  obj-$(CONFIG_REGULATOR_STW481X_VMMC) +=3D stw481x-vmmc.o
-> >> +obj-$(CONFIG_REGULATOR_SUN20I) +=3D sun20i-regulator.o
-> >>  obj-$(CONFIG_REGULATOR_SY7636A) +=3D sy7636a-regulator.o
-> >>  obj-$(CONFIG_REGULATOR_SY8106A) +=3D sy8106a-regulator.o
-> >>  obj-$(CONFIG_REGULATOR_SY8824X) +=3D sy8824x.o
-> >> diff --git a/drivers/regulator/sun20i-regulator.c b/drivers/regulator/=
-sun20i-regulator.c
-> >> new file mode 100644
-> >> index 000000000000..46f3927d7d10
-> >> --- /dev/null
-> >> +++ b/drivers/regulator/sun20i-regulator.c
-> >> @@ -0,0 +1,232 @@
-> >> +// SPDX-License-Identifier: GPL-2.0-only
-> >> +//
-> >> +// Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
-> >> +//
-> >=20
-> > nit: shouldn't the comment look like
-> > /*
-> >  * Copyright (c) 2021-2022 Samuel Holland <samuel@sholland.org>
-> >  */
+On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
+> Hi Maxime,
 >=20
-> I have had multiple requests from maintainers to use the former style bec=
-ause it
-> is more visually consistent. `git grep '^// Copy' drivers sound` returns =
-over
-> 1500 hits. But it doesn't really matter to me.
+> On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
+> > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wro=
+te:
+> > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd=
+720p60"), or
+> > > > > > > > > handle them through "@<refresh>".  The latter would impac=
+t "[PATCH v1
+> > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate =
+function", as
+> > > > > > > > > currently a named mode and a refresh rate can't be specif=
+ied both.
+> > > > > > > >
+> > > > > > > > I think the former would make more sense. It simplifies a b=
+it the
+> > > > > > > > parser, and we're going to use a named mode anyway.
+> > > > > > > >
+> > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode pro=
+perty as a
+> > > > > > > > > command-line option" uses a separate "tv_mode" option, an=
+d not the main
+> > > > > > > > > mode name, I think you want to add them here.
+> > > > > > > >
+> > > > > > > > It's a separate story I think, we could have a named mode h=
+d720p50,
+> > > > > > > > which would be equivalent to 1280x720,tv_mode=3Dhd720p
+> > > > > > >
+> > > > > > > So where's the field rate in "1280x720,tv_mode=3Dhd720p"?
+> > > > > >
+> > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=3Dhd720p
+> > > > >
+> > > > > Above you said "I think the former would make more sense", so that
+> > > > > should be "1280x720,tv_mode=3Dhd720p50"?
+> > > >
+> > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=3D=
+hd720p
+> > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=3Dhd720p
+> > >
+> > > I disagree: hd720p50 and hd720p60 are different TV modes.
+> >
+> > I agree, and I don't see how that command-line doesn't express that?
+>=20
+> Oh, I see what you mean: yes, it expresses that.
+> But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
+> where the TV mode specifies both number of lines and frame rate.
 
-ok ... I guess that is something that's changing then :-)
+Only if we're using a named mode, and naming is hard :)
 
-I just looked into some drivers and the coding-style rst document, but I
-guess it's the maintainer's call how this should look.
+Honestly, I'd be inclined to drop the hd* for now from this series. I
+don't have a hardware to test it with, for some we don't even have
+drivers that could implement these modes, we don't have a spec to work
+=66rom, it looks like a recipe for failure :)
 
+Maxime
 
+--gu5whptxg6eujuan
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYvzNrgAKCRDj7w1vZxhR
+xZPiAP9cuj5zZR8NRJHbKfFO0mr9fc31dj4wR+Gpelf6U7ZzwQEAvGoAg1Oi6hb0
+Hui+aaNLN6Rq3Vi1HR7q65YsP3trIwM=
+=i1o+
+-----END PGP SIGNATURE-----
+
+--gu5whptxg6eujuan--
