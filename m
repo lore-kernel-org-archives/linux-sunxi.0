@@ -1,229 +1,223 @@
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com [64.147.123.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 474A2440F
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 13:42:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailnew.west.internal (Postfix) with ESMTP id 2FD8A2B05FEE;
-	Thu, 18 Aug 2022 09:42:05 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Thu, 18 Aug 2022 09:42:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=cc
-	:cc:content-type:date:date:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:sender:subject
-	:subject:to:to; s=fm3; t=1660830124; x=1660837324; bh=HQC2uQh9jT
-	R5zuhwO9XMFeqtwLctTZY2rM1W/lF/1i0=; b=ltryRsjYqi1O97i1fEor/8CUH0
-	eV9s5UGSADqzroBSY3eVnDaNvBwGKasz2b6MSimH5N8JxjAHhclmoLCVeG2qq0wp
-	HLHzV9DhvCJ3jRXKcz7GHj8jeKKYEV6oNRFk8Cy90HbGMlwn55on0oDpCq2I7gSq
-	H5ZCs5qUCFGQWPfB2FqkmYBH14oorz13RRNzkzanntYz4hgr7Cn6EJlU6h3UofJp
-	Bzca/XJh+tTvIXS3S3kJS2pEKzzr8B6O8DU617LOsJHMVAKK1gyxHUsuiijkPOnt
-	TbNraVdN+DcqZmbKHyiv9XvUngyfSM5UdQ1LMdIC1N8BwekRI/zOEzazf5Tw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
-	:feedback-id:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:sender:subject:subject:to:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; t=1660830124; x=1660837324; bh=HQC2uQh9jTR5zuhwO9XMFeqtwLct
-	TZY2rM1W/lF/1i0=; b=CQPiA58vVLxmJMqggX/oIptmnHPvW6R1i8JljDcmqS+a
-	j/YU5Gm8+tGP++JlUpAb4CoSmBlBn8iFVO4FRt1G/7hHFapMqA4gPQgIvy7iL5h6
-	h/DKzE36elER5UwM6HrASreqJ8DP/2WplprYmAIg9Mtu5NPrtJ/qnvigT3Au5vBc
-	s2iqHi9JVXZy2dCgKq6obmD84xwwT0nESJyDGuzcgyleFf0q9Bz/p+GAKUoatobb
-	UEU7qhhxr5tFlcIFLerlP2ywHlX2c/bkhCL7lFyFjj9kyq74Ncy/q9zisxk6q/WJ
-	G98p0o/JRuuPXUZywqFAjoHexcDQw/yWPs+bB5NfbA==
-X-ME-Sender: <xms:q0H-YqFScjGApQHr1t9NPfOW6jXu0Ht7RJ7pYAKNqcp792Tfl5CrSQ>
-    <xme:q0H-YrXwS9bjjtG2rVpl6H0MFXLkZb_DGpsJraUkz0Oa5h7cL1CKIykNFjGjPmXnv
-    AWJKhbsRKiUHMidAZE>
-X-ME-Received: <xmr:q0H-YkJz1Ew2cwLeqlmQieun19musfq4H_o7hUWkKIuX-MQNVZM05h7elg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvfedrvdehledggedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvfevuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeevkefhveeffeeiuedtiedttdfhjeeiteefffegieeijeeigfelhfeltdei
-    leejfeenucffohhmrghinhephhhinhhnvghrrdhinhhfohdpfihikhhiphgvughirgdroh
-    hrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
-    rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:q0H-YkHLvVd0vNeO52JIGs1NtlThexGXIEADSZoOPDL575edFWcYMg>
-    <xmx:q0H-YgW1m9qStfkuJ2P2HlYCYL4Z-7LCXxhcxUpcQqpuvNfKXF_QxQ>
-    <xmx:q0H-YnMtcbBDfpQIyoNiIFYLprA9hkiGq6kgzn7ppeMOkqycmyZu1w>
-    <xmx:rEH-YmFREu56WOFKWCjODGXdld8BLa5ngFziZUcpI5arGyioP7vI7yYksEE>
-Feedback-ID: i8771445c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 18 Aug 2022 09:42:03 -0400 (EDT)
-Date: Thu, 18 Aug 2022 15:42:00 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Chen-Yu Tsai <wens@csie.org>,	Philipp Zabel <p.zabel@pengutronix.de>,
-	Jerome Brunet <jbrunet@baylibre.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B7C440F
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 13:55:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D466C433D6;
+	Thu, 18 Aug 2022 13:55:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660830939;
+	bh=fHzcBNlzGIZpl1xhXWFZNUDkhjIsfNqXuL0NTcnbSpk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=a1Rz0rDFPWuA7x8HY71a9klDTS7phrO7CnzcNYqrI/L2GvFT+RZWZyoewgnd3RMoG
+	 3V1zaan4Wz2R1xAXJ5Pvrwoi9ky/RDZGOzCFsMhiIVd11yOr3RIr25wBN5VyaAVJUX
+	 cMyEaaJGETJ/OS892Rjm1jP7uo02MXutvpbI7b30rOaNWAgSoKnZ/XuLBvVUH0OuMq
+	 buenYGD5g12Wtfp3Jh+iPkwxWxUj1UDyvXSTpK11YHA+JcXOQC/ZC6i+HIVtMRema+
+	 XERxdZknt9iTB3KXMzp0sz8ZSvkWFS2BVNNEmzz09TETaH0JS0MvNCskXudG5AQWiq
+	 Wgl/naXAHsAZA==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-arm-kernel@lists.infradead.org
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Russell King <linux@armlinux.org.uk>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Vladimir Zapolskiy <vz@mleia.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Aaro Koskinen <aaro.koskinen@iki.fi>,
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+	Tony Lindgren <tony@atomide.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Dinh Nguyen <dinguyen@kernel.org>,
+	Qin Jian <qinjian@cqplus1.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
 	Samuel Holland <samuel@sholland.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,	Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>,	David Airlie <airlied@linux.ie>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Noralf =?utf-8?Q?Tr=C3=B8nnes?= <noralf@tronnes.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Neil Armstrong <narmstrong@baylibre.com>,	linux-sunxi@lists.linux.dev,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
-	Linux ARM <linux-arm-kernel@lists.infradead.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
-	DRI Development <dri-devel@lists.freedesktop.org>,
-	Dom Cobley <dom@raspberrypi.com>
-Subject: Re: [PATCH v1 04/35] drm/modes: Introduce 480i and 576i modes
-Message-ID: <20220818134200.cr22bftmjn226ehn@houat>
-References: <20220728-rpi-analog-tv-properties-v1-4-3d53ae722097@cerno.tech>
- <CAMuHMdUrwzPYjA0wdR7ADj5Ov6+m03JbnY8fBYzRYyWDuNm5=g@mail.gmail.com>
- <20220816132636.3tmwqmrox64pu3lt@houat>
- <CAMuHMdUNLPbjs=usYQBim5FxsrC1oJLuF+3JB7auzHHRoOqavQ@mail.gmail.com>
- <20220817075351.4xpsqdngjgtiqvob@houat>
- <CAMuHMdUusnhYodWGCxJBu-1Hd2KW-xdT8jxE_iVdQjDo8b3Y5Q@mail.gmail.com>
- <20220817131454.qcuywcuc4ts4hswm@houat>
- <CAMuHMdVPEgnnsY-4uuf=FDJ0YxWpch-0kZWFT_TZfcDvXLtwWQ@mail.gmail.com>
- <20220818123934.eim2bfrgbxsmviqx@houat>
- <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tudor Ambarus <tudor.ambarus@microchip.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Shannon Nelson <snelson@pensando.io>,
+	Peter Chen <peter.chen@nxp.com>,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Felipe Balbi <balbi@ti.com>,
+	linux-kernel@vger.kernel.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev,
+	linux-tegra@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH 00/11] ARM: defconfig cleanup
+Date: Thu, 18 Aug 2022 15:55:21 +0200
+Message-Id: <20220818135522.3143514-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="bjiayi7n6oays3ln"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWXbHkrBZgsmUnU=q52+q7UZZNO3tgQW7Men+msQ1JDwQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+From: Arnd Bergmann <arnd@arndb.de>
+
+I have continued the cleanup of the multi_*_defconfig files, and
+reordered the other files according to the 'make savedefconfig'
+output as before.
+
+I would like to queue these up for 6.1, though the last two
+should probably be considered bugfixes and merged for 6.0.
+
+Since a third of the defconfig files are for machines that
+are now marked as unused, I skipped those files. There are still
+a few things that get removed by 'make savedefconfig' as they
+now get selected by some driver:
+
+-CONFIG_SERIAL_BCM63XX=y
+-CONFIG_SND_AUDIO_GRAPH_CARD=m
+-CONFIG_NEW_LEDS=y
+-CONFIG_LEDS_TRIGGERS=y
+-CONFIG_TEGRA20_APB_DMA=y
+
+I think for those we should follow up with patches to remove the
+'select' statements.
+
+       Arnd
+
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Nicolas Ferre <nicolas.ferre@microchip.com>
+Cc: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc: Claudiu Beznea <claudiu.beznea@microchip.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Alim Akhtar <alim.akhtar@samsung.com>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: NXP Linux Team <linux-imx@nxp.com>
+Cc: Vladimir Zapolskiy <vz@mleia.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Sudeep Holla <sudeep.holla@arm.com>
+Cc: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: Andrew Lunn <andrew@lunn.ch>
+Cc: Gregory Clement <gregory.clement@bootlin.com>
+Cc: Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>
+Cc: Aaro Koskinen <aaro.koskinen@iki.fi>
+Cc: Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc: Tony Lindgren <tony@atomide.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Magnus Damm <magnus.damm@gmail.com>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Qin Jian <qinjian@cqplus1.com>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+Cc: Alexandre Torgue <alexandre.torgue@foss.st.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>
+Cc: Bin Liu <b-liu@ti.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: "Łukasz Stelmach" <l.stelmach@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Vladimir Oltean <vladimir.oltean@nxp.com>
+Cc: Richard Cochran <richardcochran@gmail.com>
+Cc: Jakub Kicinski <kuba@kernel.org>
+Cc: Shannon Nelson <snelson@pensando.io>
+Cc: Peter Chen <peter.chen@nxp.com>
+Cc: Stefan Wahren <stefan.wahren@i2se.com>
+Cc: Felipe Balbi <balbi@ti.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-omap@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+Cc: linux-stm32@st-md-mailman.stormreply.com
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
 
 
---bjiayi7n6oays3ln
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Arnd Bergmann (11):
+  ARM: defconfig: reorder defconfig files
+  ARM: defconfig: clean up multi_v4t and multi_v5 configs
+  ARM: defconfig: drop CONFIG_NET_VENDOR_ASIX=y
+  ARM: defconfig: drop CONFIG_SERIAL_OMAP references
+  ARM: defconfig: drop CONFIG_DRM_RCAR_LVDS
+  ARM: defconfig: drop CONFIG_PTP_1588_CLOCK=y
+  ARM: defconfig: drop CONFIG_SND_SOC_FSL_SAI
+  ARM: defconfig: drop CONFIG_USB_FSL_USB2
+  ARM: defconfig: drop CONFIG_MICROCHIP_PIT64B
+  ARM: defconfig: fix CONFIG_SND_SOC_AC97_CODEC name
+  musb: fix USB_MUSB_TUSB6010 dependency
 
-On Thu, Aug 18, 2022 at 02:57:55PM +0200, Geert Uytterhoeven wrote:
-> Hi Maxime,
->=20
-> On Thu, Aug 18, 2022 at 2:39 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > On Wed, Aug 17, 2022 at 04:01:48PM +0200, Geert Uytterhoeven wrote:
-> > > > I've looked around and it looks like the entire blanking area is
-> > > > supposed to be 40 pixels in interlaced, but I couldn't find anywher=
-e how
-> > >
-> > > 625 lines - 575[*] visible lines =3D 50 lines.
-> > >
-> > > [*] BT.656 uses 576 visible lines as that's a multiple of 2, for spli=
-tting
-> > >      a frame in two fields of equal size.
-> > >
-> > > "visible" is relative, as it includes the overscan region.
-> > > Some PAL monitors used with computers had knobs to control width/heig=
-ht
-> > > and position of the screen, so you could make use of most or all of
-> > > the overscan region
-> >
-> > It brings back some memories :)
-> >
-> > > but on a real TV you're limited to ca. 640x512 (on PAL) which is what
-> > > an Amiga used by default (with a 14 MHz pixclock).
-> >
-> > > > it's supposed to be split between the upper and lower margins and t=
-he
-> > > > sync period.
-> > >
-> > > "Field Synchronization of PAL System" on
-> > > http://martin.hinner.info/vga/pal.html shows the split.
-> >
-> > Thanks, that's excellent as well.
-> >
-> > I'm mostly done with a function that creates a PAL mode, but I still
-> > have one question.
-> >
-> > If I understand well, the blanking period is made up (interlace) of 16
-> > pulses for the first field, 14 for the second, each pulse taking half a
-> > line. That amount to 30 pulses, so 15 lines.
-> >
-> > I first assumed that the pre-equalizing pulses would be the back porch,
-> > the long sync pulses the vsync, and the post-equalizing pulses the front
-> > porch. But... we're still missing 35 lines to amount to 625 lines, that
-> > seems to be counted in the field itself (305 lines =3D=3D (575 + 35) / =
-2)
-> >
-> > So I guess my assumption was wrong to begin with.
->=20
-> The back porch is the number of lines between the last "visible" line
-> and the start of the synchronization pulse, i.e. "l" in the "Field
-> Synchronization of PAL System" drawing.
-> Virtual sync length is "m".
-> The front porch is the number of lines between the end of
-> the synchronization pulse, and the first "visible" line, i.e.
-> "j - l - m" (I think you used "n", thus missing lines 6-23 and 319-335).
+ arch/arm/configs/at91_dt_defconfig   |  2 +-
+ arch/arm/configs/dove_defconfig      |  2 +-
+ arch/arm/configs/exynos_defconfig    |  2 +-
+ arch/arm/configs/imx_v6_v7_defconfig |  2 +-
+ arch/arm/configs/keystone_defconfig  |  7 +++----
+ arch/arm/configs/lpc18xx_defconfig   |  2 +-
+ arch/arm/configs/mmp2_defconfig      |  2 +-
+ arch/arm/configs/mps2_defconfig      |  2 +-
+ arch/arm/configs/multi_v4t_defconfig |  2 --
+ arch/arm/configs/multi_v5_defconfig  |  3 +--
+ arch/arm/configs/multi_v7_defconfig  | 22 +++++++---------------
+ arch/arm/configs/mvebu_v5_defconfig  |  2 +-
+ arch/arm/configs/mxs_defconfig       |  4 ++--
+ arch/arm/configs/omap1_defconfig     |  2 +-
+ arch/arm/configs/omap2plus_defconfig |  7 ++-----
+ arch/arm/configs/orion5x_defconfig   |  2 +-
+ arch/arm/configs/pxa168_defconfig    |  2 +-
+ arch/arm/configs/pxa910_defconfig    |  2 +-
+ arch/arm/configs/pxa_defconfig       |  2 +-
+ arch/arm/configs/s3c6400_defconfig   |  2 +-
+ arch/arm/configs/s5pv210_defconfig   |  2 +-
+ arch/arm/configs/sama5_defconfig     |  6 +++---
+ arch/arm/configs/sama7_defconfig     |  4 ++--
+ arch/arm/configs/shmobile_defconfig  |  2 +-
+ arch/arm/configs/socfpga_defconfig   |  6 +++---
+ arch/arm/configs/sp7021_defconfig    |  2 +-
+ arch/arm/configs/spear13xx_defconfig |  2 +-
+ arch/arm/configs/spear3xx_defconfig  |  2 +-
+ arch/arm/configs/spear6xx_defconfig  |  2 +-
+ arch/arm/configs/stm32_defconfig     |  2 +-
+ arch/arm/configs/sunxi_defconfig     |  2 +-
+ arch/arm/configs/tegra_defconfig     |  2 +-
+ arch/arm/configs/vexpress_defconfig  |  2 +-
+ drivers/usb/musb/Kconfig             |  2 +-
+ 34 files changed, 48 insertions(+), 63 deletions(-)
 
-Ah, yes, that makes sense
+-- 
+2.29.2
 
-> > You seem to have used a fixed vsync in amifb to 4 lines, and I don't
->=20
-> Actually "m" is 2.5 lines in the first field, and 3 lines in the second f=
-ield,
-> so "4" is not that much off of 2.5 + 3.
-
-Is it? If I'm reading that drawing well, l before the first field starts
-on the second half of line 623 and stops at the end of line 625, so 2.5
-line, and on the second field starts at the beginning of line 311, and
-stops half-way through 313 so 2.5 line again.
-
-Then, for the first field, m starts at the beginning of line 1, stops
-half-way through line 3, so 2.5 line indeed, and then on the second
-field starts on the second half of 313 and stops at the end of line 315.
-So 2.5 again?
-
-Thus, both should be 5?
-
-> > understand how you come up with the upper and lower margins (or rather,
-> > how they are linked to what's described in that page)
->=20
-> These margins probably came from the Amiga hardware reference manual,
-> for the default 640x512 (PAL) and 640x400 (NTSC) modes.
-
-Ok.
-
-I started adding more sanity checks to my code, and I just realised I
-don't seem to be able to reach 720 pixels over a single line though. If
-I understood it properly, and according to [1] the active part of a line
-is supposed to be 51.95us, and the blanking period taking 12.05us. [2]
-in the timing section has pretty much the same numbers, so it looks
-sane.
-
-At 13.5Mhz, a pixel is going to take roughly 74ns, and 51950 / 74 =3D 702
-pixels
-
-It seems we can go push it to 52350 ns, but that still gives us only 706
-pixels.
-
-Similarly, if I just choose to ignore that limit and just take the
-active time I need, 720 * 74 =3D 53280ns
-
-That leaves us 10720ns for the blanking period, and that's not enough to
-fit even the minimum of the front porch, hsync and back porch (1.55 +
-4.5 + 5.5 =3D 11.55us).
-
-Are those constraints merely recommendations, or am I missing something?
-
-Thanks!
-Maxime
-
-1: https://en.wikipedia.org/wiki/PAL#PAL_signal_details
-2: http://martin.hinner.info/vga/pal.html
-
---bjiayi7n6oays3ln
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYv5BqAAKCRDj7w1vZxhR
-xWtBAQDibwVaic8Y/y58QuWnOuhXnUvfjLJQpEPWFoP8AcS2PAEApAMrj2LZQrsW
-1JWlpoRTdj2V5czk8fjcIqqDqWHqrQE=
-=Vc6t
------END PGP SIGNATURE-----
-
---bjiayi7n6oays3ln--
