@@ -1,162 +1,149 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0BFE15A7
-	for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 15:01:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LccdFbPDSxXP+gACKuKTMuEMaaSrmuhltQbhTM8ys/U=; b=U/p7+XSNH4LJjD0Qr6Vocdo1qZ
-	kPXkbxTXApbs7c+pbjX6DjHx0NDSpAn+wyaTG75S2L00/kKFiUs0gOp+HCGYDLCDYF3EFgEbuy1hX
-	DJRfD8avqpvWvKDMIOj9hRns71Q0AkeVlwLiz3KuGy30EWm9z2y6McQtlaQmXTTX9iXUN4C/4mHhw
-	FqpIRgdt0L7wCYElPHASLD0M2OkJ8dcbaUIawVJ9rT2xLd8DsM3CXMGbMIvGtLtBNCfxdI2vGj/fo
-	j2JfIm2nMB8dF0P4fTMreV5BxDZRPDPsELI2wznKsApyducwTOHPOY0jyEvXYixqtY+CPdX77SSfm
-	rn2j11jw==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=65245)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oOh1l-0000p4-JX; Thu, 18 Aug 2022 17:01:45 +0200
-Message-ID: <9daca9bf-838e-c3eb-51de-1cf5188a9341@tronnes.org>
-Date: Thu, 18 Aug 2022 17:01:38 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D9B15A7
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 15:27:53 +0000 (UTC)
+Received: by mail-qk1-f181.google.com with SMTP id f4so1348765qkl.7
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 08:27:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=T9A28BLo2B0nLzuZtZ0Ejl0zLIHzqGciO6GeX7JAOrM=;
+        b=504SHBM2Y5QE124moB6hnjOEQEQ5KVgUvrpFtM2ynVbfJAbcqlrAp+BpFl851PcmlQ
+         rCWGBIkOLNV/Ydvm6h/2ZA+knvje4S1lJG9FCiANf8CtvlwKKWJ1gmBh2CQaADMUQUkH
+         sL4mfvAcPA1ZSicfduKKNzxmEXVpYsPonuq0t1cD8L7vIYdEvvwDQgTGkW6yzIs02usy
+         H6XLBpiflJT7URbhvtpGNM8Zy7NZgchUV3wz9mLf9wt85W9pxt905gaWaBSC4NKDIVIV
+         jGLyXRGtjavm4GqtxgwGO+WnWmqxcDhZxrj3WGYQAik9Zf1OSwxnzugPXQhXvC04wGDE
+         rZmQ==
+X-Gm-Message-State: ACgBeo2OcsRiR10jj9Hwuzhc70EYHXAJGEQSf5+ejzDskgcaKGmnUUN3
+	6uFKxYCU39M8HQpaCHSwhSJ8B1mihYMwjA==
+X-Google-Smtp-Source: AA6agR4S63ghruTAL5CMobDD+wODZEfazVfgz/T16MWfnJvU4xSfpUPkdnuOVasQ0vQVpdPvzPGU7g==
+X-Received: by 2002:a05:620a:b15:b0:6bb:c6d8:5058 with SMTP id t21-20020a05620a0b1500b006bbc6d85058mr1175608qkg.698.1660836471718;
+        Thu, 18 Aug 2022 08:27:51 -0700 (PDT)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com. [209.85.128.175])
+        by smtp.gmail.com with ESMTPSA id r25-20020ae9d619000000b006bb2f555ba4sm1646181qkk.41.2022.08.18.08.27.51
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Aug 2022 08:27:51 -0700 (PDT)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-334dc616f86so50318267b3.8
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 08:27:51 -0700 (PDT)
+X-Received: by 2002:a25:250b:0:b0:68f:425b:3ee0 with SMTP id
+ l11-20020a25250b000000b0068f425b3ee0mr3357401ybl.89.1660836055065; Thu, 18
+ Aug 2022 08:20:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
+References: <20220816141116.5nuszmilqv2exdb3@houat> <CAMuHMdXq_xGPx46bdnUFGDiG4kcgdxtXaRGTucFd3TRq8353dg@mail.gmail.com>
+ <20220816154956.pkdpxmmw27mia5ix@houat> <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
+ <20220817074710.w4c4xwj7edly2b5p@houat> <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
+ <20220817111454.pn2iltvyo2drebq7@houat> <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
+ <20220817131854.jwmhqvhfhp77bbr3@houat> <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
+ <20220818145436.vqojnhmvhjxdzooe@houat>
+In-Reply-To: <20220818145436.vqojnhmvhjxdzooe@houat>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 18 Aug 2022 17:20:42 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
+Message-ID: <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
 Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
 To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, linux-sunxi@lists.linux.dev,
- linux-kernel@vger.kernel.org, Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
- <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
- <9fdecae2-80ad-6212-0522-7dccf9fb57be@tronnes.org>
- <20220816082612.grebxql5ynnfnvfd@houat>
- <ea6ebdda-f779-78af-1ffd-bd86d715077f@tronnes.org>
- <20220816094922.oqhrhefv327zo2ou@houat>
- <be9b6b71-fa2a-3290-2bce-901342e01981@tronnes.org>
- <20220817114605.jpb3tlnoseyvf65d@houat>
- <30f3005d-0acc-e5af-10ca-cf46f18b3478@tronnes.org>
- <133c2a1d-0b4c-cef9-11fe-9ce9985253d6@tronnes.org>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <133c2a1d-0b4c-cef9-11fe-9ce9985253d6@tronnes.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
+	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+	linux-sunxi@lists.linux.dev, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
+	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
+	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
+	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Hi Maxime,
 
+On Thu, Aug 18, 2022 at 4:54 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> On Wed, Aug 17, 2022 at 04:04:24PM +0200, Geert Uytterhoeven wrote:
+> > On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
+> > > > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
+> > > > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > > > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
+> > > > > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
+> > > > > > > > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
+> > > > > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
+> > > > > > > > > > > > > > currently a named mode and a refresh rate can't be specified both.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > I think the former would make more sense. It simplifies a bit the
+> > > > > > > > > > > > > parser, and we're going to use a named mode anyway.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
+> > > > > > > > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
+> > > > > > > > > > > > > > mode name, I think you want to add them here.
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > It's a separate story I think, we could have a named mode hd720p50,
+> > > > > > > > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
+> > > > > > > > > > > >
+> > > > > > > > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
+> > > > > > > > > > >
+> > > > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
+> > > > > > > > > >
+> > > > > > > > > > Above you said "I think the former would make more sense", so that
+> > > > > > > > > > should be "1280x720,tv_mode=hd720p50"?
+> > > > > > > > >
+> > > > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
+> > > > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
+> > > > > > > >
+> > > > > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
+> > > > > > >
+> > > > > > > I agree, and I don't see how that command-line doesn't express that?
+> > > > > >
+> > > > > > Oh, I see what you mean: yes, it expresses that.
+> > > > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
+> > > > > > where the TV mode specifies both number of lines and frame rate.
+> > > > >
+> > > > > Only if we're using a named mode, and naming is hard :)
+> > > >
+> > > > That's not true: "640x480,tv_mode=PAL-N" would give me a mode with
+> > > > 625 lines and 25 frames/s, "640x480,tv_mode=PAL-M" would give me a
+> > > > mode with 525 lines and 30 frames/s.
+> > >
+> > > In that series, "640x480,tv_mode=PAL-N" would be rejected as invalid:
+> > >
+> > > https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3d53ae722097@cerno.tech/
+> >
+> > It would become supported once the ideas from thread "[PATCH v1 04/35]
+> > drm/modes: Introduce 480i and 576i modes" are implemented...
+>
+> Indeed, but I'm still not sure what your concern is here.
+> "640x480,tv_mode=PAL-N" and "640x480,tv_mode=PAL-M" are both fairly
+> obvious.
+>
+> You were initially saying that you had concern over the inconsistency of
+> NTSC/PAL/SECAM where the TV mode would specify a number of lines and
+> frame rate, but hd720p50 also specifies a number of line and frame rate?
 
-Den 18.08.2022 01.23, skrev Noralf Trønnes:
-> 
-> 
-> Den 17.08.2022 15.11, skrev Noralf Trønnes:
->>
->>
->> Den 17.08.2022 13.46, skrev Maxime Ripard:
->>> On Tue, Aug 16, 2022 at 09:35:24PM +0200, Noralf Trønnes wrote:
->>>> Den 16.08.2022 11.49, skrev Maxime Ripard:
->>>>> On Tue, Aug 16, 2022 at 11:42:20AM +0200, Noralf Trønnes wrote:
->>>>>> Den 16.08.2022 10.26, skrev Maxime Ripard:
->>>>>>> Hi,
->>>>>>>
->>>>>>> On Mon, Aug 08, 2022 at 02:44:56PM +0200, Noralf Trønnes wrote:
->>>>>>>> Den 29.07.2022 18.34, skrev Maxime Ripard:
->>>>>>>>> The TV mode property has been around for a while now to select and get the
->>>>>>>>> current TV mode output on an analog TV connector.
->>>>>>>>>
->>>>>>>>> Despite that property name being generic, its content isn't and has been
->>>>>>>>> driver-specific which makes it hard to build any generic behaviour on top
->>>>>>>>> of it, both in kernel and user-space.
->>>>>>>>>
->>>>>>>>> Let's create a new bitmask tv norm property, that can contain any of the
->>>>>>>>> analog TV standards currently supported by kernel drivers. Each driver can
->>>>>>>>> then pass in a bitmask of the modes it supports.
->>>>>>>>>
->>>>>>>>> We'll then be able to phase out the older tv mode property.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->>>>>>>>>
-> 
->>>> How do you test the property? I've used modetest but I can only change
->>>> to a tv.mode that matches the current display mode. I can't switch from
->>>> ntsc to pal for instance.
->>>
->>> Yep, if you want to change from PAL to NTSC, it will require a new mode.
->>>
->>
->> So userspace has to check tv.mode first and then create a display mode
->> the driver will accept if switching to a different display mode is
->> necessary? In other words, userspace can't discover from the kernel
->> which display modes a certain tv.mode/norm provides before it is
->> selected? If so, maybe libdrm should have some function(s) to deal with
->> switching between modes that require a different display mode since
->> knowledge about which display modes a tv.mode supports is needed before
->> hand.
->>
-> 
-> I haven't used vc4 on Pi4 in mainline before and have finally gotten it
-> to work.
-> 
-> I see that the connector reports 2 modes that together fit all tv.norms
-> so userspace doesn't have to contruct a display mode, but it does need
-> to know which display mode belongs to a certain tv.norm.
-> 
-> When I try to use modetest I'm unable to set a mode:
-> 
-> pi@pi4t:~ $ modetest -M vc4 -s 45:720x480i
-> setting mode 720x480i-29.97Hz on connectors 45, crtc 68
-> failed to set mode: Function not implemented
-> 
-> The errno is misleading, modetest does a drmModeDirtyFB before checking
-> the error returned by drmModeSetCrtc.
-> 
-> Setting the property succeeds, but the modeset still fails:
-> 
-> pi@pi4t:~ $ modetest -M vc4 -s 45:720x480i -w 45:"tv norm":2
-> setting mode 720x480i-29.97Hz on connectors 45, crtc 68
-> failed to set mode: Function not implemented
-> 
-> pi@pi4t:~ $ modetest -M vc4 -c
->         37 tv norm:
->                 flags: bitmask
->                 values: NTSC-443=0x1 NTSC-J=0x2 NTSC-M=0x4 PAL-B=0x10
-> PAL-M=0x200 PAL-N=0x400 SECAM-B=0x2000
->                 value: 2
-> 
-> Here's the log, can you see if there's anything obvious in there:
-> https://gist.github.com/notro/a079498bf6b64327105752b2bafa8858
-> 
+My concern is that you want to call the TV mode "hd720p", which
+does not dictate the frame rate.
+I would like to have both "720p50" and "720p60", as they do dictate
+the frame rate, like all the non-hd modes.
 
-I'm one step closer as I now have fbcon working, I had forgotten to add
-enable_tvout=1 and I had disable_fw_kms_setup=1 which disables the
-video= mode on the kernel commandline.
+Gr{oetje,eeting}s,
 
-modetest still fails though, after alot of printk sprinkling, I've
-tracked it down to the drm_mode_equal test in
-drm_atomic_helper_connector_tv_check(). The aspect ratios differ:
+                        Geert
 
-[   61.336295] drm_atomic_helper_connector_tv_check:
-mode->picture_aspect_ratio=1
-[   61.336301] drm_atomic_helper_connector_tv_check:
-&crtc_state->mode->picture_aspect_ratio=0
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Noralf.
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
