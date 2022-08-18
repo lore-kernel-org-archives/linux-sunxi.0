@@ -1,107 +1,319 @@
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAC74A07;
-	Thu, 18 Aug 2022 21:17:15 +0000 (UTC)
-Received: from nicolas-tpx395.localdomain (192-222-136-102.qc.cable.ebox.net [192.222.136.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 10B05660037D;
-	Thu, 18 Aug 2022 22:17:11 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1660857433;
-	bh=KE0bQCqNtR+z+ksSI4I4sg0fOlUJH2F/9l/R0xeYO+U=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=DQfoSdbAkNSPx81fc4H4bxwQbs7bvPPoYktXNZCJ7bB2f3xrzadMZxR2D/0hk/+Jq
-	 UbhfJZsWzD4NfTQ4mKM4P/320wJoRYHOIuMWn8/rb6sIc+weuRBCbe6lUBrC9QkJD+
-	 Sp6s34Ae66PjHnspNfxF08vtHrwOLIBUnDJx/IOyFIkki58/PTI0d4IAHd8UxYI0pg
-	 irPIPFf6QODS+LuzvfkhTzDlu/wh5rnHeZe76qBx4nXPHBDcWAvmVRoAA5SiYLHV64
-	 prkIEfGfgAu1weyyppxzD9T7wuTrrLDD7FE7EApyRpwysOdGJG2aPQBg41t7bKPAFc
-	 5JbRy9nso92tA==
-Message-ID: <212924d309cb8594fc61e1c5bb2ad07d5bb9312d.camel@collabora.com>
-Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in
- cedrus_h265_skip_bits()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul
- Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: kernel@collabora.com, stable@vger.kernel.org,
- linux-staging@lists.linux.dev,  linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev,  linux-kernel@vger.kernel.org
-Date: Thu, 18 Aug 2022 17:17:02 -0400
-In-Reply-To: <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com>
-	 <20220818203308.439043-4-nicolas.dufresne@collabora.com>
-	 <2182ae07-4c0a-5937-7acc-3fad68d28baa@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4 (3.44.4-1.fc36) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04724A07
+	for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 22:11:35 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E2338B;
+	Fri, 19 Aug 2022 00:05:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1660860355;
+	bh=xD92V269nPxYBK40XY1d1B25dDlefBuRONroqzpcmFY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QUU/hQ32HHQF3Iy3QdDKQ8vHxfX3BWD5YwCe6g4cz4OhMabwyKJRwPSxJmDyMWfOe
+	 o9mQzoOLH8HQPNXzMdOtcgTe04KFBTzwsFMw3jNG7eIiJcaagzZGYK2Sguonkg5VxJ
+	 5c+cckw7toR6l9FhivXRTvYjNMNTgfP1UdrLaxS8=
+Date: Fri, 19 Aug 2022 01:05:52 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	"Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+	Daniel Vetter <daniel@ffwll.ch>, Evan Quan <evan.quan@amd.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <narmstrong@baylibre.com>,
+	Robert Foss <robert.foss@linaro.org>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Russell King <linux@armlinux.org.uk>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] gpu: move from strlcpy with unused retval to strscpy
+Message-ID: <Yv63wP0jpCoVzuE+@pendragon.ideasonboard.com>
+References: <20220818210008.6721-1-wsa+renesas@sang-engineering.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220818210008.6721-1-wsa+renesas@sang-engineering.com>
 
-Le jeudi 18 ao=C3=BBt 2022 =C3=A0 23:39 +0300, Dmitry Osipenko a =C3=A9crit=
-=C2=A0:
-> On 8/18/22 23:33, Nicolas Dufresne wrote:
-> > From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >=20
-> > The busy status bit may never de-assert if number of programmed skip
-> > bits is incorrect, resulting in a kernel hang because the bit is polled
-> > endlessly in the code. Fix it by adding timeout for the bit-polling.
-> > This problem is reproducible by setting the data_bit_offset field of
-> > the HEVC slice params to a wrong value by userspace.
-> >=20
-> > Cc: stable@vger.kernel.org
-> > Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > ---
-> >  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers=
-/staging/media/sunxi/cedrus/cedrus_h265.c
-> > index f703c585d91c5..f0bc118021b0a 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> > @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct ce=
-drus_dev *dev,
-> >  static void cedrus_h265_skip_bits(struct cedrus_dev *dev, int num)
-> >  {
-> >  	int count =3D 0;
-> > +	u32 reg;
->=20
-> This "reg" variable isn't needed anymore after switching to
-> cedrus_wait_for(). Sorry, I missed it :)
+Hi Wolfram,
 
-Good catch thanks, will fix.
+Thank you for the patch.
 
->=20
-> >  	while (count < num) {
-> >  		int tmp =3D min(num - count, 32);
-> > @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev=
- *dev, int num)
-> >  		cedrus_write(dev, VE_DEC_H265_TRIGGER,
-> >  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
-> >  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
-> > -		while (cedrus_read(dev, VE_DEC_H265_STATUS) & VE_DEC_H265_STATUS_VLD=
-_BUSY)
-> > -			udelay(1);
-> > +
-> > +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS, VE_DEC_H265_STATUS_VLD_=
-BUSY))
-> > +			dev_err_ratelimited(dev->dev, "timed out waiting to skip bits\n");
-> > =20
-> >  		count +=3D tmp;
-> >  	}
->=20
->=20
+On Thu, Aug 18, 2022 at 11:00:07PM +0200, Wolfram Sang wrote:
+> Follow the advice of the below link and prefer 'strscpy' in this
+> subsystem. Conversion is 1:1 because the return value is not used.
+> Generated by a coccinelle script.
+> 
+> Link: https://lore.kernel.org/r/CAHk-=wgfRnXz0W3D37d01q3JFkr_i_uTL=V6A6G1oUZcprmknw@mail.gmail.com/
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/gpu/drm/amd/amdgpu/atom.c                   | 2 +-
+>  drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c      | 2 +-
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c | 6 +++---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c           | 2 +-
+>  drivers/gpu/drm/display/drm_dp_helper.c             | 2 +-
+>  drivers/gpu/drm/display/drm_dp_mst_topology.c       | 2 +-
+>  drivers/gpu/drm/drm_mipi_dsi.c                      | 2 +-
+>  drivers/gpu/drm/i2c/tda998x_drv.c                   | 2 +-
+>  drivers/gpu/drm/i915/selftests/i915_perf.c          | 2 +-
+>  drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c             | 2 +-
+>  drivers/gpu/drm/radeon/radeon_atombios.c            | 4 ++--
+>  drivers/gpu/drm/radeon/radeon_combios.c             | 4 ++--
+>  drivers/gpu/drm/rockchip/inno_hdmi.c                | 2 +-
+>  drivers/gpu/drm/rockchip/rk3066_hdmi.c              | 2 +-
+>  drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c              | 2 +-
+>  15 files changed, 19 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/amdgpu/atom.c b/drivers/gpu/drm/amd/amdgpu/atom.c
+> index 1c5d9388ad0b..5f610e9a5f0f 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/atom.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/atom.c
+> @@ -1509,7 +1509,7 @@ struct atom_context *amdgpu_atom_parse(struct card_info *card, void *bios)
+>  	str = CSTR(idx);
+>  	if (*str != '\0') {
+>  		pr_info("ATOM BIOS: %s\n", str);
+> -		strlcpy(ctx->vbios_version, str, sizeof(ctx->vbios_version));
+> +		strscpy(ctx->vbios_version, str, sizeof(ctx->vbios_version));
+>  	}
+>  
+>  	atom_rom_header = (struct _ATOM_ROM_HEADER *)CSTR(base);
+> diff --git a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
+> index d3fe149d8476..81fb4e5dd804 100644
+> --- a/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
+> +++ b/drivers/gpu/drm/amd/pm/legacy-dpm/legacy_dpm.c
+> @@ -794,7 +794,7 @@ void amdgpu_add_thermal_controller(struct amdgpu_device *adev)
+>  				struct i2c_board_info info = { };
+>  				const char *name = pp_lib_thermal_controller_names[controller->ucType];
+>  				info.addr = controller->ucI2cAddress >> 1;
+> -				strlcpy(info.type, name, sizeof(info.type));
+> +				strscpy(info.type, name, sizeof(info.type));
+>  				i2c_new_client_device(&adev->pm.i2c_bus->adapter, &info);
+>  			}
+>  		} else {
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> index 7d2ed0ed2fe2..4efb62bcdb63 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-ahb-audio.c
+> @@ -542,8 +542,8 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	strlcpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> -	strlcpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
+> +	strscpy(card->driver, DRIVER_NAME, sizeof(card->driver));
+> +	strscpy(card->shortname, "DW-HDMI", sizeof(card->shortname));
+>  	snprintf(card->longname, sizeof(card->longname),
+>  		 "%s rev 0x%02x, irq %d", card->shortname, revision,
+>  		 data->irq);
+> @@ -561,7 +561,7 @@ static int snd_dw_hdmi_probe(struct platform_device *pdev)
+>  
+>  	dw->pcm = pcm;
+>  	pcm->private_data = dw;
+> -	strlcpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+> +	strscpy(pcm->name, DRIVER_NAME, sizeof(pcm->name));
+>  	snd_pcm_set_ops(pcm, SNDRV_PCM_STREAM_PLAYBACK, &snd_dw_hdmi_ops);
+>  
+>  	/*
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> index 25a60eb4d67c..4f3ae976e677 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -533,7 +533,7 @@ static struct i2c_adapter *dw_hdmi_i2c_adapter(struct dw_hdmi *hdmi)
+>  	adap->owner = THIS_MODULE;
+>  	adap->dev.parent = hdmi->dev;
+>  	adap->algo = &dw_hdmi_algorithm;
+> -	strlcpy(adap->name, "DesignWare HDMI", sizeof(adap->name));
+> +	strscpy(adap->name, "DesignWare HDMI", sizeof(adap->name));
+>  	i2c_set_adapdata(adap, hdmi);
+>  
+>  	ret = i2c_add_adapter(adap);
+> diff --git a/drivers/gpu/drm/display/drm_dp_helper.c b/drivers/gpu/drm/display/drm_dp_helper.c
+> index e5bab236b3ae..10a39b36a661 100644
+> --- a/drivers/gpu/drm/display/drm_dp_helper.c
+> +++ b/drivers/gpu/drm/display/drm_dp_helper.c
+> @@ -2058,7 +2058,7 @@ int drm_dp_aux_register(struct drm_dp_aux *aux)
+>  	aux->ddc.owner = THIS_MODULE;
+>  	aux->ddc.dev.parent = aux->dev;
+>  
+> -	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
+> +	strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(aux->dev),
+>  		sizeof(aux->ddc.name));
+>  
+>  	ret = drm_dp_aux_register_devnode(aux);
+> diff --git a/drivers/gpu/drm/display/drm_dp_mst_topology.c b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> index 57e65423e50d..6bdf39937054 100644
+> --- a/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/display/drm_dp_mst_topology.c
+> @@ -5780,7 +5780,7 @@ static int drm_dp_mst_register_i2c_bus(struct drm_dp_mst_port *port)
+>  	aux->ddc.dev.parent = parent_dev;
+>  	aux->ddc.dev.of_node = parent_dev->of_node;
+>  
+> -	strlcpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
+> +	strscpy(aux->ddc.name, aux->name ? aux->name : dev_name(parent_dev),
+>  		sizeof(aux->ddc.name));
+>  
+>  	return i2c_add_adapter(&aux->ddc);
+> diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
+> index c40bde96cfdf..9820b85a34c7 100644
+> --- a/drivers/gpu/drm/drm_mipi_dsi.c
+> +++ b/drivers/gpu/drm/drm_mipi_dsi.c
+> @@ -223,7 +223,7 @@ mipi_dsi_device_register_full(struct mipi_dsi_host *host,
+>  
+>  	dsi->dev.of_node = info->node;
+>  	dsi->channel = info->channel;
+> -	strlcpy(dsi->name, info->type, sizeof(dsi->name));
+> +	strscpy(dsi->name, info->type, sizeof(dsi->name));
+>  
+>  	ret = mipi_dsi_device_add(dsi);
+>  	if (ret) {
+> diff --git a/drivers/gpu/drm/i2c/tda998x_drv.c b/drivers/gpu/drm/i2c/tda998x_drv.c
+> index f8eb6f69be05..d49f0bd8d02c 100644
+> --- a/drivers/gpu/drm/i2c/tda998x_drv.c
+> +++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+> @@ -1949,7 +1949,7 @@ static int tda998x_create(struct device *dev)
+>  	 * offset.
+>  	 */
+>  	memset(&cec_info, 0, sizeof(cec_info));
+> -	strlcpy(cec_info.type, "tda9950", sizeof(cec_info.type));
+> +	strscpy(cec_info.type, "tda9950", sizeof(cec_info.type));
+>  	cec_info.addr = priv->cec_addr;
+>  	cec_info.platform_data = &priv->cec_glue;
+>  	cec_info.irq = client->irq;
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_perf.c b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> index 88db2e3d81d0..8f5285654d7a 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_perf.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_perf.c
+> @@ -28,7 +28,7 @@ alloc_empty_config(struct i915_perf *perf)
+>  	oa_config->perf = perf;
+>  	kref_init(&oa_config->ref);
+>  
+> -	strlcpy(oa_config->uuid, TEST_OA_CONFIG_UUID, sizeof(oa_config->uuid));
+> +	strscpy(oa_config->uuid, TEST_OA_CONFIG_UUID, sizeof(oa_config->uuid));
+>  
+>  	mutex_lock(&perf->metrics_lock);
+>  
+> diff --git a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+> index 6207eac88550..19541d197047 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_hdmi_ddc.c
+> @@ -292,7 +292,7 @@ static int mtk_hdmi_ddc_probe(struct platform_device *pdev)
+>  		return ret;
+>  	}
+>  
+> -	strlcpy(ddc->adap.name, "mediatek-hdmi-ddc", sizeof(ddc->adap.name));
+> +	strscpy(ddc->adap.name, "mediatek-hdmi-ddc", sizeof(ddc->adap.name));
+>  	ddc->adap.owner = THIS_MODULE;
+>  	ddc->adap.class = I2C_CLASS_DDC;
+>  	ddc->adap.algo = &mtk_hdmi_ddc_algorithm;
+> diff --git a/drivers/gpu/drm/radeon/radeon_atombios.c b/drivers/gpu/drm/radeon/radeon_atombios.c
+> index 28c4413f4dc8..62fbbd6181bc 100644
+> --- a/drivers/gpu/drm/radeon/radeon_atombios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_atombios.c
+> @@ -2104,7 +2104,7 @@ static int radeon_atombios_parse_power_table_1_3(struct radeon_device *rdev)
+>  			const char *name = thermal_controller_names[power_info->info.
+>  								    ucOverdriveThermalController];
+>  			info.addr = power_info->info.ucOverdriveControllerAddress >> 1;
+> -			strlcpy(info.type, name, sizeof(info.type));
+> +			strscpy(info.type, name, sizeof(info.type));
+>  			i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>  		}
+>  	}
+> @@ -2354,7 +2354,7 @@ static void radeon_atombios_add_pplib_thermal_controller(struct radeon_device *r
+>  				struct i2c_board_info info = { };
+>  				const char *name = pp_lib_thermal_controller_names[controller->ucType];
+>  				info.addr = controller->ucI2cAddress >> 1;
+> -				strlcpy(info.type, name, sizeof(info.type));
+> +				strscpy(info.type, name, sizeof(info.type));
+>  				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>  			}
+>  		} else {
+> diff --git a/drivers/gpu/drm/radeon/radeon_combios.c b/drivers/gpu/drm/radeon/radeon_combios.c
+> index 783a6b8802d5..795c3667f6d6 100644
+> --- a/drivers/gpu/drm/radeon/radeon_combios.c
+> +++ b/drivers/gpu/drm/radeon/radeon_combios.c
+> @@ -2702,7 +2702,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
+>  				struct i2c_board_info info = { };
+>  				const char *name = thermal_controller_names[thermal_controller];
+>  				info.addr = i2c_addr >> 1;
+> -				strlcpy(info.type, name, sizeof(info.type));
+> +				strscpy(info.type, name, sizeof(info.type));
+>  				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>  			}
+>  		}
+> @@ -2719,7 +2719,7 @@ void radeon_combios_get_power_modes(struct radeon_device *rdev)
+>  				struct i2c_board_info info = { };
+>  				const char *name = "f75375";
+>  				info.addr = 0x28;
+> -				strlcpy(info.type, name, sizeof(info.type));
+> +				strscpy(info.type, name, sizeof(info.type));
+>  				i2c_new_client_device(&rdev->pm.i2c_bus->adapter, &info);
+>  				DRM_INFO("Possible %s thermal controller at 0x%02x\n",
+>  					 name, info.addr);
+> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> index 87b2243ea23e..98ed6cc931d0 100644
+> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
+> @@ -797,7 +797,7 @@ static struct i2c_adapter *inno_hdmi_i2c_adapter(struct inno_hdmi *hdmi)
+>  	adap->dev.parent = hdmi->dev;
+>  	adap->dev.of_node = hdmi->dev->of_node;
+>  	adap->algo = &inno_hdmi_algorithm;
+> -	strlcpy(adap->name, "Inno HDMI", sizeof(adap->name));
+> +	strscpy(adap->name, "Inno HDMI", sizeof(adap->name));
+>  	i2c_set_adapdata(adap, hdmi);
+>  
+>  	ret = i2c_add_adapter(adap);
+> diff --git a/drivers/gpu/drm/rockchip/rk3066_hdmi.c b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> index cf2cf51091a3..bf2924730d84 100644
+> --- a/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> +++ b/drivers/gpu/drm/rockchip/rk3066_hdmi.c
+> @@ -730,7 +730,7 @@ static struct i2c_adapter *rk3066_hdmi_i2c_adapter(struct rk3066_hdmi *hdmi)
+>  	adap->dev.parent = hdmi->dev;
+>  	adap->dev.of_node = hdmi->dev->of_node;
+>  	adap->algo = &rk3066_hdmi_algorithm;
+> -	strlcpy(adap->name, "RK3066 HDMI", sizeof(adap->name));
+> +	strscpy(adap->name, "RK3066 HDMI", sizeof(adap->name));
+>  	i2c_set_adapdata(adap, hdmi);
+>  
+>  	ret = i2c_add_adapter(adap);
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+> index c7d7e9fff91c..d1a65a921f5a 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_i2c.c
+> @@ -304,7 +304,7 @@ int sun4i_hdmi_i2c_create(struct device *dev, struct sun4i_hdmi *hdmi)
+>  	adap->owner = THIS_MODULE;
+>  	adap->class = I2C_CLASS_DDC;
+>  	adap->algo = &sun4i_hdmi_i2c_algorithm;
+> -	strlcpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
+> +	strscpy(adap->name, "sun4i_hdmi_i2c adapter", sizeof(adap->name));
+>  	i2c_set_adapdata(adap, hdmi);
+>  
+>  	ret = i2c_add_adapter(adap);
+
+-- 
+Regards,
+
+Laurent Pinchart
