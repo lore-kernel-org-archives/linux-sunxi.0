@@ -1,143 +1,131 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FC017EE
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 09:08:20 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id r4so4882096edi.8
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 02:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc;
-        bh=dJN4T+ue3SObncsuJ7neBi3J5OlmFODSpIxWtHwr9YA=;
-        b=GJOUQLyqYr1U/1FvP6Zq/oTaBISO3ikHpCYTQkzc6YOBloQrFBvpWUuM145VfhKHwg
-         /IqYU8QgWpCjv8+wRsX8Pymo+Kp9IvOQAAdx0QZpjOUCrMRq45qLjvspEXRyAhIxYEgX
-         ZDtpdXhR0nhDzm2z7X/pNAmA4mTpT7T8KfkUV+o0I3d56qxjQMB4YNm2GQ8GTwFkX6RE
-         +hXTeywq2dChXQIP960mwV2bAS+onNc6pdWi/DvBeKPX9i56aqbGFks4M8q9MuBuHCsv
-         xnX0c2G5GVhx0eu4j25shM6bbAbHIen8rgheu9beKhp82evDObq4CT5fYjRq5Sl8TVdB
-         cZ9A==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B93C17EE
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 09:17:57 +0000 (UTC)
+Received: by mail-vs1-f42.google.com with SMTP id l7so3641194vsc.0
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 02:17:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=dJN4T+ue3SObncsuJ7neBi3J5OlmFODSpIxWtHwr9YA=;
-        b=yYq40qbrHW0IGHEbGAxTIYozPp2oOGBuU3gcB7eg2dgGQdt6yk9var5MIlsCTUdKEU
-         1Qb0qQh1bhk9G4fMLRERp3m1wRWdYJSQX1K8jcz/14PjqMawjrFLQUBj48Lz5ZGauE4l
-         kmysdEN5wqi0wCcA55ULws/PrYxnVX1BYrF8VtueThToPf4RG8pnHj1UyGSFb7+r3ksP
-         aDtMLtGZxKyILJ+szAgdj8z5Hhv2ktp4qBAiqX+jYiZwP9NoXsa27YLW2K0vzJ7KT7+9
-         b5NQ/Fdsyf6V6AQvokDMY5b9q8TY3Z6+KuDZ76xeASAUTtKyq5QXx1iwwwUz9lH58gij
-         bbnA==
-X-Gm-Message-State: ACgBeo1oahB8kFERbeN1ItWZSwOsD5ISdNdAadJr1lMLN46ViQhEbR66
-	y7cxGAI7NZIbJePmLUz0gOUpDP2Op3rkw1sLgw1L14RDH52jVNkY
-X-Google-Smtp-Source: AA6agR6F4r4SDZxIaIja8V8l2g61Z0gwf9bYv+XqxLEVbWmacqtCiR7o2NAbThQzU1DsYSyMqZq7Ffe8iMd70hVfIjg=
-X-Received: by 2002:a05:6402:1f8c:b0:43e:8fab:76c with SMTP id
- c12-20020a0564021f8c00b0043e8fab076cmr5353281edc.126.1660900098448; Fri, 19
- Aug 2022 02:08:18 -0700 (PDT)
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc;
+        bh=p1fTT14mThGLEnUJzebZNUEmZIwatmKiQNsPLBHI5iY=;
+        b=01QL6Ru06UZdT55kpKDVwXAeZuOa5RBrCn869CXi/jJzzkn1bE1MKfB4J4lvtdXvTa
+         gFjdYsL1COvJJ581a+fFYrXJL2JEWPnuyMLjXIHM1uscXO7nye86eFmaTpPN4NawFTXL
+         /mdQqFmT0BA6PhZALSO0wEdB5okm/1lL+n28j4e8Bl9O7yIipgsnCXhDxXHgNzZtIp/g
+         98btcGCXp61gyUgxWRmL1ON1R3bbc6r5rmPIOqN+X+6mw9oqzpksLfec7ZTksc/nviQH
+         NyFBWTZbO7NjMOVHiYG1FkRBFGPxk2MXGMk9JeeciuCu4P/+cPRT14TseDXEgIKSO03/
+         Perw==
+X-Gm-Message-State: ACgBeo0do/KQb2FLz+vKWz4EEEeQyNNNHhgAeL1I8Q6+gYXQJP8Bq/NX
+	KlzhmXOPnpgHpIX8yEO0oow68X5KJDY6X0Em
+X-Google-Smtp-Source: AA6agR4YiLLdOBuVryzyuKE4KZTtHmIDYXNcbJD3BDwjQjXGumAZEC5tTUra7YoQY+Y0bXwE3fzYrQ==
+X-Received: by 2002:a05:6102:5591:b0:38a:9691:933f with SMTP id dc17-20020a056102559100b0038a9691933fmr2442526vsb.54.1660900675850;
+        Fri, 19 Aug 2022 02:17:55 -0700 (PDT)
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
+        by smtp.gmail.com with ESMTPSA id z20-20020ab06294000000b00384ca77a9e8sm2133940uao.27.2022.08.19.02.17.55
+        for <linux-sunxi@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 19 Aug 2022 02:17:55 -0700 (PDT)
+Received: by mail-ua1-f46.google.com with SMTP id e3so1570087uax.4
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 02:17:55 -0700 (PDT)
+X-Received: by 2002:a25:cbcf:0:b0:695:2d3b:366 with SMTP id
+ b198-20020a25cbcf000000b006952d3b0366mr1673997ybg.365.1660900664907; Fri, 19
+ Aug 2022 02:17:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220818203928.131059-1-cpe@outsight.tech> <20220818203928.131059-3-cpe@outsight.tech>
- <2641460.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <2641460.mvXUDI8C0e@jernej-laptop>
-From: =?UTF-8?B?Q2zDqW1lbnQgUMOpcm9u?= <peron.clem@gmail.com>
-Date: Fri, 19 Aug 2022 11:08:06 +0200
-Message-ID: <CAJiuCcfdE_B8FacrJSGHcRZpzmd6qorY7DT9DiH8iCJujVmjVA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
-To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
-Cc: Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, 
-	Samuel Holland <samuel@sholland.org>, devicetree <devicetree@vger.kernel.org>, 
-	linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, linux-sunxi@lists.linux.dev, 
-	linux-kernel <linux-kernel@vger.kernel.org>
+References: <20220818135522.3143514-1-arnd@kernel.org> <20220818135522.3143514-2-arnd@kernel.org>
+In-Reply-To: <20220818135522.3143514-2-arnd@kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 19 Aug 2022 11:17:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
+Message-ID: <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
+Subject: Re: [PATCH 01/11] ARM: defconfig: reorder defconfig files
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Russell King <linux@armlinux.org.uk>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Qin Jian <qinjian@cqplus1.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tudor Ambarus <tudor.ambarus@microchip.com>, 
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	=?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vladimir Oltean <vladimir.oltean@nxp.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Shannon Nelson <snelson@pensando.io>, Peter Chen <peter.chen@nxp.com>, 
+	Stefan Wahren <stefan.wahren@i2se.com>, Felipe Balbi <balbi@ti.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, 
+	"open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-tegra <linux-tegra@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Jernej,
+Hi Arnd,
 
-On Fri, 19 Aug 2022 at 06:13, Jernej =C5=A0krabec <jernej.skrabec@gmail.com=
-> wrote:
+On Thu, Aug 18, 2022 at 3:55 PM Arnd Bergmann <arnd@kernel.org> wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Dne =C4=8Detrtek, 18. avgust 2022 ob 22:39:26 CEST je Cl=C3=A9ment P=C3=
-=A9ron napisal(a):
-> > From: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
-> >
-> > Add a simple cooling map for the GPU.
-> >
-> > Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> The debug-info and can subystem options have moved around in the
+> 'savedefconfig' output, so fix these up to reduce the clutter
+> from the savedefconfig command.
 >
-> Is this really patch 2/4? I only got patches 2-4, but not patch 1.
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Sorry I have updated the way I send my patches, so each patch is sent
-regarding what is outputted by 'scripts/get_maintainer.pl'
+Thanks for your patch!
 
-Patch 1 is https://lore.kernel.org/linux-arm-kernel/20220818203928.131059-2=
--cpe@outsight.tech/T/#md5d89721ac1861f31ca5d101ab9561371c35c904
+> --- a/arch/arm/configs/shmobile_defconfig
+> +++ b/arch/arm/configs/shmobile_defconfig
+> @@ -33,7 +33,6 @@ CONFIG_INET=y
+>  CONFIG_IP_PNP=y
+>  CONFIG_IP_PNP_DHCP=y
+>  CONFIG_CAN=y
+> -CONFIG_CAN_RCAR=y
+>  CONFIG_PCI=y
+>  CONFIG_PCI_MSI=y
+>  CONFIG_PCI_RCAR_GEN2=y
+> @@ -57,6 +56,7 @@ CONFIG_RAVB=y
+>  CONFIG_SMSC911X=y
+>  CONFIG_MICREL_PHY=y
+>  CONFIG_SMSC_PHY=y
+> +CONFIG_CAN_RCAR=y
+>  CONFIG_INPUT_EVDEV=y
+>  CONFIG_KEYBOARD_GPIO=y
+>  # CONFIG_INPUT_MOUSE is not set
 
-Which has been sent to :
-Catalin Marinas / Will Deacon <will@kernel.org>
-And CC to :
-linux-arm-kernel@lists.infradead.org / linux-kernel@vger.kernel.org
+This may cause conflicts with the usual refresh I plan to do for
+v6.0-rc1, which will be very similar to
+https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=517d634d376042ab797d9feeb94236ad4cb03396
+So it may be better to drop this part.
 
-I will resend and force this patch to be sent to linux ML / Maintainer too.
+However, that decision is up to you, as you will have to handle the
+conflict when merging renesas-arm-defconfig-for-v6.0-tag1 later ;-)
+But sfr might complain before...
 
-Best regards,
-Clement
+Gr{oetje,eeting}s,
 
->
-> Best regards,
-> Jernej
->
-> > ---
-> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 22 ++++++++++++++++++++
-> >  1 file changed, 22 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi index
-> > 5a28303d3d4c..943ae5374dd6 100644
-> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> > @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
-> >                       clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
-> >                       clock-names =3D "core", "bus";
-> >                       resets =3D <&ccu RST_BUS_GPU>;
-> > +                     #cooling-cells =3D <2>;
-> >                       status =3D "disabled";
-> >               };
-> >
-> > @@ -1075,6 +1076,27 @@ gpu-thermal {
-> >                       polling-delay-passive =3D <0>;
-> >                       polling-delay =3D <0>;
-> >                       thermal-sensors =3D <&ths 1>;
-> > +
-> > +                     trips {
-> > +                             gpu_alert: gpu-alert {
-> > +                                     temperature =3D <85000>;
-> > +                                     hysteresis =3D <2000>;
-> > +                                     type =3D "passive";
-> > +                             };
-> > +
-> > +                             gpu-crit {
-> > +                                     temperature =3D
-> <100000>;
-> > +                                     hysteresis =3D <0>;
-> > +                                     type =3D "critical";
-> > +                             };
-> > +                     };
-> > +
-> > +                     cooling-maps {
-> > +                             map0 {
-> > +                                     trip =3D <&gpu_alert>;
-> > +                                     cooling-device =3D <&gpu
-> THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-> > +                             };
-> > +                     };
-> >               };
-> >       };
-> >  };
->
->
->
->
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
