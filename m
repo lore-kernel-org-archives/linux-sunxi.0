@@ -1,105 +1,170 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6CFE7B;
-	Fri, 19 Aug 2022 04:17:22 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id f22so4244810edc.7;
-        Thu, 18 Aug 2022 21:17:22 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331C17B
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 06:08:23 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id f22so4446853edc.7
+        for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 23:08:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=ionos.com; s=google;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=6lvvXLfM5LOdFLVUiNZsTdpLpiUI86D4rWn+DOqYFh0=;
-        b=ibp45+6h5fzr/+9Ziardi4SQETtREv18AtDH1XSs3KsI5cHwHF+5uBV1cGVZfS474j
-         LTn9qriJulu3ZlRobCNa78GUscmgvcP+nyJMmnM4Mh35zz2vO+4mG5i09awCM2ke1j67
-         DjBFoLSOxKuCDw8E7bt/YhxFOP6HAAE5XKjxYo/o1aWh+DnYfjt1P6m7zTiyjCtMsBml
-         Bz7lGsm5uId/cMoWDTsbWVwCLmneLNdCobEijmfF5sDwrXM+KTzFdD0GXeMzP+AKGWOk
-         +yk1i3hsmKLrfQJGz7mMoK2aLgQiDqpS8sUUYn55LXo9wuJ4jcaKDZ2f9gmigw1ouO1Y
-         nq6A==
+        bh=MhAvXvgOuGSOVU+0SPcQuNTLcHtqNw2MpFIs8bOelUY=;
+        b=f1tj4JkACZwBuG1Wd+y0k1B4j6b/vQPV1oCFLCsOqpOzuvijbn46KCd4KAXf/gvHeT
+         XnpTd7mcqNqk5iwk1SY78oocOtcdS+Dq6qelGImkzEHazqVx1Y1P+k7knppAWoAoFsl5
+         B5sK2IXanUQbA5/cLSBhvAO397/VqKN6N1xRxmopNPjByZqJxc/zUhyAko0OLnMZtJb+
+         Mu5E9sw6kXxGG9G9C6si7nPick00J5XPuXyCaSuzub0JlHbPgwoVJyEOeXJ63uqBMJJ+
+         /yrQud7vigK7bG19ieiUVjWP5H+YBFHkYoVdPD1O0xNPcGOJ0cu8KcZpNdA4Dqi9WG/Y
+         aXkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=6lvvXLfM5LOdFLVUiNZsTdpLpiUI86D4rWn+DOqYFh0=;
-        b=Y/q7PUs4yDXbUB88qjKKkFBdEatfLVFzJdi+2u7/0KY69mWibdCFNYDlM2trPdf9IQ
-         MYREs6nTnrXR74Pt6tttzD2P2yCsdDUVemuDWsvHLprNTL1/Rf9Sm3pQiEx/nhu9rbJM
-         0lgB/mcSw02gWRa+dZS2Jfr1cXhAi+hL7D59xnA3DageUb5bcjVobv2f7FjFvomChcD8
-         E+6LiKP+rpeeZ0I/26MJvPDX9nU0h7OVyzKcUUPEbymXtnm/0dgxsnVRF6hMrVFMhSI6
-         KdpssxY+EawTlin/aN1qP22h9Uooy7fHwyjwRApOLdViFCuf9FMajlSi9OJL8ZZJhkIz
-         j9qw==
-X-Gm-Message-State: ACgBeo1XOwuFSczzxXKIGOuELJ514GzMyg3jZNCsThvD2iIwZGOIYrun
-	nbrAnsaUF8/EH4JAE9o8gsk=
-X-Google-Smtp-Source: AA6agR5Z07MgU4moBeeqztDOefM0MAGvbUBpqvrsjjGU91Kk0uWVg/sUdlSZTVDXHp7liUsXnY3Lqg==
-X-Received: by 2002:a05:6402:1f87:b0:43b:b88d:1d93 with SMTP id c7-20020a0564021f8700b0043bb88d1d93mr4507704edc.314.1660882640878;
-        Thu, 18 Aug 2022 21:17:20 -0700 (PDT)
-Received: from jernej-laptop.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id d2-20020a170906304200b0073c37199b86sm1234394ejd.159.2022.08.18.21.17.19
+        bh=MhAvXvgOuGSOVU+0SPcQuNTLcHtqNw2MpFIs8bOelUY=;
+        b=3qSFRPqEV4GRPzN9oI20nflb3UNxJay1VwBubF8+dqActNdikPVY+QhwyfuAkbp2qt
+         litkxVZq2K2h/E2MaD7J++s9a9ySTmE08zV4dkA4/LKzLdmu9dVuXP/OS16W6J3X+/jn
+         wX1orcXDOHFb2239uCu2BXF1ocSM63ROVYHIX7uVlnsmYPcTTA8839ge7rMF3VOgJn6S
+         ezE1qyh1veG36iKpd1jETooETJwt4YzkxR9pdMKjwEqAreOoJoD5QW8kLj8CXAFk5tZh
+         5z31/95AHLLq+esjwYw+cNQX/hmBkTMS2Z2JhdVeWZ1CjbMPLkXTBtOF1CamtNW/u7mW
+         eXgg==
+X-Gm-Message-State: ACgBeo0QNbGoqAPj1AFTHMMdNoOBvyymlYWBj1wvmtOspVYugn8OSled
+	xN0SrXd6aydTWFqNgldNv0qAjQ==
+X-Google-Smtp-Source: AA6agR45x+III0utWJMPQr/7+FfJG2j+q5Z9JwzMPorUnxjE8X9vtPiF+PHoDO1FO0i+zG5jcgjANA==
+X-Received: by 2002:a05:6402:27c6:b0:43d:6fab:146e with SMTP id c6-20020a05640227c600b0043d6fab146emr4785049ede.376.1660889301413;
+        Thu, 18 Aug 2022 23:08:21 -0700 (PDT)
+Received: from lb02065.fritz.box ([2001:9e8:143b:fd00:5207:8c7f:747a:b80d])
+        by smtp.gmail.com with ESMTPSA id y14-20020a1709063a8e00b0073a644ef803sm1809660ejd.101.2022.08.18.23.08.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 21:17:20 -0700 (PDT)
-From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>, stable@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] media: cedrus: Set the platform driver data earlier
-Date: Fri, 19 Aug 2022 06:17:19 +0200
-Message-ID: <4418189.LvFx2qVVIh@jernej-laptop>
-In-Reply-To: <20220818203308.439043-3-nicolas.dufresne@collabora.com>
-References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-3-nicolas.dufresne@collabora.com>
+        Thu, 18 Aug 2022 23:08:20 -0700 (PDT)
+From: Jack Wang <jinpu.wang@ionos.com>
+To: linux-kernel@vger.kernel.org
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Dan Carpenter <dan.carpenter@oracle.com>,
+	Minghao Chi <chi.minghao@zte.com.cn>,
+	Peng Wu <wupeng58@huawei.com>,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	linux-crypto@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v1 11/19] crypto: allwinner: Fix dma_map_sg error check
+Date: Fri, 19 Aug 2022 08:07:53 +0200
+Message-Id: <20220819060801.10443-12-jinpu.wang@ionos.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220819060801.10443-1-jinpu.wang@ionos.com>
+References: <20220819060801.10443-1-jinpu.wang@ionos.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:07 CEST je Nicolas Dufresne napi=
-sal(a):
-> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->=20
-> The cedrus_hw_resume() crashes with NULL deference on driver probe if
-> runtime PM is disabled because it uses platform data that hasn't been
-> set up yet. Fix this by setting the platform data earlier during probe.
+dma_map_sg return 0 on error.
 
-Does it even work without PM? Maybe it would be better if Cedrus would sele=
-ct=20
-PM in Kconfig.
+Cc: Corentin Labbe <clabbe.montjoie@gmail.com>
+Cc: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Samuel Holland <samuel@sholland.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Minghao Chi <chi.minghao@zte.com.cn>
+Cc: Peng Wu <wupeng58@huawei.com>
+Cc: Alexey Khoroshilov <khoroshilov@ispras.ru>
+Cc: linux-crypto@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-sunxi@lists.linux.dev
+Cc: linux-kernel@vger.kernel.org
 
-Best regards,
-Jernej
+Signed-off-by: Jack Wang <jinpu.wang@ionos.com>
+---
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c | 6 +++---
+ drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c   | 2 +-
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c | 4 ++--
+ drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c   | 2 +-
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
->=20
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus.c index
-> 960a0130cd620..55c54dfdc585c 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> @@ -448,6 +448,8 @@ static int cedrus_probe(struct platform_device *pdev)
->  	if (!dev)
->  		return -ENOMEM;
->=20
-> +	platform_set_drvdata(pdev, dev);
-> +
->  	dev->vfd =3D cedrus_video_device;
->  	dev->dev =3D &pdev->dev;
->  	dev->pdev =3D pdev;
-> @@ -521,8 +523,6 @@ static int cedrus_probe(struct platform_device *pdev)
->  		goto err_m2m_mc;
->  	}
->=20
-> -	platform_set_drvdata(pdev, dev);
-> -
->  	return 0;
->=20
->  err_m2m_mc:
-
-
-
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+index 74b4e910a38d..be7f46faef7e 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+@@ -208,7 +208,7 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ 
+ 	if (areq->src == areq->dst) {
+ 		nr_sgs = dma_map_sg(ce->dev, areq->src, ns, DMA_BIDIRECTIONAL);
+-		if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
++		if (!nr_sgs || nr_sgs > MAX_SG) {
+ 			dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
+ 			err = -EINVAL;
+ 			goto theend_iv;
+@@ -216,13 +216,13 @@ static int sun8i_ce_cipher_prepare(struct crypto_engine *engine, void *async_req
+ 		nr_sgd = nr_sgs;
+ 	} else {
+ 		nr_sgs = dma_map_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
+-		if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
++		if (!nr_sgs || nr_sgs > MAX_SG) {
+ 			dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
+ 			err = -EINVAL;
+ 			goto theend_iv;
+ 		}
+ 		nr_sgd = dma_map_sg(ce->dev, areq->dst, nd, DMA_FROM_DEVICE);
+-		if (nr_sgd <= 0 || nr_sgd > MAX_SG) {
++		if (!nr_sgd || nr_sgd > MAX_SG) {
+ 			dev_err(ce->dev, "Invalid sg number %d\n", nr_sgd);
+ 			err = -EINVAL;
+ 			goto theend_sgs;
+diff --git a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+index 8b5b9b9d04c3..0e6843ec197f 100644
+--- a/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ce/sun8i-ce-hash.c
+@@ -389,7 +389,7 @@ int sun8i_ce_hash_run(struct crypto_engine *engine, void *breq)
+ 	cet->t_asym_ctl = 0;
+ 
+ 	nr_sgs = dma_map_sg(ce->dev, areq->src, ns, DMA_TO_DEVICE);
+-	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
++	if (!nr_sgs || nr_sgs > MAX_SG) {
+ 		dev_err(ce->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+ 		goto theend;
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+index 910d6751644c..fdcc98cdecaa 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-cipher.c
+@@ -232,13 +232,13 @@ static int sun8i_ss_cipher(struct skcipher_request *areq)
+ 		nr_sgd = nr_sgs;
+ 	} else {
+ 		nr_sgs = dma_map_sg(ss->dev, areq->src, nsgs, DMA_TO_DEVICE);
+-		if (nr_sgs <= 0 || nr_sgs > 8) {
++		if (!nr_sgs || nr_sgs > 8) {
+ 			dev_err(ss->dev, "Invalid sg number %d\n", nr_sgs);
+ 			err = -EINVAL;
+ 			goto theend_iv;
+ 		}
+ 		nr_sgd = dma_map_sg(ss->dev, areq->dst, nsgd, DMA_FROM_DEVICE);
+-		if (nr_sgd <= 0 || nr_sgd > 8) {
++		if (!nr_sgd || nr_sgd > 8) {
+ 			dev_err(ss->dev, "Invalid sg number %d\n", nr_sgd);
+ 			err = -EINVAL;
+ 			goto theend_sgs;
+diff --git a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+index 36a82b22953c..fcb8c41cc957 100644
+--- a/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
++++ b/drivers/crypto/allwinner/sun8i-ss/sun8i-ss-hash.c
+@@ -527,7 +527,7 @@ int sun8i_ss_hash_run(struct crypto_engine *engine, void *breq)
+ 	rctx->method = ss->variant->alg_hash[algt->ss_algo_id];
+ 
+ 	nr_sgs = dma_map_sg(ss->dev, areq->src, sg_nents(areq->src), DMA_TO_DEVICE);
+-	if (nr_sgs <= 0 || nr_sgs > MAX_SG) {
++	if (!nr_sgs || nr_sgs > MAX_SG) {
+ 		dev_err(ss->dev, "Invalid sg number %d\n", nr_sgs);
+ 		err = -EINVAL;
+ 		goto theend;
+-- 
+2.34.1
 
