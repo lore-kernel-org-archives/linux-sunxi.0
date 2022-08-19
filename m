@@ -1,49 +1,49 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 494847B
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 04:13:41 +0000 (UTC)
-Received: by mail-ej1-f51.google.com with SMTP id fy5so6718158ejc.3
-        for <linux-sunxi@lists.linux.dev>; Thu, 18 Aug 2022 21:13:41 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C14C77B;
+	Fri, 19 Aug 2022 04:16:16 +0000 (UTC)
+Received: by mail-ej1-f50.google.com with SMTP id fy5so6724323ejc.3;
+        Thu, 18 Aug 2022 21:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc;
-        bh=BxxIf4ICLTKnjJ5aVGidvHQIOHUtRRv6urv+Qzj5jkI=;
-        b=ZJip5BfO3l92GgahTctqVpvWnm2m24EXsmFyL4EG5YkVZUo/Ss8bZzi4HTqY/Kn+T2
-         1LaPg1nXPqo7gDGCigaTTN0utOVD932QdCjO7X0/B67eKt8U0l+MFLMqHzkiT/IJUXxD
-         0hxbj1FdPgz+F9OHaTaVcdQDarlBOJ3G8KSkAMCrQJKRF5hBCaBF/m4iALsMuEgixJxA
-         F1DCFPl44aeH0KOcTZM1b3yQyT70KrgYbDLhrNNeM4rXw3Zpth55vt7apy3gmREF4NVm
-         tQdMVJWJY4jNUK3nKBp++jz9scKFQZElxV1iM/Bvhq/XmIZH+7JveVx9hAyWbRopi2dP
-         TZrg==
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=NzNdQOgCrCIL0I2Xc0Dm59Sa6UUlWHOuEF95rHuCDjE/E440pppYQd44fnia0iqGtc
+         bwrQsf4YpQyO/n/cdcFwf/dYenrPlNLBnso/zOeK05h0izgq2sP8+b8Ys27UMzxR2Pzs
+         OtR0kJbOqNbMTjefPUPKHWoqtFAhKe7dmjRla7jlQrTff7D/4gK+ZY+1zL/xHtoV6iNC
+         0hsPBixC4WGZjgzRpoZy6nXKaPZMJ9PkfJOIazDqbFC+NbZLxcwJvhRVt3AZgADfKj9E
+         c2NBWcW3wO/FFXerQkEgthOmPvXInrhsgroOCxn1oWrDPI4lv6mUhBEi2mn4rSG7vLh5
+         TU4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
-        bh=BxxIf4ICLTKnjJ5aVGidvHQIOHUtRRv6urv+Qzj5jkI=;
-        b=AyTC9eJU0bdEpXZnMZhXwaIH6AHmA0pYCXEBtan5N41vIYR89lQz1J/b8oNVaUsdBu
-         pXEORsihNqIWYaoU49GCdKR3BR8srZrS+Jh1Pl1JAdInhz4Ywu21wrLMKCkQ5RhkhuqF
-         rX5T4GxkfmCEWc3F8Fyh5II/DIVuVAji7BkSRJiKv0XrHS0P+s8c3y1yqM6+7Tj6AYMe
-         Lf1Te7HKBsrYsPRx4exZTtLtJZ5q35ah5XhXE3nltsMPFV83ngKeJIgSCb+XcJkaf15e
-         Jd5Mz4m53zEBLtA+cqul7UoMj/lL5QBSKhnBTcn5wU0F/AY9bESdnzAUeVPTKZwOrcUr
-         gXrw==
-X-Gm-Message-State: ACgBeo2wCAdyIwILrsvbePaNHyrnstOsQYWBfaZiUiKhCvSJdDbhi+ZX
-	HumbnnPBSBFFoIXI7Mo+B1Q=
-X-Google-Smtp-Source: AA6agR7xtwZPWKgGk3TjC9bSK4HxhNAbu5i2li1AQjQzmEN9t/rm3PEEKTFcDnUEuidxsKm+N92oRw==
-X-Received: by 2002:a17:907:2c42:b0:730:aacf:1b69 with SMTP id hf2-20020a1709072c4200b00730aacf1b69mr3667025ejc.381.1660882419432;
-        Thu, 18 Aug 2022 21:13:39 -0700 (PDT)
+        bh=vq1yZ0EE5iMuU3VXtaQDcy0x0rnS5PWC/88eh+empEo=;
+        b=AF7vQQbGh79w8txDpmY9OP0qEkOxFtbhztZrZSt6mMqKmFW/QYTU/X5DVD/KdB4DqQ
+         jfta4/wDj3J+eeBHFzXp+UgrvEDlKoDxbnbmzyuuJKdzE5/GNszwxlc2vO4x0jQtl1an
+         NJHFwri5TLiZBPJxMINJRCLURE6BanuzpVpxWiqJ06lZt4lOpLT70iZQRbUSCF2Eijej
+         kQgjrDbsSNcbq/B8T0bjhcdXoBZkEKzlDNdyGkTZDX9m+N6W56C/rTBP6jc5EgwKK9Ux
+         Q9hf6ePNyKkuNzScXz0PY5SyX8DqOezcf44moNRwN6wirPXlJVf98bHoCNerkWtyrn/K
+         LxbQ==
+X-Gm-Message-State: ACgBeo09NKJU/nODqPqwYWSfKrGVM6w3o7srns4CHYwW0r1NR1VT+Prt
+	vUb0ZT1FRtKMtQGnN/7/RlU=
+X-Google-Smtp-Source: AA6agR4u+xoL53tF8jTeclefhfqlSHhBWjqPkJU0U4z6pxBmppCwnNGc/weUdHGATmCfPOiVyXK0rw==
+X-Received: by 2002:a17:907:60c7:b0:731:2be4:f72d with SMTP id hv7-20020a17090760c700b007312be4f72dmr3597074ejc.639.1660882575071;
+        Thu, 18 Aug 2022 21:16:15 -0700 (PDT)
 Received: from jernej-laptop.localnet (82-149-1-172.dynamic.telemach.net. [82.149.1.172])
-        by smtp.gmail.com with ESMTPSA id n22-20020aa7d056000000b0043bbf79b3ebsm2324523edo.54.2022.08.18.21.13.38
+        by smtp.gmail.com with ESMTPSA id h22-20020a1709070b1600b0073087f7dfe2sm1703723ejl.125.2022.08.18.21.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Aug 2022 21:13:38 -0700 (PDT)
+        Thu, 18 Aug 2022 21:16:14 -0700 (PDT)
 From: Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To: Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>
-Cc: =?ISO-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] arm64: dts: allwinner: h6: Add cooling map for GPU
-Date: Fri, 19 Aug 2022 06:13:37 +0200
-Message-ID: <2641460.mvXUDI8C0e@jernej-laptop>
-In-Reply-To: <20220818203928.131059-3-cpe@outsight.tech>
-References: <20220818203928.131059-1-cpe@outsight.tech> <20220818203928.131059-3-cpe@outsight.tech>
+To: linux-media@vger.kernel.org, Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paul.kocialkowski@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: kernel@collabora.com, Dmitry Osipenko <dmitry.osipenko@collabora.com>, stable@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] media: cedrus: Fix endless loop in cedrus_h265_skip_bits()
+Date: Fri, 19 Aug 2022 06:16:12 +0200
+Message-ID: <5849126.lOV4Wx5bFT@jernej-laptop>
+In-Reply-To: <20220818203308.439043-4-nicolas.dufresne@collabora.com>
+References: <20220818203308.439043-1-nicolas.dufresne@collabora.com> <20220818203308.439043-4-nicolas.dufresne@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -53,66 +53,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
 
-Dne =C4=8Detrtek, 18. avgust 2022 ob 22:39:26 CEST je Cl=C3=A9ment P=C3=A9r=
-on napisal(a):
-> From: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+Dne =C4=8Detrtek, 18. avgust 2022 ob 22:33:08 CEST je Nicolas Dufresne napi=
+sal(a):
+> From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 >=20
-> Add a simple cooling map for the GPU.
+> The busy status bit may never de-assert if number of programmed skip
+> bits is incorrect, resulting in a kernel hang because the bit is polled
+> endlessly in the code. Fix it by adding timeout for the bit-polling.
+> This problem is reproducible by setting the data_bit_offset field of
+> the HEVC slice params to a wrong value by userspace.
 >=20
-> Signed-off-by: Cl=C3=A9ment P=C3=A9ron <peron.clem@gmail.com>
+> Cc: stable@vger.kernel.org
+> Reported-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Is this really patch 2/4? I only got patches 2-4, but not patch 1.
+=46ixes tag would be nice.
+
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c index
+> f703c585d91c5..f0bc118021b0a 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+> @@ -227,6 +227,7 @@ static void cedrus_h265_pred_weight_write(struct
+> cedrus_dev *dev, static void cedrus_h265_skip_bits(struct cedrus_dev *dev,
+> int num) {
+>  	int count =3D 0;
+> +	u32 reg;
+>=20
+>  	while (count < num) {
+>  		int tmp =3D min(num - count, 32);
+> @@ -234,8 +235,9 @@ static void cedrus_h265_skip_bits(struct cedrus_dev
+> *dev, int num) cedrus_write(dev, VE_DEC_H265_TRIGGER,
+>  			     VE_DEC_H265_TRIGGER_FLUSH_BITS |
+>  			     VE_DEC_H265_TRIGGER_TYPE_N_BITS(tmp));
+> -		while (cedrus_read(dev, VE_DEC_H265_STATUS) &
+> VE_DEC_H265_STATUS_VLD_BUSY) -			udelay(1);
+> +
+> +		if (cedrus_wait_for(dev, VE_DEC_H265_STATUS,
+> VE_DEC_H265_STATUS_VLD_BUSY)) +		=09
+dev_err_ratelimited(dev->dev, "timed out
+> waiting to skip bits\n");
+
+Reporting issue is nice, but better would be to propagate error, since ther=
+e=20
+is no way to properly decode this slice if above code block fails.
 
 Best regards,
 Jernej
 
-> ---
->  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 22 ++++++++++++++++++++
->  1 file changed, 22 insertions(+)
 >=20
-> diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi index
-> 5a28303d3d4c..943ae5374dd6 100644
-> --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
-> @@ -186,6 +186,7 @@ gpu: gpu@1800000 {
->  			clocks =3D <&ccu CLK_GPU>, <&ccu CLK_BUS_GPU>;
->  			clock-names =3D "core", "bus";
->  			resets =3D <&ccu RST_BUS_GPU>;
-> +			#cooling-cells =3D <2>;
->  			status =3D "disabled";
->  		};
->=20
-> @@ -1075,6 +1076,27 @@ gpu-thermal {
->  			polling-delay-passive =3D <0>;
->  			polling-delay =3D <0>;
->  			thermal-sensors =3D <&ths 1>;
-> +
-> +			trips {
-> +				gpu_alert: gpu-alert {
-> +					temperature =3D <85000>;
-> +					hysteresis =3D <2000>;
-> +					type =3D "passive";
-> +				};
-> +
-> +				gpu-crit {
-> +					temperature =3D=20
-<100000>;
-> +					hysteresis =3D <0>;
-> +					type =3D "critical";
-> +				};
-> +			};
-> +
-> +			cooling-maps {
-> +				map0 {
-> +					trip =3D <&gpu_alert>;
-> +					cooling-device =3D <&gpu=20
-THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
-> +				};
-> +			};
->  		};
->  	};
->  };
+>  		count +=3D tmp;
+>  	}
 
 
 
