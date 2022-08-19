@@ -1,171 +1,91 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CA6D5CAF
-	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 09:35:56 +0000 (UTC)
-Received: by mail-qv1-f48.google.com with SMTP id p4so2973175qvr.5
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 02:35:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=oXk24pt8yzz//H9K/Ms8QIvLemhYFXzzYPTlQRFRJUQ=;
-        b=Fo/o4Z21/0dYVmwULnBhF3MvDmSMiYVk/wZSFKulwsziZRouPw1VguIhuC13gCRz94
-         p+rNUfk0YSFPSSRH5BqKaVBqANeVjTjB+8noOHTFmTuG3NCIJcrGI/zzk8b7ofFIiThS
-         d97pJeQEHRTVy7aSLMvpcmslyE2+cPc9l2ZLZt7AC5+FbPRR/AjXr6zNzkTM6vWZA+VS
-         lEUgab/7632rMBIFEXJfif6+/wA8LZ2GF5vcIm2YgQYeRoJTCz7LELo3OEFx/69e8htf
-         vVo9Oa1NB6MS0CEyazyNTj/lgUdBypGR5IHUiS/o+lj9VygMoXNnrN3vDerseQfAPO73
-         6L0A==
-X-Gm-Message-State: ACgBeo3Ee2it8DzQhbsPAHq6puLtxdYSCFCZ+t5KEDULq3aYEfr/ZuZ4
-	cWwWSp8S9bmN+HD4+G0LXAr8eCRRtR/PMw==
-X-Google-Smtp-Source: AA6agR6zjR1c6vFQ+ixFumew1gIj2Z4R+a3r0XC0Zrg0Mcda/rsa34u9uw0bEeLUr6RaVZXuBXOaXQ==
-X-Received: by 2002:a05:6214:29cc:b0:477:2aea:f9b2 with SMTP id gh12-20020a05621429cc00b004772aeaf9b2mr5657528qvb.103.1660901754922;
-        Fri, 19 Aug 2022 02:35:54 -0700 (PDT)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com. [209.85.128.181])
-        by smtp.gmail.com with ESMTPSA id f12-20020a05622a104c00b003438a8e842fsm2899807qte.44.2022.08.19.02.35.53
-        for <linux-sunxi@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Aug 2022 02:35:53 -0700 (PDT)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-3378303138bso66928557b3.9
-        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 02:35:53 -0700 (PDT)
-X-Received: by 2002:a81:b812:0:b0:328:68e4:c886 with SMTP id
- v18-20020a81b812000000b0032868e4c886mr6398447ywe.502.1660901753206; Fri, 19
- Aug 2022 02:35:53 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D3217FC
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 10:17:47 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ECB1C43144
+	for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 10:17:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1660904267;
+	bh=bBGGs+VaVwa9GZVrl+mfip/PNxqOhyRiV5mtJK9gULA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=LSwaVI8rUzMmO/Ct43XNW9RruD+qxBI8tnG2OoF/s63ywpKDgUlWIi/aLX949UKPN
+	 jM20X3grcEAWH38fx5/oYHEV7F5sTeuvwCDPVnMMG53ff2UByclp++LklueQkXypFU
+	 H7c9/JJp/RjyIB8BwC52gvvAYZIk2WNxpCZz5cJXuJNC06FJis2sLmU6k3EGL09lKc
+	 Jb0xsF7kl1AKAIK0xmR/ofWHEdPxStI2V1NvsgZa+z5y1Ow/2cxRWkgNKh/52pgoWK
+	 DCt8ZOZFDA7eTYb7MHgMkmQVIDOYTuxR00NmLv1qFt7npxJhkX1i5DzsxxCLPXCGpY
+	 yOQjDCPKxSuDQ==
+Received: by mail-wr1-f49.google.com with SMTP id k16so4619323wrx.11
+        for <linux-sunxi@lists.linux.dev>; Fri, 19 Aug 2022 03:17:47 -0700 (PDT)
+X-Gm-Message-State: ACgBeo35b26SEPJ0ukbS8hKGyr9AE/G5VL+rmfFiRVAa88coFgm+6k7C
+	RKnUSYZqDqoo9f3Sjrb5CXZdPdU1NkFq0a/uIlI=
+X-Google-Smtp-Source: AA6agR5J9QREsVSQar6+cAcI+eQkL21ldizqJ/P5eBUIHXbbNTd/IG0qShM+KxoLNU3uFpfrKuXX255VS5DFZKFqEjU=
+X-Received: by 2002:a05:6402:2751:b0:443:d90a:43d4 with SMTP id
+ z17-20020a056402275100b00443d90a43d4mr5657123edd.368.1660904254658; Fri, 19
+ Aug 2022 03:17:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20220816154956.pkdpxmmw27mia5ix@houat> <CAMuHMdX0L6cO_jYXKZTv0sm9V39Eiy_STiknSkdRQG4k-9GJeg@mail.gmail.com>
- <20220817074710.w4c4xwj7edly2b5p@houat> <CAMuHMdXeBakWr6geOWGxnjQYaU9Pi4tRvVFFtubyMJZTT2nPnw@mail.gmail.com>
- <20220817111454.pn2iltvyo2drebq7@houat> <CAMuHMdU57g1rNoLo65jhLK8mk4YkNEbMz1E7XKWk2dnCxTr=gg@mail.gmail.com>
- <20220817131854.jwmhqvhfhp77bbr3@houat> <CAMuHMdXrfH9MArXesfNCvqayiq17u7XaqtSvXTNt4V10=obSHQ@mail.gmail.com>
- <20220818145436.vqojnhmvhjxdzooe@houat> <CAMuHMdW5kTUeg59fym7QxfN5oisTZHWbiAPeSYKJVShZWduJcA@mail.gmail.com>
- <20220818153442.u4knumkfbe7j6zj3@houat>
-In-Reply-To: <20220818153442.u4knumkfbe7j6zj3@houat>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Aug 2022 11:35:42 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
-Message-ID: <CAMuHMdUNYErf4PJLbSFFdB1EhvzbscqxHE74FnsjYQXLy8DLZA@mail.gmail.com>
-Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Chen-Yu Tsai <wens@csie.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jerome Brunet <jbrunet@baylibre.com>, 
-	Samuel Holland <samuel@sholland.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, =?UTF-8?Q?Noralf_Tr=C3=B8nnes?= <noralf@tronnes.org>, 
-	Kevin Hilman <khilman@baylibre.com>, Neil Armstrong <narmstrong@baylibre.com>, 
-	linux-sunxi@lists.linux.dev, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Phil Elwell <phil@raspberrypi.com>, 
-	Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>, 
-	Linux ARM <linux-arm-kernel@lists.infradead.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	"open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>, 
-	DRI Development <dri-devel@lists.freedesktop.org>, Dom Cobley <dom@raspberrypi.com>
+References: <20220818135522.3143514-1-arnd@kernel.org> <20220818135522.3143514-2-arnd@kernel.org>
+ <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
+In-Reply-To: <CAMuHMdXEXQNeOQGnYTQG58nHwB8YwLQ5q1vaje7kPQexrAMsRA@mail.gmail.com>
+From: Arnd Bergmann <arnd@kernel.org>
+Date: Fri, 19 Aug 2022 12:17:16 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a0kJVLEFqS0E=Lv2=HE9dbmjgA=_T2NX4zhq7EHvk4DBg@mail.gmail.com>
+Message-ID: <CAK8P3a0kJVLEFqS0E=Lv2=HE9dbmjgA=_T2NX4zhq7EHvk4DBg@mail.gmail.com>
+Subject: Re: [PATCH 01/11] ARM: defconfig: reorder defconfig files
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Linux ARM <linux-arm-kernel@lists.infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Russell King <linux@armlinux.org.uk>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Claudiu Beznea <claudiu.beznea@microchip.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>, Vladimir Zapolskiy <vz@mleia.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sudeep Holla <sudeep.holla@arm.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	Andrew Lunn <andrew@lunn.ch>, Gregory Clement <gregory.clement@bootlin.com>, 
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, Aaro Koskinen <aaro.koskinen@iki.fi>, 
+	Janusz Krzysztofik <jmkrzyszt@gmail.com>, Tony Lindgren <tony@atomide.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Qin Jian <qinjian@cqplus1.com>, 
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Bin Liu <b-liu@ti.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Tudor Ambarus <tudor.ambarus@microchip.com>, 
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	=?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vladimir Oltean <vladimir.oltean@nxp.com>, Richard Cochran <richardcochran@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Shannon Nelson <snelson@pensando.io>, Peter Chen <peter.chen@nxp.com>, 
+	Stefan Wahren <stefan.wahren@i2se.com>, Felipe Balbi <balbi@ti.com>, 
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	linux-samsung-soc <linux-samsung-soc@vger.kernel.org>, 
+	"open list:TI ETHERNET SWITCH DRIVER (CPSW)" <linux-omap@vger.kernel.org>, 
+	Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+	linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev, 
+	linux-tegra <linux-tegra@vger.kernel.org>, USB list <linux-usb@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Maxime,
-
-On Thu, Aug 18, 2022 at 5:34 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> On Thu, Aug 18, 2022 at 05:20:42PM +0200, Geert Uytterhoeven wrote:
-> > On Thu, Aug 18, 2022 at 4:54 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > On Wed, Aug 17, 2022 at 04:04:24PM +0200, Geert Uytterhoeven wrote:
-> > > > On Wed, Aug 17, 2022 at 3:19 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > On Wed, Aug 17, 2022 at 03:05:52PM +0200, Geert Uytterhoeven wrote:
-> > > > > > On Wed, Aug 17, 2022 at 1:15 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > On Wed, Aug 17, 2022 at 10:35:07AM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > On Wed, Aug 17, 2022 at 9:47 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > On Wed, Aug 17, 2022 at 09:31:18AM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > > On Tue, Aug 16, 2022 at 5:50 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > > > > > > On Tue, Aug 16, 2022 at 04:43:44PM +0200, Geert Uytterhoeven wrote:
-> > > > > > > > > > > > > > > > Either you have to add them here (e.g. "hd720p50" and "hd720p60"), or
-> > > > > > > > > > > > > > > > handle them through "@<refresh>".  The latter would impact "[PATCH v1
-> > > > > > > > > > > > > > > > 09/35] drm/modes: Move named modes parsing to a separate function", as
-> > > > > > > > > > > > > > > > currently a named mode and a refresh rate can't be specified both.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > I think the former would make more sense. It simplifies a bit the
-> > > > > > > > > > > > > > > parser, and we're going to use a named mode anyway.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > > As "[PATCH v1 34/35] drm/modes: Introduce the tv_mode property as a
-> > > > > > > > > > > > > > > > command-line option" uses a separate "tv_mode" option, and not the main
-> > > > > > > > > > > > > > > > mode name, I think you want to add them here.
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > It's a separate story I think, we could have a named mode hd720p50,
-> > > > > > > > > > > > > > > which would be equivalent to 1280x720,tv_mode=hd720p
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > So where's the field rate in "1280x720,tv_mode=hd720p"?
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Yeah, sorry I meant 1280x720@50,tv_mode=hd720p
-> > > > > > > > > > > >
-> > > > > > > > > > > > Above you said "I think the former would make more sense", so that
-> > > > > > > > > > > > should be "1280x720,tv_mode=hd720p50"?
-> > > > > > > > > > >
-> > > > > > > > > > > No, 720p at 50Hz would be either hd720p50 or 1280x720@50,tv_mode=hd720p
-> > > > > > > > > > > and 60Hz would be hd720p60 or 1280x720@60,tv_mode=hd720p
-> > > > > > > > > >
-> > > > > > > > > > I disagree: hd720p50 and hd720p60 are different TV modes.
-> > > > > > > > >
-> > > > > > > > > I agree, and I don't see how that command-line doesn't express that?
-> > > > > > > >
-> > > > > > > > Oh, I see what you mean: yes, it expresses that.
-> > > > > > > > But it is inconsistent with the NTSC/PAL/SECAM/hd{480,576}[ip] modes,
-> > > > > > > > where the TV mode specifies both number of lines and frame rate.
-> > > > > > >
-> > > > > > > Only if we're using a named mode, and naming is hard :)
-> > > > > >
-> > > > > > That's not true: "640x480,tv_mode=PAL-N" would give me a mode with
-> > > > > > 625 lines and 25 frames/s, "640x480,tv_mode=PAL-M" would give me a
-> > > > > > mode with 525 lines and 30 frames/s.
-> > > > >
-> > > > > In that series, "640x480,tv_mode=PAL-N" would be rejected as invalid:
-> > > > >
-> > > > > https://lore.kernel.org/dri-devel/20220728-rpi-analog-tv-properties-v1-14-3d53ae722097@cerno.tech/
-> > > >
-> > > > It would become supported once the ideas from thread "[PATCH v1 04/35]
-> > > > drm/modes: Introduce 480i and 576i modes" are implemented...
-> > >
-> > > Indeed, but I'm still not sure what your concern is here.
-> > > "640x480,tv_mode=PAL-N" and "640x480,tv_mode=PAL-M" are both fairly
-> > > obvious.
-> > >
-> > > You were initially saying that you had concern over the inconsistency of
-> > > NTSC/PAL/SECAM where the TV mode would specify a number of lines and
-> > > frame rate, but hd720p50 also specifies a number of line and frame rate?
-> >
-> > My concern is that you want to call the TV mode "hd720p", which
-> > does not dictate the frame rate.
-> > I would like to have both "720p50" and "720p60", as they do dictate
-> > the frame rate, like all the non-hd modes.
+On Fri, Aug 19, 2022 at 11:17 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
 >
-> But they don't?
+> This may cause conflicts with the usual refresh I plan to do for
+> v6.0-rc1, which will be very similar to
+> https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git/commit/?id=517d634d376042ab797d9feeb94236ad4cb03396
+> So it may be better to drop this part.
 >
-> The refresh rate is part of the drm_display_mode, whereas that property
-> is metadata and entirely separate from the display mode.
->
-> You can even change it without changing the mode at all
+> However, that decision is up to you, as you will have to handle the
+> conflict when merging renesas-arm-defconfig-for-v6.0-tag1 later ;-)
+> But sfr might complain before...
 
-Yes, the refresh rate is part of drm_display_mode.  Vdisplay also
-is, but that doesn't mean you can set it to e.g. 700 when using
-"tv_mode=PAL-B". Some (combination of) parameters in drm_display_mode
-are dictated by the tv_mode.
+I'm not too worried here, if you just do the 'savedefconfig' step, you
+should get
+the same change and the mergetool will figure it out. In case there is a nasty
+context conflict, you could just send that part early so I can resolve it.
 
-Perhaps the meaning of "tv_mode" should be clarified? What does it
-really mean, and what parameters does it (not) constrain?
-
-For e.g. "PAL-B", I know it's a mode with 625 lines and 30 frames/s
-(60 fields/s).
-For "hd720p" I know it is an analog mode with 750 lines, but it's still
-ambiguous, as I don't know if it is the variant with 60 or 50 frames/s.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+       Arnd
