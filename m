@@ -1,194 +1,262 @@
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E3A2C9E
-	for <linux-sunxi@lists.linux.dev>; Sat, 20 Aug 2022 17:29:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1661016570; x=1692552570;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=qP7jq/67rc7T9cdP/AuZ7gdw5keN0vOM9VJ9QwIbGNs=;
-  b=KxNXzWJ+FzeZjpYKZRmoe5H/R3X0hLFPMr1+2fobXr0FZQHuvjXU5Btv
-   f+dLibYQEslBdW/frMTYjafVSefF3cDTNPiRr8/XfvIr1x7MDieTPvDoH
-   vxxP/62Q6Q5vnSgeAt2b6whST14STpv8dNpZlnz4TvSTKOn9XEIKF6Hvz
-   gb6HUGrH61dyY0UvkGP5x/SaHariXrWBAis9Gk56KT9lVCMswxvd7C+j1
-   4EgYXU8leLpDcyZLVOuhxJYiu6XC90S8o9GsQPZJiOd+UQrzeubyNi0zO
-   tPmyt73+VlOYTBtrF16VypO7KU5bGlZmugcO5eAvDkk4mdcdxk7SBB10Y
-   A==;
-X-IronPort-AV: E=Sophos;i="5.93,251,1654585200"; 
-   d="scan'208";a="187345239"
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa1.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 20 Aug 2022 10:29:23 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
- chn-vm-ex02.mchp-main.com (10.10.87.72) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.12; Sat, 20 Aug 2022 10:29:22 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
- email.microchip.com (10.10.87.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.12 via Frontend
- Transport; Sat, 20 Aug 2022 10:29:22 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=n3tOmWg5PJbEHJsob8E/oSGgRSqvZZT15L5uPSXl79BhknShScLi4wXrBva5Kj3AhQ9ZTn/2VqzpYW6RNmDJiow1/JVxxPmqV7wfiCPolDWCZLoDrGindO31oDE4NvdtQtq77xZRuyinw0POuI0uw8vjtxKGooPJFBzcPKqsH1dx4U3+QqmfLwFM5SpZI2sQgWqeyVzjVocLVkWYDXyqdbqRCMSlM95j166nDT870UXunJcV7fdI+RHu5IEHQyVT/0t0FtsG9LYOk5jfXZUjQTBTmCKpLqKZYiF9RewPPJ014TWRYOztXGRhtdKMEZe/03N1AyWcMQBC7UGHZDS+LA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qP7jq/67rc7T9cdP/AuZ7gdw5keN0vOM9VJ9QwIbGNs=;
- b=nyOJLEJX191RVLXAUSYoQxnEeaf+Kv+wzp/fVPu3hIREETSsh7IhfX11pNuxGd5iE3AUT38vgrFXwnt5/z8LTdcEXDvqaz7b4Yu4iDAw64gt6xBuot9Z31+jrkgn+npmXD2pMIY5oc1t+v5bRewIHamPCoy5b0uPtUySA5FvmpqMaGmSNsSFAoyzMXo71ymd1iDQmRn+nf1Vc1ioZGNYYG4Yc994EsQxt3rTsXGp03abQOc+/0kWNqvkjSi8XFC+y5ggZ2iMiQYZcYkcqWSN7Qwadb6taFzXQwgghKPGGcs/SqEIKysrPaAEYWifQd6vycz8TsWeybuL0xWxoh/HTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microchip.com; dmarc=pass action=none
- header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=microchiptechnology.onmicrosoft.com;
- s=selector2-microchiptechnology-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qP7jq/67rc7T9cdP/AuZ7gdw5keN0vOM9VJ9QwIbGNs=;
- b=cpXpOE6+Nkbsxu9Sz99g9B1gpwFREQJIZlpRfTIyS/EmL1OqKdAnAcOiAAgdJWKkvSfyPoQMii3DqLIBjhQYy9FOzz8mtnYK9UulcCFdIIjaHy7CVbBflTmfMljpHO17mSxeU4wGmCd6Dy1oc20rKNeZCV88yAaHQPKj4eOfaJw=
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com (2603:10b6:303:99::15)
- by BN6PR11MB0035.namprd11.prod.outlook.com (2603:10b6:405:62::36) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5546.16; Sat, 20 Aug
- 2022 17:29:19 +0000
-Received: from CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::ac89:75cd:26e0:51c3]) by CO1PR11MB5154.namprd11.prod.outlook.com
- ([fe80::ac89:75cd:26e0:51c3%9]) with mapi id 15.20.5546.018; Sat, 20 Aug 2022
- 17:29:19 +0000
-From: <Conor.Dooley@microchip.com>
-To: <samuel@sholland.org>, <Conor.Dooley@microchip.com>,
-	<andre.przywara@arm.com>
-CC: <wens@csie.org>, <jernej.skrabec@gmail.com>,
-	<linux-sunxi@lists.linux.dev>, <palmer@dabbelt.com>,
-	<paul.walmsley@sifive.com>, <aou@eecs.berkeley.edu>,
-	<linux-riscv@lists.infradead.org>, <robh+dt@kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>
-Subject: Re: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
- devicetree
-Thread-Topic: [PATCH 06/12] riscv: dts: allwinner: Add the D1 SoC base
- devicetree
-Thread-Index: AQHYsGUwgMumzpPtekanQb2zMhKHQ62v8GmAgABAKYCAB+IqgIAAATuA
-Date: Sat, 20 Aug 2022 17:29:19 +0000
-Message-ID: <ff9e8bd3-c5f7-6319-060e-250151087a8e@microchip.com>
-References: <20220815050815.22340-1-samuel@sholland.org>
- <20220815050815.22340-7-samuel@sholland.org>
- <20220815141159.10edeba5@donnerap.cambridge.arm.com>
- <3cd9ed5b-8348-38ac-feb1-9a7da858cebc@microchip.com>
- <932aaefd-e2ca-ef26-bf30-e315fb271ec5@sholland.org>
-In-Reply-To: <932aaefd-e2ca-ef26-bf30-e315fb271ec5@sholland.org>
-Accept-Language: en-IE, en-US
-Content-Language: en-IE
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microchip.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9c4cb57b-a45d-4854-a261-08da82d183c6
-x-ms-traffictypediagnostic: BN6PR11MB0035:EE_
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: jsoDuihIJdEIbW3uQ4BG78DL3UctlDdaTIRrKqQJQp+DrmUss779euIXGhdXIIhJICCgjZFYOMZo6Xe/jDYd6aZRHp0KdQFFLoWlG/uWD5hG2GIU5LKB6oNJiLleN8lzdDYTx00T+274K64dlxWh5csZgFQ7YXh5ZIdGFlVL/cAKLDhxjDA8zRMU00LCRM3Do4AVkS+T09fVIUQCsdFuHZYbASctcb0L1TZUVcPqKE9MVD8eQSUsa66vy79jEwuzbkZhHPjovyjkd7/LcxC9ptOQNj1rvXOp4r50VuGmnTDI8HWnaTOvqdzLjiv7Pr0ukVdg6hbop9WoDF5IV7yJKcqf1h6FA1hctMrIFctg9SoofhInCsJ8P53P0SKDWN7Ya8+2VNgEswVKY9ZDgJv5T5vUAnNHBVlwMzOmsR1DEbBCOpZED/PqZ6X7cfnXIVYhpu07kZH4o2aRX+mYxZV+Hn+CyuQ11JnDWSW1LKeDUWdItYjCbU3YL2paZTtntrC9yYOgGvDoLzTFdS6ACi167uK0CKWFofv+8f5bmSv8XHydiiTiXbVsLyEVZcD+IiWiYLiEGw3dVec7lXvbAnl9K5DSFKjkQbSO2Gf/7lZI1XxSet2VzRfvPSdT+OQ/mK8JBtjEh1pZDaelub4c0wZd2elLUTo0Ux1jJQmGfwXtisv2XsKJWvNkVoLLZbLfae5zSZ5QpiEIa3k3VAQMFyiVaPMp3NyX+tyw0rB2Lb7uG58EtJdvYf/qHWeJwDzkogR2TMhklZ5nH0pVc5ppIe6W8p6HbMeX2MIIzuN85iJ1ELLF7hZ2Sl/L1OioYvr8mAtfgeGoh1X8Flx2cmrjBZumrcEpTjPSG40YCS5whzJYKmI=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5154.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230016)(346002)(39850400004)(396003)(136003)(366004)(376002)(86362001)(31686004)(36756003)(2906002)(41300700001)(478600001)(76116006)(66476007)(66946007)(66446008)(4326008)(66556008)(8676002)(64756008)(91956017)(966005)(31696002)(71200400001)(6486002)(7416002)(54906003)(26005)(110136005)(53546011)(6512007)(6506007)(316002)(38070700005)(38100700002)(2616005)(186003)(8936002)(83380400001)(5660300002)(122000001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dzNLMFIxeXVldnhONHgyNFQvZm9NQzhYN3JVd045S2NlS29vS1p0ck15cUt3?=
- =?utf-8?B?eHFPMXRhK01SVFg5UXJucmh4ZkY3QTg5ZHg2cUJnLzIrRDZrSnhoMHBibFFh?=
- =?utf-8?B?ZFBsTDdJSytNenFGV2dOTFIycjBSU2gwdjBLTXpWUk56SUwxRTk1c1NkaFZR?=
- =?utf-8?B?LzRtTWNHY1gvUmVMSEZaU0Q4YWNrRDlXUDBJN0E0dmZOU0tDdXM0blVMVEUw?=
- =?utf-8?B?WUFWemlPMHM3OFhGOWtsZWdpOWZXa2FyTGlZbU1mSWlhNis2SWlVQVBiZEJy?=
- =?utf-8?B?TUl2UnVaVTZueC9DbWdvU0pEYjc3ZUFObXMrWjljWUd6aDBwMFRYNUlwSXpk?=
- =?utf-8?B?WDF2UGY1MVRQUzJoV0oza3hxR1FDRlI2N3R3dEttaVZLRWw5Q0FOdm5hMTNG?=
- =?utf-8?B?K0d4OWs3WGpzZTZiTTZsZnY2WkJxYnlsZjhSWHlNYWdTeWZVV0VrRmlKUjBI?=
- =?utf-8?B?SFVVUGIxV2EvVFAvUVUySUE1KzJaeGw1VTQyNkY3SGRsanpWNm43Rmo5djJp?=
- =?utf-8?B?RHJaNTFKRStQWTlzZDdxVG1veTFTS1BJZzVrMVFrbUhFeFRuWi9uaGczcDg3?=
- =?utf-8?B?cUxOVUVlbkE3cmtMOWFOalFVYlpINDU1WnBqeGxMM1hYOU1jUDRjSys1d0ov?=
- =?utf-8?B?V3p2ZVpZRjF1cUxMQ3djeXRQSzR1dWlXQVNpbUwwMkFnVzB3ZFE1M3FXSU12?=
- =?utf-8?B?WjNMWW9FbEdnVUkvT0xQeW5UTmRUZjZZdmdXcHg2akxRVXNJWFZ3YUowMDgy?=
- =?utf-8?B?dCt0V2dCbTErNkEzS09kcnFkVzloMHhnWktXSjlGZ0orQ2ppQUNTWUhUVng4?=
- =?utf-8?B?eHYvUWg5ZlBCWUM3bGp0SnNRT3QzWHZVU3VaelFWZmNaUWlGbkNZRVNWeVBI?=
- =?utf-8?B?dDhYWmdsRFZET3Z3MTNGMldmZklsY1d1ZC94aVh1OXpWaFd5RjhSR0dRK0Zt?=
- =?utf-8?B?Y2U5TUxrSWZ4dVBNTXFzdkJwR0cyNENxZU5yYU5lTlZlZTY5REZRY0N4ZFJn?=
- =?utf-8?B?YlI2VmV4T1hGSXhFVVRlb2wvZGZrSlBwVHhzSjdnUFpkM2szNFUrL1lqR0xL?=
- =?utf-8?B?WjJZSCszN1NpRGNYUkxWclZBOVQxd0NuZHl4SUVaVTUvWWFRejFxMTkyc0Vv?=
- =?utf-8?B?K2ZmVzhUOEs2NCs0U3NXdjd5YzZaWEhrelJnTW5NUDZxUTB0czYxSldYajhR?=
- =?utf-8?B?K3BFNHB0cE1FSmRCVVNGc2w0ODVZS2VuRXBSUTZCOVdKVGYrVEtXNDJUTTJz?=
- =?utf-8?B?clI0WmxvMFJvdUEwMW1XQmtwdktiT2xUN2hoVWdqVnA5QzAyRG5FREtOM1NM?=
- =?utf-8?B?N1FQdlZrZUFidzFVTXV4OEpTR0VUYWpzQWNRdHoxd3RLTzU0UU9VR0dzZHRQ?=
- =?utf-8?B?VnJldHRmUnNzZEtrL05xOFlOY3VSU2tpWm85SUIyYVlOZkRQNENzdXZ3YVJK?=
- =?utf-8?B?Z2VSRHdqcWRkQ1FwRmYrSjVtNk1XY002UlhoWUxXbzlOR0JKam5GNWdva2xp?=
- =?utf-8?B?OWlEd3YzSk9ZSDh2U1p0YTdkTzNaUEIvZHl2Vm1VdzFNcUJwRXFmdUtqRXNV?=
- =?utf-8?B?ckgzeTFEdU1yNy9rVWJpV3B5V3oyZFE4UXNrSDBiUS9XbFlQb2pkZWc4UjBk?=
- =?utf-8?B?Vy9qUVhJMUtZWXA4N1JITnVISXltSVEzSWtiTG90czVRQUhQSkJrQ01hR0dp?=
- =?utf-8?B?WVltVWx2TVJXRlBRVjJaaHVkTldSYUdDTkQ2KzJJZWZEL1Y3em9qWElMcEJM?=
- =?utf-8?B?NGxhS0tLRFBQVmJjNVo5amJsN2NWejZscHFSYlFrbFhOVmxwUmw1Q0NVNjN0?=
- =?utf-8?B?T0ZHVXhjR1I1MTJORmMzSEJYSHduVXQwM01UWmY2VHhqaVAwSldoMkxBWFQ4?=
- =?utf-8?B?L3E5YjBWNk1MZzlTMzloQmhOeXY0dmNQRTV6ZUZ5YW9kSzUvTUlzRTZKa2Zx?=
- =?utf-8?B?ejBBTDgyN041c212NTRGYzVkSEF6a2VwWnpCR0RxZ2dkc2l2NlozdEdLcEZx?=
- =?utf-8?B?QVlEd25qTHZFTXFNQWtScmMyQmJkZlgwQ0RXK0tEenZBcXJ0dFpJVU1ETG1q?=
- =?utf-8?B?VVI5RTM0WGZKT3NmYnBydU5pNWpqTFpOSEVzbTYxMmJJVmZlZkFjTFBwNnd6?=
- =?utf-8?Q?CrBmPkPhOLP0yFGObIU1mc23Y?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7FF66E7B49D698429D5D6BE8D8445063@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F913233
+	for <linux-sunxi@lists.linux.dev>; Sat, 20 Aug 2022 20:12:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=4hOW8ikp9BlC16NkIWVeHbEV6qbT3qh1PghkZPE+sv4=; b=EYQWVkjSwqrvFkoX1JvIf//bPD
+	rEItT472ljcmmgsALoCO69D1USt7lV7NN2hoP+xsAD1Ah5OswP5WxP1JOXL4tm3urS5R5B87k+xg0
+	zdzgMRBcKw0hntPg1U1qPeb34xYNx6wvUjZZLk8qIBk9b21bNrGuH8J5CwJIX6lUvd93VZia83lcZ
+	aqbUvKktpq2As8oMbi9WVjKaNVhiosQO71HL0ngBhKzpdjmFKkH0kQ3Xnwp1HWDDW4M1WUCJvSmvx
+	oRXT91l9CG7GKNY2Yu61jbnX4tRSwQ6qIgVKWglKp6ugPYKi3ldjZNkNQUJjrMhZti2PA1LT13BsH
+	bgZyDBKw==;
+Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=62329)
+	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <noralf@tronnes.org>)
+	id 1oPUpx-0005wt-AI; Sat, 20 Aug 2022 22:12:53 +0200
+Message-ID: <37a76651-a457-e50d-9a05-00ca9ed5d729@tronnes.org>
+Date: Sat, 20 Aug 2022 22:12:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5154.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9c4cb57b-a45d-4854-a261-08da82d183c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2022 17:29:19.6643
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vl0yH+zggfxf5uGbkXIRhOJvkhTflHdlGs2EVim/3w+S+EoBM+ChnAgFyX5adKcZ1xPqhLGZdhT6cPHbBL/88rmW+7pJUvAZZVRdDmx86AY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB0035
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.12.0
+Subject: Re: [PATCH v1 05/35] drm/connector: Add TV standard property
+To: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
+Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Phil Elwell <phil@raspberrypi.com>,
+ Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
+ linux-arm-kernel@lists.infradead.org,
+ Geert Uytterhoeven <geert@linux-m68k.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
+ Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
+ <noralf@tronnes.org>
+References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
+ <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+In-Reply-To: <20220728-rpi-analog-tv-properties-v1-5-3d53ae722097@cerno.tech>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-T24gMjAvMDgvMjAyMiAxODoyNCwgU2FtdWVsIEhvbGxhbmQgd3JvdGU6DQo+IE9uIDgvMTUvMjIg
-MTI6MDEgUE0sIENvbm9yLkRvb2xleUBtaWNyb2NoaXAuY29tIHdyb3RlOg0KPj4gT24gMTUvMDgv
-MjAyMiAxNDoxMSwgQW5kcmUgUHJ6eXdhcmEgd3JvdGU6DQo+Pj4gRVhURVJOQUwgRU1BSUw6IERv
-IG5vdCBjbGljayBsaW5rcyBvciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3Uga25vdyB0aGUg
-Y29udGVudCBpcyBzYWZlDQo+Pj4NCj4+PiBPbiBNb24sIDE1IEF1ZyAyMDIyIDAwOjA4OjA5IC0w
-NTAwDQo+Pj4gU2FtdWVsIEhvbGxhbmQgPHNhbXVlbEBzaG9sbGFuZC5vcmc+IHdyb3RlOg0KPj4+
-DQo+Pj4gSGksDQo+Pj4NCj4+PiB0aGFua3MgZm9yIGFsbCB0aGUgZWZmb3J0cyBpbiBnZXR0aW5n
-IHRob3NlIFNvQyBwZXJpcGhlcmFscyBzdXBwb3J0ZWQhDQo+Pj4NCj4+Pj4gRDEgaXMgYSBTb0Mg
-Y29udGFpbmluZyBhIHNpbmdsZS1jb3JlIFQtSEVBRCBYdWFudGllIEM5MDYgQ1BVLCBhcyB3ZWxs
-IGFzDQo+Pj4+IG9uZSBIaUZpIDQgRFNQLiBUaGUgU29DIGlzIGJhc2VkIG9uIGEgZGVzaWduIHRo
-YXQgYWRkaXRpb25hbGx5IGNvbnRhaW5lZA0KPj4+PiBhIHBhaXIgb2YgQ29ydGV4IEE3J3MuIEZv
-ciB0aGF0IHJlYXNvbiwgc29tZSBwZXJpcGhlcmFscyBhcmUgZHVwbGljYXRlZC4NCj4+Pg0KPj4+
-IFNvIGJlY2F1c2Ugb2YgdGhpcywgdGhlIEFsbHdpbm5lciBSNTI4IGFuZCBUMTEzIFNvQ3Mgd291
-bGQgc2hhcmUgYWxtb3N0DQo+Pj4gZXZlcnl0aGluZyBpbiB0aGlzIGZpbGUuIFdvdWxkIGl0IGJl
-IHVzZWZ1bCB0byBhbHJlYWR5IHNwbGl0IHRoaXMgRFQgdXA/DQo+Pj4gVG8gaGF2ZSBhIGJhc2Ug
-LmR0c2ksIGJhc2ljYWxseSB0aGlzIGZpbGUgd2l0aG91dCAvY3B1cyBhbmQgL3NvYy9wbGljLA0K
-Pj4+IHRoZW4gaGF2ZSBhIFJJU0MtViBzcGVjaWZpYyBmaWxlIHdpdGgganVzdCB0aG9zZSwgaW5j
-bHVkaW5nIHRoZSBiYXNlPw0KPj4+IFRoZXJlIGlzIHByZWNlZGVuY2UgZm9yIHRoaXMgYWNyb3Nz
-LWFyY2goLWRpcmVjdG9yaWVzKSBzaGFyaW5nIHdpdGggdGhlDQo+Pj4gUmFzcGJlcnJ5IFBpIGFu
-ZCBBbGx3aW5uZXIgSDMvSDUgU29Dcy4NCj4+DQo+PiBGb3IgdGhvc2UgcGxheWluZyBhbG9uZyBh
-dCBob21lLCBvbmUgZXhhbXBsZSBpcyB0aGUgYXJtNjQgYmFuYW5hcGkgbTINCj4+IGR0cyB3aGlj
-aCBsb29rcyBsaWtlOg0KPj4+IC9kdHMtdjEvOw0KPj4+ICNpbmNsdWRlICJzdW41MGktaDUuZHRz
-aSINCj4+PiAjaW5jbHVkZSAic3VuNTBpLWg1LWNwdS1vcHAuZHRzaSINCj4+PiAjaW5jbHVkZSA8
-YXJtL3N1bnhpLWJhbmFuYXBpLW0yLXBsdXMtdjEuMi5kdHNpPg0KPj4+DQo+Pj4gLyB7DQo+Pj4g
-CW1vZGVsID0gIkJhbmFuYSBQaSBCUEktTTItUGx1cyB2MS4yIEg1IjsNCj4+PiAJY29tcGF0aWJs
-ZSA9ICJiYW5hbmFwaSxicGktbTItcGx1cy12MS4yIiwgImFsbHdpbm5lcixzdW41MGktaDUiOw0K
-Pj4+IH07DQo+Pg0KPj4gSSB0aGluayB0aGlzIGlzIGEgcHJldHR5IGdvb2QgaWRlYSwgYW5kIHB1
-dHRpbmcgaW4gdGhlIG1vZHVsYXJpdHkgdXANCj4+IGZyb250IHNlZW1zIGxvZ2ljYWwgdG8gbWUs
-IHNvIHdoZW4gdGhlIGFybSBvbmUgZG9lcyBldmVudHVhbGx5IGdldA0KPj4gYWRkZWQgaXQgY2Fu
-IGJlIGRvbmUgYnkgb25seSB0b3VjaGluZyBhIHNpbmdsZSBhcmNoLg0KPiANCj4gVGhpcyBpcyBu
-b3QgZmVhc2libGUsIGR1ZSB0byB0aGUgZGlmZmVyZW50ICNpbnRlcnJ1cHQtY2VsbHMuIFNlZQ0K
-PiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1yaXNjdi9DQU11SE1kWEhTTWNyVk9IK3Zj
-cmRSUkYraTJUa01jRmlzR3hITUJQVUVhOG5UTUZwendAbWFpbC5nbWFpbC5jb20vDQo+IA0KPiBF
-dmVuIGlmIHdlIHNoYXJlIHNvbWUgZmlsZSBhY3Jvc3MgYXJjaGl0ZWN0dXJlcywgeW91IHN0aWxs
-IGhhdmUgdG8gdXBkYXRlIGZpbGVzDQo+IGluIGJvdGggcGxhY2VzIHRvIGdldCB0aGUgaW50ZXJy
-dXB0cyBwcm9wZXJ0aWVzIGNvcnJlY3QuDQo+IA0KPiBJIGdldCB0aGUgZGVzaXJlIHRvIGRlZHVw
-bGljYXRlIHRoaW5ncywgYnV0IHdlIGFscmVhZHkgZGVhbCB3aXRoIHVwZGF0aW5nIHRoZQ0KPiBz
-YW1lL3NpbWlsYXIgbm9kZXMgYWNyb3NzIHNldmVyYWwgU29Dcywgc28gdGhhdCBpcyBub3RoaW5n
-IG5ldy4gSSB0aGluayBpdCB3b3VsZA0KPiBiZSBtb3JlIGNvbmZ1c2luZy9jb21wbGljYXRlZCB0
-byBoYXZlIGFsbCBvZiB0aGUgaW50ZXJydXB0cyBwcm9wZXJ0aWVzDQo+IG92ZXJyaWRkZW4gaW4g
-YSBzZXBhcmF0ZSBmaWxlLg0KDQpZZWFoLCBzaG91bGQgbWF5YmUgaGF2ZSBjaXJjbGVkIGJhY2sg
-YWZ0ZXIgdGhhdCBjb252ZXJzYXRpb24sIHdvdWxkIGhhdmUgYmVlbg0KbmljZSBidXQgaWYgdGhl
-IERUQyBjYW4ndCBkbyBpdCBuaWNlbHkgdGhlbiB3L2UuDQo=
+
+
+Den 29.07.2022 18.34, skrev Maxime Ripard:
+> The TV mode property has been around for a while now to select and get the
+> current TV mode output on an analog TV connector.
+> 
+> Despite that property name being generic, its content isn't and has been
+> driver-specific which makes it hard to build any generic behaviour on top
+> of it, both in kernel and user-space.
+> 
+> Let's create a new bitmask tv norm property, that can contain any of the
+> analog TV standards currently supported by kernel drivers. Each driver can
+> then pass in a bitmask of the modes it supports.
+> 
+> We'll then be able to phase out the older tv mode property.
+> 
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+> index c06d0639d552..d7ff6c644c2f 100644
+> --- a/drivers/gpu/drm/drm_atomic_uapi.c
+> +++ b/drivers/gpu/drm/drm_atomic_uapi.c
+> @@ -700,6 +700,8 @@ static int drm_atomic_connector_set_property(struct drm_connector *connector,
+>  		state->tv.margins.bottom = val;
+>  	} else if (property == config->tv_mode_property) {
+>  		state->tv.mode = val;
+> +	} else if (property == config->tv_norm_property) {
+> +		state->tv.norm = val;
+>  	} else if (property == config->tv_brightness_property) {
+>  		state->tv.brightness = val;
+>  	} else if (property == config->tv_contrast_property) {
+> @@ -810,6 +812,8 @@ drm_atomic_connector_get_property(struct drm_connector *connector,
+>  		*val = state->tv.margins.bottom;
+>  	} else if (property == config->tv_mode_property) {
+>  		*val = state->tv.mode;
+> +	} else if (property == config->tv_norm_property) {
+> +		*val = state->tv.norm;
+>  	} else if (property == config->tv_brightness_property) {
+>  		*val = state->tv.brightness;
+>  	} else if (property == config->tv_contrast_property) {
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index e3142c8142b3..68a4e47f85a9 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -1637,6 +1637,7 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>  /**
+>   * drm_mode_create_tv_properties - create TV specific connector properties
+>   * @dev: DRM device
+> + * @supported_tv_norms: Bitmask of TV norms supported (See DRM_MODE_TV_NORM_*)
+>   * @num_modes: number of different TV formats (modes) supported
+>   * @modes: array of pointers to strings containing name of each format
+>   *
+> @@ -1649,11 +1650,40 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_properties);
+>   * 0 on success or a negative error code on failure.
+>   */
+>  int drm_mode_create_tv_properties(struct drm_device *dev,
+> +				  unsigned int supported_tv_norms,
+>  				  unsigned int num_modes,
+>  				  const char * const modes[])
+>  {
+> +	static const struct drm_prop_enum_list tv_norm_values[] = {
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_443) - 1, "NTSC-443" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_J) - 1, "NTSC-J" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_NTSC_M) - 1, "NTSC-M" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_60) - 1, "PAL-60" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_B) - 1, "PAL-B" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_D) - 1, "PAL-D" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_G) - 1, "PAL-G" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_H) - 1, "PAL-H" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_I) - 1, "PAL-I" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_M) - 1, "PAL-M" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_N) - 1, "PAL-N" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_PAL_NC) - 1, "PAL-Nc" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_60) - 1, "SECAM-60" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_B) - 1, "SECAM-B" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_D) - 1, "SECAM-D" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_G) - 1, "SECAM-G" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K) - 1, "SECAM-K" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_K1) - 1, "SECAM-K1" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_SECAM_L) - 1, "SECAM-L" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480I) - 1, "hd480i" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD480P) - 1, "hd480p" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576I) - 1, "hd576i" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD576P) - 1, "hd576p" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD720P) - 1, "hd720p" },
+> +		{ __builtin_ffs(DRM_MODE_TV_NORM_HD1080I) - 1, "hd1080i" },
+> +	};
+>  	struct drm_property *tv_selector;
+>  	struct drm_property *tv_subconnector;
+> +	struct drm_property *tv_norm;
+>  	unsigned int i;
+>  
+>  	if (dev->mode_config.tv_select_subconnector_property)
+> @@ -1686,6 +1716,13 @@ int drm_mode_create_tv_properties(struct drm_device *dev,
+>  	if (drm_mode_create_tv_margin_properties(dev))
+>  		goto nomem;
+>  
+> +	tv_norm = drm_property_create_bitmask(dev, 0, "tv norm",
+> +					   tv_norm_values, ARRAY_SIZE(tv_norm_values),
+> +					   supported_tv_norms);
+> +	if (!tv_norm)
+> +		goto nomem;
+> +	dev->mode_config.tv_norm_property = tv_norm;
+> +
+>  	dev->mode_config.tv_mode_property =
+>  		drm_property_create(dev, DRM_MODE_PROP_ENUM,
+>  				    "mode", num_modes);
+> diff --git a/drivers/gpu/drm/vc4/vc4_vec.c b/drivers/gpu/drm/vc4/vc4_vec.c
+> index 4a788c1c9058..457529e5d857 100644
+> --- a/drivers/gpu/drm/vc4/vc4_vec.c
+> +++ b/drivers/gpu/drm/vc4/vc4_vec.c
+> @@ -573,7 +573,9 @@ static int vc4_vec_bind(struct device *dev, struct device *master, void *data)
+>  	struct vc4_vec *vec;
+>  	int ret;
+>  
+> -	ret = drm_mode_create_tv_properties(drm, ARRAY_SIZE(tv_mode_names),
+> +	ret = drm_mode_create_tv_properties(drm,
+> +					    0,
+> +					    ARRAY_SIZE(tv_mode_names),
+>  					    tv_mode_names);
+>  	if (ret)
+>  		return ret;
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index 1e9996b33cc8..78275e68ff66 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -143,6 +143,32 @@ enum subpixel_order {
+>  
+>  };
+>  
+> +#define DRM_MODE_TV_NORM_NTSC_443	(1 << 0)
+> +#define DRM_MODE_TV_NORM_NTSC_J		(1 << 1)
+> +#define DRM_MODE_TV_NORM_NTSC_M		(1 << 2)
+> +#define DRM_MODE_TV_NORM_PAL_60		(1 << 3)
+> +#define DRM_MODE_TV_NORM_PAL_B		(1 << 4)
+> +#define DRM_MODE_TV_NORM_PAL_D		(1 << 5)
+> +#define DRM_MODE_TV_NORM_PAL_G		(1 << 6)
+> +#define DRM_MODE_TV_NORM_PAL_H		(1 << 7)
+> +#define DRM_MODE_TV_NORM_PAL_I		(1 << 8)
+> +#define DRM_MODE_TV_NORM_PAL_M		(1 << 9)
+> +#define DRM_MODE_TV_NORM_PAL_N		(1 << 10)
+> +#define DRM_MODE_TV_NORM_PAL_NC		(1 << 11)
+> +#define DRM_MODE_TV_NORM_SECAM_60	(1 << 12)
+> +#define DRM_MODE_TV_NORM_SECAM_B	(1 << 13)
+> +#define DRM_MODE_TV_NORM_SECAM_D	(1 << 14)
+> +#define DRM_MODE_TV_NORM_SECAM_G	(1 << 15)
+> +#define DRM_MODE_TV_NORM_SECAM_K	(1 << 16)
+> +#define DRM_MODE_TV_NORM_SECAM_K1	(1 << 17)
+> +#define DRM_MODE_TV_NORM_SECAM_L	(1 << 18)
+> +#define DRM_MODE_TV_NORM_HD480I		(1 << 19)
+> +#define DRM_MODE_TV_NORM_HD480P		(1 << 20)
+> +#define DRM_MODE_TV_NORM_HD576I		(1 << 21)
+> +#define DRM_MODE_TV_NORM_HD576P		(1 << 22)
+> +#define DRM_MODE_TV_NORM_HD720P		(1 << 23)
+> +#define DRM_MODE_TV_NORM_HD1080I	(1 << 24)
+> +
+
+This is an area where DRM overlaps with v4l2, see:
+- include/dt-bindings/display/sdtv-standards.h
+- v4l2_norm_to_name()
+
+Maybe we should follow suit, but if we do our own thing please mention
+why in the commit message.
+
+Noralf.
+
+>  /**
+>   * struct drm_scrambling: sink's scrambling support.
+>   */
+> @@ -687,6 +713,7 @@ struct drm_tv_connector_state {
+>  	enum drm_mode_subconnector subconnector;
+>  	struct drm_connector_tv_margins margins;
+>  	unsigned int mode;
+> +	unsigned int norm;
+>  	unsigned int brightness;
+>  	unsigned int contrast;
+>  	unsigned int flicker_reduction;
+> @@ -1779,6 +1806,7 @@ void drm_connector_attach_dp_subconnector_property(struct drm_connector *connect
+>  
+>  int drm_mode_create_tv_margin_properties(struct drm_device *dev);
+>  int drm_mode_create_tv_properties(struct drm_device *dev,
+> +				  unsigned int supported_tv_norms,
+>  				  unsigned int num_modes,
+>  				  const char * const modes[]);
+>  void drm_connector_attach_tv_margin_properties(struct drm_connector *conn);
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 6b5e01295348..d9e79def8b92 100644
+> --- a/include/drm/drm_mode_config.h
+> +++ b/include/drm/drm_mode_config.h
+> @@ -704,6 +704,12 @@ struct drm_mode_config {
+>  	 */
+>  	struct drm_property *dp_subconnector_property;
+>  
+> +	/**
+> +	 * @tv_norm_property: Optional TV property to select the TV
+> +	 * standard output on the connector.
+> +	 */
+> +	struct drm_property *tv_norm_property;
+> +
+>  	/**
+>  	 * @tv_subconnector_property: Optional TV property to differentiate
+>  	 * between different TV connector types.
+> 
