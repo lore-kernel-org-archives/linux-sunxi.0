@@ -1,146 +1,96 @@
-Received: from smtp.domeneshop.no (smtp.domeneshop.no [194.63.252.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21729365
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 16:33:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
-	; s=ds202112; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=cK2+O3VjoIP+dBHuVJLTFqcdAxz4KQX5VWju7aZI310=; b=Z1EozxXmo9Qb2u1ChE243s0BYB
-	Pj0pgGlbPH6MlYUKB01Yz/YJIgGauKbAKX/1LEeEV638+i0xLqyt6UfvHNuNxfhHC4+zx2ML+K76n
-	RmL7BP3U23eMyj290TFVdJbQpuBeDEaPKQrpqxxFNC22KfONX0XYH3psnbLxsmAT8GY6LibqIyQLW
-	dLhOfhpooHFyjE2diYfifT/djb4VNH3IhtRWanrdEFszrDaN63SR3Q5tf9oD6pq342dtO/7NvDZvZ
-	+2UuUBq7bgyVS6+pRfkHBpmQlPNgjETA/Tn3mJH4lBIuMQ3+pVWQ3R3j/BrlSX+d/XjpeO79vjRs2
-	d2dJ4I3w==;
-Received: from [2a01:799:961:d200:cca0:57ac:c55d:a485] (port=59050)
-	by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <noralf@tronnes.org>)
-	id 1oPnsy-0005ky-4O; Sun, 21 Aug 2022 18:33:16 +0200
-Message-ID: <987d6114-5fcb-d668-3b0d-ad6d8723dfdb@tronnes.org>
-Date: Sun, 21 Aug 2022 18:33:12 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638ED2F5B
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 17:31:06 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id h5so9846753wru.7
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 10:31:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=pNG4G+DwLDhFmuP5MPNfWqVOnSu+/xUGuRdk4UBjqw0=;
+        b=UXcBNDkenBGwNMu/3GWsBnvB7gtkcR/JxOeG/pRsiyqsfKTPjhxvyRDOfPu3UmfOEP
+         Y7YiYC/2akv7mHHWzp6iMmL7UgceEiPP05sME56JiOaIzBKBGTSoVnuetmQTQNpYRLiD
+         uw7vq/8CHuZ/xGf/gOmZjIiTqqjXi+WekAjGGS76WcogkQZP2YgABg1uyt3wHEAQmT2z
+         feA/zBYL/PKLhDcuOV8JuVE5fhZ/b1A5+r9Gtpp82JebWyg9s0V9uAFeqDk81+uvgbFT
+         GAHUcueGKP5WZD4Plx7kN0q3zvD5Jy+K6/2jOiAAlM/RDJ35etsYJEYWPymK4X0fGEJe
+         mELw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=pNG4G+DwLDhFmuP5MPNfWqVOnSu+/xUGuRdk4UBjqw0=;
+        b=6FBZy0b3nxbPu9av6+iJuLjBQ3Si4DXdBV9j38dd67rL9bqYzPQFmngk0cnv05Q1JI
+         RjWfoLFQIR7wRO02COYZiMWqzYmZ0t7TAHuB/9dttQ4kKFY85Vbq6anrwKNdAabip9oQ
+         W+KABSHur0BOVDJVlhoOUTxm62bSQh7DEpr/rgUGEdztd6EoVbrd+TJSz6hTQFx9QOFj
+         lRfwKXvLMGUmwX6+2TDcg1oqPvkpACwLJtmqw+yWuIMnrh4z0JbEHy7PzE0RzdY3tc8e
+         FRYx6MsXqCoQ44RL/8buT7NxhC3bU67ODyDROzt5j2e3t10iRfT5XGBXfTJWG97D7f19
+         6bsw==
+X-Gm-Message-State: ACgBeo0h7WcwXRCFsIZVSuGLpEC09sJWa5wSqrGzJSAK3EP73z54SDb+
+	CkCBvD5TFBSRZ8auERLZPgk=
+X-Google-Smtp-Source: AA6agR6UjJd0cmOJ8JSdIgLww1DMnwTrCTIBW5LX94OLcDxq9nQQOzIHDtayKFKeiYBrrs8OYg6CzA==
+X-Received: by 2002:a05:6000:1f0a:b0:225:3bbd:c5e6 with SMTP id bv10-20020a0560001f0a00b002253bbdc5e6mr5703120wrb.126.1661103064463;
+        Sun, 21 Aug 2022 10:31:04 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:a77:3d70:9d84:ec8d:98d9:c29a])
+        by smtp.gmail.com with ESMTPSA id b18-20020adff912000000b00224f7c1328dsm9387205wrr.67.2022.08.21.10.31.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Aug 2022 10:31:03 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+To: Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>
+Cc: devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
+Subject: [PATCH v2 0/4] Allwinner H6 GPU devfreq
+Date: Sun, 21 Aug 2022 19:30:47 +0200
+Message-Id: <20220821173051.155038-1-peron.clem@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
 List-Subscribe: <mailto:linux-sunxi+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-sunxi+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.12.0
-Subject: Re: [PATCH v1 00/35] drm: Analog TV Improvements
-To: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Chen-Yu Tsai <wens@csie.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jerome Brunet <jbrunet@baylibre.com>, Samuel Holland <samuel@sholland.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter <daniel@ffwll.ch>,
- Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Kevin Hilman <khilman@baylibre.com>, Neil Armstrong
- <narmstrong@baylibre.com>, Maxime Ripard <mripard@kernel.org>
-Cc: linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Phil Elwell <phil@raspberrypi.com>,
- Mateusz Kwiatkowski <kfyatek+publicgit@gmail.com>,
- linux-arm-kernel@lists.infradead.org,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-amlogic@lists.infradead.org, dri-devel@lists.freedesktop.org,
- Dom Cobley <dom@raspberrypi.com>, =?UTF-8?Q?Noralf_Tr=c3=b8nnes?=
- <noralf@tronnes.org>
-References: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-In-Reply-To: <20220728-rpi-analog-tv-properties-v1-0-3d53ae722097@cerno.tech>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi,
 
+This is a refresh of previous patches sent to enable GPU Devfreq on H6
+Beelink GS1 but that wasn't stable at that time[0].
 
-Den 29.07.2022 18.34, skrev Maxime Ripard:
-> Hi,
-> 
-> Here's a series aiming at improving the command line named modes support,
-> and more importantly how we deal with all the analog TV variants.
-> 
-> The named modes support were initially introduced to allow to specify the
-> analog TV mode to be used.
-> 
-> However, this was causing multiple issues:
-> 
->   * The mode name parsed on the command line was passed directly to the
->     driver, which had to figure out which mode it was suppose to match;
-> 
->   * Figuring that out wasn't really easy, since the video= argument or what
->     the userspace might not even have a name in the first place, but
->     instead could have passed a mode with the same timings;
-> 
->   * The fallback to matching on the timings was mostly working as long as
->     we were supporting one 525 lines (most likely NSTC) and one 625 lines
->     (PAL), but couldn't differentiate between two modes with the same
->     timings (NTSC vs PAL-M vs NSTC-J for example); 
-> 
->   * There was also some overlap with the tv mode property registered by 
->     drm_mode_create_tv_properties(), but named modes weren't interacting
->     with that property at all.
-> 
->   * Even though that property was generic, its possible values were
->     specific to each drivers, which made some generic support difficult.
-> 
-> Thus, I chose to tackle in multiple steps:
-> 
->   * A new TV norm property was introduced, with generic values, each driver
->     reporting through a bitmask what standard it supports to the userspace;
-> 
->   * This option was added to the command line parsing code to be able to
->     specify it on the kernel command line, and new atomic_check and reset
->     helpers were created to integrate properly into atomic KMS;
-> 
->   * The named mode parsing code is now creating a proper display mode for
->     the given named mode, and the TV standard will thus be part of the
->     connector state;
-> 
->   * Two drivers were converted and tested for now (vc4 and sun4i), with
->     some backward compatibility code to translate the old TV mode to the
->     new TV mode;
-> 
-> Unit tests were created along the way. Nouveau, ch7006 and gud are
-> currently broken for now since I expect that work to be reworked fairly
-> significantly. I'm also not entirely sure about how to migrate GUD to the
-> new property.
-> 
-> Let me know what you think,
-> Maxime
-> 
+With the recent fix on GPU PLL from Roman Stratiienko I have retested
+and everything seems stable and works as expected.
 
-I don't know if it's related to this patchset or not, but I do get this:
+Regards,
+Clement
 
-pi@pi4t:~ $ sudo dmesg -C && sudo modprobe -r vc4 && sudo modprobe vc4
-&& dmesg
-[  430.066211] Console: switching to colour dummy device 80x30
-[  431.294788] vc4-drm gpu: bound fe400000.hvs (ops vc4_hvs_ops [vc4])
-[  431.295115] vc4-drm gpu: bound fec13000.vec (ops vc4_vec_ops [vc4])
-[  431.295467] vc4-drm gpu: bound fe004000.txp (ops vc4_txp_ops [vc4])
-[  431.295804] vc4-drm gpu: bound fec12000.pixelvalve (ops vc4_crtc_ops
-[vc4])
-[  431.298895] [drm] Initialized vc4 0.0.0 20140616 for gpu on minor 0
-[  441.444250] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
-timed out
-[  441.446529] Console: switching to colour frame buffer device 90x30
-[  451.684321] vc4-drm gpu: [drm] *ERROR* flip_done timed out
-[  451.684347] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] commit wait
-timed out
-[  461.924255] vc4-drm gpu: [drm] *ERROR* flip_done timed out
-[  461.924281] vc4-drm gpu: [drm] *ERROR* [CONNECTOR:45:Composite-1]
-commit wait timed out
-[  472.164006] vc4-drm gpu: [drm] *ERROR* flip_done timed out
-[  472.164031] vc4-drm gpu: [drm] *ERROR* [PLANE:61:plane-1] commit wait
-timed out
-[  482.403877] vc4-drm gpu: [drm] *ERROR* flip_done timed out
-[  482.403903] vc4-drm gpu: [drm] *ERROR* Timed out waiting for commit
-[  492.643799] vc4-drm gpu: [drm] *ERROR* [CRTC:68:crtc-1] flip_done
-timed out
-[  492.647073] vc4-drm gpu: [drm] fb0: vc4drmfb frame buffer device
+0: https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47htg2bA@mail.gmail.com/
+1: https://lore.kernel.org/linux-arm-kernel/2562485.k3LOHGUjKi@kista/T/
 
-Noralf.
+Changes since v1:
+ - proper sign-off with my personal email
+ - sent serie to SoC Maintainer w/ cover letter
+
+Clément Péron (4):
+  arm64: defconfig: Enable devfreq cooling device
+  arm64: dts: allwinner: h6: Add cooling map for GPU
+  arm64: dts: allwinner: h6: Add GPU OPP table
+  arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
+
+ .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  2 +
+ .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 88 +++++++++++++++++++
+ arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 22 +++++
+ arch/arm64/configs/defconfig                  |  1 +
+ 4 files changed, 113 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
+
+-- 
+2.34.1
+
