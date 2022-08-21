@@ -1,56 +1,60 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638ED2F5B
-	for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 17:31:06 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id h5so9846753wru.7
-        for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 10:31:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA003220
+	for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 17:31:07 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r16so10653906wrm.6
+        for <linux-sunxi@lists.linux.dev>; Sun, 21 Aug 2022 10:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=pNG4G+DwLDhFmuP5MPNfWqVOnSu+/xUGuRdk4UBjqw0=;
-        b=UXcBNDkenBGwNMu/3GWsBnvB7gtkcR/JxOeG/pRsiyqsfKTPjhxvyRDOfPu3UmfOEP
-         Y7YiYC/2akv7mHHWzp6iMmL7UgceEiPP05sME56JiOaIzBKBGTSoVnuetmQTQNpYRLiD
-         uw7vq/8CHuZ/xGf/gOmZjIiTqqjXi+WekAjGGS76WcogkQZP2YgABg1uyt3wHEAQmT2z
-         feA/zBYL/PKLhDcuOV8JuVE5fhZ/b1A5+r9Gtpp82JebWyg9s0V9uAFeqDk81+uvgbFT
-         GAHUcueGKP5WZD4Plx7kN0q3zvD5Jy+K6/2jOiAAlM/RDJ35etsYJEYWPymK4X0fGEJe
-         mELw==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=aSJ84KqrNn6MWyh6FORcW3yirHeYw6hYSs0IzGec01M=;
+        b=oMPqfpeHVVfNLHP2MjvlbDraFSkaHgYrFskuQI4NmmbhLtDnnhLOa3vC2pdNgKyy9t
+         +Fb4PAHxafTxVQLv2RdYwIQnu469rsfq3eC5wkJkZGheKOO0TwANXPxpol8qfr8qCYWM
+         jV075pLCfKUO0CMi68yqYoaMawBNfzo4UJxSCYGRmD0bnBj9Q7e28YKUOEKxio16M1I+
+         qb8ON1lB2aOqY+jhfsDiOnyXb+gY6gH6jLnP+97TO2I+mqwhlqhr1LFVdrFuUc24nUdj
+         Da6dWlIzJccvrTZ2TlyNOhkKBm4OBpPMrIBaiyljjVAwCOR40N+l5yczII4Td45mMr1Y
+         ScaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=pNG4G+DwLDhFmuP5MPNfWqVOnSu+/xUGuRdk4UBjqw0=;
-        b=6FBZy0b3nxbPu9av6+iJuLjBQ3Si4DXdBV9j38dd67rL9bqYzPQFmngk0cnv05Q1JI
-         RjWfoLFQIR7wRO02COYZiMWqzYmZ0t7TAHuB/9dttQ4kKFY85Vbq6anrwKNdAabip9oQ
-         W+KABSHur0BOVDJVlhoOUTxm62bSQh7DEpr/rgUGEdztd6EoVbrd+TJSz6hTQFx9QOFj
-         lRfwKXvLMGUmwX6+2TDcg1oqPvkpACwLJtmqw+yWuIMnrh4z0JbEHy7PzE0RzdY3tc8e
-         FRYx6MsXqCoQ44RL/8buT7NxhC3bU67ODyDROzt5j2e3t10iRfT5XGBXfTJWG97D7f19
-         6bsw==
-X-Gm-Message-State: ACgBeo0h7WcwXRCFsIZVSuGLpEC09sJWa5wSqrGzJSAK3EP73z54SDb+
-	CkCBvD5TFBSRZ8auERLZPgk=
-X-Google-Smtp-Source: AA6agR6UjJd0cmOJ8JSdIgLww1DMnwTrCTIBW5LX94OLcDxq9nQQOzIHDtayKFKeiYBrrs8OYg6CzA==
-X-Received: by 2002:a05:6000:1f0a:b0:225:3bbd:c5e6 with SMTP id bv10-20020a0560001f0a00b002253bbdc5e6mr5703120wrb.126.1661103064463;
-        Sun, 21 Aug 2022 10:31:04 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=aSJ84KqrNn6MWyh6FORcW3yirHeYw6hYSs0IzGec01M=;
+        b=7FCCaVS5gDstKMglY6cYfE0hbRjUI0YUSwOpdISRXaWxgsziA257RSiU0qgjKPzIOf
+         oGR8bVT/70mZFBNSVkYHE8eO7LHKZ5ZT8/bKGOkT44lH76x5lodklSOv4zIk7E0pkOxh
+         Eb34IHbuFJTxWGdxVsjvsZmkmBke2uSvKzUD3MMwjn64NEqq98+WjjWjyN2IqpMpdxDB
+         ajvqOrKcw3uykZ6e6Hf2sdw7Uyjqgc63rOfedEn2RGVZjsagRICm3Fn8w4iVmjXTv0z+
+         K/fkyUDLKDuG1OqKCzaYyok5eaLqQ0ofTtOnLVZRp0NdHFoHIuz598W3rJjurXanXoUL
+         JmBg==
+X-Gm-Message-State: ACgBeo1xwX/E+iehjP5eW0hvJgzGSk73esNcTUo8OC+B3XY300VbGckH
+	3Ddxo2cNfrrNE/i2m/E5VFw=
+X-Google-Smtp-Source: AA6agR6fKo9R8ycp4Gb4tGnIr8ckPmGoMswlycqEn46ezfu/KXVXYdHG72MTfHpaSq4d5MQIOxl36Q==
+X-Received: by 2002:adf:eb01:0:b0:225:294d:c9c6 with SMTP id s1-20020adfeb01000000b00225294dc9c6mr8779399wrn.285.1661103065929;
+        Sun, 21 Aug 2022 10:31:05 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:e0a:a77:3d70:9d84:ec8d:98d9:c29a])
-        by smtp.gmail.com with ESMTPSA id b18-20020adff912000000b00224f7c1328dsm9387205wrr.67.2022.08.21.10.31.02
+        by smtp.gmail.com with ESMTPSA id b18-20020adff912000000b00224f7c1328dsm9387205wrr.67.2022.08.21.10.31.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Aug 2022 10:31:03 -0700 (PDT)
+        Sun, 21 Aug 2022 10:31:05 -0700 (PDT)
 From: =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
 To: Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Chen-Yu Tsai <wens@csie.org>,
 	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
+	Samuel Holland <samuel@sholland.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
 Cc: devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-sunxi@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>
-Subject: [PATCH v2 0/4] Allwinner H6 GPU devfreq
-Date: Sun, 21 Aug 2022 19:30:47 +0200
-Message-Id: <20220821173051.155038-1-peron.clem@gmail.com>
+Subject: [PATCH v2 1/4] arm64: defconfig: Enable devfreq cooling device
+Date: Sun, 21 Aug 2022 19:30:48 +0200
+Message-Id: <20220821173051.155038-2-peron.clem@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20220821173051.155038-1-peron.clem@gmail.com>
+References: <20220821173051.155038-1-peron.clem@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-sunxi@lists.linux.dev
 List-Id: <linux-sunxi.lists.linux.dev>
@@ -60,37 +64,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Devfreq cooling device framework is used in Panfrost
+to throttle GPU in order to regulate its temperature.
 
-This is a refresh of previous patches sent to enable GPU Devfreq on H6
-Beelink GS1 but that wasn't stable at that time[0].
+Enable this driver for ARM64 SoC.
 
-With the recent fix on GPU PLL from Roman Stratiienko I have retested
-and everything seems stable and works as expected.
+Signed-off-by: Clément Péron <peron.clem@gmail.com>
+---
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-Clement
-
-0: https://lore.kernel.org/lkml/CAJiuCce58Gaxf_Qg2cnMwvOgUqYU__eKb3MDX1Fe_+47htg2bA@mail.gmail.com/
-1: https://lore.kernel.org/linux-arm-kernel/2562485.k3LOHGUjKi@kista/T/
-
-Changes since v1:
- - proper sign-off with my personal email
- - sent serie to SoC Maintainer w/ cover letter
-
-Clément Péron (4):
-  arm64: defconfig: Enable devfreq cooling device
-  arm64: dts: allwinner: h6: Add cooling map for GPU
-  arm64: dts: allwinner: h6: Add GPU OPP table
-  arm64: dts: allwinner: beelink-gs1: Enable GPU OPP
-
- .../dts/allwinner/sun50i-h6-beelink-gs1.dts   |  2 +
- .../boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi | 88 +++++++++++++++++++
- arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi  | 22 +++++
- arch/arm64/configs/defconfig                  |  1 +
- 4 files changed, 113 insertions(+)
- create mode 100644 arch/arm64/boot/dts/allwinner/sun50i-h6-gpu-opp.dtsi
-
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index d5b2d2dd4904..109004e44d21 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -584,6 +584,7 @@ CONFIG_SENSORS_INA2XX=m
+ CONFIG_SENSORS_INA3221=m
+ CONFIG_THERMAL_GOV_POWER_ALLOCATOR=y
+ CONFIG_CPU_THERMAL=y
++CONFIG_DEVFREQ_THERMAL=y
+ CONFIG_THERMAL_EMULATION=y
+ CONFIG_IMX_SC_THERMAL=m
+ CONFIG_IMX8MM_THERMAL=m
 -- 
 2.34.1
 
